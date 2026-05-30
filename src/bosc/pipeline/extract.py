@@ -46,6 +46,19 @@ _SECTIONS = (
     "TRAFFIC_CONTROL, LANDSCAPING, RIGHT_OF_WAY, INCIDENTALS, DESIGN_SURVEY_INSPECTION"
 )
 
+# The sheet's bottom roll-up block is easy to miss; call it out explicitly.
+_BOTTOM_BLOCK = """\
+The sheet ENDS with a roll-up block (usually the last rows, lower area):
+CONSTRUCTION SUBTOTAL, then a CONTINGENCY AND INFLATION (25%) line, then TOTAL.
+Read all three:
+  * construction_subtotal: the sum of the section subtotals.
+  * contingency_inflation_25pct: the 25% line (~= construction_subtotal * 0.25).
+  * total: construction_subtotal + the 25% line (~= 1.25x the subtotal).
+`total` MUST be populated and MUST be greater than construction_subtotal. If the
+25% line is illegible, set contingency_inflation_25pct to 25% of the construction
+subtotal, set total accordingly, and add a warning that you inferred it. NEVER set
+total equal to construction_subtotal."""
+
 ESTIMATE_INSTRUCTIONS = f"""\
 You are reading ONE page of a Tetra Tech "Opinion of Probable Project Cost"
 sheet for the Project BOSC roadwork program. Read the cost table from the IMAGE,
@@ -55,9 +68,11 @@ off the image.
 
 Record into the tool:
   * name: the estimate / intersection title printed on the sheet.
-  * construction_subtotal, contingency_inflation_25pct (the 25% line), and total.
   * section_subtotals for each section present: {_SECTIONS}.
     Omit sections that do not appear on this sheet (corridors lack several).
+  * construction_subtotal, contingency_inflation_25pct, and total (see below).
+
+{_BOTTOM_BLOCK}
 
 Rules:
   * Dollar totals and section subtotals must be read carefully — high confidence.
@@ -82,7 +97,9 @@ Extract EVERY line item, grouped into `line_items` by section
     unit_amount (per-unit dollars), total_amount (extended dollars).
 
 Also record the roll-up figures: section_subtotals (the SUBTOTAL line under each
-section), construction_subtotal, contingency_inflation_25pct (the 25% line), total.
+section), then the bottom block below.
+
+{_BOTTOM_BLOCK}
 
 Rules:
   * Dollar amounts are read off the image; do not trust OCR digits.

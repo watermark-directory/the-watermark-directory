@@ -34,6 +34,22 @@ class ExtractionError(RuntimeError):
     """Raised when the model fails to return the forced tool call."""
 
 
+def _tool_schema(target: type[BaseModel]) -> dict[str, Any]:
+    """JSON schema for a target model, minus any ``EXTRACTION_EXCLUDE`` fields.
+
+    Hiding noise fields (rather than just ignoring them on the way back) keeps the
+    model from filling them with misplaced sheet metadata.
+    """
+    schema = target.model_json_schema()
+    exclude = getattr(target, "EXTRACTION_EXCLUDE", ())
+    if exclude:
+        for name in exclude:
+            schema.get("properties", {}).pop(name, None)
+        if "required" in schema:
+            schema["required"] = [r for r in schema["required"] if r not in exclude]
+    return schema
+
+
 def _first_tool_input(message: Any, tool_name: str) -> dict[str, Any]:
     for block in message.content:
         if getattr(block, "type", None) == "tool_use" and getattr(block, "name", None) == tool_name:
@@ -100,7 +116,7 @@ class StructuredExtractor:
                 {
                     "name": tool_name,
                     "description": f"Record the extracted {target.__name__} for this page.",
-                    "input_schema": target.model_json_schema(),
+                    "input_schema": _tool_schema(target),
                 }
             ],
             tool_choice={"type": "tool", "name": tool_name},

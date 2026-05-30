@@ -10,7 +10,7 @@ in a sidecar set on the model where it matters.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, ClassVar, Literal
 
 import yaml
 from pydantic import BaseModel, BeforeValidator, ConfigDict, Field
@@ -163,6 +163,11 @@ class EstimateExtraction(SubEstimate):
     This is the model the vision extractor is forced to populate (via tool use),
     so the LLM tells us how sure it is and flags anything it could not read.
     """
+
+    # Fields inherited from SubEstimate that are noise for a fresh page read
+    # (they belong to the assembled summary, not a single sheet). The extractor
+    # prunes these from the tool schema so the model can't misfile into them.
+    EXTRACTION_EXCLUDE: ClassVar[tuple[str, ...]] = ("pdf_page", "work", "note", "type", "notes")
 
     confidence: Literal["high", "medium", "low"] = "medium"
     warnings: list[str] = Field(default_factory=list)

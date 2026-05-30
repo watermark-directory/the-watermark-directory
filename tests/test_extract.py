@@ -12,7 +12,7 @@ from typing import Any
 import pytest
 import yaml
 
-from bosc.agent.extractor import ExtractionError, StructuredExtractor
+from bosc.agent.extractor import ExtractionError, StructuredExtractor, _tool_schema
 from bosc.config import Settings
 from bosc.models import EstimateExtraction, PageExtraction
 from bosc.pipeline.extract import extract_estimate_page, save_extraction
@@ -117,6 +117,15 @@ def test_extractor_builds_image_and_text_message() -> None:
     assert "READ THIS" in content[-1]["text"]
     assert "UNRELIABLE" in content[-1]["text"] and "garbled ocr" in content[-1]["text"]
     assert client.capture["tool_choice"] == {"type": "tool", "name": "record_extraction"}
+
+
+def test_tool_schema_prunes_noise_fields() -> None:
+    props = _tool_schema(EstimateExtraction)["properties"]
+    for field in ("pdf_page", "work", "note", "type", "notes"):
+        assert field not in props, f"{field} should be hidden from the extraction schema"
+    # The fields we DO want the model to fill remain.
+    for field in ("name", "construction_subtotal", "total", "section_subtotals", "confidence"):
+        assert field in props
 
 
 def test_extractor_raises_when_no_tool_call() -> None:
