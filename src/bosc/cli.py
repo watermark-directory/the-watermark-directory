@@ -80,10 +80,37 @@ def reconcile(filename: str) -> None:
 
 
 @app.command()
-def ask(question: str) -> None:
-    """Ask the Project BOSC research agent a question."""
-    answer = asyncio.run(analyze.research_question(question))
-    console.print(answer)
+def ask(
+    question: str,
+    no_tools: bool = typer.Option(
+        False, "--no-tools", help="Disable the BOSC data tools (answer from the prompt alone)."
+    ),
+) -> None:
+    """Ask the Project BOSC research agent a question (streams the answer)."""
+    from bosc.agent.client import AgentResult, ResearchAgent
+
+    agent = ResearchAgent(enable_tools=not no_tools)
+
+    def emit(chunk: str) -> None:
+        console.print(chunk, end="", markup=False, highlight=False)
+
+    async def _run() -> AgentResult:
+        return await agent.converse(question, on_text=emit)
+
+    result = asyncio.run(_run())
+    console.print()  # newline after the streamed answer
+
+    footer: list[str] = []
+    if result.tools_used:
+        footer.append("tools: " + ", ".join(dict.fromkeys(result.tools_used)))
+    if result.num_turns:
+        footer.append(f"{result.num_turns} turns")
+    if result.cost_usd is not None:
+        footer.append(f"${result.cost_usd:.4f}")
+    if footer:
+        console.print(f"[dim]({' · '.join(footer)})[/]")
+    if result.is_error:
+        raise typer.Exit(code=1)
 
 
 @app.command()

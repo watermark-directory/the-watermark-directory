@@ -10,10 +10,11 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+import yaml
 from claude_agent_sdk import create_sdk_mcp_server, tool
 
 from bosc.config import get_settings
-from bosc.models import OPCSummary
+from bosc.models import DetailExtraction, OPCSummary
 from bosc.pipeline import analyze, ingest
 
 SERVER_NAME = "bosc"
@@ -22,6 +23,16 @@ SERVER_NAME = "bosc"
 def _text(payload: str) -> dict[str, Any]:
     """Wrap a string in the MCP tool-result content shape."""
     return {"content": [{"type": "text", "text": payload}]}
+
+
+def _resolve(filename: str | None, pattern: str) -> Path | None:
+    """Resolve a filename within data/extracted, or the sole match for a glob."""
+    extracted = get_settings().extracted_dir
+    if filename:
+        path = extracted / Path(filename).name
+        return path if path.exists() else None
+    matches = sorted(extracted.glob(pattern)) if extracted.exists() else []
+    return matches[0] if matches else None
 
 
 @tool("list_documents", "List ingested source documents and their collections.", {})
@@ -71,8 +82,66 @@ async def reconcile_summary(args: dict[str, Any]) -> dict[str, Any]:
     return _text("\n".join(str(f) for f in findings))
 
 
+@tool(
+    "program_overview",
+    "Structured overview of the OPC program: per-estimate totals, section subtotals, "
+    "and reconciliation status (reads the summary extraction).",
+    {},
+)
+async def program_overview(_args: dict[str, Any]) -> dict[str, Any]:
+    path = _resolve(None, "*.summary.opc.yaml")
+    if path is None:
+        return _text("No *.summary.opc.yaml extraction found under data/extracted.")
+    summary = OPCSummary.from_yaml(path)
+    findings = analyze.reconcile(summary)
+    passed = sum(1 for f in findings if f.ok)
+    lines = [
+        f"Source: {path.name}",
+        f"Program construction total: {summary.construction_total():,}",
+        f"Program grand total: {summary.grand_total():,}",
+        f"Reconciliation: {passed}/{len(findings)} checks pass.",
+        "",
+    ]
+    for se in summary.sub_estimates:
+        secs = {k: v for k, v in se.section_subtotals.model_dump().items() if v is not None}
+        lines.append(f"## {se.name} (pdf_page {se.pdf_page})")
+        lines.append(f"   construction_subtotal={se.construction_subtotal:,} total={se.total:,}")
+        lines.append("   sections: " + ", ".join(f"{k}={v:,}" for k, v in secs.items()))
+    return _text("\n".join(lines))
+
+
+@tool(
+    "reconcile_detail",
+    "Run line-item -> section-subtotal reconciliation over a generated "
+    "*.detail.opc.yaml extraction.",
+    {"filename": str},
+)
+async def reconcile_detail(args: dict[str, Any]) -> dict[str, Any]:
+    path = _resolve(args["filename"], "*.detail.opc.yaml")
+    if path is None:
+        return _text(f"Not found: {args['filename']}")
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except yaml.YAMLError as exc:
+        return _text(f"{path.name} is not valid YAML: {str(exc).splitlines()[0]}")
+    if not isinstance(data, dict) or "estimate" not in data:
+        return _text(f"{path.name} is not a generated detail extraction (no 'estimate' block).")
+    extraction = DetailExtraction.model_validate(data["estimate"])
+    findings = analyze.reconcile_detail(extraction)
+    if not findings:
+        return _text(f"{path.name}: no sections with line items to reconcile.")
+    return _text("\n".join(str(f) for f in findings))
+
+
 # All tools, and the in-process MCP server that hosts them.
-ALL_TOOLS = [list_documents, list_extractions, read_extraction, reconcile_summary]
+ALL_TOOLS = [
+    list_documents,
+    list_extractions,
+    read_extraction,
+    reconcile_summary,
+    program_overview,
+    reconcile_detail,
+]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]
 
 
