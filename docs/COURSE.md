@@ -185,4 +185,6 @@ extraction into one typed `Corpus`, classified by content shape.
 - **GIS:** do we rebuild any corridor/parcel geography in BOSC, or stay
   document-only for now?
 - **Output:** what's the deliverable of the research itself — a briefing for the
-  County Engineer, a reconciliation memo, an entity/timeline dossier?
+  County Engineer, a reconciliation memo, an entity/timeline dossier? *(First cut
+  landed: [`DOSSIER.md`](DOSSIER.md) — an evidence-disciplined synthesis of the
+  graph + timeline, regenerable as the corpus grows.)*
