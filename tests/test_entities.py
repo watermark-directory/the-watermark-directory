@@ -6,6 +6,8 @@ from bosc.models import (
     BusinessFiling,
     Deed,
     DeedExtraction,
+    EpaExtraction,
+    EpaPermitAction,
     NpdesExtraction,
     NpdesPermit,
     SosExtraction,
@@ -210,3 +212,49 @@ def test_sos_filings_link_organizer_agent_and_flag_shared_agent() -> None:
     rels = {(r.src, r.rel, r.dst) for r in graph.relationships}
     assert ("MAGENTA CAPITAL", "organized_by", "MICHAEL MONTFORT") in rels
     assert ("TILTED GATE", "registered_agent", "CORPORATION SERVICE") in rels
+
+
+def test_epa_action_links_to_same_applicant_entity() -> None:
+    # A deed grantee and an EPA-permit applicant with the same name resolve to ONE
+    # entity carrying both roles — the land thread and the regulatory thread meet.
+    corpus = Corpus(
+        deeds=[
+            _deed(
+                "recorder/a.deed.yaml",
+                no="I1",
+                grantor="Neff Farms",
+                grantee="BISTROZZI LLC",
+                parcels=["P1"],
+            ),
+        ],
+        actions=[
+            (
+                "permits/pti.epa.yaml",
+                EpaExtraction(
+                    doc_id="e",
+                    source_path="/x/pti.pdf",
+                    kind="epa",
+                    dpi=150,
+                    action=EpaPermitAction(
+                        agency="Ohio EPA",
+                        program="Surface Water Permit-to-Install",
+                        permit_no="DSWPTI-260294",
+                        action="approved",
+                        action_date="2026-04-07",
+                        applicant="Bistrozzi LLC",
+                        project_name="BOSC-1A",
+                        contact_name="Scott Ziance",
+                        contact_firm="Vorys",
+                    ),
+                ),
+            ),
+        ],
+    )
+    graph = build_entity_graph(corpus)
+    bistrozzi = graph.get("BISTROZZI LLC")
+    assert bistrozzi is not None
+    assert bistrozzi.roles["grantee"] == 1
+    assert bistrozzi.roles["epa_applicant"] == 1  # same node, both threads
+    rels = {(r.src, r.rel, r.dst) for r in graph.relationships}
+    assert ("BISTROZZI", "represented_by", "SCOTT ZIANCE") in rels
+    assert ("SCOTT ZIANCE", "affiliated_with", "VORYS") in rels

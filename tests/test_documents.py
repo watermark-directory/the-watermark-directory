@@ -15,6 +15,8 @@ from bosc.models import (
     BusinessFiling,
     Deed,
     DeedExtraction,
+    EpaExtraction,
+    EpaPermitAction,
     NpdesExtraction,
     NpdesPermit,
     SosExtraction,
@@ -22,6 +24,7 @@ from bosc.models import (
 from bosc.pipeline.extract import (
     extract_deed,
     extract_document,
+    extract_epa,
     extract_npdes,
     extract_sos,
     save_doc_extraction,
@@ -156,6 +159,25 @@ def test_extract_sos_attaches_provenance() -> None:
     assert extraction.kind == "sos"
     assert extraction.filing.jurisdiction == "Delaware"
     assert extraction.pages_read == list(range(4))
+
+
+def test_extract_epa_attaches_provenance() -> None:
+    action = EpaPermitAction(
+        agency="Ohio EPA",
+        program="Surface Water Permit-to-Install",
+        permit_no="DSWPTI-260294",
+        action="approved",
+        action_date="2026-04-07",
+        applicant="Bistrozzi LLC",
+        project_name="BOSC-1A",
+        contact_name="Scott Ziance",
+        contact_firm="Vorys",
+    )
+    extraction = extract_epa(_doc(), extractor=_FakeExtractor(action), pdf=_FakePdf(pages=5))  # type: ignore[arg-type]
+    assert isinstance(extraction, EpaExtraction)
+    assert extraction.kind == "epa"
+    assert extraction.action.permit_no == "DSWPTI-260294"
+    assert extraction.pages_read == list(range(3))  # text_pages=3 dominates the 1 image page
 
 
 def test_extract_document_dispatch_and_unknown() -> None:

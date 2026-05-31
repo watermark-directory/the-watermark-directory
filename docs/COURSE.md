@@ -114,9 +114,22 @@ validation → provenance). Order is driven by inquiry leverage.
    a `shared_agent` shell signal. Surfaced: Magenta Capital + Tilted Gate share a
    registered agent (Corporation Service Company) **and** organizer (Michael
    Montfort); Bistrozzi Addition uses CT Corporation / Scott Ziance.
-3b. **Building-permit extractor (`kind=permit`).** `[open]` — 32 numeric
-   building permits under `permits/`; metadata (permit no, parcel, valuation,
-   applicant) for development scope. Lower entity-leverage than the SoS half.
+3b. **EPA permit-action extractor (`kind=epa`).** `[done]` — *the `permits/`
+   collection is not building permits.* It is a stream of **Ohio EPA Division of
+   Surface Water** actions on the project: Permits-to-Install (sanitary sewer),
+   401 Water Quality Certifications / Isolated Wetland Permits, USACE Section 404,
+   plus dated agency correspondence (incomplete notices, comment letters).
+   `bosc.models.EpaPermitAction` captures the letter header (agency, program,
+   permit no, action, dates, applicant + address, contact + firm, project,
+   affected resource). Text-first read; feeds the timeline (regulatory milestones)
+   and entity graph (`represented_by` / `affiliated_with`; the EPA applicant
+   resolves onto the *same* Bistrozzi node as the deeds). Validated live on 5
+   representative docs — **remaining ~25 not yet swept.** Findings: Bistrozzi LLC
+   and Tilted Gate LLC share a Wilmington DE mailing address (2801 Centerville Rd,
+   PMB); a second codename **"Project Dazzler"** (Tilted Gate, USACE 404, principal
+   Timothy Chadwick); counsel Vorys (Tangeman/Ziance), engineer EMH&T.
+   *(The 2 Army-Corps wetland-delineation data forms are a different shape — a
+   later `kind`.)*
 4. **Plan read (`kind=plan`).** `[open]` Single-shot vision description of the
    site plan (`plans/bistrozzi-plans/`, an `.odg`).
 

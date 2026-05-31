@@ -135,6 +135,28 @@ def _npdes_events(corpus: Corpus) -> list[TimelineEvent]:
     return events
 
 
+def _epa_events(corpus: Corpus) -> list[TimelineEvent]:
+    events: list[TimelineEvent] = []
+    for rel, ex in corpus.actions:
+        a = ex.action
+        if not a.action_date:
+            continue
+        parties = tuple(x for x in (a.applicant, a.contact_name, a.contact_firm) if x)
+        label = f"{a.program or 'EPA action'} {a.permit_no or ''}".strip()
+        events.append(
+            TimelineEvent(
+                date=a.action_date,
+                category="epa_permit_action",
+                title=f"{label} — {a.action or 'correspondence'} ({a.project_name or '?'})",
+                source=rel,
+                ref=a.permit_no or "",
+                parties=parties,
+                detail=f"affected {a.affected_resource}" if a.affected_resource else "",
+            )
+        )
+    return events
+
+
 def _opc_events(corpus: Corpus) -> list[TimelineEvent]:
     events: list[TimelineEvent] = []
     for rel, summary in corpus.summaries:
@@ -158,7 +180,9 @@ def _opc_events(corpus: Corpus) -> list[TimelineEvent]:
 def build_timeline(corpus: Corpus | None = None) -> list[TimelineEvent]:
     """Assemble a single sorted chronology across the whole corpus."""
     corpus = corpus if corpus is not None else load_corpus()
-    events = _deed_events(corpus) + _npdes_events(corpus) + _opc_events(corpus)
+    events = (
+        _deed_events(corpus) + _npdes_events(corpus) + _epa_events(corpus) + _opc_events(corpus)
+    )
     events = _dedup(events)
     events.sort(key=lambda e: e.sort_key)
     log.info("timeline.built", events=len(events))

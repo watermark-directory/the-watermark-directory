@@ -1,0 +1,44 @@
+doc_id: 4074527-6e043ff8
+source_path: /Users/cparent/Code/shawnee-smart-systems/bosc/data/documents/permits/bistrozzi-permits/4074527.PDF
+kind: epa
+pages_read:
+- 0
+- 1
+- 2
+dpi: 150
+source_text_excerpt: "50 W. Town Street                         614|644-3020\nSuite\
+  \ 700                                           epa.ohio.gov\nColumbus, OH 43215\
+  \ U.S.A.\nThe State of Ohio is an Equal Opportunity Employer and Provider of ADA\
+  \ Services\nApril 7, 2026\nRe:Bistrozzi LLC\nPermit - Long Term\nSurface Water Permit-to-Install\n\
+  Allen County\nDSWPTI-260294\nSubject: DSW-6756, BOSC-1A Private Sanitary Sewer Improvement\
+  \ Plan, 4110 N Cole St, Lima, OH 45801 \nPlans Received on 3/25/2026\nFrom: Scott\
+  \ Ziance\nLadies and Gentlemen:\nEnclosed is an approved Ohio EPA Permit to Install.\
+  \ This permit contains several conditions and "
+action:
+  confidence: high
+  warnings:
+  - Contact email MBEINE@EMHT.COM may belong to a different individual at EMH&T, not
+    necessarily Scott Ziance himself.
+  - No expiration date explicitly stated; permit expires if construction not initiated
+    within 60 months of 4/7/2026 (i.e., 4/7/2031).
+  agency: Ohio EPA
+  program: Surface Water Permit-to-Install
+  permit_no: DSWPTI-260294
+  action: approved
+  action_date: '2026-04-07'
+  plans_received_date: '2026-03-25'
+  expiration_date: null
+  applicant: Bistrozzi LLC
+  applicant_address: 4110 N Cole St, Lima, OH 45801
+  contact_name: Scott Ziance
+  contact_email: MBEINE@EMHT.COM
+  contact_firm: EMH&T
+  project_name: BOSC-1A Private Sanitary Sewer Improvement Plan
+  site_address: 4110 N Cole St, Lima, OH 45801
+  affected_resource: private sanitary sewer
+  parcel_ids: []
+  note: 'Permit issued with 60-month construction initiation window from effective
+    date of 4/7/2026. Appropriate District Office: Northwest District Office. Appropriate
+    Health Department: Allen County Combined Health District. Contact email (MBEINE@EMHT.COM)
+    appears to belong to a firm contact rather than Scott Ziance directly; contact
+    firm inferred as EMH&T from email domain.'

@@ -1,0 +1,46 @@
+doc_id: 4081910-e004cb85
+source_path: /Users/cparent/Code/shawnee-smart-systems/bosc/data/documents/permits/dazzler-permits/4081910.pdf
+kind: epa
+pages_read:
+- 0
+- 1
+- 2
+dpi: 150
+source_text_excerpt: " \n \n   \n \n \n   \n  \n \n \n \n    \n   \n  \n   \n  \n\
+  \  \n \n  \n  \n    \n  \n \n    \n  \n    \n  \n \n   \n \n  \n \n \n \n  \n \n\
+  \  \n  \n    \n     \n     \n       \n        \n     \n \n \n  \nUS Army Corps \n\
+  of Engineers ® \nPUBLIC NOTICE \nHuntington District Published: April 14, 2026 \n\
+  Permit Application Expires: May 14, 2026 \nNo. LRH-2025-00939-\nOHR \nInterested\
+  \ parties are hereby notified that the U.S. Army Corps of Engineers (USACE), \n\
+  Huntington District has received an application for a Department of the Army (DA)\
+  \ \npermit pursuant to Section 404 of the Clean Water Act (33 U.S.C. § 1344). The\
+  \ purpose \nof this Public Notice is to"
+action:
+  confidence: high
+  warnings: []
+  agency: U.S. Army Corps of Engineers
+  program: Section 404
+  permit_no: LRH-2025-00939-OHR
+  action: application
+  action_date: '2026-04-14'
+  plans_received_date: null
+  expiration_date: '2026-05-14'
+  applicant: Timothy Chadwick, Tilted Gate LLC
+  applicant_address: 2801 Centerville Road, 1st Floor (PMB 160), Wilmington, Delaware
+    19808
+  contact_name: null
+  contact_email: null
+  contact_firm: null
+  project_name: Project Dazzler
+  site_address: East of the Ohio River and west of U.S. Route 52, Green Township,
+    Scioto County, Ohio (approx. 38.606686 latitude, -82.839197 longitude)
+  affected_resource: 3.12 acres of one (1) wetland (Wetland P), including 2.05 acres
+    of forested wetland and 1.07 acres of emergent wetland; waters of the United States
+  parcel_ids: []
+  note: Public Notice issued by USACE Huntington District. Applicant requests DA permit
+    to permanently discharge dredged and/or fill material into 3.12 acres of Wetland
+    P in conjunction with construction of 1.7 million sq ft of data center building
+    space and associated infrastructure on a 792-acre site. Mitigation proposed via
+    purchase of wetland credits from Stream + Wetland Foundation In-Lieu Fee Program
+    (2.2 acres non-forested + 5.2 acres forested wetland credit). Comment period expires
+    May 14, 2026.

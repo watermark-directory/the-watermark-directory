@@ -283,6 +283,28 @@ def build_entity_graph(corpus: Corpus | None = None) -> EntityGraph:
                 )
             )
 
+    for rel, eex in corpus.actions:
+        a = eex.action
+        app_key = ""
+        if a.applicant:
+            app_key = graph._register(a.applicant, role="epa_applicant", source=rel)
+            if a.applicant_address:
+                graph.entities[app_key].addresses.add(a.applicant_address)
+        if a.contact_name:
+            contact_key = graph._register(a.contact_name, role="permit_contact", source=rel)
+            # Representation/affiliation are not permit-specific — blank ref so the
+            # same relationship across many letters collapses to one edge.
+            if app_key and contact_key:
+                graph.relationships.append(
+                    Relationship(app_key, "represented_by", contact_key, source=rel)
+                )
+            if a.contact_firm:
+                firm_key = graph._register(a.contact_firm, role="firm", source=rel)
+                if firm_key:
+                    graph.relationships.append(
+                        Relationship(contact_key, "affiliated_with", firm_key, source=rel)
+                    )
+
     # The same conveyance / operation is reported by multiple artifacts; collapse
     # identical edges (keep the first, dropping exact duplicates).
     seen: set[tuple[str, str, str, str]] = set()

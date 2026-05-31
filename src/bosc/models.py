@@ -350,6 +350,37 @@ class BusinessFiling(_Extracted):
     note: str | None = None
 
 
+class EpaPermitAction(_Extracted):
+    """An Ohio EPA / USACE surface-water permit action or correspondence letter.
+
+    The ``permits/`` collection is largely a stream of Division of Surface Water
+    actions on one project — Permits-to-Install (sanitary sewer / waterline),
+    401 Water Quality Certifications, Isolated Wetland Permits, Section 404 — plus
+    dated agency correspondence (incomplete notices, comment letters). This model
+    captures the common letter header (the "Re:" block) and the action taken.
+    """
+
+    agency: str | None = None  # e.g. "Ohio EPA", "U.S. Army Corps of Engineers"
+    program: str | None = None  # PTI | 401 WQC | Isolated Wetland Permit | Section 404 | ...
+    permit_no: str | None = None  # e.g. DSWPTI-260294, DSW401252260W, Ohio EPA ID 252260W
+    action: str | None = None  # issued | approved | denied | incomplete | comments | application
+    action_date: str | None = None  # the letter date (ISO)
+    plans_received_date: str | None = None
+    expiration_date: str | None = None
+    applicant: str | None = None
+    applicant_address: str | None = None
+    contact_name: str | None = None  # the addressee / submitter (often counsel or engineer)
+    contact_email: str | None = None
+    contact_firm: str | None = None  # e.g. Vorys, EMH&T
+    project_name: str | None = None  # e.g. "Project Bosc", "BOSC-1A"
+    site_address: str | None = None
+    affected_resource: str | None = (
+        None  # sanitary sewer | isolated wetland | receiving water | ...
+    )
+    parcel_ids: list[str] = Field(default_factory=list)
+    note: str | None = None
+
+
 class DocExtraction(BaseModel):
     """Provenance shared by document-level extractions."""
 
@@ -377,3 +408,7 @@ class NpdesExtraction(DocExtraction):
 
 class SosExtraction(DocExtraction):
     filing: BusinessFiling
+
+
+class EpaExtraction(DocExtraction):
+    action: EpaPermitAction

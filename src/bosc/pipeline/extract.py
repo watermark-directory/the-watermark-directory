@@ -31,6 +31,8 @@ from bosc.models import (
     Deed,
     DeedExtraction,
     DocExtraction,
+    EpaExtraction,
+    EpaPermitAction,
     Estimate,
     NpdesExtraction,
     NpdesPermit,
@@ -198,6 +200,7 @@ def validate_summary(path: str | Path) -> OPCSummary:
 _DEED_DPI = 200
 _NPDES_DPI = 150
 _SOS_DPI = 200
+_EPA_DPI = 150
 
 DEED_INSTRUCTIONS = """\
 You are reading a recorded land instrument (a deed, easement, or similar) from a
@@ -259,6 +262,32 @@ Record into the tool:
 Rules: copy names and the filing id exactly; dates as ISO; leave a field null if
 not present; NEVER invent an agent, organizer, or officer; set confidence and add
 a warning for any field you had to strain to read.
+"""
+
+
+EPA_INSTRUCTIONS = """\
+You are reading an Ohio EPA (Division of Surface Water) or U.S. Army Corps of
+Engineers permit action or correspondence letter for a development project. The
+text layer is reliable; verify against the page image. These letters carry a
+header "Re:" block (applicant, permit type, program, county, permit number) and a
+"Subject:" line. Record into the tool:
+  * agency (e.g. "Ohio EPA", "U.S. Army Corps of Engineers");
+    program: the permit program — e.g. "Surface Water Permit-to-Install",
+    "401 Water Quality Certification", "Isolated Wetland Permit", "Section 404".
+  * permit_no exactly as printed (e.g. DSWPTI-260294, DSW401252260W, or an
+    "Ohio EPA ID No." like 252260W).
+  * action: what the letter does — one of issued | approved | denied | incomplete
+    | comments | application | correspondence.
+  * action_date: the letter date (ISO); plans_received_date; expiration_date if any.
+  * applicant and applicant_address (copy the mailing address as printed).
+  * contact_name: the addressee or submitter; contact_email; contact_firm (the
+    law firm or engineering firm, e.g. Vorys, EMH&T) if discernible.
+  * project_name (e.g. "Project Bosc", "BOSC-1A"); site_address;
+    affected_resource (e.g. "private sanitary sewer", "isolated wetland").
+  * parcel_ids if listed.
+Rules: copy permit numbers, names, and the address exactly; dates as ISO; leave a
+field null if absent; never invent; set confidence and add warnings for strained
+reads.
 """
 
 
@@ -410,12 +439,55 @@ def extract_sos(
     return extraction
 
 
+def extract_epa(
+    doc: SourceDocument,
+    *,
+    extractor: StructuredExtractor | None = None,
+    pdf: PdfDocument | None = None,
+    dpi: int = _EPA_DPI,
+    settings: Settings | None = None,
+    text_pages: int = 3,
+) -> EpaExtraction:
+    """Extract an Ohio EPA / USACE permit action letter (text-first, page-1 image)."""
+    from bosc.agent.extractor import StructuredExtractor
+
+    settings = settings or get_settings()
+    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
+    text, images, pages = _read_doc(doc, text_pages=text_pages, image_pages=1, dpi=dpi, pdf=pdf)
+
+    log.info("extract.doc.start", doc_id=doc.doc_id, kind="epa", pages=len(pages), dpi=dpi)
+    action = extractor.extract(
+        EpaPermitAction, instructions=EPA_INSTRUCTIONS, images=images, context_text=text
+    )
+    extraction = EpaExtraction(
+        doc_id=doc.doc_id,
+        source_path=str(doc.path),
+        kind="epa",
+        pages_read=pages,
+        dpi=dpi,
+        action=action,
+        source_text_excerpt=text[:600],
+    )
+    log.info(
+        "extract.doc.done",
+        doc_id=doc.doc_id,
+        kind="epa",
+        program=action.program,
+        permit_no=action.permit_no,
+        applicant=action.applicant,
+        confidence=action.confidence,
+        warnings=len(action.warnings),
+    )
+    return extraction
+
+
 # Document-level kind dispatch (parallel to the page-level EXTRACTORS above).
 DocumentExtractor = Callable[..., DocExtraction]
 DOC_EXTRACTORS: dict[str, DocumentExtractor] = {
     "deed": extract_deed,
     "npdes": extract_npdes,
     "sos": extract_sos,
+    "epa": extract_epa,
 }
 
 
