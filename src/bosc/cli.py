@@ -128,6 +128,46 @@ def entities() -> None:
 
 
 @app.command()
+def hydro(
+    offline: bool = typer.Option(
+        False, "--offline", help="Don't fetch live streamflow; use cached/fixture data only."
+    ),
+) -> None:
+    """Tier-0 water balance + low-flow assimilative screen of the municipal loop."""
+    from bosc.config import Settings
+    from bosc.pipeline import hydrology as hydro_stage
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+    balance, _checks, findings = hydro_stage.run_baseline(settings=settings, live=True)
+
+    flow_table = Table("node", "role", "flow (cfs)", "MGD", "receiving", "source")
+    for n in balance.nodes:
+        v = n.return_flow or n.inflow
+        flow = f"{v.value:,.2f}" if v else "—"
+        mgd = f"{v.value / 1.547:,.2f}" if v else "—"
+        tag = {"document": "doc", "connector": "live", "assumption": "assume", "derived": "calc"}
+        src = f"[dim]{tag.get(v.source, v.source)}[/]" if v else "—"
+        flow_table.add_row(n.node.name, n.node.role, flow, mgd, n.node.receiving_water or "—", src)
+    console.print(flow_table)
+
+    console.print("\n[bold]Low-flow assimilative screen[/] [dim](7Q10 dilution)[/]")
+    violations = 0
+    for f in findings:
+        color = "green" if f.ok else "red"
+        console.print(f"[{color}]{f}[/]")
+        violations += 0 if f.ok else 1
+    if not findings:
+        console.print("[yellow]No WWTP discharge had a cited receiving-water 7Q10.[/]")
+    console.print(
+        f"\n{len(findings)} checks, [{'red' if violations else 'green'}]{violations} violation(s)[/]."
+    )
+    for w in balance.warnings:
+        console.print(f"[dim]! {w}[/]")
+
+
+@app.command()
 def ask(
     question: str,
     no_tools: bool = typer.Option(

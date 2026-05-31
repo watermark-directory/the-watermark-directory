@@ -20,6 +20,10 @@ dependencies = [
     "pypdfium2>=5.8.0",
     "pypdf>=6.12.2",
     "pillow>=12.2.0",
+    "numpy>=2.0",
+    "shapely>=2.0",
+    "pyproj>=3.6",
+    "httpx>=0.27",
 ]
 
 [project.optional-dependencies]
@@ -79,14 +83,17 @@ mypy_path = "src"
 packages = ["bosc"]
 
 [[tool.mypy.overrides]]
-module = ["claude_agent_sdk.*", "pypdfium2.*"]
+module = ["claude_agent_sdk.*", "pypdfium2.*", "shapely.*", "pyproj.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
-addopts = "-ra -q"
+addopts = "-ra -q -m 'not network'"
 cache_dir = ".cache/pytest"
+markers = [
+    "network: hits a live external service; deselected by default (run with -m network).",
+]
 
 [tool.bosc]
 # Application defaults can also be set here and read by bosc.config; env vars win.

@@ -174,6 +174,33 @@ async def entities(_args: dict[str, Any]) -> dict[str, Any]:
 
 
 @tool(
+    "hydrology_balance",
+    "Tier-0 municipal water balance + low-flow assimilative screen: the WWTP "
+    "discharges (cited design flows) routed to their receiving waters, each checked "
+    "against the stream's cited 7Q10 low flow. Flags effluent-dominated streams.",
+    {},
+)
+async def hydrology_balance(_args: dict[str, Any]) -> dict[str, Any]:
+    from bosc.pipeline import hydrology as hydro_stage
+
+    balance, _checks, findings = hydro_stage.run_baseline()
+    lines = ["WATER BALANCE (cfs; source in brackets):"]
+    for n in balance.nodes:
+        v = n.return_flow or n.inflow
+        flow = str(v) if v else "—"
+        recv = f" -> {n.node.receiving_water}" if n.node.receiving_water else ""
+        lines.append(f"- [{n.node.role}] {n.node.name}{recv}: {flow}")
+    lines.append("\nLOW-FLOW ASSIMILATIVE SCREEN (7Q10 dilution):")
+    lines.extend(str(f) for f in findings)
+    if not findings:
+        lines.append("(no WWTP discharge had a cited receiving-water 7Q10)")
+    if balance.warnings:
+        lines.append("\nCaveats:")
+        lines.extend(f"! {w}" for w in balance.warnings)
+    return _text("\n".join(lines))
+
+
+@tool(
     "reconcile_estimate",
     "Reconcile a generated estimate extraction (*.opc.yaml): line items -> section "
     "subtotals -> construction subtotal + markups -> total.",
@@ -206,6 +233,7 @@ ALL_TOOLS = [
     reconcile_estimate,
     timeline,
     entities,
+    hydrology_balance,
 ]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]
 

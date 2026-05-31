@@ -175,6 +175,34 @@ extraction into one typed `Corpus`, classified by content shape.
 - **`extract-all`** sweep + assembled `OPCSummary` for the roadwork `[open]`
   (live OPC sweep of pages 318-327); retire the legacy 25% hardcode then.
 
+### Phase E — hydrological forecasting (water / stormwater / sewage)
+The platform's first move from *deconstruction* to *forecasting*. The Lima system is
+one closed flow loop on two rivers — **Auglaize/Ottawa → Lima WTP → municipal +
+data-center demand → county/Lima WWTPs → Ottawa River** — and the binding constraint
+is the Ottawa's (and its tributaries') **low flow**. We bring over Periplus's *Tier-0
+design idea* (SCS-CN + mass-balance) as document-grounded Python, not its solver/GIS
+stack. Every numeric input is a `ProvenancedValue` tagged `document|connector|
+assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splendid-roaming-peacock.md).)
+
+8. **Water-balance spine + low-flow assimilative screen.** `[done]` — Increment 1.
+   `bosc hydro` (+ agent `hydrology_balance` tool) assembles the WWTP discharges (cited
+   design flows from `watch-items.geojson`) routed to their receiving waters, grounds the
+   abstraction reach with **live USGS NWIS** streamflow (Ottawa at Lima, gauge 04187100;
+   offline-aware cache + committed fixtures), and screens each discharge against the
+   stream's **cited 7Q10** (`data/reference/hydrology/low-flow-7q10.yaml`, read from the
+   Ohio EPA fact sheets in our corpus). Headline finding, document-grounded: the two
+   county plants on tiny tributaries discharge **more than the stream's entire 7Q10** —
+   **American Bath → Pike Run 0.01:1**, **American II → Dug Run 0.42:1** dilution (both
+   `violation`; the American II fact sheet states the acute ratio itself as 1.3:1).
+   Shawnee II → Ottawa mainstem has no cited 7Q10 and is **skipped, not invented**.
+9. **SCS-CN stormwater perturbation.** `[open]` — Increment 2. Fill the `stormwater` seam:
+   SCS Type-II rainfall + CN runoff + unit-hydrograph/Muskingum-Cunge, with NOAA Atlas-14
+   design storms and SSURGO/NLCD land cover (live connectors). A storm transiently
+   collapses the dilution ratio Increment 1 established.
+10. **Scenario diffing.** `[open]` — Increment 3. Baseline vs data-center-buildout (the
+   one-knob cooling consumptive-fraction lever, currently a cited 0-cfs assumption) →
+   committed `data/scenarios/*.yaml`; dossier integration.
+
 ---
 
 ## 3. Immediate next steps (proposed)

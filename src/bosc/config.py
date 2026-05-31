@@ -13,6 +13,10 @@ from pathlib import Path
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+# USGS NWIS gauges that bracket the municipal water loop: the Ottawa at Lima
+# (the abstraction + WWTP-discharge reach) and the Auglaize (the other source river).
+_DEFAULT_NWIS_SITES = ["04187100", "04186500"]
+
 # Repo root = two levels up from this file (src/bosc/config.py -> repo root).
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -39,6 +43,18 @@ class Settings(BaseSettings):
     # --- Logging -----------------------------------------------------------
     log_level: str = "INFO"
 
+    # --- Hydrology (live connectors + Tier-0 simulation) -------------------
+    # When true, connectors never touch the network: they serve cached/fixture
+    # responses only (so tests and CI stay hermetic). A cache miss raises.
+    hydro_offline: bool = False
+    hydro_cache_ttl_hours: int = 168  # 1 week; streamflow is slow-moving here
+    hydro_request_timeout_s: float = 30.0
+    hydro_utm_epsg: int = 32617  # UTM zone 17N — Allen County, OH (for areas)
+    # Committed connector fixtures, consulted on an offline cache miss (tests/CI).
+    hydro_fixtures_dir: Path | None = None
+    nwis_base_url: str = "https://waterservices.usgs.gov/nwis"
+    nwis_sites: list[str] = Field(default_factory=lambda: list(_DEFAULT_NWIS_SITES))
+
     # --- Paths -------------------------------------------------------------
     data_dir: Path = _REPO_ROOT / "data"
 
@@ -56,6 +72,16 @@ class Settings(BaseSettings):
     def cache_dir(self) -> Path:
         """Intermediate / regenerable working files. Not committed."""
         return self.data_dir / "cache"
+
+    @property
+    def hydro_cache_dir(self) -> Path:
+        """Cached live-connector responses (NWIS, etc.). Regenerable, not committed."""
+        return self.cache_dir / "hydrology"
+
+    @property
+    def scenarios_dir(self) -> Path:
+        """Reviewed hydrology scenario artifacts (committed). Reserved for Increment 3."""
+        return self.data_dir / "scenarios"
 
     def ensure_dirs(self) -> None:
         """Create the data directories if they do not yet exist."""

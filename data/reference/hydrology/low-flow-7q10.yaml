@@ -1,0 +1,44 @@
+# Cited receiving-stream design low flows (7Q10) for the Lima municipal water loop.
+#
+# The 7Q10 — the lowest 7-day average streamflow expected once in 10 years — is the
+# design low flow Ohio EPA uses to set chronic water-quality-based effluent limits
+# (the denominator of assimilative capacity). Every value here is read directly from
+# an Ohio EPA NPDES fact sheet in our own corpus (data/documents/oepa/*) and tagged
+# `source: document`. Streams we cannot yet cite are OMITTED, not guessed — the
+# assimilative check reports them as "no cited 7Q10" rather than invent a number.
+#
+# Key insight these numbers carry: the two county plants on tiny tributaries
+# discharge MORE than the streams' entire 7Q10 low flow — at design low flow the
+# effluent is effectively undiluted. The fact sheets say so themselves (American II's
+# stated acute dilution ratio is 1.3 to 1).
+
+streams:
+  dug run:
+    seven_q10_cfs: 0.78
+    source: document
+    citation: "Ohio EPA NPDES fact sheet 2PH00006 (American II WWTP), Stream Flows table — USGS Station 04187500"
+    confidence: high
+    context:
+      one_q10_cfs: 0.6
+      thirty_q10_summer_cfs: 0.96
+      harmonic_mean_cfs: 1.79
+      mixing_pct_avg: 25
+      designated_use: "Warmwater Habitat; impaired (aquatic life, recreation)"
+
+  pike run:
+    seven_q10_cfs: 0.03
+    source: document
+    citation: "Ohio EPA NPDES fact sheet 2PH00007 (American Bath WWTP), Stream Flows table — USGS Gauge 04186500 adjusted for drainage area"
+    confidence: high
+    context:
+      one_q10_cfs: 0.016
+      thirty_q10_summer_cfs: 0.06
+      harmonic_mean_cfs: 0.367
+      mixing_pct_avg: 25
+      note: "summer/winter 7Q10 reported as 0 cfs — intermittent at low flow"
+
+# Ottawa River (Shawnee II WWTP, NPDES 2PK00002, RM 32.5): the 2023 modification
+# fact sheet does not state a receiving-stream 7Q10 table, so no value is recorded
+# here. The Ottawa mainstem 7Q10 is far larger than the tributary values above and
+# is not the binding constraint; record it when a citation is in hand (e.g. the Lima
+# Refining 2IG00001 CONSWLA study).
