@@ -1,0 +1,264 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "watch-4604-abnaki",
+        "title": "4604 Abnaki Trail",
+        "type": "owner_residence",
+        "priority": "high",
+        "status": "monitoring",
+        "parcel_id": "46-0501-02-035.000",
+        "summary": "Owner residence. Indian Brook PS upgrade corridor, Shawnee II collection system, cancelled Ditch #1322 Phase 2. Zoning dispute resolved Apr 2026."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.190317, 40.725792]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "watch-neff-bess-parcel",
+        "title": "Neff BESS-candidate parcel",
+        "type": "bess_candidate",
+        "priority": "medium",
+        "status": "owner_open_subject_to_1500ft_setback",
+        "parcel_id": "46-2000-04-001.000",
+        "summary": "Neff willing to site BESS with 1500 ft setback. No recorded option/purchase as of 2026-04-15."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.18747668643077, 40.67717459717777]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "watch-indian-brook-ps",
+        "title": "Indian Brook Pump Station",
+        "type": "infrastructure",
+        "priority": "high",
+        "status": "approved_not_started",
+        "summary": "Three-phase power upgrade (Res #974-25, Dec 2025). Original 2007 single-phase duplex, 8\" FM. Feeds Shawnee II WWTP."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.19189932966755, 40.729738328340346]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "watch-shawnee-ii-wwtp",
+        "title": "Shawnee II WWTP",
+        "type": "infrastructure",
+        "priority": "high",
+        "status": "under_construction",
+        "summary": "Phase 2 expansion: 2.0 → 3.0 MGD avg / 12.6 MGD peak. ~$23M OWDA-funded. Under construction Apr 2024 → early 2027. NPDES OH0023850."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.17678258792004, 40.72395922505484]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "watch-american-bath-wwtp",
+        "title": "American Bath WWTP",
+        "type": "infrastructure",
+        "priority": "medium",
+        "status": "bosc_fm1_receiver",
+        "summary": "BOSC FM-1 receiver (split). 1.5 MGD design. No pretreatment program. NPDES OH0023841. Under 1996 federal consent decree."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.12596578860479, 40.78378863837917]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "watch-american-ii-wwtp",
+        "title": "American II WWTP",
+        "type": "infrastructure",
+        "priority": "medium",
+        "status": "bosc_fm1_receiver",
+        "summary": "BOSC FM-1 receiver (remainder). 1.2 MGD design. No pretreatment program. NPDES OH0037338."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.203546178383, 40.799167395353685]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "watch-amazon-woh4",
+        "title": "Amazon WOH4 (logistics)",
+        "type": "logistics",
+        "priority": "low",
+        "status": "acquired",
+        "parcel_id": "46-1300-04-001.005",
+        "summary": "Amazon.com Services LLC — 26 ac logistics site. Port Authority deed $860k, Nov 2025. Jay Begg Pkwy, Shawnee Twp Sec 13."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.12149655790795, 40.691942271259975]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "watch-lyka-substation",
+        "title": "AEP Lyka 345kV Substation (proposed)",
+        "type": "infrastructure",
+        "priority": "high",
+        "status": "proposed",
+        "summary": "New 345kV substation on BOSC site + ~4 mi 345kV line. OPSB approval required. Community meeting 2026-05-06."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.120, 40.801]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "watch-lima-fm2-terminus",
+        "title": "FM-2 terminus (Lima 78\" sewer)",
+        "type": "infrastructure",
+        "priority": "medium",
+        "status": "planned",
+        "summary": "BOSC FM-2 (16\", 17,900 LF) terminates at City of Lima 78\" gravity sewer @ Woodward Ave & Grand Ave."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.105, 40.744]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "bosc-fm1",
+        "title": "BOSC FM-1 (10\"→8\", 20,100 LF)",
+        "type": "forcemain_bosc",
+        "priority": "high",
+        "status": "planned",
+        "summary": "FM-1 splits flow: 10\" to American Bath WWTP, steps down to 8\" continuing to American II WWTP. County revenue-capture portion. Domestic-equivalent flow only (no pretreatment program at either plant). Aligned to existing 12-16\" water mains."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-84.118, 40.795],
+          [-84.125572, 40.78773],
+          [-84.127957, 40.778478],
+          [-84.128138, 40.780303],
+          [-84.12802, 40.788161],
+          [-84.12596578860479, 40.78378863837917],
+          [-84.128138, 40.780303],
+          [-84.130556, 40.776586],
+          [-84.133333, 40.780279],
+          [-84.135161, 40.778018],
+          [-84.143644, 40.780191],
+          [-84.154119, 40.780095],
+          [-84.162112, 40.780013],
+          [-84.165291, 40.779484],
+          [-84.172265, 40.780044],
+          [-84.176935, 40.775877],
+          [-84.180497, 40.777635],
+          [-84.183249, 40.778948],
+          [-84.185189, 40.779882],
+          [-84.186507, 40.779944],
+          [-84.203546178383, 40.799167395353685]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "bosc-fm2",
+        "title": "BOSC FM-2 (16\", 17,900 LF)",
+        "type": "forcemain_bosc",
+        "priority": "high",
+        "status": "planned",
+        "summary": "FM-2 carries bulk of BOSC 2.5 MGD industrial discharge to City of Lima 78\" gravity sewer @ Woodward & Grand. Lima has pretreatment program. 16\" diameter = hydraulically dominant over FM-1. Follows existing 16\" Cole St trunk main."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-84.118, 40.795],
+          [-84.108779, 40.795583],
+          [-84.108601, 40.793908],
+          [-84.108582, 40.789745],
+          [-84.108516, 40.786839],
+          [-84.108476, 40.783859],
+          [-84.108504, 40.782431],
+          [-84.108454, 40.779634],
+          [-84.108444, 40.77726],
+          [-84.108415, 40.774767],
+          [-84.10841, 40.772418],
+          [-84.108456, 40.770837],
+          [-84.108554, 40.77017],
+          [-84.108605, 40.768221],
+          [-84.108582, 40.766381],
+          [-84.108542, 40.76337],
+          [-84.108512, 40.761696],
+          [-84.104956, 40.759183],
+          [-84.105, 40.744]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "theorized-fm3-shawnee-ii",
+        "title": "Theorized FM-3 to Shawnee II (unconfirmed)",
+        "type": "forcemain_theorized",
+        "priority": "high",
+        "status": "theorized",
+        "summary": "Theorized third forcemain from BOSC site westward to Shawnee II WWTP. No existing large mains (>=12\") run W from BOSC — this would be NEW construction, likely following Ditch #1322 corridor / platted drainage easement at rear of Indian Brook Estates. Would explain: (1) Shawnee II 3x peak expansion far exceeding residential demand, (2) Indian Brook PS three-phase upgrade, (3) WPCLF loan for Shawnee Twp wastewater. ~8 km."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-84.118, 40.795],
+          [-84.19189932966755, 40.729738328340346],
+          [-84.17678258792004, 40.72395922505484]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "indian-brook-ps-to-shawnee-ii",
+        "title": "Indian Brook PS → Shawnee II (existing 8\" FM)",
+        "type": "forcemain_existing",
+        "priority": "medium",
+        "status": "existing",
+        "summary": "Existing 8\" forcemain from Indian Brook PS to Shawnee II WWTP (2007 as-built). Candidate for upsizing if throughput increases from PS three-phase upgrade. Adjacent 16\" water main on Spencerville Rd corridor at ~-84.169."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-84.19189932966755, 40.729738328340346],
+          [-84.170027, 40.734598],
+          [-84.170151, 40.732065],
+          [-84.170183, 40.730402],
+          [-84.16926, 40.728616],
+          [-84.169104, 40.727996],
+          [-84.168877, 40.726149],
+          [-84.168627, 40.725297],
+          [-84.168487, 40.724255],
+          [-84.168497, 40.722781],
+          [-84.168988, 40.721142],
+          [-84.168807, 40.720377],
+          [-84.168873, 40.718984],
+          [-84.17678258792004, 40.72395922505484]
+        ]
+      }
+    }
+  ]
+}

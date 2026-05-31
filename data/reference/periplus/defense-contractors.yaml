@@ -1,0 +1,179 @@
+# Defense Contractor Flag List
+#
+# This file is the seed list for `flag_defense_contractor`, a boolean ANOMALY
+# FLAG produced by the pipeline `flag` step. It is NOT an owner-classification
+# category. A parcel can be `corporate_out_of_state` AND
+# `flag_defense_contractor=true` simultaneously — that is the entire point.
+#
+# Why this exists. The owner-classification ruleset puts GDLS, GDIT, TACOM,
+# and JSMC under `government_military` because their Allen County parcels
+# function as Army-controlled land. The investigation's broader thesis,
+# however, is about defense-industry land holdings in Allen County
+# generally — and a parcel held by, say, Lockheed Martin with no JSMC
+# relationship would correctly be `corporate_out_of_state` and would be
+# lost in the noise. This flag lights such parcels up for the anomaly
+# toggle and the Ownership Explorer view without changing their category.
+# See `data/owner-classification-rationale.md` Open Question #4.
+#
+# What this is NOT.
+#   - Not a classification. The six categories
+#     (individual / corporate_domestic / corporate_out_of_state /
+#      government_military / nonprofit / unknown_shell) are unaffected.
+#   - Not a public accusation. The flag means "this owner name matches a
+#     known DoD prime contractor pattern" — nothing more.
+#   - Not a list of every defense-adjacent vendor. We only list the major
+#     primes. Sub-tier suppliers are out of scope.
+#
+# Matching semantics.
+#   - The flag step does a CASE-INSENSITIVE SUBSTRING match of each pattern
+#     against `owner_name_normalized`.
+#   - Patterns SHOULD be uppercase (the normalized owner-name column is
+#     uppercased upstream, and the matcher upper-cases both sides
+#     defensively, but uppercase keeps intent obvious here).
+#   - Substring, not regex. Do NOT use regex metacharacters.
+#   - Be conservative about overly-broad patterns. "BOEING" alone is fine
+#     because the word is essentially unique to the company. "DEFENSE"
+#     alone would match every parcel with the word "defense" anywhere in
+#     the owner name — do not do that.
+#   - Multiple subsidiaries of one parent get listed under that parent's
+#     entry, in the same `patterns` list, so the report stays grouped.
+#
+# How to add a new contractor.
+#   1. Confirm the entity is a DoD prime, not a sub-tier supplier. Check
+#      the most recent Top 100 DoD contractor list (FY22+ federal awards
+#      data, or the DoD's own annual list).
+#   2. Add a new entry under `defense_contractors:` with `name`, optional
+#      `note`, and a `patterns` list.
+#   3. Patterns must be specific enough to avoid false positives. Prefer
+#      "GENERAL DYNAMICS CORPORATION" over "GENERAL". Prefer
+#      "L3HARRIS" over "HARRIS" (which would catch every Harris family
+#      parcel in the county).
+#   4. If the contractor's local subsidiary is already caught by the
+#      Allen overlay's `government_military` patterns (GDLS, GDIT,
+#      JSMC, TACOM), note that in the entry — the flag is still useful
+#      for OTHER subsidiaries of the same parent.
+#
+# Dual-use note. Some companies on this list (Honeywell most notably) have
+# substantial commercial businesses in addition to defense work. Including
+# them here means commercial-only Honeywell parcels will also be flagged.
+# That is judged acceptable because (a) the flag is orthogonal to category,
+# so a Honeywell warehouse still classifies as corporate_*, and (b) the
+# investigative cost of MISSING a defense-related Honeywell parcel is
+# higher than the cost of flagging a commercial one. Reviewers using the
+# anomaly toggle should be aware that a flag is a starting point, not a
+# conclusion.
+
+defense_contractors:
+  - name: "Lockheed Martin"
+    patterns:
+      - "LOCKHEED MARTIN"
+      - "LOCKHEED-MARTIN"
+      - "LOCKHEED CORP"
+      - "SIKORSKY AIRCRAFT"
+
+  - name: "Boeing"
+    patterns:
+      - "BOEING"
+
+  - name: "RTX (Raytheon Technologies)"
+    note: "Raytheon merged with United Technologies in 2020; subsidiaries include Pratt & Whitney and Collins Aerospace."
+    patterns:
+      - "RAYTHEON"
+      - "RTX CORPORATION"
+      - "RTX CORP"
+      - "PRATT & WHITNEY"
+      - "PRATT AND WHITNEY"
+      - "COLLINS AEROSPACE"
+      - "ROCKWELL COLLINS"
+
+  - name: "Northrop Grumman"
+    patterns:
+      - "NORTHROP GRUMMAN"
+      - "NORTHROP-GRUMMAN"
+
+  - name: "General Dynamics (broader)"
+    note: "GDLS, GDIT, GD Ordnance, and TACOM/JSMC are caught by the Allen overlay's government_military patterns. This entry catches the parent and other GD subsidiaries (Bath Iron Works, Electric Boat, Gulfstream, NASSCO, Mission Systems) that may show up on parcels with no Allen-specific government role."
+    patterns:
+      - "GENERAL DYNAMICS CORPORATION"
+      - "GENERAL DYNAMICS CORP"
+      - "GENERAL DYNAMICS MISSION"
+      - "BATH IRON WORKS"
+      - "ELECTRIC BOAT CORP"
+      - "GULFSTREAM AEROSPACE"
+      - "NASSCO"
+
+  - name: "L3Harris Technologies"
+    note: "Bare 'HARRIS' is intentionally excluded — it would match thousands of parcels held by Harris-surnamed individuals."
+    patterns:
+      - "L3HARRIS"
+      - "L-3 COMMUNICATIONS"
+      - "L3 TECHNOLOGIES"
+      - "L-3 TECHNOLOGIES"
+
+  - name: "BAE Systems"
+    patterns:
+      - "BAE SYSTEMS"
+
+  - name: "Booz Allen Hamilton"
+    patterns:
+      - "BOOZ ALLEN HAMILTON"
+      - "BOOZ ALLEN"
+      - "BOOZ-ALLEN"
+
+  - name: "Leidos"
+    patterns:
+      - "LEIDOS"
+
+  - name: "SAIC (Science Applications International)"
+    patterns:
+      - "SCIENCE APPLICATIONS INTERNATIONAL"
+      - "SAIC INC"
+      - "SAIC CORPORATION"
+      - "SAIC CORP"
+
+  - name: "CACI International"
+    patterns:
+      - "CACI INTERNATIONAL"
+      - "CACI INC"
+      - "CACI, INC"
+
+  - name: "ManTech"
+    patterns:
+      - "MANTECH"
+
+  - name: "Honeywell"
+    note: "DUAL-USE. Honeywell has substantial commercial (HVAC, building controls, industrial automation) and aerospace/defense businesses. Included because Honeywell Federal Manufacturing & Technologies operates Kansas City National Security Campus on behalf of the NNSA, and Honeywell Aerospace is a top DoD prime. Reviewers should treat a Honeywell hit as a starting point, not a conclusion."
+    patterns:
+      - "HONEYWELL"
+
+  - name: "Huntington Ingalls Industries"
+    patterns:
+      - "HUNTINGTON INGALLS"
+      - "NEWPORT NEWS SHIPBUILDING"
+      - "INGALLS SHIPBUILDING"
+
+  - name: "Textron"
+    note: "Includes Bell (helicopters) and Textron Systems."
+    patterns:
+      - "TEXTRON"
+      - "BELL HELICOPTER"
+      - "BELL TEXTRON"
+
+  - name: "Oshkosh Defense"
+    note: "Bare 'OSHKOSH' is left out to avoid matching unrelated entities named after the Wisconsin city; the corporate parent typically appears as 'OSHKOSH CORPORATION' or 'OSHKOSH DEFENSE'."
+    patterns:
+      - "OSHKOSH DEFENSE"
+      - "OSHKOSH CORPORATION"
+      - "OSHKOSH CORP"
+
+  - name: "Anduril Industries"
+    patterns:
+      - "ANDURIL"
+
+  - name: "Palantir Technologies"
+    patterns:
+      - "PALANTIR"
+
+  - name: "Peraton"
+    patterns:
+      - "PERATON"
