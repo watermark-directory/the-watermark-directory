@@ -15,6 +15,8 @@ from bosc.models import (
 from bosc.pipeline.corpus import Corpus
 from bosc.pipeline.entities import (
     _base_permit,
+    _looks_like_person,
+    _split_principal,
     build_entity_graph,
     classify,
     normalize_name,
@@ -51,6 +53,33 @@ def test_classify_is_conservative() -> None:
     assert classify("James W. Neighbors")[0] == "individual"
     # A corporate token wins over the water-name heuristic.
     assert classify("Pike Run Farms LLC")[0] == "corporate"
+
+
+def test_looks_like_person() -> None:
+    assert _looks_like_person("Randy Barrera")
+    assert _looks_like_person("Scott J. Ziance")
+    assert not _looks_like_person("Bistrozzi LLC")
+    assert not _looks_like_person("NEFF FARMS")
+    assert not _looks_like_person("Allen County Board of Commissioners")
+    assert not _looks_like_person("Kyle C. Brenneman and Sarah N. Brenneman")
+
+
+def test_split_principal() -> None:
+    assert _split_principal("Randy Barrera, Tilted Gate LLC") == (
+        "Tilted Gate LLC",
+        "Randy Barrera",
+    )
+    assert _split_principal("Timothy Chadwick, Tilted Gate, LLC") == (
+        "Tilted Gate, LLC",
+        "Timothy Chadwick",
+    )
+    # Not the pattern: a bare org, or an org followed by a descriptive clause.
+    assert _split_principal("Bistrozzi LLC") == ("Bistrozzi LLC", None)
+    assert _split_principal("Bistrozzi LLC, a Delaware limited liability company") == (
+        "Bistrozzi LLC, a Delaware limited liability company",
+        None,
+    )
+    assert _split_principal("THE PORT AUTHORITY OF ALLEN COUNTY, OHIO")[1] is None
 
 
 def _deed(
@@ -258,3 +287,40 @@ def test_epa_action_links_to_same_applicant_entity() -> None:
     rels = {(r.src, r.rel, r.dst) for r in graph.relationships}
     assert ("BISTROZZI", "represented_by", "SCOTT ZIANCE") in rels
     assert ("SCOTT ZIANCE", "affiliated_with", "VORYS") in rels
+
+
+def _epa(rel: str, *, applicant: str) -> tuple[str, EpaExtraction]:
+    return rel, EpaExtraction(
+        doc_id=rel,
+        source_path=f"/x/{rel}",
+        kind="epa",
+        dpi=150,
+        action=EpaPermitAction(
+            agency="USACE",
+            program="Section 404",
+            applicant=applicant,
+            action="application",
+            action_date="2026-04-01",
+        ),
+    )
+
+
+def test_person_org_applicant_splits_into_principal_edge() -> None:
+    # Two letters name the applicant as "<person>, Tilted Gate LLC" with different
+    # people; both must resolve to ONE Tilted Gate org with two principal edges.
+    corpus = Corpus(
+        actions=[
+            _epa("permits/a.epa.yaml", applicant="Randy Barrera, Tilted Gate LLC"),
+            _epa("permits/b.epa.yaml", applicant="Timothy Chadwick, Tilted Gate, LLC"),
+        ]
+    )
+    graph = build_entity_graph(corpus)
+    tilted = graph.get("Tilted Gate LLC")
+    assert tilted is not None and tilted.kind == "corporate"
+    assert tilted.roles["epa_applicant"] == 2  # de-fragmented, not split across variants
+    rels = {(r.src, r.rel, r.dst) for r in graph.relationships}
+    assert ("RANDY BARRERA", "principal_of", "TILTED GATE") in rels
+    assert ("TIMOTHY CHADWICK", "principal_of", "TILTED GATE") in rels
+    # The person node is an individual, not the conflated corporate "Person, LLC".
+    barrera = graph.get("Randy Barrera")
+    assert barrera is not None and barrera.kind == "individual"

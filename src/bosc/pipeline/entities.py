@@ -73,6 +73,52 @@ def _base_permit(permit_no: str) -> str:
     return permit_no.split("*", 1)[0].strip()
 
 
+def _looks_like_person(s: str) -> bool:
+    """Heuristic: 2-4 capitalized name tokens, no corporate/government markers.
+
+    "Randy Barrera", "Scott J. Ziance" -> True; "Bistrozzi LLC", "NEFF FARMS",
+    "Allen County Board of Commissioners" -> False.
+    """
+    s = s.strip()
+    if not s:
+        return False
+    up = s.upper()
+    if any(re.search(rf"\b{re.escape(t)}\b", up) for t in _CORPORATE_TOKENS):
+        return False
+    if "COUNTY" in up or "TRUST" in up or " AND " in f" {up} ":
+        return False
+    tokens = s.split()
+    if not 2 <= len(tokens) <= 4:
+        return False
+    # Each token is an initial ("J.") or a Capitalized word with a lowercase tail
+    # ("Randy") — ALL-CAPS tokens ("NEFF", "FARMS") are rejected as org-like.
+    return all(re.fullmatch(r"[A-Z]\.?|[A-Z][a-z][a-zA-Z.'-]*", t) for t in tokens)
+
+
+def _split_principal(raw: str) -> tuple[str, str | None]:
+    """Split a "Person, Org LLC" applicant into ``(org, person)``.
+
+    The model sometimes records an applicant as "Randy Barrera, Tilted Gate LLC".
+    Resolve the org as the primary entity and the person as its principal. Returns
+    ``(raw, None)`` when the string isn't that pattern (e.g. "Bistrozzi LLC, a
+    Delaware limited liability company" — the part before the comma isn't a
+    person, so it is left intact).
+    """
+    if "," not in raw:
+        return raw, None
+    before, after = (p.strip() for p in raw.split(",", 1))
+    after_is_org = bool(
+        re.search(r"\b(?:LLC|LLP|LP|INC|CORP|CORPORATION|COMPANY|LTD|PLLC)\b", after.upper())
+    )
+    if (
+        _looks_like_person(before)
+        and after_is_org
+        and not after.lower().startswith(("a ", "an ", "the "))
+    ):
+        return after, before
+    return raw, None
+
+
 def normalize_name(raw: str) -> str:
     """Canonical key: uppercased, descriptive clause and legal suffixes removed.
 
@@ -138,7 +184,9 @@ class Relationship:
     """A directed edge between two entity keys, traceable to one document."""
 
     src: str
-    rel: str  # conveyed_to | operates | discharges_to
+    # conveyed_to | operates | discharges_to | registered_agent | organized_by |
+    # represented_by | affiliated_with | principal_of
+    rel: str
     dst: str
     date: str = ""
     ref: str = ""  # instrument / permit number
@@ -287,9 +335,18 @@ def build_entity_graph(corpus: Corpus | None = None) -> EntityGraph:
         a = eex.action
         app_key = ""
         if a.applicant:
-            app_key = graph._register(a.applicant, role="epa_applicant", source=rel)
+            # "Randy Barrera, Tilted Gate LLC" -> org is the applicant entity, the
+            # person becomes its principal (de-fragments the org across letters).
+            org_raw, person_raw = _split_principal(a.applicant)
+            app_key = graph._register(org_raw, role="epa_applicant", source=rel)
             if a.applicant_address:
                 graph.entities[app_key].addresses.add(a.applicant_address)
+            if person_raw:
+                principal_key = graph._register(person_raw, role="principal", source=rel)
+                if principal_key and app_key:
+                    graph.relationships.append(
+                        Relationship(principal_key, "principal_of", app_key, source=rel)
+                    )
         if a.contact_name:
             contact_key = graph._register(a.contact_name, role="permit_contact", source=rel)
             # Representation/affiliation are not permit-specific — blank ref so the
