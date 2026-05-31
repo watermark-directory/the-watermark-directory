@@ -124,6 +124,28 @@ async def program_overview(_args: dict[str, Any]) -> dict[str, Any]:
 
 
 @tool(
+    "timeline",
+    "Cross-document chronology: dated events (deed recordings, NPDES public "
+    "notices/comment deadlines, OPC estimates) from every extraction, in order.",
+    {},
+)
+async def timeline(_args: dict[str, Any]) -> dict[str, Any]:
+    from bosc.pipeline import timeline as timeline_stage
+
+    events = timeline_stage.build_timeline()
+    if not events:
+        return _text("No dated events found under data/extracted.")
+    lines = []
+    for e in events:
+        date = e.date or "(undated)"
+        corrob = f" (+{len(e.also_sources)} corroborating)" if e.also_sources else ""
+        lines.append(f"{date}  [{e.category}]  {e.title}  <{e.source}>{corrob}")
+        if e.detail:
+            lines.append(f"            {e.detail}")
+    return _text("\n".join(lines))
+
+
+@tool(
     "reconcile_estimate",
     "Reconcile a generated estimate extraction (*.opc.yaml): line items -> section "
     "subtotals -> construction subtotal + markups -> total.",
@@ -154,6 +176,7 @@ ALL_TOOLS = [
     reconcile_summary,
     program_overview,
     reconcile_estimate,
+    timeline,
 ]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]
 

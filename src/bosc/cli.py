@@ -80,6 +80,25 @@ def reconcile(filename: str) -> None:
 
 
 @app.command()
+def timeline() -> None:
+    """Assemble a cross-document chronology from every committed extraction."""
+    from bosc.pipeline import timeline as timeline_stage
+
+    events = timeline_stage.build_timeline()
+    if not events:
+        console.print("[yellow]No dated events found. Run some extractions first.[/]")
+        raise typer.Exit()
+
+    table = Table("date", "category", "event", "source")
+    for e in events:
+        date = e.date or "[dim]—[/]"
+        src = e.source + (f" [dim](+{len(e.also_sources)})[/]" if e.also_sources else "")
+        table.add_row(date, e.category, e.title, src)
+    console.print(table)
+    console.print(f"\n[dim]{len(events)} events.[/]")
+
+
+@app.command()
 def ask(
     question: str,
     no_tools: bool = typer.Option(
