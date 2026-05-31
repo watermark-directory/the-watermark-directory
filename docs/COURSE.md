@@ -96,26 +96,39 @@ registered. Each new genre is **a new `kind` + structured model + profile**,
 reusing the OPC pattern (hybrid OCR+vision read → forced-tool-use → Pydantic
 validation → provenance). Order is driven by inquiry leverage.
 
-### Phase A — unlock the highest-leverage genres
+### Phase A — unlock the highest-leverage genres ✅ done
 1. **Deeds extractor (`kind=deed`).** Grantor/grantee/parcel/consideration/
-   instrument/date. Highest leverage: answers the land-ownership thread and is a
-   well-structured target. Many recorder PDFs are scans → vision path.
+   instrument/date. `[done]` — validated live and swept across `recorder/`;
+   reproduces Periplus's hand-curated parcel ledger 11/11
+   (`tests/test_periplus_crosscheck.py`).
 2. **NPDES permit extractor (`kind=npdes`).** Facility, permit no, applicant,
-   outfalls, effluent limits, receiving water, public-notice dates. These have
-   clean text layers `[verified]`, so a text-first read is cheap and accurate.
+   outfalls, effluent limits, receiving water, public-notice dates. `[done]` —
+   text-first read, swept across all 9 `oepa/` docs.
 
-### Phase B — entities and breadth
+### Phase B — entities and breadth `[open]`
 3. **Building-permit + SoS extractor (`kind=permit`).** Permit metadata; LLC
-   officers/agents/registered addresses for entity resolution.
+   officers/agents/registered addresses for entity resolution. *(Not yet built —
+   this is what will populate officer/agent edges in the entity graph below.)*
 4. **Plan read (`kind=plan`).** Single-shot vision description of the site plan.
 
 ### Phase C — the cross-document layer (where the research lives)
-5. **Entity/parcel resolution.** Link addresses, parcel IDs, and party names
-   across deeds/permits/NPDES into a small entity graph.
-6. **Timeline assembly.** Merge dated events from every extraction into one
-   chronology.
-7. **Corridor view.** Tie facilities/parcels/roadwork to corridor geography
-   (we deliberately left Periplus's GIS behind; decide if/what to rebuild).
+5. **Entity/parcel resolution.** `[done]` — `bosc.pipeline.entities`: normalize
+   party names to a canonical key, merge variants, classify conservatively
+   (government / corporate / individual / trust / facility / water; flag Delaware
+   as a *signal*, not a verdict), and link conveyances / utility operation /
+   discharge. `bosc entities` + agent `entities` tool. Resolves Bistrozzi's four
+   acquisitions and the Port-Authority→Amazon edge. Facilities key on their base
+   permit number; deeds-side person/trust resolution is still coarse (long
+   trustee recitals form their own nodes — refine when SoS data lands).
+6. **Timeline assembly.** `[done]` — `bosc.pipeline.timeline`: one sorted
+   chronology across deeds/NPDES/OPC, deduped across corroborating artifacts.
+   `bosc timeline` + agent `timeline` tool.
+7. **Corridor view.** `[open]` Tie facilities/parcels/roadwork to corridor
+   geography (we deliberately left Periplus's GIS behind; decide if/what to
+   rebuild). Frozen corridor/parcel geojson is in `data/reference/periplus/`.
+
+Both built on `bosc.pipeline.corpus` — a loader that reads every committed
+extraction into one typed `Corpus`, classified by content shape.
 
 ### Phase D — close the deferred carve-outs (as they block inquiry)
 - Section-subtotal **accuracy** (self-correcting reconcile loop / Opus A‑B).

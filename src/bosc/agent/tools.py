@@ -146,6 +146,34 @@ async def timeline(_args: dict[str, Any]) -> dict[str, Any]:
 
 
 @tool(
+    "entities",
+    "Cross-document entity graph: parties resolved across deeds/NPDES (with kind, "
+    "classification, roles, parcels) and the relationships between them.",
+    {},
+)
+async def entities(_args: dict[str, Any]) -> dict[str, Any]:
+    from bosc.pipeline import entities as entities_stage
+
+    graph = entities_stage.build_entity_graph()
+    if not graph.entities:
+        return _text("No entities found under data/extracted.")
+    lines = ["ENTITIES:"]
+    for ent in sorted(graph.entities.values(), key=lambda e: (e.kind, e.key)):
+        roles = ", ".join(f"{r} x{n}" for r, n in ent.roles.most_common())
+        sig = f" signals={sorted(ent.signals)}" if ent.signals else ""
+        parcels = f" parcels={len(ent.parcels)}" if ent.parcels else ""
+        lines.append(f"- {ent.display} [{ent.kind}/{ent.classification}] {roles}{parcels}{sig}")
+    lines.append("\nRELATIONSHIPS:")
+    for r in graph.relationships:
+        src = graph.entities[r.src].display if r.src in graph.entities else r.src
+        dst = graph.entities[r.dst].display if r.dst in graph.entities else r.dst
+        when = f" ({r.date})" if r.date else ""
+        ref = f" [{r.ref}]" if r.ref else ""
+        lines.append(f"- {src} --{r.rel}--> {dst}{when}{ref}")
+    return _text("\n".join(lines))
+
+
+@tool(
     "reconcile_estimate",
     "Reconcile a generated estimate extraction (*.opc.yaml): line items -> section "
     "subtotals -> construction subtotal + markups -> total.",
@@ -177,6 +205,7 @@ ALL_TOOLS = [
     program_overview,
     reconcile_estimate,
     timeline,
+    entities,
 ]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]
 

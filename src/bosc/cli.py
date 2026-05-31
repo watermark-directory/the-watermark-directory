@@ -99,6 +99,35 @@ def timeline() -> None:
 
 
 @app.command()
+def entities() -> None:
+    """Resolve parties across deeds/NPDES into an entity graph (who relates to whom)."""
+    from bosc.pipeline import entities as entities_stage
+
+    graph = entities_stage.build_entity_graph()
+    if not graph.entities:
+        console.print("[yellow]No entities found. Run some extractions first.[/]")
+        raise typer.Exit()
+
+    ent_table = Table("entity", "kind", "classification", "roles", "signals")
+    for ent in sorted(graph.entities.values(), key=lambda e: (e.kind, e.key)):
+        roles = ", ".join(f"{r} x{n}" for r, n in ent.roles.most_common())
+        signals = ", ".join(sorted(ent.signals))
+        klass = ent.classification + (f" [yellow]({signals})[/]" if signals else "")
+        ent_table.add_row(ent.display, ent.kind, klass, roles, signals or "—")
+    console.print(ent_table)
+
+    rel_table = Table("source", "relationship", "target", "when", "ref")
+    for r in graph.relationships:
+        src = graph.entities[r.src].display if r.src in graph.entities else r.src
+        dst = graph.entities[r.dst].display if r.dst in graph.entities else r.dst
+        rel_table.add_row(src, r.rel, dst, r.date or "—", r.ref or "—")
+    console.print(rel_table)
+    console.print(
+        f"\n[dim]{len(graph.entities)} entities, {len(graph.relationships)} relationships.[/]"
+    )
+
+
+@app.command()
 def ask(
     question: str,
     no_tools: bool = typer.Option(
