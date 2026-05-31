@@ -22,6 +22,10 @@ from bosc.logging import get_logger
 from bosc.models import (
     DeedExtraction,
     EpaExtraction,
+    Estimate,
+    EstimateSection,
+    LineItem,
+    MarkupLine,
     NpdesExtraction,
     OPCSummary,
     PageExtraction,
@@ -83,9 +87,76 @@ def _classify(data: Any) -> str | None:
         return "plan"
     if "estimate" in data:
         return "opc_page"
+    if "estimate_template" in data:
+        return "opc_detail_legacy"
     if "sub_estimates" in data or "meta" in data:
         return "opc_summary"
     return None
+
+
+def _estimate_from_legacy_page(
+    name: str, page: dict[str, Any], template: dict[str, Any]
+) -> Estimate:
+    """Convert one ``page_*`` block of the hand-authored detail YAML to an Estimate.
+
+    The detail file keeps its ``~approximate`` markers on disk (data discipline);
+    the ``Number`` coercion turns them into ints here for computation. Nothing is
+    rewritten — this is an in-memory view onto the generic shape.
+    """
+    sections = []
+    for sec_name, body in (page.get("line_items") or {}).items():
+        if not isinstance(body, dict):
+            continue
+        items = [LineItem.model_validate(it) for it in (body.get("items") or [])]
+        sections.append(
+            EstimateSection(
+                name=sec_name,
+                line_items=items,
+                subtotal=body.get("subtotal"),
+                note=body.get("note"),
+            )
+        )
+    markups = []
+    amount = page.get("contingency_and_inflation_25pct")
+    if amount is not None:
+        markups.append(
+            MarkupLine(
+                label="Contingency and inflation",
+                rate=template.get("contingency_rate"),
+                amount=amount,
+            )
+        )
+    return Estimate(
+        name=page.get("title") or name,
+        profile="tetratech",
+        sections=sections,
+        construction_subtotal=page.get("construction_subtotal"),
+        markups=markups,
+        total=page.get("total"),
+    )
+
+
+def _load_legacy_opc_detail(rel: str, data: dict[str, Any], corpus: Corpus) -> None:
+    """Load the bespoke hand-authored OPC detail YAML as PageExtractions."""
+    template = data.get("estimate_template") or {}
+    for key, page in data.items():
+        if not key.startswith("page_") or not isinstance(page, dict) or "line_items" not in page:
+            continue
+        estimate = _estimate_from_legacy_page(key, page, template)
+        pdf_page = int(page.get("pdf_page") or 1)
+        corpus.estimates.append(
+            (
+                rel,
+                PageExtraction(
+                    doc_id=rel,
+                    source_path=rel,
+                    page_index=pdf_page - 1,
+                    pdf_page=pdf_page,
+                    dpi=300,
+                    estimate=estimate,
+                ),
+            )
+        )
 
 
 def load_corpus(settings: Settings | None = None) -> Corpus:
@@ -122,6 +193,8 @@ def load_corpus(settings: Settings | None = None) -> Corpus:
                 corpus.plans.append((rel, PlanExtraction.model_validate(data)))
             elif kind == "opc_page":
                 corpus.estimates.append((rel, PageExtraction.model_validate(data)))
+            elif kind == "opc_detail_legacy":
+                _load_legacy_opc_detail(rel, data, corpus)
             elif kind == "opc_summary":
                 corpus.summaries.append((rel, OPCSummary.model_validate(data)))
             else:

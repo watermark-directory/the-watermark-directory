@@ -161,11 +161,19 @@ Both built on `bosc.pipeline.corpus` — a loader that reads every committed
 extraction into one typed `Corpus`, classified by content shape.
 
 ### Phase D — close the deferred carve-outs (as they block inquiry)
-- Section-subtotal **accuracy** (self-correcting reconcile loop / Opus A‑B).
-- **`extract-all`** sweep + assembled `OPCSummary` for the roadwork.
-- Retire the legacy `OPCSummary` 25% hardcode; unify the hand-authored detail
-  YAML onto the generic `Estimate` shape.
-- New agent tools over the new structured data (query deeds, permits, timeline).
+- **Entity-graph polish** `[done]` — contact-resolution noise cleaned
+  (multi-value `;` split; middle-initial merge; no self-affiliation).
+- **Unify the hand-authored detail YAML** `[done]` — `bosc.pipeline.corpus`
+  parses the bespoke `roundabouts.detail.opc.yaml` into the generic `Estimate`
+  shape *in memory* at load (markers preserved on disk per data discipline), so
+  it joins `corpus.estimates` and reconciles (7/10 — the 3 fails are the known
+  pre-existing ROADWAY/PAVEMENT transcription gaps). No more `corpus.unrecognized`.
+- **Agent tools over the structured data** `[partly done]` — `timeline` and
+  `entities` tools added; `program_overview` / `reconcile_estimate` already exist.
+- Section-subtotal **accuracy** `[open]` (self-correcting reconcile loop / Opus A‑B)
+  — needs live re-extraction; the 3 detail discrepancies are the test case.
+- **`extract-all`** sweep + assembled `OPCSummary` for the roadwork `[open]`
+  (live OPC sweep of pages 318-327); retire the legacy 25% hardcode then.
 
 ---
 

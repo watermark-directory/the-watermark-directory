@@ -82,3 +82,44 @@ def test_load_corpus_empty(tmp_path: Path) -> None:
     corpus = load_corpus(Settings(data_dir=tmp_path))
     assert corpus.is_empty()
     assert len(corpus) == 0
+
+
+_LEGACY_DETAIL = """\
+estimate_template:
+  contingency_rate: 0.25
+page_319_diller:
+  title: "Cole/Diller Roundabout"
+  pdf_page: 319
+  construction_subtotal: 1228174
+  contingency_and_inflation_25pct: 307044
+  total: 1535218
+  line_items:
+    ROADWAY:
+      items:
+        - item_no: "203E10000"
+          description: "Excavation"
+          quantity: ~2490
+          unit: "CY"
+          total_amount: ~42315
+      subtotal: ~109307
+extraction_notes:
+  confidence_levels: {dollar_totals: HIGH}
+"""
+
+
+def test_legacy_opc_detail_loads_as_estimate(tmp_path: Path) -> None:
+    settings = Settings(data_dir=tmp_path)
+    _write(settings.extracted_dir / "aedg" / "roundabouts.detail.opc.yaml", _LEGACY_DETAIL)
+    corpus = load_corpus(settings)
+    # The bespoke detail is unified onto the generic Estimate shape (in memory).
+    assert len(corpus.estimates) == 1
+    _, pe = corpus.estimates[0]
+    est = pe.estimate
+    assert est.name == "Cole/Diller Roundabout"
+    assert pe.pdf_page == 319
+    assert est.construction_subtotal == 1228174
+    assert est.total == 1535218
+    assert est.section("ROADWAY") is not None
+    # The ~ approximate marker is coerced to an int for computation.
+    assert est.section("ROADWAY").line_items[0].quantity == 2490
+    assert est.markups[0].rate == 0.25
