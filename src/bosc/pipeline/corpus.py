@@ -19,7 +19,13 @@ import yaml
 
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
-from bosc.models import DeedExtraction, NpdesExtraction, OPCSummary, PageExtraction
+from bosc.models import (
+    DeedExtraction,
+    NpdesExtraction,
+    OPCSummary,
+    PageExtraction,
+    SosExtraction,
+)
 
 log = get_logger(__name__)
 
@@ -34,11 +40,18 @@ class Corpus:
 
     deeds: list[tuple[str, DeedExtraction]] = field(default_factory=list)
     permits: list[tuple[str, NpdesExtraction]] = field(default_factory=list)
+    filings: list[tuple[str, SosExtraction]] = field(default_factory=list)
     estimates: list[tuple[str, PageExtraction]] = field(default_factory=list)
     summaries: list[tuple[str, OPCSummary]] = field(default_factory=list)
 
     def __len__(self) -> int:
-        return len(self.deeds) + len(self.permits) + len(self.estimates) + len(self.summaries)
+        return (
+            len(self.deeds)
+            + len(self.permits)
+            + len(self.filings)
+            + len(self.estimates)
+            + len(self.summaries)
+        )
 
     def is_empty(self) -> bool:
         return len(self) == 0
@@ -56,6 +69,8 @@ def _classify(data: Any) -> str | None:
         return "deed"
     if "permit" in data:
         return "npdes"
+    if "filing" in data:
+        return "sos"
     if "estimate" in data:
         return "opc_page"
     if "sub_estimates" in data or "meta" in data:
@@ -89,6 +104,8 @@ def load_corpus(settings: Settings | None = None) -> Corpus:
                 corpus.deeds.append((rel, DeedExtraction.model_validate(data)))
             elif kind == "npdes":
                 corpus.permits.append((rel, NpdesExtraction.model_validate(data)))
+            elif kind == "sos":
+                corpus.filings.append((rel, SosExtraction.model_validate(data)))
             elif kind == "opc_page":
                 corpus.estimates.append((rel, PageExtraction.model_validate(data)))
             elif kind == "opc_summary":
@@ -102,6 +119,7 @@ def load_corpus(settings: Settings | None = None) -> Corpus:
         "corpus.loaded",
         deeds=len(corpus.deeds),
         permits=len(corpus.permits),
+        filings=len(corpus.filings),
         estimates=len(corpus.estimates),
         summaries=len(corpus.summaries),
     )

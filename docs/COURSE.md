@@ -105,11 +105,20 @@ validation → provenance). Order is driven by inquiry leverage.
    outfalls, effluent limits, receiving water, public-notice dates. `[done]` —
    text-first read, swept across all 9 `oepa/` docs.
 
-### Phase B — entities and breadth `[open]`
-3. **Building-permit + SoS extractor (`kind=permit`).** Permit metadata; LLC
-   officers/agents/registered addresses for entity resolution. *(Not yet built —
-   this is what will populate officer/agent edges in the entity graph below.)*
-4. **Plan read (`kind=plan`).** Single-shot vision description of the site plan.
+### Phase B — entities and breadth
+3a. **SoS business-filing extractor (`kind=sos`).** `[done]` — vision-primary
+   read of Secretary-of-State LLC filings (`bosc.models.BusinessFiling`): entity
+   name, filing id, formation jurisdiction, registered agent + address, organizer.
+   Swept the three `permits/bistrozzi-permits/sos-*` filings (all Delaware foreign
+   LLCs); feeds the entity graph with `organized_by` / `registered_agent` edges and
+   a `shared_agent` shell signal. Surfaced: Magenta Capital + Tilted Gate share a
+   registered agent (Corporation Service Company) **and** organizer (Michael
+   Montfort); Bistrozzi Addition uses CT Corporation / Scott Ziance.
+3b. **Building-permit extractor (`kind=permit`).** `[open]` — 32 numeric
+   building permits under `permits/`; metadata (permit no, parcel, valuation,
+   applicant) for development scope. Lower entity-leverage than the SoS half.
+4. **Plan read (`kind=plan`).** `[open]` Single-shot vision description of the
+   site plan (`plans/bistrozzi-plans/`, an `.odg`).
 
 ### Phase C — the cross-document layer (where the research lives)
 5. **Entity/parcel resolution.** `[done]` — `bosc.pipeline.entities`: normalize

@@ -2,7 +2,14 @@
 
 from __future__ import annotations
 
-from bosc.models import Deed, DeedExtraction, NpdesExtraction, NpdesPermit
+from bosc.models import (
+    BusinessFiling,
+    Deed,
+    DeedExtraction,
+    NpdesExtraction,
+    NpdesPermit,
+    SosExtraction,
+)
 from bosc.pipeline.corpus import Corpus
 from bosc.pipeline.entities import (
     _base_permit,
@@ -132,3 +139,74 @@ def test_build_graph_resolves_and_links() -> None:
     # "Ottawa River" and "Ottawa River at River Mile 5" collapse to one water node.
     discharges = [r for r in graph.relationships if r.rel == "discharges_to"]
     assert len(discharges) == 1
+
+
+def _filing(
+    rel: str, *, name: str, agent: str, agent_addr: str, organizer: str, juris: str
+) -> tuple[str, SosExtraction]:
+    return rel, SosExtraction(
+        doc_id=name,
+        source_path=f"/x/{rel}",
+        kind="sos",
+        dpi=200,
+        filing=BusinessFiling(
+            entity_name=name,
+            entity_type="foreign LLC",
+            jurisdiction=juris,
+            filing_date="2025-10-01",
+            registered_agent=agent,
+            agent_address=agent_addr,
+            organizer=organizer,
+        ),
+    )
+
+
+def test_sos_filings_link_organizer_agent_and_flag_shared_agent() -> None:
+    corpus = Corpus(
+        filings=[
+            _filing(
+                "permits/m.sos.yaml",
+                name="Magenta Capital LLC",
+                agent="Corporation Service Company",
+                agent_addr="1160 Dublin Rd",
+                organizer="Michael Montfort",
+                juris="Delaware",
+            ),
+            _filing(
+                "permits/t.sos.yaml",
+                name="Tilted Gate LLC",
+                agent="Corporation Service Company",
+                agent_addr="1160 Dublin Rd",
+                organizer="Michael Montfort",
+                juris="Delaware",
+            ),
+            _filing(
+                "permits/b.sos.yaml",
+                name="Bistrozzi Addition LLC",
+                agent="C T Corporation",
+                agent_addr="4400 East Commons Way",
+                organizer="Scott J. Ziance",
+                juris="Delaware",
+            ),
+        ]
+    )
+    graph = build_entity_graph(corpus)
+
+    # The Delaware foreign filing upgrades each LLC to out-of-state.
+    magenta = graph.get("Magenta Capital LLC")
+    assert magenta is not None
+    assert magenta.classification == "corporate_out_of_state"
+    assert "delaware" in magenta.signals
+
+    # Magenta + Tilted share an agent → both flagged; Bistrozzi Addition is not.
+    assert "shared_agent" in graph.get("Magenta Capital LLC").signals
+    assert "shared_agent" in graph.get("Tilted Gate LLC").signals
+    assert "shared_agent" not in graph.get("Bistrozzi Addition LLC").signals
+
+    # One organizer (Montfort) appears on two filings.
+    montfort = graph.get("Michael Montfort")
+    assert montfort is not None and montfort.roles["organizer"] == 2
+
+    rels = {(r.src, r.rel, r.dst) for r in graph.relationships}
+    assert ("MAGENTA CAPITAL", "organized_by", "MICHAEL MONTFORT") in rels
+    assert ("TILTED GATE", "registered_agent", "CORPORATION SERVICE") in rels

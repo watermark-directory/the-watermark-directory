@@ -1,0 +1,43 @@
+doc_id: sos-tilted-gate-llc-2025-09-29-b676cf55
+source_path: /Users/cparent/Code/shawnee-smart-systems/bosc/data/documents/permits/bistrozzi-permits/sos-tilted-gate-llc-2025-09-29.pdf
+kind: sos
+pages_read:
+- 0
+- 1
+- 2
+- 3
+dpi: 200
+source_text_excerpt: "DOC ID ----> 202527204518\n\n\nDOC ID ----> 202527204518\nPage\
+  \ 1 of 3Form 617 Last Revised: 01/2022\nRegistration of a Foreign Limited Liability\
+  \ Company \nFor a Foreign (Non-Ohio) Limited Liability Company \nFiling Fee: $99\
+  \ \nForm Must Be Typed \n106-LFA\nOptional: Effective Date (MM/DD/YYYY)  \nThe foreign\
+  \ limited liability company is a foreign limited liability company.\nName of Limited\
+  \ Liability Company in its jurisdiction of formation\nForm 617 Prescribed by:\n\
+  (Name must include one of the following words or abbreviations: \"limited liability\
+  \ company\", “limited”, \"LLC\", \"L.L.C.\", \"ltd.\", or \"ltd\".)\nAssum"
+filing:
+  confidence: high
+  warnings:
+  - Principal address not stated in the filing — the receipt addressee (National Service
+    Information, Inc., 145 Baker Street, Marion, OH 43302) appears to be the filing
+    agent/submitter, not the LLC's principal office.
+  - No organizer address was provided in the document.
+  entity_name: Tilted Gate LLC
+  filing_id: '202527204518'
+  filing_type: Registration of a Foreign Limited Liability Company
+  entity_type: foreign LLC
+  jurisdiction: Delaware
+  filing_date: '2025-09-29'
+  effective_date: '2025-09-29'
+  registered_agent: Corporation Service Company
+  agent_address: 1160 Dublin Rd Ste 400, Columbus, OH 43215
+  organizer: Michael Montfort, Manager
+  organizer_address: null
+  principal_address: null
+  officers:
+  - Michael Montfort, Manager
+  note: Filing submitted electronically on 9/29/2025. Statutory agent acceptance signed
+    by Benjamin Bolen on behalf of Corporation Service Company. The certificate number
+    referenced on the Ohio SoS certificate is 5481299. Receipt addressed to National
+    Service Information, Inc., 145 Baker Street, Marion, OH 43302 (likely the filing
+    agent/submitter, not the principal office).

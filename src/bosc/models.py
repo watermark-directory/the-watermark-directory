@@ -325,6 +325,31 @@ class NpdesPermit(_Extracted):
     note: str | None = None
 
 
+class BusinessFiling(_Extracted):
+    """A Secretary-of-State business filing (LLC formation / registration).
+
+    The entity-control genre: who organized the LLC, its statutory (registered)
+    agent and address, and its formation jurisdiction. A shared agent address
+    across entities is the strongest shell-pattern signal available from public
+    SoS records (it does not reveal beneficial ownership).
+    """
+
+    entity_name: str | None = None
+    filing_id: str | None = None  # SoS document / filing number (the "DOC ID")
+    filing_type: str | None = None  # e.g. "Articles of Organization", "Registration of Foreign LLC"
+    entity_type: str | None = None  # domestic LLC | foreign LLC | corporation | ...
+    jurisdiction: str | None = None  # formation state (e.g. Delaware, Ohio)
+    filing_date: str | None = None
+    effective_date: str | None = None
+    registered_agent: str | None = None  # statutory agent name
+    agent_address: str | None = None
+    organizer: str | None = None  # organizer / authorized representative / signatory
+    organizer_address: str | None = None
+    principal_address: str | None = None  # principal office, if stated
+    officers: list[str] = Field(default_factory=list)  # members/managers, if disclosed
+    note: str | None = None
+
+
 class DocExtraction(BaseModel):
     """Provenance shared by document-level extractions."""
 
@@ -348,3 +373,7 @@ class DeedExtraction(DocExtraction):
 
 class NpdesExtraction(DocExtraction):
     permit: NpdesPermit
+
+
+class SosExtraction(DocExtraction):
+    filing: BusinessFiling

@@ -8,12 +8,14 @@ import yaml
 
 from bosc.config import Settings
 from bosc.models import (
+    BusinessFiling,
     Deed,
     DeedExtraction,
     NpdesExtraction,
     NpdesPermit,
     OPCMeta,
     OPCSummary,
+    SosExtraction,
     SubEstimate,
 )
 from bosc.pipeline.corpus import load_corpus
@@ -46,6 +48,15 @@ def test_load_corpus_classifies_by_shape(tmp_path: Path) -> None:
     )
     _write(ex / "oepa" / "b.npdes.yaml", permit.to_yaml())
 
+    filing = SosExtraction(
+        doc_id="s",
+        source_path="/x/c.pdf",
+        kind="sos",
+        dpi=200,
+        filing=BusinessFiling(entity_name="Tilted Gate LLC", jurisdiction="Delaware"),
+    )
+    _write(ex / "permits" / "c.sos.yaml", filing.to_yaml())
+
     summary = OPCSummary(
         meta=OPCMeta(date="2025-07-11", program="Roadwork"),
         sub_estimates=[SubEstimate(name="RB1", construction_subtotal=100, total=125)],
@@ -58,7 +69,9 @@ def test_load_corpus_classifies_by_shape(tmp_path: Path) -> None:
     corpus = load_corpus(settings)
     assert len(corpus.deeds) == 1
     assert len(corpus.permits) == 1
+    assert len(corpus.filings) == 1
     assert len(corpus.summaries) == 1
+    assert corpus.filings[0][1].filing.entity_name == "Tilted Gate LLC"
     assert not corpus.is_empty()
     rel, loaded_deed = corpus.deeds[0]
     assert rel == "recorder/a.deed.yaml"

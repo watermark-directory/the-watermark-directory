@@ -27,6 +27,7 @@ from bosc.config import Settings, get_settings
 from bosc.documents import DEFAULT_DPI, PdfDocument
 from bosc.logging import get_logger
 from bosc.models import (
+    BusinessFiling,
     Deed,
     DeedExtraction,
     DocExtraction,
@@ -35,6 +36,7 @@ from bosc.models import (
     NpdesPermit,
     OPCSummary,
     PageExtraction,
+    SosExtraction,
 )
 from bosc.pipeline.ingest import SourceDocument
 
@@ -195,6 +197,7 @@ def validate_summary(path: str | Path) -> OPCSummary:
 
 _DEED_DPI = 200
 _NPDES_DPI = 150
+_SOS_DPI = 200
 
 DEED_INSTRUCTIONS = """\
 You are reading a recorded land instrument (a deed, easement, or similar) from a
@@ -229,6 +232,33 @@ Record into the tool:
   * outfalls: outfall identifiers if listed.
 Rules: copy permit/application numbers exactly; dates as ISO; leave a field null
 if not present; never invent; set confidence and warnings.
+"""
+
+
+SOS_INSTRUCTIONS = """\
+You are reading a Secretary of State business filing (e.g. an Ohio Articles of
+Organization for a domestic LLC, or a Registration of a Foreign LLC). The page
+images are authoritative; the text layer is usually just a stamped document id.
+Record into the tool:
+  * entity_name: the LLC / business name exactly as printed.
+  * filing_id: the SoS document / filing number (often stamped "DOC ID" or at the
+    top of the form).
+  * filing_type: e.g. "Articles of Organization", "Registration of a Foreign
+    Limited Liability Company".
+  * entity_type: "domestic LLC", "foreign LLC", etc.
+  * jurisdiction: the formation state. For a foreign registration this is the
+    home state (e.g. Delaware); for a domestic Ohio filing this is Ohio.
+  * filing_date and effective_date: ISO yyyy-mm-dd if legible.
+  * registered_agent: the statutory / registered agent NAME; agent_address: their
+    address. (A commercial agent such as "CT Corporation System" is common.)
+  * organizer: the organizer / authorized representative / signer NAME;
+    organizer_address if shown.
+  * principal_address: the principal office address, if stated.
+  * officers: any members / managers / officers disclosed (Ohio often discloses
+    none — leave empty rather than guessing).
+Rules: copy names and the filing id exactly; dates as ISO; leave a field null if
+not present; NEVER invent an agent, organizer, or officer; set confidence and add
+a warning for any field you had to strain to read.
 """
 
 
@@ -336,9 +366,57 @@ def extract_npdes(
     return extraction
 
 
+def extract_sos(
+    doc: SourceDocument,
+    *,
+    extractor: StructuredExtractor | None = None,
+    pdf: PdfDocument | None = None,
+    dpi: int = _SOS_DPI,
+    settings: Settings | None = None,
+    max_pages: int = 6,
+) -> SosExtraction:
+    """Extract a Secretary-of-State business filing (vision-primary)."""
+    from bosc.agent.extractor import StructuredExtractor
+
+    settings = settings or get_settings()
+    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
+    text, images, pages = _read_doc(
+        doc, text_pages=max_pages, image_pages=max_pages, dpi=dpi, pdf=pdf
+    )
+
+    log.info("extract.doc.start", doc_id=doc.doc_id, kind="sos", pages=len(pages), dpi=dpi)
+    filing = extractor.extract(
+        BusinessFiling, instructions=SOS_INSTRUCTIONS, images=images, context_text=text
+    )
+    extraction = SosExtraction(
+        doc_id=doc.doc_id,
+        source_path=str(doc.path),
+        kind="sos",
+        pages_read=pages,
+        dpi=dpi,
+        filing=filing,
+        source_text_excerpt=text[:600],
+    )
+    log.info(
+        "extract.doc.done",
+        doc_id=doc.doc_id,
+        kind="sos",
+        entity=filing.entity_name,
+        agent=filing.registered_agent,
+        jurisdiction=filing.jurisdiction,
+        confidence=filing.confidence,
+        warnings=len(filing.warnings),
+    )
+    return extraction
+
+
 # Document-level kind dispatch (parallel to the page-level EXTRACTORS above).
 DocumentExtractor = Callable[..., DocExtraction]
-DOC_EXTRACTORS: dict[str, DocumentExtractor] = {"deed": extract_deed, "npdes": extract_npdes}
+DOC_EXTRACTORS: dict[str, DocumentExtractor] = {
+    "deed": extract_deed,
+    "npdes": extract_npdes,
+    "sos": extract_sos,
+}
 
 
 def extract_document(doc: SourceDocument, *, kind: str, **kwargs: object) -> DocExtraction:

@@ -1,11 +1,13 @@
 """Entity resolution — a small cross-document graph of who relates to whom.
 
-Phase C item 5. Parties appear across deeds and NPDES permits under inconsistent
-spellings ("BISTROZZI LLC" vs "Bistrozzi LLC, a Delaware Limited Liability
-Company"). This module normalizes them to a canonical key, merges the variants
-into one :class:`Entity`, classifies each (government / corporate / individual /
-trust / facility / water), and records the relationships between them
-(conveyances, utility operation, discharge).
+Phase C item 5. Parties appear across deeds, NPDES permits, and SoS business
+filings under inconsistent spellings ("BISTROZZI LLC" vs "Bistrozzi LLC, a
+Delaware Limited Liability Company"). This module normalizes them to a canonical
+key, merges the variants into one :class:`Entity`, classifies each (government /
+corporate / individual / trust / facility / water), and records the relationships
+between them (conveyances, utility operation, discharge, plus — from SoS filings —
+who organized an LLC and its registered agent). A registered agent shared by more
+than one entity is flagged with a ``shared_agent`` signal.
 
 Classification follows the *conservative* posture of Periplus's owner-
 classification rationale (see ``docs/reference/periplus/`` / the ``../gis`` fork):
@@ -16,7 +18,7 @@ shell-adjacent signals (e.g. a Delaware registration) as evidence, not verdicts.
 from __future__ import annotations
 
 import re
-from collections import Counter
+from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 
 from bosc.logging import get_logger
@@ -122,6 +124,7 @@ class Entity:
     signals: set[str] = field(default_factory=set)
     roles: Counter[str] = field(default_factory=Counter)  # grantee/grantor/applicant/...
     parcels: set[str] = field(default_factory=set)
+    addresses: set[str] = field(default_factory=set)
     sources: set[str] = field(default_factory=set)
 
     @property
@@ -184,7 +187,7 @@ class EntityGraph:
 
 
 def build_entity_graph(corpus: Corpus | None = None) -> EntityGraph:
-    """Resolve entities and relationships across deeds and NPDES permits."""
+    """Resolve entities and relationships across deeds, NPDES permits, SoS filings."""
     corpus = corpus if corpus is not None else load_corpus()
     graph = EntityGraph()
 
@@ -238,6 +241,48 @@ def build_entity_graph(corpus: Corpus | None = None) -> EntityGraph:
                     )
                 )
 
+    for rel, sex in corpus.filings:
+        f = sex.filing
+        if not f.entity_name:
+            continue
+        ent_key = graph._register(f.entity_name, role="registrant", source=rel)
+        ent = graph.entities[ent_key]
+        if f.principal_address:
+            ent.addresses.add(f.principal_address)
+        # A foreign formation jurisdiction is a recorded signal (and, for a
+        # corporate entity, upgrades it to out-of-state) — straight from the
+        # filing, not inferred from the name.
+        if f.jurisdiction and f.jurisdiction.strip().lower() not in ("ohio", "oh", ""):
+            ent.signals.add(f.jurisdiction.strip().lower())
+            if ent.kind == "corporate":
+                ent.classification = "corporate_out_of_state"
+        if f.registered_agent:
+            agent_key = graph._register(f.registered_agent, role="registered_agent", source=rel)
+            if f.agent_address:
+                graph.entities[agent_key].addresses.add(f.agent_address)
+            graph.relationships.append(
+                Relationship(
+                    ent_key,
+                    "registered_agent",
+                    agent_key,
+                    date=f.filing_date or "",
+                    ref=f.filing_id or "",
+                    source=rel,
+                )
+            )
+        if f.organizer:
+            org_key = graph._register(f.organizer, role="organizer", source=rel)
+            graph.relationships.append(
+                Relationship(
+                    ent_key,
+                    "organized_by",
+                    org_key,
+                    date=f.filing_date or "",
+                    ref=f.filing_id or "",
+                    source=rel,
+                )
+            )
+
     # The same conveyance / operation is reported by multiple artifacts; collapse
     # identical edges (keep the first, dropping exact duplicates).
     seen: set[tuple[str, str, str, str]] = set()
@@ -252,6 +297,21 @@ def build_entity_graph(corpus: Corpus | None = None) -> EntityGraph:
         seen.add(edge)
         unique.append(r)
     graph.relationships = unique
+
+    # Shell-pattern signal: a registered agent (or an agent address) shared by
+    # more than one entity. This is the strongest shell tell public SoS records
+    # offer — it does not reveal beneficial ownership, only common control plumbing.
+    agent_to_entities: dict[str, set[str]] = defaultdict(set)
+    addr_to_entities: dict[str, set[str]] = defaultdict(set)
+    for r in graph.relationships:
+        if r.rel == "registered_agent":
+            agent_to_entities[r.dst].add(r.src)
+            for addr in graph.entities[r.dst].addresses:
+                addr_to_entities[addr].add(r.src)
+    for shared in (*agent_to_entities.values(), *addr_to_entities.values()):
+        if len(shared) > 1:
+            for ent_key in shared:
+                graph.entities[ent_key].signals.add("shared_agent")
 
     log.info("entities.built", entities=len(graph.entities), relationships=len(graph.relationships))
     return graph

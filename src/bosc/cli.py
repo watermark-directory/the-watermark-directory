@@ -168,7 +168,7 @@ def extract(
     pdf_page: int | None = typer.Option(
         None, "--pdf-page", help="1-based printed sheet number (= page index + 1)."
     ),
-    kind: str = typer.Option("opc", "--kind", help="Document kind: opc | deed | npdes."),
+    kind: str = typer.Option("opc", "--kind", help="Document kind: opc | deed | npdes | sos."),
     profile: str = typer.Option(
         "auto", "--profile", help="OPC format profile id, or 'auto' to detect from the page."
     ),
@@ -178,8 +178,8 @@ def extract(
     ),
     write: bool = typer.Option(False, "--write", "-w", help="Save the YAML under data/extracted."),
 ) -> None:
-    """Extract a document: an OPC cost page (--page), or a deed/NPDES document."""
-    from bosc.models import DeedExtraction, NpdesExtraction
+    """Extract a document: an OPC cost page (--page), or a deed/NPDES/SoS document."""
+    from bosc.models import DeedExtraction, NpdesExtraction, SosExtraction
     from bosc.pipeline import analyze
     from bosc.pipeline import extract as extract_stage
 
@@ -209,6 +209,14 @@ def extract(
                 f"[dim](confidence {p.confidence})[/]"
             )
             warns = p.warnings
+        elif isinstance(doc_extraction, SosExtraction):
+            fil = doc_extraction.filing
+            console.print(
+                f"[bold]SoS[/] {fil.entity_name or '?'} ({fil.entity_type or '?'}) — "
+                f"agent={fil.registered_agent or '?'} organizer={fil.organizer or '?'} "
+                f"jurisdiction={fil.jurisdiction or '?'} [dim](confidence {fil.confidence})[/]"
+            )
+            warns = fil.warnings
         else:  # pragma: no cover - defensive
             warns = []
         for warning in warns:

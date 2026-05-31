@@ -1,0 +1,44 @@
+doc_id: sos-bistrozzi-addition-llc-2026-04-08-567acc4e
+source_path: /Users/cparent/Code/shawnee-smart-systems/bosc/data/documents/permits/bistrozzi-permits/sos-bistrozzi-addition-llc-2026-04-08.pdf
+kind: sos
+pages_read:
+- 0
+- 1
+- 2
+- 3
+dpi: 200
+source_text_excerpt: 'DOC ID ----> 202609704236
+
+
+
+  DOC ID ----> 202609704236
+
+
+
+  DOC ID ----> 202609704236
+
+
+
+  DOC ID ----> 202609704236
+
+  '
+filing:
+  confidence: high
+  warnings: []
+  entity_name: Bistrozzi Addition LLC
+  filing_id: '202609704236'
+  filing_type: Registration of a Foreign Limited Liability Company
+  entity_type: foreign LLC
+  jurisdiction: Delaware
+  filing_date: '2026-04-08'
+  effective_date: '2026-04-06'
+  registered_agent: C T Corporation
+  agent_address: 4400 East Commons Way, Suite 125, Columbus, OH 43219
+  organizer: Scott J. Ziance
+  organizer_address: null
+  principal_address: null
+  officers: []
+  note: 'Filing submitted via Vorys, Sater, Seymour and Pease LLP, Attn: Hannah Bragg,
+    52 East Gay Street, Columbus, OH 43215. Statutory agent acceptance signed by Laura
+    R Broderick, Assistant Secretary of CT Corporation. Signer/authorized representative
+    on the filing is Scott J. Ziance. Form 617 (106-LFA), filing fee $99.'

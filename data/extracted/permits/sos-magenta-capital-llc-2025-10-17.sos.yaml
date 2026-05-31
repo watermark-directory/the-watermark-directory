@@ -1,0 +1,38 @@
+doc_id: sos-magenta-capital-llc-2025-10-17-3e85cb88
+source_path: /Users/cparent/Code/shawnee-smart-systems/bosc/data/documents/permits/bistrozzi-permits/sos-magenta-capital-llc-2025-10-17.pdf
+kind: sos
+pages_read:
+- 0
+- 1
+- 2
+- 3
+dpi: 200
+source_text_excerpt: "DOC ID ----> 202529003142\n\n\nDOC ID ----> 202529003142\nPage\
+  \ 1 of 3Form 617 Last Revised: 01/2022\nRegistration of a Foreign Limited Liability\
+  \ Company \nFor a Foreign (Non-Ohio) Limited Liability Company \nFiling Fee: $99\
+  \ \nForm Must Be Typed \n106-LFA\nOptional: Effective Date (MM/DD/YYYY)  \nThe foreign\
+  \ limited liability company is a foreign limited liability company.\nName of Limited\
+  \ Liability Company in its jurisdiction of formation\nForm 617 Prescribed by:\n\
+  (Name must include one of the following words or abbreviations: \"limited liability\
+  \ company\", “limited”, \"LLC\", \"L.L.C.\", \"ltd.\", or \"ltd\".)\nAssum"
+filing:
+  confidence: high
+  warnings: []
+  entity_name: Magenta Capital (Ohio) LLC (Magenta Capital LLC)
+  filing_id: '202529003142'
+  filing_type: Registration of a Foreign Limited Liability Company
+  entity_type: foreign LLC
+  jurisdiction: Delaware
+  filing_date: '2025-10-17'
+  effective_date: '2025-10-17'
+  registered_agent: Corporation Service Company
+  agent_address: 1160 Dublin Rd Ste 400, Columbus, OH 43215
+  organizer: Michael Montfort
+  organizer_address: null
+  principal_address: null
+  officers:
+  - Michael Montfort (Manager)
+  note: Entity's name in its jurisdiction of formation is "Magenta Capital LLC"; assumed
+    name in Ohio is "Magenta Capital (Ohio) LLC". Filing signed by Michael Montfort
+    as Manager. Statutory agent acceptance signed by Alix Anast on behalf of Corporation
+    Service Company. Certificate also references SoS charter number 5491095.

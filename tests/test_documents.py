@@ -11,11 +11,19 @@ import yaml
 
 from bosc.agent.extractor import StructuredExtractor
 from bosc.config import Settings
-from bosc.models import Deed, DeedExtraction, NpdesExtraction, NpdesPermit
+from bosc.models import (
+    BusinessFiling,
+    Deed,
+    DeedExtraction,
+    NpdesExtraction,
+    NpdesPermit,
+    SosExtraction,
+)
 from bosc.pipeline.extract import (
     extract_deed,
     extract_document,
     extract_npdes,
+    extract_sos,
     save_doc_extraction,
 )
 from bosc.pipeline.ingest import SourceDocument
@@ -135,10 +143,30 @@ def test_extract_npdes_attaches_provenance() -> None:
     assert extraction.pages_read == list(range(6))  # text_pages=6 dominates the 1 image page
 
 
+def test_extract_sos_attaches_provenance() -> None:
+    filing = BusinessFiling(
+        entity_name="Tilted Gate LLC",
+        entity_type="foreign LLC",
+        jurisdiction="Delaware",
+        registered_agent="Corporation Service Company",
+        organizer="Michael Montfort",
+    )
+    extraction = extract_sos(_doc(), extractor=_FakeExtractor(filing), pdf=_FakePdf(pages=4))  # type: ignore[arg-type]
+    assert isinstance(extraction, SosExtraction)
+    assert extraction.kind == "sos"
+    assert extraction.filing.jurisdiction == "Delaware"
+    assert extraction.pages_read == list(range(4))
+
+
 def test_extract_document_dispatch_and_unknown() -> None:
     permit = NpdesPermit(permit_no="X")
     ex = extract_document(_doc(), kind="npdes", extractor=_FakeExtractor(permit), pdf=_FakePdf())  # type: ignore[arg-type]
     assert isinstance(ex, NpdesExtraction)
+    filing = BusinessFiling(entity_name="Acme LLC")
+    sos = extract_document(
+        _doc(), kind="sos", extractor=_FakeExtractor(filing), pdf=_FakePdf(pages=4)
+    )  # type: ignore[arg-type]
+    assert isinstance(sos, SosExtraction)
     with pytest.raises(ValueError, match="unknown document kind"):
         extract_document(_doc(), kind="invoice")
 
