@@ -16,6 +16,7 @@ from bosc.pipeline.corpus import Corpus
 from bosc.pipeline.entities import (
     _base_permit,
     _looks_like_person,
+    _split_multi,
     _split_principal,
     build_entity_graph,
     classify,
@@ -30,6 +31,26 @@ def test_normalize_merges_legal_variants() -> None:
         normalize_name("THE PORT AUTHORITY OF ALLEN COUNTY, OHIO")
         == "PORT AUTHORITY OF ALLEN COUNTY"
     )
+
+
+def test_normalize_drops_middle_initial_but_keeps_two_token_orgs() -> None:
+    # "Scott J. Ziance" and "Scott Ziance" resolve to one person.
+    assert normalize_name("Scott J. Ziance") == normalize_name("Scott Ziance") == "SCOTT ZIANCE"
+    # A two-token org ("C T Corporation") keeps both letters — no interior to drop.
+    assert normalize_name("C T Corporation") == "C T"
+
+
+def test_split_multi_splits_on_semicolons_not_firm_commas() -> None:
+    assert _split_multi("Heather Dardinger; Scott J. Ziance") == [
+        "Heather Dardinger",
+        "Scott J. Ziance",
+    ]
+    # A firm name with internal commas stays whole.
+    assert _split_multi("EMH&T; Vorys, Sater, Seymour, and Pease") == [
+        "EMH&T",
+        "Vorys, Sater, Seymour, and Pease",
+    ]
+    assert _split_multi("EMH&T") == ["EMH&T"]
 
 
 def test_base_permit_strips_action_suffix() -> None:
@@ -303,6 +324,41 @@ def _epa(rel: str, *, applicant: str) -> tuple[str, EpaExtraction]:
             action_date="2026-04-01",
         ),
     )
+
+
+def test_epa_multi_value_contacts_split_into_separate_nodes() -> None:
+    rel = "permits/x.epa.yaml"
+    corpus = Corpus(
+        actions=[
+            (
+                rel,
+                EpaExtraction(
+                    doc_id="x",
+                    source_path=f"/x/{rel}",
+                    kind="epa",
+                    dpi=150,
+                    action=EpaPermitAction(
+                        agency="USACE",
+                        program="Section 404",
+                        applicant="Tilted Gate LLC",
+                        action="application",
+                        action_date="2026-04-01",
+                        contact_name="Heather Dardinger; Scott J. Ziance",
+                        contact_firm="EMH&T; Vorys, Sater, Seymour, and Pease",
+                    ),
+                ),
+            ),
+        ]
+    )
+    graph = build_entity_graph(corpus)
+    # Two distinct contacts, not one conflated node.
+    assert graph.get("Heather Dardinger") is not None
+    assert graph.get("Scott Ziance") is not None  # middle initial dropped
+    assert graph.get("Heather Dardinger; Scott J. Ziance") is None
+    rels = {(r.src, r.rel, r.dst) for r in graph.relationships}
+    # The firm with internal commas resolves to VORYS, not a combined junk node.
+    assert ("HEATHER DARDINGER", "affiliated_with", "VORYS") in rels
+    assert ("SCOTT ZIANCE", "affiliated_with", "EMH&T") in rels
 
 
 def test_person_org_applicant_splits_into_principal_edge() -> None:

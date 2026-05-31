@@ -119,11 +119,23 @@ def _split_principal(raw: str) -> tuple[str, str | None]:
     return raw, None
 
 
+def _split_multi(raw: str) -> list[str]:
+    """Split a field that the model packed with multiple values into parts.
+
+    Splits only on ``;`` and newlines — *not* commas, because a firm name carries
+    internal commas ("Vorys, Sater, Seymour, and Pease"). ``"Heather Dardinger;
+    Scott J. Ziance"`` -> two names.
+    """
+    return [p.strip() for p in re.split(r"[;\n]", raw) if p.strip()]
+
+
 def normalize_name(raw: str) -> str:
     """Canonical key: uppercased, descriptive clause and legal suffixes removed.
 
     ``"Bistrozzi LLC, a Delaware Limited Liability Company"`` and ``"BISTROZZI
-    LLC"`` both reduce to ``"BISTROZZI"``, so they resolve to one entity.
+    LLC"`` both reduce to ``"BISTROZZI"``; ``"Scott J. Ziance"`` and ``"Scott
+    Ziance"`` both reduce to ``"SCOTT ZIANCE"`` (interior single-letter initials
+    are dropped) so name variants resolve to one entity.
     """
     head = raw.upper().split(",", 1)[0]  # drop the post-comma descriptive clause
     head = re.sub(r"[^\w\s&]", " ", head)
@@ -132,6 +144,10 @@ def normalize_name(raw: str) -> str:
         tokens.pop(0)
     while tokens and tokens[-1] in _LEGAL_SUFFIXES:
         tokens.pop()
+    # Drop interior single-letter initials (a middle initial is matching noise);
+    # keep the first and last token so "C T" (CT Corporation) is left intact.
+    if len(tokens) > 2:
+        tokens = [tokens[0], *[t for t in tokens[1:-1] if len(t) > 1], tokens[-1]]
     return " ".join(tokens)
 
 
@@ -347,20 +363,25 @@ def build_entity_graph(corpus: Corpus | None = None) -> EntityGraph:
                     graph.relationships.append(
                         Relationship(principal_key, "principal_of", app_key, source=rel)
                     )
-        if a.contact_name:
-            contact_key = graph._register(a.contact_name, role="permit_contact", source=rel)
-            # Representation/affiliation are not permit-specific — blank ref so the
-            # same relationship across many letters collapses to one edge.
-            if app_key and contact_key:
-                graph.relationships.append(
-                    Relationship(app_key, "represented_by", contact_key, source=rel)
-                )
-            if a.contact_firm:
-                firm_key = graph._register(a.contact_firm, role="firm", source=rel)
-                if firm_key:
+        # A letter may pack several contacts / firms into one field; split them so
+        # each resolves to its own node. Representation/affiliation aren't permit-
+        # specific, so blank ref lets repeats across letters collapse to one edge.
+        contact_keys = []
+        for name in _split_multi(a.contact_name or ""):
+            ck = graph._register(name, role="permit_contact", source=rel)
+            if ck and ck != app_key:
+                contact_keys.append(ck)
+                if app_key:
                     graph.relationships.append(
-                        Relationship(contact_key, "affiliated_with", firm_key, source=rel)
+                        Relationship(app_key, "represented_by", ck, source=rel)
                     )
+        for firm in _split_multi(a.contact_firm or ""):
+            fk = graph._register(firm, role="firm", source=rel)
+            # Skip a "firm" that is actually the applicant itself (model slip).
+            if not fk or fk == app_key:
+                continue
+            for ck in contact_keys:
+                graph.relationships.append(Relationship(ck, "affiliated_with", fk, source=rel))
 
     # The same conveyance / operation is reported by multiple artifacts; collapse
     # identical edges (keep the first, dropping exact duplicates).
