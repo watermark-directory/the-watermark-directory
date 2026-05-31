@@ -401,6 +401,39 @@ class EpaPermitAction(_Extracted):
     note: str | None = None
 
 
+class DesignFirm(BaseModel):
+    """A firm on a plan's titleblock, with its discipline."""
+
+    model_config = ConfigDict(extra="allow")
+
+    name: str
+    discipline: str | None = None  # Civil | Architecture | MEP/Structure | Survey | ...
+    location: str | None = None
+
+
+class SitePlan(_Extracted):
+    """A civil/site engineering drawing sheet (read from an ``.odg``).
+
+    The titleblock and legend carry the structural content: project, sheet,
+    discipline, scale, phase, the design team, and the legend's utility/site
+    features (which reveal what the site contains — e.g. a substation).
+    """
+
+    project_name: str | None = None
+    sheet_id: str | None = None  # e.g. LMA1A-95-SPS / sheet number
+    discipline: str | None = None  # e.g. "Grading & Storm Plan"
+    phase: str | None = None  # e.g. "95% SPS Design"
+    scale: str | None = None
+    project_no: str | None = None
+    site_address: str | None = None
+    date: str | None = None
+    status: str | None = None  # e.g. "Not For Construction"
+    prepared_by: list[DesignFirm] = Field(default_factory=list)
+    key_features: StrList = Field(default_factory=list)  # legend/site features of note
+    note: str | None = None
+    summary: str | None = None  # short prose description of what the sheet shows
+
+
 class DocExtraction(BaseModel):
     """Provenance shared by document-level extractions."""
 
@@ -432,3 +465,7 @@ class SosExtraction(DocExtraction):
 
 class EpaExtraction(DocExtraction):
     action: EpaPermitAction
+
+
+class PlanExtraction(DocExtraction):
+    plan: SitePlan

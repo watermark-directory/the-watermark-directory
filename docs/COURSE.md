@@ -130,8 +130,16 @@ validation → provenance). Order is driven by inquiry leverage.
    Timothy Chadwick); counsel Vorys (Tangeman/Ziance), engineer EMH&T.
    *(The 2 Army-Corps wetland-delineation data forms are a different shape — a
    later `kind`.)*
-4. **Plan read (`kind=plan`).** `[open]` Single-shot vision description of the
-   site plan (`plans/bistrozzi-plans/`, an `.odg`).
+4. **Plan read (`kind=plan`).** `[done]` — an `.odg` is a *vector* drawing, so
+   `bosc.documents.read_odg` extracts the titleblock/legend/callout TEXT (the
+   authoritative content) plus the preview thumbnail, tolerating the file's bad
+   CRC via a raw zlib inflate. `SitePlan` captures project, sheet, discipline,
+   phase, scale, the design team, and legend `key_features`. Validated live on
+   `LMA1A-95-SPS`: **"American Industrial Park Site," Lima** — Grading & Storm
+   Plan, 95% SPS, by EMH&T (Civil) / CI Design (Architecture, Boston) / WSP USA
+   Buildings (MEP, Troy NY); features include a **substation, anti-ram barriers,
+   security fence, containment areas, fiber duct bank** — the signature of a
+   hardened data-center campus.
 
 ### Phase C — the cross-document layer (where the research lives)
 5. **Entity/parcel resolution.** `[done]` — `bosc.pipeline.entities`: normalize

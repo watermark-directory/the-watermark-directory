@@ -25,6 +25,7 @@ from bosc.models import (
     NpdesExtraction,
     OPCSummary,
     PageExtraction,
+    PlanExtraction,
     SosExtraction,
 )
 
@@ -43,6 +44,7 @@ class Corpus:
     permits: list[tuple[str, NpdesExtraction]] = field(default_factory=list)
     filings: list[tuple[str, SosExtraction]] = field(default_factory=list)
     actions: list[tuple[str, EpaExtraction]] = field(default_factory=list)
+    plans: list[tuple[str, PlanExtraction]] = field(default_factory=list)
     estimates: list[tuple[str, PageExtraction]] = field(default_factory=list)
     summaries: list[tuple[str, OPCSummary]] = field(default_factory=list)
 
@@ -52,6 +54,7 @@ class Corpus:
             + len(self.permits)
             + len(self.filings)
             + len(self.actions)
+            + len(self.plans)
             + len(self.estimates)
             + len(self.summaries)
         )
@@ -76,6 +79,8 @@ def _classify(data: Any) -> str | None:
         return "sos"
     if "action" in data:
         return "epa"
+    if "plan" in data:
+        return "plan"
     if "estimate" in data:
         return "opc_page"
     if "sub_estimates" in data or "meta" in data:
@@ -113,6 +118,8 @@ def load_corpus(settings: Settings | None = None) -> Corpus:
                 corpus.filings.append((rel, SosExtraction.model_validate(data)))
             elif kind == "epa":
                 corpus.actions.append((rel, EpaExtraction.model_validate(data)))
+            elif kind == "plan":
+                corpus.plans.append((rel, PlanExtraction.model_validate(data)))
             elif kind == "opc_page":
                 corpus.estimates.append((rel, PageExtraction.model_validate(data)))
             elif kind == "opc_summary":
@@ -128,6 +135,7 @@ def load_corpus(settings: Settings | None = None) -> Corpus:
         permits=len(corpus.permits),
         filings=len(corpus.filings),
         actions=len(corpus.actions),
+        plans=len(corpus.plans),
         estimates=len(corpus.estimates),
         summaries=len(corpus.summaries),
     )

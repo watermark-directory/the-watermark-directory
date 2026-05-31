@@ -169,7 +169,7 @@ def extract(
         None, "--pdf-page", help="1-based printed sheet number (= page index + 1)."
     ),
     kind: str = typer.Option(
-        "opc", "--kind", help="Document kind: opc | deed | npdes | sos | epa."
+        "opc", "--kind", help="Document kind: opc | deed | npdes | sos | epa | plan."
     ),
     profile: str = typer.Option(
         "auto", "--profile", help="OPC format profile id, or 'auto' to detect from the page."
@@ -181,7 +181,13 @@ def extract(
     write: bool = typer.Option(False, "--write", "-w", help="Save the YAML under data/extracted."),
 ) -> None:
     """Extract a document: an OPC cost page (--page), or a deed/NPDES/SoS document."""
-    from bosc.models import DeedExtraction, EpaExtraction, NpdesExtraction, SosExtraction
+    from bosc.models import (
+        DeedExtraction,
+        EpaExtraction,
+        NpdesExtraction,
+        PlanExtraction,
+        SosExtraction,
+    )
     from bosc.pipeline import analyze
     from bosc.pipeline import extract as extract_stage
 
@@ -227,6 +233,16 @@ def extract(
                 f"date={a.action_date or '?'} [dim](confidence {a.confidence})[/]"
             )
             warns = a.warnings
+        elif isinstance(doc_extraction, PlanExtraction):
+            pl = doc_extraction.plan
+            firms = ", ".join(f"{fm.name} ({fm.discipline or '?'})" for fm in pl.prepared_by)
+            console.print(
+                f"[bold]Plan[/] {pl.project_name or '?'} — {pl.discipline or '?'} "
+                f"{pl.phase or ''} [dim](confidence {pl.confidence})[/]\n"
+                f"  features: {', '.join(pl.key_features[:8])}\n"
+                f"  prepared by: {firms}"
+            )
+            warns = pl.warnings
         else:  # pragma: no cover - defensive
             warns = []
         for warning in warns:

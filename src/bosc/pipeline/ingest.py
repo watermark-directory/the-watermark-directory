@@ -17,7 +17,7 @@ from bosc.logging import get_logger
 log = get_logger(__name__)
 
 # Extensions we treat as ingestible source material.
-SOURCE_SUFFIXES = {".pdf", ".png", ".jpg", ".jpeg", ".tif", ".tiff", ".txt"}
+SOURCE_SUFFIXES = {".pdf", ".png", ".jpg", ".jpeg", ".tif", ".tiff", ".txt", ".odg"}
 
 
 @dataclass(frozen=True)

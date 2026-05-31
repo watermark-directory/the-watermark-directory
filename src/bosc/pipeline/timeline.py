@@ -157,6 +157,31 @@ def _epa_events(corpus: Corpus) -> list[TimelineEvent]:
     return events
 
 
+def _plan_events(corpus: Corpus) -> list[TimelineEvent]:
+    events: list[TimelineEvent] = []
+    for rel, ex in corpus.plans:
+        p = ex.plan
+        if not p.date:
+            continue
+        parties = tuple(fm.name for fm in p.prepared_by)
+        label = (
+            f"{p.discipline or 'Site plan'} ({p.phase})"
+            if p.phase
+            else (p.discipline or "Site plan")
+        )
+        events.append(
+            TimelineEvent(
+                date=p.date,
+                category="site_plan",
+                title=f"{label} — {p.project_name or '?'}",
+                source=rel,
+                ref=p.sheet_id or "",
+                parties=parties,
+            )
+        )
+    return events
+
+
 def _opc_events(corpus: Corpus) -> list[TimelineEvent]:
     events: list[TimelineEvent] = []
     for rel, summary in corpus.summaries:
@@ -181,7 +206,11 @@ def build_timeline(corpus: Corpus | None = None) -> list[TimelineEvent]:
     """Assemble a single sorted chronology across the whole corpus."""
     corpus = corpus if corpus is not None else load_corpus()
     events = (
-        _deed_events(corpus) + _npdes_events(corpus) + _epa_events(corpus) + _opc_events(corpus)
+        _deed_events(corpus)
+        + _npdes_events(corpus)
+        + _epa_events(corpus)
+        + _plan_events(corpus)
+        + _opc_events(corpus)
     )
     events = _dedup(events)
     events.sort(key=lambda e: e.sort_key)

@@ -1,0 +1,142 @@
+doc_id: LMA1A-95-SPS-2025-10-28-66c1df81
+source_path: /Users/cparent/Code/shawnee-smart-systems/bosc/data/documents/plans/bistrozzi-plans/LMA1A-95-SPS-2025-10-28.odg
+kind: plan
+pages_read:
+- 0
+dpi: 0
+source_text_excerpt: 'PAD=26.91
+
+  RIM=828.75
+
+  CENTER LINE SWALE
+
+  CATCH BASIN
+
+  SIGN
+
+  WHEEL BLOCK
+
+  HANDICAP PAVEMENT SYMBOL
+
+  BOLLARD
+
+  DETECTABLE WARNING PLATE
+
+  CURB & GUTTER INLET
+
+  TRANSFORMER
+
+  STORM SEWER
+
+  UNDERGROUND ELECTRIC SERVICE
+
+  UNDERDRAIN
+
+  SANITARY SEWER MAIN
+
+  WATER MAIN
+
+  MANHOLE
+
+  CLEANOUT
+
+  FIRE HYDRANT
+
+  VALVE
+
+  HEADWALL W/ ROCK
+
+  CHANNEL PROTECTION
+
+  FIBER TRENCH
+
+  CURB
+
+  EXISTING
+
+  POST INDICATOR VALVE
+
+  PAD =28.75
+
+  15" INLINE DRAIN CONSTRUCT WATER TIGHT
+
+  RIM=828.69
+
+  DRAWN:
+
+  APPRV''D:
+
+  SHEET NUMBER:
+
+  PHASE: 95% SPS DESIGN
+
+  REVISIONS
+
+  DATE
+
+  DESCRIPTION
+
+  PAPER SIZE: E (36"X48")
+
+  LMA1A
+
+  PROJ. NO. US0047417.9689
+
+  AMERICAN INDUSTRIAL PARK SITE
+
+  LIMA, OH 45801'
+plan:
+  confidence: high
+  warnings:
+  - OCR digit reliability is noted as low — rim and pad elevations (e.g. RIM=828.75,
+    PAD=28.75) have been transcribed as-is but should be field-verified against the
+    drawing.
+  - Sheet drawn/approved initials were not legible in OCR; left blank.
+  project_name: American Industrial Park Site
+  sheet_id: 1A-C-3104
+  discipline: Grading & Storm Plan
+  phase: 95% SPS Design
+  scale: 1" = 30'
+  project_no: US0047417.9689
+  site_address: Lima, OH 45801
+  date: '2025-10-28'
+  status: Not For Construction
+  prepared_by:
+  - name: EMH&T
+    discipline: Civil
+    location: 5500 New Albany Road, Columbus, OH 43054
+  - name: CI Design, Inc
+    discipline: Architecture
+    location: 250 Summer Street, Boston, MA 02210
+  - name: WSP USA Buildings Inc.
+    discipline: MEP / Structure
+    location: 433 River Street, 7th floor, Troy, NY 12180
+  key_features:
+  - Grading & storm drainage plan
+  - Storm sewer system
+  - Sanitary sewer main
+  - Water main (domestic and fire water service)
+  - Fiber duct bank / fiber trench
+  - Underground electric service / electric trench / overhead electric
+  - Underdrain
+  - Transformer
+  - Catch basin / curb & gutter inlet / inlet manhole
+  - Headwall with rock channel protection
+  - Proposed security fence (permanent and temporary)
+  - Anti-ram barrier
+  - MYD structural foundation pad
+  - Containment area
+  - Major flood routing / drainage flow direction
+  - Rock check dam
+  - Post indicator valve / fire hydrant
+  - Fire department connection
+  - Overall limits of disturbance
+  - SSS and GPS buildings on piers (elevated above surrounding grade)
+  note: null
+  summary: This sheet (1A-C-3104) is a Grading & Storm Plan for the American Industrial
+    Park Site in Lima, OH, prepared at 95% SPS Design and marked Not For Construction.
+    It depicts proposed grading, storm sewer infrastructure, sanitary and water mains,
+    fiber duct bank, electric services, security fencing with anti-ram barriers, and
+    containment areas. The site includes elevated SSS and GPS buildings on structural
+    piers, with finished floor/top-of-pad elevations referenced at 828.75 (NAVD88
+    + 800 offset).

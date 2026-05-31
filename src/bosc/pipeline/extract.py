@@ -24,7 +24,7 @@ from typing import TYPE_CHECKING
 
 from bosc import profiles
 from bosc.config import Settings, get_settings
-from bosc.documents import DEFAULT_DPI, PdfDocument
+from bosc.documents import DEFAULT_DPI, PdfDocument, read_odg
 from bosc.logging import get_logger
 from bosc.models import (
     BusinessFiling,
@@ -38,6 +38,8 @@ from bosc.models import (
     NpdesPermit,
     OPCSummary,
     PageExtraction,
+    PlanExtraction,
+    SitePlan,
     SosExtraction,
 )
 from bosc.pipeline.ingest import SourceDocument
@@ -439,6 +441,71 @@ def extract_sos(
     return extraction
 
 
+PLAN_INSTRUCTIONS = """\
+You are reading one sheet of a civil/site engineering plan set (an OpenDocument
+Drawing). You are given (1) a low-resolution preview image for spatial context and
+(2) the sheet's actual text labels — the titleblock, legend, and on-drawing call-
+outs — which are AUTHORITATIVE (the preview is too small to read). Use the labels
+as the source of truth. Record into the tool:
+  * project_name; site_address; project_no.
+  * sheet_id (e.g. a sheet number or drawing id); discipline (what the sheet
+    depicts, e.g. "Grading & Storm Plan"); phase (e.g. "95% SPS Design");
+    scale; status (e.g. "Not For Construction"); date if shown.
+  * prepared_by: each design firm on the titleblock with its discipline
+    (Civil / Architecture / MEP/Structure / Survey) and location if shown.
+  * key_features: notable site/utility features from the LEGEND or callouts that
+    say what the site contains — e.g. substation, transformer, electric easement,
+    security fence, fiber duct bank, storm/sanitary/water mains, detention,
+    building pads. Prefer distinctive features over generic ones.
+  * summary: 1-3 sentences describing what this sheet shows and what the site is.
+Rules: copy names exactly from the labels; do not invent firms or features not in
+the labels; set confidence and add warnings where the labels are ambiguous.
+"""
+
+
+def extract_plan(
+    doc: SourceDocument,
+    *,
+    extractor: StructuredExtractor | None = None,
+    odg: object | None = None,
+    settings: Settings | None = None,
+    max_labels: int = 140,
+) -> PlanExtraction:
+    """Extract a site-plan sheet from an ``.odg`` (text labels lead, thumbnail hints)."""
+    from bosc.agent.extractor import StructuredExtractor
+    from bosc.documents import OdgContent
+
+    settings = settings or get_settings()
+    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
+    content = odg if isinstance(odg, OdgContent) else read_odg(doc.path, max_labels=max_labels)
+
+    log.info("extract.doc.start", doc_id=doc.doc_id, kind="plan", labels=len(content.labels))
+    images = [content.thumbnail_png] if content.thumbnail_png else []
+    plan = extractor.extract(
+        SitePlan, instructions=PLAN_INSTRUCTIONS, images=images, context_text=content.label_text()
+    )
+    extraction = PlanExtraction(
+        doc_id=doc.doc_id,
+        source_path=str(doc.path),
+        kind="plan",
+        pages_read=[0],
+        dpi=0,
+        plan=plan,
+        source_text_excerpt=content.label_text()[:600],
+    )
+    log.info(
+        "extract.doc.done",
+        doc_id=doc.doc_id,
+        kind="plan",
+        project=plan.project_name,
+        discipline=plan.discipline,
+        firms=len(plan.prepared_by),
+        confidence=plan.confidence,
+        warnings=len(plan.warnings),
+    )
+    return extraction
+
+
 def extract_epa(
     doc: SourceDocument,
     *,
@@ -488,6 +555,7 @@ DOC_EXTRACTORS: dict[str, DocumentExtractor] = {
     "npdes": extract_npdes,
     "sos": extract_sos,
     "epa": extract_epa,
+    "plan": extract_plan,
 }
 
 
