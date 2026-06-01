@@ -37,8 +37,15 @@ streams:
       mixing_pct_avg: 25
       note: "summer/winter 7Q10 reported as 0 cfs — intermittent at low flow"
 
-# Ottawa River (Shawnee II WWTP, NPDES 2PK00002, RM 32.5): the 2023 modification
-# fact sheet does not state a receiving-stream 7Q10 table, so no value is recorded
-# here. The Ottawa mainstem 7Q10 is far larger than the tributary values above and
-# is not the binding constraint; record it when a citation is in hand (e.g. the Lima
-# Refining 2IG00001 CONSWLA study).
+  ottawa river:
+    seven_q10_cfs: 0.2
+    source: document
+    citation: "Ohio EPA NPDES fact sheet 2IG00001 (Lima Refining Co.), Stream Flows table — Ottawa River at Lima, USGS gage 04187100, 1989-2021"
+    confidence: high
+    context:
+      one_q10_cfs: 0.0
+      thirty_q10_summer_cfs: 1.6
+      ninety_q10_cfs: 4.6
+      harmonic_mean_cfs: 4.8
+      mixing_pct_avg: 25
+      note: "Ottawa mainstem at Lima nearly dries at design low flow (1Q10 = 0 cfs) — heavily abstracted upstream for Lima's water supply"

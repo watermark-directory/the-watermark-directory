@@ -8,9 +8,17 @@ against its receiving water's cited low flow.
 from __future__ import annotations
 
 from bosc.config import Settings, get_settings
+from bosc.hydrology import scenario as scenario_stage
 from bosc.hydrology.assimilative import assimilative_findings, check_assimilative
 from bosc.hydrology.balance import build_water_balance
-from bosc.hydrology.model import AssimilativeCheck, HydroFinding, StormRunoff, WaterBalance
+from bosc.hydrology.model import (
+    AssimilativeCheck,
+    HydroFinding,
+    ScenarioDiff,
+    ScenarioResult,
+    StormRunoff,
+    WaterBalance,
+)
 from bosc.hydrology.stormwater import run_storm_scenario
 from bosc.logging import get_logger
 
@@ -53,3 +61,33 @@ def run_storm(
     """
     settings = settings or get_settings()
     return run_storm_scenario(return_period_yr=return_period_yr, settings=settings, live=live)
+
+
+def run_scenarios(
+    *,
+    cooling_demand_mgd: float = 5.0,
+    consumptive_fraction: float = 0.8,
+    settings: Settings | None = None,
+    live: bool = True,
+) -> tuple[ScenarioResult, ScenarioResult, ScenarioDiff]:
+    """Evaluate baseline vs data-center buildout; return both results and their diff.
+
+    The buildout's cooling consumptive draw is compared against the cited Ottawa
+    7Q10 — the scale that shows how a data center stresses an already low-flow river.
+    """
+    settings = settings or get_settings()
+    base = scenario_stage.evaluate(scenario_stage.baseline_scenario(), settings=settings, live=live)
+    build = scenario_stage.evaluate(
+        scenario_stage.buildout_scenario(
+            cooling_demand_mgd=cooling_demand_mgd, consumptive_fraction=consumptive_fraction
+        ),
+        settings=settings,
+        live=live,
+    )
+    delta = scenario_stage.diff(base, build)
+    log.info(
+        "hydro.scenarios",
+        consumptive_increase_cfs=delta.consumptive_increase_cfs,
+        multiple_of_7q10=delta.multiple_of_7q10,
+    )
+    return base, build, delta

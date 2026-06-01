@@ -1,0 +1,203 @@
+scenario:
+  name: buildout
+  description: Data-center campus with evaporative cooling drawing on Lima's supply.
+  cooling_demand:
+    value: 5.0
+    unit: MGD
+    source: assumption
+    citation: campus cooling intake — design basis TBD; scenario knob
+    confidence: low
+    asof: null
+  consumptive_fraction:
+    value: 0.8
+    unit: fraction
+    source: assumption
+    citation: evaporative cooling consumptive fraction — typical high for wet cooling;
+      scenario knob
+    confidence: low
+    asof: null
+consumptive_loss:
+  value: 6.188
+  unit: cfs
+  source: derived
+  citation: 5 MGD x 0.8 consumptive (scenario buildout)
+  confidence: medium
+  asof: null
+ottawa_7q10:
+  value: 0.2
+  unit: cfs
+  source: document
+  citation: Ohio EPA NPDES fact sheet 2IG00001 (Lima Refining Co.), Stream Flows table
+    — Ottawa River at Lima, USGS gage 04187100, 1989-2021
+  confidence: high
+  asof: null
+ottawa_live:
+  value: 36.3
+  unit: cfs
+  source: connector
+  citation: NWIS 04187100 (Ottawa River at Lima OH)
+  confidence: high
+  asof: '2026-05-31T12:30:00.000-04:00'
+balance:
+  nodes:
+  - node:
+      id: watch-shawnee-ii-wwtp
+      name: Shawnee II WWTP
+      role: wwtp
+      receiving_water: Ottawa River
+      lat: 40.72395922505484
+      lon: -84.17678258792004
+    inflow: null
+    consumptive_use: null
+    return_flow:
+      value: 4.641
+      unit: cfs
+      source: document
+      citation: watch-shawnee-ii-wwtp (3.0 MGD design)
+      confidence: high
+      asof: null
+    stormwater: null
+  - node:
+      id: watch-american-bath-wwtp
+      name: American Bath WWTP
+      role: wwtp
+      receiving_water: Pike Run
+      lat: 40.78378863837917
+      lon: -84.12596578860479
+    inflow: null
+    consumptive_use: null
+    return_flow:
+      value: 2.3205
+      unit: cfs
+      source: document
+      citation: watch-american-bath-wwtp (1.5 MGD design)
+      confidence: high
+      asof: null
+    stormwater: null
+  - node:
+      id: watch-american-ii-wwtp
+      name: American II WWTP
+      role: wwtp
+      receiving_water: Dug Run
+      lat: 40.799167395353685
+      lon: -84.203546178383
+    inflow: null
+    consumptive_use: null
+    return_flow:
+      value: 1.8563999999999998
+      unit: cfs
+      source: document
+      citation: watch-american-ii-wwtp (1.2 MGD design)
+      confidence: high
+      asof: null
+    stormwater: null
+  - node:
+      id: bosc-campus
+      name: BOSC data-center campus
+      role: demand
+      receiving_water: null
+      lat: null
+      lon: null
+    inflow: null
+    consumptive_use:
+      value: 6.188
+      unit: cfs
+      source: derived
+      citation: 5 MGD x 0.8 consumptive (scenario buildout)
+      confidence: medium
+      asof: null
+    return_flow:
+      value: 3.8674999999999997
+      unit: cfs
+      source: document
+      citation: bosc-fm2 (2.5 MGD industrial discharge to Lima)
+      confidence: high
+      asof: null
+    stormwater: null
+  - node:
+      id: lima-wtp
+      name: Lima WTP intake (Ottawa/Auglaize)
+      role: abstraction
+      receiving_water: Ottawa River
+      lat: null
+      lon: null
+    inflow:
+      value: 36.3
+      unit: cfs
+      source: connector
+      citation: NWIS 04187100 (Ottawa River at Lima OH)
+      confidence: high
+      asof: '2026-05-31T12:30:00.000-04:00'
+    consumptive_use: null
+    return_flow: null
+    stormwater: null
+  tier: tier0
+  warnings:
+  - 'Shawnee II WWTP: summary states a flow expansion; used the first value (3.0 MGD).'
+  - BOSC campus consumptive cooling demand is an unsourced assumption (0 cfs placeholder).
+  - Lima WTP withdrawal rate is not documented; abstraction shown as river-flow context
+    only.
+assimilative:
+- receiving_water: Ottawa River
+  discharger: Shawnee II WWTP
+  design_low_flow:
+    value: 0.2
+    unit: cfs
+    source: document
+    citation: Ohio EPA NPDES fact sheet 2IG00001 (Lima Refining Co.), Stream Flows
+      table — Ottawa River at Lima, USGS gage 04187100, 1989-2021
+    confidence: high
+    asof: null
+  discharge:
+    value: 4.641
+    unit: cfs
+    source: document
+    citation: watch-shawnee-ii-wwtp (3.0 MGD design)
+    confidence: high
+    asof: null
+  upstream_returns: null
+  dilution_ratio: 0.043094160741219564
+  flag: violation
+  detail: Ottawa River 7Q10 0.20 cfs vs discharge 4.64 cfs -> 0.04:1 dilution (violation)
+- receiving_water: Pike Run
+  discharger: American Bath WWTP
+  design_low_flow:
+    value: 0.03
+    unit: cfs
+    source: document
+    citation: Ohio EPA NPDES fact sheet 2PH00007 (American Bath WWTP), Stream Flows
+      table — USGS Gauge 04186500 adjusted for drainage area
+    confidence: high
+    asof: null
+  discharge:
+    value: 2.3205
+    unit: cfs
+    source: document
+    citation: watch-american-bath-wwtp (1.5 MGD design)
+    confidence: high
+    asof: null
+  upstream_returns: null
+  dilution_ratio: 0.012928248222365869
+  flag: violation
+  detail: Pike Run 7Q10 0.03 cfs vs discharge 2.32 cfs -> 0.01:1 dilution (violation)
+- receiving_water: Dug Run
+  discharger: American II WWTP
+  design_low_flow:
+    value: 0.78
+    unit: cfs
+    source: document
+    citation: Ohio EPA NPDES fact sheet 2PH00006 (American II WWTP), Stream Flows
+      table — USGS Station 04187500
+    confidence: high
+    asof: null
+  discharge:
+    value: 1.8563999999999998
+    unit: cfs
+    source: document
+    citation: watch-american-ii-wwtp (1.2 MGD design)
+    confidence: high
+    asof: null
+  upstream_returns: null
+  dilution_ratio: 0.4201680672268908
+  flag: violation
+  detail: Dug Run 7Q10 0.78 cfs vs discharge 1.86 cfs -> 0.42:1 dilution (violation)

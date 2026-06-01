@@ -225,6 +225,83 @@ def storm(
 
 
 @app.command()
+def scenario(
+    cooling_demand: float = typer.Option(
+        5.0, "--cooling-demand", help="Campus cooling intake (MGD)."
+    ),
+    consumptive_fraction: float = typer.Option(
+        0.8, "--consumptive-fraction", help="Fraction of cooling intake evaporated (0..1)."
+    ),
+    write: bool = typer.Option(False, "--write", help="Persist results under data/scenarios/."),
+    offline: bool = typer.Option(False, "--offline", help="Use cached/fixture streamflow only."),
+) -> None:
+    """Baseline vs data-center buildout: net consumptive draw vs the Ottawa 7Q10."""
+    from bosc.config import Settings
+    from bosc.hydrology import scenario as scenario_stage
+    from bosc.pipeline import hydrology as hydro_stage
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+    base, build, delta = hydro_stage.run_scenarios(
+        cooling_demand_mgd=cooling_demand,
+        consumptive_fraction=consumptive_fraction,
+        settings=settings,
+        live=True,
+    )
+
+    table = Table("scenario", "cooling intake", "consumptive frac", "net basin loss (cfs)")
+    for r in (base, build):
+        table.add_row(
+            r.scenario.name,
+            f"{r.scenario.cooling_demand.value:g} MGD",
+            f"{r.scenario.consumptive_fraction.value:g}",
+            f"{r.consumptive_loss.value:,.2f}",
+        )
+    console.print(table)
+
+    q7 = delta.ottawa_7q10_cfs
+    live_flow = build.ottawa_live.value if build.ottawa_live else None
+    console.print(
+        f"\n[bold red]Buildout adds {delta.consumptive_increase_cfs:,.2f} cfs[/] of net "
+        f"consumptive draw on the Ottawa/Auglaize supply."
+    )
+    if delta.multiple_of_7q10 is not None:
+        console.print(
+            f"That is [bold]{delta.multiple_of_7q10:g}x[/] the Ottawa River's cited 7Q10 "
+            f"low flow ({q7:g} cfs)"
+            + (f"; live flow now {live_flow:,.0f} cfs." if live_flow else ".")
+        )
+    console.print(
+        "\n[dim]Cooling intake and consumptive fraction are scenario assumptions; the Ottawa "
+        "7Q10 is document-cited (Ohio EPA 2IG00001). Tier-0 screening.[/]"
+    )
+    if write:
+        for r in (base, build):
+            path = scenario_stage.write_scenario(r, settings=settings)
+            console.print(f"[green]Wrote[/] {path}")
+
+
+@app.command(name="hydro-report")
+def hydro_report(
+    write: bool = typer.Option(False, "--write", help="Write docs/HYDROLOGY.md."),
+    live: bool = typer.Option(
+        False, "--live", help="Use live connectors (default: offline/deterministic)."
+    ),
+) -> None:
+    """Render (or write) the evidence-tagged hydrology dossier section."""
+    from bosc.config import Settings
+    from bosc.hydrology import report
+
+    settings = get_settings() if live else Settings(hydro_offline=True)
+    if write:
+        path = report.write_report(settings=settings, live=live)
+        console.print(f"[green]Wrote[/] {path}")
+    else:
+        console.print(report.render_report(settings=settings, live=live), markup=False)
+
+
+@app.command()
 def ask(
     question: str,
     no_tools: bool = typer.Option(

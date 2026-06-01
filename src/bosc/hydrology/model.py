@@ -258,6 +258,47 @@ class StormRunoff(BaseModel):
         return self.post.volume_acft - self.pre.volume_acft
 
 
+class Scenario(BaseModel):
+    """A what-if over the municipal loop, parameterized by the cooling knob.
+
+    The data-center campus draws cooling water from the same Ottawa/Auglaize supply
+    the WWTPs discharge to; the evaporated (consumptive) fraction is a net loss to
+    the basin. Both knobs are assumptions — this is a sensitivity, not a forecast.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: str
+    description: str = ""
+    cooling_demand: ProvenancedValue  # campus cooling intake (MGD)
+    consumptive_fraction: ProvenancedValue  # fraction evaporated (0..1)
+
+
+class ScenarioResult(BaseModel):
+    """A scenario evaluated against the water balance + cited low flows."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    scenario: Scenario
+    consumptive_loss: ProvenancedValue  # net basin loss (cfs), derived from the knobs
+    ottawa_7q10: ProvenancedValue | None = None  # cited Ottawa mainstem low flow
+    ottawa_live: ProvenancedValue | None = None  # live Ottawa streamflow, for context
+    balance: WaterBalance
+    assimilative: list[AssimilativeCheck]
+
+
+class ScenarioDiff(BaseModel):
+    """Baseline vs buildout: the net new consumptive draw and its low-flow scale."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    baseline: str
+    scenario: str
+    consumptive_increase_cfs: float
+    ottawa_7q10_cfs: float | None = None
+    multiple_of_7q10: float | None = None
+
+
 @dataclass(frozen=True)
 class HydroFinding:
     """One hydrology observation. Mirrors :class:`bosc.pipeline.analyze.Finding`."""

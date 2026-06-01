@@ -227,6 +227,36 @@ async def stormwater_runoff(_args: dict[str, Any]) -> dict[str, Any]:
 
 
 @tool(
+    "hydrology_scenario",
+    "Baseline vs data-center-buildout scenario: the campus cooling consumptive draw "
+    "(an assumption knob) compared against the cited Ottawa River 7Q10 low flow. Shows "
+    "how a data center stresses an already low-flow river.",
+    {},
+)
+async def hydrology_scenario(_args: dict[str, Any]) -> dict[str, Any]:
+    from bosc.pipeline import hydrology as hydro_stage
+
+    base, build, delta = hydro_stage.run_scenarios()
+    lines = [
+        f"baseline: consumptive draw {base.consumptive_loss.value:.2f} cfs",
+        f"buildout: cooling {build.scenario.cooling_demand.value:g} MGD x "
+        f"{build.scenario.consumptive_fraction.value:g} consumptive "
+        f"-> {build.consumptive_loss.value:.2f} cfs net basin loss",
+        f"net new consumptive draw: {delta.consumptive_increase_cfs:.2f} cfs",
+    ]
+    if delta.multiple_of_7q10 is not None:
+        lines.append(
+            f"= {delta.multiple_of_7q10:g}x the Ottawa River 7Q10 ({delta.ottawa_7q10_cfs:g} cfs, cited)"
+        )
+    if build.ottawa_live is not None:
+        lines.append(f"Ottawa live flow: {build.ottawa_live.value:.0f} cfs")
+    lines.append(
+        "\n(Cooling knobs are assumptions; Ottawa 7Q10 is document-cited. Tier-0 screening.)"
+    )
+    return _text("\n".join(lines))
+
+
+@tool(
     "reconcile_estimate",
     "Reconcile a generated estimate extraction (*.opc.yaml): line items -> section "
     "subtotals -> construction subtotal + markups -> total.",
@@ -261,6 +291,7 @@ ALL_TOOLS = [
     entities,
     hydrology_balance,
     stormwater_runoff,
+    hydrology_scenario,
 ]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]
 

@@ -211,9 +211,19 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
    the 7Q10 dilution"; the `stormwater` node seam stays inert until a wet-weather scenario
    couples event runoff into the balance. Live **SSURGO** HSG deferred (endpoint 404 at
    build; HSG is the cited assumption above).
-10. **Scenario diffing.** `[open]` — Increment 3. Baseline vs data-center-buildout (the
-   one-knob cooling consumptive-fraction lever, currently a cited 0-cfs assumption) →
-   committed `data/scenarios/*.yaml`; dossier integration.
+10. **Scenario diffing + dossier.** `[done]` — Increment 3. `bosc scenario` (+ agent
+   `hydrology_scenario` tool) evaluates **baseline vs data-center buildout** on the
+   cooling consumptive-fraction knob (`bosc.hydrology.scenario`): the campus draws
+   cooling water from the same Ottawa/Auglaize supply the WWTPs discharge to, and the
+   evaporated fraction is a net basin loss. Results persist to committed, self-auditing
+   `data/scenarios/{baseline,buildout}.scenario.yaml`. The new grounding that makes it
+   land: the **Ottawa mainstem 7Q10 is now cited at 0.2 cfs** (Lima Refining fact sheet
+   2IG00001, USGS 04187100; 1Q10 = 0 cfs — the river nearly dries at design low flow,
+   heavily abstracted upstream for Lima's own supply), which also un-skips Shawnee II →
+   Ottawa in the assimilative screen (now a violation, 0.04:1). Headline: a 5 MGD cooling
+   intake at 0.8 consumptive = **6.19 cfs net basin loss = ~31× the Ottawa's entire
+   7Q10**. `bosc hydro-report` renders the whole Tier-0 story as the evidence-tagged
+   [`HYDROLOGY.md`](HYDROLOGY.md) dossier (regenerable).
 
 ---
 

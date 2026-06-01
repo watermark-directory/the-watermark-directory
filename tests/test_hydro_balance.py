@@ -40,9 +40,14 @@ def test_baseline_flags_tributary_violations(hydro_settings: Settings) -> None:
     assert dug.discharge.value == pytest.approx(1.857, abs=0.01)  # 1.2 MGD
     assert dug.dilution_ratio < 1.0 and dug.flag == "violation"
 
-    # Both tributary plants discharge more than their stream's entire 7Q10.
+    # All three plants discharge more than their stream's entire 7Q10 (incl. the
+    # Ottawa mainstem, whose 7Q10 is now cited from the Lima Refining fact sheet).
     violations = [f for f in findings if not f.ok]
-    assert {f.subject.split(" -> ")[1] for f in violations} == {"Dug Run", "Pike Run"}
+    assert {f.subject.split(" -> ")[1] for f in violations} == {
+        "Dug Run",
+        "Pike Run",
+        "Ottawa River",
+    }
 
 
 def test_provenance_invariant(hydro_settings: Settings) -> None:
@@ -57,8 +62,11 @@ def test_provenance_invariant(hydro_settings: Settings) -> None:
 
 
 def test_check_skips_uncited_receiving_water(hydro_settings: Settings) -> None:
-    # Shawnee II -> Ottawa River has no cited 7Q10, so it is skipped (not invented).
+    # A receiving water with no cited 7Q10 is skipped, not invented. (All three real
+    # streams are now cited, so inject a plant whose receiving water is uncited.)
     balance = build_water_balance(settings=hydro_settings, live=False)
-    checks = check_assimilative(balance, lowflow.load_low_flows(settings=hydro_settings))
+    flows = dict(lowflow.load_low_flows(settings=hydro_settings))
+    flows.pop("ottawa river", None)  # drop the Ottawa citation for this check
+    checks = check_assimilative(balance, flows)
     assert "Ottawa River" not in {c.receiving_water for c in checks}
     assert assimilative_findings(checks)  # the tributary checks still produced findings
