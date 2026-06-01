@@ -322,6 +322,43 @@ class ScenarioDiff(BaseModel):
     multiple_of_7q10: float | None = None
 
 
+class DetentionDesign(BaseModel):
+    """Tier-1 (SWMM) detention sizing: the basin that holds post-dev peak to pre-dev."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    pre_peak_cfs: float
+    post_peak_cfs: float  # undetained post-development
+    controlled_peak_cfs: float  # released through the sized orifice
+    orifice_diam_ft: float
+    required_storage_acft: float
+    basin_area_acres: float
+    tier: Literal["tier1-swmm"] = "tier1-swmm"
+
+
+class SanitarySurcharge(BaseModel):
+    """Wet-weather peak flow at a WWTP vs its documented peak hydraulic capacity."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    plant: str
+    capacity: ProvenancedValue  # MGD, document-cited peak hydraulic capacity
+    wet_weather_peak: ProvenancedValue  # MGD, SWMM-derived (base + RDII)
+    exceeds: bool
+    margin_mgd: float
+
+
+class Tier1Result(BaseModel):
+    """The Tier-1 SWMM escalation: detention sizing + sanitary surcharge."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    available: bool
+    detention: DetentionDesign | None = None
+    surcharge: list[SanitarySurcharge] = []
+    note: str = ""
+
+
 @dataclass(frozen=True)
 class HydroFinding:
     """One hydrology observation. Mirrors :class:`bosc.pipeline.analyze.Finding`."""

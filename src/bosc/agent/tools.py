@@ -257,6 +257,28 @@ async def hydrology_scenario(_args: dict[str, Any]) -> dict[str, Any]:
 
 
 @tool(
+    "tier1_swmm",
+    "Tier-1 EPA SWMM run: detention-basin sizing (the storage that holds the "
+    "post-development peak to the pre-development rate) and sanitary wet-weather "
+    "surcharge (storm-driven peak vs documented WWTP peak capacities). Needs the "
+    "SWMM engine; reports clearly if unavailable.",
+    {},
+)
+async def tier1_swmm(_args: dict[str, Any]) -> dict[str, Any]:
+    from bosc.hydrology.tier1 import run_tier1, tier1_findings
+
+    result = run_tier1()
+    if not result.available:
+        return _text(result.note)
+    lines = [str(f) for f in tier1_findings(result)]
+    lines.append(
+        "\n(Tier-1 EPA SWMM; footprint + plant capacities document-sourced, storm from NOAA; "
+        "network/hydraulic params are assumptions.)"
+    )
+    return _text("\n".join(lines))
+
+
+@tool(
     "reconcile_estimate",
     "Reconcile a generated estimate extraction (*.opc.yaml): line items -> section "
     "subtotals -> construction subtotal + markups -> total.",
@@ -292,6 +314,7 @@ ALL_TOOLS = [
     hydrology_balance,
     stormwater_runoff,
     hydrology_scenario,
+    tier1_swmm,
 ]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]
 

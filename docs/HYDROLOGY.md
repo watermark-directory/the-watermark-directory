@@ -64,6 +64,18 @@ Buildout adds **4.85 cfs** of net consumptive draw — **24.3x** the Ottawa Rive
 does not have — even the low estimate is tens of times the 7Q10.
 
 
+
+## 4. Tier-1 escalation (EPA SWMM)
+
+`bosc tier1` runs the real EPA SWMM5 engine on the footprint under the design
+storm for two questions Tier-0 only approximates: the **detention volume** that
+holds the post-development peak to the pre-development rate, and the **sanitary
+wet-weather surcharge** (dry-weather base + RDII) against each plant's documented
+peak capacity. Network/hydraulic parameters are assumptions (no as-built drainage
+geometry); the footprint, storm, and plant capacities stay document/connector-sourced.
+Engine-dependent, so its figures live in the live command, not this snapshot.
+
+
 ---
 
 _Sources: USGS NWIS (streamflow), NOAA Atlas-14 (design rainfall), Ohio EPA NPDES

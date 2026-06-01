@@ -112,6 +112,16 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
             f"(1Q10 = 0 cfs); a data center's cooling draw competes for water the river\n"
             f"does not have — even the low estimate is tens of times the 7Q10.\n"
         )
+    w("\n\n## 4. Tier-1 escalation (EPA SWMM)\n")
+    w(
+        "`bosc tier1` runs the real EPA SWMM5 engine on the footprint under the design\n"
+        "storm for two questions Tier-0 only approximates: the **detention volume** that\n"
+        "holds the post-development peak to the pre-development rate, and the **sanitary\n"
+        "wet-weather surcharge** (dry-weather base + RDII) against each plant's documented\n"
+        "peak capacity. Network/hydraulic parameters are assumptions (no as-built drainage\n"
+        "geometry); the footprint, storm, and plant capacities stay document/connector-sourced.\n"
+        "Engine-dependent, so its figures live in the live command, not this snapshot.\n"
+    )
     w("\n---\n")
     w(
         "_Sources: USGS NWIS (streamflow), NOAA Atlas-14 (design rainfall), Ohio EPA NPDES\n"

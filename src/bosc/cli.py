@@ -298,6 +298,49 @@ def scenario(
             console.print(f"[green]Wrote[/] {path}")
 
 
+@app.command(name="tier1")
+def tier1(
+    return_period: int = typer.Option(
+        25, "--return-period", help="Design storm return period (yr)."
+    ),
+    offline: bool = typer.Option(False, "--offline", help="Use cached/fixture rainfall only."),
+) -> None:
+    """Tier-1 EPA SWMM: detention sizing + sanitary wet-weather surcharge."""
+    from bosc.config import Settings
+    from bosc.hydrology.tier1 import run_tier1, tier1_findings
+
+    settings = Settings(hydro_offline=True) if offline else get_settings()
+    result = run_tier1(return_period_yr=return_period, settings=settings, live=True)
+    if not result.available:
+        console.print(f"[yellow]{result.note}[/]")
+        console.print(
+            "[dim]Install the engine: `uv add pyswmm` (and, on Apple Silicon, ad-hoc "
+            "codesign the swmm-toolkit native libs).[/]"
+        )
+        raise typer.Exit()
+
+    d = result.detention
+    if d is not None:
+        console.print(
+            f"[bold]Stormwater detention[/] (SWMM, {return_period}-yr 24-hr storm)\n"
+            f"  pre-development peak  {d.pre_peak_cfs:,.0f} cfs\n"
+            f"  post-development peak {d.post_peak_cfs:,.0f} cfs [dim](undetained)[/]\n"
+            f"  -> a [bold]{d.required_storage_acft:,.0f} ac-ft[/] basin "
+            f"({d.basin_area_acres:g} ac, {d.orifice_diam_ft:g} ft orifice) holds the release to "
+            f"{d.controlled_peak_cfs:,.0f} cfs"
+        )
+    console.print(
+        "\n[bold]Sanitary wet-weather surcharge[/] [dim](base + RDII vs peak capacity)[/]"
+    )
+    for f in tier1_findings(result):
+        if f.check == "wet-weather-surcharge":
+            console.print(f"[{'green' if f.ok else 'red'}]{f}[/]")
+    console.print(
+        "\n[dim]Tier-1 EPA SWMM. Footprint document-sourced, storm from NOAA, plant capacities "
+        "document-cited; network/hydraulic params (imperviousness, RDII, basin) are assumptions.[/]"
+    )
+
+
 @app.command(name="hydro-report")
 def hydro_report(
     write: bool = typer.Option(False, "--write", help="Write docs/HYDROLOGY.md."),

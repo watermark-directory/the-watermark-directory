@@ -234,6 +234,20 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
    (overridable via `--cooling-demand`). Headline is now sourced and robust: even the low
    estimate = **4.85 cfs net basin loss ≈ 24× the Ottawa 7Q10**; the upper bound ~77×.
    Inputs are document/assumption-tagged, demands `derived`.
+12. **Tier-1 escalation — EPA SWMM.** `[done]` — `bosc tier1` (+ agent `tier1_swmm` tool)
+   runs the real EPA SWMM5 engine (`bosc.hydrology.swmm`, via pyswmm) for two questions
+   Tier-0 only approximated. **Detention sizing:** bisect a basin's bottom-orifice
+   diameter until the released post-development peak matches the pre-development peak —
+   for the 25-yr storm, SWMM finds **post 579 vs pre 215 cfs**, held by a **~42 ac-ft**
+   basin. **Sanitary wet-weather surcharge:** dry-weather base + RDII gives a **~16.9 MGD**
+   storm peak that **exceeds both** documented plant peak capacities (American II 3.6,
+   Shawnee II 12.6 MGD) — i.e. SSO risk, tying to the 1996 consent decree. The engine is a
+   native extension that may not load (it gets `Killed: 9` under macOS hardened runtime on
+   some wheels — ad-hoc `codesign` the swmm-toolkit dylibs to clear it); everything
+   **degrades gracefully** via a subprocess availability probe (tests skip, CLI reports
+   unavailable). Footprint/storm/plant-capacities stay document/connector-sourced; the
+   network + hydraulic params (imperviousness, RDII R-T-K, basin geometry) are flagged
+   assumptions, since we lack the as-built drainage network.
 
 ---
 
