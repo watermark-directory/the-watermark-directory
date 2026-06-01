@@ -83,10 +83,20 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
         w(f"\n- {f.detail}")
 
     w("\n\n## 3. Scenario: data-center cooling vs the Ottawa's low flow\n")
-    w(
-        "The dominant uncertainty is the campus's **consumptive** cooling demand —\n"
-        "evaporated water that never returns to the basin (both knobs `[inference]`):\n"
-    )
+    basis = build.scenario.basis
+    if basis is not None:
+        w("The cooling demand is **sourced**, derived from disclosed campus data by two methods:\n")
+        w(
+            f"- top-down: IT load {_ev(basis.it_load)} x WUE {_ev(basis.wue)} → "
+            f"**{basis.consumptive_low.value:g} MGD** consumptive\n"
+            f"- bottom-up: FM-2 blowdown x {basis.cycles_of_concentration.value:g} cycles → "
+            f"**{basis.consumptive_high.value:g} MGD** consumptive (upper bound)\n"
+        )
+        w(
+            f"\nThey bracket the consumptive demand at "
+            f"**{basis.consumptive_low.value:g}-{basis.consumptive_high.value:g} MGD** "
+            f"(FM-2 is not purely cooling blowdown). The conclusion is robust to the range.\n"
+        )
     w("\n| scenario | cooling intake | consumptive fraction | net basin loss |")
     w("|---|---|---|---|")
     for r in (base, build):
@@ -100,7 +110,7 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
             f"draw — **{delta.multiple_of_7q10:g}x** the Ottawa River's cited 7Q10 "
             f"({delta.ottawa_7q10_cfs:g} cfs). At design low flow the Ottawa nearly dries "
             f"(1Q10 = 0 cfs); a data center's cooling draw competes for water the river\n"
-            f"does not have.\n"
+            f"does not have — even the low estimate is tens of times the 7Q10.\n"
         )
     w("\n---\n")
     w(

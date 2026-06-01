@@ -226,11 +226,15 @@ def storm(
 
 @app.command()
 def scenario(
-    cooling_demand: float = typer.Option(
-        5.0, "--cooling-demand", help="Campus cooling intake (MGD)."
+    cooling_demand: float | None = typer.Option(
+        None,
+        "--cooling-demand",
+        help="Override campus cooling intake (MGD). Default: sourced basis.",
     ),
-    consumptive_fraction: float = typer.Option(
-        0.8, "--consumptive-fraction", help="Fraction of cooling intake evaporated (0..1)."
+    consumptive_fraction: float | None = typer.Option(
+        None,
+        "--consumptive-fraction",
+        help="Override evaporated fraction (0..1). Default: sourced basis.",
     ),
     write: bool = typer.Option(False, "--write", help="Persist results under data/scenarios/."),
     offline: bool = typer.Option(False, "--offline", help="Use cached/fixture streamflow only."),
@@ -250,13 +254,25 @@ def scenario(
         live=True,
     )
 
-    table = Table("scenario", "cooling intake", "consumptive frac", "net basin loss (cfs)")
+    basis = build.scenario.basis
+    if basis is not None:
+        console.print(
+            f"[bold]Cooling design basis[/] (sourced): IT load {basis.it_load.value:g} MW "
+            f"[dim](doc: air permit P0138965)[/], WUE {basis.wue.value:g} L/kWh, "
+            f"CoC {basis.cycles_of_concentration.value:g}\n"
+            f"  consumptive estimate range: [bold]{basis.consumptive_low.value:g}-"
+            f"{basis.consumptive_high.value:g} MGD[/] "
+            f"[dim](powerxWUE … blowdownxcycles)[/]"
+        )
+
+    table = Table("scenario", "cooling intake", "consumptive frac", "net basin loss (cfs)", "src")
     for r in (base, build):
         table.add_row(
             r.scenario.name,
             f"{r.scenario.cooling_demand.value:g} MGD",
             f"{r.scenario.consumptive_fraction.value:g}",
             f"{r.consumptive_loss.value:,.2f}",
+            r.scenario.cooling_demand.source[:4],
         )
     console.print(table)
 
@@ -273,8 +289,8 @@ def scenario(
             + (f"; live flow now {live_flow:,.0f} cfs." if live_flow else ".")
         )
     console.print(
-        "\n[dim]Cooling intake and consumptive fraction are scenario assumptions; the Ottawa "
-        "7Q10 is document-cited (Ohio EPA 2IG00001). Tier-0 screening.[/]"
+        "\n[dim]Cooling basis derived from the air permit + FM-2 discharge (see provenance "
+        "tags); the Ottawa 7Q10 is document-cited (Ohio EPA 2IG00001). Tier-0 screening.[/]"
     )
     if write:
         for r in (base, build):

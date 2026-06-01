@@ -65,8 +65,8 @@ def run_storm(
 
 def run_scenarios(
     *,
-    cooling_demand_mgd: float = 5.0,
-    consumptive_fraction: float = 0.8,
+    cooling_demand_mgd: float | None = None,
+    consumptive_fraction: float | None = None,
     settings: Settings | None = None,
     live: bool = True,
 ) -> tuple[ScenarioResult, ScenarioResult, ScenarioDiff]:

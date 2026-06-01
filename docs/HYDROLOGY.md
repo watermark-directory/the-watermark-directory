@@ -46,17 +46,22 @@ A 25-yr 24-hr design storm (4.25 in `[inference: assumption]`) over the 340-ac f
 
 ## 3. Scenario: data-center cooling vs the Ottawa's low flow
 
-The dominant uncertainty is the campus's **consumptive** cooling demand —
-evaporated water that never returns to the basin (both knobs `[inference]`):
+The cooling demand is **sourced**, derived from disclosed campus data by two methods:
+
+- top-down: IT load 275.00 MW `[verified: document]` x WUE 1.80 L/kWh `[inference: assumption]` → **3.14 MGD** consumptive
+- bottom-up: FM-2 blowdown x 5 cycles → **10 MGD** consumptive (upper bound)
+
+
+They bracket the consumptive demand at **3.14-10 MGD** (FM-2 is not purely cooling blowdown). The conclusion is robust to the range.
 
 
 | scenario | cooling intake | consumptive fraction | net basin loss |
 |---|---|---|---|
 | baseline | 0 MGD | 0 | 0.00 cfs `[inference: derived]` |
-| buildout | 5 MGD | 0.8 | 6.19 cfs `[inference: derived]` |
+| buildout | 3.92 MGD | 0.8 | 4.85 cfs `[inference: derived]` |
 
-Buildout adds **6.19 cfs** of net consumptive draw — **30.9x** the Ottawa River's cited 7Q10 (0.2 cfs). At design low flow the Ottawa nearly dries (1Q10 = 0 cfs); a data center's cooling draw competes for water the river
-does not have.
+Buildout adds **4.85 cfs** of net consumptive draw — **24.3x** the Ottawa River's cited 7Q10 (0.2 cfs). At design low flow the Ottawa nearly dries (1Q10 = 0 cfs); a data center's cooling draw competes for water the river
+does not have — even the low estimate is tens of times the 7Q10.
 
 
 ---

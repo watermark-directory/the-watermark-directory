@@ -258,12 +258,34 @@ class StormRunoff(BaseModel):
         return self.post.volume_acft - self.pre.volume_acft
 
 
+class CoolingBasis(BaseModel):
+    """A sourced cooling-water design basis, derived from disclosed campus data.
+
+    Two independent estimates bracket the demand: a top-down power x WUE balance
+    (disclosed backup generation -> IT load -> evaporative makeup) and a bottom-up
+    blowdown x cycles-of-concentration check (documented FM-2 discharge). The
+    inputs are document/assumption-tagged; the demands are ``derived``.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    it_load: ProvenancedValue  # MW (from the air-permit genset count)
+    wue: ProvenancedValue  # L/kWh, consumptive water per IT energy
+    cycles_of_concentration: ProvenancedValue  # cooling-tower CoC
+    consumptive_fraction: ProvenancedValue  # (CoC-1)/CoC, derived
+    makeup_demand: ProvenancedValue  # MGD, the cooling intake (power-based central)
+    consumptive_low: ProvenancedValue  # MGD, power x WUE
+    consumptive_high: ProvenancedValue  # MGD, full-blowdown x cycles upper bound
+    method: str = "power x WUE (central); blowdown x cycles (upper bound)"
+
+
 class Scenario(BaseModel):
     """A what-if over the municipal loop, parameterized by the cooling knob.
 
     The data-center campus draws cooling water from the same Ottawa/Auglaize supply
     the WWTPs discharge to; the evaporated (consumptive) fraction is a net loss to
-    the basin. Both knobs are assumptions — this is a sensitivity, not a forecast.
+    the basin. The knobs default to the sourced :class:`CoolingBasis` but remain
+    overridable — this is a sensitivity, not a forecast.
     """
 
     model_config = ConfigDict(extra="forbid")
@@ -272,6 +294,7 @@ class Scenario(BaseModel):
     description: str = ""
     cooling_demand: ProvenancedValue  # campus cooling intake (MGD)
     consumptive_fraction: ProvenancedValue  # fraction evaporated (0..1)
+    basis: CoolingBasis | None = None  # the sourced derivation, when used
 
 
 class ScenarioResult(BaseModel):

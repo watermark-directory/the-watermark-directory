@@ -60,7 +60,9 @@ def test_write_scenario_is_self_auditing(hydro_settings: Settings, tmp_path: Pat
     # Every persisted figure keeps its provenance tag.
     assert data["consumptive_loss"]["source"] == "derived"
     assert data["ottawa_7q10"]["source"] == "document"
-    assert data["scenario"]["cooling_demand"]["source"] == "assumption"
+    # The default cooling demand is now the sourced basis (derived), not a bare guess.
+    assert data["scenario"]["cooling_demand"]["source"] == "derived"
+    assert data["scenario"]["basis"]["it_load"]["source"] == "document"
 
 
 def test_report_renders_all_sections(hydro_settings: Settings) -> None:
@@ -69,5 +71,6 @@ def test_report_renders_all_sections(hydro_settings: Settings) -> None:
     assert "Low-flow assimilative screen" in md
     assert "Stormwater" in md
     assert "data-center cooling" in md
-    assert "30.9" in md  # the scenario headline multiple
+    assert "24.3" in md  # the sourced-basis headline multiple (power x WUE central)
+    assert "sourced" in md  # the cooling basis derivation is shown
     assert "[verified" in md and "[inference" in md  # provenance legend in use

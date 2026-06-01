@@ -2,25 +2,78 @@ scenario:
   name: buildout
   description: Data-center campus with evaporative cooling drawing on Lima's supply.
   cooling_demand:
-    value: 5.0
+    value: 3.92
     unit: MGD
-    source: assumption
-    citation: campus cooling intake — design basis TBD; scenario knob
-    confidence: low
+    source: derived
+    citation: 275 MW x 1.8 L/kWh / evap fraction
+    confidence: medium
     asof: null
   consumptive_fraction:
     value: 0.8
     unit: fraction
-    source: assumption
-    citation: evaporative cooling consumptive fraction — typical high for wet cooling;
-      scenario knob
-    confidence: low
+    source: derived
+    citation: (CoC-1)/CoC at CoC=5
+    confidence: medium
     asof: null
+  basis:
+    it_load:
+      value: 275.0
+      unit: MW
+      source: document
+      citation: 'OEPA Air PTI P0138965 (Facility 0302022054): 114 gensets x 2.75 ekW
+        = ~313 MW backup; IT ~250-300 MW (N+1)'
+      confidence: high
+      asof: null
+    wue:
+      value: 1.8
+      unit: L/kWh
+      source: assumption
+      citation: evaporative-cooled hyperscale WUE ~1.8 L/kWh (Google fleet avg ~1.1;
+        36 cooling towers on the air permit)
+      confidence: low
+      asof: null
+    cycles_of_concentration:
+      value: 5.0
+      unit: ratio
+      source: assumption
+      citation: cooling-tower cycles of concentration ~5 (typical 4-6)
+      confidence: low
+      asof: null
+    consumptive_fraction:
+      value: 0.8
+      unit: fraction
+      source: derived
+      citation: (CoC-1)/CoC at CoC=5
+      confidence: medium
+      asof: null
+    makeup_demand:
+      value: 3.92
+      unit: MGD
+      source: derived
+      citation: 275 MW x 1.8 L/kWh / evap fraction
+      confidence: medium
+      asof: null
+    consumptive_low:
+      value: 3.14
+      unit: MGD
+      source: derived
+      citation: 275 MW x 1.8 L/kWh (power x WUE)
+      confidence: medium
+      asof: null
+    consumptive_high:
+      value: 10.0
+      unit: MGD
+      source: derived
+      citation: 2.5 MGD blowdown x (CoC-1); bosc-fm2 2.5 MGD industrial discharge
+        (CMAR RFQ §A.6), taken as cooling blowdown upper bound
+      confidence: medium
+      asof: null
+    method: power x WUE (central); blowdown x cycles (upper bound)
 consumptive_loss:
-  value: 6.188
+  value: 4.851392
   unit: cfs
   source: derived
-  citation: 5 MGD x 0.8 consumptive (scenario buildout)
+  citation: 3.92 MGD x 0.8 consumptive (scenario buildout)
   confidence: medium
   asof: null
 ottawa_7q10:
@@ -100,10 +153,10 @@ balance:
       lon: null
     inflow: null
     consumptive_use:
-      value: 6.188
+      value: 4.851392
       unit: cfs
       source: derived
-      citation: 5 MGD x 0.8 consumptive (scenario buildout)
+      citation: 3.92 MGD x 0.8 consumptive (scenario buildout)
       confidence: medium
       asof: null
     return_flow:

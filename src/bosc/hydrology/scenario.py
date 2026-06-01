@@ -21,8 +21,10 @@ from bosc.config import Settings, get_settings
 from bosc.hydrology.assimilative import check_assimilative
 from bosc.hydrology.balance import _OTTAWA_AT_LIMA, build_water_balance
 from bosc.hydrology.connectors.nwis import DISCHARGE_CFS, fetch_streamflow
+from bosc.hydrology.cooling import derive_cooling_basis
 from bosc.hydrology.lowflow import low_flow_for
 from bosc.hydrology.model import (
+    CoolingBasis,
     ProvenancedValue,
     Scenario,
     ScenarioDiff,
@@ -46,23 +48,35 @@ def baseline_scenario() -> Scenario:
 
 def buildout_scenario(
     *,
-    cooling_demand_mgd: float = 5.0,
-    consumptive_fraction: float = 0.8,
+    cooling_demand_mgd: float | None = None,
+    consumptive_fraction: float | None = None,
+    basis: CoolingBasis | None = None,
 ) -> Scenario:
-    """Data-center buildout with an evaporative-cooling consumptive draw (assumptions)."""
+    """Data-center buildout with an evaporative-cooling consumptive draw.
+
+    Defaults to the sourced :class:`CoolingBasis` (derived from the air permit + the
+    documented FM-2 discharge); explicit ``cooling_demand_mgd`` /
+    ``consumptive_fraction`` override it (and are then tagged as assumptions).
+    """
+    basis = basis or derive_cooling_basis()
+    if cooling_demand_mgd is None:
+        cooling_demand = basis.makeup_demand
+    else:
+        cooling_demand = ProvenancedValue.assume(
+            cooling_demand_mgd, "MGD", why="campus cooling intake — scenario override"
+        )
+    if consumptive_fraction is None:
+        frac = basis.consumptive_fraction
+    else:
+        frac = ProvenancedValue.assume(
+            consumptive_fraction, "fraction", why="consumptive fraction — scenario override"
+        )
     return Scenario(
         name="buildout",
         description="Data-center campus with evaporative cooling drawing on Lima's supply.",
-        cooling_demand=ProvenancedValue.assume(
-            cooling_demand_mgd,
-            "MGD",
-            why="campus cooling intake — design basis TBD; scenario knob",
-        ),
-        consumptive_fraction=ProvenancedValue.assume(
-            consumptive_fraction,
-            "fraction",
-            why="evaporative cooling consumptive fraction — typical high for wet cooling; scenario knob",
-        ),
+        cooling_demand=cooling_demand,
+        consumptive_fraction=frac,
+        basis=basis,
     )
 
 

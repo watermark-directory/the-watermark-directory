@@ -220,10 +220,20 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
    land: the **Ottawa mainstem 7Q10 is now cited at 0.2 cfs** (Lima Refining fact sheet
    2IG00001, USGS 04187100; 1Q10 = 0 cfs — the river nearly dries at design low flow,
    heavily abstracted upstream for Lima's own supply), which also un-skips Shawnee II →
-   Ottawa in the assimilative screen (now a violation, 0.04:1). Headline: a 5 MGD cooling
-   intake at 0.8 consumptive = **6.19 cfs net basin loss = ~31× the Ottawa's entire
-   7Q10**. `bosc hydro-report` renders the whole Tier-0 story as the evidence-tagged
-   [`HYDROLOGY.md`](HYDROLOGY.md) dossier (regenerable).
+   Ottawa in the assimilative screen (now a violation, 0.04:1). `bosc hydro-report`
+   renders the whole Tier-0 story as the evidence-tagged [`HYDROLOGY.md`](HYDROLOGY.md)
+   dossier (regenerable).
+11. **Sourced cooling design basis.** `[done]` — replaces the bare "5 MGD, TBD"
+   assumption with `bosc.hydrology.cooling.derive_cooling_basis`, a basis *derived* from
+   disclosed campus data by two independent cited methods: top-down **power × WUE** (OEPA
+   air permit P0138965: 114 gensets × 2.75 MW ≈ 313 MW backup → ~275 MW IT load × ~1.8
+   L/kWh evaporative WUE → ~3.1 MGD consumptive) and bottom-up **blowdown × cycles** (the
+   documented 2.5 MGD FM-2 discharge at ~5 cycles → ~10 MGD upper bound). They disagree
+   ~3× (FM-2 isn't purely cooling blowdown), so the basis reports the **3.1–10 MGD**
+   range; the buildout scenario defaults to the conservative power-based central
+   (overridable via `--cooling-demand`). Headline is now sourced and robust: even the low
+   estimate = **4.85 cfs net basin loss ≈ 24× the Ottawa 7Q10**; the upper bound ~77×.
+   Inputs are document/assumption-tagged, demands `derived`.
 
 ---
 
