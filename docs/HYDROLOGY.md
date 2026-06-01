@@ -71,9 +71,20 @@ does not have — even the low estimate is tens of times the 7Q10.
 storm for two questions Tier-0 only approximates: the **detention volume** that
 holds the post-development peak to the pre-development rate, and the **sanitary
 wet-weather surcharge** (dry-weather base + RDII) against each plant's documented
-peak capacity. Hydraulic routing parameters (imperviousness, RDII, basin geometry)
-are assumptions; the footprint, storm, and plant capacities stay document/connector-
-sourced. Engine-dependent, so its figures live in the live command, not this snapshot.
+wet-weather headroom. Hydraulic routing parameters (imperviousness, RDII, basin
+geometry) are assumptions; the footprint, storm, and plant design flows stay
+document/connector-sourced. Engine-dependent, so its figures live in the live command.
+
+
+**The surcharge lands on a system with no headroom to give.** Permitted
+average / peak design flows are document-cited [verified]: American II 1.2/3.6 MGD (headroom 2.4); Shawnee II 3/12.6 MGD (headroom 9.6). The decisive
+fact is regulatory: the collection system is already under a **2005 OEPA mandate
+to eliminate all SSO bypassing by 2015**, with **$11.8M**
+of storm-water I/I remediation and a 21-inch trunk replaced by 48-inch purely to
+equalize wet-weather I/I. So each plant's nominal wet-weather headroom (peak minus
+permitted average) is already documented as effectively spent before the campus
+adds load. The campus's documented dry-weather contribution is the 2.5
+MGD FM-2 industrial discharge; the storm RDII multiplier on top remains an assumption.
 
 
 **Detention is the absent control, not a modeled redesign.** The campus

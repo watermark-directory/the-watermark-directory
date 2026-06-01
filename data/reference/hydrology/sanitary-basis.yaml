@@ -1,0 +1,70 @@
+# Cited sanitary design basis for the Lima municipal water loop's WWTPs.
+#
+# The Tier-1 sanitary surcharge asks whether a plant can absorb the data-center
+# campus's new wet-weather flow. That needs two document-cited numbers per plant —
+# the permitted AVERAGE design flow (dry-weather base) and the PEAK hydraulic
+# capacity — whose difference is the plant's wet-weather headroom. Both come from
+# our own corpus (OEPA NPDES permits/fact sheets and the watch-items dossier);
+# values we cannot cite are OMITTED, not guessed.
+#
+# The decisive context is regulatory, not hydraulic: this collection system is
+# already under orders for storm-water infiltration/inflow (I/I) that overwhelms it
+# during rain and drives sanitary sewer overflows (SSOs). The county is spending
+# $11.8M on I/I remediation and replacing 21-inch trunk sewer with 48-inch purely to
+# "equalize storm-water I/I during rain events" (2005 Capital Needs Assessment). So
+# the plants' wet-weather headroom is already documented as effectively spent — the
+# campus addition lands on a system with a standing SSO-elimination mandate.
+
+plants:
+  American II:
+    npdes: "OH0037338"
+    receiving_water: "Dug Run"
+    avg_design_flow_mgd: 1.2
+    peak_capacity_mgd: 3.6
+    pretreatment: false
+    source: document
+    citation: "OEPA NPDES 2PH00006 permit + fact sheet (design flow 1.2 MGD; peak hydraulic 3.6 MGD); watch-american-ii-wwtp. CNA-2005 p3: 0.80 MGD plant reconstructed to new 1.2 MGD SBR."
+    confidence: high
+
+  American Bath:
+    npdes: "OH0023841"
+    receiving_water: "Pike Run"
+    avg_design_flow_mgd: 1.5
+    # peak hydraulic capacity not separately cited in corpus -> omitted (not guessed)
+    pretreatment: false
+    source: document
+    citation: "watch-american-bath-wwtp (1.5 MGD design; NPDES OH0023841; under 1996 federal consent decree); OEPA NPDES 2PH00007."
+    confidence: high
+    note: "Under the 1996 federal CWA consent decree; no peak hydraulic capacity separately cited."
+
+  Shawnee II:
+    npdes: "OH0023850"
+    receiving_water: "Ottawa River"
+    avg_design_flow_mgd: 3.0
+    peak_capacity_mgd: 12.6
+    pretreatment: false
+    source: document
+    citation: "watch-shawnee-ii-wwtp (Phase 2: 2.0 -> 3.0 MGD avg / 12.6 MGD peak; NPDES OH0023850; ~$23M OWDA). CNA-2005 p2: prior expansion under a USEPA consent decree."
+    confidence: high
+
+# The campus's documented sanitary contribution (dry-weather industrial), routed via
+# the 16-inch FM-2 to Lima's 78-inch gravity sewer (Lima has a pretreatment program).
+campus_industrial_mgd: 2.5
+campus_industrial_citation: "bosc-fm2 / watch-lima-fm2-terminus: FM-2 (16\", 17,900 LF) carries the bulk of BOSC's 2.5 MGD industrial discharge to the City of Lima 78\" sewer."
+
+# Documented I/I remediation spend and the SSO-elimination mandate.
+ii_remediation_musd: 11.8
+ii_remediation_citation: "CNA-2005: Shawnee Sub-District I/I remediation $10.5M (p5) + American-Bath Sub-District I/I remediation $1.3M (p6)."
+
+decree_note: >-
+  System-wide SSO context: a 1996 federal CWA consent decree (United States & Ohio v.
+  Board of County Commissioners of Allen County, N.D. Ohio, Judge Katz) drove the
+  Shawnee No. 2 expansion; on 2005-04-21 the county entered an OEPA agreement to
+  eliminate ALL sanitary-waste bypassing by 2015. The Shawnee trunk reconstruction
+  replaces ~3 miles of 21-inch sewer with 48-inch (~5x cross-section) explicitly for
+  "equalization of storm-water infiltration/inflow during rain events" (CNA-2005 p6).
+
+source_note: >-
+  Plant design flows: OEPA NPDES permits/fact sheets (2PH00006, 2PH00007, 2PK00002)
+  and the watch-items dossier. I/I + SSO context: Allen County 10-Year Capital Needs
+  Assessment (2005) and the 1996 federal CWA consent decree, both in data/documents/.

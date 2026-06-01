@@ -375,14 +375,66 @@ class DetentionDesign(BaseModel):
     tier: Literal["tier1-swmm"] = "tier1-swmm"
 
 
+class SanitaryPlant(BaseModel):
+    """A WWTP's document-cited sanitary design flows (the grounded sanitary basis)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    plant: str
+    npdes: str | None = None
+    receiving_water: str | None = None
+    avg_design_flow: ProvenancedValue  # MGD, document-cited permitted average
+    peak_capacity: ProvenancedValue | None = None  # MGD, document-cited peak hydraulic
+    peaking_factor: ProvenancedValue | None = None  # derived: peak / avg
+    pretreatment: bool = False
+    note: str | None = None
+
+    @property
+    def headroom_mgd(self) -> float | None:
+        """Wet-weather headroom above the permitted average (peak - avg), if both cited."""
+        if self.peak_capacity is None:
+            return None
+        return round(self.peak_capacity.value - self.avg_design_flow.value, 2)
+
+
+class SanitaryBasis(BaseModel):
+    """Document-grounded sanitary design basis for the municipal loop's WWTPs.
+
+    Aggregates cited per-plant design flows (OEPA NPDES permits / watch-items) with the
+    system's I/I + SSO regulatory context (the 1996 federal consent decree and the 2005
+    OEPA agreement to eliminate bypassing by 2015). Like the 7Q10 table, it is a vendored,
+    cited reference — not computed hydrology — so it lives under ``data/reference``.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    plants: list[SanitaryPlant]
+    campus_industrial: ProvenancedValue  # MGD, the BOSC FM-2 industrial discharge
+    ii_remediation_musd: ProvenancedValue  # $M of documented I/I remediation
+    decree_note: str = ""
+    source_note: str = ""
+
+    def plant(self, name: str) -> SanitaryPlant | None:
+        return next((p for p in self.plants if p.plant == name), None)
+
+
 class SanitarySurcharge(BaseModel):
-    """Wet-weather peak flow at a WWTP vs its documented peak hydraulic capacity."""
+    """Campus wet-weather sanitary contribution vs a plant's documented headroom.
+
+    ``wet_weather_peak`` is the campus's SWMM-derived storm contribution (dry-weather
+    base + RDII). ``headroom_mgd`` is the receiving plant's documented wet-weather
+    headroom (peak hydraulic capacity - permitted average). ``exceeds`` compares the two:
+    a campus contribution larger than the headroom is screening-grade SSO risk.
+    """
 
     model_config = ConfigDict(extra="forbid")
 
     plant: str
     capacity: ProvenancedValue  # MGD, document-cited peak hydraulic capacity
-    wet_weather_peak: ProvenancedValue  # MGD, SWMM-derived (base + RDII)
+    avg_design_flow: ProvenancedValue | None = None  # MGD, document-cited permitted average
+    peaking_factor: ProvenancedValue | None = None  # derived, peak / avg (context)
+    headroom_mgd: float | None = None  # peak - avg, the wet-weather margin
+    wet_weather_peak: ProvenancedValue  # MGD, SWMM-derived campus contribution (base + RDII)
     exceeds: bool
     margin_mgd: float
 
@@ -396,6 +448,7 @@ class Tier1Result(BaseModel):
     detention: DetentionDesign | None = None
     surcharge: list[SanitarySurcharge] = []
     inventory: StormPlanInventory | None = None  # grounds the detention finding in the real sheet
+    sanitary_basis: SanitaryBasis | None = None  # grounds the surcharge in cited design flows
     note: str = ""
 
 

@@ -286,6 +286,36 @@ async def storm_plan_inventory(_args: dict[str, Any]) -> dict[str, Any]:
 
 
 @tool(
+    "sanitary_basis",
+    "Document-cited sanitary design basis for the WWTPs: per-plant permitted average "
+    "design flow and peak hydraulic capacity (so the wet-weather headroom = peak - avg), "
+    "plus the I/I + SSO regulatory context (1996 federal consent decree; 2005 OEPA mandate "
+    "to eliminate bypassing by 2015). Grounds the Tier-1 sanitary surcharge.",
+    {},
+)
+async def sanitary_basis(_args: dict[str, Any]) -> dict[str, Any]:
+    from bosc.hydrology.sanitary import load_sanitary_basis
+
+    basis = load_sanitary_basis()
+    if basis is None:
+        return _text(
+            "No sanitary basis table found (data/reference/hydrology/sanitary-basis.yaml)."
+        )
+    lines = []
+    for p in basis.plants:
+        peak = f"{p.peak_capacity.value:g} MGD peak" if p.peak_capacity else "peak uncited"
+        pf = f", {p.peaking_factor.value:g}x" if p.peaking_factor else ""
+        head = f", headroom {p.headroom_mgd:g} MGD" if p.headroom_mgd is not None else ""
+        lines.append(
+            f"{p.plant} ({p.npdes or 'NPDES n/a'} -> {p.receiving_water}): "
+            f"{p.avg_design_flow.value:g} MGD avg / {peak}{pf}{head}"
+        )
+    lines.append(f"Campus FM-2 industrial: {basis.campus_industrial.value:g} MGD (document)")
+    lines.append(f"I/I remediation: ${basis.ii_remediation_musd.value:g}M; {basis.decree_note}")
+    return _text("\n".join(lines))
+
+
+@tool(
     "tier1_swmm",
     "Tier-1 EPA SWMM run: detention-basin sizing (the storage that holds the "
     "post-development peak to the pre-development rate) and sanitary wet-weather "
@@ -344,6 +374,7 @@ ALL_TOOLS = [
     stormwater_runoff,
     hydrology_scenario,
     storm_plan_inventory,
+    sanitary_basis,
     tier1_swmm,
 ]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]

@@ -336,14 +336,15 @@ def tier1(
                 f"[red]no on-site detention[/] — the sized basin is the absent control"
             )
     console.print(
-        "\n[bold]Sanitary wet-weather surcharge[/] [dim](base + RDII vs peak capacity)[/]"
+        "\n[bold]Sanitary wet-weather surcharge[/] "
+        "[dim](campus contribution vs documented wet-weather headroom)[/]"
     )
     for f in tier1_findings(result):
-        if f.check == "wet-weather-surcharge":
+        if f.check in ("wet-weather-surcharge", "sso-mandate"):
             console.print(f"[{'green' if f.ok else 'red'}]{f}[/]")
     console.print(
-        "\n[dim]Tier-1 EPA SWMM. Footprint document-sourced, storm from NOAA, plant capacities "
-        "document-cited; network/hydraulic params (imperviousness, RDII, basin) are assumptions.[/]"
+        "\n[dim]Tier-1 EPA SWMM. Footprint/storm/plant design flows document/connector-sourced; "
+        "imperviousness, RDII R, and basin geometry are assumptions.[/]"
     )
 
 

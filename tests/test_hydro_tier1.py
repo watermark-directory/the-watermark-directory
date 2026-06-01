@@ -103,3 +103,14 @@ def test_run_tier1_sizes_detention_and_flags_surcharge() -> None:
     assert any(s.exceeds for s in result.surcharge)
     am2 = next(s for s in result.surcharge if "American II" in s.plant)
     assert am2.capacity.source == "document" and am2.wet_weather_peak.source == "derived"
+    # Grounded sanitary basis: per-plant headroom (peak - avg) drives the comparison.
+    assert result.sanitary_basis is not None
+    assert am2.avg_design_flow is not None and am2.avg_design_flow.source == "document"
+    assert am2.peaking_factor is not None and am2.peaking_factor.source == "derived"
+    assert am2.headroom_mgd == pytest.approx(
+        am2.capacity.value - am2.avg_design_flow.value, abs=0.01
+    )
+    # The regulatory SSO-mandate context surfaces as a finding.
+    from bosc.hydrology.tier1 import tier1_findings
+
+    assert any(f.check == "sso-mandate" for f in tier1_findings(result))

@@ -118,10 +118,31 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
         "storm for two questions Tier-0 only approximates: the **detention volume** that\n"
         "holds the post-development peak to the pre-development rate, and the **sanitary\n"
         "wet-weather surcharge** (dry-weather base + RDII) against each plant's documented\n"
-        "peak capacity. Hydraulic routing parameters (imperviousness, RDII, basin geometry)\n"
-        "are assumptions; the footprint, storm, and plant capacities stay document/connector-\n"
-        "sourced. Engine-dependent, so its figures live in the live command, not this snapshot.\n"
+        "wet-weather headroom. Hydraulic routing parameters (imperviousness, RDII, basin\n"
+        "geometry) are assumptions; the footprint, storm, and plant design flows stay\n"
+        "document/connector-sourced. Engine-dependent, so its figures live in the live command.\n"
     )
+    from bosc.hydrology.sanitary import load_sanitary_basis
+
+    san = load_sanitary_basis(settings=settings)
+    if san is not None and san.decree_note:
+        rows = "; ".join(
+            f"{p.plant} {p.avg_design_flow.value:g}/{p.peak_capacity.value:g} MGD "
+            f"(headroom {p.headroom_mgd:g})"
+            for p in san.plants
+            if p.peak_capacity is not None and p.headroom_mgd is not None
+        )
+        w(
+            f"\n**The surcharge lands on a system with no headroom to give.** Permitted\n"
+            f"average / peak design flows are document-cited [verified]: {rows}. The decisive\n"
+            f"fact is regulatory: the collection system is already under a **2005 OEPA mandate\n"
+            f"to eliminate all SSO bypassing by 2015**, with **${san.ii_remediation_musd.value:g}M**\n"
+            f"of storm-water I/I remediation and a 21-inch trunk replaced by 48-inch purely to\n"
+            f"equalize wet-weather I/I. So each plant's nominal wet-weather headroom (peak minus\n"
+            f"permitted average) is already documented as effectively spent before the campus\n"
+            f"adds load. The campus's documented dry-weather contribution is the {san.campus_industrial.value:g}\n"
+            f"MGD FM-2 industrial discharge; the storm RDII multiplier on top remains an assumption.\n"
+        )
     from bosc.hydrology.stormplan import load_inventory
 
     inv = load_inventory(settings=settings)

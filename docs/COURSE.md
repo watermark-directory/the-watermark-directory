@@ -264,6 +264,24 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
    control the as-drawn 95% design **omits**, not a modeled redesign. Wired into `bosc tier1`
    (the detention finding now cites the sheet) and the dossier's Tier-1 section.
 
+14. **Ground the sanitary surcharge in cited design flows + the SSO mandate.** `[done]` —
+   the surcharge had rested on a flat assumed base flow and an invented RDII rate.
+   `bosc.hydrology.sanitary` loads a vendored cited table
+   (`data/reference/hydrology/sanitary-basis.yaml`, the 7Q10-table pattern) of per-plant
+   **permitted average / peak hydraulic** design flows — American II 1.2/3.6, Shawnee II
+   3.0/12.6 MGD (peaking factors 3.0x, 4.2x) — from the OEPA NPDES permits + watch-items;
+   American Bath's peak is **omitted** (uncited, not guessed). The surcharge now compares the
+   campus's wet-weather contribution against each plant's **documented wet-weather headroom**
+   (peak − average): 16.9 MGD vs American II's 2.4 and Shawnee II's 9.6 MGD. The campus dry
+   base is the **document-cited 2.5 MGD FM-2** discharge (RDII R stays a flagged assumption).
+   The decisive context is regulatory and now surfaces as a finding: the collection system is
+   already under a **2005 OEPA mandate to eliminate all SSO bypassing by 2015**, with **$11.8M**
+   of storm-water I/I remediation and a **21→48-inch trunk** rebuilt purely to equalize
+   wet-weather I/I (1996 federal CWA consent decree; Allen County CNA-2005) — so the headroom
+   is documented as effectively already spent. `bosc tier1` + agent `sanitary_basis` tool +
+   the dossier's Tier-1 section. (Indian Brook pump-station as-built is scan-only — vision
+   extraction deferred.)
+
 ---
 
 ## 3. Immediate next steps (proposed)
