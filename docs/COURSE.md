@@ -249,6 +249,21 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
    network + hydraulic params (imperviousness, RDII R-T-K, basin geometry) are flagged
    assumptions, since we lack the as-built drainage network.
 
+13. **Ground the detention result in the real civil design.** `[done]` —
+   `bosc storm-plan` (+ agent `storm_plan_inventory` tool, `bosc.hydrology.stormplan`)
+   transcribes the campus **grading & stormwater plan** (sheet `1A-C-3104`, EMH&T 95% SPS,
+   *Not For Construction* — the `.odg` under `plans/bistrozzi-plans/`) into a reviewed
+   artifact (`data/extracted/plans/lma1a.storm-inventory.yaml`). The sheet's pipe
+   connectivity/inverts are vector geometry with **no schedule table**, so a routable SWMM
+   network is *deliberately not fabricated* (omission over invention). What it does state we
+   ground: the storm-structure **rim population** (207 labels, 820.5-828.75 ft, ~8 ft relief,
+   document-cited) and the conveyance inventory (catch basins, curb/inlet, storm sewer,
+   headwall outfalls, rock check dams, overland flood routing). The headline grounded fact —
+   **no detention, retention, or infiltration storage is shown** (the negative is auditable:
+   seven storage terms searched, all absent) — reframes item 12's basin: it is the on-site
+   control the as-drawn 95% design **omits**, not a modeled redesign. Wired into `bosc tier1`
+   (the detention finding now cites the sheet) and the dossier's Tier-1 section.
+
 ---
 
 ## 3. Immediate next steps (proposed)

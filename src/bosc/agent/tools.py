@@ -257,6 +257,35 @@ async def hydrology_scenario(_args: dict[str, Any]) -> dict[str, Any]:
 
 
 @tool(
+    "storm_plan_inventory",
+    "Document-grounded drainage facts from the campus grading & storm plan (sheet "
+    "1A-C-3104, 95% SPS): storm-structure rim-elevation relief, the conveyance "
+    "inventory, and whether any on-site detention/retention storage is shown. Grounds "
+    "the Tier-1 detention result in the real civil design.",
+    {},
+)
+async def storm_plan_inventory(_args: dict[str, Any]) -> dict[str, Any]:
+    from bosc.hydrology import stormplan
+
+    inv = stormplan.load_inventory()
+    if inv is None:
+        return _text("No storm-plan inventory yet (run `bosc storm-plan --refresh`).")
+    lines = [
+        f"{inv.sheet_id} {inv.discipline} ({inv.phase}, {inv.status})",
+        f"graded relief {inv.rim_min.value:.1f}-{inv.rim_max.value:.1f} ft "
+        f"over {inv.rim_labels} storm-structure rims",
+        f"conveyance: {', '.join(inv.structure_types)}",
+        f"features: {', '.join(inv.conveyance_features)}",
+    ]
+    lines += [str(f) for f in stormplan.storm_plan_findings(inv)]
+    lines.append(
+        "\n(Transcribed from the civil sheet; pipe connectivity/inverts are vector geometry "
+        "with no schedule table, so a routable network is not fabricated.)"
+    )
+    return _text("\n".join(lines))
+
+
+@tool(
     "tier1_swmm",
     "Tier-1 EPA SWMM run: detention-basin sizing (the storage that holds the "
     "post-development peak to the pre-development rate) and sanitary wet-weather "
@@ -314,6 +343,7 @@ ALL_TOOLS = [
     hydrology_balance,
     stormwater_runoff,
     hydrology_scenario,
+    storm_plan_inventory,
     tier1_swmm,
 ]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]

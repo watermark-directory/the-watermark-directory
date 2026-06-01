@@ -329,6 +329,12 @@ def tier1(
             f"({d.basin_area_acres:g} ac, {d.orifice_diam_ft:g} ft orifice) holds the release to "
             f"{d.controlled_peak_cfs:,.0f} cfs"
         )
+        inv = result.inventory
+        if inv is not None and not inv.detention_shown:
+            console.print(
+                f"  [dim]grounded:[/] {inv.phase} {inv.sheet_id} shows piped conveyance with "
+                f"[red]no on-site detention[/] — the sized basin is the absent control"
+            )
     console.print(
         "\n[bold]Sanitary wet-weather surcharge[/] [dim](base + RDII vs peak capacity)[/]"
     )
@@ -338,6 +344,45 @@ def tier1(
     console.print(
         "\n[dim]Tier-1 EPA SWMM. Footprint document-sourced, storm from NOAA, plant capacities "
         "document-cited; network/hydraulic params (imperviousness, RDII, basin) are assumptions.[/]"
+    )
+
+
+@app.command(name="storm-plan")
+def storm_plan(
+    refresh: bool = typer.Option(
+        False, "--refresh", help="Re-parse the source drawing and rewrite the artifact."
+    ),
+) -> None:
+    """Document-grounded drainage inventory from the campus grading & storm plan."""
+    from bosc.hydrology import stormplan
+
+    settings = get_settings()
+    if refresh:
+        inv = stormplan.refresh_inventory(settings=settings)
+        console.print(f"[green]Refreshed[/] {settings.data_dir / stormplan._INVENTORY_REL}")
+    else:
+        loaded = stormplan.load_inventory(settings=settings)
+        if loaded is None:
+            console.print("[yellow]No inventory yet — run `bosc storm-plan --refresh`.[/]")
+            raise typer.Exit()
+        inv = loaded
+
+    pipes = ", ".join(f'{s:g}"' for s in inv.pipe_sizes_in)
+    eng = f"; {inv.engineer}" if inv.engineer else ""
+    console.print(
+        f"[bold]{inv.sheet_id}[/] {inv.discipline} [dim]({inv.phase}, {inv.status}{eng})[/]\n"
+        f"  graded relief {inv.rim_min.value:.1f}-{inv.rim_max.value:.1f} ft "
+        f"([bold]{inv.relief.value:.1f} ft[/]) over {inv.rim_labels} storm-structure rims "
+        f"[dim](doc)[/]\n"
+        f"  conveyance: {', '.join(s.lower() for s in inv.structure_types)}\n"
+        f"  pipe callouts: {pipes}\n"
+        f"  features: {', '.join(f.lower() for f in inv.conveyance_features)}"
+    )
+    for f in stormplan.storm_plan_findings(inv):
+        console.print(f"[{'green' if f.ok else 'red'}]{f}[/]")
+    console.print(
+        "\n[dim]Transcribed from the civil sheet; pipe connectivity/inverts are vector "
+        "geometry with no schedule table, so a routable network is not fabricated.[/]"
     )
 
 

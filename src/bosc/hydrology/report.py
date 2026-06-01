@@ -118,10 +118,26 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
         "storm for two questions Tier-0 only approximates: the **detention volume** that\n"
         "holds the post-development peak to the pre-development rate, and the **sanitary\n"
         "wet-weather surcharge** (dry-weather base + RDII) against each plant's documented\n"
-        "peak capacity. Network/hydraulic parameters are assumptions (no as-built drainage\n"
-        "geometry); the footprint, storm, and plant capacities stay document/connector-sourced.\n"
-        "Engine-dependent, so its figures live in the live command, not this snapshot.\n"
+        "peak capacity. Hydraulic routing parameters (imperviousness, RDII, basin geometry)\n"
+        "are assumptions; the footprint, storm, and plant capacities stay document/connector-\n"
+        "sourced. Engine-dependent, so its figures live in the live command, not this snapshot.\n"
     )
+    from bosc.hydrology.stormplan import load_inventory
+
+    inv = load_inventory(settings=settings)
+    if inv is not None and not inv.detention_shown:
+        w(
+            f"\n**Detention is the absent control, not a modeled redesign.** The campus\n"
+            f"grading & stormwater plan (`{inv.sheet_id}`, {inv.phase}, "
+            f"{'[verified]' if inv.rim_min.verified else '[inference]'}) routes runoff via\n"
+            f"catch basins -> inlets -> storm sewer to headwall outfalls (with rock check dams\n"
+            f"and overland flood routing) and shows **no detention, retention, or infiltration\n"
+            f"storage** across its {inv.rim_labels} storm-structure rims "
+            f"({inv.rim_min.value:.0f}-{inv.rim_max.value:.0f} ft). So the SWMM-sized basin is the\n"
+            f"on-site control the as-drawn 95% design omits. Pipe connectivity/inverts are drawn\n"
+            f"as vector geometry with no schedule table, so a routable network is deliberately\n"
+            f"not transcribed (omission over invention).\n"
+        )
     w("\n---\n")
     w(
         "_Sources: USGS NWIS (streamflow), NOAA Atlas-14 (design rainfall), Ohio EPA NPDES\n"

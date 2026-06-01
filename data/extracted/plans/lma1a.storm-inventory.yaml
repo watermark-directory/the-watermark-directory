@@ -1,0 +1,65 @@
+sheet_id: 1A-C-3104
+discipline: Grading & Storm Plan
+phase: 95% SPS Design
+status: Not For Construction
+source_path: documents/plans/bistrozzi-plans/LMA1A-95-SPS-2025-10-28.odg
+engineer: EMH&T
+rim_labels: 207
+rim_distinct: 113
+rim_min:
+  value: 820.5
+  unit: ft
+  source: document
+  citation: documents/plans/bistrozzi-plans/LMA1A-95-SPS-2025-10-28.odg (sheet 1A-C-3104,
+    95% SPS Design)
+  confidence: high
+  asof: null
+rim_max:
+  value: 828.75
+  unit: ft
+  source: document
+  citation: documents/plans/bistrozzi-plans/LMA1A-95-SPS-2025-10-28.odg (sheet 1A-C-3104,
+    95% SPS Design)
+  confidence: high
+  asof: null
+relief:
+  value: 8.25
+  unit: ft
+  source: derived
+  citation: max - min storm-structure rim, documents/plans/bistrozzi-plans/LMA1A-95-SPS-2025-10-28.odg
+    (sheet 1A-C-3104, 95% SPS Design)
+  confidence: medium
+  asof: null
+structure_types:
+- Catch Basin
+- Curb & Gutter Inlet
+- Inlet Manhole
+- Manhole
+- Storm Sewer
+- Underdrain
+- Roof Drain
+- Trench Drain
+pipe_sizes_in:
+- 15.0
+- 12.0
+- 6.0
+- 4.0
+- 3.0
+conveyance_features:
+- Swale
+- Headwall
+- Channel Protection
+- Check Dam
+- Flood Routing
+- Containment
+detention_shown: false
+storage_terms_searched:
+- Detention
+- Retention
+- Forebay
+- Pond
+- Bioretention
+- Infiltration Basin
+- Outlet Control
+note: Pipe connectivity/inverts are drawn as vector geometry with no schedule table;
+  a routable network is not transcribed (omission over invention).

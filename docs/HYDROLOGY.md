@@ -71,9 +71,19 @@ does not have — even the low estimate is tens of times the 7Q10.
 storm for two questions Tier-0 only approximates: the **detention volume** that
 holds the post-development peak to the pre-development rate, and the **sanitary
 wet-weather surcharge** (dry-weather base + RDII) against each plant's documented
-peak capacity. Network/hydraulic parameters are assumptions (no as-built drainage
-geometry); the footprint, storm, and plant capacities stay document/connector-sourced.
-Engine-dependent, so its figures live in the live command, not this snapshot.
+peak capacity. Hydraulic routing parameters (imperviousness, RDII, basin geometry)
+are assumptions; the footprint, storm, and plant capacities stay document/connector-
+sourced. Engine-dependent, so its figures live in the live command, not this snapshot.
+
+
+**Detention is the absent control, not a modeled redesign.** The campus
+grading & stormwater plan (`1A-C-3104`, 95% SPS Design, [verified]) routes runoff via
+catch basins -> inlets -> storm sewer to headwall outfalls (with rock check dams
+and overland flood routing) and shows **no detention, retention, or infiltration
+storage** across its 207 storm-structure rims (820-829 ft). So the SWMM-sized basin is the
+on-site control the as-drawn 95% design omits. Pipe connectivity/inverts are drawn
+as vector geometry with no schedule table, so a routable network is deliberately
+not transcribed (omission over invention).
 
 
 ---

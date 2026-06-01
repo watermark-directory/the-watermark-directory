@@ -322,6 +322,45 @@ class ScenarioDiff(BaseModel):
     multiple_of_7q10: float | None = None
 
 
+class StormPlanInventory(BaseModel):
+    """Document-grounded drainage facts read off the campus grading & storm plan.
+
+    Transcribed from the civil sheet (not computed hydrology), so it belongs in
+    ``data/extracted/``. It captures what the drawing *states* — the storm-structure
+    rim-elevation population, the conveyance inventory, and crucially whether any
+    on-site **detention/retention storage** is shown. The connectivity and inverts
+    that a routable SWMM network needs are drawn as vector geometry with no schedule
+    table, so we deliberately do **not** fabricate a pipe network here; we ground the
+    facts the sheet actually carries and flag the absence of storage.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    sheet_id: str  # e.g. "1A-C-3104"
+    discipline: str  # "Grading & Storm Plan"
+    phase: str  # "95% SPS Design"
+    status: str  # "Not For Construction"
+    source_path: str  # rel path to the source drawing
+    engineer: str | None = None
+
+    # Graded surface, from the storm-structure rim labels.
+    rim_labels: int  # count of RIM=… labels read
+    rim_distinct: int
+    rim_min: ProvenancedValue  # ft (document)
+    rim_max: ProvenancedValue  # ft (document)
+    relief: ProvenancedValue  # ft (derived: max - min)
+
+    # Conveyance inventory (what the legend/labels name).
+    structure_types: list[str] = []
+    pipe_sizes_in: list[float] = []  # nominal callout sizes
+    conveyance_features: list[str] = []  # swale, headwall, check dam, flood routing, …
+
+    # The determination that reframes the Tier-1 detention result.
+    detention_shown: bool  # any on-site storage labeled?
+    storage_terms_searched: list[str] = []  # the negative is auditable
+    note: str = ""
+
+
 class DetentionDesign(BaseModel):
     """Tier-1 (SWMM) detention sizing: the basin that holds post-dev peak to pre-dev."""
 
@@ -356,6 +395,7 @@ class Tier1Result(BaseModel):
     available: bool
     detention: DetentionDesign | None = None
     surcharge: list[SanitarySurcharge] = []
+    inventory: StormPlanInventory | None = None  # grounds the detention finding in the real sheet
     note: str = ""
 
 

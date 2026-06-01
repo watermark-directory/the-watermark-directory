@@ -133,6 +133,11 @@ def run_tier1(
         for name, cap, cite in _PLANT_CAPACITY
     ]
 
+    # Ground the detention result in the real 95% SPS drainage design, if extracted.
+    from bosc.hydrology.stormplan import load_inventory
+
+    inventory = load_inventory(settings=settings)
+
     log.info(
         "hydro.tier1",
         pre_peak=detention.pre_peak_cfs,
@@ -140,7 +145,9 @@ def run_tier1(
         storage_acft=detention.required_storage_acft,
         wet_peak_mgd=round(wet_peak_mgd, 1),
     )
-    return Tier1Result(available=True, detention=detention, surcharge=surcharge)
+    return Tier1Result(
+        available=True, detention=detention, surcharge=surcharge, inventory=inventory
+    )
 
 
 def tier1_findings(result: Tier1Result) -> list[HydroFinding]:
@@ -148,14 +155,30 @@ def tier1_findings(result: Tier1Result) -> list[HydroFinding]:
     if not result.available:
         return [HydroFinding("SWMM", "engine", False, result.note)]
     findings: list[HydroFinding] = []
+
+    # Lead with the document-grounded drainage facts when the sheet has been extracted.
+    if result.inventory is not None:
+        from bosc.hydrology.stormplan import storm_plan_findings
+
+        findings.extend(storm_plan_findings(result.inventory))
+
     d = result.detention
     if d is not None:
+        # When the real 95% design shows no on-site storage, the SWMM-sized basin is the
+        # *absent* control — say so, citing the sheet, rather than implying a redesign.
+        absent = result.inventory is not None and not result.inventory.detention_shown
+        frame = (
+            f"the {result.inventory.phase} ({result.inventory.sheet_id}) provides no "
+            f"on-site detention, so SWMM sizes the absent control: "
+            if absent and result.inventory is not None
+            else "SWMM: "
+        )
         findings.append(
             HydroFinding(
                 "BOSC campus",
                 "detention-sizing",
-                True,
-                f"SWMM: post-dev peak {d.post_peak_cfs:.0f} cfs vs pre-dev {d.pre_peak_cfs:.0f} cfs; "
+                not absent,  # an absent required control is a gap, not an OK
+                f"{frame}post-dev peak {d.post_peak_cfs:.0f} cfs vs pre-dev {d.pre_peak_cfs:.0f} cfs; "
                 f"a {d.required_storage_acft:.0f} ac-ft basin (orifice {d.orifice_diam_ft:.1f} ft) "
                 f"holds release to {d.controlled_peak_cfs:.0f} cfs",
             )
