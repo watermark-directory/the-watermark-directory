@@ -210,6 +210,64 @@ state simultaneously **subsidizing** hyperscale data centers and **classifying**
 records that would let the public price those subsidies. The BOSC request sits exactly
 on that fault line.
 
+### Presenting this draft as evidence to the General Assembly
+
+The most strategically significant use of this document may not be the courthouse at
+all — it is the committee room. Presenting the unfiled draft to the General Assembly
+(as testimony supporting **HB 695**'s repeal of §9.66(D), or before the **Joint Data
+Center Committee** studying the industry) is a higher-leverage move than filing, for a
+structural reason worth stating plainly:
+
+**You cannot litigate your way out of a confidentiality statute.** Mandamus is an
+*after-the-fact* remedy: it compels production of records the law treats as public.
+§9.66(D) operates *upstream of that* — it reclassifies the records as **not public in
+the first place**, at the threshold, before any duty to produce attaches. A writ can
+reach delay; it cannot reach a statute that says "this was never a public record." So
+the mandamus treats the **symptom** (this county, these records, this delay); the
+legislative venue treats the **cause** (the exemption itself). Bringing the draft to
+the General Assembly aims at the root the courtroom can only work around.
+
+That reframes why holding the draft, rather than filing it, can be the stronger play:
+
+1. **It converts an abstract policy debate into a documented, local, dated constituent
+   harm.** Committees hear advocacy organizations argue §9.66(D) in the abstract
+   (Policy Matters). A resident's actual stonewalled records campaign — with a
+   court-ready, properly-pleaded complaint behind it — is the concrete case study those
+   arguments lack. It is the single most persuasive register of legislative testimony:
+   *this statute did this, to me, about this $500M subsidized project, on these dates.*
+
+2. **The unfiled posture is a feature here, not a defect.** As legislative evidence the
+   draft is *better* unfiled:
+   - **Not sub judice.** Nothing is pending before a court, so neither you nor any
+     legislator risks commenting on active litigation; you can speak the record freely.
+   - It demonstrates **credible capacity and intent to litigate** — a complete pleading
+     with the mandatory (C)(2) affirmation — which shows §9.66(D) chills oversight even
+     from a citizen *prepared and able* to sue. That is a sharper proof of chilling
+     effect than a complaint that was simply filed and resolved.
+   - It keeps the **litigation and legislative tracks separable**, so testimony does not
+     hand the county admissions to use if you later file.
+
+3. **It supplies the factual findings a repeal bill needs.** HB 695's premise is
+   precisely that §9.66(D) blocks data-center transparency. "Forwarded to legal counsel,
+   no schedule, no log" — a county invoking confidentiality over a hyperscale project — is
+   direct evidence for that premise. And the **substantive payload** is already in this
+   repo: the records the county is shielding are the water-allocation, sewer-capacity,
+   and subsidy terms that the BOSC hydrology analysis shows matter (a ~24× 7Q10 cooling
+   draw; a wet-weather surcharge exceeding both plants' headroom on a system under a 2005
+   SSO decree). That is exactly the water/energy/land impact the Joint Data Center
+   Committee was convened to study — you would be handing it a worked example.
+
+**Cautions, so the testimony lands.** Testify as a **fact witness** to §9.66(D)'s
+operation — your lived experience and the documentary record — not as a lawyer arguing
+its construction; the former is credible and nearly unrebuttable, the latter invites a
+statutory-interpretation fight you do not need. Pre-empt the obvious rebuttal ("the
+system worked — you got your confirmation") by anchoring on the **acknowledgment-without-
+production gap** and the §9.66(D) overhang, not on whether one citizen eventually pried
+documents loose. And do **not** overclaim the defense/national-security dimension
+(below) without evidence — speculation there would forfeit the credibility the
+documentary record earns you. Legislative speech is largely privileged, but coordinate
+the two tracks deliberately rather than letting one contaminate the other.
+
 ---
 
 ## III. Broader Ohio data-center development
@@ -264,6 +322,58 @@ records) and the categorical wedge (public-works/environmental records ≠
 "assistance" submissions) are the two openings, and this filing identifies both.
 
 ---
+
+## IV. Merged timeline — §9.66(D), BOSC, and the defense nexus
+
+Three strands, one chronology. The pivot is **March 20, 2026**: everything above it is a
+public record by default; everything the county now shields under §9.66(D) must postdate
+it (the §1.48 wedge). Tags: **[LAW]** statute/legislature · **[BOSC]** project + records
+campaign · **[DEF]** defense/DoD nexus. Confidence: `[v]` verified (corpus/web/filing) ·
+`[i]` inference/approximate.
+
+| Date | | Event |
+|------|---|-------|
+| 1996 | [BOSC] `[v]` | Federal CWA consent decree, *U.S. & Ohio v. Allen Co. BOCC* (N.D. Ohio 3:96 CV 7134) — Shawnee II driver; still governs SSO obligations |
+| 2004-06 | [DEF] `[v]` | Lima Army Tank Plant renamed **Joint Systems Manufacturing Center (JSMC)** — GOCO, General Dynamics Land Systems; M1 Abrams / Stryker / Namer hulls |
+| 2005-04-21 | [BOSC] `[v]` | OEPA agreement to eliminate all SSO bypassing by 2015; Allen Co. CNA documents $11.8M I/I remediation |
+| 2022-12 | [DEF] `[v]` | DoD awards **JWCC** ($9B ceiling) to Google + AWS/MSFT/Oracle — Google Public Sector cleared for DoD cloud across classification levels ([Nextgov](https://www.nextgov.com/digital-government/2022/12/amazon-google-microsoft-oracle-awarded-9b-pentagon-cloud-contract/380596/)) |
+| by 2024–25 | [DEF] `[i]` | Google Cloud holds **IL5** (DISA PA), FedRAMP High; Google Distributed Cloud + air-gapped appliance reach **IL6 / Top Secret** ([Google Cloud](https://cloud.google.com/blog/topics/public-sector/google-distributed-cloud-gdc-gdc-air-gapped-appliance-achieve-dod-impact-level-6-il6-authorization)) — *entity-level, not tied to the Lima site* |
+| 2023-05-18 | [BOSC] `[v]` | First PAAC board meeting in the bundle; "BOSC" thread begins (recurs w/ Nadella, Gunsmoke, Amazon) |
+| 2025-07-29 | [BOSC] `[v]` | PAAC approves **BOSC Roadwork Development Agreement** w/ Bistrozzi (board minutes p.52) |
+| 2025-09-29 | [BOSC] `[v]` | **Tilted Gate LLC** registered w/ Ohio SOS (the Scioto/"Dazzler" sibling entity) |
+| 2025-10-28 | [BOSC] `[v]` | EMH&T **95% SPS grading & storm plan** (sheet 1A-C-3104) — piped conveyance, no on-site detention |
+| 2025-11-20 | [BOSC] `[v]` | Amazon WOH4 logistics deed ($860k) — corridor land assembly |
+| 2025-12 | [BOSC] `[v]` | Indian Brook PS three-phase upgrade authorized (Res #974-25) |
+| 2026-02-19 | [BOSC] `[v]` | Hume/Shawnee Rd forcemain feasibility w/ MS Consultants (Res #113-26) |
+| 2026-02-26 | [BOSC] `[v]` | WPCLF $1M 0% loan for the forcemain (Res #136-26) |
+| 2026-03-06 | [DEF·broad] `[v]` | Scioto Co. **Project Dazzler** environmental permit clears state review ([Scioto Valley Guardian](https://sciotovalleyguardian.com/2026/03/06/scioto-county-data-center-moves-closer-to-construction-as-key-environmental-permit-clears-state-review/)) |
+| 2026-03-16 | [BOSC] `[v]` | **AEDG press release confirms Google** as the BOSC developer ($500M, 200+ ac) ([LimaOhio](https://www.limaohio.com/top-stories/2026/03/16/google-officially-behind-data-center-project/)) |
+| **2026-03-20** | **[LAW]** `[v]` | **R.C. 9.66(D) takes effect** (HB 184, 136th GA) — economic-development submissions confidential; criminal exposure for disclosing officials ([Bricker](https://www.bricker.com/DevelopOhio/economic-development-project-information-now-confidential-new-risks-for-public-officials-employees)) ← **the pivot** |
+| 2026-04-03 | [DEF·broad] `[v]` | Tilted Gate LLC files §404/401 permit for Project Dazzler (Scioto, ~792 ac / 1.7M sf) ([DCD](https://www.datacenterdynamics.com/en/news/google-confirmed-as-company-behind-500000-sq-ft-data-center-in-scioto-county-ohio/)) |
+| 2026-04-06 | [BOSC] `[v]` | **Bistrozzi Addition LLC** registered (Doc 202609704236; Vorys/Ziance; CT Corp agent) — *3 weeks after* Google reveal; Google "introduces itself to Allen County" |
+| 2026-04-07 | [BOSC] `[v]` | **BOSC-1A Private Sanitary Sewer** permit approved (SWPTI-260294 / DSW-6756) |
+| **2026-04-14** | [BOSC] `[v]` | **Original PRR** served (Ex. A) — 5 categories incl. Category 1 *Google Public Sector* and Category 4 *DoD/federal* comms (cf. [DEF]); *(filing elsewhere says Apr 13 — reconcile)* |
+| 2026-04-15 | [BOSC] `[v]` | Supplement 1 (Ex. B): Bistrozzi Addition LLC, Vorys Sater, Scott Ziance, Hannah Bragg |
+| 2026-04-20 | [BOSC] `[v]` | Supplement 2 (Ex. C): forcemain, Shawnee II Phase 2 capacity discrepancy, CMS audit logs, Tilted Gate LLC, EMH&T; Category 5 names the **JSMC industrial zone** (cf. [DEF]) |
+| 2026-04-29 | [BOSC·LAW] `[v]` | County acknowledges "four (4) requests… **forwarded to legal counsel**," no schedule (Ex. E) — behavior consistent w/ §9.66(D) caution |
+| 2026-05-06 | [BOSC] `[v]` | AEP **Lyka 345kV substation** community meeting (OPSB approval pending) — the energy half of the load |
+| 2026-05-20 | [LAW] `[v]` | Policy Matters: **HB 695** should repeal §9.66(D) + limit NDAs ([PMO](https://policymattersohio.org/news/2026/05/20/hb-695-should-limit-ndas-restore-access-to-records-of-data-center-and-other-development-deals/)) |
+| 2026-05-26 | [BOSC·LAW] `[v]` | **Cure notice** (Ex. F) — constructive-denial + pre-emptive §9.66(D)/§1.48 argument |
+| 2026-05-28/29 | [DEF·broad] `[v]` | OEPA comment letters on Project Dazzler — flooding, wetlands, drinking water, stormwater ([Portsmouth Daily Times](https://www.portsmouth-dailytimes.com/news/ohio-epa-seeks-more-information-on-proposed-google-data-center/article_5774beb4-ddef-43fa-a363-ee793da43b76.html)) |
+| 2026-05-29 | [BOSC] `[v]` | Cure period expires — no production, schedule, or log |
+| late May 2026 | [LAW] `[v]` | DeWine **pauses §122.175 data-center sales-tax exemption** (cost ~$1.6B vs $136M projected) pending GA study ([The Hill](https://thehill.com/homenews/state-watch/5900974-data-center-tax-exemption-ohio-mike-dewine/)) |
+| 2026-05-31 | [BOSC·LAW] `[v]` | **Mandamus draft** Certificate of Service dated — ripe, held not filed |
+| Jun 2026 → | [LAW] `[i]` | Draft available as **legislative evidence** for HB 695 / Joint Data Center Committee (see §II) |
+
+**On the defense strand, stated honestly.** Two things are *verified and entity-level*:
+Google Public Sector holds DoD authorizations up to **IL5/IL6 and Top Secret** and is a
+**JWCC** vendor; and the **JSMC** (Lima Army Tank Plant) is an active DoD armor facility
+in the same American/Shawnee Township corridor the PRR targets (Category 5). What is **not
+established** is any site-level link between the two — that the BOSC Lima data center will
+host government/defense workloads, or that JSMC adjacency is causal. The corpus shows only
+that the **request asks** about it (Category 1 "Google Public Sector," Category 4 "U.S.
+Department of Defense entity"). Treat the defense nexus as an **open question the records
+would answer**, not a finding — and, per §II, do not advance it as fact in testimony.
 
 ## Bottom line
 
