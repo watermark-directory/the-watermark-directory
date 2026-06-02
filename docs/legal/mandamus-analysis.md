@@ -151,13 +151,28 @@ and it is the county's strongest available defense.
 
 ### What changed
 
-- **House Bill 184** (136th General Assembly) added **R.C. 9.66(D)**, effective
-  **March 20, 2026.** It makes "**any**" information submitted to a political
-  subdivision, port authority, or tax-incentive review council **in connection with
-  economic-development assistance** confidential and **not a public record** under
-  R.C. 149.43 — and exposes officials who disclose it to liability, **including
-  criminal penalty.** ([Policy Matters Ohio](https://policymattersohio.org/research/limit-ndas-and-fix-public-records-laws-for-data-centers-and-other-economic-development/);
+- **House Bill 184** (136th G.A.) added **R.C. 9.66(D)**. It makes "**any**"
+  information submitted to a political subdivision, port authority, or tax-incentive
+  review council **in connection with economic-development assistance** confidential and
+  **not a public record** under R.C. 149.43 — and exposes officials who disclose it to
+  liability, **including criminal penalty.** ([Policy Matters Ohio](https://policymattersohio.org/research/limit-ndas-and-fix-public-records-laws-for-data-centers-and-other-economic-development/);
   [Bricker DevelopOhio](https://www.bricker.com/DevelopOhio/economic-development-project-information-now-confidential-new-risks-for-public-officials-employees))
+- **How it became law matters.** HB 184 was an **omnibus vehicle** — college-athlete
+  NIL contract limits, appropriations, and amendments to numerous Revised Code sections —
+  and §9.66 was carried in as a **Senate amendment**, the "little-noticed" addition the
+  commentators describe, not a standalone economic-development bill. Provenance:
+  - **2025-11-19** — House **concurs in the Senate amendments** (the vehicle that
+    inserted §9.66 into the bill);
+  - **2025-12-19** — Gov. DeWine **signs** HB 184 (enacted); appropriations sections take
+    effect immediately;
+  - **2026-03-20** — §9.66(D), being non-appropriations, takes effect on the **90-day
+    date** — the pivot for the §1.48 argument below.
+
+  The one gap is the **exact Senate Finance committee amendment** that inserted §9.66 —
+  the precise date and sponsor of the insertion — which the records campaign has not yet
+  pinned (**"our only missing record"**). That the confidentiality regime entered law as
+  an unattributed amendment to an NIL/appropriations omnibus is itself a transparency
+  point worth making to the committee.
 - This explains the county's behavior far better than mere foot-dragging. "Forwarded
   to **legal counsel**, no schedule" is what a risk-averse office does when a brand-new
   statute threatens its own staff with **criminal exposure** for disclosure. The delay
@@ -345,8 +360,10 @@ campaign · **[DEF]** defense/DoD nexus. Confidence: `[v]` verified (corpus/web/
 | 2025-07-29 | [BOSC] `[v]` | PAAC approves **BOSC Roadwork Development Agreement** w/ Bistrozzi (board minutes p.52) |
 | 2025-09-29 | [BOSC] `[v]` | **Tilted Gate LLC** registered w/ Ohio SOS (the Scioto/"Dazzler" sibling entity) |
 | 2025-10-28 | [BOSC] `[v]` | EMH&T **95% SPS grading & storm plan** (sheet 1A-C-3104) — piped conveyance, no on-site detention |
+| 2025-11-19 | **[LAW]** `[v]` | **House concurs in Senate amendments to HB 184** — the vehicle that inserted **§9.66** into the omnibus bill; *the precise Senate Finance amendment adding §9.66 is unpinned — "our only missing record"* |
 | 2025-11-20 | [BOSC] `[v]` | Amazon WOH4 logistics deed ($860k) — corridor land assembly |
 | 2025-12 | [BOSC] `[v]` | Indian Brook PS three-phase upgrade authorized (Res #974-25) |
+| 2025-12-19 | **[LAW]** `[v]` | **Gov. DeWine signs HB 184** (enacted) — appropriations sections effective immediately; §9.66 deferred to its 90-day date |
 | 2026-02-19 | [BOSC] `[v]` | Hume/Shawnee Rd forcemain feasibility w/ MS Consultants (Res #113-26) |
 | 2026-02-26 | [BOSC] `[v]` | WPCLF $1M 0% loan for the forcemain (Res #136-26) |
 | 2026-03-06 | [DEF·broad] `[v]` | Scioto Co. **Project Dazzler** environmental permit clears state review ([Scioto Valley Guardian](https://sciotovalleyguardian.com/2026/03/06/scioto-county-data-center-moves-closer-to-construction-as-key-environmental-permit-clears-state-review/)) |
