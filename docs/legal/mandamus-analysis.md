@@ -347,7 +347,7 @@ Three strands, one chronology. The pivot is **March 20, 2026**: everything above
 public record by default; everything the county now shields under §9.66(D) must postdate
 it (the §1.48 wedge). Tags: **[LAW]** statute/legislature · **[BOSC]** project + records
 campaign · **[DEF]** defense/DoD nexus. Confidence: `[v]` verified (corpus/web/filing) ·
-`[i]` inference/approximate.
+`[i]` inference/approximate · `[?]` event known to have occurred, exact date unknown.
 
 | Date | | Event |
 |------|---|-------|
@@ -360,7 +360,8 @@ campaign · **[DEF]** defense/DoD nexus. Confidence: `[v]` verified (corpus/web/
 | 2025-07-29 | [BOSC] `[v]` | PAAC approves **BOSC Roadwork Development Agreement** w/ Bistrozzi (board minutes p.52) |
 | 2025-09-29 | [BOSC] `[v]` | **Tilted Gate LLC** registered w/ Ohio SOS (the Scioto/"Dazzler" sibling entity) |
 | 2025-10-28 | [BOSC] `[v]` | EMH&T **95% SPS grading & storm plan** (sheet 1A-C-3104) — piped conveyance, no on-site detention |
-| 2025-11-19 | **[LAW]** `[v]` | **House concurs in Senate amendments to HB 184** — the vehicle that inserted **§9.66** into the omnibus bill; *the precise Senate Finance amendment adding §9.66 is unpinned — "our only missing record"* |
+| *before 2025-11-19* | **[LAW]** `[?]` | **§9.66 amendment inserted into HB 184** (Senate) — the event is certain, but its exact date and sponsor are unknown: the campaign's **"only missing record."** Necessarily precedes the concurrence below |
+| 2025-11-19 | **[LAW]** `[v]` | **House concurs in Senate amendments to HB 184** — adopting the §9.66 insertion (above) into the omnibus bill |
 | 2025-11-20 | [BOSC] `[v]` | Amazon WOH4 logistics deed ($860k) — corridor land assembly |
 | 2025-12 | [BOSC] `[v]` | Indian Brook PS three-phase upgrade authorized (Res #974-25) |
 | 2025-12-19 | **[LAW]** `[v]` | **Gov. DeWine signs HB 184** (enacted) — appropriations sections effective immediately; §9.66 deferred to its 90-day date |
