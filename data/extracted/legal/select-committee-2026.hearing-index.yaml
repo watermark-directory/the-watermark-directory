@@ -22,6 +22,9 @@ committee:
     written: "extracted/legal/bosc-written-testimony-2026-06-01.index.yaml"
     oral: "extracted/legal/bosc-committee-testimony-2026-06-04.index.yaml"
     deck: "documents/legal/bosc-testimony-deck-2026-06-01.pdf ('Who Is the Customer?')"
+  full_hearing_recordings:
+    # On-device transcriptions of the gavel-to-gavel hearing audio (not just Parent's slot).
+    "2026-06-04-am": "extracted/legal/bosc-committee-hearing-2026-06-04-am.index.yaml  # hyperscaler panel: Meta/Google/Amazon/Microsoft + Q&A round one"
 
 # ----------------------------------------------------------------------------
 # Witnesses & documents (grouped by seat)
@@ -130,6 +133,19 @@ synthesis:
     Mihalik (ODOD) defends the DCTE; Google (Schwab) and the DCC/QTS present the industry
     benefits + national-security case. The Google testimony is the sharpest counterpoint to
     the BOSC NDA record — same company, opposite transparency posture, days apart.
+  hyperscaler_panel_2026_06_04_am: >-
+    The full morning panel (Meta/Google/Amazon/Microsoft, indexed at
+    bosc-committee-hearing-2026-06-04-am) is the strongest in-record corroboration of
+    Parent's thesis, voiced by industry: (1) MICROSOFT publicly renounces local-government
+    NDAs and property-tax abatements under a 'transparency' banner — proving the no-NDA
+    posture is industry-viable, not anti-development, and renouncing the very instrument used
+    in the BOSC matter; (2) AWS names the Department of War and CIA among 11,000 government
+    customers and describes the 'shared responsibility model' (customer controls region/
+    access) — the FedRAMP/GovCloud enclave structure Parent argued was his unique dimension;
+    (3) under Sen. Blackshear the panel concedes it cannot break incentives down state-vs-
+    local and 'can do more to be transparent.' Water/efficiency claims repeat the
+    proponent-analysis.md mismatched-basis pattern (global/offset/air-cooled, not site
+    consumptive).
   unique_to_parent: "The GovCloud/FedRAMP-DoD-impact-level economic argument (who can even USE the facility), and the records-mandamus as the disclosure-enforcement mechanism."
   proponent_analysis: >-
     Neutral, precise read of the four proponent documents (Google, QTS, DCC, ODOD/DCTE) at

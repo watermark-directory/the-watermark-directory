@@ -1,0 +1,206 @@
+# ============================================================================
+# INDEX — Hyperscaler panel, Ohio Joint Data Center Committee (2026-06-04 AM)
+# ============================================================================
+# Navigable index of the morning session of the 2026-06-04 hearing: testimony
+# from the data-center companies themselves (Meta, Google, Amazon, Microsoft),
+# presenting together, then committee Q&A (round one) to the lunch recess.
+# This is the full committee record around Cory Parent's own slot (indexed
+# separately as bosc-committee-testimony-2026-06-04). Topic segments carry
+# mm:ss ranges into the transcript/audio; claims are tagged by corroboration.
+# Reviewed extraction (data/extracted) over a raw source (the .wav in
+# data/documents); transcript is machine-generated — verify figures and names
+# against the audio before quoting (ASR mangles dollar amounts especially).
+
+source:
+  audio: documents/legal/bosc-committee-hearing-2026-06-04-am.wav
+  transcript: extracted/legal/bosc-committee-hearing-2026-06-04-am.transcript.md
+  recorded: "2026-06-04"
+  session: "morning (part 1 of the 2026-06-04 hearing); recess ~1:54 to reconvene 12:30 for round two"
+  duration: "1:55:22"
+  format: "WAV, 48kHz/24-bit stereo, ~1.99 GB (LFS)"
+  transcription_model: "mlx-community/whisper-large-v3-turbo (on-device)"
+  transcription_confidence: "approximate — ASR; speaker labels inferred (no diarization); 3 trailing hallucinated segments removed"
+
+forum:
+  body: "Ohio General Assembly — Joint Data Center (Study) Committee / Select Committee on Data Centers"
+  presiding: "Co-Chair Holmes (Co-Chair Chavez present; roll led off / opening by Sen. Reinecke)"
+  members_on_roll: ["Holmes (co-chair)", "Chavez (co-chair)", "Reinecke", "Wilkin", "Blackshear", "Claggett", "Workman", "Glassburn"]
+  agenda: "Testimony from the data-center companies themselves, presenting together then answering questions jointly."
+  hearing_series_context: >-
+    Per Co-Chair Holmes's framing: hearing 1 = every Ohio governmental entity that
+    interacts with data centers (agencies, 2026-05-27); Monday = open citizen forum
+    (~35-40 testimonies); this session (2026-06-04 AM) = the hyperscaler panel.
+    Communities are scheduled "next week."
+
+# ----------------------------------------------------------------------------
+# Panel — the four witnesses (presented in order, ~00:00-23:00)
+# ----------------------------------------------------------------------------
+panel:
+  - witness: "Thor Underdahl — Meta"
+    t: "01:16-07:40"
+    investment_claims:
+      - "More than $10 billion invested in Ohio; supports hundreds of jobs. [contested-basis: industry/installed-base figure]"
+      - "Nearly $4 billion spent over six years with Ohio-based suppliers. [unverifiable-at-site-level]"
+      - "Since breaking ground in Ohio (2017), supported 800+ MW of new energy supply; Perry/Davis-Besse uprate ~300 MW. [solid: specific, checkable]"
+      - "$7M+ provided (community/grants, to date). [unverifiable-at-site-level]"
+      - "30,000 Ohio businesses use Facebook, 97% small businesses. [outdated-or-mismatched-basis: platform-usage stat, not facility economics]"
+    env_claims:
+      - "2020: committed to 100% clean/renewable energy match; 2024: restored 1.5 billion gal water to local watersheds (high/medium-stress). [contested-basis: 'match'/restoration is offsite/aggregate, not site consumptive use]"
+      - "~4,000 acres of native-species biodiversity programs across footprints."
+    vs_parent: "Largest stated $ but vaguest attribution; the platform-usage and restoration figures are the classic mismatched-basis pattern documented in proponent-analysis.md."
+
+  - witness: "Liz Schwab — Google (Market Development & Policy)"
+    t: "07:26-13:08"
+    note: "Same witness as the standalone google-schwab-2026-06-04.pdf; she OPENS by acknowledging prior testimony but never names the Lima/BOSC project."
+    investment_claims:
+      - "More than $20 billion total investment in the state; data-center teams in Columbus and Lancaster; 3,000+ individuals. [contested-basis: aggregate]"
+      - "$40 million in construction wages over the initial build-out period. [solid]"
+      - "Since 2006, $16M+ on digital-skills; 90% placement at skilled-trades/readiness sites. [unverifiable-at-site-level]"
+    energy_water_claims:
+      - "Purchases 100% of Ohio power through competitive retail markets; takes transmission service under PUCO-approved tariffs. [solid — and is exactly the cost-causation frame Parent builds on]"
+      - "This week announced a first-of-a-kind commercial structure aggregating 100 MW (demand-flexibility / VPP-style). [solid]"
+      - "Committed to replenishing 120% of water consumed GLOBALLY; Slim Creek wetlands restoration filtering 700+ acres of ag runoff. [contested-basis: 120% is global/offsite — does NOT speak to Ohio-site consumptive use]"
+    vs_parent: >-
+      The counterparty. Parent's whole case is that Google's identity was withheld 15
+      months under NDA in Allen County; Schwab testifies openly to the same committee but
+      keeps it generic — never names the project, the county, or the consumptive cooling
+      basis. Cross-read with mandamus-analysis.md and proponent-analysis.md.
+
+  - witness: "Craig Sunderman — Amazon Web Services"
+    t: "13:14-18:30"
+    investment_claims:
+      - "$70 billion+ invested in Ohio since 2010; $39.9 billion of it in data centers since the 2016 Columbus region launch. [solid: specific]"
+      - "Data centers support 9,500 jobs; contribute $10.9 billion to Ohio GDP. [contested-basis: GDP-contribution modeling]"
+      - "Paid $10M+ in property taxes in 2025; $21.8 billion in economic activity. [property tax = solid/public record; activity figure = modeled]"
+    water_claims:
+      - "Returning 75M+ gallons/yr to Ohio watersheds; water-positive by 2030, 'more than halfway there.' [contested-basis: replenishment/offset, not site consumptive]"
+      - "In Ohio, cooling water used only ~3% of the year; 97% cooled with outside air alone — cuts peak-summer electricity demand 25-35%. [solid AND design-dependent: the air-cooled basis is real but specific to AWS's design — the precise counter-case to a 'data centers barely use water' generalization]"
+    government_customer_claim:
+      key: "11,000 government agencies of all classification levels — federal/state/local — 'but does include the Department of War as well as the CIA. So AWS Cloud is absolutely critical to the national defense mission.'"
+      t: "30:04-30:24"
+      tag: "solid — verbatim, and the single sharpest corroboration of Parent's GovCloud/defense dimension"
+    vs_parent: "AWS is the most candid on the federal/defense customer base — names DoD and CIA outright. This is the industry voicing exactly the 'who can even USE the facility' argument unique to Parent's testimony."
+
+  - witness: "Daniel Brown — Microsoft (Sr. Director, State Government Affairs)"
+    t: "18:32-23:00"
+    investment_claims:
+      - "$40 billion invested in data-center infrastructure in the state; construction begins next year, completion 2029; second site in Pataskala. [solid: specific/forward-looking]"
+      - "Indiana/NIPSCO partnership projected ~$1 billion in cost savings. [out-of-state; context]"
+    distinguishing_pledges:
+      no_abatements:
+        key: "'Microsoft will not seek property tax abatements in local communities... property tax revenue should be invested in the communities — schools, parks, libraries, emergency services.'"
+        t: "22:02-22:18"
+        tag: "solid — a named, falsifiable commitment that distinguishes Microsoft from the DCTE/abatement model"
+      no_ndas:
+        key: "'Microsoft has made the commitment that we will no longer require non-disclosure agreements with local governments.'"
+        t: "22:42-22:47"
+        tag: "solid — HIGHEST-VALUE corroboration: a hyperscaler publicly renouncing the exact instrument (local-government NDA) used against Allen County in the BOSC matter"
+    vs_parent: >-
+      Microsoft volunteers the two policies whose ABSENCE defines Parent's grievance —
+      no abatements, no local-government NDAs — under an express 'building trust and
+      ensuring transparency' banner. Strongest in-record proof that disclosure/no-NDA is
+      an industry-viable posture, not an anti-development demand. Cross-ref
+      mandamus-analysis.md §II and bosc-prr-litigation.
+
+# ----------------------------------------------------------------------------
+# Q&A round one (~23:00-1:47, by questioner; recess ~1:54)
+# ----------------------------------------------------------------------------
+qa_round_one:
+  - questioner: "Co-Chair Holmes"
+    t: "23:00-31:50"
+    topics: ["different business models across the four", "data sovereignty / storing data 'here'", "NVIDIA not represented today"]
+    note: "Sets up the 'we pay our own way / cover our own costs' thread."
+  - questioner: "Sen. Wilkin"
+    t: "33:00-36:00"
+    key: >-
+      Presses the cost pledge directly: "it's either we're committed to covering all the
+      costs... we'll pay our own way. What does that mean?" Answers converge on the AEP
+      Ohio large-load tariff and "the goal is to not raise residential rates for the
+      average Ohioan." [the cost-causation core — solid as a stated goal, conditional in practice]
+    vs_parent: "The cost-causation framing Parent's PUCO/French citation builds on — and which presupposes knowing who the cost-causer is (disclosure)."
+  - questioner: "Sen. Blackshear"
+    t: "41:30-52:00"
+    key: >-
+      "Did any of your businesses receive any government incentives? Break it down by state
+      vs local." Answers: the sales-and-use tax exemption (noted as standard for all
+      manufacturers, not unique to data centers); "I don't have a full breakdown between
+      state and local"; Chamber analysis cited — "$2 in state and local tax payments per $1
+      of state incentive." Microsoft reiterates no-abatements.
+    findings:
+      - "ADMISSION: 'we can do more to be transparent about those benefits' / 'I don't have a full breakdown' — the incentive-opacity gap, conceded on the record. [solid — material to Parent's disclosure thesis]"
+      - "'$2 per $1' Chamber ROI is industry-wide modeling, offered against a marginal-subsidy question. [contested-basis — same denominator mismatch as proponent-analysis.md jobs finding]"
+  - questioner: "Rep. Claggett"
+    t: "52:00-72:00"
+    topics: ["historical framing of the ratepayer pledge", "Monday's citizen concerns ('the heat was there')", "Marysville 50,000 gal/day water cap", "storing documents for the federal government"]
+    note: "Long multi-part; surfaces the Marysville per-day water cap as an existing constraint model."
+  - questioner: "Rep. Workman"
+    t: "73:00-91:00"
+    topics: ["noise — 50 dB at nearest residential receiver", "federal/state environmental discharge regulation (NPDES context)", "AI adoption stats (weekly AI users ~43% -> ~63-65%; under-55 >75%)", "transparency/reporting"]
+    vs_parent: "The discharge-regulation and reporting exchange is the permitting/visibility context for Parent's redacted-permit-specs and water-visibility recommendations; ties to docs/HYDROLOGY.md."
+  - questioner: "Sen. Reinecke"
+    t: "92:00-98:00"
+    key: >-
+      The 'national security imperative — why build on American soil' line of questioning.
+      Frames Department of War / strategic defense imperative; asks about US-made chips.
+      AWS: 'significant demand from the federal government... shared responsibility model —
+      operator builds infrastructure/power/security; the CUSTOMER controls access, data, and
+      the geographic region in which it's located.'
+    findings:
+      - "The 'shared responsibility model — customer controls region/access/data' is the FedRAMP/impact-level enclave structure in the operator's own words — corroborates Parent's IL5/IL6 'enclave vs cluster' slide. [solid]"
+      - "National-security-imperative framing originates from a committee member, answered affirmatively by the panel. [solid — corroborates the defense dimension Parent's oral Q&A engaged]"
+  - questioner: "Rep. Glassburn"
+    t: "98:00-1:47"
+    note: "First salvo runs up to the recess; round two deferred to 12:30. Jobs Ohio funding question — panelists 'not 100% sure,' commit to follow up."
+
+# ----------------------------------------------------------------------------
+# Claims scorecard — quick-reference, tagged by corroboration
+# ----------------------------------------------------------------------------
+claims_scorecard:
+  solid:
+    - "AWS $39.9B in OH data centers since 2016; $70B+ since 2010 (specific, checkable)."
+    - "Microsoft will not seek property-tax abatements (named, falsifiable pledge)."
+    - "Microsoft will no longer require NDAs with local governments (renounces the BOSC instrument)."
+    - "AWS names DoD ('Department of War') and CIA among 11,000 government-agency customers."
+    - "Google buys 100% Ohio power via competitive retail markets under PUCO tariffs; 100 MW aggregation announced."
+    - "AWS air-cooling: water used ~3% of year, 97% air-cooled (real, but design-specific)."
+    - "Blackshear exchange: panel concedes it cannot break incentives down state-vs-local and 'can do more to be transparent.'"
+    - "AWS 'shared responsibility model' — customer controls region/access/data (FedRAMP/enclave structure)."
+  contested_basis:
+    - "Google 120% water replenishment — GLOBAL/offsite, not Ohio-site consumptive."
+    - "AWS/Meta watershed 'restoration' (75M gal/yr; 1.5B gal) — offset/aggregate, not site consumptive."
+    - "Jobs/GDP-contribution figures (AWS 9,500 jobs / $10.9B GDP; Meta hundreds) — modeled installed-base, vs marginal-subsidy question."
+    - "Chamber '$2 per $1 incentive' ROI — industry-wide modeling offered against a marginal question."
+  outdated_or_mismatched:
+    - "Meta '30,000 Ohio businesses use Facebook' — platform-usage stat, not facility economics."
+
+# ----------------------------------------------------------------------------
+# Cross-cutting read vs Parent's thesis
+# ----------------------------------------------------------------------------
+synthesis:
+  headline: >-
+    This is the strongest corroborating record in the corpus for Parent's 'Who is the
+    customer?' thesis — voiced BY the industry. Three findings carry it: (1) Microsoft
+    publicly renounces local-government NDAs and abatements under a 'transparency' banner,
+    proving the no-NDA/disclosure posture is industry-viable, not anti-development; (2) AWS
+    names the Department of War and CIA among its government customers and describes the
+    'shared responsibility model' where the customer controls region/access — the FedRAMP/
+    GovCloud enclave structure Parent argued is unique to his testimony; (3) under Sen.
+    Blackshear, the panel concedes it cannot break its incentives down state-vs-local and
+    'can do more to be transparent.'
+  pattern_consistency: >-
+    The proponents' strongest claims here repeat the proponent-analysis.md pattern exactly:
+    cost-causation/rate-protection is offered as a GOAL (conditional on the large-load
+    tariff actually allocating to the cost-causer), and the water/efficiency claims rest on
+    global/offset/air-cooled bases that do not address site consumptive use. Both real, both
+    non-responsive to the disclosure question.
+  what_remains_unrebutted: >-
+    Even the most candid panel (Microsoft on NDAs, AWS on federal customers) does not close
+    the beneficial-ownership gap: who specifically stands behind a given Ohio load/abatement.
+    The industry's own no-NDA pledge is the mechanism Parent asks the General Assembly to
+    require by statute rather than leave to voluntary corporate policy.
+  cross_refs:
+    - "docs/legal/proponent-analysis.md (Google/QTS/DCC/ODOD read — same mismatched-basis pattern)"
+    - "docs/legal/mandamus-analysis.md §II (legislative evidence) and §I (the NDA/15-month record)"
+    - "data/extracted/legal/bosc-committee-testimony-2026-06-04 (Parent's own slot)"
+    - "data/extracted/legal/select-committee-2026.hearing-index.yaml (full committee catalog)"
+    - "data/extracted/legal/bosc-written-testimony-2026-06-01 (Recommendations 1, 3, 6)"
