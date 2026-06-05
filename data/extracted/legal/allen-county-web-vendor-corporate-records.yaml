@@ -43,6 +43,15 @@ vendors:
       preparer_on_receipt: Fortune Accounting and Business Solutions Inc, 1925 Allentown Road, Lima, OH 45805
       certifying_officer: Ohio Secretary of State Frank LaRose (certificate 2298416)
       source_file: data/documents/legal/allen-county-web-audit/vendor-records/anne-decker-marketing-sos-202130700762.pdf
+    principal_civic_roles:
+      - role: Statutory agent, Rotary Club of Lima (reg #4407493)
+        appointed: 2024-08-05
+        replaced: Rita M. Brown
+        doc_id: '202421803394'   # Form 521 Subsequent Agent Appointment, signed Anne Decker
+        source_file: data/documents/legal/allen-county-web-audit/vendor-records/rotary-club-lima-sos-agent-anne-decker-202421803394.pdf
+        note: >
+          Not a web-custody fact — places Anne Decker inside the Lima civic/booster network (same
+          circles as the AEDG/data-center boosters surfacing in the commissioners minutes). Network node only.
     significance: >
       Pins the legal entity and service-of-process agent for the vendor controlling Shawnee Township's
       and Soil & Water's sites/CMS. Operating name "Anne Decker Marketing" = the corporation
@@ -96,6 +105,49 @@ vendors:
       logs (if held off-county) sit with Stuckey personally, an informal continuation, or an unidentified
       successor. Finding of fact; legal effect not asserted. (Dissolution effective exactly 3 yrs before the audit.)
 
+  - vendor: AhelioTech Services, Ltd.
+    layer: host / managed IT   # distinct from CorpComm (developer) — see web_custody_model below
+    role: >
+      County website HOST as of late 2023. Allen County Commissioners minutes record the
+      "transition of county website to AhelioTech for hosting" (2023-10-24, ACC-M102423.pdf:5),
+      and AhelioTech recurs 9-12x across the 2024 minutes — the move stuck. The County's own record
+      names its HOST (AhelioTech) repeatedly while never once naming its DEVELOPER (CorpComm: 0 hits
+      in 634 meetings). Hosting transition lands ~4 months after CorpComm's dissolution (2023-06-05).
+    builds: []   # not a builder/developer; provides hosting + managed IT for the county WordPress
+    ohio_sos:
+      entity_type: Domestic for-profit LLC ("Ltd.")
+      registration_number: '2042114'
+      trade_name:
+        registered_name: Aheliotech
+        registrant: Aheliotech Services, Ltd.
+        certificate_number: '2045478'
+        doc_id: '201124500442'
+        filing_type: Trade Name / Original Filing (Form 534A, 167-RNO)
+        date_of_first_use: 2010-09-01
+        filed_date: 2011-08-17
+        expiration_on_receipt: 2016-09-01   # trade-name registration term (renewable)
+      business_address: 36 N. Liberty St., Powell, OH 43065
+      nature_of_business: Technology services and consulting
+      signed_by: Eric Hullibarger
+      preparer_on_receipt: John Shockley Co., LPA, 5131 Post Road, Suite 350, Dublin, OH 43017
+      certifying_officer: Ohio Secretary of State Jon Husted (certificate 2045478)
+      source_file: data/documents/legal/allen-county-web-audit/vendor-records/aheliotech-sos-tradename-201124500442.pdf
+    principal_lead:
+      name: Eric Hullibarger
+      probable_family_link: >
+        PROBABLE (name match + Lima geography, NOT confirmed): the obituary of David Hullibarger
+        (1942-2015), who "retired as a mechanic from the Allen County Engineers," lists a grandson
+        "Eric Hullibarger." If the same person, the Columbus-area MSP the county moved its website to
+        has Allen County family roots tied to the County Engineer's office (itself a CorpComm-built site).
+      caveat: Single name-match; treat as inference until a second link (age/address/business tie) confirms.
+      source_file: data/documents/legal/allen-county-web-audit/vendor-records/hullibarger-david-obituary-2015.md
+    significance: >
+      Supplies the legal identity of the HOST layer in the county web stack. Sharpens PRR item 16:
+      when the county says "the Commissioners do not manage the county website... no access," the host
+      of record is a nameable third party (AhelioTech Services, Ltd.) to which a §149.43 request /
+      subpoena for CMS audit logs can be directed, alongside the in-house IT author (Brian Mauk). The
+      county's own minutes establish the AhelioTech relationship — undercutting a blanket "no access" posture.
+
   - vendor: NOW Marketing Group
     domain: nowmarketinggroup.com
     builds:    # from the audit (credited footer + outbound link)
@@ -136,3 +188,36 @@ vendors:
     significance: >
       Wapakoneta (Auglaize County) firm (agent Cody Ridenour). Builds two Allen County public bodies'
       Wix sites — the Board of Developmental Disabilities and the Metropolitan Housing Authority.
+
+# "Who manages the county website" is not one vendor but THREE distinct layers — the original audit
+# (vendor-only framing) answered "CorpComm" and missed the host and the in-house hands. Corrected model:
+web_custody_model:
+  layers:
+    - layer: developer / theme
+      who: CorpComm Group, Inc. (DISSOLVED 2023-06-05)
+      evidence: footer credits + bespoke child themes (ALC, twentyseventeenCCG, AEDG2021) on main/Recorder/Engineer/Clerk/AEDG
+    - layer: host / managed IT
+      who: AhelioTech Services, Ltd. (Powell, OH; Eric Hullibarger)
+      evidence: "commissioners minutes — 'transition of county website to AhelioTech for hosting' (2023-10-24, ACC-M102423.pdf:5); 9-12 hits across the 2024 minutes"
+    - layer: in-house admin / author
+      who: Brian Mauk, Allen County IT Director
+      evidence: >
+        WordPress author 'b_mauk' on allencountyohauditor.com (title "Brian Mauk – Allen County Auditor",
+        byline "by Brian Mauk"). Confirmed as IT Director by Res #447-23 (M061523.pdf, 2023-06-15).
+      caveat: >
+        Authorship CONFIRMED on the Auditor site only; not yet confirmed on commissioners.allencountyohio.com
+        (the exact site item 16 concerns) — its author archive did not resolve. In-house access proven at the
+        office level, strongly suggestive but not proven for the Commissioners' own host.
+  infra_note: >
+    Entire county cluster is one GoDaddy hosting account (160.153.0.x /24): main .4, clerk .61,
+    commissioners .225, auditor .236 — all WordPress 6.9.4. AhelioTech manages; GoDaddy is the underlying host.
+  item_16_implication: >
+    The county's "Commissioners do not manage the county website... no access" (PRR item 16) sits against a
+    web of locally-connected hands — a dissolved Lima developer, a Columbus host with Allen-County family roots,
+    and a county IT Director who is a WordPress author within the same install. CMS audit logs are reachable
+    via the host (AhelioTech) and would name the in-house user (b_mauk). Finding of fact; legal effect not asserted.
+
+cross_refs:
+  - data/extracted/legal/allen-county-web-vendor-audit.md            # three-layer model folded into the audit
+  - data/extracted/legal/bosc-prr-production-2026-06-05.response-index.yaml   # item 16 custody
+  - data/extracted/commissioners/minutes/                            # AhelioTech transition (ACC-M102423) + Mauk (M061523)

@@ -5,7 +5,7 @@
 #             platform_only = self-service builder or CMS detected, no human vendor named;
 #             undetermined = JS-rendered or blocked at capture time.
 meta:
-  subject: Allen County, Ohio — government entities & subdivisions: who manages the website
+  subject: "Allen County, Ohio — government entities & subdivisions: who manages the website"
   captured: 2026-06-05
   collection: legal
   source_records: data/documents/legal/allen-county-web-audit/
@@ -18,6 +18,14 @@ meta:
     (the entity steering the Google/BOSC project) share one vendor, CorpComm Group.
 
 vendor_summary:
+  # NOTE: this maps DEVELOPERS (who built/credits each site). County web custody actually has three
+  # layers — developer (CorpComm), host/managed-IT (AhelioTech), and in-house author (county IT / b_mauk).
+  # See web_custody_model in allen-county-web-vendor-corporate-records.yaml.
+  _county_web_stack:
+    developer: CorpComm Group, Inc. (DISSOLVED 2023-06-05) — footers + bespoke child themes
+    host: AhelioTech Services, Ltd. (Powell, OH; Eric Hullibarger) — per commissioners minutes 2023-10-24 (ACC-M102423.pdf:5), 9-12 hits across 2024; CorpComm = 0 hits in 634 meetings
+    in_house: Brian Mauk, county IT Director — WordPress author 'b_mauk' on allencountyohauditor.com (confirmed on Auditor site only)
+    infra: one GoDaddy account, 160.153.0.x /24 (main .4, clerk .61, commissioners .225, auditor .236), all WP 6.9.4
   # vendor -> entities (slugs). Count is credited+inferred unless noted.
   CorpComm Group, Inc. (corpcommgroup.com):
     confidence_note: 4 credited; 4 inferred (same WordPress 6.9.4 / GoDaddy county template, no in-page credit)
@@ -85,10 +93,13 @@ entities:
     name: Allen County Auditor
     url: https://allencountyohauditor.com/
     vendor: CorpComm Group, Inc.
-    confidence: inferred
+    confidence: inferred   # developer layer; no CorpComm footer credit on this one
     cms: WordPress 6.9.4
+    theme: thegov   # off-the-shelf gov theme, unlike main(ALC)/clerk(twentyseventeenCCG)
+    host_ip: 160.153.0.236   # same GoDaddy /24 as the rest of the county cluster
     registrar: GoDaddy.com, LLC
     evidence: 'county WP 6.9.4 template family; no in-page credit captured'
+    in_house_author: "WordPress author 'b_mauk' — \"Brian Mauk – Allen County Auditor\" (county IT Director). Direct evidence of in-house edit access. /author/b_mauk/ also leaks the admin username (author-enumeration); wp-json user list is locked (401)."
   - slug: treasurer
     name: Allen County Treasurer
     url: https://allencountyohtreasurer.com/
