@@ -135,8 +135,16 @@ synthesis:
   legal_hook: >-
     For mandamus-analysis.md §II: the strongest record evidence that §9.66(D)'s confidentiality
     is neither industry-universal nor public-interest-grounded. Microsoft's 'no reason' and the
-    'market share' rationale are quotable against a categorical-confidentiality defense, and
-    support a narrowing/aggregation-based disclosure standard (Meta's own suggested middle path).
+    'market share' rationale are quotable against a categorical-confidentiality defense.
+    PRECISION (per Parent): the market-share interest is specific to PUBLIC CLOUD PLATFORMS
+    (AWS, Microsoft Azure, Google Cloud) because their energy draw maps to sellable compute
+    capacity — and of those three, TWO disclaim the secrecy (Microsoft 'no reason', Google
+    'we report'), so the objection is one competitor's, contradicted by its rivals. Meta is
+    NOT a counterexample that 'satisfies' the interest: it is a captive/first-party operator
+    (no cloud-market-share signal), and its 'aggregation' remark was about WATER, not the
+    energy figure — so do NOT cite Meta's aggregation as the answer to AWS's energy rationale.
+    The proportionate fix is on the record from AWS itself: report energy 'held confidentially
+    at the regulator space' (~63:52) + trade-secret law (R.C. 1333.61) for the discrete datum.
   cross_refs:
     - "data/extracted/legal/bosc-committee-hearing-2026-06-04-am.index.yaml (round one + panel testimony)"
     - "docs/legal/mandamus-analysis.md §II (R.C. 9.66(D) confidentiality)"

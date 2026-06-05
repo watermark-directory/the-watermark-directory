@@ -295,18 +295,43 @@ Where the legislature has classified information that the affected parties thems
 as disclosable, the **public-records presumption of openness** (which R.C. 149.43 directs
 courts to construe liberally, with exemptions narrowly) should reassert itself.
 
-**2. Where confidentiality *is* asserted, the interest is commercial, not the public
-development interest §9.66(D) invokes.** AWS, on the energy figures it does guard, was
-candid about *why*: that data is "**fairly sensitive market-share information**… you can
-directly tie it back to **cloud market share, which** … **we compete on vigorously**"
-(`pm`, ~63:37). That is an ordinary **trade-secret / competitive-position** interest —
-already addressed by existing, narrowly-tailored public-records law (R.C. 1333.61 trade
-secret; the 149.43 trade-secret line of cases) and by **aggregation**, which Meta's own
-witness proposed as the middle path ("system level as opposed to building by building").
+**2. Where confidentiality *is* asserted, the interest is ordinary commercial competition
+— and even the competitors who share it disagree that it requires secrecy.** AWS, on the
+energy figures it does guard, was candid about *why*: that data is "**fairly sensitive
+market-share information** in terms of **the cloud providers**… you can directly tie it
+back to **cloud market share, which** … **we compete on vigorously**" (`pm`, ~63:26–63:37).
+Two things follow, and neither supports a blanket statutory exemption:
+
+- **The interest is specific to public cloud platforms — and is not even shared across
+  them.** The concern arises only because a *public cloud* operator's energy draw can be
+  reverse-engineered into the sellable compute capacity it markets by the unit. That
+  describes AWS, **Microsoft Azure, and Google Cloud** — direct competitors in one market.
+  Yet of those three, **two disclaim the secrecy**: Microsoft ("**No reason**… we will
+  report those yearly") and Google ("we report all of our operational electricity and water
+  use"). The objection is therefore not an industry position, nor even a public-cloud-
+  industry position — on this record it is **one competitor's** preference, contradicted by
+  its two closest rivals. *Meta's willingness to "aggregate" is not a fourth vote here:*
+  Meta is a **captive, first-party operator** — it runs data centers for its own products,
+  not a public cloud it sells by the unit — so its figures carry **no cloud-market-share
+  signal**, and its comfort with disclosure costs it nothing (its aggregation remark was
+  about *water*, not the energy figure at issue). The point cuts the opposite way from the
+  casual reading: §9.66(D) shields captive operators like Meta **despite their having no
+  market-share interest to protect at all.**
+- **The genuine interest is already met by narrower tools than a public-records exemption.**
+  A competitive-position interest in a discrete figure is the province of **trade-secret
+  law** (R.C. 1333.61; the R.C. 149.43 trade-secret line of cases), which shields the
+  specific sensitive datum without classifying the whole category. And AWS itself named the
+  proportionate mechanism: in "many jurisdictions… we report energy usage… whether that's
+  **held confidentially at the regulator space** or reported to a state agency" (`pm`,
+  ~63:52) — i.e., **confidential reporting to the regulator**, not a blanket bar on public
+  access to every economic-development record.
+
 §9.66(D) is therefore **substantially overbroad** relative to the interest the industry
-actually asserts: it sweeps in the county's own work product, intergovernmental records,
-and the existence of the NDAs themselves to protect what reduces, on the record, to one
-operator's reluctance to reveal a competitive data point it could instead aggregate.
+actually asserts: to shield one public-cloud operator's reluctance to reveal a single
+competitive data point — one its own direct competitors disclose, and that trade-secret law
+and confidential-to-regulator reporting already handle — the statute sweeps in captive
+operators with no such interest, the county's own work product, intergovernmental
+communications, and the existence of the NDAs themselves.
 
 **3. The opacity §9.66(D) protects can defeat even the developer's own knowledge of who
 benefits.** The disclosure gap is not hypothetical. **Vantage Data Centers** — a
