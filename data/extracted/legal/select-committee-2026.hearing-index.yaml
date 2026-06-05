@@ -131,4 +131,13 @@ synthesis:
     benefits + national-security case. The Google testimony is the sharpest counterpoint to
     the BOSC NDA record — same company, opposite transparency posture, days apart.
   unique_to_parent: "The GovCloud/FedRAMP-DoD-impact-level economic argument (who can even USE the facility), and the records-mandamus as the disclosure-enforcement mechanism."
-  candidate_next: "Deep per-witness extraction of the Google (Schwab), DCC, QTS, and Mihalik/DCTE documents for a full proponent-side analysis."
+  proponent_analysis: >-
+    Neutral, precise read of the four proponent documents (Google, QTS, DCC, ODOD/DCTE) at
+    docs/legal/proponent-analysis.md. Key findings: the strongest proponent claims (rate
+    relief, 'we pay our own way', water efficiency) are conditional on the cost-causation +
+    facility-reporting safeguards critics want; three claims rest on mismatched bases
+    (efficiency on pre-AI 2020 data; PwC industry-wide jobs vs marginal 356/13-deals; water
+    on global/aggregate figures); QTS openly names federal/national-security hosting as a
+    core segment (corroborating the defense dimension); and none of the four engage
+    beneficial-ownership disclosure, leaving Parent's thesis substantially unrebutted on its
+    own terms."
