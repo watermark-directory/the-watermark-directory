@@ -1,0 +1,168 @@
+# ============================================================================
+# INDEX — Cory Parent testimony, Ohio Select Committee on Data Centers
+# ============================================================================
+# A navigable index of the committee testimony recording, mirroring the
+# PRR-bundle index pattern. Topic segments carry mm:ss time ranges into the
+# transcript/audio; claims are tagged by how well they are corroborated.
+# This is a reviewed extraction artifact (data/extracted) over a raw source
+# (the .wav in data/documents); the transcript is machine-generated and may
+# contain ASR errors — verify against audio before quoting.
+
+source:
+  audio: documents/legal/bosc-committee-testimony-2026-06-04.wav
+  transcript: extracted/legal/bosc-committee-testimony-2026-06-04.transcript.md
+  recorded: "2026-06-04"
+  duration: "12:17"
+  format: "WAV, 48kHz/24-bit stereo, 212 MB (LFS)"
+  transcription_model: "mlx-community/whisper-large-v3-turbo (on-device)"
+  transcription_confidence: "approximate — ASR; speaker labels inferred (no diarization)"
+
+forum:
+  body: "Ohio General Assembly — Select Committee on Data Centers"
+  leadership: "co-chairs (incl. Co-Chair Chavez); members"
+  witness: "Cory Parent — Allen County resident; software/platform engineer (cloud infra for regulated industries)"
+  posture: "interested party (neither proponent nor opponent)"
+  other_witnesses_named: ["Kim Georgetown (next)", "Carl Setzer (on deck)"]
+
+# ----------------------------------------------------------------------------
+# Topic / segment index
+# ----------------------------------------------------------------------------
+segments:
+  - t: "00:00-00:22"
+    speaker: chair
+    topic: "Prior witness closes; chair calls Cory Parent"
+  - t: "00:23-00:48"
+    speaker: parent
+    topic: "Self-introduction — cloud/platform engineer for regulated industries"
+    key: "Credibility frame: works daily with the platforms data centers serve and the economics of buying/selling capacity."
+  - t: "00:49-01:05"
+    speaker: parent
+    topic: "Why data centers employ few people"
+    key: "'It is because I exist' — capacity is requested via software (servers, queues), not staffed in person."
+  - t: "01:06-01:41"
+    speaker: parent
+    topic: "Thesis + the BOSC case + the mandamus"
+    key: >-
+      Core argument: Ohio extends substantial public benefits to data-center developers
+      without requiring disclosure of who they are. American Township $500M data center
+      negotiated 15 months under NDA. The submitted petition for writ of mandamus 'is
+      actually what finally got me those records on Friday, or at least a production
+      schedule.'
+    cross_ref: ["mandamus-analysis.md §I.5 (mootness/leverage)", "§II (legislative evidence)"]
+  - t: "01:42-02:03"
+    speaker: parent
+    topic: "Recommendation: a centralized statutory definition of 'data center'"
+    key: "'What is a data center?' — no one is asking/answering; define it before legislating."
+  - t: "02:04-02:53"
+    speaker: parent
+    topic: "Disclosure underpins everything else"
+    key: "PropTech/parcel-ownership rollup (Palantir, Reonomy); assess both cost AND value, and whether value stays in-state."
+  - t: "02:54-04:00"
+    speaker: parent
+    topic: "Ohio's defense footprint — commercial vs government cloud"
+    key: >-
+      Gov cloud ~20-30% above commercial (isolation, person-staffing, compliance);
+      driven by FedRAMP + DoD impact levels. A FedRAMP-compliant facility cannot be used
+      by local engineers/entrepreneurs — a hidden limit on community economic impact.
+    cross_ref: ["mandamus-analysis.md §III + §IV [DEF] strand"]
+  - t: "04:00-04:54"
+    speaker: parent
+    topic: "Sales-tax exemption, misinformation, liquid cooling"
+    key: "Misinformation traced to disclosure gaps; B200/H100 AI GPUs MUST be liquid-cooled (rebuts 'use air cooling')."
+  - t: "04:55-05:20"
+    speaker: parent
+    topic: "Speculative expansion + six recommendations"
+    key: "Expansion 'likely speculative, hoping to get defense contract space'; six recommendations + sources in the written submission."
+  - t: "05:57-06:48"
+    speaker: member
+    topic: "Q: national-security imperative (per the data center coalition)"
+  - t: "06:49-07:32"
+    speaker: parent
+    topic: "A: classified; Google IL-6; Allen County hosts JSMC"
+    key: "Most detail is classified; Google achieved IL-6; Google is the Allen County developer; the county also hosts the Joint Systems Manufacturing Center."
+    cross_ref: ["mandamus-analysis.md §IV [DEF] — Google IL-6 + JSMC corroborated"]
+  - t: "07:37-07:55"
+    speaker: member
+    topic: "Q: why the data-center boom since 2024 — why necessary now?"
+  - t: "07:57-10:27"
+    speaker: parent
+    topic: "A: payer's view + EO 14265 + defense-cloud mechanics"
+    key: >-
+      Real capacity pressure (leasing-based, finite; 'Super Bowl' price spikes). Boom may
+      tie to Executive Order 14265 directing defense primes to modernize procurement.
+      Google's defense platform = a secured version of its standard platform ('off-the-
+      shelf'); built on Kubernetes; edge compute = 'a brain in your tank'; surveillance
+      need not route through a data center (chip on the camera).
+  - t: "10:32-10:44"
+    speaker: chavez
+    topic: "Q (Co-Chair Chavez): distill to a layman comment"
+  - t: "10:49-12:05"
+    speaker: parent
+    topic: "A: the 'two pizzas' analogy; compute as power/water"
+    key: >-
+      Demand is real (AI not declining; 'Opus 4.8 released Friday'); everyone builds hoping
+      to sell capacity, so Ohio doesn't know who it's selling to or whether it's producing
+      the right amount (concurrent/duplicated demand). Compute flows over networks like
+      power and water — networks with flow, rerouting risk, resiliency.
+    cross_ref: ["HYDROLOGY.md — the 'compute is like water/power' framing mirrors the BOSC water-loop model"]
+  - t: "12:08-12:16"
+    speaker: chair
+    topic: "Chair thanks witness; calls Kim Georgetown (Carl Setzer on deck)"
+
+# ----------------------------------------------------------------------------
+# Entities mentioned
+# ----------------------------------------------------------------------------
+entities:
+  - "Google — confirmed Allen County (BOSC) developer; cited as having achieved DoD IL-6"
+  - "Joint Systems Manufacturing Center (JSMC) — Lima Army Tank Plant; the corridor's defense anchor"
+  - "Palantir, Reonomy — property-ownership data platforms (PropTech)"
+  - "AWS, GCP — cloud providers the witness pays as a customer"
+  - "Data Center Coalition — testified prior week (national-security framing)"
+  - "NVIDIA B200 / H100 — AI GPUs cited as requiring liquid cooling"
+  - "Co-Chair Chavez — committee co-chair"
+
+# ----------------------------------------------------------------------------
+# Factual claims — corroboration status (BOSC discipline: tag, don't assert)
+# ----------------------------------------------------------------------------
+claims:
+  - claim: "American Township data center = ~$500M, negotiated 15 months under NDA"
+    status: verified
+    note: "Corpus + reporting: $500M Google project; NDA pattern documented (Ex. A Category 1)."
+  - claim: "The submitted mandamus petition produced records / a production schedule 'on Friday'"
+    status: verified-by-witness
+    note: >-
+      Material update to mandamus-analysis.md §I.5: the draft functioned as leverage even
+      unfiled — the county produced or scheduled production. 'Friday' ≈ 2026-05-29 (cure
+      expiry) or 2026-06-01. Confirms the 'draft as leverage' thesis (§II).
+  - claim: "Google has achieved DoD Impact Level 6 (IL-6)"
+    status: verified
+    note: "Corroborated — Google Distributed Cloud + air-gapped appliance reached IL-6 (see §IV [DEF])."
+  - claim: "Allen County (BOSC site) is co-located with the JSMC defense facility"
+    status: verified
+    note: "JSMC = Lima Army Tank Plant (GD Land Systems); same corridor the PRR Category 5 targets. Site-level DoD nexus remains an open question, not a finding."
+  - claim: "Government cloud capacity runs ~20-30% above commercial rates"
+    status: witness-assertion
+    note: "Domain-expert estimate (FedRAMP/IL isolation + staffing + compliance); not independently verified here."
+  - claim: "B200 / H100 AI GPUs must be liquid-cooled"
+    status: industry-consensus
+    note: "Consistent with the BOSC cooling-basis work (36 cooling towers; 3.1-10 MGD consumptive)."
+  - claim: "Executive Order 14265 drove defense-prime procurement modernization"
+    status: unverified
+    note: "ASR-captured EO number — VERIFY the number and content before relying on it."
+  - claim: "Kubernetes deployed in some aerial/ground military vehicles ('brain in your tank')"
+    status: witness-assertion
+    note: "Stated 'to my understanding'; illustrative, not documented here."
+
+# ----------------------------------------------------------------------------
+# Why this matters to the BOSC record
+# ----------------------------------------------------------------------------
+significance: >-
+  This is the §II "present the draft as evidence to the General Assembly" move,
+  executed. The witness testified as a fact witness to §9.66(D)'s effect (records
+  withheld behind a 15-month NDA on a $500M subsidized project) and reports that the
+  mandamus petition is what broke the logjam — validating both the leverage thesis
+  (§I.5) and the legislative-venue thesis (§II). It also puts the defense nexus
+  (Google IL-6, JSMC, EO 14265) and the compute-as-water/power framing (mirroring the
+  hydrology model) directly into the legislative record. The six written
+  recommendations + sources referenced at 05:08 are a separate submission not in this
+  recording — a candidate next record to index.

@@ -5,3 +5,7 @@ data/documents/**/*.tiff filter=lfs diff=lfs merge=lfs -text
 data/documents/**/*.pdf filter=lfs diff=lfs merge=lfs -text
 data/documents/**/*.png filter=lfs diff=lfs merge=lfs -text
 data/documents/**/*.odg filter=lfs diff=lfs merge=lfs -text
+data/documents/**/*.wav filter=lfs diff=lfs merge=lfs -text
+data/documents/**/*.mp3 filter=lfs diff=lfs merge=lfs -text
+data/documents/**/*.m4a filter=lfs diff=lfs merge=lfs -text
+data/documents/**/*.flac filter=lfs diff=lfs merge=lfs -text
