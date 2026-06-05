@@ -15,8 +15,11 @@ vendor legal registry ([`allen-county-web-vendor-corporate-records.yaml`](allen-
 
 **Eight of the ten county-level sites are WordPress 6.9.4 on a single GoDaddy hosting account**
 (`160.153.0.x` /24), **hosted/managed by AhelioTech** (per the 2023–24 Commissioners minutes), with
-**CorpComm Group, Inc. as the original developer** (dissolved 2023-06-05). The Sheriff and Board of
-Elections are the exceptions (Cloudflare-fronted, not on the county WordPress cluster).
+**CorpComm Group, Inc. as the original developer** (dissolved 2023-06-05). **The whole estate sits
+behind Cloudflare's CDN** (`server: cloudflare` + `cf-ray` on every site) — but the eight offices
+expose **GoDaddy Managed-WordPress origin IPs** (`160.153.0.x`) behind it. The Sheriff and Board of
+Elections are the exceptions: they resolve to **Cloudflare anycast directly** (origin hidden) and are
+**not WordPress** (Sheriff = `alsher` theme; BOE = the Ohio SOS `evolve` statewide template, state-run).
 
 | Office | Domain | Host IP | CMS | Theme | "Developed by CorpComm"? | CMS author (latest) | Revisions API | Latest page edit |
 |---|---|---|---|---|:--:|---|:--:|---|
