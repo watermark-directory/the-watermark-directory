@@ -1,0 +1,138 @@
+# Corporate-registry records for the private web vendors identified in the Allen County
+# government-website vendor audit (data/extracted/legal/allen-county-web-vendor-audit.{md,yaml}).
+# Establishes each vendor's legal identity and service-of-process agent — the practical hooks
+# for directing a records request or subpoena at the third party that controls a subdivision's
+# CMS (cf. PRR item 16, where the county disclaims managing its own website).
+# Source binaries belong under data/documents/legal/allen-county-web-audit/vendor-records/.
+meta:
+  collection: legal
+  source_dir: data/documents/legal/allen-county-web-audit/vendor-records/
+  cross_refs:
+    - data/extracted/legal/allen-county-web-vendor-audit.yaml
+    - data/extracted/legal/bosc-prr-production-2026-06-05.response-index.yaml   # item 16 custody
+
+vendors:
+  - vendor: Anne Decker Marketing
+    builds:    # from the audit (credited footer attributions)
+      - Shawnee Township (shawneetownship.com)
+      - Allen Soil & Water Conservation District (allenswcd.com)
+    ohio_sos:
+      registration_number: '2298416'
+      formation:
+        doc_id: '201414700542'
+        filing_type: Articles of Organization for a Domestic For-Profit LLC (Form 533A)
+        name_at_formation: Anne Decker Marketing, LLC
+        filed_date: 2014-05-27
+        effective_date: 2014-06-01
+        source_file: data/documents/legal/allen-county-web-audit/vendor-records/anne-decker-marketing-sos-formation-201414700542.pdf
+      doc_id: '202130700762'   # conversion filing
+      filing_type: Certificate for Conversion (Form 700) + Initial Articles of Incorporation (Form 532A)
+      filed_date: 2021-11-08
+      effective_date: 2022-01-01
+      conversion: Domestic For-Profit LLC -> Domestic For-Profit Corporation (within SOS records)
+      prior_name: Anne Decker Marketing, LLC
+      current_legal_name: Anne Decker Marketing LLC Inc.   # corporate name retains the old "LLC"
+      principal_office: {city: Lima, county: Allen, state: OH}
+      statutory_agent:
+        name: Anne Decker
+        address: 5518 Shawnee Road, Lima, OH 45806
+        note: 5518 Shawnee Road (45806) is within Shawnee Township — the vendor sits inside a township whose website it builds.
+      shares: 100 common @ $1.00 par
+      stated_capital: none specified
+      purpose: Marketing and Advertising
+      preparer_on_receipt: Fortune Accounting and Business Solutions Inc, 1925 Allentown Road, Lima, OH 45805
+      certifying_officer: Ohio Secretary of State Frank LaRose (certificate 2298416)
+      source_file: data/documents/legal/allen-county-web-audit/vendor-records/anne-decker-marketing-sos-202130700762.pdf
+    significance: >
+      Pins the legal entity and service-of-process agent for the vendor controlling Shawnee Township's
+      and Soil & Water's sites/CMS. Operating name "Anne Decker Marketing" = the corporation
+      "Anne Decker Marketing LLC Inc." — formed as an LLC 2014-06-01, converted to a for-profit corporation
+      2022-01-01, continuously agented by Anne Decker (active; contrast CorpComm, dissolved).
+
+  - vendor: CorpComm Group, Inc.
+    status: DISSOLVED (effective 2023-06-05)
+    builds:    # from the audit
+      - Allen County main / Recorder (allencountyohio.com) — credited + linked corpcommgroup.com
+      - Allen County Engineer — credited + linked
+      - Allen County Clerk of Courts — credited + linked
+      - AEDG (aedg.org) — credited + linked
+      - "inferred (same county WP 6.9.4 template, no in-page credit): Commissioners, Auditor, Treasurer, Prosecutor"
+    ohio_sos:
+      charter_number: '532078'
+      name_history:
+        - {name: T. R. Stuckey and Associates, Inc., note: original}
+        - {name: CorpComm Group, Inc., changed: 1996-10-21, doc_id: '5649_1577', note: "Certificate of Amendment; SOS cert issued 1996-10-23 (SoS Bob Taft)"}
+      principal_office: {city: Lima, county: Allen, state: OH}
+      statutory_agent: {name: Timothy R. Stuckey, address: 924 Fenway Drive, Lima, OH 45804}
+      officers: {president: Timothy R. Stuckey, secretary_1996: Kathleen Stuckey}
+      domain_on_record: http://www.corpcommgroup.com
+      domain_status:   # checked 2026-06-05
+        resolves: true (A record -> 18.224.128.127, AWS; NS worldnic.com)
+        site: dead — homepage returns HTTP 404 (domain points somewhere but serves no page)
+        registration: "still active — Network Solutions; created 1997-01-15; renewed 2025-01-06; expires 2027-01-14"
+        note: >
+          Domain renewed ~1.5 yrs AFTER the corp dissolved (2023-06-05) and is paid through 2027 — someone is
+          still maintaining the corporate web identity post-dissolution, though the site itself is content-less.
+          The "CorpComm Group, Inc." credit/link on the live county + AEDG sites therefore points to a paid-up
+          but dead domain of a dissolved corporation.
+      dissolution:
+        doc_id: '202315700550'
+        form: Certificate of Dissolution (Form 561, For-Profit Domestic Corporation)
+        adopted_by: Shareholders (ORC 1701.86(E))
+        resolution_date: 2023-01-20        # "date of dissolution if other than filing date"
+        filed_date: 2023-06-06
+        effective_date: 2023-06-05
+        winddown: "creditor notice 2023-04-05; state-agency (BWC/JFS/Taxation) notice 2023-04-11; tax clearance + CAT cancellation 2023-05-05"
+        prepared_by: Siferd & Reed (Lima); receipt to Richard E. Siferd, 121 W High St Ste 601, Lima 45801
+        cat_account: '95045423'
+      source_files:
+        - data/documents/legal/allen-county-web-audit/vendor-records/corpcomm-sos-dissolution-202315700550.pdf
+        - data/documents/legal/allen-county-web-audit/vendor-records/corpcomm-sos-1996-rename-5649_1577.pdf
+    significance: >
+      MATERIAL: the vendor of record for the county's own sites (main/Recorder, Engineer, Clerk) AND the
+      AEDG site has been a LEGALLY DISSOLVED corporation since 2023-06-05 — yet its credit and a live link to
+      corpcommgroup.com still appear on those actively-maintained sites as of the 2026-06-05 audit. Deepens the
+      PRR item-16 custody question: the entity of record for the county CMS no longer exists, so the CMS audit
+      logs (if held off-county) sit with Stuckey personally, an informal continuation, or an unidentified
+      successor. Finding of fact; legal effect not asserted. (Dissolution effective exactly 3 yrs before the audit.)
+
+  - vendor: NOW Marketing Group
+    domain: nowmarketinggroup.com
+    builds:    # from the audit (credited footer + outbound link)
+      - Allen County Regional Transit Authority (acrta.com)
+      - Apollo Career Center (apollocareercenter.com)
+      - Allen County Agricultural Society / Fairgrounds (allencofair.com)
+    ohio_sos:
+      registration_number: '1949799'
+      legal_name: NOW Marketing Group Inc.   # organized as a domestic for-profit LLC despite "Inc." in the name
+      doc_id: '201020200131'
+      filing_type: Articles of Organization for a Domestic For-Profit LLC (Form 533A)
+      filed_date: 2010-07-21
+      effective_date: 2010-07-25   # handwritten on the form
+      statutory_agent: {name: Jessika Lyn Phillips, address: 110 Weger Avenue, Elida, OH 45807}
+      purpose: Internet marketing & consulting / social media marketing / website development
+      status: formed 2010; no dissolution filing in record (current SOS status not separately confirmed)
+      source_file: data/documents/legal/allen-county-web-audit/vendor-records/now-sos-formation-201020200131.pdf
+    significance: >
+      Elida/Allen County firm (agent Jessika Lyn Phillips). Active-looking vendor of record for three
+      county-adjacent public bodies — transit authority, the JVS career center, and the agricultural society.
+
+  - vendor: Modo Media, LLC
+    domain: modomediacompany.com
+    builds:    # from the audit (credited footer + outbound link; both Wix builds)
+      - Allen County Board of Developmental Disabilities (acbdd.org)
+      - Allen Metropolitan Housing Authority (allenmha.com)
+    ohio_sos:
+      registration_number: '2002145'
+      legal_name: Modo Media, LLC
+      doc_id: '201106301238'
+      filing_type: Articles of Organization for a Domestic For-Profit LLC (Form 533A)
+      filed_date: 2011-03-07
+      statutory_agent: {name: Cody Ridenour, address: 309 Independence Drive, Wapakoneta, OH 45895}
+      purpose: Website design and advertising
+      preparer_on_receipt: Romey and Vandemark, 330 N Main St, PO Box 1256, Lima, OH 45802
+      status: formed 2011; no dissolution filing in record (current SOS status not separately confirmed)
+      source_file: data/documents/legal/allen-county-web-audit/vendor-records/modo-sos-formation-201106301238.pdf
+    significance: >
+      Wapakoneta (Auglaize County) firm (agent Cody Ridenour). Builds two Allen County public bodies'
+      Wix sites — the Board of Developmental Disabilities and the Metropolitan Housing Authority.

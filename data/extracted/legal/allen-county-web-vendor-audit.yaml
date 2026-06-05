@@ -23,10 +23,12 @@ vendor_summary:
     confidence_note: 4 credited; 4 inferred (same WordPress 6.9.4 / GoDaddy county template, no in-page credit)
     credited: [allen-county-main, engineer, clerk-of-courts, aedg]
     inferred: [commissioners, treasurer, auditor, prosecutor]
+    corporate_record: "CorpComm Group, Inc. (Ohio charter #532078; f/k/a T.R. Stuckey and Associates, Inc., renamed 1996; agent/pres. Timothy R. Stuckey) — DISSOLVED effective 2023-06-05, yet still credited+linked on the live county/AEDG sites. See allen-county-web-vendor-corporate-records.yaml"
   NOW Marketing Group (nowmarketinggroup.com):
     credited: [acrta, apollo-career-center, allen-county-fair]
   Anne Decker Marketing:
     credited: [shawnee-township, allenswcd]
+    corporate_record: "Anne Decker Marketing LLC Inc. (Ohio SOS #2298416; LLC->corp conv. eff. 2022-01-01; agent Anne Decker, 5518 Shawnee Road, Lima 45806) — see allen-county-web-vendor-corporate-records.yaml"
   Modo Media (modomediacompany.com):
     credited: [acbdd, allen-mha]   # both Wix builds
   MCG:

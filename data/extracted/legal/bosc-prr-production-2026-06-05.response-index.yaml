@@ -1,0 +1,166 @@
+# Allen County Commissioners — first production batch in response to the BOSC public-records
+# request. Item-by-item response tracker. Cover letter dated 2026-06-05 (Clerk of Board
+# Brittany N. Woods). This is the production the unfiled mandamus draft extracted as leverage
+# (see docs/legal/mandamus-analysis.md §I.5).
+#
+# Source binaries belong at data/documents/legal/prr-production-2026-06-05/ (5 PDFs, listed
+# under source_documents). Figures/dates below are transcribed from those PDFs; cite page.
+meta:
+  subject: BOSC PRR — Allen County Commissioners production batch 1
+  cover_letter_date: 2026-06-05
+  custodian: Allen County Board of Commissioners (Clerk of Board, Brittany N. Woods)
+  collection: legal
+  source_dir: data/documents/legal/prr-production-2026-06-05/   # binaries to be added
+  posture: >
+    First of multiple rolling responses ("every Friday"). Item-by-item. Reserves the right to
+    deny/redact later under R.C. 149.43 and R.C. 9.66; states nothing is waived. Per relator's
+    2026-06-03 email, any request item not listed was treated as withdrawn (pins the universe).
+  relevance: >
+    Documents the leverage thesis end-to-end (mandamus-analysis.md §I.5): a credible, unfiled,
+    court-ready complaint broke the stonewall. Writ now likely moot under Henderson, but the
+    statutory-damages/costs claim for the ~7-week pre-production delay (2026-04-14 → 2026-06-05)
+    remains live; the $1,000 cap was already reached.
+
+source_documents:
+  - file: Letter-Record Request Response 1.pdf
+    what: Cover response letter (2026-06-05), enumerates the 19-item request and the county's item-by-item response.
+    signer: Brittany N. Woods, Clerk of Board
+  - file: NDA.pdf
+    what: Resolution #417-25 (2025-05-27) + executed Mutual Non-Disclosure Agreement, Bistrozzi LLC <-> Allen County Commissioners.
+    response_to: item 1
+    key_signatures: "Scott J. Ziance (Vorys, for Bistrozzi LLC) dated 2025-07-01; Brian Winegardner (Board President, for County)"
+  - file: CRA.pdf
+    what: Resolution #548-25 (2025-07-10, county enters CRA) + executed Community Reinvestment Area Agreement with Bistrozzi LLC + Exhibit A site map.
+    response_to: item 3
+    key_signatures: "Commissioners Noonan, Seibert, Winegardner; Bistrozzi LLC signature dated 2025-08-26"
+  - file: School District Notice Resolution.pdf
+    what: Resolution #494-25 (2025-06-24) authorizing R.C. 3735.671 / 5709.83 notice to Elida Local + Apollo Career Center; + CRA text.
+    response_to: item 3
+  - file: School District Notice Letters.pdf
+    what: AEDG notice letters (2025-06-25) to Apollo Career Center (JVSD) and Elida Local School District + CRA text + Exhibit A map.
+    response_to: item 3
+    note: "Signed-back receipts — Apollo: Keith Horner, Supt; Elida: Joel Mengerink, Supt (both 2025-06-25)."
+
+# Status vocabulary: produced | no_records | pending_9.66_review | deferred_to_sanitary_eng
+request_response:
+  category_A: Project BOSC — confidentiality & commitment instruments (items 1-4)
+  category_B: County wastewater works — engineering & design (items 5-15)
+  category_C: County website change records (items 16-17)
+  category_D: Address & engineer of record (items 18-19)
+  items:
+    - n: 1
+      category: A
+      ask: NDA / confidentiality / common-interest agreements w/ AEDG, Bistrozzi, Google, Vorys/Ziance re American Twp facility.
+      status: produced
+      produced: Mutual NDA (NDA.pdf) — Resolution #417-25 (2025-05-27); executed 2025-07-01 (Ziance) / Winegardner.
+      significance: Direct confirmation of NDA-by-default pattern (memo §III). Pre-2026-03-20 record -> §1.48 wedge applies; county produced it.
+    - n: 2
+      category: A
+      ask: County <-> DoD / federal contractor / General Dynamics (GDIT, GDLS) comms re American Twp facility or the American Twp–Shawnee Twp corridor.
+      status: no_records
+      county_position: >
+        No records concerning the "Bistrozzi/Google Data center facility." County narrows "American Township
+        facility" to that facility and asks relator to define "American Township-Shawnee Township corridor"
+        and supply a date range. Deemed fulfilled.
+      significance: Defense nexus returns nothing; memo's "open question" framing (§IV) holds — county asserts none.
+    - n: 3
+      category: A
+      ask: CRA / Enterprise Zone / TIF / tax-abatement instruments + school-district notice/compensation agreement.
+      status: produced
+      produced: >
+        CRA Agreement w/ Bistrozzi LLC (CRA.pdf, Res #548-25, 2025-07-10; executed 2025-08-26) + school-district
+        notices to Elida Local & Apollo Career Center (Res #494-25, 2025-06-24; AEDG letters 2025-06-25).
+      key_terms: "15-yr / 75% real-property abatement; ~$500M capital; ~50 jobs / ~$4M payroll by 2030; M-2 zoning; Conditional Use Permit 2025-02-04; CRA #003-99003-396."
+      significance: Deal locked mid-2025; school districts affected = Elida Local + Apollo (JVSD).
+    - n: 4
+      category: A
+      ask: Cost-benefit analysis / projected tax-revenue impact / public ROI evaluation + underlying inputs/assumptions.
+      status: pending_9.66_review
+      county_position: '"being reviewed by our legal counsel for compliance with R.C. 149.43 and R.C. 9.66" — NOT fulfilled.'
+      significance: >
+        §9.66(D) invoked on the county's OWN work product — the weakest categorical fit (memo §II) — and the
+        records are 2025-dated, so §1.48 also applies. The single best record-by-record contest point.
+    - n: "5-15"
+      category: B
+      ask: BOSC pump-station/forcemain RFP + bids + permits (SWPTI-260294/DSW-6756), Shawnee II Phase 2 12.6 MGD capacity, MS Consultants forcemain feasibility (Res #113-26 / #136-26), 1996 CWA consent decree, Cridersville WWTP, etc.
+      status: deferred_to_sanitary_eng
+      county_position: Forwarded to the Allen County Sanitary Engineering Department; "better suited for the Sanitary Engineer." NOT fulfilled.
+      significance: Wastewater universe split to a different custodian; production not yet made. Watch future Friday batches.
+    - n: 16
+      category: C
+      ask: County website CMS audit trail / edit history / version-control for the Sanitary Engineering project pages, 2025-01-01 to date (RIMS GS Series ID acceptable).
+      status: no_records
+      county_position: '"the Commissioners do not manage the county website and therefore do not have access to the information this request seeks… no records to provide." Deemed fulfilled.'
+      significance: >
+        Direct tie to data/extracted/legal/allen-county-web-vendor-audit — the county disclaims control of its
+        own site; CMS audit logs would be held by CorpComm Group, Inc. (the vendor). Confirms the third-party-
+        processor custody theory. NB the county simultaneously cites commissioners.allencountyohio.com
+        agendas/minutes/legal-notices as a records source — disclaims managing the site yet points to it.
+    - n: 17
+      category: C
+      ask: Internal comms re addition/modification/removal of any reference to BOSC, the pump-station RFP, Bistrozzi LLC, or Shawnee II figures on any county-managed website.
+      status: no_records
+      county_position: No responsive records. Deemed fulfilled.
+    - n: 18
+      category: D
+      ask: Records indexed to 4110 N. Cole Street, Lima (the permitted Bistrozzi/Project BOSC address) not captured by entity/project name above.
+      status: no_records
+      county_position: No responsive records, "as it pertains to the categories fulfilled by this request" (partial).
+    - n: 19
+      category: D
+      ask: County <-> EMH&T (engineer of record on Bistrozzi's OEPA permit filings) comms.
+      status: no_records
+      county_position: Commissioners have no responsive records; will supplement from Sanitary Engineering if any. Deemed fulfilled (as to Commissioners).
+
+new_findings:
+  - id: two-bistrozzi-entities
+    finding: >
+      "Bistrozzi LLC" (Delaware; Vorys/Ziance) — the NDA (2025-05-27) and CRA (2025-07-10) counterparty — is a
+      DISTINCT entity from "Bistrozzi Addition LLC" (registered 2026-04-06, per memo §III/timeline). The County
+      executed a 75% CRA abatement and an NDA with "Bistrozzi LLC" in mid-2025 — ~9 months BEFORE the public
+      Google confirmation (2026-03-16) and ~10 months before "Bistrozzi Addition LLC" was even registered.
+    implication: Sharpens the opacity narrative (memo §III) and predates the timeline materially. The memo currently names only "Bistrozzi Addition LLC" — distinguish the two.
+  - id: cms-custody-confirmed
+    finding: County (item 16) expressly disclaims managing its own website; CMS audit logs therefore sit with the web vendor (CorpComm Group, Inc.).
+    implication: Confirms the records-custody point in data/extracted/legal/allen-county-web-vendor-audit.{md,yaml}. A §149.43 request for CMS logs implicates the third-party processor.
+  - id: nine-66-distinction
+    finding: CRA §19 "R.C. 9.66 Covenants" is the pre-existing clawback/false-statement covenant, NOT the new §9.66(D) confidentiality provision (HB 184). Only item 4's response invokes the (D) shield.
+    implication: Keep §9.66 (covenant) and §9.66(D) (confidentiality) distinct in any filing.
+
+timeline_additions:   # [BOSC] strand for mandamus-analysis.md §IV
+  - {date: 2025-02-04, event: "American Twp BZA Conditional Use Permit for the Project Site (M-2 zoning)"}
+  - {date: 2025-04-17, event: "Res #304-25 — Board creates Allen County CRA No. 1"}
+  - {date: 2025-05-20, event: "Elida BOE Res #5-25-2 — authorizes School District Compensation Agreement"}
+  - {date: 2025-05-27, event: "Res #417-25 — Board enters Mutual NDA with Bistrozzi LLC"}
+  - {date: 2025-06-02, event: "ODOD assigns CRA designation #003-99003-396"}
+  - {date: 2025-06-24, event: "Res #494-25 — authorizes school-district CRA notice (Elida + Apollo)"}
+  - {date: 2025-06-25, event: "AEDG (Cynthia Leis) notice letters to Elida Local + Apollo Career Center; receipts signed same day"}
+  - {date: 2025-07-01, event: "Mutual NDA executed — Scott J. Ziance (Vorys) signs for Bistrozzi LLC"}
+  - {date: 2025-07-10, event: "Res #548-25 — Board enters CRA Agreement with Bistrozzi LLC (15-yr/75%)"}
+  - {date: 2025-08-26, event: "CRA Agreement executed (Bistrozzi LLC signature date)"}
+  - {date: 2026-06-03, event: "Relator narrowing email — withdraws unlisted items"}
+  - {date: 2026-06-05, event: "First production batch (this document) — NDA + CRA + school notices; item 4 held under §9.66 review; Category B deferred to Sanitary Eng."}
+
+# Independent primary-source corroboration from the Commissioners' own published meeting record
+# (data/extracted/commissioners/minutes/ — scraped from commissioners.allencountyohio.com, the
+# CorpComm-built county site at issue in item 16). Each resolution the production relies on appears
+# in the minutes/agenda at the page below; dates match this index exactly. Read a hit in full at
+# data/documents/commissioners/minutes/raw/<filename> on the cited page.
+minutes_corroboration:
+  - {item: 1,  resolution: '417-25', date: 2025-05-27, minutes: 'M052725.pdf:3',  agenda: 'A052725.pdf:2',  note: "Bistrozzi named on the agenda + minutes (subject_bistrozzi)"}
+  - {item: 3,  resolution: '304-25', date: 2025-04-17, minutes: 'M041725.pdf:1,5', note: "Board creates Allen County CRA No. 1"}
+  - {item: 3,  resolution: '494-25', date: 2025-06-24, minutes: 'M062425.pdf:9',  note: "school-district notice authorization; Bistrozzi named"}
+  - {item: 3,  resolution: '548-25', date: 2025-07-10, minutes: 'M071025.pdf:4',  agenda: 'A071025.pdf:3',  note: "Board enters CRA Agreement"}
+  - {items: '5-15', resolution: '113-26', date: 2026-02-19, minutes: 'M021926.pdf:3', agenda: 'A021926.pdf:3', note: "MS Consultants forcemain feasibility — a Category-B item the county DEFERRED to Sanitary Eng; the resolution is nonetheless in the Commissioners' own minutes"}
+  - {items: '5-15', resolution: '136-26', date: 2026-02-26, minutes: 'M022626.pdf:3', agenda: 'A022626.pdf:2', note: "second forcemain-feasibility resolution; same point"}
+  note: >
+    The minutes corpus carries 28 subject_bosc and 8 subject_bistrozzi page-hits and independently
+    confirms every resolution number this production cites — useful if the county's later batches
+    contest a date or resolution. It also shows the deferred Category-B wastewater resolutions
+    (#113-26 / #136-26) sitting in the Commissioners' OWN record, undercutting the "better suited
+    for the Sanitary Engineer" deferral as to the existence of those legislative acts.
+
+cross_refs:
+  - docs/legal/mandamus-analysis.md            # §I.5 leverage; §II §9.66(D); §III opacity; §IV timeline
+  - data/extracted/legal/allen-county-web-vendor-audit.md   # item 16 custody tie-in
+  - data/extracted/commissioners/minutes/                   # primary-source meeting record (minutes_corroboration above)

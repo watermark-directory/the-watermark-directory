@@ -22,7 +22,7 @@ The vendor that actually dominates **county government** is **CorpComm Group, In
 
 ## Why this matters to the records campaign
 
-Ex. C asks for the **county website CMS audit logs**. Those logs don't live with the county — they live with **CorpComm Group**, the private vendor running the county's WordPress install (and the constitutional-office subdomains, and AEDG). That is a concrete records-custody point: a §149.43 request for CMS audit logs implicates a **third-party processor**, and the county cannot treat records held by its web contractor as beyond reach. It also means the **same vendor** touches both the county's public-records portal *and* the economic-development group's site — worth a line in any follow-up request (who has admin/edit access, retention of audit logs, contract terms).
+Ex. C asks for the **county website CMS audit logs**. Those logs don't live with the county — they live with **CorpComm Group**, the private vendor running the county's WordPress install (and the constitutional-office subdomains, and AEDG). That is a concrete records-custody point: a §149.43 request for CMS audit logs implicates a **third-party processor**, and the county cannot treat records held by its web contractor as beyond reach. It also means the **same vendor** touches both the county's public-records portal *and* the economic-development group's site — worth a line in any follow-up request (who has admin/edit access, retention of audit logs, contract terms). The public output of that CorpComm install is itself in the corpus: [`data/extracted/commissioners/minutes/`](../commissioners/minutes/README.md) — 634 Commissioners meetings scraped from `commissioners.allencountyohio.com`. The minutes are citable; the **CMS audit trail behind them** is what item 16 says the county does not hold.
 
 The one BOSC-adjacent subdivision with its own site, **Shawnee Township** (Shawnee II Phase 2 / sewer), is on **Anne Decker** — the vendor pattern is township-level, not county-wide.
 
@@ -30,6 +30,8 @@ The one BOSC-adjacent subdivision with its own site, **Shawnee Township** (Shawn
 
 ### County offices — all CorpComm Group, WordPress 6.9.4 on GoDaddy
 `allencountyohio.com` (Developed by CorpComm Group, Inc.) · Engineer · Clerk of Courts *(both credited + linked to corpcommgroup.com)* · Commissioners, Auditor, Treasurer, Prosecutor *(same template/version/registrar, no in-page credit — inferred CorpComm)*. **Sheriff** sits behind Cloudflare with no credit; **Board of Elections** runs on the Ohio SOS statewide template (not county-procured).
+
+> **Vendor of record is a dissolved corporation.** Ohio SOS filings show **CorpComm Group, Inc.** (charter #532078; f/k/a *T. R. Stuckey and Associates, Inc.*, renamed 1996; pres./agent **Timothy R. Stuckey**) filed a **Certificate of Dissolution effective June 5, 2023** (resolution dated Jan 20, 2023). Yet its credit and a live link to corpcommgroup.com still appear on the county main/Recorder, Engineer, Clerk, and AEDG sites as of this audit — i.e., the county's web presence is credited to an entity that has not legally existed for three years. This sharpens the Item-16 custody question (who holds the CMS audit logs now?). Corporate records: [`allen-county-web-vendor-corporate-records.yaml`](allen-county-web-vendor-corporate-records.yaml). Finding of fact; legal effect not asserted.
 
 ### County boards / districts / authorities
 - **CorpComm:** AEDG (`aedg.org`) — *credited, links corpcommgroup.com*
