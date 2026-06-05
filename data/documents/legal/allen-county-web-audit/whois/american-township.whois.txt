@@ -1,0 +1,152 @@
+% IANA WHOIS server
+% for more information on IANA, visit http://www.iana.org
+% This query returned 1 object
+
+refer:        whois.nic.us
+
+domain:       US
+
+organisation: Registry Services, LLC
+address:      100 S. Mill Ave, Suite 1600
+address:      Tempe AZ 85281
+address:      United States of America (the)
+
+contact:      administrative
+name:         IANA Contact
+organisation: Registry Services, LLC
+address:      100 S. Mill Ave, Suite 1600
+address:      Tempe AZ 85281
+address:      United States of America (the)
+phone:        +1 480 505 8800
+fax-no:       +1 480 393 4275
+e-mail:       iana@about.us
+
+contact:      technical
+name:         IANA Contact
+organisation: Registry Services, LLC
+address:      100 S. Mill Ave, Suite 1600
+address:      Tempe AZ 85281
+address:      United States of America (the)
+phone:        +1 480 505 8800
+fax-no:       +1 480 393 4275
+e-mail:       iana@about.us
+
+nserver:      B.CCTLD.US 156.154.125.70 2001:502:ad09:0:0:0:0:29
+nserver:      F.CCTLD.US 2001:500:3682:0:0:0:0:11 209.173.58.70
+nserver:      K.CCTLD.US 156.154.128.70 2001:503:e239:0:0:0:3:1
+nserver:      M.CCTLD.US 204.74.105.1 2610:a1:3180:0:0:0:0:53
+nserver:      N.CCTLD.US 204.74.107.1 2610:a1:3280:0:0:0:0:53
+nserver:      W.CCTLD.US 2001:dcd:1:0:0:0:0:15 37.209.192.15
+nserver:      X.CCTLD.US 2001:dcd:2:0:0:0:0:15 37.209.194.15
+nserver:      Y.CCTLD.US 2001:dcd:3:0:0:0:0:15 37.209.196.15
+ds-rdata:     59017 8 2 7daf469d42b5d8e5537fd4dd4b6057710e9a61f72c32eb7fb6526f52277ec2b0
+
+whois:        whois.nic.us
+
+status:       ACTIVE
+remarks:      Registration information: http://www.nic.us
+
+created:      1985-02-15
+changed:      2024-08-29
+source:       IANA
+
+# whois.nic.us
+
+Domain Name: amertwp.us
+Registry Domain ID: D26473793-US
+Registrar WHOIS Server: whois.godaddy.com
+Registrar URL: whois.godaddy.com
+Updated Date: 2026-02-14T14:32:45Z
+Creation Date: 2010-02-09T14:13:02Z
+Registry Expiry Date: 2027-02-08T23:59:59Z
+Registrar: GoDaddy.com, LLC
+Registrar IANA ID: 146
+Registrar Abuse Contact Email: abuse@godaddy.com
+Registrar Abuse Contact Phone: +1.4806242505
+Domain Status: clientRenewProhibited https://icann.org/epp#clientRenewProhibited
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Registry Registrant ID: C4FB9B60483D64B4A82669414FD16F753-GDREG
+Registrant Name: Andrew Follas
+Registrant Organization: American Township
+Registrant Street: 105 W. Main St.
+Registrant Street:
+Registrant Street:
+Registrant City: Elida
+Registrant State/Province: Ohio
+Registrant Postal Code: 45807
+Registrant Country: us
+Registrant Phone: +1.4198892915
+Registrant Phone Ext:
+Registrant Fax:
+Registrant Fax Ext:
+Registrant Email: afollas@atfd2007.com
+Registrant Application Purpose: P2
+Registrant Nexus Category: C11
+Registry Admin ID: C35D06F8C2CAA41DDA0095177311060A6-GDREG
+Admin Name: Andrew Follas
+Admin Organization: American Township
+Admin Street: 105 W. Main St.
+Admin Street:
+Admin Street:
+Admin City: Elida
+Admin State/Province: Ohio
+Admin Postal Code: 45807
+Admin Country: us
+Admin Phone: +1.4198892915
+Admin Phone Ext:
+Admin Fax:
+Admin Fax Ext:
+Admin Email: afollas@atfd2007.com
+Admin Application Purpose: P2
+Admin Nexus Category: C11
+Registry Tech ID: C421A0CE6EDD5408180FDEBBF9FBAE8C0-GDREG
+Tech Name: Andrew Follas
+Tech Organization: American Township
+Tech Street: 105 W. Main St.
+Tech Street:
+Tech Street:
+Tech City: Elida
+Tech State/Province: Ohio
+Tech Postal Code: 45807
+Tech Country: us
+Tech Phone: +1.4198892915
+Tech Phone Ext:
+Tech Fax:
+Tech Fax Ext:
+Tech Email: afollas@atfd2007.com
+Tech Application Purpose: P2
+Tech Nexus Category: C11
+Name Server: ns0.wixdns.net
+Name Server: ns1.wixdns.net
+DNSSEC: unsigned
+URL of the ICANN Whois Inaccuracy Complaint Form: https://www.icann.org/wicf/
+>>> Last update of WHOIS database: 2026-06-05T14:25:06Z <<<
+
+# whois.godaddy.com
+
+Domain Name: amertwp.us
+Registry Domain ID: D26473793-US
+Registrar WHOIS Server: whois.godaddy.com
+Registrar URL: https://www.godaddy.com
+Updated Date: 2026-02-09T14:32:41Z
+Creation Date: 2010-02-09T14:13:02Z
+Registrar Registration Expiration Date: 2027-02-08T23:59:59Z
+Registrar: GoDaddy.com, LLC
+Registrar IANA ID: 146
+Registrar Abuse Contact Email: abuse@godaddy.com
+Registrar Abuse Contact Phone: +1.4806242505
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Domain Status: clientRenewProhibited https://icann.org/epp#clientRenewProhibited
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Registrant State/Province: Ohio
+Registrant Country: US
+Registrant Email: https://www.godaddy.com/whois/results.aspx?domain=amertwp.us&action=contactDomainOwner
+Tech Email: https://www.godaddy.com/whois/results.aspx?domain=amertwp.us&action=contactDomainOwner
+Name Server: NS0.WIXDNS.NET
+Name Server: NS1.WIXDNS.NET
+DNSSEC: unsigned
+URL of the ICANN WHOIS Data Problem Reporting System: http://wdprs.internic.net/
+>>> Last update of WHOIS database: 2026-06-05T14:25:06Z <<<

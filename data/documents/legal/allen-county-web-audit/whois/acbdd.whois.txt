@@ -1,0 +1,117 @@
+% IANA WHOIS server
+% for more information on IANA, visit http://www.iana.org
+% This query returned 1 object
+
+refer:        whois.publicinterestregistry.org
+
+domain:       ORG
+
+organisation: Public Interest Registry (PIR)
+address:      11911 Freedom Drive,
+address:      10th Floor, Suite 1000
+address:      Reston VA 20190
+address:      United States of America (the)
+
+contact:      administrative
+name:         Director of Operations, Compliance and Customer Support
+organisation: Public Interest Registry (PIR)
+address:      11911 Freedom Drive,
+address:      10th Floor, Suite 1000
+address:      Reston VA 20190
+address:      United States of America (the)
+phone:        +1 703 889 5778
+fax-no:       +1 703 889 5779
+e-mail:       ops@pir.org
+
+contact:      technical
+name:         Senior Director, DNS Infrastructure Group
+organisation: Identity Digital Limited
+address:      c/o Identity Digital Inc.
+address:      10500 NE 8th Street, Suite 750
+address:      Bellevue WA 98004
+address:      United States of America (the)
+phone:        +1.425.298.2200
+fax-no:       +1.425.671.0020
+e-mail:       tldtech@identity.digital
+
+nserver:      A0.ORG.AFILIAS-NST.INFO 199.19.56.1 2001:500:e:0:0:0:0:1
+nserver:      A2.ORG.AFILIAS-NST.INFO 199.249.112.1 2001:500:40:0:0:0:0:1
+nserver:      B0.ORG.AFILIAS-NST.ORG 199.19.54.1 2001:500:c:0:0:0:0:1
+nserver:      B2.ORG.AFILIAS-NST.ORG 199.249.120.1 2001:500:48:0:0:0:0:1
+nserver:      C0.ORG.AFILIAS-NST.INFO 199.19.53.1 2001:500:b:0:0:0:0:1
+nserver:      D0.ORG.AFILIAS-NST.ORG 199.19.57.1 2001:500:f:0:0:0:0:1
+ds-rdata:     26974 8 2 4fede294c53f438a158c41d39489cd78a86beb0d8a0aeaff14745c0d16e1de32
+
+whois:        whois.publicinterestregistry.org
+
+status:       ACTIVE
+remarks:      Registration information:
+remarks:      http://publicinterestregistry.org
+
+created:      1985-01-01
+changed:      2026-03-10
+source:       IANA
+
+# whois.publicinterestregistry.org
+
+Domain Name: acbdd.org
+Registry Domain ID: REDACTED
+Registrar WHOIS Server: whois.tucows.com
+Registrar URL: http://www.tucows.com
+Updated Date: 2023-02-21T18:24:59Z
+Creation Date: 2007-01-25T20:53:14Z
+Registry Expiry Date: 2030-01-25T20:53:14Z
+Registrar: Tucows Domains Inc.
+Registrar IANA ID: 69
+Registrar Abuse Contact Email: domainabuse@tucows.com
+Registrar Abuse Contact Phone: +1.4165350123
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Name Server: dns0.go-concepts.com
+Name Server: dns1.go-concepts.com
+Name Server: dns2.go-concepts.com
+Name Server: dns3.go-concepts.com
+Name Server: dns4.go-concepts.com
+Name Server: dns5.go-concepts.com
+DNSSEC: signedDelegation
+URL of the ICANN Whois Inaccuracy Complaint Form: https://icann.org/wicf/
+>>> Last update of WHOIS database: 2026-06-05T14:24:05Z <<<
+
+# whois.tucows.com
+
+Domain Name: ACBDD.ORG
+Registry Domain ID: 62c79e1fa7d346f1a09b59ff3daa3fe5-LROR
+Registrar WHOIS Server: whois.tucows.com
+Registrar URL: http://tucowsdomains.com
+Updated Date: 2023-05-06T03:06:34
+Creation Date: 2007-01-25T20:53:14
+Registrar Registration Expiration Date: 2030-01-25T20:53:14
+Registrar: TUCOWS.COM, CO.
+Registrar IANA ID: 69
+Reseller: GO Concepts Inc.
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Registry Registrant ID: 
+Registrant Name: REDACTED FOR PRIVACY
+Registrant Organization: REDACTED FOR PRIVACY
+Registrant Street: REDACTED FOR PRIVACY 
+Registrant City: REDACTED FOR PRIVACY
+Registrant State/Province: Ohio
+Registrant Postal Code: REDACTED FOR PRIVACY
+Registrant Country: US
+Registrant Phone: REDACTED FOR PRIVACY
+Registrant Phone Ext: 
+Registrant Fax: REDACTED FOR PRIVACY
+Registrant Fax Ext: 
+Registrant Email: https://tieredaccess.com/contact/8fc80ad8-32e7-472e-ad2d-ebcf8c2f676a
+Name Server: dns0.go-concepts.com
+Name Server: dns1.go-concepts.com
+Name Server: dns2.go-concepts.com
+Name Server: dns3.go-concepts.com
+Name Server: dns4.go-concepts.com
+Name Server: dns5.go-concepts.com
+DNSSEC: signedDelegation
+Registrar Abuse Contact Email: domainabuse@tucows.com
+Registrar Abuse Contact Phone: +1.4165350123
+URL of the ICANN WHOIS Data Problem Reporting System: https://icann.org/wicf
+>>> Last update of WHOIS database: 2026-06-05T14:24:05Z <<<

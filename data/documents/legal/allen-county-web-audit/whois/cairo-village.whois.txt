@@ -1,0 +1,136 @@
+% IANA WHOIS server
+% for more information on IANA, visit http://www.iana.org
+% This query returned 1 object
+
+refer:        whois.publicinterestregistry.org
+
+domain:       ORG
+
+organisation: Public Interest Registry (PIR)
+address:      11911 Freedom Drive,
+address:      10th Floor, Suite 1000
+address:      Reston VA 20190
+address:      United States of America (the)
+
+contact:      administrative
+name:         Director of Operations, Compliance and Customer Support
+organisation: Public Interest Registry (PIR)
+address:      11911 Freedom Drive,
+address:      10th Floor, Suite 1000
+address:      Reston VA 20190
+address:      United States of America (the)
+phone:        +1 703 889 5778
+fax-no:       +1 703 889 5779
+e-mail:       ops@pir.org
+
+contact:      technical
+name:         Senior Director, DNS Infrastructure Group
+organisation: Identity Digital Limited
+address:      c/o Identity Digital Inc.
+address:      10500 NE 8th Street, Suite 750
+address:      Bellevue WA 98004
+address:      United States of America (the)
+phone:        +1.425.298.2200
+fax-no:       +1.425.671.0020
+e-mail:       tldtech@identity.digital
+
+nserver:      A0.ORG.AFILIAS-NST.INFO 199.19.56.1 2001:500:e:0:0:0:0:1
+nserver:      A2.ORG.AFILIAS-NST.INFO 199.249.112.1 2001:500:40:0:0:0:0:1
+nserver:      B0.ORG.AFILIAS-NST.ORG 199.19.54.1 2001:500:c:0:0:0:0:1
+nserver:      B2.ORG.AFILIAS-NST.ORG 199.249.120.1 2001:500:48:0:0:0:0:1
+nserver:      C0.ORG.AFILIAS-NST.INFO 199.19.53.1 2001:500:b:0:0:0:0:1
+nserver:      D0.ORG.AFILIAS-NST.ORG 199.19.57.1 2001:500:f:0:0:0:0:1
+ds-rdata:     26974 8 2 4fede294c53f438a158c41d39489cd78a86beb0d8a0aeaff14745c0d16e1de32
+
+whois:        whois.publicinterestregistry.org
+
+status:       ACTIVE
+remarks:      Registration information:
+remarks:      http://publicinterestregistry.org
+
+created:      1985-01-01
+changed:      2026-03-10
+source:       IANA
+
+# whois.publicinterestregistry.org
+
+Domain Name: cairooh.org
+Registry Domain ID: REDACTED
+Registrar WHOIS Server: whois.squarespace.domains
+Registrar URL: https://domains.squarespace.com
+Updated Date: 2025-11-09T19:40:35Z
+Creation Date: 2020-11-19T18:35:19Z
+Registry Expiry Date: 2026-11-19T18:35:19Z
+Registrar: Squarespace Domains II LLC
+Registrar IANA ID: 895
+Registrar Abuse Contact Email: abuse-complaints@squarespace.com
+Registrar Abuse Contact Phone: +1.6466935324
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Name Server: ns1.us202.siteground.us
+Name Server: ns2.us202.siteground.us
+DNSSEC: unsigned
+URL of the ICANN Whois Inaccuracy Complaint Form: https://icann.org/wicf/
+>>> Last update of WHOIS database: 2026-06-05T14:25:15Z <<<
+
+# whois.squarespace.domains
+
+Domain Name: cairooh.org
+Registry Domain ID: 189821213f1148e68f9d21a61e8746e4-LROR
+Registrar WHOIS Server: whois.squarespace.domains
+Registrar URL: https://domains2.squarespace.com
+Registrar: Squarespace Domains II LLC
+Registrar IANA ID: 895
+Registrar Abuse Contact Email: abuse-complaints@squarespace.com
+Registrar Abuse Contact Phone: +1.646-693-5324
+Reseller:
+Updated Date: 2025-11-04T19:40:07.023641Z
+Creation Date: 2020-11-19T18:35:19.455Z
+Registrar Registration Expiration Date: 2026-11-19T18:35:19.455Z
+Domain Status: client delete prohibited http://www.icann.org/epp#client delete prohibited
+Domain Status: client transfer prohibited http://www.icann.org/epp#client transfer prohibited
+Registry Registrant ID:
+Registrant Name: REDACTED FOR PRIVACY
+Registrant Organization: Jearl Productions
+Registrant Street: REDACTED FOR PRIVACY
+Registrant City: REDACTED FOR PRIVACY
+Registrant State/Province: OH
+Registrant Postal Code: REDACTED FOR PRIVACY
+Registrant Country: US
+Registrant Phone: REDACTED FOR PRIVACY
+Registrant Phone Ext:
+Registrant Fax: REDACTED FOR PRIVACY
+Registrant Fax Ext:
+Registrant Email: https://domains.squarespace.com/whois-contact-form
+Registry Admin ID:
+Admin Name:
+Admin Organization:
+Admin Street:
+Admin City:
+Admin State/Province:
+Admin Postal Code:
+Admin Country:
+Admin Phone:
+Admin Phone Ext:
+Admin Fax:
+Admin Fax Ext:
+Admin Email:
+Registry Tech ID:
+Tech Name:
+Tech Organization:
+Tech Street:
+Tech City:
+Tech State/Province:
+Tech Postal Code:
+Tech Country:
+Tech Phone:
+Tech Phone Ext:
+Tech Fax:
+Tech Fax Ext:
+Tech Email:
+Name Server: ns2.us202.siteground.us
+Name Server: ns1.us202.siteground.us
+DNSSEC: unsigned
+URL of the ICANN WHOIS Data Problem Reporting System: http://wdprs.internic.net/
+The registration data available in this service is limited.  Additional data may be available at https://lookup.icann.org.
+****** Last update of WHOIS database: 2025-11-04T19:40:07.023641Z

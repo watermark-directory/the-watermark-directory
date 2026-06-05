@@ -1,0 +1,441 @@
+<script>
+function updateBanners(){
+	fetch(`https://api.acjfs.org/public/banners`).then((result) => {
+		result.json().then((resultJSON) => {
+			const results = resultJSON.result;
+			console.log(resultJSON.result);
+			const acjfsOrgBanner = results.find(record=>record.acjfs_site === '1');
+			if(acjfsOrgBanner){
+				const bannerHolder = document.getElementById('website-notice-banners');
+				// const bannerText = document.getElementById('website-notice-banner-text');
+				if(bannerHolder){
+					//bannerText.innerHTML = `${acjfsOrgBanner.text_field}`;
+					bannerHolder.classList.add('active');
+					bannerHolder.innerHTML = `<div>
+	<i class="fa fa-warning" style="color: #fff"></i>
+	<b>IMPORTANT UPDATE: </b>
+	<span id="website-notice-banner-text">${acjfsOrgBanner.text_field}</span>
+</div>
+${acjfsOrgBanner.url ? `<div>
+<a class="secondary-button" href="${acjfsOrgBanner.url}">Learn More</a>
+</div>`
+: ''}
+`;
+				}
+			}
+		});
+	});
+}
+updateBanners();
+</script>
+<html>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-101488019-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-101488019-2');
+    </script>
+
+	        <title>Allen County Job &amp; Family Services</title>
+        <meta property="og:title" content="Allen County Job &amp; Family Services" />
+        <meta property="og:url" content="https://acjfs.org/" />
+        <meta property="og:description" content="Allen County Job and Family Services administers state, federal and local programs designed to help those in need and help families work toward self-sufficiency. Today, the approximately 100 employees that work for the agency serve hundreds of thousands of Allen County residents.">
+        <meta name="description" content="Allen County Job and Family Services administers state, federal and local programs designed to help those in need and help families work toward self-sufficiency. Today, the approximately 100 employees that work for the agency serve hundreds of thousands of Allen County residents.">
+		        <meta property="og:image" content="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/JFS_Logo_FullColor.svg" />
+        <meta property="og:image:width" content="188" />
+        <meta property="og:image:height" content="150" />
+		
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#74A5CD">
+    <meta name="msapplication-navbutton-color" content="#74A5CD">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#74A5CD">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Lato|Merriweather:400,400i,700,900" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/style.min.css?w6hsdh">
+
+    <style>
+        ul, li{
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:focus {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:active {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .select-wrapper{
+            position: relative;
+        }
+
+        .select-wrapper:after{
+            content: "";
+            background: url('https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/DownArrow.svg');
+            width: 18px;
+            height: 11px;
+            background-size: cover;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            pointer-events: none;
+        }
+#website-notice-banners{
+display: none;
+}
+#website-notice-banners.active{
+display: block;
+}
+    </style>
+    <script>
+        var rootURL = "https://acjfs.org/wp-content/themes/TwinElmCustomTheme";
+        var headerStyle = "";
+    </script>
+</head>
+
+<body>
+	<div id="website-notice-banners" class="warning-header">
+	</div>
+                    <div class="warning-header">
+                    <div>
+                        <i class="fa fa-warning" style="color: #fff"></i>
+                        <b>IMPORTANT UPDATE: </b>
+                        <span>How to Unlock the EBT High-Risk Transaction Block</span>
+                    </div>
+                    <div>
+                        <a class="secondary-button" href="https://jfs.ohio.gov/cash-food-and-refugee-assistance/food-assistance/ohio-direction-card-ebt/EBT-Card-Lock-and-Unlock">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="body-container">
+    <a href="http://www.omjallen.com/" class="employment-badge">Ready to Find Employment?</a>
+    <div class="navigation">
+                    <a href="https://acjfs.org">
+                <img class="logo" src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/JFS_Logo_White.svg"/>
+            </a>
+        
+
+        <a class="js-open-mobile">
+	                        <img class="icon" src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/Menu White.svg"/>
+	                </a>
+        <div class="header-nav ">
+            <div class="menu-main-container"><ul id="menu-main" class="menu"><li id="menu-item-23" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23"><a href="https://acjfs.org/services/">Services</a></li>
+<li id="menu-item-22" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22"><a href="https://acjfs.org/forms/">Forms &#038; Resources</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-21"><a href="https://acjfs.org/about/">About</a></li>
+<li id="menu-item-20" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-20"><a href="https://acjfs.org/contact/">Contact</a></li>
+</ul></div>            <i class="fa fa-search fa-2x js-search"></i>
+            <div class="services-nav">
+		        <div class="menu-services-dropdown-container"><ul id="menu-services-dropdown" class="menu"><li id="menu-item-68" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-68"><a href="https://acjfs.org/services/child-care-for-parents/">Child Care (Parents)</a></li>
+<li id="menu-item-67" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-67"><a href="https://acjfs.org/services/childcareproviders/">Child Care (Providers)</a></li>
+<li id="menu-item-69" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-69"><a href="https://acjfs.org/services/medical-assistance/">Medical Assistance</a></li>
+<li id="menu-item-70" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-70"><a href="https://acjfs.org/services/food-assistance/">Food Assistance</a></li>
+<li id="menu-item-96" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-96"><a href="https://acjfs.org/services/cash-assistance/">Cash Assistance</a></li>
+<li id="menu-item-480" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-480"><a href="https://acjfs.org/services/investigation-report-fraud/">Investigations &#038; Fraud</a></li>
+<li id="menu-item-95" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-95"><a href="https://acjfs.org/services/aps/">Adult Protection</a></li>
+<li id="menu-item-94" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-94"><a href="https://acjfs.org/services/social-services/">Social Services</a></li>
+<li id="menu-item-93" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-93"><a href="https://acjfs.org/services/job-placement/">Job Placement</a></li>
+</ul></div>            </div>
+            <div class="about-nav">
+		        <div class="menu-about-menu-container"><ul id="menu-about-menu" class="menu"><li id="menu-item-192" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-192"><a href="https://acjfs.org/about/annual-report/">Annual Report</a></li>
+<li id="menu-item-193" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-193"><a href="https://acjfs.org/about/employment/">Employment</a></li>
+<li id="menu-item-191" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-191"><a href="https://acjfs.org/about/doing-business-with-the-agency/">Doing Business with the Agency</a></li>
+<li id="menu-item-190" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-190"><a href="https://acjfs.org/about/other-resources/">Other Resources</a></li>
+</ul></div>            </div>
+        </div>
+        <div class="mobile-nav">
+	        <div class="menu-mobile-menu-container"><ul id="menu-mobile-menu" class="menu"><li id="menu-item-126" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-126"><a href="https://acjfs.org/services/child-care/">Child Care</a></li>
+<li id="menu-item-125" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-125"><a href="https://acjfs.org/services/food-assistance/">Food Assistance</a></li>
+<li id="menu-item-124" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-124"><a href="https://acjfs.org/services/medical-assistance/">Medical Assistance</a></li>
+<li id="menu-item-123" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-123"><a href="https://acjfs.org/services/cash-assistance/">Cash Assistance</a></li>
+<li id="menu-item-287" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-287"><a href="https://acjfs.org/services/fraud-adult-protection/">Fraud/Adult Protection</a></li>
+<li id="menu-item-121" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-121"><a href="https://acjfs.org/services/social-services/">Social Services</a></li>
+<li id="menu-item-120" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-120"><a href="https://acjfs.org/services/job-placement/">Job Placement</a></li>
+<li id="menu-item-119" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-119"><a href="https://acjfs.org/forms/">Forms</a></li>
+<li id="menu-item-118" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-118"><a href="https://acjfs.org/about/">About</a></li>
+<li id="menu-item-117" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-117"><a href="https://acjfs.org/contact/">Contact</a></li>
+</ul></div>            <i class="fa fa-search fa-2x js-search"></i>
+            <a href="http://www.omjallen.com/" class="employment-badge has-waring-header">ready to find employment?</a>
+            <div class="about-nav mobile">
+		        <div class="menu-about-menu-container"><ul id="menu-about-menu-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-192"><a href="https://acjfs.org/about/annual-report/">Annual Report</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-193"><a href="https://acjfs.org/about/employment/">Employment</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-191"><a href="https://acjfs.org/about/doing-business-with-the-agency/">Doing Business with the Agency</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-190"><a href="https://acjfs.org/about/other-resources/">Other Resources</a></li>
+</ul></div>            </div>
+        </div>
+        <div class="child-care-popup content-boxes" style="display: none;">
+            <img class="close js-close-child-care-popup" src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/close/Dark.svg"/>
+	                    <a href="https://acjfs.org/services/child-care-for-parents/" class="content-box">
+                <div class="content-box-container">
+                    <div class="large-image" style="background: url(https://acjfs.org/wp-content/uploads/2018/08/ChildCare-768x469.jpg)"></div>
+                    <div class="title">
+	                    Child Care for Parents                    </div>
+                    <div class="secondary-button">
+                        Learn More
+                    </div>
+                </div>
+            </a>
+	                    <a href="https://acjfs.org/services/childcareproviders/" class="content-box">
+                <div class="content-box-container">
+                    <div class="large-image" style="background: url(https://acjfs.org/wp-content/uploads/2018/08/ACDJFS_ChildCareProviders-e1534470218938-768x341.jpg)"></div>
+                    <div class="title">
+                        Child Care for Providers                    </div>
+                    <div class="secondary-button">
+                        Learn More
+                    </div>
+                </div>
+            </a>
+            <img class="arrows bottom-right" src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/Arrow%20Graphics.svg">
+        </div>
+        <div class="protection-popup content-boxes" style="display: none;">
+            <img class="close js-close-protection-popup" src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/close/Dark.svg"/>
+		                <a href="https://acjfs.org/services/investigation-report-fraud/" class="content-box">
+                <div class="content-box-container">
+                    <div class="large-image" style="background: url(https://acjfs.org/wp-content/uploads/2018/08/ACDJFS_FraudInvestigations-768x512.jpg)"></div>
+                    <div class="title">
+	                    Investigations & Fraud                    </div>
+                    <div class="secondary-button">
+                        Learn More
+                    </div>
+                </div>
+            </a>
+		                <a href="https://acjfs.org/services/aps/" class="content-box">
+                <div class="content-box-container">
+                    <div class="large-image" style="background: url(https://acjfs.org/wp-content/uploads/2018/08/JFS_AdultProtection-1-e1534469191231-768x291.jpg)"></div>
+                    <div class="title">
+	                    Adult Protection                     </div>
+                    <div class="secondary-button">
+                        Learn More
+                    </div>
+                </div>
+            </a>
+            <img class="arrows bottom-right" src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/Arrow%20Graphics.svg">
+        </div>
+    </div>
+                    <div class="side-fade"></div>
+	                <div class="background-fade"></div>
+        <div class="custom-container">
+
+<div class="home-background-images">
+	            <div class="home-background-image showing" id="14"
+                 style="background: url('https://acjfs.org/wp-content/uploads/2018/08/ChildCare.jpg');" data-image-src="https://acjfs.org/wp-content/uploads/2018/08/ChildCare.jpg"></div>
+			
+            <div class="home-background-image" id="16"
+                 data-image-src="https://acjfs.org/wp-content/uploads/2018/08/ACDJFS_FoodAssistance-1620x1080.jpg"></div>
+			
+            <div class="home-background-image" id="18"
+                 data-image-src="https://acjfs.org/wp-content/uploads/2018/08/ACDJFS_MedicalAssistance-1-e1534471138197-1920x770.jpg"></div>
+			
+            <div class="home-background-image" id="71"
+                 data-image-src="https://acjfs.org/wp-content/uploads/2018/08/ACDJFS_CashAssistance-e1534472007138-1920x921.jpg"></div>
+			
+            <div class="home-background-image" id="283"
+                 data-image-src="https://acjfs.org/wp-content/uploads/2018/08/JFS_AdultProtection-4-e1534473084779-1920x754.jpg"></div>
+			
+            <div class="home-background-image" id="81"
+                 data-image-src="https://acjfs.org/wp-content/uploads/2018/08/ACDJFS_SocialServices-1920x1034.jpg"></div>
+			
+            <div class="home-background-image" id="85"
+                 data-image-src="https://acjfs.org/wp-content/uploads/2018/08/ACDJFS_JobPlacement-e1534473598437-1884x1080.jpg"></div>
+			    <img class="arrows bottom-right" src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/Arrow%20Graphics.svg">
+</div>
+
+<div class="home-service-navs">
+    <div class="home-service-nav-title">
+        We help individuals and families&nbsp;find&nbsp;
+        <span class="home-service-nav-selected-nav">child&nbsp;care</span>
+    </div>
+	            <a href="https://acjfs.org/services/child-care/" class="home-service-nav showing" id="14"><img class="icon white" src="https://acjfs.org/wp-content/uploads/2018/07/White.svg" /><img class="icon black" src="https://acjfs.org/wp-content/uploads/2018/07/Dark.svg" />Child Care</a>
+			            <a href="https://acjfs.org/services/food-assistance/" class="home-service-nav" id="16"><img class="icon white" src="https://acjfs.org/wp-content/uploads/2018/07/White-1.svg" /><img class="icon black" src="https://acjfs.org/wp-content/uploads/2018/07/Dark-1.svg" />Food Assistance</a>
+			            <a href="https://acjfs.org/services/medical-assistance/" class="home-service-nav" id="18"><img class="icon white" src="https://acjfs.org/wp-content/uploads/2018/07/White-2.svg" /><img class="icon black" src="https://acjfs.org/wp-content/uploads/2018/07/Dark-2.svg" />Medical Assistance</a>
+			            <a href="https://acjfs.org/services/cash-assistance/" class="home-service-nav" id="71"><img class="icon white" src="https://acjfs.org/wp-content/uploads/2018/07/White-3.svg" /><img class="icon black" src="https://acjfs.org/wp-content/uploads/2018/07/Dark-3.svg" />Cash Assistance</a>
+			            <a href="https://acjfs.org/services/fraud-adult-protection/" class="home-service-nav" id="283"><img class="icon white" src="https://acjfs.org/wp-content/uploads/2018/07/White-4.svg" /><img class="icon black" src="https://acjfs.org/wp-content/uploads/2018/07/Dark-4.svg" />Fraud/Adult Protection</a>
+			            <a href="https://acjfs.org/services/social-services/" class="home-service-nav" id="81"><img class="icon white" src="https://acjfs.org/wp-content/uploads/2018/07/White-5.svg" /><img class="icon black" src="https://acjfs.org/wp-content/uploads/2018/07/Dark-5.svg" />Social Services</a>
+			            <a href="https://acjfs.org/services/job-placement/" class="home-service-nav" id="85"><img class="icon white" src="https://acjfs.org/wp-content/uploads/2018/07/White-6.svg" /><img class="icon black" src="https://acjfs.org/wp-content/uploads/2018/07/Dark-6.svg" />Job Placement</a>
+			</div>
+
+<div class="content-boxes" style="padding-top: calc(100vh - 194px);">
+    <div class="content-box" style="background: url(https://acjfs.org/wp-content/uploads/2018/08/artur-luczka-631886-unsplash-2-1024x683.jpg)">
+        <div class="content-box-container">
+            <div class="title small">
+                Our Mission
+            </div>
+            <div class="content quote">
+                We are committed to building a stronger community by promoting self-sufficiency for families and individuals with help from our local partners and employers.            </div>
+        </div>
+    </div>
+    <div class="content-box alternate">
+        <div class="content-box-container">
+            <div class="title">
+                Who We Are
+            </div>
+            <div class="content">
+	            <p><span style="margin: 0px; color: #474a54; font-family: 'Helvetica',sans-serif; font-size: 10.5pt;">ACJFS provides services such as food, cash and medical assistance; publicly funded child care; adult protection; and employment assistance.</span></p>
+            </div>
+            <a href="https://acjfs.org/about/" class="secondary-button">
+	            ABOUT US            </a>
+        </div>
+    </div>
+    <div class="content-box">
+        <img class="arrows top-right" src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/Arrow%20Graphics.svg">
+        <div class="content-box-container">
+            <div class="title">
+                Are you ready to find employment?
+            </div>
+            <div class="content">
+	            <p>We work with over 500+ regional employers.  Let us help you get started with your job search today!</p>
+            </div>
+            <a href="https://acjfs.org/services/job-placement/" class="secondary-button">
+		        START YOUR SEARCH            </a>
+        </div>
+    </div>
+</div>
+
+</div>
+<footer style="display: flex;" id="acjfs-bottom-of-page-footer-for-instructions">
+    <div style="display: flex; flex-direction: column;">
+        <a href="/">
+            <img class="logo" src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/JFS_Logo_White.svg"/>
+        </a>
+        <a href="https://employee.acjfs.org/index.html" style="color: white; text-decoration: underline; font-size: 1.5em;">Employee Portal</a>
+        <!-- <a href="/employee-portal/" style="color: white; text-decoration: underline; font-size: 1.5em;">Employee Portal</a> -->
+    </div>
+    <div class="footer-section" style="margin-left: auto;">
+        <div class="title">
+            Location
+        </div>
+        <div class="content">
+            <a href="https://www.google.com/maps/place/Allen+County+Job+%26+Family+Services/@40.7142542,-84.1174384,17z/data=!3m1!4b1!4m5!3m4!1s0x883ef1eedc191e25:0xd0af1e04b160fd8b!8m2!3d40.7142502!4d-84.1152444" target="_blank" class="footer-address">
+				951 Commerce Parkway                <br>
+				                <br>
+				Lima, OH 45804            </a>
+        </div>
+    </div>
+    <div class="footer-section">
+        <div class="title">
+            Hours
+        </div>
+        <div class="content">
+			Monday - Friday            <br>
+			8:00am - 4:30pm        </div>
+    </div>
+    <div class="footer-section">
+        <div class="title">
+            Connect
+        </div>
+        <div class="content">
+            Phone: (419) 228-2621            <br>
+            Fax: (419) 227-2448            <br>
+            Fraud Hotline: (419) 228-2120            <br>
+            <a href="/report-fraud" class="secondary-button" style="color: #fff !important; border-color: #fff; margin-top: 9px;margin-bottom: 12px;">
+                Report Fraud
+            </a>
+            <br>
+            <a href="">
+                <img src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/facebook-logo-button.svg" style="width: 20px;height: auto;"/>
+            </a>
+        </div>
+    </div>
+</footer>
+<div class="sub-footer">
+    <div class="copyright">© <script>document.write(new Date().getFullYear());</script> JFSAllenCounty.com. All rights reserved. An Equal Opportunity Employer/Provider. All Content is Subject to Change.</div>
+    <div class="divider"></div>
+    <a href="https://jfs.ohio.gov/help-center/food-assistance-non-discrimination-statement/u-s-department-of-agriculture-nondiscrimination-statement">Disclaimer / privacy statement </a>
+</div>
+</div>
+<div class="search-container">
+    <img class="close js-close-search" src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/close/Dark.svg"/>
+    <input class="js-search-input" type="text" placeholder="I’m looking for…">
+    <div class="search-main-title">Results</div>
+    <i class="search-spinner fa fa-spin fa-circle-o-notch fa-3x"></i>
+    <div class="search-results">
+    </div>
+    <script id="search-template" type="text/x-handlebars-template">
+        {{#each results}}
+        <a href="{{url}}" class="search-result" {{#ifEquals type "form"}}target="_blank"{{/ifEquals}}>
+            <div class="search-title">
+                {{title}}
+                <img class="arrow svg" src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/imgs/icon/arrow long/Dark.svg"/>
+            </div>
+            <div class="search-description">{{description}}</div>
+        </a>
+        {{else}}
+        <div class="search-result">
+            <div class="search-title">
+                No Results found
+            </div>
+        </div>
+        {{/each}}
+    </script>
+</div>
+
+
+<script src="https://acjfs.org/wp-content/themes/TwinElmCustomTheme/main.min.js?new46dfs"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+<script>
+function insertInstructionsBanner(){
+if(window.location.pathname === '/forms/'){
+const pageContainerCollection = document.getElementsByClassName('page-container')
+if(!pageContainerCollection.length > 0) return false;
+console.log('hellow world', pageContainerCollection);
+const inputCollection = pageContainerCollection[0].getElementsByTagName('input');
+if(!inputCollection.length > 0) return false;
+const instructionsBanner = document.createElement('div');
+instructionsBanner.classList.add('instructions-banner');
+instructionsBanner.innerHTML = 'For instructions on filling out and signing these forms, please see the tutorials toward the ';
+const jumpSpan = document.createElement('span');
+jumpSpan.innerHTML = 'bottom of this webpage.';
+jumpSpan.addEventListener('click', scrollToBottom);
+instructionsBanner.append(jumpSpan);
+jumpSpan.classList.add('jump-span-link');
+inputCollection[0].parentElement.insertBefore(instructionsBanner, inputCollection[0]);
+}
+}
+function scrollToBottom(){
+const footer = document.getElementById('acjfs-bottom-of-page-footer-for-instructions');
+footer.scrollIntoView({behavior: 'smooth'});
+}
+insertInstructionsBanner();
+</script>
+<style>
+.instructions-banner{
+	padding-bottom:1em;
+	font-style: italic;
+	color: red;
+}
+.jump-span-link{
+	text-decoration: underline;
+	cursor: pointer;
+}
+</style>
+
+
+</body>
+</html>

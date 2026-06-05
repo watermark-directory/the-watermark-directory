@@ -1,0 +1,76 @@
+% IANA WHOIS server
+% for more information on IANA, visit http://www.iana.org
+% This query returned 1 object
+
+refer:        whois.publicinterestregistry.org
+
+domain:       ORG
+
+organisation: Public Interest Registry (PIR)
+address:      11911 Freedom Drive,
+address:      10th Floor, Suite 1000
+address:      Reston VA 20190
+address:      United States of America (the)
+
+contact:      administrative
+name:         Director of Operations, Compliance and Customer Support
+organisation: Public Interest Registry (PIR)
+address:      11911 Freedom Drive,
+address:      10th Floor, Suite 1000
+address:      Reston VA 20190
+address:      United States of America (the)
+phone:        +1 703 889 5778
+fax-no:       +1 703 889 5779
+e-mail:       ops@pir.org
+
+contact:      technical
+name:         Senior Director, DNS Infrastructure Group
+organisation: Identity Digital Limited
+address:      c/o Identity Digital Inc.
+address:      10500 NE 8th Street, Suite 750
+address:      Bellevue WA 98004
+address:      United States of America (the)
+phone:        +1.425.298.2200
+fax-no:       +1.425.671.0020
+e-mail:       tldtech@identity.digital
+
+nserver:      A0.ORG.AFILIAS-NST.INFO 199.19.56.1 2001:500:e:0:0:0:0:1
+nserver:      A2.ORG.AFILIAS-NST.INFO 199.249.112.1 2001:500:40:0:0:0:0:1
+nserver:      B0.ORG.AFILIAS-NST.ORG 199.19.54.1 2001:500:c:0:0:0:0:1
+nserver:      B2.ORG.AFILIAS-NST.ORG 199.249.120.1 2001:500:48:0:0:0:0:1
+nserver:      C0.ORG.AFILIAS-NST.INFO 199.19.53.1 2001:500:b:0:0:0:0:1
+nserver:      D0.ORG.AFILIAS-NST.ORG 199.19.57.1 2001:500:f:0:0:0:0:1
+ds-rdata:     26974 8 2 4fede294c53f438a158c41d39489cd78a86beb0d8a0aeaff14745c0d16e1de32
+
+whois:        whois.publicinterestregistry.org
+
+status:       ACTIVE
+remarks:      Registration information:
+remarks:      http://publicinterestregistry.org
+
+created:      1985-01-01
+changed:      2026-03-10
+source:       IANA
+
+# whois.publicinterestregistry.org
+
+Domain Name: aedg.org
+Registry Domain ID: REDACTED
+Registrar WHOIS Server: http://whois.godaddy.com
+Registrar URL: http://www.whois.godaddy.com
+Updated Date: 2026-04-28T16:00:25Z
+Creation Date: 2000-03-14T16:00:22Z
+Registry Expiry Date: 2027-03-14T16:00:22Z
+Registrar: GoDaddy.com, LLC
+Registrar IANA ID: 146
+Registrar Abuse Contact Email: abuse@godaddy.com
+Registrar Abuse Contact Phone: +1.4806242505
+Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+Domain Status: clientRenewProhibited https://icann.org/epp#clientRenewProhibited
+Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+Name Server: ns1.estoragebackup.com
+Name Server: ns2.estoragebackup.com
+DNSSEC: unsigned
+URL of the ICANN Whois Inaccuracy Complaint Form: https://icann.org/wicf/
+>>> Last update of WHOIS database: 2026-06-05T14:24:19Z <<<

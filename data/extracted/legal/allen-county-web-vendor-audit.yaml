@@ -1,0 +1,404 @@
+# Allen County, OH government-entity website vendor audit — structured findings.
+# Derived from the original records at data/documents/legal/allen-county-web-audit/.
+# Confidence: credited = explicit in-page vendor credit and/or outbound vendor link;
+#             inferred = template/version/registrar match to a credited cluster, no in-page credit;
+#             platform_only = self-service builder or CMS detected, no human vendor named;
+#             undetermined = JS-rendered or blocked at capture time.
+meta:
+  subject: Allen County, Ohio — government entities & subdivisions: who manages the website
+  captured: 2026-06-05
+  collection: legal
+  source_records: data/documents/legal/allen-county-web-audit/
+  method: raw HTTP GET (curl -L) + WHOIS; vendor read from footer credit, <meta generator>, outbound links, theme path
+  entities_captured: 41
+  relevance: >
+    BOSC PRR Ex. C seeks the county website CMS audit logs. This audit identifies the
+    private third parties that build/host these governments' sites and CMS — i.e. who
+    would actually hold those logs. Headline: the county's own offices and the AEDG
+    (the entity steering the Google/BOSC project) share one vendor, CorpComm Group.
+
+vendor_summary:
+  # vendor -> entities (slugs). Count is credited+inferred unless noted.
+  CorpComm Group, Inc. (corpcommgroup.com):
+    confidence_note: 4 credited; 4 inferred (same WordPress 6.9.4 / GoDaddy county template, no in-page credit)
+    credited: [allen-county-main, engineer, clerk-of-courts, aedg]
+    inferred: [commissioners, treasurer, auditor, prosecutor]
+  NOW Marketing Group (nowmarketinggroup.com):
+    credited: [acrta, apollo-career-center, allen-county-fair]
+  Anne Decker Marketing:
+    credited: [shawnee-township, allenswcd]
+  Modo Media (modomediacompany.com):
+    credited: [acbdd, allen-mha]   # both Wix builds
+  MCG:
+    credited: [elida-village]
+  Munibit (munibit.com):
+    credited: [auglaize-township]   # .gov
+  CivicPlus:
+    credited: [lima-city, lacrpc]
+  Revize:
+    credited: [beaverdam-village]
+  Finalsite (K-12 CMS):
+    credited: [allen-east-schools, delphos-city-schools, elida-schools, spencerville-schools]
+  Edlio (K-12 CMS):
+    credited: [perry-schools]
+  eSchoolView (K-12 CMS):
+    credited: [allen-county-esc]
+  Wix (self-service; no human vendor named):
+    platform_only: [port-authority, american-township, lima-city-schools]   # american-township = student-built
+  WordPress (unattributed; no footer credit):
+    platform_only: [public-health, cairo-village, allen-jfs, johnny-appleseed-parks]
+  Other / undetermined:
+    duda_everbridge: [bluffton-village]
+    drupal_oplin_library: [lima-library]
+    xara_static: [spencerville-village]
+    ohio_sos_statewide: [board-of-elections]
+    cloudflare_no_credit: [sheriff]
+    blocked_or_js_rendered: [delphos-city, shawnee-schools, bath-schools]
+
+no_website:
+  townships_no_site: [Amanda, Jackson, Marion, Monroe, Richland, Spencer, Sugar Creek]
+  villages_no_site: [Harrod (Facebook only), Lafayette (placeholder)]
+  disincorporated: [Fort Shawnee (residents voted to disincorporate, 2012 — no municipal government/site)]
+
+entities:
+  # --- County government / constitutional offices ---
+  - slug: allen-county-main
+    name: Allen County (main portal / Recorder)
+    url: https://allencountyohio.com/
+    vendor: CorpComm Group, Inc.
+    confidence: credited
+    cms: WordPress 6.9.4
+    registrar: GoDaddy.com, LLC
+    domain_created: 1999-06-07
+    evidence: 'footer "Developed by CorpComm Group, Inc."'
+  - slug: commissioners
+    name: Allen County Board of Commissioners
+    url: https://commissioners.allencountyohio.com/
+    vendor: CorpComm Group, Inc.
+    confidence: inferred
+    cms: WordPress 6.9.4
+    registrar: GoDaddy.com, LLC
+    evidence: 'same county WP 6.9.4 template/registrar as credited CorpComm sites; no in-page credit captured'
+  - slug: auditor
+    name: Allen County Auditor
+    url: https://allencountyohauditor.com/
+    vendor: CorpComm Group, Inc.
+    confidence: inferred
+    cms: WordPress 6.9.4
+    registrar: GoDaddy.com, LLC
+    evidence: 'county WP 6.9.4 template family; no in-page credit captured'
+  - slug: treasurer
+    name: Allen County Treasurer
+    url: https://allencountyohtreasurer.com/
+    vendor: CorpComm Group, Inc.
+    confidence: inferred
+    cms: WordPress 6.9.4
+    registrar: GoDaddy.com, LLC
+    evidence: 'county WP 6.9.4 template family; no in-page credit captured'
+  - slug: engineer
+    name: Allen County Engineer
+    url: https://allencountyohengineer.com/
+    vendor: CorpComm Group, Inc.
+    confidence: credited
+    cms: WordPress 6.9.4
+    registrar: GoDaddy.com, LLC
+    evidence: 'footer "Developed by CorpComm Group, Inc." + link corpcommgroup.com'
+  - slug: prosecutor
+    name: Allen County Prosecutor
+    url: https://allencountyprosecutor.net/
+    vendor: CorpComm Group, Inc.
+    confidence: inferred
+    cms: WordPress 6.9.4
+    registrar: GoDaddy.com, LLC
+    evidence: 'county WP 6.9.4 template family; no in-page credit captured'
+  - slug: clerk-of-courts
+    name: Allen County Clerk of Courts
+    url: https://clerkofcourts.allencountyohio.com/
+    vendor: CorpComm Group, Inc.
+    confidence: credited
+    cms: WordPress 6.9.4
+    registrar: GoDaddy.com, LLC
+    evidence: 'footer "Developed by CorpComm Group Inc." + link corpcommgroup.com'
+  - slug: sheriff
+    name: Allen County Sheriff
+    url: https://allencountysheriff.org/
+    vendor: undetermined
+    confidence: undetermined
+    cms: ~
+    registrar: Cloudflare, Inc.
+    evidence: 'behind Cloudflare; no vendor credit in served HTML'
+  - slug: board-of-elections
+    name: Allen County Board of Elections
+    url: https://allen.boe.ohio.gov/
+    vendor: Ohio Secretary of State (statewide BOE template)
+    confidence: platform_only
+    cms: ~
+    registrar: (boe.ohio.gov — state)
+    evidence: 'hosted on the SOS statewide county-BOE template, not county-procured'
+
+  # --- County boards / special districts / authorities ---
+  - slug: acrta
+    name: Allen County Regional Transit Authority
+    url: https://acrta.com/
+    vendor: NOW Marketing Group
+    confidence: credited
+    cms: WordPress 7.0
+    registrar: eNom, LLC
+    evidence: 'footer "Website by NOW Marketing Group" + link nowmarketinggroup.com'
+  - slug: acbdd
+    name: Allen County Board of Developmental Disabilities
+    url: https://www.acbdd.org/
+    vendor: Modo Media
+    confidence: credited
+    cms: Wix
+    registrar: Tucows Domains Inc.
+    evidence: 'footer "Designed by Modo Media" + link modomediacompany.com'
+  - slug: allenswcd
+    name: Allen Soil & Water Conservation District
+    url: https://www.allenswcd.com/
+    vendor: Anne Decker Marketing
+    confidence: credited
+    cms: WordPress 7.0
+    registrar: Wild West Domains, LLC
+    domain_created: 2010-03-02
+    evidence: 'footer "Designed by Anne Decker Marketing"'
+  - slug: public-health
+    name: Allen County Public Health
+    url: https://www.allencountypublichealth.org/
+    vendor: unattributed (WordPress)
+    confidence: platform_only
+    cms: WordPress 7.0
+    registrar: GoDaddy.com, LLC
+    evidence: 'WordPress 7.0; no footer vendor credit (shares WP-7.0 fingerprint with Anne Decker sites but is NOT credited to her)'
+  - slug: port-authority
+    name: Port Authority of Allen County (admin by AEDG)
+    url: https://www.allencoport.org/
+    vendor: unattributed (Wix)
+    confidence: platform_only
+    cms: Wix
+    registrar: GoDaddy.com, LLC
+    evidence: 'Wix builder; no human vendor named'
+  - slug: aedg
+    name: Allen Economic Development Group (AEDG)
+    url: https://www.aedg.org/
+    vendor: CorpComm Group, Inc.
+    confidence: credited
+    cms: WordPress
+    registrar: GoDaddy.com, LLC
+    domain_created: 2000-03-14
+    evidence: 'footer "developed by: CorpComm Group, Inc." + link corpcommgroup.com'
+    note: 'AEDG is the entity steering the Google/BOSC project; shares the county''s web vendor.'
+  - slug: allen-jfs
+    name: Allen County Job & Family Services
+    url: https://acjfs.org/
+    vendor: unattributed (WordPress)
+    confidence: platform_only
+    cms: WordPress
+    registrar: GoDaddy.com, LLC
+    evidence: 'WordPress (wp-content); no footer vendor credit'
+  - slug: allen-mha
+    name: Allen Metropolitan Housing Authority
+    url: https://www.allenmha.com/
+    vendor: Modo Media
+    confidence: credited
+    cms: Wix
+    registrar: eNom, LLC
+    evidence: 'footer "Created by Modo Media" + link modomediacompany.com'
+  - slug: allen-county-esc
+    name: Allen County Educational Service Center
+    url: https://www.allencountyesc.org/
+    vendor: eSchoolView
+    confidence: credited
+    cms: eSchoolView CMS
+    registrar: Network Solutions, LLC
+    evidence: 'footer "Created by eSchoolView"'
+  - slug: lacrpc
+    name: Lima-Allen County Regional Planning Commission
+    url: https://www.lacrpc.com/
+    vendor: CivicPlus
+    confidence: credited
+    cms: CivicPlus
+    registrar: Amazon Registrar, Inc.
+    evidence: 'footer "Powered By CivicPlus" + link connect.civicplus.com'
+  - slug: johnny-appleseed-parks
+    name: Johnny Appleseed Metropolitan Park District
+    url: https://jampd.com/
+    vendor: unattributed (WordPress)
+    confidence: platform_only
+    cms: WordPress 7.0 (hello-elementor theme)
+    registrar: Wild West Domains, LLC
+    evidence: 'WordPress 7.0; no footer vendor credit'
+  - slug: allen-county-fair
+    name: Allen County Agricultural Society (Fairgrounds)
+    url: https://allencofair.com/
+    vendor: NOW Marketing Group
+    confidence: credited
+    cms: WordPress (Elementor)
+    registrar: GoDaddy.com, LLC
+    evidence: 'footer "Website by NOW Marketing Group" + link nowmarketinggroup.com'
+  - slug: lima-library
+    name: Lima Public Library (Allen County District Library)
+    url: https://www.limalibrary.com/
+    vendor: unattributed (Drupal — likely OPLIN/consortium)
+    confidence: platform_only
+    cms: Drupal 10
+    registrar: eNom, LLC
+    evidence: '<meta generator> Drupal 10; no vendor credit'
+
+  # --- Municipalities (cities & villages) ---
+  - slug: lima-city
+    name: City of Lima
+    url: https://www.limaohio.gov/
+    vendor: CivicPlus
+    confidence: credited
+    cms: CivicPlus
+    registrar: get.gov (.gov)
+    evidence: 'footer "Powered By CivicPlus"; also a SmartGov public portal'
+  - slug: delphos-city
+    name: City of Delphos (Allen/Van Wert)
+    url: https://www.cityofdelphos.com/
+    vendor: undetermined
+    confidence: undetermined
+    cms: ~
+    registrar: Amazon Registrar, Inc.
+    evidence: 'HTTP 403 to audit client; not captured'
+  - slug: elida-village
+    name: Village of Elida
+    url: https://voelida.com/
+    vendor: MCG
+    confidence: credited
+    cms: WordPress 6.9.4
+    registrar: eNom, LLC
+    evidence: 'footer "Site by MCG"'
+  - slug: spencerville-village
+    name: Village of Spencerville
+    url: http://spencervilleoh.com/
+    vendor: unattributed (legacy static)
+    confidence: platform_only
+    cms: Xara HTML filter v.9.9.1.0
+    registrar: eNom, LLC
+    evidence: 'old Xara-generated static site; no vendor credit'
+  - slug: cairo-village
+    name: Village of Cairo
+    url: https://cairooh.org/
+    vendor: unattributed (WordPress)
+    confidence: platform_only
+    cms: WordPress 7.0 (twentytwenty theme)
+    registrar: Squarespace Domains II LLC
+    evidence: 'WordPress 7.0; no footer vendor credit (bot-blocked on first attempt; captured via browser UA)'
+  - slug: beaverdam-village
+    name: Village of Beaverdam
+    url: https://beaverdamoh.com/
+    vendor: Revize
+    confidence: credited
+    cms: Revize (government CMS)
+    registrar: eNom, LLC
+    evidence: 'footer "Powered by Revize, the Government Website..." + link webgen1.revize.com'
+  - slug: bluffton-village
+    name: Village of Bluffton (Allen/Hancock)
+    url: https://www.bluffton-ohio.com/
+    vendor: undetermined ("Site by:" — Duda platform; Everbridge alerts)
+    confidence: undetermined
+    cms: Duda
+    registrar: Network Solutions, LLC
+    evidence: 'Duda-built; footer "Site by:" credit not resolved in served HTML'
+  - slug: american-township
+    name: American Township
+    url: https://www.amertwp.us/
+    vendor: student-built (Wix)
+    confidence: platform_only
+    cms: Wix
+    registrar: GoDaddy.com, LLC
+    evidence: 'footer "created by the students of ..." — a school class project on Wix'
+  - slug: shawnee-township
+    name: Shawnee Township
+    url: http://shawneetownship.com/
+    vendor: Anne Decker Marketing
+    confidence: credited
+    cms: WordPress 7.0
+    registrar: GoDaddy.com, LLC
+    domain_created: 2001-04-04
+    evidence: 'footer "Developed by Anne Decker Marketing"'
+    note: 'Shawnee Township is a BOSC-relevant subdivision (Shawnee II Phase 2 / sewer).'
+  - slug: auglaize-township
+    name: Auglaize Township
+    url: https://auglaizetwpallencooh.gov/
+    vendor: Munibit
+    confidence: credited
+    cms: Munibit (government website platform)
+    registrar: get.gov (.gov)
+    evidence: 'footer "Powered By Munibit" + link munibit.com'
+
+  # --- School districts / education ---
+  - slug: lima-city-schools
+    name: Lima City Schools
+    url: https://www.limacityschools.org/
+    vendor: unattributed (Wix)
+    confidence: platform_only
+    cms: Wix
+    registrar: Squarespace Domains II LLC
+    evidence: 'Wix builder; no human vendor named'
+  - slug: elida-schools
+    name: Elida Local Schools
+    url: https://www.home.elida.k12.oh.us/
+    vendor: Finalsite
+    confidence: credited
+    cms: Finalsite
+    registrar: (k12.oh.us — state locality zone)
+    evidence: 'footer "Powered by Finalsite"'
+  - slug: shawnee-schools
+    name: Shawnee Local Schools
+    url: https://www.limashawnee.com/
+    vendor: undetermined
+    confidence: undetermined
+    cms: ~
+    registrar: Network Solutions, LLC
+    evidence: 'JS-rendered homepage; platform not resolved in served HTML'
+  - slug: bath-schools
+    name: Bath Local Schools
+    url: https://www.bathwildcats.org/
+    vendor: undetermined
+    confidence: undetermined
+    cms: ~
+    registrar: Network Solutions, LLC
+    evidence: 'JS-rendered homepage; platform not resolved in served HTML'
+  - slug: perry-schools
+    name: Perry Local Schools
+    url: https://www.mycommodores.org/
+    vendor: Edlio
+    confidence: credited
+    cms: Edlio CMS
+    registrar: GoDaddy.com, LLC
+    evidence: 'footer "Powered by Edlio" + link edlio.com'
+  - slug: spencerville-schools
+    name: Spencerville Local Schools
+    url: https://www.spencervillebearcats.com/
+    vendor: Finalsite
+    confidence: credited
+    cms: Finalsite
+    registrar: eNom, LLC
+    evidence: 'footer "Powered by Finalsite"'
+  - slug: allen-east-schools
+    name: Allen East Local Schools
+    url: https://www.alleneastschools.org/
+    vendor: Finalsite
+    confidence: credited
+    cms: Finalsite
+    registrar: GoDaddy.com, LLC
+    evidence: 'footer "Powered by Finalsite"'
+  - slug: delphos-city-schools
+    name: Delphos City Schools
+    url: https://www.delphoscityschools.org/
+    vendor: Finalsite
+    confidence: credited
+    cms: Finalsite
+    registrar: Network Solutions, LLC
+    evidence: 'footer "Powered by Finalsite"'
+  - slug: apollo-career-center
+    name: Apollo Career Center (JVS)
+    url: https://www.apollocareercenter.com/
+    vendor: NOW Marketing Group
+    confidence: credited
+    cms: WordPress 6.9.4
+    registrar: GoDaddy.com, LLC
+    evidence: 'footer "Website by NOW Marketing Group"'
