@@ -1,0 +1,134 @@
+# ============================================================================
+# HEARING INDEX — Ohio Select / Joint Committee on Data Centers (2026)
+# ============================================================================
+# Catalog of the committee record ingested under
+# data/documents/legal/select-committee-2026/ (raw PDFs), plus Cory Parent's own
+# testimony (indexed separately). Summaries are thesis-level, drawn from each
+# document's opening; verify against the source before quoting. The committee is
+# referred to interchangeably as the "Select Committee on Data Centers" and the
+# "Joint Data Center (Study) Committee."
+
+committee:
+  name: "Ohio Select Committee on Data Centers (a.k.a. Joint Data Center Study Committee)"
+  co_chairs: ["Holmes", "Chavez"]
+  ranking_members: ["Glassburn", "Blackshear"]   # per PUCO Chair French's testimony
+  mission: >-
+    Ensure Ohio citizens have accurate, relevant, usable information on the economic,
+    environmental, and security impacts of data-center development (committee-mission-statement.pdf).
+    Tasks span ratepayer cost/availability, water, land, security, load forecasting, and
+    pricing transparency.
+  hearing_dates_in_record: ["2026-05-27", "2026-05-30/31", "2026-06-01", "2026-06-03", "2026-06-04"]
+  parent_testimony:
+    written: "extracted/legal/bosc-written-testimony-2026-06-01.index.yaml"
+    oral: "extracted/legal/bosc-committee-testimony-2026-06-04.index.yaml"
+    deck: "documents/legal/bosc-testimony-deck-2026-06-01.pdf ('Who Is the Customer?')"
+
+# ----------------------------------------------------------------------------
+# Witnesses & documents (grouped by seat)
+# ----------------------------------------------------------------------------
+agencies:
+  - file: select-committee-2026/puco-french-2026-05-27.pdf
+    witness: "Jenifer French, Chair, Public Utilities Commission of Ohio (PUCO)"
+    date: "2026-05-27"
+    summary: "PUCO's role in data-center development; the cost-causation tariff framework (the AEP Ohio tariff Parent cites as PUCO-confirmed)."
+    vs_parent: "Foundation Parent builds on — cost causation needs a known cost-causer (disclosure)."
+  - file: select-committee-2026/odod-mihalik-dcte-2026-05-27.pdf
+    witness: "Lydia L. Mihalik, Director, Ohio Department of Development"
+    date: "2026-05-27"
+    summary: "Defends the Ohio Data Center Tax Exemption (DCTE), created by the 130th G.A.; Ohio's decade-long competitiveness pitch."
+    vs_parent: "The agency granting abatements 'without naming the developer' — the gap Parent targets; counterpoint on the program's value."
+  - file: select-committee-2026/odnr-mertz-water-2026-05-27.pdf
+    witness: "Mary Mertz, Director, Ohio Dept. of Natural Resources (ODNR)"
+    date: "2026-05-27"
+    summary: "ODNR's authority over water/natural resources as it relates to data centers — the water-visibility question."
+    vs_parent: "Directly cited — Parent's Recommendation 3 ('close the water-visibility gap Director Mertz identified') builds on this. Ties to docs/HYDROLOGY.md."
+  - file: select-committee-2026/ohioepa-logue-2026-05-27.pdf
+    witness: "John Logue, Director, Ohio Environmental Protection Agency"
+    date: "2026-05-27"
+    summary: "Ohio EPA's environmental-permitting role for data centers (air/water permits)."
+    vs_parent: "Permitting context for the redacted-permit-specs problem Parent raises in the BOSC case."
+
+grid_and_consumer:
+  - file: select-committee-2026/pjm-haque-2026-05-27.pdf
+    witness: "Asim Z. Haque, EVP Governmental & Member Services, PJM Interconnection"
+    date: "2026-05-27"
+    summary: "28-slide deck: securing reliability/affordability amid historic demand growth; FERC-regulated RTO; load-forecasting reform."
+    vs_parent: "Parent cites PJM's NDA-with-identity-sharing reform as proof disclosure and reliability travel together; and the FERC/state-line guidance on HB 706."
+  - file: select-committee-2026/occ-willis-2026-05-27.pdf
+    witness: "Maureen Willis, Ohio Consumers' Counsel (OCC)"
+    date: "2026-05-27"
+    summary: "Consumer impacts of data-center growth; anti-speculation; protecting residential ratepayers from cost-shifting (10 pp)."
+    vs_parent: "Strong alignment — Parent cites OCC's anti-speculation forecasting, which 'depends on verifying who stands behind a load request.'"
+  - file: select-committee-2026/elpc-wallace-transmission-costs-2026-06-01.pdf
+    witness: "Nicholas Wallace, Environmental Law & Policy Center (ELPC)"
+    date: "2026-06-01"
+    summary: "How data centers drive up transmission costs: AEP +$126M (+9.5%, +$7.91/mo residential); AES +$6/mo over two years; cost-shift to ratepayers."
+    vs_parent: "Quantifies the ratepayer-cost externality HB 706 (and disclosure) aim to contain."
+  - file: select-committee-2026/pjm-electricity-costs-explained-2026-05.pdf
+    witness: "PJM (reference explainer)"
+    date: "2026-05"
+    summary: "One-pager on the four bill components (generation, transmission, distribution, riders) and FERC vs state cost oversight."
+    vs_parent: "Reference for the FERC/Federal Power Act line Parent flags on HB 706 drafting."
+
+industry:
+  - file: select-committee-2026/google-schwab-2026-06-04.pdf
+    witness: "Liz Schwab, Market Development & Policy Manager, Google Data Centers"
+    date: "2026-06-04"
+    summary: "Google's own testimony — proud of investment benefits, 'listening intently' to Ohioans' concerns. The developer behind Project BOSC."
+    vs_parent: "The counterparty. Parent's whole case is that Google's identity was withheld 15 months under NDA; Schwab is Google testifying openly to the same committee days later."
+    flag: "Highest-value cross-read — compare Google's public posture here against the BOSC NDA/shell-company record."
+  - file: select-committee-2026/qts-2026-06-03.pdf
+    witness: "QTS (data center developer/operator)"
+    date: "2026-06-03"
+    summary: "Hyperscale + colocation + 'federal government operations' as a named customer segment; mission-critical digital infrastructure."
+    vs_parent: "Corroborates Parent's government-cloud point — an operator naming federal/government workloads as a core segment."
+  - file: select-committee-2026/dcc-coalition-overview-2026-05-27.pdf
+    witness: "Data Center Coalition (DCC) — industry trade group"
+    date: "2026-05-27"
+    summary: "26-slide overview, 'Powering the Internet & our Modern Economy'; owner/operator members; the industry's benefits/national-security framing."
+    vs_parent: "The 'national security imperative' framing Parent's oral Q&A responded to (the member's question referenced the coalition's prior-week testimony)."
+
+citizens_and_advocates:
+  - file: select-committee-2026/koger-kidd-transparency-2026-05-31.pdf
+    witness: "Quintin Koger Kidd — retired CPA, Certified Fraud Examiner, former mayor/council member"
+    date: "2026-05-31"
+    summary: "Data centers, home rule, transparency, and local control; risk/accountability lens from a fraud-examiner's perspective."
+    vs_parent: "Closest ally — independent transparency/accountability argument paralleling Parent's disclosure thesis."
+  - file: select-committee-2026/baurichter-conserve-ohio-2026-06-01.pdf
+    witness: "Austin Baurichter — Conserve Ohio volunteer; co-drafter of the statewide data-center petition"
+    date: "2026-06-01"
+    summary: "Personal, values-driven testimony from a co-drafter of the ballot petition (the 25-MW constitutional amendment effort)."
+    vs_parent: "The petition organizers Parent cites ('cloaked in secrecy'); shared transparency concern, different (ballot) vehicle."
+  - file: select-committee-2026/falkin-2026-06-01.pdf
+    witness: "Larry Falkin"
+    date: "2026-06-01"
+    summary: "'First, do no harm' — data centers as assets vs liabilities depending on how they're done; conditions for net-positive outcomes."
+    vs_parent: "Same do-it-right register; supports community-benefits conditioning (Parent's Recommendation 6)."
+  - file: select-committee-2026/citizen-moratorium.pdf
+    witness: "Citizen (anonymous)"
+    date: "2026 (undated)"
+    summary: "Calls for a moratorium — land use (agriculture/parks/housing), energy demand, prefers infill / vertical builds / renewables."
+    vs_parent: "Opposition end of the spectrum; Parent is expressly not for a moratorium (interested party)."
+
+committee_docs:
+  - file: select-committee-2026/committee-mission-statement.pdf
+    type: "committee charter"
+    summary: "The Joint Data Center Committee's mission + specific tasks (ratepayer cost, grid reliability, load forecasting, pricing transparency, etc.)."
+
+# ----------------------------------------------------------------------------
+# Cross-cutting read
+# ----------------------------------------------------------------------------
+synthesis:
+  alignment_with_parent: >-
+    Parent's disclosure thesis sits underneath most of the record: OCC (anti-speculation),
+    PJM (identity-sharing for reliability), ELPC (cost-shift), Koger-Kidd (transparency/
+    accountability), Baurichter (petition), Falkin (community benefits), and Mertz (water
+    visibility) all presuppose knowing who the customer is. Parent's contribution is naming
+    that common dependency and adding the government-cloud/authorization dimension no other
+    witness raised.
+  counter_positions: >-
+    Mihalik (ODOD) defends the DCTE; Google (Schwab) and the DCC/QTS present the industry
+    benefits + national-security case. The Google testimony is the sharpest counterpoint to
+    the BOSC NDA record — same company, opposite transparency posture, days apart.
+  unique_to_parent: "The GovCloud/FedRAMP-DoD-impact-level economic argument (who can even USE the facility), and the records-mandamus as the disclosure-enforcement mechanism."
+  candidate_next: "Deep per-witness extraction of the Google (Schwab), DCC, QTS, and Mihalik/DCTE documents for a full proponent-side analysis."

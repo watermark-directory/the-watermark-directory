@@ -125,6 +125,17 @@ acknowledgment into a dated trigger. **The complaint was ripe on May 31.** If th
 acknowledgment (not production), the §149.43(B) violation persisted and the $1,000
 + costs claim was already vested.
 
+**Confirmed outcome (per the 6/4 testimony).** The leverage thesis is no longer
+hypothetical. Testifying to the Select Committee on June 4, the relator stated that the
+petition "is actually **what finally got me those records on Friday, or at least a
+production schedule** to produce them." So the draft worked **as leverage without being
+filed** — the credible, court-ready threat broke a stonewall that mere cure-notice
+correspondence had not. That is the strongest possible vindication of §II below: the
+value of a complete, properly-pleaded mandamus is not only the writ it could win but the
+production it extracts before any judge sees it. (It also means a *filed* action would
+now likely face the *Henderson* mootness bar on the writ itself — while the statutory-
+damages/costs question for the pre-production delay remains live.)
+
 ### 6. Two cracks worth noting
 
 - **Date — reconciled to April 14.** The operative date is **April 14, 2026**: the
@@ -213,10 +224,11 @@ it is the procedural posture §9.66(D) is most vulnerable to.
 Two contemporaneous developments are worth putting in front of any court as context
 for why transparency here serves a live public interest:
 
-- **HB 695** (introduced ~May 2026) would **limit NDAs and repeal the §9.66(D)
-  addition**, restoring public access to data-center and economic-development deal
-  records — an express legislative signal that §9.66(D) is contested and
-  pro-transparency reform is in motion.
+- **HB 695** (Reps. **Brian Stewart & Adam Bird**, ~Mar–May 2026) would **prohibit
+  certain local officials from signing economic-development NDAs** and (per
+  pro-transparency advocates) **repeal the §9.66(D) addition**, restoring public access
+  to data-center deal records — an express legislative signal that §9.66(D) is contested
+  and reform is in motion.
   ([Policy Matters Ohio, May 20 2026](https://policymattersohio.org/news/2026/05/20/hb-695-should-limit-ndas-restore-access-to-records-of-data-center-and-other-development-deals/))
 - **Gov. DeWine paused new data-center sales-tax exemptions** (R.C. 122.175) pending a
   General Assembly study, after the program cost **~$1.6B against a $136M projection**
@@ -227,6 +239,31 @@ for why transparency here serves a live public interest:
 state simultaneously **subsidizing** hyperscale data centers and **classifying** the
 records that would let the public price those subsidies. The BOSC request sits exactly
 on that fault line.
+
+### The committee's bill slate (where §9.66(D) sits in the larger debate)
+
+§9.66(D) is the *confidentiality* counter-current inside a much larger data-center
+reckoning now before the **Select / Joint Committee on Data Centers** (record indexed at
+`data/extracted/legal/select-committee-2026.hearing-index.yaml`). The bills in motion:
+
+- **HB 706** (Reps. **David Thomas & Tristan Rader**) — the core consumer-protection
+  vehicle: makes **cost causation** enforceable (long-term service agreements, minimum
+  billing demand, exit fees, a bar on shifting data-center costs to other ratepayers) and
+  extends the PUCO-confirmed AEP Ohio tariff statewide.
+- **HB 646** — a **data-center study commission** (the natural forum for the §9.66(D)
+  repeal and disclosure questions; vulnerable to industry capture without independent
+  facility-level data).
+- **HB 695** (Stewart & Bird) — the **NDA-prohibition / disclosure-restoration** bill above.
+- **Electricity Forecast Integrity Act (EFIA)** — anti-speculation load forecasting.
+- A proposed **constitutional amendment** (Ohio Prohibition of Construction of a Data
+  Center Amendment, 2026) defining a data center by a **> 25 MW** peak/aggregate load —
+  but with **no ownership-disclosure or parcel-aggregation** mechanism, which the
+  testimony argues hyperscale routes around.
+
+The throughline the relator's testimony supplies: **every one of these depends on knowing
+who the customer is**, and §9.66(D) is the statute pulling the other way. That is the
+frame that makes a single resident's records fight legislatively relevant — it is a live
+instance of the disclosure gap the whole slate is circling.
 
 ### Presenting this draft as evidence to the General Assembly
 
@@ -379,13 +416,16 @@ campaign · **[DEF]** defense/DoD nexus. Confidence: `[v]` verified (corpus/web/
 | 2026-04-20 | [BOSC] `[v]` | Supplement 2 (Ex. C): forcemain, Shawnee II Phase 2 capacity discrepancy, CMS audit logs, Tilted Gate LLC, EMH&T; Category 5 names the **JSMC industrial zone** (cf. [DEF]) |
 | 2026-04-29 | [BOSC·LAW] `[v]` | County acknowledges "four (4) requests… **forwarded to legal counsel**," no schedule (Ex. E) — behavior consistent w/ §9.66(D) caution |
 | 2026-05-06 | [BOSC] `[v]` | AEP **Lyka 345kV substation** community meeting (OPSB approval pending) — the energy half of the load |
-| 2026-05-20 | [LAW] `[v]` | Policy Matters: **HB 695** should repeal §9.66(D) + limit NDAs ([PMO](https://policymattersohio.org/news/2026/05/20/hb-695-should-limit-ndas-restore-access-to-records-of-data-center-and-other-development-deals/)) |
+| 2026-05-20 | [LAW] `[v]` | Policy Matters: **HB 695** (Reps. Stewart & Bird) should repeal §9.66(D) + limit NDAs ([PMO](https://policymattersohio.org/news/2026/05/20/hb-695-should-limit-ndas-restore-access-to-records-of-data-center-and-other-development-deals/)) |
+| 2026-05-27 | [LAW] `[v]` | **Select/Joint Committee on Data Centers** hearings (Co-Chairs Holmes & Chavez): PUCO (French), ODOD/DCTE (Mihalik), ODNR water (Mertz), Ohio EPA (Logue), PJM (Haque), OCC (Willis), Data Center Coalition testify |
 | 2026-05-26 | [BOSC·LAW] `[v]` | **Cure notice** (Ex. F) — constructive-denial + pre-emptive §9.66(D)/§1.48 argument |
 | 2026-05-28/29 | [DEF·broad] `[v]` | OEPA comment letters on Project Dazzler — flooding, wetlands, drinking water, stormwater ([Portsmouth Daily Times](https://www.portsmouth-dailytimes.com/news/ohio-epa-seeks-more-information-on-proposed-google-data-center/article_5774beb4-ddef-43fa-a363-ee793da43b76.html)) |
 | 2026-05-29 | [BOSC] `[v]` | Cure period expires — no production, schedule, or log |
 | late May 2026 | [LAW] `[v]` | DeWine **pauses §122.175 data-center sales-tax exemption** (cost ~$1.6B vs $136M projected) pending GA study ([The Hill](https://thehill.com/homenews/state-watch/5900974-data-center-tax-exemption-ohio-mike-dewine/)) |
 | 2026-05-31 | [BOSC·LAW] `[v]` | **Mandamus draft** Certificate of Service dated — ripe, held not filed |
-| Jun 2026 → | [LAW] `[i]` | Draft available as **legislative evidence** for HB 695 / Joint Data Center Committee (see §II) |
+| ~2026-05-29 | [BOSC] `[v]` | County **produces records / a production schedule "on Friday"** — per the 6/4 testimony, the mandamus is "what finally got me those records" (leverage without filing; §I.5) |
+| 2026-06-01 | [BOSC·LAW] `[v]` | Parent **written testimony** to the committee ("Who Is the Customer?" — beneficial-ownership disclosure; 6 recommendations) |
+| 2026-06-04 | [BOSC·LAW] `[v]` | Parent **oral testimony** + Google (Schwab) testifies the same day; defense Q&A (IL-6, JSMC, EO 14265) |
 
 **On the defense strand, stated honestly.** Two things are *verified and entity-level*:
 Google Public Sector holds DoD authorizations up to **IL5/IL6 and Top Secret** and is a
