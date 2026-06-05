@@ -1,0 +1,32 @@
+{
+  "source": "allen_commissioners_minutes",
+  "generated_at": "2026-04-17T18:36:52.980464+00:00",
+  "meetings_total": 634,
+  "meetings_ocrd": 634,
+  "pages_indexed": 2283,
+  "refs_total": 342,
+  "ref_types": {
+    "subject_bistrozzi": 8,
+    "subject_bosc": 28,
+    "subject_hume": 31,
+    "subject_cridersville_treatment": 3,
+    "subject_google": 0,
+    "subject_general_dynamics": 2,
+    "topic_datacenter": 15,
+    "topic_pump_station": 15,
+    "topic_forcemain": 12,
+    "topic_cmar": 11,
+    "topic_rezoning": 0,
+    "topic_annexation": 108,
+    "topic_easement": 108,
+    "topic_pipeline": 0,
+    "topic_buckeye": 0,
+    "topic_bess": 0,
+    "topic_solar": 1,
+    "subject_ess_inc": 0,
+    "subject_neff": 0,
+    "topic_setback": 0,
+    "subject_lyka": 0,
+    "subject_aep_transmission": 0
+  }
+}
