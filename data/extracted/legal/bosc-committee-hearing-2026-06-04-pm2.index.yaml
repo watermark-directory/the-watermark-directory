@@ -1,0 +1,111 @@
+# ============================================================================
+# INDEX — Closing witnesses, Ohio Joint Data Center Committee
+# (2026-06-04, late afternoon / part 3 — MARA + Vantage, then adjournment)
+# ============================================================================
+# Final session of the 2026-06-04 hearing day: after the 2:30 break, two more
+# developer witnesses testify and take questions, then the committee adjourns
+# ('marathon session on Monday'). Continues from bosc-committee-hearing-
+# 2026-06-04-pm. Reviewed extraction over the raw .wav; transcript is
+# machine-generated — verify figures/names against audio before quoting.
+
+source:
+  audio: documents/legal/bosc-committee-hearing-2026-06-04-pm2.wav
+  transcript: extracted/legal/bosc-committee-hearing-2026-06-04-pm2.transcript.md
+  hearing_date: "2026-06-04"
+  capture_date: "2026-06-05"
+  session: "late afternoon (part 3); post-2:30 break; ends with adjournment for the day"
+  duration: "34:18"
+  format: "WAV, 48kHz/24-bit stereo, ~593 MB (LFS)"
+  transcription_model: "mlx-community/whisper-large-v3-turbo (on-device)"
+  transcription_confidence: "approximate — ASR; speaker labels inferred (no diarization)"
+  continues_from: extracted/legal/bosc-committee-hearing-2026-06-04-pm.index.yaml
+
+forum:
+  body: "Ohio General Assembly — Joint Data Center (Study) Committee"
+  presiding: "Co-Chairs Holmes & Chavez"
+  note: "Closes the 2026-06-04 hearing day; committee reconvenes Monday (allied industries / interested parties invited)."
+
+# ----------------------------------------------------------------------------
+# Witnesses
+# ----------------------------------------------------------------------------
+witnesses:
+  - witness: "Shane Hazel — MARA Holdings (North American Operations Manager)"
+    t: "00:09-23:00"
+    model: "Bitcoin miner ('digital energy company') diversifying into AI / HPC — distinct from hyperscalers and colos."
+    claims:
+      investment: "$397M+ invested in Ohio across three counties; $2.2M+ state/local taxes last year. [solid — specific]"
+      sites: "Long Ridge Energy Campus (Hannibal) building toward 505 MW (currently ~100 MW); Hopedale ~100 MW; Finley ~30 MW. [solid]"
+      grid_flexibility:
+        - "Behind-the-meter; 'power down within minutes when the grid is stressed, ramp back up when energy is abundant.' [solid]"
+        - "Winter storm (Jan): voluntarily curtailed 770+ MW across PJM/ERCOT. [solid — checkable]"
+        - "Supports basic-transmission-cost rider + coincidence-peak programs; 'demand reductions from participating customers, particularly flexible data centers.' [solid — aligns with OCC/ELPC cost-causation]"
+      water: "Air + immersion cooling, 'eliminate the use of freshwater cooling'; at Long Ridge ~200 MW would use '~five swimming pools worth of water' vs 'multitudes more with AI data centers.' [solid AND design-specific — a low-water counter-case]"
+      economics: "Mine cost ~$80k/BTC (as low as ~$30k on certain sites) vs ~$64k BTC price — i.e. underwater on high-cost sites. [solid — candid]"
+    key_finding:
+      quote: "'The one question I didn't see come up that I thought was very pertinent is who has access to this data? And that's not a problem that we have. We don't have customers in Bitcoin. We have a mission, we have a protocol.' (~11:38)"
+      tag: "solid — verbatim"
+      significance: >-
+        A developer VOLUNTARILY names 'who is the customer / who has access to the data' as
+        the pertinent unasked question — and distinguishes Bitcoin mining (no customer, no
+        third-party data access) from AI/public data centers (which do). Independent,
+        industry-side validation of Parent's 'Who is the customer?' framing AND his
+        'what is a data center?' definitional point (these are categorically different things).
+    vs_parent: >-
+      The good-actor / definitional contrast: grid-flexible, low-water, no third-party
+      customer or data-access vector. Supports Parent's call for a centralized statutory
+      DEFINITION (a Bitcoin miner is not a hyperscaler is not a colo) and shows the
+      'who is the customer' question has categorically different answers by model.
+
+  - witness: "Kevin Chandler — Vantage Data Centers (Director, Government & Regulatory Affairs, NA)"
+    t: "23:00-33:30"
+    model: "Wholesale / colocation developer — builds the campus; tenants own the compute. The layered-ownership case."
+    claims:
+      cost_causation: "'large-load customers have a responsibility to be part of [rate protection]'; protecting ratepayers + grid reliability a stated priority. [solid — endorses cost-causation]"
+      water: "Closed-loop chilled-water systems at both Ohio campuses (minimize water); Millersport — partnering on water/wastewater infrastructure improvements. [solid — closed-loop, like QTS]"
+    key_finding:
+      exchange:
+        - "Q: co-locator category? A: 'campuses are developed by Vantage... that space is leased and that computer equipment belongs to our TENANTS who can be enterprise, cloud, or AI customers.' (~31:21)"
+        - "Q: do you take the sales-and-use tax abatement, or does it go to the equipment owners inside? A: 'It's both'... then: 'I am not a tax policy expert... I do not know whether we directly take advantage and then it's passed through as part of the financing, or whether it's taken advantage by the tenants themselves.' (~31:51)"
+        - "'campuses that are developed and owned by the hyperscale customers as well.' (~32:57)"
+        - "Q: would you submit to the same technical questions the hyperscalers agreed to? A: 'Yes.' — 'We'll add you to the list.' (~33:01)"
+      tag: "solid — verbatim; the sharpest beneficial-ownership exchange in the corpus"
+      significance: >-
+        Vantage IS the disclosure problem Parent describes: the developer is a landlord; the
+        actual beneficiary/customer is the tenant ('enterprise, cloud, or AI customers' /
+        'hyperscale customers'); and even the developer CANNOT SAY who ultimately captures
+        the public subsidy ('I do not know... passed through... or taken advantage by the
+        tenants themselves'). Layered ownership makes the cost/value untraceable at the
+        witness's own level — exactly the gap a beneficial-ownership disclosure standard closes.
+    vs_parent: >-
+      Live, on the record: a subsidized developer who cannot trace who benefits from the
+      abatement. Direct corroboration of Parent's slide 3 (shell holds the deed/takes the
+      abatement) and slide 8 (extraction vs reciprocity). The committee's 'same technical
+      questions' commitment is the disclosure-standard mechanism forming in real time.
+
+# ----------------------------------------------------------------------------
+# Synthesis vs Parent's thesis
+# ----------------------------------------------------------------------------
+synthesis:
+  headline: >-
+    Part 3 brackets Parent's thesis from both ends. MARA (Bitcoin) volunteers 'who has
+    access to this data? ... we don't have customers' — naming the customer/data-access
+    question as the pertinent one and showing its answer is model-dependent. Vantage
+    (colocation) embodies the opposite: a subsidized landlord who cannot say whether it or
+    its hyperscale tenants ultimately capture the sales-and-use abatement. Together they make
+    Parent's two asks concrete — a centralized DEFINITION of 'data center,' and
+    beneficial-ownership DISCLOSURE so the subsidy's beneficiary is traceable.
+  definitional_point: >-
+    Across the day the witnesses span Bitcoin mining (no customer), hyperscale (federal/DoD
+    + enterprise customers), and colocation (tenant-owned compute) — three radically
+    different things all called 'data centers.' This is the strongest record support for
+    Parent's 'what is a data center?' recommendation.
+  committee_trajectory: >-
+    The committee is assembling a 'technical questions' list witnesses commit to (hyperscalers
+    in AM/PM; Vantage here — 'we'll add you to the list'). That voluntary-commitment list is
+    the embryonic disclosure standard Parent argues should be STATUTORY rather than ad hoc.
+  cross_refs:
+    - "data/extracted/legal/bosc-committee-hearing-2026-06-04-pm.index.yaml (round two; disclosure split)"
+    - "data/extracted/legal/bosc-committee-hearing-2026-06-04-am.index.yaml (panel + round one)"
+    - "docs/legal/mandamus-analysis.md §II (disclosure / §9.66(D))"
+    - "data/extracted/legal/bosc-testimony-deck-2026-06-01.md (slides 3, 4, 8 — shell/definition/extraction)"
+    - "docs/legal/proponent-analysis.md (mismatched-basis pattern; QTS closed-loop water)"

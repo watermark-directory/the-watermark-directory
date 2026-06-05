@@ -26,6 +26,7 @@ committee:
     # On-device transcriptions of the gavel-to-gavel hearing audio (not just Parent's slot).
     "2026-06-04-am": "extracted/legal/bosc-committee-hearing-2026-06-04-am.index.yaml  # hyperscaler panel: Meta/Google/Amazon/Microsoft + Q&A round one"
     "2026-06-04-pm": "extracted/legal/bosc-committee-hearing-2026-06-04-pm.index.yaml  # same panel, Q&A round two (PFAS, disclosure split, SMR/grid)"
+    "2026-06-04-pm2": "extracted/legal/bosc-committee-hearing-2026-06-04-pm2.index.yaml  # closing witnesses MARA + Vantage, then adjournment"
 
 # ----------------------------------------------------------------------------
 # Witnesses & documents (grouped by seat)
@@ -161,6 +162,20 @@ synthesis:
     Meta-Vistra nuclear save + SMR siting 'in and around our operations,' and the Workman
     sales-tax counterfactual probing whether the DCTE changes behavior. Feeds
     mandamus-analysis.md §II.
+  closing_witnesses_2026_06_04_pm2: >-
+    The day's closing session (bosc-committee-hearing-2026-06-04-pm2) brackets Parent's
+    thesis from both ends. MARA Holdings (Bitcoin miner; $397M in OH, behind-the-meter,
+    curtailed 770+ MW in the Jan storm, ~5 swimming pools of water at Long Ridge) VOLUNTARILY
+    names the pertinent unasked question — 'who has access to this data? ... we don't have
+    customers in Bitcoin' — validating both Parent's 'who is the customer?' and 'what is a
+    data center?' points. Vantage Data Centers (colocation) embodies the opposite: a
+    subsidized landlord whose tenants own the compute and who CANNOT SAY whether it or its
+    'hyperscale customers' ultimately capture the sales-and-use abatement ('I do not know...
+    passed through... or taken advantage by the tenants themselves') — the beneficial-
+    ownership opacity, live. Vantage commits to 'the same technical questions the hyperscalers
+    agreed to' ('we'll add you to the list') — the voluntary disclosure list Parent argues
+    should be statutory. Across the day the witnesses span Bitcoin/hyperscale/colocation —
+    three different things all called 'data centers.'
   unique_to_parent: "The GovCloud/FedRAMP-DoD-impact-level economic argument (who can even USE the facility), and the records-mandamus as the disclosure-enforcement mechanism."
   proponent_analysis: >-
     Neutral, precise read of the four proponent documents (Google, QTS, DCC, ODOD/DCTE) at
