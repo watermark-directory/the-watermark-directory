@@ -147,12 +147,13 @@ timeline_additions:   # [BOSC] strand for mandamus-analysis.md §IV
 # in the minutes/agenda at the page below; dates match this index exactly. Read a hit in full at
 # data/documents/commissioners/minutes/raw/<filename> on the cited page.
 minutes_corroboration:
-  - {item: 1,  resolution: '417-25', date: 2025-05-27, minutes: 'M052725.pdf:3',  agenda: 'A052725.pdf:2',  note: "Bistrozzi named on the agenda + minutes (subject_bistrozzi)"}
-  - {item: 3,  resolution: '304-25', date: 2025-04-17, minutes: 'M041725.pdf:1,5', note: "Board creates Allen County CRA No. 1"}
-  - {item: 3,  resolution: '494-25', date: 2025-06-24, minutes: 'M062425.pdf:9',  note: "school-district notice authorization; Bistrozzi named"}
-  - {item: 3,  resolution: '548-25', date: 2025-07-10, minutes: 'M071025.pdf:4',  agenda: 'A071025.pdf:3',  note: "Board enters CRA Agreement"}
-  - {items: '5-15', resolution: '113-26', date: 2026-02-19, minutes: 'M021926.pdf:3', agenda: 'A021926.pdf:3', note: "MS Consultants forcemain feasibility — a Category-B item the county DEFERRED to Sanitary Eng; the resolution is nonetheless in the Commissioners' own minutes"}
-  - {items: '5-15', resolution: '136-26', date: 2026-02-26, minutes: 'M022626.pdf:3', agenda: 'A022626.pdf:2', note: "second forcemain-feasibility resolution; same point"}
+  entries:
+    - {item: 1,  resolution: '417-25', date: 2025-05-27, minutes: 'M052725.pdf:3',  agenda: 'A052725.pdf:2',  note: "Bistrozzi named on the agenda + minutes (subject_bistrozzi)"}
+    - {item: 3,  resolution: '304-25', date: 2025-04-17, minutes: 'M041725.pdf:1,5', note: "Board creates Allen County CRA No. 1"}
+    - {item: 3,  resolution: '494-25', date: 2025-06-24, minutes: 'M062425.pdf:9',  note: "school-district notice authorization; Bistrozzi named"}
+    - {item: 3,  resolution: '548-25', date: 2025-07-10, minutes: 'M071025.pdf:4',  agenda: 'A071025.pdf:3',  note: "Board enters CRA Agreement"}
+    - {items: '5-15', resolution: '113-26', date: 2026-02-19, minutes: 'M021926.pdf:3', agenda: 'A021926.pdf:3', note: "MS Consultants forcemain feasibility — a Category-B item the county DEFERRED to Sanitary Eng; the resolution is nonetheless in the Commissioners' own minutes"}
+    - {items: '5-15', resolution: '136-26', date: 2026-02-26, minutes: 'M022626.pdf:3', agenda: 'A022626.pdf:2', note: "second forcemain-feasibility resolution; same point"}
   note: >
     The minutes corpus carries 28 subject_bosc and 8 subject_bistrozzi page-hits and independently
     confirms every resolution number this production cites — useful if the county's later batches
