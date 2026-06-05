@@ -101,8 +101,8 @@ I see this directly as a *payer* — I'm the responsible party for paying AWS an
 company, and I see the pressure on price; we are definitely running out. Everything is
 leasing-based, and there are only so many servers at a time. Servers get more expensive
 during the Super Bowl, because lots of people want to run ads. But I think this
-proliferation may be specifically related to **Executive Order 14265** *(ASR — verify
-number)*, which told defense primes to modernize their procurement processes. Practically on
+proliferation may be specifically related to **Executive Order 14265** *(verified — signed
+2025-04-09; DCPD202500458)*, which told defense primes to modernize their procurement processes. Practically on
 the ground that's technical: Google's own platform for defense is a **secured version of
 their standard platform** — that's the whole purpose; it matches the "off-the-shelf
 solutions" language. Google's data centers use a technology called **Kubernetes** to do

@@ -147,8 +147,14 @@ claims:
     status: industry-consensus
     note: "Consistent with the BOSC cooling-basis work (36 cooling towers; 3.1-10 MGD consumptive)."
   - claim: "Executive Order 14265 drove defense-prime procurement modernization"
-    status: unverified
-    note: "ASR-captured EO number — VERIFY the number and content before relying on it."
+    status: verified
+    note: >-
+      EO 14265, "Modernizing Defense Acquisitions and Spurring Innovation in the Defense
+      Industrial Base," signed 2025-04-09 (FR 2025-04-15; DCPD202500458); full text at
+      documents/legal/eo-14265-defense-acquisition-2025-04-09.txt. Sec. 2-3 direct DoD to
+      accelerate procurement with a FIRST PREFERENCE FOR COMMERCIAL SOLUTIONS and Other
+      Transactions Authority — precisely the "off-the-shelf / secured-standard-platform"
+      logic the witness draws on. The EO supports the testimony's framing."
   - claim: "Kubernetes deployed in some aerial/ground military vehicles ('brain in your tank')"
     status: witness-assertion
     note: "Stated 'to my understanding'; illustrative, not documented here."
