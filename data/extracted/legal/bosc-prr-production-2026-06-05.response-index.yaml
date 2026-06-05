@@ -93,9 +93,16 @@ request_response:
       county_position: '"the Commissioners do not manage the county website and therefore do not have access to the information this request seeks… no records to provide." Deemed fulfilled.'
       significance: >
         Direct tie to data/extracted/legal/allen-county-web-vendor-audit — the county disclaims control of its
-        own site; CMS audit logs would be held by CorpComm Group, Inc. (the vendor). Confirms the third-party-
-        processor custody theory. NB the county simultaneously cites commissioners.allencountyohio.com
+        own site; CMS edit logs are held by the third-party host (AhelioTech, GoDaddy-managed WordPress). Confirms
+        the third-party-processor custody theory. NB the county simultaneously cites commissioners.allencountyohio.com
         agendas/minutes/legal-notices as a records source — disclaims managing the site yet points to it.
+      rebuttal: >
+        The edit-history records DO exist — "no records" conflates "we don't hold it" with "it doesn't exist."
+        The Sanitary pages run on WordPress, which timestamps every edit and stores full revision history. The
+        site's OWN public REST API / XML sitemap publish per-page `modified` dates (see sanitary_pages_edit_history
+        below), and the `/wp-json/wp/v2/pages/<id>/revisions` endpoint returns HTTP 401 (gated, NOT 404 = the
+        version history exists behind a login). Multiple Sanitary pages — incl. the Shawnee II project page — were
+        modified WITHIN the requested 2025-01-01-to-date window. Custody sits with the host; existence is not in doubt.
     - n: 17
       category: C
       ask: Internal comms re addition/modification/removal of any reference to BOSC, the pump-station RFP, Bistrozzi LLC, or Shawnee II figures on any county-managed website.
@@ -161,7 +168,30 @@ minutes_corroboration:
     (#113-26 / #136-26) sitting in the Commissioners' OWN record, undercutting the "better suited
     for the Sanitary Engineer" deferral as to the existence of those legislative acts.
 
+# Item-16 rebuttal evidence: the Sanitary Engineering pages' own WordPress CMS exposes the edit-history
+# metadata the county said it had "no records" for. Captured 2026-06-05 from first-party public endpoints.
+sanitary_pages_edit_history:
+  site: https://allencountyohio.com/sanitary-engineering/   # WP 6.9.4; footer "Site Designed and Developed by CorpComm Group, Inc."
+  host_custody: AhelioTech (GoDaddy-managed WordPress); content authored by generic 'wp' account (author id 5)
+  method:
+    modified_dates: GET /wp-json/wp/v2/pages/<id>?_fields=id,date,modified,author,title  (also XML sitemap <lastmod>)
+    revision_history: GET /wp-json/wp/v2/pages/<id>/revisions  -> HTTP 401 (exists, login-gated; NOT 404)
+  window_requested: 2025-01-01 to date
+  pages:   # id | created | modified | in 2025+ window
+    - {page: Shawnee II, id: 333, created: 2017-05-02, modified: 2025-02-03, in_window: true, note: "the data-center sewer project page"}
+    - {page: Projects (index), id: 370, created: 2017-05-02, modified: 2026-06-05, in_window: true, note: "modified on the production-letter date; no causal claim without the gated diff"}
+    - {page: Wastewater Collection/Maintenance, id: 335, created: 2017-05-02, modified: 2026-02-27, in_window: true}
+    - {page: Reports, id: 368, created: 2017-05-02, modified: 2026-02-04, in_window: true}
+    - {page: Employment, id: 313, created: 2017-05-02, modified: 2025-03-19, in_window: true}
+    - {page: Sanitary Engineering (dept root), id: 275, created: 2017-05-02, modified: 2024-06-07, in_window: false}
+    - {page: Rules/Regs/Specs, id: 388, created: 2017-05-02, modified: 2024-02-22, in_window: false}
+  caveat: >
+    `modified` is WordPress's content-modified field (strong evidence of a real edit; a migration can
+    touch it, so not forensic). The authoritative who/what/when is the 401-gated revision history.
+  full_profile: data/extracted/legal/allen-county-level-sites.md
+
 cross_refs:
   - docs/legal/mandamus-analysis.md            # §I.5 leverage; §II §9.66(D); §III opacity; §IV timeline
   - data/extracted/legal/allen-county-web-vendor-audit.md   # item 16 custody tie-in
+  - data/extracted/legal/allen-county-level-sites.md        # county-level site profiles + item-16 edit-history table
   - data/extracted/commissioners/minutes/                   # primary-source meeting record (minutes_corroboration above)
