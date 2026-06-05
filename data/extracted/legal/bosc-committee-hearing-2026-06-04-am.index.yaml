@@ -20,6 +20,7 @@ source:
   format: "WAV, 48kHz/24-bit stereo, ~1.99 GB (LFS)"
   transcription_model: "mlx-community/whisper-large-v3-turbo (on-device)"
   transcription_confidence: "approximate — ASR; speaker labels inferred (no diarization); 3 trailing hallucinated segments removed"
+  continues_to: extracted/legal/bosc-committee-hearing-2026-06-04-pm.index.yaml  # round two (afternoon)
 
 forum:
   body: "Ohio General Assembly — Joint Data Center (Study) Committee / Select Committee on Data Centers"

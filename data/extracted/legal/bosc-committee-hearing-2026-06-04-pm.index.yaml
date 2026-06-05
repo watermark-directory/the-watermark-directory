@@ -1,0 +1,144 @@
+# ============================================================================
+# INDEX — Hyperscaler panel ROUND TWO, Ohio Joint Data Center Committee
+# (2026-06-04, afternoon session / part 2)
+# ============================================================================
+# Navigable index of round two of the hyperscaler panel: the same four
+# witnesses (Meta, Google, Amazon, Microsoft) answering a second round of
+# committee questions, 12:30 reconvene to the 2:30 break. Continues directly
+# from bosc-committee-hearing-2026-06-04-am. Reviewed extraction over the raw
+# .wav; transcript is machine-generated — verify figures/names against audio.
+
+source:
+  audio: documents/legal/bosc-committee-hearing-2026-06-04-pm.wav
+  transcript: extracted/legal/bosc-committee-hearing-2026-06-04-pm.transcript.md
+  hearing_date: "2026-06-04"
+  capture_date: "2026-06-05"   # audio captured/processed the morning after; hearing day is 2026-06-04
+  session: "afternoon (part 2); reconvene 12:30 after lunch, ends at a 15-min break to reconvene 2:30 (further rounds may follow)"
+  duration: "1:39:20"
+  format: "WAV, 48kHz/24-bit stereo, ~1.72 GB (LFS)"
+  transcription_model: "mlx-community/whisper-large-v3-turbo (on-device)"
+  transcription_confidence: "approximate — ASR; speaker labels inferred (no diarization); 'Glassburn' mangled to 'Glassberg/Glaspern'"
+  continues_from: extracted/legal/bosc-committee-hearing-2026-06-04-am.index.yaml
+
+forum:
+  body: "Ohio General Assembly — Joint Data Center (Study) Committee"
+  presiding: "Co-Chair Holmes (Co-Chair Chavez present)"
+  panel: ["Meta — Thor Underdahl", "Google — Liz Schwab", "Amazon Web Services — Craig Sunderman", "Microsoft — Daniel Brown"]
+  format: "Round two — members question the panel jointly; the four answer in turn."
+
+# ----------------------------------------------------------------------------
+# Q&A round two (by questioner)
+# ----------------------------------------------------------------------------
+qa_round_two:
+  - questioner: "Co-Chair Holmes"
+    t: "00:00-20:00"
+    topics:
+      - "PFAS / source water: 'do any of you have known sources of PFAS in your water supplies?' Panel: PFAS is a source-water challenge in the existing environment; 'we don't add any chemicals that have PFAS uniquely'; glycol/anti-freeze cooling mix ~75/25 is industrial-standard. [solid — ties to docs/HYDROLOGY.md water-quality]"
+      - "Cooling-water reprise: ~3% of year uses water, 97% air-cooled (AWS). [solid AND design-specific — same caveat as AM session]"
+    vs_parent: "PFAS/source-water exchange is permitting/water-visibility context for Parent's Recommendation 3 and the redacted-permit-specs problem."
+  - questioner: "Rep. Claggett"
+    t: "20:00-31:00"
+    key: >-
+      Appalachian/rural 'extract-and-leave' concern + the speculation charge ('rolling the
+      dice'). Google: cloud backlog 'over $400 billion' of contracted demand — 'real
+      customers, real enterprise, government, small business... our investments are not
+      speculative.' Panel ties non-speculation to the AEP Ohio large-load tariff —
+      'we're ensuring that we're covering the full cost.'
+    findings:
+      - "Anti-speculation answer rests on contracted backlog + cost-causation tariff. [solid as stated; the OCC/anti-speculation thread — and presupposes a known cost-causer]"
+      - "Claggett explicitly references the morning NDA discussion ('You've heard that question this morning regarding NDAs') and 'all the deals... among various government agencies.' [context — keeps the NDA/government thread live]"
+  - questioner: "Sen. Wilkin"
+    t: "31:00-44:00"
+    topics: ["per-company tax contribution specifics", "telling the local-jobs/local-company story better"]
+    figures:
+      - "Google US tax burden ~$22B (per federal testimony cited); Ohio property tax + school payments $7.2M last year. [public-record-adjacent]"
+      - "AWS paid $10.9M in property taxes and fees in 2025. [solid — public record]"
+      - "Microsoft ~$24M total net taxes 2025, ~$13M data-center-related. [as stated]"
+    note: "Members press for a 'specific number of what we contribute' — the contribution-disclosure ask."
+  - questioner: "Rep. Workman"
+    t: "44:00-59:00"
+    topics: ["New Albany expansions", "local-government intimacy (township trustees)", "sales-and-use tax exemption counterfactual"]
+    key: >-
+      The sharp counterfactual: 'if you had the same incentive package but it wasn't sales
+      tax — if it was property or some other way — would you still do the same level of
+      procurement here? Are you making buying decisions to utilize that sales-tax exemption?'
+      Panel: the sales-and-use exemption keeps procurement/total-cost-of-ownership in Ohio
+      vs other states; analogized to the general manufacturing exemption.
+    vs_parent: "Directly probes whether the DCTE changes behavior or just transfers value — the cost-vs-value question at the center of Parent's slide 8 (extraction vs reciprocity)."
+  - questioner: "Sen. Blackshear"
+    t: "59:00-69:00"
+    headline_exchange:
+      question: "'Each of you talked about transparency. Is there a reason NOT to publicly disclose electric and water usage?' (~62:01)"
+      answers:
+        - "Google (Schwab): 'We report all of our operational electricity and water use in our annual sustainability report.'"
+        - "Microsoft (Brown): 'No reason. Historically it has been proprietary information, especially on electricity usage, but Microsoft will report those in our sustainability reports yearly.'"
+        - "Meta (Underdahl): data-sharing must protect 'anything potentially proprietary or confidential' — argues for AGGREGATION / system-level not building-by-building (notes building-level 'could also be found in local permits')."
+        - "AWS (Sunderman): reports water annually site-by-site; on energy, 'historically being fairly sensitive market-share information... that's a historical reason why many companies have not been transparent in the energy usage because you can directly tie it back to CLOUD MARKET SHARE, which... we compete on vigorously.'"
+      finding: >-
+        HEADLINE OF PART 2. Asked point-blank why not disclose, the panel SPLITS: Microsoft
+        says 'no reason' and commits to reporting; Google already reports; AWS reports water
+        but treats energy as competitively sensitive; Meta argues for aggregation. The
+        confidentiality rationale is therefore CONTESTED WITHIN THE INDUSTRY — undercutting
+        the categorical economic-development-confidentiality premise behind R.C. 9.66(D).
+        And the stated interest is COMMERCIAL (cloud market share), not the public-interest
+        secrecy the statute presumes.
+      tag: "solid — verbatim; the most legally consequential exchange in the corpus for the §9.66(D) analysis"
+    vs_parent: "Goes to mandamus-analysis.md §II: the very information §9.66(D) shields, some operators publish voluntarily and one calls 'no reason' to withhold. The withheld interest, where asserted, is market share — not a public-records exemption rationale."
+  - questioner: "Rep. Glassburn"
+    t: "69:00-94:00"
+    topics: ["energy supply / SMRs / nuclear", "separate standard service offer (rate insulation)", "behind-the-meter vs grid-tied", "backup generators as grid asset", "HB 15 + grid-enhancing technologies", "interconnection queue (8 GW solar/wind sidelined)"]
+    findings:
+      - "Operators support a separate Standard Service Offer before PUCO 'that would fully insulate large-load customers from residential customers' — the cost-causation/no-cost-shift mechanism, in the operators' words. [solid]"
+      - "Meta-Vistra deal 'functionally saving' Davis-Besse & Perry nuclear + ~300 MW uprate; equity investments in SMR tech with a goal to 'land those SMRs in and around our operations.' [solid — specific]"
+      - "Prefer grid-tied for reliability (5-nines / 99.9999% uptime); backup generators generally NOT runnable as a grid asset (permitted only for true grid emergencies). [solid — material to demand-flexibility claims]"
+  - questioner: "Sen. Wilkin / Sen. Reinecke (final)"
+    t: "94:00-99:20"
+    note: "Brief final follow-ups; 'I don't see any here that I think are going to plow any new ground.' 15-min break to reconvene 2:30 (further rounds may follow — candidate part 3)."
+
+# ----------------------------------------------------------------------------
+# Claims scorecard (round-two additions)
+# ----------------------------------------------------------------------------
+claims_scorecard:
+  solid:
+    - "Disclosure split: Microsoft 'no reason' to withhold + will report; Google reports; AWS reports water site-by-site."
+    - "AWS energy non-disclosure rationale named: 'directly tie it back to cloud market share... we compete on vigorously' (commercial, not public-interest)."
+    - "Operators support a separate SSO before PUCO to 'fully insulate large-load customers from residential customers.'"
+    - "Meta-Vistra: saves Davis-Besse & Perry + ~300 MW uprate; SMR equity investments 'in and around our operations.'"
+    - "Backup generators generally not a grid asset (permitted for true grid emergencies only)."
+    - "AWS 2025 property taxes/fees $10.9M; Microsoft ~$13M data-center-related of ~$24M (public-record-adjacent)."
+  contested_basis:
+    - "Google '$400B+ cloud backlog' offered as proof of non-speculation — aggregate/global, not Ohio-site."
+    - "Sales-and-use exemption 'keeps procurement in Ohio' — behavioral claim the Workman counterfactual specifically probes."
+  context:
+    - "PFAS: 'in the current existing environment'; operators say they don't add PFAS chemicals (glycol/anti-freeze ~75/25 cooling mix)."
+
+# ----------------------------------------------------------------------------
+# Synthesis vs Parent's thesis
+# ----------------------------------------------------------------------------
+synthesis:
+  headline: >-
+    Round two's decisive moment is Sen. Blackshear's point-blank 'is there a reason NOT to
+    publicly disclose electric and water usage?' The panel splits — Microsoft 'no reason'
+    and will report, Google already reports, AWS reports water site-by-site but guards
+    energy as 'cloud market share' it 'competes on vigorously,' Meta argues for aggregation.
+    This fractures the categorical confidentiality premise underlying R.C. 9.66(D): the
+    information is voluntarily published by some, and where withheld the asserted interest is
+    COMMERCIAL market share, not the economic-development public interest the statute invokes.
+  reinforces_am_session: >-
+    Confirms and sharpens the AM findings: cost-causation is real but conditional (operators
+    themselves want a separate SSO to insulate residential ratepayers); the
+    'who is the customer' / government-demand thread persists (Claggett's 'deals among
+    various government agencies'); and the industry again endorses a statutory FLOOR
+    ('holding those new players to that same standard') — i.e., Parent's 'make it statutory,
+    not voluntary.'
+  legal_hook: >-
+    For mandamus-analysis.md §II: the strongest record evidence that §9.66(D)'s confidentiality
+    is neither industry-universal nor public-interest-grounded. Microsoft's 'no reason' and the
+    'market share' rationale are quotable against a categorical-confidentiality defense, and
+    support a narrowing/aggregation-based disclosure standard (Meta's own suggested middle path).
+  cross_refs:
+    - "data/extracted/legal/bosc-committee-hearing-2026-06-04-am.index.yaml (round one + panel testimony)"
+    - "docs/legal/mandamus-analysis.md §II (R.C. 9.66(D) confidentiality)"
+    - "docs/legal/proponent-analysis.md (mismatched-basis pattern)"
+    - "data/extracted/legal/bosc-committee-testimony-2026-06-04 (Parent's own slot)"
+    - "docs/HYDROLOGY.md (PFAS / source-water / cooling-water basis)"

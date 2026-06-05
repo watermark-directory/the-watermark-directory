@@ -25,6 +25,7 @@ committee:
   full_hearing_recordings:
     # On-device transcriptions of the gavel-to-gavel hearing audio (not just Parent's slot).
     "2026-06-04-am": "extracted/legal/bosc-committee-hearing-2026-06-04-am.index.yaml  # hyperscaler panel: Meta/Google/Amazon/Microsoft + Q&A round one"
+    "2026-06-04-pm": "extracted/legal/bosc-committee-hearing-2026-06-04-pm.index.yaml  # same panel, Q&A round two (PFAS, disclosure split, SMR/grid)"
 
 # ----------------------------------------------------------------------------
 # Witnesses & documents (grouped by seat)
@@ -146,6 +147,20 @@ synthesis:
     local and 'can do more to be transparent.' Water/efficiency claims repeat the
     proponent-analysis.md mismatched-basis pattern (global/offset/air-cooled, not site
     consumptive).
+  hyperscaler_panel_2026_06_04_pm: >-
+    Round two (bosc-committee-hearing-2026-06-04-pm) adds the corpus's most legally
+    consequential exchange: Sen. Blackshear asks point-blank why NOT publicly disclose
+    electric and water usage, and the panel SPLITS — Microsoft 'no reason' and will report,
+    Google already reports, AWS reports water site-by-site but guards energy as 'cloud
+    market share' it 'competes on vigorously,' Meta argues for system-level aggregation.
+    This fractures the categorical confidentiality premise behind R.C. 9.66(D): the info is
+    voluntarily published by some, and where withheld the interest is COMMERCIAL market
+    share, not the economic-development public interest the statute invokes. Round two also
+    has operators supporting a separate PUCO Standard Service Offer to 'fully insulate
+    large-load customers from residential customers' (cost-causation, their words), the
+    Meta-Vistra nuclear save + SMR siting 'in and around our operations,' and the Workman
+    sales-tax counterfactual probing whether the DCTE changes behavior. Feeds
+    mandamus-analysis.md §II.
   unique_to_parent: "The GovCloud/FedRAMP-DoD-impact-level economic argument (who can even USE the facility), and the records-mandamus as the disclosure-enforcement mechanism."
   proponent_analysis: >-
     Neutral, precise read of the four proponent documents (Google, QTS, DCC, ODOD/DCTE) at
