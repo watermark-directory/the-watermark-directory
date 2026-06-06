@@ -6,7 +6,7 @@
 
 ## Headline
 
-**The archive itself is in good shape; what's "missing" is mostly what the county hasn't produced.** Provenance is clean (94 distinct source PDFs cited across the extractions, 0 genuinely absent). The PRR production binaries are all present. The substantive holes are the records the county **deferred or withheld** — above all the entire **county-wastewater engineering universe (PRR items 5–15)** and the **item-4 cost-benefit analysis** — plus a modest set of corpus-hygiene issues in the minutes series (publication lag + ~12 malformed/misfiled filenames), none of which indicate lost evidence.
+**The archive itself is in good shape; what's "missing" is mostly what the county hasn't produced.** Provenance is clean (94 distinct source PDFs cited across the extractions, 0 genuinely absent). The PRR production binaries are all present. The substantive holes are the records the county **deferred or withheld** — above all the entire **county-wastewater engineering universe (PRR items 5–15)** and the **item-4 cost-benefit analysis** — plus a modest set of corpus-hygiene issues in the minutes series (publication lag + ~12 malformed/misfiled filenames), none of which indicate lost evidence. A separate, newer thread (§2) tracks **watershed/conservation grant docs** worth digging up — the primary instruments behind a $650k Lost Creek (Maumee-headwater) ag-runoff grant whose SWCD summary is now in the corpus.
 
 ---
 
@@ -32,7 +32,31 @@ Declared in the county's first production tracker (cover letter 2026-06-05, Cler
 
 ---
 
-## 2. Corpus-integrity gaps (minor)
+## 2. Watershed / conservation grant docs — to dig up
+
+A captured Allen SWCD project page entered the corpus 2026-06-06 as
+[`watershed/osu-lima-ag-runoff.allenswcd.2026-06-06.pdf`](../../documents/watershed/osu-lima-ag-runoff.allenswcd.2026-06-06.pdf)
+(extraction: [`watershed/osu-lima-ag-runoff-treatment.capture.yaml`](../watershed/osu-lima-ag-runoff-treatment.capture.yaml)).
+It documents a **$650,000** ag-runoff retention/treatment grant (Project
+`ALLENSWCD-FDFARM22`) on **Lost Creek HUC12 `041000070305`** — a Maumee headwater
+2.7 mi east of I-75 — i.e. baseline nutrient-burden context for the hydrology
+axis. The page is a **secondary SWCD summary**; the primary instruments are owed:
+
+| Item | What's owed | Where to get it |
+|---|---|---|
+| **Grant agreement / award instrument** | Funding program (H2Ohio / LEPF / NRCS-EQIP — `[open]`), term, match, deliverables for `ALLENSWCD-FDFARM22` | Allen SWCD; ODA H2Ohio or Ohio EPA LEPF grant files; public-records request |
+| **OSU application & conceptual design** | Engineering basis for the BMPs (berm/wetland/forebay/pump-vault; saturated buffer) | OSU FABE (Dr. V. Shedekar); Allen SWCD project file |
+| **Load-reduction estimate table** | Referenced on the captured page ("provided in the table below") but **not transcribed** in the capture | Re-capture full page / SWCD project file |
+| **OSU monitoring data** | Continuous flow + water-quality (3 sites, ISCO6712 samplers) — quantifies actual nutrient/flow reduction | OSU Overholt Drainage program |
+
+These quantify the **existing** Maumee-headwater load and remediation spend the
+corpus reasons against; none are in hand yet. Cross-ref the ECHO Maumee
+discharger inventory ([`../../reference/echo/`](../../reference/echo/)) and
+[`../../../docs/HYDROLOGY.md`](../../../docs/HYDROLOGY.md).
+
+---
+
+## 3. Corpus-integrity gaps (minor)
 
 ### Commissioners minutes series — broadly complete
 934 files in [`commissioners/minutes/raw/`](../../documents/commissioners/minutes/) spanning 2023–2026: **475 agendas (`A…`) / 453 minutes (`M…`)**, 468 distinct meeting-dates parsed. The 22-file agenda/minutes asymmetry is **mostly not real absence**:

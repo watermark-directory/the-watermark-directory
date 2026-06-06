@@ -1,0 +1,77 @@
+kind: web_capture
+subject: OSU-Lima Branch Campus Agricultural Runoff Treatment System
+provenance:
+  source_path: data/documents/watershed/osu-lima-ag-runoff.allenswcd.2026-06-06.pdf
+  source_url: https://allensoilandwater.com/  # project page, Allen Soil & Water Conservation District
+  publisher: Allen Soil and Water Conservation District (Allen SWCD)
+  as_received_filename: "OSU Ag Run-Off Treatment System _ Allen Soil and Water Conservation District.pdf"
+  captured: '2026-06-06'
+  capture_method: browser print-to-PDF (text layer + page renders, 5 pp.)
+  sha256: 73306a3ba4b1dfb8e4ad4827cce84466d97edb4ec54d23af4644b1eaa4d08bb3
+  content_verified: '2026-06-06'   # facts below read from the PDF text layer, not the filename or outside knowledge
+  evidence: native_text
+
+# This is a SECONDARY summary published by Allen SWCD, not the primary grant
+# instrument. Figures are as-stated on the page; the underlying grant agreement,
+# application, engineering design, and monitoring data are NOT in the corpus yet
+# (see corpus-completeness-audit.md §3 / open_followups below).
+
+grant:
+  project_name: OSU-Lima Branch Campus Agricultural Runoff Treatment System Project
+  project_number: ALLENSWCD-FDFARM22
+  grantee_administrator: Allen Soil and Water Conservation District
+  beneficiary: The Ohio State University — Lima Branch Campus (rented crop fields)
+  award_usd: 650000.00
+  award_program: null   # [open] page does not name the funding program (likely H2Ohio / LEPF / NRCS — verify)
+  confidence: high       # dollar figure & project number high-confidence (printed)
+
+location:
+  watershed_name: Lost Creek
+  huc12: '041000070305'
+  watershed_context: headwater of the Maumee River Watershed
+  coordinates: {lat: 40.74361, lon: -84.02722}   # 40°44'37" N, 84°01'38" W as printed
+  description: 2.7 miles east of Interstate 75 on Harding Highway, Allen County, Ohio
+
+practices:
+  - name: Runoff capture / retention / reuse — fields 7 and 27 (via field 4)
+    elements:
+      - floodplain access via berm/dike installation and/or excavation
+      - water-retention & treatment wetland with irrigation reuse (electrical service)
+      - forebay, wetland, and pump "vault"; maintenance access
+    floodplain_acres: ~3.5      # "3-4 acres" — approximate
+    row_crop_acres_captured: ~40
+    wetland_retention_buffer_acres: ~5
+    status: ON-GOING CONSTRUCTION
+    contractor: VTF Excavation LLC
+    expected_completion: '2024-08-31'
+  - name: Saturated buffer — OSU-Lima field 17
+    elements:
+      - drainage control structure diverts subsurface tile water to a parallel drainpipe under a vegetated buffer
+      - denitrification + phosphorus reduction; little maintenance; no yield impact
+    cropland_drainage_acres_treated: ~12
+    installed: '2022-08-16'
+    status: COMPLETED IN AUGUST 2022
+
+monitoring:
+  lead: Dr. Vinayak S. Shedekar, PhD — Assistant Professor (Agricultural Water Management), OSU FABE
+  program: Overholt Drainage Education and Research Program
+  contact: {email: shedekar.1@osu.edu, office_phone: 614-247-9965}
+  instrumentation: 3 flow & water-quality monitoring locations; continuous flow + ISCO6712 auto-samplers
+  load_reduction_estimates: present_in_source   # a table is referenced ("provided in the table below") but not transcribed on the captured page
+
+relevance:
+  tags: [verified, watershed, maumee-headwater, nutrient-loading, public-grant]
+  note: >-
+    Watershed-burden context for the hydrology axis. The same Maumee headwater
+    system (Lost Creek HUC12, east of I-75) already carries an agricultural
+    nutrient load heavy enough to warrant a $650k public retention/treatment
+    grant — a baseline against which any new large consumptive/discharge load in
+    the basin is additive. Cross-refs the ECHO Maumee discharger inventory
+    (data/reference/echo/) and HYDROLOGY's "burden already maxed" finding.
+
+open_followups:
+  - "[pending-doc] ALLENSWCD-FDFARM22 grant agreement / award instrument (funding program, term, match, deliverables)"
+  - "[pending-doc] OSU grant application & conceptual design package (the engineering basis for the BMPs)"
+  - "[pending-doc] Load-reduction estimate table referenced on the page but not transcribed"
+  - "[pending-doc] Shedekar/OSU monitoring data (flow + water quality, ISCO6712) — quantifies actual nutrient/flow reduction"
+  - "[open] Funding source — confirm whether H2Ohio, LEPF (Lake Erie Protection Fund), NRCS/EQIP, or other"

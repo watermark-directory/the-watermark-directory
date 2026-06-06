@@ -5,7 +5,7 @@
 # name (M<MMDDYY>.pdf minutes / A<MMDDYY>.pdf agenda, "-Special" for special
 # sessions) and the meeting date VERIFIED from each file's own content, so the
 # indexer can pair them without renaming evidence. Produced by the corpus
-# completeness audit — see ../../legal/corpus-completeness-audit.md §2.
+# completeness audit — see ../../legal/corpus-completeness-audit.md §3.
 #
 # evidence: native_text = PDF text layer (pdftotext) | ocr = tesseract on a 200dpi
 #           render of page 1 | filename = unambiguous date already in the name.
