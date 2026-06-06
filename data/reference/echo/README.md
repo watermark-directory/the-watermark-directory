@@ -25,14 +25,18 @@ Adjacent WLE subbasins **04100001** (Ottawa-Stony), **04100002** (Raisin), and
 
 ## Files
 
-- [**`maumee-wwtp.all-npdes.csv`**](maumee-wwtp.all-npdes.csv) — all active
-  CWA-permitted facilities ECHO returns for the seven HUC-8s, deduplicated to one
-  row per facility by FRS Registry ID (POTW + non-POTW + federal + private/package).
-- [**`maumee-wwtp.potw.csv`**](maumee-wwtp.potw.csv) — subset flagged `POTW` by
-  ECHO's `CWPFacilityTypeIndicator` (the municipal sewage plants).
-- [**`maumee-wwtp.huc-counts.csv`**](maumee-wwtp.huc-counts.csv) — per-HUC
-  manifest: ECHO's reported count vs. rows actually pulled (they match — no
-  pagination loss), plus dedup totals.
+Structured YAML, each with a `meta:` provenance block. `null` is a genuine ECHO
+null (never an estimate); `true`/`false` flags are booleans.
+
+- [**`maumee-wwtp.all-npdes.yaml`**](maumee-wwtp.all-npdes.yaml) — `meta:` +
+  `facilities:` list of all active CWA-permitted facilities ECHO returns for the
+  seven HUC-8s, deduplicated to one record per facility by FRS Registry ID
+  (POTW + non-POTW + federal + private/package).
+- [**`maumee-wwtp.potw.yaml`**](maumee-wwtp.potw.yaml) — same shape, restricted to
+  the subset flagged `POTW` by ECHO's `CWPFacilityTypeIndicator` (municipal plants).
+- [**`maumee-wwtp.huc-counts.yaml`**](maumee-wwtp.huc-counts.yaml) — `huc_counts:`
+  per-HUC manifest (ECHO's reported count vs. rows actually pulled — they match, no
+  pagination loss) plus `totals:` (raw / deduped / potw).
 
 ## Method
 
@@ -75,30 +79,32 @@ that don't report a design-flow number).
 4. **"All" is the active CWA universe, not just process wastewater.** `p_act=Y`
    includes some non-NPDES Industrial-User/pretreatment permits and stormwater
    general permits alongside true wastewater dischargers. The `permit_type`
-   (`CWPPermitTypeDesc`) and `facility_type` columns make the distinction visible
-   — filter on them rather than assuming every row is a wastewater outfall.
+   (`CWPPermitTypeDesc`) and `facility_type` fields make the distinction visible
+   — filter on them rather than assuming every record is a wastewater outfall.
 
 5. **`ottawa_discharge` undercounts.** This optional flag is keyed on ECHO's
    `CWPStateWaterBodyName` string, which is null for ~70% of the Ohio rows —
    including **Lima WWTP (OH0026069, 18.5 MGD)**, the largest Lima-area POTW, which
    discharges to the Ottawa River but has no receiving-water value in ECHO. Per the
    "no inference" rule we do *not* backfill it. Use `in_lima_subbasin` (every
-   Auglaize + Blanchard row) plus `county` for the broad Lima/Allen screen, and
-   treat `ottawa_discharge=Y` as a floor, not a complete list.
+   Auglaize + Blanchard record) plus `county` for the broad Lima/Allen screen, and
+   treat `ottawa_discharge: true` as a floor, not a complete list.
 
-## Column dictionary
+## Field reference
 
-| column | ECHO ObjectName | note |
-|--------|-----------------|------|
+Each entry under `facilities:` carries these keys (`null` = ECHO returned nothing):
+
+| field | ECHO ObjectName | note |
+|-------|-----------------|------|
 | frs_registry_id | RegistryID | dedup key |
 | name | CWPName | |
 | npdes_id | SourceID | primary permit |
-| npdes_ids_secondary | (from NPDESIDs) | other permits at the facility |
+| npdes_ids_secondary | (from NPDESIDs) | list of other permits at the facility |
 | ownership | derived | Federal / POTW / NON-POTW |
 | facility_type | CWPFacilityTypeIndicator | POTW vs NON-POTW |
 | permit_type | CWPPermitTypeDesc | NPDES vs non-NPDES, individual vs general |
-| design_flow_mgd | CWPTotalDesignFlowNmbr | blank = ECHO returned null |
-| design_flow_missing | derived | `Y` when blank |
+| design_flow_mgd | CWPTotalDesignFlowNmbr | `null` = ECHO returned no value |
+| design_flow_missing | derived | `true` when design_flow_mgd is null |
 | receiving_water | CWPStateWaterBodyName | sparse for OH |
 | huc8 / huc8_name | FacDerivedHuc | |
 | huc12 | RadWBDHuc12 | |
@@ -106,6 +112,6 @@ that don't report a design-flow number).
 | latitude / longitude | FacLat / FacLong | |
 | compliance_status | CWPSNCStatus | current CWA status |
 | informal_enf_count / formal_enf_count | CWPInformalEnfActCount / CWPFormalEaCnt | |
-| in_lima_subbasin | derived | Auglaize or Blanchard |
-| ottawa_discharge | derived | see caveat 5 |
-| queried_huc8 | — | the `p_huc` this row was returned under |
+| in_lima_subbasin | derived | `true` for Auglaize or Blanchard |
+| ottawa_discharge | derived | boolean; see caveat 5 |
+| queried_huc8 | — | the `p_huc` this record was returned under |

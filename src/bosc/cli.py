@@ -575,10 +575,10 @@ def npdes(
         None, "--out", help="Output directory (default: data/reference/echo)."
     ),
 ) -> None:
-    """Pull the Maumee-watershed NPDES inventory from EPA ECHO -> deduplicated CSVs.
+    """Pull the Maumee-watershed NPDES inventory from EPA ECHO -> deduplicated YAML.
 
     Queries the seven Maumee HUC-8 subbasins, deduplicates by FRS Registry ID, and
-    writes a POTW-only CSV, an all-dischargers CSV, and a per-HUC count manifest.
+    writes a POTW-only YAML, an all-dischargers YAML, and a per-HUC count manifest.
     """
     from bosc.config import Settings
     from bosc.hydrology.connectors import echo

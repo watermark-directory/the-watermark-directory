@@ -1,0 +1,2870 @@
+meta:
+  subject: Maumee-watershed NPDES wastewater dischargers
+  scope: POTWs only (CWPFacilityTypeIndicator == POTW)
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  watershed: Maumee River — 7 HUC-8 subbasins, subregion 0410 (Western Lake Erie)
+  huc8s:
+    '04100003': St. Joseph
+    '04100004': St. Marys
+    '04100005': Upper Maumee
+    '04100006': Tiffin
+    '04100007': Auglaize
+    04100008: Blanchard
+    04100009: Lower Maumee
+  dedup_key: FRS RegistryID
+  count: 129
+  caveats:
+  - ECHO's CWA facility service has no CWNS column; the POTW flag rests on CWPFacilityTypeIndicator.
+  - Facilities link to HUCs via WATERS (FacDerivedHuc); a permit that didn't geocode
+    can be missed.
+  - Four subbasins cross into IN/MI — cross-check Ohio EPA / IDEM / EGLE for completeness.
+  - design_flow_mgd is null where ECHO returned no value; it is never estimated.
+  - ottawa_discharge keys on the sparse receiving_water field and undercounts (e.g.
+    Lima WWTP).
+facilities:
+- frs_registry_id: '110009911257'
+  name: AMBOY TWP WWSL
+  npdes_id: MIG580008
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: SILVER CREEK
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030106'
+  county: HILLSDALE COUNTY
+  latitude: 41.70917
+  longitude: -84.57285
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110009911284'
+  name: AMBOY TWP-LK DIANE WWSL
+  npdes_id: MIG580013
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: CLEAR FORK, UNNAMED TRIBUTARY TO CLEAR FORK
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030106'
+  county: HILLSDALE
+  latitude: 41.7172
+  longitude: -84.641
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110069999678'
+  name: AUBURN WWTP
+  npdes_id: IN0020672
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.5
+  design_flow_missing: false
+  receiving_water: CEDAR CR TO ST JOSEPH RIVER, CEDAR CREEK
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030702'
+  county: DEKALB
+  latitude: 41.348472
+  longitude: -85.060944
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110009975401'
+  name: AVILLA WWTP, TOWN OF
+  npdes_id: IN0020664
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.6
+  design_flow_missing: false
+  receiving_water: CEDAR CR (LITTLE) VIA UNNAMED DITCH, CEDAR CR (LITTLE) VIA UNNAMED
+    DITCH FROM KING LAKE
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030705'
+  county: NOBLE
+  latitude: 41.358083
+  longitude: -85.23375
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110003127642'
+  name: BUTLER WWTP
+  npdes_id: IN0022462
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 2.0
+  design_flow_missing: false
+  receiving_water: BIG RUN CR TO ST JOSEPH RIVER, BIG RUN CREEK
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030502'
+  county: DE KALB
+  latitude: 41.433222
+  longitude: -84.858889
+  compliance_status: Effluent - Non-monthly Average Limit
+  informal_enf_count: 4
+  formal_enf_count: 2
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110009911275'
+  name: CAMDEN WWSL
+  npdes_id: MIG580011
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: WEST BRANCH OF ST. JOSEPH RIVER, WEST BRANCH SAINT JOSEPH RIVER
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030203'
+  county: HILLSDALE
+  latitude: 41.7576
+  longitude: -84.755
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110055998933'
+  name: CORUNNA WWTP
+  npdes_id: IN0047473
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.024
+  design_flow_missing: false
+  receiving_water: CEDAR CR VIA JOHN DIEHL DITCH
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: null
+  county: DE KALB
+  latitude: 41.434778
+  longitude: -85.156
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110013794448'
+  name: EDGERTON WWTP
+  npdes_id: OH0021164
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.3
+  design_flow_missing: false
+  receiving_water: ST. JOSEPH RIVER
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030503'
+  county: WILLIAMS
+  latitude: 41.44846
+  longitude: -84.74808
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110009975107'
+  name: GARRETT WWTP
+  npdes_id: IN0022969
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.2
+  design_flow_missing: false
+  receiving_water: ERIE VIA CEDAR CR VIA GARRETT CITY DITCH, GARRETT CITY DITCH FROM
+    GARRETT WWTP, LAKE ERIE VIA CEDAR CR VIA GARRETT CITY DITCH
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030707'
+  county: DE KALB
+  latitude: 41.341361
+  longitude: -85.129583
+  compliance_status: Effluent - Non-monthly Average Limit
+  informal_enf_count: 7
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110006764992'
+  name: HAMILTON LAKE CONSERVANCY DISTRICT
+  npdes_id: IN0050822
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.45
+  design_flow_missing: false
+  receiving_water: FISH CREEK TO ST. JOSEPH RIVER
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030404'
+  county: STEUBEN
+  latitude: 41.53325
+  longitude: -84.896611
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110009739890'
+  name: LA OTTO REGIONAL SEWER DISTRICT
+  npdes_id: IN0058611
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.05
+  design_flow_missing: false
+  receiving_water: CEDAR CR VIA BLACK CREEK
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030704'
+  county: NOBLE
+  latitude: 41.284
+  longitude: -85.210194
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110040039080'
+  name: MONTPELIER WWTP
+  npdes_id: OH0021831
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030304'
+  county: WILLIAMS
+  latitude: 41.58333
+  longitude: -84.6242
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110006260410'
+  name: NETTLE LAKE AREA STP
+  npdes_id: OH0053376
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.105
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030301'
+  county: WILLIAMS
+  latitude: 41.673464
+  longitude: -84.55407
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110006260223'
+  name: PIONEER WASTEWATER TREATMENT PLANT
+  npdes_id: OH0022535
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030106'
+  county: WILLIAMS
+  latitude: 41.67839
+  longitude: -84.55351
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110006742855'
+  name: PITTSFORD SSDS WWSL
+  npdes_id: MIG580006
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIBUTARY TO THE EAST BRANCH ST. JOSEPH RI
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030102'
+  county: HILLSDALE
+  latitude: 41.862376
+  longitude: -84.480651
+  compliance_status: Compliance/Permit Schedule - Reporting
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110006742864'
+  name: READING WWSL
+  npdes_id: MIG580009
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIBUTARY TO PROUTY DRAIN
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030203'
+  county: HILLSDALE
+  latitude: 41.82513
+  longitude: -84.741986
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110039931287'
+  name: ST JOE - SPENCERVILLE RSD
+  npdes_id: IN0058441
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.17
+  design_flow_missing: false
+  receiving_water: ST JOSEPH R, ST JOSEPH RIVER
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: 041000030802
+  county: DE KALB
+  latitude: 41.304694
+  longitude: -84.903694
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 3
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110006260517'
+  name: VILLAGE OF EDON
+  npdes_id: OH0095141
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: '041000030305'
+  county: WILLIAMS
+  latitude: 41.55635
+  longitude: -84.76825
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110009975429'
+  name: WATERLOO WASTEWATER IMPROVEMENTS PROJECT DIV. I
+  npdes_id: INRA13463
+  npdes_ids_secondary:
+  - IN0020711
+  - IN0109983
+  ownership: POTW
+  facility_type: POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: 0.369
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100003'
+  huc8_name: St. Joseph
+  huc12: null
+  county: DE KALB
+  latitude: 41.430361
+  longitude: -85.010389
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100003'
+- frs_registry_id: '110024230018'
+  name: BERNE WWTP
+  npdes_id: IN0021369
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.08
+  design_flow_missing: false
+  receiving_water: ST MARYS R VIA BLUE CR VIA HABEGGER, WABASH RIVER
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '051201010601'
+  county: ADAMS
+  latitude: 40.667972
+  longitude: -84.946917
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110017695582'
+  name: CHICKASAW SANITARY SEWER SYSTEM
+  npdes_id: OH0132691
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.237
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '051201010201'
+  county: MERCER
+  latitude: 40.42039
+  longitude: -84.49079
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110006645513'
+  name: DECATUR WWTP
+  npdes_id: IN0039314
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.25
+  design_flow_missing: false
+  receiving_water: ST MARYS RIVER
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: 041000040408
+  county: ADAMS
+  latitude: 40.848056
+  longitude: -84.929639
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110006660862'
+  name: FOREST LANE SUBDIV
+  npdes_id: OH0095265
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: WIERTH DITCH, WIRTH DITCH
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '041000040104'
+  county: AUGLAIZE
+  latitude: 40.45893
+  longitude: -84.37309
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110008613651'
+  name: MENDON WASTE WATER PLANT
+  npdes_id: OH0053601
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.1
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '041000040303'
+  county: MERCER
+  latitude: 40.676
+  longitude: -84.5214
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110009823263'
+  name: NEW BREMEN WWTP
+  npdes_id: OH0020346
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.9
+  design_flow_missing: false
+  receiving_water: WIERTH DITCH
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '041000040104'
+  county: AUGLAIZE
+  latitude: 40.43808
+  longitude: -84.37888
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110063916311'
+  name: ODOT REST AREA 7-33
+  npdes_id: OH0078662
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '041000040103'
+  county: AUGLAIZE
+  latitude: 40.56058
+  longitude: -84.42056
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110010126755'
+  name: OHIO CITY WWTP
+  npdes_id: OH0023396
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.25
+  design_flow_missing: false
+  receiving_water: LONG PRAIRIE CREEK
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '041000070602'
+  county: VAN WERT
+  latitude: 40.7845
+  longitude: -84.7026
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110006803227'
+  name: PLEASANTVIEW ESTATES SUBDIV
+  npdes_id: OH0079154
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.02
+  design_flow_missing: false
+  receiving_water: EAST BRANCH ST MARYS RIVER
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '041000040103'
+  county: AUGLAIZE
+  latitude: 40.545287
+  longitude: -84.350066
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110009823147'
+  name: ROCKFORD STP
+  npdes_id: OH0022446
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.45
+  design_flow_missing: false
+  receiving_water: SAINT MARYS RIVER
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '041000040303'
+  county: MERCER
+  latitude: 40.697696
+  longitude: -84.644072
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110006351214'
+  name: SHARLON SUBDIVISION
+  npdes_id: OH0079162
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0075
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '041000040103'
+  county: AUGLAIZE
+  latitude: 40.5217
+  longitude: -84.33257
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110000760597'
+  name: ST MARYS WWTP
+  npdes_id: OH0021415
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '041000040106'
+  county: AUGLAIZE
+  latitude: 40.5424
+  longitude: -84.3861
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110039702168'
+  name: VILLAGE OF NEW KNOXVILLE WWTP
+  npdes_id: OH0053635
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.35
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '041000040102'
+  county: AUGLAIZE
+  latitude: 40.4875
+  longitude: -84.3122
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110009822736'
+  name: VILLAGE OF WILLSHIRE WWTP
+  npdes_id: OH0031003
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0665
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100004'
+  huc8_name: St. Marys
+  huc12: '041000040305'
+  county: VAN WERT
+  latitude: 40.74713
+  longitude: -84.79289
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 3
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100004'
+- frs_registry_id: '110006284387'
+  name: CECIL WWTP
+  npdes_id: OH0029238
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.025
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100005'
+  huc8_name: Upper Maumee
+  huc12: '041000050205'
+  county: PAULDING
+  latitude: 41.22661
+  longitude: -84.60211
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100005'
+- frs_registry_id: '110009390756'
+  name: FORT WAYNE WWTP
+  npdes_id: IN0032191
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 74.0
+  design_flow_missing: false
+  receiving_water: BALDWIN DITCH, MAUMEE R TO ST MARYS RIVER, MAUMEE RIVER
+  huc8: '04100005'
+  huc8_name: Upper Maumee
+  huc12: '041000050102'
+  county: ALLEN
+  latitude: 41.079611
+  longitude: -85.104389
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100005'
+- frs_registry_id: '110006329026'
+  name: HICKSVILLE WWTP
+  npdes_id: OH0025771
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100005'
+  huc8_name: Upper Maumee
+  huc12: '041000050204'
+  county: DEFIANCE
+  latitude: 41.28825
+  longitude: -84.7604
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100005'
+- frs_registry_id: '110039701891'
+  name: MIDDLE GORDON CREEK SUBDIVISION WWTP
+  npdes_id: OH0053465
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100005'
+  huc8_name: Upper Maumee
+  huc12: '041000050204'
+  county: DEFIANCE
+  latitude: 41.3103
+  longitude: -84.748
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100005'
+- frs_registry_id: '110014335816'
+  name: NEW HAVEN COLLECTION SYSTEM
+  npdes_id: INM020346
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: MARTIN DITCH, MAUMEE R VIA MARTIN DRAIN & TRIER D
+  huc8: '04100005'
+  huc8_name: Upper Maumee
+  huc12: '041000050102'
+  county: ALLEN
+  latitude: 41.06984
+  longitude: -85.0409
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100005'
+- frs_registry_id: '110009152709'
+  name: VILLAGE OF ANTWERP WWTP
+  npdes_id: OH0022195
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.33
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100005'
+  huc8_name: Upper Maumee
+  huc12: '041000050201'
+  county: PAULDING
+  latitude: 41.1725
+  longitude: -84.724
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100005'
+- frs_registry_id: '110009823254'
+  name: VILLAGE OF SHERWOOD
+  npdes_id: OH0020281
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.16
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100005'
+  huc8_name: Upper Maumee
+  huc12: '041000050207'
+  county: DEFIANCE
+  latitude: 41.2816
+  longitude: -84.5405
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100005'
+- frs_registry_id: '110006766776'
+  name: WOODBURN WWTP, CITY OF
+  npdes_id: IN0021407
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.4
+  design_flow_missing: false
+  receiving_water: MARSH DITCH, MAUMEE R TO ST MARYS RIVER, MAUMEE R VIA EDGERTON
+    CARSON D
+  huc8: '04100005'
+  huc8_name: Upper Maumee
+  huc12: '041000050106'
+  county: ALLEN
+  latitude: 41.131778
+  longitude: -84.842278
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100005'
+- frs_registry_id: '110000573175'
+  name: BRYAN WWTP
+  npdes_id: OH0020532
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.1
+  design_flow_missing: false
+  receiving_water: PRAIRIE CREEK
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060403'
+  county: WILLIAMS
+  latitude: 41.46348
+  longitude: -84.52661
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006660755'
+  name: EVANSPORT WWTP
+  npdes_id: OH0053694
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.05
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060503'
+  county: DEFIANCE
+  latitude: 41.4273
+  longitude: -84.40421
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006699518'
+  name: EVERGREEN LANE OFFICE COMPLEX
+  npdes_id: OH0053490
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060604'
+  county: DEFIANCE
+  latitude: 41.34292
+  longitude: -84.41867
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006699849'
+  name: HARRISON LAKE STATE PARK WWTP
+  npdes_id: OH0036170
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.04
+  design_flow_missing: false
+  receiving_water: MILL CREEK
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060204'
+  county: FULTON
+  latitude: 41.640977
+  longitude: -84.374667
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110009009802'
+  name: HICKORY HILLS WWTP
+  npdes_id: OH0079073
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0055
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060502'
+  county: WILLIAMS
+  latitude: 41.477994
+  longitude: -84.4591
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 0
+  formal_enf_count: 1
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006740786'
+  name: HUDSON WWTP
+  npdes_id: MI0021377
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: BEAN CREEK
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060106'
+  county: LENAWEE
+  latitude: 41.85338
+  longitude: -84.34835
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006237759'
+  name: KUNKLE MAINTENANCE BLDG
+  npdes_id: OH0126438
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: BEAVER CREEK, UNAMED TRIB TO BEAVER CREEK
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060501'
+  county: WILLIAMS
+  latitude: 41.6073
+  longitude: -84.49828
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006224255'
+  name: LAKELAND WOODS SD
+  npdes_id: OH0079103
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060501'
+  county: WILLIAMS
+  latitude: 41.47747
+  longitude: -84.48785
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110009911293'
+  name: LENAWEE CDC-POSEY LK WWSL
+  npdes_id: MIG580014
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: POSEY LAKE DRAIN
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060106'
+  county: LENAWEE
+  latitude: 41.884785
+  longitude: -84.30643
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110009822040'
+  name: NORLICK PLACE WWTP
+  npdes_id: OH0058831
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.048
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060401'
+  county: WILLIAMS
+  latitude: 41.4866
+  longitude: -84.57425
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006803263'
+  name: PETTISVILLE WWTP
+  npdes_id: OH0052698
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.116
+  design_flow_missing: false
+  receiving_water: TRIB TO BRUSH CREEK
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060502'
+  county: FULTON
+  latitude: 41.53324
+  longitude: -84.22933
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006649902'
+  name: ROLLIN-WOODSTOCK WWTP
+  npdes_id: MI0027669
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: BEAN CREEK
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060103'
+  county: LENAWEE
+  latitude: 41.974179
+  longitude: -84.344112
+  compliance_status: Compliance/Permit Schedule - Reporting
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006260143'
+  name: STRYKER STP
+  npdes_id: OH0022497
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.35
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060503'
+  county: WILLIAMS
+  latitude: 41.493946
+  longitude: -84.439306
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110011017746'
+  name: SWANTON WRRF
+  npdes_id: OH0020524
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.92
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: 041000090701
+  county: FULTON
+  latitude: 41.519
+  longitude: -84.3049
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 3
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110002463815'
+  name: VILLAGE OF ARCHBOLD WASTEWATER TREATMENT PLANT
+  npdes_id: OH0020796
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 2.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060502'
+  county: FULTON
+  latitude: 41.50759
+  longitude: -84.318674
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110009823003'
+  name: VILLAGE OF FAYETTE WWTP
+  npdes_id: OH0025127
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.27
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060202'
+  county: FULTON
+  latitude: 41.6826
+  longitude: -84.1931
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110009911248'
+  name: WALDRON WWSL
+  npdes_id: MIG580007
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: CADY DRAIN
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060204'
+  county: HILLSDALE
+  latitude: 41.7381
+  longitude: -84.4428
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006700347'
+  name: WEST UNITY STP
+  npdes_id: OH0020303
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.325
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060303'
+  county: WILLIAMS
+  latitude: 41.57906
+  longitude: -84.43152
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006260036'
+  name: WILLIAMS CO/HILLSIDE COUNTRY LIVING WWTP
+  npdes_id: OH0079090
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.042
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100006'
+  huc8_name: Tiffin
+  huc12: '041000060501'
+  county: WILLIAMS
+  latitude: 41.55288
+  longitude: -84.51695
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: '04100006'
+- frs_registry_id: '110006112214'
+  name: ADA WWTP
+  npdes_id: OH0020583
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 2.0
+  design_flow_missing: false
+  receiving_water: GRASS RUN
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070302'
+  county: HARDIN
+  latitude: 40.769349
+  longitude: -83.811034
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110009679650'
+  name: AMERICAN II WASTEWATER TREATMENT PLANT
+  npdes_id: OH0037338
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070402'
+  county: ALLEN
+  latitude: 40.78016
+  longitude: -84.17824
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110040029929'
+  name: AMERICAN-BATH WWTP
+  npdes_id: OH0023841
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.5
+  design_flow_missing: false
+  receiving_water: PIKE RUN
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070404'
+  county: ALLEN
+  latitude: 40.78226
+  longitude: -84.12803
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006357548'
+  name: ARROWHEAD ESTATES SUBDIVISION
+  npdes_id: OH0079138
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.012
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070102'
+  county: AUGLAIZE
+  latitude: 40.5999
+  longitude: -84.1112
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110009823165'
+  name: BEAVERDAM WWTP
+  npdes_id: OH0021318
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.225
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: 041000080403
+  county: ALLEN
+  latitude: 40.8294
+  longitude: -83.9731
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006351278'
+  name: BEVERLY HILLS SUBDIV
+  npdes_id: OH0078760
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.02
+  design_flow_missing: false
+  receiving_water: AUGLAIZE RIVER
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070202'
+  county: AUGLAIZE
+  latitude: 40.58107
+  longitude: -84.22721
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110002464173'
+  name: CITY OF WAPAKONETA WRF
+  npdes_id: OH0027952
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 6.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070105'
+  county: AUGLAIZE
+  latitude: 40.56959
+  longitude: -84.21068
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006190344'
+  name: COLONIAL GOLFERS CLUB INC
+  npdes_id: OH0132837
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIBUTARY TO LITTLE HOG CREEK
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070303'
+  county: ALLEN
+  latitude: 40.73238
+  longitude: -83.89736
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110009823209'
+  name: CONTINENTAL WWTP
+  npdes_id: OH0021768
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000071102'
+  county: PUTNAM
+  latitude: 41.1083
+  longitude: -84.2723
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006234752'
+  name: COUNTRY CLUB HILLS PROPERTY OWNERS ASSOC WWTP
+  npdes_id: OH0125423
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: 'SHEIPLINE DITCH #51'
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070201'
+  county: AUGLAIZE
+  latitude: 40.625319
+  longitude: -84.20325
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006351063'
+  name: CRIDERSVILLE WWTP
+  npdes_id: OH0020222
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 2.4
+  design_flow_missing: false
+  receiving_water: UNNAMED TRIB, UT TO LITTLE OTTAWA RIVER
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070401'
+  county: ALLEN
+  latitude: 40.651
+  longitude: -84.1388
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: true
+  queried_huc8: '04100007'
+- frs_registry_id: '110039778005'
+  name: DELPHOS WWTP
+  npdes_id: OH0024929
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.83
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: 041000070903
+  county: ALLEN
+  latitude: 40.85513
+  longitude: -84.34265
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006354015'
+  name: ELIDA WWTP
+  npdes_id: OH0024996
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.8
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070402'
+  county: ALLEN
+  latitude: 40.79753
+  longitude: -84.20382
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110009822255'
+  name: FORT JENNINGS WWTP
+  npdes_id: OH0053198
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.055
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: 041000070904
+  county: PUTNAM
+  latitude: 40.914399
+  longitude: -84.276885
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110064274182'
+  name: HARROD WWTP
+  npdes_id: OH0053678
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.09
+  design_flow_missing: false
+  receiving_water: UNNAMED TRIB TO MANAHAN DITCH, UT MANAHAN DITCH
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070101'
+  county: ALLEN
+  latitude: 40.70989
+  longitude: -83.92239
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110008607016'
+  name: KALIDA STP
+  npdes_id: OH0046752
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.4
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070503'
+  county: PUTNAM
+  latitude: 40.981244
+  longitude: -84.201707
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110008645047'
+  name: LAFAYETTE WWTP
+  npdes_id: OH0053155
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.1
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070303'
+  county: ALLEN
+  latitude: 40.76238
+  longitude: -83.94764
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110009153129'
+  name: LATTY WWTP
+  npdes_id: OH0058246
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.024
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000071004'
+  county: PAULDING
+  latitude: 41.087631
+  longitude: -84.5816
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110000760659'
+  name: LIMA WWTP
+  npdes_id: OH0026069
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 18.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070404'
+  county: ALLEN
+  latitude: 40.72298
+  longitude: -84.12747
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: 1
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006263809'
+  name: MIDDLE POINT WWTP
+  npdes_id: OH0021423
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.08
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070604'
+  county: VAN WERT
+  latitude: 40.857916
+  longitude: -84.43642
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110009820774'
+  name: MILLER CITY HIGH SCH WWTP
+  npdes_id: OH0126535
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: BLANCHARD RIVER, TRIB TO MILLER CITY CUTOFF DITCH
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: 041000080603
+  county: PUTNAM
+  latitude: 41.10295
+  longitude: -84.13272
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006766605'
+  name: MONROEVILLE WWTP
+  npdes_id: IN0021423
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.23
+  design_flow_missing: false
+  receiving_water: AUGLAISE VIA FLATROCK CR VIA A-S-B DITCH, AUGLAISE VIA FLATROCK
+    CR VIA LEPPER
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: null
+  county: ALLEN
+  latitude: 40.97
+  longitude: -84.854167
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110040040504'
+  name: OAKWOOD WWTP
+  npdes_id: OH0021334
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: AUGLAIZE RIVER, AUGLAZE RIVER
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: 041000070907
+  county: PAULDING
+  latitude: 41.0854
+  longitude: -84.37749
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110063916302'
+  name: ODOT REST AREA 7-26
+  npdes_id: OH0078654
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.028
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070105'
+  county: AUGLAIZE
+  latitude: 40.60119
+  longitude: -84.15511
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006660513'
+  name: OTTOVILLE WWTP
+  npdes_id: OH0021709
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.339
+  design_flow_missing: false
+  receiving_water: LITTLE AUGLAIZE RIVER
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070604'
+  county: PUTNAM
+  latitude: 40.937673
+  longitude: -84.336927
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110010126791'
+  name: PAULDING WWTP
+  npdes_id: OH0020338
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.71
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000071206'
+  county: PAULDING
+  latitude: 41.15783
+  longitude: -84.5492
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110009823174'
+  name: PAYNE WWTP
+  npdes_id: OH0021326
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.27
+  design_flow_missing: false
+  receiving_water: FLAT ROCK CREEK
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000071205'
+  county: PAULDING
+  latitude: 41.082671
+  longitude: -84.7001
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110001162802'
+  name: SHAWNEE NO 2 WWTP
+  npdes_id: OH0023850
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 2.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070402'
+  county: ALLEN
+  latitude: 40.72264
+  longitude: -84.17776
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006353276'
+  name: SPENCERVILLE WWTP
+  npdes_id: OH0020087
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.45
+  design_flow_missing: false
+  receiving_water: SIX MILE CREEK, UNNAMED TRIB TO SIX MILE CREEK
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070204'
+  county: ALLEN
+  latitude: 40.72115
+  longitude: -84.3455
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006699509'
+  name: UNIOPOLIS WWTP
+  npdes_id: OH0053317
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.04
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070102'
+  county: AUGLAIZE
+  latitude: 40.60493
+  longitude: -84.08772
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006645176'
+  name: VAN WERT WWTP
+  npdes_id: OH0027910
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: 041000070804
+  county: VAN WERT
+  latitude: 40.88822
+  longitude: -84.58449
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110039721174'
+  name: VILLAGE OF COLUMBUS GROVE WWTP
+  npdes_id: OH0024759
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.82
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070502'
+  county: PUTNAM
+  latitude: 40.91912
+  longitude: -84.05659
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: 1
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006263952'
+  name: VILLAGE OF CONVOY WWTP
+  npdes_id: OH0023493
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000070701'
+  county: VAN WERT
+  latitude: 40.92049
+  longitude: -84.69875
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110008609684'
+  name: VILLAGE OF GROVER HILL WWTP
+  npdes_id: OH0102245
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.06
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: 041000070801
+  county: PAULDING
+  latitude: 41.02114
+  longitude: -84.47404
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110006214266'
+  name: WAYNE TRACE HIGH SCHOOL
+  npdes_id: OH0130630
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04100007'
+  huc8_name: Auglaize
+  huc12: '041000071004'
+  county: PAULDING
+  latitude: 41.046959
+  longitude: -84.572873
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: '04100007'
+- frs_registry_id: '110008645261'
+  name: BLUFFTON WWTP
+  npdes_id: OH0020851
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.9
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080405
+  county: ALLEN
+  latitude: 40.90071
+  longitude: -83.89027
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110064593177'
+  name: CITY OF FINDLAY WATER POLLUTION CONTROL CENTER
+  npdes_id: OH0025135
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 15.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080304
+  county: HANCOCK
+  latitude: 41.04809
+  longitude: -83.66843
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110006215906'
+  name: COUNTRY ACRES GOLF CLUB
+  npdes_id: OH0079057
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080605
+  county: PUTNAM
+  latitude: 41.03263
+  longitude: -84.19786
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110011016818'
+  name: DUNKIRK WWTP
+  npdes_id: OH0048321
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.137
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080103
+  county: HARDIN
+  latitude: 40.78945
+  longitude: -83.64345
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110006202732'
+  name: FOREST WWTP
+  npdes_id: OH0025151
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.2
+  design_flow_missing: false
+  receiving_water: UT TO BLANCHARD RIVER
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080105
+  county: HARDIN
+  latitude: 40.80177
+  longitude: -83.51438
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 3
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110006311507'
+  name: HARDIN-NORTHERN SCHOOLS
+  npdes_id: OH0132951
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIBUTARY TO THE BLANCHARD RIVER
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080103
+  county: HARDIN
+  latitude: 40.77949
+  longitude: -83.66094
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110008645403'
+  name: MAST ESTATES WWTP
+  npdes_id: OH0037389
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.009
+  design_flow_missing: false
+  receiving_water: LITTLE RILEY CREEK
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080403
+  county: ALLEN
+  latitude: 40.86588
+  longitude: -83.93522
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110011015775'
+  name: MT BLANCHARD WWTP
+  npdes_id: OH0095079
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080105
+  county: HANCOCK
+  latitude: 40.899087
+  longitude: -83.56128
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110063916295'
+  name: ODOT DIST 1 PARK NO 1-26 & 25
+  npdes_id: OH0078590
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.02
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080501
+  county: ALLEN COUNTY
+  latitude: 40.9862
+  longitude: -83.71086
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110000760668'
+  name: OTTAWA WASTEWATER TREATMENT PLANT
+  npdes_id: OH0026921
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080602
+  county: PUTNAM
+  latitude: 41.03235
+  longitude: -84.05249
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110006699616'
+  name: RAWSON WWTP
+  npdes_id: OH0047791
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080502
+  county: HANCOCK
+  latitude: 40.96449
+  longitude: -83.80187
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110008626772'
+  name: VANLUE STP
+  npdes_id: OH0020397
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.1
+  design_flow_missing: false
+  receiving_water: BRIGHTS DITCH
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080201
+  county: HANCOCK
+  latitude: 40.983843
+  longitude: -83.492528
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110009822834'
+  name: VILLAGE OF ARLINGTON WWTP
+  npdes_id: OH0053171
+  npdes_ids_secondary:
+  - OH0030007
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.168
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080302
+  county: HANCOCK
+  latitude: 40.90659
+  longitude: -83.65202
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 3
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110006216068'
+  name: VILLAGE OF PANDORA
+  npdes_id: OH0021148
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.143
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100008
+  huc8_name: Blanchard
+  huc12: 041000080405
+  county: PUTNAM
+  latitude: 40.969023
+  longitude: -83.976585
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: true
+  ottawa_discharge: false
+  queried_huc8: 04100008
+- frs_registry_id: '110008609595'
+  name: BRENTWOOD MHP
+  npdes_id: OH0130061
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: '041000050205'
+  county: LUCAS
+  latitude: 41.60868
+  longitude: -83.7562
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110000544082'
+  name: DEFIANCE WWTP
+  npdes_id: OH0024899
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 12.0
+  design_flow_missing: false
+  receiving_water: MAUMEE RIVER
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090203
+  county: DEFIANCE
+  latitude: 41.28801
+  longitude: -84.31848
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: 1
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110009823156'
+  name: DESHLER WWTP
+  npdes_id: OH0022471
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.57
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090505
+  county: HENRY
+  latitude: 41.21731
+  longitude: -83.86935
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110006224497'
+  name: GRAND RAPIDS WWTP
+  npdes_id: OH0021881
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.18
+  design_flow_missing: false
+  receiving_water: BEAVER CREEK
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090509
+  county: WOOD
+  latitude: 41.40756
+  longitude: -83.85441
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110009152754'
+  name: HAMLER WWTP
+  npdes_id: OH0021105
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.113
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090102
+  county: HENRY
+  latitude: 41.2436
+  longitude: -84.0239
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 0
+  formal_enf_count: 1
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110009823094'
+  name: HASKINS WWTP
+  npdes_id: OH0021873
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.3
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090603
+  county: WOOD
+  latitude: 41.4725
+  longitude: -83.710278
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110039782937'
+  name: HOLGATE WWTP
+  npdes_id: OH0021865
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.247
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090103
+  county: HENRY
+  latitude: 41.2494
+  longitude: -84.1301
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110008625390'
+  name: LHS MAUMEE YOUTH CENTER
+  npdes_id: OH0052566
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.025
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090802
+  county: HENRY
+  latitude: 41.46554
+  longitude: -83.89486
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110006310848'
+  name: LIBERTY CENTER WWTP
+  npdes_id: OH0029289
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.25
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090403
+  county: HENRY
+  latitude: 41.4359
+  longitude: -84.00882
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110000578036'
+  name: LUCAS CO WRRF
+  npdes_id: OH0034223
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 22.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090903
+  county: LUCAS
+  latitude: 41.53481
+  longitude: -83.70132
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110011016550'
+  name: MCCLURE WWTP
+  npdes_id: OH0053341
+  npdes_ids_secondary:
+  - OH0057983
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.1
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090501
+  county: HENRY
+  latitude: 41.38042
+  longitude: -83.93464
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110040040390'
+  name: NAPOLEON WASTEWATER TREATMENT PLANT
+  npdes_id: OH0020893
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 2.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090206
+  county: HENRY
+  latitude: 41.395
+  longitude: -84.11564
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110011016006'
+  name: NWS WILLIAMSBURG ON THE RIVER WWTP
+  npdes_id: OH0079201
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.05
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090602
+  county: WOOD
+  latitude: 41.44487
+  longitude: -83.77276
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110000760588'
+  name: PERRYSBURG WWTP
+  npdes_id: OH0021008
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 8.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090903
+  county: WOOD
+  latitude: 41.56672
+  longitude: -83.62631
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110022569068'
+  name: TONTOGANY WWTP
+  npdes_id: OH0029491
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.1
+  design_flow_missing: false
+  receiving_water: TONTOGANY CREEK
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090601
+  county: WOOD
+  latitude: 41.42783
+  longitude: -83.74216
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110006322247'
+  name: VILLAGE OF DELTA WASTEWATER TREATMENT PLANT
+  npdes_id: OH0020974
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.725
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090302
+  county: FULTON
+  latitude: 41.568224
+  longitude: -84.001861
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 2
+  formal_enf_count: 1
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110006700285'
+  name: VILLAGE OF LEIPSIC WASTEWATER TREATMENT WORKS
+  npdes_id: OH0020826
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 050800011606
+  county: PUTNAM
+  latitude: 41.104305
+  longitude: -83.97687
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110039779335'
+  name: VILLAGE OF LUCAS WWTP
+  npdes_id: OH0021041
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.096
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: '050400020204'
+  county: RICHLAND
+  latitude: 41.643242
+  longitude: -83.538763
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110009823575'
+  name: WAUSEON WATER RECLAMATION PLANT
+  npdes_id: OH0023400
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090402
+  county: FULTON
+  latitude: 41.544341
+  longitude: -84.125254
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009
+- frs_registry_id: '110006258717'
+  name: WESTON WWTP
+  npdes_id: OH0020681
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.28
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 04100009
+  huc8_name: Lower Maumee
+  huc12: 041000090601
+  county: WOOD
+  latitude: 41.349053
+  longitude: -83.79276
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  in_lima_subbasin: false
+  ottawa_discharge: false
+  queried_huc8: 04100009

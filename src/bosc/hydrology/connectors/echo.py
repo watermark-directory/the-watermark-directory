@@ -29,12 +29,12 @@ the module note in :mod:`bosc.cli` / the inventory output for that gap.
 
 from __future__ import annotations
 
-import csv
 import time
 from pathlib import Path
 from typing import Any, cast
 
 import httpx
+import yaml
 from pydantic import BaseModel, ConfigDict
 
 from bosc.config import Settings, get_settings
@@ -312,31 +312,18 @@ def _merge_npdes(a: Facility, b: Facility) -> str:
     return " ".join(seen)
 
 
-# --- Inventory assembly (CSV rows + file writers) --------------------------
+# --- Inventory assembly (structured YAML + file writers) -------------------
 
-_CSV_HEADER = [
-    "frs_registry_id",
-    "name",
-    "npdes_id",
-    "npdes_ids_secondary",
-    "ownership",
-    "facility_type",
-    "permit_type",
-    "design_flow_mgd",
-    "design_flow_missing",
-    "receiving_water",
-    "huc8",
-    "huc8_name",
-    "huc12",
-    "county",
-    "latitude",
-    "longitude",
-    "compliance_status",
-    "informal_enf_count",
-    "formal_enf_count",
-    "in_lima_subbasin",
-    "ottawa_discharge",
-    "queried_huc8",
+# Provenance shared by every inventory file. Static (no timestamp) so re-running
+# `bosc npdes` regenerates byte-identical output — no spurious git churn.
+_INVENTORY_SOURCE = "EPA ECHO — cwa_rest_services (CWA v2017-10-13)"
+_INVENTORY_WATERSHED = "Maumee River — 7 HUC-8 subbasins, subregion 0410 (Western Lake Erie)"
+_INVENTORY_CAVEATS = [
+    "ECHO's CWA facility service has no CWNS column; the POTW flag rests on CWPFacilityTypeIndicator.",
+    "Facilities link to HUCs via WATERS (FacDerivedHuc); a permit that didn't geocode can be missed.",
+    "Four subbasins cross into IN/MI — cross-check Ohio EPA / IDEM / EGLE for completeness.",
+    "design_flow_mgd is null where ECHO returned no value; it is never estimated.",
+    "ottawa_discharge keys on the sparse receiving_water field and undercounts (e.g. Lima WWTP).",
 ]
 
 
@@ -348,78 +335,109 @@ def _ownership(fac: Facility) -> str:
     return fac.facility_type or "Unknown"
 
 
-def _secondary_npdes(fac: Facility) -> str:
-    """NPDES IDs at the facility other than the primary, space-joined."""
+def _secondary_npdes(fac: Facility) -> list[str]:
+    """NPDES IDs at the facility other than the primary."""
     primary = fac.npdes_id or ""
     others = [t for t in (fac.npdes_ids_all or "").replace(",", " ").split() if t and t != primary]
-    return " ".join(dict.fromkeys(others))
+    return list(dict.fromkeys(others))
 
 
-def facility_row(fac: Facility) -> dict[str, Any]:
-    """One CSV row (dict) for a facility. Blank cells are genuine ECHO nulls."""
+def facility_record(fac: Facility) -> dict[str, Any]:
+    """One facility as a YAML-ready mapping. ``None`` is a genuine ECHO null."""
     recv = (fac.receiving_water or "").upper()
+    in_lima = fac.queried_huc8 in LIMA_AREA_HUC8S
     return {
-        "frs_registry_id": fac.frs_registry_id or "",
-        "name": fac.name or "",
-        "npdes_id": fac.npdes_id or "",
+        "frs_registry_id": fac.frs_registry_id,
+        "name": fac.name,
+        "npdes_id": fac.npdes_id,
         "npdes_ids_secondary": _secondary_npdes(fac),
         "ownership": _ownership(fac),
-        "facility_type": fac.facility_type or "",
-        "permit_type": fac.permit_type or "",
-        "design_flow_mgd": "" if fac.design_flow_mgd is None else fac.design_flow_mgd,
-        "design_flow_missing": "Y" if fac.design_flow_mgd is None else "",
-        "receiving_water": fac.receiving_water or "",
-        "huc8": fac.huc8 or "",
-        "huc8_name": MAUMEE_HUC8S.get(fac.huc8 or "", ""),
-        "huc12": fac.huc12 or "",
-        "county": fac.county or "",
-        "latitude": "" if fac.latitude is None else fac.latitude,
-        "longitude": "" if fac.longitude is None else fac.longitude,
-        "compliance_status": fac.compliance_status or "",
-        "informal_enf_count": "" if fac.informal_enf_count is None else fac.informal_enf_count,
-        "formal_enf_count": "" if fac.formal_enf_count is None else fac.formal_enf_count,
-        "in_lima_subbasin": "Y" if fac.queried_huc8 in LIMA_AREA_HUC8S else "",
-        "ottawa_discharge": (
-            "Y" if (fac.queried_huc8 in LIMA_AREA_HUC8S and "OTTAWA" in recv) else ""
-        ),
+        "facility_type": fac.facility_type,
+        "permit_type": fac.permit_type,
+        "design_flow_mgd": fac.design_flow_mgd,
+        "design_flow_missing": fac.design_flow_mgd is None,
+        "receiving_water": fac.receiving_water,
+        "huc8": fac.huc8,
+        "huc8_name": MAUMEE_HUC8S.get(fac.huc8 or ""),
+        "huc12": fac.huc12,
+        "county": fac.county,
+        "latitude": fac.latitude,
+        "longitude": fac.longitude,
+        "compliance_status": fac.compliance_status,
+        "informal_enf_count": fac.informal_enf_count,
+        "formal_enf_count": fac.formal_enf_count,
+        "in_lima_subbasin": in_lima,
+        "ottawa_discharge": in_lima and "OTTAWA" in recv,
         "queried_huc8": fac.queried_huc8,
     }
 
 
-def _write_csv(path: Path, facilities: list[Facility]) -> None:
+def _dump_yaml(path: Path, data: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", newline="", encoding="utf-8") as fh:
-        writer = csv.DictWriter(fh, fieldnames=_CSV_HEADER)
-        writer.writeheader()
-        for fac in sorted(facilities, key=lambda f: (f.huc8 or "", (f.name or "").upper())):
-            writer.writerow(facility_row(fac))
+    path.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8")
+
+
+def _facilities_doc(facilities: list[Facility], *, scope: str) -> dict[str, Any]:
+    ordered = sorted(facilities, key=lambda f: (f.huc8 or "", (f.name or "").upper()))
+    return {
+        "meta": {
+            "subject": "Maumee-watershed NPDES wastewater dischargers",
+            "scope": scope,
+            "source": _INVENTORY_SOURCE,
+            "watershed": _INVENTORY_WATERSHED,
+            "huc8s": dict(MAUMEE_HUC8S),
+            "dedup_key": "FRS RegistryID",
+            "count": len(ordered),
+            "caveats": _INVENTORY_CAVEATS,
+        },
+        "facilities": [facility_record(f) for f in ordered],
+    }
 
 
 def write_inventory(results: list[HucResult], out_dir: Path) -> dict[str, Path]:
-    """Write the deduplicated inventory: all-NPDES CSV, POTW CSV, HUC count manifest.
+    """Write the deduplicated inventory as YAML: all-NPDES, POTW, and HUC counts.
 
-    Returns the paths written. Counts in the manifest are real (ECHO's reported
-    ``QueryRows`` vs the rows we actually pulled), so totals are sanity-checkable.
+    Counts in the manifest are real (ECHO's reported ``QueryRows`` vs the rows we
+    actually pulled), so totals are sanity-checkable. Output is deterministic (no
+    timestamp), so re-running regenerates identical files.
     """
     out_dir.mkdir(parents=True, exist_ok=True)
     deduped = deduplicate(results)
     potws = [f for f in deduped if f.is_potw]
 
-    all_path = out_dir / "maumee-wwtp.all-npdes.csv"
-    potw_path = out_dir / "maumee-wwtp.potw.csv"
-    counts_path = out_dir / "maumee-wwtp.huc-counts.csv"
+    all_path = out_dir / "maumee-wwtp.all-npdes.yaml"
+    potw_path = out_dir / "maumee-wwtp.potw.yaml"
+    counts_path = out_dir / "maumee-wwtp.huc-counts.yaml"
 
-    _write_csv(all_path, deduped)
-    _write_csv(potw_path, potws)
-
-    with counts_path.open("w", newline="", encoding="utf-8") as fh:
-        writer = csv.writer(fh)
-        writer.writerow(["huc8", "name", "reported_count", "rows_pulled", "potw_rows_pulled"])
-        for res in results:
-            n_potw = sum(1 for f in res.facilities if f.is_potw)
-            writer.writerow([res.huc8, res.name, res.reported_count, len(res.facilities), n_potw])
-        writer.writerow([])
-        writer.writerow(["TOTAL_RAW", "", "", sum(len(r.facilities) for r in results), ""])
-        writer.writerow(["TOTAL_DEDUPED", "", "", len(deduped), len(potws)])
+    _dump_yaml(all_path, _facilities_doc(deduped, scope="all active CWA-permitted dischargers"))
+    _dump_yaml(
+        potw_path,
+        _facilities_doc(potws, scope="POTWs only (CWPFacilityTypeIndicator == POTW)"),
+    )
+    _dump_yaml(
+        counts_path,
+        {
+            "meta": {
+                "subject": "Maumee-watershed NPDES inventory — per-HUC counts",
+                "source": _INVENTORY_SOURCE,
+                "watershed": _INVENTORY_WATERSHED,
+            },
+            "huc_counts": [
+                {
+                    "huc8": res.huc8,
+                    "name": res.name,
+                    "reported_count": res.reported_count,
+                    "rows_pulled": len(res.facilities),
+                    "potw_rows_pulled": sum(1 for f in res.facilities if f.is_potw),
+                }
+                for res in results
+            ],
+            "totals": {
+                "raw": sum(len(r.facilities) for r in results),
+                "deduped": len(deduped),
+                "potw": len(potws),
+            },
+        },
+    )
 
     return {"all": all_path, "potw": potw_path, "counts": counts_path}

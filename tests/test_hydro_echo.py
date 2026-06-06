@@ -7,7 +7,10 @@ the inventory-row shaping — none of which may fabricate values ECHO didn't sen
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
+import yaml
 
 from bosc.config import Settings
 from bosc.hydrology.connectors import echo
@@ -101,7 +104,7 @@ def test_deduplicate_keys_on_frs_and_keeps_distinct_names() -> None:
     assert "OH0000002" in echo._secondary_npdes(primary)
 
 
-def test_facility_row_blank_is_genuine_null() -> None:
+def test_facility_record_null_is_none() -> None:
     fac = echo.Facility(
         name="NO FLOW PLANT",
         frs_registry_id="999",
@@ -123,7 +126,27 @@ def test_facility_row_blank_is_genuine_null() -> None:
         formal_enf_count=None,
         queried_huc8="04100008",
     )
-    row = echo.facility_row(fac)
-    assert row["design_flow_mgd"] == ""  # blank, not 0 — ECHO returned nothing
-    assert row["design_flow_missing"] == "Y"
-    assert row["in_lima_subbasin"] == "Y"  # Blanchard is a Lima-area subbasin
+    rec = echo.facility_record(fac)
+    assert rec["design_flow_mgd"] is None  # genuine ECHO null, never 0/estimated
+    assert rec["design_flow_missing"] is True
+    assert rec["in_lima_subbasin"] is True  # Blanchard is a Lima-area subbasin
+
+
+def test_write_inventory_yaml_round_trips(hydro_settings: Settings, tmp_path: Path) -> None:
+    result = echo.fetch_huc_facilities("04100008", settings=hydro_settings)
+    paths = echo.write_inventory([result], tmp_path)
+    assert {p.suffix for p in paths.values()} == {".yaml"}
+
+    all_doc = yaml.safe_load(paths["all"].read_text())
+    assert all_doc["meta"]["dedup_key"] == "FRS RegistryID"
+    assert all_doc["meta"]["count"] == len(all_doc["facilities"]) == 37
+    bluffton = next(f for f in all_doc["facilities"] if f["name"] == "BLUFFTON WWTP")
+    assert bluffton["ownership"] == "POTW"
+    assert bluffton["design_flow_mgd"] == pytest.approx(1.9)
+
+    potw_doc = yaml.safe_load(paths["potw"].read_text())
+    assert potw_doc["facilities"]  # non-empty
+    assert all(f["facility_type"] == "POTW" for f in potw_doc["facilities"])
+
+    counts = yaml.safe_load(paths["counts"].read_text())
+    assert counts["totals"]["raw"] == 37
