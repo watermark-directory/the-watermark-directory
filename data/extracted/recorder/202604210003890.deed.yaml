@@ -1,0 +1,47 @@
+doc_id: 202604210003890-b7b26d7c
+source_path: /Users/cparent/Code/shawnee-smart-systems/bosc/data/documents/recorder/bistrozzi-deeds/202604210003890.pdf
+kind: deed
+pages_read:
+- 0
+- 1
+- 2
+- 3
+dpi: 200
+source_text_excerpt: '
+
+
+
+
+
+
+  '
+deed:
+  confidence: high
+  warnings:
+  - The second prior instrument number is partially handwritten and difficult to read
+    precisely — recorded as '20260421000J889' but may be '202604210003889'; verify
+    against image.
+  - Consideration amount not explicitly stated; described only as 'valuable consideration
+    paid'.
+  - Parcel ID on Exhibit A legal description states 'Part of 36-1100-04-001', while
+    page 1 states '36-1100-04-001.001' — both noted.
+  instrument_type: Limited Warranty Deed
+  instrument_no: '202604210003890'
+  recording_date: '2026-04-21'
+  grantors:
+  - Timothy R. Pieper
+  - RaeAnn Pieper
+  grantees:
+  - Bistrozzi Addition LLC
+  consideration: null
+  parcel_ids:
+  - 36-1100-04-001.001
+  county: Allen
+  legal_description: 'Being a parcel of land in the SE¼ of Section 11, T3S, R6E in
+    American Township, Allen County, Ohio; containing 7.215 acres more or less. Property
+    address: 1337 Beery Road, Lima, Ohio 45807.'
+  note: 'Statutory Form per Ohio Revised Code Section 5302.07. Prior instrument references:
+    Official Record 2023, Page 6039, Instrument Number 202307140006039; and Official
+    Record 2026, Page 3889, Instrument Number 20260421000J889, Allen County, Ohio.
+    RaeAnn Pieper releases all dower rights. Recorded by Mona S. Losh, Allen County
+    Recorder. Fee $575.00. Transferred 4/21/2026, Fee $0.50.'
