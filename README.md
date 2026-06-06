@@ -64,6 +64,82 @@ The **agent** layer (`bosc.agent`) wraps the [Claude Agent SDK](https://docs.cla
 and exposes in-process tools (`reconcile_summary`, `read_extraction`,
 `list_documents`, …) so the agent inspects real data instead of guessing.
 
+## Data policy
+
+- `data/documents/**` — raw source material (scans/PDFs/web captures).
+  **Versioned**, with large binaries (`*.pdf`, images) stored via **Git LFS**
+  (see `.gitattributes`). Treated as immutable inputs — never edited.
+- `data/extracted/**` — reviewed structured extractions of those documents.
+  **Committed.** The durable research artifact and what the tests run against.
+- `data/reference/**` — supporting datasets from *outside* sources (e.g. the EPA
+  ECHO wastewater inventory, USGS/NOAA reference values, parcel geometry).
+  **Committed**, and labeled with where each came from.
+- `data/scenarios/**` — named what-if inputs for the water-balance model.
+  **Committed.**
+- `data/cache/` — regenerable downloads (e.g. saved API responses). Git-ignored.
+
+Cloning requires Git LFS (`git lfs install`) to pull the full source documents;
+without it you get lightweight pointer files.
+
+See [data/README.md](data/README.md) for the extraction conventions (including
+the `~approximate` marker for uncertain scan transcriptions).
+
+## Layout
+
+The repository has two halves: **`data/`** (the records and datasets) and
+**`src/`** (the code that works on them). Everything else supports those.
+
+### `data/` — the records and datasets
+
+```
+data/
+  documents/    RAW originals, exactly as received — never edited:
+                  recorder/      property deeds & recorder filings
+                  oepa/          Ohio EPA NPDES permits & fact sheets
+                  aedg/          engineering cost estimates (the scans we read)
+                  commissioners/ county commission minutes & agendas
+                  legal/         saved web pages & legal exhibits
+                  permits/ plans/ regulatory/ sanitary/  supporting records
+  extracted/    The same records, carefully typed up into structured,
+                checkable form (YAML). The reviewed, durable artifact.
+  reference/    Supporting datasets from outside sources:
+                  echo/       EPA ECHO wastewater-discharger inventory (Maumee)
+                  hydrology/  river-flow & rainfall reference values
+                  periplus/   parcels, road-corridor geometry
+  scenarios/    Named water-balance "what-if" inputs (baseline, buildout)
+  cache/        Regenerable downloads (saved API responses). Not committed.
+```
+
+Each dataset folder has its own `README.md` explaining its source and columns —
+for example [data/reference/echo/README.md](data/reference/echo/README.md)
+documents the EPA wastewater inventory and its known gaps.
+
+### `src/bosc/` — the code
+
+```
+src/bosc/
+  cli.py          the `bosc` command — every task is a subcommand of it
+  config.py       settings (env + .env) and where data lives
+  models.py       the typed shapes that extracted data must fit
+  profiles.py     per-contractor formats for reading cost estimates
+  agent/          wraps Claude so it reads the real data instead of guessing
+  documents/      opens PDFs and scanned engineering drawings
+  pipeline/       the main stages run end to end:
+                    ingest → extract → analyze, plus corpus, entities,
+                    timeline, and hydrology assembly
+  hydrology/      water-balance & stormwater modeling of the Lima water loop;
+                    connectors/ pull live public data (USGS streamflow, NOAA
+                    rainfall, EPA ECHO permits), with on-disk caching
+  site/           builds the browsable web/ site from the corpus
+tests/            offline tests (run against committed data + saved fixtures)
+docs/             project notes; web/ + site/ hold the generated site
+```
+
+> **Reading the code as a non-coder:** start at the command you care about in
+> `cli.py` (e.g. `bosc npdes` for the wastewater pull), then follow it into the
+> matching module. Each file opens with a plain-language docstring saying what it
+> does and why.
+
 ## Quickstart
 
 Toolchain is managed by [mise](https://mise.jdx.dev/) (Python 3.11, uv, node,
@@ -145,79 +221,3 @@ mise run fmt      # auto-fix lint + format
 
 Or invoke the tools directly (`uv run ruff check .`, `uv run mypy`,
 `uv run pytest`). Tests run offline against the committed extraction.
-
-## Data policy
-
-- `data/documents/**` — raw source material (scans/PDFs/web captures).
-  **Versioned**, with large binaries (`*.pdf`, images) stored via **Git LFS**
-  (see `.gitattributes`). Treated as immutable inputs — never edited.
-- `data/extracted/**` — reviewed structured extractions of those documents.
-  **Committed.** The durable research artifact and what the tests run against.
-- `data/reference/**` — supporting datasets from *outside* sources (e.g. the EPA
-  ECHO wastewater inventory, USGS/NOAA reference values, parcel geometry).
-  **Committed**, and labeled with where each came from.
-- `data/scenarios/**` — named what-if inputs for the water-balance model.
-  **Committed.**
-- `data/cache/` — regenerable downloads (e.g. saved API responses). Git-ignored.
-
-Cloning requires Git LFS (`git lfs install`) to pull the full source documents;
-without it you get lightweight pointer files.
-
-See [data/README.md](data/README.md) for the extraction conventions (including
-the `~approximate` marker for uncertain scan transcriptions).
-
-## Layout
-
-The repository has two halves: **`data/`** (the records and datasets) and
-**`src/`** (the code that works on them). Everything else supports those.
-
-### `data/` — the records and datasets
-
-```
-data/
-  documents/    RAW originals, exactly as received — never edited:
-                  recorder/      property deeds & recorder filings
-                  oepa/          Ohio EPA NPDES permits & fact sheets
-                  aedg/          engineering cost estimates (the scans we read)
-                  commissioners/ county commission minutes & agendas
-                  legal/         saved web pages & legal exhibits
-                  permits/ plans/ regulatory/ sanitary/  supporting records
-  extracted/    The same records, carefully typed up into structured,
-                checkable form (YAML). The reviewed, durable artifact.
-  reference/    Supporting datasets from outside sources:
-                  echo/       EPA ECHO wastewater-discharger inventory (Maumee)
-                  hydrology/  river-flow & rainfall reference values
-                  periplus/   parcels, road-corridor geometry
-  scenarios/    Named water-balance "what-if" inputs (baseline, buildout)
-  cache/        Regenerable downloads (saved API responses). Not committed.
-```
-
-Each dataset folder has its own `README.md` explaining its source and columns —
-for example [data/reference/echo/README.md](data/reference/echo/README.md)
-documents the EPA wastewater inventory and its known gaps.
-
-### `src/bosc/` — the code
-
-```
-src/bosc/
-  cli.py          the `bosc` command — every task is a subcommand of it
-  config.py       settings (env + .env) and where data lives
-  models.py       the typed shapes that extracted data must fit
-  profiles.py     per-contractor formats for reading cost estimates
-  agent/          wraps Claude so it reads the real data instead of guessing
-  documents/      opens PDFs and scanned engineering drawings
-  pipeline/       the main stages run end to end:
-                    ingest → extract → analyze, plus corpus, entities,
-                    timeline, and hydrology assembly
-  hydrology/      water-balance & stormwater modeling of the Lima water loop;
-                    connectors/ pull live public data (USGS streamflow, NOAA
-                    rainfall, EPA ECHO permits), with on-disk caching
-  site/           builds the browsable web/ site from the corpus
-tests/            offline tests (run against committed data + saved fixtures)
-docs/             project notes; web/ + site/ hold the generated site
-```
-
-> **Reading the code as a non-coder:** start at the command you care about in
-> `cli.py` (e.g. `bosc npdes` for the wastewater pull), then follow it into the
-> matching module. Each file opens with a plain-language docstring saying what it
-> does and why.
