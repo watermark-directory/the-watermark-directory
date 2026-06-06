@@ -80,12 +80,16 @@ nav:
           - County-level sites: data/extracted/legal/web-vendor-audit/allen-county-level-sites.md
   - Records:
       - Overview: records/index.md
-      - Deeds: records/deeds.md
-      - Permits — Ohio EPA / USACE: records/permits-epa.md
-      - Permits — NPDES: records/permits-npdes.md
-      - Business filings — SoS: records/permits-sos.md
-      - Engineering plans: records/plans.md
-      - Cost estimates (OPC): records/opc.md
+      - Land & property:
+          - Deeds: records/deeds.md
+      - Permits & approvals:
+          - Ohio EPA / USACE: records/permits-epa.md
+          - NPDES: records/permits-npdes.md
+      - Business filings:
+          - Secretary of State: records/permits-sos.md
+      - Engineering:
+          - Plans: records/plans.md
+          - Cost estimates (OPC): records/opc.md
   - Timeline: timeline.md
   - Entity graph: entities.md
   - Exhibits: exhibits.md
