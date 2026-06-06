@@ -216,8 +216,10 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
     )
     result.people_pages = people_pages
 
-    # 7. Landing page (written last; it reports the counts gathered above).
-    (web / "index.md").write_text(_render_home(result), encoding="utf-8")
+    # 7. Landing page. Written as home.md (not index.md): the CustomMill theme owns
+    # the root index.html as its SPA shell (the iframe frame), so the landing content
+    # must live at its own URL that the frame loads (see theme.home in mkdocs.yml).
+    (web / "home.md").write_text(_render_home(result), encoding="utf-8")
 
     log.info(
         "site.built",

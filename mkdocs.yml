@@ -18,10 +18,9 @@ use_directory_urls: false   # 1:1 source-path → URL keeps the mirrored cross-l
 
 theme:
   name: custommill
-  # use_directory_urls is false, so the home page is index.html (not a bare slug);
-  # CustomMill feeds theme.home straight into the iframe src + topbar link, and a
-  # bare "index" 404s and breaks its hash routing.
-  home: index.html
+  # CustomMill owns the root index.html as its SPA shell; the landing content is
+  # rendered to home.md (-> home.html) and the frame loads it via theme.home.
+  home: home.html
   main_color: "#3f51b5"   # indigo, matching the prior palette
   toc_depth: 3
 
@@ -52,7 +51,7 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
 
 nav:
-  - Home: index.md
+  - Home: home.md
   - Dossier:
       - The Dossier: docs/DOSSIER.md
       - Research course: docs/COURSE.md

@@ -17,8 +17,9 @@ def test_build_site_stages_expected_pages(tmp_path: Path) -> None:
 
     result = build_site(settings, web_dir=web)
 
-    # Top-level generated pages exist and are non-empty.
-    for name in ("index.md", "timeline.md", "entities.md", "exhibits.md"):
+    # Top-level generated pages exist and are non-empty. The landing page is
+    # home.md (the CustomMill theme owns the root index.html as its SPA shell).
+    for name in ("home.md", "timeline.md", "entities.md", "exhibits.md"):
         page = web / name
         assert page.is_file(), f"missing {name}"
         assert page.read_text(encoding="utf-8").strip()
