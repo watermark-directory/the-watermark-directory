@@ -11,6 +11,16 @@ The `src/bosc/agent/` layer wraps the Claude Agent SDK and exposes in-process
 tools so the agent inspects real data. Entry point is the `bosc` Typer CLI
 (`src/bosc/cli.py`).
 
+A second subsystem, `src/bosc/hydrology/`, runs water-balance / stormwater models
+of the Lima municipal loop. `src/bosc/hydrology/connectors/` pulls **live public
+data** (USGS NWIS, NOAA Atlas-14, EPA ECHO) through `_cache.cached_get` — on-disk
+cache + TTL + offline/committed-fixture fallback, so tests never hit the network.
+A new connector is a pure sync `fn(..., settings) -> pydantic` in that dir, with a
+committed fixture under `tests/fixtures/hydrology/<connector>/`. External-data
+pulls land as committed reference datasets under `data/reference/<source>/` and
+are regenerable via a `bosc` subcommand (e.g. `bosc npdes` → the EPA ECHO Maumee
+NPDES inventory; columns are selected by ECHO **ObjectName**, never by index).
+
 ## Conventions
 
 - **Tooling:** mise manages the toolchain (Python 3.11, uv, node, git-lfs);
@@ -24,15 +34,32 @@ tools so the agent inspects real data. Entry point is the `bosc` Typer CLI
   `bosc.models`. Scan transcriptions may be **approximate**, written `~12345`
   in YAML; `ApproxInt`/`_coerce_number` handle that — preserve the marker in
   source data, don't silently drop it.
+- **CLI options:** a `typer.Option` default trips ruff `B008` when the parameter
+  is annotated `Path` (but not for `bool`/`int`/`float`); type the option `str`
+  and convert to `Path` in the body.
 
 ## Data discipline (important)
 
 - `data/documents/**` is raw, immutable, and **versioned via Git LFS** for large
   binaries (see `.gitattributes`). Add new scan/PDF types to LFS tracking.
 - `data/extracted/**` is the committed, reviewed artifact and what tests run on.
+- `data/reference/**` is committed **authoritative data from outside sources**
+  (EPA ECHO, USGS/NOAA, parcels). Each folder carries a `README.md` naming its
+  source and gaps; raw API responses stay cached under `data/cache/` (git-ignored)
+  so the committed CSV/YAML is regenerable.
 - When transcribing figures: dollar totals/subtotals are high-confidence; mark
   uncertain quantities `~`. **Never fabricate line items or sources.** Prefer
   omission over invention. Cite source page/file.
+- **Chain of custody — the corpus is litigation evidence.** Never alter a source
+  byte under `data/documents/**`, and don't rename or "fix" malformed/typo'd
+  source filenames in place: keep the as-received name and record the canonical
+  name + a **content-verified** date (text layer or OCR, *not* the filename or
+  outside knowledge) in a non-destructive alias manifest — see
+  `data/extracted/commissioners/minutes/filename-map.yaml`. Removing a source
+  file is only OK when it's a checksum-verified byte-identical duplicate. Captured
+  third-party web evidence may embed secrets/tokens — that's evidence, not a leak
+  to redact. The standing completeness audit is
+  `data/extracted/legal/corpus-completeness-audit.md`.
 
 ## What "extract" must achieve
 
