@@ -13,8 +13,14 @@ nothing is summarized, paraphrased, or fabricated. Regenerate with `bosc orc`
   for is recorded under `unresolved`.
 - `orc.cited.yaml` — the full text of those cited sections (number, heading, Title,
   Chapter, body, amendment history, URL), with a provenance `meta` block.
-- `orc.title-<n>.yaml` — *(only after `bosc orc --titles`)* the full text of every
-  section in a whole Title. These are large.
+- `orc.title-<n>.yaml` — the full text of every section in a whole Title (run via
+  `bosc orc --titles`). These are large (~35 MB total). The committed set covers the
+  titles the corpus cites into: **1** State Government, **3** Counties, **13**
+  Commercial Transactions, **15** Conservation of Natural Resources, **17**
+  Corporations-Partnerships, **23** Courts-Common Pleas, **35** Elections, **37**
+  Health-Safety-Morals, **45** Motor Vehicles-Aeronautics-Watercraft, **53** Real
+  Property, **57** Taxation, plus **general-provisions** (the named pseudo-title
+  holding chapters 1, 9, … — 1.48 and 9.66 cite into it). 12,593 sections in all.
 
 ## How it's pulled
 
