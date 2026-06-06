@@ -54,26 +54,36 @@ backlog).
 ## 4. Why this load exists *here* — demand-side drivers `[open]`
 
 These explain the *incentive* to site authorized cloud capacity in a low-cost,
-low-scrutiny jurisdiction. **They are analysis/context, not facts about this
-campus**, and carry no document values here (stating a premium percentage would be
-fabrication):
+low-scrutiny jurisdiction. The magnitudes are now **document-backed industry
+reference ranges** — from the relator's [data appendix](../data/extracted/legal/select-committee-2026/relator-testimony/bosc-data-appendix-2026-06-01.md),
+with its cited sources — though whether each applies to *this* campus stays
+`[inference]`/`[open]`:
 
-- **Authorized-region premium.** Government/regulated cloud (GovCloud-class,
-  FedRAMP / DoD IL2–IL6 authorized regions) commands a price premium over
-  commercial regions; authorization is costly and capacity-constrained, which
-  rewards building dedicated, hardened capacity. `[open]`
+- **Authorized-region premium.** Government/sovereign cloud (GovCloud-class,
+  FedRAMP / DoD IL2–IL6) runs **~20–30% above commercial** (BCG: up to 30%; AWS
+  GovCloud EC2/S3 examples) — a *recurring* premium per hour and per GB. That
+  rewards building dedicated, hardened capacity. `[verified: appendix §1]` /
+  application-to-campus `[open]`
 - **Tax-base forecasting risk.** Ohio's data-center **sales-tax exemption** (DCTE)
-  and the local CRA shift the fiscal bet onto forecasted indirect benefit; whether
-  the abated base ever materializes against the consumption is the open question.
-  `[open]`
-- **Refresh / AI-rack cost curve.** Server refresh cycles and rising rack power
-  densities drive recurring capital and escalating MW/water per rack — i.e. the
-  consumption side trends *up*, not flat, over the abatement window. `[open]`
+  is scored against an equipment-purchase forecast — but AI-class hardware breaks
+  that forecast: **GPU servers $200k–$515k**, replaced on a short cycle, ~30–40%
+  of cost annually in opex. The abated base may never materialize against the
+  consumption. `[verified: appendix §2]` / fiscal outcome `[open]`
+- **Refresh / AI-rack cost curve.** Rack power density jumps **5–15 kW → 40–140 kW**
+  (conventional → AI/GB200), with projections of 250–900 kW/rack by 2027 — i.e.
+  MW/water per rack trend *up*, not flat, across the abatement window.
+  `[verified: appendix §2]`
+- **Facility footprint.** A single site is a community-scale draw: **25 MW** (the
+  Ohio tariff/amendment reference) to 100 MW–1 GW, WUE **~1.8–1.9 L/kWh**, up to
+  **~5M gal/day** evaporative — and **blowdown discharge ~20–40%** of cooling
+  water, the wastewater tie-in to the WWTP capacity in [HYDROLOGY](HYDROLOGY.md).
+  `[verified: appendix §3]`
 
-> These four bullets are the substance of the relator's committee testimony
-> (`data/extracted/legal/select-committee-2026/relator-testimony/`). They live here
-> as labelled `[open]` drivers so the repo *carries* the demand-side argument
-> without asserting unverified magnitudes.
+> These drivers are the substance of the relator's committee **data appendix**
+> ([reproduction](../data/extracted/legal/select-committee-2026/relator-testimony/bosc-data-appendix-2026-06-01.md);
+> prepared but not submitted). The figures are *industry reference ranges* with
+> cited sources — real, documented magnitudes — not facility-specific values for
+> the Bistrozzi campus.
 
 ## 5. Document-backed vs. analysis — the discipline line
 
@@ -83,7 +93,8 @@ fabrication):
 | 15-yr/75% CRA; ~$500M; ~50 jobs; $14.2M roadwork | `[verified]` |
 | 3.1–10 MGD consumptive; basin-loss multiple | `[inference]` (see HYDROLOGY) |
 | ~5–6 MW/job; "subsidizes load not jobs" | `[inference]` |
-| GovCloud/IL premium; DCTE forecasting; refresh curve | `[open]` (no corpus document) |
+| GovCloud premium ~20–30%; GPU/rack/facility magnitudes | `[verified: data appendix]` (industry ranges) |
+| Whether those magnitudes apply to *this* campus | `[open]` / `[inference]` |
 
 **Nothing on this page promotes a defense-intelligence thesis.** Defense-ecosystem
 actors enter only as `[open]` context where the public record already names them
