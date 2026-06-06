@@ -25,13 +25,14 @@ Adjacent WLE subbasins **04100001** (Ottawa-Stony), **04100002** (Raisin), and
 
 ## Files
 
-- **`maumee-wwtp.all-npdes.csv`** — all active CWA-permitted facilities ECHO
-  returns for the seven HUC-8s, deduplicated to one row per facility by FRS
-  Registry ID (POTW + non-POTW + federal + private/package).
-- **`maumee-wwtp.potw.csv`** — subset flagged `POTW` by ECHO's
-  `CWPFacilityTypeIndicator` (the municipal sewage plants).
-- **`maumee-wwtp.huc-counts.csv`** — per-HUC manifest: ECHO's reported count vs.
-  rows actually pulled (they match — no pagination loss), plus dedup totals.
+- [**`maumee-wwtp.all-npdes.csv`**](maumee-wwtp.all-npdes.csv) — all active
+  CWA-permitted facilities ECHO returns for the seven HUC-8s, deduplicated to one
+  row per facility by FRS Registry ID (POTW + non-POTW + federal + private/package).
+- [**`maumee-wwtp.potw.csv`**](maumee-wwtp.potw.csv) — subset flagged `POTW` by
+  ECHO's `CWPFacilityTypeIndicator` (the municipal sewage plants).
+- [**`maumee-wwtp.huc-counts.csv`**](maumee-wwtp.huc-counts.csv) — per-HUC
+  manifest: ECHO's reported count vs. rows actually pulled (they match — no
+  pagination loss), plus dedup totals.
 
 ## Method
 

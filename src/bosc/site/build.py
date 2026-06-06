@@ -152,6 +152,15 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
             exclude_parts=frozenset({"reference"}),
         )
     n += _mirror_tree(settings.extracted_dir, web / "data" / "extracted")
+    # Reference datasets (ECHO NPDES inventory, etc.) — README pages + their CSVs.
+    # `periplus/` is secondary fork material (geojson + links to unpublished
+    # source-docs); keep it out, mirroring how docs/reference/ is excluded above.
+    if settings.reference_dir.exists():
+        n += _mirror_tree(
+            settings.reference_dir,
+            web / "data" / "reference",
+            exclude_parts=frozenset({"periplus"}),
+        )
     result.narrative_files = n
 
     # 2. Static asset(s).
