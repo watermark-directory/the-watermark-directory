@@ -17,30 +17,25 @@ site_dir: site
 use_directory_urls: false   # 1:1 source-path → URL keeps the mirrored cross-links predictable
 
 theme:
-  name: material
-  features:
-    - navigation.sections
-    - navigation.top
-    - navigation.indexes
-    - content.code.copy
-    - search.highlight
-    - toc.follow
-  palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: indigo
-      toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: indigo
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
+  name: custommill
+  # use_directory_urls is false, so the home page is index.html (not a bare slug);
+  # CustomMill feeds theme.home straight into the iframe src + topbar link, and a
+  # bare "index" 404s and breaks its hash routing.
+  home: index.html
+  main_color: "#3f51b5"   # indigo, matching the prior palette
+  toc_depth: 3
+
+extra:
+  history_buttons: false
 
 extra_css:
   - assets/extra.css
+
+extra_javascript:
+  # CustomMill (unlike Material) doesn't bundle Mermaid; load it + our init so the
+  # entity-graph diagram still renders.
+  - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
+  - assets/mermaid-init.js
 
 markdown_extensions:
   - admonition

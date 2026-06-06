@@ -167,10 +167,12 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
         )
     result.narrative_files = n
 
-    # 2. Static asset(s).
+    # 2. Static assets (extra.css, mermaid-init.js, …).
     assets_dst = web / "assets"
     assets_dst.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(_ASSETS / "extra.css", assets_dst / "extra.css")
+    for asset in sorted(_ASSETS.iterdir()):
+        if asset.is_file():
+            shutil.copy2(asset, assets_dst / asset.name)
 
     # 3. Cross-document layer — load the corpus once, reuse for both renders.
     corpus = load_corpus(settings)
