@@ -1,0 +1,89 @@
+meta:
+  subject: ORC sections cited in the BOSC corpus
+  source: Ohio LSC code portal — codes.ohio.gov
+  resolved: 16
+  unresolved: 0
+citations:
+- number: '1.48'
+  heading: Presumption that statute is prospective
+  title: null
+  chapter: 1 Definitions; Rules of Construction
+  url: https://codes.ohio.gov/ohio-revised-code/section-1.48
+- number: '9.66'
+  heading: Indication of outstanding liability owed to state in application for economic
+    development assistance
+  title: null
+  chapter: 9 Miscellaneous
+  url: https://codes.ohio.gov/ohio-revised-code/section-9.66
+- number: '121.22'
+  heading: Public meetings - exceptions
+  title: 1 State Government
+  chapter: 121 State Departments
+  url: https://codes.ohio.gov/ohio-revised-code/section-121.22
+- number: '122.175'
+  heading: Tax exemption for sale, storage, use, or other consumption of computer
+    data center equipment
+  title: 1 State Government
+  chapter: 122 Department of Development
+  url: https://codes.ohio.gov/ohio-revised-code/section-122.175
+- number: '149.43'
+  heading: Availability of public records for inspection and copying
+  title: 1 State Government
+  chapter: 149 Documents, Reports, and Records
+  url: https://codes.ohio.gov/ohio-revised-code/section-149.43
+- number: '305.17'
+  heading: Compensation of employees
+  title: 3 Counties
+  chapter: 305 Board of County Commissioners - Generally
+  url: https://codes.ohio.gov/ohio-revised-code/section-305.17
+- number: '1333.61'
+  heading: Uniform trade secrets act definitions
+  title: 13 Commercial Transactions
+  chapter: 1333 Trade Practices
+  url: https://codes.ohio.gov/ohio-revised-code/section-1333.61
+- number: '1509.02'
+  heading: Division of oil and gas resources management; chief; oil and gas well fund
+  title: 15 Conservation of Natural Resources
+  chapter: 1509 Division Of Oil And Gas Resources Management - Oil And Gas
+  url: https://codes.ohio.gov/ohio-revised-code/section-1509.02
+- number: '1701.86'
+  heading: Voluntary dissolution
+  title: 17 Corporations-Partnerships
+  chapter: 1701 General Corporation Law
+  url: https://codes.ohio.gov/ohio-revised-code/section-1701.86
+- number: '2303.201'
+  heading: Computerizing court or paying cost of computerized legal research
+  title: 23 Courts-Common Pleas
+  chapter: 2303 Clerk of the Court of Common Pleas
+  url: https://codes.ohio.gov/ohio-revised-code/section-2303.201
+- number: '3503.10'
+  heading: Voter registration programs
+  title: 35 Elections
+  chapter: 3503 Voters - Qualifications; Registration
+  url: https://codes.ohio.gov/ohio-revised-code/section-3503.10
+- number: '3735.671'
+  heading: Written agreement where commercial or industrial property is to be exempted
+  title: 37 Health-Safety-Morals
+  chapter: 3735 Metropolitan Housing Authority
+  url: https://codes.ohio.gov/ohio-revised-code/section-3735.671
+- number: '3745.07'
+  heading: Proposed actions - mailing lists
+  title: 37 Health-Safety-Morals
+  chapter: 3745 Environmental Protection Agency
+  url: https://codes.ohio.gov/ohio-revised-code/section-3745.07
+- number: '4582.58'
+  heading: Journalization of final actions - public records
+  title: 45 Motor Vehicles-Aeronautics-Watercraft
+  chapter: 4582 Port Authorities
+  url: https://codes.ohio.gov/ohio-revised-code/section-4582.58
+- number: '5302.07'
+  heading: Limited warranty deed form
+  title: 53 Real Property
+  chapter: 5302 Statutory Forms Of Land Conveyance
+  url: https://codes.ohio.gov/ohio-revised-code/section-5302.07
+- number: '5709.85'
+  heading: Tax incentive review council
+  title: 57 Taxation
+  chapter: 5709 Taxable Property - Exemptions
+  url: https://codes.ohio.gov/ohio-revised-code/section-5709.85
+unresolved: []

@@ -59,6 +59,16 @@ class Settings(BaseSettings):
     echo_base_url: str = "https://echodata.epa.gov/echo"
     echo_max_retries: int = 5  # backoff retries on a 429 throttle
     echo_retry_base_s: float = 5.0  # first backoff wait; doubles each attempt
+    # Ohio LSC Status Report of Legislation (per-GA bill status; not hydrology, but
+    # served through the same connector cache/offline/fixture machinery).
+    lsc_base_url: str = "https://statusreport.lsc.ohio.gov"
+    lsc_default_ga: str = "136"
+    # Ohio Revised Code full text (LSC code portal; HTML, no JSON API).
+    orc_base_url: str = "https://codes.ohio.gov"
+    # Allen County GIS — ArcGIS REST "Current Parcels" (CAMA) layer.
+    allen_parcels_url: str = (
+        "https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1"
+    )
 
     # --- Paths -------------------------------------------------------------
     data_dir: Path = _REPO_ROOT / "data"

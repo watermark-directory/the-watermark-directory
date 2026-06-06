@@ -1,0 +1,46 @@
+# Ohio LSC Status Report of Legislation
+
+Per–General Assembly **Status Report of Legislation** published by the Ohio
+**Legislative Service Commission (LSC)** at `statusreport.lsc.ohio.gov`. Every
+measure, sponsor, date, and status code here was read **verbatim** from LSC's own
+status-report workbook — nothing is fabricated, inferred, or normalized away.
+Regenerate with `bosc lsc` (defaults to the GA in `settings.lsc_default_ga`).
+
+## Source
+
+For a GA, LSC offers the whole report as one authoritative spreadsheet:
+
+```
+https://statusreport.lsc.ohio.gov/<ga>/files/<ga>th-ga-status-report.xlsx
+```
+
+(e.g. `…/136/files/136th-ga-status-report.xlsx`). The browseable HTML index only
+carries number/sponsor/title; the **xlsx** is the source of truth — it adds the
+legislative-milestone columns. The connector parses that workbook with the Python
+standard library (no openpyxl dependency).
+
+## Files
+
+`status-report.<ga>.yaml` — one `meta:` provenance block + a `bills:` list. Each
+bill carries its normalized `identifier` (e.g. `HB 1`), the published `bill_type`
+(`H. B.`, `S. R.`, …), `number`, primary `sponsors`, `short_title`, per-chamber
+`house` / `senate` milestone blocks (`introduced`, `cmte_assigned`,
+`cmte_reported`, `passed_3rd`), then `to_conf_cmte`, `concurrence`, `gov_action`,
+`effective_date`, and the running `note`. `null` is a genuinely empty cell.
+
+The `meta.as_of` field carries the workbook's own "Reflects legislative action
+through …" banner, so the data is self-dating; output is deterministic (no
+generation timestamp), so re-running regenerates identical bytes.
+
+## Gaps / caveats
+
+- **Primary sponsors only.** The workbook exposes two sponsor columns, so only the
+  primary sponsor(s) are captured — not the full co-sponsor list (that lives on
+  each bill's detail page, `…/<ga>/<bill>`).
+- **Raw dates/codes.** Dates and committee codes are kept exactly as published,
+  including trailing chamber markers (e.g. a date suffixed ` S`). They are *not*
+  parsed into ISO dates, so downstream code should not assume a fixed format.
+- **Status, not full history.** This is the milestone snapshot LSC compiles; the
+  blow-by-blow legislative history of a single bill is on its detail page.
+- **As-of dated.** The workbook reflects action through the date in `meta.as_of`;
+  re-run `bosc lsc` to refresh.

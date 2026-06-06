@@ -615,6 +615,180 @@ def npdes(
     )
 
 
+@app.command(name="lsc")
+def lsc(
+    ga: str = typer.Option(
+        None, "--ga", help="General Assembly number (default: settings.lsc_default_ga, e.g. 136)."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use the cached/committed workbook only; never touch the network."
+    ),
+    out_dir: str | None = typer.Option(
+        None, "--out", help="Output directory (default: data/reference/lsc)."
+    ),
+) -> None:
+    """Pull the Ohio LSC Status Report of Legislation for a GA -> structured YAML.
+
+    Downloads the LSC status-report workbook, parses every measure's chamber-by-
+    chamber milestones verbatim, and writes a YAML with a provenance meta block.
+    """
+    from bosc.config import Settings
+    from bosc.hydrology.connectors import lsc as lsc_connector
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+    target = Path(out_dir) if out_dir else settings.reference_dir / "lsc"
+
+    report = lsc_connector.fetch_status_report(ga, settings=settings)
+
+    table = Table("bill type", "count")
+    for bill_type, count in lsc_connector._type_counts(report.bills).items():
+        table.add_row(bill_type, str(count))
+    console.print(table)
+    console.print(
+        f"\n[bold]{len(report.bills)}[/] measures in the {report.ga}th GA status report "
+        f"([dim]as of {report.as_of or 'unknown'}[/])."
+    )
+
+    path = lsc_connector.write_status_report(report, target)
+    console.print(f"[green]Wrote[/] {path}")
+
+
+@app.command(name="orc")
+def orc(
+    titles: bool = typer.Option(
+        False,
+        "--titles",
+        help="Also pull the WHOLE titles the cited sections belong to (a large crawl).",
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached/committed pages only; never touch the network."
+    ),
+    out_dir: str | None = typer.Option(
+        None, "--out", help="Output directory (default: data/reference/orc)."
+    ),
+) -> None:
+    """Pull Ohio Revised Code full text for the sections the corpus cites.
+
+    Scans the corpus for ORC citations, resolves each to its Title/Chapter, and
+    writes the cited sections' full text plus a citations manifest. With --titles,
+    also pulls the entire titles those sections live in (thousands of sections).
+    """
+    from bosc.config import Settings
+    from bosc.hydrology.connectors import orc as orc_connector
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+    target = Path(out_dir) if out_dir else settings.reference_dir / "orc"
+
+    cited = orc_connector.scan_citations(settings.extracted_dir, settings.data_dir.parent / "docs")
+    console.print(f"Found [bold]{len(cited)}[/] candidate ORC citations in the corpus.")
+
+    resolved: list[orc_connector.OrcSection] = []
+    unresolved: list[str] = []
+    for number in cited:
+        sec = orc_connector.fetch_section(number, settings=settings)
+        if sec is None or not sec.text:
+            unresolved.append(number)
+        else:
+            resolved.append(sec)
+
+    table = Table("Section", "Title", "Chapter", "Heading")
+    for s in resolved:
+        table.add_row(
+            s.number,
+            f"{s.title_num} {s.title_name}" if s.title_num else "—",
+            s.chapter_num or "—",
+            (s.heading or "")[:48],
+        )
+    console.print(table)
+    if unresolved:
+        console.print(f"[dim]Skipped (no ORC section at portal): {', '.join(unresolved)}[/]")
+
+    orc_connector.write_citation_index(resolved, unresolved, target)
+    orc_connector.write_sections(resolved, target, scope="cited")
+
+    if titles:
+        title_nums = sorted({s.title_num for s in resolved if s.title_num}, key=int)
+        console.print(f"\n[bold]--titles[/]: pulling whole titles {', '.join(title_nums)} …")
+        for tnum in title_nums:
+            secs = orc_connector.fetch_title(tnum, settings=settings)
+            path = orc_connector.write_sections(secs, target, scope=f"title-{tnum}")
+            console.print(f"[green]Wrote[/] title {tnum}: {len(secs)} sections -> {path}")
+
+    console.print(f"\n[green]Wrote[/] {len(resolved)} cited sections + manifest to {target}.")
+
+
+@app.command(name="parcels")
+def parcels(
+    parcel: str | None = typer.Option(None, "--parcel", help="Look up one parcel by number."),
+    owner: str | None = typer.Option(None, "--owner", help="Find parcels by owner-name substring."),
+    cited: bool = typer.Option(
+        False, "--cited", help="Pull every parcel id cited in the corpus (deeds) -> reference YAML."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached GIS responses only; never touch the network."
+    ),
+    out_dir: str | None = typer.Option(
+        None, "--out", help="Output directory for --cited (default: data/reference/allen-gis)."
+    ),
+) -> None:
+    """Query the Allen County GIS parcel (CAMA) layer: by number, owner, or corpus citations."""
+    from bosc.config import Settings
+    from bosc.hydrology.connectors import allen_gis
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+
+    if parcel:
+        p = allen_gis.fetch_parcel(parcel, settings=settings)
+        if p is None:
+            console.print(
+                f"[yellow]No parcel[/] {parcel} ({allen_gis.normalize_parcel_id(parcel)})."
+            )
+            raise typer.Exit(1)
+        console.print(p.model_dump())
+        return
+
+    if owner:
+        results = allen_gis.parcels_by_owner(owner, settings=settings)
+        table = Table("Parcel", "Owner", "Situs", "Acres", "Mkt total")
+        for p in results:
+            table.add_row(
+                p.parcel_no or "—",
+                p.owner or "—",
+                p.situs_address or "—",
+                f"{p.acres:.2f}" if p.acres is not None else "—",
+                f"{p.market_total_value:,}" if p.market_total_value is not None else "—",
+            )
+        console.print(table)
+        console.print(f"\n[bold]{len(results)}[/] parcels owned by ~'{owner}'.")
+        return
+
+    if cited:
+        target = Path(out_dir) if out_dir else settings.reference_dir / "allen-gis"
+        ids = allen_gis.scan_parcel_ids(settings.extracted_dir)
+        console.print(f"Found [bold]{len(ids)}[/] cited parcel ids in the corpus.")
+        found: list[allen_gis.Parcel] = []
+        for pid in ids:
+            p = allen_gis.fetch_parcel(pid, settings=settings)
+            if p is not None:
+                found.append(p)
+            else:
+                console.print(
+                    f"[dim]no GIS match for {pid} ({allen_gis.normalize_parcel_id(pid)})[/]"
+                )
+        path = allen_gis.write_parcels(found, target, scope="cited")
+        console.print(f"[green]Wrote[/] {len(found)} parcels -> {path}")
+        return
+
+    console.print("Pass one of --parcel, --owner, or --cited.")
+    raise typer.Exit(1)
+
+
 site_app = typer.Typer(
     name="site",
     help="Generate / preview the GitHub Pages site from the corpus.",

@@ -1,0 +1,822 @@
+meta:
+  subject: Allen County, Ohio parcels (CAMA)
+  scope: cited
+  source: Allen County GIS — ArcGIS REST, Current Parcels (AGOL_NonEditLayers/1)
+  source_url: https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1
+  count: 45
+  caveats:
+  - Values are verbatim from the county GIS; null means the service had no value.
+  - Market values are the auditor's appraised values, not sale prices.
+  - last_sale_date is decoded from the GIS M(M)DDYYYY integer; verify against the
+    deed.
+parcels:
+- parcel_no: '36010003001000'
+  owner: PATRICK DARLENE S TRUSTEE
+  owner_2: null
+  deeded_owner: PATRICK DARLENE S TRUSTEE
+  situs_address: N COLE ST
+  owner_address: N COLE ST LIMA OH 45807
+  land_use_code: 110
+  acres: 70.62
+  market_land_value: 452000
+  market_improvement_value: 0
+  market_total_value: 148190
+  cauv_value: 148190
+  tax_district: C11
+  school_code: '205'
+  neighborhood_code: '3400'
+  last_sale_date: '2020-12-21'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36010003002000'
+  owner: NEFF FARMS INC
+  owner_2: null
+  deeded_owner: NEFF FARMS INC
+  situs_address: COLE ST
+  owner_address: COLE ST LIMA OH 45807
+  land_use_code: 121
+  acres: 40.07
+  market_land_value: 176100
+  market_improvement_value: 0
+  market_total_value: 48930
+  cauv_value: 48930
+  tax_district: C11
+  school_code: '205'
+  neighborhood_code: '3400'
+  last_sale_date: '2018-03-16'
+  last_sale_amount: 1437669
+  valid_sale: Y
+- parcel_no: '36010004010001'
+  owner: GRACELY DAN C
+  owner_2: '& JACQUELINE A TRUSTEES'
+  deeded_owner: GRACELY DAN C & JACQUELINE A TRUSTEES
+  situs_address: N WEST ST
+  owner_address: N WEST ST LIMA OH 45801
+  land_use_code: 110
+  acres: 57.08
+  market_land_value: 367100
+  market_improvement_value: 0
+  market_total_value: 122590
+  cauv_value: 122590
+  tax_district: C11
+  school_code: '205'
+  neighborhood_code: '3400'
+  last_sale_date: '2019-03-22'
+  last_sale_amount: 97900
+  valid_sale: Y
+- parcel_no: '36020004001000'
+  owner: RIDENOUR RONALD @(4)
+  owner_2: null
+  deeded_owner: RIDENOUR RONALD @(4)
+  situs_address: N COLE ST
+  owner_address: N COLE ST LIMA OH 45807
+  land_use_code: 110
+  acres: 101.67
+  market_land_value: 601000
+  market_improvement_value: 0
+  market_total_value: 129830
+  cauv_value: 129830
+  tax_district: C11
+  school_code: '205'
+  neighborhood_code: '3400'
+  last_sale_date: '2006-11-17'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36110001001000'
+  owner: AMERICAN TWP TRUSTEES
+  owner_2: null
+  deeded_owner: AMERICAN TWP TRUSTEES
+  situs_address: N COLE ST
+  owner_address: N COLE ST LIMA OH 45807
+  land_use_code: 690
+  acres: 2.75
+  market_land_value: 21800
+  market_improvement_value: 0
+  market_total_value: 21800
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '1977-07-01'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36110001007002'
+  owner: THOMAS TIM
+  owner_2: '& LORI'
+  deeded_owner: THOMAS TIM & LORI
+  situs_address: 4071 N COLE ST
+  owner_address: 4071 N COLE ST LIMA OH 45807
+  land_use_code: 511
+  acres: 1.62
+  market_land_value: 30500
+  market_improvement_value: 169500
+  market_total_value: 200000
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2014-11-26'
+  last_sale_amount: 150000
+  valid_sale: Y
+- parcel_no: '36110001007005'
+  owner: HESS THOMAS L
+  owner_2: null
+  deeded_owner: HESS THOMAS L
+  situs_address: 1320 BEERY RD
+  owner_address: 1320 BEERY RD LIMA OH 45807
+  land_use_code: 511
+  acres: 1.62
+  market_land_value: 29300
+  market_improvement_value: 123800
+  market_total_value: 153100
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2015-07-31'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36110001008000'
+  owner: MAXWELL STEVEN P
+  owner_2: '& KARLA N'
+  deeded_owner: MAXWELL STEVEN P & KARLA N
+  situs_address: 4095 N COLE ST
+  owner_address: 4095 N COLE ST LIMA OH 45807
+  land_use_code: 511
+  acres: 1.0
+  market_land_value: 26700
+  market_improvement_value: 172400
+  market_total_value: 199100
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2014-05-23'
+  last_sale_amount: 160000
+  valid_sale: Y
+- parcel_no: '36110001009000'
+  owner: EATON WALTER D &
+  owner_2: ROSETTA L
+  deeded_owner: EATON WALTER D & ROSETTA L
+  situs_address: 4121 N COLE ST
+  owner_address: 4121 N COLE ST LIMA OH 45807
+  land_use_code: 511
+  acres: 3.81
+  market_land_value: 42400
+  market_improvement_value: 187000
+  market_total_value: 229400
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2002-07-01'
+  last_sale_amount: 8200
+  valid_sale: Y
+- parcel_no: '36110001015000'
+  owner: CONNER STEVEN R
+  owner_2: '& MEGAN A'
+  deeded_owner: CONNER STEVEN R & MEGAN A
+  situs_address: 4199 N COLE ST
+  owner_address: 4199 N COLE ST LIMA OH 45807
+  land_use_code: 511
+  acres: 4.29
+  market_land_value: 47700
+  market_improvement_value: 231100
+  market_total_value: 278800
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2008-08-01'
+  last_sale_amount: 230000
+  valid_sale: N
+- parcel_no: '36110001015001'
+  owner: KLOFTA JAROD R
+  owner_2: null
+  deeded_owner: KLOFTA JAROD R
+  situs_address: 4255 N COLE ST
+  owner_address: 4255 N COLE ST LIMA OH 45807
+  land_use_code: 511
+  acres: 5.0
+  market_land_value: 47200
+  market_improvement_value: 249200
+  market_total_value: 296400
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2021-03-29'
+  last_sale_amount: 370000
+  valid_sale: Y
+- parcel_no: '36110001018000'
+  owner: MEYER DAVID W
+  owner_2: '& MANDI N TRUSTEES'
+  deeded_owner: MEYER DAVID W & MANDI N TRUSTEES
+  situs_address: 4267 N COLE ST
+  owner_address: 4267 N COLE ST LIMA OH 45807
+  land_use_code: 111
+  acres: 18.36
+  market_land_value: 140100
+  market_improvement_value: 193100
+  market_total_value: 262080
+  cauv_value: 68980
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2022-08-23'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36110001020000'
+  owner: BENROTH BRANDON LEVI
+  owner_2: null
+  deeded_owner: BENROTH BRANDON LEVI
+  situs_address: 4281 N COLE ST
+  owner_address: 4281 N COLE ST LIMA OH 45807
+  land_use_code: 511
+  acres: 4.25
+  market_land_value: 52900
+  market_improvement_value: 115100
+  market_total_value: 168000
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2017-09-15'
+  last_sale_amount: 95000
+  valid_sale: Y
+- parcel_no: '36110001020001'
+  owner: DAMASKE DAVID
+  owner_2: null
+  deeded_owner: DAMASKE DAVID
+  situs_address: 4343 N COLE ST
+  owner_address: 4343 N COLE ST LIMA OH 45807
+  land_use_code: 511
+  acres: 4.25
+  market_land_value: 44500
+  market_improvement_value: 180900
+  market_total_value: 225400
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2022-04-18'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36110004001001'
+  owner: MORRIS SCOTT
+  owner_2: '& LINDA'
+  deeded_owner: MORRIS SCOTT & LINDA
+  situs_address: 1337 BEERY RD
+  owner_address: 1337 BEERY RD LIMA OH 45807
+  land_use_code: 199
+  acres: 28.89
+  market_land_value: 176500
+  market_improvement_value: 173100
+  market_total_value: 251160
+  cauv_value: 78060
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2022-02-10'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36110004005000'
+  owner: WAXLER LOUISE
+  owner_2: '& DAVID'
+  deeded_owner: WAXLER LOUISE & DAVID
+  situs_address: 3645 N COLE ST
+  owner_address: 3645 N COLE ST LIMA OH 45801
+  land_use_code: 511
+  acres: 7.19
+  market_land_value: 53500
+  market_improvement_value: 89600
+  market_total_value: 143100
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2022-03-11'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36110004006000'
+  owner: CRAWFORD BRADLY A &
+  owner_2: JULIA B
+  deeded_owner: CRAWFORD BRADLY A & JULIA B
+  situs_address: 3791 N COLE ST
+  owner_address: 3791 N COLE ST LIMA OH 45807
+  land_use_code: 511
+  acres: 8.96
+  market_land_value: 61100
+  market_improvement_value: 135800
+  market_total_value: 196900
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2005-06-02'
+  last_sale_amount: 10212
+  valid_sale: Y
+- parcel_no: '36120001003000'
+  owner: NORTH WEST STREET
+  owner_2: PROPERTIES LLC
+  deeded_owner: NORTH WEST STREET PROPERTIES LLC
+  situs_address: N WEST ST
+  owner_address: N WEST ST LIMA OH 45801
+  land_use_code: 199
+  acres: 127.73
+  market_land_value: 829100
+  market_improvement_value: 2000
+  market_total_value: 220190
+  cauv_value: 218190
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2019-07-16'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36120001003001'
+  owner: GRACELY DAN C
+  owner_2: '& JACQUELINE A TRUSTEES'
+  deeded_owner: GRACELY DAN C & JACQUELINE A TRUSTEES
+  situs_address: N WEST ST
+  owner_address: N WEST ST LIMA OH 45801
+  land_use_code: 110
+  acres: 6.5
+  market_land_value: 42300
+  market_improvement_value: 0
+  market_total_value: 16240
+  cauv_value: 16240
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2013-12-20'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36120002001001'
+  owner: NEFF FARMS INC
+  owner_2: null
+  deeded_owner: NEFF FARMS INC
+  situs_address: 4110 N COLE ST
+  owner_address: 4110 N COLE ST LIMA OH 45801
+  land_use_code: 199
+  acres: 137.5
+  market_land_value: 885600
+  market_improvement_value: 0
+  market_total_value: 210120
+  cauv_value: 210120
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2018-03-16'
+  last_sale_amount: 1437669
+  valid_sale: Y
+- parcel_no: '36120003001000'
+  owner: BRENNEMAN BROTHERS
+  owner_2: null
+  deeded_owner: BRENNEMAN BROTHERS
+  situs_address: W BLUELICK RD
+  owner_address: W BLUELICK RD LIMA OH 45801
+  land_use_code: 110
+  acres: 32.51
+  market_land_value: 210200
+  market_improvement_value: 0
+  market_total_value: 36470
+  cauv_value: 36470
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2017-05-31'
+  last_sale_amount: 952840
+  valid_sale: Y
+- parcel_no: '36120003001001'
+  owner: BRENNEMAN BROTHERS
+  owner_2: null
+  deeded_owner: BRENNEMAN BROTHERS
+  situs_address: W BLUELICK RD
+  owner_address: W BLUELICK RD LIMA OH 45801
+  land_use_code: 110
+  acres: 23.47
+  market_land_value: 151400
+  market_improvement_value: 0
+  market_total_value: 25400
+  cauv_value: 25400
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2017-05-31'
+  last_sale_amount: 952840
+  valid_sale: Y
+- parcel_no: '36120003001002'
+  owner: BRENNEMAN BROTHERS
+  owner_2: null
+  deeded_owner: BRENNEMAN BROTHERS
+  situs_address: 950 W BLUELICK RD
+  owner_address: 950 W BLUELICK RD LIMA OH 45801
+  land_use_code: 111
+  acres: 15.01
+  market_land_value: 118300
+  market_improvement_value: 78000
+  market_total_value: 128250
+  cauv_value: 50250
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2017-05-31'
+  last_sale_amount: 952840
+  valid_sale: Y
+- parcel_no: '36120003001003'
+  owner: BRENNEMAN BROTHERS
+  owner_2: null
+  deeded_owner: BRENNEMAN BROTHERS
+  situs_address: W BLUELICK RD
+  owner_address: W BLUELICK RD LIMA OH 45801
+  land_use_code: 110
+  acres: 2.51
+  market_land_value: 15500
+  market_improvement_value: 0
+  market_total_value: 3920
+  cauv_value: 3920
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2017-05-31'
+  last_sale_amount: 952840
+  valid_sale: Y
+- parcel_no: '36120003001004'
+  owner: BRENNEMAN BROTHERS
+  owner_2: null
+  deeded_owner: BRENNEMAN BROTHERS
+  situs_address: W BLUELICK RD
+  owner_address: W BLUELICK RD LIMA OH 45801
+  land_use_code: 110
+  acres: 2.51
+  market_land_value: 15500
+  market_improvement_value: 0
+  market_total_value: 4200
+  cauv_value: 4200
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2017-05-31'
+  last_sale_amount: 952840
+  valid_sale: Y
+- parcel_no: '36120003001005'
+  owner: BRENNEMAN BROTHERS
+  owner_2: null
+  deeded_owner: BRENNEMAN BROTHERS
+  situs_address: W BLUELICK RD
+  owner_address: W BLUELICK RD LIMA OH 45801
+  land_use_code: 110
+  acres: 2.51
+  market_land_value: 15500
+  market_improvement_value: 0
+  market_total_value: 3780
+  cauv_value: 3780
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2017-05-31'
+  last_sale_amount: 952840
+  valid_sale: Y
+- parcel_no: '36120003001006'
+  owner: BRENNEMAN BROTHERS
+  owner_2: null
+  deeded_owner: BRENNEMAN BROTHERS
+  situs_address: W BLUELICK RD
+  owner_address: W BLUELICK RD LIMA OH 45801
+  land_use_code: 110
+  acres: 2.51
+  market_land_value: 15500
+  market_improvement_value: 0
+  market_total_value: 3390
+  cauv_value: 3390
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2017-05-31'
+  last_sale_amount: 952840
+  valid_sale: Y
+- parcel_no: '36120003002000'
+  owner: MILLER MERLE M &
+  owner_2: RUTH E
+  deeded_owner: MILLER MERLE M & RUTH E
+  situs_address: W BLUELICK RD
+  owner_address: W BLUELICK RD LIMA OH 45801
+  land_use_code: 110
+  acres: 54.94
+  market_land_value: 347600
+  market_improvement_value: 0
+  market_total_value: 81490
+  cauv_value: 81490
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2007-03-29'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36120003008001'
+  owner: BLUELICK BIBLE CHURCH
+  owner_2: FKA CALVARY CHURCH
+  deeded_owner: BLUELICK BIBLE CHURCH FKA CALVARY CHURCH
+  situs_address: W BLUELICK RD
+  owner_address: W BLUELICK RD LIMA OH 45801
+  land_use_code: 685
+  acres: 10.96
+  market_land_value: 126700
+  market_improvement_value: 0
+  market_total_value: 126700
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2007-03-29'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36120003014000'
+  owner: WOODFORD ROBERT E
+  owner_2: '& TONYA L'
+  deeded_owner: WOODFORD ROBERT E & TONYA L
+  situs_address: 1110 W BLUELICK RD
+  owner_address: 1110 W BLUELICK RD LIMA OH 45801
+  land_use_code: 510
+  acres: 0.5
+  market_land_value: 19800
+  market_improvement_value: 125400
+  market_total_value: 145200
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '2018-05-11'
+  last_sale_amount: 144900
+  valid_sale: Y
+- parcel_no: '36120003015000'
+  owner: NEIGHBORS JAMES W &
+  owner_2: SUZANNE M
+  deeded_owner: NEIGHBORS JAMES W & SUZANNE M
+  situs_address: 1108 W BLUELICK RD
+  owner_address: 1108 W BLUELICK RD LIMA OH 45801
+  land_use_code: 511
+  acres: 5.0
+  market_land_value: 43500
+  market_improvement_value: 147400
+  market_total_value: 190900
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '3200'
+  last_sale_date: '1994-01-31'
+  last_sale_amount: 31000
+  valid_sale: Y
+- parcel_no: '36130104001000'
+  owner: BEASLEY RICHARD C
+  owner_2: '& PAULA'
+  deeded_owner: BEASLEY RICHARD C & PAULA
+  situs_address: 901 W BLUELICK RD
+  owner_address: 901 W BLUELICK RD LIMA OH 45801
+  land_use_code: 510
+  acres: 0.434
+  market_land_value: 20600
+  market_improvement_value: 137500
+  market_total_value: 158100
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '2008-12-18'
+  last_sale_amount: 118500
+  valid_sale: Y
+- parcel_no: '36130201001000'
+  owner: WHITAKER DANIEL &
+  owner_2: JEANICE M
+  deeded_owner: WHITAKER DANIEL & JEANICE M
+  situs_address: 935 W BLUELICK RD
+  owner_address: 935 W BLUELICK RD LIMA OH 45801
+  land_use_code: 510
+  acres: 0.45
+  market_land_value: 16500
+  market_improvement_value: 92900
+  market_total_value: 109400
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '2004-06-01'
+  last_sale_amount: 85000
+  valid_sale: Y
+- parcel_no: '36130201002000'
+  owner: BURDEN LILLYAN K
+  owner_2: '& BLAKE A FITCH'
+  deeded_owner: BURDEN LILLYAN K & BLAKE A FITCH
+  situs_address: 945 W BLUELICK RD
+  owner_address: 945 W BLUELICK RD LIMA OH 45801
+  land_use_code: 510
+  acres: 0.413
+  market_land_value: 18700
+  market_improvement_value: 105400
+  market_total_value: 124100
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '2021-05-13'
+  last_sale_amount: 80000
+  valid_sale: Y
+- parcel_no: '36130201003000'
+  owner: BRYAN DENNIS E &
+  owner_2: MONIQUE M
+  deeded_owner: BRYAN DENNIS E & MONIQUE M
+  situs_address: 955 W BLUELICK RD
+  owner_address: 955 W BLUELICK RD LIMA OH 45801
+  land_use_code: 510
+  acres: 0.413
+  market_land_value: 18700
+  market_improvement_value: 132500
+  market_total_value: 151200
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '1996-08-06'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36130201004000'
+  owner: ZAPP HARRY E JR
+  owner_2: null
+  deeded_owner: ZAPP HARRY E JR
+  situs_address: 965 W BLUELICK RD
+  owner_address: 965 W BLUELICK RD LIMA OH 45801
+  land_use_code: 510
+  acres: 0.413
+  market_land_value: 18700
+  market_improvement_value: 88000
+  market_total_value: 106700
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '1982-03-01'
+  last_sale_amount: 53000
+  valid_sale: Y
+- parcel_no: '36130202001000'
+  owner: LANGHALS AMY M
+  owner_2: null
+  deeded_owner: LANGHALS AMY M
+  situs_address: 915 W BLUELICK RD
+  owner_address: 915 W BLUELICK RD LIMA OH 45801
+  land_use_code: 510
+  acres: 0.46
+  market_land_value: 18400
+  market_improvement_value: 78800
+  market_total_value: 97200
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '2015-10-28'
+  last_sale_amount: 86000
+  valid_sale: Y
+- parcel_no: '36130202002000'
+  owner: WALTERS JERED AKA JARED S
+  owner_2: null
+  deeded_owner: WALTERS JERED AKA JARED S
+  situs_address: 925 W BLUELICK RD
+  owner_address: 925 W BLUELICK RD LIMA OH 45801
+  land_use_code: 510
+  acres: 0.46
+  market_land_value: 18400
+  market_improvement_value: 75400
+  market_total_value: 93800
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '2020-03-20'
+  last_sale_amount: 70000
+  valid_sale: N
+- parcel_no: '36130202024000'
+  owner: BAUER MICHAEL
+  owner_2: '& ELSIE'
+  deeded_owner: BAUER MICHAEL & ELSIE
+  situs_address: 975 W BLUELICK RD
+  owner_address: 975 W BLUELICK RD LIMA OH 45801
+  land_use_code: 510
+  acres: 0.413
+  market_land_value: 18700
+  market_improvement_value: 107500
+  market_total_value: 126200
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '2011-11-14'
+  last_sale_amount: 105000
+  valid_sale: Y
+- parcel_no: '36130202025000'
+  owner: ROSSFELD SARA J
+  owner_2: TRUSTEE
+  deeded_owner: ROSSFELD SARA J TRUSTEE
+  situs_address: 985 W BLUELICK RD
+  owner_address: 985 W BLUELICK RD LIMA OH 45801
+  land_use_code: 510
+  acres: 0.413
+  market_land_value: 18700
+  market_improvement_value: 98200
+  market_total_value: 116900
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '1995-08-30'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36130202026000'
+  owner: MOREY AUSTEN M
+  owner_2: null
+  deeded_owner: MOREY AUSTEN M
+  situs_address: 995 W BLUELICK RD
+  owner_address: 995 W BLUELICK RD LIMA OH 45801
+  land_use_code: 510
+  acres: 0.48
+  market_land_value: 18700
+  market_improvement_value: 99200
+  market_total_value: 117900
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '2021-06-02'
+  last_sale_amount: 137500
+  valid_sale: Y
+- parcel_no: '36130202027000'
+  owner: GROOM JOHN ROBERT &
+  owner_2: JUDY LEE
+  deeded_owner: GROOM JOHN ROBERT & JUDY LEE
+  situs_address: 1095 W BLUELICK RD
+  owner_address: 1095 W BLUELICK RD LIMA OH 45801
+  land_use_code: 511
+  acres: 1.11
+  market_land_value: 27500
+  market_improvement_value: 125400
+  market_total_value: 152900
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '2013-05-16'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36130202028000'
+  owner: HADDING ROBERT WILLIAM &
+  owner_2: PAMELA SUE
+  deeded_owner: HADDING ROBERT WILLIAM & PAMELA SUE
+  situs_address: 1099 W BLUELICK RD
+  owner_address: 1099 W BLUELICK RD LIMA OH 45801
+  land_use_code: 122
+  acres: 8.51
+  market_land_value: 44600
+  market_improvement_value: 130800
+  market_total_value: 159800
+  cauv_value: 29000
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1501'
+  last_sale_date: '2013-03-14'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '36130202029000'
+  owner: HADDING JOY I
+  owner_2: null
+  deeded_owner: HADDING JOY I
+  situs_address: 1091 W BLUELICK RD
+  owner_address: 1091 W BLUELICK RD LIMA OH 45801
+  land_use_code: 511
+  acres: 3.43
+  market_land_value: 34700
+  market_improvement_value: 110800
+  market_total_value: 145500
+  cauv_value: 0
+  tax_district: G25
+  school_code: '205'
+  neighborhood_code: '1500'
+  last_sale_date: '2020-08-06'
+  last_sale_amount: 0
+  valid_sale: N
+- parcel_no: '46130004001005'
+  owner: PORT AUTHORITY OF ALLEN
+  owner_2: COUNTY
+  deeded_owner: PORT AUTHORITY OF ALLEN COUNTY
+  situs_address: MCCLAIN RD
+  owner_address: MCCLAIN RD LIMA OH 45804
+  land_use_code: 110
+  acres: 112.33
+  market_land_value: 685600
+  market_improvement_value: 0
+  market_total_value: 427320
+  cauv_value: 427320
+  tax_district: L35
+  school_code: '208'
+  neighborhood_code: '2900'
+  last_sale_date: '2021-08-23'
+  last_sale_amount: 0
+  valid_sale: N
