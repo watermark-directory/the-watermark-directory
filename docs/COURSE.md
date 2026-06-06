@@ -87,7 +87,26 @@ questions. `[open]`
 | `regulatory` | consent decree, CNA | prior obligations | parties, obligations, dates |
 | `sanitary` | as-built | utility infrastructure | facility, location, date |
 
----
+### 1.4 Corridor context — open leads `[open]`
+
+Regional context for the cloud-consumer-economics axis. These are **questions and
+leads, not platform facts** — none are asserted in the dossier or entered into the
+entity graph until a document backs them. Defense-ecosystem actors appear only
+where the public record already places them, as `[open]` context.
+
+- **Mineral rights / oil-gas preemption.** Recorded mineral severances or pipeline
+  easements in the corridor, and **ORC §1509.02** (ODNR preemption of local
+  oil/gas regulation) — applicability `[open]`; needs the Recorder instruments.
+- **Rail.** The **CSX Toledo Subdivision** ROW and any spur, with **49 U.S.C.
+  §10501** federal preemption — existence of the ROW is documented; project use
+  `[open]`.
+- **Parallel consumers (other counties).** **Thor Equities / Thor Van Wert /
+  Highland55** (Urbana, Van Wert); **CyrusOne**; **Platon Investments / Dynamo
+  Ventures** (TX, shared-organizer overlap with Montfort) — corridor `[open]`; no
+  in-corpus document yet (Platon/Dynamo rest on a third-party aggregator profile).
+- **Roshel / International Motors (Springfield APA, 2026-03-30).** Logged strictly
+  as **corridor context, not a connection** — the evidence does not link it to
+  BOSC, and it must **not** enter the entity graph.
 
 ## 2. The engineering, sequenced to the inquiry
 

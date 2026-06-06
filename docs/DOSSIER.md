@@ -37,6 +37,14 @@ plan shows **a substation, anti-ram barriers, security fencing, and containment
 areas**. `[verified: data/extracted/permits/3987141.epa.yaml,
 data/extracted/plans/LMA1A-95-SPS-2025-10-28.plan.yaml]`
 
+**Why this dossier exists (the removal architecture).** The public record is
+*designed* to be thin here: **ORC §9.66(D)** (Sub. H.B. 184, eff. 2026-03-20)
+categorically excludes economic-development project information from disclosure,
+layered atop NDA-by-default, a Delaware-shell counterparty, and permitting
+segmented across agencies. The structured corpus below is the *reconstruction* —
+each fact reassembled from a primary permit, deed, or filing the removal
+architecture could not suppress. `[verified: statute]` / `[inference: framing]`
+
 ---
 
 ## 2. The entity at the center — Bistrozzi LLC
@@ -150,6 +158,13 @@ in a **different county (Scioto)**. Same shell fingerprint and same engineer
 (EMH&T), different geography. `[verified: data/extracted/permits/4081*.epa.yaml,
 data/extracted/permits/sos-tilted-gate-llc-2025-09-29.sos.yaml]`
 
+The Dazzler EPA application's applicant contact, **Randy Barrera, signed as
+`randybarrera@google.com`** — a Google email address on the Tilted Gate / Project
+Dazzler filing. `[verified: data/extracted/permits/4081890.epa.yaml]` This is a
+direct Google↔**Dazzler** (Scioto) datapoint; it does **not**, by itself, attach
+Google to the Lima/Bistrozzi campus, where the public Google attribution rests on
+the AEDG release (not yet in the corpus). `[open]`
+
 ---
 
 ## 8. The professional network
@@ -157,7 +172,17 @@ data/extracted/permits/sos-tilted-gate-llc-2025-09-29.sos.yaml]`
 A consistent advisory team sits behind the entities `[verified: entity graph]`:
 
 - **Counsel — Vorys, Sater, Seymour and Pease:** Jill Tangeman (×11 contacts),
-  Scott Ziance, Michael Montfort (also the SoS organizer for Magenta & Tilted Gate).
+  Scott Ziance, Hannah Bragg (filer on the Bistrozzi Addition SoS registration).
+- **Organizer — the Delaware shells:** Michael Montfort is the SoS
+  **organizer/manager** of Magenta Capital & Tilted Gate — **not** Vorys counsel.
+  A third-party investor profile ties this Montfort to Dallas–Fort Worth real
+  estate and to **Platon Investments LLC** + **Dynamo Ventures LLC** (both TX, inc.
+  2025-05-29), sharing the cluster's 2801 Centerville Rd, Wilmington PMB.
+  `[inference: aggregator-sourced; identity-resolution uncertain]`
+  *Name-collision caution:* a `wsgr-michael-j-montfort-bio.pdf` (Wilson Sonsini
+  employee-benefits counsel, Washington D.C.) sits in the corpus but is **probably
+  a different Michael Montfort** — it is **not** treated as the organizer or as
+  campus counsel. `[open]`
 - **Civil engineering — EMH&T:** Heather Dardinger, Melissa Queen Darby, et al.;
   also the site-plan engineer of record.
 - **GC — Turner Construction** (Robert Zizzo) on the sanitary sewer.
@@ -190,12 +215,18 @@ A consistent advisory team sits behind the entities `[verified: entity graph]`:
 
 - **Beneficial ownership.** Public records give registered agents and organizers,
   never the human principal behind the Delaware shells. The cluster is *plumbing*.
-- **The missing deed.** SoS/EPA threads reference a **Bistrozzi Addition** parcel
-  (instrument 202604210003890, 2026-04-21) BOSC has not yet ingested.
+- **The Bistrozzi Addition deed — resolved.** ✅ Now ingested: Limited Warranty
+  Deed 202604210003890 (2026-04-21), **Timothy R. & RaeAnn Pieper → Bistrozzi
+  Addition LLC**, parcel 36-1100-04-001.001 (7.215 ac), 1337 Beery Road. Carried
+  in the timeline and entity graph. `[verified: data/extracted/recorder/202604210003890.deed.yaml]`
 - **Roadwork funding instrument.** We have the cost estimate, not the agreement —
   who bears overruns, and the exact PAAC deposit mechanics, are unread.
-- **Amazon's role.** The port-authority→Amazon deed sits adjacent to the Bistrozzi
-  block; the relationship (if any) between the two developments is unestablished.
+- **Amazon — a second hyperscale consumer, not a loose end.** The
+  port-authority→Amazon conveyance (202511180011830) places a *second* cloud
+  consumer on the same corridor. Read through the regional cloud-consumer lens, the
+  material question is the **aggregate** demand and basin/grid burden of two
+  hyperscale loads — not whether the two developments are corporately linked, which
+  remains unestablished. `[open]`
 - **Resolution noise.** A few contact entities remain coarse (the model
   occasionally merged two names or a name+firm into one field); see the graph.
 
