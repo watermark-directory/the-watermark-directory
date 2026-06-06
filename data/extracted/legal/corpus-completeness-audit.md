@@ -40,18 +40,27 @@ A captured Allen SWCD project page entered the corpus 2026-06-06 as
 It documents a **$650,000** ag-runoff retention/treatment grant (Project
 `ALLENSWCD-FDFARM22`) on **Lost Creek HUC12 `041000070305`** — a Maumee headwater
 2.7 mi east of I-75 — i.e. baseline nutrient-burden context for the hydrology
-axis. The page is a **secondary SWCD summary**; the primary instruments are owed:
+axis. The page is a **secondary SWCD summary**.
+
+The project's **Lead PI, Dr. Vinayak S. Shedekar (OSU FABE)**, was identified from
+the page; his **CV** ([`shedekar-cv.2025-09-28.pdf`](../../documents/watershed/shedekar-cv.2025-09-28.pdf),
+provided 2026-06-06; bibliography at
+[`../watershed/shedekar-vinayak.bibliography.md`](../watershed/shedekar-vinayak.bibliography.md))
+**resolved the funding source**: Great Lakes Restoration Initiative (GLRI), subaward
+through **Ohio EPA**, OSU portion **$327,450**, term **2023–2025** (CV grant #13) —
+closing the prior `[open]`. The primary instruments still owed:
 
 | Item | What's owed | Where to get it |
 |---|---|---|
-| **Grant agreement / award instrument** | Funding program (H2Ohio / LEPF / NRCS-EQIP — `[open]`), term, match, deliverables for `ALLENSWCD-FDFARM22` | Allen SWCD; ODA H2Ohio or Ohio EPA LEPF grant files; public-records request |
+| **Grant agreement / award instrument** | The signed **GLRI / Ohio EPA** subaward itself — deliverables, match, reporting (program now known; instrument not in hand) | Ohio EPA GLRI subaward files; Allen SWCD; public-records request |
 | **OSU application & conceptual design** | Engineering basis for the BMPs (berm/wetland/forebay/pump-vault; saturated buffer) | OSU FABE (Dr. V. Shedekar); Allen SWCD project file |
 | **Load-reduction estimate table** | Referenced on the captured page ("provided in the table below") but **not transcribed** in the capture | Re-capture full page / SWCD project file |
 | **OSU monitoring data** | Continuous flow + water-quality (3 sites, ISCO6712 samplers) — quantifies actual nutrient/flow reduction | OSU Overholt Drainage program |
 
 These quantify the **existing** Maumee-headwater load and remediation spend the
-corpus reasons against; none are in hand yet. Cross-ref the ECHO Maumee
-discharger inventory ([`../../reference/echo/`](../../reference/echo/)) and
+corpus reasons against; the funding source is now verified, the rest not yet in
+hand. Cross-ref the ECHO Maumee discharger inventory
+([`../../reference/echo/`](../../reference/echo/)) and
 [`../../../docs/HYDROLOGY.md`](../../../docs/HYDROLOGY.md).
 
 ---

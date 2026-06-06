@@ -19,11 +19,20 @@ provenance:
 grant:
   project_name: OSU-Lima Branch Campus Agricultural Runoff Treatment System Project
   project_number: ALLENSWCD-FDFARM22
+  also_titled: Ohio Agricultural Retention Treatment Systems   # per PI's CV
   grantee_administrator: Allen Soil and Water Conservation District
   beneficiary: The Ohio State University — Lima Branch Campus (rented crop fields)
   award_usd: 650000.00
-  award_program: null   # [open] page does not name the funding program (likely H2Ohio / LEPF / NRCS — verify)
-  confidence: high       # dollar figure & project number high-confidence (printed)
+  award_usd_osu_portion: 327450.00   # [verified: CV] OSU's subaward share of the $650k
+  award_program: Great Lakes Restoration Initiative (GLRI) — subaward through Ohio EPA  # [verified: CV grant #13] — resolves the prior [open]
+  term: '2023-2025'                  # [verified: CV]
+  lead_pi: Vinayak S. Shedekar (OSU FABE)   # [verified: CV] — also the monitoring lead, below
+  co_investigators: [T. Rehner, A. Suniga, F. Lipschitz]   # [verified: CV]
+  companion_grant: >-
+    OSU Sustainability Fund $155,000 (2022-2025), "Water management solutions for a
+    long-term regenerative agriculture farming project at the OSU Lima Campus"
+    (Shedekar Lead PI, Rehner, Lipschitz) — same campus farm. [verified: CV grant #14]
+  confidence: high       # dollar figure & project number high-confidence (printed); funding source cross-verified from PI CV
 
 location:
   watershed_name: Lost Creek
@@ -54,6 +63,8 @@ practices:
 
 monitoring:
   lead: Dr. Vinayak S. Shedekar, PhD — Assistant Professor (Agricultural Water Management), OSU FABE
+  lead_publication_record: data/extracted/watershed/shedekar-vinayak.bibliography.md   # 26 journal articles + 2 chapters; WLEB/Maumee edge-of-field N&P-loss & drainage water-management corpus
+  lead_cv: data/documents/watershed/shedekar-cv.2025-09-28.pdf   # [verified] source for funding/PI/term resolution above
   program: Overholt Drainage Education and Research Program
   contact: {email: shedekar.1@osu.edu, office_phone: 614-247-9965}
   instrumentation: 3 flow & water-quality monitoring locations; continuous flow + ISCO6712 auto-samplers
@@ -69,9 +80,11 @@ relevance:
     the basin is additive. Cross-refs the ECHO Maumee discharger inventory
     (data/reference/echo/) and HYDROLOGY's "burden already maxed" finding.
 
+resolved_followups:
+  - "[verified: CV 2025-09-28] Funding source = Great Lakes Restoration Initiative (GLRI), subaward through Ohio EPA; OSU portion $327,450; term 2023-2025; Lead PI V. Shedekar (Rehner, Suniga, Lipschitz)."
+
 open_followups:
-  - "[pending-doc] ALLENSWCD-FDFARM22 grant agreement / award instrument (funding program, term, match, deliverables)"
+  - "[pending-doc] ALLENSWCD-FDFARM22 grant agreement / GLRI award instrument itself (deliverables, match, reporting) — funding *program* now known (GLRI/Ohio EPA), the signed instrument is not yet in hand"
   - "[pending-doc] OSU grant application & conceptual design package (the engineering basis for the BMPs)"
   - "[pending-doc] Load-reduction estimate table referenced on the page but not transcribed"
   - "[pending-doc] Shedekar/OSU monitoring data (flow + water quality, ISCO6712) — quantifies actual nutrient/flow reduction"
-  - "[open] Funding source — confirm whether H2Ohio, LEPF (Lake Erie Protection Fund), NRCS/EQIP, or other"
