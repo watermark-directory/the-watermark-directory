@@ -1,0 +1,434 @@
+# LACRPC Comprehensive Planning / Land Use / Zoning — corpus manifest
+#
+# Source page : https://www.lacrpc.com/182/Comprehensive-Planning-Land-Use-Zoning
+# Retrieved   : 2026-06-06 (all files)
+# Retrieved by: Project BOSC ingest (curl, CivicPlus DocumentCenter)
+#
+# Chain of custody:
+#   - Every file under this folder is RAW SOURCE EVIDENCE. Bytes are unaltered.
+#   - `as_received_filename` is the filename the server declared in the HTTP
+#     Content-Disposition header. CivicPlus serves that token percent-ENCODED
+#     (e.g. "Village%20of%20Lafayette%20Comprehensive%20Plan%20%28PDF%29.pdf");
+#     the file on disk uses the percent-DECODED form a browser would write
+#     (spaces / parens), which is recorded as `as_received_filename`. The raw,
+#     still-encoded header token is preserved verbatim in `content_disposition_raw`.
+#     A handful of documents (ids 171, 184, 346, 347, 353, 374) were served with
+#     native, already-decoded filenames; those are kept exactly as received.
+#   - `content_verified_date` is a date stated INSIDE the document's own text
+#     layer (title / cover / adoption block), transcribed here — NOT inferred
+#     from the filename or any outside knowledge. `null` means the PDF has no
+#     extractable text layer (image-only scan) or states no date on its cover,
+#     so no date could be content-verified without OCR (not performed).
+#
+# Source-page section headings (as rendered on the page) are recorded per item
+# in `page_section`.
+
+source_page:
+  url: https://www.lacrpc.com/182/Comprehensive-Planning-Land-Use-Zoning
+  retrieved: 2026-06-06
+  http_status: 200
+  saved_html_snapshot: null   # page HTML not committed; only linked documents pulled
+  platform: CivicPlus (DocumentCenter)
+  document_count: 36
+
+documents:
+
+  # ---- COMPREHENSIVE PLANNING: Process & Documents ----
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/158/Village-of-Lafayette-Comprehensive-Plan-PDF
+    link_text: Village of Lafayette Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: Village of Lafayette Comprehensive Plan (PDF).pdf
+    content_disposition_raw: inline;filename=Village%20of%20Lafayette%20Comprehensive%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 237eb78e17e7a38ae24c978bf97e57647f5d119635ef1799d73ac58d4cdcc5f2
+    bytes: 16181067
+    content_verified_date: 2012-10   # cover: "VILLAGE OF LAFAYETTE COMPREHENSIVE PLAN October 2012"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/159/Harrod-2020-to-2040-Comprehensive-Plan-PDF
+    link_text: Harrod 2020 to 2040 Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: Harrod 2020 to 2040 Comprehensive Plan (PDF).pdf
+    content_disposition_raw: inline;filename=Harrod%202020%20to%202040%20Comprehensive%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: c3a5c49d3ca9a1e59cb2e51504f8e1a59c2cf8c78e505b2096089fb6ad6e23f1
+    bytes: 13634050
+    content_verified_date: null   # cover states planning horizon "2020-2040"; no publication/adoption date on first pages
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/160/Village-of-Elida-Comprehensive-Plan-PDF
+    link_text: Village of Elida Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: Village of Elida Comprehensive Plan (PDF).pdf
+    content_disposition_raw: inline;filename=Village%20of%20Elida%20Comprehensive%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 08730106b3bdbbf669c1bf6d0ff7abe8d6da5472e565b66ad23401a86405e1fe
+    bytes: 12346324
+    content_verified_date: 2021-12   # cover: "2045 VILLAGE OF ELIDA COMPREHENSIVE PLAN December 2021"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/161/Richland-Township-2040-Comprehensive-Plan-PDF
+    link_text: Richland Township 2040 Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: Richland Township 2040 Comprehensive Plan (PDF).pdf
+    content_disposition_raw: inline;filename=Richland%20Township%202040%20Comprehensive%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 5f5e99da110daec9d4c9567492c55b99849ae496a5258df93893b8333ee52245
+    bytes: 13252092
+    content_verified_date: 2019-05   # cover: "RICHLAND TOWNSHIP 2040 COMPREHENSIVE PLAN MAY 2019"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/162/Shawnee-Township-Comprehensive-Plan-PDF
+    link_text: Shawnee Township Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: Shawnee Township Comprehensive Plan (PDF).pdf
+    content_disposition_raw: inline;filename=Shawnee%20Township%20Comprehensive%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: c6cbe29726c580275456defb0858d5da8eaad4fe4d63fc7cbf3d5e89d7159244
+    bytes: 6699970
+    content_verified_date: 2009-10   # cover: "Shawnee Township Comprehensive Plan October 2009"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/163/2040-Cairo-Comprehensive-Plan-PDF
+    link_text: 2040 Cairo Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: 2040 Cairo Comprehensive Plan (PDF).pdf
+    content_disposition_raw: inline;filename=2040%20Cairo%20Comprehensive%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 69f8e4574fd0301e031d40167d5710a7fe7099fc738fd762d8debd19e2ca4cdc
+    bytes: 28487016
+    content_verified_date: 2015-08   # cover: "2040 VILLAGE OF CAIRO COMPREHENSIVE PLAN August 2015"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/164/Spencer-Spencerville-Comprehensive-Plan-PDF
+    link_text: Spencer-Spencerville Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: Spencer-Spencerville Comprehensive Plan (PDF).pdf
+    content_disposition_raw: inline;filename=Spencer-Spencerville%20Comprehensive%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 78b7b65c71d98374869c1bbdfd4e9fc63b5de523cdf057ae5671f146904d6edd
+    bytes: 16738812
+    content_verified_date: 2010   # cover: "SPENCER TOWNSHIP/ VILLAGE OF SPENCERVILLE COMPREHENSIVE PLAN 2010"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/165/City-of-Lima-Vision-2040-Plan-PDF
+    link_text: City of Lima Vision 2040 Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: City of Lima Vision 2040 Plan (PDF).pdf
+    content_disposition_raw: inline;filename=City%20of%20Lima%20Vision%202040%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 3c1e5e24ea409a5752491386d27ed45f6d840510de27333833e5769ade928f12
+    bytes: 24938209
+    content_verified_date: null   # cover/exec-summary text carries no explicit publication date on first pages (planning horizon "2040" only)
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/166/Perry-Township-Comprehensive-Plan-PDF
+    link_text: Perry Township Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: Perry Township Comprehensive Plan (PDF).pdf
+    content_disposition_raw: inline;filename=Perry%20Township%20Comprehensive%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 78d15173d13038c85954b026f8634e8c5622c9fa3d0e828a1e55885b875916fb
+    bytes: 43474204
+    content_verified_date: 2015-04   # cover: "2040 PERRY TOWNSHIP COMPREHENSIVE PLAN APRIL 2015"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/167/American-Township-Comprehensive-Plan-PDF
+    link_text: American Township Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: American Township Comprehensive Plan (PDF).pdf
+    content_disposition_raw: inline;filename=American%20Township%20Comprehensive%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 3865eca1a3896ed742456cf8ccfbe8948af59814490f9363fc7afd5cb5c96764
+    bytes: 28615683
+    content_verified_date: 2009-01   # cover: "AMERICAN TOWNSHIP COMPREHENSIVE PLAN January 2009"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/168/Bluffton-Beyond-Tomorrow-Plan-PDF
+    link_text: Bluffton Beyond Tomorrow Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: Bluffton Beyond Tomorrow Plan (PDF).pdf
+    content_disposition_raw: inline;filename=Bluffton%20Beyond%20Tomorrow%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 0fa019b71d8f7034044fe957f7412cb34496bb70998089133c80bb8b28246598
+    bytes: 9584222
+    content_verified_date: null   # cover is a title/photo page with no date in the text layer; date not stated on first pages
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/169/Auglaize-Township-Comprehensive-Plan-PDF
+    link_text: Auglaize Township Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: Auglaize Township Comprehensive Plan (PDF).pdf
+    content_disposition_raw: inline;filename=Auglaize%20Township%20Comprehensive%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 2789e3fbaba754dd2162c910a40edb51f37022ead8a1f5b0a801f81cf3173854
+    bytes: 13032428
+    content_verified_date: 2017-06   # cover: "AUGLAIZE TOWNSHIP 2040 COMPREHENSIVE PLAN JUNE 2017"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/170/Bath-Township-Comprehensive-Plan-PDF
+    link_text: Bath Township Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: Bath Township Comprehensive Plan (PDF).pdf
+    content_disposition_raw: inline;filename=Bath%20Township%20Comprehensive%20Plan%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 16d8218d7461498ff307003cf95ff4c19f418395cb6bc3aaa7f5228250afaa5e
+    bytes: 16284165
+    content_verified_date: 2017-05   # cover: "BATH TOWNSHIP 2040 COMPREHENSIVE PLAN MAY 2017"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/171/Amanda-Township-Comprehensive-Plan-PDF
+    link_text: Amanda Township Comprehensive Plan (PDF)
+    page_section: COMPREHENSIVE PLANNING Process & Documents
+    as_received_filename: AmandaFINAL24_202602051230309488.pdf   # server supplied this native filename (not percent-encoded)
+    content_disposition_raw: inline;filename=AmandaFINAL24_202602051230309488.pdf
+    content_type: application/pdf
+    sha256: b507a785ed3e290315eba89a79054f1434c17287fb91343b3a15390aac307d1d
+    bytes: 8584514
+    content_verified_date: null   # cover: "AMANDA TOWNSHIP COMPREHENSIVE PLAN 2045" (planning horizon, not a publication date); no explicit date on first pages
+
+  # ---- LAND USE, Management Plans, & Documents ----
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/156
+    link_text: Zoning Inspectors (PDF)
+    page_section: LAND USE, Management Plans, & Documents
+    as_received_filename: Zoning Inspectors (PDF).pdf
+    content_disposition_raw: inline;filename=Zoning%20Inspectors%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 9687a4c008e4905cffae72b91f10b7fc308250fec82ae05220bcda5ef4123a88
+    bytes: 114717
+    content_verified_date: 2025-04-08   # body header: "ALLEN COUNTY ZONING PERSONS April 8, 2025"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/157
+    link_text: Allen County Access Management Plan - December 2024 (PDF)
+    page_section: LAND USE, Management Plans, & Documents (Access Management)
+    as_received_filename: Allen County Access Management Plan December 2024 (PDF).pdf
+    content_disposition_raw: inline;filename=Allen%20County%20Access%20Management%20Plan%20December%202024%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 5c337cd912898633f26f2a95d2a30699876bbd5c8806f29e322b2bca5e0feae3
+    bytes: 4472958
+    content_verified_date: 2024-12-17   # cover: orig "March 2005", "REVISED ... December 17, 2024"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/347
+    link_text: Illicit Discharge
+    page_section: LAND USE, Management Plans, & Documents (Ordinances & Regulations)
+    as_received_filename: 2023-final-IDREGS-with-dates.pdf   # server supplied this native filename
+    content_disposition_raw: inline;filename=2023-final-IDREGS-with-dates.pdf
+    content_type: application/pdf
+    sha256: afc48562889b3819b56f1bb84d6ec990d8a563c2f227baeae6f530e9bc243243
+    bytes: 303893
+    content_verified_date: 2023-04-21   # cover: "Adopted March 23, 2023  Effective April 21, 2023" (effective date recorded)
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/346
+    link_text: Stormwater Management
+    page_section: LAND USE, Management Plans, & Documents (Ordinances & Regulations)
+    as_received_filename: SWMSC-Regs-Final-12.1.16.pdf   # server supplied this native filename
+    content_disposition_raw: inline;filename=SWMSC-Regs-Final-12.1.16.pdf
+    content_type: application/pdf
+    sha256: 023edbf0b4110a953cf769648374dc67c555fe0861aa0f9b1801a65a23fe92cf
+    bytes: 532881
+    content_verified_date: 2016-12-01   # cover: "EFFECTIVE DATE: DECEMBER 1, 2016"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/353
+    link_text: Subdivision Regulations
+    page_section: LAND USE, Management Plans, & Documents (Ordinances & Regulations)
+    as_received_filename: Subdivision_Regs2013.pdf   # server supplied this native filename
+    content_disposition_raw: inline;filename=Subdivision_Regs2013.pdf
+    content_type: application/pdf
+    sha256: beda389066f8c2ef3e4c8146109fa8c3340e6a4bb48b7caff41ce11fd82fa845
+    bytes: 2982097
+    content_verified_date: 2013-05-01   # cover: "SUBDIVISION REGULATIONS FOR ALLEN COUNTY, OHIO May 1, 2013"
+
+  # ---- ZONING REGULATIONS & Documents ----
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/153/Land-Division-Process-Brochures-2023-PDF
+    # On the page this link carried a trailing "?bidId=" query string.
+    link_text: Land Division Process Brochures (2023)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Land Division Process Brochures (2023) (PDF).pdf
+    content_disposition_raw: inline;filename=Land%20Division%20Process%20Brochures%20%282023%29%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: e1e6ee1e01d6b646afb39156057ee9b1ead612405fa7d4219c130e00d37f0602
+    bytes: 639747
+    content_verified_date: null   # brochure body states no date in its text layer (filename/link say 2023, but that is not content-verified)
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/181/Jackson-Twp-Zoning-PDF
+    link_text: Jackson Twp Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Jackson Twp Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Jackson%20Twp%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 78f72f184a4c1f957060f629f056be7f0fdb2534659cd089e0ff3b6841190e7a
+    bytes: 2531355
+    content_verified_date: 1997-11   # cover: "JACKSON TOWNSHIP ZONING RESOLUTION November 1997"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/182/Auglaize-Twp-Zoning-PDF
+    link_text: Auglaize Twp Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Auglaize Twp Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Auglaize%20Twp%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: d518446f13576eafac39421bc3a2a08e0098f620ae843e86727402dd7e2d394b
+    bytes: 3392471
+    content_verified_date: 2016-04   # cover: "DECEMBER 2010  REVISED: APRIL 2016" (latest revision recorded)
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/183/Amanda-Twp-Zoning-PDF
+    link_text: Amanda Twp Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Amanda Twp Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Amanda%20Twp%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 0686567f04e3c930a389fcc76c8a53ac5d673788e6ec0dadb4af1004b0a1811e
+    bytes: 2229094
+    content_verified_date: 2012-03-28   # cover: "ZONING RESOLUTION FOR AMANDA TOWNSHIP ... March 28, 2012"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/184/American-Twp-Zoning-PDF
+    link_text: American Twp Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: February 2026 American Township Zoning Resolution_202603191409369887.pdf   # server supplied this native filename
+    content_disposition_raw: inline;filename=February%202026%20American%20Township%20Zoning%20Resolution_202603191409369887.pdf
+    content_type: application/pdf
+    sha256: 439ebd3b15f81609c36d8d3236eda460aa24e75c9c71c97b245221e86bcf091b
+    bytes: 4278500
+    content_verified_date: 2026-02-09   # cover amendment list, latest: "FEBRUARY 9, 2026" (also lists 2021-02-11, 2024-01-08, 2024-08-28, 2025-09-08)
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/185/Sugar-Creek-Township-Zoning-PDF
+    link_text: Sugar Creek Township Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Sugar Creek Township Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Sugar%20Creek%20Township%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: a7ad3c3babbc55bddde6c47a33d03c212060df0cbe84bd0e12f54bbcaeab1965
+    bytes: 4158336
+    content_verified_date: 2024-03-04   # cover: "ZONING RESOLUTION SUGAR CREEK TOWNSHIP ... Updated March 4, 2024"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/186/Village-of-Beaverdam-Zoning-PDF
+    link_text: Village of Beaverdam Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Village of Beaverdam Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Village%20of%20Beaverdam%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: ee188be11cf618c540a45402112a72db6b1496209849438493e66e01836c2bc1
+    bytes: 11083326
+    content_verified_date: null   # image-only scan, no text layer; date not content-verifiable without OCR (not performed)
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/188/Spencer-Twp-Zoning-PDF
+    link_text: Spencer Twp Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Spencer Twp Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Spencer%20Twp%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: a763cad854bd039a94ae39fdd4399bbd2ddee7ca8cc927598e4d91baa462b7c8
+    bytes: 2583338
+    content_verified_date: null   # preamble carries no date on first pages
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/189/Village-of-Spencerville-Zoning-PDF
+    link_text: Village of Spencerville Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Village of Spencerville Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Village%20of%20Spencerville%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 24f87f7ce4db14b5838dccb52820aed1bf649ef355bdc07f530f2856ace6c191
+    bytes: 398086
+    content_verified_date: null   # preamble carries no date on first pages
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/190/Shawnee-Twp-Zoning-PDF
+    link_text: Shawnee Twp Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Shawnee Twp Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Shawnee%20Twp%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 399c95dda43603c5e6ed5d57fb45a4c5a454ce23c7dc2d2e44b0ebb18b7deea0
+    bytes: 2916396
+    content_verified_date: 2021-08-12   # cover: base "JUNE 25, 2012"; latest effective amendment "August 12, 2021" (Res 51-21)
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/191/Marion-Township-Zoning-PDF
+    link_text: Marion Township Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Marion Township Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Marion%20Township%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 34a4163cc5fea90c5674f4724f1adcecb18889ba2f8e0398d8e0000e63760b51
+    bytes: 2832175
+    content_verified_date: 2024-01-18   # cover: "MARION TOWNSHIP ZONING RESOLUTION Updated January 18, 2024"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/192/Richland-Twp-Zoning-PDF
+    link_text: Richland Twp Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Richland Twp Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Richland%20Twp%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: a1afac765c61294e6e840a5c30b48d39cf0263842985e7c93c77c75655fc613f
+    bytes: 8360893
+    content_verified_date: 2023-11   # cover: "ZONING RESOLUTION FOR RICHLAND TOWNSHIP ... Updated November 2023"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/193/Perry-Twp-Zoning-PDF
+    link_text: Perry Twp Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Perry Twp Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Perry%20Twp%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 5628a36a78ca0bf855ca83375baa988f0ace6df6b89f382a9f27db3d52571a38
+    bytes: 2003140
+    content_verified_date: null   # preamble carries no date on first pages
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/194/Bath-Twp-Zoning-PDF
+    link_text: Bath Twp Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Bath Twp Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=Bath%20Twp%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 04273580e104e9803ed3b3c53db83beac8fd79960e06a0c6a6541f5bd85bd4f4
+    bytes: 1734825
+    content_verified_date: 2023-05-05   # cover: "BATH TOWNSHIP ... ZONING RESOLUTION ... Effective Date: May 5, 2023"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/195/City-of-Lima-Zoning-PDF
+    link_text: City of Lima Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: City of Lima Zoning (PDF).pdf
+    content_disposition_raw: inline;filename=City%20of%20Lima%20Zoning%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: caafdba6ffef20a297f243976207ab91027f874d9eed47b7c2354dc338e503c2
+    bytes: 3470461
+    content_verified_date: null   # image-only scan, no text layer; date not content-verifiable without OCR (not performed)
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/196/Township-Trustees-and-Fiscal-Officers-PDF
+    link_text: Township Trustees and Fiscal Officers (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Township Trustees and Fiscal Officers (PDF).pdf
+    content_disposition_raw: inline;filename=Township%20Trustees%20and%20Fiscal%20Officers%20%28PDF%29.pdf
+    content_type: application/pdf
+    sha256: 92f8bbde54914146d9e4e38bc64e3e993bac2bf74379eebb89439cc4bf2f95bf
+    bytes: 55684
+    content_verified_date: 2025-01-23   # body header: "2025 ALLEN COUNTY TOWNSHIP TRUSTEES & FISCAL OFFICERS January 23, 2025"
+
+  - source_url: https://www.lacrpc.com/DocumentCenter/View/374/Village-of-Cairo-Zoning-PDF
+    link_text: Village of Cairo Zoning (PDF)
+    page_section: ZONING REGULATIONS & Documents
+    as_received_filename: Village of Cairo Ordinance 388-Zoning Ord Updated Oct 2025 FINAL.pdf   # server supplied this native filename
+    content_disposition_raw: inline;filename=Village%20of%20Cairo%20Ordinance%20388-Zoning%20Ord%20Updated%20Oct%202025%20FINAL.pdf
+    content_type: application/pdf
+    sha256: 62fbd2372b62ccfe3890292758a9a69cf4ef76ea1faa75d6aaa14c8040ae5004
+    bytes: 403740
+    content_verified_date: null   # ARTICLE 1 title page states no date in the text layer (filename says "Oct 2025", but that is not content-verified from the body)
+
+# ---------------------------------------------------------------------------
+# Links found on the source page that were NOT downloaded (and why)
+# ---------------------------------------------------------------------------
+not_downloaded:
+
+  # In-section navigation / sub-pages (HTML pages, not documents). These are
+  # part of the Comprehensive Planning / Land Use / Zoning section but are
+  # landing pages, not downloadable files. Sub-pages were inspected; any
+  # documents they surface that also appear on /182 are already captured above.
+  - url: https://www.lacrpc.com/184/Flood-Plain-Regulations
+    link_text: Floodplain Regulations
+    reason: in-section HTML sub-page, not a document (Floodplain section has its own page)
+  - url: https://www.lacrpc.com/239/Subdivision-Regulations
+    link_text: Subdivision Regulations (page)
+    reason: in-section HTML sub-page, not a document; the actual Subdivision Regs PDF (id 353) IS captured above
+  - url: https://www.lacrpc.com/9/How-Do-I
+    link_text: How Do I...
+    reason: site-wide HTML navigation page, leaves this section
+
+  # External-site links referenced from the section (leave the LACRPC site).
+  # Noted per instructions; not followed/downloaded.
+  - url: external (Allen County Public Health)
+    link_text: Allen County Public Health
+    reason: external partner-agency website, outside this section; not a document
+  - url: external (Allen Soil and Water Conservation District)
+    link_text: Allen Soil and Water Conservation District
+    reason: external partner-agency website, outside this section; not a document
+
+  # Site-chrome navigation present on the page footer/menus (Public Comment,
+  # FAQs, Contact Us, WORPO/RTPO, LACRPC/MPO, Committees, Housing, Environment,
+  # Economic Development, Transportation Planning, Data/Maps, etc.) are global
+  # site navigation, not documents in this section, and were not downloaded.
