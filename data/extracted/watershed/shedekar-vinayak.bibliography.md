@@ -149,6 +149,11 @@ tipping-bucket rain-gauge calibration line (2009 → 2016). Author position trac
 clear arc from mid-list contributor (2012–2017) to **lead / senior author and PI**
 (2020 onward).
 
+> **The measured numbers** from his tile-drainage / nutrient-loss / DWM / P-removal
+> papers (loads, % reductions, P-removal mass, costs — with sources and access level)
+> are pulled for analysis in
+> [`shedekar-edge-of-field.findings.md`](shedekar-edge-of-field.findings.md).
+
 ## 6. Corpus relevance
 
 - **Lead PI** on the OSU-Lima Agricultural Runoff Treatment System (the corpus's
