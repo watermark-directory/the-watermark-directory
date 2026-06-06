@@ -1,8 +1,10 @@
 # Testimony — Ohio Select Committee on Data Centers (2026-06-04)
 
 **Witness:** Cory Parent, Allen County resident (interested-party testimony)
+
 **Source audio:** [bosc-committee-testimony-2026-06-04.wav](../../../../documents/legal/select-committee-2026/hearings-audio/bosc-committee-testimony-2026-06-04.wav)
 (12:17, recorded 2026-06-04)
+
 **Transcription:** auto-generated, `mlx-community/whisper-large-v3-turbo`, on-device.
 
 > ⚠️ Machine transcription — may contain ASR errors (speaker names, the EO number, and

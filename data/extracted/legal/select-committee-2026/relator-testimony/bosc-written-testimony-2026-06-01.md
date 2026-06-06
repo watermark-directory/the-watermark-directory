@@ -1,8 +1,11 @@
 # Written Testimony — Ohio Select Committee on Data Centers
 
 **Beneficial-Ownership Disclosure in Ohio Data Center Development**
+
 **Witness:** Cory Parent — Allen County resident & cloud infrastructure engineer (interested party)
+
 **Dated:** June 1, 2026 · **Delivered orally:** 2026-06-04 (see [oral index](../hearings-audio/bosc-committee-testimony-2026-06-04.index.yaml))
+
 **Source:** [bosc-written-testimony-2026-06-01.pdf](../../../../documents/legal/select-committee-2026/relator-testimony/bosc-written-testimony-2026-06-01.pdf) (8 pp.)
 
 > Faithful reproduction of the submitted text (the PDF carries a text layer). To

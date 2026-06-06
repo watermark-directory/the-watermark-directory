@@ -2,6 +2,7 @@
 
 **Cory Parent · Select Committee on Data Centers · June 1, 2026** — the visual companion
 to the [written testimony](bosc-written-testimony-2026-06-01.md).
+
 **Source:** [bosc-testimony-deck-2026-06-01.pdf](../../../../documents/legal/select-committee-2026/relator-testimony/bosc-testimony-deck-2026-06-01.pdf) (13 slides)
 
 1. **Title** — Select Committee on Data Centers · "Who Is the Customer? Beneficial-ownership disclosure in Ohio data center development."

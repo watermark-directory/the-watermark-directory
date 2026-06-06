@@ -4,9 +4,12 @@
 Q&A with the same four hyperscalers (Meta, Google, Amazon Web Services, Microsoft).
 Continues directly from [the morning panel](bosc-committee-hearing-2026-06-04-am.transcript.md);
 ends at a 15-min break (reconvene 2:30).
+
 **Presiding:** Co-Chair Holmes (Co-Chair Chavez present).
+
 **Source audio:** [bosc-committee-hearing-2026-06-04-pm.wav](../../../../documents/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm.wav)
 (1:39:14, recorded 2026-06-05 AM clock / 2026-06-04 hearing day, on-device transcription)
+
 **Transcription:** auto-generated, `mlx-community/whisper-large-v3-turbo`, on-device.
 
 > ⚠️ Machine transcription — may contain ASR errors (speaker names, figures, technical

@@ -3,9 +3,12 @@
 **Session:** morning session, part 1 of the 2026-06-04 hearing — testimony from the
 data-center companies themselves (**Meta, Google, Amazon Web Services, Microsoft**),
 presenting together, followed by committee Q&A (round one) up to the lunch recess.
+
 **Presiding:** Co-Chair Holmes (Co-Chair Chavez joins; roll led off by Sen. Reinecke).
+
 **Source audio:** [bosc-committee-hearing-2026-06-04-am.wav](../../../../documents/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-am.wav)
 (1:55:22, recorded 2026-06-04, on-device transcription)
+
 **Transcription:** auto-generated, `mlx-community/whisper-large-v3-turbo`, on-device.
 
 > ⚠️ Machine transcription — may contain ASR errors (speaker names, figures, and
