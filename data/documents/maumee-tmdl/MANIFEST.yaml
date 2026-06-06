@@ -1,0 +1,256 @@
+# Maumee Watershed Nutrient TMDL — source-evidence manifest
+#
+# Raw source documents pulled into the BOSC evidence corpus. Chain of custody:
+# files are byte-for-byte as received; filenames are preserved exactly as served.
+# Each `content_verified_date` is drawn ONLY from the document's own text layer
+# (cover/header/footer), never from the filename or outside knowledge; `null`
+# means the document's text states no publication date of its own (years that
+# appear only as bibliographic citations are NOT treated as the document's date).
+#
+# Retrieval performed 2026-06-06 via curl (HTTPS, browser User-Agent), with
+# polite ~3s inter-request delays. Every file verified to begin with the
+# `%PDF-` magic bytes.
+
+collection: maumee-tmdl
+retrieval_date: 2026-06-06
+
+# Two source groupings:
+#  - US EPA (epa.gov): the federal approval / decision package, found on
+#    https://www.epa.gov/tmdl/epas-approval-ohios-maumee-watershed-nutrient-total-maximum-daily-load
+#  - Ohio EPA (epa.ohio.gov): the actual Ohio EPA Maumee Watershed Nutrient TMDL
+#    report + its nine final appendices + fact sheet + responsiveness summary,
+#    found on the Ohio EPA landing page
+#    https://epa.ohio.gov/divisions-and-offices/surface-water/reports-data/maumee-river-watershed
+#    (federal page links out to this landing page, one level, per scope).
+
+documents:
+
+  # ---- US EPA federal approval / decision package ----
+
+  - filename: 2023.9.27_1253_transmittal_letter_mwn_tmdl.pdf
+    role: US EPA transmittal letter approving Ohio's Maumee Watershed Nutrient TMDL
+    source_url: https://www.epa.gov/system/files/documents/2023-09/2023.9.27_1253_transmittal_letter_mwn_tmdl.pdf
+    content_type: application/pdf
+    byte_size: 367448
+    sha256: c7152a38d94b5a6ca1415cf8c26b9075d1dc1d0141b596338e889a491526c530
+    content_verified_date: 2023-09-28   # "September 28, 2023" on letter face
+
+  - filename: 2023.9.24_dd_mwn_oh_tmdl.pdf
+    role: US EPA Decision Document for the Maumee Watershed Nutrient TMDL (18 counties)
+    source_url: https://www.epa.gov/system/files/documents/2023-09/2023.9.24_dd_mwn_oh_tmdl.pdf
+    content_type: application/pdf
+    byte_size: 956251
+    sha256: f4d2217597a00e74f74cd504d465ae7ab330a6c856506ec76609351d08524c7e
+    content_verified_date: 2023-09-28   # "Date: September 28, 2023" in document body
+
+  - filename: 2023.9.18_att_1_mwn-tmdl-tables.pdf
+    role: Decision Document Attachment #1 — Maumee Watershed Nutrient TMDL Tables
+    source_url: https://www.epa.gov/system/files/documents/2023-09/2023.9.18_att_1_mwn-tmdl-tables.pdf
+    content_type: application/pdf
+    byte_size: 976701
+    sha256: e6567cb067ac3745790199ac25628b20f8d9641651a6ea55afec903ead74c42a
+    content_verified_date: 2023-09      # footer reads "9/2023"; no day stated
+
+  - filename: 2023.9.23_att_2_drp_discussion.pdf
+    role: Decision Document Attachment #2 — EPA Review of Dissolved Reactive Phosphorus Information
+    source_url: https://www.epa.gov/system/files/documents/2023-09/2023.9.23_att_2_drp_discussion.pdf
+    content_type: application/pdf
+    byte_size: 707671
+    sha256: 66228f5809cc841303df44afa1efb430a7e4267d9dbbcc604b53dfbc20ae7f76
+    content_verified_date: 2023-09      # footer "Attachment 2 Approval Maumee Watershed Nutrient TMDL 9/2023"
+
+  - filename: 2023.9.23_att_3_considerations_on_cafos.pdf
+    role: Decision Document Attachment #3 — Concentrated Animal Feeding Operation (CAFO) Information
+    source_url: https://www.epa.gov/system/files/documents/2023-09/2023.9.23_att_3_considerations_on_cafos.pdf
+    content_type: application/pdf
+    byte_size: 528576
+    sha256: d46f8def74eabc0b7e111a28c18ac7bfc676986e87fac218185f83674df9cf12
+    content_verified_date: 2023-09      # footer "Attachment 3 - Approval Maumee Watershed Nutrient TMDL 9/2023"
+
+  - filename: maumee-watershed-nutrient-tmdl-faqs.pdf
+    role: US EPA Maumee Watershed Nutrient TMDL FAQs
+    source_url: https://www.epa.gov/system/files/documents/2023-09/maumee-watershed-nutrient-tmdl-faqs.pdf
+    content_type: application/pdf
+    byte_size: 209991
+    sha256: 9b5ab7a283f95e42d24486472feecc3de3f392bc0727eb4fa70e90e8f7b4e670
+    content_verified_date: 2023-09-29   # "September 29, 2023" on document face
+
+  # ---- Ohio EPA final Maumee Watershed Nutrient TMDL report + appendices ----
+
+  - filename: Maumee-Watershed-Nutrient-TMDL-Final.pdf
+    role: Ohio EPA final Maumee Watershed Nutrient TMDL report (main report; Tech Report AMS/2020-MWN-5)
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Maumee-Watershed-Nutrient-TMDL-Final.pdf
+    content_type: application/pdf
+    byte_size: 8572984
+    sha256: 1cf4b91e3b5e578b02914542f5828c7b4d2ec233736e62a8c50d9e7734e5c63a
+    content_verified_date: 2023-06      # cover: "June 2023"
+
+  - filename: Appendix-1-Dissolved-Reactive-Phosphorus-Final.pdf
+    role: Final TMDL Appendix 1 — Dissolved Reactive Phosphorus
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix-1-Dissolved-Reactive-Phosphorus-Final.pdf
+    content_type: application/pdf
+    byte_size: 1348508
+    sha256: efa76fc691cc1c989545ba3db099ccabbe10cfe72238ede2d93d5c952ed34b64
+    content_verified_date: null         # no own publication date in text (years present are citations)
+
+  - filename: Appendix-2-Soil-and-Water-Assessment-Tool-Models-and-Publications-Final.pdf
+    role: Final TMDL Appendix 2 — Soil and Water Assessment Tool (SWAT) Models and Publications
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix-2-Soil-and-Water-Assessment-Tool-Models-and-Publications-Final.pdf
+    content_type: application/pdf
+    byte_size: 397706
+    sha256: 3c3e6fc69a1f94652962df742d47089c803cfe8e0fba82e1a60c3b8d8dcfec5b
+    content_verified_date: 2022-06-16   # "June 16, 2022" on first page
+
+  - filename: Appendix-3-Methods-For-Manure-Fertilizer-and-Crop-Removal-Calculations-Final.pdf
+    role: Final TMDL Appendix 3 — Methods for Manure, Fertilizer, and Crop Removal Calculations
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix-3-Methods-For-Manure-Fertilizer-and-Crop-Removal-Calculations-Final.pdf
+    content_type: application/pdf
+    byte_size: 417397
+    sha256: aaa7ee2e03f1487654439703881e039d4ee9e16dbdd60f0c266f62640c3b4c15
+    content_verified_date: null         # no own publication date in text (years present are citations)
+
+  - filename: Appendix-4-Individual-NPDES-Wasteload-Allocations-Final.pdf
+    role: Final TMDL Appendix 4 — Individual NPDES Wasteload Allocations
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix-4-Individual-NPDES-Wasteload-Allocations-Final.pdf
+    content_type: application/pdf
+    byte_size: 348951
+    sha256: faeb6e0a96081eae20d403945778e625c26cdafc4503fd8899407426d17408ff
+    content_verified_date: null         # no own publication date in text
+
+  - filename: Appendix-5-Nearfield-TMDLs-Final.pdf
+    role: Final TMDL Appendix 5 — Near-Field TMDL Reports in the Maumee Watershed
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix-5-Nearfield-TMDLs-Final.pdf
+    content_type: application/pdf
+    byte_size: 218286
+    sha256: 43b39166f13d1df5707ce52fe362ea06784fba7d5c199340839d2d9b527ff74c
+    content_verified_date: null         # no own publication date in text (dates present are approval dates of cited near-field TMDLs)
+
+  - filename: Appendix-6-Cost-Evaluation-for-Phosphorus-Removal-Final.pdf
+    role: Final TMDL Appendix 6 — Cost Evaluation for Phosphorus Removal
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix-6-Cost-Evaluation-for-Phosphorus-Removal-Final.pdf
+    content_type: application/pdf
+    byte_size: 724231
+    sha256: c723204d90bf6da298482d785fe5632d149370220603353bd66cd771e0c415ce
+    content_verified_date: 2022-12-21   # "December 21, 2022" on first page
+
+  - filename: Appendix-7-Additional-Considerations-Final.pdf
+    role: Final TMDL Appendix 7 — Additional Considerations
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix-7-Additional-Considerations-Final.pdf
+    content_type: application/pdf
+    byte_size: 556275
+    sha256: cf305aaecf78e39ec6e901c05fc686b27502f333d27993291cee1713a36fbebf
+    content_verified_date: null         # references statutory date "September 29, 2017" but states no own publication date
+
+  - filename: Appendix-8-Implementation-Tracking-Plan-Final.pdf
+    role: Final TMDL Appendix 8 — Implementation Tracking Plan
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix-8-Implementation-Tracking-Plan-Final.pdf
+    content_type: application/pdf
+    byte_size: 1645512
+    sha256: 9901ada386e68355df84b8409ca63efe14d20cf79f1cd34391e87cbe66bc5f24
+    content_verified_date: 2023-03-28   # "March 28, 2023" on first page
+
+  - filename: Appendix-9-Works-Cited-Final.pdf
+    role: Final TMDL Appendix 9 — Works Cited
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix-9-Works-Cited-Final.pdf
+    content_type: application/pdf
+    byte_size: 315993
+    sha256: fc8ab5251c39c1cb7870d600d28c5f30fc5cf7ade2296b7154fec122bc4c7b34
+    content_verified_date: null         # bibliography; no own publication date (all years are cited works)
+
+  - filename: Maumee-Watershed-Nutrient-TMDL-Official-Draft-Responsiveness-Summary.pdf
+    role: Ohio EPA Responsiveness Summary (response to public comments) on the draft TMDL report
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Maumee-Watershed-Nutrient-TMDL-Official-Draft-Responsiveness-Summary.pdf
+    content_type: application/pdf
+    byte_size: 450403
+    sha256: f52b1b5c25644e447d3e5a4cfe0d1b9af85f8ffa394d65ad6ae5fdfa27235abd
+    content_verified_date: null         # states the comment period (Dec 30 2022 - Mar 8 2023) but no own publication date
+
+  - filename: Maumee-TMDL-FS.pdf
+    role: Ohio EPA Maumee Watershed Nutrient TMDL fact sheet
+    source_url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Maumee-TMDL-FS.pdf
+    content_type: application/pdf
+    byte_size: 700889
+    sha256: f4aeee814da0bd259ef521a3930d9195570b66b5121a26543f0de0b71aacc3fb
+    content_verified_date: 2023-06       # "June 2023" on first page
+
+# Links found during collection but deliberately NOT downloaded, with reasons.
+# (Scope = the final Maumee Watershed Nutrient TMDL report + appendices + the
+# US EPA approval/decision package + response-to-comments. The Ohio EPA landing
+# page also lists many adjacent/older items that are out of scope.)
+not_downloaded:
+
+  - url: https://www.epa.gov/tmdl/epas-approval-ohios-maumee-watershed-nutrient-total-maximum-daily-load
+    type: landing page (US EPA)
+    reason: HTML index page for the federal approval package; its document links were captured above.
+
+  - url: https://epa.ohio.gov/divisions-and-offices/surface-water/reports-data/maumee-river-watershed
+    type: landing page (Ohio EPA)
+    reason: HTML index page hosting the final TMDL report; the in-scope document links were captured above.
+
+  - url: https://www.epa.gov/tmdl/methodology-connecting-annex-4-water-quality-targets-tmdls-maumee-river-basin
+    type: related US EPA page (methodology)
+    reason: Adjacent methodology landing page, not part of the approval/decision package; not requested.
+
+  - url: https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Maumee-Nutrient-TMDL-062022.pdf
+    type: superseded draft TMDL (June 2022 public-comment draft)
+    reason: Earlier DRAFT of the TMDL, superseded by Maumee-Watershed-Nutrient-TMDL-Final.pdf (downloaded). Out of scope (final set requested).
+
+  - url: https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/tmdl/MaumeeNutrient/MaumeePMR_Final.pdf
+    type: Preliminary Modeling Results (PMR) report
+    reason: Pre-TMDL Preliminary Modeling Results document (an earlier project phase), not the final TMDL or its official appendices.
+
+  - urls:
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix1_ManurePAnalysisMaumeePMR_draftFinal.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix2_MaumeeWatershedNutrientTMDL_ModelsReview_Final.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix3_IndividualNPDESwasteloadallocations_Final.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix4_Nearfield%20TMDLs_Final.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Appendix5_WorksCited_Final.pdf
+    type: 'older PMR-stage appendix set (different naming: "Appendix1_...")'
+    reason: Superseded earlier (Preliminary Modeling Results stage) appendix set. The current FINAL appendix set ("Appendix-1-...-Final.pdf" through "Appendix-9-...-Final.pdf") was downloaded instead.
+
+  - urls:
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/MWN_TMDL_PMR%20RtoC.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Maumee_PMR%20FS_Final.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Maumee_FarField_LAP%20Fact%20Sheet.pdf
+    type: PMR-stage response-to-comments / fact sheets
+    reason: Belong to the earlier Preliminary Modeling Results / Loading Analysis Plan phase, not the final TMDL package.
+
+  - urls:
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/20220629_MaumeeTMDL_webinar.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/20220921_MaumeeWatershedTMDL_webinar.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/20221220_MaumeeTMDL_webinar.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/20230208_MaumeeTMDL_webinar.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Outreach-Event-Mod1.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Outreach-Event-Mod2.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/Outreach-Event-Mod3.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeNutrient/July14-QA-Notes.pdf
+    type: outreach/webinar slide decks and Q&A notes
+    reason: Public-outreach materials, not part of the TMDL report/appendix/approval package.
+
+  - urls:
+      - https://epa.ohio.gov/static/Portals/35/tmdl/LAPs/MaumeeWatershedNutrientTMDL_LAP_Jan2022.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/LAPs/MaumeeWatershedNutrientTMDL_LAP_RtoC.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MWN_TMDLProject-QA.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/MaumeeStudyPlan2012Final.pdf
+    type: Loading Analysis Plan / project QA / study plan
+    reason: Project-planning documents (Loading Analysis Plan and its response-to-comments, QA plan, study plan), not the final TMDL report set.
+
+  - url: https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/tmdl/2024_Maumee_Biennial_Report_Final_clean.pdf
+    type: 2024 biennial implementation report
+    reason: Post-approval implementation progress report, distinct from the TMDL itself.
+
+  - urls:
+      - https://epa.ohio.gov/static/Portals/35/tmdl/Maumee-Watershed-Nutrient-TMDL-FAQ.pdf
+      - https://epa.ohio.gov/static/Portals/35/tmdl/Maumee-Nutrient-TMDL-FAQ-Spanish.pdf
+    type: Ohio EPA FAQ (English / Spanish)
+    reason: Ancillary Ohio EPA FAQ sheets; the authoritative US EPA TMDL FAQ was downloaded above. Noted, not pulled.
+
+  - note: >-
+      The Ohio EPA Maumee River Watershed landing page also lists many OLDER,
+      separate near-field TMDLs and Biological & Water Quality / Technical Support
+      Documents for sub-watersheds (e.g. Blanchard, Swan Creek, Powell Creek,
+      Ottawa/Lima, Upper/Lower Auglaize, St. Joseph, Tiffin, STEM, Minor Great
+      Black Swamp, MLLE tribs), implementation case studies, study plans, and
+      external links (lakeerie.ohio.gov DAP, the 2015 Annex 4 phosphorus-target
+      report). These are not the Maumee Watershed Nutrient TMDL report set and
+      were intentionally not downloaded.
