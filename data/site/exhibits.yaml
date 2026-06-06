@@ -6,17 +6,17 @@
 exhibits:
   - slug: mutual-nda-bistrozzi-county
     title: "Mutual NDA — Bistrozzi LLC ↔ Allen County"
-    source: legal/prr-production-2026-06-05/NDA.pdf
+    source: legal/prr-mandamus/prr-production-2026-06-05/NDA.pdf
     caption: "Resolution #417-25 (May 27, 2025); executed for Bistrozzi by Scott J. Ziance (Vorys), July 1, 2025."
 
   - slug: cra-abatement-agreement
     title: "Community Reinvestment Area (CRA) agreement"
-    source: legal/prr-production-2026-06-05/CRA.pdf
+    source: legal/prr-mandamus/prr-production-2026-06-05/CRA.pdf
     caption: "75% abatement instrument produced in the 2026-06-05 PRR batch."
 
   - slug: prr-response-letter-1
     title: "PRR response letter #1 (cover)"
-    source: legal/prr-production-2026-06-05/Letter-Record Request Response 1.pdf
+    source: legal/prr-mandamus/prr-production-2026-06-05/Letter-Record Request Response 1.pdf
     caption: "Brittany N. Woods, Clerk of the Board — June 5, 2026; the first rolling response."
 
   - slug: bistrozzi-air-permit-data-center
@@ -38,5 +38,5 @@ exhibits:
 
   - slug: bosc-testimony-deck
     title: "BOSC testimony deck (2026-06-01)"
-    source: legal/bosc-testimony-deck-2026-06-01.pdf
+    source: legal/select-committee-2026/relator-testimony/bosc-testimony-deck-2026-06-01.pdf
     caption: "Slides accompanying the written testimony to the select committee."

@@ -202,6 +202,6 @@ synthesis:
   cross_refs:
     - "docs/legal/proponent-analysis.md (Google/QTS/DCC/ODOD read — same mismatched-basis pattern)"
     - "docs/legal/mandamus-analysis.md §II (legislative evidence) and §I (the NDA/15-month record)"
-    - "data/extracted/legal/bosc-committee-testimony-2026-06-04 (Parent's own slot)"
-    - "data/extracted/legal/select-committee-2026.hearing-index.yaml (full committee catalog)"
-    - "data/extracted/legal/bosc-written-testimony-2026-06-01 (Recommendations 1, 3, 6)"
+    - "data/extracted/legal/select-committee-2026/hearings-audio/bosc-committee-testimony-2026-06-04 (Parent's own slot)"
+    - "data/extracted/legal/select-committee-2026/select-committee-2026.hearing-index.yaml (full committee catalog)"
+    - "data/extracted/legal/select-committee-2026/relator-testimony/bosc-written-testimony-2026-06-01 (Recommendations 1, 3, 6)"

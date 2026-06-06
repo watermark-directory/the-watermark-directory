@@ -2,7 +2,7 @@
 
 **Audited 2026-06-06.** Scope: every collection under [`data/documents/`](../../documents/) cross-referenced against the corpus's own declared expectations — the PRR production tracker, the minutes manifest, the PRR-01 bundle index, and the provenance citations inside [`data/extracted/`](../).
 
-> Method: (1) **Substantive gaps** read from the county's own item-by-item response in [`bosc-prr-production-2026-06-05.response-index.yaml`](bosc-prr-production-2026-06-05.response-index.yaml) — i.e. records *requested and not produced*, not inference. (2) **Integrity gaps** computed by script: minutes/agenda filename parsing + pairing over `commissioners/minutes/raw/`, existence-checks of every `*.pdf` cited across `extracted/**`, and the PRR-01 bundle's `derived_files`. Ambiguous date-typo filenames were **not** auto-resolved (the heuristic produced impossible dates); they are listed for human verification. Minutes findings reflect the **2026-04-17 manifest snapshot**, not today.
+> Method: (1) **Substantive gaps** read from the county's own item-by-item response in [`bosc-prr-production-2026-06-05.response-index.yaml`](prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml) — i.e. records *requested and not produced*, not inference. (2) **Integrity gaps** computed by script: minutes/agenda filename parsing + pairing over `commissioners/minutes/raw/`, existence-checks of every `*.pdf` cited across `extracted/**`, and the PRR-01 bundle's `derived_files`. Ambiguous date-typo filenames were **not** auto-resolved (the heuristic produced impossible dates); they are listed for human verification. Minutes findings reflect the **2026-04-17 manifest snapshot**, not today.
 
 ## Headline
 
@@ -26,7 +26,7 @@ Declared in the county's first production tracker (cover letter 2026-06-05, Cler
 
 **The Category-B deferral is the largest and most case-relevant hole.** Note its internal contradiction, already documented in the corpus: resolutions **#113-26** and **#136-26** (the forcemain-feasibility items the county pushed to the Sanitary Engineer) sit in the Commissioners' **own minutes** (`M021926.pdf:3`, `M022626.pdf:3`) — so the legislative acts plainly exist in the producing body's record. These wastewater records also tie directly to the rest of the corpus: the OEPA **Shawnee II** permit `2PK00002` in [`data/extracted/oepa/`](../oepa/) and the ECHO discharger inventory in [`data/reference/echo/`](../../reference/echo/).
 
-**Item 16 is "missing" by custody disclaimer, not non-existence.** The response index's own rebuttal shows the Sanitary pages' WordPress `modified` dates fall inside the requested window and the `/revisions` endpoint returns **HTTP 401 (gated, not 404)** — the version history exists; the county simply disclaims holding it. Custody sits with the host (AhelioTech / CorpComm-built site) — see [`allen-county-web-vendor-audit.md`](allen-county-web-vendor-audit.md) and [`allen-county-level-sites.md`](allen-county-level-sites.md).
+**Item 16 is "missing" by custody disclaimer, not non-existence.** The response index's own rebuttal shows the Sanitary pages' WordPress `modified` dates fall inside the requested window and the `/revisions` endpoint returns **HTTP 401 (gated, not 404)** — the version history exists; the county simply disclaims holding it. Custody sits with the host (AhelioTech / CorpComm-built site) — see [`allen-county-web-vendor-audit.md`](web-vendor-audit/allen-county-web-vendor-audit.md) and [`allen-county-level-sites.md`](web-vendor-audit/allen-county-level-sites.md).
 
 *Universe note:* per the relator's 2026-06-03 narrowing email, any request item not listed was treated as withdrawn — so the "owed" set is bounded by these items. Production is rolling ("every Friday"); items 4 and 5–15 are the ones to watch in subsequent batches.
 
@@ -57,7 +57,7 @@ Declared in the county's first production tracker (cover letter 2026-06-05, Cler
 The [bundle index](../../documents/aedg/PRR-01-bundle.ocr.pdf.index.yaml) references seven `derived_files` (`Allen_County_PRR_searchable.pdf`, `..._full_text.txt`, `..._exhibit_index.txt`, `Allen_County_Project_Master_Table.md`, `BOSC_Tetra_Tech_OPC.yaml`, `BOSC_OPC_Detailed_Line_Items.yaml`). None are in `data/documents/aedg/` — but they are **regenerable derivatives** of `PRR-01-bundle.ocr.pdf`, which **is** present. Not lost source material.
 
 ### Provenance — clean
-Every `*.pdf` cited across `extracted/**` resolves to a real file under `data/documents/`. (Of 94 distinct cited names, the only 2 "unresolved" are false positives: a Google-Slides export title and a prose fragment, not file references.) The 5 PRR-production binaries named in the response index are all present in [`prr-production-2026-06-05/`](../../documents/legal/prr-production-2026-06-05/) — the index's "binaries to be added" note is stale.
+Every `*.pdf` cited across `extracted/**` resolves to a real file under `data/documents/`. (Of 94 distinct cited names, the only 2 "unresolved" are false positives: a Google-Slides export title and a prose fragment, not file references.) The 5 PRR-production binaries named in the response index are all present in [`prr-production-2026-06-05/`](../../documents/legal/prr-mandamus/prr-production-2026-06-05/) — the index's "binaries to be added" note is stale.
 
 ---
 
@@ -72,7 +72,7 @@ These are flagged for verification, **not** asserted as missing.
 ---
 
 ## Cross-refs
-- [`bosc-prr-production-2026-06-05.response-index.yaml`](bosc-prr-production-2026-06-05.response-index.yaml) — the production tracker §1 is read from
-- [`bosc-prr-production-2026-06-05.analysis.md`](bosc-prr-production-2026-06-05.analysis.md) · [`../../../docs/legal/mandamus-analysis.md`](../../../docs/legal/mandamus-analysis.md)
-- [`allen-county-web-vendor-audit.md`](allen-county-web-vendor-audit.md) · [`allen-county-level-sites.md`](allen-county-level-sites.md) — item-16 custody
+- [`bosc-prr-production-2026-06-05.response-index.yaml`](prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml) — the production tracker §1 is read from
+- [`bosc-prr-production-2026-06-05.analysis.md`](prr-mandamus/bosc-prr-production-2026-06-05.analysis.md) · [`../../../docs/legal/mandamus-analysis.md`](../../../docs/legal/mandamus-analysis.md)
+- [`allen-county-web-vendor-audit.md`](web-vendor-audit/allen-county-web-vendor-audit.md) · [`allen-county-level-sites.md`](web-vendor-audit/allen-county-level-sites.md) — item-16 custody
 - [`../oepa/`](../oepa/) (Shawnee II permit `2PK00002`) · [`../../reference/echo/`](../../reference/echo/) (Maumee discharger inventory) — Category-B wastewater ties

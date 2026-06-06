@@ -18,4 +18,4 @@ Connection rests on a name match + Lima geography — treat as inference, not es
 **Relevance:** the grandfather worked for the **Allen County Engineer's office** — itself a
 CorpComm-built county site. If the AhelioTech signer is the same Eric Hullibarger, the county's
 choice of a Columbus-area MSP (AhelioTech, Powell) to host its website traces back to an
-Allen-County family. See [`allen-county-web-vendor-corporate-records.yaml`](../../../../extracted/legal/allen-county-web-vendor-corporate-records.yaml).
+Allen-County family. See [`allen-county-web-vendor-corporate-records.yaml`](../../../../extracted/legal/web-vendor-audit/allen-county-web-vendor-corporate-records.yaml).

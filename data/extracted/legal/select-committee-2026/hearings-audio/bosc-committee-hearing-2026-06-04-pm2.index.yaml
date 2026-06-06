@@ -104,8 +104,8 @@ synthesis:
     in AM/PM; Vantage here — 'we'll add you to the list'). That voluntary-commitment list is
     the embryonic disclosure standard Parent argues should be STATUTORY rather than ad hoc.
   cross_refs:
-    - "data/extracted/legal/bosc-committee-hearing-2026-06-04-pm.index.yaml (round two; disclosure split)"
-    - "data/extracted/legal/bosc-committee-hearing-2026-06-04-am.index.yaml (panel + round one)"
+    - "data/extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm.index.yaml (round two; disclosure split)"
+    - "data/extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-am.index.yaml (panel + round one)"
     - "docs/legal/mandamus-analysis.md §II (disclosure / §9.66(D))"
-    - "data/extracted/legal/bosc-testimony-deck-2026-06-01.md (slides 3, 4, 8 — shell/definition/extraction)"
+    - "data/extracted/legal/select-committee-2026/relator-testimony/bosc-testimony-deck-2026-06-01.md (slides 3, 4, 8 — shell/definition/extraction)"
     - "docs/legal/proponent-analysis.md (mismatched-basis pattern; QTS closed-loop water)"

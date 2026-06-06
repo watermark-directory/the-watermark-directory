@@ -146,8 +146,8 @@ synthesis:
     The proportionate fix is on the record from AWS itself: report energy 'held confidentially
     at the regulator space' (~63:52) + trade-secret law (R.C. 1333.61) for the discrete datum.
   cross_refs:
-    - "data/extracted/legal/bosc-committee-hearing-2026-06-04-am.index.yaml (round one + panel testimony)"
+    - "data/extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-am.index.yaml (round one + panel testimony)"
     - "docs/legal/mandamus-analysis.md §II (R.C. 9.66(D) confidentiality)"
     - "docs/legal/proponent-analysis.md (mismatched-basis pattern)"
-    - "data/extracted/legal/bosc-committee-testimony-2026-06-04 (Parent's own slot)"
+    - "data/extracted/legal/select-committee-2026/hearings-audio/bosc-committee-testimony-2026-06-04 (Parent's own slot)"
     - "docs/HYDROLOGY.md (PFAS / source-water / cooling-water basis)"

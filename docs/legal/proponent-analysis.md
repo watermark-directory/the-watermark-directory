@@ -3,8 +3,8 @@
 **Scope:** the four proponent submissions to the Ohio Select / Joint Committee on Data
 Centers — **Google** (Liz Schwab, 6/4), **QTS** (6/3), the **Data Center Coalition** deck
 (5/27), and **Ohio Dept. of Development / the DCTE** (Director Lydia Mihalik, 5/27).
-Sources: [select-committee-2026/](../../data/documents/legal/select-committee-2026/);
-catalog in [the hearing index](../../data/extracted/legal/select-committee-2026.hearing-index.yaml).
+Sources: [select-committee-2026/](../../data/documents/legal/select-committee-2026/witnesses/);
+catalog in [the hearing index](../../data/extracted/legal/select-committee-2026/select-committee-2026.hearing-index.yaml).
 
 > **Posture: neutral but precise.** This does not argue for or against data centers or the
 > abatement. It steelmans the proponent case, then assesses each load-bearing claim by how
@@ -206,4 +206,4 @@ substantially unrebutted on its own terms.
 
 _Cross-refs: [mandamus-analysis.md](mandamus-analysis.md) (§II legislative slate; §III defense
 nexus), [HYDROLOGY.md](../HYDROLOGY.md) (the cooling-basis figures that test the water claims),
-and the witness catalog in the [hearing index](../../data/extracted/legal/select-committee-2026.hearing-index.yaml)._
+and the witness catalog in the [hearing index](../../data/extracted/legal/select-committee-2026/select-committee-2026.hearing-index.yaml)._

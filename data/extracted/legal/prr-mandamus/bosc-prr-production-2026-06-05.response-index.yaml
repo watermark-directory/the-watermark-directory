@@ -3,14 +3,14 @@
 # Brittany N. Woods). This is the production the unfiled mandamus draft extracted as leverage
 # (see docs/legal/mandamus-analysis.md §I.5).
 #
-# Source binaries belong at data/documents/legal/prr-production-2026-06-05/ (5 PDFs, listed
+# Source binaries belong at data/documents/legal/prr-mandamus/prr-production-2026-06-05/ (5 PDFs, listed
 # under source_documents). Figures/dates below are transcribed from those PDFs; cite page.
 meta:
   subject: BOSC PRR — Allen County Commissioners production batch 1
   cover_letter_date: 2026-06-05
   custodian: Allen County Board of Commissioners (Clerk of Board, Brittany N. Woods)
   collection: legal
-  source_dir: data/documents/legal/prr-production-2026-06-05/   # binaries to be added
+  source_dir: data/documents/legal/prr-mandamus/prr-production-2026-06-05/   # binaries to be added
   posture: >
     First of multiple rolling responses ("every Friday"). Item-by-item. Reserves the right to
     deny/redact later under R.C. 149.43 and R.C. 9.66; states nothing is waived. Per relator's
@@ -92,7 +92,7 @@ request_response:
       status: no_records
       county_position: '"the Commissioners do not manage the county website and therefore do not have access to the information this request seeks… no records to provide." Deemed fulfilled.'
       significance: >
-        Direct tie to data/extracted/legal/allen-county-web-vendor-audit — the county disclaims control of its
+        Direct tie to data/extracted/legal/web-vendor-audit/allen-county-web-vendor-audit — the county disclaims control of its
         own site; CMS edit logs are held by the third-party host (AhelioTech, GoDaddy-managed WordPress). Confirms
         the third-party-processor custody theory. NB the county simultaneously cites commissioners.allencountyohio.com
         agendas/minutes/legal-notices as a records source — disclaims managing the site yet points to it.
@@ -129,7 +129,7 @@ new_findings:
     implication: Sharpens the opacity narrative (memo §III) and predates the timeline materially. The memo currently names only "Bistrozzi Addition LLC" — distinguish the two.
   - id: cms-custody-confirmed
     finding: County (item 16) expressly disclaims managing its own website; CMS audit logs therefore sit with the web vendor (CorpComm Group, Inc.).
-    implication: Confirms the records-custody point in data/extracted/legal/allen-county-web-vendor-audit.{md,yaml}. A §149.43 request for CMS logs implicates the third-party processor.
+    implication: Confirms the records-custody point in data/extracted/legal/web-vendor-audit/allen-county-web-vendor-audit.{md,yaml}. A §149.43 request for CMS logs implicates the third-party processor.
   - id: nine-66-distinction
     finding: CRA §19 "R.C. 9.66 Covenants" is the pre-existing clawback/false-statement covenant, NOT the new §9.66(D) confidentiality provision (HB 184). Only item 4's response invokes the (D) shield.
     implication: Keep §9.66 (covenant) and §9.66(D) (confidentiality) distinct in any filing.
@@ -188,10 +188,10 @@ sanitary_pages_edit_history:
   caveat: >
     `modified` is WordPress's content-modified field (strong evidence of a real edit; a migration can
     touch it, so not forensic). The authoritative who/what/when is the 401-gated revision history.
-  full_profile: data/extracted/legal/allen-county-level-sites.md
+  full_profile: data/extracted/legal/web-vendor-audit/allen-county-level-sites.md
 
 cross_refs:
   - docs/legal/mandamus-analysis.md            # §I.5 leverage; §II §9.66(D); §III opacity; §IV timeline
-  - data/extracted/legal/allen-county-web-vendor-audit.md   # item 16 custody tie-in
-  - data/extracted/legal/allen-county-level-sites.md        # county-level site profiles + item-16 edit-history table
+  - data/extracted/legal/web-vendor-audit/allen-county-web-vendor-audit.md   # item 16 custody tie-in
+  - data/extracted/legal/web-vendor-audit/allen-county-level-sites.md        # county-level site profiles + item-16 edit-history table
   - data/extracted/commissioners/minutes/                   # primary-source meeting record (minutes_corroboration above)

@@ -2,7 +2,7 @@
 
 Prebuilt index over the Board of Commissioners' published meeting record, scraped from
 **commissioners.allencountyohio.com** (the CorpComm-built county site — see
-[`../../legal/allen-county-web-vendor-audit.md`](../../legal/allen-county-web-vendor-audit.md)).
+[`../../legal/allen-county-web-vendor-audit.md`](../../legal/web-vendor-audit/allen-county-web-vendor-audit.md)).
 Raw PDFs are the immutable source under
 [`data/documents/commissioners/minutes/raw/`](../../../documents/commissioners/minutes/raw/)
 (**934 files**, Git-LFS-tracked). This directory holds the **derived** index bundle.
@@ -80,12 +80,12 @@ To read a hit in full: open `data/documents/commissioners/minutes/raw/<filename>
 
 This corpus is the **primary source** behind several artifacts already in the repo:
 
-- [`../../legal/bosc-prr-production-2026-06-05.response-index.yaml`](../../legal/bosc-prr-production-2026-06-05.response-index.yaml)
+- [`../../legal/bosc-prr-production-2026-06-05.response-index.yaml`](../../legal/prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml)
   — its `minutes_corroboration` block maps each produced resolution to a page here. Confirmed matches:
   Res **#417-25** (NDA) `M052725.pdf:3` · **#304-25** (CRA created) `M041725.pdf:1,5` ·
   **#494-25** (school notice) `M062425.pdf:9` · **#548-25** (CRA) `M071025.pdf:4` ·
   **#113-26 / #136-26** (forcemain feasibility — the *deferred* Category-B items) `M021926.pdf:3` / `M022626.pdf:3`.
-- [`../../legal/allen-county-web-vendor-audit.md`](../../legal/allen-county-web-vendor-audit.md)
+- [`../../legal/allen-county-web-vendor-audit.md`](../../legal/web-vendor-audit/allen-county-web-vendor-audit.md)
   — these minutes were scraped from `commissioners.allencountyohio.com`, the CorpComm-built site whose
   CMS custody is the subject of PRR **item 16**. The corpus is the public face of the very record the
   county says it does not manage.

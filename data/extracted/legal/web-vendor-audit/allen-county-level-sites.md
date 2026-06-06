@@ -95,4 +95,4 @@ notable but **not asserted as causal** without the gated revision diff.
 
 _Cross-refs: [`allen-county-web-vendor-audit.md`](allen-county-web-vendor-audit.md) ·
 [`allen-county-web-vendor-corporate-records.yaml`](allen-county-web-vendor-corporate-records.yaml) (three-layer custody model) ·
-[`bosc-prr-production-2026-06-05.response-index.yaml`](bosc-prr-production-2026-06-05.response-index.yaml) (item 16)._
+[`bosc-prr-production-2026-06-05.response-index.yaml`](../prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml) (item 16)._

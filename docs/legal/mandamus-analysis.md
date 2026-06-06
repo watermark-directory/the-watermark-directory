@@ -1,6 +1,6 @@
 # Legal analysis — *State ex rel. Parent v. Allen County Board of Commissioners*
 
-**Document:** [allen-co-bosc-mandamus-draft-2026-05.pdf](../../data/documents/legal/allen-co-bosc-mandamus-draft-2026-05.pdf)
+**Document:** [allen-co-bosc-mandamus-draft-2026-05.pdf](../../data/documents/legal/prr-mandamus/allen-co-bosc-mandamus-draft-2026-05.pdf)
 (draft Complaint for Writ of Mandamus, Court of Appeals of Ohio, Third Appellate
 District, Allen County; Relator Cory Parent, pro se; Certificate of Service dated
 **May 31, 2026**). Drafted but **not filed** — Relator received the Clerk's
@@ -244,7 +244,7 @@ on that fault line.
 
 §9.66(D) is the *confidentiality* counter-current inside a much larger data-center
 reckoning now before the **Select / Joint Committee on Data Centers** (record indexed at
-`data/extracted/legal/select-committee-2026.hearing-index.yaml`). The bills in motion:
+`data/extracted/legal/select-committee-2026/select-committee-2026.hearing-index.yaml`). The bills in motion:
 
 - **HB 706** (Reps. **David Thomas & Tristan Rader**) — the core consumer-protection
   vehicle: makes **cost causation** enforceable (long-term service agreements, minimum
@@ -274,7 +274,7 @@ disclosure. The same committee's own hearing record — the **hyperscalers and d
 testifying under oath-equivalent on 2026-06-04** — contradicts both halves of that premise
 in their own words. This is not advocacy gloss; it is the regulated industry, on the
 legislative record, describing what it actually treats as secret and why. (Transcripts and
-indices: `data/extracted/legal/bosc-committee-hearing-2026-06-04-{am,pm,pm2}.*`; machine-
+indices: `data/extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-{am,pm,pm2}.*`; machine-
 transcribed on-device, timestamps are `mm:ss` and should be verified against the audio
 before quotation in a filing.)
 

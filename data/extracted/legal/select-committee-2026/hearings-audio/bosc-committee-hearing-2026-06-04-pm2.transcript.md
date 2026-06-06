@@ -5,7 +5,7 @@ two further developer witnesses (**MARA Holdings**, **Vantage Data Centers**), t
 committee adjourns for the day ('another marathon session on Monday'). Continues from
 [the afternoon round two](bosc-committee-hearing-2026-06-04-pm.transcript.md).
 **Presiding:** Co-Chairs Holmes & Chavez.
-**Source audio:** [bosc-committee-hearing-2026-06-04-pm2.wav](../../documents/legal/bosc-committee-hearing-2026-06-04-pm2.wav)
+**Source audio:** [bosc-committee-hearing-2026-06-04-pm2.wav](../../../../documents/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm2.wav)
 (34:18, on-device transcription).
 **Transcription:** auto-generated, `mlx-community/whisper-large-v3-turbo`, on-device.
 
