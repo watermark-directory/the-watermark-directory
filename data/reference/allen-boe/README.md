@@ -62,6 +62,24 @@ summary PDFs. Example values, all as printed:
 - 2019 General: Registered Voters - Total **64,568**; Ballots Cast - Total **12,496**;
   Voter Turnout - Total **19.35%**.
 
+### `precincts-csv/` — per-precinct results (machine-readable, long form)
+
+The precinct-level vote counts, flattened from the BOE **Precinct Results Report**
+PDFs to tidy long form: one row per `(election, precinct, contest, choice)`. Columns:
+`election, election_date, precinct_code, precinct_name, contest, choice, votes,
+vote_pct, row_type`. `row_type` is `choice` (a ballot choice) or `tally`
+(Overvotes / Undervotes / Contest Totals / Write-In Totals / Total Votes Cast).
+Summed across the 88 precincts these reconcile to the countywide summary:
+
+| file | source PDF | precincts | contests | choice rows | reconciliation vs summary |
+|------|-----------|----------:|---------:|------------:|---------------------------|
+| [`2024-general-precincts.csv`](precincts-csv/2024-general-precincts.csv) | `2024_GEN_PRECINCT_OFFICIAL.pdf` | 88 | 26 | 4,062 | **39/39 exact** |
+| [`2019-general-precincts.csv`](precincts-csv/2019-general-precincts.csv) | `G2019_OFFICIAL_PRECINCT.pdf` | 88 | 72 | 1,061 | 110/114 (see caveat) |
+
+`parse_precincts.py` regenerates these and runs the reconciliation. The 2026
+Primary has **no** Precinct Results Report (only the wide SOVC cross-tab), so it is
+not yet flattened — see Gaps.
+
 ### `source-pdf/` — the official BOE PDFs (primary-source records)
 
 15 PDFs, unaltered bytes, with [`SHA256SUMS.txt`](source-pdf/SHA256SUMS.txt) for
@@ -96,12 +114,21 @@ line it cannot confidently classify to a sidecar rather than guessing.
   archive), and the bulk **county voter file** (the full registered-voter roster with
   party/precinct/history, normally a weekly CSV). These remain available by manual
   browser download from the SoS Data Portal and should be pulled that way.
-- **Precinct-level vote counts are only in PDF.** The BOE's `*_PRECINCT*` and `*_SOVC*`
-  PDFs hold the per-precinct numbers, but they are large multi-page cross-tab matrices
-  (one column per precinct) that do **not** parse cleanly to tabular CSV. They are
-  committed here as source PDFs (with text layer) but were **not** flattened to CSV;
-  doing so reliably needs per-contest layout handling beyond this pass. The countywide
-  totals for every contest ARE in the parsed CSVs.
+- **Precinct-level flattening — partly done.** The 2024 and 2019 **Precinct Results
+  Report** PDFs are now flattened to `precincts-csv/` (see above), validated against
+  the countywide summary (2024 reconciles exactly). Two pieces remain:
+  - **2026 Primary** ships only the wide **SOVC** cross-tab (no per-precinct report),
+    which is a multi-page matrix (precincts as rows, candidates as columns, headers
+    stitched across lines) — not yet parsed. The 2024/2019 `*_SOVC*` PDFs are
+    likewise the harder source and were skipped in favor of the cleaner precinct
+    reports.
+  - **2019 school-levy contest labels.** The per-district levy For/Against rows are
+    captured and correctly separated by district, but inherit the adjacent
+    `For Member of Board of Education - <district>` title rather than the levy's own
+    (the 2019 precinct report groups them that way, as does the summary CSV). The
+    **votes are correct**; only the contest label is imperfect for those rows (4 of
+    114 reconciliation keys). Verify a 2019 levy's contest name against the source
+    PDF before quoting it.
 - **Polling-place / precinct master list — not published as a file.** The BOE site has
   no downloadable polling-location or precinct list; the count "88 precincts" appears
   in the summaries ("Election Day Precincts Reporting 88 of 88") but the precinct
@@ -129,4 +156,7 @@ line it cannot confidently classify to a sidecar rather than guessing.
 
 Raw downloads are cached (git-ignored) under `data/cache/allen-boe/`. To refresh:
 re-download the PDFs from the URLs in `source-pdf/SOURCES.txt`, run
-`pdftotext -layout` on the summary PDFs, then `python3 parse_summary.py`.
+`pdftotext -layout` on the summary PDFs (into `data/cache/allen-boe/txt/`), then
+`python3 parse_summary.py`. For the precinct CSVs, `pdftotext -layout` the
+`*_PRECINCT*.pdf` into the same `txt/` dir, then `python3 parse_precincts.py`
+(which also prints the summary reconciliation).
