@@ -91,3 +91,4 @@ nav:
   - Reference data:
       - Maumee NPDES inventory (ECHO): data/reference/echo/README.md
   - Hydrology: docs/HYDROLOGY.md
+  - Economics: docs/ECONOMICS.md
