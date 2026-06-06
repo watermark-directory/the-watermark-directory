@@ -7,8 +7,8 @@
 # footnotes (1-14); 'status' tags how well each is independently corroborated.
 
 source:
-  pdf: documents/legal/bosc-written-testimony-2026-06-01.pdf
-  full_text: extracted/legal/bosc-written-testimony-2026-06-01.md
+  pdf: documents/legal/select-committee-2026/relator-testimony/bosc-written-testimony-2026-06-01.pdf
+  full_text: extracted/legal/select-committee-2026/relator-testimony/bosc-written-testimony-2026-06-01.md
   dated: "2026-06-01"
   delivered_orally: "2026-06-04"
   pages: 8

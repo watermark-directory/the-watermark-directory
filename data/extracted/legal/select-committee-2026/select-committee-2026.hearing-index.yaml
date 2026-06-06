@@ -19,14 +19,14 @@ committee:
     pricing transparency.
   hearing_dates_in_record: ["2026-05-27", "2026-05-30/31", "2026-06-01", "2026-06-03", "2026-06-04"]
   parent_testimony:
-    written: "extracted/legal/bosc-written-testimony-2026-06-01.index.yaml"
-    oral: "extracted/legal/bosc-committee-testimony-2026-06-04.index.yaml"
-    deck: "documents/legal/bosc-testimony-deck-2026-06-01.pdf ('Who Is the Customer?')"
+    written: "extracted/legal/select-committee-2026/relator-testimony/bosc-written-testimony-2026-06-01.index.yaml"
+    oral: "extracted/legal/select-committee-2026/hearings-audio/bosc-committee-testimony-2026-06-04.index.yaml"
+    deck: "documents/legal/select-committee-2026/relator-testimony/bosc-testimony-deck-2026-06-01.pdf ('Who Is the Customer?')"
   full_hearing_recordings:
     # On-device transcriptions of the gavel-to-gavel hearing audio (not just Parent's slot).
-    "2026-06-04-am": "extracted/legal/bosc-committee-hearing-2026-06-04-am.index.yaml  # hyperscaler panel: Meta/Google/Amazon/Microsoft + Q&A round one"
-    "2026-06-04-pm": "extracted/legal/bosc-committee-hearing-2026-06-04-pm.index.yaml  # same panel, Q&A round two (PFAS, disclosure split, SMR/grid)"
-    "2026-06-04-pm2": "extracted/legal/bosc-committee-hearing-2026-06-04-pm2.index.yaml  # closing witnesses MARA + Vantage, then adjournment"
+    "2026-06-04-am": "extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-am.index.yaml  # hyperscaler panel: Meta/Google/Amazon/Microsoft + Q&A round one"
+    "2026-06-04-pm": "extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm.index.yaml  # same panel, Q&A round two (PFAS, disclosure split, SMR/grid)"
+    "2026-06-04-pm2": "extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm2.index.yaml  # closing witnesses MARA + Vantage, then adjournment"
 
 # ----------------------------------------------------------------------------
 # Witnesses & documents (grouped by seat)

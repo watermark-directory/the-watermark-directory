@@ -9,8 +9,8 @@
 # machine-generated — verify figures/names against audio before quoting.
 
 source:
-  audio: documents/legal/bosc-committee-hearing-2026-06-04-pm2.wav
-  transcript: extracted/legal/bosc-committee-hearing-2026-06-04-pm2.transcript.md
+  audio: documents/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm2.wav
+  transcript: extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm2.transcript.md
   hearing_date: "2026-06-04"
   capture_date: "2026-06-05"
   session: "late afternoon (part 3); post-2:30 break; ends with adjournment for the day"
@@ -18,7 +18,7 @@ source:
   format: "WAV, 48kHz/24-bit stereo, ~593 MB (LFS)"
   transcription_model: "mlx-community/whisper-large-v3-turbo (on-device)"
   transcription_confidence: "approximate — ASR; speaker labels inferred (no diarization)"
-  continues_from: extracted/legal/bosc-committee-hearing-2026-06-04-pm.index.yaml
+  continues_from: extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm.index.yaml
 
 forum:
   body: "Ohio General Assembly — Joint Data Center (Study) Committee"

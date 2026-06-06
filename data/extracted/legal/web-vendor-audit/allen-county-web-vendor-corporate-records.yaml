@@ -1,5 +1,5 @@
 # Corporate-registry records for the private web vendors identified in the Allen County
-# government-website vendor audit (data/extracted/legal/allen-county-web-vendor-audit.{md,yaml}).
+# government-website vendor audit (data/extracted/legal/web-vendor-audit/allen-county-web-vendor-audit.{md,yaml}).
 # Establishes each vendor's legal identity and service-of-process agent — the practical hooks
 # for directing a records request or subpoena at the third party that controls a subdivision's
 # CMS (cf. PRR item 16, where the county disclaims managing its own website).
@@ -8,8 +8,8 @@ meta:
   collection: legal
   source_dir: data/documents/legal/allen-county-web-audit/vendor-records/
   cross_refs:
-    - data/extracted/legal/allen-county-web-vendor-audit.yaml
-    - data/extracted/legal/bosc-prr-production-2026-06-05.response-index.yaml   # item 16 custody
+    - data/extracted/legal/web-vendor-audit/allen-county-web-vendor-audit.yaml
+    - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml   # item 16 custody
 
 vendors:
   - vendor: Anne Decker Marketing
@@ -218,6 +218,6 @@ web_custody_model:
     via the host (AhelioTech) and would name the in-house user (b_mauk). Finding of fact; legal effect not asserted.
 
 cross_refs:
-  - data/extracted/legal/allen-county-web-vendor-audit.md            # three-layer model folded into the audit
-  - data/extracted/legal/bosc-prr-production-2026-06-05.response-index.yaml   # item 16 custody
+  - data/extracted/legal/web-vendor-audit/allen-county-web-vendor-audit.md            # three-layer model folded into the audit
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml   # item 16 custody
   - data/extracted/commissioners/minutes/                            # AhelioTech transition (ACC-M102423) + Mauk (M061523)

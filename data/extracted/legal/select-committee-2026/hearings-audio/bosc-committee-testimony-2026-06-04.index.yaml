@@ -9,8 +9,8 @@
 # contain ASR errors — verify against audio before quoting.
 
 source:
-  audio: documents/legal/bosc-committee-testimony-2026-06-04.wav
-  transcript: extracted/legal/bosc-committee-testimony-2026-06-04.transcript.md
+  audio: documents/legal/select-committee-2026/hearings-audio/bosc-committee-testimony-2026-06-04.wav
+  transcript: extracted/legal/select-committee-2026/hearings-audio/bosc-committee-testimony-2026-06-04.transcript.md
   recorded: "2026-06-04"
   duration: "12:17"
   format: "WAV, 48kHz/24-bit stereo, 212 MB (LFS)"
@@ -171,4 +171,4 @@ significance: >-
   (Google IL-6, JSMC, EO 14265) and the compute-as-water/power framing (mirroring the
   hydrology model) directly into the legislative record. The six written
   recommendations + sources referenced at 05:08 are the separate written submission,
-  now indexed at extracted/legal/bosc-written-testimony-2026-06-01.index.yaml.
+  now indexed at extracted/legal/select-committee-2026/relator-testimony/bosc-written-testimony-2026-06-01.index.yaml.

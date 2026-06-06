@@ -9,8 +9,8 @@
 # .wav; transcript is machine-generated — verify figures/names against audio.
 
 source:
-  audio: documents/legal/bosc-committee-hearing-2026-06-04-pm.wav
-  transcript: extracted/legal/bosc-committee-hearing-2026-06-04-pm.transcript.md
+  audio: documents/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm.wav
+  transcript: extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm.transcript.md
   hearing_date: "2026-06-04"
   capture_date: "2026-06-05"   # audio captured/processed the morning after; hearing day is 2026-06-04
   session: "afternoon (part 2); reconvene 12:30 after lunch, ends at a 15-min break to reconvene 2:30 (further rounds may follow)"
@@ -18,8 +18,8 @@ source:
   format: "WAV, 48kHz/24-bit stereo, ~1.72 GB (LFS)"
   transcription_model: "mlx-community/whisper-large-v3-turbo (on-device)"
   transcription_confidence: "approximate — ASR; speaker labels inferred (no diarization); 'Glassburn' mangled to 'Glassberg/Glaspern'"
-  continues_from: extracted/legal/bosc-committee-hearing-2026-06-04-am.index.yaml
-  continues_to: extracted/legal/bosc-committee-hearing-2026-06-04-pm2.index.yaml  # closing witnesses (MARA, Vantage) + adjournment
+  continues_from: extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-am.index.yaml
+  continues_to: extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm2.index.yaml  # closing witnesses (MARA, Vantage) + adjournment
 
 forum:
   body: "Ohio General Assembly — Joint Data Center (Study) Committee"

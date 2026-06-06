@@ -12,15 +12,15 @@
 # against the audio before quoting (ASR mangles dollar amounts especially).
 
 source:
-  audio: documents/legal/bosc-committee-hearing-2026-06-04-am.wav
-  transcript: extracted/legal/bosc-committee-hearing-2026-06-04-am.transcript.md
+  audio: documents/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-am.wav
+  transcript: extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-am.transcript.md
   recorded: "2026-06-04"
   session: "morning (part 1 of the 2026-06-04 hearing); recess ~1:54 to reconvene 12:30 for round two"
   duration: "1:55:22"
   format: "WAV, 48kHz/24-bit stereo, ~1.99 GB (LFS)"
   transcription_model: "mlx-community/whisper-large-v3-turbo (on-device)"
   transcription_confidence: "approximate — ASR; speaker labels inferred (no diarization); 3 trailing hallucinated segments removed"
-  continues_to: extracted/legal/bosc-committee-hearing-2026-06-04-pm.index.yaml  # round two (afternoon)
+  continues_to: extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-pm.index.yaml  # round two (afternoon)
 
 forum:
   body: "Ohio General Assembly — Joint Data Center (Study) Committee / Select Committee on Data Centers"
