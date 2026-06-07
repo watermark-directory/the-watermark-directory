@@ -1,0 +1,119 @@
+# Maumee Watershed Nutrient TMDL — Responsiveness Summary digest.
+#
+# Ohio EPA's response to public comments on the draft TMDL. Mined here for the
+# facts that bear on the BOSC/Google data-center wastewater question: the
+# design-flow increases baked into the WLAs (incl. Shawnee #2 and Elida), the
+# rule governing NEW/EXPANDING dischargers and the "limited allowance for future
+# growth," and the local entities that commented. The bulk of the document is
+# CAFO/manure and nonpoint-source comment/response (summarized, not transcribed).
+#
+# Facts transcribed VERBATIM from the cited pages; unread values OMITTED. The
+# BOSC-relevance synthesis is tagged inference. source: document.
+
+source: document
+citation: >-
+  Ohio EPA, Maumee Watershed Nutrient TMDL — Responsiveness Summary (final report)
+  -- data/documents/maumee-tmdl/Maumee-Watershed-Nutrient-TMDL-Official-Draft-Responsiveness-Summary.pdf
+  (28 pp.). Comment period 2022-12-30 to 2023-03-08; public hearing 2023-02-23
+  (19 testifiers); contact Josh Griffin, Ohio EPA Division of Surface Water.
+
+# Organizations that commented (p.1) — the locally/BOSC-relevant subset flagged.
+commenters_local:
+  list:
+    - "Lima Refinery (a.k.a. Lima Refining Company) — NPDES 2IG00001; also a flagged Ottawa toxic discharger"
+    - "PCS Nitrogen — NPDES 2IF00004; also a flagged Ottawa toxic discharger"
+    - "Village of Elida — the BOSC/Google school district; Elida WWTP 2PB00046"
+    - "Association of Ohio Metropolitan Wastewater Agencies (AMWA) — the municipal point-source bloc"
+    - "Ohio Manufacturers' Association; Cleveland Cliffs — industrial point-source interests"
+    - "Ohio Farm Bureau Federation; Ohio Agri-Business Assoc; Ohio Livestock & Poultry Assns — ag/nonpoint bloc"
+  full_list_note: "Plus environmental groups (Lake Erie Foundation, OEC, ELPC, Lake Erie Waterkeeper, Alliance for the Great Lakes), Toledo/Lucas Co., Village of Swanton, Michigan EGLE, and ~37 individuals (p.1)."
+
+# --- Hard facts: design-flow increases the TMDL baked into individual WLAs (pp.12-13) ---
+wla_design_flow_updates:
+  citation: "Responsiveness Summary, 'Comments Related to Allocations', pp.12-13"
+  updates:
+    - facility: "Allen County Shawnee #2 WWTP"
+      npdes: "2PK00002"
+      avg_daily_design_flow_mgd: {from: 2.0, to: 3.0}
+      group: GP2
+      note: >-
+        "authorized to increase the average daily design flow from 2.0 to 3.0 MGD. This increase in
+        design flow was used to update the facility's individual WLA." Directly relevant to PRR item 9
+        (Shawnee II Phase 2 capacity; the 12.6 MGD peak-hydraulic figure on the county website). The
+        TMDL WLA already reflects a 3.0 MGD AVERAGE-daily-design Shawnee #2 (peak != average).
+    - facility: "Elida WWTP"
+      npdes: "2PB00046"
+      avg_daily_design_flow_mgd: {from: 0.5, to: 0.8}
+      group: GP3
+      note: "Elida (the BOSC school district's WWTP) expansion 0.5 -> 0.8 MGD baked into its WLA."
+    - facility: "Wapakoneta WWTP"
+      npdes: "2PD00019"
+      avg_daily_design_flow_mgd: {from: 4.0, to: 6.0}
+      group: GP2
+    - facility: "Village of Swanton WRRF"
+      npdes: "2PB00025"
+      note: "Reclassified GP2 -> GP3 after WLA was corrected to the 0.92 MGD average daily design flow (the 2.5 MGD was wet-weather flow)."
+    - facility: "Lima Refining Company"
+      npdes: "2IG00001"
+      note: "Commented that its discharge is not daily; a clarifying footnote was added to Table A4.1. WLA unchanged."
+  reallocation_note: >-
+    The cumulative effect lowered the GP2 target concentration from 0.44 to 0.43 mg/L (to comply with
+    a monthly avg of 0.59 mg/L). "The loads for GP2 were reallocated instead of the calculated
+    allowance for future growth being reduced." — i.e. the tiny AFG was protected; majors absorbed it.
+
+# --- The rule for NEW or EXPANDING dischargers (the BOSC mechanism), pp.20-22 ---
+new_and_expanding_facility_rule:
+  citation: "Responsiveness Summary, point-source implementation strategy, pp.20-22"
+  added_load_vs_afg: >-
+    "New and expanding facilities: These facilities will add more load to the system, which will need
+    to be justified against a limited allowance for future growth." (p.21)
+  technology_requirement: >-
+    New/expanding/upgrading biological-treatment facilities with avg daily design flow >= 1 MGD
+    receive a monthly-average 0.5 mg/L total-phosphorus limit in their individual NPDES permit, and
+    "will need to incorporate all secondary and potentially tertiary treatment capabilities needed to
+    meet individual monthly limits of 0.5 mg/L." Replacing a facility on an existing site triggers the
+    same 0.5 mg/L design expectation.
+  concentration_targets:
+    gp2_wla_concentration_mg_l: 0.43       # to comply with a 0.59 mg/L monthly average
+    gp3_long_term_avg_mg_l: 0.73           # GP3 basis (also stated 0.73 for shifted Swanton)
+    target_for_0_5_limit_mg_l: 0.37        # concentration needed to regularly comply with a 0.5 mg/L monthly avg
+  cost_pointer: >-
+    Tetra Tech's Appendix 6 cost analysis: ">50% of the capital and annual O&M costs ... are related
+    to the addition of cloth media filtration" (the tertiary step) — the dominant cost of hitting
+    0.5 mg/L (p.21). See ottawa-lima-tmdl.yaml#cost_evaluation.
+  growth_capacity_pathways:
+    - "Water quality trading (OAC 3745-5) — could 'provide additional capacity for growth for new or expanding facilities' (p.22), but requires an outside party to apply; none exists for the Maumee yet."
+    - "Integrated planning — community-level flexibility to sequence CWA investments (p.23)."
+  point_source_posture: >-
+    No point-source REDUCTIONS targeted now: WLAs hold facilities at the 2008 loading level (not
+    exceeded in the last 5 years). The strategy instead requires upgraded P-removal technology when a
+    facility undergoes capital investment — "at a time when infrastructure upgrades can be done at a
+    marginal cost compared to an unplanned capital upgrade" (p.20).
+
+other_themes:                  # summarized, not transcribed
+  drp_not_allocated: "Commenters pushed for DRP-specific targets; Ohio EPA allocated total phosphorus only (DRP modeling immature), while emphasizing DRP in implementation/monitoring (pp.3-4, 15-16)."
+  forty_pct_is_a_cap: "The ~40% reduction is a MAXIMUM ALLOWABLE LOAD (Annex 4 target), not a required percent reduction; recent spring loads have exceeded the 2008 baseline, and targets must be met 90% of the time (p.12)."
+  cafo_manure: "The largest comment volume (pp.5-12): CAFOs get WLA=0 (prohibited discharges are an enforcement, not permitting, matter per Waterkeeper / Nat'l Pork Producers); manure ~= commercial fertilizer at the edge-of-field; no AFG reserved for livestock growth (p.16)."
+  nonpoint_dominant: "Nonpoint (ag) load allocation is the residual after WLAs+MOS and bears the greatest proportional reduction; left as a single category for flexibility (pp.14-15). 2.3M ac of Maumee ag land in Ohio; H2Ohio ~1M ac enrolled (pp.19-20, 26)."
+
+bosc_relevance:
+  tags: [verified, hydrology, tmdl, responsiveness, shawnee-ii, elida, point-source, future-growth, capacity]
+  note: >-
+    Two BOSC-critical takeaways. (1) The TMDL already baked in a Shawnee #2 average-daily-design-flow
+    increase to 3.0 MGD and an Elida WWTP increase to 0.8 MGD — concrete, document-grounded capacity
+    changes that bear on PRR item 9 (Shawnee II Phase 2 / the 12.6 MGD figure / who the expanded
+    capacity serves). (2) Ohio EPA's stated rule is that ANY new or expanding discharger must justify
+    its added load against the watershed's "limited allowance for future growth" (~1.4-1.5 mt
+    TP/spring, maumee-tmdl-budget.yaml) AND install secondary+tertiary treatment to meet a 0.5 mg/L
+    individual TP limit — with cloth filtration (>50% of upgrade cost) the dominant expense. So a new
+    data-center sanitary load is both capacity-constrained (competes for a minuscule AFG) and
+    cost-burdened (triggers tertiary-treatment upgrades) — a public/ratepayer cost the incentive
+    package does not surface. [the design-flow facts, commenters, and the 0.5 mg/L rule are document;
+    the data-center-burden synthesis is inference.]
+
+cross_refs:
+  - data/reference/hydrology/maumee-tmdl-budget.yaml       # the AFG / loading-capacity ceiling these comments defend
+  - data/reference/hydrology/maumee-tmdl-wla.yaml          # the per-facility WLAs updated by the design-flow changes
+  - data/reference/hydrology/ottawa-lima-tmdl.yaml         # the Tetra Tech cost evaluation referenced for the 0.5 mg/L upgrade cost
+  - data/extracted/oepa/                                   # the Shawnee II / American-Bath / American-II OEPA NPDES permits + fact sheets
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml  # PRR item 9 (Shawnee II 12.6 MGD) + item 8 (receiving facilities)
