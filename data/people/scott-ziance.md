@@ -14,7 +14,9 @@ sources:
   - data/extracted/permits/4071709.epa.yaml
   - data/extracted/permits/4081908.epa.yaml
   - data/extracted/permits/4074527.epa.yaml
-tags: [counsel]
+  - data/extracted/legal/prr-mandamus/cra-agreement.cra.yaml
+  - data/extracted/legal/prr-mandamus/mutual-nda-bistrozzi.nda.yaml
+tags: [counsel, vorys, bistrozzi]
 ---
 
 ## How he appears in the record
@@ -31,6 +33,14 @@ Scott J. Ziance recurs across the Project BOSC corpus in two roles:
 
 The shared 52 East Gay Street address ties the permit contact and the Vorys filing
 channel together in the record.
+
+He also appears on the **deal instruments themselves**: as **company counsel for
+Bistrozzi LLC** on the [CRA agreement](../extracted/legal/prr-mandamus/cra-agreement.cra.yaml)
+(`sjziance@vorys.com`), and as the **authorized signatory who executed the Mutual NDA
+for Bistrozzi** opposite the County's Brian Winegardner
+([NDA](../extracted/legal/prr-mandamus/mutual-nda-bistrozzi.nda.yaml); Ziance signed
+2025-07-01). Vorys handles the local CRA/land/NDA paperwork; cf. Jill Tangeman on the
+RDA and the land-option assignments.
 
 ## Research status
 
