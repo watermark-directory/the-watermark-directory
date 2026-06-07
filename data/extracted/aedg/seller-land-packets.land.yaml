@@ -1,0 +1,139 @@
+kind: land_assembly
+subject: BOSC/Google data-center land assembly — seller option packets and assignment to Bistrozzi LLC
+
+provenance:
+  source_path: data/documents/aedg/PRR-01-bundle.ocr.pdf
+  bundle: "Allen County -- Responsive Records -- Parent PRR.pdf (producing body: Port Authority of Allen County)"
+  pages: >-
+    index pp.91-295 (= bundle 0-based 90-294): Brenneman packet pp.91-168, Miller pp.193-205,
+    Neff pp.242-276, Neighbors pp.280-295. Pages read for this extraction: 91, 158-159, 165, 168,
+    193, 200, 250/263-264, 270-272, 280-284.
+  content_verified: '2026-06-07'   # terms read from the page images (scanned exhibits; OCR garbled)
+  evidence: scan (PAAC public-records production)
+
+mechanism: >-
+  The Port Authority of Allen County (PAAC) took 3-year Option-to-Purchase agreements (with a 3-year
+  renewal) on the farm parcels in 2023-2024, then on 2025-07-03 ASSIGNED all the options to Bistrozzi
+  LLC (Vorys / Jill S. Tangeman drove the assignments + exercises); Bistrozzi exercised and closed
+  ~2025-07-14. Each option's Section 21 gave PAAC "the unrestricted right to assign its rights ... to
+  a nominee of its choice." The Neighbors parcel was instead a direct 2025-10 PAAC purchase contract,
+  later assigned to Bistrozzi (2025-10/2026-02).
+
+sellers:
+  brenneman_brothers:
+    option:
+      seller: "Brenneman Brothers (an Ohio Partnership)"
+      buyer: "Port Authority of Allen County"
+      acreage: 81.03
+      parcels: ['36-1200-03-001.000', '36-1200-03-001.001', '36-1200-03-001.002', '36-1200-03-001.003', '36-1200-03-001.004', '36-1200-03-001.005', '36-1200-03-001.006']
+      address: "950 West Bluelick Road area, American Township"
+      initial_option_payment_usd: 1000
+      term: "3-year Initial Option Term + 3-year First Renewal (additional $1,000); Purchase Price renegotiated at renewal; option exercisable only for the ENTIRE property"
+      page: 91
+    seller_contacts: ["Brenneman Brothers, 5230 N. Grubb Road, Elida OH 45807", "trustees: Kyle C. & Sarah N. Brenneman, 4845 Sherrick Rd, Lima; Keaton A. & Kristen M. Brenneman"]
+    assignment_to_bistrozzi:
+      vorys_notice_date: '2025-07-03'   # Jill S. Tangeman notice of exercise (p.165)
+      closing: '2025-07-14'
+      assignor: "Port Authority of Allen County"
+      assignee: "Bistrozzi LLC (Delaware) -- 2801 Centerville Rd, 1st Floor, PMB 811, Wilmington, DE 19808"
+    price_disclosed: false   # DTE-100 conveyance-fee dollar fields (7a-7i) left BLANK on the produced copy (p.158)
+    cauv_recoupment: true    # DTE-102 filed (p.159): CAUV farmland -> conversion triggers recoupment; taxing district Elida L.S.D.; notarized by Rex H. Huffman
+
+  miller:
+    option:
+      seller: "Merle M. Miller and Ruth E. Miller"
+      buyer: "Port Authority of Allen County"
+      acreage: 54.94
+      parcels: ['36-1200-03-002.000']
+      address: "American Township"
+      initial_option_payment_usd: 2000
+      term: "3-year Initial Option Term + 3-year First Renewal (additional $1,000); Purchase Price renegotiated at renewal"
+      page: 193
+    chain_note: >-
+      Parcel 36-1200-03-002.000 is the same parcel RDA Exhibit A (roadwork-development-agreement.rda.yaml)
+      attributes to "Pike Run Farms, LLC", and the 2025-07-02 PAAC minutes approved assigning the
+      "Pike Run Farms, LLC" option to Bistrozzi. So this parcel ran Miller (2023 option) -> Pike Run
+      Farms LLC -> Bistrozzi. [Miller<->Pike Run relationship not stated in the read pages; flagged.]
+    price_disclosed: false
+
+  neff:
+    option:
+      seller: "Neff Farms, Inc. (an Ohio corporation)"
+      buyer: "Port Authority of Allen County"
+      option_effective_date: '2023-06-21'   # earliest dated option in the assembly (matches BOSC's 2023-05 start)
+      parcels: ['36-1200-02-001.000', '36-1200-02-001.001', '36-0100-03-002.000']   # "36-100-03-002.000" in source = 36-0100-03-002.000
+      address: "4110 N. Cole Street + Cole Street, Lima (the permitted Project BOSC address is 36-1200-02-001.001)"
+      page: "250/263"
+    acreage_discrepancy: >-
+      The Assignment recital states ~81.03 acres for the three Neff parcels (p.264) -- identical to the
+      Brenneman figure, likely a template/copy error -- whereas the 2023-05-18 PAAC minutes describe
+      "an option on 202.57 acres on the Neff property." Recorded as a discrepancy; not resolved here.
+    seller_contacts: ["William Neff, 11951 Zerkle Road, Lima OH 45806"]
+    assignment_to_bistrozzi:
+      vorys_notice_date: '2025-07-03'   # Jill S. Tangeman notice (p.264)
+      closing: '2025-07-14'
+      assignor: "Port Authority of Allen County"
+      assignee: "Bistrozzi LLC (Delaware)"
+    title: "Chicago Title Insurance Company, Commitment GLW2401175A; Owner's Gap PACA Affidavit by Neff Farms Inc (perishable-ag-commodities title clearance), printed 2025-06-27"
+    price_disclosed: false   # DTE-100 dollar fields left BLANK (p.270); CAUV: yes
+
+  neighbors:
+    contract:
+      seller: "James W. Neighbors and Suzanne M. Neighbors (husband and wife)"
+      buyer: "Port Authority of Allen County"
+      contract_date: '2025-10'   # "this 6th day of October, 2025" (handwritten)
+      acreage: 5.0
+      parcels: ['36-1200-03-015.000']
+      purchase_price_usd: 600000        # the ONLY disclosed land price in the assembly
+      deposit: "Initial $5,000 (escrow: Robert H. Meyer IV, Attorney at Law) + $10,000 additional for the extended inspection"
+      inspection_period: "90 days (+30-day extension)"
+      page: "280-284"
+    appraisal_note: "Per 2025-02-27 PAAC minutes: the Neighbors appraised their property at $300,000 and the agreed purchase price is $600,000 (2x appraisal)."
+    assignment_to_bistrozzi: "PAAC assigns the purchase contract to Bistrozzi on closing (2025-10-23 PAAC minutes); Assignment & Assumption executed 2026-02-13 (closing that afternoon)."
+
+key_finding_prices_withheld:
+  finding: >-
+    The actual purchase prices for the assembled data-center land are NOT disclosed in the production.
+    The recorded deeds (data/extracted/recorder/) state only "valuable consideration paid", and the
+    DTE-100 Real Property Conveyance Fee Statements for the Brenneman and Neff transfers -- the forms
+    that legally report the sale price for the transfer tax -- were produced with the consideration /
+    total-value dollar fields (lines 7a-7i) left BLANK. The only land price disclosed anywhere is the
+    Neighbors parcel: $600,000 for 5.0 acres (a direct PAAC purchase contract, not an option).
+  significance: >-
+    The land-assembly cost (a core input to "what was paid to assemble the ~350-acre campus, and by
+    whom") is opaque even in the transfer-tax records that are supposed to carry it. A blank DTE-100 on
+    a recorded conveyance is itself a records-completeness flag. Combined with the $600K/5ac Neighbors
+    benchmark (~$120K/ac, 2x appraisal), the missing prices are a quantifiable gap for the public-ledger
+    thread. [the blank-form + Neighbors figures are document; the assembly-cost framing is inference.]
+
+cauv_recoupment:
+  finding: >-
+    The Brenneman and Neff parcels were enrolled in Current Agricultural Use Valuation (CAUV, R.C.
+    5713.31) -- the farmland property-tax break. Their DTE-102 forms acknowledge that converting the
+    land out of agricultural use triggers a CAUV RECOUPMENT charge (up to 3 years of tax savings,
+    R.C. 5713.30/.34). Taxing district: Elida L.S.D.
+  significance: "A one-time tax clawback on conversion, and a marker that productive farmland is being taken out of CAUV for the data center -- relevant to the tax/public-ledger and land-use story."
+
+actors:
+  - "Jill S. Tangeman, Esq. -- Vorys, Sater, Seymour and Pease (jstangeman@vorys.com) -- drove the assignments/exercises to Bistrozzi"
+  - "Larry Vandemark -- Oakridge Realty & Auction Co., 2550 W. Breese Road, Lima -- broker (copied on all notices)"
+  - "Rex H. Huffman -- Attorney-at-Law / Notary (PAAC counsel) -- notarized the DTE-102s"
+  - "Robert H. Meyer IV, Attorney at Law -- escrow agent (Neighbors)"
+  - "Chicago Title Insurance Company -- title (Neff commitment GLW2401175A)"
+
+cross_refs:
+  - data/extracted/aedg/roadwork-development-agreement.rda.yaml   # RDA Exhibit A: the same parcels (Neff/Brenneman/Pike Run) as the Project property
+  - data/extracted/aedg/paac-board-minutes.minutes.yaml          # the assembly narrative (options 2023, assignments 2025-07-02, Neighbors $600K)
+  - data/extracted/recorder/202508130008300.deed.yaml            # the recorded Brenneman->Bistrozzi deed ("valuable consideration", no price)
+  - data/extracted/recorder/                                     # the recorded Bistrozzi deeds generally
+  - data/extracted/legal/prr-mandamus/cra-agreement.cra.yaml     # the CRA abatement on this assembled land
+
+relevance:
+  tags: [verified, aedg, land-assembly, bistrozzi, google, cauv, records-withholding, public-ledger]
+  note: >-
+    The land-assembly chain for the BOSC/Google campus: PAAC optioned Neff (eff 2023-06-21), Brenneman
+    ($1,000 option, 81.03 ac), and Miller/Pike Run ($2,000 option, 54.94 ac), then assigned all options
+    to Bistrozzi LLC on 2025-07-03 (Vorys/Tangeman), closing 2025-07-14; the Neighbors 5.0-ac parcel
+    was a direct $600,000 PAAC purchase. The purchase prices are withheld -- recorded deeds say only
+    "valuable consideration" and the DTE-100 transfer-tax forms were produced with the dollar fields
+    blank -- making the assembly cost opaque. CAUV recoupment applies (farmland conversion; Elida LSD).
