@@ -50,6 +50,14 @@ def test_build_site_stages_expected_pages(tmp_path: Path) -> None:
     assert "GENERAL DYNAMICS LAND SYSTEMS" in rsei_body
     assert result.n_rsei_facilities >= 40
 
+    # The GLEIF entity-LEI page is staged with the resolved corridor entities.
+    lei_page = web / "lei.md"
+    assert lei_page.is_file()
+    lei_body = lei_page.read_text(encoding="utf-8")
+    assert "Corridor entity LEIs" in lei_body
+    assert "GENERAL DYNAMICS" in lei_body.upper()
+    assert result.n_lei_records >= 5
+
     # The GIS findings map page + its committed GeoJSON asset are staged.
     gis = web / "gis-map.md"
     assert gis.is_file()

@@ -715,6 +715,48 @@ def rsei_cmd(
     )
 
 
+@app.command(name="lei")
+def lei_cmd(
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached GLEIF responses only; never touch the network."
+    ),
+    out_dir: str | None = typer.Option(
+        None, "--out", help="Output directory (default: data/reference/gleif)."
+    ),
+) -> None:
+    """Resolve the corridor LEI watchlist against GLEIF -> committed records YAML.
+
+    Each watchlist entity is fetched by its pinned, exact 20-char LEI (no fuzzy name
+    match), with its reported direct/ultimate parent. Raw responses cache under
+    data/cache/gleif; the curated YAML is the committed artifact.
+    """
+    from bosc import gleif
+    from bosc.config import Settings
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(gleif_offline=True)
+    target = Path(out_dir) if out_dir else settings.reference_dir / "gleif"
+
+    inv = gleif.resolve_watchlist(settings)
+
+    table = Table("Legal name", "LEI", "Juris.", "Status", "Ultimate parent")
+    for r in inv.records:
+        up = r.ultimate_parent.name if r.ultimate_parent else "—"
+        table.add_row(
+            r.legal_name[:32], r.lei, r.jurisdiction or "—", r.entity_status or "—", up[:28]
+        )
+    console.print(table)
+    console.print(
+        f"\n[bold]{len(inv.records)}[/] LEIs resolved "
+        f"([green]{inv.meta['with_reported_parent']} report a parent[/]), "
+        f"{len(inv.leads)} unresolved lead(s)."
+    )
+
+    path = gleif.write_inventory(inv, target)
+    console.print(f"[green]Wrote[/] {path}")
+
+
 @app.command(name="lsc")
 def lsc(
     ga: str = typer.Option(

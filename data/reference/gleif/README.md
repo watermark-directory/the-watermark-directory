@@ -1,0 +1,50 @@
+# Corridor entity LEIs (GLEIF)
+
+Verified **Legal Entity Identifier (LEI)** records for the corridor / RSEI facility
+parent companies on the [watchlist](../../entities/profiles/lei-watchlist.yaml),
+resolved against the **GLEIF** registry — the global "who is who / who owns whom"
+directory. Regenerate with `bosc lei`.
+
+## Source
+
+| | |
+|---|---|
+| Dataset | GLEIF LEI — AWS Open Data `s3://gleif` (golden copy) |
+| Access | GLEIF REST API `https://api.gleif.org/api/v1` |
+| License | Creative Commons **CC0** |
+| Registry | https://registry.opendata.aws/lei/ |
+| Docs | https://www.gleif.org/en/lei-data/gleif-golden-copy |
+
+The S3 bucket is the bulk golden copy (millions of records, refreshed ~3×/day). For
+a small watchlist we use the REST API; raw responses cache under the git-ignored
+`data/cache/gleif/`, and only the curated YAML here is committed.
+
+## Method (litigation discipline)
+
+- **Every LEI is pinned and fetched by exact 20-character ID** — never a fuzzy name
+  match — so the committed record can't drift onto the wrong legal entity.
+- Entities whose correct legal entity is ambiguous (e.g. *INEOS USA LLC*, whose top
+  GLEIF hit is the Belgian parent) are kept as **unresolved leads**, not pinned
+  records. Prefer omission over a wrong match.
+- A **direct/ultimate parent that returns 404** means GLEIF holds *no reported
+  relationship record* — recorded as absent, which is **not** a claim that no parent
+  exists (it may be an unreported reporting exception). GLEIF relationships are
+  self-reported.
+
+## Files
+
+- `lei-records.yaml` — `meta` provenance + one record per pinned entity (LEI, legal
+  name, jurisdiction, entity/registration status, legal address, reported
+  direct/ultimate parent) + the unresolved `leads`.
+
+## Corridor relevance
+
+- **General Dynamics Land Systems Inc.** (`875500ULXB4CYQSJVA03`) reports its
+  ultimate parent as **General Dynamics Corporation** (`9C1X8XOOTYY2FNYTVH06`) — an
+  independent registry confirming the GDLS↔GD ownership behind the JSMC operator (the
+  [RSEI](../rsei/README.md) #3 Allen County facility and the
+  [defense-contractor scan](../allen-gis/README.md)).
+- **Cenovus Energy Inc.** (`254900LJGL2N2XEMD470`) is the post-2021 successor to
+  Husky Energy, the RSEI **Lima Refining Co** parent.
+- The remaining watchlist entities are RSEI Allen County facility parents (Marathon,
+  Ford, Dana, Textron, P&G, Shell) — the page cross-links the two datasets.

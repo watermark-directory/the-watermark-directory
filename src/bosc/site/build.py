@@ -20,6 +20,7 @@ from bosc.candidates import (
     load_defense_scan,
 )
 from bosc.config import Settings, get_settings
+from bosc.gleif import load_inventory as load_lei_inventory
 from bosc.logging import get_logger
 from bosc.people import load_people
 from bosc.pipeline.corpus import load_corpus
@@ -29,6 +30,7 @@ from bosc.rsei import load_inventory as load_rsei_inventory
 from bosc.site import candidates as candidates_mod
 from bosc.site import exhibits as exhibits_mod
 from bosc.site import gismap as gismap_mod
+from bosc.site import gleif as gleif_mod
 from bosc.site import graph as graph_mod
 from bosc.site import people as people_mod
 from bosc.site import records as records_mod
@@ -56,6 +58,7 @@ class BuildResult:
     n_candidates: int = 0
     n_defense_contractors: int = 0
     n_rsei_facilities: int = 0
+    n_lei_records: int = 0
 
 
 def _mirror_tree(
@@ -252,6 +255,14 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
             rsei_mod.render_rsei(rsei_inv, egraph=egraph), encoding="utf-8"
         )
         result.n_rsei_facilities = len(rsei_inv.facilities)
+
+    # 6b-iii. GLEIF LEI resolution (data/reference/gleif/lei-records.yaml).
+    lei_inv = load_lei_inventory(settings.reference_dir)
+    if lei_inv is not None:
+        (web / "lei.md").write_text(
+            gleif_mod.render_gleif(lei_inv, egraph=egraph), encoding="utf-8"
+        )
+        result.n_lei_records = len(lei_inv.records)
 
     # 6c. GIS findings map — copy the committed GeoJSON as a static asset, render the
     # Leaflet page (it fetches the asset client-side).

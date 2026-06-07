@@ -160,7 +160,10 @@ General Dynamics Land Systems** plant at **#3** (~3.6 M Score, 99% cancer-weight
 chiefly nickel compounds, reported 1988–1993). That is an independent federal dataset
 naming **GDLS at the JSMC**, corroborating the
 [defense-contractor scan](../data/reference/allen-gis/README.md)'s reading of the
-Army-owned footprint. Several RSEI facilities also carry NPDES permits that join to
+Army-owned footprint — and the **GLEIF** registry independently records that
+*General Dynamics Land Systems Inc.* (LEI `875500ULXB4CYQSJVA03`) reports its
+**ultimate parent** as *General Dynamics Corporation*, confirming the ownership chain
+`[verified: data/reference/gleif/lei-records.yaml]`. Several RSEI facilities also carry NPDES permits that join to
 the [Maumee NPDES inventory](../data/reference/echo/README.md), and the per-facility
 *water* release bucket ties into the dilution analysis above. `[verified:
 data/reference/rsei/inventory.yaml]`

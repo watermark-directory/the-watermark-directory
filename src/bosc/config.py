@@ -106,6 +106,12 @@ class Settings(BaseSettings):
             "ALLSKY_SFC_SW_DWN",
         ]
     )
+    # GLEIF Legal Entity Identifier registry (AWS Open Data s3://gleif). The bucket is
+    # the bulk golden copy; for our curated watchlist we use the REST API (exact-LEI
+    # lookups + parent relationships). `bosc lei` resolves the watchlist to a YAML.
+    gleif_base_url: str = "https://api.gleif.org/api/v1"
+    gleif_offline: bool = False  # serve cached API responses only; never fetch
+    gleif_request_timeout_s: float = 30.0
 
     # --- Paths -------------------------------------------------------------
     data_dir: Path = _REPO_ROOT / "data"
@@ -134,6 +140,11 @@ class Settings(BaseSettings):
     def rsei_cache_dir(self) -> Path:
         """Cached EPA RSEI bulk tables (the big .gz files). Regenerable, not committed."""
         return self.cache_dir / "rsei"
+
+    @property
+    def gleif_cache_dir(self) -> Path:
+        """Cached GLEIF API responses (LEI records, parents). Regenerable, not committed."""
+        return self.cache_dir / "gleif"
 
     @property
     def reference_dir(self) -> Path:

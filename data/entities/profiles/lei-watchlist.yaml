@@ -1,0 +1,47 @@
+meta:
+  subject: GLEIF LEI watchlist — corridor entity parents
+  description: >-
+    Corridor / RSEI facility parent companies to resolve against the GLEIF Legal
+    Entity Identifier registry ("who owns whom"). Each LEI is PINNED by verified
+    20-char ID and fetched by exact lookup (never a fuzzy name match), so the
+    committed reference is litigation-clean. Entities whose correct legal entity is
+    ambiguous are listed without a pinned LEI as unresolved leads. Regenerate the
+    resolved records with `bosc lei`.
+  source: GLEIF (AWS Open Data s3://gleif), REST API api.gleif.org; license CC0
+# Verified, pinned entities (fetched by exact LEI).
+entities:
+  - name: General Dynamics Corporation
+    lei: 9C1X8XOOTYY2FNYTVH06
+    note: Ultimate parent of the JSMC operator (defense thread; RSEI #3 facility).
+  - name: General Dynamics Land Systems Inc.
+    lei: 875500ULXB4CYQSJVA03
+    note: JSMC / Lima Army Tank Plant operator — Allen County RSEI #3 toxic-release Score.
+  - name: Cenovus Energy Inc.
+    lei: 254900LJGL2N2XEMD470
+    note: Successor to Husky Energy (the RSEI Lima Refining Co parent), post-2021 merger.
+  - name: Marathon Petroleum Corporation
+    lei: 3BNYRYQHD39K4LCKQF12
+    note: Parent of the Marathon Lima terminal (RSEI facility).
+  - name: Ford Motor Company
+    lei: 20S05OYHG0MQM4VUIC57
+    note: Parent of the Ford Lima Engine Plant (RSEI facility).
+  - name: Dana Incorporated
+    lei: KVWHW7YLZPFJM8QYNJ51
+    note: Parent of Dana Driveshaft Manufacturing (RSEI facility).
+  - name: Textron Inc.
+    lei: 3PPKBHUG1HD6BO7RNR87
+    note: Parent of Airfoil Textron (RSEI facility).
+  - name: The Procter & Gamble Company
+    lei: 2572IBTT8CCZW6AU4141
+    note: Parent of the P&G Lima plant (RSEI facility); registered in Columbus, OH.
+  - name: Shell plc
+    lei: 21380068P1DRHMJ8KU70
+    note: Ultimate parent behind the Equilon / Shell Lima terminals (RSEI facilities).
+# Unresolved leads (no verified, unambiguous legal entity pinned yet).
+leads:
+  - name: INEOS USA LLC
+    query: INEOS
+    note: >-
+      RSEI #1 Allen County facility. The GLEIF top hit is the Belgian INEOS parent;
+      the correct INEOS USA legal entity is ambiguous — left unpinned to avoid a
+      wrong match in committed evidence.
