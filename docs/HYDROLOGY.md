@@ -72,6 +72,9 @@ Lake Erie nutrient budget.
 
 **Climate baseline (NASA POWER).** The Lima point averages **~997 mm/yr** of precipitation (corrected), peaking in May, at a mean annual temperature of **10.7 °C** `[reference: NASA POWER climatology]`. The satellite climate *normal* sets the long-run water budget; the design storm below is the NOAA Atlas-14 *extreme* the corridor must detain — the two are complementary.
 
+
+**Reference ET (FAO-56 Penman-Monteith).** Atmospheric water *demand* runs **~1,085 mm/yr** of reference ET0, computed from the same POWER normals (temperature, humidity, wind, solar) `[derived: FAO-56 Penman-Monteith]`. Net of precipitation that is **-88 mm/yr** — and ET0 *exceeds* rainfall across the **May-Oct** growing season, so summer soil moisture, pond evaporation, and any consumptive cooling draw compete for water in the months the Ottawa is already near its low-flow floor (§4).
+
 A 25-yr 24-hr design storm (4.25 in `[inference: assumption]`) over the 340-ac footprint `[verified]`:
 
 

@@ -661,6 +661,16 @@ def nasa_power_cmd(
     ann = clim.annual_precip_mm()
     if ann is not None:
         console.print(f"\nAnnual precipitation normal: [bold]{ann:,.0f} mm/yr[/].")
+        try:
+            from bosc.hydrology.et import penman_monteith_et0
+
+            et0 = penman_monteith_et0(clim)
+            console.print(
+                f"Reference ET0 (FAO-56 Penman-Monteith): [bold]{et0.annual_mm:,.0f} mm/yr[/] "
+                f"(net of precip {ann - et0.annual_mm:+,.0f} mm/yr)."
+            )
+        except ValueError:
+            pass
 
     if write:
         path = climate.write_climatology(clim, settings=get_settings())

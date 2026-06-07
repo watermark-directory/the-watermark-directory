@@ -153,6 +153,31 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
                 f"storm below is the NOAA Atlas-14 *extreme* the corridor must detain — "
                 f"the two are complementary.\n"
             )
+            from bosc.hydrology.et import penman_monteith_et0
+
+            try:
+                et0 = penman_monteith_et0(clim)
+            except ValueError:
+                et0 = None
+            if et0 is not None:
+                net = ann - et0.annual_mm
+                precip_m = clim.get("PRECTOTCORR")
+                deficit = (
+                    [m for m in et0.monthly_mm_day if et0.monthly_mm_day[m] > precip_m.monthly[m]]
+                    if precip_m is not None
+                    else []
+                )
+                span = f"{deficit[0].title()}-{deficit[-1].title()}" if deficit else "none"
+                w(
+                    f"\n**Reference ET (FAO-56 Penman-Monteith).** Atmospheric water "
+                    f"*demand* runs **~{et0.annual_mm:,.0f} mm/yr** of reference ET0, "
+                    f"computed from the same POWER normals (temperature, humidity, wind, "
+                    f"solar) `[derived: FAO-56 Penman-Monteith]`. Net of precipitation "
+                    f"that is **{net:+,.0f} mm/yr** — and ET0 *exceeds* rainfall across "
+                    f"the **{span}** growing season, so summer soil moisture, pond "
+                    f"evaporation, and any consumptive cooling draw compete for water in "
+                    f"the months the Ottawa is already near its low-flow floor (§4).\n"
+                )
 
     w(
         f"A {runoff.storm.return_period_yr}-yr 24-hr design storm "

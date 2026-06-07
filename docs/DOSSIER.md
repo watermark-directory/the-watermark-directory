@@ -153,6 +153,15 @@ effectively undiluted is also **capped at the basin scale** by a binding nutrien
 budget — local dilution failure on top of a Lake-Erie phosphorus cap. `[verified:
 data/reference/hydrology/maumee-tmdl-wla.yaml]`
 
+**Atmospheric water budget (NASA POWER + FAO-56).** The corridor's climate normal is
+**~997 mm/yr** precipitation against **~1,085 mm/yr** of reference ET0 (FAO-56
+Penman-Monteith from the NASA POWER normals) — a **−88 mm/yr** net, with ET0
+exceeding rainfall every month **May–Oct**. The growing-season water deficit lands in
+exactly the months the Ottawa is at its low-flow floor, so peak evaporative demand and
+any consumptive cooling draw coincide with minimum river supply (see the
+[hydrology report §3–4](HYDROLOGY.md)). `[derived: FAO-56 Penman-Monteith over
+data/reference/hydrology/nasa-power-climatology.yaml]`
+
 **Floodplain.** The recorded campus parcels sit *just outside* the FEMA Special
 Flood Hazard Area, but Zone AE (1%-annual-chance) floodplain and regulatory
 **floodway** (FEMA DFIRM 39003C) come within **~50 m** of the footprint — a no-rise
