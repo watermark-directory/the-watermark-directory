@@ -154,7 +154,9 @@ async def timeline(_args: dict[str, Any]) -> dict[str, Any]:
 async def entities(_args: dict[str, Any]) -> dict[str, Any]:
     from bosc.pipeline import entities as entities_stage
 
-    graph = entities_stage.build_entity_graph(enrich_parcels=True, enrich_lei=True)
+    graph = entities_stage.build_entity_graph(
+        enrich_parcels=True, enrich_lei=True, enrich_rsei=True, enrich_federal=True
+    )
     if not graph.entities:
         return _text("No entities found under data/extracted.")
     lines = ["ENTITIES:"]

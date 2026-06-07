@@ -9,6 +9,9 @@ meta:
     resolved records with `bosc lei`.
   source: GLEIF (AWS Open Data s3://gleif), REST API api.gleif.org; license CC0
 # Verified, pinned entities (fetched by exact LEI).
+# `rsei_parents` is a curated crosswalk: the exact RSEI `parent_name` string(s) (incl.
+# RSEI's own spellings/typos and pre-merger names) this GLEIF legal entity owns — used
+# to fold the GLEIF parent + its Allen County RSEI facilities into the entity graph.
 entities:
   - name: General Dynamics Corporation
     lei: 9C1X8XOOTYY2FNYTVH06
@@ -16,32 +19,41 @@ entities:
   - name: General Dynamics Land Systems Inc.
     lei: 875500ULXB4CYQSJVA03
     note: JSMC / Lima Army Tank Plant operator — Allen County RSEI #3 toxic-release Score.
+    rsei_parents: ["GENERAL DYNAMICS"]
   - name: Cenovus Energy Inc.
     lei: 254900LJGL2N2XEMD470
     note: Successor to Husky Energy (the RSEI Lima Refining Co parent), post-2021 merger.
+    rsei_parents: ["HUSKY ENERGY INC"]
   - name: Marathon Petroleum Corporation
     lei: 3BNYRYQHD39K4LCKQF12
     note: Parent of the Marathon Lima terminal (RSEI facility).
+    rsei_parents: ["MARATHON PETROLUEM CORORPATION"]
   - name: Ford Motor Company
     lei: 20S05OYHG0MQM4VUIC57
     note: Parent of the Ford Lima Engine Plant (RSEI facility).
+    rsei_parents: ["FORD MOTOR CO"]
   - name: Dana Incorporated
     lei: KVWHW7YLZPFJM8QYNJ51
     note: Parent of Dana Driveshaft Manufacturing (RSEI facility).
+    rsei_parents: ["DANA HOLDING CORP"]
   - name: Textron Inc.
     lei: 3PPKBHUG1HD6BO7RNR87
     note: Parent of Airfoil Textron (RSEI facility).
+    rsei_parents: ["TEXTRON INC"]
   - name: The Procter & Gamble Company
     lei: 2572IBTT8CCZW6AU4141
     note: Parent of the P&G Lima plant (RSEI facility); registered in Columbus, OH.
+    rsei_parents: ["THE PROCTER & GAMBLE CO"]
   - name: Shell plc
     lei: 21380068P1DRHMJ8KU70
     note: Ultimate parent behind the Equilon / Shell Lima terminals (RSEI facilities).
+    rsei_parents: ["EQUILON ENTERPRISES LLC"]
   - name: INEOS USA LLC
     lei: 549300TWZ86K81VO8O17
     note: >-
       RSEI #1 Allen County facility. Resolved by exact legal-name match to the
       Delaware-registered INEOS USA LLC (US-DE, ACTIVE) — distinct from the Belgian
       INEOS parent that a fuzzy search surfaces. GLEIF reports no ultimate parent.
+    rsei_parents: ["INEOS USA LLC"]
 # Unresolved leads (no verified, unambiguous legal entity pinned yet).
 leads: []

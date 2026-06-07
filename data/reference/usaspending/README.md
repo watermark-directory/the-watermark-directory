@@ -1,0 +1,67 @@
+# Federal-award footprint (USASpending.gov)
+
+All-time federal **prime-award obligations** for a pinned watchlist of recipients
+tied to the corridor — the "who benefits from federal dollars" layer behind the
+public-records dispute. Every figure is read verbatim from the USASpending API;
+nothing is estimated by BOSC. Regenerate with `bosc usaspending`.
+
+## What this answers
+
+The corridor's federal nexus is the **JSMC / Lima Army Tank Plant** — U.S. Army
+land operated by **General Dynamics Land Systems** (Allen County's RSEI #3 toxic-
+release facility). This table quantifies that nexus and the federal-award footprint
+of the corridor's named private parties, with a `nexus` tag on each record so the
+federal layer never overclaims a corridor connection.
+
+## Source & method
+
+| | |
+|---|---|
+| API | USASpending.gov — `https://api.usaspending.gov/api/v2` (public, no auth) |
+| License | U.S. Treasury — public domain |
+| Figure | `total_transaction_amount` from the recipient profile at `?year=all` — all-time prime-award obligations (USD) |
+
+Each recipient is **pinned** by its USASpending `recipient_id` **and** `uei`
+(`data/entities/profiles/usaspending-watchlist.yaml`). Resolution fetches the
+recipient profile by id and **asserts the returned UEI equals the pinned one** — never
+a fuzzy name match. A UEI mismatch drops the entity to an unresolved `lead` rather
+than risking a wrong attribution. `recipient_id`s were obtained by exact-name
+recipient search (`spending_by_category`, category `recipient`).
+
+## The `nexus` tag (don't overclaim)
+
+- **verified** — a documented corridor tie. GDLS (JSMC operator) and its parent
+  **General Dynamics Corp**; and **Amazon.com Services LLC**, the corridor land
+  recipient (deed instrument 202511180011830, Nov 2025) — an Amazon.com **warehouse,
+  NOT the data center**.
+- **context** — **Amazon Web Services, Inc.**, Amazon's federal cloud-contracting arm:
+  context for the parent group's federal entanglement, *not* the corridor recipient.
+- **open** — **Google LLC**, linked only to the *separate* Project Dazzler (Scioto
+  County) via a `google.com` applicant email. The Lima corridor data-center end-user
+  attribution remains **open** (the Google attribution rests on the AEDG release, not
+  yet in the corpus).
+
+## Headline (as committed)
+
+| Recipient | UEI | nexus | All-time prime obligations |
+|---|---|---|--:|
+| General Dynamics Corp (parent, all subsidiaries) | VF58HFRNGEL8 | verified | ~$299.1 B |
+| General Dynamics Land Systems Inc. (JSMC operator) | HAWKSQF848W7 | verified | ~$33.6 B |
+| Amazon Web Services, Inc. (federal cloud arm) | NQEWN6C1LSU5 | context | ~$931.8 M |
+| Google LLC | NQV3T7DDKNT6 | open | ~$73.5 M |
+| Amazon.com Services LLC (corridor warehouse recipient) | TMKBFBRHFKH3 | verified | ~$0.7 M |
+
+The USASpending profile also independently records **GDLS → General Dynamics Corp**,
+corroborating the GLEIF ownership chain (`data/reference/gleif/`).
+
+## Caveats / gaps
+
+- Prime obligations only (subawards excluded); `year=all` spans USASpending's full
+  record (FY2008+ for most data).
+- Recipient hierarchy is USASpending's own (e.g. Google LLC's recorded parent is
+  *Mandiant, Inc.* via UEI lineage) — recorded verbatim, not corrected.
+- The corridor developer shells (Bistrozzi, Tilted Gate, Magenta) carry **no UEI** and
+  are **not** federal recipients, so they are out of scope by construction — they are
+  not federally matchable without fuzzy guessing.
+- Raw API responses cache under the git-ignored `data/cache/usaspending/`; only
+  `awards.yaml` is committed.

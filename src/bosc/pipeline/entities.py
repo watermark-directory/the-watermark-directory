@@ -20,6 +20,7 @@ from __future__ import annotations
 import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
+from typing import Any
 
 import yaml
 
@@ -192,6 +193,8 @@ class Entity:
     addresses: set[str] = field(default_factory=set)
     sources: set[str] = field(default_factory=set)
     lei: str | None = None  # GLEIF Legal Entity Identifier, when verified (opt-in enrichment)
+    uei: str | None = None  # USASpending Unique Entity Identifier, when verified
+    federal_obligations: float | None = None  # all-time federal prime-award $ (USASpending)
 
     @property
     def display(self) -> str:
@@ -259,6 +262,8 @@ def build_entity_graph(
     *,
     enrich_parcels: bool = False,
     enrich_lei: bool = False,
+    enrich_rsei: bool = False,
+    enrich_federal: bool = False,
     settings: Settings | None = None,
 ) -> EntityGraph:
     """Resolve entities and relationships across deeds, NPDES permits, SoS filings.
@@ -437,6 +442,10 @@ def build_entity_graph(
         enrich_with_parcel_owners(graph, settings=settings)
     if enrich_lei:
         enrich_with_lei(graph, settings=settings)
+    if enrich_rsei:
+        enrich_with_rsei_ownership(graph, settings=settings)
+    if enrich_federal:
+        enrich_with_federal_awards(graph, settings=settings)
     return graph
 
 
@@ -596,4 +605,142 @@ def enrich_with_lei(graph: EntityGraph, *, settings: Settings | None = None) -> 
                     source=_GLEIF_SOURCE,
                 ),
             )
+    return graph
+
+
+_RSEI_SOURCE = "data/reference/rsei/inventory.yaml"
+_USASPENDING_SOURCE = "data/reference/usaspending/awards.yaml"
+_LEI_WATCHLIST_REL = ("profiles", "lei-watchlist.yaml")
+
+
+def enrich_with_rsei_ownership(
+    graph: EntityGraph, *, settings: Settings | None = None
+) -> EntityGraph:
+    """Fold the GLEIF-resolved corporate parents + their Allen County RSEI facilities in.
+
+    Uses the curated ``rsei_parents`` crosswalk in ``lei-watchlist.yaml`` (the exact RSEI
+    ``parent_name`` strings each GLEIF legal entity owns, incl. RSEI's spellings/typos and
+    pre-merger names). For each RSEI facility whose ``parent_name`` is in the crosswalk, a
+    ``facility`` node and its ``corporate_parent`` node (LEI-stamped) are added with a
+    verified ``owned_by`` edge — the industrial-ownership layer behind the toxic
+    dischargers (ties the toxics screen to who owns them). The JSMC operator chain is left
+    to :func:`enrich_with_lei`. Idempotent; no-op if the references are absent.
+    """
+    settings = settings or get_settings()
+    from bosc.gleif import load_inventory as load_lei_inventory
+    from bosc.hydrology import toxics
+    from bosc.rsei import load_inventory as load_rsei_inventory
+
+    rsei = load_rsei_inventory(settings.reference_dir)
+    lei_inv = load_lei_inventory(settings.reference_dir)
+    if rsei is None or lei_inv is None:
+        return graph
+    wl_path = settings.entities_dir.joinpath(*_LEI_WATCHLIST_REL)
+    if not wl_path.is_file():
+        return graph
+    spec = yaml.safe_load(wl_path.read_text(encoding="utf-8")) or {}
+
+    lei_by_name = {normalize_name(r.legal_name): r for r in lei_inv.records}
+    # crosswalk: RSEI parent_name (upper) -> the GLEIF record for that legal entity
+    crosswalk: dict[str, Any] = {}
+    for ent in spec.get("entities") or []:
+        rec = lei_by_name.get(normalize_name(ent["name"]))
+        if rec is None or "LAND SYSTEMS" in ent["name"].upper():  # GDLS handled by enrich_with_lei
+            continue
+        for pn in ent.get("rsei_parents") or []:
+            crosswalk[pn.strip().upper()] = rec
+
+    # facilities flagged as toxic water dischargers (ties to the toxics screen)
+    try:
+        flagged = {
+            s.facility.upper()
+            for s in toxics.build_screen(settings).screens
+            if s.flag in ("critical", "elevated")
+        }
+    except FileNotFoundError:
+        flagged = set()
+
+    for fac in rsei.facilities:
+        rec = crosswalk.get((fac.parent_name or "").strip().upper())
+        if rec is None:
+            continue
+        fkey = normalize_name(fac.name)
+        pkey = normalize_name(rec.legal_name)
+        if not fkey or not pkey:
+            continue
+        toxic = fac.name.upper() in flagged
+
+        # The RSEI facility shares the parent's exact legal name (the plant is named
+        # after the company) -> one node, no self-edge: stamp it as the parent.
+        if fkey == pkey:
+            ent = graph.entities.get(pkey) or Entity(
+                key=pkey, kind="corporate", classification="corporate_parent"
+            )
+            graph.entities[pkey] = ent
+            ent.variants.update({fac.name, rec.legal_name})
+            ent.roles["rsei_facility"] += 1
+            ent.lei = rec.lei
+            ent.sources.update({_RSEI_SOURCE, _GLEIF_SOURCE})
+            if toxic:
+                ent.signals.add("toxic_water_discharger")
+            continue
+
+        fent = graph.entities.get(fkey) or Entity(
+            key=fkey, kind="facility", classification="industrial_facility"
+        )
+        graph.entities[fkey] = fent
+        fent.variants.add(fac.name)
+        fent.roles["rsei_facility"] += 1
+        fent.sources.add(_RSEI_SOURCE)
+        if toxic:
+            fent.signals.add("toxic_water_discharger")
+
+        pent = graph.entities.get(pkey)
+        if pent is None:
+            pent = Entity(key=pkey, kind="corporate", classification="corporate_parent")
+            graph.entities[pkey] = pent
+        pent.variants.add(rec.legal_name)
+        pent.lei = rec.lei
+        pent.sources.add(_GLEIF_SOURCE)
+
+        _add_edge(
+            graph,
+            Relationship(
+                fkey, "owned_by", pkey, ref=f"RSEI parent / GLEIF {rec.lei}", source=_RSEI_SOURCE
+            ),
+        )
+    return graph
+
+
+def enrich_with_federal_awards(
+    graph: EntityGraph, *, settings: Settings | None = None
+) -> EntityGraph:
+    """Stamp USASpending all-time federal obligations onto matching graph nodes.
+
+    Only **existing** nodes are enriched (matched by LEI, else by normalized legal name) —
+    a verified corridor party (GDLS, GD Corp, the Amazon corridor recipient) gets its
+    ``uei`` + ``federal_obligations`` stamped. Context/open recipients with no corpus node
+    (Amazon Web Services, Google) are intentionally **not** added — they live on the
+    USASpending reference page, not the graph, so the federal layer never overclaims.
+    Run after :func:`enrich_with_lei`. Idempotent; no-op if the reference is absent.
+    """
+    settings = settings or get_settings()
+    from bosc.usaspending import load_inventory as load_award_inventory
+
+    inv = load_award_inventory(settings.reference_dir)
+    if inv is None:
+        return graph
+
+    by_lei = {e.lei: e for e in graph.entities.values() if e.lei}
+    for rec in inv.records:
+        ent = by_lei.get(rec.lei) if rec.lei else None
+        if ent is None:
+            ent = graph.entities.get(normalize_name(rec.recipient_name)) or graph.entities.get(
+                normalize_name(rec.watchlist_name)
+            )
+        if ent is None:
+            continue  # context/open recipient with no corpus node — stays off-graph
+        ent.uei = rec.uei
+        ent.federal_obligations = rec.total_obligations
+        ent.sources.add(_USASPENDING_SOURCE)
     return graph

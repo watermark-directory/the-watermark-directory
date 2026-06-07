@@ -198,6 +198,24 @@ inferences, flagged as such. The mg/L figures are a coarse `[inference: derived]
 order-of-magnitude screen, not measured concentrations. `[verified:
 data/reference/rsei/toxic-discharge-screen.yaml]`
 
+**Who owns the dischargers, and who benefits from federal dollars.** Two ownership
+layers now sit on the [entity graph](entities.md). First, an **industrial-ownership**
+layer folds each Allen County RSEI facility into its GLEIF-resolved corporate parent
+(`owned_by`): the Ottawa-corridor toxic dischargers map to **INEOS USA LLC**, **Cenovus**
+(via Husky, the Lima Refining parent), and **Shell** (Equilon), alongside Ford, Marathon,
+Dana, Textron, and P&G — so the toxics screen above resolves to named, LEI-pinned
+owners. `[verified: data/reference/gleif/lei-records.yaml + data/reference/rsei/inventory.yaml]`
+Second, a **federal-award** layer stamps USASpending all-time prime-award obligations onto
+the verified corridor parties: the corridor's federal defense nexus — **General Dynamics
+Land Systems** (the JSMC operator, **~$33.6 B**) and its parent **General Dynamics Corp**
+(**~$299 B**, which USASpending independently records as GDLS's parent, corroborating the
+GLEIF chain). The corridor land recipient **Amazon.com Services LLC** carries only
+**~$0.7 M** — consistent with its parcel being an Amazon.com **warehouse, not the data
+center**. The data-center end-user attribution remains **open**; *Google LLC* (~$73.5 M
+federal) ties only to the **separate Scioto-County Project Dazzler** (the `google.com`
+applicant email), **not** the Lima campus — kept off-graph so the federal layer does not
+overclaim. `[verified: data/reference/usaspending/awards.yaml]`
+
 ---
 
 ## 6. Roadwork — privately-funded public infrastructure

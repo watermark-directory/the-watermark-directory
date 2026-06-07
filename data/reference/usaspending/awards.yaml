@@ -1,0 +1,88 @@
+meta:
+  subject: USASpending federal-award totals — corridor real-party-in-interest
+  source: USASpending.gov API (api.usaspending.gov), U.S. Treasury; public domain
+  award_window: all-time prime-award obligations (year=all)
+  recipient_count: 5
+  verified_nexus_count: 3
+  caveats:
+  - Totals are all-time prime-award obligations as reported by USASpending (total_transaction_amount,
+    year=all), recorded verbatim — not BOSC estimates.
+  - Recipients are pinned by recipient_id + UEI; a UEI mismatch drops to a lead.
+  - The `nexus` tag distinguishes a verified corridor tie from context/open — the
+    Amazon corridor recipient is a warehouse, NOT the data center, and Google is linked
+    only to the separate Scioto Project Dazzler, not the Lima campus.
+records:
+- watchlist_name: General Dynamics Land Systems Inc.
+  recipient_id: 99938bc0-e262-06ff-9f94-386fd3da88dc-C
+  uei: HAWKSQF848W7
+  recipient_name: GENERAL DYNAMICS LAND SYSTEMS INC.
+  lei: 875500ULXB4CYQSJVA03
+  duns: '131266926'
+  recipient_level: C
+  total_obligations: 33579510703.85
+  award_window: all-time (year=all)
+  parent_name: GENERAL DYNAMICS LAND SYSTEMS INC.
+  parent_uei: HAWKSQF848W7
+  nexus: verified
+  note: 'JSMC / Lima Army Tank Plant operator (Allen County RSEI #3 facility) — the
+    corridor''s federal defense nexus. GLEIF LEI 875500ULXB4CYQSJVA03.'
+- watchlist_name: General Dynamics Corp
+  recipient_id: f58f9621-d1de-5f11-1041-3c65987927ff-P
+  uei: VF58HFRNGEL8
+  recipient_name: GENERAL DYNAMICS CORP
+  lei: 9C1X8XOOTYY2FNYTVH06
+  duns: 001381284
+  recipient_level: P
+  total_obligations: 299067439090.79
+  award_window: all-time (year=all)
+  parent_name: GENERAL DYNAMICS CORP
+  parent_uei: VF58HFRNGEL8
+  nexus: verified
+  note: Ultimate parent of the JSMC operator (parent-level total spans all GD subsidiaries).
+    GLEIF LEI 9C1X8XOOTYY2FNYTVH06; the GDLS profile independently records GDLS ->
+    GD Corp, corroborating the GLEIF ownership chain.
+- watchlist_name: Amazon.com Services LLC
+  recipient_id: 06d55b8d-0bcb-c654-8213-1001f38dd3d2-C
+  uei: TMKBFBRHFKH3
+  recipient_name: AMAZON.COM SERVICES LLC
+  lei: null
+  duns: '128990418'
+  recipient_level: C
+  total_obligations: 726730.83
+  award_window: all-time (year=all)
+  parent_name: AMAZON.COM, INC.
+  parent_uei: G5F2C46HBCM3
+  nexus: verified
+  note: The corridor land recipient (deed instrument 202511180011830, Nov 2025) —
+    an Amazon.com WAREHOUSE, NOT the data center. Negligible federal-award footprint;
+    distinct from Amazon Web Services (the federal cloud arm) below.
+- watchlist_name: Amazon Web Services, Inc.
+  recipient_id: 645df5f2-66e3-8d2b-a612-3bff6ed3da30-C
+  uei: NQEWN6C1LSU5
+  recipient_name: AMAZON WEB SERVICES, INC.
+  lei: null
+  duns: '965048981'
+  recipient_level: C
+  total_obligations: 931826854.75
+  award_window: all-time (year=all)
+  parent_name: AMAZON.COM, INC.
+  parent_uei: G5F2C46HBCM3
+  nexus: context
+  note: Amazon's federal cloud-contracting arm — context for the parent group's federal
+    entanglement, NOT the corridor land recipient.
+- watchlist_name: Google LLC
+  recipient_id: eddf926f-f4fe-e72c-14f1-ab22d5925171-C
+  uei: NQV3T7DDKNT6
+  recipient_name: GOOGLE LLC
+  lei: null
+  duns: 060902413
+  recipient_level: C
+  total_obligations: 73521961.77
+  award_window: all-time (year=all)
+  parent_name: MANDIANT, INC.
+  parent_uei: MLJ7RLLNUT43
+  nexus: open
+  note: Linked to the SEPARATE Project Dazzler (Scioto County) via a google.com applicant
+    email, NOT to the Lima corridor campus. The corridor data-center end-user attribution
+    remains open (Google attribution rests on the AEDG release, not yet in the corpus).
+leads: []

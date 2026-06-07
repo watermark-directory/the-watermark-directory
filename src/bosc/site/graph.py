@@ -116,12 +116,32 @@ def render_entities(graph: EntityGraph, *, profile_slugs: dict[str, str] | None 
         ]
     if any(e.lei for e in graph.entities.values()):
         lines += [
-            "Two nodes carry a **GLEIF Legal Entity Identifier** folded in from "
+            "Nodes carrying a **GLEIF Legal Entity Identifier** are folded in from "
             "`data/reference/gleif`: **General Dynamics Land Systems** (the JSMC "
             "operator and Allen County's [RSEI](rsei.md) #3 facility) and its "
             "GLEIF-reported ultimate parent, **General Dynamics Corporation**. The "
             "`owned_by` edge is verified from GLEIF; `tenant_of` the Army-owned JSMC "
             "is an *operator inference* from RSEI + county CAMA, not a deed.",
+            "",
+        ]
+    if any(e.classification == "industrial_facility" for e in graph.entities.values()):
+        lines += [
+            "An **industrial-ownership layer** is folded in from [RSEI](rsei.md) + GLEIF: "
+            "the Allen County toxic-release facilities (incl. the Ottawa-corridor "
+            "[toxic water dischargers](rsei.md)) linked `owned_by` their GLEIF-resolved "
+            "corporate parents (INEOS, Cenovus, Shell, Ford, Marathon, Dana, Textron, "
+            "P&G) — who owns the dischargers.",
+            "",
+        ]
+    if any(e.federal_obligations for e in graph.entities.values()):
+        lines += [
+            "Nodes with a **federal-award footprint** carry their USASpending UEI + "
+            "all-time prime-award obligations (`data/reference/usaspending`): the "
+            "corridor's federal defense nexus — **General Dynamics Land Systems** "
+            "(~$33.6 B) and parent **General Dynamics Corp** (~$299 B) — and the "
+            "corridor land recipient **Amazon.com Services LLC** (~$0.7 M; a "
+            "*warehouse*, not the data center). The data-center end-user attribution "
+            "remains open; Google ties only to the separate Scioto Project Dazzler.",
             "",
         ]
     lines += [
@@ -133,8 +153,8 @@ def render_entities(graph: EntityGraph, *, profile_slugs: dict[str, str] | None 
         "",
         "## Entities",
         "",
-        "| Entity | Kind | Classification | Roles | Signals |",
-        "|---|---|---|---|---|",
+        "| Entity | Kind | Classification | Roles | Signals | Federal $ |",
+        "|---|---|---|---|---|---|",
     ]
     for ent in sorted(graph.entities.values(), key=lambda e: (e.kind, e.key)):
         roles = ", ".join(f"{r} x{n}" for r, n in ent.roles.most_common())
@@ -143,9 +163,12 @@ def render_entities(graph: EntityGraph, *, profile_slugs: dict[str, str] | None 
         name = f"[{_esc(ent.display)}](people/{slug}.md)" if slug else _esc(ent.display)
         if ent.lei:
             name += f" `LEI {ent.lei}`"
+        if ent.uei:
+            name += f" `UEI {ent.uei}`"
+        fed = f"${ent.federal_obligations:,.0f}" if ent.federal_obligations is not None else "—"
         lines.append(
             f"| {name} | {_esc(ent.kind)} | {_esc(ent.classification)} "
-            f"| {_esc(roles)} | {_esc(signals)} |"
+            f"| {_esc(roles)} | {_esc(signals)} | {fed} |"
         )
     lines += [
         "",

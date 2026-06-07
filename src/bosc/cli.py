@@ -104,17 +104,21 @@ def entities() -> None:
     """Resolve parties across deeds/NPDES into an entity graph (who relates to whom)."""
     from bosc.pipeline import entities as entities_stage
 
-    graph = entities_stage.build_entity_graph(enrich_parcels=True, enrich_lei=True)
+    graph = entities_stage.build_entity_graph(
+        enrich_parcels=True, enrich_lei=True, enrich_rsei=True, enrich_federal=True
+    )
     if not graph.entities:
         console.print("[yellow]No entities found. Run some extractions first.[/]")
         raise typer.Exit()
 
-    ent_table = Table("entity", "kind", "classification", "roles", "signals")
+    ent_table = Table("entity", "kind", "classification", "roles", "LEI/UEI", "federal $")
     for ent in sorted(graph.entities.values(), key=lambda e: (e.kind, e.key)):
         roles = ", ".join(f"{r} x{n}" for r, n in ent.roles.most_common())
         signals = ", ".join(sorted(ent.signals))
         klass = ent.classification + (f" [yellow]({signals})[/]" if signals else "")
-        ent_table.add_row(ent.display, ent.kind, klass, roles, signals or "—")
+        ids = " ".join(x for x in (ent.lei, ent.uei) if x) or "—"
+        fed = f"${ent.federal_obligations:,.0f}" if ent.federal_obligations is not None else "—"
+        ent_table.add_row(ent.display, ent.kind, klass, roles, ids, fed)
     console.print(ent_table)
 
     rel_table = Table("source", "relationship", "target", "when", "ref")
@@ -915,6 +919,54 @@ def lei_cmd(
     console.print(f"[green]Wrote[/] {path}")
 
 
+@app.command(name="usaspending")
+def usaspending_cmd(
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached USASpending responses only; never touch the network."
+    ),
+    out_dir: str | None = typer.Option(
+        None, "--out", help="Output directory (default: data/reference/usaspending)."
+    ),
+) -> None:
+    """Resolve the federal-award watchlist against USASpending -> committed awards YAML.
+
+    Each recipient is fetched by its pinned recipient_id and verified against the
+    pinned UEI (no fuzzy match); the total is all-time prime-award obligations. The
+    `nexus` tag marks verified corridor ties vs context/open. Raw responses cache
+    under data/cache/usaspending; the curated YAML is the committed artifact.
+    """
+    from bosc import usaspending
+    from bosc.config import Settings
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(usaspending_offline=True)
+    target = Path(out_dir) if out_dir else settings.reference_dir / "usaspending"
+
+    inv = usaspending.resolve_watchlist(settings)
+
+    table = Table("Recipient", "UEI", "nexus", "all-time prime obligations", "parent")
+    for r in sorted(inv.records, key=lambda x: -x.total_obligations):
+        table.add_row(
+            r.recipient_name[:32],
+            r.uei,
+            r.nexus,
+            f"${r.total_obligations:,.0f}",
+            (r.parent_name or "—")[:24],
+        )
+    console.print(table)
+    console.print(
+        f"\n[bold]{len(inv.records)}[/] recipients resolved "
+        f"([green]{inv.meta['verified_nexus_count']} verified corridor nexus[/]), "
+        f"{len(inv.leads)} lead(s). "
+        "[dim]Amazon corridor recipient is a warehouse, not the data center; "
+        "Google ties to Scioto's Project Dazzler, not the Lima campus.[/]"
+    )
+
+    path = usaspending.write_inventory(inv, target)
+    console.print(f"[green]Wrote[/] {path}")
+
+
 @app.command(name="lsc")
 def lsc(
     ga: str = typer.Option(
@@ -1279,7 +1331,12 @@ def people() -> None:
         return
 
     egraph = build_entity_graph(
-        load_corpus(settings), enrich_parcels=True, enrich_lei=True, settings=settings
+        load_corpus(settings),
+        enrich_parcels=True,
+        enrich_lei=True,
+        enrich_rsei=True,
+        enrich_federal=True,
+        settings=settings,
     )
 
     table = Table("Individual", "Expanded", "In graph", "Roles", "Sources")

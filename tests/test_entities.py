@@ -21,8 +21,10 @@ from bosc.pipeline.entities import (
     _split_principal,
     build_entity_graph,
     classify,
+    enrich_with_federal_awards,
     enrich_with_lei,
     enrich_with_parcel_owners,
+    enrich_with_rsei_ownership,
     normalize_name,
 )
 
@@ -247,6 +249,60 @@ def test_lei_enrichment_is_idempotent(hydro_settings: Settings) -> None:
     graph = build_entity_graph(enrich_parcels=True, enrich_lei=True, settings=hydro_settings)
     n_ent, n_rel = len(graph.entities), len(graph.relationships)
     enrich_with_lei(graph, settings=hydro_settings)  # second pass
+    assert len(graph.entities) == n_ent
+    assert len(graph.relationships) == n_rel
+
+
+def test_rsei_ownership_folds_in_industrial_owners(hydro_settings: Settings) -> None:
+    """Each Allen County RSEI facility links `owned_by` its GLEIF-resolved parent."""
+    graph = build_entity_graph(enrich_lei=True, enrich_rsei=True, settings=hydro_settings)
+    # Lima Refining (a toxic discharger) -> Cenovus (via Husky), LEI-stamped.
+    refinery = graph.get("LIMA REFINING CO")
+    cenovus = graph.get("Cenovus Energy Inc.")
+    assert refinery is not None and refinery.classification == "industrial_facility"
+    assert "toxic_water_discharger" in refinery.signals
+    assert cenovus is not None and cenovus.lei == "254900LJGL2N2XEMD470"
+    assert any(
+        r.rel == "owned_by" and r.src == refinery.key and r.dst == cenovus.key
+        for r in graph.relationships
+    )
+    # Shell owns the Equilon terminal; Ford owns the Lima Engine Plant.
+    assert graph.get("Shell plc") is not None
+    assert graph.get("EQUILON LIMA TERMINAL") is not None
+
+
+def test_rsei_ownership_no_self_loop_when_facility_is_parent(hydro_settings: Settings) -> None:
+    """INEOS facility == INEOS parent name: one node, no self-referential edge."""
+    graph = build_entity_graph(enrich_lei=True, enrich_rsei=True, settings=hydro_settings)
+    ineos = graph.get("INEOS USA LLC")
+    assert ineos is not None and ineos.lei == "549300TWZ86K81VO8O17"
+    assert not any(r.rel == "owned_by" and r.src == r.dst == ineos.key for r in graph.relationships)
+
+
+def test_federal_awards_stamp_existing_nodes_only(hydro_settings: Settings) -> None:
+    """USASpending obligations land on GDLS/GD Corp/Amazon; AWS & Google stay off-graph."""
+    graph = build_entity_graph(
+        enrich_parcels=True, enrich_lei=True, enrich_federal=True, settings=hydro_settings
+    )
+    gdls = graph.get("General Dynamics Land Systems Inc.")
+    assert gdls is not None
+    assert gdls.uei == "HAWKSQF848W7"
+    assert gdls.federal_obligations is not None and gdls.federal_obligations > 1e10
+    # Matched by LEI onto the GLEIF parent node.
+    gd_corp = graph.get("GENERAL DYNAMICS CORPORATION")
+    assert gd_corp is not None and gd_corp.uei == "VF58HFRNGEL8"
+    # Context/open recipients are NOT added as nodes (no overclaim).
+    assert graph.get("Amazon Web Services, Inc.") is None
+    assert graph.get("Google LLC") is None
+
+
+def test_federal_and_rsei_enrichment_idempotent(hydro_settings: Settings) -> None:
+    graph = build_entity_graph(
+        enrich_lei=True, enrich_rsei=True, enrich_federal=True, settings=hydro_settings
+    )
+    n_ent, n_rel = len(graph.entities), len(graph.relationships)
+    enrich_with_rsei_ownership(graph, settings=hydro_settings)
+    enrich_with_federal_awards(graph, settings=hydro_settings)
     assert len(graph.entities) == n_ent
     assert len(graph.relationships) == n_rel
 

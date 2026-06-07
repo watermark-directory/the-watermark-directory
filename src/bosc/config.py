@@ -113,6 +113,13 @@ class Settings(BaseSettings):
     gleif_offline: bool = False  # serve cached API responses only; never fetch
     gleif_request_timeout_s: float = 30.0
 
+    # USASpending federal award data (public API, no auth). `bosc usaspending`
+    # resolves a pinned recipient watchlist to all-time prime-award obligations —
+    # the "who benefits from federal dollars" layer behind the corridor.
+    usaspending_base_url: str = "https://api.usaspending.gov/api/v2"
+    usaspending_offline: bool = False  # serve cached API responses only; never fetch
+    usaspending_request_timeout_s: float = 60.0
+
     # --- Paths -------------------------------------------------------------
     data_dir: Path = _REPO_ROOT / "data"
 
@@ -145,6 +152,11 @@ class Settings(BaseSettings):
     def gleif_cache_dir(self) -> Path:
         """Cached GLEIF API responses (LEI records, parents). Regenerable, not committed."""
         return self.cache_dir / "gleif"
+
+    @property
+    def usaspending_cache_dir(self) -> Path:
+        """Cached USASpending API responses (recipient search + profiles). Not committed."""
+        return self.cache_dir / "usaspending"
 
     @property
     def reference_dir(self) -> Path:
