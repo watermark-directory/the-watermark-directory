@@ -75,10 +75,18 @@ Summed across the 88 precincts these reconcile to the countywide summary:
 |------|-----------|----------:|---------:|------------:|---------------------------|
 | [`2024-general-precincts.csv`](precincts-csv/2024-general-precincts.csv) | `2024_GEN_PRECINCT_OFFICIAL.pdf` | 88 | 26 | 4,062 | **39/39 exact** |
 | [`2019-general-precincts.csv`](precincts-csv/2019-general-precincts.csv) | `G2019_OFFICIAL_PRECINCT.pdf` | 88 | 72 | 1,061 | 110/114 (see caveat) |
+| [`2026-primary-precincts.csv`](precincts-csv/2026-primary-precincts.csv) | `2026_PRIMARY_SOVC_OFFICIAL.pdf` | 88 | 102 | — | **94/103 contests exact** |
 
-`parse_precincts.py` regenerates these and runs the reconciliation. The 2026
-Primary has **no** Precinct Results Report (only the wide SOVC cross-tab), so it is
-not yet flattened — see Gaps.
+`parse_precincts.py` regenerates the 2024/2019 files. The **2026 Primary** has no
+per-precinct report — only the wide SOVC cross-tab — so it is flattened separately
+by `parse_sovc.py`, which reads word coordinates (`pdftotext -bbox-layout`) and
+reconstructs the table (see that file's header). It adds two columns,
+`contest_resolved` and `name_resolved`: for **94 of 103** contests the column data
+matched a summary contest's candidate-total multiset exactly, so contest + candidate
+names come from the committed summary (clean) and reconcile to the official totals;
+the other ~9 (uncontested "No Valid Petition Filed" 0-vote races and write-in-only
+Libertarian primaries) are retained with their raw stitched labels and flagged
+`contest_resolved: no`.
 
 ### `source-pdf/` — the official BOE PDFs (primary-source records)
 
@@ -117,11 +125,13 @@ line it cannot confidently classify to a sidecar rather than guessing.
 - **Precinct-level flattening — partly done.** The 2024 and 2019 **Precinct Results
   Report** PDFs are now flattened to `precincts-csv/` (see above), validated against
   the countywide summary (2024 reconciles exactly). Two pieces remain:
-  - **2026 Primary** ships only the wide **SOVC** cross-tab (no per-precinct report),
-    which is a multi-page matrix (precincts as rows, candidates as columns, headers
-    stitched across lines) — not yet parsed. The 2024/2019 `*_SOVC*` PDFs are
-    likewise the harder source and were skipped in favor of the cleaner precinct
-    reports.
+  - **2026 Primary** ships only the wide **SOVC** cross-tab (no per-precinct report).
+    It is now flattened by `parse_sovc.py` via word coordinates; 94 of 103 contests
+    reconcile exactly. The unresolved tail (~9): uncontested 0-vote races whose
+    candidate-total signature `(0,)` collides, and Libertarian write-in-only
+    primaries whose write-in columns don't sum-match the summary. These rows are kept
+    with raw labels and flagged. The 2024/2019 `*_SOVC*` PDFs were not parsed (their
+    cleaner per-precinct reports were used instead).
   - **2019 school-levy contest labels.** The per-district levy For/Against rows are
     captured and correctly separated by district, but inherit the adjacent
     `For Member of Board of Education - <district>` title rather than the levy's own
