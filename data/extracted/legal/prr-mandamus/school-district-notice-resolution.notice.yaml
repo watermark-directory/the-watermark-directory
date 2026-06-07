@@ -1,0 +1,47 @@
+kind: school_district_notice
+subject: Allen County Resolution #494-25 — authorizing the CRA school-district notice
+
+provenance:
+  source_path: data/documents/legal/prr-mandamus/prr-production-2026-06-05/School District Notice Resolution.pdf
+  produced_in: Allen County public-records production 2026-06-05
+  pages: "Resolution #494-25 pp.1-4 (recorder-stamped) + the enclosed CRA Agreement pp.5-15"
+  recorder_stamp: "JR511 PAGE068"   # recorded with the Allen County Recorder
+  content_verified: '2026-06-07'
+  evidence: scan (county-produced PDF)
+
+resolution:
+  number: '494-25'
+  date: '2025-06-24'
+  body: Allen County Board of County Commissioners
+  title: >-
+    Authorizing notice to the Elida Local School District and Apollo Career Center that
+    the Commissioners seek to enter a CRA Agreement with Bistrozzi, LLC and will consider
+    the same agreement on July 10, 2025 or thereafter.
+  moved_by: Noonan
+  seconded_by: Seibert
+  vote: {Noonan: 'yes', Winegardner: 'yes', Seibert: 'yes'}
+  clerk: Brittany N. Woods
+  statutes:
+    - "R.C. 3735.671(A)(1) — 45-day certification of the agreement to the boards of education"
+    - "R.C. 3735.671(A)(2) — board-approval not required if school compensation >= 25% of foregone taxes"
+    - "R.C. 5709.83(A) — 14-day notice + copy of the proposed agreement to the districts"
+  served_by: "Cindy Leis of Allen Economic Development Group (AEDG), plus certified + ordinary mail"
+
+school_compensation_facts:
+  elida_agreed_payment: >-
+    Per the resolution's recitals, "the Elida School District has agreed to a payment by
+    Bistrozzi, LLC on May, 20, 2025" (the School District Compensation Agreement).
+  commissioners_estimate: >-
+    The Board certified its estimate that the school compensation equals or exceeds 25%
+    of the taxes that would otherwise be charged on the real property, as no more than
+    75% may be abated and the districts will receive funds from Bistrozzi, LLC pursuant
+    to their agreement — and that the figures were estimated in good faith.
+  amounts_public: false   # the 25% floor + the May-20 agreement are stated; the dollar terms are not
+
+relevance:
+  tags: [verified, legal, cra, tax-abatement, school-compensation]
+  note: >-
+    The County's own authorizing resolution for the CRA school-district notice
+    (recorder-stamped JR511 PAGE068). Confirms the 25% statutory-floor estimate and the
+    May-20-2025 Elida payment agreement, but not the dollar amounts. Cross-refs
+    [cra-agreement.cra.yaml] + [school-district-notice-letters.notice.yaml].

@@ -236,7 +236,12 @@ The data center runs on a **15-year, 75% real-property tax abatement** (Allen Co
 CRA No. 1, Res #548-25 of 2025-07-10; CRA designation #003-99003-396), granted to
 **Bistrozzi LLC** — a Delaware shell c/o Vorys (Scott Ziance) — whose CRA **§13(A)**
 assurance is that its **parent is a publicly-traded Fortune 100 company**. `[verified:
-data/extracted/legal/prr-mandamus/cra-agreement.cra.yaml]`
+data/extracted/legal/prr-mandamus/cra-agreement.cra.yaml]` The statutory school-district
+notices were drafted and served not by the County clerk but by the **Allen Economic
+Development Group (AEDG)** — **Cynthia Leis, President/CEO** — the entity coordinating the
+abatement; both superintendents (Elida's Joel Mengerink, Apollo JVSD's Keith Horner)
+acknowledged receipt on 2025-06-25. `[verified:
+data/extracted/legal/prr-mandamus/school-district-notice-letters.notice.yaml]`
 
 **What the public gives.** 75% of the property tax on the ~$500M improvement, 15 years
 per building — a screening **~$84–129M in abated property tax**, i.e. roughly

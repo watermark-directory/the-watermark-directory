@@ -1,0 +1,53 @@
+kind: school_district_notice
+subject: AEDG notice letters to Elida + Apollo JVSD of the proposed Bistrozzi CRA abatement
+
+provenance:
+  source_path: data/documents/legal/prr-mandamus/prr-production-2026-06-05/School District Notice Letters.pdf
+  produced_in: Allen County public-records production 2026-06-05
+  pages: "two cover letters (Apollo p.1-2, Elida p.14-15) + the enclosed CRA Agreement (pp.3-13, 16-26)"
+  content_verified: '2026-06-07'   # read from the page images
+  evidence: scan (county-produced PDF)
+  encloses: >-
+    The full executed CRA Agreement is attached to each letter (Exhibit) — the same
+    instrument captured at data/extracted/legal/prr-mandamus/cra-agreement.cra.yaml.
+
+notice:
+  statute: "R.C. 3735.671 and 5709.83"
+  re: "proposed Community Reinvestment Area Agreement (CRA property-tax abatement)"
+  date_sent: '2025-06-25'
+  consideration_date: "on or after 2025-07-10 (County to formally consider approval)"
+  served_by:
+    org: Allen Economic Development Group (AEDG)
+    signatory: Cynthia "Cindy" Leis, President/CEO
+    contact_email: leisc@aedg.org
+    address: 144 S. Main Street, Suite 200, Lima, OH 45801
+    phone: 419.222.7706
+    note: >-
+      AEDG — not the County clerk — drafted and served the statutory school-district
+      notices and is the local economic-development entity coordinating the abatement.
+  project_terms_stated:   # as recited in the letters (the developer's good-faith estimates)
+    company: BISTROZZI LLC
+    use: data center (one or more phases)
+    jobs: ~50            # permanent, full-time, by ~2030-12-31
+    annual_payroll_usd: ~4000000
+    capital_investment_usd: ~500000000
+    abatement: 15-year / 75% real-property tax exemption per Building
+  recipients:
+    - district: Apollo Career Center (JVSD)
+      address: 3325 Shawnee Rd, Lima, OH 45806
+      superintendent: Keith Horner
+      received: {by: Keith Horner, title: Superintendent, date: '2025-06-25'}   # signed acknowledgment
+    - district: Elida Local School District (Board of Education)
+      address: 4380 Sunnydale Ave, Elida, OH 45807
+      superintendent: Joel Mengerink
+      received: {by: Joel Mengerink, title: Superintendent, date: '2025-06-25'}   # signed acknowledgment
+
+relevance:
+  tags: [verified, legal, cra, tax-abatement, school-compensation, aedg]
+  note: >-
+    Documents the statutory notice step for the CRA abatement and surfaces AEDG
+    (Cynthia Leis) as the entity coordinating it. Both superintendents acknowledged
+    receipt 2025-06-25. The school-district compensation dollar amounts are still NOT
+    disclosed here (only the enclosed CRA, which references a separate non-public
+    School District Compensation Agreement). Cross-refs
+    [cra-agreement.cra.yaml] + [school-district-notice-resolution.notice.yaml].

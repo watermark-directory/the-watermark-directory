@@ -55,6 +55,12 @@ school_compensation:
     R.C. 3735.671(A)(2) — the County estimated the compensation equals/exceeds 25% of the
     foregone taxes (Res #494-25, 2025-06-24); the actual dollar terms are in a separate,
     non-public School District Compensation Agreement.
+  notice_served_by: >-
+    Allen Economic Development Group (AEDG), Cynthia Leis (President/CEO), 2025-06-25 —
+    both superintendents (Apollo: Keith Horner; Elida: Joel Mengerink) acknowledged receipt.
+  notice_records:
+    - data/extracted/legal/prr-mandamus/school-district-notice-letters.notice.yaml
+    - data/extracted/legal/prr-mandamus/school-district-notice-resolution.notice.yaml
 
 project_site:
   township: American Township, Allen County, Ohio
