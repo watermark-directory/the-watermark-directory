@@ -70,6 +70,8 @@ Lake Erie nutrient budget.
 
 ## 3. Stormwater: paving the corridor
 
+**Climate baseline (NASA POWER).** The Lima point averages **~997 mm/yr** of precipitation (corrected), peaking in May, at a mean annual temperature of **10.7 °C** `[reference: NASA POWER climatology]`. The satellite climate *normal* sets the long-run water budget; the design storm below is the NOAA Atlas-14 *extreme* the corridor must detain — the two are complementary.
+
 A 25-yr 24-hr design storm (4.25 in `[inference: assumption]`) over the 340-ac footprint `[verified]`:
 
 
@@ -148,7 +150,7 @@ not transcribed (omission over invention).
 
 ---
 
-_Sources: USGS NWIS (streamflow), NOAA Atlas-14 (design rainfall), Ohio EPA NPDES
-fact sheets 2PH00006 / 2PH00007 / 2IG00001 (receiving-stream 7Q10), Maumee Watershed
-Nutrient TMDL Appendix 4 (phosphorus WLAs), recorded Bistrozzi parcels (footprint).
-Regenerate with `bosc hydro-report --write`._
+_Sources: USGS NWIS (streamflow), NOAA Atlas-14 (design rainfall), NASA POWER
+(climate normals), Ohio EPA NPDES fact sheets 2PH00006 / 2PH00007 / 2IG00001
+(receiving-stream 7Q10), Maumee Watershed Nutrient TMDL Appendix 4 (phosphorus
+WLAs), recorded Bistrozzi parcels (footprint). Regenerate with `bosc hydro-report --write`._

@@ -615,6 +615,58 @@ def npdes(
     )
 
 
+@app.command(name="nasa-power")
+def nasa_power_cmd(
+    lon: float = typer.Option(None, "--lon", help="Longitude (default: settings.nasa_power_lon)."),
+    lat: float = typer.Option(None, "--lat", help="Latitude (default: settings.nasa_power_lat)."),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use the committed fixture only; never touch the network."
+    ),
+    write: bool = typer.Option(
+        False, "--write", help="Persist to data/reference/hydrology/nasa-power-climatology.yaml."
+    ),
+) -> None:
+    """Show NASA POWER climate normals (monthly + annual) for the Lima loop point.
+
+    Pulls the POWER climatology point API (precip/temp/humidity/wind/solar). The
+    annual precipitation normal feeds the hydrology water-balance context; NOAA
+    Atlas-14 still supplies the design-storm depths. ``--write`` refreshes the
+    committed reference the hydrology report reads.
+    """
+    from bosc.config import Settings
+    from bosc.hydrology import climate
+    from bosc.hydrology.connectors import nasa_power
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(
+            hydro_offline=True,
+            hydro_fixtures_dir=settings.data_dir.parent / "tests" / "fixtures" / "hydrology",
+        )
+    clim = nasa_power.fetch_climatology(lon=lon, lat=lat, settings=settings)
+
+    elev = f" (elev {clim.elevation_m:.0f} m)" if clim.elevation_m is not None else ""
+    console.print(
+        f"[bold]NASA POWER[/] climatology at {clim.latitude:.4f}, {clim.longitude:.4f}{elev}"
+    )
+    table = Table("parameter", "units", "Jan", "Apr", "Jul", "Oct", "annual")
+    for p in clim.parameters:
+        table.add_row(
+            p.parameter,
+            p.units,
+            *[f"{p.monthly.get(m, float('nan')):.2f}" for m in ("JAN", "APR", "JUL", "OCT")],
+            f"{p.annual:.2f}" if p.annual is not None else "—",
+        )
+    console.print(table)
+    ann = clim.annual_precip_mm()
+    if ann is not None:
+        console.print(f"\nAnnual precipitation normal: [bold]{ann:,.0f} mm/yr[/].")
+
+    if write:
+        path = climate.write_climatology(clim, settings=get_settings())
+        console.print(f"[green]Wrote[/] {path}")
+
+
 @app.command(name="rsei")
 def rsei_cmd(
     fips: str = typer.Option(

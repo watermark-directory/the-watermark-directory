@@ -135,6 +135,25 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
             )
 
     w("\n## 3. Stormwater: paving the corridor\n")
+
+    from bosc.hydrology.climate import load_climatology
+
+    clim = load_climatology(settings=settings)
+    if clim is not None:
+        ann = clim.annual_precip_mm()
+        wettest = clim.wettest_month()
+        t2m = clim.get("T2M")
+        if ann is not None and wettest is not None and t2m is not None:
+            w(
+                f"**Climate baseline (NASA POWER).** The Lima point averages "
+                f"**~{ann:,.0f} mm/yr** of precipitation (corrected), peaking in "
+                f"{wettest[0].title()}, at a mean annual temperature of "
+                f"**{t2m.annual:.1f} °C** `[reference: NASA POWER climatology]`. The "
+                f"satellite climate *normal* sets the long-run water budget; the design "
+                f"storm below is the NOAA Atlas-14 *extreme* the corridor must detain — "
+                f"the two are complementary.\n"
+            )
+
     w(
         f"A {runoff.storm.return_period_yr}-yr 24-hr design storm "
         f"({_ev(runoff.storm.depth)}) over the {runoff.area.value:,.0f}-ac footprint "
@@ -252,10 +271,10 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
         )
     w("\n---\n")
     w(
-        "_Sources: USGS NWIS (streamflow), NOAA Atlas-14 (design rainfall), Ohio EPA NPDES\n"
-        "fact sheets 2PH00006 / 2PH00007 / 2IG00001 (receiving-stream 7Q10), Maumee Watershed\n"
-        "Nutrient TMDL Appendix 4 (phosphorus WLAs), recorded Bistrozzi parcels (footprint).\n"
-        "Regenerate with `bosc hydro-report --write`._\n"
+        "_Sources: USGS NWIS (streamflow), NOAA Atlas-14 (design rainfall), NASA POWER\n"
+        "(climate normals), Ohio EPA NPDES fact sheets 2PH00006 / 2PH00007 / 2IG00001\n"
+        "(receiving-stream 7Q10), Maumee Watershed Nutrient TMDL Appendix 4 (phosphorus\n"
+        "WLAs), recorded Bistrozzi parcels (footprint). Regenerate with `bosc hydro-report --write`._\n"
     )
     return "\n".join(out)
 

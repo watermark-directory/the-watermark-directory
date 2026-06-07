@@ -88,6 +88,24 @@ class Settings(BaseSettings):
     rsei_fips: str = "39003"  # Allen County, OH
     rsei_offline: bool = False  # serve cached tables only; never download
     rsei_request_timeout_s: float = 300.0  # elements.csv.gz is ~250 MB
+    # NASA POWER (AWS Open Data s3://nasa-power) — satellite meteorology/solar. The
+    # bucket is gridded zarr/netCDF; for a point we use the supported REST API, which
+    # returns small JSON (connector cache + fixture). Default point = Lima loop centroid.
+    nasa_power_base_url: str = "https://power.larc.nasa.gov/api/temporal"
+    nasa_power_lon: float = -84.11
+    nasa_power_lat: float = 40.74
+    nasa_power_community: str = "AG"  # agroclimatology (vs RE renewable, SB buildings)
+    nasa_power_parameters: list[str] = Field(
+        default_factory=lambda: [
+            "PRECTOTCORR",
+            "T2M",
+            "T2M_MAX",
+            "T2M_MIN",
+            "RH2M",
+            "WS2M",
+            "ALLSKY_SFC_SW_DWN",
+        ]
+    )
 
     # --- Paths -------------------------------------------------------------
     data_dir: Path = _REPO_ROOT / "data"
