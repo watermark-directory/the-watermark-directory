@@ -58,11 +58,13 @@ def test_build_site_stages_expected_pages(tmp_path: Path) -> None:
     assert "GENERAL DYNAMICS" in lei_body.upper()
     assert result.n_lei_records >= 5
 
-    # The GIS findings map page + its committed GeoJSON asset are staged.
+    # The GIS findings map page + its committed GeoJSON asset are staged, with the
+    # toggleable RSEI overlay wired in.
     gis = web / "gis-map.md"
     assert gis.is_file()
     body = gis.read_text(encoding="utf-8")
     assert 'id="bosc-map"' in body and "leaflet" in body.lower()
+    assert "RSEI toxic-release facilities" in body
     assert (web / "assets" / "gis-findings.geojson").is_file()
 
 
@@ -73,8 +75,41 @@ def test_gis_findings_geojson_is_valid() -> None:
     fc = json.loads(path.read_text(encoding="utf-8"))
     assert fc["type"] == "FeatureCollection"
     layers = {f["properties"]["layer"] for f in fc["features"]}
-    assert {"campus", "jsmc", "wwtp", "floodway", "floodplain"} <= layers
-    # Every feature has non-empty geometry (polygons for areas, points for WWTPs).
+    assert {"campus", "jsmc", "wwtp", "floodway", "floodplain", "rsei"} <= layers
+    # Every feature has non-empty geometry (polygons for areas, points for WWTPs/RSEI).
     for f in fc["features"]:
         assert f["geometry"]["type"] in ("Polygon", "MultiPolygon", "Point")
         assert f["geometry"]["coordinates"]
+    # RSEI points carry a graduated radius + score for the sized overlay markers.
+    rsei = [f for f in fc["features"] if f["properties"]["layer"] == "rsei"]
+    assert len(rsei) >= 40
+    assert all(f["geometry"]["type"] == "Point" for f in rsei)
+    assert all("radius" in f["properties"] and "score" in f["properties"] for f in rsei)
+
+
+def test_merge_rsei_layer_is_idempotent() -> None:
+    """Merging RSEI points twice yields the same single rsei layer (no duplication)."""
+    from bosc.config import Settings
+    from bosc.rsei import load_inventory
+    from bosc.site.gismap import merge_rsei_layer
+
+    inv = load_inventory(Settings(data_dir=REPO_ROOT / "data").reference_dir)
+    assert inv is not None
+    base: dict = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "geometry": {"type": "Point", "coordinates": [0, 0]},
+                "properties": {"layer": "wwtp", "label": "x"},
+            }
+        ],
+    }
+    once, n1 = merge_rsei_layer(base, inv)
+    twice, n2 = merge_rsei_layer(once, inv)
+    assert n1 == n2 > 0
+    rsei_once = [f for f in once["features"] if f["properties"]["layer"] == "rsei"]
+    rsei_twice = [f for f in twice["features"] if f["properties"]["layer"] == "rsei"]
+    assert len(rsei_once) == len(rsei_twice) == n1
+    # The pre-existing non-rsei feature is preserved.
+    assert any(f["properties"]["layer"] == "wwtp" for f in twice["features"])

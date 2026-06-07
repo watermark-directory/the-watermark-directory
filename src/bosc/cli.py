@@ -678,6 +678,9 @@ def rsei_cmd(
     out_dir: str | None = typer.Option(
         None, "--out", help="Output directory (default: data/reference/rsei)."
     ),
+    update_map: bool = typer.Option(
+        False, "--map", help="Also merge RSEI facility points into the GIS findings GeoJSON."
+    ),
 ) -> None:
     """Reduce the EPA RSEI Public Data Set to one county's toxic-release inventory.
 
@@ -686,6 +689,8 @@ def rsei_cmd(
     Hazard, and pounds released. Bulk tables cache under data/cache/rsei (~340 MB on
     first run); the committed artifact is a small per-county YAML.
     """
+    import json
+
     from bosc import rsei
     from bosc.config import Settings
 
@@ -713,6 +718,18 @@ def rsei_cmd(
         "[dim]Score is EPA's modeled, population-weighted Risk-Screening Score "
         "(unitless, comparative only). Pounds are reported TRI releases.[/]"
     )
+
+    if update_map:
+        from bosc.site import gismap
+
+        geojson = settings.data_dir / "site" / "gis-findings.geojson"
+        if geojson.is_file():
+            fc = json.loads(geojson.read_text(encoding="utf-8"))
+            fc, n = gismap.merge_rsei_layer(fc, inv)
+            geojson.write_text(json.dumps(fc, indent=1), encoding="utf-8")
+            console.print(f"[green]Merged[/] {n} RSEI points into {geojson}")
+        else:
+            console.print(f"[yellow]No GIS findings GeoJSON at {geojson}; skipped --map.[/]")
 
 
 @app.command(name="lei")

@@ -64,6 +64,8 @@ line-length = 100
 target-version = "py311"
 src = ["src", "tests"]
 cache-dir = ".cache/ruff"
+# Ephemeral Claude agent worktrees are full repo copies under .claude/; never lint them.
+extend-exclude = [".claude"]
 
 [tool.ruff.lint]
 select = [
