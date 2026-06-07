@@ -65,7 +65,39 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
         "receive — the discharges are effectively undiluted.\n"
     )
 
-    w("\n## 2. Stormwater: paving the corridor\n")
+    from bosc.hydrology.maumee import load_maumee_tmdl
+
+    tmdl = load_maumee_tmdl(settings=settings)
+    if tmdl is not None and tmdl.facilities:
+        w("\n## 2. The Maumee Nutrient TMDL: the same discharges are capped phosphorus loads\n")
+        w(
+            "These discharges don't just strain a local stream. The Ottawa flows to the\n"
+            "Auglaize and on to the **Maumee** — Lake Erie's largest tributary and the\n"
+            "driver of its western-basin harmful algal blooms. The 2023 Maumee Watershed\n"
+            "Nutrient TMDL (Ohio EPA, US-EPA-approved) assigns each individually permitted\n"
+            "discharger a total-phosphorus **wasteload allocation**: a spring-season\n"
+            "(March-July) cap, also stated as a daily equivalent. The plants the low-flow\n"
+            "screen flags as effectively undiluted are the same permits carrying these caps\n"
+            "`[verified: document]`:\n"
+        )
+        w("\n| facility | NPDES | spring TP (metric tons) | daily TP (kg) |")
+        w("|---|---|---|---|")
+        for fac in tmdl.facilities:
+            w(
+                f"| {fac.facility} | {fac.npdes or '—'} | "
+                f"{fac.spring_tp.value:g} | {fac.daily_tp.value:g} |"
+            )
+        if tmdl.grouped_spring_tp is not None and tmdl.grouped_daily_tp is not None:
+            w(
+                f"\nAcross the whole grouped category of individually permitted dischargers the\n"
+                f"cap totals **{tmdl.grouped_spring_tp.value:g} metric tons** "
+                f"({tmdl.grouped_daily_tp.value:g} kg/day) of spring phosphorus. So the local\n"
+                f"dilution failure compounds a basin-scale constraint: at design low flow these\n"
+                f"effluents are near-undiluted, and every pound of phosphorus is metered against a\n"
+                f"Lake Erie nutrient budget.\n"
+            )
+
+    w("\n## 3. Stormwater: paving the corridor\n")
     w(
         f"A {runoff.storm.return_period_yr}-yr 24-hr design storm "
         f"({_ev(runoff.storm.depth)}) over the {runoff.area.value:,.0f}-ac footprint "
@@ -82,7 +114,7 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
     for f in storm_findings:
         w(f"\n- {f.detail}")
 
-    w("\n\n## 3. Scenario: data-center cooling vs the Ottawa's low flow\n")
+    w("\n\n## 4. Scenario: data-center cooling vs the Ottawa's low flow\n")
     basis = build.scenario.basis
     if basis is not None:
         w("The cooling demand is **sourced**, derived from disclosed campus data by two methods:\n")
@@ -112,7 +144,7 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
             f"(1Q10 = 0 cfs); a data center's cooling draw competes for water the river\n"
             f"does not have — even the low estimate is tens of times the 7Q10.\n"
         )
-    w("\n\n## 4. Tier-1 escalation (EPA SWMM)\n")
+    w("\n\n## 5. Tier-1 escalation (EPA SWMM)\n")
     w(
         "`bosc tier1` runs the real EPA SWMM5 engine on the footprint under the design\n"
         "storm for two questions Tier-0 only approximates: the **detention volume** that\n"
@@ -162,8 +194,9 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
     w("\n---\n")
     w(
         "_Sources: USGS NWIS (streamflow), NOAA Atlas-14 (design rainfall), Ohio EPA NPDES\n"
-        "fact sheets 2PH00006 / 2PH00007 / 2IG00001 (receiving-stream 7Q10), recorded\n"
-        "Bistrozzi parcels (footprint). Regenerate with `bosc hydro-report --write`._\n"
+        "fact sheets 2PH00006 / 2PH00007 / 2IG00001 (receiving-stream 7Q10), Maumee Watershed\n"
+        "Nutrient TMDL Appendix 4 (phosphorus WLAs), recorded Bistrozzi parcels (footprint).\n"
+        "Regenerate with `bosc hydro-report --write`._\n"
     )
     return "\n".join(out)
 

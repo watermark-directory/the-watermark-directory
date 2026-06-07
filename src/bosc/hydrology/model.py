@@ -397,6 +397,37 @@ class SanitaryPlant(BaseModel):
         return round(self.peak_capacity.value - self.avg_design_flow.value, 2)
 
 
+class TmdlWla(BaseModel):
+    """One facility's total-phosphorus wasteload allocation under the Maumee TMDL."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    facility: str
+    npdes: str | None = None
+    spring_tp: ProvenancedValue  # metric tons TP, spring season (Mar-Jul)
+    daily_tp: ProvenancedValue  # kg TP/day (spring load / 153 days)
+    note: str | None = None
+
+
+class MaumeeTmdl(BaseModel):
+    """The Maumee Watershed Nutrient TMDL phosphorus WLAs for the Lima loop.
+
+    A vendored, document-cited reference (transcribed verbatim from Appendix 4 of
+    the final TMDL), like the 7Q10 and sanitary tables — not computed hydrology — so
+    it lives under ``data/reference/hydrology``. Ties the local low-flow assimilative
+    failure to the basin-scale, Lake-Erie-driven nutrient cap on the same permits.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    facilities: list[TmdlWla]
+    grouped_spring_tp: ProvenancedValue | None = None  # category total, metric tons
+    grouped_daily_tp: ProvenancedValue | None = None  # category total, kg/day
+
+    def facility(self, name: str) -> TmdlWla | None:
+        return next((f for f in self.facilities if f.facility == name), None)
+
+
 class SanitaryBasis(BaseModel):
     """Document-grounded sanitary design basis for the municipal loop's WWTPs.
 

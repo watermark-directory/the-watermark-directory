@@ -1,0 +1,73 @@
+# Maumee Watershed Nutrient TMDL — individual NPDES phosphorus wasteload
+# allocations (WLAs) for the Lima municipal-loop facilities.
+#
+# The Lima loop's WWTPs discharge to the Ottawa River, which flows to the
+# Auglaize and on to the Maumee — the largest tributary of Lake Erie, whose
+# western-basin harmful algal blooms are driven by phosphorus. The Maumee
+# Watershed Nutrient TMDL (Ohio EPA, 2023; US EPA-approved) therefore assigns
+# each individually permitted discharger a total-phosphorus wasteload allocation:
+# a spring-season (March–July) cap, expressed both as the seasonal load and as a
+# daily-equivalent (seasonal load / 153 days, per the Clean Water Act's daily
+# requirement). These are the *same* NPDES permits the low-flow assimilative
+# screen already flags as discharging effectively undiluted at design low flow.
+#
+# Every figure is transcribed VERBATIM from Appendix 4 of the final TMDL (in our
+# corpus at data/documents/maumee-tmdl/). Values we cannot read off the table are
+# OMITTED, not guessed; tagged source: document.
+
+source: document
+citation: >-
+  Ohio EPA, Maumee Watershed Nutrient TMDL (final, 2023; US EPA-approved),
+  Appendix 4 "Individual NPDES Wasteload Allocations", Tables A4.1/A4.2 —
+  data/documents/maumee-tmdl/Appendix-4-Individual-NPDES-Wasteload-Allocations-Final.pdf
+units:
+  spring_tp: metric tons total phosphorus, spring season (March–July)
+  daily_tp: kg total phosphorus per day (spring load / 153 days)
+
+# The grouped-load total for the whole category of individually permitted
+# dischargers (Table A4.1 header row), for scale.
+grouped_load_total:
+  spring_tp_metric_tons: 64.1
+  daily_tp_kg: 418.8
+
+# The Lima municipal-loop facilities, in the order they appear in the dossier's
+# low-flow screen (campus-serving WWTPs first, then the refinery), plus the main
+# Lima municipal WWTP which anchors the loop.
+facilities:
+  Lima WWTP:
+    npdes: "2PE00000"
+    spring_tp_metric_tons: 4.0
+    daily_tp_kg: 25.9
+    confidence: high
+    note: "The main Lima municipal WWTP — by far the largest TP WLA in the loop."
+
+  Shawnee No 2 WWTP:
+    npdes: "2PK00002"
+    spring_tp_metric_tons: 0.75
+    daily_tp_kg: 4.9
+    confidence: high
+    note: "Discharges to the Ottawa River (the loop's mainstem); low-flow screen: undiluted."
+
+  American-Bath WWTP:
+    npdes: "2PH00007"
+    spring_tp_metric_tons: 0.37
+    daily_tp_kg: 2.4
+    confidence: high
+    note: "Discharges to Pike Run; low-flow screen: undiluted (7Q10 0.03 cfs)."
+
+  American No 2 WWTP:
+    npdes: "2PH00006"
+    spring_tp_metric_tons: 0.30
+    daily_tp_kg: 2.0
+    confidence: high
+    note: "Discharges to Dug Run; low-flow screen: undiluted (7Q10 0.78 cfs)."
+
+  Lima Refinery:
+    npdes: "2IG00001"
+    spring_tp_metric_tons: 0.6
+    daily_tp_kg: 3.7
+    confidence: high
+    note: >-
+      ** intermittent discharge — the appendix notes the daily load assumes
+      discharge every day, so a daily-maximum limit would be adjusted if developed.
+      Same permit the assimilative screen cites for the Ottawa River 7Q10.

@@ -29,7 +29,34 @@ At design low flow the receiving streams carry less than the effluent they
 receive — the discharges are effectively undiluted.
 
 
-## 2. Stormwater: paving the corridor
+## 2. The Maumee Nutrient TMDL: the same discharges are capped phosphorus loads
+
+These discharges don't just strain a local stream. The Ottawa flows to the
+Auglaize and on to the **Maumee** — Lake Erie's largest tributary and the
+driver of its western-basin harmful algal blooms. The 2023 Maumee Watershed
+Nutrient TMDL (Ohio EPA, US-EPA-approved) assigns each individually permitted
+discharger a total-phosphorus **wasteload allocation**: a spring-season
+(March-July) cap, also stated as a daily equivalent. The plants the low-flow
+screen flags as effectively undiluted are the same permits carrying these caps
+`[verified: document]`:
+
+
+| facility | NPDES | spring TP (metric tons) | daily TP (kg) |
+|---|---|---|---|
+| Lima WWTP | 2PE00000 | 4 | 25.9 |
+| Shawnee No 2 WWTP | 2PK00002 | 0.75 | 4.9 |
+| American-Bath WWTP | 2PH00007 | 0.37 | 2.4 |
+| American No 2 WWTP | 2PH00006 | 0.3 | 2 |
+| Lima Refinery | 2IG00001 | 0.6 | 3.7 |
+
+Across the whole grouped category of individually permitted dischargers the
+cap totals **64.1 metric tons** (418.8 kg/day) of spring phosphorus. So the local
+dilution failure compounds a basin-scale constraint: at design low flow these
+effluents are near-undiluted, and every pound of phosphorus is metered against a
+Lake Erie nutrient budget.
+
+
+## 3. Stormwater: paving the corridor
 
 A 25-yr 24-hr design storm (4.25 in `[inference: assumption]`) over the 340-ac footprint `[verified]`:
 
@@ -44,7 +71,7 @@ A 25-yr 24-hr design storm (4.25 in `[inference: assumption]`) over the 340-ac f
 - runoff volume 75 -> 100 ac-ft (+25 ac-ft to detain for pre-development control)
 
 
-## 3. Scenario: data-center cooling vs the Ottawa's low flow
+## 4. Scenario: data-center cooling vs the Ottawa's low flow
 
 The cooling demand is **sourced**, derived from disclosed campus data by two methods:
 
@@ -65,7 +92,7 @@ does not have — even the low estimate is tens of times the 7Q10.
 
 
 
-## 4. Tier-1 escalation (EPA SWMM)
+## 5. Tier-1 escalation (EPA SWMM)
 
 `bosc tier1` runs the real EPA SWMM5 engine on the footprint under the design
 storm for two questions Tier-0 only approximates: the **detention volume** that
@@ -100,5 +127,6 @@ not transcribed (omission over invention).
 ---
 
 _Sources: USGS NWIS (streamflow), NOAA Atlas-14 (design rainfall), Ohio EPA NPDES
-fact sheets 2PH00006 / 2PH00007 / 2IG00001 (receiving-stream 7Q10), recorded
-Bistrozzi parcels (footprint). Regenerate with `bosc hydro-report --write`._
+fact sheets 2PH00006 / 2PH00007 / 2IG00001 (receiving-stream 7Q10), Maumee Watershed
+Nutrient TMDL Appendix 4 (phosphorus WLAs), recorded Bistrozzi parcels (footprint).
+Regenerate with `bosc hydro-report --write`._
