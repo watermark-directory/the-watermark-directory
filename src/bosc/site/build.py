@@ -186,7 +186,7 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
     corpus = load_corpus(settings)
     result.n_records = len(corpus)
     events = build_timeline(corpus)
-    egraph = build_entity_graph(corpus)
+    egraph = build_entity_graph(corpus, enrich_parcels=True, settings=settings)
     result.n_events = len(events)
     result.n_entities = len(egraph.entities)
     result.n_relationships = len(egraph.relationships)

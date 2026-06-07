@@ -21,6 +21,9 @@ import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 
+import yaml
+
+from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
 from bosc.pipeline.corpus import Corpus, load_corpus
 
@@ -250,8 +253,19 @@ class EntityGraph:
         return key
 
 
-def build_entity_graph(corpus: Corpus | None = None) -> EntityGraph:
-    """Resolve entities and relationships across deeds, NPDES permits, SoS filings."""
+def build_entity_graph(
+    corpus: Corpus | None = None,
+    *,
+    enrich_parcels: bool = False,
+    settings: Settings | None = None,
+) -> EntityGraph:
+    """Resolve entities and relationships across deeds, NPDES permits, SoS filings.
+
+    With ``enrich_parcels=True`` the corpus-derived graph is augmented with cited
+    parcel-owner context from ``data/reference/allen-gis`` (see
+    :func:`enrich_with_parcel_owners`) — kept opt-in so the pure corpus graph that
+    the tests assert on stays unchanged.
+    """
     corpus = corpus if corpus is not None else load_corpus()
     graph = EntityGraph()
 
@@ -414,4 +428,65 @@ def build_entity_graph(corpus: Corpus | None = None) -> EntityGraph:
                 graph.entities[ent_key].signals.add("shared_agent")
 
     log.info("entities.built", entities=len(graph.entities), relationships=len(graph.relationships))
+    if enrich_parcels:
+        enrich_with_parcel_owners(graph, settings=settings)
+    return graph
+
+
+def enrich_with_parcel_owners(
+    graph: EntityGraph, *, settings: Settings | None = None
+) -> EntityGraph:
+    """Augment a corpus-built graph with cited parcel-owner context (committed data).
+
+    Two additions, both from ``data/reference/allen-gis`` (verbatim county CAMA):
+
+    1. **The federally-held JSMC / Lima Army Tank Plant land** — it appears in no
+       deed in the corpus, so it is invisible to the corpus-only graph, yet it is
+       the documented Allen County defense-industry footprint. Added as a single
+       ``government_military`` node (owner ``UNITED STATES``) carrying its parcels,
+       situs addresses, and an ``army_controlled`` signal.
+    2. **CAMA situs addresses** for parcels the corpus already tracks — attached to
+       the existing grantee/grantor nodes that hold those parcel ids (Bistrozzi and
+       its grantors are already corpus-derived; this just grounds their addresses).
+
+    Mutates and returns ``graph``. Idempotent.
+    """
+    settings = settings or get_settings()
+    ref = settings.reference_dir / "allen-gis"
+
+    defense = ref / "parcels.defense.yaml"
+    if defense.is_file():
+        data = yaml.safe_load(defense.read_text(encoding="utf-8")) or {}
+        army = data.get("army_controlled") or []
+        if army:
+            key = normalize_name("UNITED STATES")
+            ent = graph.entities.get(key) or Entity(
+                key=key, kind="government", classification="government_military"
+            )
+            graph.entities[key] = ent
+            for p in army:
+                for variant in (p.get("owner"), p.get("deeded_owner")):
+                    if variant:
+                        ent.variants.add(str(variant))
+                if p.get("parcel_no"):
+                    ent.parcels.add(str(p["parcel_no"]))
+                if p.get("situs_address"):
+                    ent.addresses.add(str(p["situs_address"]))
+            ent.roles["parcel_owner"] += len(army)
+            ent.signals.update({"army_controlled", "defense_land"})
+            ent.sources.add("data/reference/allen-gis/parcels.defense.yaml")
+
+    cited = ref / "parcels.cited.yaml"
+    if cited.is_file():
+        data = yaml.safe_load(cited.read_text(encoding="utf-8")) or {}
+        by_pid = {
+            re.sub(r"\D", "", str(p.get("parcel_no"))): p
+            for p in (data.get("parcels") or [])
+            if p.get("parcel_no")
+        }
+        for ent in graph.entities.values():
+            for pid in ent.parcels:
+                rec = by_pid.get(re.sub(r"\D", "", str(pid)))
+                if rec and rec.get("situs_address"):
+                    ent.addresses.add(str(rec["situs_address"]))
     return graph

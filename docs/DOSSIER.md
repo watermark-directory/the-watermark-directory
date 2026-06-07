@@ -136,6 +136,22 @@ corridor `[verified: data/extracted/oepa/*.npdes.yaml]`:
 Note the resonance: **Pike Run Farms LLC** (a Bistrozzi grantor) shares its name
 with **Pike Run**, the American Bath WWTP's receiving water. `[verified]`
 
+**Downstream — the Maumee Nutrient TMDL.** All three plants discharge (Ottawa →
+Auglaize → Maumee) into Lake Erie's largest tributary, under the US-EPA-approved
+**2023 Maumee Watershed Nutrient TMDL**, which assigns each an individual
+total-phosphorus wasteload allocation (spring-season metric tons: Shawnee No 2
+**0.75**, American-Bath **0.37**, American No 2 **0.30**; the main Lima WWTP
+**4.0**). So the same effluent the [low-flow screen](HYDROLOGY.md) shows is
+effectively undiluted is also **capped at the basin scale** by a binding nutrient
+budget — local dilution failure on top of a Lake-Erie phosphorus cap. `[verified:
+data/reference/hydrology/maumee-tmdl-wla.yaml]`
+
+**Floodplain.** The recorded campus parcels sit *just outside* the FEMA Special
+Flood Hazard Area, but Zone AE (1%-annual-chance) floodplain and regulatory
+**floodway** (FEMA DFIRM 39003C) come within **~50 m** of the footprint — a no-rise
+corridor the post-development stormwater increase drains toward (see
+[hydrology](HYDROLOGY.md)). `[verified: data/reference/hydrology/campus-floodzone.yaml]`
+
 ---
 
 ## 6. Roadwork — privately-funded public infrastructure
@@ -196,6 +212,7 @@ A consistent advisory team sits behind the entities `[verified: entity graph]`:
 | Date | Event |
 |---|---|
 | 2023-05 | Shawnee II WWTP NPDES public notice (utility backdrop) |
+| 2023-09 | Maumee Watershed Nutrient TMDL approved (basin P caps incl. the corridor WWTPs) |
 | 2025-07-02 | First Project Bosc 401 WQC application |
 | 2025-07-11 | Tetra Tech OPC roadwork estimate (~$14.2M) |
 | 2025-08-13 | Bistrozzi records 3 deeds (Brenneman, Neff, Pike Run) — 10 parcels |

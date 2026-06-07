@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from bosc.config import Settings
 from bosc.models import (
     BusinessFiling,
     Deed,
@@ -20,6 +21,7 @@ from bosc.pipeline.entities import (
     _split_principal,
     build_entity_graph,
     classify,
+    enrich_with_parcel_owners,
     normalize_name,
 )
 
@@ -191,6 +193,28 @@ def test_build_graph_resolves_and_links() -> None:
     # "Ottawa River" and "Ottawa River at River Mile 5" collapse to one water node.
     discharges = [r for r in graph.relationships if r.rel == "discharges_to"]
     assert len(discharges) == 1
+
+
+def test_parcel_enrichment_adds_jsmc_node(hydro_settings: Settings) -> None:
+    # Enrichment is opt-in: the corpus-only graph is unchanged...
+    base = build_entity_graph()
+    assert base.get("UNITED STATES") is None
+    # ...and adding parcel context surfaces the federally-held JSMC tank-plant land.
+    enriched = build_entity_graph(enrich_parcels=True, settings=hydro_settings)
+    jsmc = enriched.get("UNITED STATES")
+    assert jsmc is not None
+    assert jsmc.kind == "government" and jsmc.classification == "government_military"
+    assert {"army_controlled", "defense_land"} <= jsmc.signals
+    assert len(jsmc.parcels) == 5
+    assert any("BUCKEYE" in a for a in jsmc.addresses)
+    assert len(enriched.entities) == len(base.entities) + 1
+
+
+def test_parcel_enrichment_is_idempotent(hydro_settings: Settings) -> None:
+    graph = build_entity_graph(enrich_parcels=True, settings=hydro_settings)
+    n = len(graph.entities)
+    enrich_with_parcel_owners(graph, settings=hydro_settings)  # second pass
+    assert len(graph.entities) == n
 
 
 def _filing(

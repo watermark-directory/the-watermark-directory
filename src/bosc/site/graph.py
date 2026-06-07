@@ -105,6 +105,16 @@ def render_entities(graph: EntityGraph, *, profile_slugs: dict[str, str] | None 
         "See also the curated [cloud-consumer candidates](candidates.md) — corridor "
         "operations marked on demand-fit only (not corpus-derived, not customers).",
         "",
+    ]
+    if any("army_controlled" in e.signals for e in graph.entities.values()):
+        lines += [
+            "One node is folded in from county parcel records (`data/reference/allen-gis`), "
+            "not a deed: the federally-held **United States / JSMC (Lima Army Tank Plant)** "
+            "land — Allen County's documented defense-industry footprint (see "
+            "[defense contractors](defense-contractors.md)).",
+            "",
+        ]
+    lines += [
         _SIGNALS_NOTE,
         "",
         "## Graph",
