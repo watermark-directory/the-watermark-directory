@@ -1,0 +1,118 @@
+kind: wastewater_enforcement
+subject: Allen County wastewater enforcement + capacity history — the plants slated to take BOSC/Google flow
+
+provenance:
+  sources:
+    - data/documents/regulatory/allen-co-cwa-consent-decree-1996.pdf      # the 1996 federal CWA consent decree
+    - data/documents/regulatory/allen-co-sanitary-cna-2005.pdf            # 2005 10-Year Capital Needs Assessment
+    - data/documents/sanitary/indianbrook-ps-asbuilt-2007.pdf             # Shawnee collection asset (image-only drawings)
+  content_verified: '2026-06-07'   # consent decree + CNA read from the OCR text layer; as-built title sheet read from the image
+  evidence: county-/court-produced records (consent decree is a federal court instrument)
+
+thesis: >-
+  The two County WWTP groups slated to receive the BOSC/Google data-center sanitary load -- American
+  Bath (2PH00007) + American No.2 (2PH00006) and Shawnee No.2 (2PK00002) -- carry a documented
+  regulatory-enforcement and capacity-constraint history that PREDATES the data center by ~30 years:
+  a 1996 federal Clean Water Act consent decree for effluent-limit violations, a 2005 OEPA agreement
+  to eliminate sanitary-sewer bypassing (SSOs) by 2015, and chronic inflow/infiltration + capacity
+  strain. A new high-strength industrial load is being routed onto a system with this history.
+  [the documents are verified; the "routed onto a constrained system" framing is inference.]
+
+consent_decree_1996:
+  citation: "United States of America and the State of Ohio v. The Board of County Commissioners of Allen County, Ohio"
+  court: "U.S. District Court, Northern District of Ohio (Judge David A. Katz)"
+  civil_action_no: "3:96 CV 7134"
+  doj_docket: "90-5-1-1-3841"
+  lodged: '1996-02-29'
+  federal_register_notice: "61 Fed. Reg. 10010 (1996-03-12)"
+  entered: "after the 30-day comment period; no comments received"
+  board_signed: '1996-02-01'
+  claim: >-
+    The County violated Clean Water Act §301 (33 U.S.C. §1311), the terms of its NPDES permits, and
+    O.R.C. Ch. 6111 by discharging pollutants from its American Bath and Shawnee No.2 plants IN EXCESS
+    of the effluent limitations in its NPDES permits.
+  plants:
+    american_bath:
+      npdes: "2PH00007*BD"
+      location: "Bluelick Road, Bath Township"
+      compliance_program: "Improvements per OEPA PTI issued 1994-09-13; complete construction 1996-06-30; attain effluent compliance 1996-09-30"
+      interim_limit_basis_mgd: 1.5
+    shawnee_no_2:
+      npdes: "2PK00002*CD"
+      location: "3640 Spencerville Road, Shawnee Township"
+      compliance_program: >-
+        Sewage Treatment Expansion (PTI 1992-12-17, completed Jan 1994) + Sludge Thickening & Storage
+        Improvement (PTI 1995-07-12; complete construction 1996-06-29, operate 1996-09-29)
+      interim_limit_basis_mgd: 2.0     # the SAME 2.0 MGD later raised to 3.0 in the 2023 Maumee TMDL
+  civil_penalty_usd: 100000            # $90,000 federal + $10,000 State
+  stipulated_penalties: "$100-500/day for milestone/reporting failures; $500-$2,000 per effluent violation"
+  injunction: "§8.3 -- the Board is ordered/enjoined to comply with CWA §301, O.R.C. Ch. 6111, and the NPDES permits"
+  termination: >-
+    §19.1 -- terminated only on Board motion after certifying 12 CONSECUTIVE MONTHS of NPDES compliance,
+    with U.S. EPA + Ohio EPA concurrence (the corpus does not contain a termination order).
+  agent_for_service: "David Northrop, Samuels and Northrop Co., LPA, 180 E. Broad St. Suite 816, Columbus"
+  bosc_relevance: >-
+    Exactly the PRR item-15 instrument (County records re the 1996 CWA consent decree, incl. its
+    relationship to the Shawnee II Phase 2 expansion). The Shawnee No.2 interim limit was built on a
+    2.0 MGD basis -- the figure the 2023 Maumee TMDL responsiveness summary notes was later "authorized
+    to increase ... from 2.0 to 3.0 MGD" (maumee-tmdl-responsiveness.yaml). American Bath (2PH00007)
+    and Shawnee No.2 (2PK00002) are BOSC-1A receiving facilities (PRR items 8/9).
+
+capital_needs_assessment_2005:
+  citation: "Allen County Sanitary Engineering Department — 10-Year Capital Needs Assessment Report & Capital Improvement Program, presented to the Board of County Commissioners, 2005-10-27"
+  authors:
+    - "Stephen M. Kayatin, P.E. — Sanitary Engineer"
+    - "Brad Niemeyer, P.E. — Assistant Sanitary Engineer"   # = the County's primary contact in the 2025 Roadwork Development Agreement (continuity of personnel)
+    - "Bruce Wells — Business Manager"
+  program_total_usd: 35000000          # ~$35M over 10 yr; sewer user charges projected to DOUBLE ($75 -> $155/quarter)
+  shawnee_no_2:
+    history: "early-1990s ~$3M expansion (SBR, chlorine disinfection, sludge) done to respond to the 1996 USEPA Consent Decree; 30-yr-old plant deteriorating"
+    planned: "new sludge facilities + UV disinfection + replace 30-yr influent structure — $400K design (2007) + $4M construction (2008)"
+  american_no_2:
+    npdes: "2PH00006"
+    existing: "0.80 MGD activated-sludge plant (early 1970s); 'complying ... however, the plant has demonstrated difficulties adjusting to increased flows and fluctuating wastewater strengths'"
+    reconstruction: "new 1.2 MGD Sequencing Batch Reactor 'for additional ... capacity for future development and growth' — $550K design + $7.7M construction (~$9.3M 20-yr OEPA DEFA loan)"
+  sso_elimination_agreement:
+    date: '2005-04-21'
+    parties: "Allen County Board of Commissioners <-> Ohio EPA"
+    obligation: >-
+      Eliminate ALL bypassing of sanitary waste (sanitary sewer overflows / raw-sewage releases during
+      rain events -- illegal under the CWA) by 2015, and develop a plan addressing collection-system +
+      treatment-plant deficiencies. Driven by storm-water infiltration/inflow (I&I).
+    remediation_costs: "Shawnee Sewer Sub-District I&I ~$10.5M; Bath Sewer Sub-District I&I ~$1.3M; Shawnee Trunk Sewer reconstruction (21in -> 48in, 'for additional growth and development') ~$3.0M"
+  bosc_relevance: >-
+    Documents that BOTH Shawnee No.2 (2PK00002) and American No.2 (2PH00006) were capacity-strained
+    and under regulatory pressure (1996 decree + 2005 SSO agreement + chronic I&I) two decades before
+    the data center, and that American No.2 was rebuilt 0.80 -> 1.2 MGD for "future development." The
+    SSO/bypass history (raw sewage to the Ottawa watershed during storms) compounds the assimilative
+    and drainage concerns; system upgrades are funded by DOUBLING sewer rates -- a ratepayer burden.
+
+collection_asset_indianbrook_ps:
+  source: data/documents/sanitary/indianbrook-ps-asbuilt-2007.pdf
+  what: "Indianbrook Pump Station UPGRADE — construction/as-built drawings, Shawnee Twp., Allen County (March 2007; 'As Built' 2008-08-14)"
+  engineer: "Kohli & Kaliher Associates, Inc. (drawing C-863, job 03-265-01)"
+  location: "near Agerter Rd / Fraunfelter / SR 117 / Wonderlick Rd, Shawnee Township (feeds the Shawnee Sewer Sub-District -> Shawnee No.2 WWTP)"
+  note: >-
+    Title sheet bears the standard I&I-control covenant: "Roof drains, foundation drains, and other
+    clean water connections to this sanitary sewer system are prohibited" — the same I&I problem the
+    2005 SSO-elimination agreement targets. Sheets 2-4 (site plan, details, electrical) are image-only
+    drawings (no text layer); design-flow/capacity figures were not transcribed (would require reading
+    the drawing detail). [image-only; only the title sheet was read.]
+
+cross_refs:
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml   # PRR items 8/9/14/15
+  - data/reference/hydrology/maumee-tmdl-responsiveness.yaml      # Shawnee #2 2.0 -> 3.0 MGD; the new-discharger 0.5 mg/L rule
+  - data/reference/hydrology/maumee-tmdl-wla.yaml                 # the TP WLAs for these same plants
+  - data/reference/hydrology/ottawa-lima-tmdl.yaml                # the Ottawa (Lima) receiving water + low-flow finding
+  - data/extracted/oepa/                                          # the current OEPA NPDES permits/fact sheets for these plants
+  - src/bosc/ledger.py                                            # the wastewater-upgrade ratepayer burden
+
+relevance:
+  tags: [verified, regulatory, wastewater, consent-decree, sso, capacity, shawnee-ii, american-bath, ratepayer]
+  note: >-
+    The enforcement + capacity backstory for the BOSC-1A receiving plants. A 1996 federal CWA consent
+    decree (3:96 CV 7134, DJ 90-5-1-1-3841) for effluent violations at American Bath (2PH00007) and
+    Shawnee No.2 (2PK00002); a 2005 OEPA agreement to end sanitary-sewer bypassing by 2015; and a
+    $35M sanitary CIP (doubling rates) that rebuilt American No.2 (2PH00006) 0.80 -> 1.2 MGD. The data
+    center's sanitary load lands on this system. Connects PRR items 8/9/14/15 to the TMDL/assimilative
+    threads.
