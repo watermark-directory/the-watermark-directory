@@ -9,10 +9,14 @@ representations).
 
 | File | What it is |
 |---|---|
-| `defense-contractors.yaml` | Named local defense contractors / government-adjacent operators (Allen County). |
 | `watch-items.geojson` | Watch-list features flagged during the Periplus investigation. |
 | `corridor.geojson` | The North Cole Street corridor study area geometry. |
 | `corridor-centerline.geojson` | Corridor centerline. |
+| `bosc-parcels.geojson` | Parcel geometry for the corridor study area. |
+
+> `defense-contractors.yaml` previously lived here as a frozen import. It has been
+> promoted to a first-class curated entity input at
+> `data/entities/profiles/defense-contractors.yaml` (loaded by `bosc.candidates`).
 
 Treat these as **external corroboration**: cross-check BOSC's own extractions
 against them, but BOSC's `data/extracted/**` remains the system of record. Do not

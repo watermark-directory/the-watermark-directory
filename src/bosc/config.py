@@ -106,8 +106,9 @@ class Settings(BaseSettings):
 
     @property
     def entities_dir(self) -> Path:
-        """Curated candidate-entity inventories (YAML) not derived from the corpus
-        (e.g. cloud-consumer candidates). Committed."""
+        """Curated entity inputs not derived from the corpus. The inventories live
+        under ``entities/profiles/`` (cloud-consumer candidates, defense
+        contractors). Committed."""
         return self.data_dir / "entities"
 
     @property

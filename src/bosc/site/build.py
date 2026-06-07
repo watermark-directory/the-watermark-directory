@@ -14,7 +14,7 @@ import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from bosc.candidates import load_cloud_consumer_candidates
+from bosc.candidates import load_cloud_consumer_candidates, load_defense_contractors
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
 from bosc.people import load_people
@@ -47,6 +47,7 @@ class BuildResult:
     people_pages: list[people_mod.PersonPage] = field(default_factory=list)
     n_people_tracked: int = 0
     n_candidates: int = 0
+    n_defense_contractors: int = 0
 
 
 def _mirror_tree(
@@ -219,13 +220,20 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
     )
     result.people_pages = people_pages
 
-    # 6b. Curated candidate-entity inventory (cloud-consumer candidates), if present.
+    # 6b. Curated entity inputs (data/entities/profiles/), each if present.
     inventory = load_cloud_consumer_candidates(settings.entities_dir)
     if inventory is not None:
         (web / "candidates.md").write_text(
             candidates_mod.render_candidates(inventory, egraph=egraph), encoding="utf-8"
         )
         result.n_candidates = len(inventory.entities)
+
+    defense = load_defense_contractors(settings.entities_dir)
+    if defense is not None:
+        (web / "defense-contractors.md").write_text(
+            candidates_mod.render_defense_contractors(defense, egraph=egraph), encoding="utf-8"
+        )
+        result.n_defense_contractors = len(defense.defense_contractors)
 
     # 7. Landing page. Written as home.md (not index.md): the CustomMill theme owns
     # the root index.html as its SPA shell (the iframe frame), so the landing content

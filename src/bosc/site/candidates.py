@@ -7,7 +7,7 @@ so the table is never misread as a customer/connection list.
 
 from __future__ import annotations
 
-from bosc.candidates import CandidateInventory
+from bosc.candidates import CandidateInventory, DefenseContractorList
 from bosc.pipeline.entities import EntityGraph, normalize_name
 
 _CAUTION = (
@@ -69,4 +69,76 @@ def render_candidates(inv: CandidateInventory, *, egraph: EntityGraph | None = N
                 f"| {_esc(', '.join(e.workload_classes))} | {conf} | {in_graph} |"
             )
         lines.append("")
+    return "\n".join(lines)
+
+
+_DEF_CAUTION = (
+    '!!! warning "Pattern matches — leads, not verdicts"\n'
+    "    This is a seed list of major DoD prime contractors. A match means a party "
+    "name *fits a known prime's pattern* — a lead to verify, **not** a "
+    "classification and **not** an accusation. It does not change an entity's "
+    "graph classification, and a hit on a dual-use firm (e.g. Honeywell) may be a "
+    "purely commercial holding."
+)
+
+
+def _corpus_names(egraph: EntityGraph) -> list[str]:
+    """Every legible party name in the graph (displays + raw variants)."""
+    names: set[str] = set()
+    for ent in egraph.entities.values():
+        names.add(ent.display)
+        names.update(ent.variants)
+    return sorted(names)
+
+
+def render_defense_contractors(
+    dcl: DefenseContractorList, *, egraph: EntityGraph | None = None
+) -> str:
+    """Render the defense-contractor seed list + any corpus entity-graph matches."""
+    primes = dcl.defense_contractors
+    matches = dcl.match(_corpus_names(egraph)) if egraph is not None else {}
+    n_pat = sum(len(dc.patterns) for dc in primes)
+
+    lines = [
+        "# Defense contractors",
+        "",
+        f"A curated seed list of **{len(primes)}** major U.S. Department of Defense "
+        f"prime contractors ({n_pat} owner-name match patterns), used to flag "
+        "defense-industry holdings across the corpus and Allen County parcels. It "
+        "sits alongside the corpus [entity graph](entities.md) and the "
+        "[cloud-consumer candidates](candidates.md); this list is curated, not "
+        "corpus-derived.",
+        "",
+        _DEF_CAUTION,
+        "",
+    ]
+
+    if egraph is not None:
+        lines += ["## Corpus matches", ""]
+        if matches:
+            lines += [
+                f"{sum(len(v) for v in matches.values())} corpus party name(s) match "
+                "a prime pattern. Verify each against the cited records before relying "
+                "on it.",
+                "",
+                "| Prime | Matched corpus name |",
+                "|---|---|",
+            ]
+            for prime in sorted(matches):
+                for hit in sorted(matches[prime]):
+                    lines.append(f"| {_esc(prime)} | {_esc(hit)} |")
+        else:
+            lines.append("No corpus party name matches a prime pattern yet.")
+        lines.append("")
+
+    lines += [
+        "## Seed list",
+        "",
+        "| Prime | Patterns | Note |",
+        "|---|---|---|",
+    ]
+    for dc in sorted(primes, key=lambda d: d.name):
+        pats = ", ".join(f"`{_esc(p)}`" for p in dc.patterns)
+        lines.append(f"| {_esc(dc.name)} | {pats} | {_esc(dc.note or '—')} |")
+    lines.append("")
     return "\n".join(lines)

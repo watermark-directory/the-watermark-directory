@@ -1,42 +1,32 @@
-# Defense Contractor Flag List
+# Defense-contractor seed list — a curated entity input (data/entities/profiles/).
 #
-# This file is the seed list for `flag_defense_contractor`, a boolean ANOMALY
-# FLAG produced by the pipeline `flag` step. It is NOT an owner-classification
-# category. A parcel can be `corporate_out_of_state` AND
-# `flag_defense_contractor=true` simultaneously — that is the entire point.
-#
-# Why this exists. The owner-classification ruleset puts GDLS, GDIT, TACOM,
-# and JSMC under `government_military` because their Allen County parcels
-# function as Army-controlled land. The investigation's broader thesis,
-# however, is about defense-industry land holdings in Allen County
-# generally — and a parcel held by, say, Lockheed Martin with no JSMC
-# relationship would correctly be `corporate_out_of_state` and would be
-# lost in the noise. This flag lights such parcels up for the anomaly
-# toggle and the Ownership Explorer view without changing their category.
-# See `data/owner-classification-rationale.md` Open Question #4.
+# Origin: imported from the Periplus (`../gis`) fork at the spin-out point, where
+# it seeded a `flag_defense_contractor` anomaly flag over parcel owner names. In
+# BOSC it is loaded by `bosc.candidates.load_defense_contractors` and matched,
+# case-insensitively, against (a) the corpus entity graph
+# (`bosc.pipeline.entities`) and (b) Allen County parcel owner names from the
+# `allen_gis` connector. A match LIGHTS UP a party as DoD-prime-adjacent without
+# changing its entity-graph classification — the flag is orthogonal to category.
 #
 # What this is NOT.
-#   - Not a classification. The six categories
-#     (individual / corporate_domestic / corporate_out_of_state /
-#      government_military / nonprofit / unknown_shell) are unaffected.
-#   - Not a public accusation. The flag means "this owner name matches a
-#     known DoD prime contractor pattern" — nothing more.
-#   - Not a list of every defense-adjacent vendor. We only list the major
-#     primes. Sub-tier suppliers are out of scope.
+#   - Not a classification. The entity-graph kinds/classifications
+#     (individual / corporate / government / trust / facility / water) are
+#     unaffected; a hit just adds a `defense_contractor` annotation.
+#   - Not a public accusation. A hit means "this name matches a known DoD
+#     prime contractor pattern" — a lead to verify, nothing more.
+#   - Not a list of every defense-adjacent vendor. Only the major primes;
+#     sub-tier suppliers are out of scope.
 #
 # Matching semantics.
-#   - The flag step does a CASE-INSENSITIVE SUBSTRING match of each pattern
-#     against `owner_name_normalized`.
-#   - Patterns SHOULD be uppercase (the normalized owner-name column is
-#     uppercased upstream, and the matcher upper-cases both sides
-#     defensively, but uppercase keeps intent obvious here).
+#   - CASE-INSENSITIVE SUBSTRING match of each pattern against the upper-cased
+#     candidate name. Patterns SHOULD be uppercase (the matcher upper-cases
+#     both sides defensively, but uppercase keeps intent obvious here).
 #   - Substring, not regex. Do NOT use regex metacharacters.
 #   - Be conservative about overly-broad patterns. "BOEING" alone is fine
 #     because the word is essentially unique to the company. "DEFENSE"
-#     alone would match every parcel with the word "defense" anywhere in
-#     the owner name — do not do that.
+#     alone would match every name containing the word "defense" — do not.
 #   - Multiple subsidiaries of one parent get listed under that parent's
-#     entry, in the same `patterns` list, so the report stays grouped.
+#     entry, in the same `patterns` list, so the grouping stays intact.
 #
 # How to add a new contractor.
 #   1. Confirm the entity is a DoD prime, not a sub-tier supplier. Check
@@ -48,20 +38,24 @@
 #      "GENERAL DYNAMICS CORPORATION" over "GENERAL". Prefer
 #      "L3HARRIS" over "HARRIS" (which would catch every Harris family
 #      parcel in the county).
-#   4. If the contractor's local subsidiary is already caught by the
-#      Allen overlay's `government_military` patterns (GDLS, GDIT,
-#      JSMC, TACOM), note that in the entry — the flag is still useful
-#      for OTHER subsidiaries of the same parent.
+#   4. In Allen County, GDLS / GDIT / JSMC / TACOM appear as Army-controlled
+#      land at the Lima tank plant (JSMC). The parent-level patterns below
+#      still usefully catch OTHER subsidiaries of the same parent.
 #
-# Dual-use note. Some companies on this list (Honeywell most notably) have
-# substantial commercial businesses in addition to defense work. Including
-# them here means commercial-only Honeywell parcels will also be flagged.
-# That is judged acceptable because (a) the flag is orthogonal to category,
-# so a Honeywell warehouse still classifies as corporate_*, and (b) the
-# investigative cost of MISSING a defense-related Honeywell parcel is
-# higher than the cost of flagging a commercial one. Reviewers using the
-# anomaly toggle should be aware that a flag is a starting point, not a
-# conclusion.
+# Dual-use note. Some companies here (Honeywell most notably) have substantial
+# commercial businesses alongside defense work, so commercial-only parcels will
+# also match. That is judged acceptable: the flag is orthogonal to category, and
+# the cost of MISSING a defense-related parcel outweighs over-flagging a
+# commercial one. A flag is a starting point, not a conclusion.
+
+meta:
+  subject: Defense-contractor seed list (DoD primes) for entity-graph + parcel owner matching
+  origin: Imported from the Periplus (../gis) fork at the BOSC spin-out point; promoted to a first-class curated entity input.
+  marker: defense_contractor
+  what_this_is_not: >-
+    NOT a classification and NOT a public accusation. A match means a name fits a
+    known DoD-prime pattern — a lead to verify, not a verdict. The entity-graph
+    classification of a matched party is unchanged.
 
 defense_contractors:
   - name: "Lockheed Martin"
