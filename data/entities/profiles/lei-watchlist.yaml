@@ -37,11 +37,11 @@ entities:
   - name: Shell plc
     lei: 21380068P1DRHMJ8KU70
     note: Ultimate parent behind the Equilon / Shell Lima terminals (RSEI facilities).
-# Unresolved leads (no verified, unambiguous legal entity pinned yet).
-leads:
   - name: INEOS USA LLC
-    query: INEOS
+    lei: 549300TWZ86K81VO8O17
     note: >-
-      RSEI #1 Allen County facility. The GLEIF top hit is the Belgian INEOS parent;
-      the correct INEOS USA legal entity is ambiguous — left unpinned to avoid a
-      wrong match in committed evidence.
+      RSEI #1 Allen County facility. Resolved by exact legal-name match to the
+      Delaware-registered INEOS USA LLC (US-DE, ACTIVE) — distinct from the Belgian
+      INEOS parent that a fuzzy search surfaces. GLEIF reports no ultimate parent.
+# Unresolved leads (no verified, unambiguous legal entity pinned yet).
+leads: []

@@ -1,9 +1,9 @@
 meta:
   subject: GLEIF LEI resolution — corridor entity parents
   source: GLEIF (AWS Open Data s3://gleif), REST API api.gleif.org; license CC0
-  record_count: 9
+  record_count: 10
   with_reported_parent: 1
-  lead_count: 1
+  lead_count: 0
   method: pinned LEIs fetched by exact ID (no fuzzy name match)
 records:
 - watchlist_name: Cenovus Energy Inc.
@@ -74,6 +74,21 @@ records:
     lei: 9C1X8XOOTYY2FNYTVH06
     name: GENERAL DYNAMICS CORPORATION
   note: JSMC / Lima Army Tank Plant operator — Allen County RSEI
+- watchlist_name: INEOS USA LLC
+  lei: 549300TWZ86K81VO8O17
+  legal_name: INEOS USA LLC
+  jurisdiction: US-DE
+  legal_form: HZEH
+  entity_status: ACTIVE
+  registration_status: ISSUED
+  last_update: '2025-07-09T10:19:31Z'
+  legal_address:
+    city: WILMINGTON
+    region: US-DE
+    country: US
+  note: 'RSEI #1 Allen County facility. Resolved by exact legal-name match to the Delaware-registered
+    INEOS USA LLC (US-DE, ACTIVE) — distinct from the Belgian INEOS parent that a fuzzy search surfaces.
+    GLEIF reports no ultimate parent.'
 - watchlist_name: Marathon Petroleum Corporation
   lei: 3BNYRYQHD39K4LCKQF12
   legal_name: MARATHON PETROLEUM CORPORATION
@@ -126,8 +141,4 @@ records:
     region: US-OH
     country: US
   note: Parent of the P&G Lima plant (RSEI facility); registered in Columbus, OH.
-leads:
-- name: INEOS USA LLC
-  query: INEOS
-  note: 'RSEI #1 Allen County facility. The GLEIF top hit is the Belgian INEOS parent; the correct INEOS
-    USA legal entity is ambiguous — left unpinned to avoid a wrong match in committed evidence.'
+leads: []

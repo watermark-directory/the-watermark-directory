@@ -22,10 +22,13 @@ a small watchlist we use the REST API; raw responses cache under the git-ignored
 ## Method (litigation discipline)
 
 - **Every LEI is pinned and fetched by exact 20-character ID** — never a fuzzy name
-  match — so the committed record can't drift onto the wrong legal entity.
-- Entities whose correct legal entity is ambiguous (e.g. *INEOS USA LLC*, whose top
-  GLEIF hit is the Belgian parent) are kept as **unresolved leads**, not pinned
-  records. Prefer omission over a wrong match.
+  match — so the committed record can't drift onto the wrong legal entity. *INEOS USA
+  LLC*, for instance, is pinned to the Delaware entity (`549300TWZ86K81VO8O17`) by
+  exact legal-name match — distinct from the Belgian INEOS parent a fuzzy search
+  surfaces first.
+- Entities whose correct legal entity stays ambiguous are kept as **unresolved
+  leads**, not pinned records (the `leads:` list — empty when all resolve). Prefer
+  omission over a wrong match.
 - A **direct/ultimate parent that returns 404** means GLEIF holds *no reported
   relationship record* — recorded as absent, which is **not** a claim that no parent
   exists (it may be an unreported reporting exception). GLEIF relationships are
