@@ -1,0 +1,61 @@
+kind: person_intel
+subject: Michael J. Montfort — WSGR (Washington, D.C.) employee-benefits/compensation counsel
+
+provenance:
+  sources:
+    - data/documents/permits/bistrozzi-permits/wsgr-michael-j-montfort-bio.pdf       # WSGR firm bio (substantive)
+    - data/documents/permits/bistrozzi-permits/elementix-michael-montfort-dfw.pdf    # Elementix auto-scraped profile (thin / ambiguous)
+  content_verified: '2026-06-07'   # read from the bio + the Elementix profile text
+  evidence: captured web/firm records (filed in the relator's Bistrozzi research folder)
+
+assessment: >-
+  Low-significance. The relevant Montfort is a Washington, D.C. transactional lawyer handling
+  corporate/benefits paperwork — consistent with the data-center entity's corporate structuring
+  (alongside Vorys, which handles the local land/CRA work). Not a principal or decision-maker.
+
+wsgr_bio:                          # the substantive record
+  name: "Michael J. Montfort"
+  title: "Senior Counsel — Employee Benefits & Compensation"
+  firm: "Wilson Sonsini Goodrich & Rosati (WSGR)"
+  office: "Washington, D.C."
+  contact: "mmontfort@wsgr.com · 202-973-8815"
+  practice: >-
+    Employee-benefit/compensation aspects of M&A, executive compensation, equity compensation, and
+    group benefit programs; previously Ernst & Young LLP national tax (equity comp / fringe benefits /
+    qualified retirement plans).
+  credentials: "J.D. George Washington University (with honors); B.A. History, Holy Cross; admitted DC + Virginia bars."
+  relevance: >-
+    A D.C. benefits/comp lawyer at a major tech/corporate firm doing transactional paperwork — the
+    plausible BOSC connection. WSGR (Big Tech's go-to firm) appearing alongside the deal fits a
+    Google/hyperscaler corporate structure, but the corpus does NOT show Montfort signing any Bistrozzi
+    instrument; the link is inferential. [the bio is document; a BOSC role is inference.]
+
+elementix_profile:                 # thin, ambiguous — flagged, not load-bearing
+  source_platform: "Elementix Inc (AI 'borrower-intelligence' platform; signature-extraction from public records)"
+  subject_as_shown: "Michael Montfort — real-estate investor/operator, Dallas–Fort Worth, TX"
+  recorded_activity: "0 properties, 0 mortgages (as of April 2026) — effectively an empty profile"
+  entities:
+    - {name: "PLATON INVESTMENTS LLC", incorporated: '2025-05-29', state: TX, mailing: "2801 Centerville Road, 1st Fl, PMB 160, Wilmington, DE 19808"}
+    - {name: "DYNAMO VENTURES LLC", incorporated: '2025-05-29', state: TX, mailing: "2801 Centerville Road, 1st Fl, PMB 160, Wilmington, DE 19808"}
+  bistrozzi_address_note: >-
+    Both LLCs use the SAME Wilmington, DE registered-agent building as Bistrozzi LLC
+    (2801 Centerville Road) — but a different mailbox (PMB 160 vs Bistrozzi's PMB 811), a generic
+    mass-registered-agent address shared by thousands of Delaware shells.
+  caveat: >-
+    Likely a SAME-NAME, different person (a DFW real-estate investor vs a D.C. benefits lawyer) and/or
+    an AI false-association; Elementix itself disclaims it is not a consumer report and the profile
+    shows zero recorded activity. The shared registered-agent building is a weak signal, not a link.
+    Do NOT conflate this DFW investor with the WSGR D.C. counsel. [ambiguous; not relied upon.]
+
+cross_refs:
+  - data/extracted/legal/prr-mandamus/cra-agreement.cra.yaml          # Vorys (Ziance) handles the local CRA/land paperwork
+  - data/extracted/aedg/seller-land-packets.land.yaml                 # Vorys (Tangeman) on the land assignments
+  - data/extracted/recorder/                                          # Bistrozzi's 2801 Centerville Rd PMB 811 grantee address
+
+relevance:
+  tags: [verified, person-intel, montfort, wsgr, low-significance]
+  note: >-
+    Michael J. Montfort = WSGR Washington-D.C. employee-benefits/comp senior counsel — a transactional
+    paperwork lawyer, the plausible (but unconfirmed) BOSC corporate-structuring link. A separate
+    Elementix profile of a same-named DFW real-estate investor (0 activity; two 2025 TX LLCs at the
+    same Wilmington registered-agent building as Bistrozzi) is ambiguous and not relied upon.
