@@ -21,6 +21,7 @@ from bosc.pipeline.entities import (
     _split_principal,
     build_entity_graph,
     classify,
+    enrich_with_lei,
     enrich_with_parcel_owners,
     normalize_name,
 )
@@ -215,6 +216,39 @@ def test_parcel_enrichment_is_idempotent(hydro_settings: Settings) -> None:
     n = len(graph.entities)
     enrich_with_parcel_owners(graph, settings=hydro_settings)  # second pass
     assert len(graph.entities) == n
+
+
+def test_lei_enrichment_folds_in_ownership_chain(hydro_settings: Settings) -> None:
+    # Opt-in: the corpus-only graph carries no LEI.
+    base = build_entity_graph()
+    assert all(e.lei is None for e in base.entities.values())
+
+    graph = build_entity_graph(enrich_parcels=True, enrich_lei=True, settings=hydro_settings)
+    gdls = graph.get("General Dynamics Land Systems Inc.")
+    assert gdls is not None
+    assert gdls.lei == "875500ULXB4CYQSJVA03"
+    assert gdls.classification == "corporate_defense"
+    # Verified ownership edge to the GLEIF ultimate parent (also LEI-stamped).
+    parent = graph.get("GENERAL DYNAMICS CORPORATION")
+    assert parent is not None and parent.lei == "9C1X8XOOTYY2FNYTVH06"
+    assert any(
+        r.rel == "owned_by" and r.src == gdls.key and r.dst == parent.key
+        for r in graph.relationships
+    )
+    # Operator inference anchors the contractor to the Army-owned JSMC land.
+    us = graph.get("UNITED STATES")
+    assert us is not None
+    assert any(
+        r.rel == "tenant_of" and r.src == gdls.key and r.dst == us.key for r in graph.relationships
+    )
+
+
+def test_lei_enrichment_is_idempotent(hydro_settings: Settings) -> None:
+    graph = build_entity_graph(enrich_parcels=True, enrich_lei=True, settings=hydro_settings)
+    n_ent, n_rel = len(graph.entities), len(graph.relationships)
+    enrich_with_lei(graph, settings=hydro_settings)  # second pass
+    assert len(graph.entities) == n_ent
+    assert len(graph.relationships) == n_rel
 
 
 def _filing(

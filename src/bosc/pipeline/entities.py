@@ -191,6 +191,7 @@ class Entity:
     parcels: set[str] = field(default_factory=set)
     addresses: set[str] = field(default_factory=set)
     sources: set[str] = field(default_factory=set)
+    lei: str | None = None  # GLEIF Legal Entity Identifier, when verified (opt-in enrichment)
 
     @property
     def display(self) -> str:
@@ -204,7 +205,7 @@ class Relationship:
 
     src: str
     # conveyed_to | operates | discharges_to | registered_agent | organized_by |
-    # represented_by | affiliated_with | principal_of
+    # represented_by | affiliated_with | principal_of | owned_by | tenant_of
     rel: str
     dst: str
     date: str = ""
@@ -257,14 +258,18 @@ def build_entity_graph(
     corpus: Corpus | None = None,
     *,
     enrich_parcels: bool = False,
+    enrich_lei: bool = False,
     settings: Settings | None = None,
 ) -> EntityGraph:
     """Resolve entities and relationships across deeds, NPDES permits, SoS filings.
 
     With ``enrich_parcels=True`` the corpus-derived graph is augmented with cited
     parcel-owner context from ``data/reference/allen-gis`` (see
-    :func:`enrich_with_parcel_owners`) — kept opt-in so the pure corpus graph that
-    the tests assert on stays unchanged.
+    :func:`enrich_with_parcel_owners`). With ``enrich_lei=True`` the GLEIF-verified
+    corporate ownership chain for the JSMC operator is folded in (see
+    :func:`enrich_with_lei`) — it anchors to the parcel-derived JSMC node, so run it
+    after ``enrich_parcels``. Both are opt-in so the pure corpus graph that the tests
+    assert on stays unchanged.
     """
     corpus = corpus if corpus is not None else load_corpus()
     graph = EntityGraph()
@@ -430,6 +435,8 @@ def build_entity_graph(
     log.info("entities.built", entities=len(graph.entities), relationships=len(graph.relationships))
     if enrich_parcels:
         enrich_with_parcel_owners(graph, settings=settings)
+    if enrich_lei:
+        enrich_with_lei(graph, settings=settings)
     return graph
 
 
@@ -489,4 +496,104 @@ def enrich_with_parcel_owners(
                 rec = by_pid.get(re.sub(r"\D", "", str(pid)))
                 if rec and rec.get("situs_address"):
                     ent.addresses.add(str(rec["situs_address"]))
+    return graph
+
+
+_GLEIF_SOURCE = "data/reference/gleif/lei-records.yaml"
+
+
+def _add_edge(graph: EntityGraph, rel: Relationship) -> None:
+    """Append a relationship unless an identical (src, rel, dst) edge already exists."""
+    if not any(
+        r.src == rel.src and r.rel == rel.rel and r.dst == rel.dst for r in graph.relationships
+    ):
+        graph.relationships.append(rel)
+
+
+def enrich_with_lei(graph: EntityGraph, *, settings: Settings | None = None) -> EntityGraph:
+    """Fold the GLEIF-verified corporate ownership chain into the graph (committed data).
+
+    Pinned, verified-only enrichment from ``data/reference/gleif/lei-records.yaml``:
+
+    1. **Attach LEIs to corpus matches** — any committed LEI record whose legal name
+       resolves to an entity already in the graph gets its 20-char ``lei`` stamped on
+       that node (currently none of the corridor parents are corpus parties, but the
+       attach is generic).
+    2. **The JSMC operator chain** — fold in **General Dynamics Land Systems** (the
+       JSMC operator and Allen County's RSEI #3 facility) and its GLEIF-reported
+       **ultimate parent**. ``owned_by`` is verified straight from GLEIF; a
+       ``tenant_of`` edge ties the operator to the parcel-derived **UNITED STATES /
+       JSMC** node (an *operator inference* from RSEI + county CAMA, not a deed). Both
+       carry the defense classification — not a shell "signal", so they aren't
+       mislabeled as common-control plumbing.
+
+    Mutates and returns ``graph``. Idempotent. No-op if the LEI reference is absent.
+    """
+    settings = settings or get_settings()
+    from bosc.gleif import load_inventory as load_lei_inventory
+
+    inv = load_lei_inventory(settings.reference_dir)
+    if inv is None:
+        return graph
+
+    us_key = normalize_name("UNITED STATES")
+    for rec in inv.records:
+        key = normalize_name(rec.legal_name)
+        if not key:
+            continue
+        is_jsmc_operator = "GENERAL DYNAMICS" in rec.legal_name.upper() and (
+            "LAND SYSTEMS" in rec.legal_name.upper()
+        )
+        existing = graph.entities.get(key)
+        # Only fold in *new* nodes for the JSMC operator chain or its parents; other
+        # corridor parents (Ford, Dana, …) aren't corpus parties, so adding them would
+        # be free-floating noise — they live on the LEI/RSEI pages instead.
+        if existing is None and not is_jsmc_operator:
+            continue
+        ent = existing or Entity(
+            key=key,
+            kind="corporate",
+            classification="corporate_defense" if is_jsmc_operator else "corporate_domestic",
+        )
+        graph.entities[key] = ent
+        ent.variants.add(rec.legal_name)
+        ent.lei = rec.lei
+        ent.sources.add(_GLEIF_SOURCE)
+        if is_jsmc_operator:
+            ent.roles["jsmc_operator"] += 1
+
+        # The GLEIF-reported ultimate parent -> a verified ownership edge.
+        parent = rec.ultimate_parent or rec.direct_parent
+        if parent is not None:
+            pkey = normalize_name(parent.name)
+            pent = graph.entities.get(pkey) or Entity(
+                key=pkey, kind="corporate", classification="corporate_defense"
+            )
+            graph.entities[pkey] = pent
+            pent.variants.add(parent.name)
+            pent.lei = parent.lei
+            pent.sources.add(_GLEIF_SOURCE)
+            _add_edge(
+                graph,
+                Relationship(
+                    key,
+                    "owned_by",
+                    pkey,
+                    ref=f"GLEIF {rec.lei} → {parent.lei}",
+                    source=_GLEIF_SOURCE,
+                ),
+            )
+
+        # Anchor the operator to the Army-owned JSMC land (operator inference).
+        if is_jsmc_operator and us_key in graph.entities:
+            _add_edge(
+                graph,
+                Relationship(
+                    key,
+                    "tenant_of",
+                    us_key,
+                    ref="RSEI + Allen CAMA (operator inference)",
+                    source=_GLEIF_SOURCE,
+                ),
+            )
     return graph

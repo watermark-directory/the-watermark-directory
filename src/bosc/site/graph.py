@@ -114,6 +114,16 @@ def render_entities(graph: EntityGraph, *, profile_slugs: dict[str, str] | None 
             "[defense contractors](defense-contractors.md)).",
             "",
         ]
+    if any(e.lei for e in graph.entities.values()):
+        lines += [
+            "Two nodes carry a **GLEIF Legal Entity Identifier** folded in from "
+            "`data/reference/gleif`: **General Dynamics Land Systems** (the JSMC "
+            "operator and Allen County's [RSEI](rsei.md) #3 facility) and its "
+            "GLEIF-reported ultimate parent, **General Dynamics Corporation**. The "
+            "`owned_by` edge is verified from GLEIF; `tenant_of` the Army-owned JSMC "
+            "is an *operator inference* from RSEI + county CAMA, not a deed.",
+            "",
+        ]
     lines += [
         _SIGNALS_NOTE,
         "",
@@ -131,6 +141,8 @@ def render_entities(graph: EntityGraph, *, profile_slugs: dict[str, str] | None 
         signals = ", ".join(sorted(ent.signals)) or "—"
         slug = profile_slugs.get(ent.key)
         name = f"[{_esc(ent.display)}](people/{slug}.md)" if slug else _esc(ent.display)
+        if ent.lei:
+            name += f" `LEI {ent.lei}`"
         lines.append(
             f"| {name} | {_esc(ent.kind)} | {_esc(ent.classification)} "
             f"| {_esc(roles)} | {_esc(signals)} |"

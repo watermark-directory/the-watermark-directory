@@ -104,7 +104,7 @@ def entities() -> None:
     """Resolve parties across deeds/NPDES into an entity graph (who relates to whom)."""
     from bosc.pipeline import entities as entities_stage
 
-    graph = entities_stage.build_entity_graph(enrich_parcels=True)
+    graph = entities_stage.build_entity_graph(enrich_parcels=True, enrich_lei=True)
     if not graph.entities:
         console.print("[yellow]No entities found. Run some extractions first.[/]")
         raise typer.Exit()
@@ -1130,7 +1130,9 @@ def people() -> None:
         )
         return
 
-    egraph = build_entity_graph(load_corpus(settings), enrich_parcels=True, settings=settings)
+    egraph = build_entity_graph(
+        load_corpus(settings), enrich_parcels=True, enrich_lei=True, settings=settings
+    )
 
     table = Table("Individual", "Expanded", "In graph", "Roles", "Sources")
     for prof in profiles:

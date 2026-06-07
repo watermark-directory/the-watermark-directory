@@ -1,3 +1,7 @@
+# Ephemeral Claude agent worktrees (linked worktrees live under .claude/; each is a
+# full repo copy — never track them from the parent worktree).
+.claude/
+
 # Python
 __pycache__/
 *.py[cod]
