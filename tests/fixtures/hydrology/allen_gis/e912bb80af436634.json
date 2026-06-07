@@ -1,0 +1,457 @@
+{
+  "params": {
+    "f": "json",
+    "returnGeometry": "false",
+    "where": "OWNNAM1='UNITED STATES' AND TAXDIST='L35'",
+    "outFields": "PARCEL_NO,OWNNAM1,OWNNAM2,DEEDOWN,HOUSENO,ST_DIR,STREET,ST_DESC,OWNADR1,OWNADR2,OWNST,OWNZIP,LNDUSECD,ACRES,MKTLNDVAL,MKTIMPVAL,MKTTOTVAL,CAUVVAL,TAXDIST,SCHOOL,NBRHCODE,DATE,SALEAMT,VAL_SAL",
+    "resultOffset": 0,
+    "resultRecordCount": 1000
+  },
+  "fetched_at": "2026-06-07T00:40:10.047360+00:00",
+  "payload": {
+    "displayFieldName": "PARCEL_NO",
+    "fieldAliases": {
+      "PARCEL_NO": "PARCEL_NO",
+      "OWNNAM1": "OWNNAM1",
+      "OWNNAM2": "OWNNAM2",
+      "DEEDOWN": "DEEDOWN",
+      "HOUSENO": "HOUSENO",
+      "ST_DIR": "ST_DIR",
+      "STREET": "STREET",
+      "ST_DESC": "ST_DESC",
+      "OWNADR1": "OWNADR1",
+      "OWNADR2": "OWNADR2",
+      "OWNST": "OWNST",
+      "OWNZIP": "OWNZIP",
+      "LNDUSECD": "LNDUSECD",
+      "ACRES": "ACRES",
+      "MKTLNDVAL": "MKTLNDVAL",
+      "MKTIMPVAL": "MKTIMPVAL",
+      "MKTTOTVAL": "MKTTOTVAL",
+      "CAUVVAL": "CAUVVAL",
+      "TAXDIST": "TAXDIST",
+      "SCHOOL": "SCHOOL",
+      "NBRHCODE": "NBRHCODE",
+      "DATE": "DATE",
+      "SALEAMT": "SALEAMT",
+      "VAL_SAL": "VAL_SAL"
+    },
+    "fields": [
+      {
+        "name": "PARCEL_NO",
+        "type": "esriFieldTypeString",
+        "alias": "PARCEL_NO",
+        "length": 15
+      },
+      {
+        "name": "OWNNAM1",
+        "type": "esriFieldTypeString",
+        "alias": "OWNNAM1",
+        "length": 254
+      },
+      {
+        "name": "OWNNAM2",
+        "type": "esriFieldTypeString",
+        "alias": "OWNNAM2",
+        "length": 254
+      },
+      {
+        "name": "DEEDOWN",
+        "type": "esriFieldTypeString",
+        "alias": "DEEDOWN",
+        "length": 254
+      },
+      {
+        "name": "HOUSENO",
+        "type": "esriFieldTypeString",
+        "alias": "HOUSENO",
+        "length": 254
+      },
+      {
+        "name": "ST_DIR",
+        "type": "esriFieldTypeString",
+        "alias": "ST_DIR",
+        "length": 254
+      },
+      {
+        "name": "STREET",
+        "type": "esriFieldTypeString",
+        "alias": "STREET",
+        "length": 254
+      },
+      {
+        "name": "ST_DESC",
+        "type": "esriFieldTypeString",
+        "alias": "ST_DESC",
+        "length": 254
+      },
+      {
+        "name": "OWNADR1",
+        "type": "esriFieldTypeString",
+        "alias": "OWNADR1",
+        "length": 254
+      },
+      {
+        "name": "OWNADR2",
+        "type": "esriFieldTypeString",
+        "alias": "OWNADR2",
+        "length": 254
+      },
+      {
+        "name": "OWNST",
+        "type": "esriFieldTypeString",
+        "alias": "OWNST",
+        "length": 254
+      },
+      {
+        "name": "OWNZIP",
+        "type": "esriFieldTypeInteger",
+        "alias": "OWNZIP"
+      },
+      {
+        "name": "LNDUSECD",
+        "type": "esriFieldTypeInteger",
+        "alias": "LNDUSECD"
+      },
+      {
+        "name": "ACRES",
+        "type": "esriFieldTypeDouble",
+        "alias": "ACRES"
+      },
+      {
+        "name": "MKTLNDVAL",
+        "type": "esriFieldTypeInteger",
+        "alias": "MKTLNDVAL"
+      },
+      {
+        "name": "MKTIMPVAL",
+        "type": "esriFieldTypeInteger",
+        "alias": "MKTIMPVAL"
+      },
+      {
+        "name": "MKTTOTVAL",
+        "type": "esriFieldTypeInteger",
+        "alias": "MKTTOTVAL"
+      },
+      {
+        "name": "CAUVVAL",
+        "type": "esriFieldTypeInteger",
+        "alias": "CAUVVAL"
+      },
+      {
+        "name": "TAXDIST",
+        "type": "esriFieldTypeString",
+        "alias": "TAXDIST",
+        "length": 254
+      },
+      {
+        "name": "SCHOOL",
+        "type": "esriFieldTypeInteger",
+        "alias": "SCHOOL"
+      },
+      {
+        "name": "NBRHCODE",
+        "type": "esriFieldTypeInteger",
+        "alias": "NBRHCODE"
+      },
+      {
+        "name": "DATE",
+        "type": "esriFieldTypeInteger",
+        "alias": "DATE"
+      },
+      {
+        "name": "SALEAMT",
+        "type": "esriFieldTypeInteger",
+        "alias": "SALEAMT"
+      },
+      {
+        "name": "VAL_SAL",
+        "type": "esriFieldTypeString",
+        "alias": "VAL_SAL",
+        "length": 254
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "PARCEL_NO": "46110004005000",
+          "OWNNAM1": "UNITED STATES",
+          "OWNNAM2": "OF AMERICA",
+          "DEEDOWN": "UNITED STATES OF AMERICA",
+          "HOUSENO": "1151-55-61",
+          "ST_DIR": " ",
+          "STREET": "BUCKEYE",
+          "ST_DESC": "RD",
+          "OWNADR1": "1151-55-61 BUCKEYE RD",
+          "OWNADR2": "LIMA OH 45804",
+          "OWNST": "OH",
+          "OWNZIP": 45804,
+          "LNDUSECD": 600,
+          "ACRES": 133.78,
+          "MKTLNDVAL": 909500,
+          "MKTIMPVAL": 11687200,
+          "MKTTOTVAL": 12596700,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 3018,
+          "DATE": 1011990,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      },
+      {
+        "attributes": {
+          "PARCEL_NO": "46140001001000",
+          "OWNNAM1": "UNITED STATES",
+          "OWNNAM2": "OF AMERICA",
+          "DEEDOWN": "UNITED STATES OF AMERICA",
+          "HOUSENO": " ",
+          "ST_DIR": " ",
+          "STREET": "REED",
+          "ST_DESC": "RD",
+          "OWNADR1": "REED RD",
+          "OWNADR2": "LIMA OH 45804",
+          "OWNST": "OH",
+          "OWNZIP": 45804,
+          "LNDUSECD": 600,
+          "ACRES": 189.96,
+          "MKTLNDVAL": 1428400,
+          "MKTIMPVAL": 0,
+          "MKTTOTVAL": 1428400,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 3000,
+          "DATE": 1011990,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      },
+      {
+        "attributes": {
+          "PARCEL_NO": "46140001002000",
+          "OWNNAM1": "UNITED STATES",
+          "OWNNAM2": "OF AMERICA",
+          "DEEDOWN": "UNITED STATES OF AMERICA",
+          "HOUSENO": " ",
+          "ST_DIR": " ",
+          "STREET": "REED",
+          "ST_DESC": "RD",
+          "OWNADR1": "REED RD",
+          "OWNADR2": "LIMA OH 45805",
+          "OWNST": "OH",
+          "OWNZIP": 45805,
+          "LNDUSECD": 600,
+          "ACRES": 55.01,
+          "MKTLNDVAL": 168900,
+          "MKTIMPVAL": 0,
+          "MKTTOTVAL": 168900,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 3000,
+          "DATE": 3011979,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      },
+      {
+        "attributes": {
+          "PARCEL_NO": "46150504001000",
+          "OWNNAM1": "UNITED STATES",
+          "OWNNAM2": "OF AMERICA",
+          "DEEDOWN": "UNITED STATES OF AMERICA",
+          "HOUSENO": " ",
+          "ST_DIR": " ",
+          "STREET": "REED",
+          "ST_DESC": "RD",
+          "OWNADR1": "REED RD",
+          "OWNADR2": "LIMA OH 45804",
+          "OWNST": "OH",
+          "OWNZIP": 45804,
+          "LNDUSECD": 600,
+          "ACRES": 1.38,
+          "MKTLNDVAL": 6200,
+          "MKTIMPVAL": 0,
+          "MKTTOTVAL": 6200,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 3000,
+          "DATE": 1011990,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      },
+      {
+        "attributes": {
+          "PARCEL_NO": "46150801002000",
+          "OWNNAM1": "UNITED STATES",
+          "OWNNAM2": "OF AMERICA",
+          "DEEDOWN": "UNITED STATES OF AMERICA",
+          "HOUSENO": "2190",
+          "ST_DIR": " ",
+          "STREET": "REED",
+          "ST_DESC": "RD",
+          "OWNADR1": "2190 REED RD",
+          "OWNADR2": "LIMA OH 45804",
+          "OWNST": "OH",
+          "OWNZIP": 45804,
+          "LNDUSECD": 600,
+          "ACRES": 4.02,
+          "MKTLNDVAL": 39900,
+          "MKTIMPVAL": 448800,
+          "MKTTOTVAL": 488700,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 3000,
+          "DATE": 1011990,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      },
+      {
+        "attributes": {
+          "PARCEL_NO": "46110004005000",
+          "OWNNAM1": "UNITED STATES",
+          "OWNNAM2": "OF AMERICA",
+          "DEEDOWN": "UNITED STATES OF AMERICA",
+          "HOUSENO": "1151-55-61",
+          "ST_DIR": " ",
+          "STREET": "BUCKEYE",
+          "ST_DESC": "RD",
+          "OWNADR1": "1151-55-61 BUCKEYE RD",
+          "OWNADR2": "LIMA OH 45804",
+          "OWNST": "OH",
+          "OWNZIP": 45804,
+          "LNDUSECD": 600,
+          "ACRES": 133.78,
+          "MKTLNDVAL": 909500,
+          "MKTIMPVAL": 11687200,
+          "MKTTOTVAL": 12596700,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 3018,
+          "DATE": 1011990,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      },
+      {
+        "attributes": {
+          "PARCEL_NO": "46140001001000",
+          "OWNNAM1": "UNITED STATES",
+          "OWNNAM2": "OF AMERICA",
+          "DEEDOWN": "UNITED STATES OF AMERICA",
+          "HOUSENO": " ",
+          "ST_DIR": " ",
+          "STREET": "REED",
+          "ST_DESC": "RD",
+          "OWNADR1": "REED RD",
+          "OWNADR2": "LIMA OH 45804",
+          "OWNST": "OH",
+          "OWNZIP": 45804,
+          "LNDUSECD": 600,
+          "ACRES": 189.96,
+          "MKTLNDVAL": 1428400,
+          "MKTIMPVAL": 0,
+          "MKTTOTVAL": 1428400,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 3000,
+          "DATE": 1011990,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      },
+      {
+        "attributes": {
+          "PARCEL_NO": "46140001002000",
+          "OWNNAM1": "UNITED STATES",
+          "OWNNAM2": "OF AMERICA",
+          "DEEDOWN": "UNITED STATES OF AMERICA",
+          "HOUSENO": " ",
+          "ST_DIR": " ",
+          "STREET": "REED",
+          "ST_DESC": "RD",
+          "OWNADR1": "REED RD",
+          "OWNADR2": "LIMA OH 45805",
+          "OWNST": "OH",
+          "OWNZIP": 45805,
+          "LNDUSECD": 600,
+          "ACRES": 55.01,
+          "MKTLNDVAL": 168900,
+          "MKTIMPVAL": 0,
+          "MKTTOTVAL": 168900,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 3000,
+          "DATE": 3011979,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      },
+      {
+        "attributes": {
+          "PARCEL_NO": "46150504001000",
+          "OWNNAM1": "UNITED STATES",
+          "OWNNAM2": "OF AMERICA",
+          "DEEDOWN": "UNITED STATES OF AMERICA",
+          "HOUSENO": " ",
+          "ST_DIR": " ",
+          "STREET": "REED",
+          "ST_DESC": "RD",
+          "OWNADR1": "REED RD",
+          "OWNADR2": "LIMA OH 45804",
+          "OWNST": "OH",
+          "OWNZIP": 45804,
+          "LNDUSECD": 600,
+          "ACRES": 1.38,
+          "MKTLNDVAL": 6200,
+          "MKTIMPVAL": 0,
+          "MKTTOTVAL": 6200,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 3000,
+          "DATE": 1011990,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      },
+      {
+        "attributes": {
+          "PARCEL_NO": "46150801002000",
+          "OWNNAM1": "UNITED STATES",
+          "OWNNAM2": "OF AMERICA",
+          "DEEDOWN": "UNITED STATES OF AMERICA",
+          "HOUSENO": "2190",
+          "ST_DIR": " ",
+          "STREET": "REED",
+          "ST_DESC": "RD",
+          "OWNADR1": "2190 REED RD",
+          "OWNADR2": "LIMA OH 45804",
+          "OWNST": "OH",
+          "OWNZIP": 45804,
+          "LNDUSECD": 600,
+          "ACRES": 4.02,
+          "MKTLNDVAL": 39900,
+          "MKTIMPVAL": 448800,
+          "MKTTOTVAL": 488700,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 3000,
+          "DATE": 1011990,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      }
+    ]
+  }
+}

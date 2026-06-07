@@ -26,6 +26,15 @@ owner / deeded owner, situs + mailing address, land-use code, acreage, market
 land/improvement/total and CAUV values, tax district, school/neighborhood codes,
 and last sale (date + amount). `null` = the service returned no value.
 
+`parcels.defense.yaml` — the **defense-industry land scan** (regenerate with
+`bosc parcels --defense`). Matches the curated DoD-prime seed list
+(`data/entities/profiles/defense-contractors.yaml`) against the CAMA owner fields.
+Two sections: `prime_owned` (parcels owned by a prime in its own name — **none** in
+Allen County) and `army_controlled` (the federally-held JSMC / Lima Army Tank Plant
+cluster on Buckeye/Reed Rd that the seed list notes "functions as Army-controlled
+land"). Ownership is verbatim from the GIS; the JSMC identification is an analyst
+inference, flagged as such in the file's `meta`.
+
 ## Gaps / caveats
 
 - **Market values are the auditor's appraised values, not sale prices.** The sale
@@ -36,6 +45,7 @@ and last sale (date + amount). `null` = the service returned no value.
 - **`land_use_code`** is the numeric Ohio land-use code (e.g. 500-series =
   residential); the service ships no code→label lookup.
 - **Zoning is not here.** The county server has no countywide zoning layer; Lima
-  zoning lives on a separate City of Lima ArcGIS server and is City-limits only.
+  zoning lives on a separate City of Lima ArcGIS server and is City-limits only —
+  see `data/reference/lima-gis/` (`bosc zoning`).
 - Some parcels return multiple feature rows (splits/condos); the writer keeps the
   first row per distinct `PARCEL_NO`.

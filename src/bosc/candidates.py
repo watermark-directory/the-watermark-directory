@@ -117,3 +117,27 @@ def load_defense_contractors(entities_dir: Path) -> DefenseContractorList | None
         return None
     data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     return DefenseContractorList.model_validate(data)
+
+
+class DefenseLandScan(BaseModel):
+    """The committed Allen County defense-land scan (``parcels.defense.yaml``).
+
+    Parcel rows are kept as loose dicts — they mirror the GIS connector's ``Parcel``
+    dump plus, for ``prime_owned``, a ``matched_prime`` tag — so the site can render
+    them without importing the connector layer.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    meta: dict[str, Any] = Field(default_factory=dict)
+    prime_owned: list[dict[str, Any]] = Field(default_factory=list)
+    army_controlled: list[dict[str, Any]] = Field(default_factory=list)
+
+
+def load_defense_scan(reference_dir: Path) -> DefenseLandScan | None:
+    """Load ``allen-gis/parcels.defense.yaml`` from the reference tree, if present."""
+    path = reference_dir / "allen-gis" / "parcels.defense.yaml"
+    if not path.is_file():
+        return None
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return DefenseLandScan.model_validate(data)

@@ -728,14 +728,21 @@ def parcels(
     cited: bool = typer.Option(
         False, "--cited", help="Pull every parcel id cited in the corpus (deeds) -> reference YAML."
     ),
+    defense: bool = typer.Option(
+        False,
+        "--defense",
+        help="Scan parcel owners against the defense-contractor seed list -> reference YAML.",
+    ),
     offline: bool = typer.Option(
         False, "--offline", help="Use cached GIS responses only; never touch the network."
     ),
     out_dir: str | None = typer.Option(
-        None, "--out", help="Output directory for --cited (default: data/reference/allen-gis)."
+        None,
+        "--out",
+        help="Output directory for --cited/--defense (default: data/reference/allen-gis).",
     ),
 ) -> None:
-    """Query the Allen County GIS parcel (CAMA) layer: by number, owner, or corpus citations."""
+    """Query the Allen County GIS parcel (CAMA) layer: by number, owner, citations, or defense scan."""
     from bosc.config import Settings
     from bosc.hydrology.connectors import allen_gis
 
@@ -785,7 +792,97 @@ def parcels(
         console.print(f"[green]Wrote[/] {len(found)} parcels -> {path}")
         return
 
-    console.print("Pass one of --parcel, --owner, or --cited.")
+    if defense:
+        from bosc.candidates import load_defense_contractors
+
+        target = Path(out_dir) if out_dir else settings.reference_dir / "allen-gis"
+        dcl = load_defense_contractors(settings.entities_dir)
+        if dcl is None:
+            console.print(
+                "[yellow]No defense-contractor seed list[/] under data/entities/profiles."
+            )
+            raise typer.Exit(1)
+        primes = [(d.name, d.patterns) for d in dcl.defense_contractors]
+        n_pat = sum(len(d.patterns) for d in dcl.defense_contractors)
+        prime_owned = allen_gis.defense_owner_scan(primes, settings=settings)
+        army = allen_gis.army_controlled_defense_land(settings=settings)
+        n_owned = sum(len(v) for v in prime_owned.values())
+        console.print(
+            f"Scanned [bold]{n_pat}[/] prime patterns -> [bold]{n_owned}[/] prime-owned "
+            f"parcels, [bold]{len(army)}[/] Army-controlled (JSMC) parcels."
+        )
+        for name, parcels in sorted(prime_owned.items()):
+            for p in parcels:
+                console.print(f"  [cyan]{name}[/]: {p.parcel_no} {p.owner}")
+        path = allen_gis.write_defense_scan(prime_owned, army, target, patterns_searched=n_pat)
+        console.print(f"[green]Wrote[/] defense scan -> {path}")
+        return
+
+    console.print("Pass one of --parcel, --owner, --cited, or --defense.")
+    raise typer.Exit(1)
+
+
+@app.command(name="zoning")
+def zoning(
+    parcel: str | None = typer.Option(None, "--parcel", help="Zoning district for one parcel."),
+    districts: bool = typer.Option(
+        False, "--districts", help="Pull the Lima zoning-district catalog -> reference YAML."
+    ),
+    cited: bool = typer.Option(
+        False, "--cited", help="Look up zoning for every parcel id cited in the corpus."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached GIS responses only; never touch the network."
+    ),
+    out_dir: str | None = typer.Option(
+        None, "--out", help="Output directory for --districts (default: data/reference/lima-gis)."
+    ),
+) -> None:
+    """Query the City of Lima zoning layer (city limits only; joins by parcel number)."""
+    from bosc.config import Settings
+    from bosc.hydrology.connectors import allen_gis, lima_gis
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+
+    if parcel:
+        rec = lima_gis.zoning_for_parcel(parcel, settings=settings)
+        if rec is None:
+            console.print(
+                f"[yellow]No Lima zoning[/] for {parcel} "
+                f"({allen_gis.normalize_parcel_id(parcel)}) — outside city limits or unzoned."
+            )
+            raise typer.Exit(1)
+        console.print(rec.model_dump())
+        return
+
+    if districts:
+        target = Path(out_dir) if out_dir else settings.reference_dir / "lima-gis"
+        cat = lima_gis.zoning_districts(settings=settings)
+        table = Table("District", "Polygons")
+        for d in cat:
+            table.add_row(d.code, str(d.polygon_count))
+        console.print(table)
+        path = lima_gis.write_zoning_districts(cat, target)
+        console.print(f"[green]Wrote[/] {len(cat)} districts -> {path}")
+        return
+
+    if cited:
+        ids = allen_gis.scan_parcel_ids(settings.extracted_dir)
+        console.print(f"Found [bold]{len(ids)}[/] cited parcel ids; looking up Lima zoning.")
+        in_city = 0
+        for pid in ids:
+            rec = lima_gis.zoning_for_parcel(pid, settings=settings)
+            if rec is not None:
+                in_city += 1
+                console.print(f"  [cyan]{pid}[/]: {rec.zoning}")
+        console.print(
+            f"\n[bold]{in_city}[/] of {len(ids)} cited parcels are within Lima city limits."
+        )
+        return
+
+    console.print("Pass one of --parcel, --districts, or --cited.")
     raise typer.Exit(1)
 
 

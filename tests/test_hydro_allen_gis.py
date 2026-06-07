@@ -52,3 +52,38 @@ def test_scan_parcel_ids(tmp_path) -> None:  # type: ignore[no-untyped-def]
 def test_offline_unfetched_parcel_raises(hydro_settings: Settings) -> None:
     with pytest.raises(HydroOfflineError):
         allen_gis.fetch_parcel("99-9999-99-999.999", settings=hydro_settings)
+
+
+def _seed_primes(settings: Settings) -> list[tuple[str, list[str]]]:
+    from bosc.candidates import load_defense_contractors
+
+    dcl = load_defense_contractors(settings.entities_dir)
+    assert dcl is not None
+    return [(d.name, d.patterns) for d in dcl.defense_contractors]
+
+
+def test_defense_owner_scan_finds_no_prime_owner(hydro_settings: Settings) -> None:
+    # No Allen County parcel is owned by a DoD prime in its own name — the local
+    # defense footprint is federally held, not prime-owned.
+    hits = allen_gis.defense_owner_scan(_seed_primes(hydro_settings), settings=hydro_settings)
+    assert hits == {}
+
+
+def test_army_controlled_defense_land(hydro_settings: Settings) -> None:
+    parcels = allen_gis.army_controlled_defense_land(settings=hydro_settings)
+    assert len(parcels) == 5  # the JSMC / Lima Army Tank Plant cluster (Buckeye/Reed)
+    by_no = {p.parcel_no: p for p in parcels}
+    tank_plant = by_no["46110004005000"]  # 1151 Buckeye Rd
+    assert tank_plant.owner == "UNITED STATES"
+    assert tank_plant.acres == pytest.approx(133.78)
+    assert "BUCKEYE" in (tank_plant.situs_address or "")
+    assert all(p.tax_district == "L35" for p in parcels)
+
+
+def test_dedupe_keeps_first_per_parcel_no() -> None:
+    a = allen_gis.Parcel.from_attrs({"PARCEL_NO": "1", "OWNNAM1": "A"})
+    dup = allen_gis.Parcel.from_attrs({"PARCEL_NO": "1", "OWNNAM1": "A2"})
+    b = allen_gis.Parcel.from_attrs({"PARCEL_NO": "2", "OWNNAM1": "B"})
+    out = allen_gis._dedupe([a, dup, b])
+    assert [p.parcel_no for p in out] == ["1", "2"]
+    assert out[0].owner == "A"  # first row wins

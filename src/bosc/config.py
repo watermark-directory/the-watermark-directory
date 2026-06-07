@@ -69,6 +69,12 @@ class Settings(BaseSettings):
     allen_parcels_url: str = (
         "https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1"
     )
+    # City of Lima GIS — "Current Lima Zoning" polygon layer (keyed to PARCEL_NO);
+    # City-limits only. Server uses the /server web adaptor, folder CitywideMaps.
+    lima_zoning_url: str = (
+        "https://colgis.cityhall.lima.oh.us/server/rest/services/"
+        "CitywideMaps/Lima_Zoning/MapServer/6"
+    )
 
     # --- Paths -------------------------------------------------------------
     data_dir: Path = _REPO_ROOT / "data"

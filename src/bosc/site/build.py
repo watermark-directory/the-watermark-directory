@@ -14,7 +14,11 @@ import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from bosc.candidates import load_cloud_consumer_candidates, load_defense_contractors
+from bosc.candidates import (
+    load_cloud_consumer_candidates,
+    load_defense_contractors,
+    load_defense_scan,
+)
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
 from bosc.people import load_people
@@ -230,8 +234,10 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
 
     defense = load_defense_contractors(settings.entities_dir)
     if defense is not None:
+        scan = load_defense_scan(settings.reference_dir)
         (web / "defense-contractors.md").write_text(
-            candidates_mod.render_defense_contractors(defense, egraph=egraph), encoding="utf-8"
+            candidates_mod.render_defense_contractors(defense, egraph=egraph, scan=scan),
+            encoding="utf-8",
         )
         result.n_defense_contractors = len(defense.defense_contractors)
 

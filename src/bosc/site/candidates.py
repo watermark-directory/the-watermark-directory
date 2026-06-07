@@ -7,7 +7,7 @@ so the table is never misread as a customer/connection list.
 
 from __future__ import annotations
 
-from bosc.candidates import CandidateInventory, DefenseContractorList
+from bosc.candidates import CandidateInventory, DefenseContractorList, DefenseLandScan
 from bosc.pipeline.entities import EntityGraph, normalize_name
 
 _CAUTION = (
@@ -91,10 +91,60 @@ def _corpus_names(egraph: EntityGraph) -> list[str]:
     return sorted(names)
 
 
+def _parcel_field(row: dict[str, object], key: str) -> str:
+    val = row.get(key)
+    return _esc("—" if val is None else str(val))
+
+
+def _render_parcel_scan(scan: DefenseLandScan) -> list[str]:
+    """Render the committed Allen County defense-land scan (parcels.defense.yaml)."""
+    meta = scan.meta
+    lines = ["## Allen County parcels", ""]
+    finding = meta.get("finding")
+    if finding:
+        lines += [_esc(str(finding)), ""]
+
+    lines += [f"### Prime-owned parcels ({len(scan.prime_owned)})", ""]
+    if scan.prime_owned:
+        lines += ["| Prime | Parcel | Owner | Situs | Acres |", "|---|---|---|---|---|"]
+        for r in scan.prime_owned:
+            lines.append(
+                f"| {_parcel_field(r, 'matched_prime')} | {_parcel_field(r, 'parcel_no')} "
+                f"| {_parcel_field(r, 'owner')} | {_parcel_field(r, 'situs_address')} "
+                f"| {_parcel_field(r, 'acres')} |"
+            )
+    else:
+        lines.append("None — no parcel is owned by a prime in its own name.")
+    lines.append("")
+
+    if scan.army_controlled:
+        note = meta.get("army_controlled_note")
+        lines += [f"### Army-controlled defense land ({len(scan.army_controlled)})", ""]
+        if note:
+            lines += [f'!!! note "Identification is an inference"\n    {_esc(str(note))}', ""]
+        lines += [
+            "| Parcel | Owner | Situs | Acres | Mkt total | Tax dist |",
+            "|---|---|---|---|---|---|",
+        ]
+        for r in scan.army_controlled:
+            mkt = r.get("market_total_value")
+            mkt_s = f"{mkt:,}" if isinstance(mkt, int) else "—"
+            lines.append(
+                f"| {_parcel_field(r, 'parcel_no')} | {_parcel_field(r, 'owner')} "
+                f"| {_parcel_field(r, 'situs_address')} | {_parcel_field(r, 'acres')} "
+                f"| {mkt_s} | {_parcel_field(r, 'tax_district')} |"
+            )
+        lines.append("")
+    return lines
+
+
 def render_defense_contractors(
-    dcl: DefenseContractorList, *, egraph: EntityGraph | None = None
+    dcl: DefenseContractorList,
+    *,
+    egraph: EntityGraph | None = None,
+    scan: DefenseLandScan | None = None,
 ) -> str:
-    """Render the defense-contractor seed list + any corpus entity-graph matches."""
+    """Render the defense-contractor seed list, corpus matches, and the parcel scan."""
     primes = dcl.defense_contractors
     matches = dcl.match(_corpus_names(egraph)) if egraph is not None else {}
     n_pat = sum(len(dc.patterns) for dc in primes)
@@ -112,6 +162,9 @@ def render_defense_contractors(
         _DEF_CAUTION,
         "",
     ]
+
+    if scan is not None:
+        lines += _render_parcel_scan(scan)
 
     if egraph is not None:
         lines += ["## Corpus matches", ""]

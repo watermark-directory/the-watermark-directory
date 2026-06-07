@@ -1,0 +1,48 @@
+{
+  "params": {
+    "f": "json",
+    "returnGeometry": "false",
+    "where": "PARCEL_NO='36261103018000'",
+    "outFields": "OBJECTID,PARCEL_NO,ZONING",
+    "resultOffset": 0,
+    "resultRecordCount": 10000,
+    "orderByFields": "OBJECTID"
+  },
+  "fetched_at": "2026-06-07T00:39:50.414634+00:00",
+  "payload": {
+    "displayFieldName": "ZONING",
+    "fieldAliases": {
+      "OBJECTID": "OBJECTID",
+      "PARCEL_NO": "PARCEL_NO",
+      "ZONING": "ZONING"
+    },
+    "fields": [
+      {
+        "name": "OBJECTID",
+        "type": "esriFieldTypeOID",
+        "alias": "OBJECTID"
+      },
+      {
+        "name": "PARCEL_NO",
+        "type": "esriFieldTypeString",
+        "alias": "PARCEL_NO",
+        "length": 15
+      },
+      {
+        "name": "ZONING",
+        "type": "esriFieldTypeString",
+        "alias": "ZONING",
+        "length": 35
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "OBJECTID": 2207,
+          "PARCEL_NO": "36261103018000",
+          "ZONING": "CLASS III RESIDENTIAL APARTMENT"
+        }
+      }
+    ]
+  }
+}

@@ -255,6 +255,123 @@ def scan_parcel_ids(*roots: Path) -> list[str]:
     return sorted(found)
 
 
+# --- Defense-industry land scan -------------------------------------------
+
+# The Joint Systems Manufacturing Center (Lima Army Tank Plant) reservation: the
+# cluster of UNITED STATES-owned parcels in this CAMA tax district on Buckeye/Reed
+# Rd. A verbatim GIS filter — it excludes the downtown federal parcel (district
+# M38) and the "UNITED STATES PLASTIC CORP" / "ARMY <surname>" false positives.
+_JSMC_OWNER = "UNITED STATES"
+_JSMC_TAXDIST = "L35"
+
+
+def _dedupe(parcels: list[Parcel]) -> list[Parcel]:
+    """Keep the first row per distinct ``parcel_no`` (the GIS repeats split rows)."""
+    seen: set[str] = set()
+    out: list[Parcel] = []
+    for p in parcels:
+        key = p.parcel_no or ""
+        if key and key in seen:
+            continue
+        seen.add(key)
+        out.append(p)
+    return out
+
+
+def _owner_names(p: Parcel) -> str:
+    """The owner/deed-owner text a pattern is matched against (upper-cased)."""
+    return " ".join(filter(None, (p.owner, p.owner_2, p.deeded_owner))).upper()
+
+
+def defense_owner_scan(
+    primes: list[tuple[str, list[str]]], *, settings: Settings | None = None
+) -> dict[str, list[Parcel]]:
+    """Allen County parcels whose owner name matches a defense-prime pattern.
+
+    ``primes`` is ``[(prime_name, [patterns...]), ...]`` (e.g. from the curated
+    defense-contractor seed list). One OR-ed GIS query covers all patterns across
+    the owner / deeded-owner / second-owner fields; each returned parcel is then
+    tagged locally to the prime(s) it matched. Returns ``{prime: [parcels]}`` for
+    primes with at least one hit (empty when no prime owns county land — the
+    expected result, since the local defense footprint is federally held).
+    """
+    settings = settings or get_settings()
+    patterns = sorted({p.upper().replace("'", "''") for _, pats in primes for p in pats})
+    if not patterns:
+        return {}
+    clauses = [
+        f"(UPPER(OWNNAM1) LIKE '%{p}%' OR UPPER(DEEDOWN) LIKE '%{p}%' "
+        f"OR UPPER(OWNNAM2) LIKE '%{p}%')"
+        for p in patterns
+    ]
+    parcels = _dedupe(query_parcels(" OR ".join(clauses), settings=settings))
+    hits: dict[str, list[Parcel]] = {}
+    for name, pats in primes:
+        for parcel in parcels:
+            text = _owner_names(parcel)
+            if any(pat.upper() in text for pat in pats):
+                hits.setdefault(name, []).append(parcel)
+    return hits
+
+
+def army_controlled_defense_land(*, settings: Settings | None = None) -> list[Parcel]:
+    """The JSMC / Lima Army Tank Plant reservation (UNITED STATES-owned, by GIS).
+
+    Returns the federally-held parcels the defense-contractor seed list notes
+    "function as Army-controlled land" — the actual local defense footprint, held
+    by the United States rather than by a prime in its own name.
+    """
+    settings = settings or get_settings()
+    where = f"OWNNAM1='{_JSMC_OWNER}' AND TAXDIST='{_JSMC_TAXDIST}'"
+    return _dedupe(query_parcels(where, settings=settings))
+
+
+def write_defense_scan(
+    prime_owned: dict[str, list[Parcel]],
+    army_controlled: list[Parcel],
+    out_dir: Path,
+    *,
+    patterns_searched: int,
+) -> Path:
+    """Write the defense-land scan (prime-owned + Army-controlled) to one YAML file."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / "parcels.defense.yaml"
+    owned_rows = [
+        {"matched_prime": name, **p.model_dump()}
+        for name, parcels in sorted(prime_owned.items())
+        for p in sorted(parcels, key=lambda p: p.parcel_no or "")
+    ]
+    doc = {
+        "meta": {
+            "subject": "Allen County, Ohio defense-industry land scan",
+            "source": "Allen County GIS — ArcGIS REST, Current Parcels (AGOL_NonEditLayers/1)",
+            "source_url": "https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1",
+            "scan": "Owner-name match of the curated DoD-prime seed list "
+            "(data/entities/profiles/defense-contractors.yaml) against the CAMA "
+            "owner / deeded-owner / second-owner fields.",
+            "patterns_searched": patterns_searched,
+            "prime_owned_count": len(owned_rows),
+            "finding": "No Allen County parcel is owned by a DoD prime in its own name. "
+            "The local defense footprint is the federally-held JSMC reservation below.",
+            "army_controlled_note": "[inference] the UNITED STATES-owned cluster in tax "
+            "district L35 on Buckeye/Reed Rd is the Joint Systems Manufacturing Center "
+            "(Lima Army Tank Plant; 1151 Buckeye Rd), operated by General Dynamics Land "
+            "Systems. Ownership is verbatim from the GIS; the JSMC identification is an "
+            "analyst inference — verify against the deed/lease before relying on it.",
+            "caveats": [
+                "Values are verbatim from the county GIS; null means the service had no value.",
+                "A pattern match is a lead to verify, not a classification or accusation.",
+            ],
+        },
+        "prime_owned": owned_rows,
+        "army_controlled": [
+            p.model_dump() for p in sorted(army_controlled, key=lambda p: p.parcel_no or "")
+        ],
+    }
+    path.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    return path
+
+
 def _parcel_doc(p: Parcel) -> dict[str, Any]:
     return p.model_dump()
 

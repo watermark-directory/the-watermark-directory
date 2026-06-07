@@ -1,0 +1,93 @@
+{
+  "params": {
+    "f": "json",
+    "returnGeometry": "false",
+    "where": "1=1",
+    "outFields": "ZONING",
+    "groupByFieldsForStatistics": "ZONING",
+    "outStatistics": "[{\"statisticType\": \"count\", \"onStatisticField\": \"OBJECTID\", \"outStatisticFieldName\": \"n\"}]"
+  },
+  "fetched_at": "2026-06-07T00:39:49.855586+00:00",
+  "payload": {
+    "displayFieldName": "",
+    "fieldAliases": {
+      "ZONING": "ZONING",
+      "n": "n"
+    },
+    "fields": [
+      {
+        "name": "ZONING",
+        "type": "esriFieldTypeString",
+        "alias": "ZONING",
+        "length": 35
+      },
+      {
+        "name": "n",
+        "type": "esriFieldTypeInteger",
+        "alias": "n"
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "ZONING": "NON-WITHDRAWN ANNEXED AREA",
+          "n": 10
+        }
+      },
+      {
+        "attributes": {
+          "ZONING": "FIRST INDUSTRIAL LIGHT",
+          "n": 155
+        }
+      },
+      {
+        "attributes": {
+          "ZONING": "OFFICE DISTRICT",
+          "n": 120
+        }
+      },
+      {
+        "attributes": {
+          "ZONING": "CLASS I RESIDENTIAL SINGLE FAMILY",
+          "n": 696
+        }
+      },
+      {
+        "attributes": {
+          "ZONING": "CLASS II BUSINESS WHOLESALE",
+          "n": 127
+        }
+      },
+      {
+        "attributes": {
+          "ZONING": "CLASS III RESIDENTIAL APARTMENT",
+          "n": 143
+        }
+      },
+      {
+        "attributes": {
+          "ZONING": "CLASS II RESIDENTIAL FOUR FAMILY",
+          "n": 677
+        }
+      },
+      {
+        "attributes": {
+          "ZONING": "SECOND INDUSTRIAL HEAVY",
+          "n": 93
+        }
+      },
+      {
+        "attributes": {
+          "ZONING": "CLASS I BUSINESS RETAIL",
+          "n": 647
+        }
+      },
+      {
+        "attributes": {
+          "ZONING": "INDUSTRIAL PARK",
+          "n": 2
+        }
+      }
+    ]
+  }
+}

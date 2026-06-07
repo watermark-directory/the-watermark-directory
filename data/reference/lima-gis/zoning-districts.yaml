@@ -1,0 +1,34 @@
+meta:
+  subject: City of Lima, Ohio zoning districts (catalog)
+  source: City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 6 'Current
+    Lima Zoning'
+  source_url: https://colgis.cityhall.lima.oh.us/server/rest/services/CitywideMaps/Lima_Zoning/MapServer/6
+  district_count: 10
+  polygon_total: 2670
+  caveats:
+  - Values are verbatim from the City of Lima GIS.
+  - Coverage is Lima CITY LIMITS ONLY; unincorporated Allen County parcels (e.g. the
+    American Township corridor) are not in this layer.
+  - polygon_count counts zoning polygons, not distinct parcels (a parcel may carry
+    more than one polygon).
+districts:
+- code: CLASS I RESIDENTIAL SINGLE FAMILY
+  polygon_count: 696
+- code: CLASS II RESIDENTIAL FOUR FAMILY
+  polygon_count: 677
+- code: CLASS I BUSINESS RETAIL
+  polygon_count: 647
+- code: FIRST INDUSTRIAL LIGHT
+  polygon_count: 155
+- code: CLASS III RESIDENTIAL APARTMENT
+  polygon_count: 143
+- code: CLASS II BUSINESS WHOLESALE
+  polygon_count: 127
+- code: OFFICE DISTRICT
+  polygon_count: 120
+- code: SECOND INDUSTRIAL HEAVY
+  polygon_count: 93
+- code: NON-WITHDRAWN ANNEXED AREA
+  polygon_count: 10
+- code: INDUSTRIAL PARK
+  polygon_count: 2
