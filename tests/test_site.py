@@ -41,3 +41,24 @@ def test_build_site_stages_expected_pages(tmp_path: Path) -> None:
 
     # The entity graph page carries a Mermaid diagram.
     assert "```mermaid" in (web / "entities.md").read_text(encoding="utf-8")
+
+    # The GIS findings map page + its committed GeoJSON asset are staged.
+    gis = web / "gis-map.md"
+    assert gis.is_file()
+    body = gis.read_text(encoding="utf-8")
+    assert 'id="bosc-map"' in body and "leaflet" in body.lower()
+    assert (web / "assets" / "gis-findings.geojson").is_file()
+
+
+def test_gis_findings_geojson_is_valid() -> None:
+    import json
+
+    path = REPO_ROOT / "data" / "site" / "gis-findings.geojson"
+    fc = json.loads(path.read_text(encoding="utf-8"))
+    assert fc["type"] == "FeatureCollection"
+    layers = {f["properties"]["layer"] for f in fc["features"]}
+    assert {"campus", "jsmc", "floodway", "floodplain"} <= layers
+    # Every feature has geometry and a coordinate ring.
+    for f in fc["features"]:
+        assert f["geometry"]["type"] in ("Polygon", "MultiPolygon")
+        assert f["geometry"]["coordinates"]

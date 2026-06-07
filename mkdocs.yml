@@ -87,6 +87,7 @@ nav:
   - Analysis:
       - Timeline: timeline.md
       - Entity graph: entities.md
+      - GIS findings map: gis-map.md
       - Individuals: people/index.md
   - Curated entities:
       - Cloud-consumer candidates: candidates.md

@@ -27,6 +27,7 @@ from bosc.pipeline.entities import build_entity_graph
 from bosc.pipeline.timeline import build_timeline
 from bosc.site import candidates as candidates_mod
 from bosc.site import exhibits as exhibits_mod
+from bosc.site import gismap as gismap_mod
 from bosc.site import graph as graph_mod
 from bosc.site import people as people_mod
 from bosc.site import records as records_mod
@@ -240,6 +241,15 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
             encoding="utf-8",
         )
         result.n_defense_contractors = len(defense.defense_contractors)
+
+    # 6c. GIS findings map — copy the committed GeoJSON as a static asset, render the
+    # Leaflet page (it fetches the asset client-side).
+    findings_geojson = settings.data_dir / "site" / "gis-findings.geojson"
+    if findings_geojson.is_file():
+        shutil.copy2(findings_geojson, assets_dst / "gis-findings.geojson")
+        (web / "gis-map.md").write_text(
+            gismap_mod.render_gis_map(findings_geojson), encoding="utf-8"
+        )
 
     # 7. Landing page. Written as home.md (not index.md): the CustomMill theme owns
     # the root index.html as its SPA shell (the iframe frame), so the landing content
