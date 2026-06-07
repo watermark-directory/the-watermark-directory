@@ -1,0 +1,112 @@
+# Maumee Watershed Nutrient TMDL — watershed-level phosphorus budget (loading
+# capacity) and reduction targets.
+#
+# This is the ceiling the per-facility wasteload allocations in
+# maumee-tmdl-wla.yaml sit inside. The Lima municipal loop (Lima WWTP, Shawnee
+# No.2, American-Bath, American No.2) discharges via the Ottawa -> Auglaize ->
+# Maumee, Lake Erie's largest tributary, whose western-basin cyanobacteria HABs
+# the TMDL exists to fix. The TMDL caps total phosphorus (TP) for the whole
+# watershed and holds the cumulative point-source load flat at the 2008 baseline,
+# reserving only a tiny watershed-wide allowance for future growth (AFG).
+#
+# Every figure is transcribed VERBATIM from the cited tables/pages of the final
+# TMDL and the US EPA Decision Document. Values not read off the source are
+# OMITTED, not guessed. tagged source: document.
+
+source: document
+citation: >-
+  Ohio EPA, Maumee Watershed Nutrient TMDL (final, 2023; US EPA-approved 2023-09-28),
+  Tech Report AMS/2020-MWN-5. Budget = US EPA Decision Document Attachment 1,
+  Table 1A (data/documents/maumee-tmdl/2023.9.18_att_1_mwn-tmdl-tables.pdf, p.1);
+  targets/baseline = main report (Maumee-Watershed-Nutrient-TMDL-Final.pdf) pp.20, 36-41, 126, 136.
+
+units:
+  spring_tp_metric_tons: metric tons total phosphorus over the spring season (153 days, Mar 1 - Jul 31)
+  daily_tp_kg: kilograms total phosphorus per day (spring metric tons converted to kg / 153 days)
+
+# --- The reduction mandate (main report pp.20, 36-41) ---
+reduction_target:
+  basis: >-
+    The Western Basin of Lake Erie is impaired by cyanobacteria harmful algal blooms (HABs);
+    the TMDL addresses recreation-use, public-drinking-water-use (cyanotoxins), and aquatic-life-use
+    impairments (fact sheet Table 1; assessment units OHLE 041202000201 / 000301 / 000101).
+  annex4_spring_target_tp_metric_tons: 860     # Maumee River at Waterville, OH (Annex 4 / GLWQA target)
+  annex4_spring_target_drp_metric_tons: 186    # dissolved reactive phosphorus (the most bioavailable fraction)
+  baseline_year: 2008
+  baseline_spring_tp_at_waterville_metric_tons: 1414.1
+  overall_reduction_pct: 39.2                   # "approximately 40 percent" (verbatim, p20/p40)
+  point_source_objective: >-
+    "the cumulative facility-based load does not increase from the 2008 baseline" (p.126) — i.e. new
+    or expanding NPDES dischargers are held to no net increase, drawing only on the small AFG reserve.
+  provenance: >-
+    The ~40% target traces to the 2015 Western Basin of Lake Erie Collaborative / Annex 4 of the
+    Great Lakes Water Quality Agreement (Objectives & Targets Task Team), pp.37, 152.
+
+# --- Table 1A: the whole-watershed TMDL allocation budget (Decision Doc Att.1 p.1) ---
+# TMDL = sum of boundary conditions + wasteload allocations + load allocations + MOS + AFG.
+budget_table_1a:
+  boundary_conditions:                  # upstream out-of-state loads (not Ohio-controllable)
+    michigan:  {spring_tp_metric_tons: 48.0,  daily_tp_kg: 313.6}
+    indiana:   {spring_tp_metric_tons: 180.7, daily_tp_kg: 1180.9}
+  wasteload_allocations:                # point sources
+    individual_npdes_a4_1_and_a4_2: {spring_tp_metric_tons: 72.2, daily_tp_kg: 471.3}
+    combined_sewer_overflows_a4_3:  {spring_tp_metric_tons: 0.37, daily_tp_kg: 2.4}
+    industrial_stormwater_OHR000007: {spring_tp_metric_tons: 1.45, daily_tp_kg: 9.5}
+    small_sanitary_gp_OHS000005:    {spring_tp_metric_tons: 0.45, daily_tp_kg: 3.0}
+    hsts_gp_OHK000004:              {spring_tp_metric_tons: 14.2, daily_tp_kg: 92.9}
+    construction_gp_OHC000005:      {spring_tp_metric_tons: 0.39, daily_tp_kg: 2.5}
+    ms4_city_of_toledo_2PI00003:    {spring_tp_metric_tons: 2.70, daily_tp_kg: 17.8}
+    general_ms4_OHQ000004:          {spring_tp_metric_tons: 16.1, daily_tp_kg: 105.3}
+    total:                          {spring_tp_metric_tons: 107.8, daily_tp_kg: 704.8}
+  load_allocations:                     # nonpoint sources
+    nonpoint_source_landscape: {spring_tp_metric_tons: 547.0, daily_tp_kg: 3575.4}
+    on_site_hsts:              {spring_tp_metric_tons: 8.8,   daily_tp_kg: 57.8}
+    total:                     {spring_tp_metric_tons: 555.9, daily_tp_kg: 3633.2}
+  margin_of_safety_3pct:        {spring_tp_metric_tons: 20.6, daily_tp_kg: 134.5}
+  allowance_for_future_growth:  {spring_tp_metric_tons: 1.5,  daily_tp_kg: 9.8}
+  total:                        {spring_tp_metric_tons: 914.4, daily_tp_kg: 5976.8}
+
+# The single most BOSC-relevant number: the watershed-wide reserve for ALL new or
+# expanding dischargers. Within the future Watershed General Permit group of
+# individually permitted facilities (Decision Doc Att.1 Table 1B), the AFG is
+# 1.4 mt/spring (9.2 kg/day); the watershed-wide Table 1A AFG is 1.5 mt/spring.
+future_growth_headroom:
+  watershed_wide_afg_spring_tp_metric_tons: 1.5
+  watershed_wide_afg_daily_tp_kg: 9.8
+  point_source_group_afg_spring_tp_metric_tons: 1.4   # Table 1B group (= the GP1/GP2/GP3/GPX dischargers)
+  point_source_group_afg_daily_tp_kg: 9.2
+  note: >-
+    A new major municipal sanitary load serving the BOSC/Google data-center campus (routed to
+    American-Bath 2PH00007, American No.2 2PH00006, and/or Shawnee No.2 2PK00002 — all already
+    carrying binding spring-TP WLAs in maumee-tmdl-wla.yaml and already flagged as discharging
+    effectively undiluted at design low flow) competes against a watershed-wide future-growth
+    reserve of only ~1.4-1.5 metric tons TP/spring. The cumulative point-source load is held flat
+    at the 2008 baseline. This is the assimilative-capacity ceiling in concrete terms. [the
+    competes-against-AFG framing is inference; the AFG figures and the no-net-increase rule are document.]
+
+# Lima-loop + locally-relevant facilities' group tiers in the future Watershed
+# General Permit (Decision Doc Att.1 Tables 1B/1C). Tiers GP1>GP2>GP3 by load;
+# GPX = industrial. "#" in source = facility had an existing WLA from a prior TMDL.
+group_tiers_local:
+  - {npdes: '2PE00000', facility: 'Lima WWTP', spring_tp_metric_tons: 4.0, tier: GP1, prior_wla: true}
+  - {npdes: '2PK00002', facility: 'Shawnee No 2 WWTP', spring_tp_metric_tons: 0.75, tier: GP2, prior_wla: true}
+  - {npdes: '2PH00007', facility: 'American-Bath WWTP', spring_tp_metric_tons: 0.37, tier: GP2}
+  - {npdes: '2PH00006', facility: 'American No 2 WWTP', spring_tp_metric_tons: 0.30, tier: GP2}
+  - {npdes: '2PB00048', facility: 'Cridersville WWTP', spring_tp_metric_tons: 0.34, tier: GP3, prior_wla: true, note: 'PRR item 14 — Cridersville WWTP agreement'}
+  - {npdes: '2PB00046', facility: 'Elida WWTP', spring_tp_metric_tons: 0.34, tier: GP3, note: 'Elida = the BOSC school district'}
+  - {npdes: '2PD00029', facility: 'Delphos WWTP', spring_tp_metric_tons: 1.0, tier: GP2, note: 'PAAC Ambrose Rd / Delphos thread'}
+  - {npdes: '2PC00000', facility: 'Spencerville WWTP', spring_tp_metric_tons: 0.21, prior_wla: true}
+  - {npdes: '2IF00004', facility: 'PCS Nitrogen Ohio LP', spring_tp_metric_tons: 1.8, tier: GPX, prior_wla: true, note: 'also a flagged Ottawa-River toxic water discharger (rsei toxics screen)'}
+  - {npdes: '2IG00001', facility: 'Lima Refinery', spring_tp_metric_tons: 0.6, tier: GPX, prior_wla: true}
+
+reconciliation:
+  group_total_table_1b: {spring_tp_metric_tons: 64.2, daily_tp_kg: 418.8}   # matches maumee-tmdl-wla.yaml grouped_load_total (64.1/418.8)
+  note: >-
+    Table 1A WLA-individual line (72.2 mt) = Table 1B group (64.2, incl AFG 1.4) + Table 1C group
+    (9.6, incl AFG 0.1) - small overlaps; figures transcribed verbatim, not algebraically forced.
+
+cross_refs:
+  - data/reference/hydrology/maumee-tmdl-wla.yaml          # per-facility WLAs (Appendix 4) — the line items inside this budget
+  - data/reference/hydrology/low-flow-7q10.yaml            # the low-flow dilution failure these same facilities show
+  - data/documents/maumee-tmdl/                            # the source TMDL corpus
+  - data/reference/rsei/toxic-discharge-screen.yaml        # PCS Nitrogen / Lima Refinery cross-appear as Ottawa toxic dischargers
