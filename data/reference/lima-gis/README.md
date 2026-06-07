@@ -24,6 +24,14 @@ Allen County CAMA parcel layer by id — no spatial query needed.
 of polygons carrying it (10 districts, 2,670 polygons), with a provenance `meta`
 block.
 
+`floodzones.yaml` — the **FEMA flood-zone catalog** from layer 4 "Floodzone"
+(`bosc floodzone --catalog`). This layer is the FEMA **DFIRM panel 39003C** for
+**Allen County** (county-wide, *not* city-limited like zoning). It maps only the
+Special Flood Hazard Areas — Zone A, AE (incl. regulatory **floodway**), AO; 368
+polygons. The layer has **no `PARCEL_NO`**, so a site's flood zone is a *spatial*
+question — see `bosc floodzone --footprint` and
+`data/reference/hydrology/campus-floodzone.yaml`.
+
 ## Gaps / caveats
 
 - **City limits only.** This layer covers the City of Lima. Parcels in

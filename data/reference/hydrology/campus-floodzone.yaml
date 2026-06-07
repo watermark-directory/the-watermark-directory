@@ -1,0 +1,10 @@
+footprint: bosc-parcels.geojson (10 Bistrozzi LLC parcels, BOSC Phase 1A)
+in_parcels_zones: []
+nearby_buffer_m: 50
+nearby_zones:
+- AE
+- AE (FLOODWAY)
+firm: 39003C_FIS5
+citation: 'City of Lima GIS Floodzone layer (FEMA DFIRM panel 39003C) intersected
+  with the recorded Bistrozzi parcel footprints (data/reference/periplus/bosc-parcels.geojson).
+  source: connector.'

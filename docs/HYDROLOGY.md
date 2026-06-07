@@ -71,6 +71,16 @@ A 25-yr 24-hr design storm (4.25 in `[inference: assumption]`) over the 340-ac f
 - runoff volume 75 -> 100 ac-ft (+25 ac-ft to detain for pre-development control)
 
 
+**The footprint sits just outside the FEMA floodplain — but only just.**
+The recorded campus parcels intersect no FEMA Special Flood Hazard Area, yet
+Zone AE and AE (FLOODWAY) (1%-annual-chance floodplain and regulatory
+floodway) reach within ~50 m of them (FEMA DFIRM 39003C_FIS5)
+`[verified: document]`. The post-development runoff increase routes toward that
+corridor; a regulatory floodway tolerates no rise, so added peak discharge there
+is a permitting constraint, not only a detention-sizing question.
+
+
+
 ## 4. Scenario: data-center cooling vs the Ottawa's low flow
 
 The cooling demand is **sourced**, derived from disclosed campus data by two methods:

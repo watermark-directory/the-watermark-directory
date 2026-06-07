@@ -1,0 +1,79 @@
+{
+  "params": {
+    "f": "json",
+    "returnGeometry": "false",
+    "where": "1=1",
+    "outFields": "FLD_ZONE,ZONE_SUBTY,SFHA_TF",
+    "groupByFieldsForStatistics": "FLD_ZONE,ZONE_SUBTY,SFHA_TF",
+    "outStatistics": "[{\"statisticType\": \"count\", \"onStatisticField\": \"OBJECTID\", \"outStatisticFieldName\": \"n\"}]"
+  },
+  "fetched_at": "2026-06-07T01:14:16.504159+00:00",
+  "payload": {
+    "displayFieldName": "",
+    "fieldAliases": {
+      "FLD_ZONE": "FLD_ZONE",
+      "ZONE_SUBTY": "ZONE_SUBTY",
+      "SFHA_TF": "SFHA_TF",
+      "n": "n"
+    },
+    "fields": [
+      {
+        "name": "FLD_ZONE",
+        "type": "esriFieldTypeString",
+        "alias": "FLD_ZONE",
+        "length": 17
+      },
+      {
+        "name": "ZONE_SUBTY",
+        "type": "esriFieldTypeString",
+        "alias": "ZONE_SUBTY",
+        "length": 57
+      },
+      {
+        "name": "SFHA_TF",
+        "type": "esriFieldTypeString",
+        "alias": "SFHA_TF",
+        "length": 1
+      },
+      {
+        "name": "n",
+        "type": "esriFieldTypeInteger",
+        "alias": "n"
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "FLD_ZONE": "A",
+          "ZONE_SUBTY": " ",
+          "SFHA_TF": "T",
+          "n": 32
+        }
+      },
+      {
+        "attributes": {
+          "FLD_ZONE": "AE",
+          "ZONE_SUBTY": " ",
+          "SFHA_TF": "T",
+          "n": 304
+        }
+      },
+      {
+        "attributes": {
+          "FLD_ZONE": "AE",
+          "ZONE_SUBTY": "FLOODWAY",
+          "SFHA_TF": "T",
+          "n": 31
+        }
+      },
+      {
+        "attributes": {
+          "FLD_ZONE": "AO",
+          "ZONE_SUBTY": " ",
+          "SFHA_TF": "T",
+          "n": 1
+        }
+      }
+    ]
+  }
+}

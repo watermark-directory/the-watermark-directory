@@ -87,21 +87,33 @@ def _i(value: Any) -> int | None:
         return None
 
 
-def _query(params: dict[str, Any], *, settings: Settings) -> dict[str, Any]:
-    """Run (or replay) one ArcGIS ``/query`` request; return the parsed JSON."""
+def _bfe(value: Any) -> float | None:
+    """A base-flood elevation, or None for missing / the -9999 'no BFE' sentinel."""
+    try:
+        f = float(value)
+    except (TypeError, ValueError):
+        return None
+    return None if f == _BFE_SENTINEL else f
+
+
+def _query(
+    params: dict[str, Any], *, settings: Settings, url: str, connector: str = "lima_gis"
+) -> dict[str, Any]:
+    """Run (or replay) one ArcGIS ``/query`` against ``url``; return the parsed JSON.
+
+    ``connector`` namespaces the cache/fixtures so different layers of the same
+    service (zoning vs floodzone) never collide on identical params.
+    """
     query = {"f": "json", "returnGeometry": "false", **params}
 
     def fetch() -> Any:
-        log.info("lima_gis.fetch", where=params.get("where"), offset=params.get("resultOffset"))
-        resp = httpx.get(
-            f"{settings.lima_zoning_url}/query",
-            params=query,
-            timeout=settings.hydro_request_timeout_s,
-        )
+        log.info(f"{connector}.fetch", where=params.get("where"), offset=params.get("resultOffset"))
+        # POST (form-encoded) — spatial queries carry a geometry too large for a GET URL.
+        resp = httpx.post(f"{url}/query", data=query, timeout=settings.hydro_request_timeout_s)
         resp.raise_for_status()
         return resp.json()
 
-    payload = cast("dict[str, Any]", cached_get("lima_gis", query, fetch, settings=settings))
+    payload = cast("dict[str, Any]", cached_get(connector, query, fetch, settings=settings))
     if "error" in payload:
         raise LimaGisError(f"ArcGIS error: {payload['error']}")
     return payload
@@ -127,6 +139,7 @@ def query_zoning(
                 "orderByFields": "OBJECTID",
             },
             settings=settings,
+            url=settings.lima_zoning_url,
         )
         features = page.get("features") or []
         records.extend(ZoningRecord.from_attrs(f.get("attributes", {})) for f in features)
@@ -163,6 +176,7 @@ def zoning_districts(*, settings: Settings | None = None) -> list[ZoningDistrict
             "outStatistics": json.dumps(stats),
         },
         settings=settings,
+        url=settings.lima_zoning_url,
     )
     districts = [
         ZoningDistrict(code=str(a.get("ZONING") or "").strip(), polygon_count=int(a.get("n") or 0))
@@ -195,6 +209,186 @@ def write_zoning_districts(districts: list[ZoningDistrict], out_dir: Path) -> Pa
             ],
         },
         "districts": [d.model_dump() for d in districts],
+    }
+    path.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    return path
+
+
+# --- FEMA Floodzone (DFIRM) layer ------------------------------------------
+
+_FLOOD_CONNECTOR = "lima_gis_flood"
+_BFE_SENTINEL = -9999  # the layer's "no static BFE" sentinel — never a real elevation
+
+
+class FloodZone(BaseModel):
+    """One FEMA DFIRM flood-hazard polygon's attributes (City of Lima GIS, layer 4)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    object_id: int | None
+    fld_zone: str | None  # FEMA zone code: A / AE / AO / X / ...
+    zone_subtype: str | None  # e.g. FLOODWAY; None when blank
+    sfha: bool  # Special Flood Hazard Area (SFHA_TF == 'T')
+    static_bfe: float | None  # base flood elevation, or None for the -9999 sentinel
+    dfirm_id: str | None
+    source_cit: str | None  # the FIRM / FIS citation
+
+    @classmethod
+    def from_attrs(cls, a: dict[str, Any]) -> FloodZone:
+        return cls(
+            object_id=_i(a.get("OBJECTID")),
+            fld_zone=_s(a.get("FLD_ZONE")),
+            zone_subtype=_s(a.get("ZONE_SUBTY")),
+            sfha=str(a.get("SFHA_TF") or "").strip().upper() == "T",
+            static_bfe=_bfe(a.get("STATIC_BFE")),
+            dfirm_id=_s(a.get("DFIRM_ID")),
+            source_cit=_s(a.get("SOURCE_CIT")),
+        )
+
+
+class FloodZoneClass(BaseModel):
+    """One distinct flood-zone class and its polygon count (the catalog row)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    fld_zone: str
+    zone_subtype: str | None
+    sfha: bool
+    polygon_count: int
+
+
+def _polygon_rings(path: Path) -> list[list[list[float]]]:
+    """Extract all polygon rings from a footprint GeoJSON (Polygon/MultiPolygon).
+
+    Non-areal features (a stray Point/LineString) are skipped — only rings that can
+    bound an area contribute to the spatial query geometry.
+    """
+    data = json.loads(path.read_text(encoding="utf-8"))
+    rings: list[list[list[float]]] = []
+    for feat in data.get("features", []):
+        geom = feat.get("geometry") or {}
+        gtype, coords = geom.get("type"), geom.get("coordinates")
+        polys: Any = [coords] if gtype == "Polygon" else coords if gtype == "MultiPolygon" else None
+        if polys is None:
+            continue
+        for poly in polys:
+            for ring in poly:
+                rings.append([[float(pt[0]), float(pt[1])] for pt in ring])
+    return rings
+
+
+def _flood_query(params: dict[str, Any], *, settings: Settings) -> dict[str, Any]:
+    return _query(
+        params, settings=settings, url=settings.lima_floodzone_url, connector=_FLOOD_CONNECTOR
+    )
+
+
+def query_floodzones(
+    where: str = "1=1",
+    *,
+    rings: list[list[list[float]]] | None = None,
+    distance_m: float | None = None,
+    settings: Settings | None = None,
+) -> list[FloodZone]:
+    """Flood-hazard polygons matching ``where`` and (optionally) intersecting ``rings``.
+
+    ``rings`` is WGS84 (lon/lat) polygon rings; the service reprojects from
+    ``inSR=4326``. ``distance_m`` adds a buffer so "within N metres of the footprint"
+    can be answered. Paged to completion.
+    """
+    settings = settings or get_settings()
+    spatial: dict[str, Any] = {}
+    if rings is not None:
+        spatial = {
+            "geometry": json.dumps({"rings": rings, "spatialReference": {"wkid": 4326}}),
+            "geometryType": "esriGeometryPolygon",
+            "inSR": "4326",
+            "spatialRel": "esriSpatialRelIntersects",
+        }
+        if distance_m is not None:
+            spatial["distance"] = distance_m
+            spatial["units"] = "esriSRUnit_Meter"
+    out: list[FloodZone] = []
+    offset = 0
+    while True:
+        page = _flood_query(
+            {
+                "where": where,
+                "outFields": "OBJECTID,FLD_ZONE,ZONE_SUBTY,SFHA_TF,STATIC_BFE,DFIRM_ID,SOURCE_CIT",
+                "resultOffset": offset,
+                "resultRecordCount": _PAGE_SIZE,
+                "orderByFields": "OBJECTID",
+                **spatial,
+            },
+            settings=settings,
+        )
+        features = page.get("features") or []
+        out.extend(FloodZone.from_attrs(f.get("attributes", {})) for f in features)
+        if not page.get("exceededTransferLimit") or not features:
+            return out
+        offset += len(features)
+
+
+def floodzone_catalog(*, settings: Settings | None = None) -> list[FloodZoneClass]:
+    """The DFIRM flood-zone catalog: each (zone, subtype, SFHA) and its polygon count."""
+    settings = settings or get_settings()
+    stats = [
+        {"statisticType": "count", "onStatisticField": "OBJECTID", "outStatisticFieldName": "n"}
+    ]
+    page = _flood_query(
+        {
+            "where": "1=1",
+            "outFields": "FLD_ZONE,ZONE_SUBTY,SFHA_TF",
+            "groupByFieldsForStatistics": "FLD_ZONE,ZONE_SUBTY,SFHA_TF",
+            "outStatistics": json.dumps(stats),
+        },
+        settings=settings,
+    )
+    classes = [
+        FloodZoneClass(
+            fld_zone=str(a.get("FLD_ZONE") or "").strip(),
+            zone_subtype=_s(a.get("ZONE_SUBTY")),
+            sfha=str(a.get("SFHA_TF") or "").strip().upper() == "T",
+            polygon_count=int(a.get("n") or 0),
+        )
+        for a in (f.get("attributes", {}) for f in page.get("features") or [])
+        if _s(a.get("FLD_ZONE"))
+    ]
+    return sorted(classes, key=lambda c: (-c.polygon_count, c.fld_zone, c.zone_subtype or ""))
+
+
+def footprint_floodzones(
+    footprint_path: Path, *, distance_m: float = 0.0, settings: Settings | None = None
+) -> list[FloodZone]:
+    """Flood-hazard polygons intersecting a footprint GeoJSON (optionally buffered)."""
+    rings = _polygon_rings(footprint_path)
+    dist = distance_m if distance_m else None
+    return query_floodzones(rings=rings, distance_m=dist, settings=settings)
+
+
+def write_floodzone_catalog(classes: list[FloodZoneClass], out_dir: Path) -> Path:
+    """Write the DFIRM flood-zone catalog to one YAML file with provenance ``meta``."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / "floodzones.yaml"
+    doc = {
+        "meta": {
+            "subject": "FEMA flood-hazard zones over Allen County (DFIRM panel 39003C)",
+            "source": "City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 4 'Floodzone' (FEMA DFIRM)",
+            "source_url": (
+                "https://colgis.cityhall.lima.oh.us/server/rest/services/"
+                "CitywideMaps/Lima_Zoning/MapServer/4"
+            ),
+            "class_count": len(classes),
+            "polygon_total": sum(c.polygon_count for c in classes),
+            "caveats": [
+                "Values are verbatim from the FEMA DFIRM served by the City of Lima GIS.",
+                "Only Special Flood Hazard Areas (1%-annual-chance: A/AE incl. floodway, AO) "
+                "are mapped here; areas outside the SFHA carry no polygon.",
+                "A site's flood zone is a SPATIAL question (no PARCEL_NO on this layer) — use "
+                "footprint_floodzones() / bosc floodzone --footprint.",
+            ],
+        },
+        "classes": [c.model_dump() for c in classes],
     }
     path.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True), encoding="utf-8")
     return path

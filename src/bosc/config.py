@@ -75,6 +75,12 @@ class Settings(BaseSettings):
         "https://colgis.cityhall.lima.oh.us/server/rest/services/"
         "CitywideMaps/Lima_Zoning/MapServer/6"
     )
+    # Same service, "Floodzone" layer — the FEMA DFIRM (panel 39003C, Allen County)
+    # Special Flood Hazard Areas. Polygon, no PARCEL_NO: site lookups are spatial.
+    lima_floodzone_url: str = (
+        "https://colgis.cityhall.lima.oh.us/server/rest/services/"
+        "CitywideMaps/Lima_Zoning/MapServer/4"
+    )
 
     # --- Paths -------------------------------------------------------------
     data_dir: Path = _REPO_ROOT / "data"

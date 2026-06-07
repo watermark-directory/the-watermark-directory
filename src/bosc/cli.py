@@ -886,6 +886,71 @@ def zoning(
     raise typer.Exit(1)
 
 
+@app.command(name="floodzone")
+def floodzone(
+    catalog: bool = typer.Option(
+        False, "--catalog", help="Pull the FEMA DFIRM flood-zone catalog -> reference YAML."
+    ),
+    footprint: str | None = typer.Option(
+        None, "--footprint", help="GeoJSON footprint to test (default: the Bistrozzi parcels)."
+    ),
+    buffer_m: int = typer.Option(50, "--buffer", help="Proximity buffer (metres) for the check."),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached GIS responses only; never touch the network."
+    ),
+    out_dir: str | None = typer.Option(
+        None, "--out", help="Output directory for --catalog (default: data/reference/lima-gis)."
+    ),
+) -> None:
+    """Query the FEMA floodzone (DFIRM) layer: zone catalog, or a footprint's flood risk."""
+    from bosc.config import Settings
+    from bosc.hydrology.connectors import lima_gis
+    from bosc.hydrology.floodplain import write_campus_floodzone
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+
+    if catalog:
+        target = Path(out_dir) if out_dir else settings.reference_dir / "lima-gis"
+        classes = lima_gis.floodzone_catalog(settings=settings)
+        table = Table("Zone", "Subtype", "SFHA", "Polygons")
+        for c in classes:
+            table.add_row(
+                c.fld_zone, c.zone_subtype or "—", "✓" if c.sfha else "—", str(c.polygon_count)
+            )
+        console.print(table)
+        path = lima_gis.write_floodzone_catalog(classes, target)
+        console.print(f"[green]Wrote[/] {len(classes)} flood-zone classes -> {path}")
+        return
+
+    fp = (
+        Path(footprint)
+        if footprint
+        else settings.reference_dir / "periplus" / "bosc-parcels.geojson"
+    )
+    if not fp.is_file():
+        console.print(f"[yellow]No footprint GeoJSON[/] at {fp}.")
+        raise typer.Exit(1)
+    in_parcels = lima_gis.footprint_floodzones(fp, distance_m=0, settings=settings)
+    nearby = lima_gis.footprint_floodzones(fp, distance_m=buffer_m, settings=settings)
+    in_zones = sorted({f.fld_zone or "?" for f in in_parcels})
+    near_zones = sorted(
+        {f"{f.fld_zone}{' (' + f.zone_subtype + ')' if f.zone_subtype else ''}" for f in nearby}
+    )
+    if in_parcels:
+        console.print(f"[red]In floodplain[/]: parcels intersect {', '.join(in_zones)}.")
+    else:
+        console.print(
+            f"[green]Not in floodplain[/]: parcels intersect no SFHA; "
+            f"within {buffer_m} m: {', '.join(near_zones) or 'none'}."
+        )
+    path = write_campus_floodzone(
+        in_parcels, nearby, buffer_m=buffer_m, footprint=fp.name, settings=settings
+    )
+    console.print(f"[green]Wrote[/] campus floodzone finding -> {path}")
+
+
 @app.command(name="people")
 def people() -> None:
     """List the curated individual profiles (the entity graph's detail store).

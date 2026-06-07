@@ -1,0 +1,30 @@
+meta:
+  subject: FEMA flood-hazard zones over Allen County (DFIRM panel 39003C)
+  source: City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 4 'Floodzone'
+    (FEMA DFIRM)
+  source_url: https://colgis.cityhall.lima.oh.us/server/rest/services/CitywideMaps/Lima_Zoning/MapServer/4
+  class_count: 4
+  polygon_total: 368
+  caveats:
+  - Values are verbatim from the FEMA DFIRM served by the City of Lima GIS.
+  - 'Only Special Flood Hazard Areas (1%-annual-chance: A/AE incl. floodway, AO) are
+    mapped here; areas outside the SFHA carry no polygon.'
+  - A site's flood zone is a SPATIAL question (no PARCEL_NO on this layer) — use footprint_floodzones()
+    / bosc floodzone --footprint.
+classes:
+- fld_zone: AE
+  zone_subtype: null
+  sfha: true
+  polygon_count: 304
+- fld_zone: A
+  zone_subtype: null
+  sfha: true
+  polygon_count: 32
+- fld_zone: AE
+  zone_subtype: FLOODWAY
+  sfha: true
+  polygon_count: 31
+- fld_zone: AO
+  zone_subtype: null
+  sfha: true
+  polygon_count: 1

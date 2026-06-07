@@ -114,6 +114,28 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
     for f in storm_findings:
         w(f"\n- {f.detail}")
 
+    from bosc.hydrology.floodplain import load_campus_floodzone
+
+    cf = load_campus_floodzone(settings=settings)
+    if cf is not None:
+        if cf.in_floodplain:
+            w(
+                f"\n\n**Part of the footprint lies in the FEMA floodplain.** The recorded\n"
+                f"campus parcels intersect FEMA Special Flood Hazard Area "
+                f"({', '.join(cf.in_parcels_zones)}; DFIRM {cf.firm}) `[verified: document]` —\n"
+                f"development there faces base-flood-elevation and floodway constraints.\n"
+            )
+        elif cf.nearby_zones:
+            w(
+                f"\n\n**The footprint sits just outside the FEMA floodplain — but only just.**\n"
+                f"The recorded campus parcels intersect no FEMA Special Flood Hazard Area, yet\n"
+                f"Zone {' and '.join(cf.nearby_zones)} (1%-annual-chance floodplain and regulatory\n"
+                f"floodway) reach within ~{cf.nearby_buffer_m} m of them (FEMA DFIRM {cf.firm})\n"
+                f"`[verified: document]`. The post-development runoff increase routes toward that\n"
+                f"corridor; a regulatory floodway tolerates no rise, so added peak discharge there\n"
+                f"is a permitting constraint, not only a detention-sizing question.\n"
+            )
+
     w("\n\n## 4. Scenario: data-center cooling vs the Ottawa's low flow\n")
     basis = build.scenario.basis
     if basis is not None:
