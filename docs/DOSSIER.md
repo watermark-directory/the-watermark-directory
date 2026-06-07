@@ -241,7 +241,11 @@ notices were drafted and served not by the County clerk but by the **Allen Econo
 Development Group (AEDG)** — **Cynthia Leis, President/CEO** — the entity coordinating the
 abatement; both superintendents (Elida's Joel Mengerink, Apollo JVSD's Keith Horner)
 acknowledged receipt on 2025-06-25. `[verified:
-data/extracted/legal/prr-mandamus/school-district-notice-letters.notice.yaml]`
+data/extracted/legal/prr-mandamus/school-district-notice-letters.notice.yaml]` Leis also
+serves as **Executive Director of the Port Authority** (which has no employees and signed
+the $14.5M roadwork deal) — one person directing both the econ-dev nonprofit and the public
+body — and the PAAC's own minutes confirm the end user is **Google**. `[verified:
+data/extracted/aedg/paac-records-policy.policy.yaml + paac-board-minutes.minutes.yaml]`
 
 **What the public gives.** 75% of the property tax on the ~$500M improvement, 15 years
 per building — a screening **~$84–129M in abated property tax**, i.e. roughly
@@ -264,15 +268,35 @@ than the relator's own Ohio comparable of ~$1M/job of revenue loss. Regenerate w
   federal awards; parent GD Corp ~$299B).
 - **Air:** 114 diesel emergency gensets (~313 MW backup), permitted **synthetic-minor**
   to stay just under major-source NSR review.
+- **Roadwork:** a parallel **$14.5M** Roadwork Development Agreement (PAAC/Bistrozzi)
+  builds 4 roundabouts + 2 road rehabs the County then maintains in perpetuity; RDA
+  **§5.5** lets State 629 / ODOD grants *refund* the developer's "contribution" — so
+  public money may fund the private share, while the actual award (Eagle Bridge
+  **~$3.52M**) runs far under the $14.5M collected. `[verified:
+  data/extracted/aedg/roadwork-development-agreement.rda.yaml + paac-board-minutes.minutes.yaml]`
+- **Wastewater × TMDL:** a new data-center sanitary load enters a fully-allocated,
+  reduction-bound Maumee watershed (point-source future-growth reserve only **~1.4–1.5
+  mt P/spring** basin-wide) and, as a new/expanding discharger, must add secondary +
+  tertiary treatment to hit a **0.5 mg/L** TP limit — a ratepayer cost the package
+  omits. `[verified: data/reference/hydrology/maumee-tmdl-budget.yaml + maumee-tmdl-responsiveness.yaml]`
+- **Land conversion (CAUV):** the assembled campus parcels were CAUV farmland;
+  conversion triggers a one-time CAUV recoupment and pulls productive ag land from the
+  Elida-LSD tax base — onto which the 75% abatement is then layered. `[verified:
+  data/extracted/aedg/seller-land-packets.land.yaml]`
 
-**What the public can't see — by the County's own choices.** The two figures that would
-actually answer *"is this a good deal?"* are both withheld: the County's **cost-benefit
+**What the public can't see — by the County's own choices.** The figures that would
+actually answer *"is this a good deal?"* are withheld: the County's **cost-benefit
 analysis** (PRR request item 4, withheld under R.C. 149.43 / 9.66 as "being reviewed by
-legal counsel") and the **School District Compensation Agreement** dollar amounts
-(non-public; only the 25% statutory floor is disclosed). And CRA **§22 indemnifies the
-County's attorney fees** for defending exactly that kind of withholding — a private
-subsidy for public secrecy. `[verified: cra-agreement.cra.yaml +
-bosc-prr-production-2026-06-05.response-index.yaml]`
+legal counsel"); the **School District Compensation Agreement** dollar amounts
+(non-public, only the 25% floor disclosed — though the PAAC minutes surface a *proposed*
+**$200K→$250K/yr PILOT** to Elida, so the deciding figure demonstrably exists); and the
+**land-assembly purchase prices** — the recorded deeds state only "valuable
+consideration" and the **DTE-100 transfer-tax forms were produced with the price fields
+blank**, so what was paid to assemble the ~350-acre campus is opaque (only the Neighbors
+parcel, **$600K / 5.0 ac**, is disclosed). And CRA **§22 indemnifies the County's
+attorney fees** for defending exactly that kind of withholding — a private subsidy for
+public secrecy. `[verified: cra-agreement.cra.yaml + seller-land-packets.land.yaml +
+paac-board-minutes.minutes.yaml + bosc-prr-production-2026-06-05.response-index.yaml]`
 
 ---
 
@@ -284,6 +308,20 @@ N. Cole), and Cole/West (SR 115). The OPC states the program is **privately fund
 via a "BOSC Team" deposit to the Port Authority (PAAC), to be dedicated to the
 County on completion** — i.e. a private developer financing public road capacity
 through the port authority. `[verified: data/extracted/aedg/roundabouts.summary.opc.yaml]`
+
+**The executed agreement.** The Roadwork Development Agreement (PAAC / Allen County /
+Bistrozzi, effective **2025-09-15**; PAAC Res **O.729-25**, County Res **588-25**) sets
+the deposit at a **$14,500,000** "Company's Contribution" (basis = the Tetra Tech OPC,
+per Exhibit D), builds the 4 roundabouts + Cole/Bluelick rehabs, and **dedicates them to
+the County for perpetual maintenance**. Three clauses matter: **§5.5** refunds any
+"overpayment" — including State 629 / ODOD grant funds — back to the company, so public
+grants can backfill the private contribution; **§9.17** exempts the company from any
+competitive **procurement**; and **§9.13** is a *third* records-withholding lever (after
+the NDA §6 and CRA §22), binding PAAC to **≥5 business days' notice to the developer**
+before answering any records request and to redact all it lawfully can. The first real
+construction award — **Eagle Bridge, ~$3.52M** (2026-04-23 PAAC minutes) — runs far below
+the $14.5M collected, sharpening the §5.5 refund question. `[verified:
+data/extracted/aedg/roadwork-development-agreement.rda.yaml + paac-board-minutes.minutes.yaml]`
 
 **Drainage scope vs the design storm.** The six OPCs budget **$1,068,530** of
 drainage, but the engineering basis is thin: only **one** of the six sub-estimates

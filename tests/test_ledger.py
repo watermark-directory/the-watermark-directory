@@ -44,13 +44,28 @@ def test_foregone_is_a_tagged_screening_range(hydro_settings: Settings) -> None:
 
 
 def test_withheld_records_are_the_pivot(hydro_settings: Settings) -> None:
-    """Both deciding figures the public can't see are recorded as withheld."""
+    """The deciding figures the public can't see are recorded as withheld."""
     led = ledger.build_ledger(hydro_settings)
     whats = " ".join(w.what.lower() for w in led.withheld)
     assert "cost-benefit" in whats  # PRR item 4
     assert "compensation" in whats  # school district comp agreement $
+    assert (
+        "land-assembly" in whats or "purchase prices" in whats
+    )  # blank DTE-100 transfer-tax forms
     # The findings name the §22 indemnity (private subsidy for public secrecy).
     assert any("§22" in f or "attorney fees" in f for f in led.findings)
+
+
+def test_new_aedg_burdens_folded_in(hydro_settings: Settings) -> None:
+    """The AEDG-bundle figures (roadwork, TMDL wastewater, CAUV) join the burden ledger."""
+    led = ledger.build_ledger(hydro_settings)
+    threads = {b.thread for b in led.burdens}
+    assert {"roadwork (PAAC)", "wastewater x TMDL", "land conversion (CAUV)"} <= threads
+    # The roadwork burden carries the $14.5M contribution figure.
+    assert any("14,500,000" in b.headline for b in led.burdens)
+    # A finding names the parallel roadwork channel and the surfaced school PILOT.
+    assert any("Roadwork Development Agreement" in f for f in led.findings)
+    assert any("PILOT" in f for f in led.findings)
 
 
 def test_burdens_span_the_prior_threads(hydro_settings: Settings) -> None:

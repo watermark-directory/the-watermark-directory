@@ -4,7 +4,9 @@ Assembles, in one place, what the public *gives* (the 15-year / 75% real-propert
 abatement in the committed CRA extraction) against what it *gets* (the developer's own
 ~50-jobs / ~$4M-payroll estimate) and what it *bears* (the resource/environmental
 burdens already quantified by the other threads — toxics dilution, the cooling draw,
-the drainage-scope gap, the federal entanglement, the genset air permit).
+the drainage-scope gap, the federal entanglement, the genset air permit, the $14.5M
+roadwork channel with perpetual County maintenance, the TMDL wastewater-upgrade load,
+and the CAUV farmland conversion).
 
 Discipline:
 
@@ -253,6 +255,63 @@ def _burdens(settings: Settings) -> list[BurdenItem]:
                 source="data/extracted/permits/3987144.epa.yaml (OEPA PTI P0138965)",
             )
         )
+
+    # Roadwork — the PAAC/Bistrozzi Roadwork Development Agreement (the public-road channel).
+    rda = settings.extracted_dir / "aedg" / "roadwork-development-agreement.rda.yaml"
+    if rda.is_file():
+        try:
+            data = yaml.safe_load(rda.read_text(encoding="utf-8")) or {}
+            contrib = _num(data["financial_terms"]["company_contribution_usd"])
+            out.append(
+                BurdenItem(
+                    thread="roadwork (PAAC)",
+                    headline=(
+                        f"${contrib:,} developer 'contribution' builds 4 roundabouts + 2 road rehabs "
+                        "dedicated to the County for PERPETUAL maintenance; RDA §5.5 lets State 629 / "
+                        "ODOD grants refund the contribution to the company (so the public may fund the "
+                        "'private' share)"
+                    ),
+                    source="data/extracted/aedg/roadwork-development-agreement.rda.yaml",
+                )
+            )
+        except (KeyError, ValueError):
+            pass
+
+    # Wastewater x TMDL — a new sanitary load against a fully-allocated, reduction-bound watershed.
+    tmdl = settings.reference_dir / "hydrology" / "maumee-tmdl-budget.yaml"
+    if tmdl.is_file():
+        try:
+            data = yaml.safe_load(tmdl.read_text(encoding="utf-8")) or {}
+            afg = data["future_growth_headroom"]["point_source_group_afg_spring_tp_metric_tons"]
+            out.append(
+                BurdenItem(
+                    thread="wastewater x TMDL",
+                    headline=(
+                        f"a new data-center sanitary load enters a fully-allocated watershed (point-source "
+                        f"future-growth reserve only ~{afg:g} mt P/spring for the whole basin) and, as a new/"
+                        "expanding discharger, must add secondary+tertiary treatment to hit a 0.5 mg/L TP "
+                        "limit — a ratepayer cost the incentive package omits"
+                    ),
+                    source="data/reference/hydrology/maumee-tmdl-budget.yaml + maumee-tmdl-responsiveness.yaml",
+                )
+            )
+        except (KeyError, ValueError):
+            pass
+
+    # Land conversion — CAUV farmland taken out of agricultural use for the campus.
+    land = settings.extracted_dir / "aedg" / "seller-land-packets.land.yaml"
+    if land.is_file():
+        out.append(
+            BurdenItem(
+                thread="land conversion (CAUV)",
+                headline=(
+                    "the assembled campus parcels (Neff/Brenneman/Miller-Pike Run/Neighbors) were CAUV "
+                    "farmland; conversion triggers a one-time CAUV recoupment and removes productive ag "
+                    "land from the Elida LSD tax base — onto which the 75% abatement is then layered"
+                ),
+                source="data/extracted/aedg/seller-land-packets.land.yaml",
+            )
+        )
     return out
 
 
@@ -288,8 +347,21 @@ def build_ledger(settings: Settings | None = None) -> PublicLedger:
         ),
         WithheldItem(
             what="The School District Compensation Agreement dollar amounts (Elida + JVSD)",
-            why_withheld="referenced by the CRA but in a separate, non-public agreement; only the 25% statutory floor is disclosed",
-            source="data/extracted/legal/prr-mandamus/cra-agreement.cra.yaml (school_compensation.amounts_public: false)",
+            why_withheld=(
+                "the executed agreement is non-public (only the 25% statutory floor is disclosed) — though "
+                "the PAAC board minutes surface a PROPOSED $200,000->$250,000/yr PILOT to Elida, the binding "
+                "terms remain out of view"
+            ),
+            source="cra-agreement.cra.yaml (amounts_public: false) + paac-board-minutes.minutes.yaml (proposed PILOT)",
+        ),
+        WithheldItem(
+            what="The land-assembly purchase prices for the ~350-acre campus",
+            why_withheld=(
+                "the recorded deeds state only 'valuable consideration' and the DTE-100 transfer-tax forms "
+                "were produced with the price/consideration fields BLANK; only the Neighbors parcel "
+                "($600,000 / 5.0 ac) is disclosed — so what was paid to assemble the land is opaque"
+            ),
+            source="data/extracted/aedg/seller-land-packets.land.yaml",
         ),
     ]
 
@@ -304,7 +376,14 @@ def build_ledger(settings: Settings | None = None) -> PublicLedger:
         "CRA §22 indemnifies the County's attorney fees for defending exactly such withholding.",
         "The developer's §13(A) assurance is that its parent is a publicly-traded Fortune 100 company — "
         "a major beneficiary the abatement subsidizes, while the named developer (Bistrozzi LLC) is a "
-        "Delaware shell c/o Vorys (Scott Ziance).",
+        "Delaware shell c/o Vorys (Scott Ziance). The PAAC minutes confirm the end user is Google.",
+        "The abatement is not the only public channel: a parallel $14.5M Roadwork Development Agreement "
+        "(PAAC/Bistrozzi) builds public roads the County then maintains forever, and RDA §5.5 lets State "
+        "629/ODOD grants refund the developer's 'contribution' — so public money may fund the private share "
+        "while the early actual award (Eagle Bridge ~$3.52M) runs far under the $14.5M collected.",
+        "The school compensation the CRA keeps non-public surfaces in the Port Authority's own minutes as a "
+        "proposed $200,000->$250,000/yr PILOT to Elida — evidence the deciding figure exists and is known, "
+        "even as the executed agreement is withheld.",
     ]
 
     meta = {
@@ -319,8 +398,13 @@ def build_ledger(settings: Settings | None = None) -> PublicLedger:
         "open_followups": [
             "Source the Allen County Auditor's actual American-Township / Elida-district effective "
             "millage to replace the assumed rate band.",
-            "Obtain the School District Compensation Agreement dollar terms (currently non-public).",
+            "Obtain the School District Compensation Agreement dollar terms (currently non-public; PAAC "
+            "minutes show a proposed $200-250K/yr PILOT to Elida).",
             "Compel/obtain PRR item 4 (the County's cost-benefit analysis).",
+            "Obtain the land-assembly purchase prices (DTE-100 transfer-tax forms produced with blank "
+            "consideration fields; only Neighbors $600K/5ac disclosed).",
+            "Track the Roadwork Development Agreement grant awards (629/ODOD) and the §5.5 refund — the "
+            "actual public/private split of the $14.5M turns on grants not in the corpus.",
         ],
     }
     return PublicLedger(
