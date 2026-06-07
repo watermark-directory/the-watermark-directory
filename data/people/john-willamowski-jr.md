@@ -2,7 +2,7 @@
 name: John R. Willamowski, Jr.
 slug: john-willamowski-jr
 entity_key: JOHN WILLAMOWSKI
-aliases: [John Willamowski Jr., John R. Willamowski Jr., Assistant Prosecutor Willamowski]
+aliases: [John Willamowski Jr., John R. Willamowski Jr., Assistant Prosecutor Willamowski, John Williamowski Jr.]
 roles: [county counsel, records-mechanism originator]
 affiliations: [Allen County Prosecuting Attorney's Office]
 summary: Assistant Prosecuting Attorney for Allen County; County counsel of record on the Roadwork Development Agreement and the originator of the County–Bistrozzi Mutual NDA.
