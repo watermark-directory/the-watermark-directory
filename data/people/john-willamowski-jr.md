@@ -1,6 +1,6 @@
 ---
 name: John R. Willamowski, Jr.
-slug: john-willamowski
+slug: john-willamowski-jr
 entity_key: JOHN WILLAMOWSKI
 aliases: [John Willamowski Jr., John R. Willamowski Jr., Assistant Prosecutor Willamowski]
 roles: [county counsel, records-mechanism originator]
@@ -40,6 +40,10 @@ to the mandamus narrative.
 
 Read from the cited extractions. The "originator" characterization is quoted from
 the NDA's own recitals (document); his broader role in the County's records posture
-is a **lead to verify** against primary correspondence, not an accusation. Distinguish
-him from the Willamowski family's other public roles in Allen County before relying on
+is a **lead to verify** against primary correspondence, not an accusation.
+
+**Identity — do not conflate with his father.** This is John R. Willamowski **Jr.**,
+the Assistant County Prosecutor. His father, **John R. Willamowski Sr.**, is a
+separate, still-active figure in the Ohio judiciary (the "Jr." in the slug and name is
+load-bearing). Confirm which Willamowski is named on any instrument before relying on
 identity in a filing.
