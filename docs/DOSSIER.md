@@ -209,6 +209,22 @@ via a "BOSC Team" deposit to the Port Authority (PAAC), to be dedicated to the
 County on completion** — i.e. a private developer financing public road capacity
 through the port authority. `[verified: data/extracted/aedg/roundabouts.summary.opc.yaml]`
 
+**Drainage scope vs the design storm.** The six OPCs budget **$1,068,530** of
+drainage, but the engineering basis is thin: only **one** of the six sub-estimates
+carries an extracted line-item breakdown, and in that one (Cole/Diller) **83%** of
+the drainage cost is a single lump-sum "Drainage improvements" line — the only sized
+conveyance element is a 6-in *subsurface* underdrain. No estimate cites a design
+storm or return period, even though the corridor's regulatory design rainfall is
+fixed (NOAA Atlas-14: 25-yr 24-hr **4.25 in**, 100-yr 24-hr **5.39 in**
+`[verified: connector]`), and neither the OPC nor the 95% SPS grading & storm plan
+itemizes the **detention/retention** storage the post-development runoff requires
+(`detention_shown: false`) — echoing the corpus's own extraction note asking whether
+the lump-sum items even include a detention basin. So the drainage line reads as a
+budget placeholder, not a design-basis quantity: a cost-completeness risk on
+privately-financed public infrastructure. This is a scope/design-basis reading, not
+a sizing of the roundabouts' hydraulics (the corpus carries no footprint area).
+`[verified: data/reference/hydrology/atlas14-corridor-ddf.yaml + bosc drainage-audit]`
+
 ---
 
 ## 7. Project Dazzler — the parallel Tilted Gate thread

@@ -83,6 +83,50 @@ def _render_toxic_screen(emit: Callable[[str], None], settings: Settings) -> Non
         )
 
 
+def _render_drainage_audit(emit: Callable[[str], None], settings: Settings) -> None:
+    """Audit the OPC roundabout drainage scope against the corridor design storm."""
+    from bosc.hydrology import drainage
+
+    try:
+        audit = drainage.build_drainage_audit(settings)
+    except FileNotFoundError:
+        return  # OPC summary not present
+    if not audit.scopes:
+        return
+
+    m = audit.meta
+    emit(
+        "\n### Drainage scope vs the design storm\n\n"
+        f"The roundabout program budgets **${m['program_drainage_total']:,}** of drainage "
+        f"across {m['sub_estimate_count']} OPC sub-estimates `[verified: document]`, but the "
+        "engineering basis is thin. Auditing what the estimates actually quantify against the "
+        "corridor design rainfall:\n"
+    )
+    emit("\n| sub-estimate | drainage $ | breakdown | sized $ | lump-sum $ |")
+    emit("|---|--:|---|--:|--:|")
+    for s in audit.scopes:
+        if s.itemized:
+            emit(
+                f"| {s.name} | {s.drainage_subtotal:,} | itemized | "
+                f"{s.sized_amount:,} | {s.lump_sum_amount:,} |"
+            )
+        else:
+            emit(f"| {s.name} | {s.drainage_subtotal:,} | *subtotal only* | — | — |")
+
+    if audit.ddf is not None:
+        d = audit.ddf
+        cells = ", ".join(f"{rp}-yr {d.depth('24-hr', rp):.2f} in" for rp in d.return_periods)
+        emit(f"\n**Atlas-14 corridor design storm** (24-hr) `[verified: connector]`: {cells}.\n")
+
+    for f in audit.findings:
+        emit(f"\n- {f.detail}")
+    emit(
+        "\n\nThis is a design-basis / scope-completeness reading, not a sizing of the "
+        "roundabouts' hydraulics — the corpus carries no per-roundabout footprint area, so "
+        "runoff/detention volumes are deliberately not computed.\n"
+    )
+
+
 def render_report(*, settings: Settings | None = None, live: bool = False) -> str:
     """Build the full hydrology markdown dossier (offline-deterministic by default)."""
     settings = settings or get_settings()
@@ -274,6 +318,8 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
                 f"corridor; a regulatory floodway tolerates no rise, so added peak discharge there\n"
                 f"is a permitting constraint, not only a detention-sizing question.\n"
             )
+
+    _render_drainage_audit(w, settings)
 
     w("\n\n## 4. Scenario: data-center cooling vs the Ottawa's low flow\n")
     basis = build.scenario.basis

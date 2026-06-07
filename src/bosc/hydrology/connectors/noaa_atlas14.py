@@ -80,6 +80,18 @@ def _fetch_quantiles(settings: Settings, lat: float, lon: float) -> list[list[fl
     return [[float(v) for v in row] for row in payload]
 
 
+def precip_frequency_grid(
+    *, lat: float, lon: float, settings: Settings | None = None
+) -> dict[str, dict[int, float]]:
+    """The full Atlas-14 depth (in) table for a point: ``{duration: {return_period: depth}}``."""
+    settings = settings or get_settings()
+    grid = _fetch_quantiles(settings, lat, lon)
+    return {
+        dur: {rp: grid[r][c] for c, rp in enumerate(_RETURN_PERIODS)}
+        for r, dur in enumerate(_DURATIONS)
+    }
+
+
 def design_storm(
     *,
     lat: float,

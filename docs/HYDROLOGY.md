@@ -42,7 +42,7 @@ receive — the discharges are effectively undiluted.
 `*` = receiving water inferred from the corridor coordinate cluster, **not** independently cited. The screen mg/L is a coarse `[inference: derived]` value (annual reported water pounds, fully mixed at the 7Q10) — an order-of-magnitude screen, not a measured concentration.
 
 
-The seasonal pinch compounds it: the Ottawa's **1Q10 is 0 cfs** (and summer 30Q10 1.6 cfs `[verified: document]`) — the mainstem effectively dries at design low flow. That floor falls in the **May–Oct** window where reference ET exceeds precipitation (§3), so the largest toxic loads meet the smallest assimilative capacity exactly when the river is lowest.
+The seasonal pinch compounds it: the Ottawa's **1Q10 is 0 cfs** (and summer 30Q10 1.6 cfs `[verified: document]`) — the mainstem effectively dries at design low flow. That floor falls in the **May-Oct** window where reference ET exceeds precipitation (§3), so the largest toxic loads meet the smallest assimilative capacity exactly when the river is lowest.
 
 
 **Outfall flood exposure.** None of the 3 plant sites sits in the FEMA Special Flood Hazard Area at its ECHO-reported point, but the discharge infrastructure is flood-adjacent on streams already shown to be undiluted at low flow `[verified: document]`:
@@ -111,6 +111,35 @@ floodway) reach within ~50 m of them (FEMA DFIRM 39003C_FIS5)
 `[verified: document]`. The post-development runoff increase routes toward that
 corridor; a regulatory floodway tolerates no rise, so added peak discharge there
 is a permitting constraint, not only a detention-sizing question.
+
+
+### Drainage scope vs the design storm
+
+The roundabout program budgets **$1,068,530** of drainage across 6 OPC sub-estimates `[verified: document]`, but the engineering basis is thin. Auditing what the estimates actually quantify against the corridor design rainfall:
+
+
+| sub-estimate | drainage $ | breakdown | sized $ | lump-sum $ |
+|---|--:|---|--:|--:|
+| Cole Street / Diller Road Roundabout | 120,440 | itemized | 20,440 | 100,000 |
+| Cole Street / Bluelick Road Roundabout | 146,440 | *subtotal only* | — | — |
+| Primary Access Entrance to Project Site (Roundabout) | 208,200 | *subtotal only* | — | — |
+| Cole Street / West Street (SR 115) Roundabout | 156,010 | *subtotal only* | — | — |
+| Cole Street Corridor | 284,040 | *subtotal only* | — | — |
+| Bluelick Road Corridor | 153,400 | *subtotal only* | — | — |
+
+**Atlas-14 corridor design storm** (24-hr) `[verified: connector]`: 2-yr 2.52 in, 10-yr 3.58 in, 25-yr 4.25 in, 50-yr 4.81 in, 100-yr 5.39 in.
+
+
+- $1,068,530 of drainage across 6 sub-estimates (7.5% of the $14,233,081 program), but only 1 of 6 carry an extracted line-item breakdown — the rest is a bare section subtotal.
+
+- $100,000 of $120,440 (83%) is lump-sum 'Drainage improvements'. The only sized conveyance is: 6" shallow pipe underdrains with geotextile fabric, as per plan.
+
+- No estimate cites a design storm or return period. The corridor design rainfall (NOAA Atlas-14): 25-yr 24-hr 4.25 in, 100-yr 24-hr 5.39 in [verified: connector] — the basis the unsized storm-sewer / detention scope must meet.
+
+- Neither the OPC drainage scope nor the 95% SPS grading & storm plan itemizes detention/retention storage (detention_shown=false), echoing the corpus's own open question on the lump-sum DRAINAGE items.
+
+
+This is a design-basis / scope-completeness reading, not a sizing of the roundabouts' hydraulics — the corpus carries no per-roundabout footprint area, so runoff/detention volumes are deliberately not computed.
 
 
 

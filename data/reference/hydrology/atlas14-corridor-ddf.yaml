@@ -1,0 +1,47 @@
+meta:
+  subject: NOAA Atlas-14 design-storm depths — Cole St / Bluelick corridor
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  point:
+    latitude: 40.797
+    longitude: -84.123
+  units: inches (point precipitation depth)
+ddf:
+  latitude: 40.797
+  longitude: -84.123
+  durations:
+  - 60-min
+  - 6-hr
+  - 12-hr
+  - 24-hr
+  return_periods:
+  - 2
+  - 10
+  - 25
+  - 50
+  - 100
+  depths_in:
+    60-min:
+      '2': 1.28
+      '10': 1.84
+      '25': 2.17
+      '50': 2.44
+      '100': 2.71
+    6-hr:
+      '2': 1.86
+      '10': 2.7
+      '25': 3.24
+      '50': 3.7
+      '100': 4.18
+    12-hr:
+      '2': 2.14
+      '10': 3.09
+      '25': 3.71
+      '50': 4.22
+      '100': 4.78
+    24-hr:
+      '2': 2.52
+      '10': 3.58
+      '25': 4.25
+      '50': 4.81
+      '100': 5.39
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)

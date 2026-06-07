@@ -806,6 +806,73 @@ def toxics_cmd(
             console.print("[yellow]No RSEI inventory or GIS findings GeoJSON; skipped --map.[/]")
 
 
+@app.command(name="drainage-audit")
+def drainage_audit_cmd(
+    offline: bool = typer.Option(
+        False, "--offline", help="Use the committed/fixture Atlas-14 data only; never fetch."
+    ),
+    write_ddf: bool = typer.Option(
+        False, "--write-ddf", help="Regenerate the committed corridor Atlas-14 DDF reference."
+    ),
+) -> None:
+    """Audit the OPC drainage scope against the corridor design storm + the 95% plan.
+
+    Decomposes each Tetra Tech roundabout OPC's DRAINAGE section into sized conveyance
+    vs lump-sum allocation, and reads it against the committed NOAA Atlas-14 corridor
+    DDF and the 95% SPS storm plan (which shows no detention). A design-basis /
+    scope-completeness audit — it does not size the roundabouts' hydraulics.
+    """
+    from bosc.config import Settings
+    from bosc.hydrology import drainage
+
+    settings = Settings(hydro_offline=True) if offline else get_settings()
+
+    if write_ddf:
+        ddf = drainage.build_corridor_ddf(settings=settings)
+        path = drainage.write_corridor_ddf(ddf, settings=settings)
+        console.print(f"[green]Wrote[/] {path}")
+
+    audit = drainage.build_drainage_audit(settings)
+
+    table = Table("sub-estimate", "drainage $", "breakdown", "sized $", "lump-sum $", "sized %")
+    for s in audit.scopes:
+        if s.itemized:
+            frac = f"{s.sized_fraction:.0%}" if s.sized_fraction is not None else "—"
+            table.add_row(
+                s.name[:34],
+                f"{s.drainage_subtotal:,}" if s.drainage_subtotal else "—",
+                "itemized",
+                f"{s.sized_amount:,}" if s.sized_amount is not None else "—",
+                f"{s.lump_sum_amount:,}" if s.lump_sum_amount is not None else "—",
+                frac,
+            )
+        else:
+            table.add_row(
+                s.name[:34],
+                f"{s.drainage_subtotal:,}" if s.drainage_subtotal else "—",
+                "[yellow]subtotal only[/]",
+                "—",
+                "—",
+                "—",
+            )
+    console.print(table)
+
+    if audit.ddf is not None:
+        d = audit.ddf
+        depths = ", ".join(f'{rp}-yr {d.depth("24-hr", rp):.2f}"' for rp in d.return_periods)
+        console.print(f"\n[bold]Atlas-14 corridor design storm[/] (24-hr): {depths}")
+
+    console.print("\n[bold]Findings[/]")
+    for f in audit.findings:
+        mark = "[green]ok[/]" if f.ok else "[red]gap[/]"
+        console.print(f"  {mark} [{f.check}] {f.detail}")
+    console.print(
+        f"\n[dim]${audit.meta['program_drainage_total']:,} drainage program-wide; "
+        f"{audit.meta['itemized_count']}/{audit.meta['sub_estimate_count']} estimates itemized. "
+        "Scope/design-basis audit — roundabout hydraulics are not sized (no footprint area).[/]"
+    )
+
+
 @app.command(name="lei")
 def lei_cmd(
     offline: bool = typer.Option(
