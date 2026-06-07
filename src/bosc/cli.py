@@ -990,11 +990,16 @@ def zoning(
     cited: bool = typer.Option(
         False, "--cited", help="Look up zoning for every parcel id cited in the corpus."
     ),
+    write: bool = typer.Option(
+        False, "--write", help="With --cited, persist the scan to parcels.zoning.yaml."
+    ),
     offline: bool = typer.Option(
         False, "--offline", help="Use cached GIS responses only; never touch the network."
     ),
     out_dir: str | None = typer.Option(
-        None, "--out", help="Output directory for --districts (default: data/reference/lima-gis)."
+        None,
+        "--out",
+        help="Output directory for --districts/--cited (default: data/reference/lima-gis).",
     ),
 ) -> None:
     """Query the City of Lima zoning layer (city limits only; joins by parcel number)."""
@@ -1030,15 +1035,17 @@ def zoning(
     if cited:
         ids = allen_gis.scan_parcel_ids(settings.extracted_dir)
         console.print(f"Found [bold]{len(ids)}[/] cited parcel ids; looking up Lima zoning.")
-        in_city = 0
-        for pid in ids:
-            rec = lima_gis.zoning_for_parcel(pid, settings=settings)
-            if rec is not None:
-                in_city += 1
-                console.print(f"  [cyan]{pid}[/]: {rec.zoning}")
+        scan = lima_gis.scan_cited_zoning(ids, settings=settings)
+        in_city = [s for s in scan if s.in_city]
+        for s in in_city:
+            console.print(f"  [cyan]{s.parcel_no}[/]: {s.zoning}")
         console.print(
-            f"\n[bold]{in_city}[/] of {len(ids)} cited parcels are within Lima city limits."
+            f"\n[bold]{len(in_city)}[/] of {len(scan)} cited parcels are within Lima city limits."
         )
+        if write:
+            target = Path(out_dir) if out_dir else settings.reference_dir / "lima-gis"
+            path = lima_gis.write_cited_zoning(scan, target)
+            console.print(f"[green]Wrote[/] {path}")
         return
 
     console.print("Pass one of --parcel, --districts, or --cited.")

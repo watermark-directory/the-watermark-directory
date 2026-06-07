@@ -24,6 +24,13 @@ Allen County CAMA parcel layer by id — no spatial query needed.
 of polygons carrying it (10 districts, 2,670 polygons), with a provenance `meta`
 block.
 
+`parcels.zoning.yaml` — the **cited-parcel jurisdiction scan** (`bosc zoning --cited
+--write`): every parcel id cited in the corpus, joined by `PARCEL_NO` to this layer.
+The recorded result is a **null with teeth** — **0 of 48** cited parcels fall inside
+Lima's zoning jurisdiction, so the data-center campus + JSMC corridor is **not
+subject to the City of Lima zoning code**; land-use authority is township/county
+(and Allen County GIS publishes no zoning layer — only Tax and School districts).
+
 `floodzones.yaml` — the **FEMA flood-zone catalog** from layer 4 "Floodzone"
 (`bosc floodzone --catalog`). This layer is the FEMA **DFIRM panel 39003C** for
 **Allen County** (county-wide, *not* city-limited like zoning). It maps only the

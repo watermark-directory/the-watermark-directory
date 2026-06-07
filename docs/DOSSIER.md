@@ -109,6 +109,13 @@ the public notice references **~114–115 backup generators (~2,750 ekW)**.
 `[verified: data/extracted/permits/3987141.epa.yaml,
 data/extracted/permits/3866942.epa.yaml]`
 
+**Zoning jurisdiction.** A parcel-by-parcel join against the City of Lima zoning
+layer returns **0 of 48** cited corpus parcels inside city limits: the corridor sits
+in **American/county townships**, so the project is **not subject to the City of Lima
+zoning code**. Allen County GIS publishes no county/township zoning layer (only Tax
+and School districts), so the controlling land-use authority is township/county — not
+the city, and not GIS-mapped. `[verified: data/reference/lima-gis/parcels.zoning.yaml]`
+
 ---
 
 ## 5. Water — wetlands, sanitary sewer, county WWTPs

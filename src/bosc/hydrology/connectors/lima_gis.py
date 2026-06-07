@@ -214,6 +214,79 @@ def write_zoning_districts(districts: list[ZoningDistrict], out_dir: Path) -> Pa
     return path
 
 
+class CitedParcelZoning(BaseModel):
+    """One cited corpus parcel and its City of Lima zoning (or its absence)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    parcel_no: str  # as cited in the corpus
+    normalized: str  # dashless id used for the join
+    in_city: bool  # within the City of Lima zoning layer
+    zoning: str | None = None  # the district label when in-city, else None
+
+
+def scan_cited_zoning(
+    parcel_ids: list[str], *, settings: Settings | None = None
+) -> list[CitedParcelZoning]:
+    """Look up the City of Lima zoning for each cited corpus parcel.
+
+    The zoning layer is **city limits only**: a parcel in unincorporated Allen County
+    (the American Township corridor) resolves to ``in_city=False`` — a real, recorded
+    null, not a gap.
+    """
+    settings = settings or get_settings()
+    out: list[CitedParcelZoning] = []
+    for pid in parcel_ids:
+        rec = zoning_for_parcel(pid, settings=settings)
+        out.append(
+            CitedParcelZoning(
+                parcel_no=pid,
+                normalized=normalize_parcel_id(pid),
+                in_city=rec is not None,
+                zoning=rec.zoning if rec is not None else None,
+            )
+        )
+    return out
+
+
+def write_cited_zoning(scan: list[CitedParcelZoning], out_dir: Path) -> Path:
+    """Persist the cited-parcel zoning scan (the corridor-jurisdiction finding)."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / "parcels.zoning.yaml"
+    in_city = [s for s in scan if s.in_city]
+    finding = (
+        f"{len(in_city)} of {len(scan)} cited corpus parcels fall within the City of Lima "
+        "zoning jurisdiction"
+        + (
+            "."
+            if in_city
+            else " — the corridor (data-center campus + JSMC) sits in American/county "
+            "townships, so it is NOT subject to the City of Lima zoning code. Allen County "
+            "GIS publishes no county/township zoning layer (only Tax and School districts), "
+            "so land-use authority here is township/county, not GIS-mapped."
+        )
+    )
+    doc = {
+        "meta": {
+            "subject": "City of Lima zoning for cited corpus parcels (jurisdiction scan)",
+            "source": "City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 6, "
+            "joined by PARCEL_NO to corpus-cited parcel ids",
+            "n_cited": len(scan),
+            "n_in_city": len(in_city),
+            "finding": finding,
+            "caveats": [
+                "Coverage is Lima CITY LIMITS ONLY; in_city=false is a verified outside-"
+                "city result, not a missing lookup.",
+                "Parcel ids are scanned from data/extracted; normalized to the dashless "
+                "PARCEL_NO the GIS join uses.",
+            ],
+        },
+        "parcels": [s.model_dump() for s in scan],
+    }
+    path.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    return path
+
+
 # --- FEMA Floodzone (DFIRM) layer ------------------------------------------
 
 _FLOOD_CONNECTOR = "lima_gis_flood"
