@@ -734,12 +734,76 @@ def rsei_cmd(
 
         geojson = settings.data_dir / "site" / "gis-findings.geojson"
         if geojson.is_file():
+            from bosc.hydrology import toxics
+
             fc = json.loads(geojson.read_text(encoding="utf-8"))
-            fc, n = gismap.merge_rsei_layer(fc, inv)
+            fc, n = gismap.merge_rsei_layer(fc, inv, toxics.load_screen(settings.reference_dir))
             geojson.write_text(json.dumps(fc, indent=1), encoding="utf-8")
             console.print(f"[green]Merged[/] {n} RSEI points into {geojson}")
         else:
             console.print(f"[yellow]No GIS findings GeoJSON at {geojson}; skipped --map.[/]")
+
+
+@app.command(name="toxics")
+def toxics_cmd(
+    out_dir: str | None = typer.Option(
+        None, "--out", help="Output directory (default: data/reference/rsei)."
+    ),
+    update_map: bool = typer.Option(
+        False, "--map", help="Also ring the flagged water dischargers on the GIS RSEI layer."
+    ),
+) -> None:
+    """Screen the industrial RSEI water dischargers against their receiving 7Q10.
+
+    Places each RSEI facility that releases toxics to water on its receiving stream
+    (ECHO-cited, else inferred from the Ottawa River corridor), reads it against the
+    cited 7Q10, and flags where the toxic load meets near-zero assimilative capacity.
+    Consumes the committed RSEI + ECHO + 7Q10 artifacts (no network).
+    """
+    from bosc.hydrology import toxics
+
+    settings = get_settings()
+    target = Path(out_dir) if out_dir else settings.reference_dir / "rsei"
+
+    inv = toxics.build_screen(settings)
+
+    table = Table("flag", "facility", "to water (lb)", "receiving", "7Q10", "screen mg/L")
+    for s in inv.screens:
+        q7 = f"{s.low_flow_7q10.value:g} cfs" if s.low_flow_7q10 else "—"
+        conc = f"{s.screening_concentration.value:g}" if s.screening_concentration else "—"
+        rw = (s.receiving_water or "—") + (" *" if s.receiving_water_source == "assumption" else "")
+        table.add_row(s.flag, s.facility[:30], f"{s.water_pounds:,.0f}", rw[:22], q7, conc)
+    console.print(table)
+    console.print(
+        f"\n[bold]{inv.meta['water_releaser_count']}[/] water dischargers, "
+        f"[red]{inv.meta['critical_count']} critical[/] (toxic load on a near-undiluted reach). "
+        "[dim]* = receiving water inferred from corridor, not independently cited.[/]"
+    )
+
+    path = toxics.write_screen(inv, target)
+    console.print(f"[green]Wrote[/] {path}")
+    console.print(
+        "[dim]Screening concentration is a derived order-of-magnitude value (annual "
+        "reported water pounds at the 7Q10), not a measured concentration.[/]"
+    )
+
+    if update_map:
+        import json
+
+        from bosc.rsei import load_inventory
+        from bosc.site import gismap
+
+        rsei_inv = load_inventory(settings.reference_dir)
+        geojson = settings.data_dir / "site" / "gis-findings.geojson"
+        if rsei_inv is not None and geojson.is_file():
+            fc = json.loads(geojson.read_text(encoding="utf-8"))
+            fc, n = gismap.merge_rsei_layer(fc, rsei_inv, inv)
+            geojson.write_text(json.dumps(fc, indent=1), encoding="utf-8")
+            console.print(
+                f"[green]Ringed[/] flagged dischargers across {n} RSEI points in {geojson}"
+            )
+        else:
+            console.print("[yellow]No RSEI inventory or GIS findings GeoJSON; skipped --map.[/]")
 
 
 @app.command(name="lei")

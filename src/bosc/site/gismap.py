@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
+    from bosc.hydrology.toxics import ToxicDischargeInventory
     from bosc.rsei import RseiInventory
 
 _RSEI_LAYER = "rsei"
@@ -45,13 +46,20 @@ def _rsei_radius(score: float) -> int:
     return max(5, min(22, round(3.0 + 2.4 * math.log10(score))))
 
 
-def merge_rsei_layer(fc: dict[str, Any], inv: RseiInventory) -> tuple[dict[str, Any], int]:
+def merge_rsei_layer(
+    fc: dict[str, Any],
+    inv: RseiInventory,
+    screen: ToxicDischargeInventory | None = None,
+) -> tuple[dict[str, Any], int]:
     """Idempotently add the RSEI facility point layer to a findings FeatureCollection.
 
     Built from the committed RSEI inventory (no live GIS): existing ``rsei`` features
     are dropped first, then one Point per facility with coordinates, sized by Score.
-    Returns the updated collection and the number of points added.
+    When ``screen`` (the toxic-discharge screen) is supplied, facilities that release
+    to a near-undiluted reach are tagged ``water_flag`` (critical/elevated) so the map
+    rings them. Returns the updated collection and the number of points added.
     """
+    by_id = {s.rsei_facility_id: s for s in (screen.screens if screen else [])}
     feats = [
         f for f in fc.get("features", []) if f.get("properties", {}).get("layer") != _RSEI_LAYER
     ]
@@ -72,6 +80,28 @@ def merge_rsei_layer(fc: dict[str, Any], inv: RseiInventory) -> tuple[dict[str, 
             + (f"<br>top: {top}" if top else "")
             + (f"<br>{yrs}" if yrs else "")
         )
+        props: dict[str, Any] = {
+            "layer": _RSEI_LAYER,
+            "label": label,
+            "score": round(fac.score),
+            "radius": _rsei_radius(fac.score),
+            "scored": scored,
+        }
+        sc = by_id.get(fac.facility_id)
+        if sc and sc.flag in ("critical", "elevated"):
+            props["water_flag"] = sc.flag
+            conc = (
+                f", ~{sc.screening_concentration.value:g} mg/L"
+                if sc.screening_concentration
+                else ""
+            )
+            cite = "ECHO-cited" if sc.receiving_water_source == "connector" else "corridor-inferred"
+            props["label"] = label + (
+                f"<br><b>toxic water discharger → {sc.receiving_water}</b> "
+                f"({sc.flag}{conc} at the {sc.low_flow_7q10.value:g} cfs 7Q10; {cite})"
+                if sc.low_flow_7q10
+                else ""
+            )
         feats.append(
             {
                 "type": "Feature",
@@ -79,13 +109,7 @@ def merge_rsei_layer(fc: dict[str, Any], inv: RseiInventory) -> tuple[dict[str, 
                     "type": "Point",
                     "coordinates": [round(fac.longitude, 6), round(fac.latitude, 6)],
                 },
-                "properties": {
-                    "layer": _RSEI_LAYER,
-                    "label": label,
-                    "score": round(fac.score),
-                    "radius": _rsei_radius(fac.score),
-                    "scored": scored,
-                },
+                "properties": props,
             }
         )
         added += 1
@@ -136,8 +160,11 @@ _MAP_HTML = """
       var rsei = L.geoJSON({ type: "FeatureCollection", features: feats.filter(isRsei) }, {
         pointToLayer: function (f, latlng) {
           var p = f.properties || {};
+          // Toxic water dischargers on a near-undiluted reach get a red/orange ring.
+          var ring = p.water_flag === "critical" ? "#c62828"
+                   : p.water_flag === "elevated" ? "#ef6c00" : "#6a1b9a";
           return L.circleMarker(latlng, {
-            radius: p.radius || 5, color: "#6a1b9a", weight: 1,
+            radius: p.radius || 5, color: ring, weight: p.water_flag ? 3 : 1,
             fillColor: "#8e24aa", fillOpacity: p.scored ? 0.55 : 0.12
           });
         },

@@ -1,0 +1,341 @@
+meta:
+  subject: Industrial toxic water dischargers vs cited receiving-stream 7Q10
+  source: EPA RSEI (water-media releases) × EPA ECHO (receiving water) × Ohio EPA
+    cited 7Q10 (data/reference/hydrology/low-flow-7q10.yaml)
+  county_fips: '39003'
+  county_name: Allen County, OH
+  water_releaser_count: 12
+  critical_count: 3
+  caveats:
+  - Receiving water is ECHO-cited where available, else inferred from the Ottawa River
+    industrial corridor coordinate cluster (tagged assumption).
+  - 'The screening concentration is a derived order-of-magnitude value: annual reported
+    water pounds, fully mixed at the 7Q10, no decay/mixing zone. It is a screen, not
+    a permit determination or a measured concentration.'
+  - RSEI Score is EPA's modeled, population-weighted Risk-Screening Score (unitless,
+    comparative only).
+screens:
+- facility: INEOS USA LLC
+  rsei_facility_id: 45805BPCHMFORTA
+  latitude: 40.714167
+  longitude: -84.132222
+  score: 23483254.7
+  cancer_score: 23332073.1
+  water_pounds: 706520.0
+  annual_water_pounds: 26167.4
+  year_span: 1988-2014
+  top_water_chemical: Acrylonitrile
+  npdes_id: null
+  receiving_water: Ottawa River
+  receiving_water_source: assumption
+  receiving_water_citation: within the Ottawa River industrial corridor at Lima (coordinate
+    cluster 40.695-40.725N, 84.105-84.14W); receiving water not independently cited
+  low_flow_7q10:
+    value: 0.2
+    unit: cfs
+    source: document
+    citation: Ohio EPA NPDES fact sheet 2IG00001 (Lima Refining Co.), Stream Flows
+      table — Ottawa River at Lima, USGS gage 04187100, 1989-2021
+    confidence: high
+    asof: null
+  screening_concentration:
+    value: 66.492
+    unit: mg/L
+    source: derived
+    citation: 26,167 lb/yr reported to water / 365 d, fully mixed at the 0.2 cfs 7Q10
+      — screening order-of-magnitude only (assumes all water releases reach this reach;
+      no decay/mixing zone)
+    confidence: low
+    asof: null
+  flag: critical
+  detail: 'INEOS USA LLC: RSEI Score 23,483,255, 706,520 lb to water → Ottawa River
+    (inferred, 0.2 cfs 7Q10; ~66.492 mg/L at design low flow) [critical].'
+- facility: LIMA REFINING CO
+  rsei_facility_id: 45804SHLCM1150S
+  latitude: 40.720649
+  longitude: -84.122623
+  score: 1899614.6
+  cancer_score: 1768282.4
+  water_pounds: 1749576.1
+  annual_water_pounds: 64799.1
+  year_span: 1988-2014
+  top_water_chemical: Benzene
+  npdes_id: OH0002623
+  receiving_water: OTTAWA RIVER
+  receiving_water_source: connector
+  receiving_water_citation: EPA ECHO OH0002623 — OTTAWA RIVER
+  low_flow_7q10:
+    value: 0.2
+    unit: cfs
+    source: document
+    citation: Ohio EPA NPDES fact sheet 2IG00001 (Lima Refining Co.), Stream Flows
+      table — Ottawa River at Lima, USGS gage 04187100, 1989-2021
+    confidence: high
+    asof: null
+  screening_concentration:
+    value: 164.656
+    unit: mg/L
+    source: derived
+    citation: 64,799 lb/yr reported to water / 365 d, fully mixed at the 0.2 cfs 7Q10
+      — screening order-of-magnitude only (assumes all water releases reach this reach;
+      no decay/mixing zone)
+    confidence: low
+    asof: null
+  flag: critical
+  detail: 'LIMA REFINING CO: RSEI Score 1,899,615, 1,749,576 lb to water → OTTAWA
+    RIVER (cited, 0.2 cfs 7Q10; ~164.656 mg/L at design low flow) [critical].'
+- facility: PCS NITROGEN OHIO LP
+  rsei_facility_id: 45802RCDNH1900F
+  latitude: 40.717499
+  longitude: -84.132274
+  score: 532740.4
+  cancer_score: 439157.5
+  water_pounds: 2375515.7
+  annual_water_pounds: 107978.0
+  year_span: 1993-2014
+  top_water_chemical: Formaldehyde
+  npdes_id: OH0002615
+  receiving_water: Ottawa River
+  receiving_water_source: assumption
+  receiving_water_citation: within the Ottawa River industrial corridor at Lima (coordinate
+    cluster 40.695-40.725N, 84.105-84.14W); receiving water not independently cited
+  low_flow_7q10:
+    value: 0.2
+    unit: cfs
+    source: document
+    citation: Ohio EPA NPDES fact sheet 2IG00001 (Lima Refining Co.), Stream Flows
+      table — Ottawa River at Lima, USGS gage 04187100, 1989-2021
+    confidence: high
+    asof: null
+  screening_concentration:
+    value: 274.375
+    unit: mg/L
+    source: derived
+    citation: 107,978 lb/yr reported to water / 365 d, fully mixed at the 0.2 cfs
+      7Q10 — screening order-of-magnitude only (assumes all water releases reach this
+      reach; no decay/mixing zone)
+    confidence: low
+    asof: null
+  flag: critical
+  detail: 'PCS NITROGEN OHIO LP: RSEI Score 532,740, 2,375,516 lb to water → Ottawa
+    River (inferred, 0.2 cfs 7Q10; ~274.375 mg/L at design low flow) [critical].'
+- facility: EQUILON ENTERPRISES LLC LIMA SOUTH TERMINAL
+  rsei_facility_id: 45804LMTRM1500B
+  latitude: 40.71032
+  longitude: -84.13105
+  score: 5942.0
+  cancer_score: 5872.0
+  water_pounds: 329.0
+  annual_water_pounds: 54.8
+  year_span: 1998-2003
+  top_water_chemical: Benzene
+  npdes_id: null
+  receiving_water: Ottawa River
+  receiving_water_source: assumption
+  receiving_water_citation: within the Ottawa River industrial corridor at Lima (coordinate
+    cluster 40.695-40.725N, 84.105-84.14W); receiving water not independently cited
+  low_flow_7q10:
+    value: 0.2
+    unit: cfs
+    source: document
+    citation: Ohio EPA NPDES fact sheet 2IG00001 (Lima Refining Co.), Stream Flows
+      table — Ottawa River at Lima, USGS gage 04187100, 1989-2021
+    confidence: high
+    asof: null
+  screening_concentration:
+    value: 0.139
+    unit: mg/L
+    source: derived
+    citation: 55 lb/yr reported to water / 365 d, fully mixed at the 0.2 cfs 7Q10
+      — screening order-of-magnitude only (assumes all water releases reach this reach;
+      no decay/mixing zone)
+    confidence: low
+    asof: null
+  flag: elevated
+  detail: 'EQUILON ENTERPRISES LLC LIMA SOUTH TERMINAL: RSEI Score 5,942, 329 lb to
+    water → Ottawa River (inferred, 0.2 cfs 7Q10; ~0.139 mg/L at design low flow)
+    [elevated].'
+- facility: TELEDYNE OHIO STEEL
+  rsei_facility_id: 45802TLDYNWESTF
+  latitude: 40.71586
+  longitude: -84.11052
+  score: 80242.0
+  cancer_score: 79245.2
+  water_pounds: 5.0
+  annual_water_pounds: 1.7
+  year_span: 1988-1990
+  top_water_chemical: Chromium and chromium compounds
+  npdes_id: null
+  receiving_water: Ottawa River
+  receiving_water_source: assumption
+  receiving_water_citation: within the Ottawa River industrial corridor at Lima (coordinate
+    cluster 40.695-40.725N, 84.105-84.14W); receiving water not independently cited
+  low_flow_7q10:
+    value: 0.2
+    unit: cfs
+    source: document
+    citation: Ohio EPA NPDES fact sheet 2IG00001 (Lima Refining Co.), Stream Flows
+      table — Ottawa River at Lima, USGS gage 04187100, 1989-2021
+    confidence: high
+    asof: null
+  screening_concentration:
+    value: 0.004
+    unit: mg/L
+    source: derived
+    citation: 2 lb/yr reported to water / 365 d, fully mixed at the 0.2 cfs 7Q10 —
+      screening order-of-magnitude only (assumes all water releases reach this reach;
+      no decay/mixing zone)
+    confidence: low
+    asof: null
+  flag: context
+  detail: 'TELEDYNE OHIO STEEL: RSEI Score 80,242, 5 lb to water → Ottawa River (inferred,
+    0.2 cfs 7Q10; ~0.004 mg/L at design low flow) [context].'
+- facility: MARATHON PETROLEUM CO-LIMA OH TERMINAL
+  rsei_facility_id: 45804MRTHN2990S
+  latitude: 40.69669
+  longitude: -84.12393
+  score: 21799.3
+  cancer_score: 21151.9
+  water_pounds: 38.6
+  annual_water_pounds: 2.3
+  year_span: 1998-2014
+  top_water_chemical: Benzene
+  npdes_id: null
+  receiving_water: Ottawa River
+  receiving_water_source: assumption
+  receiving_water_citation: within the Ottawa River industrial corridor at Lima (coordinate
+    cluster 40.695-40.725N, 84.105-84.14W); receiving water not independently cited
+  low_flow_7q10:
+    value: 0.2
+    unit: cfs
+    source: document
+    citation: Ohio EPA NPDES fact sheet 2IG00001 (Lima Refining Co.), Stream Flows
+      table — Ottawa River at Lima, USGS gage 04187100, 1989-2021
+    confidence: high
+    asof: null
+  screening_concentration:
+    value: 0.006
+    unit: mg/L
+    source: derived
+    citation: 2 lb/yr reported to water / 365 d, fully mixed at the 0.2 cfs 7Q10 —
+      screening order-of-magnitude only (assumes all water releases reach this reach;
+      no decay/mixing zone)
+    confidence: low
+    asof: null
+  flag: context
+  detail: 'MARATHON PETROLEUM CO-LIMA OH TERMINAL: RSEI Score 21,799, 39 lb to water
+    → Ottawa River (inferred, 0.2 cfs 7Q10; ~0.006 mg/L at design low flow) [context].'
+- facility: TRINITY HIGHWAY PRODUCTS LLC PLT 1055
+  rsei_facility_id: 45801TRNTY425EO
+  latitude: 40.75819
+  longitude: -84.09944
+  score: 53858.3
+  cancer_score: 49904.5
+  water_pounds: 124.2
+  annual_water_pounds: 4.6
+  year_span: 1988-2014
+  top_water_chemical: Chromium and chromium compounds
+  npdes_id: null
+  receiving_water: null
+  receiving_water_source: null
+  receiving_water_citation: null
+  low_flow_7q10: null
+  screening_concentration: null
+  flag: uncharacterized
+  detail: 'TRINITY HIGHWAY PRODUCTS LLC PLT 1055: water releaser with no cited/inferred
+    receiving water.'
+- facility: CHEMTRADE LOGISTICS INC CAIRO SULFUR PRODS
+  rsei_facility_id: 45820CRCHMROUTE
+  latitude: 40.84843
+  longitude: -84.080325
+  score: 9752.3
+  cancer_score: 0.0
+  water_pounds: 6.0
+  annual_water_pounds: 0.2
+  year_span: 1988-2014
+  top_water_chemical: Sulfuric acid
+  npdes_id: null
+  receiving_water: null
+  receiving_water_source: null
+  receiving_water_citation: null
+  low_flow_7q10: null
+  screening_concentration: null
+  flag: uncharacterized
+  detail: 'CHEMTRADE LOGISTICS INC CAIRO SULFUR PRODS: water releaser with no cited/inferred
+    receiving water.'
+- facility: OHIO DECORATIVE PRODUCTS INC
+  rsei_facility_id: 45887HDCRT220SE
+  latitude: 40.70496
+  longitude: -84.35204
+  score: 4828.1
+  cancer_score: 4275.3
+  water_pounds: 2775.0
+  annual_water_pounds: 154.2
+  year_span: 1988-2005
+  top_water_chemical: Trichloroethylene
+  npdes_id: null
+  receiving_water: null
+  receiving_water_source: null
+  receiving_water_citation: null
+  low_flow_7q10: null
+  screening_concentration: null
+  flag: uncharacterized
+  detail: 'OHIO DECORATIVE PRODUCTS INC: water releaser with no cited/inferred receiving
+    water.'
+- facility: MARATHON ELECTRIC MANUFACTURING CORP
+  rsei_facility_id: 45801LMLCT200EC
+  latitude: 40.769074
+  longitude: -84.103447
+  score: 3820.8
+  cancer_score: 2504.1
+  water_pounds: 80.0
+  annual_water_pounds: 4.0
+  year_span: 1988-2007
+  top_water_chemical: Ethylbenzene
+  npdes_id: null
+  receiving_water: null
+  receiving_water_source: null
+  receiving_water_citation: null
+  low_flow_7q10: null
+  screening_concentration: null
+  flag: uncharacterized
+  detail: 'MARATHON ELECTRIC MANUFACTURING CORP: water releaser with no cited/inferred
+    receiving water.'
+- facility: HAYES-ALBION CORP. TRIM TRENDS DIV.
+  rsei_facility_id: 45887HRVRD517NB
+  latitude: 40.71322
+  longitude: -84.3508
+  score: 366.9
+  cancer_score: 0.0
+  water_pounds: 38280.0
+  annual_water_pounds: 3480.0
+  year_span: 1988-1998
+  top_water_chemical: Sulfuric acid
+  npdes_id: null
+  receiving_water: null
+  receiving_water_source: null
+  receiving_water_citation: null
+  low_flow_7q10: null
+  screening_concentration: null
+  flag: uncharacterized
+  detail: 'HAYES-ALBION CORP. TRIM TRENDS DIV.: water releaser with no cited/inferred
+    receiving water.'
+- facility: LAND O'LAKES PURINA FEED LLC - LIMA
+  rsei_facility_id: 45305CNTRY111NO
+  latitude: 40.7522
+  longitude: -84.13073
+  score: 47.1
+  cancer_score: 0.0
+  water_pounds: 10.0
+  annual_water_pounds: 2.5
+  year_span: 1991-1994
+  top_water_chemical: Manganese and manganese compounds
+  npdes_id: null
+  receiving_water: null
+  receiving_water_source: null
+  receiving_water_citation: null
+  low_flow_7q10: null
+  screening_concentration: null
+  flag: uncharacterized
+  detail: 'LAND O''LAKES PURINA FEED LLC - LIMA: water releaser with no cited/inferred
+    receiving water.'

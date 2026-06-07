@@ -53,6 +53,34 @@ elements   (ReleaseNumber)   -> Score, CScore, NCScore, Hazard, Population
 - `inventory.yaml` — provenance `meta` block + the 45 facilities, ranked by Score,
   each with cumulative Score/Cancer/Non-cancer/Hazard/pounds, a per-year series, a
   by-media pounds breakdown, and the top contributing chemicals.
+- `toxic-discharge-screen.yaml` — the **toxic-load × assimilative-capacity screen**
+  (`bosc toxics`): the 12 facilities that release toxics **to water**, placed on their
+  receiving stream and read against the cited 7Q10 (see below).
+
+## Toxic-discharge screen (`toxic-discharge-screen.yaml`)
+
+`bosc toxics` extends the hydrology [low-flow assimilative screen](../../../docs/HYDROLOGY.md)
+from the three municipal WWTPs to the **industrial** dischargers — the RSEI facilities
+with water-media releases — using only committed artifacts (RSEI × ECHO × the cited
+7Q10), no network.
+
+- **Receiving water** is resolved on a ladder, never invented: ① a coordinate match to
+  an EPA [ECHO](../echo/README.md) facility carrying a cited receiving water
+  (`source: connector`); ② else membership in the **Ottawa River industrial corridor at
+  Lima**, a coordinate-cluster *inference* (`source: assumption`, flagged `*` in the
+  CLI); ③ else left null and reported `uncharacterized`.
+- **Screening concentration** is a coarse `derived` order-of-magnitude value — annual
+  reported water pounds, fully mixed at the receiving stream's 7Q10, no decay/mixing
+  zone. It is a **screen**, not a permit determination or a measured concentration.
+- **Flag bands** key on that concentration (the water pathway), *not* the total RSEI
+  Score (which can be air-driven): `critical` ≥ 1 mg/L, `elevated` ≥ 0.01 mg/L.
+
+The finding: the county's three largest water dischargers — **INEOS, Lima Refining,
+PCS Nitrogen** — cluster on the **Ottawa River at Lima**, whose cited 7Q10 is **0.2 cfs
+(1Q10 = 0)**. Their aggregate releases screen at ~66 / 165 / 274 mg/L at design low
+flow: the largest toxic load meets the smallest assimilative capacity. Only Lima
+Refining's receiving water is independently ECHO-cited (`OH0002623 → Ottawa River`);
+the other two are corridor inferences.
 
 ## Caveats / gaps
 

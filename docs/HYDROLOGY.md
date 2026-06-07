@@ -29,6 +29,22 @@ At design low flow the receiving streams carry less than the effluent they
 receive — the discharges are effectively undiluted.
 
 
+**Industrial toxic dischargers on the same reaches.** The municipal screen above covers the three WWTPs; the *industrial* side is larger. Of the 12 EPA-RSEI facilities that release toxics to water in the county, **3** sit on a near-undiluted reach. Placing each on its receiving stream (ECHO-cited where available, else inferred from the Ottawa River industrial corridor) and reading it against the same cited 7Q10:
+
+
+| facility | RSEI Score | to water (lb) | receiving | 7Q10 | screen mg/L |
+|---|--:|--:|---|--:|--:|
+| ❌ INEOS USA LLC | 23,483,255 | 706,520 | Ottawa River * | 0.2 cfs | ~66.492 |
+| ❌ LIMA REFINING CO | 1,899,615 | 1,749,576 | OTTAWA RIVER `[verified: ECHO]` | 0.2 cfs | ~164.656 |
+| ❌ PCS NITROGEN OHIO LP | 532,740 | 2,375,516 | Ottawa River * | 0.2 cfs | ~274.375 |
+| ⚠️ EQUILON ENTERPRISES LLC LIMA SOUTH TERMINAL | 5,942 | 329 | Ottawa River * | 0.2 cfs | ~0.139 |
+
+`*` = receiving water inferred from the corridor coordinate cluster, **not** independently cited. The screen mg/L is a coarse `[inference: derived]` value (annual reported water pounds, fully mixed at the 7Q10) — an order-of-magnitude screen, not a measured concentration.
+
+
+The seasonal pinch compounds it: the Ottawa's **1Q10 is 0 cfs** (and summer 30Q10 1.6 cfs `[verified: document]`) — the mainstem effectively dries at design low flow. That floor falls in the **May–Oct** window where reference ET exceeds precipitation (§3), so the largest toxic loads meet the smallest assimilative capacity exactly when the river is lowest.
+
+
 **Outfall flood exposure.** None of the 3 plant sites sits in the FEMA Special Flood Hazard Area at its ECHO-reported point, but the discharge infrastructure is flood-adjacent on streams already shown to be undiluted at low flow `[verified: document]`:
 
 

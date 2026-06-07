@@ -9,6 +9,8 @@ values, ``[inference]`` for assumptions/derived.
 
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from bosc.config import Settings, get_settings
 from bosc.hydrology.model import ProvenancedValue
 from bosc.pipeline import hydrology as hydro_stage
@@ -25,6 +27,60 @@ def _ev(pv: ProvenancedValue | None) -> str:
     if pv is None:
         return "—"
     return f"{pv.value:,.2f} {pv.unit} `[{_TAG[pv.source]}: {pv.source}]`"
+
+
+def _render_toxic_screen(emit: Callable[[str], None], settings: Settings) -> None:
+    """The industrial RSEI toxic dischargers on the same receiving reaches."""
+    from bosc.hydrology import toxics
+
+    try:
+        inv = toxics.build_screen(settings)
+    except FileNotFoundError:
+        return  # RSEI inventory not generated yet
+    ranked = [s for s in inv.screens if s.flag in ("critical", "elevated")]
+    if not ranked:
+        return
+
+    emit(
+        "\n**Industrial toxic dischargers on the same reaches.** The municipal screen "
+        "above covers the three WWTPs; the *industrial* side is larger. Of the "
+        f"{inv.meta['water_releaser_count']} EPA-RSEI facilities that release toxics to "
+        f"water in the county, **{inv.meta['critical_count']}** sit on a near-undiluted "
+        "reach. Placing each on its receiving stream (ECHO-cited where available, else "
+        "inferred from the Ottawa River industrial corridor) and reading it against the "
+        "same cited 7Q10:\n"
+    )
+    emit("\n| facility | RSEI Score | to water (lb) | receiving | 7Q10 | screen mg/L |")
+    emit("|---|--:|--:|---|--:|--:|")
+    for s in ranked:
+        mark = "❌" if s.flag == "critical" else "⚠️"
+        rw = s.receiving_water or "—"
+        rw += " `[verified: ECHO]`" if s.receiving_water_source == "connector" else " *"
+        q7 = f"{s.low_flow_7q10.value:g} cfs" if s.low_flow_7q10 else "—"
+        conc = f"~{s.screening_concentration.value:g}" if s.screening_concentration else "—"
+        emit(
+            f"| {mark} {s.facility} | {s.score:,.0f} | {s.water_pounds:,.0f} "
+            f"| {rw} | {q7} | {conc} |"
+        )
+    emit(
+        "\n`*` = receiving water inferred from the corridor coordinate cluster, **not** "
+        "independently cited. The screen mg/L is a coarse `[inference: derived]` value "
+        "(annual reported water pounds, fully mixed at the 7Q10) — an order-of-magnitude "
+        "screen, not a measured concentration.\n"
+    )
+
+    ctx = toxics._low_flow_context(settings).get("ottawa river", {})
+    one_q10 = ctx.get("one_q10_cfs")
+    summer = ctx.get("thirty_q10_summer_cfs")
+    if one_q10 is not None:
+        emit(
+            "\nThe seasonal pinch compounds it: the Ottawa's **1Q10 is "
+            f"{one_q10:g} cfs** (and summer 30Q10 {summer:g} cfs `[verified: document]`) — "
+            "the mainstem effectively dries at design low flow. That floor falls in the "
+            "**May-Oct** window where reference ET exceeds precipitation (§3), so the "
+            "largest toxic loads meet the smallest assimilative capacity exactly when the "
+            "river is lowest.\n"
+        )
 
 
 def render_report(*, settings: Settings | None = None, live: bool = False) -> str:
@@ -64,6 +120,8 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
         "\nAt design low flow the receiving streams carry less than the effluent they\n"
         "receive — the discharges are effectively undiluted.\n"
     )
+
+    _render_toxic_screen(w, settings)
 
     from bosc.hydrology.floodplain import load_wwtp_floodzones
 

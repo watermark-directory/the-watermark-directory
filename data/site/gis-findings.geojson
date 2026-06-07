@@ -22511,10 +22511,11 @@
    },
    "properties": {
     "layer": "rsei",
-    "label": "<b>INEOS USA LLC</b><br>RSEI Score 23,483,255 (99% cancer)<br>top: Acrylonitrile<br>1988-2014",
+    "label": "<b>INEOS USA LLC</b><br>RSEI Score 23,483,255 (99% cancer)<br>top: Acrylonitrile<br>1988-2014<br><b>toxic water discharger \u2192 Ottawa River</b> (critical, ~66.492 mg/L at the 0.2 cfs 7Q10; corridor-inferred)",
     "score": 23483255,
     "radius": 21,
-    "scored": true
+    "scored": true,
+    "water_flag": "critical"
    }
   },
   {
@@ -22596,10 +22597,11 @@
    },
    "properties": {
     "layer": "rsei",
-    "label": "<b>LIMA REFINING CO</b><br>RSEI Score 1,899,615 (93% cancer)<br>top: Benzene<br>1988-2014",
+    "label": "<b>LIMA REFINING CO</b><br>RSEI Score 1,899,615 (93% cancer)<br>top: Benzene<br>1988-2014<br><b>toxic water discharger \u2192 OTTAWA RIVER</b> (critical, ~164.656 mg/L at the 0.2 cfs 7Q10; ECHO-cited)",
     "score": 1899615,
     "radius": 18,
-    "scored": true
+    "scored": true,
+    "water_flag": "critical"
    }
   },
   {
@@ -22613,10 +22615,11 @@
    },
    "properties": {
     "layer": "rsei",
-    "label": "<b>PCS NITROGEN OHIO LP</b><br>RSEI Score 532,740 (82% cancer)<br>top: Formaldehyde<br>1993-2014",
+    "label": "<b>PCS NITROGEN OHIO LP</b><br>RSEI Score 532,740 (82% cancer)<br>top: Formaldehyde<br>1993-2014<br><b>toxic water discharger \u2192 Ottawa River</b> (critical, ~274.375 mg/L at the 0.2 cfs 7Q10; corridor-inferred)",
     "score": 532740,
     "radius": 17,
-    "scored": true
+    "scored": true,
+    "water_flag": "critical"
    }
   },
   {
@@ -22902,10 +22905,11 @@
    },
    "properties": {
     "layer": "rsei",
-    "label": "<b>EQUILON ENTERPRISES LLC LIMA SOUTH TERMINAL</b><br>RSEI Score 5,942 (99% cancer)<br>top: Benzene<br>1998-2003",
+    "label": "<b>EQUILON ENTERPRISES LLC LIMA SOUTH TERMINAL</b><br>RSEI Score 5,942 (99% cancer)<br>top: Benzene<br>1998-2003<br><b>toxic water discharger \u2192 Ottawa River</b> (elevated, ~0.139 mg/L at the 0.2 cfs 7Q10; corridor-inferred)",
     "score": 5942,
     "radius": 12,
-    "scored": true
+    "scored": true,
+    "water_flag": "elevated"
    }
   },
   {

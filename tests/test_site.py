@@ -113,3 +113,28 @@ def test_merge_rsei_layer_is_idempotent() -> None:
     assert len(rsei_once) == len(rsei_twice) == n1
     # The pre-existing non-rsei feature is preserved.
     assert any(f["properties"]["layer"] == "wwtp" for f in twice["features"])
+
+
+def test_merge_rsei_layer_rings_flagged_water_dischargers() -> None:
+    """With the toxic screen, critical water dischargers get a water_flag property."""
+    from bosc.config import Settings
+    from bosc.hydrology import toxics
+    from bosc.rsei import load_inventory
+    from bosc.site.gismap import merge_rsei_layer
+
+    ref = Settings(data_dir=REPO_ROOT / "data").reference_dir
+    inv = load_inventory(ref)
+    screen = toxics.build_screen(Settings(data_dir=REPO_ROOT / "data"))
+    assert inv is not None
+    base: dict = {"type": "FeatureCollection", "features": []}
+    fc, _ = merge_rsei_layer(base, inv, screen)
+    flagged = [f for f in fc["features"] if f["properties"].get("water_flag")]
+    # The three Ottawa-corridor majors plus the one elevated terminal.
+    assert {f["properties"]["water_flag"] for f in flagged} <= {"critical", "elevated"}
+    assert sum(1 for f in flagged if f["properties"]["water_flag"] == "critical") == 3
+    # A ringed feature names its receiving water in the popup label.
+    crit = next(f for f in flagged if f["properties"]["water_flag"] == "critical")
+    assert "toxic water discharger" in crit["properties"]["label"]
+    # Without the screen, no rings.
+    plain, _ = merge_rsei_layer({"type": "FeatureCollection", "features": []}, inv)
+    assert not any(f["properties"].get("water_flag") for f in plain["features"])

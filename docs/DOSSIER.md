@@ -184,6 +184,20 @@ the [Maumee NPDES inventory](../data/reference/echo/README.md), and the per-faci
 *water* release bucket ties into the dilution analysis above. `[verified:
 data/reference/rsei/inventory.yaml]`
 
+**Toxic load meets the lowest dilution (RSEI × 7Q10).** Extending the low-flow
+assimilative screen from the three municipal WWTPs to the *industrial* dischargers
+exposes a sharper coincidence: of the **12** county facilities that release toxics to
+water, the **three** largest — **INEOS, Lima Refining, and PCS Nitrogen** — all cluster
+on the **Ottawa River at Lima**, whose cited design low flow is **0.2 cfs (1Q10 = 0)**.
+Their reported water releases screen at roughly **66 / 165 / 274 mg/L** if carried at
+that 7Q10 — i.e. the county's heaviest toxic loads enter the one reach with essentially
+no assimilative capacity, and that floor falls in the same **May–Oct** window the
+atmospheric budget runs to deficit. Only Lima Refining's receiving water is
+independently ECHO-cited (`OH0002623 → Ottawa River`); INEOS and PCS are corridor
+inferences, flagged as such. The mg/L figures are a coarse `[inference: derived]`
+order-of-magnitude screen, not measured concentrations. `[verified:
+data/reference/rsei/toxic-discharge-screen.yaml]`
+
 ---
 
 ## 6. Roadwork — privately-funded public infrastructure
