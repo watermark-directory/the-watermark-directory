@@ -1,0 +1,10 @@
+# marimo WASM-export staging. `public/` holds read-only COPIES of committed
+# corpus artifacts, bundled into a notebook at export time. The originals under
+# data/extracted/** are the single source of truth and the chain-of-custody
+# record — never commit a second copy here (it could silently diverge from the
+# evidence). Populate public/ at build/run time; see README.md.
+public/
+
+# marimo's static export output (regenerable from the .py notebooks).
+_site/
+*.wasm.html
