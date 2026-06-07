@@ -40,7 +40,9 @@ log = get_logger(__name__)
 
 _TEMPLATES = Path(__file__).parent / "templates"
 
-# Mirror the old mkdocs.yml `markdown_extensions` exactly so bodies render the same.
+# Mirror the old mkdocs.yml `markdown_extensions` (+ Pygments highlighting) so bodies
+# render the same. `pymdownx.highlight` colorizes fenced code via Pygments; the
+# `mermaid` custom fence stays a <div> (diagram), never syntax-highlighted.
 _MD_EXTENSIONS = [
     "admonition",
     "attr_list",
@@ -48,10 +50,12 @@ _MD_EXTENSIONS = [
     "tables",
     "toc",
     "pymdownx.details",
+    "pymdownx.highlight",
     "pymdownx.superfences",
 ]
 _MD_EXTENSION_CONFIGS: dict[str, dict[str, Any]] = {
     "toc": {"permalink": True},
+    "pymdownx.highlight": {"use_pygments": True, "guess_lang": False},
     "pymdownx.superfences": {
         "custom_fences": [
             {"name": "mermaid", "class": "mermaid", "format": fence_code_format},
@@ -120,6 +124,33 @@ def _path_to_root(out_rel: Path) -> str:
     return "../" * depth
 
 
+def _flatten_leaves(items: list[NavNode]) -> list[NavNode]:
+    """Every nav leaf (a node with a ``target``) in document order — for prev/next."""
+    out: list[NavNode] = []
+    for node in items:
+        if node.target is not None:
+            out.append(node)
+        out.extend(_flatten_leaves(node.children))
+    return out
+
+
+def _adjacent(
+    leaves: list[NavNode], index: dict[str, int], current: str, root: str
+) -> tuple[dict[str, str] | None, dict[str, str] | None]:
+    """The prev/next nav leaves (as ``{title, href}``) around ``current``, if listed."""
+    pos = index.get(current)
+    if pos is None:
+        return None, None
+
+    def link(node: NavNode) -> dict[str, str]:
+        assert node.target is not None
+        return {"title": node.title, "href": root + _rewrite_target(node.target)}
+
+    prev = link(leaves[pos - 1]) if pos > 0 else None
+    nxt = link(leaves[pos + 1]) if pos < len(leaves) - 1 else None
+    return prev, nxt
+
+
 def _nav_html(items: list[NavNode], root: str, current: str) -> Markup:
     """Render the sidebar nav for the page whose ``web/``-relative target is ``current``."""
     parts: list[str] = ["<ul>"]
@@ -162,6 +193,8 @@ def render_site(
 
     result = RenderResult(site_dir=site)
     search_index: list[dict[str, str]] = []
+    leaves = _flatten_leaves(nav.items)
+    leaf_index = {node.target: i for i, node in enumerate(leaves) if node.target is not None}
     for path in sorted(web.rglob("*")):
         if not path.is_file():
             continue
@@ -175,6 +208,7 @@ def render_site(
             body = _rewrite_links(md.convert(text))
             root = _path_to_root(out_rel)
             page_title = _first_heading(text) or nav.site_name
+            prev, nxt = _adjacent(leaves, leaf_index, rel.as_posix(), root)
             out.write_text(
                 template.render(
                     site_name=nav.site_name,
@@ -184,6 +218,8 @@ def render_site(
                     # `toc` is attached to the Markdown instance by the toc extension.
                     toc=Markup(getattr(md, "toc", "")),
                     nav_html=_nav_html(nav.items, root, current=rel.as_posix()),
+                    prev_page=prev,
+                    next_page=nxt,
                     root=root,
                     is_home=(out_rel == Path("index.html")),
                 ),
@@ -209,6 +245,13 @@ def render_site(
     assets.mkdir(parents=True, exist_ok=True)
     (assets / "search-index.json").write_text(
         json.dumps(search_index, separators=(",", ":")), encoding="utf-8"
+    )
+    # Pygments stylesheet for `pymdownx.highlight` code blocks — generated so it always
+    # matches the installed Pygments, scoped to `.highlight` (superfences' wrapper).
+    from pygments.formatters import HtmlFormatter
+
+    (assets / "pygments.css").write_text(
+        HtmlFormatter(style="default").get_style_defs(".highlight"), encoding="utf-8"
     )
 
     log.info("site.rendered", site=str(site), pages=result.pages, assets=result.assets)

@@ -15,9 +15,14 @@ then `render.py` renders it to plain multipage HTML under `site/` (Python-Markdo
   (page-range slices, never whole bundles). The sidebar nav + site metadata live
   in `nav.yaml` (`nav.py` loads it); the page shell is `templates/base.html`;
   static assets live in `assets/` (`site.css`, `extra.css`, `mermaid-init.js`,
-  `search.js`).
+  `search.js`, `toc.js`).
 - **Search is client-side and dependency-free.** `render.py` writes
   `assets/search-index.json` (one entry per page: title + URL + plain-text excerpt)
   as it renders; `assets/search.js` fetches it and does an all-terms substring match.
   No lunr, no CDN — keep it that way so the static host needs nothing.
+- **Page chrome the renderer adds:** prev/next links from the `nav.yaml` leaf order
+  (`render.py._adjacent`), a scroll-spy that highlights the on-this-page TOC entry
+  (`toc.js`), and Pygments code highlighting — `render.py` regenerates
+  `assets/pygments.css` from the installed Pygments so it can't drift. The `mermaid`
+  custom fence stays a `<div>` (diagram), never syntax-highlighted.
 - Deployment is **manual** (`workflow_dispatch`) — the site is an unlisted draft.

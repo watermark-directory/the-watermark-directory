@@ -95,7 +95,7 @@ mypy_path = "src"
 packages = ["bosc"]
 
 [[tool.mypy.overrides]]
-module = ["claude_agent_sdk.*", "pypdfium2.*", "shapely.*", "pyproj.*", "pyswmm.*", "pymdownx.*"]
+module = ["claude_agent_sdk.*", "pypdfium2.*", "shapely.*", "pyproj.*", "pyswmm.*", "pymdownx.*", "pygments.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

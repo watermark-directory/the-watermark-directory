@@ -64,6 +64,30 @@ def test_render_site_emits_html(tmp_path: Path) -> None:
     assert "assets/search.js" in index_html
     assert (site / "assets" / "search.js").is_file()
 
+    # Polish: Pygments stylesheet + the on-this-page TOC highlighter ship and link.
+    assert (site / "assets" / "pygments.css").is_file()
+    assert (site / "assets" / "toc.js").is_file()
+    assert "assets/pygments.css" in index_html
+    assert "assets/toc.js" in index_html
+
+
+def test_render_adds_prev_next_nav(tmp_path: Path) -> None:
+    settings = Settings(data_dir=REPO_ROOT / "data")
+    web = tmp_path / "web"
+    site = tmp_path / "site"
+    build_site(settings, web_dir=web)
+    render_site(web, site)
+
+    # A page listed mid-nav gets both prev and next, in nav order (rsei sits between
+    # the defense-contractors and the GLEIF LEI pages under "Curated entities").
+    rsei = (site / "rsei.html").read_text(encoding="utf-8")
+    assert 'class="page-nav"' in rsei
+    assert "defense-contractors.html" in rsei
+    assert "lei.html" in rsei
+    nxt = rsei.index("page-nav-next")
+    prev = rsei.index("page-nav-prev")
+    assert prev < nxt  # prev rendered before next
+
 
 def test_render_builds_search_index(tmp_path: Path) -> None:
     import json
