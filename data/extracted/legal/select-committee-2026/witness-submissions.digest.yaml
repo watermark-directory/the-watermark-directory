@@ -1,0 +1,234 @@
+kind: committee_witnesses
+subject: Ohio Joint/Select Committee on Data Centers (2026) — witness written submissions digest
+
+provenance:
+  source_dir: data/documents/legal/select-committee-2026/witnesses/
+  content_verified: '2026-06-07'   # read from the submission PDFs (native text)
+  evidence: written testimony / submissions to the Ohio Joint Committee on Data Centers
+  committee: >-
+    Ohio Joint/Select Committee on Data Centers, Co-Chairs Rep. Holmes and (Chavez); hearings late
+    May - early June 2026. Mission (committee-mission-statement): energy cost/grid, local economics +
+    tax base, environmental (water use/discharge, ag land), and public-safety/national-security
+    impacts of Ohio data-center development. The relator (Cory Parent) testified 2026-06-01
+    (see relator-testimony/).
+  note: >-
+    Per-witness digest of the 16 submissions. Figures/quotes transcribed from the PDFs. The
+    BOSC-relevance synthesis is tagged inference; the witnesses' own statements are document.
+
+# ---- The cross-cutting findings that matter to BOSC ----
+bosc_relevant_findings:
+  google_omits_lima:
+    finding: >-
+      Google's own testimony (Liz Schwab, Market Development & Policy Manager, Google Data Centers,
+      2026-06-04) lists Google's Ohio footprint as New Albany (2019), Columbus, and Lancaster -- a
+      ">$20 billion" total investment -- and does NOT name Lima / Allen County / the BOSC campus,
+      even while testifying to this committee about Ohio data centers.
+    significance: >-
+      A transparency data point: the end user the PAAC's own minutes name as "the Google data center
+      project" (paac-board-minutes.minutes.yaml) is absent from Google's public legislative testimony
+      ~10 weeks after Google's "first public update" on the Lima well concerns. [the omission is
+      document; the significance is inference.]
+  ratepayer_burden_dispute:
+    finding: >-
+      Google claims large-load growth "spread[s] fixed infrastructure costs across a broader base,
+      putting downward pressure on rates for everyone" (citing Georgia Power, Indiana Michigan Power,
+      DTE). The ELPC (Wallace) directly rebuts with Ohio figures: the PUCO approved a $126M AEP
+      transmission increase (+9.5%) = +$7.91/mo on the average residential bill (per OCC), and AES
+      added >$6/mo over two years; "many data centers require transmission upgrades that they will
+      never repay in rates." OCC (Willis) and PUCO (French) both center "cost causation" and warn
+      residential consumers should not subsidize speculative large-load infrastructure.
+    significance: "The central public-cost dispute, with concrete Ohio ratepayer figures contradicting the developer's rate-relief claim."
+  odnr_no_water_visibility:
+    finding: >-
+      ODNR (Director Mary Mertz): "all data centers across the state tie into [public water] systems,
+      thus, we do not have visibility into their water use," and "no mechanism currently exists to
+      break down how much of that water is being sent to data centers versus other users." No data
+      center holds an ODNR high-capacity withdrawal/consumptive-use permit (statutory exemptions).
+    significance: >-
+      The regulatory blind spot behind the cooling-withdrawal thread: because BOSC ties into Lima city
+      water (PAAC minutes), neither ODNR nor the public can see the data center's actual draw -- the
+      4.85 cfs consumptive screen (scenario.evaluate_seasonal) cannot be checked against a reported
+      figure because none is collected.
+  odod_dcte_second_subsidy:
+    finding: >-
+      ODOD (Director Lydia Mihalik): the Ohio Data Center Tax Exemption (DCTE, created by HB 59, 130th
+      GA) exempts state sales/use tax + county sales tax + transit tax on qualified data-center
+      EQUIPMENT (servers, cooling systems, tangible personal property) under R.C. ch. 5739/5741. ODOD
+      holds DCTE agreements with 18 companies (first 2013); Amazon was the 2014 early adopter; Meta,
+      Amazon, Google have expanded. Earlier deals: 100% exemption up to 40 years; recent: ~50% for
+      10-15 years.
+    significance: >-
+      A SECOND state subsidy layer the public ledger does not yet capture. The CRA abates only REAL
+      property (cra-agreement.cra.yaml: real_property_only: true); the DCTE exempts the EQUIPMENT --
+      the bulk of a $500M+ data center's value. A Google/Bistrozzi DCTE is not in the corpus but is
+      the standard companion incentive. [the DCTE program is document; a BOSC DCTE is inference -- an
+      open followup.]
+  ohioepa_wastewater_routing:
+    finding: >-
+      Ohio EPA (Director John Logue): "Ohio EPA has currently issued ONE NPDES permit for a data
+      center. Most data centers send their wastewater to publicly owned treatment works." Statewide
+      data-center permitting: 30 PTIs (+5 under review), 1 pending Indirect Discharge Permit, 59
+      construction-stormwater GPs, 4,916 backup generators + 6 behind-the-meter stations. Ohio EPA
+      proposed a draft GENERAL NPDES permit for data-center wastewater/stormwater (thousands of
+      comments, no decision timeframe). Cooling-water pollutants: dissolved solids/salts.
+    significance: >-
+      Confirms the BOSC routing (sanitary -> American-Bath/American No.2/Shawnee No.2 POTWs rather than
+      a direct discharge) and the genset air-permit pattern (synthetic-minor). Indirect Discharge
+      Permit may apply if cooling-water blowdown is a large fraction of the POTW design capacity."
+  records_withholding_support:
+    finding: >-
+      Quintin Koger Kidd (retired CPA/CFE, former mayor) testifies that "non-disclosure agreements in
+      economic development ... undermine local democracy" and recommends the legislature "limit the
+      use of non-disclosure agreements ... including repealing ORC 9.66(D)," protect public records,
+      and preserve the referendum. OCC also flags NDAs among the issues the GA is addressing.
+    significance: >-
+      Independent, expert support for the records-withholding thesis -- ORC 9.66(D) is the exact shield
+      the County invoked on PRR item 4 (the withheld cost-benefit analysis); a witness urges its repeal."
+  water_use_claims_tension:
+    finding: >-
+      Industry minimizes water: QTS says its operations run a "closed loop system that does not
+      require additional water," ~600,000 gal/yr domestic only; the DCC coalition cites ~39 BGY
+      nationally (vs 2,500 BGY utility leakage) and a Virginia finding that 83% of data centers use
+      <= a large office building; Google claims 120% global water replenishment. These describe
+      closed-loop/air-cooled designs.
+    significance: >-
+      The cooling-withdrawal screen models a high CONSUMPTIVE (evaporative) draw; the actual BOSC
+      cooling design is not in the corpus. If BOSC is closed-loop/air-cooled the consumptive draw is
+      far lower than the screen's evaporative assumption; if evaporative, the screen stands. An open
+      followup: obtain the BOSC cooling design / water-service-agreement volumes. [tension noted; not
+      resolved.]"
+
+# ---- Per-witness entries ----
+witnesses:
+  - file: google-schwab-2026-06-04.pdf
+    witness: "Liz Schwab — Market Development & Policy Manager, Google Data Centers"
+    date: '2026-06-04'
+    category: industry (end user)
+    key_points:
+      - "Google Ohio footprint: New Albany (2019), Columbus, Lancaster; >$20B total investment; >3,000 workforce. Lima/BOSC NOT named."
+      - "Avg US facility: 4,200 annual construction jobs + $40M construction wages over initial buildout; 1 direct job supports 9 more."
+      - "Buys 100% Ohio power via competitive retail markets, transmission under PUCO tariffs; claims large-load spreads fixed costs -> downward rate pressure."
+      - "Cites HB 15; announced a 100MW PJM Virtual Power Plant; enhanced geothermal + SMR nuclear; The Nature Conservancy Slim Creek wetlands (700 ac ag runoff)."
+  - file: qts-2026-06-03.pdf
+    witness: "John Smith, J.D. — Government Relations, QTS"
+    date: '2026-06-03'
+    category: industry (operator)
+    key_points:
+      - "$10B QTS data-center campus announced in VAN WERT COUNTY (neighboring county); up to 4,500 construction jobs. 90+ facilities (Ohio, N. Virginia, Dallas, Atlanta, Phoenix, Chicago)."
+      - "Claims closed-loop cooling -> 'does not require additional water' in operation; ~600,000 gal/yr domestic (office) only; pays interconnection + upgrade costs (BYONG)."
+      - "On-site operational employment 'relatively modest'; value framed as multi-phase construction/skilled-trades pipeline + follow-on investment."
+    note: "Van Wert ties to PAAC minutes' Thor Equities (a data-center developer 'working with Van Wert')."
+  - file: odod-mihalik-dcte-2026-05-27.pdf
+    witness: "Director Lydia L. Mihalik — Ohio Department of Development"
+    date: '2026-05-27'
+    category: state agency
+    key_points:
+      - "Ohio Data Center Tax Exemption (DCTE, HB 59 / 130th GA): sales/use + county + transit tax exemption on data-center EQUIPMENT (R.C. 5739/5741)."
+      - "18 DCTE agreements (first 2013); Amazon early adopter 2014; Meta/Amazon/Google expanded. Earlier 100%/40yr; recent ~50%/10-15yr."
+  - file: odnr-mertz-water-2026-05-27.pdf
+    witness: "Director Mary Mertz — Ohio Department of Natural Resources"
+    date: '2026-05-27'
+    category: state agency
+    key_points:
+      - "Water-withdrawal registration (R.C. 1521.16, >100k gpd): 3,724 facilities (777 public-water, 465 ag, 288 industry, 42 power). High-cap consumptive permit >2 MGD (R.C. 1521.23/1522.12); >5 MGD triggers Great Lakes Compact notice."
+      - "NO data center holds a high-cap permit (exemptions); ALL data centers tie into public water systems, so ODNR has NO visibility into their water use."
+      - "Groundwater tools: 1M+ well logs, 150+ observation wells since 1938; investigates well-owner conflicts; Michindoh aquifer assessment (12 new wells)."
+  - file: ohioepa-logue-2026-05-27.pdf
+    witness: "Director John Logue — Ohio EPA"
+    date: '2026-05-27'
+    category: state agency
+    key_points:
+      - "Data centers permitted under the same frameworks as other industry; ONE NPDES data-center permit issued; most route wastewater to POTWs."
+      - "30 PTIs (+5 review), 1 pending IDP, 59 construction-stormwater GPs; 4,916 backup generators + 6 behind-the-meter stations; draft GENERAL NPDES permit (thousands of comments)."
+      - "Synthetic-minor air pathway explained (avoid Title V/major NSR); §404/401 + Isolated Wetland permits for wetland impacts."
+  - file: occ-willis-2026-05-27.pdf
+    witness: "Maureen Willis — Director, Office of the Ohio Consumers' Counsel (OCC)"
+    date: '2026-05-27'
+    category: consumer advocate
+    key_points:
+      - "'Ohio households should not subsidize speculative infrastructure for extraordinary private load growth.' Cost causation central; data centers create comparatively limited permanent jobs."
+      - "Recommends: cost-shift protection, large-load tariffs (long-term commitments, minimum billing, financial assurances, exit fees, stranded-cost protection), BYONG, separate procurement, forecasting oversight."
+      - "Cites Electricity Forecast Integrity Act (Sens. Romanchuk + Hicks-Hudson) + HB 706 (Reps. Thomas + Rader)."
+  - file: puco-french-2026-05-27.pdf
+    witness: "Chair Jenifer French — Public Utilities Commission of Ohio (PUCO)"
+    date: '2026-05-27'
+    category: state regulator
+    key_points:
+      - "AEP Ohio got >30,000 MW of data-center connection requests (2024); first-in-nation data-center tariff (proposed 5/2024, approved 7/2025): collateral, minimum demand charge, 8-12yr contracts, exit fees. AEP signed 5,642 MW under it (2/2026)."
+      - "Directed FirstEnergy + AES to propose tariffs; data centers still in industrial/commercial class; reevaluating transmission cost allocation."
+      - "HB 15 behind-the-meter generation: 2,000+ MW BTM dispatchable authorized/applied 2025; Piketon $33B 10-GW gas plant (w/ Japan) for a data-center campus; New Albany 430 MW, Ashville 800 MW, Millersport 1,300 MW BTM."
+  - file: pjm-haque-2026-05-27.pdf
+    witness: "Asim Z. Haque — EVP Governmental & Member Services, PJM"
+    date: '2026-05-27'
+    category: grid operator
+    key_points:
+      - "PJM supply 184,780 MW (2025); peak demand 156,400 (2026) -> ~224,000 (2041). ~54 GW have interconnection agreements; ~48 GW under construction (mostly solar). 40 GW retirements 2022-2030 (60% coal)."
+      - "Board large-load actions: load-forecast improvements, price cap/floor, BYONG + expedited track, Reliability Backstop Procurement, curtailment of data centers not bringing generation."
+      - "States control retail cost allocation -> can shift costs toward data centers; DeWine + governors' Statement of Principles; White House ratepayer-protection pledge."
+  - file: elpc-wallace-transmission-costs-2026-06-01.pdf
+    witness: "Nicholas Wallace — Environmental Law & Policy Center (ELPC)"
+    date: '2026-06-01'
+    category: advocate
+    key_points:
+      - "AEP: PUCO-approved $126M transmission increase (+9.5%) = +$7.91/mo residential (per OCC); AES +$6/mo over 2 yrs."
+      - "Data centers 50+ MW connect at transmission voltage; existing customers pay upgrades before DCs come online; many DCs never repay the upgrades."
+      - "PUCO can allocate transmission costs to large loads (R.C. 4928.05(B)(1)) but generally socializes them; solution: direct-assign DC transmission costs (cites NV Energy, Evergy, PG&E)."
+  - file: koger-kidd-transparency-2026-05-31.pdf
+    witness: "Quintin Koger Kidd — retired CPA/CFE, former mayor/council member"
+    date: '2026-05-31'
+    category: citizen (governance expert)
+    key_points:
+      - "Data centers are a LAND-USE issue -> Home Rule / local control; citizens raising questions treated as obstacles."
+      - "'Non-disclosure agreements in economic development ... undermine local democracy'; recommends LIMITING NDAs + REPEALING ORC 9.66(D), protecting public records + referendum."
+      - "Tax structures disconnect who benefits from who bears burdens; 'local communities are asked to subsidize global corporations.'"
+  - file: dcc-coalition-overview-2026-05-27.pdf
+    witness: "Data Center Coalition (industry association) — overview deck"
+    date: '2026-05-27'
+    category: industry association
+    key_points:
+      - "Pro-industry framing: data centers efficient; ~39 BGY US water (vs 2,500 BGY utility leakage); E3 study claims no clear load-growth/rate-hike correlation + DCs 'pay their own way.'"
+      - "Ohio: 24,120 direct jobs (2024), $1.1B taxes to state+local (NET of incentives: $585M state, $504M local), $14.1B Ohio GDP. US demand 25 GW (2024) -> 80 GW (2030)."
+  - file: falkin-2026-06-01.pdf
+    witness: "Larry Falkin"
+    date: '2026-06-01'
+    category: citizen
+    key_points:
+      - "Data centers as asset-or-liability; flags diesel gensets (monthly 'exercise' testing -> real emissions), thermal-pollution wastewater into combined sewers -> more CSO overflow, and drought-zone water risk."
+  - file: baurichter-conserve-ohio-2026-06-01.pdf
+    witness: "Austin Baurichter — Conserve Ohio (statewide data-center petition co-drafter)"
+    date: '2026-06-01'
+    category: advocate
+    key_points: ["Calls out backchanneling/gaslighting of communities; invokes Ohio constitution (ballot petition); asks the committee to pause developments."]
+  - file: citizen-moratorium.pdf
+    witness: "Keith Gehring (citizen)"
+    date: null
+    category: citizen
+    key_points: ["Calls for a moratorium; data centers consume ag/park/housing land + energy; suggests vertical/in-fill siting and renewables over fracked gas."]
+  - file: pjm-electricity-costs-explained-2026-05.pdf
+    witness: "PJM — 'Electricity Costs Explained' explainer"
+    date: '2026-05'
+    category: grid operator (background)
+    key_points: ["Bill components (generation/transmission/distribution/riders); rising costs from supply/demand imbalance + little new supply interconnecting (4,900/4,800/2,700 MW last 3 yrs); data centers drive transmission build."]
+  - file: committee-mission-statement.pdf
+    witness: "Joint Data Center Committee — mission statement"
+    date: null
+    category: committee
+    key_points: ["Mission/tasks: energy cost & grid; local economics + tax base; environment (water use/discharge/recycling, ag land, EMF, sound/light); public safety & national security; public awareness."]
+
+cross_refs:
+  - data/extracted/legal/select-committee-2026/select-committee-2026.hearing-index.yaml
+  - data/extracted/legal/select-committee-2026/relator-testimony/   # the relator's own 2026-06-01 testimony
+  - data/extracted/aedg/paac-board-minutes.minutes.yaml             # BOSC=Google; Thor/Van Wert
+  - data/reference/hydrology/maumee-tmdl-responsiveness.yaml        # the wastewater/TMDL side Ohio EPA permits
+  - src/bosc/ledger.py                                              # the DCTE (sales-tax) is a second subsidy layer to fold in
+  - data/extracted/legal/prr-mandamus/mutual-nda-bistrozzi.nda.yaml # the NDA / ORC 9.66(D) Koger Kidd would repeal
+
+relevance:
+  tags: [verified, legal, select-committee, witnesses, google, qts, ratepayer, water, dcte, records-withholding, transparency]
+  note: >-
+    The 16 witness submissions to Ohio's 2026 data-center committee. Most BOSC-material: Google's own
+    testimony omits Lima/BOSC; ELPC/OCC/PUCO give concrete ratepayer figures contradicting Google's
+    rate-relief claim; ODNR admits no visibility into data-center water use; ODOD describes the DCTE
+    sales-tax exemption (a second subsidy layer beyond the CRA); Ohio EPA confirms the route-to-POTW
+    wastewater pattern; and a governance expert urges repealing ORC 9.66(D) -- the exact shield behind
+    the withheld cost-benefit analysis.

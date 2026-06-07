@@ -11,6 +11,7 @@ testimony PDFs, witness submissions) live under
 | `select-committee-2026.hearing-index.yaml` | Top-level index of the hearing record. |
 | `hearings-audio/` | Per-session `*.transcript.md` + `*.index.yaml` derived from the `.wav` recordings (2026-06-04 AM/PM/testimony). |
 | `relator-testimony/` | The relator's written testimony, deck, and data appendix as markdown + an index YAML (2026-06-01). |
+| `witness-submissions.digest.yaml` | Per-witness digest of the 16 written submissions (Google, QTS, ODNR, ODOD, Ohio EPA, OCC, PUCO, PJM, ELPC, Koger Kidd, DCC, et al.) + the cross-cutting BOSC findings (Google omits Lima; ratepayer-cost dispute; ODNR water blind spot; the ODOD DCTE second subsidy; route-to-POTW; ORC 9.66(D) repeal). |
 
 ## Caveats
 

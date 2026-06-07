@@ -405,6 +405,9 @@ def build_ledger(settings: Settings | None = None) -> PublicLedger:
             "consideration fields; only Neighbors $600K/5ac disclosed).",
             "Track the Roadwork Development Agreement grant awards (629/ODOD) and the §5.5 refund — the "
             "actual public/private split of the $14.5M turns on grants not in the corpus.",
+            "Obtain any Ohio Data Center Tax Exemption (DCTE) agreement for Bistrozzi/Google — a SECOND "
+            "subsidy layer (sales/use tax on the EQUIPMENT, which the CRA's real-property abatement does "
+            "not touch). ODOD testified it holds 18 such agreements (witness-submissions.digest.yaml).",
         ],
     }
     return PublicLedger(
