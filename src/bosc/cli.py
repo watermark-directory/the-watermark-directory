@@ -105,20 +105,28 @@ def entities() -> None:
     from bosc.pipeline import entities as entities_stage
 
     graph = entities_stage.build_entity_graph(
-        enrich_parcels=True, enrich_lei=True, enrich_rsei=True, enrich_federal=True
+        enrich_parcels=True,
+        enrich_lei=True,
+        enrich_rsei=True,
+        enrich_federal=True,
+        enrich_subdivisions=True,
+        enrich_relation_classes=True,
     )
     if not graph.entities:
         console.print("[yellow]No entities found. Run some extractions first.[/]")
         raise typer.Exit()
 
-    ent_table = Table("entity", "kind", "classification", "roles", "LEI/UEI", "federal $")
+    ent_table = Table(
+        "entity", "kind", "classification", "BOSC relation", "roles", "LEI/UEI", "federal $"
+    )
     for ent in sorted(graph.entities.values(), key=lambda e: (e.kind, e.key)):
         roles = ", ".join(f"{r} x{n}" for r, n in ent.roles.most_common())
         signals = ", ".join(sorted(ent.signals))
         klass = ent.classification + (f" [yellow]({signals})[/]" if signals else "")
+        relation = ent.relation_class or "—"
         ids = " ".join(x for x in (ent.lei, ent.uei) if x) or "—"
         fed = f"${ent.federal_obligations:,.0f}" if ent.federal_obligations is not None else "—"
-        ent_table.add_row(ent.display, ent.kind, klass, roles, ids, fed)
+        ent_table.add_row(ent.display, ent.kind, klass, relation, roles, ids, fed)
     console.print(ent_table)
 
     rel_table = Table("source", "relationship", "target", "when", "ref")
@@ -364,6 +372,76 @@ def scenario(
         for r in (base, build):
             path = scenario_stage.write_scenario(r, settings=settings)
             console.print(f"[green]Wrote[/] {path}")
+
+
+@app.command(name="hydro-hypotheses")
+def hydro_hypotheses(
+    level: str | None = typer.Option(
+        None, "--level", help="Filter to one level: macro | local | site."
+    ),
+    cooling_demand: float | None = typer.Option(
+        None, "--cooling-demand", help="Override campus cooling intake (MGD)."
+    ),
+    consumptive_fraction: float | None = typer.Option(
+        None, "--consumptive-fraction", help="Override evaporated fraction (0..1)."
+    ),
+    write: bool = typer.Option(
+        False, "--write", help="Persist the comparison under data/scenarios/."
+    ),
+    offline: bool = typer.Option(False, "--offline", help="Use cached/fixture streamflow only."),
+) -> None:
+    """Compare BOSC-routing / cooling hypotheses at macro/local/site level vs the baseline."""
+    import yaml
+
+    from bosc.config import Settings
+    from bosc.hydrology import hypothesis as hyp_stage
+
+    settings = Settings(hydro_offline=True) if offline else get_settings()
+    hyps = hyp_stage.default_hypotheses(
+        cooling_demand_mgd=cooling_demand, consumptive_fraction=consumptive_fraction
+    )
+    if level is not None:
+        hyps = [h for h in hyps if h.level == level]
+        if not hyps:
+            console.print(f"[yellow]No default hypotheses at level '{level}'.[/]")
+            raise typer.Exit()
+    comparison = hyp_stage.run_hypotheses(hyps, settings=settings, live=True)
+
+    table = Table(
+        "hypothesis", "level", "net loss (cfs)", "x7Q10", "BOSC routes (built)", "held out"
+    )
+    for hr in comparison.hypotheses:
+        built = ", ".join(r.via for r in hr.routing_applied) or "—"
+        held = ", ".join(r.via for r in hr.excluded_theorized) or "—"
+        x7 = hr.diff_vs_baseline.multiple_of_7q10
+        table.add_row(
+            hr.hypothesis.name,
+            hr.hypothesis.level,
+            f"{hr.result.consumptive_loss.value:,.2f}",
+            f"{x7:g}x" if x7 is not None else "—",
+            built,
+            held,
+        )
+    console.print(table)
+    for hr in comparison.hypotheses:
+        for br in hr.excluded_theorized:
+            console.print(
+                f"[dim]{hr.hypothesis.name}: held out {br.via} → {', '.join(br.to)} "
+                f"(status: {br.status}) — Shawnee II has no confirmed BOSC routing.[/]"
+            )
+    console.print(
+        "\n[dim]`level` frames the same Lima-loop numbers against its scale (macro=Maumee "
+        "basin); routing overrides re-label which forcemains are built, not the dilution math.[/]"
+    )
+    if write:
+        out_dir = settings.scenarios_dir
+        out_dir.mkdir(parents=True, exist_ok=True)
+        path = out_dir / "hypotheses.comparison.yaml"
+        path.write_text(
+            yaml.safe_dump(comparison.model_dump(), sort_keys=False, allow_unicode=True),
+            encoding="utf-8",
+        )
+        console.print(f"[green]Wrote[/] {path}")
 
 
 @app.command(name="tier1")
@@ -940,6 +1018,56 @@ def drainage_audit_cmd(
     )
 
 
+@app.command(name="economics")
+def economics(
+    write: bool = typer.Option(
+        True, "--write/--no-write", help="Persist data/reference/economics/baseline.yaml."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached/fixture QCEW responses only; never fetch."
+    ),
+) -> None:
+    """Pull the localized economic baseline (BLS QCEW) — employment mix + export-orientation."""
+    from bosc.config import Settings
+    from bosc.economics.baseline import build_baseline, write_baseline
+
+    settings = Settings(econ_offline=True) if offline else get_settings()
+    baseline = build_baseline(settings=settings)
+    latest = baseline.latest
+
+    if len(baseline.trend) >= 2:
+        first, last = baseline.trend[0], baseline.trend[-1]
+        delta = last.total_employment.value - first.total_employment.value
+        pct = (delta / first.total_employment.value * 100) if first.total_employment.value else 0.0
+        console.print(
+            f"[bold]{latest.area_name}[/] total covered employment "
+            f"{first.total_employment.value:,.0f} ({first.year}) -> "
+            f"{last.total_employment.value:,.0f} ({last.year})  "
+            f"[{'green' if delta >= 0 else 'red'}]{pct:+.1f}%[/]"
+        )
+
+    table = Table("NAICS", "sector", "jobs", "estabs", "location quotient")
+    for s in latest.sectors:
+        lq = s.location_quotient.value if s.location_quotient else None
+        estabs = f"{s.establishments.value:,.0f}" if s.establishments else "—"
+        tag = " [green](exports)[/]" if lq is not None and lq >= 1.2 else ""
+        table.add_row(
+            s.naics,
+            s.sector_name[:38],
+            f"{s.annual_avg_employment.value:,.0f}",
+            estabs,
+            (f"{lq:.2f}{tag}" if lq is not None else "—"),
+        )
+    console.print(table)
+    console.print(
+        "\n[dim]BLS QCEW (keyless); location quotient = county share / national share "
+        "(>1 = export-oriented). Population-over-time needs BOSC_CENSUS_API_KEY.[/]"
+    )
+    if write:
+        path = write_baseline(baseline, settings=settings)
+        console.print(f"[green]Wrote[/] {path}")
+
+
 @app.command(name="lei")
 def lei_cmd(
     offline: bool = typer.Option(
@@ -1428,11 +1556,17 @@ app.add_typer(site_app, name="site")
 
 
 @site_app.command("build")
-def site_build() -> None:
+def site_build(
+    notebooks: bool = typer.Option(
+        False,
+        "--notebooks/--no-notebooks",
+        help="Also export the marimo methodology notebooks to WASM (needs `marimo`).",
+    ),
+) -> None:
     """Stage web/ from data/extracted + docs, then render the static HTML site/ (regenerable)."""
     from bosc.site import build_site, render_site
 
-    result = build_site()
+    result = build_site(notebooks=notebooks)
     rendered = render_site(result.web_dir, result.web_dir.parent / "site")
     console.print(
         f"[green]Built[/] {result.web_dir} — {result.n_records} records "

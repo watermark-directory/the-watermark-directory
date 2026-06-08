@@ -19,31 +19,49 @@
 
 ## 1. Executive summary
 
-A large, **hardened data-center campus** — the "American Industrial Park Site" on
-the **North Cole Street corridor in Allen County (Lima), Ohio** — is being built
-by a **Delaware shell entity, Bistrozzi LLC**, which assembled the land, is
-driving the environmental and infrastructure permitting, and is the named
-beneficiary of a privately-funded **$14.2M public roadwork** program routed
-through the Allen County Port Authority. The same professional network (Vorys
-counsel; EMH&T engineering) and the same registered-agent/organizer fingerprints
-connect Bistrozzi to a cluster of sibling Delaware LLCs — **Bistrozzi Addition,
-Magenta Capital, and Tilted Gate** — the last of which is running a parallel
-project ("Project Dazzler") in Scioto County. County-operated wastewater capacity
-on the same corridor (three WWTPs) forms the utility backdrop. `[inference]`
+**What it is.** A large, **hardened data-center campus** — the "American
+Industrial Park Site" on the **North Cole Street corridor in Allen County (Lima),
+Ohio** — built by a **Delaware shell entity, Bistrozzi LLC**, which assembled the
+land, is driving the environmental and infrastructure permitting, and is the
+named beneficiary of a privately-funded **$14.2M public roadwork** program routed
+through the Allen County Port Authority. County-operated wastewater capacity on
+the same corridor (three WWTPs) forms the utility backdrop.
 
-The data-center identity is not inferred from massing alone: an Ohio EPA air
-permit names **"Bistrozzi LLC Data Center – Initial Installation"** and the site
-plan shows **a substation, anti-ram barriers, security fencing, and containment
-areas**. `[verified: data/extracted/permits/3987141.epa.yaml,
+**Who it is for — Google.** The end user is **Google**. The Port Authority's own
+(PAAC) board minutes record it, and the Lima-Allen County Regional Planning
+Commission minutes independently name the project *"project BOSC (Google data
+center)"* — alongside **$250,000/yr to Elida Schools** and **$1.5 billion
+invested if all three phases proceed**. `[verified:
+data/extracted/aedg/paac-board-minutes.minutes.yaml +
+data/extracted/lacrpc/meetings/meeting-summaries.yaml]` That attribution is
+corroborated by the sibling shell thread: **Tilted Gate LLC** — same registered
+agent, same organizer as the Bistrozzi cluster — filed its parallel "Project
+Dazzler" with an applicant contact signing as `randybarrera@google.com` (§8). And
+the **AEDG release is now in the corpus**: AEDG "is thrilled to reveal Google as
+the business entity behind Project Bosc" (2026-03-16), with a named Google official
+(Molly Kocour Boyle, Head of Midwest Data Center Public Affairs). `[verified:
+data/extracted/aedg/aedg-data-center-release.release.yaml]` So the "who" is settled
+on three independent corpus sources (AEDG release, PAAC minutes, LACRPC minutes);
+what remains open is **beneficial ownership of the shells** (§11), not the customer.
+
+The data-center identity is likewise not inferred from massing alone: an Ohio EPA
+air permit names **"Bistrozzi LLC Data Center – Initial Installation"** and the
+site plan shows **a substation, anti-ram barriers, security fencing, and
+containment areas**. `[verified: data/extracted/permits/3987141.epa.yaml,
 data/extracted/plans/LMA1A-95-SPS-2025-10-28.plan.yaml]`
 
-**Why this dossier exists (the removal architecture).** The public record is
-*designed* to be thin here: **ORC §9.66(D)** (Sub. H.B. 184, eff. 2026-03-20)
-categorically excludes economic-development project information from disclosure,
-layered atop NDA-by-default, a Delaware-shell counterparty, and permitting
-segmented across agencies. The structured corpus below is the *reconstruction* —
-each fact reassembled from a primary permit, deed, or filing the removal
-architecture could not suppress. `[verified: statute]` / `[inference: framing]`
+**What this dossier is for.** With the who and the what settled, this is the
+**analytical background** for the questions that remain: the *timeline opacity*
+(how the record was kept thin, and what that conceals about sequence and intent),
+the *use cases and compute capacity* the plans imply, the *public cost* against
+public benefit, and the *forecast* of what this campus does to the corridor's
+water, air, and tax base. The opacity is itself one of the findings — the public
+record is *designed* to be thin: **ORC §9.66(D)** (Sub. H.B. 184, eff.
+2026-03-20) categorically excludes economic-development project information from
+disclosure, layered atop NDA-by-default, a Delaware-shell counterparty, and
+permitting segmented across agencies. The structured corpus below is the
+*reconstruction* — each fact reassembled from a primary permit, deed, or filing
+that segmentation could not suppress. `[verified: statute]` / `[inference: framing]`
 
 ---
 
@@ -219,10 +237,13 @@ Second, a **federal-award** layer stamps USASpending all-time prime-award obliga
 the verified corridor parties: the corridor's federal defense nexus — **General Dynamics
 Land Systems** (the JSMC operator, **~$33.6 B**) and its parent **General Dynamics Corp**
 (**~$299 B**, which USASpending independently records as GDLS's parent, corroborating the
-GLEIF chain). The data-center end-user attribution remains **open**; *Google LLC* (~$73.5 M
-federal) ties only to the **separate Scioto-County Project Dazzler** (the `google.com`
-applicant email), **not** the Lima campus — kept off-graph so the federal layer does not
-overclaim. `[verified: data/reference/usaspending/awards.yaml]`
+GLEIF chain). The data-center end user is **Google** (the PAAC/LACRPC minutes, §1, §6); the
+sibling Tilted Gate / Project Dazzler filing carries the `google.com` applicant email (§8).
+Google is **deliberately kept off the entity graph as a node** — not because the customer is
+unknown, but to hold the graph to corpus-verified *edges* and keep its federal-award figures
+(*Google LLC* ~$73.5 M) from being read as a Lima-campus obligation. The attribution lives in
+the prose and the [candidates](candidates.md) layer, not as a fabricated graph party.
+`[verified: data/reference/usaspending/awards.yaml]`
 
 ---
 
@@ -354,9 +375,14 @@ data/extracted/permits/sos-tilted-gate-llc-2025-09-29.sos.yaml]`
 The Dazzler EPA application's applicant contact, **Randy Barrera, signed as
 `randybarrera@google.com`** — a Google email address on the Tilted Gate / Project
 Dazzler filing. `[verified: data/extracted/permits/4081890.epa.yaml]` This is a
-direct Google↔**Dazzler** (Scioto) datapoint; it does **not**, by itself, attach
-Google to the Lima/Bistrozzi campus, where the public Google attribution rests on
-the AEDG release (not yet in the corpus). `[open]`
+direct Google↔**Dazzler** (Scioto) datapoint. On its own it would not attach
+Google to the Lima/Bistrozzi campus — but it no longer has to: the Lima
+attribution is independently established by the **AEDG release** and the **PAAC and
+LACRPC minutes** (§1, §6). What the `google.com` email adds is the *connective
+tissue* — the same Delaware-shell network (CSC agent, Montfort organizer) runs both
+the Lima (Bistrozzi) and Scioto (Tilted Gate) projects, and Google surfaces on
+both. The **AEDG release** names Google for Lima directly, in AEDG's own words.
+`[verified: data/extracted/aedg/aedg-data-center-release.release.yaml + PAAC/LACRPC minutes]`
 
 ---
 
@@ -398,6 +424,7 @@ A consistent advisory team sits behind the entities `[verified: entity graph]`:
 | 2025-10-28 | American Industrial Park 95% Grading & Storm Plan |
 | 2025-12-10 | Air PTI — "Bistrozzi LLC Data Center – Initial Installation" |
 | 2026-03-04 | Neighbors → Bistrozzi (final parcel) |
+| 2026-03-16 | **AEDG publicly reveals Google** as the entity behind Project BOSC ($500M) |
 | 2026-04-08 | Bistrozzi Addition LLC SoS filing (DE) |
 | 2026-04-07 | BOSC-1A sanitary-sewer PTI approved |
 | 2026-04-14 | Project Dazzler USACE 404 application (Scioto Co.) |
@@ -406,14 +433,22 @@ A consistent advisory team sits behind the entities `[verified: entity graph]`:
 
 ## 11. Open questions & gaps `[open]`
 
-- **Beneficial ownership.** Public records give registered agents and organizers,
-  never the human principal behind the Delaware shells. The cluster is *plumbing*.
-- **The Bistrozzi Addition deed — resolved.** ✅ Now ingested: Limited Warranty
-  Deed 202604210003890 (2026-04-21), **Timothy R. & RaeAnn Pieper → Bistrozzi
-  Addition LLC**, parcel 36-1100-04-001.001 (7.215 ac), 1337 Beery Road. Carried
-  in the timeline and entity graph. `[verified: data/extracted/recorder/202604210003890.deed.yaml]`
-- **Roadwork funding instrument.** We have the cost estimate, not the agreement —
-  who bears overruns, and the exact PAAC deposit mechanics, are unread.
+The **end user is no longer an open question** — it is Google (§1, §6, §8). What
+remains open is below; the forward-looking questions (capacity, use cases,
+forecast) move from "gap" to *the analysis itself* — see
+[the bigger picture](bigger-picture.md).
+
+- **Beneficial ownership of the shells.** Public records give registered agents and
+  organizers, never the human principal behind the Delaware LLCs. The cluster is
+  *plumbing*; who ultimately owns Bistrozzi (vs. who the campus serves) is unread.
+- **The withheld financials.** The cost-benefit analysis, the School District
+  Compensation dollar amounts, and the land-assembly purchase prices remain
+  non-public by the County's own choices (§6) — the figures that would price the
+  deal.
+- **Compute capacity & use cases `[analysis]`.** What ~275 MW of IT load and 36
+  cooling towers actually run — GovCloud / classification-level workloads vs.
+  commercial — is the open *analytical* track, not a missing document. See
+  [Economics](ECONOMICS.md) and [the bigger picture](bigger-picture.md).
 - **Resolution noise.** A few contact entities remain coarse (the model
   occasionally merged two names or a name+firm into one field); see the graph.
 

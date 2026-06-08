@@ -9,6 +9,12 @@
 # The nav is hand-maintained while build scripts reorganize the corpus, so a
 # moved/renamed extraction silently orphans a link; `tests/test_site_nav.py`
 # guards that every target here resolves in the built site.
+#
+# The top-level sections track the site's five public goals: present each source
+# document (Documents), tell the story (The Story), analyze each record and the
+# whole (Records, Analysis), place it in the broader boom (The Bigger Picture),
+# and teach the method (Methodology). The mandamus is preserved as background
+# under Legal history, no longer the organizing spine.
 
 site_name: Project BOSC — the public record
 site_description: >-
@@ -17,10 +23,47 @@ site_description: >-
 
 nav:
   - Home: home.md
-  - Dossier:
+  - The Story:
       - The Dossier: docs/DOSSIER.md
       - Research course: docs/COURSE.md
-  - Legal:
+      - People impacted: people/index.md
+  - Documents:
+      - Document catalog: documents/index.md
+      - Exhibits (download): exhibits.md
+  - Records:
+      - Overview: records/index.md
+      - Land & property:
+          - Deeds: records/deeds.md
+      - Permits & approvals:
+          - Ohio EPA / USACE: records/permits-epa.md
+          - NPDES: records/permits-npdes.md
+      - Business filings:
+          - Secretary of State: records/permits-sos.md
+      - Engineering:
+          - Plans: records/plans.md
+          - Cost estimates (OPC): records/opc.md
+      - County governance:
+          - Commissioners minutes & resolutions: data/extracted/commissioners/README.md
+  - Analysis:
+      - Timeline: timeline.md
+      - Entity graph (the actors): entities.md
+      - Subdivision meetings: meetings.md
+      - GIS findings map: gis-map.md
+      - Water balance (assimilative screen): data/extracted/commissioners/bosc-water-balance.analysis.md
+      - Hydrology: docs/HYDROLOGY.md
+      - Economics: docs/ECONOMICS.md
+      - Economics — localized baseline: economics-baseline.md
+  - Curated entities:
+      - Cloud-consumer candidates: candidates.md
+      - Defense contractors: defense-contractors.md
+      - RSEI toxic-release inventory: rsei.md
+      - Entity LEIs (GLEIF): lei.md
+  - The Bigger Picture:
+      - Overview: docs/bigger-picture.md
+  - Methodology:
+      - How we read the record: docs/methodology.md
+      - Interactive notebooks: notebooks.md
+  - Legal history:
       - Proponent analysis: docs/legal/proponent-analysis.md
       - PRR & mandamus:
           - Withholding map & source instruments: data/extracted/legal/prr-mandamus/README.md
@@ -38,38 +81,12 @@ nav:
       - Web-vendor audit:
           - Who runs the county sites: data/extracted/legal/web-vendor-audit/allen-county-web-vendor-audit.md
           - County-level sites: data/extracted/legal/web-vendor-audit/allen-county-level-sites.md
-  - Records:
-      - Overview: records/index.md
-      - Land & property:
-          - Deeds: records/deeds.md
-      - Permits & approvals:
-          - Ohio EPA / USACE: records/permits-epa.md
-          - NPDES: records/permits-npdes.md
-      - Business filings:
-          - Secretary of State: records/permits-sos.md
-      - Engineering:
-          - Plans: records/plans.md
-          - Cost estimates (OPC): records/opc.md
-      - County governance:
-          - Commissioners minutes & resolutions: data/extracted/commissioners/README.md
-  - Analysis:
-      - Timeline: timeline.md
-      - Entity graph: entities.md
-      - Subdivision meetings: meetings.md
-      - GIS findings map: gis-map.md
-      - Water balance (assimilative screen): data/extracted/commissioners/bosc-water-balance.analysis.md
-      - Individuals: people/index.md
-  - Curated entities:
-      - Cloud-consumer candidates: candidates.md
-      - Defense contractors: defense-contractors.md
-      - RSEI toxic-release inventory: rsei.md
-      - Entity LEIs (GLEIF): lei.md
-  - Exhibits: exhibits.md
   - Reference data:
       - Maumee NPDES inventory (ECHO): data/reference/echo/README.md
       - Allen County parcels (CAMA): data/reference/allen-gis/README.md
       - Lima zoning districts: data/reference/lima-gis/README.md
       - RSEI (EPA toxic-release): data/reference/rsei/README.md
       - Entity LEIs (GLEIF): data/reference/gleif/README.md
+      - Economic baseline (BLS QCEW): data/reference/economics/README.md
       - Hydrology: docs/HYDROLOGY.md
       - Economics: docs/ECONOMICS.md
