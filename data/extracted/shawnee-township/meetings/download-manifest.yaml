@@ -1,0 +1,147 @@
+meta:
+  subject: shawnee-township meeting-document download manifest
+  slug: shawnee-township
+  source_page: https://www.shawneetownshipohio.gov/meeting-minutes/
+  dest_dir: /Users/cparent/Code/shawnee-smart-systems/bosc/data/documents/shawnee-township/meetings
+  generated_at: '2026-06-08'
+  policy: non-destructive — originals keep as-received names; this is an alias/provenance
+    layer only.
+  date_evidence: listing — dates are parsed from the records-page link text/filename,
+    NOT content-verified. OCR of each file is the verification step.
+  counts:
+    total: 10
+    downloaded: 10
+    skipped_existing: 0
+    conflicts: 0
+    errors: 0
+documents:
+- filename: 2026-05-11-Minutes.pdf
+  canonical: 2026-05-11-minutes.pdf
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/05/2026-05-11-Minutes.pdf
+  body: null
+  kind: minutes
+  date: '2026-05-11'
+  title: May 11, 2026
+  sha256: 1f0544b4e73124d65dca74eb335597a50e986b27c8876c84455cec856906be6c
+  bytes: 686244
+  content_type: application/pdf
+  fetched_at: '2026-06-08T16:48:56.172545+00:00'
+  status: downloaded
+  note: null
+- filename: 2026-04-13-Miuntes.pdf
+  canonical: 2026-04-13-other.pdf
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/04/2026-04-13-Miuntes.pdf
+  body: null
+  kind: other
+  date: '2026-04-13'
+  title: April 13, 2026
+  sha256: 7ad88a1e79378c2c98a8d32c5e88f39f14b88a0c93947400a727e7b9364ff726
+  bytes: 2746803
+  content_type: application/pdf
+  fetched_at: '2026-06-08T16:48:56.950414+00:00'
+  status: downloaded
+  note: null
+- filename: 2026-03-23-Minutes.pdf
+  canonical: 2026-03-23-minutes.pdf
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/04/2026-03-23-Minutes.pdf
+  body: null
+  kind: minutes
+  date: '2026-03-23'
+  title: March 23, 2026
+  sha256: 7201b04dfd75dc6d7746511df96bd57a4c2149ab18cfa45a536d6099a95494a7
+  bytes: 2496136
+  content_type: application/pdf
+  fetched_at: '2026-06-08T16:48:57.751550+00:00'
+  status: downloaded
+  note: null
+- filename: 2026-03-09-Minutes.pdf
+  canonical: 2026-03-09-minutes.pdf
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/04/2026-03-09-Minutes.pdf
+  body: null
+  kind: minutes
+  date: '2026-03-09'
+  title: March 9, 2026
+  sha256: 25d47ce23adeaa0f713b1b365ac976560c1f6bedfe767c4bba2fa0a541422b34
+  bytes: 1255711
+  content_type: application/pdf
+  fetched_at: '2026-06-08T16:48:58.387743+00:00'
+  status: downloaded
+  note: null
+- filename: 2026-02-23-Minutes.pdf
+  canonical: 2026-02-23-minutes.pdf
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-02-23-Minutes.pdf
+  body: null
+  kind: minutes
+  date: '2026-02-23'
+  title: February 23, 2026
+  sha256: ca2f44c182981334d395042d2f3ce88f888c87d066249dff24f079c342a21c11
+  bytes: 83460
+  content_type: application/pdf
+  fetched_at: '2026-06-08T16:48:58.886533+00:00'
+  status: downloaded
+  note: null
+- filename: 2026-02-09-Minutes.pdf
+  canonical: 2026-02-09-minutes.pdf
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-02-09-Minutes.pdf
+  body: null
+  kind: minutes
+  date: '2026-02-09'
+  title: February 9, 2026
+  sha256: b00e96d6ce15a8b803ff1a4e2ed64c6820d121cbee707d72c3861e985dbc72dd
+  bytes: 121605
+  content_type: application/pdf
+  fetched_at: '2026-06-08T16:48:59.363760+00:00'
+  status: downloaded
+  note: null
+- filename: 2026-01-26-Miuntes.pdf
+  canonical: 2026-01-26-other.pdf
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-01-26-Miuntes.pdf
+  body: null
+  kind: other
+  date: '2026-01-26'
+  title: January 26, 2026
+  sha256: 07344d5ad308302fbca96321b110755a5acf7aeaba602ae6782937110f241e64
+  bytes: 2925477
+  content_type: application/pdf
+  fetched_at: '2026-06-08T16:49:00.257564+00:00'
+  status: downloaded
+  note: null
+- filename: 2026-01-15-Miuntes.pdf
+  canonical: 2026-01-15-other.pdf
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-01-15-Miuntes.pdf
+  body: null
+  kind: other
+  date: '2026-01-15'
+  title: January 15, 2026
+  sha256: 9207f898d02cf23e85a303212435a6ca072ed1b13eb0d935090bf3d2382744ba
+  bytes: 1462662
+  content_type: application/pdf
+  fetched_at: '2026-06-08T16:49:00.975590+00:00'
+  status: downloaded
+  note: null
+- filename: 2026-01-12-Miuntes.pdf
+  canonical: 2026-01-12-other.pdf
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-01-12-Miuntes.pdf
+  body: null
+  kind: other
+  date: '2026-01-12'
+  title: January 12, 2026
+  sha256: 5591b98ca88c258c124632f4ba8643b7590f448d612b3965b508a0785cd50291
+  bytes: 3089395
+  content_type: application/pdf
+  fetched_at: '2026-06-08T16:49:02.043643+00:00'
+  status: downloaded
+  note: null
+- filename: 2026-01-02-Reorganizational-Meeting.pdf
+  canonical: 2026-01-02-other.pdf
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-01-02-Reorganizational-Meeting.pdf
+  body: null
+  kind: other
+  date: '2026-01-02'
+  title: January 2, 2026
+  sha256: 9b31c941f6e15f484f42be4b7253f6e652ea4f40d1d4fb6f3b7819712a69eea3
+  bytes: 1142005
+  content_type: application/pdf
+  fetched_at: '2026-06-08T16:49:02.780545+00:00'
+  status: downloaded
+  note: null
