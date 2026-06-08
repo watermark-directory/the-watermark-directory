@@ -300,13 +300,22 @@ def _zoning_events(settings: Settings) -> list[TimelineEvent]:
     return events
 
 
+# Project-specific subjects that put a subdivision meeting on the corridor timeline.
+# Generic township topics (rezoning/easement/annexation/solar/setback/...) and
+# ambiguous names — ``hume`` (also a local road/surname that predates the project)
+# and ``amazon`` (the separate warehouse, not the data center) — stay searchable in
+# the meeting index ``hits`` but don't by themselves pull routine business onto the
+# chronology. (The fuller vocabulary lives in ``bosc.civic.keywords``.)
+_CORRIDOR_SUBJECTS = frozenset({"bosc", "bistrozzi", "datacenter", "google"})
+
+
 def _subdivision_meeting_events(settings: Settings) -> list[TimelineEvent]:
-    """Subdivision meetings whose minutes/agendas touch the corridor thread.
+    """Subdivision meetings that name the corridor project in their minutes/agendas.
 
     Reads every committed ``<slug>/meetings/meeting-index.yaml`` (built by
-    ``bosc subdivisions index`` from the downloaded documents) and surfaces only the
-    meetings whose text carried a corridor topic/subject ``hit`` — the rest stay in
-    the index as searchable corpus but don't flood the chronology. Agenda + minutes
+    ``bosc subdivisions index``) and surfaces only meetings whose text hit a
+    project-specific subject (``_CORRIDOR_SUBJECTS``) — routine township business
+    stays in the index as searchable corpus but off the chronology. Agenda + minutes
     for the same meeting collapse via a shared ``ref``.
     """
     events: list[TimelineEvent] = []
@@ -316,22 +325,23 @@ def _subdivision_meeting_events(settings: Settings) -> list[TimelineEvent]:
         rel = f"{slug}/meetings/meeting-index.yaml"
         name = slug.replace("-", " ").title()
         for d in data.get("documents", []):
-            if not isinstance(d, dict) or not d.get("hits"):
+            if not isinstance(d, dict):
                 continue
+            hits = [str(h) for h in d.get("hits", [])]
+            corridor = [h for h in hits if h in _CORRIDOR_SUBJECTS]
             date = d.get("date_verified") or d.get("date_listing")
-            if not date:
+            if not corridor or not date:
                 continue
             body = str(d.get("body") or name)
-            hits = ", ".join(str(h) for h in d.get("hits", []))
             events.append(
                 TimelineEvent(
                     date=str(date),
                     category="subdivision_meeting",
-                    title=f"{body} — {d.get('kind', 'meeting')} (corridor topics: {hits})",
+                    title=f"{body} — {d.get('kind', 'meeting')} (corridor: {', '.join(corridor)})",
                     source=rel,
                     ref=f"mtg-{slug}-{date}-{body}",
                     parties=(body,),
-                    detail=hits,
+                    detail=", ".join(hits),  # full hit set retained for context
                 )
             )
     return events
