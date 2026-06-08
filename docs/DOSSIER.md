@@ -75,8 +75,7 @@ the cluster, not beneficial-ownership findings. `[inference]`
 
 ## 3. Land assembly — the corridor block
 
-Five conveyances, all recorded to **Bistrozzi LLC**, assemble a contiguous block;
-a sixth conveys adjacent port-authority land to **Amazon** (a distinct thread).
+Five conveyances, all recorded to **Bistrozzi LLC**, assemble a contiguous block.
 `[verified: data/extracted/recorder/*.deed.yaml]`
 
 | Recorded | Instrument | Grantor → Grantee | Parcels |
@@ -85,7 +84,6 @@ a sixth conveys adjacent port-authority land to **Amazon** (a distinct thread).
 | 2025-08-13 | 202508130008312 | Neff Farms, Inc. → Bistrozzi LLC | 2 |
 | 2025-08-13 | 202508130008316 | Pike Run Farms LLC → Bistrozzi LLC | 1 |
 | 2026-03-04 | 202603040002064 | James & Suzanne Neighbors → Bistrozzi LLC | 1 |
-| 2025-11-18 | 202511180011830 | **Port Authority of Allen County → Amazon.com Services LLC** | 1 |
 
 Cross-check: BOSC's deed extractor independently reproduced Periplus's frozen
 hand-curated parcel ledger **11/11** (`tests/test_periplus_crosscheck.py`).
@@ -221,9 +219,7 @@ Second, a **federal-award** layer stamps USASpending all-time prime-award obliga
 the verified corridor parties: the corridor's federal defense nexus — **General Dynamics
 Land Systems** (the JSMC operator, **~$33.6 B**) and its parent **General Dynamics Corp**
 (**~$299 B**, which USASpending independently records as GDLS's parent, corroborating the
-GLEIF chain). The corridor land recipient **Amazon.com Services LLC** carries only
-**~$0.7 M** — consistent with its parcel being an Amazon.com **warehouse, not the data
-center**. The data-center end-user attribution remains **open**; *Google LLC* (~$73.5 M
+GLEIF chain). The data-center end-user attribution remains **open**; *Google LLC* (~$73.5 M
 federal) ties only to the **separate Scioto-County Project Dazzler** (the `google.com`
 applicant email), **not** the Lima campus — kept off-graph so the federal layer does not
 overclaim. `[verified: data/reference/usaspending/awards.yaml]`
@@ -395,7 +391,6 @@ A consistent advisory team sits behind the entities `[verified: entity graph]`:
 | 2025-09-29 | Tilted Gate LLC formed (DE) |
 | 2025-10-17 | Magenta Capital LLC formed (DE) |
 | 2025-10-28 | American Industrial Park 95% Grading & Storm Plan |
-| 2025-11-18 | Port Authority → Amazon conveyance |
 | 2025-12-10 | Air PTI — "Bistrozzi LLC Data Center – Initial Installation" |
 | 2026-03-04 | Neighbors → Bistrozzi (final parcel) |
 | 2026-04-08 | Bistrozzi Addition LLC SoS filing (DE) |
@@ -414,12 +409,6 @@ A consistent advisory team sits behind the entities `[verified: entity graph]`:
   in the timeline and entity graph. `[verified: data/extracted/recorder/202604210003890.deed.yaml]`
 - **Roadwork funding instrument.** We have the cost estimate, not the agreement —
   who bears overruns, and the exact PAAC deposit mechanics, are unread.
-- **Amazon — a second hyperscale consumer, not a loose end.** The
-  port-authority→Amazon conveyance (202511180011830) places a *second* cloud
-  consumer on the same corridor. Read through the regional cloud-consumer lens, the
-  material question is the **aggregate** demand and basin/grid burden of two
-  hyperscale loads — not whether the two developments are corporately linked, which
-  remains unestablished. `[open]`
 - **Resolution noise.** A few contact entities remain coarse (the model
   occasionally merged two names or a name+firm into one field); see the graph.
 
