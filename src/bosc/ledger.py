@@ -298,6 +298,29 @@ def _burdens(settings: Settings) -> list[BurdenItem]:
         except (KeyError, ValueError):
             pass
 
+    # Sanitary capital — the BOSC pump-station/forcemain + the Cridersville reroute (ratepayer).
+    san = settings.extracted_dir / "commissioners" / "sanitary-economics.yaml"
+    if san.is_file():
+        try:
+            data = yaml.safe_load(san.read_text(encoding="utf-8")) or {}
+            fig = data["figures"]
+            out.append(
+                BurdenItem(
+                    thread="sanitary capital (BOSC)",
+                    headline=(
+                        f"the BOSC sanitary load (0.13 MGD @ 83 F interim) is served by a "
+                        f"~${_num(fig['developer_pump_station_usd']):,} developer pump station + a "
+                        f"~${_num(fig['bosc_capital_permit_fee_usd']):,} capital permit fee, while the County "
+                        f"reroutes Cridersville/Shawnee Oaks to its own plant "
+                        f"(${_num(fig['reroute_loan_usd']):,} 0% loan) and moves to raise capital-permit/tap "
+                        "fees — onto a system already strained (Elm St 45->250 homes)"
+                    ),
+                    source="data/extracted/commissioners/sanitary-economics.yaml",
+                )
+            )
+        except (KeyError, ValueError):
+            pass
+
     # Land conversion — CAUV farmland taken out of agricultural use for the campus.
     land = settings.extracted_dir / "aedg" / "seller-land-packets.land.yaml"
     if land.is_file():
@@ -384,6 +407,13 @@ def build_ledger(settings: Settings | None = None) -> PublicLedger:
         "The school compensation the CRA keeps non-public surfaces in the Port Authority's own minutes as a "
         "proposed $200,000->$250,000/yr PILOT to Elida — evidence the deciding figure exists and is known, "
         "even as the executed agreement is withheld.",
+        "The abatement is not bespoke to the data center: the same AEDG Enterprise-Zone/CRA machinery is a "
+        "standing County product (renewed annually by resolution — #42/#43-23 -> #45-24 -> #62-25) and was "
+        "applied to e.g. a Nutrien 50%/10-yr abatement (Russ Decker, 2024-12-19) on the same Leis/Niemeyer/"
+        "Woods rails — so the BOSC subsidy sits inside a routine abatement pipeline, not a one-off.",
+        "The Board first invoked the economic-development executive-session exemption ORC 121.22(G)(8) on "
+        "2025-05-27 for the BOSC CRA — expressly citing the Bistrozzi NDA — and never before in the covered "
+        "record (2023-2024): the closed-meeting shield mirrors the records shield.",
     ]
 
     meta = {
@@ -408,6 +438,9 @@ def build_ledger(settings: Settings | None = None) -> PublicLedger:
             "Obtain any Ohio Data Center Tax Exemption (DCTE) agreement for Bistrozzi/Google — a SECOND "
             "subsidy layer (sales/use tax on the EQUIPMENT, which the CRA's real-property abatement does "
             "not touch). ODOD testified it holds 18 such agreements (witness-submissions.digest.yaml).",
+            "Source the BOSC sanitary capital: the ~$32M developer pump station + ~$3.125M capital permit "
+            "fee, and the Cridersville-reroute $1M 0% loan economics (sanitary-economics.yaml) — including "
+            "whether the capital-permit/tap-fee increases land on existing ratepayers.",
         ],
     }
     return PublicLedger(

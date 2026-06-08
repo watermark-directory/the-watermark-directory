@@ -68,6 +68,18 @@ def test_new_aedg_burdens_folded_in(hydro_settings: Settings) -> None:
     assert any("PILOT" in f for f in led.findings)
 
 
+def test_sanitary_capital_and_pattern_findings(hydro_settings: Settings) -> None:
+    """The commissioners sanitary economics + abatement-pattern findings fold in."""
+    led = ledger.build_ledger(hydro_settings)
+    threads = {b.thread for b in led.burdens}
+    assert "sanitary capital (BOSC)" in threads
+    san = next(b for b in led.burdens if b.thread == "sanitary capital (BOSC)")
+    assert "3,125,000" in san.headline and "32,000,000" in san.headline
+    # Findings: the abatement is a standing pattern (Nutrien) and the (G)(8) shield is BOSC-first.
+    assert any("Nutrien" in f for f in led.findings)
+    assert any("121.22(G)(8)" in f for f in led.findings)
+
+
 def test_burdens_span_the_prior_threads(hydro_settings: Settings) -> None:
     """The ledger pulls each cross-thread burden from its committed artifact."""
     led = ledger.build_ledger(hydro_settings)

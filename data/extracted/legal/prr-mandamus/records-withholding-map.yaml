@@ -1,0 +1,122 @@
+kind: withholding_map
+subject: Project BOSC — the layered records-withholding architecture (one map of every mechanism)
+
+provenance:
+  assembled_from: committed extractions across the corpus (see each mechanism's source)
+  content_verified: '2026-06-08'
+  method: "Consolidation of withholding mechanisms already extracted individually; clause numbers and operative text transcribed from the committed YAMLs."
+
+thesis: >-
+  The withholding of Project BOSC records is not a single refusal but a LAYERED ARCHITECTURE that
+  follows the records lifecycle: a front-end statutory non-record shield (R.C. 4582.58) keeps the
+  developer's information out of "record" status; three parallel CONTRACTUAL developer-notice clauses
+  (NDA §6, RDA §9.13) require the County/Authority to tip off the developer and minimize before
+  answering any request; a fee-shifting indemnity (CRA §22) insulates the County from the cost of
+  losing a public-records suit; the deliberations themselves are closed under the economic-development
+  open-meetings exemption (ORC 121.22(G)(8)); and the production that does occur withholds the deciding
+  figures (cost-benefit, school compensation, land prices) or defers them. Each layer is individually
+  lawful-looking; together they form a system engineered to keep the deal's substance non-public.
+  [every clause/citation is document; the "engineered system" characterization is argument.]
+
+the_stack:                            # ordered along the records lifecycle
+  - layer: 1 — front-end statutory shield
+    mechanism: "R.C. 4582.58 economic-development non-record shield"
+    instrument: "Port Authority records policy (adopted 2022-07-28)"
+    operative_text: >-
+      "Financial and proprietary information, including trade secrets, submitted to the Authority is
+      not a public record subject to ORC 149.43 until that employer commits in writing to proceed."
+    effect: "Developer information routed THROUGH AEDG/PAAC is a statutory non-record during the entire formative period — so the deal's substance never enters 'record' status while it is being decided."
+    source: data/extracted/aedg/paac-records-policy.policy.yaml
+  - layer: 2 — contractual developer-notice (County)
+    mechanism: "Mutual NDA §6(f) — prior-notice / minimize / seek-confidential-treatment"
+    instrument: "County–Bistrozzi Mutual NDA (Res #417-25, 2025-05-27; executed 2025-07-01; recorded JR510 PAGE027)"
+    originator: "Asst. Prosecuting Attorney John R. Willamowski, Jr. (the County's own counsel requested the Board enter it)"
+    operative_text: >-
+      Before responding to any legal process requiring disclosure of Company confidential information,
+      the County must (i) give the Company PRIOR WRITTEN NOTICE — "at least 10 business days"; (ii)
+      disclose only "such information as is required by law"; and (iii) "request and seek confidential
+      treatment" for it. (§6(f))
+    effect: "A tip-off-and-minimize protocol baked in BEFORE any public-records request is answered."
+    source: data/extracted/legal/prr-mandamus/mutual-nda-bistrozzi.nda.yaml
+  - layer: 2 — contractual developer-notice (Authority)
+    mechanism: "RDA §9.13 — prior-notice (a third, parallel clause)"
+    instrument: "Roadwork Development Agreement (PAAC/County/Bistrozzi; County Res #588-25, 2025-07-31; eff. 2025-09-15)"
+    operative_text: >-
+      The Company acknowledges the Agreement is a public record, but the Authority agrees to "give the
+      Company written notice AT LEAST FIVE (5) BUSINESS DAYS prior" to disclosure. (§9.13)
+    effect: "A second developer-notice mechanism on the Authority side, paralleling NDA §6."
+    source: data/extracted/aedg/roadwork-development-agreement.rda.yaml
+  - layer: 3 — fee-shifting deterrent
+    mechanism: "CRA §22 — public-records indemnity / attorney-fee shift"
+    instrument: "Community Reinvestment Area Agreement (Res #548-25, 2025-07-10)"
+    operative_text: >-
+      The Agreement is a public record (R.C. 149.43), but "the Company INDEMNIFIES the County and pays
+      its attorney fees if, in a public-records action, the County withheld a record." (§22)
+    effect: "The County is financially insulated from the cost of losing a mandamus — the developer underwrites the defense of withholding, removing the usual deterrent to over-withholding."
+    source: data/extracted/legal/prr-mandamus/cra-agreement.cra.yaml
+  - layer: 4 — closed deliberation (open-meetings analog)
+    mechanism: "ORC 121.22(G)(8) economic-development executive sessions"
+    instrument: "Board of Commissioners executive sessions"
+    operative_text: >-
+      First invoked 2025-05-27 for the BOSC CRA, EXPRESSLY citing the Bistrozzi NDA as the basis for
+      confidential discussion; 5 econ-dev/property (G)(8)/(G)(2) sessions across 2025-2026; the
+      exemption appears NOWHERE in the covered record before 2025-05-27.
+    effect: "The deliberations themselves are held out of public view — the open-meetings counterpart to the records shield."
+    source: data/extracted/commissioners/closed-deliberation-and-corridor.yaml
+  - layer: 5 — non-production (PRR)
+    mechanism: "Withheld / deferred public-records-request items"
+    instrument: "County PRR production (cover letter 2026-06-05, Clerk Brittany N. Woods)"
+    operative_text: >-
+      Item 4 (the County's cost-benefit analysis) WITHHELD under R.C. 149.43 / 9.66 as "being reviewed
+      by legal counsel"; items 5-15 (BOSC pump-station/forcemain RFP+bids, Shawnee II Phase 2, forcemain
+      feasibility) DEFERRED to the Sanitary Engineer — though the authorizing resolutions sit in the
+      Board's OWN minutes (#469-25/#575-25/#713-25/#975-25/#137-26); item 16 (CMS audit trail)
+      custody-disclaimed despite a live HTTP-401 /revisions gate.
+    effect: "The deciding analysis and the engineering universe are not produced, by deferral or claim."
+    source: data/extracted/legal/corpus-completeness-audit.md
+  - layer: 6 — blank-figure production
+    mechanism: "Records produced with the deciding figures empty / non-public"
+    instrument: "Recorded deeds + DTE-100 forms; CRA school-compensation terms"
+    operative_text: >-
+      The land-assembly deeds state only "valuable consideration" and the DTE-100 transfer-tax forms
+      were produced with the consideration fields BLANK (only the Neighbors $600k/5ac is disclosed);
+      the School District Compensation Agreement dollar amounts are non-public (only the 25% statutory
+      floor is disclosed; a proposed $200k->$250k/yr PILOT surfaces only in PAAC minutes).
+    effect: "What IS produced omits the numbers that decide the public-interest question — prices and school terms."
+    source: data/extracted/aedg/seller-land-packets.land.yaml
+
+actors:                               # who built / operates the stack
+  origin_county_counsel: "John R. Willamowski, Jr. (Asst. Prosecutor) — originated the NDA; County counsel on the RDA"
+  developer_counsel: "Vorys — Scott Ziance (NDA signatory, CRA counsel) + Jill Tangeman (RDA, land assignments); Jon Stock (CRA process)"
+  econdev_custodian: "Cynthia Leis — AEDG President/CEO + PAAC Executive Director (the 4582.58 shield + records custody in one person)"
+  clerk: "Brittany N. Woods — Clerk of the Board (the PRR production cover)"
+
+mandamus_relevance: >-
+  This is the spine of the records case: the County did not merely decline one request, it agreed in
+  advance (NDA §6, RDA §9.13) to notify and minimize, indemnified its own withholding (CRA §22),
+  deliberated in closed session under the econ-dev exemption (G)(8), and produced the deciding records
+  blank or not at all (items 4, 5-15, prices, school terms) — all behind the R.C. 4582.58 front-end
+  shield. The contradiction the audit flags (items 5-15 "deferred" yet legislated in the Board's own
+  minutes) shows the records exist where the request was directed.
+
+cross_refs:
+  - data/extracted/legal/prr-mandamus/mutual-nda-bistrozzi.nda.yaml
+  - data/extracted/legal/prr-mandamus/cra-agreement.cra.yaml
+  - data/extracted/aedg/roadwork-development-agreement.rda.yaml
+  - data/extracted/aedg/paac-records-policy.policy.yaml
+  - data/extracted/commissioners/closed-deliberation-and-corridor.yaml
+  - data/extracted/commissioners/bosc-resolution-ledger.yaml
+  - data/extracted/legal/corpus-completeness-audit.md
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml
+  - data/extracted/aedg/seller-land-packets.land.yaml
+  - src/bosc/ledger.py
+
+relevance:
+  tags: [verified, records, withholding, mandamus, nda, cra, rda, 4582.58, open-meetings, prr]
+  note: >-
+    One map of Project BOSC's layered records-withholding architecture: the R.C. 4582.58 front-end
+    non-record shield; the contractual developer-notice clauses (NDA §6(f) ≥10 business days, RDA §9.13
+    ≥5 business days); the CRA §22 attorney-fee indemnity insulating the County; the ORC 121.22(G)(8)
+    closed deliberations (first used 2025-05-27 for the CRA, NDA-cited); and the non-/blank production
+    of the deciding figures (cost-benefit item 4, items 5-15, land prices, school compensation). Built
+    by the County's own counsel (Willamowski Jr.) + Vorys + the dual-hatted Leis.
