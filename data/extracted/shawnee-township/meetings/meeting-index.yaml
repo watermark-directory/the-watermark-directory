@@ -1,0 +1,140 @@
+meta:
+  subject: shawnee-township meeting index (text-verified dates + corridor hits)
+  slug: shawnee-township
+  generated_at: '2026-06-08'
+  text_extraction: 'PDF text layer (pypdf) / DOCX / HTML — NO OCR. An image-only scanned
+    PDF has text_method: none (date unverified, text unscanned); those need an OCR
+    pass not wired here.'
+  date_evidence: date_verified is the listing date CONFIRMED in the file's own text;
+    null means unconfirmed (date_listing still stands).
+  counts:
+    total: 10
+    text_extracted: 10
+    date_verified: 10
+    with_corridor_hits: 3
+documents:
+- filename: 2026-05-11-Minutes.pdf
+  kind: minutes
+  body: null
+  date_listing: '2026-05-11'
+  date_verified: '2026-05-11'
+  date_evidence: ocr
+  text_method: ocr
+  char_count: 7791
+  hits: []
+  title: May 11, 2026
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/05/2026-05-11-Minutes.pdf
+  sha256: 1f0544b4e73124d65dca74eb335597a50e986b27c8876c84455cec856906be6c
+- filename: 2026-04-13-Miuntes.pdf
+  kind: other
+  body: null
+  date_listing: '2026-04-13'
+  date_verified: '2026-04-13'
+  date_evidence: ocr
+  text_method: ocr
+  char_count: 10363
+  hits:
+  - bess
+  - datacenter
+  title: April 13, 2026
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/04/2026-04-13-Miuntes.pdf
+  sha256: 7ad88a1e79378c2c98a8d32c5e88f39f14b88a0c93947400a727e7b9364ff726
+- filename: 2026-03-23-Minutes.pdf
+  kind: minutes
+  body: null
+  date_listing: '2026-03-23'
+  date_verified: '2026-03-23'
+  date_evidence: ocr
+  text_method: ocr
+  char_count: 8592
+  hits:
+  - datacenter
+  - solar
+  title: March 23, 2026
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/04/2026-03-23-Minutes.pdf
+  sha256: 7201b04dfd75dc6d7746511df96bd57a4c2149ab18cfa45a536d6099a95494a7
+- filename: 2026-03-09-Minutes.pdf
+  kind: minutes
+  body: null
+  date_listing: '2026-03-09'
+  date_verified: '2026-03-09'
+  date_evidence: ocr
+  text_method: ocr
+  char_count: 8638
+  hits:
+  - datacenter
+  title: March 9, 2026
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/04/2026-03-09-Minutes.pdf
+  sha256: 25d47ce23adeaa0f713b1b365ac976560c1f6bedfe767c4bba2fa0a541422b34
+- filename: 2026-02-23-Minutes.pdf
+  kind: minutes
+  body: null
+  date_listing: '2026-02-23'
+  date_verified: '2026-02-23'
+  date_evidence: ocr
+  text_method: ocr
+  char_count: 4979
+  hits: []
+  title: February 23, 2026
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-02-23-Minutes.pdf
+  sha256: ca2f44c182981334d395042d2f3ce88f888c87d066249dff24f079c342a21c11
+- filename: 2026-02-09-Minutes.pdf
+  kind: minutes
+  body: null
+  date_listing: '2026-02-09'
+  date_verified: '2026-02-09'
+  date_evidence: ocr
+  text_method: ocr
+  char_count: 7590
+  hits: []
+  title: February 9, 2026
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-02-09-Minutes.pdf
+  sha256: b00e96d6ce15a8b803ff1a4e2ed64c6820d121cbee707d72c3861e985dbc72dd
+- filename: 2026-01-26-Miuntes.pdf
+  kind: other
+  body: null
+  date_listing: '2026-01-26'
+  date_verified: '2026-01-26'
+  date_evidence: ocr
+  text_method: ocr
+  char_count: 10426
+  hits: []
+  title: January 26, 2026
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-01-26-Miuntes.pdf
+  sha256: 07344d5ad308302fbca96321b110755a5acf7aeaba602ae6782937110f241e64
+- filename: 2026-01-15-Miuntes.pdf
+  kind: other
+  body: null
+  date_listing: '2026-01-15'
+  date_verified: '2026-01-15'
+  date_evidence: ocr
+  text_method: ocr
+  char_count: 5828
+  hits: []
+  title: January 15, 2026
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-01-15-Miuntes.pdf
+  sha256: 9207f898d02cf23e85a303212435a6ca072ed1b13eb0d935090bf3d2382744ba
+- filename: 2026-01-12-Miuntes.pdf
+  kind: other
+  body: null
+  date_listing: '2026-01-12'
+  date_verified: '2026-01-12'
+  date_evidence: ocr
+  text_method: ocr
+  char_count: 10585
+  hits: []
+  title: January 12, 2026
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-01-12-Miuntes.pdf
+  sha256: 5591b98ca88c258c124632f4ba8643b7590f448d612b3965b508a0785cd50291
+- filename: 2026-01-02-Reorganizational-Meeting.pdf
+  kind: other
+  body: null
+  date_listing: '2026-01-02'
+  date_verified: '2026-01-02'
+  date_evidence: ocr
+  text_method: ocr
+  char_count: 9051
+  hits: []
+  title: January 2, 2026
+  source_url: http://www.shawneetownshipohio.gov/wp-content/uploads/2026/03/2026-01-02-Reorganizational-Meeting.pdf
+  sha256: 9b31c941f6e15f484f42be4b7253f6e652ea4f40d1d4fb6f3b7819712a69eea3
