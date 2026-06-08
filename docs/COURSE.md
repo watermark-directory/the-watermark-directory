@@ -1,7 +1,19 @@
 # Project BOSC — Research Course
 
-> **Status:** living draft (v0). This charts *what we're investigating* and, in
-> sequence, *what we need to build* to investigate it. Inquiry drives engineering.
+> **Status:** living draft. This charts *what we're investigating* and, in
+> sequence, *what we built* to investigate it. Inquiry drives engineering.
+>
+> **Where the inquiry stands.** The deconstruction phase answered the two first
+> questions: **what** it is (a hardened ~275 MW data-center campus on the N. Cole
+> corridor) and **who** it is for (**Google** — now on three independent corpus
+> sources: the **AEDG release**, the PAAC minutes, and the LACRPC minutes; see
+> [DOSSIER §1](DOSSIER.md)). The course now turns from *identification* to
+> *analysis and forecasting*: the **beneficiaries** and how they correlate to the
+> broader data-center boom, the **compute capacity and workloads** the plans imply
+> (the GovCloud question is substantially answered — Liz Schultz's "classification
+> levels"), the **Maumee watershed comparison** (does Fort Wayne mirror the
+> dilution thesis?), and **localized economics** beyond utility consumption. See
+> §1.5 for the forward tracks.
 >
 > **Evidence discipline:** claims below are tagged `[verified]` (read directly
 > from a source document or committed extraction, with a citation),
@@ -53,11 +65,12 @@ Ohio** — a single geography touched by four threads that are normally separate
    Magenta Capital, Tilted Gate, and a "Bistrozzi Addition." `[filename:
    data/documents/permits/]`
 
-The thesis to test: **a large private development is driving a coordinated
-build-out of public road and utility capacity on the Cole Street corridor, with
-the port authority as the financing/land vehicle.** Who pays, who benefits, who
-owns the land, and whether the public cost is proportionate are the open
-questions. `[open]`
+The thesis, now **established** by the corpus: a Google data-center campus is
+driving a coordinated build-out of public road and utility capacity on the Cole
+Street corridor, with the port authority as the financing/land vehicle.
+`[verified: DOSSIER §1, §6–§7]` The live questions have moved downstream — **who
+benefits and at what public cost**, **what the campus consumes and runs**, and
+**how this fits the national pattern** — the forward tracks in §1.5.
 
 ### 1.2 Core research questions
 
@@ -107,6 +120,40 @@ where the public record already places them, as `[open]` context.
 - **Roshel / International Motors (Springfield APA, 2026-03-30).** Logged strictly
   as **corridor context, not a connection** — the evidence does not link it to
   BOSC, and it must **not** enter the entity graph.
+
+### 1.5 Forward tracks — from identification to forecasting
+
+With *what* and *who* settled, five tracks carry the inquiry forward. Each is an
+analysis, not a missing document.
+
+1. **Beneficiaries & relation classes.** Move the entity graph past *mechanical*
+   edges (who conveyed to whom) to the **nature** of each party's tie to the
+   project: direct approval, direct management, direct beneficiary, possible
+   end-user, environmental beneficiary, and relations to other government bodies.
+   The graph stays corpus-verified — this is a classifying overlay, not new
+   parties (Google stays an annotation, not a node). `[in progress]`
+2. **Compute capacity & workloads.** Translate the disclosed plant — ~313 MW
+   backup / ~275 MW IT, 36 cooling towers — into a *capacity* reading and the
+   **workload classes** it fits. The **GovCloud** question is substantially
+   answered: Liz Schultz addressed it in indirect language ("classification
+   levels"). Associate the capacity with concrete workload profiles and price the
+   GovCloud premium. `[analysis]`
+3. **The Maumee watershed comparison.** Lima's discharges screen as effectively
+   undiluted at low flow. Does **Fort Wayne** — and the other large Maumee Basin
+   dischargers — mirror that dilution thesis, or is Lima distinct? A basin-scale
+   read using the ECHO NPDES inventory already in the corpus. `[analysis]`
+4. **Hydrology, expanded to hypotheses.** Reflect that BOSC output routes to
+   **Lima (FM-2)** and **American II (FM-1)** only; **Shawnee II has no known
+   routing** (the FM-3 lead is theorized, not confirmed). Then run hypotheses at
+   three levels — **macro** (Maumee basin), **local** (Lima loop), **site**
+   (per-campus / per-WWTP). `[in progress]`
+5. **Localized economics.** Move past utility consumption to quantitative local
+   baselines — **population over time, employment by industry, export
+   orientation** — so the economic argument is grounded in the place, not only in
+   qualitative entity research. `[in progress]`
+
+These feed [the bigger picture](bigger-picture.md), [Economics](ECONOMICS.md),
+and [Hydrology](HYDROLOGY.md).
 
 ## 2. The engineering, sequenced to the inquiry
 

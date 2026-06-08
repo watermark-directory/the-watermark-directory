@@ -21,6 +21,7 @@ from bosc.candidates import (
 )
 from bosc.civic.summarize import load_committed_summaries
 from bosc.config import Settings, get_settings
+from bosc.economics.baseline import load_baseline as load_econ_baseline
 from bosc.gleif import load_inventory as load_lei_inventory
 from bosc.logging import get_logger
 from bosc.people import load_people
@@ -29,11 +30,14 @@ from bosc.pipeline.entities import build_entity_graph
 from bosc.pipeline.timeline import build_timeline
 from bosc.rsei import load_inventory as load_rsei_inventory
 from bosc.site import candidates as candidates_mod
+from bosc.site import documents as documents_mod
+from bosc.site import economics as economics_mod
 from bosc.site import exhibits as exhibits_mod
 from bosc.site import gismap as gismap_mod
 from bosc.site import gleif as gleif_mod
 from bosc.site import graph as graph_mod
 from bosc.site import meetings as meetings_mod
+from bosc.site import notebooks as notebooks_mod
 from bosc.site import people as people_mod
 from bosc.site import records as records_mod
 from bosc.site import rsei as rsei_mod
@@ -55,6 +59,8 @@ class BuildResult:
     n_entities: int = 0
     n_relationships: int = 0
     exhibits: list[exhibits_mod.Exhibit] = field(default_factory=list)
+    n_documents: int = 0
+    n_document_collections: int = 0
     people_pages: list[people_mod.PersonPage] = field(default_factory=list)
     n_people_tracked: int = 0
     n_candidates: int = 0
@@ -62,6 +68,7 @@ class BuildResult:
     n_rsei_facilities: int = 0
     n_lei_records: int = 0
     n_meeting_summaries: int = 0
+    n_notebooks: int = 0
 
 
 def _mirror_tree(
@@ -96,14 +103,16 @@ def _mirror_tree(
 
 
 def _render_home(result: BuildResult) -> str:
-    """The landing page — what-this-is, the disclaimer, and a live corpus snapshot."""
+    """The landing page — what-this-is, the disclaimer, a corpus snapshot, the doors."""
     return "\n".join(
         [
             "# Project BOSC — the public record",
             "",
-            "A browsable, citable view of the BOSC public-records corpus: primary "
-            "documents read from degraded scans into structured data, plus the "
-            "cross-document analysis built on top of them.",
+            "Project BOSC reconstructs the public record of a **Google data-center "
+            "campus** being built on the North Cole Street corridor in Lima, Ohio — "
+            "a record kept deliberately thin. Primary documents (degraded scans, OCR "
+            "PDFs) are read into reviewed, cited, structured data, and the analysis is "
+            "built only on what those documents support.",
             "",
             '!!! warning "What this is — and is not"',
             "    This site publishes **public records** and analysis of them. "
@@ -115,18 +124,27 @@ def _render_home(result: BuildResult) -> str:
             "",
             "## The corpus at a glance",
             "",
+            f"- **{result.n_documents}** primary source documents in the "
+            f"[catalog](documents/index.md), across {result.n_document_collections} collections",
             f"- **{result.n_records}** structured records across deeds, EPA/USACE and "
             "NPDES permits, Secretary-of-State filings, plans, and cost estimates",
             f"- **{result.n_entities}** resolved entities and "
             f"**{result.n_relationships}** relationships in the [entity graph](entities.md)",
             f"- **{result.n_events}** dated events in the [timeline](timeline.md)",
             "",
-            "## Start here",
+            "## Five ways in",
             "",
-            "- **[The Dossier](docs/DOSSIER.md)** — the synthesis of everything deconstructed so far",
-            "- **[Records](records/index.md)** — every extraction, browsable by kind",
-            "- **[Exhibits](exhibits.md)** — key primary-source documents to download",
-            "- **[Timeline](timeline.md)** · **[Entity graph](entities.md)** — the cross-document layer",
+            "1. **[Documents](documents/index.md)** — the full source-document catalog; "
+            "key exhibits download directly.",
+            "2. **[The Story](docs/DOSSIER.md)** — what Project BOSC is, the actors behind "
+            "it, and the [people impacted](people/index.md).",
+            "3. **[Analysis](records/index.md)** — each document read into structured data, "
+            "plus the cross-document [timeline](timeline.md), [entity graph](entities.md), "
+            "[hydrology](docs/HYDROLOGY.md), and [economics](docs/ECONOMICS.md).",
+            "4. **[The bigger picture](docs/bigger-picture.md)** — how Lima compares to the "
+            "broader data-center boom.",
+            "5. **[Methodology](docs/methodology.md)** — how we read a degraded scan into "
+            "citable data, taught through runnable notebooks.",
             "",
         ]
     )
@@ -149,8 +167,17 @@ def _render_records_index(pages: list[records_mod.RecordPage]) -> str:
     return "\n".join(lines)
 
 
-def build_site(settings: Settings | None = None, web_dir: Path | None = None) -> BuildResult:
-    """Generate the full ``web/`` staging tree and return a build summary."""
+def build_site(
+    settings: Settings | None = None,
+    web_dir: Path | None = None,
+    *,
+    notebooks: bool = False,
+) -> BuildResult:
+    """Generate the full ``web/`` staging tree and return a build summary.
+
+    ``notebooks=True`` also exports the marimo methodology notebooks to WASM apps
+    (skipped gracefully when marimo isn't installed).
+    """
     settings = settings or get_settings()
     repo_root = settings.data_dir.parent
     web = web_dir or (repo_root / "web")
@@ -203,6 +230,7 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
         enrich_rsei=True,
         enrich_federal=True,
         enrich_subdivisions=True,
+        enrich_relation_classes=True,
         settings=settings,
     )
     result.n_events = len(events)
@@ -239,6 +267,18 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
     exhibits = exhibits_mod.build_exhibits(manifest, settings.documents_dir, web / "exhibits")
     (web / "exhibits.md").write_text(exhibits_mod.render_exhibits(exhibits), encoding="utf-8")
     result.exhibits = exhibits
+
+    # 5b. Full source-document catalog (every file under data/documents, grouped by
+    # collection). Curated exhibits download directly; the rest are catalogued by
+    # their corpus path (or linked to an external mirror when configured).
+    docs_catalog = documents_mod.render_documents(
+        settings.documents_dir,
+        web / "documents",
+        exhibits=exhibits,
+        mirror_base_url=settings.documents_mirror_base_url,
+    )
+    result.n_documents = docs_catalog.n_documents
+    result.n_document_collections = len(docs_catalog.collections)
 
     # 6. Individual profiles — render only the expanded-research ones, plus an index.
     people_dst = web / "people"
@@ -283,6 +323,21 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
         )
         result.n_lei_records = len(lei_inv.records)
 
+    # 6b-iv. Localized economic baseline (data/reference/economics/baseline.yaml).
+    econ_baseline = load_econ_baseline(settings.reference_dir)
+    if econ_baseline is not None:
+        (web / "economics-baseline.md").write_text(
+            economics_mod.render_economics(econ_baseline), encoding="utf-8"
+        )
+
+    # 6b-v. Methodology notebooks — export marimo WASM apps (opt-in via `notebooks`),
+    # then always write the Methodology index (lists them, or how to enable them).
+    nb_exports = notebooks_mod.export_notebooks(repo_root, web, enabled=notebooks)
+    result.n_notebooks = sum(1 for e in nb_exports if e.available)
+    (web / "notebooks.md").write_text(
+        notebooks_mod.render_notebooks_page(nb_exports, enabled=notebooks), encoding="utf-8"
+    )
+
     # 6c. GIS findings map — copy the committed GeoJSON as a static asset, render the
     # Leaflet page (it fetches the asset client-side).
     findings_geojson = settings.data_dir / "site" / "gis-findings.geojson"
@@ -305,5 +360,6 @@ def build_site(settings: Settings | None = None, web_dir: Path | None = None) ->
         events=result.n_events,
         entities=result.n_entities,
         exhibits=len(result.exhibits),
+        documents=result.n_documents,
     )
     return result
