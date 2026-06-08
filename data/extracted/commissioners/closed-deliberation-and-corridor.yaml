@@ -27,15 +27,33 @@ thesis: >-
 
 executive_session_tally:              # OCR-attributed; undercounts (see caveat)
   detected_mentions: 163
-  by_orc_121_22_G:
-    "(G)(1)_personnel_compensation": 53
-    "(G)(2)_property_purchase_sale_lease": 8
-    "(G)(3)_pending_or_imminent_litigation": 4
-    "(G)(4)_collective_bargaining": 9
-    "(G)(6)_security_matters": 7
-    "(G)(8)_economic_development_confidential": 4
-    "uncoded_in_window": 78
-  note: "269 'Executive Sessions' were flagged in the Periplus minutes-flag-report over the full set; this OCR pass detected 163 in the 2024-2026 parquet."
+  census_2024_2026:                   # FULL census (resolved); committed parquet OCR
+    method: >-
+      Each "executive session" occurrence in a session-OPENING context (motion/pursuant; return-to-
+      general-session lines excluded) counted as a session; ORC 121.22(G)(n) read case-insensitively
+      from a ±380-char window; the ~18 sessions whose code the OCR dropped were classified from the
+      verbatim purpose text (marked inferred). 117 contexts detected; ~10 residual are return-line
+      artifacts; ~107 distinct sessions.
+    by_orc_121_22_G:                  # explicit code + purpose-inferred
+      "(G)(1)_personnel_compensation": 68
+      "(G)(2)_property_purchase_sale_lease": 14
+      "(G)(3)_pending_or_imminent_litigation": 5
+      "(G)(4)_collective_bargaining": 11
+      "(G)(6)_security_matters": 6
+      "(G)(8)_economic_development_confidential": 5   # all 2025-2026; see headline below
+      "unclassifiable_residual": 10                   # mostly return-line fragments, not new sessions
+  census_2023:                        # ad-hoc OCR (uncommitted; see bosc-2023-backfill.yaml) — for completeness
+    distinct_sessions: 50
+    by_orc_121_22_G: {"(G)(1)": 30, "(G)(2)": 9, "(G)(3)": 5, "(G)(5)": 2, "unclassifiable": 4}
+    note: "ZERO (G)(8) economic-development sessions in 2023; the (G)(2) property sessions are all routine (disposition of obsolete property/beds, fishing access, public-purpose purchases) -- none data-center-related."
+  headline_g8: >-
+    The economic-development executive-session exemption ORC 121.22(G)(8) does NOT appear anywhere in
+    the covered record (2023, 2024) until 2025-05-27 -- the BOSC CRA. Every (G)(8) session is 2025-2026
+    and econ-dev/property-deal related (2025-05-27 CRA; 2025-10-01 PAAC land; 2025-12-18 a "potential
+    project"/county grant agreement; 2026-01-08 sale + protecting "the applicant or the possible
+    investment"). The County had not closed a meeting for economic development in this record before
+    the data center. [the first-appearance is verified by census; causation is inference.]
+  prior_estimate_note: "Supersedes the earlier indicative tally (163 raw mentions / 78 uncoded); 269 'Executive Sessions' were flagged across the full Periplus minutes-flag-report set."
 
 econdev_and_property_sessions:        # the BOSC-relevant closed deliberations (verbatim purpose)
   - date: '2025-02-14'
