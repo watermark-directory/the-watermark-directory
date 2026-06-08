@@ -142,9 +142,9 @@ def test_subdivision_meeting_events_surface_only_corridor_hits(tmp_path: Path) -
                 "body": None,
                 "date_verified": None,
                 "date_listing": "2026-03-01",
-                "hits": [],
+                "hits": ["rezoning", "annexation"],
                 "filename": "b.pdf",
-            },  # no hits -> not on timeline
+            },  # generic township topics only -> stays in index, off the timeline
         ],
     }
     out = settings.extracted_dir / "shawnee-township" / "meetings" / "meeting-index.yaml"

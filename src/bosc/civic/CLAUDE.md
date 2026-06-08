@@ -53,9 +53,12 @@ Defers to the root [`CLAUDE.md`](../../../CLAUDE.md).
   restate the date), and scans for corridor topics (`keywords.scan_text`). Writes
   `data/extracted/<slug>/meetings/meeting-index.yaml`. The timeline
   (`pipeline/timeline.py:_subdivision_meeting_events`) surfaces **only** meetings
-  with a corridor `hit` as `category: subdivision_meeting` (agenda+minutes collapse
-  via a shared `ref`); the rest stay in the index as searchable corpus. Site picks
-  the category up automatically.
+  whose text names a project-specific subject (`datacenter`/`bosc`/`bistrozzi`/
+  `google` — `_CORRIDOR_SUBJECTS`) as `category: subdivision_meeting` (agenda+minutes
+  collapse via a shared `ref`). Generic township topics (rezoning/easement/
+  annexation/solar/...) and ambiguous names (`hume`, `amazon`) stay in the index
+  `hits` as searchable corpus but don't flood the chronology. Site picks the
+  category up automatically.
 - **Pipeline complete:** `discover → fetch → download → index → timeline`. Open
   follow-ons: OCR pass for scanned PDFs (no tesseract dep — e.g. Shawnee's minutes
   are image-only), CivicPlus full-archive year crawl, headless fetch for WAF bodies.
