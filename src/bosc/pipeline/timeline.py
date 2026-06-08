@@ -14,7 +14,12 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, replace
+from pathlib import Path
+from typing import Any
 
+import yaml
+
+from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
 from bosc.pipeline.corpus import Corpus, load_corpus
 
@@ -202,8 +207,110 @@ def _opc_events(corpus: Corpus) -> list[TimelineEvent]:
     return events
 
 
-def build_timeline(corpus: Corpus | None = None) -> list[TimelineEvent]:
-    """Assemble a single sorted chronology across the whole corpus."""
+def _load_yaml(path: Path) -> dict[str, Any]:
+    """Load a committed extraction YAML, or ``{}`` if absent/unreadable."""
+    if not path.exists():
+        return {}
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except yaml.YAMLError as exc:
+        log.warning("timeline.bad_yaml", path=str(path), error=str(exc).splitlines()[0])
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _commissioners_events(settings: Settings) -> list[TimelineEvent]:
+    """Dated events from the committed commissioners extractions.
+
+    These artifacts carry ``kind``s the corpus loader does not recognize (resolution
+    ledgers, closed-session logs), so they are read directly here — the citable
+    legislative spine of the project (NDA/CRA/RDA resolutions, the wastewater works,
+    the codename-phase narrative, and the economic-development executive sessions).
+    """
+    base = settings.extracted_dir / "commissioners"
+    events: list[TimelineEvent] = []
+
+    ledger_rel = "commissioners/bosc-resolution-ledger.yaml"
+    ledger = _load_yaml(base / "bosc-resolution-ledger.yaml")
+    for key in ("resolutions", "adjacent_wastewater_resolutions"):
+        for r in ledger.get(key, []):
+            if not isinstance(r, dict) or not r.get("date"):
+                continue
+            res = str(r.get("res", "")).strip()
+            title = str(r.get("title", "")).strip()
+            events.append(
+                TimelineEvent(
+                    date=str(r["date"]),
+                    category="county_resolution",
+                    title=f"Res #{res}: {title}" if res else title,
+                    source=ledger_rel,
+                    ref=f"res-{res}" if res else "",
+                    detail=str(r.get("thread", "")),
+                )
+            )
+    for e in ledger.get("narrative_events", []):
+        if not isinstance(e, dict) or not e.get("date"):
+            continue
+        events.append(
+            TimelineEvent(
+                date=str(e["date"]),
+                category="county_event",
+                title=str(e.get("event", "")).strip(),
+                source=ledger_rel,
+                detail=str(e.get("significance", "")),
+            )
+        )
+
+    sessions_rel = "commissioners/closed-deliberation-and-corridor.yaml"
+    closed = _load_yaml(base / "closed-deliberation-and-corridor.yaml")
+    for s in closed.get("econdev_and_property_sessions", []):
+        if not isinstance(s, dict) or not s.get("date"):
+            continue
+        code = str(s.get("code", "")).strip()
+        purpose = re.sub(r"\s+", " ", str(s.get("purpose", ""))).strip()
+        events.append(
+            TimelineEvent(
+                date=str(s["date"]),
+                category="executive_session",
+                title=f"Executive session {code} — {purpose[:90]}".rstrip(" —"),
+                source=sessions_rel,
+                ref=f"exec-{s['date']}-{code}",
+            )
+        )
+    return events
+
+
+def _zoning_events(settings: Settings) -> list[TimelineEvent]:
+    """The American Township zoning-resolution adoption dates (data-center M-2 basis)."""
+    rel = "lacrpc/american-township-zoning.zoning.yaml"
+    data = _load_yaml(settings.extracted_dir / "lacrpc" / "american-township-zoning.zoning.yaml")
+    doc = data.get("document", {}) if isinstance(data.get("document"), dict) else {}
+    events: list[TimelineEvent] = []
+    for adopted in doc.get("amended_and_adopted_by_trustees", []):
+        events.append(
+            TimelineEvent(
+                date=str(adopted),
+                category="zoning_amendment",
+                title="American Township Zoning Resolution — amended & adopted by Trustees",
+                source=rel,
+                ref=f"amtwp-zoning-{adopted}",
+                detail="defines Data Center / Hyperscale Data Center; M-2 conditional use (11.2.4)",
+            )
+        )
+    return events
+
+
+def build_timeline(
+    corpus: Corpus | None = None, *, include_curated: bool = True
+) -> list[TimelineEvent]:
+    """Assemble a single sorted chronology across the whole corpus.
+
+    The recognized-genre events come from ``corpus``. When ``include_curated`` (the
+    default for production — the CLI and site build), the committed unrecognized-kind
+    extractions — the commissioners ledger, closed-session log, and the zoning
+    resolution — are folded in directly. Tests pass ``include_curated=False`` to stay
+    hermetic against a synthetic corpus.
+    """
     corpus = corpus if corpus is not None else load_corpus()
     events = (
         _deed_events(corpus)
@@ -212,6 +319,9 @@ def build_timeline(corpus: Corpus | None = None) -> list[TimelineEvent]:
         + _plan_events(corpus)
         + _opc_events(corpus)
     )
+    if include_curated:
+        settings = get_settings()
+        events += _commissioners_events(settings) + _zoning_events(settings)
     events = _dedup(events)
     events.sort(key=lambda e: e.sort_key)
     log.info("timeline.built", events=len(events))

@@ -59,7 +59,7 @@ def test_build_timeline_orders_and_labels() -> None:
         ],
         permits=[_permit("oepa/p.npdes.yaml", no="2PH1", pn="2025-04-28", end="2025-05-28")],
     )
-    events = build_timeline(corpus)
+    events = build_timeline(corpus, include_curated=False)
     dates = [e.date for e in events]
     assert dates == sorted(dates, key=_date_key)  # chronological
     deed_events = [e for e in events if e.category == "deed_recorded"]
@@ -77,7 +77,7 @@ def test_build_timeline_dedups_same_event_across_sources() -> None:
             _permit("oepa/fact-sheet.npdes.yaml", no="2PH00006", pn="2025-04-28", end="2025-05-28"),
         ]
     )
-    events = build_timeline(corpus)
+    events = build_timeline(corpus, include_curated=False)
     notices = [e for e in events if e.category == "npdes_public_notice"]
     assert len(notices) == 1  # collapsed to one event
     assert notices[0].also_sources == ("oepa/fact-sheet.npdes.yaml",)
@@ -91,5 +91,9 @@ def test_build_timeline_keeps_differing_dates_separate() -> None:
             _permit("oepa/b.npdes.yaml", no="2PH00006", pn="2025-06-17", end="2025-05-28"),
         ]
     )
-    notices = [e for e in build_timeline(corpus) if e.category == "npdes_public_notice"]
+    notices = [
+        e
+        for e in build_timeline(corpus, include_curated=False)
+        if e.category == "npdes_public_notice"
+    ]
     assert {e.date for e in notices} == {"2025-04-28", "2025-06-17"}
