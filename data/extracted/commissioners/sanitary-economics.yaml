@@ -1,0 +1,101 @@
+kind: sanitary_economics
+subject: Allen County sanitary-system economics around the BOSC load — fees, reroutes, capacity, and revenue capture
+
+provenance:
+  source_index: data/extracted/commissioners/minutes/
+  source_raw: data/documents/commissioners/minutes/raw/
+  method: "Windowed extraction over the committed OCR text layer (meeting-pages.parquet); figures transcribed from the minutes' discussion items and cross-checked across meetings."
+  content_verified: '2026-06-08'
+  caveat: >-
+    Dollar and flow figures appear in DISCUSSION items (not formal resolutions) and are OCR-approximate
+    -- verify against the source PDF before quoting. The "$" OCR is generally reliable; decimals less so.
+
+thesis: >-
+  The County is restructuring its sanitary economics around the data-center load with a clear
+  revenue-capture logic: BOSC pays a large capital permit fee (~$3.125M) and funds the new pump
+  station/force main (~$32M from the developer), while the County simultaneously moves to REROUTE the
+  Cridersville-treated Shawnee Oaks flow onto its OWN Shawnee plant (ending a ~$102k/yr payment OUT to
+  Cridersville) and to RAISE capital-permit/tap fees. The same Shawnee II / Hamlet of Hume buildout
+  that serves BOSC also lets the County recapture treatment revenue it currently exports. [figures are
+  document (discussion items); the "revenue-capture strategy" framing is inference.]
+
+bosc_sanitary_load:                   # the data center's wastewater, in the County's own words
+  interim_flow: >-
+    "discussion on being able to handle 0.13 MGD at 83 degrees Fahrenheit -- temporary until PS and FM
+    are complete" (2025-07-29, M072925.pdf). The interim BOSC sanitary discharge is ~0.13 MGD at 83 F
+    -- a warm (cooling-derived) flow. The County is "trying to develop a solution to treat the flow,
+    or at least a portion of it, on a permanent basis to keep as much revenue as possible with the County."
+  flow_mgd: 0.13
+  flow_temp_f: 83
+  permanent_works: "BOSC Pump Station + Force Main (PS+FM) -- engineering #469-25 -> MS Consultants #713-25 -> CMAR RFQ #137-26/#138-26 (see bosc-resolution-ledger.yaml)."
+  developer_pump_station_usd: 32000000    # "$32M will be put toward the pump station from the developer" (2026-02-17)
+  capital_permit_fee_usd: 3125000         # "current capital permit fee is estimated to be $3.125M" for BOSC (2026-02-17, M021726.pdf)
+  note: >-
+    The 0.13 MGD @ 83 F interim figure is the first explicit BOSC sanitary-flow number in the corpus;
+    the warm temperature is relevant to the thermal/assimilative thread on the Ottawa (low-flow)
+    receiving water. The permanent capacity is larger (the PS+FM and Shawnee II Phase 2 sizing).
+
+cridersville_shawnee_oaks_reroute:    # the County stops paying OUT and captures the revenue
+  current_cost: >-
+    "the Village of Cridersville charges the county $102,000.00 a year for wastewater treatment for
+    flow from the Shawnee Oaks area" for ~233 customers; "treatment fees from Cridersville for 233 have
+    been increasing significantly over the last decade" (2025-05-08, M050825.pdf). Earlier the year's
+    bill was put at ~$101,000 (2025-03-04).
+  county_response:
+    - "Prosecutor's Office reviewing the current Cridersville agreement to see if termination is possible (2025-05-29)."
+    - "Install a County lift station + force main to reroute Shawnee Oaks flow to the Shawnee WWTP; the Sanitary Engineering Dept would then collect the revenue and 'break even within six (6) to seven (7) years' (2025-03-04)."
+    - "Res #113-26 (2026-02-19): contract w/ Garman/Miller (Access Engineering) for the Shawnee Oaks Sewer System Project; a $161,000 feasibility study to reroute Cridersville customers."
+    - "Res #137-26 (2026-02-26): $1,000,000 at 0% interest; project adds 200+ homes to the system AND moves current Cridersville customers to Shawnee."
+  reroute_also_frees_capacity: "Rerouting Shawnee Oaks to Shawnee WWTP 'would also allow room for an additional 35-40 homes' (2025-05-29)."
+
+capacity_strain:                      # the system the BOSC load lands on
+  elm_street: "The Elm Street-area pump station 'was originally designed for 45 homes and is currently serving nearly 250' (2025-05-29) -- a >5x overload; 'looking into possible solutions.'"
+  shawnee_ii_phase_2: "The Shawnee II Phase 2 POTW expansion (2023-2024 buildout; see bosc-2023-backfill.yaml) is the receiving-plant capacity behind the reroute + the BOSC load."
+  indianbrook_ps: "Indianbrook Pump Station upgrades ~$600,000 (2026-02-17); AEP 3-phase power conversion (Res #974-25)."
+
+fees_and_rates:                       # the ratepayer levers
+  capital_permit_fees: >-
+    Sanitary Engineer Brad Niemeyer "would like to look into increasing said [Capital Permit] fees"
+    (2025-05-29); recurring "general discussion on Capital Permit Fees" through 2025-2026. The BOSC
+    capital permit fee (~$3.125M) is the headline application of this fee.
+  billing: >-
+    The system "currently operates on flat rate billing"; the Sanitary Engineer discussed "different
+    billing mechanisms for different zones" and "possible rate increases for customers with low
+    pressure systems," wanting "to implement rate increases in 2025" (2024-02-06).
+
+figures:                              # OCR-approximate; verify against source PDFs
+  bosc_interim_flow_mgd: 0.13
+  bosc_flow_temp_f: 83
+  bosc_capital_permit_fee_usd: 3125000
+  developer_pump_station_usd: 32000000
+  cridersville_annual_treatment_usd: 102000
+  cridersville_customers: 233
+  reroute_feasibility_study_usd: 161000
+  reroute_loan_usd: 1000000             # 0% interest
+  reroute_break_even_years: "6-7"
+  indianbrook_ps_upgrade_usd: 600000
+  elm_st_design_vs_actual_homes: "45 designed / ~250 served"
+
+records_relevance: >-
+  Quantifies the wastewater thread the County deferred on PRR items 5-15. The BOSC sanitary load
+  (0.13 MGD @ 83 F interim) lands on a system already strained (Elm St 45->250), is funded by a $32M
+  developer pump station + a ~$3.125M capital permit fee, and is bundled with a revenue-capture reroute
+  of Cridersville/Shawnee Oaks to the County's Shawnee plant ($1M 0% loan; ends a $102k/yr outflow).
+  Feeds the ledger ratepayer/benefit analysis and the TMDL thermal/assimilative thread.
+
+cross_refs:
+  - data/extracted/commissioners/bosc-resolution-ledger.yaml             # #469-25/#575-25/#713-25/#137-26 etc.
+  - data/extracted/commissioners/closed-deliberation-and-corridor.yaml   # Hamlet of Hume + corridor
+  - data/extracted/regulatory/wastewater-enforcement-history.yaml        # Shawnee II / capacity history
+  - data/reference/hydrology/maumee-tmdl-responsiveness.yaml             # the 2.0->3.0 MGD Shawnee II + new-discharger rule
+  - data/reference/hydrology/ottawa-lima-tmdl.yaml                       # the low-flow receiving water (thermal/assimilative)
+  - src/bosc/ledger.py                                                   # the ratepayer-burden ledger
+
+relevance:
+  tags: [verified, commissioners, sanitary, wastewater, economics, cridersville, capacity, fees, bosc, ratepayer, thermal]
+  note: >-
+    BOSC sanitary economics from the County's minutes: interim load 0.13 MGD @ 83 F; ~$3.125M capital
+    permit fee + ~$32M developer pump station (PS+FM, CMAR-procured). In parallel the County reroutes
+    Cridersville/Shawnee Oaks ($102k/yr, 233 customers) to its own Shawnee plant ($161k feasibility;
+    $1M 0% loan; break-even 6-7 yr; +200 homes) to recapture treatment revenue, and moves to raise
+    capital-permit/tap fees. The receiving system is already strained (Elm St 45->250 homes).
