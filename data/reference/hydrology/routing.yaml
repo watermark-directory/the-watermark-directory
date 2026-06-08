@@ -1,0 +1,63 @@
+# Discharge routing for the Lima municipal water loop — two distinct flows.
+#
+# 1. `wwtp_receiving` — which receiving STREAM each county WWTP discharges to.
+#    This is the denominator side of the assimilative screen; every route is read
+#    from an Ohio EPA NPDES fact sheet in our corpus and tagged status:confirmed.
+#    (This externalizes what used to be hardcoded in bosc.hydrology.balance.)
+#
+# 2. `bosc_routing` — where the BOSC data-center campus sends its OWN wastewater,
+#    by forcemain. This is the requirement to encode explicitly: BOSC output is
+#    routed to Lima (FM-2) and the American plants (FM-1) — both CONFIRMED — while
+#    Shawnee II has NO known routing. The "FM-3 to Shawnee II" lead is recorded as
+#    status:theorized so it is never silently treated as a real route: confirmed
+#    routes feed the balance, theorized routes are surfaced as a caveat and held out.
+#
+# Source for the BOSC routing: the Periplus watch-items.geojson forcemain features
+# (`bosc-fm1`, `bosc-fm2`, `theorized-fm3-shawnee-ii`) and the WWTP `status` flags
+# (`bosc_fm1_receiver`).
+
+meta:
+  subject: BOSC + municipal WWTP discharge routing
+  source: Ohio EPA NPDES fact sheets (data/documents/oepa/*) + watch-items.geojson
+  caveats:
+    - BOSC wastewater is routed to Lima (FM-2) and American Bath/II (FM-1) only.
+    - Shawnee II has NO confirmed BOSC routing; "FM-3 to Shawnee II" is an
+      unconfirmed lead (new construction, no existing main) recorded as
+      status:theorized and excluded from the balance.
+
+# WWTP -> receiving stream (the assimilative-screen denominator). All confirmed.
+wwtp_receiving:
+  watch-american-ii-wwtp:
+    receiving_water: Dug Run
+    status: confirmed
+    confidence: high
+    citation: "Ohio EPA fact sheet 2PH00006 (American II WWTP)"
+  watch-american-bath-wwtp:
+    receiving_water: Pike Run
+    status: confirmed
+    confidence: high
+    citation: "Ohio EPA fact sheet 2PH00007 (American Bath WWTP)"
+  watch-shawnee-ii-wwtp:
+    receiving_water: Ottawa River
+    status: confirmed
+    confidence: high
+    citation: "Ohio EPA fact sheet 2PK00002 (Shawnee II WWTP)"
+
+# BOSC campus -> receiver, by forcemain. Confirmed routes are document/plan-cited;
+# the theorized route is a lead only.
+bosc_routing:
+  - via: bosc-fm2
+    to: [watch-lima-fm2-terminus]
+    status: confirmed
+    confidence: high
+    citation: 'BOSC FM-2 (16", 17,900 LF) -> City of Lima 78" sewer (watch-items bosc-fm2 / lima-fm2-terminus)'
+  - via: bosc-fm1
+    to: [watch-american-bath-wwtp, watch-american-ii-wwtp]
+    status: confirmed
+    confidence: high
+    citation: 'BOSC FM-1 (10"->8", 20,100 LF) -> American Bath + American II WWTP (watch-items status bosc_fm1_receiver)'
+  - via: theorized-fm3-shawnee-ii
+    to: [watch-shawnee-ii-wwtp]
+    status: theorized
+    confidence: low
+    citation: "Theorized FM-3 to Shawnee II — UNCONFIRMED; new construction, no existing main (watch-items theorized-fm3-shawnee-ii, status:theorized)"
