@@ -1,0 +1,128 @@
+kind: closed_session_log
+subject: Allen County Commissioners — executive-session (closed-deliberation) log + land/right-of-way corridor thread
+
+provenance:
+  source_index: data/extracted/commissioners/minutes/   # parquet OCR bundle (meeting-pages, 2024-2026)
+  source_raw: data/documents/commissioners/minutes/raw/
+  method: >-
+    Windowed extraction over the committed OCR text layer for every "executive session" occurrence,
+    with the cited ORC 121.22(G)(n) exemption code captured from the surrounding ±260 chars; the
+    economic-development / property sessions then transcribed in full and cross-checked against the
+    minutes pages. Easement / annexation / right-of-way corridor items pulled the same way.
+  content_verified: '2026-06-07'
+  caveat: >-
+    OCR is approximate. The (G)(n) tally below is what the OCR could attribute; ~78 of 163 detected
+    executive-session mentions had no machine-readable code in-window (often the code is on the next
+    OCR line) -- so the per-exemption counts UNDERCOUNT and are indicative, not a census. Verify any
+    specific session against the source PDF before quoting.
+
+thesis: >-
+  Most of the Board's executive sessions are routine personnel/compensation matters (ORC 121.22(G)(1)).
+  The case-relevant ones are the ECONOMIC-DEVELOPMENT (G)(8) and PROPERTY-ACQUISITION (G)(2) sessions:
+  the Board repeatedly deliberated the BOSC CRA and related land in CLOSED session, and on 2025-05-27
+  EXPRESSLY cited the Mutual NDA with Bistrozzi as the instrument permitting confidential discussion.
+  This is the open-meetings counterpart to the documented records-withholding stack (NDA §6 / CRA §22 /
+  RDA §9.13 / R.C. 4582.58). [sessions + citations are document; the "counterpart to the records
+  shield" framing is inference.]
+
+executive_session_tally:              # OCR-attributed; undercounts (see caveat)
+  detected_mentions: 163
+  by_orc_121_22_G:
+    "(G)(1)_personnel_compensation": 53
+    "(G)(2)_property_purchase_sale_lease": 8
+    "(G)(3)_pending_or_imminent_litigation": 4
+    "(G)(4)_collective_bargaining": 9
+    "(G)(6)_security_matters": 7
+    "(G)(8)_economic_development_confidential": 4
+    "uncoded_in_window": 78
+  note: "269 'Executive Sessions' were flagged in the Periplus minutes-flag-report over the full set; this OCR pass detected 163 in the 2024-2026 parquet."
+
+econdev_and_property_sessions:        # the BOSC-relevant closed deliberations (verbatim purpose)
+  - date: '2025-02-14'
+    file: M021425-Special.pdf
+    code: "(G)(2)"
+    purpose: >-
+      "to discuss two (1) [sic] po[t]ential purposes of property for public purposes and one (1)
+      potential lease for public purposes." Asst. Prosecutor John Willamowski Jr. remained present.
+    note: "Same special meeting as the open 'possible CRA for a potential Data Center in American Township' discussion with Jon Stock + Cindy Leis + Rex Huffman."
+  - date: '2025-05-27'
+    file: M052725.pdf
+    code: "(G)(8)"
+    purpose: >-
+      Consideration of the proposed CRA Agreement. The minutes state: "agreements that permit
+      confidential information to be discussed during executive session -- Commissioners have entered
+      into Mutual Non-Disclosure Agreement with the proposed company for the consideration period --
+      Commissioners would like to enter executive session to discuss consideration of proposed CRA
+      Agreement." Motion by Winegardner. Present: Cindy Leis (AEDG), Jon Stock, John Willamowski Jr.
+    significance: "The Board EXPRESSLY invokes the Bistrozzi NDA as the basis for closing the CRA deliberation -- the records-shield and the open-meetings shield linked in one act."
+  - date: '2025-10-01'
+    file: M100125-Special.pdf
+    code: "(G)(8)"
+    purpose: >-
+      "Rex Huffman asked to enter executive session to discuss the terms of the Port Authority
+      potential land acquisition of Memorial Hall Property" / "negotiations with other political
+      subdivision." Present: Cindy Leis, Dave Stratton, John Willamowski Jr.; motion by Winegardner.
+    note: "PAAC-side econ-dev land acquisition (Memorial Hall), not the data-center site, but the same closed-session econ-dev mechanism + the same AEDG/PAAC actors."
+  - date: '2025-12-18'
+    file: M121825.pdf
+    code: "(G)(8) + (G)(2)"
+    purpose: >-
+      Re a property matter: "the ORC does state that it is able to be discussed in executive session
+      per ORC 121.22 (G)(8) and ORC 121.22 (G)(2)." Motion by Winegardner; all in attendance remained
+      present. (Same meeting that tabled BOSC Sanitary Sewer amendment Res #975-25.)
+  - date: '2026-01-08'
+    file: M010826.pdf
+    code: "(G)(2) + (G)(8)"
+    purpose: >-
+      "to discuss consideration of sale of property per ORC 121.22(G)(2) and considering confidential
+      information [as] to marketing plans and trade plans for economic development per ORC 121.22(G)(8)."
+      Motion by Noonan.
+
+land_and_corridor:
+  hamlet_of_hume_sewer:               # the recurring small-hamlet sewer-extension project in the corridor (subject_hume ×31)
+    what: >-
+      A County Sanitary Engineer project to extend sewer to the Hamlet of Hume (Bluelick / Slabtown /
+      Adgate Road area). Recurs across 2024-2026; uses Access Engineering (Garman/Miller). Whether it
+      is BOSC-driven or independently scheduled is NOT established here -- flagged, not assumed.
+    events:
+      - {date: '2024-05-07', file: M050724.pdf, event: "Hamlet of Hume Sewer Improvement project discussion; letters to 8 property owners on Adgate Road; Bluelick/Slabtown discussion."}
+      - {date: '2024-12-24', file: A122424.pdf, event: "First Amendment to a Water & Wastewater Infrastructure Program Grant Agreement for the Hamlet of Hume Sewer Improvement Project."}
+      - {date: '2025-05-08', file: M050825.pdf, event: "Hamlet of Hume Project discussion -- Brad Niemeyer + Ron Meyer (Sanitary) + Access Engineering; bids $648,673.28 and K-Tech Specialty Coatings $652,790.84."}
+      - {res: '477-25', date: '2025-06-24', file: A062425.pdf, event: "Supplemental appropriation for the Hamlet of Hume Fund 4561."}
+    wpclf_loan: "Res #135-26/#136-26 (2026-02-26) -- WPCLF $2M principal-forgiveness loan on behalf of the Hamlet of Hume (see bosc-resolution-ledger.yaml)."
+  roundabout_right_of_way:
+    - {date: '2025-03-13', file: M031325.pdf, event: "Agreement with ODOT for construction of a roundabout; ODOT to work within county right-of-way; allocates maintenance responsibilities."}
+    - {date: '2025-03-27', file: M032725.pdf, event: "County utilities within ODOT right-of-way need relocation; Sanitary Engineer's relocation cost discussed."}
+  forcemain_easements:
+    - {res: '330-24', date: '2024-04-23', file: M042324.pdf, title: "Accept Permanent Easement from S&W Leasing, LLC for the Stewart/Bible Roads Low Pressure Force Main."}
+    - {res: '331-24', date: '2024-04-23', file: M042324.pdf, title: "Accept Permanent Easement from Verne L. Bellinger for the U.S. 30 Rest Area force main relocation."}
+  american_twp_annexations_to_lima:   # 2024; relationship to the BOSC site NOT established -- flag
+    caveat: "American-Township-to-Lima annexations in 2024; whether either touches the BOSC parcels is NOT established from the minutes alone. Cross-check parcel IDs before relying on these as corridor evidence."
+    list:
+      - {res: '787-24', date: '2024-09-26', file: M092624.pdf, title: "Accept the filing of a petition for annexation of real property in American Township to the City of Lima (Dalton J. Smith, agent)."}
+      - {res: '864-24', date: '2024-10-31', file: A103124.pdf, title: "Consideration of petition for annexation of territory in American Township, Allen County, to [City of Lima]."}
+
+records_relevance: >-
+  The (G)(8) economic-development executive sessions are the open-meetings analog of the records
+  shield, and the 2025-05-27 minutes tie them explicitly to the Bistrozzi NDA. For a transparency/
+  open-government argument, the closed-session log shows the BOSC CRA and related property were
+  deliberated out of public view under the econ-dev confidentiality exemption, with the developer NDA
+  cited as the enabling instrument. A full executive-session census (resolving the 78 uncoded
+  mentions + folding the 2023 backfill) is a follow-up.
+
+cross_refs:
+  - data/extracted/commissioners/bosc-resolution-ledger.yaml                # the resolution spine (NDA #417-25, CRA #548-25, etc.)
+  - data/extracted/legal/prr-mandamus/mutual-nda-bistrozzi.nda.yaml         # the NDA cited as the closed-session basis
+  - data/extracted/aedg/paac-board-minutes.minutes.yaml                     # PAAC-side (R.C. 4582.58 executive sessions)
+  - data/extracted/legal/corpus-completeness-audit.md
+  - data/extracted/commissioners/minutes/
+
+relevance:
+  tags: [verified, commissioners, executive-session, open-meetings, econ-dev, property, hamlet-of-hume, corridor, records]
+  note: >-
+    Closed-deliberation log for the Allen County Commissioners: routine (G)(1) personnel sessions
+    dominate, but the BOSC-relevant closed sessions are the econ-dev (G)(8) and property (G)(2) ones
+    (2025-02-14, 2025-05-27, 2025-10-01, 2025-12-18, 2026-01-08). On 2025-05-27 the Board expressly
+    cited the Bistrozzi Mutual NDA as the basis for the confidential CRA deliberation. Plus the
+    land/right-of-way corridor thread (Hamlet of Hume sewer, ODOT roundabout ROW, force-main
+    easements, American-Twp annexations [flagged unverified vs the BOSC site]).
