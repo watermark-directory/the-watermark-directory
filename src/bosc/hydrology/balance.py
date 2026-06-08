@@ -21,13 +21,16 @@ from typing import Any
 from bosc.config import Settings, get_settings
 from bosc.hydrology.connectors.nwis import DISCHARGE_CFS, fetch_streamflow
 from bosc.hydrology.model import Node, ProvenancedValue, WaterBalance, WaterBalanceNode
+from bosc.hydrology.routing import RoutingTable, load_routing
 from bosc.hydrology.units import mgd_to_cfs
 from bosc.logging import get_logger
 
 log = get_logger(__name__)
 
-# Receiving waters per plant, read from the Ohio EPA NPDES fact sheets in our corpus.
-# (The watch list gives the plant + flow; the fact sheets give the receiving stream.)
+# Fallback receiving waters per plant, read from the Ohio EPA NPDES fact sheets in
+# our corpus. The authoritative source is now data/reference/hydrology/routing.yaml
+# (loaded into a RoutingTable); this dict is only used if that file is absent, so the
+# existing balance never breaks during rollout.
 _PLANT_RECEIVING: dict[str, tuple[str, str]] = {
     "watch-american-ii-wwtp": ("Dug Run", "Ohio EPA fact sheet 2PH00006 (American II WWTP)"),
     "watch-american-bath-wwtp": ("Pike Run", "Ohio EPA fact sheet 2PH00007 (American Bath WWTP)"),
@@ -57,7 +60,34 @@ def _design_mgd(summary: str) -> tuple[float | None, bool]:
     return found[0], len(found) > 1
 
 
-def _wwtp_nodes(path: Path, warnings: list[str]) -> list[WaterBalanceNode]:
+def _receiving_for(fid: str, routing: RoutingTable | None) -> tuple[str | None, str]:
+    """Resolve a WWTP's receiving water from the routing table, falling back to the dict."""
+    if routing is not None and fid in routing.wwtp_receiving:
+        return routing.receiving_for(fid)
+    return _PLANT_RECEIVING.get(fid, (None, ""))
+
+
+def _surface_bosc_routing(routing: RoutingTable | None, warnings: list[str]) -> None:
+    """Record where BOSC's wastewater goes — and flag theorized routes as excluded.
+
+    Encodes the standing requirement: BOSC output is routed to Lima (FM-2) and the
+    American plants (FM-1) only; Shawnee II's FM-3 is theorized and held out of the
+    balance, so its lack of a known route is explicit rather than silently assumed.
+    """
+    if routing is None:
+        return
+    for route in routing.confirmed_bosc_routes():
+        log.info("hydro.bosc_routing.confirmed", via=route.via, to=route.to)
+    for route in routing.theorized_bosc_routes():
+        warnings.append(
+            f"BOSC routing via {route.via} to {', '.join(route.to)} is THEORIZED "
+            "(unconfirmed) — excluded from the balance; Shawnee II has no known BOSC routing."
+        )
+
+
+def _wwtp_nodes(
+    path: Path, warnings: list[str], routing: RoutingTable | None
+) -> list[WaterBalanceNode]:
     nodes: list[WaterBalanceNode] = []
     for feat in _features(path):
         props = feat.get("properties") or {}
@@ -68,7 +98,7 @@ def _wwtp_nodes(path: Path, warnings: list[str]) -> list[WaterBalanceNode]:
         if not is_wwtp or geom.get("type") != "Point":
             continue
 
-        receiving, recv_cite = _PLANT_RECEIVING.get(fid, (None, ""))
+        receiving, recv_cite = _receiving_for(fid, routing)
         mgd, expanding = _design_mgd(str(props.get("summary", "")))
         lon, lat = geom["coordinates"][0], geom["coordinates"][1]
         node = Node(
@@ -178,7 +208,9 @@ def build_water_balance(
     path = watch_items_path or _default_watch_items(settings)
     warnings: list[str] = []
 
-    nodes = _wwtp_nodes(path, warnings)
+    routing = load_routing(settings=settings)
+    nodes = _wwtp_nodes(path, warnings, routing)
+    _surface_bosc_routing(routing, warnings)
     nodes.append(_campus_node(path, warnings))
     if live:
         nodes.append(_abstraction_node(settings, warnings))

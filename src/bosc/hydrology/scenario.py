@@ -154,6 +154,7 @@ def evaluate_seasonal(
     consumptive_cfs: float,
     *,
     receiving_water: str = "Ottawa River",
+    scenario_name: str = "buildout",
     settings: Settings | None = None,
 ) -> SeasonalWithdrawal | None:
     """Screen a constant consumptive draw against the Ottawa's *seasonal* low flow.
@@ -211,7 +212,7 @@ def evaluate_seasonal(
         )
 
     return SeasonalWithdrawal(
-        scenario="buildout",
+        scenario=scenario_name,
         consumptive_cfs=round(consumptive_cfs, 3),
         months=months,
         growing_season_months=growing,
