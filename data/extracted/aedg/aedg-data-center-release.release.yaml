@@ -1,0 +1,121 @@
+kind: aedg_release
+subject: >-
+  AEDG "Data Center Updates" — the public release set in which the Allen Economic
+  Development Group reveals Google as the end user behind Project BOSC, with the
+  $500M figure, the Elida school PILOT, and AEDG's proponent FAQ.
+
+provenance:
+  source_path: data/documents/aedg/data-center-updates/
+  source_url: https://www.aedg.org/data-center-updates/
+  publisher: Allen Economic Development Group (AEDG), aedg.org (WordPress; CorpComm Group, Inc.)
+  layer: web_capture   # raw HTML saved verbatim; figures read from the rendered article text
+  capture_date: '2026-06-08'   # date the pages were fetched into the corpus
+  content_verified: '2026-03-16'   # earliest post's own datePublished (the reveal); see posts[]
+  evidence: >-
+    Captured AEDG release pages (the listing + three articles). Quotes are transcribed
+    verbatim from each article's body; publication dates are each page's own
+    datePublished metadata, not the filename or outside knowledge.
+  note: >-
+    This is the "AEDG release" the dossier had carried as [open] (the public Google
+    attribution not yet in the corpus). Now ingested: it is AEDG's own primary-source
+    confirmation, corroborating the PAAC + LACRPC minutes already in the corpus
+    (paac-board-minutes.minutes.yaml; lacrpc/meetings/meeting-summaries.yaml).
+
+headline_findings:
+  google_is_the_end_user:
+    finding: >-
+      AEDG publicly names Google as the data-center end user behind Project BOSC. The
+      reveal post (2026-03-16) states verbatim: "Allen Economic Development Group
+      (AEDG) is thrilled to reveal Google as the business entity behind Project Bosc.
+      We're officially welcoming a global tech leader into the heart of the Allen
+      County community." A named Google official — Molly Kocour Boyle, Head of Midwest
+      Data Center Public Affairs for Google — is quoted in the same release.
+    significance: >-
+      Closes the last open link in the attribution. Bistrozzi LLC is the
+      land-holding/contracting shell; Google is the customer. AEDG (the entity that
+      coordinated the abatement and the Port Authority that signed the roadwork deal)
+      is the source — primary, not inference. The attribution now rests on three
+      independent corpus sources: this AEDG release, the PAAC board minutes, and the
+      LACRPC minutes.
+    confidence: high
+
+  capital_and_benefits:
+    finding: >-
+      The release states a "historic $500 million capital investment ... supporting
+      hundreds of construction and infrastructure jobs," plus "a strategic $50 million
+      ... channeled into local infrastructure," and — through "a 15-year tax abatement
+      offset agreement" — "$250,000 in annual funding to Elida Local Schools." It
+      credits "collaborative coordination with county officials and the City of Lima"
+      for "vital enhancements to our regional wastewater, water supply, and roadway
+      infrastructure." Cynthia Leis (President/CEO, AEDG) and Elida Superintendent Joel
+      Mengerink are quoted; Chase Eikenbary (Regional Growth Partnership VP) ties in
+      JobsOhio.
+    significance: >-
+      Confirms the $500M, the $250K/yr Elida PILOT (matching the PAAC/LACRPC figure),
+      and the public wastewater/water/roadway tie — from the proponent's own mouth. Note
+      the jobs language is "hundreds of CONSTRUCTION jobs" and unquantified "high-impact,
+      permanent jobs"; it never states a permanent headcount, consistent with the
+      corpus's ~50 permanent jobs (CRA Res #548-25) it does not repeat. The $50M
+      "strategic ... local infrastructure" figure is new and unitemized here.
+    confidence: high
+
+  proponent_water_and_power_claims:
+    finding: >-
+      AEDG's FAQ post (2026-04-23, "What is a Data Center...") makes the proponent case:
+      data centers "increasingly use closed-loop cooling systems that recirculate water
+      rather than constantly consuming a fresh supply"; are "often built with
+      behind-the-meter power plants"; back-up generators run on ultra-low-sulfur /
+      renewable diesel; "Toledo alone has 70 million gallons per day in excess water
+      capacity"; and the White House "Ratepayer Protection Pledge" (signed March 2026)
+      has participants "pay for 100% of the power they use."
+    significance: >-
+      These are the claims the corpus is positioned to test, not accept. The
+      closed-loop / "reducing water draw" framing sits against the air permit's 36
+      EVAPORATIVE cooling towers and the 3.1-10 MGD consumptive estimate (see
+      docs/HYDROLOGY.md, docs/ECONOMICS.md); the "Toledo 70 MGD excess" point is about
+      Toledo, not Lima, whose Ottawa tributaries the corpus screens as undiluted at
+      7Q10. The behind-the-meter framing is generic; the disclosed plant is 114 BACKUP
+      gensets (313 MW), permitted synthetic-minor. Logged as proponent claims to weigh
+      against the record (cross-ref docs/legal/proponent-analysis.md).
+    confidence: high
+
+named_actors:
+  - name: Molly Kocour Boyle
+    role: Head of Midwest Data Center Public Affairs, Google
+    note: First named Google official tied to the Lima campus (vs. the Scioto/Dazzler google.com email).
+  - name: Cynthia Leis
+    role: President/CEO, Allen Economic Development Group
+    note: Same Leis who directs the Port Authority (see paac-records-policy.policy.yaml).
+  - name: Joel Mengerink
+    role: Superintendent, Elida Local Schools
+  - name: Chase Eikenbary
+    role: Vice President / Project Management, Regional Growth Partnership (ties in JobsOhio)
+
+posts:
+  - slug: google-to-build-data-center-in-lima-ohio-with-500-million-capital-investment
+    title: Google to Build Data Center in Lima, Ohio with $500 Million Capital Investment
+    published: '2026-03-16'
+    modified: '2026-03-16'
+    url: https://www.aedg.org/data-center-updates/google-to-build-data-center-in-lima-ohio-with-500-million-capital-investment/
+    source_file: data/documents/aedg/data-center-updates/google-to-build-data-center-in-lima-ohio-with-500-million-capital-investment.html
+    role: the reveal — Google named, $500M, $50M infrastructure, $250K/yr Elida, jobs language
+  - slug: what-is-a-data-center-and-why-does-it-matter-for-communities-like-ours
+    title: What is a Data Center and Why Does It Matter for Communities Like Ours?
+    published: '2026-04-23'
+    modified: '2026-04-24'
+    url: https://www.aedg.org/data-center-updates/what-is-a-data-center-and-why-does-it-matter-for-communities-like-ours/
+    source_file: data/documents/aedg/data-center-updates/what-is-a-data-center-and-why-does-it-matter-for-communities-like-ours.html
+    role: AEDG proponent FAQ — closed-loop cooling, behind-the-meter power, ratepayer pledge
+  - slug: google-data-center-website-now-live-for-allen-county-community
+    title: Google Data Center Website Now Live for Allen County Community
+    published: '2026-04-27'
+    modified: '2026-04-27'
+    url: https://www.aedg.org/data-center-updates/google-data-center-website-now-live-for-allen-county-community/
+    source_file: data/documents/aedg/data-center-updates/google-data-center-website-now-live-for-allen-county-community.html
+    role: launch of www.allencountydatacenter.com; Molly Kocour Boyle (Google) quoted
+
+cross_references:
+  - data/extracted/aedg/paac-board-minutes.minutes.yaml   # PAAC minutes: BOSC=Bistrozzi=Google
+  - data/extracted/lacrpc/meetings/meeting-summaries.yaml  # LACRPC: "project BOSC (Google data center)"
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml
+  - docs/legal/proponent-analysis.md   # weigh the FAQ claims against the record
