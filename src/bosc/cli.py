@@ -1886,6 +1886,42 @@ def refill_cmd(
         console.print(f"  ~ {c}", markup=False)
 
 
+@app.command(name="roundabout")
+def roundabout_cmd() -> None:
+    """Derive the Cole/Beery roundabout's directed flow into Pike Run (the waterfall theory).
+
+    Grounds the `waterfall-roundabout-pike-run` network theory. The document-derived
+    impervious catchment against the cited corridor rainfall shows the roundabout cannot
+    sustainably augment Pike Run (mean-annual ~0.01 cfs, zero at the 7Q10); what it offers is
+    transient storm surges — episodic flushing, not low-flow augmentation.
+    """
+    from bosc.pipeline import hydrology as hydro_stage
+
+    settings = get_settings()
+    rf, findings = hydro_stage.run_roundabout(settings=settings)
+    console.print(
+        f"[bold]{rf.roundabout} roundabout[/] -> Pike Run — "
+        f"[bold]{rf.impervious_acres.value:g} impervious acres[/] "
+        f"(CN {rf.curve_number.value:g}, Tc {rf.tc_hr.value:g} hr)\n"
+        f"Sustained: mean-annual [bold]{rf.mean_annual_cfs.value:g} cfs[/]; "
+        f"at design low flow [bold]{rf.drought_flow_cfs:g} cfs[/] (no rain)."
+    )
+    table = Table("design storm", "depth (in)", "peak (cfs)", "volume (ac-ft)", "runoff (in)")
+    for p in rf.storm_peaks:
+        table.add_row(
+            f"{p.return_period_yr}-yr 24-hr",
+            f"{p.depth_in:g}",
+            f"{p.peak_cfs:g}",
+            f"{p.volume_acft:g}",
+            f"{p.runoff_depth_in:g}",
+        )
+    console.print(table)
+    for f in findings:
+        console.print(f"  {'·' if f.ok else '!'} {f.detail}", markup=False)
+    for c in rf.caveats:
+        console.print(f"  ~ {c}", markup=False)
+
+
 @app.command(name="people")
 def people() -> None:
     """List the curated individual profiles (the entity graph's detail store).

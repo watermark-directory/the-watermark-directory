@@ -320,8 +320,10 @@ def test_waterfall_theory_augments_pike_run(hydro_settings: Settings) -> None:
     # The directed inflow lands as natural-component flow at Pike Run.
     inflow = wf.reach("roundabout-pike-run")
     assert inflow is not None and inflow.inject is not None
-    assert inflow.inject.source == "assumption"  # a knob, never presented as measured
+    # The inject is now DERIVED (bosc.hydrology.roundabout), a tiny mean-annual smear.
+    assert inflow.inject.source == "derived"
     added = inflow.inject.value
+    assert added < 0.1  # negligible — the roundabout cannot meaningfully augment Pike Run
     assert wf.natural_total_cfs == pytest.approx(base.natural_total_cfs + added)
     assert wf.outlet_cfs == pytest.approx(base.outlet_cfs + added)
     # Augmentation dilutes: the outlet's effluent share falls.

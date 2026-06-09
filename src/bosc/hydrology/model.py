@@ -523,6 +523,49 @@ class RefillAdequacy(BaseModel):
         return next((r for r in self.rivers if r.site_no == site_no), None)
 
 
+class RoundaboutStormPeak(BaseModel):
+    """One design-storm peak directed flow off a roundabout's impervious catchment."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    return_period_yr: int
+    depth_in: float  # Atlas-14 24-hr point depth
+    peak_cfs: float
+    volume_acft: float
+    runoff_depth_in: float
+
+
+class RoundaboutFlow(BaseModel):
+    """Derived stormwater the Cole/Beery roundabout could direct into Pike Run.
+
+    Grounds the ``waterfall-roundabout-pike-run`` theory's injected flow. The honest
+    result **refutes its sustained-augmentation premise**: a single roundabout's
+    impervious catchment yields a negligible mean-annual continuous flow — and **zero at
+    design low flow**, when it is not raining — so it cannot augment Pike Run's 7Q10. What
+    it can deliver is transient storm-event surges: episodic flushing, not a low-flow
+    augmentation. Every input is document-cited (the Tetra Tech OPC quantities, the cited
+    Atlas-14 depths, the NASA POWER precip) or a stated assumption (CN, Tc, runoff coeff).
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    tier: Literal["tier0"] = "tier0"
+    roundabout: str
+    impervious_acres: ProvenancedValue  # derived from the OPC pavement/subgrade quantities
+    curve_number: ProvenancedValue
+    tc_hr: ProvenancedValue
+    annual_precip_in: ProvenancedValue
+    runoff_coefficient: ProvenancedValue
+    mean_annual_cfs: ProvenancedValue  # continuous-equivalent sustained flow
+    drought_flow_cfs: float = 0.0  # at design low flow (no rain) — the routed-network reality
+    storm_peaks: list[RoundaboutStormPeak]
+    method: str
+    caveats: list[str] = []
+
+    def peak(self, return_period_yr: int) -> RoundaboutStormPeak | None:
+        return next((p for p in self.storm_peaks if p.return_period_yr == return_period_yr), None)
+
+
 class AssimilativeCheck(BaseModel):
     """Low-flow dilution of one discharge into its receiving water.
 
