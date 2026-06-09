@@ -4,12 +4,13 @@ Geospatial subsystem: tracking sites + satellite imagery. Defers to the root
 [`CLAUDE.md`](../../../CLAUDE.md). Design + roadmap:
 [`docs/imagery-subsystem.md`](../../../docs/imagery-subsystem.md).
 
-- **Tracking sites are assembled, never authored.** A `TrackingSite` is a group of
-  features already committed to `data/site/gis-findings.geojson`, grouped by the
-  GeoJSON `layer` (config: `settings.gis_tracking_layers`, default `["campus"]`).
-  Don't draw new AOI geometry — that would be fabricated evidence. To add a site,
-  add its geometry to the findings (e.g. a warehouse parcel via `bosc parcels`,
-  the reservoir footprint) and tag the layer.
+- **Tracking sites come from the POI store — `bosc.gis` is a consumer of `bosc.poi`.**
+  `load_tracking_sites` reads `tracked_pois()` (POIs at `depth: watched` with
+  `track.enabled` + a `location.bbox`) and projects each to a `TrackingSite` (id = the
+  POI slug, `bbox` = the AOI). The `track` flag in `data/poi/<slug>.md` is the single
+  source of truth — **not** a `gis-findings.geojson` layer (that grouping, and
+  `gis_tracking_layers`, were retired). To add a tracking site, curate a POI and promote
+  it to `watched` with a `bbox`; don't author geometry here.
 - **Imagery is `search → materialize`; both layers exist.**
   - *Search* (`imagery.search_scenes`) is a pure connector: a single `httpx` POST to
     the Planetary Computer STAC `/search`, wrapped in the shared

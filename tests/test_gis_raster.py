@@ -16,7 +16,7 @@ from bosc.gis.sites import TrackingSite
 
 def _campus_scenes(settings: Settings) -> tuple[TrackingSite, list[imagery.Scene]]:
     return imagery.search_site(
-        "campus",
+        "data-center-campus",
         collection="sentinel-2-l2a",
         datetime_range="2024-06-01/2024-09-30",
         max_cloud=20.0,
@@ -42,7 +42,7 @@ def test_pull_capture_offline_clips_to_aoi(gis_settings: Settings, tmp_path: Pat
     # The GeoTIFF exists, is a real 3-band raster, and is an interior clip of the
     # 144x275 padded fixture (i.e. clipping to the exact AOI actually happened).
     tif = Path(cap.path)
-    assert tif.is_file() and tif.parent == tmp_path / "campus" / "sentinel-2-l2a"
+    assert tif.is_file() and tif.parent == tmp_path / "data-center-campus" / "sentinel-2-l2a"
     assert 0 < cap.width < 144 and 0 < cap.height < 275
     with rasterio.open(tif) as ds:
         assert ds.count == 3 and ds.crs.to_epsg() == 32617
@@ -79,7 +79,7 @@ def test_default_asset_per_collection() -> None:
 
 def test_pull_landsat_red_offline(gis_settings: Settings, tmp_path: Path) -> None:
     _site, scenes = imagery.search_site(
-        "campus",
+        "data-center-campus",
         collection="landsat-c2-l2",
         datetime_range="2024-06-01/2024-09-30",
         max_cloud=20.0,
@@ -103,7 +103,7 @@ def test_pull_naip_image_offline(gis_settings: Settings, tmp_path: Path) -> None
     # NAIP at 0.3 m: a full-campus clip is ~76 MB, so the committed fixture COG covers
     # only a small sub-AOI. Pull a matching small test site to exercise the 4-band path.
     _site, scenes = imagery.search_site(
-        "campus",
+        "data-center-campus",
         collection="naip",
         datetime_range="2017-01-01/2023-12-31",
         limit=3,
@@ -112,27 +112,7 @@ def test_pull_naip_image_offline(gis_settings: Settings, tmp_path: Path) -> None
     naip_scene = scenes[0]  # oh_m_4008415_se_..._20230526, EPSG 26917
 
     aoi = (-84.12345, 40.79685, -84.12325, 40.79705)  # must match the recorded fixture COG
-    site = TrackingSite(
-        id="naip_test",
-        name="NAIP test AOI",
-        layer="test",
-        n_features=1,
-        acreage=None,
-        bbox=aoi,
-        geometry={
-            "type": "Polygon",
-            "coordinates": [
-                [
-                    [aoi[0], aoi[1]],
-                    [aoi[2], aoi[1]],
-                    [aoi[2], aoi[3]],
-                    [aoi[0], aoi[3]],
-                    [aoi[0], aoi[1]],
-                ]
-            ],
-        },
-        source="test",
-    )
+    site = TrackingSite(id="naip_test", name="NAIP test AOI", bbox=aoi, parcels=[], source="test")
 
     cap = raster.pull_capture(
         naip_scene, site, out_dir=tmp_path, settings=gis_settings

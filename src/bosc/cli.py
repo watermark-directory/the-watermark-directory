@@ -2425,21 +2425,20 @@ def _gis_offline_settings() -> Settings:
 
 @imagery_app.command("sites")
 def imagery_sites() -> None:
-    """List the tracking sites (named AOIs grouped from the committed GIS findings)."""
+    """List the tracking sites (the watched POIs in data/poi/ that feed imagery)."""
     from bosc.gis import load_tracking_sites
 
     sites = load_tracking_sites()
     if not sites:
         console.print(
-            "[yellow]No tracking sites[/] — check settings.gis_tracking_layers against "
-            "the layers in data/site/gis-findings.geojson."
+            "[yellow]No tracking sites[/] — no POI in data/poi/ is watched "
+            "(depth=watched + track.enabled with a location bbox). See `bosc poi list`."
         )
         raise typer.Exit(1)
-    table = Table("id", "name", "features", "acres", "bbox (W,S,E,N)")
+    table = Table("id (slug)", "name", "parcels", "bbox (W,S,E,N)")
     for s in sites:
-        acres = f"{s.acreage:,.1f}" if s.acreage is not None else "—"
         bbox = ", ".join(f"{c:.4f}" for c in s.bbox)
-        table.add_row(s.id, s.name, str(s.n_features), acres, bbox)
+        table.add_row(s.id, s.name, str(len(s.parcels)), bbox)
     console.print(table)
 
 

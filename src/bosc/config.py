@@ -147,8 +147,8 @@ class Settings(BaseSettings):
     gis_request_timeout_s: float = 60.0
     gis_cache_ttl_hours: int = 168  # 1 week; the scene archive is slow-moving
     gis_fixtures_dir: Path | None = None  # committed connector fixtures (tests/CI)
-    # gis-findings layers treated as trackable sites (grouped into one AOI each).
-    gis_tracking_layers: list[str] = Field(default_factory=lambda: ["campus"])
+    # Tracking sites are no longer layers here — they are watched POIs in data/poi/
+    # (bosc.gis.load_tracking_sites reads tracked_pois()). See docs/poi-subsystem.md.
 
     # --- POI / geocoding (the resolve-to-parcel funnel) --------------------
     # Resolve corpus place references to a canonical Allen County parcel. US Census

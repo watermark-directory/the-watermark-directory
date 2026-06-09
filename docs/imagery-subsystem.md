@@ -140,7 +140,14 @@ candidates to migrate into `bosc.gis` over time.
 - `Capture` — the materialized artifact: `path`, `source`, `scene_id`, `collection`,
   `acq_date`, processing `level`, `aoi` + `crs`, `retrieved_at`, `sha256`.
 
-### Sites come from the GIS layer
+### Sites come from the POI store
+
+> **Superseded.** Tracking sites are now **watched POIs** in `data/poi/`, not a
+> `gis-findings.geojson` layer. `bosc.gis.load_tracking_sites` / `get_site` read
+> `bosc.poi.tracked_pois()` and project each to a `TrackingSite` (id = the POI slug,
+> `bbox` = the AOI). The `track` flag in a `data/poi/<slug>.md` profile is the single
+> source of truth. See [`poi-subsystem.md`](poi-subsystem.md) (decision #7). The original
+> group-by-layer sketch is kept below for history.
 
 A tracking site is just a feature with an AOI. Reuse
 [`geo.bbox_of(path, pad_deg=...)`](../src/bosc/hydrology/geo.py) for the search
