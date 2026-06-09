@@ -191,6 +191,50 @@ def _render_routed_network(emit: Callable[[str], None], settings: Settings) -> N
         )
 
 
+def _render_tier1_swmm(emit: Callable[[str], None], settings: Settings) -> None:
+    """The committed EPA-SWMM detention + surcharge numbers (engine-free, from the artifact)."""
+    from bosc.hydrology.tier1 import load_tier1
+
+    result = load_tier1(settings=settings)
+    if result is None or not result.available or result.detention is None:
+        return
+    d = result.detention
+    worst_cont = max((abs(dk.continuity_error_pct) for dk in result.decks), default=0.0)
+
+    emit(
+        f"\nThe committed run (`{result.engine}`, {result.storm_return_period_yr}-yr "
+        f"{result.design_depth_in:g}-in storm; mass-balance continuity error "
+        f"{worst_cont:.2f}%) `[inference: derived]` sizes the detention the corridor needs. "
+        "Paving the footprint takes the design-storm peak from **"
+        f"{d.pre_peak_cfs:,.0f} cfs** (cropland) to **{d.post_peak_cfs:,.0f} cfs** "
+        f"(impervious); holding the release back to the pre-development rate "
+        f"({d.controlled_peak_cfs:,.0f} cfs) takes a **{d.required_storage_acft:,.0f} ac-ft** "
+        f"basin ({d.basin_area_acres:g} ac, {d.orifice_diam_ft:g}-ft bottom orifice). The four "
+        "input decks are committed under `data/reference/hydrology/swmm/` so anyone can re-run "
+        "them in EPA SWMM.\n"
+    )
+    sur = [s for s in result.surcharge if s.headroom_mgd is not None]
+    if sur:
+        emit("\n| plant | wet-weather peak | documented headroom | result |")
+        emit("|---|--:|--:|---|")
+        for s in sur:
+            verdict = "❌ exceeds" if s.exceeds else "✅ within"
+            emit(
+                f"| {s.plant} | {s.wet_weather_peak.value:.1f} MGD | {s.headroom_mgd:g} MGD "
+                f"(peak {s.capacity.value:g} - avg {s.avg_design_flow.value:g}) | "
+                f"{verdict} ({s.margin_mgd:+.1f}) |"
+                if s.avg_design_flow is not None
+                else f"| {s.plant} | {s.wet_weather_peak.value:.1f} MGD | "
+                f"{s.headroom_mgd:g} MGD | {verdict} ({s.margin_mgd:+.1f}) |"
+            )
+        emit(
+            f"\nThe storm-driven wet-weather peak ({sur[0].wet_weather_peak.value:.1f} MGD, "
+            "RDII assumption + the documented FM-2 dry base) overruns every documented "
+            "wet-weather margin. The RDII rate is an uncalibrated screening assumption — but "
+            "the direction is robust, and it lands on the regulatory fact below.\n"
+        )
+
+
 def _render_drainage_audit(emit: Callable[[str], None], settings: Settings) -> None:
     """Audit the OPC roundabout drainage scope against the corridor design storm."""
     from bosc.hydrology import drainage
@@ -508,8 +552,11 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
         "wet-weather surcharge** (dry-weather base + RDII) against each plant's documented\n"
         "wet-weather headroom. Hydraulic routing parameters (imperviousness, RDII, basin\n"
         "geometry) are assumptions; the footprint, storm, and plant design flows stay\n"
-        "document/connector-sourced. Engine-dependent, so its figures live in the live command.\n"
+        "document/connector-sourced.\n"
     )
+
+    _render_tier1_swmm(w, settings)
+
     from bosc.hydrology.sanitary import load_sanitary_basis
 
     san = load_sanitary_basis(settings=settings)

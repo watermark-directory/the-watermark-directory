@@ -450,10 +450,15 @@ def tier1(
         25, "--return-period", help="Design storm return period (yr)."
     ),
     offline: bool = typer.Option(False, "--offline", help="Use cached/fixture rainfall only."),
+    write: bool = typer.Option(
+        False,
+        "--write",
+        help="Persist the decks + result to data/reference/hydrology/ (requires the engine).",
+    ),
 ) -> None:
     """Tier-1 EPA SWMM: detention sizing + sanitary wet-weather surcharge."""
     from bosc.config import Settings
-    from bosc.hydrology.tier1 import run_tier1, tier1_findings
+    from bosc.hydrology.tier1 import run_tier1, tier1_findings, write_tier1
 
     settings = Settings(hydro_offline=True) if offline else get_settings()
     result = run_tier1(return_period_yr=return_period, settings=settings, live=True)
@@ -492,6 +497,13 @@ def tier1(
         "\n[dim]Tier-1 EPA SWMM. Footprint/storm/plant design flows document/connector-sourced; "
         "imperviousness, RDII R, and basin geometry are assumptions.[/]"
     )
+    if write:
+        path = write_tier1(result, settings=get_settings())
+        console.print(
+            f"[green]Wrote[/] {path} + {len(result.decks)} .inp decks "
+            f"[dim]({result.engine}, continuity "
+            f"{max((abs(d.continuity_error_pct) for d in result.decks), default=0.0):.2f}%)[/]"
+        )
 
 
 @app.command(name="storm-plan")
