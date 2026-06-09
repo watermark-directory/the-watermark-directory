@@ -47,6 +47,8 @@ from bosc.hydrology.model import (
     RefillAdequacy,
     Reservoir,
     RiverFlowStat,
+    RoundaboutFlow,
+    RoundaboutStormPeak,
     RoutedNetwork,
     RoutedNetworkDiff,
     WaterBalance,
@@ -70,6 +72,7 @@ from bosc.hydrology.refill import (
     refill_findings,
     write_refill_adequacy,
 )
+from bosc.hydrology.roundabout import derive_roundabout_flow, roundabout_findings
 from bosc.hydrology.supply import (
     campus_budget_from_cooling,
     compute_water_budget,
@@ -94,6 +97,8 @@ __all__ = [
     "RefillAdequacy",
     "Reservoir",
     "RiverFlowStat",
+    "RoundaboutFlow",
+    "RoundaboutStormPeak",
     "RoutedNetwork",
     "RoutedNetworkDiff",
     "WaterBalance",
@@ -108,6 +113,7 @@ __all__ = [
     "compute_low_flow_frequency",
     "compute_refill_adequacy",
     "compute_water_budget",
+    "derive_roundabout_flow",
     "diff_networks",
     "load_low_flow_frequency",
     "load_refill_adequacy",
@@ -119,6 +125,7 @@ __all__ = [
     "network_findings",
     "refill_findings",
     "resolve_theories",
+    "roundabout_findings",
     "route_network",
     "run_tier1",
     "theory_findings",

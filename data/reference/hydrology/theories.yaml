@@ -41,12 +41,16 @@ theories:
     description: >
       Theorized roundabout at Cole St / Beery Rd engineered to direct surface flow into
       Pike Run, augmenting its low-flow baseflow to flush sludge from the WWTP reach,
-      accepting surface-runoff pollution as the tradeoff. UNPROVEN; the actual drainage
-      discharge point is not yet corpus-confirmed.
+      accepting surface-runoff pollution as the tradeoff. UNPROVEN; the discharge point is
+      not corpus-confirmed. The injected flow is now DERIVED (bosc.hydrology.roundabout):
+      the ~2.9-acre impervious catchment yields only ~0.012 cfs mean-annual and ZERO at
+      design low flow (it does not rain at the 7Q10), so it CANNOT sustainably augment Pike
+      Run. What it can deliver is transient storm surges (~3-7 cfs, a few hours) -- episodic
+      flushing, not low-flow augmentation. The injection below is that mean-annual smear.
     status: theorized
     enabled: false
     confidence: low
-    citation: "Relator theory (Cole/Beery roundabout -> Pike Run); discharge point not yet corpus-confirmed."
+    citation: "Relator theory (Cole/Beery roundabout -> Pike Run); flow derived by bosc.hydrology.roundabout (`bosc roundabout`)."
     add_nodes:
       - id: roundabout-pike-run
         name: "Cole/Beery roundabout directed stormwater inflow"
@@ -56,13 +60,14 @@ theories:
         status: theorized
         inject_component: natural
         inject_cfs:
-          value: 0.5
+          value: 0.012
           unit: cfs
-          source: assumption
+          source: derived
           citation: >
-            Theorized dry-weather augmentation the 'waterfall' directs into Pike Run;
-            magnitude is a scenario knob, not measured. Carries road-runoff pollution
-            (a water-QUALITY load) even as it augments FLOW.
+            Mean-annual continuous-equivalent runoff off the ~2.9-acre impervious catchment
+            (OPC-derived area x Atlas-14/NASA-POWER rainfall; bosc.hydrology.roundabout). ZERO
+            at design low flow; storm surges ~3-7 cfs are transient, not this sustained value.
+            Carries road-runoff pollution (a water-QUALITY load) even as it augments FLOW.
           confidence: low
         citation: "Theorized directed-stormwater inflow to Pike Run at Cole/Beery (status:theorized)."
 

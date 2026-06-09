@@ -12,6 +12,7 @@ from collections.abc import Sequence
 from bosc.config import Settings, get_settings
 from bosc.hydrology import network as network_stage
 from bosc.hydrology import refill as refill_stage
+from bosc.hydrology import roundabout as roundabout_stage
 from bosc.hydrology import scenario as scenario_stage
 from bosc.hydrology import supply as supply_stage
 from bosc.hydrology.assimilative import assimilative_findings, check_assimilative
@@ -20,6 +21,7 @@ from bosc.hydrology.model import (
     AssimilativeCheck,
     HydroFinding,
     RefillAdequacy,
+    RoundaboutFlow,
     RoutedNetwork,
     RoutedNetworkDiff,
     ScenarioDiff,
@@ -61,6 +63,27 @@ def run_water_budget(
         reserve_lost_days=budget.drought_reserve_lost_days,
     )
     return supply, budget, findings
+
+
+def run_roundabout(
+    *,
+    settings: Settings | None = None,
+) -> tuple[RoundaboutFlow, list[HydroFinding]]:
+    """Derive the Cole/Beery roundabout's directed flow + findings (offline, all committed).
+
+    Grounds the waterfall-roundabout theory: the document-derived impervious catchment against
+    the cited corridor rainfall gives a negligible mean-annual flow (zero at design low flow)
+    plus transient storm-event surges — refuting the sustained-augmentation premise.
+    """
+    settings = settings or get_settings()
+    rf = roundabout_stage.derive_roundabout_flow(settings=settings)
+    findings = roundabout_stage.roundabout_findings(rf)
+    log.info(
+        "hydro.roundabout.run",
+        mean_annual_cfs=rf.mean_annual_cfs.value,
+        impervious_acres=rf.impervious_acres.value,
+    )
+    return rf, findings
 
 
 def run_refill(
