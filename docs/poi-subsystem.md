@@ -208,11 +208,14 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
 
 ## 8. Roadmap
 
-- **P0 — store + model.** `bosc.poi` package, `PointOfInterest`/frontmatter schema,
-  `data/poi/`, `store.py`, `bosc poi list/show`. Seed by **porting the existing tracked
-  composite(s) from `gis-findings` into the store** (a port, not a rewrite).
-- **P1 — discover.** Corpus scan → `POICandidate`s with citations (parcel ids via the
-  existing regex; addresses; facility names). Idempotent against the store.
+- **P0 — store + model. ✅ done.** `bosc.poi` package, `POIFrontmatter` schema,
+  `data/poi/`, `store.py`, `bosc poi list/show`; seeded by porting the `gis-findings`
+  `campus` layer as the first composite POI.
+- **P1 — discover. ✅ done.** `discover.py` scans the committed corpus text →
+  `POICandidate`s (deed-format **parcel ids** + **addresses**) with citations and a
+  store-`covered` flag; `bosc poi discover [--uncovered]`. Idempotent and read-only —
+  the uncovered parcel-ids are the worklist. (Facility-name extraction deferred; the
+  parcel regex is divergence-guarded against `allen_gis.scan_parcel_ids`.)
 - **P2 — resolve.** The resolve-to-parcel funnel: `parcel_at_point` (new `allen_gis`
   spatial) + the Census Geocoder connector; blocking + merge with the auto/human gate;
   write `surface_forms`. Committed fixtures for both connectors.
