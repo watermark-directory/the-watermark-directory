@@ -181,14 +181,61 @@ def _render_routed_network(emit: Callable[[str], None], settings: Settings) -> N
             else "draws on a mainstem that still holds positive flow"
         )
         emit(
-            f"\nUnder buildout the cooling consumptive draw of "
-            f"**{buildout.consumptive_cfs:.2f} cfs** is **{delta.multiple_of_natural:g}x** the "
-            f"loop's entire natural low flow. It {dry}. The routed balance conserves mass "
-            f"(base + gains - applied loss reconciles to the {buildout.outlet_cfs:.2f} cfs outlet) "
-            "`[inference: derived]`. The order-invariant system totals are the robust result; "
-            "the per-reach values depend on the cited-but-approximate confluence order and are "
+            f"\n**Unbuffered bound.** *If* the cooling load of "
+            f"**{buildout.consumptive_cfs:.2f} cfs** were pumped straight from the Ottawa at 7Q10 "
+            f"(**{delta.multiple_of_natural:g}x** the loop's entire natural low flow) it {dry}. But "
+            "that is **not** how Lima's supply works — the city draws treated water from ~15 billion "
+            "gallons of off-stream reservoir storage (see the next section), so this is a worst-case "
+            "bound, not the operating reality. The routed balance still conserves mass (base + gains "
+            f"- applied loss reconciles to the {buildout.outlet_cfs:.2f} cfs outlet) "
+            "`[inference: derived]`. The order-invariant system totals are the robust result; the "
+            "per-reach values depend on the cited-but-approximate confluence order and are "
             "screening-grade.\n"
         )
+
+
+def _render_water_supply(emit: Callable[[str], None], settings: Settings) -> None:
+    """The intake/storage half: the off-stream reservoir budget the campus actually draws on."""
+    from bosc.pipeline import hydrology as hydro_stage
+
+    supply, budget, _findings = hydro_stage.run_water_budget(settings=settings)
+    if supply is None or budget is None:
+        return
+
+    by_river = supply.storage_by_river()
+    river_txt = ", ".join(f"{r} {mg / 1000:.1f} BG" for r, mg in sorted(by_river.items()))
+    emit(
+        "\n### The supply side: off-stream storage, not a 7Q10 intake\n\n"
+        "The screen above reads the campus draw as if it depleted the Ottawa at design low flow. "
+        "It does not — and the real mechanism is a *stronger* finding. Lima's raw water is held in "
+        f"**{len(supply.reservoirs)} upground (off-stream) reservoirs totalling "
+        f"~{supply.total_storage_mg / 1000:.1f} billion gallons** ({river_txt}), filled by pumping "
+        "from **both** the Auglaize (west) and the Ottawa (east) through four pump stations **at "
+        "high flow** `[verified: document]`. So Lima never withdraws at the 7Q10 — it lives off "
+        "stored water, and the binding low-flow constraint is reservoir **drawdown**, not intake "
+        "depletion.\n"
+    )
+    emit("\n| reservoir | built | capacity | source river |")
+    emit("|---|--:|--:|---|")
+    for r in supply.reservoirs:
+        emit(f"| {r.name} | {r.built} | {r.capacity_mg:,.0f} MG | {r.source_river} |")
+    emit(
+        f"\nThe data center draws **treated** municipal water like any large customer, so its "
+        f"**{budget.campus_makeup.value:g} MGD** makeup is an added draw on this shared storage — "
+        f"**{budget.campus_share_pct:g}%** of the **{budget.gross_production_mgd:g} MGD** the plant "
+        f"would then produce (against ~{supply.current_production.value:g} MGD today, "
+        f"{supply.plant_capacity.value:g} MGD rated) `[inference: derived]`. At that draw the "
+        f"zero-refill **drought reserve falls from {budget.drought_reserve_days_baseline:g} to "
+        f"{budget.drought_reserve_days_buildout:g} days "
+        f"(-{budget.drought_reserve_lost_days:g})**. Its evaporative "
+        f"**{budget.campus_consumptive.value:g} MGD** consumptive is a permanent loss to the basin "
+        "— the returns (FM-2/FM-1) go *downstream* to the Ottawa via the WWTPs, never back to the "
+        "reservoirs, so the full makeup draws storage down. This is a far harder number to rebut "
+        "than the 7Q10 multiple: the campus alone is a fifth of the city's water production, drawn "
+        "from a finite reserve that must be refilled by high-flow pumping from two rivers whose "
+        "yield is lowest in exactly the season the draw is highest. Quantifying that refill against "
+        "the Auglaize (USGS 04185750) and Ottawa (04187100) flow records is the next increment.\n"
+    )
 
 
 def _render_tier1_swmm(emit: Callable[[str], None], settings: Settings) -> None:
@@ -367,6 +414,7 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
 
     _render_lowflow_corroboration(w, settings)
     _render_routed_network(w, settings)
+    _render_water_supply(w, settings)
     _render_toxic_screen(w, settings)
 
     from bosc.hydrology.floodplain import load_wwtp_floodzones

@@ -409,13 +409,16 @@ def network_findings(rn: RoutedNetwork) -> list[HydroFinding]:
     if rn.consumptive_cfs > 0.0:
         findings.append(
             HydroFinding(
-                subject="Ottawa mainstem at the intake",
+                subject="Ottawa mainstem at the intake (unbuffered bound)",
                 check="low-flow-depletion",
                 ok=not _mainstem_runs_dry(rn),
                 detail=(
-                    f"consumptive draw {rn.consumptive_cfs:g} cfs vs natural low flow Σ"
-                    f"{rn.natural_total_cfs:g} cfs"
-                    + (" — mainstem runs dry" if _mainstem_runs_dry(rn) else "")
+                    f"UNBUFFERED worst case — if the {rn.consumptive_cfs:g} cfs cooling load were "
+                    f"pumped straight from the Ottawa at 7Q10 (Σ natural {rn.natural_total_cfs:g} "
+                    "cfs) the mainstem would run dry"
+                    + (".  " if _mainstem_runs_dry(rn) else " not quite.  ")
+                    + "But Lima draws treated water from ~15 BG of off-stream reservoir storage, "
+                    "so the real constraint is reservoir drawdown (`bosc supply`), not this bound."
                 ),
             )
         )

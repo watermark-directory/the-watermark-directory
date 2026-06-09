@@ -21,10 +21,19 @@
 #
 # Datum note: the cited Ottawa 7Q10 (0.2 cfs) is the design low flow measured AT the
 # Lima gage (USGS 04187100), already net of the historical upstream abstraction for
-# Lima's water supply. So it is injected as the pre-campus mainstem low flow, and the
-# data-center COOLING consumptive draw is applied as the NEW, incremental depletion
-# (it is not in the historical 7Q10). The campus FM-2 industrial discharge returns to
-# the Ottawa via Lima's sewer + Lima WWTP and is routed as an effluent gain.
+# Lima's water supply. It is injected as the receiving-reach low flow, and the campus
+# FM-2 industrial discharge returns to the Ottawa via Lima's sewer + Lima WWTP and is
+# routed as an effluent gain.
+#
+# IMPORTANT — the cooling draw here is an UNBUFFERED WORST-CASE BOUND, not the operating
+# reality. Lima does NOT withdraw at the 7Q10: its supply is five upground (off-stream)
+# reservoirs (~15 BG) filled by pumping from the Auglaize + Ottawa at HIGH flow (see
+# water-supply.yaml). The data center draws TREATED municipal water from that storage, so
+# the realistic low-flow constraint is reservoir DRAWDOWN (the supply water-budget,
+# `bosc supply` / bosc.hydrology.supply), not instantaneous Ottawa depletion. The
+# `lima-abstraction` consumptive draw below answers only the hypothetical "if the campus
+# load were pumped straight from the Ottawa at design low flow" — a bound the supply
+# budget supersedes. Run the receiving network at consumptive_cfs=0 for the real picture.
 
 meta:
   subject: Routed low-flow stream network — Lima municipal loop
@@ -47,13 +56,13 @@ nodes:
     citation: "Cited Ottawa River 7Q10 0.2 cfs at USGS 04187100 (low-flow-7q10.yaml)"
 
   - id: lima-abstraction
-    name: Lima WTP intake + data-center cooling draw
+    name: Lima supply abstraction reach (cooling draw — unbuffered bound)
     kind: abstraction
     consumptive: true
     downstream: lima-reach
     receiving_water: Ottawa River
     status: confirmed
-    citation: "Campus evaporative-cooling consumptive draw on the Lima supply (scenario knob; bosc.hydrology.cooling)"
+    citation: "UNBUFFERED worst-case: campus cooling load as if pumped from the Ottawa at 7Q10. Real constraint is reservoir drawdown (water-supply.yaml; `bosc supply`)."
 
   # --- Dug Run tributary: headwater + American II outfall -> confluence -> Ottawa ---
   - id: dug-run-head

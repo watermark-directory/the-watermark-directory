@@ -41,11 +41,15 @@ from bosc.hydrology.model import (
     NetworkTheory,
     Node,
     ProvenancedValue,
+    PumpStation,
     ReachFlow,
+    Reservoir,
     RoutedNetwork,
     RoutedNetworkDiff,
     WaterBalance,
     WaterBalanceNode,
+    WaterBudget,
+    WaterSupplySystem,
 )
 from bosc.hydrology.network import (
     apply_theories,
@@ -56,6 +60,12 @@ from bosc.hydrology.network import (
     resolve_theories,
     route_network,
     theory_findings,
+)
+from bosc.hydrology.supply import (
+    campus_budget_from_cooling,
+    compute_water_budget,
+    load_supply,
+    water_budget_findings,
 )
 from bosc.hydrology.tier1 import load_tier1, run_tier1, tier1_findings, write_tier1
 
@@ -69,18 +79,25 @@ __all__ = [
     "NetworkTheory",
     "Node",
     "ProvenancedValue",
+    "PumpStation",
     "ReachFlow",
+    "Reservoir",
     "RoutedNetwork",
     "RoutedNetworkDiff",
     "WaterBalance",
     "WaterBalanceNode",
+    "WaterBudget",
+    "WaterSupplySystem",
     "apply_theories",
     "assimilative_findings",
     "build_water_balance",
+    "campus_budget_from_cooling",
     "check_assimilative",
     "compute_low_flow_frequency",
+    "compute_water_budget",
     "diff_networks",
     "load_low_flow_frequency",
+    "load_supply",
     "load_theories",
     "load_tier1",
     "load_topology",
@@ -91,5 +108,6 @@ __all__ = [
     "run_tier1",
     "theory_findings",
     "tier1_findings",
+    "water_budget_findings",
     "write_tier1",
 ]
