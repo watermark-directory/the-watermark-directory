@@ -230,7 +230,18 @@ holds the post-development peak to the pre-development rate, and the **sanitary
 wet-weather surcharge** (dry-weather base + RDII) against each plant's documented
 wet-weather headroom. Hydraulic routing parameters (imperviousness, RDII, basin
 geometry) are assumptions; the footprint, storm, and plant design flows stay
-document/connector-sourced. Engine-dependent, so its figures live in the live command.
+document/connector-sourced.
+
+
+The committed run (`pyswmm 2.1.0`, 25-yr 4.25-in storm; mass-balance continuity error 0.00%) `[inference: derived]` sizes the detention the corridor needs. Paving the footprint takes the design-storm peak from **215 cfs** (cropland) to **579 cfs** (impervious); holding the release back to the pre-development rate (216 cfs) takes a **42 ac-ft** basin (13.6 ac, 5.49-ft bottom orifice). The four input decks are committed under `data/reference/hydrology/swmm/` so anyone can re-run them in EPA SWMM.
+
+
+| plant | wet-weather peak | documented headroom | result |
+|---|--:|--:|---|
+| American II | 16.9 MGD | 2.4 MGD (peak 3.6 - avg 1.2) | ❌ exceeds (-14.5) |
+| Shawnee II | 16.9 MGD | 9.6 MGD (peak 12.6 - avg 3) | ❌ exceeds (-7.3) |
+
+The storm-driven wet-weather peak (16.9 MGD, RDII assumption + the documented FM-2 dry base) overruns every documented wet-weather margin. The RDII rate is an uncalibrated screening assumption — but the direction is robust, and it lands on the regulatory fact below.
 
 
 **The surcharge lands on a system with no headroom to give.** Permitted

@@ -52,6 +52,7 @@ from bosc.hydrology.network import (
     network_findings,
     route_network,
 )
+from bosc.hydrology.tier1 import load_tier1, run_tier1, tier1_findings, write_tier1
 
 __all__ = [
     "AnnualMinimum",
@@ -73,8 +74,12 @@ __all__ = [
     "compute_low_flow_frequency",
     "diff_networks",
     "load_low_flow_frequency",
+    "load_tier1",
     "load_topology",
     "low_flow_quantiles",
     "network_findings",
     "route_network",
+    "run_tier1",
+    "tier1_findings",
+    "write_tier1",
 ]

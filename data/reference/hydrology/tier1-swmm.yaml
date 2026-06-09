@@ -1,0 +1,123 @@
+meta:
+  subject: Tier-1 EPA SWMM — detention sizing + sanitary wet-weather surcharge
+  engine: pyswmm 2.1.0
+  storm: 25-yr 24-hr, 4.25 in
+  discipline: SWMM-computed (derived). Footprint + storm + plant design flows are document/connector-sourced;
+    imperviousness, RDII R, and basin geometry are assumptions. The .inp decks are committed for chain
+    of custody.
+tier1:
+  available: true
+  detention:
+    pre_peak_cfs: 215.4
+    post_peak_cfs: 578.8
+    controlled_peak_cfs: 216.2
+    orifice_diam_ft: 5.49
+    required_storage_acft: 41.5
+    basin_area_acres: 13.6
+    tier: tier1-swmm
+  surcharge:
+  - plant: American II
+    capacity:
+      value: 3.6
+      unit: MGD
+      source: document
+      citation: 'OEPA NPDES 2PH00006 permit + fact sheet (design flow 1.2 MGD; peak hydraulic 3.6 MGD);
+        watch-american-ii-wwtp. CNA-2005 p3: 0.80 MGD plant reconstructed to new 1.2 MGD SBR.'
+      confidence: high
+      asof: null
+    avg_design_flow:
+      value: 1.2
+      unit: MGD
+      source: document
+      citation: 'OEPA NPDES 2PH00006 permit + fact sheet (design flow 1.2 MGD; peak hydraulic 3.6 MGD);
+        watch-american-ii-wwtp. CNA-2005 p3: 0.80 MGD plant reconstructed to new 1.2 MGD SBR.'
+      confidence: high
+      asof: null
+    peaking_factor:
+      value: 3.0
+      unit: ratio
+      source: derived
+      citation: peak 3.6 / avg 1.2 MGD (American II, document-cited)
+      confidence: medium
+      asof: null
+    headroom_mgd: 2.4
+    wet_weather_peak:
+      value: 16.87
+      unit: MGD
+      source: derived
+      citation: SWMM RDII (R=0.05, assumption) over 340 ac + 2.5 MGD campus dry base (FM-2, document),
+        25-yr storm
+      confidence: medium
+      asof: null
+    exceeds: true
+    margin_mgd: -14.47
+  - plant: Shawnee II
+    capacity:
+      value: 12.6
+      unit: MGD
+      source: document
+      citation: 'watch-shawnee-ii-wwtp (Phase 2: 2.0 -> 3.0 MGD avg / 12.6 MGD peak; NPDES OH0023850;
+        ~$23M OWDA). CNA-2005 p2: prior expansion under a USEPA consent decree.'
+      confidence: high
+      asof: null
+    avg_design_flow:
+      value: 3.0
+      unit: MGD
+      source: document
+      citation: 'watch-shawnee-ii-wwtp (Phase 2: 2.0 -> 3.0 MGD avg / 12.6 MGD peak; NPDES OH0023850;
+        ~$23M OWDA). CNA-2005 p2: prior expansion under a USEPA consent decree.'
+      confidence: high
+      asof: null
+    peaking_factor:
+      value: 4.2
+      unit: ratio
+      source: derived
+      citation: peak 12.6 / avg 3 MGD (Shawnee II, document-cited)
+      confidence: medium
+      asof: null
+    headroom_mgd: 9.6
+    wet_weather_peak:
+      value: 16.87
+      unit: MGD
+      source: derived
+      citation: SWMM RDII (R=0.05, assumption) over 340 ac + 2.5 MGD campus dry base (FM-2, document),
+        25-yr storm
+      confidence: medium
+      asof: null
+    exceeds: true
+    margin_mgd: -7.27
+  decks:
+  - name: pre
+    filename: swmm/tier1-pre.inp
+    reports_node: OUT1
+    sha256: 91b571506cbfb3256cc4a6613453b761e8deeb39edc7b23c34e7e0576530ef4e
+    peak_cfs: 215.44
+    continuity_error_pct: 0.0
+    note: pre-development (cropland) stormwater
+  - name: post
+    filename: swmm/tier1-post.inp
+    reports_node: OUT1
+    sha256: 56c6cbdc6b692cede12c85fdf5cefe0a3577694d253aa09613a30c99b6369b8c
+    peak_cfs: 578.8
+    continuity_error_pct: 0.0
+    note: post-development (impervious), undetained
+  - name: detention
+    filename: swmm/tier1-detention.inp
+    reports_node: OUT1
+    sha256: c7430be18d030a8953a3802045ca8baefa525f0a3250dfc1daad629b2bd3ba6e
+    peak_cfs: 216.18
+    continuity_error_pct: 0.0
+    note: post-development with sized basin (bottom orifice 5.49 ft)
+  - name: sanitary
+    filename: swmm/tier1-sanitary.inp
+    reports_node: WWTP
+    sha256: c481faa8cf645b066a5404e91649ad05e5034b26423e4a841c7d653d50a9e37a
+    peak_cfs: 26.11
+    continuity_error_pct: 0.0
+    note: DWF + RDII sanitary wet-weather
+  engine: pyswmm 2.1.0
+  storm_return_period_yr: 25
+  design_depth_in: 4.25
+  inventory: null
+  sanitary_basis: null
+  note: ''

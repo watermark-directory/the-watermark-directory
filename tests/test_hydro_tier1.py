@@ -99,6 +99,10 @@ def test_run_tier1_sizes_detention_and_flags_surcharge() -> None:
     assert d.post_peak_cfs > d.pre_peak_cfs
     assert d.controlled_peak_cfs == pytest.approx(d.pre_peak_cfs, rel=0.15)
     assert d.required_storage_acft > 0
+    # The committed-deck capture: four decks with the engine version recorded.
+    assert result.engine.startswith("pyswmm")
+    assert {d.name for d in result.decks} == {"pre", "post", "detention", "sanitary"}
+    assert all(d.inp_text and d.reports_node for d in result.decks)
     # The documented small plants are surcharged by the wet-weather peak.
     assert any(s.exceeds for s in result.surcharge)
     am2 = next(s for s in result.surcharge if "American II" in s.plant)

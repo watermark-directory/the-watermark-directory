@@ -17,7 +17,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 SourceKind = Literal["document", "connector", "assumption", "derived"]
 NodeRole = Literal["abstraction", "demand", "wwtp", "receiving"]
@@ -698,6 +698,27 @@ class SanitarySurcharge(BaseModel):
     margin_mgd: float
 
 
+class SwmmDeck(BaseModel):
+    """A committed EPA-SWMM input deck — the model itself, kept for chain-of-custody.
+
+    The ``.inp`` text is written to ``filename`` (under ``data/reference/hydrology/swmm/``)
+    and its ``sha256`` recorded here, so the committed result is reproducible: anyone
+    can re-run the exact deck in EPA SWMM. ``inp_text`` is the runtime-only carrier
+    (``Field(exclude=True)``) — it never lands in the committed YAML, only in the file.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: str  # "pre" | "post" | "detention" | "sanitary"
+    filename: str  # relative path under data/reference/hydrology/swmm/
+    reports_node: str  # the element whose peak the result reads
+    sha256: str = ""
+    peak_cfs: float | None = None
+    continuity_error_pct: float = 0.0  # SWMM flow-routing mass-balance error (quality signal)
+    note: str = ""
+    inp_text: str = Field(default="", exclude=True)  # runtime only; lives in the .inp file
+
+
 class Tier1Result(BaseModel):
     """The Tier-1 SWMM escalation: detention sizing + sanitary surcharge."""
 
@@ -706,9 +727,16 @@ class Tier1Result(BaseModel):
     available: bool
     detention: DetentionDesign | None = None
     surcharge: list[SanitarySurcharge] = []
+    decks: list[SwmmDeck] = []  # the committed model inputs behind the numbers
+    engine: str = ""  # the SWMM/pyswmm version that produced the result
+    storm_return_period_yr: int | None = None
+    design_depth_in: float | None = None  # the design-storm depth driving the decks
     inventory: StormPlanInventory | None = None  # grounds the detention finding in the real sheet
     sanitary_basis: SanitaryBasis | None = None  # grounds the surcharge in cited design flows
     note: str = ""
+
+    def deck(self, name: str) -> SwmmDeck | None:
+        return next((d for d in self.decks if d.name == name), None)
 
 
 @dataclass(frozen=True)

@@ -52,6 +52,18 @@ def swmm_available() -> bool:
     return ok
 
 
+def engine_version() -> str:
+    """The pyswmm version behind a run (for result provenance), or ``""`` if absent."""
+    if not swmm_available():
+        return ""
+    try:
+        import pyswmm  # lazy: only after the probe passed
+
+        return f"pyswmm {pyswmm.__version__}"
+    except Exception:  # pragma: no cover - defensive
+        return "pyswmm (version unknown)"
+
+
 def simulate(
     inp_text: str,
     *,
