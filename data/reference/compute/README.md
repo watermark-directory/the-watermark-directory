@@ -61,8 +61,12 @@ data appendix**:
 `data/extracted/legal/select-committee-2026/relator-testimony/bosc-data-appendix-2026-06-01.md`
 (itself citing NVIDIA HGX guidance via IntuitionLabs, The Green Grid, EESI/Vertiv).
 The air-permit IT-load chain (114 gensets × 2.75 ekW ≈ 313 MW backup → ~275 MW IT)
-is document-sourced in `bosc.facility.power` / `bosc.hydrology.cooling` from OEPA Air
-PTI **P0138965** (Facility 0302022054).
+in `bosc.facility.power` / `bosc.hydrology.cooling` traces to OEPA Air PTI **P0138965**
+(Facility 0302022054) — but the permit **is not committed** to the corpus; the figure
+currently enters via a *secondhand citation*. Ingesting the permit (and the
+**three-hall footprint** in its emission-unit layout, which would re-ground the
+footprint method) is a tracked gap — see the
+[completeness audit §4](../../extracted/legal/corpus-completeness-audit.md).
 
 ## Caveats
 

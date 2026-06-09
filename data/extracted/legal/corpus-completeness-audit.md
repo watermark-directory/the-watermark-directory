@@ -6,7 +6,7 @@
 
 ## Headline
 
-**The archive itself is in good shape; what's "missing" is mostly what the county hasn't produced.** Provenance is clean (94 distinct source PDFs cited across the extractions, 0 genuinely absent). The PRR production binaries are all present. The substantive holes are the records the county **deferred or withheld** — above all the entire **county-wastewater engineering universe (PRR items 5–15)** and the **item-4 cost-benefit analysis** — plus a modest set of corpus-hygiene issues in the minutes series (publication lag + ~12 malformed/misfiled filenames), none of which indicate lost evidence. A separate, newer thread (§2) tracks **watershed/conservation grant docs** worth digging up — the primary instruments behind a $650k Lost Creek (Maumee-headwater) ag-runoff grant whose SWCD summary is now in the corpus.
+**The archive itself is in good shape; what's "missing" is mostly what the county hasn't produced.** Provenance is clean (94 distinct source PDFs cited across the extractions, 0 genuinely absent). The PRR production binaries are all present. The substantive holes are the records the county **deferred or withheld** — above all the entire **county-wastewater engineering universe (PRR items 5–15)** and the **item-4 cost-benefit analysis** — plus a modest set of corpus-hygiene issues in the minutes series (publication lag + ~12 malformed/misfiled filenames), none of which indicate lost evidence. A separate, newer thread (§2) tracks **watershed/conservation grant docs** worth digging up — the primary instruments behind a $650k Lost Creek (Maumee-headwater) ag-runoff grant whose SWCD summary is now in the corpus. A third thread (**§4**) flags the **OEPA air permit P0138965** — the secondhand-cited keystone behind the disclosed **313 MW** power figure, and the expected source of the **three-hall building footprint** — as not yet ingested.
 
 ---
 
@@ -94,6 +94,20 @@ Every `*.pdf` cited across `extracted/**` resolves to a real file under `data/do
 
 ---
 
+## 4. Air permit (PTI P0138965) — the keystone power figure, cited secondhand
+
+*Added 2026-06-09 (compute-capacity axis).* The Ohio EPA Air **Permit-to-Install P0138965** (Facility **0302022054**) is the **sole source** of the campus's disclosed electrical scale — **114 emergency generators × 2,750 ekW ≈ 313 MW backup → ~250–300 MW IT** (N+1). That figure anchors both the cooling-water balance ([`../../../docs/HYDROLOGY.md`](../../../docs/HYDROLOGY.md); `bosc.hydrology.cooling`) and the compute / AI-capacity derivation ([`../../../docs/COMPUTE.md`](../../../docs/COMPUTE.md); `bosc.facility`). **Yet the permit itself is not in the corpus** — the 313 MW / 114-genset figure enters only as a *secondhand citation* inside [`../commissioners/bosc-water-balance.analysis.md`](../commissioners/bosc-water-balance.analysis.md) and the [relator data appendix](select-committee-2026/relator-testimony/bosc-data-appendix-2026-06-01.md). No air-PTI PDF exists under [`data/documents/`](../../documents/): the permits folders hold §401 water-quality applications (not the air PTI), and the PRR-01 bundle is minutes + land/deed exhibits.
+
+| What's owed | Why it matters | Where to get it |
+|---|---|---|
+| **Air PTI P0138965** (full permit + application) | Puts the **313 MW / ~275 MW IT** keystone on a **primary-source** footing — it currently carries a `[verified: document]` tag across the corpus *without the document committed* | Ohio EPA Division of Air Pollution Control (DAPC) public eDocument / eBusiness system, Facility ID **0302022054** |
+| **Emission-unit layout / plot plan** | The 114 generators are grouped **by building**; the grouping is expected to show the **data-hall count (≈ three halls)** and a documented **building footprint** — which would re-ground the **footprint method (Method 3)** from "land × assumed coverage" to a real floor area, and let the genset-per-hall split cross-check per-hall power against the 275 MW total | Same permit (emission-unit table + any plot-plan attachment) |
+| **Architectural site-plan sheets** (CI Design / WSP) | The committed plan set is a **single** grading & storm sheet (`1A-C-3104`) showing only ancillary **SSS/GPS** buildings on piers — the data-hall footprints sit on architectural sheets not in hand | EMH&T / CI Design plan set; PRR follow-up |
+
+Until ingested, **Method 3 stays the flagged-weak land-area envelope** and the power figure rests on a secondhand citation. *(Lead: the three-hall footprint, noted by the relator from the air permit, is **recorded as a gap 2026-06-09**, not asserted — chain of custody requires it come from the document.)*
+
+---
+
 ## Genuine-absence shortlist (verify upstream — not lag, not typos)
 Low-confidence candidates worth a manual check against [commissioners.allencountyohio.com](https://commissioners.allencountyohio.com):
 
@@ -109,3 +123,4 @@ These are flagged for verification, **not** asserted as missing.
 - [`bosc-prr-production-2026-06-05.analysis.md`](prr-mandamus/bosc-prr-production-2026-06-05.analysis.md) · [`../../../docs/legal/mandamus-analysis.md`](../../../docs/legal/mandamus-analysis.md)
 - [`allen-county-web-vendor-audit.md`](web-vendor-audit/allen-county-web-vendor-audit.md) · [`allen-county-level-sites.md`](web-vendor-audit/allen-county-level-sites.md) — item-16 custody
 - [`../oepa/`](../oepa/) (Shawnee II permit `2PK00002`) · [`../../reference/echo/`](../../reference/echo/) (Maumee discharger inventory) — Category-B wastewater ties
+- [`../../../docs/COMPUTE.md`](../../../docs/COMPUTE.md) · [`../../reference/compute/README.md`](../../reference/compute/README.md) — the compute / AI-capacity derivation whose keystone (air permit P0138965) §4 tracks
