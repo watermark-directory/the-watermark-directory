@@ -34,5 +34,10 @@ The point-of-interest (place) research store. Defers to the root
   parcel-id makes a group `auto`). `merge_resolutions` is pure (group logic testable on
   synthetic resolutions); `bosc poi merge`. Atomic merge keeps distinct parcels distinct —
   a *composite* unifies them by hand in curate, not here.
-- **Not built yet:** **GNIS** (non-parcel features) and **curate** (promote a group to a
-  `data/poi/` profile — a human step, writing the grouped members as `surface_forms`).
+- **`curate` (built — scaffolding):** `curate.py` scaffolds a resolved `MergeGroup` into a
+  `data/poi/<slug>.md` profile at depth `located` (members → `surface_forms`, owner →
+  relationship, citations carried through; no AOI). `write_profile` refuses to overwrite
+  unless `force`. `bosc poi curate <parcel-no> [--write]`. Promotion to
+  `characterized`/`watched` (+ a tracking `bbox`) is a human edit, never auto.
+- **Not built yet:** **GNIS** (non-parcel features) and **P4** — pointing
+  `bosc.gis.load_tracking_sites` at `tracked_pois()` (retiring `gis_tracking_layers`).

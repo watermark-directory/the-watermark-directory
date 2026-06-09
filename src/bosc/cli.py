@@ -2802,5 +2802,61 @@ def poi_merge(
         console.print(f"[green]Wrote[/] {out}")
 
 
+@poi_app.command("curate")
+def poi_curate(
+    parcel_no: str = typer.Argument(..., help="A parcel number cited in the corpus."),
+    write: bool = typer.Option(
+        False, "--write", help="Write the scaffold to data/poi/ (default: dry-run preview)."
+    ),
+    force: bool = typer.Option(False, "--force", help="Re-scaffold even if a POI exists."),
+) -> None:
+    """Scaffold a POI profile for a parcel from its corpus surface forms (the promotion step).
+
+    Resolves the parcel + gathers its cited surface forms, then scaffolds a `data/poi/`
+    profile at depth `located`. Promotion is a human step: review the dry-run, `--write`
+    it, then hand-edit `depth`/relationships and add a tracking `bbox` to make it `watched`.
+    """
+    from datetime import date
+
+    from bosc.hydrology.connectors.allen_gis import normalize_parcel_id
+    from bosc.poi import discover_candidates, merge_candidates
+    from bosc.poi.curate import CurateError, profile_text, scaffold_from_group, write_profile
+
+    settings = get_settings()
+    target = normalize_parcel_id(parcel_no)
+    cands = [
+        c
+        for c in discover_candidates(settings=settings)
+        if c.kind == "parcel-id" and c.normalized == target
+    ]
+    if not cands:
+        console.print(f"[red]Parcel {parcel_no} is not cited in the corpus[/] (no parcel-id).")
+        raise typer.Exit(1)
+
+    group = next(
+        (g for g in merge_candidates(cands, settings=settings) if g.parcel_no == target), None
+    )
+    if group is None or group.parcel is None:
+        console.print(f"[red]Could not resolve parcel {parcel_no} in CAMA.[/]")
+        raise typer.Exit(1)
+    if group.covered and not force:
+        console.print(
+            f"[yellow]Parcel {parcel_no} is already a POI[/] — pass --force to re-scaffold."
+        )
+        raise typer.Exit(1)
+
+    front, body = scaffold_from_group(group, asof=date.today().isoformat())
+    if not write:
+        console.print(profile_text(front, body))
+        console.print("[dim](dry run — pass --write to commit to data/poi/)[/]")
+        return
+    try:
+        path = write_profile(front, body, settings=settings, force=force)
+    except CurateError as exc:
+        console.print(f"[red]{exc}[/]")
+        raise typer.Exit(1) from exc
+    console.print(f"[green]Wrote[/] {path}  [dim](review + promote depth before publishing)[/]")
+
+
 if __name__ == "__main__":
     app()

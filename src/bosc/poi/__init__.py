@@ -13,6 +13,7 @@ later increments.
 
 from __future__ import annotations
 
+from bosc.poi.curate import CurateError, scaffold_from_group, write_profile
 from bosc.poi.discover import discover_candidates
 from bosc.poi.merge import MergeGroup, merge_candidates, merge_corpus, merge_resolutions
 from bosc.poi.model import POICandidate, POIFrontmatter, POIProfile
@@ -20,6 +21,7 @@ from bosc.poi.resolve import Resolution, resolve_candidate, resolve_value
 from bosc.poi.store import load_poi, load_pois, tracked_pois
 
 __all__ = [
+    "CurateError",
     "MergeGroup",
     "POICandidate",
     "POIFrontmatter",
@@ -33,5 +35,7 @@ __all__ = [
     "merge_resolutions",
     "resolve_candidate",
     "resolve_value",
+    "scaffold_from_group",
     "tracked_pois",
+    "write_profile",
 ]
