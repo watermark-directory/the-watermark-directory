@@ -1,0 +1,49 @@
+{
+  "params": {
+    "address": "3640 Spencerville Road, Lima, OH",
+    "benchmark": "Public_AR_Current"
+  },
+  "fetched_at": "2026-06-09T22:48:47.214488+00:00",
+  "payload": {
+    "result": {
+      "input": {
+        "address": {
+          "address": "3640 Spencerville Road, Lima, OH"
+        },
+        "benchmark": {
+          "isDefault": true,
+          "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+          "id": "4",
+          "benchmarkName": "Public_AR_Current"
+        }
+      },
+      "addressMatches": [
+        {
+          "tigerLine": {
+            "side": "R",
+            "tigerLineId": "209542568"
+          },
+          "coordinates": {
+            "x": -84.176447824982,
+            "y": 40.722713196632
+          },
+          "addressComponents": {
+            "zip": "45805",
+            "streetName": "SPENCERVILLE",
+            "preType": "",
+            "city": "LIMA",
+            "preDirection": "",
+            "suffixDirection": "",
+            "fromAddress": "3600",
+            "state": "OH",
+            "suffixType": "RD",
+            "toAddress": "3698",
+            "suffixQualifier": "",
+            "preQualifier": ""
+          },
+          "matchedAddress": "3640 SPENCERVILLE RD, LIMA, OH, 45805"
+        }
+      ]
+    }
+  }
+}

@@ -216,9 +216,15 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
   store-`covered` flag; `bosc poi discover [--uncovered]`. Idempotent and read-only —
   the uncovered parcel-ids are the worklist. (Facility-name extraction deferred; the
   parcel regex is divergence-guarded against `allen_gis.scan_parcel_ids`.)
-- **P2 — resolve.** The resolve-to-parcel funnel: `parcel_at_point` (new `allen_gis`
-  spatial) + the Census Geocoder connector; blocking + merge with the auto/human gate;
-  write `surface_forms`. Committed fixtures for both connectors.
+- **P2 — resolve.** The resolve-to-parcel funnel + the merge:
+  - **P2a (✅ done) — funnel core.** `census_geocoder` connector (address → point) +
+    `allen_gis.parcel_at_point` (point → parcel) + `resolve.py` (`resolve_candidate`):
+    parcel-id → CAMA (exact, auto-mergeable); address → geocode → parcel (a *proposal*,
+    medium confidence). `bosc poi resolve`. Real committed fixtures for both connectors.
+  - **P2b — non-parcel.** GNIS connector for features with no parcel (roads, water
+    bodies) → fallback `(kind, geohash)` key.
+  - **P2c — merge.** Block candidates, auto-merge only on exact parcel-id equality, queue
+    the rest for human confirm; write `surface_forms` (the dedup audit trail).
 - **P3 — curate.** Promote candidates → `data/poi/` profiles; depth gates; composite
   assembly (members).
 - **P4 — wire tracking.** `bosc.gis.load_tracking_sites` reads `data/poi/` (`track:true`);

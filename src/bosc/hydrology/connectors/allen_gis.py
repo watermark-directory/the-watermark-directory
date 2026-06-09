@@ -232,6 +232,29 @@ def parcels_by_owner(name: str, *, settings: Settings | None = None) -> list[Par
     return query_parcels(f"UPPER(OWNNAM1) LIKE '%{safe}%'", settings=settings)
 
 
+def parcel_at_point(lon: float, lat: float, *, settings: Settings | None = None) -> Parcel | None:
+    """The Allen County parcel containing a WGS84 point, or ``None`` if none intersects.
+
+    A spatial ``intersects`` query against the parcel layer — the join that turns a
+    geocoded address or a facility coordinate into a canonical ``PARCEL_NO`` (the POI
+    resolve-to-parcel funnel). The GIS repeats split rows, so the result is deduped.
+    """
+    settings = settings or get_settings()
+    page = _query(
+        {
+            "geometry": f"{lon},{lat}",
+            "geometryType": "esriGeometryPoint",
+            "inSR": "4326",
+            "spatialRel": "esriSpatialRelIntersects",
+            "outFields": ",".join(_OUT_FIELDS),
+        },
+        settings=settings,
+    )
+    features = page.get("features") or []
+    parcels = _dedupe([Parcel.from_attrs(f.get("attributes", {})) for f in features])
+    return parcels[0] if parcels else None
+
+
 # --- Citations + reference dataset -----------------------------------------
 
 # Parcel ids as they appear in deeds: 36-0100-03-002.000 style (2-4-2-3.3).

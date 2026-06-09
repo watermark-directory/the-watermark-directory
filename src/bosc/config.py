@@ -150,6 +150,17 @@ class Settings(BaseSettings):
     # gis-findings layers treated as trackable sites (grouped into one AOI each).
     gis_tracking_layers: list[str] = Field(default_factory=lambda: ["campus"])
 
+    # --- POI / geocoding (the resolve-to-parcel funnel) --------------------
+    # Resolve corpus place references to a canonical Allen County parcel. US Census
+    # Geocoder (free, no key, public domain) turns an address into a point; the
+    # allen_gis parcel-at-point spatial query turns that point into a parcel. Same
+    # offline/cache/fixture discipline as the other connectors. See docs/poi-subsystem.md.
+    census_geocoder_url: str = "https://geocoding.geo.census.gov/geocoder"
+    census_geocoder_benchmark: str = "Public_AR_Current"
+    poi_offline: bool = False  # serve cached/fixture geocoder responses only; never fetch
+    poi_request_timeout_s: float = 30.0
+    poi_fixtures_dir: Path | None = None  # committed connector fixtures (tests/CI)
+
     # --- Documents library -------------------------------------------------
     # The full source corpus (~5 GB) is too large to republish on a static host,
     # so the Documents page is a complete *catalog* with direct downloads only for
@@ -195,6 +206,11 @@ class Settings(BaseSettings):
     def gis_cache_dir(self) -> Path:
         """Cached GIS/imagery STAC responses (Planetary Computer search). Not committed."""
         return self.cache_dir / "gis"
+
+    @property
+    def poi_cache_dir(self) -> Path:
+        """Cached POI geocoder responses (US Census Geocoder). Not committed."""
+        return self.cache_dir / "poi"
 
     @property
     def gis_findings_path(self) -> Path:
