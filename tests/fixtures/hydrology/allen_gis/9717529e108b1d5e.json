@@ -1,0 +1,234 @@
+{
+  "params": {
+    "f": "json",
+    "returnGeometry": "false",
+    "geometry": "-84.176447824982,40.722713196632",
+    "geometryType": "esriGeometryPoint",
+    "inSR": "4326",
+    "spatialRel": "esriSpatialRelIntersects",
+    "outFields": "PARCEL_NO,OWNNAM1,OWNNAM2,DEEDOWN,HOUSENO,ST_DIR,STREET,ST_DESC,OWNADR1,OWNADR2,OWNST,OWNZIP,LNDUSECD,ACRES,MKTLNDVAL,MKTIMPVAL,MKTTOTVAL,CAUVVAL,TAXDIST,SCHOOL,NBRHCODE,DATE,SALEAMT,VAL_SAL"
+  },
+  "fetched_at": "2026-06-09T22:48:47.609244+00:00",
+  "payload": {
+    "displayFieldName": "PARCEL_NO",
+    "fieldAliases": {
+      "PARCEL_NO": "PARCEL_NO",
+      "OWNNAM1": "OWNNAM1",
+      "OWNNAM2": "OWNNAM2",
+      "DEEDOWN": "DEEDOWN",
+      "HOUSENO": "HOUSENO",
+      "ST_DIR": "ST_DIR",
+      "STREET": "STREET",
+      "ST_DESC": "ST_DESC",
+      "OWNADR1": "OWNADR1",
+      "OWNADR2": "OWNADR2",
+      "OWNST": "OWNST",
+      "OWNZIP": "OWNZIP",
+      "LNDUSECD": "LNDUSECD",
+      "ACRES": "ACRES",
+      "MKTLNDVAL": "MKTLNDVAL",
+      "MKTIMPVAL": "MKTIMPVAL",
+      "MKTTOTVAL": "MKTTOTVAL",
+      "CAUVVAL": "CAUVVAL",
+      "TAXDIST": "TAXDIST",
+      "SCHOOL": "SCHOOL",
+      "NBRHCODE": "NBRHCODE",
+      "DATE": "DATE",
+      "SALEAMT": "SALEAMT",
+      "VAL_SAL": "VAL_SAL"
+    },
+    "fields": [
+      {
+        "name": "PARCEL_NO",
+        "type": "esriFieldTypeString",
+        "alias": "PARCEL_NO",
+        "length": 15
+      },
+      {
+        "name": "OWNNAM1",
+        "type": "esriFieldTypeString",
+        "alias": "OWNNAM1",
+        "length": 254
+      },
+      {
+        "name": "OWNNAM2",
+        "type": "esriFieldTypeString",
+        "alias": "OWNNAM2",
+        "length": 254
+      },
+      {
+        "name": "DEEDOWN",
+        "type": "esriFieldTypeString",
+        "alias": "DEEDOWN",
+        "length": 254
+      },
+      {
+        "name": "HOUSENO",
+        "type": "esriFieldTypeString",
+        "alias": "HOUSENO",
+        "length": 254
+      },
+      {
+        "name": "ST_DIR",
+        "type": "esriFieldTypeString",
+        "alias": "ST_DIR",
+        "length": 254
+      },
+      {
+        "name": "STREET",
+        "type": "esriFieldTypeString",
+        "alias": "STREET",
+        "length": 254
+      },
+      {
+        "name": "ST_DESC",
+        "type": "esriFieldTypeString",
+        "alias": "ST_DESC",
+        "length": 254
+      },
+      {
+        "name": "OWNADR1",
+        "type": "esriFieldTypeString",
+        "alias": "OWNADR1",
+        "length": 254
+      },
+      {
+        "name": "OWNADR2",
+        "type": "esriFieldTypeString",
+        "alias": "OWNADR2",
+        "length": 254
+      },
+      {
+        "name": "OWNST",
+        "type": "esriFieldTypeString",
+        "alias": "OWNST",
+        "length": 254
+      },
+      {
+        "name": "OWNZIP",
+        "type": "esriFieldTypeInteger",
+        "alias": "OWNZIP"
+      },
+      {
+        "name": "LNDUSECD",
+        "type": "esriFieldTypeInteger",
+        "alias": "LNDUSECD"
+      },
+      {
+        "name": "ACRES",
+        "type": "esriFieldTypeDouble",
+        "alias": "ACRES"
+      },
+      {
+        "name": "MKTLNDVAL",
+        "type": "esriFieldTypeInteger",
+        "alias": "MKTLNDVAL"
+      },
+      {
+        "name": "MKTIMPVAL",
+        "type": "esriFieldTypeInteger",
+        "alias": "MKTIMPVAL"
+      },
+      {
+        "name": "MKTTOTVAL",
+        "type": "esriFieldTypeInteger",
+        "alias": "MKTTOTVAL"
+      },
+      {
+        "name": "CAUVVAL",
+        "type": "esriFieldTypeInteger",
+        "alias": "CAUVVAL"
+      },
+      {
+        "name": "TAXDIST",
+        "type": "esriFieldTypeString",
+        "alias": "TAXDIST",
+        "length": 254
+      },
+      {
+        "name": "SCHOOL",
+        "type": "esriFieldTypeInteger",
+        "alias": "SCHOOL"
+      },
+      {
+        "name": "NBRHCODE",
+        "type": "esriFieldTypeInteger",
+        "alias": "NBRHCODE"
+      },
+      {
+        "name": "DATE",
+        "type": "esriFieldTypeInteger",
+        "alias": "DATE"
+      },
+      {
+        "name": "SALEAMT",
+        "type": "esriFieldTypeInteger",
+        "alias": "SALEAMT"
+      },
+      {
+        "name": "VAL_SAL",
+        "type": "esriFieldTypeString",
+        "alias": "VAL_SAL",
+        "length": 254
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "PARCEL_NO": "46040202001000",
+          "OWNNAM1": "ALLEN COUNTY BOARD",
+          "OWNNAM2": "OF COMMISSIONERS",
+          "DEEDOWN": "ALLEN COUNTY BOARD OF COMMISSIONERS",
+          "HOUSENO": "3640",
+          "ST_DIR": " ",
+          "STREET": "SPENCERVILLE",
+          "ST_DESC": "RD",
+          "OWNADR1": "3640 SPENCERVILLE RD",
+          "OWNADR2": "LIMA OH 45805",
+          "OWNST": "OH",
+          "OWNZIP": 45805,
+          "LNDUSECD": 620,
+          "ACRES": 12.89,
+          "MKTLNDVAL": 132000,
+          "MKTIMPVAL": 2849900,
+          "MKTTOTVAL": 2981900,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 1100,
+          "DATE": 1011990,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      },
+      {
+        "attributes": {
+          "PARCEL_NO": "46040202001000",
+          "OWNNAM1": "ALLEN COUNTY BOARD",
+          "OWNNAM2": "OF COMMISSIONERS",
+          "DEEDOWN": "ALLEN COUNTY BOARD OF COMMISSIONERS",
+          "HOUSENO": "3640",
+          "ST_DIR": " ",
+          "STREET": "SPENCERVILLE",
+          "ST_DESC": "RD",
+          "OWNADR1": "3640 SPENCERVILLE RD",
+          "OWNADR2": "LIMA OH 45805",
+          "OWNST": "OH",
+          "OWNZIP": 45805,
+          "LNDUSECD": 620,
+          "ACRES": 12.89,
+          "MKTLNDVAL": 132000,
+          "MKTIMPVAL": 2849900,
+          "MKTTOTVAL": 2981900,
+          "CAUVVAL": 0,
+          "TAXDIST": "L35",
+          "SCHOOL": 208,
+          "NBRHCODE": 1100,
+          "DATE": 1011990,
+          "SALEAMT": 0,
+          "VAL_SAL": "N"
+        }
+      }
+    ]
+  }
+}

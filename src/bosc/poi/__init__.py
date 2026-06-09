@@ -15,14 +15,18 @@ from __future__ import annotations
 
 from bosc.poi.discover import discover_candidates
 from bosc.poi.model import POICandidate, POIFrontmatter, POIProfile
+from bosc.poi.resolve import Resolution, resolve_candidate, resolve_value
 from bosc.poi.store import load_poi, load_pois, tracked_pois
 
 __all__ = [
     "POICandidate",
     "POIFrontmatter",
     "POIProfile",
+    "Resolution",
     "discover_candidates",
     "load_poi",
     "load_pois",
+    "resolve_candidate",
+    "resolve_value",
     "tracked_pois",
 ]

@@ -2696,5 +2696,59 @@ def poi_discover(
         console.print(f"[green]Wrote[/] {out}")
 
 
+def _poi_offline_settings() -> Settings:
+    """Settings that serve committed POI + parcel fixtures only (never touch the network)."""
+    fixtures = get_settings().data_dir.parent / "tests" / "fixtures"
+    return Settings(
+        poi_offline=True,
+        poi_fixtures_dir=fixtures / "poi",
+        hydro_offline=True,
+        hydro_fixtures_dir=fixtures / "hydrology",
+    )
+
+
+@poi_app.command("resolve")
+def poi_resolve(
+    value: str = typer.Argument(..., help="A parcel id, or an address (qualify with city/state)."),
+    kind: str | None = typer.Option(
+        None, "--kind", help="parcel-id | address | coord (default: inferred from the value)."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use committed fixtures only; never touch the network."
+    ),
+) -> None:
+    """Resolve a place reference to a canonical Allen County parcel (the resolve funnel).
+
+    A parcel id resolves exactly (auto-mergeable); an address is geocoded (US Census) then
+    snapped to the containing parcel — a *proposal* (confirm before merging), because
+    geocoding an under-qualified address can match the wrong place.
+    """
+    import re
+
+    from bosc.poi import resolve_value
+
+    settings = _poi_offline_settings() if offline else get_settings()
+    inferred = (
+        "parcel-id" if re.fullmatch(r"\d{2}-\d{4}-\d{2}-\d{3}\.\d{3}", value.strip()) else "address"
+    )
+    r = resolve_value(kind or inferred, value, settings=settings)
+
+    badge = {"high": "green", "medium": "yellow", "low": "yellow", "none": "red"}[r.confidence]
+    console.print(
+        f"[bold]{value}[/] → method=[bold]{r.method}[/] confidence=[{badge}]{r.confidence}[/] "
+        f"auto_mergeable={r.auto_mergeable}"
+    )
+    if r.matched_address:
+        console.print(f"  geocoded: {r.matched_address}  {r.point}")
+    if r.parcel:
+        p = r.parcel
+        console.print(
+            f"  parcel: [bold]{r.parcel_no}[/]  owner={p.owner!r}  "
+            f"situs={p.situs_address!r}  acres={p.acres}"
+        )
+    if r.note:
+        console.print(f"  [dim]{r.note}[/]")
+
+
 if __name__ == "__main__":
     app()

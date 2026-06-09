@@ -60,6 +60,18 @@ def poi_settings() -> Settings:
 
 
 @pytest.fixture
+def poi_offline_settings() -> Settings:
+    """Offline POI resolve settings: geocoder + allen_gis (parcel) fixtures, no network."""
+    return Settings(
+        data_dir=REPO_ROOT / "data",
+        poi_offline=True,
+        poi_fixtures_dir=FIXTURES / "poi",
+        hydro_offline=True,
+        hydro_fixtures_dir=FIXTURES / "hydrology",
+    )
+
+
+@pytest.fixture
 def facility_settings() -> Settings:
     """Settings for the facility compute-capacity derivation.
 

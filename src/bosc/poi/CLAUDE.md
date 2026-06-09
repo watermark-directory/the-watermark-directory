@@ -23,6 +23,12 @@ The point-of-interest (place) research store. Defers to the root
   `POICandidate`s (parcel ids + addresses) with citations + a store-`covered` flag.
   Read-only worklist; the uncovered parcel-ids are the leads. Its parcel regex mirrors
   `allen_gis._PARCEL_ID_RE` — a test cross-checks the two so they can't drift.
-- **Not built yet:** `resolve` (the parcel-anchored funnel + merge) and the Census
-  Geocoder / `parcel_at_point` / GNIS connectors. Promotion of a candidate to a curated
-  `data/poi/` profile is a human step.
+- **`resolve` (built — funnel core):** `resolve.py` funnels one candidate to a parcel —
+  parcel-id → CAMA (exact, `confidence=high`, `auto_mergeable=True`); address →
+  `census_geocoder` (US Census, in `connectors/`) → point → `allen_gis.parcel_at_point`
+  (a **proposal**, `confidence=medium`, `auto_mergeable=False`, because geocoding is
+  fuzzy). `bosc poi resolve <value>`. Connector fixtures: `tests/fixtures/poi/` +
+  `tests/fixtures/hydrology/allen_gis/`.
+- **Not built yet:** **GNIS** (non-parcel features) and the cross-candidate **merge /
+  blocking** (only exact parcel-id auto-merges; the rest are human-confirmed). Promotion
+  of a candidate to a curated `data/poi/` profile is a human step.
