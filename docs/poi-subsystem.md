@@ -234,8 +234,12 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
   refuses to overwrite and warns on already-covered parcels. Promotion to
   `characterized`/`watched` (and adding a tracking `bbox`) stays a human step; composite
   assembly via `members` is hand-curated.
-- **P4 — wire tracking.** `bosc.gis.load_tracking_sites` reads `data/poi/` (`track:true`);
-  retire `gis_tracking_layers`; make `gis-findings.geojson` a generated layer.
+- **P4 — wire tracking. ✅ done.** `bosc.gis.load_tracking_sites` / `get_site` read the
+  POI store (`tracked_pois()` — `watched` + a `location.bbox`) and project each to a
+  `TrackingSite` (id = POI slug). `gis_tracking_layers` and the `gis-findings` layer
+  grouping are retired; the campus composite POI is now the source of the campus AOI, so
+  `bosc imagery search/pull <slug>` runs off the store. `gis-findings.geojson` remains a
+  display-only map layer.
 - **P5 — graph + site.** Place nodes in the entity graph; place pages + the map render
   from the POI store.
 

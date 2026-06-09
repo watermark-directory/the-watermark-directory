@@ -11,14 +11,12 @@ from bosc.hydrology.connectors._cache import HydroOfflineError
 
 def test_campus_site_loads(gis_settings: Settings) -> None:
     sites = load_tracking_sites(settings=gis_settings)
-    assert [s.id for s in sites] == ["campus"]  # default gis_tracking_layers
+    assert [s.id for s in sites] == ["data-center-campus"]  # the watched POI
 
     campus = sites[0]
     assert campus.name == "Data-center campus"
-    assert campus.n_features == 10
-    assert campus.geometry["type"] == "MultiPolygon"
-    assert len(campus.geometry["coordinates"]) == 10
-    assert campus.acreage is not None and campus.acreage > 300
+    assert len(campus.parcels) == 10
+    assert campus.source == "data/poi/data-center-campus.md"
 
     minx, miny, maxx, maxy = campus.bbox
     assert -84.13 < minx < maxx < -84.11  # the Bistrozzi campus, NW of Lima
@@ -31,14 +29,14 @@ def test_get_site_unknown_is_none(gis_settings: Settings) -> None:
 
 def test_search_site_offline_parses_fixture(gis_settings: Settings) -> None:
     site, scenes = imagery.search_site(
-        "campus",
+        "data-center-campus",
         collection="sentinel-2-l2a",
         datetime_range="2024-06-01/2024-09-30",
         max_cloud=20.0,
         limit=5,
         settings=gis_settings,
     )
-    assert site.id == "campus"
+    assert site.id == "data-center-campus"
     assert len(scenes) == 5
 
     # Newest acquisition first.
@@ -67,7 +65,7 @@ def test_search_offline_miss_raises(gis_settings: Settings) -> None:
 
 def test_search_naip_offline(gis_settings: Settings) -> None:
     _site, scenes = imagery.search_site(
-        "campus",
+        "data-center-campus",
         collection="naip",
         datetime_range="2017-01-01/2023-12-31",
         limit=3,
@@ -84,7 +82,7 @@ def test_search_naip_offline(gis_settings: Settings) -> None:
 
 def test_search_landsat_offline(gis_settings: Settings) -> None:
     _site, scenes = imagery.search_site(
-        "campus",
+        "data-center-campus",
         collection="landsat-c2-l2",
         datetime_range="2024-06-01/2024-09-30",
         max_cloud=20.0,
