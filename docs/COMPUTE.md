@@ -65,7 +65,13 @@ density (**40–140 kW/rack**) → IT power. This lands at **~1,200–11,400 MW*
 That is the *point*, and the honest reading of it: **land is not floor area**, and
 no building footprint is documented in the 95% SPS plans (sheet **1A-C-3104** is
 grading & storm only — no floor schedule; see
-[`plans/`](../data/extracted/plans/)). Method 3 bounds the *physical envelope* the
+[`plans/`](../data/extracted/plans/)). The data-hall footprint that *would* anchor
+this method — the relator notes the **air permit (PTI P0138965)** depicts roughly
+**three halls** — is **not yet in the corpus** (the permit is cited secondhand, not
+committed; logged in the
+[completeness audit §4](../data/extracted/legal/corpus-completeness-audit.md)).
+Until it is ingested, Method 3 stays the land-area envelope. Method 3 bounds the
+*physical envelope* the
 land could hold, and it sits an order of magnitude above the power method precisely
 because **power, not floor space, is the binding constraint**. Every input is an
 assumption; this is the loosest bracket and is presented as such.
@@ -131,6 +137,13 @@ AI compute facility — is robust to the disagreement.
 - **The footprint method is weak.** Land area is not floor area; no building footprint
   or data-hall area is documented in the plans. Method 3 is a physical upper envelope,
   not a likely value.
+- **The keystone power figure is cited secondhand.** The Ohio EPA air permit (PTI
+  **P0138965**) that anchors the 313 MW backup → ~275 MW IT figure is **not committed**
+  to the corpus — it enters via a secondhand citation, and the **three-hall footprint**
+  that would re-ground Method 3 would come from its emission-unit layout / plot plan.
+  Logged in the
+  [completeness audit §4](../data/extracted/legal/corpus-completeness-audit.md);
+  ingesting the permit is the highest-value next step for this axis.
 - **Method 2 is not fully independent.** It reuses Method 1's WUE assumption, so it
   cross-checks the loop rather than corroborating from a wholly separate source.
 - **Specs drift.** The accelerator reference data is as of June 2026 with cited
