@@ -228,8 +228,12 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
     exact parcel-id) / `review` (rests on a geocode) / `unresolved`. `merge_resolutions`
     is pure (testable on synthetic resolutions); `bosc poi merge [--addresses --status]`.
     Distinct parcels stay distinct — a composite unifies them by hand in curate, not here.
-- **P3 — curate.** Promote candidates → `data/poi/` profiles; depth gates; composite
-  assembly (members).
+- **P3 — curate. ✅ done (scaffolding).** `curate.py` scaffolds a resolved `MergeGroup`
+  into a `data/poi/<slug>.md` profile at depth `located` (parcel id + `surface_forms` +
+  owner relationship + citations; no AOI yet). `bosc poi curate <parcel-no> [--write]`
+  refuses to overwrite and warns on already-covered parcels. Promotion to
+  `characterized`/`watched` (and adding a tracking `bbox`) stays a human step; composite
+  assembly via `members` is hand-curated.
 - **P4 — wire tracking.** `bosc.gis.load_tracking_sites` reads `data/poi/` (`track:true`);
   retire `gis_tracking_layers`; make `gis-findings.geojson` a generated layer.
 - **P5 — graph + site.** Place nodes in the entity graph; place pages + the map render
