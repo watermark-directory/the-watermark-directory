@@ -19,6 +19,10 @@ The point-of-interest (place) research store. Defers to the root
   geometry is `location.method`/`confidence`/`asof`-tagged, derived from a cited source,
   **never fabricated**. The `surface_forms` list is the dedup audit trail (record *why*
   aliases unified). Geocoding (P2) caches raw responses under git-ignored `data/cache/`.
-- **Not built yet:** `discover` (corpus → candidates) and `resolve` (parcel-anchored
-  funnel + merge) — and the Census Geocoder / `parcel_at_point` / GNIS connectors — are
-  later increments. P0 is store + model only.
+- **`discover` (built):** `discover.py` scans the committed corpus text →
+  `POICandidate`s (parcel ids + addresses) with citations + a store-`covered` flag.
+  Read-only worklist; the uncovered parcel-ids are the leads. Its parcel regex mirrors
+  `allen_gis._PARCEL_ID_RE` — a test cross-checks the two so they can't drift.
+- **Not built yet:** `resolve` (the parcel-anchored funnel + merge) and the Census
+  Geocoder / `parcel_at_point` / GNIS connectors. Promotion of a candidate to a curated
+  `data/poi/` profile is a human step.

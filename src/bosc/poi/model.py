@@ -116,3 +116,21 @@ class POIProfile:
     def tracked(self) -> bool:
         """Whether this POI feeds imagery tracking (``watched`` + ``track.enabled``)."""
         return self.front.depth == "watched" and bool(self.front.track and self.front.track.enabled)
+
+
+class POICandidate(BaseModel):
+    """A place reference discovered in the corpus, pre-resolution.
+
+    The output of the ``discover`` stage: a raw locator (a parcel id or an address)
+    with the corpus citations where it appears and whether the store already covers it.
+    A candidate is a *lead to resolve and curate*, never an automatic POI.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    kind: Literal["parcel-id", "address"]
+    value: str  # a representative verbatim form
+    normalized: str  # the coverage/dedup key (digits-only parcel; upper-cased address)
+    occurrences: int  # total mentions across the corpus
+    citations: list[str] = Field(default_factory=list)  # repo-relative source paths
+    covered: bool = False  # already represented by a POI in the store

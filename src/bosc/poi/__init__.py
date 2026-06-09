@@ -13,7 +13,16 @@ later increments.
 
 from __future__ import annotations
 
-from bosc.poi.model import POIFrontmatter, POIProfile
+from bosc.poi.discover import discover_candidates
+from bosc.poi.model import POICandidate, POIFrontmatter, POIProfile
 from bosc.poi.store import load_poi, load_pois, tracked_pois
 
-__all__ = ["POIFrontmatter", "POIProfile", "load_poi", "load_pois", "tracked_pois"]
+__all__ = [
+    "POICandidate",
+    "POIFrontmatter",
+    "POIProfile",
+    "discover_candidates",
+    "load_poi",
+    "load_pois",
+    "tracked_pois",
+]

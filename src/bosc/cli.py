@@ -2644,5 +2644,57 @@ def poi_show(slug: str = typer.Argument(..., help="POI slug (see `bosc poi list`
         console.print(f"\n{poi.body}")
 
 
+@poi_app.command("discover")
+def poi_discover(
+    kind: str | None = typer.Option(None, "--kind", help="Filter: parcel-id | address."),
+    uncovered: bool = typer.Option(
+        False, "--uncovered", help="Only references the POI store doesn't cover yet."
+    ),
+    limit: int = typer.Option(40, "--limit", help="Max rows to show."),
+    out: str | None = typer.Option(
+        None, "--out", help="Write the full candidate list to this YAML path."
+    ),
+) -> None:
+    """Scan the corpus for place references (parcel ids, addresses) → POI candidates.
+
+    Read-only worklist: the *uncovered* parcel-id candidates are places cited in the
+    corpus that are not yet POIs. Promoting a candidate to a curated POI is a manual step.
+    Addresses are leads to verify, not a precise extraction.
+    """
+    import yaml
+
+    from bosc.poi import discover_candidates
+
+    cands = discover_candidates()
+    if kind:
+        cands = [c for c in cands if c.kind == kind]
+    if uncovered:
+        cands = [c for c in cands if not c.covered]
+    if not cands:
+        console.print("[yellow]No candidates.[/]")
+        raise typer.Exit(1)
+
+    n_parcel = sum(1 for c in cands if c.kind == "parcel-id")
+    n_addr = sum(1 for c in cands if c.kind == "address")
+    n_unc = sum(1 for c in cands if c.kind == "parcel-id" and not c.covered)
+    table = Table("kind", "value", "occ", "sources", "covered")
+    for c in cands[:limit]:
+        table.add_row(
+            c.kind, c.value, str(c.occurrences), str(len(c.citations)), "✓" if c.covered else ""
+        )
+    console.print(table)
+    if len(cands) > limit:
+        console.print(f"[dim]… {len(cands) - limit} more (raise --limit or use --out).[/]")
+    console.print(
+        f"[dim]{len(cands)} candidates — {n_parcel} parcel-id ({n_unc} uncovered), "
+        f"{n_addr} address.[/]"
+    )
+
+    if out:
+        doc = {"candidates": [c.model_dump() for c in cands]}
+        Path(out).write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True), "utf-8")
+        console.print(f"[green]Wrote[/] {out}")
+
+
 if __name__ == "__main__":
     app()
