@@ -12,6 +12,7 @@ artifacts.
 | `COURSE.md` | Research course — what we're investigating and what to build next. | hand-written (living draft) |
 | `DOSSIER.md` | Cross-document synthesis of everything deconstructed from the corpus. | hand-written |
 | `HYDROLOGY.md` | Tier-0 municipal water-flow findings. | **`bosc`-generated** (`bosc.hydrology`); figures tagged `[verified]`/`[assumption]` |
+| `COMPUTE.md` | The facility's compute / AI capacity, derived from disclosed power/water/footprint by three bracketing methods. | **`bosc`-generated** (`bosc.facility`; `bosc compute`); figures tagged `[verified]`/`[reference]`/`[inference]` |
 | `ECONOMICS.md` | Demand-side companion to HYDROLOGY — regional cloud-consumer demand & public benefits. | hand-assembled over cited sources |
 
 ## Subdirs

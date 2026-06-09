@@ -19,7 +19,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-SourceKind = Literal["document", "connector", "assumption", "derived"]
+SourceKind = Literal["document", "connector", "reference", "assumption", "derived"]
 NodeRole = Literal["abstraction", "demand", "wwtp", "receiving"]
 Flag = Literal["ok", "tight", "violation"]
 
@@ -75,6 +75,25 @@ class ProvenancedValue(BaseModel):
         )
 
     @classmethod
+    def from_reference(
+        cls,
+        value: float,
+        unit: str,
+        citation: str,
+        *,
+        confidence: Literal["high", "medium", "low"] = "medium",
+    ) -> ProvenancedValue:
+        """A value from committed authoritative external reference data.
+
+        Distinct from a record about *this* facility (``document``) and from an
+        asserted modeling input (``assumption``): a published spec / table vendored
+        under ``data/reference`` (e.g. an accelerator datasheet). Cite the file.
+        """
+        return cls(
+            value=value, unit=unit, source="reference", citation=citation, confidence=confidence
+        )
+
+    @classmethod
     def assume(
         cls,
         value: float,
@@ -102,13 +121,21 @@ class ProvenancedValue(BaseModel):
 
     @property
     def verified(self) -> bool:
-        """True when the value is grounded in a record or a live gauge."""
+        """True when the value is grounded in a record or a live gauge.
+
+        ``reference`` (a vendored published spec) is authoritative but is *not* a
+        record about this facility, so it is not "verified" in the dossier sense.
+        """
         return self.source in ("document", "connector")
 
     def __str__(self) -> str:
-        tag = {"document": "doc", "connector": "live", "assumption": "assume", "derived": "calc"}[
-            self.source
-        ]
+        tag = {
+            "document": "doc",
+            "connector": "live",
+            "reference": "ref",
+            "assumption": "assume",
+            "derived": "calc",
+        }[self.source]
         return f"{self.value:,.2f} {self.unit} [{tag}]"
 
 

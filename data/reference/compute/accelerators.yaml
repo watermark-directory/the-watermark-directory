@@ -1,0 +1,151 @@
+# AI accelerator reference specifications — per-chip TDP, all-in power, peak FLOPS.
+#
+# Vendored external reference data (see README.md for every source + as-of date).
+# These are PUBLISHED VENDOR SPECS for the chips, NOT facility-specific values: the
+# data center's actual accelerator type, count, and utilization are UNDISCLOSED. The
+# facility's end user is Google (corpus-verified), so BOTH NVIDIA GPUs and Google
+# TPUs are listed; bosc.facility.compute presents accelerator choice as labeled
+# SCENARIOS, never as an asserted fact about this facility.
+#
+# Conventions:
+#   tdp_w               chip thermal design power (vendor spec, document/reference)
+#   all_in_w            per-accelerator power at the rack incl. its share of host
+#                       CPU/NIC/PSU losses (DERIVED: tdp_w x host_overhead, assumption)
+#   *_dense_tflops      peak tensor-core throughput, NO structured sparsity
+#   *_sparse_tflops     peak with 2:4 structured sparsity (≈2x dense); null if N/A
+#   gpus_per_server     vendor reference server packaging (HGX/DGX baseboard, or
+#                       TPU tray) — informs rack counts
+# FLOPS dtype keys: bf16 (the training-relevant dense rate), fp8, fp4 (Blackwell+),
+# int8 (TPU). "peak" throughout — distinct from delivered throughput (apply an MFU
+# assumption for any training-capacity figure; see compute.py).
+
+host_overhead_factor: 1.30  # all_in_w = tdp_w x this (host CPU/NIC/PSU share; assumption)
+
+accelerators:
+  # --- NVIDIA (HGX/DGX air-or-liquid) ----------------------------------------
+  - name: H100-SXM5
+    label: "H100-class (Hopper)"
+    vendor: NVIDIA
+    generation: Hopper
+    form_factor: SXM5
+    tdp_w: 700
+    bf16_dense_tflops: 989
+    bf16_sparse_tflops: 1979
+    fp8_dense_tflops: 1979
+    fp8_sparse_tflops: 3958
+    fp4_dense_tflops: null
+    fp4_sparse_tflops: null
+    int8_tops: 3958
+    hbm_gb: 80
+    gpus_per_server: 8
+    racks_packaging: "HGX/DGX 8-GPU server; 40-50 kW per air/liquid AI rack"
+    cooling: "air or liquid"
+
+  - name: H200-SXM
+    label: "H200-class (Hopper, HBM3e)"
+    vendor: NVIDIA
+    generation: Hopper
+    form_factor: SXM
+    tdp_w: 700
+    bf16_dense_tflops: 989  # same GH100 compute die as H100; memory upgrade only
+    bf16_sparse_tflops: 1979
+    fp8_dense_tflops: 1979
+    fp8_sparse_tflops: 3958
+    fp4_dense_tflops: null
+    fp4_sparse_tflops: null
+    int8_tops: 3958
+    hbm_gb: 141
+    gpus_per_server: 8
+    racks_packaging: "HGX/DGX 8-GPU server; 40-50 kW per AI rack"
+    cooling: "air or liquid"
+
+  - name: B200
+    label: "B200-class (Blackwell)"
+    vendor: NVIDIA
+    generation: Blackwell
+    form_factor: SXM
+    tdp_w: 1000
+    bf16_dense_tflops: 2250
+    bf16_sparse_tflops: 4500
+    fp8_dense_tflops: 4500
+    fp8_sparse_tflops: 9000
+    fp4_dense_tflops: 9000
+    fp4_sparse_tflops: 18000
+    int8_tops: 4500
+    hbm_gb: 192
+    gpus_per_server: 8
+    racks_packaging: "HGX B200 8-GPU server; 60+ kW per liquid AI rack"
+    cooling: "liquid"
+
+  - name: GB200-NVL72
+    label: "GB200 NVL72 (Blackwell, rack-scale)"
+    vendor: NVIDIA
+    generation: Blackwell
+    form_factor: "GB200 superchip (Grace + 2x B200); per-GPU figures below"
+    tdp_w: 1200  # per Blackwell GPU within the Grace-Blackwell superchip (≈1.2 kW)
+    bf16_dense_tflops: 2500  # per-GPU dense BF16 within NVL72 (180 PFLOPS dense / 72 GPUs)
+    bf16_sparse_tflops: 5000
+    fp8_dense_tflops: 5000  # 720 PFLOPS FP8 dense (rack) / 72 GPUs = 10 PFLOPS sparse -> 5 dense
+    fp8_sparse_tflops: 10000
+    fp4_dense_tflops: 10000  # 1,440 PFLOPS FP4 dense (rack) / 72 = 20 PFLOPS sparse -> 10 dense
+    fp4_sparse_tflops: 20000
+    int8_tops: 5000
+    hbm_gb: 192
+    gpus_per_server: 72  # the NVL72 IS the rack: 72-GPU NVLink domain
+    racks_packaging: "GB200 NVL72 rack-scale system; 120-140 kW per liquid rack (mandatory)"
+    cooling: "liquid (mandatory)"
+
+  # --- Google TPU (the end user is Google; a TPU deployment is at least as likely) ---
+  - name: TPU-v5e
+    label: "TPU v5e (Google, inference/efficiency)"
+    vendor: Google
+    generation: v5e
+    form_factor: "TPU v5e chip"
+    tdp_w: 175  # ~120-200 W band; midpoint as the assumption
+    bf16_dense_tflops: 197
+    bf16_sparse_tflops: null  # TPU MXU rates are dense; no 2:4 sparsity rate published
+    fp8_dense_tflops: null
+    fp8_sparse_tflops: null
+    fp4_dense_tflops: null
+    fp4_sparse_tflops: null
+    int8_tops: 394
+    hbm_gb: 16
+    gpus_per_server: 8  # accelerators per host tray (board); pods scale far beyond
+    racks_packaging: "TPU pod tray; deployed in Google-designed pod racks"
+    cooling: "liquid (Google pod)"
+
+  - name: TPU-v5p
+    label: "TPU v5p (Google, training)"
+    vendor: Google
+    generation: v5p
+    form_factor: "TPU v5p chip"
+    tdp_w: 275  # ~250-300 W band; midpoint as the assumption
+    bf16_dense_tflops: 459
+    bf16_sparse_tflops: null
+    fp8_dense_tflops: null
+    fp8_sparse_tflops: null
+    fp4_dense_tflops: null
+    fp4_sparse_tflops: null
+    int8_tops: 918
+    hbm_gb: 95
+    gpus_per_server: 4  # accelerators per host; v5p pods reach 8,960 chips
+    racks_packaging: "TPU v5p pod tray; Google-designed pod racks"
+    cooling: "liquid (Google pod)"
+
+  - name: TPU-v6e
+    label: "TPU v6e Trillium (Google, 6th gen)"
+    vendor: Google
+    generation: v6e
+    form_factor: "TPU v6e (Trillium) chip"
+    tdp_w: 300  # vendor per-chip power undisclosed; ~2x v5e efficiency claim -> ~300 W assumption
+    bf16_dense_tflops: 918
+    bf16_sparse_tflops: null
+    fp8_dense_tflops: null
+    fp8_sparse_tflops: null
+    fp4_dense_tflops: null
+    fp4_sparse_tflops: null
+    int8_tops: 1836
+    hbm_gb: 32
+    gpus_per_server: 8
+    racks_packaging: "TPU v6e (Trillium) pod tray; Google-designed pod racks"
+    cooling: "liquid (Google pod)"

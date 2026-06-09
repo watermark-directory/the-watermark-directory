@@ -374,6 +374,83 @@ def scenario(
             console.print(f"[green]Wrote[/] {path}")
 
 
+@app.command()
+def compute(
+    accel_fraction_low: float | None = typer.Option(
+        None, "--accel-fraction-low", help="Override low accelerator-power fraction (0..1)."
+    ),
+    accel_fraction_high: float | None = typer.Option(
+        None, "--accel-fraction-high", help="Override high accelerator-power fraction (0..1)."
+    ),
+    mfu: float | None = typer.Option(
+        None, "--mfu", help="Override model-FLOPS-utilization for the delivered figure (0..1)."
+    ),
+) -> None:
+    """Derive the facility's compute / AI capacity by three independent methods."""
+    from bosc.facility.compute import derive_compute_capacity
+
+    settings = get_settings()
+    frac = None
+    if accel_fraction_low is not None and accel_fraction_high is not None:
+        frac = (accel_fraction_low, accel_fraction_high)
+    cap = derive_compute_capacity(settings=settings, accelerator_power_fraction=frac, mfu=mfu)
+
+    # The three IT-load estimators (the bracket headline).
+    console.print(
+        "[bold]Facility IT load[/] — three independent estimators "
+        "[dim](nothing here is a measured fact about the facility)[/]\n"
+        f"  1. power / gensets [bold](primary)[/]: [bold]{cap.it_load_power.value:g} MW[/] "
+        f"[dim](doc: air permit P0138965)[/]\n"
+        f"  2. cooling-water back-solve: {cap.it_load_water_low.value:g} MW (low, recovers #1) "
+        f"… {cap.it_load_water_high.value:g} MW [dim](FM-2 upper bound; shares the WUE assumption)[/]\n"
+        f"  3. footprint [dim](weakest)[/]: {cap.it_load_footprint_low.value:,.0f}"
+        f"-{cap.it_load_footprint_high.value:,.0f} MW "
+        f"[dim](physical envelope; land != floor area — not a likely load)[/]"
+    )
+    console.print(
+        f"\nMethods 1 and 2-low [bold]agree to within {abs(cap.it_load_water_low.value - cap.it_load_power.value):.1f} MW[/] "
+        f"(the loop closes). The power method is the operative figure; the footprint method only "
+        f"shows the land could physically hold far more — [bold]power, not floor space, is the "
+        f"binding constraint[/]."
+    )
+    console.print(
+        f"\n[bold]Equivalent H100-class GPUs[/] at the central IT load: "
+        f"[bold]~{cap.equivalent_h100_low.value:,.0f}-{cap.equivalent_h100_high.value:,.0f}[/] "
+        f"[dim](calc; accelerator power = IT load x "
+        f"{cap.accelerator_power_fraction_low.value:g}-{cap.accelerator_power_fraction_high.value:g})[/]"
+    )
+
+    # Per-chip scenarios. Accelerator type is UNDISCLOSED — these are "if X" labels.
+    console.print(
+        "\n[bold]If the accelerator is …[/] "
+        "[dim](scenarios over the power-method IT load; peak/nameplate FLOPS)[/]"
+    )
+    table = Table(
+        "scenario",
+        "accelerators",
+        "BF16 dense (EFLOP/s)",
+        "FP8 dense (EFLOP/s)",
+        "delivered BF16 @MFU",
+    )
+    for s in cap.scenarios:
+        fp8 = s.fp8_dense_eflops_high.value if s.fp8_dense_eflops_high else None
+        delivered = s.bf16_delivered_eflops_central
+        table.add_row(
+            s.spec.label,
+            f"{s.count_low.value:,.0f}-{s.count_high.value:,.0f}",
+            f"{s.bf16_dense_eflops_low.value:g}-{s.bf16_dense_eflops_high.value:g}",
+            f"≤{fp8:g}" if fp8 is not None else "—",
+            f"~{delivered.value:g}" if delivered is not None else "—",
+        )
+    console.print(table)
+    console.print(
+        f"\n[dim]Peak (nameplate) FLOPS shown; delivered derates by MFU={cap.mfu.value:g} "
+        "(training). Accelerator type/count/utilization are UNDISCLOSED — every per-chip row is a "
+        "labeled scenario, not a fact. IT load is air-permit-derived (P0138965); chip specs are "
+        "vendored reference (data/reference/compute); fractions/MFU are stated assumptions.[/]"
+    )
+
+
 @app.command(name="hydro-hypotheses")
 def hydro_hypotheses(
     level: str | None = typer.Option(
