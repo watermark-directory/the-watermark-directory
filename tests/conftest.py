@@ -41,3 +41,15 @@ def econ_settings() -> Settings:
         econ_offline=True,
         econ_fixtures_dir=FIXTURES / "economics",
     )
+
+
+@pytest.fixture
+def facility_settings() -> Settings:
+    """Settings for the facility compute-capacity derivation.
+
+    Reads committed reference data only (data/reference/compute + the parcels
+    geojson) — no network, no connector — so a plain real-data-dir Settings is
+    hermetic. Offline flags set defensively in case the footprint method's parcels
+    path ever grows a connector fallback.
+    """
+    return Settings(data_dir=REPO_ROOT / "data", hydro_offline=True)

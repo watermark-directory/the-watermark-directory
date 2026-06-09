@@ -1,0 +1,130 @@
+"""The three-method compute-capacity derivation, the bracket, and provenance."""
+
+from __future__ import annotations
+
+import pytest
+
+from bosc.config import Settings
+from bosc.facility.compute import (
+    _it_load_from_consumptive_mgd,
+    derive_compute_capacity,
+)
+
+
+def test_method1_power_is_document_anchored(facility_settings: Settings) -> None:
+    cap = derive_compute_capacity(settings=facility_settings)
+    # Method 1 (primary): the IT load is the air-permit ~275 MW, document-sourced.
+    assert cap.it_load_power.value == pytest.approx(275.0)
+    assert cap.it_load_power.source == "document"
+    assert "P0138965" in (cap.it_load_power.citation or "")
+
+
+def test_method2_water_backsolve_recovers_method1(facility_settings: Settings) -> None:
+    cap = derive_compute_capacity(settings=facility_settings)
+    # The low (power x WUE) cooling figure inverts back to ~275 MW — the loop closes.
+    assert cap.it_load_water_low.value == pytest.approx(275.0, abs=2.0)
+    assert cap.it_load_water_low.source == "derived"
+    # The FM-2 high is a flagged upper bound, larger than the power method.
+    assert cap.it_load_water_high.value > cap.it_load_power.value
+    assert cap.it_load_water_high.confidence == "low"
+    assert "UPPER BOUND" in (cap.it_load_water_high.citation or "")
+
+
+def test_water_backsolve_inverts_cooling_basis() -> None:
+    # 3.14 MGD at 1.8 L/kWh -> ~275 MW (the cooling.py forward calc, inverted).
+    assert _it_load_from_consumptive_mgd(3.14, 1.8) == pytest.approx(275.1, abs=1.0)
+
+
+def test_method3_footprint_is_weakest_and_flagged(facility_settings: Settings) -> None:
+    cap = derive_compute_capacity(settings=facility_settings)
+    # Footprint is an assumption (not document/derived) and dwarfs the power method —
+    # it bounds the physical envelope, confirming power is the binding constraint.
+    assert cap.it_load_footprint_low.source == "assumption"
+    assert cap.it_load_footprint_high.source == "assumption"
+    assert cap.it_load_footprint_low.value > cap.it_load_power.value
+    assert "LAND != FLOOR AREA" in (cap.it_load_footprint_low.citation or "")
+
+
+def test_methods1_and_2low_agree(facility_settings: Settings) -> None:
+    cap = derive_compute_capacity(settings=facility_settings)
+    # The robust agreement: the operative power figure and the water-low cross-check
+    # land within a couple MW of each other.
+    assert abs(cap.it_load_water_low.value - cap.it_load_power.value) < 2.0
+
+
+def test_cross_method_bracket(facility_settings: Settings) -> None:
+    cap = derive_compute_capacity(settings=facility_settings)
+    assert cap.it_load_bracket_low.value <= cap.it_load_power.value
+    assert cap.it_load_bracket_high.value >= cap.it_load_footprint_high.value
+    assert cap.it_load_bracket_low.source == "derived"
+
+
+def test_scenarios_cover_gpus_and_tpus(facility_settings: Settings) -> None:
+    cap = derive_compute_capacity(settings=facility_settings)
+    names = {s.spec.name for s in cap.scenarios}
+    # Both NVIDIA and Google TPU options are present (end user is Google).
+    assert {"H100-SXM5", "B200", "GB200-NVL72"} <= names
+    assert {"TPU-v5e", "TPU-v5p", "TPU-v6e"} <= names
+    vendors = {s.spec.vendor for s in cap.scenarios}
+    assert vendors == {"NVIDIA", "Google"}
+
+
+def test_scenario_counts_and_flops_are_derived_ranges(facility_settings: Settings) -> None:
+    cap = derive_compute_capacity(settings=facility_settings)
+    h100 = cap.scenario("H100-SXM5")
+    assert h100 is not None
+    # Count is a derived range (low <= central <= high), conditional on the chip.
+    assert h100.count_low.value < h100.count_central.value < h100.count_high.value
+    assert h100.count_low.source == "derived"
+    # Power-method H100 count lands at hyperscale-AI scale (~100k-250k accelerators).
+    assert 100_000 < h100.count_central.value < 300_000
+    # Aggregate peak dense BF16 is well into the hundreds of EFLOP/s.
+    assert h100.bf16_dense_eflops_high.value > 100.0
+    # A more power-dense chip (B200) yields fewer accelerators but more FLOPS.
+    b200 = cap.scenario("B200")
+    assert b200 is not None
+    assert b200.count_central.value < h100.count_central.value
+    assert b200.bf16_dense_eflops_high.value > h100.bf16_dense_eflops_high.value
+
+
+def test_delivered_throughput_is_derated_and_separate(facility_settings: Settings) -> None:
+    cap = derive_compute_capacity(settings=facility_settings)
+    assert cap.mfu.source == "assumption"
+    h100 = cap.scenario("H100-SXM5")
+    assert h100 is not None and h100.bf16_delivered_eflops_central is not None
+    # Delivered (MFU-derated) is strictly below the central peak between low and high.
+    assert h100.bf16_delivered_eflops_central.value < h100.bf16_dense_eflops_high.value
+
+
+def test_equivalent_h100_figure(facility_settings: Settings) -> None:
+    cap = derive_compute_capacity(settings=facility_settings)
+    # The cross-scenario unit equals the H100 scenario's own count range (by construction).
+    h100 = cap.scenario("H100-SXM5")
+    assert h100 is not None
+    assert cap.equivalent_h100_low.value == pytest.approx(h100.count_low.value, abs=1)
+    assert cap.equivalent_h100_high.value == pytest.approx(h100.count_high.value, abs=1)
+
+
+def test_overrides_tag_fraction_and_scale_counts(facility_settings: Settings) -> None:
+    base = derive_compute_capacity(settings=facility_settings)
+    lower = derive_compute_capacity(
+        settings=facility_settings, accelerator_power_fraction=(0.3, 0.4)
+    )
+    # A lower accelerator-power fraction yields fewer accelerators.
+    b_h100 = base.scenario("H100-SXM5")
+    l_h100 = lower.scenario("H100-SXM5")
+    assert b_h100 is not None and l_h100 is not None
+    assert l_h100.count_high.value < b_h100.count_high.value
+    assert "[override]" in (lower.accelerator_power_fraction_low.citation or "")
+
+
+def test_every_output_is_provenance_tagged(facility_settings: Settings) -> None:
+    cap = derive_compute_capacity(settings=facility_settings)
+    # Nothing is presented without a source tag; no output claims to be a facility fact
+    # except the document-anchored IT load (which cites the air permit).
+    assert cap.it_load_power.source == "document"
+    for s in cap.scenarios:
+        assert s.spec.tdp_w.source == "reference"
+        assert s.spec.all_in_w.source == "derived"
+        assert s.count_central.source == "derived"
+        assert s.bf16_dense_eflops_high.source == "derived"
