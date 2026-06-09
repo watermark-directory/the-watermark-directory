@@ -1699,6 +1699,49 @@ def theories_cmd() -> None:
     )
 
 
+@app.command(name="supply")
+def supply_cmd() -> None:
+    """Screen the campus draw against Lima's reservoir storage (the supply water-budget).
+
+    The intake-side counterpart to `bosc network`. Lima's supply is five upground
+    (off-stream) reservoirs (~15 BG) filled from the Auglaize + Ottawa at high flow, so
+    the low-flow constraint is reservoir DRAWDOWN, not a 7Q10 intake. Reports the
+    drought-reserve drawdown, the campus's share of plant production, and the net basin
+    loss.
+    """
+    from bosc.pipeline import hydrology as hydro_stage
+
+    settings = get_settings()
+    supply, budget, findings = hydro_stage.run_water_budget(settings=settings)
+    if supply is None or budget is None:
+        console.print("[yellow]No supply system[/] (data/reference/hydrology/water-supply.yaml).")
+        raise typer.Exit(1)
+
+    by_river = supply.storage_by_river()
+    river_txt = ", ".join(f"{r} {mg / 1000:.1f} BG" for r, mg in sorted(by_river.items()))
+    console.print(
+        f"[bold]Lima water supply[/] — {len(supply.reservoirs)} upground reservoirs, "
+        f"[bold]{supply.total_storage_mg / 1000:.1f} BG[/] off-stream storage ({river_txt}); "
+        f"treats ~{supply.current_production.value:g} MGD (rated {supply.plant_capacity.value:g})."
+    )
+    table = Table("reservoir", "built", "capacity (MG)", "source river")
+    for r in supply.reservoirs:
+        table.add_row(r.name, str(r.built), f"{r.capacity_mg:g}", r.source_river)
+    console.print(table)
+    console.print(
+        f"Campus makeup [bold]{budget.campus_makeup.value:g} MGD[/] "
+        f"([bold]{budget.campus_share_pct:g}%[/] of {budget.gross_production_mgd:g} MGD gross); "
+        f"drought reserve [bold]{budget.drought_reserve_days_baseline:g}[/] -> "
+        f"[bold]{budget.drought_reserve_days_buildout:g}[/] days "
+        f"([red]-{budget.drought_reserve_lost_days:g}[/]); net basin loss "
+        f"[bold]{budget.campus_consumptive.value:g} MGD[/]."
+    )
+    for f in findings:
+        console.print(f"  {'·' if f.ok else '!'} {f.detail}", markup=False)
+    for w in budget.warnings:
+        console.print(f"  ! {w}", markup=False)
+
+
 @app.command(name="people")
 def people() -> None:
     """List the curated individual profiles (the entity graph's detail store).

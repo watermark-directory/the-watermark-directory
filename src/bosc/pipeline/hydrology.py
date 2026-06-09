@@ -12,6 +12,7 @@ from collections.abc import Sequence
 from bosc.config import Settings, get_settings
 from bosc.hydrology import network as network_stage
 from bosc.hydrology import scenario as scenario_stage
+from bosc.hydrology import supply as supply_stage
 from bosc.hydrology.assimilative import assimilative_findings, check_assimilative
 from bosc.hydrology.balance import build_water_balance
 from bosc.hydrology.model import (
@@ -23,12 +24,41 @@ from bosc.hydrology.model import (
     ScenarioResult,
     StormRunoff,
     WaterBalance,
+    WaterBudget,
+    WaterSupplySystem,
 )
 from bosc.hydrology.stormwater import run_storm_scenario
 from bosc.hydrology.units import mgd_to_cfs
 from bosc.logging import get_logger
 
 log = get_logger(__name__)
+
+
+def run_water_budget(
+    *,
+    settings: Settings | None = None,
+) -> tuple[WaterSupplySystem | None, WaterBudget | None, list[HydroFinding]]:
+    """Screen the campus draw against Lima's reservoir storage (the supply water-budget).
+
+    The intake-side counterpart to :func:`run_network`: instead of routing discharges
+    into the Ottawa, it loads the off-stream-storage supply system
+    (``data/reference/hydrology/water-supply.yaml``) and screens the campus's treated-water
+    draw against the ~15 BG reservoir storage — drought-reserve drawdown, share of plant
+    production, net basin loss. Returns ``(None, None, [])`` if the supply file is absent.
+    """
+    settings = settings or get_settings()
+    supply = supply_stage.load_supply(settings=settings)
+    if supply is None:
+        return None, None, []
+    budget = supply_stage.campus_budget_from_cooling(supply)
+    findings = supply_stage.water_budget_findings(budget, supply)
+    log.info(
+        "hydro.water_budget.run",
+        storage_bg=round(supply.total_storage_mg / 1000, 2),
+        gross_mgd=budget.gross_production_mgd,
+        reserve_lost_days=budget.drought_reserve_lost_days,
+    )
+    return supply, budget, findings
 
 
 def run_baseline(

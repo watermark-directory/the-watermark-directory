@@ -1,0 +1,93 @@
+# Lima municipal water SUPPLY system — the intake/storage/treatment half of the loop.
+#
+# The routed network (network.yaml) models the RECEIVING half: WWTP discharges into
+# the Ottawa and its tributaries at design low flow. This file models the SUPPLY half
+# the receiving model presumes: where Lima's raw water comes from, how it is stored,
+# and how much the plant treats.
+#
+# THE KEY PHYSICAL FACT (and the correction it forces): Lima's supply is FIVE
+# UPGROUND (off-stream) reservoirs holding ~15 billion gallons, filled by pumping from
+# TWO rivers — the Auglaize (west) and the Ottawa (east) — through four pump stations.
+# Upground reservoirs are filled by pumping AT HIGH FLOW and drawn down through dry
+# periods. So Lima does NOT withdraw at the 7Q10 design low flow; it lives off stored
+# water. The binding low-flow constraint is therefore reservoir DRAWDOWN / refill (a
+# storage water-budget), not instantaneous intake depletion of a 0.2 cfs river. The
+# data-center campus draws TREATED municipal water like any large customer, so its
+# makeup demand is an added draw on this shared 15-billion-gallon storage, and its
+# evaporative consumptive loss is a permanent loss to the basin (the returns go
+# DOWNSTREAM to the Ottawa via the WWTPs, not back to the reservoirs).
+#
+# Solved by bosc.hydrology.supply (`bosc supply`).
+
+meta:
+  subject: Lima municipal water supply (Auglaize + Ottawa -> upground reservoirs -> WTP)
+  sources:
+    - "City of Lima, Dept. of Utilities — Water Supply & Treatment (https://www.limaohio.gov/249/Water-Supply-Treatment), accessed 2026-06-09: reservoir names, build years, capacities, river sourcing, pump-station counts, ~15 MGD treated."
+    - "City of Lima Vision 2040 Plan (LACRPC), Infrastructure section — '30 million gallons per day' plant capacity (data/documents/lacrpc/City of Lima Vision 2040 Plan (PDF).pdf)."
+    - "USGS NWIS gages: 04185750 Auglaize River near Lima OH (Auglaize refill); 04187100 Ottawa River at Lima OH (Ottawa refill + the receiving reach)."
+    - "Ottawa River (Auglaize tributary) geography: rises in N. Hardin County ('Hog Creek'), flows W-SW through Lima, joins the Auglaize NW of Lima in W. Putnam County (USGS NHD; Ottawa River (Lima Area) TMDL)."
+  caveats:
+    - "Upground reservoirs are OFF-STREAM: filled by pumping at HIGH flow, drawn down at low flow — withdrawal is decoupled from the instantaneous 7Q10."
+    - "Reservoir capacities/sourcing are from the City utility page (reference, not a corpus document); the 30 MGD plant capacity is corpus-sourced (Vision 2040). 'About 15 MGD treated' is current production, distinct from the 30 MGD rated capacity."
+    - "Storage figures sum to ~14.4 BG; the City states 'approximately 15 billion gallons' (rounding / freeboard)."
+    - "The campus is modeled as a TREATED-supply customer (its makeup adds to plant production and reservoir drawdown); a dedicated raw-water allocation is not documented and is held as an open question."
+
+treatment:
+  plant_capacity:
+    value: 30.0
+    unit: MGD
+    source: document
+    citation: "City of Lima Vision 2040 Plan (LACRPC) — 'Lima can treat 30 million gallons per day'"
+    confidence: medium
+  current_production:
+    value: 15.0
+    unit: MGD
+    source: document
+    citation: "City of Lima Utilities published water-system page (limaohio.gov/249, accessed 2026-06-09) — 'treats and provides the community around 15 MGD'"
+    confidence: medium
+
+# Pump stations lift raw water from each river into its reservoirs (refill side).
+pump_stations:
+  - river: Auglaize River
+    count: 2
+    gage: "04185750"
+    feeds: [bresler, williams]
+    citation: "limaohio.gov/249 — 2 Auglaize River pump stations fill Bresler + Williams; USGS 04185750"
+  - river: Ottawa River
+    count: 2
+    gage: "04187100"
+    feeds: [lost-creek, metzger, ferguson]
+    citation: "limaohio.gov/249 — 2 Ottawa River pump stations fill Lost Creek + Metzger + Ferguson; USGS 04187100"
+
+# The five upground (off-stream) reservoirs. capacity_mg = million gallons.
+reservoirs:
+  - id: lost-creek
+    name: Lost Creek Reservoir
+    built: 1918
+    capacity_mg: 893
+    source_river: Ottawa River
+    citation: "limaohio.gov/249 — Lost Creek, built 1918, 893 MG, Ottawa-fed"
+  - id: metzger
+    name: Metzger Reservoir
+    built: 1946
+    capacity_mg: 1200
+    source_river: Ottawa River
+    citation: "limaohio.gov/249 — Metzger, built 1946, 1.2 BG, Ottawa-fed"
+  - id: ferguson
+    name: Ferguson Reservoir
+    built: 1958
+    capacity_mg: 2200
+    source_river: Ottawa River
+    citation: "limaohio.gov/249 — Ferguson, built 1958, 2.2 BG, Ottawa-fed"
+  - id: bresler
+    name: Bresler Reservoir
+    built: 1970
+    capacity_mg: 4920
+    source_river: Auglaize River
+    citation: "limaohio.gov/249 — Bresler, built 1970, 4.92 BG, Auglaize-fed"
+  - id: williams
+    name: Williams Reservoir
+    built: 2012
+    capacity_mg: 5200
+    source_river: Auglaize River
+    citation: "limaohio.gov/249 — Williams, built 2012, 5.2 BG, Auglaize-fed"

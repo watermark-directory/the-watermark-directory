@@ -323,6 +323,97 @@ class NetworkTheory(BaseModel):
     repoint: dict[str, str] = {}  # existing node_id -> new downstream id (re-route an edge)
 
 
+class Reservoir(BaseModel):
+    """One Lima upground (off-stream) storage reservoir."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    name: str
+    built: int  # year completed
+    capacity_mg: float  # million gallons
+    source_river: str  # the river its pump stations lift from
+    citation: str | None = None
+
+
+class PumpStation(BaseModel):
+    """Pump stations lifting one river's water into its reservoirs (the refill side)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    river: str
+    count: int
+    gage: str | None = None  # USGS NWIS site that gauges the source river
+    feeds: list[str] = []  # reservoir ids these stations fill
+    citation: str | None = None
+
+
+class WaterSupplySystem(BaseModel):
+    """Lima's intake/storage/treatment system: dual-river -> upground reservoirs -> WTP.
+
+    The supply half the routed network presumes. Its defining feature is *off-stream
+    storage*: five upground reservoirs (~15 billion gallons) filled by pumping from the
+    Auglaize and Ottawa at high flow, so withdrawal is decoupled from the instantaneous
+    7Q10 — the binding low-flow constraint is reservoir drawdown, not intake depletion.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    reservoirs: list[Reservoir]
+    pump_stations: list[PumpStation] = []
+    plant_capacity: ProvenancedValue  # rated MGD
+    current_production: ProvenancedValue  # MGD currently treated for the community
+    sources: list[str] = []
+    caveats: list[str] = []
+
+    @property
+    def total_storage_mg(self) -> float:
+        return round(sum(r.capacity_mg for r in self.reservoirs), 1)
+
+    def storage_by_river(self) -> dict[str, float]:
+        out: dict[str, float] = {}
+        for r in self.reservoirs:
+            out[r.source_river] = round(out.get(r.source_river, 0.0) + r.capacity_mg, 1)
+        return out
+
+    def reservoir(self, rid: str) -> Reservoir | None:
+        return next((r for r in self.reservoirs if r.id == rid), None)
+
+
+class WaterBudget(BaseModel):
+    """A screening storage water-budget on Lima's supply: baseline vs the campus draw.
+
+    Because the reservoirs decouple withdrawal from instantaneous low flow, the
+    low-flow constraint is reservoir **drawdown**, not a 7Q10 intake. The campus is a
+    treated-supply customer: its makeup adds to plant production and to reservoir
+    drawdown (its returns go *downstream* to the Ottawa via the WWTPs, not back to
+    storage), and its evaporative consumptive is a permanent loss to the basin. The
+    headline metrics are the drought-reserve (zero-refill drawdown) days and the
+    campus's share of plant production — both far harder to rebut than a 7Q10 multiple.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    tier: Literal["tier0"] = "tier0"
+    scenario: str = "buildout"
+    total_storage_mg: float
+    municipal_production: ProvenancedValue  # MGD baseline community production
+    campus_makeup: ProvenancedValue  # MGD added gross draw on storage
+    campus_consumptive: ProvenancedValue  # MGD net basin loss (evaporated, never returns)
+    gross_production_mgd: float  # municipal + campus makeup
+    campus_share_pct: float  # campus makeup / gross production
+    drought_reserve_days_baseline: float  # storage / municipal production (zero refill)
+    drought_reserve_days_buildout: float  # storage / gross production (zero refill)
+    drought_reserve_lost_days: float  # baseline - buildout
+    annual_refill_burden_mg: float  # extra water/yr the pump stations must capture
+    plant_headroom_mgd: float  # rated capacity - gross production
+    warnings: list[str] = []
+
+    @property
+    def exceeds_plant_capacity(self) -> bool:
+        return self.plant_headroom_mgd < 0.0
+
+
 class AssimilativeCheck(BaseModel):
     """Low-flow dilution of one discharge into its receiving water.
 
