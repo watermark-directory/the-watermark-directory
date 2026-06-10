@@ -226,8 +226,11 @@ validation → provenance). Order is driven by inquiry leverage.
    as a *signal*, not a verdict), and link conveyances / utility operation /
    discharge. `bosc entities` + agent `entities` tool. Resolves Bistrozzi's four
    acquisitions and the Port-Authority→Amazon edge. Facilities key on their base
-   permit number; deeds-side person/trust resolution is still coarse (long
-   trustee recitals form their own nodes — refine when SoS data lands).
+   permit number; **deeds-side trustee recitals are parsed** (`_parse_trustee_recital`
+   / `_register_deed_party`) into a trust node + its trustee persons linked
+   `trustee_of`, with the conveyance running from the trust — so a deed person and an
+   SoS organizer/principal of the same name reconcile to one node (the
+   `_split_principal` de-fragmentation now also applies to deed parties).
 6. **Timeline assembly.** `[done]` — `bosc.pipeline.timeline`: one sorted
    chronology across deeds/NPDES/OPC, deduped across corroborating artifacts.
    `bosc timeline` + agent `timeline` tool.

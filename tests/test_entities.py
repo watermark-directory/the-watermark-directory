@@ -17,6 +17,7 @@ from bosc.pipeline.corpus import Corpus
 from bosc.pipeline.entities import (
     _base_permit,
     _looks_like_person,
+    _parse_trustee_recital,
     _split_multi,
     _split_principal,
     build_entity_graph,
@@ -124,6 +125,96 @@ def _deed(
             parcel_ids=parcels,
         ),
     )
+
+
+def test_parse_trustee_recital() -> None:
+    trust, persons = _parse_trustee_recital(
+        "Kyle C. Brenneman and Sarah N. Brenneman, Co-Trustees of the Kyle C. Brenneman "
+        "Living Trust dated March 30, 2023, and any amendments thereto"
+    ) or ("", [])
+    assert trust == "Kyle C. Brenneman Living Trust"  # date/amendments boilerplate stripped
+    assert persons == ["Kyle C. Brenneman", "Sarah N. Brenneman"]
+    # A single trustee, no trailing recital.
+    assert _parse_trustee_recital("Jane A. Doe, Trustee of the Doe Family Trust") == (
+        "Doe Family Trust",
+        ["Jane A. Doe"],
+    )
+    # Not a trustee recital — a plain org/person is left untouched.
+    assert _parse_trustee_recital("NEFF FARMS, INC.") is None
+    assert _parse_trustee_recital("James W. Neighbors") is None
+    # "Trustee of" but the named instrument isn't a trust → don't guess a split.
+    assert _parse_trustee_recital("Jane Doe, Trustee of the Doe Foundation") is None
+
+
+def test_deed_trustee_recital_splits_into_trust_and_trustees() -> None:
+    # The Brenneman recital that used to form one coarse trust-classified node now resolves
+    # to the trust (the party of record) + its trustee persons, linked `trustee_of`.
+    corpus = Corpus(
+        deeds=[
+            _deed(
+                "recorder/t.deed.yaml",
+                no="T1",
+                grantor=(
+                    "Kyle C. Brenneman and Sarah N. Brenneman, Co-Trustees of the Kyle C. "
+                    "Brenneman Living Trust dated March 30, 2023, and any amendments thereto"
+                ),
+                grantee="BISTROZZI LLC",
+                parcels=["P1"],
+            ),
+        ]
+    )
+    graph = build_entity_graph(corpus)
+
+    trust = graph.get("Kyle C. Brenneman Living Trust")
+    kyle = graph.get("Kyle C. Brenneman")
+    sarah = graph.get("Sarah N. Brenneman")
+    assert trust is not None and trust.kind == "trust"
+    assert kyle is not None and kyle.kind == "individual"
+    assert sarah is not None and sarah.kind == "individual"
+
+    rels = {(r.src, r.rel, r.dst) for r in graph.relationships}
+    assert (kyle.key, "trustee_of", trust.key) in rels
+    assert (sarah.key, "trustee_of", trust.key) in rels
+    # The conveyance runs from the trust, not from a coarse multi-person recital node.
+    assert (trust.key, "conveyed_to", "BISTROZZI") in rels
+    assert graph.get("Kyle C. Brenneman and Sarah N. Brenneman") is None
+
+
+def test_deed_person_reconciles_with_sos_organizer() -> None:
+    # A trustee named in a deed and the same person organizing an SoS LLC resolve to ONE
+    # node carrying both threads — the deeds-side ↔ SoS person reconciliation the issue
+    # asks for (enabled by splitting the recital into person nodes).
+    corpus = Corpus(
+        deeds=[
+            _deed(
+                "recorder/z.deed.yaml",
+                no="Z1",
+                grantor="Scott J. Ziance, Trustee of the Ziance Family Trust",
+                grantee="BISTROZZI LLC",
+                parcels=["P1"],
+            ),
+        ],
+        filings=[
+            _filing(
+                "permits/b.sos.yaml",
+                name="Bistrozzi Addition LLC",
+                agent="C T Corporation",
+                agent_addr="4400 East Commons Way",
+                organizer="Scott Ziance",  # no middle initial — still the same person
+                juris="Delaware",
+            ),
+        ],
+    )
+    graph = build_entity_graph(corpus)
+
+    ziance = graph.get("Scott Ziance")
+    assert ziance is not None and ziance.kind == "individual"
+    assert ziance.roles["trustee"] == 1  # the deeds thread
+    assert ziance.roles["organizer"] == 1  # the SoS thread — same reconciled node
+    rels = {(r.src, r.rel, r.dst) for r in graph.relationships}
+    trust = graph.get("Ziance Family Trust")
+    assert trust is not None and (ziance.key, "trustee_of", trust.key) in rels
+    assert ("BISTROZZI ADDITION", "organized_by", "SCOTT ZIANCE") in rels
 
 
 def _permit(

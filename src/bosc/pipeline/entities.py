@@ -133,6 +133,51 @@ def _split_multi(raw: str) -> list[str]:
     return [p.strip() for p in re.split(r"[;\n]", raw) if p.strip()]
 
 
+# One or more persons acting as trustee(s) of a named trust, e.g. "Kyle C. Brenneman
+# and Sarah N. Brenneman, Co-Trustees of the Kyle C. Brenneman Living Trust dated March
+# 30, 2023, and any amendments thereto". The ``,?`` eats the comma before the role word.
+_TRUSTEE_RE = re.compile(
+    r"^(?P<persons>.+?),?\s+(?:as\s+)?(?:co-?\s*)?trustees?\s+(?:of|for|under)\s+(?P<trust>.+)$",
+    re.IGNORECASE,
+)
+
+
+def _clean_trust_name(raw: str) -> str:
+    """Strip a trust recital to its bare name.
+
+    Drops a leading "the" and the trailing "dated <date> ... and any amendments thereto"
+    boilerplate so the trust resolves to a stable node: "the Kyle C. Brenneman Living
+    Trust dated March 30, 2023, and any amendments thereto" -> "Kyle C. Brenneman Living
+    Trust".
+    """
+    s = re.sub(r"^the\s+", "", raw.strip(), flags=re.IGNORECASE)
+    s = re.split(r"\s+dated\b", s, maxsplit=1, flags=re.IGNORECASE)[0]
+    s = re.split(r",?\s+and any amendments\b", s, maxsplit=1, flags=re.IGNORECASE)[0]
+    return s.strip().rstrip(",").strip()
+
+
+def _parse_trustee_recital(raw: str) -> tuple[str, list[str]] | None:
+    """Split "X [and Y], (Co-)Trustee(s) of the Z Trust ..." into ``(trust, trustees)``.
+
+    Returns ``None`` when the string isn't a trustee recital — no "trustee of" clause, the
+    named instrument isn't a trust, or the actors don't look like persons — so a plain
+    person/org is left untouched (omission over a fabricated split).
+    """
+    m = _TRUSTEE_RE.match(raw.strip())
+    if m is None:
+        return None
+    trust = _clean_trust_name(m.group("trust"))
+    if "trust" not in trust.lower():
+        return None  # "Trustee of the X Foundation/Estate" — not a trust; don't guess
+    persons = [
+        p.strip() for p in re.split(r"\s*(?:,|&|\band\b)\s*", m.group("persons")) if p.strip()
+    ]
+    persons = [p for p in persons if _looks_like_person(p)]
+    if not persons:
+        return None
+    return trust, persons
+
+
 def normalize_name(raw: str) -> str:
     """Canonical key: uppercased, descriptive clause and legal suffixes removed.
 
@@ -226,7 +271,8 @@ class Relationship:
 
     src: str
     # conveyed_to | operates | discharges_to | registered_agent | organized_by |
-    # represented_by | affiliated_with | principal_of | owned_by | tenant_of | discussed_at
+    # represented_by | affiliated_with | principal_of | trustee_of | owned_by | tenant_of |
+    # discussed_at
     rel: str
     dst: str
     date: str = ""
@@ -277,6 +323,48 @@ class EntityGraph:
         return key
 
 
+def _register_deed_party(
+    graph: EntityGraph, raw: str, *, role: str, source: str, parcels: tuple[str, ...]
+) -> str:
+    """Register a deed grantor/grantee, returning its canonical conveyance-endpoint key.
+
+    The deed path used to register every party raw, so a long trustee recital became its
+    own coarse node. Now, before falling back to a plain registration:
+
+    * a **trustee recital** resolves to the *trust* (the party of record on the deed) plus
+      a person node per trustee, linked ``trustee_of`` — the conveyance runs from the
+      trust;
+    * a **"Person, Org LLC"** party resolves to the org plus a ``principal_of`` person,
+      the same de-fragmentation the permit/EPA path already applies.
+
+    Either way the persons become individual nodes keyed by :func:`normalize_name`, so a
+    deed party and an SoS organizer/principal with the same name reconcile to one node.
+    """
+    recital = _parse_trustee_recital(raw)
+    if recital is not None:
+        trust_name, trustees = recital
+        trust_key = graph._register(trust_name, role=role, source=source, parcels=parcels)
+        for person in trustees:
+            person_key = graph._register(person, role="trustee", source=source)
+            if person_key and trust_key:
+                graph.relationships.append(
+                    Relationship(person_key, "trustee_of", trust_key, source=source)
+                )
+        return trust_key
+
+    org_raw, person_raw = _split_principal(raw)
+    if person_raw is not None:
+        org_key = graph._register(org_raw, role=role, source=source, parcels=parcels)
+        person_key = graph._register(person_raw, role="principal", source=source)
+        if person_key and org_key:
+            graph.relationships.append(
+                Relationship(person_key, "principal_of", org_key, source=source)
+            )
+        return org_key
+
+    return graph._register(raw, role=role, source=source, parcels=parcels)
+
+
 def build_entity_graph(
     corpus: Corpus | None = None,
     *,
@@ -306,10 +394,13 @@ def build_entity_graph(
         d = ex.deed
         parcels = tuple(d.parcel_ids)
         grantees = [
-            graph._register(g, role="grantee", source=rel, parcels=parcels) for g in d.grantees
+            _register_deed_party(graph, g, role="grantee", source=rel, parcels=parcels)
+            for g in d.grantees
         ]
         for grantor_raw in d.grantors:
-            src_key = graph._register(grantor_raw, role="grantor", source=rel, parcels=parcels)
+            src_key = _register_deed_party(
+                graph, grantor_raw, role="grantor", source=rel, parcels=parcels
+            )
             for dst_key in grantees:
                 if src_key and dst_key:
                     graph.relationships.append(
