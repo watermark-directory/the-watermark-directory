@@ -229,9 +229,13 @@ Each phase is a shippable slice.
   Real search + small COG fixtures for both; NAIP (0.3 m) pull-fixtures use a small
   sub-AOI. NAIP has no `eo:cloud_cover` (don't `--max-cloud` it). Gives the high-res
   before/after (NAIP) and the decadal baseline (Landsat).
-- **P4 — analysis.** NDVI disturbance + **NDWI reservoir water-extent time series**
-  wired to the off-stream reservoir budget (sequent-peak drought storage); date-to-date
-  change detection.
+- **P4 — analysis. ✅ done.** `bosc.gis.analysis.compute_index` clips the band COGs
+  (shared `raster.clip_asset`) and computes **NDVI** (vegetation/disturbance) or **NDWI**
+  (open water) → a `derived` float32 GeoTIFF + a sidecar with mean + **water fraction**.
+  `bosc imagery index <site> --index ndvi|ndwi`. The campus reads NDVI ≈ 0.31 (vegetated),
+  NDWI water-fraction 0 (no water). Wiring the NDWI water-extent series into the
+  sequent-peak reservoir budget, and date-to-date change detection, await the off-stream
+  reservoir becoming a tracked POI (a diff of two index rasters is a thin follow-on).
 - **P5 — map.** Dated imagery layers / timeline control on the site map; EarthExplorer
   historical aerials + Esri Wayback as view-only supplements.
 
