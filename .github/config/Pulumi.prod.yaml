@@ -5,6 +5,7 @@ config:
   github:owner: goedelsoup
   bosc-repo-config:repo: "bosc"
   # Branch-protection policy (tunable without touching code):
-  bosc-repo-config:requiredApprovals: "0"     # approving reviews required on main
-  bosc-repo-config:enforceAdmins: "false"     # also apply protection to admins
-  bosc-repo-config:requireUpToDate: "true"    # branch must be current before merge
+  bosc-repo-config:requiredApprovals: "1"             # approving reviews required on main
+  bosc-repo-config:requireCodeOwnerReviews: "true"    # require a CODEOWNERS review too
+  bosc-repo-config:enforceAdmins: "false"             # also apply protection to admins
+  bosc-repo-config:requireUpToDate: "true"            # branch must be current before merge
