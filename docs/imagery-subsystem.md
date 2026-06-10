@@ -236,8 +236,12 @@ Each phase is a shippable slice.
   NDWI water-fraction 0 (no water). Wiring the NDWI water-extent series into the
   sequent-peak reservoir budget, and date-to-date change detection, await the off-stream
   reservoir becoming a tracked POI (a diff of two index rasters is a thin follow-on).
-- **P5 — map.** Dated imagery layers / timeline control on the site map; EarthExplorer
-  historical aerials + Esri Wayback as view-only supplements.
+- **P5 — map. ✅ done.** The site GIS map ([`gismap.py`](../src/bosc/site/gismap.py))
+  gains a curated ladder of **dated Esri *Wayback* aerials** (2014 → 2024, real release
+  numbers) in the layer control — flip the AOI between years to watch the data-center
+  land change. View-only (tiles load from Esri, no redistribution). EarthExplorer
+  historical aerials (M2M login — a different access pattern) and a scrubbing timeline
+  slider remain follow-ons.
 
 ## 9. Open decisions
 

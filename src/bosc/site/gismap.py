@@ -142,6 +142,7 @@ _MAP_HTML = """
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       { maxZoom: 19, attribution: "Imagery &copy; Esri" }
     );
+    __WAYBACK_VARS__
     osm.addTo(map);
     function popup(f, l) { if (f.properties && f.properties.label) l.bindPopup(f.properties.label); }
     fetch("assets/gis-findings.geojson").then(function (r) { return r.json(); }).then(function (fc) {
@@ -171,7 +172,7 @@ _MAP_HTML = """
         onEachFeature: popup
       });
       L.control.layers(
-        { "Street (OSM)": osm, "Aerial (Esri)": aerial },
+        { "Street (OSM)": osm, "Aerial (Esri, current)": aerial, __WAYBACK_BASE__ },
         { "RSEI toxic-release facilities": rsei }
       ).addTo(map);
       try { map.fitBounds(corridor.getBounds(), { padding: [20, 20] }); }
@@ -192,6 +193,42 @@ def _style_js() -> str:
         "floodplain": {"color": "#1976d2", "weight": 1, "fillOpacity": 0.15},
     }
     return json.dumps(styles)
+
+
+# Esri **Wayback** dated World-Imagery releases (releaseNum from the Wayback config) —
+# a curated historical ladder. View-only supplement: the browser loads Esri's tiles
+# directly (no redistribution), so a viewer can flip the AOI between dates and see the
+# data-center land before / during / after development. (EarthExplorer historical
+# aerials need an M2M login — a different access pattern — and are deferred.)
+_WAYBACK: list[tuple[str, int]] = [
+    ("2014-12", 5844),
+    ("2018-12", 23448),
+    ("2020-12", 29260),
+    ("2021-12", 26120),
+    ("2022-12", 45134),
+    ("2023-12", 56102),
+    ("2024-12", 16453),
+]
+_WAYBACK_BASE_URL = (
+    "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/"
+    "WMTS/1.0.0/default028mm/MapServer/tile"
+)
+
+
+def _wayback_layers_js() -> str:
+    """JS defining the dated Esri Wayback tile layers (view-only historical aerials)."""
+    lines = [
+        f"var wb_{rel} = L.tileLayer("
+        f'"{_WAYBACK_BASE_URL}/{rel}/{{z}}/{{y}}/{{x}}", '
+        f'{{maxZoom: 19, attribution: "Imagery &copy; Esri — Wayback {label}"}});'
+        for label, rel in _WAYBACK
+    ]
+    return "\n    ".join(lines)
+
+
+def _wayback_base_js() -> str:
+    """The base-layer control entries for the dated aerials (newest first)."""
+    return ", ".join(f'"Aerial {label}": wb_{rel}' for label, rel in reversed(_WAYBACK))
 
 
 def render_gis_map(geojson_path: Path) -> str:
@@ -219,6 +256,14 @@ def render_gis_map(geojson_path: Path) -> str:
         "[toxic-release context](rsei.md) — markers scale with Score, hollow where a "
         "facility reported pounds but no modeled Score.",
         "",
+        '!!! tip "Dated aerials (before / during / after)"',
+        "    The layer control (top-right) also carries **dated Esri *Wayback* aerials** "
+        "(2014 → 2024) — flip between years over the campus to watch the land change "
+        "through the data-center buildout. These are a *view-only* historical supplement "
+        "(tiles load from Esri); the analysis-grade, publishable imagery is the "
+        "free/open Sentinel-2 / NAIP / Landsat series pulled by `bosc imagery` (see the "
+        "[imagery subsystem](docs/imagery-subsystem.md)).",
+        "",
         "## Legend",
         "",
     ]
@@ -229,7 +274,10 @@ def render_gis_map(geojson_path: Path) -> str:
             lines.append(f"- {sw} **{label}** — {n} feature(s)")
     lines += [
         "",
-        _MAP_HTML.replace("__STYLES__", _style_js()).strip(),
+        _MAP_HTML.replace("__STYLES__", _style_js())
+        .replace("__WAYBACK_VARS__", _wayback_layers_js())
+        .replace("__WAYBACK_BASE__", _wayback_base_js())
+        .strip(),
         "",
         "## Layers",
         "",
