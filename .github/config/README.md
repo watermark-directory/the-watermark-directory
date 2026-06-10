@@ -76,3 +76,7 @@ PR) and `pulumi up` when those changes land on `main`. It needs:
   (the provider token; the default `GITHUB_TOKEN` can't manage protection).
 - **`PULUMI_STACK`** (Actions *variable*) — fully-qualified stack name, e.g.
   `your-pulumi-org/bosc-repo-config/prod`.
+
+`PULUMI_STACK` doubles as the on-switch: the job is gated on it, so until it's
+set the workflow is **skipped** (not failed) on PRs that touch this directory.
+Set the variable and the two secrets together to activate it.

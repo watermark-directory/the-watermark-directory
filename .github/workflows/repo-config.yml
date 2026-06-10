@@ -30,6 +30,11 @@ permissions:
 jobs:
   pulumi:
     runs-on: ubuntu-latest
+    # Stay dormant until the project is wired up: the PULUMI_STACK repo variable
+    # is the on-switch. Until it's set (alongside the PULUMI_ACCESS_TOKEN /
+    # GH_ADMIN_TOKEN secrets), this job is skipped rather than failing every PR
+    # that touches .github/config. See .github/config/README.md.
+    if: ${{ vars.PULUMI_STACK != '' }}
     defaults:
       run:
         working-directory: .github/config
