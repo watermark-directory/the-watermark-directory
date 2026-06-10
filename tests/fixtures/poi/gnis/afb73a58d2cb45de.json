@@ -1,0 +1,154 @@
+{
+  "params": {
+    "layer": 6,
+    "name": "Ottawa River",
+    "state": "OH"
+  },
+  "fetched_at": "2026-06-10T00:22:21.332445+00:00",
+  "payload": {
+    "displayFieldName": "gaz_name",
+    "fieldAliases": {
+      "OBJECTID": "OBJECTID",
+      "gaz_id": "gaz_id",
+      "gaz_name": "gaz_name",
+      "gaz_featureclass": "gaz_featureclass",
+      "fcode": "fcode",
+      "state_alpha": "state_alpha",
+      "county_name": "county_name",
+      "objectid_1": "objectid_1",
+      "isunknowncoords": "isunknowncoords"
+    },
+    "geometryType": "esriGeometryMultipoint",
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    },
+    "fields": [
+      {
+        "name": "OBJECTID",
+        "type": "esriFieldTypeOID",
+        "alias": "OBJECTID"
+      },
+      {
+        "name": "gaz_id",
+        "type": "esriFieldTypeInteger",
+        "alias": "gaz_id"
+      },
+      {
+        "name": "gaz_name",
+        "type": "esriFieldTypeString",
+        "alias": "gaz_name",
+        "length": 120
+      },
+      {
+        "name": "gaz_featureclass",
+        "type": "esriFieldTypeString",
+        "alias": "gaz_featureclass",
+        "length": 50
+      },
+      {
+        "name": "fcode",
+        "type": "esriFieldTypeInteger",
+        "alias": "fcode"
+      },
+      {
+        "name": "state_alpha",
+        "type": "esriFieldTypeString",
+        "alias": "state_alpha",
+        "length": 1073741822
+      },
+      {
+        "name": "county_name",
+        "type": "esriFieldTypeString",
+        "alias": "county_name",
+        "length": 100
+      },
+      {
+        "name": "objectid_1",
+        "type": "esriFieldTypeInteger",
+        "alias": "objectid_1"
+      },
+      {
+        "name": "isunknowncoords",
+        "type": "esriFieldTypeInteger",
+        "alias": "isunknowncoords"
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "OBJECTID": 105046,
+          "gaz_id": 1070882,
+          "gaz_name": "Ottawa River",
+          "gaz_featureclass": "Stream",
+          "fcode": 46000,
+          "state_alpha": "OH",
+          "county_name": "Putnam",
+          "objectid_1": 867431,
+          "isunknowncoords": 2
+        },
+        "geometry": {
+          "points": [
+            [
+              -84.24134015861527,
+              40.99505877564307
+            ],
+            [
+              -84.20856423793867,
+              40.8750586556739
+            ],
+            [
+              -84.18495492045733,
+              40.75005853411949
+            ],
+            [
+              -84.05245088010565,
+              40.75005914047312
+            ],
+            [
+              -83.95578065260717,
+              40.770893048742884
+            ]
+          ]
+        }
+      },
+      {
+        "attributes": {
+          "OBJECTID": 105047,
+          "gaz_id": 1070882,
+          "gaz_name": "Ottawa River",
+          "gaz_featureclass": "Stream",
+          "fcode": 46000,
+          "state_alpha": "OH",
+          "county_name": "Allen",
+          "objectid_1": 867431,
+          "isunknowncoords": 2
+        },
+        "geometry": {
+          "points": [
+            [
+              -84.24134015861527,
+              40.99505877564307
+            ],
+            [
+              -84.20856423793867,
+              40.8750586556739
+            ],
+            [
+              -84.18495492045733,
+              40.75005853411949
+            ],
+            [
+              -84.05245088010565,
+              40.75005914047312
+            ],
+            [
+              -83.95578065260717,
+              40.770893048742884
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}

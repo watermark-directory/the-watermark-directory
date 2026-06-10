@@ -221,8 +221,11 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
     `allen_gis.parcel_at_point` (point → parcel) + `resolve.py` (`resolve_candidate`):
     parcel-id → CAMA (exact, auto-mergeable); address → geocode → parcel (a *proposal*,
     medium confidence). `bosc poi resolve`. Real committed fixtures for both connectors.
-  - **P2b — non-parcel.** GNIS connector for features with no parcel (roads, water
-    bodies) → fallback `(kind, geohash)` key.
+  - **P2b (✅ done) — non-parcel.** `gnis` connector (USGS GNIS via the National Map
+    *geonames* ArcGIS service) resolves a named feature → a **stable `gnis-<gaz_id>` key**
+    + a point (a `review` proposal). `resolve_value("feature", …)`; the geocode-only path
+    gets a `geo-<geohash>` fallback; `merge` blocks by `Resolution.key` (parcel else
+    fallback). `bosc poi resolve "<name>" --kind feature`.
   - **P2c (✅ done) — merge.** `merge.py` resolves + **blocks by canonical parcel** into
     `MergeGroup`s with the gate: `covered` (already a POI) / `auto` (identity fixed by an
     exact parcel-id) / `review` (rests on a geocode) / `unresolved`. `merge_resolutions`

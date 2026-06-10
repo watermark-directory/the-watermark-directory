@@ -2738,13 +2738,15 @@ def poi_resolve(
         f"auto_mergeable={r.auto_mergeable}"
     )
     if r.matched_address:
-        console.print(f"  geocoded: {r.matched_address}  {r.point}")
+        console.print(f"  match: {r.matched_address}  {r.point}")
     if r.parcel:
         p = r.parcel
         console.print(
             f"  parcel: [bold]{r.parcel_no}[/]  owner={p.owner!r}  "
             f"situs={p.situs_address!r}  acres={p.acres}"
         )
+    elif r.fallback_key:
+        console.print(f"  key: [bold]{r.fallback_key}[/]  (non-parcel identity)")
     if r.note:
         console.print(f"  [dim]{r.note}[/]")
 

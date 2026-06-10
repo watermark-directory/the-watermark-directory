@@ -39,5 +39,12 @@ The point-of-interest (place) research store. Defers to the root
   relationship, citations carried through; no AOI). `write_profile` refuses to overwrite
   unless `force`. `bosc poi curate <parcel-no> [--write]`. Promotion to
   `characterized`/`watched` (+ a tracking `bbox`) is a human edit, never auto.
-- **Not built yet:** **GNIS** (non-parcel features) and **P4** — pointing
-  `bosc.gis.load_tracking_sites` at `tracked_pois()` (retiring `gis_tracking_layers`).
+- **`gnis` (built — non-parcel branch):** `connectors/gnis.py` resolves a named feature
+  (river, water body, landform) via USGS GNIS (National Map *geonames* ArcGIS service) →
+  a stable `gnis-<gaz_id>` key + a point. `resolve_value("feature", name)` returns a
+  `review` proposal (`fallback_key`); the geocode-only-no-parcel path gets a `geo-<geohash>`
+  key. `merge` blocks by `Resolution.key` (`parcel_no` else fallback), so feature surface
+  forms group. `bosc poi resolve "<name>" --kind feature`.
+- **Wired to imagery (P4, on main):** `bosc.gis.load_tracking_sites` reads `tracked_pois()`;
+  a `watched` POI *is* a tracking site. The only remaining increment is **P5** (place nodes
+  in the entity graph + place pages on the site).
