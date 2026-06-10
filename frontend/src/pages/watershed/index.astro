@@ -26,15 +26,20 @@ const rseiFeatures = manifest.feeds.find((f) => f.name === "geo/rsei")?.count ??
     </p>
 
     <h2 id="map">Watershed map</h2>
-    <p>{geoLayers.length} typed GeoJSON layer(s) ready for the map:</p>
+    <p>
+      The interactive <a href={withBase("/watershed/map")}>corridor map</a> (#71)
+      renders {geoLayers.length} typed GeoJSON layers — campus, JSMC, the corridor
+      and roadwork, FEMA floodway/floodplain, WWTP discharge points, and the RSEI
+      overlay — on deck.gl + MapLibre, with dated aerials and click-through to each
+      record.
+    </p>
     <ul>
       {geoLayers.map((g) => <li><code>{g.name}</code> — {g.count} feature(s)</li>)}
     </ul>
-    <div class="viz-mount">
-      The DeckGL + MapLibre watershed map mounts here (E3.3 / #72). The typed
-      <code>geo/*</code> layers above are its data; the prototype lives in
-      <code>spikes/deckgl-corridor/</code>.
-    </div>
+    <p class="stub-note">
+      The broader Maumee/Lost Creek watershed boundary + the imagery time-slider
+      (#72) await committed watershed geometry and imagery feeds (E1.4).
+    </p>
 
     <h2 id="imagery">Imagery</h2>
     <BeforeAfterSlider />
