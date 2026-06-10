@@ -1,0 +1,9 @@
+# Code owners for goedelsoup/bosc.
+#
+# `main` branch protection requires a review from a code owner (managed in
+# .github/config — Pulumi: requireCodeOwnerReviews = true). This routes every PR,
+# including the research GitHub App's automated PRs, through @goedelsoup. The App
+# is not a code owner and is not a repo admin, so it cannot satisfy this review or
+# merge its own work — the chain-of-custody gate for Epic #57.
+
+* @goedelsoup

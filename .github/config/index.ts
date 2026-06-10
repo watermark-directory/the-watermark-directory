@@ -13,8 +13,14 @@ const config = new pulumi.Config();
 const repoName = config.get("repo") ?? "bosc";
 
 // Branch-protection knobs, surfaced as stack config so the policy can be tuned
-// without editing code. Defaults suit a small / solo public repo.
-const requiredApprovals = config.getNumber("requiredApprovals") ?? 0;
+// without editing code. With the research GitHub App in play (Epic 5), `main`
+// requires one approving review *and* a CODEOWNERS review, so the App — which is
+// not a repo admin — cannot approve or merge its own research PRs. `enforceAdmins`
+// stays false so the solo human maintainer (a repo admin, and a code owner) can
+// still merge their own work; GitHub forbids approving one's own PR, and admin
+// override is the escape hatch for that.
+const requiredApprovals = config.getNumber("requiredApprovals") ?? 1;
+const requireCodeOwnerReviews = config.getBoolean("requireCodeOwnerReviews") ?? true;
 const enforceAdmins = config.getBoolean("enforceAdmins") ?? false;
 const requireUpToDate = config.getBoolean("requireUpToDate") ?? true;
 
@@ -79,7 +85,7 @@ const mainProtection = new github.BranchProtection("main", {
         {
             requiredApprovingReviewCount: requiredApprovals,
             dismissStaleReviews: true,
-            requireCodeOwnerReviews: false,
+            requireCodeOwnerReviews: requireCodeOwnerReviews,
         },
     ],
     requireConversationResolution: true,
@@ -88,8 +94,43 @@ const mainProtection = new github.BranchProtection("main", {
 });
 
 // ---------------------------------------------------------------------------
+// Runtime labels — the research GitHub App's vocabulary (Epic 5)
+// ---------------------------------------------------------------------------
+// The App tags everything it opens so proposed work is inert until a human
+// triages it: `agent-proposed` (provenance) + `needs-triage` (not yet actioned)
+// on each proposed issue, and `research-run` on the run's PR. Declaring them here
+// (rather than clicking in the UI) keeps the App's contract reproducible. Pulumi
+// manages only these labels; pre-existing repo labels are untouched.
+const runtimeLabels = [
+    {
+        name: "agent-proposed",
+        color: "8957e5", // purple — ties to the `automation` label
+        description: "Opened by the research agent (GitHub App); provenance marker.",
+    },
+    {
+        name: "needs-triage",
+        color: "fbca04", // yellow — needs a human's attention
+        description: "Agent-proposed and inert until a maintainer triages it.",
+    },
+    {
+        name: "research-run",
+        color: "0e8a16", // green — marks a research-run PR
+        description: "A PR (or issue) produced by a `bosc research run`.",
+    },
+];
+for (const label of runtimeLabels) {
+    new github.IssueLabel(label.name, {
+        repository: repoName,
+        name: label.name,
+        color: label.color,
+        description: label.description,
+    });
+}
+
+// ---------------------------------------------------------------------------
 // Outputs
 // ---------------------------------------------------------------------------
 export const repository = repo.fullName;
 export const repositoryUrl = repo.htmlUrl;
 export const protectedBranch = mainProtection.pattern;
+export const runtimeLabelNames = runtimeLabels.map((l) => l.name);

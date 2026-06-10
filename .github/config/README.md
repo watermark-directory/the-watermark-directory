@@ -1,10 +1,10 @@
 # `.github/config` — repository configuration as code (Pulumi)
 
 This Pulumi project manages the GitHub configuration of the **`bosc`** repository
-declaratively: repository settings and branch protection for `main`. Change the
-config by editing [`index.ts`](index.ts) and running `pulumi up` (locally or via
-the [`repo-config` workflow](../workflows/repo-config.yml)) — not by clicking
-around in the GitHub UI.
+declaratively: repository settings, branch protection for `main`, and the research
+App's runtime labels. Change the config by editing [`index.ts`](index.ts) and
+running `pulumi up` (locally or via the [`repo-config`
+workflow](../workflows/repo-config.yml)) — not by clicking around in the GitHub UI.
 
 ## What it manages
 
@@ -16,9 +16,25 @@ around in the GitHub UI.
 - **Branch protection** (`github.BranchProtection` `"main"`) — requires the
   `check` CI job to pass, optionally requires the branch be up to date, blocks
   force-pushes and deletions, requires conversation resolution, and routes all
-  changes through a pull request. Required approvals and admin-enforcement are
-  tunable via stack config (defaults: 0 approvals, admins not enforced — suited
-  to a solo maintainer).
+  changes through a pull request. Required approvals, **code-owner reviews**, and
+  admin-enforcement are tunable via stack config (defaults: 1 approval + a
+  CODEOWNERS review, admins not enforced).
+- **Runtime labels** (`github.IssueLabel`) — `agent-proposed`, `needs-triage`,
+  `research-run`: the vocabulary the [research GitHub App](../../data/research/)
+  (Epic [#57](https://github.com/goedelsoup/bosc/issues/57)) tags its proposed
+  issues and PRs with, so agent-proposed work is inert until a human triages it.
+  Pulumi manages only these three; pre-existing repo labels are left alone.
+
+## Approval gates & the research App (Epic 5.4)
+
+`main` requires **one approving review and a [CODEOWNERS](../CODEOWNERS) review**
+(`* @goedelsoup`). The research App opens PRs and proposed issues under its own
+identity but is **not a code owner and not a repo admin**, so it cannot approve or
+merge its own PR — a human (`@goedelsoup`) must review first. `enforceAdmins` stays
+`false` so the solo human maintainer (a repo admin and a code owner) can still merge
+their own work via admin override — GitHub forbids approving one's *own* PR, and
+that override is the escape hatch. Flip `enforceAdmins` to `true` only once there's
+a second reviewer.
 
 ## Stack config (`Pulumi.prod.yaml`, committed — no secrets)
 
@@ -26,7 +42,8 @@ around in the GitHub UI.
 | --- | --- | --- |
 | `github:owner` | `goedelsoup` | GitHub owner / org |
 | `repo` | `bosc` | repository name |
-| `requiredApprovals` | `0` | approving reviews required on `main` |
+| `requiredApprovals` | `1` | approving reviews required on `main` |
+| `requireCodeOwnerReviews` | `true` | also require a CODEOWNERS review |
 | `enforceAdmins` | `false` | also apply protection to admins |
 | `requireUpToDate` | `true` | branch must be current before merge |
 
