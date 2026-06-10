@@ -153,3 +153,13 @@ def render_rsei(inv: RseiInventory, *, egraph: EntityGraph | None = None) -> str
         "",
     ]
     return "\n".join(lines)
+
+
+def export_rsei(inv: RseiInventory) -> RseiInventory:
+    """Export the RSEI inventory as a feed (it is already feed-ready).
+
+    The inventory is a clean Pydantic model whose ``meta.source`` cites the EPA RSEI
+    Public Data Set, so it already satisfies the #60 provenance discipline — the feed is
+    the model itself. The exporter exists so every ``bosc.site.*`` module has one (#59).
+    """
+    return inv

@@ -1,0 +1,112 @@
+{
+  "$defs": {
+    "GeoFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "Feature",
+          "default": "Feature",
+          "title": "Type",
+          "type": "string"
+        },
+        "geometry": {
+          "additionalProperties": true,
+          "title": "Geometry",
+          "type": "object"
+        },
+        "properties": {
+          "$ref": "#/$defs/GeoProperties"
+        }
+      },
+      "required": [
+        "geometry",
+        "properties"
+      ],
+      "title": "GeoFeature",
+      "type": "object"
+    },
+    "GeoProperties": {
+      "additionalProperties": true,
+      "description": "Layer metadata carried on every feature (extra popup fields allowed).",
+      "properties": {
+        "layer": {
+          "title": "Layer",
+          "type": "string"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "color": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Color"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        }
+      },
+      "required": [
+        "layer"
+      ],
+      "title": "GeoProperties",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One typed GeoJSON layer feed for DeckGL (a valid FeatureCollection + ``feed``).",
+  "properties": {
+    "type": {
+      "const": "FeatureCollection",
+      "default": "FeatureCollection",
+      "title": "Type",
+      "type": "string"
+    },
+    "feed": {
+      "title": "Feed",
+      "type": "string"
+    },
+    "meta": {
+      "additionalProperties": true,
+      "title": "Meta",
+      "type": "object"
+    },
+    "features": {
+      "items": {
+        "$ref": "#/$defs/GeoFeature"
+      },
+      "title": "Features",
+      "type": "array"
+    }
+  },
+  "required": [
+    "feed"
+  ],
+  "title": "GeoFeatureCollection",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

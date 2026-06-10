@@ -24,6 +24,7 @@ from urllib.parse import quote
 
 from bosc.logging import get_logger
 from bosc.site import exhibits as exhibits_mod
+from bosc.site.feeds import DocumentCollectionItem, DocumentItem
 
 log = get_logger(__name__)
 
@@ -303,3 +304,36 @@ def render_documents(
             render_collection_page(collection), encoding="utf-8"
         )
     return result
+
+
+def export_documents(
+    documents_dir: Path,
+    *,
+    exhibits: list[exhibits_mod.Exhibit] | None = None,
+    mirror_base_url: str = "",
+) -> list[DocumentCollectionItem]:
+    """Export the source-document catalog as :class:`DocumentCollectionItem` items.
+
+    Reuses :func:`build_documents` (the same enumeration the renderer uses) without
+    writing any markdown — each file keeps its as-received corpus path (chain of custody).
+    """
+    result = build_documents(documents_dir, exhibits=exhibits, mirror_base_url=mirror_base_url)
+    return [
+        DocumentCollectionItem(
+            slug=c.slug,
+            title=c.title,
+            description=c.description,
+            entries=[
+                DocumentItem(
+                    rel=e.rel,
+                    name=e.name,
+                    size_bytes=e.size_bytes,
+                    suffix=e.suffix,
+                    available=e.available,
+                    download_url=e.download_url,
+                )
+                for e in c.entries
+            ],
+        )
+        for c in result.collections
+    ]

@@ -18,6 +18,7 @@ from typing import Any
 import yaml
 
 from bosc.logging import get_logger
+from bosc.site.feeds import ExhibitItem
 
 log = get_logger(__name__)
 
@@ -131,3 +132,43 @@ def render_exhibits(exhibits: list[Exhibit]) -> str:
         lines.append(f"| {title} | {src} | {link} |")
     lines.append("")
     return "\n".join(lines)
+
+
+def _bytes_present(src: Path) -> bool:
+    """True when the source PDF is present locally (not an unresolved Git-LFS pointer)."""
+    if not src.is_file():
+        return False
+    try:
+        with src.open("rb") as fh:
+            head = fh.read(64)
+    except OSError:
+        return False
+    return not head.startswith(b"version https://git-lfs.github.com/spec/v1")
+
+
+def export_exhibits(manifest_path: Path, documents_dir: Path) -> list[ExhibitItem]:
+    """Export the curated exhibit allowlist as :class:`ExhibitItem` items.
+
+    The data peer of :func:`build_exhibits` — same ``data/site/exhibits.yaml`` allowlist,
+    but read-only: it reports each exhibit's metadata and whether its source bytes are
+    present, without copying or slicing any PDF (no side effects for the bundle).
+    """
+    if not manifest_path.exists():
+        return []
+    raw = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+    entries: list[dict[str, Any]] = raw.get("exhibits") or []
+    items: list[ExhibitItem] = []
+    for entry in entries:
+        source = str(entry["source"])
+        pages = entry.get("pages")
+        items.append(
+            ExhibitItem(
+                slug=str(entry["slug"]),
+                title=str(entry.get("title", entry["slug"])),
+                caption=str(entry.get("caption", "")),
+                source=source,
+                pages=str(pages) if pages is not None else None,
+                available=_bytes_present(documents_dir / source),
+            )
+        )
+    return items

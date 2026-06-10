@@ -14,11 +14,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import yaml
 
 from bosc.logging import get_logger
+from bosc.site.feeds import Citation, Confidence, RecordGroup, RecordItem
 
 log = get_logger(__name__)
 
@@ -237,3 +238,58 @@ def render_record_pages(extracted_dir: Path, records_dir: Path) -> list[RecordPa
 
     log.info("site.records.rendered", pages=len(pages), records=len(records))
     return pages
+
+
+def _approx_paths(value: Any, prefix: str = "") -> list[str]:
+    """Dotted paths of every scalar that kept the ``~`` approximate transcription marker.
+
+    Works off the raw YAML (where ``~12345`` survives as the string ``"~12345"``), so the
+    bundle carries the marker as data (issue #60) without re-shaping each number.
+    """
+    out: list[str] = []
+    if isinstance(value, dict):
+        for k, v in value.items():
+            out.extend(_approx_paths(v, f"{prefix}{k}."))
+    elif isinstance(value, list):
+        for i, item in enumerate(value):
+            out.extend(_approx_paths(item, f"{prefix}{i}."))
+    elif isinstance(value, str) and value.strip().startswith("~"):
+        out.append(prefix.rstrip("."))
+    return out
+
+
+def export_records(extracted_dir: Path) -> list[RecordItem]:
+    """Export every committed extraction as a :class:`RecordItem` feed (mirrors render).
+
+    The data peer of :func:`render_record_pages`: same generic raw-YAML read, but emits
+    structured items — the payload verbatim (``~`` markers intact), the dotted paths that
+    carried the marker, and a structured :class:`Citation` provenance footer.
+    """
+    records = load_records(extracted_dir)
+    items: list[RecordItem] = []
+    for rec in sorted(records, key=lambda r: (r.group, r.rel)):
+        payload = rec.payload
+        conf = payload.get("confidence")
+        confidence: Confidence = conf if conf in ("high", "medium", "low") else "medium"
+        raw_warnings = payload.get("warnings") or []
+        warnings = [str(w) for w in raw_warnings] if isinstance(raw_warnings, list) else []
+        fields = {k: v for k, v in payload.items() if k not in ("confidence", "warnings")}
+        pages = rec.data.get("pages_read") or None
+        items.append(
+            RecordItem(
+                rel=rec.rel,
+                group=cast(RecordGroup, rec.group),
+                title=_record_title(rec),
+                confidence=conf if isinstance(conf, str) else None,
+                warnings=warnings,
+                fields=fields,
+                approximate_paths=sorted(set(_approx_paths(fields))),
+                citation=Citation(
+                    source=rec.rel,
+                    source_kind="document",
+                    confidence=confidence,
+                    note=(f"pages {pages}" if pages else None),
+                ),
+            )
+        )
+    return items

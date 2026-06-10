@@ -1,0 +1,90 @@
+{
+  "$defs": {
+    "FeedRef": {
+      "additionalProperties": false,
+      "description": "One entry in the manifest's feed index — what it is and how to read it.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "media_type": {
+          "title": "Media Type",
+          "type": "string"
+        },
+        "schema": {
+          "title": "Schema",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "collection",
+            "object",
+            "geojson"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "count": {
+          "title": "Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "path",
+        "media_type",
+        "schema",
+        "kind",
+        "count"
+      ],
+      "title": "FeedRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The bundle index: version, provenance of the generation, and the feed list.",
+  "properties": {
+    "bundle_version": {
+      "title": "Bundle Version",
+      "type": "string"
+    },
+    "contract_version": {
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "generated_at": {
+      "title": "Generated At",
+      "type": "string"
+    },
+    "feed_count": {
+      "title": "Feed Count",
+      "type": "integer"
+    },
+    "row_total": {
+      "title": "Row Total",
+      "type": "integer"
+    },
+    "feeds": {
+      "items": {
+        "$ref": "#/$defs/FeedRef"
+      },
+      "title": "Feeds",
+      "type": "array"
+    }
+  },
+  "required": [
+    "bundle_version",
+    "contract_version",
+    "generated_at",
+    "feed_count",
+    "row_total"
+  ],
+  "title": "Manifest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
