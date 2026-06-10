@@ -9,6 +9,7 @@ Secretary of State business filings.
 | Pattern | Kind | What |
 |---|---|---|
 | `<app-id>.epa.yaml` | `epa` | One Section 401 Water Quality Certification application per EPA Application ID (Bistrozzi + Dazzler filings). |
+| `<app-id>.wetland.yaml` | `wetland` | A USACE Wetland Determination Data Form — field point-sample of the three wetland criteria (`3727950` WD-1, `3727951` WE-1; Project BOSC, Bistrozzi parcels). |
 | `sos-<entity>-<date>.sos.yaml` | `sos` | Ohio Secretary of State business-entity filings (Bistrozzi Addition LLC, Magenta Capital LLC, Tilted Gate LLC). |
 | `<person>.person.yaml` | `person_intel` | Person-intel notes on individuals in the Bistrozzi research folder (e.g. `montfort-michael` — WSGR D.C. benefits/comp counsel; low-significance). |
 

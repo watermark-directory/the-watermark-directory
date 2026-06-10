@@ -1,0 +1,133 @@
+doc_id: 3727950-114ea041
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/permits/bistrozzi-permits/3727950.pdf
+kind: wetland
+pages_read:
+- 0
+- 1
+dpi: 200
+source_text_excerpt: 'Project/Site:
+
+  Applicant/Owner:
+
+  State:
+
+  Investigator(s):
+
+  Landform (hillside, terrace, etc.):
+
+  Slope (%): Lat:
+
+  Soil Map Unit Name:
+
+  X
+
+  Are Vegetation , Soil , or Hydrology Are “Normal Circumstances” present? Yes X No
+
+  Are Vegetation , Soil , or Hydrology
+
+  SUMMARY OF FINDINGS – Attach site map showing sampling point locations, transects,
+  important features, etc.
+
+  Yes X
+
+  Yes X Yes X
+
+  Yes X
+
+  )
+
+  1.
+
+  2. (A)
+
+  3.
+
+  4. (B)
+
+  5.
+
+  (A/B)
+
+  Sapling/Shrub Stratum
+
+  1.
+
+  2.
+
+  3. x 1 =
+
+  4. x 2 =
+
+  5. x 3 =
+
+  x 4 =
+
+  x 5 =
+
+  1.
+
+  Column Totals: (A) (B)
+
+  2.
+
+  3.
+
+  4.
+
+  5.
+
+  6.
+
+  7.
+
+  8. 4 - Morphological Adaptations
+
+  1 (Provide supporting
+
+  9.
+
+  10.
+
+  Woody Vine Strat'
+determination:
+  confidence: high
+  warnings:
+  - Datum field reads 'North' on the form — this is a compass orientation label, not
+    a geodetic datum; true datum is unspecified. Longitude sign inferred as negative
+    (western Ohio, ~-84°).
+  - Landform field is recorded as 'soybean field' (the crop/land-use description entered
+    by the investigator rather than a geomorphic term such as terrace or flat).
+  - USACE field scientist noted feature was considered a wetland due to farming disturbance
+    to the vegetation layer — Hydrophytic Vegetation is No due to disturbance, yet
+    Hydric Soil and Wetland Hydrology are both Yes; overall determination is Not a
+    Wetland (No).
+  project_site: Project BOSC
+  applicant: Bistrozzi LLC
+  investigators:
+  - BDL
+  city_county: Sugar Township/Allen
+  state: OH
+  region: Midwest
+  sampling_date: '2024-08-15'
+  sampling_point: WD-1
+  landform: soybean field
+  slope_pct: 0.0
+  latitude: 40.802104
+  longitude: -84.123293
+  datum: North
+  soil_map_unit: Westland-Rensselaer complex, 0 to 1 percent slopes (WeA)
+  nwi_classification: none
+  hydrophytic_vegetation_present: false
+  hydric_soil_present: true
+  wetland_hydrology_present: true
+  is_wetland: false
+  dominant_species:
+  - Amaranthus retroflexus
+  - Portulaca oleracea
+  - Cyperus esculentus
+  note: 'Remarks: No crops growing. USACE field scientist considered feature a wetland
+    due to farming disturbance to vegetation layer. Hydric soil indicator: Redox Dark
+    Surface (F6). Hydrology indicators checked: Inundation Visible on Aerial Imagery
+    (B7), Sparsely Vegetated Concave Surface (B8); secondary: Saturation Visible on
+    Aerial Imagery (C9), Stunted or Stressed Plants (D1), Geomorphic Position (D2).
+    Prevalence Index = 3.89.'

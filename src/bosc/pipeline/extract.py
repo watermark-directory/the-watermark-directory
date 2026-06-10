@@ -41,6 +41,8 @@ from bosc.models import (
     PlanExtraction,
     SitePlan,
     SosExtraction,
+    WetlandDetermination,
+    WetlandExtraction,
 )
 from bosc.pipeline.ingest import SourceDocument
 
@@ -203,6 +205,7 @@ _DEED_DPI = 200
 _NPDES_DPI = 150
 _SOS_DPI = 200
 _EPA_DPI = 150
+_WETLAND_DPI = 200
 
 DEED_INSTRUCTIONS = """\
 You are reading a recorded land instrument (a deed, easement, or similar) from a
@@ -290,6 +293,35 @@ header "Re:" block (applicant, permit type, program, county, permit number) and 
 Rules: copy permit numbers, names, and the address exactly; dates as ISO; leave a
 field null if absent; never invent; set confidence and add warnings for strained
 reads.
+"""
+
+
+WETLAND_INSTRUCTIONS = """\
+You are reading a U.S. Army Corps of Engineers "Wetland Determination Data Form"
+— a routine on-site delineation worksheet (e.g. the Midwest or Eastern Mountains
+and Piedmont regional supplement). It records ONE sampling point and the three
+regulatory criteria that decide whether that point is a wetland. The page images
+are authoritative: the text layer carries the printed field LABELS, but the
+ENTERED values (checkboxes, species, percentages, coordinates) must be read from
+the image. Record into the tool:
+  * project_site ("Project/Site"); applicant ("Applicant/Owner", e.g. Bistrozzi
+    LLC); investigators (the field investigator names).
+  * city_county exactly as printed (e.g. "Sugar Creek Township/Allen"); state;
+    region (the ACE regional supplement named in the title, e.g. "Midwest").
+  * sampling_date as ISO yyyy-mm-dd; sampling_point (the label, e.g. WD-1, WE-1).
+  * landform; slope_pct; latitude and longitude in decimal degrees — mind the
+    sign: western-Ohio longitudes are NEGATIVE (~ -84), and a "° North/West" label
+    on the form does not change that; datum if shown.
+  * soil_map_unit; nwi_classification.
+  * The SUMMARY OF FINDINGS three determinations, each true/false from the CHECKED
+    box: hydrophytic_vegetation_present, hydric_soil_present,
+    wetland_hydrology_present. is_wetland: the overall "Is the Sampled Area within
+    a Wetland?" box (true = Yes, false = No).
+  * dominant_species: the dominant plant species listed, if legible.
+Rules: read the CHECKED box from the image, not the label; copy names/IDs and
+coordinates exactly; dates as ISO; leave a field null — and a boolean null — if
+you cannot clearly resolve it. NEVER guess a determination. Set confidence and add
+a warning for any strained read or any criterion box you could not resolve.
 """
 
 
@@ -548,6 +580,47 @@ def extract_epa(
     return extraction
 
 
+def extract_wetland(
+    doc: SourceDocument,
+    *,
+    extractor: StructuredExtractor | None = None,
+    pdf: PdfDocument | None = None,
+    dpi: int = _WETLAND_DPI,
+    settings: Settings | None = None,
+    text_pages: int = 2,
+) -> WetlandExtraction:
+    """Extract a USACE Wetland Determination Data Form (image-first, both pages)."""
+    from bosc.agent.extractor import StructuredExtractor
+
+    settings = settings or get_settings()
+    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
+    text, images, pages = _read_doc(doc, text_pages=text_pages, image_pages=2, dpi=dpi, pdf=pdf)
+
+    log.info("extract.doc.start", doc_id=doc.doc_id, kind="wetland", pages=len(pages), dpi=dpi)
+    determination = extractor.extract(
+        WetlandDetermination, instructions=WETLAND_INSTRUCTIONS, images=images, context_text=text
+    )
+    extraction = WetlandExtraction(
+        doc_id=doc.doc_id,
+        source_path=str(doc.path),
+        kind="wetland",
+        pages_read=pages,
+        dpi=dpi,
+        determination=determination,
+        source_text_excerpt=text[:600],
+    )
+    log.info(
+        "extract.doc.done",
+        doc_id=doc.doc_id,
+        kind="wetland",
+        sampling_point=determination.sampling_point,
+        is_wetland=determination.is_wetland,
+        confidence=determination.confidence,
+        warnings=len(determination.warnings),
+    )
+    return extraction
+
+
 # Document-level kind dispatch (parallel to the page-level EXTRACTORS above).
 DocumentExtractor = Callable[..., DocExtraction]
 DOC_EXTRACTORS: dict[str, DocumentExtractor] = {
@@ -555,6 +628,7 @@ DOC_EXTRACTORS: dict[str, DocumentExtractor] = {
     "npdes": extract_npdes,
     "sos": extract_sos,
     "epa": extract_epa,
+    "wetland": extract_wetland,
     "plan": extract_plan,
 }
 

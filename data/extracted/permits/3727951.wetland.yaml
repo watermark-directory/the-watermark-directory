@@ -1,0 +1,137 @@
+doc_id: 3727951-9d2a3a3f
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/permits/bistrozzi-permits/3727951.pdf
+kind: wetland
+pages_read:
+- 0
+- 1
+dpi: 200
+source_text_excerpt: 'Project/Site:
+
+  Applicant/Owner:
+
+  State:
+
+  Investigator(s):
+
+  Landform (hillside, terrace, etc.):
+
+  Slope (%): Lat:
+
+  Soil Map Unit Name:
+
+  X
+
+  Are Vegetation , Soil , or Hydrology Are “Normal Circumstances” present? Yes X No
+
+  Are Vegetation , Soil , or Hydrology
+
+  SUMMARY OF FINDINGS – Attach site map showing sampling point locations, transects,
+  important features, etc.
+
+  Yes X
+
+  Yes X Yes X
+
+  Yes X
+
+  )
+
+  1.
+
+  2. (A)
+
+  3.
+
+  4. (B)
+
+  5.
+
+  (A/B)
+
+  Sapling/Shrub Stratum
+
+  1.
+
+  2.
+
+  3. x 1 =
+
+  4. x 2 =
+
+  5. x 3 =
+
+  x 4 =
+
+  x 5 =
+
+  1.
+
+  Column Totals: (A) (B)
+
+  2.
+
+  3.
+
+  4.
+
+  5.
+
+  6.
+
+  7.
+
+  8. 4 - Morphological Adaptations
+
+  1 (Provide supporting
+
+  9.
+
+  10.
+
+  Woody Vine Strat'
+determination:
+  confidence: high
+  warnings:
+  - 'Datum field reads ''North'' on the form — this appears to be a label artifact
+    (the form prints ''Datum: North'' meaning NAD83/geographic north reference), not
+    a true datum name; treated as printed.'
+  - Landform field is recorded as 'soybean field' which is atypical for this field
+    (normally hillside, terrace, flat, etc.) but matches the image exactly.
+  - USACE field scientist noted the feature was considered a wetland due to farming
+    disturbance to the vegetation layer — is_wetland is recorded as No per the checked
+    Summary of Findings box, consistent with hydrophytic vegetation being absent due
+    to disturbance.
+  - Local relief is 'concave'; Sparsely Vegetated Concave Surface (B8) and Inundation
+    Visible on Aerial Imagery (B7) are checked as primary hydrology indicators; secondary
+    indicators include Saturation Visible on Aerial Imagery (C9), Stunted or Stressed
+    Plants (D1), and Geomorphic Position (D2).
+  project_site: Project BOSC
+  applicant: Bistrozzi LLC
+  investigators:
+  - BDL
+  city_county: Sugar Township/Allen
+  state: OH
+  region: Midwest
+  sampling_date: '2024-08-15'
+  sampling_point: WE-1
+  landform: soybean field
+  slope_pct: 0.0
+  latitude: 40.802056
+  longitude: -84.123712
+  datum: North
+  soil_map_unit: Westland-Rensselaer complex, 0 to 1 percent slopes (WeA)
+  nwi_classification: none
+  hydrophytic_vegetation_present: false
+  hydric_soil_present: true
+  wetland_hydrology_present: true
+  is_wetland: false
+  dominant_species:
+  - Amaranthus retroflexus
+  - Portulaca oleracea
+  - Cyperus esculentus
+  note: 'No crops growing at time of visit. Hydrophytic vegetation absent (No X checked);
+    Hydric Soil present (Yes X); Wetland Hydrology present (Yes X); Overall wetland
+    determination: No. USACE field scientist considered feature a wetland due to farming
+    disturbance to vegetation layer. Soil profile 0-12 inches: matrix 10YR 3/2 (95%),
+    redox concentration 10YR 6/8 (5%, Type C, Loc M), Loamy/Clayey texture. Hydric
+    soil indicator: Redox Dark Surface (F6) checked.'
