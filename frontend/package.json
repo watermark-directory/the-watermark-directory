@@ -1,0 +1,23 @@
+{
+  "name": "bosc-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The redesigned BOSC site — an Astro + MDX frontend over the committed content bundle (Epic #54).",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.2.0",
+    "astro": "^5.6.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@types/node": "^22.19.20",
+    "typescript": "^5.7.0"
+  }
+}

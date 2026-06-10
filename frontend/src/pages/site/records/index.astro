@@ -1,0 +1,33 @@
+---
+import Base from "../../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import type { RecordItem } from "../../../lib/feeds";
+import { groupLabel, groupsOf } from "../../../lib/records";
+import { withBase } from "../../../lib/site";
+
+const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
+const groups = groupsOf(records);
+const countOf = (g: string): number => records.filter((r) => r.group === g).length;
+---
+
+<Base title="Records" section="site">
+  <article class="prose">
+    <h1>Records</h1>
+    <p class="section-lead">
+      {records.length} committed extractions, grouped by document kind. Each is
+      read from the image and validated against a typed schema; dollar totals are
+      high-confidence, quantities marked <span class="approx">~</span> are
+      approximate transcriptions.
+    </p>
+    <div class="cards">
+      {
+        groups.map((g) => (
+          <a class="card" href={`${withBase("/site/records/")}${g}/`}>
+            <span class="card-title">{groupLabel(g)}</span>
+            <span class="card-meta">{countOf(g)} record(s)</span>
+          </a>
+        ))
+      }
+    </div>
+  </article>
+</Base>

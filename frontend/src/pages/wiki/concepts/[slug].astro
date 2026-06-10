@@ -1,0 +1,74 @@
+---
+import type { GetStaticPaths } from "astro";
+import Base from "../../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import type { ConceptItem } from "../../../lib/feeds";
+import { withBase } from "../../../lib/site";
+import { conceptBacklinks, norm, renderBody, wikiIndex } from "../../../lib/wiki";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const concepts = hasFeed("concepts") ? loadFeed<ConceptItem[]>("concepts") : [];
+  return concepts.map((concept) => ({ params: { slug: concept.slug }, props: { concept } }));
+};
+
+interface Props {
+  concept: ConceptItem;
+}
+const { concept } = Astro.props;
+const index = wikiIndex();
+const paragraphs = renderBody(concept.body, index);
+const related = concept.related
+  .map((r) => index.get(norm(r)))
+  .filter((t): t is NonNullable<typeof t> => Boolean(t));
+const backlinks = conceptBacklinks(concept.slug);
+---
+
+<Base title={concept.title} section="wiki" description={concept.summary}>
+  <article class="prose">
+    <p><a href={withBase("/wiki/concepts/")}>← Concepts</a></p>
+    <h1>{concept.title}</h1>
+    {concept.summary && <p class="section-lead">{concept.summary}</p>}
+    {concept.aliases.length > 0 && <p><strong>Also:</strong> {concept.aliases.join(", ")}</p>}
+    {
+      concept.tags.length > 0 && (
+        <ul class="chips">
+          {concept.tags.map((t) => (
+            <li class="chip">{t}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    {paragraphs.map((html) => <p set:html={html} />)}
+
+    {
+      related.length > 0 && (
+        <>
+          <h2>Related</h2>
+          <ul class="neighborhood">
+            {related.map((t) => (
+              <li>
+                <a href={t.url}>{t.label}</a> <span class="card-meta">({t.kind})</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+
+    {
+      backlinks.length > 0 && (
+        <div class="backlinks">
+          <h2>Backlinks</h2>
+          <ul class="neighborhood">
+            {backlinks.map((b) => (
+              <li>
+                <a href={b.url}>{b.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </article>
+</Base>

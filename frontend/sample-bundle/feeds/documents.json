@@ -1,0 +1,33 @@
+[
+  {
+    "slug": "aedg",
+    "title": "AEDG (Allen Economic Development Group)",
+    "description": "**Collection:** `aedg/` · immutable source evidence",
+    "entries": [
+      {
+        "rel": "aedg/PRR-01-bundle.ocr.pdf",
+        "name": "PRR-01-bundle.ocr.pdf",
+        "size_bytes": 137618944,
+        "suffix": "pdf",
+        "available": true,
+        "download_url": null
+      },
+      {
+        "rel": "aedg/data-center-updates/data-center-updates.index.html",
+        "name": "data-center-updates.index.html",
+        "size_bytes": 97303,
+        "suffix": "html",
+        "available": true,
+        "download_url": null
+      },
+      {
+        "rel": "aedg/data-center-updates/google-data-center-website-now-live-for-allen-county-community.html",
+        "name": "google-data-center-website-now-live-for-allen-county-community.html",
+        "size_bytes": 100919,
+        "suffix": "html",
+        "available": true,
+        "download_url": null
+      }
+    ]
+  }
+]

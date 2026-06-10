@@ -1,0 +1,67 @@
+---
+import type { GetStaticPaths } from "astro";
+import Base from "../../../layouts/Base.astro";
+import Provenance from "../../../components/Provenance.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import { paragraphs, slugify, type PlaceItem } from "../../../lib/feeds";
+import { withBase } from "../../../lib/site";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
+  return places.map((place) => ({ params: { slug: place.slug }, props: { place } }));
+};
+
+interface Props {
+  place: PlaceItem;
+}
+const { place } = Astro.props;
+---
+
+<Base title={place.name} section="site">
+  <article class="prose">
+    <p><a href={withBase("/site/people/")}>← People &amp; places</a></p>
+    <h1>{place.name}</h1>
+    <p class="section-lead">{place.kind}{place.depth ? ` · ${place.depth}` : ""}</p>
+
+    {place.aliases.length > 0 && <p><strong>Also known as:</strong> {place.aliases.join(", ")}</p>}
+    {place.parcels.length > 0 && <p><strong>Parcels ({place.parcels.length}):</strong> {place.parcels.join(", ")}</p>}
+    {
+      place.tags.length > 0 && (
+        <ul class="chips">
+          {place.tags.map((t) => (
+            <li class="chip">{t}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      place.relationships.length > 0 && (
+        <>
+          <h2>Relationships</h2>
+          <ul class="neighborhood">
+            {place.relationships.map((r) => (
+              <li>
+                <span class="rel-arrow">{r.role} →</span>{" "}
+                <a href={`${withBase("/wiki/entities/")}${slugify(r.entity)}/`}>{r.entity}</a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+
+    {place.body && paragraphs(place.body).map((p) => <p>{p}</p>)}
+
+    {
+      place.citations.length > 0 && (
+        <div class="backlinks">
+          <h2>Sources</h2>
+          {place.citations.map((c) => (
+            <Provenance citation={c} />
+          ))}
+        </div>
+      )
+    }
+  </article>
+</Base>

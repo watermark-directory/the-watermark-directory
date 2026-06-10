@@ -1,0 +1,37 @@
+---
+// Before/during/after imagery viewer. Dependency-free: a range input scrubs
+// through the supplied frames purely client-side. Renders a graceful empty
+// state until georeferenced imagery is committed (the slider data + the DeckGL
+// imagery overlay land with the watershed map, #67/#72).
+interface Frame {
+  label: string;
+  src: string;
+}
+interface Props {
+  frames?: Frame[];
+}
+const { frames = [] } = Astro.props;
+---
+
+{
+  frames.length === 0 ? (
+    <div class="slider slider-empty">
+      Before / during / after imagery is not committed in this bundle yet — the
+      viewer mounts here once georeferenced frames land (#67).
+    </div>
+  ) : (
+    <figure class="slider" data-frames={frames.length}>
+      {frames.map((f, i) => (
+        <img src={f.src} alt={f.label} hidden={i !== 0} data-frame={i} />
+      ))}
+      <input
+        type="range"
+        min="0"
+        max={frames.length - 1}
+        value="0"
+        aria-label="Scrub imagery frames"
+        oninput="this.closest('.slider').querySelectorAll('img').forEach((im,ix)=>im.hidden=ix!=this.value)"
+      />
+    </figure>
+  )
+}

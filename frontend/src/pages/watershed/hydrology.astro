@@ -1,0 +1,70 @@
+---
+import Base from "../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../lib/bundle";
+import type { ProvenancedValue, ScenarioResult } from "../../lib/feeds";
+
+const scenarios = hasFeed("hydrology-scenarios")
+  ? loadFeed<ScenarioResult[]>("hydrology-scenarios")
+  : [];
+
+const fmt = (v: ProvenancedValue): string =>
+  v.value == null ? "—" : `${v.value.toLocaleString("en-US")}${v.unit ? ` ${v.unit}` : ""}`;
+// document/connector-sourced values are grounded; assumption/derived are inferred.
+const grounded = (v: ProvenancedValue): boolean =>
+  v.source === "document" || v.source === "connector" || v.source === "reference";
+---
+
+<Base title="Hydrology" section="watershed">
+  <article class="prose">
+    <h1>Hydrology — water balance</h1>
+    <p class="section-lead">
+      Each scenario screens the Ottawa River's low-flow capacity against the
+      campus's consumptive cooling draw: live flow minus consumptive loss against
+      the 7Q10 design low flow, and the assimilative headroom that remains. Live
+      gauge and permit figures are <strong>grounded</strong>; scenario draws are
+      labelled assumptions.
+    </p>
+
+    {scenarios.length === 0 && <p class="stub-note">No hydrology-scenarios feed in this bundle.</p>}
+
+    {
+      scenarios.map((s) => {
+        const metrics: { label: string; v: ProvenancedValue; tone?: "neg" | "pos" }[] = [
+          { label: "Consumptive loss", v: s.consumptive_loss },
+          { label: "Ottawa 7Q10", v: s.ottawa_7q10 },
+          { label: "Ottawa live flow", v: s.ottawa_live },
+          {
+            label: "Balance",
+            v: s.balance,
+            tone: (s.balance.value ?? 0) < 0 ? "neg" : "pos",
+          },
+          {
+            label: "Assimilative headroom",
+            v: s.assimilative,
+            tone: (s.assimilative.value ?? 0) < 0 ? "neg" : "pos",
+          },
+        ];
+        return (
+          <div class="scenario">
+            <h3>{s.scenario.name}</h3>
+            {s.scenario.description && <p class="card-meta">{s.scenario.description}</p>}
+            <p class="card-meta">
+              Cooling demand: {fmt(s.scenario.cooling_demand)} · consumptive fraction{" "}
+              {fmt(s.scenario.consumptive_fraction)}
+            </p>
+            <div class="metric-grid">
+              {metrics.map((m) => (
+                <div class:list={["metric", m.tone]}>
+                  <div class="metric-value">{fmt(m.v)}</div>
+                  <div class="metric-label">
+                    {m.label} {grounded(m.v) ? "" : "(modeled)"}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })
+    }
+  </article>
+</Base>

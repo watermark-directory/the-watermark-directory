@@ -1,0 +1,75 @@
+---
+import EvidenceTag from "../../components/EvidenceTag.astro";
+import Base from "../../layouts/Base.astro";
+import { hasFeed, loadFeed, loadManifest } from "../../lib/bundle";
+import {
+  evidenceKind,
+  type DocumentCollectionItem,
+  type MeetingItem,
+  type TimelineEntry,
+} from "../../lib/feeds";
+import { withBase } from "../../lib/site";
+
+const manifest = loadManifest();
+const byName = new Map(manifest.feeds.map((f) => [f.name, f]));
+const count = (n: string): number => byName.get(n)?.count ?? 0;
+
+const documents = hasFeed("documents") ? loadFeed<DocumentCollectionItem[]>("documents") : [];
+const nFiles = documents.reduce((a, c) => a + c.entries.length, 0);
+const timeline = hasFeed("timeline") ? loadFeed<TimelineEntry[]>("timeline") : [];
+const meetings = hasFeed("meetings") ? loadFeed<MeetingItem[]>("meetings") : [];
+---
+
+<Base title="The BOSC site" section="site">
+  <article class="prose">
+    <h1>The BOSC site</h1>
+    <p class="section-lead">
+      The primary record: source documents, the structured records read from
+      them, the timeline, exhibits, the people and places involved, and the legal
+      history — all driven by the content bundle.
+    </p>
+
+    <h2 id="documents">Documents</h2>
+    <p>
+      {nFiles.toLocaleString("en-US")} source documents across {documents.length}
+      collections. → <a href={withBase("/site/documents/")}>Open the catalog</a>
+    </p>
+
+    <h2 id="records">Records</h2>
+    <p>
+      {count("records")} structured records — deeds, EPA/USACE &amp; NPDES
+      permits, Secretary-of-State filings, plans, and cost estimates. →
+      <a href={withBase("/site/records/")}>Browse records by kind</a>
+    </p>
+
+    <h2 id="timeline">Timeline</h2>
+    <p>
+      {timeline.length} dated events
+      {timeline[0] && (
+        <>
+          {" "}— most recent example{" "}
+          <EvidenceTag kind={evidenceKind(timeline[0].citation)} title={timeline[0].source} />.
+        </>
+      )}
+      {" "}→ <a href={withBase("/site/timeline")}>Open the timeline</a>
+    </p>
+
+    <h2 id="exhibits">Exhibits</h2>
+    <p>
+      {count("exhibits")} curated, citable slices of the source record. →
+      <a href={withBase("/site/exhibits")}>Open exhibits</a>
+    </p>
+
+    <h2 id="people">People &amp; places</h2>
+    <p>
+      {count("people")} people{count("places") ? ` and ${count("places")} places` : ""}. →
+      <a href={withBase("/site/people/")}>Open profiles</a>
+    </p>
+
+    <h2 id="legal">Legal history</h2>
+    <p>
+      {meetings.length} meeting summaries, plus PRR &amp; mandamus and
+      Select-Committee testimony. → <a href={withBase("/site/legal")}>Open legal history</a>
+    </p>
+  </article>
+</Base>

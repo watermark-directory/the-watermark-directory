@@ -1,0 +1,61 @@
+---
+import type { GetStaticPaths } from "astro";
+import Base from "../../../layouts/Base.astro";
+import Provenance from "../../../components/Provenance.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import { paragraphs, slugify, type PersonItem } from "../../../lib/feeds";
+import { withBase } from "../../../lib/site";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const people = hasFeed("people") ? loadFeed<PersonItem[]>("people") : [];
+  return people.map((person) => ({ params: { slug: person.slug }, props: { person } }));
+};
+
+interface Props {
+  person: PersonItem;
+}
+const { person } = Astro.props;
+---
+
+<Base title={person.name} section="site" description={person.summary ?? undefined}>
+  <article class="prose">
+    <p><a href={withBase("/site/people/")}>← People &amp; places</a></p>
+    <h1>{person.name}</h1>
+    {person.summary && <p class="section-lead">{person.summary}</p>}
+
+    {person.aliases.length > 0 && <p><strong>Also known as:</strong> {person.aliases.join(", ")}</p>}
+    {person.roles.length > 0 && <p><strong>Roles:</strong> {person.roles.join("; ")}</p>}
+    {person.affiliations.length > 0 && <p><strong>Affiliations:</strong> {person.affiliations.join("; ")}</p>}
+    {
+      person.entity_key && (
+        <p>
+          <a href={`${withBase("/wiki/entities/")}${slugify(person.entity_key)}/`}>
+            View in the entity graph →
+          </a>
+        </p>
+      )
+    }
+    {
+      person.tags.length > 0 && (
+        <ul class="chips">
+          {person.tags.map((t) => (
+            <li class="chip">{t}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    {person.body && paragraphs(person.body).map((p) => <p>{p}</p>)}
+
+    {
+      person.sources.length > 0 && (
+        <div class="backlinks">
+          <h2>Sources</h2>
+          {person.sources.map((c) => (
+            <Provenance citation={c} />
+          ))}
+        </div>
+      )
+    }
+  </article>
+</Base>
