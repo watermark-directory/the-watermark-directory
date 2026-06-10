@@ -1,0 +1,60 @@
+# Repository configuration as code — runs the Pulumi project in .github/config.
+#
+# On a pull request that touches .github/config, this posts a `pulumi preview`
+# (the plan) as a PR comment. When those changes merge to main, it runs
+# `pulumi up` to apply them. See .github/config/README.md for the required
+# secrets/variables and the one-time bootstrap (repo import).
+
+name: Repo config (Pulumi)
+
+on:
+  pull_request:
+    paths:
+      - ".github/config/**"
+      - ".github/workflows/repo-config.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".github/config/**"
+      - ".github/workflows/repo-config.yml"
+
+# Don't let two applies race on the same state.
+concurrency:
+  group: repo-config
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: write # so the preview can be commented on the PR
+
+jobs:
+  pulumi:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .github/config
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: .github/config/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - uses: pulumi/actions@v6
+        with:
+          # preview on PRs, apply on push to main.
+          command: ${{ github.event_name == 'pull_request' && 'preview' || 'up' }}
+          stack-name: ${{ vars.PULUMI_STACK }} # e.g. your-pulumi-org/bosc-repo-config/prod
+          work-dir: .github/config
+          comment-on-pr: true
+          refresh: true
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          # Provider auth: an admin-scoped token, NOT the default GITHUB_TOKEN
+          # (which can't manage branch protection or repo settings).
+          GITHUB_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}

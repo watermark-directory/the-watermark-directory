@@ -1,0 +1,10 @@
+name: bosc-repo-config
+runtime: nodejs
+description: >-
+  Declarative GitHub configuration for the BOSC repository — repository settings
+  and branch protection, managed as code instead of clicked in the UI.
+
+# State lives in whatever backend you `pulumi login` to. Pulumi Cloud
+# (PULUMI_ACCESS_TOKEN) is the default and what the CI workflow assumes; for a
+# local file backend run `pulumi login --local`. No backend is pinned here so
+# the choice stays an operator decision.
