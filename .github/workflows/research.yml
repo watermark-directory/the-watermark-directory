@@ -1,0 +1,180 @@
+name: research
+
+# Automated-research GitHub App runs (Epic #57). Drives `bosc research run` over the
+# corpus, then opens a PR + the proposed issues *as the App*. The run is read-only on
+# the corpus and inert until a maintainer reviews — the App is not a code owner and
+# not a repo admin, so it cannot approve or merge its own PR (see .github/CODEOWNERS
+# + the branch protection in .github/config).
+#
+# Bootstrap (one-time) — see docs/research-app.md:
+#   - Register + install the GitHub App; store secrets RESEARCH_APP_ID and
+#     RESEARCH_APP_PRIVATE_KEY, plus ANTHROPIC_API_KEY (the run needs a Claude key).
+#   - Set the repository variable RESEARCH_ENABLED=true — the on / kill switch. Until
+#     it is 'true' every run is skipped (not failed).
+#   - Optional variables: RESEARCH_TOPIC (the scheduled topic), RESEARCH_MAX_TURNS,
+#     RESEARCH_MAX_PROPOSALS (budget caps; map to BOSC_ settings).
+
+on:
+  schedule:
+    - cron: "17 8 * * 1" # weekly · Monday 08:17 UTC · topic from vars.RESEARCH_TOPIC
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: "Research topic / question"
+        required: true
+        type: string
+  issue_comment:
+    types: [created]
+
+# Serialize runs of the same kind; never cancel an in-flight run (it may be mid-PR).
+concurrency:
+  group: research-${{ github.event_name }}
+  cancel-in-progress: false
+
+# Writes are done with the App token (GH_TOKEN); the default token stays read-only.
+permissions:
+  contents: read
+
+jobs:
+  research:
+    # Kill switch + maintainer-only slash command. The whole job is skipped (not
+    # failed) unless RESEARCH_ENABLED is 'true'; for an issue comment it must also be
+    # a maintainer's `/research <topic>`.
+    if: >-
+      vars.RESEARCH_ENABLED == 'true' &&
+      (github.event_name != 'issue_comment' ||
+       (startsWith(github.event.comment.body, '/research') &&
+        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'),
+                 github.event.comment.author_association)))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint a GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.RESEARCH_APP_ID }}
+          private-key: ${{ secrets.RESEARCH_APP_PRIVATE_KEY }}
+
+      - name: Checkout as the App (so the push + PR are the App's)
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+          lfs: false # the agent reads committed data/extracted, not LFS source bytes
+
+      - name: Resolve the topic
+        id: topic
+        env:
+          EVENT: ${{ github.event_name }}
+          DISPATCH_TOPIC: ${{ github.event.inputs.topic }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          CRON_TOPIC: ${{ vars.RESEARCH_TOPIC }}
+        run: |
+          set -euo pipefail
+          case "$EVENT" in
+            workflow_dispatch) topic="$DISPATCH_TOPIC" ;;
+            issue_comment)     topic="$(printf '%s' "$COMMENT_BODY" | sed -n '1s|^/research[[:space:]]*||p')" ;;
+            schedule)          topic="$CRON_TOPIC" ;;
+            *)                 topic="" ;;
+          esac
+          if [ -z "${topic// /}" ]; then
+            echo "No topic (cron with empty RESEARCH_TOPIC?) — nothing to do."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Resolved topic: $topic"
+            { echo "topic<<EOF"; echo "$topic"; echo "EOF"; } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up uv + Python
+        if: steps.topic.outputs.skip != 'true'
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        if: steps.topic.outputs.skip != 'true'
+        run: uv sync --extra dev
+
+      - name: Run the investigation (read-only on the corpus)
+        if: steps.topic.outputs.skip != 'true'
+        id: run
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BOSC_RESEARCH_MAX_TURNS: ${{ vars.RESEARCH_MAX_TURNS || '30' }}
+          BOSC_RESEARCH_MAX_PROPOSALS: ${{ vars.RESEARCH_MAX_PROPOSALS || '5' }}
+          TOPIC: ${{ steps.topic.outputs.topic }}
+        run: |
+          set -euo pipefail
+          OUT="data/research/run-${GITHUB_RUN_ID}"
+          uv run bosc research run --topic "$TOPIC" --out "$OUT"
+          echo "out=$OUT" >> "$GITHUB_OUTPUT"
+
+      - name: Chain-of-custody check (no source bytes touched)
+        if: steps.topic.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          if [ -n "$(git status --porcelain -- data/documents)" ]; then
+            echo "::error::run modified data/documents/** — aborting"
+            git status --porcelain -- data/documents
+            exit 1
+          fi
+
+      - name: Build the publish plan (dedupe vs open issues)
+        if: steps.topic.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          OUT: ${{ steps.run.outputs.out }}
+        run: |
+          set -euo pipefail
+          gh issue list --state open --label agent-proposed --limit 200 \
+            --json number,title,body > /tmp/existing-issues.json
+          uv run bosc research publish --run "$OUT" \
+            --existing /tmp/existing-issues.json --out "$OUT/publish-plan.json"
+
+      - name: Open the proposed issues (as the App)
+        if: steps.topic.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          OUT: ${{ steps.run.outputs.out }}
+        run: |
+          set -euo pipefail
+          : > "$OUT/created-issues.txt"
+          while read -r issue; do
+            title=$(jq -r '.title' <<<"$issue")
+            jq -r '.body' <<<"$issue" > /tmp/issue-body.md
+            label_args=()
+            while IFS= read -r l; do label_args+=(--label "$l"); done < <(jq -r '.labels[]' <<<"$issue")
+            url=$(gh issue create --title "$title" --body-file /tmp/issue-body.md "${label_args[@]}")
+            echo "Opened $url"
+            echo "$url" >> "$OUT/created-issues.txt"
+          done < <(jq -c '.issues[]' "$OUT/publish-plan.json")
+
+      - name: Open the research PR (as the App)
+        if: steps.topic.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          OUT: ${{ steps.run.outputs.out }}
+          TOPIC: ${{ steps.topic.outputs.topic }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+        run: |
+          set -euo pipefail
+          # Commit as the App bot (resolve its user id for the noreply email).
+          USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+
+          BRANCH="research/run-${GITHUB_RUN_ID}"
+          git switch -c "$BRANCH"
+          git add data/research
+          git commit -m "research: ${TOPIC}" -m "Automated run; read-only on the corpus. See ${OUT}/findings.md."
+          git push -u origin "$BRANCH"
+
+          jq -r '.pr_body' "$OUT/publish-plan.json" > /tmp/pr-body.md
+          if [ -s "$OUT/created-issues.txt" ]; then
+            { echo; echo "### Issues opened"; sed 's|^|- |' "$OUT/created-issues.txt"; } >> /tmp/pr-body.md
+          fi
+          gh pr create \
+            --title "$(jq -r '.pr_title' "$OUT/publish-plan.json")" \
+            --body-file /tmp/pr-body.md \
+            --label research-run \
+            --head "$BRANCH"
