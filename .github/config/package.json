@@ -1,0 +1,19 @@
+{
+  "name": "bosc-repo-config",
+  "version": "0.1.0",
+  "description": "Pulumi program managing GitHub configuration for the BOSC repository.",
+  "private": true,
+  "main": "index.ts",
+  "license": "Proprietary",
+  "scripts": {
+    "build": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "^5.5"
+  },
+  "dependencies": {
+    "@pulumi/github": "^6.4.0",
+    "@pulumi/pulumi": "^3.130.0"
+  }
+}

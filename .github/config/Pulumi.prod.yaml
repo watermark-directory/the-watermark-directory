@@ -1,0 +1,10 @@
+# Committed stack config — NON-SECRET values only.
+# The GitHub token is supplied out of band via the GITHUB_TOKEN env var (a PAT or
+# App token with Administration: write); never add it here.
+config:
+  github:owner: goedelsoup
+  bosc-repo-config:repo: "bosc"
+  # Branch-protection policy (tunable without touching code):
+  bosc-repo-config:requiredApprovals: "0"     # approving reviews required on main
+  bosc-repo-config:enforceAdmins: "false"     # also apply protection to admins
+  bosc-repo-config:requireUpToDate: "true"    # branch must be current before merge
