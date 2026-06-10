@@ -683,7 +683,7 @@ def extract(
         None, "--pdf-page", help="1-based printed sheet number (= page index + 1)."
     ),
     kind: str = typer.Option(
-        "opc", "--kind", help="Document kind: opc | deed | npdes | sos | epa | plan."
+        "opc", "--kind", help="Document kind: opc | deed | npdes | sos | epa | wetland | plan."
     ),
     profile: str = typer.Option(
         "auto", "--profile", help="OPC format profile id, or 'auto' to detect from the page."
@@ -701,6 +701,7 @@ def extract(
         NpdesExtraction,
         PlanExtraction,
         SosExtraction,
+        WetlandExtraction,
     )
     from bosc.pipeline import analyze
     from bosc.pipeline import extract as extract_stage
@@ -747,6 +748,16 @@ def extract(
                 f"date={a.action_date or '?'} [dim](confidence {a.confidence})[/]"
             )
             warns = a.warnings
+        elif isinstance(doc_extraction, WetlandExtraction):
+            w = doc_extraction.determination
+            console.print(
+                f"[bold]Wetland[/] {w.sampling_point or '?'} @ {w.city_county or '?'} — "
+                f"wetland={w.is_wetland} "
+                f"(veg={w.hydrophytic_vegetation_present} soil={w.hydric_soil_present} "
+                f"hydro={w.wetland_hydrology_present}) applicant={w.applicant or '?'} "
+                f"[dim](confidence {w.confidence})[/]"
+            )
+            warns = w.warnings
         elif isinstance(doc_extraction, PlanExtraction):
             pl = doc_extraction.plan
             firms = ", ".join(f"{fm.name} ({fm.discipline or '?'})" for fm in pl.prepared_by)

@@ -189,13 +189,25 @@ validation → provenance). Order is driven by inquiry leverage.
    permit no, action, dates, applicant + address, contact + firm, project,
    affected resource). Text-first read; feeds the timeline (regulatory milestones)
    and entity graph (`represented_by` / `affiliated_with`; the EPA applicant
-   resolves onto the *same* Bistrozzi node as the deeds). Validated live on 5
-   representative docs — **remaining ~25 not yet swept.** Findings: Bistrozzi LLC
-   and Tilted Gate LLC share a Wilmington DE mailing address (2801 Centerville Rd,
-   PMB); a second codename **"Project Dazzler"** (Tilted Gate, USACE 404, principal
-   Timothy Chadwick); counsel Vorys (Tangeman/Ziance), engineer EMH&T.
-   *(The 2 Army-Corps wetland-delineation data forms are a different shape — a
-   later `kind`.)*
+   resolves onto the *same* Bistrozzi node as the deeds). **Sweep complete: all 30
+   EPA Section-401 / DSW / USACE permit-action PDFs in `permits/` are extracted**
+   (`data/extracted/permits/*.epa.yaml`) — 26 high-confidence, 4 medium (the
+   medium are delineation reports / cover pages where the visible number is an
+   internal project no., not an agency-issued permit — flagged, not errors).
+   Findings: Bistrozzi LLC and Tilted Gate LLC share a Wilmington DE mailing
+   address (2801 Centerville Rd, PMB); a second codename **"Project Dazzler"**
+   (Tilted Gate, USACE 404, principal Timothy Chadwick); counsel Vorys
+   (Tangeman/Ziance), engineer EMH&T.
+3c. **Wetland-determination extractor (`kind=wetland`).** `[done]` — the 2
+   USACE Wetland Determination Data Forms in `permits/` are a different shape than
+   the permit-action letters (a field-botany point-sample worksheet), so they get
+   their own kind. `bosc.models.WetlandDetermination` captures the sampling point,
+   location/coords, applicant, and the three regulatory criteria (hydrophytic
+   vegetation / hydric soil / wetland hydrology → is_wetland). Both points
+   (`WD-1`, `WE-1`, `*.wetland.yaml`) tie to **Project BOSC** on the Bistrozzi
+   parcels (Sugar Creek Twp/Allen, former soybean field, hydric Westland-Rensselaer
+   soils): each is formally **not a wetland** despite hydric soil + wetland
+   hydrology, because hydrophytic vegetation is absent due to farming disturbance.
 4. **Plan read (`kind=plan`).** `[done]` — an `.odg` is a *vector* drawing, so
    `bosc.documents.read_odg` extracts the titleblock/legend/callout TEXT (the
    authoritative content) plus the preview thumbnail, tolerating the file's bad

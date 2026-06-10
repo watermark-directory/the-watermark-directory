@@ -401,6 +401,41 @@ class EpaPermitAction(_Extracted):
     note: str | None = None
 
 
+class WetlandDetermination(_Extracted):
+    """A USACE Wetland Determination Data Form (routine on-site delineation).
+
+    A field botanist's point-sample worksheet attached to a Section 404 / 401
+    delineation: it records ONE sampling point and the three regulatory criteria —
+    hydrophytic vegetation, hydric soil, wetland hydrology — that together decide
+    whether the sampled area is a wetland. The vegetation/soil strata tables are
+    dense supporting detail; the research-relevant facts are the location, the
+    applicant, the sampling point, and the four determinations.
+    """
+
+    project_site: str | None = None  # "Project/Site"
+    applicant: str | None = None  # "Applicant/Owner"
+    investigators: StrList = Field(default_factory=list)
+    city_county: str | None = None  # "City/County" as printed, e.g. "Sugar Creek Township/Allen"
+    state: str | None = None
+    region: str | None = None  # the ACE regional supplement (e.g. "Midwest")
+    sampling_date: str | None = None  # ISO yyyy-mm-dd
+    sampling_point: str | None = None  # the point label, e.g. WD-1, WE-1
+    landform: str | None = None
+    slope_pct: float | None = None
+    latitude: float | None = None  # decimal degrees
+    longitude: float | None = None  # decimal degrees (western Ohio ~ -84, negative)
+    datum: str | None = None
+    soil_map_unit: str | None = None
+    nwi_classification: str | None = None
+    # SUMMARY OF FINDINGS — each true/false from the checked box; null if illegible.
+    hydrophytic_vegetation_present: bool | None = None
+    hydric_soil_present: bool | None = None
+    wetland_hydrology_present: bool | None = None
+    is_wetland: bool | None = None  # "Is the Sampled Area within a Wetland?"
+    dominant_species: StrList = Field(default_factory=list)
+    note: str | None = None
+
+
 class DesignFirm(BaseModel):
     """A firm on a plan's titleblock, with its discipline."""
 
@@ -465,6 +500,10 @@ class SosExtraction(DocExtraction):
 
 class EpaExtraction(DocExtraction):
     action: EpaPermitAction
+
+
+class WetlandExtraction(DocExtraction):
+    determination: WetlandDetermination
 
 
 class PlanExtraction(DocExtraction):
