@@ -61,6 +61,23 @@ def test_provenance_invariant(hydro_settings: Settings) -> None:
             assert pv.citation, f"document value without citation: {pv}"
 
 
+def test_campus_consumptive_is_derived_not_placeholder(hydro_settings: Settings) -> None:
+    # The campus cooling consumptive is the sourced power-based central (≈4.86 cfs from
+    # the air permit x WUE), `derived` — not the old 0 cfs "unsourced placeholder".
+    balance = build_water_balance(settings=hydro_settings, live=False)
+    campus = balance.node("bosc-campus")
+    assert campus is not None and campus.consumptive_use is not None
+    cu = campus.consumptive_use
+    assert cu.source == "derived"
+    assert cu.value == pytest.approx(4.86, abs=0.1)
+    assert "cooling basis" in (cu.citation or "")
+    # No stale "placeholder"/"unsourced"/"TBD" framing remains in the warnings.
+    joined = " ".join(balance.warnings).lower()
+    assert "placeholder" not in joined
+    assert "unsourced" not in joined
+    assert "tbd" not in joined
+
+
 def test_check_skips_uncited_receiving_water(hydro_settings: Settings) -> None:
     # A receiving water with no cited 7Q10 is skipped, not invented. (All three real
     # streams are now cited, so inject a plant whose receiving water is uncited.)
