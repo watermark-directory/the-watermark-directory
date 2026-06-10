@@ -155,6 +155,7 @@ dependencies = [
 [package.optional-dependencies]
 dev = [
     { name = "jinja2" },
+    { name = "jsonschema" },
     { name = "marimo" },
     { name = "markdown" },
     { name = "mypy" },
@@ -162,6 +163,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "ruff" },
+    { name = "types-jsonschema" },
     { name = "types-markdown" },
     { name = "types-pyyaml" },
 ]
@@ -180,6 +182,7 @@ requires-dist = [
     { name = "claude-agent-sdk", specifier = ">=0.1.0" },
     { name = "httpx", specifier = ">=0.27" },
     { name = "jinja2", marker = "extra == 'docs'", specifier = ">=3.1" },
+    { name = "jsonschema", marker = "extra == 'dev'", specifier = ">=4.0" },
     { name = "marimo", marker = "extra == 'docs'", specifier = ">=0.9" },
     { name = "markdown", marker = "extra == 'docs'", specifier = ">=3.6" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.11" },
@@ -203,6 +206,7 @@ requires-dist = [
     { name = "shapely", specifier = ">=2.0" },
     { name = "structlog", specifier = ">=24.1" },
     { name = "typer", specifier = ">=0.12" },
+    { name = "types-jsonschema", marker = "extra == 'dev'", specifier = ">=4.0" },
     { name = "types-markdown", marker = "extra == 'dev'", specifier = ">=3.6" },
     { name = "types-pyyaml", marker = "extra == 'dev'", specifier = ">=6.0" },
 ]
@@ -2500,6 +2504,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/cc/15/f5fc7be23b7196bc065b282d9589a372392fb10860c80f9c1dd7eb008662/typer-0.26.3.tar.gz", hash = "sha256:3e2b9352f535e5303ef27806dadc2c8647687bdca5c902f03fec3fb88f46a46a", size = 198326, upload-time = "2026-05-28T20:30:50.984Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/cd/cc/c6c5dea061e2740355bfeef22ac6a41751bd2f3903e83921295569bdcec4/typer-0.26.3-py3-none-any.whl", hash = "sha256:e70549ec5a403ca8a0bf0802ddd9f3c6ff7a14ccbb859b01b697baa943636f33", size = 122338, upload-time = "2026-05-28T20:30:49.816Z" },
+]
+
+[[package]]
+name = "types-jsonschema"
+version = "4.26.0.20260518"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "referencing" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/dd/46/73b6a5d61a61015c4248030a8cb07e5bdddb4041430fae9e585a68692578/types_jsonschema-4.26.0.20260518.tar.gz", hash = "sha256:e1dd53dc97a64f5eccdd6fa9839666e09bb500a8ebba2db6fdaf1789faea81a6", size = 16638, upload-time = "2026-05-18T06:06:44.106Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/07/d5/134f8a147dcecda10db7f60cfc6af0578a25a5c53c87b3907a64385e0184/types_jsonschema-4.26.0.20260518-py3-none-any.whl", hash = "sha256:30b30a518c7fe335df85c919fcbcc631b69c03d4a4b5b632fa916bea03065307", size = 16072, upload-time = "2026-05-18T06:06:43.264Z" },
 ]
 
 [[package]]

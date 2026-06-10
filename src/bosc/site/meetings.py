@@ -14,6 +14,8 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Any
 
+from bosc.site.feeds import Citation, MeetingItem
+
 _INTRO = (
     "Reviewed summaries of the political-subdivision meetings whose minutes or "
     "agendas **name the corridor project** (Google / BOSC / Bistrozzi / data center). "
@@ -90,3 +92,36 @@ def render_meetings(summaries: list[tuple[str, dict[str, Any]]]) -> str:
         for meeting in meetings:
             lines += _render_meeting(meeting)
     return "\n".join(lines).rstrip() + "\n"
+
+
+def _str_list(value: Any) -> list[str]:
+    return [str(v) for v in value] if isinstance(value, list) else []
+
+
+def export_meetings(summaries: list[tuple[str, dict[str, Any]]]) -> list[MeetingItem]:
+    """Export committed ``(slug, meeting)`` summary pairs as :class:`MeetingItem` items.
+
+    The data peer of :func:`render_meetings`: each meeting cites its source summaries
+    artifact (``meeting['filename']`` when present, else the per-body summaries path).
+    """
+    items: list[MeetingItem] = []
+    for slug, meeting in summaries:
+        filename = (
+            meeting.get("filename") or f"data/extracted/{slug}/meetings/meeting-summaries.yaml"
+        )
+        items.append(
+            MeetingItem(
+                slug=slug,
+                date=meeting.get("date"),
+                kind=meeting.get("kind"),
+                summary=str(meeting.get("summary") or ""),
+                corridor_relevance=str(meeting.get("corridor_relevance") or ""),
+                decisions=_str_list(meeting.get("decisions")),
+                parties=_str_list(meeting.get("parties")),
+                parcels=_str_list(meeting.get("parcels")),
+                dollar_figures=_str_list(meeting.get("dollar_figures")),
+                hits=_str_list(meeting.get("hits")),
+                citation=Citation(source=str(filename), source_kind="document"),
+            )
+        )
+    return items

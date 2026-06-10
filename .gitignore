@@ -55,3 +55,10 @@ runs/
 # Anchored to the repo root so they don't match src/bosc/site/ or data/site/.
 /web/
 /site/
+
+# Generated content bundle (`bosc export` → data/site/bundle/). The contract is
+# committed — README.md, schemas/, manifest.example.json — but the feed data and the
+# timestamped manifest are regenerable (and the documents feed is LFS-state-dependent),
+# so they stay out of git. Regenerate any time with `bosc export`.
+/data/site/bundle/feeds/
+/data/site/bundle/manifest.json

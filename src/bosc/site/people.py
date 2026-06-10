@@ -14,6 +14,7 @@ from pathlib import Path
 
 from bosc.people import PersonProfile
 from bosc.pipeline.entities import EntityGraph
+from bosc.site.feeds import Citation, PersonItem
 
 # Same evidence-discipline framing the entity graph uses: roles read from the
 # record are leads, not verdicts about control or wrongdoing.
@@ -152,3 +153,36 @@ def render_people_index(pages: list[PersonPage], *, tracked: int) -> str:
         )
     lines.append("")
     return "\n".join(lines)
+
+
+def export_people(
+    people: list[PersonProfile], *, egraph: EntityGraph | None = None
+) -> list[PersonItem]:
+    """Export the published (``expanded_research``) profiles as :class:`PersonItem` items.
+
+    Mirrors :func:`render_people_pages`: only expanded profiles are published. ``entity_key``
+    is carried only when it resolves into the graph, so the people↔entities link is clean;
+    each ``sources`` string becomes a structured :class:`Citation`.
+    """
+    items: list[PersonItem] = []
+    for profile in people:
+        if not profile.expanded:
+            continue
+        front = profile.front
+        resolved = egraph.get(profile.entity_key) if egraph is not None else None
+        items.append(
+            PersonItem(
+                slug=profile.slug,
+                name=profile.name,
+                entity_key=resolved.key if resolved is not None else None,
+                aliases=list(front.aliases),
+                roles=list(front.roles),
+                affiliations=list(front.affiliations),
+                summary=front.summary,
+                expanded=True,
+                tags=list(front.tags),
+                sources=[Citation(source=s, source_kind="document") for s in front.sources],
+                body=profile.body.strip(),
+            )
+        )
+    return items

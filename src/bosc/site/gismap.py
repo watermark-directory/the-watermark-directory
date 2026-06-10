@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from bosc.config import Settings, get_settings
+from bosc.site.feeds import GeoFeature, GeoFeatureCollection, GeoProperties
 
 if TYPE_CHECKING:
     from bosc.hydrology.toxics import ToxicDischargeInventory
@@ -373,3 +374,62 @@ def render_gis_map(geojson_path: Path) -> str:
     lines += [f"- {s}" for s in sources]
     lines.append("")
     return "\n".join(lines)
+
+
+# Which findings layer rolls up into which typed GeoJSON feed (issue #61). FEMA's two
+# zones and the corridor study-area + roadwork are paired into one feed each, mirroring
+# how the map legend groups them.
+_LAYER_TO_FEED: dict[str, str] = {
+    "campus": "campus",
+    "jsmc": "jsmc",
+    "floodway": "femaflood",
+    "floodplain": "femaflood",
+    "corridor": "corridor",
+    "roadwork": "corridor",
+    "wwtp": "wwtp",
+    "rsei": "rsei",
+}
+
+
+def _geometry_role(geometry: dict[str, Any]) -> str:
+    """The display role of a geometry — area | line | point — for the feature properties."""
+    gtype = str(geometry.get("type", ""))
+    if gtype in ("Polygon", "MultiPolygon"):
+        return "area"
+    if gtype in ("LineString", "MultiLineString"):
+        return "line"
+    return "point"
+
+
+def export_geo(geojson_path: Path) -> list[GeoFeatureCollection]:
+    """Split the committed findings GeoJSON into typed per-layer feeds for DeckGL (#61).
+
+    Lifts geometry out of the Leaflet HTML blob into clean :class:`GeoFeatureCollection`
+    feeds — one per logical layer (campus, jsmc, femaflood, corridor, wwtp, rsei). Geometry
+    is carried **WGS84 verbatim** (display-only, no reprojection); each feature keeps its
+    source ``label`` and popup fields and gains ``color`` + ``role`` layer metadata so the
+    frontend styles a feed without re-deriving anything. Returns feeds in stable order.
+    """
+    fc = json.loads(geojson_path.read_text(encoding="utf-8"))
+    crs = fc.get("meta", {}).get("crs", "WGS84 (EPSG:4326)")
+    grouped: dict[str, list[GeoFeature]] = {}
+    for feat in fc.get("features", []):
+        props = dict(feat.get("properties") or {})
+        layer = str(props.get("layer", ""))
+        feed = _LAYER_TO_FEED.get(layer)
+        geometry = feat.get("geometry")
+        if feed is None or not geometry:
+            continue
+        props.setdefault("color", _LAYER_COLORS.get(layer))
+        props["role"] = _geometry_role(geometry)
+        grouped.setdefault(feed, []).append(
+            GeoFeature(geometry=geometry, properties=GeoProperties.model_validate(props))
+        )
+    return [
+        GeoFeatureCollection(
+            feed=feed,
+            meta={"crs": crs, "layers": sorted({f.properties.layer for f in feats})},
+            features=feats,
+        )
+        for feed, feats in sorted(grouped.items())
+    ]

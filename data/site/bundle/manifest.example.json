@@ -1,0 +1,177 @@
+{
+  "bundle_version": "1.0.0",
+  "contract_version": "1.0.0",
+  "generated_at": "2026-06-10T00:00:00+00:00",
+  "feed_count": 21,
+  "row_total": 505,
+  "feeds": [
+    {
+      "name": "records",
+      "path": "feeds/records.json",
+      "media_type": "application/json",
+      "schema": "schemas/records.schema.json",
+      "kind": "collection",
+      "count": 51
+    },
+    {
+      "name": "timeline",
+      "path": "feeds/timeline.json",
+      "media_type": "application/json",
+      "schema": "schemas/timeline.schema.json",
+      "kind": "collection",
+      "count": 135
+    },
+    {
+      "name": "entities",
+      "path": "feeds/entities.json",
+      "media_type": "application/json",
+      "schema": "schemas/entities.schema.json",
+      "kind": "collection",
+      "count": 66
+    },
+    {
+      "name": "relationships",
+      "path": "feeds/relationships.json",
+      "media_type": "application/json",
+      "schema": "schemas/relationships.schema.json",
+      "kind": "collection",
+      "count": 68
+    },
+    {
+      "name": "people",
+      "path": "feeds/people.json",
+      "media_type": "application/json",
+      "schema": "schemas/people.schema.json",
+      "kind": "collection",
+      "count": 4
+    },
+    {
+      "name": "places",
+      "path": "feeds/places.json",
+      "media_type": "application/json",
+      "schema": "schemas/places.schema.json",
+      "kind": "collection",
+      "count": 1
+    },
+    {
+      "name": "candidates",
+      "path": "feeds/candidates.json",
+      "media_type": "application/json",
+      "schema": "schemas/candidates.schema.json",
+      "kind": "collection",
+      "count": 29
+    },
+    {
+      "name": "defense-contractors",
+      "path": "feeds/defense-contractors.json",
+      "media_type": "application/json",
+      "schema": "schemas/defense-contractors.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "meetings",
+      "path": "feeds/meetings.json",
+      "media_type": "application/json",
+      "schema": "schemas/meetings.schema.json",
+      "kind": "collection",
+      "count": 46
+    },
+    {
+      "name": "documents",
+      "path": "feeds/documents.json",
+      "media_type": "application/json",
+      "schema": "schemas/documents.schema.json",
+      "kind": "collection",
+      "count": 16
+    },
+    {
+      "name": "exhibits",
+      "path": "feeds/exhibits.json",
+      "media_type": "application/json",
+      "schema": "schemas/exhibits.schema.json",
+      "kind": "collection",
+      "count": 7
+    },
+    {
+      "name": "rsei",
+      "path": "feeds/rsei.json",
+      "media_type": "application/json",
+      "schema": "schemas/rsei.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "lei",
+      "path": "feeds/lei.json",
+      "media_type": "application/json",
+      "schema": "schemas/lei.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "economics-baseline",
+      "path": "feeds/economics-baseline.json",
+      "media_type": "application/json",
+      "schema": "schemas/economics-baseline.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "hydrology-scenarios",
+      "path": "feeds/hydrology-scenarios.json",
+      "media_type": "application/json",
+      "schema": "schemas/hydrology-scenarios.schema.json",
+      "kind": "collection",
+      "count": 2
+    },
+    {
+      "name": "geo/campus",
+      "path": "feeds/geo/campus.geojson",
+      "media_type": "application/geo+json",
+      "schema": "schemas/geo.schema.json",
+      "kind": "geojson",
+      "count": 10
+    },
+    {
+      "name": "geo/corridor",
+      "path": "feeds/geo/corridor.geojson",
+      "media_type": "application/geo+json",
+      "schema": "schemas/geo.schema.json",
+      "kind": "geojson",
+      "count": 2
+    },
+    {
+      "name": "geo/femaflood",
+      "path": "feeds/geo/femaflood.geojson",
+      "media_type": "application/geo+json",
+      "schema": "schemas/geo.schema.json",
+      "kind": "geojson",
+      "count": 11
+    },
+    {
+      "name": "geo/jsmc",
+      "path": "feeds/geo/jsmc.geojson",
+      "media_type": "application/geo+json",
+      "schema": "schemas/geo.schema.json",
+      "kind": "geojson",
+      "count": 5
+    },
+    {
+      "name": "geo/rsei",
+      "path": "feeds/geo/rsei.geojson",
+      "media_type": "application/geo+json",
+      "schema": "schemas/geo.schema.json",
+      "kind": "geojson",
+      "count": 45
+    },
+    {
+      "name": "geo/wwtp",
+      "path": "feeds/geo/wwtp.geojson",
+      "media_type": "application/geo+json",
+      "schema": "schemas/geo.schema.json",
+      "kind": "geojson",
+      "count": 3
+    }
+  ]
+}

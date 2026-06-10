@@ -1,0 +1,262 @@
+{
+  "$defs": {
+    "LeiAddress": {
+      "properties": {
+        "city": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "City"
+        },
+        "region": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Region"
+        },
+        "country": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Country"
+        }
+      },
+      "title": "LeiAddress",
+      "type": "object"
+    },
+    "LeiLead": {
+      "description": "A watchlist entity with no verified, unambiguous LEI pinned.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "query": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Query"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "LeiLead",
+      "type": "object"
+    },
+    "LeiRecord": {
+      "description": "A resolved LEI record for one watchlist entity.",
+      "properties": {
+        "watchlist_name": {
+          "title": "Watchlist Name",
+          "type": "string"
+        },
+        "lei": {
+          "title": "Lei",
+          "type": "string"
+        },
+        "legal_name": {
+          "title": "Legal Name",
+          "type": "string"
+        },
+        "jurisdiction": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Jurisdiction"
+        },
+        "legal_form": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Legal Form"
+        },
+        "entity_status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Entity Status"
+        },
+        "registration_status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Registration Status"
+        },
+        "last_update": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Update"
+        },
+        "legal_address": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LeiAddress"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "direct_parent": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LeiRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "ultimate_parent": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LeiRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "watchlist_name",
+        "lei",
+        "legal_name"
+      ],
+      "title": "LeiRecord",
+      "type": "object"
+    },
+    "LeiRef": {
+      "description": "A minimal reference to a related LEI entity (a parent).",
+      "properties": {
+        "lei": {
+          "title": "Lei",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "lei",
+        "name"
+      ],
+      "title": "LeiRef",
+      "type": "object"
+    }
+  },
+  "description": "The committed GLEIF resolution: provenance meta + records + unresolved leads.",
+  "properties": {
+    "meta": {
+      "additionalProperties": true,
+      "title": "Meta",
+      "type": "object"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/LeiRecord"
+      },
+      "title": "Records",
+      "type": "array"
+    },
+    "leads": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/LeiLead"
+      },
+      "title": "Leads",
+      "type": "array"
+    }
+  },
+  "required": [
+    "meta",
+    "records"
+  ],
+  "title": "LeiInventory",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

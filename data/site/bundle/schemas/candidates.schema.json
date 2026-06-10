@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "candidates feed",
+  "type": "array",
+  "items": {
+    "additionalProperties": false,
+    "description": "A demand-fit cloud-consumer candidate (curated, not corpus-derived).",
+    "properties": {
+      "name": {
+        "title": "Name",
+        "type": "string"
+      },
+      "tier": {
+        "title": "Tier",
+        "type": "integer"
+      },
+      "kind": {
+        "title": "Kind",
+        "type": "string"
+      },
+      "sector": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Sector"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Location"
+      },
+      "workload_classes": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Workload Classes",
+        "type": "array"
+      },
+      "confirmed_cloud_relationship": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Confirmed Cloud Relationship"
+      },
+      "speculative": {
+        "default": false,
+        "title": "Speculative",
+        "type": "boolean"
+      },
+      "basis": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Basis"
+      },
+      "entity_key": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Entity Key"
+      }
+    },
+    "required": [
+      "name",
+      "tier",
+      "kind"
+    ],
+    "title": "CandidateItem",
+    "type": "object"
+  }
+}

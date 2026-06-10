@@ -2105,6 +2105,28 @@ site_app = typer.Typer(
 app.add_typer(site_app, name="site")
 
 
+@app.command("export")
+def export(
+    out: str | None = typer.Option(
+        None, "--out", help="Output directory for the bundle (default: data/site/bundle)."
+    ),
+) -> None:
+    """Export the corpus as the typed JSON content bundle under data/site/bundle/ (regenerable).
+
+    The build-alongside data peer of `bosc site build`: writes versioned, schema-validated
+    JSON feeds (records, timeline, entities, geo, …) + a manifest for the new frontend,
+    without touching the legacy web/ + site/ render path.
+    """
+    from bosc.site import export_bundle
+
+    result = export_bundle(out_dir=Path(out) if out else None)
+    console.print(
+        f"[green]Exported[/] {result.out_dir} — {result.feed_count} feeds, {result.row_total} rows."
+    )
+    for ref in result.feeds:
+        console.print(f"[dim]  {ref.name:<22} {ref.count:>6}  {ref.path}[/]")
+
+
 @site_app.command("build")
 def site_build(
     notebooks: bool = typer.Option(

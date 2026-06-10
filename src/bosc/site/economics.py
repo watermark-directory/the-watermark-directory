@@ -140,3 +140,13 @@ def render_economics(baseline: EconomicBaseline) -> str:
     if baseline.note:
         lines += [f"*{baseline.note}*", ""]
     return "\n".join(lines)
+
+
+def export_economics(baseline: EconomicBaseline) -> EconomicBaseline:
+    """Export the localized economic baseline as a feed (it is already feed-ready).
+
+    Every number on the baseline is a :class:`~bosc.economics.model.ProvenancedValue`
+    (BLS QCEW / Census ACS), so the model already carries structured provenance per #60 —
+    the feed is the model itself; this exporter gives the module a uniform surface (#59).
+    """
+    return baseline
