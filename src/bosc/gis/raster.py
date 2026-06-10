@@ -123,19 +123,16 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def pull_capture(
-    scene: Scene,
-    site: TrackingSite,
-    *,
-    asset: str | None = None,
-    out_dir: Path | None = None,
-    settings: Settings | None = None,
-) -> Capture:
-    """Clip one scene asset to the site AOI and write a dated GeoTIFF + provenance sidecar."""
-    settings = settings or get_settings()
-    asset = asset or default_asset(scene.collection)
-    out_dir = out_dir if out_dir is not None else (settings.reference_dir / "imagery")
+def clip_asset(
+    scene: Scene, site: TrackingSite, asset: str, *, settings: Settings | None = None
+) -> tuple[Any, dict[str, Any], int | None, str]:
+    """Read one scene asset clipped to the site AOI.
 
+    Returns ``(array, GTiff profile, epsg, source label)`` — the shared windowed-read
+    core used by both :func:`pull_capture` (writes a GeoTIFF) and the index analysis
+    (does band math). Pixels are verbatim in the scene's native CRS — no resampling.
+    """
+    settings = settings or get_settings()
     src, label = _resolve_source(scene, asset, settings)
     with rasterio.open(src) as dataset:
         window = _aoi_window(dataset, site.bbox)
@@ -152,6 +149,23 @@ def pull_capture(
         profile.pop("blockxsize", None)
         profile.pop("blockysize", None)
         epsg = dataset.crs.to_epsg() if dataset.crs else None
+    return data, profile, epsg, label
+
+
+def pull_capture(
+    scene: Scene,
+    site: TrackingSite,
+    *,
+    asset: str | None = None,
+    out_dir: Path | None = None,
+    settings: Settings | None = None,
+) -> Capture:
+    """Clip one scene asset to the site AOI and write a dated GeoTIFF + provenance sidecar."""
+    settings = settings or get_settings()
+    asset = asset or default_asset(scene.collection)
+    out_dir = out_dir if out_dir is not None else (settings.reference_dir / "imagery")
+
+    data, profile, epsg, label = clip_asset(scene, site, asset, settings=settings)
 
     date = (scene.acquired or "unknown")[:10]
     dest = out_dir / site.id / scene.collection

@@ -26,6 +26,10 @@ Geospatial subsystem: tracking sites + satellite imagery. Defers to the root
     sidecar (sensing vs. retrieval date, `scene_id`, unsigned `source_url`, sha256).
     Per-collection default asset lives in `raster._DEFAULT_ASSET`
     (`raster.default_asset`); an offline fixture-COG miss raises `ImageryOfflineError`.
+  - *Analyze* (`analysis.compute_index`) reuses `raster.clip_asset` to read the band
+    COGs and compute **NDVI/NDWI** → a `derived` float32 raster + stats (mean, NDWI
+    **water fraction**). Bands per `(collection, index)` come from `analysis._BANDS`,
+    never hardcoded in the math. `bosc imagery index`.
 - **Pixels are verbatim, output is evidence.** Captures land under
   `data/reference/imagery/<site>/<collection>/` (GeoTIFFs are Git LFS — see
   `.gitattributes`). Never resample or alter beyond the logged clip; keep the

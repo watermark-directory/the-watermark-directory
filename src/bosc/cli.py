@@ -2570,6 +2570,72 @@ def imagery_pull(
     console.print(table)
 
 
+@imagery_app.command("index")
+def imagery_index(
+    site: str = typer.Argument(..., help="Tracking-site id (see `bosc imagery sites`)."),
+    index: str = typer.Option("ndvi", "--index", help="ndvi (vegetation) | ndwi (water)."),
+    collection: str | None = typer.Option(
+        None, "--collection", help="STAC collection (default: settings.gis_default_collection)."
+    ),
+    date_from: str | None = typer.Option(None, "--from", help="Start date, e.g. 2024-06-01."),
+    date_to: str | None = typer.Option(None, "--to", help="End date, e.g. 2024-09-30."),
+    max_cloud: float | None = typer.Option(None, "--max-cloud", help="Max eo:cloud_cover percent."),
+    out: str | None = typer.Option(
+        None, "--out", help="Output root (default: data/reference/imagery)."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use committed fixtures only; never touch the network."
+    ),
+) -> None:
+    """Compute a spectral index (NDVI/NDWI) for a site's newest scene → a derived raster.
+
+    NDVI flags vegetation loss / land disturbance; NDWI's water fraction measures open-water
+    extent (the reservoir signal). Writes a float32 GeoTIFF + a `derived`-tagged sidecar.
+    """
+    from typing import cast
+
+    from bosc.gis import analysis, imagery
+    from bosc.gis.raster import ImageryOfflineError
+
+    if index not in ("ndvi", "ndwi"):
+        console.print("[red]--index must be ndvi or ndwi[/]")
+        raise typer.Exit(1)
+    idx = cast(analysis.Index, index)
+    dt_range = f"{date_from or '..'}/{date_to or '..'}" if (date_from or date_to) else None
+    settings = _gis_offline_settings() if offline else get_settings()
+    out_dir = Path(out) if out else None
+    try:
+        site_obj, scenes = imagery.search_site(
+            site,
+            collection=collection,
+            datetime_range=dt_range,
+            max_cloud=max_cloud,
+            limit=1,
+            settings=settings,
+        )
+    except KeyError as exc:
+        console.print(f"[red]{exc}[/] — see [bold]bosc imagery sites[/].")
+        raise typer.Exit(1) from exc
+    if not scenes:
+        console.print("[yellow]No scenes matched[/] — widen --from/--to or raise --max-cloud.")
+        raise typer.Exit(1)
+
+    try:
+        r = analysis.compute_index(
+            scenes[0], site_obj, index=idx, out_dir=out_dir, settings=settings
+        )
+    except ImageryOfflineError as exc:
+        console.print(f"[red]offline:[/] {exc}")
+        raise typer.Exit(1) from exc
+
+    console.print(
+        f"[bold]{site_obj.name}[/] [{r.collection}] {r.index.upper()} @ {(r.acquired or '—')[:10]} "
+        f"— mean=[bold]{r.mean}[/] valid={r.valid_fraction}"
+        + (f" water=[bold]{r.water_fraction}[/]" if r.water_fraction is not None else "")
+    )
+    console.print(f"  [dim]{r.path}[/]")
+
+
 poi_app = typer.Typer(
     name="poi",
     help="Points of interest (places) — the curated, depth-marked place store.",
