@@ -50,7 +50,8 @@ class MergeGroup(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    parcel_no: str | None  # canonical key (None = the unresolved bucket)
+    key: str | None = None  # the blocking key: parcel_no, else a gnis-/geo- fallback
+    parcel_no: str | None  # the parcel number (None for a non-parcel feature/unresolved)
     parcel: Parcel | None
     members: list[MergeMember]
     has_exact_id: bool  # >=1 exact parcel-id member (fixes the identity)
@@ -68,10 +69,10 @@ def merge_resolutions(items: list[Item], *, settings: Settings | None = None) ->
 
     blocks: dict[str | None, list[Item]] = {}
     for cand, res in items:
-        blocks.setdefault(res.parcel_no, []).append((cand, res))
+        blocks.setdefault(res.key, []).append((cand, res))  # parcel_no, else fallback key
 
     groups: list[MergeGroup] = []
-    for parcel_no, pairs in blocks.items():
+    for key, pairs in blocks.items():
         members = [
             MergeMember(
                 kind=c.kind,
@@ -85,18 +86,20 @@ def merge_resolutions(items: list[Item], *, settings: Settings | None = None) ->
         ]
         has_exact_id = any(m.kind == "parcel-id" and m.auto_mergeable for m in members)
         parcel = next((r.parcel for _, r in pairs if r.parcel is not None), None)
+        parcel_no = next((r.parcel_no for _, r in pairs if r.parcel_no is not None), None)
         is_covered = parcel_no is not None and parcel_no in covered
         status: MergeStatus = (
             "unresolved"
-            if parcel_no is None
+            if key is None
             else "covered"
             if is_covered
             else "auto"
             if has_exact_id
-            else "review"
+            else "review"  # a geocoded/GNIS proposal — confirm before merging
         )
         groups.append(
             MergeGroup(
+                key=key,
                 parcel_no=parcel_no,
                 parcel=parcel,
                 members=members,
@@ -105,7 +108,7 @@ def merge_resolutions(items: list[Item], *, settings: Settings | None = None) ->
                 status=status,
             )
         )
-    groups.sort(key=lambda g: (_STATUS_ORDER[g.status], -len(g.members), g.parcel_no or ""))
+    groups.sort(key=lambda g: (_STATUS_ORDER[g.status], -len(g.members), g.key or ""))
     return groups
 
 

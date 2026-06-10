@@ -160,6 +160,12 @@ class Settings(BaseSettings):
     poi_offline: bool = False  # serve cached/fixture geocoder responses only; never fetch
     poi_request_timeout_s: float = 30.0
     poi_fixtures_dir: Path | None = None  # committed connector fixtures (tests/CI)
+    # USGS GNIS (geonames) via the National Map ArcGIS service — for non-parcel features
+    # (rivers, water bodies, landforms) the parcel funnel can't anchor. Free, no key,
+    # public domain. The gaz_id is a stable identity; default to hydrographic layers.
+    gnis_url: str = "https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer"
+    gnis_default_state: str = "OH"
+    gnis_layers: list[int] = Field(default_factory=lambda: [6, 7])  # Streams, Other Hydro
 
     # --- Documents library -------------------------------------------------
     # The full source corpus (~5 GB) is too large to republish on a static host,

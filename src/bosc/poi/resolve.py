@@ -27,10 +27,36 @@ from bosc.hydrology.connectors.allen_gis import (
     parcel_at_point,
 )
 from bosc.poi.connectors.census_geocoder import geocode_address
+from bosc.poi.connectors.gnis import find_feature
 from bosc.poi.model import POICandidate
 
-Method = Literal["parcel-id", "geocode+parcel-at-point", "geocode-only", "unresolved"]
+Method = Literal["parcel-id", "geocode+parcel-at-point", "geocode-only", "gnis", "unresolved"]
 Confidence = Literal["high", "medium", "low", "none"]
+
+_GEOHASH_B32 = "0123456789bcdefghjkmnpqrstuvwxyz"
+
+
+def _geohash(lat: float, lon: float, precision: int = 9) -> str:
+    """A standard geohash of a point — the fallback identity key for a non-parcel place."""
+    lat_lo, lat_hi, lon_lo, lon_hi = -90.0, 90.0, -180.0, 180.0
+    out: list[str] = []
+    ch = bit = 0
+    even = True
+    while len(out) < precision:
+        if even:
+            mid = (lon_lo + lon_hi) / 2
+            ch = (ch << 1) | 1 if lon >= mid else ch << 1
+            lon_lo, lon_hi = (mid, lon_hi) if lon >= mid else (lon_lo, mid)
+        else:
+            mid = (lat_lo + lat_hi) / 2
+            ch = (ch << 1) | 1 if lat >= mid else ch << 1
+            lat_lo, lat_hi = (mid, lat_hi) if lat >= mid else (lat_lo, mid)
+        even = not even
+        bit += 1
+        if bit == 5:
+            out.append(_GEOHASH_B32[ch])
+            ch = bit = 0
+    return "".join(out)
 
 
 class Resolution(BaseModel):
@@ -38,16 +64,22 @@ class Resolution(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    kind: str  # the candidate kind (parcel-id | address | coord)
+    kind: str  # the candidate kind (parcel-id | address | coord | feature)
     value: str  # the input value
     method: Method
     confidence: Confidence
-    parcel_no: str | None  # canonical PARCEL_NO when resolved
+    parcel_no: str | None  # canonical PARCEL_NO when resolved to a parcel
     parcel: Parcel | None  # the resolved parcel's CAMA attributes
     point: tuple[float, float] | None  # (lon, lat) when geocoded
-    matched_address: str | None  # the geocoder's normalized address
+    matched_address: str | None  # the geocoder's / GNIS normalized name
     auto_mergeable: bool  # True only for an exact parcel-id resolution
+    fallback_key: str | None = None  # non-parcel identity (gnis-<id> | geo-<geohash>)
     note: str | None = None
+
+    @property
+    def key(self) -> str | None:
+        """The canonical blocking key: the parcel number, else the non-parcel fallback."""
+        return self.parcel_no or self.fallback_key
 
 
 def resolve_candidate(candidate: POICandidate, *, settings: Settings | None = None) -> Resolution:
@@ -64,6 +96,8 @@ def resolve_value(kind: str, value: str, *, settings: Settings | None = None) ->
         return _resolve_address(value, settings)
     if kind == "coord":
         return _resolve_coord(value, settings)
+    if kind in ("feature", "name"):
+        return _resolve_feature(value, settings)
     return _unresolved(kind, value, "unsupported candidate kind")
 
 
@@ -101,6 +135,7 @@ def _resolve_address(value: str, settings: Settings) -> Resolution:
             point=point,
             matched_address=match.matched_address,
             auto_mergeable=False,
+            fallback_key=f"geo-{_geohash(match.lat, match.lon)}",
             note="geocoded but no containing parcel (out of county / bad match?)",
         )
     return Resolution(
@@ -137,6 +172,27 @@ def _resolve_coord(value: str, settings: Settings) -> Resolution:
         matched_address=None,
         auto_mergeable=False,
         note="point → parcel is a proposal; confirm before merging",
+    )
+
+
+def _resolve_feature(value: str, settings: Settings) -> Resolution:
+    """A named feature (river, water body, landform) → GNIS point + ``gnis-<id>`` key."""
+    feature = find_feature(value, settings=settings)
+    if feature is None:
+        return _unresolved("feature", value, "no GNIS match")
+    where = f"{feature.county} Co, {feature.state}" if feature.county else feature.state
+    return Resolution(
+        kind="feature",
+        value=value,
+        method="gnis",
+        confidence="medium",
+        parcel_no=None,  # a feature has no parcel — identity is the GNIS id
+        parcel=None,
+        point=(feature.lon, feature.lat),
+        matched_address=f"{feature.name} ({feature.feature_class}, {where})",
+        auto_mergeable=False,
+        fallback_key=feature.key,
+        note="GNIS feature (no parcel) — a proposal; confirm before merging",
     )
 
 

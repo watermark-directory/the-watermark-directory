@@ -128,7 +128,7 @@ class POICandidate(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    kind: Literal["parcel-id", "address"]
+    kind: Literal["parcel-id", "address", "feature"]
     value: str  # a representative verbatim form
     normalized: str  # the coverage/dedup key (digits-only parcel; upper-cased address)
     occurrences: int  # total mentions across the corpus
