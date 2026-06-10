@@ -3,8 +3,9 @@
 The spine is the four county/Lima WWTP discharges (document-sourced design flows
 from ``watch-items.geojson``), each routed to its cited receiving water. The
 forcing function — the BOSC data-center campus — contributes its documented FM-2
-discharge plus an *assumption* knob for consumptive cooling demand. The abstraction
-end is grounded with *live* NWIS river flow when available.
+discharge plus a *derived* consumptive cooling loss (the sourced power-based central
+from ``bosc.hydrology.cooling``). The abstraction end is grounded with *live* NWIS
+river flow when available.
 
 Everything the headline assimilative check depends on (WWTP discharge -> named
 receiving water) is ``document``-sourced; the abstraction/demand context is clearly
@@ -20,6 +21,7 @@ from typing import Any
 
 from bosc.config import Settings, get_settings
 from bosc.hydrology.connectors.nwis import DISCHARGE_CFS, fetch_streamflow
+from bosc.hydrology.cooling import derive_cooling_basis
 from bosc.hydrology.model import Node, ProvenancedValue, WaterBalance, WaterBalanceNode
 from bosc.hydrology.routing import RoutingTable, load_routing
 from bosc.hydrology.units import mgd_to_cfs
@@ -133,7 +135,7 @@ def _wwtp_nodes(
 
 
 def _campus_node(path: Path, warnings: list[str]) -> WaterBalanceNode:
-    """The BOSC data-center campus: documented FM-2 discharge + an assumption demand knob."""
+    """The BOSC data-center campus: documented FM-2 discharge + a derived cooling loss."""
     fm2_mgd: float | None = None
     for feat in _features(path):
         props = feat.get("properties") or {}
@@ -151,16 +153,28 @@ def _campus_node(path: Path, warnings: list[str]) -> WaterBalanceNode:
     else:
         warnings.append("BOSC campus: FM-2 discharge not found in watch-items.")
 
-    # Cooling demand and consumptive loss are NOT in any record — the dominant
-    # uncertainty, carried as an explicit assumption knob (the scenario lever).
-    consumptive = ProvenancedValue.assume(
-        0.0,
+    # Cooling consumptive loss isn't metered, but the design basis is now sourced:
+    # derive_cooling_basis() brackets the evaporative consumptive draw from the disclosed
+    # air-permit power figure (x WUE) and the documented FM-2 blowdown. Carry the
+    # conservative power-based central as the campus's projected consumptive (net basin)
+    # loss — `derived`, not a 0 placeholder. The scenario layer (`bosc scenario`)
+    # re-derives baseline-vs-buildout and can override via `--cooling-demand`.
+    basis = derive_cooling_basis()
+    low, high = basis.consumptive_low.value, basis.consumptive_high.value
+    loss_cfs = mgd_to_cfs(low)
+    consumptive = ProvenancedValue.derived(
+        round(loss_cfs, 3),
         "cfs",
-        why="data-center evaporative cooling consumptive loss — design basis TBD; "
-        "placeholder zero until a cooling spec is sourced (Increment 3 scenario knob)",
+        citation=(
+            f"derived cooling basis (power-based central): {low:g} MGD evaporative consumptive "
+            f"(range {low:g}-{high:g} MGD), {basis.it_load.value:g} MW IT x {basis.wue.value:g} "
+            f"L/kWh — see bosc.hydrology.cooling"
+        ),
     )
     warnings.append(
-        "BOSC campus consumptive cooling demand is an unsourced assumption (0 cfs placeholder)."
+        f"BOSC campus consumptive cooling is a derived estimate (~{loss_cfs:.1f} cfs central; "
+        f"{low:g}-{high:g} MGD evaporative) from the air-permit power figure x WUE — not a "
+        f"metered or permitted value."
     )
     node = Node(id="bosc-campus", name="BOSC data-center campus", role="demand")
     return WaterBalanceNode(node=node, return_flow=return_flow, consumptive_use=consumptive)
