@@ -78,7 +78,11 @@ const identifiers: [string, string][] = [
         </ul>
       )
     }
-    <p class="stub-note">The interactive entity-graph view (DeckGL) lands in #73.</p>
+    <p>
+      <a href={`${withBase("/wiki/graph")}#${slugify(entity.key)}`}>
+        View this neighborhood in the interactive graph →
+      </a>
+    </p>
 
     {
       entity.sources.length > 0 && (

@@ -77,6 +77,21 @@ vanilla client matcher (`src/scripts/search.ts`) does an all-terms substring
 match, title hits first. Ported from the legacy site's `search.js` — no lunr, no
 external host needed.
 
+## Interactive maps & the entity graph (deck.gl)
+
+The map/graph visualizations (Epic #55) are **React islands** — the only React in
+the app — mounted `client:only` so their JS (deck.gl + MapLibre, ~heavy) loads
+**only** on those pages; the rest of the site stays zero-framework. Each island
+has a **server-rendered no-JS fallback** (a legend + feature table, or the entity
+list) that doubles as a plain data view.
+
+- **Corridor map** (`/watershed/map`, [#71](https://github.com/goedelsoup/bosc/issues/71)) — `src/components/islands/CorridorMap.tsx`, deck.gl `GeoJsonLayer`s over a MapLibre basemap with dated Esri Wayback aerials. Styled **entirely from the feed** (`color`/`role`/`radius`); the data is the geo feeds merged by the `/feeds/geo/corridor-map.geojson` endpoint.
+- **Entity graph** (`/wiki/graph`, [#73](https://github.com/goedelsoup/bosc/issues/73)) — `src/components/islands/EntityGraph.tsx`, a deck.gl `OrthographicView` over nodes/edges laid out at build time by `d3-force` (`/feeds/graph.json`, deterministic). Click a node → its wiki page; entity pages deep-link `/wiki/graph#<slug>` to focus a neighborhood.
+
+The islands are build-verified (bundle, mount, endpoint fetch); a quick **browser
+visual pass** is still worth doing (WebGL rendering isn't covered by `astro check`).
+The watershed map proper + imagery slider ([#72](https://github.com/goedelsoup/bosc/issues/72)) await committed watershed-boundary geometry + imagery feeds (E1.4).
+
 ## Evidence tags
 
 `src/components/EvidenceTag.astro` renders the corpus's inline confidence markers
@@ -120,4 +135,9 @@ sections:
 - **C. The Maumee watershed** ([#67](https://github.com/goedelsoup/bosc/issues/67)) — the water-balance/scenario dashboard, the geo-layer inventory + DeckGL mount point, an imagery slider, and RSEI. The DeckGL map itself is E3.3 (#72).
 - **D. Wiki** ([#68](https://github.com/goedelsoup/bosc/issues/68)) — entity pages (graph neighborhood + backlinks), concept pages, and the `[[wiki-link]]` resolver over the new `concepts` feed (a Python data-tier addition — `data/concepts/*.md`, contract `1.1.0`). The interactive entity-graph viz is E3.4 (#73).
 
-Next: the narrative MDX content collection (#69), and the DeckGL layer (#71–#73).
+Plus the **deck.gl visualization layer** (Epic #55): the corridor map
+([#71](https://github.com/goedelsoup/bosc/issues/71)) and the entity graph
+([#73](https://github.com/goedelsoup/bosc/issues/73)).
+
+Next: the narrative MDX content collection (#69); the watershed map + imagery
+slider (#72, blocked on E1.4 geometry/imagery feeds).

@@ -25,7 +25,8 @@ const concepts = hasFeed("concepts") ? loadFeed<ConceptItem[]>("concepts") : [];
     <h2 id="entities">Entities</h2>
     <p>
       {count("entities")} resolved parties, each with its graph neighborhood and
-      sources. → <a href={withBase("/wiki/entities/")}>Browse entities</a>
+      sources. → <a href={withBase("/wiki/entities/")}>Browse entities</a> ·
+      <a href={withBase("/wiki/graph")}>open the interactive graph</a>
     </p>
     <ul class="neighborhood">
       {
