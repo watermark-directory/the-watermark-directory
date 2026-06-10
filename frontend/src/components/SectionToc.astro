@@ -1,0 +1,25 @@
+---
+import { getSection, type SectionId } from "../lib/nav";
+import { withBase } from "../lib/site";
+
+interface Props {
+  section: SectionId;
+}
+const { section } = Astro.props;
+const data = getSection(section);
+---
+
+<aside class="section-toc" aria-label={`${data.label} — contents`}>
+  <div class="section-toc-title">{data.label}</div>
+  <nav>
+    <ul>
+      {
+        data.toc.map((t) => (
+          <li>
+            <a href={`${withBase(data.href)}#${t.anchor}`}>{t.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</aside>

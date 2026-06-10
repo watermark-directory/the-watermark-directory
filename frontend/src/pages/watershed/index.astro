@@ -1,0 +1,49 @@
+---
+import BeforeAfterSlider from "../../components/BeforeAfterSlider.astro";
+import Base from "../../layouts/Base.astro";
+import { hasFeed, loadManifest } from "../../lib/bundle";
+import { withBase } from "../../lib/site";
+
+const manifest = loadManifest();
+const geoLayers = manifest.feeds.filter((f) => f.name.startsWith("geo/"));
+const scenarios = manifest.feeds.find((f) => f.name === "hydrology-scenarios")?.count ?? 0;
+const rseiFeatures = manifest.feeds.find((f) => f.name === "geo/rsei")?.count ?? 0;
+---
+
+<Base title="The Maumee watershed" section="watershed">
+  <article class="prose">
+    <h1>The Maumee watershed</h1>
+    <p class="section-lead">
+      The water the BOSC site sits in: stormwater and water-balance modeling of
+      the Lima municipal loop, the watershed map, imagery before/during/after,
+      and the RSEI toxic-release picture.
+    </p>
+
+    <h2 id="hydrology">Hydrology</h2>
+    <p>
+      {scenarios} committed water-balance / stormwater scenario(s) — the low-flow
+      dilution / assimilative screen. → <a href={withBase("/watershed/hydrology")}>Open the dashboard</a>
+    </p>
+
+    <h2 id="map">Watershed map</h2>
+    <p>{geoLayers.length} typed GeoJSON layer(s) ready for the map:</p>
+    <ul>
+      {geoLayers.map((g) => <li><code>{g.name}</code> — {g.count} feature(s)</li>)}
+    </ul>
+    <div class="viz-mount">
+      The DeckGL + MapLibre watershed map mounts here (E3.3 / #72). The typed
+      <code>geo/*</code> layers above are its data; the prototype lives in
+      <code>spikes/deckgl-corridor/</code>.
+    </div>
+
+    <h2 id="imagery">Imagery</h2>
+    <BeforeAfterSlider />
+
+    <h2 id="rsei">RSEI / toxics</h2>
+    <p>
+      {hasFeed("rsei") ? "EPA RSEI toxic-release inventory available" : "No RSEI inventory feed in this bundle"}
+      {rseiFeatures ? `; ${rseiFeatures} mapped release site(s).` : "."}
+      {hasFeed("rsei") && <> → <a href={withBase("/watershed/rsei")}>Open the inventory</a></>}
+    </p>
+  </article>
+</Base>

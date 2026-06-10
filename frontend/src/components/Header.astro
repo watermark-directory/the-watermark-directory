@@ -1,0 +1,44 @@
+---
+import { SECTIONS, type SectionId } from "../lib/nav";
+import { SITE_NAME, SITE_TAGLINE, withBase } from "../lib/site";
+
+interface Props {
+  active: SectionId;
+}
+const { active } = Astro.props;
+const searchIndexUrl = withBase("/search-index.json");
+const base = import.meta.env.BASE_URL || "/";
+---
+
+<header class="topbar">
+  <label for="bosc-nav-toggle" class="nav-burger" aria-label="Toggle navigation">☰</label>
+  <a class="brand" href={withBase("/")}>
+    <strong>{SITE_NAME}</strong> <span class="brand-tagline">— {SITE_TAGLINE}</span>
+  </a>
+  <nav class="sections" aria-label="Sections">
+    {
+      SECTIONS.map((s) => (
+        <a
+          class:list={["section-tab", { active: s.id === active }]}
+          href={withBase(s.href)}
+          aria-current={s.id === active ? "page" : undefined}
+        >
+          {s.label}
+        </a>
+      ))
+    }
+  </nav>
+  <div class="search">
+    <input
+      type="search"
+      id="bosc-search"
+      placeholder="Search…"
+      autocomplete="off"
+      aria-label="Search the corpus"
+      spellcheck="false"
+      data-index={searchIndexUrl}
+      data-base={base}
+    />
+    <div id="bosc-search-results" class="search-results" hidden></div>
+  </div>
+</header>

@@ -1,0 +1,55 @@
+---
+import Base from "../../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import { formatBytes, type DocumentCollectionItem } from "../../../lib/feeds";
+
+const collections = hasFeed("documents") ? loadFeed<DocumentCollectionItem[]>("documents") : [];
+const totalFiles = collections.reduce((a, c) => a + c.entries.length, 0);
+---
+
+<Base title="Documents catalog" section="site">
+  <article class="prose">
+    <h1>Documents catalog</h1>
+    <p class="section-lead">
+      {totalFiles.toLocaleString("en-US")} primary source documents across
+      {collections.length} collections, mirrored from <code>data/documents/</code>.
+      Source bytes are immutable chain-of-custody evidence; as-received filenames
+      are preserved verbatim.
+    </p>
+
+    {
+      collections.map((c) => (
+        <section id={`doc-${c.slug}`}>
+          <h2>{c.title}</h2>
+          {c.description && <p set:html={c.description} />}
+          <table>
+            <thead>
+              <tr>
+                <th>File</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {c.entries.map((e) => (
+                <tr>
+                  <td>
+                    {e.download_url ? (
+                      <a href={e.download_url}>{e.name}</a>
+                    ) : (
+                      <code>{e.name}</code>
+                    )}
+                  </td>
+                  <td>{e.suffix}</td>
+                  <td>{formatBytes(e.size_bytes)}</td>
+                  <td>{e.available ? "present" : "LFS pointer"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      ))
+    }
+  </article>
+</Base>

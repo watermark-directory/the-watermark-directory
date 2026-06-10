@@ -1,0 +1,8 @@
+# Astro / Node build artifacts — regenerable, never committed.
+node_modules/
+dist/
+.astro/
+
+# Local env overrides (e.g. BOSC_BUNDLE_DIR).
+.env
+.env.local

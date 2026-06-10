@@ -1,0 +1,19 @@
+---
+// Evidence-discipline badge — the corpus marks confidence inline as
+// [verified] / [inference] / [open] / [filename]; this tints them so a reader
+// sees the provenance at a glance. Pair with a Citation via `evidenceKind()`.
+export type EvidenceKind = "verified" | "inference" | "open" | "filename";
+
+interface Props {
+  kind: EvidenceKind;
+  /** Override label text; defaults to the kind. */
+  label?: string;
+  /** Tooltip (e.g. the source or note). */
+  title?: string;
+}
+const { kind, label, title } = Astro.props;
+---
+
+<span class:list={["evidence", `evidence-${kind}`]} title={title} data-kind={kind}>
+  {label ?? kind}
+</span>

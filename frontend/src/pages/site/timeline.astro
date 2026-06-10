@@ -1,0 +1,53 @@
+---
+import Base from "../../layouts/Base.astro";
+import EvidenceTag from "../../components/EvidenceTag.astro";
+import { hasFeed, loadFeed } from "../../lib/bundle";
+import { evidenceKind, type TimelineEntry } from "../../lib/feeds";
+
+const events = hasFeed("timeline") ? loadFeed<TimelineEntry[]>("timeline") : [];
+
+// Group by year (undated events last, under "Undated").
+const yearOf = (e: TimelineEntry): string => (e.date.match(/^\d{4}/)?.[0] ?? "Undated");
+const byYear = new Map<string, TimelineEntry[]>();
+for (const e of events) {
+  const y = yearOf(e);
+  (byYear.get(y) ?? byYear.set(y, []).get(y)!).push(e);
+}
+const years = [...byYear.keys()].sort((a, b) => {
+  if (a === "Undated") return 1;
+  if (b === "Undated") return -1;
+  return a.localeCompare(b);
+});
+---
+
+<Base title="Timeline" section="site">
+  <article class="prose">
+    <h1>Timeline</h1>
+    <p class="section-lead">
+      {events.length} dated events, each traceable to the extraction(s) that
+      supplied it. The pill marks a <EvidenceTag kind="verified" /> citation vs
+      an <EvidenceTag kind="inference" /> one.
+    </p>
+
+    {
+      years.map((y) => (
+        <section class="timeline-year">
+          <h2>{y}</h2>
+          <ul class="timeline-list">
+            {byYear
+              .get(y)!
+              .sort((a, b) => a.date.localeCompare(b.date))
+              .map((e) => (
+                <li>
+                  <span class="timeline-date">{e.date || "—"}</span>
+                  <strong>{e.title}</strong>{" "}
+                  <EvidenceTag kind={evidenceKind(e.citation)} title={e.source} />
+                  {e.detail && <div class="card-meta">{e.detail}</div>}
+                </li>
+              ))}
+          </ul>
+        </section>
+      ))
+    }
+  </article>
+</Base>

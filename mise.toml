@@ -8,7 +8,7 @@
 [tools]
 python = "3.11"
 uv = "latest"
-node = "lts"
+node = "24"        # pinned LTS for the Astro frontend/ build (CI uses the same major)
 git-lfs = "latest"
 
 [env]
@@ -37,4 +37,13 @@ description = "Auto-fix lint issues and format"
 run = [
   "uv run ruff check --fix .",
   "uv run ruff format .",
+]
+
+[tasks.frontend]
+description = "Type-check and build the Astro frontend (reads the content bundle)"
+dir = "frontend"
+run = [
+  "npm ci",
+  "npm run check",
+  "npm run build",
 ]

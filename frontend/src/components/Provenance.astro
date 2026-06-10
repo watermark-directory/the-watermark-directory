@@ -1,0 +1,18 @@
+---
+import { evidenceKind, type Citation } from "../lib/feeds";
+import EvidenceTag from "./EvidenceTag.astro";
+
+interface Props {
+  citation?: Citation | null;
+  /** Extra source paths (e.g. timeline also_sources). */
+  also?: string[];
+}
+const { citation, also = [] } = Astro.props;
+---
+
+<div class="provenance">
+  {citation && <EvidenceTag kind={evidenceKind(citation)} title={citation.note ?? undefined} />}
+  {citation?.source && <code>{citation.source}{citation.page ? ` p.${citation.page}` : ""}</code>}
+  {citation?.confidence && <span> · {citation.confidence} confidence</span>}
+  {also.length > 0 && <span> · also: {also.map((s) => <code>{s}</code>)}</span>}
+</div>

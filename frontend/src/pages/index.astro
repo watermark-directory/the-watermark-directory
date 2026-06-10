@@ -1,0 +1,105 @@
+---
+import Base from "../layouts/Base.astro";
+import { bundleDir, hasFeed, loadFeed, loadManifest } from "../lib/bundle";
+import { type DocumentCollectionItem } from "../lib/feeds";
+import { SECTIONS } from "../lib/nav";
+import { withBase } from "../lib/site";
+
+const manifest = loadManifest();
+const byName = new Map(manifest.feeds.map((f) => [f.name, f]));
+const count = (name: string): number => byName.get(name)?.count ?? 0;
+const num = (n: number): string => n.toLocaleString("en-US");
+
+// Documents feed counts collections; total files = sum of their entries.
+const docCollections = hasFeed("documents") ? loadFeed<DocumentCollectionItem[]>("documents") : [];
+const nDocuments = docCollections.reduce((a, c) => a + c.entries.length, 0);
+const nCollections = docCollections.length;
+
+// The four doors (every section but this one).
+const doors = SECTIONS.filter((s) => s.id !== "home");
+---
+
+<Base title="Project BOSC" section="home" description="Project BOSC — the public record.">
+  <article class="prose">
+    <h1>Project BOSC — the public record</h1>
+    <p class="section-lead">
+      Project BOSC reconstructs the public record of a <strong>Google data-center
+      campus</strong> being built on the North Cole Street corridor in Lima, Ohio
+      — a record kept deliberately thin. Primary documents (degraded scans, OCR
+      PDFs) are read into reviewed, cited, structured data, and the analysis is
+      built only on what those documents support.
+    </p>
+
+    <div class="callout callout-warning" id="disclaimer">
+      <p class="callout-title">What this is — and is not</p>
+      <p>
+        This site publishes <strong>public records</strong> and analysis of them.
+        Registered-agent and organizer overlaps are <em>common-control
+        plumbing</em>, <strong>not</strong> statements about beneficial
+        ownership. Claims are tagged <code>[verified]</code> (read from a cited
+        extraction) or <code>[inference]</code> (a labelled reading of the
+        record). Nothing here is legal advice; verify every figure against the
+        cited source before quoting it in a filing.
+      </p>
+    </div>
+
+    <h2 id="corpus">The corpus at a glance</h2>
+    <p>
+      Built from content-bundle <code>{manifest.bundle_version}</code>
+      (contract <code>{manifest.contract_version}</code>).
+    </p>
+    <ul>
+      <li>
+        <strong>{num(nDocuments)}</strong> primary source documents in the
+        <a href={`${withBase("/site/")}#documents`}>catalog</a>, across
+        {num(nCollections)} collections
+      </li>
+      <li>
+        <strong>{num(count("records"))}</strong> structured records across deeds,
+        EPA/USACE and NPDES permits, Secretary-of-State filings, plans, and cost
+        estimates
+      </li>
+      <li>
+        <strong>{num(count("entities"))}</strong> resolved entities and
+        <strong>{num(count("relationships"))}</strong> relationships in the
+        <a href={`${withBase("/wiki/")}#entities`}>entity graph</a>
+      </li>
+      <li>
+        <strong>{num(count("timeline"))}</strong> dated events in the
+        <a href={`${withBase("/site/")}#timeline`}>timeline</a>
+      </li>
+    </ul>
+
+    <h2>Explore the record</h2>
+    <div class="doors">
+      {
+        doors.map((s) => (
+          <a class="door" href={withBase(s.href)}>
+            <span class="door-label">{s.label}</span>
+            <span class="door-blurb">{s.blurb}</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <h2 id="methodology">Methodology</h2>
+    <p>
+      Each record is read from the <em>image</em>, not the OCR text layer (whose
+      digits are unreliable), validated against a typed schema, and cited back to
+      a source page — confidence surfaced inline as evidence tags. The full
+      write-up, taught through runnable notebooks, lives in
+      <a href={withBase("/about/")}>About</a> (the narrative methodology page
+      migrates in #69).
+    </p>
+
+    <h2 id="bigger-picture">The bigger picture</h2>
+    <p>
+      The BOSC site is one node in a regional data-center build-out; placing the
+      document-by-document record against the watershed's water balance is how
+      the analysis moves from anecdote to evidence. How Lima compares to the
+      broader boom is sketched in <a href={withBase("/about/")}>About</a>.
+    </p>
+
+    <p class="stub-note">Bundle source: <code>{bundleDir()}</code>.</p>
+  </article>
+</Base>

@@ -1,0 +1,113 @@
+{
+  "bundle_version": "1.0.0",
+  "contract_version": "1.1.0",
+  "generated_at": "2026-06-10T00:00:00+00:00",
+  "feed_count": 13,
+  "row_total": 38,
+  "feeds": [
+    {
+      "name": "records",
+      "path": "feeds/records.json",
+      "media_type": "application/json",
+      "schema": "schemas/records.schema.json",
+      "kind": "collection",
+      "count": 3
+    },
+    {
+      "name": "timeline",
+      "path": "feeds/timeline.json",
+      "media_type": "application/json",
+      "schema": "schemas/timeline.schema.json",
+      "kind": "collection",
+      "count": 4
+    },
+    {
+      "name": "entities",
+      "path": "feeds/entities.json",
+      "media_type": "application/json",
+      "schema": "schemas/entities.schema.json",
+      "kind": "collection",
+      "count": 5
+    },
+    {
+      "name": "relationships",
+      "path": "feeds/relationships.json",
+      "media_type": "application/json",
+      "schema": "schemas/relationships.schema.json",
+      "kind": "collection",
+      "count": 5
+    },
+    {
+      "name": "people",
+      "path": "feeds/people.json",
+      "media_type": "application/json",
+      "schema": "schemas/people.schema.json",
+      "kind": "collection",
+      "count": 2
+    },
+    {
+      "name": "places",
+      "path": "feeds/places.json",
+      "media_type": "application/json",
+      "schema": "schemas/places.schema.json",
+      "kind": "collection",
+      "count": 1
+    },
+    {
+      "name": "meetings",
+      "path": "feeds/meetings.json",
+      "media_type": "application/json",
+      "schema": "schemas/meetings.schema.json",
+      "kind": "collection",
+      "count": 2
+    },
+    {
+      "name": "exhibits",
+      "path": "feeds/exhibits.json",
+      "media_type": "application/json",
+      "schema": "schemas/exhibits.schema.json",
+      "kind": "collection",
+      "count": 4
+    },
+    {
+      "name": "documents",
+      "path": "feeds/documents.json",
+      "media_type": "application/json",
+      "schema": "schemas/documents.schema.json",
+      "kind": "collection",
+      "count": 1
+    },
+    {
+      "name": "hydrology-scenarios",
+      "path": "feeds/hydrology-scenarios.json",
+      "media_type": "application/json",
+      "schema": "schemas/hydrology-scenarios.schema.json",
+      "kind": "collection",
+      "count": 2
+    },
+    {
+      "name": "concepts",
+      "path": "feeds/concepts.json",
+      "media_type": "application/json",
+      "schema": "schemas/concepts.schema.json",
+      "kind": "collection",
+      "count": 6
+    },
+    {
+      "name": "rsei",
+      "path": "feeds/rsei.json",
+      "media_type": "application/json",
+      "schema": "schemas/rsei.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "geo/campus",
+      "path": "feeds/geo/campus.geojson",
+      "media_type": "application/geo+json",
+      "schema": "schemas/geo.schema.json",
+      "kind": "geojson",
+      "count": 2
+    }
+  ]
+}

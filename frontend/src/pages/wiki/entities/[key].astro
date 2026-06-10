@@ -1,0 +1,111 @@
+---
+import type { GetStaticPaths } from "astro";
+import Base from "../../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import { slugify, type EntityNode, type PersonItem, type RelationshipEdge } from "../../../lib/feeds";
+import { withBase } from "../../../lib/site";
+
+export const getStaticPaths = (() => {
+  const entities = hasFeed("entities") ? loadFeed<EntityNode[]>("entities") : [];
+  const rels = hasFeed("relationships") ? loadFeed<RelationshipEdge[]>("relationships") : [];
+  const people = hasFeed("people") ? loadFeed<PersonItem[]>("people") : [];
+  const display: Record<string, string> = Object.fromEntries(entities.map((e) => [e.key, e.display]));
+  return entities.map((entity) => ({
+    params: { key: slugify(entity.key) },
+    props: {
+      entity,
+      outgoing: rels.filter((r) => r.src === entity.key),
+      incoming: rels.filter((r) => r.dst === entity.key),
+      profiles: people.filter((p) => p.entity_key === entity.key),
+      display,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entity, outgoing, incoming, profiles, display } = Astro.props;
+const entUrl = (key: string): string => `${withBase("/wiki/entities/")}${slugify(key)}/`;
+const label = (key: string): string => display[key] ?? key;
+const identifiers: [string, string][] = [
+  ["LEI", entity.lei ?? ""],
+  ["UEI", entity.uei ?? ""],
+  [
+    "Federal obligations",
+    entity.federal_obligations != null ? `$${entity.federal_obligations.toLocaleString("en-US")}` : "",
+  ],
+].filter(([, v]) => v) as [string, string][];
+---
+
+<Base title={entity.display} section="wiki">
+  <article class="prose">
+    <p><a href={withBase("/wiki/entities/")}>← Entities</a></p>
+    <h1>{entity.display}</h1>
+    <p class="section-lead">{entity.kind}{entity.classification ? ` · ${entity.classification}` : ""}</p>
+
+    {entity.variants.length > 1 && <p><strong>Name variants:</strong> {entity.variants.join(", ")}</p>}
+    {entity.parcels.length > 0 && <p><strong>Parcels ({entity.parcels.length}):</strong> {entity.parcels.join(", ")}</p>}
+    {entity.addresses.length > 0 && <p><strong>Addresses:</strong> {entity.addresses.join("; ")}</p>}
+    {
+      identifiers.length > 0 && (
+        <dl class="fields">
+          {identifiers.map(([k, v]) => (
+            <>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </>
+          ))}
+        </dl>
+      )
+    }
+
+    <h2 id="neighborhood">Graph neighborhood</h2>
+    {
+      outgoing.length === 0 && incoming.length === 0 ? (
+        <p class="stub-note">No recorded relationships for this entity.</p>
+      ) : (
+        <ul class="neighborhood">
+          {outgoing.map((r) => (
+            <li>
+              <span class="rel-arrow">{r.rel} →</span> <a href={entUrl(r.dst)}>{label(r.dst)}</a>
+              {r.source && <span class="card-meta"> ({r.source})</span>}
+            </li>
+          ))}
+          {incoming.map((r) => (
+            <li>
+              <a href={entUrl(r.src)}>{label(r.src)}</a> <span class="rel-arrow">→ {r.rel}</span>
+              {r.source && <span class="card-meta"> ({r.source})</span>}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <p class="stub-note">The interactive entity-graph view (DeckGL) lands in #73.</p>
+
+    {
+      entity.sources.length > 0 && (
+        <>
+          <h2 id="sources">Sources</h2>
+          <ul>
+            {entity.sources.map((s) => (
+              <li><code>{s}</code></li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+
+    {
+      profiles.length > 0 && (
+        <div class="backlinks">
+          <h2>Backlinks</h2>
+          <ul class="neighborhood">
+            {profiles.map((p) => (
+              <li>
+                Profile: <a href={`${withBase("/site/people/")}${p.slug}/`}>{p.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </article>
+</Base>
