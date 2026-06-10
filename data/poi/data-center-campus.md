@@ -29,6 +29,9 @@ track:
   - sentinel-2-l2a
   - naip
   - landsat-c2-l2
+relationships:
+- role: owner
+  entity: Bistrozzi LLC
 citations:
 - 'data/site/gis-findings.geojson (layer: campus; Allen County CAMA parcels, grantee
   Bistrozzi LLC)'

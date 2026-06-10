@@ -285,6 +285,7 @@ def build_entity_graph(
     enrich_rsei: bool = False,
     enrich_federal: bool = False,
     enrich_subdivisions: bool = False,
+    enrich_places: bool = False,
     enrich_relation_classes: bool = False,
     settings: Settings | None = None,
 ) -> EntityGraph:
@@ -470,6 +471,8 @@ def build_entity_graph(
         enrich_with_rsei_ownership(graph, settings=settings)
     if enrich_federal:
         enrich_with_federal_awards(graph, settings=settings)
+    if enrich_places:
+        enrich_with_places(graph, settings=settings)
     # Run last: the relation-class overlay classifies nodes/edges that every prior
     # enrichment may have added, and only ones that already exist.
     if enrich_relation_classes:
@@ -673,6 +676,48 @@ def enrich_with_parcel_owners(
                 rec = by_pid.get(re.sub(r"\D", "", str(pid)))
                 if rec and rec.get("situs_address"):
                     ent.addresses.add(str(rec["situs_address"]))
+    return graph
+
+
+def enrich_with_places(graph: EntityGraph, *, settings: Settings | None = None) -> EntityGraph:
+    """Fold the curated POI store in as ``place`` nodes (opt-in).
+
+    Each ``data/poi/<slug>.md`` becomes a ``place`` entity keyed by its **slug**
+    (lowercase-dashed, so it never collides with the upper-cased corpus keys), carrying
+    its anchor parcels and depth (``classification = place_<depth>``). The profile's
+    frontmatter ``relationships`` link the place to entities the graph **already has** —
+    resolved via :meth:`EntityGraph.get`; a target that isn't a known entity is logged
+    and skipped, never fabricated (the same discipline as every other overlay).
+
+    Mutates and returns ``graph``. Idempotent.
+    """
+    settings = settings or get_settings()
+    from bosc.poi import load_pois  # local import: keep pipeline import-light
+
+    for poi in load_pois(settings=settings):
+        front = poi.front
+        key = poi.slug
+        ent = graph.entities.get(key) or Entity(key=key, kind="place", classification="place")
+        ent.classification = f"place_{front.depth}"
+        graph.entities[key] = ent
+        ent.variants.add(front.name)
+        ent.variants.update(front.aliases)
+        ent.parcels.update(front.parcels)
+        ent.roles["place"] += 1
+        ent.sources.add(f"data/poi/{poi.slug}.md")
+        if poi.tracked:
+            ent.signals.add("tracked")
+        if front.kind == "composite":
+            ent.signals.add("composite")
+        for rel in front.relationships:
+            dst = graph.get(rel.entity)
+            if dst is None:
+                log.warning("places.missing_target", poi=poi.slug, role=rel.role, entity=rel.entity)
+                continue
+            _add_edge(
+                graph,
+                Relationship(src=key, rel=rel.role, dst=dst.key, source=f"data/poi/{poi.slug}.md"),
+            )
     return graph
 
 

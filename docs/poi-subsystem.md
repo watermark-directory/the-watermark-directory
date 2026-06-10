@@ -243,8 +243,12 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
   grouping are retired; the campus composite POI is now the source of the campus AOI, so
   `bosc imagery search/pull <slug>` runs off the store. `gis-findings.geojson` remains a
   display-only map layer.
-- **P5 — graph + site.** Place nodes in the entity graph; place pages + the map render
-  from the POI store.
+- **P5 — graph + site. ✅ done.** `enrich_with_places` folds the POI store into the
+  entity graph as `place` nodes (keyed by slug, carrying parcels/depth), linking a POI's
+  `relationships` to existing org nodes via `normalize_name` (skip+log unknown targets,
+  never fabricate). `bosc.site.places` renders a page per POI + a `places/index.md`
+  directory (the place peer of `people/`), cross-linked to the entity graph; nav gains
+  *Places and parcels*. The graph→place back-link in the entities table is a later polish.
 
 ## 9. Open decisions
 

@@ -28,6 +28,7 @@ from bosc.people import load_people
 from bosc.pipeline.corpus import load_corpus
 from bosc.pipeline.entities import build_entity_graph
 from bosc.pipeline.timeline import build_timeline
+from bosc.poi import load_pois
 from bosc.rsei import load_inventory as load_rsei_inventory
 from bosc.site import candidates as candidates_mod
 from bosc.site import documents as documents_mod
@@ -39,6 +40,7 @@ from bosc.site import graph as graph_mod
 from bosc.site import meetings as meetings_mod
 from bosc.site import notebooks as notebooks_mod
 from bosc.site import people as people_mod
+from bosc.site import places as places_mod
 from bosc.site import records as records_mod
 from bosc.site import rsei as rsei_mod
 
@@ -63,6 +65,7 @@ class BuildResult:
     n_document_collections: int = 0
     people_pages: list[people_mod.PersonPage] = field(default_factory=list)
     n_people_tracked: int = 0
+    place_pages: list[places_mod.PlacePage] = field(default_factory=list)
     n_candidates: int = 0
     n_defense_contractors: int = 0
     n_rsei_facilities: int = 0
@@ -230,6 +233,7 @@ def build_site(
         enrich_rsei=True,
         enrich_federal=True,
         enrich_subdivisions=True,
+        enrich_places=True,
         enrich_relation_classes=True,
         settings=settings,
     )
@@ -289,6 +293,15 @@ def build_site(
         encoding="utf-8",
     )
     result.people_pages = people_pages
+
+    # 6a. Curated place (POI) profiles — the place peer of people; every one published.
+    pois = load_pois(settings=settings)
+    places_dst = web / "places"
+    place_pages = places_mod.render_place_pages(pois, places_dst, egraph=egraph)
+    (places_dst / "index.md").write_text(
+        places_mod.render_places_index(place_pages), encoding="utf-8"
+    )
+    result.place_pages = place_pages
 
     # 6b. Curated entity inputs (data/entities/profiles/), each if present.
     inventory = load_cloud_consumer_candidates(settings.entities_dir)

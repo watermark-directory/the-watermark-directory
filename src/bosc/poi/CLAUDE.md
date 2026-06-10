@@ -45,6 +45,9 @@ The point-of-interest (place) research store. Defers to the root
   `review` proposal (`fallback_key`); the geocode-only-no-parcel path gets a `geo-<geohash>`
   key. `merge` blocks by `Resolution.key` (`parcel_no` else fallback), so feature surface
   forms group. `bosc poi resolve "<name>" --kind feature`.
-- **Wired to imagery (P4, on main):** `bosc.gis.load_tracking_sites` reads `tracked_pois()`;
-  a `watched` POI *is* a tracking site. The only remaining increment is **P5** (place nodes
-  in the entity graph + place pages on the site).
+- **Wired to imagery (P4):** `bosc.gis.load_tracking_sites` reads `tracked_pois()`; a
+  `watched` POI *is* a tracking site.
+- **In the graph + on the site (P5):** `pipeline.entities.enrich_with_places` folds the
+  store in as `place` nodes (linked to owner orgs via `relationships`); `bosc.site.places`
+  renders a page per POI + `places/index.md`. The arc — discover → resolve → merge →
+  curate → (watched) imagery, and place node + page — is complete.
