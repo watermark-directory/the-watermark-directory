@@ -1623,6 +1623,154 @@ def interchange_cmd(
         console.print(f"[green]Wrote[/] {path}")
 
 
+@app.command(name="pjm")
+def pjm_cmd(
+    write: bool = typer.Option(
+        True, "--write/--no-write", help="Persist data/reference/pjm/pjm-market.yaml."
+    ),
+) -> None:
+    """RTO / wholesale market (#96): PJM LMP + RPM capacity + large-load queue vs the campus."""
+    from bosc.grid.market import _market_reference, derive_pjm_market_scenario, write_pjm_market
+
+    settings = get_settings()
+    sc = derive_pjm_market_scenario(settings=settings)
+
+    console.print(
+        f"[bold]{sc.rto} wholesale market[/] "
+        f"[dim](transcribed PJM figures, LMP {sc.lmp_zone}; verify)[/]\n"
+        f"  zonal LMP [bold]${sc.zonal_lmp_usd_mwh.value:g}/MWh[/] "
+        f"(energy + congestion + losses); RPM clearing "
+        f"[bold]${sc.rpm_clearing_usd_mw_day.value:g}/MW-day[/] (2025/2026 BRA); "
+        f"large-load queue [bold]~{sc.large_load_queue_gw.value:g} GW[/]"
+    )
+    console.print(
+        f"\n[bold]Campus footprint in PJM[/] "
+        f"[dim](facility draw {sc.campus_load_mw.value:g} MW x {sc.load_factor.value:g} "
+        f"-> {sc.annual_consumption_gwh.value:,.0f} GWh/yr)[/]"
+    )
+    table = Table("price signal", "rate", "campus footprint")
+    table.add_row(
+        "Energy (zonal LMP)",
+        f"${sc.zonal_lmp_usd_mwh.value:g}/MWh",
+        f"[bold]~${sc.annual_energy_cost_musd.value:,.0f}M/yr[/]",
+    )
+    table.add_row(
+        "Capacity (RPM clearing)",
+        f"${sc.rpm_clearing_usd_mw_day.value:g}/MW-day",
+        f"[bold]~${sc.annual_capacity_cost_musd.value:,.0f}M/yr[/]",
+    )
+    table.add_row(
+        "Large-load queue",
+        f"~{sc.large_load_queue_gw.value:g} GW",
+        f"campus ~{sc.campus_share_of_queue_pct.value:g}% of queue",
+    )
+    console.print(table)
+    console.print(f"\n[dim]{sc.interpretation}[/]")
+    console.print(
+        "\n[dim]Screening view, not a settlement/dispatch model: LMP varies by node/hour; the "
+        "RPM clearing price is not the campus's contracted rate; the queue figure is "
+        "order-of-magnitude. Transcribed PJM figures (Data Miner 2 / RPM BRA / queue), verify.[/]"
+    )
+    if write:
+        path = write_pjm_market(_market_reference(), settings=settings)
+        console.print(f"[green]Wrote[/] {path}")
+
+
+@app.command(name="ferc")
+def ferc_cmd(
+    write: bool = typer.Option(
+        True, "--write/--no-write", help="Persist data/reference/ferc/ferc-seam.yaml."
+    ),
+) -> None:
+    """FERC seam (#97): FERC<->PUCO jurisdiction + large-load/co-location dockets + Form 1."""
+    from bosc.grid.ferc import derive_ferc_seam, write_ferc_seam
+
+    settings = get_settings()
+    seam = derive_ferc_seam(settings=settings)
+    b = seam.boundary
+
+    console.print(
+        f"[bold]FERC<->PUCO jurisdictional seam[/] [dim](cited, not asserted)[/]\n"
+        f"  [bold]FERC[/] ({b.ferc_scope.confidence}): {b.ferc_scope.value}\n"
+        f"  [bold]PUCO[/] ({b.puco_scope.confidence}): {b.puco_scope.value}\n"
+        f"  [bold]Campus[/] ({b.campus_arrangement.confidence}): {b.campus_arrangement.value}"
+    )
+    console.print(
+        "\n[bold]Captured large-load / co-location dockets[/] [dim](public records; verify)[/]"
+    )
+    table = Table("docket", "topic", "status", "confidence")
+    for d in seam.dockets:
+        table.add_row(d.docket_no or "[dim](not pinned)[/]", d.topic, d.status, d.fact.confidence)
+    console.print(table)
+    f1 = seam.form1
+    console.print(
+        f"\n[bold]FERC Form 1 pointer[/] [dim]({f1.utility})[/]\n"
+        f"  {f1.pointer.value}\n  [dim]{f1.pointer.citation}[/]"
+    )
+    console.print(
+        "\n[dim]FERC = wholesale + interstate transmission + PJM market rules; PUCO = OH retail. "
+        "The campus is most likely PUCO-retail (grid-served customer of AEP Ohio, #94) - which "
+        "determines which regulator sets its price (#91). Dockets / Form 1 are public records "
+        "captured as cited evidence, flagged verify.[/]"
+    )
+    if write:
+        path = write_ferc_seam(seam, settings=settings)
+        console.print(f"[green]Wrote[/] {path}")
+
+
+@app.command(name="federal")
+def federal_cmd(
+    write: bool = typer.Option(
+        True, "--write/--no-write", help="Persist data/reference/federal/federal-energy.yaml."
+    ),
+) -> None:
+    """Federal backdrop (#98): energy policy levers + US output vs the campus load."""
+    from bosc.grid.policy import derive_federal_backdrop, write_federal_backdrop
+
+    settings = get_settings()
+    fb = derive_federal_backdrop(settings=settings)
+    out = fb.output
+
+    console.print(
+        "[bold]Federal clean-energy policy levers[/] "
+        "[dim](direction on cost, not a quantified offset)[/]"
+    )
+    table = Table("lever", "applies to", "cost direction")
+    for lever in fb.policy_levers:
+        applies = lever.applies_to.value
+        table.add_row(
+            lever.name.value,
+            applies[:48] + ("..." if len(applies) > 48 else ""),
+            f"[bold]{lever.cost_direction.value}[/]",
+        )
+    console.print(table)
+    console.print(
+        f"\n[bold]US federal energy output / statistics[/] [dim](transcribed; verify via EIA)[/]\n"
+        f"  US net generation [bold]{out.us_net_generation_twh.value:,.0f} TWh/yr[/]; "
+        f"avg retail price [bold]{out.us_avg_retail_price_cents_kwh.value:g} "
+        f"{out.us_avg_retail_price_cents_kwh.unit}[/] (upward trend)\n"
+        f"  Data centers [bold]{out.datacenter_use_2023_twh.value:,.0f} TWh[/] = "
+        f"[bold]{out.datacenter_share_pct_2023.value:g}%[/] of US load (2023), "
+        f"projected [bold]~{out.datacenter_share_pct_2028_proj.value:g}%[/] by 2028"
+    )
+    console.print(
+        f"\n[bold]Campus vs the national backdrop[/] "
+        f"[dim](facility draw {fb.campus_load_mw.value:g} MW x {fb.load_factor.value:g} "
+        f"-> {fb.annual_consumption_gwh.value:,.0f} GWh/yr)[/]\n"
+        f"  = [bold]{fb.share_of_us_datacenter_pct.value:g}%[/] of US data-center load, "
+        f"[bold]{fb.share_of_us_generation_pct.value:g}%[/] of US total net generation"
+    )
+    console.print(
+        "\n[dim]Policy applicability depends on the campus's undisclosed generation/procurement "
+        "choices; cost direction is direction-of-cost only. Output figures are transcribed EIA "
+        "national + LBNL/DOE statistics, flagged verify. The federal backdrop the consumer-cost "
+        "thread (#91) reads against; nothing is a facility disclosure.[/]"
+    )
+    if write:
+        path = write_federal_backdrop(fb, settings=settings)
+        console.print(f"[green]Wrote[/] {path}")
+
+
 @app.command(name="lei")
 def lei_cmd(
     offline: bool = typer.Option(

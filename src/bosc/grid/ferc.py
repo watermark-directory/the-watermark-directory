@@ -1,0 +1,341 @@
+"""Model the FERC<->PUCO jurisdictional seam for the campus (#97, epic #93).
+
+The regulatory layer that sits between the serving utility (#94) and the federal
+energy-policy layer (#98): which government sets the rules for the campus's power. The
+Federal Power Act splits authority on a line drawn at the wholesale/retail boundary -
+the Federal Energy Regulatory Commission (FERC) governs **wholesale** sales of
+electricity, **interstate transmission**, and the RTO market rules (PJM), while the
+Public Utilities Commission of Ohio (PUCO) governs Ohio **retail** electric service,
+distribution, and retail rates. This module captures, as cited evidence (not asserted):
+
+- the **jurisdictional map** (FERC scope vs PUCO scope, with the statutory anchor in
+  Federal Power Act sections 205/206), and where the campus's arrangement falls;
+- the active **large-load / co-location dockets** at FERC (real public proceedings on
+  data-center co-location at generators in PJM), captured as cited pointers; and
+- a **FERC Form 1** pointer for the serving utility / transmission owner financials.
+
+Data discipline (epic #93): the general law is cited at high confidence; specific
+dockets and any transcribed Form-1 figure are flagged ``verify`` and held at medium (or
+lower) confidence, with a citation to the FERC eLibrary docket number / FERC Online Form
+1 so the reviewer can confirm the primary source. No docket number is fabricated - the
+proceedings here are real FERC matters; where a precise number is uncertain it is
+described and held at low confidence rather than invented. These are public records
+captured as cited evidence, consistent with the corpus chain-of-custody discipline.
+
+The campus arrangement classification cross-references the #94 ServingUtility
+identification (the campus is a retail customer of AEP Ohio, so PUCO-retail), with the
+behind-the-meter co-location case named as the alternative that would instead implicate
+FERC. This seam is the regulatory backdrop under the consumer-cost thread (#91): the
+campus's grid arrangement determines which regulator sets its price - PUCO retail
+(grid-served) vs FERC wholesale (behind-the-meter at a generator).
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import yaml
+from pydantic import BaseModel, ConfigDict
+
+from bosc.config import Settings, get_settings
+from bosc.grid.model import CitedFact
+from bosc.hydrology.model import ProvenancedValue
+from bosc.logging import get_logger
+
+log = get_logger(__name__)
+
+# --- Statutory / jurisdictional citations (general law - high confidence) -------
+_FPA_CITE = (
+    "Federal Power Act sections 205/206 (16 U.S.C. 824d/824e); FERC jurisdiction over "
+    "wholesale sales in interstate commerce and interstate transmission"
+)
+_FPA_RETAIL_CITE = (
+    "Federal Power Act section 201(b) reserves retail sales and local distribution to "
+    "the states; Ohio retail electric service is PUCO-regulated (intrastate)"
+)
+# Cross-reference to the #94 serving-utility identification (AEP Ohio / PJM / PUCO).
+_UTILITY_XREF = (
+    "serving utility identified in #94 (bosc.grid.utility): AEP Ohio (Ohio Power "
+    "Company), a PJM transmission zone, PUCO-regulated at retail"
+)
+
+
+class JurisdictionalBoundary(BaseModel):
+    """The cited FERC<->PUCO jurisdictional map for the campus's power arrangement.
+
+    The wholesale/retail line of the Federal Power Act drawn for this campus. Each scope
+    statement is a :class:`CitedFact` anchored to the statute (high confidence on the
+    general law); ``campus_arrangement`` classifies where the campus most likely falls
+    (PUCO retail, grid-served) with the behind-the-meter co-location alternative named.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    ferc_scope: CitedFact  # wholesale + interstate transmission + RTO market rules
+    puco_scope: CitedFact  # OH retail service + distribution + retail rates
+    campus_arrangement: CitedFact  # the classification (PUCO retail unless co-location)
+    note: str = ""
+
+
+class FercDocket(BaseModel):
+    """One cited FERC proceeding captured as evidence (a real eLibrary docket).
+
+    A pointer to a public FERC matter relevant to large-load / data-center co-location,
+    transcribed from the FERC eLibrary docket. ``status`` records the disposition where
+    known (e.g. a rejection). Held as a :class:`CitedFact`-style record - a fabricated
+    docket would be worse than omission, so every docket here is a real proceeding and is
+    flagged ``verify`` against the cited number; an uncertain precise number is held at
+    low confidence rather than asserted.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    docket_no: str  # "ER24-2172" | "AD24-11-000" | "" if described not numbered
+    title: str
+    topic: str  # short tag, e.g. "co-location", "large-load technical conference"
+    status: str  # disposition / posture, e.g. "rejected 2024-11-01", "open"
+    fact: CitedFact  # the cited statement + citation + confidence
+
+
+class FercForm1(BaseModel):
+    """A FERC Form 1 pointer for the serving utility / transmission owner financials.
+
+    FERC Form 1 is the annual financial & operating report FERC-jurisdictional major
+    utilities file (rate base, operating revenues, transmission plant) - the primary
+    source for the serving utility's wholesale/transmission financials. This is captured
+    as a **cited pointer** (where to obtain it on FERC Online) rather than a transcribed
+    figure: no Form-1 number is asserted unless it can be confidently cited. The optional
+    ``rate_base`` / ``operating_revenue`` are present only if a transcribed value is
+    available, and are then ``reference``-tagged, medium confidence, and ``verify``-flagged.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    utility: str  # "Ohio Power Company (AEP Ohio)"
+    pointer: CitedFact  # where to obtain the Form 1 (FERC Online), as cited evidence
+    rate_base: ProvenancedValue | None = None  # USD, transcribed; omitted unless confident
+    operating_revenue: ProvenancedValue | None = None  # USD, transcribed; omitted unless confident
+
+
+class FercSeam(BaseModel):
+    """The assembled FERC regulatory seam (#97): boundary + dockets + Form 1 pointer.
+
+    Bundles the jurisdictional map, the captured large-load / co-location dockets, and
+    the FERC Form 1 pointer. The ``note`` cross-references the economics layer: the
+    campus's grid arrangement determines which regulator sets its price (PUCO retail vs
+    FERC wholesale), the regulatory backdrop the consumer-cost thread (#91) sits under.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    boundary: JurisdictionalBoundary
+    dockets: list[FercDocket]
+    form1: FercForm1
+    note: str = ""
+
+
+def _boundary() -> JurisdictionalBoundary:
+    return JurisdictionalBoundary(
+        ferc_scope=CitedFact(
+            value=(
+                "FERC governs wholesale sales of electricity, interstate transmission, "
+                "and RTO/ISO market rules (PJM) - including co-location / behind-the-meter "
+                "arrangements at FERC-jurisdictional generators"
+            ),
+            source="reference",
+            citation=_FPA_CITE,
+            confidence="high",
+        ),
+        puco_scope=CitedFact(
+            value=(
+                "PUCO governs Ohio retail electric service, local distribution, and "
+                "retail rates / tariffs (intrastate)"
+            ),
+            source="reference",
+            citation=_FPA_RETAIL_CITE,
+            confidence="high",
+        ),
+        campus_arrangement=CitedFact(
+            value=(
+                "PUCO retail (grid-served), unless behind-the-meter co-location: the "
+                "campus is a retail tariff customer of AEP Ohio, so its service and rate "
+                "fall under PUCO retail jurisdiction; a behind-the-meter co-location at a "
+                "FERC-jurisdictional generator would instead implicate FERC"
+            ),
+            source="reference",
+            citation=(
+                f"{_UTILITY_XREF}; classification of the campus's likely arrangement - "
+                "verify against the campus's actual service agreement / tariff filing"
+            ),
+            confidence="medium",
+        ),
+        note=(
+            "The FERC<->PUCO line is the wholesale/retail boundary of the Federal Power "
+            "Act (general law, high confidence). The campus's classification as PUCO "
+            "retail is the most likely arrangement (grid-served retail customer of AEP "
+            "Ohio per #94); a behind-the-meter co-location would move the seam to FERC "
+            "and is the live policy question the captured dockets address."
+        ),
+    )
+
+
+def _dockets() -> list[FercDocket]:
+    return [
+        FercDocket(
+            docket_no="ER24-2172",
+            title=(
+                "Susquehanna - Amazon Web Services co-location ISA amendment "
+                "(Talen Energy / Susquehanna nuclear plant)"
+            ),
+            topic="co-location",
+            status="rejected 2024-11-01",
+            fact=CitedFact(
+                value=(
+                    "FERC rejected the amended interconnection service agreement that "
+                    "would have expanded the behind-the-meter co-located data-center load "
+                    "at the Susquehanna nuclear plant - a landmark large-load co-location "
+                    "ruling raising cost-allocation and reliability questions for "
+                    "generator co-location"
+                ),
+                source="reference",
+                citation="FERC eLibrary, Docket ER24-2172; transcribed, verify",
+                confidence="medium",
+            ),
+        ),
+        FercDocket(
+            docket_no="AD24-11-000",
+            title=(
+                "Large loads co-located at generating facilities in the PJM region "
+                "(FERC technical conference)"
+            ),
+            topic="large-load technical conference",
+            status="technical conference Nov 2024; open policy proceeding",
+            fact=CitedFact(
+                value=(
+                    "FERC's technical conference on large loads (data centers) co-located "
+                    "at generators in PJM, examining rate, cost-allocation, and "
+                    "reliability treatment of behind-the-meter co-location - the policy "
+                    "docket the Susquehanna case fed into"
+                ),
+                source="reference",
+                citation="FERC eLibrary, Docket AD24-11-000; transcribed, verify",
+                confidence="medium",
+            ),
+        ),
+        FercDocket(
+            docket_no="",
+            title="PJM co-location / large-load interconnection policy (broad)",
+            topic="co-location / large-load policy",
+            status="developing; precise docket not pinned",
+            fact=CitedFact(
+                value=(
+                    "PJM's broader large-load / co-location interconnection policy work "
+                    "(stakeholder process and any resulting FERC filing) is the live "
+                    "framework for how a campus-scale load would interconnect or co-locate "
+                    "- described, not pinned to a precise docket number here"
+                ),
+                source="reference",
+                citation=(
+                    "FERC eLibrary / PJM stakeholder record; precise docket not pinned - "
+                    "verify and supply the exact number before relying on it"
+                ),
+                confidence="low",
+            ),
+        ),
+    ]
+
+
+def _form1() -> FercForm1:
+    # Form 1 is captured as a cited POINTER, not a transcribed figure: no rate-base or
+    # revenue number is asserted unless it can be confidently cited from the filing. The
+    # serving utility (Ohio Power Company / AEP Ohio) is the #94 identification.
+    return FercForm1(
+        utility="Ohio Power Company (AEP Ohio)",
+        pointer=CitedFact(
+            value=(
+                "Ohio Power Company files FERC Form 1 (annual financial & operating "
+                "report) covering rate base, operating revenues, and transmission plant - "
+                "the primary source for the serving utility's FERC-jurisdictional "
+                "transmission financials; obtain the current vintage from FERC Online"
+            ),
+            source="reference",
+            citation=(
+                "FERC Form 1 (FERC Online), Ohio Power Company; pointer - transcribe the "
+                "specific rate-base / revenue figures from the filing and verify before "
+                "relying on them"
+            ),
+            confidence="medium",
+        ),
+        # rate_base / operating_revenue intentionally omitted: no figure asserted unless
+        # confidently cited (prefer omission over invention - epic #93 data discipline).
+    )
+
+
+def derive_ferc_seam(*, settings: Settings | None = None) -> FercSeam:
+    """Assemble the FERC<->PUCO jurisdictional seam (#97).
+
+    Cross-references the #94 serving-utility identification (AEP Ohio / PJM / PUCO) - the
+    campus is a retail customer of AEP Ohio, so it falls under PUCO retail jurisdiction
+    for its service and tariff. The jurisdictional map is cited to the Federal Power Act;
+    the dockets and Form-1 pointer are cited evidence flagged for verification.
+
+    ``settings`` is accepted for interface parity with the other grid derivations (and so
+    a caller can pass the test ``Settings``); this seam is structural / regulatory and
+    does not read a numeric connector.
+    """
+    settings = settings or get_settings()
+    _ = settings  # interface parity; no numeric pull on this regulatory seam
+
+    boundary = _boundary()
+    dockets = _dockets()
+    form1 = _form1()
+
+    log.info(
+        "grid.ferc.seam",
+        arrangement="PUCO retail (grid-served), unless behind-the-meter co-location",
+        dockets=[d.docket_no or d.title for d in dockets],
+    )
+    return FercSeam(
+        boundary=boundary,
+        dockets=dockets,
+        form1=form1,
+        note=(
+            "FERC regulatory seam (#97). The FERC<->PUCO boundary is the wholesale/retail "
+            "line of the Federal Power Act: FERC = wholesale + interstate transmission + "
+            "PJM market rules (and behind-the-meter co-location at FERC-jurisdictional "
+            "generators); PUCO = Ohio retail service, distribution, and retail rates. The "
+            "campus is most likely PUCO-retail (grid-served customer of AEP Ohio, #94). "
+            "This determines which regulator sets the campus's price - PUCO retail vs "
+            "FERC wholesale - the regulatory backdrop the consumer-cost thread (#91) sits "
+            "under. Dockets and the Form-1 pointer are public records captured as cited "
+            "evidence, flagged for verification against FERC eLibrary / FERC Online."
+        ),
+    )
+
+
+def _reference_path(reference_dir: Path) -> Path:
+    return reference_dir / "ferc" / "ferc-seam.yaml"
+
+
+def write_ferc_seam(seam: FercSeam, *, settings: Settings | None = None) -> str:
+    """Persist the FERC seam as committed reference YAML; return the path."""
+    settings = settings or get_settings()
+    path = _reference_path(settings.reference_dir)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        yaml.safe_dump(seam.model_dump(), sort_keys=False, allow_unicode=True),
+        encoding="utf-8",
+    )
+    log.info("grid.ferc.wrote", path=str(path))
+    return str(path)
+
+
+def load_ferc_seam(reference_dir: Path) -> FercSeam | None:
+    """Read the committed FERC-seam YAML, or ``None`` if absent."""
+    path = _reference_path(reference_dir)
+    if not path.is_file():
+        return None
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        return None
+    return FercSeam.model_validate(data)
