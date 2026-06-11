@@ -379,8 +379,9 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
    of storm-water I/I remediation and a **21→48-inch trunk** rebuilt purely to equalize
    wet-weather I/I (1996 federal CWA consent decree; Allen County CNA-2005) — so the headroom
    is documented as effectively already spent. `bosc tier1` + agent `sanitary_basis` tool +
-   the dossier's Tier-1 section. (Indian Brook pump-station as-built is scan-only — vision
-   extraction deferred.)
+   the dossier's Tier-1 section. (Indian Brook pump-station as-built is scan-only; the
+   discipline-agnostic `kind=sanitary` engineering extractor now exists (#41) — the
+   `.sanitary.yaml` is gated on a keyed vision pass, #124.)
 
 ---
 

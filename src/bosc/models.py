@@ -469,6 +469,79 @@ class SitePlan(_Extracted):
     summary: str | None = None  # short prose description of what the sheet shows
 
 
+class SpecItem(BaseModel):
+    """One named specification or design parameter read off an engineering record.
+
+    Deliberately stringly-typed in ``value`` so the same field carries anything a
+    drawing states: a figure ("8", "~150"), a material ("ductile iron"), a model
+    ("Flygt NP-3153"), a rating ("460V/3ph"). Keep the ``~`` marker for an
+    approximate read (the repo's ``~12345`` convention) rather than dropping it.
+    """
+
+    model_config = ConfigDict(extra="allow")
+
+    parameter: str  # e.g. "diameter", "firm capacity", "peak design flow", "material"
+    value: str | None = None  # as printed; numeric reads keep the ~ approximate marker
+    unit: str | None = None  # e.g. "in", "gpm", "ft TDH", "MGD", "hp"
+
+
+class ComponentSpec(BaseModel):
+    """An installed/specified component on an engineering record.
+
+    The *component-specification* axis (issue #41): each physical component — a
+    pipe run, a pump, a structure, a valve, an electrical unit — with its own
+    :class:`SpecItem` list, so the schema never hardcodes per-discipline fields
+    (no fixed ``forcemain_size`` / ``pump_capacity``).
+    """
+
+    model_config = ConfigDict(extra="allow")
+
+    name: str  # e.g. "forcemain", "wet well", "Pump No. 1", "transformer"
+    category: str | None = (
+        None  # pipe | pump | structure | valve | tank | equipment | electrical | ...
+    )
+    quantity: str | None = None  # as printed, e.g. "2", "~350 LF"
+    specs: list[SpecItem] = Field(default_factory=list)
+    note: str | None = None
+
+
+class SheetRef(BaseModel):
+    """One sheet in a drawing set's index — the *implementation-layout* axis."""
+
+    model_config = ConfigDict(extra="allow")
+
+    sheet_id: str | None = None  # e.g. "C-1", "M-3", "1 of 4"
+    title: str | None = None  # e.g. "Pump Station Plan & Sections"
+
+
+class EngineeringRecord(_Extracted):
+    """A civil/utility engineering record — as-built, record drawing, plan set, or
+    component specification — read from a scanned drawing set.
+
+    **Discipline-agnostic by design (issue #41).** The same model carries a sanitary
+    pump-station as-built, a water-main plan, a stormwater detail, or an electrical
+    one-line; the discipline is *read off the drawing*, not baked into the schema.
+    Two flexible axes the schema deliberately does NOT flatten into fixed fields:
+    ``components`` (the component-specification axis — each component with its specs)
+    and ``sheets`` + ``design_parameters`` (the implementation-layout axis).
+    """
+
+    project_name: str | None = None
+    facility_name: str | None = None  # the asset, e.g. "Indian Brook Pump Station"
+    record_type: str | None = None  # as-built | record drawing | construction plans | specification
+    discipline: str | None = None  # sanitary | water | stormwater | electrical | structural | ...
+    record_date: str | None = None  # ISO if legible (the as-built / record-drawing date)
+    project_no: str | None = None
+    site_address: str | None = None
+    prepared_by: list[DesignFirm] = Field(default_factory=list)
+    sheets: list[SheetRef] = Field(default_factory=list)  # the drawing index / sheet layout
+    components: list[ComponentSpec] = Field(default_factory=list)  # the component-spec axis
+    design_parameters: list[SpecItem] = Field(default_factory=list)  # design flows / capacities
+    key_features: StrList = Field(default_factory=list)  # notable callouts of note
+    summary: str | None = None  # short prose description of what the record documents
+    note: str | None = None
+
+
 class DocExtraction(BaseModel):
     """Provenance shared by document-level extractions."""
 
@@ -508,3 +581,7 @@ class WetlandExtraction(DocExtraction):
 
 class PlanExtraction(DocExtraction):
     plan: SitePlan
+
+
+class EngineeringExtraction(DocExtraction):
+    record: EngineeringRecord
