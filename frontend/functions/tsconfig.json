@@ -1,0 +1,16 @@
+{
+  "//": "Standalone typecheck for the Cloudflare Pages Functions (the Workers runtime, not the Astro/DOM project). `npm run check` runs this via `tsc -p functions/tsconfig.json`. WebWorker lib supplies fetch/Request/Response/FormData/URL/crypto/atob/btoa; no @cloudflare/workers-types dependency.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "WebWorker"],
+    "types": [],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["**/*.ts"]
+}

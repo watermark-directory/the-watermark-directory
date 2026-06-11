@@ -185,7 +185,7 @@ stream because they come from a different identity.
 | Name | Where | What |
 | --- | --- | --- |
 | `TIPS_APP_ID` | Cloudflare (Function secret) | the `bosc-tips-bot` App ID |
-| `TIPS_APP_PRIVATE_KEY` | Cloudflare (Function secret) | the App's `.pem` private key |
+| `TIPS_APP_PRIVATE_KEY` | Cloudflare (Function secret) | the App's private key, **PKCS#8** (see note) |
 | `TURNSTILE_SECRET_KEY` | Cloudflare (Function secret) | server-side Turnstile verification |
 | `PUBLIC_TURNSTILE_SITE_KEY` | frontend build env | the Turnstile widget's public site key |
 | `SUBMISSIONS_ENABLED` | Cloudflare (Function var) | on / kill switch — anything but `true` ⇒ the endpoint returns `503` and the form shows disabled |
@@ -201,7 +201,11 @@ form is disabled (`SUBMISSIONS_ENABLED` unset) and shows a placeholder.
 1. **Register `bosc-tips-bot`** — GitHub → Settings → Developer settings → GitHub Apps →
    New. Webhook **off** (the Function calls the REST API directly; no webhook server).
    Permissions: the two rows above, nothing more. Install on `goedelsoup/bosc` only.
-   Note the App ID; generate and download the private key.
+   Note the App ID; generate and download the private key. GitHub issues a **PKCS#1**
+   key (`-----BEGIN RSA PRIVATE KEY-----`), but Web Crypto in the Function needs
+   **PKCS#8** — convert it once:
+   `openssl pkcs8 -topk8 -nocrypt -in app.pem -out app.pkcs8.pem`, and store the
+   PKCS#8 contents as `TIPS_APP_PRIVATE_KEY`.
 2. **Cloudflare Pages** — create a Pages project pointed at this repo's `frontend/`
    build output (or wire the Wrangler deploy step in Actions). Add a custom domain or
    use the `*.pages.dev` subdomain; set the Astro `SITE_URL`/`BASE_PATH` to match (a root
@@ -219,9 +223,10 @@ form is disabled (`SUBMISSIONS_ENABLED` unset) and shows a placeholder.
 | Part | State |
 | --- | --- |
 | This contract (schema, mapping, abuse model, identity) | **defined** (#74) |
-| Cloudflare Pages host migration | planned (supersedes the GitHub Pages flip) |
-| Interim live endpoint (Turnstile + create issue) | planned |
-| Frontend form + `target` pre-fill | planned |
+| Interim endpoint (`frontend/functions/api/submit.ts`: Turnstile + create issue) | **built** — dormant until bootstrapped (`SUBMISSIONS_ENABLED`) |
+| Frontend form (`/submit`) + query-param `target` pre-fill | **built** — disabled placeholder until `PUBLIC_TURNSTILE_SITE_KEY` is set |
+| Cloudflare Pages host migration | planned (Phase 1 — supersedes the GitHub Pages flip; required to make the above live) |
+| `bosc-tips-bot` App + secrets | planned (Phase 4 — manual bootstrap, below) |
 | KV rate-limit, dedupe, triage surface | **deferred** (Phase 5 — seam is ready) |
 | Webhook receiver (event-driven, Epic 4 upgrade) | **deferred** — the Function is the request-driven seam; a persistent receiver is a later tier |
 

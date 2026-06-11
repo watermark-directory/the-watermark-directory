@@ -496,3 +496,53 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
   .brand-tagline { display: none; }
   .search { width: 9rem; }
 }
+
+/* ---- Submissions form (/submit, issue #74) ---- */
+.form { display: grid; gap: 0.9rem; max-width: 40rem; margin: 1.2rem 0; }
+.form label { display: block; font-weight: 600; margin-bottom: 0.3rem; }
+.form .field-hint { font-weight: 400; color: var(--bosc-muted); font-size: 0.82rem; }
+.form select,
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  font: inherit;
+  color: var(--bosc-ink);
+  background: #fff;
+  border: 1px solid var(--bosc-rule);
+  border-radius: 6px;
+}
+.form textarea { min-height: 9rem; resize: vertical; }
+.form select:focus,
+.form input:focus,
+.form textarea:focus {
+  outline: 2px solid var(--bosc-indigo);
+  outline-offset: 1px;
+  border-color: var(--bosc-indigo);
+}
+.form-target {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--bosc-muted);
+  background: var(--bosc-rail-bg);
+  border: 1px solid var(--bosc-rule);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+}
+.btn {
+  justify-self: start;
+  padding: 0.55rem 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--bosc-indigo);
+  border: 1px solid var(--bosc-indigo-dark);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn:hover { background: var(--bosc-indigo-dark); }
+.btn:disabled { opacity: 0.6; cursor: default; }
+.form-status { min-height: 1.2rem; margin: 0; font-size: 0.9rem; }
+.form-status[data-kind="ok"] { color: var(--bosc-verified); }
+.form-status[data-kind="err"] { color: #c62828; }
+.form-status[data-kind="info"] { color: var(--bosc-muted); }
