@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import { refBySlug, REFERENCE } from "../../../lib/reference";
+import { withBase } from "../../../lib/site";
+
+// Only list datasets whose README is actually present in this checkout.
+const present = new Set((await getCollection("reference")).map((e) => e.id));
+const datasets = REFERENCE.filter((d) => present.has(d.slug) && refBySlug.has(d.slug));
+---
+
+<Base title="Reference data" section="site">
+  <article class="prose">
+    <p><a href={withBase("/site/")}>← The BOSC site</a></p>
+    <h1>Reference data</h1>
+    <p class="section-lead">
+      The authoritative datasets from <strong>outside</strong> sources that the analysis
+      draws on — EPA, USGS, BLS/Census, county and city GIS, GLEIF. Each is committed,
+      regenerable from its source, and documented here with its provenance and known gaps.
+    </p>
+    <div class="cards">
+      {
+        datasets.map((d) => (
+          <a class="card" href={`${withBase("/site/reference/")}${d.slug}`}>
+            <span class="card-title">{d.title}</span>
+            <span class="card-meta">{d.blurb}</span>
+          </a>
+        ))
+      }
+    </div>
+  </article>
+</Base>

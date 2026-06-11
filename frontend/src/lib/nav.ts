@@ -54,6 +54,7 @@ export const SECTIONS: Section[] = [
       { label: "Exhibits", anchor: "exhibits" },
       { label: "People & places", anchor: "people" },
       { label: "Legal history", anchor: "legal" },
+      { label: "Reference data", anchor: "reference" },
     ],
   },
   {
