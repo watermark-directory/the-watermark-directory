@@ -19,7 +19,7 @@ const { place } = Astro.props;
 
 <Base title={place.name} section="site">
   <article class="prose">
-    <p><a href={withBase("/site/people/")}>← People &amp; places</a></p>
+    <p><a href={withBase("/site/places/")}>← Places &amp; parcels</a></p>
     <h1>{place.name}</h1>
     <p class="section-lead">{place.kind}{place.depth ? ` · ${place.depth}` : ""}</p>
 

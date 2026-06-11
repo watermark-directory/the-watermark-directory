@@ -1,0 +1,46 @@
+---
+import Base from "../../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import type { PlaceItem } from "../../../lib/feeds";
+import { withBase } from "../../../lib/site";
+
+const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
+const sorted = [...places].sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<Base title="Places & parcels" section="site">
+  <article class="prose">
+    <p>
+      <a href={withBase("/site/")}>← The BOSC site</a> ·
+      <a href={withBase("/site/people/")}>People &amp; places</a>
+    </p>
+    <h1>Places &amp; parcels</h1>
+    <p class="section-lead">
+      The geographic detail behind the entity graph — the campus, the corridor sites,
+      and the parcels the record turns on. {places.length} profile(s).
+    </p>
+    {
+      places.length === 0 ? (
+        <p class="stub-note">No <code>places</code> feed in this bundle.</p>
+      ) : (
+        <table>
+          <thead>
+            <tr><th>Place</th><th>Kind</th><th>Parcels</th><th>Also known as</th></tr>
+          </thead>
+          <tbody>
+            {sorted.map((p) => (
+              <tr>
+                <td>
+                  <a href={`${withBase("/site/places/")}${p.slug}/`}>{p.name}</a>
+                </td>
+                <td>{p.kind}</td>
+                <td>{p.parcels.length || "—"}</td>
+                <td class="card-meta">{p.aliases.slice(0, 3).join(", ") || "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )
+    }
+  </article>
+</Base>

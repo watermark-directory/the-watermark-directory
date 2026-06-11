@@ -19,6 +19,10 @@ export default defineConfig({
   base: process.env.BASE_PATH || undefined,
   integrations: [react(), mdx()],
   markdown: {
+    // Shiki's default theme is github-dark; the site chrome is light (and
+    // `.prose pre` styles a light code block), so pin a light theme so fenced
+    // code matches inline code and the rest of the page (#106).
+    shikiConfig: { theme: "github-light" },
     rehypePlugins: [[rehypeDocLinks, { base }]],
   },
 });

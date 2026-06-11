@@ -30,7 +30,7 @@ const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
     </div>
 
     <h2 id="places">Places</h2>
-    <p>{places.length} profile(s).</p>
+    <p>{places.length} profile(s). → <a href={withBase("/site/places/")}>Places &amp; parcels index</a></p>
     <div class="cards">
       {
         places.map((p) => (
