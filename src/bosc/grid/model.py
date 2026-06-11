@@ -118,3 +118,56 @@ class GridProfile(BaseModel):
     ba_profile: BalancingAuthorityProfile
     load_share: GridLoadShare
     note: str = ""
+
+
+class BAInterchange(BaseModel):
+    """Reduced EIA-930 hourly interchange profile for one balancing authority (#95).
+
+    The "interchange layer": the BA's hourly **demand**, **net generation**, and
+    **total net interchange** (``TI``; sign convention + = net exports, - = net
+    imports) summarized over a representative window from the EIA-930 Hourly Electric
+    Grid Monitor. The point is to situate the campus load against where the BA's
+    marginal electrons come from — in-BA generation vs net imports. Connector-sourced.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    ba: str  # "PJM"
+    period_start: str  # ISO date of the window start
+    period_end: str
+    hours: int  # hourly samples in the window
+    demand_mean_mw: ProvenancedValue  # connector
+    demand_peak_mw: ProvenancedValue
+    net_generation_mean_mw: ProvenancedValue
+    total_interchange_mean_mw: ProvenancedValue  # + = net exports, - = net imports
+    interchange_min_mw: ProvenancedValue  # most-importing hour (most negative TI)
+    interchange_max_mw: ProvenancedValue  # most-exporting hour
+    net_import_hours_fraction: ProvenancedValue  # share of hours with TI < 0 (importing)
+    source: str = "EIA-930 Hourly Electric Grid Monitor (region-data: D / NG / TI)"
+    note: str = ""
+
+
+class CampusInterchangeComparison(BaseModel):
+    """Campus load situated against the BA's interchange & in-BA generation (#95, derived).
+
+    Answers the call's question — does the added ~275 MW plausibly come from in-BA
+    generation or net imports? The headline is the in-BA generation **headroom** (mean
+    net generation minus mean demand): when it exceeds the campus load, the added draw
+    is comfortably within the BA's own generation and does not require net imports. The
+    campus is also sized against the mean net-interchange magnitude (the swing it eats
+    into). A screening comparison over mean conditions, not an hourly dispatch model.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    ba: str
+    campus_load_mw: ProvenancedValue  # total facility draw, central (#87)
+    ba_demand_mean_mw: ProvenancedValue  # connector (EIA-930)
+    ba_net_generation_mean_mw: ProvenancedValue
+    ba_interchange_mean_mw: ProvenancedValue
+    campus_share_of_demand_pct: ProvenancedValue  # derived: campus / BA mean demand
+    campus_vs_interchange_pct: ProvenancedValue  # derived: campus / |BA mean interchange|
+    in_ba_generation_headroom_mw: ProvenancedValue  # derived: net generation - demand (mean)
+    met_by_in_ba_generation: bool  # headroom >= campus load (no net imports needed)
+    interpretation: str = ""
+    caveats: list[str] = []

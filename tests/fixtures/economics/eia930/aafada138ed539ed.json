@@ -1,0 +1,22 @@
+{
+  "params": {
+    "connector": "eia930",
+    "route": "region-data",
+    "ba": "PJM",
+    "start": "2024-06-01",
+    "end": "2024-06-30"
+  },
+  "payload": {
+    "ba": "PJM",
+    "start": "2024-06-01",
+    "end": "2024-06-30",
+    "hours": 720,
+    "demand_mean": 101800.0,
+    "demand_peak": 152000.0,
+    "netgen_mean": 104500.0,
+    "ti_mean": 2700.0,
+    "ti_min": -6200.0,
+    "ti_max": 10400.0,
+    "import_hours": 173
+  }
+}

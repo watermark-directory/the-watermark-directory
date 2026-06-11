@@ -1568,6 +1568,61 @@ def grid_cmd(
         console.print(f"[green]Wrote[/] {path}")
 
 
+@app.command(name="interchange")
+def interchange_cmd(
+    ba: str = typer.Option("PJM", "--ba", help="Balancing authority / RTO code (EIA-930)."),
+    write: bool = typer.Option(
+        True, "--write/--no-write", help="Persist data/reference/eia/ba-interchange.yaml."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached/fixture EIA-930 responses only; never fetch."
+    ),
+) -> None:
+    """Interchange layer (#95): EIA-930 BA imports/exports vs the campus load."""
+    from bosc.grid.interchange import (
+        derive_interchange_comparison,
+        fetch_ba_interchange,
+        load_ba_interchange,
+        write_ba_interchange,
+    )
+
+    settings = get_settings()
+    # Offline reads the committed reference slice (the regenerable artifact); a live
+    # pull (default) hits EIA-930 and refreshes it.
+    bai = load_ba_interchange(settings.reference_dir) if offline else None
+    if bai is None:
+        if offline:
+            console.print("[yellow]No committed ba-interchange.yaml; run a live pull first.[/]")
+            raise typer.Exit(1)
+        bai = fetch_ba_interchange(ba=ba, settings=settings)
+    cmp = derive_interchange_comparison(interchange=bai, settings=settings)
+
+    console.print(
+        f"[bold]{bai.ba} interchange[/] [dim](EIA-930, {bai.period_start}..{bai.period_end}, "
+        f"{bai.hours} h; + exports / - imports)[/]\n"
+        f"  demand mean [bold]{bai.demand_mean_mw.value:,.0f} MW[/] "
+        f"(peak {bai.demand_peak_mw.value:,.0f}); net generation "
+        f"[bold]{bai.net_generation_mean_mw.value:,.0f} MW[/]\n"
+        f"  net interchange mean [bold]{bai.total_interchange_mean_mw.value:,.0f} MW[/] "
+        f"(range {bai.interchange_min_mw.value:,.0f}..{bai.interchange_max_mw.value:,.0f}); "
+        f"net-import hours {bai.net_import_hours_fraction.value * 100:.0f}%"
+    )
+    headroom = cmp.in_ba_generation_headroom_mw.value
+    console.print(
+        f"\n[bold]Campus load vs the interchange[/] "
+        f"[dim](facility draw {cmp.campus_load_mw.value:g} MW)[/]\n"
+        f"  in-BA generation headroom [bold]{headroom:,.0f} MW[/] "
+        f"{'≥' if cmp.met_by_in_ba_generation else '<'} campus load → "
+        f"[bold]{'met by in-BA generation' if cmp.met_by_in_ba_generation else 'leans on net imports'}[/]\n"
+        f"  campus is {cmp.campus_share_of_demand_pct.value:g}% of {bai.ba} demand, "
+        f"~{cmp.campus_vs_interchange_pct.value:g}% of the mean net-interchange swing"
+    )
+    console.print(f"\n[dim]{cmp.interpretation}[/]")
+    if write and not offline:  # offline reads the committed slice; only a live pull rewrites it
+        path = write_ba_interchange(bai, settings=settings)
+        console.print(f"[green]Wrote[/] {path}")
+
+
 @app.command(name="lei")
 def lei_cmd(
     offline: bool = typer.Option(
