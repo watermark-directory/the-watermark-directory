@@ -9,8 +9,16 @@ project connector contract and the shared EIA connector (``bosc.economics.connec
 
 from __future__ import annotations
 
+from bosc.grid.interchange import (
+    derive_interchange_comparison,
+    fetch_ba_interchange,
+    load_ba_interchange,
+    write_ba_interchange,
+)
 from bosc.grid.model import (
+    BAInterchange,
     BalancingAuthorityProfile,
+    CampusInterchangeComparison,
     CitedFact,
     GridLoadShare,
     GridProfile,
@@ -20,13 +28,19 @@ from bosc.grid.model import (
 from bosc.grid.utility import derive_grid_profile, load_grid_profile, write_grid_profile
 
 __all__ = [
+    "BAInterchange",
     "BalancingAuthorityProfile",
+    "CampusInterchangeComparison",
     "CitedFact",
     "GridLoadShare",
     "GridProfile",
     "ServingUtility",
     "UtilityProfile",
     "derive_grid_profile",
+    "derive_interchange_comparison",
+    "fetch_ba_interchange",
+    "load_ba_interchange",
     "load_grid_profile",
+    "write_ba_interchange",
     "write_grid_profile",
 ]

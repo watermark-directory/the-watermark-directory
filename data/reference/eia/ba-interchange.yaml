@@ -1,0 +1,59 @@
+ba: PJM
+period_start: '2024-06-01'
+period_end: '2024-06-30'
+hours: 720
+demand_mean_mw:
+  value: 101800.0
+  unit: MW
+  source: connector
+  citation: EIA-930 region-data PJM 2024-06-01..2024-06-30 (720 h)
+  confidence: high
+  asof: null
+demand_peak_mw:
+  value: 152000.0
+  unit: MW
+  source: connector
+  citation: EIA-930 region-data PJM 2024-06-01..2024-06-30 (720 h)
+  confidence: high
+  asof: null
+net_generation_mean_mw:
+  value: 104500.0
+  unit: MW
+  source: connector
+  citation: EIA-930 region-data PJM 2024-06-01..2024-06-30 (720 h)
+  confidence: high
+  asof: null
+total_interchange_mean_mw:
+  value: 2700.0
+  unit: MW
+  source: connector
+  citation: EIA-930 region-data PJM 2024-06-01..2024-06-30 (720 h); + exports / -
+    imports
+  confidence: high
+  asof: null
+interchange_min_mw:
+  value: -6200.0
+  unit: MW
+  source: connector
+  citation: EIA-930 region-data PJM 2024-06-01..2024-06-30 (720 h); most-importing
+    hour
+  confidence: high
+  asof: null
+interchange_max_mw:
+  value: 10400.0
+  unit: MW
+  source: connector
+  citation: EIA-930 region-data PJM 2024-06-01..2024-06-30 (720 h); most-exporting
+    hour
+  confidence: high
+  asof: null
+net_import_hours_fraction:
+  value: 0.24
+  unit: fraction
+  source: derived
+  citation: 173/720 hours with net imports (TI < 0)
+  confidence: medium
+  asof: null
+source: 'EIA-930 Hourly Electric Grid Monitor (region-data: D / NG / TI)'
+note: EIA-930 hourly D/NG/TI reduced to window means; sign convention + = net exports,
+  - = net imports. A representative window, not the full year.
