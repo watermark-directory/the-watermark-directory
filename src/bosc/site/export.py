@@ -317,6 +317,14 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
     findings = settings.data_dir / "site" / "gis-findings.geojson"
     if findings.is_file():
         feeds.extend(_geo_feed(fc) for fc in gismap_mod.export_geo(findings))
+    # Two more geo feeds assembled outside gis-findings: the USGS WBD watershed
+    # boundaries and the imagery tracking-AOI footprints + Wayback ladder (for #72).
+    watershed = gismap_mod.export_watershed_geo(settings)
+    if watershed is not None:
+        feeds.append(_geo_feed(watershed))
+    imagery = gismap_mod.export_imagery_geo(settings)
+    if imagery is not None:
+        feeds.append(_geo_feed(imagery))
 
     return feeds
 

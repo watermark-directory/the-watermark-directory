@@ -45,6 +45,11 @@ _LAYER_COLORS = {
     "floodplain": "#1976d2",
     "rsei": "#8e24aa",
 }
+# Feeds assembled outside gis-findings (issue #61): the WBD watershed boundaries and
+# the imagery tracking-AOI footprints. Their colors live here so a feed and the legend
+# stay in sync, like the gis-findings layers above.
+_WATERSHED_COLOR = "#0097a7"  # cyan — the watershed boundary fill/outline
+_IMAGERY_AOI_COLOR = "#37474f"  # blue-grey — a neutral footprint frame for the AOI
 
 
 def _rsei_radius(score: float) -> int:
@@ -433,3 +438,113 @@ def export_geo(geojson_path: Path) -> list[GeoFeatureCollection]:
         )
         for feed, feats in sorted(grouped.items())
     ]
+
+
+def export_watershed_geo(settings: Settings | None = None) -> GeoFeatureCollection | None:
+    """The ``watershed`` feed — USGS WBD HU boundaries framing the campus AOI (#61).
+
+    Reads the committed reference boundaries (``data/reference/hydrology/wbd/*.geojson``,
+    regenerable via ``bosc wbd``) and assembles one typed feed. Geometry is WGS84
+    verbatim; each feature carries its HU attributes (``huc``/``level``/``name``/…) plus
+    the ``layer``/``color``/``role`` styling metadata. Features are ordered coarsest →
+    finest so the finer subwatershed draws on top. ``None`` when no boundaries exist.
+    """
+    settings = settings or get_settings()
+    wbd_dir = settings.reference_dir / "hydrology" / "wbd"
+    if not wbd_dir.is_dir():
+        return None
+    ranked: list[tuple[int, GeoFeature]] = []
+    for path in sorted(wbd_dir.glob("*.geojson")):
+        fc = json.loads(path.read_text(encoding="utf-8"))
+        for feat in fc.get("features", []):
+            geometry = feat.get("geometry")
+            if not geometry:
+                continue
+            src = dict(feat.get("properties") or {})
+            level = int(src.get("level") or 0)
+            name, huc = str(src.get("name") or ""), str(src.get("huc") or "")
+            hu_label = str(src.get("hu_label") or "")
+            props: dict[str, Any] = {
+                "layer": "watershed",
+                "label": f"{name} — {hu_label} (HU{level} {huc})",
+                "color": _WATERSHED_COLOR,
+                "role": "area",
+                "huc": huc,
+                "level": level,
+                "name": name,
+                "hu_label": hu_label,
+                "area_sqkm": src.get("area_sqkm"),
+                "to_huc": src.get("to_huc"),
+            }
+            ranked.append(
+                (
+                    level,
+                    GeoFeature(geometry=geometry, properties=GeoProperties.model_validate(props)),
+                )
+            )
+    if not ranked:
+        return None
+    ranked.sort(key=lambda r: r[0])  # coarsest (smaller HU level) first → finer on top
+    return GeoFeatureCollection(
+        feed="watershed",
+        meta={
+            "crs": "WGS84 (EPSG:4326)",
+            "subject": "USGS WBD watershed boundaries framing the data-center campus AOI",
+            "source": "USGS National Map Watershed Boundary Dataset (WBD)",
+            "levels": sorted({lvl for lvl, _ in ranked}),
+        },
+        features=[f for _, f in ranked],
+    )
+
+
+def export_imagery_geo(settings: Settings | None = None) -> GeoFeatureCollection | None:
+    """The ``imagery`` feed — tracking-AOI footprints + the dated Wayback ladder (#61).
+
+    One footprint polygon per imagery tracking site (a watched POI's bbox; see
+    :func:`bosc.gis.sites.load_tracking_sites`), plus the dated Esri **Wayback** aerial
+    releases in ``meta`` so the before/during/after slider has its layers without new
+    binary data (the tiles load view-only from Esri). ``None`` when no AOI is tracked.
+    """
+    settings = settings or get_settings()
+    from bosc.gis.sites import load_tracking_sites
+
+    sites = load_tracking_sites(settings=settings)
+    if not sites:
+        return None
+    features: list[GeoFeature] = []
+    for site in sites:
+        minx, miny, maxx, maxy = site.bbox
+        ring = [[minx, miny], [maxx, miny], [maxx, maxy], [minx, maxy], [minx, miny]]
+        props: dict[str, Any] = {
+            "layer": "imagery",
+            "label": f"{site.name} — imagery AOI",
+            "color": _IMAGERY_AOI_COLOR,
+            "role": "area",
+            "site": site.id,
+            "bbox": [minx, miny, maxx, maxy],
+            "parcels": len(site.parcels),
+        }
+        features.append(
+            GeoFeature(
+                geometry={"type": "Polygon", "coordinates": [ring]},
+                properties=GeoProperties.model_validate(props),
+            )
+        )
+    return GeoFeatureCollection(
+        feed="imagery",
+        meta={
+            "crs": "WGS84 (EPSG:4326)",
+            "subject": "Imagery tracking AOIs + the dated Esri Wayback aerial ladder",
+            "wayback": {
+                "tile_url_template": f"{_WAYBACK_BASE_URL}/{{release}}/{{z}}/{{y}}/{{x}}",
+                "attribution": "Imagery © Esri — World Imagery Wayback",
+                "note": (
+                    "View-only Esri World Imagery Wayback releases (tiles load from Esri; "
+                    "not redistributed). The publishable analysis-grade series is the "
+                    "free/open Sentinel-2 / NAIP pulled by `bosc imagery`."
+                ),
+                "releases": [{"date": label, "release": rel} for label, rel in _WAYBACK],
+            },
+        },
+        features=features,
+    )
