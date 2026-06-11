@@ -21,9 +21,12 @@ ai_rack_kw_band: [40, 140]
 # context figures are in the relator appendix (WUE ~1.8-1.9 L/kWh industry avg).
 # The air permit's ~313 MW backup is sized to the IT + mechanical load (N+1), so
 # the genset-derived IT figure in bosc.facility.power already nets most overhead;
-# PUE here is for translating an IT-power figure to total-facility draw, not used
-# to inflate the accelerator count.
-pue_band: [1.1, 1.3]       # hyperscale evaporative/liquid PUE (assumption)
+# PUE here translates an IT-power figure to total-facility draw (a first-class
+# `facility_draw` output on PowerBasis, issue #87), and is NOT used to inflate the
+# accelerator count. Ceiling raised to 1.43 to admit cooling-dominated designs: a
+# 2026-06-10 facility-design call indicated cooling can reach ~30% of FACILITY
+# power, i.e. IT/total ~= 0.70 -> PUE ~= 1.43 (cooling share = (PUE-1)/PUE).
+pue_band: [1.1, 1.43]      # hyperscale evaporative/liquid PUE; 1.43 = ~30% cooling (assumption)
 
 # Share of IT power that reaches the ACCELERATORS (vs CPU host, storage, network,
 # in-rack conversion). The remainder is non-accelerator IT load. Assumption with a
