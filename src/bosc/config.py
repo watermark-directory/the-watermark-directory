@@ -88,6 +88,11 @@ class Settings(BaseSettings):
         "https://colgis.cityhall.lima.oh.us/server/rest/services/"
         "CitywideMaps/Lima_Zoning/MapServer/4"
     )
+    # USGS National Map Watershed Boundary Dataset (WBD) — the authoritative seamless
+    # Hydrologic Unit (HUC) polygons. The MapServer's HU-level sublayers are keyed by
+    # digit count (8 = Subbasin, 10 = Watershed, 12 = Subwatershed); the WBD connector
+    # appends `/<layer>/query`. Served through the shared hydrology cache/fixture path.
+    wbd_url: str = "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer"
     # EPA RSEI Public Data Set (AWS Open Data s3://epa-rsei-pds). Bulk relational
     # tables; `bosc rsei` reduces them to one county's toxic-release inventory.
     rsei_base_url: str = "https://epa-rsei-pds.s3.amazonaws.com"

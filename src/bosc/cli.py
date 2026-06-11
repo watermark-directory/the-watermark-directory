@@ -1827,6 +1827,88 @@ def floodzone(
     console.print(f"[green]Wrote[/] campus floodzone finding -> {path}")
 
 
+@app.command(name="wbd")
+def wbd(
+    site: str = typer.Option(
+        "data-center-campus", "--site", help="Tracking-site POI whose AOI to frame (centroid)."
+    ),
+    point: str | None = typer.Option(
+        None, "--point", help="Override AOI with an explicit 'lon,lat' WGS84 point."
+    ),
+    levels: str = typer.Option(
+        "12,10", "--levels", help="HU digit-levels to pull, finest first (e.g. 12,10 or 12,10,8)."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached/fixture WBD responses only; never touch the network."
+    ),
+    write: bool = typer.Option(
+        False, "--write", help="Write each boundary to data/reference/hydrology/wbd/."
+    ),
+    out_dir: str | None = typer.Option(
+        None, "--out", help="Output directory (default: data/reference/hydrology/wbd)."
+    ),
+) -> None:
+    """Pull the USGS WBD watershed boundaries framing a tracked AOI (#61, for the #72 map).
+
+    Resolves the AOI centroid (a tracking-site POI's bbox, or --point) and fetches the
+    containing Hydrologic Unit at each --levels rung, finest first — by default the
+    campus's Subwatershed (HU12 Pike Run) and Watershed (HU10 Middle Ottawa River),
+    which nest into the Auglaize/Maumee basin. With --write, lands them as committed
+    reference GeoJSON the `watershed` feed reads.
+    """
+    from bosc.config import Settings
+    from bosc.gis.sites import get_site
+    from bosc.hydrology.connectors import wbd as wbd_mod
+
+    settings = Settings(hydro_offline=True) if offline else get_settings()
+
+    if point is not None:
+        try:
+            lon_s, lat_s = point.split(",")
+            lon, lat = float(lon_s), float(lat_s)
+        except ValueError:
+            console.print(f"[red]Bad --point[/] {point!r}; expected 'lon,lat'.")
+            raise typer.Exit(1) from None
+        aoi = f"point {lon},{lat}"
+    else:
+        ts = get_site(site, settings=settings)
+        if ts is None:
+            console.print(f"[red]No tracking site[/] {site!r} (see `bosc imagery sites`).")
+            raise typer.Exit(1)
+        minx, miny, maxx, maxy = ts.bbox
+        lon, lat = (minx + maxx) / 2.0, (miny + maxy) / 2.0
+        aoi = f"{ts.name} ({site})"
+
+    try:
+        level_seq = tuple(int(x) for x in levels.split(","))
+    except ValueError:
+        console.print(f"[red]Bad --levels[/] {levels!r}; expected e.g. '12,10,8'.")
+        raise typer.Exit(1) from None
+
+    boundaries = wbd_mod.watershed_chain(lon, lat, levels=level_seq, settings=settings)
+    if not boundaries:
+        console.print(f"[yellow]No HU found[/] at {aoi}.")
+        raise typer.Exit(1)
+
+    table = Table("HU", "Code", "Name", "km²", "→ drains to")
+    for hu in boundaries:
+        table.add_row(
+            f"HU{hu.level} ({hu.hu_label})",
+            hu.huc,
+            hu.name,
+            f"{hu.area_sqkm:,.0f}" if hu.area_sqkm is not None else "—",
+            hu.to_huc or "—",
+        )
+    console.print(f"Watershed boundaries framing [bold]{aoi}[/]:")
+    console.print(table)
+
+    if write:
+        target = Path(out_dir) if out_dir else settings.reference_dir / "hydrology" / "wbd"
+        paths = wbd_mod.write_watershed_boundaries(boundaries, target, queried_point=(lon, lat))
+        for p in paths:
+            console.print(f"[green]Wrote[/] {p}")
+
+
 @app.command(name="lowflow-freq")
 def lowflow_freq(
     site: str = typer.Option(

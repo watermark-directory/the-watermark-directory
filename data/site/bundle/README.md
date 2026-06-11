@@ -89,14 +89,17 @@ over 500 rows), or `application/geo+json`. `count` is rows, features, or `1` for
 | `geo/corridor` | geojson | the Periplus North Cole Street study area + roadwork centerline |
 | `geo/wwtp` | geojson | county WWTP NPDES discharge points |
 | `geo/rsei` | geojson | RSEI toxic-release facility points, sized by Score |
+| `geo/watershed` | geojson | USGS WBD watershed boundaries framing the campus (HU12 Pike Run + HU10 Middle Ottawa River) |
+| `geo/imagery` | geojson | imagery tracking-AOI footprints + the dated Esri Wayback ladder (`meta.wayback`, for the before/during/after slider) |
 
-The geo feeds reproduce the layers of the committed
+Most geo feeds reproduce the layers of the committed
 [`gis-findings.geojson`](../README.md) as typed `FeatureCollection`s — geometry **WGS84
 verbatim** (display-only, no reprojection), with `layer` / `label` / `color` / `role` and
-the source popup fields carried as feature `properties`. Two layers named in the Epic-3
-scope — the Maumee / Lost Creek **watershed** and **imagery footprints** — have no committed
-geometry yet, so they are intentionally **not** emitted (omission over invention); add them
-here when their source geometry lands.
+the source popup fields carried as feature `properties`. Two are assembled outside
+gis-findings (#61): `geo/watershed` from the committed USGS WBD boundaries
+(`data/reference/hydrology/wbd/`, regenerable via `bosc wbd`), and `geo/imagery` from the
+imagery tracking AOIs (a watched POI's bbox) plus the dated Wayback releases in `meta` —
+both source the Maumee-watershed map and imagery time-slider (#72).
 
 ## Provenance (structured citation & approximate values)
 
