@@ -1509,6 +1509,65 @@ def eia_cmd(
         console.print(f"[green]Wrote[/] {path}")
 
 
+@app.command(name="grid")
+def grid_cmd(
+    write: bool = typer.Option(
+        True, "--write/--no-write", help="Persist data/reference/eia/grid-profile.yaml."
+    ),
+) -> None:
+    """Grid foundation (#94): serving utility + BA (PJM) + campus load as a share."""
+    from bosc.grid.utility import derive_grid_profile, write_grid_profile
+
+    settings = get_settings()
+    gp = derive_grid_profile(settings=settings)
+    su, ls = gp.serving_utility, gp.load_share
+
+    def _mark(f: object) -> str:
+        return "[green]doc[/]" if getattr(f, "verified", False) else "[dim]ref[/]"
+
+    console.print(
+        f"[bold]Serving electric-service chain[/] [dim](cited, not asserted)[/]\n"
+        f"  Utility: [bold]{su.utility.value}[/] ({_mark(su.utility)}, {su.utility.confidence})\n"
+        f"  Balancing authority / RTO: [bold]{su.rto.value}[/] "
+        f"({_mark(su.rto)}, {su.rto.confidence})\n"
+        f"  Retail regulator: {su.retail_regulator.value}"
+    )
+    console.print(
+        f"\n[bold]Campus load as a share of the grid[/] "
+        f"[dim](facility draw {ls.campus_load_mw.value:g} MW x {ls.load_factor.value:g} "
+        f"→ {ls.annual_consumption_gwh.value:,.0f} GWh/yr)[/]"
+    )
+    table = Table("denominator", "annual load (GWh)", "campus share", "basis")
+    table.add_row(
+        "AEP Ohio retail (EIA-861)",
+        f"{ls.utility_retail_gwh.value:,.0f}",
+        f"[bold]{ls.share_of_utility_pct.value:g}%[/]",
+        "transcribed; verify",
+    )
+    table.add_row(
+        "PJM total load (EIA-930)",
+        f"{ls.ba_load_gwh.value:,.0f}",
+        f"{ls.share_of_ba_pct.value:g}%",
+        "transcribed; verify",
+    )
+    table.add_row(
+        "Ohio retail (EIA, shared #91)",
+        f"{ls.state_retail_gwh.value:,.0f}",
+        f"{ls.share_of_state_pct.value:g}%",
+        "connector",
+    )
+    console.print(table)
+    console.print(
+        "\n[dim]Serving utility is corpus-grounded (AEP Ohio tariff referenced for this "
+        "campus); RTO=PJM is authoritative. The state share is EIA connector-sourced; the "
+        "AEP-Ohio (EIA-861) and PJM (EIA-930) figures are transcribed, flagged for "
+        "verification. Source: corpus + EIA + the 2026-06-10 call.[/]"
+    )
+    if write:
+        path = write_grid_profile(gp, settings=settings)
+        console.print(f"[green]Wrote[/] {path}")
+
+
 @app.command(name="lei")
 def lei_cmd(
     offline: bool = typer.Option(
