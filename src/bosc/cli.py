@@ -1040,6 +1040,130 @@ def extract(
         console.print(extraction.to_yaml())
 
 
+@app.command(name="extract-sweep")
+def extract_sweep(
+    doc_id: str = typer.Argument(..., help="A doc_id from `bosc ingest` (the OPC bundle)."),
+    pages: str = typer.Option(
+        "318-327", "--pages", help="0-based inclusive PDF page range, e.g. 318-327."
+    ),
+    profile: str = typer.Option("auto", "--profile", help="OPC format profile id, or 'auto'."),
+    detail: bool = typer.Option(
+        True, "--detail/--no-detail", help="Extract full line items (default on)."
+    ),
+    dpi: int = typer.Option(0, "--dpi", help="Render DPI; 0 uses the default."),
+    out: str | None = typer.Option(
+        None, "--out", help="Write the assembled summary YAML here (default: print only)."
+    ),
+) -> None:
+    """OPC sweep (#39): extract a page range, assemble the sub-estimates, reconcile the summary."""
+    import yaml
+
+    from bosc.pipeline import analyze
+    from bosc.pipeline import extract as extract_stage
+
+    docs = {d.doc_id: d for d in ingest.discover()}
+    doc = docs.get(doc_id)
+    if doc is None:
+        console.print(f"[red]Unknown doc_id:[/] {doc_id}. Run `bosc ingest` to list ids.")
+        raise typer.Exit(code=1)
+    try:
+        lo_s, hi_s = pages.split("-", 1)
+        lo, hi = int(lo_s), int(hi_s)
+    except ValueError:
+        console.print(f"[red]--pages must be 'LO-HI' (0-based inclusive); got {pages!r}.[/]")
+        raise typer.Exit(code=2) from None
+    indices = list(range(lo, hi + 1))
+
+    console.print(f"[dim]Sweeping {len(indices)} pages ({lo}-{hi}) of {doc_id} (live vision)...[/]")
+    extractions = extract_stage.sweep_opc_pages(
+        doc, indices, profile=profile, detail=detail, dpi=dpi or DEFAULT_DPI
+    )
+    if not extractions:
+        console.print(
+            "[yellow]No pages extracted.[/] The sweep runs live Claude-vision extraction — "
+            "it needs BOSC_ANTHROPIC_API_KEY / ANTHROPIC_API_KEY."
+        )
+        raise typer.Exit(code=1)
+
+    for pe in extractions:
+        est = pe.estimate
+        bad = [f for f in analyze.reconcile_estimate(est) if not f.ok]
+        mark = "green" if not bad else "yellow"
+        console.print(
+            f"  p{pe.pdf_page} [bold]{est.name}[/] — {len(est.sections)} sections, "
+            f"[{mark}]reconciles={not bad}[/]"
+        )
+    summary = extract_stage.assemble_opc_summary(
+        [pe.estimate for pe in extractions], pdf_pages=[pe.pdf_page for pe in extractions]
+    )
+    findings = analyze.reconcile(summary)
+    fails = [f for f in findings if not f.ok]
+    console.print(
+        f"\n[bold]Assembled summary[/]: {len(summary.sub_estimates)} sub-estimates, "
+        f"grand total [bold]{summary.grand_total():,}[/]; "
+        f"reconcile {len(findings) - len(fails)}/{len(findings)} pass"
+    )
+    for f in fails:
+        console.print(f"  [red]{f}[/]", markup=False)
+    if out:
+        Path(out).write_text(
+            yaml.safe_dump(summary.model_dump(), sort_keys=False, allow_unicode=True),
+            encoding="utf-8",
+        )
+        console.print(f"[green]Wrote[/] {out}")
+    else:
+        console.print("[dim]Pass --out PATH to write the assembled summary YAML.[/]")
+
+
+@app.command(name="reconcile-repair")
+def reconcile_repair_cmd(
+    filename: str = typer.Argument(
+        "aedg/roundabouts.detail.opc.yaml",
+        help="A committed detail/estimate YAML under data/extracted.",
+    ),
+) -> None:
+    """OPC reconcile-repair (#40): reconcile an estimate and characterize the failing rollups.
+
+    Runs the self-correcting loop with NO re-extractor, so it characterizes the known
+    ROADWAY/PAVEMENT gaps without rewriting the reviewed artifact. The live `reextract`
+    path (a higher-fidelity second pass) is wired in `analyze.reconcile_with_repair`.
+    """
+    from bosc.pipeline import analyze
+    from bosc.pipeline import corpus as corpus_mod
+
+    settings = get_settings()
+    corpus = corpus_mod.load_corpus(settings)
+    matches = [
+        (rel, pe) for rel, pe in corpus.estimates if rel == filename or rel.endswith(filename)
+    ]
+    if not matches:
+        console.print(f"[red]No estimates found for[/] {filename}. (Looked in data/extracted.)")
+        raise typer.Exit(code=1)
+
+    for rel, pe in matches:
+        est = pe.estimate
+        result = analyze.reconcile_with_repair(est)  # no reextractor -> characterize, don't rewrite
+        fails = result.failures
+        ok = len(result.findings) - len(fails)
+        console.print(
+            f"[bold]{est.name}[/] [dim]({rel})[/] — {len(result.findings)} checks, "
+            f"[green]{ok} pass[/], [{'red' if fails else 'green'}]{len(fails)} fail[/]"
+        )
+        for f in result.findings:
+            console.print(f"  {'ok' if f.ok else 'XX'} [{f.check}] {f.detail}", markup=False)
+        if fails:
+            keys = analyze.failing_section_keys(fails)
+            console.print(
+                f"  [yellow]re-extract targets:[/] "
+                f"{', '.join(keys) if keys else '(estimate-level subtotal gap)'}"
+            )
+    console.print(
+        "\n[dim]No re-extractor supplied, so the gaps are characterized, not rewritten "
+        "(the committed reviewed artifact is left intact). Supply a re-extractor to "
+        "analyze.reconcile_with_repair for the live higher-fidelity repair pass (#40).[/]"
+    )
+
+
 @app.command(name="npdes")
 def npdes(
     offline: bool = typer.Option(

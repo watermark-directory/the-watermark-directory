@@ -259,10 +259,18 @@ extraction into one typed `Corpus`, classified by content shape.
   pre-existing ROADWAY/PAVEMENT transcription gaps). No more `corpus.unrecognized`.
 - **Agent tools over the structured data** `[partly done]` — `timeline` and
   `entities` tools added; `program_overview` / `reconcile_estimate` already exist.
-- Section-subtotal **accuracy** `[open]` (self-correcting reconcile loop / Opus A‑B)
-  — needs live re-extraction; the 3 detail discrepancies are the test case.
-- **`extract-all`** sweep + assembled `OPCSummary` for the roadwork `[open]`
-  (live OPC sweep of pages 318-327); retire the legacy 25% hardcode then.
+- Section-subtotal **accuracy** `[machinery done; live pass gated on a key]` (#40) —
+  `analyze.reconcile_with_repair` is the self-correcting loop (re-extract offending
+  sections, reconcile again, up to `max_rounds`); `bosc reconcile-repair` characterizes
+  the 3 pinned ROADWAY/PAVEMENT gaps offline (`test_reconcile_repair.py`), and a caller
+  supplies the live higher-fidelity re-extractor (Opus A‑B). The reviewed artifact is
+  characterized, not rewritten.
+- **`extract-sweep`** sweep + assembled `OPCSummary` for the roadwork
+  `[machinery done; live sweep gated on a key]` (#39) — `extract.sweep_opc_pages` +
+  `extract.assemble_opc_summary` (`bosc extract-sweep`) regenerate the summary from a
+  page range and reconcile it; tested offline on synthetic estimates. The legacy 25% /
+  `OPCSummary` reconcile path is **kept** (the original "retire the 25%" goal was dropped
+  as contrary to current conventions — the 25% lives in a `Profile`, not a hardcode).
 
 ### Phase E — hydrological forecasting (water / stormwater / sewage)
 The platform's first move from *deconstruction* to *forecasting*. The Lima system is

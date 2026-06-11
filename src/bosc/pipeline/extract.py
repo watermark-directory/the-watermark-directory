@@ -18,7 +18,7 @@ Extraction is dispatched by *document kind* (``opc`` today) via
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -36,11 +36,14 @@ from bosc.models import (
     Estimate,
     NpdesExtraction,
     NpdesPermit,
+    OPCMeta,
     OPCSummary,
     PageExtraction,
     PlanExtraction,
+    SectionSubtotals,
     SitePlan,
     SosExtraction,
+    SubEstimate,
     WetlandDetermination,
     WetlandExtraction,
 )
@@ -191,6 +194,101 @@ def validate_summary(path: str | Path) -> OPCSummary:
     summary = OPCSummary.from_yaml(path)
     log.info("extract.validated", path=str(path), sub_estimates=len(summary.sub_estimates))
     return summary
+
+
+# ---------------------------------------------------------------------------
+# OPC page-sweep + summary assembly (issue #39).
+#
+# The hand-assembled ``roundabouts.summary.opc.yaml`` (six sub-estimates, 25%
+# contingency) becomes *regenerable*: sweep the bundle's OPC pages, then assemble the
+# per-page :class:`Estimate`s into the legacy :class:`OPCSummary` shape that
+# ``analyze.reconcile`` checks. ``sweep_opc_pages`` is the live vision path (a reusable
+# PDF + extractor across pages); ``assemble_opc_summary`` is pure (testable offline).
+# ---------------------------------------------------------------------------
+
+
+def sweep_opc_pages(
+    doc: SourceDocument,
+    page_indices: Iterable[int],
+    *,
+    profile: str | None = "auto",
+    detail: bool = False,
+    extractor: StructuredExtractor | None = None,
+    dpi: int = DEFAULT_DPI,
+    settings: Settings | None = None,
+) -> list[PageExtraction]:
+    """Extract a range of OPC pages, reusing one open PDF + extractor across them.
+
+    The live page-sweep behind the regenerable summary (PDF pages 317-327 of the PRR
+    bundle). One bad page is logged and skipped (not fatal). ``extractor`` is injectable
+    so the sweep can be driven without the Claude API in tests.
+    """
+    settings = settings or get_settings()
+    indices = list(page_indices)
+    pdf = PdfDocument(doc.path, dpi=dpi)
+    out: list[PageExtraction] = []
+    try:
+        for i in indices:
+            try:
+                out.append(
+                    extract_opc_page(
+                        doc,
+                        i,
+                        profile=profile,
+                        detail=detail,
+                        extractor=extractor,
+                        pdf=pdf,
+                        dpi=dpi,
+                        settings=settings,
+                    )
+                )
+            except Exception as exc:  # one bad page must not abort the whole sweep
+                log.warning("extract.sweep.page_failed", page=i, error=str(exc).splitlines()[0])
+    finally:
+        pdf.close()
+    log.info("extract.sweep", pages=len(indices), extracted=len(out))
+    return out
+
+
+def assemble_opc_summary(
+    estimates: list[Estimate],
+    *,
+    pdf_pages: list[int] | None = None,
+    section_schema: list[str] | None = None,
+) -> OPCSummary:
+    """Assemble per-page generic :class:`Estimate`s into the legacy OPCSummary shape.
+
+    Each Estimate becomes a :class:`SubEstimate` (name, construction subtotal,
+    post-markup total, per-section subtotals); ``meta.summary_construction_total`` is set
+    to the sum of the sub-estimate totals (the program headline ``analyze.reconcile``
+    cross-checks against ``grand_total()``). Estimates missing a construction subtotal or
+    total are skipped with a warning rather than fabricated. Pure — no I/O, no API.
+    """
+    subs: list[SubEstimate] = []
+    for idx, est in enumerate(estimates):
+        if est.construction_subtotal is None or est.total is None:
+            log.warning("extract.assemble.skipped", name=est.name, reason="no subtotal/total")
+            continue
+        section_subtotals = SectionSubtotals.model_validate(
+            {s.key: s.subtotal for s in est.sections if s.subtotal is not None}
+        )
+        markup = est.markups_total()
+        subs.append(
+            SubEstimate(
+                name=est.name,
+                pdf_page=(pdf_pages[idx] if pdf_pages and idx < len(pdf_pages) else None),
+                construction_subtotal=est.construction_subtotal,
+                contingency_inflation_25pct=(round(markup) if markup else None),
+                total=est.total,
+                section_subtotals=section_subtotals,
+            )
+        )
+    grand_total = sum(int(se.total) for se in subs)
+    return OPCSummary(
+        meta=OPCMeta(summary_construction_total=grand_total),
+        section_schema=section_schema or [],
+        sub_estimates=subs,
+    )
 
 
 # ---------------------------------------------------------------------------
