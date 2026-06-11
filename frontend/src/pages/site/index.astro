@@ -8,6 +8,7 @@ import {
   type MeetingItem,
   type TimelineEntry,
 } from "../../lib/feeds";
+import { REFERENCE } from "../../lib/reference";
 import { withBase } from "../../lib/site";
 
 const manifest = loadManifest();
@@ -75,6 +76,13 @@ const meetings = hasFeed("meetings") ? loadFeed<MeetingItem[]>("meetings") : [];
       Narrative: <a href={withBase("/docs/dossier")}>the research dossier</a> ·
       <a href={withBase("/docs/legal/mandamus-analysis")}>mandamus analysis</a> ·
       <a href={withBase("/docs/legal/proponent-analysis")}>proponent analysis</a>
+    </p>
+
+    <h2 id="reference">Reference data</h2>
+    <p>
+      {REFERENCE.length} authoritative datasets from outside sources (EPA, USGS, BLS/Census,
+      county &amp; city GIS, GLEIF) — each documented with its provenance and gaps. →
+      <a href={withBase("/site/reference/")}>Open reference data</a>
     </p>
   </article>
 </Base>

@@ -25,6 +25,7 @@ import {
 } from "./feeds";
 import { getSection, SECTIONS } from "./nav";
 import { NARRATIVE } from "./narrative";
+import { REFERENCE } from "./reference";
 
 export interface SearchDoc {
   title: string;
@@ -63,6 +64,16 @@ export function buildSearchIndex(): SearchDoc[] {
       url: `/docs/${d.slug}`,
       section: getSection(d.section).label,
       text: d.blurb,
+    });
+  }
+
+  // Reference datasets (Pages cutover #104) — by title + blurb.
+  for (const d of REFERENCE) {
+    docs.push({
+      title: d.title,
+      url: `/site/reference/${d.slug}`,
+      section: "The BOSC site",
+      text: blob("reference data", d.blurb),
     });
   }
 
