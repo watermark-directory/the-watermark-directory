@@ -1,0 +1,142 @@
+serving_utility:
+  utility:
+    value: AEP Ohio (Ohio Power Company)
+    source: document
+    citation: 'relator data appendix (data/extracted/legal/select-committee-2026/relator-testimony/bosc-data-appendix-2026-06-01.md):
+      the 25 MW threshold ''matches the AEP Ohio tariff''; corroborated by Allen County
+      commissioners'' minutes (local AEP 3-phase service, Res #974-25). Formal confirmation:
+      EIA-861 service territory / PUCO map.'
+    confidence: high
+  holding_company:
+    value: American Electric Power (AEP)
+    source: reference
+    citation: AEP Ohio is the Ohio operating company of American Electric Power
+    confidence: high
+  balancing_authority:
+    value: PJM Interconnection
+    source: reference
+    citation: AEP's Ohio (AEP/APS) transmission zone is within the PJM RTO footprint
+    confidence: high
+  rto:
+    value: PJM Interconnection (RTO/ISO)
+    source: reference
+    citation: PJM is the FERC-jurisdictional wholesale-market RTO for AEP Ohio
+    confidence: high
+  retail_regulator:
+    value: Public Utilities Commission of Ohio (PUCO)
+    source: reference
+    citation: Ohio retail electric service is PUCO-regulated (intrastate)
+    confidence: high
+  note: Serving utility is corpus-grounded (AEP Ohio tariff referenced for this campus);
+    RTO=PJM is authoritative. The retail service-territory boundary is formally confirmed
+    against the EIA-861 territory file / PUCO map (#94).
+utility_profile:
+  utility: AEP Ohio (Ohio Power Company)
+  eia_source: EIA-861 utility annual electric sales (transcribed; verify)
+  retail_sales_gwh:
+    value: 49000.0
+    unit: GWh/yr
+    source: reference
+    citation: EIA-861 2023, Ohio Power Company (AEP Ohio); transcribed published figure
+      — verify
+    confidence: medium
+    asof: null
+  customers:
+    value: 1500000.0
+    unit: customers
+    source: reference
+    citation: EIA-861 2023, Ohio Power Company (AEP Ohio); transcribed published figure
+      — verify
+    confidence: medium
+    asof: null
+  avg_price_cents_kwh:
+    value: 12.8
+    unit: cents/kWh
+    source: reference
+    citation: EIA-861 2023, Ohio Power Company (AEP Ohio); transcribed published figure
+      — verify
+    confidence: medium
+    asof: null
+ba_profile:
+  ba: PJM Interconnection
+  eia_source: EIA-930 hourly grid monitor, annual demand (transcribed; verify)
+  annual_load_gwh:
+    value: 800000.0
+    unit: GWh/yr
+    source: reference
+    citation: EIA-930 2023, PJM region total annual demand; transcribed published
+      figure — verify
+    confidence: medium
+    asof: null
+load_share:
+  campus_load_mw:
+    value: 347.9
+    unit: MW
+    source: derived
+    citation: 'PowerBasis.facility_draw central (#87): 275 MW IT x PUE 1.265 (band
+      mean) — total facility draw'
+    confidence: medium
+    asof: null
+  load_factor:
+    value: 0.9
+    unit: fraction
+    source: assumption
+    citation: 'data-center capacity utilization ~0.9 (near-flat 24x7); assumption
+      (cf. #91)'
+    confidence: low
+    asof: null
+  annual_consumption_gwh:
+    value: 2742.8
+    unit: GWh/yr
+    source: derived
+    citation: 347.9 MW x 8760 h x 0.9 load factor
+    confidence: medium
+    asof: null
+  utility_retail_gwh:
+    value: 49000.0
+    unit: GWh/yr
+    source: reference
+    citation: EIA-861 2023, Ohio Power Company (AEP Ohio); transcribed published figure
+      — verify
+    confidence: medium
+    asof: null
+  ba_load_gwh:
+    value: 800000.0
+    unit: GWh/yr
+    source: reference
+    citation: EIA-930 2023, PJM region total annual demand; transcribed published
+      figure — verify
+    confidence: medium
+    asof: null
+  state_retail_gwh:
+    value: 149003.0
+    unit: GWh/yr
+    source: connector
+    citation: 'EIA ELEC.SALES.OH-ALL.A (2023); shared with #91'
+    confidence: high
+    asof: null
+  share_of_utility_pct:
+    value: 5.6
+    unit: percent
+    source: derived
+    citation: campus 2743 GWh / AEP Ohio 49000 GWh (EIA-861 transcribed; verify)
+    confidence: medium
+    asof: null
+  share_of_ba_pct:
+    value: 0.343
+    unit: percent
+    source: derived
+    citation: campus 2743 GWh / PJM 800000 GWh (EIA-930 transcribed; verify)
+    confidence: medium
+    asof: null
+  share_of_state_pct:
+    value: 1.84
+    unit: percent
+    source: derived
+    citation: campus 2743 GWh / Ohio 149003 GWh
+    confidence: medium
+    asof: null
+note: 'Grid foundation layer (#94). The state share is connector-grounded (EIA, shared
+  with #91); the AEP-Ohio and PJM figures are transcribed EIA-861/930 values flagged
+  for verification. The campus is a single load equal to a material fraction of its
+  serving utility''s entire retail sales.'

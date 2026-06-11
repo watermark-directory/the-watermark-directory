@@ -1,0 +1,85 @@
+"""Grid foundation layer (#94): the serving utility is cited (AEP Ohio / PJM), the
+EIA profile assembles, and the campus load is expressed as a provenance-tagged share
+of utility / BA / state load. Hermetic — reads committed reference data only.
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import pytest
+
+from bosc.config import Settings
+from bosc.facility.power import derive_power_basis
+from bosc.grid.utility import (
+    derive_grid_profile,
+    load_grid_profile,
+)
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
+@pytest.fixture
+def grid_settings() -> Settings:
+    """Real repo data dir (reads committed reference data); no network."""
+    return Settings(data_dir=REPO_ROOT / "data", hydro_offline=True, econ_offline=True)
+
+
+def test_serving_utility_is_cited_not_asserted(grid_settings: Settings) -> None:
+    gp = derive_grid_profile(settings=grid_settings)
+    su = gp.serving_utility
+    # The serving utility is AEP Ohio, document-grounded in the corpus (not asserted).
+    assert "AEP Ohio" in su.utility.value
+    assert su.utility.source == "document" and su.utility.verified
+    assert "tariff" in su.utility.citation.lower()
+    # The RTO / balancing authority is PJM (authoritative).
+    assert "PJM" in su.rto.value and "PJM" in su.balancing_authority.value
+    # The retail regulator is PUCO.
+    assert "PUCO" in su.retail_regulator.value
+
+
+def test_campus_load_share_links_facility_draw(grid_settings: Settings) -> None:
+    gp = derive_grid_profile(settings=grid_settings)
+    ls = gp.load_share
+    power = derive_power_basis(settings=grid_settings)
+
+    # Campus load IS the first-class PowerBasis.facility_draw (#87).
+    assert ls.campus_load_mw.value == pytest.approx(power.facility_draw.value, abs=0.1)
+    expected_gwh = power.facility_draw.value * 8760.0 * ls.load_factor.value / 1000.0
+    assert ls.annual_consumption_gwh.value == pytest.approx(expected_gwh, rel=0.01)
+
+    # The shares order correctly: a campus is a larger fraction of its utility than of
+    # the whole RTO, and the utility is smaller than the state.
+    assert ls.share_of_utility_pct.value > ls.share_of_state_pct.value
+    assert ls.share_of_state_pct.value > ls.share_of_ba_pct.value
+    # The campus is a MATERIAL fraction of its serving utility's retail load (a few %).
+    assert 3.0 < ls.share_of_utility_pct.value < 10.0
+    # Each share is the consumption over the corresponding denominator.
+    assert ls.share_of_utility_pct.value == pytest.approx(
+        ls.annual_consumption_gwh.value / ls.utility_retail_gwh.value * 100.0, rel=0.01
+    )
+
+
+def test_provenance_split_connector_vs_transcribed(grid_settings: Settings) -> None:
+    gp = derive_grid_profile(settings=grid_settings)
+    ls = gp.load_share
+    # The state retail denominator is connector-sourced (shared with #91).
+    assert ls.state_retail_gwh.source == "connector"
+    # The AEP-Ohio (EIA-861) and PJM (EIA-930) figures are transcribed reference values,
+    # flagged for verification and at medium confidence (not asserted as fact).
+    assert ls.utility_retail_gwh.source == "reference"
+    assert ls.ba_load_gwh.source == "reference"
+    assert ls.utility_retail_gwh.confidence == "medium"
+    assert "verify" in ls.utility_retail_gwh.citation.lower()
+    # The utility profile carries EIA-861 customers + price as reference figures.
+    up = gp.utility_profile
+    assert up.customers is not None and up.customers.source == "reference"
+    assert up.avg_price_cents_kwh is not None
+
+
+def test_committed_grid_profile_loads() -> None:
+    """The committed reference YAML round-trips into the model."""
+    gp = load_grid_profile(REPO_ROOT / "data" / "reference")
+    assert gp is not None
+    assert "AEP Ohio" in gp.serving_utility.utility.value
+    assert gp.load_share.share_of_utility_pct.value > 0.0
