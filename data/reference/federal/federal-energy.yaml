@@ -1,0 +1,249 @@
+policy_levers:
+- name:
+    value: section 45 production tax credit (PTC)
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  statute:
+    value: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  applies_to:
+    value: clean electricity generation (wind/solar/etc.) the campus could procure
+      or PPA - a per-kWh credit to the generator
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  cost_direction:
+    value: lowers clean-gen cost
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+- name:
+    value: section 48 investment tax credit (ITC)
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  statute:
+    value: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  applies_to:
+    value: clean generation / storage capital the campus could procure or co-site
+      - an investment credit
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  cost_direction:
+    value: lowers clean-gen cost
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+- name:
+    value: section 45Y / 48E tech-neutral credits (PTC/ITC successors)
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  statute:
+    value: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  applies_to:
+    value: zero-emission electricity placed in service post-2024 - the tech-neutral
+      successors to section 45 / 48
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  cost_direction:
+    value: lowers clean-gen cost
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+- name:
+    value: section 45V clean hydrogen production credit
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  statute:
+    value: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  applies_to:
+    value: clean-hydrogen production - tangential to a compute campus unless it co-sites
+      hydrogen-fueled generation
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  cost_direction:
+    value: tangential
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+- name:
+    value: section 45X advanced manufacturing production credit
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  statute:
+    value: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  applies_to:
+    value: advanced-manufacturing output (chips / equipment) - tangential to the campus's
+      own energy cost, bears on its supply chain
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+  cost_direction:
+    value: tangential
+    source: reference
+    citation: Inflation Reduction Act of 2022 (Pub. L. 117-169) / IRS guidance
+    confidence: medium
+- name:
+    value: DOE Loan Programs Office (LPO)
+    source: reference
+    citation: DOE Loan Programs Office (Title 17 / 1703 / 1706)
+    confidence: medium
+  statute:
+    value: DOE Loan Programs Office (Title 17 / 1703 / 1706)
+    source: reference
+    citation: DOE Loan Programs Office (Title 17 / 1703 / 1706)
+    confidence: medium
+  applies_to:
+    value: federal loan guarantees for clean-energy / grid projects the campus's power
+      supply could draw on
+    source: reference
+    citation: DOE Loan Programs Office (Title 17 / 1703 / 1706)
+    confidence: medium
+  cost_direction:
+    value: lowers clean-gen cost
+    source: reference
+    citation: DOE Loan Programs Office (Title 17 / 1703 / 1706)
+    confidence: medium
+- name:
+    value: DOE grid resilience (section 40101)
+    source: reference
+    citation: DOE Grid Resilience (IIJA section 40101)
+    confidence: medium
+  statute:
+    value: DOE Grid Resilience (IIJA section 40101)
+    source: reference
+    citation: DOE Grid Resilience (IIJA section 40101)
+    confidence: medium
+  applies_to:
+    value: grid-resilience / transmission formula grants to states & utilities serving
+      the load - improves deliverability, not a direct campus credit
+    source: reference
+    citation: DOE Grid Resilience (IIJA section 40101)
+    confidence: medium
+  cost_direction:
+    value: tangential
+    source: reference
+    citation: DOE Grid Resilience (IIJA section 40101)
+    confidence: medium
+output:
+  us_net_generation_twh:
+    value: 4300.0
+    unit: TWh/yr
+    source: reference
+    citation: 'EIA Electric Power Annual: US total electricity net generation ~4,300
+      TWh/yr; transcribed published figure - verify / regenerate via EIA'
+    confidence: medium
+    asof: null
+  datacenter_use_2023_twh:
+    value: 176.0
+    unit: TWh/yr
+    source: reference
+    citation: 'LBNL/DOE 2024 United States Data Center Energy Usage Report: US data-center
+      electricity use ~176 TWh in 2023 (~4.4% of US total), projected to ~6.7-12%
+      of US load by 2028; transcribed published figure - verify'
+    confidence: medium
+    asof: null
+  datacenter_share_pct_2023:
+    value: 4.4
+    unit: percent
+    source: reference
+    citation: 'LBNL/DOE 2024 United States Data Center Energy Usage Report: US data-center
+      electricity use ~176 TWh in 2023 (~4.4% of US total), projected to ~6.7-12%
+      of US load by 2028; transcribed published figure - verify'
+    confidence: medium
+    asof: null
+  datacenter_share_pct_2028_proj:
+    value: 9.5
+    unit: percent
+    source: reference
+    citation: 'LBNL/DOE 2024 United States Data Center Energy Usage Report: US data-center
+      electricity use ~176 TWh in 2023 (~4.4% of US total), projected to ~6.7-12%
+      of US load by 2028; transcribed published figure - verify'
+    confidence: medium
+    asof: null
+  us_avg_retail_price_cents_kwh:
+    value: 12.9
+    unit: cents/kWh
+    source: reference
+    citation: 'EIA: US average retail electricity price ~12.9 cents/kWh (all sectors),
+      upward trend; transcribed published figure - verify / regenerate via EIA'
+    confidence: medium
+    asof: null
+  source: EIA national output/price + LBNL/DOE 2024 data-center report (transcribed;
+    verify)
+campus_load_mw:
+  value: 347.9
+  unit: MW
+  source: derived
+  citation: 'PowerBasis.facility_draw central (#87): 275 MW IT x PUE 1.265 (band mean)
+    — total facility draw'
+  confidence: medium
+  asof: null
+load_factor:
+  value: 0.9
+  unit: fraction
+  source: assumption
+  citation: 'data-center capacity utilization ~0.9 (near-flat 24x7); assumption (cf.
+    #91)'
+  confidence: low
+  asof: null
+annual_consumption_gwh:
+  value: 2742.8
+  unit: GWh/yr
+  source: derived
+  citation: 347.9 MW x 8760 h x 0.9 load factor
+  confidence: medium
+  asof: null
+share_of_us_datacenter_pct:
+  value: 1.558
+  unit: percent
+  source: derived
+  citation: campus 2743 GWh / US data centers 176,000 GWh (176 TWh x 1000; LBNL/DOE
+    2023)
+  confidence: medium
+  asof: null
+share_of_us_generation_pct:
+  value: 0.0638
+  unit: percent
+  source: derived
+  citation: campus 2743 GWh / US net generation 4,300,000 GWh (4300 TWh x 1000; EIA)
+  confidence: medium
+  asof: null
+note: Federal backdrop (#98), the top of the grid stack. The policy levers map the
+  IRA section 45/48 (and tech-neutral 45Y/48E) clean-generation credits, section 45V/45X,
+  and DOE LPO / grid-resilience programs to what they apply to and their direction
+  on cost; the output figures are transcribed EIA national + LBNL/DOE data-center
+  statistics. The campus-vs-national shares size the campus against the US data-center
+  demand wave - the backdrop the consumer-cost thread (#91) reads against. Nothing
+  here is a facility disclosure.
+caveats:
+- Policy applicability depends on the campus's (undisclosed) generation / procurement
+  choices - whether it self-generates, co-sites, or PPAs clean power. The levers are
+  mapped to a load/generation of this profile, not asserted as claimed by this facility.
+- 'Cost direction is direction-of-cost only, NOT a quantified offset: a credit lowers
+  the cost of clean generation the campus could buy, but the dollar value depends
+  on undisclosed contracting.'
+- National projections (the ~6.7-12% data-center share by 2028) are scenario-dependent.
+  The US output / price figures are transcribed published values flagged for verification,
+  regenerable via EIA.

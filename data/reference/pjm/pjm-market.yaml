@@ -1,0 +1,50 @@
+rto:
+  value: PJM Interconnection (RTO/ISO)
+  source: reference
+  citation: PJM is the FERC-jurisdictional wholesale-market RTO for AEP Ohio (#94)
+  confidence: high
+lmp_zone:
+  value: AEP zone
+  source: reference
+  citation: AEP Ohio's transmission zone within PJM; the campus's LMP pricing zone
+    (#94)
+  confidence: medium
+zonal_lmp_usd_mwh:
+  value: 35.0
+  unit: USD/MWh
+  source: reference
+  citation: PJM Data Miner 2 da_hrl_lmps, AEP zone ~2024 annual average ($/MWh); transcribed
+    published figure - verify (regenerate via PJM Data Miner 2)
+  confidence: medium
+  asof: null
+rpm_clearing_usd_mw_day:
+  value: 269.92
+  unit: USD/MW-day
+  source: reference
+  citation: PJM 2025/2026 Base Residual Auction, RTO-wide clearing price ($/MW-day);
+    transcribed published figure - verify (PJM RPM BRA report)
+  confidence: medium
+  asof: null
+rpm_prior_year_usd_mw_day:
+  value: 28.92
+  unit: USD/MW-day
+  source: reference
+  citation: PJM 2024/2025 Base Residual Auction, RTO-wide clearing price ($/MW-day)
+    - the prior-year level, for context; transcribed - verify (PJM RPM BRA report)
+  confidence: medium
+  asof: null
+large_load_queue_gw:
+  value: 50.0
+  unit: GW
+  source: reference
+  citation: PJM large-load / data-center interconnection interest, order-of-magnitude
+    (tens of GW) ~2024; transcribed - verify (PJM interconnection-queue reporting)
+  confidence: medium
+  asof: null
+source: PJM Data Miner 2 / PJM RPM Base Residual Auction reports / PJM queue (transcribed;
+  verify)
+note: 'Transcribed PJM published figures (#96): zonal LMP is the energy price signal
+  (congestion is a component - LMP = energy + congestion + losses); the RPM clearing
+  price drives a large new load''s capacity obligation; the large-load queue is order-of-magnitude.
+  Verify / regenerate via PJM Data Miner 2 and the RPM Base Residual Auction reports.
+  Not a facility disclosure.'
