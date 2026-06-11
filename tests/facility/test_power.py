@@ -73,3 +73,43 @@ def test_combined_cycle_steam_water_cross_refs_cooling() -> None:
 
     # The cycle is honestly framed as an open evidence question (disclosed = backup).
     assert "OPEN EVIDENCE QUESTION" in b.generation_note
+
+
+def test_cooling_pue_overhead_and_facility_draw() -> None:
+    """Issue #87: PUE is a banded assumption and facility_draw = IT load x PUE."""
+    b = derive_power_basis()
+
+    # PUE is a banded assumption; the ceiling admits cooling-dominated designs (~1.43).
+    assert b.pue_low.source == "assumption" and b.pue_high.source == "assumption"
+    assert b.pue_low.value < b.pue_high.value
+    assert b.pue_high.value == pytest.approx(1.43, abs=0.01)
+    # Cooling share at the high PUE is ~30% of facility power (the call's figure).
+    assert b.cooling_share_high.value == pytest.approx(
+        (b.pue_high.value - 1.0) / b.pue_high.value, abs=1e-3
+    )
+    assert b.cooling_share_high.value == pytest.approx(0.30, abs=0.01)
+
+    # The IT <-> total-facility-draw relationship: draw = IT central x PUE, banded.
+    assert b.facility_draw.source == "derived"
+    assert b.facility_draw_low.value == pytest.approx(b.it_load.value * b.pue_low.value, abs=0.1)
+    assert b.facility_draw_high.value == pytest.approx(b.it_load.value * b.pue_high.value, abs=0.1)
+    assert b.facility_draw_low.value < b.facility_draw.value < b.facility_draw_high.value
+    # Facility draw exceeds IT load by exactly the cooling/mechanical overhead.
+    assert b.facility_draw.value > b.it_load.value
+    assert b.cooling_overhead_mw == pytest.approx(b.facility_draw.value - b.it_load.value, abs=0.1)
+
+
+def test_facility_draw_vs_backup_n_plus_one_crosscheck() -> None:
+    """Issue #87/#33: the N+1 backup covers the facility draw only at the efficient PUE."""
+    b = derive_power_basis()
+
+    # The PUE implied if the genset backup is sized to the full IT + mechanical load.
+    implied = b.implied_pue_from_backup
+    assert implied.source == "derived"
+    assert implied.value == pytest.approx(b.backup_power.value / b.it_load.value, abs=0.01)
+    assert implied.value == pytest.approx(1.14, abs=0.02)
+
+    # That implied PUE sits at the efficient end of the band: the backup envelope
+    # covers the low-PUE draw but is exceeded by the cooling-dominated draw.
+    assert b.facility_draw_low.value <= b.backup_power.value < b.facility_draw_high.value
+    assert "#33" in b.cooling_overhead_note

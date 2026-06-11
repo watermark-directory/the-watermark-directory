@@ -182,7 +182,7 @@ def derive_compute_capacity(
     specs, _overhead = _load_accelerator_specs(settings)
     density = _load_yaml(_ref_dir(settings) / "rack-density.yaml")
 
-    power = derive_power_basis()
+    power = derive_power_basis(settings=settings)
     cooling = derive_cooling_basis()
 
     # --- Method 1: power / gensets (PRIMARY) ---------------------------------

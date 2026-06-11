@@ -507,9 +507,24 @@ def compute(
         "vendored reference (data/reference/compute); fractions/MFU are stated assumptions.[/]"
     )
 
+    power = derive_power_basis(settings=settings)
+
+    # Cooling / mechanical overhead (issue #87): the IT -> total facility-draw
+    # translation as a banded, provenance-tagged output.
+    console.print(
+        f"\n[bold]Total facility draw[/] — IT load x PUE "
+        f"[dim](cooling/mechanical overhead is a banded assumption)[/]\n"
+        f"  [bold]{power.facility_draw_low.value:g}-{power.facility_draw_high.value:g} MW[/] "
+        f"(central [bold]{power.facility_draw.value:g} MW[/]) at PUE "
+        f"{power.pue_low.value:g}-{power.pue_high.value:g}; cooling up to "
+        f"[bold]{power.cooling_share_high.value * 100:.0f}%[/] of facility power\n"
+        f"  [dim]N+1 cross-check: the {power.backup_power.value:g} MW genset backup implies "
+        f"PUE ~{power.implied_pue_from_backup.value:g} if sized to IT + mechanical — covering "
+        f"the draw only at the efficient PUE end (#33)[/]"
+    )
+
     # On-site generation cycle (issue #90): the net-efficiency "power-loss coefficient"
     # per cycle + the combined-cycle steam-water pathway.
-    power = derive_power_basis()
     console.print(
         "\n[bold]On-site generation cycle[/] — net-efficiency 'power-loss coefficient' "
         "[dim](open evidence question; disclosed units are emergency backup, #33)[/]"

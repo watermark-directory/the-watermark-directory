@@ -31,6 +31,25 @@ N+1 ratios the backup ≈ the IT load, so the campus IT load is **~250–300 MW*
 [`bosc.hydrology.cooling`](HYDROLOGY.md) uses for the cooling-water balance; it lives
 in [`bosc.facility.power`](../src/bosc/facility/power.py).
 
+#### Cooling / mechanical overhead — total facility draw (PUE)
+
+The genset-derived figure is the **IT** load. `PowerBasis` makes the IT → total-draw
+translation a first-class output (issue #87): **`facility_draw` = IT load × PUE**,
+where PUE (total facility power ÷ IT power) is a banded `[inference: assumption]` read
+from [`rack-density.yaml`](../data/reference/compute/rack-density.yaml). The 2026-06-10
+facility-design call indicated **cooling can reach ~30% of *facility* power**, i.e.
+IT/total ≈ 0.70 → **PUE ≈ 1.43**, so the band is **1.1–1.43** (cooling share =
+`(PUE−1)/PUE`). At the central 275 MW IT load that is a **~303–393 MW** total draw
+(central ~348 MW). This is the figure downstream demand/economics ([#91](ECONOMICS.md))
+should consume — not IT load alone.
+
+**N+1 cross-check ([#33](../src/bosc/facility/power.py)).** The ~313 MW backup is sized
+to IT + mechanical, which implies a PUE of only **~1.14** (313.5 ÷ 275). So the disclosed
+backup envelope is consistent with the 275 MW IT figure *only at the efficient end* of
+the PUE band; a cooling-dominated PUE (~1.43) would imply either a lower IT load or that
+the backup does not cover full mechanical — an open tension, not resolved here. PUE is
+**not** used to inflate the accelerator count.
+
 #### On-site generation cycle — simple vs combined (efficiency coefficient)
 
 Beyond *how much* power, `PowerBasis` carries *how* it is generated (issue #90, from
@@ -140,6 +159,7 @@ AI compute facility — is robust to the disagreement.
 | input | value | source |
 |---|---|---|
 | Genset count × rating → backup → IT load | 114 × 2.75 ekW → 313 MW → 275 MW | `[verified: document]` OEPA Air PTI P0138965 |
+| PUE → total facility draw | 1.1–1.43 → ~303–393 MW (central ~348 MW) | `[inference: assumption]`/`[inference: derived]` cooling ≤~30% of facility power (#87) |
 | Generation net efficiency — simple / combined cycle | 0.38 / 0.55 (heat rate ~9.0 / ~6.2 MMBtu/MWh) | `[inference: assumption]` power-loss coefficient per cycle (#90) |
 | Combined-cycle steam-loop water | ~1.3 MGD additional | `[inference: assumption]` conditional; cross-ref `bosc.hydrology.cooling` (#90) |
 | Cooling consumptive (low / high) | 3.1 / 10 MGD | `[inference: derived]` `CoolingBasis` (power×WUE; FM-2 blowdown×cycles) |

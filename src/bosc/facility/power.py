@@ -28,14 +28,26 @@ pathway beyond IT cooling, cross-referenced to :mod:`bosc.hydrology.cooling`. IM
 the disclosed units are emergency **backup** reciprocating gensets (simple-cycle by
 nature); whether any *primary* on-site generation exists, and its cycle, is an **open
 evidence question** (#33), so the configs are labeled scenarios, not a campus fact.
+
+**Cooling / mechanical overhead (issue #87).** The basis also makes the IT to
+total-facility-draw translation a first-class output: ``facility_draw`` = IT load x
+**PUE** (total facility power / IT power), a banded assumption read from the reference
+yaml. Cooling-dominated designs reach ~30% of *facility* power (PUE ≈ 1.43, per the
+same call), so the band tops out there; the cooling share is ``(PUE-1)/PUE``.
+``facility_draw`` is what downstream demand/economics (#91) should consume, not the
+IT load alone. A cross-check against the ~313 MW N+1 genset backup (sized to IT +
+mechanical) shows the backup envelope is consistent with the 275 MW IT figure only at
+the efficient end of the PUE band (``implied_pue_from_backup`` ≈ 1.14).
 """
 
 from __future__ import annotations
 
-from typing import Literal
+from typing import Any, Literal, cast
 
+import yaml
 from pydantic import BaseModel, ConfigDict
 
+from bosc.config import Settings, get_settings
 from bosc.hydrology.model import ProvenancedValue
 
 # --- Air-permit-disclosed constants (mirror bosc.hydrology.cooling) ----------
@@ -49,6 +61,26 @@ _AIR_PERMIT_CITE = (
     "OEPA Air PTI P0138965 (Facility 0302022054): 114 gensets x 2.75 ekW = "
     "~313 MW backup; IT ~250-300 MW (N+1)"
 )
+
+# --- Cooling / mechanical overhead (issue #87) -------------------------------
+# PUE = total facility power / IT power, a banded ASSUMPTION read from the reference
+# yaml (not a disclosure). The cooling share of facility power is (PUE-1)/PUE; the
+# 2026-06-10 call's "~30% of power for cooling" pins the ceiling at PUE ~1.43.
+_PUE_CITE = (
+    "PUE = total facility power / IT power, banded assumption "
+    "(data/reference/compute/rack-density.yaml pue_band); ceiling 1.43 admits "
+    "cooling-dominated designs (~30% of facility power for cooling, 2026-06-10 "
+    "facility-design call)"
+)
+
+
+def _load_pue_band(settings: Settings) -> tuple[float, float]:
+    """Read the (low, high) PUE band from the committed reference data."""
+    path = settings.reference_dir / "compute" / "rack-density.yaml"
+    data = cast("dict[str, Any]", yaml.safe_load(path.read_text(encoding="utf-8")))
+    lo, hi = (float(x) for x in data["pue_band"])
+    return lo, hi
+
 
 # --- On-site generation cycle (issue #90) ------------------------------------
 # Net electrical efficiency bands (fuel chemical energy -> net AC power): the
@@ -139,6 +171,23 @@ class PowerBasis(BaseModel):
     it_load: ProvenancedValue  # MW central (document-anchored)
     it_load_low: ProvenancedValue  # MW low end of the N+1 range
     it_load_high: ProvenancedValue  # MW high end
+    # Cooling / mechanical overhead (issue #87): PUE is a banded ASSUMPTION; the band
+    # drives the IT->total facility_draw translation (the first-class downstream output).
+    pue_low: ProvenancedValue  # PUE at the efficient end (assumption)
+    pue_high: ProvenancedValue  # PUE at the cooling-dominated end ~1.43 (assumption)
+    cooling_share_high: ProvenancedValue  # (PUE_high-1)/PUE_high ~0.30, the call's cooling share
+    facility_draw: ProvenancedValue  # MW total facility draw = IT central x PUE central (derived)
+    facility_draw_low: ProvenancedValue  # MW = IT central x PUE low (efficient)
+    facility_draw_high: ProvenancedValue  # MW = IT central x PUE high (cooling-dominated)
+    implied_pue_from_backup: ProvenancedValue  # backup / IT — N+1 cross-check vs #33
+    cooling_overhead_note: str = (
+        "Cooling/mechanical overhead is a banded ASSUMPTION (PUE = total/IT), not a "
+        "disclosure. The ~313 MW N+1 genset backup is sized to IT + mechanical, so it "
+        "covers the facility draw only at the efficient PUE end (implied_pue_from_backup "
+        "~1.14); a cooling-dominated PUE (~1.43) implies either a lower IT load or "
+        "backup not covering full mechanical (open vs #33). facility_draw is the figure "
+        "downstream demand/economics (#91) should use, not IT load alone."
+    )
     # On-site generation cycle (issue #90): both simple- and combined-cycle as
     # labeled scenarios, each carrying its net-efficiency (the "power-loss
     # coefficient") and the fuel/water it implies. The band is the simple→combined
@@ -156,6 +205,11 @@ class PowerBasis(BaseModel):
     def generation_config(self, cycle: GenerationCycle) -> GenerationConfig | None:
         """The simple- or combined-cycle generation scenario, by cycle label."""
         return next((g for g in self.generation if g.cycle == cycle), None)
+
+    @property
+    def cooling_overhead_mw(self) -> float:
+        """Central cooling/mechanical overhead = facility draw - IT load (MW)."""
+        return round(self.facility_draw.value - self.it_load.value, 1)
 
 
 def _generation_configs() -> list[GenerationConfig]:
@@ -208,8 +262,20 @@ def _generation_configs() -> list[GenerationConfig]:
     return [simple, combined]
 
 
-def derive_power_basis() -> PowerBasis:
-    """Derive the campus power basis from the cited air-permit genset count."""
+def derive_power_basis(*, settings: Settings | None = None) -> PowerBasis:
+    """Derive the campus power basis from the cited air-permit genset count.
+
+    Reads the banded PUE assumption from the committed reference data to derive the
+    IT->total ``facility_draw`` translation (issue #87); ``settings`` defaults to
+    :func:`bosc.config.get_settings`.
+    """
+    settings = settings or get_settings()
+    pue_lo, pue_hi = _load_pue_band(settings)
+    pue_central = (pue_lo + pue_hi) / 2.0
+    cooling_share_hi = (pue_hi - 1.0) / pue_hi  # cooling as a share of facility power
+    draw_central = _IT_LOAD_MW * pue_central
+    implied_pue = _BACKUP_MW / _IT_LOAD_MW  # if backup == IT + mechanical (N+1)
+
     return PowerBasis(
         generation=_generation_configs(),
         genset_count=ProvenancedValue.from_document(
@@ -231,5 +297,37 @@ def derive_power_basis() -> PowerBasis:
             _IT_LOAD_HIGH_MW,
             "MW",
             citation="high end of the N+1 IT estimate from ~313 MW backup",
+        ),
+        pue_low=ProvenancedValue.assume(pue_lo, "ratio", why=f"{_PUE_CITE} (efficient end)"),
+        pue_high=ProvenancedValue.assume(
+            pue_hi, "ratio", why=f"{_PUE_CITE} (cooling-dominated end)"
+        ),
+        cooling_share_high=ProvenancedValue.derived(
+            round(cooling_share_hi, 3),
+            "fraction",
+            citation=f"(PUE-1)/PUE at PUE={pue_hi:g} — cooling share of facility power",
+        ),
+        facility_draw=ProvenancedValue.derived(
+            round(draw_central, 1),
+            "MW",
+            citation=f"{_IT_LOAD_MW:g} MW IT x PUE {pue_central:g} (band mean) — total facility draw",
+        ),
+        facility_draw_low=ProvenancedValue.derived(
+            round(_IT_LOAD_MW * pue_lo, 1),
+            "MW",
+            citation=f"{_IT_LOAD_MW:g} MW IT x PUE {pue_lo:g} (efficient)",
+        ),
+        facility_draw_high=ProvenancedValue.derived(
+            round(_IT_LOAD_MW * pue_hi, 1),
+            "MW",
+            citation=f"{_IT_LOAD_MW:g} MW IT x PUE {pue_hi:g} (cooling-dominated, ~30% cooling)",
+        ),
+        implied_pue_from_backup=ProvenancedValue.derived(
+            round(implied_pue, 2),
+            "ratio",
+            citation=(
+                f"{round(_BACKUP_MW, 1):g} MW N+1 backup / {_IT_LOAD_MW:g} MW IT: the PUE "
+                "implied if the genset backup is sized to the full IT + mechanical load (#33)"
+            ),
         ),
     )
