@@ -82,6 +82,28 @@ The accelerator chain:
 > accelerator power ÷ per-accelerator all-in power → **aggregate FLOPS** = count ×
 > per-accelerator peak FLOPS.
 
+#### Per-data-center-profile chip-level overhead
+
+The per-accelerator **all-in power** is `chip TDP × overhead` (host CPU / NIC / PSU /
+in-rack conversion). A single global `host_overhead_factor` (**1.30**) is the default
+the per-chip scenarios use, but that overhead differs by deployment (issue #89), so
+`rack-density.yaml` carries named **`datacenter_profiles`** — each with the overhead
+split into a **host** and a **network** share (the network share reflecting the 1
+InfiniBand + 1 Ethernet NIC complement, [#88](../data/reference/compute/rack-density.yaml)),
+plus the cooling / PUE it pairs with ([#87](#method-1--power--gensets-primary-best-grounded)):
+
+| profile | host × net = total | all-in W (H100) | ≈ H100 @ central IT |
+|---|---|---|---|
+| Air-cooled HGX | 1.20 × 1.09 = 1.31 | ~916 W | ~180,000 |
+| Liquid HGX | 1.18 × 1.07 = 1.26 | ~884 W | ~187,000 |
+| Liquid GB200 NVL72 | 1.10 × 1.05 = 1.16 | ~808 W | ~204,000 |
+
+`derive_compute_capacity` runs these as additional labeled `[inference: assumption]`
+scenarios (counts in equivalent-H100 units at the central IT load, so profiles are
+comparable); the legacy single-overhead per-chip behavior is preserved as the default.
+Lower-overhead liquid deployments fit *more* accelerators at the same IT power. Every
+figure is an assumption — no deployment is disclosed.
+
 ### Method 2 — cooling-water back-solve (independent cross-check)
 
 The disclosed cooling consumptive figures from `CoolingBasis` — power × WUE low
@@ -102,8 +124,17 @@ The assembled campus **land** area is **~340 acres** (recorded Bistrozzi parcels
 see [seller-land-packets](../data/extracted/aedg/seller-land-packets.land.yaml)). The
 chain: land × assumed *building-coverage fraction* (0.15–0.30) → building floor area
 × assumed *data-hall white-space fraction* (0.40–0.55) → rack count at AI rack
-density (**40–140 kW/rack**) → IT power. This lands at **~1,200–11,400 MW**
+density (**40–140 kW/rack**) → IT power. This lands at **~1,100–10,300 MW**
 `[inference: assumption]` — far above Methods 1–2.
+
+**Per-rack floor area comes from a documented `rack_profile`** (issue #88), not a bare
+scalar: floor area = `depth × width × aisle factor`. The 2026-06-10 call specified
+**32U+ racks** with a **non-standard (extended) depth** for GPU / liquid-cooling
+layouts — modeled as **1200 mm** (vs the standard ~1070 mm), giving **~33 sqft/rack**
+(the aisle factor is tuned so the *standard* depth reproduces the legacy ~30 sqft).
+The extended depth raises floor area per rack, so it **shrinks** the rack count the
+land could hold — a representable lever on the envelope. Still an assumption: no rack
+layout is in the 95% SPS plans (sheet 1A-C-3104 is grading/storm only).
 
 That is the *point*, and the honest reading of it: **land is not floor area**, and
 no building footprint is documented in the 95% SPS plans (sheet **1A-C-3104** is
@@ -129,7 +160,7 @@ the operative figure. The operative, document-anchored figure is **~250–300 MW
 |---|--:|---|
 | 1. power / gensets (primary) | **250–300** (central 275) | `[verified: document]` — air permit P0138965 |
 | 2. cooling-water back-solve | 275 (low, recovers #1) … 876 (FM-2 upper bound) | `[inference: derived]` — shares the WUE assumption |
-| 3. building footprint (weakest) | ~1,200 … ~11,400 (physical envelope) | `[inference: assumption]` — land ≠ floor area |
+| 3. building footprint (weakest) | ~1,100 … ~10,300 (physical envelope) | `[inference: assumption]` — land ≠ floor area |
 
 **Equivalent H100-class GPUs** at the central IT load: **~137,000–231,000**
 `[inference: derived]` — a hyperscale-AI deployment by any measure.
@@ -168,8 +199,10 @@ AI compute facility — is robust to the disagreement.
 | Accelerator chip specs (TDP, peak FLOPS) | per chip | `[reference]` [`data/reference/compute/accelerators.yaml`](../data/reference/compute/) (vendor datasheets, as of 2026-06) |
 | Rack power density (40–140 kW) | bands | `[reference]` in-corpus relator data appendix (cites NVIDIA HGX guidance) |
 | Accelerator-power fraction | 0.50–0.70 | `[inference: assumption]` share of IT power to accelerators |
-| Host overhead (chip→all-in W) | ×1.30 | `[inference: assumption]` CPU/NIC/PSU share |
-| Building coverage / white-space / rack area | 0.15–0.30 / 0.40–0.55 / 30 ft² | `[inference: assumption]` footprint method only |
+| Host overhead (chip→all-in W) — default | ×1.30 | `[inference: assumption]` CPU/NIC/PSU share |
+| Per-profile overhead (host × network) | 1.16–1.31 | `[inference: assumption]` `datacenter_profiles`; 1 IB + 1 NIC (#89, 2026-06-10 call) |
+| Rack profile (32U+, non-standard depth) | 1200×600 mm → ~33 ft²/rack | `[inference: assumption]` `rack_profile` (#88, 2026-06-10 call) |
+| Building coverage / white-space | 0.15–0.30 / 0.40–0.55 | `[inference: assumption]` footprint method only |
 | MFU (delivered throughput) | 0.40 | `[inference: assumption]` typical large-scale training |
 
 ## Caveats (read these)

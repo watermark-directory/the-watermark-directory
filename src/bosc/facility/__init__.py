@@ -12,7 +12,7 @@ presented as a measured fact about the facility.
 from __future__ import annotations
 
 from bosc.facility.compute import derive_compute_capacity
-from bosc.facility.model import AcceleratorScenario, ComputeCapacity
+from bosc.facility.model import AcceleratorScenario, ComputeCapacity, ProfileScenario
 from bosc.facility.power import GenerationConfig, PowerBasis, derive_power_basis
 
 __all__ = [
@@ -20,6 +20,7 @@ __all__ = [
     "ComputeCapacity",
     "GenerationConfig",
     "PowerBasis",
+    "ProfileScenario",
     "derive_compute_capacity",
     "derive_power_basis",
 ]

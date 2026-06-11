@@ -19,7 +19,11 @@
 # int8 (TPU). "peak" throughout — distinct from delivered throughput (apply an MFU
 # assumption for any training-capacity figure; see compute.py).
 
-host_overhead_factor: 1.30  # all_in_w = tdp_w x this (host CPU/NIC/PSU share; assumption)
+# DEFAULT chip-level overhead: all_in_w = tdp_w x this (host CPU/NIC/PSU share;
+# assumption). Per-deployment overhead is profile-keyed under `datacenter_profiles`
+# in rack-density.yaml (issue #89); this single factor is the default the per-chip
+# scenarios use, and the profiles run as additional labeled scenarios.
+host_overhead_factor: 1.30
 
 accelerators:
   # --- NVIDIA (HGX/DGX air-or-liquid) ----------------------------------------

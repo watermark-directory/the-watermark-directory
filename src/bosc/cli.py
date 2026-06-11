@@ -507,6 +507,31 @@ def compute(
         "vendored reference (data/reference/compute); fractions/MFU are stated assumptions.[/]"
     )
 
+    # Per-data-center-profile chip-level overhead (issue #89) + rack geometry (#88).
+    if cap.profiles:
+        console.print(
+            "\n[bold]Data-center profiles[/] — chip-level overhead by deployment "
+            "[dim](the per-chip rows above use the default 1.30; H100-equivalents at central IT)[/]"
+        )
+        prof_table = Table(
+            "profile", "cooling", "host x net = total", "all-in W (H100)", "≈H100 @ central"
+        )
+        for p in cap.profiles:
+            prof_table.add_row(
+                p.label,
+                p.cooling,
+                f"{p.host_overhead.value:g} x {p.network_overhead.value:g} = {p.total_overhead.value:g}",
+                f"{p.reference_all_in_w.value:,.0f}",
+                f"{p.equivalent_h100_central.value:,.0f}",
+            )
+        console.print(prof_table)
+        if cap.rack_floor_area_sqft is not None:
+            console.print(
+                f"[dim]Rack profile: {cap.rack_floor_area_sqft.value:g} sqft/rack "
+                f"({cap.rack_floor_area_sqft.citation}). All profile/rack figures are "
+                "assumptions (2026-06-10 facility-design call); no deployment is disclosed.[/]"
+            )
+
     power = derive_power_basis(settings=settings)
 
     # Cooling / mechanical overhead (issue #87): the IT -> total facility-draw
