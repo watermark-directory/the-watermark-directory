@@ -912,7 +912,9 @@ def extract(
         None, "--pdf-page", help="1-based printed sheet number (= page index + 1)."
     ),
     kind: str = typer.Option(
-        "opc", "--kind", help="Document kind: opc | deed | npdes | sos | epa | wetland | plan."
+        "opc",
+        "--kind",
+        help="Document kind: opc | deed | npdes | sos | epa | wetland | plan | engineering | sanitary.",
     ),
     profile: str = typer.Option(
         "auto", "--profile", help="OPC format profile id, or 'auto' to detect from the page."
@@ -926,6 +928,7 @@ def extract(
     """Extract a document: an OPC cost page (--page), or a deed/NPDES/SoS document."""
     from bosc.models import (
         DeedExtraction,
+        EngineeringExtraction,
         EpaExtraction,
         NpdesExtraction,
         PlanExtraction,
@@ -997,6 +1000,23 @@ def extract(
                 f"  prepared by: {firms}"
             )
             warns = pl.warnings
+        elif isinstance(doc_extraction, EngineeringExtraction):
+            r = doc_extraction.record
+            comps = ", ".join(c.name for c in r.components[:8])
+            design = ", ".join(
+                f"{p.parameter}={p.value or '?'}{(' ' + p.unit) if p.unit else ''}"
+                for p in r.design_parameters[:6]
+            )
+            firms = ", ".join(fm.name for fm in r.prepared_by)
+            console.print(
+                f"[bold]Engineering[/] {r.facility_name or r.project_name or '?'} — "
+                f"{r.record_type or '?'} ({r.discipline or '?'}) "
+                f"[dim](confidence {r.confidence})[/]\n"
+                f"  components: {comps}\n"
+                f"  design: {design}\n"
+                f"  sheets: {len(r.sheets)}  prepared by: {firms}"
+            )
+            warns = r.warnings
         else:  # pragma: no cover - defensive
             warns = []
         for warning in warns:

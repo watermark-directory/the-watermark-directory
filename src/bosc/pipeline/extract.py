@@ -31,6 +31,8 @@ from bosc.models import (
     Deed,
     DeedExtraction,
     DocExtraction,
+    EngineeringExtraction,
+    EngineeringRecord,
     EpaExtraction,
     EpaPermitAction,
     Estimate,
@@ -304,6 +306,7 @@ _NPDES_DPI = 150
 _SOS_DPI = 200
 _EPA_DPI = 150
 _WETLAND_DPI = 200
+_ENGINEERING_DPI = 200
 
 DEED_INSTRUCTIONS = """\
 You are reading a recorded land instrument (a deed, easement, or similar) from a
@@ -719,6 +722,110 @@ def extract_wetland(
     return extraction
 
 
+ENGINEERING_INSTRUCTIONS = """\
+You are reading a civil / utility ENGINEERING record — an as-built (record)
+drawing set, a construction plan set, or a component specification. It may be any
+discipline: sanitary sewer / pump station, water main, stormwater, electrical,
+structural. The pages are SCANNED drawings: the image is authoritative; any text
+layer is unreliable or absent. Read the titleblock, the drawing index, the legend,
+the schedules/tables (pump schedule, pipe schedule, equipment list), and the
+on-drawing callouts. Record into the tool, GENERICALLY (do not force the data into
+one discipline):
+  * project_name; facility_name (the asset itself, e.g. "Indian Brook Pump
+    Station"); record_type (as-built | record drawing | construction plans |
+    specification); discipline (read it off the drawing: sanitary | water |
+    stormwater | electrical | structural | ...); record_date (ISO if legible);
+    project_no; site_address.
+  * prepared_by: each design / engineering firm on the titleblock, with its
+    discipline and location if shown.
+  * sheets: the drawing index — each sheet's id (e.g. "C-1", "M-3", "1 of 4") and
+    title. This is the IMPLEMENTATION-LAYOUT axis: how the set is organized.
+  * components: the COMPONENT-SPECIFICATION axis. One entry per physical component
+    the drawings install or specify — a pipe run (e.g. "forcemain"), a structure
+    (wet well, manhole, vault), a pump, a valve, a tank, an electrical unit. For
+    each: name; category (pipe | pump | structure | valve | tank | equipment |
+    electrical | ...); quantity if stated; and specs: a list of {parameter, value,
+    unit} read off the schedules / callouts — e.g. {parameter: "diameter",
+    value: "8", unit: "in"}, {parameter: "material", value: "ductile iron"},
+    {parameter: "capacity", value: "150", unit: "gpm"}, {parameter: "TDH",
+    value: "45", unit: "ft"}, {parameter: "manufacturer", value: "Flygt"}.
+  * design_parameters: system-level design figures NOT tied to one component —
+    e.g. {parameter: "peak design flow", value: "1.2", unit: "MGD"},
+    {parameter: "firm capacity", value: "~450", unit: "gpm"}. Same {parameter,
+    value, unit} shape.
+  * key_features: notable callouts worth surfacing; summary: 1-3 sentences on what
+    the record documents and what the asset is.
+Rules: figures come from the IMAGE, never a garbled text layer. Copy numbers,
+sizes, and names exactly as printed; keep the value as printed (a figure, a
+material, a model). Mark an APPROXIMATE numeric read with a leading "~" in value
+(e.g. "~150") AND add a warning — never silently round. Leave a field null / a
+list empty rather than inventing a component, spec, or firm. Set confidence and add
+a warning for any schedule or callout you had to strain to read.
+"""
+
+
+def extract_engineering(
+    doc: SourceDocument,
+    *,
+    kind: str = "engineering",
+    extractor: StructuredExtractor | None = None,
+    pdf: PdfDocument | None = None,
+    dpi: int = _ENGINEERING_DPI,
+    settings: Settings | None = None,
+    max_pages: int = 12,
+) -> EngineeringExtraction:
+    """Extract a civil/utility engineering record (as-built, plan set, or spec).
+
+    Image-first across the drawing set's pages into a discipline-agnostic
+    :class:`~bosc.models.EngineeringRecord` (issue #41). ``kind`` stamps the
+    provenance / output filename — ``"engineering"`` generically, or a discipline
+    alias such as ``"sanitary"`` — without changing what is read. ``pdf``/
+    ``extractor`` are injectable for page reuse and for offline tests.
+    """
+    from bosc.agent.extractor import StructuredExtractor
+
+    settings = settings or get_settings()
+    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=_DETAIL_MAX_TOKENS)
+    text, images, pages = _read_doc(
+        doc, text_pages=max_pages, image_pages=max_pages, dpi=dpi, pdf=pdf
+    )
+
+    log.info("extract.doc.start", doc_id=doc.doc_id, kind=kind, pages=len(pages), dpi=dpi)
+    record = extractor.extract(
+        EngineeringRecord, instructions=ENGINEERING_INSTRUCTIONS, images=images, context_text=text
+    )
+    extraction = EngineeringExtraction(
+        doc_id=doc.doc_id,
+        source_path=str(doc.path),
+        kind=kind,
+        pages_read=pages,
+        dpi=dpi,
+        record=record,
+        source_text_excerpt=text[:600],
+    )
+    log.info(
+        "extract.doc.done",
+        doc_id=doc.doc_id,
+        kind=kind,
+        facility=record.facility_name,
+        discipline=record.discipline,
+        components=len(record.components),
+        sheets=len(record.sheets),
+        confidence=record.confidence,
+        warnings=len(record.warnings),
+    )
+    return extraction
+
+
+def extract_sanitary(doc: SourceDocument, **kwargs: object) -> EngineeringExtraction:
+    """Sanitary as-built / record drawing — :func:`extract_engineering`, kind=sanitary.
+
+    A discipline alias so the artifact lands as ``<stem>.sanitary.yaml`` (issue #41);
+    the read itself is the same generic engineering extraction.
+    """
+    return extract_engineering(doc, kind="sanitary", **kwargs)  # type: ignore[arg-type]
+
+
 # Document-level kind dispatch (parallel to the page-level EXTRACTORS above).
 DocumentExtractor = Callable[..., DocExtraction]
 DOC_EXTRACTORS: dict[str, DocumentExtractor] = {
@@ -728,6 +835,8 @@ DOC_EXTRACTORS: dict[str, DocumentExtractor] = {
     "epa": extract_epa,
     "wetland": extract_wetland,
     "plan": extract_plan,
+    "engineering": extract_engineering,
+    "sanitary": extract_sanitary,
 }
 
 
