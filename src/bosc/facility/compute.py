@@ -54,6 +54,7 @@ from bosc.facility.model import (
     AcceleratorScenario,
     AcceleratorSpec,
     ComputeCapacity,
+    ProfileScenario,
 )
 from bosc.facility.power import derive_power_basis
 from bosc.hydrology import geo
@@ -62,6 +63,7 @@ from bosc.hydrology.model import ProvenancedValue
 
 _L_PER_GAL = 3.785411784
 _SQFT_PER_ACRE = 43560.0
+_SQFT_PER_SQM = 10.763910416709722  # 1 m^2 in sqft (for the rack-profile floor area)
 
 # In-corpus provenance for the rack-density / power-fraction figures.
 _APPENDIX_CITE = (
@@ -70,6 +72,11 @@ _APPENDIX_CITE = (
     "bosc-data-appendix-2026-06-01.md), citing NVIDIA HGX guidance via IntuitionLabs"
 )
 _REF_CITE = "data/reference/compute/accelerators.yaml (vendor specs, as of 2026-06)"
+_RACK_CITE = (
+    "data/reference/compute/rack-density.yaml rack_profile / datacenter_profiles "
+    "(assumptions from the 2026-06-10 facility-design call: 32U+ racks, 1 InfiniBand "
+    "+ 1 NIC, non-standard depth for GPU/cooling layouts)"
+)
 _WUE_L_PER_KWH = 1.8  # shared with cooling.py — the method-2 dependency we flag
 
 # A defensible cap on the water method's high IT load: the FM-2 10 MGD upper bound,
@@ -140,13 +147,45 @@ def _load_accelerator_specs(settings: Settings) -> tuple[list[AcceleratorSpec], 
     return specs, overhead
 
 
+def _rack_floor_area_sqft(density: dict[str, Any]) -> tuple[float, bool, str]:
+    """Per-rack floor area (sqft) from the rack_profile geometry, with a fallback.
+
+    Issue #88: derive floor area = depth x width x aisle_factor from the documented
+    ``rack_profile`` (non-standard/extended depth raises it); fall back to the bare
+    ``footprint.rack_area_sqft`` scalar if no profile is present. Returns
+    (sqft, non_standard_depth, citation).
+    """
+    rp = density.get("rack_profile")
+    if not rp:
+        scalar = float(density["footprint"]["rack_area_sqft"])
+        return scalar, False, f"{scalar:g} sqft/rack (fallback scalar); {_RACK_CITE}"
+    depth_mm = float(rp["depth_mm"])
+    width_mm = float(rp["width_mm"])
+    aisle = float(rp["aisle_factor"])
+    non_standard = bool(rp.get("non_standard_depth", False))
+    footprint_sqm = (depth_mm / 1000.0) * (width_mm / 1000.0)
+    sqft = footprint_sqm * _SQFT_PER_SQM * aisle
+    std_mm = float(rp.get("standard_depth_mm", depth_mm))
+    depth_note = (
+        f"non-standard {depth_mm:g}mm depth vs standard {std_mm:g}mm"
+        if non_standard
+        else f"{depth_mm:g}mm depth"
+    )
+    cite = (
+        f"{depth_mm:g}x{width_mm:g}mm x {aisle:g} aisle factor = {sqft:.1f} sqft/rack "
+        f"({depth_note}); {_RACK_CITE}"
+    )
+    return round(sqft, 1), non_standard, cite
+
+
 def _footprint_it_load_mw(
     settings: Settings, density: dict[str, Any]
 ) -> tuple[float, float, float]:
     """Method-3 IT-load envelope (MW) from campus land area + assumed fractions.
 
     Returns (low_mw, high_mw, land_acres). All fractions are assumptions; LAND IS
-    NOT FLOOR AREA. This is the loosest, physical-upper-envelope bracket.
+    NOT FLOOR AREA. This is the loosest, physical-upper-envelope bracket. Per-rack
+    floor area comes from the rack_profile geometry (issue #88).
     """
     from bosc.hydrology.stormwater import _parcels_path
 
@@ -154,7 +193,7 @@ def _footprint_it_load_mw(
     fp = density["footprint"]
     cov_lo, cov_hi = (float(x) for x in fp["building_coverage_fraction"])
     ws_lo, ws_hi = (float(x) for x in fp["whitespace_fraction"])
-    rack_sqft = float(fp["rack_area_sqft"])
+    rack_sqft, _non_standard, _cite = _rack_floor_area_sqft(density)
     kw_lo, kw_hi = (float(x) for x in density["ai_rack_kw_band"])
 
     def _it(cov: float, ws: float, kw: float) -> float:
@@ -165,6 +204,66 @@ def _footprint_it_load_mw(
     lo = _it(cov_lo, ws_lo, kw_lo)
     hi = _it(cov_hi, ws_hi, kw_hi)
     return lo, hi, land_acres
+
+
+def _profile_scenarios(
+    density: dict[str, Any], h100_tdp_w: float, accel_power_central_mw: float
+) -> list[ProfileScenario]:
+    """Per-data-center-profile chip-level overhead scenarios (issue #89).
+
+    Each profile's ``host x network`` overhead sets the all-in per-accelerator power
+    (vs the default global ``host_overhead_factor``); the resulting equivalent-H100
+    count at the central IT load makes profiles directly comparable. Every figure is
+    an assumption — no deployment is disclosed.
+    """
+    out: list[ProfileScenario] = []
+    for p in density.get("datacenter_profiles", []):
+        host = float(p["host_overhead"])
+        network = float(p["network_overhead"])
+        total = round(host * network, 4)
+        ref_all_in = h100_tdp_w * total
+        eq_h100 = accel_power_central_mw * 1_000_000.0 / ref_all_in
+        pue_val = p.get("pue")
+        label = str(p["label"])
+        out.append(
+            ProfileScenario(
+                name=str(p["name"]),
+                label=label,
+                cooling=str(p.get("cooling", "")),
+                host_overhead=ProvenancedValue.assume(
+                    host, "ratio", why=f"{label} host overhead (CPU/PSU/storage); {_RACK_CITE}"
+                ),
+                network_overhead=ProvenancedValue.assume(
+                    network,
+                    "ratio",
+                    why=f"{label} network overhead (1 IB + 1 Ethernet NIC + switch); {_RACK_CITE}",
+                ),
+                total_overhead=ProvenancedValue.derived(
+                    total, "ratio", citation=f"host {host:g} x network {network:g} (TDP -> all-in)"
+                ),
+                pue=(
+                    ProvenancedValue.assume(
+                        float(pue_val), "ratio", why=f"{label} PUE (pairs cooling with #87)"
+                    )
+                    if pue_val is not None
+                    else None
+                ),
+                reference_all_in_w=ProvenancedValue.derived(
+                    float(round(ref_all_in)),
+                    "W",
+                    citation=f"H100 {h100_tdp_w:g} W TDP x {total:g} profile overhead",
+                ),
+                equivalent_h100_central=ProvenancedValue.derived(
+                    float(round(eq_h100)),
+                    "H100-equivalents",
+                    citation=(
+                        f"central accelerator power {accel_power_central_mw:g} MW / "
+                        f"{round(ref_all_in):g} W all-in ({label} overhead)"
+                    ),
+                ),
+            )
+        )
+    return out
 
 
 def derive_compute_capacity(
@@ -226,6 +325,11 @@ def derive_compute_capacity(
     scenarios: list[AcceleratorScenario] = []
     h100 = next(s for s in specs if s.name == "H100-SXM5")
     h100_all_in_w = h100.all_in_w.value
+
+    # Per-data-center-profile chip-level overhead scenarios (issue #89) and the
+    # rack-profile-derived per-rack floor area (issue #88).
+    profile_scenarios = _profile_scenarios(density, h100.tdp_w.value, accel_power_central_mw)
+    rack_sqft, _rack_non_standard, rack_cite = _rack_floor_area_sqft(density)
 
     def _count(accel_power_mw: float, all_in_w: float) -> float:
         return accel_power_mw * 1_000_000.0 / all_in_w  # MW->W / per-chip W
@@ -361,6 +465,8 @@ def derive_compute_capacity(
             "(typical large-scale ~30-50%); applied only to the delivered figure",
         ),
         scenarios=scenarios,
+        profiles=profile_scenarios,
+        rack_floor_area_sqft=ProvenancedValue.derived(rack_sqft, "sqft", citation=rack_cite),
         equivalent_h100_low=ProvenancedValue.derived(
             round(eq_h100_low),
             "H100-equivalents",

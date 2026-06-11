@@ -67,6 +67,32 @@ class AcceleratorScenario(BaseModel):
     bf16_delivered_eflops_central: ProvenancedValue | None = None
 
 
+class ProfileScenario(BaseModel):
+    """One data-center profile's chip-level overhead and its effect on the count.
+
+    Issue #89: the host CPU / NIC / PSU / in-rack-conversion overhead between chip TDP
+    and all-in per-accelerator power differs by deployment (air-cooled HGX vs liquid
+    GB200 NVL72), so collapsing it to one global ``host_overhead_factor`` hides a real
+    lever. Each profile is a labeled SCENARIO with the overhead split into a ``host``
+    and a ``network`` share — the network share reflecting the 1 InfiniBand + 1 Ethernet
+    NIC complement (issue #88) — and the cooling / PUE it pairs with (issue #87). The
+    count is expressed in equivalent-H100 units at the central power-method IT load, so
+    profiles are directly comparable. Nothing here is a disclosed deployment.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: str  # "air-hgx" | "liquid-gb200-nvl72" | ...
+    label: str
+    cooling: str
+    host_overhead: ProvenancedValue  # assumption, multiplier on chip TDP (host share)
+    network_overhead: ProvenancedValue  # assumption, multiplier (1 IB + 1 NIC fabric share)
+    total_overhead: ProvenancedValue  # derived, host x network (chip TDP -> all-in)
+    pue: ProvenancedValue | None = None  # assumption, the PUE this profile pairs with (#87)
+    reference_all_in_w: ProvenancedValue  # derived, H100 TDP x total_overhead (per-accelerator)
+    equivalent_h100_central: ProvenancedValue  # derived, H100-equiv accelerators at central IT load
+
+
 class ComputeCapacity(BaseModel):
     """The bracketed facility compute / AI capacity, derived by three methods.
 
@@ -99,6 +125,15 @@ class ComputeCapacity(BaseModel):
     # --- The conditional accelerator scenarios -------------------------------
     scenarios: list[AcceleratorScenario]
 
+    # Per-data-center-profile chip-level overhead scenarios (issue #89). The per-chip
+    # `scenarios` above use the default global host_overhead_factor; these vary the
+    # host/network overhead by deployment profile, in equivalent-H100 units.
+    profiles: list[ProfileScenario] = []
+
+    # Derived per-rack floor area used by the footprint method (issue #88), from the
+    # rack_profile geometry (depth x width x aisle factor). None if no rack_profile.
+    rack_floor_area_sqft: ProvenancedValue | None = None
+
     # An apples-to-apples cross-scenario figure: equivalent H100-class GPUs at the
     # central IT load (so a TPU/B200 deployment is comparable to a familiar unit).
     equivalent_h100_low: ProvenancedValue
@@ -111,3 +146,6 @@ class ComputeCapacity(BaseModel):
 
     def scenario(self, name: str) -> AcceleratorScenario | None:
         return next((s for s in self.scenarios if s.spec.name == name), None)
+
+    def profile(self, name: str) -> ProfileScenario | None:
+        return next((p for p in self.profiles if p.name == name), None)

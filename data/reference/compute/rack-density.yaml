@@ -33,6 +33,36 @@ pue_band: [1.1, 1.43]      # hyperscale evaporative/liquid PUE; 1.43 = ~30% cool
 # wide band — this is the single largest lever in the power method.
 accelerator_power_fraction: [0.50, 0.70]  # low / high (central = mean)
 
+# Data-center profiles (issue #89). The chip-level overhead (chip TDP -> all-in
+# per-accelerator power, the host CPU / NIC / PSU / in-rack-conversion share) differs
+# by deployment: an air-cooled HGX rack carries more host + network overhead than a
+# liquid GB200 NVL72 with an integrated Grace CPU and an internal NVLink domain. Each
+# profile splits the overhead into a HOST and a NETWORK share — the network share
+# reflects the 1 InfiniBand + 1 Ethernet NIC complement from the rack_profile below
+# (issue #88) — and names the cooling + PUE it pairs with (issue #87). The accelerator
+# chain in compute.py runs per profile as labeled SCENARIOS; the global
+# host_overhead_factor in accelerators.yaml (1.30) remains the DEFAULT. Every figure
+# is an ASSUMPTION — no deployment is disclosed. total overhead = host x network.
+datacenter_profiles:
+  - name: air-hgx
+    label: "Air-cooled HGX (H100/H200)"
+    host_overhead: 1.20       # CPU/PSU/storage share on top of chip TDP
+    network_overhead: 1.09    # 1 IB + 1 Ethernet NIC + top-of-rack switch share (air fabric)
+    cooling: "air"
+    pue: 1.43                 # air cooling sits at the cooling-dominated PUE end (#87)
+  - name: liquid-h100
+    label: "Liquid HGX (H100/H200/B200)"
+    host_overhead: 1.18
+    network_overhead: 1.07    # tighter liquid fabric; lower switch/NIC share
+    cooling: "liquid"
+    pue: 1.25
+  - name: liquid-gb200-nvl72
+    label: "Liquid GB200 NVL72 (rack-scale)"
+    host_overhead: 1.10       # Grace CPU integrated in the superchip; less external host
+    network_overhead: 1.05    # 72-GPU NVLink domain is internal; less top-of-rack network
+    cooling: "liquid (mandatory)"
+    pue: 1.15
+
 # Footprint method (WEAKEST — see README + compute.py). The assembled campus LAND
 # area is ~340-350 acres (data/reference/periplus/bosc-parcels.geojson, recorded
 # Bistrozzi parcels). LAND IS NOT FLOOR AREA. No building footprint or data-hall
@@ -42,5 +72,24 @@ accelerator_power_fraction: [0.50, 0.70]  # low / high (central = mean)
 footprint:
   building_coverage_fraction: [0.15, 0.30]  # building footprint / campus land (assumption)
   whitespace_fraction: [0.40, 0.55]         # data-hall raised-floor / building area (assumption)
-  rack_area_sqft: 30.0                       # floor area per rack incl. aisles (assumption)
+  rack_area_sqft: 30.0                       # FALLBACK floor area per rack if rack_profile absent
   campus_land_geojson: "data/reference/periplus/bosc-parcels.geojson"
+
+# Rack physical profile (issue #88). No rack layout is disclosed in the 95% SPS plans
+# (sheet 1A-C-3104 is grading/storm only) — every figure is an ASSUMPTION from the
+# 2026-06-10 facility-design call: "build around 32U+ racks with one NVIDIA InfiniBand
+# and one network card; non-standard depth for housing the GPU / cooling layouts." The
+# per-rack floor area used by the footprint method is DERIVED from depth x width x
+# aisle_factor (superseding the bare footprint.rack_area_sqft scalar): an extended
+# depth raises the floor area per rack, shrinking the rack count the land could hold.
+# aisle_factor is tuned so the STANDARD depth reproduces the legacy ~30 sqft/rack.
+rack_profile:
+  height_u: 48              # >=32U; tall AI rack (call said "32U+")
+  width_mm: 600            # standard 19" rack width
+  depth_mm: 1200           # NON-STANDARD / extended depth for GPU trays + liquid manifolds
+  standard_depth_mm: 1070  # the standard rack depth this exceeds (~42")
+  non_standard_depth: true # extended depth vs standard ~1070mm
+  aisle_factor: 4.3        # floor-area multiplier for hot/cold aisles + service clearance
+  nics_per_node:
+    infiniband: 1          # NVIDIA InfiniBand compute-fabric NIC (feeds network overhead, #89)
+    ethernet: 1            # storage / management NIC

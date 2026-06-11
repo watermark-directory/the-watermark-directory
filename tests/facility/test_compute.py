@@ -7,6 +7,7 @@ import pytest
 from bosc.config import Settings
 from bosc.facility.compute import (
     _it_load_from_consumptive_mgd,
+    _rack_floor_area_sqft,
     derive_compute_capacity,
 )
 
@@ -116,6 +117,65 @@ def test_overrides_tag_fraction_and_scale_counts(facility_settings: Settings) ->
     assert b_h100 is not None and l_h100 is not None
     assert l_h100.count_high.value < b_h100.count_high.value
     assert "[override]" in (lower.accelerator_power_fraction_low.citation or "")
+
+
+def test_profiles_are_chip_level_overhead_scenarios(facility_settings: Settings) -> None:
+    """Issue #89: per-data-center-profile chip-level overhead, ≥2 profiles, default kept."""
+    cap = derive_compute_capacity(settings=facility_settings)
+    names = {p.name for p in cap.profiles}
+    assert {"air-hgx", "liquid-gb200-nvl72"} <= names  # ≥2 named profiles
+    assert len(cap.profiles) >= 2
+
+    for p in cap.profiles:
+        # Overhead is split into a host + network share (assumptions); total is derived.
+        assert p.host_overhead.source == "assumption"
+        assert p.network_overhead.source == "assumption"
+        assert p.total_overhead.source == "derived"
+        assert p.total_overhead.value == pytest.approx(
+            p.host_overhead.value * p.network_overhead.value, abs=1e-4
+        )
+        # All-in W and the equivalent-H100 count are derived from the overhead.
+        assert p.reference_all_in_w.source == "derived"
+        assert p.equivalent_h100_central.source == "derived"
+
+    # A lower-overhead liquid profile fits MORE accelerators than the air-cooled one.
+    air = cap.profile("air-hgx")
+    gb200 = cap.profile("liquid-gb200-nvl72")
+    assert air is not None and gb200 is not None
+    assert gb200.total_overhead.value < air.total_overhead.value
+    assert gb200.equivalent_h100_central.value > air.equivalent_h100_central.value
+
+    # The default single-overhead per-chip behavior is preserved (H100 all-in = 700 x 1.30).
+    h100 = cap.scenario("H100-SXM5")
+    assert h100 is not None
+    assert h100.spec.all_in_w.value == pytest.approx(910.0)  # round(700 x 1.30)
+
+
+def test_rack_profile_geometry_drives_floor_area(facility_settings: Settings) -> None:
+    """Issue #88: per-rack floor area is derived from rack geometry; depth changes it."""
+    cap = derive_compute_capacity(settings=facility_settings)
+    # The committed rack_profile (non-standard 1200mm depth) -> ~33 sqft, derived.
+    assert cap.rack_floor_area_sqft is not None
+    assert cap.rack_floor_area_sqft.source == "derived"
+    assert cap.rack_floor_area_sqft.value == pytest.approx(33.3, abs=0.2)
+    assert "non-standard" in (cap.rack_floor_area_sqft.citation or "")
+
+    # Non-standard (extended) depth is representable and CHANGES the floor area: the
+    # same rack at the standard 1070mm depth yields a smaller per-rack area (~30 sqft).
+    common = {"width_mm": 600, "aisle_factor": 4.3, "standard_depth_mm": 1070}
+    extended, ext_flag, _ = _rack_floor_area_sqft(
+        {"rack_profile": {**common, "depth_mm": 1200, "non_standard_depth": True}}
+    )
+    standard, std_flag, _ = _rack_floor_area_sqft(
+        {"rack_profile": {**common, "depth_mm": 1070, "non_standard_depth": False}}
+    )
+    assert ext_flag is True and std_flag is False
+    assert extended > standard
+    assert standard == pytest.approx(29.7, abs=0.3)  # reproduces the legacy ~30 sqft scalar
+
+    # Fallback: no rack_profile -> the bare footprint scalar, flagged standard.
+    fallback, fb_flag, _ = _rack_floor_area_sqft({"footprint": {"rack_area_sqft": 30.0}})
+    assert fallback == pytest.approx(30.0) and fb_flag is False
 
 
 def test_every_output_is_provenance_tagged(facility_settings: Settings) -> None:
