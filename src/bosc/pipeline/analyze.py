@@ -11,7 +11,8 @@ Two complementary modes:
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from collections.abc import Callable
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
 from bosc.config import Settings, get_settings
@@ -206,6 +207,106 @@ def reconcile_estimate(estimate: Estimate) -> list[Finding]:
     failures = [f for f in findings if not f.ok]
     log.info("analyze.reconciled_estimate", checks=len(findings), failures=len(failures))
     return findings
+
+
+# ---------------------------------------------------------------------------
+# Self-correcting reconcile loop (issue #40).
+#
+# ``reconcile_estimate`` is a single deterministic pass that *emits* findings but
+# acts on none. ``reconcile_with_repair`` closes that loop: when rollup checks fail
+# and a re-extractor is supplied, it re-reads the offending sections (the live path
+# is a higher-fidelity / second-Opus pass, injected by the caller) and reconciles
+# again, up to ``max_rounds``. With no re-extractor it is a pure pass-through, so the
+# known ROADWAY/PAVEMENT transcription gaps stay *characterized*, never silently
+# rewritten — the committed reviewed artifact is left intact.
+# ---------------------------------------------------------------------------
+
+# A re-extractor takes the current estimate and its failing findings and returns an
+# improved estimate (the live implementation re-reads the named sections at higher
+# fidelity; tests inject a deterministic stub).
+SectionReextractor = Callable[["Estimate", "list[Finding]"], "Estimate"]
+
+
+def failing_section_keys(findings: list[Finding]) -> list[str]:
+    """Distinct section keys implicated by failing rollup checks (order-stable).
+
+    A failing ``line-item-rollup`` names its section in ``subject`` as ``name:key``;
+    those keys are what a re-extractor should re-read. (A failing ``section-rollup`` is
+    an estimate-level subtotal gap, not a single section — surfaced via the finding,
+    not this list.)
+    """
+    keys: list[str] = []
+    for f in findings:
+        if not f.ok and f.check == "line-item-rollup":
+            key = f.subject.rsplit(":", 1)[-1]
+            if key not in keys:
+                keys.append(key)
+    return keys
+
+
+@dataclass(frozen=True)
+class RepairRound:
+    """One pass of the repair loop: what was failing and which sections were re-read."""
+
+    round: int
+    failures_before: int
+    sections: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class RepairResult:
+    """The outcome of :func:`reconcile_with_repair`."""
+
+    estimate: Estimate
+    findings: list[Finding]
+    rounds: list[RepairRound] = field(default_factory=list)
+
+    @property
+    def failures(self) -> list[Finding]:
+        return [f for f in self.findings if not f.ok]
+
+    @property
+    def converged(self) -> bool:
+        """True if no checks fail after the loop."""
+        return not self.failures
+
+
+def reconcile_with_repair(
+    estimate: Estimate,
+    *,
+    reextract: SectionReextractor | None = None,
+    max_rounds: int = 2,
+) -> RepairResult:
+    """Reconcile, re-extracting offending sections on failure until clean or out of rounds.
+
+    ``reextract`` is the (live or stubbed) section re-reader; when ``None`` this is a
+    single deterministic pass that returns the failures as-is (characterize, don't
+    rewrite). Each round re-extracts and re-reconciles; the loop stops as soon as no
+    check fails. Returns the (possibly improved) estimate, the final findings, and a
+    per-round audit trail.
+    """
+    current = estimate
+    findings = reconcile_estimate(current)
+    rounds: list[RepairRound] = []
+    if reextract is None:
+        return RepairResult(current, findings, rounds)
+
+    for r in range(1, max_rounds + 1):
+        failing = [f for f in findings if not f.ok]
+        if not failing:
+            break
+        sections = failing_section_keys(failing)
+        current = reextract(current, failing)
+        findings = reconcile_estimate(current)
+        rounds.append(RepairRound(round=r, failures_before=len(failing), sections=tuple(sections)))
+        log.info(
+            "analyze.repair_round",
+            round=r,
+            failures_before=len(failing),
+            failures_after=len([f for f in findings if not f.ok]),
+            sections=list(sections),
+        )
+    return RepairResult(current, findings, rounds)
 
 
 async def research_question(
