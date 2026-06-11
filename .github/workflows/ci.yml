@@ -5,8 +5,47 @@ on:
     branches: [main]
   pull_request:
 
+# Path filtering is done at the JOB level (the `changes` gate below), NOT with a
+# trigger-level `paths:` filter — deliberately. The `check` job is a REQUIRED
+# status check on `main` (see .github/config/index.ts `requiredChecks`). A
+# trigger-level `paths:` filter would skip the whole workflow on, say, a
+# frontend-only PR, leaving that required check stuck "pending" and blocking the
+# PR forever. A job skipped by an `if:` condition instead reports as success, so
+# the gate is satisfied. Net effect: the Python `check` job is skipped when only
+# frontend/ changed, the Astro `frontend` job is skipped when only the backend
+# changed, and required-check semantics still hold.
+
 jobs:
+  # Detect which half of the repo a push/PR touched. Cheap: no LFS, no deps —
+  # dorny/paths-filter just diffs the changed file paths.
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'src/**'
+              - 'tests/**'
+              - 'data/**'
+              - 'pyproject.toml'
+              - 'uv.lock'
+              - '.python-version'
+              - 'mise.toml'
+              - '.github/workflows/ci.yml'
+            frontend:
+              - 'frontend/**'
+              - 'mise.toml'
+              - '.github/workflows/ci.yml'
+
   check:
+    needs: changes
+    if: ${{ needs.changes.outputs.backend == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,6 +78,8 @@ jobs:
   # and no `bosc export` are needed here. The parity-gated Pages cutover (which
   # builds against the real `bosc export` bundle) is intentionally NOT wired yet.
   frontend:
+    needs: changes
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
     runs-on: ubuntu-latest
     defaults:
       run:

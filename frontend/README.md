@@ -28,6 +28,14 @@ npm run preview   # serve the built dist/ locally
 
 From the repo root, `mise run frontend` runs `npm ci && npm run check && npm run build`.
 
+In CI, the `frontend` job in [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)
+does the same against the sample bundle (pure Node — no uv/LFS). It's path-filtered:
+a `changes` gate runs it only when `frontend/` changed, so a backend-only PR skips
+it (and a frontend-only PR skips the Python `check` job). Don't add a trigger-level
+`paths:` filter to that workflow — `check` is a required status check, and skipping
+the *workflow* would leave it stuck pending; skipping a *job* via the gate reports
+success instead.
+
 ## How the content bundle is resolved
 
 `src/lib/bundle.ts` reads the bundle at build time. It picks the **first**
@@ -123,25 +131,34 @@ the kind from a citation with `evidenceKind()` in `src/lib/feeds.ts`.
 
 ```
 frontend/
-  astro.config.mjs     # MDX integration; static output; site/base from env (Pages cutover)
+  astro.config.ts      # MDX + React integrations; static output; rehype link
+                       #   rewriter for the docs collection; site/base from env
   src/
+    content.config.ts  # the docs/ narrative content collection (glob over ../docs)
     lib/
       bundle.ts          # build-time bundle reader (resolve dir, manifest, feeds, hasFeed)
       feeds.ts           # TS shapes for the feed rows + evidenceKind()
       nav.ts             # the 4-section IA + per-section TOC (single source of truth)
       search.ts          # build-time search-index assembly over the bundle
       site.ts            # site constants + withBase() base-path helper
+      narrative.ts       # which docs/ files are published + the legacy→IA link map
+      rehype-doc-links.ts # build-time rewriter for in-repo links inside docs/
+      geo.ts / graph.ts  # build-time geo merge + deterministic d3-force graph layout
+      geoStyle.ts        # client-safe geo types/colors (shared with the islands)
     components/          # Header (tabs + search), SectionToc rail, EvidenceTag pill
+      islands/           # CorridorMap + EntityGraph — the only React (deck.gl)
     layouts/Base.astro   # the app shell (header + TOC rail + content + footer)
     scripts/             # search.ts + toc.ts — dependency-free client scripts
     styles/site.css      # shell styling (indigo chrome, evidence pills)
     pages/
       index.astro         # Section A (Home / About)
-      site/index.astro    # Section B
-      watershed/index.astro # Section C
-      wiki/index.astro    # Section D
-      about.mdx           # MDX content (migrates into a collection in #69)
+      site/               # Section B — documents, records, timeline, people/places, legal
+      watershed/          # Section C — hydrology, RSEI, the corridor map
+      wiki/               # Section D — entities, concepts, the entity graph
+      docs/               # the migrated narrative collection (/docs/<slug>)
+      about.mdx           # the About page (MDX)
       search-index.json.ts # build-time search endpoint
+      feeds/              # build-time data endpoints (geojson, graph.json) for the islands
   sample-bundle/        # committed minimal bundle fixture (offline/CI build input)
 ```
 

@@ -86,8 +86,9 @@ the `~approximate` marker for uncertain scan transcriptions).
 
 ## Layout
 
-The repository has two halves: **`data/`** (the records and datasets) and
-**`src/`** (the code that works on them). Everything else supports those.
+The repository has three parts: **`data/`** (the records and datasets),
+**`src/`** (the Python code that works on them), and **`frontend/`** (the
+redesigned web app). Everything else supports those.
 
 ### `data/` — the records and datasets
 
@@ -130,10 +131,23 @@ src/bosc/
   hydrology/      water-balance & stormwater modeling of the Lima water loop;
                     connectors/ pull live public data (USGS streamflow, NOAA
                     rainfall, EPA ECHO permits), with on-disk caching
-  site/           builds the browsable web/ site from the corpus
+  site/           the site's data tier: the legacy SSG (→ web/ + site/) AND
+                    `bosc export`, which emits the typed content bundle the
+                    new frontend/ app reads
 tests/            offline tests (run against committed data + saved fixtures)
-docs/             project notes; web/ + site/ hold the generated site
+docs/             project notes + narrative prose (also the new site's content)
 ```
+
+### `frontend/` — the redesigned site (Astro + MDX)
+
+The presentation tier of the two-tier site refactor (Epic #54): an
+[Astro](https://astro.build) + MDX static app that reads the committed content
+bundle (the JSON feeds `bosc export` emits) at build time and renders the four-
+section site, with deck.gl map/graph visualizations as the only React islands.
+It's a self-contained Node project — `mise run frontend` (or `cd frontend &&
+npm ci && npm run build`) builds it offline against `frontend/sample-bundle/`,
+no Python or LFS needed. It's built **alongside** the legacy SSG; the GitHub
+Pages cutover is parity-gated. See [frontend/README.md](frontend/README.md).
 
 > **Reading the code as a non-coder:** start at the command you care about in
 > `cli.py` (e.g. `bosc npdes` for the wastewater pull), then follow it into the

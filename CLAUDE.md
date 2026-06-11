@@ -21,11 +21,36 @@ pulls land as committed reference datasets under `data/reference/<source>/` and
 are regenerable via a `bosc` subcommand (e.g. `bosc npdes` → the EPA ECHO Maumee
 NPDES inventory; columns are selected by ECHO **ObjectName**, never by index).
 
+The **public site** is built in two tiers. The Python data tier (`src/bosc/site/`)
+emits a typed **content bundle** — JSON feeds + a manifest with a `CONTRACT_VERSION`,
+Pydantic models in `bosc.site.feeds`, written by `bosc export` — and also still
+renders the legacy SSG (`bosc site build` → `site/`). The presentation tier lives
+in **`frontend/`**: an Astro + MDX static site that reads that bundle at build time
+(Epic #54). It's pure Node (npm, no uv/LFS) and builds against the committed
+`frontend/sample-bundle/` fixture offline; deck.gl map/graph visualizations are the
+only React islands. The two tiers run side by side until the new site reaches
+parity — the GitHub Pages cutover is deliberately parity-gated. See
+`frontend/README.md` for the architecture; **don't edit `docs/**` to fix the new
+site's cross-links** — they're rewritten at build time (`frontend/src/lib/rehype-doc-links.ts`)
+so the same source stays valid for the legacy SSG too.
+
 ## Conventions
 
-- **Tooling:** mise manages the toolchain (Python 3.11, uv, node, git-lfs);
+- **Tooling:** mise manages the toolchain (Python 3.11, uv, node 24, git-lfs);
   `Brewfile` is the fallback. uv for envs/deps, ruff for lint+format, mypy
-  `strict`, pytest. Run `mise run check` before declaring done.
+  `strict`, pytest. Run `mise run check` before declaring done. The `frontend/`
+  site is its own Node toolchain (`mise run frontend` = `npm ci && npm run check
+  && npm run build`); it doesn't touch uv.
+- **CI / path filtering:** `.github/workflows/ci.yml` is split into two halves
+  gated by a `changes` job — the Python `check` job (ruff/format/mypy/pytest) runs
+  only when the backend tree changed (`src/`, `tests/`, `data/`, `pyproject.toml`,
+  `uv.lock`, …), the Astro `frontend` job runs only when `frontend/` changed, and a
+  `mise.toml`/`ci.yml` edit runs both. `check` is the one **required** status check
+  on `main` (`.github/config/index.ts` `requiredChecks`), so filtering is done at
+  the **job** level, not with a trigger-level `paths:` filter — a skipped job
+  reports success and satisfies the gate, whereas a path-filtered-away workflow
+  would leave that required check stuck "pending" and block the PR. Don't add a
+  top-level `paths:` to this workflow.
 - **Python 3.11+**, `from __future__ import annotations` at the top of modules.
 - **Config:** never read `os.environ` directly — go through `bosc.config.get_settings()`.
   Settings are `BOSC_`-prefixed; the model default is `claude-opus-4-8`, bulk
