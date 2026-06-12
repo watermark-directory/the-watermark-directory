@@ -46,9 +46,12 @@ Defers to the root [`CLAUDE.md`](../../../CLAUDE.md).
 - **New binary types need LFS.** `.doc/.docx/.xls/.xlsx/.rtf` were added to
   `.gitattributes` alongside the existing `.pdf` (American Twp posts `.docx`).
 - **Index → timeline** (`indexer.py` + `keywords.py`; `bosc subdivisions index
-  <slug>`). Reads the download manifest, extracts each file's text (PDF text layer /
-  DOCX / HTML — **no OCR**: image-only scans get `text_method: none`, honestly
-  surfaced in `counts`), confirms the listing date against the file's own text
+  <slug> [--ocr]`). Reads the download manifest, extracts each file's text (PDF text
+  layer / DOCX / HTML; **`--ocr` also renders + OCRs image-only scans** via
+  `ocr_pdf`, needs the tesseract binary — without it, or without `--ocr`, image-only
+  scans get `text_method: none`, honestly surfaced in `counts`). The OCR text is used
+  to scan/verify but is **not persisted** — only `hits` + `char_count` land in the
+  index. Confirms the listing date against the file's own text
   (`date_verified` + `date_evidence`; conservative — null when the body doesn't
   restate the date), and scans for corridor topics (`keywords.scan_text`). Writes
   `data/extracted/<slug>/meetings/meeting-index.yaml`. The timeline
@@ -59,6 +62,9 @@ Defers to the root [`CLAUDE.md`](../../../CLAUDE.md).
   annexation/solar/...) and ambiguous names (`hume`, `amazon`) stay in the index
   `hits` as searchable corpus but don't flood the chronology. Site picks the
   category up automatically.
-- **Pipeline complete:** `discover → fetch → download → index → timeline`. Open
-  follow-ons: OCR pass for scanned PDFs (no tesseract dep — e.g. Shawnee's minutes
-  are image-only), CivicPlus full-archive year crawl, headless fetch for WAF bodies.
+- **Pipeline complete:** `discover → fetch → download → index → timeline`. The OCR
+  pass for image-only scans is now wired (`index --ocr` / `summarize --ocr`,
+  tesseract-backed); the commissioners corpus was fully OCR'd this way (991/991,
+  #135). Open follow-ons: CivicPlus full-archive year crawl, headless fetch for WAF
+  bodies, and folding the OCR text into a committed per-page parquet (the index keeps
+  only hits, not text).
