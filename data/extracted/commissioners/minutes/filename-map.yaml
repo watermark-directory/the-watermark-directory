@@ -95,3 +95,93 @@ gaps_closed:   # apparent minutes/agenda gaps explained by the above
   - {date: 2024-04-04, by: A0404024.pdf, was: "minutes present, agenda appeared missing"}
   - {date: 2025-09-09, by: Board-of-Commissioners-General-Session-September-9-2025-Meeting-Minutes.pdf, was: "agenda present, minutes appeared missing"}
   - {date: 2026-01-29, by: CANCELLED-MEETING.pdf, was: "no meeting — cancelled"}
+
+genuine_absence_verified:   # audit "Genuine-absence shortlist" — all 8 dates checked upstream (#46)
+  checked_on: 2026-06-12
+  source: https://commissioners.allencountyohio.com
+  method: >
+    Each date checked against the county year-specific archives — the minutes
+    pages (meeting-minutes-YYYY-archives) and agenda pages
+    (meeting-agendas-YYYY-archives) — by raw-HTML link inspection, not the
+    summarized listing (one entry, 2025-12-30, is a mislabeled link the
+    summarizer misread; see below). The board sits in regular general session
+    Tuesday/Thursday; special sessions are labeled "-Special Session" and carry
+    no separate agenda.
+  summary: >
+    None of the 8 is a corpus capture lag — in every case our holdings already
+    mirror what the county publishes. Two outcome classes: special-session
+    structure (a special session never gets a separate agenda, so "minutes, no
+    agenda" is expected) and genuine upstream absence (the county itself never
+    posted the missing record).
+  entries:
+    # --- "minutes present, no separate agenda" — the agenda gap is structural ---
+    - date: 2023-03-22
+      class: special-session-structure
+      corpus: M032223-Special.pdf
+      upstream_minutes: "March 22, 2023-Special Session (present)"
+      upstream_agenda: "none — county lists 03-21 and 03-23 only"
+      weekday: Wednesday
+      finding: special session; no separate agenda is ever published. Not an absence.
+    - date: 2023-06-21
+      class: special-session-structure
+      corpus: M062123-Special.pdf
+      upstream_minutes: "June 21, 2023-Special Session (present)"
+      upstream_agenda: "none — county lists 06-20 and 06-22 only"
+      weekday: Wednesday
+      finding: special session; no separate agenda. Not an absence.
+    - date: 2024-06-20
+      class: genuine-upstream-absence
+      corpus: M062024.pdf
+      upstream_minutes: "June 20, 2024 (present; REGULAR session, not Special)"
+      upstream_agenda: "none — county never posted an A062024 agenda"
+      weekday: Thursday
+      finding: >
+        Genuine upstream absence of the agenda for a regular Thursday meeting;
+        our corpus mirrors upstream (minutes held, no agenda exists). NB: issue
+        #46 listed this date as "-Special" — that is wrong; the held file
+        M062024.pdf is a regular-session minutes and the county lists it as
+        regular.
+    - date: 2025-08-13
+      class: special-session-structure
+      corpus: M081325-Special.pdf
+      upstream_minutes: "August 13, 2025-Special Session (present)"
+      upstream_agenda: "none — county lists 08-12 and 08-14 only"
+      weekday: Wednesday
+      finding: special session; no separate agenda. Not an absence.
+    - date: 2025-11-14
+      class: special-session-structure
+      corpus: M111425-Special.pdf
+      upstream_minutes: "November 14, 2025-Special Session (present)"
+      upstream_agenda: "none — county lists 11-13 and 11-17-Special only"
+      weekday: Friday
+      finding: special session; no separate agenda. Not an absence.
+    # --- "agenda present, minutes never captured" — minutes genuinely absent upstream ---
+    - date: 2024-09-25
+      class: genuine-upstream-absence
+      corpus: A092524.pdf
+      upstream_agenda: "A092524 (present)"
+      upstream_minutes: "none — county minutes archive lists 09-24 and 09-26, no 09-25"
+      weekday: Wednesday
+      finding: >
+        Genuine upstream absence of minutes; no M092524 was ever published (a
+        Wednesday between the Tue 09-24 and Thu 09-26 regular sessions). Corpus
+        mirrors upstream.
+    - date: 2024-12-30
+      class: genuine-upstream-absence
+      corpus: A123024-Special.pdf
+      upstream_agenda: "December 30, 2024-Special Session (present)"
+      upstream_minutes: "none — county lists 12-24 and 12-31, no 12-30"
+      weekday: Monday
+      finding: genuine upstream absence of minutes for a year-end special session.
+    - date: 2025-12-30
+      class: genuine-upstream-absence
+      corpus: A123025.pdf
+      upstream_agenda: "A123025 (present; regular Tuesday)"
+      upstream_minutes: >
+        none — the county page shows an anchor reading "Minutes of December 30,
+        2025", but its href points to M122325.pdf (the Dec 23 file, duplicated).
+        No genuine M123025.pdf is published; the listing is a county link error.
+      weekday: Tuesday
+      finding: >
+        Genuine upstream absence of minutes (county listing error), not a corpus
+        capture gap.

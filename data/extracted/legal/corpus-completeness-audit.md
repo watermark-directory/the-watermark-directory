@@ -111,13 +111,26 @@ Until ingested, **Method 3 stays the flagged-weak land-area envelope** and the p
 
 ---
 
-## Genuine-absence shortlist (verify upstream — not lag, not typos)
-Low-confidence candidates worth a manual check against [commissioners.allencountyohio.com](https://commissioners.allencountyohio.com):
+## Genuine-absence shortlist — **VERIFIED 2026-06-12** (#46)
 
-- **Agenda present, minutes apparently never captured:** 2024-09-25, 2024-12-30, 2025-12-30 *(year-end dates may be cancelled/organizational)*.
-- **Minutes present, no agenda, not a known typo:** 2023-03-22, 2023-06-21, 2024-06-20, 2025-08-13, 2025-11-14 *(likely **special** meetings, which carry no separate agenda)*.
+All 8 low-confidence dates were checked against [commissioners.allencountyohio.com](https://commissioners.allencountyohio.com)
+(year-specific minutes + agenda archives, raw-link inspection). **None is a corpus
+capture lag** — our holdings already mirror what the county publishes. Outcomes are
+recorded per-date in [`../commissioners/minutes/filename-map.yaml`](../commissioners/minutes/filename-map.yaml)
+under `genuine_absence_verified:`. Summary:
 
-These are flagged for verification, **not** asserted as missing.
+- **Minutes present, no agenda → special-session structure (no separate agenda is ever published):**
+  2023-03-22, 2023-06-21, 2025-08-13, 2025-11-14 — all confirmed "-Special Session"
+  upstream. *(Correction: 2024-06-20, also on the old shortlist, is **not** special —
+  the held `M062024.pdf` is a regular Thursday session; its agenda is genuinely
+  absent upstream, the county never posted an `A062024`.)*
+- **Agenda present, minutes never captured → genuine upstream absence (county never posted minutes):**
+  2024-09-25 (Wed between regular Tue/Thu sessions), 2024-12-30 (year-end special
+  session), 2025-12-30 (the county page's "December 30, 2025" minutes link is
+  mislabeled — its href points to the Dec 23 file `M122325.pdf`; no real
+  `M123025.pdf` exists upstream).
+
+No corpus action required for any of the 8.
 
 ---
 
