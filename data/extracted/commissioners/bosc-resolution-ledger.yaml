@@ -9,11 +9,14 @@ provenance:
     resolution number + title transcribed and cross-checked against the agenda (A*) and minutes (M*)
     pages. Resolution NUMBERS, TITLES, dates, and movers are high-confidence (they appear verbatim in
     the formal resolution lists). Narrative discussion text is OCR-approximate.
-  content_verified: '2026-06-07'
+  content_verified: '2026-06-12'
   caveat: >-
     The OCR text layer is machine-extracted and approximate (e.g. "Commissures" for "Commissioners").
     Dollar figures in DISCUSSION items are OCR-approximate — verify against the source PDF before
-    quoting in a filing. Coverage is 2024-2026 only (the 2023 raw backfill is not yet OCR'd/indexed).
+    quoting in a filing. The parquet bundle (source_index) covers 2024-2026; the 2026-04+ events below
+    were mined from the #138 civic-pipeline OCR (meeting-index.yaml, generated 2026-06-12) of the
+    post-parquet backlog minutes, and the 2023 backfill is now OCR-indexed there too (confirmed silent
+    on the data center — see bosc-2023-backfill.yaml).
 
 thesis: >-
   The Allen County Board of Commissioners' OWN public minutes contain the full legislative spine of
@@ -38,6 +41,12 @@ codename_phases:                      # the project's evolution in the County re
     PAAC minutes.) NOTE: the County's INTERNAL IT "Data Center" (Brian Mauk / Keith Cheney / Nutanix /
     backup storage) is a DIFFERENT thing and is excluded from this ledger.
 
+keyword_false_positives:              # corridor-keyword hits that are NOT the BOSC data center — do not conflate
+  county_it_data_center: "M053024.pdf (2024-05-30) 'Discussion re: Data Center' = the County's own IT server migration (VMWare/Broadcom/Nutanix, Brian Mauk) — the internal data center, excluded above."
+  amazon_warehouse_roadwork: "m042826.pdf (2026-04-28) 'Amazon has committed $2.6M for roadwork' + M031726.pdf (2026-03-17) 'TIF at the Amazon Warehouse site' = Amazon's EXISTING logistics/warehouse on the Commerce Pkwy/McClain Rd corridor — NOT a data center. (Confirms bosc-2023-backfill's 'amazon = mundane' read holds at larger 2026 scale.)"
+  memorial_hall_cmar: "M051926.pdf (2026-05-19) 'Design Firm and CMAR have been hired' = the downtown Memorial Hall hotel/redevelopment (Bricker Graydon, hotel developer, Port Authority $10M) — a DIFFERENT CMAR, not the BOSC pump-station/forcemain CMAR (#137-26→#378-26)."
+  us30_rest_area_forcemain: "M042324.pdf (2024-04-23) / Res #331-24 'U.S. 30 Rest Area force main relocation' (Bellinger easement) = an ODOT rest-area force main — not the BOSC forcemain."
+
 resolutions:                          # res # | date | file | verbatim title | mover | thread
   - {res: '417-25', date: '2025-05-27', file: M052725.pdf, title: "Enter into a Mutual Non-Disclosure Agreement with Bistrozzi, LLC.", mover: Seibert, vote: unanimous, thread: nda}
   - {res: '469-25', date: '2025-06-12', file: M061225.pdf, title: "Authorize the Clerk of Board to post notice and advertise for Professional Engineering Services for the Project BOSC Pump Station and Forcemain Project.", mover: Winegardner, vote: unanimous, thread: wastewater}
@@ -54,7 +63,7 @@ resolutions:                          # res # | date | file | verbatim title | m
   - {res: '51-26', date: '2026-01-29', file: A012926.pdf, title: "Authorization to deposit Project Funds into the county Star Ohio Pooled Account.", thread: finance}
   - {res: '137-26', date: '2026-02-26', file: M022626.pdf, title: "Authorize the Engineer to post RFQ electronically for Construction Manager at Risk (CMAR) Services for the BOSC Pump Station and Forcemain Project.", thread: wastewater}
   - {res: '138-26', date: '2026-02-26', file: M022626.pdf, title: "Approve Evaluation Committee to review the CMAR RFQ for the BOSC Pump Station and Forcemain Project.", thread: wastewater}
-  - {res: '378-26', date: '2026-05-14', title: "Enter into contract with Peterson Construction Company ($108,000 lump sum) for CMAR Pre-Construction Design Services for the BOSC Pump Station and Forcemain Project.", mover: Seibert, thread: wastewater, source: "batch-2 PRR (bosc-prr-production-2026-06-12) p96-135; full ConsensusDocs 500 CM-at-Risk agreement, ms consultants = design professional", note: "The CMAR award (pre-construction). Peterson = the same firm that was CMAR for Shawnee II Phase 2 (#251-24 GMP Amd #3). This is the A051426 agenda item the civic meeting-index flagged (bosc/cmar/forcemain/pump_station)."}
+  - {res: '378-26', date: '2026-05-14', title: "Enter into contract with Peterson Construction Company ($108,000 lump sum) for CMAR Pre-Construction Design Services for the BOSC Pump Station and Forcemain Project.", mover: Seibert, thread: wastewater, source: "batch-2 PRR (bosc-prr-production-2026-06-12) p96-135; full ConsensusDocs 500 CM-at-Risk agreement, ms consultants = design professional", note: "The CMAR award (pre-construction). Peterson was the SOLE CMAR bidder ('the only contractor to' respond, M051226.pdf 2026-05-12) — same firm that was CMAR for Shawnee II Phase 2 (#251-24 GMP Amd #3). This is the A051426 agenda item the civic meeting-index flagged (bosc/cmar/forcemain/pump_station)."}
 
 adjacent_wastewater_resolutions:      # the County sanitary universe the data-center load lands on (PRR items 5-15 context)
   - {res: '220-24', date: '2024-03-21', title: "Apply for / enter a cooperative agreement for construction of the Shawnee II Phase II WWTP improvements project.", thread: shawnee_ii}
@@ -79,6 +88,9 @@ narrative_events:                     # dated, sourced; no resolution number
   - {date: '2026-01-13', file: M011326.pdf, event: "Discussion on General Permits for Discharges from Data Centers -- 'the State is lumping Wastewaters from Data Centers into a [general permit]'.", significance: "Ties to the OEPA/TMDL discharge thread (maumee-tmdl-responsiveness; new-discharger rule)."}
   - {date: '2026-02-03', file: M020326.pdf, event: "Sanitary Engineer Brad Niemeyer and Treasurer Krista Bohn request authority to deposit Project BOSC funds into the county's Star Ohio Pooled Account."}
   - {date: '2026-02-17', file: M021726.pdf, event: "Project BOSC: '$32M will be put toward the pump station from the developer'; general discussion on capital permit/tap fees.", figure: "$32,000,000 developer pump-station contribution (OCR-approximate; verify)"}
+  - {date: '2026-04-28', file: m042826.pdf, event: "AEDG economic-development update: Cory Noonan reports an 'AEP Open House regarding the new Data Center in American Township' (calling AEP Government Affairs); AEDG holds '500 acres under option in Perry Township' (party unnamed) + Port Authority's 25 acres; 'Amazon has committed $2.6M for roadwork' on the Commerce Pkwy/McClain Rd area (ODOT matching).", significance: "Confirms the BOSC (American Township) data center is in AEP power-servicing as of 2026-04. CAUTION (see keyword_false_positives): the Amazon $2.6M is WAREHOUSE roadwork, NOT a data center; the Perry Twp 500-acre option names NO party — the former Microsoft/Nadella site (terminated 2024-10-24) is in Perry Twp, so this is a watch item, not an assertion."}
+  - {date: '2026-05-05', file: M050526.pdf, event: "'Discussion on Project BOSC Records Request — all staff is working on pulling records and John Wilamowski Jr. is reviewing request'; separately, General-Fund interest revenue discussion: 'which projects the BOSC interest will be used toward'.", significance: "The producing body's own minutes record it processing the Project BOSC public-records request (the mandamus thread) and earmarking interest earned on BOSC project funds for 'projects in the area of BOSC'."}
+  - {date: '2026-05-12', file: M051226.pdf, event: "Sanitary update: 'contract with Peterson Construction Company for CMAR will be on Thursday's agenda for approval, as they were the only contractor to' respond (⇒ Res #378-26, 2026-05-14); Hamlet of Hume — public meeting set for June 2 2026, $2.0M principal forgiveness approved, HB 168 to fund DESIGN at $217,500, '.099 acres … the last piece of property' bought for the pump station; Cridersville/Shawnee Oaks reroute easement letter to the Village; Indianbrook PS upgrade to bid this summer.", significance: "Peterson was the SOLE CMAR bidder — strengthens the #137-26→#378-26 sole-source posture. Adds the Hume HB 168 $217,500 design line and the final pump-station parcel."}
 
 executive_sessions:
   cra_econdev_session: >-
@@ -101,6 +113,8 @@ key_figures:                          # OCR-approximate where noted; verify agai
   cmar_loan: "$1,000,000 at 0% interest; project adds 200+ homes and moves Cridersville customers to Shawnee (2026-02-26)"
   cridersville_treatment_usd_per_yr: 102000   # the county's annual Cridersville wastewater-treatment bill (recurring driver)
   cridersville_feasibility_study_usd: 161000  # = Res #113-26 (2026-02-19): the $161k Access Engineering "Shawnee Oaks Reroute Engineering" contract (PO #18640). The minutes framed the reroute as moving Cridersville customers to Shawnee II — same item, not a separate study (confirmed batch-2 PRR).
+  hume_design_hb168_usd: 217500            # HB 168 funds the Hamlet of Hume project DESIGN (2026-05-12, M051226); separate from the $2.0M WPCLF principal forgiveness (#135-26)
+  amazon_warehouse_roadwork_usd: 2600000   # Amazon's committed roadwork on the Commerce Pkwy/McClain Rd corridor (2026-04-28) — the WAREHOUSE, not a data center (see keyword_false_positives)
 
 new_actors:                           # surfaced here; candidates for data/people/
   - {name: "Jon (John) Stock", role: "Project BOSC Attorney — developer-side CRA counsel (overview of CRA process + Housing Study)", note: "distinct from Vorys' Ziance/Tangeman; works with Willamowski Jr.", added_to_people: true}

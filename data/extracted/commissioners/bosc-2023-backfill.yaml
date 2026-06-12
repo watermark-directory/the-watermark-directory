@@ -15,6 +15,13 @@ provenance:
     parquet bundle) remains the external pipeline task noted in
     data/extracted/commissioners/minutes/README.md. Resolution numbers/titles here are from the
     native-text AGENDAS (high-confidence); minutes were searched, not transcribed.
+  corroboration: >-
+    CONFIRMED 2026-06-12 on COMMITTED OCR: the #138 civic-pipeline OCR pass (meeting-index.yaml,
+    text_method: ocr over all 991 files incl. the 2023 backfill) independently reproduces this finding —
+    no 2023 document carries a datacenter/bosc/bistrozzi corridor hit (only the precursor easement/
+    annexation/tax_abatement/hume/pump_station/cmar topics). The headline below, originally on ad-hoc
+    uncommitted OCR, now rests on committed, reproducible OCR. (The full per-page parquet re-index is
+    still the open pipeline task; the meeting-index is hits+date-verification, not per-page text.)
 
 headline_finding: >-
   THE COUNTY'S COMPLETE 2023 RECORD IS SILENT ON THE DATA CENTER. Across all 153 agendas (native text)
