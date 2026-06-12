@@ -195,28 +195,64 @@ Cloudflare. One identity per runtime, neither broader than its job.
 
 ## Bootstrap (one-time)
 
-Like the research App, none of this is live until the steps are done; until then the
-form is disabled (`SUBMISSIONS_ENABLED` unset) and shows a placeholder.
+Nothing is live until these steps are done: until then the endpoint returns `503`
+(`SUBMISSIONS_ENABLED` unset) and the form shows a disabled placeholder
+(`PUBLIC_TURNSTILE_SITE_KEY` unset). Steps are grouped by phase. The GitHub-App half
+(Phase 4a) is independent of the host; the Cloudflare secrets (4b) can only be set once
+the Pages project exists (Phase 1).
 
-1. **Register `bosc-tips-bot`** — GitHub → Settings → Developer settings → GitHub Apps →
-   New. Webhook **off** (the Function calls the REST API directly; no webhook server).
-   Permissions: the two rows above, nothing more. Install on `goedelsoup/bosc` only.
-   Note the App ID; generate and download the private key. GitHub issues a **PKCS#1**
-   key (`-----BEGIN RSA PRIVATE KEY-----`), but Web Crypto in the Function needs
-   **PKCS#8** — convert it once:
-   `openssl pkcs8 -topk8 -nocrypt -in app.pem -out app.pkcs8.pem`, and store the
-   PKCS#8 contents as `TIPS_APP_PRIVATE_KEY`.
-2. **Cloudflare Pages** — create a Pages project pointed at this repo's `frontend/`
-   build output (or wire the Wrangler deploy step in Actions). Add a custom domain or
-   use the `*.pages.dev` subdomain; set the Astro `SITE_URL`/`BASE_PATH` to match (a root
-   domain drops the `/bosc` base path).
-3. **Turnstile** — create a Turnstile widget (free) for the site's domain; note the site
-   key (public) and secret key.
-4. **Secrets & vars** — set the five environment entries above (App id/key + Turnstile
-   secret + `SUBMISSIONS_ENABLED=true` in Cloudflare; the Turnstile **site** key in the
-   frontend build env).
-5. **Labels** — `pulumi up` to create the `submission` label (added to
-   [`.github/config`](../.github/config/index.ts) alongside the research labels).
+### Phase 4a — register `bosc-tips-bot` (GitHub; host-independent)
+
+1. GitHub → Settings → Developer settings → GitHub Apps → **New GitHub App**.
+   - **Webhook:** uncheck *Active* (the Function calls the REST API directly; no webhook).
+   - **Permissions:** **Issues — Read & write** and **Metadata — Read**, nothing else
+     (no Contents, so it can never touch the corpus).
+   - **Where can this App be installed?** Only on this account; install on
+     `goedelsoup/bosc` only.
+2. Note the **App ID**; generate and download a **private key**. GitHub issues a PKCS#1
+   key (`-----BEGIN RSA PRIVATE KEY-----`); Web Crypto needs **PKCS#8** — convert once:
+   ```sh
+   openssl pkcs8 -topk8 -nocrypt -in tips-app.pem -out tips-app.pkcs8.pem
+   ```
+   The PKCS#8 contents become `TIPS_APP_PRIVATE_KEY` (step 6).
+3. `pulumi up` to create the **`submission`** label (declared in
+   [`.github/config`](../.github/config/index.ts); `needs-triage` already exists).
+
+### Phase 1 — the host (prerequisite for the Cloudflare secrets)
+
+4. Create a **Cloudflare Pages** project for the `frontend/` build (the Wrangler deploy
+   is wired in Phase 1). Pick the domain — a custom root domain (drops the `/bosc` base
+   path) or the `*.pages.dev` subdomain — and set Astro `SITE_URL`/`BASE_PATH` to match.
+5. Create a free **Turnstile** widget for that domain; note the **site key** (public)
+   and **secret key**.
+
+### Phase 4b — wire the secrets (once the Pages project exists)
+
+6. Cloudflare Pages project → Settings → environment variables, for the production env:
+   `TIPS_APP_ID`, `TIPS_APP_PRIVATE_KEY` (PKCS#8 contents) and `TURNSTILE_SECRET_KEY` as
+   **secrets**; `SUBMISSIONS_ENABLED=true` as a plain var (the kill switch).
+7. In the **frontend build env** (the Actions deploy step / Pages build settings) set
+   `PUBLIC_TURNSTILE_SITE_KEY` to the Turnstile site key, and rebuild so the live form
+   renders in place of the placeholder.
+
+### Verify
+
+8. **Dry-run with Turnstile test keys first** (they never involve a real human): site key
+   `1x00000000000000000000AA`, secret `1x0000000000000000000000000000000AA` (always
+   pass; the secret `2x0000000000000000000000000000000AA` always fails — use it to
+   confirm the `403` path). With the always-pass secret set, post a submission:
+   ```sh
+   curl -sS -X POST https://<host>/api/submit \
+     -H 'content-type: application/json' \
+     -d '{"kind":"tip","body":"bootstrap test — please close","turnstile_token":"dummy"}'
+   ```
+   Expect `201 {"issue_url": …}` and a new `submission` + `needs-triage` issue opened by
+   `bosc-tips-bot[bot]`. Close the test issue, then swap in the **real** Turnstile keys.
+
+### Turning it off
+
+Set `SUBMISSIONS_ENABLED` to anything but `true` (the endpoint returns `503`; the form
+shows the placeholder on the next build), or uninstall the App.
 
 ## Status — what's live
 
@@ -225,6 +261,7 @@ form is disabled (`SUBMISSIONS_ENABLED` unset) and shows a placeholder.
 | This contract (schema, mapping, abuse model, identity) | **defined** (#74) |
 | Interim endpoint (`frontend/functions/api/submit.ts`: Turnstile + create issue) | **built** — dormant until bootstrapped (`SUBMISSIONS_ENABLED`) |
 | Frontend form (`/submit`) + query-param `target` pre-fill | **built** — disabled placeholder until `PUBLIC_TURNSTILE_SITE_KEY` is set |
+| `submission` label (Pulumi) | **coded** (Phase 4 — `pulumi up` to apply) |
 | Cloudflare Pages host migration | planned (Phase 1 — supersedes the GitHub Pages flip; required to make the above live) |
 | `bosc-tips-bot` App + secrets | planned (Phase 4 — manual bootstrap, below) |
 | KV rate-limit, dedupe, triage surface | **deferred** (Phase 5 — seam is ready) |
