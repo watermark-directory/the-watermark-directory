@@ -1,0 +1,19 @@
+{
+  "name": "bosc-deploy",
+  "version": "0.1.0",
+  "description": "Pulumi program managing the BOSC site's Cloudflare deployment infrastructure.",
+  "private": true,
+  "main": "index.ts",
+  "license": "Proprietary",
+  "scripts": {
+    "build": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "^5.5"
+  },
+  "dependencies": {
+    "@pulumi/cloudflare": "^6.17.0",
+    "@pulumi/pulumi": "^3.130.0"
+  }
+}

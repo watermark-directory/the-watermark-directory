@@ -1,0 +1,64 @@
+# Cloudflare deployment infrastructure as code — runs the Pulumi project in deploy/.
+#
+# On a pull request that touches deploy/, this posts a `pulumi preview` (the plan)
+# as a PR comment. When those changes merge to main, it runs `pulumi up` to apply
+# them. Separate from the repo-config stack (.github/config) — different provider
+# (Cloudflare) and credentials. See deploy/README.md for the secrets/variables.
+
+name: Deploy infra (Pulumi)
+
+on:
+  pull_request:
+    paths:
+      - "deploy/**"
+      - ".github/workflows/deploy-infra.yml"
+  push:
+    branches: [main]
+    paths:
+      - "deploy/**"
+      - ".github/workflows/deploy-infra.yml"
+
+# Don't let two applies race on the same state.
+concurrency:
+  group: deploy-infra
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: write # so the preview can be commented on the PR
+
+jobs:
+  pulumi:
+    runs-on: ubuntu-latest
+    # Stay dormant until the stack is wired up: the DEPLOY_PULUMI_STACK repo variable
+    # is the on-switch. Until it's set (alongside the PULUMI_ACCESS_TOKEN /
+    # CLOUDFLARE_API_TOKEN secrets), this job is skipped rather than failing every PR
+    # that touches deploy/. See deploy/README.md.
+    if: ${{ vars.DEPLOY_PULUMI_STACK != '' }}
+    defaults:
+      run:
+        working-directory: deploy
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: deploy/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - uses: pulumi/actions@v6
+        with:
+          # preview on PRs, apply on push to main.
+          command: ${{ github.event_name == 'pull_request' && 'preview' || 'up' }}
+          stack-name: ${{ vars.DEPLOY_PULUMI_STACK }} # e.g. your-pulumi-org/bosc-deploy/prod
+          work-dir: deploy
+          comment-on-pr: true
+          refresh: true
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          # Provider auth for Cloudflare (KV + Turnstile edit scope).
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

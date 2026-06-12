@@ -1,0 +1,11 @@
+name: bosc-deploy
+runtime: nodejs
+description: >-
+  Cloudflare deployment infrastructure for the BOSC site — the submissions
+  endpoint's Turnstile widget and rate-limit KV namespace, managed as code.
+  Separate from the GitHub repo-config stack (../.github/config).
+
+# State lives in whatever backend you `pulumi login` to. Pulumi Cloud
+# (PULUMI_ACCESS_TOKEN) is what the CI workflow assumes; for a local file backend
+# run `pulumi login --local`. No backend is pinned here so the choice stays an
+# operator decision.
