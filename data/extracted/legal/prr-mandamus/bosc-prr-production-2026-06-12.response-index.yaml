@@ -1,0 +1,276 @@
+# Allen County — SECOND production batch in response to the BOSC public-records request.
+# This is the Category-B (wastewater works, items 5-15) production that batch-1 (2026-06-05)
+# DEFERRED to the Sanitary Engineer ("better suited for the Sanitary Engineer"). Received
+# 2026-06-12. It fulfills items 5-15 and grounds the entire Project BOSC sanitary procurement
+# chain from primary records, plus a new data-center -> WWTP keystone (Task Order #5).
+#
+# Source binary belongs at data/documents/legal/prr-mandamus/prr-production-2026-06-12/ (single
+# PDF, as-received name "Parent Records June 12.pdf" — binary to be added; keep the name verbatim).
+# Page numbers below are 1-based positions within that bundle PDF. Dollar totals/resolution
+# numbers/dates are high-confidence (clearly printed); they are transcribed and cited by page.
+meta:
+  subject: BOSC PRR — Allen County production batch 2 (Category-B wastewater works, items 5-15)
+  production_date: 2026-06-12
+  cover_letter: none observed in the provided bundle — a record dump of the Category-B resolutions +
+    engineering instruments (the items batch-1 deferred to the Sanitary Engineer).
+  custodian: Allen County (Board of Commissioners resolutions + Allen County Sanitary Engineering instruments)
+  collection: legal
+  source_dir: data/documents/legal/prr-mandamus/prr-production-2026-06-12/   # binary to be added
+  as_received_filename: "Parent Records June 12.pdf"
+  posture: >
+    Second of the rolling "every Friday" responses. Fulfills the Category-B universe (items 5-15)
+    that batch-1 deferred. No §9.66(D) withholding asserted in this batch (contrast item 4, still held).
+  relevance: >
+    Moves the BOSC pump-station/forcemain procurement from secondhand citation to PRIMARY record:
+    the engineering-ad resolution (#469-25), the CMAR RFQ (#137-26), and the executed CMAR
+    pre-construction contract (#378-26 / Peterson Construction). Also the keystone tying the data
+    center to the sanitary system — Task Order #5, a "WWTP Data Center Flows Treatment Evaluation"
+    of the campus blowdown stream (Res #679-24). Closes issue #134; produces the #35 items 5-15.
+
+# Each entry maps a record in the bundle to its page range + key figures. Grouped by thread.
+source_documents:
+  # --- Keystone: the data-center -> WWTP link -------------------------------------------------
+  - record: Resolution #679-24 + Task Order No. 5 + PO #14322
+    pages: "1-4"
+    date: 2024-08-22
+    what: >
+      Board approves Task Order #5 of the existing MS Consultants Master Service Agreement (MSA
+      dated 2019-01-30) for $47,600 — titled "WWTP Data Center Flows Treatment Evaluation." Scope
+      (Attachment 1, p2): evaluate the demands and flows throughout a typical year AND the
+      anticipated water-quality parameters "being discharged from the blowdown flow stream," and
+      recommend storage (location TBD) and treatment at the American Bath WWTP. Owner's
+      responsibility: "Provide necessary information on the existing American Bath WWTP and data
+      requests to the developer and data center manufacturer." PO #14322 (FY2024, $47,600).
+    significance: >
+      FIRST primary-source document tying the data center's cooling-tower BLOWDOWN to the American
+      Bath WWTP and naming "the developer and data center manufacturer." Grounds bosc.hydrology.cooling
+      and sanitary-economics, which until now rested on secondhand citations. (#33-adjacent: ties cooling
+      water to sanitary load.)
+    signatures: "Beth Seibert (Board President); Matthew L. Casey P.E. (ms consultants); Brad Niemeyer P.E. (Sanitary Engineer); Nathan Delisle P.E. (ms PM)"
+  # --- Project BOSC pump station & forcemain procurement chain (issue #134) -------------------
+  - record: Resolution #469-25 + Sanitary Eng letter + Legal Notice (Request for Engineering Services)
+    pages: "83-85"
+    date: 2025-06-12
+    what: >
+      Board authorizes the Clerk to advertise for professional engineering services (preliminary
+      evaluation, design, permitting, bidding, construction administration) for the new "Project
+      Bosc Pump Station and Forcemain" in American Township. Legal Notice (p85): pump station +
+      forcemain "capable of handling approximately 2.5 MGD peak flow," project length ~17,000 feet,
+      construction cost $20,250,000. Technical proposals due 2025-07-11.
+    significance: BOSC named explicitly on a Board resolution + public legal notice. First dated cost envelope ($20.25M).
+    signatures: "Beth Seibert / Cory Noonan / Brian Winegardner; Ronald J. Meyer II P.E. (Asst Sanitary Engineer) letter 2025-06-09."
+  - record: Resolution #137-26 + RFQ for CMAR (BOSC Pump Station & Forcemain)
+    pages: "86-95"
+    date: 2026-02-26
+    what: >
+      Board authorizes the Sanitary Engineer to post an RFQ for Construction-Manager-at-Risk (CMAR)
+      services for the BOSC Pump Station and Forcemain per OAC 153:1-6-01(C), and approves an
+      evaluation committee (Brad Niemeyer, Ron Meyer, Bill Horvath). RFQ (p87-95): estimated
+      construction cost $29,834,256; suction-lift pump station with a firm capacity of 2.5 MGD at
+      full build-out; DUAL forcemains — a 10-inch from the BOSC PS to the American Bath Plant where
+      flow splits (8-inch onward with remaining flow), and a 16-inch conveying flows from the BOSC PS
+      to the existing 78-inch gravity sewer at Woodward Ave & Grand Ave in Lima; ~20,100 LF and
+      ~17,900 LF of forcemain respectively. RFQ advertised 2026-02-27; SOQs due 2026-03-13.
+    significance: >
+      The CMAR procurement #134 asked to capture. Confirms routing (BOSC PS -> American Bath WWTP via
+      10"/8"; overflow/parallel 16" to the City of Lima 78" interceptor at Woodward & Grand) and a
+      revised construction estimate of $29.83M — a ~47% jump over the 2025-06 engineering-ad figure ($20.25M).
+  - record: Resolution #378-26 + ConsensusDocs 500 CM-at-Risk Agreement (Peterson Construction)
+    pages: "96-135"
+    date: 2026-05-14
+    what: >
+      Board enters a contract with Peterson Construction Company for a lump sum of $108,000 for CMAR
+      Pre-Construction Design Services in association with the BOSC Pump Station and Forcemain
+      (evaluation committee unanimously selected Peterson). Full ConsensusDocs 500 Standard Agreement
+      & General Conditions between Owner (Allen County) and Construction Manager (Peterson) follows
+      (p97-135): Design Professional = ms consultants; Drawings dated 01/2026; Preliminary Engineering
+      Report dated 02/2026; executed 2026-05-14.
+    significance: >
+      The executed CMAR (pre-construction) contract — the A051426 (2026-05-14) agenda item the civic
+      meeting-index flagged (bosc/cmar/forcemain/pump_station). Peterson Construction is the BOSC CMAR.
+    signatures: "Beth Seibert (Board President), Cory Noonan, Brian Winegardner; Peterson: Robert K. Knapke (VP), Kristina Gruberhoff (Contract Admin)."
+  # --- Shawnee Oaks sewer (the failing-septic reroute feeding Shawnee II) ----------------------
+  - record: Resolution #113-26 + Contract (Access Engineering) + Attachment A scope + PO #18640
+    pages: "5-17"
+    date: 2026-02-19
+    what: >
+      Board enters a $161,000 contract with Garmann/Miller & Associates, Inc. dba ACCESS ENGINEERING
+      SOLUTIONS for professional engineering on the Shawnee Oaks Sewer System Project: a new pump
+      station and force main to convey Shawnee Oaks sanitary flow to the Shawnee II WWTP. Contract
+      term 18 months (2025-11-01 -> 2027-05-01). Attachment A scope (p14-16): Field Investigation
+      $26,000; Preliminary Design & Funding $24,000; Final Design $58,000; Bidding & Negotiation
+      $17,000; Construction Administration $36,000. New lift station, 6-inch force main, grinder pump
+      stations; corridor = Hume Street, Shawnee Road, Fort Amanda Ave. PO #18640 ($161,000, FY2026).
+    significance: >
+      CONFIRMS the resolution-ledger/README reconciliation note — #113-26 is the SHAWNEE OAKS sewer
+      engineering contract (Access Engineering), NOT a "forcemain feasibility" study. The Hume corridor
+      (failing septics on Shawnee/Hume Rd) is the upstream sanitary context for the BOSC load.
+    signatures: "Brice Schmitmeyer P.E. (President, Access); Cory Noonan (Commissioner)."
+  - record: Resolution #135-26 + 2025 Grant Authorization Form (WPCLF — Hamlet of Hume)
+    pages: "81-82"
+    date: 2026-02-26
+    what: >
+      Board (Comm. Winegardner moving) authorizes the Sanitary Engineer to apply for/accept a Water
+      Pollution Control Loan Fund (WPCLF) loan ON BEHALF OF THE HAMLET OF HUME for construction of
+      wastewater facilities — sanitary sewer + pump station within the unincorporated area of Hume and a
+      force main to the Shawnee II WWTP. Grant Authorization Form (p82): OEPA-WPCLF Principle Forgiveness,
+      $2,000,000 (CY2026); dedicated repayment = sewer revenue funds.
+    content_verified: "pages 79-82 read visually (image-only scans), 2026-06-12 — #135-26 = Hamlet of Hume / $2.0M; #136-26 = unincorporated Shawnee Twp / $1.6M."
+  # --- Second WPCLF loan (unincorporated Shawnee Twp / Shawnee Oaks corridor) ------------------
+  - record: Resolution #136-26 + 2025 Grant Authorization Form (WPCLF — Shawnee Twp / Shawnee Oaks)
+    pages: "79-80"
+    date: 2026-02-26
+    what: >
+      Board (Comm. Noonan moving) authorizes the Sanitary Engineer to apply for/accept a WPCLF loan ON
+      BEHALF OF AN UNINCORPORATED AREA OF SHAWNEE TOWNSHIP — properties along Shawnee Road and Hume Road
+      with failing septics — to upgrade wastewater facilities in the "Shawnee Oaks subdivision" (sanitary
+      sewer + pump station). Grant Authorization Form (p80): OEPA-WPCLF Principle Forgiveness, $1,600,000 (CY2026).
+    significance: >
+      #135-26 and #136-26 are TWO DISTINCT WPCLF loans — #135-26 = Hamlet of Hume ($2.0M), #136-26 =
+      unincorporated Shawnee Twp / Shawnee Oaks corridor ($1.6M) — NOT the single "Hamlet of Hume $2M"
+      the prior minutes-README/ledger note recorded. #136-26 funds the same Shawnee Oaks sewering that
+      #113-26 (Access Engineering) designs.
+  # --- Shawnee II Phase 2 POTW (the receiving plant being upgraded for the load) ---------------
+  - record: Resolution #220-24 + Exhibit A + Niemeyer email (Shawnee II Phase 2 / OWDA)
+    pages: "18-20"
+    date: 2024-03-21
+    what: >
+      Board authorizes the President to apply for/enter a Cooperative Agreement with the Ohio Water
+      Development Authority (OWDA) for the Phase II Shawnee II WWTP Improvements Project. Exhibit A
+      (p19): influent pump station firm capacity raised from 15.0 MGD to 25.0 MGD (three added pumps);
+      a third SBR tank rated 1.0 MGD average / 4.60 MGD peak (two existing SBRs upgraded to match); UV
+      disinfection upgrades; solids-handling demolition + new sludge digestion/storage/thickening.
+    significance: Documents the receiving-plant expansion (firm capacity 15 -> 25 MGD) sized to take the corridor's new load.
+  - record: Resolution #478-20 + Niemeyer email + RFQ for CMAR (Shawnee II Phase 2)
+    pages: "21-31"
+    date: 2020-08-20
+    what: >
+      Board authorizes the Sanitary Engineer to post an RFQ in the Lima News for CMAR services for the
+      Phase II Shawnee II WWTP Upgrade and approves an evaluation committee (Steve Kayatin, Brad
+      Niemeyer, Mike Santaguida) per OAC 153:1-6-01(C). SOQs due 2020-09-11.
+    significance: The Shawnee II Phase 2 plant upgrade also used the CMAR delivery method — precedent for the BOSC CMAR.
+  - record: Resolution #228-23 + MOU (Commissioners <-> Sanitary Engineering, $1.5M)
+    pages: "33-35"
+    date: 2023-03-23
+    what: >
+      Board enters an MOU with the Allen County Sanitary Engineering Department contributing up to
+      $1,500,000 from the County General Fund to the Shawnee II Phase 2 POTW Improvements Project
+      (a one-time transfer to minimize rate increases; OEPA Final Findings & Orders to eliminate SSOs).
+  - record: Resolution #937-23 + Modification No. 4 + Exhibit A + ms billing schedule (Shawnee II Phase 2)
+    pages: "36-47"
+    date: 2023-12-21
+    what: >
+      Board approves Modification #4 to Task Order #3 of the MS Consultants MSA for $1,290,196 (final
+      design + construction administration), bringing Task Order #3 to a total of $2,492,289 (original
+      $881,625 + Mods 1-4). Exhibit A details the design finalization (UV, generator/ATS, SBR/blower
+      layout, PTI resubmittal) and construction-administration scope (Part 2-CA expected 2024-04 to
+      2026-09, 30 months).
+  # --- Stormwater (responsive but not corridor-specific) --------------------------------------
+  - record: Resolution #651-23 + Stormwater Management Plan (SWMP)
+    pages: "48-78"
+    date: 2023-09-07
+    what: >
+      Board approves submission of the updated Phase II Stormwater Management Program (SWMP) to OEPA
+      Division of Surface Water (NPDES Small MS4 Permit 2GQ00010*DG, Allen County + Elida/Bath/Perry/
+      Shawnee Twps). Full 6-MCM SWMP follows. TMDL pollutants: total phosphorus + E. coli/bacteria.
+    significance: General MS4 stormwater compliance — responsive to the wastewater-works ask but not BOSC-specific.
+
+# Item-by-item update to the batch-1 tracker. Items 5-15 move deferred -> PRODUCED.
+request_response:
+  items:
+    - n: "5-15"
+      category: B
+      ask: BOSC pump-station/forcemain RFP + bids + permits, Shawnee II Phase 2 capacity, MS Consultants
+        forcemain feasibility (Res #113-26 / #136-26), Cridersville WWTP, 1996 CWA consent decree, etc.
+      status: produced
+      produced: >
+        This batch (2026-06-12) produces the Category-B wastewater records: the BOSC PS/forcemain
+        engineering ad (#469-25), CMAR RFQ (#137-26), and executed CMAR pre-construction contract
+        (#378-26, Peterson); the data-center-flows treatment evaluation (#679-24/TO5); Shawnee Oaks
+        engineering (#113-26) + WPCLF (#135-26); Hamlet of Hume WPCLF (#136-26); Shawnee II Phase 2
+        (#220-24, #478-20, #228-23, #937-23); and the SWMP (#651-23).
+      still_outstanding: >
+        Not seen in this bundle: the BOSC PS/forcemain construction BIDS/award (post-CMAR), the
+        named permits SWPTI-260294 & DSW-6756, the 1996 CWA consent decree, and Cridersville WWTP
+        records. The CMAR is at PRE-construction (design) stage, so construction bids likely post-date
+        this production. Watch later batches.
+      significance: >
+        Resolves the central #35 hole and closes #134. Confirms (pages 79-82) #113-26 = Shawnee Oaks
+        ENGINEERING (Access, $161k) — not "forcemain feasibility" — and #135-26 = Hamlet of Hume WPCLF
+        ($2.0M) / #136-26 = unincorporated Shawnee Twp WPCLF ($1.6M): two distinct loans, not one.
+
+# Clean resolution -> date -> subject -> dollars -> page table for the ledger fold-in.
+resolution_index:
+  - {res: '679-24',  date: 2024-08-22, subject: "MS Consultants Task Order #5 — WWTP Data Center Flows Treatment Evaluation (blowdown @ American Bath WWTP)", amount_usd: 47600,    page: 1}
+  - {res: '478-20',  date: 2020-08-20, subject: "RFQ for CMAR — Shawnee II Phase 2 WWTP upgrade",                                              amount_usd: null,     page: 21}
+  - {res: '228-23',  date: 2023-03-23, subject: "MOU — County General Fund $1.5M to Shawnee II Phase 2 POTW",                                  amount_usd: 1500000,  page: 33}
+  - {res: '937-23',  date: 2023-12-21, subject: "Mod #4 to MS Task Order #3 — Shawnee II Phase 2 design + CA (TO3 total $2,492,289)",          amount_usd: 1290196,  page: 36}
+  - {res: '651-23',  date: 2023-09-07, subject: "Submit updated Phase II SWMP to OEPA (MS4 permit 2GQ00010*DG)",                               amount_usd: null,     page: 48}
+  - {res: '220-24',  date: 2024-03-21, subject: "OWDA Cooperative Agreement — Shawnee II Phase 2 (influent PS 15 -> 25 MGD; 3rd SBR)",          amount_usd: null,     page: 18}
+  - {res: '113-26',  date: 2026-02-19, subject: "Engineering contract (Access Engineering) — Shawnee Oaks Sewer System PS + force main",       amount_usd: 161000,   page: 5}
+  - {res: '135-26',  date: 2026-02-26, subject: "WPCLF principal-forgiveness loan — Hamlet of Hume",                                          amount_usd: 2000000,  page: 81}
+  - {res: '136-26',  date: 2026-02-26, subject: "WPCLF principal-forgiveness loan — unincorporated Shawnee Twp (Shawnee Oaks; Shawnee+Hume Rd)", amount_usd: 1600000, page: 79}
+  - {res: '469-25',  date: 2025-06-12, subject: "Advertise for engineering — Project BOSC Pump Station & Forcemain (est. construction $20.25M)", amount_usd: null,    page: 83}
+  - {res: '137-26',  date: 2026-02-26, subject: "RFQ for CMAR — BOSC Pump Station & Forcemain (est. construction $29,834,256)",                amount_usd: null,     page: 86}
+  - {res: '378-26',  date: 2026-05-14, subject: "CMAR pre-construction contract — Peterson Construction, BOSC Pump Station & Forcemain",       amount_usd: 108000,   page: 96}
+
+new_findings:
+  - id: data-center-flows-treatment-evaluation
+    finding: >
+      Res #679-24 / MS Consultants Task Order #5 (2024-08-22, $47,600) is a "WWTP Data Center Flows
+      Treatment Evaluation" — a primary engineering instrument evaluating the data center's BLOWDOWN
+      flow stream (demands, flows over a typical year, water-quality parameters) for storage + treatment
+      at the American Bath WWTP, with the County to gather data from "the developer and data center
+      manufacturer."
+    implication: >
+      First primary record linking the campus cooling system to the sanitary system. Anchors
+      bosc.hydrology.cooling + sanitary-economics on a document (not a secondhand citation). The
+      "developer and data center manufacturer" language corroborates the code-named-shell pattern.
+  - id: bosc-cmar-procurement-chain-complete
+    finding: >
+      The full BOSC PS/forcemain delivery chain is now in primary records: #469-25 (engineering ad,
+      2025-06-12, est. $20.25M) -> #137-26 (CMAR RFQ, 2026-02-26, est. $29.83M) -> #378-26 (Peterson
+      Construction CMAR pre-construction contract, 2026-05-14, $108k) + the ConsensusDocs 500 CM-at-Risk
+      agreement.
+    implication: Closes issue #134. The CMAR is Peterson Construction; ms consultants is the design professional.
+  - id: construction-cost-escalation
+    finding: The BOSC PS/forcemain construction-cost estimate rose from $20,250,000 (2025-06 engineering ad) to $29,834,256 (2026-02 CMAR RFQ) — a ~47% increase in ~8 months.
+    implication: Worth flagging in any public-ROI / cost-benefit analysis (ties to the withheld item 4).
+  - id: forcemain-routing
+    finding: >
+      BOSC PS routes via a 10-inch forcemain to the American Bath WWTP (splitting to 8-inch onward) AND
+      a parallel 16-inch forcemain to the City of Lima's existing 78-inch gravity sewer at Woodward Ave
+      & Grand Ave (~20,100 LF + ~17,900 LF).
+    implication: The campus discharges into TWO receiving systems (American Bath WWTP + the Lima interceptor) — relevant to the cooling/sanitary load split and Lima's capacity.
+  - id: res-135-136-two-distinct-wpclf-loans
+    finding: >
+      #135-26 and #136-26 (both 2026-02-26) are TWO DISTINCT WPCLF principal-forgiveness loans, confirmed
+      by reading pages 79-82 of the source: #135-26 = ON BEHALF OF THE HAMLET OF HUME, grant form $2,000,000
+      (p82); #136-26 = ON BEHALF OF AN UNINCORPORATED AREA OF SHAWNEE TOWNSHIP (Shawnee Rd / Hume Rd /
+      "Shawnee Oaks subdivision"), grant form $1,600,000 (p80).
+    corrects: >
+      The prior minutes-README/ledger note recorded a SINGLE "$2M Hamlet of Hume" loan for #135/#136 and
+      labeled #113-26/#136-26 "forcemain feasibility." Both are wrong: there are two loans ($2.0M Hume +
+      $1.6M Shawnee Twp/Oaks), and #113-26 is the Shawnee Oaks ENGINEERING contract (Access, $161k).
+    implication: Fix bosc-resolution-ledger.yaml (#136-26 thread/figure; add the $1.6M loan) + commissioners/minutes/README.md reconciliation_note.
+
+timeline_additions:   # [BOSC]/[sanitary] strand for mandamus-analysis.md §IV and the resolution ledger
+  - {date: 2020-08-20, event: "Res #478-20 — RFQ for CMAR, Shawnee II Phase 2 WWTP upgrade"}
+  - {date: 2023-03-23, event: "Res #228-23 — MOU, $1.5M County General Fund to Shawnee II Phase 2"}
+  - {date: 2023-09-07, event: "Res #651-23 — submit updated SWMP to OEPA (MS4 2GQ00010*DG)"}
+  - {date: 2023-12-21, event: "Res #937-23 — Mod #4 to MS Task Order #3, Shawnee II Phase 2 ($1,290,196; TO3 -> $2,492,289)"}
+  - {date: 2024-03-21, event: "Res #220-24 — OWDA Cooperative Agreement, Shawnee II Phase 2 (influent PS 15 -> 25 MGD)"}
+  - {date: 2024-08-22, event: "Res #679-24 — MS Task Order #5, WWTP Data Center Flows Treatment Evaluation ($47,600)"}
+  - {date: 2025-06-12, event: "Res #469-25 — advertise for engineering, Project BOSC Pump Station & Forcemain (est. construction $20.25M)"}
+  - {date: 2026-02-19, event: "Res #113-26 — engineering contract (Access), Shawnee Oaks Sewer System ($161,000)"}
+  - {date: 2026-02-26, event: "Res #135-26 / #136-26 — WPCLF loans, Shawnee Oaks ($2.0M) / Hamlet of Hume ($1.6M); Res #137-26 — RFQ for CMAR, BOSC PS & Forcemain (est. construction $29,834,256)"}
+  - {date: 2026-05-14, event: "Res #378-26 — CMAR pre-construction contract, Peterson Construction, BOSC PS & Forcemain ($108,000)"}
+  - {date: 2026-06-12, event: "Second production batch (this document) — Category-B wastewater works (items 5-15) produced."}
+
+cross_refs:
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml   # batch 1 (items 5-15 deferred there)
+  - data/extracted/commissioners/bosc-resolution-ledger.yaml                              # fold the resolution_index above into the ledger
+  - data/extracted/commissioners/sanitary-economics.yaml                                  # the $ figures + the data-center-flows TO
+  - data/extracted/commissioners/minutes/README.md                                        # fix the #113/#135/#136 reconciliation_note
+  - data/extracted/legal/corpus-completeness-audit.md                                     # §1 — flip items 5-15 toward produced
+  - docs/COMPUTE.md                                                                        # the data-center capacity thread (blowdown ties cooling -> sanitary)
