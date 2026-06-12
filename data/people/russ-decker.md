@@ -8,7 +8,7 @@ affiliations: [Nutrien]
 summary: Nutrien representative who co-presented a 50% / 10-year property tax abatement with Cindy Leis (AEDG) to the Allen County Commissioners (2024-12-19) — the same AEDG abatement-and-school-notice machinery used for Project BOSC.
 expanded_research: false
 sources:
-  - data/documents/commissioners/minutes/raw/A121924.pdf
+  - data/documents/commissioners/meetings/A121924.pdf
   - docs/reference/periplus/minutes-flag-report.md
 tags: [nutrien, tax-abatement, aedg, enterprise-zone, pattern]
 ---
@@ -17,7 +17,7 @@ tags: [nutrien, tax-abatement, aedg, enterprise-zone, pattern]
 
 Russ Decker is the **Nutrien** representative at the Allen County Commissioners'
 **Tax Abatement Informational Meeting on 2024-12-19**. The primary commissioners
-minutes ([A121924.pdf](../documents/commissioners/minutes/raw/A121924.pdf)) record
+minutes ([A121924.pdf](../documents/commissioners/meetings/A121924.pdf)) record
 the agenda item — *"2:00 p.m. Tax Abatement Informational Meeting – Cindy Leis,
 AEDG"* — and the Periplus minutes-flag-report OCR captures the narrative:
 

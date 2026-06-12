@@ -3,9 +3,12 @@
 Prebuilt index over the Board of Commissioners' published meeting record, scraped from
 **commissioners.allencountyohio.com** (the CorpComm-built county site — see
 [`../../legal/allen-county-web-vendor-audit.md`](../../legal/web-vendor-audit/allen-county-web-vendor-audit.md)).
-Raw PDFs are the immutable source under
-[`data/documents/commissioners/minutes/raw/`](../../../documents/commissioners/minutes/raw/)
-(**934 files**, Git-LFS-tracked). This directory holds the **derived** index bundle.
+The source PDFs are **connector-sourced** under
+[`data/documents/commissioners/meetings/`](../../../documents/commissioners/meetings/)
+(Git-LFS-tracked) — the legacy hand-assembled `minutes/raw/` tree was retired in the
+#133 cutover (every file verified byte-identical to its connector copy; see
+[`cutover-reconciliation.yaml`](../meetings/cutover-reconciliation.yaml)). This
+directory holds the **derived** OCR index bundle (the `filename`s below resolve to `meetings/`).
 
 > **Coverage (important):** the **index bundle below (parquet/json) covers only the original 634
 > meetings, 2024–2026.** A **2023 backfill (299 PDFs: 153 agendas + 146 minutes)** was later pulled
@@ -25,7 +28,7 @@ Raw PDFs are the immutable source under
 > `generated_at` 2026-04-17), imported 2026-06-05; 2023 raw backfill pulled 2026-06-05. The OCR text layer
 > is machine-extracted and **approximate** — verify any figure/date against the source PDF before quoting.
 > The `local_path` column in `meetings.parquet`/`index.json` points at the generating machine's
-> `/tmp/bistrozzi/...` staging path; the authoritative location is now `data/documents/commissioners/minutes/raw/<filename>`.
+> `/tmp/bistrozzi/...` staging path; the authoritative location is now `data/documents/commissioners/meetings/<filename>`.
 
 ## Contents
 
@@ -81,7 +84,7 @@ refs = pd.read_parquet("data/extracted/commissioners/minutes/meeting-refs.parque
 refs[refs.ref_type == "subject_bosc"][["filename", "page", "context"]]
 ```
 
-To read a hit in full: open `data/documents/commissioners/minutes/raw/<filename>` at the cited `page`.
+To read a hit in full: open `data/documents/commissioners/meetings/<filename>` at the cited `page`.
 
 ## Cross-references
 

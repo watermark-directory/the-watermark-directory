@@ -3,7 +3,7 @@ subject: Allen County Commissioners — executive-session (closed-deliberation) 
 
 provenance:
   source_index: data/extracted/commissioners/minutes/   # parquet OCR bundle (meeting-pages, 2024-2026)
-  source_raw: data/documents/commissioners/minutes/raw/
+  source_raw: data/documents/commissioners/meetings/
   method: >-
     Windowed extraction over the committed OCR text layer for every "executive session" occurrence,
     with the cited ORC 121.22(G)(n) exemption code captured from the surrounding ±260 chars; the

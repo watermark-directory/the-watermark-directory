@@ -172,7 +172,7 @@ timeline_additions:   # [BOSC] strand for mandamus-analysis.md §IV
 # (data/extracted/commissioners/minutes/ — scraped from commissioners.allencountyohio.com, the
 # CorpComm-built county site at issue in item 16). Each resolution the production relies on appears
 # in the minutes/agenda at the page below; dates match this index exactly. Read a hit in full at
-# data/documents/commissioners/minutes/raw/<filename> on the cited page.
+# data/documents/commissioners/meetings/<filename> on the cited page.
 minutes_corroboration:
   entries:
     - {item: 1,  resolution: '417-25', date: 2025-05-27, minutes: 'M052725.pdf:3',  agenda: 'A052725.pdf:2',  note: "Bistrozzi named on the agenda + minutes (subject_bistrozzi)"}

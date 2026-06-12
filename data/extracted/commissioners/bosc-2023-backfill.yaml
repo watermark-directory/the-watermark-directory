@@ -2,7 +2,7 @@ kind: backfill_audit
 subject: Allen County Commissioners — 2023 minutes/agenda backfill (the pre-BOSC baseline year)
 
 provenance:
-  source_raw: data/documents/commissioners/minutes/raw/   # the 299-file 2023 backfill (153 agendas + 146 minutes)
+  source_raw: data/documents/commissioners/meetings/   # the 299-file 2023 backfill (153 agendas + 146 minutes); connector-sourced since the #133 cutover
   scope: "All 299 calendar-2023 documents (filename [AM]MMDDYY ending '23'), which the parquet index does NOT cover (index = 2024-2026 only)."
   method: >-
     Agendas (153 A* files) carry a native text layer -- read directly with pypdf. Minutes (146 M* files)
