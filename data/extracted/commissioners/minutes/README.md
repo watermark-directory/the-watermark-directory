@@ -10,10 +10,18 @@ The source PDFs are **connector-sourced** under
 [`cutover-reconciliation.yaml`](../meetings/cutover-reconciliation.yaml)). This
 directory holds the **derived** OCR index bundle (the `filename`s below resolve to `meetings/`).
 
+> **⚠️ Scope of this note:** everything below describes the **legacy `bistrozzi` parquet bundle**
+> (`meetings.parquet` / `meeting-pages.parquet` / `meeting-refs.parquet`) in *this* directory, which is
+> still 2024–2026. **For full-range OCR coverage, use the civic `meeting-index.yaml`** under
+> [`../meetings/`](../meetings/meeting-index.yaml) instead: the #135 OCR pass (2026-06-12) text-extracted
+> **all 991 files incl. the 2023 backfill** (969 dates content-verified, 270 corridor-hit meetings) and
+> **confirms 2023 is silent on the data center** on committed OCR. The parquet *per-page* re-index (below)
+> is still the open pipeline task; the meeting-index keeps `hits` + date-verification, not per-page text.
+>
 > **Coverage (important):** the **index bundle below (parquet/json) covers only the original 634
 > meetings, 2024–2026.** A **2023 backfill (299 PDFs: 153 agendas + 146 minutes)** was later pulled
 > from the site's `/meeting-agendas-2023-archives/` and `/meeting-minutes-2023/` pages (plus the
-> `ACC-M102423` / `M061523` docs) and added to `raw/` — but those 2023 files are **raw-only: not yet
+> `ACC-M102423` / `M061523` docs) — but those 2023 files are **not yet
 > OCR'd, paged, or ref-extracted into the parquet.** So any query over `meeting-pages`/`meeting-refs`
 > (BOSC ref counts, OCR text) reflects 2024–2026 only. Re-run the OCR/index pipeline to fold 2023 in.
 >
