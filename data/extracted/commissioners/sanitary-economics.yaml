@@ -34,6 +34,14 @@ bosc_sanitary_load:                   # the data center's wastewater, in the Cou
     The 0.13 MGD @ 83 F interim figure is the first explicit BOSC sanitary-flow number in the corpus;
     the warm temperature is relevant to the thermal/assimilative thread on the Ottawa (low-flow)
     receiving water. The permanent capacity is larger (the PS+FM and Shawnee II Phase 2 sizing).
+  treatment_evaluation: >-
+    Res #679-24 (2024-08-22) / MS Consultants Task Order #5 ($47,600) -- a "WWTP Data Center Flows
+    Treatment Evaluation": evaluate the campus BLOWDOWN flow stream (demands, flows, water-quality
+    parameters) and recommend storage + treatment at the American Bath WWTP, with the County to gather
+    data from "the developer and data center manufacturer." The engineering instrument behind the
+    "develop a solution to treat the flow / keep revenue with the County" discussion above.
+    [primary record: bosc-prr-production-2026-06-12 p1-4]
+  forcemain_construction_estimate_usd: 29834256   # CMAR RFQ #137-26 (2026-02-26); was $20.25M in the 2025-06 ad (#469-25)
 
 cridersville_shawnee_oaks_reroute:    # the County stops paying OUT and captures the revenue
   current_cost: >-
@@ -44,7 +52,7 @@ cridersville_shawnee_oaks_reroute:    # the County stops paying OUT and captures
   county_response:
     - "Prosecutor's Office reviewing the current Cridersville agreement to see if termination is possible (2025-05-29)."
     - "Install a County lift station + force main to reroute Shawnee Oaks flow to the Shawnee WWTP; the Sanitary Engineering Dept would then collect the revenue and 'break even within six (6) to seven (7) years' (2025-03-04)."
-    - "Res #113-26 (2026-02-19): contract w/ Garman/Miller (Access Engineering) for the Shawnee Oaks Sewer System Project; a $161,000 feasibility study to reroute Cridersville customers."
+    - "Res #113-26 (2026-02-19): $161,000 contract w/ Garmann/Miller (Access Engineering) for the Shawnee Oaks Sewer System ENGINEERING (PO #18640 'Shawnee Oaks Reroute Engineering') — reroutes Cridersville/Shawnee Oaks flow to Shawnee II. [confirmed primary: batch-2 PRR]"
     - "Res #137-26 (2026-02-26): $1,000,000 at 0% interest; project adds 200+ homes to the system AND moves current Cridersville customers to Shawnee."
   reroute_also_frees_capacity: "Rerouting Shawnee Oaks to Shawnee WWTP 'would also allow room for an additional 35-40 homes' (2025-05-29)."
 
@@ -70,7 +78,11 @@ figures:                              # OCR-approximate; verify against source P
   developer_pump_station_usd: 32000000
   cridersville_annual_treatment_usd: 102000
   cridersville_customers: 233
-  reroute_feasibility_study_usd: 161000
+  reroute_feasibility_study_usd: 161000  # = Res #113-26 Shawnee Oaks engineering (primary; batch-2 PRR)
+  hume_wpclf_principal_forgiveness_usd: 2000000          # Res #135-26 (2026-02-26)
+  shawnee_oaks_wpclf_principal_forgiveness_usd: 1600000  # Res #136-26 (2026-02-26)
+  bosc_forcemain_construction_estimate_usd: 29834256     # CMAR RFQ #137-26
+  data_center_flows_evaluation_usd: 47600                # MS Task Order #5 (#679-24)
   reroute_loan_usd: 1000000             # 0% interest
   reroute_break_even_years: "6-7"
   indianbrook_ps_upgrade_usd: 600000
@@ -84,6 +96,7 @@ records_relevance: >-
   Feeds the ledger ratepayer/benefit analysis and the TMDL thermal/assimilative thread.
 
 cross_refs:
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12.response-index.yaml   # batch-2 PRR: primary figures (TO5 #679-24, CMAR $29.83M, WPCLF $2.0M/$1.6M)
   - data/extracted/commissioners/bosc-resolution-ledger.yaml             # #469-25/#575-25/#713-25/#137-26 etc.
   - data/extracted/commissioners/closed-deliberation-and-corridor.yaml   # Hamlet of Hume + corridor
   - data/extracted/regulatory/wastewater-enforcement-history.yaml        # Shawnee II / capacity history

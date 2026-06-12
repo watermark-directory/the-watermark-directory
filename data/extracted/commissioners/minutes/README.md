@@ -94,11 +94,14 @@ This corpus is the **primary source** behind several artifacts already in the re
   — its `minutes_corroboration` block maps each produced resolution to a page here. Confirmed matches:
   Res **#417-25** (NDA) `M052725.pdf:3` · **#304-25** (CRA created) `M041725.pdf:1,5` ·
   **#494-25** (school notice) `M062425.pdf:9` · **#548-25** (CRA) `M071025.pdf:4` ·
-  **#113-26 / #136-26** (forcemain feasibility — the *deferred* Category-B items) `M021926.pdf:3` / `M022626.pdf:3`.
-  ⚠️ The verbatim titles of these two differ from the "forcemain feasibility" label — #113-26 is the
-  **Shawnee Oaks** Sewer System contract and #135-26/#136-26 is the **Hamlet of Hume WPCLF $2M** loan;
-  the BOSC CMAR procurement is #137-26/#138-26. See the `reconciliation_note` in
-  [`../bosc-resolution-ledger.yaml`](../bosc-resolution-ledger.yaml).
+  **#113-26 / #136-26** (the *deferred* Category-B items) `M021926.pdf:3` / `M022626.pdf:3`.
+  ✅ **Resolved** by the batch-2 PRR production (2026-06-12, primary records): #113-26 = **Shawnee Oaks**
+  Sewer System **engineering** contract (Access, $161k) — not "forcemain feasibility"; #135-26 = **Hamlet
+  of Hume** WPCLF loan (**$2.0M**); #136-26 = **unincorporated Shawnee Twp / Shawnee Oaks** WPCLF loan
+  (**$1.6M**) — two distinct loans, not one. The BOSC CMAR procurement is #469-25 → #137-26/#138-26 →
+  #378-26 (Peterson). See the `reconciliation_note` in
+  [`../bosc-resolution-ledger.yaml`](../bosc-resolution-ledger.yaml) and
+  [`../../legal/prr-mandamus/bosc-prr-production-2026-06-12.response-index.yaml`](../../legal/prr-mandamus/bosc-prr-production-2026-06-12.response-index.yaml).
 - [`../bosc-resolution-ledger.yaml`](../bosc-resolution-ledger.yaml) — the Project BOSC **resolution
   ledger + event timeline** extracted from this OCR bundle (NDA #417-25, CRA #548-25, RDA #588-25,
   Sanitary Sewer Developer Agreement #575-25/#975-25, pump-station/forcemain #469-25→#713-25→CMAR
