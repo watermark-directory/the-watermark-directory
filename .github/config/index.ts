@@ -94,13 +94,15 @@ const mainProtection = new github.BranchProtection("main", {
 });
 
 // ---------------------------------------------------------------------------
-// Runtime labels — the research GitHub App's vocabulary (Epic 5)
+// Runtime labels — the automation vocabulary (research App, Epic 5 + submissions
+// seam, Epic 4)
 // ---------------------------------------------------------------------------
-// The App tags everything it opens so proposed work is inert until a human
-// triages it: `agent-proposed` (provenance) + `needs-triage` (not yet actioned)
-// on each proposed issue, and `research-run` on the run's PR. Declaring them here
-// (rather than clicking in the UI) keeps the App's contract reproducible. Pulumi
-// manages only these labels; pre-existing repo labels are untouched.
+// Everything the automation opens is tagged so proposed work is inert until a human
+// triages it: a provenance marker (`agent-proposed` for the research App,
+// `submission` for the public tips form) + `needs-triage` (not yet actioned) on each
+// proposed issue, and `research-run` on a research run's PR. Declaring them here
+// (rather than clicking in the UI) keeps the contract reproducible. Pulumi manages
+// only these labels; pre-existing repo labels are untouched.
 const runtimeLabels = [
     {
         name: "agent-proposed",
@@ -110,12 +112,17 @@ const runtimeLabels = [
     {
         name: "needs-triage",
         color: "fbca04", // yellow — needs a human's attention
-        description: "Agent-proposed and inert until a maintainer triages it.",
+        description: "Proposed (by the research agent or the public form) and inert until a maintainer triages it.",
     },
     {
         name: "research-run",
         color: "0e8a16", // green — marks a research-run PR
         description: "A PR (or issue) produced by a `bosc research run`.",
+    },
+    {
+        name: "submission",
+        color: "1d76db", // blue — a public tips/corrections submission (cf. agent-proposed)
+        description: "Opened via the public submissions form (tip/correction); provenance marker.",
     },
 ];
 for (const label of runtimeLabels) {
