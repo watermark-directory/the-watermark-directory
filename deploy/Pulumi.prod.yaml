@@ -1,0 +1,11 @@
+# Committed stack config — NON-SECRET values only.
+#
+# `cloudflareAccountId` is REQUIRED but operator-specific, so it is NOT committed; set it
+# out of band:
+#   pulumi config set bosc-deploy:cloudflareAccountId <account-id>
+#
+# The Cloudflare API token is supplied via the CLOUDFLARE_API_TOKEN env var (or the
+# `cloudflare:apiToken` Pulumi secret); never add it here.
+config:
+  bosc-deploy:siteDomains:
+    - bosc.pages.dev
