@@ -1,5 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as github from "@pulumi/github";
+import { provisionCloudflare, type CloudflareOutputs } from "./cloudflare";
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -135,9 +136,38 @@ for (const label of runtimeLabels) {
 }
 
 // ---------------------------------------------------------------------------
+// Cloudflare resources — the submissions seam (Epic #56), OPT-IN
+// ---------------------------------------------------------------------------
+// The submissions endpoint's Turnstile widget + rate-limit KV namespace, as code.
+// Provisioned ONLY when `cloudflareAccountId` is set (and the provider has a
+// CLOUDFLARE_API_TOKEN), so the GitHub-only `pulumi up` — and the repo-config workflow
+// without a Cloudflare token — keep working untouched. The Pages *project* is
+// deliberately not managed here (it's wrangler-deployed); see cloudflare.ts.
+//   pulumi config set bosc-repo-config:cloudflareAccountId <account-id>
+//   pulumi config set --path bosc-repo-config:siteDomains[0] bosc.pages.dev   # optional
+const cloudflareAccountId = config.get("cloudflareAccountId");
+const siteDomains = config.getObject<string[]>("siteDomains") ?? ["bosc.pages.dev"];
+
+let cloudflareResources: CloudflareOutputs | undefined;
+if (cloudflareAccountId) {
+    cloudflareResources = provisionCloudflare({
+        accountId: cloudflareAccountId,
+        domains: siteDomains,
+        widgetMode: "managed",
+    });
+}
+
+// ---------------------------------------------------------------------------
 // Outputs
 // ---------------------------------------------------------------------------
 export const repository = repo.fullName;
 export const repositoryUrl = repo.htmlUrl;
 export const protectedBranch = mainProtection.pattern;
 export const runtimeLabelNames = runtimeLabels.map((l) => l.name);
+
+// Cloudflare outputs (undefined until `cloudflareAccountId` is configured). The KV id
+// goes into frontend/wrangler.toml; the Turnstile keys into the Cloudflare env / build
+// (turnstileSecretKey is a secret — read with `pulumi stack output --show-secrets`).
+export const rateLimitKvNamespaceId = cloudflareResources?.rateLimitKvNamespaceId;
+export const turnstileSiteKey = cloudflareResources?.turnstileSiteKey;
+export const turnstileSecretKey = cloudflareResources?.turnstileSecretKey;

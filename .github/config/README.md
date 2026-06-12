@@ -1,10 +1,11 @@
 # `.github/config` — repository configuration as code (Pulumi)
 
 This Pulumi project manages the GitHub configuration of the **`bosc`** repository
-declaratively: repository settings, branch protection for `main`, and the research
-App's runtime labels. Change the config by editing [`index.ts`](index.ts) and
-running `pulumi up` (locally or via the [`repo-config`
-workflow](../workflows/repo-config.yml)) — not by clicking around in the GitHub UI.
+declaratively: repository settings, branch protection for `main`, the automation's
+runtime labels, and — opt-in — the submissions seam's Cloudflare resources. Change the
+config by editing [`index.ts`](index.ts) and running `pulumi up` (locally or via the
+[`repo-config` workflow](../workflows/repo-config.yml)) — not by clicking around in the
+GitHub / Cloudflare UI.
 
 ## What it manages
 
@@ -27,6 +28,13 @@ workflow](../workflows/repo-config.yml)) — not by clicking around in the GitHu
   [submissions form](../../docs/submissions-api.md) (Epic
   [#56](https://github.com/goedelsoup/bosc/issues/56)); both share `needs-triage`.
   Pulumi manages only these four; pre-existing repo labels are left alone.
+- **Cloudflare resources** (`cloudflare.WorkersKvNamespace`, `cloudflare.TurnstileWidget`)
+  — **opt-in**, provisioned only when `cloudflareAccountId` is set: the Turnstile widget
+  guarding the public [submissions form](../../docs/submissions-api.md) and the KV
+  namespace backing its per-IP rate limiter. The Pages **project** is *not* managed here —
+  it's wrangler-deployed ([`pages.yml`](../workflows/pages.yml)) with its config in
+  `frontend/wrangler.toml`; these are the deploy-independent resources that config
+  references. See [`cloudflare.ts`](cloudflare.ts).
 
 ## Approval gates & the research App (Epic 5.4)
 
@@ -49,11 +57,37 @@ a second reviewer.
 | `requireCodeOwnerReviews` | `true` | also require a CODEOWNERS review |
 | `enforceAdmins` | `false` | also apply protection to admins |
 | `requireUpToDate` | `true` | branch must be current before merge |
+| `cloudflareAccountId` | *(unset)* | opt-in switch + account id for the Cloudflare resources |
+| `siteDomains` | `["bosc.pages.dev"]` | domains the Turnstile widget may serve on |
 
 The GitHub **token** is never committed. Supply it via the `GITHUB_TOKEN`
 environment variable — a PAT or GitHub App token with **Administration: write**
 on the repo. (The default Actions `GITHUB_TOKEN` is *not* sufficient for branch
 protection or repo settings.)
+
+## Cloudflare resources (opt-in)
+
+Off by default. To manage the submissions seam's Cloudflare resources, set the account id
+and provide a Cloudflare API token scoped to **Workers KV Storage: Edit** + **Turnstile:
+Edit**:
+
+```bash
+pulumi config set bosc-repo-config:cloudflareAccountId <account-id>
+export CLOUDFLARE_API_TOKEN=...      # or set the `cloudflare:apiToken` Pulumi secret
+pulumi up
+```
+
+`pulumi up` then creates the KV namespace + Turnstile widget and exports the values the
+rest of the seam needs:
+
+| Output | Wire it into |
+| --- | --- |
+| `rateLimitKvNamespaceId` | `frontend/wrangler.toml` → `[[kv_namespaces]]` `id` (RATE_LIMIT) |
+| `turnstileSiteKey` | the `PUBLIC_TURNSTILE_SITE_KEY` build var |
+| `turnstileSecretKey` | the `TURNSTILE_SECRET_KEY` Function secret (`pulumi stack output turnstileSecretKey --show-secrets`) |
+
+Until `cloudflareAccountId` is set, none of this is provisioned and no Cloudflare token is
+needed — the GitHub-only stack is unchanged.
 
 ## Prerequisites
 
@@ -96,6 +130,8 @@ PR) and `pulumi up` when those changes land on `main`. It needs:
   (the provider token; the default `GITHUB_TOKEN` can't manage protection).
 - **`PULUMI_STACK`** (Actions *variable*) — fully-qualified stack name, e.g.
   `your-pulumi-org/bosc-repo-config/prod`.
+- **`CLOUDFLARE_API_TOKEN`** (secret) — *opt-in*; only consumed once
+  `cloudflareAccountId` is set. Unset otherwise.
 
 `PULUMI_STACK` doubles as the on-switch: the job is gated on it, so until it's
 set the workflow is **skipped** (not failed) on PRs that touch this directory.

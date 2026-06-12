@@ -146,9 +146,12 @@ The endpoint opens public issues, so it is an abuse vector. Controls, interim �
   the site's own host.
 - **GitHub's own per-token issue rate limits** backstop volume.
 
-**Still deferred:** optional notify-on-submit, and Pulumi-managing the Cloudflare
-resources (Pages project + KV namespace) via `@pulumi/cloudflare` (today they're created
-in the dashboard / via `wrangler`).
+The KV namespace + Turnstile widget can be **Pulumi-managed** (opt-in) via
+[`.github/config`](../.github/config/cloudflare.ts) — set `cloudflareAccountId` and it
+provisions them and exports the id + keys to wire in (see that dir's README). The Pages
+**project** stays wrangler-deployed (managing its config in two tools would drift).
+
+**Still deferred:** optional notify-on-submit.
 
 **Triage** the queue with this saved filter — open submissions awaiting a human:
 <https://github.com/goedelsoup/bosc/issues?q=is%3Aopen+is%3Aissue+label%3Asubmission+label%3Aneeds-triage>.
@@ -238,7 +241,9 @@ the Pages project exists (Phase 1).
    root (no base path); for a custom domain set the repo vars `PAGES_SITE_URL` /
    `PAGES_BASE_PATH` (no code change).
 5. Create a free **Turnstile** widget for that domain; note the **site key** (public)
-   and **secret key**.
+   and **secret key**. (Or let Pulumi create it — `cloudflareAccountId` in
+   [`.github/config`](../.github/config/cloudflare.ts) — and read the keys from its
+   stack outputs.)
 
 ### Phase 4b — wire the secrets (once the Pages project exists)
 
@@ -272,6 +277,10 @@ Rate limiting is off until a KV namespace is bound. To enable it, create one and
 npx wrangler kv namespace create RATE_LIMIT   # prints the namespace id
 ```
 
+(Or have Pulumi create the namespace — `cloudflareAccountId` in
+[`.github/config`](../.github/config/cloudflare.ts) — and use its `rateLimitKvNamespaceId`
+stack output as the id.)
+
 Uncomment the `[[kv_namespaces]]` block with that id, then redeploy. Override the
 defaults (5 / 3600s) with the `RATE_LIMIT_MAX` / `RATE_LIMIT_WINDOW_SEC` vars if needed.
 
@@ -291,7 +300,8 @@ shows the placeholder on the next build), or uninstall the App.
 | Cloudflare Pages host migration | **wired** (Phase 1 — `pages.yml` Wrangler deploy + `wrangler.toml`; needs the CF project + `CLOUDFLARE_*` secrets) |
 | `bosc-tips-bot` App + secrets | planned (Phase 4 — manual bootstrap, below) |
 | Per-IP rate limit + dedupe + triage filter | **built** (Phase 5 — rate limit opt-in via a `RATE_LIMIT` KV binding) |
-| Notify-on-submit; Pulumi-managed CF resources (`@pulumi/cloudflare`) | **deferred** |
+| Pulumi-managed CF resources (KV namespace + Turnstile) | **built** (opt-in — `.github/config/cloudflare.ts`) |
+| Notify-on-submit | **deferred** |
 | Webhook receiver (event-driven, Epic 4 upgrade) | **deferred** — the Function is the request-driven seam; a persistent receiver is a later tier |
 
 ### Open decisions

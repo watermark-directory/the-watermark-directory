@@ -63,3 +63,7 @@ jobs:
           # Provider auth: an admin-scoped token, NOT the default GITHUB_TOKEN
           # (which can't manage branch protection or repo settings).
           GITHUB_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
+          # Only consumed once the Cloudflare resources are opted in (the
+          # `cloudflareAccountId` stack config is set); unset otherwise, and the
+          # GitHub-only stack ignores it. See .github/config/README.md.
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

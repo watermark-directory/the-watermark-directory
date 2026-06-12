@@ -13,6 +13,7 @@
     "typescript": "^5.5"
   },
   "dependencies": {
+    "@pulumi/cloudflare": "^6.17.0",
     "@pulumi/github": "^6.4.0",
     "@pulumi/pulumi": "^3.130.0"
   }
