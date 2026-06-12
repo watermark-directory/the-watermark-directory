@@ -3,7 +3,7 @@ subject: Allen County Commissioners — Project BOSC resolution ledger + event t
 
 provenance:
   source_index: data/extracted/commissioners/minutes/   # parquet OCR bundle (meeting-pages, 2,283 pp, 2024-2026)
-  source_raw: data/documents/commissioners/minutes/raw/  # the authoritative PDFs (filename = meeting date, [AM]MMDDYY)
+  source_raw: data/documents/commissioners/meetings/  # the authoritative PDFs (filename = meeting date, [AM]MMDDYY); connector-sourced since the #133 cutover
   method: >-
     Windowed keyword extraction over the committed OCR text layer (meeting-pages.parquet), then each
     resolution number + title transcribed and cross-checked against the agenda (A*) and minutes (M*)

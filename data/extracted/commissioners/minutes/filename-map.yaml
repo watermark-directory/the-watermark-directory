@@ -1,6 +1,7 @@
 # Canonical-name / date map for malformed minutes & agenda filenames.
 #
-# The source binaries under data/documents/commissioners/minutes/raw/ keep their
+# The source binaries — connector-sourced under data/documents/commissioners/meetings/
+# since the 2026-06-12 cutover (formerly minutes/raw/; see civic_cutover) — keep their
 # AS-RECEIVED names (chain of custody). This map records the corpus-canonical
 # name (M<MMDDYY>.pdf minutes / A<MMDDYY>.pdf agenda, "-Special" for special
 # sessions) and the meeting date VERIFIED from each file's own content, so the
@@ -12,7 +13,7 @@
 meta:
   subject: Commissioners minutes/agenda filename normalization
   generated_at: 2026-06-06
-  source_dir: data/documents/commissioners/minutes/raw/
+  source_dir: data/documents/commissioners/meetings/   # retired from minutes/raw/ in the 2026-06-12 cutover — see civic_cutover below
   method: per-file date read from page 1 (text layer or OCR); collisions checked
   policy: non-destructive — originals kept in place; this is an alias layer only
 
@@ -185,3 +186,21 @@ genuine_absence_verified:   # audit "Genuine-absence shortlist" — all 8 dates 
       finding: >
         Genuine upstream absence of minutes (county listing error), not a corpus
         capture gap.
+
+civic_cutover:   # 2026-06-12 — raw/ retired onto the civic connector (#133 follow-on)
+  date: 2026-06-12
+  what: >
+    The hand-assembled source binaries formerly under
+    data/documents/commissioners/minutes/raw/ (930 PDFs) were retired and replaced by
+    the connector-sourced tree data/documents/commissioners/meetings/ (the full Jan
+    2023– record, pulled via `bosc subdivisions download commissioners`). The
+    as-received names are identical, so every alias/typo/removed/refiled entry above
+    still applies — those files now resolve under meetings/.
+  chain_of_custody: >
+    Each retired file was verified BYTE-IDENTICAL (sha256) to its connector copy before
+    removal — the only deletion the chain-of-custody rule permits (checksum-verified
+    byte-identical duplicate). 930/930 matched, 0 retained. Per-file record + shas:
+    ../meetings/cutover-reconciliation.yaml. The original bytes also remain in git/LFS
+    history and are re-acquirable from commissioners.allencountyohio.com.
+  source_dir_now: data/documents/commissioners/meetings/
+  reconciliation: ../meetings/cutover-reconciliation.yaml

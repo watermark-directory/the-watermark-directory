@@ -132,15 +132,15 @@ under `genuine_absence_verified:`. Summary:
 
 No corpus action required for any of the 8.
 
-The legacy `minutes/raw/` snapshot had fallen ~2 months behind the county (it ends
-at minutes `M032426` 2026-03-24 / agenda `A042026` 2026-04-20). That backlog was
-**ingested 2026-06-12** via the civic pipeline (the commissioners are now a registry
-body): 26 minutes (2026-03-25 → 06-02) + 22 agendas (2026-04-21 → 06-11) under
-[`data/documents/commissioners/meetings/`](../../documents/commissioners/meetings/)
-with a download manifest + meeting index at [`./meetings/`](../commissioners/meetings/).
-The `meetings/` tree continues the legacy `raw/` tree from its last date forward (no
-byte overlap); the 22 agendas are text-verified, the 26 minutes are image-only scans
-pending an OCR pass.
+**Full civic cutover (2026-06-12, #133 follow-on):** the commissioners' entire meeting
+record (Jan 2023–, 991 files) is now **connector-sourced** under
+[`data/documents/commissioners/meetings/`](../../documents/commissioners/meetings/).
+The legacy hand-assembled `minutes/raw/` tree (930 PDFs) was **retired** after every
+file was verified **byte-identical** to its connector copy — the per-file record is
+[`cutover-reconciliation.yaml`](../commissioners/meetings/cutover-reconciliation.yaml)
+(930/930 matched, 0 retained). The download manifest + meeting index sit alongside it;
+497 agenda dates are content-verified and 489 image-only minutes await OCR (#135). The
+"934 files in `minutes/raw/`" figures above describe the pre-cutover 2026-04-17 snapshot.
 
 ---
 

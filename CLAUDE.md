@@ -81,7 +81,11 @@ so the same source stays valid for the legacy SSG too.
   name + a **content-verified** date (text layer or OCR, *not* the filename or
   outside knowledge) in a non-destructive alias manifest — see
   `data/extracted/commissioners/minutes/filename-map.yaml`. Removing a source
-  file is only OK when it's a checksum-verified byte-identical duplicate. Captured
+  file is only OK when it's a checksum-verified byte-identical duplicate — e.g. the
+  commissioners' meeting record is now connector-sourced under
+  `data/documents/commissioners/meetings/`, the legacy `minutes/raw/` tree retired
+  under exactly this rule (`data/extracted/commissioners/meetings/cutover-reconciliation.yaml`).
+  Captured
   third-party web evidence may embed secrets/tokens — that's evidence, not a leak
   to redact. The standing completeness audit is
   `data/extracted/legal/corpus-completeness-audit.md`.

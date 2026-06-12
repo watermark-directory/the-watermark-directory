@@ -3,7 +3,7 @@ subject: Allen County sanitary-system economics around the BOSC load — fees, r
 
 provenance:
   source_index: data/extracted/commissioners/minutes/
-  source_raw: data/documents/commissioners/minutes/raw/
+  source_raw: data/documents/commissioners/meetings/
   method: "Windowed extraction over the committed OCR text layer (meeting-pages.parquet); figures transcribed from the minutes' discussion items and cross-checked across meetings."
   content_verified: '2026-06-08'
   caveat: >-

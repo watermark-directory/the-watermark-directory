@@ -488,15 +488,15 @@ subdivisions:
     office: null
     grounded_from: null
     note: >-
-      The county's governing board. Its general-session minutes are the corpus
-      core under data/documents/commissioners/minutes/raw/ (Jan 2023–, with the
-      hand-maintained filename-map and the standing corpus-completeness audit).
-      This civic entry ingests the ongoing records from the dedicated
-      commissioners site into the meetings/ tree via the generic WordPress
-      fetcher; the legacy raw/ tree holds everything through 2026-03 (minutes) /
-      2026-04 (agendas), so the meetings/ tree is pulled with `--since` to
-      continue from there without duplicating bytes. Grounded roster facts
-      (cadence/office) are not yet transcribed — meeting_schedule/office null.
+      The county's governing board and the corpus core. Its entire meeting record
+      (Jan 2023–, minutes + agendas) is connector-sourced under
+      data/documents/commissioners/meetings/ via the generic WordPress fetcher —
+      the legacy hand-assembled minutes/raw/ tree was retired in the #133 cutover
+      after every file was verified byte-identical to its connector copy
+      (data/extracted/commissioners/meetings/cutover-reconciliation.yaml). The
+      as-received-name alias layer (filename-map) and the standing
+      corpus-completeness audit still apply. Grounded roster facts (cadence/office)
+      are not yet transcribed — meeting_schedule/office null.
     publishing:
       website: https://commissioners.allencountyohio.com/
       records_url: https://commissioners.allencountyohio.com/meeting-minutes/
