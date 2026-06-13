@@ -75,7 +75,9 @@ price formation is far more complex than one coefficient.
 - **Sign convention:** total interchange `TI` is **+ for net exports, − for net
   imports** (EIA-930). PJM is a net exporter on average.
 - Keyed (`BOSC_EIA_API_KEY`); offline replays `tests/fixtures/economics/eia930/`. The
-  committed values are real EIA-930 PJM magnitudes for the window, regenerable with a key.
+  committed fixture + figures are a **genuine recorded keyed pull** of the **2024-06**
+  window (`bosc interchange`, #95/#120), superseding the earlier hand-authored aggregates
+  (which had overstated net-import hours as ~24% vs the real ~0.6%).
 - The derived `CampusInterchangeComparison` is a **screening** view over window means,
   **not** an hourly dispatch or locational (LMP/congestion) model — deliverability to the
   campus bus is the PJM-queue layer (#96).
