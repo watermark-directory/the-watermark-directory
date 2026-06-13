@@ -44,14 +44,15 @@ load factor is **~2,740 GWh/yr**:
 
 | Denominator | Annual load | Campus share | Basis |
 |---|--:|--:|---|
-| AEP Ohio retail (EIA-861) | ~49,000 GWh | **~5.6%** | `[reference]` transcribed; *verify* |
-| PJM total load (EIA-930) | ~800,000 GWh | ~0.34% | `[reference]` transcribed; *verify* |
-| Ohio retail (EIA) | ~149,000 GWh | ~1.8% | `[connector]` (shared with [#91](ECONOMICS.md)) |
+| AEP Ohio retail (EIA-861) | ~48,653 GWh | **~5.6%** | `[connector]` EIA-861 per-utility (2024) |
+| PJM total load (EIA-930) | ~815,056 GWh | ~0.34% | `[connector]` EIA-930 annual demand (2024) |
+| Ohio retail (EIA) | ~161,934 GWh | ~1.7% | `[connector]` (shared with [#91](ECONOMICS.md)) |
 
 The headline: **a single campus equals a material fraction (~5–6%) of its serving
-utility's entire retail electricity sales.** The state share is connector-grounded; the
-AEP-Ohio and PJM figures are transcribed EIA-861/930 published values flagged for
-verification with a keyed/bulk pull (see the
+utility's entire retail electricity sales.** All three denominators are now
+connector-sourced — AEP-Ohio retail from the EIA-861 per-utility "Sales to Ultimate
+Customers" bulk file, PJM annual demand from EIA-930 (Eastern-tz daily sum), and Ohio
+retail shared with [#91](ECONOMICS.md) (see the
 [reference README](../data/reference/eia/README.md)).
 
 ## #95 — interchange layer (EIA-930)

@@ -1,0 +1,20 @@
+{
+  "params": {
+    "connector": "eia861",
+    "report": "sales_ult_cust",
+    "utility_number": 14006,
+    "state": "OH",
+    "year": 2024
+  },
+  "payload": {
+    "year": 2024,
+    "utility_number": 14006,
+    "utility_name": "Ohio Power Co",
+    "state": "OH",
+    "rows": 2,
+    "total_sales_mwh": 48652907.0,
+    "total_customers": 1533265.0,
+    "bundled_revenue_thousand_usd": 1463723.0,
+    "bundled_sales_mwh": 7866324.0
+  }
+}

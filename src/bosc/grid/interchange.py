@@ -167,6 +167,77 @@ def fetch_ba_interchange(
     )
 
 
+def fetch_ba_annual_load(
+    *, ba: str = "PJM", year: int = 2024, settings: Settings | None = None
+) -> ProvenancedValue:
+    """The BA's total annual demand (GWh) from EIA-930 daily demand, summed (cached).
+
+    Uses the ``daily-region-data`` route filtered to the **Eastern** timezone: the daily
+    route reports each day under five timezone conventions (Arizona/Central/Eastern/
+    Mountain/Pacific), so without the filter every day is counted 5x. 365-366 daily MWh
+    demand values are summed to the annual total inside the fetch (tiny cached payload).
+    """
+    settings = settings or get_settings()
+    params = {
+        "connector": "eia930",
+        "route": "daily-region-data",
+        "ba": ba,
+        "year": year,
+        "tz": "Eastern",
+    }
+
+    def fetch() -> Any:
+        query: list[tuple[str, str | int | float | bool | None]] = [
+            ("frequency", "daily"),
+            ("data[0]", "value"),
+            ("facets[respondent][]", ba),
+            ("facets[type][]", "D"),
+            ("facets[timezone][]", "Eastern"),
+            ("start", f"{year}-01-01"),
+            ("end", f"{year}-12-31"),
+            ("sort[0][column]", "period"),
+            ("sort[0][direction]", "asc"),
+            ("length", "5000"),
+        ]
+        if settings.eia_api_key:
+            query.append(("api_key", settings.eia_api_key))
+        resp = httpx.get(
+            f"{settings.eia_base_url}/electricity/rto/daily-region-data/data",
+            params=query,
+            timeout=settings.econ_request_timeout_s,
+            follow_redirects=True,
+        )
+        resp.raise_for_status()
+        try:
+            body = resp.json()
+        except json.JSONDecodeError as exc:
+            hint = "invalid BOSC_EIA_API_KEY" if settings.eia_api_key else "no key set"
+            raise Eia930Error(
+                f"EIA-930 daily returned non-JSON ({hint}): {resp.text[:60]!r}"
+            ) from exc
+        rows = (((body or {}).get("response") or {}).get("data")) or []
+        vals = [float(r["value"]) for r in rows if r.get("value") is not None]
+        return {"ba": ba, "year": year, "days": len(vals), "annual_demand_mwh": sum(vals)}
+
+    payload = cast(
+        "dict[str, Any]",
+        cached_get(
+            "eia930",
+            params,
+            fetch,
+            cache_dir=settings.econ_cache_dir,
+            offline=settings.econ_offline,
+            fixtures_dir=settings.econ_fixtures_dir,
+        ),
+    )
+    return ProvenancedValue.from_connector(
+        round(payload["annual_demand_mwh"] / 1000.0, 1),
+        "GWh/yr",
+        citation=f"EIA-930 daily demand sum, {payload['ba']} {payload['year']} "
+        f"({payload['days']} days, Eastern tz)",
+    )
+
+
 def derive_interchange_comparison(
     *,
     interchange: BAInterchange | None = None,

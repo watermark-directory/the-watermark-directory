@@ -21,8 +21,13 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 @pytest.fixture
 def grid_settings() -> Settings:
-    """Real repo data dir (reads committed reference data); no network."""
-    return Settings(data_dir=REPO_ROOT / "data", hydro_offline=True, econ_offline=True)
+    """Real repo data dir (reads committed reference data + EIA fixtures); no network."""
+    return Settings(
+        data_dir=REPO_ROOT / "data",
+        hydro_offline=True,
+        econ_offline=True,
+        econ_fixtures_dir=REPO_ROOT / "tests" / "fixtures" / "economics",
+    )
 
 
 def test_serving_utility_is_cited_not_asserted(grid_settings: Settings) -> None:
@@ -60,21 +65,20 @@ def test_campus_load_share_links_facility_draw(grid_settings: Settings) -> None:
     )
 
 
-def test_provenance_split_connector_vs_transcribed(grid_settings: Settings) -> None:
+def test_load_denominators_are_connector_sourced(grid_settings: Settings) -> None:
     gp = derive_grid_profile(settings=grid_settings)
     ls = gp.load_share
-    # The state retail denominator is connector-sourced (shared with #91).
+    # All three denominators are now connector-sourced (#94/#120): Ohio retail (EIA,
+    # shared #91), AEP-Ohio per-utility (EIA-861), PJM annual demand (EIA-930).
     assert ls.state_retail_gwh.source == "connector"
-    # The AEP-Ohio (EIA-861) and PJM (EIA-930) figures are transcribed reference values,
-    # flagged for verification and at medium confidence (not asserted as fact).
-    assert ls.utility_retail_gwh.source == "reference"
-    assert ls.ba_load_gwh.source == "reference"
-    assert ls.utility_retail_gwh.confidence == "medium"
-    assert "verify" in ls.utility_retail_gwh.citation.lower()
-    # The utility profile carries EIA-861 customers + price as reference figures.
+    assert ls.utility_retail_gwh.source == "connector" and ls.utility_retail_gwh.verified
+    assert ls.ba_load_gwh.source == "connector" and ls.ba_load_gwh.verified
+    assert "EIA-861" in ls.utility_retail_gwh.citation
+    assert "EIA-930" in ls.ba_load_gwh.citation
+    # The utility profile carries EIA-861 customers + price, connector-sourced.
     up = gp.utility_profile
-    assert up.customers is not None and up.customers.source == "reference"
-    assert up.avg_price_cents_kwh is not None
+    assert up.customers is not None and up.customers.source == "connector"
+    assert up.avg_price_cents_kwh is not None and up.avg_price_cents_kwh.source == "connector"
 
 
 def test_committed_grid_profile_loads() -> None:

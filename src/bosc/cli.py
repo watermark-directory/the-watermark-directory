@@ -1686,13 +1686,13 @@ def grid_cmd(
         "AEP Ohio retail (EIA-861)",
         f"{ls.utility_retail_gwh.value:,.0f}",
         f"[bold]{ls.share_of_utility_pct.value:g}%[/]",
-        "transcribed; verify",
+        "connector",
     )
     table.add_row(
         "PJM total load (EIA-930)",
         f"{ls.ba_load_gwh.value:,.0f}",
         f"{ls.share_of_ba_pct.value:g}%",
-        "transcribed; verify",
+        "connector",
     )
     table.add_row(
         "Ohio retail (EIA, shared #91)",
@@ -1703,9 +1703,9 @@ def grid_cmd(
     console.print(table)
     console.print(
         "\n[dim]Serving utility is corpus-grounded (AEP Ohio tariff referenced for this "
-        "campus); RTO=PJM is authoritative. The state share is EIA connector-sourced; the "
-        "AEP-Ohio (EIA-861) and PJM (EIA-930) figures are transcribed, flagged for "
-        "verification. Source: corpus + EIA + the 2026-06-10 call.[/]"
+        "campus); RTO=PJM is authoritative. All three load denominators are EIA "
+        "connector-sourced: Ohio retail (shared #91), AEP-Ohio per-utility (EIA-861), "
+        "PJM annual demand (EIA-930). Source: corpus + EIA + the 2026-06-10 call.[/]"
     )
     if write:
         path = write_grid_profile(gp, settings=settings)

@@ -1,0 +1,15 @@
+{
+  "params": {
+    "connector": "eia930",
+    "route": "daily-region-data",
+    "ba": "PJM",
+    "year": 2024,
+    "tz": "Eastern"
+  },
+  "payload": {
+    "ba": "PJM",
+    "year": 2024,
+    "days": 366,
+    "annual_demand_mwh": 815056208.0
+  }
+}

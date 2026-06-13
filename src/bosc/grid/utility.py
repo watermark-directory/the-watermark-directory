@@ -9,10 +9,11 @@ the state's retail load.
 Data discipline (epic #93): the serving-utility identification is grounded in the
 committed corpus (the relator data appendix references the AEP Ohio tariff for this
 campus; the Allen County commissioners' minutes reference local AEP service), with the
-EIA-861 service territory / PUCO map named as the formal confirmation source. The EIA
-state-retail figure is connector-sourced (shared with #91); the utility (EIA-861) and
-BA (EIA-930) figures are transcribed published values, ``reference``-tagged and flagged
-for verification (see ``data/reference/eia/README.md``).
+EIA-861 service territory / PUCO map named as the formal confirmation source. All three
+load denominators are connector-sourced: the Ohio state-retail figure from EIA (shared
+with #91), the AEP-Ohio per-utility retail from the EIA-861 bulk "Sales to Ultimate
+Customers" file (:mod:`bosc.grid.eia861`), and the PJM annual demand from EIA-930
+(:func:`bosc.grid.interchange.fetch_ba_annual_load`). See ``data/reference/eia/README.md``.
 """
 
 from __future__ import annotations
@@ -24,13 +25,14 @@ import yaml
 from bosc.config import Settings, get_settings
 from bosc.economics.energy import load_consumer_energy
 from bosc.facility.power import derive_power_basis
+from bosc.grid.eia861 import fetch_utility_retail
+from bosc.grid.interchange import fetch_ba_annual_load
 from bosc.grid.model import (
     BalancingAuthorityProfile,
     CitedFact,
     GridLoadShare,
     GridProfile,
     ServingUtility,
-    UtilityProfile,
 )
 from bosc.hydrology.model import ProvenancedValue
 from bosc.logging import get_logger
@@ -51,14 +53,9 @@ _UTILITY_CITE = (
     "service, Res #974-25). Formal confirmation: EIA-861 service territory / PUCO map."
 )
 
-# --- Transcribed EIA-861/930 reference figures (verify with a keyed/bulk pull) --
-_AEP_RETAIL_GWH = 49000.0  # AEP Ohio (Ohio Power Co) ~2023 retail sales (EIA-861)
-_AEP_CUSTOMERS = 1_500_000.0  # AEP Ohio retail customers (EIA-861)
-_AEP_PRICE_CENTS = 12.8  # AEP Ohio all-sector average price (EIA-861)
-_AEP_CITE = "EIA-861 2023, Ohio Power Company (AEP Ohio); transcribed published figure — verify"
-_PJM_LOAD_GWH = 800_000.0  # PJM Interconnection ~2023 total annual load (EIA-930)
-_PJM_CITE = "EIA-930 2023, PJM region total annual demand; transcribed published figure — verify"
-# Fallback Ohio state retail if the committed #91 dataset is unavailable.
+# The AEP-Ohio (EIA-861 per-utility) and PJM (EIA-930 annual) figures are now LIVE
+# connector pulls — fetch_utility_retail (bosc.grid.eia861) + fetch_ba_annual_load
+# (bosc.grid.interchange). Only the Ohio state-retail fallback stays a transcribed const.
 _OH_STATE_RETAIL_GWH = 149_003.0
 _OH_STATE_CITE = "EIA ELEC.SALES.OH-ALL.A 2023 (Ohio total retail electricity sales)"
 
@@ -127,12 +124,10 @@ def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
     draw_mw = power.facility_draw.value
     consumption_gwh = draw_mw * _HOURS_PER_YEAR * _LOAD_FACTOR / 1000.0  # MWh -> GWh
 
-    utility_retail = ProvenancedValue.from_reference(
-        _AEP_RETAIL_GWH, "GWh/yr", citation=_AEP_CITE, confidence="medium"
-    )
-    ba_load = ProvenancedValue.from_reference(
-        _PJM_LOAD_GWH, "GWh/yr", citation=_PJM_CITE, confidence="medium"
-    )
+    # Live connector pulls (#94/#120): AEP-Ohio per-utility EIA-861 + PJM annual EIA-930.
+    utility_profile = fetch_utility_retail(settings=settings)
+    utility_retail = utility_profile.retail_sales_gwh
+    ba_load = fetch_ba_annual_load(settings=settings)
     state_retail = _state_retail_gwh(settings)
 
     def _share(denom: float) -> float:
@@ -156,16 +151,14 @@ def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
         share_of_utility_pct=ProvenancedValue.derived(
             round(_share(utility_retail.value), 2),
             "percent",
-            citation=f"campus {consumption_gwh:.0f} GWh / AEP Ohio {utility_retail.value:.0f} GWh "
-            "(EIA-861 transcribed; verify)",
-            confidence="medium",
+            citation=f"campus {consumption_gwh:.0f} GWh / AEP Ohio {utility_retail.value:,.0f} GWh "
+            f"(EIA-861 {settings.eia861_year} per-utility)",
         ),
         share_of_ba_pct=ProvenancedValue.derived(
             round(_share(ba_load.value), 3),
             "percent",
-            citation=f"campus {consumption_gwh:.0f} GWh / PJM {ba_load.value:.0f} GWh "
-            "(EIA-930 transcribed; verify)",
-            confidence="medium",
+            citation=f"campus {consumption_gwh:.0f} GWh / PJM {ba_load.value:,.0f} GWh "
+            "(EIA-930 annual demand)",
         ),
         share_of_state_pct=ProvenancedValue.derived(
             round(_share(state_retail.value), 2),
@@ -183,23 +176,19 @@ def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
     )
     return GridProfile(
         serving_utility=_serving_utility(),
-        utility_profile=UtilityProfile(
-            utility="AEP Ohio (Ohio Power Company)",
-            retail_sales_gwh=utility_retail,
-            customers=ProvenancedValue.from_reference(
-                _AEP_CUSTOMERS, "customers", citation=_AEP_CITE, confidence="medium"
-            ),
-            avg_price_cents_kwh=ProvenancedValue.from_reference(
-                _AEP_PRICE_CENTS, "cents/kWh", citation=_AEP_CITE, confidence="medium"
-            ),
+        utility_profile=utility_profile,
+        ba_profile=BalancingAuthorityProfile(
+            ba="PJM Interconnection",
+            eia_source="EIA-930 daily demand sum, annual (connector)",
+            annual_load_gwh=ba_load,
         ),
-        ba_profile=BalancingAuthorityProfile(ba="PJM Interconnection", annual_load_gwh=ba_load),
         load_share=load_share,
         note=(
-            "Grid foundation layer (#94). The state share is connector-grounded (EIA, "
-            "shared with #91); the AEP-Ohio and PJM figures are transcribed EIA-861/930 "
-            "values flagged for verification. The campus is a single load equal to a "
-            "material fraction of its serving utility's entire retail sales."
+            "Grid foundation layer (#94). The state, AEP-Ohio, and PJM denominators are "
+            "now all connector-sourced — Ohio retail from EIA (shared with #91), AEP-Ohio "
+            "retail from the EIA-861 per-utility file, and PJM annual demand from EIA-930. "
+            "The campus is a single load equal to a material fraction of its serving "
+            "utility's entire retail sales."
         ),
     )
 
