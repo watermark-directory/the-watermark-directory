@@ -35,7 +35,9 @@ price formation is far more complex than one coefficient.
 - **EIA requires a key** (`BOSC_EIA_API_KEY`, free). Without one, `bosc eia` replays the
   committed offline fixtures (`tests/fixtures/economics/eia/`); a live keyed pull
   refreshes to the latest annual vintage. Figures here are EIA **annual averages**
-  (latest stable annual; EIA annual data lags ~1 year).
+  (latest stable annual; EIA annual data lags ~1 year). The committed fixtures + figures
+  are now a **genuine recorded keyed pull** — **2025 vintage** (`bosc eia`, #120),
+  superseding the earlier hand-transcribed 2023 placeholders.
 - **The campus buys at wholesale/industrial rates, not the residential price.** The
   residential price is the *consumer-impact reference*, not the campus's own bill.
 - **Retail fuel is state-level natural gas, not gasoline.** EIA retail gasoline is
@@ -43,7 +45,8 @@ price formation is far more complex than one coefficient.
   ($/Mcf) as the state-level consumer heating-fuel series and do not fabricate a
   county/state gasoline figure.
 - Series values are **connector-pulled and regenerable**; EIA columns are selected by
-  **name** (`period` / `value`), never by index.
+  **name** — `period` plus the series' own value column (`price` / `sales` / `value` on
+  the `/v2/seriesid` route), never by index.
 
 ### `grid-profile.yaml` specifics (issue #94)
 

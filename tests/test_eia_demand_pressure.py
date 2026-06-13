@@ -11,7 +11,12 @@ import pytest
 
 from bosc.config import Settings
 from bosc.connectors import OfflineError
-from bosc.economics.connectors.eia import fetch_consumer_energy, fetch_eia_series
+from bosc.economics.connectors.eia import (
+    EiaError,
+    _latest_point,
+    fetch_consumer_energy,
+    fetch_eia_series,
+)
 from bosc.economics.energy import (
     derive_demand_pressure,
     load_consumer_energy,
@@ -19,6 +24,45 @@ from bosc.economics.energy import (
 from bosc.facility.power import derive_power_basis
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
+def _seriesid_payload(rows: list[dict[str, object]]) -> dict[str, object]:
+    """A minimal EIA /v2/seriesid response envelope around the given data rows."""
+    return {"response": {"data": rows}}
+
+
+def test_latest_point_reads_series_specific_value_column() -> None:
+    """The /v2/seriesid rows carry a value column named after the series (price/sales/
+    value), NOT a uniform ``value`` — _latest_point must read the declared column and
+    take the newest period. Regression for the build-but-not-run live-shape bug (#120).
+    """
+    # Price series: value lives under ``price``; newest period wins regardless of order.
+    price = _seriesid_payload(
+        [
+            {"period": 2024, "stateid": "OH", "sectorid": "RES", "price": 15.71},
+            {"period": 2025, "stateid": "OH", "sectorid": "RES", "price": 16.96},
+        ]
+    )
+    assert _latest_point(price, "price") == {"period": "2025", "value": 16.96}
+
+    # Sales series: value under ``sales``.
+    sales = _seriesid_payload([{"period": 2025, "sales": 161933.97969}])
+    assert _latest_point(sales, "sales") == {"period": "2025", "value": 161933.97969}
+
+    # Natural-gas series: this one genuinely uses ``value``.
+    ng = _seriesid_payload([{"period": 2025, "value": 13.85}])
+    assert _latest_point(ng, "value") == {"period": "2025", "value": 13.85}
+
+
+def test_latest_point_fallback_and_empty() -> None:
+    """Fallback to the sole numeric column when the declared one is absent (EIA rename),
+    and raise rather than silently return on an empty payload."""
+    # Declared column ``price`` missing; the only numeric non-dimension field is taken.
+    renamed = _seriesid_payload([{"period": 2025, "stateid": "OH", "cents_per_kwh": 16.96}])
+    assert _latest_point(renamed, "price") == {"period": "2025", "value": 16.96}
+
+    with pytest.raises(EiaError):
+        _latest_point(_seriesid_payload([]), "price")
 
 
 def test_eia_series_offline(econ_settings: Settings) -> None:

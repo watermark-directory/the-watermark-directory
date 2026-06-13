@@ -109,10 +109,10 @@ load_share:
     confidence: medium
     asof: null
   state_retail_gwh:
-    value: 149003.0
+    value: 161934.0
     unit: GWh/yr
     source: connector
-    citation: 'EIA ELEC.SALES.OH-ALL.A (2023); shared with #91'
+    citation: 'EIA ELEC.SALES.OH-ALL.A (2025); shared with #91'
     confidence: high
     asof: null
   share_of_utility_pct:
@@ -130,10 +130,10 @@ load_share:
     confidence: medium
     asof: null
   share_of_state_pct:
-    value: 1.84
+    value: 1.69
     unit: percent
     source: derived
-    citation: campus 2743 GWh / Ohio 149003 GWh
+    citation: campus 2743 GWh / Ohio 161934 GWh
     confidence: medium
     asof: null
 note: 'Grid foundation layer (#94). The state share is connector-grounded (EIA, shared
