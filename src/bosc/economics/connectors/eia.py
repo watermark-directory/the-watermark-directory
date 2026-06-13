@@ -3,9 +3,12 @@
 The consumer-price half of the demand thread (issue #91): residential electricity
 price, residential natural-gas price, and total electricity retail sales, against
 which the data-center load's pressure is screened. We use EIA's uniform
-``/v2/seriesid/{id}`` route so every pull is one cached call returning the same
-shape (``response.data`` rows with ``period`` + ``value`` + ``units``); columns are
-selected **by name**, never by index. Keyed: a free key read from
+``/v2/seriesid/{id}`` route so every pull is one cached call. The ``response.data``
+rows carry ``period`` plus a **series-specific value column** named after the data
+column (``price`` for the price series, ``sales`` for the sales series, ``value`` for
+the natural-gas series) — *not* a uniform ``value`` field — so each series declares
+its value column (``_SERIES[...]["col"]``) and the latest point is read **by name**,
+never by index. Keyed: a free key read from
 ``settings.eia_api_key`` (``BOSC_EIA_API_KEY``), sent only on the live request and
 never part of the cache key or the committed fixture.
 
@@ -30,26 +33,55 @@ from bosc.hydrology.model import ProvenancedValue
 
 # The Ohio consumer-energy series this thread pulls. Keyed by EIA legacy series id;
 # unit is the EIA-reported unit (recorded for provenance, not parsed from the digits).
+# ``col`` is the EIA data-column name the value lives under on the /v2/seriesid route
+# (it varies by series; the route does NOT expose a uniform ``value`` field).
 _SERIES: dict[str, dict[str, str]] = {
     "ELEC.PRICE.OH-RES.A": {
         "label": "Ohio residential electricity price",
         "fuel": "electricity",
         "metric": "price",
         "unit": "cents/kWh",
+        "col": "price",
     },
     "ELEC.SALES.OH-ALL.A": {
         "label": "Ohio electricity retail sales (all sectors)",
         "fuel": "electricity",
         "metric": "sales",
         "unit": "million kWh",
+        "col": "sales",
     },
     "NG.N3010OH3.A": {
         "label": "Ohio residential natural-gas price",
         "fuel": "natural_gas",
         "metric": "price",
         "unit": "$/Mcf",
+        "col": "value",
     },
 }
+
+# Row fields on the /v2/seriesid route that are never the value (period + the dimension
+# labels EIA echoes back). Used only by the value-column fallback below.
+_NON_VALUE_FIELDS = frozenset(
+    {"period", "stateid", "stateDescription", "sectorid", "sectorName", "seriesId", "units"}
+)
+
+
+def _row_value(row: dict[str, Any], col: str) -> float | None:
+    """The numeric value of an EIA seriesid row, read from its declared column.
+
+    Reads ``row[col]`` when present; otherwise falls back to the sole numeric column
+    that is not ``period``, a dimension label, or a ``*-units`` string — so a series
+    whose column EIA renames still resolves rather than silently returning nothing.
+    """
+    v = row.get(col)
+    if v is not None and not isinstance(v, bool):
+        return float(v)
+    for k, val in row.items():
+        if k in _NON_VALUE_FIELDS or k.endswith("-units"):
+            continue
+        if isinstance(val, (int, float)) and not isinstance(val, bool):
+            return float(val)
+    return None
 
 
 class EiaError(RuntimeError):
@@ -60,18 +92,22 @@ class EiaError(RuntimeError):
     """
 
 
-def _latest_point(payload: dict[str, Any]) -> dict[str, Any]:
+def _latest_point(payload: dict[str, Any], value_col: str) -> dict[str, Any]:
     """The most recent ``{period, value}`` row from an EIA v2 seriesid payload.
 
+    ``value_col`` is the series' EIA data-column name (``price`` / ``sales`` / ``value``).
     EIA returns rows newest-first when sorted by period desc; we defend against either
-    order by taking the max period. Fields are read by name (``period`` / ``value``).
+    order by taking the max period. The value is read by column name (with a fallback,
+    see :func:`_row_value`); the period is read from ``period``.
     """
     data = (((payload or {}).get("response") or {}).get("data")) or []
-    rows = [r for r in data if r.get("value") is not None]
+    rows = [r for r in data if _row_value(r, value_col) is not None]
     if not rows:
-        raise EiaError("EIA response carried no data points")
+        raise EiaError(f"EIA response carried no data points (value column {value_col!r})")
     best = max(rows, key=lambda r: str(r.get("period", "")))
-    return {"period": str(best.get("period", "")), "value": float(best["value"])}
+    value = _row_value(best, value_col)
+    assert value is not None  # guaranteed by the rows filter above
+    return {"period": str(best.get("period", "")), "value": value}
 
 
 def fetch_eia_series(series_id: str, *, settings: Settings | None = None) -> ConsumerEnergyPrice:
@@ -101,7 +137,7 @@ def fetch_eia_series(series_id: str, *, settings: Settings | None = None) -> Con
             hint = "invalid BOSC_EIA_API_KEY" if settings.eia_api_key else "no key set"
             raise EiaError(f"EIA returned non-JSON ({hint}): {resp.text[:60]!r}") from exc
         # Reduce to the latest point so the cached payload / fixture stays small.
-        return _latest_point(body)
+        return _latest_point(body, meta["col"])
 
     payload = cast(
         "dict[str, Any]",
