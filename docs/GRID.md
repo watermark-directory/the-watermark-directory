@@ -67,15 +67,15 @@ For PJM over a representative summer month `[connector: EIA-930]`:
 
 | | Mean (MW) |
 |---|--:|
-| Demand | ~101,800 (peak ~152,000) |
-| Net generation | ~104,500 |
-| Net interchange | **+2,700** (net **exporter**); range −6,200 … +10,400 |
-| Net-import hours | ~24% |
+| Demand | ~102,137 (peak ~147,976) |
+| Net generation | ~107,884 |
+| Net interchange | **+5,753** (net **exporter**); range −837 … +11,509 |
+| Net-import hours | ~0.6% (4 of 720 h) |
 
-**The derived comparison.** PJM's in-BA net generation exceeds demand by ~2,700 MW on
+**The derived comparison.** PJM's in-BA net generation exceeds demand by ~5,747 MW on
 average, so the campus's ~348 MW added load is **within the in-BA generation headroom —
 comfortably met by in-BA generation without requiring net imports** — though it is
-~13% of the mean net-interchange swing (~0.34% of PJM demand). This is a **screening**
+~6% of the mean net-interchange swing (~0.34% of PJM demand). This is a **screening**
 view over window means, not an hourly dispatch or locational (LMP/congestion) model;
 deliverability to the campus's specific bus is the PJM-queue layer (#96).
 
