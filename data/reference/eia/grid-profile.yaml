@@ -32,41 +32,41 @@ serving_utility:
     against the EIA-861 territory file / PUCO map (#94).
 utility_profile:
   utility: AEP Ohio (Ohio Power Company)
-  eia_source: EIA-861 utility annual electric sales (transcribed; verify)
+  eia_source: EIA-861 2024 per-utility retail (connector; bundled+delivery total)
   retail_sales_gwh:
-    value: 49000.0
+    value: 48652.9
     unit: GWh/yr
-    source: reference
-    citation: EIA-861 2023, Ohio Power Company (AEP Ohio); transcribed published figure
-      — verify
-    confidence: medium
+    source: connector
+    citation: EIA-861 2024 Sales to Ultimate Customers, Ohio Power Co (#14006), OH;
+      bundled + delivery total sales
+    confidence: high
     asof: null
   customers:
-    value: 1500000.0
+    value: 1533265.0
     unit: customers
-    source: reference
-    citation: EIA-861 2023, Ohio Power Company (AEP Ohio); transcribed published figure
-      — verify
-    confidence: medium
+    source: connector
+    citation: EIA-861 2024 Sales to Ultimate Customers, Ohio Power Co (#14006), OH;
+      bundled + delivery total customers
+    confidence: high
     asof: null
   avg_price_cents_kwh:
-    value: 12.8
+    value: 18.61
     unit: cents/kWh
-    source: reference
-    citation: EIA-861 2023, Ohio Power Company (AEP Ohio); transcribed published figure
-      — verify
-    confidence: medium
+    source: connector
+    citation: EIA-861 2024 Sales to Ultimate Customers, Ohio Power Co (#14006), OH;
+      bundled (full-service) revenue/sales — delivery-only rows exclude generation,
+      so a blended price understates the all-in cost
+    confidence: high
     asof: null
 ba_profile:
   ba: PJM Interconnection
-  eia_source: EIA-930 hourly grid monitor, annual demand (transcribed; verify)
+  eia_source: EIA-930 daily demand sum, annual (connector)
   annual_load_gwh:
-    value: 800000.0
+    value: 815056.2
     unit: GWh/yr
-    source: reference
-    citation: EIA-930 2023, PJM region total annual demand; transcribed published
-      figure — verify
-    confidence: medium
+    source: connector
+    citation: EIA-930 daily demand sum, PJM 2024 (366 days, Eastern tz)
+    confidence: high
     asof: null
 load_share:
   campus_load_mw:
@@ -93,20 +93,19 @@ load_share:
     confidence: medium
     asof: null
   utility_retail_gwh:
-    value: 49000.0
+    value: 48652.9
     unit: GWh/yr
-    source: reference
-    citation: EIA-861 2023, Ohio Power Company (AEP Ohio); transcribed published figure
-      — verify
-    confidence: medium
+    source: connector
+    citation: EIA-861 2024 Sales to Ultimate Customers, Ohio Power Co (#14006), OH;
+      bundled + delivery total sales
+    confidence: high
     asof: null
   ba_load_gwh:
-    value: 800000.0
+    value: 815056.2
     unit: GWh/yr
-    source: reference
-    citation: EIA-930 2023, PJM region total annual demand; transcribed published
-      figure — verify
-    confidence: medium
+    source: connector
+    citation: EIA-930 daily demand sum, PJM 2024 (366 days, Eastern tz)
+    confidence: high
     asof: null
   state_retail_gwh:
     value: 161934.0
@@ -116,17 +115,17 @@ load_share:
     confidence: high
     asof: null
   share_of_utility_pct:
-    value: 5.6
+    value: 5.64
     unit: percent
     source: derived
-    citation: campus 2743 GWh / AEP Ohio 49000 GWh (EIA-861 transcribed; verify)
+    citation: campus 2743 GWh / AEP Ohio 48,653 GWh (EIA-861 2024 per-utility)
     confidence: medium
     asof: null
   share_of_ba_pct:
-    value: 0.343
+    value: 0.337
     unit: percent
     source: derived
-    citation: campus 2743 GWh / PJM 800000 GWh (EIA-930 transcribed; verify)
+    citation: campus 2743 GWh / PJM 815,056 GWh (EIA-930 annual demand)
     confidence: medium
     asof: null
   share_of_state_pct:
@@ -136,7 +135,8 @@ load_share:
     citation: campus 2743 GWh / Ohio 161934 GWh
     confidence: medium
     asof: null
-note: 'Grid foundation layer (#94). The state share is connector-grounded (EIA, shared
-  with #91); the AEP-Ohio and PJM figures are transcribed EIA-861/930 values flagged
-  for verification. The campus is a single load equal to a material fraction of its
-  serving utility''s entire retail sales.'
+note: 'Grid foundation layer (#94). The state, AEP-Ohio, and PJM denominators are
+  now all connector-sourced — Ohio retail from EIA (shared with #91), AEP-Ohio retail
+  from the EIA-861 per-utility file, and PJM annual demand from EIA-930. The campus
+  is a single load equal to a material fraction of its serving utility''s entire retail
+  sales.'

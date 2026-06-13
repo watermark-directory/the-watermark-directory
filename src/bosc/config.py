@@ -152,6 +152,13 @@ class Settings(BaseSettings):
     eia_base_url: str = "https://api.eia.gov/v2"
     eia_api_key: str = ""  # required for live pulls; offline replays committed fixtures
     eia_state: str = "OH"  # the state whose consumer energy prices anchor the scenario
+    # EIA-861 Annual Electric Power Industry Report — the per-utility retail file (sales/
+    # customers/price) the v2 seriesid route doesn't expose (#94). A bulk Excel zip,
+    # downloaded to econ_cache_dir/eia861/ on the live path only and reduced to one
+    # utility's rows; the reduced payload is cached/fixtured like the other econ pulls.
+    eia861_base_url: str = "https://www.eia.gov/electricity/data/eia861/zip"
+    eia861_year: int = 2024  # latest published EIA-861 vintage
+    eia861_utility_number: int = 14006  # Ohio Power Company (AEP Ohio)
     econ_fips: str = "39003"  # Allen County, OH (state 39 + county 003)
     econ_offline: bool = False  # serve cached/fixture responses only; never fetch
     econ_request_timeout_s: float = 60.0
