@@ -47,6 +47,22 @@ The plan sets are the same documents the County withholds, now shielded a second
 
 The item-1 "TBD" feeds a **permit-vs-disturbance ordering** reconstruction — [`prr-mandamus/bosc-site-permit-sequence.yaml`](prr-mandamus/bosc-site-permit-sequence.yaml) (+ [narrative](prr-mandamus/bosc-site-permit-sequence.md)), #150: active clearing/mass-grading is documented from 2025-12-08 on a 195-ac footprint with the NPDES CGP number "TBD" through 2026-06-05, and the broader **Level-2** wetland fill (DSW401252260W) was filed 2025-12-09 — the day after clearing — then found **incomplete** 2025-12-23. Both are framed as open questions; the dispositive CGP coverage record is pursued under **#143**.
 
+### Cross-production referral map (#151)
+
+With three producing bodies now on the record — Commissioners (batch 1), Sanitary Engineer instruments (batch 2), and the ASWCD — the "no records" answers form a **referral structure**: each body disclaims a slice and points to the next. Mapped item-by-item (who disclaimed, who they pointed to, whether anyone produced it) in [`cross-production-referral-map.yaml`](cross-production-referral-map.yaml).
+
+| Item(s) | Disclaiming body | Pointed to | Producer in corpus? |
+|---|---|---|---|
+| County 5–15 | Commissioners | Sanitary Engineer | **Yes** — produced in batch 2 *(the referral that didn't dead-end)* |
+| County 16 (CMS edit history) | Commissioners | third-party web host | No — records exist at the host (WordPress; REST API 401, not 404) |
+| County 19 (EMH&T comms) | Commissioners | Sanitary Engineer | No County↔EMH&T comms produced (ASWCD produced its *own* EMH&T emails) |
+| ASWCD 6 (BOSC-1A forcemain NPDES/SWPPP/ESC) | ASWCD | Ohio EPA / Sanitary Eng | No — batch 2 gave procurement, not the environmental-stormwater records |
+| ASWCD 8 (Shawnee II Ph2 stormwater/ESC) | ASWCD | Ohio EPA / Sanitary Eng | No — batch 2 gave the upgrade *resolutions*, not the ESC/NPDES records |
+| ASWCD 9 (Hume/Shawnee forcemain **MGD capacity**) | ASWCD | Ohio EPA / Sanitary Eng | No — batch 2 gave financing + the engineering *contract*, not the MGD figure |
+| ASWCD 7 (forcemain drainage/tile/wetland) | ASWCD | Sanitary Eng / **townships** | No — townships not yet a requested custodian |
+
+**Headline:** the corridor-level **environmental** records (NPDES construction-stormwater / SWPPP / ESC for the forcemain corridors and Shawnee II Phase 2, plus the item-9 MGD design capacity) are owned by *no* county body — each points to Ohio EPA or the townships. The County's Sanitary-Engineer batch produced the **procurement / financing / resolution** layer of those same projects but not their environmental-permit layer. A routing map, not an accusation — but it isolates exactly where the relator must go next (Ohio EPA; the townships) and which referral already resolved (Commissioners→Sanitary, items 5–15).
+
 ---
 
 ## 2. Watershed / conservation grant docs — to dig up
