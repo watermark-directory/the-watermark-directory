@@ -721,6 +721,107 @@ class StormRunoff(BaseModel):
         return self.post.volume_acft - self.pre.volume_acft
 
 
+class SiteFootprint(BaseModel):
+    """Document-transcribed earth-disturbance footprint of the data-center site.
+
+    The applicant-declared parcel / developed / permanently-impervious acreages from the
+    Allen County stormwater-permit application (SW1225), plus the storm outfall and the
+    named receiving water — read off the Allen SWCD PRR production, sibling to the
+    :class:`StormPlanInventory` (so it lives under ``data/extracted/``). It calibrates the
+    Tier-0 post-development cover: only ``impervious_acres`` of the parcel is paved, so the
+    post-development curve number is an *area-weighted composite*, not a blanket impervious
+    value over the whole footprint.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    site: str
+    citation_index: str  # rel path to the producing PRR response-index
+    parcel_acres: ProvenancedValue  # declared total parcel area
+    developed_acres: ProvenancedValue  # declared area to be developed
+    impervious_acres: ProvenancedValue  # declared permanently-impervious area
+    measured_parcel_acres: ProvenancedValue  # geojson planar area (the runoff footprint)
+    outfall_diameter_in: ProvenancedValue  # the load-bearing storm outfall
+    receiving_water: str
+    mass_grading_months: int | None = None
+    detention_design_shown: bool = False  # from the 95% SPS grading sheet
+    notes: list[str] = []
+
+
+class OutfallCapacity(BaseModel):
+    """Manning full-flow capacity of the storm outfall at one assumed pipe slope."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    slope_pct: float
+    capacity_cfs: float
+
+
+class DischargePeak(BaseModel):
+    """One design storm's pre / as-permitted-post / full-buildout peak off the footprint."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    return_period_yr: int
+    depth_in: float
+    pre_peak_cfs: float  # prior cropland cover
+    post_peak_cfs: float  # as-permitted composite (only impervious_acres paved)
+    full_buildout_peak_cfs: float  # blanket near-impervious upper bound (whole parcel)
+
+
+class CampusDischargeScreen(BaseModel):
+    """ASWCD-calibrated screening of the campus storm discharge to its receiving water.
+
+    Three screening questions the Allen SWCD production lets us ask with primary data:
+    (1) calibrated to the **115 ac of 344 ac** that is actually permanently impervious, how
+    much does paving raise the design-storm peak (an area-weighted composite CN, not a
+    blanket impervious parcel)?  (2) does the single **60-inch storm outfall** carry that
+    peak (Manning full-flow, across an assumed slope range — the slope is not in the
+    record)?  (3) the outfall discharges to **Dug Run**, whose cited 7Q10 is only 0.78 cfs
+    and which already carries the American II WWTP at a dilution violation — what is the
+    storm peak relative to that design low flow (a channel-stability / erosion signal,
+    distinct from continuous-effluent dilution).  ``source: derived`` screening, not a
+    routed hydraulic model or a permit determination.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    tier: Literal["tier0"] = "tier0"
+    site: str
+    footprint_area: ProvenancedValue  # acres (the measured runoff footprint)
+    impervious_acres: ProvenancedValue
+    developed_acres: ProvenancedValue
+    hsg: ProvenancedValue
+    pre_cn: float
+    post_cn_as_permitted: float  # area-weighted composite
+    post_cn_full_buildout: float  # blanket near-impervious (whole parcel)
+    cover_breakdown: str
+    peaks: list[DischargePeak]
+    design_return_period_yr: int  # the headline return period
+    outfall_diameter_in: ProvenancedValue
+    manning_n: float
+    outfall_capacity: list[OutfallCapacity]  # by assumed slope
+    receiving_water: str
+    receiving_7q10: ProvenancedValue | None = None  # cited Dug Run 7Q10
+    receiving_note: str = ""
+    peak_to_7q10_ratio: float | None = None  # design-RP post peak / 7Q10
+    detention_design_shown: bool = False
+    basin_chronology_note: str = ""
+    method: str = ""
+    caveats: list[str] = []
+
+    def peak(self, return_period_yr: int) -> DischargePeak | None:
+        return next((p for p in self.peaks if p.return_period_yr == return_period_yr), None)
+
+    @property
+    def design_peak(self) -> DischargePeak | None:
+        return self.peak(self.design_return_period_yr)
+
+    def capacity_at(self, slope_pct: float) -> float | None:
+        match = next((c for c in self.outfall_capacity if c.slope_pct == slope_pct), None)
+        return match.capacity_cfs if match else None
+
+
 class CoolingBasis(BaseModel):
     """A sourced cooling-water design basis, derived from disclosed campus data.
 

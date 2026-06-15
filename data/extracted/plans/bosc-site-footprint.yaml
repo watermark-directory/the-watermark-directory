@@ -1,0 +1,48 @@
+# Project BOSC data-center site — declared earth-disturbance footprint, storm outfall,
+# and receiving water. Document-transcribed from the Allen Soil & Water Conservation
+# District PRR production (2026-06-12): the Allen County Stormwater Permit SW1225
+# application (records bundle p53), the Mass-Ex Revision-1 / storm-sewer email exhibits,
+# and the ESC site-inspection reports. A document-grounded INPUT to the Tier-0 stormwater
+# model (bosc.hydrology.stormwater), sibling to lma1a.storm-inventory.yaml. Acreages are
+# applicant-declared on the permit form (high confidence); the 60" outfall diameter is
+# quoted verbatim in the engineer-of-record's emails.
+site: 4110 N. Cole St., Lima OH (American / Sugar Creek Twp); OEPA Facility ID 0302022054
+citation_index: data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+parcel_acres:
+  value: 335
+  unit: acre
+  source: document
+  citation: 'Allen SWCD PRR 2026-06-12, SW1225 permit application (records bundle p53): "Total Area of Parcel: 335"'
+  confidence: high
+developed_acres:
+  value: 195
+  unit: acre
+  source: document
+  citation: 'Allen SWCD PRR 2026-06-12, SW1225 permit application (p53): "Total Area of Parcel to be Developed: 195 permanent"'
+  confidence: high
+impervious_acres:
+  value: 115
+  unit: acre
+  source: document
+  citation: 'Allen SWCD PRR 2026-06-12, SW1225 permit application (p53): "Total Area to be Permanently Impervious: 115 acres"'
+  confidence: high
+measured_parcel_acres:
+  value: 339.6
+  unit: acre
+  source: reference
+  citation: 'bosc-parcels.geojson — UTM-17N planar area of the 11 recorded Bistrozzi parcels (bosc.hydrology.geo.parcels_total_acres); reconciles with the declared 335 ac within ~1.4% (right-of-way / rounding). The recorded-deed acreage sum is ~344 ac.'
+  confidence: medium
+outfall_diameter_in:
+  value: 60
+  unit: in
+  source: document
+  citation: 'Allen SWCD PRR 2026-06-12: Mass-Ex Rev-1 email (exhibit #3, p21) "the 60-inch storm outfall has NOT been adjusted"; storm-sewer email (exhibit #5, p30) "60-inch bypass storm sewer"'
+  confidence: high
+mass_grading_months: 9
+receiving_water: Dug Run
+detention_design_shown: false
+notes:
+  - 'Receiving water "Dug Run" identifies the ESC inspections'' "creek west of the site" discharge pathway; the 2026-06-05 inspection (report #194263) flags checking that outlet for sediment release ("check the outlet at the creek west of the site is not releasing sediment; more rock may be needed").'
+  - 'Dug Run also receives the American II WWTP (NPDES 2PH00006) outfall — already a cited assimilative dilution violation (7Q10 0.78 cfs, effluent undiluted at design low flow); Dug Run is designated Warmwater Habitat and is impaired (aquatic life, recreation).'
+  - 'detention_design_shown=false is read off the 95% SPS grading & storm sheet (lma1a.storm-inventory.yaml shows no detention/retention storage). The ESC inspections show basins under construction by 2026-06-05 (topsoil being placed on the main-basin slopes; a temporary SW basin "has started") — field storage appearing after the 95% design, to reconcile against the as-built record.'
+  - 'The 60-inch storm outfall is a separate bypass trunk: it does NOT appear in the 95% grading sheet pipe schedule (lma1a.storm-inventory.yaml lists only <=15-inch on-site conveyance).'
