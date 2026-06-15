@@ -300,6 +300,7 @@ def storm(
 ) -> None:
     """Tier-0 pre- vs post-development design-storm runoff for the campus footprint."""
     from bosc.config import Settings
+    from bosc.hydrology import stormwater
     from bosc.pipeline import hydrology as hydro_stage
 
     settings = get_settings()
@@ -307,6 +308,13 @@ def storm(
         settings = Settings(hydro_offline=True)
     runoff, findings = hydro_stage.run_storm(
         return_period_yr=return_period, settings=settings, live=True
+    )
+    # The post cover is the ASWCD-calibrated composite when the footprint is committed
+    # (only ~115 of ~344 ac impervious); else the blanket near-impervious full-buildout bound.
+    post_cover = (
+        "campus (ASWCD-calibrated)"
+        if stormwater.load_site_footprint(settings)
+        else "impervious campus"
     )
 
     tag = {"document": "doc", "connector": "live", "assumption": "assume", "derived": "calc"}
@@ -326,7 +334,7 @@ def storm(
     )
     table.add_row(
         "post-development",
-        "impervious campus",
+        post_cover,
         f"{runoff.post.curve_number:.0f}",
         f"{runoff.post.peak_cfs:,.0f}",
         f"{runoff.post.volume_acft:,.0f}",
@@ -342,7 +350,84 @@ def storm(
     )
     console.print(
         f"\n[dim]Tier-0 SCS screening. HSG {('ABCD'[int(runoff.hsg.value) - 1])} and land cover "
-        f"are cited assumptions; footprint is document-sourced; rainfall is {rainfall_src}.[/]"
+        f"are cited assumptions; footprint is document-sourced; rainfall is {rainfall_src}. "
+        f"See `bosc storm-discharge` for the 60-in outfall + Dug Run screen.[/]"
+    )
+
+
+@app.command(name="storm-discharge")
+def storm_discharge(
+    return_period: int = typer.Option(
+        25, "--return-period", help="Design storm return period for the headline screen (yr)."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached/fixture rainfall only; no NOAA fetch."
+    ),
+    write: bool = typer.Option(
+        False, "--write", help="Regenerate data/reference/hydrology/bosc-stormwater-discharge.yaml."
+    ),
+) -> None:
+    """ASWCD-calibrated campus storm discharge: composite CN, 60-in outfall, Dug Run.
+
+    Calibrated to the SWCD-declared footprint (only ~115 of ~344 ac permanently impervious),
+    so the post-development CN is an area-weighted composite, not a blanket impervious parcel.
+    Screens the single 60-inch outfall's Manning full-flow capacity and reads the design-storm
+    peak against Dug Run's cited 7Q10 — the receiving water the inspections call "the creek
+    west of the site."
+    """
+    from bosc.config import Settings
+    from bosc.hydrology import stormwater
+    from bosc.pipeline import hydrology as hydro_stage
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+    screen, findings = hydro_stage.run_discharge_screen(
+        settings=settings, live=True, design_return_period_yr=return_period
+    )
+
+    tag = {
+        "document": "doc",
+        "connector": "live",
+        "reference": "ref",
+        "assumption": "assume",
+        "derived": "calc",
+    }
+    console.print(
+        f"[bold]{screen.site}[/]\n"
+        f"footprint {screen.footprint_area.value:,.0f} ac "
+        f"[dim]({tag[screen.footprint_area.source]})[/]  HSG "
+        f"{'ABCD'[int(screen.hsg.value) - 1]}  outfall {screen.outfall_diameter_in.value:.0f} in "
+        f"[dim]({tag[screen.outfall_diameter_in.source]})[/]"
+    )
+    console.print(
+        f"[dim]post CN[/] as-permitted [bold]{screen.post_cn_as_permitted:g}[/] "
+        f"({screen.cover_breakdown}) vs pre {screen.pre_cn:g} "
+        f"[dim]| full-buildout bound {screen.post_cn_full_buildout:g}[/]"
+    )
+    table = Table("storm", "depth (in)", "pre (cfs)", "post (cfs)", "full-buildout (cfs)")
+    for p in screen.peaks:
+        table.add_row(
+            f"{p.return_period_yr}-yr",
+            f"{p.depth_in:.2f}",
+            f"{p.pre_peak_cfs:,.0f}",
+            f"{p.post_peak_cfs:,.0f}",
+            f"{p.full_buildout_peak_cfs:,.0f}",
+        )
+    console.print(table)
+    cap = Table("60-in outfall slope", "full-flow capacity (cfs)")
+    for c in screen.outfall_capacity:
+        cap.add_row(f"{c.slope_pct:g}%", f"{c.capacity_cfs:,.0f}")
+    console.print(cap)
+    console.print(f"[dim]{screen.receiving_note}[/]")
+    for f in findings:
+        console.print(f"[{'green' if f.ok else 'red'}]{f}[/]")
+    if write:
+        path = stormwater.write_discharge_screen(screen, settings=settings)
+        console.print(f"[green]wrote[/] {path}")
+    console.print(
+        "\n[dim]Tier-0 SCS screening; post cover calibrated to the ASWCD footprint. "
+        "Not a routed hydraulic model or a permit determination.[/]"
     )
 
 

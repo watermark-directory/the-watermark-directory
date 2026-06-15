@@ -1,0 +1,98 @@
+tier: tier0
+site: 4110 N. Cole St., Lima OH (American / Sugar Creek Twp); OEPA Facility ID 0302022054
+footprint_area:
+  value: 339.6
+  unit: acre
+  source: document
+  citation: bosc-parcels.geojson (recorded Bistrozzi parcel footprints)
+  confidence: high
+impervious_acres:
+  value: 115.0
+  unit: acre
+  source: document
+  citation: 'Allen SWCD PRR 2026-06-12, SW1225 permit application (p53): "Total Area
+    to be Permanently Impervious: 115 acres"'
+  confidence: high
+developed_acres:
+  value: 195.0
+  unit: acre
+  source: document
+  citation: 'Allen SWCD PRR 2026-06-12, SW1225 permit application (p53): "Total Area
+    of Parcel to be Developed: 195 permanent"'
+  confidence: high
+hsg:
+  value: 2.0
+  unit: hsg_code
+  source: connector
+  citation: SSURGO dominant HSG B/D (B/D 52%, B 39%, C 3%, C/D 3%, D 3%) over 31 footprint
+    grid points — USDA NRCS SSURGO via Soil Data Access (SDA) Tabular REST
+  confidence: high
+pre_cn: 78.0
+post_cn_as_permitted: 80.6
+post_cn_full_buildout: 92.0
+cover_breakdown: 115 ac impervious + 80 ac developed-pervious + 145 ac undeveloped
+  (of 340 ac)
+peaks:
+- return_period_yr: 10
+  depth_in: 3.58
+  pre_peak_cfs: 209.493
+  post_peak_cfs: 237.548
+  full_buildout_peak_cfs: 374.346
+- return_period_yr: 25
+  depth_in: 4.25
+  pre_peak_cfs: 284.478
+  post_peak_cfs: 317.189
+  full_buildout_peak_cfs: 460.45
+- return_period_yr: 100
+  depth_in: 5.39
+  pre_peak_cfs: 421.339
+  post_peak_cfs: 458.034
+  full_buildout_peak_cfs: 606.243
+design_return_period_yr: 25
+outfall_diameter_in:
+  value: 60.0
+  unit: in
+  source: document
+  citation: 'Allen SWCD PRR 2026-06-12: Mass-Ex Rev-1 email (exhibit #3, p21) "the
+    60-inch storm outfall has NOT been adjusted"; storm-sewer email (exhibit #5, p30)
+    "60-inch bypass storm sewer"'
+  confidence: high
+manning_n: 0.013
+outfall_capacity:
+- slope_pct: 0.3
+  capacity_cfs: 143.0
+- slope_pct: 0.5
+  capacity_cfs: 184.7
+- slope_pct: 1.0
+  capacity_cfs: 261.1
+receiving_water: Dug Run
+receiving_7q10:
+  value: 0.78
+  unit: cfs
+  source: document
+  citation: Ohio EPA NPDES fact sheet 2PH00006 (American II WWTP), Stream Flows table
+    — USGS Station 04187500
+  confidence: high
+receiving_note: 'Dug Run: cited 7Q10 0.78 cfs; Warmwater Habitat; impaired (aquatic
+  life, recreation); also receives the American II WWTP outfall (NPDES 2PH00006) at
+  a cited dilution violation. A storm peak many times the design low flow is a channel-stability
+  / erosion signal — corroborated by the 2026-06-05 ''check the outlet ... not releasing
+  sediment'' inspection note — distinct from continuous-effluent dilution.'
+peak_to_7q10_ratio: 407.0
+detention_design_shown: false
+basin_chronology_note: The 95% SPS grading sheet shows NO detention/retention storage
+  (lma1a.storm-inventory.yaml); the ESC inspections show basins under construction
+  by 2026-06-05 (topsoil on main-basin slopes; a temporary SW basin started) — field
+  storage appearing after the 95% design. Undetained, the post-development peak discharges
+  straight to the 60-inch outfall.
+method: Tier-0 SCS-CN screening over the measured parcel footprint; post CN = area-weighted
+  composite from the ASWCD-declared impervious/developed split; outfall capacity =
+  Manning full-flow (n=0.013) across an assumed slope band; receiving 7Q10 cited from
+  the OEPA NPDES fact sheet (2PH00006).
+caveats:
+- Screening-grade — not a routed hydraulic model or a permit determination.
+- The outfall pipe slope is not in the record; capacity is bracketed across 0.3-1.0%.
+- The peak is computed over the whole measured footprint; the tributary area to the
+  single 60-inch trunk is not stated, so the capacity comparison is a bracket.
+- The composite post CN treats the developed-pervious remainder as graded open space
+  and the undeveloped remainder as keeping prior cropland cover.

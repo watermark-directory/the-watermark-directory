@@ -15,20 +15,28 @@ use "Neff Farms" -> cropland). Curve numbers come from the cited TR-55 table.
 
 from __future__ import annotations
 
+import math
 from pathlib import Path
+
+import yaml
 
 from bosc.config import Settings, get_settings
 from bosc.hydrology import geo
 from bosc.hydrology.connectors._cache import HydroOfflineError
 from bosc.hydrology.connectors.noaa_atlas14 import design_storm
 from bosc.hydrology.connectors.ssurgo import SsurgoError, dominant_hsg
+from bosc.hydrology.lowflow import low_flow_context, low_flow_for
 from bosc.hydrology.model import (
+    CampusDischargeScreen,
     DesignStorm,
+    DischargePeak,
     HydroFinding,
+    OutfallCapacity,
     ProvenancedValue,
+    SiteFootprint,
     StormRunoff,
 )
-from bosc.hydrology.solver.curve_number import cn_for
+from bosc.hydrology.solver.curve_number import cn_for, composite_cn
 from bosc.hydrology.solver.runoff import simulate_runoff
 from bosc.logging import get_logger
 
@@ -42,7 +50,14 @@ _HSG = "C"  # Allen County / Maumee Lake Plain: poorly drained glacial till
 _HSG_CITATION = "Allen County, OH dominant hydrologic soil group C (NRCS soil survey; assumption)"
 _PRE_COVER = "cropland"  # documented prior use ("Neff Farms Inc")
 _POST_COVER = "developed_campus"  # near-impervious data-center campus
+_DEVELOPED_PERVIOUS_COVER = "open_space"  # graded/landscaped developed-but-pervious ground
 _TC_HR = 1.0  # time of concentration (assumption, screening-grade)
+
+# Manning roughness for a concrete / smooth-HDPE storm trunk, and the assumed pipe-slope
+# sensitivity band for the outfall capacity screen (the slope is NOT in the record).
+_OUTFALL_MANNING_N = 0.013
+_OUTFALL_SLOPES_PCT: tuple[float, ...] = (0.3, 0.5, 1.0)
+_DISCHARGE_RETURN_PERIODS: tuple[int, ...] = (10, 25, 100)
 
 # NOAA Atlas-14 24-hr depths (in) at the corridor point, by return period — the
 # offline fallback when no live fetch / cache is available (clearly flagged).
@@ -62,6 +77,50 @@ _FALLBACK_24H_DEPTH_IN: dict[int, float] = {
 
 def _parcels_path(settings: Settings) -> Path:
     return settings.data_dir / "reference" / "periplus" / "bosc-parcels.geojson"
+
+
+def _footprint_path(settings: Settings) -> Path:
+    return settings.data_dir / "extracted" / "plans" / "bosc-site-footprint.yaml"
+
+
+def load_site_footprint(settings: Settings | None = None) -> SiteFootprint | None:
+    """The document-cited ASWCD earth-disturbance footprint, or ``None`` if uncommitted."""
+    settings = settings or get_settings()
+    path = _footprint_path(settings)
+    if not path.is_file():
+        return None
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return SiteFootprint.model_validate(data)
+
+
+def _composite_post_cn(
+    total_acres: float,
+    footprint: SiteFootprint,
+    hsg_letter: str,
+    *,
+    settings: Settings,
+) -> tuple[float, str]:
+    """Area-weighted post-development CN from the declared footprint split.
+
+    Only ``impervious_acres`` of the parcel is paved (near-impervious campus); the rest of
+    the developed area is graded/landscaped pervious ground; the undeveloped remainder keeps
+    its prior cropland cover. Acreages are clamped to the measured runoff footprint so the
+    weights never exceed the total area. Returns the composite CN and a human breakdown.
+    """
+    imperv = max(0.0, min(footprint.impervious_acres.value, total_acres))
+    developed = max(0.0, min(footprint.developed_acres.value, total_acres))
+    dev_pervious = max(0.0, developed - imperv)
+    remainder = max(0.0, total_acres - imperv - dev_pervious)
+    parts = [
+        (imperv, cn_for(_POST_COVER, hsg_letter, settings=settings)),
+        (dev_pervious, cn_for(_DEVELOPED_PERVIOUS_COVER, hsg_letter, settings=settings)),
+        (remainder, cn_for(_PRE_COVER, hsg_letter, settings=settings)),
+    ]
+    breakdown = (
+        f"{imperv:.0f} ac impervious + {dev_pervious:.0f} ac developed-pervious + "
+        f"{remainder:.0f} ac undeveloped (of {total_acres:.0f} ac)"
+    )
+    return composite_cn(parts), breakdown
 
 
 def run_storm_scenario(
@@ -84,7 +143,15 @@ def run_storm_scenario(
     storm = _resolve_storm(return_period_yr, settings=settings, live=live)
 
     pre_cn = cn_for(_PRE_COVER, hsg_letter, settings=settings)
-    post_cn = cn_for(_POST_COVER, hsg_letter, settings=settings)
+    # Calibrate the post-development cover to the ASWCD-declared footprint when committed:
+    # only ~115 of ~344 ac is permanently impervious, so the post CN is an area-weighted
+    # composite, not a blanket near-impervious value over the whole parcel. Falls back to
+    # the blanket near-impervious cover (the full-buildout bound) if the footprint is absent.
+    footprint = load_site_footprint(settings)
+    if footprint is not None:
+        post_cn, _ = _composite_post_cn(acres, footprint, hsg_letter, settings=settings)
+    else:
+        post_cn = cn_for(_POST_COVER, hsg_letter, settings=settings)
     depth = storm.depth.value
     pre = simulate_runoff(area_acres=acres, curve_number=pre_cn, tc_hr=_TC_HR, storm_depth_in=depth)
     post = simulate_runoff(
@@ -185,3 +252,230 @@ def _storm_findings(runoff: StormRunoff) -> list[HydroFinding]:
         ),
     ]
     return findings
+
+
+# --------------------------------------------------------------------------------------
+# ASWCD-calibrated campus discharge screen (#149): composite post CN, the 60" outfall
+# capacity, and the storm peak vs Dug Run's cited 7Q10.
+# --------------------------------------------------------------------------------------
+
+
+def manning_full_pipe_cfs(
+    diameter_ft: float, slope: float, *, n: float = _OUTFALL_MANNING_N
+) -> float:
+    """Full-flow capacity (cfs) of a circular pipe by Manning's equation (English units)."""
+    area = math.pi * diameter_ft**2 / 4.0
+    hydraulic_radius = diameter_ft / 4.0
+    return float((1.49 / n) * area * hydraulic_radius ** (2.0 / 3.0) * math.sqrt(slope))
+
+
+def _discharge_path(settings: Settings) -> Path:
+    return settings.data_dir / "reference" / "hydrology" / "bosc-stormwater-discharge.yaml"
+
+
+def screen_campus_discharge(
+    *,
+    settings: Settings | None = None,
+    live: bool = True,
+    design_return_period_yr: int = 25,
+    return_periods: tuple[int, ...] = _DISCHARGE_RETURN_PERIODS,
+) -> CampusDischargeScreen:
+    """Screen the campus storm discharge calibrated to the ASWCD-declared footprint.
+
+    Computes the as-permitted composite post CN (only ``impervious_acres`` paved) alongside
+    the full-buildout blanket upper bound, the pre/post/full peaks per return period, the
+    60-inch outfall's Manning full-flow capacity across an assumed slope band, and the
+    design-storm peak relative to Dug Run's cited 7Q10. Requires the committed footprint.
+    """
+    settings = settings or get_settings()
+    footprint = load_site_footprint(settings)
+    if footprint is None:
+        raise FileNotFoundError(f"site footprint not committed: {_footprint_path(settings)}")
+
+    parcels = _parcels_path(settings)
+    acres = geo.parcels_total_acres(parcels, settings=settings)
+    hsg_letter, hsg = _resolve_hsg(parcels, settings=settings, live=live)
+
+    pre_cn = cn_for(_PRE_COVER, hsg_letter, settings=settings)
+    post_cn, breakdown = _composite_post_cn(acres, footprint, hsg_letter, settings=settings)
+    full_cn = cn_for(_POST_COVER, hsg_letter, settings=settings)
+
+    peaks: list[DischargePeak] = []
+    for rp in sorted({*return_periods, design_return_period_yr}):
+        depth = _resolve_storm(rp, settings=settings, live=live).depth.value
+        pre = simulate_runoff(
+            area_acres=acres, curve_number=pre_cn, tc_hr=_TC_HR, storm_depth_in=depth
+        )
+        post = simulate_runoff(
+            area_acres=acres, curve_number=post_cn, tc_hr=_TC_HR, storm_depth_in=depth
+        )
+        full = simulate_runoff(
+            area_acres=acres, curve_number=full_cn, tc_hr=_TC_HR, storm_depth_in=depth
+        )
+        peaks.append(
+            DischargePeak(
+                return_period_yr=rp,
+                depth_in=round(depth, 2),
+                pre_peak_cfs=pre.peak_cfs,
+                post_peak_cfs=post.peak_cfs,
+                full_buildout_peak_cfs=full.peak_cfs,
+            )
+        )
+
+    diam_ft = footprint.outfall_diameter_in.value / 12.0
+    capacity = [
+        OutfallCapacity(
+            slope_pct=s, capacity_cfs=round(manning_full_pipe_cfs(diam_ft, s / 100.0), 1)
+        )
+        for s in _OUTFALL_SLOPES_PCT
+    ]
+
+    seven_q10 = low_flow_for(footprint.receiving_water, settings=settings)
+    ctx = low_flow_context(footprint.receiving_water, settings=settings)
+    design_peak = next((p for p in peaks if p.return_period_yr == design_return_period_yr), None)
+    ratio: float | None = None
+    if seven_q10 and seven_q10.value > 0 and design_peak is not None:
+        ratio = round(design_peak.post_peak_cfs / seven_q10.value)
+
+    note = (
+        f"{footprint.receiving_water}: cited 7Q10 {seven_q10.value:g} cfs"
+        if seven_q10
+        else f"{footprint.receiving_water}: no cited 7Q10"
+    )
+    if ctx.get("designated_use"):
+        note += f"; {ctx['designated_use']}"
+    note += (
+        "; also receives the American II WWTP outfall (NPDES 2PH00006) at a cited dilution "
+        "violation. A storm peak many times the design low flow is a channel-stability / "
+        "erosion signal — corroborated by the 2026-06-05 'check the outlet ... not releasing "
+        "sediment' inspection note — distinct from continuous-effluent dilution."
+    )
+
+    return CampusDischargeScreen(
+        site=footprint.site,
+        footprint_area=ProvenancedValue.from_document(
+            round(acres, 1),
+            "acre",
+            citation=f"{parcels.name} (recorded Bistrozzi parcel footprints)",
+        ),
+        impervious_acres=footprint.impervious_acres,
+        developed_acres=footprint.developed_acres,
+        hsg=hsg,
+        pre_cn=round(pre_cn, 1),
+        post_cn_as_permitted=round(post_cn, 1),
+        post_cn_full_buildout=round(full_cn, 1),
+        cover_breakdown=breakdown,
+        peaks=peaks,
+        design_return_period_yr=design_return_period_yr,
+        outfall_diameter_in=footprint.outfall_diameter_in,
+        manning_n=_OUTFALL_MANNING_N,
+        outfall_capacity=capacity,
+        receiving_water=footprint.receiving_water,
+        receiving_7q10=seven_q10,
+        receiving_note=note,
+        peak_to_7q10_ratio=ratio,
+        detention_design_shown=footprint.detention_design_shown,
+        basin_chronology_note=(
+            "The 95% SPS grading sheet shows NO detention/retention storage "
+            "(lma1a.storm-inventory.yaml); the ESC inspections show basins under construction "
+            "by 2026-06-05 (topsoil on main-basin slopes; a temporary SW basin started) — field "
+            "storage appearing after the 95% design. Undetained, the post-development peak "
+            "discharges straight to the 60-inch outfall."
+        ),
+        method=(
+            "Tier-0 SCS-CN screening over the measured parcel footprint; post CN = "
+            "area-weighted composite from the ASWCD-declared impervious/developed split; "
+            "outfall capacity = Manning full-flow (n=0.013) across an assumed slope band; "
+            "receiving 7Q10 cited from the OEPA NPDES fact sheet (2PH00006)."
+        ),
+        caveats=[
+            "Screening-grade — not a routed hydraulic model or a permit determination.",
+            "The outfall pipe slope is not in the record; capacity is bracketed across 0.3-1.0%.",
+            "The peak is computed over the whole measured footprint; the tributary area to the "
+            "single 60-inch trunk is not stated, so the capacity comparison is a bracket.",
+            "The composite post CN treats the developed-pervious remainder as graded open space "
+            "and the undeveloped remainder as keeping prior cropland cover.",
+        ],
+    )
+
+
+def discharge_findings(screen: CampusDischargeScreen) -> list[HydroFinding]:
+    """Screening findings from a :class:`CampusDischargeScreen`."""
+    findings: list[HydroFinding] = []
+    dp = screen.design_peak
+    rp = screen.design_return_period_yr
+    mid = screen.capacity_at(0.5)
+    lo, hi = screen.capacity_at(0.3), screen.capacity_at(1.0)
+    if dp is not None and mid is not None and lo is not None and hi is not None:
+        findings.append(
+            HydroFinding(
+                subject=f"{screen.outfall_diameter_in.value:.0f}-in storm outfall",
+                check="outfall-capacity",
+                ok=mid >= dp.post_peak_cfs,
+                detail=(
+                    f"{rp}-yr post-dev peak {dp.post_peak_cfs:,.0f} cfs vs 60-in full-flow "
+                    f"capacity {mid:,.0f} cfs @ 0.5% (range {lo:,.0f}-{hi:,.0f} cfs @ 0.3-1.0%)"
+                ),
+            )
+        )
+    if dp is not None and screen.peak_to_7q10_ratio is not None and screen.receiving_7q10:
+        findings.append(
+            HydroFinding(
+                subject=screen.receiving_water,
+                check="receiving-water-peak",
+                ok=False,
+                detail=(
+                    f"{rp}-yr post-dev peak {dp.post_peak_cfs:,.0f} cfs is "
+                    f"~{screen.peak_to_7q10_ratio:,.0f}x {screen.receiving_water}'s cited 7Q10 "
+                    f"{screen.receiving_7q10.value:g} cfs — channel-stability / erosion signal"
+                ),
+            )
+        )
+    findings.append(
+        HydroFinding(
+            subject="campus stormwater design",
+            check="detention-design",
+            ok=screen.detention_design_shown,
+            detail=(
+                "no detention/retention storage in the 95% SPS grading sheet; ESC inspections "
+                "show basins under construction by 2026-06-05 (as-built storage post-dates design)"
+            ),
+        )
+    )
+    if dp is not None:
+        findings.append(
+            HydroFinding(
+                subject="post-development CN (ASWCD-calibrated)",
+                check="impervious-calibration",
+                ok=True,
+                detail=(
+                    f"composite CN {screen.post_cn_as_permitted:g} ({screen.cover_breakdown}) vs "
+                    f"pre {screen.pre_cn:g}; full-buildout bound CN {screen.post_cn_full_buildout:g}. "
+                    f"{rp}-yr peak pre {dp.pre_peak_cfs:,.0f} -> as-permitted {dp.post_peak_cfs:,.0f} "
+                    f"-> full-buildout {dp.full_buildout_peak_cfs:,.0f} cfs"
+                ),
+            )
+        )
+    return findings
+
+
+def write_discharge_screen(
+    screen: CampusDischargeScreen, *, settings: Settings | None = None
+) -> Path:
+    """Write the committed discharge-screen artifact and return its path."""
+    settings = settings or get_settings()
+    path = _discharge_path(settings)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = screen.model_dump(mode="json", exclude_none=True)
+    path.write_text(yaml.safe_dump(payload, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    return path
+
+
+def load_discharge_screen(settings: Settings | None = None) -> CampusDischargeScreen | None:
+    """Read the committed discharge-screen artifact, or ``None`` if uncommitted."""
+    settings = settings or get_settings()
+    path = _discharge_path(settings)
+    if not path.is_file():
+        return None
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return CampusDischargeScreen.model_validate(data)

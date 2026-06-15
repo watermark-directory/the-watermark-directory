@@ -19,6 +19,7 @@ from bosc.hydrology.assimilative import assimilative_findings, check_assimilativ
 from bosc.hydrology.balance import build_water_balance
 from bosc.hydrology.model import (
     AssimilativeCheck,
+    CampusDischargeScreen,
     HydroFinding,
     RefillAdequacy,
     RoundaboutFlow,
@@ -31,7 +32,11 @@ from bosc.hydrology.model import (
     WaterBudget,
     WaterSupplySystem,
 )
-from bosc.hydrology.stormwater import run_storm_scenario
+from bosc.hydrology.stormwater import (
+    discharge_findings,
+    run_storm_scenario,
+    screen_campus_discharge,
+)
 from bosc.hydrology.units import mgd_to_cfs
 from bosc.logging import get_logger
 
@@ -146,6 +151,26 @@ def run_storm(
     """
     settings = settings or get_settings()
     return run_storm_scenario(return_period_yr=return_period_yr, settings=settings, live=live)
+
+
+def run_discharge_screen(
+    *,
+    settings: Settings | None = None,
+    live: bool = True,
+    design_return_period_yr: int = 25,
+) -> tuple[CampusDischargeScreen, list[HydroFinding]]:
+    """ASWCD-calibrated campus storm-discharge screen + its screening findings.
+
+    Calibrates the post-development cover to the SWCD-declared footprint (only ~115 of
+    ~344 ac impervious), screens the single 60-inch outfall's capacity, and reads the
+    design-storm peak against Dug Run's cited 7Q10 — the receiving water the ESC
+    inspections call "the creek west of the site."
+    """
+    settings = settings or get_settings()
+    screen = screen_campus_discharge(
+        settings=settings, live=live, design_return_period_yr=design_return_period_yr
+    )
+    return screen, discharge_findings(screen)
 
 
 def run_scenarios(
