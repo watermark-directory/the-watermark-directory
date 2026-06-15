@@ -1,0 +1,187 @@
+# Project BOSC site (4110 N. Cole St.) — permit / approval vs earth-disturbance SEQUENCE.
+#
+# A cross-document reconstruction (#150) of the ORDER in which the site's environmental
+# authorizations attached relative to the documented start of earth disturbance, assembled
+# from records already in the corpus: the two Ohio EPA isolated-wetland (401) permits, the
+# Allen County stormwater permit (SW1225), and the Allen SWCD ESC site-inspection series.
+#
+# This is an ORDERING ANALYSIS, not a legal conclusion. It does not assert a violation; it
+# lays the sequence the records support and flags the one record that would resolve the open
+# question (the NPDES Construction General Permit coverage, which the SWCD left "TBD" and
+# pointed to Ohio EPA — being pursued separately under issue #143). Every date is
+# content-verified from the cited extraction (text layer / OCR / produced form), never from a
+# filename or outside knowledge.
+meta:
+  subject: Project BOSC — site permit/approval vs earth-disturbance sequence (4110 N. Cole St.)
+  matter: BOSC public-records / mandamus corpus (Project BOSC; OEPA Facility ID 0302022054)
+  scope: >
+    The 4110 N. Cole St. data-center campus earth-disturbance authorizations only. The BOSC-1A
+    pump-station / forcemain corridor (permits 4074527/4074529/4074551) is a separate alignment
+    with its own sequence and is out of scope here.
+  disclaimer: >
+    Analysis, not legal advice or a determination. The sequence is what the produced records
+    show; it does not establish that any authorization was or was not required, obtained, or
+    timely. The dispositive NPDES Construction General Permit coverage record is NOT in the
+    corpus (see gap below) — the timing question stays open pending that record (#143).
+  relator: Cory Parent
+  npdes_cgp_context: >
+    Ohio's NPDES Construction General Permit (OHC000005/OHC000006) requires the permittee to
+    obtain coverage (file a Notice of Intent; receive an OHC… tracking number) BEFORE commencing
+    earth-disturbing activity on a site of 1 or more acres, and to keep a SWPPP. The SW1225
+    permit application assigns "NPDES Program = Turner Construction" (p53), so Turner is the CGP
+    permittee of record. Every produced ESC inspection lists "Site NPDES Number: TBD."
+  prepared_from:
+    - data/extracted/permits/3788677.epa.yaml                                   # 401 Level-1 grant
+    - data/extracted/permits/3796349.epa.yaml                                   # 401 mitigation agreement
+    - data/extracted/permits/3949585.epa.yaml                                   # 401 Level-2 (incomplete)
+    - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+
+# ----------------------------------------------------------------------------------------------
+# The ordered record. kind: wetland-401 | stormwater-permit | disturbance | npdes-cgp | governance
+# Dollar/permit/inspection dates are clearly printed on the produced records (high confidence).
+# ----------------------------------------------------------------------------------------------
+events:
+  - date: '2025-07-02'
+    kind: wetland-401
+    event: Ohio EPA receives the Level-1 isolated-wetland fill application (PAN) for Project Bosc
+    ref: DSW401251760W
+    source: data/extracted/permits/3788677.epa.yaml
+    detail: 'Permit Application Notice received; subsequent information 2025-07-18. Category 1 isolated wetlands (0.29 ac forested + 0.04 ac non-forested).'
+
+  - date: '2025-08-12'
+    kind: wetland-401
+    event: Ohio EPA GRANTS the Level-1 Isolated Wetland General Permit
+    ref: DSW401251760W
+    source: data/extracted/permits/3788677.epa.yaml
+    detail: 'Grant Authorization under the Isolated Wetland General Permit (Level One); fill must be completed by 2027-08-12. 0.7 forested mitigation credits reserved at Pearson Metropark bank.'
+    note: 'This Category-1 (0.33 ac) authorization PRE-DATES the documented disturbance.'
+
+  - date: '2025-08-18'
+    kind: wetland-401
+    event: Mitigation Purchase Agreement complete for the Level-1 permit
+    ref: DSW401251760W
+    source: data/extracted/permits/3796349.epa.yaml
+    detail: 'Ohio EPA confirms the mitigation credit proof-of-purchase requirement is satisfied; no further action needed.'
+
+  - date: '2025-10-30'
+    kind: governance
+    event: Project BOSC preconstruction meeting requested (EMH&T)
+    source: data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+    detail: 'EMH&T (Allison Ansari) requests the preconstruction meeting; Turner names Tyler Brumbaugh as the day-to-day site lead for environmental inspections (ASWCD records bundle, exhibit #1, pp15-18).'
+
+  - date: '2025-11-10'
+    kind: stormwater-permit
+    event: Turner pays the $5,800 Allen County stormwater-permit fee
+    ref: 'check #637852'
+    source: data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+    detail: 'JPMorgan Chase check #637852, $5,800.00 "Stormwater Fee," Turner Construction Job #240308 (ASWCD records bundle p54).'
+
+  - date: '2025-11-14'
+    kind: stormwater-permit
+    event: Allen County Engineer approves the Mass Grading Plan / SWPPP / Drainage Report + issues Stormwater Permit SW1225
+    ref: SW1225
+    source: data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+    detail: '"Approved-As Noted" (driveways require separate permits). Stormwater Permit SW1225 issued under the Allen County SMSCR; signed Joe Gearing, Drainage Engineer (ASWCD records bundle pp14, 52, 53). The application (p53) lists "NPDES Program = Turner Construction" and the footprint: 335-ac parcel / 195 developed / 115 permanently impervious / 9-month mass-grading window.'
+    note: 'County (local) stormwater/sediment-control authorization. Distinct from the STATE NPDES CGP coverage, which is separate and tracked under an OHC… number — not produced (see gap).'
+
+  - date: '2025-12-08'
+    kind: disturbance
+    event: First ASWCD ESC inspection — clearing/grubbing + mass grading already underway
+    ref: 'ESC #177506'
+    source: data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+    detail: 'Inspection #177506: "Site is currently busy moving soil and earth moving"; activity "Clearing/Grubbing; Mass Grading." Site NPDES Number: TBD. (ASWCD records bundle pp10-12.)'
+    note: 'Earliest produced evidence of active earth disturbance. On a 195-ac developed footprint this is far more than the 1-acre NPDES CGP threshold.'
+
+  - date: '2025-12-09'
+    kind: wetland-401
+    event: Ohio EPA receives a SECOND, Level-2 isolated-wetland fill application
+    ref: DSW401252260W
+    source: data/extracted/permits/3949585.epa.yaml
+    detail: 'Project Bosc Lvl 2 IWP application received — the day AFTER the first inspection records clearing/grubbing underway.'
+
+  - date: '2025-12-23'
+    kind: wetland-401
+    event: Ohio EPA declares the Level-2 wetland application INCOMPLETE
+    ref: DSW401252260W
+    source: data/extracted/permits/3949585.epa.yaml
+    detail: 'Application incomplete — "missing analysis of practicable on-site alternatives to proposed filling. The Delineation Report covers over 358 acres, almost all farm field; applicant must revise the alternatives analysis to consider the entire site." Signed Joe Loucek, Ohio EPA 401/Wetlands/Mitigation.'
+    note: 'A wetland-fill authorization covering the broader site was still pending/incomplete while site disturbance was already underway.'
+
+  - date: '2026-02-18'
+    kind: disturbance
+    event: ASWCD ESC inspection — mass grading / sub-grade; NPDES still TBD
+    ref: 'ESC #183948'
+    source: data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+    detail: 'Site NPDES Number: TBD (ASWCD records bundle pp1-3).'
+
+  - date: '2026-03-18'
+    kind: disturbance
+    event: ASWCD ESC inspection — dewatering at 2 sites; mud tracking on Cole Rd; NPDES still TBD
+    ref: 'ESC #186808'
+    source: data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+    detail: 'Site NPDES Number: TBD (ASWCD records bundle pp4-6).'
+
+  - date: '2026-06-05'
+    kind: disturbance
+    event: Latest ASWCD ESC inspection — east farm-tile + creek-west sediment issues; NPDES still TBD
+    ref: 'ESC #194263'
+    source: data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+    detail: 'Site NPDES Number: TBD, ~6 months after clearing/grubbing began (ASWCD records bundle pp7-9).'
+
+  - date: '2026-06-12'
+    kind: npdes-cgp
+    event: ASWCD production produces no NPDES coverage number; points the relator to Ohio EPA
+    source: data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+    detail: 'Response to item 1: the SWCD produces the ESC forms but no CGP coverage number, directing the relator to Ohio EPA (epa.ohio.gov access-public-records). The coverage number is "TBD" on every produced inspection.'
+
+# ----------------------------------------------------------------------------------------------
+# What the ordered record raises — framed as open questions, not conclusions.
+# ----------------------------------------------------------------------------------------------
+observations:
+  - id: npdes-cgp-coverage-timing
+    question: >
+      Was earth disturbance (>1 ac) underway before NPDES Construction General Permit coverage
+      attached to the site?
+    records_show: >
+      Active clearing/grubbing + mass grading documented from 2025-12-08, continuing through at
+      least 2026-06-05, on a 195-ac developed footprint — well above the 1-ac CGP threshold —
+      while every produced ESC inspection records the Site NPDES Number as "TBD."
+    not_in_records: >
+      The CGP coverage record itself (the Notice of Intent and the assigned OHC… tracking number,
+      with its effective date). The corpus contains NO OHC… coverage number anywhere; the SWCD
+      did not produce one and deferred to Ohio EPA.
+    why_open: >
+      "TBD" on the SWCD's own forms is not proof that coverage did not exist — Turner may have held
+      CGP coverage that the SWCD simply did not record. The timing can only be resolved by the Ohio
+      EPA coverage record. Pursued under issue #143.
+
+  - id: level2-401-after-clearing
+    question: >
+      Was the broader (Level-2) wetland fill authorized before the fill area was disturbed?
+    records_show: >
+      The Level-2 isolated-wetland application (DSW401252260W) was received 2025-12-09 — the day
+      after the first inspection records clearing/grubbing underway — and was declared INCOMPLETE
+      by Ohio EPA on 2025-12-23 for want of a practicable-alternatives analysis covering the whole
+      ~358-ac site.
+    distinction: >
+      The narrow Category-1 isolated wetlands (0.33 ac) WERE authorized first (DSW401251760W,
+      2025-08-12, before disturbance). The Level-2 (larger) authorization is the one that was
+      still pending/incomplete as disturbance proceeded.
+    why_open: >
+      The corpus does not contain a subsequent grant (or denial) of DSW401252260W; its disposition
+      after the 2025-12-23 incompleteness letter is unknown from these records.
+
+# ----------------------------------------------------------------------------------------------
+gap_and_followups:
+  - 'The NPDES CGP coverage record (NOI + OHC… number + effective date) — acquire from Ohio EPA to resolve the coverage-timing question. Tracked: issue #143 (and the ECHO cross-check for OHC coverage at Facility ID 0302022054).'
+  - 'The disposition of the Level-2 wetland permit DSW401252260W after the 2025-12-23 incompleteness letter (granted? when? scope?).'
+  - 'The exact start date of earth disturbance (the records establish "underway by 2025-12-08," not a start date).'
+
+cross_refs:
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml   # the ASWCD production (ESC + SW1225)
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.analysis.md           # the production analysis
+  - data/extracted/legal/corpus-completeness-audit.md                                            # standing completeness audit
+  - data/extracted/permits/3788677.epa.yaml                                                      # 401 Level-1 grant (2025-08-12)
+  - data/extracted/permits/3796349.epa.yaml                                                      # 401 mitigation agreement (2025-08-18)
+  - data/extracted/permits/3949585.epa.yaml                                                      # 401 Level-2 incomplete (2025-12-23)
+  - data/extracted/plans/bosc-site-footprint.yaml                                                # the 195/115-ac disturbance footprint (#149)

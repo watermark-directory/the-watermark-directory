@@ -45,6 +45,8 @@ What's **owed / unresolved** from this track:
 
 The plan sets are the same documents the County withholds, now shielded a second way; the **§149.433/trade-secret** ground reaches even the plan-share **links inside produced emails** (redacted). Items 3 and 4 are the adequacy flags to carry forward.
 
+The item-1 "TBD" feeds a **permit-vs-disturbance ordering** reconstruction — [`prr-mandamus/bosc-site-permit-sequence.yaml`](prr-mandamus/bosc-site-permit-sequence.yaml) (+ [narrative](prr-mandamus/bosc-site-permit-sequence.md)), #150: active clearing/mass-grading is documented from 2025-12-08 on a 195-ac footprint with the NPDES CGP number "TBD" through 2026-06-05, and the broader **Level-2** wetland fill (DSW401252260W) was filed 2025-12-09 — the day after clearing — then found **incomplete** 2025-12-23. Both are framed as open questions; the dispositive CGP coverage record is pursued under **#143**.
+
 ---
 
 ## 2. Watershed / conservation grant docs — to dig up

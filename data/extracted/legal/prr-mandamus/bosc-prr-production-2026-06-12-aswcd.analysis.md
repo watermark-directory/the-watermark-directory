@@ -48,6 +48,7 @@ The County's productions gave us the **wastewater-works** universe (pump station
 - [`bosc-prr-production-2026-06-05.response-index.yaml`](bosc-prr-production-2026-06-05.response-index.yaml) · [`bosc-prr-production-2026-06-12.response-index.yaml`](bosc-prr-production-2026-06-12.response-index.yaml) — the County batches (different request/custodian)
 - [`records-withholding-map.yaml`](records-withholding-map.yaml) — layer 7 (the SWCD §149.433 + §1333.61 ground)
 - [`../corpus-completeness-audit.md`](../corpus-completeness-audit.md) — production registered; item 3/4 tensions
+- [`bosc-site-permit-sequence.yaml`](bosc-site-permit-sequence.yaml) · [`.md`](bosc-site-permit-sequence.md) — the permit-vs-disturbance ordering (401s → SW1225 → clearing → NPDES "TBD"), #150
 - [`../../permits/3788677.epa.yaml`](../../permits/3788677.epa.yaml) · [`../../permits/3796349.epa.yaml`](../../permits/3796349.epa.yaml) — the wetland 401 permit + mitigation agreement (corroborate "mitigated")
 - [`../../plans/lma1a.storm-inventory.yaml`](../../plans/lma1a.storm-inventory.yaml) — the storm system (60-inch outfall context)
 - [`../../plans/bosc-site-footprint.yaml`](../../plans/bosc-site-footprint.yaml) — the declared footprint (335/195/115 ac), 60-inch outfall, Dug Run, as a hydrology-model input (#149)
