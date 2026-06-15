@@ -1,0 +1,190 @@
+# Cross-production "no records -> other agency" REFERRAL MAP (#151).
+#
+# Three producing bodies have responded across the BOSC public-records matter:
+#   - Allen County Commissioners (batch 1, 2026-06-05) — Commissioners as custodian
+#   - Allen County Sanitary Engineer instruments (batch 2, 2026-06-12) — the items batch 1 deferred
+#   - Allen Soil & Water Conservation District (ASWCD, 2026-06-12) — the relator's 11-item Parts A-E
+#
+# This maps, for each item answered "no responsive records" (or deferred), WHO disclaimed it and
+# WHO they pointed to — then surfaces the items bounced between >=2 bodies with no producer. It is
+# a ROUTING MAP, not an accusation: it records the referral structure the productions create. Each
+# disclaimer is cited to its production + page. The owed universe is bounded by the relator's
+# 2026-06-03 narrowing email (anything not listed was withdrawn).
+meta:
+  subject: Cross-production referral map — who disclaims what, and who they point to
+  matter: BOSC public-records / mandamus corpus (Project BOSC; OEPA Facility ID 0302022054)
+  productions:
+    batch1: bosc-prr-production-2026-06-05 (Allen County Commissioners)
+    batch2: bosc-prr-production-2026-06-12 (Allen County Sanitary Engineering instruments)
+    aswcd: bosc-prr-production-2026-06-12-aswcd (Allen Soil & Water Conservation District)
+  disclaimer: >
+    A routing map of referral structure, not a legal adequacy determination. "No records" from one
+    body is not proof a record does not exist — only that THIS custodian disclaims holding it. The
+    items below are flagged where the referral chain ends with no producing body in the corpus.
+  bodies_in_the_chain:
+    - Allen County Commissioners (Clerk of the Board)
+    - Allen County Sanitary Engineer
+    - Allen Soil & Water Conservation District (ASWCD)
+    - Ohio EPA (the relator's to pursue — not a producing party here)
+    - American / Sugar Creek / Shawnee townships (not yet requested or produced)
+    - third-party web host / CMS vendor (AhelioTech / CorpComm; GoDaddy-managed WordPress)
+
+# ----------------------------------------------------------------------------------------------
+# Each "no records" / deferred answer: who said it, who they pointed to, and whether the corpus
+# shows it produced anywhere. answer: deferred | no_records | produced_partial
+# ----------------------------------------------------------------------------------------------
+referrals:
+  # --- County batch 1 (Commissioners) -------------------------------------------------------
+  - item: County 5-15
+    subject: County wastewater works — BOSC PS/forcemain RFP+bids+permits, Shawnee II Phase 2, MS Consultants feasibility, 1996 CWA consent decree, Cridersville WWTP
+    from_body: Allen County Commissioners
+    production: batch1 (2026-06-05)
+    answer: deferred
+    referred_to: [Allen County Sanitary Engineer]
+    quote: '"better suited for the Sanitary Engineer"; forwarded to the Allen County Sanitary Engineering Department'
+    source: 'bosc-prr-production-2026-06-05.response-index.yaml — item 5-15'
+    outcome: FULFILLED — batch 2 (2026-06-12) produced the Sanitary Engineer instruments (the positive control — a referral that did NOT dead-end)
+  - item: County 16
+    subject: County website CMS audit trail / edit history (Sanitary Engineering project pages)
+    from_body: Allen County Commissioners
+    production: batch1 (2026-06-05)
+    answer: no_records
+    referred_to: [third-party web host / CMS vendor]
+    quote: '"the Commissioners do not manage the county website and therefore do not have access… no records to provide"'
+    source: 'bosc-prr-production-2026-06-05.response-index.yaml — item 16'
+    outcome: UNPRODUCED — records demonstrably exist at the host (WordPress revision history / REST API; see the web-vendor audit). Custody sits with the vendor; existence is not in doubt.
+  - item: County 19
+    subject: County <-> EMH&T (engineer of record) communications
+    from_body: Allen County Commissioners
+    production: batch1 (2026-06-05)
+    answer: no_records
+    referred_to: [Allen County Sanitary Engineer]
+    quote: 'Commissioners have no responsive records; "will supplement from Sanitary Engineering if any"'
+    source: 'bosc-prr-production-2026-06-05.response-index.yaml — item 19'
+    outcome: PARTIAL — batch 2 produced Sanitary resolutions/instruments, not EMH&T correspondence; the ASWCD production separately produced ASWCD<->EMH&T emails (its item 5). No County<->EMH&T comms produced.
+
+  # --- ASWCD ---------------------------------------------------------------------------------
+  - item: ASWCD 1
+    subject: NPDES CGP coverage number / SWPPP / land-disturbance permit for the 4110 N. Cole St. site
+    from_body: ASWCD
+    production: aswcd (2026-06-12)
+    answer: produced_partial
+    referred_to: [Ohio EPA]
+    quote: 'produces the ESC forms but no coverage number ("TBD"); points the relator to Ohio EPA for the NPDES permit records'
+    source: 'bosc-prr-production-2026-06-12-aswcd.response-index.yaml — item 1'
+    outcome: UNPRODUCED (coverage number) — pursued under #143 / #154; the timing question lives in bosc-site-permit-sequence.yaml.
+  - item: ASWCD 6
+    subject: BOSC-1A pump-station & forcemain corridor — NPDES CGP / SWPPP / ESC reviews+inspections
+    from_body: ASWCD
+    production: aswcd (2026-06-12)
+    answer: no_records
+    referred_to: [Ohio EPA, Allen County Sanitary Engineer]
+    quote: '"No records… these may be held by the Ohio EPA and/or Allen County Sanitary Engineer."'
+    source: 'bosc-prr-production-2026-06-12-aswcd.response-index.yaml — item 6'
+    outcome: UNPRODUCED — the corridor's PTI / sanitary-sewer plan-approval permits ARE in-corpus (DSWPTI-260294 + DSW-6756 = permits 4074527/4074529/4074551, via Ohio EPA pulls), but the corridor's NPDES construction-stormwater / SWPPP / ESC records are held by neither county body.
+  - item: ASWCD 7
+    subject: Forcemain-route drainage / tile / wetland / water-resource impact (American Twp -> American Bath & American II)
+    from_body: ASWCD
+    production: aswcd (2026-06-12)
+    answer: no_records
+    referred_to: [Allen County Sanitary Engineer, townships]
+    quote: '"No records… these may [be] held by the Allen County Sanitary Engineer and/or the townships."'
+    source: 'bosc-prr-production-2026-06-12-aswcd.response-index.yaml — item 7'
+    outcome: UNPRODUCED — the townships have not been requested or produced from in this corpus.
+  - item: ASWCD 8
+    subject: Shawnee II Phase 2 (3640 Spencerville Rd) — stormwater & ESC reviews+inspections
+    from_body: ASWCD
+    production: aswcd (2026-06-12)
+    answer: no_records
+    referred_to: [Ohio EPA, Allen County Sanitary Engineer]
+    quote: '"No records… these may be held by the Ohio EPA and/or Allen County Sanitary Engineer."'
+    source: 'bosc-prr-production-2026-06-12-aswcd.response-index.yaml — item 8'
+    outcome: PARTIAL/UNPRODUCED — batch 2 produced Shawnee II Phase 2 RESOLUTIONS (#220-24/#228-23/#937-23/#478-20 — the 15->25 MGD upgrade financing/design), but NOT the stormwater/ESC/NPDES construction records ASWCD's item 8 sought.
+  - item: ASWCD 9
+    subject: Hume/Shawnee Rd forcemain — pre-application / drainage reviews incl. DESIGN CAPACITY (MGD)
+    from_body: ASWCD
+    production: aswcd (2026-06-12)
+    answer: no_records
+    referred_to: [Ohio EPA, Allen County Sanitary Engineer]
+    quote: '"No records… these may be held by the Ohio EPA and/or Allen County Sanitary Engineer."'
+    source: 'bosc-prr-production-2026-06-12-aswcd.response-index.yaml — item 9'
+    outcome: UNPRODUCED — batch 2 produced the Hume/Shawnee FINANCING (#135-26 $2.0M / #136-26 $1.6M WPCLF; #113-26 Access engineering), but NOT the MGD design-capacity figure the relator sought; that engineering deliverable was produced by no body.
+  - item: ASWCD 10
+    subject: ASWCD <-> MS Consultants communications
+    from_body: ASWCD
+    production: aswcd (2026-06-12)
+    answer: no_records
+    referred_to: []
+    quote: '"No records."'
+    source: 'bosc-prr-production-2026-06-12-aswcd.response-index.yaml — item 10'
+    outcome: UNPRODUCED (no onward referral). NB — MS Consultants is the County's wastewater engineer (NOT "Mannik & Smith Group," the HUB storm reviewer in the produced ASWCD emails) — do not conflate.
+  - item: ASWCD 11
+    subject: Records re Commissioner Beth Seibert (former ASWCD staff / now Board President) re Project BOSC
+    from_body: ASWCD
+    production: aswcd (2026-06-12)
+    answer: no_records
+    referred_to: []
+    quote: '"No records."'
+    source: 'bosc-prr-production-2026-06-12-aswcd.response-index.yaml — item 11'
+    outcome: UNPRODUCED (no onward referral). Pointed because Seibert sits on both sides — former ASWCD staff and sitting Commissioner/Board President — yet zero records either direction.
+
+# ----------------------------------------------------------------------------------------------
+# Items bounced between >=2 bodies (or to a non-party) with NO producer in the corpus.
+# ----------------------------------------------------------------------------------------------
+orphaned_or_circular:
+  - id: corridor-environmental-permits
+    finding: >
+      The corridor-level ENVIRONMENTAL records — NPDES construction-stormwater coverage, SWPPPs, and
+      ESC reviews/inspections for the BOSC-1A forcemain (ASWCD 6) and Shawnee II Phase 2 (ASWCD 8) —
+      are disclaimed by the SWCD and pointed to "Ohio EPA and/or the Sanitary Engineer," while the
+      County's Sanitary-Engineer batch produced the PROCUREMENT / FINANCING / RESOLUTION layer for the
+      same projects but not those environmental-permit records. Each body owns a slice and points to
+      the next; the environmental slice lands on Ohio EPA (the relator's to pursue) with no county
+      producer.
+    bodies: [ASWCD, Allen County Sanitary Engineer, Ohio EPA]
+    no_producer_for: NPDES/SWPPP/ESC construction-stormwater records for the forcemain corridor + Shawnee II Phase 2
+  - id: hume-shawnee-mgd-design-capacity
+    finding: >
+      The Hume/Shawnee forcemain DESIGN CAPACITY in MGD (ASWCD item 9) is disclaimed by the SWCD ->
+      Ohio EPA / Sanitary Engineer. Batch 2 produced the financing (two WPCLF loans) and the Access
+      engineering CONTRACT, but not the engineering deliverable that states the MGD capacity. Referred
+      but produced by no body.
+    bodies: [ASWCD, Allen County Sanitary Engineer, Ohio EPA]
+    no_producer_for: the Hume/Shawnee forcemain design capacity (MGD)
+  - id: cms-edit-history
+    finding: >
+      The county website CMS edit history (County item 16) is disclaimed by the Commissioners ("we do
+      not manage the website") and effectively referred to the third-party host. The records
+      demonstrably exist (WordPress revision history; the site's REST API returns HTTP 401, gated not
+      404). Custody sits with the vendor; the Commissioners point to the host.
+    bodies: [Allen County Commissioners, third-party web host / CMS vendor]
+    no_producer_for: the CMS audit trail / page revision history
+  - id: emht-comms-split
+    finding: >
+      County <-> EMH&T communications (County item 19) are disclaimed by the Commissioners with a
+      "supplement from Sanitary Engineering if any" — but batch 2 produced instruments, not EMH&T
+      correspondence. The ASWCD produced its OWN ASWCD<->EMH&T emails, so the relator obtains EMH&T
+      comms from the SWCD but not from the County side.
+    bodies: [Allen County Commissioners, Allen County Sanitary Engineer, ASWCD]
+    no_producer_for: County (Commissioners/Sanitary) <-> EMH&T correspondence
+
+# The positive control: the referral pattern is not always a dead-end.
+fulfilled_referrals:
+  - referral: Commissioners (batch 1) -> Allen County Sanitary Engineer
+    items: County 5-15
+    outcome: PRODUCED in batch 2 (2026-06-12) — the BOSC CMAR chain (#469-25/#137-26/#378-26), data-center-flows TO5 (#679-24), Shawnee Oaks/Hume financing, Shawnee II Phase 2 resolutions.
+    note: Shows the deferral can resolve; the still-referred remainder is the ENVIRONMENTAL/stormwater sub-layer + construction bids + named permits (some independently in-corpus).
+
+followups:
+  - 'Ohio EPA: the NPDES construction-stormwater coverage + SWPPP/ESC for the BOSC-1A forcemain corridor and Shawnee II Phase 2 (#143 covers the 4110 N. Cole site coverage number).'
+  - 'Allen County Sanitary Engineer: the Hume/Shawnee forcemain design-capacity (MGD) engineering deliverable (ASWCD item 9).'
+  - 'Townships (American / Sugar Creek / Shawnee): not yet a requested custodian — the ASWCD item-7 referral target.'
+  - 'Third-party web host (AhelioTech / CorpComm): the CMS revision history for the Sanitary Engineering pages (County item 16) — see the web-vendor audit.'
+
+cross_refs:
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml      # batch 1 (Commissioners)
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12.response-index.yaml      # batch 2 (Sanitary Engineer)
+  - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml # ASWCD
+  - data/extracted/legal/prr-mandamus/records-withholding-map.yaml                            # the affirmative-withholding architecture (distinct from "no records")
+  - data/extracted/legal/prr-mandamus/bosc-site-permit-sequence.yaml                          # the NPDES-coverage timing the item-1 referral feeds (#150)
+  - data/extracted/legal/corpus-completeness-audit.md                                         # standing completeness audit (this map's narrative home)
