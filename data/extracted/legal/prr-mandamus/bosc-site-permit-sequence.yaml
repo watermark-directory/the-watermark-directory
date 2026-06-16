@@ -171,11 +171,35 @@ observations:
       The corpus does not contain a subsequent grant (or denial) of DSW401252260W; its disposition
       after the 2025-12-23 incompleteness letter is unknown from these records.
 
+  - id: bosc-outfall-separate-swp3
+    question: >
+      Does the corridor's NPDES construction-stormwater coverage appear anywhere on the record,
+      even though every campus mass-grading inspection reads "TBD"?
+    records_show: >
+      Yes, for an adjacent piece. A separate SWP3 (Ohio EPA eDoc 4091286, prepared 2026-04-16 by
+      WSP USA for operator George J. Igel & Co.) covers the Beery Rd./Cole St. roundabout AND the
+      BOSC Storm Outfall — the project's storm-discharge channel, which it carries to Pike Run
+      (tributary of the Ottawa). That SWP3 lists a Notice of Intent and an Ohio EPA CGP
+      Authorization Email/Approval Letter as its Appendix A — i.e., for the outfall/roundabout the
+      coverage process is documented.
+    distinction: >
+      A DIFFERENT project, permittee, and timeframe from the campus mass-grading: a 5.71-ac
+      roundabout+outfall build (Igel/WSP; construction 2026-05-15 → 2027-12-31), not the 195-ac
+      campus mass-grading (Turner/EMH&T, SW1225, disturbance from 2025-12-08). It does NOT resolve
+      the campus "TBD" — but it shows the same corridor's stormwater coverage documented elsewhere,
+      which makes the campus inspections' persistent "TBD" more conspicuous.
+    not_in_records: >
+      The outfall SWP3's own OHC… coverage number is likewise NOT in the extractable body — the NOI
+      and Ohio EPA authorization sit in Appendix A (an attachment not in the corpus text). Acquiring
+      Appendix A would give the outfall's coverage number, a thread parallel to the campus #143.
+    source: data/extracted/plans/4091286.engineering.yaml
+
 # ----------------------------------------------------------------------------------------------
 gap_and_followups:
   - 'The NPDES CGP coverage record (NOI + OHC… number + effective date) — acquire from Ohio EPA to resolve the coverage-timing question. Tracked: issue #143 (and the ECHO cross-check for OHC coverage at Facility ID 0302022054).'
   - 'The disposition of the Level-2 wetland permit DSW401252260W after the 2025-12-23 incompleteness letter (granted? when? scope?).'
   - 'The exact start date of earth disturbance (the records establish "underway by 2025-12-08," not a start date).'
+  - 'The BOSC Storm Outfall / Beery-Cole roundabout SWP3 (eDoc 4091286) Appendix A — the NOI + Ohio EPA CGP authorization (and the outfall''s OHC… coverage number), which the SWP3 body references but does not print. Parallel thread to #143.'
 
 cross_refs:
   - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml   # the ASWCD production (ESC + SW1225)
@@ -185,3 +209,4 @@ cross_refs:
   - data/extracted/permits/3796349.epa.yaml                                                      # 401 mitigation agreement (2025-08-18)
   - data/extracted/permits/3949585.epa.yaml                                                      # 401 Level-2 incomplete (2025-12-23)
   - data/extracted/plans/bosc-site-footprint.yaml                                                # the 195/115-ac disturbance footprint (#149)
+  - data/extracted/plans/4091286.engineering.yaml                                                # SWP3: Beery/Cole roundabout + BOSC Storm Outfall (Igel/WSP) → Pike Run

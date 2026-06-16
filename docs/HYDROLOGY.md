@@ -28,6 +28,16 @@ The Lima system is one closed loop on two rivers:
 At design low flow the receiving streams carry less than the effluent they
 receive — the discharges are effectively undiluted.
 
+**A second campus pathway — stormwater to Pike Run.** Distinct from the FM-2 *process*
+discharge above (routed to Lima's WWTP), the campus's **stormwater** leaves the site via a
+constructed **BOSC Storm Outfall** channel that discharges to **Pike Run** — the loop's most
+flow-starved tributary (7Q10 **0.03 cfs**, already shown undiluted by the American Bath WWTP).
+Per the roundabout/outfall **SWP3** (Ohio EPA eDoc 4091286; operator George J. Igel & Co.,
+engineer WSP USA; prepared 2026-04-16) `[verified: document]`, the site drains east-to-west by
+subsurface tile and the outfall channel terminates at Pike Run. That SWP3 documents *construction*
+disturbance (5.71 ac), not a continuous low-flow discharge, so the pathway is recorded as a
+receiving-water fact, not added to the routed mass balance below.
+
 
 **The cited 7Q10 is independently reproducible.** The denominator above is a single number read off a fact sheet. Computing it ourselves from the raw record — the USGS daily-mean discharge at the **same gage the fact sheet names** (NWIS 04187100, Ottawa River at Lima OH, 1988-09-30..2024-12-31, 24 complete climatic years) — lands on it. Annual n-day minima by climatic year, fit with log-Pearson III and bracketed by the non-parametric Weibull plotting position `[inference: derived]`:
 

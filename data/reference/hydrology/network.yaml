@@ -25,6 +25,14 @@
 # FM-2 industrial discharge returns to the Ottawa via Lima's sewer + Lima WWTP and is
 # routed as an effluent gain.
 #
+# Separately, the campus STORMWATER (not the FM-2 process discharge above) leaves the
+# site via a constructed BOSC Storm Outfall channel that discharges to Pike Run — per the
+# roundabout/outfall SWP3 (eDoc 4091286, extracted/plans/4091286.engineering.yaml;
+# Igel/WSP, 2026-04-16). No cited storm low-flow magnitude exists, so this pathway is NOT
+# added as a routed node — it is recorded as topology context only: the campus's
+# stormwater receiving water is Pike Run (7Q10 0.03 cfs), the loop's most flow-starved
+# tributary.
+#
 # IMPORTANT — the cooling draw here is an UNBUFFERED WORST-CASE BOUND, not the operating
 # reality. Lima does NOT withdraw at the 7Q10: its supply is five upground (off-stream)
 # reservoirs (~15 BG) filled by pumping from the Auglaize + Ottawa at HIGH flow (see

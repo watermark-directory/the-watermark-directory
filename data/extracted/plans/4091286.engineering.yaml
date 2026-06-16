@@ -1,0 +1,155 @@
+doc_id: 4091286-swp3-beery-cole-bosc-outfall
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/plans/4091286.pdf
+kind: engineering
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+dpi: 0
+method: manual review of the 63-page SWP3 text layer (PDF generated from Word —
+  "SWP3-Beery Rd. Cole St. Roundabout-Draft.docx"; good text, not a scan)
+source_text_excerpt: "Stormwater Pollution Prevention Plan (SWP3) For Construction
+  Activities At: Beery Road and Cole Street Roundabout / BOSC Storm Outfall, American
+  Township, Allen County, Ohio. SWP3 Prepared For: George J. Igel & Company, Inc
+  (Christopher A. Batdorff). SWP3 Prepared By: WSP USA Inc., Thomas C. Campbell, P.E.
+  SWP3 Preparation Date: 04/16/2026. Estimated Project Start Date: 05/15/2026.
+  Estimated Project Completion Date: 12/31/2027. Project E-80410."
+record:
+  confidence: high
+  warnings:
+  - 'NPDES Construction General Permit (CGP) coverage NUMBER is not in the body text:
+    the NOI and the Ohio EPA Authorization Email/Approval Letter are referenced as
+    Appendix A (an attachment not in the extractable text). So this document confirms
+    the roundabout/outfall obtained CGP coverage but does not, in its narrative, state
+    the OHC-/coverage number — relevant to the ASWCD "CGP coverage = TBD" thread in
+    the completeness audit.'
+  - Source PDF metadata title is "SWP3-Beery Rd. Cole St. Roundabout-Draft.docx" (carries
+    "Draft"), but the cover sheet reads as a complete, dated SWP3 (04/16/2026); treated
+    as the working/issued SWP3 of that date.
+  - Manual review of the text layer (dpi=0 sentinel); acreages/figures are printed in
+    the document body (Construction Site Summary table), high-confidence.
+  project_name: Beery Road and Cole Street Roundabout / BOSC Storm Outfall
+  facility_name: BOSC Storm Outfall (and the Beery Rd. & Cole St. roundabout)
+  record_type: Stormwater Pollution Prevention Plan (SWP3) — NPDES construction-stormwater
+    (Ohio EPA Construction General Permit)
+  discipline: stormwater
+  record_date: '2026-04-16'
+  project_no: E-80410
+  site_address: Beery Road & Cole Street intersection, Lima / American Township, Allen
+    County, OH 45801 (40.794819, -84.128202)
+  prepared_by:
+  - name: WSP USA Inc.
+    discipline: Civil / stormwater — engineer (SWP3 preparer of record)
+    location: Indianapolis, IN (Thomas C. Campbell, P.E.)
+  - name: George J. Igel & Company, Inc.
+    discipline: Operator / general contractor
+    location: Columbus, OH (Christopher A. Batdorff; SWP3 coordinator John Powers;
+      24-hr emergency Joe Sharp)
+  design_parameters:
+  - parameter: total property size
+    value: '5.87'
+    unit: acres
+  - parameter: total area disturbed
+    value: '5.71'
+    unit: acres
+  - parameter: max area disturbed at one time
+    value: '5.71'
+    unit: acres
+  - parameter: roundabout disturbance (component)
+    value: '5.6'
+    unit: acres
+  - parameter: BOSC Storm Outfall disturbance (component, overlaps the roundabout)
+    value: '1.56'
+    unit: acres
+  - parameter: impervious area before construction
+    value: '0.95'
+    unit: acres
+  - parameter: runoff coefficient (Rv) before construction
+    value: '0.66'
+  - parameter: proposed on-site impervious area
+    value: '2.05'
+    unit: acres
+  - parameter: proposed runoff coefficient (Rv)
+    value: '0.64'
+  - parameter: roundabout geometry
+    value: 140 ft x 160 ft diameter, 15 ft center truck apron (oval, new alignment)
+  - parameter: Beery Road improvements length
+    value: '0.10'
+    unit: miles
+  - parameter: Cole Street improvements length
+    value: '0.24'
+    unit: miles
+  - parameter: estimated construction start
+    value: '2026-05-15'
+  - parameter: estimated construction completion
+    value: '2027-12-31'
+  - parameter: receiving water
+    value: Pike Run (tributary of the Ottawa River) — site drains east-to-west via
+      subsurface tile; the BOSC Storm Outfall channel terminates at Pike Run (Point 1)
+  components:
+  - name: BOSC Storm Outfall channel
+    category: stormwater
+    note: New outfall ditch/channel terminating at Pike Run (Point 1); constructed
+      in Storm Outfall Phases 1-2 (start 2026-05-15). Disturbs ~1.56 ac.
+  - name: Beery/Cole roundabout
+    category: roadway
+    quantity: 140 ft x 160 ft
+    note: Oval roundabout on new alignment with 15 ft center truck apron; new storm
+      sewers, curb & gutter. Disturbs ~5.6 ac.
+  - name: storm sewers / curb & gutter
+    category: stormwater
+    note: New storm sewers serving the roundabout and outfall.
+  key_features:
+  - 'Existing land use: open agricultural row crops; existing drainage east-to-west,
+    largely subsurface tile, ultimately to Pike Run → Ottawa River.'
+  - No on-site streams or wetlands within the Limits of Disturbance. A PUBGx freshwater
+    pond sits west of the roundabout / north of the BOSC Storm Outfall channel and
+    will not be impacted.
+  - Surface Water Impact Determination letter included (Appendix I); no activities
+    require Section 401 authorization or antidegradation review by Ohio EPA.
+  - 'Soils (NRCS): TkA Thackery loam, AkA Alvada loam (hydric), WeA Westland-Rensselaer
+    (hydric), SrA Sloan silty clay loam (frequently flooded), SfB Shawtown loam, HrB
+    Houcktown loam (hydric), GaB Gallman loam — HSG mostly B/D.'
+  - 'BMP sequence: Storm Outfall Phase 1-2 (start 2026-05-15, end 2026-12-31) then
+    Roundabout phases — MOT devices, inlet protection, silt fence, ditch check dams,
+    construction entrances, dewatering filter bags / sediment basin.'
+  - 'Appendices A-I: A = NOI + Ohio EPA Authorization Email/Approval Letter; B = Site
+    Maps & Drawings; C = Grading & Stabilization Activities Log; D = Site Inspection
+    Forms; E = Corrective Action Log; F = Subcontractor Certifications; G = Delegation
+    of Authority; H = SWP3 Training Log; I = Surface Water Impact Determination letter.'
+  summary: >-
+    NPDES construction-stormwater (SWP3) plan for the Beery Rd. & Cole St. roundabout
+    and the co-located BOSC Storm Outfall channel — operator George J. Igel & Co.,
+    engineer WSP USA (Thomas C. Campbell, P.E.), prepared 2026-04-16, construction
+    2026-05-15 → 2027-12-31. Total disturbed 5.71 ac (roundabout 5.6 + outfall 1.56,
+    overlapping). The site drains via tile to Pike Run → Ottawa; the BOSC Storm Outfall
+    channel discharges to Pike Run. This is a roadwork-program (AEDG/PAAC roundabout)
+    plan that also builds the data-center campus's storm outfall.
+  note: 'Ohio EPA eDocument 4091286. Stormwater Pollution Prevention Plan (SWP3) for
+    the Beery Road & Cole Street Roundabout / BOSC Storm Outfall, American Township
+    (Lima), Allen County, OH (40.794819, -84.128202). Prepared for George J. Igel &
+    Company, Inc. (operator/contractor; Christopher A. Batdorff) by WSP USA Inc.
+    (Thomas C. Campbell, P.E., Indianapolis), project E-80410, dated 2026-04-16;
+    estimated construction 2026-05-15 to 2027-12-31. New oval roundabout (140 ft x
+    160 ft, 15 ft center truck apron) on new alignment plus the BOSC Storm Outfall
+    channel and new storm sewers; 5.71 ac disturbed total (roundabout 5.6 ac + outfall
+    1.56 ac, overlapping; property 5.87 ac). Receiving water Pike Run (tributary of
+    the Ottawa River) — the BOSC Storm Outfall channel terminates at Pike Run. No
+    on-site streams/wetlands within the LOD (a PUBGx pond nearby is not impacted); a
+    Surface Water Impact Determination letter is in Appendix I and no Section 401 /
+    antidegradation review is required. The NOI + Ohio EPA CGP authorization are in
+    Appendix A but the coverage number is not printed in the narrative body. Two new
+    corridor parties surface here: George J. Igel & Co. (contractor) and WSP USA
+    (engineer — also named on the campus architectural sheets per docs/COMPUTE.md).'
