@@ -49,6 +49,7 @@ To fix: [`bosc-resolution-ledger.yaml`](../../commissioners/bosc-resolution-ledg
 The corridor's sanitary build-out is now legible as one program: failing septics at **Hume / Shawnee Oaks** get sewered (WPCLF loans #135/#136, Access design #113-26) to the **Shawnee II Phase 2** plant (expanded 15 → 25 MGD firm, #220-24), while **Project BOSC** builds its own pump station and dual forcemains (#469-25 → #137-26 → #378-26) to discharge into **both** the American Bath WWTP and the Lima 78″ interceptor — and the data center's **blowdown** is being engineered into that same treatment capacity (#679-24). The keystone documents are committed evidence now, not citations.
 
 ## Cross-refs
+
 - [`bosc-prr-production-2026-06-05.response-index.yaml`](bosc-prr-production-2026-06-05.response-index.yaml) — batch 1 (where items 5–15 were deferred)
 - [`../../commissioners/bosc-resolution-ledger.yaml`](../../commissioners/bosc-resolution-ledger.yaml) · [`../../commissioners/sanitary-economics.yaml`](../../commissioners/sanitary-economics.yaml)
 - [`corpus-completeness-audit.md`](../corpus-completeness-audit.md) §1 — items 5–15 worklist

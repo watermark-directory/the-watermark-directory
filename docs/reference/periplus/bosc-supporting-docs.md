@@ -67,6 +67,7 @@ within a 50-mile radius of Columbus:
 Stated total Google Ohio investment: **$7.2B+** since 2019.
 
 **BOSC and Dazzler appear nowhere** in Google's public record:
+
 - Not listed on datacenters.google
 - Not found in Bing news search for "Bistrozzi" / "Project BOSC" / "Tilted Gate" / "Magenta Capital" + data center
 - No Google blog post (blog.google/inside-google/infrastructure) mentions either project
@@ -91,7 +92,7 @@ Project Dazzler Section 401 WQC application (saved at [source-docs/dazzler-permi
 > Applicant: **Tilted Gate LLC**, 2801 Centerville Rd., 1st Floor (PMB160), Wilmington DE 19808
 > Contact Name/Title: **Randy Barrera / DC Project Lead**
 > Contact Phone: (323) 365-0517
-> Contact Email: **randybarrera@google.com**
+> Contact Email: **<randybarrera@google.com>**
 
 Combined with identical operational fingerprint across Dazzler and BOSC:
 
@@ -116,7 +117,7 @@ Rosati**. Michael Montfort is confirmed on WSGR's firm directory as:
 - Prior: Ernst & Young national tax department, taxation of equity
   compensation / fringe benefit programs / qualified retirement plans
 - Education: JD, George Washington Law (with Honors); BA, Holy Cross
-- Direct: 202-973-8815, mmontfort@wsgr.com
+- Direct: 202-973-8815, <mmontfort@wsgr.com>
 
 Bio PDF saved at [source-docs/bistrozzi-permits/wsgr-michael-j-montfort-bio.pdf](source-docs/bistrozzi-permits/wsgr-michael-j-montfort-bio.pdf).
 
@@ -433,12 +434,14 @@ The four deed PDFs were pulled from paxWorld and OCR'd. Key
 parcel-level detail:
 
 **Neff Farms Inc deed (202508130008312):**
+
 - Parcel **36-0100-03-002.000**, address "Cole St., Lima OH 45807" (Sugar Creek Twp Sec 1)
 - Parcel **36-1200-02-001.001**, address **4110 N. Cole Street, Lima OH 45801** — **this is the BOSC address we've been tracking all along** (American Twp Sec 12 NW). Deed carves out 137.490 ac + 25.000 ac = **~162.5 acres** from a larger parcel.
 - Surveyors named: Gregory A. Bookrath (S-8306), also Exline (#7060)
 - Prior deed references: Volume 2017 Page 6801 (Tract One), Volume 2010 Page 15103 (Tract I), Volume 673 Page 658
 
 **Brenneman trusts deed (202508130008300):**
+
 - 7 parcels: **36-1200-03-001.000 through .006** (American Twp Sec 12 SW)
 - Multiple parcels along W. Bluelick Road
 - **Brenneman Living Trusts "dated March 2, 2023"** — trusts created 2.5 years before the Bistrozzi sale; could be routine estate planning OR positioning ahead of a known future sale
@@ -446,10 +449,12 @@ parcel-level detail:
 - Surveyor: George E. Woolley (Ohio Registered Surveyor No. 5772), survey supervised March 2005-2006
 
 **Pike Run Farms LLC deed (202508130008316):**
+
 - Parcel **36-1200-03-002.000**, address "West Bluelick Road, Lima OH 45801" (American Twp Sec 12 SW)
 - Deed references prior adjacency to "Neighbors and Suzanne M. Neighbors by deed of record in Deed Volume 786, Page 669" — the Pike Run Farms tract sits next to the Neighbors tract
 
 **Neighbors deed (202603040002064):**
+
 - Parcel **36-1200-03-015.000**, address **1108 W. Bluelick Road, Lima OH 45801** (American Twp Sec 12 SW)
 - **5.001 acres**, Warranty Deed
 - Prior Deed Reference: Vol 817 Page 879
@@ -634,6 +639,7 @@ The Ohio-specific focus + the 313 MW permitted capacity at BOSC alone
 (hyperscale-class) points to tiers 1 or 2.
 
 **Open questions this raises:**
+
 - What are the *sites* for Tilted Gate LLC and Magenta Capital LLC?
   (Ohio SOS registration is the state entry; the actual project
   addresses would be in subsequent permit applications)
@@ -729,6 +735,7 @@ Pike Run ($2.35M), and Neighbors ($600k) prices are public record;
 Pieper may have negotiated consideration confidentiality.
 
 Standing watch items:
+
 - **Pieper deed OCR** — pull the 4-page instrument from paxWorld to
   extract acreage, metes & bounds, surveyor, prior deed reference,
   and any consideration stated in the deed body (recorder summary
@@ -744,7 +751,7 @@ Standing watch items:
 | **Developer of record** | **Bistrozzi LLC** | 2801 Centerville Road, Wilmington, DE 19808 | Delaware registered-agent service address (anonymizing intermediary) |
 | **Authorized signatory** | **Michael Montfort** | 1700 K Street NW, 5th Fl, Washington DC 20006 | Named on PTI letters; DC office suggests federal-government / strategic representation |
 | **Authorized signatory** | **Scott Ziance** | 52 East Gay Street, Columbus, OH 43215 | Vorys, Sater, Seymour and Pease — major Ohio land-use/economic-development counsel |
-| **Lead counsel/agent** | **Jill Tangeman** (jstangeman@vorys.com) | Vorys, Columbus | Filed wetland + 401 + air permit applications |
+| **Lead counsel/agent** | **Jill Tangeman** (<jstangeman@vorys.com>) | Vorys, Columbus | Filed wetland + 401 + air permit applications |
 | **Engineering of record** | **EMH&T** | 5500 New Albany Road, Columbus, OH | Civil/environmental engineering on wetland, sewer, sanitary plans |
 | **Sanitary engineer (PS+FM)** | **MS Consultants** | (per BOSC RFQ) | Designs the BOSC PS+FM under contract w/ Allen County |
 | **Power utility** | **AEP Ohio – Western (UDP)** | 1 Riverside Plaza, Columbus | Building dedicated substation on-site ("by others" on the engineering plans) |
@@ -1039,7 +1046,7 @@ Key docs:
 | 2014-06-13 | NPDES Permit Renewal cover letter (Stephen Kayatin, then-Sanitary Engineer) | **Explicitly references "modified Director's Findings and Orders"** — confirms a state DFFO modification of the 1996 federal consent decree existed by 2014 |
 | 2017-08-07 | Chronic biomonitoring report (153p) | Effluent toxicity tests on Pimephales promelas + Ceriodaphnia dubia at Outfall 001 |
 | 2019-04-03 | Renewal of 2PK00002*JD (715p, 67MB) | Full prior NPDES permit + supporting materials |
-| 2023-05-05 | Form EPA 4429 NPDES Modification (2PK00002*KD → *LD) | **Pre-installs "Final Effluent table with new limits to be effective following the plant upgrades"** — OEPA + Allen County were pre-permitting Phase 2 since at least 2023 |
+| 2023-05-05 | Form EPA 4429 NPDES Modification (2PK00002*KD →*LD) | **Pre-installs "Final Effluent table with new limits to be effective following the plant upgrades"** — OEPA + Allen County were pre-permitting Phase 2 since at least 2023 |
 | 2023-06-08 | Brad Niemeyer comment correspondence on the 2023 fact sheet | Includes phthalate (DEHP) request: "tested for five years and had all AA's [analyte absent] for results" |
 | 2025-07-15 | Operator-of-Record minimum staffing reduction approval | **Confirms Mike Santaguida = Superintendent, Shawnee No. 2 WWTP** |
 | 2025-08-05 | No Exposure Certification (storm water exclusion) | All industrial materials are sheltered |

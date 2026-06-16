@@ -123,7 +123,8 @@ delays* forfeits accruing leverage. The cure notice (Ex. F) correctly converts t
 acknowledgment into a dated trigger. **The complaint was ripe on May 31.** If the
 "confirmation of records requests" that prompted the hold was only a further
 acknowledgment (not production), the §149.43(B) violation persisted and the $1,000
-+ costs claim was already vested.
+
+- costs claim was already vested.
 
 **Confirmed outcome (per the 6/4 testimony).** The leverage thesis is no longer
 hypothetical. Testifying to the Select Committee on June 4, the relator stated that the
@@ -551,7 +552,7 @@ would answer**, not a finding — and, per §II, do not advance it as fact in te
   confidentiality statute, and behind it the water/sewer/energy stakes the BOSC
   hydrology analysis quantifies.
 
-_Sources: R.C. 149.43 and 9.66 ([Ohio Laws](https://codes.ohio.gov/ohio-revised-code/section-9.66));
+*Sources: R.C. 149.43 and 9.66 ([Ohio Laws](https://codes.ohio.gov/ohio-revised-code/section-9.66));
 HB 184 / HB 695 and §9.66(D) ([Policy Matters Ohio](https://policymattersohio.org/research/limit-ndas-and-fix-public-records-laws-for-data-centers-and-other-economic-development/),
 [Bricker DevelopOhio](https://www.bricker.com/DevelopOhio/economic-development-project-information-now-confidential-new-risks-for-public-officials-employees));
 data-center tax-exemption pause ([The Hill](https://thehill.com/homenews/state-watch/5900974-data-center-tax-exemption-ohio-mike-dewine/));
@@ -559,4 +560,4 @@ Google Lima project ([DatacenterDynamics](https://www.datacenterdynamics.com/en/
 [LimaOhio.com](https://www.limaohio.com/top-stories/2026/03/16/google-officially-behind-data-center-project/));
 *Henderson v. Washington Court House*, 2026-Ohio-110. Full case texts not independently verified.
 Primary corpus for the `[BOSC]` resolution strand: `data/extracted/commissioners/minutes/` (Allen County
-Commissioners agendas + minutes, 2024–2026)._
+Commissioners agendas + minutes, 2024–2026).*

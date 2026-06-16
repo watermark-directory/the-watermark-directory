@@ -12,8 +12,8 @@ directory. Regenerate with `bosc lei`.
 | Dataset | GLEIF LEI — AWS Open Data `s3://gleif` (golden copy) |
 | Access | GLEIF REST API `https://api.gleif.org/api/v1` |
 | License | Creative Commons **CC0** |
-| Registry | https://registry.opendata.aws/lei/ |
-| Docs | https://www.gleif.org/en/lei-data/gleif-golden-copy |
+| Registry | <https://registry.opendata.aws/lei/> |
+| Docs | <https://www.gleif.org/en/lei-data/gleif-golden-copy> |
 
 The S3 bucket is the bulk golden copy (millions of records, refreshed ~3×/day). For
 a small watchlist we use the REST API; raw responses cache under the git-ignored

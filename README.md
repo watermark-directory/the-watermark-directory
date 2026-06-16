@@ -224,6 +224,7 @@ brew bundle                                  # python@3.11, uv, node, git-lfs
 uv sync --extra dev && git lfs install --local
 npm install -g @anthropic-ai/claude-code     # the Agent SDK drives this CLI
 ```
+
 </details>
 
 ## Development

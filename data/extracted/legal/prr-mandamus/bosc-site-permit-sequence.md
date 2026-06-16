@@ -87,12 +87,14 @@ the same corridor's CGP coverage is documented for the outfall.
 > campus #143 (different project, permittee, and footprint).
 
 ## Gaps to close
+
 - ~~The **campus NPDES CGP coverage record**~~ — **closed 2026-06-16**: acquired as facility `2GC08468` (Turner's `*AG` effective 2025-11-10; Igel co-permittee `*BG` 2025-11-12; modified to 309.2 ac 2026-06-10) — [`permits/lma1a-npdes-cgp-coverage`](../../permits/lma1a-npdes-cgp-coverage.epa.yaml). Coverage preceded the 2025-12-08 disturbance by ~4 weeks (closes #143/#154).
 - The **disposition of DSW401252260W** after the 2025-12-23 incompleteness letter.
 - The **exact start date** of earth disturbance (records establish "underway by 2025-12-08").
 - ~~The **outfall SWP3 Appendix A**~~ — **closed 2026-06-16**: acquired as eDoc [`4091289`](../../../documents/plans/4091289.pdf); outfall Facility Permit Number `2GC08747*AG`, effective 2026-04-22 under OHC000006.
 
 ## Cross-refs
+
 - [`bosc-prr-production-2026-06-12-aswcd.response-index.yaml`](bosc-prr-production-2026-06-12-aswcd.response-index.yaml) · [`.analysis.md`](bosc-prr-production-2026-06-12-aswcd.analysis.md) — the ASWCD production (ESC + SW1225)
 - [`../../permits/3788677.epa.yaml`](../../permits/3788677.epa.yaml) · [`/3796349`](../../permits/3796349.epa.yaml) · [`/3949585`](../../permits/3949585.epa.yaml) — the three 401 records
 - [`../../plans/bosc-site-footprint.yaml`](../../plans/bosc-site-footprint.yaml) — the 195/115-ac disturbance footprint (#149)

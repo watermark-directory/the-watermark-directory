@@ -125,6 +125,7 @@ and `needs-triage` is shared — so the existing triage habit covers both. Both 
 The endpoint opens public issues, so it is an abuse vector. Controls, interim → hardened:
 
 **Built into the endpoint:**
+
 - **Cloudflare Turnstile** — a human-verification token required on every submission,
   verified server-side against the Turnstile secret. The first line of defense.
 - **Per-IP rate limiting** (Phase 5) — a fixed-window KV counter (default **5 per IP per
@@ -225,9 +226,11 @@ the Pages project exists (Phase 1).
      `goedelsoup/bosc` only.
 2. Note the **App ID**; generate and download a **private key**. GitHub issues a PKCS#1
    key (`-----BEGIN RSA PRIVATE KEY-----`); Web Crypto needs **PKCS#8** — convert once:
+
    ```sh
    openssl pkcs8 -topk8 -nocrypt -in tips-app.pem -out tips-app.pkcs8.pem
    ```
+
    The PKCS#8 contents become `TIPS_APP_PRIVATE_KEY` (step 6).
 3. `pulumi up` to create the **`submission`** label (declared in
    [`.github/config`](../.github/config/index.ts); `needs-triage` already exists).
@@ -260,11 +263,13 @@ the Pages project exists (Phase 1).
    `1x00000000000000000000AA`, secret `1x0000000000000000000000000000000AA` (always
    pass; the secret `2x0000000000000000000000000000000AA` always fails — use it to
    confirm the `403` path). With the always-pass secret set, post a submission:
+
    ```sh
    curl -sS -X POST https://<host>/api/submit \
      -H 'content-type: application/json' \
      -d '{"kind":"tip","body":"bootstrap test — please close","turnstile_token":"dummy"}'
    ```
+
    Expect `201 {"issue_url": …}` and a new `submission` + `needs-triage` issue opened by
    `bosc-tips-bot[bot]`. Close the test issue, then swap in the **real** Turnstile keys.
 

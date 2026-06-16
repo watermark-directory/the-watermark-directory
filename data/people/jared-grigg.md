@@ -25,7 +25,7 @@ Ohio EPA approved coverage `2GC08468*AG` effective **2025-11-10**.
 
 This puts a name to **Turner Construction** as the campus stormwater **permittee of record** — the
 same assignment the SW1225 county application makes ("NPDES Program = Turner Construction"). The
-initial NOI also lists **Amanda Maag** (Turner, 419-233-2238, amaag@tcco.com) as the facility contact.
+initial NOI also lists **Amanda Maag** (Turner, 419-233-2238, <amaag@tcco.com>) as the facility contact.
 
 Low-significance, tracked-only: a contractor contact on the campus stormwater coverage. Promote
 (`expanded_research: true`) if Turner personnel recur materially across the corridor record.
