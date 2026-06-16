@@ -1,0 +1,250 @@
+---
+/**
+ * Record Teardown — the guided walk's signature teaching component (design
+ * handoff: "The Record Teardown"). One data-driven component, three teaching
+ * shapes selected by `layout`:
+ *   - split     source ↔ extraction across the gutter (default)
+ *   - scroll    vertical scrollytelling (also the small-screen reflow)
+ *   - annotated numbered pins keyed to a margin rail (redaction-heavy records)
+ * The five parts: ① source ② what we read ③ what it reveals ④ how to check
+ * ⑤ where it connects. Styling lives in styles/site.css (`.td-*`), an extension
+ * of the existing token vocabulary. SSR-only — no JS, fully readable with JS off.
+ */
+import type { TeardownLayout, TeardownRecord } from "../lib/teardown";
+import { resolveTeardown } from "../lib/teardownResolve";
+
+interface Props {
+  record: TeardownRecord;
+  layout?: TeardownLayout;
+}
+const { record, layout = "split" } = Astro.props;
+// Resolve curated content against the live bundle: deep verify/concept links,
+// present-checked, with graceful fallback to the curated links.
+const { teardown: r, verifyResolved } = resolveTeardown(record);
+const srcBadge = r.source.badge ?? "SCAN";
+const srcAria = `Scanned source ${r.source.file}, ${r.source.pages} — not materialized in this build; available on request.`;
+const pins = r.pins ?? [];
+---
+
+<div class="teardown" data-layout={layout}>
+  <!-- ===== header strip ===== -->
+  <div class="td-head">
+    <div class="td-head-bar" aria-hidden="true"></div>
+    <div class="td-head-main">
+      <div class="td-eyebrow">Record Teardown</div>
+      <p class="td-title">{r.title}</p>
+      <div class="td-doc">{r.docName}</div>
+      {verifyResolved && (
+        <a class="td-live" href={r.check.verifyHref} title="This record is in the published content bundle — the same row the library renders.">● in the published bundle</a>
+      )}
+    </div>
+    <div class="td-kind">{r.source.kind}</div>
+  </div>
+
+  {/* ============================ LAYOUT A · SPLIT ============================ */}
+  {layout === "split" && (
+    <div class="td-body">
+      <div class="td-split">
+        {/* ① source */}
+        <div class="td-pane td-pane--source">
+          <div class="td-part">① The source</div>
+          <div class="td-srccard">
+            <div class="td-srccard-head">
+              <div class="td-doc-icon" aria-hidden="true"></div>
+              <div class="td-srcfile">{r.source.file}</div>
+              <div class="td-scan">{srcBadge}</div>
+            </div>
+            <div class="td-srcbody" role="img" aria-label={srcAria}>
+              <div class="td-ghost" style="top:14px;left:16px;right:64px;height:9px;"></div>
+              <div class="td-ghost td-ghost--2" style="top:30px;left:16px;right:120px;height:7px;"></div>
+              <div class="td-ghost td-ghost--dark" style="bottom:34px;left:24px;width:128px;height:18px;"></div>
+              <div class="td-srcfallback"><div class="td-srcfallback-pill">⤓ View source on request</div></div>
+            </div>
+            <div class="td-srcfoot">{r.source.pages} · {r.source.collection}</div>
+          </div>
+          <div class="td-srcnote">{r.source.note}</div>
+        </div>
+        {/* ② what we read */}
+        <div class="td-pane td-pane--read">
+          <div class="td-part is-indigo">② What we read from it</div>
+          <div class="td-rows">
+            {r.extraction.map((row) => (
+              <div class="td-row">
+                <div class="td-row-label">{row.label}</div>
+                <div class:list={["td-row-value", row.warn && "is-warn"]}>{row.value}</div>
+              </div>
+            ))}
+          </div>
+          <div class="td-note">~ markers preserved from the source as approximate · confidence shown per field</div>
+        </div>
+      </div>
+
+      {/* ③ reveals + ④ check */}
+      <div class="td-rc">
+        <div class="td-reveal">
+          <div class="td-part">③ What it reveals</div>
+          <p class="td-reveal-text">{r.reveal.lead}<mark class="td-key">{r.reveal.key}</mark>{r.reveal.tail}</p>
+        </div>
+        <div class="td-check">
+          <div class="td-part is-green">④ How to check it</div>
+          <span class:list={["td-tag", `td-tag--${r.check.tag}`]}><span class="td-tag-dot" aria-hidden="true"></span>[{r.check.tag}] {r.check.sub}</span>
+          <div class="td-link-row">
+            {r.check.verifyHref
+              ? <a class="td-link td-link--verify" href={r.check.verifyHref}><span aria-hidden="true">↗</span>{r.check.verify}</a>
+              : <span class="td-link td-link--verify"><span aria-hidden="true">↗</span>{r.check.verify}</span>}
+            {r.check.methodHref
+              ? <a class="td-link td-link--method" href={r.check.methodHref}><span aria-hidden="true">›</span>{r.check.method}</a>
+              : <span class="td-link td-link--method"><span aria-hidden="true">›</span>{r.check.method}</span>}
+          </div>
+        </div>
+      </div>
+
+      {/* ⑤ connects */}
+      <div class="td-connects">
+        <div class="td-part">⑤ Where it connects</div>
+        <div class="td-chips">
+          {r.connect.map((c) => (
+            c.href
+              ? <a class="td-chip" href={c.href}><span class="td-chip-kind">{c.kind}</span>{c.label}</a>
+              : <span class="td-chip"><span class="td-chip-kind">{c.kind}</span>{c.label}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )}
+
+  {/* ========================= LAYOUT B · SCROLL ============================= */}
+  {layout === "scroll" && (
+    <div class="td-scroll">
+      <div class="td-part">① The source</div>
+      <div class="td-srccard">
+        <div class="td-srccard-head">
+          <div class="td-doc-icon" aria-hidden="true"></div>
+          <div class="td-srcfile">{r.source.file}</div>
+          <div class="td-scan">{srcBadge}</div>
+        </div>
+        <div class="td-srcbody td-srcbody--sm" role="img" aria-label={srcAria}>
+          <div class="td-ghost" style="top:14px;left:16px;right:90px;height:9px;"></div>
+          <div class="td-ghost td-ghost--dark" style="bottom:30px;left:24px;width:128px;height:16px;"></div>
+          <div class="td-srcfallback"><div class="td-srcfallback-pill">⤓ View source on request</div></div>
+        </div>
+        <div class="td-srcfoot">{r.source.pages} · {r.source.collection}</div>
+      </div>
+      <div class="td-srcnote">{r.source.note}</div>
+
+      <div class="td-block td-block--read">
+        <div class="td-part is-indigo">② What we read from it</div>
+        <div class="td-readcards">
+          {r.extraction.map((row) => (
+            <div class="td-readcard">
+              <div class="td-readcard-label">{row.label}</div>
+              <div class:list={["td-readcard-value", row.warn && "is-warn"]}>{row.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="td-block td-block--reveal">
+        <div class="td-part is-amber">③ What it reveals</div>
+        <p class="td-reveal-text td-reveal-text--lg">{r.reveal.lead}<mark class="td-key">{r.reveal.key}</mark>{r.reveal.tail}</p>
+      </div>
+
+      <div class="td-block td-block--check">
+        <div class="td-part is-green">④ How to check it</div>
+        <div class="td-check-inline">
+          <span class:list={["td-tag", `td-tag--${r.check.tag}`]}><span class="td-tag-dot" aria-hidden="true"></span>[{r.check.tag}] {r.check.sub}</span>
+          {r.check.verifyHref
+            ? <a class="td-link td-link--verify" href={r.check.verifyHref}><span aria-hidden="true">↗</span>{r.check.verify}</a>
+            : <span class="td-link td-link--verify"><span aria-hidden="true">↗</span>{r.check.verify}</span>}
+          {r.check.methodHref
+            ? <a class="td-link td-link--method" href={r.check.methodHref}><span aria-hidden="true">›</span>{r.check.method}</a>
+            : <span class="td-link td-link--method"><span aria-hidden="true">›</span>{r.check.method}</span>}
+        </div>
+      </div>
+
+      <div class="td-connects">
+        <div class="td-part">⑤ Where it connects</div>
+        <div class="td-chips">
+          {r.connect.map((c) => (
+            c.href
+              ? <a class="td-chip" href={c.href}><span class="td-chip-kind">{c.kind}</span>{c.label}</a>
+              : <span class="td-chip"><span class="td-chip-kind">{c.kind}</span>{c.label}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )}
+
+  {/* ======================= LAYOUT C · ANNOTATED =========================== */}
+  {layout === "annotated" && (
+    <div class="td-body">
+      <div class="td-annot-grid">
+        {/* artifact + pins */}
+        <div>
+          <div class="td-part">① The source <span class="td-part-flag">· annotated</span></div>
+          <div class="td-srccard">
+            <div class="td-srccard-head">
+              <div class="td-doc-icon" aria-hidden="true"></div>
+              <div class="td-srcfile">{r.source.file}</div>
+              <div class="td-scan">{srcBadge}</div>
+            </div>
+            <div class="td-srcbody td-srcbody--lg" role="img" aria-label={srcAria}>
+              <div class="td-ghost" style="top:18px;left:18px;right:80px;height:9px;"></div>
+              <div class="td-ghost td-ghost--2" style="top:34px;left:18px;right:150px;height:7px;"></div>
+              {r.redactionLabel && (
+                <div class="td-redaction"><span>{r.redactionLabel}</span></div>
+              )}
+              {pins.map((p) => (
+                <div class:list={["td-pin", p.danger && "is-danger"]} style={`left:${p.x};top:${p.y};`} aria-label={`Annotation ${p.n}`}>{p.n}</div>
+              ))}
+            </div>
+            <div class="td-srcfoot">{r.source.pages} · {r.source.collection}</div>
+          </div>
+          <div class="td-srcnote">{r.source.note}</div>
+        </div>
+        {/* margin rail keyed to pins */}
+        <div>
+          <div class="td-part is-indigo">② What we read</div>
+          <div class="td-rail">
+            {pins.map((p) => (
+              <div class="td-rail-item">
+                <div class:list={["td-rail-num", p.danger && "is-danger"]}>{p.n}</div>
+                <div>
+                  <div class="td-rail-label">{p.label}</div>
+                  <div class:list={["td-rail-value", p.danger && "is-danger"]}>{p.value}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* footer band: reveal + connect / check */}
+      <div class="td-annot-foot">
+        <div>
+          <div class="td-part">③ What it reveals</div>
+          <p class="td-reveal-text">{r.reveal.lead}<mark class="td-key">{r.reveal.key}</mark>{r.reveal.tail}</p>
+          <div class="td-chips td-chips--mt">
+            {r.connect.map((c) => (
+              c.href
+                ? <a class="td-chip td-chip--onpanel" href={c.href}><span class="td-chip-kind">{c.kind}</span>{c.label}</a>
+                : <span class="td-chip td-chip--onpanel"><span class="td-chip-kind">{c.kind}</span>{c.label}</span>
+            ))}
+          </div>
+        </div>
+        <div class="td-annot-check">
+          <div class="td-part is-green">④ How to check it</div>
+          <span class:list={["td-tag", `td-tag--${r.check.tag}`]}><span class="td-tag-dot" aria-hidden="true"></span>[{r.check.tag}] {r.check.sub}</span>
+          <div class="td-link-row">
+            {r.check.verifyHref
+              ? <a class="td-link td-link--verify" href={r.check.verifyHref}><span aria-hidden="true">↗</span>{r.check.verify}</a>
+              : <span class="td-link td-link--verify"><span aria-hidden="true">↗</span>{r.check.verify}</span>}
+            {r.check.methodHref
+              ? <a class="td-link td-link--method" href={r.check.methodHref}><span aria-hidden="true">›</span>{r.check.method}</a>
+              : <span class="td-link td-link--method"><span aria-hidden="true">›</span>{r.check.method}</span>}
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
