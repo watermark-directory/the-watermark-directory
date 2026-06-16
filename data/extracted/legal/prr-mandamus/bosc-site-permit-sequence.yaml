@@ -32,15 +32,20 @@ meta:
     submitted "at least 21 days … prior to the commencement of construction activity" (Part I.F.1.a),
     and "Coverage under this permit is not effective until an approval letter granting coverage from
     the director of Ohio EPA is received by the applicant" (Part I.F.2). The site's per-site coverage
-    number is the "facility permit number" (the OHC… number). The SW1225 permit application assigns
-    "NPDES Program = Turner Construction" (p53), so Turner is the CGP permittee of record. Every
-    produced ESC inspection lists "Site NPDES Number: TBD."
+    number is the "Ohio EPA Facility Permit Number" (format 2GC…*AG, NOT an OHC… number — OHC000006 is
+    the general permit). The SW1225 permit application assigns "NPDES Program = Turner Construction"
+    (p53), so Turner is the CGP permittee of record, and every produced ESC inspection lists "Site
+    NPDES Number: TBD." RESOLVED 2026-06-16: the campus coverage record was acquired (permits/
+    lma1a-npdes-cgp-coverage.epa.yaml) — Turner's initial coverage 2GC08468*AG was effective
+    2025-11-10, ~4 weeks BEFORE the earliest documented disturbance (2025-12-08); the "TBD" was a
+    recording gap on the SWCD forms, not an absence of coverage.
   prepared_from:
     - data/extracted/permits/3788677.epa.yaml                                   # 401 Level-1 grant
     - data/extracted/permits/3796349.epa.yaml                                   # 401 mitigation agreement
     - data/extracted/permits/3949585.epa.yaml                                   # 401 Level-2 (incomplete)
     - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
     - data/extracted/regulatory/ohc000006-construction-stormwater-gp.yaml       # the governing statewide CGP (the standard; not the site record)
+    - data/extracted/permits/lma1a-npdes-cgp-coverage.epa.yaml                   # the campus coverage record 2GC08468*AG (eff. 2025-11-10) — resolves #143/#154
 
 # ----------------------------------------------------------------------------------------------
 # The ordered record. kind: wetland-401 | stormwater-permit | disturbance | npdes-cgp | governance
@@ -69,6 +74,14 @@ events:
     source: data/extracted/permits/3796349.epa.yaml
     detail: 'Ohio EPA confirms the mitigation credit proof-of-purchase requirement is satisfied; no further action needed.'
 
+  - date: '2025-10-29'
+    kind: npdes-cgp
+    event: Turner submits the NPDES Construction General Permit New NOI (2GC08468*AG)
+    ref: 2GC08468*AG
+    source: data/extracted/permits/lma1a-npdes-cgp-coverage.epa.yaml
+    detail: 'Turner Construction Company files the initial (Coverage Type = New) NOI under OHC000006 for "LMA 1A" (N of W Bluelick Rd, E of N Cole St); declared project start 2025-11-03, 304.27 ac, receiving Pike Run (eDoc 3898350, Application ID 284394632).'
+    note: 'The campus CGP coverage process IS on the record — contrary to the "TBD" on every later SWCD inspection.'
+
   - date: '2025-10-30'
     kind: governance
     event: Project BOSC preconstruction meeting requested (EMH&T)
@@ -81,6 +94,14 @@ events:
     ref: 'check #637852'
     source: data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
     detail: 'JPMorgan Chase check #637852, $5,800.00 "Stormwater Fee," Turner Construction Job #240308 (ASWCD records bundle p54).'
+
+  - date: '2025-11-10'
+    kind: npdes-cgp
+    event: Ohio EPA APPROVES the campus NPDES CGP coverage 2GC08468*AG (Turner)
+    ref: 2GC08468*AG
+    source: data/extracted/permits/lma1a-npdes-cgp-coverage.epa.yaml
+    detail: 'Approval letter (eDoc 3898357, signed John Logue): Ohio EPA Facility Permit Number 2GC08468*AG, Permit Effective Date 2025-11-10, expires 2028-04-22. THE campus coverage record the SWCD left "TBD". Igel later added as co-permittee (*BG, eff 2025-11-12); modification to 309.2 ac approved 2026-06-10.'
+    note: 'STATE NPDES CGP coverage attaches 2025-11-10 — ~4 weeks BEFORE the earliest documented disturbance (2025-12-08), and the same day as the SW1225 fee payment. Resolves #143/#154.'
 
   - date: '2025-11-14'
     kind: stormwater-permit
@@ -158,14 +179,20 @@ observations:
       Active clearing/grubbing + mass grading documented from 2025-12-08, continuing through at
       least 2026-06-05, on a 195-ac developed footprint — well above the 1-ac CGP threshold —
       while every produced ESC inspection records the Site NPDES Number as "TBD."
-    not_in_records: >
-      The CGP coverage record itself (the Notice of Intent and the assigned OHC… tracking number,
-      with its effective date). The corpus contains NO OHC… coverage number anywhere; the SWCD
-      did not produce one and deferred to Ohio EPA.
-    why_open: >
-      "TBD" on the SWCD's own forms is not proof that coverage did not exist — Turner may have held
-      CGP coverage that the SWCD simply did not record. The timing can only be resolved by the Ohio
-      EPA coverage record. Pursued under issue #143.
+    resolved: >
+      RESOLVED 2026-06-16 — coverage PRECEDED disturbance. The campus coverage record was acquired
+      (permits/lma1a-npdes-cgp-coverage.epa.yaml): Turner's initial coverage 2GC08468*AG was approved
+      effective 2025-11-10 (NOI submitted 2025-10-29), ~4 weeks BEFORE the earliest documented earth
+      disturbance (2025-12-08). The persistent "Site NPDES Number: TBD" on the ASWCD ESC forms was
+      therefore a RECORDING gap on the SWCD's own forms, not an absence of coverage — confirming the
+      alternative hypothesis flagged here ("Turner may have held coverage the SWCD simply did not
+      record"). Analysis, not a legal conclusion. Closes #143 (record acquired) and #154 (timing
+      determined).
+    caveat: >
+      The NOI's declared "Proposed Project Start Date" (2025-11-03) is 7 days before the *AG effective
+      date (2025-11-10), but is a planning date on the form, not evidence of actual commencement; no
+      disturbance is documented before 2025-12-08. The *AG→*BG suffix mechanics are inferred (the
+      continuous-coverage-from-2025-11-10 finding does not depend on them).
 
   - id: level2-401-after-clearing
     question: >
@@ -217,7 +244,7 @@ observations:
 
 # ----------------------------------------------------------------------------------------------
 gap_and_followups:
-  - 'The NPDES CGP coverage record (NOI + OHC… number + effective date) — acquire from Ohio EPA to resolve the coverage-timing question. Tracked: issue #143 (and the ECHO cross-check for OHC coverage at Facility ID 0302022054).'
+  - 'RESOLVED 2026-06-16 — The campus NPDES CGP coverage record was acquired (permits/lma1a-npdes-cgp-coverage.epa.yaml): Turner''s 2GC08468*AG effective 2025-11-10 (NOI 2025-10-29), ~4 weeks before the documented 2025-12-08 disturbance. Closes #143 (record) + #154 (timing). The only residual: the modification raised disturbance 304.27→309.2 ac (2026-06-10) — a scope change, not a coverage gap.'
   - 'The disposition of the Level-2 wetland permit DSW401252260W after the 2025-12-23 incompleteness letter (granted? when? scope?).'
   - 'The exact start date of earth disturbance (the records establish "underway by 2025-12-08," not a start date).'
   - 'RESOLVED 2026-06-16 — The BOSC Storm Outfall / Beery-Cole roundabout SWP3 (eDoc 4091286) Appendix A was acquired as companion eDoc 4091289: NOI approved, Ohio EPA Facility Permit Number 2GC08747*AG, effective 2026-04-22 under OHC000006 (Director John Logue). The outfall''s coverage is now end-to-end on the record; this was the parallel thread to the still-open campus #143.'
@@ -234,3 +261,4 @@ cross_refs:
   - data/documents/plans/4091289.pdf                                                             # Ohio EPA CGP Approval Letter — outfall Facility Permit Number 2GC08747*AG (eff. 2026-04-22)
   - data/documents/plans/4091287.pdf                                                             # SWP3 appendix sheet (soils/streams; Point 1 = Pike Run)
   - data/extracted/regulatory/ohc000006-construction-stormwater-gp.yaml                          # the governing statewide CGP — the standard the sequence is read against
+  - data/extracted/permits/lma1a-npdes-cgp-coverage.epa.yaml                                      # the campus coverage record 2GC08468*AG (eff. 2025-11-10) — resolves #143/#154
