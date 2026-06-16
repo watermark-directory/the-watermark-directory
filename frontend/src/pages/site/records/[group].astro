@@ -4,6 +4,7 @@ import Base from "../../../layouts/Base.astro";
 import Provenance from "../../../components/Provenance.astro";
 import { hasFeed, loadFeed } from "../../../lib/bundle";
 import type { RecordItem } from "../../../lib/feeds";
+import { slugify } from "../../../lib/feeds";
 import { fieldToString, groupLabel, groupsOf, isApproximate } from "../../../lib/records";
 import { withBase } from "../../../lib/site";
 
@@ -31,7 +32,7 @@ const label = groupLabel(String(group));
 
     {
       records.map((r) => (
-        <div class="item">
+        <div class="item" id={slugify(r.rel)}>
           <h3>{r.title}</h3>
           <dl class="fields">
             {Object.entries(r.fields).map(([k, v]) => (

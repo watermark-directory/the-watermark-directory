@@ -15,5 +15,5 @@ const { kind, label, title } = Astro.props;
 ---
 
 <span class:list={["evidence", `evidence-${kind}`]} title={title} data-kind={kind}>
-  {label ?? kind}
+  <span class="evidence-dot" aria-hidden="true"></span>[{label ?? kind}]
 </span>
