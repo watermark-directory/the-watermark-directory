@@ -8,6 +8,7 @@ raster-materialization layer (P2+) is not built yet. The working code is the
 record of decisions/deviations.*
 
 **Shipped in P1 (two deviations from the original plan, by design):**
+
 - **`_cache` was not physically lifted.** `civic` and `economics` already reuse
   `bosc.hydrology.connectors._cache.cached_get` cross-subsystem (a documented
   pattern), and ~26 files reference `HydroOfflineError`. So imagery follows that

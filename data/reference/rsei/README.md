@@ -25,7 +25,7 @@ two comparative measures:
 | Version | `v234` |
 | Endpoint | `https://epa-rsei-pds.s3.amazonaws.com/v234/data_tables/` |
 | License | U.S. Government work (public domain) |
-| Registry | https://registry.opendata.aws/epa-rsei-pds/ |
+| Registry | <https://registry.opendata.aws/epa-rsei-pds/> |
 
 ## How the inventory is built
 

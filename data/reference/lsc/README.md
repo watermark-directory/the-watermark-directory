@@ -38,7 +38,7 @@ generation timestamp), so re-running regenerates identical bytes.
   primary sponsor(s) are captured — not the full co-sponsor list (that lives on
   each bill's detail page, `…/<ga>/<bill>`).
 - **Raw dates/codes.** Dates and committee codes are kept exactly as published,
-  including trailing chamber markers (e.g. a date suffixed ` S`). They are *not*
+  including trailing chamber markers (e.g. a date suffixed `S`). They are *not*
   parsed into ISO dates, so downstream code should not assume a fixed format.
 - **Status, not full history.** This is the milestone snapshot LSC compiles; the
   blow-by-blow legislative history of a single bill is on its detail page.

@@ -55,6 +55,7 @@ leadership and national security"); the workforce note includes "mission-critica
 like the military."
 
 **Precise assessment:**
+
 - **Rate relief** (`contested`). The claim that large load "spreads fixed infrastructure
   costs… putting downward pressure on rates," citing Georgia Power / Indiana-Michigan /
   DTE, is the strongest pro-industry economic claim — and it directly contradicts **ELPC**
@@ -84,6 +85,7 @@ federal** customers; $10B Van Wert campus; pays interconnection/upgrades; closed
 cooling; community engagement.
 
 **Precise assessment:**
+
 - **Federal/defense candor** (`solid`, and corpus-relevant). QTS openly lists **"federal
   customers, where we operate secure, compliant facilities that support national security
   and government operations"** as one of three core segments. This is the clearest
@@ -111,6 +113,7 @@ cooling; community engagement.
 and a rate-neutrality study.
 
 **Precise assessment:**
+
 - **"Highly efficient consumers of energy"** (`outdated basis`). The efficiency slide cites
   **Science (2020)** — data from the **pre-generative-AI era**. It does not capture
   AI-class rack densities (40–120+ kW), which is precisely the load growth now straining
@@ -140,6 +143,7 @@ Google followed; **18 agreements** now (first 2013); the administration has shif
 **more targeted 50% / 10–15-year** structure.
 
 **Precise assessment:**
+
 - **The concession is the most informative part** (`solid`). Moving from **100%/40yr → 50%/
   10–15yr** is an implicit admission that the early deals were over-generous — aligning with
   the critics' fiscal concern and with Parent's "treat each abatement as a negotiation."
@@ -204,6 +208,6 @@ And note that the dispositive question — *who is the customer, and what is the
 use and resource draw* — is one the proponents did not answer, leaving the disclosure case
 substantially unrebutted on its own terms.
 
-_Cross-refs: [mandamus-analysis.md](mandamus-analysis.md) (§II legislative slate; §III defense
+*Cross-refs: [mandamus-analysis.md](mandamus-analysis.md) (§II legislative slate; §III defense
 nexus), [HYDROLOGY.md](../HYDROLOGY.md) (the cooling-basis figures that test the water claims),
-and the witness catalog in the [hearing index](../../data/extracted/legal/select-committee-2026/select-committee-2026.hearing-index.yaml)._
+and the witness catalog in the [hearing index](../../data/extracted/legal/select-committee-2026/select-committee-2026.hearing-index.yaml).*

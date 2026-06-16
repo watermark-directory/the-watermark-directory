@@ -163,6 +163,7 @@ reusing the OPC pattern (hybrid OCR+vision read → forced-tool-use → Pydantic
 validation → provenance). Order is driven by inquiry leverage.
 
 ### Phase A — unlock the highest-leverage genres ✅ done
+
 1. **Deeds extractor (`kind=deed`).** Grantor/grantee/parcel/consideration/
    instrument/date. `[done]` — validated live and swept across `recorder/`;
    reproduces Periplus's hand-curated parcel ledger 11/11
@@ -172,6 +173,7 @@ validation → provenance). Order is driven by inquiry leverage.
    text-first read, swept across all 9 `oepa/` docs.
 
 ### Phase B — entities and breadth
+
 3a. **SoS business-filing extractor (`kind=sos`).** `[done]` — vision-primary
    read of Secretary-of-State LLC filings (`bosc.models.BusinessFiling`): entity
    name, filing id, formation jurisdiction, registered agent + address, organizer.
@@ -220,6 +222,7 @@ validation → provenance). Order is driven by inquiry leverage.
    hardened data-center campus.
 
 ### Phase C — the cross-document layer (where the research lives)
+
 5. **Entity/parcel resolution.** `[done]` — `bosc.pipeline.entities`: normalize
    party names to a canonical key, merge variants, classify conservatively
    (government / corporate / individual / trust / facility / water; flag Delaware
@@ -238,7 +241,7 @@ validation → provenance). Order is driven by inquiry leverage.
    was sitting unused and the join is the research question, not Periplus platform
    code). `bosc.gis.corridor` spatially joins every watch item (facilities + force
    mains) and recorded parcel onto the frozen Periplus `corridor.geojson` study area
-   + `corridor-centerline.geojson` routes: in-study-area flag, distance to the
+   - `corridor-centerline.geojson` routes: in-study-area flag, distance to the
    nearest corridor route, the route, and station (chainage) along the roadwork road
    centerline (the roadway the roundabouts OPC prices). `bosc corridor` shows the
    join; `bosc corridor --map` adds the `corridor` (study area) + `roadwork` (road
@@ -250,6 +253,7 @@ Both built on `bosc.pipeline.corpus` — a loader that reads every committed
 extraction into one typed `Corpus`, classified by content shape.
 
 ### Phase D — close the deferred carve-outs (as they block inquiry)
+
 - **Entity-graph polish** `[done]` — contact-resolution noise cleaned
   (multi-value `;` split; middle-initial merge; no self-affiliation).
 - **Unify the hand-authored detail YAML** `[done]` — `bosc.pipeline.corpus`
@@ -273,6 +277,7 @@ extraction into one typed `Corpus`, classified by content shape.
   as contrary to current conventions — the 25% lives in a `Profile`, not a hardcode).
 
 ### Phase E — hydrological forecasting (water / stormwater / sewage)
+
 The platform's first move from *deconstruction* to *forecasting*. The Lima system is
 one closed flow loop on two rivers — **Auglaize/Ottawa → Lima WTP → municipal +
 data-center demand → county/Lima WWTPs → Ottawa River** — and the binding constraint

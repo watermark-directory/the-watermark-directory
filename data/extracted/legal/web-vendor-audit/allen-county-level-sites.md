@@ -93,6 +93,6 @@ notable but **not asserted as causal** without the gated revision diff.
   template/IP/version signatures, not contracts — the authoritative source is the county's
   web-services/hosting agreement (a fair PRR target, and §9.66(D)-non-exempt).
 
-_Cross-refs: [`allen-county-web-vendor-audit.md`](allen-county-web-vendor-audit.md) ·
+*Cross-refs: [`allen-county-web-vendor-audit.md`](allen-county-web-vendor-audit.md) ·
 [`allen-county-web-vendor-corporate-records.yaml`](allen-county-web-vendor-corporate-records.yaml) (three-layer custody model) ·
-[`bosc-prr-production-2026-06-05.response-index.yaml`](../prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml) (item 16)._
+[`bosc-prr-production-2026-06-05.response-index.yaml`](../prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml) (item 16).*

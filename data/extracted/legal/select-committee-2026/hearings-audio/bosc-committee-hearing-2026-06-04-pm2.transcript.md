@@ -17,13 +17,10 @@ committee adjourns for the day ('another marathon session on Monday'). Continues
 
 ---
 
-
-
 ### Reconvene — closing session (post-2:30 break) · 00:00
 
 > [00:00] Reconvening the Joint Data Center Select Committee.
 >
-
 
 ### Testimony + Q&A — MARA Holdings · Shane Hazel · 00:09
 
@@ -540,7 +537,6 @@ committee adjourns for the day ('another marathon session on Monday'). Continues
 > [23:10] And our final witness for today, thank you for hanging in there.
 >
 
-
 ### Testimony + Q&A — Vantage Data Centers · Kevin Chandler · 23:16
 
 > [23:16] Uh, we have testimony from Kevin Chandler with the Vantage data centers.
@@ -773,7 +769,6 @@ committee adjourns for the day ('another marathon session on Monday'). Continues
 >
 > [34:04] And we'll see you again for another marathon session on Monday.
 >
-
 
 ### Adjournment · 34:11
 

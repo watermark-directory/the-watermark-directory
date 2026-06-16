@@ -29,6 +29,7 @@ quantitative abstract.
 ## 1. Tile-drained Ohio cropland — what it exports (the baseline burden)
 
 ### Hanrahan, King, Duncan, **Shedekar** (2021) — cover crops & N/P loss, 40 Ohio fields
+
 *J. Environ. Manag. 293:112910 · [doi](https://doi.org/10.1016/j.jenvman.2021.112910) · source: Europe PMC + PubMed `[abstract]`*
 
 - **40 fields**, northcentral Ohio; tile drainage + surface runoff; cover-crop (CC) vs none (NoCC).
@@ -37,6 +38,7 @@ quantitative abstract.
 - **Corpus use:** establishes that the dominant tile-export problem here is **nitrate**, and that the cheap N-control practice (cover crops) **does not fix dissolved P** — which is the Lake Erie / Maumee HAB driver. Sets why a *structural* retention/treatment project (OSU-Lima) is needed for P at all.
 
 ### Osterholz, **Shedekar**, Simpson, King (2024) — "new" P losses via tile drainage
+
 *J. Environ. Qual. 53(2):241 · [doi](https://doi.org/10.1002/jeq2.20549) · source: CrossRef `[full-abstract+]`*
 
 - **155 P applications** across Ohio & Indiana; weighted-regression (WRTDS) on tile DRP/TP.
@@ -50,6 +52,7 @@ quantitative abstract.
 ## 2. Drainage water management (DWM) — how much it actually reduces nitrate
 
 ### **Shedekar**, King, Fausey, Islam, Soboyejo, Kalcic, Brown (2021) — DWM via three evaluation approaches
+
 *Agric. Water Manag. 243:106501 · [doi](https://doi.org/10.1016/j.agwat.2020.106501) · source: Semantic Scholar `[full-abstract+]`*
 
 - **One central-Ohio field, 10 years** (free drainage 2005–2008; DWM 2009–2014); before-after, paired-field, and DRAINMOD-NII scenarios.
@@ -58,6 +61,7 @@ quantitative abstract.
 - **Effectiveness varies widely by evaluation method** — the headline caution.
 
 ### King, Hanrahan, Stinner, **Shedekar** (2022) — field-scale DWM, paired NW-Ohio fields
+
 *Agric. Water Manag. 264:107421 · [doi](https://doi.org/10.1016/j.agwat.2021.107421) · source: RePEc `[qual]`*
 
 - Paired NW-Ohio fields, **4 years**, before-after. Published abstract is **qualitative** (no kg/ha magnitudes reachable).
@@ -65,6 +69,7 @@ quantitative abstract.
 - **Corpus use:** DWM is a real nitrate tool but **trades tile loss for surface runoff** — a caution against treating any single BMP as a clean win; the OSU-Lima design (capture + wetland + reuse) is precisely an attempt to close that surface-runoff path.
 
 ### Youssef … **Shedekar** … (2023) — controlled drainage & corn yield, regional synthesis
+
 *Agric. Water Manag. 275:107993 · [doi](https://doi.org/10.1016/j.agwat.2022.107993) · source: SSRN preprint (1st-pass) `[abstract]`*
 
 - **55 site-years, 13 paired free-/controlled-drainage sites** (6 Midwest states + NC, 2006–2017).
@@ -80,6 +85,7 @@ to strip nutrients from ag runoff. Shedekar's two 2020 *Water* papers are the
 notably **cautionary** about how well slag-based P capture works on *tile* water.
 
 ### **Shedekar**, Penn, Pease, King, Kalcic, Livingston (2020) — ditch structure, Al-treated steel slag
+
 *Water 12(8):2149 (CC-BY) · [doi](https://doi.org/10.3390/w12082149) · source: Semantic Scholar `[abstract]` + MDPI econ snippet*
 
 - Treats tile drainage from a **4.5 ha** high-soil-test-P Ohio field; media = **Al-treated steel slag**.
@@ -88,6 +94,7 @@ notably **cautionary** about how well slag-based P capture works on *tile* water
 - **Economics:** structure cost **up to ~$10,000**; **~$100–1,500 per kg P removed** (snippet of MDPI text).
 
 ### Penn, Livingston, **Shedekar**, King, Williams (2020) — field-scale steel-slag structures
+
 *Water 12(2):443 (CC-BY) · [doi](https://doi.org/10.3390/w12020443) · source: Semantic Scholar `[abstract]`*
 
 - **~97% of P arrives during storm-flow events**; structures sized for **~12 L s⁻¹**.

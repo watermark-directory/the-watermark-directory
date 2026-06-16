@@ -17,7 +17,7 @@ and [`data/documents/sanitary/`](../../documents/sanitary/README.md).
 
 - The consent decree + CNA were read from the OCR text layer; the Indianbrook
   as-built is image-only drawings (only the title sheet was transcribed). OHC000006
-  + its RTC were read from clean PDF text layers.
+  - its RTC were read from clean PDF text layers.
 - These plants are the BOSC-1A receiving facilities (PRR items 8/9) and the same
   ones carrying TP wasteload allocations in the Maumee TMDL — cross-referenced to
   the hydrology references and the OEPA permit extractions.

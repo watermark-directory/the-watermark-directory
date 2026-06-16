@@ -39,6 +39,7 @@ The one BOSC-adjacent subdivision with its own site, **Shawnee Township** (Shawn
 ## Full results
 
 ### County offices — all CorpComm Group, WordPress 6.9.4 on GoDaddy
+
 `allencountyohio.com` (Developed by CorpComm Group, Inc.) · Engineer · Clerk of Courts *(both credited + linked to corpcommgroup.com)* · Commissioners, Treasurer, Prosecutor *(same template/version/registrar, no in-page credit — inferred CorpComm)*. **Sheriff** sits behind Cloudflare with no credit; **Board of Elections** runs on the Ohio SOS statewide template (not county-procured). The whole cluster is **one GoDaddy account** — `160.153.0.x` /24 (main `.4`, clerk `.61`, commissioners `.225`, auditor `.236`), all WordPress 6.9.4, **hosted/managed by AhelioTech** (per the 2023–24 minutes).
 
 > **The Auditor's site breaks the "outside vendor only" picture.** `allencountyohauditor.com` (own domain, theme `thegov`, GoDaddy `160.153.0.236`, **no CorpComm footer credit**) carries a WordPress author archive for **`b_mauk` — "Brian Mauk – Allen County Auditor," the county IT Director**. That is direct evidence of **in-house edit access** to a site in the county cluster: the county is not merely a passive client of an outside firm. (Confirmed on the Auditor site; the other office archives didn't resolve, so not yet proven for the Commissioners' own host.) Note also classic WP author-enumeration — `/author/b_mauk/` leaks the admin username even though the `wp-json` user list is locked (401).
@@ -46,6 +47,7 @@ The one BOSC-adjacent subdivision with its own site, **Shawnee Township** (Shawn
 > **Vendor of record is a dissolved corporation.** Ohio SOS filings show **CorpComm Group, Inc.** (charter #532078; f/k/a *T. R. Stuckey and Associates, Inc.*, renamed 1996; pres./agent **Timothy R. Stuckey**) filed a **Certificate of Dissolution effective June 5, 2023** (resolution dated Jan 20, 2023). Yet its credit and a live link to corpcommgroup.com still appear on the county main/Recorder, Engineer, Clerk, and AEDG sites as of this audit — i.e., the county's web presence is credited to an entity that has not legally existed for three years. This sharpens the Item-16 custody question (who holds the CMS audit logs now?). Corporate records: [`allen-county-web-vendor-corporate-records.yaml`](allen-county-web-vendor-corporate-records.yaml). Finding of fact; legal effect not asserted.
 
 ### County boards / districts / authorities
+
 - **CorpComm:** AEDG (`aedg.org`) — *credited, links corpcommgroup.com*
 - **NOW Marketing Group:** ACRTA (`acrta.com`), Fairgrounds (`allencofair.com`)
 - **Modo Media (Wix):** Board of DD (`acbdd.org`), Metropolitan Housing Authority (`allenmha.com`)
@@ -57,6 +59,7 @@ The one BOSC-adjacent subdivision with its own site, **Shawnee Township** (Shawn
 - **Unattributed Wix:** Port Authority (`allencoport.org`)
 
 ### Municipalities
+
 - **City of Lima** — CivicPlus (`limaohio.gov`, .gov) + a SmartGov public portal
 - **Auglaize Township** — Munibit (`auglaizetwpallencooh.gov`, .gov)
 - **Shawnee Township** — **Anne Decker Marketing**
@@ -69,9 +72,11 @@ The one BOSC-adjacent subdivision with its own site, **Shawnee Township** (Shawn
 - **City of Delphos** — blocked the audit client (HTTP 403); platform undetermined
 
 ### School districts
+
 **Finalsite:** Allen East, Delphos City, Elida Local, Spencerville Local · **Edlio:** Perry Local · **eSchoolView:** ESC · **Wix:** Lima City Schools · **NOW Marketing:** Apollo Career Center · **Undetermined (JS-rendered):** Shawnee Local (`limashawnee.com`), Bath Local (`bathwildcats.org`)
 
 ### No official website
+
 - **Townships:** Amanda, Jackson, Marion, Monroe, Richland, Spencer, Sugar Creek (contact via county only)
 - **Villages:** Harrod (Facebook only), Lafayette (placeholder)
 - **Fort Shawnee** — residents voted to **disincorporate in 2012**; no municipal government or site
@@ -82,4 +87,4 @@ The one BOSC-adjacent subdivision with its own site, **Shawnee Township** (Shawn
 - "Inferred CorpComm" on the four county subdomains rests on an identical WordPress-6.9.4 / GoDaddy / shared-template signature, not an in-page credit — strong but not a self-attribution. If you need it courtroom-solid, the proof is a single `view-source` on each footer (or the county's web-services contract).
 - Three sites were bot-blocked or JS-rendered at capture (Delphos, Shawnee/Bath schools) and are marked undetermined rather than guessed.
 
-_Sources for entity rosters and URLs: Allen County Commissioners/Treasurer directories, LACRPC, and per-entity searches; full citations are in the capture log. Vendor attributions are first-party (the sites' own footers/links), saved under the records folder above._
+*Sources for entity rosters and URLs: Allen County Commissioners/Treasurer directories, LACRPC, and per-entity searches; full citations are in the capture log. Vendor attributions are first-party (the sites' own footers/links), saved under the records folder above.*

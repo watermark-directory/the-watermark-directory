@@ -103,6 +103,7 @@ hand. Cross-ref the ECHO Maumee discharger inventory
 ## 3. Corpus-integrity gaps (minor)
 
 ### Commissioners minutes series — broadly complete
+
 934 files in [`commissioners/minutes/raw/`](../../documents/commissioners/minutes/) spanning 2023–2026: **475 agendas (`A…`) / 453 minutes (`M…`)**, 468 distinct meeting-dates parsed. The 22-file agenda/minutes asymmetry is **mostly not real absence**:
 
 - **Recent publication lag (not a gap):** 12 dates **2026-03-03 → 2026-04-20** have an agenda but no minutes — these are the most recent meetings relative to the 2026-04-17 manifest snapshot; minutes simply weren't posted yet.
@@ -110,6 +111,7 @@ hand. Cross-ref the ECHO Maumee discharger inventory
 - **Typo'd agendas masquerading as gaps:** several early-2024 "minutes, no agenda" dates *do* have an agenda under a malformed name — e.g. `A20524-Special.pdf` (2024-02-05), `A22124-Special-1.pdf` (2024-02-21), `A22824-Special.pdf` (2024-02-28).
 
 ### ~12 malformed / misfiled filenames (break automated indexing)
+
 | Filename | Issue |
 |---|---|
 | `Govt.-Structure-Org-Chart-1.pdf` | **Not a meeting record** — reference handout misfiled in `minutes/raw/` |
@@ -122,12 +124,15 @@ hand. Cross-ref the ECHO Maumee discharger inventory
 | `A20524-Special.pdf`, `A22124-Special-1.pdf`, `A22824-Special.pdf` | 5-digit dates (leading zero dropped) |
 
 ### PRR-01 bundle derived files — not committed (low concern)
+
 The [bundle index](../../documents/aedg/PRR-01-bundle.ocr.pdf.index.yaml) references seven `derived_files` (`Allen_County_PRR_searchable.pdf`, `..._full_text.txt`, `..._exhibit_index.txt`, `Allen_County_Project_Master_Table.md`, `BOSC_Tetra_Tech_OPC.yaml`, `BOSC_OPC_Detailed_Line_Items.yaml`). None are in `data/documents/aedg/` — but they are **regenerable derivatives** of `PRR-01-bundle.ocr.pdf`, which **is** present. Not lost source material.
 
 ### Sanitary as-built present but not yet extracted
+
 *Added 2026-06-11 (issue #41).* [`sanitary/indianbrook-ps-asbuilt-2007.pdf`](../../documents/sanitary/indianbrook-ps-asbuilt-2007.pdf) — the 2007 Indian Brook pump-station as-built (4-page scan, **no text layer**) — is **present** in the corpus but **not yet grounded**: `data/extracted/sanitary/` carries no structured extraction, so the 8" forcemain / three-phase upgrade it documents is cited only secondhand (`data/reference/periplus/watch-items.geojson` "2007 as-built"; [`../../../docs/legal/mandamus-analysis.md`](../../../docs/legal/mandamus-analysis.md) §503). The discipline-agnostic `kind=engineering` / `kind=sanitary` extractor (`bosc.pipeline.extract.extract_engineering`) now exists; the structured `.sanitary.yaml` awaits a keyed vision pass (`ANTHROPIC_API_KEY`, tracked in #124). This is the one piece of sanitary as-built evidence that **is** in hand against the Category-B wastewater hole above (§1, items 5–15).
 
 ### Provenance — clean
+
 Every `*.pdf` cited across `extracted/**` resolves to a real file under `data/documents/`. (Of 94 distinct cited names, the only 2 "unresolved" are false positives: a Google-Slides export title and a prose fragment, not file references.) The 5 PRR-production binaries named in the response index are all present in [`prr-production-2026-06-05/`](../../documents/legal/prr-mandamus/prr-production-2026-06-05/) — the index's "binaries to be added" note is stale.
 
 ---
@@ -139,6 +144,7 @@ Every `*.pdf` cited across `extracted/**` resolves to a real file under `data/do
 **Now ingested.** The 2026-05-28 **final** PTI (Ohio EPA eDocument `4132514`, 66 pp incl. a 64-item Response to Comments) is committed at [`../../documents/permits/bistrozzi-permits/4132514.pdf`](../../documents/permits/bistrozzi-permits/4132514.pdf) → [`../permits/4132514.epa.yaml`](../permits/4132514.epa.yaml). It joins the already-committed 2025-12-10 **draft** of the same permit ([`3987141`](../permits/3987141.epa.yaml) / [`3987144`](../permits/3987144.epa.yaml)) — which it supersedes and whose flagged 114-vs-115 generator discrepancy it resolves.
 
 **What it puts on a primary footing:**
+
 - **Genset count + the three-hall grouping.** 115 emissions units P001–P115 — P001–P114 are identical data-hall gensets in **three groups of 38** (GEN 1/2/3), P115 is a separate, smaller **HUBGEN**; the 36 cooling towers are **three groups of 12** (TWR 1/2/3). The three-group emission-unit structure corroborates the anticipated **≈ three data halls** (38 gensets + 12 towers each).
 - **Synthetic-minor caps:** NOx **235.62 tpy** + CO **96.06 tpy** (rolling 12-month, P001–P115 combined) — the federally enforceable limits keeping the facility under major-source NSR (it is **major for Title V**); Tier 2 CI engines under 40 CFR 60 Subpart IIII, fueled ULSD/HVO ≤ 15 ppm S.
 
@@ -190,6 +196,7 @@ pre-cutover 2026-04-17 snapshot.
 ---
 
 ## Cross-refs
+
 - [`bosc-prr-production-2026-06-05.response-index.yaml`](prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml) — the production tracker §1 is read from
 - [`bosc-prr-production-2026-06-05.analysis.md`](prr-mandamus/bosc-prr-production-2026-06-05.analysis.md) · [`../../../docs/legal/mandamus-analysis.md`](../../../docs/legal/mandamus-analysis.md)
 - [`allen-county-web-vendor-audit.md`](web-vendor-audit/allen-county-web-vendor-audit.md) · [`allen-county-level-sites.md`](web-vendor-audit/allen-county-level-sites.md) — item-16 custody

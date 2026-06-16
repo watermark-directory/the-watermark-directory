@@ -5,6 +5,7 @@ _Coverage: 634 of 634 indexed meetings have OCR text (100%) — 2,283 pages_
 _Date range (OCR'd): 2002-01-01 → 2026-04-20_
 
 ## Summary
+
 | Section | Count |
 |---|---:|
 | Economic Development Instruments | 223 |
@@ -278,7 +279,7 @@ _Date range (OCR'd): 2002-01-01 → 2026-04-20_
 
 | Date | Kind | Page | Item | Context |
 |---|---|---:|---|---|
-| — | regular | 2 | — | AWNEE FISCAL OFFICER Kevin Cooley 2530 Ft. Amanda Road Lima Ohio 45804 419-991-8706 3/31/28 cooley.k@shawneetownship.com SHAWNEE TWP. HOUSE Shawnee Township House 2530 Ft. Amanda Road Lima Ohio 45804 419-991-8706 fax 419-991-0056 Meetings: 7:00 P.M., 2nd & 4th Monday SPENCER CHAIRMAN Rick W. Kel |
+| — | regular | 2 | — | AWNEE FISCAL OFFICER Kevin Cooley 2530 Ft. Amanda Road Lima Ohio 45804 419-991-8706 3/31/28 <cooley.k@shawneetownship.com> SHAWNEE TWP. HOUSE Shawnee Township House 2530 Ft. Amanda Road Lima Ohio 45804 419-991-8706 fax 419-991-0056 Meetings: 7:00 P.M., 2nd & 4th Monday SPENCER CHAIRMAN Rick W. Kel |
 | 2024-02-01 | regular | 4 | Resolution #98-24 | sioner Winegardner moved for approval. Motion seconded by Commissioner Noonan. This plat is for the expansion of an existing subdivision in Shawnee Township. The roll was called and the resolution was approved unanimously. \| ANNOUNCEMENTS \| Krista Bohn re: Real Estate Taxes 1st half of Real E |
 | 2024-02-15 | regular | 8 | — | Provided an update on the Drone Team -will work with CORSA on coverage for the drone Discussion on Hazmat Team -Shawnee Township Fire Chief has changed, anda new Hazmat Chief will need to be determined Provided an update on upcoming exercises New Command Bus is sched |
 | 2024-02-28 | special | 3 | — | t Regulations Second Public Hearing Present- Adam Haunhorst, Cody Doyle, Tara Reynolds- Bale, Brion Rhodes, Mark Droll, Zach Gerdeman, and Shawnee Township Trustees Ted Ciminillo and Joe \| Recker Commissioner Seibert provided an overview of the history of the Access Management Regulations Pla |
@@ -780,7 +781,7 @@ _Date range (OCR'd): 2002-01-01 → 2026-04-20_
 
 | Date | Kind | Page | Item | Context |
 |---|---|---:|---|---|
-| 2024-05-30 | regular | 3 | — | RECESS 11:00 a.m. Discussion re: Data Center - Brian Mauk RECESS 11:30 a.m. Joint Board Meeting re: West Jennings Creek via WebEx https://vwcounty.my.webex.com/vwcounty.my/j.php ?7MTI |
+| 2024-05-30 | regular | 3 | — | RECESS 11:00 a.m. Discussion re: Data Center - Brian Mauk RECESS 11:30 a.m. Joint Board Meeting re: West Jennings Creek via WebEx <https://vwcounty.my.webex.com/vwcounty.my/j.php> ?7MTI |
 | 2024-05-30 | regular | 5 | — | exterior finishes e Goodman’s signed the contract for right-of-entry to complete the Phase I 11:05 a.m. RECESS 11:06 a.m. Discussion re: Data Center - Brian Mauk and Keith Cheney e Current contract for virtual servers is with VM Ware and they have been bought by Broadcom e Discussion o |
 | 2024-05-30 | regular | 5 | — | General Fund Budget e Discussion on other options available—Nutanix -switching would double the Capital Budget for IT as the hardware for Data Center and Domestic Relations would both need to be switched e Brian Mauk will provide quotes once he receives them from VM Ware and will look in |
 | 2024-06-06 | regular | 8 | — | d an overview of the partnership between AEDG and Allen County Port Authority -review of Brownfield Grant projects Discussion on proposed Data Center project -Zoning Resolutions will need to be amended to include Data Centers prior to project moving forward -discussion on Access Manageme |
