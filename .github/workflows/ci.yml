@@ -11,9 +11,10 @@ on:
 # trigger-level `paths:` filter would skip the whole workflow on, say, a
 # frontend-only PR, leaving that required check stuck "pending" and blocking the
 # PR forever. A job skipped by an `if:` condition instead reports as success, so
-# the gate is satisfied. Net effect: the Python `check` job is skipped when only
-# frontend/ changed, the Astro `frontend` job is skipped when only the backend
-# changed, and required-check semantics still hold.
+# the gate is satisfied. Net effect: each job (`check` = Python backend, `frontend`
+# = Astro site, `markdown` = repo-wide Markdown lint) is skipped when its tree is
+# untouched, and required-check semantics still hold. `check` and `markdown` are the
+# required checks (see .github/config/index.ts `requiredChecks`).
 
 jobs:
   # Detect which half of the repo a push/PR touched. Cheap: no LFS, no deps —
@@ -23,6 +24,7 @@ jobs:
     outputs:
       backend: ${{ steps.filter.outputs.backend }}
       frontend: ${{ steps.filter.outputs.frontend }}
+      markdown: ${{ steps.filter.outputs.markdown }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -41,6 +43,12 @@ jobs:
             frontend:
               - 'frontend/**'
               - 'mise.toml'
+              - '.github/workflows/ci.yml'
+            markdown:
+              - '**/*.md'
+              - '.markdownlint-cli2.yaml'
+              - 'package.json'
+              - 'package-lock.json'
               - '.github/workflows/ci.yml'
 
   check:
@@ -118,3 +126,27 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  # Repo-wide Markdown lint (markdownlint-cli2). Node, but separate from the Astro
+  # frontend job — it lints hand-authored docs across the repo (data/, docs/, root, …),
+  # not the site. Config + ignores (generated docs, frontend, notebooks) live in
+  # .markdownlint-cli2.yaml, which also sets gitignore:true.
+  markdown:
+    needs: changes
+    if: ${{ needs.changes.outputs.markdown == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Markdown lint
+        run: npx markdownlint-cli2
