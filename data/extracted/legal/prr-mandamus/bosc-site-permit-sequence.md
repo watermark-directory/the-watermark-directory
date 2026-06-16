@@ -49,13 +49,29 @@ on-site alternatives analysis "for the entire site" — a ~358-ac delineation). 
 authorization covering the broader site was thus still pending/incomplete as disturbance
 proceeded. The corpus does not show its later disposition.
 
+**3. A separate SWP3 documents the corridor's CGP coverage — for the outfall, not the campus.**
+The **BOSC Storm Outfall** (the project's storm-discharge channel, which carries the site's storm
+flow to **Pike Run** → Ottawa) is built under its **own** SWP3 — [`plans/4091286`](../../plans/4091286.engineering.yaml)
+(Ohio EPA eDoc 4091286, prepared **2026-04-16** by **WSP USA** for operator **George J. Igel &
+Co.**), bundled with the Beery Rd./Cole St. roundabout. That SWP3 lists a **Notice of Intent +
+Ohio EPA CGP Authorization** as its **Appendix A** — so for this piece the construction-stormwater
+coverage process *is* on the record. It is a **different project, permittee, and timeframe** from
+the campus mass-grading (a 5.71-ac roundabout+outfall build, Igel/WSP, construction
+2026-05-15→2027-12-31 — not the 195-ac campus work under Turner / SW1225), so it does **not**
+resolve the campus "TBD." But it makes the campus inspections' persistent "TBD" more conspicuous:
+the same corridor's CGP coverage is documented for the outfall. The outfall SWP3's own `OHC…`
+number is likewise **not in the body** — it sits in Appendix A (not in the corpus), a thread
+parallel to #143.
+
 ## Gaps to close
 - The **NPDES CGP coverage record** (NOI + `OHC…` number + effective date) — Ohio EPA ([#143](../corpus-completeness-audit.md)).
 - The **disposition of DSW401252260W** after the 2025-12-23 incompleteness letter.
 - The **exact start date** of earth disturbance (records establish "underway by 2025-12-08").
+- The **outfall SWP3 Appendix A** (NOI + Ohio EPA CGP authorization + the outfall's `OHC…` number) — referenced by [`plans/4091286`](../../plans/4091286.engineering.yaml) but not printed in its body.
 
 ## Cross-refs
 - [`bosc-prr-production-2026-06-12-aswcd.response-index.yaml`](bosc-prr-production-2026-06-12-aswcd.response-index.yaml) · [`.analysis.md`](bosc-prr-production-2026-06-12-aswcd.analysis.md) — the ASWCD production (ESC + SW1225)
 - [`../../permits/3788677.epa.yaml`](../../permits/3788677.epa.yaml) · [`/3796349`](../../permits/3796349.epa.yaml) · [`/3949585`](../../permits/3949585.epa.yaml) — the three 401 records
 - [`../../plans/bosc-site-footprint.yaml`](../../plans/bosc-site-footprint.yaml) — the 195/115-ac disturbance footprint (#149)
+- [`../../plans/4091286.engineering.yaml`](../../plans/4091286.engineering.yaml) — SWP3 for the Beery/Cole roundabout + **BOSC Storm Outfall** (Igel/WSP) → Pike Run
 - [`../corpus-completeness-audit.md`](../corpus-completeness-audit.md) — standing audit (NPDES gap; #143)
