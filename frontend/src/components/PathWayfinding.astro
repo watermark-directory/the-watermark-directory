@@ -1,0 +1,37 @@
+---
+/**
+ * Path wayfinding — the "you are on the guided walk · step N of 5" affordance
+ * (design handoff: Design System artboard → "Path wayfinding"). Unobtrusive,
+ * always offers an exit. Dots link to the live chapters; the current step is
+ * widened and outlined. SSR-only, no JS.
+ */
+import { WALK_CHAPTERS, WALK_TOTAL, WALK_INDEX_HREF, walkHref } from "../lib/walk";
+
+interface Props {
+  /** 1-based current step (1–5). */
+  step: number;
+  /** Where "leave" goes (defaults to the walk index). */
+  leaveHref?: string;
+}
+const { step, leaveHref = WALK_INDEX_HREF } = Astro.props;
+---
+
+<nav class="walk-bar" aria-label={`Guided walk — step ${step} of ${WALK_TOTAL}`}>
+  <span class="walk-bar-label">On the guided walk</span>
+  <div class="walk-dots">
+    {
+      WALK_CHAPTERS.map((c) => {
+        const state = c.step === step ? "is-current" : c.step < step ? "is-done" : "is-future";
+        const title = `Step ${c.step}: ${c.title}`;
+        const current = c.step === step ? "step" : undefined;
+        return c.live ? (
+          <a class:list={["walk-dot", state]} href={walkHref(c.slug)} title={title} aria-label={title} aria-current={current}></a>
+        ) : (
+          <span class:list={["walk-dot", state]} title={`${title} (drafting)`} aria-label={`${title} (drafting)`} aria-current={current}></span>
+        );
+      })
+    }
+  </div>
+  <span class="walk-step">step {step} / {WALK_TOTAL}</span>
+  <a class="walk-leave" href={leaveHref}>✕ leave</a>
+</nav>

@@ -1,0 +1,112 @@
+---
+/**
+ * Guided walk — Chapter 3 of 5: "What it does to the water". The verified anchor
+ * is the NPDES 7Q10 dilution screen (the receiving streams are already
+ * near-undiluted at design low flow). The cooling-draw comparison is a
+ * reservoir-buffered worst-case bound, carried as [inference] in the prose — not
+ * as a record read. Pays off into the live hydrology dashboard.
+ */
+import Base from "../../layouts/Base.astro";
+import PathWayfinding from "../../components/PathWayfinding.astro";
+import RecordTeardown from "../../components/RecordTeardown.astro";
+import { NPDES_TEARDOWN } from "../../lib/teardowns";
+import { chapterByStep, WALK_INDEX_HREF, walkHref } from "../../lib/walk";
+import { withBase } from "../../lib/site";
+
+const STEP = 3;
+const prev = chapterByStep(STEP - 1);
+const next = chapterByStep(STEP + 1);
+---
+
+<Base
+  title="What it does to the water — Chapter 3"
+  section="watershed"
+  description="A data center cools itself with water. Read what the receiving streams can spare — Ohio EPA already wrote it down, in the low flows it uses to permit every discharge."
+>
+  <div class="walk-chapter-page">
+    <PathWayfinding step={STEP} />
+
+    <div class="walk-chapter-eyebrow">Chapter {STEP} of 5 · the guided walk</div>
+    <h1 class="walk-chapter-h1">What it does to the water</h1>
+
+    <div class="walk-prose">
+      <p>
+        A data center cools itself with water, and the water it gives back is not
+        the water it takes — evaporation is a permanent loss to the basin. Before
+        asking what the campus removes, read what the receiving streams can spare.
+        Ohio EPA already wrote it down, in the low-flow number it uses to set the
+        limits on every discharge.
+      </p>
+    </div>
+
+    <RecordTeardown record={NPDES_TEARDOWN} layout="split" />
+
+    <div class="walk-prose">
+      <p>
+        Now the campus draw. At full build its consumptive cooling load is on the
+        order of the Ottawa's entire design low flow — but read that comparison
+        carefully. It is a <strong>worst-case bound</strong>, not the operating
+        reality: Lima doesn't pump from the river at low flow, it lives off five
+        off-stream reservoirs filled at high flow. The honest constraint is
+        reservoir drawdown, and the honest tag on “the draw is many times the
+        7Q10” is <code>[inference]</code>, not <code>[verified]</code>. What is not
+        in question is the starting point this chapter's record establishes: the
+        water was already stretched thin.
+      </p>
+      <p>
+        And because the screen is built from live gauges, you don't have to take a
+        static number on faith — the hydrology dashboard re-runs it against the
+        Ottawa's current flow from USGS on every build.
+      </p>
+    </div>
+
+    <div class="callout walk-takeaway">
+      <p class="callout-title">What you can read anywhere now</p>
+      <p>
+        The <strong>7Q10</strong> is the denominator of a discharge permit — the
+        smaller the receiving stream, the less any limit actually protects it. And
+        when a withdrawal is compared to a low flow, ask whether the supply is
+        <em>buffered</em> — reservoirs, storage — before you read the ratio as the
+        lived reality.
+      </p>
+    </div>
+
+    <h2 class="walk-explore-h">Explore this in the library</h2>
+    <div class="doors">
+      <a class="door" href={withBase("/watershed/hydrology")}>
+        <span class="door-label">Live hydrology dashboard</span>
+        <span class="door-blurb">The screen, re-run against the Ottawa's current USGS flow.</span>
+      </a>
+      <a class="door" href={withBase("/watershed/map")}>
+        <span class="door-label">Watershed map</span>
+        <span class="door-blurb">The WWTP outfalls and the streams they discharge to.</span>
+      </a>
+      <a class="door" href={withBase("/docs/hydrology")}>
+        <span class="door-label">The hydrology write-up</span>
+        <span class="door-blurb">The full Tier-0 water balance and the assimilative-capacity screen.</span>
+      </a>
+    </div>
+
+    <nav class="walk-nav" aria-label="Chapter navigation">
+      {
+        prev?.live ? (
+          <a class="walk-nav-link walk-nav-prev" href={walkHref(prev.slug)}>← {prev.step}. {prev.title}</a>
+        ) : prev ? (
+          <span class="walk-nav-link walk-nav-prev is-disabled" title="Drafting">← {prev.step}. {prev.title}</span>
+        ) : (
+          <span></span>
+        )
+      }
+      <a class="walk-nav-leave" href={WALK_INDEX_HREF}>All chapters</a>
+      {
+        next?.live ? (
+          <a class="walk-nav-link walk-nav-next" href={walkHref(next.slug)}>{next.step}. {next.title} →</a>
+        ) : next ? (
+          <span class="walk-nav-link walk-nav-next is-disabled" title="Drafting">{next.step}. {next.title} →</span>
+        ) : (
+          <span></span>
+        )
+      }
+    </nav>
+  </div>
+</Base>
