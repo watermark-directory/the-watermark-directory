@@ -8,7 +8,7 @@ Secretary of State business filings.
 
 | Pattern | Kind | What |
 |---|---|---|
-| `<app-id>.epa.yaml` | `epa` | One Section 401 Water Quality Certification application per EPA Application ID (Bistrozzi + Dazzler filings). |
+| `<app-id>.epa.yaml` | `epa` | One Ohio EPA permit action per document ID — mostly Division of Surface Water §401 / PTI letters (Bistrozzi + Dazzler), plus the DAPC **air Permit-to-Install P0138965**: the draft (`3987141`/`3987144`) and the 2026-05-28 **final** (`4132514`, which adds the emission-unit groups, synthetic-minor caps, and 64-item Response to Comments in extra fields). |
 | `<app-id>.wetland.yaml` | `wetland` | A USACE Wetland Determination Data Form — field point-sample of the three wetland criteria (`3727950` WD-1, `3727951` WE-1; Project BOSC, Bistrozzi parcels). |
 | `sos-<entity>-<date>.sos.yaml` | `sos` | Ohio Secretary of State business-entity filings (Bistrozzi Addition LLC, Magenta Capital LLC, Tilted Gate LLC). |
 | `<person>.person.yaml` | `person_intel` | Person-intel notes on individuals in the Bistrozzi research folder (e.g. `montfort-michael` — WSGR D.C. benefits/comp counsel; low-significance). |

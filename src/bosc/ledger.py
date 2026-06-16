@@ -243,16 +243,21 @@ def _burdens(settings: Settings) -> list[BurdenItem]:
         pass
 
     # Air permit — a document-cited static fact (the extraction structure is permit-specific).
-    air = settings.extracted_dir / "permits" / "3987144.epa.yaml"
+    air = settings.extracted_dir / "permits" / "4132514.epa.yaml"
     if air.is_file():
         out.append(
             BurdenItem(
                 thread="air permit",
                 headline=(
-                    "114 diesel emergency gensets (~313 MW backup), permitted synthetic-minor "
-                    "to stay just under major-source NSR review"
+                    "115 diesel emergency gensets (114 data-hall + 1 HUBGEN, ~313 MW backup), "
+                    "permitted synthetic-minor to stay just under major-source NSR review"
                 ),
-                source="data/extracted/permits/3987144.epa.yaml (OEPA PTI P0138965)",
+                # Count + synthetic-minor caps from the final PTI; the ~313 MW per-engine ekW
+                # is from the draft public notice (engine size is CBI-redacted in the final).
+                source=(
+                    "data/extracted/permits/4132514.epa.yaml (OEPA Final Air PTI P0138965, "
+                    "issued 2026-05-28; ekW basis: draft notice 3987141/3987144)"
+                ),
             )
         )
 

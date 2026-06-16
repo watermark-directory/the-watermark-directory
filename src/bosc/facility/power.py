@@ -58,8 +58,11 @@ _IT_LOAD_MW = 275.0  # midpoint of the 250-300 MW estimate (IT ~= backup at N+1)
 _IT_LOAD_LOW_MW = 250.0
 _IT_LOAD_HIGH_MW = 300.0
 _AIR_PERMIT_CITE = (
-    "OEPA Air PTI P0138965 (Facility 0302022054): 114 gensets x 2.75 ekW = "
-    "~313 MW backup; IT ~250-300 MW (N+1)"
+    "OEPA Air PTI P0138965 (Facility 0302022054), committed "
+    "data/extracted/permits/4132514.epa.yaml (final, 2026-05-28): "
+    "114 hall gensets x 2.75 ekW = ~313 MW backup; IT ~250-300 MW (N+1). "
+    "Per-engine ekW from the draft public notice (3987141/3987144); engine "
+    "size CBI-redacted in the final permit."
 )
 
 # --- Cooling / mechanical overhead (issue #87) -------------------------------
