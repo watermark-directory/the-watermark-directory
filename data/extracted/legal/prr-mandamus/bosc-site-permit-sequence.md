@@ -19,8 +19,10 @@ County stormwater permit (SW1225), and the Allen SWCD ESC inspection series.
 | 2025-07-02 | wetland-401 | Level-1 isolated-wetland application received (DSW401251760W) | `permits/3788677` |
 | **2025-08-12** | wetland-401 | **Ohio EPA grants** the Level-1 permit (Cat-1, 0.33 ac); fill by 2027-08-12 | `permits/3788677` |
 | 2025-08-18 | wetland-401 | Mitigation Purchase Agreement complete | `permits/3796349` |
+| 2025-10-29 | npdes-cgp | Turner files the NPDES CGP **New** NOI (`2GC08468*AG`), 304.27 ac → Pike Run | `permits/lma1a-npdes-cgp-coverage` |
 | 2025-10-30 | governance | Project BOSC preconstruction meeting requested (EMH&T) | ASWCD ex. #1 |
 | 2025-11-10 | stormwater | Turner pays the $5,800 stormwater-permit fee (check #637852) | ASWCD p54 |
+| **2025-11-10** | **npdes-cgp** | **Ohio EPA APPROVES campus CGP coverage `2GC08468*AG` (effective 2025-11-10)** | `permits/lma1a-npdes-cgp-coverage` |
 | **2025-11-14** | stormwater | County approves Mass Grading / **SWPPP** / Drainage Report + issues **SW1225** | ASWCD pp14,52,53 |
 | **2025-12-08** | disturbance | **First ESC inspection #177506 — clearing/grubbing + mass grading underway; NPDES = TBD** | ASWCD pp10-12 |
 | 2025-12-09 | wetland-401 | **Level-2** wetland application received (DSW401252260W) — *day after clearing* | `permits/3949585` |
@@ -40,11 +42,19 @@ effective until an approval letter granting coverage from the director of Ohio E
 the applicant"* (Part I.F.2), for any site disturbing ≥1 acre (or part of a larger common plan that
 will). The records show active clearing/grubbing + mass grading from **2025-12-08** on a
 **195-acre** developed footprint — far above the 1-acre threshold — while every produced inspection
-lists the Site NPDES Number as **"TBD,"** through at least 2026-06-05. But the site's CGP coverage
-record itself is **not in the corpus** — a grep finds no `OHC…` number anywhere. "TBD" on the
-SWCD's forms is not proof that coverage did not exist (Turner, the assigned CGP permittee, may have
-held coverage the SWCD simply didn't record). The governing permit is now primary-source; **the
-site's own coverage record is still required to resolve timing — issue #143.**
+lists the Site NPDES Number as **"TBD,"** through at least 2026-06-05.
+
+> **Resolved 2026-06-16 — coverage *preceded* disturbance.** The campus coverage record was acquired
+> ([`../../permits/lma1a-npdes-cgp-coverage.epa.yaml`](../../permits/lma1a-npdes-cgp-coverage.epa.yaml)):
+> Turner filed the **New** NOI on **2025-10-29** and Ohio EPA approved coverage **`2GC08468*AG`**
+> **effective 2025-11-10** (eDoc 3898357, signed Director John Logue) — **~4 weeks before** the earliest
+> documented earth disturbance (2025-12-08). The persistent *"Site NPDES Number: TBD"* on the SWCD's
+> forms was therefore a **recording gap on those forms, not an absence of coverage** — confirming the
+> alternative hypothesis flagged here (Turner held coverage the SWCD simply didn't record). Igel was
+> later added as a **co-permittee** (`*BG`, eff. 2025-11-12), and a 2026-06-10 modification raised the
+> disturbance acreage 304.27→309.2. *Analysis, not a legal conclusion.* **Closes #143 and #154.**
+> (Caveat: the NOI's declared "project start" of 2025-11-03 is 7 days before the effective date, but is a
+> planning date, not evidence of actual commencement; nothing is documented before 2025-12-08.)
 
 **2. Level-2 wetland authorization vs disturbance.** The narrow Category-1 wetlands (0.33 ac)
 *were* authorized first (2025-08-12, before disturbance). But the broader **Level-2** fill
@@ -77,7 +87,7 @@ the same corridor's CGP coverage is documented for the outfall.
 > campus #143 (different project, permittee, and footprint).
 
 ## Gaps to close
-- The **campus NPDES CGP coverage record** (NOI + the site's Facility Permit Number + effective date) for the 195-ac mass-grading — Ohio EPA ([#143](../corpus-completeness-audit.md)). *(The governing general permit OHC000006 is now in-corpus; the site-specific coverage record is not.)*
+- ~~The **campus NPDES CGP coverage record**~~ — **closed 2026-06-16**: acquired as facility `2GC08468` (Turner's `*AG` effective 2025-11-10; Igel co-permittee `*BG` 2025-11-12; modified to 309.2 ac 2026-06-10) — [`permits/lma1a-npdes-cgp-coverage`](../../permits/lma1a-npdes-cgp-coverage.epa.yaml). Coverage preceded the 2025-12-08 disturbance by ~4 weeks (closes #143/#154).
 - The **disposition of DSW401252260W** after the 2025-12-23 incompleteness letter.
 - The **exact start date** of earth disturbance (records establish "underway by 2025-12-08").
 - ~~The **outfall SWP3 Appendix A**~~ — **closed 2026-06-16**: acquired as eDoc [`4091289`](../../plans/4091289.pdf); outfall Facility Permit Number `2GC08747*AG`, effective 2026-04-22 under OHC000006.
@@ -89,4 +99,5 @@ the same corridor's CGP coverage is documented for the outfall.
 - [`../../plans/4091286.engineering.yaml`](../../plans/4091286.engineering.yaml) — SWP3 for the Beery/Cole roundabout + **BOSC Storm Outfall** (Igel/WSP) → Pike Run; `record.npdes_coverage` carries the outfall's `2GC08747*AG`
 - [`../../plans/4091289.pdf`](../../plans/4091289.pdf) — Ohio EPA **CGP Approval Letter** (eDoc 4091289) — the outfall's Facility Permit Number + effective date
 - [`../../regulatory/ohc000006-construction-stormwater-gp.yaml`](../../regulatory/ohc000006-construction-stormwater-gp.yaml) — the governing statewide CGP **OHC000006** (the standard, not the site record)
+- [`../../permits/lma1a-npdes-cgp-coverage.epa.yaml`](../../permits/lma1a-npdes-cgp-coverage.epa.yaml) — the **campus** coverage record `2GC08468` (Turner `*AG` eff. 2025-11-10; Igel co-permittee) — resolves #143/#154
 - [`../corpus-completeness-audit.md`](../corpus-completeness-audit.md) — standing audit (NPDES gap; #143)

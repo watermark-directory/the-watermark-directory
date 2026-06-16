@@ -9,7 +9,8 @@ summary: George J. Igel & Co. contact named as the SWP3 operator for the Beery R
 expanded_research: false
 sources:
   - data/extracted/plans/4091286.engineering.yaml
-  - data/documents/plans/4091289.pdf   # Ohio EPA CGP approval letter addressed to him as NOI applicant
+  - data/documents/plans/4091289.pdf   # Ohio EPA CGP approval letter (outfall, 2GC08747) addressed to him
+  - data/documents/permits/bistrozzi-permits/4150344.pdf   # Ohio EPA co-permittee approval on the CAMPUS coverage (2GC08468)
 tags: [contractor, igel, stormwater, roundabout]
 ---
 
@@ -30,11 +31,17 @@ construction-stormwater coverages in the same corridor (see
 SWP3 also names Igel's SWP3 coordinator **John Powers** and 24-hour emergency contact **Joe Sharp**.
 
 He is also the named **applicant/permittee** on the Ohio EPA NPDES CGP **approval letter** for the
-site ([`plans/4091289.pdf`](../documents/plans/4091289.pdf), eDoc 4091289, April 22, 2026), which
+outfall ([`plans/4091289.pdf`](../documents/plans/4091289.pdf), eDoc 4091289, April 22, 2026), which
 assigns Facility Permit Number **`2GC08747*AG`** to "Berry Road and Cole Street Roundabout/BOSC
-Storm Outfall" — confirming Igel as the holder of record for the outfall's construction-stormwater
-coverage (distinct from Turner's campus coverage).
+Storm Outfall" — Igel as the holder of record for the outfall's construction-stormwater coverage.
 
-Low-significance, tracked-only: a contractor contact named on one stormwater instrument (now with
-his coverage authorization in hand). Promote (`expanded_research: true`) if Igel recurs across the
-corridor record.
+And he is a **co-permittee on the *campus* coverage** as well: the Ohio EPA co-permittee approval
+([`permits/bistrozzi-permits/4150344.pdf`](../documents/permits/bistrozzi-permits/4150344.pdf), eDoc
+4150344) adds George J. Igel & Co. (Batdorff) under Turner's campus facility number **`2GC08468*BG`**
+(effective 2025-11-12). So Igel is tied to **both** the campus (`2GC08468`, co-permittee) and the
+outfall (`2GC08747`, primary operator) construction-stormwater coverages — a corridor-party overlap
+worth noting.
+
+Low-significance, tracked-only — though Igel now **recurs** across the corridor (both the campus and
+outfall CGP coverages), which is the promotion trigger noted here. Consider `expanded_research: true`
+if Igel's role expands further.

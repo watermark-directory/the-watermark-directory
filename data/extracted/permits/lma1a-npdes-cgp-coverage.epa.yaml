@@ -1,0 +1,125 @@
+doc_id: lma1a-npdes-cgp-coverage-2GC08468
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/permits/bistrozzi-permits/3898357.pdf
+companion_sources:
+- data/documents/permits/bistrozzi-permits/3898350.pdf    # initial New NOI (*AG), submitted 2025-10-29
+- data/documents/permits/bistrozzi-permits/4150344.pdf     # Igel co-permittee approval (*BG)
+- data/documents/permits/bistrozzi-permits/4150342.pdf     # modification NOI (309.2 ac), submitted 2026-06-01
+- data/documents/permits/bistrozzi-permits/4150345.pdf     # modification approval (*BG), eff 2026-06-10
+kind: epa
+pages_read:
+- 0
+- 1
+dpi: 0
+method: manual review of clean PDF text layers (Ohio EPA eBusiness-generated NOI forms + approval letters; not scans)
+source_text_excerpt: >-
+  November 10, 2025 ... Re: Approval Under Ohio EPA NPDES - Construction Site Stormwater General Permit -
+  OHC000006 ... Facility Name: LMA 1A ... Facility Location: N of W Bluelick Rd, E of N Cole St, Lima, Allen
+  ... Ohio EPA Facility Permit Number: 2GC08468*AG ... Permit Effective Date: November 10, 2025 ... John
+  Logue, Director.
+action:
+  confidence: high
+  warnings:
+  - >-
+    The *AG -> *BG suffix mechanics are inferred from the document set, not stated: *AG is Turner's initial
+    "New" coverage (eff 2025-11-10); *BG carries an effective date of 2025-11-12 on the Igel co-permittee
+    approval and is the number on the 2026-06-01 Modification (approved 2026-06-10). The
+    continuous-coverage-from-2025-11-10 finding does NOT depend on the suffix mechanics.
+  - >-
+    Each NOI's "Proposed Project Start Date" is 2025-11-03 (a planning date on the form), 7 days before the
+    *AG effective date (2025-11-10); but the earliest DOCUMENTED earth disturbance is 2025-12-08 (ASWCD ESC
+    #177506). The declared start is not evidence of actual commencement.
+  - >-
+    NOI lat/long 40.79391703, -84.12460022 differs slightly from the 401 permits' 40.795845, -84.123601 —
+    same campus, different reported point. Facility name "LMA 1A" and address "N of W Bluelick Rd, E of N
+    Cole St" preserved exactly as printed.
+  agency: Ohio EPA (Division of Surface Water)
+  program: NPDES Construction Site Stormwater General Permit (OHC000006) coverage
+  permit_no: 2GC08468*AG
+  action: approved
+  permit_action: new
+  action_date: '2025-11-10'          # the INITIAL coverage effective date — the dispositive timing fact
+  plans_received_date: '2025-10-29'  # initial New NOI submission
+  expiration_date: '2028-04-22'
+  applicant: Turner Construction Company
+  applicant_address: 28 N St. Clair Street Suite 200, Toledo, OH 43604
+  contact_name: Jared Grigg (Project EHS Manager)
+  contact_email: jgrigg@tcco.com
+  contact_firm: Turner Construction Company
+  project_name: LMA 1A (BOSC / Bistrozzi data-center campus)
+  site_address: N of W Bluelick Rd, E of N Cole St, Lima, Allen County, OH 45801 (40.79391703, -84.12460022)
+  affected_resource: construction stormwater; receiving water Pike Run
+  note: >-
+    Initial NPDES Construction General Permit coverage for the data-center campus, granted to Turner
+    Construction effective 2025-11-10 under OHC000006 (approval letter eDoc 3898357; New NOI eDoc 3898350,
+    submitted 2025-10-29). This is the campus coverage record the ASWCD left "TBD"; it RESOLVES the audit's
+    #143 and the #154 timing question — coverage attached 2025-11-10, ~4 weeks before the earliest
+    documented earth disturbance (2025-12-08). Signed John Logue, Director.
+
+facility_permit_number: 2GC08468
+general_permit: OHC000006
+receiving_stream: Pike Run
+director: John Logue
+total_land_disturbance_acres: 309.2   # current (modification); initial NOI was 304.27 ac
+project_window: 2025-11-03 (declared start) -> 2029-12-31 (estimated completion)
+
+coverage_history:
+  - date: '2025-10-29'
+    event: Turner submits the initial NOI (Coverage Type = New) for 2GC08468*AG
+    source: data/documents/permits/bistrozzi-permits/3898350.pdf
+    detail: 'Application ID 284394632; declared project start 2025-11-03, completion 2029-12-31; total land disturbance 304.27 ac; receiving Pike Run; Isolated Wetland APPROVED, PTI YET_TO_APPLY, Individual 401 NO; facility contact Amanda Maag (amaag@tcco.com); signed Jared Grigg, Project EHS Manager.'
+  - date: '2025-11-10'
+    event: Ohio EPA APPROVES 2GC08468*AG — initial campus coverage
+    source: data/documents/permits/bistrozzi-permits/3898357.pdf
+    detail: 'Facility Permit Number 2GC08468*AG; Permit Effective Date 2025-11-10; expires 2028-04-22. THE campus coverage record (Turner = permittee of record, matching SW1225 "NPDES Program = Turner Construction"). Signed John Logue, Director.'
+  - date: '2025-11-12'
+    event: 2GC08468*BG effective date — George J. Igel & Co. added as Co-Permittee
+    source: data/documents/permits/bistrozzi-permits/4150344.pdf
+    detail: 'Co-Permittee approval to George J. Igel & Co. (Christopher Batdorff) under 2GC08468*BG, Permit Effective Date 2025-11-12 (approval letter dated 2026-06-10). Igel is thus a co-permittee on the CAMPUS coverage, in addition to operating the separate BOSC Storm Outfall coverage 2GC08747*AG (plans/4091289).'
+  - date: '2026-06-01'
+    event: Turner submits a Modification NOI (309.2 ac)
+    source: data/documents/permits/bistrozzi-permits/4150342.pdf
+    detail: 'Application ID 287055577; Coverage Type = Modification; existing number 2GC08468*BG; total land disturbance raised 304.27 -> 309.2 ac; same project window; SWP3 attachment <None>.'
+  - date: '2026-06-10'
+    event: Ohio EPA APPROVES the modification 2GC08468*BG (current coverage)
+    source: data/documents/permits/bistrozzi-permits/4150345.pdf
+    detail: 'Facility Permit Number 2GC08468*BG; Permit Effective Date 2026-06-10; expires 2028-04-22. Signed John Logue, Director.'
+
+co_permittees:
+  - name: George J. Igel & Company, Inc.
+    contact: Christopher Batdorff
+    effective: '2025-11-12'
+    source: data/documents/permits/bistrozzi-permits/4150344.pdf
+    note: >-
+      Same Igel / Batdorff who hold the separate BOSC Storm Outfall coverage 2GC08747*AG (plans/4091289).
+      So Igel is tied to BOTH the campus coverage (co-permittee, 2GC08468) and the outfall (primary
+      operator, 2GC08747) — a corridor-party overlap.
+
+timing_determination:        # resolves #154
+  question: Did campus earth disturbance (>1 ac) begin before NPDES CGP coverage attached?
+  finding: >-
+    NO, on the documented record. Coverage 2GC08468*AG was effective 2025-11-10; the earliest DOCUMENTED
+    earth disturbance is 2025-12-08 (ASWCD ESC #177506). Coverage preceded documented disturbance by ~4
+    weeks. The persistent "Site NPDES Number: TBD" on the ASWCD ESC forms (2025-12-08 -> 2026-06-05) was a
+    RECORDING gap on the SWCD's own forms, not an absence of coverage — confirming the alternative
+    hypothesis the permit-sequence flagged (Turner held coverage the SWCD simply did not record). Analysis,
+    not a legal conclusion.
+  caveat: >-
+    The NOI's declared "Proposed Project Start Date" (2025-11-03) is 7 days before the *AG effective date,
+    but is a planning date on the form, not evidence of actual commencement; no earth disturbance is
+    documented before 2025-12-08.
+
+cross_refs:
+  - data/extracted/legal/prr-mandamus/bosc-site-permit-sequence.yaml    # the permit-vs-disturbance chronology (#143/#154)
+  - data/extracted/regulatory/ohc000006-construction-stormwater-gp.yaml  # the governing general permit (the standard)
+  - data/extracted/plans/4091286.engineering.yaml                        # the outfall coverage 2GC08747 (Igel/WSP) — Igel overlaps both
+  - data/extracted/permits/3788677.epa.yaml                              # Level-1 401 (Isolated Wetland APPROVED, referenced on the NOI)
+  - data/extracted/legal/corpus-completeness-audit.md                    # standing audit; #143
+
+relevance:
+  tags: [verified, npdes, construction-stormwater, ohc000006, bosc-site, turner, igel, coverage, permit-sequence]
+  note: >-
+    The campus's NPDES construction-stormwater coverage history (facility 2GC08468, "LMA 1A") under
+    OHC000006: Turner's initial *AG coverage effective 2025-11-10, Igel added as co-permittee (*BG, eff
+    2025-11-12), and a 2026-06-10 modification to 309.2 ac. Acquired 2026-06-16 from the Ohio EPA facility
+    file; resolves audit #143 (coverage record obtained) and #154 (coverage preceded the 2025-12-08
+    documented disturbance by ~4 weeks). Read from clean PDF text layers.
