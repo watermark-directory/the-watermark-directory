@@ -1,0 +1,115 @@
+kind: general_permit
+subject: >-
+  Ohio EPA statewide NPDES Construction Stormwater General Permit OHC000006 — the framework the BOSC
+  site's (still-owed) construction-stormwater coverage is issued under
+
+provenance:
+  sources:
+    - data/documents/regulatory/OHC000006.pdf        # the 61-pp general permit (eff. 2023-04-23)
+    - data/documents/regulatory/OHC000006_RTC.pdf     # the 49-pp Division of Surface Water Response to Comments
+  content_verified: '2026-06-16'   # both read from the PDF text layer (clean, not OCR-garbled)
+  evidence: Ohio EPA Division of Surface Water issued instrument (statewide general permit + its public-comment record)
+
+scope_caveat: >-
+  This is the STATEWIDE general permit, not the BOSC site's coverage record. It does NOT contain the
+  4110 N. Cole St. site's facility permit number (the `OHC...` coverage number), its NOI, or an
+  effective date — those per-site records remain the gap tracked as the completeness audit's #143
+  thread (obtainable from the Ohio EPA eBusiness Center / DSW coverage list). What this document
+  supplies is the *standard*: the exact permit conditions against which the site's documented "TBD"
+  coverage and 2025-12-08 earth disturbance are measured.
+
+permit:
+  permit_no: OHC000006
+  title: "General Permit Authorization for Stormwater Discharges Associated with Construction Activity under the NPDES"
+  issuing_agency: "Ohio EPA, Division of Surface Water"
+  director_signed: "Anne M. Vogel, Director"
+  effective_date: '2023-04-23'
+  expiration_date: '2028-04-22'
+  generation: "current generation of the statewide construction-stormwater GP; the permit provides for continuing coverage from its 'previous generations'"
+  authority: "Federal Water Pollution Control Act (33 U.S.C. 1251 et seq.) + ORC Ch. 6111; coverage granted per OAC Rule 3745-38-02"
+
+applicability_threshold:        # Part I.B, p3
+  rule: >-
+    "Construction activities disturbing one or more acres of total land or will disturb less than one
+    acre of land but are part of a larger common plan of development or sale that will ultimately
+    disturb one or more acres of land are eligible for coverage under this permit. The threshold
+    acreage includes the entire area disturbed in the larger common plan of development or sale."
+  source: OHC000006.pdf p3 (Part I.B)
+  bosc_note: >-
+    The 4110 N. Cole St. work — active clearing/grubbing + mass grading on a 195-ac developed footprint
+    within a ~358-ac delineation (bosc-site-permit-sequence) — is far above the 1-acre threshold and is
+    a "larger common plan of development," so CGP coverage is unambiguously required.
+
+coverage_timing:                # Part I.F.1.a + Part I.F.2, p7 — the heart of the #143 question
+  noi_deadline: >-
+    "Operators who intend to obtain initial coverage ... must submit a complete and accurate NOI
+    application form ... and appropriate fee at least 21 days (or 45 days in the Big Darby Creek
+    watershed and portions of the Olentangy watershed) prior to the commencement of construction activity."
+  coverage_not_effective_until: >-
+    "each operator shall seek coverage under this general permit prior to engaging in construction
+    activities. Coverage under this permit is not effective until an approval letter granting coverage
+    from the director of Ohio EPA is received by the applicant."
+  source: OHC000006.pdf p7 (Part I.F)
+  how_to_apply: "electronic NOI via the Ohio EPA eBusiness Center, https://ebiz.epa.ohio.gov (Part I.F.3, p7)"
+  coverage_number_term: >-
+    The per-site coverage number is the "Ohio EPA Facility Permit Number" (Part I.F, p7; co-permittees
+    share a single one). NOTE the format: it is NOT an `OHC…` number — `OHC000006` is the *general
+    permit* number. A granted site coverage number takes the form `2GC08747*AG` (district digit + `GC`
+    general-construction + site serial + `*AG` initial-coverage suffix; renewals `*BG`, etc.). Confirmed
+    by the live example in this corpus — the BOSC Storm Outfall's approval letter assigns `2GC08747*AG`
+    (plans/4091289.pdf; see plans/4091286.engineering.yaml).
+  bosc_note: >-
+    This is the precise standard the campus "TBD" is measured against: coverage must be applied for at
+    least 21 days before commencement and is NOT effective until the director's approval letter is
+    received. The ASWCD ESC inspections record active clearing/mass grading from 2025-12-08 with the
+    Site NPDES Number "TBD" through at least 2026-06-05 (bosc-site-permit-sequence). This SHARPENS but
+    does not resolve #143: "TBD" on the SWCD's forms is not proof coverage did not exist — the permittee
+    (Turner) may have held coverage the SWCD simply did not record. The dispositive record is the site's
+    facility permit number + NOI + approval-letter date, still owed from Ohio EPA.
+
+swp3_requirements:              # Part III, pp10-16 — what every covered site's SWP3 must contain
+  stand_alone_plan: "A SWP3 shall be developed for each site; it must be a comprehensive, stand-alone document containing the Part III.G information (Part III.A, p10)."
+  site_description_must_state: >-
+    "Total area of the site and the area of the site that is expected to be disturbed (i.e., grubbing,
+    clearing, excavation, filling or grading, including off-site borrow areas)" (Part III.G.1.b, p13) —
+    the same disturbed-acreage figures the BOSC SWP3s carry (bosc-site-footprint; plans/4091286 outfall SWP3).
+  public_record: >-
+    "All NOIs, general permit approval for coverage letters, and SWP3s are considered reports that shall
+    be available to the public in accordance with the Ohio Public Records law" (Part III.C.2.c, p12) —
+    i.e. the site's coverage letter is itself a public record obtainable from Ohio EPA.
+  source: OHC000006.pdf Part III, pp10-16
+
+response_to_comments:
+  citation: "Ohio EPA Division of Surface Water, Response to Comments — NPDES General Permit OHC000006"
+  public_hearing: '2023-01-23'
+  comment_period_ended: '2023-01-30'
+  division_contact: "Jason Fyffe, Division of Surface Water"
+  what: >-
+    The statewide public-comment record for the 2023 reissuance — not BOSC-specific. Retained as the
+    companion document establishing the rulemaking basis and Ohio EPA's contemporaneous reading of the
+    permit conditions above.
+  source: OHC000006_RTC.pdf (49 pp)
+
+bosc_relevance: >-
+  The governing instrument behind the corpus's open NPDES-coverage question (#143) and the outfall
+  SWP3's Appendix A (plans/4091286). It supplies no site-specific coverage record, but it replaces the
+  prior paraphrase ("Ohio's CGP requires coverage before disturbing >=1 acre") with the permit's own
+  language: NOI at least 21 days before commencement; coverage not effective until the director's
+  approval letter is received. The 4110 N. Cole St. disturbance (>=195 ac, documented underway
+  2025-12-08, Site NPDES "TBD" through 2026-06-05) is measured against exactly these conditions.
+  Analysis, not a determination — the site's own coverage record is still required to settle timing.
+
+cross_refs:
+  - data/extracted/legal/prr-mandamus/bosc-site-permit-sequence.yaml   # the permit-vs-disturbance chronology (#143)
+  - data/extracted/legal/prr-mandamus/bosc-site-permit-sequence.md
+  - data/extracted/plans/4091286.engineering.yaml                       # the BOSC Storm Outfall SWP3 (Appendix A = NOI + CGP auth)
+  - data/extracted/plans/bosc-site-footprint.yaml                       # the 195/358-ac disturbance footprint
+  - data/extracted/legal/corpus-completeness-audit.md                   # standing audit; the #143 NPDES gap
+
+relevance:
+  tags: [verified, regulatory, npdes, construction-stormwater, general-permit, swp3, framework, bosc-site, ohc000006]
+  note: >-
+    Statewide framework instrument (not a site record). Read from the PDF text layer. Establishes the
+    1-acre / larger-common-plan applicability threshold, the 21-day-prior NOI + approval-letter-effective
+    coverage rule, and the SWP3 content requirements — the standard the BOSC site disturbance sequence is
+    read against. The dispositive site coverage record remains owed (#143).
