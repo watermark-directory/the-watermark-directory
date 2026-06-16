@@ -59,7 +59,23 @@ jobs:
         run: uv python install 3.11
 
       - name: Install dependencies
-        run: uv sync --extra dev
+        run: uv sync --extra dev --frozen
+
+      # Persist incremental tool caches across runs. mypy is the big win (it only
+      # re-checks changed files on a warm cache); ruff/pytest caches are cheap extras.
+      # github.sha in the key means every run saves a fresh cache; restore-keys fall
+      # back to the most recent prior one. Cache dirs are set in pyproject.toml.
+      - name: Cache mypy / ruff / pytest
+        uses: actions/cache@v4
+        with:
+          path: |
+            .cache/mypy
+            .cache/ruff
+            .cache/pytest
+          key: toolcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-${{ github.sha }}
+          restore-keys: |
+            toolcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-
+            toolcache-${{ runner.os }}-py311-
 
       - name: Lint
         run: uv run ruff check .
@@ -71,7 +87,7 @@ jobs:
         run: uv run mypy
 
       - name: Test
-        run: uv run pytest
+        run: uv run pytest -n auto   # pytest-xdist: parallelize across the runner's cores
 
   # Build the Astro/MDX frontend (Epic #54). Decoupled from the Python job: it
   # builds against the committed frontend/sample-bundle/ fixture, so no uv/LFS
