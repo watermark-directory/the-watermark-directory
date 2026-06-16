@@ -62,7 +62,8 @@ _AIR_PERMIT_CITE = (
     "data/extracted/permits/4132514.epa.yaml (final, 2026-05-28): "
     "114 hall gensets x 2.75 ekW = ~313 MW backup; IT ~250-300 MW (N+1). "
     "Per-engine ekW from the draft public notice (3987141/3987144); engine "
-    "size CBI-redacted in the final permit."
+    "size CBI-redacted in the final permit under an Ohio EPA trade-secret grant "
+    "(OAC 3745-49-03, 2025-10-08; data/extracted/permits/3859883.epa.yaml)."
 )
 
 # --- Cooling / mechanical overhead (issue #87) -------------------------------

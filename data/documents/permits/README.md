@@ -24,7 +24,7 @@ the field-delineation point samples) — and are read as `*.wetland.yaml`
 
 | Subfolder | Applicant |
 |---|---|
-| [`bistrozzi-permits/`](bistrozzi-permits/) | Bistrozzi LLC + BOSC-site filings (33 PDFs; incl. Turner's NPDES CGP coverage `2GC08468`). |
+| [`bistrozzi-permits/`](bistrozzi-permits/) | Bistrozzi LLC + BOSC-site filings (35 PDFs; incl. Turner's NPDES CGP coverage `2GC08468` and the DAPC trade-secret grant `3859883`/`3859888`). |
 | [`dazzler-permits/`](dazzler-permits/) | Dazzler-entity filings (10 PDFs). |
 
 Files are named by the EPA **Application ID** (e.g. `3702676.pdf`); the applicant,
