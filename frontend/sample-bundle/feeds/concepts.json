@@ -80,6 +80,26 @@
     "body": "**Consumptive cooling** is the share of a facility's cooling-water withdrawal that\ndoes not return to the watercourse — primarily evaporative loss from cooling\ntowers. Unlike a once-through return, a consumptive draw permanently removes flow\nfrom the system downstream of the intake.\n\nFor a [[hyperscale data center]], the consumptive fraction of the cooling demand\nis the quantity that matters to the river: it is subtracted from live flow in the\n[[assimilative capacity]] screen against the [[7Q10]]. The water-balance model\ntreats the cooling demand and its consumptive fraction as scenario inputs\n(labelled assumptions), while the receiving-water flows are read from live gauges\nand the permit record."
   },
   {
+    "slug": "grant-refund-clause",
+    "title": "Grant-refund clause",
+    "kind": "concept",
+    "aliases": [
+      "overpayment amount",
+      "RDA section 5.5"
+    ],
+    "tags": [
+      "legal",
+      "economics",
+      "public-finance"
+    ],
+    "summary": "RDA §5.5 — public grant awards (State 629 / ODOD Jobs & Commerce) can backfill and refund the developer's \"private\" road-work contribution, dollar for dollar.",
+    "related": [
+      "roadwork-development-agreement",
+      "public-records-mandamus"
+    ],
+    "body": "The **grant-refund clause** is §5.5 of the [[roadwork development agreement]],\ntitled the \"Overpayment Amount.\" It provides that if the road-work project\nreceives public grant awards — Ohio's State 629 funds or ODOD Jobs & Commerce\ngrants — that public money effectively backfills the developer's \"Company\nContribution,\" and the corresponding amount is refunded to the Company.\n\nThe mechanism qualifies the claim that the $14.5M road package is *privately*\nfunded: to the extent public grants are awarded, public money can substitute for\nthe private contribution. The clause is read from the executed agreement; what\nshare of the contribution is ultimately refunded is not fixed in the document —\nit depends on the grants actually awarded."
+  },
+  {
     "slug": "hyperscale-data-center",
     "title": "Hyperscale data center",
     "kind": "term",
@@ -118,5 +138,26 @@
       "common-control-plumbing"
     ],
     "body": "A **public-records request (PRR)** asks a public office to produce records under\nOhio's Public Records Act (R.C. 149.43). When an office withholds or fails to\nproduce responsive records, the statutory remedy is a writ of **mandamus** — a\ncourt order compelling production (and, in some cases, statutory damages).\n\nIn this record, the mandamus thread is the lever that pried loose otherwise\nwithheld material: the withholding map, the source instruments, and the\nproduction analyses sit under the legal-history section. The records it produced\nare what the structured extractions and the entity graph are built on — which is\nwhy the [[common-control plumbing]] read from them is only as complete as the\nproduction was."
+  },
+  {
+    "slug": "roadwork-development-agreement",
+    "title": "Roadwork Development Agreement",
+    "kind": "concept",
+    "aliases": [
+      "RDA",
+      "roadwork agreement"
+    ],
+    "tags": [
+      "legal",
+      "economics",
+      "infrastructure"
+    ],
+    "summary": "The agreement under which the developer funds the public road work around the campus — a ~$14.5M \"Company Contribution\" set against the $14.2M cost estimate, with clauses on grant-refunds, records-notice, and procurement.",
+    "related": [
+      "grant-refund-clause",
+      "public-records-mandamus",
+      "common-control-plumbing"
+    ],
+    "body": "The **Roadwork Development Agreement** (RDA) is the contract under which the\ndata-center developer agrees to fund the public road work around the campus —\nfour roundabouts and two corridor rebuilds — while the County and Port Authority\ntake those roads into public maintenance in perpetuity. Allen County Resolution\n#588-25 adopted it, effective 2025-09-15.\n\nIts headline is a private gift: a \"Company Contribution\" of **$14,500,000**, set\nagainst the Tetra Tech Opinion of Probable Cost of $14,223,081. Three clauses\ncomplicate the word *private*, each read from the executed agreement:\n\n- **§5.5** (the \"Overpayment Amount\") lets public grant awards — State 629 and\n  ODOD Jobs & Commerce grants — backfill and refund the contribution to the\n  Company; see the [[grant-refund clause]].\n- **§9.13** requires the Authority to give the Company at least five business\n  days' notice before releasing the agreement in response to a records request.\n- **§9.17** exempts the Company from any competitive procurement for the work.\n\nThe RDA is one of the instruments examined in the records-withholding analysis\n([[public-records-mandamus]]), where §9.13 sits alongside the NDA and CRA as a\ndeveloper-notice clause. What the clauses say is read from the document; the\ncharacterization of the layers as a designed system is argument, labelled as such."
   }
 ]
