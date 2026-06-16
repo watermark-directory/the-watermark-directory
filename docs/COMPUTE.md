@@ -140,11 +140,12 @@ That is the *point*, and the honest reading of it: **land is not floor area**, a
 no building footprint is documented in the 95% SPS plans (sheet **1A-C-3104** is
 grading & storm only — no floor schedule; see
 [`plans/`](../data/extracted/plans/)). The data-hall footprint that *would* anchor
-this method — the relator notes the **air permit (PTI P0138965)** depicts roughly
-**three halls** — is **not yet in the corpus** (the permit is cited secondhand, not
-committed; logged in the
-[completeness audit §4](../data/extracted/legal/corpus-completeness-audit.md)).
-Until it is ingested, Method 3 stays the land-area envelope. Method 3 bounds the
+this method — the **air permit (PTI P0138965)** groups its emission units in **three
+generator/cooling-tower blocks**, corroborating roughly **three halls** — is now
+**committed** ([`permits/4132514.epa.yaml`](../data/extracted/permits/4132514.epa.yaml),
+final PTI; completeness audit §4). But the issued permit gives the emission-unit
+*grouping*, **not a building footprint or floor schedule**, so Method 3 still stays
+the land-area envelope. Method 3 bounds the
 *physical envelope* the
 land could hold, and it sits an order of magnitude above the power method precisely
 because **power, not floor space, is the binding constraint**. Every input is an
@@ -216,13 +217,14 @@ AI compute facility — is robust to the disagreement.
 - **The footprint method is weak.** Land area is not floor area; no building footprint
   or data-hall area is documented in the plans. Method 3 is a physical upper envelope,
   not a likely value.
-- **The keystone power figure is cited secondhand.** The Ohio EPA air permit (PTI
-  **P0138965**) that anchors the 313 MW backup → ~275 MW IT figure is **not committed**
-  to the corpus — it enters via a secondhand citation, and the **three-hall footprint**
-  that would re-ground Method 3 would come from its emission-unit layout / plot plan.
-  Logged in the
-  [completeness audit §4](../data/extracted/legal/corpus-completeness-audit.md);
-  ingesting the permit is the highest-value next step for this axis.
+- **The keystone power figure is now document-committed — with one caveat.** The Ohio
+  EPA air permit (PTI **P0138965**) is **committed** as of 2026-06-15
+  ([`permits/4132514.epa.yaml`](../data/extracted/permits/4132514.epa.yaml), final PTI;
+  completeness audit §4): it confirms the **115-genset count** (114 hall + 1 HUBGEN) and
+  the **three-block emission-unit grouping**. But the per-engine **2.75 ekW** behind the
+  313 MW backup is **redacted as trade secret** in the final permit (it rests on the draft
+  public notice), and the permit carries **no plot plan / floor schedule** — so the
+  **three-hall footprint** that would re-ground Method 3 to a floor area is still not in hand.
 - **Method 2 is not fully independent.** It reuses Method 1's WUE assumption, so it
   cross-checks the loop rather than corroborating from a wholly separate source.
 - **Specs drift.** The accelerator reference data is as of June 2026 with cited

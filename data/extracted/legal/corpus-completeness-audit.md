@@ -6,7 +6,7 @@
 
 ## Headline
 
-**The archive itself is in good shape; what's "missing" is mostly what the county hasn't produced.** Provenance is clean (94 distinct source PDFs cited across the extractions, 0 genuinely absent). The PRR production binaries are all present. The substantive holes are the records the county **deferred or withheld** — above all the entire **county-wastewater engineering universe (PRR items 5–15)** and the **item-4 cost-benefit analysis** — plus a modest set of corpus-hygiene issues in the minutes series (publication lag + ~12 malformed/misfiled filenames), none of which indicate lost evidence. A separate, newer thread (§2) tracks **watershed/conservation grant docs** worth digging up — the primary instruments behind a $650k Lost Creek (Maumee-headwater) ag-runoff grant whose SWCD summary is now in the corpus. A third thread (**§4**) flags the **OEPA air permit P0138965** — the secondhand-cited keystone behind the disclosed **313 MW** power figure, and the expected source of the **three-hall building footprint** — as not yet ingested.
+**The archive itself is in good shape; what's "missing" is mostly what the county hasn't produced.** Provenance is clean (94 distinct source PDFs cited across the extractions, 0 genuinely absent). The PRR production binaries are all present. The substantive holes are the records the county **deferred or withheld** — above all the entire **county-wastewater engineering universe (PRR items 5–15)** and the **item-4 cost-benefit analysis** — plus a modest set of corpus-hygiene issues in the minutes series (publication lag + ~12 malformed/misfiled filenames), none of which indicate lost evidence. A separate, newer thread (§2) tracks **watershed/conservation grant docs** worth digging up — the primary instruments behind a $650k Lost Creek (Maumee-headwater) ag-runoff grant whose SWCD summary is now in the corpus. A third thread (**§4**) tracked the **OEPA air permit P0138965** — the secondhand-cited keystone behind the disclosed **313 MW** power figure, and the expected source of the **three-hall building footprint** — which has now been **ingested (2026-06-15)**: the 2026-05-28 **final** PTI (eDoc `4132514`) confirms the genset count and three-hall emission-unit grouping on a primary footing, though the per-engine ekW behind 313 MW remains trade-secret-redacted (see §4).
 
 ---
 
@@ -130,17 +130,25 @@ Every `*.pdf` cited across `extracted/**` resolves to a real file under `data/do
 
 ---
 
-## 4. Air permit (PTI P0138965) — the keystone power figure, cited secondhand
+## 4. Air permit (PTI P0138965) — keystone power figure — **INGESTED 2026-06-15**
 
-*Added 2026-06-09 (compute-capacity axis).* The Ohio EPA Air **Permit-to-Install P0138965** (Facility **0302022054**) is the **sole source** of the campus's disclosed electrical scale — **114 emergency generators × 2,750 ekW ≈ 313 MW backup → ~250–300 MW IT** (N+1). That figure anchors both the cooling-water balance ([`../../../docs/HYDROLOGY.md`](../../../docs/HYDROLOGY.md); `bosc.hydrology.cooling`) and the compute / AI-capacity derivation ([`../../../docs/COMPUTE.md`](../../../docs/COMPUTE.md); `bosc.facility`). **Yet the permit itself is not in the corpus** — the 313 MW / 114-genset figure enters only as a *secondhand citation* inside [`../commissioners/bosc-water-balance.analysis.md`](../commissioners/bosc-water-balance.analysis.md) and the [relator data appendix](select-committee-2026/relator-testimony/bosc-data-appendix-2026-06-01.md). No air-PTI PDF exists under [`data/documents/`](../../documents/): the permits folders hold §401 water-quality applications (not the air PTI), and the PRR-01 bundle is minutes + land/deed exhibits.
+*Added 2026-06-09 (compute-capacity axis); **resolved 2026-06-15**.* The Ohio EPA Air **Permit-to-Install P0138965** (Facility **0302022054**) is the keystone behind the campus's disclosed electrical scale — **114 emergency generators × 2,750 ekW ≈ 313 MW backup → ~250–300 MW IT** (N+1) — anchoring both the cooling-water balance ([`../../../docs/HYDROLOGY.md`](../../../docs/HYDROLOGY.md); `bosc.hydrology.cooling`) and the compute / AI-capacity derivation ([`../../../docs/COMPUTE.md`](../../../docs/COMPUTE.md); `bosc.facility`).
 
-| What's owed | Why it matters | Where to get it |
+**Now ingested.** The 2026-05-28 **final** PTI (Ohio EPA eDocument `4132514`, 66 pp incl. a 64-item Response to Comments) is committed at [`../../documents/permits/bistrozzi-permits/4132514.pdf`](../../documents/permits/bistrozzi-permits/4132514.pdf) → [`../permits/4132514.epa.yaml`](../permits/4132514.epa.yaml). It joins the already-committed 2025-12-10 **draft** of the same permit ([`3987141`](../permits/3987141.epa.yaml) / [`3987144`](../permits/3987144.epa.yaml)) — which it supersedes and whose flagged 114-vs-115 generator discrepancy it resolves.
+
+**What it puts on a primary footing:**
+- **Genset count + the three-hall grouping.** 115 emissions units P001–P115 — P001–P114 are identical data-hall gensets in **three groups of 38** (GEN 1/2/3), P115 is a separate, smaller **HUBGEN**; the 36 cooling towers are **three groups of 12** (TWR 1/2/3). The three-group emission-unit structure corroborates the anticipated **≈ three data halls** (38 gensets + 12 towers each).
+- **Synthetic-minor caps:** NOx **235.62 tpy** + CO **96.06 tpy** (rolling 12-month, P001–P115 combined) — the federally enforceable limits keeping the facility under major-source NSR (it is **major for Title V**); Tier 2 CI engines under 40 CFR 60 Subpart IIII, fueled ULSD/HVO ≤ 15 ppm S.
+
+**What it does NOT resolve (carry forward):**
+
+| Still owed | Why | Where to get it |
 |---|---|---|
-| **Air PTI P0138965** (full permit + application) | Puts the **313 MW / ~275 MW IT** keystone on a **primary-source** footing — it currently carries a `[verified: document]` tag across the corpus *without the document committed* | Ohio EPA Division of Air Pollution Control (DAPC) public eDocument / eBusiness system, Facility ID **0302022054** |
-| **Emission-unit layout / plot plan** | The 114 generators are grouped **by building**; the grouping is expected to show the **data-hall count (≈ three halls)** and a documented **building footprint** — which would re-ground the **footprint method (Method 3)** from "land × assumed coverage" to a real floor area, and let the genset-per-hall split cross-check per-hall power against the 275 MW total | Same permit (emission-unit table + any plot-plan attachment) |
+| **Per-engine ekW / engine make-model** | Redacted as **trade secret / CBI** (Comments 16, 19; Response 16). The **2,750 ekW × 114 ≈ 313 MW** per-unit input is therefore **not in this final permit** — it still rests on the **draft public notice** figure. The application **A0080713** (12/02/2025) is the cited emission-rate basis but is not separately ingested. | Ohio EPA DAPC application file (A0080713 / A0080278) |
+| **Emission-unit plot plan / building footprint** | The issued permit gives the emission-unit *grouping* (→ three halls) but carries **no plot-plan attachment**, so **Method 3 footprint is confirmed three-hall but not re-grounded to a floor area** | Same permit's plot-plan attachment (if any); architectural sheets |
 | **Architectural site-plan sheets** (CI Design / WSP) | The committed plan set is a **single** grading & storm sheet (`1A-C-3104`) showing only ancillary **SSS/GPS** buildings on piers — the data-hall footprints sit on architectural sheets not in hand | EMH&T / CI Design plan set; PRR follow-up |
 
-Until ingested, **Method 3 stays the flagged-weak land-area envelope** and the power figure rests on a secondhand citation. *(Lead: the three-hall footprint, noted by the relator from the air permit, is **recorded as a gap 2026-06-09**, not asserted — chain of custody requires it come from the document.)*
+**Net:** the genset count, three-hall emission-unit grouping, and synthetic-minor caps are now **primary-source**; **Method 3 stays the flagged-weak land-area envelope** (the permit gives no floor area), and the **313 MW per-unit ekW** remains a draft-public-notice figure pending the DAPC application file.
 
 ---
 

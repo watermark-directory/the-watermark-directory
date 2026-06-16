@@ -32,7 +32,7 @@ effluent-dominated at low flow.*
 
 ## The BOSC cooling load (buildout scenario, sourced)
 
-- **IT load 275 MW** [document — OEPA Air PTI P0138965, 114 gensets × 2.75 ekW ≈ 313 MW backup; IT 250–300 MW N+1].
+- **IT load 275 MW** [document — OEPA Air PTI P0138965, committed `permits/4132514.epa.yaml` (final, 2026-05-28); 114 gensets × 2.75 ekW ≈ 313 MW backup (per-engine ekW from the draft public notice — CBI-redacted in the final permit); IT 250–300 MW N+1].
 - **Makeup demand ≈ 3.92 MGD**; **consumptive 3.14 MGD** (power × WUE 1.8 L/kWh [assumption]) to **10 MGD** (FM-2 2.5 MGD blowdown × (CoC−1) [derived]). The two methods disagree ~3× — the consumptive draw is the model's dominant uncertainty.
 - Drawn on **Lima's Ottawa/Auglaize supply** (7Q10 0.20 cfs). A 3–10 MGD consumptive loss on a river whose low-flow design condition is 0.13 MGD is the core assimilative concern.
 

@@ -1,0 +1,221 @@
+doc_id: 4132514-final-air-pti
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/permits/bistrozzi-permits/4132514.pdf
+kind: epa
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+- 49
+- 50
+- 51
+- 52
+- 53
+- 55
+- 56
+- 57
+- 58
+- 59
+- 63
+- 64
+- 65
+dpi: 0
+method: manual review of the full 66-page final permit (cover letter + 64-comment Response
+  to Comments + issued PTI, text + rendered pages as provided); not a DPI vision-pipeline pass
+source_text_excerpt: "Ohio Environmental Protection Agency  05/28/2026  Michael Montfort,
+  Bistrozzi LLC, 1700 K Street, N.W., Fifth Floor, Washington, DC 20006-3817  RE: FINAL
+  AIR POLLUTION PERMIT-TO-INSTALL  Facility ID: 0302022054  Permit Number: P0138965
+  Permit Type: Initial Installation  County: Allen  Yes SYNTHETIC MINOR TO AVOID MAJOR
+  NSR  No PSD  Yes MACT/GACT  Yes NSPS  Yes MODELING SUBMITTED.  Signed Robert Hodanbosi,
+  Chief, Division of Air Pollution Control. Entered into the journal of the Director
+  (John Logue) 05/28/2026."
+action:
+  confidence: high
+  warnings:
+  - This is the FINAL Air Pollution Permit-to-Install (DAPC), issued 2026-05-28 — it
+    supersedes the 2025-12-10 DRAFT of the same permit number P0138965 already in the
+    corpus (eDocs 3987141, 3987144). Action recorded as 'issued'.
+  - Air Pollution permit (Division of Air Pollution Control), not Division of Surface
+    Water / 401 / wetland — outside the typical DSW scope of the EpaPermitAction schema;
+    air-specific substance captured in the extra structured fields below.
+  - 'Per-engine nameplate power is NOT stated in this final permit — engine make/model/size
+    is redacted as Confidential Business Information / trade secret (Comments 16, 19;
+    Response 16). The ~2,750 ekW/engine figure behind the ~313 MW backup total comes
+    from the DRAFT public notice (eDocs 3987141/3987144), not this document. This permit
+    confirms the unit COUNT (114 hall gensets + 1 HUBGEN = 115) and emission RATES,
+    not the per-unit ekW.'
+  - The draft extractions flagged a 114-vs-115 generator discrepancy; the final permit
+    resolves it — 115 emissions units P001-P115, of which P001-P114 are identical data-hall
+    gensets and P115 is a separate, smaller HUBGEN (distinct emission rates, Table 1/2).
+  - Manual review (dpi=0 sentinel). Dollar/limit figures are high-confidence (printed
+    in the issued permit body, not OCR); see pages cited inline.
+  agency: Ohio EPA
+  program: Air Pollution Permit-to-Install (Final, Division of Air Pollution Control)
+  permit_no: P0138965
+  action: issued
+  action_date: '2026-05-28'
+  plans_received_date: null
+  expiration_date: null
+  applicant: Bistrozzi LLC
+  applicant_address: 1700 K Street, N.W., Fifth Floor, Washington, DC 20006-3817
+  contact_name: Michael Montfort
+  contact_email: null
+  contact_firm: Bistrozzi LLC
+  project_name: Bistrozzi LLC Data Center (Project BOSC) - Initial Installation
+  site_address: N Cole Rd. and W Bluelick Rd., Lima, OH 45801
+  affected_resource: 115 emergency CI diesel-fired gensets (P001-P115; 114 data-hall
+    gensets + 1 HUBGEN) and 36 cooling towers (P120-P155) for a data center
+  parcel_ids: []
+  # --- air-specific structured capture (extra fields; EpaPermitAction is extra=allow) ---
+  facility_id: '0302022054'
+  permit_type: Initial Installation
+  effective_date: '2026-05-28'
+  issued_date: '2026-05-28'
+  permit_fee_usd: 71755
+  applications:
+  - A0080713  # dated 2025-12-02; the emission-rate basis cited in B.4.b)(1)
+  - A0080278
+  permit_description: Installation of a data center with 115 diesel-fired generators
+    and 36 cooling towers.
+  issuing_officials:
+    director: John Logue (Director, Ohio EPA)
+    dapc_chief: Robert Hodanbosi (Chief, Division of Air Pollution Control)
+    district_office: Ohio EPA DAPC, Northwest District Office, 347 North Dunbridge Rd.,
+      Bowling Green, OH 43402, (419)352-8461
+  regulatory_status:
+    nsr: synthetic minor to avoid major New Source Review (federally enforceable NOx/CO
+      caps; see facility_wide_limits)
+    title_v: major source — Title V operating-permit application due within 12 months
+      of commencing operation (Response 40)
+    neshap: area-source 40 CFR 63 Subpart ZZZZ, met via compliance with 40 CFR 60
+      Subpart IIII (implemented/enforced by U.S. EPA Region 5; Ohio EPA not taking delegation)
+    psd: 'no'
+    pte_basis: potential-to-emit based on 500 hr/yr per engine (U.S. EPA 1995 PTE-for-emergency-generators
+      memo; Response 51)
+  emission_unit_groups:
+    emergency_generators:
+      ids: P001-P115
+      count: 115
+      detail: P001-P114 = data-hall gensets GEN 1-1..1-38, GEN 2-1..2-38, GEN 3-1..3-38
+        (three groups of 38); P115 = HUBGEN (separate, smaller unit)
+      rule_basis: 40 CFR 60 Subpart IIII; Tier 2 CI ICE > 560 kW, < 10 L/cylinder,
+        Model Year 2006+
+    cooling_towers:
+      ids: P120-P155
+      count: 36
+      detail: non-contact cooling towers w/ drift eliminators TWR 1-1..1-12, TWR 2-1..2-12,
+        TWR 3-1..3-12 (three groups of 12)
+  data_hall_grouping: >-
+    Three generator groups of 38 (GEN 1/2/3) and three cooling-tower groups of 12
+    (TWR 1/2/3) — the emission-unit grouping corroborates a THREE-data-hall campus
+    layout (resolves the audit's anticipated "approx three halls"). Per-hall: 38
+    gensets + 12 cooling towers. (Plot plan / building footprint itself is not an
+    attachment to this issued-permit PDF.)
+  facility_wide_limits:
+    nox_tpy: 235.62  # rolling 12-month, P001-P115 combined (B.4.a; C.1.b)1.a)
+    co_tpy: 96.06    # rolling 12-month, P001-P115 combined
+    basis: synthetic-minor caps to stay under major-source NSR; tracked by hours-at-load
+      formulas (B.4.b) using per-engine rates below
+    per_engine_rates_lb_per_hr:
+      P001-P114:
+        nox_le_25pct_load: 12.15
+        nox_gt_25pct_load: 75.78
+        co_le_25pct_load: 7.08
+        co_gt_25pct_load: 17.62
+      P115:
+        nox: 13.71
+        co: 7.72
+  engine_emission_standards:  # 40 CFR 60 Subpart IIII / 40 CFR 1039 Tier 2 (certified by mfr)
+    pm_g_per_kwh: 0.20
+    nox_plus_nmhc_g_per_kwh: 6.4
+    co_g_per_kwh: 3.5
+    opacity: 20% accel / 15% lugging / 50% peaks (40 CFR 1039.105)
+  fuel_spec:
+    fuels: ultra-low sulfur diesel (ULSD) or renewable diesel (HVO / hydrotreated vegetable
+      oil)
+    sulfur_max_ppm: 15            # 0.0015% by weight (40 CFR 1090.305)
+    cetane_or_aromatics: min cetane index 40 OR max aromatic content 35 vol%
+    note: HVO is not a fossil fuel (Response 11); air-toxics modeling not required because
+      combined toxic-air-contaminant PTE < 1.0 tpy (ORC 3704.03(F); OAC 3745-114-01)
+  cooling_tower_limits:
+    pm10_tpy_per_unit: 0.11
+    pm25_tpy_per_unit: 0.04
+    combined_pm10_tpy: ~4.0    # all 36 cooling towers
+    combined_pm25_tpy: ~1.4
+    drift_loss_max_pct: 0.001  # high-efficiency drift eliminators
+  reported_facility_emissions:  # Response 41 (worst-case = the annual caps)
+    nox_tpy: 235.62
+    co_tpy: 96.06
+    pm10_tpy: ~4.0
+    pm25_tpy: ~1.4
+    so2_and_haps_tpy: < 1 each (facility-wide)
+  response_to_comments:
+    count: 64
+    public_notice_date: '2026-02-09'   # Ohio EPA Weekly Review
+    hearing_date: '2026-03-11'
+    comment_period_end: '2026-03-25'    # extended to a 48-day period
+    topics:
+    - Public Health and Air Emissions (asthma/cancer concerns, NAAQS, PFAS in cooling-water
+      additives)
+    - Environmental Justice (EJScreen / Title VI)
+    - Air Quality / Monitoring (SLAMS; Lima monitor AQS 39-003-0009 at 2650 Bible Rd;
+      no fenceline monitoring required)
+    - Air Quality Analysis (NOx state-only dispersion modeling, GAII 12.5 vs modeled
+      11.66 ug/m3; PSD/NSR thresholds not triggered)
+    - Transparency and Public Process (trade-secret/CBI redactions of engine specs;
+      ORC 3704.08)
+    - Permitting Process (synthetic-minor; 180-day clock; app 10/19/25, revised 12/2/25)
+    - Diesel Engine Emissions and Operations (BAT/Tier 2; 100-hr non-emergency cap;
+      500-hr PTE; no required testing)
+    - Water Use and Wastewater (referred to ODNR / ODH; cooling-water blowdown may
+      need an NPDES permit — out of air-permit scope)
+    - Power Grid (referred to PUCO / utility)
+    - Wildlife, Animals, Agriculture, and Ecosystems (NPDES CGP 2GC08468 to Turner
+      Construction 2025-11-10; level-1 isolated wetland permit after withdrawing a
+      level-2 application)
+    - Noise (referred to American Township)
+    - Grave Site (burial site on property; company to contact commenter)
+    - General Comments Against the Project
+  supersedes:
+    draft_permit: P0138965 (DRAFT, 2025-12-10)
+    draft_extractions:
+    - permits/3987141.epa.yaml
+    - permits/3987144.epa.yaml
+  note: 'FINAL Ohio EPA Air Pollution Permit-to-Install P0138965 for Bistrozzi LLC
+    (Project BOSC), Facility ID 0302022054, Allen County — issued and effective 2026-05-28,
+    permit fee $71,755, applications A0080713 (12/02/2025) + A0080278. Authorizes a
+    data center with 115 diesel-fired emergency generators (P001-P115: 114 identical
+    data-hall gensets in three groups of 38 + one HUBGEN) and 36 non-contact cooling
+    towers (P120-P155, three groups of 12) — the three-group emission-unit structure
+    corroborates a three-data-hall campus. Federally enforceable synthetic-minor caps
+    keep the facility under major-source NSR: NOx 235.62 tpy and CO 96.06 tpy (rolling
+    12-month, combined), demonstrated by per-engine hours-at-load recordkeeping (Table
+    1/2 rates). Engines are Tier 2 CI ICE > 560 kW under 40 CFR 60 Subpart IIII (0.20
+    g PM, 6.4 g NOx+NMHC, 3.5 g CO per kW-hr), fueled on ULSD or HVO renewable diesel
+    (<= 15 ppm S). Cooling towers limited to ~4.0 tpy PM10 / ~1.4 tpy PM2.5 combined
+    via 0.001% drift eliminators. The facility is MAJOR for Title V (operating-permit
+    app due within 12 months of commencing operation). Engine make/model/size is withheld
+    as trade secret (Comments 16/19), so the per-engine ekW (and thus the ~313 MW backup
+    figure) is NOT in this document — it derives from the draft public notice. Document
+    includes a 64-item Response to Comments (public notice 2026-02-09; hearing 2026-03-11;
+    comment period closed 2026-03-25). Supersedes the 2025-12-10 DRAFT of the same permit
+    (eDocs 3987141/3987144). Source eDocument 4132514 (Ohio EPA eDocument/eBusiness;
+    Facility 0302022054).'
