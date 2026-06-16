@@ -25,16 +25,22 @@ meta:
     corpus (see gap below) — the timing question stays open pending that record (#143).
   relator: Cory Parent
   npdes_cgp_context: >
-    Ohio's NPDES Construction General Permit (OHC000005/OHC000006) requires the permittee to
-    obtain coverage (file a Notice of Intent; receive an OHC… tracking number) BEFORE commencing
-    earth-disturbing activity on a site of 1 or more acres, and to keep a SWPPP. The SW1225
-    permit application assigns "NPDES Program = Turner Construction" (p53), so Turner is the CGP
-    permittee of record. Every produced ESC inspection lists "Site NPDES Number: TBD."
+    Ohio's NPDES Construction General Permit (the current generation is OHC000006, now committed at
+    regulatory/ohc000006-construction-stormwater-gp.yaml) requires the permittee to obtain coverage
+    BEFORE commencing earth-disturbing activity on a site of 1 or more acres (or part of a larger
+    common plan that will), and to keep a SWP3. In the permit's own words: a complete NOI must be
+    submitted "at least 21 days … prior to the commencement of construction activity" (Part I.F.1.a),
+    and "Coverage under this permit is not effective until an approval letter granting coverage from
+    the director of Ohio EPA is received by the applicant" (Part I.F.2). The site's per-site coverage
+    number is the "facility permit number" (the OHC… number). The SW1225 permit application assigns
+    "NPDES Program = Turner Construction" (p53), so Turner is the CGP permittee of record. Every
+    produced ESC inspection lists "Site NPDES Number: TBD."
   prepared_from:
     - data/extracted/permits/3788677.epa.yaml                                   # 401 Level-1 grant
     - data/extracted/permits/3796349.epa.yaml                                   # 401 mitigation agreement
     - data/extracted/permits/3949585.epa.yaml                                   # 401 Level-2 (incomplete)
     - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+    - data/extracted/regulatory/ohc000006-construction-stormwater-gp.yaml       # the governing statewide CGP (the standard; not the site record)
 
 # ----------------------------------------------------------------------------------------------
 # The ordered record. kind: wetland-401 | stormwater-permit | disturbance | npdes-cgp | governance
@@ -142,6 +148,12 @@ observations:
     question: >
       Was earth disturbance (>1 ac) underway before NPDES Construction General Permit coverage
       attached to the site?
+    governing_standard: >
+      OHC000006 (now in-corpus, regulatory/ohc000006-construction-stormwater-gp.yaml): a complete NOI
+      is due "at least 21 days … prior to the commencement of construction activity" (Part I.F.1.a) and
+      "Coverage under this permit is not effective until an approval letter granting coverage from the
+      director of Ohio EPA is received by the applicant" (Part I.F.2). This is the standard the dates
+      below are measured against — the framework is now primary-source, the site's coverage record is not.
     records_show: >
       Active clearing/grubbing + mass grading documented from 2025-12-08, continuing through at
       least 2026-06-05, on a 195-ac developed footprint — well above the 1-ac CGP threshold —
@@ -188,18 +200,27 @@ observations:
       campus mass-grading (Turner/EMH&T, SW1225, disturbance from 2025-12-08). It does NOT resolve
       the campus "TBD" — but it shows the same corridor's stormwater coverage documented elsewhere,
       which makes the campus inspections' persistent "TBD" more conspicuous.
-    not_in_records: >
-      The outfall SWP3's own OHC… coverage number is likewise NOT in the extractable body — the NOI
-      and Ohio EPA authorization sit in Appendix A (an attachment not in the corpus text). Acquiring
-      Appendix A would give the outfall's coverage number, a thread parallel to the campus #143.
-    source: data/extracted/plans/4091286.engineering.yaml
+    resolved: >
+      RESOLVED 2026-06-16. The outfall SWP3's Appendix A was acquired as companion eDoc 4091289 — the
+      Ohio EPA NPDES CGP Approval Letter (April 22, 2026, signed Director John Logue): the NOI was
+      APPROVED and the site's Ohio EPA Facility Permit Number is 2GC08747*AG, effective 2026-04-22,
+      expiring 2028-04-22, under OHC000006. (Note the per-site number format is 2GC..*AG, not an OHC..
+      number.) For the OUTFALL, coverage thus attached 2026-04-22 — BEFORE the SWP3's 2026-05-15
+      estimated start — i.e. coverage preceded disturbance, the clean contrast to the campus thread.
+    bearing_on_campus: >
+      This does NOT resolve the campus #143: it is a different project, permittee (Igel/WSP, not
+      Turner), and footprint (5.71 ac roundabout+outfall, not the 195-ac campus mass-grading). But it
+      removes the parallel outfall gap and sharpens the campus contrast — the corridor's CGP process is
+      now documented end-to-end for the outfall (NOI → approval → number), while the campus inspections
+      still read "TBD."
+    source: data/extracted/plans/4091286.engineering.yaml (record.npdes_coverage; companion plans/4091289.pdf)
 
 # ----------------------------------------------------------------------------------------------
 gap_and_followups:
   - 'The NPDES CGP coverage record (NOI + OHC… number + effective date) — acquire from Ohio EPA to resolve the coverage-timing question. Tracked: issue #143 (and the ECHO cross-check for OHC coverage at Facility ID 0302022054).'
   - 'The disposition of the Level-2 wetland permit DSW401252260W after the 2025-12-23 incompleteness letter (granted? when? scope?).'
   - 'The exact start date of earth disturbance (the records establish "underway by 2025-12-08," not a start date).'
-  - 'The BOSC Storm Outfall / Beery-Cole roundabout SWP3 (eDoc 4091286) Appendix A — the NOI + Ohio EPA CGP authorization (and the outfall''s OHC… coverage number), which the SWP3 body references but does not print. Parallel thread to #143.'
+  - 'RESOLVED 2026-06-16 — The BOSC Storm Outfall / Beery-Cole roundabout SWP3 (eDoc 4091286) Appendix A was acquired as companion eDoc 4091289: NOI approved, Ohio EPA Facility Permit Number 2GC08747*AG, effective 2026-04-22 under OHC000006 (Director John Logue). The outfall''s coverage is now end-to-end on the record; this was the parallel thread to the still-open campus #143.'
 
 cross_refs:
   - data/extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml   # the ASWCD production (ESC + SW1225)
@@ -210,3 +231,6 @@ cross_refs:
   - data/extracted/permits/3949585.epa.yaml                                                      # 401 Level-2 incomplete (2025-12-23)
   - data/extracted/plans/bosc-site-footprint.yaml                                                # the 195/115-ac disturbance footprint (#149)
   - data/extracted/plans/4091286.engineering.yaml                                                # SWP3: Beery/Cole roundabout + BOSC Storm Outfall (Igel/WSP) → Pike Run
+  - data/documents/plans/4091289.pdf                                                             # Ohio EPA CGP Approval Letter — outfall Facility Permit Number 2GC08747*AG (eff. 2026-04-22)
+  - data/documents/plans/4091287.pdf                                                             # SWP3 appendix sheet (soils/streams; Point 1 = Pike Run)
+  - data/extracted/regulatory/ohc000006-construction-stormwater-gp.yaml                          # the governing statewide CGP — the standard the sequence is read against

@@ -1,5 +1,8 @@
 doc_id: 4091286-swp3-beery-cole-bosc-outfall
 source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/plans/4091286.pdf
+companion_sources:
+- data/documents/plans/4091289.pdf   # Ohio EPA NPDES CGP Approval Letter (the SWP3 Appendix A NOI authorization), eDoc 4091289
+- data/documents/plans/4091287.pdf   # SWP3 appendix sheet (NRCS soils / contaminated soils / on-site streams = Point 1 Pike Run), eDoc 4091287
 kind: engineering
 pages_read:
 - 0
@@ -29,12 +32,11 @@ source_text_excerpt: "Stormwater Pollution Prevention Plan (SWP3) For Constructi
 record:
   confidence: high
   warnings:
-  - 'NPDES Construction General Permit (CGP) coverage NUMBER is not in the body text:
-    the NOI and the Ohio EPA Authorization Email/Approval Letter are referenced as
-    Appendix A (an attachment not in the extractable text). So this document confirms
-    the roundabout/outfall obtained CGP coverage but does not, in its narrative, state
-    the OHC-/coverage number — relevant to the ASWCD "CGP coverage = TBD" thread in
-    the completeness audit.'
+  - 'RESOLVED 2026-06-16: the Appendix A coverage record (referenced but not printed in
+    the SWP3 body) was acquired as companion eDoc 4091289 — the Ohio EPA NPDES CGP
+    Approval Letter assigning Facility Permit Number 2GC08747*AG (effective 2026-04-22,
+    under OHC000006). Captured in record.npdes_coverage below. NOTE the per-site coverage
+    number format is 2GC..*AG, NOT an OHC- number (OHC000006 is the general permit).'
   - Source PDF metadata title is "SWP3-Beery Rd. Cole St. Roundabout-Draft.docx" (carries
     "Draft"), but the cover sheet reads as a complete, dated SWP3 (04/16/2026); treated
     as the working/issued SWP3 of that date.
@@ -47,6 +49,26 @@ record:
   discipline: stormwater
   record_date: '2026-04-16'
   project_no: E-80410
+  npdes_coverage:
+    # The SWP3's Appendix A authorization, acquired 2026-06-16 as companion eDoc 4091289.
+    facility_permit_number: 2GC08747*AG    # initial coverage (*AG); 2 = district, GC = general construction
+    general_permit: OHC000006
+    status: approved (NOI application approved)
+    effective_date: '2026-04-22'
+    expiration_date: '2028-04-22'
+    director: John Logue
+    permittee: George J. Igel & Co., Inc. (Christopher Batdorff), 3500 Alum Creek Drive, Columbus OH 43207
+    facility_name_as_issued: Berry Road and Cole Street Roundabout/BOSC Storm Outfall
+    facility_location_as_issued: 1363 Berry Road, Elida, Allen County
+    source: data/documents/plans/4091289.pdf
+    note: >-
+      The approval letter spells the road "Berry" (the SWP3 itself reads "Beery Road"); the
+      as-issued spelling is preserved here, not corrected. The letter cautions that fill into
+      regulated waters may still require a 401 WQC / Isolated Wetlands Permit — a pointer to the
+      separate campus 401 thread (permits/3788677, 3796349, 3949585). Sequencing note: outfall
+      coverage attached 2026-04-22, BEFORE the SWP3's 2026-05-15 estimated start — the clean
+      contrast to the campus mass-grading, where disturbance (2025-12-08) preceded any recorded
+      coverage (bosc-site-permit-sequence).
   site_address: Beery Road & Cole Street intersection, Lima / American Township, Allen
     County, OH 45801 (40.794819, -84.128202)
   prepared_by:
@@ -149,7 +171,8 @@ record:
     the Ottawa River) — the BOSC Storm Outfall channel terminates at Pike Run. No
     on-site streams/wetlands within the LOD (a PUBGx pond nearby is not impacted); a
     Surface Water Impact Determination letter is in Appendix I and no Section 401 /
-    antidegradation review is required. The NOI + Ohio EPA CGP authorization are in
-    Appendix A but the coverage number is not printed in the narrative body. Two new
-    corridor parties surface here: George J. Igel & Co. (contractor) and WSP USA
+    antidegradation review is required. The Appendix A NOI + Ohio EPA CGP authorization
+    were acquired 2026-06-16 as companion eDoc 4091289 (the approval letter): Facility
+    Permit Number 2GC08747*AG, effective 2026-04-22 under OHC000006 (record.npdes_coverage).
+    Two new corridor parties surface here: George J. Igel & Co. (contractor) and WSP USA
     (engineer — also named on the campus architectural sheets per docs/COMPUTE.md).'

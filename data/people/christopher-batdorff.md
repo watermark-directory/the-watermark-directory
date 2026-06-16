@@ -9,6 +9,7 @@ summary: George J. Igel & Co. contact named as the SWP3 operator for the Beery R
 expanded_research: false
 sources:
   - data/extracted/plans/4091286.engineering.yaml
+  - data/documents/plans/4091289.pdf   # Ohio EPA CGP approval letter addressed to him as NOI applicant
 tags: [contractor, igel, stormwater, roundabout]
 ---
 
@@ -28,5 +29,12 @@ construction-stormwater coverages in the same corridor (see
 [`bosc-site-permit-sequence`](../extracted/legal/prr-mandamus/bosc-site-permit-sequence.md)). The
 SWP3 also names Igel's SWP3 coordinator **John Powers** and 24-hour emergency contact **Joe Sharp**.
 
-Low-significance, tracked-only: a contractor contact named on one stormwater instrument. Promote
-(`expanded_research: true`) if Igel recurs across the corridor record.
+He is also the named **applicant/permittee** on the Ohio EPA NPDES CGP **approval letter** for the
+site ([`plans/4091289.pdf`](../documents/plans/4091289.pdf), eDoc 4091289, April 22, 2026), which
+assigns Facility Permit Number **`2GC08747*AG`** to "Berry Road and Cole Street Roundabout/BOSC
+Storm Outfall" — confirming Igel as the holder of record for the outfall's construction-stormwater
+coverage (distinct from Turner's campus coverage).
+
+Low-significance, tracked-only: a contractor contact named on one stormwater instrument (now with
+his coverage authorization in hand). Promote (`expanded_research: true`) if Igel recurs across the
+corridor record.
