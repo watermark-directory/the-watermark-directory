@@ -1,0 +1,112 @@
+doc_id: 3859883-bistrozzi-air-trade-secret-grant
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/permits/bistrozzi-permits/3859883.pdf
+companion_sources:
+- data/documents/permits/bistrozzi-permits/3859888.pdf   # Bistrozzi's Trade Secret Justification Letter (28 pp), 2025-10-02
+kind: epa
+pages_read:
+- 0
+- 1
+dpi: 0
+method: manual review of clean PDF text layers (Ohio EPA letter + Trinity Consultants justification; not scans)
+source_text_excerpt: >-
+  Re: Trade Secret Request for Bistrozzi, LLC ... recognition of trade secret protection ... for certain
+  business-sensitive production information contained in Permit Application A0080278 and PBR21722 ... Ohio
+  EPA will now hold this information as confidential, and will exempt it from general disclosure ... Marc
+  Glasgow, Supervising Attorney.
+action:
+  confidence: high
+  warnings:
+  - >-
+    This is a trade-secret RECOGNITION letter, not a permit issuance — captured with action:
+    trade-secret-granted. The substantive withheld content is NOT in the corpus (it lives only in the
+    confidential version of Application A0080278); what is captured here is the SCOPE of the redaction and
+    the agency grant, read from the public justification + grant letters.
+  agency: Ohio EPA (DAPC; Office of the Supervising Attorney)
+  program: Trade Secret recognition (OAC 3745-49-03 / ORC 3734.12(G)) on the Initial Air PTI application
+  permit_no: A0080278 (+ PBR21722)
+  action: trade-secret-granted
+  action_date: '2025-10-08'
+  plans_received_date: '2025-10-02'   # the Trade Secret Justification Letter (3859888)
+  applicant: Bistrozzi LLC
+  applicant_address: N. Cole Rd. and W. Bluelick Rd., Lima, Ohio 45081 (Secondary ID 0302022054)
+  contact_name: Michael Montfort
+  contact_email: mmontfort@wsgr.com
+  contact_firm: Wilson Sonsini Goodrich & Rosati (WSGR)
+  project_name: Lima Facility (Bistrozzi greenfield data center)
+  site_address: N. Cole Rd. and W. Bluelick Rd., Lima, Allen County, OH 45081 (OEPA Facility/Secondary ID 0302022054)
+  affected_resource: air permit application (DAPC) — emission-unit equipment specifications
+  note: >-
+    Ohio EPA (Marc Glasgow, Supervising Attorney; CC Robert Hodanbosi, Chief DAPC, and Andrea Moore, DAPC
+    NWDO) GRANTS trade-secret recognition (2025-10-08) for business-sensitive information in Bistrozzi's
+    Initial Air PTI application A0080278 + permit-by-rule PBR21722, per the Trade Secret Justification
+    Letter submitted 2025-10-02 (Trinity Consultants, signed Michael Montfort/WSGR, to John Pasquarette,
+    Ohio EPA NWDO). The information is held confidential and exempt from disclosure; if the designation is
+    challenged in any judicial/quasi-judicial forum, Bistrozzi bears the sole burden of proving it meets
+    the trade-secret standard.
+
+trade_secret:
+  authority: OAC 3745-49-03; ORC 3734.12(G)
+  granted_by: Marc Glasgow, Supervising Attorney, Ohio EPA (CC Robert Hodanbosi, Chief DAPC; Andrea Moore, DAPC NWDO)
+  applications_covered: [A0080278, PBR21722]
+  justification: Trinity Consultants for Bistrozzi LLC (signed Michael Montfort, WSGR), to John Pasquarette (Ohio EPA NWDO), 2025-10-02 (eDoc 3859888)
+  withheld_categories:
+    - Size / rating of emergency generators and fire pumps
+    - Cooling system flowrates
+    - Internal layout details
+  located_in: confidential version only — application narrative Sections 1, 3, 5 + Appendices A, B, C, E
+  basis_claimed: >-
+    Competitors could "calculate the size and utilization of the facility," its data-center "capacity," and
+    infer Bistrozzi's "design philosophy," "business strategy and market plan for the US market."
+  secrecy_measures: contractor confidentiality agreements; internal design docs confidential; restricted visitor access; "claimed this same information as trade secret in all past air permit applications."
+  key_admission: >-
+    "The air permit is the only public document that requests the size of the emergency generators be
+    provided. As such, by preventing this information from becoming public via the air permitting process,
+    the facility has taken a significant step to ensure the confidentiality of this information." So the
+    sole public disclosure path for the per-engine size has been deliberately closed.
+
+surviving_public_brackets:   # from the un-redacted NSPS/NESHAP applicability discussion in 3859888 (pp11-14)
+  main_generators_and_hub: ">= 560 kW (>= 750 hp) each — NSPS IIII Tier 2 (40 CFR 1039 App. I)"
+  smaller_emergency_generators: "130-560 kW — Tier 3"
+  fire_pump_engines: "225-450 kW — NSPS IIII Table 4 (model year 2009+)"
+  operating_basis: "each emergency generator <= 500 hr/yr (annual PTE basis); 50 hr/yr non-emergency cap"
+  note: >-
+    Regulatory size FLOORS / brackets only (these survive in the public version); the exact per-engine ekW
+    (~2,750 in the draft public notice) is NOT disclosed. ">= 560 kW" is consistent with, but does not
+    confirm, a 2,750 ekW unit.
+
+finding_159: >-
+  RESOLVES #159 by its second acceptance criterion. The per-engine ekW is CBI / trade-secret-locked at the
+  application stage too — formally granted by Ohio EPA on 2025-10-08 (this document). The
+  2,750 ekW x 114 ~= 313 MW per-unit basis therefore remains the DRAFT public-notice figure
+  (permits/3987141, /3987144) and cannot be put on a primary footing absent a legal challenge to the
+  trade-secret designation. The surviving public brackets (main gensets >= 560 kW / >= 750 hp) are
+  consistent with but do not confirm ~2,750 ekW.
+
+bearing_on_160: >-
+  "Internal layout details" are among the withheld categories — so the data-hall footprint / emission-unit
+  plot plan sought in #160 is ALSO trade-secret-shielded at the DAPC level, reinforcing that blocker
+  (it adds to the County/ASWCD R.C. 149.433 + 1333.61 withholding of the campus plan sets).
+
+bearing_on_cooling: >-
+  "Cooling system flowrates" are withheld too — the cooling-water design basis (docs/HYDROLOGY.md;
+  bosc.hydrology.cooling) cannot be primary-sourced from the air permit, so the WUE / blowdown estimates
+  stay derived / assumption-tagged.
+
+cross_refs:
+  - data/extracted/permits/4132514.epa.yaml             # final PTI P0138965 (ekW redacted; Comments 16/19, Response 16)
+  - data/extracted/permits/3987141.epa.yaml             # draft public notice — the only ~2,750 ekW source
+  - data/extracted/legal/corpus-completeness-audit.md   # §4 carry-forward (313 MW basis)
+  - docs/COMPUTE.md                                      # compute Method 3 (footprint envelope)
+  - docs/HYDROLOGY.md                                    # cooling-water basis (flowrates withheld)
+  - src/bosc/hydrology/cooling.py                        # _AIR_PERMIT_CITE
+  - src/bosc/facility/power.py                           # _AIR_PERMIT_CITE
+
+relevance:
+  tags: [verified, epa, dapc, trade-secret, cbi, air-permit, bistrozzi, ekW, '159', '160']
+  note: >-
+    Ohio EPA's trade-secret grant (2025-10-08) + Bistrozzi's justification (2025-10-02) for the Initial Air
+    PTI application A0080278 / PBR21722. Documents WHY the per-engine ekW behind the 313 MW figure is
+    unobtainable — "size/rating of emergency generators and fire pumps," "cooling system flowrates," and
+    "internal layout details" are all formally trade-secret-protected. Resolves #159 (ekW CBI-locked at the
+    application stage); reinforces #160 (footprint shielded) and the cooling-water thread. Read from clean
+    PDF text layers.

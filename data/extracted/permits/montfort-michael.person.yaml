@@ -5,13 +5,16 @@ provenance:
   sources:
     - data/documents/permits/bistrozzi-permits/wsgr-michael-j-montfort-bio.pdf       # WSGR firm bio (substantive)
     - data/documents/permits/bistrozzi-permits/elementix-michael-montfort-dfw.pdf    # Elementix auto-scraped profile (thin / ambiguous)
-  content_verified: '2026-06-07'   # read from the bio + the Elementix profile text
+    - data/documents/permits/bistrozzi-permits/3859888.pdf                           # Trade Secret Justification Letter — SIGNED by Montfort (mmontfort@wsgr.com), 2025-10-02
+    - data/documents/permits/bistrozzi-permits/3859883.pdf                           # Ohio EPA trade-secret grant addressed to "Mr. Montfort", 2025-10-08
+  content_verified: '2026-06-16'   # bio + Elementix (2026-06-07); trade-secret docs added 2026-06-16
   evidence: captured web/firm records (filed in the relator's Bistrozzi research folder)
 
 assessment: >-
   Low-significance. The relevant Montfort is a Washington, D.C. transactional lawyer handling
   corporate/benefits paperwork — consistent with the data-center entity's corporate structuring
-  (alongside Vorys, which handles the local land/CRA work). Not a principal or decision-maker.
+  (alongside Vorys, which handles the local land/CRA work). Not a principal or decision-maker, but
+  the DOCUMENTED signer of Bistrozzi's air-permit trade-secret request (see bistrozzi_air_permit_role).
 
 wsgr_bio:                          # the substantive record
   name: "Michael J. Montfort"
@@ -27,8 +30,20 @@ wsgr_bio:                          # the substantive record
   relevance: >-
     A D.C. benefits/comp lawyer at a major tech/corporate firm doing transactional paperwork — the
     plausible BOSC connection. WSGR (Big Tech's go-to firm) appearing alongside the deal fits a
-    Google/hyperscaler corporate structure, but the corpus does NOT show Montfort signing any Bistrozzi
-    instrument; the link is inferential. [the bio is document; a BOSC role is inference.]
+    Google/hyperscaler corporate structure. UPDATE 2026-06-16: the corpus now DOES show Montfort acting
+    for Bistrozzi — he signed the air-permit **Trade Secret Justification Letter** (3859888, 2025-10-02,
+    mmontfort@wsgr.com) and is the named requester on Ohio EPA's trade-secret grant (3859883). The
+    Bistrozzi role is now DOCUMENTED, not merely inferential. [signing role = document; "decision-maker" still inference.]
+
+bistrozzi_air_permit_role:         # DOCUMENTED 2026-06-16 — the first Montfort↔Bistrozzi signing link
+  what: >-
+    Montfort is the requester/signer of record on Bistrozzi's Initial Air PTI trade-secret claim. He
+    signed the Trade Secret Justification Letter (3859888, 2025-10-02, to John Pasquarette, Ohio EPA NWDO)
+    as mmontfort@wsgr.com, and Ohio EPA's grant (3859883, 2025-10-08) is addressed "Dear Mr. Montfort."
+  significance: >-
+    Confirms the WSGR-D.C. counsel (not the DFW same-name investor) is the real Bistrozzi actor, and ties
+    him specifically to shielding the facility's generator size / cooling flowrates / internal layout as
+    trade secret (OAC 3745-49-03). See data/extracted/permits/3859883.epa.yaml.
 
 elementix_profile:                 # thin, ambiguous — flagged, not load-bearing
   source_platform: "Elementix Inc (AI 'borrower-intelligence' platform; signature-extraction from public records)"

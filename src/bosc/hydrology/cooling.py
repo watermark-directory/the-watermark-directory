@@ -32,7 +32,9 @@ _AIR_PERMIT_CITE = (
     "data/extracted/permits/4132514.epa.yaml (final, 2026-05-28): "
     "114 hall gensets x 2.75 ekW = ~313 MW backup; IT ~250-300 MW (N+1). "
     "Per-engine ekW is from the draft public notice (3987141/3987144) — engine "
-    "size is CBI-redacted in the final permit."
+    "size is CBI-redacted in the final permit under a formal Ohio EPA trade-secret "
+    "grant (OAC 3745-49-03, 2025-10-08; data/extracted/permits/3859883.epa.yaml), "
+    "which also withholds cooling-system flowrates."
 )
 
 _WUE_L_PER_KWH = 1.8  # evaporative hyperscale; Google fleet avg ~1.1, evaporative higher
