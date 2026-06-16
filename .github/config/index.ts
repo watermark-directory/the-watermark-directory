@@ -24,9 +24,10 @@ const requireCodeOwnerReviews = config.getBoolean("requireCodeOwnerReviews") ?? 
 const enforceAdmins = config.getBoolean("enforceAdmins") ?? false;
 const requireUpToDate = config.getBoolean("requireUpToDate") ?? true;
 
-// Status-check contexts that must pass before `main` can be updated. "check" is
-// the job id in .github/workflows/ci.yml, which is also its reported check name.
-const requiredChecks = ["check"];
+// Status-check contexts that must pass before `main` can be updated. Each name is a
+// job id in .github/workflows/ci.yml (also its reported check name). Both are
+// path-filtered jobs that report success when skipped, so requiring them is safe.
+const requiredChecks = ["check", "markdown"];
 
 // ---------------------------------------------------------------------------
 // Repository settings

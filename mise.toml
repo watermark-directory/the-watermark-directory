@@ -19,6 +19,7 @@ UV_PROJECT_ENVIRONMENT = ".venv"
 description = "Install Python deps, initialize Git LFS, install the Claude Code CLI"
 run = [
   "uv sync --extra dev",
+  "npm install",   # root dev tooling (markdownlint-cli2); the Astro site installs under frontend/
   "git lfs install --local",
   "npm install -g @anthropic-ai/claude-code",
 ]
@@ -28,6 +29,7 @@ description = "Lint, format-check, type-check, and test"
 run = [
   "uv run ruff check .",
   "uv run ruff format --check .",
+  "node_modules/.bin/markdownlint-cli2",   # Markdown lint (config: .markdownlint-cli2.yaml); needs `mise run setup`
   "uv run mypy",
   "uv run pytest -n auto",   # pytest-xdist: parallelize across cores (override with `-n0` when debugging)
 ]
@@ -37,6 +39,7 @@ description = "Auto-fix lint issues and format"
 run = [
   "uv run ruff check --fix .",
   "uv run ruff format .",
+  "node_modules/.bin/markdownlint-cli2 --fix",   # auto-fix Markdown
 ]
 
 [tasks.frontend]

@@ -1,0 +1,13 @@
+{
+  "name": "bosc-repo-tools",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Repo-level dev tooling for Project BOSC — Markdown lint/format (markdownlint-cli2). The Astro public site has its own package.json under frontend/.",
+  "scripts": {
+    "lint:md": "markdownlint-cli2",
+    "fix:md": "markdownlint-cli2 --fix"
+  },
+  "devDependencies": {
+    "markdownlint-cli2": "^0.18.0"
+  }
+}
