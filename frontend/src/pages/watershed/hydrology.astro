@@ -1,17 +1,30 @@
 ---
 import Base from "../../layouts/Base.astro";
+import FigureStat from "../../components/FigureStat.astro";
 import { hasFeed, loadFeed } from "../../lib/bundle";
 import type { ProvenancedValue, ScenarioResult } from "../../lib/feeds";
+import type { FigureStatData } from "../../lib/viz";
 
 const scenarios = hasFeed("hydrology-scenarios")
   ? loadFeed<ScenarioResult[]>("hydrology-scenarios")
   : [];
 
-const fmt = (v: ProvenancedValue): string =>
-  v.value == null ? "—" : `${v.value.toLocaleString("en-US")}${v.unit ? ` ${v.unit}` : ""}`;
+const numOf = (v: ProvenancedValue): string => (v.value == null ? "—" : v.value.toLocaleString("en-US"));
 // document/connector-sourced values are grounded; assumption/derived are inferred.
 const grounded = (v: ProvenancedValue): boolean =>
   v.source === "document" || v.source === "connector" || v.source === "reference";
+const fmt = (v: ProvenancedValue): string => `${numOf(v)}${v.unit ? ` ${v.unit}` : ""}`;
+
+/** Map a provenanced metric onto the unified figure/stat treatment. */
+const toStat = (label: string, v: ProvenancedValue, neg?: boolean): FigureStatData => ({
+  label,
+  value: numOf(v),
+  unit: v.unit ?? undefined,
+  evidence: grounded(v) ? "verified" : "inference",
+  basis: grounded(v) ? "grounded" : "modeled",
+  sub: v.citation ?? v.source ?? undefined,
+  warn: neg,
+});
 ---
 
 <Base title="Hydrology" section="watershed">
@@ -52,14 +65,9 @@ const grounded = (v: ProvenancedValue): boolean =>
               Cooling demand: {fmt(s.scenario.cooling_demand)} · consumptive fraction{" "}
               {fmt(s.scenario.consumptive_fraction)}
             </p>
-            <div class="metric-grid">
+            <div class="fs-grid">
               {metrics.map((m) => (
-                <div class:list={["metric", m.tone]}>
-                  <div class="metric-value">{fmt(m.v)}</div>
-                  <div class="metric-label">
-                    {m.label} {grounded(m.v) ? "" : "(modeled)"}
-                  </div>
-                </div>
+                <FigureStat stat={toStat(m.label, m.v, m.tone === "neg")} size="lg" />
               ))}
             </div>
           </div>

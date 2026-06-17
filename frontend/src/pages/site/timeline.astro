@@ -1,53 +1,41 @@
 ---
 import Base from "../../layouts/Base.astro";
-import EvidenceTag from "../../components/EvidenceTag.astro";
+import Timeline from "../../components/Timeline.astro";
+import type { TimelineItem } from "../../lib/viz";
 import { hasFeed, loadFeed } from "../../lib/bundle";
 import { evidenceKind, type TimelineEntry } from "../../lib/feeds";
+import { walkAnchorFor } from "../../lib/walk";
+import { withBase } from "../../lib/site";
 
-const events = hasFeed("timeline") ? loadFeed<TimelineEntry[]>("timeline") : [];
+const entries = hasFeed("timeline") ? loadFeed<TimelineEntry[]>("timeline") : [];
+const isDated = (e: TimelineEntry): boolean => /^\d{4}/.test(e.date);
+const dated = entries.filter(isDated).sort((a, b) => a.date.localeCompare(b.date));
+const ordered = [...dated, ...entries.filter((e) => !isDated(e))];
 
-// Group by year (undated events last, under "Undated").
-const yearOf = (e: TimelineEntry): string => (e.date.match(/^\d{4}/)?.[0] ?? "Undated");
-const byYear = new Map<string, TimelineEntry[]>();
-for (const e of events) {
-  const y = yearOf(e);
-  (byYear.get(y) ?? byYear.set(y, []).get(y)!).push(e);
-}
-const years = [...byYear.keys()].sort((a, b) => {
-  if (a === "Undated") return 1;
-  if (b === "Undated") return -1;
-  return a.localeCompare(b);
+const items: TimelineItem[] = ordered.map((e) => {
+  const anchor = walkAnchorFor(e.source) ?? (e.also_sources ?? []).map(walkAnchorFor).find(Boolean);
+  return {
+    date: e.date || "",
+    kind: e.category.replace(/_/g, " "),
+    title: e.title,
+    summary: e.detail ?? undefined,
+    evidence: evidenceKind(e.citation),
+    seenInCh: anchor?.ch,
+    seenInHref: anchor ? withBase(`/walk/${anchor.slug}`) : undefined,
+  };
 });
 ---
 
 <Base title="Timeline" section="site">
   <article class="prose">
+    <p><a href={withBase("/site/")}>← The BOSC site</a></p>
     <h1>Timeline</h1>
     <p class="section-lead">
-      {events.length} dated events, each traceable to the extraction(s) that
-      supplied it. The pill marks a <EvidenceTag kind="verified" /> citation vs
-      an <EvidenceTag kind="inference" /> one.
+      {entries.length} events, cause → consequence — each traceable to the
+      extraction that supplied it, the evidence node colored by its citation.
     </p>
-
-    {
-      years.map((y) => (
-        <section class="timeline-year">
-          <h2>{y}</h2>
-          <ul class="timeline-list">
-            {byYear
-              .get(y)!
-              .sort((a, b) => a.date.localeCompare(b.date))
-              .map((e) => (
-                <li>
-                  <span class="timeline-date">{e.date || "—"}</span>
-                  <strong>{e.title}</strong>{" "}
-                  <EvidenceTag kind={evidenceKind(e.citation)} title={e.source} />
-                  {e.detail && <div class="card-meta">{e.detail}</div>}
-                </li>
-              ))}
-          </ul>
-        </section>
-      ))
-    }
   </article>
+  <div class="rb-list">
+    <Timeline events={items} />
+  </div>
 </Base>
