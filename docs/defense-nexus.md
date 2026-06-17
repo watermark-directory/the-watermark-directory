@@ -31,18 +31,22 @@ less.
 
 ## the geography is real
 
-Roughly two miles from the campus corridor sits the **Joint Systems Manufacturing
-Center** — the Lima Army Tank Plant — operated by **General Dynamics Land Systems**.
-It is not a rumor; it is on the parcel map. The corpus carries it as five contiguous
-parcels totaling **~384 acres**, every one of them owned, in the auditor's own field,
-by **"UNITED STATES."** `[verified: data/site/bundle/feeds/geo/jsmc.geojson]` GDLS's
-operation of the plant is a matter of public record `[reference]`.
+About **five and a half miles south** of the campus sits the **Joint Systems
+Manufacturing Center** — the Lima Army Tank Plant — operated by **General Dynamics
+Land Systems**. It is not a rumor; it is on the parcel map. The corpus carries it as
+five contiguous parcels totaling **~384 acres**, every one of them owned, in the
+auditor's own field, by **"UNITED STATES."**
+`[verified: data/site/bundle/feeds/geo/jsmc.geojson]` Measured against the campus
+parcels, the nearest edges are **~5.5 miles apart** (centers ~6.6 mi)
+`[verified: computed from geo/campus + geo/jsmc]` — the two share a city and a
+corridor study area, not adjoining land. GDLS's operation of the plant is a matter
+of public record `[reference]`.
 
 So the corridor contains, within a few miles of each other, the largest data-center
 build in the county's history and one of the country's two heavy-armor manufacturing
-plants. That is a striking adjacency. It is also _only_ an adjacency — two facts
-that share a map, which is precisely the kind of connection the method says to raise
-as a question and stop.
+plants. That is a striking coincidence of geography. It is also _only_ that — two
+facts that share a map and five and a half miles of city, which is precisely the kind
+of connection the method says to raise as a question and stop.
 
 ———
 
@@ -81,7 +85,7 @@ signatures of an _inferred_ connection, and an inferred connection is never a fa
 
 Nothing in the corpus ties the campus to the plant, to GDLS, or to a defense
 workload. There is no contract, no filing, no dated communication naming both. The
-adjacency to the JSMC is geography; the IL-6 credential is a capability Google holds
+proximity to the JSMC is geography; the IL-6 credential is a capability Google holds
 everywhere it operates, not a fact about Lima; the AWS testimony is about AWS. Each
 thread, followed honestly, ends without reaching the campus.
 
@@ -123,7 +127,7 @@ use quiet, and the "no records" wall that keeps even the absence of one unproven
 
 That is an uncomfortable place to end, and it is the correct one. A defense nexus is
 not a finding of this record. It is a question the record raises by what it contains —
-a federal plant on the next parcels over, a developer cleared to SECRET, a procurement
+a federal plant a few miles down the corridor, a developer cleared to SECRET, a procurement
 order, an industry that hosts the CIA — and cannot answer by what it withholds. The
 walk's discipline was built for exactly this thread: to let the reader see the
 question clearly without being handed a conclusion the evidence has not earned. The

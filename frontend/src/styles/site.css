@@ -1367,6 +1367,44 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 @media (max-width: 640px) { .eu-tabs { grid-template-columns: 1fr 1fr; } .eu-attrs { grid-template-columns: 1fr; } .eu-access { flex-direction: column; } }
 @media (prefers-reduced-motion: reduce) { .eu-tab { transition: none; } }
 
+/* ---- defense-nexus map (#233 interactive): footprints + the measured gap ---- */
+.dn-surface { margin: 18px 0; }
+.dn { display: flex; flex-direction: column; gap: 14px; }
+.dn-map { max-width: 100%; height: 62vh; min-height: 380px; }
+.dn-controls { max-width: 16rem; }
+.dn-key { margin-top: 8px; border-top: 1px solid var(--td-srccard-line); padding-top: 8px; display: grid; gap: 5px; }
+.dn-key-row { display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: var(--bosc-ink); }
+.dn-swatch { width: 12px; height: 12px; border-radius: 3px; flex: none; box-shadow: 0 0 0 1px rgba(20, 24, 40, 0.18); }
+.dn-rule { width: 14px; height: 0; flex: none; border-top: 2px dashed #606678; }
+.dn-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.dn-tab { text-align: left; padding: 10px 12px; border: 1px solid var(--td-srccard-line); border-radius: 9px; background: #fff; cursor: pointer; font-weight: 700; font-size: 13px; color: var(--bosc-ink); transition: border-color 0.12s, background 0.12s; }
+.dn-tab:hover { border-color: var(--bosc-indigo); }
+.dn-tab.is-active { border-color: var(--bosc-indigo); background: var(--td-tint); box-shadow: inset 0 0 0 1px var(--bosc-indigo); }
+.dn-tab:focus-visible { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; }
+.dn-detail { padding: 14px 16px; border-radius: 10px; background: var(--bosc-paper, #fafafa); border: 1px solid var(--td-srccard-line); }
+.dn-detail-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.dn-detail-title { margin: 0; font-size: 1.05rem; }
+.dn-detail-body { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--bosc-ink); }
+.dn-cite { margin: 10px 0 0; font-size: 11px; font-family: var(--td-mono); color: var(--td-faint); line-height: 1.45; }
+.dn-metrics { display: flex; flex-wrap: wrap; gap: 8px; }
+.dn-metric { font-size: 12px; color: var(--td-faint); background: var(--td-panel); border-radius: 6px; padding: 6px 11px; }
+.dn-metric strong { font-family: var(--td-mono); color: var(--bosc-ink); font-weight: 700; }
+.dn-readout { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; background: var(--td-open-bg); border-radius: 8px; }
+.dn-readout-row { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: var(--bosc-ink); }
+.dn-table { margin-top: 14px; }
+.dn-table caption { caption-side: top; text-align: left; font-size: 12px; color: var(--td-faint); line-height: 1.5; margin-bottom: 8px; }
+.dn-td-cite { display: block; font-size: 11px; font-family: var(--td-mono); color: var(--td-faint); margin-top: 3px; }
+.dn-fallback { margin-top: 10px; }
+.dn-fallback > summary { cursor: pointer; font-size: 12.5px; color: var(--td-faint); padding: 4px 0; list-style: none; user-select: none; }
+.dn-fallback > summary::-webkit-details-marker { display: none; }
+.dn-fallback > summary::before { content: "▸ "; color: var(--bosc-indigo); }
+.dn-fallback[open] > summary::before { content: "▾ "; }
+.dn-fallback > summary:hover { color: var(--bosc-ink); }
+.dn-fallback[open] > summary { margin-bottom: 6px; }
+.dn-fallback > summary:focus-visible { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 640px) { .dn-tabs { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .dn-tab { transition: none; } }
+
 /* ---- the timeline spine (#225): sequence-as-argument ---- */
 .wspine { margin: 22px 0; border: 1px solid var(--td-srccard-line); border-radius: 10px; background: #fff; padding: 18px 20px; }
 .wspine-eyebrow { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--bosc-inference); font-weight: 700; margin-bottom: 8px; }
