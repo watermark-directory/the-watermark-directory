@@ -41,41 +41,52 @@ const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[op
         <EndUseExplorer client:only="react" data={endUse} />
         <noscript>
           <div class="dil-noscript">
-            The explorer needs JavaScript — the same content is in the table below.
+            The explorer needs JavaScript — the same content is in the full table below.
           </div>
         </noscript>
       </div>
 
-      <table class="dtable eu-table">
-        <caption>
-          The four businesses called “data center,” and what the Lima record establishes about each.
-          The developer is Google (<code>[verified]</code>); which model the campus is stays
-          <code>[open]</code>.
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">Type</th>
-            <th scope="col">Who owns the compute</th>
-            <th scope="col">Who can use it</th>
-            <th scope="col">Lima</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            endUse.types.map((t) => (
-              <tr>
-                <td>
-                  <strong>{t.label}</strong>
-                  <span class="eu-td-tag">{t.tagline}</span>
-                </td>
-                <td>{t.ownsCompute}</td>
-                <td>{t.whoCanUse}</td>
-                <td>{limaLabel(t.limaStatus)}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
+      {/*
+        The plain-text fallback. Open by default so no-JS readers (who get no explorer)
+        have the content immediately; the inline script below collapses it when JS is
+        present, so it doesn't sit beside the explorer looking like a second control.
+      */}
+      <details open class="eu-fallback" id="eu-fallback">
+        <summary class="eu-fallback-summary">The full table — every type, in plain text</summary>
+        <table class="dtable eu-table">
+          <caption>
+            The four businesses called “data center,” and what the Lima record establishes about each.
+            The developer is Google (<code>[verified]</code>); which model the campus is stays
+            <code>[open]</code>.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">Who owns the compute</th>
+              <th scope="col">Who can use it</th>
+              <th scope="col">Lima</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              endUse.types.map((t) => (
+                <tr>
+                  <td>
+                    <strong>{t.label}</strong>
+                    <span class="eu-td-tag">{t.tagline}</span>
+                  </td>
+                  <td>{t.ownsCompute}</td>
+                  <td>{t.whoCanUse}</td>
+                  <td>{limaLabel(t.limaStatus)}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </details>
+      <script is:inline>
+        document.getElementById("eu-fallback")?.removeAttribute("open");
+      </script>
     </section>
 
     <div class="callout callout--open">
