@@ -105,7 +105,11 @@ export default function CorridorMap({ src }: { src: string }): JSX.Element {
   }, [fc, visible, basemap]);
 
   return (
-    <div className="deck-surface">
+    <div
+      className="deck-surface"
+      role="figure"
+      aria-label="Interactive map of the project corridor and watershed features (deck.gl); the underlying features are also listed as text on this page."
+    >
       <DeckGL
         initialViewState={INITIAL_VIEW_STATE}
         controller

@@ -59,7 +59,7 @@ const toStat = (label: string, v: ProvenancedValue, neg?: boolean): FigureStatDa
         ];
         return (
           <div class="scenario">
-            <h3>{s.scenario.name}</h3>
+            <h2>{s.scenario.name}</h2>
             {s.scenario.description && <p class="card-meta">{s.scenario.description}</p>}
             <p class="card-meta">
               Cooling demand: {fmt(s.scenario.cooling_demand)} · consumptive fraction{" "}

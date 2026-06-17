@@ -162,7 +162,11 @@ export default function EntityGraph({ src, focus: focusProp }: { src: string; fo
   }, [graph, focusKey, neighborhood]);
 
   return (
-    <div className="deck-surface">
+    <div
+      className="deck-surface"
+      role="figure"
+      aria-label="Interactive network graph of entities and their relationships (deck.gl); the same entities are linked as text on this page."
+    >
       <DeckGL
         views={new OrthographicView({})}
         initialViewState={{ target: view.target, zoom: view.zoom }}
