@@ -973,6 +973,42 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .seg-row input:focus-visible + label { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; }
 .submit-note { margin: 0.4rem 0 0; font-size: 0.8rem; line-height: 1.55; color: var(--bosc-muted); }
 
+/* ---- Ask the corpus (/ask, Epic #207) ---- */
+.ask-card { gap: 0.85rem; padding: 1.15rem 1.25rem 1.25rem; background: #fff; border: 1px solid var(--bosc-rule); border-radius: 14px; box-shadow: 0 2px 7px rgba(20, 24, 40, 0.06); }
+.ask-card textarea { min-height: 3.5rem; }
+.ask-examples { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.ask-example {
+  font: inherit;
+  font-size: 0.82rem;
+  color: var(--bosc-indigo);
+  background: var(--td-tint);
+  border: 1px solid var(--td-tint-line);
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+  cursor: pointer;
+  text-align: left;
+}
+.ask-example:hover { background: #fff; border-color: var(--bosc-indigo); }
+.ask-example:focus-visible { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; }
+
+/* The grounded answer + its inline citation markers. */
+.ask-answer { margin: 1.2rem 0 0; padding: 1.05rem 1.2rem; background: #fff; border: 1px solid var(--bosc-rule); border-left: 3px solid var(--bosc-indigo); border-radius: 10px; }
+.ask-answer > :first-child { margin-top: 0; }
+.ask-answer > :last-child { margin-bottom: 0; }
+.ask-empty { color: var(--bosc-muted); margin: 0; }
+.ask-cite { font-size: 0.7em; line-height: 0; }
+.ask-cite a { text-decoration: none; font-weight: 700; color: var(--bosc-indigo); padding: 0 0.1em; }
+.ask-cite a:hover { text-decoration: underline; }
+.ask-cite--unresolved { color: var(--bosc-inference); font-weight: 700; cursor: help; padding: 0 0.1em; }
+
+/* Sources-used list under the answer. */
+.ask-sources-title { margin: 1rem 0 0.4rem; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bosc-muted); font-weight: 700; }
+.ask-sources { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+.ask-source { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; font-size: 0.9rem; }
+.ask-source-marker { font-weight: 700; color: var(--bosc-indigo); flex: none; }
+.ask-source-link { font-weight: 600; }
+.ask-source-loc { font-size: 0.78rem; color: var(--bosc-muted); }
+
 /* About: the "what this is" method panel + principles (design "Home, Submit & About"). */
 .about-method { margin: 1.2rem 0; padding: 0.9rem 1rem; background: var(--td-panel); border: 1px solid var(--bosc-rule); border-radius: 10px; }
 .about-method-label { font-size: 10px; letter-spacing: 0.9px; text-transform: uppercase; color: var(--td-faint); font-weight: 700; margin-bottom: 0.7rem; }

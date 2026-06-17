@@ -1,0 +1,114 @@
+// Grounding-prompt assembly + citation extraction for /api/ask (#210).
+//
+// All pure — no runtime, no network — so the faithfulness contract (answer only from
+// retrieved context, cite every claim, refuse when the record is silent) is unit-tested
+// directly (#215). The route (api/ask.ts) does the I/O: retrieve → assemble → call the
+// model → extract.
+
+import type { Hit } from "./retrieval";
+
+/** A source actually cited by the answer, resolved back to its bundle page (#213). */
+export interface AskCitation {
+  /** The `[n]` marker as it appears in the answer text (1-based). */
+  marker: number;
+  /** The ask-unit id, `${feed}:${localId}`. */
+  id: string;
+  feed: string;
+  title: string;
+  /** Root-absolute deep link (pre-base) to the page this source lives on. */
+  url: string;
+  source?: string | null;
+  page?: number | null;
+  source_kind?: string | null;
+  /** Derived evidence flag (record/connector-grounded) for the source badge (#213). */
+  verified?: boolean;
+}
+
+/** The /api/ask response body — the contract the page + citation UI read (#212, #213). */
+export interface AskResult {
+  answer: string;
+  citations: AskCitation[];
+  /** True when the record is silent (no retrieval, or the model declined). */
+  refused: boolean;
+  model: string;
+  usage?: { input_tokens: number; output_tokens: number };
+}
+
+/** What the model is told to say verbatim when the record can't support an answer. */
+export const REFUSAL = "I don't find that in the record.";
+
+const SYSTEM = [
+  "You are the research assistant for Project BOSC, a public-records investigation.",
+  "You answer questions about the BOSC corpus STRICTLY from the numbered sources provided",
+  "with each question. The corpus is litigation evidence; a confident wrong answer is far",
+  "worse than an honest refusal.",
+  "",
+  "Rules:",
+  "- Use ONLY the provided sources. Never use outside knowledge or fill gaps with inference.",
+  "- Cite every factual claim with the bracketed marker of the source it came from, e.g. [1]",
+  "  or [2][3]. Put the marker right after the claim it supports.",
+  `- If the sources do not contain the answer, reply with exactly: "${REFUSAL}" and cite nothing.`,
+  "  Do this whenever you are unsure — silence in the record is a finding, not a gap to fill.",
+  "- Do not speculate, editorialize, or describe what is 'likely'. State only what the sources say.",
+  "- Quote figures and dates exactly as written, preserving any '~' approximate marker.",
+  "- Be concise: a few sentences, plain prose. No preamble, no 'based on the sources'.",
+].join("\n");
+
+/** Render one retrieved hit as a numbered source block for the prompt. */
+function sourceBlock(hit: Hit, n: number): string {
+  const u = hit.unit;
+  const loc = [u.source, u.page != null ? `p.${u.page}` : null].filter(Boolean).join(" ");
+  const head = `[${n}] ${u.title}${loc ? ` — ${loc}` : ""}`;
+  return `${head}\n${u.text}`;
+}
+
+/** Assemble the system + user messages for a question grounded in `hits`. */
+export function assemblePrompt(question: string, hits: Hit[]): { system: string; user: string } {
+  const sources = hits.map((h, i) => sourceBlock(h, i + 1)).join("\n\n");
+  const user = [
+    "Sources from the BOSC corpus:",
+    "",
+    sources,
+    "",
+    "---",
+    `Question: ${question}`,
+    "",
+    "Answer using only the sources above, citing each claim with its [n] marker.",
+  ].join("\n");
+  return { system: SYSTEM, user };
+}
+
+/**
+ * Parse the `[n]` markers the answer used and resolve each to its retrieved hit, in the
+ * order markers first appear. Markers outside the source range are a model error — they
+ * are dropped here (the UI also flags any it can't resolve to a page, #213).
+ */
+export function extractCitations(answer: string, hits: Hit[]): AskCitation[] {
+  const seen = new Set<number>();
+  const out: AskCitation[] = [];
+  for (const m of answer.matchAll(/\[(\d+)\]/g)) {
+    const marker = Number(m[1]);
+    if (seen.has(marker)) continue;
+    seen.add(marker);
+    const hit = hits[marker - 1];
+    if (!hit) continue; // out-of-range marker — drop, don't fabricate a source
+    const u = hit.unit;
+    out.push({
+      marker,
+      id: u.id,
+      feed: u.feed,
+      title: u.title,
+      url: u.url,
+      source: u.source ?? null,
+      page: u.page ?? null,
+      source_kind: u.source_kind ?? null,
+      verified: u.verified ?? false,
+    });
+  }
+  return out;
+}
+
+/** True when the answer is (just) the refusal sentence. */
+export function isRefusal(answer: string): boolean {
+  return answer.trim().replace(/\s+/g, " ").toLowerCase().startsWith(REFUSAL.toLowerCase());
+}

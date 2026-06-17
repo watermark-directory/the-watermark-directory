@@ -5,9 +5,15 @@ Pages (one origin). Cloudflare routes a file here to the matching path —
 `api/submit.ts` → `POST /api/submit`. Files/dirs prefixed `_` (e.g. `api/_lib/`) are
 **not** routed; they're shared modules.
 
-Today this is just the **submissions endpoint** (tips/corrections → an inert GitHub
-issue). The contract, abuse model, identity, and bootstrap are in
-[`docs/submissions-api.md`](../../docs/submissions-api.md).
+Two endpoints live here:
+
+- the **submissions endpoint** (`api/submit.ts`, tips/corrections → an inert GitHub
+  issue) — contract, abuse model, identity, bootstrap in
+  [`docs/submissions-api.md`](../../docs/submissions-api.md);
+- the **ask endpoint** (`api/ask.ts`, "Ask the corpus" → a Claude-grounded, cited answer
+  over the build-time `ask-index`) — contract, grounding/refusal policy, abuse model, and
+  bootstrap in [`docs/ask-api.md`](../../docs/ask-api.md). It calls the Anthropic Messages
+  API directly over `fetch` (no SDK) and streams the answer back as SSE.
 
 ## Constraints
 
@@ -18,13 +24,16 @@ issue). The contract, abuse model, identity, and bootstrap are in
 - **Typecheck:** `npm run check` runs `tsc -p functions/tsconfig.json` (WebWorker libs).
   This tree is **excluded** from the Astro project's tsconfig so `astro check` doesn't
   typecheck Workers code with DOM/Astro libs.
-- **Pure logic is split out** (`api/_lib/schema.ts`, `api/_lib/issue.ts`, and the window
-  math in `api/_lib/ratelimit.ts`) so it's testable without the runtime
-  (`node --experimental-strip-types`).
+- **Pure logic is split out** into `api/_lib/` (submit's `schema.ts`/`issue.ts` + the
+  window math in `ratelimit.ts`; ask's `retrieval.ts` BM25, `ask.ts` prompt/citation
+  assembly, `sse.ts`/`anthropicStream.ts` parsing, and `budget.ts`) so it's testable
+  without the runtime. Those modules are unit-tested from `src/lib/*.test.ts` via vitest
+  (`npm test`), including the ask faithfulness eval (`askEval*.test.ts`).
 
 ## Not live yet
 
-The endpoint returns `503` until `SUBMISSIONS_ENABLED=true` and the secrets are set in
-the Cloudflare project (App id/key, Turnstile secret) — see the bootstrap in the doc.
-The frontend form mirrors this: it only renders when `PUBLIC_TURNSTILE_SITE_KEY` is set
-at build time, otherwise it shows a disabled placeholder.
+Each endpoint returns `503` until its kill switch is `=true` and its secrets are set in
+the Cloudflare project — `SUBMISSIONS_ENABLED` (App id/key, Turnstile secret) for submit;
+`ASK_ENABLED` (`ANTHROPIC_API_KEY`, Turnstile secret) for ask. Both frontend pages mirror
+this: they render the live form only when `PUBLIC_TURNSTILE_SITE_KEY` is set at build
+time, otherwise a disabled placeholder. See the bootstrap in each doc.
