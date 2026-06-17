@@ -1,90 +1,69 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { hasFeed, loadFeed, loadManifest } from "../../lib/bundle";
-import { slugify, type ConceptItem, type EntityNode } from "../../lib/feeds";
+import { hasFeed, loadManifest } from "../../lib/bundle";
 import { withBase } from "../../lib/site";
 
 const manifest = loadManifest();
 const byName = new Map(manifest.feeds.map((f) => [f.name, f]));
 const count = (n: string): number => byName.get(n)?.count ?? 0;
+const num = (n: number): string => n.toLocaleString("en-US");
 
-const entities = hasFeed("entities") ? loadFeed<EntityNode[]>("entities") : [];
-const roleTotal = (e: EntityNode): number => Object.values(e.roles ?? {}).reduce((a, b) => a + b, 0);
-const topEntities = [...entities].sort((a, b) => roleTotal(b) - roleTotal(a)).slice(0, 8);
-const concepts = hasFeed("concepts") ? loadFeed<ConceptItem[]>("concepts") : [];
+interface Door {
+  id: string;
+  path: string;
+  href: string;
+  count: string;
+  title: string;
+  desc: string;
+  note: string;
+}
+const doors: Door[] = [
+  { id: "entities", path: "/wiki/entities", href: "/wiki/entities/", count: num(count("entities")), title: "Entities", desc: "Resolved parties — variants, parcels, identifiers, graph neighborhood, and sources.", note: "who appears" },
+  { id: "graph", path: "/wiki/graph", href: "/wiki/graph", count: num(count("relationships")), title: "Entity graph", desc: "The interactive force-directed graph of entities and the relationships between them.", note: "interactive" },
+  { id: "concepts", path: "/wiki/concepts", href: "/wiki/concepts/", count: num(count("concepts")), title: "Concepts", desc: "Glossary entries cross-linked via [[wiki links]] — the method, defined.", note: "the glossary" },
+  { id: "people", path: "/site/people", href: "/site/people/", count: num(count("people")), title: "People", desc: "Curated individual profiles, kept under the BOSC site.", note: "profiles" },
+];
+const curated: string[] = [];
+if (hasFeed("candidates")) curated.push("candidates");
+if (hasFeed("defense-contractors")) curated.push("defense-contractors");
+if (hasFeed("lei")) curated.push("LEIs");
+if (curated.length) {
+  const href = hasFeed("candidates") ? "/wiki/candidates" : hasFeed("lei") ? "/wiki/lei" : "/wiki/defense-contractors";
+  doors.push({ id: "curated", path: "/wiki", href, count: String(curated.length), title: "Curated inventories", desc: "Hand-curated lists alongside the corpus graph — leads to verify, not classifications.", note: curated.join(" · ") });
+}
 ---
 
-<Base title="Wiki" section="wiki">
-  <article class="prose">
-    <h1>Wiki</h1>
-    <p class="section-lead">
-      Entity and concept pages with backlinks and a graph neighborhood — the
-      cross-linked index of who and what appears in the record.
-    </p>
-
-    <h2 id="entities">Entities</h2>
-    <p>
-      {count("entities")} resolved parties, each with its graph neighborhood and
-      sources. → <a href={withBase("/wiki/entities/")}>Browse entities</a> ·
-      <a href={withBase("/wiki/graph")}>open the interactive graph</a>
-    </p>
-    <ul class="neighborhood">
+<Base title="Wiki" section="wiki" rail={false}>
+  <div class="hub">
+    <div class="hub-head">
+      <div>
+        <div class="hub-eyebrow">Section · wiki</div>
+        <h1>Who and what</h1>
+        <p class="hub-lead">
+          The cross-linked index of the parties and concepts in the record —
+          entity and concept pages with backlinks and a graph neighborhood.
+        </p>
+      </div>
+      <span class="hub-count"><span class="dot" aria-hidden="true"></span>{num(count("entities"))} entities · {num(count("relationships"))} edges</span>
+    </div>
+    <div class="hub-grid">
       {
-        topEntities.map((e) => (
-          <li>
-            <a href={`${withBase("/wiki/entities/")}${slugify(e.key)}/`}>{e.display}</a>
-            <span class="card-meta"> · {e.kind}</span>
-          </li>
-        ))
-      }
-    </ul>
-
-    <h2 id="people">People</h2>
-    <p>
-      {count("people")} curated individual profiles live under the BOSC site. →
-      <a href={withBase("/site/people/")}>Open profiles</a>
-    </p>
-
-    <h2 id="concepts">Concepts</h2>
-    <p>
-      {count("concepts")} glossary concepts, cross-linked via <code>[[wiki links]]</code>. →
-      <a href={withBase("/wiki/concepts/")}>Open the glossary</a>
-    </p>
-    <div class="cards">
-      {
-        concepts.slice(0, 6).map((c) => (
-          <a class="card" href={`${withBase("/wiki/concepts/")}${c.slug}/`}>
-            <span class="card-title">{c.title}</span>
-            <span class="card-meta">{c.summary}</span>
+        doors.map((d) => (
+          <a class="hub-door" id={d.id} href={withBase(d.href)}>
+            <div class="hub-door-top">
+              <span class="hub-door-path">{d.path}</span>
+              <span class="hub-door-count">{d.count}</span>
+            </div>
+            <div class="hub-door-title">{d.title}</div>
+            <div class="hub-door-desc">{d.desc}</div>
+            <div class="hub-door-foot">
+              <span class="hub-door-browse">Browse</span>
+              <span class="hub-door-note">{d.note}</span>
+              <span class="hub-door-arrow" aria-hidden="true">›</span>
+            </div>
           </a>
         ))
       }
     </div>
-
-    <h2 id="curated">Curated entities</h2>
-    <p>
-      Hand-curated entity inventories that sit alongside the corpus graph — leads to verify, not
-      corpus-derived classifications.
-    </p>
-    <div class="cards">
-      {hasFeed("candidates") && (
-        <a class="card" href={withBase("/wiki/candidates")}>
-          <span class="card-title">Cloud-consumer candidates</span>
-          <span class="card-meta">{count("candidates")} corridor operations marked on demand-fit</span>
-        </a>
-      )}
-      {hasFeed("defense-contractors") && (
-        <a class="card" href={withBase("/wiki/defense-contractors")}>
-          <span class="card-title">Defense contractors</span>
-          <span class="card-meta">DoD-prime pattern matches + the county land scan</span>
-        </a>
-      )}
-      {hasFeed("lei") && (
-        <a class="card" href={withBase("/wiki/lei")}>
-          <span class="card-title">Entity LEIs (GLEIF)</span>
-          <span class="card-meta">{count("lei")} legal-entity identifiers + parent chains</span>
-        </a>
-      )}
-    </div>
-  </article>
+  </div>
 </Base>
