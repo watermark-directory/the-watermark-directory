@@ -34,6 +34,16 @@ parity — the GitHub Pages cutover is deliberately parity-gated. See
 site's cross-links** — they're rewritten at build time (`frontend/src/lib/rehype-doc-links.ts`)
 so the same source stays valid for the legacy SSG too.
 
+The **investigative-method layer** is the methodology the platform's analysis and
+prose are held to: `.claude/skills/` carries six abstract, agent-discoverable
+skills (evidentiary-discipline is the spine; the rest defer to it), and
+`docs/investigative-method/` carries the candidate agent system prompt plus the
+`ENRICHMENT.md` that binds those skills to this repo's artifacts (the `[verified]`/
+`[inference]`/`[reference]`/`[open]` tag vocabulary, the `EntityGraph`,
+`ProvenancedValue`, `docs/legal/`, the corpus audit). Wiring it into the in-app
+`bosc.agent` research agent is deferred follow-up; the skills are usable by
+repo-working agents now.
+
 ## Conventions
 
 - **Tooling:** mise manages the toolchain (Python 3.11, uv, node 24, git-lfs);
