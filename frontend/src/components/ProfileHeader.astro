@@ -1,0 +1,85 @@
+---
+/**
+ * Profile Header (design "Profile Header") — one shared identity strip for all
+ * four profile kinds (entity / person / place / concept): kind eyebrow, name +
+ * alias chips, descriptor, evidence pill, view-in-graph, a figure-stat strip, a
+ * key-attributes dl, the relationship/backlink neighborhood, and the same
+ * seen-in-walk + suggest-correction glue as the Record Block. SSR-only.
+ */
+import type { ProfileHeaderData } from "../lib/profile";
+import EvidenceTag from "./EvidenceTag.astro";
+import FigureStat from "./FigureStat.astro";
+
+interface Props {
+  profile: ProfileHeaderData;
+}
+const { profile: p } = Astro.props;
+---
+
+<section class="ph">
+  <div class="ph-id">
+    <div class="ph-bar" aria-hidden="true" />
+    <div class="ph-id-main">
+      <div class="ph-kind">{p.kindLabel}</div>
+      <div class="ph-name-row">
+        <h1 class="ph-name">{p.name}</h1>
+        {p.variants && p.variants.length > 0 && (
+          <div class="ph-variants">
+            {p.variants.map((v) => <span class="ph-variant">{v}</span>)}
+          </div>
+        )}
+      </div>
+      {p.descriptor && <p class="ph-descriptor">{p.descriptor}</p>}
+    </div>
+    <div class="ph-id-right">
+      <EvidenceTag kind={p.evidence} />
+      {p.graphHref && <a class="ph-graph" href={p.graphHref}>◉ View in graph</a>}
+    </div>
+  </div>
+
+  {p.seenIn && (
+    <a class="rb-seen" href={p.seenIn.href}>
+      <span class="rb-seen-badge">↩ seen in the walk</span>
+      <span class="rb-seen-text">Chapter {p.seenIn.ch} · <b>{p.seenIn.label}</b></span>
+      <span class="rb-seen-resume">resume the walk ›</span>
+    </a>
+  )}
+
+  {p.stats && p.stats.length > 0 && (
+    <div class="ph-stats">
+      {p.stats.map((s) => <FigureStat stat={s} size="sm" />)}
+    </div>
+  )}
+
+  {p.attrs && p.attrs.length > 0 && (
+    <div class="ph-attrs">
+      {p.attrs.map((a) => (
+        <div class="ph-attr">
+          <div class="ph-attr-label">{a.label}</div>
+          <div class="ph-attr-value-wrap">
+            {a.tag && <span class:list={["ph-attr-tag", `ph-tag--${a.tag}`]}>[{a.tag}]</span>}
+            <div class="ph-attr-value">{a.value}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {((p.relationships && p.relationships.length > 0) || p.correctHref) && (
+    <div class="ph-foot">
+      {p.relationships && p.relationships.length > 0 && (
+        <div class="ph-rels">
+          <span class="ph-rels-label">{p.relLabel ?? "Related"}</span>
+          {p.relationships.map((r) =>
+            r.href ? (
+              <a class="ph-rel" href={r.href}><span class="ph-rel-kind">{r.kind}</span>{r.label}</a>
+            ) : (
+              <span class="ph-rel"><span class="ph-rel-kind">{r.kind}</span>{r.label}</span>
+            ),
+          )}
+        </div>
+      )}
+      {p.correctHref && <a class="ph-correct" href={p.correctHref}>✎ Suggest a correction</a>}
+    </div>
+  )}
+</section>

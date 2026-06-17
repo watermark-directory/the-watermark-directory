@@ -1,8 +1,10 @@
 ---
 import type { GetStaticPaths } from "astro";
 import Base from "../../../layouts/Base.astro";
+import ProfileHeader from "../../../components/ProfileHeader.astro";
 import { hasFeed, loadFeed } from "../../../lib/bundle";
 import type { ConceptItem } from "../../../lib/feeds";
+import type { ProfileHeaderData, ProfileRel } from "../../../lib/profile";
 import { withBase } from "../../../lib/site";
 import { conceptBacklinks, norm, renderBody, wikiIndex } from "../../../lib/wiki";
 
@@ -21,14 +23,28 @@ const related = concept.related
   .map((r) => index.get(norm(r)))
   .filter((t): t is NonNullable<typeof t> => Boolean(t));
 const backlinks = conceptBacklinks(concept.slug);
+
+const rels: ProfileRel[] = related.map((t) => ({ kind: t.kind, label: t.label, href: t.url }));
+
+const header: ProfileHeaderData = {
+  kindLabel: `Concept${concept.kind && concept.kind !== "concept" ? ` · ${concept.kind}` : ""}`,
+  name: concept.title,
+  variants: concept.aliases,
+  descriptor: concept.summary || undefined,
+  evidence: "verified",
+  relLabel: "Related",
+  relationships: rels.length ? rels : undefined,
+  correctHref: withBase(
+    `/submit?ref_kind=concept&ref_id=${encodeURIComponent(concept.slug)}&ref_label=${encodeURIComponent(concept.title)}`,
+  ),
+};
 ---
 
 <Base title={concept.title} section="wiki" description={concept.summary}>
+  <p class="prose"><a href={withBase("/wiki/concepts/")}>← Concepts</a></p>
+  <ProfileHeader profile={header} />
+
   <article class="prose">
-    <p><a href={withBase("/wiki/concepts/")}>← Concepts</a></p>
-    <h1>{concept.title}</h1>
-    {concept.summary && <p class="section-lead">{concept.summary}</p>}
-    {concept.aliases.length > 0 && <p><strong>Also:</strong> {concept.aliases.join(", ")}</p>}
     {
       concept.tags.length > 0 && (
         <ul class="chips">
@@ -40,21 +56,6 @@ const backlinks = conceptBacklinks(concept.slug);
     }
 
     {paragraphs.map((html) => <p set:html={html} />)}
-
-    {
-      related.length > 0 && (
-        <>
-          <h2>Related</h2>
-          <ul class="neighborhood">
-            {related.map((t) => (
-              <li>
-                <a href={t.url}>{t.label}</a> <span class="card-meta">({t.kind})</span>
-              </li>
-            ))}
-          </ul>
-        </>
-      )
-    }
 
     {
       backlinks.length > 0 && (

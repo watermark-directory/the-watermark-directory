@@ -16,40 +16,46 @@ const totalFiles = collections.reduce((a, c) => a + c.entries.length, 0);
       Source bytes are immutable chain-of-custody evidence; as-received filenames
       are preserved verbatim.
     </p>
+  </article>
 
-    {
-      collections.map((c) => (
-        <section id={`doc-${c.slug}`}>
+  {
+    collections.map((c) => (
+      <section id={`doc-${c.slug}`}>
+        <article class="prose">
           <h2>{c.title}</h2>
           {c.description && <p set:html={c.description} />}
+        </article>
+        <div class="dtable">
           <table>
             <thead>
               <tr>
                 <th>File</th>
                 <th>Type</th>
-                <th>Size</th>
-                <th>Status</th>
+                <th class="num">Size</th>
+                <th>Storage</th>
               </tr>
             </thead>
             <tbody>
               {c.entries.map((e) => (
                 <tr>
+                  <td class="file">
+                    {e.download_url ? <a href={e.download_url}>{e.name}</a> : <code>{e.name}</code>}
+                  </td>
+                  <td><span class="dchip dchip--type">{e.suffix || "—"}</span></td>
+                  <td class="num">{formatBytes(e.size_bytes)}</td>
                   <td>
-                    {e.download_url ? (
-                      <a href={e.download_url}>{e.name}</a>
+                    {e.available ? (
+                      <span class="dchip dchip--present">● present</span>
                     ) : (
-                      <code>{e.name}</code>
+                      <span class="dchip dchip--lfs">LFS pointer</span>
                     )}
                   </td>
-                  <td>{e.suffix}</td>
-                  <td>{formatBytes(e.size_bytes)}</td>
-                  <td>{e.available ? "present" : "LFS pointer"}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </section>
-      ))
-    }
-  </article>
+        </div>
+      </section>
+    ))
+  }
 </Base>
