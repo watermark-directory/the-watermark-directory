@@ -1,28 +1,14 @@
 // Client for the submissions form (/submit). Framework-free, in the style of
-// search.ts. Reads an optional target prefill from the query string, takes the
-// Turnstile token the widget injects, and POSTs JSON to the endpoint.
-//
-// A page can deep-link a pre-filled target:
-//   /submit?ref_kind=record&ref_id=<rel>&ref_label=<label>
-// (the per-page "suggest a correction" affordance, when wired up.)
+// search.ts. Takes the Turnstile token the widget injects and POSTs JSON to the
+// endpoint. The optional record target comes from the ref-context banner
+// (submitRef.ts owns the query-string → banner wiring); reading it from the live
+// banner state here means the banner's "clear" button cleanly drops the target.
 
 const form = document.getElementById("submit-form") as HTMLFormElement | null;
 const statusEl = document.getElementById("submit-status");
 
 if (form && statusEl) {
   const endpoint = form.dataset.endpoint || "/api/submit";
-
-  const params = new URLSearchParams(location.search);
-  const refKind = params.get("ref_kind");
-  const refId = params.get("ref_id");
-  const refLabel = params.get("ref_label");
-
-  const targetNote = document.getElementById("submit-target");
-  if (refKind && targetNote) {
-    const bits = [refKind, refId, refLabel].filter(Boolean).join(" · ");
-    targetNote.textContent = `Concerns: ${bits}`;
-    targetNote.hidden = false;
-  }
 
   const setStatus = (msg: string, kind: "ok" | "err" | "info"): void => {
     statusEl.textContent = msg;
@@ -55,11 +41,16 @@ if (form && statusEl) {
     };
     const evidence = String(data.get("evidence_url") || "").trim();
     if (evidence) payload.evidence_url = evidence;
+
+    // Record target — read from the live banner (submitRef.ts), so a "cleared"
+    // banner means no target is attached.
+    const banner = document.getElementById("submit-ref");
+    const refKind = banner && !banner.hidden ? banner.dataset.refKind : undefined;
     if (refKind) {
       payload.target = {
         ref_kind: refKind,
-        ...(refId ? { ref_id: refId } : {}),
-        ...(refLabel ? { ref_label: refLabel } : {}),
+        ...(banner?.dataset.refId ? { ref_id: banner.dataset.refId } : {}),
+        ...(banner?.dataset.refLabel ? { ref_label: banner.dataset.refLabel } : {}),
       };
     }
 

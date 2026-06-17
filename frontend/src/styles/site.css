@@ -745,8 +745,29 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 
 /* ---- Submissions form (/submit, issue #74) ---- */
 .form { display: grid; gap: 0.9rem; max-width: 40rem; margin: 1.2rem 0; }
-.form label { display: block; font-weight: 600; margin-bottom: 0.3rem; }
+.form label { display: block; font-weight: 600; margin: 0 0 0.3rem; }
 .form .field-hint { font-weight: 400; color: var(--bosc-muted); font-size: 0.82rem; }
+
+/* Bespoke pass: the submit form as a card, with a ruled footer for the action. */
+.submit-card {
+  gap: 1.05rem;
+  padding: 1.15rem 1.25rem 1.25rem;
+  background: #fff;
+  border: 1px solid var(--bosc-rule);
+  border-radius: 14px;
+  box-shadow: 0 2px 7px rgba(20, 24, 40, 0.06);
+}
+.form .field { display: grid; gap: 0.3rem; }
+.form .field label { margin: 0; }
+.form-foot {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.15rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--td-line);
+}
 .form select,
 .form input,
 .form textarea {
@@ -766,15 +787,49 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
   outline-offset: 1px;
   border-color: var(--bosc-indigo);
 }
-.form-target {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--bosc-muted);
-  background: var(--bosc-rail-bg);
-  border: 1px solid var(--bosc-rule);
-  border-radius: 6px;
-  padding: 0.4rem 0.6rem;
+/* Ref-context banner — the record a correction is about (submitRef.ts reveals it). */
+.submit-ref {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin: 1.1rem 0;
+  padding: 0.8rem 1rem;
+  background: var(--td-tint);
+  border: 1px solid var(--td-tint-line);
+  border-left: 3px solid var(--bosc-indigo);
+  border-radius: 8px;
 }
+.submit-ref-mark { flex: 0 0 auto; font-size: 1.05rem; line-height: 1.4; color: var(--bosc-indigo); }
+.submit-ref-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.submit-ref-eyebrow {
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--bosc-indigo);
+}
+.submit-ref-label { font-weight: 700; color: var(--bosc-ink); letter-spacing: -0.1px; }
+.submit-ref-id:not(:empty) {
+  margin-top: 1px;
+  font-family: var(--bosc-mono);
+  font-size: 0.78rem;
+  color: var(--td-faint);
+  word-break: break-all;
+}
+.submit-ref-clear {
+  flex: 0 0 auto;
+  align-self: center;
+  font: inherit;
+  font-size: 0.78rem;
+  color: var(--bosc-muted);
+  background: #fff;
+  border: 1px solid var(--bosc-rule);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.submit-ref-clear:hover { color: var(--bosc-ink); border-color: var(--bosc-muted); }
 .btn {
   justify-self: start;
   padding: 0.55rem 1.1rem;
