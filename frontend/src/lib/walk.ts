@@ -100,6 +100,11 @@ export const WALK_ANCHORS: Record<string, WalkAnchor> = {
     slug: "who",
     label: "Who is actually building this?",
   },
+  "permits/4132514.epa.yaml": {
+    ch: "02",
+    slug: "scale",
+    label: "How big is it — and what won't they tell you?",
+  },
   "oepa/oepa-2PH00006-american-ii-fact-sheet.npdes.yaml": {
     ch: "03",
     slug: "water",

@@ -323,6 +323,7 @@ export const AIR_TEARDOWN: TeardownRecord = {
     { kind: "concept", label: "[[hyperscale-data-center]]", href: withBase("/wiki/concepts/") },
     { kind: "doc", label: "the bigger picture", href: withBase("/docs/bigger-picture") },
   ],
+  recordRel: "permits/4132514.epa.yaml",
 };
 
 /**
