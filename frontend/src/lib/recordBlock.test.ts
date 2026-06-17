@@ -72,10 +72,18 @@ describe("recordToBlock", () => {
   });
 
   it("backlinks to the walk when the record anchors a chapter", () => {
-    const noAnchor = recordToBlock(baseRecord());
+    const noAnchor = recordToBlock(baseRecord({ rel: "permits/3702676.epa.yaml" }));
     expect(noAnchor.seenIn).toBeUndefined();
 
     const anchored = recordToBlock(baseRecord({ rel: "aedg/roundabouts.summary.opc.yaml", group: "aedg" }));
     expect(anchored.seenIn).toEqual({ ch: "04", label: "What it costs the public", href: "/walk/cost" });
+
+    // The Ch.2 air permit (#185) — the default mock rel is now itself an anchor.
+    const air = recordToBlock(baseRecord());
+    expect(air.seenIn).toEqual({
+      ch: "02",
+      label: "How big is it — and what won't they tell you?",
+      href: "/walk/scale",
+    });
   });
 });

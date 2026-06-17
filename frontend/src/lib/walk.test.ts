@@ -40,8 +40,13 @@ describe("walkAnchorFor", () => {
     expect(a).toEqual({ ch: "04", slug: "cost", label: "What it costs the public" });
   });
 
+  it("resolves the Ch.2 air-permit anchor (#185)", () => {
+    const a = walkAnchorFor("permits/4132514.epa.yaml");
+    expect(a).toEqual({ ch: "02", slug: "scale", label: "How big is it — and what won't they tell you?" });
+  });
+
   it("returns undefined for a rel with no anchor", () => {
-    expect(walkAnchorFor("permits/4132514.epa.yaml")).toBeUndefined();
+    expect(walkAnchorFor("permits/4132514.epa.yaml.nope")).toBeUndefined();
   });
 
   it("every anchor slug points at a real chapter", () => {
