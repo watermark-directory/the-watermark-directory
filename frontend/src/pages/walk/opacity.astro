@@ -8,6 +8,7 @@
 import Base from "../../layouts/Base.astro";
 import PathWayfinding from "../../components/PathWayfinding.astro";
 import RecordTeardown from "../../components/RecordTeardown.astro";
+import WithholdingStack from "../../components/WithholdingStack.astro";
 import { OPACITY_TEARDOWN } from "../../lib/teardowns";
 import { chapterByStep, WALK_INDEX_HREF, walkHref } from "../../lib/walk";
 import { withBase } from "../../lib/site";
@@ -33,6 +34,17 @@ const prev = chapterByStep(STEP - 1);
         walk to assemble it? Because none of it was meant to be easy to see. The
         withholding here is not one refusal — it's an architecture, layered along
         the records lifecycle, and each layer is individually lawful-looking.
+        Open each layer below to read the operative clause and the document it
+        lives in.
+      </p>
+    </div>
+
+    <WithholdingStack />
+
+    <div class="walk-prose">
+      <p>
+        One record consolidates the whole architecture — the withholding map. Here
+        it is as a teardown, with the deciding analysis (item 4) still locked.
       </p>
     </div>
 
