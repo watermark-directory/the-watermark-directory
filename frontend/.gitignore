@@ -6,3 +6,8 @@ dist/
 # Local env overrides (e.g. BOSC_BUNDLE_DIR).
 .env
 .env.local
+
+# Astro's static-assets dir IS source (favicon, etc.) — re-include it; a global
+# gitignore (`public`) would otherwise exclude it.
+!public/
+!public/**

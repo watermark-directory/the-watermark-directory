@@ -1,5 +1,7 @@
 ---
 import Header from "../components/Header.astro";
+import Icon from "../components/Icon.astro";
+import Logo from "../components/Logo.astro";
 import SectionToc from "../components/SectionToc.astro";
 import { SECTIONS, type SectionId, type TocEntry } from "../lib/nav";
 import { SITE_NAME, SITE_DESCRIPTION, withBase } from "../lib/site";
@@ -36,6 +38,7 @@ const showRail = rail !== false && toc.length > 0;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
     <title>{title === SITE_NAME ? title : `${title} · ${SITE_NAME}`}</title>
   </head>
   <body>
@@ -62,11 +65,11 @@ const showRail = rail !== false && toc.length > 0;
         </p>
         <div class="footer-actions">
           <span class="footer-pill"><span class="dot" aria-hidden="true"></span>provenance-first</span>
-          <a class="btn" href={withBase("/submit")}>✎ Submit a tip or correction</a>
+          <a class="btn btn--icon" href={withBase("/submit")}><Icon name="correction" size={15} /> Submit a tip or correction</a>
         </div>
       </div>
       <div class="footer-bar">
-        <a class="footer-brand" href={withBase("/")}>BOSC</a>
+        <a class="footer-brand" href={withBase("/")}><Logo size={17} class="footer-mark" />BOSC</a>
         {SECTIONS.map((s) => <a href={withBase(s.href)}>{s.tab}</a>)}
         <span class="footer-sep" aria-hidden="true">·</span>
         <a href={withBase("/docs/methodology")}>Methodology</a>
