@@ -1071,6 +1071,25 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .td-srcfoot { padding: 8px 10px; border-top: 1px solid var(--td-line); font-size: 11px; font-family: var(--td-mono); color: var(--td-faint); line-height: 1.5; }
 .td-srcnote { font-size: 11px; color: var(--td-faint); margin-top: 8px; line-height: 1.45; }
 
+/* ---- real-source viewer (#218): the actual extraction / scan crop, not the ghost ---- */
+/* When the record is in the bundle, the body shows real content — drop the
+   placeholder "lined paper" and let it size to the content (min-height keeps the
+   annotated pins, which are calibrated to the old fixed heights, in range). */
+.td-srcbody--real { height: auto; min-height: 168px; background: #fff; overflow: hidden; }
+.td-srcbody--sm.td-srcbody--real { min-height: 130px; }
+.td-srcbody--lg.td-srcbody--real { min-height: 300px; }
+.td-facsimile { margin: 0; padding: 12px 14px; display: grid; gap: 7px; align-content: start; }
+.td-fac-row { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr); gap: 10px; align-items: baseline; border-bottom: 1px dotted var(--td-srccard-line); padding-bottom: 6px; }
+.td-fac-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.td-fac-label { margin: 0; font-size: 11px; color: var(--td-faint); }
+.td-fac-value { margin: 0; font-size: 12px; font-weight: 600; font-family: var(--td-mono); color: var(--bosc-ink); overflow-wrap: anywhere; }
+.td-fac-value.is-warn { color: var(--td-danger); }
+.td-scanfig { margin: 0; position: relative; line-height: 0; }
+.td-scanimg { display: block; width: 100%; height: auto; }
+.td-cropbox { position: absolute; border: 2px solid var(--td-danger); background: rgba(31, 35, 48, 0.06); border-radius: 2px; display: flex; align-items: flex-start; justify-content: flex-end; pointer-events: none; }
+.td-cropbox span { font-size: 9px; font-weight: 700; letter-spacing: 0.5px; color: #fff; background: var(--td-danger); padding: 1px 4px; border-radius: 0 0 0 3px; line-height: 1.3; }
+.td-live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--bosc-verified); margin-right: 5px; vertical-align: middle; }
+
 /* ---- Layout A · split-screen read ---- */
 .td-body { padding: 22px; }
 .td-split { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--td-card-line); border-radius: 10px; overflow: hidden; }

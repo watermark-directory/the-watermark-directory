@@ -1,0 +1,79 @@
+---
+/**
+ * The Record Teardown's `① source` card — the real-source viewer (#218). Retires
+ * the fabricated grey ghost: shows either a committed **scan crop** of the real
+ * document region (with the blank/CBI box highlighted) or, failing that, the
+ * record's **real extraction** rendered as a document facsimile from the live
+ * feed. Only the minimal CI fixture (record absent) falls back to a quiet pill.
+ *
+ * Shared by all three teardown layouts (split / scroll / annotated); the size
+ * variant matches the old `.td-srcbody` heights, and the annotated layout's pins
+ * + redaction bar overlay whichever body is shown. SSR-only — fully readable
+ * with JS off.
+ */
+import type { BlockField } from "../lib/recordBlock";
+import { withBase } from "../lib/site";
+import type { TeardownPin, TeardownSource } from "../lib/teardown";
+
+interface Props {
+  source: TeardownSource;
+  /** The anchor record's real scalar fields (empty when not in the bundle). */
+  fields: BlockField[];
+  size?: "sm" | "md" | "lg";
+  /** Generic redaction bar (annotated layout) when there's no crop overlay. */
+  redactionLabel?: string;
+  pins?: TeardownPin[];
+}
+const { source, fields, size = "md", redactionLabel, pins = [] } = Astro.props;
+
+const badge = source.badge ?? "SCAN";
+const crop = source.scanCrop;
+const cap = size === "lg" ? 9 : size === "sm" ? 5 : 7;
+const facsimile = fields.slice(0, cap);
+const bodyClass = size === "lg" ? "td-srcbody--lg" : size === "sm" ? "td-srcbody--sm" : "";
+// A crop carries its own precise overlay; otherwise the generic bar marks the gap.
+const showBar = !!redactionLabel && !crop?.redaction;
+---
+
+<div class="td-srccard">
+  <div class="td-srccard-head">
+    <div class="td-doc-icon" aria-hidden="true"></div>
+    <div class="td-srcfile">{source.file}</div>
+    <div class="td-scan">{badge}</div>
+  </div>
+
+  <div class:list={["td-srcbody", bodyClass, (crop || facsimile.length) && "td-srcbody--real"]}>
+    {crop ? (
+      <figure class="td-scanfig">
+        <img class="td-scanimg" src={withBase(crop.src)} alt={crop.alt} loading="lazy" decoding="async" />
+        {crop.redaction && (
+          <div
+            class="td-cropbox"
+            style={`left:${crop.redaction.x};top:${crop.redaction.y};width:${crop.redaction.w};height:${crop.redaction.h};`}
+          >
+            {crop.redaction.label && <span>{crop.redaction.label}</span>}
+          </div>
+        )}
+      </figure>
+    ) : facsimile.length ? (
+      <dl class="td-facsimile" aria-label={`Extraction from ${source.file}`}>
+        {facsimile.map((f) => (
+          <div class="td-fac-row">
+            <dt class="td-fac-label">{f.label}</dt>
+            <dd class:list={["td-fac-value", f.warn && "is-warn"]}>{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+    ) : (
+      <div class="td-srcfallback"><div class="td-srcfallback-pill">⤓ View source on request</div></div>
+    )}
+
+    {showBar && <div class="td-redaction"><span>{redactionLabel}</span></div>}
+    {pins.map((p) => (
+      <div class:list={["td-pin", p.danger && "is-danger"]} style={`left:${p.x};top:${p.y};`} aria-label={`Annotation ${p.n}`}>{p.n}</div>
+    ))}
+  </div>
+
+  <div class="td-srcfoot">{source.pages} · {source.collection}{crop?.caption && <> · {crop.caption}</>}</div>
+</div>
+<div class="td-srcnote">{source.note}</div>

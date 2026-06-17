@@ -13,6 +13,24 @@ export type TagKind = "verified" | "inference" | "open";
 
 export type TeardownLayout = "split" | "scroll" | "annotated";
 
+/**
+ * A committed scan crop of the real document region — a small raster (PNG under
+ * `public/`, NOT the LFS source PDF) that retires the placeholder ghost. The
+ * `redaction` overlay marks the blank / CBI box so "the blank is the evidence"
+ * is *visible*; the interactive reveal on top of it is #220.
+ */
+export interface TeardownScanCrop {
+  /** App-relative path to the committed PNG (the component wraps it in withBase),
+   *  e.g. "/walk/crops/opc-summary.png". A raster, never the LFS source binary. */
+  src: string;
+  /** Accessible description of what the crop shows (the real region). */
+  alt: string;
+  /** Caption under the crop — typically the page/sheet locator. */
+  caption?: string;
+  /** Highlight box over the blank/CBI region, as percentages of the image box. */
+  redaction?: { x: string; y: string; w: string; h: string; label?: string };
+}
+
 export interface TeardownSource {
   /** Source filename, shown in the document chrome. */
   file: string;
@@ -28,13 +46,35 @@ export interface TeardownSource {
   badge?: string;
   /** Optional real link to the materialized exhibit/source. */
   href?: string;
+  /** Committed scan crop of the real region; when present the source viewer shows
+   *  it instead of the real-extraction facsimile. */
+  scanCrop?: TeardownScanCrop;
 }
+
+/** Presentation unit applied to a feed-sourced numeric figure. The digits come
+ *  from the bundle (no fork); the unit/grouping is display only. */
+export type TeardownUnit = "usd" | "pct" | "tpy" | "cfs" | "count" | "raw";
 
 export interface TeardownRow {
   label: string;
+  /** Curated display value — the fallback when no `path`, or when the record
+   *  isn't in the bundle / the path doesn't resolve. */
   value: string;
   /** Render the value as a scope-gap / approximate flag (red). */
   warn?: boolean;
+  /**
+   * Dotted path into the anchor record's `fields` (e.g. "consideration",
+   * "facility_wide_limits.nox_tpy"). When the teardown's `recordRel` is in the
+   * bundle and this path resolves, the figure is read from the live `records`
+   * feed (the same value the library renders) and formatted with `unit` — so a
+   * load-bearing number can never fork from the source. Rows without a `path`
+   * are editorial framing and always render their curated `value`.
+   */
+  path?: string;
+  /** Presentation unit for a feed-sourced numeric `path` value (default "raw"). */
+  unit?: TeardownUnit;
+  /** Set by the resolver to true when `value` was sourced live from the feed. */
+  live?: boolean;
 }
 
 export interface TeardownPin {

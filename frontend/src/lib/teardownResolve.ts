@@ -1,9 +1,14 @@
 /**
  * Resolve a curated Record Teardown against the live content bundle, at build
  * time. This is what keeps the guided walk and the reference library reading the
- * SAME feeds — the teardown's editorial framing stays curated, but its links and
- * provenance are confirmed against the actual bundle rows:
+ * SAME feeds — the teardown's editorial framing stays curated, but its figures,
+ * links and provenance are confirmed against the actual bundle rows:
  *
+ *   - load-bearing rows carrying a `path` get their value from the anchor
+ *     record's `fields` (the same datum + approximate-marker the library renders),
+ *     formatted by `unit` — so a checkable number can never fork from the source.
+ *   - the `① source` panel surfaces the record's real extraction (`sourceFields`),
+ *     retiring the placeholder ghost.
  *   - `verify` deep-links to the exact `records` row (`/site/records/<group>#<rel>`)
  *     when that row is in the bundle; the row's `citation` is surfaced on the
  *     source card so the provenance is the library's own, not a restatement.
@@ -12,13 +17,16 @@
  *     exists in the `concepts` feed.
  *
  * Everything is PRESENT-CHECKED against the bundle being built, so a minimal
- * fixture (CI) gracefully falls back to the curated link rather than 404-ing.
+ * fixture (CI) gracefully falls back to the curated value/link rather than
+ * forking or 404-ing.
  */
 import { hasFeed, loadFeed } from "./bundle";
 import { type Citation, type ConceptItem, type RecordItem, slugify } from "./feeds";
 import { legalBySlug } from "./legal";
+import { type BlockField, recordToBlock } from "./recordBlock";
+import { formatScalar } from "./records";
 import { withBase } from "./site";
-import type { TeardownConnect, TeardownRecord } from "./teardown";
+import type { TeardownConnect, TeardownRecord, TeardownRow, TeardownUnit } from "./teardown";
 
 /** Records in the bundle being built, by `rel` (built once). */
 const recordsByRel: Map<string, RecordItem> = (() => {
@@ -40,25 +48,97 @@ function conceptSlugOf(label: string): string | null {
   return m ? slugify(m[1]) : null;
 }
 
+/** Resolve a dotted `path` into a record's `fields` (e.g. "meta.summary_total");
+ *  `undefined` when any segment is missing — the signal to keep the curated value. */
+function getPath(fields: Record<string, unknown>, path: string): unknown {
+  let cur: unknown = fields;
+  for (const seg of path.split(".")) {
+    if (cur == null || typeof cur !== "object") return undefined;
+    cur = (cur as Record<string, unknown>)[seg];
+  }
+  return cur;
+}
+
+/** Whether a dotted `path` is flagged approximate (`~`) in the record. */
+function isApproxPath(record: RecordItem, path: string): boolean {
+  return record.approximate_paths.some((p) => p === path || p.startsWith(`${path}.`));
+}
+
+/** Group an integer part with thousands separators (deterministic, no locale). */
+function groupThousands(n: number): string {
+  const neg = n < 0;
+  const [int, frac] = Math.abs(n).toString().split(".");
+  const grouped = int.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return `${neg ? "-" : ""}${grouped}${frac ? `.${frac}` : ""}`;
+}
+
+/** Present a feed-sourced figure with its display `unit`; the digits are the
+ *  bundle's, the unit/grouping is presentation only (never fabricates a value). */
+function formatBound(raw: unknown, unit: TeardownUnit | undefined): string {
+  if (raw == null) return "—";
+  const num = typeof raw === "number" ? raw : Number(raw);
+  const isNum =
+    typeof raw === "number" || (typeof raw === "string" && raw.trim() !== "" && !Number.isNaN(num));
+  switch (unit) {
+    case "usd":
+      return isNum ? `$${groupThousands(num)}` : formatScalar(raw);
+    case "pct":
+      return isNum ? `${groupThousands(num)}%` : formatScalar(raw);
+    case "tpy":
+      return isNum ? `${groupThousands(num)} tpy` : formatScalar(raw);
+    case "cfs":
+      return isNum ? `${groupThousands(num)} cfs` : formatScalar(raw);
+    case "count":
+      return isNum ? groupThousands(num) : formatScalar(raw);
+    default:
+      return formatScalar(raw);
+  }
+}
+
+/** Rewrite a teardown row from the anchor record when it carries a `path` that
+ *  resolves; otherwise return it unchanged (curated framing / graceful fallback). */
+function bindRow(row: TeardownRow, record: RecordItem): TeardownRow {
+  if (!row.path) return row;
+  const raw = getPath(record.fields, row.path);
+  if (raw === undefined) return row; // path absent in this record → keep curated value
+  return {
+    ...row,
+    value: formatBound(raw, row.unit),
+    warn: row.warn ?? (raw === null || isApproxPath(record, row.path)),
+    live: true,
+  };
+}
+
 export interface ResolvedTeardown {
   teardown: TeardownRecord;
   /** The backing record's bundle citation, when the row is present. */
   liveCitation: Citation | null;
   /** True when `verify` was deep-linked to a real bundle target. */
   verifyResolved: boolean;
+  /** The anchor record's real scalar fields (the library's own row output), for
+   *  the source viewer — empty when the record isn't in the bundle. */
+  sourceFields: BlockField[];
 }
 
 export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
   let check = t.check;
   let liveCitation: Citation | null = null;
   let verifyResolved = false;
+  let extraction = t.extraction;
+  let sourceFields: BlockField[] = [];
 
-  // 1. records-backed → deep-link verify to the exact record + surface its citation.
+  // 1. records-backed → bind load-bearing figures + the source viewer to the live
+  //    record, deep-link verify, and surface its citation.
   if (t.recordRel && recordsByRel.has(t.recordRel)) {
     const row = recordsByRel.get(t.recordRel) as RecordItem;
     liveCitation = row.citation;
     check = { ...check, verifyHref: withBase(`/site/records/${row.group}/${slugify(t.recordRel)}`) };
     verifyResolved = true;
+    extraction = t.extraction.map((r) => bindRow(r, row));
+    // Source card shows the substantive extraction (skip empty "—" scalars); the
+    // full record screen still renders every field. Deliberate blanks are carried
+    // as the ② curated warn rows / the redaction-reveal crop, not buried here.
+    sourceFields = recordToBlock(row).fields.filter((f) => f.value !== "—");
   } else if (t.legalSlug && legalBySlug.has(t.legalSlug)) {
     // 2. legal-backed → deep-link verify to the legal-history page.
     check = { ...check, verifyHref: withBase(`/site/legal/${t.legalSlug}`) };
@@ -72,5 +152,10 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
     return slug && conceptSlugs.has(slug) ? { ...c, href: withBase(`/wiki/concepts/${slug}`) } : c;
   });
 
-  return { teardown: { ...t, check, connect }, liveCitation, verifyResolved };
+  return {
+    teardown: { ...t, check, connect, extraction },
+    liveCitation,
+    verifyResolved,
+    sourceFields,
+  };
 }
