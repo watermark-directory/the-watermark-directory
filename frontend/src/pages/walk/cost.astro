@@ -8,13 +8,19 @@
 import Base from "../../layouts/Base.astro";
 import PathWayfinding from "../../components/PathWayfinding.astro";
 import RecordTeardown from "../../components/RecordTeardown.astro";
+import MoneyFlow from "../../components/islands/MoneyFlow.tsx";
 import { OPC_TEARDOWN, RDA_TEARDOWN } from "../../lib/teardowns";
+import { buildMoneyFlow, fmtUsd, fmtUsdFull } from "../../lib/moneyFlow";
 import { chapterByStep, WALK_INDEX_HREF, walkHref } from "../../lib/walk";
 import { withBase } from "../../lib/site";
 
 const STEP = 4;
 const prev = chapterByStep(STEP - 1);
 const next = chapterByStep(STEP + 1);
+
+// The follow-the-money flow — OPC line items feed-sourced; the contribution,
+// the actual award, and the abatement terms are cited constants.
+const money = buildMoneyFlow();
 ---
 
 <Base
@@ -59,6 +65,76 @@ const next = chapterByStep(STEP + 1);
         carries the cost.
       </p>
     </div>
+
+    <section class="walk-interactive" aria-label="Follow the money">
+      <h2 class="walk-explore-h">Follow the money</h2>
+      <div class="mf-surface">
+        <MoneyFlow client:only="react" data={money} />
+        <noscript>
+          <div class="dil-noscript">
+            The interactive flow needs JavaScript — the table below is the same data.
+          </div>
+        </noscript>
+      </div>
+
+      <table class="dtable mf-table">
+        <caption>
+          The roadwork money, traced. The OPC line items are the records feed's own (no fork); the
+          §5.5 refund consequence is <code>[inference]</code> — it turns on grant awards not in the document.
+        </caption>
+        <thead>
+          <tr><th scope="col">Stage</th><th scope="col">Amount</th><th scope="col">Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Collected · “Company Contribution”</td>
+            <td><strong>{fmtUsdFull(money.collectedUsd)}</strong></td>
+            <td class="mf-td-cite">{money.collectedCite}</td>
+          </tr>
+          {
+            money.opcItems.map((it) => (
+              <tr class="mf-tr-item">
+                <td>— {it.name}</td>
+                <td>{fmtUsdFull(it.usd)}</td>
+                <td class="mf-td-cite">OPC line item (records feed)</td>
+              </tr>
+            ))
+          }
+          <tr>
+            <td>Tetra Tech OPC estimate · total</td>
+            <td><strong>{fmtUsdFull(money.opcTotalUsd)}</strong></td>
+            <td class="mf-td-cite">aedg/roundabouts.summary.opc.yaml (records feed)</td>
+          </tr>
+          <tr>
+            <td>First actual award · Eagle Bridge (N. Cole)</td>
+            <td><strong>~{fmtUsdFull(money.firstAward.usd)}</strong></td>
+            <td class="mf-td-cite">{money.firstAward.cite}</td>
+          </tr>
+          <tr>
+            <td>§5.5 grant-refund <code>[inference]</code></td>
+            <td>surplus → developer</td>
+            <td class="mf-td-cite">{money.refund.cite}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout--open mf-abate">
+        <p class="callout-title">The parallel strand — the abatement</p>
+        <p>
+          A <strong>{money.abatement.pct}%</strong> real-property abatement for
+          <strong> {money.abatement.years} years</strong> on a ~{fmtUsd(money.abatement.buildUsd)} build,
+          pulled from the <strong>{money.abatement.taxBase}</strong> tax base — and the land was CAUV
+          farmland, so converting it triggers tax recoupment. The public return: ~{money.abatement.jobs} jobs
+          / ~{fmtUsd(money.abatement.payrollUsd)} payroll by 2030, from a near-zero today.
+        </p>
+        <p>
+          What the abatement costs <em>per job</em> — its value divided across ~{money.abatement.jobs} jobs —
+          is the deciding number, and it is <strong>withheld</strong>: the School District Compensation
+          Agreement dollar terms are non-public. <span class="mf-tag mf-tag--open">[open]</span> The walk doesn't fill that
+          blank; it shows you where it is.
+        </p>
+      </div>
+    </section>
 
     <div class="callout walk-takeaway">
       <p class="callout-title">What you can read anywhere now</p>
