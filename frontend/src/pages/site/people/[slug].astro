@@ -4,8 +4,9 @@ import Base from "../../../layouts/Base.astro";
 import Provenance from "../../../components/Provenance.astro";
 import ProfileHeader from "../../../components/ProfileHeader.astro";
 import { hasFeed, loadFeed } from "../../../lib/bundle";
-import { evidenceKind, paragraphs, slugify, type PersonItem } from "../../../lib/feeds";
+import { evidenceKind, paragraphs, type PersonItem } from "../../../lib/feeds";
 import type { ProfileAttr, ProfileHeaderData } from "../../../lib/profile";
+import { entityHref } from "../../../lib/entityLinks";
 import { withBase } from "../../../lib/site";
 
 export const getStaticPaths: GetStaticPaths = () => {
@@ -31,7 +32,7 @@ const header: ProfileHeaderData = {
   attrs: attrs.length ? attrs : undefined,
   relLabel: "Linked entity",
   relationships: person.entity_key
-    ? [{ kind: "entity", label: person.name, href: `${withBase("/wiki/entities/")}${slugify(person.entity_key)}/` }]
+    ? [{ kind: "entity", label: person.name, href: entityHref(person.entity_key) }]
     : undefined,
   correctHref: withBase(
     `/submit?ref_kind=person&ref_id=${encodeURIComponent(person.slug)}&ref_label=${encodeURIComponent(person.name)}`,

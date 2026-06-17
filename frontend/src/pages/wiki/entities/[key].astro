@@ -6,6 +6,7 @@ import { hasFeed, loadFeed } from "../../../lib/bundle";
 import { slugify, type EntityNode, type PersonItem, type RelationshipEdge } from "../../../lib/feeds";
 import type { ProfileAttr, ProfileHeaderData, ProfileRel } from "../../../lib/profile";
 import type { FigureStatData } from "../../../lib/viz";
+import { entityHref } from "../../../lib/entityLinks";
 import { withBase } from "../../../lib/site";
 
 export const getStaticPaths = (() => {
@@ -26,7 +27,6 @@ export const getStaticPaths = (() => {
 }) satisfies GetStaticPaths;
 
 const { entity, outgoing, incoming, profiles, display } = Astro.props;
-const entUrl = (key: string): string => `${withBase("/wiki/entities/")}${slugify(key)}/`;
 const label = (key: string): string => display[key] ?? key;
 
 const roleTotal = Object.values(entity.roles ?? {}).reduce((a, b) => a + b, 0);
@@ -45,7 +45,7 @@ if (entity.signals?.length) attrs.push({ label: "Signals", value: entity.signals
 if (entity.lei) attrs.push({ label: "LEI", value: entity.lei, tag: "verified" });
 if (entity.uei) attrs.push({ label: "UEI", value: entity.uei, tag: "verified" });
 
-const rels: ProfileRel[] = outgoing.slice(0, 5).map((r) => ({ kind: r.rel, label: label(r.dst), href: entUrl(r.dst) }));
+const rels: ProfileRel[] = outgoing.slice(0, 5).map((r) => ({ kind: r.rel, label: label(r.dst), href: entityHref(r.dst) }));
 
 const header: ProfileHeaderData = {
   kindLabel: `Entity · ${entity.kind}`,
@@ -74,18 +74,26 @@ const header: ProfileHeaderData = {
         <p class="stub-note">No recorded relationships for this entity.</p>
       ) : (
         <ul class="neighborhood">
-          {outgoing.map((r) => (
-            <li>
-              <span class="rel-arrow">{r.rel} →</span> <a href={entUrl(r.dst)}>{label(r.dst)}</a>
-              {r.source && <span class="card-meta"> ({r.source})</span>}
-            </li>
-          ))}
-          {incoming.map((r) => (
-            <li>
-              <a href={entUrl(r.src)}>{label(r.src)}</a> <span class="rel-arrow">→ {r.rel}</span>
-              {r.source && <span class="card-meta"> ({r.source})</span>}
-            </li>
-          ))}
+          {outgoing.map((r) => {
+            const h = entityHref(r.dst);
+            return (
+              <li>
+                <span class="rel-arrow">{r.rel} →</span>{" "}
+                {h ? <a href={h}>{label(r.dst)}</a> : <span>{label(r.dst)}</span>}
+                {r.source && <span class="card-meta"> ({r.source})</span>}
+              </li>
+            );
+          })}
+          {incoming.map((r) => {
+            const h = entityHref(r.src);
+            return (
+              <li>
+                {h ? <a href={h}>{label(r.src)}</a> : <span>{label(r.src)}</span>}{" "}
+                <span class="rel-arrow">→ {r.rel}</span>
+                {r.source && <span class="card-meta"> ({r.source})</span>}
+              </li>
+            );
+          })}
         </ul>
       )
     }
