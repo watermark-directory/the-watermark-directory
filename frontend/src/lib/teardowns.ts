@@ -367,3 +367,19 @@ export const RDA_TEARDOWN: TeardownRecord = {
   ],
   legalSlug: "withholding-map",
 };
+
+/** All curated teardowns, for lookup by the record they anchor. */
+export const ALL_TEARDOWNS: TeardownRecord[] = [
+  OPACITY_TEARDOWN,
+  DEED_TEARDOWN,
+  SHELL_TEARDOWN,
+  OPC_TEARDOWN,
+  AIR_TEARDOWN,
+  NPDES_TEARDOWN,
+  RDA_TEARDOWN,
+];
+
+/** The curated teardown anchored to a record `rel`, if one exists. */
+export function teardownForRel(rel: string): TeardownRecord | undefined {
+  return ALL_TEARDOWNS.find((t) => t.recordRel === rel);
+}

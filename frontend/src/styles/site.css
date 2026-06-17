@@ -1362,3 +1362,37 @@ a.walk-dot:hover { opacity: 0.82; }
 .dchip--present { color: var(--bosc-verified); background: var(--td-verified-bg); }
 .dchip--lfs { color: var(--bosc-muted); background: var(--td-open-bg); }
 .dchip--type { color: var(--td-chip-kind); background: var(--td-tint); border: 1px solid var(--td-tint-line); font-family: var(--bosc-mono); }
+
+/* ===========================================================================
+   Record Screen (/site/records/<group>/<id>, #193): breadcrumb → the record
+   (full block) → the teardown flow, with a no-JS CSS layout toggle.
+   =========================================================================== */
+.rec { max-width: 62rem; }
+.rec-crumb { font-size: 0.8rem; color: var(--bosc-muted); margin: 0 0 1.1rem; line-height: 1.7; }
+.rec-crumb a { color: var(--td-chip-kind); text-decoration: none; }
+.rec-crumb a:hover { text-decoration: underline; }
+.rec-crumb-here { color: var(--bosc-ink); font-weight: 600; }
+.rec-part { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--td-faint); font-weight: 700; margin-bottom: 0.7rem; }
+.rec-part.is-indigo { color: var(--bosc-indigo); }
+
+.rec-handoff { display: flex; align-items: center; gap: 0.9rem; max-width: 54rem; margin: 1.7rem 0 1.5rem; }
+.rec-handoff-mark { flex: 0 0 auto; width: 2rem; height: 2rem; border-radius: 50%; background: var(--bosc-indigo); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+.rec-handoff-text { margin: 0; font-size: 0.95rem; line-height: 1.5; color: var(--bosc-ink); }
+
+/* The layout toggle: sr-only focusable radios drive which panel shows (no JS). */
+.rec-flow-radio { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.rec-flow-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.rec-flow-seg { display: flex; align-items: center; gap: 2px; background: var(--td-tint); border: 1px solid var(--td-tint-line); border-radius: 9px; padding: 3px; }
+.rec-flow-flow { font-size: 11px; color: var(--td-faint); padding: 0 0.4rem; }
+.rec-flow-seg label { font-size: 0.8rem; color: var(--bosc-muted); padding: 0.3rem 0.8rem; border-radius: 7px; cursor: pointer; user-select: none; }
+.rec-flow-panel { display: none; }
+#flow-split:checked ~ .rec-flow-panel--split,
+#flow-scroll:checked ~ .rec-flow-panel--scroll,
+#flow-annotated:checked ~ .rec-flow-panel--annotated { display: block; }
+#flow-split:checked ~ .rec-flow-head label[for="flow-split"],
+#flow-scroll:checked ~ .rec-flow-head label[for="flow-scroll"],
+#flow-annotated:checked ~ .rec-flow-head label[for="flow-annotated"] { background: var(--bosc-indigo); color: #fff; font-weight: 600; }
+#flow-split:focus-visible ~ .rec-flow-head label[for="flow-split"],
+#flow-scroll:focus-visible ~ .rec-flow-head label[for="flow-scroll"],
+#flow-annotated:focus-visible ~ .rec-flow-head label[for="flow-annotated"] { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; }
+.rec-flow-note { max-width: 54rem; margin: 0.9rem 0 0; font-size: 0.8rem; line-height: 1.55; color: var(--bosc-muted); }
