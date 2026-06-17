@@ -75,6 +75,11 @@ a { color: var(--bosc-link); }
   line-height: 1;
   user-select: none;
 }
+/* The menu toggle is a real focusable, screen-reader-labeled checkbox (no JS):
+   fully hidden on desktop (where the section tabs always show), and an sr-only
+   focusable control on mobile whose :checked state reveals the nav. Its focus
+   ring is reflected onto the visible burger below. */
+.nav-toggle { display: none; }
 
 /* ---- Section tabs ---- */
 .sections {
@@ -637,6 +642,25 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 }
 @media (max-width: 800px) {
   .nav-burger { display: inline-block; }
+  /* sr-only but focusable — keyboard/AT users reach it and toggle with Space. */
+  .nav-toggle {
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .nav-toggle:focus-visible ~ .topbar .nav-burger {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
   .sections {
     position: absolute;
     top: var(--topbar-h);

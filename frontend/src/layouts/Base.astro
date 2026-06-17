@@ -29,7 +29,13 @@ const { title, description = SITE_DESCRIPTION, section = "home", rail = true } =
     <title>{title === SITE_NAME ? title : `${title} · ${SITE_NAME}`}</title>
   </head>
   <body>
-    <input type="checkbox" id="bosc-nav-toggle" class="nav-toggle" hidden />
+    <input
+      type="checkbox"
+      id="bosc-nav-toggle"
+      class="nav-toggle"
+      aria-label="Open the section menu"
+      aria-controls="bosc-sections"
+    />
     <Header active={section} />
     <div class:list={["layout", { "no-rail": !rail }]}>
       {rail && <SectionToc section={section} />}
