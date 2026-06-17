@@ -40,7 +40,8 @@ function fence(s: string): string {
 }
 
 function titleText(s: Submission): string {
-  const prefix = s.kind === "correction" ? "[correction]" : "[tip]";
+  const prefix =
+    s.kind === "correction" ? "[correction]" : s.kind === "new_source" ? "[new-source]" : "[tip]";
   const label = s.target?.ref_label ? inlineSafe(s.target.ref_label) : "";
   const subject = label || inlineSafe(s.body).slice(0, 60) || "(no description)";
   return `${prefix} ${subject}`.slice(0, 120);

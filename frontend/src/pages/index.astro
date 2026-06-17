@@ -3,7 +3,9 @@ import Base from "../layouts/Base.astro";
 import FigureStat from "../components/FigureStat.astro";
 import { hasFeed, loadFeed, loadManifest } from "../lib/bundle";
 import { type DocumentCollectionItem } from "../lib/feeds";
+import { NARRATIVE } from "../lib/narrative";
 import type { FigureStatData } from "../lib/viz";
+import { WALK_CHAPTERS } from "../lib/walk";
 import { withBase } from "../lib/site";
 
 const manifest = loadManifest();
@@ -13,60 +15,84 @@ const num = (n: number): string => n.toLocaleString("en-US");
 
 const docCollections = hasFeed("documents") ? loadFeed<DocumentCollectionItem[]>("documents") : [];
 const nDocuments = docCollections.reduce((a, c) => a + c.entries.length, 0);
+const nChapters = WALK_CHAPTERS.length;
 
+// Corpus at a glance — five real, derivable counts (the design's at-a-glance strip).
 const stats: FigureStatData[] = [
-  { label: "Documents", value: num(nDocuments), evidence: "verified", sub: `${docCollections.length} collections` },
+  { label: "Source files", value: num(nDocuments), evidence: "verified", sub: `${docCollections.length} collections` },
   { label: "Records", value: num(count("records")), evidence: "verified", sub: "deeds · permits · filings" },
-  { label: "Entities", value: num(count("entities")), evidence: "verified", sub: `${num(count("relationships"))} relationships` },
-  { label: "Timeline", value: num(count("timeline")), evidence: "verified", sub: "dated events" },
+  { label: "Timeline events", value: num(count("timeline")), evidence: "verified", sub: "dated" },
+  {
+    label: "Entities & places",
+    value: num(count("entities") + count("places")),
+    evidence: "verified",
+    sub: `${num(count("relationships"))} relationships`,
+  },
+  { label: "Essays", value: num(NARRATIVE.length), evidence: "verified", sub: "long-form" },
 ];
 ---
 
 <Base title="Project BOSC" section="home" rail={false} description="Project BOSC — the public record.">
   <div class="home">
     <div class="home-hero">
-      <div class="home-kicker">Project BOSC · the public record</div>
-      <h1>A data center, reconstructed from the public record.</h1>
+      <div class="home-kicker">Public record · Lima, Ohio</div>
+      <h1>A 340-acre data center,<br />built to be invisible.</h1>
       <p class="home-lead">
-        A Google data-center campus on the North Cole Street corridor in Lima, Ohio —
-        a record kept deliberately thin. Primary documents (degraded scans, OCR PDFs)
-        are read into reviewed, cited, structured data, and the analysis is built only
-        on what those documents support.
+        A Delaware shell. Withheld land prices. 115 backup generators. A cooling draw on a
+        river whose design low flow is <span class="td-key">0.2 cfs</span>. The record was
+        made thin on purpose — here it's reassembled in the open, and
+        <strong>every figure is checkable.</strong>
       </p>
     </div>
 
+    {/* The entry fork — two co-equal doors: the researcher's library (quiet outline,
+        left) and the newcomer's walk (filled indigo, right). */}
     <div class="home-doors">
-      <a class="home-door home-door--walk" href={withBase("/start")}>
-        <span class="home-door-eyebrow">New here</span>
-        <span class="home-door-title">Take the guided walk</span>
-        <span class="home-door-desc">The story, told through the records — five chapters, and every figure is checkable.</span>
-        <span class="home-door-go">▶ Start the walk →</span>
-      </a>
       <a class="home-door home-door--archive" href={withBase("/site/")}>
-        <span class="home-door-eyebrow">Researcher</span>
-        <span class="home-door-title">Browse the archive</span>
-        <span class="home-door-desc">Documents, records, the timeline, entities, the watershed — the full reference library.</span>
-        <span class="home-door-go">Open the BOSC site →</span>
+        <div class="home-door-top">
+          <span class="home-door-eyebrow">For the researcher</span>
+          <span class="home-door-count">{num(nDocuments)} files</span>
+        </div>
+        <span class="home-door-title">Browse the record</span>
+        <span class="home-door-desc">
+          Straight to the documents, records, timeline, and entities. Provenance-first;
+          follow any citation to its source.
+        </span>
+        <span class="home-door-go">Enter the library →</span>
+      </a>
+      <a class="home-door home-door--walk" href={withBase("/start")}>
+        <div class="home-door-top">
+          <span class="home-door-eyebrow">For the newcomer</span>
+          <span class="home-door-count">{nChapters} chapters · ~18 min</span>
+        </div>
+        <span class="home-door-title">Take the guided walk</span>
+        <span class="home-door-desc">
+          A path that teaches you to read the record one document at a time — no jargon, no
+          prior knowledge.
+        </span>
+        <span class="home-door-go">▶ Start the walk →</span>
       </a>
     </div>
 
     <div class="home-stats" id="corpus">
-      {stats.map((s) => <FigureStat stat={s} size="sm" />)}
+      <div class="home-stats-label">The corpus at a glance</div>
+      <div class="home-stats-grid">
+        {stats.map((s) => <FigureStat stat={s} size="sm" />)}
+      </div>
+    </div>
+
+    <div class="home-disclaimer" id="disclaimer">
+      <span class="footer-pill"><span class="dot" aria-hidden="true"></span>provenance-first</span>
+      <p>
+        <strong>Draft.</strong> Assembled from public records the developer didn't write.
+        Registered-agent and organizer overlaps are <em>common-control plumbing</em>, not a
+        verdict on ownership; inference is labeled <code>[inference]</code> and never dressed
+        as fact. Nothing here is legal advice or a verdict — verify every figure against its
+        cited source.
+      </p>
     </div>
 
     <article class="prose">
-      <div class="callout callout-warning" id="disclaimer">
-        <p class="callout-title">What this is — and is not</p>
-        <p>
-          This site publishes <strong>public records</strong> and analysis of them.
-          Registered-agent and organizer overlaps are <em>common-control plumbing</em>,
-          <strong>not</strong> statements about beneficial ownership. Claims are tagged
-          <code>[verified]</code> (read from a cited extraction) or <code>[inference]</code>
-          (a labelled reading of the record). Nothing here is legal advice; verify every
-          figure against the cited source before quoting it in a filing.
-        </p>
-      </div>
-
       <h2 id="methodology">How the record is read</h2>
       <p>
         Each record is read from the <em>image</em>, not the OCR text layer (whose

@@ -339,23 +339,32 @@ a { color: var(--bosc-link); }
 .home-kicker { font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--bosc-indigo); font-weight: 700; }
 .home-hero h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.8px; line-height: 1.06; margin: 0.4rem 0 0.6rem; max-width: 28ch; }
 .home-lead { font-size: 1.15rem; line-height: 1.55; color: var(--bosc-ink); max-width: 42rem; }
-.home-doors { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin: 1.6rem 0; max-width: 44rem; }
-.home-door { display: flex; flex-direction: column; gap: 0.3rem; text-decoration: none; border-radius: 14px; padding: 1.1rem 1.2rem; border: 1px solid var(--bosc-rule); }
-.home-door-eyebrow { font-size: 11px; letter-spacing: 0.9px; text-transform: uppercase; font-weight: 700; }
-.home-door-title { font-size: 1.2rem; font-weight: 700; }
-.home-door-desc { font-size: 0.88rem; line-height: 1.45; }
-.home-door-go { font-size: 0.86rem; font-weight: 600; margin-top: 0.3rem; }
-.home-door--walk { background: var(--bosc-indigo); border-color: var(--bosc-indigo-dark); color: #fff; }
+.home-doors { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.7rem 0; max-width: 46rem; }
+.home-door { display: flex; flex-direction: column; gap: 0.35rem; text-decoration: none; border-radius: 14px; padding: 1.3rem; border: 1.5px solid var(--bosc-rule); }
+.home-door-top { display: flex; align-items: center; gap: 0.6rem; }
+.home-door-eyebrow { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+.home-door-count { margin-left: auto; font-size: 11px; font-family: var(--bosc-mono); }
+.home-door-title { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.4px; margin: 0.2rem 0 0.1rem; }
+.home-door-desc { font-size: 0.9rem; line-height: 1.5; }
+.home-door-go { font-size: 0.9rem; font-weight: 700; margin-top: 0.7rem; }
+.home-door--walk { background: var(--bosc-indigo); border-color: var(--bosc-indigo); color: #fff; }
 .home-door--walk .home-door-eyebrow { color: #c5cae9; }
-.home-door--walk .home-door-desc { color: rgba(255, 255, 255, 0.88); }
+.home-door--walk .home-door-count { color: #aab1e0; }
+.home-door--walk .home-door-desc { color: #dde0f5; }
 .home-door--walk .home-door-go { color: #fff; }
-.home-door--walk:hover { background: var(--bosc-indigo-dark); }
-.home-door--archive { background: #fff; color: var(--bosc-ink); box-shadow: 0 2px 7px rgba(20, 24, 40, 0.05); }
+.home-door--walk:hover { background: var(--bosc-indigo-dark); border-color: var(--bosc-indigo-dark); }
+.home-door--archive { background: #fbfbfe; color: var(--bosc-ink); border-color: var(--td-tint-line); box-shadow: 0 2px 7px rgba(20, 24, 40, 0.05); }
 .home-door--archive .home-door-eyebrow { color: var(--td-chip-kind); }
+.home-door--archive .home-door-count { color: var(--td-faint); }
 .home-door--archive .home-door-desc { color: var(--bosc-muted); }
 .home-door--archive .home-door-go { color: var(--bosc-indigo); }
-.home-door--archive:hover { border-color: var(--td-tint-line); box-shadow: 0 6px 18px rgba(20, 24, 40, 0.1); }
-.home-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: 18px 22px; padding: 1.1rem 0; border-top: 1px solid var(--bosc-rule); border-bottom: 1px solid var(--bosc-rule); margin: 1.4rem 0; max-width: 44rem; }
+.home-door--archive:hover { box-shadow: 0 6px 18px rgba(20, 24, 40, 0.1); }
+.home-stats { padding: 1.2rem 0; border-top: 1px solid var(--bosc-rule); border-bottom: 1px solid var(--bosc-rule); margin: 1.5rem 0; max-width: 46rem; }
+.home-stats-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--td-faint); font-weight: 700; margin-bottom: 0.9rem; }
+.home-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: 18px 22px; }
+.home-disclaimer { display: flex; align-items: flex-start; gap: 0.8rem; flex-wrap: wrap; max-width: 46rem; margin: 0 0 1.6rem; padding: 0.9rem 1rem; background: var(--td-panel); border: 1px solid var(--bosc-rule); border-radius: 10px; }
+.home-disclaimer p { margin: 0; font-size: 0.86rem; line-height: 1.55; color: var(--bosc-muted); flex: 1 1 16rem; }
+.home-disclaimer strong { color: var(--bosc-ink); }
 @media (max-width: 560px) { .home-doors { grid-template-columns: 1fr; } .home-hero h1 { font-size: 2.1rem; } }
 
 /* inline color swatch for data-table cells (map feature list) */
@@ -819,6 +828,30 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
   outline-offset: 1px;
   border-color: var(--bosc-indigo);
 }
+
+/* Submit: page eyebrow, the segmented kind control, and the closing note. */
+.submit-eyebrow { font-size: 11px; letter-spacing: 1.3px; text-transform: uppercase; color: var(--bosc-indigo); font-weight: 700; }
+.form fieldset.seg { border: 0; padding: 0; margin: 0; min-width: 0; }
+.form fieldset.seg > legend { padding: 0; font-weight: 600; }
+.seg-row { display: flex; gap: 2px; background: var(--td-tint); border: 1px solid var(--td-tint-line); border-radius: 9px; padding: 3px; }
+/* sr-only but focusable radios; the labels are the visible segments (no JS). */
+.form .seg-row input { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.seg-row label { flex: 1; text-align: center; font-size: 0.86rem; color: var(--bosc-muted); padding: 0.45rem 0; border-radius: 7px; cursor: pointer; user-select: none; }
+.seg-row input:checked + label { background: var(--bosc-indigo); color: #fff; font-weight: 600; }
+.seg-row input:focus-visible + label { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; }
+.submit-note { margin: 0.4rem 0 0; font-size: 0.8rem; line-height: 1.55; color: var(--bosc-muted); }
+
+/* About: the "what this is" method panel + principles (design "Home, Submit & About"). */
+.about-method { margin: 1.2rem 0; padding: 0.9rem 1rem; background: var(--td-panel); border: 1px solid var(--bosc-rule); border-radius: 10px; }
+.about-method-label { font-size: 10px; letter-spacing: 0.9px; text-transform: uppercase; color: var(--td-faint); font-weight: 700; margin-bottom: 0.7rem; }
+.about-method-flow { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.about-chip { font-size: 0.82rem; font-weight: 600; color: var(--bosc-indigo); background: var(--td-tint); border: 1px solid var(--td-tint-line); border-radius: 7px; padding: 0.3rem 0.65rem; }
+.about-arrow { color: var(--td-faint); }
+.prose ul.about-principles { list-style: none; padding: 0; margin: 1.2rem 0; display: flex; flex-direction: column; gap: 0.7rem; }
+.about-principles li { position: relative; padding-left: 1.1rem; line-height: 1.55; }
+.about-principles li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 7px; height: 7px; border-radius: 50%; background: var(--bosc-indigo); }
+.about-meta { margin-top: 1.4rem; padding-top: 0.9rem; border-top: 1px solid var(--bosc-rule); font-family: var(--bosc-mono); font-size: 0.78rem; color: var(--td-faint); }
+
 /* Ref-context banner — the record a correction is about (submitRef.ts reveals it). */
 .submit-ref {
   display: flex;
