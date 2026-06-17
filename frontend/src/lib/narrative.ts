@@ -115,6 +115,14 @@ export const NARRATIVE: NarrativeDoc[] = [
     blurb:
       "A single campus equal to ~5–6% of its utility's entire retail load, for ~50 jobs — load, not jobs. The headline “313 MW” is backup generation (and redacted in the final permit); “behind-the-meter” is a claim, not a fact. What the record carries, and who pays to carry the load.",
   },
+  {
+    repo: "the-economic-ledger.md",
+    slug: "the-economic-ledger",
+    title: "The economic ledger — what the deal costs, modeled where the record is silent",
+    section: "reports",
+    blurb:
+      "A 15-year public ledger of the deal: ~$45M–$90M in forgone tax for ~50 jobs (≈0.1% of a shrinking county). Four figures the record withholds — the building share, the job count, the school terms, the equipment spend — are modeled as a band across scenarios rather than blanked or guessed.",
+  },
 ];
 
 /** Repo paths (under docs/) of the migrated docs, e.g. "docs/DOSSIER.md". */
