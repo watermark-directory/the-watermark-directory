@@ -15,7 +15,7 @@ const base = import.meta.env.BASE_URL || "/";
   <a class="brand" href={withBase("/")}>
     <strong>BOSC</strong> <span class="brand-tagline">Lima</span>
   </a>
-  <nav class="sections" aria-label="Sections">
+  <nav class="sections" id="bosc-sections" aria-label="Sections">
     {
       SECTIONS.map((s) => (
         <a
