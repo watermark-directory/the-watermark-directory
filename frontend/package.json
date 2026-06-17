@@ -12,6 +12,8 @@
     "check:functions": "tsc -p functions/tsconfig.json",
     "check:links": "node scripts/check-links.mjs",
     "test": "vitest run",
+    "lint": "biome ci src/lib src/scripts src/components/islands functions/api scripts",
+    "format": "biome check --write src/lib src/scripts src/components/islands functions/api scripts",
     "astro": "astro"
   },
   "dependencies": {
@@ -31,6 +33,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "@biomejs/biome": "^2.5.0",
     "@types/d3-force": "^3.0.10",
     "@types/geojson": "^7946.0.16",
     "@types/node": "^22.19.20",

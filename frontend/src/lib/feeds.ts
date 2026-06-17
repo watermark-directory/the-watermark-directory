@@ -18,9 +18,7 @@ export interface Citation {
 }
 
 /** Map a citation/confidence onto an evidence badge kind (see EvidenceTag). */
-export function evidenceKind(
-  c: Pick<Citation, "verified"> | null | undefined,
-): "verified" | "inference" {
+export function evidenceKind(c: Pick<Citation, "verified"> | null | undefined): "verified" | "inference" {
   return c?.verified ? "verified" : "inference";
 }
 
@@ -339,7 +337,7 @@ export function formatBytes(n: number): string {
   if (!n) return "0 B";
   const units = ["B", "KB", "MB", "GB", "TB"];
   const i = Math.min(units.length - 1, Math.floor(Math.log(n) / Math.log(1024)));
-  const v = n / Math.pow(1024, i);
+  const v = n / 1024 ** i;
   return `${v >= 100 || i === 0 ? Math.round(v) : v.toFixed(1)} ${units[i]}`;
 }
 

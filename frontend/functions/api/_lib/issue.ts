@@ -28,15 +28,18 @@ export function submissionMarker(dedupeHash: string): string {
 
 /** Strip newlines/control chars and neutralize backticks for an inline-code context. */
 function inlineSafe(s: string): string {
-  return s
-    .replace(/[\u0000-\u001f]+/g, " ") // newlines + other control chars -> space
-    .replace(/`/g, "ʼ") // modifier-letter apostrophe — looks close, isn't a backtick
-    .trim();
+  return (
+    s
+      // biome-ignore lint/suspicious/noControlCharactersInRegex: the point is to strip control chars from untrusted input before it reaches a GitHub issue
+      .replace(/[\u0000-\u001f]+/g, " ") // newlines + other control chars -> space
+      .replace(/`/g, "ʼ") // modifier-letter apostrophe — looks close, isn't a backtick
+      .trim()
+  );
 }
 
 /** Render free text inside a fenced block; neutralize any backtick that could close it. */
 function fence(s: string): string {
-  return "```\n" + s.replace(/`/g, "ʼ") + "\n```";
+  return `\`\`\`\n${s.replace(/`/g, "ʼ")}\n\`\`\``;
 }
 
 function titleText(s: Submission): string {
@@ -52,7 +55,9 @@ export function buildIssue(s: Submission, dedupeHash: string): IssueDraft {
 
   if (s.target && s.target.ref_kind !== "general") {
     const label = s.target.ref_label ? ` — ${inlineSafe(s.target.ref_label)}` : "";
-    lines.push(`**Concerns:** \`${inlineSafe(s.target.ref_kind)}\` \`${inlineSafe(s.target.ref_id)}\`${label}`);
+    lines.push(
+      `**Concerns:** \`${inlineSafe(s.target.ref_kind)}\` \`${inlineSafe(s.target.ref_id)}\`${label}`,
+    );
   }
   if (s.page_url) lines.push(`**From page:** ${s.page_url}`);
   lines.push("");

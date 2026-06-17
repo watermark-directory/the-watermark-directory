@@ -121,6 +121,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Lint + format (Biome)
+        run: npm run lint
+
       - name: Type check
         run: npm run check
 

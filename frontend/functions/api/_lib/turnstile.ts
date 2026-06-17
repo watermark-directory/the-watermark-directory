@@ -3,11 +3,7 @@
 
 const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
-export async function verifyTurnstile(
-  token: string,
-  secret: string,
-  remoteip?: string,
-): Promise<boolean> {
+export async function verifyTurnstile(token: string, secret: string, remoteip?: string): Promise<boolean> {
   const form = new FormData();
   form.append("secret", secret);
   form.append("response", token);

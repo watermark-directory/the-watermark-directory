@@ -35,14 +35,14 @@ function htmlFiles(dir) {
 /** Does a root-relative site path resolve to a built file or directory index? */
 function resolves(sitePath) {
   let p = sitePath;
-  if (BASE && (p === BASE || p.startsWith(BASE + "/"))) p = p.slice(BASE.length) || "/";
+  if (BASE && (p === BASE || p.startsWith(`${BASE}/`))) p = p.slice(BASE.length) || "/";
   const onDisk = join(DIST, decodeURIComponent(p));
   if (existsSync(onDisk)) {
     const s = statSync(onDisk);
     if (s.isFile()) return true;
     if (s.isDirectory() && existsSync(join(onDisk, "index.html"))) return true;
   }
-  if (existsSync(onDisk + ".html")) return true; // /foo → foo.html
+  if (existsSync(`${onDisk}.html`)) return true; // /foo → foo.html
   return false;
 }
 

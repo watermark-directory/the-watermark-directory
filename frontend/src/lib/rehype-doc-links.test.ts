@@ -23,7 +23,14 @@ describe("rehype-doc-links — guards (data-independent)", () => {
   });
 
   it("leaves external / absolute / anchor / mailto links alone", () => {
-    for (const href of ["https://x.test/a", "http://x.test", "/already/abs", "#sec", "mailto:a@b.test", "tel:+1"]) {
+    for (const href of [
+      "https://x.test/a",
+      "http://x.test",
+      "/already/abs",
+      "#sec",
+      "mailto:a@b.test",
+      "tel:+1",
+    ]) {
       expect(rewrite("docs/narrative/x.md", href)).toBe(href);
     }
   });

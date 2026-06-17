@@ -129,11 +129,7 @@ export default function EntityGraph({ src, focus: focusProp }: { src: string; fo
         radiusMinPixels: 3,
         radiusMaxPixels: 22,
         getFillColor: (n) =>
-          n.key === focusKey
-            ? [191, 90, 0]
-            : lit(n.key)
-              ? [...kindColor(n.kind), 255]
-              : [...DIM, 255],
+          n.key === focusKey ? [191, 90, 0] : lit(n.key) ? [...kindColor(n.kind), 255] : [...DIM, 255],
         stroked: true,
         getLineColor: [255, 255, 255],
         lineWidthUnits: "pixels",

@@ -42,7 +42,16 @@ afterAll(() => {
 describe("bundle resolution + JSON feeds", () => {
   it("resolves the explicit BOSC_BUNDLE_DIR override and reads its feeds", async () => {
     const dir = makeBundle(
-      manifestWith([{ name: "things", path: "things.json", media_type: "application/json", schema: "s", kind: "collection", count: 2 }]),
+      manifestWith([
+        {
+          name: "things",
+          path: "things.json",
+          media_type: "application/json",
+          schema: "s",
+          kind: "collection",
+          count: 2,
+        },
+      ]),
       { "things.json": JSON.stringify([{ a: 1 }, { a: 2 }]) },
     );
     const m = await loadBundleModule(dir);
@@ -64,7 +73,16 @@ describe("bundle resolution + JSON feeds", () => {
 describe("NDJSON feeds", () => {
   it("parses an .ndjson feed line-by-line, skipping blank lines", async () => {
     const dir = makeBundle(
-      manifestWith([{ name: "rows", path: "rows.ndjson", media_type: "application/x-ndjson", schema: "s", kind: "collection", count: 2 }]),
+      manifestWith([
+        {
+          name: "rows",
+          path: "rows.ndjson",
+          media_type: "application/x-ndjson",
+          schema: "s",
+          kind: "collection",
+          count: 2,
+        },
+      ]),
       { "rows.ndjson": '{"a":1}\n{"a":2}\n\n' },
     );
     const m = await loadBundleModule(dir);

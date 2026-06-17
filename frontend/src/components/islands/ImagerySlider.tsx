@@ -20,7 +20,7 @@ import type { ImageryFeed, WaybackRelease } from "../../lib/feeds";
 const FALLBACK_VIEW = { longitude: -84.1234, latitude: 40.7969, zoom: 13.2, pitch: 0, bearing: 0 };
 
 function viewForBbox(bbox: number[] | undefined): typeof FALLBACK_VIEW {
-  if (!bbox || bbox.length !== 4) return FALLBACK_VIEW;
+  if (bbox?.length !== 4) return FALLBACK_VIEW;
   const [minx, miny, maxx, maxy] = bbox;
   return { ...FALLBACK_VIEW, longitude: (minx + maxx) / 2, latitude: (miny + maxy) / 2 };
 }

@@ -144,7 +144,7 @@ export default function CorridorMap({ src }: { src: string }): JSX.Element {
 
       {picked?.properties.label && (
         <aside className="deck-popup">
-          <button onClick={() => setPicked(null)} aria-label="Close">
+          <button type="button" onClick={() => setPicked(null)} aria-label="Close">
             ×
           </button>
           <div dangerouslySetInnerHTML={{ __html: picked.properties.label }} />
