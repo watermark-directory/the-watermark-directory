@@ -1,0 +1,45 @@
+---
+import Base from "../layouts/Base.astro";
+import { withBase } from "../lib/site";
+---
+
+<Base
+  title="About me"
+  section="about"
+  description="Who's assembling Project BOSC, and why."
+>
+  <article class="prose">
+    <p>
+      <a href={withBase("/about")}>← About the project</a>
+    </p>
+    <h1>About me</h1>
+    <p class="section-lead">
+      Project BOSC is assembled by an independent researcher working entirely from
+      public records — documents the developer didn't write.
+    </p>
+
+    <p>
+      This page is a placeholder for a fuller note. For now, the method <em>is</em> the
+      bio: every figure on this site is read from a primary source, validated against a
+      typed schema, tagged for confidence, and linked back so you never have to take my
+      word for it. If something here is wrong, that's a record to correct, not a verdict
+      to defend.
+    </p>
+
+    <ul class="about-principles">
+      <li>
+        <strong>Independent.</strong> No affiliation with the developer, the county, or
+        any party to the project — this is public-records research, not advocacy.
+      </li>
+      <li>
+        <strong>Reachable.</strong> Found an error, or have a document the record is
+        missing? <a href={withBase("/submit")}>Submit a tip or correction →</a>
+      </li>
+      <li>
+        <strong>Accountable to the source.</strong> The standard is the same one I hold
+        the record to: cite it, or don't claim it. Read the
+        <a href={withBase("/docs/methodology")}>methodology</a>.
+      </li>
+    </ul>
+  </article>
+</Base>

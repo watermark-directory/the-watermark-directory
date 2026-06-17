@@ -159,6 +159,50 @@ a { color: var(--bosc-link); }
   border-bottom-color: #fff;
 }
 
+/* ---- About dropdown (no-JS: native <details>) ---- */
+.nav-dd { position: relative; display: inline-flex; align-items: stretch; }
+.nav-dd-summary { cursor: pointer; list-style: none; gap: 0.3rem; }
+.nav-dd-summary::-webkit-details-marker { display: none; }
+.nav-dd-caret { font-size: 0.7em; opacity: 0.8; transition: transform 0.12s ease; }
+.nav-dd[open] .nav-dd-caret { transform: rotate(180deg); }
+.nav-dd-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 12rem;
+  background: #fff;
+  color: var(--bosc-ink);
+  border: 1px solid var(--td-srccard-line);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  padding: 0.3rem;
+  z-index: 25;
+}
+.nav-dd-item {
+  display: block;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  color: var(--bosc-ink);
+  text-decoration: none;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.nav-dd-item:hover { background: var(--td-tint); color: var(--bosc-indigo); }
+.nav-dd-hr { border: 0; border-top: 1px solid var(--td-srccard-line); margin: 0.3rem 0.2rem; }
+
+/* A non-clickable "drafting" report card (Reports landing). */
+.door--draft { cursor: default; opacity: 0.78; background: var(--td-open-bg); }
+.door--draft:hover { transform: none; box-shadow: none; }
+
+/* ---- Vertical divider between the narrative tabs and the reference cluster ---- */
+.nav-divider {
+  align-self: center;
+  width: 1px;
+  height: 1.4rem;
+  margin: 0 0.45rem;
+  background: rgba(255, 255, 255, 0.28);
+}
+
 /* ---- Topbar right cluster: search + the entry-fork pill ---- */
 .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 0.7rem; }
 
@@ -749,6 +793,17 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
   .nav-toggle:checked ~ .topbar .sections { display: flex; }
   .section-tab { border-bottom: none; padding: 0.5rem 0.6rem; }
   .section-tab.active { background: rgba(255, 255, 255, 0.12); }
+  /* In the column flyout the dropdown expands inline, not as an overlay. */
+  .nav-dd { display: block; }
+  .nav-dd-menu {
+    position: static;
+    min-width: 0;
+    margin: 0.1rem 0 0.2rem 0.6rem;
+    box-shadow: none;
+    border-radius: 8px;
+  }
+  /* The vertical rule reads as a horizontal break between the two tab groups. */
+  .nav-divider { width: auto; height: 1px; margin: 0.35rem 0.4rem; align-self: stretch; }
 }
 @media (max-width: 900px) {
   .walk-pill-label { display: none; }

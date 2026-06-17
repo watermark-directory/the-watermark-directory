@@ -1,0 +1,90 @@
+---
+import Base from "../../layouts/Base.astro";
+import { NARRATIVE } from "../../lib/narrative";
+import { withBase } from "../../lib/site";
+
+// Published reports: the long-form analytical essays already in the corpus, in a
+// curated reading order. Pulled from the narrative collection by slug so titles and
+// blurbs stay in sync with the source docs.
+const ORDER = [
+  "dossier",
+  "hydrology",
+  "economics",
+  "legal/mandamus-analysis",
+  "legal/proponent-analysis",
+  "bigger-picture",
+];
+const bySlug = new Map(NARRATIVE.map((d) => [d.slug, d]));
+const published = ORDER.map((s) => bySlug.get(s)).filter((d): d is NonNullable<typeof d> => Boolean(d));
+
+// Forthcoming: the extension narratives tracked in epic #233 — deeper dives that the
+// corpus is being assembled to support. Carried here as drafting, not findings.
+const forthcoming = [
+  {
+    title: "End-use & workloads",
+    blurb:
+      "What the compute is actually used for — hyperscale-owned vs colo-tenant, and who can even use a GovCloud/FedRAMP facility.",
+  },
+  {
+    title: "The defense nexus",
+    blurb:
+      "An independent read of the federal/defense corridor the public record already names — carried strictly as [open].",
+  },
+  {
+    title: "Toxics & the hydrology corridor",
+    blurb: "The RSEI toxics picture set against the basin's water balance and assimilative capacity.",
+  },
+  {
+    title: "Behind-the-meter power & the grid",
+    blurb: "The ~313 MW load story — BYONG, the grid interconnection, and load-not-jobs.",
+  },
+];
+---
+
+<Base
+  title="Reports"
+  section="reports"
+  description="Long-form analysis over the corpus — the dossier, the water and economics reads, the legal analyses, and the extension narratives in progress."
+>
+  <article class="prose">
+    <h1>Reports</h1>
+    <p class="section-lead">
+      Long-form analysis built <em>over</em> the corpus — each report stands on cited
+      records, with inference labeled and nothing dressed as a verdict. The
+      <a href={withBase("/start")}>guided walk</a> teaches you to read the record; these
+      go deeper on one thread at a time.
+    </p>
+  </article>
+
+  <h2 class="walk-explore-h">Published</h2>
+  <div class="doors">
+    {
+      published.map((d) => (
+        <a class="door" href={withBase(`/docs/${d.slug}`)}>
+          <span class="door-label">{d.title}</span>
+          <span class="door-blurb">{d.blurb}</span>
+        </a>
+      ))
+    }
+  </div>
+
+  <h2 class="walk-explore-h">In progress — extension narratives</h2>
+  <article class="prose">
+    <p>
+      Deeper dives the corpus is being assembled to support, tracked in epic #233. Listed
+      here as <strong>drafting</strong> — open threads, not findings.
+    </p>
+  </article>
+  <div class="doors">
+    {
+      forthcoming.map((r) => (
+        <div class="door door--draft">
+          <span class="door-label">
+            {r.title} <span class="mf-tag mf-tag--open">[drafting]</span>
+          </span>
+          <span class="door-blurb">{r.blurb}</span>
+        </div>
+      ))
+    }
+  </div>
+</Base>

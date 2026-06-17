@@ -1,7 +1,7 @@
 ---
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
-import { SECTIONS, type SectionId } from "../lib/nav";
+import { NAV_TABS, navItemActive, type SectionId } from "../lib/nav";
 import { withBase } from "../lib/site";
 
 interface Props {
@@ -20,15 +20,40 @@ const base = import.meta.env.BASE_URL || "/";
   </a>
   <nav class="sections" id="bosc-sections" aria-label="Sections">
     {
-      SECTIONS.map((s) => (
-        <a
-          class:list={["section-tab", { active: s.id === active }]}
-          href={withBase(s.href)}
-          aria-current={s.id === active ? "page" : undefined}
-        >
-          {s.tab}
-        </a>
-      ))
+      NAV_TABS.map((item) => {
+        if (item.kind === "divider") return <span class="nav-divider" aria-hidden="true" />;
+        const isActive = navItemActive(item, active);
+        if (item.kind === "dropdown") {
+          return (
+            <details class:list={["nav-dd", { active: isActive }]}>
+              <summary class="section-tab nav-dd-summary" aria-current={isActive ? "page" : undefined}>
+                {item.label}
+                <span class="nav-dd-caret" aria-hidden="true">▾</span>
+              </summary>
+              <div class="nav-dd-menu">
+                {item.children.map((child) =>
+                  "divider" in child ? (
+                    <hr class="nav-dd-hr" />
+                  ) : (
+                    <a class="nav-dd-item" href={withBase(child.href)}>
+                      {child.label}
+                    </a>
+                  ),
+                )}
+              </div>
+            </details>
+          );
+        }
+        return (
+          <a
+            class:list={["section-tab", { active: isActive }]}
+            href={withBase(item.href)}
+            aria-current={isActive ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        );
+      })
     }
   </nav>
   <div class="topbar-right">
