@@ -61,11 +61,18 @@ const header: ProfileHeaderData = {
     `/submit?ref_kind=entity&ref_id=${encodeURIComponent(entity.key)}&ref_label=${encodeURIComponent(entity.display)}`,
   ),
 };
+
+const profileToc = [
+  { anchor: "overview", label: "Identity" },
+  { anchor: "neighborhood", label: "Relationships" },
+  ...(entity.sources.length ? [{ anchor: "sources", label: "Sources" }] : []),
+  ...(profiles.length ? [{ anchor: "backlinks", label: "Backlinks" }] : []),
+];
 ---
 
-<Base title={entity.display} section="wiki">
+<Base title={entity.display} section="wiki" toc={profileToc}>
   <p class="prose"><a href={withBase("/wiki/entities/")}>← Entities</a></p>
-  <ProfileHeader profile={header} />
+  <div id="overview"><ProfileHeader profile={header} /></div>
 
   <article class="prose">
     <h2 id="neighborhood">Graph neighborhood</h2>
@@ -119,7 +126,7 @@ const header: ProfileHeaderData = {
     {
       profiles.length > 0 && (
         <div class="backlinks">
-          <h2>Backlinks</h2>
+          <h2 id="backlinks">Backlinks</h2>
           <ul class="neighborhood">
             {profiles.map((p) => (
               <li>
