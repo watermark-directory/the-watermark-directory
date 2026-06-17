@@ -33,7 +33,11 @@ describe("recordToBlock", () => {
   it("splits scalar fields from structured ones (no JSON.stringify blob)", () => {
     expect(b.fields.map((f) => f.label)).toEqual(["instrument_no", "issued", "flow", "empty"]);
     expect(b.nested.map((n) => n.label)).toEqual(["applicant", "tags"]);
-    expect(b.nested[0]).toMatchObject({ label: "applicant", path: "applicant", value: { name: "Tilted Gate LLC" } });
+    expect(b.nested[0]).toMatchObject({
+      label: "applicant",
+      path: "applicant",
+      value: { name: "Tilted Gate LLC" },
+    });
   });
 
   it("formats scalars and marks approximate fields without doubling the ~", () => {
@@ -59,7 +63,9 @@ describe("recordToBlock", () => {
   });
 
   it("marks unverified citations as inference and shows pages as '—' when absent", () => {
-    const b2 = recordToBlock(baseRecord({ citation: { source: null, source_kind: "document", page: null, verified: false } }));
+    const b2 = recordToBlock(
+      baseRecord({ citation: { source: null, source_kind: "document", page: null, verified: false } }),
+    );
     expect(b2.evidence).toBe("inference");
     expect(b2.source.pages).toBe("—");
     expect(b2.source.file).toBe("permits/4132514.epa.yaml"); // falls back to rel

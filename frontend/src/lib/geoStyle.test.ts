@@ -1,17 +1,13 @@
 import { describe, expect, it } from "vitest";
-import {
-  DEFAULT_OFF,
-  hexToRgb,
-  layerLabel,
-  layersPresent,
-  rgba,
-  type GeoFeature,
-} from "./geoStyle";
+import { DEFAULT_OFF, hexToRgb, layerLabel, layersPresent, rgba, type GeoFeature } from "./geoStyle";
 
 const FALLBACK: [number, number, number] = [120, 120, 130];
 
-const feat = (layer: string): GeoFeature =>
-  ({ type: "Feature", geometry: { type: "Point", coordinates: [0, 0] }, properties: { layer } });
+const feat = (layer: string): GeoFeature => ({
+  type: "Feature",
+  geometry: { type: "Point", coordinates: [0, 0] },
+  properties: { layer },
+});
 
 describe("hexToRgb", () => {
   it("parses a 6-char hex", () => {

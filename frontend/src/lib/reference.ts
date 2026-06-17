@@ -65,9 +65,7 @@ export const REFERENCE: ReferenceDataset[] = [
 ];
 
 /** Repo paths (under data/reference/) of the published READMEs. */
-export const PUBLISHED_REFERENCE: Set<string> = new Set(
-  REFERENCE.map((d) => `data/reference/${d.repo}`),
-);
+export const PUBLISHED_REFERENCE: Set<string> = new Set(REFERENCE.map((d) => `data/reference/${d.repo}`));
 
 /** slug for a published reference repo path, or "" if not published. */
 export function refSlugForRepoPath(repoPath: string): string {

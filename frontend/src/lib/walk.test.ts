@@ -1,12 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  WALK_ANCHORS,
-  WALK_CHAPTERS,
-  WALK_TOTAL,
-  chapterByStep,
-  walkAnchorFor,
-  walkHref,
-} from "./walk";
+import { WALK_ANCHORS, WALK_CHAPTERS, WALK_TOTAL, chapterByStep, walkAnchorFor, walkHref } from "./walk";
 
 describe("WALK_CHAPTERS invariants", () => {
   it("holds exactly WALK_TOTAL chapters, all live", () => {

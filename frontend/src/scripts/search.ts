@@ -45,8 +45,8 @@ if (box && panel) {
     }
     if (at < 0) return esc(text.slice(0, 140));
     const start = Math.max(0, at - 50);
-    const frag = (start > 0 ? "…" : "") + text.slice(start, at + 90) + "…";
-    const re = new RegExp("(" + hit.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "ig");
+    const frag = `${(start > 0 ? "…" : "") + text.slice(start, at + 90)}…`;
+    const re = new RegExp(`(${hit.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig");
     return esc(frag).replace(re, "<mark>$1</mark>");
   };
 
@@ -89,7 +89,7 @@ if (box && panel) {
       const hits: [number, SearchDoc][] = [];
       for (const d of docs) {
         const title = (d.title || "").toLowerCase();
-        const hay = title + " " + (d.text || "").toLowerCase();
+        const hay = `${title} ${(d.text || "").toLowerCase()}`;
         if (!terms.every((t) => hay.indexOf(t) >= 0)) continue;
         const score = title.indexOf(q) >= 0 ? 0 : terms.every((t) => title.indexOf(t) >= 0) ? 1 : 2;
         hits.push([score, d]);

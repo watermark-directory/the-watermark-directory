@@ -95,8 +95,16 @@ export interface WalkAnchor {
 }
 export const WALK_ANCHORS: Record<string, WalkAnchor> = {
   "recorder/202508130008300.deed.yaml": { ch: "01", slug: "who", label: "Who is actually building this?" },
-  "permits/sos-tilted-gate-llc-2025-09-29.sos.yaml": { ch: "01", slug: "who", label: "Who is actually building this?" },
-  "oepa/oepa-2PH00006-american-ii-fact-sheet.npdes.yaml": { ch: "03", slug: "water", label: "What it does to the water" },
+  "permits/sos-tilted-gate-llc-2025-09-29.sos.yaml": {
+    ch: "01",
+    slug: "who",
+    label: "Who is actually building this?",
+  },
+  "oepa/oepa-2PH00006-american-ii-fact-sheet.npdes.yaml": {
+    ch: "03",
+    slug: "water",
+    label: "What it does to the water",
+  },
   "aedg/roundabouts.summary.opc.yaml": { ch: "04", slug: "cost", label: "What it costs the public" },
 };
 

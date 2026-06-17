@@ -37,9 +37,7 @@ export interface SearchDoc {
 
 /** Join defined, non-empty string-ish bits into one searchable blob. */
 function blob(...parts: (string | null | undefined)[]): string {
-  return parts
-    .filter((p): p is string => typeof p === "string" && p.trim().length > 0)
-    .join(" · ");
+  return parts.filter((p): p is string => typeof p === "string" && p.trim().length > 0).join(" · ");
 }
 
 export function buildSearchIndex(): SearchDoc[] {

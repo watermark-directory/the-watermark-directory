@@ -98,7 +98,9 @@ export function conceptBacklinks(slug: string): { url: string; label: string }[]
   if (!hasFeed("concepts")) return [];
   const concepts = loadFeed<ConceptItem[]>("concepts");
   const self = concepts.find((c) => c.slug === slug);
-  const names = self ? new Set([norm(self.slug), norm(self.title), ...self.aliases.map(norm)]) : new Set([slug]);
+  const names = self
+    ? new Set([norm(self.slug), norm(self.title), ...self.aliases.map(norm)])
+    : new Set([slug]);
   const out: { url: string; label: string }[] = [];
   for (const c of concepts) {
     if (c.slug === slug) continue;

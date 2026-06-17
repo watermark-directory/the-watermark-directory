@@ -22,12 +22,16 @@ if (rail && "IntersectionObserver" in window) {
           break;
         }
       }
-      ids.forEach((id) => links.get(id)!.classList.toggle("active", id === current));
+      ids.forEach((id) => {
+        links.get(id)!.classList.toggle("active", id === current);
+      });
     };
 
     const obs = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => visible.set(e.target.id, e.isIntersecting));
+        entries.forEach((e) => {
+          visible.set(e.target.id, e.isIntersecting);
+        });
         update();
       },
       // Trip a heading "active" once it reaches the upper third of the viewport.

@@ -30,7 +30,8 @@ export const NARRATIVE: NarrativeDoc[] = [
     slug: "methodology",
     title: "Methodology — how we read the record",
     section: "home",
-    blurb: "How a deliberately thin public record is read from primary documents into cited, structured data.",
+    blurb:
+      "How a deliberately thin public record is read from primary documents into cited, structured data.",
   },
   {
     repo: "COURSE.md",
@@ -79,7 +80,8 @@ export const NARRATIVE: NarrativeDoc[] = [
     slug: "economics",
     title: "Economics — demand & public benefits",
     section: "watershed",
-    blurb: "The demand-side companion to Hydrology: regional cloud-consumer demand and the benefits extended to it.",
+    blurb:
+      "The demand-side companion to Hydrology: regional cloud-consumer demand and the benefits extended to it.",
   },
 ];
 
@@ -88,7 +90,10 @@ export const MIGRATED: Set<string> = new Set(NARRATIVE.map((d) => `docs/${d.repo
 
 /** slug for a migrated repo path: "docs/DOSSIER.md" → "dossier". */
 export function slugForRepoPath(repoPath: string): string {
-  return repoPath.replace(/^docs\//, "").replace(/\.md$/, "").toLowerCase();
+  return repoPath
+    .replace(/^docs\//, "")
+    .replace(/\.md$/, "")
+    .toLowerCase();
 }
 
 /**

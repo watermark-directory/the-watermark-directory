@@ -43,9 +43,28 @@ export const OPACITY_TEARDOWN: TeardownRecord = {
     { label: "Land prices / school terms", value: "~ blank in production", warn: true },
   ],
   pins: [
-    { n: 1, label: "Deliberated in closed session — first used for this very CRA", value: "ORC 121.22(G)(8) · 2025-05-27", x: "40px", y: "52px" },
-    { n: 2, label: "Three developer-notice / indemnity clauses: tip off, minimize, insulate", value: "NDA §6(f) · RDA §9.13 · CRA §22", x: "158px", y: "150px" },
-    { n: 3, label: "The deciding analysis — withheld", value: "cost-benefit · item 4", danger: true, x: "78px", y: "224px" },
+    {
+      n: 1,
+      label: "Deliberated in closed session — first used for this very CRA",
+      value: "ORC 121.22(G)(8) · 2025-05-27",
+      x: "40px",
+      y: "52px",
+    },
+    {
+      n: 2,
+      label: "Three developer-notice / indemnity clauses: tip off, minimize, insulate",
+      value: "NDA §6(f) · RDA §9.13 · CRA §22",
+      x: "158px",
+      y: "150px",
+    },
+    {
+      n: 3,
+      label: "The deciding analysis — withheld",
+      value: "cost-benefit · item 4",
+      danger: true,
+      x: "78px",
+      y: "224px",
+    },
   ],
   redactionLabel: "WITHHELD · item 4",
   reveal: {
@@ -192,8 +211,21 @@ export const OPC_TEARDOWN: TeardownRecord = {
   ],
   pins: [
     { n: 1, label: "Program total, priced to the dollar", value: "$14,223,081", x: "44px", y: "56px" },
-    { n: 2, label: "Drainage — only 1 of 6 items itemized", value: "$1,068,530 · 7.5%", x: "150px", y: "150px" },
-    { n: 3, label: "No design-storm basis · no detention", value: "scope gap", danger: true, x: "78px", y: "224px" },
+    {
+      n: 2,
+      label: "Drainage — only 1 of 6 items itemized",
+      value: "$1,068,530 · 7.5%",
+      x: "150px",
+      y: "150px",
+    },
+    {
+      n: 3,
+      label: "No design-storm basis · no detention",
+      value: "scope gap",
+      danger: true,
+      x: "78px",
+      y: "224px",
+    },
   ],
   redactionLabel: "REDACTED · CBI",
   reveal: {
@@ -248,9 +280,28 @@ export const AIR_TEARDOWN: TeardownRecord = {
     { label: "Backup total", value: "~313 MW · draft only", warn: true },
   ],
   pins: [
-    { n: 1, label: "Synthetic-minor caps, printed in the permit", value: "NOx 235.62 · CO 96.06 tpy", x: "40px", y: "52px" },
-    { n: 2, label: "Three matched groups → three data halls", value: "115 gensets · 36 towers", x: "162px", y: "150px" },
-    { n: 3, label: "Per-engine power withheld as trade secret", value: "ekW = REDACTED", danger: true, x: "78px", y: "224px" },
+    {
+      n: 1,
+      label: "Synthetic-minor caps, printed in the permit",
+      value: "NOx 235.62 · CO 96.06 tpy",
+      x: "40px",
+      y: "52px",
+    },
+    {
+      n: 2,
+      label: "Three matched groups → three data halls",
+      value: "115 gensets · 36 towers",
+      x: "162px",
+      y: "150px",
+    },
+    {
+      n: 3,
+      label: "Per-engine power withheld as trade secret",
+      value: "ekW = REDACTED",
+      danger: true,
+      x: "78px",
+      y: "224px",
+    },
   ],
   redactionLabel: "REDACTED · CBI",
   reveal: {

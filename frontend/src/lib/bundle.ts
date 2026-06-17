@@ -108,7 +108,9 @@ export function hasFeed(name: string): boolean {
 function feedRef(name: string): FeedRef {
   const ref = loadManifest().feeds.find((f) => f.name === name);
   if (!ref) {
-    const known = loadManifest().feeds.map((f) => f.name).join(", ");
+    const known = loadManifest()
+      .feeds.map((f) => f.name)
+      .join(", ");
     throw new Error(`Feed "${name}" is not in the bundle manifest. Available: ${known}`);
   }
   return ref;
