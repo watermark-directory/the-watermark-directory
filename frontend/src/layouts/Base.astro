@@ -46,6 +46,7 @@ const showRail = rail !== false && toc.length > 0;
     <SEO title={title} description={description} type={ogType} />
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <input
       type="checkbox"
       id="bosc-nav-toggle"
@@ -56,7 +57,7 @@ const showRail = rail !== false && toc.length > 0;
     <Header active={section} />
     <div class:list={["layout", { "no-rail": !showRail }]}>
       {showRail && <SectionToc items={toc} />}
-      <main class="content">
+      <main id="main" class="content" tabindex="-1">
         <slot />
       </main>
     </div>

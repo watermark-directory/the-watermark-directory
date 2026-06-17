@@ -35,6 +35,53 @@ html { scroll-behavior: smooth; }
 /* Anchor targets clear the sticky header instead of hiding beneath it. */
 :target { scroll-margin-top: calc(var(--topbar-h) + 1rem); }
 
+/* Visible keyboard focus everywhere (WCAG 2.4.7). The UA ring was removed on the
+   search input; restore a consistent indigo ring, with a light variant for the
+   controls that sit on the indigo topbar. Mouse focus stays quiet (:focus-visible). */
+:focus-visible {
+  outline: 2px solid var(--bosc-indigo);
+  outline-offset: 2px;
+}
+.topbar a:focus-visible,
+.topbar input:focus-visible,
+.topbar label:focus-visible { outline-color: #fff; }
+
+/* Skip-to-content link — the first focusable element; visually hidden until it
+   takes focus, so keyboard users can jump past the sticky header on every page. */
+.skip-link {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+  z-index: 60;
+  transform: translateY(-180%);
+  background: var(--bosc-indigo);
+  color: #fff;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: transform 0.12s ease;
+}
+.skip-link:focus { transform: translateY(0); }
+/* The content region only takes focus via the skip link (tabindex=-1, not in tab
+   order); don't draw a ring around the whole column when it does. */
+.content:focus { outline: none; }
+
+/* Honor an OS reduced-motion preference: drop smooth scroll, transitions, and
+   animations site-wide (WCAG 2.3.3). */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
   margin: 0;
   color: var(--bosc-ink);
@@ -156,7 +203,6 @@ a { color: var(--bosc-link); }
 }
 #bosc-search::placeholder { color: #c5cae9; }
 #bosc-search:focus {
-  outline: none;
   background: #fff;
   color: var(--bosc-ink);
   border-color: #fff;
@@ -252,7 +298,7 @@ a { color: var(--bosc-link); }
   color: var(--bosc-muted);
   text-decoration: none;
 }
-.toc-num { font-family: var(--bosc-mono); font-size: 0.7rem; font-weight: 700; color: #aeb4c2; flex: none; }
+.toc-num { font-family: var(--bosc-mono); font-size: 0.7rem; font-weight: 700; color: #6b7180; flex: none; }
 .toc-label { font-size: 0.9rem; }
 .section-toc a:hover { background: #ececed; }
 .section-toc a.active {
@@ -468,7 +514,7 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 
 /* Hydrology scenario dashboard. */
 .scenario { margin: 1rem 0; padding: 0.8rem 1rem; border: 1px solid var(--bosc-rule); border-radius: 8px; }
-.scenario h3 { margin: 0 0 0.4rem; }
+.scenario h2 { margin: 0 0 0.4rem; padding-bottom: 0; border-bottom: none; font-size: 1.15rem; }
 .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.6rem; margin: 0.5rem 0; }
 .metric { padding: 0.5rem 0.7rem; border: 1px solid var(--bosc-rule); border-radius: 6px; background: #fafafb; }
 .metric-value { font-size: 1.2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
@@ -625,7 +671,7 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .footer-bar a { color: var(--bosc-muted); text-decoration: none; }
 .footer-bar a:hover { color: var(--bosc-link); }
 .footer-sep { color: #c5c9d4; }
-.footer-meta { margin-left: auto; font-family: var(--bosc-mono); font-size: 0.72rem; color: #aeb4c2; }
+.footer-meta { margin-left: auto; font-family: var(--bosc-mono); font-size: 0.72rem; color: #6b7180; }
 
 /* ============================================================================
    Responsive — canonical breakpoint ladder.
@@ -944,7 +990,7 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
      one source of truth; only the artifact-chrome extras are local. */
   --td-mono: var(--bosc-mono);
   --td-muted: var(--bosc-muted);
-  --td-faint: #8a90a2;          /* lightest labels / provenance */
+  --td-faint: #6b7180;          /* lightest labels / provenance (AA on white) */
   --td-panel: #f7f8fb;          /* inset panel background */
   --td-line: #eef0f4;           /* hairline within a card */
   --td-card-line: var(--bosc-rule);

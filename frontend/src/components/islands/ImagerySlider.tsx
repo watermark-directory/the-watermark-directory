@@ -77,7 +77,11 @@ export default function ImagerySlider({ src }: { src: string }): JSX.Element {
   }
 
   return (
-    <div className="deck-surface">
+    <div
+      className="deck-surface"
+      role="figure"
+      aria-label="Aerial imagery of the site across time — before, during, and after construction (deck.gl); the dated releases are listed as text on this page."
+    >
       <DeckGL initialViewState={view} controller layers={layers}>
         <Map mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json" />
       </DeckGL>
