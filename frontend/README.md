@@ -98,7 +98,10 @@ list) that doubles as a plain data view.
 
 The islands are build-verified (bundle, mount, endpoint fetch); a quick **browser
 visual pass** is still worth doing (WebGL rendering isn't covered by `astro check`).
-The watershed map proper + imagery slider ([#72](https://github.com/goedelsoup/bosc/issues/72)) await committed watershed-boundary geometry + imagery feeds (E1.4).
+The watershed map (`/watershed/map`) and the before/during/after imagery slider
+(`/watershed/imagery`, [#72](https://github.com/goedelsoup/bosc/issues/72)) ship too —
+`ImagerySlider.tsx` over the `geo/imagery` Wayback feed, against the committed
+watershed-boundary + AOI geometry feeds.
 
 ## Narrative content (the `docs/` collection)
 
@@ -180,5 +183,5 @@ Plus the **deck.gl visualization layer** (Epic #55): the corridor map
 Plus the narrative content collection
 ([#69](https://github.com/goedelsoup/bosc/issues/69)) — **Epic #54 is complete**.
 
-Remaining for the redesign: the watershed map + imagery slider (#72, blocked on
-E1.4 geometry/imagery feeds), and flipping the parity-gated Pages deploy to this app.
+Remaining for the redesign: flipping the parity-gated Pages deploy to this app
+(the watershed map + imagery slider, #72, have shipped).

@@ -6,9 +6,9 @@
  * Five teaching chapters (steps 1–5), bookended by the `/start` on-ramp (Ch. 0)
  * and the close (Ch. 6). Ordering is cause → consequence so no figure depends on
  * a number established in a later chapter — Scale (air) precedes Water because
- * the cooling draw derives from the IT load. `live` marks which chapter pages are
- * built; the rest are authored but not yet wired (their record-level teardowns
- * await curated bundle data).
+ * the cooling draw derives from the IT load. All five chapter pages are live;
+ * `live` is kept on each chapter as the build flag the wayfinding/index gate
+ * their go-links on.
  */
 
 import { withBase } from "./site";
