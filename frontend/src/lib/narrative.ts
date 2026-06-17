@@ -99,6 +99,22 @@ export const NARRATIVE: NarrativeDoc[] = [
     blurb:
       "A defense plant nearby, a developer cleared to SECRET, an industry that hosts the CIA — three true facts that don't, combined, make a finding. The sharpest open question, held open.",
   },
+  {
+    repo: "toxics-and-the-corridor.md",
+    slug: "toxics-and-the-corridor",
+    title: "Toxics and the corridor — the river the campus joins",
+    section: "reports",
+    blurb:
+      "The campus discharges into a river that is already 93% treated effluent at low flow, in a corridor carrying the county's heaviest industrial toxic load. What RSEI screening shows, what it can't measure, and the assimilative question the record leaves open.",
+  },
+  {
+    repo: "the-load-and-the-grid.md",
+    slug: "the-load-and-the-grid",
+    title: "The load and the grid — a city's worth of demand, and who carries it",
+    section: "reports",
+    blurb:
+      "A single campus equal to ~5–6% of its utility's entire retail load, for ~50 jobs — load, not jobs. The headline “313 MW” is backup generation (and redacted in the final permit); “behind-the-meter” is a claim, not a fact. What the record carries, and who pays to carry the load.",
+  },
 ];
 
 /** Repo paths (under docs/) of the migrated docs, e.g. "docs/DOSSIER.md". */
