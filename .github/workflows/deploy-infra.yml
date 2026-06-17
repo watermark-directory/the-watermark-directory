@@ -1,9 +1,11 @@
-# Cloudflare deployment infrastructure as code — runs the Pulumi project in deploy/.
+# Deployment infrastructure as code — runs the Pulumi project in deploy/ (Cloudflare
+# KV + Turnstile, and the Route53↔Cloudflare custom-domain exchange).
 #
 # On a pull request that touches deploy/, this posts a `pulumi preview` (the plan)
 # as a PR comment. When those changes merge to main, it runs `pulumi up` to apply
-# them. Separate from the repo-config stack (.github/config) — different provider
-# (Cloudflare) and credentials. See deploy/README.md for the secrets/variables.
+# them. Separate from the repo-config stack (.github/config) — different providers
+# and credentials. State is the self-managed S3 backend (#240); AWS auth is via an
+# OIDC role (no static keys). See deploy/README.md for the secrets/variables.
 
 name: Deploy infra (Pulumi)
 
@@ -26,14 +28,16 @@ concurrency:
 permissions:
   contents: read
   pull-requests: write # so the preview can be commented on the PR
+  id-token: write # OIDC: assume the AWS role for the S3 backend + Route53 + awskms
 
 jobs:
   pulumi:
     runs-on: ubuntu-latest
     # Stay dormant until the stack is wired up: the DEPLOY_PULUMI_STACK repo variable
-    # is the on-switch. Until it's set (alongside the PULUMI_ACCESS_TOKEN /
-    # CLOUDFLARE_API_TOKEN secrets), this job is skipped rather than failing every PR
-    # that touches deploy/. See deploy/README.md.
+    # is the on-switch. Until it's set (alongside DEPLOY_AWS_ROLE_ARN / PULUMI_BACKEND_URL
+    # and the CLOUDFLARE_API_TOKEN secret), this job is skipped rather than failing every
+    # PR that touches deploy/. With the S3 backend the stack name is just `prod`. See
+    # deploy/README.md.
     if: ${{ vars.DEPLOY_PULUMI_STACK != '' }}
     defaults:
       run:
@@ -50,15 +54,23 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # AWS creds for the S3 state backend, the awskms secrets provider, and the
+      # Route53 record — assumed via OIDC, so no static keys live in the repo.
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.DEPLOY_AWS_ROLE_ARN }}
+          aws-region: ${{ vars.DEPLOY_AWS_REGION || 'us-east-1' }}
+
       - uses: pulumi/actions@v6
         with:
           # preview on PRs, apply on push to main.
           command: ${{ github.event_name == 'pull_request' && 'preview' || 'up' }}
-          stack-name: ${{ vars.DEPLOY_PULUMI_STACK }} # e.g. your-pulumi-org/bosc-deploy/prod
+          stack-name: ${{ vars.DEPLOY_PULUMI_STACK }} # the S3-backend stack, e.g. `prod`
+          cloud-url: ${{ vars.PULUMI_BACKEND_URL }} # s3://<bucket>/bosc-deploy
           work-dir: deploy
           comment-on-pr: true
           refresh: true
         env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-          # Provider auth for Cloudflare (KV + Turnstile edit scope).
+          # Provider auth for Cloudflare (KV + Turnstile + Pages-domain edit scope).
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

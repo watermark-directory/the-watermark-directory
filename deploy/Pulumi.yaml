@@ -1,11 +1,14 @@
 name: bosc-deploy
 runtime: nodejs
 description: >-
-  Cloudflare deployment infrastructure for the BOSC site — the submissions
-  endpoint's Turnstile widget and rate-limit KV namespace, managed as code.
-  Separate from the GitHub repo-config stack (../.github/config).
+  Deployment infrastructure for the BOSC site — the submissions endpoint's Turnstile
+  widget + rate-limit KV namespace, and the Route53↔Cloudflare custom-domain exchange,
+  managed as code. Separate from the GitHub repo-config stack (../.github/config).
 
-# State lives in whatever backend you `pulumi login` to. Pulumi Cloud
-# (PULUMI_ACCESS_TOKEN) is what the CI workflow assumes; for a local file backend
-# run `pulumi login --local`. No backend is pinned here so the choice stays an
-# operator decision.
+# State backend (decided #240): a self-managed **S3** bucket in the project's AWS
+# account — `pulumi login s3://<bucket>/bosc-deploy` — so state sits beside the Route53
+# zone this stack manages, with no third-party SaaS. Pulumi locks within the bucket, so
+# (unlike Terraform) no DynamoDB lock table is needed. Stack secrets — the Turnstile
+# secret output, any secret config — are encrypted with **awskms** (`pulumi stack init
+# prod --secrets-provider awskms://<key-arn>`), not a shared passphrase. No backend is
+# pinned in this file so a local `pulumi login --local` still works for dry runs.

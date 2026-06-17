@@ -1,11 +1,21 @@
 # Committed stack config — NON-SECRET values only.
 #
-# `cloudflareAccountId` is REQUIRED but operator-specific, so it is NOT committed; set it
-# out of band:
-#   pulumi config set bosc-deploy:cloudflareAccountId <account-id>
+# Operator-specific / late-bound keys are NOT committed; set them out of band:
+#   pulumi config set bosc-deploy:cloudflareAccountId <account-id>   # REQUIRED
+#   pulumi config set bosc-deploy:siteDomain bosc.example.org        # when the name is chosen
+#   pulumi config set bosc-deploy:route53ZoneId Z0123456789ABC       # the zone that owns siteDomain
+#   pulumi config set bosc-deploy:pagesProject bosc                  # only if not "bosc"
+#
+# Until `siteDomain` is set the stack manages KV + Turnstile only and the site stays on
+# <project>.pages.dev — so the stack is "ready to go" with the domain as the single
+# late-bound value. `siteDomain` + `route53ZoneId` together drive the Route53↔Cloudflare
+# exchange (decided shape: a subdomain CNAME — see index.ts / docs/submissions-api.md).
 #
 # The Cloudflare API token is supplied via the CLOUDFLARE_API_TOKEN env var (or the
-# `cloudflare:apiToken` Pulumi secret); never add it here.
+# `cloudflare:apiToken` Pulumi secret); AWS uses the standard credential chain. Never
+# add a token/secret here.
 config:
+  # Preview hostnames the Turnstile widget may serve on; `siteDomain` is folded in
+  # automatically when set, so this stays the pages.dev preview default.
   bosc-deploy:siteDomains:
     - bosc.pages.dev

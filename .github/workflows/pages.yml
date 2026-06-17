@@ -19,8 +19,11 @@
 #   - Create the Cloudflare Pages project `bosc` (production branch: main).
 #   - Repo secrets: CLOUDFLARE_API_TOKEN (token with "Cloudflare Pages: Edit") and
 #     CLOUDFLARE_ACCOUNT_ID.
-#   - Optional repo vars PAGES_SITE_URL / PAGES_BASE_PATH for a custom domain; the
-#     defaults target the bosc.pages.dev subdomain at the root (no base path).
+#   - Repo var PUBLIC_TURNSTILE_SITE_KEY (public; from `pulumi stack output
+#     turnstileSiteKey`) — flips the /submit form from disabled-placeholder to live.
+#   - Optional repo vars PAGES_SITE_URL / PAGES_BASE_PATH for the custom subdomain (the
+#     Pulumi-managed Route53 CNAME → bosc.pages.dev); defaults target bosc.pages.dev at
+#     the root (no base path).
 
 name: Pages (manual)
 
@@ -48,6 +51,11 @@ jobs:
     env:
       SITE_URL: ${{ vars.PAGES_SITE_URL || 'https://bosc.pages.dev' }}
       BASE_PATH: ${{ vars.PAGES_BASE_PATH || '' }}
+      # The Turnstile site key is read at *build* time (import.meta.env in submit.astro),
+      # so it must be present here, not just as a Function secret. It's public (a repo
+      # variable, from `pulumi stack output turnstileSiteKey`); until it's set the form
+      # renders its disabled placeholder. Setting it flips the form live.
+      PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
     steps:
       - uses: actions/checkout@v4
         # No LFS: the site builds from the JSON bundle (`bosc export`) and never serves
