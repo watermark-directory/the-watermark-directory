@@ -1,6 +1,10 @@
 # Ephemeral Claude agent worktrees (linked worktrees live under .claude/; each is a
-# full repo copy — never track them from the parent worktree).
-.claude/
+# full repo copy — never track them from the parent worktree). Ignore everything
+# under .claude/ EXCEPT the committed investigative-method skill layer, which is a
+# tracked repo artifact (see docs/investigative-method/). Negate the directory (not
+# a glob) so git descends into it; never negate .claude/worktrees.
+.claude/*
+!.claude/skills/
 
 # Python
 __pycache__/
