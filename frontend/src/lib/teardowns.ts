@@ -392,7 +392,7 @@ export const NPDES_TEARDOWN: TeardownRecord = {
     { label: "Ottawa 1Q10 (driest week)", value: "0 cfs · nearly dry", warn: true },
   ],
   reveal: {
-    lead: "Ohio EPA sizes every discharge against the stream's design low flow — and the Ottawa the campus would draw from runs at just ",
+    lead: "Ohio EPA sizes every discharge against the stream's design low flow — and the Ottawa this project discharges into runs at just ",
     key: "0.2 cfs",
     tail: ", dropping to zero in the driest weeks. The tributaries are worse: American II's own fact sheet states a dilution of barely 1.3 to 1. The receiving water is near-undiluted before this project adds a drop.",
   },

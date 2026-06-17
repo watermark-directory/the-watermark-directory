@@ -85,10 +85,13 @@ describe("buildWalkSpine (#225)", () => {
     expect(inFeed).toEqual(["2025-05-27"]);
   });
 
-  it("holds the customer reveal as an annotation, not a node (discipline)", async () => {
+  it("confirms the customer is Google [verified], with annotation-not-a-node as a graph-method note", async () => {
     const { buildWalkSpine } = await loadSpine(makeBundle([]));
     const reveal = buildWalkSpine().milestones.find((m) => m.kind === "reveal");
-    expect(reveal?.cite).toMatch(/annotation/i);
+    // The customer question is closed, not open: verified Google.
+    expect(reveal?.detail).toMatch(/\[verified\]/);
+    expect(reveal?.detail).toMatch(/Google/);
+    // "annotation, not a node" stays — but framed as a graph-method choice.
     expect(reveal?.detail).toMatch(/annotation, not a node/i);
   });
 });

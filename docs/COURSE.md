@@ -10,7 +10,7 @@
 > [DOSSIER §1](DOSSIER.md)). The course now turns from *identification* to
 > *analysis and forecasting*: the **beneficiaries** and how they correlate to the
 > broader data-center boom, the **compute capacity and workloads** the plans imply
-> (the GovCloud question is substantially answered — Liz Schultz's "classification
+> (the GovCloud question is substantially answered — Liz Schwab's "classification
 > levels"), the **Maumee watershed comparison** (does Fort Wayne mirror the
 > dilution thesis?), and **localized economics** beyond utility consumption. See
 > §1.5 for the forward tracks.
@@ -135,7 +135,7 @@ analysis, not a missing document.
 2. **Compute capacity & workloads.** Translate the disclosed plant — ~313 MW
    backup / ~275 MW IT, 36 cooling towers — into a *capacity* reading and the
    **workload classes** it fits. The **GovCloud** question is substantially
-   answered: Liz Schultz addressed it in indirect language ("classification
+   answered: Liz Schwab addressed it in indirect language ("classification
    levels"). Associate the capacity with concrete workload profiles and price the
    GovCloud premium. `[analysis]`
 3. **The Maumee watershed comparison.** Lima's discharges screen as effectively

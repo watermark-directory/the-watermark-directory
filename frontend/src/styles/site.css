@@ -1154,6 +1154,8 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .dil-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .dil-head strong { font-size: 14px; }
 .dil-tag { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--bosc-inference); background: var(--td-inference-bg); border-radius: 5px; padding: 2px 8px; cursor: help; }
+.dil-tag--verified { color: var(--bosc-verified); background: var(--td-verified-bg); }
+.dil-framing { margin: 0 0 14px; font-size: 13px; line-height: 1.6; color: var(--td-mono-ink, #3a3f4d); }
 .dil-bars { display: grid; gap: 12px; margin-bottom: 14px; }
 .dil-barrow { display: grid; gap: 5px; }
 .dil-barlabel { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--td-faint); }
