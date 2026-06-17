@@ -1210,6 +1210,14 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .mf-tr-item td:first-child { padding-left: 18px; color: var(--td-faint); font-size: 12.5px; }
 .mf-td-cite { font-size: 11px; color: var(--td-faint); }
 .mf-abate { margin-top: 16px; }
+.mf-perjob { margin-top: 14px; }
+.mf-perjob caption { caption-side: top; text-align: left; font-size: 12px; color: var(--td-faint); line-height: 1.5; margin-bottom: 8px; }
+.mf-perjob td:last-child, .mf-perjob th:last-child { text-align: right; font-family: var(--td-mono); white-space: nowrap; }
+.mf-perjob-note { display: block; font-size: 11px; color: var(--td-faint); line-height: 1.4; margin-top: 2px; }
+.mf-perjob-central { background: var(--td-open-bg); }
+.mf-perjob-central td:first-child { font-weight: 700; }
+.mf-perjob-model { margin-top: 12px; font-size: 12px; line-height: 1.6; color: var(--td-faint); }
+.mf-perjob-model code { font-size: 10.5px; }
 @media (prefers-reduced-motion: reduce) { .mf-seg { transition: none; } }
 
 /* ---- the timeline spine (#225): sequence-as-argument ---- */

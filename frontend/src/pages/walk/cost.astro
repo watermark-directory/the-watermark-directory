@@ -10,7 +10,7 @@ import PathWayfinding from "../../components/PathWayfinding.astro";
 import RecordTeardown from "../../components/RecordTeardown.astro";
 import MoneyFlow from "../../components/islands/MoneyFlow.tsx";
 import { OPC_TEARDOWN, RDA_TEARDOWN } from "../../lib/teardowns";
-import { buildMoneyFlow, fmtUsd, fmtUsdFull } from "../../lib/moneyFlow";
+import { buildMoneyFlow, fmtUsd, fmtUsdFull, fmtUsdM } from "../../lib/moneyFlow";
 import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../lib/walk";
 import { withBase } from "../../lib/site";
 
@@ -21,6 +21,10 @@ const next = chapterByStep(STEP + 1);
 // The follow-the-money flow — OPC line items feed-sourced; the contribution,
 // the actual award, and the abatement terms are cited constants.
 const money = buildMoneyFlow();
+// The per-job abatement value is the deciding number, and the record that pins it
+// is non-public — so it's a labeled [open] screening band, not a record read.
+const perJob = money.abatementPerJob;
+const a = perJob.assumptions;
 ---
 
 <Base
@@ -128,10 +132,56 @@ const money = buildMoneyFlow();
           / ~{fmtUsd(money.abatement.payrollUsd)} payroll by 2030, from a near-zero today.
         </p>
         <p>
-          What the abatement costs <em>per job</em> — its value divided across ~{money.abatement.jobs} jobs —
-          is the deciding number, and it is <strong>withheld</strong>: the School District Compensation
-          Agreement dollar terms are non-public. <span class="mf-tag mf-tag--open">[open]</span> The walk doesn't fill that
-          blank; it shows you where it is.
+          What the abatement costs <em>per job</em> is the deciding number, and the record that would
+          pin it — the School District Compensation Agreement — is <strong>non-public</strong>. So we
+          don't leave the blank, and we don't invent a figure: we <em>model</em> it, and carry the
+          answer as <span class="mf-tag mf-tag--open">[open]</span> until the record arrives. Across a
+          few facility profiles the value lands between
+          <strong>{fmtUsdM(perJob.lowUsd)}</strong> and <strong>{fmtUsdM(perJob.highUsd)}</strong> per job —
+          about <strong>{fmtUsdM(perJob.centralUsd)}</strong> if you take the application's own ~{money.abatement.jobs} jobs
+          at face value. Every one of those dwarfs the ~{fmtUsd(money.abatement.payrollUsd / money.abatement.jobs)} a
+          job pays in a year.
+        </p>
+
+        <table class="dtable mf-perjob">
+          <caption>
+            The abated <em>base</em> (how much of the ~{fmtUsd(a.capexUsd)} is taxable building, not exempt
+            equipment) and the <em>job count</em> are the two unknowns; each profile is a credible reading of
+            them. The <strong>defense-hardened</strong> row is a modeling <em>what-if</em>, not a finding —
+            the defense question itself stays <code>[open]</code> (#233).
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Profile</th>
+              <th scope="col">Building share</th>
+              <th scope="col">Jobs</th>
+              <th scope="col">Per job</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              perJob.profiles.map((p) => (
+                <tr class={p.key === "stated" ? "mf-perjob-central" : undefined}>
+                  <td>
+                    {p.label}
+                    <span class="mf-perjob-note">{p.note}</span>
+                  </td>
+                  <td>{Math.round(p.buildingShare * 100)}%</td>
+                  <td>{p.jobs}</td>
+                  <td><strong>{fmtUsdM(p.perJobUsd)}</strong></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+
+        <p class="mf-perjob-model">
+          <strong>How it's modeled.</strong> {money.abatement.pct}% × {money.abatement.years}-yr abatement
+          <code>[verified]</code> (Res #548-25) on the building share of the ~{fmtUsd(a.capexUsd)} build
+          <code>[verified]</code> (CRA §2, a non-binding estimate), taxed at Ohio's {Math.round(a.assessmentRatio * 100)}%
+          assessment <code>[verified]</code> × ~{Math.round(a.effectiveMills * 1000)} effective mills
+          <code>[assumption]</code> (the exact Elida rate isn't in the corpus). The result is a screening band,
+          <code>[open]</code> — the real number is owed to the non-public School District Compensation Agreement.
         </p>
       </div>
     </section>
