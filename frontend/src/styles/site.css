@@ -1146,6 +1146,40 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 @media (prefers-reduced-motion: reduce) { .wstack-cue { transition: none; } }
 @media (max-width: 560px) { .wstack-body { padding-left: 14px; } }
 
+/* ---- the dilution screen (#222): consumptive draw vs the river's low flow ---- */
+.walk-interactive { margin: 26px 0; }
+.dil-surface { position: relative; margin-bottom: 6px; }
+.dil-noscript { padding: 14px; border: 1px dashed var(--td-srccard-line); border-radius: 8px; color: var(--td-faint); font-size: 13px; }
+.dil { border: 1px solid var(--td-srccard-line); border-radius: 10px; background: #fff; padding: 16px 18px; }
+.dil-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.dil-head strong { font-size: 14px; }
+.dil-tag { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--bosc-inference); background: var(--td-inference-bg); border-radius: 5px; padding: 2px 8px; cursor: help; }
+.dil-bars { display: grid; gap: 12px; margin-bottom: 14px; }
+.dil-barrow { display: grid; gap: 5px; }
+.dil-barlabel { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--td-faint); }
+.dil-barnum { font-family: var(--td-mono); font-weight: 700; color: var(--bosc-ink); }
+.dil-track { position: relative; height: 26px; background: var(--td-panel); border-radius: 5px; overflow: hidden; }
+.dil-bar { height: 100%; border-radius: 5px; transition: width 0.18s ease; }
+.dil-bar--river { background: #7fb0d8; }
+.dil-bar--draw { background: var(--td-danger); }
+.dil-dry { position: absolute; inset: 0; display: flex; align-items: center; padding-left: 10px; font-size: 11px; font-weight: 700; color: var(--td-danger); letter-spacing: 0.5px; }
+.dil-readout { display: flex; flex-direction: column; gap: 2px; margin-bottom: 16px; padding: 12px 14px; background: var(--td-open-bg); border-radius: 8px; }
+.dil-mult { font-size: 22px; font-weight: 800; color: var(--bosc-ink); line-height: 1.1; }
+.dil-readsub { font-size: 12.5px; color: var(--td-faint); }
+.dil-controls { display: grid; gap: 12px; }
+.dil-slabel { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-size: 12.5px; font-weight: 600; color: var(--bosc-ink); }
+.dil-snum { font-family: var(--td-mono); font-weight: 700; }
+.dil-slider { width: 100%; accent-color: var(--td-danger); }
+.dil-seasons { display: flex; gap: 6px; flex-wrap: wrap; }
+.dil-season { font-size: 12.5px; padding: 6px 12px; border: 1px solid var(--td-srccard-line); border-radius: 20px; background: #fff; color: var(--bosc-ink); cursor: pointer; }
+.dil-season[aria-pressed="true"] { background: var(--bosc-ink); color: #fff; border-color: var(--bosc-ink); }
+.dil-season:focus-visible { outline: 2px solid var(--bosc-ink); outline-offset: 2px; }
+.dil-cite { margin: 12px 0 0; font-size: 11px; font-family: var(--td-mono); color: var(--td-faint); line-height: 1.45; }
+.dil-table { margin-top: 14px; }
+.dil-table caption { caption-side: top; text-align: left; font-size: 12px; color: var(--td-faint); line-height: 1.5; margin-bottom: 8px; }
+.dil-td-cite { font-size: 11px; color: var(--td-faint); }
+@media (prefers-reduced-motion: reduce) { .dil-bar { transition: none; } }
+
 /* ---- Layout A · split-screen read ---- */
 .td-body { padding: 22px; }
 .td-split { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--td-card-line); border-radius: 10px; overflow: hidden; }
