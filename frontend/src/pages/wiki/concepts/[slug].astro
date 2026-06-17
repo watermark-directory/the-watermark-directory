@@ -38,11 +38,17 @@ const header: ProfileHeaderData = {
     `/submit?ref_kind=concept&ref_id=${encodeURIComponent(concept.slug)}&ref_label=${encodeURIComponent(concept.title)}`,
   ),
 };
+
+const sections = [
+  { anchor: "overview", label: "Identity" },
+  ...(backlinks.length ? [{ anchor: "backlinks", label: "Backlinks" }] : []),
+];
+const profileToc = sections.length >= 2 ? sections : [];
 ---
 
-<Base title={concept.title} section="wiki" description={concept.summary}>
+<Base title={concept.title} section="wiki" description={concept.summary} toc={profileToc}>
   <p class="prose"><a href={withBase("/wiki/concepts/")}>← Concepts</a></p>
-  <ProfileHeader profile={header} />
+  <div id="overview"><ProfileHeader profile={header} /></div>
 
   <article class="prose">
     {
@@ -60,7 +66,7 @@ const header: ProfileHeaderData = {
     {
       backlinks.length > 0 && (
         <div class="backlinks">
-          <h2>Backlinks</h2>
+          <h2 id="backlinks">Backlinks</h2>
           <ul class="neighborhood">
             {backlinks.map((b) => (
               <li>

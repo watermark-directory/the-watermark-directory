@@ -34,12 +34,21 @@ const block = recordToBlock(record);
 const teardown = teardownForRel(record.rel);
 const hasAnnotated = Boolean(teardown?.pins?.length);
 const groupName = groupLabel(record.group).replace(/ —.*$/, "");
+
+// The rail is this record's own anchors — the block, then the teardown (when one
+// is wired). A record with no teardown is just the block, so it needs no rail.
+const toc = teardown
+  ? [
+      { anchor: "the-record", label: "The record" },
+      { anchor: "the-teardown", label: "The teardown" },
+    ]
+  : [];
 ---
 
 <Base
   title={record.title}
   section="site"
-  rail={false}
+  toc={toc}
   description={`${record.title} — the record, read in the open with provenance on every figure.`}
 >
   <div class="rec">

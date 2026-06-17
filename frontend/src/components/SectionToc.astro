@@ -1,22 +1,27 @@
 ---
-import { getSection, type SectionId } from "../lib/nav";
-import { withBase } from "../lib/site";
+/**
+ * The rail — a table of contents for the page you're on (NOT section nav). It
+ * lists this page's own in-page anchors; `scripts/toc.ts` highlights the one in
+ * view (scroll-spy). Pages pass their `toc` to `Base`, which renders this only
+ * when there are entries. The links are same-page `#anchor`s.
+ */
+import type { TocEntry } from "../lib/nav";
 
 interface Props {
-  section: SectionId;
+  items: TocEntry[];
+  title?: string;
 }
-const { section } = Astro.props;
-const data = getSection(section);
+const { items, title = "On this page" } = Astro.props;
 ---
 
-<aside class="section-toc" aria-label={`${data.label} — contents`}>
-  <div class="section-toc-title">On this page</div>
+<aside class="section-toc" aria-label={title}>
+  <div class="section-toc-title">{title}</div>
   <nav>
     <ul>
       {
-        data.toc.map((t, i) => (
+        items.map((t, i) => (
           <li>
-            <a href={`${withBase(data.href)}#${t.anchor}`}>
+            <a href={`#${t.anchor}`}>
               <span class="toc-num">{String(i + 1).padStart(2, "0")}</span>
               <span class="toc-label">{t.label}</span>
             </a>

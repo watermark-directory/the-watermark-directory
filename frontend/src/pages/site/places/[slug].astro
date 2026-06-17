@@ -44,11 +44,17 @@ const header: ProfileHeaderData = {
     `/submit?ref_kind=place&ref_id=${encodeURIComponent(place.slug)}&ref_label=${encodeURIComponent(place.name)}`,
   ),
 };
+
+const sections = [
+  { anchor: "overview", label: "Identity" },
+  ...(place.citations.length ? [{ anchor: "sources", label: "Sources" }] : []),
+];
+const profileToc = sections.length >= 2 ? sections : [];
 ---
 
-<Base title={place.name} section="site">
+<Base title={place.name} section="site" toc={profileToc}>
   <p class="prose"><a href={withBase("/site/places/")}>← Places &amp; parcels</a></p>
-  <ProfileHeader profile={header} />
+  <div id="overview"><ProfileHeader profile={header} /></div>
 
   <article class="prose">
     {
@@ -66,7 +72,7 @@ const header: ProfileHeaderData = {
     {
       place.citations.length > 0 && (
         <div class="backlinks">
-          <h2>Sources</h2>
+          <h2 id="sources">Sources</h2>
           {place.citations.map((c) => (
             <Provenance citation={c} />
           ))}

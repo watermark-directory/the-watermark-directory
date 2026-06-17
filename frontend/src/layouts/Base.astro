@@ -1,7 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import SectionToc from "../components/SectionToc.astro";
-import { SECTIONS, type SectionId } from "../lib/nav";
+import { SECTIONS, type SectionId, type TocEntry } from "../lib/nav";
 import { SITE_NAME, SITE_DESCRIPTION, withBase } from "../lib/site";
 import "../styles/site.css";
 
@@ -9,14 +9,24 @@ interface BaseProps {
   title: string;
   description?: string;
   section?: SectionId;
-  /** Drop the section TOC rail (hubs & Home use a full-width card grid). */
+  /** Kill-switch for the rail (rarely needed — it only shows with a `toc`). */
   rail?: boolean;
+  /** Page-local table of contents — anchors on THIS page. The rail is a TOC for
+   *  the page you're on, never section navigation; it shows only when non-empty. */
+  toc?: TocEntry[];
 }
 
 // `.astro` pages pass these props directly; `.mdx` pages using `layout:` pass
 // them nested under `frontmatter`. Accept both.
 const raw = Astro.props as BaseProps & { frontmatter?: BaseProps };
-const { title, description = SITE_DESCRIPTION, section = "home", rail = true } = raw.frontmatter ?? raw;
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  section = "home",
+  rail = true,
+  toc = [],
+} = raw.frontmatter ?? raw;
+const showRail = rail !== false && toc.length > 0;
 ---
 
 <!doctype html>
@@ -37,8 +47,8 @@ const { title, description = SITE_DESCRIPTION, section = "home", rail = true } =
       aria-controls="bosc-sections"
     />
     <Header active={section} />
-    <div class:list={["layout", { "no-rail": !rail }]}>
-      {rail && <SectionToc section={section} />}
+    <div class:list={["layout", { "no-rail": !showRail }]}>
+      {showRail && <SectionToc items={toc} />}
       <main class="content">
         <slot />
       </main>
