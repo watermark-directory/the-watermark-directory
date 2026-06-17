@@ -4,7 +4,7 @@
 // abuse surface can't grow by a submitter adding fields. Pure and dependency-free
 // (only the `URL` global), so it runs on the Workers runtime and is unit-testable.
 
-export type SubmissionKind = "tip" | "correction";
+export type SubmissionKind = "tip" | "correction" | "new_source";
 export type RefKind = "record" | "document" | "entity" | "concept" | "page" | "general";
 
 export interface SubmissionTarget {
@@ -32,7 +32,7 @@ export const LIMITS = {
   token: 4096,
 } as const;
 
-const KINDS: readonly SubmissionKind[] = ["tip", "correction"];
+const KINDS: readonly SubmissionKind[] = ["tip", "correction", "new_source"];
 const REF_KINDS: readonly RefKind[] = ["record", "document", "entity", "concept", "page", "general"];
 
 export type ValidationResult = { ok: true; value: Submission } | { ok: false; error: string };
@@ -59,7 +59,7 @@ export function validateSubmission(raw: unknown): ValidationResult {
   for (const k of Object.keys(o)) if (!allowed.has(k)) return err(`unexpected field: ${k}`);
 
   if (typeof o.kind !== "string" || !KINDS.includes(o.kind as SubmissionKind))
-    return err("kind must be 'tip' or 'correction'");
+    return err("kind must be 'tip', 'correction', or 'new_source'");
 
   if (typeof o.body !== "string" || o.body.trim().length === 0) return err("body is required");
   if (o.body.length > LIMITS.body) return err(`body exceeds ${LIMITS.body} characters`);

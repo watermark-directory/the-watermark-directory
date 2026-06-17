@@ -18,11 +18,12 @@ const ENDPOINT = "/api/submit";
 
 <Base title="Submit a tip or correction" section="home">
   <article class="prose">
+    <div class="submit-eyebrow">Participate</div>
     <h1>Submit a tip or correction</h1>
     <p class="section-lead">
-      Spotted an error in the record, or have a lead? Send it here. A submission opens a
-      public, labeled GitHub issue that a maintainer reviews — it is a <em>proposal</em>,
-      never a change to the record itself.
+      We treat every submission as a <strong>lead, not a verdict</strong> — tell us what's
+      off and how to check it. A submission opens a public, labeled GitHub issue that a
+      maintainer reviews; it never changes the record itself.
     </p>
 
     {/*
@@ -44,50 +45,54 @@ const ENDPOINT = "/api/submit";
       </button>
     </div>
 
-    <div class="callout callout--note">
-      <p class="callout-title">What happens to a submission</p>
-      <p>
-        It becomes an inert <code>needs-triage</code> issue, attributed to the
-        submissions bot, and is acted on only after a person verifies it. Nothing you
-        send can alter a source document or a reviewed record. The issue is
-        <strong>public</strong> — don't include private or identifying information.
-        Full contract: <a href={CONTRACT_URL}>docs/submissions-api.md</a>.
-      </p>
-    </div>
-
     {
       enabled ? (
         <Fragment>
           <form id="submit-form" class="form submit-card" data-endpoint={ENDPOINT}>
-            <div class="field">
-              <label for="f-kind">This is a…</label>
-              <select id="f-kind" name="kind">
-                <option value="correction">Correction — something on the site looks wrong</option>
-                <option value="tip">Tip — a new lead to look into</option>
-              </select>
-            </div>
+            <fieldset class="field seg">
+              <legend>What kind of submission?</legend>
+              <div class="seg-row">
+                <input type="radio" id="k-correction" name="kind" value="correction" checked />
+                <label for="k-correction">Correction</label>
+                <input type="radio" id="k-source" name="kind" value="new_source" />
+                <label for="k-source">New source</label>
+                <input type="radio" id="k-tip" name="kind" value="tip" />
+                <label for="k-tip">Tip</label>
+              </div>
+            </fieldset>
 
             <div class="field">
               <label for="f-body">
-                Details
+                What's the claim or correction?
                 <span class="field-hint">— be specific; cite a page/figure if you can. Max 4000 characters.</span>
               </label>
-              <textarea id="f-body" name="body" maxlength="4000" required />
+              <textarea
+                id="f-body"
+                name="body"
+                maxlength="4000"
+                required
+                placeholder="e.g. “Parcel 4's price wasn't blank — it's in the auditor's transfer record.”"
+              />
             </div>
 
             <div class="field">
               <label for="f-evidence">
-                Supporting link <span class="field-hint">— optional; one public URL.</span>
+                Where can we verify it? <span class="field-hint">— optional; one public URL.</span>
               </label>
-              <input id="f-evidence" name="evidence_url" type="url" maxlength="500" placeholder="https://…" />
+              <input id="f-evidence" name="evidence_url" type="url" maxlength="500" placeholder="Link to a public record…" />
             </div>
 
             <div class="cf-turnstile" data-sitekey={siteKey} />
 
             <div class="form-foot">
-              <button type="submit" class="btn">Send submission</button>
+              <button type="submit" class="btn">Send to the record team</button>
               <p id="submit-status" class="form-status" role="status" aria-live="polite" />
             </div>
+            <p class="submit-note">
+              No account needed; reviewed before anything in the record changes. The issue is
+              <strong>public</strong> — don't include private or identifying information.
+              Full contract: <a href={CONTRACT_URL}>docs/submissions-api.md</a>.
+            </p>
           </form>
 
           <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline />

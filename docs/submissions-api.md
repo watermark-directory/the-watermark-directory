@@ -53,7 +53,7 @@ enforced server-side; this table is its prose source of truth.
 
 | Field | Type | Req. | Notes |
 | --- | --- | :---: | --- |
-| `kind` | `"tip"` \| `"correction"` | ✓ | A *correction* disputes something on the site; a *tip* is a new lead. Drives the issue title prefix. |
+| `kind` | `"tip"` \| `"correction"` \| `"new_source"` | ✓ | A *correction* disputes something on the site; a *new source* points at a document/record we're missing; a *tip* is a new lead. Drives the issue title prefix (`[correction]` / `[new-source]` / `[tip]`). |
 | `body` | string | ✓ | The substance. **≤ 4 000 chars.** Rendered into the issue as a fenced block (markdown neutralized — see [abuse](#abuse--spam)). |
 | `target` | object | — | What the submission concerns (see [target references](#target-references)). Omitted ⇒ a general submission. |
 | `target.ref_kind` | `"record"` \| `"document"` \| `"entity"` \| `"concept"` \| `"page"` \| `"general"` | ✓ if `target` | Which id space `ref_id` lives in. |
