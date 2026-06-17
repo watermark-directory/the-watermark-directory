@@ -1,0 +1,60 @@
+---
+/**
+ * Recursive renderer for a structured record field value (#180) — the frontend
+ * mirror of the legacy SSG's `_render_value` bullet tree. Objects render as a
+ * key/value tree, arrays as a bulleted list, scalars as a mono leaf; `~`
+ * approximate markers are preserved per dotted `path` against `approx`. SSR-only.
+ */
+import FieldValue from "./FieldValue.astro";
+import { formatScalar, isStructured, withApproxMark } from "../lib/records";
+
+interface Props {
+  value: unknown;
+  /** Dotted path of this value (for approximate-marker lookup). */
+  path: string;
+  /** The record's `approximate_paths`. */
+  approx: string[];
+}
+const { value, path, approx } = Astro.props;
+
+const isObj = (v: unknown): v is Record<string, unknown> =>
+  v !== null && typeof v === "object" && !Array.isArray(v);
+const mark = (p: string): boolean => approx.includes(p);
+---
+
+{
+  Array.isArray(value) ? (
+    <ul class="fv-list">
+      {value.map((item, i) =>
+        isStructured(item) ? (
+          <li>
+            <FieldValue value={item} path={`${path}.${i}`} approx={approx} />
+          </li>
+        ) : (
+          <li class:list={["fv-leaf", mark(`${path}.${i}`) && "is-approx"]}>
+            {withApproxMark(formatScalar(item), mark(`${path}.${i}`))}
+          </li>
+        ),
+      )}
+    </ul>
+  ) : isObj(value) ? (
+    <ul class="fv-tree">
+      {Object.entries(value).map(([k, v]) => (
+        <li>
+          <span class="fv-key">{k}</span>{" "}
+          {isStructured(v) ? (
+            <FieldValue value={v} path={`${path}.${k}`} approx={approx} />
+          ) : (
+            <span class:list={["fv-leaf", mark(`${path}.${k}`) && "is-approx"]}>
+              {withApproxMark(formatScalar(v), mark(`${path}.${k}`))}
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <span class:list={["fv-leaf", mark(path) && "is-approx"]}>
+      {withApproxMark(formatScalar(value), mark(path))}
+    </span>
+  )
+}

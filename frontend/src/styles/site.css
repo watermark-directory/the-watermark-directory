@@ -742,6 +742,19 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .rb-field-value { font-size: 13px; font-weight: 600; font-family: var(--bosc-mono); text-align: right; color: var(--bosc-ink); }
 .rb-field-value.is-warn { color: var(--bosc-danger); }
 
+/* Structured (object/array) fields — the legacy bullet hierarchy, tokenized (#180). */
+.rb-nested { padding: 2px 20px 14px; display: flex; flex-direction: column; gap: 14px; }
+.rb-nested-label { font-size: 12px; font-family: var(--bosc-mono); color: var(--bosc-indigo); font-weight: 700; margin-bottom: 5px; }
+.fv-tree, .fv-list { margin: 0; display: flex; flex-direction: column; gap: 3px; line-height: 1.5; }
+.fv-tree { list-style: none; padding-left: 12px; border-left: 1px solid var(--td-line); }
+.fv-list { padding-left: 24px; }
+.fv-tree > li > .fv-tree, .fv-tree > li > .fv-list,
+.fv-list > li > .fv-tree, .fv-list > li > .fv-list { margin-top: 3px; }
+.fv-key { font-size: 12.5px; font-weight: 600; color: var(--bosc-muted); }
+.fv-key::after { content: ":"; color: var(--td-faint); }
+.fv-leaf { font-family: var(--bosc-mono); font-size: 12.5px; color: var(--bosc-ink); }
+.fv-leaf.is-approx { color: var(--bosc-danger); }
+
 .rb-warn { margin: 8px 20px 0; border: 1px solid #e7c9c4; background: #fdf3f1; border-radius: 10px; padding: 11px 14px; }
 .rb-warn-label { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--bosc-danger); font-weight: 700; margin-bottom: 5px; }
 .rb-warn ul { margin: 0; padding-left: 1.1rem; }
