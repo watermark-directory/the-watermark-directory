@@ -21,6 +21,7 @@ from bosc.site.export import export_bundle
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 COMMITTED_SCHEMAS = REPO_ROOT / "data" / "site" / "bundle" / "schemas"
+FRONTEND_SAMPLE = REPO_ROOT / "frontend" / "sample-bundle"
 
 
 @pytest.fixture(scope="module")
@@ -199,6 +200,32 @@ def test_geo_features_carry_layer_metadata(bundle: Path) -> None:
             props = feature["properties"]
             assert props.get("layer"), f"{name}: feature missing layer"
             assert props.get("role") in ("area", "line", "point")
+
+
+def test_frontend_sample_bundle_tracks_the_export_contract(bundle: Path) -> None:
+    """The committed CI fixture ``frontend/sample-bundle`` must not silently drift from
+    ``bosc export`` (issue #179). It is a deliberately *trimmed* bundle, so its feed set is a
+    subset — but the ``contract_version`` must match exactly, every feed it ships must still
+    exist in the real export (catches a rename/removal), and the trimmed manifest must stay
+    internally consistent. Refresh it (see ``frontend/sample-bundle/README.md``) on drift.
+    """
+    exported = _manifest(bundle)
+    sample = json.loads((FRONTEND_SAMPLE / "manifest.json").read_text(encoding="utf-8"))
+
+    assert sample["contract_version"] == exported["contract_version"], (
+        f"sample-bundle contract_version {sample['contract_version']} != exported "
+        f"{exported['contract_version']} — refresh frontend/sample-bundle"
+    )
+
+    exported_feeds = {f["name"] for f in exported["feeds"]}
+    stale = {f["name"] for f in sample["feeds"]} - exported_feeds
+    assert not stale, f"sample-bundle has feeds no longer produced by `bosc export`: {stale}"
+
+    # The trimmed manifest must stay internally consistent and its feed files present.
+    assert sample["feed_count"] == len(sample["feeds"])
+    assert sample["row_total"] == sum(f["count"] for f in sample["feeds"])
+    for f in sample["feeds"]:
+        assert (FRONTEND_SAMPLE / f["path"]).is_file(), f"sample-bundle missing file {f['path']}"
 
 
 def test_approximate_markers_are_preserved_as_data(bundle: Path) -> None:

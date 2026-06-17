@@ -73,11 +73,29 @@ export function bundleDir(): string {
 
 let cachedManifest: Manifest | undefined;
 
+/**
+ * The bundle `contract_version` major this frontend is built against. A bundle
+ * with a different major has breaking schema changes (the `CONTRACT_VERSION`
+ * major in `bosc.site.feeds`), so we fail the build fast with a clear message
+ * rather than render against an incompatible shape. Bump when adapting the
+ * frontend to a new contract major.
+ */
+export const EXPECTED_CONTRACT_MAJOR = 1;
+
 /** Parse and return the bundle manifest (cached for the build). */
 export function loadManifest(): Manifest {
   if (cachedManifest) return cachedManifest;
   const raw = readFileSync(join(bundleDir(), "manifest.json"), "utf-8");
-  cachedManifest = JSON.parse(raw) as Manifest;
+  const manifest = JSON.parse(raw) as Manifest;
+  const major = Number.parseInt(String(manifest.contract_version).split(".")[0], 10);
+  if (!Number.isFinite(major) || major !== EXPECTED_CONTRACT_MAJOR) {
+    throw new Error(
+      `Bundle contract_version "${manifest.contract_version}" is incompatible with this ` +
+        `frontend (expected major ${EXPECTED_CONTRACT_MAJOR}). Regenerate with a matching ` +
+        `\`bosc export\`, or bump EXPECTED_CONTRACT_MAJOR in src/lib/bundle.ts.`,
+    );
+  }
+  cachedManifest = manifest;
   return cachedManifest;
 }
 

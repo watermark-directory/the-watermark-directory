@@ -127,6 +127,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Check internal links
+        run: npm run check:links
+
   # Repo-wide Markdown lint (markdownlint-cli2). Node, but separate from the Astro
   # frontend job — it lints hand-authored docs across the repo (data/, docs/, root, …),
   # not the site. Config + ignores (generated docs, frontend, notebooks) live in

@@ -115,5 +115,198 @@
       "note": "pages [0, 1, 2, 3]",
       "verified": true
     }
+  },
+  {
+    "rel": "aedg/roundabouts.summary.opc.yaml",
+    "group": "opc",
+    "title": "Project BOSC Roadwork (privately funded; BOSC Team deposit to PAAC; dedicated to County on completion)",
+    "confidence": null,
+    "warnings": [],
+    "fields": {
+      "meta": {
+        "program": "Project BOSC Roadwork (privately funded; BOSC Team deposit to PAAC; dedicated to County on completion)",
+        "estimator": "Tetra Tech (RJS), checked AMD",
+        "basis": "Conceptual",
+        "date": "2025-07-11",
+        "source_file": "Conceptual OPC_Cole St.xlsx",
+        "pdf_pages": "318 (summary), 319-328 (detail)",
+        "contingency_and_inflation_pct": 25,
+        "summary_construction_total": 14223081
+      },
+      "section_schema": [
+        "ROADWAY",
+        "EROSION_CONTROL",
+        "DRAINAGE",
+        "PAVEMENT",
+        "WATER_WORK",
+        "LIGHTING",
+        "TRAFFIC_CONTROL",
+        "LANDSCAPING",
+        "RIGHT_OF_WAY",
+        "INCIDENTALS",
+        "DESIGN_SURVEY_INSPECTION"
+      ],
+      "item_reference": {
+        "201E11000": "Clearing and grubbing (LS)",
+        "203E10000": "Excavation, as per plan (CY)",
+        "203E20001": "Embankment, as per plan (CY)",
+        "204E10001": "Subgrade compaction, as per plan (SY)",
+        "623E38500": "Monument assembly, Type C (EACH)",
+        "653E10001": "Topsoil furnished and placed, as per plan (CY)",
+        "decorative_walk": "Decorative plain concrete walk, 6\" thick (splitter island), as per plan (SF)",
+        "605E11111": "6\" shallow pipe underdrains with geotextile fabric, as per plan (FT)",
+        "SPECIAL_drainage": "Drainage improvements (LS)",
+        "301E56000": "Asphalt concrete base, PG64-22 (449) (CY)",
+        "304E20000": "Aggregate base (CY)",
+        "407E10000": "Tack coat (GAL)",
+        "442E22100": "Asphalt concrete surface course, 12.5mm, Type A (449) (CY)",
+        "442E22400": "Asphalt concrete intermediate course, 19mm, Type A (449) (CY)",
+        "609E12001": "Combination curb and gutter, Type 2, as per plan (FT)",
+        "609E31000": "Combination curb and gutter, Type 9 (FT)",
+        "609E26000": "Curb, Type 6 (FT)",
+        "decorative_pavement": "Decorative reinforced concrete pavement, 6\" thick (truck apron), as per plan (SY)",
+        "614E11000": "Maintaining traffic (LS)",
+        "623E10000": "Construction layout stakes and surveying (LS)",
+        "624E10000": "Mobilization (LS)"
+      },
+      "sub_estimates": [
+        {
+          "name": "Cole Street / Diller Road Roundabout",
+          "pdf_page": 319,
+          "work": "Roundabout at Cole/Diller intersection",
+          "construction_subtotal": 1228174,
+          "contingency_inflation_25pct": "~307043",
+          "total": 1535218,
+          "section_subtotals": {
+            "roadway": 109307,
+            "erosion_control": 85000,
+            "drainage": 120440,
+            "pavement": 302631,
+            "water_work": 50000,
+            "lighting": 100000,
+            "traffic_control": 75000,
+            "landscaping": 20000,
+            "right_of_way": 8161,
+            "incidentals": 120000,
+            "design_survey_inspection": 272633
+          }
+        },
+        {
+          "name": "Cole Street / Bluelick Road Roundabout",
+          "pdf_page": 321,
+          "work": "Roundabout at Cole/Bluelick intersection",
+          "construction_subtotal": 1363602,
+          "contingency_inflation_25pct": 340900,
+          "total": 1704502,
+          "section_subtotals": {
+            "roadway": 113984,
+            "erosion_control": 80000,
+            "drainage": 146440,
+            "pavement": 252402,
+            "water_work": 100000,
+            "lighting": 100000,
+            "traffic_control": 75000,
+            "landscaping": 20000,
+            "right_of_way": 12314,
+            "incidentals": 120000,
+            "design_survey_inspection": 373341
+          }
+        },
+        {
+          "name": "Primary Access Entrance to Project Site (Roundabout)",
+          "note": "Main BOSC facility entrance; at Beery Road & North Cole Street (per agreement narrative). Largest roundabout.",
+          "pdf_page": 323,
+          "construction_subtotal": 2122436,
+          "contingency_inflation_25pct": 530609,
+          "total": 2663045,
+          "section_subtotals": {
+            "roadway": 241889,
+            "erosion_control": 100000,
+            "drainage": 208200,
+            "pavement": 681232,
+            "water_work": 50000,
+            "lighting": 150000,
+            "traffic_control": 75000,
+            "landscaping": 20000,
+            "right_of_way": 275,
+            "incidentals": 140000,
+            "design_survey_inspection": 455078
+          }
+        },
+        {
+          "name": "Cole Street / West Street (SR 115) Roundabout",
+          "note": "ODOT District One reviewing whether this roundabout is needed.",
+          "pdf_page": 325,
+          "construction_subtotal": 1799687,
+          "contingency_inflation_25pct": 449922,
+          "total": 2249609,
+          "section_subtotals": {
+            "roadway": 170516,
+            "erosion_control": 75000,
+            "drainage": 156010,
+            "pavement": 514322,
+            "water_work": 50000,
+            "lighting": 100000,
+            "traffic_control": 75000,
+            "landscaping": 20000,
+            "right_of_way": 13627,
+            "incidentals": 130000,
+            "design_survey_inspection": 437212
+          }
+        },
+        {
+          "name": "Cole Street Corridor",
+          "type": "corridor (widening/rehab, not an intersection)",
+          "pdf_page": 327,
+          "construction_subtotal": 3119840,
+          "contingency_inflation_25pct": 779960,
+          "total": 3899800,
+          "section_subtotals": {
+            "roadway": 392686,
+            "erosion_control": 65000,
+            "drainage": 284040,
+            "pavement": 1777183,
+            "water_work": 65000,
+            "incidentals": 90000,
+            "design_survey_inspection": 441848
+          },
+          "notes": "Corridor sheets omit RIGHT_OF_WAY, LIGHTING, TRAFFIC_CONTROL, LANDSCAPING line sections present on roundabout sheets."
+        },
+        {
+          "name": "Bluelick Road Corridor",
+          "type": "corridor (widening/rehab, not an intersection)",
+          "pdf_page": 328,
+          "construction_subtotal": 1744725,
+          "contingency_inflation_25pct": 436181,
+          "total": 2180907,
+          "section_subtotals": {
+            "roadway": 223596,
+            "erosion_control": 35000,
+            "drainage": 153400,
+            "pavement": 898471,
+            "water_work": 35000,
+            "incidentals": 60000,
+            "design_survey_inspection": 348858
+          }
+        }
+      ],
+      "reconciliation": {
+        "diller_ocr_correction": "OCR earlier rendered Diller total as $4,535,217.80; the correct figure is $1,535,217.80 (leading digit is a 1, not a 4). Construction total of $14,223,081 only reconciles with the $1.535M figure.",
+        "agreement_vs_opc_bluelick": "Roadwork agreement narrative states $2.5M 'specifically budgeted' for the Bluelick & N. Cole roundabout. The OPC lists that roundabout at $1,704,502. The $2.5M likely bundles the Bluelick roundabout + Bluelick corridor work + contingency/ROW, or reflects a budgeting allowance distinct from the engineer's estimate. Flag for the County Engineer.",
+        "state_route_label": "Agreement and design-build minutes variously reference SR 115 and SR 65 for the Cole Street west roundabout. OPC labels it 'Cole Street / West Street (SR 115).' Confirm correct route designation.",
+        "quantities_caveat": "Line-item quantities transcribed from a degraded scan are approximate. Dollar totals/subtotals are high-confidence."
+      }
+    },
+    "approximate_paths": [
+      "sub_estimates.0.contingency_inflation_25pct"
+    ],
+    "citation": {
+      "source": "aedg/roundabouts.summary.opc.yaml",
+      "source_kind": "document",
+      "page": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
   }
 ]
