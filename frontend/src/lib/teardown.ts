@@ -31,6 +31,30 @@ export interface TeardownScanCrop {
   redaction?: { x: string; y: string; w: string; h: string; label?: string };
 }
 
+/**
+ * The redaction-reveal (#220) — the corpus's signature move surfaced as a teaching
+ * object: a deliberate blank / CBI lock IS the finding. Rendered as a native
+ * `<details>` disclosure (no-JS: the box + label are SSR, the lock/clause cites in
+ * the open content), it shows *why* a value is withheld — **never a fabricated
+ * value behind the box**.
+ */
+export interface TeardownRedaction {
+  /** The box label, e.g. "REDACTED · CBI" / "$ ______ · withheld". */
+  label: string;
+  /** The disclosure trigger, e.g. "Why won't the permit say?". */
+  summary: string;
+  /** The operative grant / clause / blank-fact that locks the value (cited). */
+  lock: string;
+  /** Where the lock lives — statute + document locator. */
+  cite: string;
+  /** Plain-language read: what's withheld and why it matters — NOT the value. */
+  read: string;
+  /** Optional deep link to the governing record / document. */
+  href?: string;
+  /** Optional committed crop of the actual blank/CBI region, shown in the reveal. */
+  crop?: TeardownScanCrop;
+}
+
 export interface TeardownSource {
   /** Source filename, shown in the document chrome. */
   file: string;
@@ -126,6 +150,9 @@ export interface TeardownRecord {
   connect: TeardownConnect[];
   /** Renders a redaction bar on the artifact (the `annotated` layout). */
   redactionLabel?: string;
+  /** The interactive redaction-reveal (#220): the deliberate blank / CBI lock as
+   *  the finding. Rendered as a no-JS `<details>` below the source card. */
+  redaction?: TeardownRedaction;
   /**
    * `rel` of the backing row in the live `records` feed (e.g.
    * "recorder/202508130008300.deed.yaml"). When that row is present in the bundle

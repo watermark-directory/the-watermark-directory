@@ -61,6 +61,13 @@ CROPS: list[CropSpec] = [
         box=(0.02, 0.04, 0.99, 0.82),
         note="OPC summary: 6 corridor line items + CONSTRUCTION TOTAL $14,223,081",
     ),
+    CropSpec(
+        out_name="dte100-blank.png",
+        source_pdf="aedg/PRR-01-bundle.ocr.pdf",
+        page_index=157,  # index p.158 — Brenneman DTE-100 conveyance-fee statement
+        box=(0.03, 0.40, 0.99, 0.74),
+        note="DTE-100 value lines 1-9: the conveyance-value dollar column produced BLANK",
+    ),
 ]
 
 

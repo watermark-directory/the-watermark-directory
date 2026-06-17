@@ -180,3 +180,41 @@ describe("resolveTeardown — source viewer + links", () => {
     expect(res.teardown.connect[1].href).toBeUndefined();
   });
 });
+
+describe("resolveTeardown — redaction-reveal (#220)", () => {
+  const redaction = {
+    label: "REDACTED · CBI",
+    summary: "why?",
+    lock: "withheld as trade secret",
+    cite: "some cite",
+    read: "what it means",
+  };
+
+  it("defaults the redaction deep link to the resolved verify target", async () => {
+    const { resolveTeardown } = await loadResolver(makeBundle([OPC_RECORD]));
+    const res = resolveTeardown(teardown({ recordRel: "aedg/opc.yaml", redaction }));
+    expect(res.teardown.redaction?.href).toContain("/site/records/opc/");
+  });
+
+  it("preserves an authored redaction href", async () => {
+    const { resolveTeardown } = await loadResolver(makeBundle([OPC_RECORD]));
+    const res = resolveTeardown(
+      teardown({ recordRel: "aedg/opc.yaml", redaction: { ...redaction, href: "/custom" } }),
+    );
+    expect(res.teardown.redaction?.href).toBe("/custom");
+  });
+
+  it("never invents a value behind the box (no value field on the model)", async () => {
+    const { resolveTeardown } = await loadResolver(makeBundle([]));
+    const res = resolveTeardown(teardown({ redaction }));
+    // The reveal carries the lock + read, not a number.
+    expect(res.teardown.redaction).toMatchObject({ lock: redaction.lock, read: redaction.read });
+    expect(res.teardown.redaction).not.toHaveProperty("value");
+  });
+
+  it("leaves redaction undefined when none is authored", async () => {
+    const { resolveTeardown } = await loadResolver(makeBundle([]));
+    const res = resolveTeardown(teardown({}));
+    expect(res.teardown.redaction).toBeUndefined();
+  });
+});
