@@ -10,13 +10,16 @@ const data = getSection(section);
 ---
 
 <aside class="section-toc" aria-label={`${data.label} — contents`}>
-  <div class="section-toc-title">{data.label}</div>
+  <div class="section-toc-title">On this page</div>
   <nav>
     <ul>
       {
-        data.toc.map((t) => (
+        data.toc.map((t, i) => (
           <li>
-            <a href={`${withBase(data.href)}#${t.anchor}`}>{t.label}</a>
+            <a href={`${withBase(data.href)}#${t.anchor}`}>
+              <span class="toc-num">{String(i + 1).padStart(2, "0")}</span>
+              <span class="toc-label">{t.label}</span>
+            </a>
           </li>
         ))
       }

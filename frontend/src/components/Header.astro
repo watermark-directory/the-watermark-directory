@@ -1,6 +1,6 @@
 ---
 import { SECTIONS, type SectionId } from "../lib/nav";
-import { SITE_NAME, SITE_TAGLINE, withBase } from "../lib/site";
+import { withBase } from "../lib/site";
 
 interface Props {
   active: SectionId;
@@ -13,7 +13,7 @@ const base = import.meta.env.BASE_URL || "/";
 <header class="topbar">
   <label for="bosc-nav-toggle" class="nav-burger" aria-label="Toggle navigation">☰</label>
   <a class="brand" href={withBase("/")}>
-    <strong>{SITE_NAME}</strong> <span class="brand-tagline">— {SITE_TAGLINE}</span>
+    <strong>BOSC</strong> <span class="brand-tagline">Lima</span>
   </a>
   <nav class="sections" aria-label="Sections">
     {
@@ -23,22 +23,27 @@ const base = import.meta.env.BASE_URL || "/";
           href={withBase(s.href)}
           aria-current={s.id === active ? "page" : undefined}
         >
-          {s.label}
+          {s.tab}
         </a>
       ))
     }
   </nav>
-  <div class="search">
-    <input
-      type="search"
-      id="bosc-search"
-      placeholder="Search…"
-      autocomplete="off"
-      aria-label="Search the corpus"
-      spellcheck="false"
-      data-index={searchIndexUrl}
-      data-base={base}
-    />
-    <div id="bosc-search-results" class="search-results" hidden></div>
+  <div class="topbar-right">
+    <div class="search">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input
+        type="search"
+        id="bosc-search"
+        placeholder="Search the record…"
+        autocomplete="off"
+        aria-label="Search the corpus"
+        spellcheck="false"
+        data-index={searchIndexUrl}
+        data-base={base}
+      />
+      <kbd class="search-kbd" aria-hidden="true">⌘K</kbd>
+      <div id="bosc-search-results" class="search-results" hidden></div>
+    </div>
+    <a class="walk-pill" href={withBase("/start")}><span aria-hidden="true">▶</span> <span class="walk-pill-label">Start the walk</span></a>
   </div>
 </header>

@@ -20,8 +20,10 @@ export interface TocEntry {
 
 export interface Section {
   id: SectionId;
-  /** Full label (header tab + section H1). */
+  /** Full label (section H1, search). */
   label: string;
+  /** Short label for the topbar tab. */
+  tab: string;
   /** Root-absolute path to the section landing (pre-base). */
   href: string;
   /** One-line description (used on the landing and in search). */
@@ -33,6 +35,7 @@ export const SECTIONS: Section[] = [
   {
     id: "home",
     label: "Home / About",
+    tab: "Home",
     href: "/",
     blurb: "Landing, disclaimer, corpus at a glance, methodology, and the bigger picture.",
     toc: [
@@ -45,6 +48,7 @@ export const SECTIONS: Section[] = [
   {
     id: "site",
     label: "The BOSC site",
+    tab: "Site",
     href: "/site/",
     blurb: "Documents, records, timeline, exhibits, people & places, and legal history.",
     toc: [
@@ -60,6 +64,7 @@ export const SECTIONS: Section[] = [
   {
     id: "watershed",
     label: "The Maumee watershed",
+    tab: "Watershed",
     href: "/watershed/",
     blurb: "Hydrology dashboards, the watershed map, imagery before/during/after, and RSEI toxics.",
     toc: [
@@ -72,6 +77,7 @@ export const SECTIONS: Section[] = [
   {
     id: "wiki",
     label: "Wiki",
+    tab: "Wiki",
     href: "/wiki/",
     blurb: "Entity & concept pages with backlinks and a graph neighborhood.",
     toc: [

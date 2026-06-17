@@ -1,0 +1,114 @@
+---
+/**
+ * Record Block — the library's per-record unit (design "Record Block"), one
+ * family with the Record Teardown at reference density. Two densities:
+ *   - full    expanded card: kind, title, id, evidence pill, seen-in-walk
+ *             backlink, fields grid, gaps callout, provenance footer + correction
+ *   - compact list row: title, walk badge, id, headline figure, evidence pill
+ * SSR-only. The seen-in-walk backlink + "suggest a correction" glue are built in.
+ */
+import type { LibraryRecord } from "../lib/recordBlock";
+import EvidenceTag from "./EvidenceTag.astro";
+
+interface Props {
+  record: LibraryRecord;
+  density?: "full" | "compact";
+}
+const { record: r, density = "full" } = Astro.props;
+---
+
+{
+  density === "full" ? (
+    <article class="rb" id={r.id}>
+      <div class="rb-head">
+        <div class="rb-bar" aria-hidden="true" />
+        <div class="rb-head-main">
+          <div class="rb-kind">{r.kind}</div>
+          <h3 class="rb-title">{r.title}</h3>
+          <div class="rb-id">{r.recordId}</div>
+        </div>
+        <EvidenceTag kind={r.evidence} />
+      </div>
+
+      {r.seenIn && (
+        <a class="rb-seen" href={r.seenIn.href}>
+          <span class="rb-seen-badge">↩ seen in the walk</span>
+          <span class="rb-seen-text">
+            Chapter {r.seenIn.ch} · <b>{r.seenIn.label}</b>
+          </span>
+          <span class="rb-seen-resume">resume the walk ›</span>
+        </a>
+      )}
+
+      {r.fields.length > 0 && (
+        <div class="rb-fields">
+          <div class="rb-fields-label">Fields</div>
+          <div class="rb-grid">
+            {r.fields.map((f) => (
+              <div class="rb-field">
+                <div class="rb-field-label">{f.label}</div>
+                <div class:list={["rb-field-value", f.warn && "is-warn"]}>{f.value}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {r.warnings.length > 0 && (
+        <div class="rb-warn">
+          <div class="rb-warn-label">⚠ Gaps in the record</div>
+          <ul>
+            {r.warnings.map((w) => (
+              <li>{w}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div class="rb-foot">
+        <div class="rb-src">
+          <div class="rb-src-icon" aria-hidden="true" />
+          <div class="rb-src-text">
+            {r.source.file}
+            <span class="sep"> · </span>
+            {r.source.pages}
+            <span class="sep"> · </span>
+            {r.source.collection}
+          </div>
+        </div>
+        <div class="rb-foot-actions">
+          {r.verify && (
+            <a class="rb-verify" href={r.verify.href}>
+              ↗ {r.verify.label}
+            </a>
+          )}
+          {r.correctHref && (
+            <a class="rb-correct" href={r.correctHref}>
+              ✎ Suggest a correction
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
+  ) : (
+    <a class="rb-row" href={r.href ?? "#"} id={r.id}>
+      <div class="rb-row-bar" aria-hidden="true" />
+      <div class="rb-row-main">
+        <div class="rb-row-title">
+          <b>{r.title}</b>
+          {r.seenIn && <span class="rb-row-walk">↩ walk Ch.{r.seenIn.ch}</span>}
+        </div>
+        <div class="rb-row-id">
+          {r.recordId} · {r.source.collection}
+        </div>
+      </div>
+      {r.headlineValue && (
+        <div class="rb-row-headline" style={`color:${r.headlineWarn ? "var(--bosc-danger)" : "var(--bosc-ink)"}`}>
+          {r.headlineValue}
+        </div>
+      )}
+      <EvidenceTag kind={r.evidence} />
+      <div class="rb-row-chevron" aria-hidden="true">›</div>
+    </a>
+  )
+}
