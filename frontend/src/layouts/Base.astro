@@ -1,7 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import SectionToc from "../components/SectionToc.astro";
-import { type SectionId } from "../lib/nav";
+import { SECTIONS, type SectionId } from "../lib/nav";
 import { SITE_NAME, SITE_DESCRIPTION, withBase } from "../lib/site";
 import "../styles/site.css";
 
@@ -9,12 +9,14 @@ interface BaseProps {
   title: string;
   description?: string;
   section?: SectionId;
+  /** Drop the section TOC rail (hubs & Home use a full-width card grid). */
+  rail?: boolean;
 }
 
 // `.astro` pages pass these props directly; `.mdx` pages using `layout:` pass
 // them nested under `frontmatter`. Accept both.
 const raw = Astro.props as BaseProps & { frontmatter?: BaseProps };
-const { title, description = SITE_DESCRIPTION, section = "home" } = raw.frontmatter ?? raw;
+const { title, description = SITE_DESCRIPTION, section = "home", rail = true } = raw.frontmatter ?? raw;
 ---
 
 <!doctype html>
@@ -29,18 +31,32 @@ const { title, description = SITE_DESCRIPTION, section = "home" } = raw.frontmat
   <body>
     <input type="checkbox" id="bosc-nav-toggle" class="nav-toggle" hidden />
     <Header active={section} />
-    <div class="layout">
-      <SectionToc section={section} />
+    <div class:list={["layout", { "no-rail": !rail }]}>
+      {rail && <SectionToc section={section} />}
       <main class="content">
         <slot />
       </main>
     </div>
     <footer class="site-footer">
-      <p>
-        Static build over the committed content bundle. Draft — chain-of-custody
-        evidence; not for distribution.
-      </p>
-      <p><a href={withBase("/submit")}>Submit a tip or correction →</a></p>
+      <div class="footer-main">
+        <p class="footer-contract">
+          <strong>Draft — the record is still being assembled.</strong> Every figure
+          carries a source; inference is labeled; redactions are shown, not hidden.
+          Nothing here is a verdict.
+        </p>
+        <div class="footer-actions">
+          <span class="footer-pill"><span class="dot" aria-hidden="true"></span>provenance-first</span>
+          <a class="btn" href={withBase("/submit")}>✎ Submit a tip or correction</a>
+        </div>
+      </div>
+      <div class="footer-bar">
+        <a class="footer-brand" href={withBase("/")}>BOSC</a>
+        {SECTIONS.map((s) => <a href={withBase(s.href)}>{s.tab}</a>)}
+        <span class="footer-sep" aria-hidden="true">·</span>
+        <a href={withBase("/docs/methodology")}>Methodology</a>
+        <a href={withBase("/about")}>About</a>
+        <span class="footer-meta">static · no trackers · every page reads with JS off</span>
+      </div>
     </footer>
     <script>
       import "../scripts/search.ts";

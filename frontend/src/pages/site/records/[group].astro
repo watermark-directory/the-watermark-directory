@@ -1,11 +1,11 @@
 ---
 import type { GetStaticPaths } from "astro";
 import Base from "../../../layouts/Base.astro";
-import Provenance from "../../../components/Provenance.astro";
+import RecordBlock from "../../../components/RecordBlock.astro";
 import { hasFeed, loadFeed } from "../../../lib/bundle";
 import type { RecordItem } from "../../../lib/feeds";
-import { slugify } from "../../../lib/feeds";
-import { fieldToString, groupLabel, groupsOf, isApproximate } from "../../../lib/records";
+import { groupLabel, groupsOf } from "../../../lib/records";
+import { recordToBlock } from "../../../lib/recordBlock";
 import { withBase } from "../../../lib/site";
 
 export const getStaticPaths: GetStaticPaths = () => {
@@ -22,39 +22,19 @@ interface Props {
 const { group } = Astro.params;
 const { records } = Astro.props;
 const label = groupLabel(String(group));
+const anchors = records.filter((r) => recordToBlock(r).seenIn).length;
 ---
 
 <Base title={label} section="site">
   <article class="prose">
     <p><a href={withBase("/site/records/")}>← Records</a></p>
     <h1>{label}</h1>
-    <p class="section-lead">{records.length} record(s).</p>
-
-    {
-      records.map((r) => (
-        <div class="item" id={slugify(r.rel)}>
-          <h3>{r.title}</h3>
-          <dl class="fields">
-            {Object.entries(r.fields).map(([k, v]) => (
-              <>
-                <dt>{k}</dt>
-                <dd>
-                  {fieldToString(v)}
-                  {isApproximate(r, k) && <span class="approx" title="approximate transcription"> ~</span>}
-                </dd>
-              </>
-            ))}
-          </dl>
-          {r.warnings.length > 0 && (
-            <ul class="warnings">
-              {r.warnings.map((w) => (
-                <li>{w}</li>
-              ))}
-            </ul>
-          )}
-          <Provenance citation={r.citation} />
-        </div>
-      ))
-    }
+    <p class="section-lead">
+      {records.length} record(s).
+      {anchors > 0 && ` ${anchors} of these is a walk anchor — its seen-in-the-walk badge links back to the chapter that unpacked it.`}
+    </p>
   </article>
+  <div class="rb-list">
+    {records.map((r) => <RecordBlock record={recordToBlock(r)} density="full" />)}
+  </div>
 </Base>

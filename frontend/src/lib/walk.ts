@@ -82,3 +82,24 @@ export function walkHref(slug: string): string {
 export function chapterByStep(step: number): WalkChapter | undefined {
   return WALK_CHAPTERS.find((c) => c.step === step);
 }
+
+/**
+ * The reciprocal of the teardowns' `recordRel`: which library records a chapter
+ * tears down, keyed by the record's `rel`. Drives the "↩ seen in the walk"
+ * backlink on the record block, so the deep links resolve both directions.
+ */
+export interface WalkAnchor {
+  ch: string;
+  slug: string;
+  label: string;
+}
+export const WALK_ANCHORS: Record<string, WalkAnchor> = {
+  "recorder/202508130008300.deed.yaml": { ch: "01", slug: "who", label: "Who is actually building this?" },
+  "permits/sos-tilted-gate-llc-2025-09-29.sos.yaml": { ch: "01", slug: "who", label: "Who is actually building this?" },
+  "oepa/oepa-2PH00006-american-ii-fact-sheet.npdes.yaml": { ch: "03", slug: "water", label: "What it does to the water" },
+  "aedg/roundabouts.summary.opc.yaml": { ch: "04", slug: "cost", label: "What it costs the public" },
+};
+
+export function walkAnchorFor(rel: string): WalkAnchor | undefined {
+  return WALK_ANCHORS[rel];
+}
