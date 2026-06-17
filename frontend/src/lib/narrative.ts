@@ -102,7 +102,7 @@ export function slugForRepoPath(repoPath: string): string {
  */
 export const LINK_MAP: Record<string, string> = {
   "entities.md": "/wiki/entities/",
-  "timeline.md": "/site/timeline",
+  "timeline.md": "/timeline",
   "meetings.md": "/site/legal",
   "people/index.md": "/site/people/",
   "places/index.md": "/site/people/",

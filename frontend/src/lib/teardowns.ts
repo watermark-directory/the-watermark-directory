@@ -94,7 +94,7 @@ export const OPACITY_TEARDOWN: TeardownRecord = {
     { kind: "concept", label: "[[public-records-mandamus]]", href: withBase("/wiki/concepts/") },
     { kind: "legal", label: "the PRR production analysis", href: withBase("/site/legal/") },
     { kind: "entity", label: "Cynthia Leis", href: withBase("/wiki/entities/") },
-    { kind: "timeline", label: "2025-05-27 · first closed session", href: withBase("/site/timeline") },
+    { kind: "timeline", label: "2025-05-27 · first closed session", href: withBase("/timeline") },
   ],
   legalSlug: "withholding-map",
 };
@@ -142,7 +142,7 @@ export const DEED_TEARDOWN: TeardownRecord = {
   connect: [
     { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
     { kind: "entity", label: "Vorys (Tangeman)", href: withBase("/wiki/entities/") },
-    { kind: "timeline", label: "2025-08-13 · deed recorded", href: withBase("/site/timeline") },
+    { kind: "timeline", label: "2025-08-13 · deed recorded", href: withBase("/timeline") },
     { kind: "graph", label: "land assembly", href: withBase("/wiki/graph") },
   ],
   redaction: {
@@ -271,7 +271,7 @@ export const OPC_TEARDOWN: TeardownRecord = {
   },
   connect: [
     { kind: "entity", label: "Tetra Tech", href: withBase("/wiki/entities/") },
-    { kind: "timeline", label: "2025 · OPC filed", href: withBase("/site/timeline") },
+    { kind: "timeline", label: "2025 · OPC filed", href: withBase("/timeline") },
     { kind: "concept", label: "[[roadwork-development-agreement]]", href: withBase("/wiki/concepts/") },
     { kind: "map", label: "roundabout layer", href: withBase("/watershed/map") },
   ],
@@ -347,7 +347,7 @@ export const AIR_TEARDOWN: TeardownRecord = {
   },
   connect: [
     { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
-    { kind: "timeline", label: "2026-05-28 · permit issued", href: withBase("/site/timeline") },
+    { kind: "timeline", label: "2026-05-28 · permit issued", href: withBase("/timeline") },
     { kind: "concept", label: "[[hyperscale-data-center]]", href: withBase("/wiki/concepts/") },
     { kind: "doc", label: "the bigger picture", href: withBase("/docs/bigger-picture") },
   ],
@@ -448,7 +448,7 @@ export const RDA_TEARDOWN: TeardownRecord = {
   },
   connect: [
     { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
-    { kind: "timeline", label: "2025-09-15 · RDA effective", href: withBase("/site/timeline") },
+    { kind: "timeline", label: "2025-09-15 · RDA effective", href: withBase("/timeline") },
     { kind: "concept", label: "[[grant-refund-clause]]", href: withBase("/wiki/concepts/") },
     { kind: "doc", label: "ECONOMICS.md", href: withBase("/docs/economics") },
   ],
@@ -527,7 +527,7 @@ export const ASSEMBLY_TEARDOWN: TeardownRecord = {
   connect: [
     { kind: "entity", label: "Port Authority of Allen County", href: withBase("/wiki/entities/") },
     { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
-    { kind: "timeline", label: "2025-07-03 · option assignment", href: withBase("/site/timeline") },
+    { kind: "timeline", label: "2025-07-03 · option assignment", href: withBase("/timeline") },
     { kind: "graph", label: "the land assembly", href: withBase("/wiki/graph") },
   ],
   redaction: {

@@ -71,7 +71,7 @@ export function buildSearchIndex(): SearchDoc[] {
     docs.push({
       title: d.title,
       url: `/site/reference/${d.slug}`,
-      section: "The BOSC site",
+      section: "The corpus",
       text: blob("reference data", d.blurb),
     });
   }
@@ -81,12 +81,12 @@ export function buildSearchIndex(): SearchDoc[] {
     docs.push({
       title: d.title,
       url: `/site/legal/${d.slug}`,
-      section: "The BOSC site",
+      section: "The corpus",
       text: blob(d.group, d.blurb),
     });
   }
 
-  const SITE = "The BOSC site";
+  const SITE = "The corpus";
   const WIKI = "Wiki";
 
   if (hasFeed("records")) {
@@ -104,7 +104,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const e of loadFeed<TimelineEntry[]>("timeline")) {
       docs.push({
         title: `${e.date} — ${e.title}`,
-        url: "/site/timeline",
+        url: "/timeline",
         section: SITE,
         text: blob(e.category, e.detail, e.source, ...e.parties),
       });

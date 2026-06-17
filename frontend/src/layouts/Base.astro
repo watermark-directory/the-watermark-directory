@@ -4,7 +4,7 @@ import Icon from "../components/Icon.astro";
 import Logo from "../components/Logo.astro";
 import SEO from "../components/SEO.astro";
 import SectionToc from "../components/SectionToc.astro";
-import { SECTIONS, type SectionId, type TocEntry } from "../lib/nav";
+import { NAV_LINKS, type SectionId, type TocEntry } from "../lib/nav";
 import { SITE_NAME, SITE_DESCRIPTION, withBase } from "../lib/site";
 import "../styles/site.css";
 
@@ -75,7 +75,7 @@ const showRail = rail !== false && toc.length > 0;
       </div>
       <div class="footer-bar">
         <a class="footer-brand" href={withBase("/")}><Logo size={17} class="footer-mark" />BOSC</a>
-        {SECTIONS.map((s) => <a href={withBase(s.href)}>{s.tab}</a>)}
+        {NAV_LINKS.map((t) => <a href={withBase(t.href)}>{t.label}</a>)}
         <span class="footer-sep" aria-hidden="true">·</span>
         <a href={withBase("/docs/methodology")}>Methodology</a>
         <a href={withBase("/about")}>About</a>
