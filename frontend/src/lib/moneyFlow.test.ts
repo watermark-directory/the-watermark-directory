@@ -91,12 +91,37 @@ describe("buildMoneyFlow", () => {
     expect(m.firstAward.usd).toBe(3_520_000);
   });
 
-  it("never fabricates the abatement-per-job — the school terms stay withheld", async () => {
+  it("models the abatement-per-job as a labeled [open] band, never a record read", async () => {
     const { buildMoneyFlow } = await loadMoneyFlow(makeBundle([OPC_RECORD]));
     const m = buildMoneyFlow();
+    // The actual School District Compensation $ stay non-public...
     expect(m.abatement.schoolTermsPublic).toBe(false);
-    // No per-job dollar is asserted anywhere on the model.
-    expect(m.abatement).not.toHaveProperty("perJobUsd");
+    // ...so the per-job is carried as a modeled [open] band, not a verified figure.
+    const pj = m.abatementPerJob;
+    expect(pj.tag).toBe("open");
+    expect(pj.lowUsd).toBeLessThan(pj.highUsd);
+    expect(pj.centralUsd).toBeGreaterThanOrEqual(pj.lowUsd);
+    expect(pj.centralUsd).toBeLessThanOrEqual(pj.highUsd);
+  });
+
+  it("computes each profile deterministically from the labeled constants", async () => {
+    const { buildAbatementPerJob } = await loadMoneyFlow(makeBundle([OPC_RECORD]));
+    const pj = buildAbatementPerJob();
+    const keys = pj.profiles.map((p) => p.key);
+    // The defense/GovCloud case is one modeling profile among a few.
+    expect(keys).toContain("govcloud");
+    expect(pj.profiles.length).toBeGreaterThanOrEqual(3);
+    // Per-job = capex × buildingShare × (assess × mills) × pct × years ÷ jobs.
+    const { capexUsd, effectiveRate, abatePct, termYears } = pj.assumptions;
+    for (const p of pj.profiles) {
+      const expected = Math.round(
+        (capexUsd * p.buildingShare * effectiveRate * abatePct * termYears) / p.jobs,
+      );
+      expect(p.perJobUsd).toBe(expected);
+    }
+    // The "stated" profile is the central reference; the hardened build is the ceiling.
+    expect(pj.centralUsd).toBe(pj.profiles.find((p) => p.key === "stated")?.perJobUsd);
+    expect(pj.highUsd).toBe(pj.profiles.find((p) => p.key === "govcloud")?.perJobUsd);
   });
 
   it("falls back to the curated OPC items when the feed is absent (CI fixture)", async () => {

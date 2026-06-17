@@ -23,3 +23,9 @@ export function fmtUsd(n: number): string {
   }
   return fmtUsdFull(n);
 }
+
+/** USD always in millions, 1dp ($0.9M / $2.1M) — for the abatement-per-job band,
+ *  where sub-million figures read cleaner as a consistent fraction of a million. */
+export function fmtUsdM(n: number): string {
+  return `$${(n / 1_000_000).toFixed(1)}M`;
+}

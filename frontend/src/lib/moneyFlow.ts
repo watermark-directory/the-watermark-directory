@@ -13,15 +13,20 @@
  * plain `MoneyFlowData` object this returns, passed as a prop.
  *
  * Discipline: the §5.5 refund consequence is flagged `[inference]` (it turns on
- * grant awards not in the document). The **abatement value per job is NOT
- * fabricated** — the School District Compensation terms that would pin it are
- * non-public (`cra-agreement.cra.yaml` `amounts_public: false`), so it is carried
- * as withheld, not invented.
+ * grant awards not in the document). The abatement value **per job** is the
+ * deciding number, and the record that would pin it — the School District
+ * Compensation Agreement — is non-public (`cra-agreement.cra.yaml`
+ * `amounts_public: false`). Rather than leave the blank or invent a figure, it is
+ * carried as a transparent **[open] screening model** (`buildAbatementPerJob`): a
+ * best-effort band across a few facility profiles, every constant labeled, the
+ * actual number still owed to the record. The defense/GovCloud-hardened case is
+ * one modeling profile — a what-if on the building share + staffing, NOT a claim
+ * the facility is defense (that thread stays [open], tracked in #233).
  */
 import { hasFeed, loadFeed } from "./bundle";
 import type { RecordItem } from "./feeds";
 
-export { fmtUsd, fmtUsdFull } from "./money";
+export { fmtUsd, fmtUsdFull, fmtUsdM } from "./money";
 
 export interface MoneyNode {
   name: string;
@@ -42,7 +47,7 @@ export interface MoneyFlowData {
   firstAward: { label: string; usd: number; cite: string };
   /** The §5.5 grant-refund consequence, flagged [inference]. */
   refund: { note: string; cite: string };
-  /** The parallel abatement strand — verified components; per-job $ withheld. */
+  /** The parallel abatement strand — verified components. */
   abatement: {
     pct: number;
     years: number;
@@ -54,6 +59,52 @@ export interface MoneyFlowData {
     schoolTermsPublic: boolean;
     cite: string;
   };
+  /** The per-job abatement value, modeled as an [open] band (school terms non-public). */
+  abatementPerJob: AbatementPerJob;
+}
+
+/** One facility profile in the abatement-per-job model. The two knobs that move
+ *  the answer — the real-property (building) share of capex and the steady-state
+ *  job count — are both genuinely uncertain and facility-type-dependent. */
+export interface AbatementProfile {
+  key: "stated" | "equipment" | "hyperscale" | "govcloud";
+  label: string;
+  /** Building/structure share of the ~$500M capex = the abated base. Equipment is
+   *  personal property, not abated (CRA `real_property_only: true`). [assumption] */
+  buildingShare: number;
+  /** Modeled jobs. The CRA's ~50 is a non-binding estimate ("actuals may differ
+   *  significantly"); lower counts are [inference]. */
+  jobs: number;
+  /** 15-yr abatement value ÷ jobs (computed). */
+  perJobUsd: number;
+  note: string;
+}
+
+/** Abatement value per job — a transparent screening model, carried as [open].
+ *  The actual figure turns on the non-public School District Compensation
+ *  Agreement; this is a labeled band, not a record read. */
+export interface AbatementPerJob {
+  tag: "open";
+  /** Modeled band across the profiles (low → high). */
+  lowUsd: number;
+  highUsd: number;
+  /** The "take the application at its word" profile (the central reference). */
+  centralUsd: number;
+  profiles: AbatementProfile[];
+  /** The modeling constants, each labeled where it surfaces in the UI. */
+  assumptions: {
+    capexUsd: number;
+    /** Ohio market → assessed (0.35). [verified] */
+    assessmentRatio: number;
+    /** Effective commercial millage as a fraction. [assumption] — exact
+     *  Elida/American-Twp rate isn't in the corpus. */
+    effectiveMills: number;
+    /** assessmentRatio × effectiveMills — effective tax as a share of market value/yr. */
+    effectiveRate: number;
+    abatePct: number;
+    termYears: number;
+  };
+  cite: string;
 }
 
 const OPC_REL = "aedg/roundabouts.summary.opc.yaml";
@@ -71,6 +122,74 @@ const FALLBACK_OPC: MoneyNode[] = [
 interface OpcSubEstimate {
   name?: string | null;
   total?: number | null;
+}
+
+// Abatement-per-job model — all constants explicit so the arithmetic is auditable.
+const ABATE_CAPEX = 500_000_000; // CRA §2 good-faith estimate (not a cap) [verified]
+const ABATE_ASSESS = 0.35; // Ohio real-property assessment ratio [verified]
+const ABATE_MILLS = 0.063; // ~63 effective commercial mills [assumption — exact local rate not in corpus]
+const ABATE_PCT = 0.75; // Res #548-25 / CRA §3 [verified]
+const ABATE_YEARS = 15; // CRA §3, per building [verified]
+
+const ABATE_PROFILES: Omit<AbatementProfile, "perJobUsd">[] = [
+  {
+    key: "stated",
+    label: "Take the application at its word",
+    buildingShare: 0.35,
+    jobs: 50,
+    note: "the CRA's own ~50 jobs; a mid building-shell share of the $500M",
+  },
+  {
+    key: "equipment",
+    label: "AI / GPU-dense (equipment-heavy)",
+    buildingShare: 0.25,
+    jobs: 50,
+    note: "most value is servers + electrical — personal property, not abated — so the abated base shrinks",
+  },
+  {
+    key: "hyperscale",
+    label: "Hyperscale-realistic (lean ops)",
+    buildingShare: 0.35,
+    jobs: 30,
+    note: "data centers staff lean at steady state; the CRA warns actuals 'may differ significantly'",
+  },
+  {
+    key: "govcloud",
+    label: "GovCloud / defense-hardened",
+    buildingShare: 0.5,
+    jobs: 30,
+    note: "hardened construction lifts the real-property share, cleared ops run lean — a what-if profile, not a finding (#233)",
+  },
+];
+
+/** Compute the abatement-per-job band from the labeled constants + profiles.
+ *  Per-job = (capex × building share × effective rate × 75% × 15 yr) ÷ jobs. */
+export function buildAbatementPerJob(): AbatementPerJob {
+  const effectiveRate = ABATE_ASSESS * ABATE_MILLS; // of market value, per year
+  const perJob = (share: number, jobs: number): number =>
+    Math.round((ABATE_CAPEX * share * effectiveRate * ABATE_PCT * ABATE_YEARS) / jobs);
+  const profiles: AbatementProfile[] = ABATE_PROFILES.map((p) => ({
+    ...p,
+    perJobUsd: perJob(p.buildingShare, p.jobs),
+  }));
+  const vals = profiles.map((p) => p.perJobUsd);
+  const central = profiles.find((p) => p.key === "stated")?.perJobUsd ?? vals[0];
+  return {
+    tag: "open",
+    lowUsd: Math.min(...vals),
+    highUsd: Math.max(...vals),
+    centralUsd: central,
+    profiles,
+    assumptions: {
+      capexUsd: ABATE_CAPEX,
+      assessmentRatio: ABATE_ASSESS,
+      effectiveMills: ABATE_MILLS,
+      effectiveRate,
+      abatePct: ABATE_PCT,
+      termYears: ABATE_YEARS,
+    },
+    cite: "Modeled · [open]. 75%/15-yr (Res #548-25) on a real-property share of the ~$500M build (CRA §2); the exact figure turns on the non-public School District Compensation Agreement.",
+  };
 }
 
 export function buildMoneyFlow(): MoneyFlowData {
@@ -108,5 +227,6 @@ export function buildMoneyFlow(): MoneyFlowData {
       schoolTermsPublic: false,
       cite: "CRA No. 1 (Res #548-25) · docs/ECONOMICS.md — ~$500M build, 15-yr/75%, ~50 jobs / ~$4M payroll",
     },
+    abatementPerJob: buildAbatementPerJob(),
   };
 }
