@@ -91,6 +91,14 @@ export const NARRATIVE: NarrativeDoc[] = [
     blurb:
       "The customer is known (Google); the use is not. What the Select-Committee record establishes about hyperscale vs colocation vs federal enclaves — and the open question of who can use the Lima campus.",
   },
+  {
+    repo: "defense-nexus.md",
+    slug: "defense-nexus",
+    title: "The defense nexus — what the corridor shows, and what it can't",
+    section: "reports",
+    blurb:
+      "A defense plant nearby, a developer cleared to SECRET, an industry that hosts the CIA — three true facts that don't, combined, make a finding. The sharpest open question, held open.",
+  },
 ];
 
 /** Repo paths (under docs/) of the migrated docs, e.g. "docs/DOSSIER.md". */
