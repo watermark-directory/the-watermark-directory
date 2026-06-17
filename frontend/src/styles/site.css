@@ -1180,6 +1180,36 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .dil-td-cite { font-size: 11px; color: var(--td-faint); }
 @media (prefers-reduced-motion: reduce) { .dil-bar { transition: none; } }
 
+/* ---- follow-the-money flow (#223): collected → OPC → actual → §5.5 refund ---- */
+.mf-surface { position: relative; margin-bottom: 6px; }
+.mf { border: 1px solid var(--td-srccard-line); border-radius: 10px; background: #fff; padding: 16px 18px; display: grid; gap: 14px; }
+.mf-stage { display: grid; gap: 6px; }
+.mf-stage-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-size: 12.5px; color: var(--td-faint); }
+.mf-stage-head strong { font-family: var(--td-mono); font-size: 14px; color: var(--bosc-ink); }
+.mf-track { height: 28px; background: var(--td-panel); border-radius: 5px; overflow: hidden; }
+.mf-bar { height: 100%; border-radius: 5px; }
+.mf-bar--collected { background: var(--bosc-ink); }
+.mf-bar--actual { background: var(--bosc-verified); }
+.mf-segbar { height: 100%; display: flex; gap: 2px; }
+.mf-seg { height: 100%; border: 0; padding: 0; background: #9aa6c4; cursor: pointer; transition: background 0.12s ease; min-width: 2px; }
+.mf-seg:first-child { border-radius: 5px 0 0 5px; }
+.mf-seg:last-child { border-radius: 0 5px 5px 0; }
+.mf-seg:hover, .mf-seg.is-active { background: var(--bosc-inference); }
+.mf-seg:focus-visible { outline: 2px solid var(--bosc-ink); outline-offset: 1px; }
+.mf-segread { font-size: 12px; color: var(--bosc-ink); min-height: 1.3em; }
+.mf-segread strong { font-family: var(--td-mono); }
+.mf-note { font-size: 11px; }
+.mf-refund { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; background: var(--td-open-bg); border-radius: 8px; font-size: 13px; line-height: 1.55; color: var(--bosc-ink); }
+.mf-refund-arrow { font-size: 18px; color: var(--td-danger); line-height: 1.2; flex: none; }
+.mf-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; color: var(--bosc-inference); background: var(--td-inference-bg); border-radius: 4px; padding: 1px 6px; margin-right: 4px; }
+.mf-tag--open { color: var(--bosc-open); background: var(--td-open-bg); }
+.mf-table { margin-top: 14px; }
+.mf-table caption { caption-side: top; text-align: left; font-size: 12px; color: var(--td-faint); line-height: 1.5; margin-bottom: 8px; }
+.mf-tr-item td:first-child { padding-left: 18px; color: var(--td-faint); font-size: 12.5px; }
+.mf-td-cite { font-size: 11px; color: var(--td-faint); }
+.mf-abate { margin-top: 16px; }
+@media (prefers-reduced-motion: reduce) { .mf-seg { transition: none; } }
+
 /* ---- Layout A · split-screen read ---- */
 .td-body { padding: 22px; }
 .td-split { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--td-card-line); border-radius: 10px; overflow: hidden; }
