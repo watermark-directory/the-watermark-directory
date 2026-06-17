@@ -1090,6 +1090,29 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .td-cropbox span { font-size: 9px; font-weight: 700; letter-spacing: 0.5px; color: #fff; background: var(--td-danger); padding: 1px 4px; border-radius: 0 0 0 3px; line-height: 1.3; }
 .td-live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--bosc-verified); margin-right: 5px; vertical-align: middle; }
 
+/* ---- redaction-reveal (#220): the deliberate blank / CBI lock as the finding ---- */
+/* A native <details> — no-JS: the box is SSR, one tap reveals the cited lock. */
+.td-redx { margin: 18px 0 0; border: 1px solid var(--td-srccard-line); border-radius: 9px; overflow: hidden; background: #fff; }
+.td-redx-summary { display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: var(--bosc-ink); color: #fff; cursor: pointer; list-style: none; user-select: none; }
+.td-redx-summary::-webkit-details-marker { display: none; }
+.td-redx-box { width: 30px; height: 14px; flex: none; border-radius: 2px; background: repeating-linear-gradient(45deg, #11141d 0, #11141d 4px, #2a2f3e 4px, #2a2f3e 8px); }
+.td-redx-label { font-family: var(--td-mono); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.td-redx-cue { margin-left: auto; font-size: 12.5px; color: #c9ccd6; display: flex; align-items: center; gap: 7px; }
+.td-redx-cue::after { content: "▸"; font-size: 11px; transition: transform 0.15s ease; }
+.td-redx[open] .td-redx-cue::after { transform: rotate(90deg); }
+.td-redx-summary:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+.td-redx-body { padding: 16px 16px 18px; border-top: 1px solid var(--td-srccard-line); display: grid; gap: 13px; }
+.td-redx-fig { margin: 0; position: relative; line-height: 0; border: 1px solid var(--td-srccard-line); border-radius: 6px; overflow: hidden; }
+.td-redx-img { display: block; width: 100%; height: auto; }
+.td-redx-cap { padding: 6px 9px; font-size: 11px; font-family: var(--td-mono); color: var(--td-faint); line-height: 1.4; background: var(--td-panel); }
+.td-redx-lock { border-left: 3px solid var(--td-danger); background: var(--td-open-bg); border-radius: 0 6px 6px 0; padding: 10px 13px; }
+.td-redx-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--td-danger); margin-bottom: 5px; }
+.td-redx-locktext { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--bosc-ink); }
+.td-redx-read { margin: 0; font-size: 14px; line-height: 1.6; color: var(--td-ink, var(--bosc-ink)); }
+.td-redx-cite { font-size: 11.5px; font-family: var(--td-mono); color: var(--td-faint); display: flex; gap: 6px; align-items: baseline; line-height: 1.45; }
+.td-redx-cite a { color: var(--td-faint); text-underline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .td-redx-cue::after { transition: none; } }
+
 /* ---- Layout A · split-screen read ---- */
 .td-body { padding: 22px; }
 .td-split { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--td-card-line); border-radius: 10px; overflow: hidden; }

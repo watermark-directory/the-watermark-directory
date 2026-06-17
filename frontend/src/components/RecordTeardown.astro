@@ -10,6 +10,7 @@
  * ⑤ where it connects. Styling lives in styles/site.css (`.td-*`), an extension
  * of the existing token vocabulary. SSR-only — no JS, fully readable with JS off.
  */
+import RedactionReveal from "./RedactionReveal.astro";
 import TeardownSourceCard from "./TeardownSourceCard.astro";
 import type { TeardownLayout, TeardownRecord } from "../lib/teardown";
 import { resolveTeardown } from "../lib/teardownResolve";
@@ -87,6 +88,8 @@ const pins = r.pins ?? [];
         </div>
       </div>
 
+      {r.redaction && <RedactionReveal redaction={r.redaction} />}
+
       {/* ⑤ connects */}
       <div class="td-connects">
         <div class="td-part">⑤ Where it connects</div>
@@ -138,6 +141,8 @@ const pins = r.pins ?? [];
             : <span class="td-link td-link--method"><span aria-hidden="true">›</span>{r.check.method}</span>}
         </div>
       </div>
+
+      {r.redaction && <RedactionReveal redaction={r.redaction} />}
 
       <div class="td-connects">
         <div class="td-part">⑤ Where it connects</div>
@@ -210,6 +215,8 @@ const pins = r.pins ?? [];
           </div>
         </div>
       </div>
+
+      {r.redaction && <RedactionReveal redaction={r.redaction} />}
     </div>
   )}
 </div>

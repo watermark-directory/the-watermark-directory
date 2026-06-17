@@ -1,0 +1,52 @@
+---
+/**
+ * Redaction-reveal (#220) — the corpus's signature move made visible: a
+ * deliberate blank / CBI lock IS the finding. A native `<details>` disclosure
+ * (no JavaScript): the box + label render SSR as the always-visible artifact, and
+ * one tap reveals the operative grant that locks the value, cited, plus the
+ * plain-language read. It never renders a fabricated value behind the box — it
+ * shows *why it's withheld*, not a guessed number. Degrades to the static box
+ * with JS off (native `<details>` toggles without script).
+ */
+import type { TeardownRedaction } from "../lib/teardown";
+import { withBase } from "../lib/site";
+
+interface Props {
+  redaction: TeardownRedaction;
+}
+const { redaction: r } = Astro.props;
+const crop = r.crop;
+---
+
+<details class="td-redx">
+  <summary class="td-redx-summary">
+    <span class="td-redx-box" aria-hidden="true"></span>
+    <span class="td-redx-label">{r.label}</span>
+    <span class="td-redx-cue">{r.summary}</span>
+  </summary>
+  <div class="td-redx-body">
+    {crop && (
+      <figure class="td-redx-fig">
+        <img class="td-redx-img" src={withBase(crop.src)} alt={crop.alt} loading="lazy" decoding="async" />
+        {crop.redaction && (
+          <div
+            class="td-cropbox"
+            style={`left:${crop.redaction.x};top:${crop.redaction.y};width:${crop.redaction.w};height:${crop.redaction.h};`}
+          >
+            {crop.redaction.label && <span>{crop.redaction.label}</span>}
+          </div>
+        )}
+        {crop.caption && <figcaption class="td-redx-cap">{crop.caption}</figcaption>}
+      </figure>
+    )}
+    <div class="td-redx-lock">
+      <span class="td-redx-tag">the lock</span>
+      <p class="td-redx-locktext">{r.lock}</p>
+    </div>
+    <p class="td-redx-read">{r.read}</p>
+    <div class="td-redx-cite">
+      <span aria-hidden="true">⌖</span>
+      {r.href ? <a href={r.href}>{r.cite}</a> : <span>{r.cite}</span>}
+    </div>
+  </div>
+</details>

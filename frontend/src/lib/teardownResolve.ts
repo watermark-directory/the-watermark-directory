@@ -152,8 +152,11 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
     return slug && conceptSlugs.has(slug) ? { ...c, href: withBase(`/wiki/concepts/${slug}`) } : c;
   });
 
+  // 4. redaction-reveal → default its deep link to the resolved verify target.
+  const redaction = t.redaction ? { ...t.redaction, href: t.redaction.href ?? check.verifyHref } : undefined;
+
   return {
-    teardown: { ...t, check, connect, extraction },
+    teardown: { ...t, check, connect, extraction, redaction },
     liveCitation,
     verifyResolved,
     sourceFields,

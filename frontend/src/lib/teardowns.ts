@@ -70,6 +70,13 @@ export const OPACITY_TEARDOWN: TeardownRecord = {
     },
   ],
   redactionLabel: "WITHHELD · item 4",
+  redaction: {
+    label: "item 4 · WITHHELD",
+    summary: "Where's the cost-benefit analysis?",
+    lock: 'PRR item 4 — the cost-benefit analysis, projected tax-revenue impact, and public-ROI inputs — was withheld: "being reviewed by our legal counsel for compliance with R.C. 149.43 and R.C. 9.66." Held under R.C. 9.66(D).',
+    cite: "PRR item 4 · corpus-completeness-audit.md · R.C. 9.66(D) economic-development trade-secret exemption",
+    read: "The single analysis that would weigh the 75% / 15-year abatement against the public return was not produced. Items 5–15 came in a later batch; item 4 — the one that scores whether the deal pays — is the one still withheld. The deciding number is the one the record won't show.",
+  },
   reveal: {
     lead: "No single refusal hides this deal — a stack of seven lawful-looking layers does, from a statutory non-record shield to closed sessions to a production that returns the deciding figures ",
     key: "blank or not at all",
@@ -138,6 +145,19 @@ export const DEED_TEARDOWN: TeardownRecord = {
     { kind: "timeline", label: "2025-08-13 · deed recorded", href: withBase("/site/timeline") },
     { kind: "graph", label: "land assembly", href: withBase("/wiki/graph") },
   ],
+  redaction: {
+    label: "$ ______ · blank",
+    summary: "What did they pay for the land?",
+    lock: 'The DTE-100 conveyance-fee statement — the one form that records a sale price — was produced with its value lines (1–9) left blank; the recorded deed recites only "valuable consideration paid."',
+    cite: "DTE-100 · PRR-01-bundle p.158 (Brenneman packet) · deed 202508130008300 · DTE-102 CAUV recoupment p.159",
+    read: "Across both instruments that would carry the figure — the deed and the conveyance-fee statement — the price is absent, not unknown to the parties. The land was CAUV farmland, so converting it triggers tax recoupment; yet only the Neighbors parcel's price is disclosed anywhere. What the public's development authority paid to assemble this campus is the blank.",
+    crop: {
+      src: "/walk/crops/dte100-blank.png",
+      alt: "Brenneman DTE-100 Real Property Conveyance Fee Statement of Value — the numbered value lines 1 through 9 with the dollar column produced blank.",
+      caption: "DTE-100 value lines · produced blank",
+      redaction: { x: "68%", y: "5%", w: "19%", h: "88%", label: "$ blank" },
+    },
+  },
   recordRel: "recorder/202508130008300.deed.yaml",
 };
 
@@ -331,6 +351,13 @@ export const AIR_TEARDOWN: TeardownRecord = {
     { kind: "concept", label: "[[hyperscale-data-center]]", href: withBase("/wiki/concepts/") },
     { kind: "doc", label: "the bigger picture", href: withBase("/docs/bigger-picture") },
   ],
+  redaction: {
+    label: "ekW · REDACTED · CBI",
+    summary: "Why won't the permit say how big it is?",
+    lock: "Engine make / model / size — and so the per-engine ekW that sets the plant's true electrical scale — is claimed as a trade secret and withheld from the issued permit.",
+    cite: "Air PTI eDoc 4132514 · Response to Comments 16 & 19 · trade-secret / CBI under ORC 3704.08 (rule OAC 3745-49)",
+    read: "The permit fixes the plant's shape exactly — 115 emergency generators and 36 cooling towers in three matched groups — yet locks the one number that would let you compute its real backup capacity. The ~313 MW everyone cites is the draft public-notice figure; the issued permit will not confirm it. The scale is set; the proof is withheld.",
+  },
   recordRel: "permits/4132514.epa.yaml",
 };
 
