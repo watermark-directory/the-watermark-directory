@@ -1,0 +1,60 @@
+---
+/**
+ * The withholding stack (#224) — the Opacity chapter's spine. The seven layers of
+ * Project BOSC's records-withholding architecture as an expandable lifecycle
+ * diagram: each lawful-looking layer is a native `<details>` (no JavaScript) that
+ * opens to its operative clause + the committed document it lives in. The clauses
+ * are `[verified]`; the "engineered system" reading is argument, kept explicit in
+ * the thesis + the mandamus / Select-Committee close. SSR-only, no-JS readable.
+ */
+import { STACK_CLOSE, STACK_THESIS, WITHHOLDING_STACK } from "../lib/withholdingStack";
+---
+
+<section class="wstack" aria-label="The records-withholding stack — seven layers">
+  <div class="wstack-head">
+    <div class="wstack-eyebrow">The withholding stack · 7 layers · the records lifecycle</div>
+    <p class="wstack-thesis">{STACK_THESIS}</p>
+  </div>
+
+  <ol class="wstack-layers">
+    {
+      WITHHOLDING_STACK.map((l) => (
+        <li class="wstack-layer">
+          <details class="wstack-det">
+            <summary class="wstack-sum">
+              <span class="wstack-n" aria-hidden="true">{l.n}</span>
+              <span class="wstack-sum-main">
+                <span class="wstack-statute">{l.statute}</span>
+                <span class="wstack-title">{l.title}</span>
+              </span>
+              <span class="wstack-tag">[verified]</span>
+              <span class="wstack-cue" aria-hidden="true" />
+            </summary>
+            <div class="wstack-body">
+              <p class="wstack-clause">{l.clause}</p>
+              <p class="wstack-effect">
+                <span class="wstack-effect-tag">effect</span>
+                {l.effect}
+              </p>
+              <div class="wstack-src">
+                <span aria-hidden="true">⌖</span> {l.instrument} · <code>{l.source}</code>
+              </div>
+            </div>
+          </details>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="wstack-close">
+    <p>{STACK_CLOSE.lead}</p>
+    <p>{STACK_CLOSE.tail}</p>
+    <div class="wstack-links">
+      {STACK_CLOSE.links.map((lnk) => (
+        <a class="wstack-link" href={lnk.href}>
+          {lnk.label} <span aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
