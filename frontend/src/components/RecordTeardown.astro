@@ -10,6 +10,7 @@
  * ⑤ where it connects. Styling lives in styles/site.css (`.td-*`), an extension
  * of the existing token vocabulary. SSR-only — no JS, fully readable with JS off.
  */
+import TeardownSourceCard from "./TeardownSourceCard.astro";
 import type { TeardownLayout, TeardownRecord } from "../lib/teardown";
 import { resolveTeardown } from "../lib/teardownResolve";
 
@@ -18,11 +19,10 @@ interface Props {
   layout?: TeardownLayout;
 }
 const { record, layout = "split" } = Astro.props;
-// Resolve curated content against the live bundle: deep verify/concept links,
-// present-checked, with graceful fallback to the curated links.
-const { teardown: r, verifyResolved } = resolveTeardown(record);
-const srcBadge = r.source.badge ?? "SCAN";
-const srcAria = `Scanned source ${r.source.file}, ${r.source.pages} — not materialized in this build; available on request.`;
+// Resolve curated content against the live bundle: load-bearing figures + the
+// source viewer bind to the record's real extraction, deep verify/concept links,
+// present-checked, with graceful fallback to the curated value/links.
+const { teardown: r, verifyResolved, sourceFields } = resolveTeardown(record);
 const pins = r.pins ?? [];
 ---
 
@@ -48,21 +48,7 @@ const pins = r.pins ?? [];
         {/* ① source */}
         <div class="td-pane td-pane--source">
           <div class="td-part">① The source</div>
-          <div class="td-srccard">
-            <div class="td-srccard-head">
-              <div class="td-doc-icon" aria-hidden="true"></div>
-              <div class="td-srcfile">{r.source.file}</div>
-              <div class="td-scan">{srcBadge}</div>
-            </div>
-            <div class="td-srcbody" role="img" aria-label={srcAria}>
-              <div class="td-ghost" style="top:14px;left:16px;right:64px;height:9px;"></div>
-              <div class="td-ghost td-ghost--2" style="top:30px;left:16px;right:120px;height:7px;"></div>
-              <div class="td-ghost td-ghost--dark" style="bottom:34px;left:24px;width:128px;height:18px;"></div>
-              <div class="td-srcfallback"><div class="td-srcfallback-pill">⤓ View source on request</div></div>
-            </div>
-            <div class="td-srcfoot">{r.source.pages} · {r.source.collection}</div>
-          </div>
-          <div class="td-srcnote">{r.source.note}</div>
+          <TeardownSourceCard source={r.source} fields={sourceFields} size="md" />
         </div>
         {/* ② what we read */}
         <div class="td-pane td-pane--read">
@@ -71,11 +57,13 @@ const pins = r.pins ?? [];
             {r.extraction.map((row) => (
               <div class="td-row">
                 <div class="td-row-label">{row.label}</div>
-                <div class:list={["td-row-value", row.warn && "is-warn"]}>{row.value}</div>
+                <div class:list={["td-row-value", row.warn && "is-warn", row.live && "is-live"]}>
+                  {row.live && <span class="td-live-dot" aria-hidden="true" title="Read live from the published record"></span>}{row.value}
+                </div>
               </div>
             ))}
           </div>
-          <div class="td-note">~ markers preserved from the source as approximate · confidence shown per field</div>
+          <div class="td-note">● figures read live from the published record · ~ markers preserved as approximate</div>
         </div>
       </div>
 
@@ -117,20 +105,7 @@ const pins = r.pins ?? [];
   {layout === "scroll" && (
     <div class="td-scroll">
       <div class="td-part">① The source</div>
-      <div class="td-srccard">
-        <div class="td-srccard-head">
-          <div class="td-doc-icon" aria-hidden="true"></div>
-          <div class="td-srcfile">{r.source.file}</div>
-          <div class="td-scan">{srcBadge}</div>
-        </div>
-        <div class="td-srcbody td-srcbody--sm" role="img" aria-label={srcAria}>
-          <div class="td-ghost" style="top:14px;left:16px;right:90px;height:9px;"></div>
-          <div class="td-ghost td-ghost--dark" style="bottom:30px;left:24px;width:128px;height:16px;"></div>
-          <div class="td-srcfallback"><div class="td-srcfallback-pill">⤓ View source on request</div></div>
-        </div>
-        <div class="td-srcfoot">{r.source.pages} · {r.source.collection}</div>
-      </div>
-      <div class="td-srcnote">{r.source.note}</div>
+      <TeardownSourceCard source={r.source} fields={sourceFields} size="sm" />
 
       <div class="td-block td-block--read">
         <div class="td-part is-indigo">② What we read from it</div>
@@ -138,7 +113,9 @@ const pins = r.pins ?? [];
           {r.extraction.map((row) => (
             <div class="td-readcard">
               <div class="td-readcard-label">{row.label}</div>
-              <div class:list={["td-readcard-value", row.warn && "is-warn"]}>{row.value}</div>
+              <div class:list={["td-readcard-value", row.warn && "is-warn", row.live && "is-live"]}>
+                {row.live && <span class="td-live-dot" aria-hidden="true" title="Read live from the published record"></span>}{row.value}
+              </div>
             </div>
           ))}
         </div>
@@ -182,25 +159,13 @@ const pins = r.pins ?? [];
         {/* artifact + pins */}
         <div>
           <div class="td-part">① The source <span class="td-part-flag">· annotated</span></div>
-          <div class="td-srccard">
-            <div class="td-srccard-head">
-              <div class="td-doc-icon" aria-hidden="true"></div>
-              <div class="td-srcfile">{r.source.file}</div>
-              <div class="td-scan">{srcBadge}</div>
-            </div>
-            <div class="td-srcbody td-srcbody--lg" role="img" aria-label={srcAria}>
-              <div class="td-ghost" style="top:18px;left:18px;right:80px;height:9px;"></div>
-              <div class="td-ghost td-ghost--2" style="top:34px;left:18px;right:150px;height:7px;"></div>
-              {r.redactionLabel && (
-                <div class="td-redaction"><span>{r.redactionLabel}</span></div>
-              )}
-              {pins.map((p) => (
-                <div class:list={["td-pin", p.danger && "is-danger"]} style={`left:${p.x};top:${p.y};`} aria-label={`Annotation ${p.n}`}>{p.n}</div>
-              ))}
-            </div>
-            <div class="td-srcfoot">{r.source.pages} · {r.source.collection}</div>
-          </div>
-          <div class="td-srcnote">{r.source.note}</div>
+          <TeardownSourceCard
+            source={r.source}
+            fields={sourceFields}
+            size="lg"
+            redactionLabel={r.redactionLabel}
+            pins={pins}
+          />
         </div>
         {/* margin rail keyed to pins */}
         <div>
