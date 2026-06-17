@@ -1,6 +1,6 @@
 ---
 /**
- * The guided walk — chapter index / hub. Lists the on-ramp, the five teaching
+ * The guided walk — chapter index / hub. Lists the on-ramp, the six teaching
  * chapters, and the close, with each chapter's anchor record and the skill it
  * teaches. Live chapters link out; the rest are marked drafting.
  */
@@ -12,14 +12,14 @@ import { withBase } from "../../lib/site";
 <Base
   title="The guided walk"
   section="home"
-  description="The narrative spine over the BOSC record: five chapters that tell the story and teach you to read the documents."
+  description="The narrative spine over the BOSC record: six chapters that tell the story and teach you to read the documents."
 >
   <div class="walk-onramp">
     <p><a href={WALK_START_HREF}>← Start here</a></p>
     <div class="walk-kicker">Project BOSC · guided walk</div>
     <h1>The walk, chapter by chapter</h1>
     <p class="walk-onramp-lead">
-      Five chapters, ordered cause → consequence. Each advances the story and
+      Six chapters, ordered cause → consequence. Each advances the story and
       teaches one record-reading skill, anchored to a real document you can open
       and check. Follow it straight through, or drop into any chapter and peel off
       into the library when something catches your eye.
@@ -46,7 +46,7 @@ import { withBase } from "../../lib/site";
     </ol>
 
     <p class="stub-note">
-      All five chapters are live, end to end — each teaches one record-reading
+      All six chapters are live, end to end — each teaches one record-reading
       skill through the Record Teardown pattern, in cause → consequence order. You
       can also preview the teardown component on its own
       <a href={withBase("/site/teardown-showcase")}>here</a>.

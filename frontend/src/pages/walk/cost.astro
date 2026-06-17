@@ -1,6 +1,6 @@
 ---
 /**
- * Guided walk — Chapter 4 of 5: "What it costs the public". Narrative prose
+ * Guided walk — Chapter 5 of 6: "What it costs the public". Narrative prose
  * braided with the Record Teardown teaching component (the Tetra Tech OPC, then
  * the RDA), a transferable-skill takeaway, and exits back into the reference
  * library — the pattern every chapter follows.
@@ -11,10 +11,10 @@ import RecordTeardown from "../../components/RecordTeardown.astro";
 import MoneyFlow from "../../components/islands/MoneyFlow.tsx";
 import { OPC_TEARDOWN, RDA_TEARDOWN } from "../../lib/teardowns";
 import { buildMoneyFlow, fmtUsd, fmtUsdFull } from "../../lib/moneyFlow";
-import { chapterByStep, WALK_INDEX_HREF, walkHref } from "../../lib/walk";
+import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../lib/walk";
 import { withBase } from "../../lib/site";
 
-const STEP = 4;
+const STEP = 5;
 const prev = chapterByStep(STEP - 1);
 const next = chapterByStep(STEP + 1);
 
@@ -31,7 +31,7 @@ const money = buildMoneyFlow();
   <div class="walk-chapter-page">
     <PathWayfinding step={STEP} />
 
-    <div class="walk-chapter-eyebrow">Chapter {STEP} of 5 · the guided walk</div>
+    <div class="walk-chapter-eyebrow">Chapter {STEP} of {WALK_TOTAL} · the guided walk</div>
     <h1 class="walk-chapter-h1">What it costs the public</h1>
 
     <div class="walk-prose">

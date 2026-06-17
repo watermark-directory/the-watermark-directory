@@ -1,0 +1,104 @@
+---
+/**
+ * Guided walk — Chapter 2 of 6: "How it was assembled & hidden". The new chapter
+ * (#219), between Who and Scale. How the farmland was assembled — the public Port
+ * Authority took 3-year options, then assigned them to Bistrozzi in 2025 — and how
+ * the deal was kept quiet: the DTE-100 prices produced blank, the confidentiality
+ * sequenced first. Anchors on the land-assembly teardown (with the blank-DTE-100
+ * redaction-reveal) and pays off in the timeline spine: the order is the argument.
+ */
+import Base from "../../layouts/Base.astro";
+import PathWayfinding from "../../components/PathWayfinding.astro";
+import RecordTeardown from "../../components/RecordTeardown.astro";
+import WalkTimeline from "../../components/WalkTimeline.astro";
+import { ASSEMBLY_TEARDOWN } from "../../lib/teardowns";
+import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../lib/walk";
+import { withBase } from "../../lib/site";
+
+const STEP = 2;
+const prev = chapterByStep(STEP - 1);
+const next = chapterByStep(STEP + 1);
+---
+
+<Base
+  title="How it was assembled & hidden — Chapter 2"
+  section="wiki"
+  description="Before the buildings, the land — optioned through the public Port Authority, assigned to a Delaware LLC, and conveyed for a price left blank. And the confidentiality went on first."
+>
+  <div class="walk-chapter-page">
+    <PathWayfinding step={STEP} />
+
+    <div class="walk-chapter-eyebrow">Chapter {STEP} of {WALK_TOTAL} · the guided walk</div>
+    <h1 class="walk-chapter-h1">How it was assembled &amp; hidden</h1>
+
+    <div class="walk-prose">
+      <p>
+        Before there is a campus, there is land — and how it was put together is its
+        own record. The farms weren't bought by the developer outright. The public
+        <strong>Port Authority of Allen County</strong> took three-year options on
+        them in 2023–24, for $1,000 apiece, then <strong>assigned those options to
+        Bistrozzi</strong> on 2025-07-03 — using each option's §21 “unrestricted
+        right to assign to a nominee.” The public body held the door; a Delaware LLC
+        walked through it.
+      </p>
+    </div>
+
+    <RecordTeardown record={ASSEMBLY_TEARDOWN} layout="annotated" />
+
+    <div class="walk-prose">
+      <p>
+        But the sharper tell isn't any single blank — it's the <em>order</em>. Read
+        the dated instruments in sequence and a pattern falls out: the
+        confidentiality went on <strong>first</strong>, before the public benefit was
+        voted, before the land was recorded, and long before anyone outside the room
+        could say whose data center this is. The sequence is the argument.
+      </p>
+    </div>
+
+    <WalkTimeline />
+
+    <div class="callout walk-takeaway">
+      <p class="callout-title">What you can read anywhere now</p>
+      <p>
+        An <strong>option-to-assignment chain</strong> — ask who took the option, who
+        it was assigned to, and what clause let them (here, §21). And read records
+        <strong>in date order</strong>: when a confidentiality instrument predates the
+        votes and the deeds, the order itself is evidence of intent, not coincidence.
+      </p>
+    </div>
+
+    <h2 class="walk-explore-h">Explore this in the library</h2>
+    <div class="doors">
+      <a class="door" href={withBase("/site/timeline")}>
+        <span class="door-label">The full timeline</span>
+        <span class="door-blurb">Every dated event, the sequence this chapter reads three beats of.</span>
+      </a>
+      <a class="door" href={withBase("/site/records/")}>
+        <span class="door-label">The deeds &amp; land records</span>
+        <span class="door-blurb">The recorded instruments behind the assembly.</span>
+      </a>
+      <a class="door" href={withBase("/wiki/graph")}>
+        <span class="door-label">The entity graph</span>
+        <span class="door-blurb">The Port Authority, Vorys, and the Bistrozzi shells, drawn.</span>
+      </a>
+    </div>
+
+    <nav class="walk-nav" aria-label="Chapter navigation">
+      {
+        prev?.live ? (
+          <a class="walk-nav-link walk-nav-prev" href={walkHref(prev.slug)}>← {prev.step}. {prev.title}</a>
+        ) : (
+          <span></span>
+        )
+      }
+      <a class="walk-nav-leave" href={WALK_INDEX_HREF}>All chapters</a>
+      {
+        next?.live ? (
+          <a class="walk-nav-link walk-nav-next" href={walkHref(next.slug)}>{next.step}. {next.title} →</a>
+        ) : (
+          <span></span>
+        )
+      }
+    </nav>
+  </div>
+</Base>

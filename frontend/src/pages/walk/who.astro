@@ -1,6 +1,6 @@
 ---
 /**
- * Guided walk — Chapter 1 of 5: "Who is actually building this?" The land is
+ * Guided walk — Chapter 1 of 6: "Who is actually building this?" The land is
  * public, so start there: a recorded deed names names. Then the question it
  * can't answer — who the Delaware buyer really is — opens onto a cluster of
  * shells whose shared agents and organizers are signals, not verdicts. A 2-up:
@@ -9,8 +9,9 @@
 import Base from "../../layouts/Base.astro";
 import PathWayfinding from "../../components/PathWayfinding.astro";
 import RecordTeardown from "../../components/RecordTeardown.astro";
+import EntityGraph from "../../components/islands/EntityGraph.tsx";
 import { DEED_TEARDOWN, SHELL_TEARDOWN } from "../../lib/teardowns";
-import { chapterByStep, WALK_INDEX_HREF, walkHref } from "../../lib/walk";
+import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../lib/walk";
 import { withBase } from "../../lib/site";
 
 const STEP = 1;
@@ -26,7 +27,7 @@ const next = chapterByStep(STEP + 1);
   <div class="walk-chapter-page">
     <PathWayfinding step={STEP} />
 
-    <div class="walk-chapter-eyebrow">Chapter {STEP} of 5 · the guided walk</div>
+    <div class="walk-chapter-eyebrow">Chapter {STEP} of {WALK_TOTAL} · the guided walk</div>
     <h1 class="walk-chapter-h1">Who is actually building this?</h1>
 
     <div class="walk-prose">
@@ -62,6 +63,28 @@ const next = chapterByStep(STEP + 1);
         <code>[inference]</code>.
       </p>
     </div>
+
+    <section class="walk-interactive" aria-label="The shell cluster, drawn">
+      <h2 class="walk-explore-h">The cluster, drawn</h2>
+      <div class="deck-surface">
+        <EntityGraph client:only="react" src={withBase("/feeds/graph.json")} focus="bistrozzi" />
+        <noscript>
+          <div class="deck-loading">
+            The interactive graph needs JavaScript — the cluster's entities are
+            listed in the Secretary-of-State teardown above, and the full graph is
+            a <a href={withBase("/wiki/graph")}>library door</a> below.
+          </div>
+        </noscript>
+      </div>
+      <p class="walk-graph-note">
+        Focused on Bistrozzi's neighborhood: the Delaware siblings — <strong>Tilted Gate</strong>
+        and <strong>Magenta Capital</strong> share both a registered agent (CSC) and an organizer
+        (Montfort) — <strong>Bistrozzi Addition</strong> (CT Corp / Ziance), and the <strong>Vorys</strong>
+        advisory hub. The overlaps are the <code>[inference]</code> the chapter earns; common control is a
+        signal, not beneficial ownership. <strong>Google is held as an annotation, not a node</strong> — the
+        customer surfaces only by accident, in a sibling filing.
+      </p>
+    </section>
 
     <div class="callout walk-takeaway">
       <p class="callout-title">What you can read anywhere now</p>

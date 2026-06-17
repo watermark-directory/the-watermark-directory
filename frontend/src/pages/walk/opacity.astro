@@ -1,6 +1,6 @@
 ---
 /**
- * Guided walk — Chapter 5 of 5: "Why you had to dig for this", and the close.
+ * Guided walk — Chapter 6 of 6: "Why you had to dig for this", and the close.
  * The withholding stack (annotated layout): seven lawful-looking layers, the
  * clauses [verified], the "engineered system" reading flagged as argument. Folds
  * in the thesis coda — the thin record, reassembled — and the end-of-walk exits.
@@ -10,10 +10,10 @@ import PathWayfinding from "../../components/PathWayfinding.astro";
 import RecordTeardown from "../../components/RecordTeardown.astro";
 import WithholdingStack from "../../components/WithholdingStack.astro";
 import { OPACITY_TEARDOWN } from "../../lib/teardowns";
-import { chapterByStep, WALK_INDEX_HREF, walkHref } from "../../lib/walk";
+import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../lib/walk";
 import { withBase } from "../../lib/site";
 
-const STEP = 5;
+const STEP = 6;
 const prev = chapterByStep(STEP - 1);
 ---
 
@@ -25,7 +25,7 @@ const prev = chapterByStep(STEP - 1);
   <div class="walk-chapter-page">
     <PathWayfinding step={STEP} />
 
-    <div class="walk-chapter-eyebrow">Chapter {STEP} of 5 · the guided walk</div>
+    <div class="walk-chapter-eyebrow">Chapter {STEP} of {WALK_TOTAL} · the guided walk</div>
     <h1 class="walk-chapter-h1">Why you had to dig for this</h1>
 
     <div class="walk-prose">
@@ -79,7 +79,7 @@ const prev = chapterByStep(STEP - 1);
       <div class="walk-coda-kicker">The end of the walk</div>
       <h2>The thin record, reassembled</h2>
       <p>
-        Five chapters, five records, one method: take a source, read it into
+        Six chapters, six records, one method: take a source, read it into
         structured data, say plainly what it means, and leave a path back to the
         proof. The deal was built to be hard to see — and yet, document by
         document, it reassembles. That reassembly, done in the open with provenance

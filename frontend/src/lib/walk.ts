@@ -3,12 +3,13 @@
  * (design handoff: "Project BOSC · guided walk"). Single source of truth for the
  * chapter order, the wayfinding bar, the `/start` on-ramp, and the `/walk` index.
  *
- * Five teaching chapters (steps 1–5), bookended by the `/start` on-ramp (Ch. 0)
- * and the close (Ch. 6). Ordering is cause → consequence so no figure depends on
- * a number established in a later chapter — Scale (air) precedes Water because
- * the cooling draw derives from the IT load. All five chapter pages are live;
- * `live` is kept on each chapter as the build flag the wayfinding/index gate
- * their go-links on.
+ * Six teaching chapters (steps 1–6), bookended by the `/start` on-ramp (Ch. 0).
+ * Ordering is cause → consequence so no figure depends on a number established in
+ * a later chapter — Assembly (how the land + deal were put together and kept
+ * quiet) follows Who and precedes Scale; Scale (air) precedes Water because the
+ * cooling draw derives from the IT load. All chapter pages are live; `live` is
+ * kept on each chapter as the build flag the wayfinding/index gate their go-links
+ * on.
  */
 
 import { withBase } from "./site";
@@ -27,7 +28,7 @@ export interface WalkChapter {
   live: boolean;
 }
 
-export const WALK_TOTAL = 5;
+export const WALK_TOTAL = 6;
 
 export const WALK_CHAPTERS: WalkChapter[] = [
   {
@@ -40,6 +41,14 @@ export const WALK_CHAPTERS: WalkChapter[] = [
   },
   {
     step: 2,
+    slug: "assembly",
+    title: "How it was assembled & hidden",
+    skill: "Reading an options-to-assignment chain · the confidentiality-first sequence",
+    anchor: "The Port Authority options → Bistrozzi assignment + the blank DTE-100 prices",
+    live: true,
+  },
+  {
+    step: 3,
     slug: "scale",
     title: "How big is it — and what won't they tell you?",
     skill: "Reading an air permit · recognizing a CBI redaction",
@@ -47,7 +56,7 @@ export const WALK_CHAPTERS: WalkChapter[] = [
     live: true,
   },
   {
-    step: 3,
+    step: 4,
     slug: "water",
     title: "What it does to the water",
     skill: "Reading an NPDES permit · the 7Q10 low-flow screen",
@@ -55,7 +64,7 @@ export const WALK_CHAPTERS: WalkChapter[] = [
     live: true,
   },
   {
-    step: 4,
+    step: 5,
     slug: "cost",
     title: "What it costs the public",
     skill: "Reading a cost estimate · reading a contract clause",
@@ -63,7 +72,7 @@ export const WALK_CHAPTERS: WalkChapter[] = [
     live: true,
   },
   {
-    step: 5,
+    step: 6,
     slug: "opacity",
     title: "Why you had to dig for this",
     skill: "Reading statutory exemptions",
@@ -101,16 +110,16 @@ export const WALK_ANCHORS: Record<string, WalkAnchor> = {
     label: "Who is actually building this?",
   },
   "permits/4132514.epa.yaml": {
-    ch: "02",
+    ch: "03",
     slug: "scale",
     label: "How big is it — and what won't they tell you?",
   },
   "oepa/oepa-2PH00006-american-ii-fact-sheet.npdes.yaml": {
-    ch: "03",
+    ch: "04",
     slug: "water",
     label: "What it does to the water",
   },
-  "aedg/roundabouts.summary.opc.yaml": { ch: "04", slug: "cost", label: "What it costs the public" },
+  "aedg/roundabouts.summary.opc.yaml": { ch: "05", slug: "cost", label: "What it costs the public" },
 };
 
 export function walkAnchorFor(rel: string): WalkAnchor | undefined {

@@ -1,6 +1,6 @@
 ---
 /**
- * Guided walk — Chapter 2 of 5: "How big is it — and what won't they tell you?"
+ * Guided walk — Chapter 3 of 6: "How big is it — and what won't they tell you?"
  * The air permit is the one record that fixes the plant's scale; it also locks
  * the load-bearing number behind a trade-secret redaction. Uses the Record
  * Teardown's `annotated` layout to show the CBI redaction directly.
@@ -9,10 +9,10 @@ import Base from "../../layouts/Base.astro";
 import PathWayfinding from "../../components/PathWayfinding.astro";
 import RecordTeardown from "../../components/RecordTeardown.astro";
 import { AIR_TEARDOWN } from "../../lib/teardowns";
-import { chapterByStep, WALK_INDEX_HREF, walkHref } from "../../lib/walk";
+import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../lib/walk";
 import { withBase } from "../../lib/site";
 
-const STEP = 2;
+const STEP = 3;
 const prev = chapterByStep(STEP - 1);
 const next = chapterByStep(STEP + 1);
 ---
@@ -25,7 +25,7 @@ const next = chapterByStep(STEP + 1);
   <div class="walk-chapter-page">
     <PathWayfinding step={STEP} />
 
-    <div class="walk-chapter-eyebrow">Chapter {STEP} of 5 · the guided walk</div>
+    <div class="walk-chapter-eyebrow">Chapter {STEP} of {WALK_TOTAL} · the guided walk</div>
     <h1 class="walk-chapter-h1">How big is it — and what won't they tell you?</h1>
 
     <div class="walk-prose">

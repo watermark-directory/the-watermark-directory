@@ -76,12 +76,12 @@ describe("recordToBlock", () => {
     expect(noAnchor.seenIn).toBeUndefined();
 
     const anchored = recordToBlock(baseRecord({ rel: "aedg/roundabouts.summary.opc.yaml", group: "aedg" }));
-    expect(anchored.seenIn).toEqual({ ch: "04", label: "What it costs the public", href: "/walk/cost" });
+    expect(anchored.seenIn).toEqual({ ch: "05", label: "What it costs the public", href: "/walk/cost" });
 
-    // The Ch.2 air permit (#185) — the default mock rel is now itself an anchor.
+    // The air permit (#185) — now Ch.3 after the assembly chapter (#219).
     const air = recordToBlock(baseRecord());
     expect(air.seenIn).toEqual({
-      ch: "02",
+      ch: "03",
       label: "How big is it — and what won't they tell you?",
       href: "/walk/scale",
     });
