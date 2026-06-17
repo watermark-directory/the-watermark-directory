@@ -1,71 +1,65 @@
 ---
-import BeforeAfterSlider from "../../components/BeforeAfterSlider.astro";
 import Base from "../../layouts/Base.astro";
 import { hasFeed, loadManifest } from "../../lib/bundle";
 import { withBase } from "../../lib/site";
 
 const manifest = loadManifest();
-const geoLayers = manifest.feeds.filter((f) => f.name.startsWith("geo/"));
-const scenarios = manifest.feeds.find((f) => f.name === "hydrology-scenarios")?.count ?? 0;
-const rseiFeatures = manifest.feeds.find((f) => f.name === "geo/rsei")?.count ?? 0;
-const watershedFeatures = manifest.feeds.find((f) => f.name === "geo/watershed")?.count ?? 0;
-const hasImagery = manifest.feeds.some((f) => f.name === "geo/imagery");
-const hasEconBaseline = manifest.feeds.some((f) => f.name === "economics-baseline");
+const byName = new Map(manifest.feeds.map((f) => [f.name, f]));
+const count = (n: string): number => byName.get(n)?.count ?? 0;
+const num = (n: number): string => n.toLocaleString("en-US");
+const geoMapLayers = manifest.feeds.filter((f) => f.name.startsWith("geo/") && f.name !== "geo/imagery").length;
+
+interface Door {
+  id: string;
+  path: string;
+  href: string;
+  count: string;
+  title: string;
+  desc: string;
+  note: string;
+}
+const doors: Door[] = [
+  { id: "hydrology", path: "/watershed/hydrology", href: "/watershed/hydrology", count: num(count("hydrology-scenarios")), title: "Hydrology", desc: "Water-balance / low-flow dilution screen — live flow vs the 7Q10 design low flow, and the headroom that remains.", note: "dashboard" },
+  { id: "map", path: "/watershed/map", href: "/watershed/map", count: num(geoMapLayers), title: "Watershed map", desc: "Typed GeoJSON layers on deck.gl + MapLibre — campus, corridor, floodway, WWTP, RSEI, watershed.", note: "interactive" },
+  { id: "imagery", path: "/watershed/imagery", href: "/watershed/imagery", count: "—", title: "Imagery", desc: "Dated Esri Wayback aerials over the campus AOI — before / during / after the buildout.", note: "before / after" },
+  { id: "rsei", path: "/watershed/rsei", href: "/watershed/rsei", count: num(count("geo/rsei")), title: "RSEI / toxics", desc: "EPA RSEI toxic-release inventory on the same reaches the campus discharges to.", note: "release sites" },
+];
+if (hasFeed("economics-baseline")) {
+  doors.push({ id: "economics", path: "/watershed/economics-baseline", href: "/watershed/economics-baseline", count: "—", title: "Economics baseline", desc: "Localized BLS QCEW / Census employment baseline for the corridor.", note: "BLS · Census" });
+}
 ---
 
-<Base title="The Maumee watershed" section="watershed">
-  <article class="prose">
-    <h1>The Maumee watershed</h1>
-    <p class="section-lead">
-      The water the BOSC site sits in: stormwater and water-balance modeling of
-      the Lima municipal loop, the watershed map, imagery before/during/after,
-      and the RSEI toxic-release picture.
-    </p>
-
-    <h2 id="hydrology">Hydrology</h2>
-    <p>
-      {scenarios} committed water-balance / stormwater scenario(s) — the low-flow
-      dilution / assimilative screen. → <a href={withBase("/watershed/hydrology")}>Open the dashboard</a>
-    </p>
-    <p>
-      Narrative: <a href={withBase("/docs/hydrology")}>Hydrology — Tier-0 findings</a> ·
-      <a href={withBase("/docs/economics")}>Economics — demand &amp; public benefits</a>
-      {hasEconBaseline && (
-        <> · <a href={withBase("/watershed/economics-baseline")}>Economics — localized baseline (BLS QCEW)</a></>
-      )}
-    </p>
-
-    <h2 id="map">Watershed map</h2>
-    <p>
-      The interactive <a href={withBase("/watershed/map")}>watershed &amp; corridor map</a>
-      renders {geoLayers.filter((g) => g.name !== "geo/imagery").length} typed GeoJSON layers
-      on deck.gl + MapLibre, with dated aerials and click-through to each record — the
-      campus, JSMC, the corridor and roadwork, FEMA floodway/floodplain, WWTP discharge
-      points, the RSEI overlay, and {watershedFeatures
-        ? `the USGS WBD watershed boundary (${watershedFeatures} hydrologic unit${watershedFeatures === 1 ? "" : "s"} — Pike Run subwatershed + the Ottawa River watershed)`
-        : "the watershed boundary"}.
-    </p>
-    <ul>
-      {geoLayers.map((g) => <li><code>{g.name}</code> — {g.count} feature(s)</li>)}
-    </ul>
-
-    <h2 id="imagery">Imagery — before / during / after</h2>
-    {
-      hasImagery ? (
-        <p>
-          Dated Esri <strong>Wayback</strong> aerials over the campus AOI — scrub through
-          the data-center buildout. → <a href={withBase("/watershed/imagery")}>Open the imagery slider</a>
+<Base title="The Maumee watershed" section="watershed" rail={false}>
+  <div class="hub">
+    <div class="hub-head">
+      <div>
+        <div class="hub-eyebrow">Section · the Maumee watershed</div>
+        <h1>The water it sits in</h1>
+        <p class="hub-lead">
+          Stormwater and water-balance modeling of the Lima municipal loop, the
+          watershed map, dated imagery, and the RSEI toxic-release picture.
         </p>
-      ) : (
-        <BeforeAfterSlider />
-      )
-    }
-
-    <h2 id="rsei">RSEI / toxics</h2>
-    <p>
-      {hasFeed("rsei") ? "EPA RSEI toxic-release inventory available" : "No RSEI inventory feed in this bundle"}
-      {rseiFeatures ? `; ${rseiFeatures} mapped release site(s).` : "."}
-      {hasFeed("rsei") && <> → <a href={withBase("/watershed/rsei")}>Open the inventory</a></>}
-    </p>
-  </article>
+      </div>
+      <span class="hub-count"><span class="dot" aria-hidden="true"></span>Ottawa River · 7Q10 ≈ 0.2 cfs</span>
+    </div>
+    <div class="hub-grid">
+      {
+        doors.map((d) => (
+          <a class="hub-door" id={d.id} href={withBase(d.href)}>
+            <div class="hub-door-top">
+              <span class="hub-door-path">{d.path}</span>
+              <span class="hub-door-count">{d.count}</span>
+            </div>
+            <div class="hub-door-title">{d.title}</div>
+            <div class="hub-door-desc">{d.desc}</div>
+            <div class="hub-door-foot">
+              <span class="hub-door-browse">Browse</span>
+              <span class="hub-door-note">{d.note}</span>
+              <span class="hub-door-arrow" aria-hidden="true">›</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
 </Base>
