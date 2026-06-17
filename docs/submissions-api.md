@@ -202,11 +202,16 @@ stream because they come from a different identity.
 | `TIPS_APP_ID` | Cloudflare (Function secret) | the `bosc-tips-bot` App ID |
 | `TIPS_APP_PRIVATE_KEY` | Cloudflare (Function secret) | the App's private key, **PKCS#8** (see note) |
 | `TURNSTILE_SECRET_KEY` | Cloudflare (Function secret) | server-side Turnstile verification |
-| `PUBLIC_TURNSTILE_SITE_KEY` | frontend build env | the Turnstile widget's public site key |
+| `PUBLIC_TURNSTILE_SITE_KEY` | GitHub Actions **build** var (wired into `pages.yml`) | the Turnstile widget's public site key — read at build time by `submit.astro`, so it must be in the build env, not just a Function secret |
 | `SUBMISSIONS_ENABLED` | Cloudflare (Function var) | on / kill switch — anything but `true` ⇒ the endpoint returns `503` and the form shows disabled |
 
 The research App's key stays only in GitHub Actions; the tips App's key lives only in
 Cloudflare. One identity per runtime, neither broader than its job.
+
+The deployment infrastructure (the Turnstile widget + rate-limit KV, and the
+Route53↔Cloudflare custom-domain exchange) is managed by the [`deploy/`](../deploy/) Pulumi
+stack — state in a self-managed **S3** backend, secrets via **awskms**, AWS auth via an
+**OIDC** role. See [`deploy/README.md`](../deploy/README.md).
 
 ## Bootstrap (one-time)
 
@@ -242,8 +247,14 @@ the Pages project exists (Phase 1).
    (manual, build-only by default) — config in [`frontend/wrangler.toml`](../frontend/wrangler.toml).
    Set two repo **secrets**: `CLOUDFLARE_API_TOKEN` (a token with *Cloudflare Pages —
    Edit*) and `CLOUDFLARE_ACCOUNT_ID`. The default domain is `bosc.pages.dev` at the
-   root (no base path); for a custom domain set the repo vars `PAGES_SITE_URL` /
-   `PAGES_BASE_PATH` (no code change).
+   root (no base path).
+
+   **Custom domain (decided: a subdomain on Route53).** Set `siteDomain` + `route53ZoneId`
+   in the [`deploy/`](../deploy/) stack and `pulumi up` — Pulumi attaches the domain to the
+   Pages project (`cloudflare.PagesDomain`) **and** creates the Route53 CNAME →
+   `bosc.pages.dev`, then Cloudflare validates and issues the cert. Set the repo var
+   `PAGES_SITE_URL` to the `siteUrl` output so the build emits absolute links (no code
+   change). A bare apex isn't used — it can't point cross-provider at pages.dev.
 5. Create a free **Turnstile** widget for that domain; note the **site key** (public)
    and **secret key**. (Or let Pulumi create it via the [`deploy/`](../deploy/) stack and
    read the keys from its stack outputs.)
@@ -308,10 +319,17 @@ shows the placeholder on the next build), or uninstall the App.
 | Notify-on-submit | **deferred** |
 | Webhook receiver (event-driven, Epic 4 upgrade) | **deferred** — the Function is the request-driven seam; a persistent receiver is a later tier |
 
-### Open decisions
+### Settled decisions (#240)
 
-- **Domain** — `*.pages.dev` vs a custom domain (affects `base`, links, Turnstile host).
-- **Target granularity** — ship `general`-only first, or wire the per-page `target`
-  pre-fill from the start (more useful, a little more form code).
-- **Submitter contact** — defaulted to **none** above; only revisit with a non-public
-  intake path.
+- **Domain** — a **custom subdomain on Route53**, CNAME → `bosc.pages.dev`, attached to the
+  Pages project via Pulumi (`cloudflare.PagesDomain` + `aws.route53.Record`). The exact
+  name is late-bound (one `pulumi config set siteDomain …`); a bare apex is not used
+  (illegal cross-provider CNAME / ALIAS).
+- **Infra state + auth** — Pulumi state in a self-managed **S3** backend (no SaaS), secrets
+  via **awskms**, the `deploy-infra` CI assuming an AWS **OIDC** role.
+- **Target granularity** — the per-page `target` pre-fill is **already wired** (the "✎
+  Suggest a correction" deep-links across record/entity/concept/people/places); not
+  `general`-only.
+- **Submitter contact** — still **none** in the public path; a private intake channel is
+  tracked separately in [#242](https://github.com/goedelsoup/bosc/issues/242), and
+  file-attach in [#243](https://github.com/goedelsoup/bosc/issues/243).
