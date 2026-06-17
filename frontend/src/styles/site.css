@@ -379,11 +379,6 @@ a { color: var(--bosc-link); }
 .door-label { display: block; font-weight: 600; color: var(--bosc-link); margin-bottom: 0.2rem; }
 .door-blurb { display: block; font-size: 0.86rem; color: var(--bosc-muted); line-height: 1.45; }
 
-/* Definition list used for the corpus-at-a-glance / bundle facts. */
-.facts { display: grid; grid-template-columns: max-content 1fr; gap: 0.2rem 1rem; margin: 1rem 0; }
-.facts dt { color: var(--bosc-muted); }
-.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
-
 /* ---- Evidence-discipline pills (EvidenceTag.astro) ----
    The design language's evidence tag: a filled pill with a leading status dot,
    bracketed label, no border. Shared visual with the teardown's `.td-tag`. */
@@ -443,11 +438,6 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .provenance code { font-size: 0.95em; }
 .warnings { margin: 0.3rem 0 0; padding-left: 1.1rem; font-size: 0.84rem; color: var(--bosc-inference); }
 .approx { color: var(--bosc-inference); font-weight: 600; }
-
-/* Definition-style field list for a record's fields. */
-.fields { display: grid; grid-template-columns: max-content 1fr; gap: 0.15rem 1rem; margin: 0.4rem 0; font-size: 0.9rem; }
-.fields dt { color: var(--bosc-muted); }
-.fields dd { margin: 0; }
 
 /* Timeline grouped by year. */
 .timeline-year { margin-top: 1.6rem; }
@@ -616,7 +606,25 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .footer-sep { color: #c5c9d4; }
 .footer-meta { margin-left: auto; font-family: var(--bosc-mono); font-size: 0.72rem; color: #aeb4c2; }
 
-/* ---- Responsive ---- */
+/* ============================================================================
+   Responsive — canonical breakpoint ladder.
+
+   CSS variables can't be used inside @media, so these are documented constants,
+   not tokens. New components should reuse a rung rather than invent a width:
+
+     1000px  rail collapses        two-column shell (.layout) → single column
+      900px  chrome trims          walk-pill drops its label
+      800px  nav collapses         topbar tabs → burger menu
+      640px  grids stack           fixed 2-col grids (.rb-grid, .ph-attrs) → 1col
+      560px  compact chrome        brand tagline / search keycap hide
+      720px  (teardown only)       .td-* split layouts → single column
+
+   Audit (#174): every live fixed two-column grid already has a collapse rule;
+   auto-fit grids (.home-stats, .fs-grid, .hub-grid, .cards, .legend) reflow
+   intrinsically; wide mono strings are truncated (ellipsis) or wrap
+   (overflow-wrap). No horizontal overflow at 360px. The dead .facts/.fields
+   rules (the only uncollapsed 2-col grids) were removed.
+   ============================================================================ */
 @media (max-width: 1000px) {
   .layout { grid-template-columns: minmax(0, 1fr); }
   .section-toc {
@@ -1235,6 +1243,9 @@ a.walk-dot:hover { opacity: 0.82; }
 .dtable tbody td { border-top: 1px solid var(--td-line); padding: 9px 14px; font-size: 0.86rem; vertical-align: middle; }
 .dtable tbody tr:hover { background: var(--td-tint); }
 .dtable td.file code, .dtable td.file a { font-family: var(--bosc-mono); font-size: 0.82rem; }
+/* Long mono file paths must wrap, not force horizontal scroll / get clipped by the
+   container's overflow:hidden, on narrow screens. */
+.dtable td { overflow-wrap: anywhere; }
 .dchip { display: inline-block; font-size: 0.7rem; font-weight: 700; border-radius: 5px; padding: 1px 7px; }
 .dchip--present { color: var(--bosc-verified); background: var(--td-verified-bg); }
 .dchip--lfs { color: var(--bosc-muted); background: var(--td-open-bg); }
