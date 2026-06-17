@@ -74,6 +74,17 @@ const stats: FigureStatData[] = [
       </a>
     </div>
 
+    {/* The third way in — a question, not a path. Answers are drawn only from the
+        extracted corpus and cited; the portal never guesses. */}
+    <a class="home-ask" href={withBase("/ask")}>
+      <span class="home-ask-mark" aria-hidden="true">✦</span>
+      <span class="home-ask-text">
+        <strong>Or just ask the record a question.</strong> Answers are drawn only from the
+        corpus, every claim cited — and where the record is silent, it says so.
+      </span>
+      <span class="home-ask-go">Ask the corpus →</span>
+    </a>
+
     <div class="home-stats" id="corpus">
       <div class="home-stats-label">The corpus at a glance</div>
       <div class="home-stats-grid">

@@ -134,6 +134,14 @@ export const SECTIONS: Section[] = [
       { label: "Curated entities", anchor: "curated" },
     ],
   },
+  {
+    id: "ask",
+    label: "Ask the corpus",
+    tab: "Ask",
+    href: "/ask",
+    blurb: "Ask a question of the record and get a cited answer drawn only from the extracted corpus.",
+    toc: [],
+  },
 ];
 
 export function getSection(id: SectionId): Section {
@@ -155,8 +163,9 @@ export type NavItem =
 /**
  * The header tabs, in order. The About dropdown groups the method + the personal
  * pages; the divider sets the narrative tabs (Home…Reports) apart from the
- * reference cluster (Corpus, Wiki). The Corpus tab also owns the Watershed
- * sub-area, which is reached from the corpus landing rather than its own tab.
+ * reference cluster — the ways into the record itself: Ask (the conversational
+ * front door), Corpus (browse), Wiki (entities). The Corpus tab also owns the
+ * Watershed sub-area, reached from the corpus landing rather than its own tab.
  */
 export const NAV_TABS: NavItem[] = [
   { kind: "link", label: "Home", section: "home", href: "/" },
@@ -175,9 +184,9 @@ export const NAV_TABS: NavItem[] = [
     ],
   },
   { kind: "divider" },
+  { kind: "link", label: "Ask", section: "ask", href: "/ask" },
   { kind: "link", label: "Corpus", section: "site", href: "/site/", match: ["watershed"] },
   { kind: "link", label: "Wiki", section: "wiki", href: "/wiki/" },
-  { kind: "link", label: "Ask", section: "ask", href: "/ask" },
 ];
 
 /** Whether `item` is the active header tab for the page's `active` section. */
