@@ -146,8 +146,10 @@ bundle (the JSON feeds `bosc export` emits) at build time and renders the four-
 section site, with deck.gl map/graph visualizations as the only React islands.
 It's a self-contained Node project — `mise run frontend` (or `cd frontend &&
 npm ci && npm run build`) builds it offline against `frontend/sample-bundle/`,
-no Python or LFS needed. It's built **alongside** the legacy SSG; the GitHub
-Pages cutover is parity-gated. See [frontend/README.md](frontend/README.md).
+no Python or LFS needed. It's built **alongside** the legacy SSG and deploys to
+**Cloudflare Pages** (`.github/workflows/pages.yml`), not GitHub Pages — that deploy
+was never flipped and Cloudflare supersedes it; the public cutover to the new site is
+parity-gated. See [frontend/README.md](frontend/README.md).
 
 > **Reading the code as a non-coder:** start at the command you care about in
 > `cli.py` (e.g. `bosc npdes` for the wastewater pull), then follow it into the

@@ -6,8 +6,11 @@ An in-repo [Astro](https://astro.build) + MDX app that reads the committed
 at build time and renders the site as static HTML.
 
 This is **built alongside** the legacy Python SSG (`bosc site build` → `site/`).
-Both stay live until the new site reaches parity; the GitHub Pages deploy is
-**not** wired to this app yet — that cutover is parity-gated.
+Both stay live until the new site reaches parity. Production is **Cloudflare Pages**
+([`pages.yml`](../.github/workflows/pages.yml) + [`wrangler.toml`](wrangler.toml), where
+the [`functions/`](functions/) Pages Functions deploy too), **not** GitHub Pages — that
+deploy was never flipped and Cloudflare supersedes it; the public cutover to this app
+is parity-gated.
 
 ## Toolchain
 

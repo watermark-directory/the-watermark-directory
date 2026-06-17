@@ -6,10 +6,10 @@
 # own Git build is NOT used, because the content bundle is produced by `bosc export`
 # (Python) before `npm run build`, which that build can't run.
 #
-# Secrets (TIPS_APP_ID, TIPS_APP_PRIVATE_KEY, TURNSTILE_SECRET_KEY) and the kill switch
-# SUBMISSIONS_ENABLED are set in the Cloudflare dashboard, NOT here: secrets never go in
-# wrangler.toml, and the kill switch must stay operator-flippable without a redeploy.
-# See docs/submissions-api.md.
+# Secrets (TIPS_APP_ID, TIPS_APP_PRIVATE_KEY, TURNSTILE_SECRET_KEY, ANTHROPIC_API_KEY)
+# and the kill switches (SUBMISSIONS_ENABLED, ASK_ENABLED) are set in the Cloudflare
+# dashboard, NOT here: secrets never go in wrangler.toml, and the kill switches must stay
+# operator-flippable without a redeploy. See docs/submissions-api.md and docs/ask-api.md.
 
 name = "bosc"
 pages_build_output_dir = "dist"
@@ -30,4 +30,23 @@ GITHUB_REPO = "bosc"
 # then uncomment:
 # [[kv_namespaces]]
 # binding = "RATE_LIMIT"
+# id = "<namespace-id>"
+
+# --- Ask the corpus (/api/ask, Epic #207) -----------------------------------------
+# Non-secret knobs for the ask endpoint. The model + caps also default in code, so this
+# is documentation + override. ASK_ENABLED (kill switch) and the ANTHROPIC_API_KEY /
+# TURNSTILE_SECRET_KEY secrets are set in the dashboard, not here. See docs/ask-api.md.
+# ASK_MODEL = "claude-opus-4-8"
+# ASK_MAX_TOKENS = "1024"          # hard answer-length cap (cost guard)
+# ASK_TOP_K = "6"                  # retrieval depth over the ask-index
+# ASK_RATE_LIMIT_MAX = "10"        # per-IP questions per window
+# ASK_RATE_LIMIT_WINDOW_SEC = "3600"
+# ASK_DAILY_TOKEN_BUDGET = "200000"  # account-wide daily output-token cap
+
+# The ask endpoint's per-IP rate limit + daily budget counter share their own KV
+# namespace (kept separate from submit's RATE_LIMIT so the counters don't collide).
+# Create one and fill in the printed id, then uncomment:
+#   npx wrangler kv namespace create ASK_RATE_LIMIT
+# [[kv_namespaces]]
+# binding = "ASK_RATE_LIMIT"
 # id = "<namespace-id>"

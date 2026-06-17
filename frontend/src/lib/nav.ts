@@ -14,7 +14,16 @@
  * heading.
  */
 
-export type SectionId = "home" | "story" | "timeline" | "reports" | "about" | "site" | "watershed" | "wiki";
+export type SectionId =
+  | "home"
+  | "story"
+  | "timeline"
+  | "reports"
+  | "about"
+  | "site"
+  | "watershed"
+  | "wiki"
+  | "ask";
 
 export interface TocEntry {
   /** Visible label in the per-section TOC. */
@@ -168,6 +177,7 @@ export const NAV_TABS: NavItem[] = [
   { kind: "divider" },
   { kind: "link", label: "Corpus", section: "site", href: "/site/", match: ["watershed"] },
   { kind: "link", label: "Wiki", section: "wiki", href: "/wiki/" },
+  { kind: "link", label: "Ask", section: "ask", href: "/ask" },
 ];
 
 /** Whether `item` is the active header tab for the page's `active` section. */

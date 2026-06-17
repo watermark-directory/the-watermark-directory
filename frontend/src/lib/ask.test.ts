@@ -1,0 +1,75 @@
+import { describe, expect, it } from "vitest";
+import { assemblePrompt, extractCitations, isRefusal, REFUSAL } from "../../functions/api/_lib/ask";
+import type { Hit } from "../../functions/api/_lib/retrieval";
+
+const HITS: Hit[] = [
+  {
+    score: 2,
+    unit: {
+      id: "records:opc.summary",
+      feed: "records",
+      title: "Roundabouts OPC — summary",
+      url: "/site/records/opc/",
+      text: "opinion of probable cost roadway subtotal",
+      source: "data/documents/aedg/PRR-01-bundle.ocr.pdf",
+      page: 318,
+      source_kind: "document",
+    },
+  },
+  {
+    score: 1,
+    unit: {
+      id: "timeline:nda",
+      feed: "timeline",
+      title: "2019 — NDA signed",
+      url: "/timeline",
+      text: "confidentiality agreement",
+      source: "data/extracted/legal/nda.yaml",
+      source_kind: "document",
+    },
+  },
+];
+
+describe("assemblePrompt", () => {
+  it("numbers each source [n] and embeds its provenance + text", () => {
+    const { system, user } = assemblePrompt("How much do the roundabouts cost?", HITS);
+    expect(system).toContain(REFUSAL);
+    expect(user).toContain("[1] Roundabouts OPC — summary — data/documents/aedg/PRR-01-bundle.ocr.pdf p.318");
+    expect(user).toContain("[2] 2019 — NDA signed");
+    expect(user).toContain("Question: How much do the roundabouts cost?");
+  });
+});
+
+describe("extractCitations", () => {
+  it("resolves the [n] markers the answer used, in first-appearance order, deduped", () => {
+    const cites = extractCitations(
+      "The estimate is on the summary sheet [1]. An NDA preceded it [2][1].",
+      HITS,
+    );
+    expect(cites.map((c) => c.marker)).toEqual([1, 2]);
+    expect(cites[0]).toMatchObject({
+      id: "records:opc.summary",
+      url: "/site/records/opc/",
+      source: "data/documents/aedg/PRR-01-bundle.ocr.pdf",
+      page: 318,
+    });
+  });
+
+  it("drops an out-of-range marker rather than fabricating a source", () => {
+    expect(extractCitations("Mystery claim [9].", HITS)).toEqual([]);
+  });
+
+  it("finds no citations in an uncited answer", () => {
+    expect(extractCitations("No markers here.", HITS)).toEqual([]);
+  });
+});
+
+describe("isRefusal", () => {
+  it("recognizes the canonical refusal regardless of trailing whitespace/case", () => {
+    expect(isRefusal(`  ${REFUSAL}  `)).toBe(true);
+    expect(isRefusal("i don't find that in the record.")).toBe(true);
+  });
+  it("does not treat a real answer as a refusal", () => {
+    expect(isRefusal("The roundabouts cost $1.2M [1].")).toBe(false);
+  });
+});

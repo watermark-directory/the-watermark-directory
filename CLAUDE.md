@@ -29,7 +29,11 @@ in **`frontend/`**: an Astro + MDX static site that reads that bundle at build t
 (Epic #54). It's pure Node (npm, no uv/LFS) and builds against the committed
 `frontend/sample-bundle/` fixture offline; deck.gl map/graph visualizations are the
 only React islands. The two tiers run side by side until the new site reaches
-parity — the GitHub Pages cutover is deliberately parity-gated. See
+parity — the cutover to the new site is deliberately parity-gated. Production is
+**Cloudflare Pages** (`.github/workflows/pages.yml` + `frontend/wrangler.toml`,
+where the `frontend/functions/api/*` Pages Functions — `/api/submit`, `/api/ask` —
+also deploy), **not** GitHub Pages: that deploy was never flipped and Cloudflare
+supersedes it. See
 `frontend/README.md` for the architecture; **don't edit `docs/**` to fix the new
 site's cross-links** — they're rewritten at build time (`frontend/src/lib/rehype-doc-links.ts`)
 so the same source stays valid for the legacy SSG too.
