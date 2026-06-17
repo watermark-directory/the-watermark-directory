@@ -1,0 +1,77 @@
+---
+/**
+ * Timeline (design "Timeline") — the designed vertical timeline. A continuous
+ * spine, year diamonds, evidence-colored nodes, and per-event cards carrying
+ * date / kind / evidence pill / optional walk badge / connect chips. Groups by
+ * year from a flat, chronologically-sorted event list. SSR-only.
+ */
+import type { TimelineItem } from "../lib/viz";
+
+interface Props {
+  events: TimelineItem[];
+}
+const { events } = Astro.props;
+
+type Row = { year: string } | { event: TimelineItem };
+const yearOf = (d: string): string => d.match(/^\d{4}/)?.[0] ?? "Undated";
+const rows: Row[] = [];
+let last = "";
+for (const e of events) {
+  const y = yearOf(e.date);
+  if (y !== last) {
+    rows.push({ year: y });
+    last = y;
+  }
+  rows.push({ event: e });
+}
+---
+
+<div class="tl">
+  {
+    rows.map((row) =>
+      "year" in row ? (
+        <div class="tl-year">
+          <div class="tl-rail"><span class="tl-diamond" aria-hidden="true" /></div>
+          <div class="tl-year-main">
+            <span class="tl-year-num">{row.year}</span>
+            <span class="tl-year-rule" aria-hidden="true" />
+          </div>
+        </div>
+      ) : (
+        <div class="tl-event">
+          <div class="tl-rail"><span class:list={["tl-dot", `tl-dot--${row.event.evidence}`]} aria-hidden="true" /></div>
+          <div class="tl-card">
+            <div class="tl-box">
+              <div class="tl-meta">
+                <span class="tl-date">{row.event.date || "—"}</span>
+                <span class="tl-kind">{row.event.kind}</span>
+                <span class:list={["td-tag", `td-tag--${row.event.evidence}`]}>
+                  <span class="td-tag-dot" aria-hidden="true" />[{row.event.evidence}]
+                </span>
+                {row.event.seenInCh &&
+                  (row.event.seenInHref ? (
+                    <a class="tl-walk" href={row.event.seenInHref}>↩ walk Ch.{row.event.seenInCh}</a>
+                  ) : (
+                    <span class="tl-walk">↩ walk Ch.{row.event.seenInCh}</span>
+                  ))}
+              </div>
+              <div class="tl-title">{row.event.title}</div>
+              {row.event.summary && <div class="tl-summary">{row.event.summary}</div>}
+              {row.event.connect && row.event.connect.length > 0 && (
+                <div class="tl-connect">
+                  {row.event.connect.map((c) =>
+                    c.href ? (
+                      <a class="td-chip" href={c.href}><span class="td-chip-kind">{c.kind}</span>{c.label}</a>
+                    ) : (
+                      <span class="td-chip"><span class="td-chip-kind">{c.kind}</span>{c.label}</span>
+                    ),
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ),
+    )
+  }
+</div>

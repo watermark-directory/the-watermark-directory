@@ -1,0 +1,46 @@
+---
+/**
+ * Figure / Stat (design "Figure Stat") — one figure treatment across the site.
+ * `lg` is the dashboard/hub tile (replaces the legacy `.metric`); `sm` is the
+ * profile stat-strip cell. The model/world boundary is always visible:
+ * grounded → [verified], modeled → [inference], withheld → [open].
+ */
+import type { FigureStatData } from "../lib/viz";
+
+interface Props {
+  stat: FigureStatData;
+  size?: "lg" | "sm";
+}
+const { stat: s, size = "lg" } = Astro.props;
+---
+
+{
+  size === "lg" ? (
+    <div class="fs-lg">
+      <div class="fs-lg-head">
+        <span class="fs-label">{s.label}</span>
+        {s.basis && <span class:list={["fs-basis", `fs-basis--${s.basis}`]}>{s.basis}</span>}
+      </div>
+      <div class="fs-value-row">
+        <span class:list={["fs-value", s.warn && "is-warn"]}>{s.value}</span>
+        {s.unit && <span class="fs-unit">{s.unit}</span>}
+      </div>
+      {s.sub && <div class="fs-sub">{s.sub}</div>}
+      <div class="fs-foot">
+        <span class:list={["td-tag", `td-tag--${s.evidence}`]}>
+          <span class="td-tag-dot" aria-hidden="true" />[{s.evidence}]
+        </span>
+        {s.source && <span class="fs-source">{s.source}</span>}
+      </div>
+    </div>
+  ) : (
+    <div class="fs-sm">
+      <div class="fs-sm-label">{s.label}</div>
+      <div class="fs-sm-value-row">
+        <span class:list={["fs-sm-value", s.warn && "is-warn"]}>{s.value}</span>
+        <span class:list={["fs-dot", `fs-dot--${s.evidence}`]} title={s.evidence} />
+      </div>
+      {s.sub && <div class="fs-sm-sub">{s.sub}</div>}
+    </div>
+  )
+}
