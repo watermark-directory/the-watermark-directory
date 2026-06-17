@@ -7,6 +7,7 @@ import { withBase } from "../../lib/site";
 // curated reading order. Pulled from the narrative collection by slug so titles and
 // blurbs stay in sync with the source docs.
 const ORDER = [
+  "end-use-and-workloads",
   "dossier",
   "hydrology",
   "economics",
@@ -21,14 +22,9 @@ const published = ORDER.map((s) => bySlug.get(s)).filter((d): d is NonNullable<t
 // corpus is being assembled to support. Carried here as drafting, not findings.
 const forthcoming = [
   {
-    title: "End-use & workloads",
-    blurb:
-      "What the compute is actually used for — hyperscale-owned vs colo-tenant, and who can even use a GovCloud/FedRAMP facility.",
-  },
-  {
     title: "The defense nexus",
     blurb:
-      "An independent read of the federal/defense corridor the public record already names — carried strictly as [open].",
+      "An independent read of the federal/defense corridor the public record already names — the sharpest facet of end-use, carried strictly as [open].",
   },
   {
     title: "Toxics & the hydrology corridor",

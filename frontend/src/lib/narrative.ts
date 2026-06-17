@@ -83,6 +83,14 @@ export const NARRATIVE: NarrativeDoc[] = [
     blurb:
       "The demand-side companion to Hydrology: regional cloud-consumer demand and the benefits extended to it.",
   },
+  {
+    repo: "end-use-and-workloads.md",
+    slug: "end-use-and-workloads",
+    title: "End use & workloads — what the facility is for",
+    section: "reports",
+    blurb:
+      "The customer is known (Google); the use is not. What the Select-Committee record establishes about hyperscale vs colocation vs federal enclaves — and the open question of who can use the Lima campus.",
+  },
 ];
 
 /** Repo paths (under docs/) of the migrated docs, e.g. "docs/DOSSIER.md". */
