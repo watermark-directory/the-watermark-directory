@@ -546,6 +546,17 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .neighborhood { list-style: none; margin: 0.4rem 0; padding: 0; }
 .neighborhood li { padding: 0.2rem 0; }
 .rel-arrow { color: var(--bosc-muted); }
+
+/* Entity-graph relation-class legend (#182) — swatch · term · definition. */
+.relclass-legend { margin: 0.6rem 0 1.4rem; display: grid; gap: 0.5rem; }
+.relclass-row { display: grid; grid-template-columns: 13px minmax(7rem, max-content) 1fr; align-items: start; gap: 0.6rem; }
+.relclass-swatch { width: 13px; height: 13px; margin-top: 3px; border-radius: 3px; border: 1px solid var(--bosc-rule); }
+.relclass-term { margin: 0; font-weight: 700; font-size: 0.9rem; }
+.relclass-def { margin: 0; color: var(--bosc-muted); font-size: 0.9rem; }
+@media (max-width: 560px) {
+  .relclass-row { grid-template-columns: 13px 1fr; }
+  .relclass-def { grid-column: 2; }
+}
 .backlinks { border-top: 1px solid var(--bosc-rule); margin-top: 1.5rem; padding-top: 0.8rem; }
 .wikilink-missing { color: var(--bosc-muted); border-bottom: 1px dotted var(--bosc-muted); cursor: help; }
 

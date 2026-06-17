@@ -12,6 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import DeckGL from "@deck.gl/react";
 import { OrthographicView, type Layer, type PickingInfo } from "@deck.gl/core";
 import { LineLayer, ScatterplotLayer, TextLayer } from "@deck.gl/layers";
+import { relationClassLabel, relationClassRgb } from "../../lib/relationClasses";
 import { withBase } from "../../lib/site";
 
 interface GNode {
@@ -19,6 +20,7 @@ interface GNode {
   slug: string;
   display: string;
   kind: string;
+  relationClass: string | null;
   degree: number;
   x: number;
   y: number;
@@ -34,14 +36,10 @@ interface Graph {
 }
 
 type RGB = [number, number, number];
-const KIND_COLORS: Record<string, RGB> = {
-  corporate: [63, 81, 181],
-  individual: [0, 137, 123],
-  government: [211, 47, 47],
-  composite: [142, 36, 170],
-  place: [121, 85, 72],
-};
-const kindColor = (kind: string): RGB => KIND_COLORS[kind] ?? [120, 120, 130];
+// Nodes are coloured by their relation to Project BOSC (the dimension the legacy
+// graph grouped + coloured by); the page legend explains the classes. Unclassified
+// entities fall back to a neutral grey, so the colour highlights the entities that
+// actually have a defined relation to the project.
 const DIM: RGB = [205, 207, 214];
 
 export default function EntityGraph({ src, focus: focusProp }: { src: string; focus?: string }): JSX.Element {
@@ -129,7 +127,11 @@ export default function EntityGraph({ src, focus: focusProp }: { src: string; fo
         radiusMinPixels: 3,
         radiusMaxPixels: 22,
         getFillColor: (n) =>
-          n.key === focusKey ? [191, 90, 0] : lit(n.key) ? [...kindColor(n.kind), 255] : [...DIM, 255],
+          n.key === focusKey
+            ? [191, 90, 0]
+            : lit(n.key)
+              ? [...relationClassRgb(n.relationClass), 255]
+              : [...DIM, 255],
         stroked: true,
         getLineColor: [255, 255, 255],
         lineWidthUnits: "pixels",
@@ -180,6 +182,7 @@ export default function EntityGraph({ src, focus: focusProp }: { src: string; fo
           <strong>{hovered.display}</strong>
           <div className="card-meta">
             {hovered.kind} · {hovered.degree} link(s)
+            {hovered.relationClass && <> · {relationClassLabel(hovered.relationClass)}</>}
           </div>
         </aside>
       )}
