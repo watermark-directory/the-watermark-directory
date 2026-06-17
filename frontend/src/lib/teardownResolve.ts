@@ -57,7 +57,7 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
   if (t.recordRel && recordsByRel.has(t.recordRel)) {
     const row = recordsByRel.get(t.recordRel) as RecordItem;
     liveCitation = row.citation;
-    check = { ...check, verifyHref: withBase(`/site/records/${row.group}#${slugify(t.recordRel)}`) };
+    check = { ...check, verifyHref: withBase(`/site/records/${row.group}/${slugify(t.recordRel)}`) };
     verifyResolved = true;
   } else if (t.legalSlug && legalBySlug.has(t.legalSlug)) {
     // 2. legal-backed → deep-link verify to the legal-history page.

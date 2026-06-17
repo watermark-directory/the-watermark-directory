@@ -80,6 +80,9 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
       pages: c.page ? `p.${c.page}` : "—",
       collection: relCollection(r.rel),
     },
+    // The record's own screen (/site/records/<group>/<id>) — the compact row links
+    // here; the full block ignores it (it IS the screen).
+    href: withBase(`/site/records/${r.group}/${slugify(r.rel)}`),
     correctHref: withBase(
       `/submit?ref_kind=record&ref_id=${encodeURIComponent(r.rel)}&ref_label=${encodeURIComponent(r.title)}`,
     ),
