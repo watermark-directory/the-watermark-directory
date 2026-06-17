@@ -1,6 +1,6 @@
 ---
 /**
- * Guided walk — Chapter 3 of 5: "What it does to the water". The verified anchor
+ * Guided walk — Chapter 4 of 6: "What it does to the water". The verified anchor
  * is the NPDES 7Q10 teardown (the receiving streams are already near-undiluted at
  * design low flow). The signature interaction is the dilution screen (#222) — a
  * `client:only` island (`DilutionScreen`) over an SSR seasonal table: scrub the
@@ -15,10 +15,10 @@ import RecordTeardown from "../../components/RecordTeardown.astro";
 import DilutionScreen from "../../components/islands/DilutionScreen.tsx";
 import { NPDES_TEARDOWN } from "../../lib/teardowns";
 import { buildDilution, dilutionMultiple } from "../../lib/dilution";
-import { chapterByStep, WALK_INDEX_HREF, walkHref } from "../../lib/walk";
+import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../lib/walk";
 import { withBase } from "../../lib/site";
 
-const STEP = 3;
+const STEP = 4;
 const prev = chapterByStep(STEP - 1);
 const next = chapterByStep(STEP + 1);
 
@@ -36,7 +36,7 @@ const fmtMult = (m: number): string =>
   <div class="walk-chapter-page">
     <PathWayfinding step={STEP} />
 
-    <div class="walk-chapter-eyebrow">Chapter {STEP} of 5 · the guided walk</div>
+    <div class="walk-chapter-eyebrow">Chapter {STEP} of {WALK_TOTAL} · the guided walk</div>
     <h1 class="walk-chapter-h1">What it does to the water</h1>
 
     <div class="walk-prose">
@@ -106,6 +106,20 @@ const fmtMult = (m: number): string =>
         </tbody>
       </table>
     </section>
+
+    <div class="walk-prose">
+      <p>
+        Now weigh that against what the proponents say. AEDG's own FAQ assures that
+        data centers “increasingly use closed-loop cooling systems that recirculate
+        water” — but the air permit you read in the last chapter fixes
+        <strong>36 evaporative cooling towers</strong>, and evaporative towers lose
+        water to the sky by design. Google's “120% water replenishment” pledge is
+        real, but it's <strong>global and offsite</strong> — it says nothing about the
+        Ottawa. The tower count is <code>[verified]</code>; the consumptive draw above
+        is <code>[inference]</code>; the claim that this “reduces water use” here is
+        neither.
+      </p>
+    </div>
 
     <div class="callout walk-takeaway">
       <p class="callout-title">What you can read anywhere now</p>

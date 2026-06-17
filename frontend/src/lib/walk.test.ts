@@ -8,7 +8,13 @@ describe("WALK_CHAPTERS invariants", () => {
   });
 
   it("numbers the steps 1..WALK_TOTAL in order", () => {
-    expect(WALK_CHAPTERS.map((c) => c.step)).toEqual([1, 2, 3, 4, 5]);
+    expect(WALK_TOTAL).toBe(6);
+    expect(WALK_CHAPTERS.map((c) => c.step)).toEqual([1, 2, 3, 4, 5, 6]);
+  });
+
+  it("has the assembly chapter at step 2 (#219)", () => {
+    expect(chapterByStep(2)?.slug).toBe("assembly");
+    expect(chapterByStep(6)?.slug).toBe("opacity");
   });
 
   it("has unique slugs", () => {
@@ -26,7 +32,7 @@ describe("walkHref", () => {
 
 describe("chapterByStep", () => {
   it("returns the matching chapter", () => {
-    expect(chapterByStep(2)?.slug).toBe("scale");
+    expect(chapterByStep(3)?.slug).toBe("scale");
   });
   it("returns undefined for an out-of-range step", () => {
     expect(chapterByStep(0)).toBeUndefined();
@@ -35,14 +41,14 @@ describe("chapterByStep", () => {
 });
 
 describe("walkAnchorFor", () => {
-  it("resolves a known record rel to its chapter anchor", () => {
+  it("resolves a known record rel to its chapter anchor (renumbered for #219)", () => {
     const a = walkAnchorFor("aedg/roundabouts.summary.opc.yaml");
-    expect(a).toEqual({ ch: "04", slug: "cost", label: "What it costs the public" });
+    expect(a).toEqual({ ch: "05", slug: "cost", label: "What it costs the public" });
   });
 
-  it("resolves the Ch.2 air-permit anchor (#185)", () => {
+  it("resolves the air-permit anchor, now Ch.3 after the assembly chapter (#219)", () => {
     const a = walkAnchorFor("permits/4132514.epa.yaml");
-    expect(a).toEqual({ ch: "02", slug: "scale", label: "How big is it — and what won't they tell you?" });
+    expect(a).toEqual({ ch: "03", slug: "scale", label: "How big is it — and what won't they tell you?" });
   });
 
   it("returns undefined for a rel with no anchor", () => {

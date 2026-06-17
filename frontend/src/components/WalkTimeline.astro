@@ -1,0 +1,50 @@
+---
+/**
+ * The sequence-as-argument timeline spine (#225). A slim SSR element (no JS) that
+ * threads the chapters: it shows Project BOSC's confidentiality went on *first* —
+ * the NDA before the CRA vote, before the deeds, before the public could name the
+ * customer. The three dated milestones are present-checked against the live
+ * `timeline` feed; the fourth beat is the customer reveal, held as an annotation,
+ * not a node (Google stays an annotation).
+ */
+import { buildWalkSpine } from "../lib/walkTimeline";
+import { withBase } from "../lib/site";
+
+const spine = buildWalkSpine();
+const timelineHref = withBase("/site/timeline");
+---
+
+<section class="wspine" aria-label="The confidentiality-first sequence">
+  <div class="wspine-head">
+    <div class="wspine-eyebrow">The order is the argument</div>
+    <p class="wspine-lead">
+      Confidentiality went on first — before the abatement was voted, before the
+      land was recorded, and long before the public could name who is behind it.
+    </p>
+  </div>
+
+  <ol class="wspine-list">
+    {
+      spine.milestones.map((m) => (
+        <li class:list={["wspine-item", `is-${m.kind}`]}>
+          <span class="wspine-dot" aria-hidden="true" />
+          <div class="wspine-body">
+            <div class="wspine-when">
+              <span class="wspine-date">{m.date ?? "later"}</span>
+              {m.inFeed && (
+                <a class="wspine-infeed" href={timelineHref} title="This event is in the published timeline — the same row the library renders.">
+                  ● in the timeline
+                </a>
+              )}
+            </div>
+            <div class="wspine-label">{m.label}</div>
+            <p class="wspine-detail">{m.detail}</p>
+            <div class="wspine-cite">{m.cite}</div>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+
+  <a class="wspine-more" href={timelineHref}>Open the full {spine.totalEvents}-event timeline →</a>
+</section>

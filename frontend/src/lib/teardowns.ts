@@ -455,11 +455,102 @@ export const RDA_TEARDOWN: TeardownRecord = {
   legalSlug: "withholding-map",
 };
 
+/**
+ * The land-assembly packet — Ch. 2 anchor ("How it was assembled & hidden").
+ * Grounded in `data/extracted/aedg/seller-land-packets.land.yaml`: the Port
+ * Authority took 3-year options on the farms (2023–24), then assigned them to
+ * Bistrozzi (2025-07-03, Vorys/Tangeman) under each option's §21 "unrestricted
+ * right to assign," closing ~2025-07-14. The DTE-100 conveyance-fee price fields
+ * were produced BLANK (p.158); only the Neighbors parcel (~$600k/5ac) is
+ * disclosed; CAUV farmland → conversion recoupment (DTE-102, Elida LSD). The
+ * dates are [verified]; the blank price is the redaction-reveal (reusing the
+ * committed DTE-100 crop). Uses the `annotated` layout.
+ */
+export const ASSEMBLY_TEARDOWN: TeardownRecord = {
+  title: "The land-assembly packet",
+  docName: "Port Authority options → Bistrozzi assignment · 2023–2025",
+  source: {
+    file: "seller-land-packets.land.yaml",
+    pages: "PRR-01-bundle pp. 91–295 (option packets)",
+    collection: "AEDG · land assembly (PAAC production)",
+    kind: "Option agreements + DTE-100s · scanned",
+    badge: "PRR",
+    note: "Option terms and assignment dates are transcribed from the PAAC production; the DTE-100 price fields were produced blank in the source itself.",
+  },
+  extraction: [
+    { label: "Mechanism", value: "3-yr PAAC options → assigned" },
+    { label: "Options taken", value: "2023–2024 · $1,000 each" },
+    { label: "Assigned to Bistrozzi", value: "2025-07-03 · Vorys / Tangeman" },
+    { label: "Closed", value: "~2025-07-14" },
+    { label: "Brenneman tract", value: "81.03 ac · 7 parcels" },
+    { label: "Price (DTE-100)", value: "~ blank", warn: true },
+    { label: "Only disclosed price", value: "Neighbors ~$600k / 5 ac" },
+  ],
+  pins: [
+    {
+      n: 1,
+      label: "A public body's options assigned to a nominee — §21 “unrestricted right to assign”",
+      value: "2025-07-03 assignment",
+      x: "40px",
+      y: "52px",
+    },
+    {
+      n: 2,
+      label: "CAUV farmland → conversion triggers tax recoupment (Elida LSD)",
+      value: "DTE-102 filed",
+      x: "160px",
+      y: "150px",
+    },
+    {
+      n: 3,
+      label: "Conveyance-fee price fields produced blank",
+      value: "DTE-100 · $ blank",
+      danger: true,
+      x: "78px",
+      y: "224px",
+    },
+  ],
+  redactionLabel: "$ ______ · blank",
+  reveal: {
+    lead: "The public's development authority optioned the farms for $1,000 apiece, assigned the options to a Delaware LLC, and closed — and the one form that records what was paid, the DTE-100, was produced ",
+    key: "with the price blank",
+    tail: ". Only the Neighbors parcel's ~$600k for 5 acres is disclosed anywhere. The land was assembled through a public body and handed off; what it cost to convert CAUV farmland into a data-center campus is the blank.",
+  },
+  check: {
+    tag: "verified",
+    sub: "options + assignment dates",
+    verify: "Open the deeds & land records",
+    verifyHref: withBase("/site/records/"),
+    method: "How an option-to-assignment chain works",
+    methodHref: withBase("/docs/methodology"),
+  },
+  connect: [
+    { kind: "entity", label: "Port Authority of Allen County", href: withBase("/wiki/entities/") },
+    { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
+    { kind: "timeline", label: "2025-07-03 · option assignment", href: withBase("/site/timeline") },
+    { kind: "graph", label: "the land assembly", href: withBase("/wiki/graph") },
+  ],
+  redaction: {
+    label: "$ ______ · blank",
+    summary: "What did the public pay to assemble it?",
+    lock: "The DTE-100 conveyance-fee value fields were produced blank across the option / closing packets; only the Neighbors parcel (~$600k / 5 ac, ~2× appraisal) is disclosed anywhere.",
+    cite: "DTE-100 · PRR-01-bundle p.158 (Brenneman) · seller-land-packets.land.yaml · DTE-102 CAUV recoupment p.159",
+    read: "The Port Authority — a public body — took the options and assigned them to Bistrozzi; the price across the assembled tracts is absent from the one form built to record it. CAUV farmland converting to a data center triggers tax recoupment, but the figure that would size the public's exposure is the blank.",
+    crop: {
+      src: "/walk/crops/dte100-blank.png",
+      alt: "Brenneman DTE-100 Real Property Conveyance Fee Statement of Value — the numbered value lines with the dollar column produced blank.",
+      caption: "DTE-100 value lines · produced blank",
+      redaction: { x: "68%", y: "5%", w: "19%", h: "88%", label: "$ blank" },
+    },
+  },
+};
+
 /** All curated teardowns, for lookup by the record they anchor. */
 export const ALL_TEARDOWNS: TeardownRecord[] = [
   OPACITY_TEARDOWN,
   DEED_TEARDOWN,
   SHELL_TEARDOWN,
+  ASSEMBLY_TEARDOWN,
   OPC_TEARDOWN,
   AIR_TEARDOWN,
   NPDES_TEARDOWN,

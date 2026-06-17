@@ -1210,6 +1210,31 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .mf-abate { margin-top: 16px; }
 @media (prefers-reduced-motion: reduce) { .mf-seg { transition: none; } }
 
+/* ---- the timeline spine (#225): sequence-as-argument ---- */
+.wspine { margin: 22px 0; border: 1px solid var(--td-srccard-line); border-radius: 10px; background: #fff; padding: 18px 20px; }
+.wspine-eyebrow { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--bosc-inference); font-weight: 700; margin-bottom: 8px; }
+.wspine-lead { margin: 0 0 16px; font-size: 14.5px; line-height: 1.6; color: var(--bosc-ink); }
+.wspine-list { list-style: none; margin: 0; padding: 0; position: relative; }
+.wspine-list::before { content: ""; position: absolute; left: 7px; top: 6px; bottom: 18px; width: 2px; background: var(--td-srccard-line); }
+.wspine-item { position: relative; padding: 0 0 18px 30px; }
+.wspine-item:last-child { padding-bottom: 0; }
+.wspine-dot { position: absolute; left: 0; top: 3px; width: 16px; height: 16px; border-radius: 50%; border: 3px solid #fff; background: var(--td-faint); box-shadow: 0 0 0 1px var(--td-srccard-line); }
+.wspine-item.is-confidential .wspine-dot { background: var(--td-danger); }
+.wspine-item.is-approval .wspine-dot { background: var(--bosc-inference); }
+.wspine-item.is-land .wspine-dot { background: var(--bosc-ink); }
+.wspine-item.is-reveal .wspine-dot { background: var(--bosc-open); }
+.wspine-when { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.wspine-date { font-family: var(--td-mono); font-size: 12px; font-weight: 700; color: var(--bosc-ink); }
+.wspine-infeed { font-size: 10px; font-weight: 700; color: var(--bosc-verified); text-decoration: none; white-space: nowrap; }
+.wspine-label { font-size: 14px; font-weight: 700; color: var(--bosc-ink); margin-top: 2px; }
+.wspine-item.is-reveal .wspine-label { color: var(--bosc-open); }
+.wspine-detail { margin: 4px 0 0; font-size: 13px; line-height: 1.55; color: var(--td-mono-ink, #3a3f4d); }
+.wspine-cite { margin-top: 5px; font-size: 10.5px; font-family: var(--td-mono); color: var(--td-faint); }
+.wspine-more { display: inline-block; margin-top: 16px; font-size: 13px; font-weight: 600; color: var(--bosc-ink); }
+
+/* ---- the walk's focused shell-cluster graph caption (#221) ---- */
+.walk-graph-note { margin: 12px 0 0; font-size: 13px; line-height: 1.6; color: var(--td-mono-ink, #3a3f4d); }
+
 /* ---- Layout A · split-screen read ---- */
 .td-body { padding: 22px; }
 .td-split { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--td-card-line); border-radius: 10px; overflow: hidden; }
