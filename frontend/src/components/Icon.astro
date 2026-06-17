@@ -1,0 +1,36 @@
+---
+/**
+ * The BOSC icon (design-system extension). Renders one glyph from `lib/icons.ts`
+ * on a 24px grid in `currentColor` — pass `size` (px) and it inherits the ink,
+ * indigo, or evidence color of its context. Decorative by default (aria-hidden);
+ * pass `label` to give it an accessible name (role="img").
+ */
+import { ICONS } from "../lib/icons";
+
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+  /** Accessible name. Omit for decorative icons (aria-hidden). */
+  label?: string;
+}
+const { name, size = 20, class: cls, label } = Astro.props;
+const icon = ICONS[name];
+if (!icon) throw new Error(`Unknown icon "${name}"`);
+---
+
+<svg
+  class:list={["icon", `icon-${name}`, cls]}
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill={icon.filled ? "currentColor" : "none"}
+  stroke={icon.filled ? "none" : "currentColor"}
+  stroke-width={icon.filled ? undefined : 1.7}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  set:html={icon.body}
+/>

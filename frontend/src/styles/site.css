@@ -62,12 +62,19 @@ a { color: var(--bosc-link); }
   color: #fff;
   text-decoration: none;
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.4rem;
+  align-items: center;
+  gap: 0.55rem;
   white-space: nowrap;
 }
+.brand-word { display: inline-flex; align-items: baseline; gap: 0.4rem; }
 .topbar .brand strong { font-weight: 800; font-size: 1.05rem; letter-spacing: 0.5px; }
 .brand-tagline { font-weight: 400; font-size: 0.72rem; color: #c5cae9; }
+
+/* ---- Logo mark + icon set (design-system extension) ---- */
+.icon, .bosc-mark { display: inline-block; vertical-align: middle; flex: none; }
+.footer-brand { display: inline-flex; align-items: center; gap: 0.4rem; }
+.footer-mark { color: var(--bosc-indigo); }
+.btn--icon { display: inline-flex; align-items: center; gap: 0.4rem; }
 .nav-burger {
   display: none;
   cursor: pointer;
