@@ -17,13 +17,13 @@ const meetings = hasFeed("meetings") ? loadFeed<MeetingItem[]>("meetings") : [];
 
 // Door ids match the section's nav anchors so the rail (shown on leaf pages) resolves.
 const doors = [
-  { id: "documents", path: "/site/documents", href: "/site/documents/", count: num(nFiles), title: "Documents", desc: "Source-document catalog, grouped by collection — names, types, sizes, LFS status.", note: `${documents.length} collections` },
-  { id: "records", path: "/site/records", href: "/site/records/", count: num(count("records")), title: "Records", desc: "Structured record groups read from the corpus — deeds, permits, filings, plans, cost estimates.", note: "the per-record unit" },
-  { id: "timeline", path: "/site/timeline", href: "/site/timeline", count: num(timeline.length), title: "Timeline", desc: "Events in sequence — the spine the guided walk pays off into.", note: "cause → consequence" },
-  { id: "exhibits", path: "/site/exhibits", href: "/site/exhibits", count: num(count("exhibits")), title: "Exhibits", desc: "Curated, citable slices of the source record.", note: "downloadable" },
-  { id: "people", path: "/site/people", href: "/site/people/", count: num(count("people")), title: "People & places", desc: "Profiles — roles, affiliations, aliases, parcels, sources.", note: `${count("places")} places` },
-  { id: "legal", path: "/site/legal", href: "/site/legal", count: num(meetings.length), title: "Legal history", desc: "Meeting summaries, PRR & mandamus, and Select-Committee testimony.", note: "filings & analysis" },
-  { id: "reference", path: "/site/reference", href: "/site/reference/", count: num(REFERENCE.length), title: "Reference datasets", desc: "Authoritative external datasets, each documented with its provenance and gaps.", note: "EPA · USGS · BLS …" },
+  { id: "documents", kind: "Catalog", href: "/site/documents/", count: num(nFiles), title: "Documents", desc: "Source-document catalog, grouped by collection — names, types, sizes, LFS status.", note: `${documents.length} collections` },
+  { id: "records", kind: "Structured records", href: "/site/records/", count: num(count("records")), title: "Records", desc: "Structured record groups read from the corpus — deeds, permits, filings, plans, cost estimates.", note: "the per-record unit" },
+  { id: "timeline", kind: "Chronology", href: "/site/timeline", count: num(timeline.length), title: "Timeline", desc: "Events in sequence — the spine the guided walk pays off into.", note: "cause → consequence" },
+  { id: "exhibits", kind: "Curated excerpts", href: "/site/exhibits", count: num(count("exhibits")), title: "Exhibits", desc: "Curated, citable slices of the source record.", note: "downloadable" },
+  { id: "people", kind: "Profiles", href: "/site/people/", count: num(count("people")), title: "People & places", desc: "Profiles — roles, affiliations, aliases, parcels, sources.", note: `${count("places")} places` },
+  { id: "legal", kind: "Filings & analysis", href: "/site/legal", count: num(meetings.length), title: "Legal history", desc: "Meeting summaries, PRR & mandamus, and Select-Committee testimony.", note: "filings & analysis" },
+  { id: "reference", kind: "External data", href: "/site/reference/", count: num(REFERENCE.length), title: "Reference datasets", desc: "Authoritative external datasets, each documented with its provenance and gaps.", note: "EPA · USGS · BLS …" },
 ];
 ---
 
@@ -46,7 +46,7 @@ const doors = [
         doors.map((d) => (
           <a class="hub-door" id={d.id} href={withBase(d.href)}>
             <div class="hub-door-top">
-              <span class="hub-door-path">{d.path}</span>
+              <span class="hub-door-kind">{d.kind}</span>
               <span class="hub-door-count">{d.count}</span>
             </div>
             <div class="hub-door-title">{d.title}</div>

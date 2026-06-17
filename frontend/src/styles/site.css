@@ -1311,7 +1311,7 @@ a.walk-dot:hover { opacity: 0.82; }
 }
 .hub-door:hover { border-color: var(--td-tint-line); box-shadow: 0 6px 18px rgba(20, 24, 40, 0.1); }
 .hub-door-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; }
-.hub-door-path { font-size: 11px; letter-spacing: 0.9px; text-transform: uppercase; color: var(--td-chip-kind); font-weight: 700; }
+.hub-door-kind { font-size: 11px; letter-spacing: 0.9px; text-transform: uppercase; color: var(--td-chip-kind); font-weight: 700; }
 .hub-door-count { font-size: 1.1rem; font-weight: 700; font-family: var(--bosc-mono); letter-spacing: -0.4px; }
 .hub-door-title { font-size: 1.05rem; font-weight: 700; margin: 0.5rem 0 0.25rem; }
 .hub-door-desc { font-size: 0.84rem; color: var(--bosc-muted); line-height: 1.45; }
