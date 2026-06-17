@@ -24,7 +24,7 @@ cooling towers and the **1.8–1.9 L/kWh** WUE put the consumptive draw at **3.1
 MGD** — the [hydrology](HYDROLOGY.md) headline. `[verified via HYDROLOGY]`
 
 **Which workloads — the GovCloud question, substantially answered.** Asked directly
-about the campus, **Liz Schultz answered in indirect language — "classification
+about the campus, **Liz Schwab answered in indirect language — "classification
 levels"** — which is the tell: this is **regulated / classified-data compute**
 (GovCloud-style), not generic commercial hosting. GovCloud capacity carries a **~20–
 30% premium** over commercial, and the dedicated, hardened, anti-ram /
