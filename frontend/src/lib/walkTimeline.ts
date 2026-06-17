@@ -7,9 +7,12 @@
  *
  * The three dated milestones are present-checked against the live `timeline` feed
  * (`inFeed`) so the spine and the library read the same events — no fork. The
- * fourth beat is the customer reveal, carried as an **annotation, not a node**
- * (discipline: Google stays an annotation): its name appears in none of these
- * records and surfaces only later, by accident.
+ * fourth beat is the customer confirmation: the customer **is** Google
+ * (`[verified]` — the AEDG release, allencountydatacenter.com, Liz Schwab's
+ * committee testimony), and the sequence point is that it comes *last*, ~10 months
+ * after the NDA. In the entity graph Google is an **annotation, not a node** — a
+ * method choice (it's the customer, not a deal-mechanics party), not an open
+ * question.
  *
  * NOT client-safe (imports the node bundle loader); rendered SSR by
  * `WalkTimeline.astro`.
@@ -64,11 +67,11 @@ const SEQUENCE: Omit<SpineMilestone, "inFeed">[] = [
   },
   {
     date: "2026-03-16",
-    label: "Only now is the customer named — and only by the proponent",
+    label: "The customer is confirmed: Google",
     detail:
-      "AEDG's own release names Google (and a Google official, Molly Kocour Boyle) as the entity behind Project BOSC — the first public confirmation, ~10 months after the NDA. The name appears in none of the deal records themselves; it had already slipped out by accident in a sibling Delaware filing. Held here as an annotation, not a node.",
+      "Google is the data-center customer — [verified]: AEDG's release names a Google official (Molly Kocour Boyle), the allencountydatacenter.com community site launches, and Google testifies to the Ohio Select Committee (Liz Schwab). The point of the sequence is the timing — the public confirmation comes ~10 months after the NDA, last, not first. (In the entity graph Google is an annotation, not a node: it's the customer, not a party to the deal mechanics — a method choice, not an open question.)",
     kind: "reveal",
-    cite: "AEDG “Data Center Updates” release · 2026-03-16 · held as annotation, not a corpus node",
+    cite: "AEDG release 2026-03-16 (Molly Kocour Boyle) · allencountydatacenter.com · Liz Schwab (Google) committee testimony · annotation in the graph, not a node",
   },
 ];
 

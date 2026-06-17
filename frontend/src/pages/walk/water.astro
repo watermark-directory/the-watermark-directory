@@ -22,10 +22,14 @@ const STEP = 4;
 const prev = chapterByStep(STEP - 1);
 const next = chapterByStep(STEP + 1);
 
-// The dilution screen's data — feed-sourced draw model + cited seasonal floors.
+// The Water chapter's data — feed-sourced. Two stories the corpus keeps separate:
+// the [verified] discharge finding (the river is already effluent) and the
+// [inference] consumptive-loss scale (what the campus takes out of the basin).
 const dilution = buildDilution();
 const fmtMult = (m: number): string =>
   Number.isFinite(m) ? `${m >= 10 ? Math.round(m) : m.toFixed(1)}×` : "∞ (dry)";
+const effluentCfs = dilution.discharge.wwtpCfs + dilution.discharge.campusFm2Cfs;
+const naturalBarPct = Math.max(Math.round((dilution.discharge.naturalCfs / effluentCfs) * 100), 2);
 ---
 
 <Base
@@ -51,27 +55,70 @@ const fmtMult = (m: number): string =>
 
     <RecordTeardown record={NPDES_TEARDOWN} layout="split" />
 
+    <section class="walk-interactive" aria-label="The river is already effluent">
+      <h2 class="walk-explore-h">The river is already effluent</h2>
+      <div class="dil">
+        <div class="dil-head">
+          <strong>What the campus discharges into</strong>
+          <span class="dil-tag dil-tag--verified" title="Read directly from the Ohio EPA NPDES fact sheets (the feed's assimilative rows) and the cited water balance.">[verified] · fact-sheet discharge</span>
+        </div>
+        <p class="dil-framing">
+          Before the campus takes a drop, read what the river already carries. At design low flow the three
+          county WWTPs discharge <strong>{dilution.discharge.wwtpCfs} cfs</strong> of treated effluent into
+          streams whose <em>natural</em> low flow totals just <strong>{dilution.discharge.naturalCfs} cfs</strong> —
+          and the campus adds its own routed <strong>{dilution.discharge.campusFm2Cfs} cfs</strong> FM-2 discharge.
+          The Ottawa leaving Lima runs <strong>{dilution.discharge.effluentPct}% treated effluent</strong>, before
+          counting a drop of what the campus evaporates.
+        </p>
+        <div class="dil-bars">
+          <div class="dil-barrow">
+            <div class="dil-barlabel">Streams · natural low flow<span class="dil-barnum">{dilution.discharge.naturalCfs.toFixed(2)} cfs</span></div>
+            <div class="dil-track"><div class="dil-bar dil-bar--river" style={`width:${naturalBarPct}%`}></div></div>
+          </div>
+          <div class="dil-barrow">
+            <div class="dil-barlabel">Treated effluent · WWTP + campus<span class="dil-barnum">{effluentCfs.toFixed(2)} cfs</span></div>
+            <div class="dil-track"><div class="dil-bar dil-bar--draw" style="width:100%"></div></div>
+          </div>
+        </div>
+        <table class="dtable">
+          <caption>The three county WWTP discharges vs their receiving streams' cited 7Q10 — each already runs undiluted at design low flow.</caption>
+          <thead><tr><th scope="col">Discharger</th><th scope="col">Receiving stream</th><th scope="col">Discharge</th><th scope="col">7Q10</th></tr></thead>
+          <tbody>
+            {
+              dilution.discharge.rows.map((r) => (
+                <tr>
+                  <td>{r.discharger}</td>
+                  <td>{r.receiving}</td>
+                  <td>{r.dischargeCfs.toFixed(2)} cfs</td>
+                  <td>{r.lowFlowCfs.toFixed(2)} cfs</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <p class="dil-cite">⌖ {dilution.discharge.cite}</p>
+      </div>
+    </section>
+
     <div class="walk-prose">
       <p>
-        Now the campus draw. At full build its consumptive cooling load is on the
-        order of the Ottawa's entire design low flow — but read that comparison
-        carefully. It is a <strong>worst-case bound</strong>, not the operating
-        reality: Lima doesn't pump from the river at low flow, it lives off five
-        off-stream reservoirs filled at high flow. The honest constraint is
-        reservoir drawdown, and the honest tag on “the draw is many times the
-        7Q10” is <code>[inference]</code>, not <code>[verified]</code>. What is not
-        in question is the starting point this chapter's record establishes: the
-        water was already stretched thin.
+        That is what the campus discharges <em>into</em>. It also takes water <em>out</em> of the basin:
+        a data center cools by evaporation, and the water it gives back is not the water it takes. But
+        read the next comparison carefully — it is a <strong>worst-case bound</strong>, not the operating
+        reality. Lima doesn't pump from the river at low flow; it lives off five off-stream reservoirs
+        filled at high flow. So setting the campus's net loss against the Ottawa's low flow measures the
+        <em>scale</em> of the basin stress, not a withdrawal from the river — the honest tag is
+        <code>[inference]</code>, not <code>[verified]</code>.
       </p>
       <p>
-        And because the screen is built from live gauges, you don't have to take a
-        static number on faith — the hydrology dashboard re-runs it against the
-        Ottawa's current flow from USGS on every build.
+        And because the screen is built from live gauges, you don't have to take a static number on
+        faith — the hydrology dashboard re-runs it against the Ottawa's current flow from USGS on every
+        build.
       </p>
     </div>
 
-    <section class="walk-interactive" aria-label="The dilution screen">
-      <h2 class="walk-explore-h">Scrub the draw — watch it cross the river</h2>
+    <section class="walk-interactive" aria-label="What the campus takes out of the basin">
+      <h2 class="walk-explore-h">What the campus takes out of the basin</h2>
       <div class="dil-surface">
         <DilutionScreen client:only="react" data={dilution} />
         <noscript>
@@ -84,13 +131,13 @@ const fmtMult = (m: number): string =>
 
       <table class="dtable dil-table">
         <caption>
-          Net consumptive draw at full buildout (<strong>{dilution.drawAtBuildoutCfs.toFixed(2)} cfs</strong>,
-          from {dilution.maxCoolingMgd.toFixed(2)} MGD cooling × {dilution.consumptiveFraction} consumptive) against
-          the Ottawa's low-flow floors. The ratio is a worst-case bound — <code>[inference]</code>, the supply is
-          reservoir-buffered.
+          Net consumptive loss at full buildout (<strong>{dilution.drawAtBuildoutCfs.toFixed(2)} cfs</strong>,
+          from {dilution.maxCoolingMgd.toFixed(2)} MGD cooling × {dilution.consumptiveFraction} consumptive) as a
+          scale against the Ottawa's low-flow floors. The campus draws from reservoirs, not the river — a worst-case
+          bound, <code>[inference]</code>.
         </caption>
         <thead>
-          <tr><th scope="col">Season</th><th scope="col">Ottawa low flow</th><th scope="col">Draw ÷ low flow</th><th scope="col">Source</th></tr>
+          <tr><th scope="col">Season</th><th scope="col">Ottawa low flow</th><th scope="col">Loss ÷ low flow</th><th scope="col">Source</th></tr>
         </thead>
         <tbody>
           {

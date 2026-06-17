@@ -1,13 +1,14 @@
 /**
- * Dilution-screen island (#222) — "the river is effluent." Scrub the campus
- * cooling draw and the season, and watch the net **consumptive** draw cross the
- * Ottawa's low flow: ~24× the annual 7Q10, ~3× the summer 30Q10 (the seasonal
- * pinch), and against the driest-week 1Q10 (0 cfs) there is no river left to
- * dilute into. Mounted `client:only` over the page's SSR seasonal table; the
- * numbers are the build-time `DilutionData` (the hydrology feed's own — no fork).
+ * Consumptive-draw island (#222, corrected) — "what the campus takes out of the
+ * basin." Scrub the cooling draw and the season, and watch the net **consumptive
+ * loss** measured against the Ottawa's low flow: ~24× the annual 7Q10, ~3× the
+ * summer 30Q10 (the seasonal pinch), and more than the entire driest-week flow.
  *
- * Discipline: the draw-vs-low-flow ratio is a worst-case bound (Lima's supply is
- * reservoir-buffered), carried as [inference] — surfaced on the figure itself.
+ * IMPORTANT framing (the corrected pass): the campus draws from Lima's off-stream
+ * reservoirs, **not the Ottawa**, so this is a basin-scale *worst-case bound*,
+ * carried as `[inference]` — not a river withdrawal. What the campus discharges
+ * *into* the river is the separate, `[verified]` discharge finding rendered above
+ * this island (SSR). Numbers are the build-time `DilutionData` (feed's own — no fork).
  */
 import { useId, useState } from "react";
 import type { DilutionData, DilutionFloor } from "../../lib/dilution";
@@ -38,32 +39,37 @@ export default function DilutionScreen({ data }: { data: DilutionData }): JSX.El
     <div
       className="dil"
       role="figure"
-      aria-label="Interactive dilution screen: the campus consumptive cooling draw against the Ottawa River's low flow by season. The same figures are in the seasonal table on this page."
+      aria-label="Interactive basin-loss scale: the campus net consumptive loss against the Ottawa River's low flow by season. The campus draws from Lima's reservoirs, not the river. The same figures are in the seasonal table on this page."
     >
       <div className="dil-head">
-        <strong>The dilution screen</strong>
+        <strong>What the campus takes out of the basin</strong>
         <span
           className="dil-tag"
-          title="A withdrawal-vs-low-flow comparison is a worst-case bound — Lima's supply is reservoir-buffered, not a direct low-flow river abstraction."
+          title="The campus draws from Lima's off-stream reservoirs, not the Ottawa. Setting the net evaporative loss against the river's low flow is a basin-scale worst-case bound, not a river withdrawal."
         >
-          [inference] · worst-case bound
+          [inference] · basin-loss scale
         </span>
       </div>
+
+      <p className="dil-framing">
+        The campus draws from Lima's off-stream reservoirs, <strong>not the river</strong> — this sets its net
+        evaporative loss against the Ottawa's low flow as a <em>scale</em>, not a withdrawal.
+      </p>
 
       <div className="dil-bars">
         <div className="dil-barrow">
           <div className="dil-barlabel">
-            Ottawa · {floor.label}
+            Ottawa · {floor.label} low flow
             <span className="dil-barnum">{floor.cfs.toFixed(2)} cfs</span>
           </div>
           <div className="dil-track">
             <div className="dil-bar dil-bar--river" style={{ width: `${riverPct}%` }} />
-            {dry && <div className="dil-dry">dry — 0 cfs</div>}
+            {dry && <div className="dil-dry">≈ 0 cfs at 1Q10</div>}
           </div>
         </div>
         <div className="dil-barrow">
           <div className="dil-barlabel">
-            Campus consumptive draw
+            Campus net consumptive loss
             <span className="dil-barnum">{draw.toFixed(2)} cfs</span>
           </div>
           <div className="dil-track">
@@ -72,12 +78,14 @@ export default function DilutionScreen({ data }: { data: DilutionData }): JSX.El
         </div>
       </div>
 
-      <div className="dil-readout" role="status" aria-live="polite" aria-label="Dilution result">
-        <span className="dil-mult">{dry ? "there is no river" : `${fmtMult(multiple)} the river`}</span>
+      <div className="dil-readout" role="status" aria-live="polite" aria-label="Basin-loss scale result">
+        <span className="dil-mult">
+          {dry ? "more than the whole river" : `${fmtMult(multiple)} the river's low flow`}
+        </span>
         <span className="dil-readsub">
           {dry
-            ? "the draw exceeds the entire driest-week flow — nothing to dilute into"
-            : `the consumptive draw is ${fmtMult(multiple)} the Ottawa's ${floor.label.toLowerCase()}`}
+            ? "the basin loss exceeds the Ottawa's entire driest-week flow"
+            : `a permanent basin loss — ${fmtMult(multiple)} the Ottawa's ${floor.label.toLowerCase()}`}
         </span>
       </div>
 

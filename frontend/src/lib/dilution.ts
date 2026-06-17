@@ -1,21 +1,25 @@
 /**
- * Build-time data for the Water chapter's dilution screen (#222) — "the river is
- * effluent." The campus's net **consumptive** cooling draw, set against the
- * Ottawa River's low-flow floors, season by season.
+ * Build-time data for the Water chapter (#222, corrected pass). Two *distinct*
+ * water stories the corpus keeps separate (and an earlier draft conflated):
  *
- * The draw model is read from the `hydrology-scenarios` feed (the same numbers the
- * hydrology dashboard renders — no fork): the cited `buildout` scenario's cooling
- * demand, consumptive fraction, and resulting consumptive loss. The annual 7Q10
- * floor is the feed's `ottawa_7q10`; the seasonal floors (summer 30Q10, driest
- * 1Q10) are the cited values from `data/reference/hydrology/low-flow-7q10.yaml`.
+ *  1. **The discharge story — "the river is already effluent"** (`discharge`).
+ *     What the campus discharges *into*: at design low flow the county WWTP
+ *     discharges + the campus's routed FM-2 industrial discharge vastly exceed the
+ *     streams' natural low flow — the Ottawa leaving Lima runs ~93% treated
+ *     effluent. `[verified: document]` from the NPDES fact sheets (the feed's
+ *     `assimilative` rows) + the cited water balance.
+ *  2. **The consumptive-draw story** (`floors` + the draw model). What the campus
+ *     takes *out of the basin*: the net evaporative loss (feed `consumptive_loss`),
+ *     a permanent basin loss. The campus draws from Lima's **off-stream reservoirs
+ *     (filled at high flow), NOT the Ottawa** — so setting the loss against the
+ *     river's low flow is a basin-scale **worst-case bound**, carried as
+ *     `[inference]`, never a river withdrawal.
  *
- * NOT client-safe (imports the node bundle loader); the island consumes the plain
- * `DilutionData` object this returns, passed as a prop.
- *
- * Discipline: comparing a withdrawal to a stream's low flow is a **worst-case
- * bound** — Lima's supply is reservoir-buffered, not a direct low-flow river
- * abstraction — so the chapter carries the ratio as `[inference]`, not a record
- * read. The numbers here are real; the framing stays flagged.
+ * Figures come from the `hydrology-scenarios` feed (the same numbers the hydrology
+ * dashboard renders — no fork): the buildout cooling demand / consumptive fraction
+ * / consumptive loss, the assimilative discharge rows, and `ottawa_7q10`. The
+ * seasonal floors (summer 30Q10, driest 1Q10) and the campus FM-2 discharge are
+ * cited constants. NOT client-safe; the island consumes the plain `DilutionData`.
  */
 import { hasFeed, loadFeed } from "./bundle";
 import type { ScenarioResult } from "./feeds";
@@ -27,6 +31,35 @@ export interface DilutionFloor {
   cfs: number;
   cite: string;
   note?: string;
+}
+
+/** One WWTP discharge vs its receiving stream's design low flow (feed-sourced). */
+export interface DischargeRow {
+  discharger: string;
+  receiving: string;
+  dischargeCfs: number;
+  lowFlowCfs: number;
+}
+
+/**
+ * The DISCHARGE story — "the river is already effluent." At design low flow the
+ * county WWTP discharges (and the campus's own routed industrial discharge) vastly
+ * exceed the streams' natural low flow. This is what the campus discharges *into* —
+ * distinct from the consumptive draw, and `[verified: document]` from the fact
+ * sheets, not an inference.
+ */
+export interface DilutionDischarge {
+  /** WWTP discharges summed, cfs (from the feed's assimilative rows). */
+  wwtpCfs: number;
+  /** Natural low flow of the receiving streams summed, cfs (feed). */
+  naturalCfs: number;
+  /** The campus's routed FM-2 industrial discharge, cfs (cited; not in this feed). */
+  campusFm2Cfs: number;
+  /** Effluent share of the Ottawa leaving Lima at design low flow, % (derived). */
+  effluentPct: number;
+  /** Per-WWTP rows (feed). */
+  rows: DischargeRow[];
+  cite: string;
 }
 
 export interface DilutionData {
@@ -42,6 +75,8 @@ export interface DilutionData {
   ottawaLiveCfs: number | null;
   /** Receiving-stream low-flow floors: annual + the seasonal pinch (cited). */
   floors: DilutionFloor[];
+  /** The discharge story — what the campus discharges into (the river is effluent). */
+  discharge: DilutionDischarge;
   /** True when the buildout scenario resolved from the feed (else curated fallback). */
   fromFeed: boolean;
 }
@@ -52,6 +87,26 @@ const CFS_PER_MGD = 1.547;
 
 const OTTAWA_SEASONAL_CITE =
   "data/reference/hydrology/low-flow-7q10.yaml · Ottawa River context (Ohio EPA NPDES 2IG00001, USGS 04187100)";
+
+// The campus's routed FM-2 industrial discharge, cfs — the cited water-balance
+// figure (docs/HYDROLOGY.md §1); not carried in the hydrology-scenarios feed.
+const CAMPUS_FM2_CFS = 3.87;
+
+const round2 = (n: number): number => Math.round(n * 100) / 100;
+
+/** One row of the feed's `assimilative` array (mistyped as a scalar in feeds.ts). */
+interface AssimRow {
+  discharger?: string;
+  receiving_water?: string;
+  discharge?: { value: number | null };
+  design_low_flow?: { value: number | null };
+}
+
+const FALLBACK_DISCHARGE_ROWS: DischargeRow[] = [
+  { discharger: "Shawnee II WWTP", receiving: "Ottawa River", dischargeCfs: 4.64, lowFlowCfs: 0.2 },
+  { discharger: "American Bath WWTP", receiving: "Pike Run", dischargeCfs: 2.32, lowFlowCfs: 0.03 },
+  { discharger: "American II WWTP", receiving: "Dug Run", dischargeCfs: 1.86, lowFlowCfs: 0.78 },
+];
 
 export function buildDilution(): DilutionData {
   const scenarios = hasFeed("hydrology-scenarios") ? loadFeed<ScenarioResult[]>("hydrology-scenarios") : [];
@@ -90,6 +145,29 @@ export function buildDilution(): DilutionData {
     },
   ];
 
+  // The discharge story (the river is already effluent): WWTP discharges + the
+  // receiving streams' natural low flows from the feed's assimilative rows; the
+  // campus FM-2 routed discharge is the cited constant; the effluent share derives.
+  const assim = (buildout?.assimilative as unknown as AssimRow[] | undefined) ?? [];
+  const rows: DischargeRow[] = assim.map((a) => ({
+    discharger: a.discharger ?? "—",
+    receiving: a.receiving_water ?? "—",
+    dischargeCfs: round2(a.discharge?.value ?? 0),
+    lowFlowCfs: a.design_low_flow?.value ?? 0,
+  }));
+  const dischargeRows = rows.length > 0 ? rows : FALLBACK_DISCHARGE_ROWS;
+  const wwtpCfs = round2(dischargeRows.reduce((s, r) => s + r.dischargeCfs, 0));
+  const naturalCfs = round2(dischargeRows.reduce((s, r) => s + r.lowFlowCfs, 0));
+  const effluentCfs = wwtpCfs + CAMPUS_FM2_CFS;
+  const discharge: DilutionDischarge = {
+    wwtpCfs,
+    naturalCfs,
+    campusFm2Cfs: CAMPUS_FM2_CFS,
+    effluentPct: Math.round((effluentCfs / (effluentCfs + naturalCfs)) * 100),
+    rows: dischargeRows,
+    cite: "docs/HYDROLOGY.md §1 · feed assimilative (Ohio EPA NPDES fact sheets) + the cited campus FM-2 routed discharge",
+  };
+
   return {
     maxCoolingMgd,
     consumptiveFraction,
@@ -97,6 +175,7 @@ export function buildDilution(): DilutionData {
     drawAtBuildoutCfs,
     ottawaLiveCfs,
     floors,
+    discharge,
     fromFeed: !!buildout,
   };
 }

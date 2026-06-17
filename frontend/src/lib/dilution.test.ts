@@ -45,6 +45,14 @@ async function loadDilution(dir: string): Promise<typeof import("./dilution")> {
   return import("./dilution");
 }
 
+const assim = (discharger: string, receiving: string, discharge: number, lowFlow: number) => ({
+  discharger,
+  receiving_water: receiving,
+  discharge: pv(discharge),
+  design_low_flow: pv(lowFlow),
+  flag: "violation",
+});
+
 const BUILDOUT = {
   scenario: {
     name: "buildout",
@@ -55,7 +63,11 @@ const BUILDOUT = {
   ottawa_7q10: pv(0.2),
   ottawa_live: pv(36.3),
   balance: pv(0),
-  assimilative: pv(0),
+  assimilative: [
+    assim("Shawnee II WWTP", "Ottawa River", 4.641, 0.2),
+    assim("American Bath WWTP", "Pike Run", 2.3205, 0.03),
+    assim("American II WWTP", "Dug Run", 1.8564, 0.78),
+  ],
 };
 
 afterEach(() => {
@@ -103,5 +115,20 @@ describe("buildDilution — feed-sourced (no fork)", () => {
     expect(data.fromFeed).toBe(false);
     expect(data.maxCoolingMgd).toBeGreaterThan(0);
     expect(data.floors).toHaveLength(3);
+    // The discharge finding still resolves from the curated fallback rows.
+    expect(data.discharge.rows).toHaveLength(3);
+  });
+});
+
+describe("the discharge finding — the river is already effluent ([verified])", () => {
+  it("sums the WWTP discharges + natural low flows from the feed and derives the effluent share", async () => {
+    const { buildDilution } = await loadDilution(makeBundle([BUILDOUT]));
+    const { discharge } = buildDilution();
+    expect(discharge.wwtpCfs).toBeCloseTo(8.82, 2); // 4.64 + 2.32 + 1.86
+    expect(discharge.naturalCfs).toBeCloseTo(1.01, 2); // 0.2 + 0.03 + 0.78
+    expect(discharge.campusFm2Cfs).toBe(3.87); // cited water-balance constant, not in the feed
+    // (8.82 + 3.87) / (8.82 + 3.87 + 1.01) ≈ 93%
+    expect(discharge.effluentPct).toBe(93);
+    expect(discharge.rows).toHaveLength(3);
   });
 });
