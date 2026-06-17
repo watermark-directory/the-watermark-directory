@@ -11,7 +11,7 @@ const geoMapLayers = manifest.feeds.filter((f) => f.name.startsWith("geo/") && f
 
 interface Door {
   id: string;
-  path: string;
+  kind: string;
   href: string;
   count: string;
   title: string;
@@ -19,13 +19,13 @@ interface Door {
   note: string;
 }
 const doors: Door[] = [
-  { id: "hydrology", path: "/watershed/hydrology", href: "/watershed/hydrology", count: num(count("hydrology-scenarios")), title: "Hydrology", desc: "Water-balance / low-flow dilution screen — live flow vs the 7Q10 design low flow, and the headroom that remains.", note: "dashboard" },
-  { id: "map", path: "/watershed/map", href: "/watershed/map", count: num(geoMapLayers), title: "Watershed map", desc: "Typed GeoJSON layers on deck.gl + MapLibre — campus, corridor, floodway, WWTP, RSEI, watershed.", note: "interactive" },
-  { id: "imagery", path: "/watershed/imagery", href: "/watershed/imagery", count: "—", title: "Imagery", desc: "Dated Esri Wayback aerials over the campus AOI — before / during / after the buildout.", note: "before / after" },
-  { id: "rsei", path: "/watershed/rsei", href: "/watershed/rsei", count: num(count("geo/rsei")), title: "RSEI / toxics", desc: "EPA RSEI toxic-release inventory on the same reaches the campus discharges to.", note: "release sites" },
+  { id: "hydrology", kind: "Analysis", href: "/watershed/hydrology", count: num(count("hydrology-scenarios")), title: "Hydrology", desc: "Water-balance / low-flow dilution screen — live flow vs the 7Q10 design low flow, and the headroom that remains.", note: "dashboard" },
+  { id: "map", kind: "Interactive map", href: "/watershed/map", count: num(geoMapLayers), title: "Watershed map", desc: "Typed GeoJSON layers on deck.gl + MapLibre — campus, corridor, floodway, WWTP, RSEI, watershed.", note: "interactive" },
+  { id: "imagery", kind: "Aerial imagery", href: "/watershed/imagery", count: "—", title: "Imagery", desc: "Dated Esri Wayback aerials over the campus AOI — before / during / after the buildout.", note: "before / after" },
+  { id: "rsei", kind: "External data", href: "/watershed/rsei", count: num(count("geo/rsei")), title: "RSEI / toxics", desc: "EPA RSEI toxic-release inventory on the same reaches the campus discharges to.", note: "release sites" },
 ];
 if (hasFeed("economics-baseline")) {
-  doors.push({ id: "economics", path: "/watershed/economics-baseline", href: "/watershed/economics-baseline", count: "—", title: "Economics baseline", desc: "Localized BLS QCEW / Census employment baseline for the corridor.", note: "BLS · Census" });
+  doors.push({ id: "economics", kind: "Baseline data", href: "/watershed/economics-baseline", count: "—", title: "Economics baseline", desc: "Localized BLS QCEW / Census employment baseline for the corridor.", note: "BLS · Census" });
 }
 ---
 
@@ -47,7 +47,7 @@ if (hasFeed("economics-baseline")) {
         doors.map((d) => (
           <a class="hub-door" id={d.id} href={withBase(d.href)}>
             <div class="hub-door-top">
-              <span class="hub-door-path">{d.path}</span>
+              <span class="hub-door-kind">{d.kind}</span>
               <span class="hub-door-count">{d.count}</span>
             </div>
             <div class="hub-door-title">{d.title}</div>
