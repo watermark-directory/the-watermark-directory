@@ -2,8 +2,10 @@
 import type { GetStaticPaths } from "astro";
 import Base from "../../../layouts/Base.astro";
 import Provenance from "../../../components/Provenance.astro";
+import ProfileHeader from "../../../components/ProfileHeader.astro";
 import { hasFeed, loadFeed } from "../../../lib/bundle";
-import { paragraphs, slugify, type PersonItem } from "../../../lib/feeds";
+import { evidenceKind, paragraphs, slugify, type PersonItem } from "../../../lib/feeds";
+import type { ProfileAttr, ProfileHeaderData } from "../../../lib/profile";
 import { withBase } from "../../../lib/site";
 
 export const getStaticPaths: GetStaticPaths = () => {
@@ -15,26 +17,33 @@ interface Props {
   person: PersonItem;
 }
 const { person } = Astro.props;
+
+const attrs: ProfileAttr[] = [];
+if (person.roles.length) attrs.push({ label: "Roles", value: person.roles.join("; ") });
+if (person.affiliations.length) attrs.push({ label: "Affiliations", value: person.affiliations.join("; ") });
+
+const header: ProfileHeaderData = {
+  kindLabel: `Person${person.roles[0] ? ` · ${person.roles[0]}` : ""}`,
+  name: person.name,
+  variants: person.aliases,
+  descriptor: person.summary ?? undefined,
+  evidence: person.sources[0] ? evidenceKind(person.sources[0]) : "verified",
+  attrs: attrs.length ? attrs : undefined,
+  relLabel: "Linked entity",
+  relationships: person.entity_key
+    ? [{ kind: "entity", label: person.name, href: `${withBase("/wiki/entities/")}${slugify(person.entity_key)}/` }]
+    : undefined,
+  correctHref: withBase(
+    `/submit?ref_kind=person&ref_id=${encodeURIComponent(person.slug)}&ref_label=${encodeURIComponent(person.name)}`,
+  ),
+};
 ---
 
 <Base title={person.name} section="site" description={person.summary ?? undefined}>
-  <article class="prose">
-    <p><a href={withBase("/site/people/")}>← People &amp; places</a></p>
-    <h1>{person.name}</h1>
-    {person.summary && <p class="section-lead">{person.summary}</p>}
+  <p class="prose"><a href={withBase("/site/people/")}>← People &amp; places</a></p>
+  <ProfileHeader profile={header} />
 
-    {person.aliases.length > 0 && <p><strong>Also known as:</strong> {person.aliases.join(", ")}</p>}
-    {person.roles.length > 0 && <p><strong>Roles:</strong> {person.roles.join("; ")}</p>}
-    {person.affiliations.length > 0 && <p><strong>Affiliations:</strong> {person.affiliations.join("; ")}</p>}
-    {
-      person.entity_key && (
-        <p>
-          <a href={`${withBase("/wiki/entities/")}${slugify(person.entity_key)}/`}>
-            View in the entity graph →
-          </a>
-        </p>
-      )
-    }
+  <article class="prose">
     {
       person.tags.length > 0 && (
         <ul class="chips">

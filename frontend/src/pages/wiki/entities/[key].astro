@@ -1,8 +1,11 @@
 ---
 import type { GetStaticPaths } from "astro";
 import Base from "../../../layouts/Base.astro";
+import ProfileHeader from "../../../components/ProfileHeader.astro";
 import { hasFeed, loadFeed } from "../../../lib/bundle";
 import { slugify, type EntityNode, type PersonItem, type RelationshipEdge } from "../../../lib/feeds";
+import type { ProfileAttr, ProfileHeaderData, ProfileRel } from "../../../lib/profile";
+import type { FigureStatData } from "../../../lib/viz";
 import { withBase } from "../../../lib/site";
 
 export const getStaticPaths = (() => {
@@ -25,38 +28,46 @@ export const getStaticPaths = (() => {
 const { entity, outgoing, incoming, profiles, display } = Astro.props;
 const entUrl = (key: string): string => `${withBase("/wiki/entities/")}${slugify(key)}/`;
 const label = (key: string): string => display[key] ?? key;
-const identifiers: [string, string][] = [
-  ["LEI", entity.lei ?? ""],
-  ["UEI", entity.uei ?? ""],
-  [
-    "Federal obligations",
-    entity.federal_obligations != null ? `$${entity.federal_obligations.toLocaleString("en-US")}` : "",
-  ],
-].filter(([, v]) => v) as [string, string][];
+
+const roleTotal = Object.values(entity.roles ?? {}).reduce((a, b) => a + b, 0);
+const topRole = Object.entries(entity.roles ?? {}).sort((a, b) => b[1] - a[1])[0];
+
+const stats: FigureStatData[] = [];
+if (entity.parcels.length) stats.push({ label: "Parcels", value: String(entity.parcels.length), evidence: "verified" });
+if (roleTotal) stats.push({ label: "Record roles", value: String(roleTotal), evidence: "verified", sub: topRole ? `${topRole[0].replace(/_/g, " ")}` : undefined });
+if (entity.addresses.length) stats.push({ label: "Addresses", value: String(entity.addresses.length), evidence: "verified" });
+if (entity.federal_obligations != null)
+  stats.push({ label: "Federal obligations", value: `$${entity.federal_obligations.toLocaleString("en-US")}`, evidence: "verified" });
+
+const attrs: ProfileAttr[] = [];
+if (entity.classification) attrs.push({ label: "Classification", value: entity.classification, tag: "verified" });
+if (entity.signals?.length) attrs.push({ label: "Signals", value: entity.signals.join(", "), tag: "inference" });
+if (entity.lei) attrs.push({ label: "LEI", value: entity.lei, tag: "verified" });
+if (entity.uei) attrs.push({ label: "UEI", value: entity.uei, tag: "verified" });
+
+const rels: ProfileRel[] = outgoing.slice(0, 5).map((r) => ({ kind: r.rel, label: label(r.dst), href: entUrl(r.dst) }));
+
+const header: ProfileHeaderData = {
+  kindLabel: `Entity · ${entity.kind}`,
+  name: entity.display,
+  variants: entity.variants.filter((v) => v.toLowerCase() !== entity.display.toLowerCase()).slice(0, 3),
+  evidence: entity.signals?.length ? "inference" : "verified",
+  graphHref: withBase(`/wiki/graph#${slugify(entity.key)}`),
+  stats: stats.length ? stats : undefined,
+  attrs: attrs.length ? attrs : undefined,
+  relLabel: "Graph neighborhood",
+  relationships: rels.length ? rels : undefined,
+  correctHref: withBase(
+    `/submit?ref_kind=entity&ref_id=${encodeURIComponent(entity.key)}&ref_label=${encodeURIComponent(entity.display)}`,
+  ),
+};
 ---
 
 <Base title={entity.display} section="wiki">
+  <p class="prose"><a href={withBase("/wiki/entities/")}>← Entities</a></p>
+  <ProfileHeader profile={header} />
+
   <article class="prose">
-    <p><a href={withBase("/wiki/entities/")}>← Entities</a></p>
-    <h1>{entity.display}</h1>
-    <p class="section-lead">{entity.kind}{entity.classification ? ` · ${entity.classification}` : ""}</p>
-
-    {entity.variants.length > 1 && <p><strong>Name variants:</strong> {entity.variants.join(", ")}</p>}
-    {entity.parcels.length > 0 && <p><strong>Parcels ({entity.parcels.length}):</strong> {entity.parcels.join(", ")}</p>}
-    {entity.addresses.length > 0 && <p><strong>Addresses:</strong> {entity.addresses.join("; ")}</p>}
-    {
-      identifiers.length > 0 && (
-        <dl class="fields">
-          {identifiers.map(([k, v]) => (
-            <>
-              <dt>{k}</dt>
-              <dd>{v}</dd>
-            </>
-          ))}
-        </dl>
-      )
-    }
-
     <h2 id="neighborhood">Graph neighborhood</h2>
     {
       outgoing.length === 0 && incoming.length === 0 ? (
