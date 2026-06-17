@@ -4,6 +4,7 @@ import FigureStat from "../../components/FigureStat.astro";
 import { hasFeed, loadFeed } from "../../lib/bundle";
 import type { ProvenancedValue, ScenarioResult } from "../../lib/feeds";
 import type { FigureStatData } from "../../lib/viz";
+import { withBase } from "../../lib/site";
 
 const scenarios = hasFeed("hydrology-scenarios")
   ? loadFeed<ScenarioResult[]>("hydrology-scenarios")
@@ -36,6 +37,11 @@ const toStat = (label: string, v: ProvenancedValue, neg?: boolean): FigureStatDa
       the 7Q10 design low flow, and the assimilative headroom that remains. Live
       gauge and permit figures are <strong>grounded</strong>; scenario draws are
       labelled assumptions.
+    </p>
+    <p class="card-meta">
+      A written walk-through of this screen — including the newly document-sourced
+      sanitary figures — is in the
+      <a href={withBase("/site/legal/water-balance-screen")}>water-balance assimilative screen</a> memo.
     </p>
 
     {scenarios.length === 0 && <p class="stub-note">No hydrology-scenarios feed in this bundle.</p>}

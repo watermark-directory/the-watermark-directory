@@ -42,6 +42,7 @@ const legal = defineCollection({
       "legal/corpus-completeness-audit.md",
       "legal/web-vendor-audit/*.md",
       "commissioners/README.md",
+      "commissioners/bosc-water-balance.analysis.md",
     ],
     base: "../data/extracted",
     generateId: ({ entry }) => LEGAL.find((r) => r.repo === entry)?.slug ?? entry,

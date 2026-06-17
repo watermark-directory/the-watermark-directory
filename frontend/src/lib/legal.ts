@@ -25,6 +25,7 @@ const SELECT = "Select Committee on Data Centers (2026)";
 const PRR = "PRR & mandamus";
 const AUDITS = "Audits";
 const GOV = "County governance";
+const ANALYSIS = "Analysis";
 
 export const LEGAL: LegalDoc[] = [
   {
@@ -117,6 +118,14 @@ export const LEGAL: LegalDoc[] = [
     title: "Commissioners minutes & resolutions",
     group: GOV,
     blurb: "The Allen County Commissioners legislative record — minutes and resolutions.",
+  },
+  {
+    repo: "commissioners/bosc-water-balance.analysis.md",
+    slug: "water-balance-screen",
+    title: "Water balance — assimilative screen",
+    group: ANALYSIS,
+    blurb:
+      "The Tier-0 water balance + 7Q10 low-flow assimilative screen: all three County receiving streams already fail the dilution screen at design flow, before any data-center load.",
   },
 ];
 
