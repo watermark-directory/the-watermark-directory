@@ -22,7 +22,8 @@ const groups = LEGAL_GROUPS.filter((g) => docs.some((d) => d.group === g));
     <p class="section-lead">
       The governance and litigation record: the Select-Committee testimony and hearing
       transcripts, the PRR &amp; mandamus analyses, the corpus-completeness and web-vendor
-      audits, the commissioners record, and the corridor-relevant meeting summaries.
+      audits, the commissioners record, the water-balance assimilative screen, and the
+      corridor-relevant meeting summaries.
     </p>
     <p>
       Narrative analyses: <a href={withBase("/docs/legal/mandamus-analysis")}>mandamus analysis</a> ·
@@ -69,6 +70,21 @@ const groups = LEGAL_GROUPS.filter((g) => docs.some((d) => d.group === g));
                 <li>{d}</li>
               ))}
             </ul>
+          )}
+          {m.parties.length > 0 && (
+            <p class="card-meta">
+              <strong>Parties:</strong> {m.parties.join(", ")}
+            </p>
+          )}
+          {m.parcels.length > 0 && (
+            <p class="card-meta">
+              <strong>Parcels:</strong> {m.parcels.join(", ")}
+            </p>
+          )}
+          {m.dollar_figures.length > 0 && (
+            <p class="card-meta">
+              <strong>Dollar figures:</strong> {m.dollar_figures.join(" · ")}
+            </p>
           )}
           <Provenance citation={m.citation} />
         </div>
