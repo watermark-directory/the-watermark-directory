@@ -20,7 +20,7 @@ const { Content, headings } = await render(entry);
 const toc = headings.filter((h) => h.depth === 2).map((h) => ({ anchor: h.slug, label: h.text }));
 ---
 
-<Base title={doc.title} section={doc.section} description={doc.blurb} toc={toc}>
+<Base title={doc.title} section={doc.section} description={doc.blurb} toc={toc} ogType="article">
   <article class="prose">
     <p><a href={withBase(section.href)}>← {section.label}</a> · <a href={withBase("/docs/")}>All narrative</a></p>
     <Content />

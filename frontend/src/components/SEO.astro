@@ -1,0 +1,62 @@
+---
+/**
+ * Per-page head metadata: description, canonical, Open Graph, Twitter Card, and
+ * a site-wide WebSite JSON-LD node. Rendered once by `Base.astro` from the
+ * page's `title`/`description`.
+ *
+ * Absolute URLs (canonical, og:url, the WebSite node) need the deploy origin,
+ * which only exists in production builds — `SITE_URL` → astro `site` →
+ * `Astro.site` (see astro.config.ts and .github/workflows/pages.yml). Locally
+ * and in CI it's undefined, so those tags are omitted and the share image falls
+ * back to a base-relative path; everything lights up once `SITE_URL` is wired.
+ */
+import { SITE_NAME, SITE_TAGLINE, withBase } from "../lib/site";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Root-absolute path to the share image. */
+  image?: string;
+  /** og:type — "website" for hubs/most pages, "article" for docs essays. */
+  type?: "website" | "article";
+}
+const { title, description, image = "/og-default.png", type = "website" } = Astro.props;
+
+const site = Astro.site;
+const canonical = site ? new URL(Astro.url.pathname, site).href : undefined;
+const imagePath = withBase(image);
+const imageUrl = site ? new URL(imagePath, site).href : imagePath;
+const imageAlt = `${SITE_NAME} — ${SITE_TAGLINE}`;
+
+const jsonLd = site
+  ? {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: site.href,
+      description,
+      inLanguage: "en-US",
+    }
+  : null;
+---
+
+<meta name="description" content={description} />
+{canonical && <link rel="canonical" href={canonical} />}
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={canonical} />}
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+{jsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />}
