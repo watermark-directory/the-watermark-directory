@@ -11,6 +11,7 @@
     "check": "astro check && npm run check:functions",
     "check:functions": "tsc -p functions/tsconfig.json",
     "check:links": "node scripts/check-links.mjs",
+    "test": "vitest run",
     "astro": "astro"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
     "typescript": "^5.7.0",
-    "unist-util-visit": "^5.1.0"
+    "unist-util-visit": "^5.1.0",
+    "vitest": "^4.1.9"
   }
 }
