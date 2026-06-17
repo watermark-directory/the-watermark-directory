@@ -6,7 +6,7 @@
  */
 import type { TagKind } from "./teardown";
 import { evidenceKind, slugify, type RecordItem } from "./feeds";
-import { fieldToString, groupLabel, isApproximate } from "./records";
+import { formatScalar, groupLabel, isApproximate, isStructured, withApproxMark } from "./records";
 import { walkAnchorFor } from "./walk";
 import { withBase } from "./site";
 
@@ -15,6 +15,15 @@ export interface BlockField {
   value: string;
   warn?: boolean;
   tag?: TagKind;
+}
+
+/** A structured (object/array) field, rendered as a hierarchy by `FieldValue`. */
+export interface NestedField {
+  label: string;
+  /** The raw value (object/array), rendered recursively. */
+  value: unknown;
+  /** Dotted base path (the field key) for approximate-marker lookup. */
+  path: string;
 }
 
 export interface BlockSeenIn {
@@ -34,7 +43,12 @@ export interface LibraryRecord {
   /** Headline figure shown in compact density. */
   headlineValue?: string;
   headlineWarn?: boolean;
+  /** Scalar fields — the flat label/value grid. */
   fields: BlockField[];
+  /** Structured (object/array) fields — rendered as a hierarchy. */
+  nested: NestedField[];
+  /** The record's `~` approximate paths, for marking nested leaves. */
+  approxPaths: string[];
   warnings: string[];
   source: { file: string; pages: string; collection: string };
   verify?: { label: string; href: string };
@@ -57,11 +71,18 @@ function relRecordId(rel: string): string {
 
 /** Map a live `records`-feed row onto the Record Block shape. */
 export function recordToBlock(r: RecordItem): LibraryRecord {
-  const fields: BlockField[] = Object.entries(r.fields).map(([k, v]) => ({
-    label: k,
-    value: fieldToString(v),
-    warn: isApproximate(r, k),
-  }));
+  // Scalars render as the flat grid; structured values become a hierarchy (the
+  // legacy SSG's bullet tree), never a `JSON.stringify` blob.
+  const fields: BlockField[] = [];
+  const nested: NestedField[] = [];
+  for (const [k, v] of Object.entries(r.fields)) {
+    if (isStructured(v)) {
+      nested.push({ label: k, value: v, path: k });
+    } else {
+      const approx = isApproximate(r, k);
+      fields.push({ label: k, value: withApproxMark(formatScalar(v), approx), warn: approx });
+    }
+  }
   const anchor = walkAnchorFor(r.rel);
   const c = r.citation;
   return {
@@ -74,6 +95,8 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
       ? { ch: anchor.ch, label: anchor.label, href: withBase(`/walk/${anchor.slug}`) }
       : undefined,
     fields,
+    nested,
+    approxPaths: r.approximate_paths,
     warnings: r.warnings,
     source: {
       file: c.source ?? r.rel,

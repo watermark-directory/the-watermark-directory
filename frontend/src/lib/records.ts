@@ -24,15 +24,35 @@ export function groupsOf(records: RecordItem[]): string[] {
   return ordered;
 }
 
-/** Flatten one raw field value to a display string. */
-export function fieldToString(value: unknown): string {
+/**
+ * Whether a value is a *structured* field — a non-empty object or array, which
+ * renders as a hierarchy (the `FieldValue` component, mirroring the legacy SSG's
+ * bullet tree) rather than a flat cell. Scalars (incl. empty containers) are not.
+ */
+export function isStructured(value: unknown): boolean {
+  if (Array.isArray(value)) return value.length > 0;
+  return value !== null && typeof value === "object" && Object.keys(value as object).length > 0;
+}
+
+/** Format one scalar field value for display (mirrors the legacy `_fmt_scalar`). */
+export function formatScalar(value: unknown): string {
   if (value == null) return "—";
-  if (Array.isArray(value)) return value.map(fieldToString).join("; ");
-  if (typeof value === "object") return JSON.stringify(value);
+  if (typeof value === "boolean") return value ? "yes" : "no";
+  if (Array.isArray(value)) return value.length ? value.map(formatScalar).join("; ") : "—";
+  if (typeof value === "object") return Object.keys(value as object).length ? "{…}" : "—";
   return String(value);
 }
 
 /** Whether a top-level field carried the `~` approximate marker. */
 export function isApproximate(record: RecordItem, key: string): boolean {
   return record.approximate_paths.some((p) => p === key || p.startsWith(`${key}.`));
+}
+
+/**
+ * Prepend the `~` approximate marker — but only when the value doesn't already
+ * carry one (some values keep the marker inline in the source, and are *also*
+ * listed in `approximate_paths`; don't double it to `~~`).
+ */
+export function withApproxMark(text: string, approx: boolean): string {
+  return approx && !text.startsWith("~") ? `~${text}` : text;
 }

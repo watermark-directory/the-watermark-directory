@@ -9,6 +9,7 @@
  */
 import type { LibraryRecord } from "../lib/recordBlock";
 import EvidenceTag from "./EvidenceTag.astro";
+import FieldValue from "./FieldValue.astro";
 
 interface Props {
   record: LibraryRecord;
@@ -51,6 +52,17 @@ const { record: r, density = "full" } = Astro.props;
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {r.nested.length > 0 && (
+        <div class="rb-nested">
+          {r.nested.map((n) => (
+            <div class="rb-nested-block">
+              <div class="rb-nested-label">{n.label}</div>
+              <FieldValue value={n.value} path={n.path} approx={r.approxPaths} />
+            </div>
+          ))}
         </div>
       )}
 
