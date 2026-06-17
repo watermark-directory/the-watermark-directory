@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import rehypeDocLinks from "./src/lib/rehype-doc-links";
 
 // Static build (the default). `site`/`base` come from the environment so the
@@ -13,11 +14,19 @@ import rehypeDocLinks from "./src/lib/rehype-doc-links";
 // The rehype plugin rewrites the migrated `docs/` narrative's in-repo links into
 // the new IA (issue #69) without editing the source — see rehype-doc-links.ts.
 const base = process.env.BASE_PATH || "";
+const site = process.env.SITE_URL || undefined;
 
 export default defineConfig({
-  site: process.env.SITE_URL || undefined,
+  site,
   base: process.env.BASE_PATH || undefined,
-  integrations: [react(), mdx()],
+  // The sitemap needs an absolute `site`; only register it in production builds
+  // where SITE_URL is set (locally / in CI it'd warn and emit nothing useful).
+  // `teardown-showcase` is an orphaned internal preview board, not content.
+  integrations: [
+    react(),
+    mdx(),
+    ...(site ? [sitemap({ filter: (page) => !page.includes("/site/teardown-showcase") })] : []),
+  ],
   markdown: {
     // Shiki's default theme is github-dark; the site chrome is light (and
     // `.prose pre` styles a light code block), so pin a light theme so fenced

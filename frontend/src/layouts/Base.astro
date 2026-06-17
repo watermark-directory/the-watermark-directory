@@ -2,6 +2,7 @@
 import Header from "../components/Header.astro";
 import Icon from "../components/Icon.astro";
 import Logo from "../components/Logo.astro";
+import SEO from "../components/SEO.astro";
 import SectionToc from "../components/SectionToc.astro";
 import { SECTIONS, type SectionId, type TocEntry } from "../lib/nav";
 import { SITE_NAME, SITE_DESCRIPTION, withBase } from "../lib/site";
@@ -16,6 +17,8 @@ interface BaseProps {
   /** Page-local table of contents — anchors on THIS page. The rail is a TOC for
    *  the page you're on, never section navigation; it shows only when non-empty. */
   toc?: TocEntry[];
+  /** og:type — defaults to "website"; docs essays pass "article". */
+  ogType?: "website" | "article";
 }
 
 // `.astro` pages pass these props directly; `.mdx` pages using `layout:` pass
@@ -27,6 +30,7 @@ const {
   section = "home",
   rail = true,
   toc = [],
+  ogType = "website",
 } = raw.frontmatter ?? raw;
 const showRail = rail !== false && toc.length > 0;
 ---
@@ -37,9 +41,9 @@ const showRail = rail !== false && toc.length > 0;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
     <title>{title === SITE_NAME ? title : `${title} · ${SITE_NAME}`}</title>
+    <SEO title={title} description={description} type={ogType} />
   </head>
   <body>
     <input
