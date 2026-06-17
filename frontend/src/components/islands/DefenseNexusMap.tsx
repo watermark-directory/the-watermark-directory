@@ -1,0 +1,202 @@
+/**
+ * Defense-nexus map (#233 interactive layer). The campus footprint and the JSMC
+ * (US-owned) footprint on one deck.gl map, with the **measured gap between them**
+ * drawn as a neutral dimension line — not an arrow, not a flow. The whole point of
+ * the companion essay is that geographic proximity is not a connection; this makes
+ * the proximity literal (you can see the city between them) and the distance exact
+ * (computed from the cited parcels, ~5.5 mi), so neither the prose nor the picture
+ * can quietly upgrade adjacency into a finding.
+ *
+ * Three fact tabs (geography / capability / silence) shift the map's emphasis and
+ * the readout; the "silence" tab puts the empty gap front and centre — the measured
+ * distance with nothing drawn across it, because the record draws nothing across it.
+ *
+ * Mounted client:only over the page's SSR fallback table (no-JS readable). Data is
+ * the build-time `DefenseNexusData` prop; the island imports only the types.
+ */
+import { useMemo, useState } from "react";
+import DeckGL from "@deck.gl/react";
+import type { Layer } from "@deck.gl/core";
+import { GeoJsonLayer, LineLayer, ScatterplotLayer, TextLayer } from "@deck.gl/layers";
+import { Map } from "react-map-gl/maplibre";
+import type { FeatureCollection } from "geojson";
+import "maplibre-gl/dist/maplibre-gl.css";
+import { rgba, type GeoFeature, type GeoProps } from "../../lib/geoStyle";
+import type { DefenseNexusData, DnEmphasis, DnFactKey } from "../../lib/defenseNexus";
+import { rasterTileLayer } from "./rasterTile";
+
+const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
+const GAP = [96, 102, 120] as const; // neutral slate — a ruler, not a relationship
+
+function footprint(
+  key: "campus" | "jsmc",
+  features: GeoFeature[],
+  alpha: number,
+  emphasized: boolean,
+): GeoJsonLayer<GeoProps> {
+  const data: FeatureCollection = {
+    type: "FeatureCollection",
+    features: features.filter((f) => f.properties.layer === key),
+  };
+  return new GeoJsonLayer<GeoProps>({
+    id: `dn-${key}`,
+    data,
+    pickable: true,
+    stroked: true,
+    filled: true,
+    getFillColor: (f) => rgba((f as GeoFeature).properties.color, alpha),
+    getLineColor: (f) => rgba((f as GeoFeature).properties.color, 255),
+    lineWidthUnits: "pixels",
+    getLineWidth: emphasized ? 2.5 : 1.5,
+    updateTriggers: { getFillColor: alpha, getLineWidth: emphasized },
+  });
+}
+
+export default function DefenseNexusMap({ data }: { data: DefenseNexusData }): JSX.Element {
+  const [active, setActive] = useState<DnFactKey>("geography");
+  const [basemap, setBasemap] = useState<"imagery" | "street">("imagery");
+
+  const fact = data.facts.find((f) => f.key === active) ?? data.facts[0];
+  const emphasis: DnEmphasis = fact?.emphasis ?? "gap";
+  const features = data.geo.features as unknown as GeoFeature[];
+  const [a, b] = data.metrics.nearestPair;
+  const mid: [number, number] = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+  const gapOn = emphasis === "gap";
+
+  const layers = useMemo(() => {
+    const out: Layer[] = [];
+    if (basemap === "imagery") out.push(rasterTileLayer(ESRI));
+    out.push(footprint("jsmc", features, emphasis === "jsmc" ? 165 : 70, emphasis === "jsmc"));
+    out.push(footprint("campus", features, emphasis === "campus" ? 165 : 70, emphasis === "campus"));
+    // The measured gap: a single neutral dimension line + end ticks + a label.
+    out.push(
+      new LineLayer({
+        id: "dn-gap-line",
+        data: [{ from: a, to: b }],
+        getSourcePosition: (d) => d.from,
+        getTargetPosition: (d) => d.to,
+        getColor: [...GAP, gapOn ? 255 : 170],
+        getWidth: gapOn ? 3 : 1.5,
+        widthUnits: "pixels",
+      }),
+      new ScatterplotLayer({
+        id: "dn-gap-ends",
+        data: [a, b],
+        getPosition: (d) => d,
+        getRadius: gapOn ? 5 : 3.5,
+        radiusUnits: "pixels",
+        getFillColor: [...GAP, 255],
+        stroked: true,
+        getLineColor: [255, 255, 255, 255],
+        lineWidthUnits: "pixels",
+        getLineWidth: 1.5,
+      }),
+      new TextLayer({
+        id: "dn-gap-label",
+        data: [{ position: mid, text: `~${data.metrics.nearestMi.toFixed(1)} mi` }],
+        getPosition: (d) => d.position,
+        getText: (d) => d.text,
+        getSize: 13,
+        getColor: [38, 42, 58, 255],
+        getPixelOffset: [0, -12],
+        background: true,
+        getBackgroundColor: [255, 255, 255, 235],
+        backgroundPadding: [6, 3, 6, 3],
+        fontFamily: "ui-monospace, monospace",
+        fontWeight: 700,
+        characterSet: "auto",
+      }),
+    );
+    return out;
+  }, [features, emphasis, basemap, gapOn, a, b, mid, data.metrics.nearestMi]);
+
+  return (
+    <div className="dn">
+      <div
+        className="deck-surface dn-map"
+        role="figure"
+        aria-label="Interactive map: the data-center campus footprint and the JSMC (US-owned) footprint, with the measured gap between them. The same facts and figures are in the table on this page."
+      >
+        <DeckGL
+          initialViewState={{ ...data.view, pitch: 0, bearing: 0 }}
+          controller
+          layers={layers}
+          getTooltip={({ object }) =>
+            (object as GeoFeature)?.properties?.label
+              ? { html: (object as GeoFeature).properties.label as string }
+              : null
+          }
+        >
+          <Map mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json" />
+        </DeckGL>
+
+        <div className="deck-controls dn-controls">
+          <strong>Basemap</strong>
+          {(["imagery", "street"] as const).map((k) => (
+            <label key={k}>
+              <input type="radio" name="dn-basemap" checked={basemap === k} onChange={() => setBasemap(k)} />{" "}
+              {k}
+            </label>
+          ))}
+          <div className="dn-key">
+            <span className="dn-key-row">
+              <span className="dn-swatch" style={{ background: "#3f51b5" }} /> Campus (Bistrozzi LLC)
+            </span>
+            <span className="dn-key-row">
+              <span className="dn-swatch" style={{ background: "#6d4c41" }} /> JSMC (UNITED STATES)
+            </span>
+            <span className="dn-key-row">
+              <span className="dn-rule" /> measured gap
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="dn-tabs" role="group" aria-label="The three confirmed facts">
+        {data.facts.map((f) => (
+          <button
+            key={f.key}
+            type="button"
+            className={`dn-tab${f.key === active ? " is-active" : ""}`}
+            aria-pressed={f.key === active}
+            onClick={() => setActive(f.key)}
+          >
+            {f.tab}
+          </button>
+        ))}
+      </div>
+
+      <div className="dn-detail" role="status" aria-live="polite">
+        <div className="dn-detail-head">
+          <h3 className="dn-detail-title">{fact?.title}</h3>
+          <span className="td-tag td-tag--verified">[verified]</span>
+        </div>
+        <p className="dn-detail-body">{fact?.body}</p>
+        <p className="dn-cite">{fact?.cite}</p>
+      </div>
+
+      <div className="dn-metrics" aria-hidden="true">
+        <span className="dn-metric">
+          <strong>~{data.metrics.nearestMi.toFixed(1)} mi</strong> nearest parcels
+        </span>
+        <span className="dn-metric">
+          <strong>~{data.metrics.centroidMi.toFixed(1)} mi</strong> center to center
+        </span>
+        <span className="dn-metric">
+          <strong>~{Math.round(data.metrics.jsmcAcres)} ac</strong> JSMC, US-owned
+        </span>
+      </div>
+
+      <div className="dn-readout">
+        <div className="dn-readout-row">
+          <span className="td-tag td-tag--verified">[verified]</span>
+          <span>{data.readout.verified}</span>
+        </div>
+        <div className="dn-readout-row">
+          <span className="td-tag td-tag--open">[open]</span>
+          <span>{data.readout.open}</span>
+        </div>
+      </div>
+    </div>
+  );
+}

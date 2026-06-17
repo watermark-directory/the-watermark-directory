@@ -1,0 +1,139 @@
+---
+/**
+ * The defense nexus — the interactive companion to the full report
+ * (docs/defense-nexus.md, #258). The essay holds one discipline: geographic
+ * adjacency, a capability, and a named market segment are an *inferred* connection,
+ * never a finding. The map makes that literal — the campus footprint and the JSMC
+ * (US-owned) footprint with the gap between them measured off the cited parcels
+ * (~5.5 mi, not the "two miles" the prose first reached for). Reuses the walk's
+ * island-over-SSR pattern; pays off into the full cited essay.
+ */
+import Base from "../../layouts/Base.astro";
+import DefenseNexusMap from "../../components/islands/DefenseNexusMap.tsx";
+import { buildDefenseNexus } from "../../lib/defenseNexus";
+import { withBase } from "../../lib/site";
+
+const dn = buildDefenseNexus();
+const m = dn.metrics;
+---
+
+<Base
+  title="The defense nexus"
+  section="reports"
+  description="A federal plant a few miles from the campus, a developer cleared to SECRET, an industry that hosts the CIA — three true facts that don't, combined, make a finding. Map the footprints, measure the gap, hold the question open."
+>
+  <div class="walk-chapter-page">
+    <article class="prose">
+      <p><a href={withBase("/reports")}>← Reports</a></p>
+      <div class="walk-chapter-eyebrow">Extension narrative · #233</div>
+      <h1 class="walk-chapter-h1">What the corridor shows, and what it can't</h1>
+      <p class="section-lead">
+        There is a defense installation near the campus, the developer has the
+        credentials to do defense work, and an industry witness told a state committee
+        that hosting the government is a normal line of business. Each of those is
+        <strong>true</strong>. None of them — alone or together — shows that the Lima
+        campus does defense work. The map below holds both at once: the facts are real,
+        and the gap between them is <em>{dn.available ? `${m.nearestMi.toFixed(1)} measured miles` : "real distance"}</em>
+        of city, drawn but never crossed.
+      </p>
+    </article>
+
+    {
+      dn.available && (
+        <section class="walk-interactive" aria-label="The campus and JSMC footprints, and the measured gap">
+          <h2 class="walk-explore-h">Three facts, one map — pick one and read what it does and doesn't reach</h2>
+          <div class="dn-surface">
+            <DefenseNexusMap client:only="react" data={dn} />
+            <noscript>
+              <div class="dil-noscript">
+                The map needs JavaScript — the same facts, footprints and the measured
+                gap are in the table below.
+              </div>
+            </noscript>
+          </div>
+        </section>
+      )
+    }
+
+    {/* Plain-text fallback. Open by default so no-JS readers get the content immediately;
+        the inline script collapses it when JS is present so it doesn't double the island. */}
+    <details open class="dn-fallback" id="dn-fallback">
+      <summary class="dn-fallback-summary">The three facts in plain text — and the measured gap</summary>
+      <table class="dtable dn-table">
+        <caption>
+          Each row is <code>[verified]</code>. None of them, and not their sum, is a
+          connection — that stays <code>[open]</code>.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">What's confirmed</th>
+            <th scope="col">What it actually is</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            dn.facts.map((f) => (
+              <tr>
+                <td>
+                  <strong>{f.title}</strong>
+                  <span class="dn-td-cite">{f.cite}</span>
+                </td>
+                <td>{f.body}</td>
+              </tr>
+            ))
+          }
+          {
+            dn.available && (
+              <tr>
+                <td>
+                  <strong>The measured gap</strong>
+                  <span class="dn-td-cite">computed from geo/campus + geo/jsmc</span>
+                </td>
+                <td>
+                  Nearest parcels <strong>~{m.nearestMi.toFixed(1)} mi</strong> apart; centers
+                  <strong> ~{m.centroidMi.toFixed(1)} mi</strong>. The JSMC footprint is
+                  {" "}~{Math.round(m.jsmcAcres)} acres across {m.jsmcParcels} US-owned parcels.
+                  The campus and the plant share a city and a corridor study area — not
+                  adjoining land.
+                </td>
+              </tr>
+            )
+          }
+        </tbody>
+      </table>
+    </details>
+    {dn.available && (
+      <script is:inline>
+        document.getElementById("dn-fallback")?.removeAttribute("open");
+      </script>
+    )}
+
+    <div class="callout callout--open">
+      <p class="callout-title">Where this stops</p>
+      <p>
+        A defense nexus is not a finding of this record. It is a question the record
+        raises by what it contains — a federal plant down the corridor, a developer
+        cleared to SECRET, a procurement order, an industry that hosts the CIA — and
+        cannot answer by what it withholds. What would actually close it is one
+        disclosable fact: the facility's FedRAMP / DoD authorization posture. It is not
+        in the record, and may stay behind classification and the “no records” wall.
+        The honest end is the open one.
+      </p>
+    </div>
+
+    <article class="prose">
+      <p>
+        This is the short, interactive version. The full report walks every claim to its
+        source — the IL-6 credential, the AWS testimony naming the Department of War and
+        the CIA, Executive Order 14265, the relator's own framing of the thread as
+        “likely speculative,” and why the “no records” response forecloses one avenue
+        without proving the connection absent or present.
+      </p>
+      <p>
+        <a class="btn btn--icon" href={withBase("/docs/defense-nexus")}>
+          Read the full report →
+        </a>
+      </p>
+    </article>
+  </div>
+</Base>

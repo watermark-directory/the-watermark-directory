@@ -23,6 +23,7 @@ const published = ORDER.map((s) => bySlug.get(s)).filter((d): d is NonNullable<t
 // (the companion links onward to the full cited text).
 const INTERACTIVE: Record<string, string> = {
   "end-use-and-workloads": "/reports/end-use-and-workloads",
+  "defense-nexus": "/reports/defense-nexus",
 };
 const reportHref = (slug: string): string => INTERACTIVE[slug] ?? `/docs/${slug}`;
 
