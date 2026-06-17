@@ -2,26 +2,45 @@
 layout: ../layouts/Base.astro
 title: "About"
 section: home
-description: "MDX smoke page proving the content pipeline renders."
+description: "How Project BOSC reads the public record: source → read → meaning → verify."
 ---
 
-# About this scaffold
+# About Project BOSC
 
-This page is **MDX** — Markdown with components — rendered by
-[`@astrojs/mdx`](https://docs.astro.build/en/guides/integrations-guide/mdx/).
-Its presence proves the MDX toolchain is wired end to end.
+Project BOSC reconstructs the public record behind a contested data-center
+project in Lima, Ohio — built by a Delaware shell for an end user later confirmed
+to be Google — and publishes it so anyone can check it. The record was kept
+deliberately thin; reassembling it in the open, with provenance on every figure,
+is the work.
 
-Project BOSC is an agentic research platform that deconstructs public-records
-source documents into reviewed structured data. This redesigned site (Epic #54)
-reads the committed **content bundle** — the typed JSON feeds the Python data
-tier emits — and renders four sections:
+## The method — four steps, every figure
 
-- **A. Home / About** — landing, disclaimer, methodology, the bigger picture
-- **B. The BOSC site** — documents, records, timeline, exhibits, people & places
-- **C. The Maumee watershed** — hydrology dashboards, watershed map, imagery
-- **D. Wiki** — entity & concept pages with backlinks and a graph neighborhood
+<div class="callout callout--note">
+  <p class="callout-title">Source → read → meaning → verify</p>
+  <p>
+    1. <strong>Source</strong> — a primary document (a deed, a permit, a fact sheet),
+    cited by file and page.
+    2. <strong>Read</strong> — read from the <em>image</em>, not the unreliable OCR text
+    layer, into a typed, schema-validated record.
+    3. <strong>Meaning</strong> — said plainly, with the load-bearing number called out.
+    4. <strong>Verify</strong> — a link back to the source, so you never take our word for it.
+  </p>
+</div>
 
-Narrative pages like this one migrate into a proper MDX content collection in
-issue #69; the four sections land in #65–#68.
+## The provenance promise
 
-[← Back to Home](/)
+- **Every figure carries a source and an evidence tag.** `[verified]` is read from a
+  cited record; `[inference]` is a labelled reading of it; `[open]` marks what's
+  withheld or unresolved.
+- **Inference is never dressed as fact.** Registered-agent and organizer overlaps are
+  *common-control plumbing* — evidence of coordination, not a verdict on ownership.
+- **Redactions are shown, not hidden.** Where a figure is sealed as a trade secret,
+  the redaction itself is part of the record.
+- **Nothing here is legal advice, and nothing here is a verdict.** Verify every figure
+  against its cited source before quoting it.
+
+## Two ways in
+
+[**Take the guided walk →**](/start) — the story in five chapters, each anchored to a
+real record. · [**Browse the archive →**](/site/) — the full reference library: documents,
+records, the timeline, entities, and the watershed.

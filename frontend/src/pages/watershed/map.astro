@@ -59,20 +59,28 @@ const mapSrc = withBase("/feeds/geo/corridor-map.geojson");
     </ul>
 
     <h2>Features</h2>
+  </article>
+  <div class="dtable">
     <table>
       <thead>
-        <tr><th>Layer</th><th>Feature</th></tr>
+        <tr>
+          <th>Layer</th>
+          <th>Feature</th>
+        </tr>
       </thead>
       <tbody>
         {
           features.map((f) => (
             <tr>
-              <td>{layerLabel(f.properties.layer)}</td>
+              <td>
+                <span class="dswatch" style={`background:${legend.find((l) => l.layer === f.properties.layer)?.color ?? "#787882"}`} />
+                {layerLabel(f.properties.layer)}
+              </td>
               <td>{stripHtml(f.properties.label)}</td>
             </tr>
           ))
         }
       </tbody>
     </table>
-  </article>
+  </div>
 </Base>
