@@ -24,6 +24,7 @@ interface SimNode extends SimulationNodeDatum {
   slug: string;
   display: string;
   kind: string;
+  relationClass: string | null;
   degree: number;
 }
 interface SimLink extends SimulationLinkDatum<SimNode> {
@@ -35,6 +36,7 @@ export interface GraphNode {
   slug: string;
   display: string;
   kind: string;
+  relationClass: string | null;
   degree: number;
   x: number;
   y: number;
@@ -59,6 +61,7 @@ export function buildGraph(): GraphData {
     slug: slugify(e.key),
     display: e.display,
     kind: e.kind,
+    relationClass: e.relation_class ?? null,
     degree: 0,
   }));
   const byId = new Map(nodes.map((n) => [n.id, n]));
@@ -93,6 +96,7 @@ export function buildGraph(): GraphData {
       slug: n.slug,
       display: n.display,
       kind: n.kind,
+      relationClass: n.relationClass,
       degree: n.degree,
       x: Math.round((n.x ?? 0) * 100) / 100,
       y: Math.round((n.y ?? 0) * 100) / 100,
