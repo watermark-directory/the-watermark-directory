@@ -9,6 +9,8 @@ import { withBase } from "../../lib/site";
 const ORDER = [
   "end-use-and-workloads",
   "defense-nexus",
+  "toxics-and-the-corridor",
+  "the-load-and-the-grid",
   "dossier",
   "hydrology",
   "economics",
@@ -28,17 +30,10 @@ const INTERACTIVE: Record<string, string> = {
 const reportHref = (slug: string): string => INTERACTIVE[slug] ?? `/docs/${slug}`;
 
 // Forthcoming: the extension narratives tracked in epic #233 — deeper dives that the
-// corpus is being assembled to support. Carried here as drafting, not findings.
-const forthcoming = [
-  {
-    title: "Toxics & the hydrology corridor",
-    blurb: "The RSEI toxics picture set against the basin's water balance and assimilative capacity.",
-  },
-  {
-    title: "Behind-the-meter power & the grid",
-    blurb: "The ~313 MW load story — BYONG, the grid interconnection, and load-not-jobs.",
-  },
-];
+// corpus is being assembled to support. Carried here as drafting, not findings. The
+// four originally scoped (end-use, defense, toxics, grid) are now all published above;
+// any further #233 threads land back here as drafting cards before they ship.
+const forthcoming: { title: string; blurb: string }[] = [];
 ---
 
 <Base
@@ -71,23 +66,27 @@ const forthcoming = [
     }
   </div>
 
-  <h2 class="walk-explore-h">In progress — extension narratives</h2>
-  <article class="prose">
-    <p>
-      Deeper dives the corpus is being assembled to support, tracked in epic #233. Listed
-      here as <strong>drafting</strong> — open threads, not findings.
-    </p>
-  </article>
-  <div class="doors">
-    {
-      forthcoming.map((r) => (
-        <div class="door door--draft">
-          <span class="door-label">
-            {r.title} <span class="mf-tag mf-tag--open">[drafting]</span>
-          </span>
-          <span class="door-blurb">{r.blurb}</span>
+  {
+    forthcoming.length > 0 && (
+      <>
+        <h2 class="walk-explore-h">In progress — extension narratives</h2>
+        <article class="prose">
+          <p>
+            Deeper dives the corpus is being assembled to support, tracked in epic #233.
+            Listed here as <strong>drafting</strong> — open threads, not findings.
+          </p>
+        </article>
+        <div class="doors">
+          {forthcoming.map((r) => (
+            <div class="door door--draft">
+              <span class="door-label">
+                {r.title} <span class="mf-tag mf-tag--open">[drafting]</span>
+              </span>
+              <span class="door-blurb">{r.blurb}</span>
+            </div>
+          ))}
         </div>
-      ))
-    }
-  </div>
+      </>
+    )
+  }
 </Base>
