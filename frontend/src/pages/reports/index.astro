@@ -18,6 +18,13 @@ const ORDER = [
 const bySlug = new Map(NARRATIVE.map((d) => [d.slug, d]));
 const published = ORDER.map((s) => bySlug.get(s)).filter((d): d is NonNullable<typeof d> => Boolean(d));
 
+// Reports with an interactive companion page link there instead of the plain essay
+// (the companion links onward to the full cited text).
+const INTERACTIVE: Record<string, string> = {
+  "end-use-and-workloads": "/reports/end-use-and-workloads",
+};
+const reportHref = (slug: string): string => INTERACTIVE[slug] ?? `/docs/${slug}`;
+
 // Forthcoming: the extension narratives tracked in epic #233 — deeper dives that the
 // corpus is being assembled to support. Carried here as drafting, not findings.
 const forthcoming = [
@@ -56,8 +63,11 @@ const forthcoming = [
   <div class="doors">
     {
       published.map((d) => (
-        <a class="door" href={withBase(`/docs/${d.slug}`)}>
-          <span class="door-label">{d.title}</span>
+        <a class="door" href={withBase(reportHref(d.slug))}>
+          <span class="door-label">
+            {d.title}
+            {INTERACTIVE[d.slug] && <span class="door-badge">interactive</span>}
+          </span>
           <span class="door-blurb">{d.blurb}</span>
         </a>
       ))
