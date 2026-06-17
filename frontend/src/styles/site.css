@@ -1311,6 +1311,14 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .eu-table { margin-top: 14px; }
 .eu-table caption { caption-side: top; text-align: left; font-size: 12px; color: var(--td-faint); line-height: 1.5; margin-bottom: 8px; }
 .eu-td-tag { display: block; font-size: 11px; color: var(--td-faint); margin-top: 2px; }
+.eu-fallback { margin-top: 10px; }
+.eu-fallback > summary { cursor: pointer; font-size: 12.5px; color: var(--td-faint); padding: 4px 0; list-style: none; user-select: none; }
+.eu-fallback > summary::-webkit-details-marker { display: none; }
+.eu-fallback > summary::before { content: "▸ "; color: var(--bosc-indigo); }
+.eu-fallback[open] > summary::before { content: "▾ "; }
+.eu-fallback > summary:hover { color: var(--bosc-ink); }
+.eu-fallback[open] > summary { margin-bottom: 6px; }
+.eu-fallback > summary:focus-visible { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; border-radius: 4px; }
 @media (max-width: 640px) { .eu-tabs { grid-template-columns: 1fr 1fr; } .eu-attrs { grid-template-columns: 1fr; } .eu-access { flex-direction: column; } }
 @media (prefers-reduced-motion: reduce) { .eu-tab { transition: none; } }
 
