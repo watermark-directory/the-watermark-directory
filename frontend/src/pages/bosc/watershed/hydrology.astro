@@ -1,6 +1,7 @@
 ---
 import Base from "../../../layouts/Base.astro";
 import FigureStat from "../../../components/FigureStat.astro";
+import BulletChart from "../../../components/charts/BulletChart.astro";
 import { hasFeed, loadFeed } from "../../../lib/bundle";
 import type { ProvenancedValue, ScenarioResult } from "../../../lib/feeds";
 import type { FigureStatData } from "../../../lib/viz";
@@ -26,6 +27,19 @@ const toStat = (label: string, v: ProvenancedValue, neg?: boolean): FigureStatDa
   sub: v.citation ?? v.source ?? undefined,
   warn: neg,
 });
+
+// Headline screen (#306): the worst-case scenario by *modeled* consumptive draw — picked
+// from the data, not by name — against the river's grounded 7Q10 design low flow. The
+// bullet keeps each row's own evidence register: the draw is inferred (amber), the design
+// low flow is document-grounded (verified). Drawn straight from the feed; no fork.
+const worst =
+  scenarios.length > 0
+    ? scenarios.reduce((a, b) => ((b.consumptive_loss.value ?? 0) > (a.consumptive_loss.value ?? 0) ? b : a))
+    : null;
+const drawV = worst?.consumptive_loss ?? null;
+const lowV = worst?.ottawa_7q10 ?? null;
+const showScreen = worst != null && (drawV?.value ?? 0) > 0 && (lowV?.value ?? 0) > 0;
+const drawRatio = showScreen ? Math.round((drawV!.value as number) / (lowV!.value as number)) : 0;
 ---
 
 <Base title="Hydrology" section="watershed">
@@ -43,6 +57,33 @@ const toStat = (label: string, v: ProvenancedValue, neg?: boolean): FigureStatDa
       sanitary figures — is in the
       <a href={withBase("/bosc/site/legal/water-balance-screen")}>water-balance assimilative screen</a> memo.
     </p>
+
+    {
+      showScreen && drawV && lowV && worst && (
+        <BulletChart
+          kicker="Bullet · draw vs design low flow"
+          title={`At the 7Q10 design low flow, the ${worst.scenario.name} cooling draw dwarfs the river`}
+          scaleLabel="scale · cubic feet per second"
+          unit="cfs"
+          rows={[
+            {
+              label: `Consumptive draw · ${worst.scenario.name}`,
+              value: drawV.value as number,
+              fill: "#b46e00",
+              evidence: grounded(drawV) ? "verified" : "inference",
+              evidenceNote: drawV.citation ?? drawV.source ?? undefined,
+            },
+            {
+              label: "Ottawa 7Q10 design low flow",
+              value: lowV.value as number,
+              evidence: grounded(lowV) ? "verified" : "inference",
+              evidenceNote: lowV.citation ?? lowV.source ?? undefined,
+            },
+          ]}
+          note={`The modeled ${worst.scenario.name} cooling draw (${fmt(drawV)}) is about ${drawRatio}× the Ottawa's 7Q10 design low flow (${fmt(lowV)}) — the drought flow Ohio writes discharge permits at. Live flow today (${fmt(worst.ottawa_live)}) is far higher, but the screen is written for the dry floor.`}
+        />
+      )
+    }
 
     {scenarios.length === 0 && <p class="stub-note">No hydrology-scenarios feed in this bundle.</p>}
 
