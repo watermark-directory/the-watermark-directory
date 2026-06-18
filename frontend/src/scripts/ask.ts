@@ -45,7 +45,9 @@ if (form && input && statusEl && answerEl && sourcesEl) {
   }
 
   const showEmpty = (): void => {
-    setStatus("", "");
+    // Announce the outcome in the live status region too — the answer area isn't a live
+    // region, so a screen reader that heard "Searching…" needs this to learn it resolved.
+    setStatus("No answer found in the record.", "info");
     sourcesEl.innerHTML = "";
     answerEl.innerHTML =
       '<p class="ask-empty">The record doesn\'t answer that. ' +
@@ -60,7 +62,8 @@ if (form && input && statusEl && answerEl && sourcesEl) {
       showEmpty();
       return;
     }
-    setStatus("", "");
+    // Announce completion (same a11y reason as showEmpty) and nudge toward verification.
+    setStatus("Answer ready — verify each citation.", "ok");
     answerEl.innerHTML = renderAnswer(a, citations, base);
     sourcesEl.innerHTML = renderSources(citations, base);
     answerEl.hidden = false;
@@ -72,7 +75,8 @@ if (form && input && statusEl && answerEl && sourcesEl) {
     const decoder = new TextDecoder();
     let buffer = "";
     let full = "";
-    setStatus("", "");
+    let started = false; // first delta seen — keep "Searching…" up until tokens flow
+    let terminal = false; // a `done` or `error` event was handled
     answerEl.hidden = false;
     for (;;) {
       const { done, value } = await reader.read();
@@ -85,20 +89,39 @@ if (form && input && statusEl && answerEl && sourcesEl) {
           try {
             full += (JSON.parse(ev.data) as { text?: string }).text ?? "";
           } catch {}
+          if (!started) {
+            started = true;
+            setStatus("", ""); // clear the progress note only once an answer is arriving
+          }
           answerEl.textContent = full; // escaped + live; re-rendered with citations at done
         } else if (ev.event === "done") {
+          terminal = true;
           let d: AskDone = {};
           try {
             d = JSON.parse(ev.data) as AskDone;
           } catch {}
           renderFinal(full, d.citations ?? [], d.refused);
         } else if (ev.event === "error") {
+          terminal = true;
           let msg = "Couldn't answer your question.";
           try {
             msg = (JSON.parse(ev.data) as { error?: string }).error ?? msg;
           } catch {}
           setStatus(`Couldn't answer: ${msg}`, "err");
         }
+      }
+    }
+    // The stream closed without a terminal event (e.g. the connection dropped). Don't leave
+    // a half-rendered answer with raw [n] markers: format what arrived and flag it incomplete.
+    if (!terminal) {
+      const a = full.trim();
+      if (a) {
+        answerEl.innerHTML = renderAnswer(a, [], base);
+        sourcesEl.innerHTML = "";
+        answerEl.hidden = false;
+        setStatus("The connection ended before the answer finished — it may be incomplete.", "err");
+      } else {
+        setStatus("The connection ended before any answer arrived. Please try again.", "err");
       }
     }
   };
