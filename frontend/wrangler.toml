@@ -7,9 +7,10 @@
 # (Python) before `npm run build`, which that build can't run.
 #
 # Secrets (TIPS_APP_ID, TIPS_APP_PRIVATE_KEY, TURNSTILE_SECRET_KEY, ANTHROPIC_API_KEY)
-# and the kill switches (SUBMISSIONS_ENABLED, ASK_ENABLED) are set in the Cloudflare
-# dashboard, NOT here: secrets never go in wrangler.toml, and the kill switches must stay
-# operator-flippable without a redeploy. See docs/submissions-api.md and docs/ask-api.md.
+# and the kill switches (SUBMISSIONS_ENABLED, ASK_ENABLED, DOCS_ENABLED) are set in the
+# Cloudflare dashboard, NOT here: secrets never go in wrangler.toml, and the kill switches
+# must stay operator-flippable without a redeploy. See docs/submissions-api.md,
+# docs/ask-api.md, and docs/object-store.md.
 
 name = "bosc"
 pages_build_output_dir = "dist"
@@ -50,3 +51,16 @@ GITHUB_REPO = "bosc"
 # [[kv_namespaces]]
 # binding = "ASK_RATE_LIMIT"
 # id = "<namespace-id>"
+
+# --- Source documents object store (/api/doc, Epic #274) --------------------------
+# R2 bucket holding the corpus bytes that the /api/doc Pages Function (#278) streams.
+# Populated by `bosc objectstore sync` (#279). The DOCS_ENABLED kill switch lives in the
+# dashboard (ships dark — unset/"false" → /api/doc returns 503), mirroring the other
+# endpoints. Create the buckets once (prod + a distinct dev bucket for wrangler preview):
+#   npx wrangler r2 bucket create bosc-documents
+#   npx wrangler r2 bucket create bosc-documents-dev
+# See docs/object-store.md for the full runbook (S3 credentials, the sync tool, dev loop).
+[[r2_buckets]]
+binding = "DOCS"
+bucket_name = "bosc-documents"
+preview_bucket_name = "bosc-documents-dev"

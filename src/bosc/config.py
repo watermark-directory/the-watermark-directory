@@ -206,6 +206,23 @@ class Settings(BaseSettings):
     # empty means catalog-only (the default).
     documents_mirror_base_url: str = ""
 
+    # --- Source-document object store (epic #274, B) -----------------------
+    # Cloudflare R2 (S3-compatible) holds the corpus bytes that the /api/doc Pages
+    # Function (B2 / #278) streams; `bosc objectstore sync` (B3 / #279) uploads
+    # data/documents/** here. The access key id + secret are S3 API tokens — supplied
+    # via the environment (BOSC_DOCUMENTS_OBJECT_STORE_*), NEVER committed. Empty
+    # credentials mean the sync tool is unconfigured (it errors with a clear message);
+    # the catalog/export still build. `endpoint` overrides the derived R2 host for a
+    # local S3 (minio) or tests.
+    documents_object_store_account_id: str = ""  # R2 account id → endpoint host
+    documents_object_store_bucket: str = "bosc-documents"  # prod (--target remote)
+    documents_object_store_dev_bucket: str = "bosc-documents-dev"  # dev (--target local)
+    documents_object_store_access_key_id: str = ""
+    documents_object_store_secret_access_key: str = ""
+    documents_object_store_endpoint: str = (
+        ""  # override; else https://<account>.r2.cloudflarestorage.com
+    )
+
     # --- Paths -------------------------------------------------------------
     data_dir: Path = _REPO_ROOT / "data"
 
