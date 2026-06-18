@@ -3,7 +3,7 @@ import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
 import { NAV_TABS, navItemActive, type SectionId } from "../lib/nav";
 import { withBase } from "../lib/site";
-import { activeSite, SITES, siteBadge } from "../lib/sites";
+import { siteForPath, SITES, siteBadge } from "../lib/sites";
 
 interface Props {
   active: SectionId;
@@ -14,7 +14,11 @@ const base = import.meta.env.BASE_URL || "/";
 
 // The BOSC network switcher (#304). The mark opens a no-JS <details> menu of sites; only
 // the live reference build (Lima) is switchable — the rest route to their coming-soon page.
-const here = activeSite();
+// The *current* site is resolved from this page's route (#316), so the lockup shows where
+// you are — not a constant. `null` = the network hub / cross-cutting globals (neutral state).
+const here = siteForPath(Astro.url.pathname, base);
+const herePlace = here ? here.place : "network";
+const hereLabel = here ? `current site: ${here.place}` : "network overview";
 const statusMeta: Record<string, { label: string; cls: string }> = {
   live: { label: "Live", cls: "is-live" },
   onboarding: { label: "Onboarding", cls: "is-onboarding" },
@@ -25,9 +29,9 @@ const statusMeta: Record<string, { label: string; cls: string }> = {
 <header class="topbar">
   <label for="bosc-nav-toggle" class="nav-burger" aria-label="Toggle navigation"><Icon name="menu" size={22} /></label>
   <details class="site-switcher">
-    <summary class="brand" aria-label={`The BOSC network — current site: ${here.place}`}>
+    <summary class="brand" aria-label={`The BOSC network — ${hereLabel}`}>
       <Logo size={26} class="brand-mark" />
-      <span class="brand-word"><strong>BOSC</strong> <span class="brand-tagline">{here.place}</span></span>
+      <span class="brand-word"><strong>BOSC</strong> <span class="brand-tagline">{herePlace}</span></span>
       <span class="switcher-caret" aria-hidden="true">▾</span>
     </summary>
     <div class="switcher-menu">
@@ -38,7 +42,7 @@ const statusMeta: Record<string, { label: string; cls: string }> = {
       {
         SITES.map((s) => {
           const meta = statusMeta[s.status];
-          const isActive = s.slug === here.slug;
+          const isActive = here !== null && s.slug === here.slug;
           return (
             <a
               class:list={["switcher-row", { "is-active": isActive, "is-soon": !s.selectable }]}
