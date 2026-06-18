@@ -41,6 +41,10 @@ export const ICONS: Record<string, IconDef> = {
   secure: {
     body: '<path d="M12 3.5 L19 6 V11.4 C19 16 15.8 19.1 12 20.5 C8.2 19.1 5 16 5 11.4 V6 Z"/><path d="M9 12 L11.2 14.2 L15.2 9.9"/>',
   },
+  // The conversational front door — the Ask topbar affordance.
+  ask: {
+    body: '<path d="M4 6.5 A2.2 2.2 0 0 1 6.2 4.3 H17.8 A2.2 2.2 0 0 1 20 6.5 V13 A2.2 2.2 0 0 1 17.8 15.2 H9.5 L5.5 18.7 V15.2 A2.2 2.2 0 0 1 4 13 Z"/>',
+  },
 
   // ---- records & sources ----
   document: {
