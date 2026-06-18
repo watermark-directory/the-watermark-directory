@@ -14,10 +14,12 @@ from claude_agent_sdk import AssistantMessage, ResultMessage, TextBlock, ToolUse
 
 from bosc.agent import client as client_mod
 from bosc.agent import tools
-from bosc.agent.client import ResearchAgent
+from bosc.agent.client import DEFAULT_SYSTEM_PROMPT, RESEARCH_SKILLS, ResearchAgent
 from bosc.config import Settings
 from bosc.models import Estimate, PageExtraction
 from bosc.pipeline.extract import save_extraction
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 # --- tools -----------------------------------------------------------------
@@ -74,6 +76,40 @@ async def test_reconcile_estimate_happy_path(
     text = out["content"][0]["text"]
     assert "line-item-rollup" in text
     assert "XX" not in text  # everything ties out
+
+
+# --- agent configuration: discipline prompt + skills (#247) ----------------
+def test_options_wire_the_discipline_prompt_and_research_skills() -> None:
+    opts = ResearchAgent()._options()
+    # The discipline prompt replaced the stale "roadwork program" framing.
+    assert "roadwork program" not in opts.system_prompt
+    assert "Evidentiary discipline is the organizing constraint" in opts.system_prompt
+    # The read-only research skill subset, loaded from the project's .claude/skills/.
+    assert opts.skills == RESEARCH_SKILLS
+    assert opts.setting_sources == ["project"]
+    # Setting `skills` lets the SDK add the `Skill` tool itself — our allowlist stays the
+    # 14 read-only BOSC tools (no Bash/Write/etc. leak in).
+    assert opts.allowed_tools == tools.ALLOWED_TOOL_NAMES
+    assert len(tools.ALLOWED_TOOL_NAMES) == 14
+
+
+def test_held_back_skills_are_not_active() -> None:
+    # The authoring/legal/production skills stay out of the read-only research surface.
+    for held in (
+        "investigative-writing-and-editorial",
+        "public-records-and-legal-strategy",
+        "document-production-and-ocr",
+    ):
+        assert held not in RESEARCH_SKILLS
+
+
+def test_system_prompt_asset_mirrors_the_method_doc() -> None:
+    # The packaged runtime prompt and the investigative-method doc must not drift.
+    doc = (REPO_ROOT / "docs" / "investigative-method" / "SYSTEM_PROMPT.md").read_text(
+        encoding="utf-8"
+    )
+    doc_body = doc.split("\n---\n", 1)[1].strip()
+    assert doc_body == DEFAULT_SYSTEM_PROMPT.strip()
 
 
 # --- ResearchAgent.converse ------------------------------------------------
