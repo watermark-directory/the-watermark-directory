@@ -66,6 +66,9 @@ def version() -> None:
 def onboard_cmd(
     slug: str = typer.Argument(..., help="Site slug; must be registered in bosc.sites.SITES."),
     offline: bool = typer.Option(False, "--offline", help="Use cached/committed fixtures only."),
+    dry_run: bool = typer.Option(
+        False, "--dry-run", help="Preview the plan (steps + target paths); write nothing."
+    ),
 ) -> None:
     """Onboard a watershed-point site: scaffold per-site data + run the reach connectors.
 
@@ -80,9 +83,14 @@ def onboard_cmd(
             f"unknown site {slug!r}; known: {sorted(SITES)}", param_hint="slug"
         )
     settings = Settings(site=slug, hydro_offline=offline)
-    report = onboard_site(settings=settings)
+    try:
+        report = onboard_site(settings=settings, dry_run=dry_run)
+    except ValueError as exc:  # e.g. per-site output paths collide with another site
+        console.print(f"[red]Cannot onboard {slug}:[/] {exc}")
+        raise typer.Exit(1) from exc
 
-    console.print(f"[bold]Onboarding {report.place}[/] ({report.slug} · {report.basin})\n")
+    banner = " [dim](dry run — nothing written)[/]" if dry_run else ""
+    console.print(f"[bold]Onboarding {report.place}[/] ({report.slug} · {report.basin}){banner}\n")
     table = Table("step", "status", "output")
     colors = {"ok": "green", "dry-run": "yellow", "skipped": "yellow", "error": "red"}
     for s in report.steps:

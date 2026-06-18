@@ -32,7 +32,7 @@ from bosc.hydrology.connectors._cache import HydroOfflineError
 from bosc.hydrology.connectors.nasa_power import fetch_climatology
 from bosc.hydrology.connectors.ssurgo import dominant_hsg
 from bosc.logging import get_logger
-from bosc.sites import active_profile
+from bosc.sites import SiteProfile, active_profile, output_path_collisions
 
 log = get_logger(__name__)
 
@@ -86,11 +86,11 @@ def _readme_body(place: str, slug: str, basin: str, purpose: str) -> str:
     )
 
 
-def scaffold_dirs(settings: Settings) -> tuple[list[str], list[str]]:
+def scaffold_dirs(settings: Settings, *, dry_run: bool = False) -> tuple[list[str], list[str]]:
     """Create the per-site data dirs + a README in each (idempotent).
 
-    Returns ``(dirs, readmes_written)`` as data_dir-relative paths; an existing README is
-    left untouched.
+    Returns ``(dirs, readmes_to_write)`` as data_dir-relative paths; an existing README is
+    left untouched. With ``dry_run`` nothing is created — it just reports what *would* land.
     """
     prof = active_profile(settings)
     slug = prof.slug
@@ -102,11 +102,15 @@ def scaffold_dirs(settings: Settings) -> tuple[list[str], list[str]]:
     dirs: list[str] = []
     written: list[str] = []
     for path, purpose in targets:
-        path.mkdir(parents=True, exist_ok=True)
+        if not dry_run:
+            path.mkdir(parents=True, exist_ok=True)
         dirs.append(str(path.relative_to(settings.data_dir)))
         readme = path / "README.md"
         if not readme.is_file():
-            readme.write_text(_readme_body(prof.place, slug, prof.basin, purpose), encoding="utf-8")
+            if not dry_run:
+                readme.write_text(
+                    _readme_body(prof.place, slug, prof.basin, purpose), encoding="utf-8"
+                )
             written.append(str(readme.relative_to(settings.data_dir)))
     return dirs, written
 
@@ -137,19 +141,86 @@ def _run_step(name: str, fn: Callable[[], OnboardStep]) -> OnboardStep:
         return OnboardStep(name=name, status="error", detail=str(exc).splitlines()[0])
 
 
-def onboard_site(*, settings: Settings | None = None) -> OnboardReport:
-    """Onboard the active site (``settings.site``): scaffold + reach connectors + validation."""
+def _guard_output_paths(slug: str) -> None:
+    """Refuse to onboard if this site's per-site outputs would overwrite another site's.
+
+    The #326 design slug-scopes the point-specific outputs so onboarding never clobbers
+    Lima; this is the guard for a profile that copied another site without re-scoping them.
+    """
+    clashes = output_path_collisions(slug)
+    if clashes:
+        detail = "; ".join(f"{field} collides with {others}" for field, others in clashes.items())
+        raise ValueError(
+            f"{slug}: per-site output paths are not unique ({detail}). Slug-scope "
+            f"climatology_relpath/corridor_ddf_relpath (e.g. reference/hydrology/{slug}/…) in the "
+            "SiteProfile so onboarding doesn't overwrite another site's committed data."
+        )
+
+
+def onboard_site(*, settings: Settings | None = None, dry_run: bool = False) -> OnboardReport:
+    """Onboard the active site (``settings.site``): scaffold + reach connectors + validation.
+
+    With ``dry_run`` nothing is written — it resolves and reports the plan (steps + target
+    output paths) so the first run on a cohort site can be previewed safely.
+    """
     settings = settings or get_settings()
     prof = active_profile(settings)
+    _guard_output_paths(prof.slug)  # before any write
 
-    dirs, readmes = scaffold_dirs(settings)
+    dirs, readmes = scaffold_dirs(settings, dry_run=dry_run)
+    verb = "would create" if dry_run else "created"
     steps: list[OnboardStep] = [
         OnboardStep(
             name="scaffold",
-            status="ok",
-            detail=f"{len(dirs)} dirs; {len(readmes)} README(s) written",
+            status="dry-run" if dry_run else "ok",
+            detail=f"{verb} {len(dirs)} dir(s); {len(readmes)} README(s)",
         )
     ]
+    steps += _planned_steps(settings, prof) if dry_run else _executed_steps(settings, prof)
+
+    return OnboardReport(
+        slug=prof.slug,
+        place=prof.place,
+        basin=prof.basin,
+        scaffolded_dirs=dirs,
+        steps=steps,
+        review_checklist=_review_checklist(prof.slug),
+    )
+
+
+def _planned_steps(settings: Settings, prof: SiteProfile) -> list[OnboardStep]:
+    """The connector steps a real run *would* take — target paths, no side effects."""
+    return [
+        OnboardStep(
+            name="derive-low-flows",
+            status="dry-run",
+            detail="basin-level (shared across Maumee sites)",
+            output_path="reference/hydrology/low-flow-7q10.derived.yaml",
+        ),
+        OnboardStep(
+            name="corridor-ddf",
+            status="dry-run",
+            detail="per-site",
+            output_path=prof.corridor_ddf_relpath,
+        ),
+        OnboardStep(
+            name="ssurgo-hsg",
+            status="dry-run",
+            detail=f"would read footprint {prof.footprint_relpath}",
+        ),
+        OnboardStep(
+            name="climatology",
+            status="dry-run",
+            detail="per-site",
+            output_path=prof.climatology_relpath,
+        ),
+        OnboardStep(name="basin-screen", status="dry-run", detail="validation (read-only)"),
+    ]
+
+
+def _executed_steps(settings: Settings, prof: SiteProfile) -> list[OnboardStep]:
+    """Run the reach connectors for real, each resilient to an offline/missing-input miss."""
+    steps: list[OnboardStep] = []
 
     # NWIS -> basin-derived 7Q10 (basin-level, SHARED across Maumee sites).
     def _low_flows() -> OnboardStep:
@@ -212,15 +283,7 @@ def onboard_site(*, settings: Settings | None = None) -> OnboardReport:
         )
 
     steps.append(_run_step("basin-screen", _screen))
-
-    return OnboardReport(
-        slug=prof.slug,
-        place=prof.place,
-        basin=prof.basin,
-        scaffolded_dirs=dirs,
-        steps=steps,
-        review_checklist=_review_checklist(prof.slug),
-    )
+    return steps
 
 
 def _review_checklist(slug: str) -> list[str]:
