@@ -1,4 +1,5 @@
 ---
+import DonutChart from "../../../components/charts/DonutChart.astro";
 import Base from "../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../lib/bundle";
 import type { RecordItem } from "../../../lib/feeds";
@@ -8,6 +9,7 @@ import { withBase } from "../../../lib/site";
 const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
 const groups = groupsOf(records);
 const countOf = (g: string): number => records.filter((r) => r.group === g).length;
+const byGroup = groups.map((g) => ({ label: groupLabel(g), value: countOf(g) }));
 ---
 
 <Base title="Records" section="site">
@@ -19,6 +21,7 @@ const countOf = (g: string): number => records.filter((r) => r.group === g).leng
       high-confidence, quantities marked <span class="approx">~</span> are
       approximate transcriptions.
     </p>
+    {byGroup.length > 1 && <DonutChart title="Records by document kind" centerLabel="records" slices={byGroup} />}
     <div class="cards">
       {
         groups.map((g) => (

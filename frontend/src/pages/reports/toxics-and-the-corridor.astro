@@ -12,6 +12,7 @@
  * feed — no fork).
  */
 import ToxicsDilutionScreen from "../../components/islands/ToxicsDilutionScreen.tsx";
+import BulletChart from "../../components/charts/BulletChart.astro";
 import Base from "../../layouts/Base.astro";
 import { buildDilution } from "../../lib/dilution";
 import { withBase } from "../../lib/site";
@@ -19,6 +20,7 @@ import { withBase } from "../../lib/site";
 const d = buildDilution();
 const dc = d.discharge;
 const effluentCfs = Math.round((dc.wwtpCfs + dc.campusFm2Cfs) * 100) / 100;
+const effluentMultiple = Math.round(effluentCfs / dc.naturalCfs);
 ---
 
 <Base
@@ -43,6 +45,18 @@ const effluentCfs = Math.round((dc.wwtpCfs + dc.campusFm2Cfs) * 100) / 100;
         <a href={withBase("/docs/toxics-and-the-corridor")}>toxics and the corridor →</a>
       </p>
     </article>
+
+    <BulletChart
+      title="At the design low flow, the Ottawa is effluent"
+      scaleLabel="scale · cubic feet per second"
+      unit="cfs"
+      marker={dc.naturalCfs}
+      rows={[
+        { label: "Natural low flow · 7Q10", value: dc.naturalCfs, evidence: "verified", evidenceNote: "NPDES fact sheets" },
+        { label: "Treated effluent · WWTP + campus", value: effluentCfs, evidence: "verified", evidenceNote: "NPDES fact sheets" },
+      ]}
+      note={`The red mark is the river's entire natural low flow. Treated effluent runs about ${effluentMultiple}× larger — ${dc.effluentPct}% of the design-low-flow Ottawa is effluent.`}
+    />
 
     <ToxicsDilutionScreen client:only="react" discharge={dc} />
 
