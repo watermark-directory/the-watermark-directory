@@ -5,6 +5,7 @@
  * the `Findlay - Coming Soon` design; pure no-JS (the notify-me is a real "watch the issue"
  * link, not a new capture path). Lima (the live build) is excluded — it's the root site.
  */
+import Icon from "../../components/Icon.astro";
 import Base from "../../layouts/Base.astro";
 import { type NetworkSite, comingSoonSites } from "../../lib/sites";
 import { withBase } from "../../lib/site";
@@ -99,7 +100,7 @@ const doors = [
             <div class="netsite-door">
               <div class="netsite-door-top">
                 <span class="netsite-door-kind">{d.kind}</span>
-                <span aria-hidden="true">🔒</span>
+                <Icon name="locked" size={14} class="netsite-door-lock" />
               </div>
               <div class="netsite-door-title">{d.title}</div>
               <div class="netsite-door-desc">{d.desc}</div>
@@ -119,7 +120,7 @@ const doors = [
         {
           issueUrl ? (
             <a class="netsite-notify-btn" href={issueUrl} rel="noopener noreferrer">
-              Watch #{site.issue} on GitHub
+              <Icon name="repo" size={16} /> Watch #{site.issue} on GitHub
             </a>
           ) : (
             <span class="netsite-notify-btn is-disabled">Tracking issue pending</span>

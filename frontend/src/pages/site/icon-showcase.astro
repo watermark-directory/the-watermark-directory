@@ -1,0 +1,69 @@
+---
+/**
+ * Icon set — component preview (#309, ported from the Claude Design "Icon Set" board).
+ * One stroke family on a 24px grid, 1.7 weight, `currentColor`. The square brackets stay
+ * reserved for the logo; the repo octocat is the lone filled, foreign mark. Evidence +
+ * measure icons carry the semantic palette wherever they appear.
+ */
+import Icon from "../../components/Icon.astro";
+import Base from "../../layouts/Base.astro";
+import { withBase } from "../../lib/site";
+
+const groups: { title: string; names: string[]; note?: string }[] = [
+  { title: "Navigation & chrome", names: ["search", "menu", "home", "chevron", "arrow", "external", "close", "email", "notify", "locked", "secure"] },
+  { title: "Records & sources", names: ["document", "scan", "corpus", "archive", "citation", "link", "pages", "repo"] },
+  {
+    title: "Evidence & provenance",
+    names: ["verified", "inference", "open", "redaction", "scope-gap", "excerpt"],
+    note: "These carry the semantic palette wherever they appear — never recolored to ink.",
+  },
+  { title: "Entities & places", names: ["entity", "person", "place", "watershed", "timeline", "concept", "map"] },
+  { title: "Actions", names: ["download", "attach", "send", "correction", "filter", "copy", "submit"] },
+  { title: "Data & figures", names: ["chart", "trend", "measure", "key-figure"] },
+  { title: "Footprint & measures", names: ["cost", "power", "discharge"] },
+];
+
+// The icons whose meaning IS a color — they wear the evidence/figure palette.
+const ICON_COLOR: Record<string, string> = {
+  verified: "#2e7d32",
+  inference: "#b46e00",
+  open: "#5b6172",
+  "scope-gap": "#c0392b",
+  "key-figure": "#7a5a00",
+};
+---
+
+<Base title="Icon set — component preview" section="site">
+  <div class="td-showcase">
+    <p><a href={withBase("/site/")}>← The BOSC site</a></p>
+    <div class="td-showcase-kicker">Project BOSC · design system</div>
+    <h1>The icon set</h1>
+    <p class="td-showcase-lead">
+      One stroke-based family on a 24px grid, 1.7 weight, round cap/join, <code>currentColor</code> — so every
+      icon inherits the ink, indigo, or evidence color of its context. The bracket-square caps stay reserved
+      for the <a href={withBase("/")}>logo mark</a>; the <strong>repo</strong> glyph is GitHub's own octocat,
+      the lone filled, foreign mark, used only for the source-repo link.
+    </p>
+
+    {
+      groups.map((g) => (
+        <section class="iconboard-group">
+          <div class="iconboard-head">
+            <span class="chart-kicker">{g.title}</span>
+            {g.note && <span class="chart-caption">{g.note}</span>}
+          </div>
+          <div class="iconboard-grid">
+            {g.names.map((name) => (
+              <div class="iconboard-tile">
+                <span class="iconboard-box" style={ICON_COLOR[name] ? `color:${ICON_COLOR[name]}` : undefined}>
+                  <Icon name={name} size={26} label={name} />
+                </span>
+                <span class="iconboard-name">{name}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</Base>
