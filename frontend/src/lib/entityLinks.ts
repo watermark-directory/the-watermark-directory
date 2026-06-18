@@ -1,6 +1,6 @@
 /**
  * Entity-link resolution. A profile (place, person, entity) can reference a
- * related entity that has no generated `/bosc/wiki/entities/<slug>/` page — e.g. a
+ * related entity that has no generated `/wiki/entities/<slug>/` page — e.g. a
  * relationship target that isn't itself in the `entities` feed, or any entity
  * absent from a trimmed bundle (the CI sample bundle). Linking to it
  * unconditionally emits a 404. `entityHref` returns a href only when the page
@@ -18,5 +18,5 @@ const present: Set<string> = new Set(
 /** Href to an entity's page, or `undefined` if no page is generated for it. */
 export function entityHref(key: string): string | undefined {
   const slug = slugify(key);
-  return present.has(slug) ? `${withBase("/bosc/wiki/entities/")}${slug}/` : undefined;
+  return present.has(slug) ? `${withBase("/wiki/entities/")}${slug}/` : undefined;
 }

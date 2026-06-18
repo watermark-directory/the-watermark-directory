@@ -205,7 +205,7 @@ describe("resolveTeardown — source viewer + links", () => {
         ],
       }),
     );
-    expect(res.teardown.connect[0].href).toContain("/bosc/wiki/concepts/7q10");
+    expect(res.teardown.connect[0].href).toContain("/wiki/concepts/7q10");
     expect(res.teardown.connect[1].href).toBeUndefined();
   });
 });

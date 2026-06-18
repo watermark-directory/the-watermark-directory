@@ -91,9 +91,9 @@ export const OPACITY_TEARDOWN: TeardownRecord = {
     methodHref: withBase("/bosc/docs/methodology"),
   },
   connect: [
-    { kind: "concept", label: "[[public-records-mandamus]]", href: withBase("/bosc/wiki/concepts/") },
+    { kind: "concept", label: "[[public-records-mandamus]]", href: withBase("/wiki/concepts/") },
     { kind: "legal", label: "the PRR production analysis", href: withBase("/bosc/site/legal/") },
-    { kind: "entity", label: "Cynthia Leis", href: withBase("/bosc/wiki/entities/") },
+    { kind: "entity", label: "Cynthia Leis", href: withBase("/wiki/entities/") },
     { kind: "timeline", label: "2025-05-27 · first closed session", href: withBase("/bosc/timeline") },
   ],
   legalSlug: "withholding-map",
@@ -140,10 +140,10 @@ export const DEED_TEARDOWN: TeardownRecord = {
     methodHref: withBase("/bosc/docs/methodology"),
   },
   connect: [
-    { kind: "entity", label: "Bistrozzi LLC", href: withBase("/bosc/wiki/entities/") },
-    { kind: "entity", label: "Vorys (Tangeman)", href: withBase("/bosc/wiki/entities/") },
+    { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
+    { kind: "entity", label: "Vorys (Tangeman)", href: withBase("/wiki/entities/") },
     { kind: "timeline", label: "2025-08-13 · deed recorded", href: withBase("/bosc/timeline") },
-    { kind: "graph", label: "land assembly", href: withBase("/bosc/wiki/graph") },
+    { kind: "graph", label: "land assembly", href: withBase("/wiki/graph") },
   ],
   redaction: {
     label: "$ ______ · blank",
@@ -203,10 +203,10 @@ export const SHELL_TEARDOWN: TeardownRecord = {
     methodHref: withBase("/bosc/docs/methodology"),
   },
   connect: [
-    { kind: "entity", label: "Tilted Gate LLC", href: withBase("/bosc/wiki/entities/") },
-    { kind: "entity", label: "Michael Montfort", href: withBase("/bosc/wiki/entities/") },
-    { kind: "concept", label: "[[common-control-plumbing]]", href: withBase("/bosc/wiki/concepts/") },
-    { kind: "graph", label: "the cluster", href: withBase("/bosc/wiki/graph") },
+    { kind: "entity", label: "Tilted Gate LLC", href: withBase("/wiki/entities/") },
+    { kind: "entity", label: "Michael Montfort", href: withBase("/wiki/entities/") },
+    { kind: "concept", label: "[[common-control-plumbing]]", href: withBase("/wiki/concepts/") },
+    { kind: "graph", label: "the cluster", href: withBase("/wiki/graph") },
   ],
   recordRel: "permits/sos-tilted-gate-llc-2025-09-29.sos.yaml",
 };
@@ -270,9 +270,9 @@ export const OPC_TEARDOWN: TeardownRecord = {
     methodHref: withBase("/bosc/docs/methodology"),
   },
   connect: [
-    { kind: "entity", label: "Tetra Tech", href: withBase("/bosc/wiki/entities/") },
+    { kind: "entity", label: "Tetra Tech", href: withBase("/wiki/entities/") },
     { kind: "timeline", label: "2025 · OPC filed", href: withBase("/bosc/timeline") },
-    { kind: "concept", label: "[[roadwork-development-agreement]]", href: withBase("/bosc/wiki/concepts/") },
+    { kind: "concept", label: "[[roadwork-development-agreement]]", href: withBase("/wiki/concepts/") },
     { kind: "map", label: "roundabout layer", href: withBase("/bosc/watershed/map") },
   ],
   recordRel: "aedg/roundabouts.summary.opc.yaml",
@@ -346,9 +346,9 @@ export const AIR_TEARDOWN: TeardownRecord = {
     methodHref: withBase("/bosc/docs/methodology"),
   },
   connect: [
-    { kind: "entity", label: "Bistrozzi LLC", href: withBase("/bosc/wiki/entities/") },
+    { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
     { kind: "timeline", label: "2026-05-28 · permit issued", href: withBase("/bosc/timeline") },
-    { kind: "concept", label: "[[hyperscale-data-center]]", href: withBase("/bosc/wiki/concepts/") },
+    { kind: "concept", label: "[[hyperscale-data-center]]", href: withBase("/wiki/concepts/") },
     { kind: "doc", label: "the bigger picture", href: withBase("/bosc/docs/bigger-picture") },
   ],
   redaction: {
@@ -405,8 +405,8 @@ export const NPDES_TEARDOWN: TeardownRecord = {
     methodHref: withBase("/bosc/docs/hydrology"),
   },
   connect: [
-    { kind: "concept", label: "[[7q10]]", href: withBase("/bosc/wiki/concepts/") },
-    { kind: "concept", label: "[[assimilative-capacity]]", href: withBase("/bosc/wiki/concepts/") },
+    { kind: "concept", label: "[[7q10]]", href: withBase("/wiki/concepts/") },
+    { kind: "concept", label: "[[assimilative-capacity]]", href: withBase("/wiki/concepts/") },
     { kind: "map", label: "watershed + WWTP layers", href: withBase("/bosc/watershed/map") },
     { kind: "dashboard", label: "live hydrology", href: withBase("/bosc/watershed/hydrology") },
   ],
@@ -447,9 +447,9 @@ export const RDA_TEARDOWN: TeardownRecord = {
     methodHref: withBase("/bosc/docs/economics"),
   },
   connect: [
-    { kind: "entity", label: "Bistrozzi LLC", href: withBase("/bosc/wiki/entities/") },
+    { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
     { kind: "timeline", label: "2025-09-15 · RDA effective", href: withBase("/bosc/timeline") },
-    { kind: "concept", label: "[[grant-refund-clause]]", href: withBase("/bosc/wiki/concepts/") },
+    { kind: "concept", label: "[[grant-refund-clause]]", href: withBase("/wiki/concepts/") },
     { kind: "doc", label: "ECONOMICS.md", href: withBase("/bosc/docs/economics") },
   ],
   legalSlug: "withholding-map",
@@ -525,10 +525,10 @@ export const ASSEMBLY_TEARDOWN: TeardownRecord = {
     methodHref: withBase("/bosc/docs/methodology"),
   },
   connect: [
-    { kind: "entity", label: "Port Authority of Allen County", href: withBase("/bosc/wiki/entities/") },
-    { kind: "entity", label: "Bistrozzi LLC", href: withBase("/bosc/wiki/entities/") },
+    { kind: "entity", label: "Port Authority of Allen County", href: withBase("/wiki/entities/") },
+    { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
     { kind: "timeline", label: "2025-07-03 · option assignment", href: withBase("/bosc/timeline") },
-    { kind: "graph", label: "the land assembly", href: withBase("/bosc/wiki/graph") },
+    { kind: "graph", label: "the land assembly", href: withBase("/wiki/graph") },
   ],
   redaction: {
     label: "$ ______ · blank",

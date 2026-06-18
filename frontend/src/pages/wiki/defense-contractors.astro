@@ -1,8 +1,8 @@
 ---
-import Base from "../../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../../lib/bundle";
-import { slugify, type DefenseContractors } from "../../../lib/feeds";
-import { withBase } from "../../../lib/site";
+import Base from "../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../lib/bundle";
+import { slugify, type DefenseContractors } from "../../lib/feeds";
+import { withBase } from "../../lib/site";
 
 const dc = hasFeed("defense-contractors") ? loadFeed<DefenseContractors>("defense-contractors") : null;
 const contractors = dc?.contractors ?? [];
@@ -14,7 +14,7 @@ const field = (row: Record<string, unknown>, key: string): string =>
 
 <Base title="Defense contractors" section="wiki">
   <article class="prose">
-    <p><a href={withBase("/bosc/wiki/")}>← Wiki</a></p>
+    <p><a href={withBase("/wiki/")}>← Wiki</a></p>
     <h1>Defense contractors</h1>
     {
       dc === null ? (
@@ -50,7 +50,7 @@ const field = (row: Record<string, unknown>, key: string): string =>
                       : c.matched_entities.map((k, i) => (
                           <>
                             {i > 0 && ", "}
-                            <a href={`${withBase("/bosc/wiki/entities/")}${slugify(k)}/`}>{k}</a>
+                            <a href={`${withBase("/wiki/entities/")}${slugify(k)}/`}>{k}</a>
                           </>
                         ))}
                   </td>

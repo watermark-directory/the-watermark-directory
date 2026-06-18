@@ -1,6 +1,6 @@
 ---
-import Base from "../../layouts/Base.astro";
-import { withBase } from "../../lib/site";
+import Base from "../layouts/Base.astro";
+import { withBase } from "../lib/site";
 
 // The portal goes live only when the Turnstile site key is present at build time (set in
 // the host/CI env once the endpoint is bootstrapped — docs/ask-api.md). Until then,
@@ -89,7 +89,7 @@ const EXAMPLES = [
           </p>
 
           <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline />
-          <script>import "../../scripts/ask.ts";</script>
+          <script>import "../scripts/ask.ts";</script>
         </Fragment>
       ) : (
         <div class="callout callout-warning">

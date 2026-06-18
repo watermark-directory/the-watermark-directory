@@ -163,7 +163,7 @@ export function buildAskIndex(): AskUnit[] {
         id: `entities:${e.key}`,
         feed: "entities",
         title: e.display,
-        url: `/bosc/wiki/entities/${slugify(e.key)}/`,
+        url: `/wiki/entities/${slugify(e.key)}/`,
         text: blob(
           e.kind,
           e.classification,
@@ -185,7 +185,7 @@ export function buildAskIndex(): AskUnit[] {
         id: `concepts:${c.slug}`,
         feed: "concepts",
         title: c.title,
-        url: `/bosc/wiki/concepts/${c.slug}/`,
+        url: `/wiki/concepts/${c.slug}/`,
         text: blob(c.summary, ...c.aliases, ...c.tags, c.body),
         // The glossary is editorial synthesis over the corpus, not a single source.
         source_kind: "derived",

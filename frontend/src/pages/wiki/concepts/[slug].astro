@@ -1,12 +1,12 @@
 ---
 import type { GetStaticPaths } from "astro";
-import Base from "../../../../layouts/Base.astro";
-import ProfileHeader from "../../../../components/ProfileHeader.astro";
-import { hasFeed, loadFeed } from "../../../../lib/bundle";
-import type { ConceptItem } from "../../../../lib/feeds";
-import type { ProfileHeaderData, ProfileRel } from "../../../../lib/profile";
-import { withBase } from "../../../../lib/site";
-import { conceptBacklinks, norm, renderBody, wikiIndex } from "../../../../lib/wiki";
+import Base from "../../../layouts/Base.astro";
+import ProfileHeader from "../../../components/ProfileHeader.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import type { ConceptItem } from "../../../lib/feeds";
+import type { ProfileHeaderData, ProfileRel } from "../../../lib/profile";
+import { withBase } from "../../../lib/site";
+import { conceptBacklinks, norm, renderBody, wikiIndex } from "../../../lib/wiki";
 
 export const getStaticPaths: GetStaticPaths = () => {
   const concepts = hasFeed("concepts") ? loadFeed<ConceptItem[]>("concepts") : [];
@@ -47,7 +47,7 @@ const profileToc = sections.length >= 2 ? sections : [];
 ---
 
 <Base title={concept.title} section="wiki" description={concept.summary} toc={profileToc}>
-  <p class="prose"><a href={withBase("/bosc/wiki/concepts/")}>← Concepts</a></p>
+  <p class="prose"><a href={withBase("/wiki/concepts/")}>← Concepts</a></p>
   <div id="overview"><ProfileHeader profile={header} /></div>
 
   <article class="prose">

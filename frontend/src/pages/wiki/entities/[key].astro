@@ -1,13 +1,13 @@
 ---
 import type { GetStaticPaths } from "astro";
-import Base from "../../../../layouts/Base.astro";
-import ProfileHeader from "../../../../components/ProfileHeader.astro";
-import { hasFeed, loadFeed } from "../../../../lib/bundle";
-import { slugify, type EntityNode, type PersonItem, type RelationshipEdge } from "../../../../lib/feeds";
-import type { ProfileAttr, ProfileHeaderData, ProfileRel } from "../../../../lib/profile";
-import type { FigureStatData } from "../../../../lib/viz";
-import { entityHref } from "../../../../lib/entityLinks";
-import { withBase } from "../../../../lib/site";
+import Base from "../../../layouts/Base.astro";
+import ProfileHeader from "../../../components/ProfileHeader.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import { slugify, type EntityNode, type PersonItem, type RelationshipEdge } from "../../../lib/feeds";
+import type { ProfileAttr, ProfileHeaderData, ProfileRel } from "../../../lib/profile";
+import type { FigureStatData } from "../../../lib/viz";
+import { entityHref } from "../../../lib/entityLinks";
+import { withBase } from "../../../lib/site";
 
 export const getStaticPaths = (() => {
   const entities = hasFeed("entities") ? loadFeed<EntityNode[]>("entities") : [];
@@ -52,7 +52,7 @@ const header: ProfileHeaderData = {
   name: entity.display,
   variants: entity.variants.filter((v) => v.toLowerCase() !== entity.display.toLowerCase()).slice(0, 3),
   evidence: entity.signals?.length ? "inference" : "verified",
-  graphHref: withBase(`/bosc/wiki/graph#${slugify(entity.key)}`),
+  graphHref: withBase(`/wiki/graph#${slugify(entity.key)}`),
   stats: stats.length ? stats : undefined,
   attrs: attrs.length ? attrs : undefined,
   relLabel: "Graph neighborhood",
@@ -71,7 +71,7 @@ const profileToc = [
 ---
 
 <Base title={entity.display} section="wiki" toc={profileToc}>
-  <p class="prose"><a href={withBase("/bosc/wiki/entities/")}>← Entities</a></p>
+  <p class="prose"><a href={withBase("/wiki/entities/")}>← Entities</a></p>
   <div id="overview"><ProfileHeader profile={header} /></div>
 
   <article class="prose">
@@ -105,7 +105,7 @@ const profileToc = [
       )
     }
     <p>
-      <a href={`${withBase("/bosc/wiki/graph")}#${slugify(entity.key)}`}>
+      <a href={`${withBase("/wiki/graph")}#${slugify(entity.key)}`}>
         View this neighborhood in the interactive graph →
       </a>
     </p>

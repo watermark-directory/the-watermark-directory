@@ -142,6 +142,8 @@ export function slugForRepoPath(repoPath: string): string {
  */
 // Values are site-relative WITHOUT the /bosc prefix — the rehype-doc-links plugin prepends
 // the Lima base (`/bosc`, #307 PR 2) at build time, so prefixing here would double it.
+// Exception: network-global routes (`/wiki/…`) live at the site root and are NOT base-prefixed
+// (the plugin's GLOBAL_ROUTE guard passes them through), so they stay correct here too.
 export const LINK_MAP: Record<string, string> = {
   "entities.md": "/wiki/entities/",
   "timeline.md": "/timeline",

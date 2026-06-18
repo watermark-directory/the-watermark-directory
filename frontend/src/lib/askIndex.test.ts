@@ -103,7 +103,7 @@ describe("buildAskIndex", () => {
     const m = await loadAskIndex(dir);
     const [u] = m.buildAskIndex();
     expect(u.id).toBe("entities:AMAZON COM SERVICES");
-    expect(u.url).toBe("/bosc/wiki/entities/amazon-com-services/");
+    expect(u.url).toBe("/wiki/entities/amazon-com-services/");
     expect(u.source).toBe("data/extracted/entities/graph.yaml");
   });
 

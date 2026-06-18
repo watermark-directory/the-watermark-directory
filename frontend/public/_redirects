@@ -1,18 +1,20 @@
 # Cloudflare Pages redirects — the /bosc re-root (#307 PR 2).
-# The live site (Lima) moved from the root to /bosc so future watershed sites are clean
-# siblings (/gcp, …). These keep every old URL — and every corpus citation — working.
-# /network/* and the API stay at the root (siblings + serverless), so they are NOT rewritten.
+# Site-specific record content (Lima) moved from the root to /bosc so future watershed
+# sites are clean siblings (/gcp, …). These keep every old, deployed URL working.
+#
+# The network root `/` is a TEMPORARY (302) redirect, not a permanent one: it will host
+# real network-level content once a second site lands, so browsers must not hard-cache it.
+#
+# NETWORK-GLOBAL pages stay at the root and are NOT rewritten — they're shared across every
+# watershed site, so their URLs don't change: /about, /about-me, /wiki/*, /ask, /network/*,
+# and the API (/api/*).
 
-/                       /bosc/                      301
+/                       /bosc/                      302
 /start                  /bosc/start                 301
 /timeline               /bosc/timeline              301
-/ask                    /bosc/ask                   301
 /submit                 /bosc/submit                301
-/about                  /bosc/about                 301
-/about-me               /bosc/about-me              301
 /site/*                 /bosc/site/:splat           301
 /watershed/*            /bosc/watershed/:splat      301
-/wiki/*                 /bosc/wiki/:splat           301
 /docs/*                 /bosc/docs/:splat           301
 /reports/*              /bosc/reports/:splat        301
 /walk/*                 /bosc/walk/:splat           301

@@ -1,10 +1,10 @@
 ---
-import EntityGraph from "../../../components/islands/EntityGraph.tsx";
-import Base from "../../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../../lib/bundle";
-import { slugify, type EntityNode } from "../../../lib/feeds";
-import { RELATION_CLASSES } from "../../../lib/relationClasses";
-import { withBase } from "../../../lib/site";
+import EntityGraph from "../../components/islands/EntityGraph.tsx";
+import Base from "../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../lib/bundle";
+import { slugify, type EntityNode } from "../../lib/feeds";
+import { RELATION_CLASSES } from "../../lib/relationClasses";
+import { withBase } from "../../lib/site";
 
 // SSR fallback / data view: the entity list the island visualizes.
 const entities = hasFeed("entities") ? loadFeed<EntityNode[]>("entities") : [];
@@ -21,7 +21,7 @@ const classified = RELATION_CLASSES.map((c) => ({
 
 <Base title="Entity graph" section="wiki">
   <article class="prose">
-    <p><a href={withBase("/bosc/wiki/")}>← Wiki</a></p>
+    <p><a href={withBase("/wiki/")}>← Wiki</a></p>
     <h1>Entity graph</h1>
     <p class="section-lead">
       The {entities.length}-node relationship graph of the resolved entities.
@@ -63,7 +63,7 @@ const classified = RELATION_CLASSES.map((c) => ({
           <ul class="neighborhood">
             {g.entities.map((e) => (
               <li>
-                <a href={`${withBase("/bosc/wiki/entities/")}${slugify(e.key)}/`}>{e.display}</a>
+                <a href={`${withBase("/wiki/entities/")}${slugify(e.key)}/`}>{e.display}</a>
                 <span class="card-meta"> · {e.kind}</span>
               </li>
             ))}
@@ -77,7 +77,7 @@ const classified = RELATION_CLASSES.map((c) => ({
       {
         sorted.map((e) => (
           <li>
-            <a href={`${withBase("/bosc/wiki/entities/")}${slugify(e.key)}/`}>{e.display}</a>
+            <a href={`${withBase("/wiki/entities/")}${slugify(e.key)}/`}>{e.display}</a>
             <span class="card-meta"> · {e.kind}</span>
           </li>
         ))
