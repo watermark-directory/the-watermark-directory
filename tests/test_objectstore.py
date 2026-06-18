@@ -1,0 +1,162 @@
+"""Tests for the source-document object-store sync (epic #274, B3 / #279).
+
+The transport (SigV4 + httpx) is validated against the published AWS reference vector;
+all the upload-decision logic (rel→key, incremental skip, LFS skip, dry-run) is exercised
+against an in-memory fake store — hermetic, no network.
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+from bosc.config import Settings
+from bosc.site.objectstore import (
+    ObjectStoreUnconfiguredError,
+    RemoteHead,
+    SyncItem,
+    corpus_items,
+    md5_hex,
+    plan_sync,
+    run_sync,
+    sigv4_authorization,
+    store_from_settings,
+)
+
+
+# --- SigV4 against the AWS reference vector -----------------------------------
+def test_sigv4_matches_aws_reference_vector() -> None:
+    """The documented AWS "GET Object" SigV4 example must produce its published signature."""
+    empty = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    auth = sigv4_authorization(
+        method="GET",
+        canonical_uri="/test.txt",
+        canonical_querystring="",
+        headers={
+            "host": "examplebucket.s3.amazonaws.com",
+            "range": "bytes=0-9",
+            "x-amz-content-sha256": empty,
+            "x-amz-date": "20130524T000000Z",
+        },
+        payload_hash=empty,
+        access_key="AKIAIOSFODNN7EXAMPLE",
+        secret_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+        amzdate="20130524T000000Z",
+        datestamp="20130524",
+        region="us-east-1",
+        service="s3",
+    )
+    assert "Signature=f0e8bdb87c964420e857bd35b5d6ed310bd44f0170aba48dd91039c6036bdb41" in auth
+    assert "SignedHeaders=host;range;x-amz-content-sha256;x-amz-date" in auth
+
+
+# --- the work list ------------------------------------------------------------
+def test_corpus_items_maps_rel_to_key_and_media_type(tmp_path: Path) -> None:
+    docs = tmp_path / "documents"
+    (docs / "recorder").mkdir(parents=True)
+    (docs / "aedg").mkdir(parents=True)
+    (docs / "recorder" / "deed.pdf").write_bytes(b"%PDF-1.4 body")
+    (docs / "aedg" / "page.html").write_text("<html></html>", encoding="utf-8")
+
+    items = {i.rel: i for i in corpus_items(docs)}
+    assert items["recorder/deed.pdf"].media_type == "application/pdf"
+    assert items["recorder/deed.pdf"].render_class == "pdf"
+    assert items["aedg/page.html"].render_class == "html"
+    assert items["recorder/deed.pdf"].path == docs / "recorder" / "deed.pdf"
+
+    # --collection scopes to one slug.
+    scoped = corpus_items(docs, collection="recorder")
+    assert {i.rel for i in scoped} == {"recorder/deed.pdf"}
+
+
+# --- the sync plan (incremental + LFS) ----------------------------------------
+class _FakeStore:
+    def __init__(self, heads: dict[str, RemoteHead]) -> None:
+        self.heads = heads
+        self.puts: list[tuple[str, str, dict[str, str], int]] = []
+
+    def head(self, key: str) -> RemoteHead | None:
+        return self.heads.get(key)
+
+    def put(self, key: str, body: bytes, *, content_type: str, metadata: dict[str, str]) -> None:
+        self.puts.append((key, content_type, metadata, len(body)))
+
+
+def _item(tmp: Path, rel: str, body: bytes, *, available: bool = True) -> SyncItem:
+    path = tmp / rel
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(body)
+    return SyncItem(
+        rel=rel,
+        path=path,
+        size=len(body),
+        media_type="application/pdf",
+        render_class="pdf",
+        available=available,
+    )
+
+
+def test_plan_sync_skips_unchanged_and_lfs(tmp_path: Path) -> None:
+    current = _item(tmp_path, "a.pdf", b"%PDF-aaaa")
+    changed = _item(tmp_path, "b.pdf", b"%PDF-bbbb")  # remote exists but differs
+    fresh = _item(tmp_path, "c.pdf", b"%PDF-cccc")  # not in remote
+    pointer = _item(tmp_path, "d.pdf", b"version https://git-lfs...", available=False)
+
+    store = _FakeStore(
+        {
+            "a.pdf": RemoteHead(size=current.size, etag=md5_hex(current.path)),
+            "b.pdf": RemoteHead(size=999, etag="deadbeef"),
+        }
+    )
+    plan = plan_sync([current, changed, fresh, pointer], store)
+    assert {i.rel for i in plan.unchanged} == {"a.pdf"}
+    assert {i.rel for i in plan.upload} == {"b.pdf", "c.pdf"}
+    assert {i.rel for i in plan.lfs_skipped} == {"d.pdf"}
+
+
+def test_run_sync_dry_run_uploads_nothing(tmp_path: Path) -> None:
+    items = [_item(tmp_path, "a.pdf", b"%PDF-a"), _item(tmp_path, "b.pdf", b"%PDF-b")]
+    store = _FakeStore({})
+    plan, result = run_sync(items, store, dry_run=True)
+    assert store.puts == []
+    assert result.uploaded == 0
+    assert {i.rel for i in plan.upload} == {"a.pdf", "b.pdf"}  # planned, not done
+
+
+def test_run_sync_uploads_changed_and_stamps_metadata(tmp_path: Path) -> None:
+    items = [_item(tmp_path, "a.pdf", b"%PDF-a"), _item(tmp_path, "b.pdf", b"%PDF-b")]
+    store = _FakeStore({"a.pdf": RemoteHead(size=items[0].size, etag=md5_hex(items[0].path))})
+    plan, result = run_sync(items, store)
+    assert result.uploaded == 1
+    assert len(plan.unchanged) == 1
+    key, content_type, metadata, nbytes = store.puts[0]
+    assert key == "b.pdf"
+    assert content_type == "application/pdf"
+    assert metadata == {"media_type": "application/pdf", "render_class": "pdf"}
+    assert nbytes == items[1].size
+
+
+# --- store factory / config ---------------------------------------------------
+def test_store_from_settings_requires_credentials(tmp_path: Path) -> None:
+    settings = Settings(data_dir=tmp_path)  # no object-store creds
+    try:
+        store_from_settings(settings, target="remote")
+    except ObjectStoreUnconfiguredError:
+        pass
+    else:  # pragma: no cover
+        raise AssertionError("expected ObjectStoreUnconfiguredError")
+
+
+def test_store_from_settings_selects_bucket_by_target(tmp_path: Path) -> None:
+    settings = Settings(
+        data_dir=tmp_path,
+        documents_object_store_account_id="acct123",
+        documents_object_store_access_key_id="AK",
+        documents_object_store_secret_access_key="SK",
+        documents_object_store_bucket="prod-bkt",
+        documents_object_store_dev_bucket="dev-bkt",
+    )
+    remote = store_from_settings(settings, target="remote")
+    local = store_from_settings(settings, target="local")
+    assert remote._url("x/y.pdf").endswith("/prod-bkt/x/y.pdf")
+    assert local._url("x/y.pdf").endswith("/dev-bkt/x/y.pdf")
+    assert "acct123.r2.cloudflarestorage.com" in remote._url("k")
