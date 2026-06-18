@@ -23,7 +23,8 @@ export type SectionId =
   | "site"
   | "watershed"
   | "wiki"
-  | "ask";
+  | "ask"
+  | "network";
 
 export interface TocEntry {
   /** Visible label in the per-section TOC. */
@@ -140,6 +141,17 @@ export const SECTIONS: Section[] = [
     tab: "Ask",
     href: "/ask",
     blurb: "Ask a question of the record and get a cited answer drawn only from the extracted corpus.",
+    toc: [],
+  },
+  {
+    // The BOSC network — the multi-site pivot (#304). A section, not a header tab yet: the
+    // switcher (in the topbar brand) is the entry point; the full IA restructure is deferred (#307).
+    id: "network",
+    label: "The BOSC network",
+    tab: "Network",
+    href: "/network/",
+    blurb:
+      "Data-center development across Ohio's Maumee watershed, point by point — Lima is the reference build.",
     toc: [],
   },
 ];

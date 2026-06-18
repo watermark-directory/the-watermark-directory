@@ -3,6 +3,7 @@ import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
 import { NAV_TABS, navItemActive, type SectionId } from "../lib/nav";
 import { withBase } from "../lib/site";
+import { activeSite, SITES, siteBadge } from "../lib/sites";
 
 interface Props {
   active: SectionId;
@@ -10,14 +11,60 @@ interface Props {
 const { active } = Astro.props;
 const searchIndexUrl = withBase("/search-index.json");
 const base = import.meta.env.BASE_URL || "/";
+
+// The BOSC network switcher (#304). The mark opens a no-JS <details> menu of sites; only
+// the live reference build (Lima) is switchable — the rest route to their coming-soon page.
+const here = activeSite();
+const statusMeta: Record<string, { label: string; cls: string }> = {
+  live: { label: "Live", cls: "is-live" },
+  onboarding: { label: "Onboarding", cls: "is-onboarding" },
+  open: { label: "Open", cls: "is-open" },
+};
 ---
 
 <header class="topbar">
   <label for="bosc-nav-toggle" class="nav-burger" aria-label="Toggle navigation"><Icon name="menu" size={22} /></label>
-  <a class="brand" href={withBase("/")}>
-    <Logo size={26} class="brand-mark" />
-    <span class="brand-word"><strong>BOSC</strong> <span class="brand-tagline">Lima</span></span>
-  </a>
+  <details class="site-switcher">
+    <summary class="brand" aria-label={`The BOSC network — current site: ${here.place}`}>
+      <Logo size={26} class="brand-mark" />
+      <span class="brand-word"><strong>BOSC</strong> <span class="brand-tagline">{here.place}</span></span>
+      <span class="switcher-caret" aria-hidden="true">▾</span>
+    </summary>
+    <div class="switcher-menu">
+      <div class="switcher-head">
+        <span class="switcher-title">Switch site</span>
+        <span class="switcher-repo">goedelsoup/bosc</span>
+      </div>
+      {
+        SITES.map((s) => {
+          const meta = statusMeta[s.status];
+          const isActive = s.slug === here.slug;
+          return (
+            <a
+              class:list={["switcher-row", { "is-active": isActive, "is-soon": !s.selectable }]}
+              href={withBase(s.href)}
+              aria-current={isActive ? "page" : undefined}
+            >
+              <span class:list={["switcher-badge", { "has-codename": Boolean(s.codename) }]}>{siteBadge(s)}</span>
+              <span class="switcher-body">
+                <span class="switcher-place">
+                  {s.codename && <span class="switcher-codename">{s.codename}</span>}
+                  {s.place}
+                </span>
+                <span class="switcher-basin">{s.basin}</span>
+              </span>
+              <span class="switcher-meta">
+                <span class:list={["switcher-status", meta.cls]}>{meta.label}</span>
+                {s.issue && <span class="switcher-issue">#{s.issue}</span>}
+              </span>
+              <span class="switcher-check" aria-hidden="true">{isActive ? "✓" : ""}</span>
+            </a>
+          );
+        })
+      }
+      <p class="switcher-foot">Each site is a section of the BOSC platform; open sites are still being assembled.</p>
+    </div>
+  </details>
   <nav class="sections" id="bosc-sections" aria-label="Sections">
     {
       NAV_TABS.map((item) => {
