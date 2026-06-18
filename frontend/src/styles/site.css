@@ -1898,6 +1898,13 @@ a.walk-dot:hover { opacity: 0.82; }
 .unc-tlabel { font-size: 9px; fill: var(--bosc-ink); }
 .unc-tswing { font-size: 9px; fill: var(--bosc-muted); font-family: var(--bosc-mono); text-anchor: end; }
 @media (prefers-reduced-motion: reduce) { .unc * { transition: none !important; } }
+/* Toxics RSEI layer (#264) */
+.unc-rsei { display: flex; flex-direction: column; gap: 0.6rem; }
+.unc-rsei-row { border: 1px solid var(--bosc-rule); border-radius: 8px; padding: 0.5rem 0.7rem; }
+.unc-rsei-head { display: flex; align-items: center; gap: 0.45rem; }
+.unc-rsei-name { font-weight: 600; font-size: 0.84rem; }
+.unc-rsei-conc { margin-left: auto; font-family: var(--bosc-mono); font-size: 0.82rem; color: var(--unc-assumption, #b06a00); }
+.unc-rsei-note { font-size: 0.72rem; color: var(--bosc-muted); margin-top: 0.1rem; }
 
 /* ===========================================================================
    Record Screen (/site/records/<group>/<id>, #193): breadcrumb → the record
