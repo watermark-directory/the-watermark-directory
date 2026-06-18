@@ -1839,6 +1839,67 @@ a.walk-dot:hover { opacity: 0.82; }
 .td-srcdoc-link { font-size: 0.78rem; }
 
 /* ===========================================================================
+   Uncertainty engine grammar (epic #271 / #272): the shared visual language for
+   simulate-the-unknowns / disclosure-collapses-the-band / tornado. Register-encoded:
+   [verified] solid · [assumption]/[inference] hatched · [open] outlined.
+   =========================================================================== */
+.unc {
+  --unc-verified: var(--bosc-verified);
+  --unc-assumption: var(--td-inference, #b06a00);
+  --unc-assumption-bg: var(--td-inference-bg, #fbf3e6);
+  --unc-open: var(--bosc-open, #8a8f9a);
+  max-width: 44rem;
+  border: 1px solid var(--bosc-rule);
+  border-radius: 12px;
+  padding: 1rem 1.1rem 1.2rem;
+  background: var(--td-panel, #fff);
+}
+.unc-modebar { display: inline-flex; gap: 0; border: 1px solid var(--bosc-rule); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; }
+.unc-modebtn { font: inherit; font-size: 0.82rem; padding: 0.4rem 0.85rem; background: transparent; border: 0; cursor: pointer; color: var(--bosc-muted); }
+.unc-modebtn.is-active { background: var(--bosc-ink); color: #fff; }
+.unc-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.9rem; }
+.unc-tab { font: inherit; font-size: 0.78rem; padding: 0.3rem 0.7rem; border: 1px solid var(--bosc-rule); border-radius: 999px; background: transparent; cursor: pointer; color: var(--bosc-ink); }
+.unc-tab.is-active { background: var(--td-tint); border-color: var(--td-chip-kind); color: var(--td-chip-kind); font-weight: 600; }
+.unc-sliders { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1rem; }
+.unc-slider { display: grid; grid-template-columns: 1fr; gap: 0.25rem; font-size: 0.8rem; }
+.unc-slider input[type="range"] { width: 100%; accent-color: var(--td-chip-kind); }
+.unc-slider-label { color: var(--bosc-ink); }
+.unc-slider-val { font-family: var(--bosc-mono); font-size: 0.78rem; color: var(--td-chip-kind); justify-self: end; margin-top: -1.5rem; }
+.unc-toggle { display: flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; }
+.unc-readout { display: grid; gap: 0; margin: 0; border: 1px solid var(--bosc-rule); border-radius: 8px; overflow: hidden; }
+.unc-line { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.45rem 0.7rem; border-top: 1px solid var(--td-line, #eee); font-size: 0.82rem; }
+.unc-line:first-child { border-top: 0; }
+.unc-line.is-strong { background: var(--td-tint); font-weight: 700; }
+.unc-line dt { margin: 0; color: var(--bosc-ink); display: flex; align-items: center; gap: 0.4rem; }
+.unc-line dd { margin: 0; font-family: var(--bosc-mono); }
+.unc-note { font-size: 0.78rem; color: var(--bosc-muted); margin: 0.9rem 0 0; line-height: 1.55; }
+.unc-band-head { margin-bottom: 0.5rem; }
+.unc-band-figure { font-size: 1.4rem; font-weight: 800; font-family: var(--bosc-mono); color: var(--bosc-ink); }
+.unc-band-sub { font-size: 0.8rem; color: var(--bosc-muted); }
+.unc-band-net { margin-top: 0.5rem; }
+.unc-h4 { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--td-faint, #999); font-weight: 700; margin: 1.2rem 0 0.4rem; }
+.unc-disclose { display: flex; flex-direction: column; gap: 0.3rem; }
+.unc-disclose-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.5rem; font-size: 0.8rem; padding: 0.35rem 0.5rem; border: 1px solid var(--bosc-rule); border-radius: 6px; cursor: pointer; }
+.unc-disclose-row.is-disclosed { background: var(--td-verified-bg); border-color: var(--bosc-verified); }
+.unc-disclose-label { display: flex; align-items: center; gap: 0.4rem; }
+.unc-disclose-rec { font-size: 0.72rem; color: var(--bosc-muted); font-style: italic; justify-self: end; text-align: right; }
+.unc-disclose-row.is-disclosed .unc-disclose-rec { color: var(--bosc-verified); font-style: normal; font-weight: 600; }
+.unc-mark { display: inline-flex; align-items: center; gap: 0.25rem; vertical-align: middle; }
+.unc-mark-label { font-size: 0.72rem; color: var(--bosc-muted); }
+/* SVG grammar */
+.unc-strip, .unc-tornado { width: 100%; height: auto; margin: 0.3rem 0; }
+.unc-density { fill: var(--unc-open); opacity: 0.18; }
+.unc-ghost { fill: var(--unc-open); opacity: 0.1; }
+.unc-p1090 { fill: var(--bosc-ink); opacity: 0.16; }
+.unc-central { stroke: var(--bosc-ink); stroke-width: 1.6; }
+.unc-axis { font-size: 9px; fill: var(--bosc-muted); font-family: var(--bosc-mono); }
+.unc-axis--end { text-anchor: end; }
+.unc-axis--mid { text-anchor: middle; font-weight: 700; fill: var(--bosc-ink); }
+.unc-tlabel { font-size: 9px; fill: var(--bosc-ink); }
+.unc-tswing { font-size: 9px; fill: var(--bosc-muted); font-family: var(--bosc-mono); text-anchor: end; }
+@media (prefers-reduced-motion: reduce) { .unc * { transition: none !important; } }
+
+/* ===========================================================================
    Record Screen (/site/records/<group>/<id>, #193): breadcrumb → the record
    (full block) → the teardown flow, with a no-JS CSS layout toggle.
    =========================================================================== */
