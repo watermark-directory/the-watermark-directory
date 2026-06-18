@@ -77,6 +77,19 @@ repo-working agents now.
 - **Config:** never read `os.environ` directly — go through `bosc.config.get_settings()`.
   Settings are `BOSC_`-prefixed; the model default is `claude-opus-4-8`, bulk
   extraction uses `claude-sonnet-4-6`.
+- **Site axis (the BOSC network):** the platform hosts a network of watershed-point
+  sites (Lima today; Fort Wayne/Defiance/… queued — #323/#308). Per-site values are
+  **not** baked in: they live on a `SiteProfile` in `bosc.sites` (the Python peer of
+  `frontend/src/lib/sites.ts`), selected by `BOSC_SITE` (`Settings.site`, default
+  `lima`) or the global `bosc --site <slug>` flag. `Settings` fills the per-site config
+  knobs (`PROFILE_SETTINGS_FIELDS`: `nwis_sites`, `rsei_fips`, `eia861_utility_number`,
+  the GIS URLs, …) from the active profile unless a knob is set explicitly (env/`.env`/
+  kwarg still win); deeper hydrology/grid/rsei constants read `bosc.sites.active_profile(settings)`.
+  **Add a site by registering a profile in `bosc.sites.SITES`; never re-hardcode a
+  Lima/Allen-County value.** Profile `*_relpath`s are relative to `settings.data_dir`,
+  and `bosc-`-prefixed reference/extracted filenames are Lima-specific by convention — a
+  new site supplies its own paths. (The `--site` callback writes `BOSC_SITE` to the env
+  before the first `get_settings()`; that's the one sanctioned `os.environ` write.)
 - **Models:** structured extractions are validated with the Pydantic models in
   `bosc.models`. Scan transcriptions may be **approximate**, written `~12345`
   in YAML; `ApproxInt`/`_coerce_number` handle that — preserve the marker in
