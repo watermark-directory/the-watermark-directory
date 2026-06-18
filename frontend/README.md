@@ -69,24 +69,56 @@ const records = loadFeed<RecordItem[]>("records");
 The bundle contract (manifest shape, feed list, schemas, provenance) is documented
 in [`data/site/bundle/README.md`](../data/site/bundle/README.md).
 
-## Information architecture
+## Information architecture — the BOSC network
 
-The site is a four-section header, each with a minimal per-section table of
-contents (the IA lives in `src/lib/nav.ts` — the single source of truth for the
-header tabs, the TOC rail, and the search index):
+The site is **one build** that hosts a *network* of watershed-point sites (the multi-site
+pivot, [#308](https://github.com/goedelsoup/bosc/issues/308)). Lima is the live reference
+build; the basin sites come online incrementally. Two sources of truth: the sites registry
+(`src/lib/sites.ts`) and the header IA (`src/lib/nav.ts` — the header tabs, the per-section
+TOC rail, and the search index).
 
-- **A. Home / About** (`/`) — landing, disclaimer, corpus at a glance, methodology
-- **B. The BOSC site** (`/site/`) — documents, records, timeline, exhibits, people & places, legal
-- **C. The Maumee watershed** (`/watershed/`) — hydrology, watershed map, imagery, RSEI/toxics
-- **D. Wiki** (`/wiki/`) — entity & concept pages
+- **Lima's record content is physically re-rooted under `/bosc`** so future sites are clean
+  siblings (`/gcp`, …). `/` redirects there (`public/_redirects`, a *temporary* 302 — the
+  root will host network content once a second site lands). The topbar **project switcher**
+  (a no-JS `<details>` on the brand mark) hops between sites, rendering each site's real
+  `status`/`selectable` from the registry and the *current* site from the route
+  (`siteForPath`). Only Lima is selectable today; the rest route to a coming-soon page
+  (`/network/<slug>`).
+- **Cross-cutting pages are network-global** at the root, shared across every site:
+  `/about`, `/about-me`, `/wiki/*`, `/ask`, `/search`, `/network/*`, and the `/api/*` functions.
+
+The four header tabs (the reconciled IA, design dictate 02 / [#307](https://github.com/goedelsoup/bosc/issues/307)):
+
+- **The BOSC site** (`/bosc/site/`) — documents, records, timeline, exhibits, people & places, legal
+- **Watershed** (`/bosc/watershed/`) — hydrology, watershed map, imagery, RSEI/toxics
+- **Wiki** (`/wiki/`) — entity & concept pages (global)
+- **Docs** (`/bosc/docs/`) — the long-form essays + methodology
+
+Home is the logo lockup (`/bosc`); the guided walk (`/bosc/start`) and **Ask** (`/ask`) are
+topbar affordances, not tabs. The active tab is a white underline.
 
 ## Search
 
-Dependency-free, zero-CDN. A build-time endpoint (`src/pages/search-index.json.ts`
-→ `/search-index.json`) emits one entry per section area and per bundle row; the
-vanilla client matcher (`src/scripts/search.ts`) does an all-terms substring
-match, title hits first. Ported from the legacy site's `search.js` — no lunr, no
-external host needed.
+Dependency-free, zero-CDN. A build-time endpoint (`src/pages/search-index.json.ts` →
+`/search-index.json`) emits one entry per section area and per bundle row — each carrying a
+**kind** (Record / Entity / Concept / …), an optional mono **id**, and an **evidence tag**
+where the row has a real signal (records, via their citation — no fabricated tags). The
+matcher + the result **record-row grammar** (results grouped by section; each row is a kind
+eyebrow · title · mono id · evidence dot · snippet) live in a shared engine
+(`src/scripts/searchEngine.ts`) used by **both** the topbar dropdown (`src/scripts/search.ts`)
+and the full results page (`/search`, `src/scripts/search-page.ts`) so the two never drift.
+All-terms substring match, title hits first; `↵` opens `/search?q=…`. No lunr, no host.
+
+## Charts
+
+A hand-rolled SVG chart library (no charting dependency) in the record grammar
+([#306](https://github.com/goedelsoup/bosc/issues/306)): pure geometry builders in
+`src/lib/charts.ts` (`buildVBars`/`buildHBars`/`buildLine`/`buildBullet`/`buildStacked`/
+`buildDonut`/`buildSparkline`) feed seven SSR components in `src/components/charts/`. Two
+palette rules: **indigo encodes data**; the **evidence palette** (`EVIDENCE_FILL` — green/
+amber/grey) is spent *only* on encoding evidence. Real, no-fork uses are wired into records
+(a by-group donut), reports (a discharge bullet), and the watershed hydrology screen (a
+draw-vs-7Q10 bullet drawn from the scenarios feed).
 
 ## Interactive maps & the entity graph (deck.gl)
 
@@ -96,13 +128,13 @@ the app — mounted `client:only` so their JS (deck.gl + MapLibre, ~heavy) loads
 has a **server-rendered no-JS fallback** (a legend + feature table, or the entity
 list) that doubles as a plain data view.
 
-- **Corridor map** (`/watershed/map`, [#71](https://github.com/goedelsoup/bosc/issues/71)) — `src/components/islands/CorridorMap.tsx`, deck.gl `GeoJsonLayer`s over a MapLibre basemap with dated Esri Wayback aerials. Styled **entirely from the feed** (`color`/`role`/`radius`); the data is the geo feeds merged by the `/feeds/geo/corridor-map.geojson` endpoint.
+- **Corridor map** (`/bosc/watershed/map`, [#71](https://github.com/goedelsoup/bosc/issues/71)) — `src/components/islands/CorridorMap.tsx`, deck.gl `GeoJsonLayer`s over a MapLibre basemap with dated Esri Wayback aerials. Styled **entirely from the feed** (`color`/`role`/`radius`); the data is the geo feeds merged by the `/feeds/geo/corridor-map.geojson` endpoint.
 - **Entity graph** (`/wiki/graph`, [#73](https://github.com/goedelsoup/bosc/issues/73)) — `src/components/islands/EntityGraph.tsx`, a deck.gl `OrthographicView` over nodes/edges laid out at build time by `d3-force` (`/feeds/graph.json`, deterministic). Click a node → its wiki page; entity pages deep-link `/wiki/graph#<slug>` to focus a neighborhood.
 
 The islands are build-verified (bundle, mount, endpoint fetch); a quick **browser
 visual pass** is still worth doing (WebGL rendering isn't covered by `astro check`).
-The watershed map (`/watershed/map`) and the before/during/after imagery slider
-(`/watershed/imagery`, [#72](https://github.com/goedelsoup/bosc/issues/72)) ship too —
+The watershed map (`/bosc/watershed/map`) and the before/during/after imagery slider
+(`/bosc/watershed/imagery`, [#72](https://github.com/goedelsoup/bosc/issues/72)) ship too —
 `ImagerySlider.tsx` over the `geo/imagery` Wayback feed, against the committed
 watershed-boundary + AOI geometry feeds.
 
@@ -115,17 +147,21 @@ from the repo-root `docs/` **as-is** ([#69](https://github.com/goedelsoup/bosc/i
 **Single-source decision:** `docs/` stays at the repo root and is **not** moved or
 edited — it's also the legacy Python SSG's input and general repo documentation.
 The frontend reads it with a `glob` loader over `../docs` (`src/content.config.ts`),
-publishing only the curated set in `src/lib/narrative.ts`, rendered at `/docs/<slug>`.
+publishing only the curated set in `src/lib/narrative.ts`, rendered at `/bosc/docs/<slug>`.
 
 Because the source links target the *legacy* `web/docs/` layout, a build-time
 rehype plugin (`src/lib/rehype-doc-links.ts`) rewrites them without touching the
-source: intra-narrative links → `/docs/<slug>`, known legacy pages → their new-IA
+source: intra-narrative links → `/bosc/docs/<slug>`, known legacy pages → their new-IA
 route (`src/lib/narrative.ts` `LINK_MAP`), and any other in-repo file (the corpus,
-not-yet-migrated pages) → its GitHub source — so cross-links resolve in both tiers.
+not-yet-migrated pages) → its GitHub source — so cross-links resolve in both tiers. Since
+the re-root, the plugin **base-prefixes Lima routes with `/bosc`** (`limaBase` in
+`astro.config.ts`), with a `GLOBAL_ROUTE` guard so network-global targets (`/wiki`, `/about`,
+`/ask`) are *not* prefixed; `LINK_MAP` values stay un-prefixed so they don't double.
 
-> Note: editing `astro.config.ts`-imported modules (the rehype plugin / its data)
-> requires clearing `node_modules/.vite` to bust Astro's config bundle cache; a
-> fresh `npm ci` in CI is unaffected.
+> Note: editing `astro.config.ts`-imported modules (the rehype plugin / its data) requires
+> clearing **`node_modules/.astro`** (Astro caches markdown rehype output there — a stale
+> cache silently survives a base/`LINK_MAP` change) and `node_modules/.vite` (the config
+> bundle cache); a fresh `npm ci` in CI is unaffected.
 
 ## Evidence tags
 
@@ -144,47 +180,52 @@ frontend/
     lib/
       bundle.ts          # build-time bundle reader (resolve dir, manifest, feeds, hasFeed)
       feeds.ts           # TS shapes for the feed rows + evidenceKind()
-      nav.ts             # the 4-section IA + per-section TOC (single source of truth)
+      nav.ts             # the 4-tab IA + section ids + per-section TOC (single source of truth)
+      sites.ts           # the BOSC-network registry + siteForPath() (switcher source of truth)
+      charts.ts          # pure SVG geometry builders for the chart library
+      icons.ts           # the inline icon set (paired with Icon.astro)
       search.ts          # build-time search-index assembly over the bundle
       site.ts            # site constants + withBase() base-path helper
       narrative.ts       # which docs/ files are published + the legacy→IA link map
-      rehype-doc-links.ts # build-time rewriter for in-repo links inside docs/
+      rehype-doc-links.ts # build-time rewriter for in-repo links inside docs/ (base-aware)
       geo.ts / graph.ts  # build-time geo merge + deterministic d3-force graph layout
       geoStyle.ts        # client-safe geo types/colors (shared with the islands)
-    components/          # Header (tabs + search), SectionToc rail, EvidenceTag pill
+    components/          # Header (switcher + tabs + Ask + search), SectionToc rail, Logo/Icon
+      charts/            # seven SSR chart primitives (bar/ranked/line/donut/bullet/stacked/spark)
       islands/           # CorridorMap + EntityGraph — the only React (deck.gl)
     layouts/Base.astro   # the app shell (header + TOC rail + content + footer)
-    scripts/             # search.ts + toc.ts — dependency-free client scripts
-    styles/site.css      # shell styling (indigo chrome, evidence pills)
+    scripts/             # searchEngine.ts (shared) + search.ts/search-page.ts + toc.ts (no-dep)
+    styles/site.css      # shell styling (indigo chrome, evidence pills, chart + search grammar)
     pages/
-      index.astro         # Section A (Home / About)
-      site/               # Section B — documents, records, timeline, people/places, legal
-      watershed/          # Section C — hydrology, RSEI, the corridor map
-      wiki/               # Section D — entities, concepts, the entity graph
-      docs/               # the migrated narrative collection (/docs/<slug>)
-      about.mdx           # the About page (MDX)
-      search-index.json.ts # build-time search endpoint
+      index.astro         # the network root — redirects to the live site (/bosc)
+      bosc/               # Lima's record content, re-rooted: site/ watershed/ docs/ reports/
+                          #   timeline start submit walk (the four tabs + the walk spine)
+      wiki/               # entities, concepts, the entity graph (network-global)
+      network/            # the network hub + per-site coming-soon pages (/network/<slug>)
+      about.mdx about-me.astro ask.astro search.astro   # network-global pages (root)
+      search-index.json.ts ask-index.json.ts            # build-time client-index endpoints
+      published-documents.json.ts robots.txt.ts
       feeds/              # build-time data endpoints (geojson, graph.json) for the islands
+  functions/            # Cloudflare Pages Functions — /api/submit, /api/ask (see functions/README.md)
+  public/_redirects     # Cloudflare 301/302s: / → /bosc (302) + old Lima URLs → /bosc/*
   sample-bundle/        # committed minimal bundle fixture (offline/CI build input)
 ```
 
 ## Status / roadmap
 
-In: the scaffold ([#63](https://github.com/goedelsoup/bosc/issues/63)), the app
-shell ([#64](https://github.com/goedelsoup/bosc/issues/64)), and all four content
-sections:
+**Shipped — the two-tier site (Epic [#54](https://github.com/goedelsoup/bosc/issues/54)) is
+complete.** Scaffold + app shell, all the content sections (the corpus catalog/records/
+timeline/exhibits/people/legal, the watershed water-balance + RSEI, the wiki entity/concept
+pages + `[[wiki-link]]` resolver), the **deck.gl layer** (Epic #55 — corridor map #71 +
+entity graph #73 + imagery slider #72), and the migrated narrative collection (#69).
 
-- **A. Home / About** ([#65](https://github.com/goedelsoup/bosc/issues/65)) — disclaimer, corpus-at-a-glance, doors.
-- **B. The BOSC site** ([#66](https://github.com/goedelsoup/bosc/issues/66)) — documents catalog, per-kind record pages, the timeline, exhibits, people/place profiles, legal history.
-- **C. The Maumee watershed** ([#67](https://github.com/goedelsoup/bosc/issues/67)) — the water-balance/scenario dashboard, the geo-layer inventory + DeckGL mount point, an imagery slider, and RSEI. The DeckGL map itself is E3.3 (#72).
-- **D. Wiki** ([#68](https://github.com/goedelsoup/bosc/issues/68)) — entity pages (graph neighborhood + backlinks), concept pages, and the `[[wiki-link]]` resolver over the new `concepts` feed (a Python data-tier addition — `data/concepts/*.md`, contract `1.1.0`). The interactive entity-graph viz is E3.4 (#73).
+**Shipped — the BOSC-network design refresh (Epic [#308](https://github.com/goedelsoup/bosc/issues/308)).**
+The multi-site pivot and chrome restyle: the sites registry + project switcher (#304) with
+per-site coming-soon pages (#305); the chart library (#306); the icon/brand refresh (#309);
+the four-tab IA reconciliation, the `/bosc` re-root + root globals, and the search
+record-rows + the full `/search` page (#307); the switcher current-site fix (#316).
 
-Plus the **deck.gl visualization layer** (Epic #55): the corridor map
-([#71](https://github.com/goedelsoup/bosc/issues/71)) and the entity graph
-([#73](https://github.com/goedelsoup/bosc/issues/73)).
-
-Plus the narrative content collection
-([#69](https://github.com/goedelsoup/bosc/issues/69)) — **Epic #54 is complete**.
-
-Remaining for the redesign: flipping the parity-gated Pages deploy to this app
-(the watershed map + imagery slider, #72, have shipped).
+**Remaining:** flip the parity-gated Pages deploy to this app (still built alongside the
+legacy SSG); build out the basin sites as the network grows (Fort Wayne #235, Defiance #238,
+Findlay #237, Toledo #236); and take the dark-until-enabled seams live (submit #241, ask
+#302). The `/api/*` functions and the submit/ask pages ship behind kill switches until then.

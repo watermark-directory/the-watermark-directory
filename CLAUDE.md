@@ -28,15 +28,23 @@ renders the legacy SSG (`bosc site build` → `site/`). The presentation tier li
 in **`frontend/`**: an Astro + MDX static site that reads that bundle at build time
 (Epic #54). It's pure Node (npm, no uv/LFS) and builds against the committed
 `frontend/sample-bundle/` fixture offline; deck.gl map/graph visualizations are the
-only React islands. The two tiers run side by side until the new site reaches
+only React islands. The frontend is structured as **the BOSC network** (Epic #308):
+one build hosting a network of watershed-point sites — Lima (the live reference build)
+is physically re-rooted under **`/bosc`** so future sites are clean siblings, with
+cross-cutting pages (about, wiki, ask, search, the `/network/*` hub) global at the root
+and a topbar switcher (`src/lib/sites.ts`) between them. Charts are a hand-rolled SVG
+library (`src/lib/charts.ts` + `components/charts/`) — indigo encodes data, the evidence
+palette only encodes evidence. The two tiers run side by side until the new site reaches
 parity — the cutover to the new site is deliberately parity-gated. Production is
 **Cloudflare Pages** (`.github/workflows/pages.yml` + `frontend/wrangler.toml`,
 where the `frontend/functions/api/*` Pages Functions — `/api/submit`, `/api/ask` —
 also deploy), **not** GitHub Pages: that deploy was never flipped and Cloudflare
 supersedes it. See
 `frontend/README.md` for the architecture; **don't edit `docs/**` to fix the new
-site's cross-links** — they're rewritten at build time (`frontend/src/lib/rehype-doc-links.ts`)
-so the same source stays valid for the legacy SSG too.
+site's cross-links** — they're rewritten at build time (`frontend/src/lib/rehype-doc-links.ts`,
+base-aware: Lima routes get the `/bosc` prefix, network-global ones don't) so the same
+source stays valid for the legacy SSG too. After a base/`LINK_MAP` change, clear
+`node_modules/.astro` (Astro caches markdown rehype output there).
 
 The **investigative-method layer** is the methodology the platform's analysis and
 prose are held to: `.claude/skills/` carries six abstract, agent-discoverable
