@@ -1,0 +1,66 @@
+---
+/**
+ * Horizontal ranked bar chart (#306) — with a disclosed/withheld two-tone (a present
+ * value whose companion figure is withheld gets the soft indigo fill). SSR, no JS.
+ */
+import type { TagKind } from "../../lib/teardown";
+import { buildHBars, type RankedBarDatum } from "../../lib/charts";
+import EvidenceTag from "../EvidenceTag.astro";
+
+interface Props {
+  data: RankedBarDatum[];
+  kicker?: string;
+  title: string;
+  unit?: string;
+  max?: number;
+  evidence?: TagKind;
+  source?: string;
+  /** Show the disclosed/withheld legend (when any datum is `withheld`). */
+  legend?: boolean;
+}
+const { data, kicker = "Bar · ranked", title, unit, max, evidence, source, legend } = Astro.props;
+const c = buildHBars(data, { ...(max != null ? { max } : {}), ...(unit ? { unit } : {}) });
+const hasWithheld = legend ?? data.some((d) => d.withheld);
+---
+
+<figure class="chart-card">
+  <figcaption class="chart-head">
+    <span class="chart-kicker">{kicker}</span>
+    <span class="chart-title">{title}</span>
+  </figcaption>
+  <svg viewBox={`0 0 ${c.width} ${c.height}`} class="chart-svg" role="img" aria-label={title}>
+    {
+      c.ticks.map((t) => (
+        <Fragment>
+          <line x1={t.x} y1="8" x2={t.x} y2="178" stroke="#eef0f4" stroke-width="1" />
+          <text x={t.x} y="192" text-anchor="middle" class="chart-axis">{t.value}</text>
+        </Fragment>
+      ))
+    }
+    {
+      c.bars.map((b) => (
+        <Fragment>
+          <text x="8" y={b.textY} class="chart-axis chart-axis--row">{b.label}</text>
+          <rect x={c.x0} y={b.y} width={b.w} height="14" rx="2.5" fill={b.fill} stroke={b.stroke} stroke-width={b.strokeW} />
+          <text x={b.valX} y={b.textY} class="chart-axis chart-axis--val">{b.valLabel}</text>
+        </Fragment>
+      ))
+    }
+  </svg>
+  {
+    hasWithheld && (
+      <div class="chart-legend">
+        <span class="chart-legend-item"><span class="chart-swatch" style="background:#3f51b5" />price disclosed</span>
+        <span class="chart-legend-item"><span class="chart-swatch chart-swatch--withheld" />price withheld</span>
+      </div>
+    )
+  }
+  {
+    (evidence || source) && (
+      <figcaption class="chart-foot">
+        {evidence && <EvidenceTag kind={evidence} title={source} />}
+        {source && <span class="chart-caption">{source}</span>}
+      </figcaption>
+    )
+  }
+</figure>

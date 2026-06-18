@@ -1,0 +1,39 @@
+---
+/**
+ * Stacked proportion bar (#306) — the ONE chart that spends the evidence palette, because
+ * it *encodes evidence*: the verified / inference / open split across a record set. SSR, no JS.
+ */
+import { buildStacked, EVIDENCE_FILL, type StackSegment } from "../../lib/charts";
+
+interface Props {
+  segments: StackSegment[];
+  kicker?: string;
+  title: string;
+}
+const { segments, kicker = "Stacked · proportion", title } = Astro.props;
+const c = buildStacked(segments);
+const clipId = `stk-${title.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
+---
+
+<figure class="chart-card">
+  <figcaption class="chart-head">
+    <span class="chart-kicker">{kicker}</span>
+    <span class="chart-title">{title}</span>
+  </figcaption>
+  <svg viewBox={`0 0 ${c.width} ${c.height}`} class="chart-stacked-svg" role="img" aria-label={title}>
+    <defs><clipPath id={clipId}><rect x="3" y="3" width="354" height="24" rx="6" /></clipPath></defs>
+    <g clip-path={`url(#${clipId})`}>
+      {c.segments.map((s) => <rect x={s.x} y="3" width={s.w} height="24" fill={s.fill} />)}
+    </g>
+  </svg>
+  <div class="chart-legend chart-legend--wide">
+    {
+      c.segments.map((s) => (
+        <span class="chart-legend-item">
+          <span class="chart-swatch" style={`background:${EVIDENCE_FILL[s.kind]}`} />
+          <b>{s.value}</b> <span class="chart-caption">{s.label} · {s.pct}%</span>
+        </span>
+      ))
+    }
+  </div>
+</figure>

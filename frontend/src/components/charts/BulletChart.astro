@@ -1,0 +1,69 @@
+---
+/**
+ * Bullet chart (#306) — measures against a shared scale, with an optional red **limit
+ * marker** (e.g. a design low flow): the comparison is the whole story. SSR, no JS.
+ * Each row keeps its own evidence register. The marker is the only red — a constraint.
+ */
+import type { TagKind } from "../../lib/teardown";
+import { niceMax } from "../../lib/charts";
+import EvidenceTag from "../EvidenceTag.astro";
+
+interface BulletRow {
+  label: string;
+  value: number;
+  /** Bar fill — defaults to indigo; pass amber etc. to flag a modeled row. */
+  fill?: string;
+  evidence?: TagKind;
+  evidenceNote?: string;
+}
+interface Props {
+  rows: BulletRow[];
+  unit?: string;
+  max?: number;
+  /** A red limit line drawn across the scale (the constraint to compare against). */
+  marker?: number;
+  kicker?: string;
+  title: string;
+  scaleLabel?: string;
+  note?: string;
+}
+const { rows, unit, max, marker, kicker = "Bullet · measure vs limit", title, scaleLabel, note } = Astro.props;
+const ceiling = max ?? niceMax(Math.max(...rows.map((r) => r.value), marker ?? 0));
+const pct = (v: number): string => `${Math.round((v / ceiling) * 1000) / 10}%`;
+const fmt = (v: number): string => (Number.isInteger(v) ? String(v) : v.toFixed(2));
+---
+
+<figure class="chart-card">
+  <div class="chart-head chart-head--row">
+    <div>
+      <span class="chart-kicker">{kicker}</span>
+      <span class="chart-title">{title}</span>
+    </div>
+    {scaleLabel && <span class="chart-caption">{scaleLabel}</span>}
+  </div>
+  <div class="chart-bullet">
+    {
+      rows.map((r) => (
+        <div class="chart-bullet-row">
+          <div class="chart-bullet-label">
+            <div class="chart-bullet-name">{r.label}</div>
+            {r.evidence && <EvidenceTag kind={r.evidence} title={r.evidenceNote} label={r.evidenceNote ? `${r.evidence}` : undefined} />}
+          </div>
+          <div class="chart-bullet-track">
+            <div class="chart-bullet-fill" style={`width:${pct(r.value)}; background:${r.fill ?? "#3f51b5"}`} />
+            {marker != null && <div class="chart-bullet-marker" style={`left:${pct(marker)}`} />}
+          </div>
+          <div class="chart-bullet-val">{fmt(r.value)} {unit && <span class="chart-bullet-unit">{unit}</span>}</div>
+        </div>
+      ))
+    }
+  </div>
+  {
+    note && (
+      <div class="chart-bullet-note">
+        <span class="chart-bullet-tick" aria-hidden="true" />
+        {note}
+      </div>
+    )
+  }
+</figure>

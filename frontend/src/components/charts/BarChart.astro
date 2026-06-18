@@ -1,0 +1,58 @@
+---
+/**
+ * Vertical bar chart (record-grammar chart set, #306) — categorical, peak highlighted.
+ * SSR SVG, no JS; geometry from `lib/charts`. Indigo data palette, monospace figures.
+ */
+import type { TagKind } from "../../lib/teardown";
+import { type BarDatum, buildVBars } from "../../lib/charts";
+import EvidenceTag from "../EvidenceTag.astro";
+
+interface Props {
+  data: BarDatum[];
+  kicker?: string;
+  title: string;
+  max?: number;
+  /** Provenance travels with every figure. */
+  evidence?: TagKind;
+  source?: string;
+  caption?: string;
+}
+const { data, kicker = "Bar · categorical", title, max, evidence, source, caption } = Astro.props;
+const c = buildVBars(data, max != null ? { max } : {});
+---
+
+<figure class="chart-card">
+  <figcaption class="chart-head">
+    <span class="chart-kicker">{kicker}</span>
+    <span class="chart-title">{title}</span>
+  </figcaption>
+  <svg viewBox={`0 0 ${c.width} ${c.height}`} class="chart-svg" role="img" aria-label={title}>
+    {
+      c.grid.map((g) => (
+        <Fragment>
+          <line x1="34" y1={g.y} x2="348" y2={g.y} stroke="#eef0f4" stroke-width="1" />
+          <text x="28" y={g.y + 3} text-anchor="end" class="chart-axis">{g.value}</text>
+        </Fragment>
+      ))
+    }
+    <line x1="34" y1={c.baselineY} x2="348" y2={c.baselineY} stroke="#d7dae4" stroke-width="1" />
+    {
+      c.bars.map((b) => (
+        <Fragment>
+          <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="2.5" fill={b.fill} />
+          <text x={b.cx} y={b.valY} text-anchor="middle" class:list={["chart-val", { "is-peak": b.peak }]}>{b.value}</text>
+          <text x={b.cx} y="188" text-anchor="middle" class="chart-axis chart-axis--x">{b.label}</text>
+        </Fragment>
+      ))
+    }
+  </svg>
+  {
+    (evidence || source || caption) && (
+      <figcaption class="chart-foot">
+        {evidence && <EvidenceTag kind={evidence} title={source} />}
+        {caption && <span class="chart-caption">{caption}</span>}
+        {source && !caption && <span class="chart-caption">{source}</span>}
+      </figcaption>
+    )
+  }
+</figure>
