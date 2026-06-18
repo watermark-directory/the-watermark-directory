@@ -1919,6 +1919,19 @@ a.walk-dot:hover { opacity: 0.82; }
 .unc-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; font-size: 0.78rem; margin: 0.2rem 0 0.7rem; }
 .unc-chain-step { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.5rem; border: 1px solid var(--bosc-rule); border-radius: 6px; background: var(--td-panel, #fff); }
 .unc-chain-arrow { color: var(--bosc-muted); }
+/* The public balance sheet (#273) — every narrative's band on one sheet. */
+.unc-bs-rows { display: flex; flex-direction: column; gap: 1rem; margin: 0.5rem 0 0.4rem; }
+.unc-bs-row { border: 1px solid var(--bosc-rule); border-radius: 8px; padding: 0.6rem 0.8rem; }
+.unc-bs-rowhead { display: flex; align-items: center; gap: 0.45rem; }
+.unc-bs-name { font-weight: 700; font-size: 0.9rem; color: var(--td-chip-kind); text-decoration: none; }
+.unc-bs-name:hover { text-decoration: underline; }
+.unc-bs-central { margin-left: auto; font-family: var(--bosc-mono); font-size: 0.86rem; font-weight: 700; }
+.unc-bs-label { font-size: 0.78rem; color: var(--bosc-muted); margin: 0.1rem 0 0.2rem; }
+.unc-bs-resolve { font-size: 0.74rem; color: var(--bosc-muted); margin-top: 0.3rem; }
+.unc-bs-resolve-tag { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; color: var(--td-faint, #999); margin-right: 0.3rem; }
+.unc-bs-records { list-style: none; padding: 0; margin: 0.3rem 0 0; display: flex; flex-direction: column; gap: 0.4rem; }
+.unc-bs-records li { display: flex; align-items: flex-start; gap: 0.45rem; font-size: 0.8rem; line-height: 1.45; color: var(--bosc-ink); }
+.door--capstone { border-color: var(--bosc-indigo); background: linear-gradient(180deg, var(--td-tint, #f4f1fa), transparent); }
 
 /* ===========================================================================
    Record Screen (/site/records/<group>/<id>, #193): breadcrumb → the record
