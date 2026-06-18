@@ -101,6 +101,15 @@ construction lifts the real-property share and cleared operations run lean — b
 _what-if_ on two knobs, **not** a claim the facility is defense (that thread stays `[open]`;
 see [defense-nexus.md](defense-nexus.md)).
 
+That the building share is a _band_, not a number, is itself corroborated by the
+industry. Independent capex breakdowns put the building _shell_ at only **~15–21%** of a
+data-center build, rising toward the abated base once affixed mechanical and electrical
+fixtures count as real property `[reference: datacenter-industry priors]`. And Ohio draws
+the line in statute — the CRA abates real property, while the sales-tax exemption (DCTE)
+covers the equipment _and_ the construction materials (R.C. 122.175) — so the split the
+abatement turns on is genuinely fuzzy, which is the case for modeling it across a range
+rather than asserting one figure.
+
 ———
 
 ## the second subsidy, the one no one scores
@@ -128,6 +137,14 @@ subsidy between two pots; it does not shrink the total. Add the two and the publ
 fifteen-year give is on the order of **~$45M–$90M**, depending entirely on four numbers
 the record withholds.
 
+That the exemption is the heavier subsidy is not a screening artifact — it is what every
+jurisdiction that has actually measured it reports. Virginia's legislative audit found its
+data-center sales-tax exemption cost **$1.02B in a single year — 81% of all state economic
+incentive spending** `[reference: JLARC 2024]`, and Ohio's own exemption ballooned to
+**~$16B**, enough that the legislature moved to suspend new grants
+(HB957) `[reference: datacenter-industry priors]`. The subsidy that gets the headline is
+the abatement; the one that gets the money is the exemption.
+
 ———
 
 ## what comes back
@@ -137,7 +154,12 @@ covered jobs in 2023, _down_ from 50,828 in 2018; its population has fallen from
 (2010) to 101,685 (2023) `[verified: BLS QCEW / Census ACS, the localized baseline]`. The
 ~50 promised jobs are about **0.1%** of county employment — a rounding error against a
 base that is already shrinking, in a county that is **2× specialized in manufacturing**
-(the sector a tank plant and a refinery anchor), not in cloud.
+(the sector a tank plant and a refinery anchor), not in cloud. The lean headcount is the
+industry norm, not a Lima quirk: automated hyperscale campuses run **~20–40 operators per
+100 MW** `[reference: datacenter-industry priors]`, and Good Jobs First puts the average
+data-center megadeal at **~$2M per job** (states range $1.4M–$6.4M)
+`[reference: Good Jobs First]` — a band BOSC's modeled subsidy-per-job lands inside. This
+is a _typical_ data-center deal, which is precisely why the structural mismatch matters.
 
 The payroll is **~$4M/yr**, ~$60M gross over the term `[verified-stated, non-binding]` —
 but the public's _direct_ slice of that is thin: Ohio's municipal income tax reaches it

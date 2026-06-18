@@ -1,0 +1,239 @@
+meta:
+  subject: >-
+    Data-center industry reference priors — a pooled meta-analysis of published
+    sources, used to BOUND the uncertainty engine's [assumption] inputs (epic #271,
+    flagship #269) where the Lima record is silent or non-binding.
+  method: >-
+    For each load-bearing unknown, independent published estimates are pooled into a
+    low / central / high band (a triangular prior). The band is the deliverable — not a
+    point. Each prior carries every source it pools, and a lima_status that keeps the
+    discipline explicit.
+  discipline: >-
+    These are INDUSTRY reference ranges — [reference] / [assumption], "industry
+    reference, NOT this campus." They bound the unknowns so the engine's output bands are
+    defensible; they do NOT resolve the [open] questions (which workload class Lima is,
+    the cooling design, the defense nexus). Only disclosure closes those. A meta-analysis
+    elicits priors; it does not produce facility facts.
+  provenance: >-
+    Hand-assembled from published sources (not a connector pull), like the relator's
+    committee data appendix; curated, not auto-regenerable. Each source is cited with a
+    URL where one exists. Reference figures as of June 2026.
+  consumed_by:
+    - frontend/src/lib/uncertainty.ts (Prior bounds)
+    - frontend/src/lib/econLedger.ts (the economic-ledger simulator, #269)
+  related_corpus:
+    - data/extracted/legal/select-committee-2026/relator-testimony/bosc-data-appendix-2026-06-01.md
+    - docs/the-economic-ledger.md
+    - docs/end-use-and-workloads.md
+
+priors:
+  - key: building_real_property_share
+    label: Building (abated real-property) share of total capex
+    unit: fraction
+    register: reference
+    lima_status: open
+    dist: triangular
+    low: 0.20
+    central: 0.30
+    high: 0.45
+    drives:
+      - the CRA 75%/15-yr property-tax abatement base (the abated assessed value)
+    note: >-
+      Independent capex breakdowns put the building SHELL at ~15-21% of total cost; with
+      affixed mechanical/electrical fixtures classified as real property the abated base
+      rises toward ~40-50%. Ohio's CRA abates REAL property; the DCTE sales-tax exemption
+      covers equipment AND construction materials (R.C. 122.175) — so the building/equipment
+      line is genuinely fuzzy and jurisdiction-specific, which is exactly why this is a
+      band. The corpus's earlier single 0.35 sits inside it.
+    sources:
+      - name: Epoch AI — TCO of a 1 GW AI data center
+        year: 2025
+        url: https://epoch.ai/data-insights/ai-datacenter-cost-breakdown
+        contributes: building/land/equipment capex split for AI-class builds
+      - name: U.S. Chamber CTEC — data-center report
+        year: 2025
+        url: https://www.uschamber.com/assets/documents/ctec_datacenterrpt_lowres.pdf
+        contributes: cost-structure shares (shell vs mechanical/electrical vs IT)
+      - name: McKinsey — "The data center dividend"
+        year: 2025
+        url: https://www.mckinsey.com/featured-insights/week-in-charts/the-data-center-dividend
+        contributes: hyperscale capex composition (~20% shell / ~20% cooling / ~20% power / ~40% servers)
+      - name: BlueCap Economic Advisors — data-center cost
+        year: 2025
+        url: https://www.bluecapeconomicadvisors.com/post/cost-data-center
+        contributes: land 6% / shell 21% / mech+electrical 73% itemization
+      - name: Ohio Revised Code 122.175 (DCTE scope)
+        year: 2025
+        url: https://codes.ohio.gov/ohio-revised-code/section-122.175
+        contributes: the real-vs-personal line — DCTE exempts equipment + construction materials, not the abated real-property value
+
+  - key: jobs_per_mw
+    label: Steady-state permanent jobs per MW (automated hyperscale)
+    unit: jobs_per_mw
+    register: reference
+    lima_status: verified-stated
+    dist: triangular
+    low: 0.10
+    central: 0.18
+    high: 0.30
+    drives:
+      - the job-count input to the per-job and load-not-jobs figures
+    note: >-
+      Automated hyperscale campuses run ~20-40 operators per 100 MW (0.2-0.3/MW); the most
+      automated sites approach 0.1/MW. For Lima's ~275-348 MW that is ~28-105 jobs — which
+      independently brackets the CRA's non-binding ~50 (mid-low) and the leaner 30-job
+      profile. Colocation runs higher per MW; bitcoin near zero.
+    sources:
+      - name: Brookings — new evidence on data-center employment effects
+        year: 2025
+        url: https://www.brookings.edu/articles/new-evidence-on-data-center-employment-effects/
+        contributes: empirical permanent-employment effects of data centers
+      - name: Good Jobs First — data-center subsidy studies
+        year: 2025
+        url: https://goodjobsfirst.org/study-state-and-local-governments-pay-2-million-job-tech-giants-data-centers/
+        contributes: 20-30 staff per 100 MW for >100 MW facilities
+      - name: Built In — data-center jobs
+        year: 2025
+        url: https://builtin.com/articles/data-center-jobs
+        contributes: operations staffing roles and counts
+      - name: Broadstaff — data-center staffing levels
+        year: 2025
+        url: https://broadstaffglobal.com/data-center-staffing-levels-how-many-people-does-a-facility-need
+        contributes: per-MW staffing by facility type (hyperscale vs colocation)
+
+  - key: subsidy_per_job_benchmark
+    label: Subsidy per data-center job (comparative benchmark)
+    unit: usd_per_job
+    register: reference
+    lima_status: comparative
+    dist: triangular
+    low: 1_400_000
+    central: 2_000_000
+    high: 6_400_000
+    drives:
+      - a sanity band the ledger's modeled per-job subsidy is read against
+    note: >-
+      Good Jobs First: data-center megadeals average ~$2M/job (Illinois ~$1.4M; North
+      Carolina/Apple ~$6.4M; Digital Realty >$2M). BOSC's modeled property-tax abatement
+      alone is ~$0.6-2.1M/job; adding the sales-tax exemption puts the total squarely in
+      this band — i.e. TYPICAL of a data-center megadeal, not an outlier. A corroboration
+      of the ledger output, not an input.
+    sources:
+      - name: Good Jobs First — "$2 million per job"
+        year: 2025
+        url: https://goodjobsfirst.org/study-state-and-local-governments-pay-2-million-job-tech-giants-data-centers/
+        contributes: national average + per-state per-job subsidy figures
+      - name: Data Center Dynamics — coverage of the GJF study
+        year: 2025
+        url: https://www.datacenterdynamics.com/en/news/research-us-state-subsidies-pay-2-million-per-data-center-job/
+        contributes: independent reporting of the $2M/job finding
+
+  - key: salestax_exemption_dominance
+    label: The sales-tax exemption is the dominant data-center subsidy
+    unit: corroboration
+    register: reference
+    lima_status: comparative
+    note: >-
+      Corroborates the ledger's "second subsidy no one scores." Virginia's JLARC found the
+      data-center sales-and-use exemption cost $1.02B in FY2024 — 81% of ALL state incentive
+      spending. Ohio's own DCTE ballooned to ~$16B, prompting a 2025-26 move to suspend new
+      grants (HB957). The exemption — not the property abatement — is repeatedly the largest
+      line, at the scale of states that have actually measured it.
+    sources:
+      - name: Virginia JLARC — Data Centers in Virginia (Dec 2024)
+        year: 2024
+        url: https://www.pwcva.gov/assets/2024-12/JLARC%20Report%20Summary_12-16-2024.pdf
+        contributes: exemption = $1.02B FY2024, 81% of state incentive spend; ~25 direct jobs per 250,000 sq ft
+      - name: Virginia Business — JLARC $2.7B exemption (2021-2024)
+        year: 2024
+        url: https://virginiabusiness.com/virginia-data-centers-tax-exemption-2-7-billion/
+        contributes: independent reporting of the JLARC exemption magnitude
+      - name: Good Jobs First — Virginia data-center annual losses top $1B
+        year: 2025
+        url: https://goodjobsfirst.org/virginia-data-center-annual-losses-top-1-billion/
+        contributes: corroborating the exemption-dominated subsidy structure
+      - name: Ohio data-center exemption suspension (~$16B) / HB957
+        year: 2025
+        url: https://trackbill.com/bill/ohio-house-bill-957-prohibit-new-data-center-sales-tax-exemptions-from-being-granted/2853899/
+        contributes: Ohio-specific — the DCTE cost ballooned to ~$16B; bill to prohibit new exemptions
+
+  - key: govcloud_premium
+    label: Government / sovereign-cloud price premium
+    unit: fraction
+    register: reference
+    lima_status: open
+    dist: triangular
+    low: 0.20
+    central: 0.25
+    high: 0.30
+    drives:
+      - the authorized-region-premium driver in the end-use / who-captures-the-benefit analysis
+    note: >-
+      ~20-30% recurring premium (isolation, U.S.-persons staffing, compliance). Already
+      multi-sourced in the relator's data appendix (BCG, AWS GovCloud vs commercial,
+      CapLinked, Matlock); carried here so the prior has one home. Application to Lima [open].
+    sources:
+      - name: Relator committee data appendix §1 (pooled)
+        year: 2026
+        url: null
+        contributes: BCG "Cloud Cover" (up to 30%); AWS EC2/S3 GovCloud vs commercial (~20-25%); CapLinked; Matlock
+
+  - key: wue_l_per_kwh
+    label: Cooling water-use effectiveness (evaporative vs closed-loop)
+    unit: l_per_kwh
+    register: reference
+    lima_status: open
+    dist: bimodal
+    low: 0.20
+    central: 1.8
+    high: 1.9
+    drives:
+      - the consumptive-water [open] (evaporative ~1.8-1.9 L/kWh vs closed-loop ~0.2-0.3)
+    note: >-
+      The split is bimodal by cooling design, not a smooth band: industry-average
+      evaporative ~1.8-1.9 L/kWh; efficient closed-loop / chip cooling ~0.2-0.3. BOSC shows
+      36 evaporative towers (air permit) but the design is not disclosed — so the water draw
+      swings by an order of magnitude on a design fact the record withholds. Blowdown
+      discharge ~20-40% of cooling-system water.
+    sources:
+      - name: Relator data appendix §3 (pooled — Green Grid, EESI, Vertiv, Meta/Microsoft)
+        year: 2026
+        url: null
+        contributes: WUE 1.8-1.9 (industry), 0.2-0.3 (closed-loop), blowdown 20-40%
+      - name: LBNL/DOE — 2024 U.S. Data Center Energy Usage Report (county water layer)
+        year: 2024
+        url: https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report
+        contributes: water-vs-energy cooling tradeoff; county-level water intensity
+
+  - key: national_dc_load_share
+    label: U.S. data-center share of electricity (context)
+    unit: fraction
+    register: reference
+    lima_status: context
+    dist: point
+    central: 0.044
+    note: >-
+      ~176 TWh in 2023 = 4.4% of U.S. electricity, up from 1.9% (2018); projected to double
+      or triple by 2028. The PRIMARY source behind the second-hand figure GRID.md cites —
+      upgrades that citation to the DOE/LBNL report. National backdrop, not a Lima figure.
+    sources:
+      - name: LBNL/DOE — 2024 U.S. Data Center Energy Usage Report
+        year: 2024
+        url: https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report
+        contributes: 176 TWh / 4.4% (2023); 2-3x growth by 2028; the primary DOE/Congress report
+
+  - key: ai_rack_refresh
+    label: AI hardware refresh cycle and rack power density
+    unit: mixed
+    register: reference
+    lima_status: open
+    note: >-
+      AI-class hardware refreshes on a 3-5 yr cycle (~30-40% of hardware cost annually in
+      opex); rack power density jumps 5-15 kW (enterprise) to 120-140 kW (GB200), projected
+      250-900 kW/rack by 2027. Drives the RECURRENCE of the DCTE sales-tax exemption — the
+      exemption is scored against a single equipment forecast that AI refresh breaks.
+    sources:
+      - name: Relator data appendix §2 (pooled — NVIDIA HGX, IntuitionLabs, McKinsey/Dell'Oro)
+        year: 2026
+        url: null
+        contributes: rack density 5-15kW->120-140kW; refresh 3-5yr, ~30-40% opex/yr; GPU servers $200k-515k
