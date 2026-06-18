@@ -134,9 +134,20 @@ def test_cross_feed_references_resolve(bundle: Path) -> None:
 
     # Every record cites an extraction artifact that exists (chain of custody).
     extracted = REPO_ROOT / "data" / "extracted"
+    # The #276 record→source-document join must resolve to a real catalog entry.
+    docs_by_rel = {
+        e["rel"]: e for coll in _rows(bundle, by_name["documents"]) for e in coll["entries"]
+    }
+    joined = 0
     for record in _rows(bundle, by_name["records"]):
         assert (extracted / record["rel"]).exists(), f"record path missing: {record['rel']}"
         assert record["citation"]["source"] == record["rel"]
+        src_rel = record.get("source_doc_rel")
+        if src_rel is not None:
+            assert src_rel in docs_by_rel, f"record {record['rel']} → uncatalogued source {src_rel}"
+            assert record["source_doc_render_class"] == docs_by_rel[src_rel]["render_class"]
+            joined += 1
+    assert joined, "no record joined to a source document — the #276 join is dead"
 
     # Every timeline event's source resolves to a committed extraction (chain of custody).
     for event in _rows(bundle, by_name["timeline"]):

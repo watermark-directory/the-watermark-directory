@@ -9,6 +9,8 @@
         "name": "PRR-01-bundle.ocr.pdf",
         "size_bytes": 137618944,
         "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
         "available": true,
         "download_url": null
       },
@@ -17,6 +19,8 @@
         "name": "data-center-updates.index.html",
         "size_bytes": 97303,
         "suffix": "html",
+        "media_type": "text/html",
+        "render_class": "html",
         "available": true,
         "download_url": null
       },
@@ -25,6 +29,8 @@
         "name": "google-data-center-website-now-live-for-allen-county-community.html",
         "size_bytes": 100919,
         "suffix": "html",
+        "media_type": "text/html",
+        "render_class": "html",
         "available": true,
         "download_url": null
       }

@@ -22,6 +22,9 @@ export function evidenceKind(c: Pick<Citation, "verified"> | null | undefined): 
   return c?.verified ? "verified" : "inference";
 }
 
+/** What the document viewer dispatches on — derived from the real file (epic #274). */
+export type RenderClass = "image" | "text" | "html" | "pdf" | "office" | "other";
+
 export interface RecordItem {
   rel: string;
   group: string;
@@ -31,6 +34,10 @@ export interface RecordItem {
   fields: Record<string, unknown>;
   approximate_paths: string[];
   citation: Citation;
+  /** The real source document this record was read from (#276); null if unjoined. */
+  source_doc_rel?: string | null;
+  source_doc_render_class?: RenderClass | null;
+  source_doc_published?: boolean;
 }
 
 export interface TimelineEntry {
@@ -127,6 +134,9 @@ export interface DocumentEntry {
   name: string;
   size_bytes: number;
   suffix: string;
+  /** MIME + render class derived from the real file (extension + content sniff, #275). */
+  media_type: string;
+  render_class: RenderClass;
   available: boolean;
   download_url?: string | null;
 }

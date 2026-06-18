@@ -22,11 +22,93 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import quote
 
+import yaml
+
 from bosc.logging import get_logger
 from bosc.site import exhibits as exhibits_mod
-from bosc.site.feeds import DocumentCollectionItem, DocumentItem
+from bosc.site.feeds import DocumentCollectionItem, DocumentItem, RenderClass
 
 log = get_logger(__name__)
+
+# Extension -> (MIME, render_class). The fallback when a content sniff can't positively
+# identify the file. `render_class` is what the frontend viewer dispatches on (#274/#275):
+# image/text/html inline, pdf native+PDF.js, office (doc/docx/odg) download-only.
+_EXT_MEDIA: dict[str, tuple[str, RenderClass]] = {
+    "pdf": ("application/pdf", "pdf"),
+    "png": ("image/png", "image"),
+    "jpg": ("image/jpeg", "image"),
+    "jpeg": ("image/jpeg", "image"),
+    "gif": ("image/gif", "image"),
+    "webp": ("image/webp", "image"),
+    "bmp": ("image/bmp", "image"),
+    "tif": ("image/tiff", "image"),
+    "tiff": ("image/tiff", "image"),
+    "svg": ("image/svg+xml", "image"),
+    "html": ("text/html", "html"),
+    "htm": ("text/html", "html"),
+    "txt": ("text/plain", "text"),
+    "csv": ("text/csv", "text"),
+    "json": ("application/json", "text"),
+    "md": ("text/markdown", "text"),
+    "doc": ("application/msword", "office"),
+    "docx": (
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "office",
+    ),
+    "odg": ("application/vnd.oasis.opendocument.graphics", "office"),
+    "odt": ("application/vnd.oasis.opendocument.text", "office"),
+    "ods": ("application/vnd.oasis.opendocument.spreadsheet", "office"),
+    "odp": ("application/vnd.oasis.opendocument.presentation", "office"),
+    "xls": ("application/vnd.ms-excel", "office"),
+    "xlsx": (
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "office",
+    ),
+    "ppt": ("application/vnd.ms-powerpoint", "office"),
+    "pptx": (
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "office",
+    ),
+}
+_FALLBACK_MEDIA: tuple[str, RenderClass] = ("application/octet-stream", "other")
+
+
+def _sniff_media(head: bytes) -> tuple[str, RenderClass] | None:
+    """Identify a file from its leading magic bytes, or ``None`` if unrecognized.
+
+    Only the signatures we can positively identify — degraded scans and mislabeled
+    extensions are common in this corpus, so a confident sniff is trusted over the name.
+    """
+    if head.startswith(b"%PDF"):
+        return ("application/pdf", "pdf")
+    if head.startswith(b"\x89PNG\r\n\x1a\n"):
+        return ("image/png", "image")
+    if head.startswith(b"\xff\xd8\xff"):
+        return ("image/jpeg", "image")
+    if head[:6] in (b"GIF87a", b"GIF89a"):
+        return ("image/gif", "image")
+    return None
+
+
+def _media_type_and_render_class(
+    path: Path, suffix: str, *, available: bool
+) -> tuple[str, RenderClass]:
+    """Resolve ``(media_type, render_class)`` for a source file (epic #274 / #275).
+
+    Sniffs the leading bytes and trusts a confident sniff over the extension; falls back
+    to the extension table otherwise. A Git-LFS pointer has no real bytes (its content is
+    pointer text), so for an unavailable file we trust the extension instead of sniffing.
+    """
+    by_ext = _EXT_MEDIA.get(suffix, _FALLBACK_MEDIA)
+    if not available:
+        return by_ext
+    try:
+        with path.open("rb") as fh:
+            head = fh.read(16)
+    except OSError:
+        return by_ext
+    return _sniff_media(head) or by_ext
+
 
 # Companion / metadata files that describe a collection rather than being source
 # documents in their own right — kept out of the catalog (READMEs are surfaced
@@ -55,6 +137,8 @@ class DocumentEntry:
     name: str
     size_bytes: int
     suffix: str
+    media_type: str  # MIME, from the real file (extension + content sniff)
+    render_class: RenderClass  # what the viewer dispatches on (#274/#275)
     available: bool  # the bytes are present locally (not an unpulled Git-LFS pointer)
     download_url: str | None  # exhibit link or external mirror URL, when present
 
@@ -184,12 +268,16 @@ def build_documents(
         except OSError:
             size = 0
         available = not _is_lfs_pointer(path)
+        suffix = path.suffix.lower().lstrip(".")
+        media_type, render_class = _media_type_and_render_class(path, suffix, available=available)
         coll.entries.append(
             DocumentEntry(
                 rel=rel,
                 name=path.name,
                 size_bytes=size,
-                suffix=path.suffix.lower().lstrip("."),
+                suffix=suffix,
+                media_type=media_type,
+                render_class=render_class,
                 available=available,
                 download_url=(
                     _download_url(rel, exhibit_links=exhibit_links, mirror_base_url=mirror_base_url)
@@ -329,6 +417,8 @@ def export_documents(
                     name=e.name,
                     size_bytes=e.size_bytes,
                     suffix=e.suffix,
+                    media_type=e.media_type,
+                    render_class=e.render_class,
                     available=e.available,
                     download_url=e.download_url,
                 )
@@ -337,3 +427,40 @@ def export_documents(
         )
         for c in result.collections
     ]
+
+
+def load_published_allowlist(path: Path) -> set[str]:
+    """The default-deny public publish allowlist (epic #274; populated by C1 / #280).
+
+    Returns the set of ``data/documents``-relative paths cleared for *public* serving.
+    A missing file means nothing is published yet (default-deny) — the allowlist is
+    filled in only after a redaction/PII pass (#281). Tolerates a bare YAML list of rels
+    or a mapping with a top-level ``published:`` list.
+    """
+    if not path.is_file():
+        return set()
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except yaml.YAMLError as exc:
+        log.warning("site.documents.bad_allowlist", path=str(path), error=str(exc).splitlines()[0])
+        return set()
+    rels = data.get("published") if isinstance(data, dict) else data
+    if not isinstance(rels, list):
+        return set()
+    return {str(r).strip() for r in rels if str(r).strip()}
+
+
+def build_doc_index(
+    collections: list[DocumentCollectionItem], *, published: set[str]
+) -> dict[str, tuple[RenderClass, bool]]:
+    """``rel -> (render_class, is_published)`` for every catalogued source file.
+
+    The join target for records (#274 / #276): a record resolves its real source
+    document only when that file is actually in the catalog, so a stale or removed
+    ``source_path`` yields no link rather than a broken one.
+    """
+    index: dict[str, tuple[RenderClass, bool]] = {}
+    for coll in collections:
+        for e in coll.entries:
+            index[e.rel] = (e.render_class, e.rel in published)
+    return index

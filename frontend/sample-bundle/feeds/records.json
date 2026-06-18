@@ -42,7 +42,10 @@
       "confidence": "high",
       "note": "pages [0, 1, 2, 3, 4, 5, 6, 7]",
       "verified": true
-    }
+    },
+    "source_doc_rel": "recorder/bistrozzi-deeds/202508130008300.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": false
   },
   {
     "rel": "recorder/202508130008312.deed.yaml",
@@ -77,7 +80,10 @@
       "confidence": "high",
       "note": "pages [0, 1, 2, 3, 4]",
       "verified": true
-    }
+    },
+    "source_doc_rel": "recorder/bistrozzi-deeds/202508130008312.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": false
   },
   {
     "rel": "recorder/202508130008316.deed.yaml",
@@ -114,7 +120,10 @@
       "confidence": "high",
       "note": "pages [0, 1, 2, 3]",
       "verified": true
-    }
+    },
+    "source_doc_rel": "recorder/bistrozzi-deeds/202508130008316.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": false
   },
   {
     "rel": "aedg/roundabouts.summary.opc.yaml",
@@ -307,7 +316,10 @@
       "confidence": "medium",
       "note": null,
       "verified": true
-    }
+    },
+    "source_doc_rel": null,
+    "source_doc_render_class": null,
+    "source_doc_published": false
   },
   {
     "rel": "permits/4132514.epa.yaml",
@@ -460,6 +472,9 @@
       "confidence": "high",
       "note": "pages [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 49, 50, 51, 52, 53, 55, 56, 57, 58, 59, 63, 64, 65]",
       "verified": true
-    }
+    },
+    "source_doc_rel": "permits/bistrozzi-permits/4132514.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": false
   }
 ]
