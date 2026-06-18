@@ -1,0 +1,62 @@
+---
+/**
+ * The full-page search results (#308) — the topbar dropdown's "see all N results" target.
+ * A network-global route at the root (like /ask, /wiki), since the index spans the whole
+ * record. The grouped record rows are rendered client-side from /search-index.json by
+ * search-page.ts (shared engine); with JS off it degrades to the input + browse links,
+ * exactly like /ask (a client index can't search without JS).
+ */
+import Base from "../layouts/Base.astro";
+import { withBase } from "../lib/site";
+
+const q = Astro.url.searchParams.get("q") ?? "";
+const base = import.meta.env.BASE_URL || "/";
+const indexUrl = withBase("/search-index.json");
+---
+
+<Base
+  title="Search the record"
+  section="search"
+  description="Search every record, document, entity, and essay in the corpus — grouped by section, with provenance on each result."
+>
+  <article class="prose search-page">
+    <div class="submit-eyebrow">Search</div>
+    <h1>Search the record</h1>
+    <p class="section-lead">
+      One box over the whole corpus — records, documents, entities, concepts, the timeline,
+      and the essays. Results group by section and show each row's kind and evidence before
+      you click. The same index powers the topbar search.
+    </p>
+
+    <form id="search-page-form" class="search-page-form" method="get" action={withBase("/search")} role="search">
+      <input
+        id="search-page-input"
+        class="search-page-input"
+        type="search"
+        name="q"
+        value={q}
+        placeholder="Search the record…"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search the corpus"
+        data-index={indexUrl}
+        data-base={base}
+      />
+      <button type="submit" class="btn">Search</button>
+    </form>
+
+    <noscript>
+      <div class="callout callout-warning">
+        <p class="callout-title">JavaScript is required to search</p>
+        <p>
+          The index is loaded and matched in your browser, so search needs JavaScript. With
+          it off, browse the record directly — <a href={withBase("/bosc/site/")}>the corpus</a>,
+          <a href={withBase("/wiki/")}>the wiki</a>, or <a href={withBase("/bosc/timeline")}>the timeline</a>.
+        </p>
+      </div>
+    </noscript>
+
+    <div id="search-page-results" class="search-page-results"></div>
+    <script>import "../scripts/search-page.ts";</script>
+  </article>
+</Base>

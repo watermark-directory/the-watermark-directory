@@ -24,6 +24,7 @@ export type SectionId =
   | "watershed"
   | "wiki"
   | "ask"
+  | "search"
   | "network";
 
 export interface TocEntry {
