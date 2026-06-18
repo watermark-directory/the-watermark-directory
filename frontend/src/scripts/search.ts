@@ -10,6 +10,9 @@ interface SearchDoc {
   url: string;
   section: string;
   text: string;
+  kind: string;
+  id?: string;
+  tag?: "verified" | "inference" | "open";
 }
 
 const box = document.getElementById("bosc-search") as HTMLInputElement | null;
@@ -50,30 +53,83 @@ if (box && panel) {
     return esc(frag).replace(re, "<mark>$1</mark>");
   };
 
-  const render = (hits: SearchDoc[], terms: string[]): void => {
+  // One result = a mini record row: kind eyebrow · title · mono id · evidence dot,
+  // with a snippet beneath (#307). "A researcher reads provenance before they click."
+  const row = (d: SearchDoc, terms: string[]): string => {
+    const id = d.id ? '<span class="search-row-id">' + esc(d.id) + "</span>" : "";
+    const dot = d.tag
+      ? '<span class="search-row-dot tag-' +
+        d.tag +
+        '" title="' +
+        d.tag +
+        '" aria-label="evidence: ' +
+        d.tag +
+        '"></span>'
+      : "";
+    return (
+      '<a class="search-row" href="' +
+      base +
+      esc(d.url) +
+      '">' +
+      '<span class="search-row-head">' +
+      '<span class="search-row-kind">' +
+      esc(d.kind) +
+      "</span>" +
+      '<span class="search-row-title">' +
+      esc(d.title) +
+      "</span>" +
+      id +
+      dot +
+      "</span>" +
+      '<span class="search-row-snip">' +
+      snippet(d.text, terms) +
+      "</span></a>"
+    );
+  };
+
+  // Results grouped by section, preserving relevance order (groups ordered by their
+  // first/best hit; rows ordered within). A researcher scans by area, not a flat list.
+  const render = (hits: SearchDoc[], terms: string[], total: number): void => {
     if (!hits.length) {
       panel.innerHTML = '<div class="search-empty">No matches</div>';
       panel.hidden = false;
       return;
     }
-    panel.innerHTML = hits
-      .map(
-        (d) =>
-          '<a class="search-hit" href="' +
-          base +
-          esc(d.url) +
-          '">' +
-          '<span class="search-hit-title">' +
-          esc(d.title) +
-          "</span>" +
-          '<span class="search-hit-meta">' +
-          esc(d.section) +
-          "</span>" +
-          '<span class="search-hit-snip">' +
-          snippet(d.text, terms) +
-          "</span></a>",
-      )
+    const order: string[] = [];
+    const groups = new Map<string, SearchDoc[]>();
+    for (const d of hits) {
+      let g = groups.get(d.section);
+      if (!g) {
+        g = [];
+        groups.set(d.section, g);
+        order.push(d.section);
+      }
+      g.push(d);
+    }
+    const body = order
+      .map((section) => {
+        const docs = groups.get(section)!;
+        return (
+          '<div class="search-group">' +
+          '<div class="search-group-head">' +
+          esc(section) +
+          ' <span class="search-group-count">' +
+          docs.length +
+          "</span></div>" +
+          docs.map((d) => row(d, terms)).join("") +
+          "</div>"
+        );
+      })
       .join("");
+    const more = total > hits.length ? " · showing top " + hits.length : "";
+    const foot =
+      '<div class="search-foot">' +
+      total +
+      " result" +
+      (total === 1 ? "" : "s") +
+      more +
+      ' <kbd class="search-foot-kbd">↵</kbd> opens the top match</div>';
+    panel.innerHTML = body + foot;
     panel.hidden = false;
   };
 
@@ -98,6 +154,7 @@ if (box && panel) {
       render(
         hits.slice(0, 20).map((h) => h[1]),
         terms,
+        hits.length,
       );
     });
   };
@@ -110,7 +167,7 @@ if (box && panel) {
       panel.hidden = true;
     }
     if (e.key === "Enter") {
-      const first = panel.querySelector<HTMLAnchorElement>("a.search-hit");
+      const first = panel.querySelector<HTMLAnchorElement>("a.search-row");
       if (first) window.location.href = first.getAttribute("href")!;
     }
   });

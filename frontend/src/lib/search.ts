@@ -9,6 +9,7 @@
  */
 import { hasFeed, loadFeed } from "./bundle";
 import {
+  evidenceKind,
   slugify,
   type CandidateItem,
   type ConceptItem,
@@ -27,12 +28,20 @@ import { LEGAL } from "./legal";
 import { getSection, SECTIONS } from "./nav";
 import { NARRATIVE } from "./narrative";
 import { REFERENCE } from "./reference";
+import type { TagKind } from "./teardown";
 
 export interface SearchDoc {
   title: string;
   url: string;
   section: string;
   text: string;
+  /** Short kind eyebrow for the result row (#307): Record, Entity, Concept, … */
+  kind: string;
+  /** A mono identifier shown on the row, when the thing carries a real one. */
+  id?: string;
+  /** Evidence dot — set only where the row carries a genuine evidence signal
+   *  (records, via their citation). Absent rows show no dot — no fabricated tag. */
+  tag?: TagKind;
 }
 
 /** Join defined, non-empty string-ish bits into one searchable blob. */
@@ -45,13 +54,14 @@ export function buildSearchIndex(): SearchDoc[] {
 
   // Section landings + their TOC areas — always present, bundle or not.
   for (const s of SECTIONS) {
-    docs.push({ title: s.label, url: s.href, section: s.label, text: s.blurb });
+    docs.push({ title: s.label, url: s.href, section: s.label, text: s.blurb, kind: "Section" });
     for (const t of s.toc) {
       docs.push({
         title: `${t.label} — ${s.label}`,
         url: `${s.href}#${t.anchor}`,
         section: s.label,
         text: `${t.label} ${s.blurb}`,
+        kind: "Section",
       });
     }
   }
@@ -63,6 +73,7 @@ export function buildSearchIndex(): SearchDoc[] {
       url: `/bosc/docs/${d.slug}`,
       section: getSection(d.section).label,
       text: d.blurb,
+      kind: "Doc",
     });
   }
 
@@ -73,6 +84,7 @@ export function buildSearchIndex(): SearchDoc[] {
       url: `/bosc/site/reference/${d.slug}`,
       section: "The corpus",
       text: blob("reference data", d.blurb),
+      kind: "Reference",
     });
   }
 
@@ -83,6 +95,7 @@ export function buildSearchIndex(): SearchDoc[] {
       url: `/bosc/site/legal/${d.slug}`,
       section: "The corpus",
       text: blob(d.group, d.blurb),
+      kind: "Legal",
     });
   }
 
@@ -91,11 +104,16 @@ export function buildSearchIndex(): SearchDoc[] {
 
   if (hasFeed("records")) {
     for (const r of loadFeed<RecordItem[]>("records")) {
+      const instrument = r.fields?.instrument_no;
       docs.push({
         title: r.title,
         url: `/bosc/site/records/${r.group}/`,
         section: SITE,
-        text: blob(r.group, r.confidence, ...r.warnings, String(r.fields?.instrument_no ?? "")),
+        text: blob(r.group, r.confidence, ...r.warnings, String(instrument ?? "")),
+        kind: "Record",
+        // Records carry a real per-row evidence signal — its citation's verified flag.
+        tag: evidenceKind(r.citation),
+        id: instrument ? String(instrument) : undefined,
       });
     }
   }
@@ -107,6 +125,7 @@ export function buildSearchIndex(): SearchDoc[] {
         url: "/bosc/timeline",
         section: SITE,
         text: blob(e.category, e.detail, e.source, ...e.parties),
+        kind: "Timeline",
       });
     }
   }
@@ -118,6 +137,7 @@ export function buildSearchIndex(): SearchDoc[] {
         url: `/bosc/site/documents/#doc-${c.slug}`,
         section: SITE,
         text: blob(c.description, ...c.entries.slice(0, 12).map((e) => e.name)),
+        kind: "Document",
       });
     }
   }
@@ -125,10 +145,12 @@ export function buildSearchIndex(): SearchDoc[] {
   if (hasFeed("meetings")) {
     for (const m of loadFeed<MeetingItem[]>("meetings")) {
       docs.push({
-        title: `${m.date} — ${m.kind} (${m.slug})`,
+        title: `${m.date} — ${m.kind}`,
         url: "/bosc/site/legal#meetings",
         section: SITE,
         text: blob(m.summary),
+        kind: "Meeting",
+        id: m.slug,
       });
     }
   }
@@ -140,6 +162,7 @@ export function buildSearchIndex(): SearchDoc[] {
         url: `/bosc/site/places/${p.slug}/`,
         section: SITE,
         text: blob(p.kind, ...p.aliases, ...p.tags, p.body),
+        kind: "Place",
       });
     }
   }
@@ -151,6 +174,7 @@ export function buildSearchIndex(): SearchDoc[] {
         url: `/bosc/site/people/${p.slug}/`,
         section: SITE,
         text: blob(...p.aliases, ...p.roles, ...p.affiliations, p.summary),
+        kind: "Person",
       });
     }
   }
@@ -162,6 +186,7 @@ export function buildSearchIndex(): SearchDoc[] {
         url: `/wiki/entities/${slugify(e.key)}/`,
         section: WIKI,
         text: blob(e.kind, e.classification, ...e.variants, ...Object.keys(e.roles ?? {})),
+        kind: "Entity",
       });
     }
   }
@@ -173,6 +198,7 @@ export function buildSearchIndex(): SearchDoc[] {
         url: `/wiki/concepts/${c.slug}/`,
         section: WIKI,
         text: blob(c.summary, ...c.aliases, ...c.tags, c.body),
+        kind: "Concept",
       });
     }
   }
@@ -185,6 +211,7 @@ export function buildSearchIndex(): SearchDoc[] {
       url: "/wiki/candidates",
       section: WIKI,
       text: blob("cloud-consumer demand-fit candidates", ...rows.map((c) => c.name)),
+      kind: "Wiki",
     });
   }
   if (hasFeed("defense-contractors")) {
@@ -194,6 +221,7 @@ export function buildSearchIndex(): SearchDoc[] {
       url: "/wiki/defense-contractors",
       section: WIKI,
       text: blob("DoD prime contractor pattern matches", ...dc.contractors.map((c) => c.name)),
+      kind: "Wiki",
     });
   }
   if (hasFeed("lei")) {
@@ -203,6 +231,7 @@ export function buildSearchIndex(): SearchDoc[] {
       url: "/wiki/lei",
       section: WIKI,
       text: blob("GLEIF legal entity identifiers", ...lei.records.map((r) => r.legal_name)),
+      kind: "Wiki",
     });
   }
   if (hasFeed("economics-baseline")) {
@@ -212,6 +241,7 @@ export function buildSearchIndex(): SearchDoc[] {
       url: "/bosc/watershed/economics-baseline",
       section: getSection("watershed").label,
       text: blob("BLS QCEW Census employment population baseline", eb.area_name, eb.note),
+      kind: "Dataset",
     });
   }
 
