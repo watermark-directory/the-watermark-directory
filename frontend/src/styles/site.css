@@ -203,8 +203,26 @@ a { color: var(--bosc-link); }
   background: rgba(255, 255, 255, 0.28);
 }
 
-/* ---- Topbar right cluster: search + the entry-fork pill ---- */
-.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 0.7rem; }
+/* ---- Topbar right cluster: Ask + search + the entry-fork pill ---- */
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 0.6rem; }
+
+/* Ask — the conversational front door, a persistent topbar affordance (not a tab). */
+.topbar-ask {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 8px;
+  padding: 0.36rem 0.7rem;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.topbar-ask:hover { background: rgba(255, 255, 255, 0.26); }
+.topbar-ask.active { background: #fff; color: var(--bosc-indigo); border-color: #fff; }
 
 /* The "Start the walk" pill — the entry fork made permanent. */
 .walk-pill {
@@ -901,6 +919,7 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 }
 @media (max-width: 900px) {
   .walk-pill-label { display: none; }
+  .topbar-ask-label { display: none; }
   .walk-pill { padding: 0.4rem 0.6rem; }
 }
 @media (max-width: 560px) {

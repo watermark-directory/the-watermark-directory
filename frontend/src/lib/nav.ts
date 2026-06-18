@@ -173,32 +173,19 @@ export type NavItem =
   | { kind: "divider" };
 
 /**
- * The header tabs, in order. The About dropdown groups the method + the personal
- * pages; the divider sets the narrative tabs (Home…Reports) apart from the
- * reference cluster — the ways into the record itself: Ask (the conversational
- * front door), Corpus (browse), Wiki (entities). The Corpus tab also owns the
- * Watershed sub-area, reached from the corpus landing rather than its own tab.
+ * The header tabs, in order — the four section tabs of the reconciled IA (design
+ * dictate 02, #307): **The BOSC site · Watershed · Wiki · Docs**. The narrative
+ * spine and utilities live as topbar affordances, not tabs: the logo lockup is
+ * Home, the "Start the walk" pill is the Story spine, **Ask** is the conversational
+ * front door (rendered in the topbar, left of search), and About/Methodology live
+ * in the footer + Docs. Timeline folds into The BOSC site hub; Reports becomes the
+ * Docs essays layer.
  */
 export const NAV_TABS: NavItem[] = [
-  { kind: "link", label: "Home", section: "home", href: "/" },
-  { kind: "link", label: "Story", section: "story", href: "/start" },
-  { kind: "link", label: "Timeline", section: "timeline", href: "/timeline" },
-  { kind: "link", label: "Reports", section: "reports", href: "/reports" },
-  {
-    kind: "dropdown",
-    label: "About",
-    section: "about",
-    children: [
-      { label: "Methodology", href: "/docs/methodology" },
-      { divider: true },
-      { label: "About me", href: "/about-me" },
-      { label: "The project", href: "/about" },
-    ],
-  },
-  { kind: "divider" },
-  { kind: "link", label: "Ask", section: "ask", href: "/ask" },
-  { kind: "link", label: "Corpus", section: "site", href: "/site/", match: ["watershed"] },
+  { kind: "link", label: "The BOSC site", section: "site", href: "/site/", match: ["timeline"] },
+  { kind: "link", label: "Watershed", section: "watershed", href: "/watershed/" },
   { kind: "link", label: "Wiki", section: "wiki", href: "/wiki/" },
+  { kind: "link", label: "Docs", section: "reports", href: "/docs/" },
 ];
 
 /** Whether `item` is the active header tab for the page's `active` section. */
