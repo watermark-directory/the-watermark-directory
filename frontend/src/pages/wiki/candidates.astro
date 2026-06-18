@@ -1,8 +1,8 @@
 ---
-import Base from "../../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../../lib/bundle";
-import { slugify, type CandidateItem } from "../../../lib/feeds";
-import { withBase } from "../../../lib/site";
+import Base from "../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../lib/bundle";
+import { slugify, type CandidateItem } from "../../lib/feeds";
+import { withBase } from "../../lib/site";
 
 const candidates = hasFeed("candidates") ? loadFeed<CandidateItem[]>("candidates") : [];
 const confirmed = candidates.filter((c) => c.confirmed_cloud_relationship).length;
@@ -16,7 +16,7 @@ const TIER_NAMES: Record<number, string> = {
 
 <Base title="Cloud-consumer candidates" section="wiki">
   <article class="prose">
-    <p><a href={withBase("/bosc/wiki/")}>← Wiki</a></p>
+    <p><a href={withBase("/wiki/")}>← Wiki</a></p>
     <h1>Cloud-consumer candidates</h1>
     {
       candidates.length === 0 ? (
@@ -27,7 +27,7 @@ const TIER_NAMES: Record<number, string> = {
             {candidates.length} corridor operations marked <strong>cloud-consumer candidates</strong> on
             demand-fit only — each has at least one workload class that hyperscale / edge infrastructure
             exists to serve. {confirmed} carry a publicly documented cloud relationship. Curated, not
-            corpus-derived; they sit alongside the <a href={withBase("/bosc/wiki/entities/")}>entity graph</a>.
+            corpus-derived; they sit alongside the <a href={withBase("/wiki/entities/")}>entity graph</a>.
           </p>
           <div class="callout">
             <p class="callout-title">Demand-fit, not a claim about Google's customers</p>
@@ -63,7 +63,7 @@ const TIER_NAMES: Record<number, string> = {
                           <td>{c.confirmed_cloud_relationship ?? "—"}</td>
                           <td>
                             {c.entity_key ? (
-                              <a href={`${withBase("/bosc/wiki/entities/")}${slugify(c.entity_key)}/`}>✓</a>
+                              <a href={`${withBase("/wiki/entities/")}${slugify(c.entity_key)}/`}>✓</a>
                             ) : (
                               "—"
                             )}

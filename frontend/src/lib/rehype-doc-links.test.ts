@@ -55,7 +55,7 @@ describe("rehype-doc-links — guards (data-independent)", () => {
 describe("rehype-doc-links — generated-page (LINK_MAP) branch", () => {
   it("rewrites a bare generated-page basename to its IA route, base-prefixed", () => {
     expect(rewrite("docs/narrative/x.md", "entities.md")).toBe("/wiki/entities/");
-    expect(rewrite("docs/narrative/x.md", "entities.md", { base: "/bosc" })).toBe("/bosc/wiki/entities/");
+    expect(rewrite("docs/narrative/x.md", "entities.md", { base: "/bosc" })).toBe("/wiki/entities/");
   });
 
   it("passes an absolute LINK_MAP value through without base-prefixing", () => {

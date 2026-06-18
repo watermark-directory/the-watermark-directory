@@ -1,8 +1,8 @@
 ---
-import Base from "../../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../../lib/bundle";
-import type { LeiInventory } from "../../../lib/feeds";
-import { withBase } from "../../../lib/site";
+import Base from "../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../lib/bundle";
+import type { LeiInventory } from "../../lib/feeds";
+import { withBase } from "../../lib/site";
 
 const lei = hasFeed("lei") ? loadFeed<LeiInventory>("lei") : null;
 const records = [...(lei?.records ?? [])].sort((a, b) => a.legal_name.localeCompare(b.legal_name));
@@ -12,7 +12,7 @@ const addr = (a: { city?: string; region?: string; country?: string } | null | u
 
 <Base title="Entity LEIs (GLEIF)" section="wiki">
   <article class="prose">
-    <p><a href={withBase("/bosc/wiki/")}>← Wiki</a></p>
+    <p><a href={withBase("/wiki/")}>← Wiki</a></p>
     <h1>Entity LEIs (GLEIF)</h1>
     {
       lei === null ? (

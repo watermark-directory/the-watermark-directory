@@ -140,7 +140,7 @@ export default function EntityGraph({ src, focus: focusProp }: { src: string; fo
         onHover: (info: PickingInfo) => setHovered((info.object as GNode) ?? null),
         onClick: (info: PickingInfo) => {
           const n = info.object as GNode | undefined;
-          if (n) window.location.href = `${withBase("/bosc/wiki/entities/")}${n.slug}/`;
+          if (n) window.location.href = `${withBase("/wiki/entities/")}${n.slug}/`;
         },
       }),
       new TextLayer<GNode>({

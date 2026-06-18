@@ -1,8 +1,8 @@
 ---
-import Base from "../../../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../../../lib/bundle";
-import { slugify, type EntityNode } from "../../../../lib/feeds";
-import { withBase } from "../../../../lib/site";
+import Base from "../../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import { slugify, type EntityNode } from "../../../lib/feeds";
+import { withBase } from "../../../lib/site";
 
 const entities = hasFeed("entities") ? loadFeed<EntityNode[]>("entities") : [];
 const roleTotal = (e: EntityNode): number => Object.values(e.roles ?? {}).reduce((a, b) => a + b, 0);
@@ -11,7 +11,7 @@ const sorted = [...entities].sort((a, b) => roleTotal(b) - roleTotal(a) || a.dis
 
 <Base title="Entities" section="wiki">
   <article class="prose">
-    <p><a href={withBase("/bosc/wiki/")}>← Wiki</a></p>
+    <p><a href={withBase("/wiki/")}>← Wiki</a></p>
     <h1>Entities</h1>
     <p class="section-lead">
       {entities.length} resolved parties in the entity graph, keyed by canonical
@@ -20,7 +20,7 @@ const sorted = [...entities].sort((a, b) => roleTotal(b) - roleTotal(a) || a.dis
     <div class="cards">
       {
         sorted.map((e) => (
-          <a class="card" href={`${withBase("/bosc/wiki/entities/")}${slugify(e.key)}/`}>
+          <a class="card" href={`${withBase("/wiki/entities/")}${slugify(e.key)}/`}>
             <span class="card-title">{e.display}</span>
             <span class="card-meta">{e.kind}{e.classification ? ` · ${e.classification}` : ""}</span>
           </a>

@@ -30,6 +30,9 @@ export interface DocLinkOptions {
 
 const SKIP = /^(https?:|mailto:|tel:|#|\/|data:)/;
 const REPO_DIR = /^(data|docs|src|notebooks|spikes|\.claude|\.github)\//;
+// Network-global routes live at the site root, shared across every watershed site, so they
+// are NOT prefixed with the Lima base (#307 follow-up: about/about-me/wiki/ask are global).
+const GLOBAL_ROUTE = /^\/(about|about-me|wiki|ask)(\/|#|$)/;
 
 function splitHash(href: string): [string, string] {
   const i = href.indexOf("#");
@@ -58,8 +61,9 @@ export default function rehypeDocLinks(options: DocLinkOptions = {}) {
       if (resolved.startsWith("..")) return; // escaped the repo root — leave as-is
       const basename = posix.basename(resolved);
 
-      // Map values are site-relative unless absolute (passed through verbatim).
-      const toRoute = (v: string): string => (/^https?:/.test(v) ? v : `${base}${v}`);
+      // Map values are Lima-relative (base-prefixed) unless absolute or network-global,
+      // which pass through verbatim.
+      const toRoute = (v: string): string => (/^https?:/.test(v) || GLOBAL_ROUTE.test(v) ? v : `${base}${v}`);
 
       let target: string | null = null;
       if (MIGRATED.has(resolved)) {

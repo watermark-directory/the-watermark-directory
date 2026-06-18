@@ -1,15 +1,15 @@
 ---
-import Base from "../../../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../../../lib/bundle";
-import type { ConceptItem } from "../../../../lib/feeds";
-import { withBase } from "../../../../lib/site";
+import Base from "../../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import type { ConceptItem } from "../../../lib/feeds";
+import { withBase } from "../../../lib/site";
 
 const concepts = hasFeed("concepts") ? loadFeed<ConceptItem[]>("concepts") : [];
 ---
 
 <Base title="Concepts" section="wiki">
   <article class="prose">
-    <p><a href={withBase("/bosc/wiki/")}>← Wiki</a></p>
+    <p><a href={withBase("/wiki/")}>← Wiki</a></p>
     <h1>Concepts</h1>
     <p class="section-lead">
       The concept glossary — term and method definitions cross-linked through the
@@ -19,7 +19,7 @@ const concepts = hasFeed("concepts") ? loadFeed<ConceptItem[]>("concepts") : [];
     <div class="cards">
       {
         concepts.map((c) => (
-          <a class="card" href={`${withBase("/bosc/wiki/concepts/")}${c.slug}/`}>
+          <a class="card" href={`${withBase("/wiki/concepts/")}${c.slug}/`}>
             <span class="card-title">{c.title}</span>
             <span class="card-meta">{c.summary}</span>
           </a>

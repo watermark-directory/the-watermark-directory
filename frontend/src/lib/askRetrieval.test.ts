@@ -28,7 +28,7 @@ const UNITS: AskUnit[] = [
     id: "entities:AMAZON",
     feed: "entities",
     title: "Amazon.com Services LLC",
-    url: "/bosc/wiki/entities/amazon-com-services-llc/",
+    url: "/wiki/entities/amazon-com-services-llc/",
     text: "cloud hyperscaler datacenter operator candidate consumer",
     source: "data/extracted/entities/graph.yaml",
     source_kind: "document",

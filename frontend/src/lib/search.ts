@@ -159,7 +159,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const e of loadFeed<EntityNode[]>("entities")) {
       docs.push({
         title: e.display,
-        url: `/bosc/wiki/entities/${slugify(e.key)}/`,
+        url: `/wiki/entities/${slugify(e.key)}/`,
         section: WIKI,
         text: blob(e.kind, e.classification, ...e.variants, ...Object.keys(e.roles ?? {})),
       });
@@ -170,7 +170,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const c of loadFeed<ConceptItem[]>("concepts")) {
       docs.push({
         title: c.title,
-        url: `/bosc/wiki/concepts/${c.slug}/`,
+        url: `/wiki/concepts/${c.slug}/`,
         section: WIKI,
         text: blob(c.summary, ...c.aliases, ...c.tags, c.body),
       });
@@ -182,7 +182,7 @@ export function buildSearchIndex(): SearchDoc[] {
     const rows = loadFeed<CandidateItem[]>("candidates");
     docs.push({
       title: "Cloud-consumer candidates",
-      url: "/bosc/wiki/candidates",
+      url: "/wiki/candidates",
       section: WIKI,
       text: blob("cloud-consumer demand-fit candidates", ...rows.map((c) => c.name)),
     });
@@ -191,7 +191,7 @@ export function buildSearchIndex(): SearchDoc[] {
     const dc = loadFeed<DefenseContractors>("defense-contractors");
     docs.push({
       title: "Defense contractors",
-      url: "/bosc/wiki/defense-contractors",
+      url: "/wiki/defense-contractors",
       section: WIKI,
       text: blob("DoD prime contractor pattern matches", ...dc.contractors.map((c) => c.name)),
     });
@@ -200,7 +200,7 @@ export function buildSearchIndex(): SearchDoc[] {
     const lei = loadFeed<LeiInventory>("lei");
     docs.push({
       title: "Entity LEIs (GLEIF)",
-      url: "/bosc/wiki/lei",
+      url: "/wiki/lei",
       section: WIKI,
       text: blob("GLEIF legal entity identifiers", ...lei.records.map((r) => r.legal_name)),
     });

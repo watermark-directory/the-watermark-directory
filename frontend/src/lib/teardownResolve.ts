@@ -13,7 +13,7 @@
  *     when that row is in the bundle; the row's `citation` is surfaced on the
  *     source card so the provenance is the library's own, not a restatement.
  *   - failing a records row, `verify` deep-links to the backing legal page.
- *   - `connect` concept chips deep-link to `/bosc/wiki/concepts/<slug>` when the slug
+ *   - `connect` concept chips deep-link to `/wiki/concepts/<slug>` when the slug
  *     exists in the `concepts` feed.
  *
  * Everything is PRESENT-CHECKED against the bundle being built, so a minimal
@@ -174,7 +174,7 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
   const connect: TeardownConnect[] = t.connect.map((c) => {
     if (c.kind !== "concept") return c;
     const slug = conceptSlugOf(c.label);
-    return slug && conceptSlugs.has(slug) ? { ...c, href: withBase(`/bosc/wiki/concepts/${slug}`) } : c;
+    return slug && conceptSlugs.has(slug) ? { ...c, href: withBase(`/wiki/concepts/${slug}`) } : c;
   });
 
   // 4. redaction-reveal → default its deep link to the resolved verify target.

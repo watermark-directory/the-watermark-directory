@@ -118,7 +118,7 @@ export const SECTIONS: Section[] = [
     id: "about",
     label: "About",
     tab: "About",
-    href: "/bosc/about",
+    href: "/about",
     blurb: "What Project BOSC is, the method behind it, and who's assembling it.",
     toc: [],
   },
@@ -126,7 +126,7 @@ export const SECTIONS: Section[] = [
     id: "wiki",
     label: "Wiki",
     tab: "Wiki",
-    href: "/bosc/wiki/",
+    href: "/wiki/",
     blurb: "Entity & concept pages with backlinks and a graph neighborhood.",
     toc: [
       { label: "Entities", anchor: "entities" },
@@ -139,7 +139,7 @@ export const SECTIONS: Section[] = [
     id: "ask",
     label: "Ask the corpus",
     tab: "Ask",
-    href: "/bosc/ask",
+    href: "/ask",
     blurb: "Ask a question of the record and get a cited answer drawn only from the extracted corpus.",
     toc: [],
   },
@@ -184,7 +184,7 @@ export type NavItem =
 export const NAV_TABS: NavItem[] = [
   { kind: "link", label: "The BOSC site", section: "site", href: "/bosc/site/", match: ["timeline"] },
   { kind: "link", label: "Watershed", section: "watershed", href: "/bosc/watershed/" },
-  { kind: "link", label: "Wiki", section: "wiki", href: "/bosc/wiki/" },
+  { kind: "link", label: "Wiki", section: "wiki", href: "/wiki/" },
   { kind: "link", label: "Docs", section: "reports", href: "/bosc/docs/" },
 ];
 

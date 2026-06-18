@@ -40,7 +40,7 @@ export function wikiIndex(): Map<string, WikiTarget> {
   if (hasFeed("concepts")) {
     for (const c of loadFeed<ConceptItem[]>("concepts")) {
       add([c.slug, c.title, ...c.aliases], {
-        url: `${withBase("/bosc/wiki/concepts/")}${c.slug}/`,
+        url: `${withBase("/wiki/concepts/")}${c.slug}/`,
         label: c.title,
         kind: "concept",
       });
@@ -49,7 +49,7 @@ export function wikiIndex(): Map<string, WikiTarget> {
   if (hasFeed("entities")) {
     for (const e of loadFeed<EntityNode[]>("entities")) {
       add([e.key, e.display, ...e.variants], {
-        url: `${withBase("/bosc/wiki/entities/")}${slugify(e.key)}/`,
+        url: `${withBase("/wiki/entities/")}${slugify(e.key)}/`,
         label: e.display,
         kind: "entity",
       });
@@ -107,7 +107,7 @@ export function conceptBacklinks(slug: string): { url: string; label: string }[]
     const viaRelated = c.related.some((r) => norm(r) === norm(slug));
     const viaBody = [...c.body.matchAll(/\[\[([^\]]+)\]\]/g)].some((m) => names.has(norm(m[1])));
     if (viaRelated || viaBody) {
-      out.push({ url: `${withBase("/bosc/wiki/concepts/")}${c.slug}/`, label: c.title });
+      out.push({ url: `${withBase("/wiki/concepts/")}${c.slug}/`, label: c.title });
     }
   }
   return out;
