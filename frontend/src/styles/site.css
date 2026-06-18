@@ -2167,3 +2167,67 @@ a.walk-dot:hover { opacity: 0.82; }
 @media (max-width: 640px) {
   .switcher-menu { width: 320px; }
 }
+
+/* ===================== Chart set (#306) — figures in the record grammar ===================== */
+.chart-card { background: #fff; border: 1px solid var(--bosc-rule); border-radius: 14px; padding: 1.25rem; }
+.chart-head { display: flex; flex-direction: column; }
+.chart-head--row { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 0.7rem; flex-wrap: wrap; }
+.chart-kicker { font-size: 0.68rem; letter-spacing: 1.4px; text-transform: uppercase; color: #8a90a2; font-weight: 700; }
+.chart-title { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; margin: 0.18rem 0 0.9rem; }
+.chart-head--row .chart-title { margin-bottom: 0; }
+.chart-svg { width: 100%; height: auto; display: block; }
+/* SVG figures are monospace — axis ticks, labels, totals, exactly like the rest of the record. */
+.chart-axis { font-family: var(--bosc-mono); font-size: 9px; fill: #aab0bf; }
+.chart-axis--x { font-size: 10px; fill: #8a90a2; }
+.chart-axis--row { font-size: 10px; fill: var(--bosc-muted); }
+.chart-axis--val { font-size: 9.5px; fill: var(--bosc-muted); }
+.chart-val { font-family: var(--bosc-mono); font-size: 9px; fill: #8a90a2; }
+.chart-val.is-peak { fill: var(--bosc-ink); font-weight: 700; font-size: 11px; }
+.chart-foot { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; font-size: 0.78rem; color: var(--bosc-muted); flex-wrap: wrap; }
+.chart-caption { font-size: 0.78rem; color: var(--bosc-muted); line-height: 1.45; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; margin-top: 0.45rem; font-size: 0.78rem; color: var(--bosc-muted); }
+.chart-legend--wide { gap: 0.5rem 1.4rem; margin-top: 0.85rem; font-size: 0.82rem; color: var(--bosc-ink); }
+.chart-legend-item { display: inline-flex; align-items: center; gap: 0.45rem; }
+.chart-swatch { width: 10px; height: 10px; border-radius: 2px; flex: 0 0 auto; background: #3f51b5; }
+.chart-swatch--withheld { background: rgba(63, 81, 181, 0.22); border: 1px solid #c5cae9; }
+
+/* Donut */
+.chart-donut { display: flex; align-items: center; gap: 1rem; }
+.chart-donut-svg { width: 128px; height: 128px; flex: 0 0 auto; }
+.chart-donut-total { font-family: var(--bosc-mono); font-size: 30px; font-weight: 700; fill: var(--bosc-ink); }
+.chart-donut-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; min-width: 0; font-size: 0.8rem; }
+.chart-donut-val { margin-left: auto; font-family: var(--bosc-mono); color: var(--bosc-muted); }
+.chart-donut-legend .chart-legend-item { width: 100%; }
+
+/* Stacked */
+.chart-stacked-svg { width: 100%; height: 30px; display: block; }
+
+/* Bullet */
+.chart-bullet { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.2rem; }
+.chart-bullet-row { display: flex; align-items: center; gap: 0.9rem; }
+.chart-bullet-label { flex: 0 0 9.5rem; }
+.chart-bullet-name { font-size: 0.82rem; font-weight: 600; }
+.chart-bullet-track { flex: 1 1 auto; position: relative; height: 22px; background: #f3f4fb; border: 1px solid #e1e4f3; border-radius: 6px; overflow: hidden; }
+.chart-bullet-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px 0 0 5px; }
+.chart-bullet-marker { position: absolute; top: -3px; bottom: -3px; width: 2px; background: #c0392b; }
+.chart-bullet-val { flex: 0 0 4.8rem; text-align: right; font-family: var(--bosc-mono); font-size: 0.95rem; font-weight: 700; }
+.chart-bullet-unit { font-size: 0.72rem; color: var(--bosc-muted); font-weight: 400; }
+.chart-bullet-note { margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid #eef0f4; display: flex; align-items: center; gap: 0.55rem; font-size: 0.82rem; color: var(--bosc-muted); line-height: 1.5; }
+.chart-bullet-tick { width: 2px; height: 15px; background: #c0392b; flex: 0 0 auto; }
+
+/* Sparkline — inline, sits in a record row */
+.chart-sparkline { display: inline-block; vertical-align: middle; flex: 0 0 auto; }
+
+/* Showcase grid */
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin: 1.4rem 0; }
+.chart-grid--full { grid-template-columns: 1fr; }
+.chart-sparkrow { display: flex; align-items: center; gap: 0.9rem; padding: 0.8rem 1rem; border-top: 1px solid #f0f1f4; }
+.chart-sparkrow:first-child { border-top: 0; }
+.chart-sparkrow-label { flex: 1 1 auto; }
+.chart-sparkrow-name { font-size: 0.85rem; font-weight: 600; }
+.chart-sparkrow-sub { font-size: 0.72rem; color: var(--bosc-muted); font-family: var(--bosc-mono); }
+.chart-sparkrow-val { flex: 0 0 auto; font-family: var(--bosc-mono); font-size: 1rem; font-weight: 700; }
+@media (max-width: 720px) {
+  .chart-grid { grid-template-columns: 1fr; }
+  .chart-donut { flex-direction: column; align-items: flex-start; }
+}

@@ -1,0 +1,29 @@
+---
+/**
+ * Sparkline (#306) — a trend small enough to sit in a record row: no axes, no labels,
+ * just the shape of a series next to its current figure. SSR SVG, no JS. Inline — the
+ * caller supplies the surrounding row. Decorative, so it's aria-hidden.
+ */
+import { buildSparkline } from "../../lib/charts";
+
+interface Props {
+  values: number[];
+  /** Line color — defaults to indigo; a tint distinguishes a second series in a row. */
+  color?: string;
+  width?: number;
+  class?: string;
+}
+const { values, color = "#3f51b5", width = 120, class: cls } = Astro.props;
+const c = buildSparkline(values);
+---
+
+<svg
+  viewBox={`0 0 ${c.width} ${c.height}`}
+  width={width}
+  height={(c.height / c.width) * width}
+  class:list={["chart-sparkline", cls]}
+  aria-hidden="true"
+>
+  <path d={c.path} fill="none" stroke={color} stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+  <circle cx={c.dot.x} cy={c.dot.y} r="3" fill={color} stroke="#fff" stroke-width="1.5" />
+</svg>
