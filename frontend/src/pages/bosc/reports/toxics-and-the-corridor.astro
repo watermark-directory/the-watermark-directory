@@ -1,0 +1,83 @@
+---
+/**
+ * Toxics and the corridor — the interactive companion (docs/toxics-and-the-corridor.md,
+ * epic #271 Phase 2 #264). The essay's discipline: RSEI is a modeled, comparative screen,
+ * not a measurement, and the river's assimilative capacity is `[open]` (no DMRs, no
+ * ambient sampling). The simulator makes the seasonal collapse draggable — the river
+ * leaving Lima climbs to 100% effluent as the low flow shrinks — and stacks the RSEI
+ * dischargers register-encoded, never asserting an "exceeds capacity" verdict.
+ *
+ * Island-over-SSR: the table is the no-JS fallback (the feed's discharge story); the
+ * simulator is the client island. The discharge constants come from buildDilution (the
+ * feed — no fork).
+ */
+import ToxicsDilutionScreen from "../../../components/islands/ToxicsDilutionScreen.tsx";
+import BulletChart from "../../../components/charts/BulletChart.astro";
+import Base from "../../../layouts/Base.astro";
+import { buildDilution } from "../../../lib/dilution";
+import { withBase } from "../../../lib/site";
+
+const d = buildDilution();
+const dc = d.discharge;
+const effluentCfs = Math.round((dc.wwtpCfs + dc.campusFm2Cfs) * 100) / 100;
+const effluentMultiple = Math.round(effluentCfs / dc.naturalCfs);
+---
+
+<Base
+  title="Toxics and the corridor"
+  section="reports"
+  description="At design low flow the Ottawa leaving Lima is 93% treated effluent — and at the driest week the river is effluent. Drag the season, watch the dilution collapse, and read the RSEI dischargers for exactly what they are: a modeled screen, not the river."
+>
+  <div class="walk-chapter-page">
+    <article class="prose">
+      <p><a href={withBase("/bosc/reports")}>← Reports</a></p>
+      <div class="walk-chapter-eyebrow">Extension narrative · #233 · the corridor it joins</div>
+      <h1 class="walk-chapter-h1">The river is already effluent — drag the season</h1>
+      <p class="section-lead">
+        At the drought flow Ohio writes discharge permits at, the Ottawa leaving Lima is
+        <strong>{dc.effluentPct}% treated effluent</strong> — {effluentCfs} cfs of WWTP +
+        campus discharge against {dc.naturalCfs} cfs of natural low flow. Drag the river
+        lower and the dilution collapses to nothing at the <strong>1Q10 = 0</strong> dry
+        floor. The campus joins this reach twice; three large RSEI dischargers already sit
+        on it. The screen below is <em>modeled</em>, not measured — it shows who and how
+        much, never that the river's capacity is exceeded. That record is
+        <code>[open]</code>. Full essay:
+        <a href={withBase("/bosc/docs/toxics-and-the-corridor")}>toxics and the corridor →</a>
+      </p>
+    </article>
+
+    <BulletChart
+      title="At the design low flow, the Ottawa is effluent"
+      scaleLabel="scale · cubic feet per second"
+      unit="cfs"
+      marker={dc.naturalCfs}
+      rows={[
+        { label: "Natural low flow · 7Q10", value: dc.naturalCfs, evidence: "verified", evidenceNote: "NPDES fact sheets" },
+        { label: "Treated effluent · WWTP + campus", value: effluentCfs, evidence: "verified", evidenceNote: "NPDES fact sheets" },
+      ]}
+      note={`The red mark is the river's entire natural low flow. Treated effluent runs about ${effluentMultiple}× larger — ${dc.effluentPct}% of the design-low-flow Ottawa is effluent.`}
+    />
+
+    <ToxicsDilutionScreen client:only="react" discharge={dc} />
+
+    <noscript>
+      <article class="prose">
+        <h2>The discharge story (the river is already effluent)</h2>
+        <p>
+          {effluentCfs} cfs treated effluent (county WWTPs {dc.wwtpCfs} + campus FM-2
+          {dc.campusFm2Cfs}) vs {dc.naturalCfs} cfs natural low flow → <strong>{dc.effluentPct}%</strong>
+          effluent at the annual 7Q10; the share climbs to 100% as the river dries to the
+          1Q10. Enable JavaScript to drag the season and stack the RSEI screen.
+        </p>
+        <table>
+          <thead><tr><th>Discharger</th><th>Receiving</th><th>Discharge (cfs)</th><th>Low flow (cfs)</th></tr></thead>
+          <tbody>
+            {dc.rows.map((r) => (
+              <tr><td>{r.discharger}</td><td>{r.receiving}</td><td>{r.dischargeCfs}</td><td>{r.lowFlowCfs}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </article>
+    </noscript>
+  </div>
+</Base>

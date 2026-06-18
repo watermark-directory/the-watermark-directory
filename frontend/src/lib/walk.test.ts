@@ -26,7 +26,7 @@ describe("WALK_CHAPTERS invariants", () => {
 describe("walkHref", () => {
   // BASE_URL is "/" under vitest, so withBase is a no-op prefix.
   it("builds a /walk/<slug> route", () => {
-    expect(walkHref("who")).toBe("/walk/who");
+    expect(walkHref("who")).toBe("/bosc/walk/who");
   });
 });
 

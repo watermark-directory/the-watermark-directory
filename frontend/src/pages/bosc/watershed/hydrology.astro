@@ -1,0 +1,84 @@
+---
+import Base from "../../../layouts/Base.astro";
+import FigureStat from "../../../components/FigureStat.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import type { ProvenancedValue, ScenarioResult } from "../../../lib/feeds";
+import type { FigureStatData } from "../../../lib/viz";
+import { withBase } from "../../../lib/site";
+
+const scenarios = hasFeed("hydrology-scenarios")
+  ? loadFeed<ScenarioResult[]>("hydrology-scenarios")
+  : [];
+
+const numOf = (v: ProvenancedValue): string => (v.value == null ? "—" : v.value.toLocaleString("en-US"));
+// document/connector-sourced values are grounded; assumption/derived are inferred.
+const grounded = (v: ProvenancedValue): boolean =>
+  v.source === "document" || v.source === "connector" || v.source === "reference";
+const fmt = (v: ProvenancedValue): string => `${numOf(v)}${v.unit ? ` ${v.unit}` : ""}`;
+
+/** Map a provenanced metric onto the unified figure/stat treatment. */
+const toStat = (label: string, v: ProvenancedValue, neg?: boolean): FigureStatData => ({
+  label,
+  value: numOf(v),
+  unit: v.unit ?? undefined,
+  evidence: grounded(v) ? "verified" : "inference",
+  basis: grounded(v) ? "grounded" : "modeled",
+  sub: v.citation ?? v.source ?? undefined,
+  warn: neg,
+});
+---
+
+<Base title="Hydrology" section="watershed">
+  <article class="prose">
+    <h1>Hydrology — water balance</h1>
+    <p class="section-lead">
+      Each scenario screens the Ottawa River's low-flow capacity against the
+      campus's consumptive cooling draw: live flow minus consumptive loss against
+      the 7Q10 design low flow, and the assimilative headroom that remains. Live
+      gauge and permit figures are <strong>grounded</strong>; scenario draws are
+      labelled assumptions.
+    </p>
+    <p class="card-meta">
+      A written walk-through of this screen — including the newly document-sourced
+      sanitary figures — is in the
+      <a href={withBase("/bosc/site/legal/water-balance-screen")}>water-balance assimilative screen</a> memo.
+    </p>
+
+    {scenarios.length === 0 && <p class="stub-note">No hydrology-scenarios feed in this bundle.</p>}
+
+    {
+      scenarios.map((s) => {
+        const metrics: { label: string; v: ProvenancedValue; tone?: "neg" | "pos" }[] = [
+          { label: "Consumptive loss", v: s.consumptive_loss },
+          { label: "Ottawa 7Q10", v: s.ottawa_7q10 },
+          { label: "Ottawa live flow", v: s.ottawa_live },
+          {
+            label: "Balance",
+            v: s.balance,
+            tone: (s.balance.value ?? 0) < 0 ? "neg" : "pos",
+          },
+          {
+            label: "Assimilative headroom",
+            v: s.assimilative,
+            tone: (s.assimilative.value ?? 0) < 0 ? "neg" : "pos",
+          },
+        ];
+        return (
+          <div class="scenario">
+            <h2>{s.scenario.name}</h2>
+            {s.scenario.description && <p class="card-meta">{s.scenario.description}</p>}
+            <p class="card-meta">
+              Cooling demand: {fmt(s.scenario.cooling_demand)} · consumptive fraction{" "}
+              {fmt(s.scenario.consumptive_fraction)}
+            </p>
+            <div class="fs-grid">
+              {metrics.map((m) => (
+                <FigureStat stat={toStat(m.label, m.v, m.tone === "neg")} size="lg" />
+              ))}
+            </div>
+          </div>
+        );
+      })
+    }
+  </article>
+</Base>

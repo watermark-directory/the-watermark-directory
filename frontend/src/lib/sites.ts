@@ -45,7 +45,7 @@ export const SITES: readonly NetworkSite[] = [
     basin: "Ottawa River · Lima, OH",
     status: "live",
     selectable: true,
-    href: "/",
+    href: "/bosc",
   },
   {
     // A live data-center facility; the site build is queued (onboard fast, not selectable yet).

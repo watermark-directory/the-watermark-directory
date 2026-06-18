@@ -70,15 +70,15 @@ const showRail = rail !== false && toc.length > 0;
         </p>
         <div class="footer-actions">
           <span class="footer-pill"><span class="dot" aria-hidden="true"></span>provenance-first</span>
-          <a class="btn btn--icon" href={withBase("/submit")}><Icon name="correction" size={15} /> Submit a tip or correction</a>
+          <a class="btn btn--icon" href={withBase("/bosc/submit")}><Icon name="correction" size={15} /> Submit a tip or correction</a>
         </div>
       </div>
       <div class="footer-bar">
-        <a class="footer-brand" href={withBase("/")}><Logo size={17} class="footer-mark" />BOSC</a>
+        <a class="footer-brand" href={withBase("/bosc")}><Logo size={17} class="footer-mark" />BOSC</a>
         {NAV_LINKS.map((t) => <a href={withBase(t.href)}>{t.label}</a>)}
         <span class="footer-sep" aria-hidden="true">·</span>
-        <a href={withBase("/docs/methodology")}>Methodology</a>
-        <a href={withBase("/about")}>About</a>
+        <a href={withBase("/bosc/docs/methodology")}>Methodology</a>
+        <a href={withBase("/bosc/about")}>About</a>
         <span class="footer-meta">static · no trackers · every page reads with JS off</span>
       </div>
     </footer>

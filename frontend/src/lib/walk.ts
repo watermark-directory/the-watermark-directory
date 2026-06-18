@@ -1,9 +1,9 @@
 /**
  * The guided walk — the narrative spine layered over the reference library
  * (design handoff: "Project BOSC · guided walk"). Single source of truth for the
- * chapter order, the wayfinding bar, the `/start` on-ramp, and the `/walk` index.
+ * chapter order, the wayfinding bar, the `/bosc/start` on-ramp, and the `/bosc/walk` index.
  *
- * Six teaching chapters (steps 1–6), bookended by the `/start` on-ramp (Ch. 0).
+ * Six teaching chapters (steps 1–6), bookended by the `/bosc/start` on-ramp (Ch. 0).
  * Ordering is cause → consequence so no figure depends on a number established in
  * a later chapter — Assembly (how the land + deal were put together and kept
  * quiet) follows Who and precedes Scale; Scale (air) precedes Water because the
@@ -17,7 +17,7 @@ import { withBase } from "./site";
 export interface WalkChapter {
   /** 1-based position among the five teaching chapters. */
   step: number;
-  /** Route slug under `/walk/`. */
+  /** Route slug under `/bosc/walk/`. */
   slug: string;
   title: string;
   /** The record-reading skill the chapter teaches. */
@@ -81,11 +81,11 @@ export const WALK_CHAPTERS: WalkChapter[] = [
   },
 ];
 
-export const WALK_START_HREF = withBase("/start");
-export const WALK_INDEX_HREF = withBase("/walk/");
+export const WALK_START_HREF = withBase("/bosc/start");
+export const WALK_INDEX_HREF = withBase("/bosc/walk/");
 
 export function walkHref(slug: string): string {
-  return withBase(`/walk/${slug}`);
+  return withBase(`/bosc/walk/${slug}`);
 }
 
 export function chapterByStep(step: number): WalkChapter | undefined {

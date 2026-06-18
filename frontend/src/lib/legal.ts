@@ -7,13 +7,13 @@
  * Like `lib/narrative.ts` / `lib/reference.ts`, this is the single source of truth
  * for which extracted docs are published, their slugs/titles/groups, and (via
  * `PUBLISHED_LEGAL`) the link-rewrite map the rehype plugin consults so intra-set
- * cross-links resolve to their `/site/legal/<slug>` routes. The source is read
+ * cross-links resolve to their `/bosc/site/legal/<slug>` routes. The source is read
  * AS-IS — never moved or edited (the legacy Python SSG also renders it).
  */
 export interface LegalDoc {
   /** Path under `data/extracted/` (the source markdown). */
   repo: string;
-  /** Route slug under `/site/legal/`. */
+  /** Route slug under `/bosc/site/legal/`. */
   slug: string;
   title: string;
   /** Display group on the legal-history index. */

@@ -57,8 +57,8 @@ describe("recordToBlock", () => {
   });
 
   it("links the compact row at the record screen and pre-fills the correction deep link", () => {
-    expect(b.href).toBe("/site/records/permits/permits-4132514-epa-yaml");
-    expect(b.correctHref).toContain("/submit?ref_kind=record&ref_id=permits%2F4132514.epa.yaml");
+    expect(b.href).toBe("/bosc/site/records/permits/permits-4132514-epa-yaml");
+    expect(b.correctHref).toContain("/bosc/submit?ref_kind=record&ref_id=permits%2F4132514.epa.yaml");
     expect(b.kind.startsWith("Record · ")).toBe(true);
   });
 
@@ -76,14 +76,14 @@ describe("recordToBlock", () => {
     expect(noAnchor.seenIn).toBeUndefined();
 
     const anchored = recordToBlock(baseRecord({ rel: "aedg/roundabouts.summary.opc.yaml", group: "aedg" }));
-    expect(anchored.seenIn).toEqual({ ch: "05", label: "What it costs the public", href: "/walk/cost" });
+    expect(anchored.seenIn).toEqual({ ch: "05", label: "What it costs the public", href: "/bosc/walk/cost" });
 
     // The air permit (#185) — now Ch.3 after the assembly chapter (#219).
     const air = recordToBlock(baseRecord());
     expect(air.seenIn).toEqual({
       ch: "03",
       label: "How big is it — and what won't they tell you?",
-      href: "/walk/scale",
+      href: "/bosc/walk/scale",
     });
   });
 });

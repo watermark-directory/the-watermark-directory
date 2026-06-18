@@ -42,7 +42,7 @@ const bodyClass = size === "lg" ? "td-srcbody--lg" : size === "sm" ? "td-srcbody
 const embed = !crop && !!sourceDoc?.published;
 // The header marker shows the real render_class when a source resolves, else the curated badge.
 const badge = sourceDoc ? sourceDoc.render_class.toUpperCase() : (source.badge ?? "SCAN");
-const docHref = sourceDoc ? withBase(`/site/documents/${sourceDoc.rel}`) : null;
+const docHref = sourceDoc ? withBase(`/bosc/site/documents/${sourceDoc.rel}`) : null;
 // A crop carries its own precise overlay; otherwise the generic bar marks the gap.
 const showBar = !!redactionLabel && !crop?.redaction;
 const hasReal = crop || embed || facsimile.length > 0;

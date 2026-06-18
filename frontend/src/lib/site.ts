@@ -10,7 +10,7 @@ export const SITE_DESCRIPTION =
 /**
  * Prefix an absolute in-site path with Astro's configured `base` so links work
  * whether the site is served from `/` or a subpath (the parity-gated Pages
- * cutover may set BASE_PATH). Pass a root-absolute path like `/site/`.
+ * cutover may set BASE_PATH). Pass a root-absolute path like `/bosc/site/`.
  */
 export function withBase(path: string): string {
   const base = import.meta.env.BASE_URL || "/";

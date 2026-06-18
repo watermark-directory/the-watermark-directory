@@ -5,7 +5,7 @@
  * Like `lib/narrative.ts`, this is the single source of truth for which reference
  * READMEs are published, their slugs/titles, and (via `PUBLISHED_REFERENCE`) the
  * link-rewrite map the rehype plugin consults so `../<set>/README.md` cross-links
- * between reference pages resolve to their new `/site/reference/<slug>` routes.
+ * between reference pages resolve to their new `/bosc/site/reference/<slug>` routes.
  *
  * The READMEs are read AS-IS (the legacy Python SSG also renders them); source is
  * never moved or edited.
@@ -13,7 +13,7 @@
 export interface ReferenceDataset {
   /** Path under `data/reference/` (the README). */
   repo: string;
-  /** Route slug under `/site/reference/`. */
+  /** Route slug under `/bosc/site/reference/`. */
   slug: string;
   title: string;
   blurb: string;

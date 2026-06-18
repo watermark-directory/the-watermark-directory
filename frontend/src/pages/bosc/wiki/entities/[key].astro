@@ -1,0 +1,141 @@
+---
+import type { GetStaticPaths } from "astro";
+import Base from "../../../../layouts/Base.astro";
+import ProfileHeader from "../../../../components/ProfileHeader.astro";
+import { hasFeed, loadFeed } from "../../../../lib/bundle";
+import { slugify, type EntityNode, type PersonItem, type RelationshipEdge } from "../../../../lib/feeds";
+import type { ProfileAttr, ProfileHeaderData, ProfileRel } from "../../../../lib/profile";
+import type { FigureStatData } from "../../../../lib/viz";
+import { entityHref } from "../../../../lib/entityLinks";
+import { withBase } from "../../../../lib/site";
+
+export const getStaticPaths = (() => {
+  const entities = hasFeed("entities") ? loadFeed<EntityNode[]>("entities") : [];
+  const rels = hasFeed("relationships") ? loadFeed<RelationshipEdge[]>("relationships") : [];
+  const people = hasFeed("people") ? loadFeed<PersonItem[]>("people") : [];
+  const display: Record<string, string> = Object.fromEntries(entities.map((e) => [e.key, e.display]));
+  return entities.map((entity) => ({
+    params: { key: slugify(entity.key) },
+    props: {
+      entity,
+      outgoing: rels.filter((r) => r.src === entity.key),
+      incoming: rels.filter((r) => r.dst === entity.key),
+      profiles: people.filter((p) => p.entity_key === entity.key),
+      display,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entity, outgoing, incoming, profiles, display } = Astro.props;
+const label = (key: string): string => display[key] ?? key;
+
+const roleTotal = Object.values(entity.roles ?? {}).reduce((a, b) => a + b, 0);
+const topRole = Object.entries(entity.roles ?? {}).sort((a, b) => b[1] - a[1])[0];
+
+const stats: FigureStatData[] = [];
+if (entity.parcels.length) stats.push({ label: "Parcels", value: String(entity.parcels.length), evidence: "verified" });
+if (roleTotal) stats.push({ label: "Record roles", value: String(roleTotal), evidence: "verified", sub: topRole ? `${topRole[0].replace(/_/g, " ")}` : undefined });
+if (entity.addresses.length) stats.push({ label: "Addresses", value: String(entity.addresses.length), evidence: "verified" });
+if (entity.federal_obligations != null)
+  stats.push({ label: "Federal obligations", value: `$${entity.federal_obligations.toLocaleString("en-US")}`, evidence: "verified" });
+
+const attrs: ProfileAttr[] = [];
+if (entity.classification) attrs.push({ label: "Classification", value: entity.classification, tag: "verified" });
+if (entity.signals?.length) attrs.push({ label: "Signals", value: entity.signals.join(", "), tag: "inference" });
+if (entity.lei) attrs.push({ label: "LEI", value: entity.lei, tag: "verified" });
+if (entity.uei) attrs.push({ label: "UEI", value: entity.uei, tag: "verified" });
+
+const rels: ProfileRel[] = outgoing.slice(0, 5).map((r) => ({ kind: r.rel, label: label(r.dst), href: entityHref(r.dst) }));
+
+const header: ProfileHeaderData = {
+  kindLabel: `Entity · ${entity.kind}`,
+  name: entity.display,
+  variants: entity.variants.filter((v) => v.toLowerCase() !== entity.display.toLowerCase()).slice(0, 3),
+  evidence: entity.signals?.length ? "inference" : "verified",
+  graphHref: withBase(`/bosc/wiki/graph#${slugify(entity.key)}`),
+  stats: stats.length ? stats : undefined,
+  attrs: attrs.length ? attrs : undefined,
+  relLabel: "Graph neighborhood",
+  relationships: rels.length ? rels : undefined,
+  correctHref: withBase(
+    `/bosc/submit?ref_kind=entity&ref_id=${encodeURIComponent(entity.key)}&ref_label=${encodeURIComponent(entity.display)}`,
+  ),
+};
+
+const profileToc = [
+  { anchor: "overview", label: "Identity" },
+  { anchor: "neighborhood", label: "Relationships" },
+  ...(entity.sources.length ? [{ anchor: "sources", label: "Sources" }] : []),
+  ...(profiles.length ? [{ anchor: "backlinks", label: "Backlinks" }] : []),
+];
+---
+
+<Base title={entity.display} section="wiki" toc={profileToc}>
+  <p class="prose"><a href={withBase("/bosc/wiki/entities/")}>← Entities</a></p>
+  <div id="overview"><ProfileHeader profile={header} /></div>
+
+  <article class="prose">
+    <h2 id="neighborhood">Graph neighborhood</h2>
+    {
+      outgoing.length === 0 && incoming.length === 0 ? (
+        <p class="stub-note">No recorded relationships for this entity.</p>
+      ) : (
+        <ul class="neighborhood">
+          {outgoing.map((r) => {
+            const h = entityHref(r.dst);
+            return (
+              <li>
+                <span class="rel-arrow">{r.rel} →</span>{" "}
+                {h ? <a href={h}>{label(r.dst)}</a> : <span>{label(r.dst)}</span>}
+                {r.source && <span class="card-meta"> ({r.source})</span>}
+              </li>
+            );
+          })}
+          {incoming.map((r) => {
+            const h = entityHref(r.src);
+            return (
+              <li>
+                {h ? <a href={h}>{label(r.src)}</a> : <span>{label(r.src)}</span>}{" "}
+                <span class="rel-arrow">→ {r.rel}</span>
+                {r.source && <span class="card-meta"> ({r.source})</span>}
+              </li>
+            );
+          })}
+        </ul>
+      )
+    }
+    <p>
+      <a href={`${withBase("/bosc/wiki/graph")}#${slugify(entity.key)}`}>
+        View this neighborhood in the interactive graph →
+      </a>
+    </p>
+
+    {
+      entity.sources.length > 0 && (
+        <>
+          <h2 id="sources">Sources</h2>
+          <ul>
+            {entity.sources.map((s) => (
+              <li><code>{s}</code></li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+
+    {
+      profiles.length > 0 && (
+        <div class="backlinks">
+          <h2 id="backlinks">Backlinks</h2>
+          <ul class="neighborhood">
+            {profiles.map((p) => (
+              <li>
+                Profile: <a href={`${withBase("/bosc/site/people/")}${p.slug}/`}>{p.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </article>
+</Base>

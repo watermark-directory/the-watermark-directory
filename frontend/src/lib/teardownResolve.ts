@@ -9,11 +9,11 @@
  *     formatted by `unit` — so a checkable number can never fork from the source.
  *   - the `① source` panel surfaces the record's real extraction (`sourceFields`),
  *     retiring the placeholder ghost.
- *   - `verify` deep-links to the exact `records` row (`/site/records/<group>#<rel>`)
+ *   - `verify` deep-links to the exact `records` row (`/bosc/site/records/<group>#<rel>`)
  *     when that row is in the bundle; the row's `citation` is surfaced on the
  *     source card so the provenance is the library's own, not a restatement.
  *   - failing a records row, `verify` deep-links to the backing legal page.
- *   - `connect` concept chips deep-link to `/wiki/concepts/<slug>` when the slug
+ *   - `connect` concept chips deep-link to `/bosc/wiki/concepts/<slug>` when the slug
  *     exists in the `concepts` feed.
  *
  * Everything is PRESENT-CHECKED against the bundle being built, so a minimal
@@ -155,7 +155,7 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
   if (t.recordRel && recordsByRel.has(t.recordRel)) {
     const row = recordsByRel.get(t.recordRel) as RecordItem;
     liveCitation = row.citation;
-    check = { ...check, verifyHref: withBase(`/site/records/${row.group}/${slugify(t.recordRel)}`) };
+    check = { ...check, verifyHref: withBase(`/bosc/site/records/${row.group}/${slugify(t.recordRel)}`) };
     verifyResolved = true;
     extraction = t.extraction.map((r) => bindRow(r, row));
     // Source card shows the substantive extraction (skip empty "—" scalars); the
@@ -166,7 +166,7 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
     sourceDoc = row.source_doc_rel ? (documentsByRel.get(row.source_doc_rel) ?? null) : null;
   } else if (t.legalSlug && legalBySlug.has(t.legalSlug)) {
     // 2. legal-backed → deep-link verify to the legal-history page.
-    check = { ...check, verifyHref: withBase(`/site/legal/${t.legalSlug}`) };
+    check = { ...check, verifyHref: withBase(`/bosc/site/legal/${t.legalSlug}`) };
     verifyResolved = true;
   }
 
@@ -174,7 +174,7 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
   const connect: TeardownConnect[] = t.connect.map((c) => {
     if (c.kind !== "concept") return c;
     const slug = conceptSlugOf(c.label);
-    return slug && conceptSlugs.has(slug) ? { ...c, href: withBase(`/wiki/concepts/${slug}`) } : c;
+    return slug && conceptSlugs.has(slug) ? { ...c, href: withBase(`/bosc/wiki/concepts/${slug}`) } : c;
   });
 
   // 4. redaction-reveal → default its deep link to the resolved verify target.

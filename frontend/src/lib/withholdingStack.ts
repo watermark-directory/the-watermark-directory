@@ -117,8 +117,8 @@ export const STACK_CLOSE = {
   lead: "This is the spine of the records case: the County did not merely decline one request — it agreed in advance to notify and minimize (NDA §6, RDA §9.13), indemnified its own withholding (CRA §22), deliberated in closed session (G)(8), and produced the deciding records blank or not at all — all behind the R.C. 4582.58 shield.",
   tail: "It is why the same record went to the Ohio Select Committee on Data Centers — where the case against the very confidentiality regime behind layer 6, R.C. 9.66(D), is made on the record: communities asked to subsidize a developer the public is not allowed to name.",
   links: [
-    { label: "the full withholding map", href: withBase("/site/legal/withholding-map") },
-    { label: "the mandamus production analysis", href: withBase("/site/legal/prr-production") },
-    { label: "the Select-Committee testimony", href: withBase("/site/legal/written-testimony") },
+    { label: "the full withholding map", href: withBase("/bosc/site/legal/withholding-map") },
+    { label: "the mandamus production analysis", href: withBase("/bosc/site/legal/prr-production") },
+    { label: "the Select-Committee testimony", href: withBase("/bosc/site/legal/written-testimony") },
   ],
 };

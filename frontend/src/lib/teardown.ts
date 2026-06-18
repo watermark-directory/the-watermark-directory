@@ -165,7 +165,7 @@ export interface TeardownRecord {
   /**
    * Slug of the backing page in the legal-history collection (`lib/legal.ts`),
    * for teardowns whose anchor is an agreement/analysis rather than a `records`
-   * row. Deep-links `verify` to `/site/legal/<slug>` when that page exists.
+   * row. Deep-links `verify` to `/bosc/site/legal/<slug>` when that page exists.
    */
   legalSlug?: string;
 }
