@@ -2,7 +2,10 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    # `epic/*` integration branches run CI on push too, so the accumulated state is
+    # checked as sub-PRs merge in — not just at the final epic -> main PR. PRs into any
+    # base already run via the unfiltered `pull_request` trigger below.
+    branches: [main, 'epic/*']
   pull_request:
 
 # Path filtering is done at the JOB level (the `changes` gate below), NOT with a
