@@ -17,9 +17,25 @@ const tier = viewerTier(entry); // unavailable (LFS pointer) → "other" (downlo
 
 // A byte cap keeps a runaway text file from hanging the page; the raw link is always there.
 const TEXT_BYTE_CAP = 512 * 1024;
+
+// `astro dev` doesn't mount functions/, so /api/doc returns 404 and every embed below is
+// blank. Built output (preview/prod) is false here and serves bytes via the Function, so
+// this notice only ever shows under `npm run dev` — turning the silent blank into a reason.
+const devServerNote = import.meta.env.DEV;
 ---
 
 <div class:list={["docview", compact && "docview--compact"]} data-tier={tier}>
+  {
+    devServerNote && (
+      <p class="docview-note docview-devnote">
+        <strong>Dev server:</strong> document bytes come from the <code>/api/doc</code> Pages
+        Function, which <code>astro dev</code> doesn’t run — the embed below will be blank. Use{" "}
+        <code>wrangler pages dev</code> to serve documents locally (see{" "}
+        <code>docs/object-store.md</code>).
+      </p>
+    )
+  }
+
   {
     tier === "image" && (
       <figure class="docview-figure">
@@ -100,3 +116,19 @@ const TEXT_BYTE_CAP = 512 * 1024;
       });
   }
 </script>
+
+<style>
+  /* Dev-only (see `devServerNote`): a dashed callout so a blank embed reads as expected. */
+  .docview-devnote {
+    border: 1px dashed var(--bosc-rule, #ccc);
+    border-radius: 6px;
+    padding: 0.5rem 0.7rem;
+    margin-bottom: 0.7rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    background: var(--td-tint, #f6f6f4);
+  }
+  .docview-devnote code {
+    font-family: var(--bosc-mono, monospace);
+  }
+</style>
