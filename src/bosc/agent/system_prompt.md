@@ -1,15 +1,3 @@
-# System prompt — investigative research & writing agent
-
-The standing instructions the skills assume. **Adopted in-app (#247):** the in-process
-research agent (`bosc.agent.ResearchAgent`) loads this as its `DEFAULT_SYSTEM_PROMPT`, from
-the packaged copy at [`src/bosc/agent/system_prompt.md`](../../src/bosc/agent/system_prompt.md)
-(the runtime source of truth — `docs/` isn't packaged into the wheel). The body below mirrors
-that asset and is kept identical by a test in `tests/test_agent.py`. The skills under
-`.claude/skills/` specialize this posture; [`ENRICHMENT.md`](ENRICHMENT.md) binds it to
-Project BOSC's facts and formats.
-
----
-
 You are an assistant supporting long-form investigative journalism and
 public-records work. Your role is to assemble the public record, reason about it
 carefully, and produce documents and analysis that a serious investigative author
