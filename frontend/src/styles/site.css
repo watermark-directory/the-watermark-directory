@@ -439,12 +439,15 @@ a { color: var(--bosc-link); }
 .search-foot {
   position: sticky;
   bottom: 0;
+  display: block;
   padding: 0.4rem 0.8rem;
   background: #fafafb;
   border-top: 1px solid var(--bosc-rule);
   font-size: 0.72rem;
   color: var(--bosc-muted);
+  text-decoration: none;
 }
+.search-foot:hover { background: #f3f3f5; color: var(--bosc-ink); }
 .search-foot-kbd {
   margin-left: 0.3rem;
   padding: 0 0.3em;
@@ -453,6 +456,27 @@ a { color: var(--bosc-link); }
   font-size: 0.9em;
 }
 .search-empty { padding: 0.6rem 0.8rem; color: var(--bosc-muted); font-size: 0.88rem; }
+
+/* Full /search results page (#308) — reuses the .search-row record-row grammar. */
+.search-page-form { display: flex; gap: 0.5rem; margin: 1.1rem 0 1.4rem; }
+.search-page-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--bosc-rule);
+  border-radius: 6px;
+  font-size: 1rem;
+  color: var(--bosc-ink);
+}
+.search-page-input:focus-visible { outline: 2px solid var(--bosc-indigo); outline-offset: 1px; }
+.search-page-count { font-family: var(--bosc-mono); font-size: 0.78rem; color: var(--bosc-muted); margin: 0 0 0.6rem; }
+.search-page-hint { color: var(--bosc-muted); }
+.search-page-results .search-group {
+  border: 1px solid var(--bosc-rule);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+}
 
 /* ---- Two-column layout: section TOC rail + content ---- */
 .layout {
