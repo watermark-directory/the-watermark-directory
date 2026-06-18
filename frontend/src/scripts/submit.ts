@@ -42,6 +42,11 @@ if (form && statusEl) {
     const evidence = String(data.get("evidence_url") || "").trim();
     if (evidence) payload.evidence_url = evidence;
 
+    // Optional contact (#242) — sent only when filled; routed to a private store, never
+    // the public issue (see docs/submissions-api.md).
+    const contact = String(data.get("contact") || "").trim();
+    if (contact) payload.contact = contact;
+
     // Record target — read from the live banner (submitRef.ts), so a "cleared"
     // banner means no target is attached.
     const banner = document.getElementById("submit-ref");

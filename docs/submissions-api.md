@@ -61,16 +61,34 @@ enforced server-side; this table is its prose source of truth.
 | `target.ref_label` | string | — | The human label as shown on the site (≤ 200 chars), for fast triage. |
 | `evidence_url` | string | — | One public URL supporting the claim. Must be `http(s)://`, ≤ 500 chars. Rendered as a link; **not** fetched server-side. |
 | `page_url` | string | — | Auto-filled by the form: the site page the submitter was on. Same-origin host only; ≤ 500 chars. |
+| `contact` | string | — | Optional submitter contact (email / Signal / …), **for follow-up only**. ≤ 200 chars. Routed to a **private** store and **never** written into the public issue (see [Submitter contact](#submitter-contact--the-private-channel)). |
 | `turnstile_token` | string | ✓ | Cloudflare Turnstile token. Verified server-side, then discarded. |
 
-**No submitter identity field — by design.** The endpoint is anonymous; there is no
-name/email/contact field. For a litigation corpus, an optional contact in a *public*
-issue is a data-handling liability, and "anonymous" should mean anonymous. Follow-up, if
-any, happens in the public issue thread. (This is a deliberate default; revisit only
-with an explicit decision and a non-public intake path.)
+**Anonymous by default; identity stays out of the public issue.** A submission is anonymous
+unless the submitter *chooses* to leave a contact, and even then the contact is the **one
+field that never reaches the public issue** — for a litigation corpus, identifying detail in
+a public issue is a data-handling liability. The body, by contrast, is public; the form tells
+submitters to keep private detail out of it and use the contact field instead. See
+[Submitter contact](#submitter-contact--the-private-channel) for the private path (#242).
 
 Anything not in this table is **rejected**, not ignored (the validator is allowlist, not
 denylist) — so the abuse surface can't grow by a submitter adding fields.
+
+### Submitter contact — the private channel
+
+The optional `contact` is **never** part of the public issue: `buildIssue`/`dedupeInput`
+ignore it, so it cannot appear in the title, body, labels, or dedupe marker (asserted by
+`submitContact.test.ts`). Instead, **after** the issue is created the handler writes it to a
+private Cloudflare KV namespace (`SUBMISSION_CONTACT`), keyed `contact:<issue-number>`, with a
+small JSON value (`{ contact, kind, dedupe, deduped, at }`). A maintainer triaging issue `#N`
+reads it out-of-band (`wrangler kv key get contact:N`).
+
+- **Retention is bounded** — the KV entry carries a TTL (default **180 days**, overridable via
+  `CONTACT_TTL_SEC`), so contact PII expires rather than accumulating.
+- **Best-effort, never blocking** — if the `SUBMISSION_CONTACT` namespace isn't bound, or the
+  write fails, the submission is still filed (the tip is what matters) and nothing leaks; the
+  contact is simply not retained. So the field ships with the seam but only *retains* contact
+  once an operator binds the KV at go-live.
 
 ### Target references
 
@@ -204,6 +222,8 @@ stream because they come from a different identity.
 | `TURNSTILE_SECRET_KEY` | Cloudflare (Function secret) | server-side Turnstile verification |
 | `PUBLIC_TURNSTILE_SITE_KEY` | GitHub Actions **build** var (wired into `pages.yml`) | the Turnstile widget's public site key — read at build time by `submit.astro`, so it must be in the build env, not just a Function secret |
 | `SUBMISSIONS_ENABLED` | Cloudflare (Function var) | on / kill switch — anything but `true` ⇒ the endpoint returns `503` and the form shows disabled |
+| `SUBMISSION_CONTACT` | Cloudflare (KV binding) | the **private** submitter-contact store (#242), keyed `contact:<issue-number>`. Optional — absent ⇒ the contact field is accepted but not retained (never leaked). |
+| `CONTACT_TTL_SEC` | Cloudflare (Function var) | optional override for contact retention (seconds); default 180 days |
 
 The research App's key stays only in GitHub Actions; the tips App's key lives only in
 Cloudflare. One identity per runtime, neither broader than its job.
