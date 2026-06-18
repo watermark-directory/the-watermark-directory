@@ -56,6 +56,7 @@ for (const file of htmlFiles(DIST)) {
     const raw = m[1].trim();
     if (!raw || EXTERNAL.test(raw) || raw.startsWith("//")) continue; // external / anchor-only
     if (!raw.startsWith("/")) continue; // document-relative — Astro emits root-relative; skip
+    if (raw.startsWith("/api/")) continue; // runtime Pages Function route, not a static file
     const target = raw.split(/[?#]/)[0];
     if (!target || target === "/") continue;
     if (!resolves(target)) {

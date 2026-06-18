@@ -1798,6 +1798,36 @@ a.walk-dot:hover { opacity: 0.82; }
 .dchip--present { color: var(--bosc-verified); background: var(--td-verified-bg); }
 .dchip--lfs { color: var(--bosc-muted); background: var(--td-open-bg); }
 .dchip--type { color: var(--td-chip-kind); background: var(--td-tint); border: 1px solid var(--td-tint-line); font-family: var(--bosc-mono); }
+.dchip--devonly { color: var(--bosc-indigo); background: var(--td-tint); }
+
+/* ===========================================================================
+   Document viewer (/site/documents/<rel>, epic #274 D1–D2): the tiered renderer
+   over /api/doc, plus the per-document page chrome.
+   =========================================================================== */
+.docpage { max-width: 60rem; }
+.docpage-title { font-family: var(--bosc-mono); font-size: 1.15rem; overflow-wrap: anywhere; margin: 0.2rem 0 0.7rem; }
+.docpage-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0 0 1rem; }
+.docpage-dim { font-size: 0.8rem; color: var(--bosc-muted); font-family: var(--bosc-mono); }
+.docpage-gatenote { font-size: 0.82rem; color: var(--bosc-muted); border-left: 3px solid var(--bosc-indigo); padding: 0.3rem 0 0.3rem 0.8rem; margin: 0 0 1rem; }
+.docpage-prov { font-size: 0.78rem; color: var(--bosc-muted); margin-top: 1.1rem; }
+.docpage-prov code { overflow-wrap: anywhere; }
+
+.docview { margin: 0.4rem 0 0.6rem; }
+.docview-figure { margin: 0; }
+.docview-img { max-width: 100%; height: auto; border: 1px solid var(--bosc-rule); border-radius: 8px; }
+.docview-object, .docview-frame { width: 100%; height: 78vh; border: 1px solid var(--bosc-rule); border-radius: 8px; background: var(--td-panel); }
+.docview-pre { max-height: 70vh; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.8rem; padding: 0.9rem; border: 1px solid var(--bosc-rule); border-radius: 8px; background: var(--td-panel); }
+.docview-note { font-size: 0.85rem; color: var(--bosc-muted); padding: 0.8rem; border: 1px dashed var(--bosc-rule); border-radius: 8px; }
+.docview-pdfjs { margin-top: 0.6rem; }
+.docview-pdfjs > summary { cursor: pointer; font-size: 0.82rem; color: var(--td-chip-kind); }
+.docview-actions { font-size: 0.82rem; margin-top: 0.6rem; }
+.docview-link { color: var(--td-chip-kind); text-decoration: none; }
+.docview-link:hover { text-decoration: underline; }
+.docview-dot { color: var(--bosc-muted); margin: 0 0.35rem; }
+
+.pdfjs-viewer { margin-top: 0.5rem; }
+.pdfjs-pages { display: flex; flex-direction: column; gap: 0.7rem; max-height: 80vh; overflow: auto; }
+.pdfjs-page { max-width: 100%; height: auto; border: 1px solid var(--bosc-rule); box-shadow: 0 1px 5px rgba(20, 24, 40, 0.08); }
 
 /* ===========================================================================
    Record Screen (/site/records/<group>/<id>, #193): breadcrumb → the record
