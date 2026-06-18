@@ -1,0 +1,87 @@
+---
+import EntityGraph from "../../../components/islands/EntityGraph.tsx";
+import Base from "../../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import { slugify, type EntityNode } from "../../../lib/feeds";
+import { RELATION_CLASSES } from "../../../lib/relationClasses";
+import { withBase } from "../../../lib/site";
+
+// SSR fallback / data view: the entity list the island visualizes.
+const entities = hasFeed("entities") ? loadFeed<EntityNode[]>("entities") : [];
+const roleTotal = (e: EntityNode): number => Object.values(e.roles ?? {}).reduce((a, b) => a + b, 0);
+const sorted = [...entities].sort((a, b) => roleTotal(b) - roleTotal(a) || a.display.localeCompare(b.display));
+
+// The relation-class grouping the legacy graph carried — entities by how they
+// relate to Project BOSC, in the controlled-vocabulary order.
+const classified = RELATION_CLASSES.map((c) => ({
+  ...c,
+  entities: sorted.filter((e) => e.relation_class === c.key),
+})).filter((g) => g.entities.length > 0);
+---
+
+<Base title="Entity graph" section="wiki">
+  <article class="prose">
+    <p><a href={withBase("/bosc/wiki/")}>← Wiki</a></p>
+    <h1>Entity graph</h1>
+    <p class="section-lead">
+      The {entities.length}-node relationship graph of the resolved entities.
+      Click a node to open its page; hover for its degree. Open an entity's page
+      and use “view in graph” to focus its neighborhood.
+    </p>
+
+    <div class="deck-surface">
+      <EntityGraph client:only="react" src={withBase("/feeds/graph.json")} />
+      <noscript>
+        <div class="deck-loading">
+          The interactive graph needs JavaScript — the entity list below is the
+          same data.
+        </div>
+      </noscript>
+    </div>
+
+    <h2 id="relation">Relation to Project BOSC</h2>
+    <p class="section-lead">
+      Nodes are coloured by how each entity relates to the project — the dimension the
+      record is really about. Most entities are unclassified (grey); the colour
+      highlights the ones with a defined relation.
+    </p>
+    <dl class="relclass-legend">
+      {
+        RELATION_CLASSES.map((c) => (
+          <div class="relclass-row">
+            <span class="relclass-swatch" style={`background:${c.fill}`} aria-hidden="true" />
+            <dt class="relclass-term">{c.label}</dt>
+            <dd class="relclass-def">{c.def}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    {
+      classified.map((g) => (
+        <>
+          <h3>{g.label}</h3>
+          <ul class="neighborhood">
+            {g.entities.map((e) => (
+              <li>
+                <a href={`${withBase("/bosc/wiki/entities/")}${slugify(e.key)}/`}>{e.display}</a>
+                <span class="card-meta"> · {e.kind}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      ))
+    }
+
+    <h2 id="entities">All entities</h2>
+    <ul class="neighborhood">
+      {
+        sorted.map((e) => (
+          <li>
+            <a href={`${withBase("/bosc/wiki/entities/")}${slugify(e.key)}/`}>{e.display}</a>
+            <span class="card-meta"> · {e.kind}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </article>
+</Base>

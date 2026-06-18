@@ -86,7 +86,7 @@ describe("buildAskIndex", () => {
     expect(units).toHaveLength(1);
     const u = units[0];
     expect(u.id).toBe("records:aedg/roundabouts.summary.opc.yaml");
-    expect(u.url).toBe("/site/records/opc/");
+    expect(u.url).toBe("/bosc/site/records/opc/");
     expect(u.source).toBe("data/documents/aedg/PRR-01-bundle.ocr.pdf");
     expect(u.page).toBe(318);
     expect(u.verified).toBe(true);
@@ -103,7 +103,7 @@ describe("buildAskIndex", () => {
     const m = await loadAskIndex(dir);
     const [u] = m.buildAskIndex();
     expect(u.id).toBe("entities:AMAZON COM SERVICES");
-    expect(u.url).toBe("/wiki/entities/amazon-com-services/");
+    expect(u.url).toBe("/bosc/wiki/entities/amazon-com-services/");
     expect(u.source).toBe("data/extracted/entities/graph.yaml");
   });
 

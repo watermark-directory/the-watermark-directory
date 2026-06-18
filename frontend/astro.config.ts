@@ -15,6 +15,9 @@ import rehypeDocLinks from "./src/lib/rehype-doc-links";
 // the new IA (issue #69) without editing the source — see rehype-doc-links.ts.
 const base = process.env.BASE_PATH || "";
 const site = process.env.SITE_URL || undefined;
+// Lima's content is physically re-rooted under /bosc (#307 PR 2) so future watershed sites
+// are clean siblings; the migrated markdown's doc/reference cross-links resolve there.
+const limaBase = `${base}/bosc`;
 
 export default defineConfig({
   site,
@@ -32,6 +35,6 @@ export default defineConfig({
     // `.prose pre` styles a light code block), so pin a light theme so fenced
     // code matches inline code and the rest of the page (#106).
     shikiConfig: { theme: "github-light" },
-    rehypePlugins: [[rehypeDocLinks, { base }]],
+    rehypePlugins: [[rehypeDocLinks, { base: limaBase }]],
   },
 });

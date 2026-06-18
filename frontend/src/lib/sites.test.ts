@@ -21,7 +21,7 @@ describe("sites registry — the BOSC network (#304)", () => {
 
   it("routes the live site to the root and everything else to its coming-soon page", () => {
     for (const s of SITES) {
-      if (s.selectable) expect(s.href).toBe("/");
+      if (s.selectable) expect(s.href).toBe("/bosc");
       else expect(s.href).toBe(`/network/${s.slug}`);
     }
   });

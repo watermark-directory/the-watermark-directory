@@ -92,7 +92,7 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
     recordId: relRecordId(r.rel),
     evidence: evidenceKind(c),
     seenIn: anchor
-      ? { ch: anchor.ch, label: anchor.label, href: withBase(`/walk/${anchor.slug}`) }
+      ? { ch: anchor.ch, label: anchor.label, href: withBase(`/bosc/walk/${anchor.slug}`) }
       : undefined,
     fields,
     nested,
@@ -103,11 +103,11 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
       pages: c.page ? `p.${c.page}` : "—",
       collection: relCollection(r.rel),
     },
-    // The record's own screen (/site/records/<group>/<id>) — the compact row links
+    // The record's own screen (/bosc/site/records/<group>/<id>) — the compact row links
     // here; the full block ignores it (it IS the screen).
-    href: withBase(`/site/records/${r.group}/${slugify(r.rel)}`),
+    href: withBase(`/bosc/site/records/${r.group}/${slugify(r.rel)}`),
     correctHref: withBase(
-      `/submit?ref_kind=record&ref_id=${encodeURIComponent(r.rel)}&ref_label=${encodeURIComponent(r.title)}`,
+      `/bosc/submit?ref_kind=record&ref_id=${encodeURIComponent(r.rel)}&ref_label=${encodeURIComponent(r.title)}`,
     ),
   };
 }

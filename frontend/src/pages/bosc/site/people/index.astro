@@ -1,0 +1,45 @@
+---
+import Base from "../../../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../../../lib/bundle";
+import type { PersonItem, PlaceItem } from "../../../../lib/feeds";
+import { withBase } from "../../../../lib/site";
+
+const people = hasFeed("people") ? loadFeed<PersonItem[]>("people") : [];
+const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
+---
+
+<Base title="People & places" section="site">
+  <article class="prose">
+    <h1>People &amp; places</h1>
+    <p class="section-lead">
+      Curated individual and place profiles — the human and geographic detail
+      behind the entity graph.
+    </p>
+
+    <h2 id="people">People</h2>
+    <p>{people.length} profile(s).</p>
+    <div class="cards">
+      {
+        people.map((p) => (
+          <a class="card" href={`${withBase("/bosc/site/people/")}${p.slug}/`}>
+            <span class="card-title">{p.name}</span>
+            <span class="card-meta">{p.roles.slice(0, 2).join(" · ") || p.affiliations[0] || ""}</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <h2 id="places">Places</h2>
+    <p>{places.length} profile(s). → <a href={withBase("/bosc/site/places/")}>Places &amp; parcels index</a></p>
+    <div class="cards">
+      {
+        places.map((p) => (
+          <a class="card" href={`${withBase("/bosc/site/places/")}${p.slug}/`}>
+            <span class="card-title">{p.name}</span>
+            <span class="card-meta">{p.kind}{p.parcels.length ? ` · ${p.parcels.length} parcel(s)` : ""}</span>
+          </a>
+        ))
+      }
+    </div>
+  </article>
+</Base>

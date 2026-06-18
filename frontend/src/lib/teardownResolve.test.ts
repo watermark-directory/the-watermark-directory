@@ -187,7 +187,7 @@ describe("resolveTeardown — source viewer + links", () => {
     const res = resolveTeardown(teardown({ recordRel: "aedg/opc.yaml" }));
     expect(res.verifyResolved).toBe(true);
     expect(res.liveCitation?.verified).toBe(true);
-    expect(res.teardown.check.verifyHref).toContain("/site/records/opc/");
+    expect(res.teardown.check.verifyHref).toContain("/bosc/site/records/opc/");
     // instrument_type is present; the null `empty`/`consideration` scalars are dropped.
     const labels = res.sourceFields.map((f) => f.label);
     expect(labels).toContain("instrument_type");
@@ -205,7 +205,7 @@ describe("resolveTeardown — source viewer + links", () => {
         ],
       }),
     );
-    expect(res.teardown.connect[0].href).toContain("/wiki/concepts/7q10");
+    expect(res.teardown.connect[0].href).toContain("/bosc/wiki/concepts/7q10");
     expect(res.teardown.connect[1].href).toBeUndefined();
   });
 });
@@ -265,7 +265,7 @@ describe("resolveTeardown — redaction-reveal (#220)", () => {
   it("defaults the redaction deep link to the resolved verify target", async () => {
     const { resolveTeardown } = await loadResolver(makeBundle([OPC_RECORD]));
     const res = resolveTeardown(teardown({ recordRel: "aedg/opc.yaml", redaction }));
-    expect(res.teardown.redaction?.href).toContain("/site/records/opc/");
+    expect(res.teardown.redaction?.href).toContain("/bosc/site/records/opc/");
   });
 
   it("preserves an authored redaction href", async () => {

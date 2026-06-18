@@ -1,0 +1,69 @@
+---
+import Base from "../../../layouts/Base.astro";
+import { hasFeed, loadManifest } from "../../../lib/bundle";
+import { withBase } from "../../../lib/site";
+
+const manifest = loadManifest();
+const byName = new Map(manifest.feeds.map((f) => [f.name, f]));
+const count = (n: string): number => byName.get(n)?.count ?? 0;
+const num = (n: number): string => n.toLocaleString("en-US");
+
+interface Door {
+  id: string;
+  kind: string;
+  href: string;
+  count: string;
+  title: string;
+  desc: string;
+  note: string;
+}
+const doors: Door[] = [
+  { id: "entities", kind: "Directory", href: "/bosc/wiki/entities/", count: num(count("entities")), title: "Entities", desc: "Resolved parties — variants, parcels, identifiers, graph neighborhood, and sources.", note: "who appears" },
+  { id: "graph", kind: "Visualization", href: "/bosc/wiki/graph", count: num(count("relationships")), title: "Entity graph", desc: "The interactive force-directed graph of entities and the relationships between them.", note: "interactive" },
+  { id: "concepts", kind: "Glossary", href: "/bosc/wiki/concepts/", count: num(count("concepts")), title: "Concepts", desc: "Glossary entries cross-linked via [[wiki links]] — the method, defined.", note: "the glossary" },
+  { id: "people", kind: "Profiles", href: "/bosc/site/people/", count: num(count("people")), title: "People", desc: "Curated individual profiles, kept under the BOSC site.", note: "profiles" },
+];
+const curated: string[] = [];
+if (hasFeed("candidates")) curated.push("candidates");
+if (hasFeed("defense-contractors")) curated.push("defense-contractors");
+if (hasFeed("lei")) curated.push("LEIs");
+if (curated.length) {
+  const href = hasFeed("candidates") ? "/bosc/wiki/candidates" : hasFeed("lei") ? "/bosc/wiki/lei" : "/bosc/wiki/defense-contractors";
+  doors.push({ id: "curated", kind: "Curated lists", href, count: String(curated.length), title: "Curated inventories", desc: "Hand-curated lists alongside the corpus graph — leads to verify, not classifications.", note: curated.join(" · ") });
+}
+---
+
+<Base title="Wiki" section="wiki" rail={false}>
+  <div class="hub">
+    <div class="hub-head">
+      <div>
+        <div class="hub-eyebrow">Section · wiki</div>
+        <h1>Who and what</h1>
+        <p class="hub-lead">
+          The cross-linked index of the parties and concepts in the record —
+          entity and concept pages with backlinks and a graph neighborhood.
+        </p>
+      </div>
+      <span class="hub-count"><span class="dot" aria-hidden="true"></span>{num(count("entities"))} entities · {num(count("relationships"))} edges</span>
+    </div>
+    <div class="hub-grid">
+      {
+        doors.map((d) => (
+          <a class="hub-door" id={d.id} href={withBase(d.href)}>
+            <div class="hub-door-top">
+              <span class="hub-door-kind">{d.kind}</span>
+              <span class="hub-door-count">{d.count}</span>
+            </div>
+            <div class="hub-door-title">{d.title}</div>
+            <div class="hub-door-desc">{d.desc}</div>
+            <div class="hub-door-foot">
+              <span class="hub-door-browse">Browse</span>
+              <span class="hub-door-note">{d.note}</span>
+              <span class="hub-door-arrow" aria-hidden="true">›</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</Base>

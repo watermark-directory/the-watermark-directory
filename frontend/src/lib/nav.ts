@@ -51,7 +51,7 @@ export const SECTIONS: Section[] = [
     id: "home",
     label: "Home",
     tab: "Home",
-    href: "/",
+    href: "/bosc",
     blurb: "Landing, disclaimer, corpus at a glance, and the two doors in.",
     toc: [
       { label: "Disclaimer", anchor: "disclaimer" },
@@ -64,7 +64,7 @@ export const SECTIONS: Section[] = [
     id: "story",
     label: "The story",
     tab: "Story",
-    href: "/start",
+    href: "/bosc/start",
     blurb: "The guided walk — read the record one document at a time, no prior knowledge.",
     toc: [],
   },
@@ -72,7 +72,7 @@ export const SECTIONS: Section[] = [
     id: "timeline",
     label: "Timeline",
     tab: "Timeline",
-    href: "/timeline",
+    href: "/bosc/timeline",
     blurb: "Every dated event in the record, ordered — confidentiality first, the public reveal last.",
     toc: [],
   },
@@ -80,7 +80,7 @@ export const SECTIONS: Section[] = [
     id: "reports",
     label: "Reports",
     tab: "Reports",
-    href: "/reports",
+    href: "/bosc/reports",
     blurb:
       "Long-form analysis over the corpus — the dossier, the water and economics reads, and the extension narratives.",
     toc: [],
@@ -89,7 +89,7 @@ export const SECTIONS: Section[] = [
     id: "site",
     label: "The corpus",
     tab: "Corpus",
-    href: "/site/",
+    href: "/bosc/site/",
     blurb: "Documents, records, exhibits, people & places, legal history, and the watershed data.",
     toc: [
       { label: "Documents", anchor: "documents" },
@@ -105,7 +105,7 @@ export const SECTIONS: Section[] = [
     id: "watershed",
     label: "The Maumee watershed",
     tab: "Watershed",
-    href: "/watershed/",
+    href: "/bosc/watershed/",
     blurb: "Hydrology dashboards, the watershed map, imagery before/during/after, and RSEI toxics.",
     toc: [
       { label: "Hydrology", anchor: "hydrology" },
@@ -118,7 +118,7 @@ export const SECTIONS: Section[] = [
     id: "about",
     label: "About",
     tab: "About",
-    href: "/about",
+    href: "/bosc/about",
     blurb: "What Project BOSC is, the method behind it, and who's assembling it.",
     toc: [],
   },
@@ -126,7 +126,7 @@ export const SECTIONS: Section[] = [
     id: "wiki",
     label: "Wiki",
     tab: "Wiki",
-    href: "/wiki/",
+    href: "/bosc/wiki/",
     blurb: "Entity & concept pages with backlinks and a graph neighborhood.",
     toc: [
       { label: "Entities", anchor: "entities" },
@@ -139,13 +139,13 @@ export const SECTIONS: Section[] = [
     id: "ask",
     label: "Ask the corpus",
     tab: "Ask",
-    href: "/ask",
+    href: "/bosc/ask",
     blurb: "Ask a question of the record and get a cited answer drawn only from the extracted corpus.",
     toc: [],
   },
   {
-    // The BOSC network — the multi-site pivot (#304). A section, not a header tab yet: the
-    // switcher (in the topbar brand) is the entry point; the full IA restructure is deferred (#307).
+    // The BOSC network — the multi-site overview (#304/#307). The root `/` redirects to the live
+    // site (/bosc); this hub lists every watershed-point site. The switcher is the primary entry.
     id: "network",
     label: "The BOSC network",
     tab: "Network",
@@ -182,10 +182,10 @@ export type NavItem =
  * Docs essays layer.
  */
 export const NAV_TABS: NavItem[] = [
-  { kind: "link", label: "The BOSC site", section: "site", href: "/site/", match: ["timeline"] },
-  { kind: "link", label: "Watershed", section: "watershed", href: "/watershed/" },
-  { kind: "link", label: "Wiki", section: "wiki", href: "/wiki/" },
-  { kind: "link", label: "Docs", section: "reports", href: "/docs/" },
+  { kind: "link", label: "The BOSC site", section: "site", href: "/bosc/site/", match: ["timeline"] },
+  { kind: "link", label: "Watershed", section: "watershed", href: "/bosc/watershed/" },
+  { kind: "link", label: "Wiki", section: "wiki", href: "/bosc/wiki/" },
+  { kind: "link", label: "Docs", section: "reports", href: "/bosc/docs/" },
 ];
 
 /** Whether `item` is the active header tab for the page's `active` section. */

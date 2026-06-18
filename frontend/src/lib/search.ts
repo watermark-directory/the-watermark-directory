@@ -60,7 +60,7 @@ export function buildSearchIndex(): SearchDoc[] {
   for (const d of NARRATIVE) {
     docs.push({
       title: d.title,
-      url: `/docs/${d.slug}`,
+      url: `/bosc/docs/${d.slug}`,
       section: getSection(d.section).label,
       text: d.blurb,
     });
@@ -70,7 +70,7 @@ export function buildSearchIndex(): SearchDoc[] {
   for (const d of REFERENCE) {
     docs.push({
       title: d.title,
-      url: `/site/reference/${d.slug}`,
+      url: `/bosc/site/reference/${d.slug}`,
       section: "The corpus",
       text: blob("reference data", d.blurb),
     });
@@ -80,7 +80,7 @@ export function buildSearchIndex(): SearchDoc[] {
   for (const d of LEGAL) {
     docs.push({
       title: d.title,
-      url: `/site/legal/${d.slug}`,
+      url: `/bosc/site/legal/${d.slug}`,
       section: "The corpus",
       text: blob(d.group, d.blurb),
     });
@@ -93,7 +93,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const r of loadFeed<RecordItem[]>("records")) {
       docs.push({
         title: r.title,
-        url: `/site/records/${r.group}/`,
+        url: `/bosc/site/records/${r.group}/`,
         section: SITE,
         text: blob(r.group, r.confidence, ...r.warnings, String(r.fields?.instrument_no ?? "")),
       });
@@ -104,7 +104,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const e of loadFeed<TimelineEntry[]>("timeline")) {
       docs.push({
         title: `${e.date} — ${e.title}`,
-        url: "/timeline",
+        url: "/bosc/timeline",
         section: SITE,
         text: blob(e.category, e.detail, e.source, ...e.parties),
       });
@@ -115,7 +115,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const c of loadFeed<DocumentCollectionItem[]>("documents")) {
       docs.push({
         title: c.title,
-        url: `/site/documents/#doc-${c.slug}`,
+        url: `/bosc/site/documents/#doc-${c.slug}`,
         section: SITE,
         text: blob(c.description, ...c.entries.slice(0, 12).map((e) => e.name)),
       });
@@ -126,7 +126,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const m of loadFeed<MeetingItem[]>("meetings")) {
       docs.push({
         title: `${m.date} — ${m.kind} (${m.slug})`,
-        url: "/site/legal#meetings",
+        url: "/bosc/site/legal#meetings",
         section: SITE,
         text: blob(m.summary),
       });
@@ -137,7 +137,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const p of loadFeed<PlaceItem[]>("places")) {
       docs.push({
         title: p.name,
-        url: `/site/places/${p.slug}/`,
+        url: `/bosc/site/places/${p.slug}/`,
         section: SITE,
         text: blob(p.kind, ...p.aliases, ...p.tags, p.body),
       });
@@ -148,7 +148,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const p of loadFeed<PersonItem[]>("people")) {
       docs.push({
         title: p.name,
-        url: `/site/people/${p.slug}/`,
+        url: `/bosc/site/people/${p.slug}/`,
         section: SITE,
         text: blob(...p.aliases, ...p.roles, ...p.affiliations, p.summary),
       });
@@ -159,7 +159,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const e of loadFeed<EntityNode[]>("entities")) {
       docs.push({
         title: e.display,
-        url: `/wiki/entities/${slugify(e.key)}/`,
+        url: `/bosc/wiki/entities/${slugify(e.key)}/`,
         section: WIKI,
         text: blob(e.kind, e.classification, ...e.variants, ...Object.keys(e.roles ?? {})),
       });
@@ -170,7 +170,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const c of loadFeed<ConceptItem[]>("concepts")) {
       docs.push({
         title: c.title,
-        url: `/wiki/concepts/${c.slug}/`,
+        url: `/bosc/wiki/concepts/${c.slug}/`,
         section: WIKI,
         text: blob(c.summary, ...c.aliases, ...c.tags, c.body),
       });
@@ -182,7 +182,7 @@ export function buildSearchIndex(): SearchDoc[] {
     const rows = loadFeed<CandidateItem[]>("candidates");
     docs.push({
       title: "Cloud-consumer candidates",
-      url: "/wiki/candidates",
+      url: "/bosc/wiki/candidates",
       section: WIKI,
       text: blob("cloud-consumer demand-fit candidates", ...rows.map((c) => c.name)),
     });
@@ -191,7 +191,7 @@ export function buildSearchIndex(): SearchDoc[] {
     const dc = loadFeed<DefenseContractors>("defense-contractors");
     docs.push({
       title: "Defense contractors",
-      url: "/wiki/defense-contractors",
+      url: "/bosc/wiki/defense-contractors",
       section: WIKI,
       text: blob("DoD prime contractor pattern matches", ...dc.contractors.map((c) => c.name)),
     });
@@ -200,7 +200,7 @@ export function buildSearchIndex(): SearchDoc[] {
     const lei = loadFeed<LeiInventory>("lei");
     docs.push({
       title: "Entity LEIs (GLEIF)",
-      url: "/wiki/lei",
+      url: "/bosc/wiki/lei",
       section: WIKI,
       text: blob("GLEIF legal entity identifiers", ...lei.records.map((r) => r.legal_name)),
     });
@@ -209,7 +209,7 @@ export function buildSearchIndex(): SearchDoc[] {
     const eb = loadFeed<EconomicBaseline>("economics-baseline");
     docs.push({
       title: "Economics — localized baseline",
-      url: "/watershed/economics-baseline",
+      url: "/bosc/watershed/economics-baseline",
       section: getSection("watershed").label,
       text: blob("BLS QCEW Census employment population baseline", eb.area_name, eb.note),
     });

@@ -67,7 +67,7 @@ export default function EndUseExplorer({ data }: { data: EndUseData }): JSX.Elem
             <dt>Who captures the abatement</dt>
             <dd>
               <RegisterMark register={active.benefitCapture.register} /> {active.benefitCapture.who}{" "}
-              <a className="eu-ledger-link" href={withBase("/reports/the-economic-ledger")}>
+              <a className="eu-ledger-link" href={withBase("/bosc/reports/the-economic-ledger")}>
                 (the subsidy →)
               </a>
             </dd>

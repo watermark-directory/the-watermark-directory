@@ -1,0 +1,140 @@
+---
+/**
+ * Guided walk — Chapter 1 of 6: "Who is actually building this?" The land is
+ * public, so start there: a recorded deed names names. Then the question it
+ * can't answer — who the Delaware buyer really is — opens onto a cluster of
+ * shells whose shared agents and organizers are signals, not verdicts. A 2-up:
+ * the deed, then the shell cluster, with the entity graph as the payoff.
+ */
+import Base from "../../../layouts/Base.astro";
+import PathWayfinding from "../../../components/PathWayfinding.astro";
+import RecordTeardown from "../../../components/RecordTeardown.astro";
+import EntityGraph from "../../../components/islands/EntityGraph.tsx";
+import { DEED_TEARDOWN, SHELL_TEARDOWN } from "../../../lib/teardowns";
+import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../../lib/walk";
+import { withBase } from "../../../lib/site";
+
+const STEP = 1;
+const prev = chapterByStep(STEP - 1);
+const next = chapterByStep(STEP + 1);
+---
+
+<Base
+  title="Who is actually building this? — Chapter 1"
+  section="story"
+  description="The land is public, so start there: a recorded deed names names. Then ask the question it can't answer — who the Delaware buyer really is."
+>
+  <div class="walk-chapter-page">
+    <PathWayfinding step={STEP} />
+
+    <div class="walk-chapter-eyebrow">Chapter {STEP} of {WALK_TOTAL} · the guided walk</div>
+    <h1 class="walk-chapter-h1">Who is actually building this?</h1>
+
+    <div class="walk-prose">
+      <p>
+        Start with the land, because the land is public. Every parcel that became
+        the campus changed hands through a recorded deed — and recorded deeds name
+        names. Read one, and then ask the question it can't answer: who is the
+        buyer, really?
+      </p>
+    </div>
+
+    <RecordTeardown record={DEED_TEARDOWN} layout="split" />
+
+    <div class="td-beat">
+      <div class="td-beat-arrow" aria-hidden="true">↓</div>
+      <div class="td-beat-text">
+        <b>and then —</b> the buyer is a Delaware shell, so the deed's “who” is
+        really a question about a cluster of entities that share more than a state
+        of formation.
+      </div>
+    </div>
+
+    <RecordTeardown record={SHELL_TEARDOWN} layout="split" />
+
+    <div class="walk-prose">
+      <p>
+        Hold the discipline here. Shared agents, shared organizers, a shared
+        Wilmington mailbox — these are signals of coordination, the plumbing of
+        common control. They are not, by themselves, proof of who owns or benefits.
+        The record earns the word <em>signal</em>; it has not earned <em>verdict</em>.
+        That distinction is the whole method — and it's why the buyer's name reads
+        <code>[verified]</code> while the link between the shells reads
+        <code>[inference]</code>.
+      </p>
+    </div>
+
+    <section class="walk-interactive" aria-label="The shell cluster, drawn">
+      <h2 class="walk-explore-h">The cluster, drawn</h2>
+      <div class="deck-surface">
+        <EntityGraph client:only="react" src={withBase("/feeds/graph.json")} focus="bistrozzi" />
+        <noscript>
+          <div class="deck-loading">
+            The interactive graph needs JavaScript — the cluster's entities are
+            listed in the Secretary-of-State teardown above, and the full graph is
+            a <a href={withBase("/bosc/wiki/graph")}>library door</a> below.
+          </div>
+        </noscript>
+      </div>
+      <p class="walk-graph-note">
+        Focused on Bistrozzi's neighborhood: the Delaware siblings — <strong>Tilted Gate</strong>
+        and <strong>Magenta Capital</strong> share both a registered agent (CSC) and an organizer
+        (Montfort) — <strong>Bistrozzi Addition</strong> (CT Corp / Ziance), and the <strong>Vorys</strong>
+        advisory hub. The overlaps are the <code>[inference]</code> the chapter earns; common control is a
+        signal, not beneficial ownership — and <em>that</em>, not the customer, is what stays open. The
+        customer is <strong>Google</strong> (<code>[verified]</code> — AEDG's release, allencountydatacenter.com,
+        Liz Schwab's committee testimony); in the graph it's held as an <strong>annotation, not a node</strong>
+        because it's the customer, not a party to the deal mechanics — a method choice, not an open question.
+      </p>
+    </section>
+
+    <div class="callout walk-takeaway">
+      <p class="callout-title">What you can read anywhere now</p>
+      <p>
+        A <strong>deed</strong> — grantor, grantee, parcels, and the consideration
+        line, where a blank or nominal price is itself a finding. And a
+        <strong>Secretary-of-State filing</strong> — the registered agent and
+        organizer are how you link entities that share nothing else on their face.
+        Overlaps are leads to verify, not conclusions to publish.
+      </p>
+    </div>
+
+    <h2 class="walk-explore-h">Explore this in the library</h2>
+    <div class="doors">
+      <a class="door" href={withBase("/bosc/wiki/graph")}>
+        <span class="door-label">The entity graph</span>
+        <span class="door-blurb">The shells, their agents, and the overlaps — drawn so you can see them at once.</span>
+      </a>
+      <a class="door" href={withBase("/bosc/wiki/entities/")}>
+        <span class="door-label">Entities</span>
+        <span class="door-blurb">Bistrozzi, Tilted Gate, Magenta, and the people named on the filings.</span>
+      </a>
+      <a class="door" href={withBase("/bosc/site/records/")}>
+        <span class="door-label">The deed records</span>
+        <span class="door-blurb">The full conveyance chain — every parcel, grantor, and grantee.</span>
+      </a>
+    </div>
+
+    <nav class="walk-nav" aria-label="Chapter navigation">
+      {
+        prev?.live ? (
+          <a class="walk-nav-link walk-nav-prev" href={walkHref(prev.slug)}>← {prev.step}. {prev.title}</a>
+        ) : prev ? (
+          <span class="walk-nav-link walk-nav-prev is-disabled" title="Drafting">← {prev.step}. {prev.title}</span>
+        ) : (
+          <a class="walk-nav-link walk-nav-prev" href={withBase("/bosc/start")}>← Start here</a>
+        )
+      }
+      <a class="walk-nav-leave" href={WALK_INDEX_HREF}>All chapters</a>
+      {
+        next?.live ? (
+          <a class="walk-nav-link walk-nav-next" href={walkHref(next.slug)}>{next.step}. {next.title} →</a>
+        ) : next ? (
+          <span class="walk-nav-link walk-nav-next is-disabled" title="Drafting">{next.step}. {next.title} →</span>
+        ) : (
+          <span></span>
+        )
+      }
+    </nav>
+  </div>
+</Base>

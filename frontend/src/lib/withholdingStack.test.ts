@@ -30,6 +30,6 @@ describe("withholding stack (#224)", () => {
 
   it("closes with the mandamus spine + Select-Committee links", () => {
     expect(STACK_CLOSE.links).toHaveLength(3);
-    for (const link of STACK_CLOSE.links) expect(link.href).toContain("/site/legal/");
+    for (const link of STACK_CLOSE.links) expect(link.href).toContain("/bosc/site/legal/");
   });
 });

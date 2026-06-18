@@ -48,12 +48,22 @@ export function buildBalanceSheet(
   const toxics = assimilativeOutcome(toxicsEffluentCfs, toxicsNaturalAnnualCfs);
 
   const rows: BalanceRow[] = [
-    { outcome: econ, unit: "usd", href: "/reports/the-economic-ledger", narrative: "The economic ledger" },
-    { outcome: grid, unit: "mw", href: "/reports/the-load-and-the-grid", narrative: "The load and the grid" },
+    {
+      outcome: econ,
+      unit: "usd",
+      href: "/bosc/reports/the-economic-ledger",
+      narrative: "The economic ledger",
+    },
+    {
+      outcome: grid,
+      unit: "mw",
+      href: "/bosc/reports/the-load-and-the-grid",
+      narrative: "The load and the grid",
+    },
     {
       outcome: toxics,
       unit: "pct",
-      href: "/reports/toxics-and-the-corridor",
+      href: "/bosc/reports/toxics-and-the-corridor",
       narrative: "Toxics and the corridor",
     },
   ];

@@ -17,7 +17,7 @@ import type { SectionId } from "./nav";
 export interface NarrativeDoc {
   /** Path under `docs/` (the migrated file). */
   repo: string;
-  /** Route slug under `/docs/` (lowercased repo path, no extension). */
+  /** Route slug under `/bosc/docs/` (lowercased repo path, no extension). */
   slug: string;
   title: string;
   section: SectionId;
@@ -140,6 +140,8 @@ export function slugForRepoPath(repoPath: string): string {
  * Legacy generated-page targets (repo-root-relative, as the docs link to the old
  * `web/` layout) → their new-IA routes. Used by the rehype link rewriter.
  */
+// Values are site-relative WITHOUT the /bosc prefix — the rehype-doc-links plugin prepends
+// the Lima base (`/bosc`, #307 PR 2) at build time, so prefixing here would double it.
 export const LINK_MAP: Record<string, string> = {
   "entities.md": "/wiki/entities/",
   "timeline.md": "/timeline",
