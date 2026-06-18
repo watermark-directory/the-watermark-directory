@@ -3,7 +3,7 @@
   "contract_version": "1.3.0",
   "generated_at": "2026-06-10T00:00:00+00:00",
   "feed_count": 20,
-  "row_total": 58,
+  "row_total": 65,
   "feeds": [
     {
       "name": "records",
@@ -27,7 +27,7 @@
       "media_type": "application/json",
       "schema": "schemas/entities.schema.json",
       "kind": "collection",
-      "count": 5
+      "count": 11
     },
     {
       "name": "relationships",
@@ -35,7 +35,7 @@
       "media_type": "application/json",
       "schema": "schemas/relationships.schema.json",
       "kind": "collection",
-      "count": 5
+      "count": 6
     },
     {
       "name": "people",

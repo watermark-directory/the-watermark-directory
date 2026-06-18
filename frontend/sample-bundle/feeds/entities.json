@@ -185,5 +185,165 @@
     "lei": "254900LJGL2N2XEMD470",
     "uei": null,
     "federal_obligations": null
+  },
+  {
+    "key": "KEATON BRENNEMAN",
+    "display": "Keaton A. Brenneman",
+    "kind": "individual",
+    "classification": "individual",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "Keaton A. Brenneman"
+    ],
+    "signals": [],
+    "roles": {
+      "trustee": 1
+    },
+    "parcels": [],
+    "addresses": [],
+    "sources": [
+      "recorder/202508130008300.deed.yaml"
+    ],
+    "lei": null,
+    "uei": null,
+    "federal_obligations": null
+  },
+  {
+    "key": "KEATON BRENNEMAN LIVING",
+    "display": "Keaton A. Brenneman Living Trust",
+    "kind": "trust",
+    "classification": "trust",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "Keaton A. Brenneman Living Trust"
+    ],
+    "signals": [],
+    "roles": {
+      "grantor": 1
+    },
+    "parcels": [
+      "36-1200-03-001.000",
+      "36-1200-03-001.001",
+      "36-1200-03-001.002",
+      "36-1200-03-001.003",
+      "36-1200-03-001.004",
+      "36-1200-03-001.005",
+      "36-1200-03-001.006"
+    ],
+    "addresses": [
+      "950 W BLUELICK RD",
+      "W BLUELICK RD"
+    ],
+    "sources": [
+      "recorder/202508130008300.deed.yaml"
+    ],
+    "lei": null,
+    "uei": null,
+    "federal_obligations": null
+  },
+  {
+    "key": "KRISTEN BRENNEMAN",
+    "display": "Kristen M. Brenneman",
+    "kind": "individual",
+    "classification": "individual",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "Kristen M. Brenneman"
+    ],
+    "signals": [],
+    "roles": {
+      "trustee": 1
+    },
+    "parcels": [],
+    "addresses": [],
+    "sources": [
+      "recorder/202508130008300.deed.yaml"
+    ],
+    "lei": null,
+    "uei": null,
+    "federal_obligations": null
+  },
+  {
+    "key": "KYLE BRENNEMAN",
+    "display": "Kyle C. Brenneman",
+    "kind": "individual",
+    "classification": "individual",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "Kyle C. Brenneman"
+    ],
+    "signals": [],
+    "roles": {
+      "trustee": 1
+    },
+    "parcels": [],
+    "addresses": [],
+    "sources": [
+      "recorder/202508130008300.deed.yaml"
+    ],
+    "lei": null,
+    "uei": null,
+    "federal_obligations": null
+  },
+  {
+    "key": "KYLE BRENNEMAN LIVING",
+    "display": "Kyle C. Brenneman Living Trust",
+    "kind": "trust",
+    "classification": "trust",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "Kyle C. Brenneman Living Trust"
+    ],
+    "signals": [],
+    "roles": {
+      "grantor": 1
+    },
+    "parcels": [
+      "36-1200-03-001.000",
+      "36-1200-03-001.001",
+      "36-1200-03-001.002",
+      "36-1200-03-001.003",
+      "36-1200-03-001.004",
+      "36-1200-03-001.005",
+      "36-1200-03-001.006"
+    ],
+    "addresses": [
+      "950 W BLUELICK RD",
+      "W BLUELICK RD"
+    ],
+    "sources": [
+      "recorder/202508130008300.deed.yaml"
+    ],
+    "lei": null,
+    "uei": null,
+    "federal_obligations": null
+  },
+  {
+    "key": "SARAH BRENNEMAN",
+    "display": "Sarah N. Brenneman",
+    "kind": "individual",
+    "classification": "individual",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "Sarah N. Brenneman"
+    ],
+    "signals": [],
+    "roles": {
+      "trustee": 1
+    },
+    "parcels": [],
+    "addresses": [],
+    "sources": [
+      "recorder/202508130008300.deed.yaml"
+    ],
+    "lei": null,
+    "uei": null,
+    "federal_obligations": null
   }
 ]
