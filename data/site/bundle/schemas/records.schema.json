@@ -59,6 +59,43 @@
       },
       "citation": {
         "$ref": "#/$defs/Citation"
+      },
+      "source_doc_rel": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Source Doc Rel"
+      },
+      "source_doc_render_class": {
+        "anyOf": [
+          {
+            "enum": [
+              "image",
+              "text",
+              "html",
+              "pdf",
+              "office",
+              "other"
+            ],
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Source Doc Render Class"
+      },
+      "source_doc_published": {
+        "default": false,
+        "title": "Source Doc Published",
+        "type": "boolean"
       }
     },
     "required": [

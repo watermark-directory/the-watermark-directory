@@ -236,8 +236,22 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
         settings=settings,
     )
 
+    # Source-document catalog (#274/#275): real media_type + render_class per file.
+    # Built before records so each record can join to its real source document (#276).
+    doc_collections = documents_mod.export_documents(
+        settings.documents_dir, mirror_base_url=settings.documents_mirror_base_url
+    )
+    published = documents_mod.load_published_allowlist(
+        settings.data_dir / "site" / "published-documents.yaml"
+    )
+    doc_index = documents_mod.build_doc_index(doc_collections, published=published)
+
     feeds.append(
-        _collection_feed("records", RecordItem, records_mod.export_records(settings.extracted_dir))
+        _collection_feed(
+            "records",
+            RecordItem,
+            records_mod.export_records(settings.extracted_dir, doc_index=doc_index),
+        )
     )
     feeds.append(_collection_feed("timeline", TimelineEntry, graph_mod.export_timeline(events)))
     feeds.append(_collection_feed("entities", EntityNode, graph_mod.export_entities(egraph)))
@@ -280,15 +294,7 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
     summaries = load_committed_summaries(settings)
     feeds.append(_collection_feed("meetings", MeetingItem, meetings_mod.export_meetings(summaries)))
 
-    feeds.append(
-        _collection_feed(
-            "documents",
-            DocumentCollectionItem,
-            documents_mod.export_documents(
-                settings.documents_dir, mirror_base_url=settings.documents_mirror_base_url
-            ),
-        )
-    )
+    feeds.append(_collection_feed("documents", DocumentCollectionItem, doc_collections))
 
     feeds.append(
         _collection_feed(

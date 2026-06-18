@@ -19,9 +19,13 @@ from typing import Any, cast
 import yaml
 
 from bosc.logging import get_logger
-from bosc.site.feeds import Citation, Confidence, RecordGroup, RecordItem
+from bosc.site.feeds import Citation, Confidence, RecordGroup, RecordItem, RenderClass
 
 log = get_logger(__name__)
+
+# The corpus root, as it appears inside an extraction ``source_path``. Committed
+# envelopes carry several shapes (see _normalize_source_rel).
+_DOC_ANCHOR = "data/documents/"
 
 # Group slug -> (human label, page title), in nav order.
 _GROUPS: list[tuple[str, str, str]] = [
@@ -258,12 +262,46 @@ def _approx_paths(value: Any, prefix: str = "") -> list[str]:
     return out
 
 
-def export_records(extracted_dir: Path) -> list[RecordItem]:
+def _normalize_source_rel(source_path: Any) -> str | None:
+    """Normalize an extraction ``source_path`` to a ``data/documents``-relative rel.
+
+    The committed envelopes carry several shapes: repo-relative (``data/documents/...``
+    or a bare ``documents/...``) and absolute machine paths with the legacy
+    ``/Users/.../shawnee-smart-systems/bosc/data/documents/...`` prefix. Returns the
+    corpus-relative remainder, or ``None`` for a directory reference or any path that
+    doesn't sit under the corpus root.
+    """
+    if not isinstance(source_path, str):
+        return None
+    s = source_path.strip().replace("\\", "/")
+    if not s or s.endswith("/"):
+        return None  # a directory (e.g. a collection), not a single document
+    idx = s.find(_DOC_ANCHOR)
+    if idx != -1:
+        rel = s[idx + len(_DOC_ANCHOR) :]
+    elif s.startswith("documents/"):
+        rel = s[len("documents/") :]
+    else:
+        return None
+    return rel.strip("/") or None
+
+
+def export_records(
+    extracted_dir: Path,
+    *,
+    doc_index: dict[str, tuple[RenderClass, bool]] | None = None,
+) -> list[RecordItem]:
     """Export every committed extraction as a :class:`RecordItem` feed (mirrors render).
 
     The data peer of :func:`render_record_pages`: same generic raw-YAML read, but emits
     structured items — the payload verbatim (``~`` markers intact), the dotted paths that
     carried the marker, and a structured :class:`Citation` provenance footer.
+
+    ``doc_index`` (``rel -> (render_class, published)``, from
+    :func:`bosc.site.documents.build_doc_index`) joins each record to its **real** source
+    document (#274 / #276): a record carries ``source_doc_rel`` + ``render_class`` only
+    when its ``source_path`` resolves to a catalogued file — connector-only records, and
+    stale/removed sources, carry ``None``.
     """
     records = load_records(extracted_dir)
     items: list[RecordItem] = []
@@ -275,6 +313,14 @@ def export_records(extracted_dir: Path) -> list[RecordItem]:
         warnings = [str(w) for w in raw_warnings] if isinstance(raw_warnings, list) else []
         fields = {k: v for k, v in payload.items() if k not in ("confidence", "warnings")}
         pages = rec.data.get("pages_read") or None
+
+        # Join to the real source document, but only when it's actually catalogued.
+        src_rel = _normalize_source_rel(rec.data.get("source_path"))
+        joined = doc_index.get(src_rel) if (doc_index is not None and src_rel) else None
+        source_doc_rel = src_rel if joined is not None else None
+        source_doc_render_class = joined[0] if joined is not None else None
+        source_doc_published = joined[1] if joined is not None else False
+
         items.append(
             RecordItem(
                 rel=rec.rel,
@@ -290,6 +336,9 @@ def export_records(extracted_dir: Path) -> list[RecordItem]:
                     confidence=confidence,
                     note=(f"pages {pages}" if pages else None),
                 ),
+                source_doc_rel=source_doc_rel,
+                source_doc_render_class=source_doc_render_class,
+                source_doc_published=source_doc_published,
             )
         )
     return items

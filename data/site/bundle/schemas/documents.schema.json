@@ -55,6 +55,22 @@
           "title": "Suffix",
           "type": "string"
         },
+        "media_type": {
+          "title": "Media Type",
+          "type": "string"
+        },
+        "render_class": {
+          "enum": [
+            "image",
+            "text",
+            "html",
+            "pdf",
+            "office",
+            "other"
+          ],
+          "title": "Render Class",
+          "type": "string"
+        },
         "available": {
           "title": "Available",
           "type": "boolean"
@@ -77,6 +93,8 @@
         "name",
         "size_bytes",
         "suffix",
+        "media_type",
+        "render_class",
         "available"
       ],
       "title": "DocumentItem",

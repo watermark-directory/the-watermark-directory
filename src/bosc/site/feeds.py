@@ -32,11 +32,16 @@ from pydantic import BaseModel, ConfigDict, Field, computed_field
 # Bumped per the back-compat policy in data/site/bundle/README.md: PATCH for additive
 # optional fields, MINOR for new feeds, MAJOR for a breaking field change/removal.
 # 1.1.0: added the `concepts` feed (issue #68, the wiki concept-glossary store).
-CONTRACT_VERSION = "1.1.0"
+# 1.2.0: source-document rendering (epic #274) — `DocumentItem` gains real
+#   `media_type`/`render_class` (#275), `RecordItem` gains the `source_doc_*` join (#276).
+CONTRACT_VERSION = "1.2.0"
 
 SourceKind = Literal["document", "connector", "reference", "assumption", "derived"]
 Confidence = Literal["high", "medium", "low"]
 RecordGroup = Literal["deeds", "permits-epa", "permits-npdes", "permits-sos", "plans", "opc"]
+# What the frontend document viewer dispatches on — derived from the *real* file
+# (extension + content sniff), never from hand-authored genre metadata (epic #274).
+RenderClass = Literal["image", "text", "html", "pdf", "office", "other"]
 
 
 # --- shared provenance primitives (issue #60) ---------------------------------
@@ -101,6 +106,12 @@ class RecordItem(BaseModel):
     fields: dict[str, Any] = Field(default_factory=dict)
     approximate_paths: list[str] = Field(default_factory=list)
     citation: Citation
+    # The real source document this record was read from (epic #274 / #276), joined
+    # against the documents catalog so a stale/removed source_path yields ``None``
+    # (no broken link) rather than a 404. Connector-only records carry ``None``.
+    source_doc_rel: str | None = None  # the source file's data/documents rel
+    source_doc_render_class: RenderClass | None = None  # from the documents feed (#275)
+    source_doc_published: bool = False  # cleared for public serving (allowlist, #280)
 
 
 # --- timeline feed -------------------------------------------------------------
@@ -296,7 +307,11 @@ class DocumentItem(BaseModel):
     rel: str  # path relative to data/documents — the as-received chain-of-custody name
     name: str
     size_bytes: int
-    suffix: str
+    suffix: str  # the file extension, lower-cased and de-dotted (the as-received signal)
+    # The renderable type, derived from the *real* file (extension + a content sniff of
+    # the leading bytes), not from hand-authored metadata (epic #274 / #275).
+    media_type: str  # MIME, e.g. application/pdf, image/jpeg, text/html
+    render_class: RenderClass  # what the viewer dispatches on
     available: bool  # locally present (not an unresolved Git-LFS pointer)
     download_url: str | None = None
 
