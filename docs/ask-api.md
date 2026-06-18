@@ -208,8 +208,12 @@ can only be set once the Pages project exists (see `docs/submissions-api.md` Pha
 2. **Turnstile** — reuse the submit endpoint's `TURNSTILE_SECRET_KEY` secret +
    `PUBLIC_TURNSTILE_SITE_KEY` build var (they're shared). If submit is already live,
    nothing to do here.
-3. **(Optional) rate limit + budget** — create a KV namespace and bind it as
-   `ASK_RATE_LIMIT` in [`frontend/wrangler.toml`](../frontend/wrangler.toml):
+3. **Bind the rate-limit + budget KV — recommended before any public flip.** The per-IP
+   rate limit *and* the account-wide daily token budget are **opt-in**: they only engage
+   once a KV namespace is bound as `ASK_RATE_LIMIT`. Without it, the only cost guards on a
+   public, **paid** endpoint are Turnstile + the per-answer `max_tokens` cap — there is
+   **no per-IP throttle and no daily spend ceiling**, so a scripted/solved-challenge abuser
+   is bounded only per-request. For anything past a private dry-run, bind it before step 4:
 
    ```sh
    npx wrangler kv namespace create ASK_RATE_LIMIT   # prints the namespace id
