@@ -12,6 +12,7 @@ Commands:
 from __future__ import annotations
 
 import asyncio
+import os
 from pathlib import Path
 
 import typer
@@ -24,6 +25,7 @@ from bosc.documents import DEFAULT_DPI
 from bosc.logging import configure_logging
 from bosc.models import OPCSummary
 from bosc.pipeline import analyze, ingest
+from bosc.sites import SITES
 
 app = typer.Typer(
     name="bosc",
@@ -35,8 +37,22 @@ console = Console()
 
 
 @app.callback()
-def _main() -> None:
-    """Configure logging before any command runs."""
+def _main(
+    site: str = typer.Option(
+        "lima",
+        "--site",
+        envvar="BOSC_SITE",
+        help="Active site profile (registry key in bosc.sites, e.g. 'lima').",
+    ),
+) -> None:
+    """Select the active site profile + configure logging before any command runs."""
+    if site not in SITES:
+        raise typer.BadParameter(
+            f"unknown site {site!r}; known: {sorted(SITES)}", param_hint="--site"
+        )
+    # Set BOSC_SITE before the first get_settings() so the cached Settings resolve this
+    # site; the callback runs ahead of every command, and cli has no import-time get_settings.
+    os.environ["BOSC_SITE"] = site
     configure_logging(get_settings().log_level)
 
 
