@@ -26,21 +26,14 @@ from bosc.hydrology.model import Node, ProvenancedValue, WaterBalance, WaterBala
 from bosc.hydrology.routing import RoutingTable, load_routing
 from bosc.hydrology.units import mgd_to_cfs
 from bosc.logging import get_logger
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
-# Fallback receiving waters per plant, read from the Ohio EPA NPDES fact sheets in
-# our corpus. The authoritative source is now data/reference/hydrology/routing.yaml
-# (loaded into a RoutingTable); this dict is only used if that file is absent, so the
-# existing balance never breaks during rollout.
-_PLANT_RECEIVING: dict[str, tuple[str, str]] = {
-    "watch-american-ii-wwtp": ("Dug Run", "Ohio EPA fact sheet 2PH00006 (American II WWTP)"),
-    "watch-american-bath-wwtp": ("Pike Run", "Ohio EPA fact sheet 2PH00007 (American Bath WWTP)"),
-    "watch-shawnee-ii-wwtp": ("Ottawa River", "Ohio EPA fact sheet 2PK00002 (Shawnee II WWTP)"),
-}
-
-# The Ottawa-at-Lima gauge — the abstraction/dilution reach the WWTPs return to.
-_OTTAWA_AT_LIMA = "04187100"
+# The per-plant fallback receiving waters (from the active SiteProfile.plant_receiving,
+# sourced from the Ohio EPA NPDES fact sheets in our corpus) and the abstraction/dilution
+# gauge (SiteProfile.abstraction_gage) are per-site. The fallback is consulted only when
+# data/reference/hydrology/routing.yaml is absent, so the balance never breaks during rollout.
 
 _MGD_RE = re.compile(r"(\d+(?:\.\d+)?)\s*MGD", re.IGNORECASE)
 
@@ -62,11 +55,13 @@ def _design_mgd(summary: str) -> tuple[float | None, bool]:
     return found[0], len(found) > 1
 
 
-def _receiving_for(fid: str, routing: RoutingTable | None) -> tuple[str | None, str]:
-    """Resolve a WWTP's receiving water from the routing table, falling back to the dict."""
+def _receiving_for(
+    fid: str, routing: RoutingTable | None, *, settings: Settings
+) -> tuple[str | None, str]:
+    """Resolve a WWTP's receiving water from the routing table, falling back to the profile."""
     if routing is not None and fid in routing.wwtp_receiving:
         return routing.receiving_for(fid)
-    return _PLANT_RECEIVING.get(fid, (None, ""))
+    return active_profile(settings).plant_receiving.get(fid, (None, ""))
 
 
 def _surface_bosc_routing(routing: RoutingTable | None, warnings: list[str]) -> None:
@@ -88,7 +83,7 @@ def _surface_bosc_routing(routing: RoutingTable | None, warnings: list[str]) -> 
 
 
 def _wwtp_nodes(
-    path: Path, warnings: list[str], routing: RoutingTable | None
+    path: Path, warnings: list[str], routing: RoutingTable | None, *, settings: Settings
 ) -> list[WaterBalanceNode]:
     nodes: list[WaterBalanceNode] = []
     for feat in _features(path):
@@ -100,7 +95,7 @@ def _wwtp_nodes(
         if not is_wwtp or geom.get("type") != "Point":
             continue
 
-        receiving, recv_cite = _receiving_for(fid, routing)
+        receiving, recv_cite = _receiving_for(fid, routing, settings=settings)
         mgd, expanding = _design_mgd(str(props.get("summary", "")))
         lon, lat = geom["coordinates"][0], geom["coordinates"][1]
         node = Node(
@@ -190,7 +185,9 @@ def _abstraction_node(settings: Settings, warnings: list[str]) -> WaterBalanceNo
     )
     inflow: ProvenancedValue | None = None
     try:
-        readings = fetch_streamflow(sites=[_OTTAWA_AT_LIMA], settings=settings)
+        readings = fetch_streamflow(
+            sites=[active_profile(settings).abstraction_gage], settings=settings
+        )
         flow = next(
             (r for r in readings if r.parameter_cd == DISCHARGE_CFS and r.value is not None),
             None,
@@ -223,7 +220,7 @@ def build_water_balance(
     warnings: list[str] = []
 
     routing = load_routing(settings=settings)
-    nodes = _wwtp_nodes(path, warnings, routing)
+    nodes = _wwtp_nodes(path, warnings, routing, settings=settings)
     _surface_bosc_routing(routing, warnings)
     nodes.append(_campus_node(path, warnings))
     if live:

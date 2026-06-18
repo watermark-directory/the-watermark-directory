@@ -39,6 +39,7 @@ from pydantic import BaseModel
 
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
+from bosc.sites import active_profile
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -52,8 +53,8 @@ _TABLES = ("facility", "submission", "release", "chemical", "media")
 _ENC = "latin-1"
 # MediaCode (media.csv last column) -> the bucket we report pounds under.
 _MEDIA_GROUP = {1: "air", 3: "water", 4: "underground", 5: "land", 6: "potw", 7: "offsite"}
-_DEFAULT_FIPS = "39003"  # Allen County, OH
-_DEFAULT_COUNTY = "Allen County, OH"
+# The county FIPS + name are per-site: fips from settings.rsei_fips, the human county name
+# from the active SiteProfile.county_name (Lima = Allen County, OH / 39003).
 _TOP_CHEMICALS = 8
 
 _SOURCE = "EPA RSEI Public Data Set (AWS Open Data s3://epa-rsei-pds)"
@@ -208,7 +209,7 @@ def build_inventory(
     """Pull RSEI and reduce it to one county's facilities with rolled-up results."""
     settings = settings or get_settings()
     fips = fips or settings.rsei_fips
-    county_name = county_name or _DEFAULT_COUNTY
+    county_name = county_name or active_profile(settings).county_name
     for name in _TABLES:
         _ensure_table(settings, name)
 

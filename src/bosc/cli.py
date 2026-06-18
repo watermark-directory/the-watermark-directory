@@ -2004,7 +2004,7 @@ def pjm_cmd(
         "order-of-magnitude. Transcribed PJM figures (Data Miner 2 / RPM BRA / queue), verify.[/]"
     )
     if write:
-        path = write_pjm_market(_market_reference(), settings=settings)
+        path = write_pjm_market(_market_reference(settings), settings=settings)
         console.print(f"[green]Wrote[/] {path}")
 
 
