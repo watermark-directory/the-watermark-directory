@@ -1,0 +1,146 @@
+---
+/**
+ * Per-site "coming soon" page for an open BOSC-network site (#305). One parameterized
+ * route renders any non-selectable registry site — the switcher routes here. Faithful to
+ * the `Findlay - Coming Soon` design; pure no-JS (the notify-me is a real "watch the issue"
+ * link, not a new capture path). Lima (the live build) is excluded — it's the root site.
+ */
+import Base from "../../layouts/Base.astro";
+import { type NetworkSite, comingSoonSites } from "../../lib/sites";
+import { withBase } from "../../lib/site";
+
+export function getStaticPaths() {
+  return comingSoonSites().map((site) => ({ params: { site: site.slug }, props: { site } }));
+}
+
+const { site } = Astro.props as { site: NetworkSite };
+const onboarding = site.status === "onboarding";
+const issueUrl = site.issue ? `https://github.com/goedelsoup/bosc/issues/${site.issue}` : undefined;
+
+// Build stages — the scaffold is underway for a facility we're onboarding, queued otherwise.
+const stages = [
+  {
+    title: "Site scaffold",
+    desc: `Routes and the indigo chrome wired up for the ${site.place} record.`,
+    state: onboarding ? "in progress" : "queued",
+  },
+  { title: "Data tier", desc: `${site.basin} sources ingested, structured, and provenance-linked.`, state: "queued" },
+  { title: "Frontend", desc: "Record screens, profiles, timeline, and the guided walk.", state: "queued" },
+];
+const startedCount = stages.filter((s) => s.state === "in progress").length;
+
+const doors = [
+  { kind: "Records", title: "The source record", desc: "Documents, structured records, and the external reference datasets behind them." },
+  { kind: "Chronology", title: "The timeline", desc: `Events along the ${site.basin}, each tied back to its source.` },
+  { kind: "People & places", title: "Profiles", desc: "The entities, agencies, and sites that recur across the record." },
+  { kind: "Narrative", title: "The guided walk", desc: "A reading path through the record for first-time visitors." },
+];
+---
+
+<Base
+  title={`${site.place} — coming soon`}
+  section="network"
+  description={`A BOSC-network record site for the ${site.basin}, being assembled from the Lima reference build.`}
+>
+  <article class="netsite">
+    <header class="netsite-hero">
+      <div class="netsite-eyebrow">
+        BOSC network · Maumee basin{site.issue && <> · tracking site #{site.issue}</>}
+      </div>
+      <h1 class="netsite-h1">{site.place} is being assembled.</h1>
+      <p class="netsite-lead">
+        A record site for the <strong>{site.basin}</strong>. We're generalizing the BOSC
+        platform from the Lima reference build out across the Maumee watershed —
+        {onboarding ? " a live facility we're onboarding now." : " this site is in the build queue."}
+      </p>
+      <div class="netsite-chips">
+        <span class:list={["netsite-status", onboarding ? "is-onboarding" : "is-open"]}>
+          <span class="netsite-dot" aria-hidden="true"></span>
+          {onboarding ? "Onboarding · live facility" : "Open · in progress"}
+        </span>
+        {
+          issueUrl && (
+            <a class="netsite-issue" href={issueUrl} rel="noopener noreferrer">
+              goedelsoup/bosc · #{site.issue}
+            </a>
+          )
+        }
+      </div>
+    </header>
+
+    <section class="netsite-stages" aria-label="Build status">
+      <div class="netsite-stages-head">
+        <span class="netsite-kicker">Build status</span>
+        <span class="netsite-stages-count">{startedCount} of {stages.length} stages started</span>
+      </div>
+      <div class="netsite-stages-grid">
+        {
+          stages.map((s, i) => (
+            <div class:list={["netsite-stage", { "is-active": s.state === "in progress" }]}>
+              <div class="netsite-stage-top">
+                <span class="netsite-stage-dot" aria-hidden="true">{s.state === "in progress" ? "●" : i + 1}</span>
+                <span class="netsite-stage-state">{s.state}</span>
+              </div>
+              <div class="netsite-stage-title">{s.title}</div>
+              <div class="netsite-stage-desc">{s.desc}</div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="netsite-doors-wrap" aria-label="What will land here">
+      <div class="netsite-kicker netsite-doors-kicker">
+        What will land here <span class="netsite-faint">— the same record grammar as Lima</span>
+      </div>
+      <div class="netsite-doors">
+        {
+          doors.map((d) => (
+            <div class="netsite-door">
+              <div class="netsite-door-top">
+                <span class="netsite-door-kind">{d.kind}</span>
+                <span aria-hidden="true">🔒</span>
+              </div>
+              <div class="netsite-door-title">{d.title}</div>
+              <div class="netsite-door-desc">{d.desc}</div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="netsite-cta">
+      <div class="netsite-notify">
+        <span class="netsite-kicker netsite-kicker--dark">Get notified</span>
+        <div class="netsite-notify-h">Know when {site.place} goes live.</div>
+        <p class="netsite-notify-p">
+          Follow the tracking issue — one update when the {site.basin} record opens. No list, no noise.
+        </p>
+        {
+          issueUrl ? (
+            <a class="netsite-notify-btn" href={issueUrl} rel="noopener noreferrer">
+              Watch #{site.issue} on GitHub
+            </a>
+          ) : (
+            <span class="netsite-notify-btn is-disabled">Tracking issue pending</span>
+          )
+        }
+      </div>
+      <a class="netsite-lima" href={withBase("/")}>
+        <span class="netsite-lima-pill"><span class="netsite-dot" aria-hidden="true"></span>Complete</span>
+        <div class="netsite-lima-h">See the Lima build</div>
+        <p class="netsite-lima-p">
+          Project BOSC — the reference site on the Ottawa River, Lima OH. The complete record,
+          timeline, and guided walk that {site.place} is modeled on.
+        </p>
+        <div class="netsite-lima-go">Explore the reference site ›</div>
+      </a>
+    </section>
+
+    <p class="netsite-foot">
+      <strong>Provenance-first, from the first commit.</strong> Like every BOSC site, {site.place}
+      will carry a source for every figure, label its inferences, and show redactions rather than
+      hide them. Nothing here is a verdict.
+    </p>
+  </article>
+</Base>
