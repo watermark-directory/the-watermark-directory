@@ -10,6 +10,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from bosc.config import Settings
 from bosc.onboard import onboard_site, scaffold_dirs
 from bosc.sites import SITES
@@ -84,3 +86,28 @@ def test_onboard_writes_under_slug_not_lima(tmp_path, monkeypatch) -> None:  # t
     onboard_site(settings=_settings(tmp_path))
     assert not (tmp_path / "reference" / "hydrology" / "nasa-power-climatology.yaml").exists()
     assert not (tmp_path / "reference" / "hydrology" / "atlas14-corridor-ddf.yaml").exists()
+
+
+def test_onboard_refuses_colliding_output_paths(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # The footgun: a profile that copied Lima but did NOT slug-scope its output relpaths would
+    # overwrite Lima's committed files. onboard must refuse before writing anything.
+    bad = SITES["lima"].model_copy(update={"slug": "bad", "place": "Bad"})  # keeps Lima's relpaths
+    monkeypatch.setitem(SITES, "bad", bad)
+    with pytest.raises(ValueError, match="not unique"):
+        onboard_site(settings=Settings(site="bad", data_dir=tmp_path, hydro_offline=True))
+    # Refused before any scaffold write.
+    assert not (tmp_path / "reference" / "bad").exists()
+
+
+def test_dry_run_writes_nothing(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    _fw(monkeypatch)
+    report = onboard_site(settings=_settings(tmp_path), dry_run=True)
+    # Plan is reported, but the filesystem is untouched.
+    assert all(s.status == "dry-run" for s in report.steps)
+    assert not (tmp_path / "reference" / "fw").exists()
+    assert not (tmp_path / "extracted" / "fw").exists()
+    # The plan still names the slug-scoped per-site targets.
+    by_name = {s.name: s for s in report.steps}
+    assert (
+        by_name["climatology"].output_path == "reference/hydrology/fw/nasa-power-climatology.yaml"
+    )

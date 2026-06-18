@@ -8,11 +8,22 @@ hydrology output can quietly change.
 
 from __future__ import annotations
 
+import re
+from pathlib import Path
+
 import pytest
 from pydantic import ValidationError
 
 from bosc.config import Settings
-from bosc.sites import SITES, active_profile, get_profile
+from bosc.sites import (
+    PER_SITE_OUTPUT_FIELDS,
+    SITES,
+    active_profile,
+    get_profile,
+    output_path_collisions,
+)
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 # The exact pre-#325 Lima values, transcribed from the original module constants.
 _LIMA_GOLDEN = {
@@ -116,6 +127,31 @@ def test_unknown_site_errors() -> None:
 def test_profile_is_frozen() -> None:
     with pytest.raises(ValidationError):
         SITES["lima"].slug = "nope"  # type: ignore[misc]
+
+
+def test_sites_keyed_by_slug() -> None:
+    # The registry key must equal the profile's slug (onboard scaffolds dirs by prof.slug).
+    for key, prof in SITES.items():
+        assert key == prof.slug
+
+
+def test_per_site_output_relpaths_unique() -> None:
+    # No two sites may share a per-site output relpath, or onboarding one clobbers the other
+    # (#326 hardening). Fires the moment a colliding profile is added.
+    for slug in SITES:
+        assert output_path_collisions(slug) == {}, slug
+    for field in PER_SITE_OUTPUT_FIELDS:
+        values = [getattr(p, field) for p in SITES.values()]
+        assert len(values) == len(set(values)), f"duplicate {field} across SITES"
+
+
+def test_python_sites_registered_in_frontend() -> None:
+    # Every Python-registered site must also exist in the frontend registry (its switcher +
+    # coming-soon page); catches drift between the two tiers.
+    ts = (REPO_ROOT / "frontend" / "src" / "lib" / "sites.ts").read_text(encoding="utf-8")
+    frontend_slugs = set(re.findall(r'slug:\s*"([^"]+)"', ts))
+    assert frontend_slugs, "could not parse slugs from frontend sites.ts"
+    assert set(SITES) <= frontend_slugs, set(SITES) - frontend_slugs
 
 
 def test_per_site_output_paths_resolve(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
