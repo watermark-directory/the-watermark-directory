@@ -78,6 +78,32 @@ export function assemblePrompt(question: string, hits: Hit[]): { system: string;
   return { system: SYSTEM, user };
 }
 
+/** Resolve one retrieved hit to its citation under the given 1-based `[n]` marker. */
+function toCitation(hit: Hit, marker: number): AskCitation {
+  const u = hit.unit;
+  return {
+    marker,
+    id: u.id,
+    feed: u.feed,
+    title: u.title,
+    url: u.url,
+    source: u.source ?? null,
+    page: u.page ?? null,
+    source_kind: u.source_kind ?? null,
+    verified: u.verified ?? false,
+  };
+}
+
+/**
+ * Every retrieved hit as a candidate citation, numbered in prompt order (`[1]`, `[2]`, …).
+ * Sent up front on the stream (#331) so the client can resolve `[n]` markers to links
+ * *incrementally* as tokens arrive — the cited subset (`extractCitations`) is reconciled at
+ * `done`, but both draw the same metadata per marker, so live and final links agree.
+ */
+export function candidateCitations(hits: Hit[]): AskCitation[] {
+  return hits.map((hit, i) => toCitation(hit, i + 1));
+}
+
 /**
  * Parse the `[n]` markers the answer used and resolve each to its retrieved hit, in the
  * order markers first appear. Markers outside the source range are a model error — they
@@ -92,18 +118,7 @@ export function extractCitations(answer: string, hits: Hit[]): AskCitation[] {
     seen.add(marker);
     const hit = hits[marker - 1];
     if (!hit) continue; // out-of-range marker — drop, don't fabricate a source
-    const u = hit.unit;
-    out.push({
-      marker,
-      id: u.id,
-      feed: u.feed,
-      title: u.title,
-      url: u.url,
-      source: u.source ?? null,
-      page: u.page ?? null,
-      source_kind: u.source_kind ?? null,
-      verified: u.verified ?? false,
-    });
+    out.push(toCitation(hit, marker));
   }
   return out;
 }

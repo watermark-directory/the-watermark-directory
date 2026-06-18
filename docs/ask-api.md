@@ -95,16 +95,22 @@ verifiable page. Markers the model emits that don't resolve to a returned citati
 
 ### Response — SSE (`Accept: text/event-stream`)
 
-A `text/event-stream` of three event types:
+A `text/event-stream` of four event types:
 
 | event | data | when |
 | --- | --- | --- |
+| `meta` | `{ "searched": n, "candidates": [...] }` | once, **before** any token — the count of records grounding the answer + the *candidate* citations (every retrieved source, numbered in prompt order) |
 | `delta` | `{ "text": "…" }` | each token chunk as it arrives |
-| `done` | `{ "citations": [...], "refused": bool, "model": "…", "usage": {…} }` | end of stream — citations reconciled over the full answer |
+| `done` | `{ "citations": [...], "refused": bool, "model": "…", "usage": {…} }` | end of stream — the *cited subset* reconciled over the full answer |
 | `error` | `{ "error": "…" }` | a mid-stream failure (the answer so far stays rendered) |
 
-The page renders `delta`s incrementally and, on `done`, re-renders the answer with the
-inline citation links + the "Sources used" list.
+`candidates` and the final `citations` share the same per-marker metadata (same
+`AskCitation` shape), so a `[n]` the answer uses links identically whether resolved live
+or at `done`. The page uses `meta.candidates` to resolve `[n]` markers to links
+**incrementally** as tokens stream (#331), shows a "Searching *n* records…" hint from
+`meta.searched`, and on `done` re-renders with the cited subset + the "Sources used" list.
+A `meta` frame leads **every** stream, including the deterministic empty-retrieval refusal
+(`searched: 0`).
 
 ### Errors
 

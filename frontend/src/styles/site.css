@@ -1187,6 +1187,24 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .ask-cite a:hover { text-decoration: underline; }
 .ask-cite--unresolved { color: var(--bosc-inference); font-weight: 700; cursor: help; padding: 0 0.1em; }
 
+/* Streaming controls under the answer: Stop / Copy / Retry (#331). */
+.ask-controls { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+.ask-ctl {
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--bosc-indigo);
+  background: var(--td-tint);
+  border: 1px solid var(--td-tint-line);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  cursor: pointer;
+}
+.ask-ctl:hover { background: #fff; border-color: var(--bosc-indigo); }
+.ask-ctl:focus-visible { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; }
+.ask-ctl--stop { color: #c62828; border-color: rgba(198, 40, 40, 0.3); }
+.ask-ctl--stop:hover { background: #fff; border-color: #c62828; }
+
 /* Sources-used list under the answer. */
 .ask-sources-title { margin: 1rem 0 0.4rem; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bosc-muted); font-weight: 700; }
 .ask-sources { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }

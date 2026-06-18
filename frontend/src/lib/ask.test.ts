@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { assemblePrompt, extractCitations, isRefusal, REFUSAL } from "../../functions/api/_lib/ask";
+import {
+  assemblePrompt,
+  candidateCitations,
+  extractCitations,
+  isRefusal,
+  REFUSAL,
+} from "../../functions/api/_lib/ask";
 import type { Hit } from "../../functions/api/_lib/retrieval";
 
 const HITS: Hit[] = [
@@ -61,6 +67,31 @@ describe("extractCitations", () => {
 
   it("finds no citations in an uncited answer", () => {
     expect(extractCitations("No markers here.", HITS)).toEqual([]);
+  });
+});
+
+describe("candidateCitations", () => {
+  it("maps every hit to a [n]-numbered citation in prompt order (#331)", () => {
+    const cands = candidateCitations(HITS);
+    expect(cands.map((c) => c.marker)).toEqual([1, 2]);
+    expect(cands[0]).toMatchObject({
+      marker: 1,
+      id: "records:opc.summary",
+      url: "/bosc/site/records/opc/",
+      page: 318,
+    });
+    expect(cands[1]).toMatchObject({ marker: 2, id: "timeline:nda", page: null });
+  });
+
+  it("agrees with extractCitations on the markers an answer actually uses", () => {
+    const cands = candidateCitations(HITS);
+    const used = extractCitations("Cost is on the summary [1].", HITS);
+    // The live link (candidate) and the final link (extracted) resolve to the same source.
+    expect(cands.find((c) => c.marker === 1)).toEqual(used[0]);
+  });
+
+  it("is empty when nothing was retrieved", () => {
+    expect(candidateCitations([])).toEqual([]);
   });
 });
 

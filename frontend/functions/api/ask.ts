@@ -11,7 +11,14 @@
 // model to answer ONLY from those sources, citing each claim → return the answer +
 // structured citations, then record the spend.
 
-import { type AskResult, assemblePrompt, extractCitations, isRefusal, REFUSAL } from "./_lib/ask";
+import {
+  type AskResult,
+  assemblePrompt,
+  candidateCitations,
+  extractCitations,
+  isRefusal,
+  REFUSAL,
+} from "./_lib/ask";
 import { AnthropicError, type AnthropicUsage, createMessage } from "./_lib/anthropic";
 import { streamMessage } from "./_lib/anthropicStream";
 import { loadAskIndex } from "./_lib/askIndexLoad";
@@ -163,6 +170,8 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
         new ReadableStream({
           start(controller) {
             const enc = new TextEncoder();
+            // Emit `meta` first on every stream so the client has one code path (#331).
+            controller.enqueue(enc.encode(frame("meta", { searched: 0, candidates: [] })));
             controller.enqueue(enc.encode(frame("delta", { text: REFUSAL })));
             controller.enqueue(enc.encode(frame("done", { citations: [], refused: true, model })));
             controller.close();
@@ -184,6 +193,9 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
       async start(controller) {
         const send = (event: string, data: unknown): void =>
           controller.enqueue(enc.encode(frame(event, data)));
+        // Pre-answer: tell the client how many records ground this answer and ship the
+        // candidate citations so it can resolve `[n]` markers as tokens stream in (#331).
+        send("meta", { searched: hits.length, candidates: candidateCitations(hits) });
         let full = "";
         let inTok: number | undefined;
         let outTok: number | undefined;
