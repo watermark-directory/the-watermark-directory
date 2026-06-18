@@ -1,0 +1,76 @@
+/**
+ * The public balance sheet (epic #271 Phase 4 capstone, #273) — composes every
+ * narrative's `UncertainOutcome` into one register-encoded sheet and prices the opacity
+ * in aggregate. **No new data:** it reads the existing consumer models (econ ledger, grid,
+ * toxics) through the shared band contract the engine was built to feed from day one.
+ *
+ * Client-safe. The toxics outcome needs the feed-sourced discharge constants (effluent +
+ * natural low flow), so they're passed in (from `buildDilution()` at build time) rather
+ * than re-derived — the balance sheet never forks a narrative's numbers.
+ *
+ * Discipline: a map of what *isn't* known, not a verdict. The aggregate is a band; every
+ * row carries its register and the specific record whose disclosure would collapse it.
+ */
+import { netSubsidyOutcome } from "./econLedger";
+import { facilityDrawOutcome } from "./gridLoad";
+import { assimilativeOutcome } from "./toxicsDilution";
+import type { UncertainOutcome } from "./uncertainty";
+
+export type BalanceUnit = "usd" | "pct" | "mw";
+
+export interface BalanceRow {
+  outcome: UncertainOutcome;
+  unit: BalanceUnit;
+  /** The narrative companion this band comes from. */
+  href: string;
+  narrative: string;
+}
+
+export interface BalanceSheetData {
+  rows: BalanceRow[];
+  /** Distinct withheld records that, produced, would collapse one or more bands — the
+   *  mandamus tie-in (each is a record the county has not disclosed). */
+  resolvingRecords: string[];
+  /** The monetized public exposure: the economic net-subsidy band ($). */
+  econExposure: { low: number; high: number; central: number };
+}
+
+/**
+ * Compose the balance sheet. `toxicsEffluentCfs` / `toxicsNaturalAnnualCfs` come from the
+ * hydrology feed (`buildDilution().discharge`) so the toxics band matches its narrative.
+ */
+export function buildBalanceSheet(
+  toxicsEffluentCfs: number,
+  toxicsNaturalAnnualCfs: number,
+): BalanceSheetData {
+  const econ = netSubsidyOutcome();
+  const grid = facilityDrawOutcome();
+  const toxics = assimilativeOutcome(toxicsEffluentCfs, toxicsNaturalAnnualCfs);
+
+  const rows: BalanceRow[] = [
+    { outcome: econ, unit: "usd", href: "/reports/the-economic-ledger", narrative: "The economic ledger" },
+    { outcome: grid, unit: "mw", href: "/reports/the-load-and-the-grid", narrative: "The load and the grid" },
+    {
+      outcome: toxics,
+      unit: "pct",
+      href: "/reports/toxics-and-the-corridor",
+      narrative: "Toxics and the corridor",
+    },
+  ];
+
+  // The withheld records that would collapse the bands — the outcome's own resolving
+  // record plus each driving prior's, deduped.
+  const records = new Set<string>();
+  for (const r of rows) {
+    if (r.outcome.resolvingRecord) records.add(r.outcome.resolvingRecord);
+    for (const d of r.outcome.drivers) {
+      if (d.resolvingRecord) records.add(d.resolvingRecord);
+    }
+  }
+
+  return {
+    rows,
+    resolvingRecords: [...records],
+    econExposure: { low: econ.low, high: econ.high, central: econ.central },
+  };
+}
