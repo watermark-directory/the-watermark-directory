@@ -11,10 +11,11 @@ from __future__ import annotations
 from pathlib import Path
 
 from bosc.site.documents import (
+    PublishAllowlist,
     build_doc_index,
     build_documents,
     export_documents,
-    load_published_allowlist,
+    load_publish_allowlist,
 )
 from bosc.site.records import _normalize_source_rel, export_records
 
@@ -128,25 +129,32 @@ def test_export_records_joins_to_the_real_source_document(tmp_path: Path) -> Non
         assert rec.source_doc_published is False
 
 
-def test_published_allowlist_is_default_deny(tmp_path: Path) -> None:
-    # Missing file -> nothing published (default-deny).
-    assert load_published_allowlist(tmp_path / "nope.yaml") == set()
+def test_publish_allowlist_is_default_deny_plus_exhibits(tmp_path: Path) -> None:
+    # Missing file -> nothing public EXCEPT the auto-included exhibits (default-deny).
+    al = load_publish_allowlist(tmp_path / "nope.yaml", exhibit_sources=["aedg/exhibit.pdf"])
+    assert al.is_published("aedg/exhibit.pdf")  # exhibit auto-included
+    assert not al.is_published("recorder/secret.pdf")
+
     allow = tmp_path / "published-documents.yaml"
     allow.write_text(
-        "published:\n  - aedg/PRR-01-bundle.ocr.pdf\n  - recorder/deed.pdf\n", encoding="utf-8"
+        "collections:\n  - aedg\nglobs:\n  - 'permits/*/*.pdf'\ndocuments:\n  - recorder/one.pdf\n",
+        encoding="utf-8",
     )
-    assert load_published_allowlist(allow) == {
-        "aedg/PRR-01-bundle.ocr.pdf",
-        "recorder/deed.pdf",
-    }
+    al2 = load_publish_allowlist(allow, exhibit_sources=["legal/x.pdf"])
+    assert al2.is_published("aedg/anything.pdf")  # whole collection
+    assert al2.is_published("permits/bistrozzi-permits/4132514.pdf")  # glob
+    assert al2.is_published("recorder/one.pdf")  # exact
+    assert al2.is_published("legal/x.pdf")  # exhibit auto-included
+    assert not al2.is_published("recorder/two.pdf")  # default-deny
 
 
-def test_build_doc_index_marks_published(tmp_path: Path) -> None:
+def test_build_doc_index_reads_published_from_entries(tmp_path: Path) -> None:
     docs = tmp_path / "documents"
     (docs / "aedg").mkdir(parents=True)
     (docs / "aedg" / "a.pdf").write_bytes(b"%PDF-1.4")
     (docs / "aedg" / "b.html").write_text("<html></html>", encoding="utf-8")
-    collections = export_documents(docs)
-    index = build_doc_index(collections, published={"aedg/a.pdf"})
+    allowlist = PublishAllowlist(documents=frozenset({"aedg/a.pdf"}))
+    collections = export_documents(docs, allowlist=allowlist)
+    index = build_doc_index(collections)
     assert index["aedg/a.pdf"] == ("pdf", True)
     assert index["aedg/b.html"] == ("html", False)

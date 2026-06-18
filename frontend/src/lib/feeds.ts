@@ -137,6 +137,8 @@ export interface DocumentEntry {
   /** MIME + render class derived from the real file (extension + content sniff, #275). */
   media_type: string;
   render_class: RenderClass;
+  /** Cleared for public serving by the default-deny allowlist (#280); dev serves all. */
+  published: boolean;
   available: boolean;
   download_url?: string | null;
 }

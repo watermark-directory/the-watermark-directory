@@ -71,6 +71,10 @@
           "title": "Render Class",
           "type": "string"
         },
+        "published": {
+          "title": "Published",
+          "type": "boolean"
+        },
         "available": {
           "title": "Available",
           "type": "boolean"
@@ -95,6 +99,7 @@
         "suffix",
         "media_type",
         "render_class",
+        "published",
         "available"
       ],
       "title": "DocumentItem",

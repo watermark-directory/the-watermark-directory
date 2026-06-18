@@ -236,15 +236,24 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
         settings=settings,
     )
 
-    # Source-document catalog (#274/#275): real media_type + render_class per file.
+    # Curated exhibits (#56) — also the auto-included sources for the publish allowlist.
+    exhibit_items = exhibits_mod.export_exhibits(
+        settings.data_dir / "site" / "exhibits.yaml", settings.documents_dir
+    )
+    # The default-deny public allowlist (#280): exhibits + the committed allowlist rules.
+    allowlist = documents_mod.load_publish_allowlist(
+        settings.data_dir / "site" / "published-documents.yaml",
+        exhibit_sources=(ex.source for ex in exhibit_items),
+    )
+
+    # Source-document catalog (#274/#275): real media_type + render_class + publish flag.
     # Built before records so each record can join to its real source document (#276).
     doc_collections = documents_mod.export_documents(
-        settings.documents_dir, mirror_base_url=settings.documents_mirror_base_url
+        settings.documents_dir,
+        mirror_base_url=settings.documents_mirror_base_url,
+        allowlist=allowlist,
     )
-    published = documents_mod.load_published_allowlist(
-        settings.data_dir / "site" / "published-documents.yaml"
-    )
-    doc_index = documents_mod.build_doc_index(doc_collections, published=published)
+    doc_index = documents_mod.build_doc_index(doc_collections)
 
     feeds.append(
         _collection_feed(
@@ -296,15 +305,7 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
 
     feeds.append(_collection_feed("documents", DocumentCollectionItem, doc_collections))
 
-    feeds.append(
-        _collection_feed(
-            "exhibits",
-            ExhibitItem,
-            exhibits_mod.export_exhibits(
-                settings.data_dir / "site" / "exhibits.yaml", settings.documents_dir
-            ),
-        )
-    )
+    feeds.append(_collection_feed("exhibits", ExhibitItem, exhibit_items))
 
     # Already-provenanced inventories — exported as their own Pydantic models (#60).
     rsei_inv = load_rsei_inventory(settings.reference_dir)
