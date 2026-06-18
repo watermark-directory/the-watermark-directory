@@ -26,7 +26,19 @@ interface Env {
   RATE_LIMIT?: KVLike;
   RATE_LIMIT_MAX?: string;
   RATE_LIMIT_WINDOW_SEC?: string;
+  /**
+   * Optional KV namespace for the **private** submitter-contact channel (#242), keyed by
+   * issue number. Absent ⇒ the optional contact field is simply not retained (the public
+   * issue is unaffected — contact never lands there).
+   */
+  SUBMISSION_CONTACT?: KVLike;
+  /** Override the contact retention TTL (seconds); default below bounds PII retention. */
+  CONTACT_TTL_SEC?: string;
 }
+
+// Submitter contact is PII — keep it only as long as triage plausibly needs it, then let
+// KV expire it. 180 days by default; operator-overridable via CONTACT_TTL_SEC.
+const DEFAULT_CONTACT_TTL_SEC = 60 * 60 * 24 * 180;
 
 // Minimal Pages-Functions context (avoids a dep on @cloudflare/workers-types; the
 // runtime supplies request + env). Only POST is exported, so other verbs get 405.
@@ -105,6 +117,32 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
       issue,
       dedupeHash,
     });
+
+    // Optional submitter contact (#242) → the PRIVATE store, keyed by issue number; never
+    // the public issue (buildIssue ignores it). Best-effort: a missing binding or a write
+    // error must not fail the submission (the tip is what matters) and never leaks contact.
+    if (submission.contact && env.SUBMISSION_CONTACT) {
+      const issueNo = result.url.match(/\/(\d+)(?:[?#].*)?$/)?.[1];
+      if (issueNo) {
+        const ttl = Math.max(60, Number(env.CONTACT_TTL_SEC) || DEFAULT_CONTACT_TTL_SEC);
+        try {
+          await env.SUBMISSION_CONTACT.put(
+            `contact:${issueNo}`,
+            JSON.stringify({
+              contact: submission.contact,
+              kind: submission.kind,
+              dedupe: dedupeHash,
+              deduped: result.deduped,
+              at: new Date().toISOString(),
+            }),
+            { expirationTtl: ttl },
+          );
+        } catch (e) {
+          console.error("contact store failed (submission still filed):", e);
+        }
+      }
+    }
+
     return json(result.deduped ? 200 : 201, { issue_url: result.url, deduped: result.deduped });
   } catch (e) {
     console.error("submission failed:", e);

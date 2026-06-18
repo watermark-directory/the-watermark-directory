@@ -82,6 +82,21 @@ const ENDPOINT = "/api/submit";
               <input id="f-evidence" name="evidence_url" type="url" maxlength="500" placeholder="Link to a public record…" />
             </div>
 
+            <div class="field">
+              <label for="f-contact">
+                Contact <span class="field-hint">— optional; email or Signal, only if you're open to
+                follow-up. Kept <strong>private</strong>; never shown on the public issue.</span>
+              </label>
+              <input
+                id="f-contact"
+                name="contact"
+                type="text"
+                maxlength="200"
+                autocomplete="off"
+                placeholder="email or Signal — kept private"
+              />
+            </div>
+
             <div class="cf-turnstile" data-sitekey={siteKey} />
 
             <div class="form-foot">
@@ -90,7 +105,8 @@ const ENDPOINT = "/api/submit";
             </div>
             <p class="submit-note">
               No account needed; reviewed before anything in the record changes. The issue is
-              <strong>public</strong> — don't include private or identifying information.
+              <strong>public</strong> — keep private or identifying details out of your description
+              (use the optional <strong>Contact</strong> field above if you want follow-up).
               Full contract: <a href={CONTRACT_URL}>docs/submissions-api.md</a>.
             </p>
           </form>

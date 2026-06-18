@@ -20,6 +20,12 @@ export interface Submission {
   target?: SubmissionTarget;
   evidence_url?: string;
   page_url?: string;
+  /**
+   * Optional submitter contact (email / Signal / …), for follow-up only (#242). It is
+   * routed to a **private** out-of-band store and is **never** written into the public
+   * issue — `buildIssue`/`dedupeInput` deliberately ignore it. See docs/submissions-api.md.
+   */
+  contact?: string;
   turnstile_token: string;
 }
 
@@ -29,6 +35,7 @@ export const LIMITS = {
   ref_id: 300,
   ref_label: 200,
   url: 500,
+  contact: 200,
   token: 4096,
 } as const;
 
@@ -55,7 +62,15 @@ export function validateSubmission(raw: unknown): ValidationResult {
   if (typeof raw !== "object" || raw === null) return err("body must be a JSON object");
   const o = raw as Record<string, unknown>;
 
-  const allowed = new Set(["kind", "body", "target", "evidence_url", "page_url", "turnstile_token"]);
+  const allowed = new Set([
+    "kind",
+    "body",
+    "target",
+    "evidence_url",
+    "page_url",
+    "contact",
+    "turnstile_token",
+  ]);
   for (const k of Object.keys(o)) if (!allowed.has(k)) return err(`unexpected field: ${k}`);
 
   if (typeof o.kind !== "string" || !KINDS.includes(o.kind as SubmissionKind))
@@ -113,6 +128,16 @@ export function validateSubmission(raw: unknown): ValidationResult {
     if (o.page_url.length > LIMITS.url) return err("page_url is too long");
     if (!isHttpUrl(o.page_url)) return err("page_url must be http(s)");
     value.page_url = o.page_url;
+  }
+
+  // Optional contact (#242): free-form (email / Signal / …), length-capped. It NEVER
+  // reaches the public issue — the handler routes it to a private store. A blank/whitespace
+  // contact is simply dropped, not an error.
+  if (o.contact !== undefined) {
+    if (typeof o.contact !== "string") return err("contact must be a string");
+    if (o.contact.length > LIMITS.contact) return err("contact is too long");
+    const contact = o.contact.trim();
+    if (contact) value.contact = contact;
   }
 
   return { ok: true, value };
