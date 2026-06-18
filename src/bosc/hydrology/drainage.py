@@ -26,13 +26,13 @@ from pydantic import BaseModel, ConfigDict
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
 from bosc.models import OPCSummary
+from bosc.sites import active_profile
 
 if TYPE_CHECKING:
     from pathlib import Path
 
 log = get_logger(__name__)
 
-_DDF_FILENAME = "atlas14-corridor-ddf.yaml"
 # The design-relevant slice of the Atlas-14 grid committed as the corridor reference:
 # a short duration (storm-sewer scale) through 24-hr (culvert / detention scale).
 _DDF_DURATIONS = ("60-min", "6-hr", "12-hr", "24-hr")
@@ -118,7 +118,8 @@ def _is_lump_sum(item: dict[str, Any]) -> bool:
 
 # --- DDF reference persistence ---------------------------------------------
 def _ddf_path(settings: Settings) -> Path:
-    return settings.data_dir / "reference" / "hydrology" / _DDF_FILENAME
+    # Per-site (#326): Lima keeps the legacy un-slugged path; a new site slug-scopes it.
+    return settings.data_dir / active_profile(settings).corridor_ddf_relpath
 
 
 def write_corridor_ddf(ddf: CorridorDdf, *, settings: Settings | None = None) -> Path:
@@ -153,7 +154,6 @@ def load_corridor_ddf(*, settings: Settings | None = None) -> CorridorDdf | None
 def build_corridor_ddf(*, settings: Settings | None = None) -> CorridorDdf:
     """Pull the design-relevant Atlas-14 slice for the corridor from the connector."""
     from bosc.hydrology.connectors.noaa_atlas14 import precip_frequency_grid
-    from bosc.sites import active_profile
 
     settings = settings or get_settings()
     prof = active_profile(settings)

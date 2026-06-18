@@ -15,12 +15,12 @@ import yaml
 
 from bosc.config import Settings, get_settings
 from bosc.hydrology.connectors.nasa_power import NasaPowerClimatology
-
-_FILENAME = "nasa-power-climatology.yaml"
+from bosc.sites import active_profile
 
 
 def _reference_path(settings: Settings) -> Path:
-    return settings.data_dir / "reference" / "hydrology" / _FILENAME
+    # Per-site (#326): Lima keeps the legacy un-slugged path; a new site slug-scopes it.
+    return settings.data_dir / active_profile(settings).climatology_relpath
 
 
 def write_climatology(clim: NasaPowerClimatology, *, settings: Settings | None = None) -> Path:
