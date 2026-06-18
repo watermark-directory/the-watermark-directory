@@ -10,11 +10,23 @@
  */
 import Base from "../../layouts/Base.astro";
 import DefenseNexusMap from "../../components/islands/DefenseNexusMap.tsx";
+import RedactionReveal from "../../components/RedactionReveal.astro";
 import { buildDefenseNexus } from "../../lib/defenseNexus";
+import type { TeardownRedaction } from "../../lib/teardown";
 import { withBase } from "../../lib/site";
 
 const dn = buildDefenseNexus();
 const m = dn.metrics;
+
+// "What would close it" — the one disclosable fact that isn't in the record (#267).
+const closeIt: TeardownRedaction = {
+  label: "[open] · the facility’s authorization posture",
+  summary: "What would actually connect this campus — or clear it?",
+  lock: "No FedRAMP / DoD authorization record for the Lima facility appears in the corpus, and the public-records request for any County ⇄ DoD / GDLS communication returned “no records.” The IL-6 capability belongs to Google everywhere it operates; the posture of this facility is undocumented.",
+  cite: "response-index.yaml item 2 — “No records” · docs/defense-nexus.md",
+  read: "One disclosable fact would close it: the Lima facility’s FedRAMP / DoD impact-level posture, or a dated County ⇄ DoD / GDLS communication. Neither is in the record. Proximity is not connection — the gap stays measured, and empty.",
+  href: withBase("/docs/defense-nexus"),
+};
 ---
 
 <Base
@@ -114,11 +126,10 @@ const m = dn.metrics;
         A defense nexus is not a finding of this record. It is a question the record
         raises by what it contains — a federal plant down the corridor, a developer
         cleared to SECRET, a procurement order, an industry that hosts the CIA — and
-        cannot answer by what it withholds. What would actually close it is one
-        disclosable fact: the facility's FedRAMP / DoD authorization posture. It is not
-        in the record, and may stay behind classification and the “no records” wall.
-        The honest end is the open one.
+        cannot answer by what it withholds. The honest end is the open one: one
+        disclosable fact would close it, and it is the one the record doesn't carry.
       </p>
+      <RedactionReveal redaction={closeIt} />
     </div>
 
     <article class="prose">

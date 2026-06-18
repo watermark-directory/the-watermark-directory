@@ -22,11 +22,25 @@ import { Map } from "react-map-gl/maplibre";
 import type { FeatureCollection } from "geojson";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { rgba, type GeoFeature, type GeoProps } from "../../lib/geoStyle";
-import type { DefenseNexusData, DnEmphasis, DnFactKey } from "../../lib/defenseNexus";
+import type {
+  DefenseNexusData,
+  DnAnnotation,
+  DnEmphasis,
+  DnFactKey,
+  DnRegister,
+} from "../../lib/defenseNexus";
+import { RegisterMark } from "./uncertaintyGrammar";
 import { rasterTileLayer } from "./rasterTile";
 
 const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
 const GAP = [96, 102, 120] as const; // neutral slate — a ruler, not a relationship
+// Register-encoded annotation pills (matching the engine grammar): verified green,
+// inference amber, open slate. Labeled facts on the map — never a connecting line.
+const REG_RGB: Record<DnRegister, [number, number, number, number]> = {
+  verified: [46, 125, 50, 235],
+  inference: [176, 106, 0, 235],
+  open: [110, 114, 124, 235],
+};
 
 function footprint(
   key: "campus" | "jsmc",
@@ -107,8 +121,34 @@ export default function DefenseNexusMap({ data }: { data: DefenseNexusData }): J
         characterSet: "auto",
       }),
     );
+    // The active tab's annotation — a register-encoded label pinned to real geometry.
+    // Offset BELOW the point so the "No records" marker sits opposite the distance label,
+    // on the gap line, where an inferred connection would be drawn — but never is.
+    const ann = data.annotations.filter((x) => x.key === active);
+    if (ann.length > 0) {
+      out.push(
+        new TextLayer<DnAnnotation>({
+          id: "dn-annotation",
+          data: ann,
+          getPosition: (d) => d.position,
+          getText: (d) => d.label,
+          getSize: 11,
+          getColor: [255, 255, 255, 255],
+          getPixelOffset: [0, 16],
+          getTextAnchor: "middle",
+          background: true,
+          getBackgroundColor: (d) => REG_RGB[d.register],
+          backgroundPadding: [6, 4, 6, 4],
+          fontFamily: "ui-sans-serif, system-ui, sans-serif",
+          fontWeight: 600,
+          characterSet: "auto",
+          maxWidth: 16,
+          wordBreak: "break-word",
+        }),
+      );
+    }
     return out;
-  }, [features, emphasis, basemap, gapOn, a, b, mid, data.metrics.nearestMi]);
+  }, [features, emphasis, basemap, gapOn, a, b, mid, data.metrics.nearestMi, data.annotations, active]);
 
   return (
     <div className="dn">
@@ -169,7 +209,7 @@ export default function DefenseNexusMap({ data }: { data: DefenseNexusData }): J
       <div className="dn-detail" role="status" aria-live="polite">
         <div className="dn-detail-head">
           <h3 className="dn-detail-title">{fact?.title}</h3>
-          <span className="td-tag td-tag--verified">[verified]</span>
+          <RegisterMark register="verified" label="[verified]" />
         </div>
         <p className="dn-detail-body">{fact?.body}</p>
         <p className="dn-cite">{fact?.cite}</p>
@@ -189,11 +229,11 @@ export default function DefenseNexusMap({ data }: { data: DefenseNexusData }): J
 
       <div className="dn-readout">
         <div className="dn-readout-row">
-          <span className="td-tag td-tag--verified">[verified]</span>
+          <RegisterMark register="verified" label="[verified]" />
           <span>{data.readout.verified}</span>
         </div>
         <div className="dn-readout-row">
-          <span className="td-tag td-tag--open">[open]</span>
+          <RegisterMark register="open" label="[open]" />
           <span>{data.readout.open}</span>
         </div>
       </div>
