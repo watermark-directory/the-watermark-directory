@@ -10,12 +10,10 @@ from __future__ import annotations
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# USGS NWIS gauges that bracket the municipal water loop: the Ottawa at Lima
-# (the abstraction + WWTP-discharge reach) and the Auglaize (the other source river).
-_DEFAULT_NWIS_SITES = ["04187100", "04186500"]
+from bosc.sites import PROFILE_SETTINGS_FIELDS, SITES
 
 # Repo root = two levels up from this file (src/bosc/config.py -> repo root).
 _REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -30,6 +28,12 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
     )
+
+    # --- Site axis (the BOSC network; see bosc.sites) ----------------------
+    # The active watershed-point site. Selects a SiteProfile from bosc.sites.SITES,
+    # whose per-site knobs (PROFILE_SETTINGS_FIELDS) fill the fields below unless a
+    # field is set explicitly (env/.env/kwarg). Default = the live Lima reference build.
+    site: str = "lima"
 
     # --- Credentials -------------------------------------------------------
     # Not prefixed: the Anthropic SDK and Claude Agent SDK read this name.
@@ -56,11 +60,13 @@ class Settings(BaseSettings):
     hydro_offline: bool = False
     hydro_cache_ttl_hours: int = 168  # 1 week; streamflow is slow-moving here
     hydro_request_timeout_s: float = 30.0
-    hydro_utm_epsg: int = 32617  # UTM zone 17N — Allen County, OH (for areas)
+    # Per-site (from the active SiteProfile): UTM zone for area calcs (Lima = 17N / 32617).
+    hydro_utm_epsg: int = 0
     # Committed connector fixtures, consulted on an offline cache miss (tests/CI).
     hydro_fixtures_dir: Path | None = None
     nwis_base_url: str = "https://waterservices.usgs.gov/nwis"
-    nwis_sites: list[str] = Field(default_factory=lambda: list(_DEFAULT_NWIS_SITES))
+    # Per-site (from the active SiteProfile): the USGS NWIS gauges bracketing the loop.
+    nwis_sites: list[str] = Field(default_factory=list)
     noaa_atlas14_base_url: str = "https://hdsc.nws.noaa.gov/cgi-bin/new/cgi_readH5.py"
     # EPA ECHO Clean Water Act REST services (NPDES facility inventory).
     echo_base_url: str = "https://echodata.epa.gov/echo"
@@ -69,25 +75,17 @@ class Settings(BaseSettings):
     # Ohio LSC Status Report of Legislation (per-GA bill status; not hydrology, but
     # served through the same connector cache/offline/fixture machinery).
     lsc_base_url: str = "https://statusreport.lsc.ohio.gov"
-    lsc_default_ga: str = "136"
+    # Per-site (from the active SiteProfile): the Ohio General Assembly to track.
+    lsc_default_ga: str = ""
     # Ohio Revised Code full text (LSC code portal; HTML, no JSON API).
     orc_base_url: str = "https://codes.ohio.gov"
-    # Allen County GIS — ArcGIS REST "Current Parcels" (CAMA) layer.
-    allen_parcels_url: str = (
-        "https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1"
-    )
-    # City of Lima GIS — "Current Lima Zoning" polygon layer (keyed to PARCEL_NO);
-    # City-limits only. Server uses the /server web adaptor, folder CitywideMaps.
-    lima_zoning_url: str = (
-        "https://colgis.cityhall.lima.oh.us/server/rest/services/"
-        "CitywideMaps/Lima_Zoning/MapServer/6"
-    )
-    # Same service, "Floodzone" layer — the FEMA DFIRM (panel 39003C, Allen County)
-    # Special Flood Hazard Areas. Polygon, no PARCEL_NO: site lookups are spatial.
-    lima_floodzone_url: str = (
-        "https://colgis.cityhall.lima.oh.us/server/rest/services/"
-        "CitywideMaps/Lima_Zoning/MapServer/4"
-    )
+    # County GIS parcels layer — per-site (Lima = Allen County AGOL "Current Parcels" CAMA).
+    allen_parcels_url: str = ""
+    # City zoning polygon layer — per-site (Lima = City of Lima "Current Lima Zoning",
+    # keyed to PARCEL_NO, city-limits only).
+    lima_zoning_url: str = ""
+    # City floodzone layer — per-site (Lima = FEMA DFIRM panel 39003C SFHAs; spatial lookup).
+    lima_floodzone_url: str = ""
     # USGS National Map Watershed Boundary Dataset (WBD) — the authoritative seamless
     # Hydrologic Unit (HUC) polygons. The MapServer's HU-level sublayers are keyed by
     # digit count (8 = Subbasin, 10 = Watershed, 12 = Subwatershed); the WBD connector
@@ -97,15 +95,16 @@ class Settings(BaseSettings):
     # tables; `bosc rsei` reduces them to one county's toxic-release inventory.
     rsei_base_url: str = "https://epa-rsei-pds.s3.amazonaws.com"
     rsei_version: str = "v234"
-    rsei_fips: str = "39003"  # Allen County, OH
+    rsei_fips: str = ""  # per-site (from the active SiteProfile); Lima = Allen County 39003
     rsei_offline: bool = False  # serve cached tables only; never download
     rsei_request_timeout_s: float = 300.0  # elements.csv.gz is ~250 MB
     # NASA POWER (AWS Open Data s3://nasa-power) — satellite meteorology/solar. The
     # bucket is gridded zarr/netCDF; for a point we use the supported REST API, which
     # returns small JSON (connector cache + fixture). Default point = Lima loop centroid.
     nasa_power_base_url: str = "https://power.larc.nasa.gov/api/temporal"
-    nasa_power_lon: float = -84.11
-    nasa_power_lat: float = 40.74
+    # Per-site (from the active SiteProfile): the meteorology point (Lima loop centroid).
+    nasa_power_lon: float = 0.0
+    nasa_power_lat: float = 0.0
     nasa_power_community: str = "AG"  # agroclimatology (vs RE renewable, SB buildings)
     nasa_power_parameters: list[str] = Field(
         default_factory=lambda: [
@@ -151,15 +150,18 @@ class Settings(BaseSettings):
     # the committed fixture). Reuses the shared econ cache/offline/fixtures discipline.
     eia_base_url: str = "https://api.eia.gov/v2"
     eia_api_key: str = ""  # required for live pulls; offline replays committed fixtures
-    eia_state: str = "OH"  # the state whose consumer energy prices anchor the scenario
+    # Per-site (from the active SiteProfile): the state anchoring consumer energy prices.
+    eia_state: str = ""
     # EIA-861 Annual Electric Power Industry Report — the per-utility retail file (sales/
     # customers/price) the v2 seriesid route doesn't expose (#94). A bulk Excel zip,
     # downloaded to econ_cache_dir/eia861/ on the live path only and reduced to one
     # utility's rows; the reduced payload is cached/fixtured like the other econ pulls.
     eia861_base_url: str = "https://www.eia.gov/electricity/data/eia861/zip"
     eia861_year: int = 2024  # latest published EIA-861 vintage
-    eia861_utility_number: int = 14006  # Ohio Power Company (AEP Ohio)
-    econ_fips: str = "39003"  # Allen County, OH (state 39 + county 003)
+    # Per-site (from the active SiteProfile): the retail utility (Lima = AEP Ohio 14006).
+    eia861_utility_number: int = 0
+    # Per-site (from the active SiteProfile): the county FIPS (Lima = Allen County 39003).
+    econ_fips: str = ""
     econ_offline: bool = False  # serve cached/fixture responses only; never fetch
     econ_request_timeout_s: float = 60.0
     econ_fixtures_dir: Path | None = None  # committed connector fixtures (tests/CI)
@@ -195,7 +197,8 @@ class Settings(BaseSettings):
     # (rivers, water bodies, landforms) the parcel funnel can't anchor. Free, no key,
     # public domain. The gaz_id is a stable identity; default to hydrographic layers.
     gnis_url: str = "https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer"
-    gnis_default_state: str = "OH"
+    # Per-site (from the active SiteProfile): the default state for GNIS queries.
+    gnis_default_state: str = ""
     gnis_layers: list[int] = Field(default_factory=lambda: [6, 7])  # Streams, Other Hydro
 
     # --- Documents library -------------------------------------------------
@@ -327,6 +330,26 @@ class Settings(BaseSettings):
         """Create the data directories if they do not yet exist."""
         for path in (self.documents_dir, self.extracted_dir, self.cache_dir):
             path.mkdir(parents=True, exist_ok=True)
+
+    @model_validator(mode="after")
+    def _resolve_site_profile(self) -> Settings:
+        """Fill the per-site config knobs from the active site profile.
+
+        A profile field is applied only when the matching setting was *not* set
+        explicitly (env vars, ``.env`` and constructor kwargs all populate
+        ``model_fields_set``), so an explicit ``BOSC_NWIS_SITES`` / ``Settings(...)``
+        override still wins. An unknown ``site`` is a hard error.
+        """
+        try:
+            profile = SITES[self.site]
+        except KeyError:
+            raise ValueError(
+                f"unknown BOSC_SITE {self.site!r}; known sites: {sorted(SITES)}"
+            ) from None
+        for field in PROFILE_SETTINGS_FIELDS:
+            if field not in self.model_fields_set:
+                object.__setattr__(self, field, getattr(profile, field))
+        return self
 
 
 @lru_cache(maxsize=1)
