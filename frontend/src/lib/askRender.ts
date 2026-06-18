@@ -29,6 +29,11 @@ export function escapeHtml(s: string): string {
   );
 }
 
+/** Pre-answer status: how many records the answer is grounded in (#331). */
+export function searchingHint(n: number): string {
+  return `Searching ${n} record${n === 1 ? "" : "s"}…`;
+}
+
 /** Prefix a root-absolute bundle path with the site base (mirrors lib/site withBase). */
 export function withBasePath(base: string, path: string): string {
   const left = base.endsWith("/") ? base.slice(0, -1) : base;

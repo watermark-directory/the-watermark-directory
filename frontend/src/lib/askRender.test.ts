@@ -5,6 +5,7 @@ import {
   escapeHtml,
   renderAnswer,
   renderSources,
+  searchingHint,
   withBasePath,
 } from "./askRender";
 
@@ -64,6 +65,14 @@ describe("renderAnswer", () => {
 
   it("prefixes citation links with the site base", () => {
     expect(renderAnswer("x [1]", CITES, "/bosc")).toContain('href="/bosc/site/records/opc/"');
+  });
+});
+
+describe("searchingHint", () => {
+  it("pluralizes the record count (#331)", () => {
+    expect(searchingHint(6)).toBe("Searching 6 records…");
+    expect(searchingHint(1)).toBe("Searching 1 record…");
+    expect(searchingHint(0)).toBe("Searching 0 records…");
   });
 });
 
