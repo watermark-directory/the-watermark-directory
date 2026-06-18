@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ACTIVE_SITE_SLUG, activeSite, comingSoonSites, SITES, siteBadge } from "./sites";
+import { ACTIVE_SITE_SLUG, activeSite, comingSoonSites, SITES, siteBadge, siteForPath } from "./sites";
 
 describe("sites registry — the BOSC network (#304)", () => {
   it("has unique slugs and exactly one selectable (live) site — the active build", () => {
@@ -37,5 +37,35 @@ describe("sites registry — the BOSC network (#304)", () => {
     expect(siteBadge({ ...SITES[0] })).toBe("BOSC");
     const defiance = SITES.find((s) => s.slug === "defiance")!;
     expect(siteBadge(defiance)).toBe("DEF"); // no codename → mono
+  });
+});
+
+describe("siteForPath — the switcher's current-site resolution (#316)", () => {
+  it("resolves the live Lima build for /bosc and any page beneath it", () => {
+    for (const p of ["/bosc", "/bosc/", "/bosc/site/", "/bosc/watershed/map", "/bosc/timeline"]) {
+      expect(siteForPath(p)?.slug).toBe("lima");
+    }
+  });
+
+  it("resolves a coming-soon site (incl. not-yet-built) from its /network/<slug> route", () => {
+    expect(siteForPath("/network/fort-wayne")?.slug).toBe("fort-wayne");
+    expect(siteForPath("/network/defiance/")?.slug).toBe("defiance");
+    expect(siteForPath("/network/toledo")?.codename).toBeNull();
+  });
+
+  it("returns null for the network hub and the cross-cutting globals (neutral state)", () => {
+    for (const p of ["/network", "/network/", "/about", "/about-me", "/wiki/entities/", "/ask", "/"]) {
+      expect(siteForPath(p)).toBeNull();
+    }
+  });
+
+  it("does not mistake an unknown /network/<slug> for a real site", () => {
+    expect(siteForPath("/network/columbus")).toBeNull();
+  });
+
+  it("strips a non-root Astro base before matching", () => {
+    expect(siteForPath("/app/bosc/site/", "/app")?.slug).toBe("lima");
+    expect(siteForPath("/app/network/findlay", "/app")?.slug).toBe("findlay");
+    expect(siteForPath("/bosc/site/", "/")?.slug).toBe("lima"); // base "/" is a no-op
   });
 });

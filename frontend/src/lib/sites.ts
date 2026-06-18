@@ -108,6 +108,26 @@ export function siteBadge(site: NetworkSite): string {
   return site.codename ?? site.mono;
 }
 
+/**
+ * Resolve which network site a route belongs to — the switcher's *current* state (#316).
+ * Prefix-matches the path against each site's `href`: `/bosc[/…]` → the live Lima build,
+ * `/network/<slug>[/…]` → that site (incl. the not-yet-built ones). The network hub
+ * (`/network`) and the cross-cutting globals (`/about`, `/wiki`, `/ask`) belong to no
+ * single site → `null` (a neutral network state). `base` strips an Astro base prefix.
+ */
+export function siteForPath(pathname: string, base = ""): NetworkSite | null {
+  let p = pathname;
+  if (base && base !== "/" && p.startsWith(base)) p = p.slice(base.length);
+  if (!p.startsWith("/")) p = `/${p}`;
+  p = p.replace(/\/+$/, "") || "/";
+  return (
+    SITES.find((s) => {
+      const h = s.href.replace(/\/+$/, "");
+      return p === h || p.startsWith(`${h}/`);
+    }) ?? null
+  );
+}
+
 /** The sites that need a coming-soon page (everything not switchable). */
 export function comingSoonSites(): NetworkSite[] {
   return SITES.filter((s) => !s.selectable);
