@@ -1905,6 +1905,10 @@ a.walk-dot:hover { opacity: 0.82; }
 .unc-rsei-name { font-weight: 600; font-size: 0.84rem; }
 .unc-rsei-conc { margin-left: auto; font-family: var(--bosc-mono); font-size: 0.82rem; color: var(--unc-assumption, #b06a00); }
 .unc-rsei-note { font-size: 0.72rem; color: var(--bosc-muted); margin-top: 0.1rem; }
+/* Grid inference chain (#265) */
+.unc-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; font-size: 0.78rem; margin: 0.2rem 0 0.7rem; }
+.unc-chain-step { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.5rem; border: 1px solid var(--bosc-rule); border-radius: 6px; background: var(--td-panel, #fff); }
+.unc-chain-arrow { color: var(--bosc-muted); }
 
 /* ===========================================================================
    Record Screen (/site/records/<group>/<id>, #193): breadcrumb → the record
