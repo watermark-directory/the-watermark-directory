@@ -8,8 +8,10 @@ import PdfViewer from "./islands/PdfViewer";
 
 interface Props {
   entry: DocumentEntry;
+  /** Constrain the embed height for an inline preview (e.g. the teardown card, #284). */
+  compact?: boolean;
 }
-const { entry } = Astro.props;
+const { entry, compact = false } = Astro.props;
 const url = docApiUrl(entry.rel);
 const tier = viewerTier(entry); // unavailable (LFS pointer) → "other" (download-only)
 
@@ -17,7 +19,7 @@ const tier = viewerTier(entry); // unavailable (LFS pointer) → "other" (downlo
 const TEXT_BYTE_CAP = 512 * 1024;
 ---
 
-<div class="docview" data-tier={tier}>
+<div class:list={["docview", compact && "docview--compact"]} data-tier={tier}>
   {
     tier === "image" && (
       <figure class="docview-figure">

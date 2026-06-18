@@ -21,7 +21,14 @@
  * forking or 404-ing.
  */
 import { hasFeed, loadFeed } from "./bundle";
-import { type Citation, type ConceptItem, type RecordItem, slugify } from "./feeds";
+import {
+  type Citation,
+  type ConceptItem,
+  type DocumentCollectionItem,
+  type DocumentEntry,
+  type RecordItem,
+  slugify,
+} from "./feeds";
 import { legalBySlug } from "./legal";
 import { type BlockField, recordToBlock } from "./recordBlock";
 import { formatScalar } from "./records";
@@ -32,6 +39,17 @@ import type { TeardownConnect, TeardownRecord, TeardownRow, TeardownUnit } from 
 const recordsByRel: Map<string, RecordItem> = (() => {
   const map = new Map<string, RecordItem>();
   if (hasFeed("records")) for (const r of loadFeed<RecordItem[]>("records")) map.set(r.rel, r);
+  return map;
+})();
+
+/** Source documents in the bundle, by `data/documents` rel (built once). The A2 join
+ *  on each record gives `source_doc_rel`; this resolves it to the full catalog entry so
+ *  the teardown can embed the real document via <DocViewer> (#284). */
+const documentsByRel: Map<string, DocumentEntry> = (() => {
+  const map = new Map<string, DocumentEntry>();
+  if (hasFeed("documents"))
+    for (const c of loadFeed<DocumentCollectionItem[]>("documents"))
+      for (const e of c.entries) map.set(e.rel, e);
   return map;
 })();
 
@@ -118,6 +136,10 @@ export interface ResolvedTeardown {
   /** The anchor record's real scalar fields (the library's own row output), for
    *  the source viewer — empty when the record isn't in the bundle. */
   sourceFields: BlockField[];
+  /** The record's real source document (#284), resolved from `source_doc_rel`
+   *  against the documents catalog — `null` for connector-only records or when the
+   *  source isn't catalogued. The teardown embeds it (gated on `published`). */
+  sourceDoc: DocumentEntry | null;
 }
 
 export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
@@ -126,6 +148,7 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
   let verifyResolved = false;
   let extraction = t.extraction;
   let sourceFields: BlockField[] = [];
+  let sourceDoc: DocumentEntry | null = null;
 
   // 1. records-backed → bind load-bearing figures + the source viewer to the live
   //    record, deep-link verify, and surface its citation.
@@ -139,6 +162,8 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
     // full record screen still renders every field. Deliberate blanks are carried
     // as the ② curated warn rows / the redaction-reveal crop, not buried here.
     sourceFields = recordToBlock(row).fields.filter((f) => f.value !== "—");
+    // The real source document this record was read from (#284), when catalogued.
+    sourceDoc = row.source_doc_rel ? (documentsByRel.get(row.source_doc_rel) ?? null) : null;
   } else if (t.legalSlug && legalBySlug.has(t.legalSlug)) {
     // 2. legal-backed → deep-link verify to the legal-history page.
     check = { ...check, verifyHref: withBase(`/site/legal/${t.legalSlug}`) };
@@ -160,5 +185,6 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
     liveCitation,
     verifyResolved,
     sourceFields,
+    sourceDoc,
   };
 }

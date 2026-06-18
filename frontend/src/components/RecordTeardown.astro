@@ -23,7 +23,7 @@ const { record, layout = "split" } = Astro.props;
 // Resolve curated content against the live bundle: load-bearing figures + the
 // source viewer bind to the record's real extraction, deep verify/concept links,
 // present-checked, with graceful fallback to the curated value/links.
-const { teardown: r, verifyResolved, sourceFields } = resolveTeardown(record);
+const { teardown: r, verifyResolved, sourceFields, sourceDoc } = resolveTeardown(record);
 const pins = r.pins ?? [];
 ---
 
@@ -49,7 +49,7 @@ const pins = r.pins ?? [];
         {/* ① source */}
         <div class="td-pane td-pane--source">
           <div class="td-part">① The source</div>
-          <TeardownSourceCard source={r.source} fields={sourceFields} size="md" />
+          <TeardownSourceCard source={r.source} fields={sourceFields} sourceDoc={sourceDoc} size="md" />
         </div>
         {/* ② what we read */}
         <div class="td-pane td-pane--read">
@@ -108,7 +108,7 @@ const pins = r.pins ?? [];
   {layout === "scroll" && (
     <div class="td-scroll">
       <div class="td-part">① The source</div>
-      <TeardownSourceCard source={r.source} fields={sourceFields} size="sm" />
+      <TeardownSourceCard source={r.source} fields={sourceFields} sourceDoc={sourceDoc} size="sm" />
 
       <div class="td-block td-block--read">
         <div class="td-part is-indigo">② What we read from it</div>
@@ -167,6 +167,7 @@ const pins = r.pins ?? [];
           <TeardownSourceCard
             source={r.source}
             fields={sourceFields}
+            sourceDoc={sourceDoc}
             size="lg"
             redactionLabel={r.redactionLabel}
             pins={pins}
