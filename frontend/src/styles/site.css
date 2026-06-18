@@ -224,22 +224,6 @@ a { color: var(--bosc-link); }
 .topbar-ask:hover { background: rgba(255, 255, 255, 0.26); }
 .topbar-ask.active { background: #fff; color: var(--bosc-indigo); border-color: #fff; }
 
-/* The "Start the walk" pill — the entry fork made permanent. */
-.walk-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  background: #fff;
-  color: var(--bosc-indigo);
-  font-weight: 700;
-  font-size: 0.82rem;
-  border-radius: 8px;
-  padding: 0.4rem 0.8rem;
-  text-decoration: none;
-  white-space: nowrap;
-}
-.walk-pill:hover { background: var(--td-tint); }
-
 /* ---- The BOSC network switcher (#304) — a no-JS <details> on the brand ---- */
 .site-switcher { position: relative; display: inline-flex; align-items: stretch; }
 .site-switcher > summary { list-style: none; cursor: pointer; gap: 0.45rem; }
@@ -914,7 +898,7 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
    not tokens. New components should reuse a rung rather than invent a width:
 
      1000px  rail collapses        two-column shell (.layout) → single column
-      900px  chrome trims          walk-pill drops its label
+      900px  chrome trims          topbar Ask drops its label
       800px  nav collapses         topbar tabs → burger menu
       640px  grids stack           fixed 2-col grids (.rb-grid, .ph-attrs) → 1col
       560px  compact chrome        brand tagline / search keycap hide
@@ -985,9 +969,7 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
   .nav-divider { width: auto; height: 1px; margin: 0.35rem 0.4rem; align-self: stretch; }
 }
 @media (max-width: 900px) {
-  .walk-pill-label { display: none; }
   .topbar-ask-label { display: none; }
-  .walk-pill { padding: 0.4rem 0.6rem; }
 }
 @media (max-width: 560px) {
   .brand-tagline { display: none; }
