@@ -48,5 +48,15 @@
     "source": "recorder/202508130008300.deed.yaml",
     "relation_class": null,
     "relation_basis": null
+  },
+  {
+    "src": "KEATON BRENNEMAN LIVING",
+    "rel": "conveyed_to",
+    "dst": "BISTROZZI",
+    "date": "2025-08-13",
+    "ref": "202508130008300",
+    "source": "recorder/202508130008300.deed.yaml",
+    "relation_class": null,
+    "relation_basis": null
   }
 ]
