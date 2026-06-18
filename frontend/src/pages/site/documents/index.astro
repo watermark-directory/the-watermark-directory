@@ -1,10 +1,20 @@
 ---
 import Base from "../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../lib/bundle";
+import { docAccess } from "../../../lib/docView";
 import { formatBytes, type DocumentCollectionItem } from "../../../lib/feeds";
+import { withBase } from "../../../lib/site";
 
 const collections = hasFeed("documents") ? loadFeed<DocumentCollectionItem[]>("documents") : [];
 const totalFiles = collections.reduce((a, c) => a + c.entries.length, 0);
+
+// Storage/access chip per row: published (public + viewable), dev-only (bytes present,
+// gated in prod), or LFS pointer (bytes absent). The viewer page renders any of them.
+const ACCESS_CHIP = {
+  published: { cls: "dchip--present", label: "● published" },
+  "dev-only": { cls: "dchip--devonly", label: "dev-only" },
+  absent: { cls: "dchip--lfs", label: "LFS pointer" },
+} as const;
 ---
 
 <Base title="Documents catalog" section="site">
@@ -32,26 +42,23 @@ const totalFiles = collections.reduce((a, c) => a + c.entries.length, 0);
                 <th>File</th>
                 <th>Type</th>
                 <th class="num">Size</th>
-                <th>Storage</th>
+                <th>Access</th>
               </tr>
             </thead>
             <tbody>
-              {c.entries.map((e) => (
-                <tr>
-                  <td class="file">
-                    {e.download_url ? <a href={e.download_url}>{e.name}</a> : <code>{e.name}</code>}
-                  </td>
-                  <td><span class="dchip dchip--type">{e.suffix || "—"}</span></td>
-                  <td class="num">{formatBytes(e.size_bytes)}</td>
-                  <td>
-                    {e.available ? (
-                      <span class="dchip dchip--present">● present</span>
-                    ) : (
-                      <span class="dchip dchip--lfs">LFS pointer</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
+              {c.entries.map((e) => {
+                const chip = ACCESS_CHIP[docAccess(e)];
+                return (
+                  <tr>
+                    <td class="file">
+                      <a href={withBase(`/site/documents/${e.rel}`)}>{e.name}</a>
+                    </td>
+                    <td><span class="dchip dchip--type">{e.render_class}</span></td>
+                    <td class="num">{formatBytes(e.size_bytes)}</td>
+                    <td><span class={`dchip ${chip.cls}`}>{chip.label}</span></td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

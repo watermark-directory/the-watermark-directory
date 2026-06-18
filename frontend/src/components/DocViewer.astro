@@ -1,0 +1,100 @@
+---
+// Tiered source-document viewer (epic #274 / D1). Dispatches on the *real* render_class
+// (from the file itself, #275), fetching bytes from /api/doc/<rel> (B2). Degrades to a
+// download/open affordance offline or when the bytes aren't bound — no console errors.
+import { docApiUrl, viewerTier } from "../lib/docView";
+import type { DocumentEntry } from "../lib/feeds";
+import PdfViewer from "./islands/PdfViewer";
+
+interface Props {
+  entry: DocumentEntry;
+}
+const { entry } = Astro.props;
+const url = docApiUrl(entry.rel);
+const tier = viewerTier(entry); // unavailable (LFS pointer) → "other" (download-only)
+
+// A byte cap keeps a runaway text file from hanging the page; the raw link is always there.
+const TEXT_BYTE_CAP = 512 * 1024;
+---
+
+<div class="docview" data-tier={tier}>
+  {
+    tier === "image" && (
+      <figure class="docview-figure">
+        <img class="docview-img" src={url} alt={entry.name} loading="lazy" />
+      </figure>
+    )
+  }
+
+  {
+    tier === "pdf" && (
+      <div class="docview-pdf">
+        <object class="docview-object" data={url} type="application/pdf">
+          <p class="docview-note">Your browser can’t display this PDF inline.</p>
+        </object>
+        <details class="docview-pdfjs">
+          <summary>Open the in-browser reader</summary>
+          <PdfViewer client:visible src={url} label={entry.name} />
+        </details>
+      </div>
+    )
+  }
+
+  {
+    tier === "html" && (
+      <iframe
+        class="docview-frame"
+        src={url}
+        title={entry.name}
+        sandbox=""
+        referrerpolicy="no-referrer"
+        loading="lazy"
+      />
+    )
+  }
+
+  {
+    tier === "text" && (
+      <div class="docview-text" data-doc-src={url} data-byte-cap={TEXT_BYTE_CAP}>
+        <pre class="docview-pre">Loading…</pre>
+      </div>
+    )
+  }
+
+  {
+    (tier === "office" || tier === "other") && (
+      <p class="docview-note">
+        {entry.available
+          ? "No inline preview for this file type — open it in your own app."
+          : "Bytes not pulled locally (Git-LFS pointer) — available on request."}
+      </p>
+    )
+  }
+
+  <p class="docview-actions">
+    <a class="docview-link" href={url} download={entry.name}>Download</a>
+    <span class="docview-dot">·</span>
+    <a class="docview-link" href={url} target="_blank" rel="noopener noreferrer">Open in a new tab</a>
+  </p>
+</div>
+
+<script>
+  // Text tier: fetch the document and fill the <pre>, capped, with a graceful failure
+  // (offline / no DOCS bound). One handler covers every DocViewer instance on the page.
+  for (const node of document.querySelectorAll<HTMLElement>(".docview-text[data-doc-src]")) {
+    const src = node.dataset.docSrc;
+    const cap = Number(node.dataset.byteCap ?? "524288");
+    const pre = node.querySelector("pre");
+    if (!src || !pre) continue;
+    fetch(src)
+      .then(async (res) => {
+        if (!res.ok) throw new Error(String(res.status));
+        const text = await res.text();
+        pre.textContent =
+          text.length > cap ? `${text.slice(0, cap)}\n\n… (truncated — download for the rest)` : text;
+      })
+      .catch(() => {
+        pre.textContent = "Couldn’t load this document here — use Download or Open in a new tab.";
+      });
+  }
+</script>
