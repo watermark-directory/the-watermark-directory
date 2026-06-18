@@ -11,6 +11,7 @@
         "suffix": "pdf",
         "media_type": "application/pdf",
         "render_class": "pdf",
+        "published": true,
         "available": true,
         "download_url": null
       },
@@ -21,6 +22,7 @@
         "suffix": "html",
         "media_type": "text/html",
         "render_class": "html",
+        "published": false,
         "available": true,
         "download_url": null
       },
@@ -31,6 +33,7 @@
         "suffix": "html",
         "media_type": "text/html",
         "render_class": "html",
+        "published": false,
         "available": true,
         "download_url": null
       }

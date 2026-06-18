@@ -34,7 +34,8 @@ from pydantic import BaseModel, ConfigDict, Field, computed_field
 # 1.1.0: added the `concepts` feed (issue #68, the wiki concept-glossary store).
 # 1.2.0: source-document rendering (epic #274) — `DocumentItem` gains real
 #   `media_type`/`render_class` (#275), `RecordItem` gains the `source_doc_*` join (#276).
-CONTRACT_VERSION = "1.2.0"
+# 1.3.0: `DocumentItem` gains `published` — the default-deny public allowlist flag (#280).
+CONTRACT_VERSION = "1.3.0"
 
 SourceKind = Literal["document", "connector", "reference", "assumption", "derived"]
 Confidence = Literal["high", "medium", "low"]
@@ -312,6 +313,9 @@ class DocumentItem(BaseModel):
     # the leading bytes), not from hand-authored metadata (epic #274 / #275).
     media_type: str  # MIME, e.g. application/pdf, image/jpeg, text/html
     render_class: RenderClass  # what the viewer dispatches on
+    # Cleared for *public* serving by the default-deny allowlist (#280); dev/preview
+    # serve everything regardless. The /api/doc Function enforces the same flag.
+    published: bool
     available: bool  # locally present (not an unresolved Git-LFS pointer)
     download_url: str | None = None
 

@@ -1,0 +1,12 @@
+# Public publish allowlist for source documents — DEFAULT-DENY (epic #274 / #280).
+#
+# The object store serves the WHOLE corpus in dev/preview, but the PUBLIC site exposes
+# only what this file allows. Nothing is public unless it matches a rule below — EXCEPT
+# the curated exhibits in exhibits.yaml, which are auto-included (they are already
+# published downloads). See published-documents.README.md.
+#
+# A rel is added here ONLY after the C2 redaction/PII pre-publication pass (#281).
+# Three rule kinds (all optional; combine freely):
+collections: []   # whole data/documents/<slug> trees, e.g.  - aedg
+globs: []         # fnmatch globs over the data/documents rel, e.g.  - 'permits/*/*.pdf'
+documents: []     # exact data/documents rels, e.g.  - recorder/bistrozzi-deeds/foo.pdf

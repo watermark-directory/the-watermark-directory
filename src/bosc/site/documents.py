@@ -18,7 +18,9 @@ renames, or alters a byte under ``data/documents``.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
+from fnmatch import fnmatch
 from pathlib import Path
 from urllib.parse import quote
 
@@ -139,6 +141,7 @@ class DocumentEntry:
     suffix: str
     media_type: str  # MIME, from the real file (extension + content sniff)
     render_class: RenderClass  # what the viewer dispatches on (#274/#275)
+    published: bool  # cleared for public serving by the allowlist (#280); default-deny
     available: bool  # the bytes are present locally (not an unpulled Git-LFS pointer)
     download_url: str | None  # exhibit link or external mirror URL, when present
 
@@ -233,8 +236,13 @@ def build_documents(
     *,
     exhibits: list[exhibits_mod.Exhibit] | None = None,
     mirror_base_url: str = "",
+    allowlist: PublishAllowlist | None = None,
 ) -> DocumentsResult:
-    """Walk ``data/documents`` and assemble the per-collection catalog."""
+    """Walk ``data/documents`` and assemble the per-collection catalog.
+
+    ``allowlist`` (#280) sets each entry's ``published`` flag; ``None`` means default-deny
+    (nothing public), which is correct for a catalog built without the publish gate.
+    """
     # Source path -> published exhibit filename, for direct-download cross-links.
     exhibit_links: dict[str, str] = {
         ex.source: ex.out_name
@@ -278,6 +286,7 @@ def build_documents(
                 suffix=suffix,
                 media_type=media_type,
                 render_class=render_class,
+                published=allowlist.is_published(rel) if allowlist is not None else False,
                 available=available,
                 download_url=(
                     _download_url(rel, exhibit_links=exhibit_links, mirror_base_url=mirror_base_url)
@@ -399,13 +408,17 @@ def export_documents(
     *,
     exhibits: list[exhibits_mod.Exhibit] | None = None,
     mirror_base_url: str = "",
+    allowlist: PublishAllowlist | None = None,
 ) -> list[DocumentCollectionItem]:
     """Export the source-document catalog as :class:`DocumentCollectionItem` items.
 
     Reuses :func:`build_documents` (the same enumeration the renderer uses) without
     writing any markdown — each file keeps its as-received corpus path (chain of custody).
+    ``allowlist`` (#280) sets each item's ``published`` flag; ``None`` is default-deny.
     """
-    result = build_documents(documents_dir, exhibits=exhibits, mirror_base_url=mirror_base_url)
+    result = build_documents(
+        documents_dir, exhibits=exhibits, mirror_base_url=mirror_base_url, allowlist=allowlist
+    )
     return [
         DocumentCollectionItem(
             slug=c.slug,
@@ -419,6 +432,7 @@ def export_documents(
                     suffix=e.suffix,
                     media_type=e.media_type,
                     render_class=e.render_class,
+                    published=e.published,
                     available=e.available,
                     download_url=e.download_url,
                 )
@@ -429,38 +443,68 @@ def export_documents(
     ]
 
 
-def load_published_allowlist(path: Path) -> set[str]:
-    """The default-deny public publish allowlist (epic #274; populated by C1 / #280).
+@dataclass(frozen=True)
+class PublishAllowlist:
+    """The default-deny public publish allowlist (epic #274 / C1 #280).
 
-    Returns the set of ``data/documents``-relative paths cleared for *public* serving.
-    A missing file means nothing is published yet (default-deny) — the allowlist is
-    filled in only after a redaction/PII pass (#281). Tolerates a bare YAML list of rels
-    or a mapping with a top-level ``published:`` list.
+    A rel is **public** only if it matches an explicit rule — nothing is published by
+    default. Three rule kinds, plus the curated exhibits which are always auto-included
+    (so existing exhibit links keep working): exact ``documents`` rels, whole
+    ``collections`` (first path segment), and ``globs`` (``fnmatch`` over the rel).
     """
-    if not path.is_file():
-        return set()
-    try:
-        data = yaml.safe_load(path.read_text(encoding="utf-8"))
-    except yaml.YAMLError as exc:
-        log.warning("site.documents.bad_allowlist", path=str(path), error=str(exc).splitlines()[0])
-        return set()
-    rels = data.get("published") if isinstance(data, dict) else data
-    if not isinstance(rels, list):
-        return set()
-    return {str(r).strip() for r in rels if str(r).strip()}
+
+    collections: frozenset[str] = frozenset()
+    globs: tuple[str, ...] = ()
+    documents: frozenset[str] = frozenset()  # exact rels, incl. auto-included exhibits
+
+    def is_published(self, rel: str) -> bool:
+        if rel in self.documents:
+            return True
+        if rel.split("/", 1)[0] in self.collections:
+            return True
+        return any(fnmatch(rel, g) for g in self.globs)
+
+
+def load_publish_allowlist(path: Path, *, exhibit_sources: Iterable[str] = ()) -> PublishAllowlist:
+    """Load the default-deny allowlist YAML, auto-including the curated exhibits.
+
+    The file (``data/site/published-documents.yaml``, C1 / #280) carries optional
+    ``collections`` / ``globs`` / ``documents`` lists. A missing or empty file means
+    nothing is public **except** the exhibits — which are always allowed because they're
+    already published downloads. A rel is added by hand only after the C2 redaction pass.
+    """
+    collections: list[str] = []
+    globs: list[str] = []
+    documents: list[str] = list(exhibit_sources)
+    if path.is_file():
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        except yaml.YAMLError as exc:
+            log.warning(
+                "site.documents.bad_allowlist", path=str(path), error=str(exc).splitlines()[0]
+            )
+            data = {}
+        if isinstance(data, dict):
+            collections = [
+                str(s).strip() for s in (data.get("collections") or []) if str(s).strip()
+            ]
+            globs = [str(g).strip() for g in (data.get("globs") or []) if str(g).strip()]
+            documents += [str(r).strip() for r in (data.get("documents") or []) if str(r).strip()]
+    return PublishAllowlist(
+        collections=frozenset(collections),
+        globs=tuple(globs),
+        documents=frozenset(documents),
+    )
 
 
 def build_doc_index(
-    collections: list[DocumentCollectionItem], *, published: set[str]
+    collections: list[DocumentCollectionItem],
 ) -> dict[str, tuple[RenderClass, bool]]:
-    """``rel -> (render_class, is_published)`` for every catalogued source file.
+    """``rel -> (render_class, published)`` for every catalogued source file.
 
     The join target for records (#274 / #276): a record resolves its real source
     document only when that file is actually in the catalog, so a stale or removed
-    ``source_path`` yields no link rather than a broken one.
+    ``source_path`` yields no link rather than a broken one. ``published`` is read
+    straight off each :class:`DocumentItem` (set by the allowlist in ``export_documents``).
     """
-    index: dict[str, tuple[RenderClass, bool]] = {}
-    for coll in collections:
-        for e in coll.entries:
-            index[e.rel] = (e.render_class, e.rel in published)
-    return index
+    return {e.rel: (e.render_class, e.published) for coll in collections for e in coll.entries}
