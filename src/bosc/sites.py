@@ -212,6 +212,11 @@ _LIMA = SiteProfile(
 
 SITES: dict[str, SiteProfile] = {_LIMA.slug: _LIMA}
 
+# The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so
+# onboarding never overwrites another site's committed data — a profile that copies Lima
+# without slug-scoping these would otherwise clobber Lima's files (#326 hardening).
+PER_SITE_OUTPUT_FIELDS: tuple[str, ...] = ("climatology_relpath", "corridor_ddf_relpath")
+
 
 def get_profile(slug: str) -> SiteProfile:
     """The :class:`SiteProfile` for ``slug``; raises ``KeyError`` if unknown."""
@@ -221,3 +226,19 @@ def get_profile(slug: str) -> SiteProfile:
 def active_profile(settings: Settings) -> SiteProfile:
     """The active site's profile, keyed by ``settings.site``."""
     return SITES[settings.site]
+
+
+def output_path_collisions(slug: str) -> dict[str, list[str]]:
+    """Other registered sites that share ``slug``'s per-site output relpaths.
+
+    Returns ``{field: [other_slug, …]}`` for each :data:`PER_SITE_OUTPUT_FIELDS` value
+    another site also uses — empty when ``slug``'s outputs are safely unique.
+    """
+    prof = SITES[slug]
+    clashes: dict[str, list[str]] = {}
+    for field in PER_SITE_OUTPUT_FIELDS:
+        value = getattr(prof, field)
+        others = [s for s, p in SITES.items() if s != slug and getattr(p, field) == value]
+        if others:
+            clashes[field] = others
+    return clashes

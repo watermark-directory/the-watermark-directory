@@ -16,18 +16,47 @@ so onboarding is a short, ordered chain — `bosc onboard <slug>` runs the middl
 ### 1. Register the `SiteProfile` (code edit)
 
 A site's identity is a `SiteProfile` in [`src/bosc/sites.py`](../src/bosc/sites.py)
-`SITES` — the Python peer of the frontend registry. Add an entry carrying the site's
-**reach**: NWIS gages, the design point (`design_lat/lon`), `nasa_power_lat/lon`, county
-`rsei_fips`/`econ_fips`, the utility number, the GIS URLs, and the per-site output relpaths
-(`climatology_relpath`, `corridor_ddf_relpath`, `parcels_relpath`, `footprint_relpath`).
-Slug-scope the per-site output relpaths (e.g. `reference/hydrology/<slug>/…`) so onboarding
-never clobbers Lima's legacy un-slugged files. **Never re-hardcode a Lima/Allen-County
-value** — that's what the profile is for. (`Settings` resolves the config knobs from the
-active profile; the deeper hydrology constants are read via `bosc.sites.active_profile`.)
+`SITES` — the Python peer of the frontend registry. **Don't `model_copy` Lima and tweak a
+few fields** — Lima's values are Lima-specific and the ones you forget will silently produce
+wrong output. Build the entry deliberately; the field-by-field guide is below. Two hard rules:
+
+- **Slug-scope every per-site output relpath** (`climatology_relpath`, `corridor_ddf_relpath`)
+  to `reference/hydrology/<slug>/…`. If you leave Lima's un-slugged paths, onboarding would
+  overwrite Lima's committed files — `bosc onboard` now **refuses** when these aren't unique
+  to the site (and a CI test enforces it), but scope them correctly from the start.
+- The `SITES` key must equal the profile's `slug` (CI enforces this too).
 
 Also register the site in the frontend [`frontend/src/lib/sites.ts`](../frontend/src/lib/sites.ts)
 `SITES` with `status: "open"` (or `"onboarding"` once the build is queued) and
-`selectable: false` — that alone auto-builds its `/network/<slug>` coming-soon page.
+`selectable: false` — that alone auto-builds its `/network/<slug>` coming-soon page. (A CI
+test asserts every Python-registered site also exists in the frontend registry.)
+
+#### SiteProfile fields, by category
+
+**Must set per-site** (geography/identity — wrong values mislead):
+
+| Field(s) | What |
+|---|---|
+| `slug`, `place`, `basin` | identity (`basin` is the shared axis, e.g. `maumee`) |
+| `nwis_sites`, `abstraction_gage`, `auglaize_gage`, `ottawa_gage` | the site's USGS gages (supply + abstraction reach) |
+| `design_lat/lon`, `nasa_power_lat/lon`, `map_view_lat/lon/zoom` | the design point, met point, and map centroid |
+| `rsei_fips`, `econ_fips`, `county_name` | the county (**Fort Wayne = Allen County, *Indiana*, FIPS `18003`** — not Ohio's `39003`) |
+| `eia_state`, `eia861_utility_number`, `lmp_usd_mwh`, `lmp_citation` | the retail utility + its market zone |
+| `hydro_utm_epsg`, `gnis_default_state`, `lsc_default_ga` | projection + state/legislature for lookups |
+| `toxic_corridor_bbox`, `receiving_water_name` | the industrial receiving-water corridor |
+| `plant_receiving` | per-WWTP receiving-water fallback (Lima's are Lima WWTPs — **replace**) |
+| `climatology_relpath`, `corridor_ddf_relpath`, `parcels_relpath`, `footprint_relpath` | slug-scope the first two; the parcels/footprint point at the site's own committed geometry |
+| `dominant_hsg`, `hsg_citation`, `pre_cover`, `post_cover`, `developed_pervious_cover`, `noaa_fallback_24h_depth_in` | stormwater design assumptions (onboarding's SSURGO step validates `dominant_hsg`) |
+| `passby_auglaize_cfs`, `passby_ottawa_cfs` | in-stream passby minimums |
+
+**Reused from the basin** (don't regenerate for a Maumee site): the curated mainstem 7Q10s
+(`low-flow-7q10.derived.yaml`) and the ECHO POTW/NPDES inventory — both Maumee-wide.
+
+**Needs research before it's trustworthy:** the GIS URLs (`allen_parcels_url`,
+`lima_zoning_url`, `lima_floodzone_url`) are **Allen-County/City-of-Lima ArcGIS endpoints** —
+a new jurisdiction has *different* endpoints and needs its own connector (the known lift,
+below); the utility number + LMP; and `plant_receiving`, which must come from the site's own
+NPDES fact sheets. Until verified, prefer omission/`[open]` over a copied Lima value.
 
 ### 2. Run the onboard chain
 
