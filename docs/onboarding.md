@@ -1,0 +1,120 @@
+# Onboarding a watershed-point site
+
+How to bring a new site in the BOSC network (epic [#323](https://github.com/goedelsoup/bosc/issues/323) / [#308](https://github.com/goedelsoup/bosc/issues/308))
+from nothing to a "coming soon" page, repeatably. Lima is the live reference build; the
+basin sites (Fort Wayne, Defiance, …) come online one at a time. The scaffold is
+registry-driven and the data tier is per-site keyed ([#325](https://github.com/goedelsoup/bosc/issues/325)),
+so onboarding is a short, ordered chain — `bosc onboard <slug>` runs the middle of it.
+
+> **`onboard` proposes; it never promotes.** Flipping a site to a live, switchable build is
+> a separate, human, **parity-gated** edit (step 5). Onboarding seeds reviewable data and a
+> blocking checklist — nothing it writes is a finding until a human verifies it against a
+> cited source.
+
+## The chain
+
+### 1. Register the `SiteProfile` (code edit)
+
+A site's identity is a `SiteProfile` in [`src/bosc/sites.py`](../src/bosc/sites.py)
+`SITES` — the Python peer of the frontend registry. Add an entry carrying the site's
+**reach**: NWIS gages, the design point (`design_lat/lon`), `nasa_power_lat/lon`, county
+`rsei_fips`/`econ_fips`, the utility number, the GIS URLs, and the per-site output relpaths
+(`climatology_relpath`, `corridor_ddf_relpath`, `parcels_relpath`, `footprint_relpath`).
+Slug-scope the per-site output relpaths (e.g. `reference/hydrology/<slug>/…`) so onboarding
+never clobbers Lima's legacy un-slugged files. **Never re-hardcode a Lima/Allen-County
+value** — that's what the profile is for. (`Settings` resolves the config knobs from the
+active profile; the deeper hydrology constants are read via `bosc.sites.active_profile`.)
+
+Also register the site in the frontend [`frontend/src/lib/sites.ts`](../frontend/src/lib/sites.ts)
+`SITES` with `status: "open"` (or `"onboarding"` once the build is queued) and
+`selectable: false` — that alone auto-builds its `/network/<slug>` coming-soon page.
+
+### 2. Run the onboard chain
+
+```sh
+bosc onboard <slug>            # live connectors
+bosc onboard <slug> --offline  # cached/committed fixtures only (hermetic)
+```
+
+`bosc onboard <slug>` ([`src/bosc/onboard.py`](../src/bosc/onboard.py)) builds its own
+`Settings(site=<slug>)` (the global `--site` flag is not needed) and, for that site:
+
+- **scaffolds** `data/reference/<slug>/`, `data/extracted/<slug>/`,
+  `data/reference/hydrology/<slug>/` — each with a house-style README (source + gaps +
+  regenerate). Idempotent: an existing README is left untouched.
+- runs the **portable reach connectors**: NWIS → basin-derived 7Q10 (basin-level, see
+  below), NOAA Atlas-14 → corridor DDF (per-site), SSURGO → dominant HSG over the footprint
+  (a validation read against the profile), NASA-POWER → climatology (per-site).
+- runs **`basin-screen`** as a coverage validation (read-only).
+- prints a step table + the **blocking review checklist** (step 4).
+
+A brand-new site has no committed fixtures and no seed data, so offline the connector steps
+record as `dry-run` (naming the cache key to record) or `skipped` — the run always completes.
+
+### 3. Populate + review the per-site data
+
+Seed the site's `data/extracted/<slug>/` and `data/reference/<slug>/` from its corpus, and
+fill any `dry-run` connector outputs by running the per-connector commands live
+(`derive-low-flows`, `nasa-power --write`, etc.) and committing the result. Every value is
+an **onboarding seed** until reviewed against a cited source — keep the
+`[verified]`/`[inference]`/`[reference]`/`[open]` discipline (see
+[`docs/methodology.md`](methodology.md)); "no data-center here yet" is a finding, not a gap.
+
+### 4. The review gate (blocking)
+
+`onboard` prints this checklist; it is the human gate before promotion:
+
+1. Every written reference value reviewed against a cited source (no fabricated values).
+2. SSURGO dominant HSG matches the profile, or the profile is updated **with a citation**.
+3. `basin-screen` coverage is sane for the site's receiving waters.
+4. A per-jurisdiction County/City GIS connector exists (the known lift — below).
+5. Self-research first pass run (the seam below; awaits [#247](https://github.com/goedelsoup/bosc/issues/247)).
+6. Promotion is a separate manual edit (step 5).
+
+The invariant is also enforced in CI by
+[`frontend/src/lib/sites.test.ts`](../frontend/src/lib/sites.test.ts): every `selectable`
+site must be `status: "live"`, and no `onboarding`/`open` site may be `selectable` — so a
+site cannot slip live without the deliberate two-field change.
+
+### 5. Promote (manual, parity-gated)
+
+Once the site reaches parity, flip `status: "live"` + `selectable: true` for it in
+`frontend/src/lib/sites.ts`. **Note the single-live-build constraint:** today only Lima is a
+built site (re-rooted under `/bosc`); standing up a *second* live build at its own root is a
+deeper, separate cutover, not part of routine onboarding.
+
+## What's shared vs. per-site vs. the known lift
+
+- **Basin-level (shared across all Maumee sites — reuse for free):** the curated mainstem
+  7Q10s (`bosc derive-low-flows` → `data/reference/hydrology/low-flow-7q10.derived.yaml`) and
+  the ECHO NPDES/POTW inventory (`bosc npdes`, Maumee HUC-8-wide). A new Maumee site does not
+  regenerate these.
+- **Per-site (point/footprint/county-keyed):** NASA-POWER climatology and Atlas-14 corridor
+  DDF (slug-scoped via the profile); RSEI is county-FIPS scoped. These are what `onboard`
+  writes per site.
+- **The known lift — per-jurisdiction GIS:** the coordinate/id-based connectors (NWIS /
+  Atlas-14 / SSURGO / NASA-POWER) are free for any reach, but **County/City parcel & zoning
+  GIS is jurisdiction-specific**. [`allen_gis.py`](../src/bosc/hydrology/connectors/allen_gis.py)
+  and [`lima_gis.py`](../src/bosc/hydrology/connectors/lima_gis.py) are Allen-County / City-of-Lima
+  ArcGIS endpoints; a new jurisdiction needs its **own** parcel/zoning/floodzone connector
+  (the profile already carries its URLs, but the connector code is jurisdiction-shaped). Plan
+  for this as the parity bar, not a coming-soon blocker.
+
+## The self-research first pass (a seam — awaits #247)
+
+The flow is meant to chain a **discipline-bound `bosc.agent` first pass** that investigates
+the new site over the corpus and emits a *proposal* artifact a human triages — the agent
+proposes, never promotes. The run machinery already exists
+([`bosc research run`](../src/bosc/cli.py) → `bosc.research.run.run_research` + `write_run`
+→ a `ResearchRunManifest` under `data/research/<slug>-<date>/`); what's missing is wiring the
+investigative skills + system prompt into the agent ([#247](https://github.com/goedelsoup/bosc/issues/247)).
+Until then this step is documented, not invoked:
+
+```sh
+# after #247:
+bosc research run --topic "onboard <slug>: data-center activity + receiving-water screen"
+# -> data/research/<slug>-<date>/{findings.md, manifest.yaml}  (review, then triage proposals)
+```
+
+When #247 lands, add this call to the onboard chain (or run it alongside) — the proposal
+artifact feeds the step-3 review.

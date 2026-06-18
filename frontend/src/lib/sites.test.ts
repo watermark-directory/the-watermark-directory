@@ -40,6 +40,19 @@ describe("sites registry — the BOSC network (#304)", () => {
   });
 });
 
+describe("promotion gate — the onboarding review invariant (#326)", () => {
+  // `bosc onboard` proposes; promotion to a live build is a manual, parity-gated edit here.
+  // These encode the gate: flipping `selectable` without `status: "live"` (or vice-versa)
+  // fails CI, so a site can't slip live without the deliberate two-field change.
+  it("every selectable site has status 'live'", () => {
+    for (const s of SITES) if (s.selectable) expect(s.status).toBe("live");
+  });
+
+  it("no onboarding/open site is selectable before explicit promotion", () => {
+    for (const s of SITES) if (s.status !== "live") expect(s.selectable).toBe(false);
+  });
+});
+
 describe("siteForPath — the switcher's current-site resolution (#316)", () => {
   it("resolves the live Lima build for /bosc and any page beneath it", () => {
     for (const p of ["/bosc", "/bosc/", "/bosc/site/", "/bosc/watershed/map", "/bosc/timeline"]) {

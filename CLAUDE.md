@@ -90,6 +90,11 @@ repo-working agents now.
   and `bosc-`-prefixed reference/extracted filenames are Lima-specific by convention — a
   new site supplies its own paths. (The `--site` callback writes `BOSC_SITE` to the env
   before the first `get_settings()`; that's the one sanctioned `os.environ` write.)
+  Onboard a registered site with `bosc onboard <slug>` (`bosc.onboard`; runbook
+  `docs/onboarding.md`): it scaffolds the per-site data dirs, runs the portable reach
+  connectors (per-site point outputs are slug-scoped so Lima is never clobbered; basin-level
+  outputs stay shared), and prints a **blocking review checklist** — promotion to
+  `live`/`selectable` in `frontend/src/lib/sites.ts` stays a manual, parity-gated edit.
 - **Models:** structured extractions are validated with the Pydantic models in
   `bosc.models`. Scan transcriptions may be **approximate**, written `~12345`
   in YAML; `ApproxInt`/`_coerce_number` handle that — preserve the marker in
