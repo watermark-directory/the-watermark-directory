@@ -39,18 +39,14 @@ from bosc.hydrology.model import (
 from bosc.hydrology.solver.curve_number import cn_for, composite_cn
 from bosc.hydrology.solver.runoff import simulate_runoff
 from bosc.logging import get_logger
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
-# Representative corridor point for the NOAA Atlas-14 point query (campus centroid).
-CORRIDOR_LAT, CORRIDOR_LON = 40.797, -84.123
+# Per-site values (design point, dominant HSG + citation, cover taxonomy, the NOAA
+# Atlas-14 offline-fallback depth table, and the parcels/footprint paths) come from the
+# active site profile (bosc.sites); see active_profile(settings) at each use.
 
-# Cited assumptions for the corridor (overridable).
-_HSG = "C"  # Allen County / Maumee Lake Plain: poorly drained glacial till
-_HSG_CITATION = "Allen County, OH dominant hydrologic soil group C (NRCS soil survey; assumption)"
-_PRE_COVER = "cropland"  # documented prior use ("Neff Farms Inc")
-_POST_COVER = "developed_campus"  # near-impervious data-center campus
-_DEVELOPED_PERVIOUS_COVER = "open_space"  # graded/landscaped developed-but-pervious ground
 _TC_HR = 1.0  # time of concentration (assumption, screening-grade)
 
 # Manning roughness for a concrete / smooth-HDPE storm trunk, and the assumed pipe-slope
@@ -59,28 +55,13 @@ _OUTFALL_MANNING_N = 0.013
 _OUTFALL_SLOPES_PCT: tuple[float, ...] = (0.3, 0.5, 1.0)
 _DISCHARGE_RETURN_PERIODS: tuple[int, ...] = (10, 25, 100)
 
-# NOAA Atlas-14 24-hr depths (in) at the corridor point, by return period — the
-# offline fallback when no live fetch / cache is available (clearly flagged).
-_FALLBACK_24H_DEPTH_IN: dict[int, float] = {
-    1: 2.11,
-    2: 2.52,
-    5: 3.10,
-    10: 3.58,
-    25: 4.25,
-    50: 4.81,
-    100: 5.39,
-    200: 6.01,
-    500: 6.88,
-    1000: 7.59,
-}
-
 
 def _parcels_path(settings: Settings) -> Path:
-    return settings.data_dir / "reference" / "periplus" / "bosc-parcels.geojson"
+    return settings.data_dir / active_profile(settings).parcels_relpath
 
 
 def _footprint_path(settings: Settings) -> Path:
-    return settings.data_dir / "extracted" / "plans" / "bosc-site-footprint.yaml"
+    return settings.data_dir / active_profile(settings).footprint_relpath
 
 
 def load_site_footprint(settings: Settings | None = None) -> SiteFootprint | None:
@@ -107,14 +88,15 @@ def _composite_post_cn(
     its prior cropland cover. Acreages are clamped to the measured runoff footprint so the
     weights never exceed the total area. Returns the composite CN and a human breakdown.
     """
+    prof = active_profile(settings)
     imperv = max(0.0, min(footprint.impervious_acres.value, total_acres))
     developed = max(0.0, min(footprint.developed_acres.value, total_acres))
     dev_pervious = max(0.0, developed - imperv)
     remainder = max(0.0, total_acres - imperv - dev_pervious)
     parts = [
-        (imperv, cn_for(_POST_COVER, hsg_letter, settings=settings)),
-        (dev_pervious, cn_for(_DEVELOPED_PERVIOUS_COVER, hsg_letter, settings=settings)),
-        (remainder, cn_for(_PRE_COVER, hsg_letter, settings=settings)),
+        (imperv, cn_for(prof.post_cover, hsg_letter, settings=settings)),
+        (dev_pervious, cn_for(prof.developed_pervious_cover, hsg_letter, settings=settings)),
+        (remainder, cn_for(prof.pre_cover, hsg_letter, settings=settings)),
     ]
     breakdown = (
         f"{imperv:.0f} ac impervious + {dev_pervious:.0f} ac developed-pervious + "
@@ -132,6 +114,7 @@ def run_storm_scenario(
 ) -> tuple[StormRunoff, list[HydroFinding]]:
     """Compute pre/post design-storm runoff over the campus footprint."""
     settings = settings or get_settings()
+    prof = active_profile(settings)
     path = footprint_path or _parcels_path(settings)
 
     acres = geo.parcels_total_acres(path, settings=settings)
@@ -142,7 +125,7 @@ def run_storm_scenario(
 
     storm = _resolve_storm(return_period_yr, settings=settings, live=live)
 
-    pre_cn = cn_for(_PRE_COVER, hsg_letter, settings=settings)
+    pre_cn = cn_for(prof.pre_cover, hsg_letter, settings=settings)
     # Calibrate the post-development cover to the ASWCD-declared footprint when committed:
     # only ~115 of ~344 ac is permanently impervious, so the post CN is an area-weighted
     # composite, not a blanket near-impervious value over the whole parcel. Falls back to
@@ -151,7 +134,7 @@ def run_storm_scenario(
     if footprint is not None:
         post_cn, _ = _composite_post_cn(acres, footprint, hsg_letter, settings=settings)
     else:
-        post_cn = cn_for(_POST_COVER, hsg_letter, settings=settings)
+        post_cn = cn_for(prof.post_cover, hsg_letter, settings=settings)
     depth = storm.depth.value
     pre = simulate_runoff(area_acres=acres, curve_number=pre_cn, tc_hr=_TC_HR, storm_depth_in=depth)
     post = simulate_runoff(
@@ -198,23 +181,27 @@ def _resolve_hsg(
             return letter, code
         except (HydroOfflineError, SsurgoError) as exc:
             log.info("hydro.storm.hsg_fallback", error=str(exc).splitlines()[0])
-    code = ProvenancedValue.assume(float("ABCD".index(_HSG) + 1), "hsg_code", why=_HSG_CITATION)
-    return _HSG, code
+    prof = active_profile(settings)
+    code = ProvenancedValue.assume(
+        float("ABCD".index(prof.dominant_hsg) + 1), "hsg_code", why=prof.hsg_citation
+    )
+    return prof.dominant_hsg, code
 
 
 def _resolve_storm(return_period_yr: int, *, settings: Settings, live: bool) -> DesignStorm:
+    prof = active_profile(settings)
     if live:
         try:
             return design_storm(
-                lat=CORRIDOR_LAT,
-                lon=CORRIDOR_LON,
+                lat=prof.design_lat,
+                lon=prof.design_lon,
                 return_period_yr=return_period_yr,
                 settings=settings,
             )
         except HydroOfflineError:
             log.info("hydro.storm.offline_fallback", return_period=return_period_yr)
     # No live fetch / cache: fall back to the cited corridor-point depth, flagged.
-    depth = _FALLBACK_24H_DEPTH_IN.get(return_period_yr, 4.25)
+    depth = prof.noaa_fallback_24h_depth_in.get(return_period_yr, 4.25)
     return DesignStorm(
         return_period_yr=return_period_yr,
         duration_hr=24.0,
@@ -292,13 +279,14 @@ def screen_campus_discharge(
     if footprint is None:
         raise FileNotFoundError(f"site footprint not committed: {_footprint_path(settings)}")
 
+    prof = active_profile(settings)
     parcels = _parcels_path(settings)
     acres = geo.parcels_total_acres(parcels, settings=settings)
     hsg_letter, hsg = _resolve_hsg(parcels, settings=settings, live=live)
 
-    pre_cn = cn_for(_PRE_COVER, hsg_letter, settings=settings)
+    pre_cn = cn_for(prof.pre_cover, hsg_letter, settings=settings)
     post_cn, breakdown = _composite_post_cn(acres, footprint, hsg_letter, settings=settings)
-    full_cn = cn_for(_POST_COVER, hsg_letter, settings=settings)
+    full_cn = cn_for(prof.post_cover, hsg_letter, settings=settings)
 
     peaks: list[DischargePeak] = []
     for rp in sorted({*return_periods, design_return_period_yr}):

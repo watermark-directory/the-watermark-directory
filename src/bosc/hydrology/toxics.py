@@ -39,6 +39,7 @@ from bosc.hydrology.lowflow import _normalize, load_low_flows
 from bosc.hydrology.model import ProvenancedValue, SourceKind
 from bosc.logging import get_logger
 from bosc.rsei import RseiFacility, load_inventory
+from bosc.sites import active_profile
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -51,11 +52,10 @@ log = get_logger(__name__)
 _CFS_TO_MGD = 0.6464
 _LBS_PER_MGL_MGD = 8.34
 
-# Ottawa River industrial corridor at Lima — the refinery/chemical cluster on the
-# Ottawa mainstem. Facilities inside this box without an independently cited
-# receiving water are *inferred* to discharge to the Ottawa (tagged `assumption`).
-_OTTAWA_CORRIDOR = (40.695, 40.725, -84.140, -84.105)  # lat_min, lat_max, lon_min, lon_max
-_OTTAWA_NAME = "Ottawa River"
+# The receiving-water industrial corridor box + its inferred receiving water are per-site
+# (active SiteProfile: toxic_corridor_bbox, receiving_water_name). A facility inside the box
+# without an independently cited receiving water is *inferred* to discharge there
+# (tagged `assumption`).
 
 # Spatial-join tolerance (degrees ~ 0.0018 ≈ 200 m at this latitude) for matching an
 # RSEI facility to an ECHO permit by coordinate.
@@ -110,10 +110,12 @@ class ToxicDischargeInventory(BaseModel):
 
 
 # --- Resolution helpers ----------------------------------------------------
-def _in_ottawa_corridor(lat: float | None, lon: float | None) -> bool:
+def _in_corridor(
+    lat: float | None, lon: float | None, bbox: tuple[float, float, float, float]
+) -> bool:
     if lat is None or lon is None:
         return False
-    lat_min, lat_max, lon_min, lon_max = _OTTAWA_CORRIDOR
+    lat_min, lat_max, lon_min, lon_max = bbox
     return lat_min <= lat <= lat_max and lon_min <= lon <= lon_max
 
 
@@ -134,7 +136,7 @@ def _match_echo(fac: RseiFacility, echo: list[dict[str, Any]]) -> dict[str, Any]
 
 
 def _resolve_receiving_water(
-    fac: RseiFacility, echo: list[dict[str, Any]]
+    fac: RseiFacility, echo: list[dict[str, Any]], *, settings: Settings
 ) -> tuple[str | None, SourceKind | None, str | None, str | None]:
     """Resolve (receiving_water, source, citation, npdes_id) on the provenance ladder."""
     match = _match_echo(fac, echo)
@@ -149,15 +151,16 @@ def _resolve_receiving_water(
             npdes,
         )
 
-    # 2. Ottawa River industrial corridor at Lima -> coordinate-cluster inference.
-    if _in_ottawa_corridor(fac.latitude, fac.longitude):
+    # 2. The site's industrial receiving-water corridor -> coordinate-cluster inference.
+    prof = active_profile(settings)
+    bbox = prof.toxic_corridor_bbox
+    if _in_corridor(fac.latitude, fac.longitude, bbox):
         return (
-            _OTTAWA_NAME,
+            prof.receiving_water_name,
             "assumption",
             (
-                "within the Ottawa River industrial corridor at Lima "
-                f"(coordinate cluster {_OTTAWA_CORRIDOR[0]}-{_OTTAWA_CORRIDOR[1]}N, "
-                f"{abs(_OTTAWA_CORRIDOR[3])}-{abs(_OTTAWA_CORRIDOR[2])}W); "
+                f"within the {prof.receiving_water_name} industrial corridor at {prof.place} "
+                f"(coordinate cluster {bbox[0]}-{bbox[1]}N, {abs(bbox[3])}-{abs(bbox[2])}W); "
                 "receiving water not independently cited"
             ),
             npdes,
@@ -258,7 +261,7 @@ def build_screen(settings: Settings | None = None) -> ToxicDischargeInventory:
         annual_lbs = water_lbs / span
         top_water_chem = fac.top_chemicals[0].chemical if fac.top_chemicals else None
 
-        water, src, cite, npdes = _resolve_receiving_water(fac, echo)
+        water, src, cite, npdes = _resolve_receiving_water(fac, echo, settings=settings)
         q7 = low_flows.get(_normalize(water)) if water else None
         conc = _screening_concentration(annual_lbs, q7) if q7 else None
         flag = _flag(conc, water)

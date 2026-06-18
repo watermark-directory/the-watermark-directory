@@ -41,19 +41,16 @@ from bosc.hydrology.model import (
 from bosc.hydrology.supply import campus_budget_from_cooling, load_supply
 from bosc.hydrology.units import cfs_to_mgd, mgd_to_cfs
 from bosc.logging import get_logger
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
-# The long-record discharge gages for Lima's two supply rivers. 04185750 (Auglaize near Lima)
-# carries no daily-discharge record, so the Auglaize is gauged at Fort Jennings (04186500,
-# 1921-present) — DOWNSTREAM of Lima's intakes with more drainage area, so it OVERSTATES the
-# flow at the intake (an optimistic refill bound, flagged in the caveats).
-DEFAULT_AUGLAIZE_SITE = "04186500"
-DEFAULT_OTTAWA_SITE = "04187100"
-# Screening minimum bypass left in-stream (not pumped to storage). Ottawa = its cited 7Q10;
-# the Auglaize has no cited 7Q10 in the corpus, so a small assumption near its 99% exceedance.
-DEFAULT_PASSBY_AUGLAIZE_CFS = 2.5
-DEFAULT_PASSBY_OTTAWA_CFS = 0.2
+# The two supply rivers' discharge gages and in-stream passby minimums are per-site (the
+# active SiteProfile: auglaize_gage/ottawa_gage, passby_auglaize_cfs/passby_ottawa_cfs).
+# For Lima, the Auglaize is gauged at Fort Jennings (04186500, 1921-present) — DOWNSTREAM of
+# the intakes with more drainage area, so it OVERSTATES the intake flow (an optimistic refill
+# bound, flagged in the caveats); the Ottawa passby is its cited 7Q10, the Auglaize's a small
+# assumption near its 99% exceedance (no cited 7Q10 in the corpus).
 _START, _END = "1980-01-01", "2024-12-31"
 _DAYS_PER_YEAR = 365.0
 _FILENAME = "refill-adequacy.yaml"
@@ -136,12 +133,12 @@ def _river_stat(
 
 def compute_refill_adequacy(
     *,
-    auglaize_site: str = DEFAULT_AUGLAIZE_SITE,
-    ottawa_site: str = DEFAULT_OTTAWA_SITE,
+    auglaize_site: str | None = None,
+    ottawa_site: str | None = None,
     start_date: str = _START,
     end_date: str = _END,
-    passby_auglaize_cfs: float = DEFAULT_PASSBY_AUGLAIZE_CFS,
-    passby_ottawa_cfs: float = DEFAULT_PASSBY_OTTAWA_CFS,
+    passby_auglaize_cfs: float | None = None,
+    passby_ottawa_cfs: float | None = None,
     settings: Settings | None = None,
 ) -> RefillAdequacy:
     """Compute the refill adequacy / drought storage-requirement from the live gage records.
@@ -149,8 +146,20 @@ def compute_refill_adequacy(
     The networked regeneration path (``bosc refill --write``). Pulls both rivers' daily
     discharge, characterizes each, and runs the sequent-peak storage requirement for the
     baseline-city / +campus / +campus-high demand scenarios against the committed storage.
+
+    The supply gages + passby minimums default to the active site profile; pass them
+    explicitly to override.
     """
     settings = settings or get_settings()
+    prof = active_profile(settings)
+    auglaize_site = auglaize_site or prof.auglaize_gage
+    ottawa_site = ottawa_site or prof.ottawa_gage
+    passby_auglaize_cfs = (
+        passby_auglaize_cfs if passby_auglaize_cfs is not None else prof.passby_auglaize_cfs
+    )
+    passby_ottawa_cfs = (
+        passby_ottawa_cfs if passby_ottawa_cfs is not None else prof.passby_ottawa_cfs
+    )
     supply = load_supply(settings=settings)
     if supply is None:
         raise ValueError("water-supply.yaml absent — cannot scale refill against storage")
@@ -342,14 +351,15 @@ def _reference_path(settings: Settings) -> Path:
 def write_refill_adequacy(ra: RefillAdequacy, *, settings: Settings | None = None) -> Path:
     """Persist the refill adequacy analysis to the committed reference YAML."""
     settings = settings or get_settings()
+    prof = active_profile(settings)
     path = _reference_path(settings)
     path.parent.mkdir(parents=True, exist_ok=True)
     doc: dict[str, Any] = {
         "meta": {
             "subject": "Refill adequacy / drought storage requirement — Lima reservoir system",
             "source": (
-                f"USGS NWIS daily discharge: Auglaize {DEFAULT_AUGLAIZE_SITE} (Fort Jennings) + "
-                f"Ottawa {DEFAULT_OTTAWA_SITE} (Lima); storage from water-supply.yaml"
+                f"USGS NWIS daily discharge: Auglaize {prof.auglaize_gage} (Fort Jennings) + "
+                f"Ottawa {prof.ottawa_gage} (Lima); storage from water-supply.yaml"
             ),
             "method": ra.method,
             "discipline": (
