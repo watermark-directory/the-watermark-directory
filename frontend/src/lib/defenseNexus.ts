@@ -26,6 +26,21 @@ export type DnFactKey = "geography" | "capability" | "silence";
 /** What the map emphasizes when a fact tab is active. */
 export type DnEmphasis = "campus" | "jsmc" | "gap";
 
+/** The register of a map annotation — the visual encoding matching the engine grammar
+ *  (#272). `verified` = a labeled fact on the ground; `inference` = a capability whose
+ *  bearing on Lima is inferred; `open` = an absence (the "no records" marker). */
+export type DnRegister = "verified" | "inference" | "open";
+
+/** A labeled annotation pinned to real geometry — never a connecting line. The capability
+ *  pin carries its caveat inline; the silence marker sits exactly where an inferred line
+ *  *would* go, so the gap reads as measured and empty (#267). */
+export interface DnAnnotation {
+  key: DnFactKey;
+  position: [number, number];
+  label: string;
+  register: DnRegister;
+}
+
 export interface DnFact {
   key: DnFactKey;
   /** Short tab label. */
@@ -67,6 +82,8 @@ export interface DefenseNexusData {
   metrics: DnMetrics;
   view: DnView;
   facts: DnFact[];
+  /** Map annotations, keyed to the active fact tab — labeled facts, never a line (#267). */
+  annotations: DnAnnotation[];
   readout: { verified: string; open: string };
 }
 
@@ -199,8 +216,29 @@ const EMPTY: DefenseNexusData = {
   },
   view: { longitude: -84.128, latitude: 40.748, zoom: 11 },
   facts: [],
+  annotations: [],
   readout: { verified: "", open: "" },
 };
+
+/** The per-tab map annotations: a label on the JSMC parcels, a caveated capability pin on
+ *  the campus, and a "No records" marker exactly where an inferred line would run. The map
+ *  never draws that line — the marker is the absence made visible. */
+function annotations(
+  campusCentroid: [number, number],
+  jsmcCentroid: [number, number],
+  gapMid: [number, number],
+): DnAnnotation[] {
+  return [
+    { key: "geography", position: jsmcCentroid, label: "Lima Army Tank Plant · GDLS", register: "verified" },
+    {
+      key: "capability",
+      position: campusCentroid,
+      label: "Google capability — held everywhere, not a Lima fact",
+      register: "inference",
+    },
+    { key: "silence", position: gapMid, label: "No records (PRR item 2)", register: "open" },
+  ];
+}
 
 /**
  * Build the defense-nexus map model from the bundle: campus + JSMC footprints and
@@ -240,12 +278,16 @@ export function buildDefenseNexus(): DefenseNexusData {
     features: [...campus.features, ...jsmc.features] as Feature<Polygon, GeoProps>[],
   };
 
+  const [pa, pb] = near.pair;
+  const gapMid: [number, number] = [(pa[0] + pb[0]) / 2, (pa[1] + pb[1]) / 2];
+
   return {
     available: true,
     geo,
     metrics,
     view: fitView(bounds([...cr, ...jr])),
     facts: facts(metrics),
+    annotations: annotations(centroid(cr), centroid(jr), gapMid),
     readout: {
       verified: `A federal plant ${metrics.nearestMi.toFixed(1)} miles from the campus, a developer cleared to SECRET, an industry that hosts the CIA — three true facts.`,
       open: "None of them, alone or together, connects the Lima campus to a defense workload. What would close it — the facility's FedRAMP / DoD authorization posture — is not in the record.",
