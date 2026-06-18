@@ -66,6 +66,13 @@ class SiteProfile(BaseModel):
     parcels_relpath: str  # relative to settings.data_dir
     footprint_relpath: str  # relative to settings.data_dir
 
+    # --- Per-site onboard reach outputs (point-specific writes; relative to data_dir) ----
+    # The point-specific connector outputs `bosc onboard` writes (#326). Lima keeps its
+    # legacy (un-slugged) filenames; a new site slug-scopes them so onboarding never clobbers
+    # Lima. Basin-level outputs (derived 7Q10, ECHO POTW) stay shared and are NOT here.
+    climatology_relpath: str  # NASA-POWER climatology (hydrology/climate.py)
+    corridor_ddf_relpath: str  # NOAA Atlas-14 corridor DDF (hydrology/drainage.py)
+
     # --- Toxics corridor inference (hydrology/toxics.py) ---------------------------------
     toxic_corridor_bbox: tuple[float, float, float, float]  # lat_min, lat_max, lon_min, lon_max
     receiving_water_name: str
@@ -164,6 +171,9 @@ _LIMA = SiteProfile(
     },
     parcels_relpath="reference/periplus/bosc-parcels.geojson",
     footprint_relpath="extracted/plans/bosc-site-footprint.yaml",
+    # per-site onboard reach outputs (Lima = legacy un-slugged paths)
+    climatology_relpath="reference/hydrology/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/atlas14-corridor-ddf.yaml",
     # toxics
     toxic_corridor_bbox=(40.695, 40.725, -84.140, -84.105),
     receiving_water_name="Ottawa River",

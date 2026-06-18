@@ -48,6 +48,8 @@ _LIMA_GOLDEN = {
     },
     "parcels_relpath": "reference/periplus/bosc-parcels.geojson",
     "footprint_relpath": "extracted/plans/bosc-site-footprint.yaml",
+    "climatology_relpath": "reference/hydrology/nasa-power-climatology.yaml",
+    "corridor_ddf_relpath": "reference/hydrology/atlas14-corridor-ddf.yaml",
     "toxic_corridor_bbox": (40.695, 40.725, -84.140, -84.105),
     "receiving_water_name": "Ottawa River",
     "abstraction_gage": "04187100",
@@ -114,3 +116,26 @@ def test_unknown_site_errors() -> None:
 def test_profile_is_frozen() -> None:
     with pytest.raises(ValidationError):
         SITES["lima"].slug = "nope"  # type: ignore[misc]
+
+
+def test_per_site_output_paths_resolve(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # The per-site onboard outputs (#326) resolve to Lima's legacy paths for lima and to
+    # slug-scoped paths for a new site, so onboarding never clobbers Lima.
+    from bosc.hydrology.climate import _reference_path as climatology_path
+    from bosc.hydrology.drainage import _ddf_path
+
+    lima = Settings(site="lima", data_dir=tmp_path)
+    assert climatology_path(lima) == tmp_path / "reference/hydrology/nasa-power-climatology.yaml"
+    assert _ddf_path(lima) == tmp_path / "reference/hydrology/atlas14-corridor-ddf.yaml"
+
+    fw = SITES["lima"].model_copy(
+        update={
+            "slug": "fw",
+            "climatology_relpath": "reference/hydrology/fw/nasa-power-climatology.yaml",
+            "corridor_ddf_relpath": "reference/hydrology/fw/atlas14-corridor-ddf.yaml",
+        }
+    )
+    monkeypatch.setitem(SITES, "fw", fw)
+    fws = Settings(site="fw", data_dir=tmp_path)
+    assert climatology_path(fws) == tmp_path / "reference/hydrology/fw/nasa-power-climatology.yaml"
+    assert _ddf_path(fws) == tmp_path / "reference/hydrology/fw/atlas14-corridor-ddf.yaml"

@@ -62,6 +62,43 @@ def version() -> None:
     console.print(f"bosc {__version__}")
 
 
+@app.command(name="onboard")
+def onboard_cmd(
+    slug: str = typer.Argument(..., help="Site slug; must be registered in bosc.sites.SITES."),
+    offline: bool = typer.Option(False, "--offline", help="Use cached/committed fixtures only."),
+) -> None:
+    """Onboard a watershed-point site: scaffold per-site data + run the reach connectors.
+
+    Builds its own Settings for SLUG (the global --site is not needed). Proposes; never
+    promotes — flipping the site live in frontend/src/lib/sites.ts stays a manual,
+    parity-gated edit. See docs/onboarding.md.
+    """
+    from bosc.onboard import onboard_site
+
+    if slug not in SITES:
+        raise typer.BadParameter(
+            f"unknown site {slug!r}; known: {sorted(SITES)}", param_hint="slug"
+        )
+    settings = Settings(site=slug, hydro_offline=offline)
+    report = onboard_site(settings=settings)
+
+    console.print(f"[bold]Onboarding {report.place}[/] ({report.slug} · {report.basin})\n")
+    table = Table("step", "status", "output")
+    colors = {"ok": "green", "dry-run": "yellow", "skipped": "yellow", "error": "red"}
+    for s in report.steps:
+        color = colors.get(s.status, "white")
+        table.add_row(s.name, f"[{color}]{s.status}[/]", s.output_path or f"[dim]{s.detail}[/]")
+    console.print(table)
+
+    console.print("\n[bold]Review gate[/] — blocking; complete before promotion:")
+    for i, item in enumerate(report.review_checklist, 1):
+        console.print(f"  {i}. {item}")
+    console.print(
+        "\n[dim]onboard never promotes. When parity is reached, flip status/selectable in "
+        "frontend/src/lib/sites.ts by hand (one reviewed edit).[/]"
+    )
+
+
 @app.command(name="ingest")
 def ingest_cmd() -> None:
     """Inventory source documents under data/documents."""

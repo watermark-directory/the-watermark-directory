@@ -14,6 +14,7 @@ artifacts.
 | `HYDROLOGY.md` | Tier-0 municipal water-flow findings. | **`bosc`-generated** (`bosc.hydrology`); figures tagged `[verified]`/`[assumption]` |
 | `COMPUTE.md` | The facility's compute / AI capacity, derived from disclosed power/water/footprint by three bracketing methods. | **`bosc`-generated** (`bosc.facility`; `bosc compute`); figures tagged `[verified]`/`[reference]`/`[inference]` |
 | `ECONOMICS.md` | Demand-side companion to HYDROLOGY — regional cloud-consumer demand & public benefits. | hand-assembled over cited sources |
+| `onboarding.md` | Runbook for bringing a new watershed-point site online (`bosc onboard <slug>` → review gate → manual promotion). | hand-written |
 
 ## Subdirs
 
