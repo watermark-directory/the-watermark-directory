@@ -1353,6 +1353,16 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
 .eu-lima-note { font-size: 12.5px; line-height: 1.55; color: var(--td-faint); margin: 0; }
 .eu-readout { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
 .eu-readout-row { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: var(--bosc-ink); }
+/* The FedRAMP/DoD-IL access ladder (#266): broad commercial → sealed IL-6 enclave. */
+.eu-ladder { display: flex; gap: 4px; margin: 14px 0 6px; }
+.eu-rung { flex: 1; text-align: center; font-size: 10px; line-height: 1.3; padding: 5px 3px; border-radius: 5px; background: var(--td-srccard-line); color: var(--td-faint); }
+.eu-rung.is-reach { background: #e7ddef; color: var(--bosc-indigo); }
+.eu-rung.is-ceiling { background: var(--bosc-indigo); color: #fff; font-weight: 700; }
+.eu-ledger-link { font-size: 11.5px; color: var(--td-chip-kind); text-decoration: none; white-space: nowrap; }
+.eu-ledger-link:hover { text-decoration: underline; }
+.eu-silences { margin-top: 16px; border-top: 1px solid var(--td-line, #eee); padding-top: 12px; display: flex; flex-direction: column; gap: 9px; }
+.eu-silences-head { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; color: var(--td-faint); }
+.eu-silence { display: flex; gap: 9px; align-items: flex-start; font-size: 12.5px; line-height: 1.5; color: var(--bosc-ink); }
 .eu-table { margin-top: 14px; }
 .eu-table caption { caption-side: top; text-align: left; font-size: 12px; color: var(--td-faint); line-height: 1.5; margin-bottom: 8px; }
 .eu-td-tag { display: block; font-size: 11px; color: var(--td-faint); margin-top: 2px; }

@@ -19,6 +19,9 @@ export type LimaStatus = "ruled-out" | "open";
 /** How open access to the compute is — the "who can use it" axis that narrows. */
 export type AccessLevel = "self" | "commercial" | "private-tenants" | "authorized-only";
 
+/** The evidence register, matching the engine grammar (#272) + the prose tags. */
+export type Register = "verified" | "inference" | "open";
+
 export interface DcType {
   key: DcKey;
   label: string;
@@ -28,10 +31,25 @@ export interface DcType {
   whoCanUse: string;
   access: AccessLevel;
   localEconomy: string;
+  /** Who captures the abatement subsidy under this model — the demand-side answer to
+   *  the economic ledger's "who gets the $X" (#269), register-encoded. */
+  benefitCapture: { who: string; register: Register };
+  /** The rungs of the FedRAMP/DoD-IL ladder this model's access can occupy
+   *  (inclusive indices into IL_LADDER); `null` = off the ladder (self only). */
+  ladderReach: [number, number] | null;
   /** The committee-record anchor that establishes this type — register one. */
   evidence: string;
+  evidenceRegister: Register;
   limaStatus: LimaStatus;
   limaNote: string;
+}
+
+/** A pointed silence in the record — an absence that bears on the [open] question but is
+ *  not, itself, a finding. */
+export interface Silence {
+  label: string;
+  note: string;
+  register: Register;
 }
 
 export interface EndUseData {
@@ -40,7 +58,25 @@ export interface EndUseData {
   verified: string;
   /** The single question the confirmed facts can't answer (the [open] gap). */
   openQuestion: string;
+  /** The two pointed silences (Google omits Lima; PRR item 2 "no records"). */
+  silences: Silence[];
 }
+
+/** One rung of the "who can use it" ladder — broad commercial → sealed IL-6 enclave. The
+ *  access dimension that narrows; structure, not a Lima finding. */
+export interface AccessRung {
+  key: string;
+  label: string;
+  note: string;
+}
+
+export const IL_LADDER: AccessRung[] = [
+  { key: "commercial", label: "Broad commercial", note: "anyone — the open cloud market" },
+  { key: "fedramp", label: "FedRAMP", note: "authorized U.S. government cloud" },
+  { key: "il4", label: "DoD IL4", note: "controlled unclassified information" },
+  { key: "il5", label: "DoD IL5", note: "higher-sensitivity CUI / national security systems" },
+  { key: "il6", label: "DoD IL6 enclave", note: "classified up to SECRET — U.S.-citizen-staffed, sealed" },
+];
 
 const TYPES: DcType[] = [
   {
@@ -52,7 +88,13 @@ const TYPES: DcType[] = [
     whoCanUse: "no one else — “we don’t have customers in Bitcoin”",
     access: "self",
     localEconomy: "behind-the-meter load, minimal permanent jobs",
+    benefitCapture: {
+      who: "the operator — it mines on its own account; no external customer to share with",
+      register: "verified",
+    },
+    ladderReach: null,
     evidence: "MARA Holdings volunteered the distinction itself (closing session, 2026-06-04)",
+    evidenceRegister: "verified",
     limaStatus: "ruled-out",
     limaNote:
       "Not the Lima campus: the developer is Google, a hyperscaler, not a miner. The one type the record lets us cross off.",
@@ -66,7 +108,13 @@ const TYPES: DcType[] = [
     whoCanUse: "the owner’s own services and its global cloud customers",
     access: "commercial",
     localEconomy: "anchors a cloud-region footprint, but lean permanent headcount",
+    benefitCapture: {
+      who: "the hyperscaler — it owns the compute, so it captures the abatement on the building it occupies",
+      register: "inference",
+    },
+    ladderReach: [0, 3], // broad commercial, but can run FedRAMP / IL5 authorized regions
     evidence: "the 2026-06-04 morning panel — Google/Meta/AWS/Microsoft",
+    evidenceRegister: "verified",
     limaStatus: "open",
     limaNote:
       "Google is the [verified] developer (#234) — but the deed fixes the builder, not the occupant. Whether Google self-runs the Lima halls is open.",
@@ -80,7 +128,13 @@ const TYPES: DcType[] = [
     whoCanUse: "the operator’s tenants, who need not be named on any public record",
     access: "private-tenants",
     localEconomy: "a landlord; the local benefit turns on tenants the public can’t see",
+    benefitCapture: {
+      who: "cannot say — Vantage testified it “cannot say” whether the operator or its unnamed tenants capture the abatement",
+      register: "open",
+    },
+    ladderReach: [0, 4], // tenants are unnamed — could sit anywhere, up to a sealed enclave
     evidence: "Vantage: “I do not know … passed through … or taken advantage by the tenants themselves”",
+    evidenceRegister: "verified",
     limaStatus: "open",
     limaNote:
       "Hyperscale developers do lease capacity. Whether the Lima campus hosts colocation tenants — and who — is open.",
@@ -94,8 +148,14 @@ const TYPES: DcType[] = [
     whoCanUse: "only authorized federal users — FedRAMP, then DoD impact levels IL4–IL6",
     access: "authorized-only",
     localEconomy: "a sealed island: capacity never reaches the open market or the local tech cluster",
+    benefitCapture: {
+      who: "the federal government / defense — a sealed federal supply chain; no local capture, and no public record of who",
+      register: "open",
+    },
+    ladderReach: [2, 4], // IL4 → IL6: authorized federal users only, the sealed top of the ladder
     evidence:
       "AWS named the Department of War and the CIA before the committee; the DoD CC SRG; Google’s air-gapped appliance holds IL5",
+    evidenceRegister: "verified",
     limaStatus: "open",
     limaNote:
       "The sharpest [open] facet. The PRR for County ⇄ DoD/GDLS comms returned “no records”; Google’s own testimony omits Lima. An absence is not a finding.",
@@ -109,6 +169,18 @@ export function buildEndUse(): EndUseData {
       "The developer is Google ([verified], #234), and the campus is real and large. The industry’s own testimony establishes the taxonomy above.",
     openQuestion:
       "Which of these the Lima campus is — and who can use it. Confirming the customer did not resolve the use.",
+    silences: [
+      {
+        label: "Google’s own testimony omits Lima",
+        note: "Google described its data-center business to the committee without naming the Lima campus. A choice of what to say is not a finding about what Lima is.",
+        register: "open",
+      },
+      {
+        label: "PRR item 2 — “no records”",
+        note: "The public-records request for County ⇄ DoD / GDLS communications returned “no records.” An absence in the file is not evidence of a connection — and not evidence against one.",
+        register: "open",
+      },
+    ],
   };
 }
 
