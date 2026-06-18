@@ -1829,6 +1829,15 @@ a.walk-dot:hover { opacity: 0.82; }
 .pdfjs-pages { display: flex; flex-direction: column; gap: 0.7rem; max-height: 80vh; overflow: auto; }
 .pdfjs-page { max-width: 100%; height: auto; border: 1px solid var(--bosc-rule); box-shadow: 0 1px 5px rgba(20, 24, 40, 0.08); }
 
+/* Compact embed (the teardown source card, #284): a card-sized preview, not the
+   full-height viewer. The PDF.js reader + download affordances are unchanged. */
+.docview--compact .docview-object, .docview--compact .docview-frame { height: 320px; }
+.docview--compact .docview-img { max-height: 320px; width: auto; }
+.docview--compact .docview-pre { max-height: 300px; }
+.docview--compact .pdfjs-pages { max-height: 360px; }
+.td-srcdoc { margin-top: 0.2rem; }
+.td-srcdoc-link { font-size: 0.78rem; }
+
 /* ===========================================================================
    Record Screen (/site/records/<group>/<id>, #193): breadcrumb → the record
    (full block) → the teardown flow, with a no-JS CSS layout toggle.

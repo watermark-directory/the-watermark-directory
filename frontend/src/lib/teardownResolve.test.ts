@@ -9,7 +9,7 @@ import type { TeardownRecord } from "./teardown";
 // with a clean registry (same harness as bundle.test.ts).
 const tmpDirs: string[] = [];
 
-function makeBundle(records: object[], concepts: object[] = []): string {
+function makeBundle(records: object[], concepts: object[] = [], documents: object[] = []): string {
   const dir = mkdtempSync(join(tmpdir(), "bosc-td-"));
   tmpDirs.push(dir);
   const feeds = [
@@ -29,6 +29,14 @@ function makeBundle(records: object[], concepts: object[] = []): string {
       kind: "collection",
       count: concepts.length,
     },
+    {
+      name: "documents",
+      path: "documents.json",
+      media_type: "application/json",
+      schema: "s",
+      kind: "collection",
+      count: documents.length,
+    },
   ];
   writeFileSync(
     join(dir, "manifest.json"),
@@ -43,7 +51,28 @@ function makeBundle(records: object[], concepts: object[] = []): string {
   );
   writeFileSync(join(dir, "records.json"), JSON.stringify(records));
   writeFileSync(join(dir, "concepts.json"), JSON.stringify(concepts));
+  writeFileSync(join(dir, "documents.json"), JSON.stringify(documents));
   return dir;
+}
+
+/** A documents-feed collection wrapping one entry (the join target for #284). */
+function docCollection(entry: object): object {
+  return { slug: "recorder", title: "Recorder", description: "", entries: [entry] };
+}
+
+function docEntry(rel: string, overrides: object = {}): object {
+  return {
+    rel,
+    name: rel.split("/").pop(),
+    size_bytes: 1024,
+    suffix: "pdf",
+    media_type: "application/pdf",
+    render_class: "pdf",
+    published: false,
+    available: true,
+    download_url: null,
+    ...overrides,
+  };
 }
 
 async function loadResolver(dir: string): Promise<typeof import("./teardownResolve")> {
@@ -178,6 +207,49 @@ describe("resolveTeardown — source viewer + links", () => {
     );
     expect(res.teardown.connect[0].href).toContain("/wiki/concepts/7q10");
     expect(res.teardown.connect[1].href).toBeUndefined();
+  });
+});
+
+describe("resolveTeardown — source document join (#284)", () => {
+  const REC = {
+    rel: "recorder/deed.yaml",
+    group: "deeds",
+    title: "Deed",
+    warnings: [],
+    fields: { instrument_type: "Deed" },
+    approximate_paths: [],
+    citation: { source: "recorder/deed.yaml", source_kind: "document", verified: true },
+    source_doc_rel: "recorder/bistrozzi-deeds/the-deed.pdf",
+    source_doc_render_class: "pdf",
+    source_doc_published: true,
+  };
+
+  it("resolves the record's real source document from the catalog", async () => {
+    const bundle = makeBundle(
+      [REC],
+      [],
+      [docCollection(docEntry("recorder/bistrozzi-deeds/the-deed.pdf", { published: true }))],
+    );
+    const { resolveTeardown } = await loadResolver(bundle);
+    const res = resolveTeardown(teardown({ recordRel: "recorder/deed.yaml" }));
+    expect(res.sourceDoc?.rel).toBe("recorder/bistrozzi-deeds/the-deed.pdf");
+    expect(res.sourceDoc?.render_class).toBe("pdf");
+    expect(res.sourceDoc?.published).toBe(true);
+  });
+
+  it("is null when the source isn't catalogued", async () => {
+    const { resolveTeardown } = await loadResolver(makeBundle([REC], [], []));
+    expect(resolveTeardown(teardown({ recordRel: "recorder/deed.yaml" })).sourceDoc).toBeNull();
+  });
+
+  it("is null for a connector-only record (no source_doc_rel)", async () => {
+    const bundle = makeBundle(
+      [{ ...REC, source_doc_rel: null }],
+      [],
+      [docCollection(docEntry("recorder/bistrozzi-deeds/the-deed.pdf"))],
+    );
+    const { resolveTeardown } = await loadResolver(bundle);
+    expect(resolveTeardown(teardown({ recordRel: "recorder/deed.yaml" })).sourceDoc).toBeNull();
   });
 });
 

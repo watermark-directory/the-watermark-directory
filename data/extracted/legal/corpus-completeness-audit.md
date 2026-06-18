@@ -8,6 +8,13 @@
 
 **The archive itself is in good shape; what's "missing" is mostly what the county hasn't produced.** Provenance is clean (94 distinct source PDFs cited across the extractions, 0 genuinely absent). The PRR production binaries are all present. The substantive holes are the records the county **deferred or withheld** — above all the entire **county-wastewater engineering universe (PRR items 5–15)** and the **item-4 cost-benefit analysis** — plus a modest set of corpus-hygiene issues in the minutes series (publication lag + ~12 malformed/misfiled filenames), none of which indicate lost evidence. A separate, newer thread (§2) tracks **watershed/conservation grant docs** worth digging up — the primary instruments behind a $650k Lost Creek (Maumee-headwater) ag-runoff grant whose SWCD summary is now in the corpus. A third thread (**§4**) tracked the **OEPA air permit P0138965** — the secondhand-cited keystone behind the disclosed **313 MW** power figure, and the expected source of the **three-hall building footprint** — which has now been **ingested (2026-06-15)**: the 2026-05-28 **final** PTI (eDoc `4132514`) confirms the genset count and three-hall emission-unit grouping on a primary footing, though the per-engine ekW behind 313 MW remains trade-secret-redacted (see §4).
 
+> **Publishing vs. holding.** What the corpus *contains* (this audit) is separate from
+> what the **public** site *serves*. Every source document is default-deny on the public
+> surface until a [document publication review](../../../docs/legal/document-publication-review.md)
+> (epic #274 / #281) clears its rel for the
+> [publish allowlist](../../site/published-documents.yaml) — a PII/legal-status pass, not
+> byte redaction (chain of custody is immutable).
+
 ---
 
 ## 1. Substantively missing — records the county has NOT produced
