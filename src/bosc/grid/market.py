@@ -36,6 +36,7 @@ from bosc.facility.power import derive_power_basis
 from bosc.grid.model import CitedFact
 from bosc.hydrology.model import ProvenancedValue
 from bosc.logging import get_logger
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
@@ -47,12 +48,8 @@ _LOAD_FACTOR_CITE = (
 _DAYS_PER_YEAR = 365.0
 
 # --- Transcribed PJM published figures (verify / regenerate via PJM Data Miner 2) ----
-# Zonal LMP: AEP zone average annual locational marginal price.
-_AEP_LMP_USD_MWH = 35.0
-_AEP_LMP_CITE = (
-    "PJM Data Miner 2 da_hrl_lmps, AEP zone ~2024 annual average ($/MWh); "
-    "transcribed published figure - verify (regenerate via PJM Data Miner 2)"
-)
+# Zonal LMP: the site's pricing-zone average annual locational marginal price + its cite are
+# per-site (active SiteProfile: lmp_usd_mwh / lmp_citation; Lima = AEP zone).
 # Capacity (RPM): 2025/2026 Base Residual Auction RTO-wide clearing price, a major
 # spike from the prior 2024/2025 delivery year.
 _RPM_CLEARING_USD_MW_DAY = 269.92
@@ -127,8 +124,9 @@ class PjmMarketScenario(BaseModel):
     caveats: list[str] = []
 
 
-def _market_reference() -> PjmMarketReference:
+def _market_reference(settings: Settings) -> PjmMarketReference:
     """Assemble the transcribed PJM published figures (reference inputs)."""
+    prof = active_profile(settings)
     return PjmMarketReference(
         rto=CitedFact(
             value="PJM Interconnection (RTO/ISO)",
@@ -143,7 +141,7 @@ def _market_reference() -> PjmMarketReference:
             confidence="medium",
         ),
         zonal_lmp_usd_mwh=ProvenancedValue.from_reference(
-            _AEP_LMP_USD_MWH, "USD/MWh", citation=_AEP_LMP_CITE, confidence="medium"
+            prof.lmp_usd_mwh, "USD/MWh", citation=prof.lmp_citation, confidence="medium"
         ),
         rpm_clearing_usd_mw_day=ProvenancedValue.from_reference(
             _RPM_CLEARING_USD_MW_DAY,
@@ -177,7 +175,7 @@ def derive_pjm_market_scenario(*, settings: Settings | None = None) -> PjmMarket
     """
     settings = settings or get_settings()
     power = derive_power_basis(settings=settings)
-    ref = _market_reference()
+    ref = _market_reference(settings)
 
     draw_mw = power.facility_draw.value
     consumption_mwh = draw_mw * _HOURS_PER_YEAR * _LOAD_FACTOR

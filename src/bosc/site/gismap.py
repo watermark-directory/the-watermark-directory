@@ -18,6 +18,7 @@ from typing import TYPE_CHECKING, Any
 
 from bosc.config import Settings, get_settings
 from bosc.site.feeds import GeoFeature, GeoFeatureCollection, GeoProperties
+from bosc.sites import active_profile
 
 if TYPE_CHECKING:
     from bosc.hydrology.toxics import ToxicDischargeInventory
@@ -189,7 +190,7 @@ _MAP_HTML = """
         { "RSEI toxic-release facilities": rsei }
       ).addTo(map);
       try { map.fitBounds(corridor.getBounds(), { padding: [20, 20] }); }
-      catch (e) { map.setView([40.792, -84.122], 14); }
+      catch (e) { map.setView(__MAP_VIEW__); }
     });
   }
   init();
@@ -317,8 +318,9 @@ def _wayback_base_js() -> str:
     return ", ".join(f'"Aerial {label}": wb_{rel}' for label, rel in reversed(_WAYBACK))
 
 
-def render_gis_map(geojson_path: Path) -> str:
+def render_gis_map(geojson_path: Path, *, settings: Settings | None = None) -> str:
     """Render the GIS map page markdown from the committed findings GeoJSON."""
+    prof = active_profile(settings or get_settings())
     fc = json.loads(geojson_path.read_text(encoding="utf-8"))
     counts = Counter(f.get("properties", {}).get("layer") for f in fc.get("features", []))
     sources = fc.get("meta", {}).get("sources", [])
@@ -365,6 +367,10 @@ def render_gis_map(geojson_path: Path) -> str:
         _MAP_HTML.replace("__STYLES__", _style_js())
         .replace("__WAYBACK_VARS__", _wayback_layers_js())
         .replace("__WAYBACK_BASE__", _wayback_base_js())
+        .replace(
+            "__MAP_VIEW__",
+            f"[{prof.map_view_lat}, {prof.map_view_lon}], {prof.map_view_zoom}",
+        )
         .strip(),
         "",
         "## Layers",

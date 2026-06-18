@@ -116,7 +116,7 @@ PROFILE_SETTINGS_FIELDS: tuple[str, ...] = (
 # see tests/test_sites.py for the zero-drift golden snapshot.
 _LIMA = SiteProfile(
     slug="lima",
-    place="Lima, OH",
+    place="Lima",
     basin="maumee",
     # config knobs
     nwis_sites=["04187100", "04186500"],

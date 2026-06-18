@@ -153,17 +153,18 @@ def load_corridor_ddf(*, settings: Settings | None = None) -> CorridorDdf | None
 def build_corridor_ddf(*, settings: Settings | None = None) -> CorridorDdf:
     """Pull the design-relevant Atlas-14 slice for the corridor from the connector."""
     from bosc.hydrology.connectors.noaa_atlas14 import precip_frequency_grid
-    from bosc.hydrology.stormwater import CORRIDOR_LAT, CORRIDOR_LON
+    from bosc.sites import active_profile
 
     settings = settings or get_settings()
-    grid = precip_frequency_grid(lat=CORRIDOR_LAT, lon=CORRIDOR_LON, settings=settings)
+    prof = active_profile(settings)
+    grid = precip_frequency_grid(lat=prof.design_lat, lon=prof.design_lon, settings=settings)
     depths = {
         dur: {str(rp): round(grid[dur][rp], 2) for rp in _DDF_RETURN_PERIODS}
         for dur in _DDF_DURATIONS
     }
     return CorridorDdf(
-        latitude=CORRIDOR_LAT,
-        longitude=CORRIDOR_LON,
+        latitude=prof.design_lat,
+        longitude=prof.design_lon,
         durations=list(_DDF_DURATIONS),
         return_periods=list(_DDF_RETURN_PERIODS),
         depths_in=depths,

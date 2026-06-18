@@ -19,7 +19,7 @@ import yaml
 
 from bosc.config import Settings, get_settings
 from bosc.hydrology.assimilative import check_assimilative
-from bosc.hydrology.balance import _OTTAWA_AT_LIMA, build_water_balance
+from bosc.hydrology.balance import build_water_balance
 from bosc.hydrology.connectors.nwis import DISCHARGE_CFS, fetch_streamflow
 from bosc.hydrology.cooling import derive_cooling_basis
 from bosc.hydrology.lowflow import low_flow_context, low_flow_for
@@ -34,6 +34,7 @@ from bosc.hydrology.model import (
 )
 from bosc.hydrology.units import mgd_to_cfs
 from bosc.logging import get_logger
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
@@ -122,7 +123,9 @@ def _ottawa_live(*, settings: Settings, live: bool) -> ProvenancedValue | None:
     if not live:
         return None
     try:
-        readings = fetch_streamflow(sites=[_OTTAWA_AT_LIMA], settings=settings)
+        readings = fetch_streamflow(
+            sites=[active_profile(settings).abstraction_gage], settings=settings
+        )
     except Exception as exc:
         log.info("hydro.scenario.no_live", error=type(exc).__name__)
         return None
