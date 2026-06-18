@@ -142,8 +142,11 @@ docs/             project notes + narrative prose (also the new site's content)
 
 The presentation tier of the two-tier site refactor (Epic #54): an
 [Astro](https://astro.build) + MDX static app that reads the committed content
-bundle (the JSON feeds `bosc export` emits) at build time and renders the four-
-section site, with deck.gl map/graph visualizations as the only React islands.
+bundle (the JSON feeds `bosc export` emits) at build time, with deck.gl map/graph
+visualizations as the only React islands. It's structured as **the BOSC network**
+(Epic #308) — one build hosting a network of watershed-point sites: Lima (the live
+reference build) is re-rooted under `/bosc`, with cross-cutting pages (about, wiki,
+ask, search, the network hub) global at the root and a topbar switcher between sites.
 It's a self-contained Node project — `mise run frontend` (or `cd frontend &&
 npm ci && npm run build`) builds it offline against `frontend/sample-bundle/`,
 no Python or LFS needed. It's built **alongside** the legacy SSG and deploys to
