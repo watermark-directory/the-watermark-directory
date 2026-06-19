@@ -11,6 +11,11 @@ import Base from "../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../lib/bundle";
 import type { BasinNetwork, WatershedNode } from "../../lib/feeds";
 import { withBase } from "../../lib/site";
+import { SITES } from "../../lib/sites";
+
+// Link each node to its real registry destination (Lima -> the live /bosc build; the rest ->
+// their /network/<slug> coming-soon page) — never a constructed /network/lima that 404s.
+const nodeHref = (slug: string): string => SITES.find((s) => s.slug === slug)?.href ?? `/network/${slug}`;
 
 const net = hasFeed("network") ? loadFeed<BasinNetwork>("network") : null;
 const nodes: WatershedNode[] = net?.nodes ?? [];
@@ -77,7 +82,7 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
                 <span class="topo-river">{g.subtree}</span>
                 <span class="topo-members">
                   {g.members.map((m) => (
-                    <a class="topo-node" href={withBase(`/network/${m.slug}`)}>
+                    <a class="topo-node" href={withBase(nodeHref(m.slug))}>
                       {m.place}
                     </a>
                   ))}
@@ -88,7 +93,7 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
               <span class="topo-arrow">&rarr;</span>
               {collectors.map((c) => (
                 <span class="topo-collector">
-                  <a class="topo-node is-collector" href={withBase(`/network/${c.slug}`)}>
+                  <a class="topo-node is-collector" href={withBase(nodeHref(c.slug))}>
                     {c.place}
                   </a>
                   <span class="topo-arrow">&rarr;</span>
@@ -131,7 +136,7 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
                 {nodes.map((n) => (
                   <tr>
                     <td>
-                      <a href={withBase(`/network/${n.slug}`)}>{n.place}</a>
+                      <a href={withBase(nodeHref(n.slug))}>{n.place}</a>
                       {n.activity.has_disclosed_facility && <span class="dc-tag">DC</span>}
                     </td>
                     <td class="dim">{n.subtree} &rarr; {n.downstream}</td>
