@@ -968,12 +968,118 @@ _TOLEDO = SiteProfile(
 )
 
 
+# The Maumee-mainstem comparator: Defiance, OH (#238). The Defiance WWTP (12.0 MGD, NPDES
+# OH0024899) discharges to the **Maumee mainstem** right at the Maumee/Auglaize/Tiffin
+# confluence — where the river carries far more flow than Lima's tributaries, so the screen
+# reads "tight" (~6.2:1) rather than violation (docs/bigger-picture.md §2): the cleanest test
+# of "is Lima's tributary siting what drives its violation?". A *coming-soon* point. Served by
+# Toledo Edison (FirstEnergy / PJM ATSI, EIA #18997 — same as Toledo, the largest IOU in
+# Defiance County), so it reuses the non-AEP grid path (#236) and stays in Ohio (PUCO, the
+# Ohio LSC). Geography is sourced + cited; the data-center dimension and facility-specific
+# model inputs stay `[open]` until a site is identified.
+_DEFIANCE = SiteProfile(
+    slug="defiance",
+    place="Defiance",
+    basin="maumee",  # [verified] Maumee mainstem at the Auglaize/Tiffin confluence; HUC-8 04100009
+    # config knobs
+    nwis_sites=[
+        "04192500",  # [verified] Maumee River near Defiance OH (the mainstem receiving reach, below the confluence)
+        "04191500",  # [verified] Auglaize River near Defiance OH (the major tributary joining at Defiance)
+    ],
+    nasa_power_lat=41.2868,  # [verified] Defiance city centroid (OSM admin boundary; Defiance County)
+    nasa_power_lon=-84.3621,
+    rsei_fips="39039",  # [verified] Defiance County, OH
+    econ_fips="39039",
+    eia861_utility_number=18997,  # [reference] The Toledo Edison Co (FirstEnergy) — largest IOU in Defiance Co
+    eia_state="OH",
+    # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
+    # a follow-up live metadata read (Defiance County GIS + City of Defiance GIS).
+    parcels_url="TODO",  # [open] pending the Defiance County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Defiance GIS REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gis_parcel=None,  # [open] pending Defiance County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Defiance zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "defiance-gis"}),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32616,  # [verified] UTM 16N (Defiance ~84.36 degW; zone 16 spans 90-84 degW)
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima
+    # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
+    design_lat=41.2868,  # [verified] city centroid = NOAA Atlas-14 point
+    design_lon=-84.3621,
+    corridor_name="Maumee-Auglaize confluence corridor",  # [inference] the Maumee mainstem reach at Defiance
+    dominant_hsg="D",  # [inference] Defiance Co Maumee lake-plain Black Swamp clays (Hoytville/Nappanee) → HSG D
+    hsg_citation=(
+        "Defiance County, OH dominant hydrologic soil group D — very-poorly-drained Great Black "
+        "Swamp lake-plain clays (Hoytville/Nappanee/Paulding; NRCS Soil Survey of Defiance County); "
+        "[inference] pending an SSURGO area-weighted confirmation (onboard SSURGO step needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={  # [reference] NOAA Atlas-14 Vol 2 (Ohio River Basin) PDS at 41.2868/-84.3621
+        1: 2.06,
+        2: 2.48,
+        5: 3.08,
+        10: 3.57,
+        25: 4.26,
+        50: 4.82,
+        100: 5.41,
+        200: 6.03,
+        500: 6.90,
+        1000: 7.60,
+    },
+    parcels_relpath="reference/defiance/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/defiance/bosc-site-footprint.yaml",  # [open] pending an identified site
+    # per-site onboard reach outputs (slug-scoped — never clobber the other sites)
+    climatology_relpath="reference/hydrology/defiance/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/defiance/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/defiance/baseline.yaml",
+    rsei_relpath="reference/rsei/defiance/inventory.yaml",
+    consumer_energy_relpath="reference/eia/defiance/consumer-energy.yaml",
+    grid_relpath="reference/eia/defiance/grid-profile.yaml",
+    # toxics (no identified industrial corridor yet)
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # [open] pending an identified corridor on the Maumee
+    receiving_water_name="Maumee River",  # [verified: ECHO] Defiance WWTP OH0024899 → Maumee River (mainstem)
+    # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
+    plant_receiving={},  # [open] pending Defiance-area WWTP NPDES fact sheets
+    abstraction_gage="04192500",  # [inference] the Maumee-near-Defiance mainstem gage (below the confluence)
+    # refill (the water-balance supply model is not yet designed for Defiance)
+    supply_gage_primary="TODO",  # [open] refill supply gage — pending the site's water-balance model
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,  # [open] in-stream passby minimums — pending the model
+    passby_secondary_cfs=0.0,
+    # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
+    facility=None,  # [open] the data-center dimension onboarding doesn't capture (no disclosed facility)
+    serving_utility_source="reference",  # not corpus-grounded — EIA-861/PUCO record
+    serving_utility_citation=(  # [reference] not corpus
+        "EIA-861 service-territory file (The Toledo Edison Co #18997, a FirstEnergy operating "
+        "company; the largest IOU in Defiance County) + PUCO certified-territory; the City of "
+        "Defiance electric-aggregation program rides Toledo Edison distribution"
+    ),
+    # grid (Toledo Edison is in PJM's ATSI / FirstEnergy zone — same non-AEP path as Toledo)
+    lmp_usd_mwh=35.0,  # [inference] PJM ATSI-zone placeholder — verify via PJM Data Miner 2 (not the AEP value)
+    lmp_citation=(
+        "PJM ATSI zone (FirstEnergy / Toledo Edison) ~2024 annual average LMP ($/MWh) via PJM Data "
+        "Miner 2 da_hrl_lmps; [inference] not the AEP-zone value used by the AEP OH sites — verify"
+    ),
+    # rsei
+    county_name="Defiance County, OH",  # [verified]
+    # map
+    map_view_lat=41.2868,
+    map_view_lon=-84.3621,
+    map_view_zoom=12,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
     _FORT_WAYNE.slug: _FORT_WAYNE,
     _VAN_WERT.slug: _VAN_WERT,
     _TOLEDO.slug: _TOLEDO,
+    _DEFIANCE.slug: _DEFIANCE,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so

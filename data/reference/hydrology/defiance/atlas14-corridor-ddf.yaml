@@ -1,0 +1,47 @@
+meta:
+  subject: NOAA Atlas-14 design-storm depths — Maumee–Auglaize confluence corridor
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  point:
+    latitude: 41.2868
+    longitude: -84.3621
+  units: inches (point precipitation depth)
+ddf:
+  latitude: 41.2868
+  longitude: -84.3621
+  durations:
+  - 60-min
+  - 6-hr
+  - 12-hr
+  - 24-hr
+  return_periods:
+  - 2
+  - 10
+  - 25
+  - 50
+  - 100
+  depths_in:
+    60-min:
+      '2': 1.26
+      '10': 1.84
+      '25': 2.18
+      '50': 2.45
+      '100': 2.73
+    6-hr:
+      '2': 1.83
+      '10': 2.68
+      '25': 3.23
+      '50': 3.68
+      '100': 4.17
+    12-hr:
+      '2': 2.12
+      '10': 3.09
+      '25': 3.72
+      '50': 4.25
+      '100': 4.82
+    24-hr:
+      '2': 2.48
+      '10': 3.57
+      '25': 4.26
+      '50': 4.82
+      '100': 5.41
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
