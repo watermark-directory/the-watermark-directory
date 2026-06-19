@@ -19,6 +19,7 @@ Customers" file (:mod:`bosc.grid.eia861`), and the PJM annual demand from EIA-93
 from __future__ import annotations
 
 from pathlib import Path
+from typing import NamedTuple
 
 import yaml
 
@@ -65,13 +66,63 @@ _RETAIL_REGULATOR: dict[str, tuple[str, str]] = {
 }
 
 
+class _UtilityGrid(NamedTuple):
+    """A serving utility's parent + PJM market-zone provenance (the non-connector chain)."""
+
+    holding_company: str
+    holding_citation: str
+    ba_citation: str
+    rto_citation: str
+
+
+# Per-utility holding company + PJM transmission-zone provenance, keyed by EIA-861 utility
+# number. The AEP-family utilities (Ohio Power #14006 for Lima/Findlay/Van Wert, Indiana
+# Michigan Power #9324 for Fort Wayne) share the AEP parent; The Toledo Edison Co #18997 is
+# FirstEnergy (the PJM **ATSI** zone, not AEP) — the first registered non-AEP utility. An
+# unlisted utility falls back to a zone-agnostic PJM phrasing keyed off the EIA-861 name.
+_UTILITY_GRID: dict[int, _UtilityGrid] = {
+    14006: _UtilityGrid(
+        holding_company="American Electric Power (AEP)",
+        holding_citation="AEP Ohio is the Ohio operating company of American Electric Power",
+        ba_citation="AEP's Ohio (AEP/APS) transmission zone is within the PJM RTO footprint",
+        rto_citation="PJM is the FERC-jurisdictional wholesale-market RTO for AEP Ohio",
+    ),
+    9324: _UtilityGrid(
+        holding_company="American Electric Power (AEP)",
+        holding_citation="Indiana Michigan Power (I&M) is an AEP operating company",
+        ba_citation="Indiana Michigan Power's transmission zone is within the PJM RTO footprint",
+        rto_citation="PJM is the FERC-jurisdictional wholesale-market RTO for Indiana Michigan Power",
+    ),
+    18997: _UtilityGrid(
+        holding_company="FirstEnergy Corp",
+        holding_citation="Toledo Edison is an Ohio operating company of FirstEnergy Corp",
+        ba_citation="Toledo Edison's ATSI (FirstEnergy) transmission zone is within the PJM RTO footprint",
+        rto_citation="PJM is the FERC-jurisdictional wholesale-market RTO for Toledo Edison (ATSI zone)",
+    ),
+}
+
+
+def _utility_grid(utility_number: int, utility_name: str) -> _UtilityGrid:
+    """Parent/zone provenance for a utility; a generic PJM fallback for an unlisted one."""
+    known = _UTILITY_GRID.get(utility_number)
+    if known is not None:
+        return known
+    return _UtilityGrid(
+        holding_company=utility_name,
+        holding_citation=f"{utility_name} parent/holding company — identified from the EIA-861 record",
+        ba_citation=f"{utility_name}'s transmission zone is within the PJM RTO footprint",
+        rto_citation=f"PJM is the FERC-jurisdictional wholesale-market RTO for {utility_name}",
+    )
+
+
 def _serving_utility(settings: Settings, utility_name: str) -> ServingUtility:
     """The cited serving-utility chain. The utility *name* is connector-sourced (EIA-861);
     its *provenance* (source + citation) is per-site — a corpus document for Lima, the
     EIA-861 service-territory record for a site without corpus coverage. The retail regulator
-    is per-state (:data:`_RETAIL_REGULATOR`). The holding company / RTO assume an AEP / PJM
-    utility (true for every site registered today: AEP Ohio for Lima/Findlay, I&M for Fort
-    Wayne — both AEP, both PJM); a non-AEP/PJM utility would parameterize these too.
+    is per-state (:data:`_RETAIL_REGULATOR`) and the holding company / market zone are
+    per-utility (:data:`_UTILITY_GRID`): AEP for Lima/Findlay/Van Wert (#14006) and Fort
+    Wayne's I&M (#9324), FirstEnergy/ATSI for Toledo's Toledo Edison (#18997). RTO is PJM
+    for every registered site; an unlisted utility gets a generic PJM fallback.
     """
     prof = active_profile(settings)
     reg_value, reg_citation = _RETAIL_REGULATOR.get(
@@ -84,6 +135,7 @@ def _serving_utility(settings: Settings, utility_name: str) -> ServingUtility:
     reg_short = (
         reg_value[reg_value.find("(") + 1 : reg_value.rfind(")")] if "(" in reg_value else reg_value
     )
+    grid = _utility_grid(prof.eia861_utility_number, utility_name)
     # Provenance grounding follows the per-site serving_utility source: Lima's is a corpus
     # document (the AEP-Ohio tariff in the relator appendix); a site without corpus coverage is
     # grounded in the EIA-861 service-territory record instead.
@@ -100,21 +152,21 @@ def _serving_utility(settings: Settings, utility_name: str) -> ServingUtility:
             confidence="high",
         ),
         holding_company=CitedFact(
-            value="American Electric Power (AEP)",
+            value=grid.holding_company,
             source="reference",
-            citation="AEP Ohio is the Ohio operating company of American Electric Power",
+            citation=grid.holding_citation,
             confidence="high",
         ),
         balancing_authority=CitedFact(
             value="PJM Interconnection",
             source="reference",
-            citation="AEP's Ohio (AEP/APS) transmission zone is within the PJM RTO footprint",
+            citation=grid.ba_citation,
             confidence="high",
         ),
         rto=CitedFact(
             value="PJM Interconnection (RTO/ISO)",
             source="reference",
-            citation="PJM is the FERC-jurisdictional wholesale-market RTO for AEP Ohio",
+            citation=grid.rto_citation,
             confidence="high",
         ),
         retail_regulator=CitedFact(

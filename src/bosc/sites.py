@@ -859,11 +859,121 @@ _VAN_WERT = SiteProfile(
 )
 
 
+# The tidal/lake comparator: Toledo, OH — the Lower Maumee at Lake Erie (#236). Where Lima
+# discharges to tiny tributaries and Fort Wayne to the headwaters, the Lucas Co WRRF (22.5 MGD,
+# NPDES OH0034223) discharges to the **tidal lower Maumee** at the lake — a fundamentally
+# different dilution regime (the "is Lima's tributary siting the outlier?" contrast). A
+# *coming-soon* point. The first Ohio site **not on AEP**: Toledo Edison (FirstEnergy, EIA
+# #18997) in PJM's **ATSI** zone — so it exercises the grid connector across a utility/holding-
+# company/market-zone boundary the AEP sites (Lima/Findlay/Van Wert) never do, while staying in
+# Ohio (PUCO, the Ohio LSC). Geography is sourced + cited; the data-center dimension and
+# facility-specific model inputs stay `[open]` until a site is identified.
+_TOLEDO = SiteProfile(
+    slug="toledo",
+    place="Toledo",
+    basin="maumee",  # [verified] Lower Maumee → Lake Erie; HUC-8 04100009 (Lucas Co WRRF discharge)
+    # config knobs
+    nwis_sites=[
+        "04193500",  # [verified] Maumee River at Waterville OH (mainstem, long record — the basin 7Q10 ref)
+        "04193990",  # [verified] Maumee River at Anthony Wayne Bridge, Toledo OH (the tidal lower reach)
+    ],
+    nasa_power_lat=41.6529,  # [verified] Toledo city centroid (OSM admin boundary; Lucas County)
+    nasa_power_lon=-83.5378,
+    rsei_fips="39095",  # [verified] Lucas County, OH
+    econ_fips="39095",
+    eia861_utility_number=18997,  # [verified] The Toledo Edison Co (FirstEnergy); EIA-861 2024 States sheet
+    eia_state="OH",
+    # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
+    # a follow-up live metadata read (Lucas County GIS / AREIS + City of Toledo GIS).
+    parcels_url="TODO",  # [open] pending the Lucas County, OH (AREIS) GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Toledo GIS REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gis_parcel=None,  # [open] pending Lucas County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Toledo zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "toledo-gis"}),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (Toledo ~83.54 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima
+    # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
+    design_lat=41.6529,  # [verified] city centroid = NOAA Atlas-14 point
+    design_lon=-83.5378,
+    corridor_name="Lower Maumee / tidal corridor",  # [inference] the tidal Maumee → Lake Erie reach
+    dominant_hsg="D",  # [inference] Lucas Co lake-plain Black Swamp clays (Hoytville/Toledo/Lucas) → HSG D
+    hsg_citation=(
+        "Lucas County, OH dominant hydrologic soil group D — very-poorly-drained Great Black "
+        "Swamp lake-plain clays (Hoytville/Toledo/Lucas series; NRCS Soil Survey of Lucas County); "
+        "[inference] pending an SSURGO area-weighted confirmation (onboard SSURGO step needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={  # [reference] NOAA Atlas-14 Vol 2 (Ohio River Basin) PDS at 41.6529/-83.5378
+        1: 2.01,
+        2: 2.42,
+        5: 3.03,
+        10: 3.53,
+        25: 4.25,
+        50: 4.84,
+        100: 5.47,
+        200: 6.15,
+        500: 7.12,
+        1000: 7.92,
+    },
+    parcels_relpath="reference/toledo/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/toledo/bosc-site-footprint.yaml",  # [open] pending an identified site
+    # per-site onboard reach outputs (slug-scoped — never clobber Lima/Findlay/Fort Wayne/Van Wert)
+    climatology_relpath="reference/hydrology/toledo/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/toledo/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/toledo/baseline.yaml",
+    rsei_relpath="reference/rsei/toledo/inventory.yaml",
+    consumer_energy_relpath="reference/eia/toledo/consumer-energy.yaml",
+    grid_relpath="reference/eia/toledo/grid-profile.yaml",
+    # toxics (no identified industrial corridor yet)
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending an identified corridor on the Lower Maumee
+    receiving_water_name="Maumee River",  # [verified: ECHO] Lucas Co WRRF OH0034223 → Lower Maumee (tidal) → Lake Erie
+    # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
+    plant_receiving={},  # [open] pending Toledo-area WWTP NPDES fact sheets
+    abstraction_gage="04193500",  # [inference] the Maumee-at-Waterville mainstem gage (nearest the WRRF reach)
+    # refill (the water-balance supply model is not yet designed for Toledo)
+    supply_gage_primary="TODO",  # [open] refill supply gage — pending the site's water-balance model
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,  # [open] in-stream passby minimums — pending the model
+    passby_secondary_cfs=0.0,
+    # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
+    facility=None,  # [open] the data-center dimension onboarding doesn't capture (no disclosed facility)
+    serving_utility_source="reference",  # not corpus-grounded — EIA-861/PUCO record
+    serving_utility_citation=(  # [reference] not corpus
+        "EIA-861 service-territory file (The Toledo Edison Co #18997, a FirstEnergy operating "
+        "company) + PUCO certified-territory; Toledo Edison serves the Toledo metro"
+    ),
+    # grid (Toledo Edison is in PJM's ATSI / FirstEnergy zone — NOT the AEP zone of the other OH sites)
+    lmp_usd_mwh=35.0,  # [inference] PJM ATSI-zone placeholder — verify via PJM Data Miner 2 (not the AEP value)
+    lmp_citation=(
+        "PJM ATSI zone (FirstEnergy / Toledo Edison) ~2024 annual average LMP ($/MWh) via PJM Data "
+        "Miner 2 da_hrl_lmps; [inference] not the AEP-zone value used by the other OH sites — verify"
+    ),
+    # rsei
+    county_name="Lucas County, OH",  # [verified]
+    # map
+    map_view_lat=41.6529,
+    map_view_lon=-83.5378,
+    map_view_zoom=12,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
     _FORT_WAYNE.slug: _FORT_WAYNE,
     _VAN_WERT.slug: _VAN_WERT,
+    _TOLEDO.slug: _TOLEDO,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so

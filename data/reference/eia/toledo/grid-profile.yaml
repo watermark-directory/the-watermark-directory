@@ -1,61 +1,62 @@
 serving_utility:
   utility:
-    value: Indiana Michigan Power Co
+    value: The Toledo Edison Co
     source: reference
-    citation: 'EIA-861 service-territory file (Indiana Michigan Power Co #9324, an
-      AEP subsidiary) + Indiana IURC certified-territory; I&M serves the Fort Wayne
-      area'
+    citation: 'EIA-861 service-territory file (The Toledo Edison Co #18997, a FirstEnergy
+      operating company) + PUCO certified-territory; Toledo Edison serves the Toledo
+      metro'
     confidence: high
   holding_company:
-    value: American Electric Power (AEP)
+    value: FirstEnergy Corp
     source: reference
-    citation: Indiana Michigan Power (I&M) is an AEP operating company
+    citation: Toledo Edison is an Ohio operating company of FirstEnergy Corp
     confidence: high
   balancing_authority:
     value: PJM Interconnection
     source: reference
-    citation: Indiana Michigan Power's transmission zone is within the PJM RTO footprint
+    citation: Toledo Edison's ATSI (FirstEnergy) transmission zone is within the PJM
+      RTO footprint
     confidence: high
   rto:
     value: PJM Interconnection (RTO/ISO)
     source: reference
-    citation: PJM is the FERC-jurisdictional wholesale-market RTO for Indiana Michigan
-      Power
+    citation: PJM is the FERC-jurisdictional wholesale-market RTO for Toledo Edison
+      (ATSI zone)
     confidence: high
   retail_regulator:
-    value: Indiana Utility Regulatory Commission (IURC)
+    value: Public Utilities Commission of Ohio (PUCO)
     source: reference
-    citation: Indiana retail electric service is IURC-regulated (intrastate)
+    citation: Ohio retail electric service is PUCO-regulated (intrastate)
     confidence: high
   note: Serving utility is identified from the EIA-861 service-territory file; RTO=PJM
     is authoritative. The retail service-territory boundary is formally confirmed
-    against the EIA-861 territory file / IURC map (#94).
+    against the EIA-861 territory file / PUCO map (#94).
 utility_profile:
-  utility: Indiana Michigan Power Co
+  utility: The Toledo Edison Co
   eia_source: EIA-861 2024 per-utility retail (connector; bundled+delivery total)
   retail_sales_gwh:
-    value: 14997.9
+    value: 11412.9
     unit: GWh/yr
     source: connector
-    citation: EIA-861 2024 Sales to Ultimate Customers, Indiana Michigan Power Co
-      (#9324), IN; bundled + delivery total sales
+    citation: EIA-861 2024 Sales to Ultimate Customers, The Toledo Edison Co (#18997),
+      OH; bundled + delivery total sales
     confidence: high
     asof: null
   customers:
-    value: 482283.0
+    value: 316087.0
     unit: customers
     source: connector
-    citation: EIA-861 2024 Sales to Ultimate Customers, Indiana Michigan Power Co
-      (#9324), IN; bundled + delivery total customers
+    citation: EIA-861 2024 Sales to Ultimate Customers, The Toledo Edison Co (#18997),
+      OH; bundled + delivery total customers
     confidence: high
     asof: null
   avg_price_cents_kwh:
-    value: 11.62
+    value: 16.77
     unit: cents/kWh
     source: connector
-    citation: EIA-861 2024 Sales to Ultimate Customers, Indiana Michigan Power Co
-      (#9324), IN; bundled (full-service) revenue/sales — delivery-only rows exclude
-      generation, so a blended price understates the all-in cost
+    citation: EIA-861 2024 Sales to Ultimate Customers, The Toledo Edison Co (#18997),
+      OH; bundled (full-service) revenue/sales — delivery-only rows exclude generation,
+      so a blended price understates the all-in cost
     confidence: high
     asof: null
 ba_profile:
