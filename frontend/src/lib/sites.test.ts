@@ -29,13 +29,7 @@ describe("sites registry — the BOSC network (#304)", () => {
   it("comingSoonSites() is every non-selectable site, each carrying a tracking issue", () => {
     const soon = comingSoonSites();
     expect(soon.some((s) => s.slug === ACTIVE_SITE_SLUG)).toBe(false);
-    expect(soon.map((s) => s.slug)).toEqual([
-      "fort-wayne",
-      "defiance",
-      "findlay",
-      "toledo",
-      "van-wert",
-    ]);
+    expect(soon.map((s) => s.slug)).toEqual(["fort-wayne", "defiance", "findlay", "toledo", "van-wert"]);
     for (const s of soon) expect(s.issue).toBeTruthy();
   });
 
