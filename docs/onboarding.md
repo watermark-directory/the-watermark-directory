@@ -125,7 +125,7 @@ before promotion:
 2. SSURGO dominant HSG matches the profile, or the profile is updated **with a citation**.
 3. `basin-screen` coverage is sane for the site's receiving waters.
 4. A per-jurisdiction County/City GIS connector exists (the known lift — below).
-5. Self-research first pass run (the seam below; awaits [#247](https://github.com/goedelsoup/bosc/issues/247)).
+5. Self-research first pass reviewed (`bosc onboard <slug> --research`; triage the proposals — see below).
 6. Promotion is a separate manual edit (step 5).
 
 The invariant is also enforced in CI by
@@ -166,21 +166,18 @@ deeper, separate cutover, not part of routine onboarding.
   (the profile already carries its URLs, but the connector code is jurisdiction-shaped). Plan
   for this as the parity bar, not a coming-soon blocker.
 
-## The self-research first pass (a seam — awaits #247)
+## The self-research first pass (`--research`, #247)
 
-The flow is meant to chain a **discipline-bound `bosc.agent` first pass** that investigates
-the new site over the corpus and emits a *proposal* artifact a human triages — the agent
-proposes, never promotes. The run machinery already exists
-([`bosc research run`](../src/bosc/cli.py) → `bosc.research.run.run_research` + `write_run`
-→ a `ResearchRunManifest` under `data/research/<slug>-<date>/`); what's missing is wiring the
-investigative skills + system prompt into the agent ([#247](https://github.com/goedelsoup/bosc/issues/247)).
-Until then this step is documented, not invoked:
+The flow chains a **discipline-bound `bosc.agent` first pass** that investigates the new site
+over the corpus and emits a *proposal* artifact a human triages — the agent proposes, never
+promotes. The investigative skills + system prompt are now wired into the agent
+([#247](https://github.com/goedelsoup/bosc/issues/247)), so onboard runs it as an **opt-in step**:
 
 ```sh
-# after #247:
-bosc research run --topic "onboard <slug>: data-center activity + receiving-water screen"
+bosc onboard <slug> --research
 # -> data/research/<slug>-<date>/{findings.md, manifest.yaml}  (review, then triage proposals)
 ```
 
-When #247 lands, add this call to the onboard chain (or run it alongside) — the proposal
-artifact feeds the step-3 review.
+It's a **paid/online** LLM call (needs `ANTHROPIC_API_KEY`), so it's opt-in and **skips
+cleanly** without a key or under `--offline`. The proposal manifest feeds the step-3 review;
+the equivalent standalone command is `bosc research run --topic "…"`.
