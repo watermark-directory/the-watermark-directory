@@ -226,7 +226,103 @@ _LIMA = SiteProfile(
 )
 
 
-SITES: dict[str, SiteProfile] = {_LIMA.slug: _LIMA}
+# The first cohort watershed point (#237): Findlay, OH on the Blanchard River (a Maumee
+# tributary via the Auglaize). A *coming-soon* point — its watershed identity is sourced and
+# cited below; the facility-specific model inputs (the development land-cover scenario, the
+# toxics corridor, per-WWTP receiving waters, the refill supply gages + passby minimums) stay
+# `TODO` until an actual data-center development site is identified — that's the data-center
+# dimension onboard does not capture, and `bosc onboard findlay --check` tracks the gaps.
+# Provenance tags inline: [verified] cited primary source; [inference] grounded reasoning;
+# [reference] authoritative dataset; [open] genuinely unsourced (a known lift / pending a site).
+_FINDLAY = SiteProfile(
+    slug="findlay",
+    place="Findlay",
+    basin="maumee",  # [verified] Blanchard R. → Auglaize → Maumee → Lake Erie; HUC-8 04100008
+    # config knobs
+    nwis_sites=[
+        "04189000",  # [verified] Blanchard River near Findlay OH (primary, active since 1990; 346 sq mi)
+        "04188496",  # [verified] Eagle Creek above Findlay OH (water-quality super-gage; ~51 sq mi)
+    ],
+    nasa_power_lat=41.0428,  # [verified] Findlay city centroid (Census Gazetteer place 3927048)
+    nasa_power_lon=-83.6422,
+    rsei_fips="39063",  # [verified] Hancock County, OH
+    econ_fips="39063",
+    eia861_utility_number=14006,  # [verified] Ohio Power Co (AEP Ohio); no municipal electric utility
+    eia_state="OH",
+    # GIS (the known lift — a new jurisdiction needs its own connector; see docs/onboarding.md):
+    parcels_url="TODO",  # [open] no public ArcGIS REST parcels — Hancock County is Beacon/Schneider-only; substitute = Ohio statewide parcels (geohio) filtered to 39063
+    zoning_url=(  # [verified] City of Findlay hosted zoning FeatureServer (ArcGIS Online org XMr9uonP553LyU3o)
+        "https://services6.arcgis.com/XMr9uonP553LyU3o/arcgis/rest/services/FindlayZoning/FeatureServer/0"
+    ),
+    floodzone_url="TODO",  # [open] no City flood REST service — source is FEMA NFHL S_FLD_HAZ_AR (needs its own connector)
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (Findlay ~83.64degW; zone 17 spans 84-78degW)
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima
+    # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
+    design_lat=41.0428,  # [verified] city centroid = NOAA Atlas-14 point
+    design_lon=-83.6422,
+    dominant_hsg="D",  # [inference] Great Black Swamp very-poorly-drained clays (Hoytville/Pewamo) → HSG D
+    hsg_citation=(
+        "Hancock County, OH (NRCS area OH063) dominant hydrologic soil group D — very-poorly-"
+        "drained Great Black Swamp clays (Hoytville/Pewamo); NRCS Soil Survey of Hancock County "
+        "2006 + Hoytville OSD; [inference] pending an SSURGO area-weighted confirmation"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={  # [reference] NOAA Atlas-14 Vol 2 v3 (Ohio River Basin) PDS at 41.0428/-83.6422
+        1: 2.04,
+        2: 2.44,
+        5: 3.01,
+        10: 3.48,
+        25: 4.14,
+        50: 4.69,
+        100: 5.26,
+        200: 5.87,
+        500: 6.72,
+        1000: 7.42,
+    },
+    parcels_relpath="reference/findlay/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/findlay/bosc-site-footprint.yaml",  # [open] pending an identified site
+    # per-site onboard reach outputs (slug-scoped — never clobber Lima)
+    climatology_relpath="reference/hydrology/findlay/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/findlay/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/findlay/baseline.yaml",
+    rsei_relpath="reference/rsei/findlay/inventory.yaml",
+    consumer_energy_relpath="reference/eia/findlay/consumer-energy.yaml",
+    grid_relpath="reference/eia/findlay/grid-profile.yaml",
+    # toxics (no identified industrial corridor yet)
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending an identified corridor on the Blanchard
+    receiving_water_name="Blanchard River",  # [verified]
+    # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
+    plant_receiving={},  # [open] pending Findlay-area WWTP NPDES fact sheets
+    abstraction_gage="04189000",  # [inference] the primary Blanchard gage near Findlay
+    # refill (the water-balance supply model is not yet designed for Findlay)
+    supply_gage_primary="TODO",  # [open] refill supply gage — pending the site's water-balance model
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,  # [open] in-stream passby minimums — pending the model
+    passby_secondary_cfs=0.0,
+    # grid (same PJM AEP zone as Lima — Ohio Power Co)
+    lmp_usd_mwh=35.0,  # [inference] shared AEP-zone value with Lima (same utility/zone)
+    lmp_citation=(
+        "PJM AEP zone (Ohio Power Co) ~2024 annual average LMP ($/MWh) via PJM Data Miner 2 "
+        "da_hrl_lmps; same zone as Lima — shared zone value, verify (regenerate via Data Miner 2)"
+    ),
+    # rsei
+    county_name="Hancock County, OH",  # [verified]
+    # map
+    map_view_lat=41.0428,
+    map_view_lon=-83.6422,
+    map_view_zoom=13,
+)
+
+
+SITES: dict[str, SiteProfile] = {_LIMA.slug: _LIMA, _FINDLAY.slug: _FINDLAY}
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so
 # onboarding never overwrites another site's committed data — a profile that copies Lima
