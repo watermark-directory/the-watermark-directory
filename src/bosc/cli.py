@@ -69,6 +69,9 @@ def onboard_cmd(
     dry_run: bool = typer.Option(
         False, "--dry-run", help="Preview the plan (steps + target paths); write nothing."
     ),
+    check: bool = typer.Option(
+        False, "--check", help="Lint the profile (unfilled / copied-from-Lima fields) and exit."
+    ),
 ) -> None:
     """Onboard a watershed-point site: scaffold per-site data + run the reach connectors.
 
@@ -77,11 +80,34 @@ def onboard_cmd(
     parity-gated edit. See docs/onboarding.md.
     """
     from bosc.onboard import onboard_site
+    from bosc.sites import profile_readiness
 
     if slug not in SITES:
         raise typer.BadParameter(
             f"unknown site {slug!r}; known: {sorted(SITES)}", param_hint="slug"
         )
+
+    if check:
+        findings = profile_readiness(slug)
+        if not findings:
+            console.print(
+                f"[green]{slug}: profile looks ready[/] — no unfilled or copied-from-Lima fields."
+            )
+            return
+        placeholders = [f for f in findings if f.kind == "placeholder"]
+        table = Table("field", "issue", "detail")
+        for f in findings:
+            color = "red" if f.kind == "placeholder" else "yellow"
+            table.add_row(f.field, f"[{color}]{f.kind}[/]", f.detail)
+        console.print(table)
+        console.print(
+            f"\n[dim]{len(placeholders)} unfilled, {len(findings) - len(placeholders)} match Lima "
+            "(verify each). 'matches-lima' can be legitimate (e.g. an Ohio site's eia_state).[/]"
+        )
+        if placeholders:
+            raise typer.Exit(1)
+        return
+
     settings = Settings(site=slug, hydro_offline=offline)
     try:
         report = onboard_site(settings=settings, dry_run=dry_run)
@@ -104,6 +130,51 @@ def onboard_cmd(
     console.print(
         "\n[dim]onboard never promotes. When parity is reached, flip status/selectable in "
         "frontend/src/lib/sites.ts by hand (one reviewed edit).[/]"
+    )
+
+
+sites_app = typer.Typer(name="sites", help="Inspect + author the site registry (bosc.sites).")
+app.add_typer(sites_app, name="sites")
+
+
+@sites_app.command("list")
+def sites_list() -> None:
+    """List the registered site profiles (bosc.sites.SITES)."""
+    table = Table("slug", "place", "basin")
+    for slug, prof in SITES.items():
+        table.add_row(slug, prof.place, prof.basin)
+    console.print(table)
+
+
+@sites_app.command("show")
+def sites_show(
+    slug: str = typer.Argument(..., help="Site slug to display."),
+) -> None:
+    """Print a site's resolved SiteProfile."""
+    if slug not in SITES:
+        raise typer.BadParameter(
+            f"unknown site {slug!r}; known: {sorted(SITES)}", param_hint="slug"
+        )
+    prof = SITES[slug]
+    table = Table("field", "value")
+    for name in type(prof).model_fields:
+        table.add_row(name, str(getattr(prof, name)))
+    console.print(table)
+
+
+@sites_app.command("new")
+def sites_new(
+    slug: str = typer.Argument(..., help="New site slug (kebab-case)."),
+    basin: str = typer.Option("maumee", "--basin", help="Basin slug (default: maumee)."),
+) -> None:
+    """Print a paste-ready SiteProfile stub for a new site (output relpaths pre-slug-scoped)."""
+    from bosc.sites import scaffold_profile_src
+
+    if slug in SITES:
+        raise typer.BadParameter(f"site {slug!r} is already registered", param_hint="slug")
+    # soft_wrap so the paste-ready stub isn't re-wrapped to the terminal width.
+    console.print(
+        scaffold_profile_src(slug, basin=basin), markup=False, highlight=False, soft_wrap=True
     )
 
 
