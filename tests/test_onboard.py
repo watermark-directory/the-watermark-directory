@@ -36,11 +36,16 @@ def _fw(monkeypatch) -> None:  # type: ignore[no-untyped-def]
 
 
 def _settings(tmp_path: Path) -> Settings:
+    # Fully offline (hydro + econ + rsei) with empty fixtures dirs, so every connector misses
+    # and records a dry-run — hermetic, no network.
     return Settings(
         site="fw",
         data_dir=tmp_path,
         hydro_offline=True,
-        hydro_fixtures_dir=tmp_path / "no-fixtures",  # deliberately empty -> offline misses
+        hydro_fixtures_dir=tmp_path / "no-fixtures",
+        econ_offline=True,
+        econ_fixtures_dir=tmp_path / "no-fixtures",
+        rsei_offline=True,
     )
 
 
@@ -88,7 +93,7 @@ def test_onboard_run_is_resilient_offline(tmp_path, monkeypatch) -> None:  # typ
         assert step.status in {"ok", "skipped", "dry-run", "error"}
     # The blocking review gate is always emitted, and never auto-promotes.
     assert any("PROMOTION IS A SEPARATE MANUAL EDIT" in c for c in report.review_checklist)
-    assert any("#247" in c for c in report.review_checklist)  # the self-research seam
+    assert any("--research" in c for c in report.review_checklist)  # the self-research step
 
 
 def test_onboard_writes_under_slug_not_lima(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
@@ -126,6 +131,24 @@ def test_dry_run_writes_no_onboarding_doc(tmp_path, monkeypatch) -> None:  # typ
     _fw(monkeypatch)
     onboard_site(settings=_settings(tmp_path), dry_run=True)
     assert not (tmp_path / "extracted" / "fw" / "ONBOARDING.md").exists()
+
+
+def test_research_step_only_when_requested(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    _fw(monkeypatch)
+    # Default: no self-research step.
+    report = onboard_site(settings=_settings(tmp_path))
+    assert not any(s.name == "self-research" for s in report.steps)
+    # --research, but offline (the test settings) -> the step runs and SKIPS cleanly (no key /
+    # no network), never an LLM call or a crash.
+    report = onboard_site(settings=_settings(tmp_path), research=True)
+    research = next(s for s in report.steps if s.name == "self-research")
+    assert research.status == "skipped"
+
+
+def test_dry_run_research_plans_the_step(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    _fw(monkeypatch)
+    report = onboard_site(settings=_settings(tmp_path), dry_run=True, research=True)
+    assert any(s.name == "self-research" and s.status == "dry-run" for s in report.steps)
 
 
 def test_onboard_refuses_colliding_output_paths(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]

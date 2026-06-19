@@ -14,12 +14,14 @@ Preconditions: the site's `SiteProfile` is already registered in `bosc.sites.SIT
 DDF) are slug-scoped via the profile so onboarding never clobbers Lima; basin-level outputs
 (derived 7Q10, ECHO POTW inventory) are shared across Maumee sites by design.
 
-The self-research first pass (Track 2, #247) is a documented seam, not wired here — see
-`docs/onboarding.md`.
+The self-research first pass (Track 2, #247) is wired as the opt-in ``research`` step: the
+discipline-bound agent investigates the new site and writes a proposal artifact under
+``data/research/`` for human triage — see `docs/onboarding.md`.
 """
 
 from __future__ import annotations
 
+import asyncio
 from collections.abc import Callable
 from pathlib import Path
 from typing import Literal
@@ -164,11 +166,15 @@ def _guard_output_paths(slug: str) -> None:
         )
 
 
-def onboard_site(*, settings: Settings | None = None, dry_run: bool = False) -> OnboardReport:
+def onboard_site(
+    *, settings: Settings | None = None, dry_run: bool = False, research: bool = False
+) -> OnboardReport:
     """Onboard the active site (``settings.site``): scaffold + reach connectors + validation.
 
     With ``dry_run`` nothing is written — it resolves and reports the plan (steps + target
-    output paths) so the first run on a cohort site can be previewed safely.
+    output paths) so the first run on a cohort site can be previewed safely. With ``research``
+    the discipline-bound agent (#247) runs a self-research first pass over the new site and
+    writes a proposal artifact for human triage (a paid/online call; opt-in).
     """
     settings = settings or get_settings()
     prof = active_profile(settings)
@@ -183,7 +189,11 @@ def onboard_site(*, settings: Settings | None = None, dry_run: bool = False) -> 
             detail=f"{verb} {len(dirs)} dir(s); {len(readmes)} README(s)",
         )
     ]
-    steps += _planned_steps(settings, prof) if dry_run else _executed_steps(settings, prof)
+    steps += (
+        _planned_steps(settings, prof, research)
+        if dry_run
+        else _executed_steps(settings, prof, research)
+    )
 
     report = OnboardReport(
         slug=prof.slug,
@@ -217,7 +227,7 @@ def render_onboarding_doc(report: OnboardReport) -> str:
         "- [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)\n"
         "- [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile\n"
         "- [ ] **Data-center activity** — extracted permits/records + entity graph "
-        "(corpus extraction + the self-research pass, #247)\n"
+        "(corpus extraction; seed proposals via `bosc onboard --research`, #247)\n"
         "- [ ] **Per-jurisdiction GIS** — parcels/zoning connector (the known lift; see docs/onboarding.md)\n\n"
         "## Last onboard run\n\n"
         "| step | status | output |\n|---|---|---|\n" + rows + "\n\n"
@@ -225,9 +235,9 @@ def render_onboarding_doc(report: OnboardReport) -> str:
     )
 
 
-def _planned_steps(settings: Settings, prof: SiteProfile) -> list[OnboardStep]:
+def _planned_steps(settings: Settings, prof: SiteProfile, research: bool) -> list[OnboardStep]:
     """The connector steps a real run *would* take — target paths, no side effects."""
-    return [
+    steps = [
         OnboardStep(
             name="derive-low-flows",
             status="dry-run",
@@ -278,9 +288,60 @@ def _planned_steps(settings: Settings, prof: SiteProfile) -> list[OnboardStep]:
             output_path=prof.grid_relpath,
         ),
     ]
+    if research:
+        steps.append(
+            OnboardStep(
+                name="self-research",
+                status="dry-run",
+                detail="discipline-bound agent first pass (paid/online)",
+                output_path=f"research/<{prof.slug}-run>/",
+            )
+        )
+    return steps
 
 
-def _executed_steps(settings: Settings, prof: SiteProfile) -> list[OnboardStep]:
+def _research_step(settings: Settings, prof: SiteProfile) -> OnboardStep:
+    """Run the discipline-bound self-research first pass over the new site (#247 seam).
+
+    A paid/online LLM call — skipped cleanly when there's no key or the run is offline. The
+    agent proposes (a manifest under data/research/<slug>-<date>/ for human triage); it never
+    promotes or writes to the corpus.
+    """
+    if settings.hydro_offline or not settings.anthropic_api_key:
+        why = "offline" if settings.hydro_offline else "no ANTHROPIC_API_KEY"
+        return OnboardStep(name="self-research", status="skipped", detail=why)
+
+    from datetime import UTC, datetime
+
+    from bosc.agent.client import ResearchAgent
+    from bosc.research import run_research, run_slug, write_run
+
+    generated_at = datetime.now(UTC).isoformat(timespec="seconds")
+    topic = (
+        f"onboard {prof.slug} ({prof.place}): data-center activity + receiving-water screen "
+        "for a new watershed-point site"
+    )
+    agent = ResearchAgent(settings=settings, max_turns=settings.research_max_turns)
+    manifest = asyncio.run(
+        run_research(
+            topic,
+            generated_at=generated_at,
+            settings=settings,
+            agent=agent,
+            max_proposals=settings.research_max_proposals,
+        )
+    )
+    out_dir = settings.research_dir / run_slug(topic, generated_at)
+    write_run(manifest, out_dir, settings=settings)
+    return OnboardStep(
+        name="self-research",
+        status="ok",
+        detail=f"{len(manifest.proposals)} proposal(s) — triage",
+        output_path=_rel(settings, out_dir),
+    )
+
+
+def _executed_steps(settings: Settings, prof: SiteProfile, research: bool) -> list[OnboardStep]:
     """Run the reach connectors for real, each resilient to an offline/missing-input miss."""
     steps: list[OnboardStep] = []
 
@@ -401,6 +462,10 @@ def _executed_steps(settings: Settings, prof: SiteProfile) -> list[OnboardStep]:
         )
 
     steps.append(_run_step("grid-profile", _grid))
+
+    # Self-research first pass (#247) — opt-in; the discipline-bound agent proposes for triage.
+    if research:
+        steps.append(_run_step("self-research", lambda: _research_step(settings, prof)))
     return steps
 
 
@@ -411,7 +476,7 @@ def _review_checklist(slug: str) -> list[str]:
         "SSURGO dominant HSG matches the profile, or the SiteProfile is updated with a citation.",
         "basin-screen coverage is sane for this site's receiving waters.",
         "A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).",
-        "Self-research first pass run (doc seam; awaits #247 — not wired).",
+        "Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/).",
         f"PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for {slug!r} in "
         "frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build "
         "(/bosc) exists today.",

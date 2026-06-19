@@ -72,6 +72,11 @@ def onboard_cmd(
     check: bool = typer.Option(
         False, "--check", help="Lint the profile (unfilled / copied-from-Lima fields) and exit."
     ),
+    research: bool = typer.Option(
+        False,
+        "--research",
+        help="Also run the discipline-bound self-research first pass (paid/online LLM call).",
+    ),
 ) -> None:
     """Onboard a watershed-point site: scaffold per-site data + run the reach connectors.
 
@@ -110,7 +115,7 @@ def onboard_cmd(
 
     settings = Settings(site=slug, hydro_offline=offline)
     try:
-        report = onboard_site(settings=settings, dry_run=dry_run)
+        report = onboard_site(settings=settings, dry_run=dry_run, research=research)
     except ValueError as exc:  # e.g. per-site output paths collide with another site
         console.print(f"[red]Cannot onboard {slug}:[/] {exc}")
         raise typer.Exit(1) from exc
