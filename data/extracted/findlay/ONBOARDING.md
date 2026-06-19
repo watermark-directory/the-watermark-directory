@@ -7,7 +7,7 @@ Living record for the Findlay watershed point (basin: maumee), scaffolded by `bo
 - [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)
 - [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile
 - [ ] **Data-center activity** — extracted permits/records + entity graph (corpus extraction; seed proposals via `bosc onboard --research`, #247)
-- [ ] **Per-jurisdiction GIS** — parcels/zoning connector (the known lift; see docs/onboarding.md)
+- [x] **Per-jurisdiction GIS** — schema-driven connector wired (#237 / PR #348); zoning-district catalog committed (`reference/findlay-gis/`). Parcels `[open]` (Hancock publishes no ArcGIS-REST layer); floodzone = shared national FEMA NFHL (spatial — pending a site footprint)
 
 ## Last onboard run
 
@@ -24,11 +24,19 @@ Living record for the Findlay watershed point (basin: maumee), scaffolded by `bo
 | consumer-energy | ok | reference/eia/findlay/consumer-energy.yaml |
 | grid-profile | ok | reference/eia/findlay/grid-profile.yaml |
 
+## GIS pulls (manual; not part of `bosc onboard`)
+
+| layer | status | output |
+|---|---|---|
+| zoning catalog | ok (2026-06-19) | reference/findlay-gis/zoning-districts.yaml — 15 districts (dissolved layer, 1 polygon each) |
+| parcels | `[open]` | Hancock County publishes no ArcGIS-REST parcel layer (Beacon/Schneider only) |
+| floodzone | n/a | shared national FEMA NFHL — spatial query; needs an identified site footprint |
+
 ## Review gate (blocking)
 
 - [ ] Every written reference value is reviewed against a cited source (no fabricated values).
 - [ ] SSURGO dominant HSG matches the profile, or the SiteProfile is updated with a citation.
 - [ ] basin-screen coverage is sane for this site's receiving waters.
-- [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
+- [x] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md). Schema-driven (#237); Findlay zoning field-map registered + catalog committed; parcels `[open]`.
 - [ ] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/).
 - [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'findlay' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

@@ -56,6 +56,37 @@ def test_write_cited_zoning_records_the_null(tmp_path: Path) -> None:
     assert len(doc["parcels"]) == 2
 
 
+def _findlay_settings() -> Settings:
+    """Offline settings for the Findlay site (its committed connector fixtures)."""
+    root = Path(__file__).resolve().parents[1]
+    return Settings(
+        data_dir=root / "data",
+        site="findlay",
+        hydro_offline=True,
+        hydro_fixtures_dir=root / "tests" / "fixtures" / "hydrology",
+    )
+
+
+def test_findlay_zoning_catalog_is_a_dissolved_layer() -> None:
+    """The same schema-driven connector reads a *different* jurisdiction (#237).
+
+    Findlay's hosted zoning FeatureServer uses alt field names (FID/Zoning) and is a
+    **dissolved** layer — one polygon per district — so each count is 1. It also carries a
+    leading space on each label (stripped) and one null-zoning polygon (dropped)."""
+    cat = lima_gis.zoning_districts(settings=_findlay_settings())
+    assert len(cat) == 15  # 16 polygons total, the null-zoning one dropped
+    assert all(d.polygon_count == 1 for d in cat)  # dissolved: one polygon per district
+    codes = {d.code for d in cat}
+    assert "Downtown Commercial District" in codes  # leading space stripped, verbatim otherwise
+    assert {"General Industrial", "Parks and Open Space"} <= codes
+
+
+def test_findlay_zoning_has_no_parcel_join() -> None:
+    """The polygon-only Findlay layer refuses a parcel join cleanly (the catalog is the read)."""
+    with pytest.raises(lima_gis.LimaGisError, match="polygon-only"):
+        lima_gis.zoning_for_parcel("12345", settings=_findlay_settings())
+
+
 def test_committed_cited_zoning_is_an_out_of_city_null() -> None:
     """The committed scan records that no cited corridor parcel is city-zoned."""
     path = (
