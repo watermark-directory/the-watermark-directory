@@ -92,6 +92,19 @@ export const SITES: readonly NetworkSite[] = [
     issue: "236",
     href: "/network/toledo",
   },
+  {
+    // Small-stream headwaters comparator: a 4 MGD plant on a small tributary (the
+    // effluent-dominance end of the basin spectrum). Onboarded, not yet built.
+    slug: "van-wert",
+    codename: null,
+    mono: "VWT",
+    place: "Van Wert",
+    basin: "Town Creek · Little Auglaize",
+    status: "open",
+    selectable: false,
+    issue: "363",
+    href: "/network/van-wert",
+  },
 ] as const;
 
 /** This build is the Lima reference build. */
