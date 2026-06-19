@@ -86,7 +86,7 @@ def fetch_population_series(
     settings = settings or get_settings()
     fips = fips or settings.econ_fips
     points: list[PopulationPoint] = []
-    area_name = "Allen County, Ohio"
+    area_name = f"FIPS {fips}"  # overwritten by the Census NAME on the first year
     for year in sorted(years):
         pop, area_name = _fetch_year(year, fips, settings)
         points.append(

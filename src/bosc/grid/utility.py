@@ -44,16 +44,6 @@ _HOURS_PER_YEAR = 8760.0
 _LOAD_FACTOR = 0.9  # data centers run near-flat (shared convention with #91)
 _LOAD_FACTOR_CITE = "data-center capacity utilization ~0.9 (near-flat 24x7); assumption (cf. #91)"
 
-# --- Serving-utility identification citations (corpus + authoritative) --------
-_APPENDIX = (
-    "data/extracted/legal/select-committee-2026/relator-testimony/bosc-data-appendix-2026-06-01.md"
-)
-_UTILITY_CITE = (
-    f"relator data appendix ({_APPENDIX}): the 25 MW threshold 'matches the AEP Ohio "
-    "tariff'; corroborated by Allen County commissioners' minutes (local AEP 3-phase "
-    "service, Res #974-25). Formal confirmation: EIA-861 service territory / PUCO map."
-)
-
 # The AEP-Ohio (EIA-861 per-utility) and PJM (EIA-930 annual) figures are now LIVE
 # connector pulls — fetch_utility_retail (bosc.grid.eia861) + fetch_ba_annual_load
 # (bosc.grid.interchange). Only the Ohio state-retail fallback stays a transcribed const.
@@ -61,12 +51,19 @@ _OH_STATE_RETAIL_GWH = 149_003.0
 _OH_STATE_CITE = "EIA ELEC.SALES.OH-ALL.A 2023 (Ohio total retail electricity sales)"
 
 
-def _serving_utility() -> ServingUtility:
+def _serving_utility(settings: Settings, utility_name: str) -> ServingUtility:
+    """The cited serving-utility chain. The utility *name* is connector-sourced (EIA-861);
+    its *provenance* (source + citation) is per-site — a corpus document for Lima, the
+    EIA-861/PUCO service-territory record for a site without corpus coverage. The holding
+    company / RTO / regulator below assume an AEP-Ohio / PJM / Ohio utility (true for every
+    site registered today); a non-AEP utility would parameterize these too.
+    """
+    prof = active_profile(settings)
     return ServingUtility(
         utility=CitedFact(
-            value="AEP Ohio (Ohio Power Company)",
-            source="document",
-            citation=_UTILITY_CITE,
+            value=utility_name,
+            source=prof.serving_utility_source,
+            citation=prof.serving_utility_citation,
             confidence="high",
         ),
         holding_company=CitedFact(
@@ -118,65 +115,90 @@ def _state_retail_gwh(settings: Settings) -> ProvenancedValue:
 
 
 def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
-    """Assemble the serving utility, the EIA utility/BA profile, and the campus load share."""
+    """Assemble the serving utility, the EIA utility/BA profile, and the campus load share.
+
+    For a site with no documented facility (``derive_power_basis`` returns ``None``) the
+    campus ``load_share`` is omitted: the grid backdrop (serving utility + connector-sourced
+    utility/BA/state denominators) is real per-site data, but there is no campus load to
+    fabricate against it (the data-center dimension onboarding does not capture).
+    """
     settings = settings or get_settings()
     power = derive_power_basis(settings=settings)
 
-    draw_mw = power.facility_draw.value
-    consumption_gwh = draw_mw * _HOURS_PER_YEAR * _LOAD_FACTOR / 1000.0  # MWh -> GWh
-
-    # Live connector pulls (#94/#120): AEP-Ohio per-utility EIA-861 + PJM annual EIA-930.
+    # Live connector pulls (#94/#120): per-utility EIA-861 + PJM annual EIA-930 + Ohio state.
     utility_profile = fetch_utility_retail(settings=settings)
-    utility_retail = utility_profile.retail_sales_gwh
     ba_load = fetch_ba_annual_load(settings=settings)
     state_retail = _state_retail_gwh(settings)
 
-    def _share(denom: float) -> float:
-        return consumption_gwh / denom * 100.0 if denom else 0.0
+    load_share: GridLoadShare | None = None
+    if power is not None:
+        draw_mw = power.facility_draw.value
+        consumption_gwh = draw_mw * _HOURS_PER_YEAR * _LOAD_FACTOR / 1000.0  # MWh -> GWh
+        utility_retail = utility_profile.retail_sales_gwh
 
-    load_share = GridLoadShare(
-        campus_load_mw=ProvenancedValue.derived(
-            round(draw_mw, 1),
-            "MW",
-            citation=f"PowerBasis.facility_draw central (#87): {power.facility_draw.citation or ''}",
-        ),
-        load_factor=ProvenancedValue.assume(_LOAD_FACTOR, "fraction", why=_LOAD_FACTOR_CITE),
-        annual_consumption_gwh=ProvenancedValue.derived(
-            round(consumption_gwh, 1),
-            "GWh/yr",
-            citation=f"{draw_mw:g} MW x {_HOURS_PER_YEAR:g} h x {_LOAD_FACTOR:g} load factor",
-        ),
-        utility_retail_gwh=utility_retail,
-        ba_load_gwh=ba_load,
-        state_retail_gwh=state_retail,
-        share_of_utility_pct=ProvenancedValue.derived(
-            round(_share(utility_retail.value), 2),
-            "percent",
-            citation=f"campus {consumption_gwh:.0f} GWh / AEP Ohio {utility_retail.value:,.0f} GWh "
-            f"(EIA-861 {settings.eia861_year} per-utility)",
-        ),
-        share_of_ba_pct=ProvenancedValue.derived(
-            round(_share(ba_load.value), 3),
-            "percent",
-            citation=f"campus {consumption_gwh:.0f} GWh / PJM {ba_load.value:,.0f} GWh "
-            "(EIA-930 annual demand)",
-        ),
-        share_of_state_pct=ProvenancedValue.derived(
-            round(_share(state_retail.value), 2),
-            "percent",
-            citation=f"campus {consumption_gwh:.0f} GWh / Ohio {state_retail.value:.0f} GWh",
-        ),
-    )
+        def _share(denom: float) -> float:
+            return consumption_gwh / denom * 100.0 if denom else 0.0
+
+        load_share = GridLoadShare(
+            campus_load_mw=ProvenancedValue.derived(
+                round(draw_mw, 1),
+                "MW",
+                citation=(
+                    f"PowerBasis.facility_draw central (#87): {power.facility_draw.citation or ''}"
+                ),
+            ),
+            load_factor=ProvenancedValue.assume(_LOAD_FACTOR, "fraction", why=_LOAD_FACTOR_CITE),
+            annual_consumption_gwh=ProvenancedValue.derived(
+                round(consumption_gwh, 1),
+                "GWh/yr",
+                citation=f"{draw_mw:g} MW x {_HOURS_PER_YEAR:g} h x {_LOAD_FACTOR:g} load factor",
+            ),
+            utility_retail_gwh=utility_retail,
+            ba_load_gwh=ba_load,
+            state_retail_gwh=state_retail,
+            share_of_utility_pct=ProvenancedValue.derived(
+                round(_share(utility_retail.value), 2),
+                "percent",
+                citation=f"campus {consumption_gwh:.0f} GWh / AEP Ohio {utility_retail.value:,.0f} GWh "
+                f"(EIA-861 {settings.eia861_year} per-utility)",
+            ),
+            share_of_ba_pct=ProvenancedValue.derived(
+                round(_share(ba_load.value), 3),
+                "percent",
+                citation=f"campus {consumption_gwh:.0f} GWh / PJM {ba_load.value:,.0f} GWh "
+                "(EIA-930 annual demand)",
+            ),
+            share_of_state_pct=ProvenancedValue.derived(
+                round(_share(state_retail.value), 2),
+                "percent",
+                citation=f"campus {consumption_gwh:.0f} GWh / Ohio {state_retail.value:.0f} GWh",
+            ),
+        )
 
     log.info(
         "grid.profile",
-        utility="AEP Ohio",
+        utility=utility_profile.utility,
         ba="PJM",
-        consumption_gwh=round(consumption_gwh, 1),
-        share_utility_pct=load_share.share_of_utility_pct.value,
+        consumption_gwh=(load_share.annual_consumption_gwh.value if load_share else None),
+        share_utility_pct=(load_share.share_of_utility_pct.value if load_share else None),
+    )
+    note = (
+        "Grid foundation layer (#94). The state, AEP-Ohio, and PJM denominators are "
+        "now all connector-sourced — Ohio retail from EIA (shared with #91), AEP-Ohio "
+        "retail from the EIA-861 per-utility file, and PJM annual demand from EIA-930. "
+        "The campus is a single load equal to a material fraction of its serving "
+        "utility's entire retail sales."
+        if load_share is not None
+        else (
+            "Grid foundation layer (#94): per-site grid backdrop only. This site has no "
+            "documented data-center facility, so there is no campus load to express as a "
+            "share — the utility/BA/state denominators are real connector-sourced data, but "
+            "the campus load share awaits the site's facility disclosure (the data-center "
+            "dimension onboarding does not capture)."
+        )
     )
     return GridProfile(
-        serving_utility=_serving_utility(),
+        serving_utility=_serving_utility(settings, utility_profile.utility),
         utility_profile=utility_profile,
         ba_profile=BalancingAuthorityProfile(
             ba="PJM Interconnection",
@@ -184,13 +206,7 @@ def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
             annual_load_gwh=ba_load,
         ),
         load_share=load_share,
-        note=(
-            "Grid foundation layer (#94). The state, AEP-Ohio, and PJM denominators are "
-            "now all connector-sourced — Ohio retail from EIA (shared with #91), AEP-Ohio "
-            "retail from the EIA-861 per-utility file, and PJM annual demand from EIA-930. "
-            "The campus is a single load equal to a material fraction of its serving "
-            "utility's entire retail sales."
-        ),
+        note=note,
     )
 
 

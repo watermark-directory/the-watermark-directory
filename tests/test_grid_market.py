@@ -106,3 +106,10 @@ def test_committed_pjm_market_loads() -> None:
     assert ref.rpm_clearing_usd_mw_day.confidence == "medium"
     assert ref.zonal_lmp_usd_mwh.value > 0.0
     assert ref.rpm_clearing_usd_mw_day.value > ref.rpm_prior_year_usd_mw_day.value
+
+
+def test_market_scenario_refuses_a_facility_less_site() -> None:
+    """A site with no documented facility cannot have a campus PJM market scenario —
+    the connector refuses (no fabrication) rather than reusing Lima's facility."""
+    with pytest.raises(ValueError, match="no documented facility"):
+        derive_pjm_market_scenario(settings=Settings(site="findlay"))

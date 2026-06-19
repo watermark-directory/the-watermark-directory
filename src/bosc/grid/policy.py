@@ -251,6 +251,11 @@ def derive_federal_backdrop(*, settings: Settings | None = None) -> FederalBackd
     """
     settings = settings or get_settings()
     power = derive_power_basis(settings=settings)
+    if power is None:
+        raise ValueError(
+            f"site {settings.site!r} has no documented facility (SiteProfile.facility is None) — "
+            "the federal data-center share needs a facility power basis"
+        )
     output = _federal_output(settings)
 
     draw_mw = power.facility_draw.value

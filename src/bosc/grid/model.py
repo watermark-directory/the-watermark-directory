@@ -109,14 +109,20 @@ class GridLoadShare(BaseModel):
 
 
 class GridProfile(BaseModel):
-    """The assembled grid foundation layer (issue #94): identity + profiles + load share."""
+    """The assembled grid foundation layer (issue #94): identity + profiles + load share.
+
+    ``load_share`` is ``None`` for a site with no documented data-center facility
+    (``SiteProfile.facility is None``): the grid backdrop (serving utility + EIA utility/BA
+    profiles) is real per-site data, but there is no campus load to express as a share of it
+    until that site's facility is disclosed (the data-center dimension).
+    """
 
     model_config = ConfigDict(extra="forbid")
 
     serving_utility: ServingUtility
     utility_profile: UtilityProfile
     ba_profile: BalancingAuthorityProfile
-    load_share: GridLoadShare
+    load_share: GridLoadShare | None = None
     note: str = ""
 
 

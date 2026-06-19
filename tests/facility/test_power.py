@@ -4,11 +4,12 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.facility.power import _IT_LOAD_MW, derive_power_basis
+from bosc.facility.power import derive_power_basis
 
 
 def test_power_basis_traces_to_air_permit() -> None:
     b = derive_power_basis()
+    assert b is not None
     assert b.it_load.value == pytest.approx(275.0)
     assert b.it_load.source == "document" and "P0138965" in (b.it_load.citation or "")
     # Backup power is the genset count x rating, derived (not asserted).
@@ -21,14 +22,35 @@ def test_power_basis_traces_to_air_permit() -> None:
 def test_facility_power_matches_cooling_it_load() -> None:
     """Guard against the duplicated air-permit constant silently diverging.
 
-    bosc.facility.power deliberately re-states cooling.py's private IT-load constant
-    rather than importing the private name; this test is the seam that keeps them
-    equal until the FUTURE DEDUP noted in power.py lands.
+    The Lima ``SiteProfile.facility`` now carries the air-permit IT load; cooling.py still
+    mirrors it as a private constant. This test is the seam that keeps them equal.
     """
     from bosc.hydrology import cooling
+    from bosc.sites import SITES
 
-    assert _IT_LOAD_MW == cooling._IT_LOAD_MW
-    assert derive_power_basis().it_load.value == pytest.approx(cooling._IT_LOAD_MW)
+    lima_facility = SITES["lima"].facility
+    assert lima_facility is not None
+    assert lima_facility.it_load_mw == cooling._IT_LOAD_MW
+    basis = derive_power_basis()
+    assert basis is not None
+    assert basis.it_load.value == pytest.approx(cooling._IT_LOAD_MW)
+
+
+def test_power_basis_is_none_without_a_facility() -> None:
+    """A registered site with no documented facility has no power basis (no fabrication)."""
+    from bosc.config import Settings
+
+    assert derive_power_basis(settings=Settings(site="findlay")) is None
+
+
+def test_compute_capacity_refuses_a_facility_less_site() -> None:
+    """The compute-capacity estimate needs a facility power basis — it refuses for a
+    facility-less site instead of reusing Lima's air-permit disclosure."""
+    from bosc.config import Settings
+    from bosc.facility.compute import derive_compute_capacity
+
+    with pytest.raises(ValueError, match="no documented facility"):
+        derive_compute_capacity(settings=Settings(site="findlay"))
 
 
 def test_generation_cycle_efficiency_coefficient() -> None:

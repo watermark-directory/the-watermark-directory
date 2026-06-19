@@ -129,7 +129,9 @@ def write_corridor_ddf(ddf: CorridorDdf, *, settings: Settings | None = None) ->
     path.parent.mkdir(parents=True, exist_ok=True)
     doc = {
         "meta": {
-            "subject": "NOAA Atlas-14 design-storm depths — Cole St / Bluelick corridor",
+            "subject": (
+                f"NOAA Atlas-14 design-storm depths — {active_profile(settings).corridor_name}"
+            ),
             "source": ddf.source,
             "point": {"latitude": ddf.latitude, "longitude": ddf.longitude},
             "units": "inches (point precipitation depth)",
