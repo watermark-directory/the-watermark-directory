@@ -372,7 +372,16 @@ def _executed_steps(settings: Settings, prof: SiteProfile, research: bool) -> li
 
     # SSURGO dominant HSG over the footprint (inline; no committed output — a validation read).
     def _hsg() -> OnboardStep:
-        survey = dominant_hsg(settings.data_dir / prof.footprint_relpath, settings=settings)
+        footprint = settings.data_dir / prof.footprint_relpath
+        if not footprint.is_file():
+            # Record the data_dir-relative path, never an absolute machine path (the report is
+            # committed as ONBOARDING.md). A coming-soon site has no footprint geometry yet.
+            return OnboardStep(
+                name="ssurgo-hsg",
+                status="skipped",
+                detail=f"footprint missing: {prof.footprint_relpath}",
+            )
+        survey = dominant_hsg(footprint, settings=settings)
         match = (
             "matches profile"
             if survey.hsg_letter == prof.dominant_hsg
