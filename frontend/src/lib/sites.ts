@@ -118,6 +118,19 @@ export const SITES: readonly NetworkSite[] = [
     issue: "380",
     href: "/network/bryan",
   },
+  {
+    // Intra-tributary (same-river) comparator: the downstream Blanchard sibling of Findlay —
+    // same receiving river, two points ~40 river-mi apart. Onboarded, not yet built.
+    slug: "ottawa",
+    codename: null,
+    mono: "OTW",
+    place: "Ottawa",
+    basin: "Blanchard River (lower)",
+    status: "open",
+    selectable: false,
+    issue: "381",
+    href: "/network/ottawa",
+  },
 ] as const;
 
 /** This build is the Lima reference build. */
