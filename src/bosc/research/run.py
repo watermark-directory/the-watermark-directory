@@ -40,6 +40,12 @@ log = get_logger(__name__)
 # Bound the findings text handed to the distiller (cost guard; reports are short).
 _MAX_FINDINGS_CHARS = 60_000
 
+# Token budget for the proposal-distillation response. The default extractor budget (4096)
+# can truncate a rich findings pass — several detailed proposals, sometimes emitted as a
+# single stringified JSON array (a forced-tool-use quirk ProposalDrafts coerces) — leaving
+# invalid JSON. Give it headroom so the array always completes (Sonnet allows far more).
+_DISTILL_MAX_TOKENS = 8192
+
 _RESEARCH_PROMPT = """\
 Investigate this topic over the Project BOSC corpus using the read-only BOSC tools
 (timeline, entities, program_overview, read_extraction, reconcile_*, the hydrology
@@ -141,7 +147,7 @@ async def run_research(
     agent = agent or ResearchAgent(
         settings=settings, max_turns=max_turns, enable_tools=enable_tools
     )
-    extractor = extractor or StructuredExtractor(settings=settings)
+    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=_DISTILL_MAX_TOKENS)
 
     result: AgentResult = await agent.converse(
         _RESEARCH_PROMPT.format(topic=topic), on_text=on_text

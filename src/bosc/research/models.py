@@ -9,7 +9,10 @@ prose findings live alongside it as ``findings.md``.
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field
+import json
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 # Process labels every agent-proposed issue carries: provenance (``agent-proposed``)
 # plus inert-until-triaged (``needs-triage``). These are the runtime labels managed in
@@ -39,6 +42,22 @@ class ProposalDrafts(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     proposals: list[ProposalDraft]
+
+    @field_validator("proposals", mode="before")
+    @classmethod
+    def _coerce_json_list(cls, v: Any) -> Any:
+        """Tolerate the distillation model emitting the array as a JSON-encoded *string*.
+
+        Forced-tool-use occasionally returns ``proposals`` as a stringified JSON array
+        instead of a native list; parse it back before validation so a whole research run
+        isn't lost to that quirk (the prose findings already succeeded by this point).
+        """
+        if isinstance(v, str):
+            try:
+                return json.loads(v)
+            except json.JSONDecodeError:
+                return v
+        return v
 
 
 class IssueProposal(BaseModel):
