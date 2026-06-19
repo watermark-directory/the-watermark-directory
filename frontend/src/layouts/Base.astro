@@ -42,6 +42,9 @@ const showRail = rail !== false && toc.length > 0;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32.png")} />
+    <link rel="icon" type="image/png" sizes="16x16" href={withBase("/favicon-16.png")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png")} />
     <meta name="theme-color" content="#3f51b5" />
     <title>{title === SITE_NAME ? title : `${title} · ${SITE_NAME}`}</title>
     <SEO title={title} description={description} type={ogType} />
