@@ -20,6 +20,7 @@ from bosc.economics.connectors.census import CensusError, fetch_population_serie
 from bosc.economics.connectors.qcew import fetch_county_industries
 from bosc.economics.model import EconomicBaseline, PopulationSeries, YearTotal
 from bosc.logging import get_logger
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
@@ -85,9 +86,14 @@ def _reference_path(reference_dir: Path) -> Path:
 
 
 def write_baseline(baseline: EconomicBaseline, *, settings: Settings | None = None) -> str:
-    """Persist the baseline as committed reference YAML; return the path."""
+    """Persist the baseline as committed reference YAML; return the path.
+
+    Per-site (#326 econ): writes the active site's ``baseline_relpath`` (Lima = the legacy
+    un-slugged path; a new site slug-scopes it so onboarding never clobbers Lima). The reader
+    side stays Lima-keyed until a site reaches parity.
+    """
     settings = settings or get_settings()
-    path = _reference_path(settings.reference_dir)
+    path = settings.data_dir / active_profile(settings).baseline_relpath
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
         yaml.safe_dump(baseline.model_dump(), sort_keys=False, allow_unicode=True),

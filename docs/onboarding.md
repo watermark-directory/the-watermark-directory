@@ -20,8 +20,10 @@ A site's identity is a `SiteProfile` in [`src/bosc/sites.py`](../src/bosc/sites.
 few fields** — Lima's values are Lima-specific and the ones you forget will silently produce
 wrong output. Build the entry deliberately; the field-by-field guide is below. Two hard rules:
 
-- **Slug-scope every per-site output relpath** (`climatology_relpath`, `corridor_ddf_relpath`)
-  to `reference/hydrology/<slug>/…`. If you leave Lima's un-slugged paths, onboarding would
+- **Slug-scope every per-site output relpath** — `climatology_relpath`, `corridor_ddf_relpath`
+  (→ `reference/hydrology/<slug>/…`), `baseline_relpath` (→ `reference/economics/<slug>/…`),
+  `rsei_relpath` (→ `reference/rsei/<slug>/…`), `consumer_energy_relpath` + `grid_relpath`
+  (→ `reference/eia/<slug>/…`). If you leave Lima's un-slugged paths, onboarding would
   overwrite Lima's committed files — `bosc onboard` now **refuses** when these aren't unique
   to the site (and a CI test enforces it), but scope them correctly from the start.
 - The `SITES` key must equal the profile's `slug` (CI enforces this too).
@@ -45,7 +47,7 @@ test asserts every Python-registered site also exists in the frontend registry.)
 | `hydro_utm_epsg`, `gnis_default_state`, `lsc_default_ga` | projection + state/legislature for lookups |
 | `toxic_corridor_bbox`, `receiving_water_name` | the industrial receiving-water corridor |
 | `plant_receiving` | per-WWTP receiving-water fallback (Lima's are Lima WWTPs — **replace**) |
-| `climatology_relpath`, `corridor_ddf_relpath`, `parcels_relpath`, `footprint_relpath` | slug-scope the first two; the parcels/footprint point at the site's own committed geometry |
+| `climatology_relpath`, `corridor_ddf_relpath`, `baseline_relpath`, `rsei_relpath`, `consumer_energy_relpath`, `grid_relpath` | the six per-site **output** relpaths — slug-scope all of them (`reference/<source>/<slug>/…`); `parcels_relpath`/`footprint_relpath` point at the site's own committed geometry |
 | `dominant_hsg`, `hsg_citation`, `pre_cover`, `post_cover`, `developed_pervious_cover`, `noaa_fallback_24h_depth_in` | stormwater design assumptions (onboarding's SSURGO step validates `dominant_hsg`) |
 | `passby_auglaize_cfs`, `passby_ottawa_cfs` | in-stream passby minimums |
 
@@ -68,14 +70,22 @@ bosc onboard <slug> --offline  # cached/committed fixtures only (hermetic)
 `bosc onboard <slug>` ([`src/bosc/onboard.py`](../src/bosc/onboard.py)) builds its own
 `Settings(site=<slug>)` (the global `--site` flag is not needed) and, for that site:
 
-- **scaffolds** `data/reference/<slug>/`, `data/extracted/<slug>/`,
-  `data/reference/hydrology/<slug>/` — each with a house-style README (source + gaps +
-  regenerate). Idempotent: an existing README is left untouched.
-- runs the **portable reach connectors**: NWIS → basin-derived 7Q10 (basin-level, see
+- **scaffolds** the per-site dirs (`data/reference/<slug>/`, `data/extracted/<slug>/`,
+  and the per-output subdirs `reference/{hydrology,economics,eia,rsei}/<slug>/`) — each with
+  a house-style README (source + gaps + regenerate). Idempotent: an existing README is left
+  untouched.
+- runs the **hydrology reach connectors**: NWIS → basin-derived 7Q10 (basin-level, see
   below), NOAA Atlas-14 → corridor DDF (per-site), SSURGO → dominant HSG over the footprint
   (a validation read against the profile), NASA-POWER → climatology (per-site).
+- runs the **economics connectors**: Census+QCEW → county baseline (per-FIPS), EPA RSEI →
+  county toxics inventory (per-FIPS), EIA → consumer energy (per-state), EIA-861 + grid →
+  grid profile (per-utility — **sparse until the site has a documented facility load**, the
+  data-center dimension). All per-site outputs are slug-scoped so they never clobber Lima.
 - runs **`basin-screen`** as a coverage validation (read-only).
 - prints a step table + the **blocking review checklist** (step 4).
+
+Use `bosc onboard <slug> --dry-run` to preview the plan (every step + its target path)
+without writing anything.
 
 A brand-new site has no committed fixtures and no seed data, so offline the connector steps
 record as `dry-run` (naming the cache key to record) or `skipped` — the run always completes.
@@ -114,13 +124,22 @@ deeper, separate cutover, not part of routine onboarding.
 
 ## What's shared vs. per-site vs. the known lift
 
-- **Basin-level (shared across all Maumee sites — reuse for free):** the curated mainstem
-  7Q10s (`bosc derive-low-flows` → `data/reference/hydrology/low-flow-7q10.derived.yaml`) and
-  the ECHO NPDES/POTW inventory (`bosc npdes`, Maumee HUC-8-wide). A new Maumee site does not
-  regenerate these.
-- **Per-site (point/footprint/county-keyed):** NASA-POWER climatology and Atlas-14 corridor
-  DDF (slug-scoped via the profile); RSEI is county-FIPS scoped. These are what `onboard`
-  writes per site.
+- **Basin / PJM / national (shared — reuse for free):** the curated mainstem 7Q10s
+  (`bosc derive-low-flows` → `data/reference/hydrology/low-flow-7q10.derived.yaml`), the ECHO
+  NPDES/POTW inventory (`bosc npdes`, Maumee HUC-8-wide), the PJM balancing-authority
+  interchange (`ba-interchange.yaml`), and the federal energy backdrop (`federal-energy.yaml`).
+  A new site does not regenerate these.
+- **Per-site (slug-scoped via the profile `*_relpath` fields — what `onboard` writes):**
+  *hydrology* — NASA-POWER climatology, Atlas-14 corridor DDF; *economics* — the Census+QCEW
+  county **baseline** (FIPS), the RSEI county **toxics** inventory (FIPS), EIA **consumer
+  energy** (state), and the **grid profile** (utility). Writes go to `reference/<source>/<slug>/…`;
+  the **read** side stays Lima-keyed until a site reaches parity (the site build still consumes
+  Lima's data until then — a deliberate, documented deferral).
+- **Two dimensions captured, one not:** onboard captures **hydrology** and **economics**.
+  The third dimension — **data-center activity** (extracted permits/records + entity graph) —
+  is corpus extraction + the self-research pass (#247 seam), not a connector pull; it's also
+  why the **grid profile** is sparse for a coming-soon site (it aggregates the facility's power
+  load, which doesn't exist until that dimension is populated).
 - **The known lift — per-jurisdiction GIS:** the coordinate/id-based connectors (NWIS /
   Atlas-14 / SSURGO / NASA-POWER) are free for any reach, but **County/City parcel & zoning
   GIS is jurisdiction-specific**. [`allen_gis.py`](../src/bosc/hydrology/connectors/allen_gis.py)
