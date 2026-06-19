@@ -1,0 +1,47 @@
+meta:
+  subject: NOAA Atlas-14 design-storm depths — Lower Blanchard River corridor
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  point:
+    latitude: 41.0192
+    longitude: -84.0472
+  units: inches (point precipitation depth)
+ddf:
+  latitude: 41.0192
+  longitude: -84.0472
+  durations:
+  - 60-min
+  - 6-hr
+  - 12-hr
+  - 24-hr
+  return_periods:
+  - 2
+  - 10
+  - 25
+  - 50
+  - 100
+  depths_in:
+    60-min:
+      '2': 1.26
+      '10': 1.83
+      '25': 2.16
+      '50': 2.42
+      '100': 2.69
+    6-hr:
+      '2': 1.84
+      '10': 2.67
+      '25': 3.2
+      '50': 3.65
+      '100': 4.13
+    12-hr:
+      '2': 2.12
+      '10': 3.06
+      '25': 3.67
+      '50': 4.18
+      '100': 4.74
+    24-hr:
+      '2': 2.48
+      '10': 3.52
+      '25': 4.19
+      '50': 4.74
+      '100': 5.31
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
