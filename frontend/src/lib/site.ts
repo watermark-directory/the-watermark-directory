@@ -1,10 +1,10 @@
 /** Site-wide constants and the base-path helper for internal links/assets. */
 
-export const SITE_NAME = "Project BOSC";
-export const SITE_TAGLINE = "the public record";
+export const SITE_NAME = "Watermark";
+export const SITE_TAGLINE = "the public record, by watershed";
 export const SITE_DESCRIPTION =
-  "A browsable, citable view of the BOSC public-records corpus: primary documents " +
-  "read from scans into structured data, the cross-document analysis, and the " +
+  "Watermark — a browsable, citable view of the public record, by watershed: primary " +
+  "documents read from scans into structured data, the cross-document analysis, and the " +
   "Maumee-watershed hydrology.";
 
 /**

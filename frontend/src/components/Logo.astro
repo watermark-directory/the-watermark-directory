@@ -1,10 +1,13 @@
 ---
 /**
- * The BOSC logo mark — the "bracketed record" (design "Logo Set"): the evidence
- * brackets framing three descending bars, the public record reassembled. Square
- * caps on the brackets (reserved for the mark), round on the bars; monochrome via
- * `currentColor`, so it inherits white on the indigo chrome, indigo/ink elsewhere.
- * Mark only — the wordmark is system type set alongside it.
+ * The Watermark logo mark (rebrand — design "Watermark · Brand Lockups"): the
+ * citation brackets — kept from the old "bracketed record" mark — now framing a
+ * waterline (the line water leaves behind) over a single record rule. The name's
+ * triple read: the mark pressed into paper to prove a document, the watershed, and
+ * the high-water line. Square caps on the brackets (reserved for the mark), round on
+ * the waterline + rule; monochrome via `currentColor`, so it inherits white on the
+ * indigo chrome and indigo/ink elsewhere. Mark only — the wordmark is system type
+ * set alongside it.
  */
 interface Props {
   size?: number;
@@ -26,9 +29,8 @@ const { size = 26, class: cls, label } = Astro.props;
   aria-label={label}
   aria-hidden={label ? undefined : "true"}
 >
-  <path d="M22 13 H13 V51 H22" stroke-linecap="square" />
-  <path d="M42 13 H51 V51 H42" stroke-linecap="square" />
-  <line x1="22" y1="25" x2="42" y2="25" stroke-linecap="round" />
-  <line x1="22" y1="32" x2="38" y2="32" stroke-linecap="round" />
-  <line x1="22" y1="39" x2="34" y2="39" stroke-linecap="round" />
+  <path d="M23 13 H13 V51 H23" stroke-linecap="square" />
+  <path d="M41 13 H51 V51 H41" stroke-linecap="square" />
+  <path d="M21 29 q5.5 -6 11 0 t11 0" stroke-linecap="round" />
+  <line x1="21" y1="42" x2="43" y2="42" stroke-linecap="round" />
 </svg>

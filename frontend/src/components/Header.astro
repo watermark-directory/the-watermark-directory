@@ -12,7 +12,7 @@ const { active } = Astro.props;
 const searchIndexUrl = withBase("/search-index.json");
 const base = import.meta.env.BASE_URL || "/";
 
-// The BOSC network switcher (#304). The mark opens a no-JS <details> menu of sites; only
+// The Watermark network switcher (#304). The mark opens a no-JS <details> menu of sites; only
 // the live reference build (Lima) is switchable — the rest route to their coming-soon page.
 // The *current* site is resolved from this page's route (#316), so the lockup shows where
 // you are — not a constant. `null` = the network hub / cross-cutting globals (neutral state).
@@ -29,9 +29,9 @@ const statusMeta: Record<string, { label: string; cls: string }> = {
 <header class="topbar">
   <label for="bosc-nav-toggle" class="nav-burger" aria-label="Toggle navigation"><Icon name="menu" size={22} /></label>
   <details class="site-switcher">
-    <summary class="brand" aria-label={`The BOSC network — ${hereLabel}`}>
+    <summary class="brand" aria-label={`The Watermark network — ${hereLabel}`}>
       <Logo size={26} class="brand-mark" />
-      <span class="brand-word"><strong>BOSC</strong> <span class="brand-tagline">{herePlace}</span></span>
+      <span class="brand-word"><strong>Watermark</strong> <span class="brand-tagline">· {herePlace}</span></span>
       <span class="switcher-caret" aria-hidden="true">▾</span>
     </summary>
     <div class="switcher-menu">
@@ -66,7 +66,7 @@ const statusMeta: Record<string, { label: string; cls: string }> = {
           );
         })
       }
-      <p class="switcher-foot">Each site is a section of the BOSC platform; open sites are still being assembled.</p>
+      <p class="switcher-foot">Each site is a section of the Watermark platform; open sites are still being assembled.</p>
     </div>
   </details>
   <nav class="sections" id="bosc-sections" aria-label="Sections">
