@@ -15,6 +15,7 @@ from typing import Any
 import pytest
 import yaml
 from claude_agent_sdk import AssistantMessage, ResultMessage, TextBlock, ToolUseBlock
+from pydantic import ValidationError
 
 from bosc.agent import client as client_mod
 from bosc.agent.extractor import StructuredExtractor
@@ -280,3 +281,44 @@ def test_proposal_drafts_rejects_non_json_string() -> None:
 
     with pytest.raises(ValueError):
         ProposalDrafts.model_validate({"proposals": "not json at all"})
+
+
+class _FlakyExtractor:
+    """Duck-typed extractor: raises a real ValidationError the first ``fail_times`` calls."""
+
+    def __init__(self, drafts: Any, fail_times: int) -> None:
+        self._drafts = drafts
+        self._fail_times = fail_times
+        self.calls = 0
+
+    def extract_from_text(self, target: Any, *, instructions: str, text: str) -> Any:
+        from bosc.research.models import ProposalDrafts
+
+        self.calls += 1
+        if self.calls <= self._fail_times:
+            ProposalDrafts.model_validate(
+                {"proposals": "truncated-not-json"}
+            )  # raises ValidationError
+        return self._drafts
+
+
+def test_distill_retries_then_succeeds() -> None:
+    """The distiller re-rolls the model on a malformed draw rather than losing the run."""
+    from bosc.research.models import ProposalDrafts
+
+    drafts = ProposalDrafts(
+        proposals=[{"title": "T", "body": "B", "rationale": "R", "labels": ["hydrology"]}]
+    )
+    ex = _FlakyExtractor(drafts, fail_times=2)  # fails twice, succeeds on the 3rd
+    out = distill_proposals("findings", topic="t", extractor=ex, max_proposals=5)  # type: ignore[arg-type]
+    assert ex.calls == 3
+    assert out[0].title == "T"
+    assert "agent-proposed" in out[0].labels
+
+
+def test_distill_raises_after_exhausting_retries() -> None:
+    """If every attempt fails, the last error propagates (no silent empty run)."""
+    ex = _FlakyExtractor(None, fail_times=99)
+    with pytest.raises(ValidationError):
+        distill_proposals("findings", topic="t", extractor=ex, max_proposals=5)  # type: ignore[arg-type]
+    assert ex.calls == 3

@@ -1,0 +1,249 @@
+meta:
+  topic: 'onboard toledo (Toledo / Lucas County, OH): data-center activity + receiving-water
+    screen for a new watershed-point site. Investigate Waterville, OH specifically
+    (Lucas County, the Maumee-at-Waterville reach just upstream of Toledo) for any
+    data-center activity or land assembly — there are rumblings of a project there
+    — alongside the Toledo metro and the Lucas Co WRRF (OH0034223) discharge to the
+    tidal lower Maumee.'
+  model: claude-opus-4-8
+  generated_at: '2026-06-19T20:12:02+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__program_overview
+    - Read
+    - Grep
+    - Glob
+    - Bash
+    num_turns: 28
+    max_turns: 30
+    cost_usd: 1.3694447499999998
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Run primary-records extraction for Waterville/Lucas County data-center tip
+  dedupe_key: run-primary-records-extraction-for-waterville-lucas-county-data
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  - data-center
+  rationale: The Waterville tip is the headline investigative thread for this onboarding
+    and is currently entirely unsupported by primary sources; resolving it is the
+    prerequisite for any publishable Toledo data-center claim.
+  body: "## Background\nThe findings report that the corpus contains **no primary-source\
+    \ evidence** — no deed, parcel record, NPDES or air permit, zoning/rezoning action,\
+    \ development agreement, or named entity — of any data-center project or land\
+    \ assembly in Waterville, OH or anywhere in Lucas County. The \"rumblings of a\
+    \ project at Waterville\" is explicitly classified as an `[open]` unverified tip\
+    \ with zero corpus corroboration. The one Toledo-adjacent mention in the corpus\
+    \ is a generic water-capacity talking point from the Lima/Allen County record\
+    \ (`data/extracted/aedg/aedg-data-center-release.release.yaml L66–78`), not evidence\
+    \ of a Waterville project.\n\nAdditionally, `data/research/` holds research passes\
+    \ for Findlay, Fort Wayne, and Van Wert but **no Toledo run** (`[verified: data/research/\
+    \ listing]`), and the investigative dimension is explicitly flagged unstarted\
+    \ in `data/extracted/toledo/ONBOARDING.md` (line 9).\n\n## Task\n1. Run `bosc\
+    \ onboard toledo --research` (the unstarted investigative dimension, #247).\n\
+    2. In parallel, pull and commit:\n   - **Lucas County Recorder** deed records\
+    \ for the Waterville/Maumee-mainstem reach (look for large, contiguous, or clustered\
+    \ parcel transfers consistent with land assembly).\n   - **OEPA eDoc** filings:\
+    \ air PTI applications, NPDES applications, and SWP3s referencing Waterville or\
+    \ adjacent townships.\n   - **Township/county rezoning minutes** for the Waterville\
+    \ corridor.\n3. Commit results to `data/research/onboard-toledo-waterville-screen/`\
+    \ following the Findlay/Fort Wayne/Van Wert pattern.\n\n## Acceptance Criterion\n\
+    The tip is resolved into one of two documented outcomes: (a) a specific instrument\
+    \ (recorded deed, permit application, rezoning action, economic-development agreement)\
+    \ naming a site or party is committed to the corpus, or (b) a sourced no-link\
+    \ memo is committed confirming no primary-source evidence was found across all\
+    \ queried channels. The finding must not be published or promoted as anything\
+    \ stronger than `[open]` until this closes."
+- title: Wire Lucas County AREIS parcel/zoning connector and run land-assembly screen
+    near Waterville
+  dedupe_key: wire-lucas-county-areis-parcel-zoning-connector-and-run-land-ass
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - gis
+  - parcels
+  rationale: Lucas County AREIS is already identified as the network's best candidate
+    for a fully-wired GIS and is the proper instrument for a land-assembly screen
+    near Waterville, but the connector has not been built despite the endpoints being
+    known.
+  body: '## Background
+
+    The onboarding GIS discovery identified the **Lucas County AREIS** as a fully
+    queryable ArcGIS REST service exposing parcels, CAMA land-use, land-values, and
+    a parcel-level zoning catalog — described in `data/extracted/toledo/ONBOARDING.md`
+    (L27–44) as "the strongest wire-ready GIS in the network." However, the `parcels_url`
+    and `zoning_url` fields in `src/bosc/sites.py` (L871–950) are both currently set
+    to `"TODO"`, and no GIS connector has been committed.
+
+
+    ## Task
+
+    1. Register and commit the `gis_parcel` connector joining the Tyler/Parcels layer
+    with the AREIS land-use and land-values tables, using the live `?f=json` endpoints
+    already discovered in ONBOARDING.md.
+
+    2. Register and commit the `gis_zoning` connector from the Parcel_Zoning layer.
+
+    3. Run a land-assembly screen over the Waterville/Maumee-mainstem candidate area:
+    flag parcel clusters showing recent ownership consolidation, industrial/utility
+    rezoning, or anomalous land-value step-ups consistent with data-center site assembly.
+
+    4. Update `src/bosc/sites.py` `parcels_url` and `zoning_url` from `"TODO"` to
+    the confirmed endpoint URLs.
+
+
+    ## Acceptance Criterion
+
+    Both connectors are committed and documented; a screen output (positive or negative)
+    is committed to `data/extracted/toledo/gis/`; and `parcels_url`/`zoning_url` in
+    `sites.py` are no longer `"TODO"`.'
+- title: Fix Bay View / City of Toledo POTW coverage gap in Lower-Maumee ECHO inventory
+  dedupe_key: fix-bay-view-city-of-toledo-potw-coverage-gap-in-lower-maumee-ec
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - hydrology
+  - ECHO
+  - NPDES
+  rationale: Publishing a receiving-water screen that omits the largest discharger
+    in the metro would be a material factual gap; fixing it is required before any
+    Toledo POTW analysis is promoted.
+  body: '## Background
+
+    The findings confirm that the **dominant Toledo metro POTW — the City of Toledo
+    Bay View plant — is absent** from the committed ECHO inventory slice (`data/reference/echo/maumee-wwtp.potw.yaml`).
+    A `grep` for "Bay View" and "City of Toledo" returns nothing across the 129-facility
+    file. Bay View discharges to Maumee Bay / Lake Erie and is almost certainly coded
+    to a Lake-Erie-shoreline HUC outside the 7-HUC Maumee query (HUC-8 04100009).
+    The inventory''s own metadata caveat (L16–20 of `maumee-wwtp.potw.yaml`) warns
+    that dischargers that "didn''t geocode… can be missed."
+
+
+    The current receiving-water screen (Lucas Co WRRF OH0034223 at ~23% effluent fraction
+    at 7Q10) is therefore **incomplete**: it omits the single largest discharger in
+    the Toledo metro.
+
+
+    ## Task
+
+    1. Re-query EPA ECHO expanding the HUC filter to include Western Lake Erie / Maumee
+    Bay shoreline HUCs in addition to HUC-8 04100009.
+
+    2. Confirm the City of Toledo Bay View plant appears in the expanded result; record
+    its NPDES permit number, design flow, FRS ID, and HUC-12.
+
+    3. Update or supplement `data/reference/echo/maumee-wwtp.potw.yaml` (or create
+    a companion file for the lake-shoreline dischargers) and note the corrected basin
+    coverage.
+
+    4. Re-run the cumulative effluent-fraction screen with Bay View included.
+
+
+    ## Acceptance Criterion
+
+    The Bay View plant (or a sourced confirmation it is coded to a different basin
+    entirely and is genuinely out-of-scope) is documented in the committed corpus,
+    and any published "Lower Maumee receiving water" summary accurately reflects the
+    complete POTW load picture.'
+- title: Upgrade Lucas Co WRRF 7Q10 from derived proxy to OEPA-cited value and resolve
+    null receiving_water
+  dedupe_key: upgrade-lucas-co-wrrf-7q10-from-derived-proxy-to-oepa-cited-valu
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - NPDES
+  - data-quality
+  rationale: The effluent-fraction screen is the core quantitative output of the receiving-water
+    analysis; grounding it in the OEPA-cited regulatory value rather than a medium-confidence
+    derived proxy is necessary for it to withstand scrutiny.
+  body: '## Background
+
+    The Lower-Maumee receiving-water screen rests on two unresolved data-quality issues
+    identified in the findings:
+
+
+    1. **Derived 7Q10:** The Maumee-at-Waterville 7Q10 of 114.15 cfs (`data/reference/hydrology/low-flow-7q10.derived.yaml`)
+    is flagged `source=derived, confidence medium` — a screening proxy, not the OEPA-cited
+    regulatory value. The findings also note that the WRRF outfall sits **downstream
+    of the Waterville gage in the tidal/lake-backwater reach**, raising the question
+    of whether a river 7Q10 is even the appropriate low-flow metric for a tidal receiving
+    water.
+
+    2. **Null receiving_water:** The NPDES record for OH0034223 has `receiving_water:
+    null` in `data/reference/echo/maumee-wwtp.potw.yaml` (L2628–2649). The "Maumee
+    River" assignment currently comes from the SiteProfile/FacDerivedHuc, not the
+    permit record itself.
+
+
+    ## Task
+
+    1. Pull the OEPA-issued permit fact sheet for OH0034223 and extract the permit-cited
+    7Q10 (or equivalent low-flow design value) for the receiving reach.
+
+    2. Determine whether OEPA applies a tidal/Lake Erie back-water low-flow methodology
+    for this outfall location and document the appropriate regulatory metric.
+
+    3. Backfill the `receiving_water` field for OH0034223 from the permit fact sheet
+    so the Maumee assignment is permit-sourced.
+
+    4. Update `data/reference/hydrology/low-flow-7q10.derived.yaml` (or create a parallel
+    `regulatory` entry) with the cited value and its source document.
+
+
+    ## Acceptance Criterion
+
+    The committed corpus contains a permit-sourced 7Q10 (or documented tidal equivalent)
+    for OH0034223''s receiving reach, `receiving_water` is no longer null for that
+    permit record, and the derivation note in the hydrology yaml is updated to reflect
+    the regulatory value.'
+- title: Verify PJM ATSI LMP placeholder for Toledo grid-cost inputs
+  dedupe_key: verify-pjm-atsi-lmp-placeholder-for-toledo-grid-cost-inputs
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - energy
+  - grid
+  rationale: An unsourced placeholder LMP flowing into a cost-of-power figure would
+    undermine the credibility of the Toledo economic analysis, particularly given
+    it is the network's first non-AEP site.
+  body: '## Background
+
+    The Toledo grid profile (`data/reference/eia/toledo/grid-profile.yaml`) records
+    a **`$35/MWh` LMP** value that the findings explicitly tag as an `[inference]`
+    placeholder, not a sourced figure (`[verified: src/bosc/sites.py]`). Toledo is
+    on **Toledo Edison (FirstEnergy, EIA #18997) in the PJM ATSI zone** — the first
+    site in the network not on AEP — so the AEP-derived LMP used elsewhere in the
+    network is not transferable. The findings call out PJM Data Miner 2 `da_hrl_lmps`
+    as the correct source.
+
+
+    ## Task
+
+    1. Query **PJM Data Miner 2** (`da_hrl_lmps` endpoint) for the ATSI zone; compute
+    the annual average day-ahead LMP for the most recent full calendar year available.
+
+    2. Record the sourced value (with query date, year, and zone ID) in `data/reference/eia/toledo/grid-profile.yaml`,
+    replacing the `$35/MWh` placeholder.
+
+    3. Note whether the ATSI annual average differs materially from the $35/MWh placeholder
+    and flag any implications for the Toledo cost-of-power analysis.
+
+
+    ## Acceptance Criterion
+
+    The `grid-profile.yaml` LMP entry is no longer tagged `[inference]`; it cites
+    a specific PJM Data Miner 2 query, zone, and year; and the value has been reviewed
+    for consistency with the broader network cost-of-power comparisons before any
+    Toledo energy-cost figure is published.'
