@@ -1,0 +1,283 @@
+meta:
+  topic: 'onboard defiance (Defiance / Defiance County, OH): data-center activity
+    + receiving-water screen for a new watershed-point site. The Defiance WWTP (NPDES
+    OH0024899, ~12 MGD) discharges to the Maumee MAINSTEM right at the Maumee/Auglaize/Tiffin
+    confluence — the cleanest test of whether Lima''s small-tributary siting is what
+    drives its effluent-dominance violation (here the mainstem carries far more flow,
+    so the screen reads ''tight'' ~6:1 rather than violation; cf. docs/bigger-picture.md).
+    Investigate any Defiance-area data-center projects or land assembly, corpus gaps,
+    reconciliation discrepancies, and GIS/connector leads worth tracking as issues.'
+  model: claude-opus-4-8
+  generated_at: '2026-06-19T21:24:50+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - Read
+    - mcp__bosc__hydrology_balance
+    - mcp__bosc__list_documents
+    - Grep
+    num_turns: 21
+    max_turns: 30
+    cost_usd: 1.57863
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Derive reach-specific 7Q10 for Defiance discharge reach (USGS 04192500 +
+    04191500)
+  dedupe_key: derive-reach-specific-7q10-for-defiance-discharge-reach-usgs-041
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - low-flow
+  - extraction
+  rationale: The Waterville proxy overstates the mainstem flow available at the Defiance
+    outfall, making the 6.2:1 dilution ratio the least defensible number in the receiving-water
+    screen — replacing it with the honest reach denominator is the single highest-leverage
+    hydrology fix before site promotion.
+  body: '## Background
+
+    The current dilution screen for Defiance WWTP (NPDES OH0024899, ~12 MGD, ~18.6
+    cfs) uses the Waterville gage (USGS 04193500) 7Q10 of 114.15 cfs as a proxy denominator,
+    yielding a dilution ratio of ~6.2:1. The findings note that this gage is ~50 river-miles
+    *downstream* of the Defiance outfall and drains more watershed area than the actual
+    discharge reach, meaning the true reach-specific dilution is **likely tighter
+    than 6.2:1**.
+
+
+    Both reach-relevant gages — **04192500 (Maumee near Defiance)** and **04191500
+    (Auglaize near Defiance)** — are registered on the site profile (`sites.py:985-988`)
+    but are **absent from `data/reference/hydrology/low-flow-7q10.derived.yaml`**.
+    The derived file itself flags the Waterville value as a "screening proxy for the
+    discharge reach, not the reach 7Q10" (`derived YAML note lines 4-7`).
+
+
+    ## Task
+
+    1. Run LP3 low-flow frequency analysis (44 climatic years, 1980–2024) at USGS
+    04192500 and 04191500.
+
+    2. Emit the resulting 7Q10 values into `data/reference/hydrology/low-flow-7q10.derived.yaml`
+    under the Defiance site entry.
+
+    3. Recalculate the dilution screen using the reach-specific denominator and update
+    `data/extracted/defiance/ONBOARDING.md` and `docs/bigger-picture.md §78` accordingly.
+
+    4. If the new ratio tightens past a meaningful threshold (e.g., below 4:1), flag
+    for re-evaluation of the site''s "clean confirmation" thesis.
+
+
+    ## Acceptance Criterion
+
+    `low-flow-7q10.derived.yaml` contains LP3-derived 7Q10 entries for both 04192500
+    and 04191500; the Defiance dilution screen in ONBOARDING.md references the reach-specific
+    value (not the Waterville proxy); confidence is upgraded from *medium* to *high*
+    or the caveat is explicitly documented.'
+- title: 'Verify Defiance serving utility: Toledo Edison IOU vs. municipal electric
+    system'
+  dedupe_key: verify-defiance-serving-utility-toledo-edison-iou-vs-municipal-e
+  labels:
+  - agent-proposed
+  - needs-triage
+  - grid
+  - utilities
+  - verification
+  rationale: A misidentified serving utility propagates incorrect regulatory-path
+    and rate assumptions into every downstream analysis that touches Defiance's grid
+    dimension, and the findings explicitly flag this as an unverified reference-tagged
+    guess analogous to the documented Bryan trap.
+  body: '## Background
+
+    The Defiance grid profile tags `eia861_utility_number=18997` (The Toledo Edison
+    Co, FirstEnergy / PJM ATSI) as the serving utility, with `source: reference` (`data/reference/eia/defiance/grid-profile.yaml:1-33`).
+    The findings flag this as a contested basis: the citation refers to a retail electric-aggregation
+    program, which is consistent with an IOU but does not confirm one. Defiance County/City
+    could be served by a municipal electric system (muni utilities file EIA-861S and
+    are home-rule-regulated, not PUCO) — the same trap documented for Bryan.
+
+
+    If the serving utility is actually municipal, the following fields are wrong:
+
+    - `retail_regulator` (should not be PUCO)
+
+    - `grid_path` (PJM ATSI vs. muni system interconnect)
+
+    - Any rate or reliability inferences drawn from Toledo Edison tariffs
+
+
+    ## Task
+
+    1. Cross-check EIA-861 and EIA-861S service-territory files for Defiance County
+    and the City of Defiance.
+
+    2. Overlay the PUCO certified territory map.
+
+    3. Confirm or correct `eia861_utility_number`, `retail_regulator`, and `grid_path`
+    in `grid-profile.yaml`.
+
+    4. Document the source as `verified` rather than `reference` once resolved.
+
+
+    ## Acceptance Criterion
+
+    The grid profile''s serving utility entry is marked `source: verified` with a
+    citation to the EIA-861/861S service-territory record or PUCO map; if municipal,
+    `retail_regulator` and `grid_path` are corrected before site promotion.'
+- title: Pull OH0024899 NPDES fact sheet to characterize enforcement actions and anchor
+    permit-cited 7Q10
+  dedupe_key: pull-oh0024899-npdes-fact-sheet-to-characterize-enforcement-acti
+  labels:
+  - agent-proposed
+  - needs-triage
+  - compliance
+  - extraction
+  - hydrology
+  - npdes
+  rationale: The permit-cited 7Q10 is the only legally operative dilution denominator
+    and is currently absent from the corpus, and the uncharacterized formal enforcement
+    action on a mainstem plant is a documented analytical gap that undermines the
+    clean 'dilution headroom = compliance' thesis.
+  body: '## Background
+
+    ECHO records for Defiance WWTP (NPDES OH0024899) show `informal_enf_count: 1`
+    and `formal_enf_count: 1` with `compliance_status: null` (`data/reference/echo/maumee-wwtp.potw.yaml:2469-2470`).
+    The specific actions are uncharacterized in the corpus. The findings note this
+    mirrors the Fort Wayne parallel: a mainstem plant with nominal dilution headroom
+    (~6:1) still drawing a formal enforcement action.
+
+
+    Additionally, the NPDES fact sheet for OH0024899 would contain the **permit-cited
+    7Q10** for the discharge reach — the regulatory gold-standard denominator that
+    supersedes both the Waterville LP3 proxy and any newly derived gage value for
+    dilution-screen purposes. The current `plant_receiving` field in the site profile
+    is `{}`.
+
+
+    ## Task
+
+    1. Retrieve the Ohio EPA NPDES fact sheet / permit rationale document for OH0024899.
+
+    2. Extract: (a) the permit-cited 7Q10 or low-flow design value for the Maumee
+    at the outfall; (b) the outfall river mile (RM); (c) the nature and date of the
+    informal and formal enforcement actions.
+
+    3. Populate `plant_receiving` with outfall RM and fact-sheet 7Q10.
+
+    4. Compare the fact-sheet 7Q10 to the derived Waterville proxy (114.15 cfs) and
+    the reach-specific value from issue #1 above.
+
+
+    ## Acceptance Criterion
+
+    `plant_receiving` is non-empty with outfall RM and permit-cited 7Q10; the two
+    enforcement actions are characterized (type, date, resolution status) in `data/extracted/defiance/`;
+    any material discrepancy between the fact-sheet 7Q10 and the derived proxy is
+    documented in ONBOARDING.md.'
+- title: Audit RSEI inventory currency and define toxic_corridor_bbox for Defiance
+  dedupe_key: audit-rsei-inventory-currency-and-define-toxic-corridor-bbox-for
+  labels:
+  - agent-proposed
+  - needs-triage
+  - toxics
+  - rsei
+  - data-quality
+  - extraction
+  rationale: A toxics inventory frozen at 2014 for a manufacturing-concentrated county
+    with active heavy industry understates corridor risk in a way that will mislead
+    any downstream receiving-water or environmental-justice analysis tied to the Defiance
+    site.
+  body: '## Background
+
+    The Defiance RSEI inventory (`data/reference/rsei/defiance/inventory.yaml`) lists
+    19 county facilities — including GM Defiance Casting and three Johns Manville
+    fiberglass plants — all with `last_year: 2014`. The findings flag the uniform
+    2014 ceiling as a currency caveat: it is unclear whether this reflects the RSEI
+    v234 vintage ceiling or a truncated data pull. A still-operating GM Defiance Casting
+    means the toxics picture may materially understate current corridor risk.
+
+
+    Additionally, `toxic_corridor_bbox` is currently `(0,0,0,0)` (`sites.py:1043`),
+    meaning no receiving-water toxics corridor is defined for Defiance.
+
+
+    ## Task
+
+    1. Determine whether the 2014 `last_year` cap is a universal RSEI v234 vintage
+    limit (affecting all sites) or a Defiance-specific truncation.
+
+    2. If a more recent RSEI vintage is available, re-pull the Defiance County inventory.
+
+    3. Cross-check facility operating status for the highest-risk emitters (GM Defiance
+    Casting, Johns Manville sites) against current TRI/ECHO records.
+
+    4. Define a `toxic_corridor_bbox` for Defiance that covers the Maumee mainstem
+    receiving reach from the Auglaize/Tiffin confluence downstream.
+
+    5. Document currency status and data vintage explicitly in `ONBOARDING.md`.
+
+
+    ## Acceptance Criterion
+
+    The RSEI vintage and truncation question is resolved with documentation; `toxic_corridor_bbox`
+    is non-zero; if a post-2014 RSEI pull is possible, the inventory is updated; operating-status
+    spot-checks for GM Defiance Casting and at least one Johns Manville facility are
+    recorded.'
+- title: Register Defiance County GIS parcel/zoning connector and run bosc onboard
+    defiance --research to populate data-center dimension
+  dedupe_key: register-defiance-county-gis-parcel-zoning-connector-and-run-bos
+  labels:
+  - agent-proposed
+  - needs-triage
+  - data-center
+  - gis
+  - extraction
+  - onboarding
+  rationale: The 'no data-center project' finding is explicitly provisional in the
+    corpus — the GIS connector is unregistered and the research pass unrun — so the
+    current empty dimension cannot be trusted as a negative result, and standing up
+    the connector is the gating step to either confirm or rule out a project.
+  body: '## Background
+
+    The data-center activity dimension for Defiance is **entirely empty**: no permits,
+    no deeds, no entity-graph parties, no land assembly records exist in `data/extracted/**`
+    for this site. The grid profile carries `load_share: null` due to no disclosed
+    facility (`data/reference/eia/defiance/grid-profile.yaml:72-77`). The onboarding
+    gate shows `parcels_url/zoning_url="TODO"` and `gis_parcel/gis_zoning=None` (`sites.py:997-1003`),
+    and the self-research pass has not been run (`ONBOARDING.md:33`).
+
+
+    The findings explicitly state: *"there is no documented data-center project, application,
+    or land assembly for Defiance in the BOSC corpus today"* — but note this is **provisional**
+    because the discovery work has not been executed. An adjacent infrastructure lead
+    is on record: **ANR Pipeline Defiance Compressor Station (NPDES OH0079294)**,
+    an interstate gas asset in the county that may indicate energy-corridor siting
+    pressure.
+
+
+    ## Task
+
+    1. Locate and register the Defiance County Auditor parcel portal URL and any available
+    City of Defiance zoning layer; update `sites.py:997-1003` (`parcels_url`, `zoning_url`,
+    `gis_parcel`, `gis_zoning`).
+
+    2. Run `bosc onboard defiance --research` to execute the self-research pass.
+
+    3. Execute a parcel-assembly scan for large, contiguous, recently transferred
+    parcels in or near Defiance City limits, noting proximity to the Toledo Edison
+    (or confirmed muni) grid and the Maumee River.
+
+    4. Note the ANR Pipeline compressor station (OH0079294) location relative to any
+    candidate parcels as a siting co-indicator.
+
+    5. If no project is found after the full discovery pass, formally close the data-center
+    dimension as "no project identified" with methodology documented.
+
+
+    ## Acceptance Criterion
+
+    `parcels_url` and `zoning_url` are non-TODO values in `sites.py`; the `--research`
+    pass has been run and its output committed; the data-center dimension in `ONBOARDING.md`
+    is either populated with at least one lead or formally closed as "no project identified"
+    with the scan methodology recorded.'
