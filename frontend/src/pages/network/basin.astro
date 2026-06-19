@@ -1,0 +1,321 @@
+---
+/**
+ * The basin synthesis (#308/#323) — the watershed points as nested nodes on ONE connected basin,
+ * not parallel sites. Renders the Maumee topology (everything drains through Defiance -> Toledo ->
+ * Lake Erie under one TMDL cap) and a cross-site scorecard from the `network` object feed. The
+ * dilution screen is one dimension among grid / economy / toxics; unscreened nodes are shown
+ * honestly. Charts are indigo (data); the screen band is the only status color.
+ */
+import RankedBarChart from "../../components/charts/RankedBarChart.astro";
+import Base from "../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../lib/bundle";
+import type { BasinNetwork, WatershedNode } from "../../lib/feeds";
+import { withBase } from "../../lib/site";
+
+const net = hasFeed("network") ? loadFeed<BasinNetwork>("network") : null;
+const nodes: WatershedNode[] = net?.nodes ?? [];
+
+const SUBTREES = ["Auglaize", "Tiffin", "Maumee mainstem"] as const;
+const tributaries = nodes.filter((n) => n.downstream === "defiance" && n.subtree !== "Maumee mainstem");
+const grouped = SUBTREES.map((st) => ({ subtree: st, members: nodes.filter((n) => n.subtree === st && n.downstream === "defiance") }))
+  .filter((g) => g.members.length > 0);
+const collectors = nodes.filter((n) => n.downstream === "toledo" || n.downstream === net?.sink);
+
+const regimeLabel = (r: string): string => r.replace(/_/g, " ");
+const STATUS_TEXT: Record<string, string> = {
+  no_receiving_water: "unscreened · no ECHO receiving water",
+  no_7q10: "unscreened · ungaged tributary",
+  no_design_flow: "unscreened · no design flow",
+  not_in_inventory: "unscreened · not in ECHO",
+};
+const screenText = (n: WatershedNode): string => {
+  const s = n.screen;
+  if (s.status === "screened" && s.dilution_ratio != null) return `${s.flag} · ${s.dilution_ratio.toFixed(2)}:1`;
+  return STATUS_TEXT[s.status] ?? "unscreened";
+};
+const num = (v: number | null | undefined, d = 1): string => (v == null ? "—" : v.toFixed(d));
+
+// Charts (indigo = data). Grid bundled price is the genuine cross-site differentiator;
+// manufacturing LQ shows the universal manufacturing-concentrated base.
+const priceData = nodes
+  .filter((n) => n.grid.avg_price_cents_kwh != null)
+  .map((n) => ({ label: n.place, value: n.grid.avg_price_cents_kwh as number }))
+  .sort((a, b) => b.value - a.value);
+const mfgData = nodes
+  .filter((n) => n.economy.manufacturing_lq != null)
+  .map((n) => ({ label: n.place, value: n.economy.manufacturing_lq as number }))
+  .sort((a, b) => b.value - a.value);
+const screenedCount = nodes.filter((n) => n.screen.status === "screened").length;
+---
+
+<Base
+  title="The basin — one connected system"
+  section="network"
+  description="The Maumee watershed points as nested nodes on one basin: every site drains through Defiance to Toledo and Lake Erie under one TMDL cap, compared across receiving-water regime, grid, economy, and toxics."
+>
+  <article class="prose">
+    <div class="submit-eyebrow">The Watermark network</div>
+    <h1>The basin — one connected system</h1>
+    <p class="section-lead">
+      The watershed points are not parallel, independent sites. Every one drains to the <strong>same
+      Maumee &rarr; Lake Erie system</strong> under the <strong>same 2023 Maumee TMDL phosphorus
+      cap</strong> — nested nodes on one basin, the Allen County two-river logic scaled up. So a
+      data-center load at <em>any</em> node accumulates downstream into one fully-allocated,
+      Lake-Erie-bound budget.
+    </p>
+    {net == null && <p class="stub-note">No network feed in this bundle.</p>}
+  </article>
+
+  {
+    net != null && (
+      <>
+        <section class="basin-topo" aria-label="Basin topology">
+          <h2>How the loads converge</h2>
+          <div class="topo-tree">
+            {grouped.map((g) => (
+              <div class="topo-branch">
+                <span class="topo-river">{g.subtree}</span>
+                <span class="topo-members">
+                  {g.members.map((m) => (
+                    <a class="topo-node" href={withBase(`/network/${m.slug}`)}>
+                      {m.place}
+                    </a>
+                  ))}
+                </span>
+              </div>
+            ))}
+            <div class="topo-confluence">
+              <span class="topo-arrow">&rarr;</span>
+              {collectors.map((c) => (
+                <span class="topo-collector">
+                  <a class="topo-node is-collector" href={withBase(`/network/${c.slug}`)}>
+                    {c.place}
+                  </a>
+                  <span class="topo-arrow">&rarr;</span>
+                </span>
+              ))}
+              <span class="topo-sink">{net.sink}</span>
+            </div>
+          </div>
+          <p class="topo-caption">
+            <strong>Defiance</strong> sits at the Maumee/Auglaize/Tiffin confluence and{" "}
+            <strong>Toledo</strong> at the tidal outlet — downstream of nearly everything. {tributaries.length}{" "}
+            tributary points feed the collectors.
+          </p>
+        </section>
+
+        <section class="basin-scorecard" aria-label="Cross-site scorecard">
+          <h2>Cross-site scorecard</h2>
+          <p>
+            Eight watershed points, ordered upstream &rarr; downstream. The dilution screen is one
+            dimension — only <strong>{screenedCount} of {nodes.length}</strong> are cleanly
+            screenable (the rest discharge to ungaged tributaries or carry no ECHO receiving water;
+            the data gap is itself a finding).
+          </p>
+          <div class="scorecard-wrap">
+            <table class="scorecard">
+              <thead>
+                <tr>
+                  <th>Node</th>
+                  <th>Subtree &rarr; down</th>
+                  <th>Receiving-water regime</th>
+                  <th>Low-flow screen</th>
+                  <th>Serving utility</th>
+                  <th>¢/kWh</th>
+                  <th>Jobs Δ</th>
+                  <th>mfg / info LQ</th>
+                  <th>RSEI</th>
+                </tr>
+              </thead>
+              <tbody>
+                {nodes.map((n) => (
+                  <tr>
+                    <td>
+                      <a href={withBase(`/network/${n.slug}`)}>{n.place}</a>
+                      {n.activity.has_disclosed_facility && <span class="dc-tag">DC</span>}
+                    </td>
+                    <td class="dim">{n.subtree} &rarr; {n.downstream}</td>
+                    <td>{regimeLabel(n.regime)}</td>
+                    <td>
+                      <span class:list={["screen", n.screen.status === "screened" ? n.screen.flag : "unscreened"]}>
+                        {screenText(n)}
+                      </span>
+                    </td>
+                    <td>{n.grid.holding_company ?? "—"}</td>
+                    <td class="mono">{num(n.grid.avg_price_cents_kwh)}</td>
+                    <td class="mono">{n.economy.employment_change_pct == null ? "—" : `${n.economy.employment_change_pct > 0 ? "+" : ""}${n.economy.employment_change_pct}%`}</td>
+                    <td class="mono">{num(n.economy.manufacturing_lq)} / {num(n.economy.information_lq, 2)}</td>
+                    <td class="mono">{n.toxics.facility_count ?? "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="basin-charts">
+          <RankedBarChart
+            title="The grid is where the nodes differ"
+            kicker="Bundled retail price · by serving utility"
+            data={priceData}
+            unit="¢/kWh"
+            source="EIA-861 per-utility bundled full-service price"
+          />
+          <RankedBarChart
+            title="Every node is a manufacturing-concentrated county"
+            kicker="Manufacturing location quotient (>1 = over-represented)"
+            data={mfgData}
+            unit="LQ"
+            source="BLS QCEW (county sector share / national)"
+          />
+        </section>
+
+        <article class="prose">
+          <h2>What the network shows</h2>
+          <ol>
+            <li>
+              <strong>Lima is the outlier in exactly one dimension — receiving-water choice.</strong>
+              It is the lone screened violation, on a flow-starved tributary. Defiance's mainstem
+              dilutes ~6:1; Toledo (22 MGD) and Fort Wayne (74 MGD, the largest) sit on the diluting
+              mainstem. Size is irrelevant.
+            </li>
+            <li>
+              <strong>The economic shape is universal.</strong> Every node is manufacturing-heavy
+              (mfg LQ &gt; 1) with a near-absent information sector (info LQ &lt; 1) — the
+              "load-not-jobs onto a shrinking industrial base" pattern is basin-wide, not a Lima
+              quirk.
+            </li>
+            <li>
+              <strong>One shared sink, one shared cap.</strong> All eight drain to {net.sink} under
+              one TMDL phosphorus budget. A new load anywhere upstream lands in the same
+              fully-allocated basin — the connectivity is the point.
+            </li>
+          </ol>
+          <p class="dim">
+            Computed by <code>bosc basin-network</code> over the curated topology + each node's
+            committed economy / grid / toxics artifacts and its low-flow screen.
+          </p>
+        </article>
+      </>
+    )
+  }
+</Base>
+
+<style>
+  .basin-topo,
+  .basin-scorecard,
+  .basin-charts {
+    margin: 2.5rem 0;
+  }
+  .topo-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--rule, #e4e7ee);
+    border-radius: 10px;
+    background: #fbfcfe;
+    font-size: 0.95rem;
+  }
+  .topo-branch {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .topo-river {
+    min-width: 9.5rem;
+    font-weight: 600;
+    color: var(--ink, #1f2330);
+  }
+  .topo-members,
+  .topo-confluence {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .topo-confluence {
+    margin-top: 0.4rem;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--rule, #e4e7ee);
+  }
+  .topo-node {
+    display: inline-block;
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+    background: #eef0fb;
+    color: #3f51b5;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .topo-node.is-collector {
+    background: #3f51b5;
+    color: #fff;
+  }
+  .topo-arrow {
+    color: #9aa1b2;
+  }
+  .topo-sink {
+    font-weight: 700;
+    color: #1f6f8b;
+  }
+  .topo-caption,
+  .topo-caption strong {
+    font-size: 0.9rem;
+    color: #555c6b;
+  }
+  .scorecard-wrap {
+    overflow-x: auto;
+  }
+  table.scorecard {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  table.scorecard th,
+  table.scorecard td {
+    text-align: left;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--rule, #eef0f4);
+    white-space: nowrap;
+  }
+  table.scorecard th {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #6b7280;
+  }
+  table.scorecard td.mono {
+    font-variant-numeric: tabular-nums;
+    font-family: var(--mono, ui-monospace, monospace);
+  }
+  table.scorecard td.dim,
+  .dim {
+    color: #6b7280;
+  }
+  .dc-tag {
+    margin-left: 0.35rem;
+    padding: 0 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 4px;
+    background: #3f51b5;
+    color: #fff;
+  }
+  .screen.violation {
+    color: #c0392b;
+    font-weight: 700;
+  }
+  .screen.tight {
+    color: #b46e00;
+    font-weight: 600;
+  }
+  .screen.unscreened {
+    color: #9aa1b2;
+  }
+  .basin-charts {
+    display: grid;
+    gap: 2rem;
+  }
+</style>

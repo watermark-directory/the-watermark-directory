@@ -29,6 +29,10 @@ const statusLabel: Record<string, string> = {
       where the data-center build-out meets the watershed. <strong>Lima is the live reference build;</strong>
       the basin sites are coming online. Each is a section of one platform, cross-linked for real.
     </p>
+    <p class="netgrid-cta">
+      <a href={withBase("/network/basin")}>The basin — one connected system &rsaquo;</a>
+      <span class="netgrid-cta-note">how the points nest, and a cross-site scorecard</span>
+    </p>
   </article>
 
   <div class="netgrid">
@@ -52,3 +56,25 @@ const statusLabel: Record<string, string> = {
     }
   </div>
 </Base>
+
+<style>
+  .netgrid-cta {
+    margin: 0.75rem 0 0.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  .netgrid-cta a {
+    font-weight: 600;
+    color: #3f51b5;
+    text-decoration: none;
+  }
+  .netgrid-cta a:hover {
+    text-decoration: underline;
+  }
+  .netgrid-cta-note {
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+</style>

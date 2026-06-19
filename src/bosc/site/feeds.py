@@ -35,7 +35,8 @@ from pydantic import BaseModel, ConfigDict, Field, computed_field
 # 1.2.0: source-document rendering (epic #274) — `DocumentItem` gains real
 #   `media_type`/`render_class` (#275), `RecordItem` gains the `source_doc_*` join (#276).
 # 1.3.0: `DocumentItem` gains `published` — the default-deny public allowlist flag (#280).
-CONTRACT_VERSION = "1.3.0"
+# 1.4.0: adds the `network` object feed — the cross-site basin synthesis (bosc.network; #308/#323).
+CONTRACT_VERSION = "1.4.0"
 
 SourceKind = Literal["document", "connector", "reference", "assumption", "derived"]
 Confidence = Literal["high", "medium", "low"]

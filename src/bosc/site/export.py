@@ -41,6 +41,7 @@ from bosc.economics.baseline import load_baseline as load_econ_baseline
 from bosc.gleif import load_inventory as load_lei_inventory
 from bosc.hydrology.model import ScenarioResult
 from bosc.logging import get_logger
+from bosc.network import build_basin_network
 from bosc.people import load_people
 from bosc.pipeline.corpus import load_corpus
 from bosc.pipeline.entities import build_entity_graph
@@ -317,6 +318,10 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
     econ = load_econ_baseline(settings.reference_dir)
     if econ is not None:
         feeds.append(_object_feed("economics-baseline", economics_mod.export_economics(econ)))
+
+    # Cross-site basin synthesis (#308/#323): the watershed points as one connected basin —
+    # joins the curated topology with each node's committed economy/grid/toxics + low-flow screen.
+    feeds.append(_object_feed("network", build_basin_network(settings=settings)))
 
     feeds.append(_collection_feed("hydrology-scenarios", ScenarioResult, _load_scenarios(settings)))
 
