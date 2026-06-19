@@ -1,0 +1,276 @@
+meta:
+  topic: 'onboard fort-wayne (Fort Wayne): data-center activity + receiving-water
+    screen for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-19T16:08:45+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__hydrology_balance
+    - mcp__bosc__hydrology_scenario
+    - mcp__bosc__entities
+    - Grep
+    - Bash
+    - Read
+    num_turns: 35
+    max_turns: 30
+    cost_usd: 1.3826295000000002
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Resolve Fort Wayne 7Q10 denominator mismatch for WWTP receiving-water screen
+  dedupe_key: resolve-fort-wayne-7q10-denominator-mismatch-for-wwtp-receiving
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - receiving-water
+  - reconciliation
+  rationale: The choice of denominator changes the receiving-water verdict for the
+    basin's largest POTW from 'borderline' to 'effluent-dominant', making this the
+    single most consequential unresolved screening question before any promotion decision.
+  body: '## Context
+
+    The basin-screen for Fort Wayne''s receiving water uses a 7Q10 derived from the
+    Maumee River at **Waterville, OH** (114.15 cfs, LP3-derived, confidence *medium*)
+    as the low-flow denominator against the Fort Wayne WWTP''s 74.0 MGD (~114.5 cfs)
+    design-flow discharge. However, the derived file itself warns this is a downstream
+    proxy measured ~50 river-miles below Fort Wayne — below the Auglaize and Tiffin
+    confluences — and is therefore the wrong-scale denominator for a headwaters discharger.
+
+
+    ## Grounding
+
+    - `data/reference/hydrology/low-flow-7q10.derived.yaml`: Waterville gage 7Q10
+    = 114.15 cfs; note warns "the 7Q10 AT THE GAGE, a proxy … a discharger on a tributary
+    is screened only against that tributary''s own 7Q10."
+
+    - Findings §2: St. Joseph (04180500) + St. Marys (04182000) summed 7Q10 = ~45.3
+    cfs; screening 74 MGD against this yields a **~2.5:1 discharge-to-7Q10 ratio**
+    (effluent-dominant), vs. ~1.0:1 against the Waterville proxy — a materially different
+    verdict.
+
+    - Findings §2: Baldwin Ditch is the **immediate receptor** per NPDES IN0032191;
+    no 7Q10 is cited for Baldwin Ditch.
+
+    - Findings §8, discrepancy #1: flagged highest-priority reconciliation item.
+
+
+    ## Acceptance Criterion
+
+    - Derive or source a headwaters Maumee 7Q10 at or near the St. Joseph / St. Marys
+    confluence (USGS gages 04180500 + 04182000), or obtain a Baldwin Ditch low-flow
+    statistic from IDEM or USGS.
+
+    - Re-run the POTW basin-screen for IN0032191 using the corrected denominator and
+    commit updated results to `data/reference/hydrology/low-flow-7q10.derived.yaml`
+    and the Fort Wayne onboarding record.
+
+    - Document Baldwin Ditch explicitly as the immediate receptor in `plant_receiving`.
+
+    - The Waterville proxy must no longer be used as the primary denominator for this
+    facility.'
+- title: Extract Fort Wayne WWTP (IN0032191) NPDES permit, DMR data, and ECHO enforcement
+    detail
+  dedupe_key: extract-fort-wayne-wwtp-in0032191-npdes-permit-dmr-data-and-echo
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - receiving-water
+  - entities
+  rationale: The ECHO compliance flag and the gap between 74 MGD design flow and unknown
+    actual discharge are the two most material unresolved facts for the receiving-water
+    dimension, and both are resolvable through publicly available NPDES records.
+  body: '## Context
+
+    The Fort Wayne WWTP is identified as the **largest single discharger in the Maumee
+    basin inventory** at a permitted design flow of 74.0 MGD. However, the corpus
+    contains only the ECHO POTW inventory entry and no extracted permit documents,
+    discharge monitoring reports (DMRs), or enforcement detail. The receiving-water
+    screen currently uses design flow as a conservative proxy; actual metered average
+    discharge is unknown.
+
+
+    ## Grounding
+
+    - `data/reference/echo/maumee-wwtp.potw.yaml:777-798`: NPDES IN0032191, design
+    flow 74.0 MGD, receiving water "BALDWIN DITCH, MAUMEE R TO ST MARYS RIVER, MAUMEE
+    RIVER", compliance status "Effluent – Monthly Average Limit", informal enforcement
+    count: 1. `[verified: ECHO]`
+
+    - Findings §2: "The per-discharger detail is **not committed** … I cannot confirm
+    which facility is the ''1 violation'' — though the FW WWTP''s ECHO status makes
+    it the obvious candidate `[inference]`."
+
+    - `data/extracted/fort-wayne/ONBOARDING.md:21`: basin-screen log records "1 violation,
+    2 tight" but no per-discharger breakdown is committed.
+
+    - Findings §9, candidate #2: flagged as corpus gap / new extraction target.
+
+
+    ## Acceptance Criterion
+
+    - Retrieve and commit the current NPDES permit and fact sheet for IN0032191 from
+    IDEM or EPA ECHO to `data/extracted/fort-wayne/`.
+
+    - Extract and commit representative DMR data (minimum: 12-month average actual
+    discharge volume and the specific effluent parameter(s) triggering the monthly-average-limit
+    flag).
+
+    - Confirm or refute whether IN0032191 is the "1 violation" facility in the onboard
+    basin-screen log.
+
+    - Populate `plant_receiving` fields in the Fort Wayne site record with sourced
+    values.'
+- title: Run research pass and investigate disclosed data-center facilities for Fort
+    Wayne / NE Indiana
+  dedupe_key: run-research-pass-and-investigate-disclosed-data-center-faciliti
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  - data-center
+  rationale: The data-center dimension is the entire economic thesis for BOSC network
+    inclusion; confirming whether a facility exists or is genuinely absent is a prerequisite
+    for any promotion decision.
+  body: '## Context
+
+    The data-center activity dimension for Fort Wayne is entirely unpopulated: `facility=None`,
+    `load_share: null`, no extracted permits, no entity graph, and no `data/research/fort-wayne-*/`
+    directory. The site profile characterizes NE Indiana as "an active boom region
+    — discovery work" but no discovery has been performed.
+
+
+    ## Grounding
+
+    - `src/bosc/sites.py:738`: `facility=None`.
+
+    - `grid-profile.yaml`: `load_share: null`, note: "This site has no documented
+    data-center facility, so there is no campus load to express as a share."
+
+    - `data/extracted/fort-wayne/`: contains only `README.md` + `ONBOARDING.md` —
+    no permits, deeds, or entity graph.
+
+    - `sites.py:662`: profile comment frames NE Indiana as "an active boom region
+    — discovery work" `[inference]`.
+
+    - Findings §3 and §9, candidates #3 and #4: empty dimension; `--research` pass
+    not run.
+
+    - Findings §4: Allen County Information sector LQ = **0.44** (1,677 jobs) — county
+    is not currently data/IT-export-oriented, consistent with no disclosed campus.
+
+
+    ## Acceptance Criterion
+
+    - Run `bosc onboard fort-wayne --research` and commit outputs to `data/research/fort-wayne-*/`.
+
+    - Search IURC large-load interconnection filings, City of Fort Wayne economic-development
+    announcements, local zoning records, and public permit databases for any disclosed
+    hyperscale or colocation data-center facility in Allen County IN or surrounding
+    NE Indiana counties.
+
+    - If a facility is found: open a follow-up extraction issue and update `facility`
+    and `load_share` fields with citations.
+
+    - If no facility is found after exhausting discovery sources: document the negative
+    finding explicitly and confirm `facility=None` is the correct state (not a gap).'
+- title: Verify I&M / Fort Wayne LMP and replace inherited $35/MWh placeholder
+  dedupe_key: verify-i-m-fort-wayne-lmp-and-replace-inherited-35-mwh-placehold
+  labels:
+  - agent-proposed
+  - needs-triage
+  - economics
+  - grid
+  rationale: An unverified LMP inherited from a different state jurisdiction silently
+    propagates errors into any economic or water-energy cost analysis built on the
+    Fort Wayne record.
+  body: '## Context
+
+    The Fort Wayne grid profile carries an LMP of **$35/MWh** that is explicitly flagged
+    as `[inference]` — a value shared with the AEP/Lima family and noted as needing
+    verification. Indiana Michigan Power (I&M) operates under IURC regulation in the
+    PJM RTO and is a distinct retail jurisdiction from Lima''s Ohio-regulated AEP
+    territory; the inherited value may not be representative.
+
+
+    ## Grounding
+
+    - `grid-profile.yaml` (Fort Wayne): LMP `$35/MWh` `[inference]` — note: "shared
+    AEP-family value with Lima — verify via PJM Data Miner 2."
+
+    - Findings §4: I&M (EIA #9324), IURC regulator, PJM RTO; Indiana residential price
+    16.23 ¢/kWh vs. I&M retail 11.62 ¢/kWh `[verified: connector]`.
+
+    - Findings §8, discrepancy #2: "Indiana (IURC, I&M) is a different retail jurisdiction;
+    do not let a Lima value masquerade as Fort Wayne''s."
+
+
+    ## Acceptance Criterion
+
+    - Query PJM Data Miner 2 for the AEP/I&M zone real-time or day-ahead LMP (annual
+    average, most recent full calendar year).
+
+    - Replace the `$35/MWh` placeholder in `grid-profile.yaml` with the sourced value,
+    tagged `[verified]` with citation to PJM Data Miner 2.
+
+    - If the I&M zone LMP differs materially from $35/MWh, flag any downstream economic
+    calculations that used the placeholder.'
+- title: Commit Fort Wayne site footprint to unblock SSURGO HSG validation and GIS
+    endpoint discovery
+  dedupe_key: commit-fort-wayne-site-footprint-to-unblock-ssurgo-hsg-validatio
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - gis
+  - extraction
+  rationale: The missing footprint is a single blocking dependency for both the stormwater/hydrology
+    model and the GIS layer registrations, making it a high-leverage item to unblock
+    multiple open onboarding steps simultaneously.
+  body: '## Context
+
+    Two onboarding steps were explicitly skipped or left open due to the absence of
+    a site footprint: (1) the SSURGO hydrologic soil group (HSG) validation — `dominant_hsg="C"`
+    is currently a narrative inference from NRCS descriptions of Blount/Glynwood till
+    and Pewamo clays, not a spatially confirmed value; and (2) parcel and zoning GIS
+    endpoints for Allen County IN and the City of Fort Wayne have not been discovered
+    or registered.
+
+
+    ## Grounding
+
+    - Findings §6: `dominant_hsg="C"` is `[inference]`; onboard log line 19: `ssurgo-hsg
+    | skipped | footprint missing`. `pre_cover`/`post_cover`/`developed_pervious_cover`
+    = `TODO [open]`.
+
+    - Findings §7: `gis_parcel` and `gis_zoning` are both `None`/`TODO [open]`; Allen
+    County IN + City of Fort Wayne ArcGIS REST endpoints not discovered. Described
+    as "known lift."
+
+    - `data/extracted/fort-wayne/`: no `bosc-site-footprint.yaml` committed.
+
+    - Findings §9, candidates #5 and #7: footprint and GIS endpoint discovery flagged
+    as separate actionable items.
+
+
+    ## Acceptance Criterion
+
+    - Commit `data/extracted/fort-wayne/bosc-site-footprint.yaml` with a sourced site
+    boundary (deed, zoning filing, or economic-development parcel record); if no facility
+    is yet identified, document the placeholder approach used.
+
+    - Re-run the SSURGO HSG validation step against the committed footprint and replace
+    the `[inference]` tag on `dominant_hsg` with `[verified]` plus citation.
+
+    - Discover and register Allen County IN (`gis_parcel`) and City of Fort Wayne
+    (`gis_zoning`) ArcGIS REST endpoints; confirm availability via `?f=json` and commit
+    endpoint URLs to the site record.
+
+    - Onboard log step `ssurgo-hsg` must show `ok` (not `skipped`) after completion.'
