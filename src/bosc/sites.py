@@ -653,7 +653,114 @@ _FINDLAY = SiteProfile(
 )
 
 
-SITES: dict[str, SiteProfile] = {_LIMA.slug: _LIMA, _FINDLAY.slug: _FINDLAY}
+# The marquee Maumee comparison node (#235): Fort Wayne, IN — the basin's largest discharger
+# (Fort Wayne WWTP 74.0 MGD → Baldwin Ditch → Maumee mainstem; ~4x Lima; ECHO effluent
+# [violation]). A *coming-soon* point. The first **out-of-state** site, so it exercises the
+# per-site axis across a jurisdiction boundary: Indiana FIPS/state/utility, a UTM-16 reach, the
+# national NFHL for flood, and the Ohio-only LSC connector falling away. Geography is sourced +
+# cited below; the data-center dimension and facility-specific model inputs stay `[open]` until a
+# site is identified (NE Indiana is an active boom region — discovery work, `--research` + corpus).
+_FORT_WAYNE = SiteProfile(
+    slug="fort-wayne",
+    place="Fort Wayne",
+    basin="maumee",  # [verified] St. Joseph + St. Marys form the Maumee at Fort Wayne; HUC-8 04100005
+    # config knobs
+    nwis_sites=[
+        "04182900",  # [verified] Maumee River at Fort Wayne IN (mainstem, the receiving reach)
+        "04180500",  # [verified] St. Joseph River near Fort Wayne IN (north fork of the Maumee)
+        "04182000",  # [verified] St. Marys River near Fort Wayne IN (south fork of the Maumee)
+    ],
+    nasa_power_lat=41.0891,  # [verified] Fort Wayne city centroid (Census 2023 Gazetteer place 1825000)
+    nasa_power_lon=-85.1439,
+    rsei_fips="18003",  # [verified] Allen County, IN
+    econ_fips="18003",
+    eia861_utility_number=9324,  # [verified] Indiana Michigan Power Co (AEP subsidiary); EIA-860 via EIA API
+    eia_state="IN",
+    # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
+    # a follow-up live metadata read (Allen County IN GIS + City of Fort Wayne GIS).
+    parcels_url="TODO",  # [open] pending the Allen County, IN GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Fort Wayne GIS REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gis_parcel=None,  # [open] pending Allen County, IN parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Fort Wayne zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "fort-wayne-gis"}),
+    gnis_default_state="IN",
+    hydro_utm_epsg=32616,  # [verified] UTM 16N (Fort Wayne ~85.14 degW; zone 16 spans 90-84 degW)
+    lsc_default_ga="",  # [n/a] the LSC connector is Ohio-only (statusreport.lsc.ohio.gov); FW is in Indiana
+    # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
+    design_lat=41.0891,  # [verified] city centroid = NOAA Atlas-14 point
+    design_lon=-85.1439,
+    corridor_name="Maumee headwaters corridor",  # [inference] the St. Joseph/St. Marys → Maumee reach
+    dominant_hsg="C",  # [inference] Allen County IN — Blount/Glynwood till + Pewamo lake-plain clays → HSG C
+    hsg_citation=(
+        "Allen County, IN dominant hydrologic soil group C — Blount/Glynwood till and Pewamo "
+        "lake-plain clays of the upper Maumee (NRCS Soil Survey of Allen County, IN); [inference] "
+        "pending an SSURGO area-weighted confirmation (onboard SSURGO step needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={  # [reference] NOAA Atlas-14 Vol 2 (Ohio River Basin) PDS at 41.0891/-85.1439
+        1: 2.18,
+        2: 2.61,
+        5: 3.26,
+        10: 3.78,
+        25: 4.51,
+        50: 5.11,
+        100: 5.73,
+        200: 6.39,
+        500: 7.30,
+        1000: 8.04,
+    },
+    parcels_relpath="reference/fort-wayne/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/fort-wayne/bosc-site-footprint.yaml",  # [open] pending an identified site
+    # per-site onboard reach outputs (slug-scoped — never clobber Lima/Findlay)
+    climatology_relpath="reference/hydrology/fort-wayne/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/fort-wayne/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/fort-wayne/baseline.yaml",
+    rsei_relpath="reference/rsei/fort-wayne/inventory.yaml",
+    consumer_energy_relpath="reference/eia/fort-wayne/consumer-energy.yaml",
+    grid_relpath="reference/eia/fort-wayne/grid-profile.yaml",
+    # toxics (no identified industrial corridor yet)
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # [open] pending an identified corridor on the Maumee
+    receiving_water_name="Maumee River",  # [verified: ECHO] FW WWTP IN0032191 → Baldwin Ditch → Maumee
+    # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
+    plant_receiving={},  # [open] pending Fort Wayne-area WWTP NPDES fact sheets
+    abstraction_gage="04182900",  # [inference] the Maumee-at-Fort-Wayne mainstem gage
+    # refill (the water-balance supply model is not yet designed for Fort Wayne)
+    supply_gage_primary="TODO",  # [open] refill supply gage — pending the site's water-balance model
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,  # [open] in-stream passby minimums — pending the model
+    passby_secondary_cfs=0.0,
+    # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
+    facility=None,  # [open] the data-center dimension onboarding doesn't capture (no disclosed facility)
+    serving_utility_source="reference",  # not corpus-grounded — EIA-861/IURC record
+    serving_utility_citation=(  # [reference] not corpus
+        "EIA-861 service-territory file (Indiana Michigan Power Co #9324, an AEP subsidiary) + "
+        "Indiana IURC certified-territory; I&M serves the Fort Wayne area"
+    ),
+    # grid (I&M is in PJM's AEP/I&M zone)
+    lmp_usd_mwh=35.0,  # [inference] shared AEP-family zone value (PJM); verify via PJM Data Miner 2
+    lmp_citation=(
+        "PJM AEP/I&M zone (Indiana Michigan Power) ~2024 annual average LMP ($/MWh) via PJM Data "
+        "Miner 2 da_hrl_lmps; [inference] shared AEP-family value with Lima — verify"
+    ),
+    # rsei
+    county_name="Allen County, IN",  # [verified]
+    # map
+    map_view_lat=41.0891,
+    map_view_lon=-85.1439,
+    map_view_zoom=12,
+)
+
+
+SITES: dict[str, SiteProfile] = {
+    _LIMA.slug: _LIMA,
+    _FINDLAY.slug: _FINDLAY,
+    _FORT_WAYNE.slug: _FORT_WAYNE,
+}
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so
 # onboarding never overwrites another site's committed data — a profile that copies Lima

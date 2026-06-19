@@ -51,14 +51,47 @@ _OH_STATE_RETAIL_GWH = 149_003.0
 _OH_STATE_CITE = "EIA ELEC.SALES.OH-ALL.A 2023 (Ohio total retail electricity sales)"
 
 
+# Per-state retail electric regulator (the serving-utility chain). OH + IN cover the sites
+# registered today; an unlisted state falls back to a generic state-regulator label.
+_RETAIL_REGULATOR: dict[str, tuple[str, str]] = {
+    "OH": (
+        "Public Utilities Commission of Ohio (PUCO)",
+        "Ohio retail electric service is PUCO-regulated (intrastate)",
+    ),
+    "IN": (
+        "Indiana Utility Regulatory Commission (IURC)",
+        "Indiana retail electric service is IURC-regulated (intrastate)",
+    ),
+}
+
+
 def _serving_utility(settings: Settings, utility_name: str) -> ServingUtility:
     """The cited serving-utility chain. The utility *name* is connector-sourced (EIA-861);
     its *provenance* (source + citation) is per-site — a corpus document for Lima, the
-    EIA-861/PUCO service-territory record for a site without corpus coverage. The holding
-    company / RTO / regulator below assume an AEP-Ohio / PJM / Ohio utility (true for every
-    site registered today); a non-AEP utility would parameterize these too.
+    EIA-861 service-territory record for a site without corpus coverage. The retail regulator
+    is per-state (:data:`_RETAIL_REGULATOR`). The holding company / RTO assume an AEP / PJM
+    utility (true for every site registered today: AEP Ohio for Lima/Findlay, I&M for Fort
+    Wayne — both AEP, both PJM); a non-AEP/PJM utility would parameterize these too.
     """
     prof = active_profile(settings)
+    reg_value, reg_citation = _RETAIL_REGULATOR.get(
+        prof.eia_state,
+        (
+            f"{prof.eia_state} state utility regulator",
+            f"{prof.eia_state} retail electric service is state-regulated (intrastate)",
+        ),
+    )
+    reg_short = (
+        reg_value[reg_value.find("(") + 1 : reg_value.rfind(")")] if "(" in reg_value else reg_value
+    )
+    # Provenance grounding follows the per-site serving_utility source: Lima's is a corpus
+    # document (the AEP-Ohio tariff in the relator appendix); a site without corpus coverage is
+    # grounded in the EIA-861 service-territory record instead.
+    grounding = (
+        "corpus-grounded (AEP Ohio tariff referenced for this campus)"
+        if prof.serving_utility_source == "document"
+        else "identified from the EIA-861 service-territory file"
+    )
     return ServingUtility(
         utility=CitedFact(
             value=utility_name,
@@ -85,15 +118,15 @@ def _serving_utility(settings: Settings, utility_name: str) -> ServingUtility:
             confidence="high",
         ),
         retail_regulator=CitedFact(
-            value="Public Utilities Commission of Ohio (PUCO)",
+            value=reg_value,
             source="reference",
-            citation="Ohio retail electric service is PUCO-regulated (intrastate)",
+            citation=reg_citation,
             confidence="high",
         ),
         note=(
-            "Serving utility is corpus-grounded (AEP Ohio tariff referenced for this "
-            "campus); RTO=PJM is authoritative. The retail service-territory boundary is "
-            "formally confirmed against the EIA-861 territory file / PUCO map (#94)."
+            f"Serving utility is {grounding}; RTO=PJM is authoritative. The retail "
+            f"service-territory boundary is formally confirmed against the EIA-861 territory "
+            f"file / {reg_short} map (#94)."
         ),
     )
 
