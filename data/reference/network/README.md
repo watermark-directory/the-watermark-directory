@@ -1,0 +1,29 @@
+# `data/reference/network/` — the watershed-point network synthesis
+
+Cross-site reference data for the **BOSC network** of Maumee watershed points (Epic #308 / #323).
+The platform onboards each site independently (its own hydrology / economics / grid / toxics
+artifacts under `data/reference/**/<slug>/`); this folder holds the **basin-level** layer that
+ties them together — the fact that every point drains to the same Maumee → Lake Erie system under
+the same nutrient cap, so the sites are nested nodes on one connected basin, not parallel points.
+
+## Files
+
+- **`topology.yaml`** — *curated, cited.* The basin sink + shared TMDL constraint, and per node
+  its position (HUC-8 + receiving-water drainage path to the Maumee mainstem), its receiving-water
+  **regime** (the comparison taxonomy), and the representative POTW(s) whose discharge defines its
+  low-flow screen. Sourced from the registered `SiteProfile`s + the cited corpus; reviewed by hand.
+  This is the only place the cross-site *topology* lives — per-node attributes are NOT duplicated.
+
+- **`basin-network.yaml`** — *computed, regenerable.* The assembled cross-site comparison, written
+  by `bosc network`. For each node it joins the topology above with the node's own committed
+  artifacts (economic baseline, grid profile, RSEI inventory) and its low-flow screen, into one
+  provenance-tagged `BasinNetwork` (`bosc.network`). Regenerate with `bosc network --write`; do not
+  hand-edit. Reads only committed reference data — no network calls.
+
+## Discipline
+
+`topology.yaml` carries cited geography + an `[inference]` regime taxonomy; the computed
+`basin-network.yaml` carries each attribute's own provenance (connector / reference / derived /
+assumption) from its source artifact. The screen is one dimension among several — many nodes are
+honestly **unscreened** (ECHO has no receiving water, or the tributary is ungaged); that data gap
+is itself a finding, surfaced rather than papered over.

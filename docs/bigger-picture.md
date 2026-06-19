@@ -78,6 +78,14 @@ the lone violation; **Decatur → St. Marys (3.1:1)** and **Defiance → Maumee 
 screen "tight." The wide data gap is itself the finding — Lima's plants are unusually
 well-documented, and a basin-wide answer needs each tributary's own cited/gaged 7Q10.
 
+**The network view `[v]`.** The screen is one dimension of a wider cross-site comparison: see
+[**The BOSC network**](NETWORK.md) for the full scorecard — the eight onboarded watershed points
+as nested nodes on one connected basin (all draining through Defiance → Toledo to Lake Erie under
+one TMDL cap), compared across receiving-water regime, grid, economy, and toxics. The headline
+holds across every dimension: Lima is distinctive only in its receiving-water *choice* — its
+economic shape (manufacturing-heavy, information-sector-absent) and its place in the basin are
+typical of the network.
+
 ## 3. Boom patterns — where Lima is typical, where it is the outlier
 
 **Typical of the boom `[inference]`:**

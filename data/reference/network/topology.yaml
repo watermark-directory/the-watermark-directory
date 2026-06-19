@@ -1,0 +1,92 @@
+# BOSC watershed-point network — basin topology + per-node synthesis metadata.
+#
+# The curated INPUT to the cross-site synthesis (`bosc network`, bosc.network). It encodes
+# the one fact the per-site artifacts don't: that every watershed point drains to the SAME
+# Maumee -> Lake Erie system under the SAME nutrient cap, so the sites are nested nodes on one
+# connected basin, not parallel/independent points. Per-node attribute data (hydrology screen,
+# grid, economy, toxics, data-center activity) is NOT duplicated here — the synthesis reads it
+# live from each site's committed reference artifacts (the profile's *_relpath). This file
+# carries only: the basin sink + shared constraint, and per node its position (huc8 +
+# receiving-water drainage path to the Maumee mainstem), its receiving-water regime
+# (the comparison taxonomy), and the representative POTW(s) whose discharge defines its
+# low-flow screen. Every value is sourced from the registered SiteProfile + the cited corpus.
+#
+# Drainage / nesting: the lower Maumee collects the whole basin. Defiance sits at the
+# Maumee/Auglaize/Tiffin confluence (collects the Auglaize subtree — Lima, Van Wert, Findlay,
+# Ottawa — the Tiffin subtree — Bryan — and the upper Maumee — Fort Wayne); Toledo is the
+# tidal outlet to Lake Erie below Defiance. So a sanitary/nutrient load at ANY node accumulates
+# downstream through Defiance -> Toledo into the same Lake-Erie-bound, TMDL-allocated budget.
+meta:
+  subject: BOSC watershed-point network — Maumee basin topology + node synthesis metadata
+  sink: Lake Erie
+  shared_constraint:
+    name: 2023 Maumee Watershed Nutrient TMDL (phosphorus)
+    citation: "data/reference/hydrology/maumee-tmdl-budget.yaml — the basin's binding P cap;
+      future-growth reserve ~1.4-1.5 mt P/spring (Lake Erie's largest tributary). A new
+      data-center sanitary load enters a FULLY-ALLOCATED basin regardless of which node takes it."
+  # The lower-Maumee collector spine, downstream order. Every non-mainstem node drains to the
+  # Maumee at/above Defiance; Defiance -> Toledo -> Lake Erie. Used to build the basin tree.
+  collector_spine: [defiance, toledo]
+  regimes:
+    effluent_dominated_tributary: "Discharges to a small/intermittent tributary where 7Q10 ~=
+      the effluent itself (the effluent-dominance end; Lima's archetype)."
+    gaged_tributary_river: "Discharges to a substantial named tributary river (gaged, real
+      baseflow) — screenable in principle, but not in the derived 4-mainstem set."
+    diluted_mainstem: "Discharges to the Maumee mainstem (large baseflow); the dilution end."
+    tidal_lake_outlet: "Discharges to the tidal lower Maumee at Lake Erie — effectively
+      unlimited dilution, a fundamentally different regime."
+  caveats:
+    - "huc8 + drainage_path are the cited basin position; the subtree/tree are derived from them."
+    - "regime is an [inference] taxonomy (grounded in the receiving water), not a screened band."
+    - "wwtp_npdes is the representative discharger for the node's low-flow screen; a node may
+      have several POTWs (Lima's loop) — the binding/representative one(s) are listed."
+nodes:
+  lima:
+    huc8: "04100007"  # Auglaize subbasin (Ottawa River, Lima area)
+    drainage_path: [Ottawa River, Auglaize River, Maumee River]
+    regime: effluent_dominated_tributary
+    wwtp_npdes: [OH0026069, OH0023841]  # Lima WWTP (Ottawa R) + American-Bath WWTP (Pike Run, the cited violation)
+    citation: "SiteProfile lima; Ottawa River Watershed (Lima Area) TMDL (US EPA 2014-04-15);
+      ECHO maumee-wwtp.potw.yaml. The loop's tributary plants (Pike Run/Dug Run) are flow-starved."
+  fort-wayne:
+    huc8: "04100005"  # Upper Maumee (St. Joseph + St. Marys form the Maumee at Fort Wayne)
+    drainage_path: [Maumee River]
+    regime: diluted_mainstem
+    wwtp_npdes: [IN0032191]  # Fort Wayne WPC Plant -> Baldwin Ditch -> Maumee (ECHO lists the ditch as primary)
+    citation: "SiteProfile fort-wayne; ECHO IN0032191 receiving 'Baldwin Ditch, Maumee River'."
+  defiance:
+    huc8: "04100009"  # Lower Maumee — the Maumee/Auglaize/Tiffin confluence collector
+    drainage_path: [Maumee River]
+    regime: diluted_mainstem
+    wwtp_npdes: [OH0024899]  # Defiance WWTP -> Maumee mainstem (the ~6:1 'tight' screen)
+    citation: "SiteProfile defiance; ECHO OH0024899 receiving Maumee River; the confluence collector."
+  toledo:
+    huc8: "04100009"  # Lower Maumee — the tidal outlet to Lake Erie
+    drainage_path: [Maumee River]
+    regime: tidal_lake_outlet
+    wwtp_npdes: [OH0034223]  # Lucas Co WRRF -> tidal lower Maumee -> Lake Erie
+    citation: "SiteProfile toledo; ECHO OH0034223; Lower Maumee (tidal) at the lake outlet."
+  van-wert:
+    huc8: "04100007"  # Auglaize subbasin (Little Auglaize)
+    drainage_path: [Town Creek, Little Auglaize River, Auglaize River, Maumee River]
+    regime: effluent_dominated_tributary
+    wwtp_npdes: [OH0027910]  # Van Wert WWTP -> Town Creek (small tributary)
+    citation: "SiteProfile van-wert; Ohio EPA NPDES OH0027910 -> Town Creek (RM 13.87)."
+  findlay:
+    huc8: "04100008"  # Blanchard subbasin (Blanchard -> Auglaize)
+    drainage_path: [Blanchard River, Auglaize River, Maumee River]
+    regime: gaged_tributary_river
+    wwtp_npdes: [OH0025135]  # City of Findlay WPCC -> Blanchard River
+    citation: "SiteProfile findlay; ECHO OH0025135; Blanchard R. (gaged, USGS 04189000)."
+  ottawa:
+    huc8: "04100008"  # Blanchard subbasin — the downstream Blanchard sibling of Findlay
+    drainage_path: [Blanchard River, Auglaize River, Maumee River]
+    regime: gaged_tributary_river
+    wwtp_npdes: [OH0026921]  # Ottawa WWTP -> Blanchard River (gaged, USGS 04189260 at Ottawa)
+    citation: "SiteProfile ottawa; ECHO OH0026921; Blanchard R. at Ottawa (USGS 04189260)."
+  bryan:
+    huc8: "04100006"  # Tiffin subbasin (Prairie Creek -> Tiffin)
+    drainage_path: [Prairie Creek, Tiffin River, Maumee River]
+    regime: effluent_dominated_tributary
+    wwtp_npdes: [OH0020532]  # Bryan WWTP -> Prairie Creek (small Tiffin tributary)
+    citation: "SiteProfile bryan; ECHO OH0020532 -> Prairie Creek -> Tiffin River."

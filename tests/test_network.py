@@ -1,0 +1,118 @@
+"""The BOSC network synthesis (bosc.network): the watershed points as one connected basin.
+
+Hermetic — builds the cross-site comparison from committed reference data only (topology +
+each node's economy/grid/toxics artifacts + the low-flow screen). No network, no fixtures.
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import pytest
+
+from bosc.config import Settings
+from bosc.network import BasinNetwork, build_basin_network, write_basin_network
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
+@pytest.fixture
+def net() -> BasinNetwork:
+    return build_basin_network(
+        settings=Settings(data_dir=REPO_ROOT / "data", hydro_offline=True, econ_offline=True)
+    )
+
+
+def _node(net: BasinNetwork, slug: str):  # type: ignore[no-untyped-def]
+    return next(n for n in net.nodes if n.slug == slug)
+
+
+def test_shared_basin_and_node_count(net: BasinNetwork) -> None:
+    assert net.sink == "Lake Erie"
+    assert "TMDL" in net.shared_constraint
+    # Every registered, topology-listed site is a node.
+    assert {n.slug for n in net.nodes} == {
+        "lima",
+        "fort-wayne",
+        "defiance",
+        "toledo",
+        "van-wert",
+        "findlay",
+        "ottawa",
+        "bryan",
+    }
+
+
+def test_topology_drains_downstream_to_the_sink(net: BasinNetwork) -> None:
+    # Defiance is the confluence collector; Toledo the outlet; everything routes through them.
+    assert _node(net, "toledo").downstream == "Lake Erie"
+    assert _node(net, "defiance").downstream == "toledo"
+    for slug in ("lima", "van-wert", "findlay", "ottawa", "bryan", "fort-wayne"):
+        assert _node(net, slug).downstream == "defiance", slug
+    # Subtrees derived from the drainage path.
+    assert _node(net, "bryan").subtree == "Tiffin"
+    assert _node(net, "lima").subtree == "Auglaize"
+    assert _node(net, "ottawa").subtree == "Auglaize"  # Blanchard -> Auglaize
+    assert _node(net, "toledo").subtree == "Maumee mainstem"
+
+
+def test_display_order_is_upstream_to_downstream(net: BasinNetwork) -> None:
+    order = [n.slug for n in net.nodes]
+    # The lower-Maumee collectors come last, Defiance before Toledo.
+    assert order[-2:] == ["defiance", "toledo"]
+    # Fort Wayne (upper mainstem) sits after the tributary subtrees, before the collectors.
+    assert order.index("bryan") < order.index("fort-wayne") < order.index("defiance")
+
+
+def test_screen_is_one_dimension_honestly_sparse(net: BasinNetwork) -> None:
+    # Only Lima (violation) and Defiance (tight) are cleanly screenable from ECHO + gages.
+    lima = _node(net, "lima").screen
+    assert lima.status == "screened" and lima.flag == "violation" and lima.dilution_ratio < 0.1
+    defiance = _node(net, "defiance").screen
+    assert defiance.status == "screened" and defiance.flag == "tight"
+    assert 4.0 < (defiance.dilution_ratio or 0) < 9.0
+    # The rest are reported unscreened, with the reason (omit, don't guess) — the data gap.
+    screened = [n for n in net.nodes if n.screen.status == "screened"]
+    assert len(screened) == 2
+    assert _node(net, "bryan").screen.status == "no_7q10"  # ungaged Prairie Creek
+    assert _node(net, "toledo").screen.status == "no_receiving_water"  # null in ECHO
+
+
+def test_economy_shape_is_universal(net: BasinNetwork) -> None:
+    # Every node is a manufacturing-concentrated, information-sector-absent county.
+    for n in net.nodes:
+        assert n.economy.manufacturing_lq is not None and n.economy.manufacturing_lq > 1.0, n.slug
+        assert n.economy.information_lq is not None and n.economy.information_lq < 1.0, n.slug
+        assert n.economy.population and n.economy.population > 0, n.slug
+
+
+def test_grid_carries_the_serving_utility(net: BasinNetwork) -> None:
+    lima = _node(net, "lima").grid
+    assert "AEP Ohio" in (lima.utility or "") and "PUCO" in (lima.retail_regulator or "")
+    # Bryan is the network's municipal node — home-rule regulator, AMP/PJM, cheapest bundled price.
+    bryan = _node(net, "bryan").grid
+    assert "municipal" in (bryan.holding_company or "").lower()
+    assert "home rule" in (bryan.retail_regulator or "").lower()
+    # FirstEnergy/ATSI for the lower-mainstem nodes (non-AEP).
+    assert "FirstEnergy" in (_node(net, "defiance").grid.holding_company or "")
+
+
+def test_toxics_present(net: BasinNetwork) -> None:
+    for n in net.nodes:
+        assert n.toxics.facility_count and n.toxics.facility_count > 0, n.slug
+
+
+def test_only_lima_has_a_disclosed_facility(net: BasinNetwork) -> None:
+    assert _node(net, "lima").activity.has_disclosed_facility is True
+    assert _node(net, "lima").activity.it_load_mw and _node(net, "lima").activity.it_load_mw > 0
+    assert all(not n.activity.has_disclosed_facility for n in net.nodes if n.slug != "lima")
+
+
+def test_write_round_trips(tmp_path: Path, net: BasinNetwork) -> None:
+    import yaml
+
+    out = write_basin_network(net, settings=Settings(data_dir=tmp_path))
+    assert out.exists()
+    reloaded = BasinNetwork.model_validate(yaml.safe_load(out.read_text(encoding="utf-8")))
+    assert len(reloaded.nodes) == len(net.nodes)
+    assert reloaded.sink == net.sink

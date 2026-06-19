@@ -406,6 +406,76 @@ def basin_screen() -> None:
     )
 
 
+@app.command(name="basin-network")
+def basin_network(
+    write: bool = typer.Option(
+        False, "--write", help="Persist data/reference/network/basin-network.yaml."
+    ),
+) -> None:
+    """The BOSC network synthesis: the Maumee watershed points as one connected basin.
+
+    Joins the curated basin topology (sink + shared TMDL + per-node position) with each node's
+    committed economy / grid / toxics artifacts and its low-flow screen, into one upstream->
+    downstream cross-site comparison. The screen is one dimension; nodes on ungaged tributaries
+    or with no ECHO receiving water are reported unscreened (the data gap is itself a finding).
+    Read-only over committed reference data.
+    """
+    from bosc.network import build_basin_network, write_basin_network
+
+    net = build_basin_network(settings=get_settings())
+    console.print(
+        f"[bold]BOSC network[/] - {len(net.nodes)} watershed points draining to [bold]{net.sink}[/]"
+    )
+    console.print(f"[dim]shared constraint: {net.shared_constraint}[/]\n")
+    table = Table(
+        "node",
+        "subtree",
+        "-> downstream",
+        "regime",
+        "screen",
+        "grid (holding . c/kWh)",
+        "jobs chg",
+        "mfg/info LQ",
+    )
+    flagcolor = {"violation": "red", "tight": "yellow", "ok": "green"}
+    for n in net.nodes:
+        s = n.screen
+        if s.status == "screened" and s.dilution_ratio is not None:
+            screen = f"[{flagcolor.get(s.flag or '', 'white')}]{s.flag} {s.dilution_ratio:.2f}:1[/]"
+        else:
+            screen = f"[dim]{s.status}[/]"
+        grid = n.grid.holding_company or "-"
+        if n.grid.avg_price_cents_kwh is not None:
+            grid += f" . {n.grid.avg_price_cents_kwh:.1f}c"
+        jobs = (
+            "-"
+            if n.economy.employment_change_pct is None
+            else f"{n.economy.employment_change_pct:+.1f}%"
+        )
+        mfg = "-" if n.economy.manufacturing_lq is None else f"{n.economy.manufacturing_lq:.1f}"
+        info = "-" if n.economy.information_lq is None else f"{n.economy.information_lq:.1f}"
+        node_label = f"{n.place}{' [cyan](DC)[/]' if n.activity.has_disclosed_facility else ''}"
+        table.add_row(
+            node_label,
+            n.subtree,
+            n.downstream,
+            n.regime.replace("_", " "),
+            screen,
+            grid,
+            jobs,
+            f"{mfg}/{info}",
+        )
+    console.print(table)
+    screened = sum(n.screen.status == "screened" for n in net.nodes)
+    console.print(
+        f"\n[dim]{screened}/{len(net.nodes)} nodes low-flow-screenable; the rest are unscreened "
+        f"(ungaged tributary / no ECHO receiving water) - the data gap is itself a finding.[/]"
+    )
+    if write:
+        out = write_basin_network(net, settings=get_settings())
+        console.print(f"[green]wrote[/] {out}")
+
+
 @app.command(name="derive-low-flows")
 def derive_low_flows(
     offline: bool = typer.Option(
