@@ -124,7 +124,9 @@ before promotion:
 1. Every written reference value reviewed against a cited source (no fabricated values).
 2. SSURGO dominant HSG matches the profile, or the profile is updated **with a citation**.
 3. `basin-screen` coverage is sane for the site's receiving waters.
-4. A per-jurisdiction County/City GIS connector exists (the known lift — below).
+4. The site's GIS field-maps are registered (`gis_parcel`/`gis_zoning`/`gis_flood`) for the
+   layers it publishes — field names taken from the live `/<layer>?f=json`, not fabricated; a
+   layer the site lacks stays `None` (the connector refuses cleanly). See the known lift below.
 5. Self-research first pass reviewed (`bosc onboard <slug> --research`; triage the proposals — see below).
 6. Promotion is a separate manual edit (step 5).
 
@@ -158,13 +160,22 @@ deeper, separate cutover, not part of routine onboarding.
   is corpus extraction + the self-research pass (#247 seam), not a connector pull; it's also
   why the **grid profile** is sparse for a coming-soon site (it aggregates the facility's power
   load, which doesn't exist until that dimension is populated).
-- **The known lift — per-jurisdiction GIS:** the coordinate/id-based connectors (NWIS /
-  Atlas-14 / SSURGO / NASA-POWER) are free for any reach, but **County/City parcel & zoning
-  GIS is jurisdiction-specific**. [`allen_gis.py`](../src/bosc/hydrology/connectors/allen_gis.py)
-  and [`lima_gis.py`](../src/bosc/hydrology/connectors/lima_gis.py) are Allen-County / City-of-Lima
-  ArcGIS endpoints; a new jurisdiction needs its **own** parcel/zoning/floodzone connector
-  (the profile already carries its URLs, but the connector code is jurisdiction-shaped). Plan
-  for this as the parity bar, not a coming-soon blocker.
+- **Per-jurisdiction GIS — now config, not a copied connector (#237):** the coordinate/id-based
+  connectors (NWIS / Atlas-14 / SSURGO / NASA-POWER) are free for any reach. County/City parcel
+  & zoning GIS is still jurisdiction-specific, but the connectors
+  ([`allen_gis.py`](../src/bosc/hydrology/connectors/allen_gis.py) /
+  [`lima_gis.py`](../src/bosc/hydrology/connectors/lima_gis.py)) are now **schema-driven**: the
+  ArcGIS field names + encodings live in a `GisParcelSchema`/`GisZoningSchema`/`GisFloodSchema`
+  ([`bosc.connectors.gis_schema`](../src/bosc/connectors/gis_schema.py)) registered on the
+  profile (`gis_parcel`/`gis_zoning`/`gis_flood`, alongside the existing `*_url`s). **The lift
+  shrinks to: find the layer + register its field-map** (read the live `/<layer>?f=json` to get
+  the real field names — never fabricate them). A layer the site doesn't publish stays `None`
+  (the connector/CLI refuses cleanly). **Floodzone is essentially free:** the shared national
+  FEMA NFHL field-map (`NATIONAL_NFHL_FLOOD_SCHEMA`) serves any US site — point `floodzone_url`
+  at the NFHL layer and reference it. *Worked example — Findlay:* zoning = the City's hosted
+  FeatureServer (polygon-only → district catalog, no parcel join); flood = the national NFHL;
+  parcels = `[open]` (Hancock County publishes no ArcGIS-REST parcel layer — Beacon/Schneider
+  only; the substitute is the Ohio statewide parcel layer filtered to FIPS 39063).
 
 ## The self-research first pass (`--research`, #247)
 

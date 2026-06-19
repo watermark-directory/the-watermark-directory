@@ -20,6 +20,7 @@ import yaml
 from pydantic import BaseModel, ConfigDict
 
 from bosc.config import Settings, get_settings
+from bosc.sites import active_profile
 
 if TYPE_CHECKING:
     from bosc.hydrology.connectors.lima_gis import FloodZone
@@ -139,6 +140,13 @@ def write_campus_floodzone(
         return sorted({_label(f.fld_zone, f.zone_subtype) for f in fzs})
 
     firm = next((f.source_cit for f in (*in_parcels, *nearby) if f.source_cit), "FEMA DFIRM 39003C")
+    # The GIS source + footprint path come from the active profile (the flood schema's meta +
+    # parcels_relpath), so the citation is the site's own — not a Lima hardcode. (Lima's
+    # committed campus-floodzone.yaml predates this and is unchanged; this only shapes regens.)
+    prof = active_profile(settings)
+    gis_source = (
+        prof.gis_flood.meta.source if prof.gis_flood is not None else "FEMA flood-hazard layer"
+    )
     doc: dict[str, Any] = {
         "footprint": footprint,
         "in_parcels_zones": zones(in_parcels),
@@ -146,9 +154,8 @@ def write_campus_floodzone(
         "nearby_zones": zones(nearby),
         "firm": str(firm),
         "citation": (
-            "City of Lima GIS Floodzone layer (FEMA DFIRM panel 39003C) "
-            "intersected with the recorded Bistrozzi parcel footprints "
-            "(data/reference/periplus/bosc-parcels.geojson). source: connector."
+            f"{gis_source} intersected with the recorded parcel footprints "
+            f"({prof.parcels_relpath}). source: connector."
         ),
     }
     path.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True), encoding="utf-8")

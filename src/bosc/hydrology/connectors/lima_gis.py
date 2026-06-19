@@ -1,25 +1,20 @@
-"""City of Lima, Ohio GIS — zoning connector.
+"""City/jurisdiction zoning + FEMA floodzone connector — schema-driven (#237).
 
-Pulls the **"Current Lima Zoning"** polygon layer from the City of Lima's public
-**ArcGIS REST** server (folder ``CitywideMaps/Lima_Zoning``, layer 6). Each zoning
-polygon carries a ``ZONING`` district label and a ``PARCEL_NO`` — so zoning joins
-to a parcel by id, no spatial query needed. The server is anonymous (no token),
-serves ``f=json``, and the layer's ``maxRecordCount`` is 10,000.
+Pulls a jurisdiction's **zoning** polygon layer and its **flood-hazard** (FEMA DFIRM / NFHL)
+layer from a public **ArcGIS REST** server. As with :mod:`bosc.hydrology.connectors.allen_gis`,
+the field names + encodings are not hardcoded: they come from the active site's
+:class:`~bosc.connectors.gis_schema.GisZoningSchema` / :class:`~bosc.connectors.gis_schema.GisFloodSchema`
+(``SiteProfile.gis_zoning`` / ``gis_flood``). Lima = the City of Lima "Current Lima Zoning"
+layer (folder ``CitywideMaps/Lima_Zoning``, layer 6) joined to a parcel by id, and the FEMA
+DFIRM floodzone (layer 4); its schemas (:data:`bosc.sites.LIMA_ZONING_SCHEMA` /
+:data:`bosc.sites.LIMA_FLOOD_SCHEMA`) reproduce the pre-#237 behavior exactly.
 
-Scope caveat (important): this layer covers **Lima city limits only**. Parcels in
-unincorporated Allen County (e.g. the American Township corridor) are *not* in it —
-a lookup there returning ``None`` means "outside the city," not "unzoned."
+Scope caveat (Lima): the zoning layer covers **city limits only**. Parcels in unincorporated
+county land (e.g. the American Township corridor) are *not* in it — a lookup there returning
+``None`` means "outside the city," not "unzoned."
 
-Two ways in:
-
-* :func:`zoning_for_parcel` — the district for one parcel number (deed ids like
-  ``36-0100-03-002.000`` are normalized to the dashless ``PARCEL_NO``);
-* :func:`zoning_districts` — the district catalog (each code + its polygon count),
-  via a server-side ``groupBy`` statistics query.
-
-Values are passed through **verbatim** from the service; ``None`` means the service
-returned no value. Reuses the shared connector cache/offline/fixture machinery;
-synchronous (``httpx``). Mirrors :mod:`bosc.hydrology.connectors.allen_gis`.
+Values are passed through **verbatim** from the service; ``None`` means the service returned
+no value. Reuses the shared connector cache/offline/fixture machinery; synchronous (``httpx``).
 """
 
 from __future__ import annotations
@@ -33,34 +28,55 @@ import yaml
 from pydantic import BaseModel, ConfigDict
 
 from bosc.config import Settings, get_settings
+from bosc.connectors.gis_schema import GisFloodSchema, GisZoningSchema
 from bosc.hydrology.connectors._cache import cached_get
 from bosc.hydrology.connectors.allen_gis import normalize_parcel_id
 from bosc.logging import get_logger
+from bosc.sites import LIMA_FLOOD_SCHEMA, LIMA_ZONING_SCHEMA, active_profile
 
 log = get_logger(__name__)
 
-_PAGE_SIZE = 10000  # the layer's maxRecordCount
-
 
 class LimaGisError(RuntimeError):
-    """The ArcGIS service returned an error object (bad field, bad where, ...)."""
+    """The ArcGIS service returned an error object, or the active site has no zoning/flood schema."""
+
+
+def _zoning_schema(settings: Settings) -> GisZoningSchema:
+    """The active site's zoning GIS schema, or a clean error if it has none."""
+    schema = active_profile(settings).gis_zoning
+    if schema is None:
+        raise LimaGisError(
+            f"site {settings.site!r} has no zoning GIS schema (gis_zoning) — cannot query zoning"
+        )
+    return schema
+
+
+def _flood_schema(settings: Settings) -> GisFloodSchema:
+    """The active site's floodzone GIS schema, or a clean error if it has none."""
+    schema = active_profile(settings).gis_flood
+    if schema is None:
+        raise LimaGisError(
+            f"site {settings.site!r} has no floodzone GIS schema (gis_flood) — cannot query floodzones"
+        )
+    return schema
 
 
 class ZoningRecord(BaseModel):
-    """One zoning polygon's attributes, as returned by the City of Lima GIS."""
+    """One zoning polygon's attributes, as returned by the jurisdiction's GIS."""
 
     model_config = ConfigDict(extra="forbid")
 
     object_id: int | None
-    parcel_no: str | None  # PARCEL_NO (dashless, joins to the county CAMA layer)
-    zoning: str | None  # ZONING district label, verbatim
+    parcel_no: str | None  # joins to the county CAMA layer
+    zoning: str | None  # the district label, verbatim
 
     @classmethod
-    def from_attrs(cls, a: dict[str, Any]) -> ZoningRecord:
+    def from_attrs(cls, a: dict[str, Any], schema: GisZoningSchema | None = None) -> ZoningRecord:
+        s = schema or LIMA_ZONING_SCHEMA
         return cls(
-            object_id=_i(a.get("OBJECTID")),
-            parcel_no=_s(a.get("PARCEL_NO")),
-            zoning=_s(a.get("ZONING")),
+            object_id=_i(a.get(s.object_id_field)),
+            parcel_no=_s(a.get(s.parcel_field)) if s.parcel_field else None,
+            zoning=_s(a.get(s.zoning_field)),
         )
 
 
@@ -69,7 +85,7 @@ class ZoningDistrict(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    code: str  # the ZONING label, verbatim
+    code: str  # the district label, verbatim
     polygon_count: int
 
 
@@ -87,29 +103,37 @@ def _i(value: Any) -> int | None:
         return None
 
 
-def _bfe(value: Any) -> float | None:
-    """A base-flood elevation, or None for missing / the -9999 'no BFE' sentinel."""
+def _bfe(value: Any, sentinel: float) -> float | None:
+    """A base-flood elevation, or None for missing / the schema's 'no BFE' sentinel."""
     try:
         f = float(value)
     except (TypeError, ValueError):
         return None
-    return None if f == _BFE_SENTINEL else f
+    return None if f == sentinel else f
 
 
 def _query(
-    params: dict[str, Any], *, settings: Settings, url: str, connector: str = "lima_gis"
+    params: dict[str, Any],
+    *,
+    settings: Settings,
+    url: str,
+    connector: str,
+    method: str = "POST",
 ) -> dict[str, Any]:
     """Run (or replay) one ArcGIS ``/query`` against ``url``; return the parsed JSON.
 
-    ``connector`` namespaces the cache/fixtures so different layers of the same
-    service (zoning vs floodzone) never collide on identical params.
+    ``connector`` namespaces the cache/fixtures so different layers of the same service
+    (zoning vs floodzone) never collide on identical params. ``method`` is the schema's HTTP
+    verb (Lima POSTs — spatial queries carry a geometry too large for a GET URL).
     """
     query = {"f": "json", "returnGeometry": "false", **params}
 
     def fetch() -> Any:
         log.info(f"{connector}.fetch", where=params.get("where"), offset=params.get("resultOffset"))
-        # POST (form-encoded) — spatial queries carry a geometry too large for a GET URL.
-        resp = httpx.post(f"{url}/query", data=query, timeout=settings.hydro_request_timeout_s)
+        if method == "GET":
+            resp = httpx.get(f"{url}/query", params=query, timeout=settings.hydro_request_timeout_s)
+        else:
+            resp = httpx.post(f"{url}/query", data=query, timeout=settings.hydro_request_timeout_s)
         resp.raise_for_status()
         return resp.json()
 
@@ -127,22 +151,25 @@ def query_zoning(
 ) -> list[ZoningRecord]:
     """Every zoning polygon matching ``where``, paged to completion."""
     settings = settings or get_settings()
+    schema = _zoning_schema(settings)
     records: list[ZoningRecord] = []
     offset = 0
     while True:
         page = _query(
             {
                 "where": where,
-                "outFields": "OBJECTID,PARCEL_NO,ZONING",
+                "outFields": ",".join(schema.out_fields),
                 "resultOffset": offset,
-                "resultRecordCount": _PAGE_SIZE,
-                "orderByFields": "OBJECTID",
+                "resultRecordCount": schema.page_size,
+                "orderByFields": schema.object_id_field,
             },
             settings=settings,
             url=settings.zoning_url,
+            connector=schema.connector,
+            method=schema.http_method,
         )
         features = page.get("features") or []
-        records.extend(ZoningRecord.from_attrs(f.get("attributes", {})) for f in features)
+        records.extend(ZoningRecord.from_attrs(f.get("attributes", {}), schema) for f in features)
         if max_records is not None and len(records) >= max_records:
             return records[:max_records]
         if not page.get("exceededTransferLimit") or not features:
@@ -151,62 +178,76 @@ def query_zoning(
 
 
 def zoning_for_parcel(parcel_no: str, *, settings: Settings | None = None) -> ZoningRecord | None:
-    """The zoning district for one parcel; ``None`` if outside Lima city limits."""
+    """The zoning district for one parcel; ``None`` if outside the layer's jurisdiction.
+
+    Refuses when the active site's zoning layer is polygon-only (no parcel-id field) — there
+    the district catalog (:func:`zoning_districts`) is the supported read.
+    """
     settings = settings or get_settings()
-    normalized = normalize_parcel_id(parcel_no)
-    matches = query_zoning(f"PARCEL_NO='{normalized}'", settings=settings)
+    schema = _zoning_schema(settings)
+    if schema.parcel_field is None:
+        raise LimaGisError(
+            f"site {settings.site!r} zoning layer has no parcel-id field (polygon-only) — "
+            "use zoning_districts() / bosc zoning --districts"
+        )
+    normalized = normalize_parcel_id(parcel_no, rule=schema.id_normalize)
+    matches = query_zoning(f"{schema.parcel_field}='{normalized}'", settings=settings)
     return matches[0] if matches else None
 
 
 def zoning_districts(*, settings: Settings | None = None) -> list[ZoningDistrict]:
-    """The zoning-district catalog: each ``ZONING`` code and its polygon count.
+    """The zoning-district catalog: each district code and its polygon count.
 
-    Uses a server-side ``groupBy`` statistics query so the whole catalog comes back
-    in one request rather than paging every polygon.
+    Uses a server-side ``groupBy`` statistics query so the whole catalog comes back in one
+    request rather than paging every polygon.
     """
     settings = settings or get_settings()
+    schema = _zoning_schema(settings)
     stats = [
-        {"statisticType": "count", "onStatisticField": "OBJECTID", "outStatisticFieldName": "n"}
+        {
+            "statisticType": "count",
+            "onStatisticField": schema.object_id_field,
+            "outStatisticFieldName": "n",
+        }
     ]
     page = _query(
         {
             "where": "1=1",
-            "outFields": "ZONING",
-            "groupByFieldsForStatistics": "ZONING",
+            "outFields": schema.zoning_field,
+            "groupByFieldsForStatistics": schema.zoning_field,
             "outStatistics": json.dumps(stats),
         },
         settings=settings,
         url=settings.zoning_url,
+        connector=schema.connector,
+        method=schema.http_method,
     )
     districts = [
-        ZoningDistrict(code=str(a.get("ZONING") or "").strip(), polygon_count=int(a.get("n") or 0))
+        ZoningDistrict(
+            code=str(a.get(schema.zoning_field) or "").strip(), polygon_count=int(a.get("n") or 0)
+        )
         for a in (f.get("attributes", {}) for f in page.get("features") or [])
-        if _s(a.get("ZONING"))
+        if _s(a.get(schema.zoning_field))
     ]
     return sorted(districts, key=lambda d: (-d.polygon_count, d.code))
 
 
-def write_zoning_districts(districts: list[ZoningDistrict], out_dir: Path) -> Path:
+def write_zoning_districts(
+    districts: list[ZoningDistrict], out_dir: Path, *, settings: Settings | None = None
+) -> Path:
     """Write the zoning-district catalog to one YAML file with provenance ``meta``."""
+    settings = settings or get_settings()
+    meta = _zoning_schema(settings).meta
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / "zoning-districts.yaml"
     doc = {
         "meta": {
-            "subject": "City of Lima, Ohio zoning districts (catalog)",
-            "source": "City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 6 'Current Lima Zoning'",
-            "source_url": (
-                "https://colgis.cityhall.lima.oh.us/server/rest/services/"
-                "CitywideMaps/Lima_Zoning/MapServer/6"
-            ),
+            "subject": meta.subject,
+            "source": meta.source,
+            "source_url": meta.source_url,
             "district_count": len(districts),
             "polygon_total": sum(d.polygon_count for d in districts),
-            "caveats": [
-                "Values are verbatim from the City of Lima GIS.",
-                "Coverage is Lima CITY LIMITS ONLY; unincorporated Allen County parcels "
-                "(e.g. the American Township corridor) are not in this layer.",
-                "polygon_count counts zoning polygons, not distinct parcels (a parcel may "
-                "carry more than one polygon).",
-            ],
+            "caveats": list(meta.caveats),
         },
         "districts": [d.model_dump() for d in districts],
     }
@@ -215,33 +256,34 @@ def write_zoning_districts(districts: list[ZoningDistrict], out_dir: Path) -> Pa
 
 
 class CitedParcelZoning(BaseModel):
-    """One cited corpus parcel and its City of Lima zoning (or its absence)."""
+    """One cited corpus parcel and its jurisdiction zoning (or its absence)."""
 
     model_config = ConfigDict(extra="forbid")
 
     parcel_no: str  # as cited in the corpus
-    normalized: str  # dashless id used for the join
-    in_city: bool  # within the City of Lima zoning layer
-    zoning: str | None = None  # the district label when in-city, else None
+    normalized: str  # normalized id used for the join
+    in_city: bool  # within the jurisdiction's zoning layer
+    zoning: str | None = None  # the district label when in-jurisdiction, else None
 
 
 def scan_cited_zoning(
     parcel_ids: list[str], *, settings: Settings | None = None
 ) -> list[CitedParcelZoning]:
-    """Look up the City of Lima zoning for each cited corpus parcel.
+    """Look up the jurisdiction zoning for each cited corpus parcel.
 
-    The zoning layer is **city limits only**: a parcel in unincorporated Allen County
-    (the American Township corridor) resolves to ``in_city=False`` — a real, recorded
-    null, not a gap.
+    The Lima zoning layer is **city limits only**: a parcel in unincorporated Allen County
+    (the American Township corridor) resolves to ``in_city=False`` — a real, recorded null,
+    not a gap.
     """
     settings = settings or get_settings()
+    schema = _zoning_schema(settings)
     out: list[CitedParcelZoning] = []
     for pid in parcel_ids:
         rec = zoning_for_parcel(pid, settings=settings)
         out.append(
             CitedParcelZoning(
                 parcel_no=pid,
-                normalized=normalize_parcel_id(pid),
+                normalized=normalize_parcel_id(pid, rule=schema.id_normalize),
                 in_city=rec is not None,
                 zoning=rec.zoning if rec is not None else None,
             )
@@ -249,37 +291,31 @@ def scan_cited_zoning(
     return out
 
 
-def write_cited_zoning(scan: list[CitedParcelZoning], out_dir: Path) -> Path:
+def write_cited_zoning(
+    scan: list[CitedParcelZoning], out_dir: Path, *, settings: Settings | None = None
+) -> Path:
     """Persist the cited-parcel zoning scan (the corridor-jurisdiction finding)."""
+    settings = settings or get_settings()
+    cited = _zoning_schema(settings).cited_meta
+    if cited is None:
+        raise LimaGisError(
+            f"site {settings.site!r} zoning layer has no cited-zoning scan configured "
+            "(gis_zoning.cited_meta — needs a parcel join)"
+        )
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / "parcels.zoning.yaml"
     in_city = [s for s in scan if s.in_city]
-    finding = (
-        f"{len(in_city)} of {len(scan)} cited corpus parcels fall within the City of Lima "
-        "zoning jurisdiction"
-        + (
-            "."
-            if in_city
-            else " — the corridor (data-center campus + JSMC) sits in American/county "
-            "townships, so it is NOT subject to the City of Lima zoning code. Allen County "
-            "GIS publishes no county/township zoning layer (only Tax and School districts), "
-            "so land-use authority here is township/county, not GIS-mapped."
-        )
+    finding = f"{len(in_city)} of {len(scan)} cited corpus parcels {cited.finding_lead}" + (
+        cited.in_city_finding if in_city else cited.out_of_city_finding
     )
     doc = {
         "meta": {
-            "subject": "City of Lima zoning for cited corpus parcels (jurisdiction scan)",
-            "source": "City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 6, "
-            "joined by PARCEL_NO to corpus-cited parcel ids",
+            "subject": cited.subject,
+            "source": cited.source,
             "n_cited": len(scan),
             "n_in_city": len(in_city),
             "finding": finding,
-            "caveats": [
-                "Coverage is Lima CITY LIMITS ONLY; in_city=false is a verified outside-"
-                "city result, not a missing lookup.",
-                "Parcel ids are scanned from data/extracted; normalized to the dashless "
-                "PARCEL_NO the GIS join uses.",
-            ],
+            "caveats": list(cited.caveats),
         },
         "parcels": [s.model_dump() for s in scan],
     }
@@ -287,35 +323,34 @@ def write_cited_zoning(scan: list[CitedParcelZoning], out_dir: Path) -> Path:
     return path
 
 
-# --- FEMA Floodzone (DFIRM) layer ------------------------------------------
-
-_FLOOD_CONNECTOR = "lima_gis_flood"
-_BFE_SENTINEL = -9999  # the layer's "no static BFE" sentinel — never a real elevation
+# --- FEMA Floodzone (DFIRM / NFHL) layer -----------------------------------
 
 
 class FloodZone(BaseModel):
-    """One FEMA DFIRM flood-hazard polygon's attributes (City of Lima GIS, layer 4)."""
+    """One FEMA flood-hazard polygon's attributes (per the active flood schema)."""
 
     model_config = ConfigDict(extra="forbid")
 
     object_id: int | None
     fld_zone: str | None  # FEMA zone code: A / AE / AO / X / ...
     zone_subtype: str | None  # e.g. FLOODWAY; None when blank
-    sfha: bool  # Special Flood Hazard Area (SFHA_TF == 'T')
-    static_bfe: float | None  # base flood elevation, or None for the -9999 sentinel
+    sfha: bool  # Special Flood Hazard Area
+    static_bfe: float | None  # base flood elevation, or None for the sentinel
     dfirm_id: str | None
     source_cit: str | None  # the FIRM / FIS citation
 
     @classmethod
-    def from_attrs(cls, a: dict[str, Any]) -> FloodZone:
+    def from_attrs(cls, a: dict[str, Any], schema: GisFloodSchema | None = None) -> FloodZone:
+        s = schema or LIMA_FLOOD_SCHEMA
+        flag = str(a.get(s.sfha_field) or "").strip().upper()
         return cls(
-            object_id=_i(a.get("OBJECTID")),
-            fld_zone=_s(a.get("FLD_ZONE")),
-            zone_subtype=_s(a.get("ZONE_SUBTY")),
-            sfha=str(a.get("SFHA_TF") or "").strip().upper() == "T",
-            static_bfe=_bfe(a.get("STATIC_BFE")),
-            dfirm_id=_s(a.get("DFIRM_ID")),
-            source_cit=_s(a.get("SOURCE_CIT")),
+            object_id=_i(a.get(s.object_id_field)),
+            fld_zone=_s(a.get(s.fld_zone_field)),
+            zone_subtype=_s(a.get(s.zone_subtype_field)),
+            sfha=flag == s.sfha_true_value.strip().upper(),
+            static_bfe=_bfe(a.get(s.static_bfe_field), s.bfe_sentinel),
+            dfirm_id=_s(a.get(s.dfirm_id_field)),
+            source_cit=_s(a.get(s.source_cit_field)),
         )
 
 
@@ -333,8 +368,8 @@ class FloodZoneClass(BaseModel):
 def _polygon_rings(path: Path) -> list[list[list[float]]]:
     """Extract all polygon rings from a footprint GeoJSON (Polygon/MultiPolygon).
 
-    Non-areal features (a stray Point/LineString) are skipped — only rings that can
-    bound an area contribute to the spatial query geometry.
+    Non-areal features (a stray Point/LineString) are skipped — only rings that can bound an
+    area contribute to the spatial query geometry.
     """
     data = json.loads(path.read_text(encoding="utf-8"))
     rings: list[list[list[float]]] = []
@@ -350,10 +385,6 @@ def _polygon_rings(path: Path) -> list[list[list[float]]]:
     return rings
 
 
-def _flood_query(params: dict[str, Any], *, settings: Settings) -> dict[str, Any]:
-    return _query(params, settings=settings, url=settings.floodzone_url, connector=_FLOOD_CONNECTOR)
-
-
 def query_floodzones(
     where: str = "1=1",
     *,
@@ -364,12 +395,13 @@ def query_floodzones(
 ) -> list[FloodZone]:
     """Flood-hazard polygons matching ``where`` and (optionally) a WGS84 geometry.
 
-    Pass ``rings`` (polygon, lon/lat) or ``point`` (``(lon, lat)``); the service
-    reprojects from ``inSR=4326``. A truthy ``distance_m`` buffers the geometry so
-    "within N metres" can be answered (omit/0 = exact intersect — ArcGIS rejects a
-    literal ``distance=0``). Paged to completion.
+    Pass ``rings`` (polygon, lon/lat) or ``point`` (``(lon, lat)``); the service reprojects
+    from ``inSR=4326``. A truthy ``distance_m`` buffers the geometry so "within N metres" can
+    be answered (omit/0 = exact intersect — ArcGIS rejects a literal ``distance=0``). Paged to
+    completion.
     """
     settings = settings or get_settings()
+    schema = _flood_schema(settings)
     spatial: dict[str, Any] = {}
     if rings is not None:
         spatial = {
@@ -393,48 +425,61 @@ def query_floodzones(
     out: list[FloodZone] = []
     offset = 0
     while True:
-        page = _flood_query(
+        page = _query(
             {
                 "where": where,
-                "outFields": "OBJECTID,FLD_ZONE,ZONE_SUBTY,SFHA_TF,STATIC_BFE,DFIRM_ID,SOURCE_CIT",
+                "outFields": ",".join(schema.out_fields),
                 "resultOffset": offset,
-                "resultRecordCount": _PAGE_SIZE,
-                "orderByFields": "OBJECTID",
+                "resultRecordCount": schema.page_size,
+                "orderByFields": schema.object_id_field,
                 **spatial,
             },
             settings=settings,
+            url=settings.floodzone_url,
+            connector=schema.connector,
+            method=schema.http_method,
         )
         features = page.get("features") or []
-        out.extend(FloodZone.from_attrs(f.get("attributes", {})) for f in features)
+        out.extend(FloodZone.from_attrs(f.get("attributes", {}), schema) for f in features)
         if not page.get("exceededTransferLimit") or not features:
             return out
         offset += len(features)
 
 
 def floodzone_catalog(*, settings: Settings | None = None) -> list[FloodZoneClass]:
-    """The DFIRM flood-zone catalog: each (zone, subtype, SFHA) and its polygon count."""
+    """The flood-zone catalog: each (zone, subtype, SFHA) and its polygon count."""
     settings = settings or get_settings()
+    schema = _flood_schema(settings)
+    group_fields = ",".join((schema.fld_zone_field, schema.zone_subtype_field, schema.sfha_field))
     stats = [
-        {"statisticType": "count", "onStatisticField": "OBJECTID", "outStatisticFieldName": "n"}
+        {
+            "statisticType": "count",
+            "onStatisticField": schema.object_id_field,
+            "outStatisticFieldName": "n",
+        }
     ]
-    page = _flood_query(
+    page = _query(
         {
             "where": "1=1",
-            "outFields": "FLD_ZONE,ZONE_SUBTY,SFHA_TF",
-            "groupByFieldsForStatistics": "FLD_ZONE,ZONE_SUBTY,SFHA_TF",
+            "outFields": group_fields,
+            "groupByFieldsForStatistics": group_fields,
             "outStatistics": json.dumps(stats),
         },
         settings=settings,
+        url=settings.floodzone_url,
+        connector=schema.connector,
+        method=schema.http_method,
     )
     classes = [
         FloodZoneClass(
-            fld_zone=str(a.get("FLD_ZONE") or "").strip(),
-            zone_subtype=_s(a.get("ZONE_SUBTY")),
-            sfha=str(a.get("SFHA_TF") or "").strip().upper() == "T",
+            fld_zone=str(a.get(schema.fld_zone_field) or "").strip(),
+            zone_subtype=_s(a.get(schema.zone_subtype_field)),
+            sfha=str(a.get(schema.sfha_field) or "").strip().upper()
+            == schema.sfha_true_value.strip().upper(),
             polygon_count=int(a.get("n") or 0),
         )
         for a in (f.get("attributes", {}) for f in page.get("features") or [])
-        if _s(a.get("FLD_ZONE"))
+        if _s(a.get(schema.fld_zone_field))
     ]
     return sorted(classes, key=lambda c: (-c.polygon_count, c.fld_zone, c.zone_subtype or ""))
 
@@ -456,27 +501,22 @@ def point_floodzones(
     return query_floodzones(point=(lon, lat), distance_m=dist, settings=settings)
 
 
-def write_floodzone_catalog(classes: list[FloodZoneClass], out_dir: Path) -> Path:
-    """Write the DFIRM flood-zone catalog to one YAML file with provenance ``meta``."""
+def write_floodzone_catalog(
+    classes: list[FloodZoneClass], out_dir: Path, *, settings: Settings | None = None
+) -> Path:
+    """Write the flood-zone catalog to one YAML file with provenance ``meta``."""
+    settings = settings or get_settings()
+    meta = _flood_schema(settings).meta
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / "floodzones.yaml"
     doc = {
         "meta": {
-            "subject": "FEMA flood-hazard zones over Allen County (DFIRM panel 39003C)",
-            "source": "City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 4 'Floodzone' (FEMA DFIRM)",
-            "source_url": (
-                "https://colgis.cityhall.lima.oh.us/server/rest/services/"
-                "CitywideMaps/Lima_Zoning/MapServer/4"
-            ),
+            "subject": meta.subject,
+            "source": meta.source,
+            "source_url": meta.source_url,
             "class_count": len(classes),
             "polygon_total": sum(c.polygon_count for c in classes),
-            "caveats": [
-                "Values are verbatim from the FEMA DFIRM served by the City of Lima GIS.",
-                "Only Special Flood Hazard Areas (1%-annual-chance: A/AE incl. floodway, AO) "
-                "are mapped here; areas outside the SFHA carry no polygon.",
-                "A site's flood zone is a SPATIAL question (no PARCEL_NO on this layer) — use "
-                "footprint_floodzones() / bosc floodzone --footprint.",
-            ],
+            "caveats": list(meta.caveats),
         },
         "classes": [c.model_dump() for c in classes],
     }
