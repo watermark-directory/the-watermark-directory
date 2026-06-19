@@ -105,6 +105,19 @@ export const SITES: readonly NetworkSite[] = [
     issue: "363",
     href: "/network/van-wert",
   },
+  {
+    // Municipal-utility / Tiffin-subbasin headwaters comparator: the basin's first municipal
+    // electric point (Bryan Municipal Utilities, AMP/PJM). Onboarded, not yet built.
+    slug: "bryan",
+    codename: null,
+    mono: "BRY",
+    place: "Bryan",
+    basin: "Prairie Creek · Tiffin River",
+    status: "open",
+    selectable: false,
+    issue: "380",
+    href: "/network/bryan",
+  },
 ] as const;
 
 /** This build is the Lima reference build. */

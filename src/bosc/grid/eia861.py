@@ -44,10 +44,24 @@ _COL_UTILNUM = 2  # Utility Number
 _COL_NAME = 3  # Utility Name
 _COL_SVC = 5  # Service Type ("Bundled" / "Energy" / "Delivery")
 _COL_STATE = 7  # State
+_COL_OWNERSHIP = 8  # Ownership ("Investor Owned" / "Municipal" / "Cooperative" / ...)
 _COL_TOT_REV = 22  # TOTAL Revenues (Thousand Dollars)
 _COL_TOT_SALES = 23  # TOTAL Sales (Megawatthours)
 _COL_TOT_CUST = 24  # TOTAL Customers (Count)
 _DATA_FIRST_ROW = 4
+
+# EIA-861 Short Form ("861S" sheet) column indices (1-based); header is row 1, data from row 2.
+# Small utilities — municipals, small cooperatives — file the short form and are ABSENT from the
+# full Sales-to-Ultimate-Customers sheet, reporting a single annual TOTALS line here (no
+# service-type split). Selected by NAME-verified position from the 861S header.
+_SF_COL_UTILNUM = 2  # Utility Number
+_SF_COL_NAME = 3  # Utility Name
+_SF_COL_OWNERSHIP = 4  # Ownership
+_SF_COL_STATE = 5  # State
+_SF_COL_TOT_REV = 7  # Total Revenue (Thousand Dollars)
+_SF_COL_TOT_SALES = 8  # Total Sales (MWh)
+_SF_COL_TOT_CUST = 9  # Total Customers
+_SF_DATA_FIRST_ROW = 2
 
 
 class Eia861Error(RuntimeError):
@@ -102,6 +116,7 @@ def _reduce_sales_ult_cust(
     bundled_sales_mwh = 0.0
     n_rows = 0
     util_name: str | None = None
+    ownership: str = ""
     for row in ws.iter_rows(min_row=_DATA_FIRST_ROW, values_only=True):
         if not row:
             continue
@@ -116,6 +131,7 @@ def _reduce_sales_ult_cust(
             continue
         n_rows += 1
         util_name = str(row[_COL_NAME - 1] or "").strip() or util_name
+        ownership = str(row[_COL_OWNERSHIP - 1] or "").strip() or ownership
         sales = _num(row[_COL_TOT_SALES - 1])
         total_sales_mwh += sales
         total_customers += _num(row[_COL_TOT_CUST - 1])
@@ -133,12 +149,73 @@ def _reduce_sales_ult_cust(
         "utility_number": utility_number,
         "utility_name": util_name or f"#{utility_number}",
         "state": state,
+        "ownership": ownership,
         "rows": n_rows,
         "total_sales_mwh": total_sales_mwh,
         "total_customers": total_customers,
         "bundled_revenue_thousand_usd": bundled_rev_thousand,
         "bundled_sales_mwh": bundled_sales_mwh,
     }
+
+
+def _short_form_name(year: int) -> str:
+    return f"Short_Form_{year}.xlsx"
+
+
+def _reduce_short_form(
+    zip_bytes: bytes, *, year: int, utility_number: int, state: str
+) -> dict[str, Any]:
+    """Reduce the EIA-861 Short Form ("861S") to one utility's annual TOTAL retail line.
+
+    The fallback for a utility absent from the full Sales-to-Ultimate-Customers sheet — a
+    municipal or small cooperative that files the short form. The short form carries only
+    annual TOTALS (no service-type split): for a full-service municipal that one line *is*
+    the bundled retail, so the average price = total revenue / total sales (there are no
+    delivery-only rows to exclude). The payload mirrors :func:`_reduce_sales_ult_cust` so the
+    downstream model assembly is unchanged, plus a ``form="861s"`` marker for the citations.
+    """
+    z = zipfile.ZipFile(io.BytesIO(zip_bytes))
+    want = _short_form_name(year).replace(" ", "_").lower()
+    matches = [n for n in z.namelist() if n.replace(" ", "_").lower() == want]
+    if not matches:
+        raise Eia861Error(f"{_short_form_name(year)} not found in EIA-861 {year} zip")
+    wb = openpyxl.load_workbook(io.BytesIO(z.read(matches[0])), read_only=True, data_only=True)
+    ws = wb[wb.sheetnames[0]]  # the single "861S" sheet
+    out: dict[str, Any] | None = None
+    for row in ws.iter_rows(min_row=_SF_DATA_FIRST_ROW, values_only=True):
+        if not row:
+            continue
+        raw_num = row[_SF_COL_UTILNUM - 1]
+        if not isinstance(raw_num, (int, float, str)):
+            continue
+        try:
+            num = int(float(raw_num))
+        except (TypeError, ValueError):
+            continue
+        if num != utility_number or str(row[_SF_COL_STATE - 1] or "").strip() != state:
+            continue
+        sales = _num(row[_SF_COL_TOT_SALES - 1])
+        out = {
+            "year": year,
+            "utility_number": utility_number,
+            "utility_name": str(row[_SF_COL_NAME - 1] or "").strip() or f"#{utility_number}",
+            "state": state,
+            "ownership": str(row[_SF_COL_OWNERSHIP - 1] or "").strip(),
+            "rows": 1,
+            "total_sales_mwh": sales,
+            "total_customers": _num(row[_SF_COL_TOT_CUST - 1]),
+            # A full-service municipal/coop's whole retail is bundled — total == bundled.
+            "bundled_revenue_thousand_usd": _num(row[_SF_COL_TOT_REV - 1]),
+            "bundled_sales_mwh": sales,
+            "form": "861s",
+        }
+        break
+    wb.close()
+    if out is None:
+        raise Eia861Error(
+            f"EIA-861 {year}: no Short-Form ('861S') row for utility #{utility_number} in {state}"
+        )
+    return out
 
 
 # Curated display names for utilities whose committed reference data predates the connector
@@ -174,9 +251,17 @@ def fetch_utility_retail(
     }
 
     def fetch() -> Any:
-        return _reduce_sales_ult_cust(
-            _ensure_zip(settings, year), year=year, utility_number=utility_number, state=state
-        )
+        zip_bytes = _ensure_zip(settings, year)
+        try:
+            return _reduce_sales_ult_cust(
+                zip_bytes, year=year, utility_number=utility_number, state=state
+            )
+        except Eia861Error:
+            # A small utility (e.g. a municipal) absent from the full Sales sheet files the
+            # EIA-861 short form instead — fall back to it before giving up.
+            return _reduce_short_form(
+                zip_bytes, year=year, utility_number=utility_number, state=state
+            )
 
     payload = cast(
         "dict[str, Any]",
@@ -190,35 +275,46 @@ def fetch_utility_retail(
         ),
     )
     sales_gwh = payload["total_sales_mwh"] / 1000.0
+    is_short = payload.get("form") == "861s"
+    form_label = "861S Short Form" if is_short else "Sales to Ultimate Customers"
     cite = (
-        f"EIA-861 {payload['year']} Sales to Ultimate Customers, {payload['utility_name']} "
+        f"EIA-861 {payload['year']} {form_label}, {payload['utility_name']} "
         f"(#{payload['utility_number']}), {payload['state']}"
     )
     # Average price = bundled (full-service) revenue/sales. Thousand$/MWh == $/kWh, so
-    # cents/kWh = (revenue_thousand$ / sales_MWh) * 100. Delivery-only rows carry only the
-    # wires charge (generation paid to a competitive supplier), so a blended price would
-    # understate the all-in cost — None if there is no bundled (SSO) row.
+    # cents/kWh = (revenue_thousand$ / sales_MWh) * 100. On the full form, delivery-only rows
+    # carry only the wires charge (generation paid to a competitive supplier), so a blended
+    # price would understate the all-in cost; the short form has no such split (a full-service
+    # municipal/coop), so its single total IS the all-in price.
     bundled_sales = payload["bundled_sales_mwh"]
     avg_price = None
     if bundled_sales:
+        price_note = (
+            "full-service municipal/cooperative retail (short form has no service-type split)"
+            if is_short
+            else "bundled (full-service) revenue/sales — delivery-only rows exclude "
+            "generation, so a blended price understates the all-in cost"
+        )
         avg_price = ProvenancedValue.from_connector(
             round(payload["bundled_revenue_thousand_usd"] / bundled_sales * 100.0, 2),
             "cents/kWh",
-            citation=f"{cite}; bundled (full-service) revenue/sales — delivery-only rows "
-            "exclude generation, so a blended price understates the all-in cost",
+            citation=f"{cite}; {price_note}",
         )
+    total_label = "annual total" if is_short else "bundled + delivery total"
+    source_label = "861S short-form total" if is_short else "bundled+delivery total"
     profile = UtilityProfile(
         utility=_UTILITY_DISPLAY.get(utility_number, payload["utility_name"]),
-        eia_source=f"EIA-861 {payload['year']} per-utility retail (connector; bundled+delivery total)",
+        ownership=str(payload.get("ownership", "")),
+        eia_source=f"EIA-861 {payload['year']} per-utility retail (connector; {source_label})",
         retail_sales_gwh=ProvenancedValue.from_connector(
             round(sales_gwh, 1),
             "GWh/yr",
-            citation=f"{cite}; bundled + delivery total sales",
+            citation=f"{cite}; {total_label} sales",
         ),
         customers=ProvenancedValue.from_connector(
             round(payload["total_customers"]),
             "customers",
-            citation=f"{cite}; bundled + delivery total customers",
+            citation=f"{cite}; {total_label} customers",
         ),
         avg_price_cents_kwh=avg_price,
     )

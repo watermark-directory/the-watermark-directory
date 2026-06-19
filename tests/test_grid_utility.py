@@ -12,6 +12,8 @@ import pytest
 from bosc.config import Settings
 from bosc.facility.power import derive_power_basis
 from bosc.grid.utility import (
+    _retail_regulator,
+    _serving_utility,
     derive_grid_profile,
     load_grid_profile,
 )
@@ -79,6 +81,28 @@ def test_load_denominators_are_connector_sourced(grid_settings: Settings) -> Non
     up = gp.utility_profile
     assert up.customers is not None and up.customers.source == "connector"
     assert up.avg_price_cents_kwh is not None and up.avg_price_cents_kwh.source == "connector"
+
+
+def test_retail_regulator_is_ownership_aware() -> None:
+    """An IOU is PUC-regulated; a municipal is home rule; a cooperative is member-regulated."""
+    iou_value, _ = _retail_regulator("OH", "Investor Owned")
+    assert "PUCO" in iou_value
+    muni_value, muni_cite = _retail_regulator("OH", "Municipal")
+    assert "municipal" in muni_value.lower() and "home rule" in muni_value.lower()
+    assert "not state-PUC" in muni_cite
+    coop_value, _ = _retail_regulator("OH", "Cooperative")
+    assert "cooperative" in coop_value.lower()
+
+
+def test_serving_utility_municipal_is_home_rule_not_puco() -> None:
+    """Bryan's municipal system: home-rule regulator, AMP/PJM, no IOU holding company."""
+    settings = Settings(site="bryan", data_dir=REPO_ROOT / "data")
+    su = _serving_utility(settings, "City of Bryan - (OH)", ownership="Municipal")
+    assert "home rule" in su.retail_regulator.value.lower()
+    assert "PUCO" not in su.retail_regulator.value
+    assert "PJM" in su.rto.value and "PJM" in su.balancing_authority.value
+    assert "American Municipal Power" in su.holding_company.value
+    assert "PUC-certified IOU territory" in su.note
 
 
 def test_committed_grid_profile_loads() -> None:

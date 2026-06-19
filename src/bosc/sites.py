@@ -1073,6 +1073,119 @@ _DEFIANCE = SiteProfile(
 )
 
 
+# The municipal-utility / Tiffin-subbasin headwaters comparator: Bryan, OH (#380). The Bryan
+# WWTP (NPDES OH0020532) discharges to Prairie Creek → Tiffin River → Maumee → Lake Erie at the
+# far NW corner of the basin (HUC-8 04100006 Tiffin) — a small-tributary headwaters point like
+# Van Wert, but in the Tiffin subbasin rather than the Auglaize. A *coming-soon* point. Its
+# distinguishing feature is the GRID: Bryan is the network's **first municipal electric utility**
+# (City of Bryan, EIA #2439; an American Municipal Power member, PJM) — not an IOU like every
+# other registered site, so it exercises the grid connector's short-form (EIA-861S) path and the
+# ownership-aware retail-regulator (municipal home rule, not PUCO). Geography is sourced + cited;
+# the data-center dimension and facility-specific model inputs stay `[open]` until a site is found.
+_BRYAN = SiteProfile(
+    slug="bryan",
+    place="Bryan",
+    basin="maumee",  # [verified] Prairie Creek → Tiffin River → Maumee → Lake Erie; HUC-8 04100006
+    # config knobs
+    nwis_sites=[
+        "04185000",  # [verified] Tiffin River at Stryker OH (receiving Tiffin mainstem below Bryan; long record)
+        "04184500",  # [verified] Bean Creek at Powers OH (the Tiffin's principal gaged headwaters tributary)
+    ],
+    nasa_power_lat=41.4748,  # [verified] Bryan city centroid (OSM admin boundary relation 182831; Census place 09064)
+    nasa_power_lon=-84.5525,
+    rsei_fips="39171",  # [verified] Williams County, OH
+    econ_fips="39171",
+    eia861_utility_number=2439,  # [verified] City of Bryan - (OH); MUNICIPAL, EIA-861S short-form filer (BA=PJM)
+    eia_state="OH",
+    # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
+    # a follow-up live metadata read (Williams County GIS + City of Bryan GIS).
+    parcels_url="TODO",  # [open] pending the Williams County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Bryan GIS REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gis_parcel=None,  # [open] pending Williams County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Bryan zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "bryan-gis"}),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32616,  # [verified] UTM 16N (Bryan ~84.55 degW; zone 16 spans 90-84 degW)
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima
+    # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
+    design_lat=41.4748,  # [verified] city centroid = NOAA Atlas-14 point
+    design_lon=-84.5525,
+    corridor_name="Prairie Creek / Tiffin River corridor",  # [inference] the receiving-water reach
+    dominant_hsg="C",  # [inference] Williams Co upper-Maumee/Tiffin till plain (Blount/Glynwood/Pewamo) → HSG C
+    hsg_citation=(
+        "Williams County, OH dominant hydrologic soil group C — upper-Maumee/Tiffin till-plain "
+        "soils (Blount/Glynwood/Pewamo association; NRCS Soil Survey of Williams County), the "
+        "till-plain headwaters rather than the lake-plain Black Swamp clays (HSG D) downstream; "
+        "[inference] pending an SSURGO area-weighted confirmation (onboard SSURGO step needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={  # [reference] NOAA Atlas-14 Vol 2 (Ohio River Basin) PDS at 41.4748/-84.5525
+        1: 2.07,
+        2: 2.48,
+        5: 3.10,
+        10: 3.60,
+        25: 4.30,
+        50: 4.87,
+        100: 5.48,
+        200: 6.12,
+        500: 7.04,
+        1000: 7.78,
+    },
+    parcels_relpath="reference/bryan/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/bryan/bosc-site-footprint.yaml",  # [open] pending an identified site
+    # per-site onboard reach outputs (slug-scoped — never clobber the other sites)
+    climatology_relpath="reference/hydrology/bryan/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/bryan/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/bryan/baseline.yaml",
+    rsei_relpath="reference/rsei/bryan/inventory.yaml",
+    consumer_energy_relpath="reference/eia/bryan/consumer-energy.yaml",
+    grid_relpath="reference/eia/bryan/grid-profile.yaml",
+    # toxics (no identified industrial corridor yet)
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending an identified corridor on Prairie Creek
+    receiving_water_name="Prairie Creek",  # [verified] Bryan WWTP NPDES OH0020532 → Prairie Creek → Tiffin River
+    # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
+    plant_receiving={},  # [open] pending Bryan-area WWTP NPDES fact sheets
+    abstraction_gage="04185000",  # [inference] the Tiffin-at-Stryker mainstem gage (receiving reach below Bryan)
+    # refill (the water-balance supply model is not yet designed for Bryan)
+    supply_gage_primary="TODO",  # [open] refill supply gage — pending the site's water-balance model
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,  # [open] in-stream passby minimums — pending the model
+    passby_secondary_cfs=0.0,
+    # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
+    facility=None,  # [open] the data-center dimension onboarding doesn't capture (no disclosed facility)
+    serving_utility_source="reference",  # not corpus-grounded — the EIA-861S municipal record
+    serving_utility_citation=(  # [reference] municipal home-rule electric (NOT PUCO rate-regulated)
+        "EIA-861S Short Form (City of Bryan - OH, #2439; Municipal, BA=PJM, ~160 GWh sold 2024) — "
+        "Bryan Municipal Utilities, a municipally-owned electric system and American Municipal "
+        "Power (AMP) member; municipal home-rule retail, the network's first municipal/short-form "
+        "utility. Wholesale power + PJM scheduling are through AMP, not an IOU holding company"
+    ),
+    # grid (Bryan municipal load scheduled into PJM via AMP — zone not yet pinned)
+    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — the AMP/PJM zone is not yet pinned; verify (not the AEP value)
+    lmp_citation=(
+        "PJM ~2024 annual average LMP ($/MWh) placeholder for Bryan's AMP-scheduled municipal "
+        "load; [inference] the AMP/PJM transmission zone is not yet pinned — verify via PJM Data "
+        "Miner 2 (not necessarily the AEP-zone value used by the AEP OH sites)"
+    ),
+    # rsei
+    county_name="Williams County, OH",  # [verified]
+    # map
+    map_view_lat=41.4748,
+    map_view_lon=-84.5525,
+    map_view_zoom=13,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
@@ -1080,6 +1193,7 @@ SITES: dict[str, SiteProfile] = {
     _VAN_WERT.slug: _VAN_WERT,
     _TOLEDO.slug: _TOLEDO,
     _DEFIANCE.slug: _DEFIANCE,
+    _BRYAN.slug: _BRYAN,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so
