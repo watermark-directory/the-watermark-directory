@@ -1,4 +1,4 @@
-/* BOSC redesigned site — app shell (issue #64).
+/* Watermark redesigned site — app shell (issue #64).
    Header with four section tabs + client search; a per-section TOC rail beside
    the content column. Design language ported from the legacy bosc.site assets
    (site.css / extra.css): indigo chrome, system type, evidence-tag pills. */
@@ -224,7 +224,7 @@ a { color: var(--bosc-link); }
 .topbar-ask:hover { background: rgba(255, 255, 255, 0.26); }
 .topbar-ask.active { background: #fff; color: var(--bosc-indigo); border-color: #fff; }
 
-/* ---- The BOSC network switcher (#304) — a no-JS <details> on the brand ---- */
+/* ---- The Watermark network switcher (#304) — a no-JS <details> on the brand ---- */
 .site-switcher { position: relative; display: inline-flex; align-items: stretch; }
 .site-switcher > summary { list-style: none; cursor: pointer; gap: 0.45rem; }
 .site-switcher > summary::-webkit-details-marker { display: none; }
@@ -2161,7 +2161,7 @@ a.walk-dot:hover { opacity: 0.82; }
 #flow-annotated:focus-visible ~ .rec-flow-head label[for="flow-annotated"] { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; }
 .rec-flow-note { max-width: 54rem; margin: 0.9rem 0 0; font-size: 0.8rem; line-height: 1.55; color: var(--bosc-muted); }
 
-/* ===================== The BOSC network (#304/#305) ===================== */
+/* ===================== The Watermark network (#304/#305) ===================== */
 /* ---- Network hub (/network) ---- */
 .netgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; margin: 1.4rem 0; }
 .netgrid-card {

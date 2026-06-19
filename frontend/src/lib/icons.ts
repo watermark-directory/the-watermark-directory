@@ -1,5 +1,5 @@
 /**
- * The BOSC icon set (design-system extension): one stroke-based family on a 24px
+ * The Watermark icon set (design-system extension): one stroke-based family on a 24px
  * grid, 1.7 weight, round cap/join, `currentColor`. Square caps stay reserved for
  * the logo mark (`components/Logo.astro`). Evidence/provenance icons carry the
  * semantic palette wherever they appear — they're used inside semantic-colored

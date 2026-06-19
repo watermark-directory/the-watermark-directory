@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ACTIVE_SITE_SLUG, activeSite, comingSoonSites, SITES, siteBadge, siteForPath } from "./sites";
 
-describe("sites registry — the BOSC network (#304)", () => {
+describe("sites registry — the Watermark network (#304)", () => {
   it("has unique slugs and exactly one selectable (live) site — the active build", () => {
     const slugs = SITES.map((s) => s.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
