@@ -1,0 +1,47 @@
+meta:
+  subject: NOAA Atlas-14 design-storm depths — Lower Maumee / tidal corridor
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  point:
+    latitude: 41.6529
+    longitude: -83.5378
+  units: inches (point precipitation depth)
+ddf:
+  latitude: 41.6529
+  longitude: -83.5378
+  durations:
+  - 60-min
+  - 6-hr
+  - 12-hr
+  - 24-hr
+  return_periods:
+  - 2
+  - 10
+  - 25
+  - 50
+  - 100
+  depths_in:
+    60-min:
+      '2': 1.23
+      '10': 1.8
+      '25': 2.14
+      '50': 2.4
+      '100': 2.68
+    6-hr:
+      '2': 1.67
+      '10': 2.47
+      '25': 3.0
+      '50': 3.45
+      '100': 3.92
+    12-hr:
+      '2': 1.95
+      '10': 2.87
+      '25': 3.47
+      '50': 3.98
+      '100': 4.54
+    24-hr:
+      '2': 2.42
+      '10': 3.53
+      '25': 4.25
+      '50': 4.84
+      '100': 5.47
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
