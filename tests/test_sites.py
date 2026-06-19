@@ -71,10 +71,10 @@ _LIMA_GOLDEN = {
     "toxic_corridor_bbox": (40.695, 40.725, -84.140, -84.105),
     "receiving_water_name": "Ottawa River",
     "abstraction_gage": "04187100",
-    "auglaize_gage": "04186500",
-    "ottawa_gage": "04187100",
-    "passby_auglaize_cfs": 2.5,
-    "passby_ottawa_cfs": 0.2,
+    "supply_gage_primary": "04186500",
+    "supply_gage_secondary": "04187100",
+    "passby_primary_cfs": 2.5,
+    "passby_secondary_cfs": 0.2,
     "lmp_usd_mwh": 35.0,
     "county_name": "Allen County, OH",
     "map_view_lat": 40.792,
@@ -88,9 +88,9 @@ def test_lima_golden_snapshot() -> None:
     for field, expected in _LIMA_GOLDEN.items():
         assert getattr(lima, field) == expected, field
     # The Lima GIS URLs carry their host as evidence; spot-check they're populated + correct.
-    assert lima.allen_parcels_url.startswith("https://gis.allencountyohio.com/")
-    assert "Lima_Zoning/MapServer/6" in lima.lima_zoning_url
-    assert "Lima_Zoning/MapServer/4" in lima.lima_floodzone_url
+    assert lima.parcels_url.startswith("https://gis.allencountyohio.com/")
+    assert "Lima_Zoning/MapServer/6" in lima.zoning_url
+    assert "Lima_Zoning/MapServer/4" in lima.floodzone_url
     assert lima.hsg_citation.startswith("Allen County, OH dominant hydrologic soil group C")
     assert lima.plant_receiving["watch-shawnee-ii-wwtp"][0] == "Ottawa River"
 

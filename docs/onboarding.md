@@ -55,7 +55,7 @@ test asserts every Python-registered site also exists in the frontend registry.)
 | Field(s) | What |
 |---|---|
 | `slug`, `place`, `basin` | identity (`basin` is the shared axis, e.g. `maumee`) |
-| `nwis_sites`, `abstraction_gage`, `auglaize_gage`, `ottawa_gage` | the site's USGS gages (supply + abstraction reach) |
+| `nwis_sites`, `abstraction_gage`, `supply_gage_primary`, `supply_gage_secondary` | the site's USGS gages (supply + abstraction reach) |
 | `design_lat/lon`, `nasa_power_lat/lon`, `map_view_lat/lon/zoom` | the design point, met point, and map centroid |
 | `rsei_fips`, `econ_fips`, `county_name` | the county (**Fort Wayne = Allen County, *Indiana*, FIPS `18003`** — not Ohio's `39003`) |
 | `eia_state`, `eia861_utility_number`, `lmp_usd_mwh`, `lmp_citation` | the retail utility + its market zone |
@@ -64,13 +64,13 @@ test asserts every Python-registered site also exists in the frontend registry.)
 | `plant_receiving` | per-WWTP receiving-water fallback (Lima's are Lima WWTPs — **replace**) |
 | `climatology_relpath`, `corridor_ddf_relpath`, `baseline_relpath`, `rsei_relpath`, `consumer_energy_relpath`, `grid_relpath` | the six per-site **output** relpaths — slug-scope all of them (`reference/<source>/<slug>/…`); `parcels_relpath`/`footprint_relpath` point at the site's own committed geometry |
 | `dominant_hsg`, `hsg_citation`, `pre_cover`, `post_cover`, `developed_pervious_cover`, `noaa_fallback_24h_depth_in` | stormwater design assumptions (onboarding's SSURGO step validates `dominant_hsg`) |
-| `passby_auglaize_cfs`, `passby_ottawa_cfs` | in-stream passby minimums |
+| `passby_primary_cfs`, `passby_secondary_cfs` | the two supply rivers' in-stream passby minimums |
 
 **Reused from the basin** (don't regenerate for a Maumee site): the curated mainstem 7Q10s
 (`low-flow-7q10.derived.yaml`) and the ECHO POTW/NPDES inventory — both Maumee-wide.
 
-**Needs research before it's trustworthy:** the GIS URLs (`allen_parcels_url`,
-`lima_zoning_url`, `lima_floodzone_url`) are **Allen-County/City-of-Lima ArcGIS endpoints** —
+**Needs research before it's trustworthy:** the GIS URLs (`parcels_url`,
+`zoning_url`, `floodzone_url`) — for Lima these are **Allen-County/City-of-Lima ArcGIS endpoints**;
 a new jurisdiction has *different* endpoints and needs its own connector (the known lift,
 below); the utility number + LMP; and `plant_receiving`, which must come from the site's own
 NPDES fact sheets. Until verified, prefer omission/`[open]` over a copied Lima value.

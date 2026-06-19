@@ -80,12 +80,12 @@ class Settings(BaseSettings):
     # Ohio Revised Code full text (LSC code portal; HTML, no JSON API).
     orc_base_url: str = "https://codes.ohio.gov"
     # County GIS parcels layer — per-site (Lima = Allen County AGOL "Current Parcels" CAMA).
-    allen_parcels_url: str = ""
+    parcels_url: str = ""
     # City zoning polygon layer — per-site (Lima = City of Lima "Current Lima Zoning",
     # keyed to PARCEL_NO, city-limits only).
-    lima_zoning_url: str = ""
+    zoning_url: str = ""
     # City floodzone layer — per-site (Lima = FEMA DFIRM panel 39003C SFHAs; spatial lookup).
-    lima_floodzone_url: str = ""
+    floodzone_url: str = ""
     # USGS National Map Watershed Boundary Dataset (WBD) — the authoritative seamless
     # Hydrologic Unit (HUC) polygons. The MapServer's HU-level sublayers are keyed by
     # digit count (8 = Subbasin, 10 = Watershed, 12 = Subwatershed); the WBD connector
