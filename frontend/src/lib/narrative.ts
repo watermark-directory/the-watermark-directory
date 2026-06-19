@@ -38,7 +38,7 @@ export const NARRATIVE: NarrativeDoc[] = [
     slug: "course",
     title: "Research course",
     section: "home",
-    blurb: "What Project BOSC is investigating, and the open threads — a living draft.",
+    blurb: "What Watermark is investigating, and the open threads — a living draft.",
   },
   {
     repo: "bigger-picture.md",

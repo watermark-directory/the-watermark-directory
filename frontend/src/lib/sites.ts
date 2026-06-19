@@ -1,5 +1,5 @@
 /**
- * The BOSC network — the registry of watershed-point sites (the multi-site pivot, #304).
+ * The Watermark network — the registry of watershed-point sites (the multi-site pivot, #304).
  *
  * Decision (locked): **one build, one site.** This is an *in-build* navigation concept,
  * not separate deployments — every watershed point is a section of the single build, and
