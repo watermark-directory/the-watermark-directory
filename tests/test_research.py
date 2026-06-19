@@ -8,6 +8,7 @@ nothing here hits the network or needs API keys.
 from __future__ import annotations
 
 import asyncio
+import json
 from pathlib import Path
 from typing import Any
 
@@ -259,3 +260,23 @@ def test_load_manifest_round_trips(tmp_path: Path, monkeypatch: pytest.MonkeyPat
     assert loaded.provenance.num_turns == 3
     assert loaded.provenance.cost_usd == 0.0321
     assert [p.dedupe_key for p in loaded.proposals] == [p.dedupe_key for p in manifest.proposals]
+
+
+def test_proposal_drafts_coerces_json_string_list() -> None:
+    """Forced tool use sometimes returns `proposals` as a JSON *string* — tolerate it."""
+    from bosc.research.models import ProposalDrafts
+
+    drafts = [{"title": "T", "body": "B", "rationale": "R", "labels": ["extraction"]}]
+    # native list (the normal path) and a JSON-encoded string both validate identically
+    native = ProposalDrafts(proposals=drafts)
+    coerced = ProposalDrafts.model_validate({"proposals": json.dumps(drafts)})
+    assert coerced == native
+    assert coerced.proposals[0].title == "T"
+
+
+def test_proposal_drafts_rejects_non_json_string() -> None:
+    """A non-JSON string still fails validation (no silent swallow)."""
+    from bosc.research.models import ProposalDrafts
+
+    with pytest.raises(ValueError):
+        ProposalDrafts.model_validate({"proposals": "not json at all"})

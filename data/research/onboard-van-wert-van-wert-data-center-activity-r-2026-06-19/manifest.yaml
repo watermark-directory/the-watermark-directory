@@ -1,0 +1,266 @@
+meta:
+  topic: 'onboard van-wert (Van Wert): data-center activity + receiving-water screen
+    for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-19T19:49:10+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__entities
+    - mcp__bosc__timeline
+    - Grep
+    - Read
+    - Glob
+    num_turns: 27
+    max_turns: 30
+    cost_usd: 1.2770005
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Ingest Ohio EPA NPDES permit for Van Wert WWTP (OH0027910 / 2PD00006) and
+    extract Town Creek 7Q10
+  dedupe_key: ingest-ohio-epa-npdes-permit-for-van-wert-wwtp-oh0027910-2pd0000
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - receiving-water
+  - extraction
+  - npdes
+  rationale: Town Creek's missing 7Q10 is the single gap that makes the site's entire
+    effluent-dominance thesis unverifiable; closing it is a prerequisite for any credible
+    receiving-water screen at Van Wert.
+  body: '## Context
+
+    The Van Wert site was chosen as the basin''s *effluent-dominance* end-member —
+    a WWTP discharging to Town Creek, a small tributary. However, the receiving-water
+    screen has a critical gap: Town Creek appears in **neither** the cited regulatory
+    7Q10 table (`data/reference/hydrology/low-flow-7q10.yaml`, which contains only
+    Dug Run, Pike Run, and Ottawa River) **nor** the derived basin 7Q10 table (`low-flow-7q10.derived.yaml`,
+    which covers only four USGS-gaged mainstems). Without a Town Creek 7Q10, the Van
+    Wert WWTP cannot be meaningfully screened against its own receiving water.
+
+
+    Additionally, the `sites.py` profile (line 760) references a **~4.0 MGD design
+    flow**, but the ECHO record for the Town Creek discharge shows `design_flow_mgd:
+    null` and `design_flow_missing: true` (`data/reference/echo/maumee-wwtp.all-npdes.yaml`,
+    ~line 18574). The NPDES permit/fact sheet (`2PD00006` / `OH0027910`) is **not
+    an ingested document** — the citation in the profile is to an external record
+    only.
+
+
+    ## Task
+
+    1. Obtain and ingest the Ohio EPA NPDES permit and/or fact sheet for Van Wert
+    WWTP (`OH0027910`, permit `2PD00006`).
+
+    2. Extract the **Stream Flows table** (or equivalent low-flow statistics) and
+    add a **cited Town Creek 7Q10** entry to `data/reference/hydrology/low-flow-7q10.yaml`
+    with `source: document` and `confidence: high`.
+
+    3. Extract and record the **verified design flow (MGD)** for OH0027910 from the
+    permit, replacing the currently uncited ~4.0 MGD figure in `sites.py`.
+
+
+    ## Acceptance Criterion
+
+    `low-flow-7q10.yaml` contains a Town Creek 7Q10 entry sourced to the ingested
+    Ohio EPA permit document, and `sites.py` (or equivalent profile) carries a cited
+    design-flow value for OH0027910 with a document reference — neither value is `null`,
+    `[inference]`, or uncited.'
+- title: Re-run basin-screen for Van Wert after Town Creek 7Q10 is ingested and record
+    OH0027910 dilution ratio
+  dedupe_key: re-run-basin-screen-for-van-wert-after-town-creek-7q10-is-ingest
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - receiving-water
+  - basin-screen
+  rationale: The dilution ratio for the Van Wert WWTP is the quantitative core of
+    the site's effluent-dominance thesis and must be a verified finding, not an inference,
+    before the site can be promoted.
+  body: '## Context
+
+    The onboard `basin-screen` step reports **7/129 dischargers screened (1 violation,
+    2 tight)** (`data/extracted/van-wert/ONBOARDING.md`, line 21). Because Town Creek
+    appears in neither 7Q10 denominator file (see linked issue on ingesting OH0027910),
+    the Van Wert WWTP was almost certainly **not among the 7 screened**, or was screened
+    only against a mainstem proxy that grossly overstates available dilution. The
+    Lima precedent illustrates the stakes: American II''s acute dilution ratio is
+    1.3:1 with Pike Run''s 7Q10 at 0.03 cfs. A ~4 MGD (~6.2 cfs) discharge to a headwater
+    creek is squarely in that effluent-dominated regime, and the corpus currently
+    cannot quantify it.
+
+
+    The findings note explicitly: *"treat any ''Van Wert is effluent-dominated'' statement
+    as `[inference]`, not a finding"* until a real screen is run.
+
+
+    ## Task
+
+    1. After a cited Town Creek 7Q10 is added to `low-flow-7q10.yaml` (prerequisite
+    issue), re-run `bosc basin-screen` (or the equivalent screen step) scoped to Van
+    Wert.
+
+    2. Confirm that **OH0027910 is screened against Town Creek''s own 7Q10** (not
+    a mainstem proxy).
+
+    3. Record the resulting **dilution ratio** (effluent flow : 7Q10) and classification
+    (violation / tight / compliant) in `data/extracted/van-wert/ONBOARDING.md`.
+
+
+    ## Acceptance Criterion
+
+    `ONBOARDING.md` contains an updated basin-screen result showing OH0027910 screened
+    against a Town Creek 7Q10 with the dilution ratio explicitly stated; the `[inference]`
+    caveat on effluent dominance is either upgraded to `[verified]` or flagged as
+    a finding requiring permit review.'
+- title: Obtain a primary Van Wert instrument for QTS $10B campus to move claim from
+    testimony to documented record
+  dedupe_key: obtain-a-primary-van-wert-instrument-for-qts-10b-campus-to-move
+  labels:
+  - agent-proposed
+  - needs-triage
+  - data-center
+  - entities
+  - extraction
+  rationale: Promoting Van Wert as a BOSC network site requires at least one jurisdiction-native
+    instrument confirming data-center activity; witness testimony to a state committee
+    is insufficient provenance for a site-level finding.
+  body: '## Context
+
+    Data-center activity at Van Wert is currently documented **only secondhand, through
+    Allen-County documents**. The QTS thread rests entirely on witness testimony (`qts-2026-06-03.pdf`,
+    witness John Smith, J.D., to the Ohio Select/Joint Committee on Data Centers,
+    digested in `data/extracted/legal/select-committee-2026/witness-submissions.digest.yaml`,
+    lines 112–120). The witness''s own figures — **$10B campus, up to 4,500 construction
+    jobs, closed-loop cooling at ~600,000 gal/yr** — are proponent claims; the neutral
+    assessment (`docs/legal/proponent-analysis.md`, QTS section, lines 81–108) treats
+    the capital claim as `solid` but notes QTS does not address beneficial-ownership
+    or per-site end use. There are **zero Van-Wert-jurisdiction primary documents**
+    in the ingested corpus — no deed, NPDES applicant filing, CRA, PILOT, or zoning
+    record.
+
+
+    ## Task
+
+    1. Search Van Wert County and/or City of Van Wert economic-development records,
+    county recorder filings, and Ohio Department of Development (ODOD) CRA/PILOT applications
+    for any instrument naming QTS or a QTS affiliate in connection with a Van Wert
+    data-center project.
+
+    2. Ingest the earliest datable primary document found and extract: **legal entity
+    name, parcel ID or address, announced capacity/load, any utility interconnection
+    agreement reference**.
+
+    3. If no Van Wert-jurisdiction instrument is found, document the negative search
+    result formally in `ONBOARDING.md`.
+
+
+    ## Acceptance Criterion
+
+    Either (a) a Van Wert-jurisdiction primary document for the QTS campus is ingested
+    and its key fields extracted into the entity/activity layer, moving the $10B claim
+    from `[proponent testimony]` to `[documented instrument]`; or (b) a formal negative-search
+    record is added to `ONBOARDING.md` explaining what sources were checked and when.'
+- title: Resolve whether QTS and Thor Equities name the same Van Wert project and
+    trace Thor's independent instrument chain
+  dedupe_key: resolve-whether-qts-and-thor-equities-name-the-same-van-wert-pro
+  labels:
+  - agent-proposed
+  - needs-triage
+  - data-center
+  - entities
+  - reconciliation
+  rationale: Conflating two potentially distinct projects would misrepresent both
+    the scale and the ownership of data-center activity at Van Wert; resolution is
+    needed before any entity-graph or campus-load analysis can proceed.
+  body: '## Context
+
+    Two distinct proponent threads reference Van Wert: **QTS** (committee testimony,
+    `qts-2026-06-03.pdf`) and **Thor Equities** (PAAC board minutes, `data/extracted/aedg/paac-board-minutes.minutes.yaml`,
+    line 77, provenance `data/documents/aedg/PRR-01-bundle.ocr.pdf`). The Thor entry
+    describes a *"data-center developer (also doing a Van Wert data center; brought
+    by AEP)"* with a 1-yr LOI dated 2025-03-27 at $50K/ac for Perry Industrial Park
+    (Allen County). The witness digest (`witness-submissions.digest.yaml`, line 120)
+    explicitly flags a *"Van Wert tie to PAAC minutes'' Thor Equities"* but **does
+    not establish they are the same project**. `docs/COURSE.md` (lines 116–118) lists
+    Thor alongside CyrusOne, Platon/Dynamo, and Highland55 as corridor-open with **no
+    in-corpus primary document**.
+
+
+    `COURSE.md` also notes a *shared-organizer overlap with Montfort* on the Platon/Dynamo
+    thread, but cautions this rests on a third-party aggregator profile — the findings
+    explicitly warn: **do not import the Allen-County Bistrozzi/Montfort/Ziance/EMH&T
+    graph into Van Wert without a filed instrument bridging them**.
+
+
+    ## Task
+
+    1. Pull Van Wert County recorder records and ODOD filings for any entity with
+    "Thor," "Highland55," or affiliated names.
+
+    2. Independently verify or refute whether the Thor LOI (Allen County, Perry Industrial
+    Park) and the QTS $10B announcement refer to the **same physical project or site**.
+
+    3. Document findings in a new `data/extracted/van-wert/entities/` entry; explicitly
+    record the `[open]` / `[verified]` / `[refuted]` status of the same-project hypothesis
+    with the supporting instrument.
+
+
+    ## Acceptance Criterion
+
+    The `[open]` QTS↔Thor same-project question is resolved with a citation to a primary
+    document (not a digest flag or aggregator profile), and the entity graph for Van
+    Wert is updated to reflect two separate entries or a confirmed merge with evidentiary
+    bridge.'
+- title: Disambiguate NPDES permit OH0135569 (City of Van Wert) from WWTP OH0027910
+    and map both outfalls to receiving reaches
+  dedupe_key: disambiguate-npdes-permit-oh0135569-city-of-van-wert-from-wwtp-o
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - npdes
+  - receiving-water
+  - extraction
+  rationale: An unresolved second permit under the City of Van Wert creates ambiguity
+    about what is being screened and what load is attributable to the municipal discharge
+    footprint, which must be clarified before the receiving-water analysis is complete.
+  body: '## Context
+
+    The ECHO inventory in the corpus contains **two Van Wert NPDES permits**: `OH0027910`
+    (Van Wert WWTP, POTW, Town Creek, HUC-8 `04100007`) and `OH0135569` (City of Van
+    Wert) (`data/reference/echo/maumee-wwtp.all-npdes.yaml`, lines ~18216 and ~19714).
+    The findings note that `OH0135569` is *"likely a distinct MS4/industrial coverage
+    worth disambiguating"* but this has not been done. It is unknown whether `OH0135569`
+    also discharges to Town Creek, to a different tributary, or represents a stormwater/MS4
+    permit with no effluent-quality screen implications.
+
+
+    ## Task
+
+    1. Look up `OH0135569` in Ohio EPA eDMR / ECHO permit detail and determine its
+    **permit type** (MS4, industrial, combined sewer, other).
+
+    2. Identify the **receiving water and outfall location(s)** for `OH0135569` and
+    confirm whether it is the same reach (Town Creek) as `OH0027910` or a different
+    water body.
+
+    3. If `OH0135569` has a design flow or effluent limit relevant to the receiving-water
+    screen, extract and add it to the relevant reference files.
+
+    4. Update `data/extracted/van-wert/ONBOARDING.md` with the disambiguation result.
+
+
+    ## Acceptance Criterion
+
+    `ONBOARDING.md` contains a table row for `OH0135569` with confirmed permit type,
+    receiving water, and a determination of whether it requires inclusion in the basin-screen
+    denominator; any relevant design-flow or effluent data is extracted into the appropriate
+    reference file.'

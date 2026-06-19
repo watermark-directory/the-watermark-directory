@@ -7,7 +7,7 @@ Living record for the Van Wert watershed point (basin: maumee), scaffolded by `b
 - [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)
 - [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile
 - [ ] **Data-center activity** — extracted permits/records + entity graph (corpus extraction; seed proposals via `bosc onboard --research`, #247)
-- [ ] **Per-jurisdiction GIS** — parcels/zoning connector (the known lift; see docs/onboarding.md)
+- [~] **Per-jurisdiction GIS** — flood = shared national NFHL (wired). Parcels/zoning `[open]` — see GIS discovery below; no clean queryable district catalog like Findlay's, so nothing committed yet
 
 ## Last onboard run
 
@@ -23,6 +23,22 @@ Living record for the Van Wert watershed point (basin: maumee), scaffolded by `b
 | rsei | ok | reference/rsei/van-wert/inventory.yaml |
 | consumer-energy | ok | reference/eia/van-wert/consumer-energy.yaml |
 | grid-profile | ok | reference/eia/van-wert/grid-profile.yaml |
+
+## GIS discovery (2026-06-19; schema-driven GIS, #237)
+
+Endpoints probed against the schema-driven GIS connector. Like Fort Wayne (and unlike
+Findlay's clean City zoning FeatureServer), Van Wert has **no cleanly-consumable queryable
+district catalog**, so nothing is committed yet; flood is the shared national NFHL.
+
+| layer | finding | status |
+|---|---|---|
+| floodzone | FEMA NFHL (national, layer 28) — wired in the profile (`gis_flood`) | wired |
+| parcels (county) | Van Wert County PAT MapServer (`ags.bhamaps.com/.../VanWertOH/VanWertOH_PAT_Search/MapServer`, Bruce Harris & Assoc) exists but its **TLS certificate is expired** — `cached_get`/httpx can't consume it without disabling verification; parcels are otherwise distributed as Engineer's-office shapefiles + a Beacon-style auditor parcel app | `[open]` |
+| zoning | no separate City of Van Wert zoning REST catalog found (small city; zoning appears map-only) | `[open]` |
+
+Follow-up (a research/issue lead): re-probe the county PAT MapServer once its TLS cert is
+renewed (then register a `GisParcelSchema` from the live field list), or fall back to the
+Engineer's-office parcel shapefile; locate a Van Wert zoning layer (or accept map-only here).
 
 ## Review gate (blocking)
 
