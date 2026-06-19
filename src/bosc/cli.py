@@ -2482,20 +2482,29 @@ def parcels(
         help="Output directory for --cited/--defense (default: data/reference/allen-gis).",
     ),
 ) -> None:
-    """Query the Allen County GIS parcel (CAMA) layer: by number, owner, citations, or defense scan."""
+    """Query the county GIS parcel (CAMA) layer: by number, owner, citations, or defense scan."""
     from bosc.config import Settings
     from bosc.hydrology.connectors import allen_gis
+    from bosc.sites import active_profile
 
     settings = get_settings()
     if offline:
         settings = Settings(hydro_offline=True)
 
+    schema = active_profile(settings).gis_parcel
+    if schema is None:
+        console.print(
+            f"[yellow]Site {settings.site!r} has no parcel GIS configured[/] (gis_parcel) — "
+            "register one on its SiteProfile (see docs/onboarding.md)."
+        )
+        raise typer.Exit(1)
+    ref_dir = settings.reference_dir / schema.reference_dir
+
     if parcel:
         p = allen_gis.fetch_parcel(parcel, settings=settings)
         if p is None:
-            console.print(
-                f"[yellow]No parcel[/] {parcel} ({allen_gis.normalize_parcel_id(parcel)})."
-            )
+            norm = allen_gis.normalize_parcel_id(parcel, rule=schema.id_normalize)
+            console.print(f"[yellow]No parcel[/] {parcel} ({norm}).")
             raise typer.Exit(1)
         console.print(p.model_dump())
         return
@@ -2516,7 +2525,7 @@ def parcels(
         return
 
     if cited:
-        target = Path(out_dir) if out_dir else settings.reference_dir / "allen-gis"
+        target = Path(out_dir) if out_dir else ref_dir
         ids = allen_gis.scan_parcel_ids(settings.extracted_dir)
         console.print(f"Found [bold]{len(ids)}[/] cited parcel ids in the corpus.")
         found: list[allen_gis.Parcel] = []
@@ -2526,16 +2535,23 @@ def parcels(
                 found.append(p)
             else:
                 console.print(
-                    f"[dim]no GIS match for {pid} ({allen_gis.normalize_parcel_id(pid)})[/]"
+                    f"[dim]no GIS match for {pid} "
+                    f"({allen_gis.normalize_parcel_id(pid, rule=schema.id_normalize)})[/]"
                 )
-        path = allen_gis.write_parcels(found, target, scope="cited")
+        path = allen_gis.write_parcels(found, target, scope="cited", settings=settings)
         console.print(f"[green]Wrote[/] {len(found)} parcels -> {path}")
         return
 
     if defense:
         from bosc.candidates import load_defense_contractors
 
-        target = Path(out_dir) if out_dir else settings.reference_dir / "allen-gis"
+        if schema.defense is None:
+            console.print(
+                f"[yellow]Site {settings.site!r} has no defense-land scan configured[/] "
+                "(gis_parcel.defense)."
+            )
+            raise typer.Exit(1)
+        target = Path(out_dir) if out_dir else ref_dir
         dcl = load_defense_contractors(settings.entities_dir)
         if dcl is None:
             console.print(
@@ -2554,7 +2570,9 @@ def parcels(
         for name, parcels in sorted(prime_owned.items()):
             for p in parcels:
                 console.print(f"  [cyan]{name}[/]: {p.parcel_no} {p.owner}")
-        path = allen_gis.write_defense_scan(prime_owned, army, target, patterns_searched=n_pat)
+        path = allen_gis.write_defense_scan(
+            prime_owned, army, target, patterns_searched=n_pat, settings=settings
+        )
         console.print(f"[green]Wrote[/] defense scan -> {path}")
         return
 
@@ -2583,49 +2601,59 @@ def zoning(
         help="Output directory for --districts/--cited (default: data/reference/lima-gis).",
     ),
 ) -> None:
-    """Query the City of Lima zoning layer (city limits only; joins by parcel number)."""
+    """Query the jurisdiction zoning layer (Lima = city limits only; joins by parcel number)."""
     from bosc.config import Settings
     from bosc.hydrology.connectors import allen_gis, lima_gis
+    from bosc.sites import active_profile
 
     settings = get_settings()
     if offline:
         settings = Settings(hydro_offline=True)
 
+    schema = active_profile(settings).gis_zoning
+    if schema is None:
+        console.print(
+            f"[yellow]Site {settings.site!r} has no zoning GIS configured[/] (gis_zoning) — "
+            "register one on its SiteProfile (see docs/onboarding.md)."
+        )
+        raise typer.Exit(1)
+    ref_dir = settings.reference_dir / schema.reference_dir
+
     if parcel:
         rec = lima_gis.zoning_for_parcel(parcel, settings=settings)
         if rec is None:
+            norm = allen_gis.normalize_parcel_id(parcel, rule=schema.id_normalize)
             console.print(
-                f"[yellow]No Lima zoning[/] for {parcel} "
-                f"({allen_gis.normalize_parcel_id(parcel)}) — outside city limits or unzoned."
+                f"[yellow]No zoning[/] for {parcel} ({norm}) — outside the layer or unzoned."
             )
             raise typer.Exit(1)
         console.print(rec.model_dump())
         return
 
     if districts:
-        target = Path(out_dir) if out_dir else settings.reference_dir / "lima-gis"
+        target = Path(out_dir) if out_dir else ref_dir
         cat = lima_gis.zoning_districts(settings=settings)
         table = Table("District", "Polygons")
         for d in cat:
             table.add_row(d.code, str(d.polygon_count))
         console.print(table)
-        path = lima_gis.write_zoning_districts(cat, target)
+        path = lima_gis.write_zoning_districts(cat, target, settings=settings)
         console.print(f"[green]Wrote[/] {len(cat)} districts -> {path}")
         return
 
     if cited:
         ids = allen_gis.scan_parcel_ids(settings.extracted_dir)
-        console.print(f"Found [bold]{len(ids)}[/] cited parcel ids; looking up Lima zoning.")
+        console.print(f"Found [bold]{len(ids)}[/] cited parcel ids; looking up zoning.")
         scan = lima_gis.scan_cited_zoning(ids, settings=settings)
         in_city = [s for s in scan if s.in_city]
         for s in in_city:
             console.print(f"  [cyan]{s.parcel_no}[/]: {s.zoning}")
         console.print(
-            f"\n[bold]{len(in_city)}[/] of {len(scan)} cited parcels are within Lima city limits."
+            f"\n[bold]{len(in_city)}[/] of {len(scan)} cited parcels are within the zoning layer."
         )
         if write:
-            target = Path(out_dir) if out_dir else settings.reference_dir / "lima-gis"
-            path = lima_gis.write_cited_zoning(scan, target)
+            target = Path(out_dir) if out_dir else ref_dir
+            path = lima_gis.write_cited_zoning(scan, target, settings=settings)
             console.print(f"[green]Wrote[/] {path}")
         return
 
@@ -2649,17 +2677,27 @@ def floodzone(
         None, "--out", help="Output directory for --catalog (default: data/reference/lima-gis)."
     ),
 ) -> None:
-    """Query the FEMA floodzone (DFIRM) layer: zone catalog, or a footprint's flood risk."""
+    """Query the FEMA floodzone layer: zone catalog, or a footprint's flood risk."""
     from bosc.config import Settings
     from bosc.hydrology.connectors import lima_gis
     from bosc.hydrology.floodplain import write_campus_floodzone
+    from bosc.sites import active_profile
 
     settings = get_settings()
     if offline:
         settings = Settings(hydro_offline=True)
 
+    schema = active_profile(settings).gis_flood
+    if schema is None:
+        console.print(
+            f"[yellow]Site {settings.site!r} has no floodzone GIS configured[/] (gis_flood) — "
+            "register one on its SiteProfile (see docs/onboarding.md)."
+        )
+        raise typer.Exit(1)
+    ref_dir = settings.reference_dir / schema.reference_dir
+
     if catalog:
-        target = Path(out_dir) if out_dir else settings.reference_dir / "lima-gis"
+        target = Path(out_dir) if out_dir else ref_dir
         classes = lima_gis.floodzone_catalog(settings=settings)
         table = Table("Zone", "Subtype", "SFHA", "Polygons")
         for c in classes:
@@ -2667,7 +2705,7 @@ def floodzone(
                 c.fld_zone, c.zone_subtype or "—", "✓" if c.sfha else "—", str(c.polygon_count)
             )
         console.print(table)
-        path = lima_gis.write_floodzone_catalog(classes, target)
+        path = lima_gis.write_floodzone_catalog(classes, target, settings=settings)
         console.print(f"[green]Wrote[/] {len(classes)} flood-zone classes -> {path}")
         return
 

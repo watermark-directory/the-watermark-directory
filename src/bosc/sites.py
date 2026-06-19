@@ -15,7 +15,11 @@ Per-**basin** data (the Maumee HUC-8 set, the curated mainstem gages) is shared 
 Maumee sites and stays in its modules; a profile only names its ``basin``.
 
 This module imports nothing from :mod:`bosc.config` — ``active_profile`` duck-types the
-``.site`` accessor — so the dependency runs one way (``config → sites``).
+``.site`` accessor — so the dependency runs one way (``config → sites``). The GIS field-map
+*models* come from :mod:`bosc.connectors.gis_schema` (a pure-pydantic leaf under the neutral
+connectors package, deliberately *not* ``bosc.hydrology.connectors``, which would close a
+``config → sites → connectors → config`` loop); the schema *instances* live here with the
+profiles, where site-specific values belong.
 """
 
 from __future__ import annotations
@@ -24,6 +28,16 @@ from pathlib import PurePosixPath
 from typing import TYPE_CHECKING, Literal, get_args, get_origin
 
 from pydantic import BaseModel, ConfigDict
+
+from bosc.connectors.gis_schema import (
+    GisCitedZoningMeta,
+    GisDefenseConfig,
+    GisDefenseMeta,
+    GisFloodSchema,
+    GisMeta,
+    GisParcelSchema,
+    GisZoningSchema,
+)
 
 if TYPE_CHECKING:
     from bosc.config import Settings
@@ -66,14 +80,24 @@ class SiteProfile(BaseModel):
     econ_fips: str
     eia861_utility_number: int
     eia_state: str
-    # County/City GIS layer endpoints — per-site, jurisdiction-agnostic field names (the
-    # connector code that reads them IS jurisdiction-specific: Lima = allen_gis.py/lima_gis.py).
+    # County/City GIS layer endpoints — per-site. The connector code that reads them is now
+    # jurisdiction-agnostic: the field names + encodings live in the gis_* schemas below (#237).
     parcels_url: str
     zoning_url: str
     floodzone_url: str
     gnis_default_state: str
     hydro_utm_epsg: int
     lsc_default_ga: str
+
+    # --- GIS layer field-maps (jurisdiction schemas; #237) ------------------------------
+    # The ArcGIS field names + value encodings the GIS connectors read, lifted off Lima/Allen
+    # so a new jurisdiction is config, not a copied connector (mirrors the OPC Profile idiom).
+    # Optional: ``None`` means "no connector for this layer here yet" — the connector/CLI then
+    # refuses cleanly rather than querying another jurisdiction's fields. Read via
+    # ``active_profile`` (NOT in PROFILE_SETTINGS_FIELDS — never bled into Settings).
+    gis_parcel: GisParcelSchema | None = None
+    gis_zoning: GisZoningSchema | None = None
+    gis_flood: GisFloodSchema | None = None
 
     # --- Stormwater design point + cited assumptions (hydrology/stormwater.py) -----------
     # The NOAA-Atlas-14 corridor point — distinct from the nasa_power loop centroid above.
@@ -160,6 +184,241 @@ PROFILE_SETTINGS_FIELDS: tuple[str, ...] = (
 )
 
 
+# --- GIS field-map schema constants (#237) -------------------------------------------------
+# Lima's schemas reproduce the pre-#237 hardcoded field names / encodings / write-meta prose
+# exactly (zero-drift): the connector emits the identical request params, so the committed
+# fixtures replay and the committed reference YAML stays byte-identical. See tests/test_sites.py
+# for the schema golden + param-stability tests. NATIONAL_NFHL_FLOOD_SCHEMA / FINDLAY_* are
+# defined just below, from a live FeatureServer metadata read (never fabricated field names).
+
+# Allen County, OH parcel/CAMA layer (was allen_gis._OUT_FIELDS + the inline write-meta).
+LIMA_PARCEL_SCHEMA = GisParcelSchema(
+    connector="allen_gis",
+    reference_dir="allen-gis",
+    page_size=1000,
+    out_fields=(
+        "PARCEL_NO",
+        "OWNNAM1",
+        "OWNNAM2",
+        "DEEDOWN",
+        "HOUSENO",
+        "ST_DIR",
+        "STREET",
+        "ST_DESC",
+        "OWNADR1",
+        "OWNADR2",
+        "OWNST",
+        "OWNZIP",
+        "LNDUSECD",
+        "ACRES",
+        "MKTLNDVAL",
+        "MKTIMPVAL",
+        "MKTTOTVAL",
+        "CAUVVAL",
+        "TAXDIST",
+        "SCHOOL",
+        "NBRHCODE",
+        "DATE",
+        "SALEAMT",
+        "VAL_SAL",
+    ),
+    id_field="PARCEL_NO",
+    owner_field="OWNNAM1",
+    owner_2_field="OWNNAM2",
+    deeded_owner_field="DEEDOWN",
+    situs_fields=("HOUSENO", "ST_DIR", "STREET", "ST_DESC"),
+    owner_addr_fields=("OWNADR1", "OWNADR2"),
+    land_use_field="LNDUSECD",
+    acres_field="ACRES",
+    market_land_field="MKTLNDVAL",
+    market_improvement_field="MKTIMPVAL",
+    market_total_field="MKTTOTVAL",
+    cauv_field="CAUVVAL",
+    tax_district_field="TAXDIST",
+    school_field="SCHOOL",
+    neighborhood_field="NBRHCODE",
+    sale_date_field="DATE",
+    sale_amount_field="SALEAMT",
+    valid_sale_field="VAL_SAL",
+    id_normalize="dashless",
+    date_decode="mmddyyyy",
+    deed_id_regex=r"\b\d{2}-\d{4}-\d{2}-\d{3}\.\d{3}\b",
+    meta=GisMeta(
+        subject="Allen County, Ohio parcels (CAMA)",
+        source="Allen County GIS — ArcGIS REST, Current Parcels (AGOL_NonEditLayers/1)",
+        source_url="https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1",
+        caveats=(
+            "Values are verbatim from the county GIS; null means the service had no value.",
+            "Market values are the auditor's appraised values, not sale prices.",
+            "last_sale_date is decoded from the GIS M(M)DDYYYY integer; verify against the deed.",
+        ),
+    ),
+    defense=GisDefenseConfig(
+        owner_scan_fields=("OWNNAM1", "DEEDOWN", "OWNNAM2"),
+        enclave_owner="UNITED STATES",
+        enclave_tax_district="L35",
+        meta=GisDefenseMeta(
+            subject="Allen County, Ohio defense-industry land scan",
+            source="Allen County GIS — ArcGIS REST, Current Parcels (AGOL_NonEditLayers/1)",
+            source_url="https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1",
+            scan="Owner-name match of the curated DoD-prime seed list "
+            "(data/entities/profiles/defense-contractors.yaml) against the CAMA "
+            "owner / deeded-owner / second-owner fields.",
+            finding="No Allen County parcel is owned by a DoD prime in its own name. "
+            "The local defense footprint is the federally-held JSMC reservation below.",
+            army_controlled_note="[inference] the UNITED STATES-owned cluster in tax "
+            "district L35 on Buckeye/Reed Rd is the Joint Systems Manufacturing Center "
+            "(Lima Army Tank Plant; 1151 Buckeye Rd), operated by General Dynamics Land "
+            "Systems. Ownership is verbatim from the GIS; the JSMC identification is an "
+            "analyst inference — verify against the deed/lease before relying on it.",
+            caveats=(
+                "Values are verbatim from the county GIS; null means the service had no value.",
+                "A pattern match is a lead to verify, not a classification or accusation.",
+            ),
+        ),
+    ),
+)
+
+# City of Lima, OH zoning layer (was lima_gis zoning fields + the inline write-meta/finding).
+LIMA_ZONING_SCHEMA = GisZoningSchema(
+    connector="lima_gis",
+    reference_dir="lima-gis",
+    page_size=10000,
+    object_id_field="OBJECTID",
+    parcel_field="PARCEL_NO",
+    zoning_field="ZONING",
+    http_method="POST",
+    id_normalize="dashless",
+    meta=GisMeta(
+        subject="City of Lima, Ohio zoning districts (catalog)",
+        source="City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 6 'Current Lima Zoning'",
+        source_url=(
+            "https://colgis.cityhall.lima.oh.us/server/rest/services/"
+            "CitywideMaps/Lima_Zoning/MapServer/6"
+        ),
+        caveats=(
+            "Values are verbatim from the City of Lima GIS.",
+            "Coverage is Lima CITY LIMITS ONLY; unincorporated Allen County parcels "
+            "(e.g. the American Township corridor) are not in this layer.",
+            "polygon_count counts zoning polygons, not distinct parcels (a parcel may "
+            "carry more than one polygon).",
+        ),
+    ),
+    cited_meta=GisCitedZoningMeta(
+        subject="City of Lima zoning for cited corpus parcels (jurisdiction scan)",
+        source="City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 6, "
+        "joined by PARCEL_NO to corpus-cited parcel ids",
+        finding_lead="fall within the City of Lima zoning jurisdiction",
+        in_city_finding=".",
+        out_of_city_finding=" — the corridor (data-center campus + JSMC) sits in American/county "
+        "townships, so it is NOT subject to the City of Lima zoning code. Allen County "
+        "GIS publishes no county/township zoning layer (only Tax and School districts), "
+        "so land-use authority here is township/county, not GIS-mapped.",
+        caveats=(
+            "Coverage is Lima CITY LIMITS ONLY; in_city=false is a verified outside-"
+            "city result, not a missing lookup.",
+            "Parcel ids are scanned from data/extracted; normalized to the dashless "
+            "PARCEL_NO the GIS join uses.",
+        ),
+    ),
+)
+
+# FEMA DFIRM floodzone layer as served by the City of Lima GIS (was lima_gis flood fields).
+LIMA_FLOOD_SCHEMA = GisFloodSchema(
+    connector="lima_gis_flood",
+    reference_dir="lima-gis",
+    page_size=10000,
+    object_id_field="OBJECTID",
+    fld_zone_field="FLD_ZONE",
+    zone_subtype_field="ZONE_SUBTY",
+    sfha_field="SFHA_TF",
+    static_bfe_field="STATIC_BFE",
+    dfirm_id_field="DFIRM_ID",
+    source_cit_field="SOURCE_CIT",
+    http_method="POST",
+    bfe_sentinel=-9999.0,
+    sfha_true_value="T",
+    meta=GisMeta(
+        subject="FEMA flood-hazard zones over Allen County (DFIRM panel 39003C)",
+        source="City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 4 'Floodzone' (FEMA DFIRM)",
+        source_url=(
+            "https://colgis.cityhall.lima.oh.us/server/rest/services/"
+            "CitywideMaps/Lima_Zoning/MapServer/4"
+        ),
+        caveats=(
+            "Values are verbatim from the FEMA DFIRM served by the City of Lima GIS.",
+            "Only Special Flood Hazard Areas (1%-annual-chance: A/AE incl. floodway, AO) "
+            "are mapped here; areas outside the SFHA carry no polygon.",
+            "A site's flood zone is a SPATIAL question (no PARCEL_NO on this layer) — use "
+            "footprint_floodzones() / bosc floodzone --footprint.",
+        ),
+    ),
+)
+
+# The national FEMA NFHL flood layer (S_FLD_HAZ_AR) — the shared, any-US-site flood field-map.
+# A site without a local flood REST service points its floodzone_url at this MapServer layer
+# and references this schema (overriding reference_dir per site). Field names confirmed from the
+# layer metadata 2026-06-19 (they match the FEMA DFIRM standard). Lima keeps its own City-served
+# DFIRM schema for zero-drift; it is NOT migrated onto NFHL here (that would change request params).
+NATIONAL_NFHL_FLOOD_SCHEMA = GisFloodSchema(
+    connector="nfhl_flood",
+    reference_dir="nfhl",
+    page_size=2000,
+    object_id_field="OBJECTID",
+    fld_zone_field="FLD_ZONE",
+    zone_subtype_field="ZONE_SUBTY",
+    sfha_field="SFHA_TF",
+    static_bfe_field="STATIC_BFE",
+    dfirm_id_field="DFIRM_ID",
+    source_cit_field="SOURCE_CIT",
+    http_method="POST",
+    bfe_sentinel=-9999.0,
+    sfha_true_value="T",
+    meta=GisMeta(
+        subject="FEMA flood-hazard zones (National Flood Hazard Layer, S_FLD_HAZ_AR)",
+        source="FEMA NFHL — ArcGIS REST, public/NFHL/MapServer/28 'Flood Hazard Zones'",
+        source_url="https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+        caveats=(
+            "Values are verbatim from the FEMA National Flood Hazard Layer (NFHL).",
+            "Only Special Flood Hazard Areas (1%-annual-chance: A/AE incl. floodway, AO) "
+            "are mapped; areas outside the SFHA carry no polygon.",
+            "A site's flood zone is a SPATIAL question (no parcel id on this layer) — use "
+            "footprint_floodzones() / bosc floodzone --footprint.",
+            "Field names confirmed from the NFHL layer-28 metadata (2026-06-19).",
+        ),
+    ),
+)
+
+# City of Findlay, OH zoning — a hosted ArcGIS Online FeatureServer. Field names confirmed live
+# from the layer-0 metadata 2026-06-19: it is POLYGON-ONLY (no parcel-id field), so the district
+# catalog is supported but per-parcel zoning joins are not (cited_meta=None).
+FINDLAY_ZONING_SCHEMA = GisZoningSchema(
+    connector="findlay_gis",
+    reference_dir="findlay-gis",
+    page_size=2000,
+    object_id_field="FID",
+    parcel_field=None,  # polygon-only layer — no parcel id to join on
+    zoning_field="Zoning",  # current district label (Category = coarse group; OLDZONING = prior)
+    http_method="POST",
+    id_normalize="dashless",
+    meta=GisMeta(
+        subject="City of Findlay, Ohio zoning districts (catalog)",
+        source="City of Findlay GIS — ArcGIS Online hosted FeatureServer 'FindlayZoning' "
+        "(org XMr9uonP553LyU3o), layer 0",
+        source_url=(
+            "https://services6.arcgis.com/XMr9uonP553LyU3o/arcgis/rest/services/"
+            "FindlayZoning/FeatureServer/0"
+        ),
+        caveats=(
+            "Values are verbatim from the City of Findlay hosted zoning FeatureServer.",
+            "Polygon-only layer (no parcel id): the district catalog is supported; per-parcel "
+            "zoning joins are not.",
+            "Field names confirmed from the layer-0 metadata (2026-06-19).",
+        ),
+    ),
+)
+
+
 # The live reference build. Every value reproduces the pre-#325 hardcoded default exactly —
 # see tests/test_sites.py for the zero-drift golden snapshot.
 _LIMA = SiteProfile(
@@ -188,6 +447,10 @@ _LIMA = SiteProfile(
     gnis_default_state="OH",
     hydro_utm_epsg=32617,
     lsc_default_ga="136",
+    # GIS field-maps (Allen County parcels + City of Lima zoning/floodzone)
+    gis_parcel=LIMA_PARCEL_SCHEMA,
+    gis_zoning=LIMA_ZONING_SCHEMA,
+    gis_flood=LIMA_FLOOD_SCHEMA,
     # stormwater
     design_lat=40.797,
     design_lon=-84.123,
@@ -302,12 +565,19 @@ _FINDLAY = SiteProfile(
     econ_fips="39063",
     eia861_utility_number=14006,  # [verified] Ohio Power Co (AEP Ohio); no municipal electric utility
     eia_state="OH",
-    # GIS (the known lift — a new jurisdiction needs its own connector; see docs/onboarding.md):
-    parcels_url="TODO",  # [open] no public ArcGIS REST parcels — Hancock County is Beacon/Schneider-only; substitute = Ohio statewide parcels (geohio) filtered to 39063
+    # GIS — schema-driven (#237): the field-maps live in gis_zoning/gis_flood below.
+    parcels_url="TODO",  # [open] no public ArcGIS REST parcels — Hancock County is Beacon/Schneider-only; substitute = Ohio statewide parcels (geohio) filtered to 39063 (gis_parcel stays None)
     zoning_url=(  # [verified] City of Findlay hosted zoning FeatureServer (ArcGIS Online org XMr9uonP553LyU3o)
         "https://services6.arcgis.com/XMr9uonP553LyU3o/arcgis/rest/services/FindlayZoning/FeatureServer/0"
     ),
-    floodzone_url="TODO",  # [open] no City flood REST service — source is FEMA NFHL S_FLD_HAZ_AR (needs its own connector)
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28) — confirmed 2026-06-19
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    # GIS field-maps: zoning = the verified City FeatureServer (polygon-only catalog); flood =
+    # the shared national NFHL layer (site-scoped output dir); parcels = [open] (no county REST).
+    gis_parcel=None,
+    gis_zoning=FINDLAY_ZONING_SCHEMA,
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "findlay-gis"}),
     gnis_default_state="OH",
     hydro_utm_epsg=32617,  # [verified] UTM 17N (Findlay ~83.64degW; zone 17 spans 84-78degW)
     lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima

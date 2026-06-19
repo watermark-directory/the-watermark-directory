@@ -8,6 +8,7 @@ hydrology output can quietly change.
 
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
 
@@ -15,7 +16,11 @@ import pytest
 from pydantic import ValidationError
 
 from bosc.config import Settings
+from bosc.connectors._cache import cache_key
 from bosc.sites import (
+    LIMA_FLOOD_SCHEMA,
+    LIMA_PARCEL_SCHEMA,
+    LIMA_ZONING_SCHEMA,
     PER_SITE_OUTPUT_FIELDS,
     SITES,
     SiteProfile,
@@ -222,3 +227,185 @@ def test_per_site_output_paths_resolve(tmp_path, monkeypatch) -> None:  # type: 
     fws = Settings(site="fw", data_dir=tmp_path)
     assert climatology_path(fws) == tmp_path / "reference/hydrology/fw/nasa-power-climatology.yaml"
     assert _ddf_path(fws) == tmp_path / "reference/hydrology/fw/atlas14-corridor-ddf.yaml"
+
+
+# --- GIS field-map schemas (#237) ----------------------------------------------------------
+# The connector field names + encodings moved onto per-site GisSchemas. Lima's must reproduce
+# the pre-#237 hardcoded values exactly (zero-drift); the tests below are that contract.
+
+FIXTURES = REPO_ROOT / "tests" / "fixtures" / "hydrology"
+
+
+def test_gis_schema_golden_lima() -> None:
+    """Lima's GIS schemas transcribe the old hardcoded field names / encodings exactly."""
+    p = LIMA_PARCEL_SCHEMA
+    assert p.connector == "allen_gis" and p.reference_dir == "allen-gis" and p.page_size == 1000
+    assert p.out_fields[:4] == ("PARCEL_NO", "OWNNAM1", "OWNNAM2", "DEEDOWN")
+    assert p.out_fields[-3:] == ("DATE", "SALEAMT", "VAL_SAL") and len(p.out_fields) == 24
+    assert (p.id_field, p.acres_field, p.tax_district_field) == ("PARCEL_NO", "ACRES", "TAXDIST")
+    assert p.id_normalize == "dashless" and p.date_decode == "mmddyyyy"
+    assert p.deed_id_regex == r"\b\d{2}-\d{4}-\d{2}-\d{3}\.\d{3}\b"
+    assert p.defense is not None
+    assert p.defense.enclave_owner == "UNITED STATES" and p.defense.enclave_tax_district == "L35"
+    assert p.defense.owner_scan_fields == ("OWNNAM1", "DEEDOWN", "OWNNAM2")  # OR-clause order
+
+    z = LIMA_ZONING_SCHEMA
+    assert z.connector == "lima_gis" and z.reference_dir == "lima-gis" and z.http_method == "POST"
+    assert z.out_fields == ("OBJECTID", "PARCEL_NO", "ZONING")
+
+    f = LIMA_FLOOD_SCHEMA
+    assert (
+        f.connector == "lima_gis_flood" and f.bfe_sentinel == -9999.0 and f.sfha_true_value == "T"
+    )
+    assert f.out_fields == (
+        "OBJECTID",
+        "FLD_ZONE",
+        "ZONE_SUBTY",
+        "SFHA_TF",
+        "STATIC_BFE",
+        "DFIRM_ID",
+        "SOURCE_CIT",
+    )
+
+
+def test_gis_param_stability_matches_committed_fixtures() -> None:
+    """The zero-drift invariant, stated explicitly: a request built from each Lima schema
+    hashes to a committed connector fixture. A mistranscribed field name changes the key and
+    this fails *before* the replay tests — with a precise pointer to the drift."""
+    base = {"f": "json", "returnGeometry": "false"}
+
+    # zoning_districts groupBy (lima_gis)
+    z = LIMA_ZONING_SCHEMA
+    zstats = [
+        {
+            "statisticType": "count",
+            "onStatisticField": z.object_id_field,
+            "outStatisticFieldName": "n",
+        }
+    ]
+    zkey = cache_key(
+        {
+            **base,
+            "where": "1=1",
+            "outFields": z.zoning_field,
+            "groupByFieldsForStatistics": z.zoning_field,
+            "outStatistics": json.dumps(zstats),
+        }
+    )
+    assert (FIXTURES / z.connector / f"{zkey}.json").is_file(), f"zoning param drift: {zkey}"
+
+    # floodzone_catalog groupBy (lima_gis_flood)
+    f = LIMA_FLOOD_SCHEMA
+    group = ",".join((f.fld_zone_field, f.zone_subtype_field, f.sfha_field))
+    fstats = [
+        {
+            "statisticType": "count",
+            "onStatisticField": f.object_id_field,
+            "outStatisticFieldName": "n",
+        }
+    ]
+    fkey = cache_key(
+        {
+            **base,
+            "where": "1=1",
+            "outFields": group,
+            "groupByFieldsForStatistics": group,
+            "outStatistics": json.dumps(fstats),
+        }
+    )
+    assert (FIXTURES / f.connector / f"{fkey}.json").is_file(), f"flood param drift: {fkey}"
+
+    # army_controlled fixed-where parcel query (allen_gis)
+    p = LIMA_PARCEL_SCHEMA
+    assert p.defense is not None
+    where = (
+        f"{p.owner_field}='{p.defense.enclave_owner}' "
+        f"AND {p.tax_district_field}='{p.defense.enclave_tax_district}'"
+    )
+    akey = cache_key(
+        {
+            **base,
+            "where": where,
+            "outFields": ",".join(p.out_fields),
+            "resultOffset": 0,
+            "resultRecordCount": p.page_size,
+        }
+    )
+    assert (FIXTURES / p.connector / f"{akey}.json").is_file(), f"parcel param drift: {akey}"
+
+
+def test_gis_connector_decodes_by_field_name_for_a_new_jurisdiction(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    """A second jurisdiction with *different* ArcGIS field names decodes correctly — proof the
+    connector selects by name (from the schema), not by Lima's hardcoded fields. Fully offline:
+    a hand-rolled fixture under the synthetic connector's key."""
+    from bosc.connectors.gis_schema import GisCitedZoningMeta, GisMeta, GisZoningSchema
+    from bosc.hydrology.connectors import lima_gis
+
+    alt = GisZoningSchema(
+        connector="synthj_gis",
+        reference_dir="synthj-gis",
+        page_size=2000,
+        object_id_field="FID",
+        parcel_field="PARCELID",
+        zoning_field="ZONE_DISTRICT",
+        http_method="GET",
+        id_normalize="dashless",
+        meta=GisMeta(subject="s", source="s", source_url="s", caveats=()),
+        cited_meta=GisCitedZoningMeta(
+            subject="s",
+            source="s",
+            finding_lead="x",
+            in_city_finding=".",
+            out_of_city_finding="-",
+            caveats=(),
+        ),
+    )
+    synth = SITES["lima"].model_copy(update={"slug": "synthj", "gis_zoning": alt})
+    monkeypatch.setitem(SITES, "synthj", synth)
+
+    # Hand-roll the offline fixture for the exact request zoning_for_parcel("12345") builds.
+    params = {
+        "f": "json",
+        "returnGeometry": "false",
+        "where": f"{alt.parcel_field}='12345'",
+        "outFields": ",".join(alt.out_fields),
+        "resultOffset": 0,
+        "resultRecordCount": alt.page_size,
+        "orderByFields": alt.object_id_field,
+    }
+    key = cache_key(params)
+    fx = tmp_path / alt.connector / f"{key}.json"
+    fx.parent.mkdir(parents=True)
+    fx.write_text(
+        json.dumps(
+            {
+                "payload": {
+                    "features": [
+                        {"attributes": {"FID": 7, "PARCELID": "12345", "ZONE_DISTRICT": "C-2 COMM"}}
+                    ]
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    settings = Settings(
+        site="synthj",
+        hydro_offline=True,
+        hydro_fixtures_dir=tmp_path,
+        hydro_cache_dir=tmp_path / "c",
+    )
+    rec = lima_gis.zoning_for_parcel("12345", settings=settings)
+    assert rec is not None
+    assert rec.parcel_no == "12345" and rec.zoning == "C-2 COMM" and rec.object_id == 7
+
+
+def test_gis_connectors_refuse_a_schemaless_site() -> None:
+    """A site with no parcel GIS schema refuses cleanly rather than running Lima's fields."""
+    import pytest
+
+    from bosc.hydrology.connectors import allen_gis
+
+    assert SITES["findlay"].gis_parcel is None
+    with pytest.raises(allen_gis.AllenGisError, match="no parcel GIS schema"):
+        allen_gis.fetch_parcel("12-34", settings=Settings(site="findlay"))

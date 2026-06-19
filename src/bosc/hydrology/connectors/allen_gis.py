@@ -1,22 +1,24 @@
-"""Allen County, Ohio GIS — parcel (CAMA) connector.
+"""County parcel/CAMA connector — jurisdiction-agnostic, schema-driven (#237).
 
-Pulls real-estate / parcel attributes from the county's public **ArcGIS REST**
-server. The authoritative parcel layer is "Current Parcels"
-(``AGOL/AGOL_NonEditLayers/MapServer/1``) — the auditor's CAMA data joined to the
-parcel geometry: owner, situs address, land use, acreage, market/CAUV values, last
-sale, tax district. The server is anonymous (no token), paginates at 1,000
-features, and supports ``f=json``.
+Pulls real-estate / parcel attributes from a county's public **ArcGIS REST** server. The
+**field names + value encodings** are not hardcoded: they come from the active site's
+:class:`~bosc.connectors.gis_schema.GisParcelSchema` (``SiteProfile.gis_parcel``), so a new
+jurisdiction is config, not a copied connector. Lima = Allen County's "Current Parcels" layer
+(``AGOL/AGOL_NonEditLayers/MapServer/1`` — the auditor's CAMA data joined to parcel geometry:
+owner, situs address, land use, acreage, market/CAUV values, last sale, tax district), whose
+schema (:data:`bosc.sites.LIMA_PARCEL_SCHEMA`) reproduces the pre-#237 behavior exactly.
 
-Two ways in:
+The server is anonymous (no token), paginates at the layer's ``maxRecordCount``, and serves
+``f=json``. Two ways in:
 
-* :func:`fetch_parcel` — one parcel by its number (deed IDs like
-  ``36-0100-03-002.000`` are normalized to the server's dashless ``PARCEL_NO``);
+* :func:`fetch_parcel` — one parcel by its number (deed ids are normalized to the server's
+  stored id per the schema's ``id_normalize`` rule);
 * :func:`query_parcels` — any ``where`` clause, transparently paged to completion.
 
-Values are passed through **verbatim** from the service; only the obvious encodings
-are decoded (the ``DATE`` sale field is an ``M(M)DDYYYY`` integer, not an epoch).
-``None`` means the service returned no value — never a fabricated default. Reuses
-the shared connector cache/offline/fixture machinery; synchronous (``httpx``).
+Values are passed through **verbatim** from the service; only the obvious encodings are
+decoded (the sale-date field per ``schema.date_decode``). ``None`` means the service returned
+no value — never a fabricated default. Reuses the shared connector cache/offline/fixture
+machinery; synchronous (``httpx``).
 """
 
 from __future__ import annotations
@@ -30,39 +32,26 @@ import yaml
 from pydantic import BaseModel, ConfigDict
 
 from bosc.config import Settings, get_settings
+from bosc.connectors.gis_schema import GisDefenseConfig, GisParcelSchema
 from bosc.hydrology.connectors._cache import cached_get
 from bosc.logging import get_logger
+from bosc.sites import LIMA_PARCEL_SCHEMA, active_profile
 
 log = get_logger(__name__)
 
-# CAMA fields requested from the Current Parcels layer (selected by name).
-_OUT_FIELDS = [
-    "PARCEL_NO",
-    "OWNNAM1",
-    "OWNNAM2",
-    "DEEDOWN",
-    "HOUSENO",
-    "ST_DIR",
-    "STREET",
-    "ST_DESC",
-    "OWNADR1",
-    "OWNADR2",
-    "OWNST",
-    "OWNZIP",
-    "LNDUSECD",
-    "ACRES",
-    "MKTLNDVAL",
-    "MKTIMPVAL",
-    "MKTTOTVAL",
-    "CAUVVAL",
-    "TAXDIST",
-    "SCHOOL",
-    "NBRHCODE",
-    "DATE",
-    "SALEAMT",
-    "VAL_SAL",
-]
-_PAGE_SIZE = 1000  # the layer's maxRecordCount
+
+class AllenGisError(RuntimeError):
+    """The ArcGIS service returned an error object, or the active site has no parcel schema."""
+
+
+def _parcel_schema(settings: Settings) -> GisParcelSchema:
+    """The active site's parcel GIS schema, or a clean error if it has none."""
+    schema = active_profile(settings).gis_parcel
+    if schema is None:
+        raise AllenGisError(
+            f"site {settings.site!r} has no parcel GIS schema (gis_parcel) — cannot query parcels"
+        )
+    return schema
 
 
 class Parcel(BaseModel):
@@ -71,11 +60,11 @@ class Parcel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     parcel_no: str | None
-    owner: str | None  # OWNNAM1
-    owner_2: str | None  # OWNNAM2
-    deeded_owner: str | None  # DEEDOWN
-    situs_address: str | None  # assembled from HOUSENO/ST_DIR/STREET/ST_DESC
-    owner_address: str | None  # assembled mailing address
+    owner: str | None  # owner_field
+    owner_2: str | None  # owner_2_field
+    deeded_owner: str | None  # deeded_owner_field
+    situs_address: str | None  # assembled from situs_fields
+    owner_address: str | None  # assembled from owner_addr_fields
     land_use_code: int | None
     acres: float | None
     market_land_value: int | None
@@ -85,34 +74,37 @@ class Parcel(BaseModel):
     tax_district: str | None
     school_code: str | None
     neighborhood_code: str | None
-    last_sale_date: str | None  # ISO yyyy-mm-dd, decoded from the M(M)DDYYYY int
+    last_sale_date: str | None  # ISO yyyy-mm-dd, decoded per schema.date_decode
     last_sale_amount: int | None
     valid_sale: str | None
 
     @classmethod
-    def from_attrs(cls, a: dict[str, Any]) -> Parcel:
+    def from_attrs(cls, a: dict[str, Any], schema: GisParcelSchema | None = None) -> Parcel:
+        """Decode one ArcGIS feature's attributes by field name (per ``schema``).
+
+        ``schema`` defaults to Lima's (Allen County) field-map, so a bare ``from_attrs(attrs)``
+        keeps working for callers/tests that pass Allen-shaped dicts.
+        """
+        s = schema or LIMA_PARCEL_SCHEMA
         return cls(
-            parcel_no=_s(a.get("PARCEL_NO")),
-            owner=_s(a.get("OWNNAM1")),
-            owner_2=_s(a.get("OWNNAM2")),
-            deeded_owner=_s(a.get("DEEDOWN")),
-            situs_address=_join(
-                a.get("HOUSENO"), a.get("ST_DIR"), a.get("STREET"), a.get("ST_DESC")
-            ),
-            # OWNADR2 already carries city/state/zip, so OWNST/OWNZIP aren't re-joined.
-            owner_address=_join(a.get("OWNADR1"), a.get("OWNADR2")),
-            land_use_code=_i(a.get("LNDUSECD")),
-            acres=_f(a.get("ACRES")),
-            market_land_value=_i(a.get("MKTLNDVAL")),
-            market_improvement_value=_i(a.get("MKTIMPVAL")),
-            market_total_value=_i(a.get("MKTTOTVAL")),
-            cauv_value=_i(a.get("CAUVVAL")),
-            tax_district=_s(a.get("TAXDIST")),
-            school_code=_s(a.get("SCHOOL")),
-            neighborhood_code=_s(a.get("NBRHCODE")),
-            last_sale_date=_parse_parcel_date(a.get("DATE")),
-            last_sale_amount=_i(a.get("SALEAMT")),
-            valid_sale=_s(a.get("VAL_SAL")),
+            parcel_no=_s(a.get(s.id_field)),
+            owner=_s(a.get(s.owner_field)),
+            owner_2=_s(a.get(s.owner_2_field)),
+            deeded_owner=_s(a.get(s.deeded_owner_field)),
+            situs_address=_join(*(a.get(f) for f in s.situs_fields)),
+            owner_address=_join(*(a.get(f) for f in s.owner_addr_fields)),
+            land_use_code=_i(a.get(s.land_use_field)),
+            acres=_f(a.get(s.acres_field)),
+            market_land_value=_i(a.get(s.market_land_field)),
+            market_improvement_value=_i(a.get(s.market_improvement_field)),
+            market_total_value=_i(a.get(s.market_total_field)),
+            cauv_value=_i(a.get(s.cauv_field)),
+            tax_district=_s(a.get(s.tax_district_field)),
+            school_code=_s(a.get(s.school_field)),
+            neighborhood_code=_s(a.get(s.neighborhood_field)),
+            last_sale_date=_decode_sale_date(a.get(s.sale_date_field), s.date_decode),
+            last_sale_amount=_i(a.get(s.sale_amount_field)),
+            valid_sale=_s(a.get(s.valid_sale_field)),
         )
 
 
@@ -142,8 +134,17 @@ def _join(*parts: Any) -> str | None:
     return " ".join(pieces) or None
 
 
+def _decode_sale_date(value: Any, mode: str) -> str | None:
+    """Decode the GIS sale-date field per the schema's encoding."""
+    if mode == "mmddyyyy":
+        return _parse_parcel_date(value)
+    if mode == "iso":
+        return _s(value)
+    return None
+
+
 def _parse_parcel_date(value: Any) -> str | None:
-    """Decode the GIS ``DATE`` sale field (``M(M)DDYYYY`` int) to ISO ``yyyy-mm-dd``.
+    """Decode an ``M(M)DDYYYY``-integer sale field to ISO ``yyyy-mm-dd``.
 
     e.g. ``2252008`` -> ``2008-02-25``; ``8011994`` -> ``1994-08-01``. Returns
     ``None`` for missing/zero/unparseable values rather than inventing a date.
@@ -158,17 +159,24 @@ def _parse_parcel_date(value: Any) -> str | None:
     return f"{year:04d}-{month:02d}-{day:02d}"
 
 
-def normalize_parcel_id(raw: str) -> str:
-    """A parcel id as the GIS stores it: digits only (``36-0100-03-002.000`` -> ``36010003002000``)."""
+def normalize_parcel_id(raw: str, *, rule: str = "dashless") -> str:
+    """A parcel id as the GIS stores it.
+
+    ``"dashless"`` strips every non-digit (``36-0100-03-002.000`` -> ``36010003002000``);
+    ``"verbatim"`` returns it unchanged. Defaults to dashless (the Allen County rule), so the
+    no-arg form keeps working for the POI / corpus-scan callers.
+    """
+    if rule == "verbatim":
+        return raw
     return re.sub(r"\D", "", raw)
 
 
-def _query(params: dict[str, Any], *, settings: Settings) -> dict[str, Any]:
+def _query(params: dict[str, Any], *, settings: Settings, connector: str) -> dict[str, Any]:
     """Run (or replay) one ArcGIS ``/query`` request; return the parsed JSON."""
     query = {"f": "json", "returnGeometry": "false", **params}
 
     def fetch() -> Any:
-        log.info("allen_gis.fetch", where=params.get("where"), offset=params.get("resultOffset"))
+        log.info(f"{connector}.fetch", where=params.get("where"), offset=params.get("resultOffset"))
         resp = httpx.get(
             f"{settings.parcels_url}/query",
             params=query,
@@ -177,14 +185,10 @@ def _query(params: dict[str, Any], *, settings: Settings) -> dict[str, Any]:
         resp.raise_for_status()
         return resp.json()
 
-    payload = cast("dict[str, Any]", cached_get("allen_gis", query, fetch, settings=settings))
+    payload = cast("dict[str, Any]", cached_get(connector, query, fetch, settings=settings))
     if "error" in payload:
         raise AllenGisError(f"ArcGIS error: {payload['error']}")
     return payload
-
-
-class AllenGisError(RuntimeError):
-    """The ArcGIS service returned an error object (bad field, bad where, ...)."""
 
 
 def query_parcels(
@@ -196,7 +200,8 @@ def query_parcels(
 ) -> list[Parcel]:
     """Every parcel matching ``where``, paged to completion (or to ``max_records``)."""
     settings = settings or get_settings()
-    fields = ",".join(out_fields or _OUT_FIELDS)
+    schema = _parcel_schema(settings)
+    fields = ",".join(out_fields or schema.out_fields)
     parcels: list[Parcel] = []
     offset = 0
     while True:
@@ -205,12 +210,13 @@ def query_parcels(
                 "where": where,
                 "outFields": fields,
                 "resultOffset": offset,
-                "resultRecordCount": _PAGE_SIZE,
+                "resultRecordCount": schema.page_size,
             },
             settings=settings,
+            connector=schema.connector,
         )
         features = page.get("features") or []
-        parcels.extend(Parcel.from_attrs(f.get("attributes", {})) for f in features)
+        parcels.extend(Parcel.from_attrs(f.get("attributes", {}), schema) for f in features)
         if max_records is not None and len(parcels) >= max_records:
             return parcels[:max_records]
         if not page.get("exceededTransferLimit") or not features:
@@ -221,44 +227,50 @@ def query_parcels(
 def fetch_parcel(parcel_no: str, *, settings: Settings | None = None) -> Parcel | None:
     """One parcel by number (any separator format); ``None`` if the GIS has no match."""
     settings = settings or get_settings()
-    normalized = normalize_parcel_id(parcel_no)
-    matches = query_parcels(f"PARCEL_NO='{normalized}'", settings=settings)
+    schema = _parcel_schema(settings)
+    normalized = normalize_parcel_id(parcel_no, rule=schema.id_normalize)
+    matches = query_parcels(f"{schema.id_field}='{normalized}'", settings=settings)
     return matches[0] if matches else None
 
 
 def parcels_by_owner(name: str, *, settings: Settings | None = None) -> list[Parcel]:
     """Parcels whose owner name contains ``name`` (case-insensitive substring)."""
+    settings = settings or get_settings()
+    schema = _parcel_schema(settings)
     safe = name.upper().replace("'", "''")
-    return query_parcels(f"UPPER(OWNNAM1) LIKE '%{safe}%'", settings=settings)
+    return query_parcels(f"UPPER({schema.owner_field}) LIKE '%{safe}%'", settings=settings)
 
 
 def parcel_at_point(lon: float, lat: float, *, settings: Settings | None = None) -> Parcel | None:
-    """The Allen County parcel containing a WGS84 point, or ``None`` if none intersects.
+    """The parcel containing a WGS84 point, or ``None`` if none intersects.
 
-    A spatial ``intersects`` query against the parcel layer — the join that turns a
-    geocoded address or a facility coordinate into a canonical ``PARCEL_NO`` (the POI
-    resolve-to-parcel funnel). The GIS repeats split rows, so the result is deduped.
+    A spatial ``intersects`` query against the parcel layer — the join that turns a geocoded
+    address or a facility coordinate into a canonical parcel id (the POI resolve-to-parcel
+    funnel). The GIS repeats split rows, so the result is deduped.
     """
     settings = settings or get_settings()
+    schema = _parcel_schema(settings)
     page = _query(
         {
             "geometry": f"{lon},{lat}",
             "geometryType": "esriGeometryPoint",
             "inSR": "4326",
             "spatialRel": "esriSpatialRelIntersects",
-            "outFields": ",".join(_OUT_FIELDS),
+            "outFields": ",".join(schema.out_fields),
         },
         settings=settings,
+        connector=schema.connector,
     )
     features = page.get("features") or []
-    parcels = _dedupe([Parcel.from_attrs(f.get("attributes", {})) for f in features])
+    parcels = _dedupe([Parcel.from_attrs(f.get("attributes", {}), schema) for f in features])
     return parcels[0] if parcels else None
 
 
 # --- Citations + reference dataset -----------------------------------------
 
-# Parcel ids as they appear in deeds: 36-0100-03-002.000 style (2-4-2-3.3).
-_PARCEL_ID_RE = re.compile(r"\b\d{2}-\d{4}-\d{2}-\d{3}\.\d{3}\b")
+# Deed-style parcel ids cited in the corpus (Lima/Allen: 36-0100-03-002.000, the 2-4-2-3.3
+# form). Bound to the Lima schema's pattern at import; a corpus scan is Lima-specific.
+_PARCEL_ID_RE = re.compile(LIMA_PARCEL_SCHEMA.deed_id_regex)
 
 
 def scan_parcel_ids(*roots: Path) -> list[str]:
@@ -279,13 +291,17 @@ def scan_parcel_ids(*roots: Path) -> list[str]:
 
 
 # --- Defense-industry land scan -------------------------------------------
+# Jurisdiction-specific (Lima = the JSMC / Lima Army Tank Plant): its configuration lives on
+# the parcel schema's optional ``defense`` block, so this never runs another jurisdiction's
+# owner/tax-district filter.
 
-# The Joint Systems Manufacturing Center (Lima Army Tank Plant) reservation: the
-# cluster of UNITED STATES-owned parcels in this CAMA tax district on Buckeye/Reed
-# Rd. A verbatim GIS filter — it excludes the downtown federal parcel (district
-# M38) and the "UNITED STATES PLASTIC CORP" / "ARMY <surname>" false positives.
-_JSMC_OWNER = "UNITED STATES"
-_JSMC_TAXDIST = "L35"
+
+def _defense_config(schema: GisParcelSchema, settings: Settings) -> GisDefenseConfig:
+    if schema.defense is None:
+        raise AllenGisError(
+            f"site {settings.site!r} has no defense-land scan configured (gis_parcel.defense)"
+        )
+    return schema.defense
 
 
 def _dedupe(parcels: list[Parcel]) -> list[Parcel]:
@@ -309,23 +325,23 @@ def _owner_names(p: Parcel) -> str:
 def defense_owner_scan(
     primes: list[tuple[str, list[str]]], *, settings: Settings | None = None
 ) -> dict[str, list[Parcel]]:
-    """Allen County parcels whose owner name matches a defense-prime pattern.
+    """County parcels whose owner name matches a defense-prime pattern.
 
-    ``primes`` is ``[(prime_name, [patterns...]), ...]`` (e.g. from the curated
-    defense-contractor seed list). One OR-ed GIS query covers all patterns across
-    the owner / deeded-owner / second-owner fields; each returned parcel is then
-    tagged locally to the prime(s) it matched. Returns ``{prime: [parcels]}`` for
-    primes with at least one hit (empty when no prime owns county land — the
-    expected result, since the local defense footprint is federally held).
+    ``primes`` is ``[(prime_name, [patterns...]), ...]`` (e.g. from the curated defense-
+    contractor seed list). One OR-ed GIS query covers all patterns across the owner fields the
+    schema names for the scan; each returned parcel is then tagged locally to the prime(s) it
+    matched. Returns ``{prime: [parcels]}`` for primes with at least one hit (empty when no
+    prime owns county land — the expected result for Lima, whose defense footprint is
+    federally held).
     """
     settings = settings or get_settings()
+    schema = _parcel_schema(settings)
+    fields = _defense_config(schema, settings).owner_scan_fields
     patterns = sorted({p.upper().replace("'", "''") for _, pats in primes for p in pats})
     if not patterns:
         return {}
     clauses = [
-        f"(UPPER(OWNNAM1) LIKE '%{p}%' OR UPPER(DEEDOWN) LIKE '%{p}%' "
-        f"OR UPPER(OWNNAM2) LIKE '%{p}%')"
-        for p in patterns
+        "(" + " OR ".join(f"UPPER({f}) LIKE '%{p}%'" for f in fields) + ")" for p in patterns
     ]
     parcels = _dedupe(query_parcels(" OR ".join(clauses), settings=settings))
     hits: dict[str, list[Parcel]] = {}
@@ -338,14 +354,19 @@ def defense_owner_scan(
 
 
 def army_controlled_defense_land(*, settings: Settings | None = None) -> list[Parcel]:
-    """The JSMC / Lima Army Tank Plant reservation (UNITED STATES-owned, by GIS).
+    """The federally-held enclave the defense-contractor seed list flags (Lima = the JSMC).
 
-    Returns the federally-held parcels the defense-contractor seed list notes
-    "function as Army-controlled land" — the actual local defense footprint, held
-    by the United States rather than by a prime in its own name.
+    Returns the federally-held parcels noted to "function as Army-controlled land" — the
+    actual local defense footprint, held by the United States rather than by a prime in its
+    own name. Configured by ``gis_parcel.defense`` (owner + tax district).
     """
     settings = settings or get_settings()
-    where = f"OWNNAM1='{_JSMC_OWNER}' AND TAXDIST='{_JSMC_TAXDIST}'"
+    schema = _parcel_schema(settings)
+    cfg = _defense_config(schema, settings)
+    where = (
+        f"{schema.owner_field}='{cfg.enclave_owner}' "
+        f"AND {schema.tax_district_field}='{cfg.enclave_tax_district}'"
+    )
     return _dedupe(query_parcels(where, settings=settings))
 
 
@@ -355,8 +376,12 @@ def write_defense_scan(
     out_dir: Path,
     *,
     patterns_searched: int,
+    settings: Settings | None = None,
 ) -> Path:
     """Write the defense-land scan (prime-owned + Army-controlled) to one YAML file."""
+    settings = settings or get_settings()
+    schema = _parcel_schema(settings)
+    meta = _defense_config(schema, settings).meta
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / "parcels.defense.yaml"
     owned_rows = [
@@ -366,25 +391,15 @@ def write_defense_scan(
     ]
     doc = {
         "meta": {
-            "subject": "Allen County, Ohio defense-industry land scan",
-            "source": "Allen County GIS — ArcGIS REST, Current Parcels (AGOL_NonEditLayers/1)",
-            "source_url": "https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1",
-            "scan": "Owner-name match of the curated DoD-prime seed list "
-            "(data/entities/profiles/defense-contractors.yaml) against the CAMA "
-            "owner / deeded-owner / second-owner fields.",
+            "subject": meta.subject,
+            "source": meta.source,
+            "source_url": meta.source_url,
+            "scan": meta.scan,
             "patterns_searched": patterns_searched,
             "prime_owned_count": len(owned_rows),
-            "finding": "No Allen County parcel is owned by a DoD prime in its own name. "
-            "The local defense footprint is the federally-held JSMC reservation below.",
-            "army_controlled_note": "[inference] the UNITED STATES-owned cluster in tax "
-            "district L35 on Buckeye/Reed Rd is the Joint Systems Manufacturing Center "
-            "(Lima Army Tank Plant; 1151 Buckeye Rd), operated by General Dynamics Land "
-            "Systems. Ownership is verbatim from the GIS; the JSMC identification is an "
-            "analyst inference — verify against the deed/lease before relying on it.",
-            "caveats": [
-                "Values are verbatim from the county GIS; null means the service had no value.",
-                "A pattern match is a lead to verify, not a classification or accusation.",
-            ],
+            "finding": meta.finding,
+            "army_controlled_note": meta.army_controlled_note,
+            "caveats": list(meta.caveats),
         },
         "prime_owned": owned_rows,
         "army_controlled": [
@@ -399,23 +414,23 @@ def _parcel_doc(p: Parcel) -> dict[str, Any]:
     return p.model_dump()
 
 
-def write_parcels(parcels: list[Parcel], out_dir: Path, *, scope: str) -> Path:
+def write_parcels(
+    parcels: list[Parcel], out_dir: Path, *, scope: str, settings: Settings | None = None
+) -> Path:
     """Write parcels to one YAML file with a provenance ``meta`` block."""
+    settings = settings or get_settings()
+    meta = _parcel_schema(settings).meta
     out_dir.mkdir(parents=True, exist_ok=True)
     ordered = sorted(parcels, key=lambda p: p.parcel_no or "")
     path = out_dir / f"parcels.{scope}.yaml"
     doc = {
         "meta": {
-            "subject": "Allen County, Ohio parcels (CAMA)",
+            "subject": meta.subject,
             "scope": scope,
-            "source": "Allen County GIS — ArcGIS REST, Current Parcels (AGOL_NonEditLayers/1)",
-            "source_url": "https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1",
+            "source": meta.source,
+            "source_url": meta.source_url,
             "count": len(ordered),
-            "caveats": [
-                "Values are verbatim from the county GIS; null means the service had no value.",
-                "Market values are the auditor's appraised values, not sale prices.",
-                "last_sale_date is decoded from the GIS M(M)DDYYYY integer; verify against the deed.",
-            ],
+            "caveats": list(meta.caveats),
         },
         "parcels": [_parcel_doc(p) for p in ordered],
     }
