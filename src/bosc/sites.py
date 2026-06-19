@@ -20,7 +20,8 @@ This module imports nothing from :mod:`bosc.config` — ``active_profile`` duck-
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from pathlib import PurePosixPath
+from typing import TYPE_CHECKING, Literal, get_args, get_origin
 
 from pydantic import BaseModel, ConfigDict
 
@@ -260,3 +261,128 @@ def output_path_collisions(slug: str) -> dict[str, list[str]]:
         if others:
             clashes[field] = others
     return clashes
+
+
+# --- Authoring tooling (scaffold a new profile + lint a draft) ------------------------------
+# Geometry inputs a new site supplies itself (not connector outputs, so not in
+# PER_SITE_OUTPUT_FIELDS, but still slug-scoped by the scaffold).
+_GEOMETRY_RELPATH_FIELDS = ("parcels_relpath", "footprint_relpath")
+
+
+def _slug_scope(relpath: str, slug: str) -> str:
+    """Insert ``slug`` as a subdir before the filename (Lima's path -> a new site's)."""
+    p = PurePosixPath(relpath)
+    return str(p.parent / slug / p.name)
+
+
+def _type_placeholder(annotation: object) -> str:
+    """A constructible-but-obviously-empty literal for a field's type (scaffold TODO)."""
+    origin = get_origin(annotation)
+    if annotation is str:
+        return '"TODO"'
+    if annotation is bool:
+        return "False"
+    if annotation is int:
+        return "0"
+    if annotation is float:
+        return "0.0"
+    if origin is list:
+        return '["TODO"]'
+    if origin is tuple:
+        n = len([a for a in get_args(annotation) if a is not Ellipsis])
+        return "(" + ", ".join(["0.0"] * n) + ")"
+    if origin is dict:
+        return "{}"
+    return "None"
+
+
+def scaffold_profile_src(slug: str, *, basin: str = "maumee") -> str:
+    """A paste-ready ``SiteProfile(...)`` stub for a new site (the #326 authoring aid).
+
+    Identity + the per-site output relpaths are filled (the relpaths pre-slug-scoped, so the
+    stub is collision-safe by construction); every other field is a typed ``TODO`` placeholder
+    to replace from a cited source (see ``docs/onboarding.md``). Then ``bosc sites check`` flags
+    anything still unfilled.
+    """
+    lima = SITES["lima"]
+    lines: list[str] = [f'    "{slug}": SiteProfile(']
+    for name, field in SiteProfile.model_fields.items():
+        comment = ""
+        if name == "slug":
+            value = repr(slug)
+        elif name == "basin":
+            value = repr(basin)
+            comment = "  # TODO: confirm the basin"
+        elif name in PER_SITE_OUTPUT_FIELDS:
+            value = repr(_slug_scope(getattr(lima, name), slug))  # pre-slug-scoped, collision-safe
+        elif name in _GEOMETRY_RELPATH_FIELDS:
+            stem = "reference" if name == "parcels_relpath" else "extracted"
+            value = repr(f"{stem}/{slug}/{PurePosixPath(getattr(lima, name)).name}")
+            comment = "  # TODO: commit the site's own geometry here"
+        else:
+            value = _type_placeholder(field.annotation)
+            comment = "  # TODO"
+        lines.append(f"        {name}={value},{comment}")
+    lines.append("    ),")
+    header = (
+        f"# Paste into bosc.sites.SITES (the key must equal slug={slug!r}). Replace every TODO\n"
+        "# with this site's value from a cited source — see the field guide in\n"
+        "# docs/onboarding.md. The output relpaths are pre-slug-scoped (collision-safe);\n"
+        f"# run `bosc onboard {slug} --check` to find anything still unfilled.\n"
+    )
+    return header + "\n".join(lines) + "\n"
+
+
+class ReadinessFinding(BaseModel):
+    """One issue a draft profile lints up before a live onboard run."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    field: str
+    kind: Literal["placeholder", "matches-lima"]
+    detail: str
+
+
+def _is_placeholder(value: object) -> bool:
+    """True for the scaffold's unfilled sentinels (TODO / zeros / empties)."""
+    if isinstance(value, str):
+        return value == "" or "TODO" in value
+    if isinstance(value, bool):
+        return False
+    if isinstance(value, (int, float)):
+        return value == 0
+    if isinstance(value, (list, tuple)):
+        return len(value) == 0 or any(_is_placeholder(v) for v in value)
+    if isinstance(value, dict):
+        return len(value) == 0
+    return value is None
+
+
+def profile_readiness(slug: str) -> list[ReadinessFinding]:
+    """Lint a non-Lima draft profile before onboarding: unfilled placeholders + copied values.
+
+    Flags any field still a scaffold placeholder (``placeholder`` — must fix) and any field
+    still equal to Lima's value (``matches-lima`` — verify; some, e.g. an Ohio site's
+    ``eia_state``, legitimately match). Empty for Lima itself.
+    """
+    if slug == "lima":
+        return []
+    prof, lima = SITES[slug], SITES["lima"]
+    findings: list[ReadinessFinding] = []
+    for name in SiteProfile.model_fields:
+        if name == "slug":
+            continue
+        value = getattr(prof, name)
+        if _is_placeholder(value):
+            findings.append(
+                ReadinessFinding(
+                    field=name, kind="placeholder", detail=f"still unfilled: {value!r}"
+                )
+            )
+        elif value == getattr(lima, name):
+            findings.append(
+                ReadinessFinding(
+                    field=name, kind="matches-lima", detail=f"== Lima's value: {value!r}"
+                )
+            )
+    return findings

@@ -106,6 +106,28 @@ def test_onboard_writes_under_slug_not_lima(tmp_path, monkeypatch) -> None:  # t
         assert not (tmp_path / lima_path).exists(), lima_path
 
 
+def test_onboard_writes_living_onboarding_doc(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    _fw(monkeypatch)
+    onboard_site(settings=_settings(tmp_path))
+    doc = tmp_path / "extracted" / "fw" / "ONBOARDING.md"
+    assert doc.is_file()
+    body = doc.read_text(encoding="utf-8")
+    assert "Dimension coverage" in body
+    assert "[x] **Hydrology**" in body and "[x] **Economics**" in body
+    assert "[ ] **Data-center activity**" in body  # not captured by onboard
+    assert "Review gate (blocking)" in body
+    # Idempotent: a reviewer's checks survive a re-run.
+    doc.write_text(body.replace("[ ] **Data-center", "[x] **Data-center"), encoding="utf-8")
+    onboard_site(settings=_settings(tmp_path))
+    assert "[x] **Data-center" in doc.read_text(encoding="utf-8")
+
+
+def test_dry_run_writes_no_onboarding_doc(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    _fw(monkeypatch)
+    onboard_site(settings=_settings(tmp_path), dry_run=True)
+    assert not (tmp_path / "extracted" / "fw" / "ONBOARDING.md").exists()
+
+
 def test_onboard_refuses_colliding_output_paths(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
     # The footgun: a profile that copied Lima but did NOT slug-scope its output relpaths would
     # overwrite Lima's committed files. onboard must refuse before writing anything.
