@@ -217,6 +217,59 @@ def _match_low_flow(
     return lookup.get(_norm(primary))
 
 
+def load_dischargers(*, settings: Settings | None = None) -> list[dict[str, Any]]:
+    """The basin POTW inventory (EPA ECHO Maumee dischargers), or ``[]`` if absent."""
+    return _load_dischargers(settings or get_settings())
+
+
+def build_low_flow_lookup(*, settings: Settings | None = None) -> dict[str, ProvenancedValue]:
+    """Merged ``{normalized receiver -> 7Q10}``: cited (document) overrides derived on overlap."""
+    settings = settings or get_settings()
+    return {**load_derived_low_flows(settings=settings), **load_low_flows(settings=settings)}
+
+
+def screen_facility(
+    fac: dict[str, Any], lookup: dict[str, ProvenancedValue]
+) -> tuple[AssimilativeCheck | None, str]:
+    """Screen one POTW record against its primary receiver's 7Q10 (omit, don't guess).
+
+    Returns ``(check, "screened")`` with a populated :class:`AssimilativeCheck`, or
+    ``(None, reason)`` where ``reason`` is one of ``no_receiving_water`` / ``no_7q10`` /
+    ``no_design_flow``. Shared by the basin-wide screen and the cross-site network synthesis.
+    """
+    water = fac.get("receiving_water")
+    if not water or not str(water).strip():
+        return None, "no_receiving_water"
+    q7 = _match_low_flow(str(water), lookup)
+    if q7 is None:
+        return None, "no_7q10"
+    mgd = fac.get("design_flow_mgd")
+    if mgd is None:
+        return None, "no_design_flow"
+    discharge_cfs = mgd_to_cfs(float(mgd))
+    ratio = q7.value / discharge_cfs if discharge_cfs else 0.0
+    flag = dilution_flag(ratio)
+    name = str(water).split(",")[0].strip().title()
+    check = AssimilativeCheck(
+        receiving_water=name,
+        discharger=str(fac.get("name") or fac.get("npdes_id") or "?"),
+        design_low_flow=q7,
+        discharge=ProvenancedValue.from_reference(
+            round(discharge_cfs, 3),
+            "cfs",
+            citation=f"ECHO design flow {mgd} MGD ({fac.get('npdes_id')})",
+            confidence="medium",
+        ),
+        dilution_ratio=round(ratio, 3),
+        flag=flag,
+        detail=(
+            f"{name} 7Q10 {q7.value:.2f} cfs ({q7.source}) vs discharge "
+            f"{discharge_cfs:.2f} cfs -> {ratio:.2f}:1 dilution ({flag})"
+        ),
+    )
+    return check, "screened"
+
+
 def check_basin_assimilative(*, settings: Settings | None = None) -> BasinScreen:
     """Screen every basin POTW against its receiving water's cited or derived 7Q10.
 
@@ -225,53 +278,28 @@ def check_basin_assimilative(*, settings: Settings | None = None) -> BasinScreen
     counted in the coverage but not screened (omit, don't guess).
     """
     settings = settings or get_settings()
-    cited = load_low_flows(settings=settings)
-    derived = load_derived_low_flows(settings=settings)
-    lookup = {**derived, **cited}  # cited overrides a derived alias on overlap
+    lookup = build_low_flow_lookup(settings=settings)
 
     checks: list[AssimilativeCheck] = []
     total = screened = no_rw = no_q7 = no_flow = 0
     bands = {"violation": 0, "tight": 0, "ok": 0}
 
-    for fac in _load_dischargers(settings):
+    for fac in load_dischargers(settings=settings):
         total += 1
-        water = fac.get("receiving_water")
-        if not water or not str(water).strip():
+        check, status = screen_facility(fac, lookup)
+        if status == "no_receiving_water":
             no_rw += 1
             continue
-        q7 = _match_low_flow(str(water), lookup)
-        if q7 is None:
+        if status == "no_7q10":
             no_q7 += 1
             continue
-        mgd = fac.get("design_flow_mgd")
-        if mgd is None:
+        if status == "no_design_flow":
             no_flow += 1
             continue
-        discharge_cfs = mgd_to_cfs(float(mgd))
-        ratio = q7.value / discharge_cfs if discharge_cfs else 0.0
-        flag = dilution_flag(ratio)
-        bands[flag] += 1
+        assert check is not None  # status == "screened"
+        bands[check.flag] += 1
         screened += 1
-        name = str(water).split(",")[0].strip().title()
-        checks.append(
-            AssimilativeCheck(
-                receiving_water=name,
-                discharger=str(fac.get("name") or fac.get("npdes_id") or "?"),
-                design_low_flow=q7,
-                discharge=ProvenancedValue.from_reference(
-                    round(discharge_cfs, 3),
-                    "cfs",
-                    citation=f"ECHO design flow {mgd} MGD ({fac.get('npdes_id')})",
-                    confidence="medium",
-                ),
-                dilution_ratio=round(ratio, 3),
-                flag=flag,
-                detail=(
-                    f"{name} 7Q10 {q7.value:.2f} cfs ({q7.source}) vs discharge "
-                    f"{discharge_cfs:.2f} cfs -> {ratio:.2f}:1 dilution ({flag})"
-                ),
-            )
-        )
+        checks.append(check)
 
     coverage = BasinCoverage(
         total=total,
