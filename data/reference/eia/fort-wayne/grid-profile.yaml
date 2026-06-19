@@ -1,10 +1,10 @@
 serving_utility:
   utility:
-    value: AEP Ohio (Ohio Power Company)
+    value: Indiana Michigan Power Co
     source: reference
-    citation: 'EIA-861 service-territory file (Ohio Power Co #14006) + PUCO certified-territory
-      map; AEP Ohio serving Findlay corroborated by the City of Findlay (AEP smart-meter
-      notice)'
+    citation: 'EIA-861 service-territory file (Indiana Michigan Power Co #9324, an
+      AEP subsidiary) + Indiana IURC certified-territory; I&M serves the Fort Wayne
+      area'
     confidence: high
   holding_company:
     value: American Electric Power (AEP)
@@ -22,39 +22,39 @@ serving_utility:
     citation: PJM is the FERC-jurisdictional wholesale-market RTO for AEP Ohio
     confidence: high
   retail_regulator:
-    value: Public Utilities Commission of Ohio (PUCO)
+    value: Indiana Utility Regulatory Commission (IURC)
     source: reference
-    citation: Ohio retail electric service is PUCO-regulated (intrastate)
+    citation: Indiana retail electric service is IURC-regulated (intrastate)
     confidence: high
   note: Serving utility is identified from the EIA-861 service-territory file; RTO=PJM
     is authoritative. The retail service-territory boundary is formally confirmed
-    against the EIA-861 territory file / PUCO map (#94).
+    against the EIA-861 territory file / IURC map (#94).
 utility_profile:
-  utility: AEP Ohio (Ohio Power Company)
+  utility: Indiana Michigan Power Co
   eia_source: EIA-861 2024 per-utility retail (connector; bundled+delivery total)
   retail_sales_gwh:
-    value: 48652.9
+    value: 14997.9
     unit: GWh/yr
     source: connector
-    citation: EIA-861 2024 Sales to Ultimate Customers, Ohio Power Co (#14006), OH;
-      bundled + delivery total sales
+    citation: EIA-861 2024 Sales to Ultimate Customers, Indiana Michigan Power Co
+      (#9324), IN; bundled + delivery total sales
     confidence: high
     asof: null
   customers:
-    value: 1533265.0
+    value: 482283.0
     unit: customers
     source: connector
-    citation: EIA-861 2024 Sales to Ultimate Customers, Ohio Power Co (#14006), OH;
-      bundled + delivery total customers
+    citation: EIA-861 2024 Sales to Ultimate Customers, Indiana Michigan Power Co
+      (#9324), IN; bundled + delivery total customers
     confidence: high
     asof: null
   avg_price_cents_kwh:
-    value: 18.61
+    value: 11.62
     unit: cents/kWh
     source: connector
-    citation: EIA-861 2024 Sales to Ultimate Customers, Ohio Power Co (#14006), OH;
-      bundled (full-service) revenue/sales — delivery-only rows exclude generation,
-      so a blended price understates the all-in cost
+    citation: EIA-861 2024 Sales to Ultimate Customers, Indiana Michigan Power Co
+      (#9324), IN; bundled (full-service) revenue/sales — delivery-only rows exclude
+      generation, so a blended price understates the all-in cost
     confidence: high
     asof: null
 ba_profile:

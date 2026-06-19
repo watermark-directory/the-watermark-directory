@@ -31,32 +31,55 @@ from bosc.connectors import cached_get
 from bosc.economics.model import ConsumerEnergyCosts, ConsumerEnergyPrice
 from bosc.hydrology.model import ProvenancedValue
 
-# The Ohio consumer-energy series this thread pulls. Keyed by EIA legacy series id;
-# unit is the EIA-reported unit (recorded for provenance, not parsed from the digits).
-# ``col`` is the EIA data-column name the value lives under on the /v2/seriesid route
-# (it varies by series; the route does NOT expose a uniform ``value`` field).
+# EIA data-column metadata. ``col`` is the data-column name the value lives under on the
+# /v2/seriesid route (it varies by series; the route does NOT expose a uniform ``value`` field);
+# ``unit`` is the EIA-reported unit (recorded for provenance, not parsed from the digits).
+#
+# State consumer-energy series are templated by the two-letter state code — the same EIA legacy
+# ids with the state substituted (OH-RES/OH-ALL/N3010OH3 → IN-RES/IN-ALL/N3010IN3). A new state
+# is config (its name in _STATE_NAME), not a new hardcoded series; only the US-national backdrop
+# series (#98) are static, below.
+_STATE_NAME: dict[str, str] = {"OH": "Ohio", "IN": "Indiana", "MI": "Michigan"}
+
+
+def _state_name(state: str) -> str:
+    return _STATE_NAME.get(state, state)
+
+
+def _state_consumer_series(state: str) -> dict[str, dict[str, str]]:
+    """The state's residential-electricity, retail-sales, and residential-gas series (by id)."""
+    name = _state_name(state)
+    return {
+        f"ELEC.PRICE.{state}-RES.A": {
+            "label": f"{name} residential electricity price",
+            "fuel": "electricity",
+            "metric": "price",
+            "unit": "cents/kWh",
+            "col": "price",
+        },
+        f"ELEC.SALES.{state}-ALL.A": {
+            "label": f"{name} electricity retail sales (all sectors)",
+            "fuel": "electricity",
+            "metric": "sales",
+            "unit": "million kWh",
+            "col": "sales",
+        },
+        f"NG.N3010{state}3.A": {
+            "label": f"{name} residential natural-gas price",
+            "fuel": "natural_gas",
+            "metric": "price",
+            "unit": "$/Mcf",
+            "col": "value",
+        },
+    }
+
+
+def _consumer_series_ids(state: str) -> tuple[str, ...]:
+    """The state consumer trio, in committed order (elec price, elec sales, gas price)."""
+    return (f"ELEC.PRICE.{state}-RES.A", f"ELEC.SALES.{state}-ALL.A", f"NG.N3010{state}3.A")
+
+
 _SERIES: dict[str, dict[str, str]] = {
-    "ELEC.PRICE.OH-RES.A": {
-        "label": "Ohio residential electricity price",
-        "fuel": "electricity",
-        "metric": "price",
-        "unit": "cents/kWh",
-        "col": "price",
-    },
-    "ELEC.SALES.OH-ALL.A": {
-        "label": "Ohio electricity retail sales (all sectors)",
-        "fuel": "electricity",
-        "metric": "sales",
-        "unit": "million kWh",
-        "col": "sales",
-    },
-    "NG.N3010OH3.A": {
-        "label": "Ohio residential natural-gas price",
-        "fuel": "natural_gas",
-        "metric": "price",
-        "unit": "$/Mcf",
-        "col": "value",
-    },
     # --- US national series (the federal backdrop, #98). `area: US`. ---
     "ELEC.GEN.ALL-US-99.A": {
         "label": "US total electricity net generation (all sectors)",
@@ -75,15 +98,6 @@ _SERIES: dict[str, dict[str, str]] = {
         "area": "US",
     },
 }
-
-# The Ohio consumer trio `fetch_consumer_energy` assembles by default — an explicit list
-# so adding other series (e.g. the US-national ones above) to `_SERIES` does not leak
-# into the consumer-energy dataset.
-_OH_CONSUMER_SERIES: tuple[str, ...] = (
-    "ELEC.PRICE.OH-RES.A",
-    "ELEC.SALES.OH-ALL.A",
-    "NG.N3010OH3.A",
-)
 
 # Row fields on the /v2/seriesid route that are never the value (period + the dimension
 # labels EIA echoes back). Used only by the value-column fallback below.
@@ -139,9 +153,10 @@ def _latest_point(payload: dict[str, Any], value_col: str) -> dict[str, Any]:
 def fetch_eia_series(series_id: str, *, settings: Settings | None = None) -> ConsumerEnergyPrice:
     """One EIA consumer-energy series, reduced to its latest annual point (cached)."""
     settings = settings or get_settings()
-    meta = _SERIES.get(series_id)
+    known = {**_state_consumer_series(settings.eia_state), **_SERIES}
+    meta = known.get(series_id)
     if meta is None:
-        raise ValueError(f"unknown EIA series id {series_id!r}; known: {sorted(_SERIES)}")
+        raise ValueError(f"unknown EIA series id {series_id!r}; known: {sorted(known)}")
     # The api key is deliberately excluded from the cache-key params (a secret that
     # must not vary the key); it is added only inside the live fetch.
     params = {"connector": "eia", "route": "seriesid", "series_id": series_id}
@@ -193,15 +208,16 @@ def fetch_consumer_energy(
 ) -> ConsumerEnergyCosts:
     """Assemble the state's consumer energy-cost dataset (price + sales) from EIA."""
     settings = settings or get_settings()
-    ids = series_ids or list(_OH_CONSUMER_SERIES)
+    name = _state_name(settings.eia_state)
+    ids = series_ids or list(_consumer_series_ids(settings.eia_state))
     prices = [fetch_eia_series(sid, settings=settings) for sid in ids]
     return ConsumerEnergyCosts(
         area=settings.eia_state,
-        area_name="Ohio",
+        area_name=name,
         prices=prices,
         note=(
-            "EIA API v2 (seriesid route): residential electricity + natural-gas prices "
-            "and total electricity retail sales for Ohio. Annual averages; regenerable "
+            f"EIA API v2 (seriesid route): residential electricity + natural-gas prices "
+            f"and total electricity retail sales for {name}. Annual averages; regenerable "
             "via `bosc eia` with BOSC_EIA_API_KEY."
         ),
     )

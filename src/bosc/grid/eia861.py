@@ -141,6 +141,13 @@ def _reduce_sales_ult_cust(
     }
 
 
+# Curated display names for utilities whose committed reference data predates the connector
+# resolving the name itself (keyed by EIA-861 utility number). Any utility not listed uses the
+# raw EIA-861 ``utility_name`` from the workbook. #14006 = the AEP-Ohio opco serving Lima +
+# Findlay (the curated "AEP Ohio (Ohio Power Company)" label, vs the raw "Ohio Power Co").
+_UTILITY_DISPLAY: dict[int, str] = {14006: "AEP Ohio (Ohio Power Company)"}
+
+
 def fetch_utility_retail(
     *,
     utility_number: int | None = None,
@@ -201,7 +208,7 @@ def fetch_utility_retail(
             "exclude generation, so a blended price understates the all-in cost",
         )
     profile = UtilityProfile(
-        utility="AEP Ohio (Ohio Power Company)",
+        utility=_UTILITY_DISPLAY.get(utility_number, payload["utility_name"]),
         eia_source=f"EIA-861 {payload['year']} per-utility retail (connector; bundled+delivery total)",
         retail_sales_gwh=ProvenancedValue.from_connector(
             round(sales_gwh, 1),
