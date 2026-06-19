@@ -1,0 +1,247 @@
+meta:
+  topic: 'onboard findlay (Findlay): data-center activity + receiving-water screen
+    for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-19T14:51:14+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__program_overview
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__entities
+    - mcp__bosc__timeline
+    - Grep
+    - mcp__bosc__hydrology_balance
+    - mcp__bosc__hydrology_scenario
+    - Glob
+    - Read
+    num_turns: 37
+    max_turns: 30
+    cost_usd: 1.6754485
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Derive Blanchard River 7Q10 from USGS gauge 04189000 and add to low-flow-7q10.derived.yaml
+  dedupe_key: derive-blanchard-river-7q10-from-usgs-gauge-04189000-and-add-to
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - low-flow
+  - receiving-water
+  rationale: The missing Blanchard 7Q10 is the single blocking dependency for the
+    Findlay receiving-water screen — every assimilative and hydrology-balance calculation
+    downstream of onboarding is gated on it.
+  body: '## Context
+
+    The receiving-water screen for Findlay cannot be run because no Blanchard River
+    7Q10 exists anywhere in the corpus. The findings confirm: `low-flow-7q10.yaml`
+    holds only Lima-area values (Dug Run, Pike Run, Ottawa River), and `low-flow-7q10.derived.yaml`
+    holds only Maumee, Auglaize, St. Marys, and St. Joseph — **no Blanchard** (`findings
+    §2b`). The two Blanchard USGS gauges already named in the `_FINDLAY` profile are
+    `04189000` (Blanchard nr Findlay, 346 sq mi, active since 1990) and `04188496`
+    (Eagle Creek). Without the 7Q10, the `hydrology_balance` / `hydrology_scenario`
+    computations and the Lima-style assimilative screen cannot be executed for any
+    Findlay discharger — POTW or hypothetical data center (`findings §2b`).
+
+
+    ## Grounding
+
+    - `data/reference/hydrology/low-flow-7q10.yaml` — no Blanchard entry (`findings
+    §2b`)
+
+    - `data/reference/hydrology/low-flow-7q10.derived.yaml` — no Blanchard entry (`findings
+    §2b`)
+
+    - `_FINDLAY` profile: `supply_gage_primary="TODO"`, `passby_*=0.0` still open
+    (`findings §1`)
+
+    - Findings §5, item 1: highest-priority follow-up explicitly identified
+
+
+    ## Acceptance Criterion
+
+    `bosc derive-low-flows` is run against USGS gauge `04189000`; an LP3-derived 7Q10
+    value (with source citation and confidence flag) is committed to `data/reference/hydrology/low-flow-7q10.derived.yaml`;
+    `supply_gage_primary` and `passby_*` placeholders in the `_FINDLAY` profile are
+    resolved; and the basin-screen can be executed for at least the Findlay WPCC (`OH0025135`).'
+- title: Pull Findlay WPCC NPDES fact sheet (OH0025135) and populate plant_receiving
+    with cited 7Q10 and dilution data
+  dedupe_key: pull-findlay-wpcc-npdes-fact-sheet-oh0025135-and-populate-plant
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - npdes
+  - receiving-water
+  - entities
+  rationale: Resolving the WPCC's null receiving-water entry and extracting its permit-cited
+    7Q10 provides the documented dilution denominator needed to run a defensible assimilative
+    screen for Findlay's largest point-source discharger.
+  body: '## Context
+
+    The City of Findlay Water Pollution Control Center (NPDES `OH0025135`, FRS `110064593177`,
+    design flow 15.0 MGD) is the anchor receiving-water datum for the Findlay site
+    and the largest POTW in the Blanchard basin (`findings §2a`). However, ECHO returns
+    `receiving_water: null` for this outfall, and the WPCC''s specific outfall receiving
+    water, cited 7Q10, design/peak flows, and dilution ratio are **not in the corpus**
+    (`findings §2a`). The profile field `plant_receiving={}` is currently open/empty
+    (`findings §1`). This is the direct Findlay analogue of the Lima NPDES fact-sheet
+    extraction that populated Lima''s low-flow and dilution values.
+
+
+    ## Grounding
+
+    - `data/reference/echo/maumee-wwtp.all-npdes.yaml` — ECHO ICIS records for OH0025125,
+    ECHO `receiving_water: null` (`findings §2a`)
+
+    - `_FINDLAY` profile: `plant_receiving={}` `[open]` (`findings §1`)
+
+    - Findings §5, item 2: explicitly called out as a required extraction step
+
+
+    ## Acceptance Criterion
+
+    The OH0025125 NPDES permit fact sheet is located and extracted; `plant_receiving`
+    is populated with at minimum the receiving water name, cited 7Q10 (or equivalent
+    low-flow design value), and stated dilution ratio; the `receiving_water` null
+    in the ECHO record is reconciled; and all extracted values are flagged with their
+    source citation and confidence level in the profile.'
+- title: Run bosc onboard findlay --research and record affirmative finding on data-center
+    activity
+  dedupe_key: run-bosc-onboard-findlay-research-and-record-affirmative-finding
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - data-center
+  - entities
+  rationale: The data-center activity dimension is one of the two named topics of
+    this onboarding task, and the absence of any finding must be affirmatively documented
+    rather than left as an implicit gap to prevent silent staleness.
+  body: '## Context
+
+    The data-center activity dimension for Findlay/Hancock County is entirely unstarted.
+    The findings confirm: `facility=None`; no permit, deed, SOS filing, or meeting
+    record referencing a Findlay data center exists in the corpus; no `data/research/findlay-*`
+    files have been created; and `pre_cover`/`post_cover`/`developed_pervious_cover`
+    remain `"TODO"` (`findings §1, §3`). The committed grid profile (`eia/findlay/grid-profile.yaml`)
+    is a backdrop only — no campus load share has been fabricated (`findings §3`).
+    The self-research pass (`bosc onboard findlay --research`) has not been run.
+
+
+    ## Grounding
+
+    - `data/extracted/findlay/ONBOARDING.md`: `--research` pass not run, no `data/research/findlay-*`
+    (`findings §1, §3`)
+
+    - `_FINDLAY` profile: `facility=None`, land-cover fields `"TODO"` (`findings §1`)
+
+    - Ohio EPA eDoc, Hancock County recorder, Ohio SOS named as candidate sources
+    (`findings §5, item 3`)
+
+    - Findings §3: the absence is an affirmative finding, not a blank — to be documented
+    as such
+
+
+    ## Acceptance Criterion
+
+    `bosc onboard findlay --research` is run and its proposals triaged; Ohio EPA eDoc,
+    Hancock County recorder, and Ohio SOS are searched for Findlay data-center permits
+    or land assembly records; and `ONBOARDING.md` is updated with either (a) a documented
+    data-center facility entry or (b) an explicit affirmative finding recorded as
+    `[verified] no documented Findlay data center as of <date>` — not left as a blank
+    placeholder.'
+- title: Reconcile basin-screen '7/129 screened (1 violation, 2 tight)' and enumerate
+    unscreened Blanchard dischargers
+  dedupe_key: reconcile-basin-screen-7-129-screened-1-violation-2-tight-and-en
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - receiving-water
+  - reconciliation
+  rationale: An unreconciled aggregate screen result that silently excludes the largest
+    POTW in the sub-basin creates a false impression of coverage and would mislead
+    any downstream assimilative or permitting analysis.
+  body: '## Context
+
+    The recorded onboarding basin-screen result — **"7/129 dischargers screened (1
+    violation, 2 tight)"** — appears in `ONBOARDING.md` L21, but the Blanchard 7Q10
+    is absent from the corpus (`findings §2b`). This means the Findlay WPCC (`OH0025135`,
+    15.0 MGD design flow) and other Blanchard NPDES dischargers (e.g. National Lime
+    & Stone–Findlay `OH0095320`, Intersil `OH0053627`) were almost certainly excluded
+    from the screen for want of a denominator (`findings §2b`). The identity of the
+    7 screened dischargers is undocumented, creating ambiguity about the coverage
+    and validity of the screen result.
+
+
+    ## Grounding
+
+    - `data/extracted/findlay/ONBOARDING.md` L21: "7/129 dischargers screened (1 violation,
+    2 tight)" (`findings §2b`)
+
+    - `data/reference/echo/maumee-wwtp.all-npdes.yaml`: 37 facility records in Blanchard
+    HUC-8 `04100008`, 129 POTWs basin-wide (`findings §2a`)
+
+    - `data/reference/hydrology/low-flow-7q10.derived.yaml`: no Blanchard entry (`findings
+    §2b`)
+
+    - Findings §5, item 6: reconciliation explicitly flagged
+
+
+    ## Acceptance Criterion
+
+    The 7 screened dischargers are enumerated by NPDES ID in `ONBOARDING.md`; it is
+    confirmed (or corrected) that the Findlay WPCC and all Blanchard-basin dischargers
+    were excluded due to the missing 7Q10; the unscreened Blanchard dischargers are
+    listed as a documented coverage gap; and the screen result annotation is updated
+    to reflect actual coverage.'
+- title: Validate dominant_hsg="D" inference via SSURGO and resolve Hancock County
+    parcel layer gap
+  dedupe_key: validate-dominant-hsg-d-inference-via-ssurgo-and-resolve-hancock
+  labels:
+  - agent-proposed
+  - needs-triage
+  - gis
+  - hydrology
+  - extraction
+  rationale: Both items are blocking lint flagged by the onboard checker, and resolving
+    them together clears two of the four review-gate boxes required before Findlay
+    can be considered for promotion.
+  body: '## Context
+
+    Two open GIS placeholders block promotion of the Findlay site profile. First,
+    `dominant_hsg="D"` is tagged `[inference]` based on Great Black Swamp Hoytville/Pewamo
+    clay soils, but the SSURGO validation step was **skipped** because no site footprint
+    has been identified — leaving the hydrologic soil group unconfirmed (`findings
+    §1`). Second, `parcels_url="TODO"` / `gis_parcel=None` remain open because Hancock
+    County publishes no ArcGIS-REST parcel layer (Beacon/Schneider only); the Ohio
+    statewide parcel layer filtered to FIPS `39063` (geohio) has been identified as
+    the substitute source but not yet registered (`findings §1, §5 items 4–5`).
+
+
+    ## Grounding
+
+    - `_FINDLAY` profile: `dominant_hsg="D"` `[inference]`, SSURGO step skipped (`findings
+    §1`)
+
+    - `_FINDLAY` profile: `parcels_url="TODO"`, `gis_parcel=None` `[open]` (`findings
+    §1`)
+
+    - Findings §5, items 4 and 5: both flagged as live lint items that `bosc onboard
+    findlay --check` already surfaces
+
+    - Findings §1: both are among the four blocking review-gate items in `ONBOARDING.md`
+
+
+    ## Acceptance Criterion
+
+    (1) An area-weighted SSURGO query is run over Hancock County OH063 (or a committed
+    Findlay footprint) and `dominant_hsg` is either confirmed as `"D"` with a `[verified]`
+    tag or corrected; (2) the Ohio statewide parcel layer (geohio, FIPS `39063`) is
+    registered as `parcels_url` and `gis_parcel` is populated; and (3) `bosc onboard
+    findlay --check` no longer flags either field as unresolved lint.'
