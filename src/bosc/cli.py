@@ -1574,7 +1574,8 @@ def rsei_cmd(
     settings = get_settings()
     if offline:
         settings = Settings(rsei_offline=True)
-    target = Path(out_dir) if out_dir else settings.reference_dir / "rsei"
+    # Default to the active site's per-site inventory dir (Lima = reference/rsei).
+    target = Path(out_dir) if out_dir else rsei.inventory_path(settings).parent
 
     inv = rsei.build_inventory(settings, fips=fips)
 

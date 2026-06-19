@@ -67,11 +67,18 @@ class SiteProfile(BaseModel):
     footprint_relpath: str  # relative to settings.data_dir
 
     # --- Per-site onboard reach outputs (point-specific writes; relative to data_dir) ----
-    # The point-specific connector outputs `bosc onboard` writes (#326). Lima keeps its
-    # legacy (un-slugged) filenames; a new site slug-scopes them so onboarding never clobbers
-    # Lima. Basin-level outputs (derived 7Q10, ECHO POTW) stay shared and are NOT here.
+    # The point-specific connector outputs `bosc onboard` writes. Lima keeps its legacy
+    # (un-slugged) filenames; a new site slug-scopes them so onboarding never clobbers Lima.
+    # Basin/state/PJM/national outputs (derived 7Q10, ECHO POTW, consumer-energy is state-
+    # but kept per-site for uniformity, ba-interchange, federal) — the shared ones are NOT here.
+    # Hydrology (#326):
     climatology_relpath: str  # NASA-POWER climatology (hydrology/climate.py)
     corridor_ddf_relpath: str  # NOAA Atlas-14 corridor DDF (hydrology/drainage.py)
+    # Economics (per-site by county FIPS / state / utility):
+    baseline_relpath: str  # Census+QCEW county baseline (economics/baseline.py)
+    rsei_relpath: str  # EPA RSEI county toxics inventory (rsei.py)
+    consumer_energy_relpath: str  # EIA consumer energy prices (economics/energy.py)
+    grid_relpath: str  # EIA-861 utility + grid profile (grid/utility.py)
 
     # --- Toxics corridor inference (hydrology/toxics.py) ---------------------------------
     toxic_corridor_bbox: tuple[float, float, float, float]  # lat_min, lat_max, lon_min, lon_max
@@ -174,6 +181,10 @@ _LIMA = SiteProfile(
     # per-site onboard reach outputs (Lima = legacy un-slugged paths)
     climatology_relpath="reference/hydrology/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/baseline.yaml",
+    rsei_relpath="reference/rsei/inventory.yaml",
+    consumer_energy_relpath="reference/eia/consumer-energy.yaml",
+    grid_relpath="reference/eia/grid-profile.yaml",
     # toxics
     toxic_corridor_bbox=(40.695, 40.725, -84.140, -84.105),
     receiving_water_name="Ottawa River",
@@ -215,7 +226,14 @@ SITES: dict[str, SiteProfile] = {_LIMA.slug: _LIMA}
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so
 # onboarding never overwrites another site's committed data — a profile that copies Lima
 # without slug-scoping these would otherwise clobber Lima's files (#326 hardening).
-PER_SITE_OUTPUT_FIELDS: tuple[str, ...] = ("climatology_relpath", "corridor_ddf_relpath")
+PER_SITE_OUTPUT_FIELDS: tuple[str, ...] = (
+    "climatology_relpath",
+    "corridor_ddf_relpath",
+    "baseline_relpath",
+    "rsei_relpath",
+    "consumer_energy_relpath",
+    "grid_relpath",
+)
 
 
 def get_profile(slug: str) -> SiteProfile:

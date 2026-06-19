@@ -401,6 +401,16 @@ def load_inventory(reference_dir: Path) -> RseiInventory | None:
     return RseiInventory.model_validate(data)
 
 
+def inventory_path(settings: Settings) -> Path:
+    """The active site's committed RSEI inventory path (Lima = the legacy un-slugged path).
+
+    Per-site write target (#326 econ): pass ``inventory_path(settings).parent`` to
+    :func:`write_inventory` so onboarding a new site never clobbers Lima's inventory. The
+    reader (:func:`load_inventory`) stays Lima-keyed until a site reaches parity.
+    """
+    return settings.data_dir / active_profile(settings).rsei_relpath
+
+
 def write_inventory(inv: RseiInventory, out_dir: Path) -> Path:
     """Write the per-county inventory as deterministic YAML (no timestamp)."""
     out_dir.mkdir(parents=True, exist_ok=True)
