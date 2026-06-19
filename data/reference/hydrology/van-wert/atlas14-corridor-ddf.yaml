@@ -1,0 +1,47 @@
+meta:
+  subject: NOAA Atlas-14 design-storm depths — Town Creek / Little Auglaize corridor
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  point:
+    latitude: 40.8696
+    longitude: -84.5829
+  units: inches (point precipitation depth)
+ddf:
+  latitude: 40.8696
+  longitude: -84.5829
+  durations:
+  - 60-min
+  - 6-hr
+  - 12-hr
+  - 24-hr
+  return_periods:
+  - 2
+  - 10
+  - 25
+  - 50
+  - 100
+  depths_in:
+    60-min:
+      '2': 1.29
+      '10': 1.87
+      '25': 2.21
+      '50': 2.48
+      '100': 2.76
+    6-hr:
+      '2': 1.89
+      '10': 2.76
+      '25': 3.33
+      '50': 3.79
+      '100': 4.3
+    12-hr:
+      '2': 2.18
+      '10': 3.17
+      '25': 3.81
+      '50': 4.34
+      '100': 4.92
+    24-hr:
+      '2': 2.56
+      '10': 3.64
+      '25': 4.33
+      '50': 4.89
+      '100': 5.48
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)

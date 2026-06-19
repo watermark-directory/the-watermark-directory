@@ -756,10 +756,114 @@ _FORT_WAYNE = SiteProfile(
 )
 
 
+# The small-stream headwaters comparator: Van Wert, OH — the Auglaize-subbasin point. Unlike
+# the mainstem comparators (Defiance 12 MGD, Fort Wayne 74 MGD), Van Wert's WWTP is a 4.0 MGD
+# plant discharging to a *small tributary* (Town Creek → Little Auglaize → Auglaize → Maumee),
+# so the dilution denominator is tiny — the effluent-dominance end of the basin spectrum. A
+# *coming-soon* point; an Ohio site (AEP Ohio / PJM AEP zone, the Ohio LSC connector applies),
+# so the cross-state connector axis is not re-exercised. Geography is sourced + cited below; the
+# data-center dimension and facility-specific model inputs stay `[open]` until a site is
+# identified (Van Wert-area discovery is `--research` + corpus follow-up).
+_VAN_WERT = SiteProfile(
+    slug="van-wert",
+    place="Van Wert",
+    basin="maumee",  # [verified] Town Creek → Little Auglaize → Auglaize → Maumee; HUC-8 04100007
+    # config knobs
+    nwis_sites=[
+        "04191000",  # [verified] Town Creek near Van Wert OH (the WWTP receiving reach; HUC 04100007)
+        "04191003",  # [verified] Stripe Creek near Van Wert OH (adjacent Little Auglaize tributary)
+    ],
+    nasa_power_lat=40.8696,  # [verified] Van Wert city centroid (OSM admin boundary; Census place 45891)
+    nasa_power_lon=-84.5829,
+    rsei_fips="39161",  # [verified] Van Wert County, OH
+    econ_fips="39161",
+    eia861_utility_number=14006,  # [verified] Ohio Power Co (AEP Ohio); the Van Wert County AEP aggregation
+    eia_state="OH",
+    # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
+    # a follow-up live metadata read (Van Wert County GIS + City of Van Wert GIS).
+    parcels_url="TODO",  # [open] pending the Van Wert County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Van Wert GIS REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gis_parcel=None,  # [open] pending Van Wert County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Van Wert zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "van-wert-gis"}),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32616,  # [verified] UTM 16N (Van Wert ~84.58 degW; zone 16 spans 90-84 degW)
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima
+    # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
+    design_lat=40.8696,  # [verified] city centroid = NOAA Atlas-14 point
+    design_lon=-84.5829,
+    corridor_name="Town Creek / Little Auglaize corridor",  # [inference] the receiving-water reach
+    dominant_hsg="D",  # [inference] Van Wert lake-plain Black Swamp clays (Paulding/Latty/Hoytville) → HSG D
+    hsg_citation=(
+        "Van Wert County, OH dominant hydrologic soil group D — very-poorly-drained Great Black "
+        "Swamp lake-plain clays (Paulding/Latty/Hoytville; NRCS Soil Survey of Van Wert County); "
+        "[inference] pending an SSURGO area-weighted confirmation (onboard SSURGO step needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={  # [reference] NOAA Atlas-14 Vol 2 (Ohio River Basin) PDS at 40.8696/-84.5829
+        1: 2.13,
+        2: 2.56,
+        5: 3.15,
+        10: 3.64,
+        25: 4.33,
+        50: 4.89,
+        100: 5.48,
+        200: 6.10,
+        500: 6.98,
+        1000: 7.68,
+    },
+    parcels_relpath="reference/van-wert/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/van-wert/bosc-site-footprint.yaml",  # [open] pending an identified site
+    # per-site onboard reach outputs (slug-scoped — never clobber Lima/Findlay/Fort Wayne)
+    climatology_relpath="reference/hydrology/van-wert/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/van-wert/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/van-wert/baseline.yaml",
+    rsei_relpath="reference/rsei/van-wert/inventory.yaml",
+    consumer_energy_relpath="reference/eia/van-wert/consumer-energy.yaml",
+    grid_relpath="reference/eia/van-wert/grid-profile.yaml",
+    # toxics (no identified industrial corridor yet)
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # [open] pending an identified corridor on Town Creek
+    receiving_water_name="Town Creek",  # [verified] Ohio EPA NPDES 2PD00006/OH0027910 → Town Creek (RM 13.87)
+    # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
+    plant_receiving={},  # [open] pending Van Wert-area WWTP NPDES fact sheets
+    abstraction_gage="04191000",  # [inference] the Town Creek near Van Wert receiving-reach gage
+    # refill (the water-balance supply model is not yet designed for Van Wert)
+    supply_gage_primary="TODO",  # [open] refill supply gage — pending the site's water-balance model
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,  # [open] in-stream passby minimums — pending the model
+    passby_secondary_cfs=0.0,
+    # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
+    facility=None,  # [open] the data-center dimension onboarding doesn't capture (no disclosed facility)
+    serving_utility_source="reference",  # not corpus-grounded — EIA-861/PUCO record
+    serving_utility_citation=(  # [reference] not corpus
+        "EIA-861 service-territory file (Ohio Power Co #14006) + PUCO certified-territory; AEP Ohio "
+        "serving the City of Van Wert corroborated by the Van Wert County AEP Ohio electric-aggregation program"
+    ),
+    # grid (same PJM AEP zone as Lima/Findlay — Ohio Power Co)
+    lmp_usd_mwh=35.0,  # [inference] shared AEP-zone value with Lima (same utility/zone)
+    lmp_citation=(
+        "PJM AEP zone (Ohio Power Co) ~2024 annual average LMP ($/MWh) via PJM Data Miner 2 "
+        "da_hrl_lmps; same zone as Lima — shared zone value, verify (regenerate via Data Miner 2)"
+    ),
+    # rsei
+    county_name="Van Wert County, OH",  # [verified]
+    # map
+    map_view_lat=40.8696,
+    map_view_lon=-84.5829,
+    map_view_zoom=13,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
     _FORT_WAYNE.slug: _FORT_WAYNE,
+    _VAN_WERT.slug: _VAN_WERT,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so
