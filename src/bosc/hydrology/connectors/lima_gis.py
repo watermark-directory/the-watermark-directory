@@ -139,7 +139,7 @@ def query_zoning(
                 "orderByFields": "OBJECTID",
             },
             settings=settings,
-            url=settings.lima_zoning_url,
+            url=settings.zoning_url,
         )
         features = page.get("features") or []
         records.extend(ZoningRecord.from_attrs(f.get("attributes", {})) for f in features)
@@ -176,7 +176,7 @@ def zoning_districts(*, settings: Settings | None = None) -> list[ZoningDistrict
             "outStatistics": json.dumps(stats),
         },
         settings=settings,
-        url=settings.lima_zoning_url,
+        url=settings.zoning_url,
     )
     districts = [
         ZoningDistrict(code=str(a.get("ZONING") or "").strip(), polygon_count=int(a.get("n") or 0))
@@ -351,9 +351,7 @@ def _polygon_rings(path: Path) -> list[list[list[float]]]:
 
 
 def _flood_query(params: dict[str, Any], *, settings: Settings) -> dict[str, Any]:
-    return _query(
-        params, settings=settings, url=settings.lima_floodzone_url, connector=_FLOOD_CONNECTOR
-    )
+    return _query(params, settings=settings, url=settings.floodzone_url, connector=_FLOOD_CONNECTOR)
 
 
 def query_floodzones(

@@ -47,9 +47,11 @@ class SiteProfile(BaseModel):
     econ_fips: str
     eia861_utility_number: int
     eia_state: str
-    allen_parcels_url: str
-    lima_zoning_url: str
-    lima_floodzone_url: str
+    # County/City GIS layer endpoints — per-site, jurisdiction-agnostic field names (the
+    # connector code that reads them IS jurisdiction-specific: Lima = allen_gis.py/lima_gis.py).
+    parcels_url: str
+    zoning_url: str
+    floodzone_url: str
     gnis_default_state: str
     hydro_utm_epsg: int
     lsc_default_ga: str
@@ -90,10 +92,12 @@ class SiteProfile(BaseModel):
     abstraction_gage: str
 
     # --- Refill supply rivers (hydrology/refill.py) -------------------------------------
-    auglaize_gage: str
-    ottawa_gage: str
-    passby_auglaize_cfs: float
-    passby_ottawa_cfs: float
+    # The site's two refill supply rivers (the model sums both, each passby-adjusted). Named
+    # by role, not river: for Lima, primary = Auglaize (Fort Jennings), secondary = Ottawa.
+    supply_gage_primary: str
+    supply_gage_secondary: str
+    passby_primary_cfs: float
+    passby_secondary_cfs: float
 
     # --- Grid market (grid/market.py) ---------------------------------------------------
     lmp_usd_mwh: float
@@ -118,9 +122,9 @@ PROFILE_SETTINGS_FIELDS: tuple[str, ...] = (
     "econ_fips",
     "eia861_utility_number",
     "eia_state",
-    "allen_parcels_url",
-    "lima_zoning_url",
-    "lima_floodzone_url",
+    "parcels_url",
+    "zoning_url",
+    "floodzone_url",
     "gnis_default_state",
     "hydro_utm_epsg",
     "lsc_default_ga",
@@ -141,14 +145,14 @@ _LIMA = SiteProfile(
     econ_fips="39003",
     eia861_utility_number=14006,
     eia_state="OH",
-    allen_parcels_url=(
+    parcels_url=(
         "https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1"
     ),
-    lima_zoning_url=(
+    zoning_url=(
         "https://colgis.cityhall.lima.oh.us/server/rest/services/"
         "CitywideMaps/Lima_Zoning/MapServer/6"
     ),
-    lima_floodzone_url=(
+    floodzone_url=(
         "https://colgis.cityhall.lima.oh.us/server/rest/services/"
         "CitywideMaps/Lima_Zoning/MapServer/4"
     ),
@@ -202,11 +206,11 @@ _LIMA = SiteProfile(
         ),
     },
     abstraction_gage="04187100",
-    # refill
-    auglaize_gage="04186500",
-    ottawa_gage="04187100",
-    passby_auglaize_cfs=2.5,
-    passby_ottawa_cfs=0.2,
+    # refill (primary = Auglaize @ Fort Jennings; secondary = Ottawa @ Lima)
+    supply_gage_primary="04186500",
+    supply_gage_secondary="04187100",
+    passby_primary_cfs=2.5,
+    passby_secondary_cfs=0.2,
     # grid
     lmp_usd_mwh=35.0,
     lmp_citation=(

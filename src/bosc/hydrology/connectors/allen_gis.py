@@ -170,7 +170,7 @@ def _query(params: dict[str, Any], *, settings: Settings) -> dict[str, Any]:
     def fetch() -> Any:
         log.info("allen_gis.fetch", where=params.get("where"), offset=params.get("resultOffset"))
         resp = httpx.get(
-            f"{settings.allen_parcels_url}/query",
+            f"{settings.parcels_url}/query",
             params=query,
             timeout=settings.hydro_request_timeout_s,
         )

@@ -46,7 +46,7 @@ from bosc.sites import active_profile
 log = get_logger(__name__)
 
 # The two supply rivers' discharge gages and in-stream passby minimums are per-site (the
-# active SiteProfile: auglaize_gage/ottawa_gage, passby_auglaize_cfs/passby_ottawa_cfs).
+# active SiteProfile: supply_gage_primary/secondary, passby_primary_cfs/passby_secondary_cfs).
 # For Lima, the Auglaize is gauged at Fort Jennings (04186500, 1921-present) — DOWNSTREAM of
 # the intakes with more drainage area, so it OVERSTATES the intake flow (an optimistic refill
 # bound, flagged in the caveats); the Ottawa passby is its cited 7Q10, the Auglaize's a small
@@ -133,12 +133,12 @@ def _river_stat(
 
 def compute_refill_adequacy(
     *,
-    auglaize_site: str | None = None,
-    ottawa_site: str | None = None,
+    primary_site: str | None = None,
+    secondary_site: str | None = None,
     start_date: str = _START,
     end_date: str = _END,
-    passby_auglaize_cfs: float | None = None,
-    passby_ottawa_cfs: float | None = None,
+    passby_primary_cfs: float | None = None,
+    passby_secondary_cfs: float | None = None,
     settings: Settings | None = None,
 ) -> RefillAdequacy:
     """Compute the refill adequacy / drought storage-requirement from the live gage records.
@@ -152,13 +152,13 @@ def compute_refill_adequacy(
     """
     settings = settings or get_settings()
     prof = active_profile(settings)
-    auglaize_site = auglaize_site or prof.auglaize_gage
-    ottawa_site = ottawa_site or prof.ottawa_gage
-    passby_auglaize_cfs = (
-        passby_auglaize_cfs if passby_auglaize_cfs is not None else prof.passby_auglaize_cfs
+    primary_site = primary_site or prof.supply_gage_primary
+    secondary_site = secondary_site or prof.supply_gage_secondary
+    passby_primary_cfs = (
+        passby_primary_cfs if passby_primary_cfs is not None else prof.passby_primary_cfs
     )
-    passby_ottawa_cfs = (
-        passby_ottawa_cfs if passby_ottawa_cfs is not None else prof.passby_ottawa_cfs
+    passby_secondary_cfs = (
+        passby_secondary_cfs if passby_secondary_cfs is not None else prof.passby_secondary_cfs
     )
     supply = load_supply(settings=settings)
     if supply is None:
@@ -183,10 +183,10 @@ def compute_refill_adequacy(
     capacity = supply.total_storage_mg
 
     aug = fetch_daily_discharge(
-        auglaize_site, start_date=start_date, end_date=end_date, settings=settings
+        primary_site, start_date=start_date, end_date=end_date, settings=settings
     )
     ott = fetch_daily_discharge(
-        ottawa_site, start_date=start_date, end_date=end_date, settings=settings
+        secondary_site, start_date=start_date, end_date=end_date, settings=settings
     )
     aug_pts, ott_pts = aug.points(), ott.points()
     if not aug_pts or not ott_pts:
@@ -198,7 +198,7 @@ def compute_refill_adequacy(
             aug.name,
             "Auglaize River",
             aug_pts,
-            passby_cfs=passby_auglaize_cfs,
+            passby_cfs=passby_primary_cfs,
             demand_cfs=demand_cfs,
             note=(
                 "gauged at Fort Jennings, DOWNSTREAM of Lima's Auglaize intakes with more "
@@ -210,7 +210,7 @@ def compute_refill_adequacy(
             ott.name,
             "Ottawa River",
             ott_pts,
-            passby_cfs=passby_ottawa_cfs,
+            passby_cfs=passby_secondary_cfs,
             demand_cfs=demand_cfs,
             note="net of Lima's upstream Ottawa intakes; reaches 0 cfs in drought",
         ),
@@ -222,8 +222,8 @@ def compute_refill_adequacy(
     dates = sorted(set(aug_by_date) & set(ott_by_date))
     available_mgd = [
         cfs_to_mgd(
-            max(0.0, aug_by_date[d] - passby_auglaize_cfs)
-            + max(0.0, ott_by_date[d] - passby_ottawa_cfs)
+            max(0.0, aug_by_date[d] - passby_primary_cfs)
+            + max(0.0, ott_by_date[d] - passby_secondary_cfs)
         )
         for d in dates
     ]
@@ -358,8 +358,8 @@ def write_refill_adequacy(ra: RefillAdequacy, *, settings: Settings | None = Non
         "meta": {
             "subject": "Refill adequacy / drought storage requirement — Lima reservoir system",
             "source": (
-                f"USGS NWIS daily discharge: Auglaize {prof.auglaize_gage} (Fort Jennings) + "
-                f"Ottawa {prof.ottawa_gage} (Lima); storage from water-supply.yaml"
+                f"USGS NWIS daily discharge: Auglaize {prof.supply_gage_primary} (Fort Jennings) + "
+                f"Ottawa {prof.supply_gage_secondary} (Lima); storage from water-supply.yaml"
             ),
             "method": ra.method,
             "discipline": (
