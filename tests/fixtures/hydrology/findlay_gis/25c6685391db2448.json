@@ -1,0 +1,141 @@
+{
+  "params": {
+    "f": "json",
+    "returnGeometry": "false",
+    "where": "1=1",
+    "outFields": "Zoning",
+    "groupByFieldsForStatistics": "Zoning",
+    "outStatistics": "[{\"statisticType\": \"count\", \"onStatisticField\": \"FID\", \"outStatisticFieldName\": \"n\"}]"
+  },
+  "fetched_at": "2026-06-19T14:36:42.574835+00:00",
+  "payload": {
+    "objectIdFieldName": "FID",
+    "uniqueIdField": {
+      "name": "FID",
+      "isSystemMaintained": true
+    },
+    "globalIdFieldName": "",
+    "geometryType": "esriGeometryPolygon",
+    "spatialReference": {
+      "wkid": 102100,
+      "latestWkid": 3857
+    },
+    "fields": [
+      {
+        "name": "n",
+        "type": "esriFieldTypeInteger",
+        "alias": "n",
+        "sqlType": "sqlTypeInteger",
+        "domain": null,
+        "defaultValue": null
+      },
+      {
+        "name": "Zoning",
+        "type": "esriFieldTypeString",
+        "alias": "Zoning",
+        "sqlType": "sqlTypeOther",
+        "length": 256,
+        "domain": null,
+        "defaultValue": null
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": null
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " Condominium District"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " Downtown Commercial District"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " General Commercial District"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " General Industrial"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " Institutions and Offices"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " Light Industrial"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " Local Commercial District"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " Mobile Home District"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " Multiple-Family District, High Density"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " Multiple-Family District, Medium Density"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " Single Family, Medium Lot Residential"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " Single Family, Small Lot Residential"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": " Two Family, High Density"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": "Parks and Open Space"
+        }
+      },
+      {
+        "attributes": {
+          "n": 1,
+          "Zoning": "Single Family, Large Lot Residential"
+        }
+      }
+    ]
+  }
+}

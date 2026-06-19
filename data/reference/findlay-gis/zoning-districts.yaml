@@ -1,0 +1,43 @@
+meta:
+  subject: City of Findlay, Ohio zoning districts (catalog)
+  source: City of Findlay GIS — ArcGIS Online hosted FeatureServer 'FindlayZoning'
+    (org XMr9uonP553LyU3o), layer 0
+  source_url: https://services6.arcgis.com/XMr9uonP553LyU3o/arcgis/rest/services/FindlayZoning/FeatureServer/0
+  district_count: 15
+  polygon_total: 15
+  caveats:
+  - Values are verbatim from the City of Findlay hosted zoning FeatureServer.
+  - 'Polygon-only layer (no parcel id): the district catalog is supported; per-parcel
+    zoning joins are not.'
+  - Field names confirmed from the layer-0 metadata (2026-06-19).
+districts:
+- code: Condominium District
+  polygon_count: 1
+- code: Downtown Commercial District
+  polygon_count: 1
+- code: General Commercial District
+  polygon_count: 1
+- code: General Industrial
+  polygon_count: 1
+- code: Institutions and Offices
+  polygon_count: 1
+- code: Light Industrial
+  polygon_count: 1
+- code: Local Commercial District
+  polygon_count: 1
+- code: Mobile Home District
+  polygon_count: 1
+- code: Multiple-Family District, High Density
+  polygon_count: 1
+- code: Multiple-Family District, Medium Density
+  polygon_count: 1
+- code: Parks and Open Space
+  polygon_count: 1
+- code: Single Family, Large Lot Residential
+  polygon_count: 1
+- code: Single Family, Medium Lot Residential
+  polygon_count: 1
+- code: Single Family, Small Lot Residential
+  polygon_count: 1
+- code: Two Family, High Density
+  polygon_count: 1
