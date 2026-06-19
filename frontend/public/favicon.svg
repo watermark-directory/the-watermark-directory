@@ -1,10 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="BOSC">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Watermark">
   <rect width="64" height="64" rx="14" fill="#3f51b5"/>
   <g fill="none" stroke="#ffffff" stroke-width="3.8">
-    <path d="M22 13 H13 V51 H22" stroke-linecap="square"/>
-    <path d="M42 13 H51 V51 H42" stroke-linecap="square"/>
-    <line x1="22" y1="25" x2="42" y2="25" stroke-linecap="round"/>
-    <line x1="22" y1="32" x2="38" y2="32" stroke-linecap="round"/>
-    <line x1="22" y1="39" x2="34" y2="39" stroke-linecap="round"/>
+    <path d="M23 13 H13 V51 H23" stroke-linecap="square"/>
+    <path d="M41 13 H51 V51 H41" stroke-linecap="square"/>
+    <path d="M21 29 q5.5 -6 11 0 t11 0" stroke-linecap="round"/>
+    <line x1="21" y1="42" x2="43" y2="42" stroke-linecap="round"/>
   </g>
 </svg>
