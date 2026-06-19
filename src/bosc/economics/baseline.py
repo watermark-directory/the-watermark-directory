@@ -53,12 +53,20 @@ def build_baseline(
     """Pull QCEW for ``years`` and assemble the latest sector mix + employment trend."""
     settings = settings or get_settings()
     years = sorted(years or _DEFAULT_YEARS)
+    population = _maybe_population(settings)
+    # Authoritative per-county label from the Census ACS NAME (e.g. "Hancock County, Ohio");
+    # falls back to the active profile's county when no Census key/fixture is available.
+    area_name = (
+        population.area_name if population is not None else active_profile(settings).county_name
+    )
     industries = [
-        fetch_county_industries(year=y, fips=settings.econ_fips, settings=settings) for y in years
+        fetch_county_industries(
+            year=y, fips=settings.econ_fips, area_name=area_name, settings=settings
+        )
+        for y in years
     ]
     latest = industries[-1]
     trend = [YearTotal(year=ie.year, total_employment=ie.total_employment) for ie in industries]
-    population = _maybe_population(settings)
     log.info(
         "econ.baseline", years=years, sectors=len(latest.sectors), population=population is not None
     )
@@ -69,7 +77,7 @@ def build_baseline(
     )
     return EconomicBaseline(
         fips=latest.fips,
-        area_name=latest.area_name,
+        area_name=area_name,
         latest=latest,
         trend=trend,
         population=population,

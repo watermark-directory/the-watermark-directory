@@ -30,7 +30,7 @@ def write_climatology(clim: NasaPowerClimatology, *, settings: Settings | None =
     path.parent.mkdir(parents=True, exist_ok=True)
     doc = {
         "meta": {
-            "subject": "NASA POWER climate normals — Lima loop point",
+            "subject": f"NASA POWER climate normals — {active_profile(settings).place} loop point",
             "source": "NASA POWER (AWS Open Data s3://nasa-power), climatology point API",
             "title": clim.source_title,
             "point": {"latitude": clim.latitude, "longitude": clim.longitude},

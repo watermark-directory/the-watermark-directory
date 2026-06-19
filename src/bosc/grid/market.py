@@ -175,6 +175,11 @@ def derive_pjm_market_scenario(*, settings: Settings | None = None) -> PjmMarket
     """
     settings = settings or get_settings()
     power = derive_power_basis(settings=settings)
+    if power is None:
+        raise ValueError(
+            f"site {settings.site!r} has no documented facility (SiteProfile.facility is None) — "
+            "the PJM market scenario needs a facility load"
+        )
     ref = _market_reference(settings)
 
     draw_mw = power.facility_draw.value

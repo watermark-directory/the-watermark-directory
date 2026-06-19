@@ -282,6 +282,11 @@ def derive_compute_capacity(
     density = _load_yaml(_ref_dir(settings) / "rack-density.yaml")
 
     power = derive_power_basis(settings=settings)
+    if power is None:
+        raise ValueError(
+            f"site {settings.site!r} has no documented facility (SiteProfile.facility is None) — "
+            "the compute-capacity estimate needs a facility power basis"
+        )
     cooling = derive_cooling_basis()
 
     # --- Method 1: power / gensets (PRIMARY) ---------------------------------

@@ -22,6 +22,7 @@ from bosc.config import Settings, get_settings
 from bosc.connectors import cached_get
 from bosc.economics.model import IndustryEmployment, SectorEmployment
 from bosc.hydrology.model import ProvenancedValue
+from bosc.sites import active_profile
 
 # Official NAICS 2-digit sector titles (stable reference, not data) for QCEW codes.
 _SECTOR_NAMES: dict[str, str] = {
@@ -84,11 +85,21 @@ def _reduce_csv(text: str) -> dict[str, Any]:
 
 
 def fetch_county_industries(
-    *, year: int, fips: str | None = None, settings: Settings | None = None
+    *,
+    year: int,
+    fips: str | None = None,
+    area_name: str | None = None,
+    settings: Settings | None = None,
 ) -> IndustryEmployment:
-    """County employment by NAICS sector for one year, with location quotients."""
+    """County employment by NAICS sector for one year, with location quotients.
+
+    ``area_name`` labels the county; the caller passes the authoritative Census name
+    (``build_baseline``). It falls back to the active site profile's ``county_name`` so a
+    standalone call is never mislabeled with another site's county.
+    """
     settings = settings or get_settings()
     fips = fips or settings.econ_fips
+    area_name = area_name or active_profile(settings).county_name
     params = {"connector": "qcew", "year": year, "area": fips, "agg": "a"}
 
     def fetch() -> Any:
@@ -151,7 +162,7 @@ def fetch_county_industries(
     sectors.sort(key=lambda x: x.annual_avg_employment.value, reverse=True)
     return IndustryEmployment(
         fips=fips,
-        area_name="Allen County, Ohio",
+        area_name=area_name,
         year=year,
         total_employment=total_emp,
         establishments=establishments,

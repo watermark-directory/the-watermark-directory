@@ -247,6 +247,11 @@ def derive_interchange_comparison(
     settings = settings or get_settings()
     bai = interchange or fetch_ba_interchange(settings=settings)
     power = derive_power_basis(settings=settings)
+    if power is None:
+        raise ValueError(
+            f"site {settings.site!r} has no documented facility (SiteProfile.facility is None) — "
+            "the campus interchange comparison needs a facility load"
+        )
 
     draw = power.facility_draw.value
     demand = bai.demand_mean_mw.value

@@ -44,6 +44,7 @@ _LIMA_GOLDEN = {
     "lsc_default_ga": "136",
     "design_lat": 40.797,
     "design_lon": -84.123,
+    "corridor_name": "Cole St / Bluelick corridor",
     "dominant_hsg": "C",
     "pre_cover": "cropland",
     "post_cover": "developed_campus",

@@ -49,22 +49,14 @@ from pydantic import BaseModel, ConfigDict
 
 from bosc.config import Settings, get_settings
 from bosc.hydrology.model import ProvenancedValue
+from bosc.sites import active_profile
 
-# --- Air-permit-disclosed constants (mirror bosc.hydrology.cooling) ----------
-_GENSET_COUNT = 114
-_GENSET_MW = 2.75  # ekW each, per the air permit
-_BACKUP_MW = _GENSET_COUNT * _GENSET_MW  # ~313 MW
-_IT_LOAD_MW = 275.0  # midpoint of the 250-300 MW estimate (IT ~= backup at N+1)
-_IT_LOAD_LOW_MW = 250.0
-_IT_LOAD_HIGH_MW = 300.0
-_AIR_PERMIT_CITE = (
-    "OEPA Air PTI P0138965 (Facility 0302022054), committed "
-    "data/extracted/permits/4132514.epa.yaml (final, 2026-05-28): "
-    "114 hall gensets x 2.75 ekW = ~313 MW backup; IT ~250-300 MW (N+1). "
-    "Per-engine ekW from the draft public notice (3987141/3987144); engine "
-    "size CBI-redacted in the final permit under an Ohio EPA trade-secret grant "
-    "(OAC 3745-49-03, 2025-10-08; data/extracted/permits/3859883.epa.yaml)."
-)
+# The air-permit-disclosed facility constants (genset count/rating, IT load, the permit
+# citation) are now per-site: they live on ``SiteProfile.facility`` (Lima, from Air PTI
+# P0138965) and ``derive_power_basis`` reads them from the active site. A site with no
+# documented facility (``facility is None``) has no power basis — see ``derive_power_basis``.
+# (bosc.hydrology.cooling still mirrors the Lima constants; tests/facility/test_power.py
+# guards the two against drift.)
 
 # --- Cooling / mechanical overhead (issue #87) -------------------------------
 # PUE = total facility power / IT power, a banded ASSUMPTION read from the reference
@@ -216,12 +208,13 @@ class PowerBasis(BaseModel):
         return round(self.facility_draw.value - self.it_load.value, 1)
 
 
-def _generation_configs() -> list[GenerationConfig]:
+def _generation_configs(it_load_mw: float) -> list[GenerationConfig]:
     """The simple- and combined-cycle generation scenarios (issue #90).
 
     Each carries a provenance-tagged net electrical efficiency (the "power-loss
     coefficient") and a derived heat rate; the combined cycle additionally carries
-    the steam-loop water pathway, cross-referenced to :mod:`bosc.hydrology.cooling`.
+    the steam-loop water pathway (sized to ``it_load_mw``), cross-referenced to
+    :mod:`bosc.hydrology.cooling`.
     """
     simple = GenerationConfig(
         cycle="simple",
@@ -242,7 +235,7 @@ def _generation_configs() -> list[GenerationConfig]:
     )
     # If on-site primary generation were combined-cycle and supplied the IT load, its
     # steam condenser would consume water beyond data-hall cooling (conditional/flagged).
-    steam_mgd = _IT_LOAD_MW * 1_000.0 * 24.0 * _STEAM_WATER_GAL_PER_KWH / 1_000_000.0
+    steam_mgd = it_load_mw * 1_000.0 * 24.0 * _STEAM_WATER_GAL_PER_KWH / 1_000_000.0
     combined = GenerationConfig(
         cycle="combined",
         label="combined-cycle (double-phase) — exhaust heat recovered to a steam turbine",
@@ -266,39 +259,46 @@ def _generation_configs() -> list[GenerationConfig]:
     return [simple, combined]
 
 
-def derive_power_basis(*, settings: Settings | None = None) -> PowerBasis:
-    """Derive the campus power basis from the cited air-permit genset count.
+def derive_power_basis(*, settings: Settings | None = None) -> PowerBasis | None:
+    """Derive the active site's campus power basis from its disclosed air-permit facility.
 
-    Reads the banded PUE assumption from the committed reference data to derive the
-    IT->total ``facility_draw`` translation (issue #87); ``settings`` defaults to
+    Returns ``None`` for a site with **no documented facility** (``SiteProfile.facility is
+    None``) — the grid stack then emits the per-site grid backdrop without a fabricated
+    campus load share. Reads the banded PUE assumption from the committed reference data for
+    the IT->total ``facility_draw`` translation (issue #87); ``settings`` defaults to
     :func:`bosc.config.get_settings`.
     """
     settings = settings or get_settings()
+    fac = active_profile(settings).facility
+    if fac is None:
+        return None
+    backup_mw = fac.genset_count * fac.genset_mw  # ~313 MW for Lima
+    cite = fac.air_permit_citation
     pue_lo, pue_hi = _load_pue_band(settings)
     pue_central = (pue_lo + pue_hi) / 2.0
     cooling_share_hi = (pue_hi - 1.0) / pue_hi  # cooling as a share of facility power
-    draw_central = _IT_LOAD_MW * pue_central
-    implied_pue = _BACKUP_MW / _IT_LOAD_MW  # if backup == IT + mechanical (N+1)
+    draw_central = fac.it_load_mw * pue_central
+    implied_pue = backup_mw / fac.it_load_mw  # if backup == IT + mechanical (N+1)
 
     return PowerBasis(
-        generation=_generation_configs(),
+        generation=_generation_configs(fac.it_load_mw),
         genset_count=ProvenancedValue.from_document(
-            float(_GENSET_COUNT), "count", citation=_AIR_PERMIT_CITE
+            float(fac.genset_count), "count", citation=cite
         ),
-        genset_rating=ProvenancedValue.from_document(_GENSET_MW, "MW", citation=_AIR_PERMIT_CITE),
+        genset_rating=ProvenancedValue.from_document(fac.genset_mw, "MW", citation=cite),
         backup_power=ProvenancedValue.derived(
-            round(_BACKUP_MW, 1),
+            round(backup_mw, 1),
             "MW",
-            citation=f"{_GENSET_COUNT} gensets x {_GENSET_MW:g} ekW (air permit P0138965)",
+            citation=f"{fac.genset_count} gensets x {fac.genset_mw:g} ekW (air permit P0138965)",
         ),
-        it_load=ProvenancedValue.from_document(_IT_LOAD_MW, "MW", citation=_AIR_PERMIT_CITE),
+        it_load=ProvenancedValue.from_document(fac.it_load_mw, "MW", citation=cite),
         it_load_low=ProvenancedValue.derived(
-            _IT_LOAD_LOW_MW,
+            fac.it_load_low_mw,
             "MW",
             citation="low end of the N+1 IT estimate from ~313 MW backup",
         ),
         it_load_high=ProvenancedValue.derived(
-            _IT_LOAD_HIGH_MW,
+            fac.it_load_high_mw,
             "MW",
             citation="high end of the N+1 IT estimate from ~313 MW backup",
         ),
@@ -314,23 +314,23 @@ def derive_power_basis(*, settings: Settings | None = None) -> PowerBasis:
         facility_draw=ProvenancedValue.derived(
             round(draw_central, 1),
             "MW",
-            citation=f"{_IT_LOAD_MW:g} MW IT x PUE {pue_central:g} (band mean) — total facility draw",
+            citation=f"{fac.it_load_mw:g} MW IT x PUE {pue_central:g} (band mean) — total facility draw",
         ),
         facility_draw_low=ProvenancedValue.derived(
-            round(_IT_LOAD_MW * pue_lo, 1),
+            round(fac.it_load_mw * pue_lo, 1),
             "MW",
-            citation=f"{_IT_LOAD_MW:g} MW IT x PUE {pue_lo:g} (efficient)",
+            citation=f"{fac.it_load_mw:g} MW IT x PUE {pue_lo:g} (efficient)",
         ),
         facility_draw_high=ProvenancedValue.derived(
-            round(_IT_LOAD_MW * pue_hi, 1),
+            round(fac.it_load_mw * pue_hi, 1),
             "MW",
-            citation=f"{_IT_LOAD_MW:g} MW IT x PUE {pue_hi:g} (cooling-dominated, ~30% cooling)",
+            citation=f"{fac.it_load_mw:g} MW IT x PUE {pue_hi:g} (cooling-dominated, ~30% cooling)",
         ),
         implied_pue_from_backup=ProvenancedValue.derived(
             round(implied_pue, 2),
             "ratio",
             citation=(
-                f"{round(_BACKUP_MW, 1):g} MW N+1 backup / {_IT_LOAD_MW:g} MW IT: the PUE "
+                f"{round(backup_mw, 1):g} MW N+1 backup / {fac.it_load_mw:g} MW IT: the PUE "
                 "implied if the genset backup is sized to the full IT + mechanical load (#33)"
             ),
         ),

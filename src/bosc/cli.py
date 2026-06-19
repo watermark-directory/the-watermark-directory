@@ -667,8 +667,16 @@ def compute(
     """Derive the facility's compute / AI capacity by three independent methods."""
     from bosc.facility.compute import derive_compute_capacity
     from bosc.facility.power import derive_power_basis
+    from bosc.sites import active_profile
 
     settings = get_settings()
+    if active_profile(settings).facility is None:
+        console.print(
+            f"[yellow]No documented facility for site '{settings.site}' "
+            "(SiteProfile.facility is None) — this command needs an identified data-center "
+            "facility (the data-center dimension onboarding does not capture).[/]"
+        )
+        raise typer.Exit(0)
     frac = None
     if accel_fraction_low is not None and accel_fraction_high is not None:
         frac = (accel_fraction_low, accel_fraction_high)
@@ -755,6 +763,7 @@ def compute(
             )
 
     power = derive_power_basis(settings=settings)
+    assert power is not None  # guarded above: this command early-exits for a facility-less site
 
     # Cooling / mechanical overhead (issue #87): the IT -> total facility-draw
     # translation as a banded, provenance-tagged output.
@@ -1955,25 +1964,33 @@ def eia_cmd(
         table.add_row(p.label, p.metric, p.period, f"{p.value.value:,.2f} {p.value.unit}")
     console.print(table)
 
-    dp = derive_demand_pressure(costs=costs, settings=settings)
-    console.print(
-        f"\n[bold]Data-center demand → consumer price pressure[/] "
-        f"[dim](a sensitivity, not a forecast)[/]\n"
-        f"  Facility draw [bold]{dp.facility_draw_mw.value:g} MW[/] x {dp.load_factor.value:g} "
-        f"load factor → [bold]{dp.annual_consumption_gwh.value:,.0f} GWh/yr[/]\n"
-        f"  = [bold]{dp.demand_share_pct.value:g}%[/] of Ohio retail electricity sales "
-        f"([dim]{dp.state_retail_sales_gwh.value:,.0f} GWh[/]); "
-        f"≈ [bold]{dp.households_equivalent.value:,.0f}[/] Ohio homes\n"
-        f"  Stylized price pressure [bold]{dp.price_pressure_pct_low.value:g}-"
-        f"{dp.price_pressure_pct_high.value:g}%[/] on the "
-        f"{dp.residential_price.value:g} {dp.residential_price.unit} residential price "
-        f"[dim](transmission {dp.supply_elasticity.value:g} %price/%demand)[/]"
-    )
-    console.print(
-        "\n[dim]Demand share + households-equivalent are EIA-cited; the price-pressure band "
-        "is a STYLIZED screening sensitivity (the campus buys at wholesale, not the "
-        "residential rate shown). Source: EIA API v2 + the 2026-06-10 facility-design call.[/]"
-    )
+    from bosc.sites import active_profile
+
+    if active_profile(settings).facility is not None:
+        dp = derive_demand_pressure(costs=costs, settings=settings)
+        console.print(
+            f"\n[bold]Data-center demand → consumer price pressure[/] "
+            f"[dim](a sensitivity, not a forecast)[/]\n"
+            f"  Facility draw [bold]{dp.facility_draw_mw.value:g} MW[/] x {dp.load_factor.value:g} "
+            f"load factor → [bold]{dp.annual_consumption_gwh.value:,.0f} GWh/yr[/]\n"
+            f"  = [bold]{dp.demand_share_pct.value:g}%[/] of Ohio retail electricity sales "
+            f"([dim]{dp.state_retail_sales_gwh.value:,.0f} GWh[/]); "
+            f"≈ [bold]{dp.households_equivalent.value:,.0f}[/] Ohio homes\n"
+            f"  Stylized price pressure [bold]{dp.price_pressure_pct_low.value:g}-"
+            f"{dp.price_pressure_pct_high.value:g}%[/] on the "
+            f"{dp.residential_price.value:g} {dp.residential_price.unit} residential price "
+            f"[dim](transmission {dp.supply_elasticity.value:g} %price/%demand)[/]"
+        )
+        console.print(
+            "\n[dim]Demand share + households-equivalent are EIA-cited; the price-pressure band "
+            "is a STYLIZED screening sensitivity (the campus buys at wholesale, not the "
+            "residential rate shown). Source: EIA API v2 + the 2026-06-10 facility-design call.[/]"
+        )
+    else:
+        console.print(
+            f"\n[yellow]No documented facility for site '{settings.site}' — skipping the "
+            "data-center demand → price-pressure sensitivity (it needs a facility load).[/]"
+        )
     if write:
         path = write_consumer_energy(costs, settings=settings)
         console.print(f"[green]Wrote[/] {path}")
@@ -2002,31 +2019,38 @@ def grid_cmd(
         f"({_mark(su.rto)}, {su.rto.confidence})\n"
         f"  Retail regulator: {su.retail_regulator.value}"
     )
-    console.print(
-        f"\n[bold]Campus load as a share of the grid[/] "
-        f"[dim](facility draw {ls.campus_load_mw.value:g} MW x {ls.load_factor.value:g} "
-        f"→ {ls.annual_consumption_gwh.value:,.0f} GWh/yr)[/]"
-    )
-    table = Table("denominator", "annual load (GWh)", "campus share", "basis")
-    table.add_row(
-        "AEP Ohio retail (EIA-861)",
-        f"{ls.utility_retail_gwh.value:,.0f}",
-        f"[bold]{ls.share_of_utility_pct.value:g}%[/]",
-        "connector",
-    )
-    table.add_row(
-        "PJM total load (EIA-930)",
-        f"{ls.ba_load_gwh.value:,.0f}",
-        f"{ls.share_of_ba_pct.value:g}%",
-        "connector",
-    )
-    table.add_row(
-        "Ohio retail (EIA, shared #91)",
-        f"{ls.state_retail_gwh.value:,.0f}",
-        f"{ls.share_of_state_pct.value:g}%",
-        "connector",
-    )
-    console.print(table)
+    if ls is None:
+        console.print(
+            f"\n[yellow]No documented facility for site '{settings.site}' — grid backdrop only "
+            "(no campus load to express as a share of the grid; the data-center dimension is "
+            "not captured by onboarding).[/]"
+        )
+    else:
+        console.print(
+            f"\n[bold]Campus load as a share of the grid[/] "
+            f"[dim](facility draw {ls.campus_load_mw.value:g} MW x {ls.load_factor.value:g} "
+            f"→ {ls.annual_consumption_gwh.value:,.0f} GWh/yr)[/]"
+        )
+        table = Table("denominator", "annual load (GWh)", "campus share", "basis")
+        table.add_row(
+            "AEP Ohio retail (EIA-861)",
+            f"{ls.utility_retail_gwh.value:,.0f}",
+            f"[bold]{ls.share_of_utility_pct.value:g}%[/]",
+            "connector",
+        )
+        table.add_row(
+            "PJM total load (EIA-930)",
+            f"{ls.ba_load_gwh.value:,.0f}",
+            f"{ls.share_of_ba_pct.value:g}%",
+            "connector",
+        )
+        table.add_row(
+            "Ohio retail (EIA, shared #91)",
+            f"{ls.state_retail_gwh.value:,.0f}",
+            f"{ls.share_of_state_pct.value:g}%",
+            "connector",
+        )
+        console.print(table)
     console.print(
         "\n[dim]Serving utility is corpus-grounded (AEP Ohio tariff referenced for this "
         "campus); RTO=PJM is authoritative. All three load denominators are EIA "

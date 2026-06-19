@@ -68,6 +68,11 @@ def derive_demand_pressure(
     settings = settings or get_settings()
     costs = costs or build_consumer_energy(settings=settings)
     power = derive_power_basis(settings=settings)
+    if power is None:
+        raise ValueError(
+            f"site {settings.site!r} has no documented facility (SiteProfile.facility is None) — "
+            "the facility demand-pressure sensitivity needs a facility power basis"
+        )
 
     sales = costs.series(_ELEC_SALES_ID)
     price = costs.series(_ELEC_PRICE_ID)

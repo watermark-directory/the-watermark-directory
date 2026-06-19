@@ -29,6 +29,25 @@ if TYPE_CHECKING:
     from bosc.config import Settings
 
 
+class SiteFacility(BaseModel):
+    """A site's disclosed data-center facility power basis (air-permit-grounded).
+
+    Present only for a site with an identified, documented facility (Lima, from Ohio EPA
+    Air PTI P0138965). A site with no such facility leaves ``SiteProfile.facility = None`` —
+    the grid stack then emits the per-site grid backdrop (utility / BA / state denominators)
+    **without** fabricating a campus load share. Drives :func:`bosc.facility.power.derive_power_basis`.
+    """
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    genset_count: int  # emergency gensets disclosed in the air permit
+    genset_mw: float  # ekW each
+    it_load_mw: float  # central IT load (N+1 backup ~= IT)
+    it_load_low_mw: float  # low end of the N+1 range
+    it_load_high_mw: float  # high end
+    air_permit_citation: str  # the disclosing permit + committed extraction
+
+
 class SiteProfile(BaseModel):
     """Everything specific to one watershed-point site. Frozen — a fixed reference value."""
 
@@ -60,6 +79,7 @@ class SiteProfile(BaseModel):
     # The NOAA-Atlas-14 corridor point — distinct from the nasa_power loop centroid above.
     design_lat: float
     design_lon: float
+    corridor_name: str  # the Atlas-14 design-storm corridor label (drainage.py meta.subject)
     dominant_hsg: str
     hsg_citation: str
     pre_cover: str
@@ -98,6 +118,15 @@ class SiteProfile(BaseModel):
     supply_gage_secondary: str
     passby_primary_cfs: float
     passby_secondary_cfs: float
+
+    # --- Grid / facility (grid/*.py, facility/power.py) ---------------------------------
+    # The disclosed DC facility (None = no identified facility yet → grid backdrop only, no
+    # fabricated campus load share). The serving-utility *identity* (name) is connector-sourced
+    # (EIA-861); only its provenance is per-site: a corpus document for Lima, the EIA-861/PUCO
+    # service-territory record for a site without corpus coverage.
+    facility: SiteFacility | None = None
+    serving_utility_citation: str
+    serving_utility_source: Literal["document", "connector", "reference", "assumption"]
 
     # --- Grid market (grid/market.py) ---------------------------------------------------
     lmp_usd_mwh: float
@@ -162,6 +191,7 @@ _LIMA = SiteProfile(
     # stormwater
     design_lat=40.797,
     design_lon=-84.123,
+    corridor_name="Cole St / Bluelick corridor",
     dominant_hsg="C",
     hsg_citation=(
         "Allen County, OH dominant hydrologic soil group C (NRCS soil survey; assumption)"
@@ -211,6 +241,29 @@ _LIMA = SiteProfile(
     supply_gage_secondary="04187100",
     passby_primary_cfs=2.5,
     passby_secondary_cfs=0.2,
+    # grid / facility (the disclosed Lima campus; serving-utility provenance = the corpus)
+    facility=SiteFacility(
+        genset_count=114,
+        genset_mw=2.75,  # ekW each, per the air permit
+        it_load_mw=275.0,  # midpoint of the 250-300 MW estimate (IT ~= backup at N+1)
+        it_load_low_mw=250.0,
+        it_load_high_mw=300.0,
+        air_permit_citation=(
+            "OEPA Air PTI P0138965 (Facility 0302022054), committed "
+            "data/extracted/permits/4132514.epa.yaml (final, 2026-05-28): "
+            "114 hall gensets x 2.75 ekW = ~313 MW backup; IT ~250-300 MW (N+1). "
+            "Per-engine ekW from the draft public notice (3987141/3987144); engine "
+            "size CBI-redacted in the final permit under an Ohio EPA trade-secret grant "
+            "(OAC 3745-49-03, 2025-10-08; data/extracted/permits/3859883.epa.yaml)."
+        ),
+    ),
+    serving_utility_source="document",
+    serving_utility_citation=(
+        "relator data appendix (data/extracted/legal/select-committee-2026/relator-testimony/"
+        "bosc-data-appendix-2026-06-01.md): the 25 MW threshold 'matches the AEP Ohio tariff'; "
+        "corroborated by Allen County commissioners' minutes (local AEP 3-phase service, "
+        "Res #974-25). Formal confirmation: EIA-861 service territory / PUCO map."
+    ),
     # grid
     lmp_usd_mwh=35.0,
     lmp_citation=(
@@ -261,6 +314,7 @@ _FINDLAY = SiteProfile(
     # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
     design_lat=41.0428,  # [verified] city centroid = NOAA Atlas-14 point
     design_lon=-83.6422,
+    corridor_name="Blanchard River corridor",  # [inference] the receiving-water design corridor
     dominant_hsg="D",  # [inference] Great Black Swamp very-poorly-drained clays (Hoytville/Pewamo) → HSG D
     hsg_citation=(
         "Hancock County, OH (NRCS area OH063) dominant hydrologic soil group D — very-poorly-"
@@ -307,6 +361,13 @@ _FINDLAY = SiteProfile(
     supply_gage_secondary="TODO",
     passby_primary_cfs=0.0,  # [open] in-stream passby minimums — pending the model
     passby_secondary_cfs=0.0,
+    # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
+    facility=None,  # [open] the data-center dimension onboard doesn't capture (no disclosed facility)
+    serving_utility_source="reference",  # not corpus-grounded — EIA-861/PUCO record
+    serving_utility_citation=(  # [reference] not Lima's corpus
+        "EIA-861 service-territory file (Ohio Power Co #14006) + PUCO certified-territory map; "
+        "AEP Ohio serving Findlay corroborated by the City of Findlay (AEP smart-meter notice)"
+    ),
     # grid (same PJM AEP zone as Lima — Ohio Power Co)
     lmp_usd_mwh=35.0,  # [inference] shared AEP-zone value with Lima (same utility/zone)
     lmp_citation=(
@@ -393,6 +454,8 @@ def _type_placeholder(annotation: object) -> str:
         return "(" + ", ".join(["0.0"] * n) + ")"
     if origin is dict:
         return "{}"
+    if origin is Literal:
+        return repr(get_args(annotation)[0])  # first allowed value (constructible)
     return "None"
 
 
@@ -419,6 +482,9 @@ def scaffold_profile_src(slug: str, *, basin: str = "maumee") -> str:
             stem = "reference" if name == "parcels_relpath" else "extracted"
             value = repr(f"{stem}/{slug}/{PurePosixPath(getattr(lima, name)).name}")
             comment = "  # TODO: commit the site's own geometry here"
+        elif not field.is_required():  # optional (e.g. facility) — absence is a valid state
+            value = repr(field.get_default())
+            comment = "  # optional (set only if the site has a documented facility)"
         else:
             value = _type_placeholder(field.annotation)
             comment = "  # TODO"
@@ -469,10 +535,14 @@ def profile_readiness(slug: str) -> list[ReadinessFinding]:
         return []
     prof, lima = SITES[slug], SITES["lima"]
     findings: list[ReadinessFinding] = []
-    for name in SiteProfile.model_fields:
+    for name, field in SiteProfile.model_fields.items():
         if name == "slug":
             continue
         value = getattr(prof, name)
+        # An optional field left at its default (e.g. facility=None) is a deliberate absence,
+        # not an unfilled gap — don't flag it.
+        if not field.is_required() and value == field.get_default():
+            continue
         if _is_placeholder(value):
             findings.append(
                 ReadinessFinding(
