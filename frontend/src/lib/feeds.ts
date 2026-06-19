@@ -334,6 +334,66 @@ export interface EconomicBaseline {
   note?: string | null;
 }
 
+// --- network: the cross-site basin synthesis (object feed; bosc.network, #308/#323) ---
+export interface NodeScreen {
+  npdes: string;
+  discharger: string;
+  receiving_water?: string | null;
+  design_flow_mgd?: number | null;
+  dilution_ratio?: number | null;
+  flag?: string | null; // ok | tight | violation (when screened)
+  status: string; // screened | no_receiving_water | no_7q10 | no_design_flow | not_in_inventory
+  detail?: string;
+}
+export interface NodeGrid {
+  utility?: string | null;
+  ownership?: string | null;
+  holding_company?: string | null;
+  balancing_authority?: string | null;
+  retail_regulator?: string | null;
+  avg_price_cents_kwh?: number | null;
+}
+export interface NodeEconomy {
+  year?: number | null;
+  total_employment?: number | null;
+  employment_change_pct?: number | null;
+  population?: number | null;
+  manufacturing_lq?: number | null;
+  information_lq?: number | null;
+}
+export interface NodeToxics {
+  facility_count?: number | null;
+  top_emitter?: string | null;
+  vintage_last_year?: number | null;
+}
+export interface NodeActivity {
+  has_disclosed_facility: boolean;
+  it_load_mw?: number | null;
+  summary?: string;
+}
+export interface WatershedNode {
+  slug: string;
+  place: string;
+  county: string;
+  huc8: string;
+  receiving_water: string;
+  drainage_path: string[];
+  subtree: string; // Auglaize | Tiffin | Maumee mainstem
+  downstream: string; // the collector node it drains into, or the basin sink
+  regime: string; // receiving-water taxonomy
+  screen: NodeScreen;
+  grid: NodeGrid;
+  economy: NodeEconomy;
+  toxics: NodeToxics;
+  activity: NodeActivity;
+}
+export interface BasinNetwork {
+  sink: string;
+  shared_constraint: string;
+  generated_at?: string | null;
+  nodes: WatershedNode[];
+}
+
 // --- helpers -----------------------------------------------------------------
 
 /** A URL-safe slug from any label/key (e.g. an entity key "AMAZON COM SERVICES"). */
