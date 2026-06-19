@@ -16,9 +16,24 @@ so onboarding is a short, ordered chain — `bosc onboard <slug>` runs the middl
 ### 1. Register the `SiteProfile` (code edit)
 
 A site's identity is a `SiteProfile` in [`src/bosc/sites.py`](../src/bosc/sites.py)
-`SITES` — the Python peer of the frontend registry. **Don't `model_copy` Lima and tweak a
-few fields** — Lima's values are Lima-specific and the ones you forget will silently produce
-wrong output. Build the entry deliberately; the field-by-field guide is below. Two hard rules:
+`SITES` — the Python peer of the frontend registry. **Start from the scaffold, not a Lima
+copy** — Lima's values are Lima-specific and the ones you forget will silently produce wrong
+output:
+
+```sh
+bosc sites new <slug>     # prints a paste-ready SiteProfile(...) stub
+```
+
+The stub fills identity + pre-slug-scopes the six output relpaths (collision-safe by
+construction) and leaves every other field a typed `TODO`. Paste it into `SITES`, fill each
+`TODO` from a cited source (field guide below), then lint it:
+
+```sh
+bosc onboard <slug> --check   # flags fields still unfilled (placeholder) or copied from Lima
+```
+
+`--check` writes nothing and exits non-zero while placeholders remain. `bosc sites list` and
+`bosc sites show <slug>` inspect the registry. Two hard rules the tooling enforces:
 
 - **Slug-scope every per-site output relpath** — `climatology_relpath`, `corridor_ddf_relpath`
   (→ `reference/hydrology/<slug>/…`), `baseline_relpath` (→ `reference/economics/<slug>/…`),
@@ -101,7 +116,10 @@ an **onboarding seed** until reviewed against a cited source — keep the
 
 ### 4. The review gate (blocking)
 
-`onboard` prints this checklist; it is the human gate before promotion:
+`onboard` prints this checklist **and persists it** to a living
+`data/extracted/<slug>/ONBOARDING.md` (created on the first run, carrying the
+dimension-coverage and review-gate boxes; your checks survive re-runs). It is the human gate
+before promotion:
 
 1. Every written reference value reviewed against a cited source (no fabricated values).
 2. SSURGO dominant HSG matches the profile, or the profile is updated **with a citation**.

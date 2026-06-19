@@ -18,9 +18,12 @@ from bosc.config import Settings
 from bosc.sites import (
     PER_SITE_OUTPUT_FIELDS,
     SITES,
+    SiteProfile,
     active_profile,
     get_profile,
     output_path_collisions,
+    profile_readiness,
+    scaffold_profile_src,
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -147,6 +150,45 @@ def test_per_site_output_relpaths_unique() -> None:
     for field in PER_SITE_OUTPUT_FIELDS:
         values = [getattr(p, field) for p in SITES.values()]
         assert len(values) == len(set(values)), f"duplicate {field} across SITES"
+
+
+def test_scaffold_stub_is_constructible_and_collision_safe(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # The generated stub must (a) construct a SiteProfile and (b) slug-scope its outputs so it
+    # passes the collision guard against Lima — the whole point of the scaffold (#326 authoring).
+    src = scaffold_profile_src("findlay")
+    assert "slug='findlay'" in src
+    # Execute the stub's SiteProfile(...) call.
+    body = src[src.index("SiteProfile(") :].rstrip().rstrip(",")
+    prof = eval(body, {"SiteProfile": SiteProfile})
+    assert prof.slug == "findlay"
+    assert prof.climatology_relpath == "reference/hydrology/findlay/nasa-power-climatology.yaml"
+    monkeypatch.setitem(SITES, "findlay", prof)
+    assert output_path_collisions("findlay") == {}  # collision-safe vs Lima
+
+
+def test_readiness_flags_placeholders_and_lima_copies(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # A bare Lima copy: every field matches Lima (verify) and the slug differs.
+    copy = SITES["lima"].model_copy(update={"slug": "copycat"})
+    monkeypatch.setitem(SITES, "copycat", copy)
+    kinds = {f.field: f.kind for f in profile_readiness("copycat")}
+    assert kinds["nwis_sites"] == "matches-lima"
+    assert kinds["rsei_fips"] == "matches-lima"
+    assert "slug" not in kinds  # the slug differs (it's the key); not flagged
+
+    # A scaffold stub: the unfilled fields are placeholders, not Lima copies.
+    src = scaffold_profile_src("draftsite")
+    body = src[src.index("SiteProfile(") :].rstrip().rstrip(",")
+    stub = eval(body, {"SiteProfile": SiteProfile})
+    monkeypatch.setitem(SITES, "draftsite", stub)
+    found = {f.field: f.kind for f in profile_readiness("draftsite")}
+    assert found.get("place") == "placeholder"
+    assert found.get("nwis_sites") == "placeholder"
+    # The pre-scoped output relpaths are neither placeholders nor Lima copies → not flagged.
+    assert "climatology_relpath" not in found
+
+
+def test_readiness_clean_for_lima() -> None:
+    assert profile_readiness("lima") == []
 
 
 def test_python_sites_registered_in_frontend() -> None:

@@ -185,13 +185,43 @@ def onboard_site(*, settings: Settings | None = None, dry_run: bool = False) -> 
     ]
     steps += _planned_steps(settings, prof) if dry_run else _executed_steps(settings, prof)
 
-    return OnboardReport(
+    report = OnboardReport(
         slug=prof.slug,
         place=prof.place,
         basin=prof.basin,
         scaffolded_dirs=dirs,
         steps=steps,
         review_checklist=_review_checklist(prof.slug),
+    )
+    # Persist the gate as a living, checkable artifact (only if absent — preserve human checks).
+    if not dry_run:
+        doc = settings.data_dir / "extracted" / prof.slug / "ONBOARDING.md"
+        if not doc.is_file():
+            doc.parent.mkdir(parents=True, exist_ok=True)
+            doc.write_text(render_onboarding_doc(report), encoding="utf-8")
+    return report
+
+
+def render_onboarding_doc(report: OnboardReport) -> str:
+    """The living onboarding record: dimension coverage + the last run + the review gate."""
+    rows = "\n".join(
+        f"| {s.name} | {s.status} | {s.output_path or s.detail} |" for s in report.steps
+    )
+    gate = "\n".join(f"- [ ] {item}" for item in report.review_checklist)
+    return (
+        f"# Onboarding — {report.place} ({report.slug})\n\n"
+        f"Living record for the {report.place} watershed point (basin: {report.basin}), "
+        "scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** "
+        "promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.\n\n"
+        "## Dimension coverage\n\n"
+        "- [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)\n"
+        "- [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile\n"
+        "- [ ] **Data-center activity** — extracted permits/records + entity graph "
+        "(corpus extraction + the self-research pass, #247)\n"
+        "- [ ] **Per-jurisdiction GIS** — parcels/zoning connector (the known lift; see docs/onboarding.md)\n\n"
+        "## Last onboard run\n\n"
+        "| step | status | output |\n|---|---|---|\n" + rows + "\n\n"
+        "## Review gate (blocking)\n\n" + gate + "\n"
     )
 
 
