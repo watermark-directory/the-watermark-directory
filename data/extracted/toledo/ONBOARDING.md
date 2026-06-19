@@ -7,7 +7,7 @@ Living record for the Toledo watershed point (basin: maumee), scaffolded by `bos
 - [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)
 - [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile
 - [ ] **Data-center activity** — extracted permits/records + entity graph (corpus extraction; seed proposals via `bosc onboard --research`, #247)
-- [ ] **Per-jurisdiction GIS** — parcels/zoning connector (the known lift; see docs/onboarding.md)
+- [~] **Per-jurisdiction GIS** — flood = shared national NFHL (wired). Lucas County AREIS is a **full, queryable ArcGIS REST** (parcels + CAMA + a zoning catalog) — the richest in the network and genuinely wireable; see GIS discovery below. Schemas not committed yet (a reviewed follow-up), but this is the strongest wire-ready candidate.
 
 ## Last onboard run
 
@@ -23,6 +23,25 @@ Living record for the Toledo watershed point (basin: maumee), scaffolded by `bos
 | rsei | ok | reference/rsei/toledo/inventory.yaml |
 | consumer-energy | ok | reference/eia/toledo/consumer-energy.yaml |
 | grid-profile | ok | reference/eia/toledo/grid-profile.yaml |
+
+## GIS discovery (2026-06-19; schema-driven GIS, #237)
+
+Unlike Fort Wayne/Van Wert (no clean catalog) — and even richer than Findlay's single zoning
+FeatureServer — **Lucas County's AREIS is a full, valid-cert, queryable ArcGIS REST**
+(`lcaudgis.co.lucas.oh.us/gisaudserver/rest/services`). It is the strongest wire-ready GIS
+in the network; nothing is committed yet (registering the `GisParcelSchema`/`GisZoningSchema`
+from the live field lists is a reviewed follow-up, not this discovery pass).
+
+| layer | endpoint | finding | status |
+|---|---|---|---|
+| floodzone | FEMA NFHL (national, layer 28) | wired in the profile (`gis_flood`) | wired |
+| parcels (geometry) | `Tyler/Parcels/MapServer/0` | polygon + tax-map numbering (`AREA_NUM`/`BLOCK_NUM`/`LOT_NUM`/`ASSESSOR_NUM`) + `ACREAGE` — no owner/value CAMA on this layer | wireable lead |
+| parcels (CAMA) | `AREIS_Web_Map_MIL1/MapServer` layers 3 (Parcels), 38 (Parcels Land Use Classification), 83 (Land Values) | CAMA land-use + land-values exposed as AREIS layers (join target for owner/value) | wireable lead |
+| zoning | `LandUse_Zoning/Parcel_Zoning/MapServer` | a parcel-level zoning catalog — directly registerable as a `GisZoningSchema` | wireable lead |
+
+Follow-up (a strong issue lead): register Lucas County `gis_parcel` (Tyler/Parcels + AREIS
+land-use/land-values join) and `gis_zoning` (Parcel_Zoning) field-maps from the live
+`?f=json` — Toledo is the best candidate to be the network's second fully-wired GIS after Lima.
 
 ## Review gate (blocking)
 

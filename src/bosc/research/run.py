@@ -22,9 +22,10 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from pydantic import ValidationError
 
 from bosc.agent.client import AgentResult, ResearchAgent
-from bosc.agent.extractor import StructuredExtractor
+from bosc.agent.extractor import ExtractionError, StructuredExtractor
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
 from bosc.research.models import (
@@ -43,8 +44,14 @@ _MAX_FINDINGS_CHARS = 60_000
 # Token budget for the proposal-distillation response. The default extractor budget (4096)
 # can truncate a rich findings pass — several detailed proposals, sometimes emitted as a
 # single stringified JSON array (a forced-tool-use quirk ProposalDrafts coerces) — leaving
-# invalid JSON. Give it headroom so the array always completes (Sonnet allows far more).
-_DISTILL_MAX_TOKENS = 8192
+# invalid JSON. Give it generous headroom so the array always completes (Sonnet allows far more).
+_DISTILL_MAX_TOKENS = 16384
+
+# The distillation occasionally fails on a model quirk (the proposals array emitted as a
+# truncated/malformed JSON *string* that won't parse). It's the run's final step — the costly
+# findings pass already succeeded — so re-roll the deterministic extractor a few times rather
+# than lose the whole run; a fresh draw almost always returns a clean native array.
+_DISTILL_ATTEMPTS = 3
 
 _RESEARCH_PROMPT = """\
 Investigate this topic over the Project BOSC corpus using the read-only BOSC tools
@@ -104,11 +111,28 @@ def distill_proposals(
     (:data:`~bosc.research.models.RUNTIME_LABELS`) and a stable dedupe key in code so
     those are never subject to model whim.
     """
-    drafts = extractor.extract_from_text(
-        ProposalDrafts,
-        instructions=_DISTILL_INSTRUCTIONS.format(topic=topic, max_proposals=max_proposals),
-        text=findings[:_MAX_FINDINGS_CHARS],
-    )
+    instructions = _DISTILL_INSTRUCTIONS.format(topic=topic, max_proposals=max_proposals)
+    text = findings[:_MAX_FINDINGS_CHARS]
+    drafts: ProposalDrafts | None = None
+    last_err: Exception | None = None
+    for attempt in range(1, _DISTILL_ATTEMPTS + 1):
+        try:
+            drafts = extractor.extract_from_text(
+                ProposalDrafts, instructions=instructions, text=text
+            )
+            break
+        except (ValidationError, ExtractionError) as exc:  # model quirk; re-roll the draw
+            last_err = exc
+            log.warning(
+                "research.distill.retry",
+                attempt=attempt,
+                max=_DISTILL_ATTEMPTS,
+                error=str(exc)[:160],
+            )
+    if drafts is None:
+        assert last_err is not None  # the loop set it on every failed attempt
+        raise last_err
+
     proposals: list[IssueProposal] = []
     for d in drafts.proposals[:max_proposals]:
         labels = list(dict.fromkeys([*RUNTIME_LABELS, *d.labels]))
