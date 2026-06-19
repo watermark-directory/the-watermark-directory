@@ -66,6 +66,36 @@ _RETAIL_REGULATOR: dict[str, tuple[str, str]] = {
 }
 
 
+def _retail_regulator(state: str, ownership: str) -> tuple[str, str]:
+    """The retail rate regulator for a utility's ownership in ``state`` (value, citation).
+
+    Investor-owned utilities are state-PUC rate-regulated (:data:`_RETAIL_REGULATOR`); a
+    municipal electric system sets its own retail rates under **home rule** (not PUC-
+    regulated), and a cooperative's rates are member/board-regulated — so the regulator is a
+    function of ownership, not just the state. ``ownership`` is the EIA-861 ownership string.
+    """
+    own = ownership.lower()
+    if "municipal" in own:
+        return (
+            f"municipal (home rule, {state})",
+            f"{state} municipal electric systems set their own retail rates under home rule "
+            "(not state-PUC rate-regulated)",
+        )
+    if "cooperative" in own or "co-op" in own:
+        return (
+            f"member-regulated electric cooperative ({state})",
+            f"{state} electric cooperatives set retail rates by member/board governance "
+            "(not state-PUC rate-regulated)",
+        )
+    return _RETAIL_REGULATOR.get(
+        state,
+        (
+            f"{state} state utility regulator",
+            f"{state} retail electric service is state-regulated (intrastate)",
+        ),
+    )
+
+
 class _UtilityGrid(NamedTuple):
     """A serving utility's parent + PJM market-zone provenance (the non-connector chain)."""
 
@@ -99,6 +129,17 @@ _UTILITY_GRID: dict[int, _UtilityGrid] = {
         ba_citation="Toledo Edison's ATSI (FirstEnergy) transmission zone is within the PJM RTO footprint",
         rto_citation="PJM is the FERC-jurisdictional wholesale-market RTO for Toledo Edison (ATSI zone)",
     ),
+    2439: _UtilityGrid(
+        # The network's first MUNICIPAL utility (Bryan, OH) — no IOU holding company; its
+        # wholesale power + PJM scheduling are through American Municipal Power (AMP).
+        holding_company="City of Bryan (municipal; American Municipal Power member)",
+        holding_citation="Bryan Municipal Utilities is a municipally-owned electric system "
+        "with no IOU holding company; its wholesale power and PJM scheduling are through "
+        "American Municipal Power (AMP), the Ohio municipal joint-action agency",
+        ba_citation="Bryan's municipal load is scheduled into the PJM RTO footprint via "
+        "American Municipal Power (EIA-861S BA Code PJM)",
+        rto_citation="PJM is the FERC-jurisdictional wholesale-market RTO for Bryan (AMP/PJM)",
+    ),
 }
 
 
@@ -115,23 +156,22 @@ def _utility_grid(utility_number: int, utility_name: str) -> _UtilityGrid:
     )
 
 
-def _serving_utility(settings: Settings, utility_name: str) -> ServingUtility:
+def _serving_utility(
+    settings: Settings, utility_name: str, *, ownership: str = ""
+) -> ServingUtility:
     """The cited serving-utility chain. The utility *name* is connector-sourced (EIA-861);
     its *provenance* (source + citation) is per-site — a corpus document for Lima, the
     EIA-861 service-territory record for a site without corpus coverage. The retail regulator
-    is per-state (:data:`_RETAIL_REGULATOR`) and the holding company / market zone are
+    is ownership-aware (:func:`_retail_regulator`): a state PUC for an IOU, home rule for a
+    municipal, member-regulated for a cooperative. The holding company / market zone are
     per-utility (:data:`_UTILITY_GRID`): AEP for Lima/Findlay/Van Wert (#14006) and Fort
-    Wayne's I&M (#9324), FirstEnergy/ATSI for Toledo's Toledo Edison (#18997). RTO is PJM
-    for every registered site; an unlisted utility gets a generic PJM fallback.
+    Wayne's I&M (#9324), FirstEnergy/ATSI for Toledo's Toledo Edison (#18997), AMP/PJM for
+    Bryan's municipal system (#2439). RTO is PJM for every registered site; an unlisted
+    utility gets a generic PJM fallback.
     """
     prof = active_profile(settings)
-    reg_value, reg_citation = _RETAIL_REGULATOR.get(
-        prof.eia_state,
-        (
-            f"{prof.eia_state} state utility regulator",
-            f"{prof.eia_state} retail electric service is state-regulated (intrastate)",
-        ),
-    )
+    reg_value, reg_citation = _retail_regulator(prof.eia_state, ownership)
+    is_public = any(k in ownership.lower() for k in ("municipal", "cooperative", "co-op"))
     reg_short = (
         reg_value[reg_value.find("(") + 1 : reg_value.rfind(")")] if "(" in reg_value else reg_value
     )
@@ -176,9 +216,17 @@ def _serving_utility(settings: Settings, utility_name: str) -> ServingUtility:
             confidence="high",
         ),
         note=(
-            f"Serving utility is {grounding}; RTO=PJM is authoritative. The retail "
-            f"service-territory boundary is formally confirmed against the EIA-861 territory "
-            f"file / {reg_short} map (#94)."
+            (
+                f"Serving utility is {grounding}; RTO=PJM is authoritative. The retail "
+                f"service area is the utility's own ({reg_short}), not a PUC-certified IOU "
+                f"territory; it is confirmed against the EIA-861 service-territory file (#94)."
+            )
+            if is_public
+            else (
+                f"Serving utility is {grounding}; RTO=PJM is authoritative. The retail "
+                f"service-territory boundary is formally confirmed against the EIA-861 territory "
+                f"file / {reg_short} map (#94)."
+            )
         ),
     )
 
@@ -283,7 +331,9 @@ def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
         )
     )
     return GridProfile(
-        serving_utility=_serving_utility(settings, utility_profile.utility),
+        serving_utility=_serving_utility(
+            settings, utility_profile.utility, ownership=utility_profile.ownership
+        ),
         utility_profile=utility_profile,
         ba_profile=BalancingAuthorityProfile(
             ba="PJM Interconnection",

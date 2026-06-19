@@ -69,6 +69,9 @@ class UtilityProfile(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     utility: str  # "AEP Ohio (Ohio Power Company)"
+    ownership: str = (
+        ""  # EIA-861 ownership ("Investor Owned" / "Municipal" / "Cooperative"); "" if unread
+    )
     eia_source: str = "EIA-861 utility annual electric sales (transcribed; verify)"
     retail_sales_gwh: ProvenancedValue  # reference
     customers: ProvenancedValue | None = None  # reference
