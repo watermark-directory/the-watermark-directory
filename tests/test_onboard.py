@@ -26,6 +26,10 @@ def _fw(monkeypatch) -> None:  # type: ignore[no-untyped-def]
             "basin": "maumee",
             "climatology_relpath": "reference/hydrology/fw/nasa-power-climatology.yaml",
             "corridor_ddf_relpath": "reference/hydrology/fw/atlas14-corridor-ddf.yaml",
+            "baseline_relpath": "reference/economics/fw/baseline.yaml",
+            "rsei_relpath": "reference/rsei/fw/inventory.yaml",
+            "consumer_energy_relpath": "reference/eia/fw/consumer-energy.yaml",
+            "grid_relpath": "reference/eia/fw/grid-profile.yaml",
         }
     )
     monkeypatch.setitem(SITES, "fw", fw)
@@ -43,12 +47,19 @@ def _settings(tmp_path: Path) -> Settings:
 def test_scaffold_creates_per_site_dirs_with_readmes(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
     _fw(monkeypatch)
     dirs, written = scaffold_dirs(_settings(tmp_path))
-    assert set(dirs) == {"reference/fw", "extracted/fw", "reference/hydrology/fw"}
+    assert set(dirs) == {
+        "reference/fw",
+        "extracted/fw",
+        "reference/hydrology/fw",
+        "reference/economics/fw",
+        "reference/eia/fw",
+        "reference/rsei/fw",
+    }
     for rel in dirs:
         readme = tmp_path / rel / "README.md"
         assert readme.is_file()
         assert "Fort Wayne" in readme.read_text(encoding="utf-8")
-    assert len(written) == 3
+    assert len(written) == len(dirs)
 
 
 def test_scaffold_is_idempotent(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
@@ -84,8 +95,15 @@ def test_onboard_writes_under_slug_not_lima(tmp_path, monkeypatch) -> None:  # t
     # Whatever a connector step would write lands under the slug-scoped path, never Lima's.
     _fw(monkeypatch)
     onboard_site(settings=_settings(tmp_path))
-    assert not (tmp_path / "reference" / "hydrology" / "nasa-power-climatology.yaml").exists()
-    assert not (tmp_path / "reference" / "hydrology" / "atlas14-corridor-ddf.yaml").exists()
+    for lima_path in (
+        "reference/hydrology/nasa-power-climatology.yaml",
+        "reference/hydrology/atlas14-corridor-ddf.yaml",
+        "reference/economics/baseline.yaml",
+        "reference/rsei/inventory.yaml",
+        "reference/eia/consumer-energy.yaml",
+        "reference/eia/grid-profile.yaml",
+    ):
+        assert not (tmp_path / lima_path).exists(), lima_path
 
 
 def test_onboard_refuses_colliding_output_paths(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
@@ -106,8 +124,11 @@ def test_dry_run_writes_nothing(tmp_path, monkeypatch) -> None:  # type: ignore[
     assert all(s.status == "dry-run" for s in report.steps)
     assert not (tmp_path / "reference" / "fw").exists()
     assert not (tmp_path / "extracted" / "fw").exists()
-    # The plan still names the slug-scoped per-site targets.
+    # The plan still names the slug-scoped per-site targets (hydrology + economics).
     by_name = {s.name: s for s in report.steps}
     assert (
         by_name["climatology"].output_path == "reference/hydrology/fw/nasa-power-climatology.yaml"
     )
+    assert by_name["econ-baseline"].output_path == "reference/economics/fw/baseline.yaml"
+    assert by_name["rsei"].output_path == "reference/rsei/fw/inventory.yaml"
+    assert by_name["grid-profile"].output_path == "reference/eia/fw/grid-profile.yaml"

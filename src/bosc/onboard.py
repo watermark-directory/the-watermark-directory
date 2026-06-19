@@ -26,9 +26,13 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
+from bosc import rsei
 from bosc.config import Settings, get_settings
+from bosc.connectors import OfflineError
+from bosc.economics import baseline as econ_baseline
+from bosc.economics import energy as econ_energy
+from bosc.grid import utility as grid_utility
 from bosc.hydrology import basin, climate, drainage
-from bosc.hydrology.connectors._cache import HydroOfflineError
 from bosc.hydrology.connectors.nasa_power import fetch_climatology
 from bosc.hydrology.connectors.ssurgo import dominant_hsg
 from bosc.logging import get_logger
@@ -98,6 +102,9 @@ def scaffold_dirs(settings: Settings, *, dry_run: bool = False) -> tuple[list[st
         (settings.data_dir / "reference" / slug, "reference data"),
         (settings.data_dir / "extracted" / slug, "extractions"),
         (settings.data_dir / "reference" / "hydrology" / slug, "hydrology connector outputs"),
+        (settings.data_dir / "reference" / "economics" / slug, "economics baseline outputs"),
+        (settings.data_dir / "reference" / "eia" / slug, "energy / grid outputs"),
+        (settings.data_dir / "reference" / "rsei" / slug, "RSEI toxics outputs"),
     ]
     dirs: list[str] = []
     written: list[str] = []
@@ -132,7 +139,7 @@ def _run_step(name: str, fn: Callable[[], OnboardStep]) -> OnboardStep:
     """
     try:
         return fn()
-    except HydroOfflineError as exc:
+    except OfflineError as exc:  # any connector's offline miss (hydro + econ)
         return OnboardStep(name=name, status="dry-run", detail=f"offline — record fixture: {exc}")
     except FileNotFoundError as exc:
         return OnboardStep(name=name, status="skipped", detail=f"input missing: {exc}")
@@ -215,6 +222,31 @@ def _planned_steps(settings: Settings, prof: SiteProfile) -> list[OnboardStep]:
             output_path=prof.climatology_relpath,
         ),
         OnboardStep(name="basin-screen", status="dry-run", detail="validation (read-only)"),
+        # economics dimension (per-site outputs)
+        OnboardStep(
+            name="econ-baseline",
+            status="dry-run",
+            detail="per-site (county FIPS)",
+            output_path=prof.baseline_relpath,
+        ),
+        OnboardStep(
+            name="rsei",
+            status="dry-run",
+            detail="per-site (county FIPS)",
+            output_path=prof.rsei_relpath,
+        ),
+        OnboardStep(
+            name="consumer-energy",
+            status="dry-run",
+            detail="per-site (state)",
+            output_path=prof.consumer_energy_relpath,
+        ),
+        OnboardStep(
+            name="grid-profile",
+            status="dry-run",
+            detail="per-site (utility; sparse without a documented facility)",
+            output_path=prof.grid_relpath,
+        ),
     ]
 
 
@@ -283,6 +315,62 @@ def _executed_steps(settings: Settings, prof: SiteProfile) -> list[OnboardStep]:
         )
 
     steps.append(_run_step("basin-screen", _screen))
+
+    # --- Economics dimension (per-site outputs; reads stay Lima-keyed until parity) ------
+    # Census+QCEW county baseline (per county FIPS).
+    def _baseline() -> OnboardStep:
+        path = econ_baseline.write_baseline(
+            econ_baseline.build_baseline(settings=settings), settings=settings
+        )
+        return OnboardStep(
+            name="econ-baseline",
+            status="ok",
+            detail="per-site (county FIPS)",
+            output_path=_rel(settings, Path(path)),
+        )
+
+    steps.append(_run_step("econ-baseline", _baseline))
+
+    # EPA RSEI county toxics inventory (per county FIPS).
+    def _rsei() -> OnboardStep:
+        inv = rsei.build_inventory(settings)
+        path = rsei.write_inventory(inv, rsei.inventory_path(settings).parent)
+        return OnboardStep(
+            name="rsei",
+            status="ok",
+            detail="per-site (county FIPS)",
+            output_path=_rel(settings, path),
+        )
+
+    steps.append(_run_step("rsei", _rsei))
+
+    # EIA consumer energy prices (per state).
+    def _consumer_energy() -> OnboardStep:
+        path = econ_energy.write_consumer_energy(
+            econ_energy.build_consumer_energy(settings=settings), settings=settings
+        )
+        return OnboardStep(
+            name="consumer-energy",
+            status="ok",
+            detail="per-site (state)",
+            output_path=_rel(settings, Path(path)),
+        )
+
+    steps.append(_run_step("consumer-energy", _consumer_energy))
+
+    # EIA-861 utility + grid profile (per utility; sparse without a documented facility load).
+    def _grid() -> OnboardStep:
+        path = grid_utility.write_grid_profile(
+            grid_utility.derive_grid_profile(settings=settings), settings=settings
+        )
+        return OnboardStep(
+            name="grid-profile",
+            status="ok",
+            detail="per-site (utility)",
+            output_path=_rel(settings, Path(path)),
+        )
+
+    steps.append(_run_step("grid-profile", _grid))
     return steps
 
 

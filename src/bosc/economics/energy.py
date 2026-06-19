@@ -25,6 +25,7 @@ from bosc.economics.model import ConsumerEnergyCosts, FacilityDemandPressure
 from bosc.facility.power import derive_power_basis
 from bosc.hydrology.model import ProvenancedValue
 from bosc.logging import get_logger
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
@@ -149,9 +150,14 @@ def _reference_path(reference_dir: Path) -> Path:
 
 
 def write_consumer_energy(costs: ConsumerEnergyCosts, *, settings: Settings | None = None) -> str:
-    """Persist the EIA consumer energy-cost dataset as committed reference YAML."""
+    """Persist the EIA consumer energy-cost dataset as committed reference YAML.
+
+    Per-site write (#326 econ): the active site's ``consumer_energy_relpath`` (Lima = the
+    legacy path). State-level data, but kept per-site for a uniform onboard tree; the reader
+    side stays Lima-keyed until parity.
+    """
     settings = settings or get_settings()
-    path = _reference_path(settings.reference_dir)
+    path = settings.data_dir / active_profile(settings).consumer_energy_relpath
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
         yaml.safe_dump(costs.model_dump(), sort_keys=False, allow_unicode=True),
