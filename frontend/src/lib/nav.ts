@@ -120,7 +120,7 @@ export const SECTIONS: Section[] = [
     label: "About",
     tab: "About",
     href: "/about",
-    blurb: "What Project BOSC is, the method behind it, and who's assembling it.",
+    blurb: "What Watermark is, the method behind it, and who's assembling it.",
     toc: [],
   },
   {
@@ -145,10 +145,10 @@ export const SECTIONS: Section[] = [
     toc: [],
   },
   {
-    // The BOSC network — the multi-site overview (#304/#307). The root `/` redirects to the live
-    // site (/bosc); this hub lists every watershed-point site. The switcher is the primary entry.
+    // The Watermark network — the multi-site overview (#304/#307). The root `/` redirects to the
+    // live site (/bosc); this hub lists every watershed-point site. The switcher is the primary entry.
     id: "network",
-    label: "The BOSC network",
+    label: "The Watermark network",
     tab: "Network",
     href: "/network/",
     blurb:
@@ -175,15 +175,15 @@ export type NavItem =
 
 /**
  * The header tabs, in order — the four section tabs of the reconciled IA (design
- * dictate 02, #307): **The BOSC site · Watershed · Wiki · Docs**. The narrative
- * spine and utilities live as topbar affordances, not tabs: the logo lockup is
- * Home, the "Start the walk" pill is the Story spine, **Ask** is the conversational
- * front door (rendered in the topbar, left of search), and About/Methodology live
- * in the footer + Docs. Timeline folds into The BOSC site hub; Reports becomes the
- * Docs essays layer.
+ * dictate 02, #307; first tab relabeled "The record" in the Watermark rebrand): **The
+ * record · Watershed · Wiki · Docs**. The narrative spine and utilities live as topbar
+ * affordances, not tabs: the logo lockup is Home, the "Start the walk" pill is the Story
+ * spine, **Ask** is the conversational front door (rendered in the topbar, left of
+ * search), and About/Methodology live in the footer + Docs. Timeline folds into The
+ * record hub; Reports becomes the Docs essays layer.
  */
 export const NAV_TABS: NavItem[] = [
-  { kind: "link", label: "The BOSC site", section: "site", href: "/bosc/site/", match: ["timeline"] },
+  { kind: "link", label: "The record", section: "site", href: "/bosc/site/", match: ["timeline"] },
   { kind: "link", label: "Watershed", section: "watershed", href: "/bosc/watershed/" },
   { kind: "link", label: "Wiki", section: "wiki", href: "/wiki/" },
   { kind: "link", label: "Docs", section: "reports", href: "/bosc/docs/" },

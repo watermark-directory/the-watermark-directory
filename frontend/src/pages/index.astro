@@ -1,6 +1,6 @@
 ---
 /**
- * The BOSC network root (#307 PR 2). The live site is Lima, served under `/bosc` (the
+ * The Watermark network root (#307 PR 2). The live site is Lima, served under `/bosc` (the
  * physical re-root that makes future watershed sites clean siblings — `/gcp`, …). This
  * root redirects there; the network of sites is reached via the topbar switcher, and the
  * full overview lives at `/network`. On Cloudflare this is a TEMPORARY 302 (`public/_redirects`)
@@ -18,9 +18,9 @@ const target = withBase("/bosc/");
     <meta http-equiv="refresh" content={`0; url=${target}`} />
     <link rel="canonical" href={target} />
     <meta name="robots" content="noindex" />
-    <title>Project BOSC — the network</title>
+    <title>Watermark — the network</title>
   </head>
   <body>
-    <p>Redirecting to <a href={target}>the BOSC site</a>…</p>
+    <p>Redirecting to <a href={target}>the record</a>…</p>
   </body>
 </html>
