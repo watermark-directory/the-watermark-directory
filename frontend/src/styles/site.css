@@ -205,6 +205,9 @@ a { color: var(--bosc-link); }
   background: rgba(255, 255, 255, 0.28);
 }
 
+/* The mobile nav sheet (#400) is a phones-only structure — desktop uses .sections. */
+.nav-sheet { display: none; }
+
 /* ---- Topbar right cluster: Ask + search + the entry-fork pill ---- */
 .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 0.6rem; }
 
@@ -1035,32 +1038,71 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
     outline-offset: 3px;
     border-radius: 4px;
   }
-  .sections {
+  /* Desktop tabs are replaced by the sheet on phones. */
+  .sections { display: none; }
+
+  /* The section sheet (#400): a labeled "This site / Platform" panel below the topbar,
+     toggled (no-JS) by the same burger checkbox. */
+  .nav-sheet {
+    display: none;
     position: absolute;
     top: var(--topbar-h);
     left: 0;
     right: 0;
-    flex-direction: column;
-    height: auto;
+    max-height: calc(100dvh - var(--topbar-h));
+    overflow-y: auto;
     background: var(--bosc-indigo-dark);
-    padding: 0.4rem 0.6rem;
-    display: none;
+    padding: 0.6rem 0.7rem 1rem;
     z-index: 15;
+    -webkit-overflow-scrolling: touch;
   }
-  .nav-toggle:checked ~ .topbar .sections { display: flex; }
-  .section-tab { border-bottom: none; padding: 0.5rem 0.6rem; }
-  .section-tab.active { background: rgba(255, 255, 255, 0.12); }
-  /* In the column flyout the dropdown expands inline, not as an overlay. */
-  .nav-dd { display: block; }
-  .nav-dd-menu {
-    position: static;
-    min-width: 0;
-    margin: 0.1rem 0 0.2rem 0.6rem;
-    box-shadow: none;
+  .nav-toggle:checked ~ .topbar .nav-sheet { display: block; }
+  .sheet-group { padding: 0.2rem 0; }
+  .sheet-group + .sheet-group {
+    margin-top: 0.5rem;
+    padding-top: 0.55rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .sheet-grouphead {
+    font-size: 0.62rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #aab1e0;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem 0.4rem;
+  }
+  .sheet-link {
+    display: block;
+    padding: 0.6rem 0.7rem;
     border-radius: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 0.98rem;
+    font-weight: 500;
   }
-  /* The vertical rule reads as a horizontal break between the two tab groups. */
-  .nav-divider { width: auto; height: 1px; margin: 0.35rem 0.4rem; align-self: stretch; }
+  .sheet-link:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+  .sheet-link.active { background: rgba(255, 255, 255, 0.16); color: #fff; font-weight: 700; }
+  .sheet-sublabel { font-size: 0.7rem; color: #aab1e0; font-weight: 700; padding: 0.3rem 0.7rem 0.1rem; }
+  .sheet-link--sub { padding-left: 1.3rem; font-size: 0.92rem; opacity: 0.92; }
+
+  /* The site switcher opens full-screen below the topbar (#400) — the brand summary stays
+     in the sticky topbar, so tapping it again closes the panel (no-JS). */
+  .switcher-menu {
+    position: fixed;
+    top: var(--topbar-h);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    max-width: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0.7rem 0.8rem 1.2rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .switcher-groups { max-height: none; }
 }
 @media (max-width: 900px) {
   .topbar-ask-label { display: none; }
@@ -2373,9 +2415,6 @@ a.walk-dot:hover { opacity: 0.82; }
   .netsite-stages-grid { grid-template-columns: 1fr; }
   .netsite-stage { border-right: 0; border-bottom: 1px solid #eef0f4; }
   .netsite-stage:last-child { border-bottom: 0; }
-}
-@media (max-width: 640px) {
-  .switcher-menu { width: 320px; }
 }
 
 /* ===================== Chart set (#306) — figures in the record grammar ===================== */
