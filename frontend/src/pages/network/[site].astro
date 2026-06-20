@@ -5,14 +5,10 @@
  * the `Findlay - Coming Soon` design; pure no-JS (the notify-me is a real "watch the issue"
  * link, not a new capture path). Lima (the live build) is excluded — it's the root site.
  */
+import FacilityStatusRail from "../../components/FacilityStatusRail.astro";
 import Icon from "../../components/Icon.astro";
 import Base from "../../layouts/Base.astro";
-import {
-  type NetworkSite,
-  comingSoonSites,
-  FACILITY_STATUS_META,
-  facilityStatus,
-} from "../../lib/sites";
+import { type NetworkSite, comingSoonSites } from "../../lib/sites";
 import { withBase } from "../../lib/site";
 
 export function getStaticPaths() {
@@ -21,9 +17,6 @@ export function getStaticPaths() {
 
 const { site } = Astro.props as { site: NetworkSite };
 const building = site.status === "building";
-// The second axis: the data center itself (whether it's a confirmed location + campus progress) —
-// a separate clock from the site build above.
-const fac = FACILITY_STATUS_META[facilityStatus(site.slug)];
 const issueUrl = site.issue ? `https://github.com/goedelsoup/bosc/issues/${site.issue}` : undefined;
 
 // Build stages — the scaffold is underway for a building site, queued otherwise.
@@ -67,10 +60,6 @@ const doors = [
           <span class="netsite-dot" aria-hidden="true"></span>
           Site: {building ? "Building" : "Queued"}
         </span>
-        <span class="netsite-status netsite-fac" style={`color:${fac.color};background:${fac.bg};border-color:${fac.color}33`}>
-          <span class="netsite-dot" aria-hidden="true" style={`background:${fac.dot}`}></span>
-          Facility: {fac.label}
-        </span>
         {
           issueUrl && (
             <a class="netsite-issue" href={issueUrl} rel="noopener noreferrer">
@@ -78,6 +67,9 @@ const doors = [
             </a>
           )
         }
+      </div>
+      <div class="netsite-facrail">
+        <FacilityStatusRail slug={site.slug} place={site.place} />
       </div>
     </header>
 

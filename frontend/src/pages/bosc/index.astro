@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import FacilityStatusRail from "../../components/FacilityStatusRail.astro";
 import FigureStat from "../../components/FigureStat.astro";
 import { hasFeed, loadFeed, loadManifest } from "../../lib/bundle";
 import { type DocumentCollectionItem } from "../../lib/feeds";
@@ -43,6 +44,9 @@ const stats: FigureStatData[] = [
         made thin on purpose — here it's reassembled in the open, and
         <strong>every figure is checkable.</strong>
       </p>
+      <div class="home-facrail">
+        <FacilityStatusRail slug="lima" place="Lima" />
+      </div>
     </div>
 
     {/* The entry fork — two co-equal doors: the researcher's library (quiet outline,

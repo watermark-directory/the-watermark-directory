@@ -3,6 +3,9 @@ import {
   ACTIVE_SITE_SLUG,
   activeSite,
   comingSoonSites,
+  FACILITY_STAGES,
+  facilityStageIndex,
+  facilityStatus,
   groupSites,
   SITES,
   siteBadge,
@@ -84,6 +87,27 @@ describe("grouped switcher — State / Watershed lenses (#307)", () => {
   it("by watershed: the two Blanchard siblings (Findlay, Ottawa) share one group", () => {
     const blanchard = groupSites("watershed").find((g) => g.label === "Blanchard River");
     expect([...(blanchard?.sites.map((s) => s.slug) ?? [])].sort()).toEqual(["findlay", "ottawa"]);
+  });
+});
+
+describe("facility-status rail — the 4-stage facility clock (#401)", () => {
+  it("orders the lifecycle investigation → confirmed → construction → live", () => {
+    expect(FACILITY_STAGES.map((s) => s.status)).toEqual([
+      "investigation",
+      "confirmed",
+      "construction",
+      "live",
+    ]);
+  });
+
+  it("places each known facility on the right step of the rail", () => {
+    expect(facilityStageIndex(facilityStatus("lima"))).toBe(2); // under construction
+    expect(facilityStageIndex(facilityStatus("fort-wayne"))).toBe(1); // confirmed
+  });
+
+  it("defaults an undisclosed facility to step 0 (investigation)", () => {
+    expect(facilityStatus("toledo")).toBe("investigation");
+    expect(facilityStageIndex(facilityStatus("toledo"))).toBe(0);
   });
 });
 
