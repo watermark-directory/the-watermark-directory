@@ -679,6 +679,7 @@ a { color: var(--bosc-link); }
    =========================================================================== */
 .home { max-width: 60rem; }
 .home-hero { padding: 1rem 0 0.5rem; }
+.home-facrail { margin-top: 1.4rem; }
 .home-kicker { font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--bosc-indigo); font-weight: 700; }
 .home-hero h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.8px; line-height: 1.06; margin: 0.4rem 0 0.6rem; max-width: 28ch; }
 .home-lead { font-size: 1.15rem; line-height: 1.55; color: var(--bosc-ink); max-width: 42rem; }
@@ -2286,6 +2287,7 @@ a.walk-dot:hover { opacity: 0.82; }
 .netsite-h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; margin: 0.7rem 0 0; }
 .netsite-lead { max-width: 38rem; margin: 1.1rem auto 0; font-size: 1.05rem; line-height: 1.55; color: #444a5a; }
 .netsite-chips { display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-top: 1.4rem; flex-wrap: wrap; }
+.netsite-facrail { display: flex; justify-content: center; margin-top: 1.3rem; }
 .netsite-status { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; font-weight: 700; border-radius: 999px; padding: 5px 14px; }
 .netsite-status.is-building { color: #3f51b5; background: #f3f4fb; border: 1px solid #c5cae9; }
 .netsite-status.is-queued { color: #b46e00; background: #fbf1dd; border: 1px solid #ecd98a; }
@@ -2297,6 +2299,34 @@ a.walk-dot:hover { opacity: 0.82; }
 .netsite-issue:hover { border-color: var(--bosc-indigo); color: var(--bosc-indigo); }
 .netsite-kicker { font-size: 0.7rem; letter-spacing: 1.3px; text-transform: uppercase; color: var(--bosc-muted); font-weight: 700; }
 .netsite-kicker--dark { color: #9aa0c8; }
+
+/* Facility-status rail (#401) — the 4-stage facility-clock indicator on a facility/record
+   header. `--fsr-accent`/`--fsr-accent-bg` are set inline from FACILITY_STATUS_META (the
+   current stage's color); stages up to current are filled, future stages stay muted. */
+.fsr { display: inline-flex; flex-direction: column; gap: 0.5rem; }
+.fsr-kicker { font-size: 0.64rem; letter-spacing: 1.3px; text-transform: uppercase; color: var(--bosc-muted); font-weight: 700; }
+.fsr-track { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(64px, 1fr)); }
+.fsr-step { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; text-align: center; }
+.fsr-step::before {
+  content: ""; position: absolute; top: 13px; left: -50%; right: 50%; height: 2px; background: var(--bosc-rule); z-index: 0;
+}
+.fsr-step:first-child::before { display: none; }
+.fsr-step.is-done::before, .fsr-step.is-current::before { background: var(--fsr-accent); }
+.fsr-node {
+  position: relative; z-index: 1; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 800; background: #fff; color: var(--bosc-muted); border: 2px solid var(--bosc-rule);
+}
+.fsr-label { font-size: 0.72rem; font-weight: 600; color: var(--bosc-muted); }
+.fsr-step.is-done .fsr-node { background: var(--fsr-accent); color: #fff; border-color: var(--fsr-accent); }
+.fsr-step.is-done .fsr-label { color: var(--bosc-ink); }
+.fsr-step.is-current .fsr-node {
+  background: var(--fsr-accent-bg); color: var(--fsr-accent); border-color: var(--fsr-accent);
+  box-shadow: 0 0 0 3px var(--fsr-accent-bg);
+}
+.fsr-step.is-current .fsr-label { color: var(--fsr-accent); font-weight: 800; }
+.fsr.is-compact .fsr-node { width: 22px; height: 22px; font-size: 0.7rem; }
+.fsr.is-compact .fsr-step::before { top: 11px; }
+.fsr.is-compact .fsr-label { font-size: 0.68rem; }
 .netsite-stages { background: #fff; border: 1px solid #d7dae4; border-radius: 14px; box-shadow: 0 10px 30px rgba(20, 24, 40, 0.08); overflow: hidden; margin-bottom: 1.8rem; }
 .netsite-stages-head { padding: 1.1rem 1.6rem; border-bottom: 1px solid #eef0f4; display: flex; align-items: center; gap: 0.7rem; }
 .netsite-stages-count { margin-left: auto; font-size: 0.8rem; color: var(--bosc-muted); font-family: var(--bosc-mono); }

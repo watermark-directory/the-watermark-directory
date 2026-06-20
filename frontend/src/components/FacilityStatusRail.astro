@@ -1,0 +1,51 @@
+---
+/**
+ * Facility-status rail (#401) — the in-header, 4-stage progress indicator for the *facility*
+ * clock (investigation → confirmed → construction → live), the in-context version of the
+ * facility chip on the directory hub / coming-soon scorecard (#398). A facility/record header
+ * uses it to show where that data-center campus sits in its real-world lifecycle.
+ *
+ * The two clocks stay distinct: this is the data center in the ground, NOT our site-build
+ * `status`. Pure SSR markup + CSS, no JS island. Stages up to the current one are filled in
+ * the current stage's status color (FACILITY_STATUS_META); future stages are muted.
+ */
+import { FACILITY_STAGES, FACILITY_STATUS_META, facilityStageIndex, facilityStatus } from "../lib/sites";
+
+interface Props {
+  /** Registry slug — the facility status is resolved from it. */
+  slug: string;
+  /** Place name, for the rail's accessible label (e.g. "Lima"). */
+  place?: string;
+  /** A tighter variant for dense headers. */
+  compact?: boolean;
+}
+const { slug, place, compact = false } = Astro.props;
+
+const status = facilityStatus(slug);
+const current = facilityStageIndex(status);
+const meta = FACILITY_STATUS_META[status];
+const subject = place ? `${place}'s facility` : "This facility";
+const a11y = `Facility lifecycle: ${subject} is at stage ${current + 1} of ${FACILITY_STAGES.length} — ${meta.label}.`;
+---
+
+<div
+  class:list={["fsr", { "is-compact": compact }]}
+  style={`--fsr-accent:${meta.color};--fsr-accent-bg:${meta.bg}`}
+  role="img"
+  aria-label={a11y}
+>
+  <span class="fsr-kicker" aria-hidden="true">Facility</span>
+  <ol class="fsr-track">
+    {
+      FACILITY_STAGES.map((stage, i) => {
+        const state = i < current ? "is-done" : i === current ? "is-current" : "is-future";
+        return (
+          <li class:list={["fsr-step", state]}>
+            <span class="fsr-node" aria-hidden="true">{i < current ? "✓" : i + 1}</span>
+            <span class="fsr-label">{stage.short}</span>
+          </li>
+        );
+      })
+    }
+  </ol>
+</div>

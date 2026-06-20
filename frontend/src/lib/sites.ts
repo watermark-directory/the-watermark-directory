@@ -203,6 +203,24 @@ export const FACILITY_STATUS_META: Record<
   live: { label: "Live", color: "#2e7d32", bg: "#e9f3ea", dot: "#2e7d32" },
 };
 
+/**
+ * The facility lifecycle in order — the stepped progress rail (#401). The 4-stage indicator
+ * on a facility/record header walks this sequence: completed stages are filled, the current
+ * stage is highlighted in its status color, and future stages are muted. The short labels are
+ * the rail's tick captions (the long forms live in `FACILITY_STATUS_META`).
+ */
+export const FACILITY_STAGES: readonly { status: FacilityStatus; short: string }[] = [
+  { status: "investigation", short: "Investigation" },
+  { status: "confirmed", short: "Confirmed" },
+  { status: "construction", short: "Construction" },
+  { status: "live", short: "Live" },
+];
+
+/** The 0-based position of a facility status within `FACILITY_STAGES` — the rail's current step. */
+export function facilityStageIndex(status: FacilityStatus): number {
+  return FACILITY_STAGES.findIndex((s) => s.status === status);
+}
+
 // --- Grouped switcher (#307 dictate C) ------------------------------------------------------
 // Canonical (state, watershed) placement for every site. The switcher pivots the SAME sites by
 // either axis — `state` is the legal jurisdiction a record lives under; `watershed` is the
