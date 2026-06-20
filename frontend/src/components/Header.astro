@@ -33,6 +33,20 @@ const herePhase = here ? statusMeta[here.status] : null;
 const stateGroups = groupSites("state");
 const watershedGroups = groupSites("watershed");
 const hereSlug = here?.slug ?? null;
+
+// The mobile nav sheet (#400): on phones the section tabs reopen as a labeled
+// "This site / Platform" sheet. Split NAV_TABS at the ownership divider; the platform
+// group also surfaces the cross-cutting globals (Directory, About, Ask, Search) that live
+// in the topbar-right / footer on desktop. Desktop chrome (.sections) is untouched.
+const dividerAt = NAV_TABS.findIndex((t) => t.kind === "divider");
+const siteTabs = (dividerAt === -1 ? NAV_TABS : NAV_TABS.slice(0, dividerAt)).filter((t) => t.kind !== "divider");
+const platformTabs = (dividerAt === -1 ? [] : NAV_TABS.slice(dividerAt + 1)).filter((t) => t.kind !== "divider");
+const platformGlobals: { label: string; href: string; section: SectionId }[] = [
+  { label: "Directory", href: "/directory/", section: "directory" },
+  { label: "About", href: "/about", section: "about" },
+  { label: "Ask the corpus", href: "/ask", section: "ask" },
+  { label: "Search", href: "/search", section: "search" },
+];
 ---
 
 <header class="topbar">
@@ -129,6 +143,62 @@ const hereSlug = here?.slug ?? null;
         );
       })
     }
+  </nav>
+  <nav class="nav-sheet" id="bosc-nav-sheet" aria-label="Site menu">
+    <div class="sheet-group">
+      <div class="sheet-grouphead">This site</div>
+      {
+        siteTabs.map((item) =>
+          item.kind === "link" ? (
+            <a
+              class:list={["sheet-link", { active: navItemActive(item, active) }]}
+              href={withBase(item.href)}
+              aria-current={navItemActive(item, active) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ) : item.kind === "dropdown" ? (
+            <>
+              <div class="sheet-sublabel">{item.label}</div>
+              {item.children.map((child) =>
+                "divider" in child ? null : (
+                  <a class="sheet-link sheet-link--sub" href={withBase(child.href)}>
+                    {child.label}
+                  </a>
+                ),
+              )}
+            </>
+          ) : null,
+        )
+      }
+    </div>
+    <div class="sheet-group">
+      <div class="sheet-grouphead">Platform</div>
+      {
+        platformTabs.map((item) =>
+          item.kind === "link" ? (
+            <a
+              class:list={["sheet-link", { active: navItemActive(item, active) }]}
+              href={withBase(item.href)}
+              aria-current={navItemActive(item, active) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ) : null,
+        )
+      }
+      {
+        platformGlobals.map((g) => (
+          <a
+            class:list={["sheet-link", { active: active === g.section }]}
+            href={withBase(g.href)}
+            aria-current={active === g.section ? "page" : undefined}
+          >
+            {g.label}
+          </a>
+        ))
+      }
+    </div>
   </nav>
   <div class="topbar-right">
     <a
