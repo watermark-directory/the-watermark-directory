@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { ACTIVE_SITE_SLUG, activeSite, comingSoonSites, SITES, siteBadge, siteForPath } from "./sites";
+import {
+  ACTIVE_SITE_SLUG,
+  activeSite,
+  comingSoonSites,
+  groupSites,
+  SITES,
+  siteBadge,
+  siteForPath,
+} from "./sites";
 
 describe("sites registry — the Watermark network (#304)", () => {
   it("has unique slugs and exactly one selectable (live) site — the active build", () => {
@@ -58,6 +66,24 @@ describe("promotion gate — the onboarding review invariant (#326)", () => {
 
   it("no building/queued site is selectable before explicit promotion", () => {
     for (const s of SITES) if (s.status !== "live") expect(s.selectable).toBe(false);
+  });
+});
+
+describe("grouped switcher — State / Watershed lenses (#307)", () => {
+  it("groups every site under both axes, no orphans", () => {
+    for (const by of ["state", "watershed"] as const) {
+      const total = groupSites(by).reduce((n, g) => n + g.sites.length, 0);
+      expect(total).toBe(SITES.length);
+    }
+  });
+  it("by state: Indiana holds only Fort Wayne; Ohio carries the OH abbr tag", () => {
+    const groups = groupSites("state");
+    expect(groups.find((g) => g.label === "Indiana")?.sites.map((s) => s.slug)).toEqual(["fort-wayne"]);
+    expect(groups.find((g) => g.label === "Ohio")?.tag).toBe("OH");
+  });
+  it("by watershed: the two Blanchard siblings (Findlay, Ottawa) share one group", () => {
+    const blanchard = groupSites("watershed").find((g) => g.label === "Blanchard River");
+    expect([...(blanchard?.sites.map((s) => s.slug) ?? [])].sort()).toEqual(["findlay", "ottawa"]);
   });
 });
 

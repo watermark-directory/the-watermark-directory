@@ -339,6 +339,44 @@ a { color: var(--bosc-link); }
 .switcher-check { flex: 0 0 auto; width: 14px; color: var(--bosc-indigo); font-weight: 800; font-size: 0.85rem; }
 .switcher-foot { border-top: 1px solid #eef0f4; margin: 5px 0 0; padding: 9px 10px 5px; font-size: 0.7rem; color: var(--bosc-muted); line-height: 1.45; }
 
+/* ---- Grouped switcher (#307): no-JS State/Watershed pivot via radios ---- */
+.gb-radio { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.switcher-groupby { display: inline-flex; align-items: center; gap: 4px; }
+.gb-k { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.5px; color: #aeb4c2; font-weight: 700; margin-right: 2px; }
+.gb-btn { font-size: 0.7rem; font-weight: 700; color: var(--bosc-muted); background: #eceef2; border-radius: 7px; padding: 3px 9px; cursor: pointer; user-select: none; }
+.gb-btn:hover { color: var(--bosc-ink); }
+#gb-state:focus-visible ~ .switcher-head .gb-state,
+#gb-ws:focus-visible ~ .switcher-head .gb-ws { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; }
+#gb-state:checked ~ .switcher-head .gb-state,
+#gb-ws:checked ~ .switcher-head .gb-ws { background: var(--bosc-indigo); color: #fff; }
+.switcher-groups { max-height: 58vh; overflow-y: auto; }
+.switcher-groups.by-watershed { display: none; }
+#gb-ws:checked ~ .switcher-groups.by-watershed { display: block; }
+#gb-ws:checked ~ .switcher-groups.by-state { display: none; }
+.switcher-group + .switcher-group { margin-top: 2px; }
+.switcher-grouphead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 10px 3px;
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--bosc-muted);
+}
+.switcher-grouptag {
+  font-size: 0.56rem;
+  color: var(--bosc-indigo);
+  background: #eef0f4;
+  border: 1px solid #d7dae4;
+  border-radius: 4px;
+  padding: 0 4px;
+  font-family: var(--bosc-mono);
+}
+.switcher-grouplabel { color: var(--bosc-ink); }
+.switcher-groupcount { margin-left: auto; color: #aeb4c2; }
+
 /* ---- Search (client-side, scripts/search.ts) ---- */
 .search {
   position: relative;

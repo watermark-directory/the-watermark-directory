@@ -202,3 +202,52 @@ export const FACILITY_STATUS_META: Record<
   construction: { label: "Under construction", color: "#b46e00", bg: "#fbf1dd", dot: "#b46e00" },
   live: { label: "Live", color: "#2e7d32", bg: "#e9f3ea", dot: "#2e7d32" },
 };
+
+// --- Grouped switcher (#307 dictate C) ------------------------------------------------------
+// Canonical (state, watershed) placement for every site. The switcher pivots the SAME sites by
+// either axis — `state` is the legal jurisdiction a record lives under; `watershed` is the
+// hydrological unit it documents. Both matter to a researcher, so either can be the outer grouping.
+const PLACEMENT: Record<string, { state: string; watershed: string }> = {
+  lima: { state: "Ohio", watershed: "Ottawa River" },
+  "fort-wayne": { state: "Indiana", watershed: "Maumee headwaters" },
+  defiance: { state: "Ohio", watershed: "Maumee mainstem" },
+  findlay: { state: "Ohio", watershed: "Blanchard River" },
+  toledo: { state: "Ohio", watershed: "Maumee mainstem" },
+  "van-wert": { state: "Ohio", watershed: "Little Auglaize" },
+  bryan: { state: "Ohio", watershed: "Tiffin River" },
+  ottawa: { state: "Ohio", watershed: "Blanchard River" },
+};
+const STATE_ABBR: Record<string, string> = { Ohio: "OH", Indiana: "IN" };
+
+export type GroupBy = "state" | "watershed";
+
+export interface SiteGroup {
+  /** Group heading (the state name, or the watershed name). */
+  label: string;
+  /** Short tag shown beside the heading (the state abbr; empty for watershed groups). */
+  tag: string;
+  sites: NetworkSite[];
+}
+
+/**
+ * Group the registry by the State (jurisdiction) or Watershed (basin) axis — the grouped
+ * switcher's two lenses (#307). Group order follows first appearance in `SITES`; rows keep
+ * their registry order, so toggling the axis pivots the same sites without reshuffling them.
+ */
+export function groupSites(by: GroupBy): SiteGroup[] {
+  const groups: SiteGroup[] = [];
+  const index = new Map<string, SiteGroup>();
+  for (const s of SITES) {
+    const p = PLACEMENT[s.slug];
+    if (!p) continue;
+    const label = by === "state" ? p.state : p.watershed;
+    let g = index.get(label);
+    if (!g) {
+      g = { label, tag: by === "state" ? (STATE_ABBR[p.state] ?? "") : "", sites: [] };
+      index.set(label, g);
+      groups.push(g);
+    }
+    g.sites.push(s);
+  }
+  return groups;
+}

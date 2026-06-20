@@ -1,9 +1,10 @@
 ---
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
+import SwitcherRow from "./SwitcherRow.astro";
 import { NAV_TABS, navItemActive, type SectionId } from "../lib/nav";
 import { withBase } from "../lib/site";
-import { siteForPath, SITES, siteBadge } from "../lib/sites";
+import { groupSites, siteForPath } from "../lib/sites";
 
 interface Props {
   active: SectionId;
@@ -27,6 +28,11 @@ const statusMeta: Record<string, { label: string; cls: string }> = {
 // The site's build phase, shown as a pill beside the switcher (the left/site cluster). Only on a
 // resolved site — the network hub / cross-cutting globals carry no phase.
 const herePhase = here ? statusMeta[here.status] : null;
+// The grouped switcher (#307): the same sites pivoted by jurisdiction (State) or basin (Watershed).
+// The toggle is no-JS (radio inputs + :checked), so it works with JS off.
+const stateGroups = groupSites("state");
+const watershedGroups = groupSites("watershed");
+const hereSlug = here?.slug ?? null;
 ---
 
 <header class="topbar">
@@ -38,38 +44,51 @@ const herePhase = here ? statusMeta[here.status] : null;
       <span class="switcher-caret" aria-hidden="true">▾</span>
     </summary>
     <div class="switcher-menu">
+      <input type="radio" name="switcher-groupby" id="gb-state" class="gb-radio" checked />
+      <input type="radio" name="switcher-groupby" id="gb-ws" class="gb-radio" />
       <div class="switcher-head">
         <span class="switcher-title">Switch site</span>
-        <span class="switcher-repo">goedelsoup/bosc</span>
+        <span class="switcher-groupby">
+          <span class="gb-k">Group by</span>
+          <label for="gb-state" class="gb-btn gb-state">State</label>
+          <label for="gb-ws" class="gb-btn gb-ws">Watershed</label>
+        </span>
       </div>
-      {
-        SITES.map((s) => {
-          const meta = statusMeta[s.status];
-          const isActive = here !== null && s.slug === here.slug;
-          return (
-            <a
-              class:list={["switcher-row", { "is-active": isActive, "is-soon": !s.selectable }]}
-              href={withBase(s.href)}
-              aria-current={isActive ? "page" : undefined}
-            >
-              <span class:list={["switcher-badge", { "has-codename": Boolean(s.codename) }]}>{siteBadge(s)}</span>
-              <span class="switcher-body">
-                <span class="switcher-place">
-                  {s.codename && <span class="switcher-codename">{s.codename}</span>}
-                  {s.place}
-                </span>
-                <span class="switcher-basin">{s.basin}</span>
-              </span>
-              <span class="switcher-meta">
-                <span class:list={["switcher-status", meta.cls]}>{meta.label}</span>
-                {s.issue && <span class="switcher-issue">#{s.issue}</span>}
-              </span>
-              <span class="switcher-check" aria-hidden="true">{isActive ? "✓" : ""}</span>
-            </a>
-          );
-        })
-      }
-      <p class="switcher-foot">Each site is a section of the Watermark platform; queued sites are still being assembled.</p>
+      <div class="switcher-groups by-state">
+        {
+          stateGroups.map((g) => (
+            <div class="switcher-group">
+              <div class="switcher-grouphead">
+                {g.tag && <span class="switcher-grouptag">{g.tag}</span>}
+                <span class="switcher-grouplabel">{g.label}</span>
+                <span class="switcher-groupcount">{g.sites.length}</span>
+              </div>
+              {g.sites.map((s) => (
+                <SwitcherRow site={s} activeSlug={hereSlug} />
+              ))}
+            </div>
+          ))
+        }
+      </div>
+      <div class="switcher-groups by-watershed">
+        {
+          watershedGroups.map((g) => (
+            <div class="switcher-group">
+              <div class="switcher-grouphead">
+                <span class="switcher-grouplabel">{g.label}</span>
+                <span class="switcher-groupcount">{g.sites.length}</span>
+              </div>
+              {g.sites.map((s) => (
+                <SwitcherRow site={s} activeSlug={hereSlug} />
+              ))}
+            </div>
+          ))
+        }
+      </div>
+      <p class="switcher-foot">
+        Each site is a section of the Watermark platform — pivoted by <b>state</b> or
+        <b>watershed</b>; queued sites route to their coming-soon page.
+      </p>
     </div>
   </details>
   {herePhase && <span class:list={["phase-pill", herePhase.cls]} title={`Site build phase: ${herePhase.label}`}>{herePhase.label}</span>}

@@ -1,0 +1,42 @@
+---
+/**
+ * One row in the grouped network switcher (#307). Extracted so the State and Watershed
+ * groupings render the same site row without duplicated markup. The build-phase pill (Site axis)
+ * lives here; the row links to the live build (Lima) or a site's coming-soon page.
+ */
+import { type NetworkSite, siteBadge } from "../lib/sites";
+import { withBase } from "../lib/site";
+
+interface Props {
+  site: NetworkSite;
+  activeSlug: string | null;
+}
+const { site: s, activeSlug } = Astro.props;
+const isActive = activeSlug !== null && s.slug === activeSlug;
+const statusMeta: Record<string, { label: string; cls: string }> = {
+  live: { label: "Live", cls: "is-live" },
+  building: { label: "Building", cls: "is-building" },
+  queued: { label: "Queued", cls: "is-queued" },
+};
+const meta = statusMeta[s.status];
+---
+
+<a
+  class:list={["switcher-row", { "is-active": isActive, "is-soon": !s.selectable }]}
+  href={withBase(s.href)}
+  aria-current={isActive ? "page" : undefined}
+>
+  <span class:list={["switcher-badge", { "has-codename": Boolean(s.codename) }]}>{siteBadge(s)}</span>
+  <span class="switcher-body">
+    <span class="switcher-place">
+      {s.codename && <span class="switcher-codename">{s.codename}</span>}
+      {s.place}
+    </span>
+    <span class="switcher-basin">{s.basin}</span>
+  </span>
+  <span class="switcher-meta">
+    <span class:list={["switcher-status", meta.cls]}>{meta.label}</span>
+    {s.issue && <span class="switcher-issue">#{s.issue}</span>}
+  </span>
+  <span class="switcher-check" aria-hidden="true">{isActive ? "✓" : ""}</span>
+</a>
