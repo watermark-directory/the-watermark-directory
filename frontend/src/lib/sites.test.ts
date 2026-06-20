@@ -33,7 +33,7 @@ describe("sites registry — the Watermark network (#304)", () => {
   it("routes the live site to the root and everything else to its coming-soon page", () => {
     for (const s of SITES) {
       if (s.selectable) expect(s.href).toBe("/bosc");
-      else expect(s.href).toBe(`/network/${s.slug}`);
+      else expect(s.href).toBe(`/directory/${s.slug}`);
     }
   });
 
@@ -118,25 +118,25 @@ describe("siteForPath — the switcher's current-site resolution (#316)", () => 
     }
   });
 
-  it("resolves a coming-soon site (incl. not-yet-built) from its /network/<slug> route", () => {
-    expect(siteForPath("/network/fort-wayne")?.slug).toBe("fort-wayne");
-    expect(siteForPath("/network/defiance/")?.slug).toBe("defiance");
-    expect(siteForPath("/network/toledo")?.codename).toBeNull();
+  it("resolves a coming-soon site (incl. not-yet-built) from its /directory/<slug> route", () => {
+    expect(siteForPath("/directory/fort-wayne")?.slug).toBe("fort-wayne");
+    expect(siteForPath("/directory/defiance/")?.slug).toBe("defiance");
+    expect(siteForPath("/directory/toledo")?.codename).toBeNull();
   });
 
-  it("returns null for the network hub and the cross-cutting globals (neutral state)", () => {
-    for (const p of ["/network", "/network/", "/about", "/about-me", "/wiki/entities/", "/ask", "/"]) {
+  it("returns null for the network directory and the cross-cutting globals (neutral state)", () => {
+    for (const p of ["/directory", "/directory/", "/about", "/about-me", "/wiki/entities/", "/ask", "/"]) {
       expect(siteForPath(p)).toBeNull();
     }
   });
 
-  it("does not mistake an unknown /network/<slug> for a real site", () => {
-    expect(siteForPath("/network/columbus")).toBeNull();
+  it("does not mistake an unknown /directory/<slug> for a real site", () => {
+    expect(siteForPath("/directory/columbus")).toBeNull();
   });
 
   it("strips a non-root Astro base before matching", () => {
     expect(siteForPath("/app/bosc/site/", "/app")?.slug).toBe("lima");
-    expect(siteForPath("/app/network/findlay", "/app")?.slug).toBe("findlay");
+    expect(siteForPath("/app/directory/findlay", "/app")?.slug).toBe("findlay");
     expect(siteForPath("/bosc/site/", "/")?.slug).toBe("lima"); // base "/" is a no-op
   });
 });

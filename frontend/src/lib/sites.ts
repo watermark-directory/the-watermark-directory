@@ -58,7 +58,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "building",
     selectable: false,
     issue: "235",
-    href: "/network/fort-wayne",
+    href: "/directory/fort-wayne",
   },
   {
     slug: "defiance",
@@ -69,7 +69,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "238",
-    href: "/network/defiance",
+    href: "/directory/defiance",
   },
   {
     slug: "findlay",
@@ -80,7 +80,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "237",
-    href: "/network/findlay",
+    href: "/directory/findlay",
   },
   {
     slug: "toledo",
@@ -91,7 +91,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "236",
-    href: "/network/toledo",
+    href: "/directory/toledo",
   },
   {
     // Small-stream headwaters comparator: a 4 MGD plant on a small tributary (the
@@ -104,7 +104,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "363",
-    href: "/network/van-wert",
+    href: "/directory/van-wert",
   },
   {
     // Municipal-utility / Tiffin-subbasin headwaters comparator: the basin's first municipal
@@ -117,7 +117,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "380",
-    href: "/network/bryan",
+    href: "/directory/bryan",
   },
   {
     // Intra-tributary (same-river) comparator: the downstream Blanchard sibling of Findlay —
@@ -130,7 +130,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "381",
-    href: "/network/ottawa",
+    href: "/directory/ottawa",
   },
 ] as const;
 
@@ -151,8 +151,8 @@ export function siteBadge(site: NetworkSite): string {
 /**
  * Resolve which network site a route belongs to — the switcher's *current* state (#316).
  * Prefix-matches the path against each site's `href`: `/bosc[/…]` → the live Lima build,
- * `/network/<slug>[/…]` → that site (incl. the not-yet-built ones). The network hub
- * (`/network`) and the cross-cutting globals (`/about`, `/wiki`, `/ask`) belong to no
+ * `/directory/<slug>[/…]` → that site (incl. the not-yet-built ones). The network directory
+ * (`/directory`) and the cross-cutting globals (`/about`, `/wiki`, `/ask`) belong to no
  * single site → `null` (a neutral network state). `base` strips an Astro base prefix.
  */
 export function siteForPath(pathname: string, base = ""): NetworkSite | null {
