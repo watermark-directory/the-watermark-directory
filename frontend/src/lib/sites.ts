@@ -171,3 +171,33 @@ export function siteForPath(pathname: string, base = ""): NetworkSite | null {
 export function comingSoonSites(): NetworkSite[] {
   return SITES.filter((s) => !s.selectable);
 }
+
+/**
+ * The data center's real-world lifecycle — a SEPARATE clock from the site build `status`.
+ * The build `status` (live/onboarding/open) tracks our progress assembling the *website*; this
+ * tracks the *facility in the ground* (investigation → confirmed → construction → live). The two
+ * are deliberately distinct: a queued site can document a live facility, and a live site can
+ * document one still under investigation. A site with no disclosed facility is "investigation"
+ * (the data-center dimension is inferential until a project is on the record).
+ */
+export type FacilityStatus = "investigation" | "confirmed" | "construction" | "live";
+
+const FACILITY_STATUS: Record<string, FacilityStatus> = {
+  lima: "construction", // Shawnee Energy Campus — air-permit-grounded, ~313 MW (the disclosed build)
+  "fort-wayne": "confirmed", // GCP — a disclosed facility, not yet a construction record
+};
+
+/** A site's facility lifecycle stage; "investigation" when no facility is disclosed. */
+export function facilityStatus(slug: string): FacilityStatus {
+  return FACILITY_STATUS[slug] ?? "investigation";
+}
+
+export const FACILITY_STATUS_META: Record<
+  FacilityStatus,
+  { label: string; color: string; bg: string; dot: string }
+> = {
+  investigation: { label: "Under investigation", color: "#5b6172", bg: "#eceef2", dot: "#8a90a2" },
+  confirmed: { label: "Confirmed", color: "#3f51b5", bg: "#f3f4fb", dot: "#3f51b5" },
+  construction: { label: "Under construction", color: "#b46e00", bg: "#fbf1dd", dot: "#b46e00" },
+  live: { label: "Live", color: "#2e7d32", bg: "#e9f3ea", dot: "#2e7d32" },
+};
