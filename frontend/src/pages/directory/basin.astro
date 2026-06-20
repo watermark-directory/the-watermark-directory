@@ -18,7 +18,7 @@ const net = hasFeed("network") ? loadFeed<BasinNetwork>("network") : null;
 const nodes: WatershedNode[] = net?.nodes ?? [];
 
 const siteBySlug = new Map(SITES.map((s) => [s.slug, s]));
-const nodeHref = (slug: string): string => siteBySlug.get(slug)?.href ?? `/network/${slug}`;
+const nodeHref = (slug: string): string => siteBySlug.get(slug)?.href ?? `/directory/${slug}`;
 const codenameOf = (slug: string): string | null => siteBySlug.get(slug)?.codename ?? null;
 
 // Build phase (our website) — the FIRST clock. Distinct from facility status below.
@@ -92,7 +92,7 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
 
 <Base
   title="The basin — one connected system"
-  section="network"
+  section="directory"
   description="The Maumee watershed points as nested nodes on one basin: sites nest inside watersheds, watersheds inside the basin, all draining to Lake Erie under one TMDL cap — compared across receiving-water regime, grid, economy, toxics, and facility status."
 >
   <article class="prose">

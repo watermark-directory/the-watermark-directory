@@ -25,7 +25,7 @@ export type SectionId =
   | "wiki"
   | "ask"
   | "search"
-  | "network";
+  | "directory";
 
 export interface TocEntry {
   /** Visible label in the per-section TOC. */
@@ -145,12 +145,13 @@ export const SECTIONS: Section[] = [
     toc: [],
   },
   {
-    // The Watermark network — the multi-site overview (#304/#307). The root `/` redirects to the
-    // live site (/bosc); this hub lists every watershed-point site. The switcher is the primary entry.
-    id: "network",
-    label: "The Watermark network",
-    tab: "Network",
-    href: "/network/",
+    // The network directory — the multi-site overview (#304/#307, route renamed /network → /directory
+    // in #402). The root `/` redirects to the live site (/bosc); this directory lists every
+    // watershed-point site. The switcher is the primary entry.
+    id: "directory",
+    label: "The network directory",
+    tab: "Directory",
+    href: "/directory/",
     blurb:
       "Data-center development across Ohio's Maumee watershed, point by point — Lima is the reference build.",
     toc: [],

@@ -6,8 +6,11 @@
 # real network-level content once a second site lands, so browsers must not hard-cache it.
 #
 # NETWORK-GLOBAL pages stay at the root and are NOT rewritten — they're shared across every
-# watershed site, so their URLs don't change: /about, /about-me, /wiki/*, /ask, /network/*,
+# watershed site, so their URLs don't change: /about, /about-me, /wiki/*, /ask, /directory/*,
 # and the API (/api/*).
+#
+# The network hub moved /network → /directory (#402); the old, deployed /network/* URLs keep
+# working via the 301s below.
 
 /                       /bosc/                      302
 /start                  /bosc/start                 301
@@ -18,3 +21,5 @@
 /docs/*                 /bosc/docs/:splat           301
 /reports/*              /bosc/reports/:splat        301
 /walk/*                 /bosc/walk/:splat           301
+/network                /directory/                 301
+/network/*              /directory/:splat           301
