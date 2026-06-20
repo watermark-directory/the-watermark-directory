@@ -141,6 +141,8 @@ a { color: var(--bosc-link); }
   gap: 0.25rem;
   align-items: stretch;
   height: 100%;
+  flex: 1; /* grow so the divider's margin-left:auto pushes the platform tabs hard right */
+  min-width: 0;
 }
 .section-tab {
   display: inline-flex;
@@ -199,7 +201,7 @@ a { color: var(--bosc-link); }
   align-self: center;
   width: 1px;
   height: 1.4rem;
-  margin: 0 0.45rem;
+  margin: 0 0.45rem 0 auto; /* the ownership boundary: pushes the platform tabs (Wiki/Docs) right */
   background: rgba(255, 255, 255, 0.28);
 }
 
@@ -223,6 +225,35 @@ a { color: var(--bosc-link); }
 }
 .topbar-ask:hover { background: rgba(255, 255, 255, 0.26); }
 .topbar-ask.active { background: #fff; color: var(--bosc-indigo); border-color: #fff; }
+
+/* ---- Site build-phase pill (left/site cluster, beside the switcher) ---- */
+.phase-pill {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 0.16rem 0.55rem;
+  white-space: nowrap;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+}
+.phase-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--phase-dot, #fff);
+}
+.phase-pill.is-live { --phase-dot: #6fdf78; }
+.phase-pill.is-building { --phase-dot: #aab4f0; }
+.phase-pill.is-queued { --phase-dot: #f0b35e; }
+@media (max-width: 900px) { .phase-pill { display: none; } }
 
 /* ---- The Watermark network switcher (#304) — a no-JS <details> on the brand ---- */
 .site-switcher { position: relative; display: inline-flex; align-items: stretch; }
@@ -302,8 +333,8 @@ a { color: var(--bosc-link); }
   padding: 2px 8px;
 }
 .switcher-status.is-live { color: #2e7d32; background: #e9f3ea; }
-.switcher-status.is-onboarding { color: #b46e00; background: #fbf1dd; }
-.switcher-status.is-open { color: var(--bosc-muted); background: #eceef2; }
+.switcher-status.is-building { color: #3f51b5; background: #f3f4fb; }
+.switcher-status.is-queued { color: #b46e00; background: #fbf1dd; }
 .switcher-issue { font-size: 0.64rem; color: #aeb4c2; font-family: var(--bosc-mono); }
 .switcher-check { flex: 0 0 auto; width: 14px; color: var(--bosc-indigo); font-weight: 800; font-size: 0.85rem; }
 .switcher-foot { border-top: 1px solid #eef0f4; margin: 5px 0 0; padding: 9px 10px 5px; font-size: 0.7rem; color: var(--bosc-muted); line-height: 1.45; }
@@ -2206,8 +2237,8 @@ a.walk-dot:hover { opacity: 0.82; }
 .netgrid-meta { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; }
 .netgrid-status { font-size: 0.66rem; font-weight: 700; border-radius: 999px; padding: 2px 9px; }
 .netgrid-status.is-live { color: #2e7d32; background: #e9f3ea; }
-.netgrid-status.is-onboarding { color: #b46e00; background: #fbf1dd; }
-.netgrid-status.is-open { color: var(--bosc-muted); background: #eceef2; }
+.netgrid-status.is-building { color: #3f51b5; background: #f3f4fb; }
+.netgrid-status.is-queued { color: #b46e00; background: #fbf1dd; }
 .netgrid-go { font-size: 0.74rem; color: var(--bosc-indigo); font-weight: 600; }
 
 /* ---- Per-site coming-soon (/network/[site]) ---- */
@@ -2218,8 +2249,8 @@ a.walk-dot:hover { opacity: 0.82; }
 .netsite-lead { max-width: 38rem; margin: 1.1rem auto 0; font-size: 1.05rem; line-height: 1.55; color: #444a5a; }
 .netsite-chips { display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-top: 1.4rem; flex-wrap: wrap; }
 .netsite-status { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; font-weight: 700; border-radius: 999px; padding: 5px 14px; }
-.netsite-status.is-onboarding { color: #b46e00; background: #fbf1dd; border: 1px solid #ecd98a; }
-.netsite-status.is-open { color: #b46e00; background: #fbf1dd; border: 1px solid #ecd98a; }
+.netsite-status.is-building { color: #3f51b5; background: #f3f4fb; border: 1px solid #c5cae9; }
+.netsite-status.is-queued { color: #b46e00; background: #fbf1dd; border: 1px solid #ecd98a; }
 .netsite-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 .netsite-issue {
   display: inline-flex; align-items: center; font-size: 0.8rem; font-weight: 600; color: var(--bosc-muted);

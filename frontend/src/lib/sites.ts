@@ -11,9 +11,10 @@
  * to its coming-soon page (#305) and is never rendered as a switchable destination.
  */
 
-/** Site lifecycle. `live` = built + selectable; `onboarding` = real facility, build queued;
- *  `open` = a tracked basin site, not yet started. Only `live` is selectable. */
-export type SiteStatus = "live" | "onboarding" | "open";
+/** Site BUILD lifecycle — our progress assembling the *website* (a separate clock from the data
+ *  center's real-world `facilityStatus`). `live` = built + selectable; `building` = scaffold up,
+ *  sections coming online; `queued` = announced & in the build queue. Only `live` is selectable. */
+export type SiteStatus = "live" | "building" | "queued";
 
 export interface NetworkSite {
   /** Registry + URL key (kebab). */
@@ -54,7 +55,7 @@ export const SITES: readonly NetworkSite[] = [
     mono: "FTW",
     place: "Fort Wayne",
     basin: "Maumee headwaters",
-    status: "onboarding",
+    status: "building",
     selectable: false,
     issue: "235",
     href: "/network/fort-wayne",
@@ -65,7 +66,7 @@ export const SITES: readonly NetworkSite[] = [
     mono: "DEF",
     place: "Defiance",
     basin: "Maumee mainstem",
-    status: "open",
+    status: "queued",
     selectable: false,
     issue: "238",
     href: "/network/defiance",
@@ -76,7 +77,7 @@ export const SITES: readonly NetworkSite[] = [
     mono: "FIN",
     place: "Findlay",
     basin: "Blanchard River",
-    status: "open",
+    status: "queued",
     selectable: false,
     issue: "237",
     href: "/network/findlay",
@@ -87,7 +88,7 @@ export const SITES: readonly NetworkSite[] = [
     mono: "TOL",
     place: "Toledo",
     basin: "Lucas Co WRRF",
-    status: "open",
+    status: "queued",
     selectable: false,
     issue: "236",
     href: "/network/toledo",
@@ -100,7 +101,7 @@ export const SITES: readonly NetworkSite[] = [
     mono: "VWT",
     place: "Van Wert",
     basin: "Town Creek · Little Auglaize",
-    status: "open",
+    status: "queued",
     selectable: false,
     issue: "363",
     href: "/network/van-wert",
@@ -113,7 +114,7 @@ export const SITES: readonly NetworkSite[] = [
     mono: "BRY",
     place: "Bryan",
     basin: "Prairie Creek · Tiffin River",
-    status: "open",
+    status: "queued",
     selectable: false,
     issue: "380",
     href: "/network/bryan",
@@ -126,7 +127,7 @@ export const SITES: readonly NetworkSite[] = [
     mono: "OTW",
     place: "Ottawa",
     basin: "Blanchard River (lower)",
-    status: "open",
+    status: "queued",
     selectable: false,
     issue: "381",
     href: "/network/ottawa",
@@ -174,7 +175,7 @@ export function comingSoonSites(): NetworkSite[] {
 
 /**
  * The data center's real-world lifecycle — a SEPARATE clock from the site build `status`.
- * The build `status` (live/onboarding/open) tracks our progress assembling the *website*; this
+ * The build `status` (live/building/queued) tracks our progress assembling the *website*; this
  * tracks the *facility in the ground* (investigation → confirmed → construction → live). The two
  * are deliberately distinct: a queued site can document a live facility, and a live site can
  * document one still under investigation. A site with no disclosed facility is "investigation"

@@ -21,14 +21,14 @@ const siteBySlug = new Map(SITES.map((s) => [s.slug, s]));
 const nodeHref = (slug: string): string => siteBySlug.get(slug)?.href ?? `/network/${slug}`;
 const codenameOf = (slug: string): string | null => siteBySlug.get(slug)?.codename ?? null;
 
-// Build status (our website) — the FIRST clock. Distinct from facility status below.
+// Build phase (our website) — the FIRST clock. Distinct from facility status below.
 const STATUS_META: Record<string, { label: string; color: string; dot: string }> = {
   live: { label: "Live", color: "#2e7d32", dot: "#2e7d32" },
-  onboarding: { label: "Onboarding", color: "#b46e00", dot: "#b46e00" },
-  open: { label: "Open", color: "#5b6172", dot: "#aeb4c2" },
+  building: { label: "Building", color: "#3f51b5", dot: "#3f51b5" },
+  queued: { label: "Queued", color: "#b46e00", dot: "#b46e00" },
 };
 const statusOf = (slug: string): { label: string; color: string; dot: string } =>
-  STATUS_META[siteBySlug.get(slug)?.status ?? "open"] ?? STATUS_META.open;
+  STATUS_META[siteBySlug.get(slug)?.status ?? "queued"] ?? STATUS_META.queued;
 
 // --- the drainage tree: build a trie from each node's drainage_path (reversed: basin → site) ---
 interface RiverNode {
@@ -133,8 +133,8 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
             )}
             <div class="nest-legend">
               <span style="color:#2e7d32"><span class="nest-dot" style="background:#2e7d32" />Live</span>
-              <span style="color:#b46e00"><span class="nest-dot" style="background:#b46e00" />Onboarding</span>
-              <span style="color:#5b6172"><span class="nest-dot" style="background:#aeb4c2" />Open</span>
+              <span style="color:#3f51b5"><span class="nest-dot" style="background:#3f51b5" />Building</span>
+              <span style="color:#b46e00"><span class="nest-dot" style="background:#b46e00" />Queued</span>
             </div>
           </div>
 
