@@ -21,9 +21,12 @@ const herePlace = here ? here.place : "network";
 const hereLabel = here ? `current site: ${here.place}` : "network overview";
 const statusMeta: Record<string, { label: string; cls: string }> = {
   live: { label: "Live", cls: "is-live" },
-  onboarding: { label: "Onboarding", cls: "is-onboarding" },
-  open: { label: "Open", cls: "is-open" },
+  building: { label: "Building", cls: "is-building" },
+  queued: { label: "Queued", cls: "is-queued" },
 };
+// The site's build phase, shown as a pill beside the switcher (the left/site cluster). Only on a
+// resolved site — the network hub / cross-cutting globals carry no phase.
+const herePhase = here ? statusMeta[here.status] : null;
 ---
 
 <header class="topbar">
@@ -66,9 +69,10 @@ const statusMeta: Record<string, { label: string; cls: string }> = {
           );
         })
       }
-      <p class="switcher-foot">Each site is a section of the Watermark platform; open sites are still being assembled.</p>
+      <p class="switcher-foot">Each site is a section of the Watermark platform; queued sites are still being assembled.</p>
     </div>
   </details>
+  {herePhase && <span class:list={["phase-pill", herePhase.cls]} title={`Site build phase: ${herePhase.label}`}>{herePhase.label}</span>}
   <nav class="sections" id="bosc-sections" aria-label="Sections">
     {
       NAV_TABS.map((item) => {

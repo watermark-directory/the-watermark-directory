@@ -182,9 +182,15 @@ export type NavItem =
  * search), and About/Methodology live in the footer + Docs. Timeline folds into The
  * record hub; Reports becomes the Docs essays layer.
  */
+// The bar splits by ownership (design dictate, #307): the SITE sections (The record · Watershed)
+// belong to the current site and sit left; the divider then pushes the PLATFORM nav (Wiki · Docs,
+// joined by Ask + search in the topbar-right) hard right — constant on every site. The divider is
+// a vertical rule on desktop (a margin-left:auto spacer) and a horizontal break in the mobile
+// flyout, so every tab stays in one nav (mobile reachability preserved).
 export const NAV_TABS: NavItem[] = [
   { kind: "link", label: "The record", section: "site", href: "/bosc/site/", match: ["timeline"] },
   { kind: "link", label: "Watershed", section: "watershed", href: "/bosc/watershed/" },
+  { kind: "divider" },
   { kind: "link", label: "Wiki", section: "wiki", href: "/wiki/" },
   { kind: "link", label: "Docs", section: "reports", href: "/bosc/docs/" },
 ];

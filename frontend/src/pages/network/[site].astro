@@ -15,15 +15,15 @@ export function getStaticPaths() {
 }
 
 const { site } = Astro.props as { site: NetworkSite };
-const onboarding = site.status === "onboarding";
+const building = site.status === "building";
 const issueUrl = site.issue ? `https://github.com/goedelsoup/bosc/issues/${site.issue}` : undefined;
 
-// Build stages — the scaffold is underway for a facility we're onboarding, queued otherwise.
+// Build stages — the scaffold is underway for a building site, queued otherwise.
 const stages = [
   {
     title: "Site scaffold",
     desc: `Routes and the indigo chrome wired up for the ${site.place} record.`,
-    state: onboarding ? "in progress" : "queued",
+    state: building ? "in progress" : "queued",
   },
   { title: "Data tier", desc: `${site.basin} sources ingested, structured, and provenance-linked.`, state: "queued" },
   { title: "Frontend", desc: "Record screens, profiles, timeline, and the guided walk.", state: "queued" },
@@ -52,12 +52,12 @@ const doors = [
       <p class="netsite-lead">
         A record site for the <strong>{site.basin}</strong>. We're generalizing the Watermark
         platform from the Lima reference build out across the Maumee watershed —
-        {onboarding ? " a live facility we're onboarding now." : " this site is in the build queue."}
+        {building ? " a live facility, its build underway now." : " this site is in the build queue."}
       </p>
       <div class="netsite-chips">
-        <span class:list={["netsite-status", onboarding ? "is-onboarding" : "is-open"]}>
+        <span class:list={["netsite-status", building ? "is-building" : "is-queued"]}>
           <span class="netsite-dot" aria-hidden="true"></span>
-          {onboarding ? "Onboarding · live facility" : "Open · in progress"}
+          {building ? "Building · live facility" : "Queued · in the build queue"}
         </span>
         {
           issueUrl && (

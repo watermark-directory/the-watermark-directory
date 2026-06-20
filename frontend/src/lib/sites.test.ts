@@ -15,7 +15,7 @@ describe("sites registry — the Watermark network (#304)", () => {
     const ftw = SITES.find((s) => s.slug === "fort-wayne");
     expect(ftw).toBeDefined();
     expect(ftw?.selectable).toBe(false);
-    expect(ftw?.status).toBe("onboarding"); // a live facility, but the build is queued
+    expect(ftw?.status).toBe("building"); // a live facility with its site build underway
     expect(ftw?.codename).toBe("GCP");
   });
 
@@ -56,7 +56,7 @@ describe("promotion gate — the onboarding review invariant (#326)", () => {
     for (const s of SITES) if (s.selectable) expect(s.status).toBe("live");
   });
 
-  it("no onboarding/open site is selectable before explicit promotion", () => {
+  it("no building/queued site is selectable before explicit promotion", () => {
     for (const s of SITES) if (s.status !== "live") expect(s.selectable).toBe(false);
   });
 });
