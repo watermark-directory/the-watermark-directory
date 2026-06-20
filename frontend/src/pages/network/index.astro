@@ -5,9 +5,13 @@
  * topbar is the primary entry; this is the section landing the registry resolves to.
  */
 import Base from "../../layouts/Base.astro";
-import { SITES, siteBadge } from "../../lib/sites";
+import { FACILITY_STATUS_META, facilityStatus, SITES, siteBadge } from "../../lib/sites";
 import { withBase } from "../../lib/site";
 
+// Two independent axes of status, never conflated:
+//   (A) Site — OUR progress assembling the site/research (queued → building → live).
+//   (B) Facility — the data center itself: whether it's a confirmed DC location, then campus
+//       progress (investigation → confirmed → construction → live).
 const statusLabel: Record<string, string> = {
   live: "Live",
   building: "Building",
@@ -35,24 +39,42 @@ const statusLabel: Record<string, string> = {
     </p>
   </article>
 
+  <p class="netgrid-legend">
+    Two clocks, kept separate: <strong>Site</strong> is our build of the record;
+    <strong>Facility</strong> is the data center itself — whether it's a confirmed location, then
+    campus progress. A queued site can document a live facility, and vice versa.
+  </p>
+
   <div class="netgrid">
     {
-      SITES.map((s) => (
-        <a class:list={["netgrid-card", { "is-live": s.selectable, "is-soon": !s.selectable }]} href={withBase(s.href)}>
-          <span class:list={["netgrid-badge", { "has-codename": Boolean(s.codename) }]}>{siteBadge(s)}</span>
-          <span class="netgrid-body">
-            <span class="netgrid-place">
-              {s.codename && <span class="netgrid-codename">{s.codename}</span>}
-              {s.place}
+      SITES.map((s) => {
+        const fac = FACILITY_STATUS_META[facilityStatus(s.slug)];
+        return (
+          <a class:list={["netgrid-card", { "is-live": s.selectable, "is-soon": !s.selectable }]} href={withBase(s.href)}>
+            <span class:list={["netgrid-badge", { "has-codename": Boolean(s.codename) }]}>{siteBadge(s)}</span>
+            <span class="netgrid-body">
+              <span class="netgrid-place">
+                {s.codename && <span class="netgrid-codename">{s.codename}</span>}
+                {s.place}
+              </span>
+              <span class="netgrid-basin">{s.basin}</span>
+              <span class="netgrid-axes">
+                <span class="netgrid-axis">
+                  <span class="netgrid-axis-k">Site</span>
+                  <span class:list={["netgrid-status", `is-${s.status}`]}>{statusLabel[s.status]}</span>
+                </span>
+                <span class="netgrid-axis">
+                  <span class="netgrid-axis-k">Facility</span>
+                  <span class="netgrid-fac" style={`color:${fac.color};background:${fac.bg}`}>{fac.label}</span>
+                </span>
+              </span>
             </span>
-            <span class="netgrid-basin">{s.basin}</span>
-          </span>
-          <span class="netgrid-meta">
-            <span class:list={["netgrid-status", `is-${s.status}`]}>{statusLabel[s.status]}</span>
-            <span class="netgrid-go">{s.selectable ? "Enter the site ›" : s.issue ? `Coming soon · #${s.issue}` : "Coming soon"}</span>
-          </span>
-        </a>
-      ))
+            <span class="netgrid-meta">
+              <span class="netgrid-go">{s.selectable ? "Enter the site ›" : s.issue ? `Coming soon · #${s.issue}` : "Coming soon"}</span>
+            </span>
+          </a>
+        );
+      })
     }
   </div>
 </Base>
@@ -76,5 +98,36 @@ const statusLabel: Record<string, string> = {
   .netgrid-cta-note {
     font-size: 0.85rem;
     color: #6b7280;
+  }
+  .netgrid-legend {
+    margin: 0.4rem 0 1rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #6b7280;
+  }
+  .netgrid-axes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.9rem;
+    margin-top: 0.5rem;
+  }
+  .netgrid-axis {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .netgrid-axis-k {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #9aa1b2;
+    font-weight: 700;
+  }
+  .netgrid-fac {
+    font-size: 0.66rem;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 2px 9px;
+    white-space: nowrap;
   }
 </style>

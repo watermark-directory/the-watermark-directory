@@ -7,7 +7,12 @@
  */
 import Icon from "../../components/Icon.astro";
 import Base from "../../layouts/Base.astro";
-import { type NetworkSite, comingSoonSites } from "../../lib/sites";
+import {
+  type NetworkSite,
+  comingSoonSites,
+  FACILITY_STATUS_META,
+  facilityStatus,
+} from "../../lib/sites";
 import { withBase } from "../../lib/site";
 
 export function getStaticPaths() {
@@ -16,6 +21,9 @@ export function getStaticPaths() {
 
 const { site } = Astro.props as { site: NetworkSite };
 const building = site.status === "building";
+// The second axis: the data center itself (whether it's a confirmed location + campus progress) —
+// a separate clock from the site build above.
+const fac = FACILITY_STATUS_META[facilityStatus(site.slug)];
 const issueUrl = site.issue ? `https://github.com/goedelsoup/bosc/issues/${site.issue}` : undefined;
 
 // Build stages — the scaffold is underway for a building site, queued otherwise.
@@ -57,7 +65,11 @@ const doors = [
       <div class="netsite-chips">
         <span class:list={["netsite-status", building ? "is-building" : "is-queued"]}>
           <span class="netsite-dot" aria-hidden="true"></span>
-          {building ? "Building · live facility" : "Queued · in the build queue"}
+          Site: {building ? "Building" : "Queued"}
+        </span>
+        <span class="netsite-status netsite-fac" style={`color:${fac.color};background:${fac.bg};border-color:${fac.color}33`}>
+          <span class="netsite-dot" aria-hidden="true" style={`background:${fac.dot}`}></span>
+          Facility: {fac.label}
         </span>
         {
           issueUrl && (
