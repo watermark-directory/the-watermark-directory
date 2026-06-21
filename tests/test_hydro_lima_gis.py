@@ -87,6 +87,27 @@ def test_findlay_zoning_has_no_parcel_join() -> None:
         lima_gis.zoning_for_parcel("12345", settings=_findlay_settings())
 
 
+def _toledo_settings() -> Settings:
+    """Offline settings for the Toledo site (its committed Lucas AREIS connector fixtures)."""
+    root = Path(__file__).resolve().parents[1]
+    return Settings(
+        data_dir=root / "data",
+        site="toledo",
+        hydro_offline=True,
+        hydro_fixtures_dir=root / "tests" / "fixtures" / "hydrology",
+    )
+
+
+def test_lucas_zoning_for_parcel(hydro_settings: Settings) -> None:
+    """Lucas County AREIS Parcel_Zoning is a PARCEL-level layer (#384), so — unlike Findlay's
+    polygon-only catalog — it supports a per-parcel zoning join. The same schema-driven connector
+    reads its alt field names (OBJECTID/PARID/ZONING) over GET and replays the committed fixture."""
+    rec = lima_gis.zoning_for_parcel("3850130", settings=_toledo_settings())
+    assert rec is not None
+    assert rec.parcel_no == "3850130"
+    assert rec.zoning == "17-R3"  # the parcel-level district code (jurisdiction prefix + district)
+
+
 def test_committed_cited_zoning_is_an_out_of_city_null() -> None:
     """The committed scan records that no cited corridor parcel is city-zoned."""
     path = (

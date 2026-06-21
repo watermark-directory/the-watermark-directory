@@ -557,6 +557,105 @@ PUTNAM_PARCEL_SCHEMA = GisParcelSchema(
 )
 
 
+# Lucas County, OH parcels (Toledo watershed point; #384). Lucas County's AREIS is the richest GIS
+# in the network: a full, valid-cert, self-hosted ArcGIS (lcaudgis.co.lucas.oh.us). The owner-bearing
+# CAMA lives on AREIS_Web_Map_MIL1/MapServer layer 38 ("Parcels Land Use Classification"): one polygon
+# layer carrying PARID + OWNER + PROPERTY_ADDRESS (situs) + MAILING_ADDRESS + LUC (use code) + ZONING
+# + TAXDIST. This is the network's first owner-bearing parcel layer wired from a county's own REST
+# (Putnam has owner+value but is a different host; Findlay/Bryan are OGRIP owner-redacted substitutes).
+# Field names confirmed from the live layer-38 `?f=json` + Waterville-area samples (2026-06-21).
+# NOTE: the auditor's appraised values (APRLAND/APRBLDG/APRTOT) are NOT on this layer — they live on
+# layer 83 ("Land Values"), joined by PARID. The single-layer connector can't join, so market values
+# stay null here; the PARID value-join is a tracked follow-up (the network's first multi-layer parcel
+# connector). No sale-date/amount or CAUV fields on layer 38 either (absent -> None, never fabricated).
+LUCAS_AREIS_PARCEL_SCHEMA = GisParcelSchema(
+    connector="lucas_areis",
+    reference_dir="toledo-gis",
+    page_size=2000,
+    out_fields=(
+        "PARID",
+        "OWNER",
+        "PROPERTY_ADDRESS",
+        "MAILING_ADDRESS",
+        "LUC",
+        "ACREAGE",
+        "TAXDIST",
+    ),
+    id_field="PARID",  # AREIS parcel id (plain digits, e.g. "3850130")
+    owner_field="OWNER",
+    owner_2_field="",  # no separate second-owner field on this layer
+    deeded_owner_field="",
+    situs_fields=(
+        "PROPERTY_ADDRESS",
+    ),  # a single pre-assembled situs string ("... , WATERVILLE OH 43566")
+    owner_addr_fields=("MAILING_ADDRESS",),  # the pre-assembled owner mailing address
+    land_use_field="LUC",  # the auditor's land-use code (bare numeric string, e.g. "550")
+    acres_field="ACREAGE",
+    market_land_field="",  # appraised values are on layer 83 (PARID join) — deferred follow-up
+    market_improvement_field="",
+    market_total_field="",
+    cauv_field="",  # CAUV split is a separate AREIS layer, not joined here
+    tax_district_field="TAXDIST",
+    school_field="",
+    neighborhood_field="",
+    sale_date_field="",  # no sale date/amount on the land-use-classification layer
+    sale_amount_field="",
+    valid_sale_field="",
+    id_normalize="dashless",  # PARID is plain digits; dashless tolerates a dotted/dashed input form
+    date_decode="none",
+    land_use_decode="int",  # bare numeric LUC code
+    deed_id_regex=r"\b\d{7}\b",  # AREIS PARID is ~7 digits (no Toledo corpus scan; pattern for parity)
+    meta=GisMeta(
+        subject="Lucas County, Ohio parcels (AREIS CAMA — land-use classification)",
+        source="Lucas County Auditor AREIS — ArcGIS REST, AREIS_Web_Map_MIL1/MapServer layer 38 "
+        "('Parcels Land Use Classification')",
+        source_url=(
+            "https://lcaudgis.co.lucas.oh.us/gisaudserver/rest/services/"
+            "AREIS_Web_Map_MIL1/MapServer/38"
+        ),
+        caveats=(
+            "Values are verbatim from the county AREIS; null means the service had no value.",
+            "Appraised values (APRLAND/APRBLDG/APRTOT) are NOT on this layer — they live on AREIS "
+            "layer 83 (PARID join), so market_*_value is always null here (never fabricated).",
+            "PROPERTY_ADDRESS is the situs; MAILING_ADDRESS the owner's mailing address; both are "
+            "pre-assembled single strings.",
+            "LUC is the auditor's numeric land-use code; CLASS (R/C/E/...) is the coarse use group.",
+            "Field names confirmed from the live layer-38 metadata + samples (2026-06-21).",
+        ),
+    ),
+)
+
+
+# City of Toledo / Lucas County zoning (#384): the AREIS Parcel_Zoning layer — a PARCEL-level zoning
+# catalog (PARID + ZONING), so unlike Findlay's polygon-only layer it supports the per-parcel join.
+LUCAS_ZONING_SCHEMA = GisZoningSchema(
+    connector="lucas_zoning",
+    reference_dir="toledo-gis",
+    page_size=2000,
+    object_id_field="OBJECTID",
+    parcel_field="PARID",  # parcel-level layer (supports zoning_for_parcel, unlike Findlay)
+    zoning_field="ZONING",
+    http_method="GET",
+    id_normalize="dashless",
+    meta=GisMeta(
+        subject="Lucas County / City of Toledo zoning districts (catalog)",
+        source="Lucas County Auditor AREIS — ArcGIS REST, LandUse_Zoning/Parcel_Zoning/MapServer "
+        "layer 0 ('Parcels Zoning')",
+        source_url=(
+            "https://lcaudgis.co.lucas.oh.us/gisaudserver/rest/services/"
+            "LandUse_Zoning/Parcel_Zoning/MapServer/0"
+        ),
+        caveats=(
+            "Values are verbatim from the county AREIS Parcel_Zoning layer.",
+            "ZONING is the parcel-level district code (a jurisdiction prefix + district, e.g. "
+            "'17-R3'); coverage is county-wide across Lucas jurisdictions, not Toledo city-only.",
+            "polygon_count counts zoning polygons, not distinct parcels.",
+            "Field names confirmed from the live layer metadata + samples (2026-06-21).",
+        ),
+    ),
+)
+
+
 # The live reference build. Every value reproduces the pre-#325 hardcoded default exactly —
 # see tests/test_sites.py for the zero-drift golden snapshot.
 _LIMA = SiteProfile(
@@ -1030,13 +1129,22 @@ _TOLEDO = SiteProfile(
     eia_state="OH",
     # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
     # a follow-up live metadata read (Lucas County GIS / AREIS + City of Toledo GIS).
-    parcels_url="TODO",  # [open] pending the Lucas County, OH (AREIS) GIS REST endpoint discovery
-    zoning_url="TODO",  # [open] pending the City of Toledo GIS REST endpoint discovery
+    # GIS — schema-driven (#237 / #384). Lucas County's AREIS is the richest GIS in the network:
+    # parcels = the owner-bearing AREIS land-use-classification layer (38); zoning = the parcel-level
+    # AREIS Parcel_Zoning layer; flood = the shared national NFHL. The appraised-value PARID join
+    # (AREIS layer 83) is a tracked follow-up — market values stay null until then.
+    parcels_url=(  # [verified] Lucas County Auditor AREIS — layer 38 (owner + land-use CAMA)
+        "https://lcaudgis.co.lucas.oh.us/gisaudserver/rest/services/AREIS_Web_Map_MIL1/MapServer/38"
+    ),
+    zoning_url=(  # [verified] Lucas County AREIS — Parcel_Zoning layer 0 (parcel-level zoning)
+        "https://lcaudgis.co.lucas.oh.us/gisaudserver/rest/services/"
+        "LandUse_Zoning/Parcel_Zoning/MapServer/0"
+    ),
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gis_parcel=None,  # [open] pending Lucas County, OH parcel-layer discovery
-    gis_zoning=None,  # [open] pending City of Toledo zoning-layer discovery
+    gis_parcel=LUCAS_AREIS_PARCEL_SCHEMA,  # [verified] AREIS layer 38 — owner + land-use (#384)
+    gis_zoning=LUCAS_ZONING_SCHEMA,  # [verified] AREIS Parcel_Zoning — parcel-level catalog (#384)
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "toledo-gis"}),
     gnis_default_state="OH",
     hydro_utm_epsg=32617,  # [verified] UTM 17N (Toledo ~83.54 degW; zone 17 spans 84-78 degW)

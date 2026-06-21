@@ -21,6 +21,8 @@ from bosc.sites import (
     LIMA_FLOOD_SCHEMA,
     LIMA_PARCEL_SCHEMA,
     LIMA_ZONING_SCHEMA,
+    LUCAS_AREIS_PARCEL_SCHEMA,
+    LUCAS_ZONING_SCHEMA,
     PER_SITE_OUTPUT_FIELDS,
     PUTNAM_PARCEL_SCHEMA,
     SITES,
@@ -483,3 +485,47 @@ def test_bryan_parcel_schema_is_ogrip_statewide_williams() -> None:
         }
     )
     assert (FIXTURES / p.connector / f"{key}.json").is_file(), f"bryan param drift: {key}"
+
+
+def test_toledo_gis_is_lucas_areis_owner_bearing() -> None:
+    """Toledo's GIS (#384) is Lucas County AREIS — the network's richest: an owner-bearing parcel
+    layer (AREIS/38, OWNER + situs + land-use, the first wired from a county's own REST since Lima/
+    Putnam) AND a parcel-level zoning catalog (Parcel_Zoning, with a PARID join, unlike Findlay).
+    Golden + param-stability: each schema reproduces the live field-map and a request built from it
+    hashes to the committed fixture. Appraised values are deliberately absent (the layer-83 join)."""
+    t = SITES["toledo"]
+    pp = t.gis_parcel
+    assert pp is not None and pp is LUCAS_AREIS_PARCEL_SCHEMA
+    assert pp.connector == "lucas_areis" and pp.reference_dir == "toledo-gis"
+    assert pp.id_field == "PARID" and pp.owner_field == "OWNER"  # owner-bearing
+    assert pp.land_use_field == "LUC" and pp.land_use_decode == "int"
+    assert pp.market_total_field == "" and pp.defense is None  # values on layer 83 (deferred join)
+    assert "lcaudgis.co.lucas.oh.us" in pp.meta.source_url
+
+    zz = t.gis_zoning
+    assert zz is not None and zz is LUCAS_ZONING_SCHEMA
+    assert zz.connector == "lucas_zoning" and zz.parcel_field == "PARID"  # parcel-level (joinable)
+    assert zz.zoning_field == "ZONING" and zz.http_method == "GET"
+
+    base = {"f": "json", "returnGeometry": "false"}
+    pkey = cache_key(
+        {
+            **base,
+            "where": f"{pp.id_field}='3850130'",
+            "outFields": ",".join(pp.out_fields),
+            "resultOffset": 0,
+            "resultRecordCount": pp.page_size,
+        }
+    )
+    assert (FIXTURES / pp.connector / f"{pkey}.json").is_file(), f"lucas parcel param drift: {pkey}"
+    zkey = cache_key(
+        {
+            **base,
+            "where": f"{zz.parcel_field}='3850130'",
+            "outFields": ",".join(zz.out_fields),
+            "resultOffset": 0,
+            "resultRecordCount": zz.page_size,
+            "orderByFields": zz.object_id_field,
+        }
+    )
+    assert (FIXTURES / zz.connector / f"{zkey}.json").is_file(), f"lucas zoning param drift: {zkey}"
