@@ -74,3 +74,14 @@ def test_pipeline_run_roundabout(hydro_settings: Settings) -> None:
     assert rf.impervious_acres.value > 0
     assert len(rf.storm_peaks) == 5
     assert findings
+
+
+def test_storm_depths_fallback_reads_the_active_profile(
+    hydro_settings: Settings, monkeypatch
+) -> None:  # type: ignore[no-untyped-def]
+    # With no committed corridor DDF, the 24-hr storm depths fall back to the ACTIVE SITE's
+    # Atlas-14 table (SiteProfile.noaa_fallback_24h_depth_in), not a hardcoded Lima dict (#426).
+    monkeypatch.setattr(rb, "load_corridor_ddf", lambda **_: None)
+    assert rb._storm_depths(hydro_settings, (2, 10, 100)) == {2: 2.52, 10: 3.58, 100: 5.39}  # Lima
+    findlay = hydro_settings.model_copy(update={"site": "findlay"})
+    assert rb._storm_depths(findlay, (2, 10, 100)) == {2: 2.44, 10: 3.48, 100: 5.26}  # distinct

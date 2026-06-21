@@ -31,6 +31,7 @@ from bosc.hydrology.model import (
 )
 from bosc.hydrology.solver.runoff import simulate_runoff
 from bosc.logging import get_logger
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
@@ -51,8 +52,9 @@ _DEFAULT_TC_HR = 0.2  # small roundabout catchment time of concentration
 _DEFAULT_RUNOFF_COEFF = 0.9  # impervious annual runoff coefficient
 _DEFAULT_RETURN_PERIODS = (2, 10, 25, 50, 100)
 
-# Fallbacks if the committed reference data is absent (cited corridor values).
-_FALLBACK_24H_DEPTH_IN = {2: 2.52, 10: 3.58, 25: 4.25, 50: 4.81, 100: 5.39}
+# Fallback if the committed reference data is absent. The 24-hr storm-depth fallback is the
+# active site's Atlas-14 table (SiteProfile.noaa_fallback_24h_depth_in, read in _storm_depths) —
+# not a hardcoded Lima dict; the annual-precip fallback stays a single cited corridor value.
 _FALLBACK_ANNUAL_PRECIP_IN = 39.2  # NASA POWER PRECTOTCORR 2.73 mm/day
 
 
@@ -91,12 +93,13 @@ def _annual_precip_in(settings: Settings) -> ProvenancedValue:
 
 def _storm_depths(settings: Settings, return_periods: tuple[int, ...]) -> dict[int, float]:
     ddf = load_corridor_ddf(settings=settings)
+    fallback = active_profile(settings).noaa_fallback_24h_depth_in
     out: dict[int, float] = {}
     for rp in return_periods:
         depth = None
         if ddf is not None:
             depth = ddf.depths_in.get("24-hr", {}).get(str(rp))
-        out[rp] = depth if depth is not None else _FALLBACK_24H_DEPTH_IN.get(rp, 4.25)
+        out[rp] = depth if depth is not None else fallback.get(rp, 4.25)
     return out
 
 
