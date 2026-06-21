@@ -1,0 +1,274 @@
+meta:
+  topic: 'onboard ottawa (Village of Ottawa, Putnam County): data-center activity
+    + receiving-water screen for a new watershed-point site, and the Findlay-Ottawa
+    same-river (Blanchard) intra-tributary control'
+  model: claude-opus-4-8
+  generated_at: '2026-06-21T13:17:59+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__program_overview
+    - mcp__bosc__timeline
+    - mcp__bosc__entities
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__hydrology_balance
+    - mcp__bosc__hydrology_scenario
+    - mcp__bosc__sanitary_basis
+    - Read
+    - Grep
+    - Glob
+    num_turns: 28
+    max_turns: 30
+    cost_usd: 1.5739345
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Derive Blanchard River 7Q10 to unblock Ottawa and Findlay assimilative screens
+  dedupe_key: derive-blanchard-river-7q10-to-unblock-ottawa-and-findlay-assimi
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  rationale: 'This single derivation is the highest-priority blocker: it is the shared
+    gap that makes the network''s only intra-tributary control non-computable at both
+    endpoints simultaneously.'
+  body: '## Context
+
+    The Ottawa WWTP (OH0026921, 3.0 MGD) and the Findlay WPCC (OH0025135, 15.0 MGD)
+    both discharge to the Blanchard River, making them the network''s only along-one-river
+    (intra-tributary) pair. The assimilative-capacity screen — and the Findlay↔Ottawa
+    intra-tributary control — cannot be computed for either site because no Blanchard
+    River 7Q10 exists anywhere in the corpus.
+
+
+    ## Grounding
+
+    - `low-flow-7q10.yaml` holds only Dug Run, Pike Run, and Ottawa River (Lima tributaries,
+    L20–56).
+
+    - `low-flow-7q10.derived.yaml` holds only Maumee, Auglaize, St. Marys, and St.
+    Joseph mainstems — **no Blanchard** (full file read, L8–62) — despite the Ottawa
+    profile naming gages `04189260` (Blanchard at Ottawa) and `04189500` (Blanchard
+    at Glandorf, long-record).
+
+    - The findings confirm: "the single derivation that unblocks Findlay (item F-1
+    in its findings) is the same one that unblocks Ottawa — one piece of work clears
+    both ends of the control" (§2).
+
+    - `hydrology_balance` / `hydrology_scenario` currently return the Lima loop only,
+    using the Ottawa River 7Q10 of 0.2 cfs — which belongs to Lima''s receiving water,
+    not the Village of Ottawa''s Blanchard (§1, §3b).
+
+
+    ## Acceptance Criteria
+
+    - Run `bosc derive-low-flows` for USGS gage `04189500` (Blanchard at Glandorf)
+    and optionally `04189000` (nr Findlay) and `04189260` (at Ottawa).
+
+    - A Blanchard River LP3-derived 7Q10 entry is committed to `low-flow-7q10.derived.yaml`.
+
+    - `hydrology_balance` and `hydrology_scenario` can execute for both the Ottawa
+    WWTP (OH0026921) and the Findlay WPCC (OH0025135) without falling back to the
+    Lima Ottawa River value.
+
+    - The Findlay↔Ottawa same-river comparison (§2 table) becomes computable with
+    a shared Blanchard denominator.'
+- title: Pull OH0026921 NPDES fact sheet to document Ottawa WWTP receiving-water and
+    dilution
+  dedupe_key: pull-oh0026921-npdes-fact-sheet-to-document-ottawa-wwtp-receivin
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  rationale: ECHO's null receiving-water field is an evidentiary gap that prevents
+    the Ottawa WWTP from being cited confidently as a Blanchard discharger at the
+    outfall level, which is a prerequisite for the assimilative screen.
+  body: '## Context
+
+    The Ottawa WWTP (NPDES OH0026921) is the anchor receiving-water datum for the
+    Ottawa site, but ECHO carries `receiving_water: null` for its outfall (ECHO record,
+    `maumee-wwtp.all-npdes.yaml` L20404). The site profile asserts `receiving_water_name="Blanchard
+    River"` (sites.py L1340) and `plant_receiving: {}` (L1342) — both defensible at
+    the village level but not outfall-level documented.
+
+
+    ## Grounding
+
+    - ECHO FRS 110000760668: `receiving_water: null` (§3a).
+
+    - Profile `_OTTAWA`, `src/bosc/sites.py` L1340–1342: `receiving_water_name="Blanchard
+    River"`, `plant_receiving: {}`.
+
+    - Findings note: "the specific OH0026921 outfall receiving water and its design
+    flows/dilution are not in the corpus. They must come from the OH0026921 NPDES
+    fact sheet before being stated as documented. This is exactly the Findlay-WPCC
+    caveat repeated" (§3a).
+
+    - `ONBOARDING.md` L18–20 keeps the Blanchard/Ottawa River disambiguation clean,
+    but the outfall-level citation is missing.
+
+
+    ## Acceptance Criteria
+
+    - The OH0026921 Ohio EPA NPDES fact sheet (or permit record) is retrieved and
+    committed to `data/extracted/ottawa/`.
+
+    - The outfall receiving-water name, cited 7Q10 (if present in the fact sheet),
+    design flow, peak flow, and stated dilution ratio are extracted and populate `plant_receiving`
+    in the `_OTTAWA` profile.
+
+    - `receiving_water_name` is converted from a site-level assertion to an outfall-level
+    documented field, with the fact-sheet as the citation.'
+- title: Reconcile the onboard derive-low-flows / basin-screen 'ok' against the empty
+    Blanchard result
+  dedupe_key: reconcile-the-onboard-derive-low-flows-basin-screen-ok-against-t
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  rationale: The misleading 'ok' status obscures a real coverage gap and could cause
+    future analysts to incorrectly assume the Ottawa WWTP has been assimilatively
+    screened.
+  body: '## Context
+
+    The recorded onboard run (`ONBOARDING.md` L21, L31) reports `derive-low-flows:
+    ok → low-flow-7q10.derived.yaml` and `basin-screen: ok — 7/129 dischargers screened
+    (1 violation, 2 tight)`. Yet `low-flow-7q10.derived.yaml` contains no Blanchard
+    value, and the "7/129" figure is identical to Findlay''s basin-screen result.
+    This is a reconciliation discrepancy: the step reportedly succeeded but produced
+    no usable output for Ottawa''s own receiving water.
+
+
+    ## Grounding
+
+    - `ONBOARDING.md` L21, L31: `derive-low-flows: ok`, `basin-screen: ok — 7/129
+    dischargers screened (1 violation, 2 tight)`.
+
+    - `low-flow-7q10.derived.yaml` full file read (L8–62): no Blanchard entry.
+
+    - Findings §3b: "the strong [inference] is that basin-screen covers only the 7
+    streams that have a denominator (4 derived mainstems + 3 cited Lima tributaries)
+    and that the Ottawa WWTP is among the unscreened Blanchard dischargers. That needs
+    enumerating (which 7, and confirmation OH0026921 was excluded for want of a denominator),
+    not assuming."
+
+
+    ## Acceptance Criteria
+
+    - The 7 dischargers that *were* screened in the basin-screen run are enumerated
+    and documented (by NPDES ID and receiving-water name).
+
+    - It is confirmed (or refuted) that OH0026921 was excluded from the screened set
+    due to absence of a Blanchard 7Q10 denominator.
+
+    - The set of unscreened Blanchard dischargers in HUC-8 `04100008` is listed as
+    an explicit coverage gap in `ONBOARDING.md`.
+
+    - The `derive-low-flows: ok` status in `ONBOARDING.md` is annotated to reflect
+    that "ok" means the step ran without error, not that a Blanchard value was produced.'
+- title: Run bosc onboard ottawa --research and record affirmative data-center finding
+  dedupe_key: run-bosc-onboard-ottawa-research-and-record-affirmative-data-cen
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  rationale: An undocumented blank is methodologically weaker than an affirmative
+    negative finding, and running the --research pass is the defined next step for
+    this dimension.
+  body: '## Context
+
+    The Ottawa site profile has `facility=None` (sites.py L1350) and no data-center
+    permit, deed, SOS filing, or meeting record in the corpus. The `--research` self-research
+    pass has not been run — there is no `data/research/*ottawa*` directory. The findings
+    characterize this as an affirmative "no disclosed Ottawa facility yet," but `ONBOARDING.md`
+    currently has a blank rather than a documented negative finding.
+
+
+    ## Grounding
+
+    - `src/bosc/sites.py` L1350: `facility=None`.
+
+    - Findings §4: "No documented data-center activity for Ottawa/Putnam. ... The
+    `--research` pass has not been run. Whether any real-world Putnam-area development
+    exists is an [open] research question, not a finding."
+
+    - Grid profile (`grid-profile.yaml` L72–77): AEP Ohio / Ohio Power #14006, PJM,
+    PUCO, `load_share: null` — backdrop only, no campus load.
+
+    - Methodology note (§4): data-center activity is a corpus-extraction + self-research
+    dimension that `bosc onboard` connectors do not capture.
+
+
+    ## Acceptance Criteria
+
+    - `bosc onboard ottawa --research` is run and output is committed to `data/research/ottawa-<date>/`.
+
+    - Ohio EPA eDoc, Putnam County recorder, and Ohio SOS are searched for Ottawa/Putnam
+    data-center permits or land-assembly records.
+
+    - `ONBOARDING.md` is updated with an explicit affirmative statement: either a
+    facility is documented, or "no documented Ottawa data center as of <date>" is
+    recorded as a finding (not a blank).
+
+    - `facility` in `_OTTAWA` is set to the discovered value or explicitly set to
+    a documented-null sentinel.'
+- title: Build the Findlay–Ottawa intra-tributary comparison artifact once Blanchard
+    7Q10 is available
+  dedupe_key: build-the-findlay-ottawa-intra-tributary-comparison-artifact-onc
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - entities
+  rationale: This is the network's only intra-tributary control and its analytical
+    payoff — completing it validates the scaffolding investment in both sites and
+    produces a uniquely clean siting comparison.
+  body: '## Context
+
+    Findlay (upstream, Hancock County) and Ottawa (downstream, Putnam County) are
+    the network''s only along-one-river pair, both discharging to the Blanchard River
+    ~40 river-miles apart. Both are AEP Ohio / PJM AEP zone. The control is fully
+    scaffolded — POTW permits, gage IDs, grid profiles, and TMDL reference are all
+    committed — but the analytical payoff (a same-river comparison of upstream 15
+    MGD vs. downstream 3 MGD against a shared Blanchard 7Q10) cannot be computed until
+    the Blanchard 7Q10 derivation (see related issue) is complete.
+
+
+    ## Grounding
+
+    - `ONBOARDING.md` L12–20; `sites.py` L1261–1266: Findlay↔Ottawa described as the
+    network''s only along-one-river pair.
+
+    - §2 table: Findlay WPCC OH0025135 15.0 MGD (gage `04189000`) vs. Ottawa WWTP
+    OH0026921 3.0 MGD (gages `04189260`, `04189500`); same grid zone; same Blanchard
+    River Watershed TMDL (approved 2009-07-02, `ottawa-lima-tmdl.yaml` L27).
+
+    - Findings §2: "the control isolates the hydrology/siting variables" and "is structurally
+    sound and well-scaffolded, but not yet computable."
+
+    - Findings §7 item 9: "wire a Findlay↔Ottawa same-river comparison ... into the
+    basin/network layer — this is the analytical payoff the whole control was scaffolded
+    for, and the network''s only along-one-river case."
+
+
+    ## Acceptance Criteria
+
+    - This issue is explicitly blocked by the Blanchard 7Q10 derivation issue.
+
+    - Once a Blanchard 7Q10 is committed, a network-level comparison artifact (document
+    or structured output) is created showing: upstream Findlay WPCC discharge fraction
+    of 7Q10 vs. downstream Ottawa WWTP discharge fraction of 7Q10, using the shared
+    denominator.
+
+    - The artifact is committed to the basin/network layer (e.g., `data/reference/network/`
+    or equivalent) and referenced from both the `_FINDLAY` and `_OTTAWA` profiles.
+
+    - The comparison explicitly notes the control''s design value: watershed identity
+    held constant, discharge-point location varied.'
