@@ -1,0 +1,47 @@
+meta:
+  subject: NOAA Atlas-14 design-storm depths — Mad River buried-valley corridor
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  point:
+    latitude: 39.9242
+    longitude: -83.8089
+  units: inches (point precipitation depth)
+ddf:
+  latitude: 39.9242
+  longitude: -83.8089
+  durations:
+  - 60-min
+  - 6-hr
+  - 12-hr
+  - 24-hr
+  return_periods:
+  - 2
+  - 10
+  - 25
+  - 50
+  - 100
+  depths_in:
+    60-min:
+      '2': 1.34
+      '10': 1.91
+      '25': 2.24
+      '50': 2.5
+      '100': 2.75
+    6-hr:
+      '2': 1.96
+      '10': 2.78
+      '25': 3.3
+      '50': 3.72
+      '100': 4.15
+    12-hr:
+      '2': 2.29
+      '10': 3.24
+      '25': 3.82
+      '50': 4.29
+      '100': 4.78
+    24-hr:
+      '2': 2.71
+      '10': 3.77
+      '25': 4.4
+      '50': 4.89
+      '100': 5.39
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
