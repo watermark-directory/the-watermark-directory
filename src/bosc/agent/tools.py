@@ -25,6 +25,32 @@ def _text(payload: str) -> dict[str, Any]:
     return {"content": [{"type": "text", "text": payload}]}
 
 
+# Read-side per-site scope (#424). The corpus + hydrology models are the Lima reference build
+# until a non-Lima site reaches parity (its own committed corpus / scenario). Until then, a
+# per-site research run (`bosc --site <slug> research run`) must NOT be silently handed Lima data:
+# `_scoped` prepends an explicit banner naming the active site. Per-site DATA resolution — making
+# these tools read the active site's own corpus — is the parity-gated flip this seam prepares.
+_CORPUS_HOME = "lima"
+
+
+def _site_scope_note(settings: Any) -> str:
+    """A scope banner when the active site isn't the corpus home (empty for Lima → zero-drift)."""
+    site = settings.site
+    if site == _CORPUS_HOME:
+        return ""
+    return (
+        f"[scope] Active site is {site!r}, but the read-side corpus + hydrology models are the "
+        f"{_CORPUS_HOME!r} reference build — {site} has no committed corpus/scenario of its own yet "
+        f"(per-site read-side resolution is gated on parity, #424). The data below is "
+        f"{_CORPUS_HOME}'s.\n\n"
+    )
+
+
+def _scoped(payload: str) -> dict[str, Any]:
+    """Wrap a data payload with the active-site scope note (empty for the corpus home, Lima)."""
+    return _text(_site_scope_note(get_settings()) + payload)
+
+
 def _resolve(filename: str | None, pattern: str = "*.yaml") -> Path | None:
     """Resolve an extraction within data/extracted (now a collection tree).
 
@@ -55,7 +81,7 @@ async def list_documents(_args: dict[str, Any]) -> dict[str, Any]:
         f"- {d.doc_id}  [{d.collection or 'root'}]  {d.path.name}  ({d.size_bytes / 1e6:.1f} MB)"
         for d in docs
     ]
-    return _text("\n".join(lines))
+    return _scoped("\n".join(lines))
 
 
 @tool("list_extractions", "List available structured extraction files.", {})
@@ -65,7 +91,7 @@ async def list_extractions(_args: dict[str, Any]) -> dict[str, Any]:
     if not files:
         return _text("No extractions found under data/extracted.")
     # Show the collection-relative path so the agent sees provenance (recorder/...).
-    return _text("\n".join(f"- {f.relative_to(extracted)}" for f in files))
+    return _scoped("\n".join(f"- {f.relative_to(extracted)}" for f in files))
 
 
 @tool(
@@ -120,7 +146,7 @@ async def program_overview(_args: dict[str, Any]) -> dict[str, Any]:
         lines.append(f"## {se.name} (pdf_page {se.pdf_page})")
         lines.append(f"   construction_subtotal={se.construction_subtotal:,} total={se.total:,}")
         lines.append("   sections: " + ", ".join(f"{k}={v:,}" for k, v in secs.items()))
-    return _text("\n".join(lines))
+    return _scoped("\n".join(lines))
 
 
 @tool(
@@ -142,7 +168,7 @@ async def timeline(_args: dict[str, Any]) -> dict[str, Any]:
         lines.append(f"{date}  [{e.category}]  {e.title}  <{e.source}>{corrob}")
         if e.detail:
             lines.append(f"            {e.detail}")
-    return _text("\n".join(lines))
+    return _scoped("\n".join(lines))
 
 
 @tool(
@@ -176,7 +202,7 @@ async def entities(_args: dict[str, Any]) -> dict[str, Any]:
         when = f" ({r.date})" if r.date else ""
         ref = f" [{r.ref}]" if r.ref else ""
         lines.append(f"- {src} --{r.rel}--> {dst}{when}{ref}")
-    return _text("\n".join(lines))
+    return _scoped("\n".join(lines))
 
 
 @tool(
@@ -203,7 +229,7 @@ async def hydrology_balance(_args: dict[str, Any]) -> dict[str, Any]:
     if balance.warnings:
         lines.append("\nCaveats:")
         lines.extend(f"! {w}" for w in balance.warnings)
-    return _text("\n".join(lines))
+    return _scoped("\n".join(lines))
 
 
 @tool(
@@ -229,7 +255,7 @@ async def stormwater_runoff(_args: dict[str, Any]) -> dict[str, Any]:
     ]
     lines.extend(str(f) for f in findings)
     lines.append("\n(Tier-0 SCS; HSG + land cover are cited assumptions, rainfall is live NOAA.)")
-    return _text("\n".join(lines))
+    return _scoped("\n".join(lines))
 
 
 @tool(
@@ -259,7 +285,7 @@ async def hydrology_scenario(_args: dict[str, Any]) -> dict[str, Any]:
     lines.append(
         "\n(Cooling knobs are assumptions; Ottawa 7Q10 is document-cited. Tier-0 screening.)"
     )
-    return _text("\n".join(lines))
+    return _scoped("\n".join(lines))
 
 
 @tool(
@@ -288,7 +314,7 @@ async def storm_plan_inventory(_args: dict[str, Any]) -> dict[str, Any]:
         "\n(Transcribed from the civil sheet; pipe connectivity/inverts are vector geometry "
         "with no schedule table, so a routable network is not fabricated.)"
     )
-    return _text("\n".join(lines))
+    return _scoped("\n".join(lines))
 
 
 @tool(
@@ -318,7 +344,7 @@ async def sanitary_basis(_args: dict[str, Any]) -> dict[str, Any]:
         )
     lines.append(f"Campus FM-2 industrial: {basis.campus_industrial.value:g} MGD (document)")
     lines.append(f"I/I remediation: ${basis.ii_remediation_musd.value:g}M; {basis.decree_note}")
-    return _text("\n".join(lines))
+    return _scoped("\n".join(lines))
 
 
 @tool(
@@ -340,7 +366,7 @@ async def tier1_swmm(_args: dict[str, Any]) -> dict[str, Any]:
         "\n(Tier-1 EPA SWMM; footprint + plant capacities document-sourced, storm from NOAA; "
         "network/hydraulic params are assumptions.)"
     )
-    return _text("\n".join(lines))
+    return _scoped("\n".join(lines))
 
 
 @tool(
