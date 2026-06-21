@@ -275,6 +275,35 @@ def test_proposal_drafts_coerces_json_string_list() -> None:
     assert coerced.proposals[0].title == "T"
 
 
+def test_proposal_drafts_coerces_stringified_list_with_control_chars() -> None:
+    """The stringified `proposals` array routinely carries unescaped LITERAL newlines in the
+    long body/rationale text — the quirk that broke the first Urbana onboarding run. The default
+    strict JSON parser rejects those control chars; the coercion uses strict=False so the run
+    isn't lost."""
+    from bosc.research.models import ProposalDrafts
+
+    # A model-emitted stringified array with a real newline inside `body` (not "\\n", an actual \n).
+    raw = '[{"title": "T", "body": "para one\npara two", "rationale": "R", "labels": ["grid"]}]'
+    drafts = ProposalDrafts.model_validate({"proposals": raw})
+    assert len(drafts.proposals) == 1
+    assert drafts.proposals[0].body == "para one\npara two"
+
+
+def test_proposal_draft_coerces_stringified_labels() -> None:
+    """The model also stringifies the nested `labels` array — coerce it back too (the other
+    failure mode the Urbana run surfaced)."""
+    from bosc.research.models import ProposalDrafts
+
+    drafts = ProposalDrafts.model_validate(
+        {
+            "proposals": [
+                {"title": "T", "body": "B", "rationale": "R", "labels": '["energy", "urbana"]'}
+            ]
+        }
+    )
+    assert drafts.proposals[0].labels == ["energy", "urbana"]
+
+
 def test_proposal_drafts_rejects_non_json_string() -> None:
     """A non-JSON string still fails validation (no silent swallow)."""
     from bosc.research.models import ProposalDrafts
