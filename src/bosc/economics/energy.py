@@ -43,9 +43,6 @@ _KAPPA_CITE = (
     "short-run supply; a SCREENING sensitivity, not an estimated elasticity or forecast"
 )
 
-_ELEC_SALES_ID = "ELEC.SALES.OH-ALL.A"
-_ELEC_PRICE_ID = "ELEC.PRICE.OH-RES.A"
-
 
 def build_consumer_energy(*, settings: Settings | None = None) -> ConsumerEnergyCosts:
     """Pull the state's EIA consumer energy-cost dataset (live or offline-from-fixture)."""
@@ -74,10 +71,16 @@ def derive_demand_pressure(
             "the facility demand-pressure sensitivity needs a facility power basis"
         )
 
-    sales = costs.series(_ELEC_SALES_ID)
-    price = costs.series(_ELEC_PRICE_ID)
+    # The state retail-sales + residential-price series, templated by the dataset's OWN state
+    # (the same legacy-id template the connector pulls — bosc.economics.connectors.eia). This is
+    # what un-hardcodes Ohio: a non-OH facility site resolves its own state's series, not OH's.
+    state = costs.area
+    sales_id = f"ELEC.SALES.{state}-ALL.A"
+    price_id = f"ELEC.PRICE.{state}-RES.A"
+    sales = costs.series(sales_id)
+    price = costs.series(price_id)
     if sales is None or price is None:
-        raise ValueError(f"consumer-energy dataset is missing {_ELEC_SALES_ID} / {_ELEC_PRICE_ID}")
+        raise ValueError(f"consumer-energy dataset is missing {sales_id} / {price_id}")
 
     draw_mw = power.facility_draw.value
     consumption_gwh = draw_mw * _HOURS_PER_YEAR * _LOAD_FACTOR / 1000.0  # MWh -> GWh
@@ -108,7 +111,7 @@ def derive_demand_pressure(
         demand_share_pct=ProvenancedValue.derived(
             round(share_pct, 2),
             "percent",
-            citation=f"campus {consumption_gwh:.0f} GWh / Ohio retail {sales_gwh:.0f} GWh",
+            citation=f"campus {consumption_gwh:.0f} GWh / {costs.area_name} retail {sales_gwh:.0f} GWh",
         ),
         avg_household_kwh_yr=ProvenancedValue.assume(
             _AVG_HOUSEHOLD_KWH_YR, "kWh/yr", why=_HOUSEHOLD_CITE

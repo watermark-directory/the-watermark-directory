@@ -139,3 +139,27 @@ def test_committed_consumer_energy_loads() -> None:
     assert costs is not None
     assert costs.area == "OH"
     assert costs.by_metric("electricity", "price") is not None
+
+
+def test_demand_pressure_resolves_the_dataset_state_not_ohio(
+    econ_settings: Settings, monkeypatch
+) -> None:  # type: ignore[no-untyped-def]
+    """The demand-pressure series + citation follow the dataset's OWN state, not a hardcoded OH
+    (#422): Fort Wayne's committed dataset is Indiana, so with a (stubbed) facility basis it must
+    resolve the IN series and say "Indiana retail", never OH."""
+    import yaml as _yaml
+
+    from bosc.economics import energy
+    from bosc.economics.model import ConsumerEnergyCosts
+
+    # Reuse Lima's real power basis as a stub — the only site with a documented facility today, so
+    # a non-OH site can exercise the state-resolution path without a real non-OH facility.
+    basis = derive_power_basis(settings=econ_settings)
+    monkeypatch.setattr(energy, "derive_power_basis", lambda **_: basis)
+    fw_path = REPO_ROOT / "data" / "reference" / "eia" / "fort-wayne" / "consumer-energy.yaml"
+    fw_costs = ConsumerEnergyCosts.model_validate(_yaml.safe_load(fw_path.read_text()))
+    assert fw_costs.area == "IN" and fw_costs.area_name == "Indiana"
+
+    dp = energy.derive_demand_pressure(costs=fw_costs, settings=econ_settings)
+    assert "ELEC.SALES.IN-ALL.A" in dp.state_retail_sales_gwh.citation  # the IN series, not OH
+    assert "Indiana retail" in dp.demand_share_pct.citation  # not "Ohio retail"
