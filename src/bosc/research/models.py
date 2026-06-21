@@ -21,6 +21,25 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 RUNTIME_LABELS: tuple[str, ...] = ("agent-proposed", "needs-triage")
 
 
+def _coerce_json_list(v: Any) -> Any:
+    """Tolerate the distillation model emitting a list field as a JSON-encoded *string*.
+
+    Forced-tool-use occasionally returns an array field (``proposals``, or a nested
+    ``labels``) as a stringified JSON array instead of a native list — and that string
+    routinely carries **unescaped control characters** (literal newlines in the long body /
+    rationale text), which trips the default strict JSON parser. Parse with ``strict=False``
+    so a whole research run isn't lost to that quirk (the prose findings already succeeded by
+    this point). On a genuinely unparseable string, return it unchanged and let validation
+    raise a clear error.
+    """
+    if isinstance(v, str):
+        try:
+            return json.loads(v, strict=False)
+        except json.JSONDecodeError:
+            return v
+    return v
+
+
 class ProposalDraft(BaseModel):
     """One issue proposal as drafted by the distillation model (pre-normalization).
 
@@ -35,6 +54,12 @@ class ProposalDraft(BaseModel):
     rationale: str
     labels: list[str] = Field(default_factory=list)
 
+    @field_validator("labels", mode="before")
+    @classmethod
+    def _coerce_labels(cls, v: Any) -> Any:
+        """The model sometimes stringifies the nested ``labels`` array too — coerce it back."""
+        return _coerce_json_list(v)
+
 
 class ProposalDrafts(BaseModel):
     """The distillation target: the full set of drafts from one findings pass."""
@@ -45,19 +70,9 @@ class ProposalDrafts(BaseModel):
 
     @field_validator("proposals", mode="before")
     @classmethod
-    def _coerce_json_list(cls, v: Any) -> Any:
-        """Tolerate the distillation model emitting the array as a JSON-encoded *string*.
-
-        Forced-tool-use occasionally returns ``proposals`` as a stringified JSON array
-        instead of a native list; parse it back before validation so a whole research run
-        isn't lost to that quirk (the prose findings already succeeded by this point).
-        """
-        if isinstance(v, str):
-            try:
-                return json.loads(v)
-            except json.JSONDecodeError:
-                return v
-        return v
+    def _coerce_proposals(cls, v: Any) -> Any:
+        """Coerce a stringified ``proposals`` array (the forced-tool-use quirk) back to a list."""
+        return _coerce_json_list(v)
 
 
 class IssueProposal(BaseModel):

@@ -132,6 +132,20 @@ export const SITES: readonly NetworkSite[] = [
     issue: "381",
     href: "/directory/ottawa",
   },
+  {
+    // The network's FIRST Miami-basin site (second basin branch): the clean headwaters of the
+    // Mad River buried-valley sole-source aquifer, upstream of the Wright-Patterson / Dayton
+    // corridor — the geological inverse of the Maumee lake-plain sites. Onboarding (#441 / epic #440).
+    slug: "urbana",
+    codename: null,
+    mono: "URB",
+    place: "Urbana",
+    basin: "Mad River · Great Miami",
+    status: "queued",
+    selectable: false,
+    issue: "441",
+    href: "/directory/urbana",
+  },
 ] as const;
 
 /** This build is the Lima reference build. */
@@ -234,6 +248,8 @@ const PLACEMENT: Record<string, { state: string; watershed: string }> = {
   "van-wert": { state: "Ohio", watershed: "Little Auglaize" },
   bryan: { state: "Ohio", watershed: "Tiffin River" },
   ottawa: { state: "Ohio", watershed: "Blanchard River" },
+  // The first Miami-basin point — a distinct watershed group (Ohio River sink, not Lake Erie).
+  urbana: { state: "Ohio", watershed: "Great Miami (Mad River)" },
 };
 const STATE_ABBR: Record<string, string> = { Ohio: "OH", Indiana: "IN" };
 

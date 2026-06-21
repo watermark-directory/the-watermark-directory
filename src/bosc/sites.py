@@ -1600,6 +1600,94 @@ _OTTAWA = SiteProfile(
 )
 
 
+# The network's FIRST Miami-basin site (the second basin branch) and the flagship of the
+# Wright-Patterson / Mad River corridor expansion. Urbana sits on the **Mad River** in
+# Champaign County — the clean headwaters of the **Mad River buried-valley aquifer** (glacial
+# outwash sand & gravel; a US-EPA sole-source aquifer that supplies the Springfield/Dayton/
+# Wright-Patterson AFB corridor downstream). That geology is the deliberate CONTRAST with the
+# Maumee lake-plain sites: a groundwater-dominated, highly permeable HSG A/B valley fill, the
+# inverse of the poorly-drained Black Swamp clays (HSG D). Sink is the Ohio River, not Lake
+# Erie, and there is no Maumee-style basin TMDL — a genuinely different mix of influences.
+# Registered for onboarding (#440); most fields are [open] research targets filled by
+# `bosc onboard urbana --research` — only the verified geography/gages are set here.
+_URBANA = SiteProfile(
+    slug="urbana",
+    place="Urbana",
+    basin="great-miami",  # [verified] Mad River → Great Miami River → Ohio River (HUC-8 05080001)
+    nwis_sites=[
+        "03267000",  # [verified] Mad River near Urbana OH (the at-site supply/abstraction reach)
+        "03267900",  # [verified] Mad River at St Paris Pike at Eagle City OH (downstream of Urbana)
+    ],
+    nasa_power_lat=40.1084,  # [verified] Urbana city centroid (Census place 3979002)
+    nasa_power_lon=-83.7524,
+    rsei_fips="39021",  # [verified] Champaign County, OH
+    econ_fips="39021",
+    eia861_utility_number=0,  # [open] pending the Champaign County retail utility (research)
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the Champaign County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Urbana, OH GIS REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (Urbana ~83.75 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
+    gis_parcel=None,  # [open] pending Champaign County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Urbana zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "urbana-gis"}),
+    design_lat=40.1084,  # [verified] city centroid = NOAA Atlas-14 point
+    design_lon=-83.7524,
+    corridor_name="Mad River buried-valley corridor",  # [inference] the Mad River valley reach at Urbana
+    dominant_hsg="B",  # [inference] Mad River buried-valley outwash sand & gravel (well-drained valley fill)
+    hsg_citation=(
+        "Champaign County / Mad River valley at Urbana sits on the Mad River buried-valley aquifer "
+        "— glacial outwash sand & gravel, a US-EPA designated sole-source aquifer feeding the "
+        "Springfield/Dayton/Wright-Patterson AFB corridor downstream — so the valley fill is "
+        "well-drained HSG B, the INVERSE of the Maumee lake-plain Black Swamp clays (HSG D); "
+        "[inference] pending an SSURGO area-weighted confirmation (onboard SSURGO needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
+    parcels_relpath="reference/urbana/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/urbana/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/urbana/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/urbana/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/urbana/baseline.yaml",
+    rsei_relpath="reference/rsei/urbana/inventory.yaml",
+    consumer_energy_relpath="reference/eia/urbana/consumer-energy.yaml",
+    grid_relpath="reference/eia/urbana/grid-profile.yaml",
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending an identified corridor on the Mad River
+    receiving_water_name="Mad River",  # [verified] the Mad River reach at Urbana (→ Great Miami → Ohio R.)
+    plant_receiving={},  # [open] pending the Urbana-area WWTP NPDES fact sheet(s)
+    abstraction_gage="03267000",  # [verified] Mad River near Urbana OH
+    supply_gage_primary="03267000",  # [verified] Mad River near Urbana
+    supply_gage_secondary="03267900",  # [verified] Mad River at Eagle City (downstream)
+    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum
+    passby_secondary_cfs=0.0,  # [open]
+    facility=None,  # [open] the WPAFB-corridor data-center dimension is the research target (#440)
+    serving_utility_citation="[open] pending Champaign County, OH retail utility verification (research)",
+    serving_utility_source="reference",
+    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio/DP&L); pin via research
+    lmp_citation=(
+        "PJM LMP placeholder for the Urbana area; [inference] the PJM transmission zone is not yet "
+        "pinned — likely the DAY zone (Dayton/AES Ohio territory) — verify the utility + zone (research)"
+    ),
+    lmp_pnode_id=0,  # [open] pending the Champaign County PJM zone (likely DAY)
+    lmp_pnode_name="",
+    county_name="Champaign County, OH",  # [verified]
+    map_view_lat=40.1084,
+    map_view_lon=-83.7524,
+    map_view_zoom=13,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
@@ -1609,6 +1697,7 @@ SITES: dict[str, SiteProfile] = {
     _DEFIANCE.slug: _DEFIANCE,
     _BRYAN.slug: _BRYAN,
     _OTTAWA.slug: _OTTAWA,
+    _URBANA.slug: _URBANA,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so

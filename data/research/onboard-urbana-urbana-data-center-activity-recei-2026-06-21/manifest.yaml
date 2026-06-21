@@ -1,0 +1,236 @@
+meta:
+  topic: 'onboard urbana (Urbana): data-center activity + receiving-water screen for
+    a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-21T23:17:46+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__entities
+    - Grep
+    - Read
+    - Glob
+    num_turns: 27
+    max_turns: 30
+    cost_usd: 1.01742425
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Derive Mad River 7Q10 at USGS 03267000 and ingest Urbana-area WWTP NPDES
+    fact sheet
+  dedupe_key: derive-mad-river-7q10-at-usgs-03267000-and-ingest-urbana-area-ww
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - receiving-water
+  - extraction
+  rationale: The Mad River 7Q10 is the single most blocking gap in the Urbana screen
+    — without it, no assimilative-capacity statement can be made and the promotion
+    checklist cannot clear.
+  body: '## Context
+
+    Urbana''s receiving-water screen is currently empty. The site profile names the
+    **Mad River** as `receiving_water_name` (`src/bosc/sites.py` line 1667), but both
+    committed 7Q10 tables contain no Mad River entry: `low-flow-7q10.yaml` holds only
+    Dug Run, Pike Run, and Ottawa River (Lima/Maumee fact-sheet-sourced), and `low-flow-7q10.derived.yaml`
+    holds only the four Maumee mainstems. Consequently `plant_receiving: {}` and `passby_primary_cfs:
+    0.0` are both `[open]` (sites.py lines 1668, 1672–1673). There is no Urbana-area
+    WWTP NPDES fact sheet anywhere in `data/oepa/` — every extraction there is a Lima
+    plant.
+
+
+    USGS gage **03267000 (Mad River near Urbana)** is already registered in the site
+    profile as both the abstraction and supply gage (sites.py lines 1617, 1669–1671),
+    meaning `bosc derive-low-flows` has what it needs to compute a statistical 7Q10
+    if run against this gage. An Ohio EPA NPDES fact sheet for the Urbana/Champaign
+    WWTP would provide a *cited* regulatory 7Q10 to cross-check the derived value
+    and supply the WWTP design flow.
+
+
+    ## Acceptance Criteria
+
+    - [ ] `low-flow-7q10.yaml` gains a Mad River entry with `source: document` and
+    `confidence: high` sourced from an ingested Ohio EPA NPDES fact sheet, **or**
+    `low-flow-7q10.derived.yaml` gains a Mad River entry at 03267000 with `source:
+    derived` and `confidence: medium` from an LP3/`bosc derive-low-flows` run.
+
+    - [ ] `plant_receiving` and `passby_primary_cfs` in `sites.py` are populated with
+    non-zero values and tagged `[verified]` or `[derived]`.
+
+    - [ ] The ingested NPDES fact sheet (if obtained) appears in `list_documents`
+    results for `urbana` or `champaign`.'
+- title: Build a Great Miami / Ohio River basin ECHO discharger inventory for Urbana's
+    basin-screen
+  dedupe_key: build-a-great-miami-ohio-river-basin-echo-discharger-inventory-f
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - receiving-water
+  - extraction
+  rationale: Running Urbana's basin screen against the Maumee ECHO inventory produces
+    meaningless results — a correct Great Miami inventory is a prerequisite for any
+    valid discharger or assimilative-capacity analysis at this site.
+  body: '## Context
+
+    The `ONBOARDING.md` basin-screen reports **"7/129 dischargers screened (1 violations,
+    2 tight)"** for Urbana. However, the only committed ECHO inventory in the corpus
+    is `data/reference/echo/maumee-wwtp.*`, which is Maumee-scoped. The findings identify
+    this count as **`[inference]` the Maumee inventory** — identical to Van Wert''s
+    run — and note it excludes the Great Miami / Ohio River basin that Urbana actually
+    sits in (HUC-8 `05080001`). There is no `great-miami-wwtp.*` or equivalent ECHO
+    file anywhere in the reference data.
+
+
+    Urbana is explicitly described in the site profile as the network''s **first Great-Miami
+    / Mad-River site** (sites.py lines 1603–1612), so the Maumee inventory is not
+    a valid stand-in. Every Urbana receiving-water statement sourced to that screen
+    must currently be treated as `[open]`.
+
+
+    ## Acceptance Criteria
+
+    - [ ] A Great Miami basin (HUC-8 `05080001` or broader HUC-4 `0508`) ECHO NPDES
+    discharger inventory is committed under `data/reference/echo/` (e.g., `great-miami-wwtp.csv`
+    + `.yaml` metadata).
+
+    - [ ] `ONBOARDING.md` basin-screen count is re-run against the correct inventory
+    and updated.
+
+    - [ ] Any prior basin-screen findings citing the "7/129" figure are annotated
+    as sourced from the Maumee inventory and superseded.'
+- title: Source Highland55 Urbana connection via primary instruments (recorder, ODOD,
+    CRA/PILOT)
+  dedupe_key: source-highland55-urbana-connection-via-primary-instruments-reco
+  labels:
+  - agent-proposed
+  - needs-triage
+  - data-center
+  - entities
+  - extraction
+  rationale: Highland55 is the load-bearing data-center signal for Urbana's promotion
+    case, yet it has no supporting primary document — sourcing or retiring it is the
+    minimum necessary to advance the data-center dimension of the onboarding checklist.
+  body: '## Context
+
+    **Highland55** is the only Urbana-specific data-center signal in the corpus, but
+    it exists solely as a one-line entry in `docs/COURSE.md` (line 117) tagged **`[open]`**:
+    *"Thor Equities / Thor Van Wert / Highland55 (Urbana, Van Wert); CyrusOne; Platon
+    Investments / Dynamo Ventures … corridor `[open]`; no in-corpus document yet."*
+    A repo-wide search confirms Highland55 appears in exactly three corpus locations
+    — `COURSE.md`, and the prior Van Wert research run''s `findings.md` and `manifest.yaml`
+    — never in a primary instrument or extraction. The site profile''s `facility`
+    field is `None` `[open]` (sites.py line 1674) and `facilityStatus("urbana") =
+    "investigation"`.
+
+
+    The `self-research` step that would have generated data-center seed proposals
+    **errored** (`1 validation error for ProposalDrafts`), so the inferential entity
+    layer is also empty.
+
+
+    ## Acceptance Criteria
+
+    - [ ] At least one primary instrument is ingested and extractable via `list_documents`
+    for `urbana` or `champaign` — acceptable forms: Champaign County Recorder deed,
+    ODOD/JobsOhio announcement, CRA/PILOT agreement, NPDES application, or zoning
+    instrument tied to Highland55 or a Thor Equities entity.
+
+    - [ ] **Or**, if no instrument is found after a documented search effort, Highland55
+    is formally retired from the Urbana register in `COURSE.md` and `sites.py` with
+    a `[not found – retired YYYY-MM-DD]` tag.
+
+    - [ ] The Highland55 register is kept **separate** from the Allen-County/Lima
+    Bistrozzi land-assembly graph (no cross-reference unless a filed instrument bridges
+    them).'
+- title: Pin Honda 'Champaign-area' data center to a parcel or filing, or downgrade
+    to corridor context
+  dedupe_key: pin-honda-champaign-area-data-center-to-a-parcel-or-filing-or-do
+  labels:
+  - agent-proposed
+  - needs-triage
+  - data-center
+  - entities
+  - extraction
+  rationale: An unanchored three-county candidate profile cannot serve as evidence
+    for Urbana's data-center dimension, and resolving its geography is necessary to
+    avoid inflating the site's promotion case.
+  body: '## Context
+
+    `data/entities/profiles/cloud-consumer-candidates.yaml` (lines 282–290) lists
+    **Honda of America** as a tier-4 candidate with location **"Marysville / Clark
+    / Champaign area"** and `confirmed_cloud_relationship: own Ohio data center (announced/investing)`.
+    This is an **analytic candidate profile built for demand-fit screening** — not
+    a deed, permit, or filing — and its location string spans three counties (Union/Clark/Champaign)
+    without pinning to Urbana or Champaign County specifically. The findings classify
+    it as **`[inference]/[open]`**: corridor context, not a documented Urbana project.
+
+
+    The profile''s manufacturing LQ of 4.14 and the Honda/Marysville corridor adjacency
+    are consistent with the site''s economic character, but treating an unanchored
+    three-county candidate profile as a Urbana data-center instrument would be the
+    inference-as-finding error the BOSC methodology explicitly prohibits.
+
+
+    ## Acceptance Criteria
+
+    - [ ] A primary instrument (announcement with a specific site address, county
+    recorder filing, utility interconnection application, or OEPA/air permit) is identified
+    that pins the Honda data-center investment to a specific parcel or jurisdiction.
+
+    - [ ] If the instrument places it in Champaign County/Urbana: the candidate profile
+    is upgraded to `[verified]` and a source document is ingested.
+
+    - [ ] If the instrument places it outside Champaign County: the `cloud-consumer-candidates.yaml`
+    entry is updated to reflect the correct jurisdiction and removed from Urbana''s
+    investigative register.
+
+    - [ ] If no instrument is found after a documented search: the entry is downgraded
+    to `corridor_context: true` in the YAML and excluded from Urbana promotion criteria.'
+- title: Resolve EIA-861 utility number and PJM zone for Urbana (likely AES Ohio /
+    DAY zone)
+  dedupe_key: resolve-eia-861-utility-number-and-pjm-zone-for-urbana-likely-ae
+  labels:
+  - agent-proposed
+  - needs-triage
+  - grid
+  - extraction
+  rationale: Every grid-cost and load-growth figure for Urbana rests on an inferred
+    utility identity and an unverified PJM zone — resolving this unblocks the grid-profile
+    step and ensures published figures are not placeholders.
+  body: '## Context
+
+    The `grid-profile` onboarding step **errored** for Urbana with `EIA-861 2024:
+    no Short-Form (''861S'') row for utility #0 in OH` (`ONBOARDING.md` line ~21).
+    The `eia861_utility_number` field in the site profile is currently **`0` `[open]`**
+    (sites.py line 1625). The findings note that Urbana''s LMP of **$35/MWh is `[inference]`**
+    tagged as "likely the **DAY zone (Dayton / AES Ohio / DP&L)**" — not Lima''s AEP/PUCO
+    zone (sites.py lines 1677–1683, 1675). No grid figure for Urbana is currently
+    verified.
+
+
+    This matters because the retail utility and PJM zone affect both the grid-profile
+    output and any load-growth or power-cost analysis for prospective data-center
+    load. Urbana is in Ohio (so no cross-state connector issues), but its serving
+    utility is a different entity from the Maumee-side sites.
+
+
+    ## Acceptance Criteria
+
+    - [ ] The Champaign County retail electric utility is identified from EIA-861
+    or Ohio PUC records and `eia861_utility_number` is updated to a non-zero value
+    with `[verified]` tag.
+
+    - [ ] The PJM LMP zone (expected **DAY**) is confirmed and `lmp_usd_mwh` is updated
+    from `[inference]` to `[verified]` or `[reference]` with a cited source.
+
+    - [ ] `bosc onboard urbana` grid-profile step completes without error after the
+    utility number fix.
+
+    - [ ] The `[inference]` tag on `lmp_usd_mwh` in sites.py is removed or replaced
+    with the appropriate confidence marker.'
