@@ -1,0 +1,245 @@
+meta:
+  topic: 'onboard bryan (Bryan): data-center activity + receiving-water screen for
+    a new watershed-point site (the basin''s first municipal electric utility, Bryan
+    Municipal Utilities / AMP / PJM)'
+  model: claude-opus-4-8
+  generated_at: '2026-06-21T13:13:47+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__program_overview
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__entities
+    - mcp__bosc__hydrology_balance
+    - mcp__bosc__sanitary_basis
+    - mcp__bosc__timeline
+    - Grep
+    - Glob
+    - Read
+    num_turns: 24
+    max_turns: 30
+    cost_usd: 1.26542025
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Acquire Prairie Creek 7Q10 and run the Bryan WWTP assimilative screen
+  dedupe_key: acquire-prairie-creek-7q10-and-run-the-bryan-wwtp-assimilative-s
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - receiving-water
+  - extraction
+  rationale: This is the single highest-value corpus gap — it converts the regime
+    classification from an unverified inference to a finding (or refutes it), which
+    is required before Bryan can pass the receiving-water parity gate.
+  body: '## Context
+
+    The Bryan WWTP (NPDES OH0020532) discharges a permitted 3.1 MGD (≈ 4.80 cfs) into
+    Prairie Creek, a headwaters tributary of the Tiffin River (HUC-12 041000060403).
+    The basin-network synthesis pre-labels Bryan `regime: effluent_dominated_tributary`
+    (`data/reference/network/basin-network.yaml:190–199`), but that label is explicitly
+    marked `[inference]` — no Prairie Creek 7Q10 low-flow statistic is present in
+    the corpus. The profile''s `plant_receiving={}` is `[open]` and `screen.status:
+    no_7q10`, `dilution_ratio: null`. The findings note that on the Lima pattern (Pike
+    Run 0.01:1, Dug Run 0.42:1), a 4.8-cfs discharge into a headwaters creek is *plausibly*
+    effluent-dominated, but the classification is unverified.
+
+
+    ## Grounding
+
+    - `src/bosc/sites.py:1157–1258` (SiteProfile, `plant_receiving={} [open]`)
+
+    - `data/reference/echo/maumee-wwtp.all-npdes.yaml:17026–17047` (OH0020532, 3.1
+    MGD, Prairie Creek)
+
+    - `data/reference/network/basin-network.yaml:189–199` (`screen.status: no_7q10`,
+    `dilution_ratio: null`, `regime: effluent_dominated_tributary [inference]`)
+
+
+    ## Acceptance Criterion
+
+    A sourced USGS or OEPA 7Q10 low-flow statistic for Prairie Creek at or near the
+    Bryan WWTP outfall is added to the corpus; `plant_receiving` is populated in the
+    SiteProfile; the dilution ratio and assimilative classification (`effluent_dominated_tributary`
+    or otherwise) are computed and promoted from `[inference]` to `[verified]` or
+    `[reference]`.'
+- title: Ingest Bryan WWTP NPDES fact sheet (OH0020532) to verify permitted flows
+    and I/I history
+  dedupe_key: ingest-bryan-wwtp-npdes-fact-sheet-oh0020532-to-verify-permitted
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - npdes
+  - receiving-water
+  rationale: Confirming the permitted flow parameters and wet-weather headroom is
+    a prerequisite for a credible assimilative screen and for parity with the Lima
+    sanitary-basis documentation.
+  body: '## Context
+
+    The corpus identifies the Bryan WWTP (NPDES OH0020532, FRS 110000573175, POTW,
+    design flow 3.1 MGD → Prairie Creek) from the ECHO Maumee NPDES inventory, but
+    no NPDES fact sheet or permit record has been extracted. Key parameters — confirmed
+    permitted design flow, peak hydraulic capacity, wet-weather headroom, and any
+    inflow/infiltration or bypass history — are absent. These are the Tiffin-headwaters
+    analogue to the sanitary-basis work performed for Lima.
+
+
+    ## Grounding
+
+    - `data/reference/echo/maumee-wwtp.all-npdes.yaml:17026–17047` (OH0020532, 3.1
+    MGD, `informal_enf_count: 0`)
+
+    - `src/bosc/sites.py:1157–1258` (SiteProfile `plant_receiving={} [open]`, "pending
+    Bryan-area WWTP NPDES fact sheets")
+
+    - Findings §2: "The screen cannot be computed … pending Bryan-area WWTP NPDES
+    fact sheets"
+
+
+    ## Acceptance Criterion
+
+    The Ohio EPA NPDES fact sheet or permit record for OH0020532 is retrieved, parsed,
+    and committed to `data/reference/echo/` (or equivalent); permitted design flow,
+    peak hydraulic capacity, and any documented I/I or bypass events are recorded
+    in the SiteProfile''s `plant_receiving` block and marked `[verified]`.'
+- title: Install Williams County parcel/recorder tripwire to make the data-center
+    absence claim testable
+  dedupe_key: install-williams-county-parcel-recorder-tripwire-to-make-the-dat
+  labels:
+  - agent-proposed
+  - needs-triage
+  - data-center
+  - parcels
+  - extraction
+  rationale: Without parcel and recorder data, the "no data-center activity" finding
+    is structurally untestable — the tripwire that surfaced the Lima data-center thread
+    simply does not exist for Bryan yet.
+  body: '## Context
+
+    The Bryan site profile carries `facility=None [open]` and the network synthesis
+    records `activity.has_disclosed_facility: false`, `it_load_mw: null`. The findings
+    acknowledge this is an absence at the *screening* layer, not a deed-level ruling-out.
+    In Lima, the data-center thread was documented through recorder deeds (Bistrozzi/Amazon
+    land assembly), NPDES applications, and site plans. For Bryan, `parcels_url` and
+    `zoning_url` are both `TODO`; no Williams County recorder or permit extractions
+    exist in the corpus. Until this infrastructure is installed, "no data-center activity"
+    is untestable against quiet land assembly.
+
+
+    ## Grounding
+
+    - `src/bosc/sites.py:1237` (`facility=None [open]`, "the data-center dimension
+    onboarding doesn''t capture (no disclosed facility)")
+
+    - `data/reference/network/basin-network.yaml:218–221` (`activity.has_disclosed_facility:
+    false`, `it_load_mw: null`)
+
+    - Findings §4: "`parcels_url`/`zoning_url` = `TODO`; no Williams County recorder
+    or permit extractions exist"
+
+    - Findings §4: "Bryan''s ''no activity'' is *evidence not yet gathered*, not *land
+    assembly ruled out*"
+
+
+    ## Acceptance Criterion
+
+    The Williams County GIS parcel REST endpoint and City of Bryan zoning layer are
+    discovered and their URLs committed to the SiteProfile (`parcels_url`, `zoning_url`);
+    a Williams County recorder-deed feed or equivalent land-assembly monitoring mechanism
+    is documented; and the data-center absence claim is re-evaluated against at least
+    one parcel/deed query for the Bryan city limits.'
+- title: Pin Bryan's AMP/PJM transmission zone and replace the placeholder LMP figure
+  dedupe_key: pin-bryan-s-amp-pjm-transmission-zone-and-replace-the-placeholde
+  labels:
+  - agent-proposed
+  - needs-triage
+  - grid
+  - eia
+  - entities
+  rationale: The LMP placeholder is an unverified figure that directly affects any
+    grid-cost or economic-competitiveness calculation for Bryan, and its correction
+    exercises the novel EIA-861S/AMP/PJM code path that is Bryan's primary technical
+    justification for onboarding.
+  body: '## Context
+
+    The Bryan grid profile (`data/reference/eia/bryan/grid-profile.yaml`) identifies
+    the serving utility as City of Bryan (EIA #2439, Municipal, EIA-861S short-form),
+    with wholesale power and PJM scheduling through American Municipal Power (AMP).
+    However, `lmp_usd_mwh = 35.0` is explicitly flagged as an `[inference]` placeholder
+    in the profile, which states the AMP/PJM transmission zone "is not yet pinned;
+    verify via PJM Data Miner 2" (`src/bosc/sites.py:1246–1251`). This is the network''s
+    first municipal/short-form/PJM/AMP utility and the LMP figure feeds grid-cost
+    and load-economics calculations.
+
+
+    ## Grounding
+
+    - `data/reference/eia/bryan/grid-profile.yaml` (EIA #2439, AMP/PJM, `lmp_usd_mwh
+    = 35.0 [inference]`)
+
+    - `src/bosc/sites.py:1246–1251` ("AMP/PJM transmission zone is not yet pinned;
+    verify via PJM Data Miner 2")
+
+    - Findings §3: "`lmp_usd_mwh = 35.0` is an unverified `[inference]`; … Do not
+    treat the LMP as sourced"
+
+    - MEMORY: EIA-861 municipal short-form, #2439 / PR #388
+
+
+    ## Acceptance Criterion
+
+    Bryan''s AMP/PJM transmission (load) zone is identified via PJM Data Miner 2 or
+    AMP published data; a sourced annual average LMP for that zone replaces the `35.0`
+    placeholder in the grid profile; the value is marked `[verified]` or `[reference]`
+    with the source cited.'
+- title: Refresh and corridor-scope the Bryan RSEI/toxics layer to Prairie Creek
+  dedupe_key: refresh-and-corridor-scope-the-bryan-rsei-toxics-layer-to-prairi
+  labels:
+  - agent-proposed
+  - needs-triage
+  - toxics
+  - rsei
+  - receiving-water
+  - extraction
+  rationale: A county-wide, decade-stale toxics layer cannot support Prairie Creek
+    load characterization; scoping and refreshing it is necessary before the RSEI
+    data can meaningfully inform the receiving-water or WWTP-load analysis.
+  body: '## Context
+
+    The committed RSEI inventory (`data/reference/rsei/bryan/inventory.yaml`, EPA
+    RSEI v234, FIPS 39171) covers **35 facilities (29 scored) county-wide**, but the
+    county encompasses Stryker, Montpelier, Pioneer, and Edgerton — not all of which
+    discharge to Prairie Creek. The data is also largely historical: the top emitter,
+    NEW ERA OHIO LLC (metal-finishing, water + POTW releases, cobalt/chromium/nickel),
+    last reported in **2010**, and the county''s RSEI vintage tails off by **2014**
+    (`data/reference/network/basin-network.yaml:217`). The SiteProfile''s `toxic_corridor_bbox`
+    is `[0,0,0,0] [open]` — no Prairie Creek toxic corridor has been delineated. It
+    is unknown whether NEW ERA OHIO or Titan Tire of Bryan remain active POTW contributors
+    to the Bryan WWTP load.
+
+
+    ## Grounding
+
+    - `data/reference/rsei/bryan/inventory.yaml` (EPA RSEI v234, FIPS 39171, 35 facilities,
+    NEW ERA OHIO last report 2010)
+
+    - `data/reference/network/basin-network.yaml:217` (RSEI vintage tails off ~2014)
+
+    - `src/bosc/sites.py` (`toxic_corridor_bbox: [0,0,0,0] [open]`)
+
+    - Findings §5: "the RSEI set is county-wide … and it is historical/legacy (largely
+    pre-2014)"
+
+
+    ## Acceptance Criterion
+
+    A Prairie Creek–scoped subset of the RSEI inventory is produced (facilities whose
+    discharge point or POTW route places them on the Prairie Creek drainage); `toxic_corridor_bbox`
+    is populated with a defensible bounding box; and the activity status of NEW ERA
+    OHIO LLC and Titan Tire of Bryan as POTW contributors is confirmed or ruled out
+    against a post-2014 TRI or ECHO source.'
