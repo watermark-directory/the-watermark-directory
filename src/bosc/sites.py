@@ -419,6 +419,71 @@ FINDLAY_ZONING_SCHEMA = GisZoningSchema(
 )
 
 
+# The OGRIP "Ohio Statewide Parcels Public View" — the shared parcel substitute for any Ohio
+# watershed point whose county has no public parcel ArcGIS REST of its own (#237 Findlay follow-up).
+# It is one statewide layer, so each site filters it to its county via `query_scope` (e.g.
+# `County='Hancock'`), with a site-scoped `reference_dir`, exactly like NATIONAL_NFHL_FLOOD_SCHEMA.
+# It is a deliberately PARTIAL fit: the public view is owner-name-redacted (owner appears only
+# inside the mailing label, so owner_field is empty and owner searches refuse cleanly), land use is
+# a "<code>: <label>" string (decoded leading_int), and there are no market/CAUV/sale/tax fields.
+# What it does give, cleanly: the parcel id, situs address, land use code, acreage, and geometry —
+# i.e. the parcel catalog + the resolve-to-parcel funnel. Field names confirmed from the live
+# layer-0 metadata + a Hancock sample (2026-06-20). Never run an owner/defense scan against it.
+OHIO_STATEWIDE_PARCEL_SCHEMA = GisParcelSchema(
+    connector="ohio_parcels",
+    reference_dir="ohio-parcels",  # per-site override (e.g. "findlay-gis")
+    page_size=2000,
+    out_fields=(
+        "OBJECTID",
+        "County",
+        "LocalParcelID",
+        "StateParcelID",
+        "StateLUC",
+        "SitusAddressAll",
+        "MailAddressAll",
+        "LandArea",
+    ),
+    id_field="LocalParcelID",  # the county-local parcel number (dashless digits)
+    owner_field="",  # owner-redacted in the public view (only embedded in the mailing label)
+    owner_2_field="",
+    deeded_owner_field="",
+    situs_fields=("SitusAddressAll",),  # a single pre-assembled situs string
+    owner_addr_fields=("MailAddressAll",),  # the mailing label (recipient + city + zip)
+    land_use_field="StateLUC",
+    acres_field="LandArea",
+    market_land_field="",  # absent in this layer -> None (never fabricated)
+    market_improvement_field="",
+    market_total_field="",
+    cauv_field="",
+    tax_district_field="",
+    school_field="",
+    neighborhood_field="",
+    sale_date_field="",
+    sale_amount_field="",
+    valid_sale_field="",
+    id_normalize="dashless",
+    date_decode="none",
+    land_use_decode="leading_int",  # "511: Res-Custom Code" -> 511
+    query_scope="",  # set per site (e.g. "County='Hancock'") — base is unscoped (never queried bare)
+    deed_id_regex=r"\b\d{12}\b",  # Hancock LocalParcelID is 12 dashless digits (stored; no corpus scan)
+    meta=GisMeta(
+        subject="Ohio statewide parcels (OGRIP public view), scoped per county",
+        source="OGRIP — Ohio Statewide Parcels Public View (owner ogrip_agol), FeatureServer layer 0",
+        source_url=(
+            "https://services2.arcgis.com/MlJ0G8iWUyC7jAmu/arcgis/rest/services/"
+            "OhioStatewidePacels_full_view/FeatureServer/0"
+        ),
+        caveats=(
+            "OGRIP statewide compilation of county parcels; currency varies by county (CurrentTo).",
+            "The public view is owner-name-redacted: no owner field (only the mailing label in "
+            "MailAddressAll); no market/CAUV value, sale, or tax-district fields.",
+            "Land use is a '<code>: <label>' string (StateLUC); the numeric code is parsed out.",
+            "Field names confirmed from the live layer-0 metadata + a Hancock sample (2026-06-20).",
+        ),
+    ),
+)
+
+
 # The live reference build. Every value reproduces the pre-#325 hardcoded default exactly —
 # see tests/test_sites.py for the zero-drift golden snapshot.
 _LIMA = SiteProfile(
@@ -565,17 +630,24 @@ _FINDLAY = SiteProfile(
     econ_fips="39063",
     eia861_utility_number=14006,  # [verified] Ohio Power Co (AEP Ohio); no municipal electric utility
     eia_state="OH",
-    # GIS — schema-driven (#237): the field-maps live in gis_zoning/gis_flood below.
-    parcels_url="TODO",  # [open] no public ArcGIS REST parcels — Hancock County is Beacon/Schneider-only; substitute = Ohio statewide parcels (geohio) filtered to 39063 (gis_parcel stays None)
+    # GIS — schema-driven (#237): the field-maps live in gis_parcel/gis_zoning/gis_flood below.
+    parcels_url=(  # [reference] Hancock County has no county parcel REST (Beacon/Schneider-only);
+        # substitute = the OGRIP Ohio statewide parcels public view, scoped to County='Hancock'
+        "https://services2.arcgis.com/MlJ0G8iWUyC7jAmu/arcgis/rest/services/"
+        "OhioStatewidePacels_full_view/FeatureServer/0"
+    ),
     zoning_url=(  # [verified] City of Findlay hosted zoning FeatureServer (ArcGIS Online org XMr9uonP553LyU3o)
         "https://services6.arcgis.com/XMr9uonP553LyU3o/arcgis/rest/services/FindlayZoning/FeatureServer/0"
     ),
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28) — confirmed 2026-06-19
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    # GIS field-maps: zoning = the verified City FeatureServer (polygon-only catalog); flood =
-    # the shared national NFHL layer (site-scoped output dir); parcels = [open] (no county REST).
-    gis_parcel=None,
+    # GIS field-maps: parcels = the OGRIP statewide layer scoped to Hancock (FIPS 39063) — a partial
+    # owner-redacted catalog (no owner/value/sale; see OHIO_STATEWIDE_PARCEL_SCHEMA); zoning = the
+    # verified City FeatureServer (polygon-only catalog); flood = the shared national NFHL layer.
+    gis_parcel=OHIO_STATEWIDE_PARCEL_SCHEMA.model_copy(
+        update={"reference_dir": "findlay-gis", "query_scope": "County='Hancock'"}
+    ),
     gis_zoning=FINDLAY_ZONING_SCHEMA,
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "findlay-gis"}),
     gnis_default_state="OH",

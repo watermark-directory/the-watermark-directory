@@ -22,9 +22,16 @@ City of Findlay (Hancock County, OH) GIS layers for the Findlay watershed point
 - **Polygon-only — no parcel join.** The layer has no parcel-id field, so per-parcel zoning
   lookups (`zoning_for_parcel` / `bosc zoning --parcel`) are not supported for Findlay; the
   district catalog is the available read.
-- **Parcels are `[open]`:** Hancock County publishes no ArcGIS-REST parcel layer
-  (Beacon/Schneider only); `SiteProfile.gis_parcel` is `None`. A future substitute is the
-  Ohio statewide parcel layer filtered to FIPS 39063.
+- **Parcels — the OGRIP Ohio statewide layer, Hancock-scoped (`[reference]`, partial).** Hancock
+  County publishes no county parcel ArcGIS-REST (Beacon/Schneider only), so `gis_parcel` is the
+  shared `OHIO_STATEWIDE_PARCEL_SCHEMA` scoped to `County='Hancock'` (FIPS 39063). It is a
+  deliberately **partial, owner-redacted** substitute: the public view has the parcel id, situs
+  address, land-use code, acreage, and geometry (the catalog + resolve-to-parcel funnel), but **no
+  owner name** (only the mailing label in `MailAddressAll`), and **no market/CAUV value, sale, or
+  tax-district** fields. Owner / defense scans refuse cleanly. No bulk parcel dump is committed
+  (the county is ~50k parcels and Findlay has no identified facility AOI yet); a reviewed slice
+  awaits a site.
+  `source_url`: <https://services2.arcgis.com/MlJ0G8iWUyC7jAmu/arcgis/rest/services/OhioStatewidePacels_full_view/FeatureServer/0>
 - **Floodzone** is served by the shared national FEMA NFHL layer (no committed catalog: a
   national `1=1` catalog is not meaningful — flood is a spatial query against an identified
   footprint, which Findlay does not have yet).
@@ -33,7 +40,9 @@ City of Findlay (Hancock County, OH) GIS layers for the Findlay watershed point
 
 ```sh
 bosc --site findlay zoning --districts        # live; writes this file
+bosc --site findlay parcels --parcel 010001025254   # live; one Hancock parcel (no bulk dump committed)
 ```
 
-Raw API responses cache under the git-ignored `data/cache/`; the offline replay fixture is
-[`tests/fixtures/hydrology/findlay_gis/`](../../../tests/fixtures/hydrology/findlay_gis/).
+Raw API responses cache under the git-ignored `data/cache/`; the offline replay fixtures are
+[`tests/fixtures/hydrology/findlay_gis/`](../../../tests/fixtures/hydrology/findlay_gis/) (zoning)
+and [`tests/fixtures/hydrology/ohio_parcels/`](../../../tests/fixtures/hydrology/ohio_parcels/) (parcels).

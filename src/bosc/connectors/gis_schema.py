@@ -101,6 +101,14 @@ class GisParcelSchema(BaseModel):
     # value encodings:
     id_normalize: _IdNormalize  # how a deed id is normalized to the layer's stored id
     date_decode: Literal["mmddyyyy", "iso", "none"]  # the sale-date field's encoding
+    # the land-use field's encoding: a bare numeric code ("int", the default — Lima's LANDUSE) or a
+    # "<code>: <label>" string whose leading integer is the code ("leading_int" — Ohio's StateLUC).
+    land_use_decode: Literal["int", "leading_int"] = "int"
+    # an optional ``where`` fragment ANDed into every parcel query — for a multi-jurisdiction layer
+    # that must be scoped (e.g. the Ohio statewide layer filtered to one county: ``County='Hancock'``).
+    # Empty (the default) leaves the query string byte-identical, so single-jurisdiction layers are
+    # unaffected (and the connector cache key is unchanged).
+    query_scope: str = ""
     deed_id_regex: str  # the deed-style parcel-id pattern scanned from the corpus
     meta: GisMeta
     defense: GisDefenseConfig | None = None

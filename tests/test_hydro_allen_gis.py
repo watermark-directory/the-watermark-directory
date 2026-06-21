@@ -80,6 +80,40 @@ def test_army_controlled_defense_land(hydro_settings: Settings) -> None:
     assert all(p.tax_district == "L35" for p in parcels)
 
 
+def test_decode_land_use_modes() -> None:
+    # leading_int parses the numeric code out of Ohio's "<code>: <label>" StateLUC strings;
+    # int (Lima's path) is unchanged.
+    assert allen_gis._decode_land_use("511: Res-Custom Code", "leading_int") == 511
+    assert allen_gis._decode_land_use("110: Agr-CAUV-Vacant Land", "leading_int") == 110
+    assert allen_gis._decode_land_use(None, "leading_int") is None
+    assert allen_gis._decode_land_use("n/a", "leading_int") is None
+    assert allen_gis._decode_land_use("340", "int") == 340  # Lima's bare-code path, unchanged
+
+
+def test_findlay_statewide_parcel_partial(hydro_settings: Settings) -> None:
+    """Findlay's parcels come from the OGRIP Ohio statewide layer (Hancock-scoped, #237): a
+    partial, owner-redacted catalog. id/situs/land-use/acreage decode by field name; owner, value,
+    and sale are honestly absent. Replaying the committed fixture also proves the scoped request
+    (``... AND County='Hancock'``) hashes to the recorded cache key — the zero-drift guard."""
+    fs = hydro_settings.model_copy(update={"site": "findlay"})
+    p = allen_gis.fetch_parcel("010001025254", settings=fs)
+    assert p is not None
+    assert p.parcel_no == "010001025254"
+    assert p.land_use_code == 511  # "511: Res-Custom Code" -> leading_int decode
+    assert p.acres == pytest.approx(5.01)
+    assert p.situs_address == "199  COUNTY RD 140   NORTH BALTIMORE 45872"
+    assert p.owner is None  # owner-name-redacted in the public statewide view
+    assert p.owner_address == "JOHNSON CHARLES W & JOY M NORTH BALTIMORE 45872"  # the mailing label
+    assert p.market_total_value is None and p.last_sale_date is None  # fields absent in this layer
+
+
+def test_owner_search_refuses_on_owner_redacted_layer(hydro_settings: Settings) -> None:
+    """A parcel layer with no owner field refuses owner search cleanly (never a malformed query)."""
+    fs = hydro_settings.model_copy(update={"site": "findlay"})
+    with pytest.raises(allen_gis.AllenGisError, match="no owner-name field"):
+        allen_gis.parcels_by_owner("JOHNSON", settings=fs)
+
+
 def test_dedupe_keeps_first_per_parcel_no() -> None:
     a = allen_gis.Parcel.from_attrs({"PARCEL_NO": "1", "OWNNAM1": "A"})
     dup = allen_gis.Parcel.from_attrs({"PARCEL_NO": "1", "OWNNAM1": "A2"})
