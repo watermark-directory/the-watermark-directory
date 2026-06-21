@@ -153,8 +153,13 @@ class SiteProfile(BaseModel):
     serving_utility_source: Literal["document", "connector", "reference", "assumption"]
 
     # --- Grid market (grid/market.py) ---------------------------------------------------
-    lmp_usd_mwh: float
+    lmp_usd_mwh: float  # zonal day-ahead LMP fallback (connector-sourced when lmp_pnode_id is set)
     lmp_citation: str
+    # The site's PJM pricing zone for the live LMP connector (grid/lmp.py, #121). When pinned,
+    # the connector's zonal day-ahead mean overrides lmp_usd_mwh; 0/"" leaves the placeholder
+    # (e.g. Bryan/AMP #411, Fort Wayne/I&M #361 — zones not yet pinned). AEP=8445784, ATSI=116013753.
+    lmp_pnode_id: int = 0
+    lmp_pnode_name: str = ""
 
     # --- RSEI county (rsei.py) ----------------------------------------------------------
     county_name: str
@@ -765,11 +770,13 @@ _LIMA = SiteProfile(
         "Res #974-25). Formal confirmation: EIA-861 service territory / PUCO map."
     ),
     # grid
-    lmp_usd_mwh=35.0,
+    lmp_usd_mwh=45.81,  # connector-sourced AEP-zone 2025 day-ahead annual mean (#121)
     lmp_citation=(
-        "PJM Data Miner 2 da_hrl_lmps, AEP zone ~2024 annual average ($/MWh); "
-        "transcribed published figure - verify (regenerate via PJM Data Miner 2)"
+        "PJM Data Miner 2 da_hrl_lmps, AEP zone (pnode 8445784), 2025 day-ahead annual mean "
+        "$45.81/MWh (8760 h); connector-sourced 2026-06-21 (bosc lmp)"
     ),
+    lmp_pnode_id=8445784,
+    lmp_pnode_name="AEP",
     # rsei
     county_name="Allen County, OH",
     # map
@@ -883,11 +890,13 @@ _FINDLAY = SiteProfile(
         "AEP Ohio serving Findlay corroborated by the City of Findlay (AEP smart-meter notice)"
     ),
     # grid (same PJM AEP zone as Lima — Ohio Power Co)
-    lmp_usd_mwh=35.0,  # [inference] shared AEP-zone value with Lima (same utility/zone)
+    lmp_usd_mwh=45.81,  # connector-sourced AEP-zone 2025 day-ahead annual mean (same zone as Lima)
     lmp_citation=(
-        "PJM AEP zone (Ohio Power Co) ~2024 annual average LMP ($/MWh) via PJM Data Miner 2 "
-        "da_hrl_lmps; same zone as Lima — shared zone value, verify (regenerate via Data Miner 2)"
+        "PJM Data Miner 2 da_hrl_lmps, AEP zone (pnode 8445784), 2025 day-ahead annual mean "
+        "$45.81/MWh (8760 h); connector-sourced 2026-06-21 (bosc lmp) — same AEP zone as Lima"
     ),
+    lmp_pnode_id=8445784,
+    lmp_pnode_name="AEP",
     # rsei
     county_name="Hancock County, OH",  # [verified]
     # map
@@ -1089,11 +1098,13 @@ _VAN_WERT = SiteProfile(
         "serving the City of Van Wert corroborated by the Van Wert County AEP Ohio electric-aggregation program"
     ),
     # grid (same PJM AEP zone as Lima/Findlay — Ohio Power Co)
-    lmp_usd_mwh=35.0,  # [inference] shared AEP-zone value with Lima (same utility/zone)
+    lmp_usd_mwh=45.81,  # connector-sourced AEP-zone 2025 day-ahead annual mean (same zone as Lima)
     lmp_citation=(
-        "PJM AEP zone (Ohio Power Co) ~2024 annual average LMP ($/MWh) via PJM Data Miner 2 "
-        "da_hrl_lmps; same zone as Lima — shared zone value, verify (regenerate via Data Miner 2)"
+        "PJM Data Miner 2 da_hrl_lmps, AEP zone (pnode 8445784), 2025 day-ahead annual mean "
+        "$45.81/MWh (8760 h); connector-sourced 2026-06-21 (bosc lmp) — same AEP zone as Lima"
     ),
+    lmp_pnode_id=8445784,
+    lmp_pnode_name="AEP",
     # rsei
     county_name="Van Wert County, OH",  # [verified]
     # map
@@ -1207,11 +1218,13 @@ _TOLEDO = SiteProfile(
         "company) + PUCO certified-territory; Toledo Edison serves the Toledo metro"
     ),
     # grid (Toledo Edison is in PJM's ATSI / FirstEnergy zone — NOT the AEP zone of the other OH sites)
-    lmp_usd_mwh=35.0,  # [inference] PJM ATSI-zone placeholder — verify via PJM Data Miner 2 (not the AEP value)
+    lmp_usd_mwh=45.84,  # connector-sourced ATSI-zone 2025 day-ahead annual mean (#387; not the AEP value)
     lmp_citation=(
-        "PJM ATSI zone (FirstEnergy / Toledo Edison) ~2024 annual average LMP ($/MWh) via PJM Data "
-        "Miner 2 da_hrl_lmps; [inference] not the AEP-zone value used by the other OH sites — verify"
+        "PJM Data Miner 2 da_hrl_lmps, ATSI zone (FirstEnergy / Toledo Edison, pnode 116013753), "
+        "2025 day-ahead annual mean $45.84/MWh (8760 h); connector-sourced 2026-06-21 (bosc lmp)"
     ),
+    lmp_pnode_id=116013753,
+    lmp_pnode_name="ATSI",
     # rsei
     county_name="Lucas County, OH",  # [verified]
     # map
@@ -1562,11 +1575,13 @@ _OTTAWA = SiteProfile(
         "(Paulding-Putnam, Midwest, Hancock-Wood, Tricounty) — the village seat is AEP Ohio"
     ),
     # grid (same PJM AEP zone as Lima/Findlay/Van Wert — Ohio Power Co; Findlay is the Blanchard sibling)
-    lmp_usd_mwh=35.0,  # [inference] shared AEP-zone value with Lima/Findlay (same utility/zone)
+    lmp_usd_mwh=45.81,  # connector-sourced AEP-zone 2025 day-ahead annual mean (same zone as Lima)
     lmp_citation=(
-        "PJM AEP zone (Ohio Power Co) ~2024 annual average LMP ($/MWh) via PJM Data Miner 2 "
-        "da_hrl_lmps; same zone as Lima/Findlay — shared zone value, verify (regenerate via Data Miner 2)"
+        "PJM Data Miner 2 da_hrl_lmps, AEP zone (pnode 8445784), 2025 day-ahead annual mean "
+        "$45.81/MWh (8760 h); connector-sourced 2026-06-21 (bosc lmp) — same AEP zone as Lima/Findlay"
     ),
+    lmp_pnode_id=8445784,
+    lmp_pnode_name="AEP",
     # rsei
     county_name="Putnam County, OH",  # [verified]
     # map

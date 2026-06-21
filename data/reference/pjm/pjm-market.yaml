@@ -5,16 +5,16 @@ rto:
   confidence: high
 lmp_zone:
   value: AEP zone
-  source: reference
-  citation: AEP Ohio's transmission zone within PJM; the campus's LMP pricing zone
-    (#94)
-  confidence: medium
+  source: connector
+  citation: PJM pricing zone AEP (pnode 8445784); the campus's LMP zone via PJM Data
+    Miner 2 (#121)
+  confidence: high
 zonal_lmp_usd_mwh:
-  value: 35.0
+  value: 45.8075
   unit: USD/MWh
-  source: reference
-  citation: PJM Data Miner 2 da_hrl_lmps, AEP zone ~2024 annual average ($/MWh); transcribed
-    published figure - verify (regenerate via PJM Data Miner 2)
+  source: connector
+  citation: PJM Data Miner 2 da_hrl_lmps, AEP zone (pnode 8445784), 2025 day-ahead
+    annual mean (8760 h)
   confidence: medium
   asof: null
 rpm_clearing_usd_mw_day:
@@ -43,8 +43,8 @@ large_load_queue_gw:
   asof: null
 source: PJM Data Miner 2 / PJM RPM Base Residual Auction reports / PJM queue (transcribed;
   verify)
-note: 'Transcribed PJM published figures (#96): zonal LMP is the energy price signal
-  (congestion is a component - LMP = energy + congestion + losses); the RPM clearing
-  price drives a large new load''s capacity obligation; the large-load queue is order-of-magnitude.
-  Verify / regenerate via PJM Data Miner 2 and the RPM Base Residual Auction reports.
-  Not a facility disclosure.'
+note: Zonal LMP is connector-sourced from PJM Data Miner 2 da_hrl_lmps (#121) when
+  the site's pricing zone is pinned (the energy price signal - LMP = energy + congestion
+  + losses); the RPM clearing price and large-load queue remain transcribed published
+  figures (verify / regenerate via the RPM Base Residual Auction reports + PJM interconnection-queue
+  reporting). Not a facility disclosure.

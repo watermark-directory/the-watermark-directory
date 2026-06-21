@@ -1,0 +1,18 @@
+{
+  "params": {
+    "connector": "pjm_lmp",
+    "route": "da_hrl_lmps",
+    "pnode_id": 116013753,
+    "start": "2025-01-01 00:00",
+    "end": "2025-12-31 23:59"
+  },
+  "fetched_at": "2026-06-21T21:56:31.183328+00:00",
+  "payload": {
+    "zone": "ATSI",
+    "pnode_id": 116013753,
+    "period_start": "2025-01-01 00:00",
+    "period_end": "2025-12-31 23:59",
+    "n_hours": 8760,
+    "mean_da_lmp_usd_mwh": 45.8444
+  }
+}

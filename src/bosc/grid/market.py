@@ -32,11 +32,13 @@ import yaml
 from pydantic import BaseModel, ConfigDict
 
 from bosc.config import Settings, get_settings
+from bosc.connectors import OfflineError
 from bosc.facility.power import derive_power_basis
+from bosc.grid.lmp import PjmLmpError, fetch_zonal_lmp
 from bosc.grid.model import CitedFact
 from bosc.hydrology.model import ProvenancedValue
 from bosc.logging import get_logger
-from bosc.sites import active_profile
+from bosc.sites import SiteProfile, active_profile
 
 log = get_logger(__name__)
 
@@ -124,9 +126,52 @@ class PjmMarketScenario(BaseModel):
     caveats: list[str] = []
 
 
+def _zonal_lmp(prof: SiteProfile, settings: Settings) -> tuple[CitedFact, ProvenancedValue]:
+    """The site's pricing zone + its day-ahead LMP, connector-sourced when the zone is pinned (#121).
+
+    When the profile pins a PJM pricing zone (``lmp_pnode_id``), prefer the live PJM Data Miner 2
+    zonal day-ahead mean (or its committed fixture offline); fall back to the committed
+    ``lmp_usd_mwh`` reference if the connector is unreachable / unkeyed. A site whose zone is not
+    yet pinned (Bryan/AMP #411, Fort Wayne/I&M #361) uses the transcribed reference placeholder.
+    """
+    if prof.lmp_pnode_id:
+        zone = CitedFact(
+            value=f"{prof.lmp_pnode_name} zone",
+            source="connector",
+            citation=f"PJM pricing zone {prof.lmp_pnode_name} (pnode {prof.lmp_pnode_id}); "
+            "the campus's LMP zone via PJM Data Miner 2 (#121)",
+            confidence="high",
+        )
+        try:
+            z = fetch_zonal_lmp(
+                pnode_id=prof.lmp_pnode_id, zone=prof.lmp_pnode_name, settings=settings
+            )
+            lmp = ProvenancedValue.from_connector(
+                z.mean_da_lmp_usd_mwh,
+                "USD/MWh",
+                citation=f"PJM Data Miner 2 da_hrl_lmps, {z.zone} zone (pnode {z.pnode_id}), "
+                f"{z.period_start[:4]} day-ahead annual mean ({z.n_hours} h)",
+                confidence="medium",
+            )
+            return zone, lmp
+        except (OfflineError, PjmLmpError) as exc:
+            log.warning("grid.pjm_lmp.fallback", zone=prof.lmp_pnode_name, error=str(exc))
+    else:
+        zone = CitedFact(
+            value=f"{prof.lmp_pnode_name} zone" if prof.lmp_pnode_name else "PJM zone (unpinned)",
+            source="reference",
+            citation="PJM pricing zone not yet pinned (transcribed placeholder; verify)",
+            confidence="medium",
+        )
+    return zone, ProvenancedValue.from_reference(
+        prof.lmp_usd_mwh, "USD/MWh", citation=prof.lmp_citation, confidence="medium"
+    )
+
+
 def _market_reference(settings: Settings) -> PjmMarketReference:
-    """Assemble the transcribed PJM published figures (reference inputs)."""
+    """Assemble the PJM market figures: zonal LMP connector-sourced (#121), the rest transcribed."""
     prof = active_profile(settings)
+    lmp_zone, zonal_lmp = _zonal_lmp(prof, settings)
     return PjmMarketReference(
         rto=CitedFact(
             value="PJM Interconnection (RTO/ISO)",
@@ -134,15 +179,8 @@ def _market_reference(settings: Settings) -> PjmMarketReference:
             citation="PJM is the FERC-jurisdictional wholesale-market RTO for AEP Ohio (#94)",
             confidence="high",
         ),
-        lmp_zone=CitedFact(
-            value="AEP zone",
-            source="reference",
-            citation="AEP Ohio's transmission zone within PJM; the campus's LMP pricing zone (#94)",
-            confidence="medium",
-        ),
-        zonal_lmp_usd_mwh=ProvenancedValue.from_reference(
-            prof.lmp_usd_mwh, "USD/MWh", citation=prof.lmp_citation, confidence="medium"
-        ),
+        lmp_zone=lmp_zone,
+        zonal_lmp_usd_mwh=zonal_lmp,
         rpm_clearing_usd_mw_day=ProvenancedValue.from_reference(
             _RPM_CLEARING_USD_MW_DAY,
             "USD/MW-day",
@@ -156,11 +194,11 @@ def _market_reference(settings: Settings) -> PjmMarketReference:
             _LARGE_LOAD_QUEUE_GW, "GW", citation=_LARGE_LOAD_QUEUE_CITE, confidence="medium"
         ),
         note=(
-            "Transcribed PJM published figures (#96): zonal LMP is the energy price "
-            "signal (congestion is a component - LMP = energy + congestion + losses); "
-            "the RPM clearing price drives a large new load's capacity obligation; the "
-            "large-load queue is order-of-magnitude. Verify / regenerate via PJM Data "
-            "Miner 2 and the RPM Base Residual Auction reports. Not a facility disclosure."
+            "Zonal LMP is connector-sourced from PJM Data Miner 2 da_hrl_lmps (#121) when the "
+            "site's pricing zone is pinned (the energy price signal - LMP = energy + congestion + "
+            "losses); the RPM clearing price and large-load queue remain transcribed published "
+            "figures (verify / regenerate via the RPM Base Residual Auction reports + PJM "
+            "interconnection-queue reporting). Not a facility disclosure."
         ),
     )
 
@@ -198,7 +236,7 @@ def derive_pjm_market_scenario(*, settings: Settings | None = None) -> PjmMarket
     share_of_queue_pct = draw_mw / (queue_gw * 1000.0) * 100.0 if queue_gw else 0.0
 
     interp = (
-        f"At the AEP-zone average LMP (~${lmp:g}/MWh) the campus's ~{consumption_gwh:,.0f} "
+        f"At the {ref.lmp_zone.value} average LMP (~${lmp:g}/MWh) the campus's ~{consumption_gwh:,.0f} "
         f"GWh/yr of energy costs on the order of ${annual_energy_cost_musd:,.0f}M/yr; its "
         f"RPM capacity footprint at the 2025/2026 BRA clearing price (${clearing:g}/MW-day) "
         f"is on the order of ${annual_capacity_cost_musd:,.0f}M/yr for {draw_mw:g} MW of "
@@ -236,7 +274,8 @@ def derive_pjm_market_scenario(*, settings: Settings | None = None) -> PjmMarket
         annual_energy_cost_musd=ProvenancedValue.derived(
             round(annual_energy_cost_musd, 1),
             "USD_million/yr",
-            citation=f"{consumption_gwh:,.0f} GWh x ${lmp:g}/MWh (AEP-zone LMP, transcribed; verify)",
+            citation=f"{consumption_gwh:,.0f} GWh x ${lmp:g}/MWh ({ref.lmp_zone.value} LMP, "
+            f"{ref.zonal_lmp_usd_mwh.source})",
             confidence="medium",
         ),
         annual_capacity_cost_musd=ProvenancedValue.derived(
@@ -259,16 +298,17 @@ def derive_pjm_market_scenario(*, settings: Settings | None = None) -> PjmMarket
             "A SCREENING price/capacity footprint, not a settlement or dispatch model - "
             "energy and capacity are settled hourly/by delivery year against the campus's "
             "actual contracts, not these annualized averages.",
-            "LMP varies by NODE and HOUR (LMP = energy + congestion + losses); the AEP-zone "
+            "LMP varies by NODE and HOUR (LMP = energy + congestion + losses); the zonal "
             "annual average is a single point, not the campus's bus-specific or peak-hour price.",
             "The RPM clearing price is an RTO-wide CLEARING price, not the campus's contracted "
             "capacity rate; the 2025/2026 spike may not persist, and obligations depend on the "
             "campus's coincident-peak contribution, not nameplate MW.",
             "The large-load / interconnection-queue figure is ORDER-OF-MAGNITUDE (tens of GW) "
             "and not all queued load is built; the campus share is illustrative.",
-            "All PJM figures are TRANSCRIBED published values at medium confidence, flagged "
-            "for verification - regenerate via PJM Data Miner 2 / the RPM BRA reports. None "
-            "is a facility disclosure.",
+            "Zonal LMP is connector-sourced (PJM Data Miner 2 da_hrl_lmps) when the zone is "
+            "pinned; the RPM clearing price + large-load queue remain TRANSCRIBED published "
+            "values at medium confidence (verify via the RPM BRA reports). None is a facility "
+            "disclosure.",
         ],
     )
 
