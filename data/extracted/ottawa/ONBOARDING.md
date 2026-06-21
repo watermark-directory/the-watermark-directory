@@ -6,7 +6,7 @@ Living record for the Ottawa watershed point (basin: maumee), scaffolded by `bos
 
 - [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)
 - [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile (AEP Ohio IOU; standard path)
-- [ ] **Data-center activity** — extracted permits/records + entity graph (corpus extraction; seed proposals via `bosc onboard --research`, #247)
+- [~] **Data-center activity** — self-research first pass run (#247); **affirmatively nothing documented** (no Putnam/Ottawa permit, deed, SOS filing, or meeting record in the corpus). See self-research summary below.
 - [~] **Per-jurisdiction GIS** — flood = shared national NFHL (wired). Putnam County self-hosts a **valid-cert, queryable ArcGIS** — `Parcels` (owner + values) **and** a `Land Use` CAMA layer (land/improvement/total value + soil type) — a strong wireable lead; no standalone zoning REST (village zoning is class-coded / map-only). See GIS discovery below. Schemas not committed yet (a reviewed follow-up).
 
 ## Same-river sibling of Findlay (#237) — the intra-tributary control
@@ -55,11 +55,53 @@ Follow-up (a research/issue lead): register Putnam County `gis_parcel` (the `Par
 `LandUseParcels` field-map — owner + value, no join) from the live `?f=json`; accept zoning as
 class-coded/map-only here (or locate a Village of Ottawa zoning layer).
 
+## Self-research (Phase 5; #247) — 2026-06-21
+
+First automated-research pass (`bosc research run`, 28 turns, $1.57, read-only over the corpus) →
+`data/research/onboard-ottawa-village-of-ottawa-putnam-county-d-2026-06-21/` (`findings.md` + `manifest.yaml`).
+
+**Headline — the same-river control is structurally sound but not yet computable; one derivation
+unblocks both ends.** Findlay (upstream, OH0025135, 15 MGD) and Ottawa (downstream, OH0026921,
+3.0 MGD) sit on the **same receiving river (the Blanchard)**, ~40 river-mi apart — the network's only
+along-one-river pair, holding watershed identity *and* grid (both AEP Ohio / PJM) constant and varying
+only the discharge point. But the control **can't be computed**: there is **no Blanchard River 7Q10**
+anywhere in the corpus (cited or derived) — the cited 7Q10s are all Lima's, and the derived mainstems
+exclude the Blanchard — so the assimilative screen is unrun at *both* nodes. The single Blanchard 7Q10
+derivation unblocks Findlay and Ottawa at once (proposals #414/#415/#417).
+
+**Reconciliation discrepancy (worth fixing).** The onboard run reported `derive-low-flows: ok` and
+`basin-screen: ok — 7/129 screened`, yet the derived file holds **no Blanchard value** and the 7/129
+figure is **identical to Findlay's** — i.e. basin-screen covers only the 7 streams that have a
+denominator (4 derived mainstems + 3 cited Lima tributaries), and the Ottawa WWTP is among the
+**unscreened** Blanchard dischargers. The "ok" is misleading for this site (proposal #416).
+
+**Data-center activity — affirmatively nothing documented.** `facility=None`; no Putnam/Ottawa
+data-center permit, deed, SOS filing, or meeting record in the corpus — the entity graph + timeline are
+entirely Lima/Allen. An affirmative "no disclosed Ottawa facility yet," not an empty cell. (This pass
+*is* the self-research run the gate calls for; the distilled "run --research" proposal is therefore
+resolved here, not filed.)
+
+**Disambiguation (load-bearing).** This is the **Village of Ottawa, Putnam County** on the
+**Blanchard** (gage 04189260) — NOT the Ottawa River of Lima/Allen (whose cited 0.2 cfs 7Q10 must
+never be applied here), and NOT Ottawa County / Port Clinton.
+
+**Serving utility — VERIFIED.** AEP Ohio (Ohio Power Co #14006, PJM AEP zone), PUCO-regulated IOU —
+identical to Findlay, so the same-river control isolates hydrology/siting, not grid (not a municipal;
+the Bryan trap doesn't apply). One caveat: ECHO carries `receiving_water: null` for OH0026921, so the
+specific outfall receiving water + dilution must come from the NPDES fact sheet (#415) before being
+stated as documented.
+
+**Proposals — 4 filed as sub-issues of #381:** #414 (derive the Blanchard 7Q10 — unblocks both Ottawa
+and Findlay), #415 (pull the OH0026921 NPDES fact sheet), #416 (reconcile the misleading
+derive/screen "ok"), #417 (build the Findlay↔Ottawa comparison artifact once the 7Q10 lands). The 5th
+distilled proposal (run `--research`) is resolved by this pass. The Putnam County GIS (self-hosted,
+valid-cert, wireable) is tracked under GIS discovery above.
+
 ## Review gate (blocking)
 
 - [ ] Every written reference value is reviewed against a cited source (no fabricated values).
 - [ ] SSURGO dominant HSG matches the profile, or the SiteProfile is updated with a citation.
 - [ ] basin-screen coverage is sane for this site's receiving waters.
 - [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
-- [ ] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/).
+- [x] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/) — see self-research summary above; 4 proposals filed as sub-issues of #381 (#414–417).
 - [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'ottawa' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
