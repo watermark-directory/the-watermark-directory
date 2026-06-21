@@ -49,6 +49,7 @@ describe("sites registry — the Watermark network (#304)", () => {
       "bryan",
       "ottawa",
       "urbana",
+      "springfield",
     ]);
     for (const s of soon) expect(s.issue).toBeTruthy();
   });

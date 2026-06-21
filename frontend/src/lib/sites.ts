@@ -146,6 +146,21 @@ export const SITES: readonly NetworkSite[] = [
     issue: "441",
     href: "/directory/urbana",
   },
+  {
+    // The network's SECOND Miami-basin site: the Mad River MID-CORRIDOR node between the Urbana
+    // headwaters (#441) and Dayton / Wright-Patterson (#442), on the same buried-valley
+    // sole-source aquifer — distinguished by a managed second supply water (Buck Creek / C.J.
+    // Brown Reservoir). Onboarding (#452 / epic #451).
+    slug: "springfield",
+    codename: null,
+    mono: "SPR",
+    place: "Springfield",
+    basin: "Mad River · Great Miami",
+    status: "queued",
+    selectable: false,
+    issue: "452",
+    href: "/directory/springfield",
+  },
 ] as const;
 
 /** This build is the Lima reference build. */
@@ -250,6 +265,7 @@ const PLACEMENT: Record<string, { state: string; watershed: string }> = {
   ottawa: { state: "Ohio", watershed: "Blanchard River" },
   // The first Miami-basin point — a distinct watershed group (Ohio River sink, not Lake Erie).
   urbana: { state: "Ohio", watershed: "Great Miami (Mad River)" },
+  springfield: { state: "Ohio", watershed: "Great Miami (Mad River)" },
 };
 const STATE_ABBR: Record<string, string> = { Ohio: "OH", Indiana: "IN" };
 

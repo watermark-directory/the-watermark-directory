@@ -1,0 +1,250 @@
+meta:
+  topic: 'onboard springfield (Springfield): data-center activity + receiving-water
+    screen for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-21T23:39:44+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__program_overview
+    - mcp__bosc__entities
+    - mcp__bosc__timeline
+    - Grep
+    - mcp__bosc__hydrology_balance
+    - mcp__bosc__hydrology_scenario
+    - AskUserQuestion
+    num_turns: 13
+    max_turns: 30
+    cost_usd: 0.52737225
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Disambiguate 'Springfield' identity and confirm Maumee watershed fit
+  dedupe_key: disambiguate-springfield-identity-and-confirm-maumee-watershed-f
+  labels:
+  - agent-proposed
+  - needs-triage
+  - entities
+  - hydrology
+  - onboarding
+  rationale: Every subsequent onboarding step — SiteProfile registration, receiving-water
+    screen, data-center scan — is blocked until the correct Springfield is identified
+    and its basin membership is confirmed.
+  body: '## Context
+
+    The findings report a flat negative: there are zero Springfield records anywhere
+    in the BOSC corpus (0 matches across 1,485 document lines and 328 timeline lines).
+    Before any connector or data-ingestion work can proceed, the target site must
+    be pinned to a specific legal place.
+
+
+    ## Grounding
+
+    The findings identify at least three plausible candidates with very different
+    basin outcomes:
+
+    - **Springfield, Clark County OH** → Mad River → Great Miami → Ohio River — **outside
+    the Maumee basin**, which would fail the network''s stated watershed-axis premise.
+
+    - **Springfield Township, Lucas County OH** (NW of Toledo) → Maumee/Ottawa-Lucas
+    drainage — a clean watershed fit.
+
+    - Other Springfields (Summit County OH; out-of-state) do not fit the Maumee axis.
+
+
+    The findings flag this as "the same class of trap recorded in prior onboarding
+    work — same-name place, wrong basin/state (cf. the ''Williams County'' ArcGIS
+    that was North Dakota)." The basin assignment for Clark County is noted as `[inference]`
+    and must be confirmed against NHD before relying on it.
+
+
+    ## Acceptance Criterion
+
+    - A single confirmed situs (city/township, county, state) is recorded in the onboarding
+    file.
+
+    - The Maumee-fit determination (yes/no) is verified against a live NHD or parcel
+    sample and cited.
+
+    - If the result is Clark County OH (Great Miami basin), a network-scope escalation
+    ticket is opened (see related issue on watershed-axis mismatch).
+
+    - This issue is marked resolved only when the above are committed to `data/sites/springfield/`
+    or equivalent scaffold.'
+- title: Register a SiteProfile for Springfield in bosc.sites.SITES
+  dedupe_key: register-a-siteprofile-for-springfield-in-bosc-sites-sites
+  labels:
+  - agent-proposed
+  - needs-triage
+  - onboarding
+  - extraction
+  rationale: Without a registered SiteProfile, none of the existing hydrology or entity
+    MCP tools can operate on Springfield data, making this a hard prerequisite for
+    all automated analysis.
+  body: '## Context
+
+    The findings explain why the bound MCP tools cannot screen Springfield: they take
+    no site parameter and read only the active site''s committed data, which is Lima.
+    Per `CLAUDE.md`, per-site values live on a `SiteProfile` in `bosc.sites`, selected
+    by `BOSC_SITE`. A Springfield profile does not exist.
+
+
+    ## Grounding
+
+    Findings §2 state: "a Springfield receiving-water screen is not blocked by analysis
+    — it''s blocked by the absence of a registered Springfield profile and its committed
+    reference data. This matches the documented onboarding model (`bosc onboard <slug>`
+    → scaffold per-site dirs, run portable connectors, emit a blocking review checklist)."
+
+
+    The Lima reference profile contains: GIS URLs, `nwis_sites`, `rsei_fips`, `eia861_utility_number`.
+    The findings also warn: "Re-scan grid/economics connectors for Ohio-hardcoding
+    if non-OH (cross-state-leak pattern)" — a risk pattern previously observed with
+    non-Ohio sites.
+
+
+    ## Acceptance Criterion
+
+    - A `SiteProfile` entry for the confirmed Springfield slug exists in `bosc.sites.SITES`
+    with all required fields populated (GIS URLs, `nwis_sites`, `rsei_fips`, `eia861_utility_number`)
+    and sourced from Springfield-specific data (not reused from Lima/Allen County).
+
+    - The scaffold directories (`data/sites/springfield/`) are created via `bosc onboard
+    <slug>`.
+
+    - A connector audit confirms no Ohio-hardcoded assumptions leak into the Springfield
+    run if the site is outside Allen County.
+
+    - `BOSC_SITE=springfield` runs without falling back to Lima values.'
+- title: Pull Springfield WWTP NPDES permit(s) and receiving-stream 7Q10 into reference
+    data
+  dedupe_key: pull-springfield-wwtp-npdes-permit-s-and-receiving-stream-7q10-i
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  rationale: The receiving-water screen is one of the two named deliverables for this
+    onboarding task, and it cannot be executed until permitted flow and low-flow reference
+    data are ingested for Springfield's specific outfalls and receiving streams.
+  body: '## Context
+
+    The findings describe exactly what a completed receiving-water screen looks like,
+    using Lima as the reference template, and confirm that none of these inputs exist
+    for Springfield.
+
+
+    ## Grounding
+
+    Findings §4 specify the required source path: "OEPA NPDES permits/fact sheets
+    (corpus has `oepa/oepa-2P*…npdes.yaml`) + USGS NWIS / Ohio low-flow records."
+    The Lima receiving-water screen produced, per WWTP/outfall: permitted design flow,
+    receiving stream name, stream 7Q10 low flow, and dilution ratio. Lima''s three
+    WWTPs all yield effluent-dominated (<1:1) ratios flagged as low-flow assimilative
+    **violations**: Shawnee II → Ottawa River (4.64 cfs), American Bath → Pike Run
+    (2.32 cfs), American II → Dug Run (1.86 cfs). Springfield has **none of these
+    ingested** per the findings.
+
+
+    ## Acceptance Criterion
+
+    - At least one Springfield WWTP NPDES permit or fact sheet is committed to `data/reference/`
+    (or the Springfield-equivalent path) in the BOSC corpus.
+
+    - The receiving stream name and cited 7Q10 value are recorded for each outfall.
+
+    - The dilution ratio (design flow ÷ 7Q10) is calculated and any assimilative-capacity
+    violation flagged, mirroring the Lima pattern.
+
+    - `hydrology_balance` (with `BOSC_SITE=springfield`) returns results sourced from
+    these committed documents rather than Lima defaults.'
+- title: Execute data-center activity scan for Springfield and ingest findings
+  dedupe_key: execute-data-center-activity-scan-for-springfield-and-ingest-fin
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  rationale: A definitive yes/no on data-center activity is the other named deliverable
+    for this onboarding task and cannot remain open without a sourced determination.
+  body: '## Context
+
+    The second named deliverable for this onboarding task is a data-center activity
+    layer. The findings confirm that Springfield currently has zero such records in
+    the BOSC corpus.
+
+
+    ## Grounding
+
+    Findings §4 describe the Lima data-center activity layer as built from: "recorder
+    deeds (land assembly to `Bistrozzi`/`Amazon`/`Bistrozzi Addition LLC`), SOS shell
+    filings, EPA stormwater/air permits, township & commissioner minutes, and the
+    air-permit power figure that drives the cooling-draw scenario." Findings §5 (follow-up
+    #5) specify the scan scope: "open-records/parcel sweep for any data-center land
+    assembly, rezoning, or utility-tap activity near Springfield; ingest deeds/SOS/permits
+    if found, or record a flat no-activity finding if not."
+
+
+    ## Acceptance Criterion
+
+    - A parcel/deed sweep and SOS shell-filing search are completed for the confirmed
+    Springfield location.
+
+    - If activity is found: relevant deeds, SOS filings, and/or EPA permits are committed
+    to the Springfield corpus path, and an air-permit power figure (or equivalent)
+    is recorded to enable a `hydrology_scenario` cooling-draw calculation.
+
+    - If no activity is found: a dated, sourced **no-activity** finding is committed
+    to the onboarding file, explicitly closing the question.
+
+    - Either outcome is marked `[verified]` or `[doc]` per BOSC evidence-tagging conventions.'
+- title: Escalate watershed-axis mismatch if Springfield is confirmed as Clark County
+    OH
+  dedupe_key: escalate-watershed-axis-mismatch-if-springfield-is-confirmed-as
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - onboarding
+  rationale: Proceeding with onboarding a site that sits in the wrong river basin
+    would undermine the network's watershed-axis premise and waste connector development
+    effort, making an explicit scope decision necessary before any further work.
+  body: '## Context
+
+    The findings flag a scenario where the disambiguation resolves to Springfield,
+    Clark County OH — a result that would place the site outside the BOSC network''s
+    stated Maumee watershed axis entirely.
+
+
+    ## Grounding
+
+    Findings §3 state: "Springfield, Clark County OH drains to the Mad River → Great
+    Miami → Ohio River — outside the Maumee basin. If this is the target, the site
+    fails the network''s stated watershed-axis premise and that mismatch should be
+    resolved before any connector work." Findings §5 (follow-up #6) further specify:
+    "escalate the watershed-axis mismatch to the network design owner (cf. epics #308/#323)
+    — a Great-Miami site may not belong in a Maumee network without a stated scope
+    change." The basin assignment is currently tagged `[inference]` in the findings
+    and requires NHD confirmation.
+
+
+    ## Acceptance Criterion
+
+    - This issue is only actioned **if** the disambiguation issue (see: ''Disambiguate
+    Springfield identity'') resolves to Clark County OH.
+
+    - The NHD-confirmed basin assignment (Great Miami, not Maumee) is documented.
+
+    - The mismatch is formally escalated to the network design owner, referencing
+    epics #308 and #323.
+
+    - A decision is recorded: either (a) Springfield Clark County is out of scope
+    with rationale, or (b) a network scope change is approved and documented, authorizing
+    onboarding to continue.
+
+    - No connector or ingestion work proceeds for Clark County Springfield until this
+    decision is recorded.'

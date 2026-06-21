@@ -1688,6 +1688,96 @@ _URBANA = SiteProfile(
 )
 
 
+# The network's SECOND Miami-basin site (onboarding #452 under epic #451) and the MID-CORRIDOR
+# node of the Mad River line: Springfield sits ~20 mi downstream of Urbana and ~25 mi upstream
+# of Dayton / Wright-Patterson AFB, on the same **Mad River buried-valley sole-source aquifer**
+# (US-EPA designated) — the Springfield municipal well field is the textbook draw on that
+# outwash sand & gravel. What distinguishes Springfield from headwater Urbana is a SECOND
+# supply water: **Buck Creek**, regulated by USACE **C.J. Brown Reservoir** (a flood-control +
+# water-supply impoundment NE of the city), joining the Mad River at Springfield — a managed,
+# two-source hydrology versus Urbana's single free-flowing reach. The data-center dimension is
+# the corpus thread the Springfield epic (#451) tracks (the in-record Roshel / International
+# Motors activity at the Springfield-Beckley APA, 2026-03-30); all such fields stay [open]
+# research targets filled by `bosc onboard springfield --research`.
+_SPRINGFIELD = SiteProfile(
+    slug="springfield",
+    place="Springfield",
+    basin="great-miami",  # [verified] Mad River → Great Miami River → Ohio River (HUC-8 05080001)
+    nwis_sites=[
+        "03269500",  # [verified] Mad River near Springfield OH (the at-site supply/abstraction reach)
+        "03267900",  # [verified] Mad River at St Paris Pike at Eagle City OH (upstream, Urbana→Springfield)
+        "03268100",  # [verified] Buck Creek bl CJ Brown Reservoir nr Springfield OH (the second supply water)
+    ],
+    nasa_power_lat=39.9242,  # [verified] Springfield, OH city centroid (39deg55'27"N 83deg48'32"W)
+    nasa_power_lon=-83.8089,
+    rsei_fips="39023",  # [verified] Clark County, OH
+    econ_fips="39023",
+    eia861_utility_number=0,  # [open] pending the Clark County retail utility (research)
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the Clark County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Springfield, OH GIS REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (Springfield ~83.81 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
+    gis_parcel=None,  # [open] pending Clark County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Springfield zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "springfield-gis"}),
+    design_lat=39.9242,  # [verified] city centroid = NOAA Atlas-14 point
+    design_lon=-83.8089,
+    corridor_name="Mad River buried-valley corridor",  # [inference] the Mad River valley reach at Springfield
+    dominant_hsg="B",  # [inference] Mad River buried-valley outwash sand & gravel (well-drained valley fill)
+    hsg_citation=(
+        "Clark County / Springfield sits on the Mad River buried-valley aquifer - glacial "
+        "outwash sand & gravel, a US-EPA designated sole-source aquifer tapped directly by the "
+        "Springfield municipal well field - so the valley fill is well-drained HSG B, the "
+        "INVERSE of the Maumee lake-plain Black Swamp clays (HSG D); [inference] pending an "
+        "SSURGO area-weighted confirmation (onboard SSURGO needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
+    parcels_relpath="reference/springfield/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/springfield/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/springfield/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/springfield/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/springfield/baseline.yaml",
+    rsei_relpath="reference/rsei/springfield/inventory.yaml",
+    consumer_energy_relpath="reference/eia/springfield/consumer-energy.yaml",
+    grid_relpath="reference/eia/springfield/grid-profile.yaml",
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending an identified corridor on the Mad River
+    receiving_water_name="Mad River",  # [verified] the Springfield WRF receiving water (→ Great Miami → Ohio R.)
+    plant_receiving={},  # [open] pending the Springfield-area WWTP NPDES fact sheet(s)
+    abstraction_gage="03269500",  # [verified] Mad River near Springfield OH
+    supply_gage_primary="03269500",  # [verified] Mad River near Springfield
+    supply_gage_secondary="03268100",  # [verified] Buck Creek bl CJ Brown Reservoir (the second supply water)
+    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum
+    passby_secondary_cfs=0.0,  # [open]
+    facility=None,  # [open] the WPAFB-corridor / Roshel-APA data-center dimension is the research target (#451)
+    serving_utility_citation="[open] pending Clark County, OH retail utility verification (research)",
+    serving_utility_source="reference",
+    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — Clark County sits at the AEP/DAY seam; pin via research
+    lmp_citation=(
+        "PJM LMP placeholder for the Springfield area; [inference] the PJM transmission zone is "
+        "not yet pinned - Clark County sits at the AEP/DAY seam - verify the utility + zone (research)"
+    ),
+    lmp_pnode_id=0,  # [open] pending the Clark County PJM zone
+    lmp_pnode_name="",
+    county_name="Clark County, OH",  # [verified]
+    map_view_lat=39.9242,
+    map_view_lon=-83.8089,
+    map_view_zoom=13,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
@@ -1698,6 +1788,7 @@ SITES: dict[str, SiteProfile] = {
     _BRYAN.slug: _BRYAN,
     _OTTAWA.slug: _OTTAWA,
     _URBANA.slug: _URBANA,
+    _SPRINGFIELD.slug: _SPRINGFIELD,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so
