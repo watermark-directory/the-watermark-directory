@@ -406,6 +406,19 @@ def test_gis_connectors_refuse_a_schemaless_site() -> None:
 
     from bosc.hydrology.connectors import allen_gis
 
-    assert SITES["findlay"].gis_parcel is None
+    assert SITES["fort-wayne"].gis_parcel is None  # an Indiana site with no parcel schema wired
     with pytest.raises(allen_gis.AllenGisError, match="no parcel GIS schema"):
-        allen_gis.fetch_parcel("12-34", settings=Settings(site="findlay"))
+        allen_gis.fetch_parcel("12-34", settings=Settings(site="fort-wayne"))
+
+
+def test_findlay_parcel_schema_is_owner_redacted_statewide() -> None:
+    """Findlay's parcel gap (#237) is closed by the OGRIP Ohio statewide layer scoped to Hancock —
+    a partial, owner-redacted catalog: county-scoped, no owner field, land use decoded leading_int."""
+    p = SITES["findlay"].gis_parcel
+    assert p is not None and p.connector == "ohio_parcels"
+    assert p.reference_dir == "findlay-gis"
+    assert p.query_scope == "County='Hancock'"  # the statewide layer scoped to FIPS 39063
+    assert p.owner_field == "" and p.defense is None  # owner-redacted; no defense scan
+    assert p.land_use_decode == "leading_int"  # "511: Res-Custom Code" -> 511
+    assert p.id_field == "LocalParcelID" and p.id_normalize == "dashless"
+    assert "OhioStatewidePacels_full_view" in p.meta.source_url

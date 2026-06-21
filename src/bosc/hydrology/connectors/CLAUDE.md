@@ -12,6 +12,11 @@ GIS, FEMA NFHL, ORC, LSC). Defers to the root [`CLAUDE.md`](../../../../CLAUDE.m
   cleanly (no fabricated cross-jurisdiction query). The endpoint URL is the per-site
   `parcels_url`/`zoning_url`/`floodzone_url`. The FEMA NFHL is the *shared national* flood
   field-map (`NATIONAL_NFHL_FLOOD_SCHEMA`), so any US site's floodzone is one connector.
+  `OHIO_STATEWIDE_PARCEL_SCHEMA` is the analogous *shared statewide* parcel field-map for an Ohio
+  county with no parcel REST of its own (e.g. Findlay/Hancock) — each site `model_copy`s it with a
+  per-county `query_scope` (`County='Hancock'`, ANDed into every query) and its own `reference_dir`.
+  It is a partial, owner-redacted layer: an empty `owner_field` makes owner/defense search refuse,
+  and land use is decoded `leading_int` (`"511: Res-Custom Code"` -> `511`).
 
 - **A connector is a pure sync `fn(..., settings) -> pydantic`.** Keep the network
   call inside the `fetch` callable you hand to `_cache.cached_get` — never call

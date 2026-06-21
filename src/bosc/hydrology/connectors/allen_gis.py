@@ -93,7 +93,7 @@ class Parcel(BaseModel):
             deeded_owner=_s(a.get(s.deeded_owner_field)),
             situs_address=_join(*(a.get(f) for f in s.situs_fields)),
             owner_address=_join(*(a.get(f) for f in s.owner_addr_fields)),
-            land_use_code=_i(a.get(s.land_use_field)),
+            land_use_code=_decode_land_use(a.get(s.land_use_field), s.land_use_decode),
             acres=_f(a.get(s.acres_field)),
             market_land_value=_i(a.get(s.market_land_field)),
             market_improvement_value=_i(a.get(s.market_improvement_field)),
@@ -143,6 +143,21 @@ def _decode_sale_date(value: Any, mode: str) -> str | None:
     return None
 
 
+def _decode_land_use(value: Any, mode: str) -> int | None:
+    """Decode the land-use field per the schema's encoding.
+
+    ``"int"`` (default) is a bare numeric code (Lima ``LANDUSE``); ``"leading_int"`` is a
+    ``"<code>: <label>"`` string whose leading integer is the code (Ohio ``StateLUC``, e.g.
+    ``"511: Res-Custom Code"`` -> ``511``). Non-numeric / missing -> ``None`` (never invented).
+    """
+    if mode == "leading_int":
+        if value is None:
+            return None
+        m = re.match(r"\s*(\d+)", str(value))
+        return int(m.group(1)) if m else None
+    return _i(value)
+
+
 def _parse_parcel_date(value: Any) -> str | None:
     """Decode an ``M(M)DDYYYY``-integer sale field to ISO ``yyyy-mm-dd``.
 
@@ -169,6 +184,16 @@ def normalize_parcel_id(raw: str, *, rule: str = "dashless") -> str:
     if rule == "verbatim":
         return raw
     return re.sub(r"\D", "", raw)
+
+
+def _scope_where(where: str, schema: GisParcelSchema) -> str:
+    """AND the schema's jurisdiction scope into a ``where`` clause (a no-op when unset).
+
+    A multi-jurisdiction layer (the Ohio statewide parcels) must be filtered to one county; a
+    single-jurisdiction layer (Lima/Allen) leaves ``query_scope`` empty, so the clause — and
+    therefore the connector cache key — is byte-identical to the pre-scope request.
+    """
+    return f"({where}) AND ({schema.query_scope})" if schema.query_scope else where
 
 
 def _query(params: dict[str, Any], *, settings: Settings, connector: str) -> dict[str, Any]:
@@ -207,7 +232,7 @@ def query_parcels(
     while True:
         page = _query(
             {
-                "where": where,
+                "where": _scope_where(where, schema),
                 "outFields": fields,
                 "resultOffset": offset,
                 "resultRecordCount": schema.page_size,
@@ -237,6 +262,11 @@ def parcels_by_owner(name: str, *, settings: Settings | None = None) -> list[Par
     """Parcels whose owner name contains ``name`` (case-insensitive substring)."""
     settings = settings or get_settings()
     schema = _parcel_schema(settings)
+    if not schema.owner_field:
+        raise AllenGisError(
+            f"site {settings.site!r} parcel layer has no owner-name field "
+            "(owner-redacted) — owner search is unavailable"
+        )
     safe = name.upper().replace("'", "''")
     return query_parcels(f"UPPER({schema.owner_field}) LIKE '%{safe}%'", settings=settings)
 
@@ -250,17 +280,16 @@ def parcel_at_point(lon: float, lat: float, *, settings: Settings | None = None)
     """
     settings = settings or get_settings()
     schema = _parcel_schema(settings)
-    page = _query(
-        {
-            "geometry": f"{lon},{lat}",
-            "geometryType": "esriGeometryPoint",
-            "inSR": "4326",
-            "spatialRel": "esriSpatialRelIntersects",
-            "outFields": ",".join(schema.out_fields),
-        },
-        settings=settings,
-        connector=schema.connector,
-    )
+    point_params: dict[str, Any] = {
+        "geometry": f"{lon},{lat}",
+        "geometryType": "esriGeometryPoint",
+        "inSR": "4326",
+        "spatialRel": "esriSpatialRelIntersects",
+        "outFields": ",".join(schema.out_fields),
+    }
+    if schema.query_scope:  # scope a multi-jurisdiction layer to its county (no-op for Lima)
+        point_params["where"] = schema.query_scope
+    page = _query(point_params, settings=settings, connector=schema.connector)
     features = page.get("features") or []
     parcels = _dedupe([Parcel.from_attrs(f.get("attributes", {}), schema) for f in features])
     return parcels[0] if parcels else None

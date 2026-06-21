@@ -1,0 +1,110 @@
+{
+  "params": {
+    "f": "json",
+    "returnGeometry": "false",
+    "where": "(LocalParcelID='010001025254') AND (County='Hancock')",
+    "outFields": "OBJECTID,County,LocalParcelID,StateParcelID,StateLUC,SitusAddressAll,MailAddressAll,LandArea",
+    "resultOffset": 0,
+    "resultRecordCount": 2000
+  },
+  "fetched_at": "2026-06-21T02:16:44.316000+00:00",
+  "payload": {
+    "objectIdFieldName": "OBJECTID",
+    "uniqueIdField": {
+      "name": "OBJECTID",
+      "isSystemMaintained": true
+    },
+    "globalIdFieldName": "GlobalID",
+    "geometryType": "esriGeometryPolygon",
+    "spatialReference": {
+      "wkid": 102723,
+      "latestWkid": 3735
+    },
+    "fields": [
+      {
+        "name": "OBJECTID",
+        "type": "esriFieldTypeOID",
+        "alias": "OBJECTID",
+        "sqlType": "sqlTypeOther",
+        "domain": null,
+        "defaultValue": null
+      },
+      {
+        "name": "County",
+        "type": "esriFieldTypeString",
+        "alias": "County",
+        "sqlType": "sqlTypeOther",
+        "length": 30,
+        "domain": null,
+        "defaultValue": null
+      },
+      {
+        "name": "LocalParcelID",
+        "type": "esriFieldTypeString",
+        "alias": "LocalParcelID",
+        "sqlType": "sqlTypeOther",
+        "length": 30,
+        "domain": null,
+        "defaultValue": null
+      },
+      {
+        "name": "StateParcelID",
+        "type": "esriFieldTypeString",
+        "alias": "StateParcelID",
+        "sqlType": "sqlTypeOther",
+        "length": 50,
+        "domain": null,
+        "defaultValue": null
+      },
+      {
+        "name": "StateLUC",
+        "type": "esriFieldTypeString",
+        "alias": "Land Use",
+        "sqlType": "sqlTypeOther",
+        "length": 50,
+        "domain": null,
+        "defaultValue": null
+      },
+      {
+        "name": "SitusAddressAll",
+        "type": "esriFieldTypeString",
+        "alias": "Situs Address All",
+        "sqlType": "sqlTypeOther",
+        "length": 255,
+        "domain": null,
+        "defaultValue": null
+      },
+      {
+        "name": "MailAddressAll",
+        "type": "esriFieldTypeString",
+        "alias": "Mail Address",
+        "sqlType": "sqlTypeOther",
+        "length": 300,
+        "domain": null,
+        "defaultValue": null
+      },
+      {
+        "name": "LandArea",
+        "type": "esriFieldTypeDouble",
+        "alias": "LandArea",
+        "sqlType": "sqlTypeOther",
+        "domain": null,
+        "defaultValue": null
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "OBJECTID": 3252741,
+          "County": "Hancock",
+          "LocalParcelID": "010001025254",
+          "StateParcelID": "39063-010001025254",
+          "StateLUC": "511: Res-Custom Code",
+          "SitusAddressAll": "199  COUNTY RD 140   NORTH BALTIMORE 45872",
+          "MailAddressAll": "JOHNSON CHARLES W & JOY M NORTH BALTIMORE 45872",
+          "LandArea": 5.01
+        }
+      }
+    ]
+  }
+}
