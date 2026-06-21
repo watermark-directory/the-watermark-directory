@@ -2201,7 +2201,7 @@ def pjm_cmd(
 
     console.print(
         f"[bold]{sc.rto} wholesale market[/] "
-        f"[dim](transcribed PJM figures, LMP {sc.lmp_zone}; verify)[/]\n"
+        f"[dim](LMP {sc.lmp_zone}, {sc.zonal_lmp_usd_mwh.source}; RPM/queue transcribed, verify)[/]\n"
         f"  zonal LMP [bold]${sc.zonal_lmp_usd_mwh.value:g}/MWh[/] "
         f"(energy + congestion + losses); RPM clearing "
         f"[bold]${sc.rpm_clearing_usd_mw_day.value:g}/MW-day[/] (2025/2026 BRA); "
@@ -2233,11 +2233,39 @@ def pjm_cmd(
     console.print(
         "\n[dim]Screening view, not a settlement/dispatch model: LMP varies by node/hour; the "
         "RPM clearing price is not the campus's contracted rate; the queue figure is "
-        "order-of-magnitude. Transcribed PJM figures (Data Miner 2 / RPM BRA / queue), verify.[/]"
+        "order-of-magnitude. Zonal LMP is connector-sourced (PJM Data Miner 2); RPM/queue "
+        "transcribed, verify.[/]"
     )
     if write:
         path = write_pjm_market(_market_reference(settings), settings=settings)
         console.print(f"[green]Wrote[/] {path}")
+
+
+@app.command(name="lmp")
+def lmp_cmd() -> None:
+    """Zonal day-ahead LMP for the active site's PJM pricing zone (PJM Data Miner 2, #121).
+
+    Needs BOSC_PJM_API_KEY for a live pull; offline (BOSC_ECON_OFFLINE=1) replays the committed
+    fixture. A site whose PJM zone is not yet pinned (lmp_pnode_id=0) reports the placeholder.
+    """
+    from bosc.grid.lmp import fetch_zonal_lmp
+    from bosc.sites import active_profile
+
+    settings = get_settings()
+    prof = active_profile(settings)
+    if not prof.lmp_pnode_id:
+        console.print(
+            f"[yellow]Site {settings.site!r} has no pinned PJM pricing zone (lmp_pnode_id=0)[/] — "
+            f"using the transcribed placeholder ${prof.lmp_usd_mwh:g}/MWh. Pin the zone to fetch live."
+        )
+        raise typer.Exit(0)
+    z = fetch_zonal_lmp(pnode_id=prof.lmp_pnode_id, zone=prof.lmp_pnode_name, settings=settings)
+    console.print(
+        f"[bold]{z.zone} zone[/] (pnode {z.pnode_id}) day-ahead LMP "
+        f"[bold]${z.mean_da_lmp_usd_mwh:g}/MWh[/] "
+        f"[dim](mean of {z.n_hours} h, {z.period_start[:10]}..{z.period_end[:10]}; "
+        f"PJM Data Miner 2 da_hrl_lmps)[/]"
+    )
 
 
 @app.command(name="ferc")

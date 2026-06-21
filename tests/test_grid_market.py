@@ -1,7 +1,8 @@
-"""PJM wholesale-market layer (#96): the LMP / RPM-capacity / interconnection-queue
-figures are transcribed reference values (medium confidence, flagged verify), the
-campus scenario links the first-class facility_draw (#87), and the committed YAML
-round-trips. Hermetic - reads committed reference data only, no network.
+"""PJM wholesale-market layer (#96, #121): zonal LMP is connector-sourced from PJM Data
+Miner 2 (replayed from a committed fixture offline); the RPM-capacity / interconnection-
+queue figures remain transcribed reference values (medium confidence, flagged verify).
+The campus scenario links the first-class facility_draw (#87), and the committed YAML
+round-trips. Hermetic - reads committed reference data + fixtures only, no network.
 """
 
 from __future__ import annotations
@@ -22,26 +23,29 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 @pytest.fixture
 def market_settings() -> Settings:
-    """Real repo data dir (reads committed reference data); no network."""
-    return Settings(data_dir=REPO_ROOT / "data", hydro_offline=True, econ_offline=True)
+    """Real repo data dir + committed connector fixtures (so offline replays the PJM LMP); no network."""
+    return Settings(
+        data_dir=REPO_ROOT / "data",
+        hydro_offline=True,
+        econ_offline=True,
+        econ_fixtures_dir=REPO_ROOT / "tests" / "fixtures" / "economics",
+    )
 
 
-def test_lmp_and_capacity_are_reference_sourced(market_settings: Settings) -> None:
+def test_lmp_is_connector_sourced_capacity_is_reference(market_settings: Settings) -> None:
     sc = derive_pjm_market_scenario(settings=market_settings)
-    # The LMP and RPM clearing price are transcribed reference figures, at medium
-    # confidence, each flagged for verification - not asserted as fact.
-    assert sc.zonal_lmp_usd_mwh.source == "reference"
-    assert sc.rpm_clearing_usd_mw_day.source == "reference"
+    # Zonal LMP is now connector-sourced (PJM Data Miner 2 da_hrl_lmps, #121) — Lima's AEP zone,
+    # replayed from the committed fixture; a real ~$46/MWh figure, not the old $35 placeholder.
+    assert sc.zonal_lmp_usd_mwh.source == "connector"
     assert sc.zonal_lmp_usd_mwh.confidence == "medium"
-    assert sc.rpm_clearing_usd_mw_day.confidence == "medium"
-    assert sc.zonal_lmp_usd_mwh.citation is not None
-    assert sc.rpm_clearing_usd_mw_day.citation is not None
-    assert "verify" in sc.zonal_lmp_usd_mwh.citation.lower()
-    assert "verify" in sc.rpm_clearing_usd_mw_day.citation.lower()
-    # The large-load queue is reference, order-of-magnitude, flagged verify.
+    assert "da_hrl_lmps" in (sc.zonal_lmp_usd_mwh.citation or "")
+    assert 40.0 < sc.zonal_lmp_usd_mwh.value < 55.0
+    assert sc.lmp_zone == "AEP zone"
+    # The RPM clearing price + large-load queue remain transcribed reference figures, flagged verify.
+    assert sc.rpm_clearing_usd_mw_day.source == "reference"
+    assert "verify" in (sc.rpm_clearing_usd_mw_day.citation or "").lower()
     assert sc.large_load_queue_gw.source == "reference"
-    assert sc.large_load_queue_gw.citation is not None
-    assert "verify" in sc.large_load_queue_gw.citation.lower()
+    assert "verify" in (sc.large_load_queue_gw.citation or "").lower()
 
 
 def test_scenario_links_facility_draw(market_settings: Settings) -> None:
@@ -100,8 +104,8 @@ def test_committed_pjm_market_loads() -> None:
     ref = load_pjm_market(REPO_ROOT / "data" / "reference")
     assert ref is not None
     assert "PJM" in ref.rto.value
-    # The transcribed figures are reference-sourced, medium confidence, flagged verify.
-    assert ref.zonal_lmp_usd_mwh.source == "reference"
+    # Zonal LMP is connector-sourced (#121); RPM remains transcribed reference, flagged verify.
+    assert ref.zonal_lmp_usd_mwh.source == "connector"
     assert ref.rpm_clearing_usd_mw_day.source == "reference"
     assert ref.rpm_clearing_usd_mw_day.confidence == "medium"
     assert ref.zonal_lmp_usd_mwh.value > 0.0

@@ -165,6 +165,12 @@ class Settings(BaseSettings):
     econ_offline: bool = False  # serve cached/fixture responses only; never fetch
     econ_request_timeout_s: float = 60.0
     econ_fixtures_dir: Path | None = None  # committed connector fixtures (tests/CI)
+    # PJM Data Miner 2 — zonal day-ahead LMP (#121). Keyed: a free subscription key read from
+    # BOSC_PJM_API_KEY, sent as the Ocp-Apim-Subscription-Key header only on the live request
+    # (never in the cache key or the committed fixture). Reuses the shared econ cache/offline/
+    # fixtures discipline (the grid connectors do). Offline replays committed fixtures.
+    pjm_base_url: str = "https://api.pjm.com/api/v1"
+    pjm_api_key: str = ""  # required for live pulls; offline replays committed fixtures
 
     # --- GIS / satellite imagery -------------------------------------------
     # Pull AOI-clipped satellite imagery for tracking sites (the campus/footprints

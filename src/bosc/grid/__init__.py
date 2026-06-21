@@ -24,6 +24,11 @@ from bosc.grid.interchange import (
     load_ba_interchange,
     write_ba_interchange,
 )
+from bosc.grid.lmp import (
+    PjmLmpError,
+    ZonalLmp,
+    fetch_zonal_lmp,
+)
 from bosc.grid.market import (
     PjmMarketReference,
     PjmMarketScenario,
@@ -64,17 +69,20 @@ __all__ = [
     "GridLoadShare",
     "GridProfile",
     "JurisdictionalBoundary",
+    "PjmLmpError",
     "PjmMarketReference",
     "PjmMarketScenario",
     "PolicyLever",
     "ServingUtility",
     "UtilityProfile",
+    "ZonalLmp",
     "derive_federal_backdrop",
     "derive_ferc_seam",
     "derive_grid_profile",
     "derive_interchange_comparison",
     "derive_pjm_market_scenario",
     "fetch_ba_interchange",
+    "fetch_zonal_lmp",
     "load_ba_interchange",
     "load_federal_backdrop",
     "load_ferc_seam",

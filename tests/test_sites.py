@@ -84,7 +84,7 @@ _LIMA_GOLDEN = {
     "supply_gage_secondary": "04187100",
     "passby_primary_cfs": 2.5,
     "passby_secondary_cfs": 0.2,
-    "lmp_usd_mwh": 35.0,
+    "lmp_usd_mwh": 45.81,  # connector-sourced AEP-zone 2025 day-ahead annual mean (#121)
     "county_name": "Allen County, OH",
     "map_view_lat": 40.792,
     "map_view_lon": -84.122,
