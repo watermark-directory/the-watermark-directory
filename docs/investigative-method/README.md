@@ -74,8 +74,8 @@ audiences:
 
 That second wiring is intentionally **not** done here — it changes the agent's
 runtime behavior and wants its own change, tests, and an SDK-capability check. It
-is tracked as a follow-up issue. This directory lands the expertise; the app picks
-up "some skills" later.
+is tracked under epic #323 (re-homed from the closed #247). This directory lands the
+expertise; the app picks up "some skills" later.
 
 ## Adding a skill or a new investigation
 
