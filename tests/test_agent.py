@@ -31,6 +31,26 @@ async def test_program_overview_reads_committed_summary() -> None:
     assert "checks pass" in text
 
 
+async def test_read_side_tools_flag_a_non_lima_active_site(monkeypatch: pytest.MonkeyPatch) -> None:
+    # During a per-site research run (`bosc --site <slug> research run`) the read-side corpus +
+    # hydrology tools are the Lima reference build; they must surface that explicitly (#424) rather
+    # than silently hand back Lima data — the gap the Bryan/Ottawa/Fort Wayne findings each hit.
+    monkeypatch.setattr(
+        tools, "get_settings", lambda: Settings(site="findlay", data_dir=REPO_ROOT / "data")
+    )
+    text = (await tools.program_overview.handler({}))["content"][0]["text"]
+    assert text.startswith("[scope]") and "findlay" in text and "#424" in text
+    assert "Program construction total" in text  # still returns the (Lima) data, now labeled
+
+    # Zero-drift for the corpus home: no banner for Lima.
+    monkeypatch.setattr(
+        tools, "get_settings", lambda: Settings(site="lima", data_dir=REPO_ROOT / "data")
+    )
+    assert not (await tools.program_overview.handler({}))["content"][0]["text"].startswith(
+        "[scope]"
+    )
+
+
 async def test_reconcile_estimate_rejects_non_generated(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
