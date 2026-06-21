@@ -175,7 +175,14 @@ deeper, separate cutover, not part of routine onboarding.
   at the NFHL layer and reference it. *Worked example — Findlay:* zoning = the City's hosted
   FeatureServer (polygon-only → district catalog, no parcel join); flood = the national NFHL;
   parcels = `[open]` (Hancock County publishes no ArcGIS-REST parcel layer — Beacon/Schneider
-  only; the substitute is the Ohio statewide parcel layer filtered to FIPS 39063).
+  only; the substitute is the Ohio statewide parcel layer filtered to FIPS 39063). *Worked
+  example — Ottawa (the full fit):* Putnam County self-hosts its own valid-cert ArcGIS, so parcels
+  = the county's `Parcels` layer (`PUTNAM_PARCEL_SCHEMA`, [#420](https://github.com/goedelsoup/bosc/issues/420))
+  — owner **and** auditor CAMA values on one layer, no statewide substitute needed; flood = the
+  national NFHL; zoning = `[open]` (the village's zoning is parcel-class-coded / map-only, no REST).
+  This is where reading the live `?f=json` earns its keep: the populated land-use code was `CLASS_1`
+  (not the `Class` field, which is 0/unused) and `SALEDATE` is a `MM-DD-YY` string (a per-schema
+  `date_decode`) — both only discoverable from the real layer, never guessable.
 
 ## The self-research first pass (`--research`, #247)
 

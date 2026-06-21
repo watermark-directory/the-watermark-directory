@@ -484,6 +484,79 @@ OHIO_STATEWIDE_PARCEL_SCHEMA = GisParcelSchema(
 )
 
 
+# Putnam County, OH parcels (Ottawa watershed point; #420). Putnam self-hosts a valid-cert ArcGIS
+# (`putnamcountygis.com`) whose `Parcels` layer carries owner AND auditor CAMA values on one layer —
+# the full fit Findlay's owner-redacted OGRIP substitute can't give. Field names confirmed from the
+# live layer-0 `?f=json` + samples (2026-06-21). Notes: OWNER holds the whole owner string (no
+# separate second/deeded-owner field); OWNERC/OWNERD are the property situs (an owner may mail to a
+# different state — verified against a parcel whose mailing city is The Woodlands, TX); MAILC/MAILD
+# are the owner's mailing address; the populated land-use code lives in CLASS_1 (the `Class` field is
+# 0/unused here); LANDVALUE/BLDGVALUE are the auditor's land/building values with no combined-total
+# field; SALEDATE is a MM-DD-YY string (date_decode="mmddyy"). No CAUV/school/neighborhood/tax-
+# district/valid-sale fields on this layer (they stay absent → None, never fabricated); CAUV + the
+# full appraisal split live on the separate LandUseParcels CAMA layer, not joined here.
+PUTNAM_PARCEL_SCHEMA = GisParcelSchema(
+    connector="putnam_gis",
+    reference_dir="ottawa-gis",
+    page_size=1000,
+    out_fields=(
+        "PIN",
+        "OWNER",
+        "OWNERC",
+        "OWNERD",
+        "MAILC",
+        "MAILD",
+        "CLASS_1",
+        "ACRESOWNED",
+        "LANDVALUE",
+        "BLDGVALUE",
+        "SALEDATE",
+        "PURPRI",
+    ),
+    id_field="PIN",  # 12-digit zero-padded parcel id string (PARCELNUM is the same digits as a float)
+    owner_field="OWNER",
+    owner_2_field="",  # no separate second-owner field (OWNER carries the full string)
+    deeded_owner_field="",  # no separate deeded-owner field
+    situs_fields=("OWNERC", "OWNERD"),  # the property situs (location + city/state/zip)
+    owner_addr_fields=(
+        "MAILC",
+        "MAILD",
+    ),  # the owner's mailing address (may be out of county/state)
+    land_use_field="CLASS_1",  # the populated 3-digit Ohio use code (`Class` is 0/unused here)
+    acres_field="ACRESOWNED",
+    market_land_field="LANDVALUE",
+    market_improvement_field="BLDGVALUE",
+    market_total_field="",  # no combined-total field on this layer (never summed/fabricated)
+    cauv_field="",  # CAUV lives on the separate LandUseParcels CAMA layer, not joined here
+    tax_district_field="",
+    school_field="",
+    neighborhood_field="",
+    sale_date_field="SALEDATE",  # MM-DD-YY string
+    sale_amount_field="PURPRI",
+    valid_sale_field="",  # PURCOD is a conveyance-type code, not a validity flag — left unmapped
+    id_normalize="dashless",
+    date_decode="mmddyy",
+    deed_id_regex=r"\b\d{12}\b",  # 12 dashless digits (no Putnam corpus scan; pattern for parity)
+    meta=GisMeta(
+        subject="Putnam County, Ohio parcels (CAMA)",
+        source="Putnam County GIS — ArcGIS REST, Parcels/Parcels layer 0 (auditor CAMA + geometry)",
+        source_url="https://putnamcountygis.com/arcgis/rest/services/Parcels/Parcels/MapServer/0",
+        caveats=(
+            "Values are verbatim from the county GIS; null means the service had no value.",
+            "Market values are the auditor's land/building appraised values; this layer has no "
+            "combined total field, so market_total_value is always null (never summed here).",
+            "Land use is the auditor's 3-digit Ohio use code in CLASS_1; the `Class` field is "
+            "0/unused in this layer.",
+            "OWNERC/OWNERD are the property situs; MAILC/MAILD the owner's (possibly out-of-state) "
+            "mailing address.",
+            "last_sale_date is decoded from the MM-DD-YY string with the standard %y century pivot "
+            "(69-99 -> 1900s, 00-68 -> 2000s); verify the century against the deed near the pivot.",
+            "Field names confirmed from the live layer-0 metadata + samples (2026-06-21).",
+        ),
+    ),
+)
+
+
 # The live reference build. Every value reproduces the pre-#325 hardcoded default exactly —
 # see tests/test_sites.py for the zero-drift golden snapshot.
 _LIMA = SiteProfile(
@@ -1283,15 +1356,17 @@ _OTTAWA = SiteProfile(
     econ_fips="39137",
     eia861_utility_number=14006,  # [reference] Ohio Power Co (AEP Ohio) — the IOU serving the incorporated village
     eia_state="OH",
-    # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
-    # a follow-up live metadata read (Putnam County GIS + Village of Ottawa GIS).
-    parcels_url="TODO",  # [open] pending the Putnam County, OH GIS REST endpoint discovery
+    # GIS — schema-driven (#237): parcels = Putnam County's self-hosted ArcGIS (#420); flood = the
+    # shared national NFHL; zoning still pending (the village's zoning is class-coded / map-only).
+    parcels_url=(  # [verified] Putnam County GIS — Parcels layer 0 (auditor CAMA + geometry)
+        "https://putnamcountygis.com/arcgis/rest/services/Parcels/Parcels/MapServer/0"
+    ),
     zoning_url="TODO",  # [open] pending the Village of Ottawa, OH GIS REST endpoint discovery
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gis_parcel=None,  # [open] pending Putnam County, OH parcel-layer discovery
-    gis_zoning=None,  # [open] pending Village of Ottawa zoning-layer discovery
+    gis_parcel=PUTNAM_PARCEL_SCHEMA,  # [verified] Putnam County Parcels (owner + CAMA values; #420)
+    gis_zoning=None,  # [open] pending Village of Ottawa zoning-layer discovery (class-coded/map-only)
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "ottawa-gis"}),
     gnis_default_state="OH",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (Ottawa ~84.05 degW; zone 16 spans 90-84 degW)

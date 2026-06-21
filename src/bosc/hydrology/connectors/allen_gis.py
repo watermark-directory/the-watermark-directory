@@ -140,6 +140,8 @@ def _decode_sale_date(value: Any, mode: str) -> str | None:
         return _parse_parcel_date(value)
     if mode == "iso":
         return _s(value)
+    if mode == "mmddyy":
+        return _parse_mmddyy(value)
     return None
 
 
@@ -171,6 +173,27 @@ def _parse_parcel_date(value: Any) -> str | None:
     month, day, year = int(digits[:2]), int(digits[2:4]), int(digits[4:])
     if not (1 <= month <= 12 and 1 <= day <= 31 and 1800 <= year <= 2100):
         return None
+    return f"{year:04d}-{month:02d}-{day:02d}"
+
+
+def _parse_mmddyy(value: Any) -> str | None:
+    """Decode a ``MM-DD-YY`` two-digit-year sale string to ISO ``yyyy-mm-dd``.
+
+    e.g. ``"08-05-94"`` -> ``1994-08-05``; ``"06-22-23"`` -> ``2023-06-22``. The century is
+    resolved by the standard C/``strptime`` ``%y`` pivot -- ``69``-``99`` -> ``1900``s, ``00``-
+    ``68`` -> ``2000``s -- a documented convention, not a per-row guess; verify the century
+    against the deed for sales near the pivot. Returns ``None`` for missing/unparseable values.
+    """
+    text = _s(value)
+    if text is None:
+        return None
+    m = re.fullmatch(r"(\d{1,2})-(\d{1,2})-(\d{2})", text)
+    if not m:
+        return None
+    month, day, yy = int(m.group(1)), int(m.group(2)), int(m.group(3))
+    if not (1 <= month <= 12 and 1 <= day <= 31):
+        return None
+    year = 1900 + yy if yy >= 69 else 2000 + yy
     return f"{year:04d}-{month:02d}-{day:02d}"
 
 

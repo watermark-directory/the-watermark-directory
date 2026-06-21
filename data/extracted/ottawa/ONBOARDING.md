@@ -7,7 +7,7 @@ Living record for the Ottawa watershed point (basin: maumee), scaffolded by `bos
 - [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)
 - [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile (AEP Ohio IOU; standard path)
 - [~] **Data-center activity** — self-research first pass run (#247); **affirmatively nothing documented** (no Putnam/Ottawa permit, deed, SOS filing, or meeting record in the corpus). See self-research summary below.
-- [~] **Per-jurisdiction GIS** — flood = shared national NFHL (wired). Putnam County self-hosts a **valid-cert, queryable ArcGIS** — `Parcels` (owner + values) **and** a `Land Use` CAMA layer (land/improvement/total value + soil type) — a strong wireable lead; no standalone zoning REST (village zoning is class-coded / map-only). See GIS discovery below. Schemas not committed yet (a reviewed follow-up).
+- [x] **Per-jurisdiction GIS** — parcels **wired** (`PUTNAM_PARCEL_SCHEMA`, #420 — Putnam County's self-hosted valid-cert ArcGIS, owner + auditor CAMA values on one layer) and flood = shared national NFHL (wired). Zoning stays `[open]` (no standalone REST — village zoning is class-coded / map-only). See GIS discovery below.
 
 ## Same-river sibling of Findlay (#237) — the intra-tributary control
 
@@ -40,20 +40,23 @@ Putnam County **self-hosts** an ArcGIS Server (`putnamcountygis.com/arcgis/rest/
 TLS, `?f=json` queryable) — discovered via the county GIS hub (`new-pcohio.hub.arcgis.com`). Like
 Williams/Lucas it carries owner **and** CAMA values; the `Land Use` layer adds soil type and the
 full appraisal split. No standalone zoning FeatureServer (the village's zoning is class-coded /
-map-only). Nothing is committed yet — registering the field-maps from the live `?f=json` is a
-reviewed follow-up, not this discovery pass.
+map-only). The parcel `gis_parcel` schema is now **wired** (#420) — `PUTNAM_PARCEL_SCHEMA` in
+`bosc.sites`, field-map confirmed from the live `?f=json` + samples (2026-06-21), with an offline
+fixture/decode test; the `?f=json` field semantics resolved during wiring are recorded in the
+schema comment (OWNERC/OWNERD = situs vs MAILC/MAILD = mailing; `CLASS_1` is the populated land-use
+code, not `Class`; `SALEDATE` is MM-DD-YY). No committed reference *data* yet (a `bosc parcels
+--site ottawa` pull is a separate reviewed step). Zoning stays `[open]`.
 
 | layer | endpoint | finding | status |
 |---|---|---|---|
 | floodzone | FEMA NFHL (national, layer 28) | wired in the profile (`gis_flood`) | wired |
-| parcels | `putnamcountygis.com/.../Parcels/Parcels/MapServer/0` (polygon) | `PIN`/`PARCELNUM`, `OWNER` + mailing address, `Class`, `SALEDATE`/`PURPRI`, `ACRESOWNED`, `LANDVALUE`, `BLDGVALUE` — owner **and** values on one layer | wireable lead |
-| land use (CAMA) | `putnamcountygis.com/.../Land_Features/LandUseParcels/MapServer/0` (polygon) | full CAMA join: `PPClassCod` (use class), `PPAcres`, `PPLandValu`/`PPImprValu`/`PPTotalVal`, `PPOnCauv`, `PPSaleDate`/`ValidSale`, `SOIL_TYPE` | wireable lead |
+| parcels | `putnamcountygis.com/.../Parcels/Parcels/MapServer/0` (polygon) | `PIN`, `OWNER` + situs (`OWNERC`/`OWNERD`) + mailing (`MAILC`/`MAILD`), `CLASS_1` (use code), `SALEDATE`/`PURPRI`, `ACRESOWNED`, `LANDVALUE`/`BLDGVALUE` — owner **and** values on one layer | **wired** (`gis_parcel`, #420) |
+| land use (CAMA) | `putnamcountygis.com/.../Land_Features/LandUseParcels/MapServer/0` (polygon) | full CAMA join: `PPClassCod` (use class), `PPAcres`, `PPLandValu`/`PPImprValu`/`PPTotalVal`, `PPOnCauv`, `PPSaleDate`/`ValidSale`, `SOIL_TYPE` | not needed (Parcels carries owner+value); the CAUV/total/soil split is a follow-up if required |
 | villages | `putnamcountygis.com/.../Boundaries/Villages/MapServer/0` | village boundaries (incl. Ottawa) | reference |
 | zoning | — | no standalone zoning REST found (village zoning is parcel-class-coded / map-only) | `[open]` |
 
-Follow-up (a research/issue lead): register Putnam County `gis_parcel` (the `Parcels` or
-`LandUseParcels` field-map — owner + value, no join) from the live `?f=json`; accept zoning as
-class-coded/map-only here (or locate a Village of Ottawa zoning layer).
+Follow-up: commit the reviewed Putnam parcel reference *data* (a `bosc parcels --site ottawa`
+pull); accept zoning as class-coded/map-only here (or locate a Village of Ottawa zoning layer).
 
 ## Self-research (Phase 5; #247) — 2026-06-21
 
@@ -102,6 +105,6 @@ valid-cert, wireable) is tracked under GIS discovery above.
 - [ ] Every written reference value is reviewed against a cited source (no fabricated values).
 - [ ] SSURGO dominant HSG matches the profile, or the SiteProfile is updated with a citation.
 - [ ] basin-screen coverage is sane for this site's receiving waters.
-- [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
+- [x] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md). Parcels wired via `PUTNAM_PARCEL_SCHEMA` (#420); zoning stays `[open]` (village zoning is class-coded / map-only, no REST).
 - [x] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/) — see self-research summary above; 4 proposals filed as sub-issues of #381 (#414–417).
 - [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'ottawa' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
