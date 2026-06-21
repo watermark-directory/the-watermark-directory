@@ -18,8 +18,9 @@ added a **short-form fallback** + an **ownership-aware retail regulator** to `bo
 `bosc.grid.utility`. The generated `grid-profile.yaml` correctly shows: ownership Municipal,
 ~160 GWh / 5,814 customers (861S 2024), avg price ~10.75¢/kWh; holding company = **American
 Municipal Power (AMP)** member (no IOU parent); BA/RTO = PJM (AMP-scheduled); retail regulator =
-**municipal home rule** (NOT PUCO rate-regulated). The PJM transmission **zone** is not yet pinned
-(LMP is a placeholder) — a verification follow-up.
+**municipal home rule** (NOT PUCO rate-regulated). The PJM transmission **zone** is now pinned to
+**AEP** (the City-of-Bryan `CTYBRYAN` load settles in the AEP zone per PJM Data Miner 2); LMP is
+connector-sourced $45.81/MWh (#411, resolved 2026-06-21).
 
 ## Last onboard run
 
@@ -98,8 +99,11 @@ correction above) — it does not exist for Williams Co OH.
 **Serving utility — VERIFIED: Bryan IS the municipal (the site the "Bryan trap" is named for).** The
 grid connector's EIA-861S short-form fallback correctly identifies City of Bryan #2439 as
 **Municipal / home-rule** (NOT PUCO rate-regulated), AMP/PJM — the inverse of the IOU sites'
-verification. One flagged placeholder: `lmp_usd_mwh=35.0` is an **`[inference]`** (the AMP/PJM
-transmission zone is not yet pinned via PJM Data Miner) — proposal #411.
+verification. **LMP resolved (#411, 2026-06-21):** the $35 placeholder is replaced with the
+connector-sourced **AEP-zone** day-ahead annual mean (**$45.81/MWh**, PJM Data Miner 2). Despite the
+AMP wholesale arrangement, the **City-of-Bryan load settles in the PJM AEP zone** — the live Data
+Miner 2 pnode table lists `CTYBRYAN` (LOAD pnodes 32411011/32411013) in zone AEP — so Bryan's zonal
+LMP is the AEP zone (pinned `lmp_pnode_id`, same fixture as the AEP OH sites), `source=connector`.
 
 **Economy / toxics:** manufacturing LQ **4.54** (heavily industrial, declining population) against
 info LQ 0.19 — the load-not-jobs shape again. **RSEI/toxics resolved (#412, 2026-06-21):**
@@ -109,9 +113,10 @@ info LQ 0.19 — the load-not-jobs shape again. **RSEI/toxics resolved (#412, 20
 - *`toxic_corridor_bbox` defined:* `(41.46, 41.49, -84.57, -84.52)` — the City-of-Bryan reach of Prairie Creek (captures NEW ERA OHIO, Titan Tire, Hayes-Albion, Ohio Art, A-Stamp, Bryan Metals; excludes the Montpelier/Edgerton/Stryker facilities on other drainages). This box **is** the Prairie-Creek-scoped subset: `toxics._in_corridor` scopes the inventory to it at screen time (15 of 35 facilities, 3 water-releasers), tagging in-box facilities `assumption` for Prairie Creek discharge.
 
 **Proposals — 5 filed as sub-issues of #380:** #408 (Prairie Creek 7Q10 + the WWTP screen), #409
-(ingest the OH0020532 NPDES fact sheet), #410 (the Williams County parcel/recorder tripwire), #411
-(pin the AMP/PJM zone + replace the placeholder LMP), #412 (corridor-scope the RSEI/toxics to
-Prairie Creek). The GIS parcel lift is now done via the OGRIP `County='Williams'` substitute (#410,
+(ingest the OH0020532 NPDES fact sheet), #410 (the Williams County parcel/recorder tripwire),
+~~#411 (pin the AMP/PJM zone + replace the placeholder LMP)~~ **— resolved 2026-06-21: CTYBRYAN
+settles in the PJM AEP zone, LMP now connector-sourced $45.81/MWh**, #412 (corridor-scope the
+RSEI/toxics to Prairie Creek). The GIS parcel lift is now done via the OGRIP `County='Williams'` substitute (#410,
 owner-redacted); a native owner-bearing Williams-OH REST + a zoning layer remain follow-ups (see the
 GIS correction above — the originally-cited `ParcelsWeb`/`Zoning_OD` org is North Dakota).
 

@@ -65,14 +65,27 @@ def test_live_pull_requires_a_subscription_key(tmp_path: Path) -> None:
 
 
 def test_unpinned_zone_falls_back_to_reference() -> None:
-    # A site whose PJM zone is not yet pinned (Bryan/AMP #411) uses the transcribed reference
+    # A site whose PJM zone is not yet pinned (Defiance) uses the transcribed reference
     # placeholder, not a connector pull — the market layer never fabricates a zone.
     from bosc.grid.market import _zonal_lmp
     from bosc.sites import SITES
 
-    bryan = SITES["bryan"]
-    assert bryan.lmp_pnode_id == 0  # zone not pinned
-    zone, lmp = _zonal_lmp(bryan, _offline_settings())
+    defiance = SITES["defiance"]
+    assert defiance.lmp_pnode_id == 0  # zone not pinned
+    zone, lmp = _zonal_lmp(defiance, _offline_settings())
     assert lmp.source == "reference"
-    assert lmp.value == bryan.lmp_usd_mwh
+    assert lmp.value == defiance.lmp_usd_mwh
     assert "unpinned" in zone.value or zone.source == "reference"
+
+
+def test_fort_wayne_and_bryan_pinned_to_aep() -> None:
+    # I&M (Fort Wayne #361) has no separate PJM zone, and the City-of-Bryan load (#411, CTYBRYAN)
+    # settles in AEP — both verified against the live PJM pnode table (2026-06-21). So both pin to
+    # the AEP zone, reusing the committed AEP fixture (no new token-dependent pull).
+    from bosc.sites import SITES
+
+    for slug in ("fort-wayne", "bryan"):
+        prof = SITES[slug]
+        assert prof.lmp_pnode_id == 8445784, slug  # AEP zone pnode (same as Lima)
+        assert prof.lmp_pnode_name == "AEP", slug
+        assert prof.lmp_usd_mwh == pytest.approx(45.81, abs=0.05), slug
