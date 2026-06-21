@@ -7,7 +7,7 @@ Living record for the Bryan watershed point (basin: maumee), scaffolded by `bosc
 - [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)
 - [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile (**municipal** — see grid note)
 - [~] **Data-center activity** — self-research first pass run (#247); **no documented facility**, scoped honestly (no Williams County parcel/recorder layer in the corpus yet — the tripwire isn't installed, #410). See self-research summary below.
-- [~] **Per-jurisdiction GIS** — flood = shared national NFHL (wired). Williams County has a **full, valid-cert, queryable ArcGIS** — `ParcelsWeb` (owner **and** CAMA values on one layer, no join) **and** a `Zoning_OD` district catalog — the best-equipped small-county GIS in the network and genuinely wireable; see GIS discovery below. Schemas not committed yet (a reviewed follow-up), but this is a strong wire-ready candidate.
+- [x] **Per-jurisdiction GIS** — parcels **wired** (#410) via the OGRIP Ohio statewide layer scoped to `County='Williams'` (the owner-redacted substitute, like Findlay — Williams Co OH has no county REST and its bhamaps host is cert-blocked, #421/#394). Flood = shared national NFHL (wired). Zoning stays `[open]`. **Correction:** the `ParcelsWeb`/`Zoning_OD` ArcGIS the 2026-06-19 pass flagged as "Williams County" is **North Dakota** (cross-state misidentification) — NOT wired; see GIS discovery below.
 
 ## Grid — the network's first MUNICIPAL utility (notable)
 
@@ -36,28 +36,38 @@ Municipal Power (AMP)** member (no IOU parent); BA/RTO = PJM (AMP-scheduled); re
 | consumer-energy | ok | reference/eia/bryan/consumer-energy.yaml |
 | grid-profile | ok | reference/eia/bryan/grid-profile.yaml |
 
-## GIS discovery (2026-06-19; schema-driven GIS, #237)
+## GIS discovery (2026-06-19; revised 2026-06-21 — schema-driven GIS, #237 / #410)
 
-Unlike Van Wert (county PAT MapServer with an **expired** TLS cert) and Fort Wayne (no clean
-catalog), **Williams County publishes a full, valid-cert, queryable ArcGIS** across two AGOL orgs —
-the county GIS opendata site (`services1.arcgis.com/D85sDZoJyameepNh`) and the county engineer
-(`services8.arcgis.com/KG1citvUsI75VegT`). It is the best-equipped small-county GIS in the network:
-the parcel layer carries owner **and** CAMA values together (no separate land-values join, unlike
-Lucas AREIS). Nothing is committed yet — registering the field-maps from the live `?f=json` is a
-reviewed follow-up, not this discovery pass.
+> **Correction (2026-06-21).** The 2026-06-19 discovery below flagged a "full, valid-cert Williams
+> County ArcGIS" at `services1.arcgis.com/D85sDZoJyameepNh` (`ParcelsWeb`/`Zoning_OD`) as the
+> wire-ready lead. On wiring it (#410) the live data proved it is **Williams County, NORTH DAKOTA**,
+> not Williams County, OHIO: its parcels are in Williston/Tioga/Grenora/Zahl/Epping (the Bakken),
+> with owners like `HESS TIOGA GAS PLANT LLC` ($486M, Rockwall TX). This is a **same-named-county
+> cross-state misidentification** — the discovery pass grabbed *a* "Williams County" GIS without
+> verifying the state. It is **not wired**, and must never be (it would attach North Dakota oil-patch
+> parcels to the Ohio Bryan site). The `KG1citvUsI75VegT` engineer org is the same ND county.
+>
+> **What was actually wired (#410):** Williams County, OHIO publishes **no** county parcel REST of
+> its own (the Bruce Harris `bhamaps` PAT MapServer that would host one carries the same **expired
+> TLS cert** as Van Wert/Defiance, #421/#394 — `*.bhamaps.com`, no weakening TLS). So, exactly like
+> Findlay/Hancock, parcels come from the **OGRIP Ohio statewide parcels public view scoped to
+> `County='Williams'`** (`OHIO_STATEWIDE_PARCEL_SCHEMA`, 26,260 Williams-OH parcels, 26,080 with
+> situs; StateLUC `"<code>: <label>"`). It is the partial, **owner-redacted** substitute: id, situs,
+> land-use, acreage, and the mailing label decode; owner/value/sale are honestly absent. Williams'
+> stored `LocalParcelID` is the **dashed** `NN-NNN-NN-NNN.NNN` form (e.g. `062-350-02-013.001`), so
+> the site overrides `id_normalize='verbatim'`. An offline fixture + decode test pin it.
 
 | layer | endpoint | finding | status |
 |---|---|---|---|
 | floodzone | FEMA NFHL (national, layer 28) | wired in the profile (`gis_flood`) | wired |
-| parcels (CAMA) | `D85sDZoJyameepNh/ParcelsWeb/FeatureServer/0` (`Parcels_WC`, polygon, 58 fields) | `p_ParcelID`, `p_OwnerName` + owner address, `p_PrimaryParcelUse`, `p_DeededAcres`, `p_Residential/Commercial/Agriculture*LandValue` + `p_*StructureValue`, `p_TotalValue`, `p_TaxingDistrict` — owner **and** values on one layer | wireable lead |
-| parcels (engineer) | `KG1citvUsI75VegT/Williams_County_Parcels/FeatureServer/0` + `Auditor_Landcover/FeatureServer/0` | county-engineer parcels + auditor land-cover (alternate/derived source) | wireable lead |
-| zoning | `D85sDZoJyameepNh/Zoning_OD/FeatureServer/0` (polygon; fields `Zoning`, `Updated_Zo`) | a parcel-area zoning catalog — directly registerable as a `GisZoningSchema` (polygon-only, like Findlay: district catalog, no parcel-id join) | wireable lead |
-| taxing districts | `D85sDZoJyameepNh/TaxingDistricts/FeatureServer/0` | tax/school/fire/ambulance districts | reference |
+| parcels | OGRIP statewide, scoped `County='Williams'` (`services2.arcgis.com/MlJ0G8iWUyC7jAmu/.../OhioStatewidePacels_full_view/FeatureServer/0`) | owner-redacted partial: `LocalParcelID` (dashed), `SitusAddressAll`, `StateLUC`, `LandArea`, `MailAddressAll` | **wired** (`gis_parcel`, #410) |
+| ~~parcels (ND org)~~ | ~~`D85sDZoJyameepNh/ParcelsWeb/FeatureServer/0`~~ | **Williams County, NORTH DAKOTA — NOT this county.** Do not wire. | ❌ wrong state |
+| ~~zoning (ND org)~~ | ~~`D85sDZoJyameepNh/Zoning_OD/FeatureServer/0`~~ | **North Dakota — NOT this county.** Do not wire. | ❌ wrong state |
+| zoning (OH) | — | no real City of Bryan / Williams Co OH zoning REST found | `[open]` |
 
-Follow-up (a strong issue lead): register Williams County `gis_parcel` (`ParcelsWeb` `p_*` field-map —
-the network's most complete single-layer parcel GIS, owner+value, no join) and `gis_zoning`
-(`Zoning_OD`) from the live `?f=json` — Bryan is a strong candidate to be the network's second
-fully-wired GIS after Lima.
+Follow-up: locate a *native* Williams County, OHIO parcel REST (re-probe the bhamaps host once its
+cert renews, #421/#394 — it would give non-redacted owner+value); locate a real Bryan/Williams OH
+zoning layer; commit reviewed reference *data* (a `bosc parcels --site bryan` pull).
 
 ## Self-research (Phase 5; #247) — 2026-06-21
 
@@ -78,9 +88,12 @@ finding (proposals #408/#409).
 (`facility=None`); information-sector LQ 0.19 corroborates the absence. **But scope it honestly:**
 unlike Lima (recorder deeds + NPDES applications + site plans), Bryan has **no Williams County
 parcel/recorder/permit layer in the corpus** — so "no activity" is *evidence not yet gathered*, not
-land assembly ruled out, and the tripwire that would catch quiet assembly isn't installed (proposal
-#410). Williams County does have the network's **best-equipped, wire-ready GIS** (full valid-cert
-ArcGIS — see GIS discovery above), so that tripwire is genuinely buildable.
+land assembly ruled out. The parcel tripwire is now **partially installed** (#410): parcels are
+wired via the OGRIP `County='Williams'` substitute — enough to query Bryan city-limits parcels by
+situs/land-use/value-class, but **owner-redacted**, so an owner-name land-assembly scan still needs
+a native Williams-OH parcel REST (bhamaps, cert-blocked #421/#394) or a recorder-deed feed. The
+"best-equipped Williams County ArcGIS" the 2026-06-19 pass cited was **North Dakota** (see the GIS
+correction above) — it does not exist for Williams Co OH.
 
 **Serving utility — VERIFIED: Bryan IS the municipal (the site the "Bryan trap" is named for).** The
 grid connector's EIA-861S short-form fallback correctly identifies City of Bryan #2439 as
@@ -95,14 +108,15 @@ info LQ 0.19 — the load-not-jobs shape again; RSEI is county-wide + legacy (vi
 **Proposals — 5 filed as sub-issues of #380:** #408 (Prairie Creek 7Q10 + the WWTP screen), #409
 (ingest the OH0020532 NPDES fact sheet), #410 (the Williams County parcel/recorder tripwire), #411
 (pin the AMP/PJM zone + replace the placeholder LMP), #412 (corridor-scope the RSEI/toxics to
-Prairie Creek). The GIS lift (register the Williams County `ParcelsWeb`/`Zoning_OD` field-maps) is
-the strong wire-ready lead tracked under GIS discovery above.
+Prairie Creek). The GIS parcel lift is now done via the OGRIP `County='Williams'` substitute (#410,
+owner-redacted); a native owner-bearing Williams-OH REST + a zoning layer remain follow-ups (see the
+GIS correction above — the originally-cited `ParcelsWeb`/`Zoning_OD` org is North Dakota).
 
 ## Review gate (blocking)
 
 - [ ] Every written reference value is reviewed against a cited source (no fabricated values).
 - [ ] SSURGO dominant HSG matches the profile, or the SiteProfile is updated with a citation.
 - [ ] basin-screen coverage is sane for this site's receiving waters.
-- [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
+- [x] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md). Parcels wired via the OGRIP `County='Williams'` substitute (#410); zoning `[open]` (no real OH REST; the discovered one was North Dakota).
 - [x] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/) — see self-research summary above; 5 proposals filed as sub-issues of #380 (#408–412).
 - [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'bryan' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

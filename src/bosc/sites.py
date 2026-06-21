@@ -1242,15 +1242,33 @@ _BRYAN = SiteProfile(
     econ_fips="39171",
     eia861_utility_number=2439,  # [verified] City of Bryan - (OH); MUNICIPAL, EIA-861S short-form filer (BA=PJM)
     eia_state="OH",
-    # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
-    # a follow-up live metadata read (Williams County GIS + City of Bryan GIS).
-    parcels_url="TODO",  # [open] pending the Williams County, OH GIS REST endpoint discovery
-    zoning_url="TODO",  # [open] pending the City of Bryan GIS REST endpoint discovery
+    # GIS — schema-driven (#237). Parcels (#410): Williams County, OH publishes NO county parcel
+    # REST of its own (the bhamaps PAT MapServer that would host one has the same expired TLS cert
+    # as Van Wert/Defiance, #421/#394), so — exactly like Findlay/Hancock — the substitute is the
+    # OGRIP Ohio statewide parcels public view scoped to County='Williams'. NOTE: the ArcGIS org the
+    # onboarding GIS-discovery pass flagged as a "wire-ready Williams County ArcGIS"
+    # (services1.arcgis.com/D85sDZoJyameepNh) is Williams County, NORTH DAKOTA — a same-named-county
+    # cross-state misidentification (situs cities Williston/Tioga/Grenora; owner Hess Tioga Gas
+    # Plant). It is NOT wired here. Flood = the shared national NFHL; zoning stays [open].
+    parcels_url=(  # [reference] OGRIP Ohio statewide parcels, scoped to County='Williams' (39171)
+        "https://services2.arcgis.com/MlJ0G8iWUyC7jAmu/arcgis/rest/services/"
+        "OhioStatewidePacels_full_view/FeatureServer/0"
+    ),
+    zoning_url="TODO",  # [open] pending a real City of Bryan / Williams Co OH zoning REST (none found)
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gis_parcel=None,  # [open] pending Williams County, OH parcel-layer discovery
-    gis_zoning=None,  # [open] pending City of Bryan zoning-layer discovery
+    gis_parcel=OHIO_STATEWIDE_PARCEL_SCHEMA.model_copy(
+        # Williams' OGRIP LocalParcelID is the dashed NN-NNN-NN-NNN.NNN form (e.g. "062-350-02-013.001"),
+        # not Hancock's dashless 12 digits — so id lookups are verbatim, with the dashed deed_id_regex.
+        update={
+            "reference_dir": "bryan-gis",
+            "query_scope": "County='Williams'",
+            "id_normalize": "verbatim",
+            "deed_id_regex": r"\b\d{3}-\d{3}-\d{2}-\d{3}\.\d{3}\b",
+        }
+    ),
+    gis_zoning=None,  # [open] no real City of Bryan/Williams OH zoning REST (the discovered one was ND)
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "bryan-gis"}),
     gnis_default_state="OH",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (Bryan ~84.55 degW; zone 16 spans 90-84 degW)

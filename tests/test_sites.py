@@ -451,3 +451,35 @@ def test_putnam_parcel_schema_is_full_cama() -> None:
         }
     )
     assert (FIXTURES / p.connector / f"{key}.json").is_file(), f"putnam param drift: {key}"
+
+
+def test_bryan_parcel_schema_is_ogrip_statewide_williams() -> None:
+    """Bryan's parcel gap (#410) is closed by the OGRIP Ohio statewide layer scoped to County=
+    'Williams' — the same owner-redacted substitute as Findlay (Hancock has no county REST; Williams'
+    bhamaps host is cert-blocked, #421/#394). It overrides id_normalize to 'verbatim' because
+    Williams' stored LocalParcelID is dashed. The ArcGIS the onboarding pass flagged as "Williams
+    County" is North Dakota — explicitly NOT wired (the cross-state guard)."""
+    p = SITES["bryan"].gis_parcel
+    assert p is not None and p.connector == "ohio_parcels"  # the shared statewide substitute
+    assert p.reference_dir == "bryan-gis"
+    assert p.query_scope == "County='Williams'"  # scoped to FIPS 39171
+    assert p.id_normalize == "verbatim"  # Williams' LocalParcelID is dashed, not dashless
+    assert p.owner_field == "" and p.defense is None  # owner-redacted; no defense scan
+    assert p.land_use_decode == "leading_int"
+
+    # The North Dakota org must never be referenced by the Ohio Bryan profile (cross-state guard).
+    bryan = SITES["bryan"]
+    assert "D85sDZoJyameepNh" not in bryan.parcels_url
+    assert "OhioStatewidePacels_full_view" in bryan.parcels_url
+
+    base = {"f": "json", "returnGeometry": "false"}
+    key = cache_key(
+        {
+            **base,
+            "where": f"({p.id_field}='062-350-02-013.001') AND ({p.query_scope})",
+            "outFields": ",".join(p.out_fields),
+            "resultOffset": 0,
+            "resultRecordCount": p.page_size,
+        }
+    )
+    assert (FIXTURES / p.connector / f"{key}.json").is_file(), f"bryan param drift: {key}"
