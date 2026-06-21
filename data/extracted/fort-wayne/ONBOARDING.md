@@ -71,9 +71,11 @@ empty corpus dimension.
 
 **Serving utility — VERIFIED across the state line.** Indiana Michigan Power (I&M, EIA #9324, an AEP
 subsidiary), regulator **IURC** (Indiana — correctly *not* PUCO), RTO PJM — the cross-state grid path
-(#356 fixed the Ohio-hardcoding the per-site axis had missed). One flagged placeholder:
-`lmp_usd_mwh=35.0` is an inherited AEP-family **`[inference]`** — a different retail jurisdiction;
-verify via PJM Data Miner (proposal #361).
+(#356 fixed the Ohio-hardcoding the per-site axis had missed). **LMP resolved (#361, 2026-06-21):**
+the $35 placeholder is replaced with the connector-sourced **AEP-zone** day-ahead annual mean
+(**$45.81/MWh**, PJM Data Miner 2). I&M settles in the PJM **AEP zone** — the live Data Miner 2 zone
+list carries no separate I&M zone — so Fort Wayne's zonal LMP is the AEP zone (pinned `lmp_pnode_id`,
+same fixture as the OH AEP sites), `source=connector`.
 
 **Read-side note.** The cross-document MCP tools (`entities`/`timeline`/`hydrology_balance`) are
 **Lima-keyed** and return zero Fort Wayne content — the documented "read side stays Lima-keyed until
@@ -82,8 +84,9 @@ outputs + the basin-shared ECHO inventory.
 
 **Proposals — 5 filed as sub-issues of #235:** #358 (resolve the headwaters 7Q10 denominator
 mismatch), #359 (extract the IN0032191 NPDES permit + DMR + ECHO detail), #360 (investigate the
-disclosed Fort Wayne / NE-Indiana data-center facility), #361 (verify the I&M LMP, replace the
-$35/MWh placeholder), #362 (commit a site footprint to unblock SSURGO HSG + GIS discovery). The GIS
+disclosed Fort Wayne / NE-Indiana data-center facility), ~~#361 (verify the I&M LMP, replace the
+$35/MWh placeholder)~~ **— resolved 2026-06-21: I&M is in the PJM AEP zone, LMP now connector-sourced
+$45.81/MWh**, #362 (commit a site footprint to unblock SSURGO HSG + GIS discovery). The GIS
 lift (Allen Co IN / City of Fort Wayne partial-CAMA parcel layers, no clean zoning catalog) is
 tracked under GIS discovery above.
 

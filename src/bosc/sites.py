@@ -994,12 +994,16 @@ _FORT_WAYNE = SiteProfile(
         "EIA-861 service-territory file (Indiana Michigan Power Co #9324, an AEP subsidiary) + "
         "Indiana IURC certified-territory; I&M serves the Fort Wayne area"
     ),
-    # grid (I&M is in PJM's AEP/I&M zone)
-    lmp_usd_mwh=35.0,  # [inference] shared AEP-family zone value (PJM); verify via PJM Data Miner 2
+    # grid: Indiana Michigan Power (I&M) settles in PJM's AEP zone — PJM has no separate I&M zone
+    # (the 23 ZONE pnodes carry no I&M), so Fort Wayne's zonal LMP IS the AEP zone (#361, verified
+    # 2026-06-21 against the live PJM Data Miner 2 zone list). Same AEP pnode/fixture as Lima.
+    lmp_usd_mwh=45.81,  # connector-sourced AEP-zone 2025 day-ahead annual mean (I&M is in the AEP zone)
     lmp_citation=(
-        "PJM AEP/I&M zone (Indiana Michigan Power) ~2024 annual average LMP ($/MWh) via PJM Data "
-        "Miner 2 da_hrl_lmps; [inference] shared AEP-family value with Lima — verify"
+        "PJM Data Miner 2 da_hrl_lmps, AEP zone (pnode 8445784), 2025 day-ahead annual mean "
+        "$45.81/MWh (8760 h); connector-sourced 2026-06-21 (bosc lmp) — I&M settles in the PJM AEP zone"
     ),
+    lmp_pnode_id=8445784,
+    lmp_pnode_name="AEP",
     # rsei
     county_name="Allen County, IN",  # [verified]
     # map
@@ -1460,13 +1464,18 @@ _BRYAN = SiteProfile(
         "Power (AMP) member; municipal home-rule retail, the network's first municipal/short-form "
         "utility. Wholesale power + PJM scheduling are through AMP, not an IOU holding company"
     ),
-    # grid (Bryan municipal load scheduled into PJM via AMP — zone not yet pinned)
-    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — the AMP/PJM zone is not yet pinned; verify (not the AEP value)
+    # grid: Bryan municipal load is scheduled into PJM via AMP, but the City-of-Bryan load settles
+    # in the PJM AEP zone — the live PJM Data Miner 2 pnode table lists CTYBRYAN ("City of Bryan",
+    # LOAD pnodes 32411011/32411013) in zone AEP (#411, verified 2026-06-21). So Bryan's zonal LMP
+    # IS the AEP zone (same pnode/fixture as the AEP OH sites), despite the AMP wholesale arrangement.
+    lmp_usd_mwh=45.81,  # connector-sourced AEP-zone 2025 day-ahead annual mean (CTYBRYAN is in AEP)
     lmp_citation=(
-        "PJM ~2024 annual average LMP ($/MWh) placeholder for Bryan's AMP-scheduled municipal "
-        "load; [inference] the AMP/PJM transmission zone is not yet pinned — verify via PJM Data "
-        "Miner 2 (not necessarily the AEP-zone value used by the AEP OH sites)"
+        "PJM Data Miner 2 da_hrl_lmps, AEP zone (pnode 8445784), 2025 day-ahead annual mean "
+        "$45.81/MWh (8760 h); connector-sourced 2026-06-21 (bosc lmp) — the City-of-Bryan load "
+        "(CTYBRYAN) settles in the PJM AEP zone"
     ),
+    lmp_pnode_id=8445784,
+    lmp_pnode_name="AEP",
     # rsei
     county_name="Williams County, OH",  # [verified]
     # map
