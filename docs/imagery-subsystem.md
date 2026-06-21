@@ -9,15 +9,16 @@ record of decisions/deviations.*
 
 **Shipped in P1 (two deviations from the original plan, by design):**
 
-- **`_cache` was not physically lifted.** `civic` and `economics` already reuse
-  `bosc.hydrology.connectors._cache.cached_get` cross-subsystem (a documented
-  pattern), and ~26 files reference `HydroOfflineError`. So imagery follows that
-  precedent — reuse `cached_get` with a GIS-specific cache root — and the lift to a
-  neutral `bosc.connectors` is deferred to its own focused refactor.
+- **`_cache` lift — DONE (#423).** Imagery now sits on the neutral
+  `bosc.connectors._cache.cached_get` (the lift that `civic`/`economics`/`hydrology`
+  also resolved to): the search path calls it with `cache_dir=settings.gis_cache_dir`,
+  `offline=settings.gis_offline`, `fixtures_dir=settings.gis_fixtures_dir`, and
+  `offline_error=ImageryOfflineError`. (Originally P1 reused the hydrology `_cache` as
+  an interim; the neutral lift has since landed.)
 - **Search needs no heavy deps.** A direct `httpx` POST to STAC `/search` (cached +
   fixtured) replaces `pystac-client` for P1, so **no `pystac-client`/`rasterio`/GDAL
-  yet** — those arrive with P2 (asset signing + COG reads). Consequently the offline
-  miss raises `HydroOfflineError` for now; `ImageryOfflineError` lands with the lift.
+  yet** — those arrive with P2 (asset signing + COG reads). The offline miss raises
+  `ImageryOfflineError` (a `bosc.connectors.OfflineError` subclass) naming the key.
 
 *Note: `bosc site build` mirrors every `.md` under `docs/` into the published site
 ([`build.py`](../src/bosc/site/build.py)). This is an internal engineering plan — keep
@@ -216,15 +217,15 @@ Each phase is a shippable slice.
 
 - **P0 — scaffold. ✅ done.** Created `bosc.gis`; added `gis_*` settings; defined
   `TrackingSite` + the sites source (group-by-layer over `gis-findings.geojson`).
-  `_cache` lift + `ImageryOfflineError` deferred (see the deviations note up top).
+  (`_cache` lift + `ImageryOfflineError` since landed — see the deviations note up top, #423.)
 - **P1 — search. ✅ done.** Sentinel-2 STAC search via `httpx` + `cached_get` +
   committed real fixture + `bosc imagery sites` / `bosc imagery search`. The
   "Data-center campus" site (10 Bistrozzi parcels, ~339 ac) resolves and returns
   scenes offline.
 - **P2 — pull. ✅ done.** `rasterio` + `planetary-computer` (no `pystac-client` —
   signing only); sign assets → windowed COG clip to AOI → GeoTIFF + sidecar + sha256;
-  committed fixture COG; `bosc imagery pull`. `ImageryOfflineError` added for the
-  raster path (the `_cache` lift remains deferred).
+  committed fixture COG; `bosc imagery pull`. `ImageryOfflineError` covers the raster
+  path's fixture-COG miss (binary COGs resolve directly, not through the JSON `cached_get`).
 - **P3 — NAIP + Landsat. ✅ done.** Same `pull` path, per-collection default asset
   (`raster._DEFAULT_ASSET`: sentinel-2→`visual`, naip→`image`, landsat→`red`).
   Real search + small COG fixtures for both; NAIP (0.3 m) pull-fixtures use a small
@@ -253,8 +254,10 @@ Each phase is a shippable slice.
   **Amazon warehouse parcel** and **off-stream reservoir** still need committed
   geometry in `gis-findings.geojson` (pull the warehouse parcel via `bosc parcels`;
   add the reservoir footprint) before they can be tracked — not fabricated here.
-- **`_cache` lift target:** still open — `bosc.connectors._cache` vs. `bosc.net._cache`.
-  Deferred to its own refactor (P1 followed the civic/economics reuse precedent).
+- **`_cache` lift target — decided (#423):** `bosc.connectors._cache` (the neutral base
+  the whole repo lifted onto). Imagery's search path uses it with `gis_cache_dir` +
+  `ImageryOfflineError`; binary COG pulls resolve their fixtures directly (not via the
+  JSON cache).
 
 ## Sources
 
