@@ -144,6 +144,25 @@ def test_findlay_statewide_parcel_partial(hydro_settings: Settings) -> None:
     assert p.market_total_value is None and p.last_sale_date is None  # fields absent in this layer
 
 
+def test_bryan_statewide_parcel_verbatim_dashed_id(hydro_settings: Settings) -> None:
+    """Bryan/Williams County, OH has no county parcel REST of its own (#410), so — like Findlay —
+    parcels come from the OGRIP Ohio statewide layer scoped to County='Williams'. Williams' stored
+    LocalParcelID is the DASHED ``NN-NNN-NN-NNN.NNN`` form (not Hancock's dashless 12 digits), so the
+    site overrides ``id_normalize='verbatim'``: a fetch by the dashed id matches verbatim, and the
+    scoped request (``... AND County='Williams'``) replays the committed fixture (the zero-drift
+    guard). The ND ArcGIS the onboarding pass misidentified as "Williams County" is NOT used."""
+    fs = hydro_settings.model_copy(update={"site": "bryan"})
+    p = allen_gis.fetch_parcel("062-350-02-013.001", settings=fs)
+    assert p is not None
+    assert p.parcel_no == "062-350-02-013.001"  # dashed id, matched verbatim (not dash-stripped)
+    assert p.land_use_code == 510  # "510: Res-Single Family" -> leading_int decode
+    assert p.acres == pytest.approx(0.4)
+    assert "BRYANT ST" in (p.situs_address or "")
+    assert p.owner is None  # owner-name-redacted in the public statewide view
+    assert "BRYAN 43506" in (p.owner_address or "")  # the mailing label carries the city/zip
+    assert p.market_total_value is None and p.last_sale_date is None  # absent in this layer
+
+
 def test_owner_search_refuses_on_owner_redacted_layer(hydro_settings: Settings) -> None:
     """A parcel layer with no owner field refuses owner search cleanly (never a malformed query)."""
     fs = hydro_settings.model_copy(update={"site": "findlay"})
