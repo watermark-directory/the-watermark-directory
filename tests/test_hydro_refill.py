@@ -93,3 +93,11 @@ def test_pipeline_run_refill(hydro_settings: Settings) -> None:
     assert ra is not None
     assert len(ra.scenarios) == 3
     assert findings
+
+
+def test_refill_refuses_an_unconfigured_site(hydro_settings: Settings) -> None:
+    # The refill / water-balance supply model is Lima-only today; a site whose supply gages are
+    # unset ([open]/"TODO") refuses cleanly rather than silently applying Lima's rivers (#426).
+    fs = hydro_settings.model_copy(update={"site": "findlay"})
+    with pytest.raises(ValueError, match="not configured for site"):
+        refill.compute_refill_adequacy(settings=fs)

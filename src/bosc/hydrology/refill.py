@@ -160,6 +160,15 @@ def compute_refill_adequacy(
     passby_secondary_cfs = (
         passby_secondary_cfs if passby_secondary_cfs is not None else prof.passby_secondary_cfs
     )
+    # Fail loud rather than silently apply Lima's rivers: the refill / water-balance supply model
+    # is Lima-only today (non-Lima profiles leave the supply gages [open] as "TODO"). The river
+    # names + caveats below are Lima-specific, so refuse a site whose gages aren't configured.
+    if primary_site in ("", "TODO") or secondary_site in ("", "TODO"):
+        raise ValueError(
+            f"refill model is not configured for site {settings.site!r}: "
+            "supply_gage_primary/secondary are unset (the refill / water-balance supply model is "
+            "Lima-only today). Pass explicit primary_site/secondary_site to override."
+        )
     supply = load_supply(settings=settings)
     if supply is None:
         raise ValueError("water-supply.yaml absent — cannot scale refill against storage")
