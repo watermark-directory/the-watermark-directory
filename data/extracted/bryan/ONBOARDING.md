@@ -102,8 +102,11 @@ verification. One flagged placeholder: `lmp_usd_mwh=35.0` is an **`[inference]`*
 transmission zone is not yet pinned via PJM Data Miner) — proposal #411.
 
 **Economy / toxics:** manufacturing LQ **4.54** (heavily industrial, declining population) against
-info LQ 0.19 — the load-not-jobs shape again; RSEI is county-wide + legacy (vintage tails off by
-2014) and `toxic_corridor_bbox` is undelineated (proposal #412).
+info LQ 0.19 — the load-not-jobs shape again. **RSEI/toxics resolved (#412, 2026-06-21):**
+
+- *Vintage:* the 2014 ceiling is the EPA RSEI **v234** data ceiling (`Settings.rsei_version`), uniform across all 7 network site inventories — not a Bryan truncation. A post-2014 refresh is a *global* `rsei_version` bump (filed as **#436**).
+- *Operating status (live EPA TRI / Envirofacts, 2026-06-21):* the top RSEI emitter **NEW ERA OHIO LLC is CLOSED** (`fac_closed_ind=1`, no TRI form after **2010** — matching its RSEI `last_year: 2010`), so its dominant cobalt/chromium/nickel score is **legacy**, *overstating* current Prairie Creek risk. **Titan Tire of Bryan is active** (`fac_closed_ind=0`, TRI forms through **2024**). So the county-wide legacy layer both over- and under-states the current corridor depending on the facility — the case for corridor-scoping.
+- *`toxic_corridor_bbox` defined:* `(41.46, 41.49, -84.57, -84.52)` — the City-of-Bryan reach of Prairie Creek (captures NEW ERA OHIO, Titan Tire, Hayes-Albion, Ohio Art, A-Stamp, Bryan Metals; excludes the Montpelier/Edgerton/Stryker facilities on other drainages). This box **is** the Prairie-Creek-scoped subset: `toxics._in_corridor` scopes the inventory to it at screen time (15 of 35 facilities, 3 water-releasers), tagging in-box facilities `assumption` for Prairie Creek discharge.
 
 **Proposals — 5 filed as sub-issues of #380:** #408 (Prairie Creek 7Q10 + the WWTP screen), #409
 (ingest the OH0020532 NPDES fact sheet), #410 (the Williams County parcel/recorder tripwire), #411

@@ -414,6 +414,27 @@ def test_gis_connectors_refuse_a_schemaless_site() -> None:
         allen_gis.fetch_parcel("12-34", settings=Settings(site="fort-wayne"))
 
 
+def test_toxic_corridors_defined_for_defiance_and_bryan() -> None:
+    """The Defiance (#393) and Bryan (#412) toxic corridors are delineated (no longer [0,0,0,0]):
+    each box covers its receiving-water industrial cluster and excludes facilities on other
+    drainages, so the RSEI corridor-inference (toxics._in_corridor) scopes correctly."""
+    from bosc.hydrology.toxics import _in_corridor
+
+    dz = SITES["defiance"].toxic_corridor_bbox
+    assert dz != (0.0, 0.0, 0.0, 0.0)
+    assert _in_corridor(41.28244, -84.292089, dz)  # GM Defiance Casting (on the Maumee corridor)
+    assert _in_corridor(41.2859, -84.3648, dz)  # Johns Manville Plant 2
+    assert not _in_corridor(41.2958, -84.74941, dz)  # Syn Ind. / Trident (far-west Hicksville)
+
+    bz = SITES["bryan"].toxic_corridor_bbox
+    assert bz != (0.0, 0.0, 0.0, 0.0)
+    assert _in_corridor(41.478, -84.55926, bz)  # NEW ERA OHIO (Prairie Creek, Bryan city)
+    assert _in_corridor(41.46679, -84.53046, bz)  # Titan Tire of Bryan
+    assert not _in_corridor(
+        41.608115, -84.563041, bz
+    )  # Chase Brass (Montpelier, off Prairie Creek)
+
+
 def test_findlay_parcel_schema_is_owner_redacted_statewide() -> None:
     """Findlay's parcel gap (#237) is closed by the OGRIP Ohio statewide layer scoped to Hancock —
     a partial, owner-redacted catalog: county-scoped, no owner field, land use decoded leading_int."""

@@ -75,8 +75,11 @@ the distilled "verify serving utility" proposal is **resolved here and not filed
 
 1. **Derive reach-specific Defiance 7Q10** (USGS 04192500 + 04191500) — replace the Waterville proxy; the reach dilution is likely tighter than 6.2:1.
 2. **Pull the OH0024899 NPDES fact sheet** — characterize the 1 informal + 1 formal enforcement action, anchor the permit-cited 7Q10, populate `plant_receiving`.
-3. **Audit RSEI currency** (all 19 facilities cap at `last_year: 2014`) + define a non-zero `toxic_corridor_bbox`.
-4. **Register the Defiance County GIS connector + run `--research`** to populate the data-center dimension — note the county GIS is the **bhamaps / expired-cert** case (see GIS discovery; the same fix as Van Wert, shared host).
+3. **Audit RSEI currency** (all 19 facilities cap at `last_year: 2014`) + define a non-zero `toxic_corridor_bbox`. — **RESOLVED (#393, 2026-06-21):**
+   - *Currency is the RSEI v234 vintage ceiling, NOT a Defiance truncation.* Every one of the network's 7 committed site inventories (Lima/Findlay/Ottawa/Van Wert/Fort Wayne/Toledo/Bryan) caps at `last_year: 2014` — that is the data ceiling of EPA RSEI **v234** (`Settings.rsei_version`), not a partial pull. A post-2014 refresh requires a *global* `rsei_version` bump (all sites + the network), filed as **#436** — **not** a per-site re-pull.
+   - *Operating status (live EPA TRI / Envirofacts, 2026-06-21 — a post-2014 source):* **GM Defiance Casting is active** — now "GENERAL MOTORS LLC GLOBAL PROPULSION SYSTEMS," `fac_closed_ind=0`, TRI forms through **2024**; the three **Johns Manville** plants are all `fac_closed_ind=0` (Plants 2 & 8 reporting through 2014, Plant 3 last 2003). So the RSEI picture (frozen ≤2014) **understates** current Maumee-corridor risk where this heavy industry remains active — exactly the failure mode the issue flagged.
+   - *`toxic_corridor_bbox` defined:* `(41.26, 41.31, -84.40, -84.28)` — the Defiance industrial cluster on the Maumee/Auglaize from the Auglaize/Tiffin confluence downstream (captures GM Defiance Casting + all three Johns Manville plants + GT Technologies; excludes the far-west Hicksville cluster). The box is the screen-time scoping instrument (`toxics._in_corridor`), tagged `assumption` for any facility without an independently-cited receiving water.
+4. **Register the Defiance County GIS connector + run `--research`** to populate the data-center dimension — `--research` **done** (Phase-5, 2026-06-19); the GIS half is the **bhamaps / expired-cert** case (#394, shared host with Van Wert #421 — blocked until renewal).
 
 ## Review gate (blocking)
 

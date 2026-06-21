@@ -1293,7 +1293,13 @@ _DEFIANCE = SiteProfile(
     consumer_energy_relpath="reference/eia/defiance/consumer-energy.yaml",
     grid_relpath="reference/eia/defiance/grid-profile.yaml",
     # toxics (no identified industrial corridor yet)
-    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # [open] pending an identified corridor on the Maumee
+    # [inference] the Defiance industrial cluster on the Maumee/Auglaize mainstem from the
+    # Auglaize/Tiffin confluence downstream (#393): covers GM Defiance Casting (now GM Global
+    # Propulsion Systems, 41.282/-84.292), the three Johns Manville fiberglass plants (~41.28-41.30/
+    # -84.34 to -84.36), and GT Technologies (41.27/-84.39); excludes the far-west Hicksville cluster
+    # (Syn Ind. -84.75). A water-releasing RSEI facility inside the box is inferred to discharge to
+    # the Maumee (tagged `assumption`). (lat_min, lat_max, lon_min, lon_max)
+    toxic_corridor_bbox=(41.26, 41.31, -84.40, -84.28),
     receiving_water_name="Maumee River",  # [verified: ECHO] Defiance WWTP OH0024899 → Maumee River (mainstem)
     # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
     plant_receiving={},  # [open] pending Defiance-area WWTP NPDES fact sheets
@@ -1416,13 +1422,13 @@ _BRYAN = SiteProfile(
     rsei_relpath="reference/rsei/bryan/inventory.yaml",
     consumer_energy_relpath="reference/eia/bryan/consumer-energy.yaml",
     grid_relpath="reference/eia/bryan/grid-profile.yaml",
-    # toxics (no identified industrial corridor yet)
-    toxic_corridor_bbox=(
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-    ),  # [open] pending an identified corridor on Prairie Creek
+    # [inference] the City of Bryan reach of Prairie Creek (#412): covers the Bryan-city industrial
+    # cluster — NEW ERA OHIO (41.478/-84.559; now CLOSED, a legacy emitter), Titan Tire of Bryan
+    # (41.467/-84.530; active), Hayes-Albion, Ohio Art, A-Stamp, Plastech — and excludes the
+    # Montpelier/Edgerton/Stryker facilities on other drainages (Chase Brass 41.61, A Schulman
+    # -84.43, Edgerton -84.75). A water-releasing RSEI facility inside the box is inferred to
+    # discharge to Prairie Creek (tagged `assumption`). (lat_min, lat_max, lon_min, lon_max)
+    toxic_corridor_bbox=(41.46, 41.49, -84.57, -84.52),
     receiving_water_name="Prairie Creek",  # [verified] Bryan WWTP NPDES OH0020532 → Prairie Creek → Tiffin River
     # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
     plant_receiving={},  # [open] pending Bryan-area WWTP NPDES fact sheets
