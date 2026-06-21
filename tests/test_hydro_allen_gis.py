@@ -90,6 +90,43 @@ def test_decode_land_use_modes() -> None:
     assert allen_gis._decode_land_use("340", "int") == 340  # Lima's bare-code path, unchanged
 
 
+def test_parse_mmddyy() -> None:
+    # MM-DD-YY (Putnam's SALEDATE) decoded with the standard %y century pivot: 69-99 -> 1900s,
+    # 00-68 -> 2000s. Single-digit month/day tolerated; junk and missing -> None (never invented).
+    assert allen_gis._parse_mmddyy("08-05-94") == "1994-08-05"
+    assert allen_gis._parse_mmddyy("06-22-23") == "2023-06-22"
+    assert allen_gis._parse_mmddyy("12-24-19") == "2019-12-24"
+    assert allen_gis._parse_mmddyy("1-2-05") == "2005-01-02"
+    assert allen_gis._parse_mmddyy("10-10-89") == "1989-10-10"  # 89 >= 69 -> 1900s
+    assert allen_gis._parse_mmddyy(None) is None
+    assert allen_gis._parse_mmddyy("") is None
+    assert allen_gis._parse_mmddyy("2024-01-01") is None  # not MM-DD-YY
+    assert allen_gis._parse_mmddyy("13-40-99") is None  # invalid month/day
+
+
+def test_putnam_parcel_full_cama(hydro_settings: Settings) -> None:
+    """Ottawa's parcels come from Putnam County's self-hosted ArcGIS (#420) — a FULL fit (owner +
+    auditor CAMA values on one layer, unlike Findlay's owner-redacted OGRIP substitute). Every
+    attribute decodes by the schema's real field names: owner, the property situs (OWNERC/OWNERD),
+    the owner's mailing address (MAILC/MAILD), the CLASS_1 land-use code, acreage, the auditor's
+    land/building values, and the MM-DD-YY sale date. Replaying the committed fixture also proves
+    the request hashes to the recorded cache key (the zero-drift guard)."""
+    fs = hydro_settings.model_copy(update={"site": "ottawa"})
+    p = allen_gis.fetch_parcel("010010200000", settings=fs)
+    assert p is not None
+    assert p.parcel_no == "010010200000"
+    assert p.owner == "PATRICK HOLDINGS INC"
+    assert p.situs_address == "RD I LEIPSIC OH  45856"  # OWNERC + OWNERD (the property location)
+    assert p.owner_address == "100 S WERNER ST LEIPSIC OH  45856-0132"  # MAILC + MAILD (mailing)
+    assert p.land_use_code == 110  # CLASS_1 (the populated Ohio use code; `Class` is 0/unused)
+    assert p.acres == pytest.approx(81.04)
+    assert p.market_land_value == 159114  # auditor's land value, verbatim
+    assert p.market_improvement_value == 0
+    assert p.market_total_value is None  # no combined-total field on this layer (never summed)
+    assert p.last_sale_date == "1994-08-05"  # "08-05-94" decoded via the mmddyy pivot
+    assert p.cauv_value is None and p.tax_district is None  # absent on this layer -> None
+
+
 def test_findlay_statewide_parcel_partial(hydro_settings: Settings) -> None:
     """Findlay's parcels come from the OGRIP Ohio statewide layer (Hancock-scoped, #237): a
     partial, owner-redacted catalog. id/situs/land-use/acreage decode by field name; owner, value,

@@ -1,0 +1,115 @@
+{
+  "params": {
+    "f": "json",
+    "returnGeometry": "false",
+    "where": "PIN='010010200000'",
+    "outFields": "PIN,OWNER,OWNERC,OWNERD,MAILC,MAILD,CLASS_1,ACRESOWNED,LANDVALUE,BLDGVALUE,SALEDATE,PURPRI",
+    "resultOffset": 0,
+    "resultRecordCount": 1000
+  },
+  "fetched_at": "2026-06-21T19:38:25.118604+00:00",
+  "payload": {
+    "displayFieldName": "PIN",
+    "fieldAliases": {
+      "PIN": "PIN",
+      "OWNER": "OWNER",
+      "OWNERC": "OWNERC",
+      "OWNERD": "OWNERD",
+      "MAILC": "MAILC",
+      "MAILD": "MAILD",
+      "CLASS_1": "CLASS",
+      "ACRESOWNED": "ACRESOWNED",
+      "LANDVALUE": "LANDVALUE",
+      "BLDGVALUE": "BLDGVALUE",
+      "SALEDATE": "SALEDATE",
+      "PURPRI": "PURPRI"
+    },
+    "fields": [
+      {
+        "name": "PIN",
+        "type": "esriFieldTypeString",
+        "alias": "PIN",
+        "length": 254
+      },
+      {
+        "name": "OWNER",
+        "type": "esriFieldTypeString",
+        "alias": "OWNER",
+        "length": 255
+      },
+      {
+        "name": "OWNERC",
+        "type": "esriFieldTypeString",
+        "alias": "OWNERC",
+        "length": 255
+      },
+      {
+        "name": "OWNERD",
+        "type": "esriFieldTypeString",
+        "alias": "OWNERD",
+        "length": 255
+      },
+      {
+        "name": "MAILC",
+        "type": "esriFieldTypeString",
+        "alias": "MAILC",
+        "length": 255
+      },
+      {
+        "name": "MAILD",
+        "type": "esriFieldTypeString",
+        "alias": "MAILD",
+        "length": 255
+      },
+      {
+        "name": "CLASS_1",
+        "type": "esriFieldTypeDouble",
+        "alias": "CLASS"
+      },
+      {
+        "name": "ACRESOWNED",
+        "type": "esriFieldTypeDouble",
+        "alias": "ACRESOWNED"
+      },
+      {
+        "name": "LANDVALUE",
+        "type": "esriFieldTypeDouble",
+        "alias": "LANDVALUE"
+      },
+      {
+        "name": "BLDGVALUE",
+        "type": "esriFieldTypeDouble",
+        "alias": "BLDGVALUE"
+      },
+      {
+        "name": "SALEDATE",
+        "type": "esriFieldTypeString",
+        "alias": "SALEDATE",
+        "length": 255
+      },
+      {
+        "name": "PURPRI",
+        "type": "esriFieldTypeDouble",
+        "alias": "PURPRI"
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "PIN": "010010200000",
+          "OWNER": "PATRICK HOLDINGS INC ",
+          "OWNERC": "RD I",
+          "OWNERD": "LEIPSIC OH  45856",
+          "MAILC": "100 S WERNER ST",
+          "MAILD": "LEIPSIC OH  45856-0132",
+          "CLASS_1": 110.0,
+          "ACRESOWNED": 81.04,
+          "LANDVALUE": 159114.0,
+          "BLDGVALUE": 0.0,
+          "SALEDATE": "08-05-94",
+          "PURPRI": 0.0
+        }
+      }
+    ]
+  }
+}

@@ -100,7 +100,10 @@ class GisParcelSchema(BaseModel):
     valid_sale_field: str
     # value encodings:
     id_normalize: _IdNormalize  # how a deed id is normalized to the layer's stored id
-    date_decode: Literal["mmddyyyy", "iso", "none"]  # the sale-date field's encoding
+    # the sale-date field's encoding: an ``M(M)DDYYYY`` integer ("mmddyyyy", Lima), an already-ISO
+    # string ("iso"), a ``MM-DD-YY`` two-digit-year string ("mmddyy", Putnam - pivoted by the
+    # standard C/strptime ``%y`` convention 69-99 -> 1900s / 00-68 -> 2000s), or dropped ("none").
+    date_decode: Literal["mmddyyyy", "iso", "mmddyy", "none"]
     # the land-use field's encoding: a bare numeric code ("int", the default — Lima's LANDUSE) or a
     # "<code>: <label>" string whose leading integer is the code ("leading_int" — Ohio's StateLUC).
     land_use_decode: Literal["int", "leading_int"] = "int"

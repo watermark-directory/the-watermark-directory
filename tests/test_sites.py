@@ -22,6 +22,7 @@ from bosc.sites import (
     LIMA_PARCEL_SCHEMA,
     LIMA_ZONING_SCHEMA,
     PER_SITE_OUTPUT_FIELDS,
+    PUTNAM_PARCEL_SCHEMA,
     SITES,
     SiteProfile,
     active_profile,
@@ -422,3 +423,31 @@ def test_findlay_parcel_schema_is_owner_redacted_statewide() -> None:
     assert p.land_use_decode == "leading_int"  # "511: Res-Custom Code" -> 511
     assert p.id_field == "LocalParcelID" and p.id_normalize == "dashless"
     assert "OhioStatewidePacels_full_view" in p.meta.source_url
+
+
+def test_putnam_parcel_schema_is_full_cama() -> None:
+    """Ottawa's parcel gap (#420) is closed by Putnam County's self-hosted ArcGIS — a FULL fit
+    (owner + auditor CAMA values on one layer), unlike Findlay's owner-redacted OGRIP substitute.
+    Golden + param-stability: the schema reproduces the live field-map, and a fetch_parcel request
+    built from it hashes to the committed fixture (the new connector's zero-drift guard)."""
+    p = SITES["ottawa"].gis_parcel
+    assert p is not None and p is PUTNAM_PARCEL_SCHEMA
+    assert p.connector == "putnam_gis" and p.reference_dir == "ottawa-gis"
+    assert p.id_field == "PIN" and p.id_normalize == "dashless"
+    assert p.owner_field == "OWNER" and p.defense is None  # owner present; no federal-enclave scan
+    assert p.land_use_field == "CLASS_1" and p.land_use_decode == "int"
+    assert p.date_decode == "mmddyy"  # MM-DD-YY SALEDATE
+    assert p.market_total_field == "" and p.query_scope == ""  # no total field; single-jurisdiction
+    assert "putnamcountygis.com" in p.meta.source_url
+
+    base = {"f": "json", "returnGeometry": "false"}
+    key = cache_key(
+        {
+            **base,
+            "where": f"{p.id_field}='010010200000'",
+            "outFields": ",".join(p.out_fields),
+            "resultOffset": 0,
+            "resultRecordCount": p.page_size,
+        }
+    )
+    assert (FIXTURES / p.connector / f"{key}.json").is_file(), f"putnam param drift: {key}"
