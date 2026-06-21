@@ -1,0 +1,55 @@
+{
+  "params": {
+    "f": "json",
+    "returnGeometry": "false",
+    "where": "PARID='3850130'",
+    "outFields": "OBJECTID,PARID,ZONING",
+    "resultOffset": 0,
+    "resultRecordCount": 2000,
+    "orderByFields": "OBJECTID"
+  },
+  "fetched_at": "2026-06-21T20:14:44.136126+00:00",
+  "payload": {
+    "displayFieldName": "AREA_NUM",
+    "fieldAliases": {
+      "OBJECTID": "OBJECTID",
+      "PARID": "PARID",
+      "ZONING": "ZONING"
+    },
+    "fields": [
+      {
+        "name": "OBJECTID",
+        "type": "esriFieldTypeOID",
+        "alias": "OBJECTID"
+      },
+      {
+        "name": "PARID",
+        "type": "esriFieldTypeString",
+        "alias": "PARID",
+        "length": 30
+      },
+      {
+        "name": "ZONING",
+        "type": "esriFieldTypeString",
+        "alias": "ZONING",
+        "length": 8
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "OBJECTID": 107630,
+          "PARID": "3850130",
+          "ZONING": "17-R3"
+        }
+      },
+      {
+        "attributes": {
+          "OBJECTID": 133783,
+          "PARID": "3850130",
+          "ZONING": "17-R3"
+        }
+      }
+    ]
+  }
+}

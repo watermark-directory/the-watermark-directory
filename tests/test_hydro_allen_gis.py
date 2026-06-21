@@ -163,6 +163,25 @@ def test_bryan_statewide_parcel_verbatim_dashed_id(hydro_settings: Settings) -> 
     assert p.market_total_value is None and p.last_sale_date is None  # absent in this layer
 
 
+def test_lucas_areis_parcel_owner_bearing(hydro_settings: Settings) -> None:
+    """Toledo's parcels come from Lucas County AREIS layer 38 (#384) — the network's first
+    owner-bearing parcel layer wired from a county's own REST. Owner, the situs (PROPERTY_ADDRESS)
+    and owner mailing (MAILING_ADDRESS), the LUC land-use code, and the tax district all decode by
+    field name; the appraised values are honestly null (they live on AREIS layer 83, a PARID join
+    that's a tracked follow-up). Replaying the committed fixture is the zero-drift guard."""
+    fs = hydro_settings.model_copy(update={"site": "toledo"})
+    p = allen_gis.fetch_parcel("3850130", settings=fs)
+    assert p is not None
+    assert p.parcel_no == "3850130"
+    assert p.owner == "CRESTRIVER LLC AN OHIO LIMITED LIABILITY"  # owner-bearing
+    assert "WATERVILLE OH 43566" in (p.situs_address or "")  # PROPERTY_ADDRESS (situs)
+    assert "PERRYSBURG OH 43551" in (p.owner_address or "")  # MAILING_ADDRESS (owner mailing)
+    assert p.land_use_code == 550  # LUC bare numeric code
+    assert p.tax_district == "38"
+    assert p.market_total_value is None  # appraised values are on layer 83 (deferred PARID join)
+    assert p.last_sale_date is None  # no sale field on the land-use-classification layer
+
+
 def test_owner_search_refuses_on_owner_redacted_layer(hydro_settings: Settings) -> None:
     """A parcel layer with no owner field refuses owner search cleanly (never a malformed query)."""
     fs = hydro_settings.model_copy(update={"site": "findlay"})

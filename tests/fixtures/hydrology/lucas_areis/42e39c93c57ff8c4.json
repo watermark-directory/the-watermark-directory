@@ -1,0 +1,90 @@
+{
+  "params": {
+    "f": "json",
+    "returnGeometry": "false",
+    "where": "PARID='3850130'",
+    "outFields": "PARID,OWNER,PROPERTY_ADDRESS,MAILING_ADDRESS,LUC,ACREAGE,TAXDIST",
+    "resultOffset": 0,
+    "resultRecordCount": 2000
+  },
+  "fetched_at": "2026-06-21T20:14:43.735021+00:00",
+  "payload": {
+    "displayFieldName": "AREA_NUM",
+    "fieldAliases": {
+      "PARID": "PARID",
+      "OWNER": "OWNER",
+      "PROPERTY_ADDRESS": "PROPERTY_ADDRESS",
+      "MAILING_ADDRESS": "MAILING_ADDRESS",
+      "LUC": "LUC",
+      "ACREAGE": "ACREAGE",
+      "TAXDIST": "TAXDIST"
+    },
+    "fields": [
+      {
+        "name": "PARID",
+        "type": "esriFieldTypeString",
+        "alias": "PARID",
+        "length": 30
+      },
+      {
+        "name": "OWNER",
+        "type": "esriFieldTypeString",
+        "alias": "OWNER",
+        "length": 205
+      },
+      {
+        "name": "PROPERTY_ADDRESS",
+        "type": "esriFieldTypeString",
+        "alias": "PROPERTY_ADDRESS",
+        "length": 283
+      },
+      {
+        "name": "MAILING_ADDRESS",
+        "type": "esriFieldTypeString",
+        "alias": "MAILING_ADDRESS",
+        "length": 339
+      },
+      {
+        "name": "LUC",
+        "type": "esriFieldTypeString",
+        "alias": "LUC",
+        "length": 4
+      },
+      {
+        "name": "ACREAGE",
+        "type": "esriFieldTypeDouble",
+        "alias": "ACREAGE"
+      },
+      {
+        "name": "TAXDIST",
+        "type": "esriFieldTypeString",
+        "alias": "TAXDIST",
+        "length": 5
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "PARID": "3850130",
+          "OWNER": "CRESTRIVER LLC AN OHIO LIMITED LIABILITY",
+          "PROPERTY_ADDRESS": "5900 RIVER RD UNIT C30 C, WATERVILLE OH 43566",
+          "MAILING_ADDRESS": "1090 W SOUTH BOUND STE 100, PERRYSBURG OH 43551",
+          "LUC": "550",
+          "ACREAGE": 0.0,
+          "TAXDIST": "38"
+        }
+      },
+      {
+        "attributes": {
+          "PARID": "3850130",
+          "OWNER": "CRESTRIVER LLC AN OHIO LIMITED LIABILITY",
+          "PROPERTY_ADDRESS": "5900 RIVER RD UNIT C30 C, WATERVILLE OH 43566",
+          "MAILING_ADDRESS": "1090 W SOUTH BOUND STE 100, PERRYSBURG OH 43551",
+          "LUC": "550",
+          "ACREAGE": 0.0,
+          "TAXDIST": "38"
+        }
+      }
+    ]
+  }
+}
