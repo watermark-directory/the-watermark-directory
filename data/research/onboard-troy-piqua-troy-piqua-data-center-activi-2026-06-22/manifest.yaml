@@ -1,0 +1,231 @@
+meta:
+  topic: 'onboard troy-piqua (Troy · Piqua): data-center activity + receiving-water
+    screen for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-22T01:45:35+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__program_overview
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__timeline
+    - mcp__bosc__entities
+    - Grep
+    - mcp__bosc__hydrology_balance
+    - mcp__bosc__hydrology_scenario
+    - mcp__bosc__sanitary_basis
+    - Read
+    - Glob
+    num_turns: 31
+    max_turns: 30
+    cost_usd: 1.2255337499999999
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Derive Great Miami basin 7Q10 low-flow denominators for Troy/Piqua receiving-water
+    screen
+  dedupe_key: derive-great-miami-basin-7q10-low-flow-denominators-for-troy-piq
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - receiving-water
+  - extraction
+  rationale: The 7Q10 denominator is the single most blocking gap for the site's core
+    receiving-water screen — without it, no assimilative capacity or dilution ratio
+    can be computed, mirroring the denominator that anchors the Lima/Ottawa River
+    screen.
+  body: '## Context
+
+    The receiving-water assimilative-dilution screen for `troy-piqua` cannot be run
+    because no 7Q10 low-flow denominator exists for the Great Miami or Stillwater
+    rivers. The findings note that `low-flow-7q10.derived.yaml` is explicitly scoped
+    to **Maumee-basin mainstems only** (Maumee/Auglaize/St. Marys/St. Joseph) and
+    contains **no Ohio-River-basin values**. The three relevant NWIS gages are identified
+    in `src/bosc/sites.py` `_TROY_PIQUA` profile (lines 2072–2076): `03262700` (Great
+    Miami at Troy), `03262500` (Great Miami at Piqua), and `03265000` (Stillwater
+    River at Pleasant Hill).
+
+
+    ## Acceptance Criteria
+
+    - Run `bosc derive-low-flows` (or equivalent NWIS statistical call) for all three
+    gage IDs.
+
+    - Commit results to a new Great-Miami-scoped derived file (e.g., `data/reference/hydrology/troy-piqua/low-flow-7q10.derived.yaml`)
+    distinct from the Maumee file.
+
+    - Each entry must include: gage ID, reach name, 7Q10 value in cfs, period of record,
+    and source citation (USGS StreamStats or NWIS).
+
+    - The `hydrology_balance` tool (or its Troy/Piqua equivalent) can reference these
+    values and return a non-zero dilution denominator for at least one gage.
+
+    - Gage ID assertions currently marked `[verified]` in `sites.py` must be confirmed
+    against a live NWIS/USGS citation before this file is committed.'
+- title: Acquire and extract Troy/Piqua WWTP NPDES permits and fact sheets to populate
+    `plant_receiving`
+  dedupe_key: acquire-and-extract-troy-piqua-wwtp-npdes-permits-and-fact-sheet
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - receiving-water
+  - npdes
+  - entities
+  rationale: Populating `plant_receiving` is the direct corpus analog of what enabled
+    Lima's assimilative screen and is the clearest path to making the Troy/Piqua receiving-water
+    screen operational.
+  body: '## Context
+
+    The `_TROY_PIQUA` profile in `src/bosc/sites.py` (line 2124) has `plant_receiving={}`
+    — explicitly `[open]`. No Troy, Piqua, or Miami County WWTP, NPDES permit number,
+    design flow, or outfall receiving-reach is present anywhere in the corpus: `list_documents`
+    (1,485 lines) and `list_extractions` returned **no matches** for `troy|piqua|miami`.
+    By contrast, the Lima receiving-water screen is built on three extracted NPDES
+    fact sheets (permits 2PH00006, 2PH00007, 2PK00002). The findings identify Ohio
+    EPA eDocs and ECHO as the primary sources.
+
+
+    ## Acceptance Criteria
+
+    - Locate NPDES permit numbers for Troy WWTP and Piqua WWTP via Ohio EPA eDocs
+    or USEPA ECHO (upper Great Miami HUC-8 05080001 inventory).
+
+    - Download and commit the permit fact sheets (or equivalent Ohio EPA permit documents)
+    as primary-source documents under `data/extracted/troy-piqua/`.
+
+    - Extract design flow (MGD), outfall location, and receiving reach for each plant;
+    populate `plant_receiving` in `sites.py`.
+
+    - Update `data/extracted/troy-piqua/ONBOARDING.md` (currently absent — README
+    only) to record these extractions.
+
+    - Acceptance: `plant_receiving` is non-empty and each entry cites a committed
+    document.'
+- title: Generate `rsei/troy-piqua/inventory.yaml` and set `toxic_corridor_bbox` for
+    the upper Great Miami toxics screen
+  dedupe_key: generate-rsei-troy-piqua-inventory-yaml-and-set-toxic-corridor-b
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - receiving-water
+  - toxics
+  - rsei
+  rationale: Without a bounding box and RSEI inventory the toxics-corridor receiving-water
+    screen is structurally impossible for this site, and Miami County's industrial
+    base (Hobart, auto parts) makes this screen particularly relevant.
+  body: '## Context
+
+    The findings report that `data/reference/rsei/troy-piqua/` contains **only a README
+    — no `inventory.yaml`** has been generated. Additionally, `toxic_corridor_bbox=(0,0,0,0)`
+    is a placeholder in `src/bosc/sites.py` lines 2117–2122, marked `[open]`. The
+    findings further note that the existing Maumee ECHO NPDES inventory **does not
+    cover** HUC-8 05080001 (upper Great Miami / Ohio River basin), so a basin-scoped
+    ECHO NPDES inventory for this HUC is also absent.
+
+
+    ## Acceptance Criteria
+
+    - Define a non-zero `toxic_corridor_bbox` bounding box for the upper Great Miami
+    corridor (at minimum encompassing Miami County, FIPS 39109) and commit it to `sites.py`.
+
+    - Run the RSEI county/facility query scoped to Miami County and commit results
+    as `data/reference/rsei/troy-piqua/inventory.yaml`.
+
+    - Run an ECHO NPDES facility inventory query for HUC-8 05080001 and commit as
+    a companion reference file.
+
+    - The receiving-water toxics screen can reference the inventory without returning
+    an empty-data error.
+
+    - Sourcing for all values must be cited inline (RSEI database version/year, ECHO
+    API endpoint).'
+- title: Resolve Piqua municipal utility vs. AES Ohio/DAY zone split and pin `eia861_utility_number`
+    and PJM zone
+  dedupe_key: resolve-piqua-municipal-utility-vs-aes-ohio-day-zone-split-and-p
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - energy
+  - entities
+  rationale: The municipal-power split is explicitly called out as the site's defining
+    characteristic; leaving it entirely `[open]` prevents any meaningful energy or
+    data-center load modeling and risks misattributing retail utility jurisdiction.
+  body: '## Context
+
+    The findings identify the **Piqua municipal electric utility (AMP member)** as
+    the site''s most distinctive angle relative to other network seeds, yet all relevant
+    fields remain `[open]`: `eia861_utility_number=0` (line unspecified in sites.py),
+    `lmp_usd_mwh=35.0` is a `[inference]` PJM placeholder with zone unpinned, and
+    `grid-profile.yaml` **does not exist** under `data/reference/eia/troy-piqua/`.
+    The findings note (§2) that a municipal utility files the EIA-861 short form,
+    and that the Troy/Miami-County area likely falls under AES Ohio / DAY zone while
+    Piqua falls under AMP — a split that is wholly unresolved.
+
+
+    ## Acceptance Criteria
+
+    - Query EIA-861 (Form 861 / 861S) to identify Piqua''s municipal utility EIA ID;
+    separately confirm the serving utility for Troy/unincorporated Miami County (AES
+    Ohio or successor).
+
+    - Commit `data/reference/eia/troy-piqua/grid-profile.yaml` with: utility name(s),
+    EIA-861 utility number(s), PJM pricing zone(s), and sourced `lmp_usd_mwh` replacing
+    the inference placeholder.
+
+    - Update `sites.py` `_TROY_PIQUA`: set `eia861_utility_number` to confirmed value(s)
+    and replace `lmp_usd_mwh=35.0` inference with sourced figure annotated with PJM
+    zone.
+
+    - Document whether a data-center load on Piqua municipal power would require AMP
+    coordination (separate from PJM retail).'
+- title: Confirm `dominant_hsg` via SSURGO area-weighted calculation once site footprint
+    is established
+  dedupe_key: confirm-dominant-hsg-via-ssurgo-area-weighted-calculation-once-s
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - gis
+  - extraction
+  rationale: HSG-B vs. HSG-D drives an order-of-magnitude difference in runoff curve
+    numbers and directly controls both stormwater screening outputs and refill-adequacy
+    estimates over the Great Miami Buried Valley sole-source aquifer.
+  body: '## Context
+
+    The `_TROY_PIQUA` profile asserts `dominant_hsg="B"` (well-drained buried-valley
+    outwash) as `[inference]` in `src/bosc/sites.py` lines 2097–2104, with an inline
+    note that it is *"pending an SSURGO area-weighted confirmation."* The findings
+    flag this as the inverse of the Maumee Black-Swamp HSG-D pattern and note that
+    SSURGO confirmation requires a site footprint — which is itself `[open]` (`footprint_relpath`
+    unset, line 2110). Additionally, `pre_cover`, `post_cover`, and `developed_pervious_cover`
+    are all `"TODO"` (lines 2105–2107), blocking any stormwater runoff scenario (`stormwater_runoff`,
+    `tier1_swmm`).
+
+
+    A separate but tightly coupled inconsistency: `noaa_fallback_24h_depth_in={}`
+    is empty in the profile (line 2108) even though the 24-hr depths for 2/10/25/50/100-yr
+    events are already committed in `data/reference/hydrology/troy-piqua/atlas14-corridor-ddf.yaml`
+    (NOAA Atlas-14 PDS).
+
+
+    ## Acceptance Criteria
+
+    - Once any candidate site footprint geometry is available (even a placeholder
+    parcel or 1-km study circle), run an SSURGO area-weighted HSG query and replace
+    the `[inference]` tag with a `[verified]` citation.
+
+    - Populate `noaa_fallback_24h_depth_in` in `sites.py` directly from the values
+    already committed in `atlas14-corridor-ddf.yaml` (closes the internal inconsistency
+    noted in §3b of the findings).
+
+    - Document the footprint source and commit it under `footprint_relpath`.
+
+    - `pre_cover`/`post_cover` remain `TODO` until a facility is identified, but this
+    issue should record that dependency explicitly in `ONBOARDING.md`.'

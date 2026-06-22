@@ -2057,6 +2057,94 @@ _HAMILTON_MIDDLETOWN = SiteProfile(
 )
 
 
+# The UPPER Great Miami mainstem node (Miami County) — the I-75 corridor between the Great Miami
+# headwaters (Indian Lake / Sidney) and Dayton, **upstream of WPAFB** — the upstream complement to
+# the lower-mainstem Hamilton/Middletown node. Same buried-valley sole-source aquifer, but a mid-size
+# **manufacturing** county (Hobart commercial food equipment HQ in Troy, auto parts) rather than
+# Butler's heavy steel, and a second muni-power story: **Piqua runs its own municipal electric
+# utility** (AMP member, Great Miami hydro), Troy/Miami County otherwise likely AES Ohio. The site
+# also carries a distinct second supply water — the **Stillwater River** (gage 03265000). Both cities
+# sit west of the 84 degW meridian, so this is a **UTM 16N** site (like WPAFB / Hamilton-Middletown).
+_TROY_PIQUA = SiteProfile(
+    slug="troy-piqua",
+    place="Troy · Piqua",
+    basin="great-miami",  # [verified] upper Great Miami River → Ohio River (HUC-8 05080001)
+    nwis_sites=[
+        "03262700",  # [verified] Great Miami River at Troy OH (the Troy reach; county seat)
+        "03262500",  # [verified] Great Miami River at Piqua OH (the upstream Piqua reach)
+        "03265000",  # [verified] Stillwater River at Pleasant Hill OH (the second supply water)
+    ],
+    nasa_power_lat=40.0392,  # [verified] Troy, OH city centroid (40deg02'21"N 84deg12'12"W)
+    nasa_power_lon=-84.2033,
+    rsei_fips="39109",  # [verified] Miami County, OH
+    econ_fips="39109",
+    eia861_utility_number=0,  # [open] Piqua muni (AMP) vs Troy/Miami Co — pin via research
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the Miami County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Troy / Piqua GIS REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32616,  # [verified] UTM 16N (Troy ~84.20 degW; zone 16 spans 90-84 degW) — NOT zone 17
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
+    gis_parcel=None,  # [open] pending Miami County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Troy / Piqua zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "troy-piqua-gis"}),
+    design_lat=40.0392,  # [verified] Troy centroid = NOAA Atlas-14 point
+    design_lon=-84.2033,
+    corridor_name="Upper Great Miami industrial corridor",  # [inference] the Troy-Piqua mainstem reach
+    dominant_hsg="B",  # [inference] upper Great Miami buried-valley outwash (well-drained valley fill)
+    hsg_citation=(
+        "The upper Great Miami valley (Troy/Piqua, Miami County) sits on the Great Miami Buried "
+        "Valley Aquifer - glacial outwash sand & gravel, a US-EPA designated sole-source aquifer "
+        "the Troy/Piqua well fields draw on - so the valley fill is well-drained HSG A/B, the "
+        "INVERSE of the Maumee lake-plain Black Swamp clays (HSG D); [inference] pending an SSURGO "
+        "area-weighted confirmation (onboard SSURGO needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
+    parcels_relpath="reference/troy-piqua/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/troy-piqua/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/troy-piqua/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/troy-piqua/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/troy-piqua/baseline.yaml",
+    rsei_relpath="reference/rsei/troy-piqua/inventory.yaml",
+    consumer_energy_relpath="reference/eia/troy-piqua/consumer-energy.yaml",
+    grid_relpath="reference/eia/troy-piqua/grid-profile.yaml",
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending the identified corridor (the Troy/Piqua manufacturing reach)
+    receiving_water_name="Great Miami River",  # [verified] the upper Great Miami mainstem (→ Ohio R.)
+    plant_receiving={},  # [open] pending the Troy/Piqua WWTP NPDES fact sheet(s)
+    abstraction_gage="03262700",  # [verified] Great Miami River at Troy OH
+    supply_gage_primary="03262700",  # [verified] Great Miami River at Troy
+    supply_gage_secondary="03262500",  # [verified] Great Miami River at Piqua (the upstream reach)
+    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum
+    passby_secondary_cfs=0.0,  # [open]
+    facility=None,  # [open] the I-75-corridor data-center dimension is the research target (#475)
+    serving_utility_citation="[open] pending Miami County retail utility verification (Piqua muni / AES Ohio; research)",
+    serving_utility_source="reference",
+    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
+    lmp_citation=(
+        "PJM LMP placeholder for the Troy/Piqua area; [inference] the PJM transmission zone is not "
+        "yet pinned - likely the DAY zone (AES Ohio territory), with Piqua on its own municipal "
+        "system (AMP) - verify the utility + zone (research)"
+    ),
+    lmp_pnode_id=0,  # [open] pending the Miami County PJM zone (likely DAY)
+    lmp_pnode_name="",
+    county_name="Miami County, OH",  # [verified]
+    map_view_lat=40.092,  # centered on the upper Great Miami reach between Troy + Piqua
+    map_view_lon=-84.215,
+    map_view_zoom=11,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
@@ -2071,6 +2159,7 @@ SITES: dict[str, SiteProfile] = {
     _XENIA.slug: _XENIA,
     _WPAFB.slug: _WPAFB,
     _HAMILTON_MIDDLETOWN.slug: _HAMILTON_MIDDLETOWN,
+    _TROY_PIQUA.slug: _TROY_PIQUA,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so

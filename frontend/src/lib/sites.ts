@@ -205,6 +205,21 @@ export const SITES: readonly NetworkSite[] = [
     issue: "443",
     href: "/directory/hamilton-middletown",
   },
+  {
+    // The upper Great Miami mainstem node (Miami County), upstream of WPAFB — the I-75 corridor
+    // between the Great Miami headwaters and Dayton. Mid-size manufacturing (Hobart food equipment,
+    // auto parts) with a second muni-power story (Piqua). The upstream complement to
+    // Hamilton/Middletown's lower-mainstem node. Tracking (#475).
+    slug: "troy-piqua",
+    codename: null,
+    mono: "TRP",
+    place: "Troy · Piqua",
+    basin: "Great Miami (upper)",
+    status: "queued",
+    selectable: false,
+    issue: "475",
+    href: "/directory/troy-piqua",
+  },
 ] as const;
 
 /** This build is the Lima reference build. */
@@ -313,6 +328,7 @@ const PLACEMENT: Record<string, { state: string; watershed: string }> = {
   xenia: { state: "Ohio", watershed: "Little Miami" },
   wpafb: { state: "Ohio", watershed: "Great Miami (Mad River)" },
   "hamilton-middletown": { state: "Ohio", watershed: "Great Miami (lower)" },
+  "troy-piqua": { state: "Ohio", watershed: "Great Miami (upper)" },
 };
 const STATE_ABBR: Record<string, string> = { Ohio: "OH", Indiana: "IN" };
 
