@@ -36,7 +36,10 @@ from pydantic import BaseModel, ConfigDict, Field, computed_field
 #   `media_type`/`render_class` (#275), `RecordItem` gains the `source_doc_*` join (#276).
 # 1.3.0: `DocumentItem` gains `published` — the default-deny public allowlist flag (#280).
 # 1.4.0: adds the `network` object feed — the cross-site basin synthesis (bosc.network; #308/#323).
-CONTRACT_VERSION = "1.4.0"
+# 1.5.0: adds the `hypotheses` + `hypothesis-assessments` feeds — the boom-origin lenses and their
+#   (site x hypothesis) evidence cells (bosc.hypotheses; #308). The directory reads these instead of
+#   the formerly-hardcoded LENSES/LENS_DATA, so each cell now ships with a Citation.
+CONTRACT_VERSION = "1.5.0"
 
 SourceKind = Literal["document", "connector", "reference", "assumption", "derived"]
 Confidence = Literal["high", "medium", "low"]

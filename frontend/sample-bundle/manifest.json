@@ -1,9 +1,9 @@
 {
   "bundle_version": "1.0.0",
-  "contract_version": "1.4.0",
+  "contract_version": "1.5.0",
   "generated_at": "2026-06-10T00:00:00+00:00",
-  "feed_count": 21,
-  "row_total": 66,
+  "feed_count": 23,
+  "row_total": 79,
   "feeds": [
     {
       "name": "records",
@@ -172,6 +172,22 @@
       "schema": "schemas/network.schema.json",
       "kind": "object",
       "count": 1
+    },
+    {
+      "name": "hypotheses",
+      "path": "feeds/hypotheses.json",
+      "media_type": "application/json",
+      "schema": "schemas/hypotheses.schema.json",
+      "kind": "collection",
+      "count": 3
+    },
+    {
+      "name": "hypothesis-assessments",
+      "path": "feeds/hypothesis-assessments.json",
+      "media_type": "application/json",
+      "schema": "schemas/hypothesis-assessments.schema.json",
+      "kind": "collection",
+      "count": 10
     }
   ]
 }

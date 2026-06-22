@@ -31,24 +31,49 @@ async def test_program_overview_reads_committed_summary() -> None:
     assert "checks pass" in text
 
 
-async def test_read_side_tools_flag_a_non_lima_active_site(monkeypatch: pytest.MonkeyPatch) -> None:
-    # During a per-site research run (`bosc --site <slug> research run`) the read-side corpus +
-    # hydrology tools are the Lima reference build; they must surface that explicitly (#424) rather
-    # than silently hand back Lima data — the gap the Bryan/Ottawa/Fort Wayne findings each hit.
+async def test_reference_tools_do_not_serve_lima_data_off_home(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # #424 flip: a per-site run (`bosc --site <slug> research run`) must NOT be silently handed
+    # Lima's reference record — the gap the Bryan/Ottawa/Fort Wayne findings each hit. The
+    # Lima-reference tools (entities/timeline/hydrology) now return an honest notice off-home
+    # instead of Lima's data.
     monkeypatch.setattr(
         tools, "get_settings", lambda: Settings(site="findlay", data_dir=REPO_ROOT / "data")
     )
-    text = (await tools.program_overview.handler({}))["content"][0]["text"]
-    assert text.startswith("[scope]") and "findlay" in text and "#424" in text
-    assert "Program construction total" in text  # still returns the (Lima) data, now labeled
+    for handler in (tools.entities, tools.timeline, tools.hydrology_balance):
+        text = (await handler.handler({}))["content"][0]["text"]
+        assert text.startswith("[scope]") and "findlay" in text and "#424" in text
+    # program_overview resolves within findlay's own (empty) corpus — no Lima OPC leak.
+    po = (await tools.program_overview.handler({}))["content"][0]["text"]
+    assert "Program construction total" not in po
 
-    # Zero-drift for the corpus home: no banner for Lima.
+    # Zero-drift for the corpus home: no banner, and the real Lima data.
     monkeypatch.setattr(
         tools, "get_settings", lambda: Settings(site="lima", data_dir=REPO_ROOT / "data")
     )
-    assert not (await tools.program_overview.handler({}))["content"][0]["text"].startswith(
-        "[scope]"
-    )
+    home = (await tools.program_overview.handler({}))["content"][0]["text"]
+    assert not home.startswith("[scope]") and "Program construction total" in home
+
+
+async def test_extraction_tools_scope_to_the_active_sites_subtree(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # #424: list_extractions / read_extraction resolve the ACTIVE site's own subtree, never
+    # another site's. A Lima-tree file must not leak into a findlay run's listing.
+    settings = Settings(site="findlay", data_dir=tmp_path)
+    site_dir = settings.extracted_dir / "findlay"
+    site_dir.mkdir(parents=True)
+    (site_dir / "deed.yaml").write_text("x: 1\n", encoding="utf-8")
+    (settings.extracted_dir / "recorder").mkdir(parents=True)
+    (settings.extracted_dir / "recorder" / "lima-deed.yaml").write_text("y: 2\n", encoding="utf-8")
+    monkeypatch.setattr(tools, "get_settings", lambda: settings)
+
+    listing = (await tools.list_extractions.handler({}))["content"][0]["text"]
+    assert "deed.yaml" in listing and "lima-deed.yaml" not in listing
+    assert listing.startswith("[scope]") and "findlay" in listing
+    got = (await tools.read_extraction.handler({"filename": "deed.yaml"}))["content"][0]["text"]
+    assert "x: 1" in got
 
 
 async def test_reconcile_estimate_rejects_non_generated(

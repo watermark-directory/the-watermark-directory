@@ -1,0 +1,15 @@
+site: new-albany
+hypothesis: defense
+signal: moderate
+tag: verified
+group: federal
+fields:
+  nexus: CHIPS semiconductor megasite
+  linkage: Federal program
+citations:
+  - source: docs/defense-nexus.md
+    source_kind: reference
+    confidence: medium
+    note: >-
+      The New Albany / Licking County semiconductor megasite is a documented CHIPS-program
+      federal investment. New Albany is a tracking candidate (no SiteProfile yet, epic #485).

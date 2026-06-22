@@ -366,3 +366,114 @@ def test_distill_raises_after_exhausting_retries() -> None:
     with pytest.raises(ValidationError):
         distill_proposals("findings", topic="t", extractor=ex, max_proposals=5)  # type: ignore[arg-type]
     assert ex.calls == 3
+
+
+# --- recipes (the ResearchRecipe seam) -------------------------------------
+_ASSESS_DRAFT = {
+    "signal": "anchor",
+    "tag": "verified",
+    "group": "arsenal",
+    "fields": {"nexus": "Lima Army Tank Plant (JSMC)", "linkage": "Co-located", "stray": "dropped"},
+    "citations": [{"source": "docs/defense-nexus.md", "source_kind": "reference"}],
+    "rationale": "JSMC is co-located with the campus.",
+}
+
+
+def test_recipes_registry_defaults_to_issue_proposal() -> None:
+    from bosc.research import ISSUE_PROPOSAL_RECIPE, RECIPES
+
+    assert set(RECIPES) == {"issue-proposal", "hypothesis-assessment"}
+    assert RECIPES["issue-proposal"] is ISSUE_PROPOSAL_RECIPE
+
+
+def test_hypothesis_assessment_recipe_produces_a_cell(monkeypatch: pytest.MonkeyPatch) -> None:
+    from bosc.research import HYPOTHESIS_ASSESSMENT_RECIPE
+
+    monkeypatch.setattr(client_mod, "query", _fake_query)
+    manifest = asyncio.run(
+        run_research(
+            "assess springfield x defense",
+            generated_at="2026-06-22T00:00:00+00:00",
+            settings=Settings(),
+            extractor=_extractor(_ASSESS_DRAFT),
+            recipe=HYPOTHESIS_ASSESSMENT_RECIPE,
+            context={"hypothesis": "defense", "site": "springfield"},
+        )
+    )
+    assert manifest.proposals == []  # the assessment recipe fills assessments, not proposals
+    assert len(manifest.assessments) == 1
+    cell = manifest.assessments[0]
+    assert cell.site == "springfield"
+    assert cell.hypothesis == "defense"
+    assert cell.signal == "anchor"
+    assert cell.tag == "verified"
+    # fields are filtered to the hypothesis's declared columns — the stray key is dropped.
+    assert cell.fields == {"nexus": "Lima Army Tank Plant (JSMC)", "linkage": "Co-located"}
+    assert cell.citations[0].source == "docs/defense-nexus.md"
+
+
+def test_assessment_recipe_validates_context() -> None:
+    from bosc.research import HYPOTHESIS_ASSESSMENT_RECIPE
+
+    with pytest.raises(ValueError, match="hypothesis"):
+        asyncio.run(
+            run_research(
+                "bad",
+                generated_at="2026-06-22T00:00:00+00:00",
+                settings=Settings(),
+                extractor=_extractor(_ASSESS_DRAFT),
+                recipe=HYPOTHESIS_ASSESSMENT_RECIPE,
+                context={"hypothesis": "ghost", "site": "springfield"},
+            )
+        )
+
+
+def test_write_and_load_run_round_trips_assessment_cells(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from bosc.hypotheses import HypothesisAssessment
+    from bosc.research import HYPOTHESIS_ASSESSMENT_RECIPE
+
+    monkeypatch.setattr(client_mod, "query", _fake_query)
+    manifest = asyncio.run(
+        run_research(
+            "assess springfield x defense",
+            generated_at="2026-06-22T00:00:00+00:00",
+            settings=Settings(),
+            extractor=_extractor(_ASSESS_DRAFT),
+            recipe=HYPOTHESIS_ASSESSMENT_RECIPE,
+            context={"hypothesis": "defense", "site": "springfield"},
+        )
+    )
+    out = write_run(manifest, tmp_path / "run", settings=Settings(data_dir=tmp_path / "data"))
+
+    # The candidate cell is a ready-to-promote data/hypotheses/ file: it re-validates, and the
+    # computed `verified` field is NOT serialized (extra='forbid' would reject it on reload).
+    cell_path = out / "assessments" / "defense-springfield.yaml"
+    raw = yaml.safe_load(cell_path.read_text(encoding="utf-8"))
+    assert "verified" not in raw["citations"][0]
+    HypothesisAssessment.model_validate(raw)  # the committed-store schema accepts it
+
+    doc = yaml.safe_load((out / "manifest.yaml").read_text(encoding="utf-8"))
+    assert doc["assessments"][0]["file"] == "assessments/defense-springfield.yaml"
+
+    loaded = load_manifest(out)
+    assert [c.site for c in loaded.assessments] == ["springfield"]
+    assert loaded.assessments[0].fields["nexus"] == "Lima Army Tank Plant (JSMC)"
+
+
+def test_assessment_draft_coerces_stringified_citations_and_fields() -> None:
+    """Forced tool use sometimes stringifies the nested `citations`/`fields` — tolerate both."""
+    from bosc.research.models import AssessmentDraft
+
+    draft = AssessmentDraft.model_validate(
+        {
+            "signal": "moderate",
+            "tag": "inference",
+            "fields": '{"nexus": "X", "linkage": "Y"}',
+            "citations": '[{"source": "docs/x.md", "source_kind": "assumption"}]',
+        }
+    )
+    assert draft.fields == {"nexus": "X", "linkage": "Y"}
+    assert draft.citations[0].source == "docs/x.md"
+    assert draft.citations[0].verified is False  # 'assumption' is not [verified]

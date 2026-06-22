@@ -13,8 +13,10 @@
  * a zero, which would read as a cleared verdict. We never fabricate a nexus, an operator, or a
  * count: the doc/record figures come from the live bundle (Lima only today) and are "—" elsewhere.
  *
- * Pure (no bundle import) so it unit-tests offline; the page passes Lima's real counts in.
+ * Pure (no bundle import) so it unit-tests offline: the page loads the `hypotheses` +
+ * `hypothesis-assessments` feeds and passes the folded assessment data (and Lima's counts) in.
  */
+import type { HypothesisAssessmentItem, HypothesisItem } from "./feeds";
 import {
   FACILITY_STATUS_META,
   facilityStatus,
@@ -83,76 +85,44 @@ const DEF0: DefFact = { nexus: "—", linkage: "—", signal: "watch", group: "w
 const SURV0: SurvFact = { operator: "—", capital: "—", signal: "watch", group: "watch" };
 
 /**
- * Per-site H2/H3 facts. Keyed by slug; absent slugs inherit DEF0/SURV0 ("not yet assessed").
- * Every entry here is a real, public, on-the-record fact (federal facilities, the CHIPS megasite,
- * DLA Land & Maritime, Lima's JSMC + abatement) or an explicitly-labeled inference — never a
- * fabricated claim. Lima is the only fully-worked example under all three lenses.
+ * The per-site H2/H3 reading, indexed by slug — now built from the `hypothesis-assessments`
+ * bundle feed (#308), no longer hardcoded here. Absent slugs inherit DEF0/SURV0 ("not yet
+ * assessed"). Every committed cell is a real, on-the-record fact or an explicitly-tagged
+ * inference, and now carries a Citation in the feed (the provenance LENS_DATA lacked).
  */
-const LENS_DATA: Record<string, { def?: DefFact; surv?: SurvFact }> = {
-  lima: {
-    def: {
-      nexus: "Lima Army Tank Plant (JSMC)",
-      linkage: "Co-located · Allen Co.",
-      signal: "anchor",
-      group: "arsenal",
-    },
-    surv: {
-      operator: "Shawnee Energy Campus",
-      capital: "CRA #548-25 · 15 yr / 75%",
-      signal: "anchor",
-      group: "onrecord",
-    },
-  },
-  springfield: {
-    def: {
-      nexus: "Springfield-Beckley ANGB",
-      linkage: "Adjacent · NASIC nearby",
-      signal: "moderate",
-      group: "arsenal",
-    },
-  },
-  wpafb: {
-    def: {
-      nexus: "Wright-Patterson AFB",
-      linkage: "Adjacent · Mad R. terminus",
-      signal: "strong",
-      group: "arsenal",
-    },
-  },
-  "hamilton-middletown": {
-    surv: { operator: "—", capital: "Municipal power + CRA (signal)", signal: "watch", group: "subsidy" },
-  },
-  "new-albany": {
-    def: {
-      nexus: "CHIPS semiconductor megasite",
-      linkage: "Federal program",
-      signal: "moderate",
-      group: "federal",
-    },
-    surv: {
-      operator: "Hyperscaler cluster (inferred)",
-      capital: "JobsOhio · TIF (inference)",
-      signal: "moderate",
-      group: "onrecord",
-    },
-  },
-  columbus: {
-    def: { nexus: "DLA Land & Maritime", linkage: "Supply chain", signal: "moderate", group: "federal" },
-    surv: { operator: "—", capital: "Enterprise-zone abatement (signal)", signal: "watch", group: "subsidy" },
-  },
-  lordstown: {
-    def: {
-      nexus: "Defense-battery corridor",
-      linkage: "Supply chain (signal)",
-      signal: "watch",
-      group: "supply",
-    },
-  },
-};
+export type LensData = Record<string, { def?: DefFact; surv?: SurvFact }>;
+
+const asSignal = (s: string | null | undefined): Signal =>
+  s === "anchor" || s === "strong" || s === "moderate" ? s : "watch";
+
+/** Fold the `hypothesis-assessments` feed into the per-site def/surv index the lenses read. */
+export function indexAssessments(cells: readonly HypothesisAssessmentItem[]): LensData {
+  const data: LensData = {};
+  for (const c of cells) {
+    const entry = data[c.site] ?? {};
+    data[c.site] = entry;
+    if (c.hypothesis === "defense") {
+      entry.def = {
+        nexus: c.fields.nexus ?? "—",
+        linkage: c.fields.linkage ?? "—",
+        signal: asSignal(c.signal),
+        group: (c.group ?? "watch") as DefGroup,
+      };
+    } else if (c.hypothesis === "surveillance") {
+      entry.surv = {
+        operator: c.fields.operator ?? "—",
+        capital: c.fields.capital ?? "—",
+        signal: asSignal(c.signal),
+        group: (c.group ?? "watch") as SurvGroup,
+      };
+    }
+  }
+  return data;
+}
 
 /** A site's defense + surveillance reading, defaulting to "not yet assessed". */
-export function lensDatum(slug: string): { def: DefFact; surv: SurvFact } {
-  const d = LENS_DATA[slug];
+export function lensDatum(slug: string, data: LensData): { def: DefFact; surv: SurvFact } {
+  const d = data[slug];
   return { def: d?.def ?? DEF0, surv: d?.surv ?? SURV0 };
 }
 
@@ -272,12 +242,30 @@ export const LENSES: Record<DirLens, LensConfig> = {
 };
 
 /** The lens-card count line: the water lens counts the network; H2/H3 count assessment progress. */
-export function lensCount(lens: DirLens): string {
+export function lensCount(lens: DirLens, data: LensData): string {
   if (lens === "water") return `${SITES.length} sites · ${groupSites("basin").length} basins`;
   const assessed = SITES.filter((s) =>
-    lens === "defense" ? lensDatum(s.slug).def.group !== "watch" : lensDatum(s.slug).surv.group !== "watch",
+    lens === "defense"
+      ? lensDatum(s.slug, data).def.group !== "watch"
+      : lensDatum(s.slug, data).surv.group !== "watch",
   ).length;
   return `${assessed} assessed · ${SITES.length - assessed} to review`;
+}
+
+/** Merge a lens's static presentation config with its content from the `hypotheses` feed (#308):
+ *  name/claim/blurb/status now come from bosc.hypotheses, not hardcoded. The LENSES content is the
+ *  offline fallback for a bundle that predates the hypotheses feed. */
+export function lensConfig(lens: DirLens, hyp?: HypothesisItem): LensConfig {
+  if (!hyp) return LENSES[lens];
+  const reference = hyp.status === "reference";
+  return {
+    ...LENSES[lens],
+    name: hyp.name,
+    claim: hyp.claim,
+    blurb: hyp.thesis,
+    status: reference ? "Reference build" : "Emerging hypothesis",
+    statusKind: reference ? "live" : "new",
+  };
 }
 
 // --- The rendered view model -------------------------------------------------------------------
@@ -348,7 +336,11 @@ const facPill = (slug: string): Cell => pillCell(FACILITY_STATUS_META[facilitySt
  * and the framing-panel axis chips. `limaCounts` carries Lima's real bundle figures; every other
  * site shows "—" (no assembled record yet).
  */
-export function buildLens(lens: DirLens, limaCounts: { docs: string; records: string }): LensView {
+export function buildLens(
+  lens: DirLens,
+  limaCounts: { docs: string; records: string },
+  data: LensData,
+): LensView {
   const cfg = LENSES[lens];
   const cols = cfg.cols.map((c) => ({ label: c.label, align: c.align ?? ("left" as const) }));
   const gridCols = cfg.fr.join(" ");
@@ -400,9 +392,9 @@ export function buildLens(lens: DirLens, limaCounts: { docs: string; records: st
   // Defense / surveillance: group by thesis category, with a "not yet assessed" chip tail.
   const isDef = lens === "defense";
   const grpKey = (s: NetworkSite): string =>
-    isDef ? lensDatum(s.slug).def.group : lensDatum(s.slug).surv.group;
+    isDef ? lensDatum(s.slug, data).def.group : lensDatum(s.slug, data).surv.group;
   const rowFor = (s: NetworkSite): Row => {
-    const dat = lensDatum(s.slug);
+    const dat = lensDatum(s.slug, data);
     const cells = isDef
       ? [
           siteCell(s),

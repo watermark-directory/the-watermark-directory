@@ -13,13 +13,16 @@ Wraps the Claude Agent SDK and the Anthropic Messages API. Defers to the root
   Each tool is a **thin, deterministic adapter over the pipeline** (read real data,
   never fabricate) and must return the MCP shape
   `{"content": [{"type": "text", "text": ...}]}`.
-  - **Read-side is Lima-keyed (#424).** The corpus + hydrology tools serve the **Lima
-    reference build**; a per-site run (`bosc --site <slug> research run`) gets Lima data.
-    Site-sensitive tools return via `_scoped(...)`, which prepends an explicit
-    active-site banner (empty for Lima) so a non-Lima run isn't *silently* fed Lima's
-    record. Making the tools read the active site's **own** corpus/scenario is the
-    parity-gated flip that seam prepares — don't fabricate per-site reads before a site
-    has the committed data.
+  - **Read-side resolves per active site (#424).** The extraction-reading tools
+    (`list_extractions`, `read_extraction`, `program_overview`, `reconcile_*`) resolve the
+    **active site's own** corpus: the whole `data/extracted/` tree for the corpus home
+    (`_CORPUS_HOME` = Lima), else that site's subtree (`data/extracted/<slug>/`) via
+    `_site_extracted_root` — so a per-site run reads its own record, never another site's,
+    and `_scoped(...)` labels whose corpus it is. The corpus + hydrology **reference** models
+    (`entities`, `timeline`, the hydrology suite) are still the Lima reference build; off-home
+    they return an honest `_reference_only(...)` notice rather than *silently* serving Lima's
+    record. Resolving a non-home site's own entity/timeline/scenario equivalents is the
+    remaining parity work — don't fabricate per-site reads before a site has the committed data.
 - Models come from `get_settings()` (`BOSC_MODEL` for research, `BOSC_EXTRACT_MODEL`
   for bulk extraction) — never hardcode a model id here.
 - Figures come from the rendered **image**, not the OCR text layer; the extractor

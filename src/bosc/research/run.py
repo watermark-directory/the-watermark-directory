@@ -27,9 +27,11 @@ from pydantic import ValidationError
 from bosc.agent.client import AgentResult, ResearchAgent
 from bosc.agent.extractor import ExtractionError, StructuredExtractor
 from bosc.config import Settings, get_settings
+from bosc.hypotheses import HYPOTHESES, HypothesisAssessment
 from bosc.logging import get_logger
 from bosc.research.models import (
     RUNTIME_LABELS,
+    AssessmentDraft,
     IssueProposal,
     ProposalDrafts,
     ResearchRunManifest,
@@ -148,6 +150,204 @@ def distill_proposals(
     return proposals
 
 
+# --- the prompt scaffold for the hypothesis-assessment recipe ------------------------------
+_ASSESS_PROMPT = """\
+Assess one watershed-point site against one hypothesis about the origin of the Ohio
+data-center boom, using only the read-only BOSC tools over this site's committed record.
+
+Hypothesis {number} — {name}: {claim}
+What would support or strengthen it:
+{predicted}
+
+Site under assessment: {site}
+
+Gather the evidence for and against this hypothesis at {site}. Cite sources (pages/files);
+distinguish documented facts from inferred connections; never fabricate a nexus, an operator,
+or a figure (prefer "not found" over invention). A federal/operator nexus is a SIGNAL, not a
+verdict. Conclude with the site's signal strength, whether the cell is documented or inferred,
+the taxonomy group, and the per-field facts this hypothesis tracks ({fields}).
+"""
+
+_ASSESS_DISTILL_INSTRUCTIONS = """\
+Convert the findings into ONE structured (site x hypothesis) evidence cell for {site} under
+hypothesis {number} ({name}). Use ONLY the findings text — add no outside knowledge.
+- signal: one of [{signals}] (strength of the nexus), or omit if nothing was found.
+- tag: 'verified' (a documented fact backs it), 'inference' (an inferred connection), or
+  'open' (a question, nothing documented yet).
+- group: one of [{groups}], or omit.
+- fields: a map with keys among [{fields}] — the concrete facts ("—" where unknown).
+- citations: one per fact — source (a data/ path, permit/instrument id, or doc), source_kind
+  (document/connector/reference/assumption/derived), confidence. Any non-'open' cell MUST
+  carry at least one citation.
+- rationale: one sentence on the evidentiary basis.
+"""
+
+
+def _distill_assessment(
+    findings: str,
+    *,
+    hypothesis_id: str,
+    site: str,
+    instructions: str,
+    extractor: StructuredExtractor,
+) -> HypothesisAssessment:
+    """Distill findings into one normalized ``(site x hypothesis)`` cell (forced tool use).
+
+    Re-rolls the deterministic extractor on the forced-tool-use quirk (same guard as
+    :func:`distill_proposals`); normalization validates ``signal``/``tag``/``group`` against
+    the hypothesis taxonomy, so a bad draw is caught and retried rather than silently kept.
+    """
+    hyp = HYPOTHESES[hypothesis_id]
+    text = findings[:_MAX_FINDINGS_CHARS]
+    last_err: Exception | None = None
+    for attempt in range(1, _DISTILL_ATTEMPTS + 1):
+        try:
+            draft: AssessmentDraft = extractor.extract_from_text(
+                AssessmentDraft, instructions=instructions, text=text
+            )
+            return HypothesisAssessment(
+                site=site,
+                hypothesis=hyp.id,
+                signal=draft.signal or None,  # "" -> None
+                tag=draft.tag,  # validated against the EvidenceTag literal here
+                group=draft.group or None,
+                fields={k: v for k, v in draft.fields.items() if k in hyp.fields},
+                citations=draft.citations,
+            )
+        except (ValidationError, ExtractionError) as exc:  # model quirk / off-taxonomy; re-roll
+            last_err = exc
+            log.warning(
+                "research.assess.retry",
+                attempt=attempt,
+                max=_DISTILL_ATTEMPTS,
+                error=str(exc)[:160],
+            )
+    assert last_err is not None
+    raise last_err
+
+
+# --- recipes: a research-agent kind is a prompt + a distillation, registered here ----------
+class ResearchRecipe:
+    """A research-agent kind: the prompt it investigates with, and how it distills findings.
+
+    Building a new research agent is *registering a recipe*, not rewriting the orchestration:
+    :func:`run_research` is recipe-driven and defaults to :data:`ISSUE_PROPOSAL_RECIPE` (the
+    original behavior, unchanged). A recipe varies the investigate prompt, the agent skills,
+    and the distillation target/normalization; the read-only tools and the provenance plumbing
+    are shared. ``distill`` returns ``(issue proposals, assessment cells)`` — a recipe fills one.
+    """
+
+    name: str = "research"
+    skills: tuple[str, ...] | None = None
+
+    def validate_ctx(self, ctx: dict[str, Any]) -> None:
+        """Raise if the run ``context`` lacks what the recipe needs (default: nothing)."""
+
+    def build_prompt(self, *, topic: str, ctx: dict[str, Any]) -> str:
+        raise NotImplementedError
+
+    def distill(
+        self,
+        findings: str,
+        *,
+        topic: str,
+        ctx: dict[str, Any],
+        extractor: StructuredExtractor,
+        max_proposals: int,
+    ) -> tuple[list[IssueProposal], list[HypothesisAssessment]]:
+        raise NotImplementedError
+
+
+class _IssueProposalRecipe(ResearchRecipe):
+    """The original run: investigate a free-text topic, distill GitHub issue proposals."""
+
+    name = "issue-proposal"
+
+    def build_prompt(self, *, topic: str, ctx: dict[str, Any]) -> str:
+        return _RESEARCH_PROMPT.format(topic=topic)
+
+    def distill(
+        self,
+        findings: str,
+        *,
+        topic: str,
+        ctx: dict[str, Any],
+        extractor: StructuredExtractor,
+        max_proposals: int,
+    ) -> tuple[list[IssueProposal], list[HypothesisAssessment]]:
+        proposals = distill_proposals(
+            findings, topic=topic, extractor=extractor, max_proposals=max_proposals
+        )
+        return proposals, []
+
+
+class _HypothesisAssessmentRecipe(ResearchRecipe):
+    """Assess the active ``--site`` against one boom-origin hypothesis; distill a cell.
+
+    Output is *proposed*, not promoted: the candidate cell is written under the run's
+    ``assessments/`` dir for review — graduating it into ``data/hypotheses/`` is a manual
+    edit (mirrors ``bosc onboard``, which proposes but never promotes).
+    """
+
+    name = "hypothesis-assessment"
+
+    def validate_ctx(self, ctx: dict[str, Any]) -> None:
+        hid = ctx.get("hypothesis")
+        if hid not in HYPOTHESES:
+            raise ValueError(
+                f"recipe {self.name!r} needs context['hypothesis'] in {sorted(HYPOTHESES)}; "
+                f"got {hid!r}"
+            )
+        if not ctx.get("site"):
+            raise ValueError(f"recipe {self.name!r} needs context['site'] (the active --site)")
+
+    def build_prompt(self, *, topic: str, ctx: dict[str, Any]) -> str:
+        hyp = HYPOTHESES[ctx["hypothesis"]]
+        return _ASSESS_PROMPT.format(
+            number=hyp.number,
+            name=hyp.name,
+            claim=hyp.claim,
+            site=ctx["site"],
+            fields=", ".join(hyp.fields) or "(none)",
+            predicted="\n".join(f"- {p}" for p in hyp.predicted_evidence),
+        )
+
+    def distill(
+        self,
+        findings: str,
+        *,
+        topic: str,
+        ctx: dict[str, Any],
+        extractor: StructuredExtractor,
+        max_proposals: int,
+    ) -> tuple[list[IssueProposal], list[HypothesisAssessment]]:
+        hyp = HYPOTHESES[ctx["hypothesis"]]
+        instructions = _ASSESS_DISTILL_INSTRUCTIONS.format(
+            site=ctx["site"],
+            number=hyp.number,
+            name=hyp.name,
+            signals=", ".join(hyp.signals),
+            groups=", ".join(hyp.groups) or "(none)",
+            fields=", ".join(hyp.fields) or "(none)",
+        )
+        cell = _distill_assessment(
+            findings,
+            hypothesis_id=hyp.id,
+            site=ctx["site"],
+            instructions=instructions,
+            extractor=extractor,
+        )
+        return [], [cell]
+
+
+ISSUE_PROPOSAL_RECIPE = _IssueProposalRecipe()
+HYPOTHESIS_ASSESSMENT_RECIPE = _HypothesisAssessmentRecipe()
+RECIPES: dict[str, ResearchRecipe] = {
+    ISSUE_PROPOSAL_RECIPE.name: ISSUE_PROPOSAL_RECIPE,
+    HYPOTHESIS_ASSESSMENT_RECIPE.name: HYPOTHESIS_ASSESSMENT_RECIPE,
+}
+
+
 async def run_research(
     topic: str,
     *,
@@ -159,25 +359,35 @@ async def run_research(
     max_proposals: int | None = None,
     enable_tools: bool = True,
     on_text: Callable[[str], None] | None = None,
+    recipe: ResearchRecipe | None = None,
+    context: dict[str, Any] | None = None,
 ) -> ResearchRunManifest:
     """Run one investigation and return its manifest (does not persist).
 
-    ``generated_at`` is supplied by the caller (an ISO-8601 stamp) so runs stay
-    deterministic and testable. The agent/extractor are injectable for the same reason.
+    ``recipe`` selects the research-agent kind (default :data:`ISSUE_PROPOSAL_RECIPE`);
+    ``context`` carries recipe inputs (e.g. ``{"hypothesis": ..., "site": ...}`` for the
+    hypothesis-assessment recipe). ``generated_at`` is supplied by the caller (an ISO-8601
+    stamp) so runs stay deterministic; the agent/extractor are injectable for testability.
     """
     settings = settings or get_settings()
+    recipe = recipe or ISSUE_PROPOSAL_RECIPE
+    ctx = dict(context or {})
+    recipe.validate_ctx(ctx)
     max_turns = max_turns or settings.research_max_turns
     max_proposals = max_proposals if max_proposals is not None else settings.research_max_proposals
     agent = agent or ResearchAgent(
-        settings=settings, max_turns=max_turns, enable_tools=enable_tools
+        settings=settings,
+        max_turns=max_turns,
+        enable_tools=enable_tools,
+        skills=list(recipe.skills) if recipe.skills is not None else None,
     )
     extractor = extractor or StructuredExtractor(settings=settings, max_tokens=_DISTILL_MAX_TOKENS)
 
     result: AgentResult = await agent.converse(
-        _RESEARCH_PROMPT.format(topic=topic), on_text=on_text
+        recipe.build_prompt(topic=topic, ctx=ctx), on_text=on_text
     )
-    proposals = distill_proposals(
-        result.text, topic=topic, extractor=extractor, max_proposals=max_proposals
+    proposals, assessments = recipe.distill(
+        result.text, topic=topic, ctx=ctx, extractor=extractor, max_proposals=max_proposals
     )
     provenance = RunProvenance(
         topic=topic,
@@ -192,25 +402,38 @@ async def run_research(
     log.info(
         "research.run",
         topic=topic,
+        recipe=recipe.name,
         proposals=len(proposals),
+        assessments=len(assessments),
         turns=result.num_turns,
         cost_usd=result.cost_usd,
     )
-    return ResearchRunManifest(provenance=provenance, findings=result.text, proposals=proposals)
+    return ResearchRunManifest(
+        provenance=provenance,
+        findings=result.text,
+        proposals=proposals,
+        assessments=assessments,
+    )
+
+
+def _assessment_doc(cell: HypothesisAssessment) -> dict[str, Any]:
+    """A candidate cell as committed YAML — the ``verified`` computed field excluded so the
+    file re-validates as a :class:`HypothesisAssessment` (a reviewer can move it straight into
+    ``data/hypotheses/``)."""
+    return cell.model_dump(mode="json", exclude={"citations": {"__all__": {"verified"}}})
 
 
 def _manifest_doc(manifest: ResearchRunManifest) -> dict[str, Any]:
-    """The committed ``manifest.yaml`` shape: meta/provenance + the proposal list."""
+    """The committed ``manifest.yaml`` shape: meta/provenance + the recipe's output."""
     p = manifest.provenance
-    return {
+    doc: dict[str, Any] = {
         "meta": {
             "topic": p.topic,
             "model": p.model,
             "generated_at": p.generated_at,
             "method": (
                 "open-ended research agent over the read-only BOSC tools, then "
-                "structured issue-proposal distillation (forced tool use). "
-                "Read-only on data/documents/**."
+                "structured distillation (forced tool use). Read-only on data/documents/**."
             ),
             "provenance": {
                 "tools_used": p.tools_used,
@@ -232,6 +455,20 @@ def _manifest_doc(manifest: ResearchRunManifest) -> dict[str, Any]:
             for pr in manifest.proposals
         ],
     }
+    if manifest.assessments:
+        # A summary index; the full candidate cells live as files under assessments/ (write_run).
+        doc["assessments"] = [
+            {
+                "site": a.site,
+                "hypothesis": a.hypothesis,
+                "signal": a.signal,
+                "tag": a.tag,
+                "group": a.group,
+                "file": f"assessments/{a.hypothesis}-{a.site}.yaml",
+            }
+            for a in manifest.assessments
+        ]
+    return doc
 
 
 def _findings_markdown(manifest: ResearchRunManifest) -> str:
@@ -270,7 +507,22 @@ def write_run(
         yaml.safe_dump(_manifest_doc(manifest), sort_keys=False, allow_unicode=True),
         encoding="utf-8",
     )
-    log.info("research.write", out_dir=str(out_dir), proposals=len(manifest.proposals))
+    # Candidate (site x hypothesis) cells — proposed for review, each a ready-to-promote
+    # data/hypotheses/ file. Promotion (moving it into data/hypotheses/) stays a manual edit.
+    if manifest.assessments:
+        adir = out_dir / "assessments"
+        adir.mkdir(parents=True, exist_ok=True)
+        for a in manifest.assessments:
+            (adir / f"{a.hypothesis}-{a.site}.yaml").write_text(
+                yaml.safe_dump(_assessment_doc(a), sort_keys=False, allow_unicode=True),
+                encoding="utf-8",
+            )
+    log.info(
+        "research.write",
+        out_dir=str(out_dir),
+        proposals=len(manifest.proposals),
+        assessments=len(manifest.assessments),
+    )
     return out_dir
 
 
@@ -297,4 +549,15 @@ def load_manifest(run_dir: Path) -> ResearchRunManifest:
     proposals = [IssueProposal.model_validate(p) for p in data.get("proposals", [])]
     findings_path = run_dir / "findings.md"
     findings = findings_path.read_text(encoding="utf-8") if findings_path.exists() else ""
-    return ResearchRunManifest(provenance=provenance, findings=findings, proposals=proposals)
+    adir = run_dir / "assessments"
+    assessments = (
+        [
+            HypothesisAssessment.model_validate(yaml.safe_load(p.read_text(encoding="utf-8")))
+            for p in sorted(adir.glob("*.yaml"))
+        ]
+        if adir.is_dir()
+        else []
+    )
+    return ResearchRunManifest(
+        provenance=provenance, findings=findings, proposals=proposals, assessments=assessments
+    )

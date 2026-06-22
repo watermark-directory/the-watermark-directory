@@ -183,6 +183,80 @@ def sites_new(
     )
 
 
+hypotheses_app = typer.Typer(
+    name="hypotheses",
+    help="Inspect + lint the boom-origin hypotheses and their (site x hypothesis) cells.",
+)
+app.add_typer(hypotheses_app, name="hypotheses")
+
+
+@hypotheses_app.command("list")
+def hypotheses_list() -> None:
+    """List the registered boom-origin hypotheses (bosc.hypotheses.HYPOTHESES)."""
+    from bosc.hypotheses import HYPOTHESES, load_assessments
+
+    cells = load_assessments()
+    table = Table("id", "n", "name", "status", "cells")
+    for hid, hyp in HYPOTHESES.items():
+        n = sum(1 for c in cells if c.hypothesis == hid)
+        table.add_row(hid, hyp.number, hyp.name, hyp.status, str(n))
+    console.print(table)
+
+
+@hypotheses_app.command("show")
+def hypotheses_show(
+    hid: str = typer.Argument(..., help="Hypothesis id (water | defense | surveillance)."),
+) -> None:
+    """Print a hypothesis and its committed evidence cells."""
+    from bosc.hypotheses import HYPOTHESES, assessments_for
+
+    if hid not in HYPOTHESES:
+        raise typer.BadParameter(
+            f"unknown hypothesis {hid!r}; known: {sorted(HYPOTHESES)}", param_hint="hid"
+        )
+    hyp = HYPOTHESES[hid]
+    console.print(f"[bold]{hyp.number} · {hyp.name}[/]  [dim]({hyp.status})[/]")
+    console.print(f"  {hyp.claim}\n  [dim]{hyp.thesis}[/]\n")
+    cells = assessments_for(hid)
+    if not cells:
+        console.print("[dim](no assessment cells — rendered from the site registry)[/]")
+        return
+    table = Table("site", "signal", "tag", "group", *hyp.fields, "cites")
+    for c in sorted(cells, key=lambda x: x.site):
+        row = [c.site, c.signal or "—", c.tag, c.group or "—"]
+        row += [c.fields.get(f, "—") for f in hyp.fields]
+        row.append(str(len(c.citations)))
+        table.add_row(*row)
+    console.print(table)
+
+
+@hypotheses_app.command("check")
+def hypotheses_check() -> None:
+    """Lint the committed evidence cells against the registry.
+
+    Hard problems (unknown hypothesis, bad group/field, missing citation) exit non-zero;
+    'untracked-site' is an informational note (a cell for a not-yet-registered candidate).
+    """
+    from bosc.hypotheses import lint_assessments
+
+    findings = lint_assessments()
+    if not findings:
+        console.print("[green]hypotheses: all cells valid[/] — no lint findings.")
+        return
+    hard = [f for f in findings if f.kind != "untracked-site"]
+    table = Table("hypothesis/site", "issue", "detail")
+    for f in findings:
+        color = "yellow" if f.kind == "untracked-site" else "red"
+        table.add_row(f"{f.hypothesis}/{f.site}", f"[{color}]{f.kind}[/]", f.detail)
+    console.print(table)
+    console.print(
+        f"\n[dim]{len(hard)} hard, {len(findings) - len(hard)} informational "
+        "(untracked-site = a cell for a tracking candidate with no SiteProfile yet).[/]"
+    )
+    if hard:
+        raise typer.Exit(1)
+
+
 @app.command(name="ingest")
 def ingest_cmd() -> None:
     """Inventory source documents under data/documents."""
@@ -1107,7 +1181,15 @@ app.add_typer(research_app, name="research")
 
 @research_app.command("run")
 def research_run_cmd(
-    topic: str = typer.Option(..., "--topic", "-t", help="The investigation topic / question."),
+    topic: str = typer.Option("", "--topic", "-t", help="The investigation topic / question."),
+    recipe: str = typer.Option(
+        "issue-proposal",
+        "--recipe",
+        help="Research-agent recipe: issue-proposal | hypothesis-assessment.",
+    ),
+    hypothesis: str = typer.Option(
+        "", "--hypothesis", help="Hypothesis id (required for the hypothesis-assessment recipe)."
+    ),
     out: str = typer.Option("", "--out", help="Output dir (default: data/research/<slug>)."),
     max_turns: int = typer.Option(0, "--max-turns", help="Agent turn cap (0 = settings default)."),
     max_proposals: int = typer.Option(
@@ -1115,18 +1197,35 @@ def research_run_cmd(
     ),
     no_tools: bool = typer.Option(False, "--no-tools", help="Disable the BOSC data tools."),
 ) -> None:
-    """Investigate a topic over the corpus (read-only) and write findings + an
-    issue-proposal manifest under data/research/. Never mutates source bytes."""
+    """Investigate over the corpus (read-only) and write findings + the recipe's output under
+    data/research/. The default recipe distills issue proposals; --recipe hypothesis-assessment
+    --hypothesis <id> assesses the active --site against a boom-origin hypothesis (candidate
+    cells, for review). Never mutates source bytes."""
     from datetime import UTC, datetime
 
-    from bosc.agent.client import ResearchAgent
-    from bosc.research import run_research, run_slug, write_run
+    from bosc.hypotheses import HYPOTHESES
+    from bosc.research import RECIPES, run_research, run_slug, write_run
 
     settings = get_settings()
+    if recipe not in RECIPES:
+        raise typer.BadParameter(
+            f"unknown recipe {recipe!r}; known: {sorted(RECIPES)}", param_hint="--recipe"
+        )
+    context: dict[str, str] = {}
+    if recipe == "hypothesis-assessment":
+        if hypothesis not in HYPOTHESES:
+            raise typer.BadParameter(
+                f"--hypothesis must be one of {sorted(HYPOTHESES)}", param_hint="--hypothesis"
+            )
+        context = {"hypothesis": hypothesis, "site": settings.site}
+        if not topic:
+            topic = f"assess {settings.site} x {hypothesis}"
+    elif not topic:
+        raise typer.BadParameter("the issue-proposal recipe needs --topic", param_hint="--topic")
+
     generated_at = datetime.now(UTC).isoformat(timespec="seconds")
     turns = max_turns or settings.research_max_turns
     n = max_proposals if max_proposals >= 0 else settings.research_max_proposals
-    agent = ResearchAgent(settings=settings, max_turns=turns, enable_tools=not no_tools)
 
     def emit(chunk: str) -> None:
         console.print(chunk, end="", markup=False, highlight=False)
@@ -1136,9 +1235,12 @@ def research_run_cmd(
             topic,
             generated_at=generated_at,
             settings=settings,
-            agent=agent,
+            max_turns=turns,
             max_proposals=n,
+            enable_tools=not no_tools,
             on_text=emit,
+            recipe=RECIPES[recipe],
+            context=context,
         )
     )
     console.print()  # newline after the streamed findings
@@ -1158,13 +1260,28 @@ def research_run_cmd(
     if footer:
         console.print(f"[dim]({' · '.join(footer)})[/]")
 
-    if manifest.proposals:
+    if manifest.assessments:
+        table = Table("site x hypothesis", "signal", "tag", "group", "cites")
+        for a in manifest.assessments:
+            table.add_row(
+                f"{a.site} x {a.hypothesis}",
+                a.signal or "—",
+                a.tag,
+                a.group or "—",
+                str(len(a.citations)),
+            )
+        console.print(table)
+        console.print(
+            f"[dim]candidate cells under {out_dir}/assessments/ — review, then promote into "
+            "data/hypotheses/ by hand (bosc hypotheses check before committing).[/]"
+        )
+    elif manifest.proposals:
         table = Table("proposed issue", "labels", "dedupe key")
         for pr in manifest.proposals:
             table.add_row(pr.title, ", ".join(pr.labels), pr.dedupe_key)
         console.print(table)
     else:
-        console.print("[yellow]No issue proposals distilled from the findings.[/]")
+        console.print("[yellow]No issue proposals or assessment cells produced.[/]")
 
     if prov.is_error:
         raise typer.Exit(code=1)

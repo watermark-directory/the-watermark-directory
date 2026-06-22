@@ -1,0 +1,11 @@
+site: hamilton-middletown
+hypothesis: surveillance
+signal: watch
+tag: open
+group: subsidy
+fields:
+  operator: "—"
+  capital: Municipal power + CRA (signal)
+# tag: open — no operator on record and the subsidy is a signal only; a watch-level cell
+# may carry no citation until the public-record instrument is pulled.
+citations: []

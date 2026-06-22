@@ -1,0 +1,194 @@
+[
+  {
+    "site": "columbus",
+    "hypothesis": "defense",
+    "signal": "moderate",
+    "tag": "verified",
+    "group": "federal",
+    "fields": {
+      "nexus": "DLA Land & Maritime",
+      "linkage": "Supply chain"
+    },
+    "citations": [
+      {
+        "source": "docs/defense-nexus.md",
+        "source_kind": "reference",
+        "page": null,
+        "confidence": "medium",
+        "note": "The Defense Logistics Agency's Land & Maritime supply center is in the Columbus area — a documented federal supply-chain node. Columbus is a tracking candidate (epic #486).",
+        "verified": false
+      }
+    ]
+  },
+  {
+    "site": "lima",
+    "hypothesis": "defense",
+    "signal": "anchor",
+    "tag": "verified",
+    "group": "arsenal",
+    "fields": {
+      "nexus": "Lima Army Tank Plant (JSMC)",
+      "linkage": "Co-located · Allen Co."
+    },
+    "citations": [
+      {
+        "source": "docs/defense-nexus.md",
+        "source_kind": "reference",
+        "page": null,
+        "confidence": "high",
+        "note": "The Joint Systems Manufacturing Center (Lima Army Tank Plant) is co-located with the Shawnee campus in Allen County. The nexus is documented geography; the causal link to the boom remains an inference (the campus authorization posture is undisclosed).",
+        "verified": false
+      }
+    ]
+  },
+  {
+    "site": "lordstown",
+    "hypothesis": "defense",
+    "signal": "watch",
+    "tag": "inference",
+    "group": "supply",
+    "fields": {
+      "nexus": "Defense-battery corridor",
+      "linkage": "Supply chain (signal)"
+    },
+    "citations": [
+      {
+        "source": "docs/defense-nexus.md",
+        "source_kind": "assumption",
+        "page": null,
+        "confidence": "low",
+        "note": "Inferred from the EV/battery supply corridor around Lordstown; no documented defense nexus yet — a watch-level signal only. Lordstown is a tracking candidate (Mahoning, #490).",
+        "verified": false
+      }
+    ]
+  },
+  {
+    "site": "new-albany",
+    "hypothesis": "defense",
+    "signal": "moderate",
+    "tag": "verified",
+    "group": "federal",
+    "fields": {
+      "nexus": "CHIPS semiconductor megasite",
+      "linkage": "Federal program"
+    },
+    "citations": [
+      {
+        "source": "docs/defense-nexus.md",
+        "source_kind": "reference",
+        "page": null,
+        "confidence": "medium",
+        "note": "The New Albany / Licking County semiconductor megasite is a documented CHIPS-program federal investment. New Albany is a tracking candidate (no SiteProfile yet, epic #485).",
+        "verified": false
+      }
+    ]
+  },
+  {
+    "site": "springfield",
+    "hypothesis": "defense",
+    "signal": "moderate",
+    "tag": "verified",
+    "group": "arsenal",
+    "fields": {
+      "nexus": "Springfield-Beckley ANGB",
+      "linkage": "Adjacent · NASIC nearby"
+    },
+    "citations": [
+      {
+        "source": "docs/defense-nexus.md",
+        "source_kind": "reference",
+        "page": null,
+        "confidence": "medium",
+        "note": "Springfield-Beckley Air National Guard Base is adjacent; the National Air and Space Intelligence Center (NASIC, at Wright-Patterson) is in the same corridor. Adjacency is documented; the NASIC linkage is the softer signal.",
+        "verified": false
+      }
+    ]
+  },
+  {
+    "site": "wpafb",
+    "hypothesis": "defense",
+    "signal": "strong",
+    "tag": "verified",
+    "group": "arsenal",
+    "fields": {
+      "nexus": "Wright-Patterson AFB",
+      "linkage": "Adjacent · Mad R. terminus"
+    },
+    "citations": [
+      {
+        "source": "docs/defense-nexus.md",
+        "source_kind": "reference",
+        "page": null,
+        "confidence": "high",
+        "note": "Wright-Patterson AFB sits at the Mad River terminus, adjacent to the watershed point. The base is the strongest documented federal-enclave signal in the network after Lima.",
+        "verified": false
+      }
+    ]
+  },
+  {
+    "site": "columbus",
+    "hypothesis": "surveillance",
+    "signal": "watch",
+    "tag": "open",
+    "group": "subsidy",
+    "fields": {
+      "operator": "—",
+      "capital": "Enterprise-zone abatement (signal)"
+    },
+    "citations": []
+  },
+  {
+    "site": "hamilton-middletown",
+    "hypothesis": "surveillance",
+    "signal": "watch",
+    "tag": "open",
+    "group": "subsidy",
+    "fields": {
+      "operator": "—",
+      "capital": "Municipal power + CRA (signal)"
+    },
+    "citations": []
+  },
+  {
+    "site": "lima",
+    "hypothesis": "surveillance",
+    "signal": "anchor",
+    "tag": "verified",
+    "group": "onrecord",
+    "fields": {
+      "operator": "Shawnee Energy Campus",
+      "capital": "CRA #548-25 · 15 yr / 75%"
+    },
+    "citations": [
+      {
+        "source": "docs/ECONOMICS.md",
+        "source_kind": "document",
+        "page": null,
+        "confidence": "high",
+        "note": "Community Reinvestment Area agreement #548-25 — a 15-year, 75% real-property tax abatement on the Shawnee Energy Campus build — is on the public record. The named counterparty behind the campus LLC remains the open question.",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "site": "new-albany",
+    "hypothesis": "surveillance",
+    "signal": "moderate",
+    "tag": "inference",
+    "group": "onrecord",
+    "fields": {
+      "operator": "Hyperscaler cluster (inferred)",
+      "capital": "JobsOhio · TIF (inference)"
+    },
+    "citations": [
+      {
+        "source": "docs/ECONOMICS.md",
+        "source_kind": "assumption",
+        "page": null,
+        "confidence": "medium",
+        "note": "The operator is inferred from the New Albany hyperscaler cluster; the JobsOhio / TIF incentive stack is inferred from the regional pattern — verify each against the public record before promoting the tag past inference. Tracking candidate (epic #485).",
+        "verified": false
+      }
+    ]
+  }
+]
