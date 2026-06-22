@@ -47,8 +47,11 @@ if TYPE_CHECKING:
 log = get_logger(__name__)
 
 # --- Source layout ---------------------------------------------------------
-# The five tables the per-county reduction needs, plus the small media lookup.
-_TABLES = ("facility", "submission", "release", "chemical", "media")
+# Every table the per-county reduction reads, ensured (downloaded if absent) up front.
+# `elements` (the ~250 MB modeled-score table, joined at the end via ReleaseNumber) must
+# be in this set too — it's read like the rest, so omitting it left the connector unable
+# to self-serve and every uncached site skipped on an `elements.csv.gz` miss.
+_TABLES = ("facility", "submission", "release", "chemical", "media", "elements")
 # RSEI text uses Latin-1 (facility/chemical names carry bytes that aren't UTF-8).
 _ENC = "latin-1"
 # MediaCode (media.csv last column) -> the bucket we report pounds under.

@@ -7,7 +7,7 @@ WPAFB is the **downstream terminus of the Mad River corridor** (Urbana → Sprin
 ## Dimension coverage
 
 - [~] **Hydrology** — corridor-DDF + climatology connectors ran (WPAFB-specific, cited; Atlas-14 24h 2-yr 2.71 in → 100-yr 5.45 in). The surface receiving-water screen is **both blocked and the wrong screen**: blocked because there's no Great Miami / Mad River 7Q10 (the derived table is Maumee mainstems only — none of the three WPAFB gages 03270000/03270500/03263000 has a low flow; this run's `derive-low-flows` also hit a transient USGS 503, but the shared Maumee file is already committed and unchanged) and no WWTP ingested (`plant_receiving={}`); the *wrong* screen because the load-bearing risk is the **Buried Valley sole-source aquifer + the TCE/PFAS plume** (`[inference]`/`[reference]` in the profile — **to-verify**, not yet findings). SSURGO skipped (no footprint → HSG B stays `[inference]`).
-- [~] **Economics** — Montgomery County baseline + consumer-energy ran (high-confidence: pop 535,528, 248,053 jobs). **CAVEAT (a real one):** the defense Professional/Scientific/Technical signature is **invisible in this unit** — Montgomery NAICS 54 LQ **0.81** (not elevated), NAICS 51 (Information) LQ **0.90** (near national). The defense-supplier concentration the WPAFB thesis rests on (NAICS 54 LQ **2.11**) lives in **adjacent Greene County**, which **Xenia (#444)** already covers. The straddle splits coherently — Greene/Xenia = the defense-employment cluster (the contractor bedroom communities), Montgomery/WPAFB = the well-field + plume + Dayton-metro toxics — but a reader of WPAFB's baseline alone would wrongly conclude "no defense concentration." A two-county treatment is filed as a follow-up. RSEI skipped (v234 cache miss); grid-profile errored (utility `#0` unpinned — likely **AES Ohio / DAY**, not Lima's AEP).
+- [x] **Economics** — Montgomery County baseline + consumer-energy ran (high-confidence: pop 535,528, 248,053 jobs). **CAVEAT (a real one):** the defense Professional/Scientific/Technical signature is **invisible in this unit** — Montgomery NAICS 54 LQ **0.81** (not elevated), NAICS 51 (Information) LQ **0.90** (near national). The defense-supplier concentration the WPAFB thesis rests on (NAICS 54 LQ **2.11**) lives in **adjacent Greene County**, which **Xenia (#444)** already covers. The straddle splits coherently — Greene/Xenia = the defense-employment cluster (the contractor bedroom communities), Montgomery/WPAFB = the well-field + plume + Dayton-metro toxics — but a reader of WPAFB's baseline alone would wrongly conclude "no defense concentration." A two-county treatment is filed as a follow-up. RSEI toxics ran (Montgomery Co, 141 facilities / 111 scored — the Dayton-metro toxics mass; top by modeled Score: EFTEC North America + Delphi Energy & Chassis Vandalia); grid-profile ran on the now-pinned serving utility **Dayton Power & Light** (AES Ohio, EIA-861 #4922; PJM/PUCO; verified from the EIA-861 2024 Service_Territory).
 - [~] **Data-center activity** — self-research first pass run (#247); **the only Miami node with an existing corpus thread — but as published record, not a primary instrument.** The corpus carries the **regulated/air-gapped DoD cloud** variant: written testimony §8 "Ohio defense footprint" + `cloud-consumer-candidates.yaml` (Google Distributed Cloud air-gapped IL5/IL6, the **Air Force Rapid Sustainment Office** a named early customer, **GDIT + Google Public Sector** at Exercise Mobility Guardian 2025) — analyst-built from published record (Google Cloud blog, Breaking Defense, Defense One, GDIT) and explicitly **entity-level, not tied to a sited facility** (`docs/legal/mandamus-analysis.md:495`). `[verified]` there is **no primary deed, SOS shell, or permit** of a sited data-center facility here. **Method note:** this is the defense-cloud *customer* register (legitimately WPAFB's relevance), **not** the Lima Bistrozzi land-assembly graph, which is not bridged in.
 - [ ] **Per-jurisdiction GIS** — Montgomery County parcels / City of Dayton zoning connector (the known lift), **plus the WPAFB federal enclave as its own register** (federal/military land won't appear in county CAMA — cf. Lima's `UNITED STATES` parcel-owner). Flood = national NFHL (wired).
 
@@ -22,9 +22,9 @@ WPAFB is the **downstream terminus of the Mad River corridor** (Urbana → Sprin
 | climatology | ok | reference/hydrology/wpafb/nasa-power-climatology.yaml |
 | basin-screen | ok (Maumee) | 7/129 dischargers — the Maumee inventory; **no Great-Miami coverage** |
 | econ-baseline | ok | reference/economics/wpafb/baseline.yaml (Montgomery Co 39113) |
-| rsei | skipped | cache miss (elements.csv.gz); no Montgomery-Co toxics inventory |
+| rsei | ok | reference/rsei/wpafb/inventory.yaml — 141 facilities (111 scored) |
 | consumer-energy | ok | reference/eia/wpafb/consumer-energy.yaml |
-| grid-profile | error | EIA-861 2024: no Short-Form ('861S') row for utility #0 (utility unpinned) |
+| grid-profile | ok | reference/eia/wpafb/grid-profile.yaml — Dayton Power & Light #4922, PJM |
 | self-research | ok | research/onboard-wpafb-wright-patterson-afb-data-center-a-2026-06-22/ |
 
 ## Self-research (Phase 5; #247) — 2026-06-22
@@ -63,7 +63,8 @@ facility)**, and the receiving-water screen is **the wrong screen** until refram
 the missing-artifacts work is done by this PR): verify the sole-source aquifer + TCE/PFAS plume (the
 groundwater screen); extend `derive-low-flows` to the Great Miami / Mad River + ingest the WPAFB/Dayton
 WWTP NPDES; resolve the economic-unit scope (two-county Greene + Montgomery); complete the connector set
-(RSEI 39113 + pin the utility/EIA-861/PJM zone); and the data-center activity sweep (confirm the DoD-cloud
+(RSEI 39113 + pin the utility/EIA-861/PJM zone — **DONE**: RSEI ran (141 fac/111 scored) + utility pinned
+to DP&L #4922/PJM); and the data-center activity sweep (confirm the DoD-cloud
 thread + scan for a sited facility).
 
 ## Review gate (blocking)
