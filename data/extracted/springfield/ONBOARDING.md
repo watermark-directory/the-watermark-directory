@@ -14,7 +14,7 @@ Springfield is the network's **second Miami-basin site** (epic #451 / onboarding
   / C.J. Brown Reservoir** second supply has **no derivable discharge 7Q10** — gage 03268100 is a
   reservoir-release / stage gage with no daily-discharge record (1980-2024) — recorded as a finding.
   SSURGO still skipped (no footprint → HSG B stays `[inference]`).
-- [~] **Economics** — county baseline + consumer-energy ran (high-confidence: Clark Co). RSEI skipped (v234 `elements.csv.gz` cache miss). grid-profile errored (utility `#0` unpinned — Clark County sits at the **AEP/DAY seam**; pin the EIA-861 utility + PJM zone before publishing any grid figure).
+- [x] **Economics** — county baseline + consumer-energy ran (high-confidence: Clark Co). RSEI toxics ran (Clark Co, 35 facilities / 28 scored; top by modeled Score: International Steel Wool). grid-profile ran on the now-pinned serving utility **Dayton Power & Light** (AES Ohio, EIA-861 #4922; PJM/PUCO) — verified from the EIA-861 2024 Service_Territory: Clark Co is DP&L/Duke/Ohio-Edison, no AEP.
 - [~] **Data-center activity** — self-research first pass (#247) found `[verified]` **zero** Springfield
   primary documents in the corpus. The follow-up discover-and-pin sweep (#454) found the activity is
   **real and pinnable** — recorded in [`data-centers.md`](data-centers.md): **5C Data Centers / Vultr**
@@ -37,9 +37,9 @@ Springfield is the network's **second Miami-basin site** (epic #451 / onboarding
 | climatology | ok | reference/hydrology/springfield/nasa-power-climatology.yaml |
 | basin-screen | ok (Great Miami) | **14/81 POTW** screened vs Mad River + Great Miami 7Q10 (`great-miami-wwtp.potw.yaml`, #446/#455) |
 | econ-baseline | ok | reference/economics/springfield/baseline.yaml |
-| rsei | skipped | cache miss (elements.csv.gz); no Clark-Co toxics inventory |
+| rsei | ok | reference/rsei/springfield/inventory.yaml — 35 facilities (28 scored) |
 | consumer-energy | ok | reference/eia/springfield/consumer-energy.yaml |
-| grid-profile | error | EIA-861 2024: no Short-Form ('861S') row for utility #0 (utility unpinned) |
+| grid-profile | ok | reference/eia/springfield/grid-profile.yaml — Dayton Power & Light #4922, PJM |
 | self-research | ok | research/onboard-springfield-springfield-data-center-acti-2026-06-21/ |
 
 ## Self-research (Phase 5; #247) — 2026-06-21
@@ -73,10 +73,11 @@ denominator** (same hole as Urbana).
   buried-valley aquifer**, not Lima's effluent-vs-tiny-7Q10. Unlike Urbana, Springfield has a
   **second, USACE-managed supply** (Buck Creek / C.J. Brown Reservoir, gage 03268100) — the
   screen must reflect the managed/impounded source, not copy a single-reach denominator.
-- **Grid is unpinned at the AEP/DAY seam.** Clark County sits where AEP Ohio and AES Ohio (DAY)
-  territories meet — pin the EIA-861 utility number + PJM zone before publishing any grid figure
-  (Ohio, so the cross-state connector axis isn't re-triggered). A *different* zone than Urbana
-  here would itself be a finding (the "complex mix of influences" thesis).
+- **Grid is now pinned — no AEP/DAY seam.** The "AEP/DAY seam" premise is **stale**: verified from
+  the EIA-861 2024 Service_Territory, Clark County is served by **Dayton Power & Light** (AES Ohio,
+  EIA-861 #4922) / Duke Energy Ohio / Ohio Edison — **with no AEP**. grid-profile is pinned on DP&L
+  #4922, PJM/PUCO (Ohio, so the cross-state connector axis isn't re-triggered). A *different* zone than
+  Urbana here would itself be a finding (the "complex mix of influences" thesis).
 - **Watershed-axis concern raised by the agent is already resolved.** The run (working from a
   read-only Lima-bound view) flagged a possible "Maumee-axis mismatch" and proposed escalating it.
   That premise is **stale**: the network is deliberately multi-basin — the Maumee lake-plain branch
@@ -89,7 +90,8 @@ denominator** (same hole as Urbana).
 watershed-axis escalation — see above), so they are recorded here rather than filed. The genuinely-open
 work is filed as sub-issues of #452: source-or-scope the Roshel/International Motors APA thread;
 discover/pin Clark County (New Carlisle ↔ Springfield I-70) data-center activity; the Springfield WRF
-NPDES + Mad-River-at-Springfield 7Q10 (with #445/#446); and pin the Clark County utility + PJM zone.
+NPDES + Mad-River-at-Springfield 7Q10 (with #445/#446); and ~~pin the Clark County utility + PJM zone~~
+(**done** — DP&L/AES Ohio #4922, PJM/PUCO, verified from EIA-861 2024 Service_Territory; no AEP).
 
 ## Review gate (blocking)
 

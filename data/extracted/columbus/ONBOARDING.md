@@ -7,7 +7,7 @@ Columbus / Franklin County is the **Scioto mainstem metro core** (Scioto epic #4
 ## Dimension coverage
 
 - [x] **Hydrology** — corridor-DDF + climatology ran (cited). The **Scioto-basin 7Q10s are derived** (`low-flow-7q10.derived.yaml`): Scioto River 515.73 cfs (03234500, the mouth-ward proxy), Olentangy 13.53 (03226800), Big Walnut 35.43, Big Darby 11.24. The metro abstraction/supply pair is **Scioto at Columbus (03227500)** + **Olentangy near Worthington (03226800)** — note 03227000 (Olentangy at Columbus) carries no discharge record and is not used. SSURGO skipped (no footprint → HSG C is `[inference]`). **Basin-screen is 0/0 pending the Scioto ECHO inventory** — the `bosc npdes --basin scioto` pull was deferred at onboard time (ECHO 429 throttle); rerun to populate it.
-- [~] **Economics** — county baseline (Franklin 39049) + consumer-energy (OH) + **grid-profile** ran (grid-profile **succeeded** on the pinned AEP utility #14006). RSEI skipped (v234 `elements.csv.gz` cache miss). Franklin County is the state-capital metro — the metro-scale economic comparator to the small-city nodes.
+- [x] **Economics** — county baseline (Franklin 39049) + consumer-energy (OH) + **grid-profile** ran (grid-profile **succeeded** on the pinned AEP utility #14006). RSEI toxics ran (Franklin Co, 167 facilities / 132 scored — the network's largest toxics inventory; top by modeled Score: Akzo Nobel Coatings). Franklin County is the state-capital metro — the metro-scale economic comparator to the small-city nodes.
 - [~] **Data-center activity** — discover-and-pin sweep + self-research first pass **done** (manifest under `data/research/onboard-columbus-...`; register in [`data-centers.md`](data-centers.md)). **Verified (Franklin County proper):** the AWS Hilliard cluster (158-genset air PTI), an AEP/Bloom **228-fuel-cell behind-the-meter plant** (73 MW, OPSB-approved, Hilliard appealing), Google "Hartman Farm" ($300M, Columbus abatement), AWS Dublin, Cologix colo. **Regulatory spine:** the **AEP Ohio data-center tariff** (PUCO 24-508-EL-ATA — 85% take-or-pay, ≥25 MW; OMA appeal at the Ohio Supreme Court). Boundary held: the New Albany/Licking epicenter is #485, not here. **Still `[open]`:** ingest the instruments (PUCO docket, air PTIs, abatement ordinance, deeds) — see `data-centers.md`.
 - [~] **Per-jurisdiction GIS** — parcels = the OGRIP Ohio statewide layer scoped to Franklin (the Franklin County Auditor also hosts a fuller native owner+CAMA layer — a follow-up upgrade). Zoning = the verified City of Columbus "All Base Zoning" REST (polygon-only district catalog, city limits only); flood = national NFHL (wired). `gis_zoning` schema-wiring deferred.
 
@@ -22,7 +22,7 @@ Columbus / Franklin County is the **Scioto mainstem metro core** (Scioto epic #4
 | climatology | ok | reference/hydrology/columbus/nasa-power-climatology.yaml |
 | basin-screen | skipped | 0/0 — the Scioto ECHO inventory is not yet pulled (ECHO 429 at onboard time) |
 | econ-baseline | ok | reference/economics/columbus/baseline.yaml (Franklin 39049) |
-| rsei | skipped | cache miss (elements.csv.gz); no Franklin-Co toxics inventory |
+| rsei | ok | reference/rsei/columbus/inventory.yaml — 167 facilities (132 scored) |
 | consumer-energy | ok | reference/eia/columbus/consumer-energy.yaml |
 | grid-profile | ok | reference/eia/columbus/grid-profile.yaml (AEP Ohio #14006 — pinned) |
 

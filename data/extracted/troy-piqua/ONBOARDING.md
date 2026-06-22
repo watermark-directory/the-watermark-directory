@@ -7,7 +7,7 @@ Troy · Piqua is the **upper Great Miami mainstem** node (Miami County) — the 
 ## Dimension coverage
 
 - [~] **Hydrology** — corridor-DDF + climatology connectors ran (Troy-centroid, cited; Atlas-14 24h 2-yr 2.67 in → 100-yr 5.71 in; annual precip 2.83 mm/day). The receiving-water screen is unbuilt: no Great Miami / Stillwater 7Q10 (the derived table is Maumee mainstems only — none of the three gages 03262700 [Troy] / 03262500 [Piqua] / 03265000 [Stillwater] has a low flow) and no WWTP ingested (`plant_receiving={}`). SSURGO skipped → HSG B stays `[inference]` (the buried-valley "inverse of Black Swamp" claim, footprint-dependent).
-- [~] **Economics** — Miami County baseline + consumer-energy ran (high-confidence: BLS QCEW 2023 / Census ACS5). The signature is **mid-size manufacturing** (the Hobart / auto-parts base), the upstream-mainstem complement to Butler's heavy steel. RSEI skipped (v234 cache miss) — the Miami County manufacturing toxics inventory is unmeasured (lower-stakes than Butler's active steel discharger, but still open). Grid-profile errored — the **split utility** (Piqua municipal / AMP vs Troy / AES Ohio) and PJM zone (likely **DAY**) are unpinned.
+- [x] **Economics** — Miami County baseline + consumer-energy ran (high-confidence: BLS QCEW 2023 / Census ACS5). The signature is **mid-size manufacturing** (the Hobart / auto-parts base), the upstream-mainstem complement to Butler's heavy steel. RSEI toxics ran (Miami Co, 40 facilities / 33 scored; top by modeled Score: Hobart Brothers filler-metals — the manufacturing base named above). grid-profile ran on the now-pinned serving utility **Dayton Power & Light** (AES Ohio, EIA-861 #4922; PJM/PUCO; verified from the EIA-861 2024 Service_Territory) — the county-dominant IOU (Troy); the City of Piqua municipal (#15095) is the Piqua-side split [inference].
 - [~] **Data-center activity** — self-research first pass run (#247). `[verified]` **zero** Troy/Piqua/Miami-County records in the corpus (0 matches across 1,485 document lines; entity graph entirely Lima). `facility=None`; *the BOSC corpus contains no Troy/Piqua data-center records as of 2026-06-22* — a no-data finding (not evidence none is proposed). The `[open]` sweep target is the **Piqua / Troy / Tipp City I-75** corridor. **Method note:** the Lima/Allen Bistrozzi land-assembly graph is **not** bridged in.
 - [ ] **Per-jurisdiction GIS** — Miami County parcels / City of Troy + Piqua zoning connector (the known lift). **Heed the same-name trap:** there are multiple "Miami County"s nationally (and Miami-Dade FL) — verify the situs is **Miami County OH** from a live `?f=json` sample before wiring any discovered service (or fall back to OGRIP statewide scoped `County='Miami'`). Flood = national NFHL (wired).
 
@@ -22,9 +22,9 @@ Troy · Piqua is the **upper Great Miami mainstem** node (Miami County) — the 
 | climatology | ok | reference/hydrology/troy-piqua/nasa-power-climatology.yaml |
 | basin-screen | ok (Maumee) | 7/129 dischargers — the Maumee inventory; **no Great-Miami coverage** |
 | econ-baseline | ok | reference/economics/troy-piqua/baseline.yaml (Miami Co 39109) |
-| rsei | skipped | cache miss (elements.csv.gz); no Miami-Co toxics inventory |
+| rsei | ok | reference/rsei/troy-piqua/inventory.yaml — 40 facilities (33 scored) |
 | consumer-energy | ok | reference/eia/troy-piqua/consumer-energy.yaml |
-| grid-profile | error | EIA-861 2024: no Short-Form ('861S') row for utility #0 (split utility unpinned) |
+| grid-profile | ok | reference/eia/troy-piqua/grid-profile.yaml — Dayton Power & Light #4922, PJM |
 | self-research | ok | research/onboard-troy-piqua-troy-piqua-data-center-activi-2026-06-22/ |
 
 ## Self-research (Phase 5; #247) — 2026-06-22
@@ -48,16 +48,19 @@ Its distinctive angle is the **municipal-power split** (Piqua/AMP vs AES Ohio).
   Great Miami hydro); Troy/Miami County is likely AES Ohio (DAY zone). This is the second muni-power
   story in the network (cf. Hamilton) — expect the **EIA-861S short-form** path for the muni (the one
   that bit Bryan). Pin the EIA-861 number(s) + PJM zone before any grid figure.
-- **Toxics — lower-stakes but open.** Mid-size manufacturing, not Butler's active heavy-steel discharger
-  — the RSEI inventory is still unmeasured (`fips=39109` set, never pulled; `toxic_corridor_bbox` empty).
+- **Toxics — measured.** Mid-size manufacturing, not Butler's active heavy-steel discharger
+  — the RSEI inventory is now pulled (`fips=39109`, 40 facilities / 33 scored; top by modeled Score:
+  Hobart Brothers filler-metals); only `toxic_corridor_bbox` stays empty (`[open]`).
 - **Geography caution.** The gage→reach mapping is profile-asserted `[verified]` (confirmed against the
   live USGS Miami-County site list at onboarding); SSURGO HSG stays `[inference]` pending a footprint.
 
 **Proposals — triaged.** The run's SSURGO-HSG draft is a footprint-dependent **gate item** (recorded in
 the gate, not filed, like the siblings); the missing-artifacts work is done by this PR. The genuinely-open
 work is filed as sub-issues of #475: the Great Miami / Stillwater 7Q10 (extend `derive-low-flows`) + the
-Troy/Piqua WWTP NPDES; run the RSEI inventory (Miami 39109) + `toxic_corridor_bbox`; resolve the Piqua-muni
-vs AES Ohio split + pin the utility/EIA-861/PJM zone; and the I-75-corridor data-center activity sweep.
+Troy/Piqua WWTP NPDES; the RSEI inventory (Miami 39109) is **DONE** (40 facilities / 33 scored), leaving
+`toxic_corridor_bbox` open; the Piqua-muni vs AES Ohio split is **DONE** — utility pinned to **DP&L #4922**
+(PJM/PUCO, Troy/county-dominant), Piqua municipal #15095 the split `[inference]`; and the I-75-corridor
+data-center activity sweep.
 
 ## Review gate (blocking)
 

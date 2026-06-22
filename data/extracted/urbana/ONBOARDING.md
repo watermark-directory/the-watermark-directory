@@ -7,7 +7,7 @@ Urbana is the network's **first Miami-basin site** (epic #440 / onboarding #441)
 ## Dimension coverage
 
 - [~] **Hydrology** — corridor-DDF + climatology connectors ran (cited); but the **Mad River 7Q10 is absent from both low-flow tables** and the basin-screen ran against the *Maumee* ECHO inventory (meaningless for the Great Miami) — the Urbana receiving-water screen is, in substance, empty. SSURGO skipped (no footprint → HSG B stays `[inference]`).
-- [~] **Economics** — county baseline + consumer-energy ran (high-confidence: Champaign Co, manufacturing LQ 4.14, information LQ 0.18 = greenfield signature). RSEI skipped (cache miss); grid-profile errored (utility `#0` unpinned — likely AES Ohio / **DAY** PJM zone, not Lima's AEP).
+- [x] **Economics** — county baseline + consumer-energy ran (high-confidence: Champaign Co, manufacturing LQ 4.14, information LQ 0.18 = greenfield signature). RSEI toxics ran (Champaign Co, 12 facilities / 9 scored; top by modeled Score: C V Materials); grid-profile ran on the now-pinned serving utility **Dayton Power & Light** (AES Ohio, EIA-861 #4922; PJM/PUCO; verified from the EIA-861 2024 Service_Territory).
 - [~] **Data-center activity** — self-research first pass run (#247); **the weakest leg in the corpus** — only the `[open]` **Highland55** lead (one line in `docs/COURSE.md`, no instrument) + a Honda "Champaign-area" candidate profile (not pinned). **Zero Urbana/Champaign primary documents.** See self-research summary below.
 - [ ] **Per-jurisdiction GIS** — Champaign County parcels / City of Urbana zoning connector (the known lift; see docs/onboarding.md). Flood = national NFHL (wired).
 
@@ -22,9 +22,9 @@ Urbana is the network's **first Miami-basin site** (epic #440 / onboarding #441)
 | climatology | ok | reference/hydrology/urbana/nasa-power-climatology.yaml |
 | basin-screen | ok (Maumee) | 7/129 dischargers — the Maumee inventory; **no Great-Miami coverage** |
 | econ-baseline | ok | reference/economics/urbana/baseline.yaml |
-| rsei | skipped | cache miss (elements.csv.gz); no Champaign-Co toxics inventory |
+| rsei | ok | reference/rsei/urbana/inventory.yaml — 12 facilities (9 scored) |
 | consumer-energy | ok | reference/eia/urbana/consumer-energy.yaml |
-| grid-profile | error | EIA-861 2024: no Short-Form ('861S') row for utility #0 (utility unpinned) |
+| grid-profile | ok | reference/eia/urbana/grid-profile.yaml — Dayton Power & Light #4922, PJM |
 | self-research | ok | research/onboard-urbana-urbana-data-center-activity-recei-2026-06-21/ |
 
 ## Self-research (Phase 5; #247) — 2026-06-21
@@ -41,7 +41,7 @@ both open: data-center activity is the **weakest in the network** and the receiv
 - **The screen should be a *source-water / abstraction* screen, not effluent-dominance.** Lima's thesis is effluent-vs-tiny-tributary-7Q10; Urbana's is **consumptive cooling draw vs. Mad River baseflow + the sole-source buried-valley aquifer** (which is exactly why the profile carries `abstraction_gage`/`supply_gage`/`passby` fields). The methodology must not copy Lima's denominator logic onto it.
 - **Grid is a different zone than Lima.** Likely **AES Ohio / DAY PJM zone**, not AEP — pin the EIA-861 utility number + PJM zone before publishing any grid figure (Ohio, so the cross-state connector axis isn't re-triggered).
 
-**Proposals — 5 filed as sub-issues of #441:** Mad-River 7Q10 + Urbana WWTP NPDES (the screen's central hole); a Great-Miami / Ohio-River ECHO discharger inventory; source Highland55 via primary instruments; pin-or-downgrade the Honda Champaign-area data center; resolve the Champaign-County utility + PJM zone.
+**Proposals — 5 filed as sub-issues of #441:** Mad-River 7Q10 + Urbana WWTP NPDES (the screen's central hole); a Great-Miami / Ohio-River ECHO discharger inventory; source Highland55 via primary instruments; pin-or-downgrade the Honda Champaign-area data center; ~~resolve the Champaign-County utility + PJM zone~~ **done** (Dayton Power & Light #4922, PJM/PUCO; grid-profile committed).
 
 ## Review gate (blocking)
 

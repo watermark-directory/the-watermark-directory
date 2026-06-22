@@ -7,7 +7,7 @@ Xenia is the network's **first Little Miami-basin site** — a **third basin bra
 ## Dimension coverage
 
 - [~] **Hydrology** — corridor-DDF + climatology connectors ran (Xenia-specific, cited; Atlas-14 24h 2-yr 2.73 in → 100-yr 5.51 in). But the receiving-water screen is **substantively empty**: there is **no Little Miami 7Q10** (the derived table is Maumee mainstems only — none of the three Xenia gages 03240000/03241500/03242050 has a derived low flow; `derive-low-flows` is not extended to this basin), and the basin-screen ran against the *Maumee* ECHO inventory (no Little Miami coverage). **The distinctive blocker:** the Little Miami's **Scenic-River anti-degradation overlay** `[reference]` is unquantified — it is the site's defining constraint and likely raises the passby minimums (currently `0.0 [open]`). SSURGO skipped (no footprint → HSG B stays `[inference]`, footprint-dependent: valley outwash A/B vs. till-upland C/D).
-- [~] **Economics** — county baseline + consumer-energy ran (high-confidence: Greene Co, pop 168,531). The economics **cut against** an existing data-center cluster: **Professional/Scientific/Technical (NAICS 54) LQ 2.11** is the WPAFB defense-contractor signature (`[inference]`, *not* data-center), while **Information (NAICS 51) LQ 0.29** is well below national — no existing IT-hosting concentration. RSEI skipped (v234 `elements.csv.gz` cache miss); grid-profile errored (utility `#0` unpinned — likely **AES Ohio / DAY** PJM zone, not Lima's AEP).
+- [x] **Economics** — county baseline + consumer-energy ran (high-confidence: Greene Co, pop 168,531). The economics **cut against** an existing data-center cluster: **Professional/Scientific/Technical (NAICS 54) LQ 2.11** is the WPAFB defense-contractor signature (`[inference]`, *not* data-center), while **Information (NAICS 51) LQ 0.29** is well below national — no existing IT-hosting concentration. RSEI toxics ran (Greene Co, 20 facilities / 17 scored; top by modeled Score: Unison Industries — aerospace); grid-profile ran on the now-pinned serving utility **Dayton Power & Light** (AES Ohio, EIA-861 #4922; PJM/PUCO; verified from the EIA-861 2024 Service_Territory).
 - [~] **Data-center activity** — self-research first pass run (#247). `[verified]` **zero** Xenia/Greene/Little-Miami/Beavercreek records in the corpus (0 matches across 1,485 document lines; entity graph entirely Lima). `facility=None`; *as of this corpus there is no Xenia data-center land assembly or permit record* — a finding, not a gap. The `[open]` overlays are the **WPAFB defense-supplier corridor** (the GDIT/RSO ecosystem in `cloud-consumer-candidates.yaml`) and the **WPAFB groundwater plume** intersecting the same sole-source aquifer. See self-research summary below.
 - [ ] **Per-jurisdiction GIS** — Greene County parcels / City of Xenia zoning connector (the known lift; see docs/onboarding.md). Flood = national NFHL (wired).
 
@@ -22,9 +22,9 @@ Xenia is the network's **first Little Miami-basin site** — a **third basin bra
 | climatology | ok | reference/hydrology/xenia/nasa-power-climatology.yaml |
 | basin-screen | ok (Maumee) | 7/129 dischargers — the Maumee inventory; **no Little Miami coverage** |
 | econ-baseline | ok | reference/economics/xenia/baseline.yaml |
-| rsei | skipped | cache miss (elements.csv.gz); no Greene-Co toxics inventory |
+| rsei | ok | reference/rsei/xenia/inventory.yaml — 20 facilities (17 scored) |
 | consumer-energy | ok | reference/eia/xenia/consumer-energy.yaml |
-| grid-profile | error | EIA-861 2024: no Short-Form ('861S') row for utility #0 (utility unpinned) |
+| grid-profile | ok | reference/eia/xenia/grid-profile.yaml — Dayton Power & Light #4922, PJM |
 | self-research | ok | research/onboard-xenia-xenia-data-center-activity-receivi-2026-06-21/ |
 
 ## Self-research (Phase 5; #247) — 2026-06-21
@@ -62,9 +62,10 @@ thing still unquantified: the **Scenic-River receiving water**.
 missing artifacts: this `ONBOARDING.md` + the `--research` pass), so it is recorded here rather than
 filed. The genuinely-open work is filed as sub-issues of #444: extend `derive-low-flows` to the Little
 Miami basin + ingest the Xenia/Beavercreek WWTP NPDES (the receiving-water inputs); quantify the Little
-Miami Scenic-River anti-degradation overlay + passby minimums (the distinctive constraint); discover/pin
-Xenia/Beavercreek + WPAFB-corridor data-center activity (incl. the plume overlay); and pin the Greene
-County utility + PJM zone.
+Miami Scenic-River anti-degradation overlay + passby minimums (the distinctive constraint); and discover/pin
+Xenia/Beavercreek + WPAFB-corridor data-center activity (incl. the plume overlay). **Done:** the Greene
+County utility + PJM zone is pinned (Dayton Power & Light, EIA-861 #4922, PJM/PUCO) and the RSEI toxics
+inventory is run (Greene Co, 20 facilities / 17 scored).
 
 ## Review gate (blocking)
 

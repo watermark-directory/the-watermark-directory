@@ -7,7 +7,7 @@ New Albany / Licking County is the network's **third-basin branch** (Scioto epic
 ## Dimension coverage
 
 - [x] **Hydrology** — corridor-DDF + climatology ran (cited). The **Scioto-basin 7Q10s are derived** (`low-flow-7q10.derived.yaml`): Big Walnut Creek 35.43 cfs (03229500), Scioto River 515.73 (03234500), Olentangy 13.53, Big Darby 11.24. The site's at-reach supply gage is **Big Walnut at Central College (03228500)**. SSURGO skipped (no footprint → HSG C is `[inference]`). **Basin-screen is 0/0 pending the Scioto ECHO inventory** — the live `bosc npdes --basin scioto` pull was deferred at onboard time (ECHO 300/hr throttle, HTTP 429); rerun it to populate `scioto-wwtp.potw.yaml` and the screen.
-- [~] **Economics** — county baseline (Licking 39089) + consumer-energy (OH) + **grid-profile** ran. The grid-profile **succeeded** because the AEP utility is pinned (Ohio Power #14006), unlike the Miami sites' `[open]` utility. RSEI skipped (v234 `elements.csv.gz` cache miss — same deferral as the Miami sites).
+- [x] **Economics** — county baseline (Licking 39089) + consumer-energy (OH) + **grid-profile** ran. The grid-profile **succeeded** because the AEP utility is pinned (Ohio Power #14006), unlike the Miami sites' `[open]` utility. RSEI toxics ran (Licking Co, 51 facilities / 47 scored; top by modeled Score: Modern Welding + Owens Corning Insulating).
 - [~] **Data-center activity** — discover-and-pin sweep + self-research first pass **done** (manifest under `data/research/onboard-new-albany-...`; register in [`data-centers.md`](data-centers.md)). **Verified:** Intel "Ohio One" ($28B fab, 125 cooling towers) + Meta "Prometheus" (1 GW, Sidecat LLC), AWS ($3.5B), Google, QTS (222 MW) on the Beech Rd corridor; Microsoft's Licking plan **withdrawn** (Apr 2025). **Key finding:** the DC footprint is on the **Beech Rd / Licking County / Muskingum** side (not Scioto), but the **source water is the Columbus/Scioto** system. Regulatory spine = the **AEP data-center tariff** (PUCO 24-508-EL-ATA, on appeal). **Still `[open]`:** ingest the primary instruments (Intel air PTI, deeds, SOS, abatements) — see `data-centers.md`; nothing in the entity graph yet.
 - [~] **Per-jurisdiction GIS** — parcels = the OGRIP Ohio statewide layer scoped to Licking (Licking County's own ArcGIS parcel/zoning REST is currently stopped, HTTP 500; OGRIP `SitusAddressAll` is null for Licking — a thin catalog). Flood = national NFHL (wired). Zoning = `[open]` (no confirmed New Albany / Jersey Twp REST). The Franklin County Auditor hosts a fuller native owner+CAMA parcel layer for the city-core side — a follow-up upgrade.
 
@@ -22,7 +22,7 @@ New Albany / Licking County is the network's **third-basin branch** (Scioto epic
 | climatology | ok | reference/hydrology/new-albany/nasa-power-climatology.yaml |
 | basin-screen | skipped | 0/0 — the Scioto ECHO inventory is not yet pulled (ECHO 429 at onboard time) |
 | econ-baseline | ok | reference/economics/new-albany/baseline.yaml (Licking 39089) |
-| rsei | skipped | cache miss (elements.csv.gz); no Licking-Co toxics inventory |
+| rsei | ok | reference/rsei/new-albany/inventory.yaml — 51 facilities (47 scored) |
 | consumer-energy | ok | reference/eia/new-albany/consumer-energy.yaml |
 | grid-profile | ok | reference/eia/new-albany/grid-profile.yaml (AEP Ohio #14006 — pinned) |
 
