@@ -1,24 +1,23 @@
-"""Render the GIS findings as one Leaflet map page (+ a no-JS summary fallback).
+"""Typed GIS feeds for the frontend — lift the committed findings GeoJSON into feeds.
 
-Draws three committed layers from ``data/site/gis-findings.geojson`` on one map:
-the recorded campus footprint, the federally-held JSMC / Lima Army Tank Plant
-land, and the nearby FEMA floodplain/floodway. The GeoJSON is copied into the
-site as a static asset; the page fetches it client-side (Leaflet from a CDN). A
-markdown summary table renders even if scripting is off, so the page is never
-blank.
+:func:`export_geo` splits ``data/site/gis-findings.geojson`` into typed per-layer
+:class:`GeoFeatureCollection` feeds (campus, jsmc, femaflood, corridor, wwtp, rsei) for
+the frontend's DeckGL map; :func:`export_watershed_geo` and :func:`export_imagery_geo`
+add the WBD watershed and imagery-AOI feeds. :func:`merge_rsei_layer` /
+:func:`merge_corridor_layer` fold the RSEI facility points and the frozen-Periplus
+corridor geometry into the findings collection before export. Geometry is carried WGS84
+verbatim (display-only, no reprojection).
 """
 
 from __future__ import annotations
 
 import json
 import math
-from collections import Counter
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from bosc.config import Settings, get_settings
 from bosc.site.feeds import GeoFeature, GeoFeatureCollection, GeoProperties
-from bosc.sites import active_profile
 
 if TYPE_CHECKING:
     from bosc.hydrology.toxics import ToxicDischargeInventory
@@ -26,16 +25,6 @@ if TYPE_CHECKING:
 
 _RSEI_LAYER = "rsei"
 _CORRIDOR_LAYERS = ("corridor", "roadwork")
-_LAYER_LABELS = {
-    "campus": "Campus footprint (recorded Bistrozzi parcels)",
-    "jsmc": "JSMC / Lima Army Tank Plant (United States-owned)",
-    "wwtp": "County WWTP discharge points (NPDES)",
-    "corridor": "North Cole Street corridor — study area (Periplus)",
-    "roadwork": "Corridor roadwork — road centerline (the roundabouts OPC corridor)",
-    "floodway": "FEMA regulatory floodway (Zone AE)",
-    "floodplain": "FEMA 1%-annual-chance floodplain (Zone A/AE)",
-    "rsei": "RSEI toxic-release facilities — sized by Score (overlay, off by default)",
-}
 _LAYER_COLORS = {
     "campus": "#3f51b5",
     "jsmc": "#6d4c41",
@@ -136,81 +125,6 @@ def merge_rsei_layer(
     return fc, added
 
 
-# Inlined so only this page pays for the Leaflet CDN load.
-_MAP_HTML = """
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<div id="bosc-map" style="height:560px;border:1px solid #ccc;border-radius:4px;"></div>
-<script>
-(function () {
-  var STYLES = __STYLES__;
-  function init() {
-    if (typeof L === "undefined") { return setTimeout(init, 200); }
-    var el = document.getElementById("bosc-map");
-    if (!el) { return setTimeout(init, 200); }
-    var map = L.map(el);
-    var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19, attribution: "&copy; OpenStreetMap contributors"
-    });
-    var aerial = L.tileLayer(
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-      { maxZoom: 19, attribution: "Imagery &copy; Esri" }
-    );
-    __WAYBACK_VARS__
-    osm.addTo(map);
-    function popup(f, l) { if (f.properties && f.properties.label) l.bindPopup(f.properties.label); }
-    fetch("assets/gis-findings.geojson").then(function (r) { return r.json(); }).then(function (fc) {
-      var feats = (fc.features || []);
-      var isRsei = function (f) { return (f.properties || {}).layer === "rsei"; };
-      // Corridor findings (polygons + WWTP points) — the default view.
-      var corridor = L.geoJSON({ type: "FeatureCollection", features: feats.filter(function (f) { return !isRsei(f); }) }, {
-        style: function (f) { return STYLES[f.properties.layer] || { color: "#555", weight: 1 }; },
-        pointToLayer: function (f, latlng) {
-          return L.circleMarker(latlng, { radius: 7, color: "#00695c", weight: 2, fillColor: "#26a69a", fillOpacity: 0.9 });
-        },
-        onEachFeature: popup
-      }).addTo(map);
-      // RSEI toxic-release facilities — county-wide overlay, OFF by default (keeps the
-      // corridor in frame); sized by Score, hollow when reported-but-unscored.
-      var rsei = L.geoJSON({ type: "FeatureCollection", features: feats.filter(isRsei) }, {
-        pointToLayer: function (f, latlng) {
-          var p = f.properties || {};
-          // Toxic water dischargers on a near-undiluted reach get a red/orange ring.
-          var ring = p.water_flag === "critical" ? "#c62828"
-                   : p.water_flag === "elevated" ? "#ef6c00" : "#6a1b9a";
-          return L.circleMarker(latlng, {
-            radius: p.radius || 5, color: ring, weight: p.water_flag ? 3 : 1,
-            fillColor: "#8e24aa", fillOpacity: p.scored ? 0.55 : 0.12
-          });
-        },
-        onEachFeature: popup
-      });
-      L.control.layers(
-        { "Street (OSM)": osm, "Aerial (Esri, current)": aerial, __WAYBACK_BASE__ },
-        { "RSEI toxic-release facilities": rsei }
-      ).addTo(map);
-      try { map.fitBounds(corridor.getBounds(), { padding: [20, 20] }); }
-      catch (e) { map.setView(__MAP_VIEW__); }
-    });
-  }
-  init();
-})();
-</script>
-"""
-
-
-def _style_js() -> str:
-    styles = {
-        "campus": {"color": "#3f51b5", "weight": 2, "fillOpacity": 0.25},
-        "jsmc": {"color": "#6d4c41", "weight": 2, "fillOpacity": 0.30},
-        "corridor": {"color": "#f9a825", "weight": 1, "fillOpacity": 0.06, "dashArray": "6 4"},
-        "roadwork": {"color": "#e64a19", "weight": 4, "opacity": 0.9},
-        "floodway": {"color": "#d32f2f", "weight": 1, "fillOpacity": 0.40},
-        "floodplain": {"color": "#1976d2", "weight": 1, "fillOpacity": 0.15},
-    }
-    return json.dumps(styles)
-
-
 def merge_corridor_layer(
     fc: dict[str, Any], *, settings: Settings | None = None
 ) -> tuple[dict[str, Any], int]:
@@ -283,10 +197,9 @@ def merge_corridor_layer(
 
 
 # Esri **Wayback** dated World-Imagery releases (releaseNum from the Wayback config) —
-# a curated historical ladder. View-only supplement: the browser loads Esri's tiles
-# directly (no redistribution), so a viewer can flip the AOI between dates and see the
-# data-center land before / during / after development. (EarthExplorer historical
-# aerials need an M2M login — a different access pattern — and are deferred.)
+# a curated historical ladder carried in the imagery feed's meta. View-only supplement:
+# the browser loads Esri's tiles directly (no redistribution), so a viewer can flip the
+# AOI between dates and see the data-center land before / during / after development.
 _WAYBACK: list[tuple[str, int]] = [
     ("2014-12", 5844),
     ("2018-12", 23448),
@@ -300,91 +213,6 @@ _WAYBACK_BASE_URL = (
     "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/"
     "WMTS/1.0.0/default028mm/MapServer/tile"
 )
-
-
-def _wayback_layers_js() -> str:
-    """JS defining the dated Esri Wayback tile layers (view-only historical aerials)."""
-    lines = [
-        f"var wb_{rel} = L.tileLayer("
-        f'"{_WAYBACK_BASE_URL}/{rel}/{{z}}/{{y}}/{{x}}", '
-        f'{{maxZoom: 19, attribution: "Imagery &copy; Esri — Wayback {label}"}});'
-        for label, rel in _WAYBACK
-    ]
-    return "\n    ".join(lines)
-
-
-def _wayback_base_js() -> str:
-    """The base-layer control entries for the dated aerials (newest first)."""
-    return ", ".join(f'"Aerial {label}": wb_{rel}' for label, rel in reversed(_WAYBACK))
-
-
-def render_gis_map(geojson_path: Path, *, settings: Settings | None = None) -> str:
-    """Render the GIS map page markdown from the committed findings GeoJSON."""
-    prof = active_profile(settings or get_settings())
-    fc = json.loads(geojson_path.read_text(encoding="utf-8"))
-    counts = Counter(f.get("properties", {}).get("layer") for f in fc.get("features", []))
-    sources = fc.get("meta", {}).get("sources", [])
-
-    lines = [
-        "# GIS findings — one map",
-        "",
-        "The corridor findings on a single map: the recorded **data-center campus** "
-        "footprint, the federally-held **JSMC / Lima Army Tank Plant** land (Allen "
-        "County's documented defense-industry footprint), the **FEMA floodplain / "
-        "floodway**, and the frozen-Periplus **North Cole Street corridor** study area "
-        "with its **roadwork** centerline (the roadway the roundabouts OPC prices). A "
-        "toggleable **RSEI toxic-release** overlay adds the county's TRI facilities, "
-        "sized by Risk-Screening Score. Pan/zoom and click a shape for its label. The "
-        "numeric facilities↔corridor join (distance, station) is `bosc corridor`.",
-        "",
-        '!!! note "What the map shows"',
-        "    Geometry is verbatim from the county/FEMA GIS (WGS84). The campus parcels "
-        "sit *just outside* the Special Flood Hazard Area, with the regulatory floodway "
-        "reaching within ~50 m — see the [hydrology dossier](docs/HYDROLOGY.md) and "
-        "[defense contractors](defense-contractors.md). Switch on **RSEI toxic-release "
-        "facilities** (layer control, top-right; off by default) for the county-wide "
-        "[toxic-release context](rsei.md) — markers scale with Score, hollow where a "
-        "facility reported pounds but no modeled Score.",
-        "",
-        '!!! tip "Dated aerials (before / during / after)"',
-        "    The layer control (top-right) also carries **dated Esri *Wayback* aerials** "
-        "(2014 → 2024) — flip between years over the campus to watch the land change "
-        "through the data-center buildout. These are a *view-only* historical supplement "
-        "(tiles load from Esri); the analysis-grade, publishable imagery is the "
-        "free/open Sentinel-2 / NAIP / Landsat series pulled by `bosc imagery` (see the "
-        "[imagery subsystem](docs/imagery-subsystem.md)).",
-        "",
-        "## Legend",
-        "",
-    ]
-    for key, label in _LAYER_LABELS.items():
-        n = counts.get(key, 0)
-        if n:
-            sw = f'<span style="display:inline-block;width:12px;height:12px;background:{_LAYER_COLORS[key]};border-radius:2px;"></span>'
-            lines.append(f"- {sw} **{label}** — {n} feature(s)")
-    lines += [
-        "",
-        _MAP_HTML.replace("__STYLES__", _style_js())
-        .replace("__WAYBACK_VARS__", _wayback_layers_js())
-        .replace("__WAYBACK_BASE__", _wayback_base_js())
-        .replace(
-            "__MAP_VIEW__",
-            f"[{prof.map_view_lat}, {prof.map_view_lon}], {prof.map_view_zoom}",
-        )
-        .strip(),
-        "",
-        "## Layers",
-        "",
-        "| Layer | Features | What |",
-        "|---|---|---|",
-    ]
-    for key, label in _LAYER_LABELS.items():
-        if counts.get(key):
-            lines.append(f"| {key} | {counts[key]} | {label} |")
-    lines += ["", "## Sources", ""]
-    lines += [f"- {s}" for s in sources]
-    lines.append("")
-    return "\n".join(lines)
 
 
 # Which findings layer rolls up into which typed GeoJSON feed (issue #61). FEMA's two
@@ -415,7 +243,7 @@ def _geometry_role(geometry: dict[str, Any]) -> str:
 def export_geo(geojson_path: Path) -> list[GeoFeatureCollection]:
     """Split the committed findings GeoJSON into typed per-layer feeds for DeckGL (#61).
 
-    Lifts geometry out of the Leaflet HTML blob into clean :class:`GeoFeatureCollection`
+    Lifts geometry out of the findings collection into clean :class:`GeoFeatureCollection`
     feeds — one per logical layer (campus, jsmc, femaflood, corridor, wwtp, rsei). Geometry
     is carried **WGS84 verbatim** (display-only, no reprojection); each feature keeps its
     source ``label`` and popup fields and gains ``color`` + ``role`` layer metadata so the

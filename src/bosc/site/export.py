@@ -1,11 +1,10 @@
 """Export the committed corpus into the typed content bundle under ``data/site/bundle/``.
 
-The build-alongside data peer of :mod:`bosc.site.build` (issue #53, Tier 1): where
-``build_site`` stages markdown for the legacy renderer, :func:`export_bundle` emits the
-versioned, schema-validated JSON feeds the Astro/DeckGL frontend reads — reusing the very
-same loaders ``build_site`` calls (``load_corpus``, ``build_timeline``,
-``build_entity_graph``, ``load_people``, ``load_pois``, …). ``render_X`` and
-``bosc site build`` stay intact; this never touches ``web/``.
+The site's data tier (issue #53, Tier 1): :func:`export_bundle` emits the versioned,
+schema-validated JSON feeds the Astro/DeckGL frontend reads at build time, loading the
+corpus through the shared loaders (``load_corpus``, ``build_timeline``,
+``build_entity_graph``, ``load_people``, ``load_pois``, …) and the per-section builders
+in this package (``records``, ``economics``, ``gismap``, …).
 
 Layout written under ``out_dir`` (default ``data/site/bundle``):
 
@@ -220,7 +219,7 @@ def _load_scenarios(settings: Settings) -> list[ScenarioResult]:
 
 
 def _collect_feeds(settings: Settings) -> list[_Feed]:
-    """Load the corpus once and assemble every feed (the loaders ``build_site`` calls)."""
+    """Load the corpus once and assemble every feed."""
     feeds: list[_Feed] = []
 
     # Cross-document layer — load the corpus once, reuse for records/timeline/graph.

@@ -5,12 +5,11 @@ An in-repo [Astro](https://astro.build) + MDX app that reads the committed
 **content bundle** (the typed JSON feeds the Python data tier emits, Epic #53)
 at build time and renders the site as static HTML.
 
-This is **built alongside** the legacy Python SSG (`bosc site build` → `site/`).
-Both stay live until the new site reaches parity. Production is **Cloudflare Pages**
+This is the **sole presentation tier** — the legacy Python SSG was retired at the parity
+cutover. Production is **Cloudflare Pages**
 ([`pages.yml`](../.github/workflows/pages.yml) + [`wrangler.toml`](wrangler.toml), where
 the [`functions/`](functions/) Pages Functions deploy too), **not** GitHub Pages — that
-deploy was never flipped and Cloudflare supersedes it; the public cutover to this app
-is parity-gated.
+deploy was never flipped and Cloudflare supersedes it.
 
 ## Toolchain
 
@@ -145,7 +144,7 @@ picture, legal analyses…) is surfaced via an Astro **content collection** sour
 from the repo-root `docs/` **as-is** ([#69](https://github.com/goedelsoup/bosc/issues/69)).
 
 **Single-source decision:** `docs/` stays at the repo root and is **not** moved or
-edited — it's also the legacy Python SSG's input and general repo documentation.
+edited — it's also general repo documentation.
 The frontend reads it with a `glob` loader over `../docs` (`src/content.config.ts`),
 publishing only the curated set in `src/lib/narrative.ts`, rendered at `/bosc/docs/<slug>`.
 
@@ -225,7 +224,7 @@ per-site coming-soon pages (#305); the chart library (#306); the icon/brand refr
 the four-tab IA reconciliation, the `/bosc` re-root + root globals, and the search
 record-rows + the full `/search` page (#307); the switcher current-site fix (#316).
 
-**Remaining:** flip the parity-gated Pages deploy to this app (still built alongside the
-legacy SSG); build out the basin sites as the network grows (Fort Wayne #235, Defiance #238,
+**Remaining:** flip the Pages deploy live to this app; build out the basin sites as the
+network grows (Fort Wayne #235, Defiance #238,
 Findlay #237, Toledo #236); and take the dark-until-enabled seams live (submit #241, ask
 #302). The `/api/*` functions and the submit/ask pages ship behind kill switches until then.

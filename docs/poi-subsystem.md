@@ -7,9 +7,9 @@ imagery tracking machinery (`bosc.gis`, see [`imagery-subsystem.md`](imagery-sub
 Hand-written design note; fold steady-state guidance into a `bosc.poi` `CLAUDE.md`
 once code exists.*
 
-*Note: `bosc site build` mirrors every `.md` under `docs/` into the published site
-([`build.py`](../src/bosc/site/build.py)). This is an internal engineering plan — keep
-it out of a public deploy unless intended (deploy is manual `workflow_dispatch`).*
+*Note: the Astro `frontend/` surfaces `docs/` markdown via its narrative content
+collection (links rewritten at build by the rehype plugin). This is an internal
+engineering plan — publish it only via the curated narrative set, not by default.*
 
 ## Executive summary / the abstraction
 

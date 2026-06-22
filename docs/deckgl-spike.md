@@ -5,7 +5,8 @@ basemap, as the map/visualization layer for Epic 3. · **Gates:** E3.2 (corridor
 E3.3 (watershed + imagery), E3.4 (entity graph).
 
 This is the decision artifact for [#70](https://github.com/goedelsoup/bosc/issues/70).
-The runnable prototype is [`spikes/deckgl-corridor/`](../spikes/deckgl-corridor/).
+The runnable prototype (`spikes/deckgl-corridor/`) has since been removed — DeckGL was
+adopted in the Astro frontend, so this document is the retained decision record.
 
 ## Why we're looking at this
 

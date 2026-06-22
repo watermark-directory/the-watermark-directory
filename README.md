@@ -131,9 +131,8 @@ src/bosc/
   hydrology/      water-balance & stormwater modeling of the Lima water loop;
                     connectors/ pull live public data (USGS streamflow, NOAA
                     rainfall, EPA ECHO permits), with on-disk caching
-  site/           the site's data tier: the legacy SSG (→ web/ + site/) AND
-                    `bosc export`, which emits the typed content bundle the
-                    new frontend/ app reads
+  site/           the site's data tier: `bosc export` emits the typed content
+                    bundle (→ data/site/bundle/) the frontend/ app reads
 tests/            offline tests (run against committed data + saved fixtures)
 docs/             project notes + narrative prose (also the new site's content)
 ```
@@ -149,7 +148,7 @@ reference build) is re-rooted under `/bosc`, with cross-cutting pages (about, wi
 ask, search, the network hub) global at the root and a topbar switcher between sites.
 It's a self-contained Node project — `mise run frontend` (or `cd frontend &&
 npm ci && npm run build`) builds it offline against `frontend/sample-bundle/`,
-no Python or LFS needed. It's built **alongside** the legacy SSG and deploys to
+no Python or LFS needed. It deploys to
 **Cloudflare Pages** (`.github/workflows/pages.yml`), not GitHub Pages — that deploy
 was never flipped and Cloudflare supersedes it; the public cutover to the new site is
 parity-gated. See [frontend/README.md](frontend/README.md).

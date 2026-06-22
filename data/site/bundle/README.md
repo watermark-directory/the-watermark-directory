@@ -3,8 +3,8 @@
 This directory is the **versioned, schema-validated content bundle** the frontend reads
 (Project BOSC two-tier site refactor, [#53](../../../README.md) Tier 1). Python turns the
 committed corpus into typed JSON feeds here; the Astro frontend (Epic 2) and the DeckGL
-visualizations (Epic 3) consume them. It is the data peer of the legacy markdown
-generator — `bosc site build` still works unchanged; this is built alongside it.
+visualizations (Epic 3) consume them. The Astro `frontend/` is the sole presentation
+tier — this bundle is its build-time input.
 
 **Regenerate the whole bundle:**
 

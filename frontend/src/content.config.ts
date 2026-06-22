@@ -4,8 +4,8 @@ import { LEGAL } from "./lib/legal";
 import { REFERENCE } from "./lib/reference";
 
 // The `narrative` collection sources the public prose under the repo-root `docs/`
-// AS-IS (issue #69) — docs are not moved/edited (the legacy Python SSG also reads
-// them). The route renders only the curated set in `lib/narrative.ts`; in-repo
+// AS-IS (issue #69) — docs are never moved/edited; the docs source stays canonical.
+// The route renders only the curated set in `lib/narrative.ts`; in-repo
 // links are rewritten at build by the rehype plugin (see astro.config.ts).
 //
 // `id` is the lowercased path without extension (e.g. "legal/mandamus-analysis"),
