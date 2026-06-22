@@ -53,6 +53,7 @@ describe("sites registry — the Watermark network (#304)", () => {
       "xenia",
       "wpafb",
       "hamilton-middletown",
+      "troy-piqua",
     ]);
     for (const s of soon) expect(s.issue).toBeTruthy();
   });
