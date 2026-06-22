@@ -13,8 +13,10 @@
 
 /** Site BUILD lifecycle — our progress assembling the *website* (a separate clock from the data
  *  center's real-world `facilityStatus`). `live` = built + selectable; `building` = scaffold up,
- *  sections coming online; `queued` = announced & in the build queue. Only `live` is selectable. */
-export type SiteStatus = "live" | "building" | "queued";
+ *  sections coming online; `queued` = registered profile + coming-soon page, in the build queue;
+ *  `tracking` = a GitHub-tracked candidate with an issue but no registered profile yet (the
+ *  earliest phase — it routes to a lightweight "watch" page). Only `live` is selectable. */
+export type SiteStatus = "live" | "building" | "queued" | "tracking";
 
 export interface NetworkSite {
   /** Registry + URL key (kebab). */
@@ -220,7 +222,226 @@ export const SITES: readonly NetworkSite[] = [
     issue: "475",
     href: "/directory/troy-piqua",
   },
+
+  // --- Tracking sites (#440/#484 + basin epics): GitHub-tracked candidates with an issue but no
+  // registered SiteProfile yet — the earliest phase, routed to a lightweight "watch" page. These
+  // fill out the full network the grouped selector depicts (32 sites across 9 basins). ---
+  // Great Miami (the upstream headwaters + the basin-divide edge)
+  {
+    slug: "sidney",
+    codename: null,
+    mono: "SID",
+    place: "Sidney",
+    basin: "Great Miami · headwaters",
+    status: "tracking",
+    selectable: false,
+    issue: "481",
+    href: "/directory/sidney",
+  },
+  {
+    slug: "greenville",
+    codename: null,
+    mono: "GRV",
+    place: "Greenville · Darke Co",
+    basin: "Stillwater · basin divide",
+    status: "tracking",
+    selectable: false,
+    issue: "482",
+    href: "/directory/greenville",
+  },
+  // Little Miami (the Air Park single-tenant node)
+  {
+    slug: "wilmington",
+    codename: null,
+    mono: "WIL",
+    place: "Wilmington",
+    basin: "Todd Fork · Little Miami",
+    status: "tracking",
+    selectable: false,
+    issue: "492",
+    href: "/directory/wilmington",
+  },
+  // Scioto (the data-center epicenter)
+  {
+    slug: "new-albany",
+    codename: null,
+    mono: "NAL",
+    place: "New Albany · Licking",
+    basin: "Scioto ↔ Muskingum divide",
+    status: "tracking",
+    selectable: false,
+    issue: "485",
+    href: "/directory/new-albany",
+  },
+  {
+    slug: "columbus",
+    codename: null,
+    mono: "COL",
+    place: "Columbus",
+    basin: "Scioto · Olentangy",
+    status: "tracking",
+    selectable: false,
+    issue: "486",
+    href: "/directory/columbus",
+  },
+  // Muskingum (Ohio's largest basin)
+  {
+    slug: "newark",
+    codename: null,
+    mono: "NWK",
+    place: "Newark",
+    basin: "Licking River",
+    status: "tracking",
+    selectable: false,
+    issue: "493",
+    href: "/directory/newark",
+  },
+  {
+    slug: "zanesville",
+    codename: null,
+    mono: "ZAN",
+    place: "Zanesville",
+    basin: "Muskingum mainstem",
+    status: "tracking",
+    selectable: false,
+    issue: "494",
+    href: "/directory/zanesville",
+  },
+  {
+    slug: "coshocton",
+    codename: null,
+    mono: "CSH",
+    place: "Coshocton",
+    basin: "Tuscarawas + Walhonding",
+    status: "tracking",
+    selectable: false,
+    issue: "495",
+    href: "/directory/coshocton",
+  },
+  // Sandusky (the Maumee's Lake Erie nutrient sibling)
+  {
+    slug: "fremont",
+    codename: null,
+    mono: "FRE",
+    place: "Fremont · Clyde",
+    basin: "Lower Sandusky",
+    status: "tracking",
+    selectable: false,
+    issue: "496",
+    href: "/directory/fremont",
+  },
+  {
+    slug: "tiffin",
+    codename: null,
+    mono: "TIF",
+    place: "Tiffin",
+    basin: "Sandusky (mid)",
+    status: "tracking",
+    selectable: false,
+    issue: "497",
+    href: "/directory/tiffin",
+  },
+  {
+    slug: "bucyrus",
+    codename: null,
+    mono: "BUC",
+    place: "Bucyrus",
+    basin: "Sandusky headwaters",
+    status: "tracking",
+    selectable: false,
+    issue: "498",
+    href: "/directory/bucyrus",
+  },
+  // Cuyahoga (the burning-river industrial legacy)
+  {
+    slug: "cleveland",
+    codename: null,
+    mono: "CLE",
+    place: "Cleveland",
+    basin: "Lower Cuyahoga",
+    status: "tracking",
+    selectable: false,
+    issue: "499",
+    href: "/directory/cleveland",
+  },
+  {
+    slug: "akron",
+    codename: null,
+    mono: "AKR",
+    place: "Akron",
+    basin: "Upper Cuyahoga · CVNP",
+    status: "tracking",
+    selectable: false,
+    issue: "500",
+    href: "/directory/akron",
+  },
+  // Mahoning (Voltage Valley EV/battery load)
+  {
+    slug: "lordstown",
+    codename: null,
+    mono: "LRD",
+    place: "Lordstown · Warren",
+    basin: "Upper Mahoning",
+    status: "tracking",
+    selectable: false,
+    issue: "501",
+    href: "/directory/lordstown",
+  },
+  {
+    slug: "youngstown",
+    codename: null,
+    mono: "YNG",
+    place: "Youngstown",
+    basin: "Mahoning mainstem",
+    status: "tracking",
+    selectable: false,
+    issue: "502",
+    href: "/directory/youngstown",
+  },
+  // Hocking (the unglaciated Appalachian contrast)
+  {
+    slug: "lancaster",
+    codename: null,
+    mono: "LAN",
+    place: "Lancaster",
+    basin: "Upper Hocking",
+    status: "tracking",
+    selectable: false,
+    issue: "503",
+    href: "/directory/lancaster",
+  },
+  {
+    slug: "athens",
+    codename: null,
+    mono: "ATH",
+    place: "Athens",
+    basin: "Lower Hocking",
+    status: "tracking",
+    selectable: false,
+    issue: "504",
+    href: "/directory/athens",
+  },
+  {
+    slug: "logan",
+    codename: null,
+    mono: "LOG",
+    place: "Logan",
+    basin: "Hocking Hills",
+    status: "tracking",
+    selectable: false,
+    issue: "505",
+    href: "/directory/logan",
+  },
 ] as const;
+
+/** Build-phase display meta — the switcher row status, the phase pill, and the selector legend
+ *  all read from here, so the four phases render identically everywhere. */
+export const SITE_STATUS_META: Record<SiteStatus, { label: string; cls: string }> = {
+  live: { label: "Live", cls: "is-live" },
+  building: { label: "Building", cls: "is-building" },
+  queued: { label: "Queued", cls: "is-queued" },
+  tracking: { label: "Tracking", cls: "is-tracking" },
+};
 
 /** This build is the Lima reference build. */
 export const ACTIVE_SITE_SLUG = "lima";
@@ -309,43 +530,74 @@ export function facilityStageIndex(status: FacilityStatus): number {
   return FACILITY_STAGES.findIndex((s) => s.status === status);
 }
 
-// --- Grouped switcher (#307 dictate C) ------------------------------------------------------
-// Canonical (state, watershed) placement for every site. The switcher pivots the SAME sites by
-// either axis — `state` is the legal jurisdiction a record lives under; `watershed` is the
-// hydrological unit it documents. Both matter to a researcher, so either can be the outer grouping.
-const PLACEMENT: Record<string, { state: string; watershed: string }> = {
-  lima: { state: "Ohio", watershed: "Ottawa River" },
-  "fort-wayne": { state: "Indiana", watershed: "Maumee headwaters" },
-  defiance: { state: "Ohio", watershed: "Maumee mainstem" },
-  findlay: { state: "Ohio", watershed: "Blanchard River" },
-  toledo: { state: "Ohio", watershed: "Maumee mainstem" },
-  "van-wert": { state: "Ohio", watershed: "Little Auglaize" },
-  bryan: { state: "Ohio", watershed: "Tiffin River" },
-  ottawa: { state: "Ohio", watershed: "Blanchard River" },
-  // The first Miami-basin point — a distinct watershed group (Ohio River sink, not Lake Erie).
-  urbana: { state: "Ohio", watershed: "Great Miami (Mad River)" },
-  springfield: { state: "Ohio", watershed: "Great Miami (Mad River)" },
-  xenia: { state: "Ohio", watershed: "Little Miami" },
-  wpafb: { state: "Ohio", watershed: "Great Miami (Mad River)" },
-  "hamilton-middletown": { state: "Ohio", watershed: "Great Miami (lower)" },
-  "troy-piqua": { state: "Ohio", watershed: "Great Miami (upper)" },
+// --- Grouped switcher (#307/#308 dictate C) --------------------------------------------------
+// Canonical (state, basin) placement for every site. The selector pivots the SAME sites by
+// either axis — `state` is the legal jurisdiction a record lives under; `basin` is the major
+// river basin (one of nine) it documents. Both matter to a researcher, so either can be the
+// outer grouping. The per-row `basin` subline carries the finer sub-watershed detail.
+const PLACEMENT: Record<string, { state: string; basin: string }> = {
+  lima: { state: "Ohio", basin: "Maumee" },
+  "fort-wayne": { state: "Indiana", basin: "Maumee" },
+  defiance: { state: "Ohio", basin: "Maumee" },
+  findlay: { state: "Ohio", basin: "Maumee" },
+  toledo: { state: "Ohio", basin: "Maumee" },
+  "van-wert": { state: "Ohio", basin: "Maumee" },
+  bryan: { state: "Ohio", basin: "Maumee" },
+  ottawa: { state: "Ohio", basin: "Maumee" },
+  // The Miami branches (Ohio River sink, not Lake Erie).
+  urbana: { state: "Ohio", basin: "Great Miami" },
+  springfield: { state: "Ohio", basin: "Great Miami" },
+  xenia: { state: "Ohio", basin: "Little Miami" },
+  wpafb: { state: "Ohio", basin: "Great Miami" },
+  "hamilton-middletown": { state: "Ohio", basin: "Great Miami" },
+  "troy-piqua": { state: "Ohio", basin: "Great Miami" },
+  sidney: { state: "Ohio", basin: "Great Miami" },
+  greenville: { state: "Ohio", basin: "Great Miami" },
+  wilmington: { state: "Ohio", basin: "Little Miami" },
+  // The Scioto branch (the data-center epicenter) and the remaining major basins.
+  "new-albany": { state: "Ohio", basin: "Scioto" },
+  columbus: { state: "Ohio", basin: "Scioto" },
+  newark: { state: "Ohio", basin: "Muskingum" },
+  zanesville: { state: "Ohio", basin: "Muskingum" },
+  coshocton: { state: "Ohio", basin: "Muskingum" },
+  fremont: { state: "Ohio", basin: "Sandusky" },
+  tiffin: { state: "Ohio", basin: "Sandusky" },
+  bucyrus: { state: "Ohio", basin: "Sandusky" },
+  cleveland: { state: "Ohio", basin: "Cuyahoga" },
+  akron: { state: "Ohio", basin: "Cuyahoga" },
+  lordstown: { state: "Ohio", basin: "Mahoning" },
+  youngstown: { state: "Ohio", basin: "Mahoning" },
+  lancaster: { state: "Ohio", basin: "Hocking" },
+  athens: { state: "Ohio", basin: "Hocking" },
+  logan: { state: "Ohio", basin: "Hocking" },
 };
 const STATE_ABBR: Record<string, string> = { Ohio: "OH", Indiana: "IN" };
+const BASIN_ABBR: Record<string, string> = {
+  Maumee: "MAU",
+  "Great Miami": "GMI",
+  "Little Miami": "LMI",
+  Scioto: "SCI",
+  Muskingum: "MUS",
+  Sandusky: "SAN",
+  Cuyahoga: "CUY",
+  Mahoning: "MAH",
+  Hocking: "HOC",
+};
 
-export type GroupBy = "state" | "watershed";
+export type GroupBy = "state" | "basin";
 
 export interface SiteGroup {
-  /** Group heading (the state name, or the watershed name). */
+  /** Group heading (the state name, or the basin name). */
   label: string;
-  /** Short tag shown beside the heading (the state abbr; empty for watershed groups). */
+  /** Short tag shown beside the heading (the state abbr, or the 3-letter basin code). */
   tag: string;
   sites: NetworkSite[];
 }
 
 /**
- * Group the registry by the State (jurisdiction) or Watershed (basin) axis — the grouped
- * switcher's two lenses (#307). Group order follows first appearance in `SITES`; rows keep
- * their registry order, so toggling the axis pivots the same sites without reshuffling them.
+ * Group the registry by the State (jurisdiction) or Basin (the nine major river basins) axis —
+ * the grouped selector's two lenses (#307/#308). Group order follows first appearance in `SITES`;
+ * rows keep their registry order, so toggling the axis pivots the same sites without reshuffling.
  */
 export function groupSites(by: GroupBy): SiteGroup[] {
   const groups: SiteGroup[] = [];
@@ -353,10 +605,11 @@ export function groupSites(by: GroupBy): SiteGroup[] {
   for (const s of SITES) {
     const p = PLACEMENT[s.slug];
     if (!p) continue;
-    const label = by === "state" ? p.state : p.watershed;
+    const label = by === "state" ? p.state : p.basin;
     let g = index.get(label);
     if (!g) {
-      g = { label, tag: by === "state" ? (STATE_ABBR[p.state] ?? "") : "", sites: [] };
+      const tag = by === "state" ? (STATE_ABBR[p.state] ?? "") : (BASIN_ABBR[p.basin] ?? "");
+      g = { label, tag, sites: [] };
       index.set(label, g);
       groups.push(g);
     }

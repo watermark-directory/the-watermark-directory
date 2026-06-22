@@ -4,7 +4,7 @@
  * groupings render the same site row without duplicated markup. The build-phase pill (Site axis)
  * lives here; the row links to the live build (Lima) or a site's coming-soon page.
  */
-import { type NetworkSite, siteBadge } from "../lib/sites";
+import { type NetworkSite, SITE_STATUS_META, siteBadge } from "../lib/sites";
 import { withBase } from "../lib/site";
 
 interface Props {
@@ -13,12 +13,7 @@ interface Props {
 }
 const { site: s, activeSlug } = Astro.props;
 const isActive = activeSlug !== null && s.slug === activeSlug;
-const statusMeta: Record<string, { label: string; cls: string }> = {
-  live: { label: "Live", cls: "is-live" },
-  building: { label: "Building", cls: "is-building" },
-  queued: { label: "Queued", cls: "is-queued" },
-};
-const meta = statusMeta[s.status];
+const meta = SITE_STATUS_META[s.status];
 ---
 
 <a

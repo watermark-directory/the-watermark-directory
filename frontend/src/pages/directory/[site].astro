@@ -17,7 +17,22 @@ export function getStaticPaths() {
 
 const { site } = Astro.props as { site: NetworkSite };
 const building = site.status === "building";
+const tracking = site.status === "tracking";
 const issueUrl = site.issue ? `https://github.com/goedelsoup/bosc/issues/${site.issue}` : undefined;
+
+// The build phase, in this page's vocabulary. A `tracking` site is the earliest phase — a
+// GitHub-tracked candidate with no scaffold yet, so this is a "watch" page rather than a build gauge.
+const phase = (
+  {
+    building: { label: "Building", cls: "is-building", lead: " a live facility, its build underway now." },
+    queued: { label: "Queued", cls: "is-queued", lead: " this site is in the build queue." },
+    tracking: { label: "Tracking", cls: "is-tracking", lead: " this site is tracked for a future build." },
+  } as const
+)[site.status as "building" | "queued" | "tracking"] ?? {
+  label: "Queued",
+  cls: "is-queued",
+  lead: " this site is in the build queue.",
+};
 
 // Build stages — the scaffold is underway for a building site, queued otherwise.
 const stages = [
@@ -47,18 +62,17 @@ const doors = [
   <article class="netsite">
     <header class="netsite-hero">
       <div class="netsite-eyebrow">
-        Watermark network · Maumee basin{site.issue && <> · tracking site #{site.issue}</>}
+        Watermark network · {site.basin}{site.issue && <> · {tracking ? "watch" : "tracking"} site #{site.issue}</>}
       </div>
       <h1 class="netsite-h1">{site.place} is being assembled.</h1>
       <p class="netsite-lead">
         A record site for the <strong>{site.basin}</strong>. We're generalizing the Watermark
-        platform from the Lima reference build out across the Maumee watershed —
-        {building ? " a live facility, its build underway now." : " this site is in the build queue."}
+        platform from the Lima reference build out across the watershed network —{phase.lead}
       </p>
       <div class="netsite-chips">
-        <span class:list={["netsite-status", building ? "is-building" : "is-queued"]}>
+        <span class:list={["netsite-status", phase.cls]}>
           <span class="netsite-dot" aria-hidden="true"></span>
-          Site: {building ? "Building" : "Queued"}
+          Site: {phase.label}
         </span>
         {
           issueUrl && (

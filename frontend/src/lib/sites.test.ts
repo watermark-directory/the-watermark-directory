@@ -7,6 +7,7 @@ import {
   facilityStageIndex,
   facilityStatus,
   groupSites,
+  SITE_STATUS_META,
   SITES,
   siteBadge,
   siteForPath,
@@ -54,6 +55,24 @@ describe("sites registry — the Watermark network (#304)", () => {
       "wpafb",
       "hamilton-middletown",
       "troy-piqua",
+      "sidney",
+      "greenville",
+      "wilmington",
+      "new-albany",
+      "columbus",
+      "newark",
+      "zanesville",
+      "coshocton",
+      "fremont",
+      "tiffin",
+      "bucyrus",
+      "cleveland",
+      "akron",
+      "lordstown",
+      "youngstown",
+      "lancaster",
+      "athens",
+      "logan",
     ]);
     for (const s of soon) expect(s.issue).toBeTruthy();
   });
@@ -62,6 +81,28 @@ describe("sites registry — the Watermark network (#304)", () => {
     expect(siteBadge({ ...SITES[0] })).toBe("BOSC");
     const defiance = SITES.find((s) => s.slug === "defiance")!;
     expect(siteBadge(defiance)).toBe("DEF"); // no codename → mono
+  });
+});
+
+describe("site build phases — the four-phase clock (#308 dictate B)", () => {
+  it("SITE_STATUS_META covers every status, including tracking", () => {
+    for (const status of ["live", "building", "queued", "tracking"] as const) {
+      expect(SITE_STATUS_META[status]?.label).toBeTruthy();
+      expect(SITE_STATUS_META[status]?.cls).toMatch(/^is-/);
+    }
+  });
+  it("tracking sites exist (issue-only candidates), all non-selectable with a tracking issue", () => {
+    const tracked = SITES.filter((s) => s.status === "tracking");
+    expect(tracked.length).toBeGreaterThanOrEqual(18);
+    for (const s of tracked) {
+      expect(s.selectable).toBe(false);
+      expect(s.issue).toBeTruthy();
+      expect(s.codename).toBeNull();
+    }
+  });
+  it("the full network the selector depicts — 32 sites across 9 basins", () => {
+    expect(SITES.length).toBe(32);
+    expect(groupSites("basin").length).toBe(9);
   });
 });
 
@@ -78,9 +119,9 @@ describe("promotion gate — the onboarding review invariant (#326)", () => {
   });
 });
 
-describe("grouped switcher — State / Watershed lenses (#307)", () => {
+describe("grouped selector — State / Basin lenses (#307/#308)", () => {
   it("groups every site under both axes, no orphans", () => {
-    for (const by of ["state", "watershed"] as const) {
+    for (const by of ["state", "basin"] as const) {
       const total = groupSites(by).reduce((n, g) => n + g.sites.length, 0);
       expect(total).toBe(SITES.length);
     }
@@ -90,9 +131,23 @@ describe("grouped switcher — State / Watershed lenses (#307)", () => {
     expect(groups.find((g) => g.label === "Indiana")?.sites.map((s) => s.slug)).toEqual(["fort-wayne"]);
     expect(groups.find((g) => g.label === "Ohio")?.tag).toBe("OH");
   });
-  it("by watershed: the two Blanchard siblings (Findlay, Ottawa) share one group", () => {
-    const blanchard = groupSites("watershed").find((g) => g.label === "Blanchard River");
-    expect([...(blanchard?.sites.map((s) => s.slug) ?? [])].sort()).toEqual(["findlay", "ottawa"]);
+  it("by basin: the nine major basins, each tagged with a 3-letter code", () => {
+    const groups = groupSites("basin");
+    expect(groups.map((g) => g.label)).toEqual([
+      "Maumee",
+      "Great Miami",
+      "Little Miami",
+      "Scioto",
+      "Muskingum",
+      "Sandusky",
+      "Cuyahoga",
+      "Mahoning",
+      "Hocking",
+    ]);
+    expect(groups.find((g) => g.label === "Maumee")?.tag).toBe("MAU");
+    // the lower/upper Great Miami siblings collapse into one basin group
+    expect(groups.find((g) => g.label === "Great Miami")?.sites.map((s) => s.slug)).toContain("wpafb");
+    expect(groups.find((g) => g.label === "Great Miami")?.sites.map((s) => s.slug)).toContain("troy-piqua");
   });
 });
 
@@ -137,7 +192,7 @@ describe("siteForPath — the switcher's current-site resolution (#316)", () => 
   });
 
   it("does not mistake an unknown /directory/<slug> for a real site", () => {
-    expect(siteForPath("/directory/columbus")).toBeNull();
+    expect(siteForPath("/directory/cincinnati")).toBeNull();
   });
 
   it("strips a non-root Astro base before matching", () => {
