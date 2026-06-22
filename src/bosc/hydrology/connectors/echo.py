@@ -2,10 +2,11 @@
 
 Pulls the inventory of CWA-permitted facilities in a watershed from ECHO's Clean
 Water Act REST services (``cwa_rest_services``) at ``echodata.epa.gov``. Used to
-build a verified inventory of wastewater dischargers in the Maumee River basin.
+build verified per-basin inventories of wastewater dischargers (the Maumee and the
+Great Miami today; a basin is a :class:`Basin` registry entry, never hardcoded).
 
-The Maumee watershed is **seven** USGS HUC-8 subbasins (subregion 0410, Western
-Lake Erie), enumerated in :data:`MAUMEE_HUC8S`. ECHO is queried one HUC-8 at a
+A basin is a set of USGS HUC-8 subbasins (the Maumee's seven in :data:`MAUMEE_HUC8S`,
+the Great Miami's two in :data:`GREAT_MIAMI_HUC8S`). ECHO is queried one HUC-8 at a
 time and the results are deduplicated to one row per physical facility by FRS
 Registry ID (:func:`deduplicate`).
 
@@ -30,6 +31,7 @@ the module note in :mod:`bosc.cli` / the inventory output for that gap.
 from __future__ import annotations
 
 import time
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, cast
 
@@ -60,6 +62,64 @@ MAUMEE_HUC8S: dict[str, str] = {
 # Subbasins flagged by the optional task requirement (Auglaize + Blanchard, the
 # Lima / Allen County reach of the Ottawa River).
 LIMA_AREA_HUC8S = frozenset({"04100007", "04100008"})
+
+# The Great Miami River basin (subregion 0508, an Ohio River tributary): the two Ohio
+# HUC-8 subbasins the network's Miami sites sit on (Urbana/Springfield → 05080001;
+# WPAFB/Troy-Piqua/Hamilton-Middletown → 05080001/05080002). The Mad River is within
+# Upper Great Miami (05080001). Whitewater (05080003) is predominantly Indiana drainage
+# and is deliberately excluded, mirroring the Maumee's excluded non-basin WLE neighbors.
+GREAT_MIAMI_HUC8S: dict[str, str] = {
+    "05080001": "Upper Great Miami",
+    "05080002": "Lower Great Miami",
+}
+
+
+@dataclass(frozen=True)
+class Basin:
+    """A watershed the ECHO inventory can be pulled for, selected by ``--basin`` slug.
+
+    ``huc8s`` are the subbasins queried (one ECHO request each); ``area_huc8s`` is the
+    optional sub-region flagged on each record (the Maumee's Lima reach) — empty for a
+    basin with no such flag. Adding a basin is a registry entry here, never a new code
+    path, keeping the connector basin-agnostic per the repo's site axis.
+    """
+
+    slug: str
+    huc8s: dict[str, str]
+    watershed: str
+    subject: str
+    file_stem: str
+    area_huc8s: frozenset[str] = frozenset()
+    caveats: tuple[str, ...] = ()
+
+
+MAUMEE = Basin(
+    slug="maumee",
+    huc8s=MAUMEE_HUC8S,
+    watershed="Maumee River — 7 HUC-8 subbasins, subregion 0410 (Western Lake Erie)",
+    subject="Maumee-watershed NPDES wastewater dischargers",
+    file_stem="maumee-wwtp",
+    area_huc8s=LIMA_AREA_HUC8S,
+    caveats=(
+        "Four subbasins cross into IN/MI — cross-check Ohio EPA / IDEM / EGLE for completeness.",
+        "ottawa_discharge keys on the sparse receiving_water field and undercounts (e.g. Lima WWTP).",
+    ),
+)
+GREAT_MIAMI = Basin(
+    slug="great-miami",
+    huc8s=GREAT_MIAMI_HUC8S,
+    watershed="Great Miami River — 2 HUC-8 subbasins, subregion 0508 (Ohio River tributary)",
+    subject="Great Miami-watershed NPDES wastewater dischargers",
+    file_stem="great-miami-wwtp",
+    caveats=(
+        "Whitewater (05080003) is predominantly Indiana drainage and is excluded; cross-check "
+        "Ohio EPA / IDEM near the basin mouth for completeness.",
+    ),
+)
+BASINS: dict[str, Basin] = {b.slug: b for b in (MAUMEE, GREAT_MIAMI)}
+
+# Merged HUC-8 -> name map for the per-HUC fetch display label (any registered basin).
+_HUC8_NAMES: dict[str, str] = {**MAUMEE_HUC8S, **GREAT_MIAMI_HUC8S}
 
 # Result columns to request, selected *by ObjectName* against the verified
 # metadata and mapped to their ColumnID for the ``qcolumns`` parameter. get_qid
@@ -229,7 +289,7 @@ def fetch_huc_facilities(
     ``get_facilities`` (p_huc, p_act=Y) -> QID + count, then ``get_qid`` paged.
     """
     settings = settings or get_settings()
-    name = MAUMEE_HUC8S.get(huc8, huc8)
+    name = _HUC8_NAMES.get(huc8, huc8)
     qcolumns = ",".join(str(cid) for cid in _COLUMNS.values())
 
     summary = _get(settings, "get_facilities", {"p_huc": huc8, "p_act": "Y"})
@@ -263,15 +323,35 @@ def fetch_huc_facilities(
     )
 
 
+def resolve_basin(basin: Basin | str) -> Basin:
+    """A :class:`Basin` from itself or its slug (raises on an unregistered slug)."""
+    if isinstance(basin, Basin):
+        return basin
+    try:
+        return BASINS[basin]
+    except KeyError as exc:
+        raise EchoError(f"unknown basin {basin!r}; registered: {sorted(BASINS)}") from exc
+
+
+def fetch_basin(
+    basin: Basin | str = MAUMEE,
+    *,
+    huc8s: list[str] | None = None,
+    settings: Settings | None = None,
+) -> list[HucResult]:
+    """Fetch every HUC-8 of a basin (or a given subset), in order."""
+    settings = settings or get_settings()
+    codes = huc8s if huc8s is not None else list(resolve_basin(basin).huc8s)
+    return [fetch_huc_facilities(h, settings=settings) for h in codes]
+
+
 def fetch_maumee(
     *,
     huc8s: list[str] | None = None,
     settings: Settings | None = None,
 ) -> list[HucResult]:
-    """Fetch every Maumee HUC-8 (or a given subset), in order."""
-    settings = settings or get_settings()
-    codes = huc8s if huc8s is not None else list(MAUMEE_HUC8S)
-    return [fetch_huc_facilities(h, settings=settings) for h in codes]
+    """Fetch every Maumee HUC-8 (or a given subset), in order. (Back-compat alias.)"""
+    return fetch_basin(MAUMEE, huc8s=huc8s, settings=settings)
 
 
 def deduplicate(results: list[HucResult]) -> list[Facility]:
@@ -317,13 +397,11 @@ def _merge_npdes(a: Facility, b: Facility) -> str:
 # Provenance shared by every inventory file. Static (no timestamp) so re-running
 # `bosc npdes` regenerates byte-identical output — no spurious git churn.
 _INVENTORY_SOURCE = "EPA ECHO — cwa_rest_services (CWA v2017-10-13)"
-_INVENTORY_WATERSHED = "Maumee River — 7 HUC-8 subbasins, subregion 0410 (Western Lake Erie)"
-_INVENTORY_CAVEATS = [
+# Generic caveats (every basin); basin-specific ones live on Basin.caveats.
+_GENERIC_CAVEATS = [
     "ECHO's CWA facility service has no CWNS column; the POTW flag rests on CWPFacilityTypeIndicator.",
     "Facilities link to HUCs via WATERS (FacDerivedHuc); a permit that didn't geocode can be missed.",
-    "Four subbasins cross into IN/MI — cross-check Ohio EPA / IDEM / EGLE for completeness.",
     "design_flow_mgd is null where ECHO returned no value; it is never estimated.",
-    "ottawa_discharge keys on the sparse receiving_water field and undercounts (e.g. Lima WWTP).",
 ]
 
 
@@ -342,11 +420,14 @@ def _secondary_npdes(fac: Facility) -> list[str]:
     return list(dict.fromkeys(others))
 
 
-def facility_record(fac: Facility) -> dict[str, Any]:
-    """One facility as a YAML-ready mapping. ``None`` is a genuine ECHO null."""
-    recv = (fac.receiving_water or "").upper()
-    in_lima = fac.queried_huc8 in LIMA_AREA_HUC8S
-    return {
+def facility_record(fac: Facility, *, basin: Basin = MAUMEE) -> dict[str, Any]:
+    """One facility as a YAML-ready mapping. ``None`` is a genuine ECHO null.
+
+    The ``in_lima_subbasin`` / ``ottawa_discharge`` flags are a Maumee/Lima concept and
+    are emitted only for a basin with an ``area_huc8s`` of interest (the Maumee); other
+    basins omit them. Key order is preserved so the Maumee inventory regenerates identically.
+    """
+    rec: dict[str, Any] = {
         "frs_registry_id": fac.frs_registry_id,
         "name": fac.name,
         "npdes_id": fac.npdes_id,
@@ -358,7 +439,7 @@ def facility_record(fac: Facility) -> dict[str, Any]:
         "design_flow_missing": fac.design_flow_mgd is None,
         "receiving_water": fac.receiving_water,
         "huc8": fac.huc8,
-        "huc8_name": MAUMEE_HUC8S.get(fac.huc8 or ""),
+        "huc8_name": basin.huc8s.get(fac.huc8 or ""),
         "huc12": fac.huc12,
         "county": fac.county,
         "latitude": fac.latitude,
@@ -366,10 +447,13 @@ def facility_record(fac: Facility) -> dict[str, Any]:
         "compliance_status": fac.compliance_status,
         "informal_enf_count": fac.informal_enf_count,
         "formal_enf_count": fac.formal_enf_count,
-        "in_lima_subbasin": in_lima,
-        "ottawa_discharge": in_lima and "OTTAWA" in recv,
-        "queried_huc8": fac.queried_huc8,
     }
+    if basin.area_huc8s:
+        in_area = fac.queried_huc8 in basin.area_huc8s
+        rec["in_lima_subbasin"] = in_area
+        rec["ottawa_discharge"] = in_area and "OTTAWA" in (fac.receiving_water or "").upper()
+    rec["queried_huc8"] = fac.queried_huc8
+    return rec
 
 
 def _dump_yaml(path: Path, data: dict[str, Any]) -> None:
@@ -377,24 +461,28 @@ def _dump_yaml(path: Path, data: dict[str, Any]) -> None:
     path.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8")
 
 
-def _facilities_doc(facilities: list[Facility], *, scope: str) -> dict[str, Any]:
+def _facilities_doc(
+    facilities: list[Facility], *, scope: str, basin: Basin = MAUMEE
+) -> dict[str, Any]:
     ordered = sorted(facilities, key=lambda f: (f.huc8 or "", (f.name or "").upper()))
     return {
         "meta": {
-            "subject": "Maumee-watershed NPDES wastewater dischargers",
+            "subject": basin.subject,
             "scope": scope,
             "source": _INVENTORY_SOURCE,
-            "watershed": _INVENTORY_WATERSHED,
-            "huc8s": dict(MAUMEE_HUC8S),
+            "watershed": basin.watershed,
+            "huc8s": dict(basin.huc8s),
             "dedup_key": "FRS RegistryID",
             "count": len(ordered),
-            "caveats": _INVENTORY_CAVEATS,
+            "caveats": [*_GENERIC_CAVEATS, *basin.caveats],
         },
-        "facilities": [facility_record(f) for f in ordered],
+        "facilities": [facility_record(f, basin=basin) for f in ordered],
     }
 
 
-def write_inventory(results: list[HucResult], out_dir: Path) -> dict[str, Path]:
+def write_inventory(
+    results: list[HucResult], out_dir: Path, *, basin: Basin = MAUMEE
+) -> dict[str, Path]:
     """Write the deduplicated inventory as YAML: all-NPDES, POTW, and HUC counts.
 
     Counts in the manifest are real (ECHO's reported ``QueryRows`` vs the rows we
@@ -405,22 +493,26 @@ def write_inventory(results: list[HucResult], out_dir: Path) -> dict[str, Path]:
     deduped = deduplicate(results)
     potws = [f for f in deduped if f.is_potw]
 
-    all_path = out_dir / "maumee-wwtp.all-npdes.yaml"
-    potw_path = out_dir / "maumee-wwtp.potw.yaml"
-    counts_path = out_dir / "maumee-wwtp.huc-counts.yaml"
+    all_path = out_dir / f"{basin.file_stem}.all-npdes.yaml"
+    potw_path = out_dir / f"{basin.file_stem}.potw.yaml"
+    counts_path = out_dir / f"{basin.file_stem}.huc-counts.yaml"
 
-    _dump_yaml(all_path, _facilities_doc(deduped, scope="all active CWA-permitted dischargers"))
+    _dump_yaml(
+        all_path,
+        _facilities_doc(deduped, scope="all active CWA-permitted dischargers", basin=basin),
+    )
     _dump_yaml(
         potw_path,
-        _facilities_doc(potws, scope="POTWs only (CWPFacilityTypeIndicator == POTW)"),
+        _facilities_doc(potws, scope="POTWs only (CWPFacilityTypeIndicator == POTW)", basin=basin),
     )
     _dump_yaml(
         counts_path,
         {
             "meta": {
-                "subject": "Maumee-watershed NPDES inventory — per-HUC counts",
+                "subject": basin.subject.replace(" wastewater dischargers", " inventory")
+                + " — per-HUC counts",
                 "source": _INVENTORY_SOURCE,
-                "watershed": _INVENTORY_WATERSHED,
+                "watershed": basin.watershed,
             },
             "huc_counts": [
                 {

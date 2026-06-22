@@ -51,6 +51,34 @@ def test_basin_screen_coverage(data_settings: Settings) -> None:
     assert all(ch.discharge.source == "reference" for ch in screen.checks)
 
 
+def test_great_miami_mainstems_derived(data_settings: Settings) -> None:
+    # The Great Miami basin's mainstem 7Q10s share the one derived table, keyed by name.
+    derived = basin.load_derived_low_flows(settings=data_settings)
+    mad = derived[basin._norm("mad river")]
+    assert mad.source == "derived"
+    assert mad.value == pytest.approx(166.55, abs=0.5)  # USGS 03269500 (Springfield reach) LP3 7Q10
+    gm = derived[basin._norm("great miami river")]
+    assert gm.value == pytest.approx(407.67, abs=0.5)  # USGS 03274000 (Hamilton, mouth-ward)
+
+
+def test_basin_screen_follows_active_basin(data_settings: Settings) -> None:
+    # A Great Miami site screens the Great Miami inventory, never the Maumee one.
+    springfield = Settings(data_dir=REPO_ROOT / "data", site="springfield")
+    screen = basin.check_basin_assimilative(settings=springfield)
+    c = screen.coverage
+    assert c.total == 81  # the committed great-miami POTW inventory
+    assert c.screened == len(screen.checks) == 14
+    assert c.screened + c.no_receiving_water + c.no_7q10 + c.no_design_flow == c.total
+    # Every screened denominator is a Great Miami mainstem (Mad River / Great Miami River) —
+    # no Maumee stream leaks in. (Normalize whitespace: ECHO has e.g. "Mad  River".)
+    waters = {" ".join(ch.receiving_water.upper().split()) for ch in screen.checks}
+    assert waters <= {"MAD RIVER", "GREAT MIAMI RIVER"}
+    assert all(ch.design_low_flow.source == "derived" for ch in screen.checks)
+    # The City of Springfield WWTP is in the inventory but ECHO has no receiving water for it,
+    # so it is reported unscreened (omit, don't guess) — not silently dropped.
+    assert c.no_receiving_water >= 1
+
+
 def test_screen_omits_tributary_compounds(data_settings: Settings) -> None:
     # A discharger whose PRIMARY receiver is a ditch must not borrow a downstream
     # mainstem's larger 7Q10 (that would overstate dilution). Omit, don't guess.

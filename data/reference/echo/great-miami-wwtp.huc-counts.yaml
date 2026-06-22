@@ -1,0 +1,19 @@
+meta:
+  subject: Great Miami-watershed NPDES inventory — per-HUC counts
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  watershed: Great Miami River — 2 HUC-8 subbasins, subregion 0508 (Ohio River tributary)
+huc_counts:
+- huc8: 05080001
+  name: Upper Great Miami
+  reported_count: 140
+  rows_pulled: 140
+  potw_rows_pulled: 40
+- huc8: 05080002
+  name: Lower Great Miami
+  reported_count: 149
+  rows_pulled: 149
+  potw_rows_pulled: 41
+totals:
+  raw: 289
+  deduped: 286
+  potw: 81

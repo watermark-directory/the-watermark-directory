@@ -1695,10 +1695,12 @@ _URBANA = SiteProfile(
 # outwash sand & gravel. What distinguishes Springfield from headwater Urbana is a SECOND
 # supply water: **Buck Creek**, regulated by USACE **C.J. Brown Reservoir** (a flood-control +
 # water-supply impoundment NE of the city), joining the Mad River at Springfield — a managed,
-# two-source hydrology versus Urbana's single free-flowing reach. The data-center dimension is
-# the corpus thread the Springfield epic (#451) tracks (the in-record Roshel / International
-# Motors activity at the Springfield-Beckley APA, 2026-03-30); all such fields stay [open]
-# research targets filled by `bosc onboard springfield --research`.
+# two-source hydrology versus Urbana's single free-flowing reach. The data-center dimension
+# (the thread the Springfield epic #451 tracks) is the 5C Data Centers / Vultr build at
+# PrimeOhio (601 Benjamin Drive) plus a separate Crusoe build (discovered #454, 2026-06-22) —
+# the Roshel / International Motors "Springfield APA" (2026-03-30) is an armored-vehicle plant
+# Asset Purchase Agreement (manufacturing, NOT a data center) and is scoped out of the graph
+# (#453). All such fields stay [open] research targets filled by `bosc onboard springfield`.
 _SPRINGFIELD = SiteProfile(
     slug="springfield",
     place="Springfield",
@@ -1761,7 +1763,7 @@ _SPRINGFIELD = SiteProfile(
     supply_gage_secondary="03268100",  # [verified] Buck Creek bl CJ Brown Reservoir (the second supply water)
     passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum
     passby_secondary_cfs=0.0,  # [open]
-    facility=None,  # [open] the WPAFB-corridor / Roshel-APA data-center dimension is the research target (#451)
+    facility=None,  # [open] data-center dimension = 5C/Vultr + Crusoe at PrimeOhio (#454); pending a pinned facility
     serving_utility_citation="[open] pending Clark County, OH retail utility verification (research)",
     serving_utility_source="reference",
     lmp_usd_mwh=35.0,  # [inference] PJM placeholder — Clark County sits at the AEP/DAY seam; pin via research
