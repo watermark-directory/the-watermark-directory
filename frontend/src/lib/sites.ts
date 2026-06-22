@@ -190,6 +190,21 @@ export const SITES: readonly NetworkSite[] = [
     issue: "442",
     href: "/directory/wpafb",
   },
+  {
+    // The lower Great Miami heavy-industry node and the I-75 Cincinnati–Dayton corridor's southern
+    // anchor: the established-industry comparator to the greenfield sites (Cleveland-Cliffs
+    // Middletown Works / former AK Steel), on the Great Miami mainstem. Butler County (seat = City of
+    // Hamilton, NOT Hamilton County/Cincinnati); a third PJM zone (DEOK). Tracking (#443).
+    slug: "hamilton-middletown",
+    codename: null,
+    mono: "HAM",
+    place: "Hamilton · Middletown",
+    basin: "Great Miami (lower)",
+    status: "queued",
+    selectable: false,
+    issue: "443",
+    href: "/directory/hamilton-middletown",
+  },
 ] as const;
 
 /** This build is the Lima reference build. */
@@ -297,6 +312,7 @@ const PLACEMENT: Record<string, { state: string; watershed: string }> = {
   springfield: { state: "Ohio", watershed: "Great Miami (Mad River)" },
   xenia: { state: "Ohio", watershed: "Little Miami" },
   wpafb: { state: "Ohio", watershed: "Great Miami (Mad River)" },
+  "hamilton-middletown": { state: "Ohio", watershed: "Great Miami (lower)" },
 };
 const STATE_ABBR: Record<string, string> = { Ohio: "OH", Indiana: "IN" };
 

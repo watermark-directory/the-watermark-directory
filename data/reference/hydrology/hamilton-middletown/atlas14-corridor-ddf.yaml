@@ -1,0 +1,47 @@
+meta:
+  subject: NOAA Atlas-14 design-storm depths — Lower Great Miami industrial corridor
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  point:
+    latitude: 39.3994
+    longitude: -84.5613
+  units: inches (point precipitation depth)
+ddf:
+  latitude: 39.3994
+  longitude: -84.5613
+  durations:
+  - 60-min
+  - 6-hr
+  - 12-hr
+  - 24-hr
+  return_periods:
+  - 2
+  - 10
+  - 25
+  - 50
+  - 100
+  depths_in:
+    60-min:
+      '2': 1.39
+      '10': 1.94
+      '25': 2.25
+      '50': 2.48
+      '100': 2.7
+    6-hr:
+      '2': 2.07
+      '10': 2.9
+      '25': 3.39
+      '50': 3.78
+      '100': 4.17
+    12-hr:
+      '2': 2.44
+      '10': 3.4
+      '25': 3.95
+      '50': 4.38
+      '100': 4.81
+    24-hr:
+      '2': 2.82
+      '10': 3.93
+      '25': 4.57
+      '50': 5.07
+      '100': 5.58
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
