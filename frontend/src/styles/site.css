@@ -265,25 +265,30 @@ a { color: var(--bosc-link); }
 .sections.is-dimmed .section-tab:hover { opacity: 1; }
 
 /* ---- The Watermark network switcher (#304) — a no-JS <details> on the brand ---- */
-.site-switcher { position: relative; display: inline-flex; align-items: stretch; }
+/* `static` (not relative) so the panel anchors to the .topbar (sticky = positioned), letting it
+   drop full-width from the whole chrome rather than hang off the brand mark. */
+.site-switcher { position: static; display: inline-flex; align-items: stretch; }
 .site-switcher > summary { list-style: none; cursor: pointer; gap: 0.45rem; }
 .site-switcher > summary::-webkit-details-marker { display: none; }
 .switcher-caret { color: #aab1e0; font-size: 0.62rem; transition: transform 0.12s ease; }
 .site-switcher[open] .switcher-caret { transform: rotate(180deg); }
 .switcher-menu {
   position: absolute;
-  top: calc(100% + 9px);
-  left: 0;
+  /* Drops flush from the bottom edge of the chrome, anchored to .topbar (see .site-switcher). */
+  top: 100%;
+  /* Full-bleed across the chrome (#308 dictate C) — built to hold the whole 32-site network; rows
+     flow across columns inside each group. left/right match the topbar's `padding: 0 1rem`, so the
+     panel's edges line up with the brand on the left and the search box on the right. */
+  left: 1rem;
+  right: 1rem;
   z-index: 60;
-  /* Full-width panel (#308 dictate C) — built to hold the whole 32-site network; rows flow across
-     columns inside each group. Caps at the viewport with a small inset so it never overflows. */
-  width: min(1180px, calc(100vw - 24px));
   max-height: min(74vh, 720px);
   overflow-y: auto;
   background: #fff;
   color: var(--bosc-ink);
   border: 1px solid #d7dae4;
-  border-radius: 14px;
+  border-top: 0; /* it descends from the bar — no seam at the top */
+  border-radius: 0 0 14px 14px; /* square top, rounded bottom: reads as a drawer from the chrome */
   box-shadow: 0 18px 44px rgba(20, 24, 40, 0.26);
   padding: 7px;
 }
@@ -400,6 +405,12 @@ a { color: var(--bosc-link); }
 .switcher-groups.by-basin { display: none; }
 #gb-basin:checked ~ .switcher-groups.by-basin { display: block; }
 #gb-basin:checked ~ .switcher-groups.by-state { display: none; }
+/* Scope copy (head count + footer noun) pivots with the active lens — state is the default. */
+.sw-scope-basin { display: none; }
+#gb-basin:checked ~ .switcher-head .sw-scope-state,
+#gb-basin:checked ~ .switcher-foot .sw-scope-state { display: none; }
+#gb-basin:checked ~ .switcher-head .sw-scope-basin,
+#gb-basin:checked ~ .switcher-foot .sw-scope-basin { display: inline; }
 .switcher-group { padding: 2px 4px 6px; }
 .switcher-group + .switcher-group { margin-top: 2px; border-top: 1px solid #f1f2f5; }
 .switcher-grouphead {

@@ -30,6 +30,10 @@ const stateGroups = groupSites("state");
 const basinGroups = groupSites("basin");
 const hereSlug = here?.slug ?? null;
 const totalSites = SITES.length;
+// The scope line + footer noun pivot with the active group-by (no-JS: both rendered, toggled by
+// the gb-* radios in CSS). State is the default lens, so the state copy shows first.
+const stateCount = stateGroups.length;
+const basinCount = basinGroups.length;
 // Dim the left/site section tabs when the current site isn't live (dictate B — the bar is a build
 // gauge). `null` (network hub) and the live build keep full-strength tabs.
 const sectionsDimmed = here !== null && here.status !== "live";
@@ -63,7 +67,11 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
       <div class="switcher-head">
         <span class="switcher-head-l">
           <span class="switcher-title">Switch site</span>
-          <span class="switcher-count">{totalSites} sites · 9 basins</span>
+          <span class="switcher-count"
+            >{totalSites} sites · <span class="sw-scope sw-scope-state">{stateCount} states</span><span
+              class="sw-scope sw-scope-basin">{basinCount} basins</span
+            ></span
+          >
         </span>
         <span class="switcher-groupby">
           <span class="gb-k">Group by</span>
@@ -109,8 +117,10 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
       </div>
       <div class="switcher-foot">
         <span class="switcher-foot-note">
-          Each site is a section of the Watermark platform. Live &amp; building sites open; queued and
-          tracking sites route to their coming-soon / watch page.
+          Each site is a section of the Watermark platform — pivoted by <span class="sw-scope sw-scope-state"
+            >state</span
+          ><span class="sw-scope sw-scope-basin">basin</span>. Live &amp; building sites open; queued and tracking
+          sites route to their coming-soon / watch page.
         </span>
         <span class="switcher-legend" aria-hidden="true">
           <span class="leg leg-live">Live</span>
