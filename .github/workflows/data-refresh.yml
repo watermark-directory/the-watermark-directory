@@ -1,0 +1,116 @@
+# Data refresh (manual) — run a `bosc` connector/data command in CI and open a PR
+# with the regenerated committed reference data.
+#
+# Why this exists: the data connectors hit public APIs that throttle PER IP (e.g.
+# EPA ECHO at 1,500 req/day). A local pull that's throttled can succeed from a
+# GitHub-hosted runner, which egresses from a fresh, rotating Azure IP. The
+# connectors are keyless, so the fetch needs no secrets — only the commit + PR uses
+# the default GITHUB_TOKEN.
+#
+# Safety:
+#   - Writes are asserted to land under data/reference/** ONLY (never the immutable
+#     data/documents/** corpus); the run aborts otherwise.
+#   - The PR is inert — nothing auto-merges and `main` requires review.
+#   - manual dispatch only; the `command` input is maintainer-supplied (only users
+#     with write access can dispatch) and passed via env (no `${{ }}` in a shell line).
+#
+# NOTE: a PR opened with GITHUB_TOKEN does not auto-trigger the `check` workflow (a
+# GitHub anti-recursion rule). Reopen the PR (or push a commit) to run it, or merge as
+# admin after reviewing the diff. Swap GH_TOKEN for the research App token (the
+# RESEARCH_APP_* secrets already exist) if you want `check` to fire automatically.
+
+name: Data refresh (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "bosc subcommand + flags to run (e.g. 'npdes --basin scioto')"
+        required: true
+        default: "npdes --basin scioto"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: data-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up uv + Python
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --extra dev
+
+      - name: Run the bosc command
+        env:
+          COMMAND: ${{ inputs.command }}
+        run: |
+          set -euo pipefail
+          echo "Running: bosc $COMMAND"
+          # shellcheck disable=SC2086  # intentional word-split: subcommand + flags
+          uv run bosc $COMMAND
+
+      - name: Chain-of-custody check (no source bytes touched)
+        run: |
+          set -euo pipefail
+          if [ -n "$(git status --porcelain -- data/documents)" ]; then
+            echo "::error::command modified data/documents/** — aborting"
+            git status --porcelain -- data/documents
+            exit 1
+          fi
+
+      - name: Detect changes & confine them to data/reference/
+        id: diff
+        run: |
+          set -euo pipefail
+          git add -A
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes produced — nothing to open."
+            exit 0
+          fi
+          outside=$(git diff --cached --name-only | grep -vE '^data/reference/' || true)
+          if [ -n "$outside" ]; then
+            echo "::error::Refusing — changes outside data/reference/:"
+            echo "$outside"
+            exit 1
+          fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          git diff --cached --stat
+
+      - name: Open a PR with the regenerated data
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMAND: ${{ inputs.command }}
+        run: |
+          set -euo pipefail
+          slug=$(echo "$COMMAND" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//; s/-$//')
+          branch="data-refresh/${slug}-${GITHUB_RUN_ID}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git commit -m "data(refresh): bosc ${COMMAND}" \
+            -m "Regenerated committed reference data from a GitHub Actions runner (bosc ${COMMAND}). Writes confined to data/reference/; inert until reviewed."
+          git push -u origin "$branch"
+          {
+            echo "Automated connector refresh — \`bosc ${COMMAND}\` run from a GitHub Actions runner."
+            echo
+            echo "The runner egresses from a fresh Azure IP, so a per-IP API throttle that blocks a local pull (e.g. EPA ECHO's 1,500/day) is sidestepped. Changes are confined to \`data/reference/\` — review the diff before merging."
+            echo
+            echo "> The required \`check\` status does not auto-run on a \`GITHUB_TOKEN\`-opened PR (GitHub anti-recursion). Reopen this PR or push a commit to trigger it, or merge as admin after review."
+          } > /tmp/pr-body.md
+          gh pr create --base main --head "$branch" \
+            --title "data(refresh): bosc ${COMMAND}" \
+            --body-file /tmp/pr-body.md
