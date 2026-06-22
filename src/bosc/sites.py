@@ -1868,6 +1868,101 @@ _XENIA = SiteProfile(
 )
 
 
+# The DOWNSTREAM TERMINUS of the Mad River corridor (Urbana → Springfield → **Dayton/WPAFB**) and
+# the richest node of the Miami expansion: the SW-Ohio analog to Lima's JSMC / tank-plant defense
+# nexus. Wright-Patterson AFB (AFRL, the Air Force Rapid Sustainment Office, AFLCMC) is one of
+# Ohio's largest single-site employers, and — unlike the bare greenfield Miami sites — **the corpus
+# already carries this thread**: written testimony §8 "Ohio defense footprint" (Google Distributed
+# Cloud air-gapped DoD IL5, RSO a named early customer, GDIT + Google Public Sector at Exercise
+# Mobility Guardian 2025) + the `cloud-consumer-candidates.yaml` WPAFB-adjacent corridor entry. The
+# distinctive data-center variant here is **regulated/air-gapped DoD cloud**, not hyperscale. Two
+# overlays make it load-bearing: WPAFB runs its own production well-field on the **Great Miami /
+# Mad River Buried Valley Aquifer** (US-EPA sole-source) and is the source of a documented **TCE /
+# PFAS groundwater plume** on that same drinking-water aquifer. The buried-valley supply (not surface
+# 7Q10 dilution) is the water story. GEOGRAPHY NOTES: the base STRADDLES Greene + Montgomery counties
+# — the economic/toxics unit chosen here is **Montgomery County (Dayton metro, FIPS 39113)** (the
+# well-field + defense-metro + plume context), distinct from the Greene-County (Xenia #444) economics
+# on the Little Miami side; and at ~84.05 degW the base is WEST of the 84 degW meridian, so it is the
+# network's first **UTM zone 16N** site (NOT the zone 17 the other Miami sites use).
+_WPAFB = SiteProfile(
+    slug="wpafb",
+    place="Wright-Patterson AFB",
+    basin="great-miami",  # [verified] Mad River → Great Miami River → Ohio River (HUC-8 05080001/2)
+    nwis_sites=[
+        "03270000",  # [verified] Mad River near Dayton OH (the at-base reach; corridor terminus)
+        "03270500",  # [verified] Great Miami River at Dayton OH (metro mainstem / well-field reach)
+        "03263000",  # [verified] Great Miami River at Taylorsville OH (upstream of the Mad confluence)
+    ],
+    nasa_power_lat=39.8261,  # [verified] Wright-Patterson AFB centroid (39deg49'34"N 84deg02'58"W)
+    nasa_power_lon=-84.0494,
+    rsei_fips="39113",  # [verified] Montgomery County, OH (Dayton metro; base straddles Greene+Montgomery)
+    econ_fips="39113",
+    eia861_utility_number=0,  # [open] pending the Montgomery County retail utility (research; likely AES Ohio/DAY)
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the Montgomery County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Dayton / Montgomery County zoning REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32616,  # [verified] UTM 16N (WPAFB ~84.05 degW; zone 16 spans 90-84 degW) — NOT zone 17
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
+    gis_parcel=None,  # [open] pending Montgomery County, OH parcel-layer discovery (+ the WPAFB federal enclave)
+    gis_zoning=None,  # [open] pending City of Dayton / Montgomery County zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "wpafb-gis"}),
+    design_lat=39.8261,  # [verified] base centroid = NOAA Atlas-14 point
+    design_lon=-84.0494,
+    corridor_name="Great Miami / Mad River buried-valley corridor (Dayton terminus)",  # [inference]
+    dominant_hsg="B",  # [inference] Great Miami / Mad River buried-valley outwash (well-drained valley fill)
+    hsg_citation=(
+        "Dayton / WPAFB sits on the Great Miami / Mad River Buried Valley Aquifer - glacial outwash "
+        "sand & gravel, a US-EPA designated sole-source aquifer (the Dayton municipal + WPAFB "
+        "production well fields draw on it) - so the valley fill is well-drained HSG A/B, the INVERSE "
+        "of the Maumee lake-plain Black Swamp clays (HSG D); [inference] pending an SSURGO "
+        "area-weighted confirmation (onboard SSURGO needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
+    parcels_relpath="reference/wpafb/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/wpafb/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/wpafb/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/wpafb/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/wpafb/baseline.yaml",
+    rsei_relpath="reference/rsei/wpafb/inventory.yaml",
+    consumer_energy_relpath="reference/eia/wpafb/consumer-energy.yaml",
+    grid_relpath="reference/eia/wpafb/grid-profile.yaml",
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending the identified corridor (the WPAFB TCE/PFAS plume + Dayton industrial reach)
+    receiving_water_name="Mad River",  # [verified] the at-base reach (→ Great Miami → Ohio R.); aquifer is the supply story
+    plant_receiving={},  # [open] pending the WPAFB / Dayton WWTP NPDES fact sheet(s)
+    abstraction_gage="03270000",  # [verified] Mad River near Dayton OH
+    supply_gage_primary="03270000",  # [verified] Mad River near Dayton (the buried-valley supply reach)
+    supply_gage_secondary="03270500",  # [verified] Great Miami River at Dayton (the well-field mainstem)
+    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum
+    passby_secondary_cfs=0.0,  # [open]
+    facility=None,  # [open] the DoD-cloud / GDIT-RSO data-center dimension is the research target (#442)
+    serving_utility_citation="[open] pending Montgomery County, OH retail utility verification (research)",
+    serving_utility_source="reference",
+    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
+    lmp_citation=(
+        "PJM LMP placeholder for the Dayton/WPAFB area; [inference] the PJM transmission zone is not "
+        "yet pinned - likely the DAY zone (AES Ohio / Dayton territory) - verify the utility + zone (research)"
+    ),
+    lmp_pnode_id=0,  # [open] pending the Montgomery County PJM zone (likely DAY)
+    lmp_pnode_name="",
+    county_name="Montgomery County, OH",  # [verified] (Dayton metro; base straddles Greene+Montgomery)
+    map_view_lat=39.8261,
+    map_view_lon=-84.0494,
+    map_view_zoom=12,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
@@ -1880,6 +1975,7 @@ SITES: dict[str, SiteProfile] = {
     _URBANA.slug: _URBANA,
     _SPRINGFIELD.slug: _SPRINGFIELD,
     _XENIA.slug: _XENIA,
+    _WPAFB.slug: _WPAFB,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so
