@@ -146,7 +146,7 @@ visualizations as the only React islands. It's structured as **the BOSC network*
 (Epic #308) — one build hosting a network of watershed-point sites: Lima (the live
 reference build) is re-rooted under `/bosc`, with cross-cutting pages (about, wiki,
 ask, search, the network hub) global at the root and a topbar switcher between sites.
-It's a self-contained Node project — `mise run frontend` (or `cd frontend &&
+It's a self-contained Node project — `mise run //frontend:check` (or `cd frontend &&
 npm ci && npm run build`) builds it offline against `frontend/sample-bundle/`,
 no Python or LFS needed. It deploys to
 **Cloudflare Pages** (`.github/workflows/pages.yml`), not GitHub Pages — that deploy
@@ -233,9 +233,22 @@ npm install -g @anthropic-ai/claude-code     # the Agent SDK drives this CLI
 
 ## Development
 
+mise is set up as a **monorepo** — the backend (this root) and the `frontend/` Astro
+site each have a full `dev`/`test`/`lint`/`check`/`fmt` task set. A bare task name runs
+the project you're in; `//frontend:<task>` targets the frontend from anywhere.
+
 ```bash
-mise run check    # ruff check + ruff format --check + mypy + pytest
-mise run fmt      # auto-fix lint + format
+# backend (repo root)
+mise run check    # gate: ruff + format-check + markdown + mypy + pytest
+mise run test     # pytest only          mise run lint / types / fmt
+mise run dev -- … # run the bosc CLI     mise run export
+
+# frontend (the Astro site)
+mise run //frontend:check   # gate: Biome + types + vitest + build + links
+mise run //frontend:dev     # astro dev server   //frontend:test / lint / build
+
+mise run ci         # the whole-repo gate (both checks)
+mise tasks --all    # list every task across both projects
 ```
 
 Or invoke the tools directly (`uv run ruff check .`, `uv run mypy`,

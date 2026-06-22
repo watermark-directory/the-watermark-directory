@@ -59,9 +59,12 @@ repo-working agents now.
 
 - **Tooling:** mise manages the toolchain (Python 3.11, uv, node 24, git-lfs);
   `Brewfile` is the fallback. uv for envs/deps, ruff for lint+format, mypy
-  `strict`, pytest. Run `mise run check` before declaring done. The `frontend/`
-  site is its own Node toolchain (`mise run frontend` = `npm ci && npm run check
-  && npm run build`); it doesn't touch uv.
+  `strict`, pytest. mise is a **monorepo**: backend tasks run at the repo root
+  (`mise run check` — the gate to run before declaring done — plus `test`/`lint`/
+  `types`/`fmt`/`dev`/`export`), the `frontend/` Astro project's tasks are namespaced
+  (`mise run //frontend:check`, `//frontend:dev`, `//frontend:test`, …), and
+  `mise run ci` runs the whole-repo gate (both `check`s). A bare task name runs the
+  project you're standing in. The frontend is its own Node toolchain; it doesn't touch uv.
 - **CI / path filtering:** `.github/workflows/ci.yml` is split into two halves
   gated by a `changes` job — the Python `check` job (ruff/format/mypy/pytest) runs
   only when the backend tree changed (`src/`, `tests/`, `data/`, `pyproject.toml`,

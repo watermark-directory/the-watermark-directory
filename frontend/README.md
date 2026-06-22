@@ -28,7 +28,10 @@ npm run build     # static build         → dist/
 npm run preview   # serve the built dist/ locally
 ```
 
-From the repo root, `mise run frontend` runs `npm ci && npm run check && npm run build`.
+This project is a mise monorepo subproject: from anywhere, `mise run //frontend:check`
+runs the full gate (Biome + types + vitest + build + link check), `mise run //frontend:dev`
+starts the dev server, and `mise run //frontend:<task>` reaches `test`/`lint`/`build`/`fmt`/
+`preview`. Inside `frontend/`, a bare `mise run <task>` works too (see `frontend/mise.toml`).
 
 In CI, the `frontend` job in [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)
 does the same against the sample bundle (pure Node — no uv/LFS). It's path-filtered:
