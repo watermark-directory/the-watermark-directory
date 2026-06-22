@@ -161,6 +161,20 @@ export const SITES: readonly NetworkSite[] = [
     issue: "452",
     href: "/directory/springfield",
   },
+  {
+    // The network's FIRST Little Miami-basin site (a third basin branch): the WPAFB-adjacent
+    // Greene County node on the Little Miami — a National & State Scenic River, the heightened
+    // regulatory-overlay receiving water the Maumee/Great-Miami sites lack. Tracking (#444).
+    slug: "xenia",
+    codename: null,
+    mono: "XEN",
+    place: "Xenia",
+    basin: "Little Miami",
+    status: "queued",
+    selectable: false,
+    issue: "444",
+    href: "/directory/xenia",
+  },
 ] as const;
 
 /** This build is the Lima reference build. */
@@ -266,6 +280,7 @@ const PLACEMENT: Record<string, { state: string; watershed: string }> = {
   // The first Miami-basin point — a distinct watershed group (Ohio River sink, not Lake Erie).
   urbana: { state: "Ohio", watershed: "Great Miami (Mad River)" },
   springfield: { state: "Ohio", watershed: "Great Miami (Mad River)" },
+  xenia: { state: "Ohio", watershed: "Little Miami" },
 };
 const STATE_ABBR: Record<string, string> = { Ohio: "OH", Indiana: "IN" };
 

@@ -1778,6 +1778,96 @@ _SPRINGFIELD = SiteProfile(
 )
 
 
+# The network's FIRST Little Miami-basin site (a THIRD basin branch, after Maumee and Great
+# Miami) and the WPAFB-adjacent node: Xenia / Greene County sits on the **Little Miami River**,
+# SE of Wright-Patterson AFB. Its distinguishing influence is NOT a new geology but a heightened
+# **regulatory overlay** the other sites lack — the Little Miami is a **National & State Scenic
+# River** (NPS Wild & Scenic + Ohio Scenic River), a protected receiving water that materially
+# constrains a large new discharger/withdrawal. The aquifer is the same buried-valley sole-source
+# system (Greene County's Xenia/Beavercreek well fields draw on the Mad River / Little Miami
+# outwash valleys), but the inter-valley till uplands at Xenia proper are less permeable than the
+# Mad River outwash - so the dominant HSG is footprint-dependent. The WPAFB defense-supplier
+# corridor + the base groundwater plume are the [open] data-center/contamination overlays (#444).
+_XENIA = SiteProfile(
+    slug="xenia",
+    place="Xenia",
+    basin="little-miami",  # [verified] Little Miami River → Ohio River (HUC-8 05090202); a 3rd basin branch
+    nwis_sites=[
+        "03240000",  # [verified] Little Miami River near Oldtown OH (at-site reach, just N of Xenia)
+        "03241500",  # [verified] Massies Creek at Wilberforce OH (the local tributary E of Xenia)
+        "03242050",  # [verified] Little Miami River near Spring Valley OH (downstream, Greene/Warren)
+    ],
+    nasa_power_lat=39.6861,  # [verified] Xenia, OH city centroid (39deg41'10"N 83deg55'44"W)
+    nasa_power_lon=-83.9289,
+    rsei_fips="39057",  # [verified] Greene County, OH
+    econ_fips="39057",
+    eia861_utility_number=0,  # [open] pending the Greene County retail utility (research; likely AES Ohio/DAY)
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the Greene County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Xenia / Greene County zoning REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (Xenia ~83.93 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
+    gis_parcel=None,  # [open] pending Greene County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Xenia / Greene County zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "xenia-gis"}),
+    design_lat=39.6861,  # [verified] city centroid = NOAA Atlas-14 point
+    design_lon=-83.9289,
+    corridor_name="Little Miami buried-valley corridor",  # [inference] the Little Miami valley reach at Xenia
+    dominant_hsg="B",  # [inference] Greene County buried-valley outwash (valley fill); footprint-dependent
+    hsg_citation=(
+        "Greene County is underlain by the Mad River / Little Miami buried-valley aquifer system "
+        "- glacial outwash sand & gravel, a US-EPA sole-source aquifer the Xenia/Beavercreek well "
+        "fields draw on [reference: ODNR/USGS] - so the valley fill is well-drained HSG A/B; but "
+        "the inter-valley till uplands at Xenia proper are less permeable (HSG C/D), so the "
+        "dominant class is footprint-dependent; [inference] pending an SSURGO area-weighted "
+        "confirmation (onboard SSURGO needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
+    parcels_relpath="reference/xenia/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/xenia/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/xenia/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/xenia/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/xenia/baseline.yaml",
+    rsei_relpath="reference/rsei/xenia/inventory.yaml",
+    consumer_energy_relpath="reference/eia/xenia/consumer-energy.yaml",
+    grid_relpath="reference/eia/xenia/grid-profile.yaml",
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending an identified corridor (incl. the WPAFB plume overlay)
+    receiving_water_name="Little Miami River",  # [verified] reach; [reference] a National & State Scenic River
+    plant_receiving={},  # [open] pending the Xenia-area WWTP NPDES fact sheet(s)
+    abstraction_gage="03240000",  # [verified] Little Miami River near Oldtown OH
+    supply_gage_primary="03240000",  # [verified] Little Miami River near Oldtown
+    supply_gage_secondary="03241500",  # [verified] Massies Creek at Wilberforce (the local tributary)
+    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum (scenic-river protection likely raises it)
+    passby_secondary_cfs=0.0,  # [open]
+    facility=None,  # [open] the WPAFB-corridor defense/data-center dimension is the research target (#444)
+    serving_utility_citation="[open] pending Greene County, OH retail utility verification (research)",
+    serving_utility_source="reference",
+    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
+    lmp_citation=(
+        "PJM LMP placeholder for the Xenia area; [inference] the PJM transmission zone is not yet "
+        "pinned - likely the DAY zone (AES Ohio / Dayton territory) - verify the utility + zone (research)"
+    ),
+    lmp_pnode_id=0,  # [open] pending the Greene County PJM zone (likely DAY)
+    lmp_pnode_name="",
+    county_name="Greene County, OH",  # [verified]
+    map_view_lat=39.6861,
+    map_view_lon=-83.9289,
+    map_view_zoom=13,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
@@ -1789,6 +1879,7 @@ SITES: dict[str, SiteProfile] = {
     _OTTAWA.slug: _OTTAWA,
     _URBANA.slug: _URBANA,
     _SPRINGFIELD.slug: _SPRINGFIELD,
+    _XENIA.slug: _XENIA,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so
