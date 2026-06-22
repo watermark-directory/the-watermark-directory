@@ -35,12 +35,16 @@ def test_maumee_is_seven_subbasins() -> None:
 def test_basin_registry_and_resolve() -> None:
     assert echo.resolve_basin("maumee") is echo.MAUMEE
     assert echo.resolve_basin("great-miami") is echo.GREAT_MIAMI
+    assert echo.resolve_basin("scioto") is echo.SCIOTO
     assert echo.resolve_basin(echo.GREAT_MIAMI) is echo.GREAT_MIAMI  # idempotent
     # The Great Miami is the two Ohio HUC-8s; Whitewater (mostly IN) is excluded.
     assert list(echo.GREAT_MIAMI_HUC8S) == ["05080001", "05080002"]
     assert "05080003" not in echo.GREAT_MIAMI_HUC8S
+    # The Scioto is its three HUC-8s (Upper/Lower Scioto + Paint).
+    assert list(echo.SCIOTO_HUC8S) == ["05060001", "05060002", "05060003"]
+    assert echo.SCIOTO.file_stem == "scioto-wwtp"
     with pytest.raises(echo.EchoError, match="unknown basin"):
-        echo.resolve_basin("scioto")
+        echo.resolve_basin("muskingum")
 
 
 def test_fetch_blanchard_from_fixture(hydro_settings: Settings) -> None:

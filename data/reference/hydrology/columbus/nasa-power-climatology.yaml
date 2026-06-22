@@ -1,0 +1,133 @@
+meta:
+  subject: NASA POWER climate normals — Columbus loop point
+  source: NASA POWER (AWS Open Data s3://nasa-power), climatology point API
+  title: NASA/POWER Source Native Resolution Climatology Climatologies
+  point:
+    latitude: 39.986
+    longitude: -82.986
+  elevation_m: 291.64
+climatology:
+  latitude: 39.986
+  longitude: -82.986
+  elevation_m: 291.64
+  source_title: NASA/POWER Source Native Resolution Climatology Climatologies
+  parameters:
+  - parameter: PRECTOTCORR
+    units: mm/day
+    longname: Precipitation Corrected
+    monthly:
+      JAN: 2.09
+      FEB: 2.2
+      MAR: 2.75
+      APR: 3.15
+      MAY: 3.39
+      JUN: 3.45
+      JUL: 3.0
+      AUG: 2.5
+      SEP: 2.58
+      OCT: 2.49
+      NOV: 2.36
+      DEC: 2.4
+    annual: 2.7
+  - parameter: T2M
+    units: C
+    longname: Temperature at 2 Meters
+    monthly:
+      JAN: -2.62
+      FEB: -1.42
+      MAR: 4.04
+      APR: 10.7
+      MAY: 16.53
+      JUN: 21.16
+      JUL: 23.41
+      AUG: 23.09
+      SEP: 19.29
+      OCT: 12.09
+      NOV: 5.25
+      DEC: -0.1
+    annual: 11.01
+  - parameter: T2M_MAX
+    units: C
+    longname: Temperature at 2 Meters Maximum
+    monthly:
+      JAN: 19.59
+      FEB: 22.25
+      MAR: 26.17
+      APR: 27.59
+      MAY: 30.4
+      JUN: 36.24
+      JUL: 37.98
+      AUG: 35.87
+      SEP: 35.67
+      OCT: 33.13
+      NOV: 26.15
+      DEC: 20.33
+    annual: 37.98
+  - parameter: T2M_MIN
+    units: C
+    longname: Temperature at 2 Meters Minimum
+    monthly:
+      JAN: -23.84
+      FEB: -22.37
+      MAR: -15.32
+      APR: -7.5
+      MAY: -3.86
+      JUN: 3.74
+      JUL: 9.17
+      AUG: 8.96
+      SEP: 3.03
+      OCT: -2.94
+      NOV: -12.32
+      DEC: -23.89
+    annual: -23.89
+  - parameter: RH2M
+    units: '%'
+    longname: Relative Humidity at 2 Meters
+    monthly:
+      JAN: 85.41
+      FEB: 84.26
+      MAR: 80.64
+      APR: 77.42
+      MAY: 78.46
+      JUN: 77.41
+      JUL: 74.13
+      AUG: 69.87
+      SEP: 69.94
+      OCT: 73.52
+      NOV: 78.93
+      DEC: 85.44
+    annual: 77.93
+  - parameter: WS2M
+    units: m/s
+    longname: Wind Speed at 2 Meters
+    monthly:
+      JAN: 3.68
+      FEB: 3.59
+      MAR: 3.48
+      APR: 3.45
+      MAY: 2.74
+      JUN: 2.35
+      JUL: 1.99
+      AUG: 1.94
+      SEP: 2.15
+      OCT: 2.75
+      NOV: 3.03
+      DEC: 3.28
+    annual: 2.87
+  - parameter: ALLSKY_SFC_SW_DWN
+    units: MJ/m^2/day
+    longname: All Sky Surface Shortwave Downward Irradiance
+    monthly:
+      JAN: 6.18
+      FEB: 8.93
+      MAR: 12.89
+      APR: 17.41
+      MAY: 19.77
+      JUN: 22.01
+      JUL: 21.32
+      AUG: 19.77
+      SEP: 16.37
+      OCT: 11.32
+      NOV: 7.99
+      DEC: 5.34
+    annual: 14.13

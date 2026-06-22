@@ -2399,6 +2399,200 @@ _WILMINGTON = SiteProfile(
 )
 
 
+# The network's THIRD-basin branch and the data-center EPICENTER (Scioto epic #484, onboarding
+# #485): New Albany / Licking County, OH — Intel "Ohio One" fab + Google/Meta/AWS/Microsoft/QTS in
+# the New Albany International Business Park. It STRADDLES the Scioto↔Muskingum divide: the city
+# core (Franklin Co) drains Rocky Fork + Blacklick → Big Walnut Creek → Scioto (HUC 05060001); the
+# Intel/business-park epicenter (Licking Co, Jersey Twp) drains the South Fork Licking → Licking →
+# Muskingum (HUC 05040006). `basin="scioto"` frames the city/Big-Walnut side; the Muskingum-side
+# receiving water is [open] (it flips if the pinned footprint lands on the Licking side). Grid is
+# PINNED: AEP Ohio (Ohio Power #14006), PJM AEP zone — back to the Maumee sites' zone, unlike the
+# Miami branch's DAY/DEOK.
+_NEW_ALBANY = SiteProfile(
+    slug="new-albany",
+    place="New Albany",
+    # [verified] Big Walnut Creek → Scioto → Ohio River (HUC-8 05060001); [open] the Intel/Licking
+    # epicenter drains S. Fork Licking → Muskingum (05040006) — flip if the footprint lands Licking.
+    basin="scioto",
+    nwis_sites=[
+        "03228500",  # [verified] Big Walnut Creek at Central College OH (at-site Scioto-side reach; DV since 1938)
+        "03229500",  # [verified] Big Walnut Creek at Rees OH (downstream Big Walnut→Scioto integrator; DV since 1921)
+        "03145000",  # [verified] South Fork Licking River near Hebron OH (the Muskingum-side Intel/Licking drainage; DV since 1939)
+    ],
+    nasa_power_lat=40.09,  # [verified] New Albany city centroid (Census Gazetteer 2024 place 3953970)
+    nasa_power_lon=-82.7763,
+    rsei_fips="39089",  # [verified] Licking County, OH — the Intel/business-park epicenter (city core is Franklin 39049)
+    econ_fips="39089",
+    eia861_utility_number=14006,  # [verified] Ohio Power Co (AEP Ohio); serves New Albany + the business park — PJM AEP zone
+    eia_state="OH",
+    parcels_url=(  # [reference] Licking County's own ArcGIS parcel/zoning REST is currently stopped (HTTP 500);
+        # substitute = the OGRIP Ohio statewide parcels public view, scoped to County='Licking'
+        "https://services2.arcgis.com/MlJ0G8iWUyC7jAmu/arcgis/rest/services/"
+        "OhioStatewidePacels_full_view/FeatureServer/0"
+    ),
+    zoning_url="TODO",  # [open] Licking Planning/Zoning REST is stopped; no confirmed New Albany / Jersey Twp zoning REST
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (New Albany ~82.78 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
+    gis_parcel=OHIO_STATEWIDE_PARCEL_SCHEMA.model_copy(
+        update={"reference_dir": "new-albany-gis", "query_scope": "County='Licking'"}
+    ),  # [reference] OGRIP scoped to Licking (operative-for-DC); SitusAddressAll is null for Licking (thin catalog)
+    gis_zoning=None,  # [open] pending a New Albany / Licking zoning-layer discovery (Licking REST stopped)
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "new-albany-gis"}),
+    design_lat=40.09,  # [verified] New Albany centroid = NOAA Atlas-14 point
+    design_lon=-82.7763,
+    corridor_name="Rocky Fork-Blacklick / Big Walnut corridor",  # [inference] the Scioto-side New Albany reach
+    dominant_hsg="C",  # [inference] central-Ohio glaciated till plain (Big Walnut headwaters), moderately-to-poorly drained
+    hsg_citation=(
+        "New Albany / Licking County sits on the central-Ohio glaciated till plain (Big Walnut / "
+        "Rocky Fork headwaters), not a buried-valley outwash aquifer - so the soils are the "
+        "moderately-to-poorly-drained till HSG C/D, unlike the Miami branch's well-drained HSG B "
+        "buried valleys; [inference] pending an SSURGO area-weighted confirmation (onboard SSURGO "
+        "needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
+    parcels_relpath="reference/new-albany/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/new-albany/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/new-albany/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/new-albany/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/new-albany/baseline.yaml",
+    rsei_relpath="reference/rsei/new-albany/inventory.yaml",
+    consumer_energy_relpath="reference/eia/new-albany/consumer-energy.yaml",
+    grid_relpath="reference/eia/new-albany/grid-profile.yaml",
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending the corridor (the New Albany business-park reach)
+    # [verified] Scioto-side (Rocky Fork+Blacklick→Big Walnut→Scioto); [open] the Intel/Licking side
+    # discharges S. Fork Licking→Muskingum, and Intel's PROCESS wastewater goes to Columbus' sewer.
+    receiving_water_name="Big Walnut Creek",
+    plant_receiving={},  # [open] pending the New Albany-area WWTP NPDES fact sheet(s)
+    abstraction_gage="03228500",  # [verified] Big Walnut Creek at Central College OH (Scioto-side at-site reach)
+    supply_gage_primary="03228500",  # [verified] Big Walnut Creek at Central College
+    supply_gage_secondary="03229500",  # [verified] Big Walnut Creek at Rees (the larger downstream reach)
+    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum
+    passby_secondary_cfs=0.0,  # [open]
+    facility=None,  # [open] data-center dimension = Intel "Ohio One" + Google/Meta/AWS/Microsoft/QTS (#485); pending a pinned facility
+    serving_utility_citation=(
+        "EIA-861 service territory (Ohio Power Co #14006) + PJM AEP zone; AEP Ohio serves New "
+        "Albany / the New Albany International Business Park. [verified] No municipal electric utility."
+    ),
+    serving_utility_source="reference",
+    lmp_usd_mwh=45.81,  # [reference] connector-sourced AEP-zone day-ahead annual mean (same PJM AEP zone as Lima, #121)
+    lmp_citation=(
+        "PJM AEP-zone day-ahead annual-mean LMP applied to New Albany (AEP Ohio territory, PJM AEP "
+        "zone — the same zone as the Maumee sites); [reference] connector-sourced (#121)"
+    ),
+    lmp_pnode_id=8445784,  # [verified] PJM AEP zone (same pnode as Lima)
+    lmp_pnode_name="AEP",
+    county_name="Licking County, OH",  # [verified] (city core spans Franklin Co 39049; DC cluster = Licking 39089)
+    map_view_lat=40.09,
+    map_view_lon=-82.7763,
+    map_view_zoom=12,
+)
+
+
+# The Scioto mainstem METRO CORE (Scioto epic #484, onboarding #486): Columbus / Franklin County —
+# the largest municipal water user in the basin and AEP's HQ city. Receiving water = the Scioto
+# River (the Olentangy joins downtown); supply is a MANAGED metro system (the O'Shaughnessy / Hoover
+# / Griggs upground reservoirs + well fields), not a sole-source headwater. Sink = Ohio R. at
+# Portsmouth. Grid is PINNED: AEP Ohio (Ohio Power #14006), PJM AEP zone (AEP HQ is Columbus).
+_COLUMBUS = SiteProfile(
+    slug="columbus",
+    place="Columbus",
+    basin="scioto",  # [verified] Scioto River mainstem → Ohio River (HUC-8 05060001)
+    nwis_sites=[
+        "03227500",  # [verified] Scioto River at Columbus OH (at-site mainstem/abstraction reach; DV since 1920)
+        "03226800",  # [verified] Olentangy River near Worthington OH (Olentangy supply reach; 03227000 at Columbus has no discharge record)
+    ],
+    nasa_power_lat=39.9859,  # [verified] Columbus, OH city centroid (Census TIGER place 3918000)
+    nasa_power_lon=-82.9856,
+    rsei_fips="39049",  # [verified] Franklin County, OH
+    econ_fips="39049",
+    eia861_utility_number=14006,  # [verified] Ohio Power Co (AEP Ohio HQ Columbus); PJM AEP zone
+    eia_state="OH",
+    parcels_url=(  # [reference] substitute = the OGRIP Ohio statewide parcels public view, scoped to County='Franklin'
+        # (the Franklin County Auditor also hosts a fuller native owner+CAMA layer — a follow-up upgrade)
+        "https://services2.arcgis.com/MlJ0G8iWUyC7jAmu/arcgis/rest/services/"
+        "OhioStatewidePacels_full_view/FeatureServer/0"
+    ),
+    zoning_url=(  # [verified] City of Columbus "All Base Zoning" (polygon-only district catalog; city limits only)
+        "https://maps2.columbus.gov/arcgis/rest/services/Applications/Zoning/MapServer/31"
+    ),
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (Columbus ~82.99 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
+    gis_parcel=OHIO_STATEWIDE_PARCEL_SCHEMA.model_copy(
+        update={"reference_dir": "columbus-gis", "query_scope": "County='Franklin'"}
+    ),  # [reference] OGRIP scoped to Franklin; the Franklin County Auditor native owner+CAMA layer is a follow-up upgrade
+    gis_zoning=None,  # [open] City of Columbus zoning is polygon-only (district catalog, city limits); schema-wiring deferred
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "columbus-gis"}),
+    design_lat=39.9859,  # [verified] Columbus centroid = NOAA Atlas-14 point
+    design_lon=-82.9856,
+    corridor_name="Scioto-Olentangy metro corridor",  # [inference] the downtown Scioto mainstem reach
+    dominant_hsg="C",  # [inference] central-Ohio glaciated till plain (Scioto valley), moderately-to-poorly drained
+    hsg_citation=(
+        "Columbus / Franklin County sits in the central-Ohio Scioto valley on glaciated till + "
+        "valley-fill alluvium - a managed metro supply (the O'Shaughnessy/Hoover/Griggs upground "
+        "reservoirs + well fields), not a sole-source buried-valley aquifer - so the uplands are "
+        "moderately-to-poorly-drained till HSG C/D; [inference] pending an SSURGO area-weighted "
+        "confirmation (onboard SSURGO needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
+    parcels_relpath="reference/columbus/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/columbus/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/columbus/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/columbus/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/columbus/baseline.yaml",
+    rsei_relpath="reference/rsei/columbus/inventory.yaml",
+    consumer_energy_relpath="reference/eia/columbus/consumer-energy.yaml",
+    grid_relpath="reference/eia/columbus/grid-profile.yaml",
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending the corridor (the Columbus metro industrial reach)
+    receiving_water_name="Scioto River",  # [verified] the Columbus metro WWTP reach (Jackson Pike + Southerly → Scioto)
+    plant_receiving={},  # [open] pending the Columbus WWTP NPDES fact sheet(s) (Jackson Pike / Southerly)
+    abstraction_gage="03227500",  # [verified] Scioto River at Columbus OH
+    supply_gage_primary="03227500",  # [verified] Scioto River at Columbus
+    supply_gage_secondary="03226800",  # [verified] Olentangy River near Worthington
+    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum
+    passby_secondary_cfs=0.0,  # [open]
+    facility=None,  # [open] data-center dimension = the Columbus-metro cluster + AEP tariff exposure (#486); pending a pinned facility
+    serving_utility_citation=(
+        "EIA-861 service territory (Ohio Power Co #14006, AEP HQ Columbus) + PJM AEP zone. [verified]"
+    ),
+    serving_utility_source="reference",
+    lmp_usd_mwh=45.81,  # [reference] connector-sourced AEP-zone day-ahead annual mean (same PJM AEP zone as Lima, #121)
+    lmp_citation=(
+        "PJM AEP-zone day-ahead annual-mean LMP applied to Columbus (AEP Ohio HQ, PJM AEP zone); "
+        "[reference] connector-sourced (#121)"
+    ),
+    lmp_pnode_id=8445784,  # [verified] PJM AEP zone (same pnode as Lima)
+    lmp_pnode_name="AEP",
+    county_name="Franklin County, OH",  # [verified]
+    map_view_lat=39.961,
+    map_view_lon=-83.004,
+    map_view_zoom=13,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
@@ -2417,6 +2611,8 @@ SITES: dict[str, SiteProfile] = {
     _SIDNEY.slug: _SIDNEY,
     _GREENVILLE.slug: _GREENVILLE,
     _WILMINGTON.slug: _WILMINGTON,
+    _NEW_ALBANY.slug: _NEW_ALBANY,
+    _COLUMBUS.slug: _COLUMBUS,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so

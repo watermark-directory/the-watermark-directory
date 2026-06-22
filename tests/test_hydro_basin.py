@@ -61,6 +61,21 @@ def test_great_miami_mainstems_derived(data_settings: Settings) -> None:
     assert gm.value == pytest.approx(407.67, abs=0.5)  # USGS 03274000 (Hamilton, mouth-ward)
 
 
+def test_scioto_mainstems_derived(data_settings: Settings) -> None:
+    # The Scioto basin's mainstem 7Q10s share the one derived table, keyed by name.
+    derived = basin.load_derived_low_flows(settings=data_settings)
+    scioto = derived[basin._norm("scioto river")]
+    assert scioto.source == "derived"
+    assert scioto.value == pytest.approx(
+        515.73, abs=1.0
+    )  # USGS 03234500 (Higby, mouth-ward) LP3 7Q10
+    bw = derived[basin._norm("big walnut creek")]
+    assert bw.value == pytest.approx(
+        35.43, abs=0.5
+    )  # USGS 03229500 (Rees) — the New Albany receiving water
+    assert derived[basin._norm("olentangy river")].value == pytest.approx(13.53, abs=0.5)
+
+
 def test_basin_screen_follows_active_basin(data_settings: Settings) -> None:
     # A Great Miami site screens the Great Miami inventory, never the Maumee one.
     springfield = Settings(data_dir=REPO_ROOT / "data", site="springfield")

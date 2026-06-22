@@ -1707,7 +1707,9 @@ def reconcile_repair_cmd(
 
 @app.command(name="npdes")
 def npdes(
-    basin: str = typer.Option("maumee", "--basin", help="Watershed slug (maumee | great-miami)."),
+    basin: str = typer.Option(
+        "maumee", "--basin", help="Watershed slug (maumee | great-miami | scioto)."
+    ),
     offline: bool = typer.Option(
         False, "--offline", help="Use cached ECHO responses only; never touch the network."
     ),
