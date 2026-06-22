@@ -1,9 +1,13 @@
-# Maumee-watershed NPDES inventory (EPA ECHO)
+# Network NPDES inventories (EPA ECHO)
 
-Verified inventory of CWA-permitted facilities in the **Maumee River watershed**,
-pulled from EPA's **ECHO Clean Water Act REST services** (`cwa_rest_services`).
-Every facility, NPDES ID, and value here was returned by the ECHO API — nothing is
-fabricated, inferred, or filled in. Regenerate with `bosc npdes`.
+Verified inventories of CWA-permitted facilities per watershed basin, pulled from
+EPA's **ECHO Clean Water Act REST services** (`cwa_rest_services`). Every facility,
+NPDES ID, and value here was returned by the ECHO API — nothing is fabricated,
+inferred, or filled in. Two basins are committed today, each with its own
+`<basin>-wwtp.*` fileset: the **Maumee** (`bosc npdes`, the default) and the **Great
+Miami** (`bosc npdes --basin great-miami`, the Miami-basin sites — Urbana, Springfield,
+WPAFB, Troy-Piqua, Hamilton-Middletown). Add a basin by registering it in
+`bosc.hydrology.connectors.echo`; never hardcode one into the connector.
 
 ## What the watershed is
 
@@ -55,6 +59,25 @@ columns). Numbers come from the API's structured fields, not any text layer.
 dedup: **129 POTW**, 875 non-POTW, 2 federal. POTW design flow present for
 112/129 (the 17 blanks are mostly Michigan general-permit stabilization lagoons
 that don't report a design-flow number).
+
+## Great Miami River basin (`great-miami-wwtp.*`, #446/#455)
+
+The Great Miami (subregion 0508, an Ohio River tributary) is two Ohio HUC-8 subbasins —
+same `p_huc` method and field shape as the Maumee, but the Lima-specific
+`in_lima_subbasin` / `ottawa_discharge` flags are omitted (a Maumee-only concept):
+
+| HUC-8 | subbasin |
+|-------|----------|
+| 05080001 | Upper Great Miami (includes the Mad River) |
+| 05080002 | Lower Great Miami |
+
+Whitewater (**05080003**) is predominantly Indiana drainage and is excluded (mirroring
+the Maumee's excluded WLE neighbors). **Last pull:** 289 active-permit rows across the 2
+HUC-8s → **286 facilities** after FRS dedup, **81 POTW**. The **City of Springfield WWTP**
+(OH0027481, 25 MGD, → Mad River) is present, but ECHO carries no receiving-water value for
+it, so the basin-screen reports it unscreened rather than guess (same gap as Lima WWTP,
+caveat 5). Files: `great-miami-wwtp.all-npdes.yaml`, `great-miami-wwtp.potw.yaml`,
+`great-miami-wwtp.huc-counts.yaml`.
 
 ## Known gaps & caveats (read before using)
 

@@ -32,6 +32,17 @@ def test_maumee_is_seven_subbasins() -> None:
         assert excluded not in echo.MAUMEE_HUC8S
 
 
+def test_basin_registry_and_resolve() -> None:
+    assert echo.resolve_basin("maumee") is echo.MAUMEE
+    assert echo.resolve_basin("great-miami") is echo.GREAT_MIAMI
+    assert echo.resolve_basin(echo.GREAT_MIAMI) is echo.GREAT_MIAMI  # idempotent
+    # The Great Miami is the two Ohio HUC-8s; Whitewater (mostly IN) is excluded.
+    assert list(echo.GREAT_MIAMI_HUC8S) == ["05080001", "05080002"]
+    assert "05080003" not in echo.GREAT_MIAMI_HUC8S
+    with pytest.raises(echo.EchoError, match="unknown basin"):
+        echo.resolve_basin("scioto")
+
+
 def test_fetch_blanchard_from_fixture(hydro_settings: Settings) -> None:
     result = echo.fetch_huc_facilities("04100008", settings=hydro_settings)
     assert result.huc8 == "04100008"
@@ -130,6 +141,35 @@ def test_facility_record_null_is_none() -> None:
     assert rec["design_flow_mgd"] is None  # genuine ECHO null, never 0/estimated
     assert rec["design_flow_missing"] is True
     assert rec["in_lima_subbasin"] is True  # Blanchard is a Lima-area subbasin
+
+
+def test_facility_record_basin_aware() -> None:
+    # A Great Miami record carries the basin's HUC-8 names and omits the Maumee/Lima flags.
+    fac = echo.Facility(
+        name="CITY OF SPRINGFIELD WWTP",
+        frs_registry_id="100",
+        npdes_id="OH0027481",
+        npdes_ids_all="OH0027481",
+        facility_type="POTW",
+        facility_type_code=None,
+        permit_type="NPDES Individual Permit",
+        design_flow_mgd=25.0,
+        receiving_water=None,
+        huc8="05080001",
+        huc12=None,
+        latitude=None,
+        longitude=None,
+        county="CLARK",
+        federal_agency=None,
+        compliance_status=None,
+        informal_enf_count=None,
+        formal_enf_count=None,
+        queried_huc8="05080001",
+    )
+    rec = echo.facility_record(fac, basin=echo.GREAT_MIAMI)
+    assert rec["huc8_name"] == "Upper Great Miami"
+    assert "in_lima_subbasin" not in rec  # a Maumee/Lima concept; absent for other basins
+    assert "ottawa_discharge" not in rec
 
 
 def test_write_inventory_yaml_round_trips(hydro_settings: Settings, tmp_path: Path) -> None:

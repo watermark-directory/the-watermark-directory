@@ -1,0 +1,109 @@
+# Springfield (Clark County, OH) — Data-Center Activity Register
+
+Discover-and-pin register for the Springfield onboarding (epic #451 / onboarding #452;
+sub-issues #454 discover-and-pin, #453 Roshel scope-out). Status **as of 2026-06-22**.
+Tags are BOSC evidentiary discipline: `[verified]` = cited public source, `[inference]`,
+`[open]`. **Nothing here is in the BOSC corpus yet** — this records the *verified public
+record* and the specific primary instruments to *pull*. Every figure is cited; none is
+fabricated. Two developers are kept as **separate registers**; neither bridges to the
+Lima/Allen "Bistrozzi" land-assembly graph (a shared county is not an evidentiary link).
+
+## Disambiguation guardrail (critical)
+
+The large **"New Carlisle" hyperscale** story (Amazon ~$15B; 1,057-acre rezonings; multiple
+campuses) is **New Carlisle, St. Joseph County, INDIANA** (near South Bend) — **not** New
+Carlisle, Clark County, OH. New Carlisle, OH shows **no** data-center activity. `[verified]`
+(St. Joseph County, IN bodies — WSBT/WVPE, 2025.) **No Indiana parcel enters this register.**
+The Clark County activity is concentrated at **PrimeOhio Corporate Park in Springfield**, not
+New Carlisle.
+
+## Project 1 — 5C Data Centers USA / Vultr (flagship)
+
+- **Operator/developer:** 5C Data Centers USA, Inc. (parent 5C Group Inc., Montreal). Anchor
+  cloud tenant **Vultr** (product of **The Constant Company, LLC**). `[verified]`
+- **Location:** 601 Benjamin Drive, PrimeOhio Corporate Park, Springfield (former LexisNexis
+  data center). `[verified]`
+- **Power:** up to **150 MW** max load (City of Springfield FAQ). `[verified]` A ~900 MW
+  ultimate buildout appears on datacentermap (facility "CMH01") and various 2025 articles cite
+  75/200 MW interim phases — **`[open]`, unconfirmed by a primary doc** (the air permit settles it).
+- **Cooling/water:** **closed-loop / direct-liquid** recirculating cooling (not evaporative); up to
+  **300,000 gal/day** permitted from Springfield's **public water system** (a >80 °F extreme-heat
+  max; "near zero" most of the year, ~30k gal/day realistic); exploring an on-site reservoir to
+  avoid the municipal tap. `[verified]`
+- **Air:** 3 existing + 16 planned diesel backup generators; "all generators operate under Ohio
+  EPA permits." `[verified]`
+- **Investment/jobs:** up to **$1.3B** total (Constant Company capital $901,311,378 per JobsOhio);
+  ~120 FT jobs, >$14M payroll; footprint 67,000 → 214,000 ft². Utility: **Ohio Edison** (FirstEnergy). `[verified]`
+- **Instruments:** City **Enterprise Zone** abatement (15-yr/100%, 2028–2042, ~$95M to 5C); State
+  **Ohio Tax Credit Authority** Data-Center sales-tax exemption (10-yr/50%, est. >$32M, The Constant
+  Company, approved Oct 2025). `[verified]`
+- **Status:** under construction; operational early 2026 (Vultr) / full build late 2027. `[verified]`
+
+## Project 2 — Crusoe Energy Systems LLC (separate)
+
+- **Location:** Springfield, Clark County; exact parcel/address **not yet disclosed** (distinct from
+  601 Benjamin Drive). `[verified]` (city) / `[open]` (parcel).
+- **Power/cooling:** **75 MW**; closed-loop water-reuse cooling. ~20 FT jobs, ~$1.5M payroll. `[verified]`
+- **Instrument:** Ohio Tax Credit Authority Data-Center sales-tax exemption (50%/10-yr) approved. `[verified]`
+- **Caution:** "75 MW" appears attributed to *both* a 5C interim phase and the Crusoe project across
+  articles; treat **150 MW** as 5C's authoritative (City FAQ) and **75 MW** as Crusoe's, but confirm
+  each from its own air-permit/utility filing before relying on either in a hydrology scenario. `[open]`
+
+## Regulatory context
+
+- **City moratorium:** a 6-month moratorium on *new* data centers was proposed at the **2026-06-16**
+  Springfield City Commission (Cmsr. Ricketts); does **not** affect 5C (already under construction). `[verified]`
+- **Ohio EPA Draft General NPDES Permit for Data Centers (OHD000001):** statewide draft (comment thru
+  2025-12-17) covering non-contact cooling water, cooling-tower/boiler blowdown, generator/fuel
+  stormwater; bars discharge within 500 yds upstream of a public-water surface intake. Directly
+  relevant to the Springfield receiving-water screen. `[verified]`
+
+## Roshel / International Motors "Springfield APA" — disposition: OUT-OF-GRAPH (#453)
+
+The only pre-existing in-corpus Springfield data-center signal was a **quarantined corridor-context
+prose note** (`docs/COURSE.md:120`, 2026-03-30) on Roshel / International Motors. **Sourced and scoped
+out:** the "Springfield APA" is an **Asset Purchase Agreement** (signed 2026-03-30) under which
+**International Motors LLC** (formerly Navistar) sells its Springfield truck assembly plant (~2M ft² on
+~500 acres off Urbana Road; ~1,325 employees transferring) to **Roshel**, a Canadian armored/commercial-
+vehicle maker, for vertically integrated vehicle production. `[verified]` (International press release
+2026-03-30; Springfield News-Sun; WVXU.) The primary instrument and all coverage contain **no
+data-center, cloud, or compute use**; the deal had not closed (no Clark County Recorder conveyance) as
+of this disposition. `[verified]`
+
+Per discipline, a shared county is **not** an evidentiary link, a manufacturing-plant conveyance is
+**not** data-center land assembly, and the Lima/Allen "Bistrozzi" graph is **not** bridged here. The
+Roshel thread therefore **remains a quarantined `[open]` corridor-context note and does not enter the
+entity graph.** It re-enters scope only on a *filed instrument tying the plant/site to data-center
+reuse*. The prior corpus comments calling it the "Springfield-**Beckley** APA" / a "Roshel-APA
+**data-center** dimension" (`src/bosc/sites.py`) were incorrect and have been corrected to the 5C/Vultr +
+Crusoe thread above.
+
+## Hydrology hook (the receiving-water / source-water screen)
+
+Springfield's screen is an **abstraction / source-water** screen (consumptive cooling draw vs. Mad River
+baseflow + the buried-valley sole-source aquifer), **not** Lima's effluent-vs-7Q10 framing. The pinnable
+cooling-draw input: **150 MW IT load + closed-loop + up to 300,000 gal/day (≈0.46 cfs) permitted-max
+(~30k gal/day realistic)**, screened against the **Mad River 7Q10 = 166.55 cfs** at USGS 03269500 (now
+in `data/reference/hydrology/low-flow-7q10.derived.yaml`, #455) and the sole-source aquifer. Confirm the
+air-permit power figure before relying on the draw. `[open]`
+
+## Pinnable instruments to ingest (priority — the "pin" half of #454)
+
+1. **Ohio EPA Air PTI** — 5C, 601 Benjamin Drive generators (Ohio EPA eDocument System / Air Services,
+   Clark County). **Highest value** — carries the generator count/rating (the power / heat-rejection
+   figure that drives the cooling-draw scenario). Expect a parallel Crusoe PTI.
+2. **Ohio SOS business filings** — 5C Data Centers USA Inc; 5C Group Inc; The Constant Company LLC;
+   Crusoe Energy Systems LLC (registration + Ohio agent → corporate nodes).
+3. **Clark County Recorder/Auditor** — deed + parcel for 601 Benjamin Drive (LexisNexis → 5C); Crusoe
+   parcel when disclosed (location + land-assembly).
+4. **City of Springfield Enterprise Zone Agreement** + ordinance/minutes (5C public-subsidy edge).
+5. **Ohio TCA award documents** — Constant Company (Oct 2025) + Crusoe DC sales-tax exemptions (state edges).
+6. **Ohio EPA NPDES** — whether 5C/Crusoe take coverage under draft General Permit OHD000001 (the Mad
+   River discharge edge, if any; closed-loop should minimize it).
+
+## Sources
+
+City of Springfield 5C FAQ (springfieldohio.gov/5c-data-center-faqs); Springfield News-Sun (5C proposal;
+Crusoe); WYSO (2025-12-09 $1.3B; 2026-01-07 water/energy); JobsOhio (Vultr $1B); WVXU / Work Truck Online
+(Roshel/International APA); International Motors press release 2026-03-30; Bricker Graydon (OHD000001);
+WSBT / WVPE (New Carlisle, IN disambiguation). Full URLs recorded in GitHub issues #454 and #453.

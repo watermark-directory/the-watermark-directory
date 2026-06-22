@@ -1707,6 +1707,7 @@ def reconcile_repair_cmd(
 
 @app.command(name="npdes")
 def npdes(
+    basin: str = typer.Option("maumee", "--basin", help="Watershed slug (maumee | great-miami)."),
     offline: bool = typer.Option(
         False, "--offline", help="Use cached ECHO responses only; never touch the network."
     ),
@@ -1714,20 +1715,26 @@ def npdes(
         None, "--out", help="Output directory (default: data/reference/echo)."
     ),
 ) -> None:
-    """Pull the Maumee-watershed NPDES inventory from EPA ECHO -> deduplicated YAML.
+    """Pull a basin's NPDES inventory from EPA ECHO -> deduplicated YAML.
 
-    Queries the seven Maumee HUC-8 subbasins, deduplicates by FRS Registry ID, and
-    writes a POTW-only YAML, an all-dischargers YAML, and a per-HUC count manifest.
+    Queries the basin's HUC-8 subbasins, deduplicates by FRS Registry ID, and writes a
+    POTW-only YAML, an all-dischargers YAML, and a per-HUC count manifest. The basin is a
+    registry entry in ``bosc.hydrology.connectors.echo`` (default: the Maumee).
     """
     from bosc.config import Settings
     from bosc.hydrology.connectors import echo
+
+    try:
+        b = echo.resolve_basin(basin)
+    except echo.EchoError as exc:
+        raise typer.BadParameter(str(exc), param_hint="--basin") from exc
 
     settings = get_settings()
     if offline:
         settings = Settings(hydro_offline=True)
     target = Path(out_dir) if out_dir else settings.reference_dir / "echo"
 
-    results = echo.fetch_maumee(settings=settings)
+    results = echo.fetch_basin(b, settings=settings)
 
     table = Table("HUC-8", "subbasin", "reported", "pulled", "POTWs")
     for res in results:
@@ -1741,16 +1748,16 @@ def npdes(
     n_potw = sum(1 for f in deduped if f.is_potw)
     raw = sum(len(r.facilities) for r in results)
     console.print(
-        f"\n[bold]{raw}[/] rows across 7 HUC-8s -> [bold]{len(deduped)}[/] facilities after "
-        f"FRS dedup ([green]{n_potw} POTW[/], {len(deduped) - n_potw} non-POTW)."
+        f"\n[bold]{raw}[/] rows across {len(b.huc8s)} HUC-8s -> [bold]{len(deduped)}[/] facilities "
+        f"after FRS dedup ([green]{n_potw} POTW[/], {len(deduped) - n_potw} non-POTW)."
     )
 
-    paths = echo.write_inventory(results, target)
+    paths = echo.write_inventory(results, target, basin=b)
     for label, path in paths.items():
         console.print(f"[green]Wrote[/] {label}: {path}")
     console.print(
         "[dim]Gaps: ECHO CWA search has no CWNS column; not every NPDES ID geocodes to a "
-        "HUC (WATERS); 4 subbasins cross into IN/MI — cross-check state lists.[/]"
+        "HUC (WATERS); cross-check the state discharger list for completeness.[/]"
     )
 
 

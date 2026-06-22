@@ -37,15 +37,26 @@ from bosc.logging import get_logger
 log = get_logger(__name__)
 
 _DERIVED_FILE = "low-flow-7q10.derived.yaml"
-_POTW_INVENTORY = ("echo", "maumee-wwtp.potw.yaml")
+# The basin POTW inventory the screen reads is selected by the active site's basin
+# (``SiteProfile.basin``); a basin with no committed inventory yet screens against an
+# empty set rather than borrowing another basin's dischargers.
+_BASIN_POTW_INVENTORY: dict[str, tuple[str, str]] = {
+    "maumee": ("echo", "maumee-wwtp.potw.yaml"),
+    "great-miami": ("echo", "great-miami-wwtp.potw.yaml"),
+}
 _MIN_YEARS = 20  # climatic years of record needed for a defensible LP3 7Q10
 
-# Curated major Maumee-basin mainstems with a long-record USGS gage. ``aliases`` are the
-# exact ECHO ``receiving_water`` surface forms (comma-split) that mean a *direct*
-# discharge to this mainstem — not a tributary "via"/"to" it. Verified to return a
-# multi-decade daily-discharge record from NWIS. (Little Auglaize is omitted: its only
-# gage, 04191058, has <10 yr of record — too short for a defensible 7Q10.)
+# Curated major network mainstems with a long-record USGS gage, grouped by basin.
+# ``aliases`` are the exact ECHO ``receiving_water`` surface forms (comma-split) that
+# mean a *direct* discharge to this mainstem — not a tributary "via"/"to" it. Each gage
+# is verified to return a multi-decade daily-discharge record from NWIS, and is the
+# lower/mouth-ward mainstem gage (the Maumee-at-Waterville convention): one
+# medium-confidence screening proxy per mainstem, applied basin-wide by receiving-water
+# name. (Little Auglaize is omitted: its only gage, 04191058, has <10 yr of record.)
+# The derived table is a single shared file keyed by receiving-water name across basins;
+# names don't collide between the Maumee and Great Miami, so one merged lookup is safe.
 _MAINSTEM_GAGES: dict[str, dict[str, Any]] = {
+    # Maumee basin (subregion 0410, Western Lake Erie).
     "Maumee River": {"gage": "04193500", "aliases": ["maumee river"]},
     "Auglaize River": {"gage": "04186500", "aliases": ["auglaize river", "auglaze river"]},
     "St. Marys River": {
@@ -55,6 +66,15 @@ _MAINSTEM_GAGES: dict[str, dict[str, Any]] = {
     "St. Joseph River": {
         "gage": "04178000",
         "aliases": ["st joseph river", "st. joseph river", "saint joseph river", "st joseph r"],
+    },
+    # Great Miami basin (subregion 0508, → Ohio River). Mad River uses the lower-reach
+    # gage near Springfield (03269500, DA 490 mi²); the upper reach near Urbana
+    # (03267000, DA ~160 mi², a smaller 7Q10) is the site abstraction gage, not the
+    # basin-screen proxy. Great Miami River uses the mouth-ward gage at Hamilton.
+    "Mad River": {"gage": "03269500", "aliases": ["mad river"]},
+    "Great Miami River": {
+        "gage": "03274000",
+        "aliases": ["great miami river", "great miami r", "miami river"],
     },
 }
 
@@ -125,7 +145,7 @@ def write_derived_low_flows(
     path.parent.mkdir(parents=True, exist_ok=True)
     doc = {
         "meta": {
-            "subject": "DERIVED receiving-stream 7Q10s for the major Maumee-basin mainstems",
+            "subject": "DERIVED receiving-stream 7Q10s for the major network mainstems (Maumee + Great Miami)",
             "source": "USGS NWIS daily discharge -> log-Pearson III (bosc.hydrology.lowflow_frequency)",
             "discipline": (
                 "DERIVED screening denominators (source=derived), NOT cited regulatory "
@@ -194,8 +214,22 @@ class BasinScreen(BaseModel):
     checks: list[AssimilativeCheck]
 
 
+def _inventory_path(settings: Settings) -> Path:
+    """The POTW inventory file for the active site's basin (``maumee-wwtp.potw.yaml`` etc.).
+
+    Selected by ``SiteProfile.basin`` so a Great Miami site screens against the Great
+    Miami inventory, never the Maumee one. An unregistered basin maps to the conventional
+    ``<basin>-wwtp.potw.yaml`` name (absent file -> empty screen, never a wrong-basin one).
+    """
+    from bosc.sites import active_profile
+
+    basin = active_profile(settings).basin
+    rel = _BASIN_POTW_INVENTORY.get(basin, ("echo", f"{basin}-wwtp.potw.yaml"))
+    return settings.reference_dir / Path(*rel)
+
+
 def _load_dischargers(settings: Settings) -> list[dict[str, Any]]:
-    path = settings.reference_dir / Path(*_POTW_INVENTORY)
+    path = _inventory_path(settings)
     if not path.is_file():
         return []
     data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}

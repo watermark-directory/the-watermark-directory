@@ -6,9 +6,24 @@ Springfield is the network's **second Miami-basin site** (epic #451 / onboarding
 
 ## Dimension coverage
 
-- [~] **Hydrology** — corridor-DDF + climatology connectors ran (Springfield-specific, cited); but the **Mad River 7Q10 is absent from both low-flow tables** and the basin-screen ran against the *Maumee* ECHO inventory (meaningless for the Great Miami) — the Springfield receiving-water screen is, in substance, empty (the same hole as Urbana — shares #445/#446). The site's distinguishing **Buck Creek / C.J. Brown Reservoir** second supply is not yet in the balance. SSURGO skipped (no footprint → HSG B stays `[inference]`).
+- [x] **Hydrology** — corridor-DDF + climatology connectors ran (Springfield-specific, cited).
+  **Receiving-water screen now real (#455 / #445 / #446):** the **Mad River 7Q10 is derived** at
+  USGS 03269500 (Springfield reach) = **166.55 cfs** in `low-flow-7q10.derived.yaml`, and the
+  basin-screen runs against a committed **Great Miami** ECHO inventory (`great-miami-wwtp.potw.yaml`,
+  81 POTW) — **14 screened**, replacing the meaningless Maumee 7/129. The distinguishing **Buck Creek
+  / C.J. Brown Reservoir** second supply has **no derivable discharge 7Q10** — gage 03268100 is a
+  reservoir-release / stage gage with no daily-discharge record (1980-2024) — recorded as a finding.
+  SSURGO still skipped (no footprint → HSG B stays `[inference]`).
 - [~] **Economics** — county baseline + consumer-energy ran (high-confidence: Clark Co). RSEI skipped (v234 `elements.csv.gz` cache miss). grid-profile errored (utility `#0` unpinned — Clark County sits at the **AEP/DAY seam**; pin the EIA-861 utility + PJM zone before publishing any grid figure).
-- [~] **Data-center activity** — self-research first pass run (#247); **the barest leg in the network.** `[verified]` **zero** Springfield primary documents in the corpus (0 matches across 1,485 document lines + 328 timeline lines; no Springfield party/facility/permit/receiving-water in the entity graph). The only in-corpus Springfield signal is one analysis-prose note in `docs/COURSE.md` — **Roshel / International Motors (Springfield APA, 2026-03-30)** — logged **strictly as corridor context, *not* a connection**: the evidence does not link it to BOSC and it **must not enter the entity graph**. See self-research summary below.
+- [~] **Data-center activity** — self-research first pass (#247) found `[verified]` **zero** Springfield
+  primary documents in the corpus. The follow-up discover-and-pin sweep (#454) found the activity is
+  **real and pinnable** — recorded in [`data-centers.md`](data-centers.md): **5C Data Centers / Vultr**
+  at PrimeOhio (601 Benjamin Drive — 150 MW, closed-loop, up to **300k gal/day** permitted municipal
+  water) + a separate **Crusoe** build (75 MW), both with state/city subsidy instruments; the giant
+  "New Carlisle" hyperscale story is **Indiana**, not Clark County (guardrail). The Roshel / International
+  Motors "Springfield APA" prose note is **scoped out** (#453) — an armored-vehicle plant Asset Purchase
+  Agreement, no data-center link; it stays a quarantined out-of-graph note. **Still `[open]`:** the primary
+  instruments (air PTI, SOS, deed, EZ/TCA) are listed in `data-centers.md` but not yet ingested.
 - [ ] **Per-jurisdiction GIS** — Clark County parcels / City of Springfield zoning connector (the known lift; see docs/onboarding.md). Flood = national NFHL (wired).
 
 ## Last onboard run (2026-06-21, `--research`)
@@ -16,11 +31,11 @@ Springfield is the network's **second Miami-basin site** (epic #451 / onboarding
 | step | status | output |
 |---|---|---|
 | scaffold | ok | per-site dirs + READMEs |
-| derive-low-flows | ok | reference/hydrology/low-flow-7q10.derived.yaml (Maumee mainstems only — no Mad River) |
+| derive-low-flows | ok | low-flow-7q10.derived.yaml — now **includes Mad River 166.55 cfs (03269500)** + Great Miami River 407.67 (03274000) (#455/#445) |
 | corridor-ddf | ok | reference/hydrology/springfield/atlas14-corridor-ddf.yaml |
 | ssurgo-hsg | skipped | footprint missing: extracted/springfield/bosc-site-footprint.yaml |
 | climatology | ok | reference/hydrology/springfield/nasa-power-climatology.yaml |
-| basin-screen | ok (Maumee) | 7/129 dischargers — the Maumee inventory; **no Great-Miami coverage** |
+| basin-screen | ok (Great Miami) | **14/81 POTW** screened vs Mad River + Great Miami 7Q10 (`great-miami-wwtp.potw.yaml`, #446/#455) |
 | econ-baseline | ok | reference/economics/springfield/baseline.yaml |
 | rsei | skipped | cache miss (elements.csv.gz); no Clark-Co toxics inventory |
 | consumer-energy | ok | reference/eia/springfield/consumer-energy.yaml |
@@ -80,7 +95,7 @@ NPDES + Mad-River-at-Springfield 7Q10 (with #445/#446); and pin the Clark County
 
 - [ ] Every written reference value is reviewed against a cited source (no fabricated values).
 - [ ] SSURGO dominant HSG matches the profile, or the SiteProfile is updated with a citation. (HSG B is `[inference]`; footprint needed.)
-- [ ] basin-screen coverage is sane for this site's receiving waters. (**Currently the Maumee inventory — a Great-Miami inventory + Mad-River 7Q10 are required.**)
+- [x] basin-screen coverage is sane for this site's receiving waters. (**Great Miami inventory + Mad River 7Q10 committed; 14/81 screened (#446/#455). The Springfield WWTP itself is unscreened — ECHO carries no receiving water for it — exactly like Lima WWTP.**)
 - [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
 - [x] Self-research first pass reviewed (Phase 5, 2026-06-21; data-center = barest leg, receiving-water screen empty; proposals triaged — 4 filed as sub-issues of #452, 3 resolved/moot recorded above).
 - [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'springfield' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

@@ -1,0 +1,1641 @@
+meta:
+  subject: Great Miami-watershed NPDES wastewater dischargers
+  scope: POTWs only (CWPFacilityTypeIndicator == POTW)
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  watershed: Great Miami River — 2 HUC-8 subbasins, subregion 0508 (Ohio River tributary)
+  huc8s:
+    05080001: Upper Great Miami
+    05080002: Lower Great Miami
+  dedup_key: FRS RegistryID
+  count: 81
+  caveats:
+  - ECHO's CWA facility service has no CWNS column; the POTW flag rests on CWPFacilityTypeIndicator.
+  - Facilities link to HUCs via WATERS (FacDerivedHuc); a permit that didn't geocode
+    can be missed.
+  - design_flow_mgd is null where ECHO returned no value; it is never estimated.
+  - Whitewater (05080003) is predominantly Indiana drainage and is excluded; cross-check
+    Ohio EPA / IDEM near the basin mouth for completeness.
+facilities:
+- frs_registry_id: '110006206541'
+  name: ADVENTURE TRAILS OHIO LLC
+  npdes_id: OH0127108
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0075
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011502
+  county: LOGAN
+  latitude: 40.3765
+  longitude: -83.70069
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110009611303'
+  name: ANNA STP
+  npdes_id: OH0023370
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.4
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010501
+  county: SHELBY
+  latitude: 40.39506
+  longitude: -84.18289
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110040023462'
+  name: ANSONIA WWTP
+  npdes_id: OH0023884
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.35
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010905
+  county: DARKE
+  latitude: 40.220565
+  longitude: -84.631933
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110006238231'
+  name: ARCANUM WWTP
+  npdes_id: OH0020940
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.4
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011302
+  county: DARKE
+  latitude: 39.98645
+  longitude: -84.55067
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110008580918'
+  name: ARROWHEAD WWTP
+  npdes_id: OH0115711
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.07
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010604
+  county: SHELBY
+  latitude: 40.24763
+  longitude: -84.23205
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110002320998'
+  name: BELLEFONTAINE WWTP
+  npdes_id: OH0024066
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.5
+  design_flow_missing: false
+  receiving_water: POSSUM RUN CREEK
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010305
+  county: LOGAN
+  latitude: 40.35368
+  longitude: -83.77535
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110006218084'
+  name: BOTKINS WWTP
+  npdes_id: OH0022217
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.5
+  design_flow_missing: false
+  receiving_water: LORAMIE CREEK
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010501
+  county: SHELBY
+  latitude: 40.454
+  longitude: -84.1792
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110009162841'
+  name: BRADFORD WASTEWATER TREATMENT PLANT
+  npdes_id: OH0020192
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.48
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011204
+  county: MIAMI
+  latitude: 40.138125
+  longitude: -84.42769
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110009821611'
+  name: CATAWBA SD
+  npdes_id: OH0093165
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: UNNAMED TRIBUTARY OF EAST FORK OF BUCK CREEK
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011701
+  county: CLARK
+  latitude: 39.9894
+  longitude: -83.6408
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110012300447'
+  name: CITY OF NEW CARLISLE WWTP
+  npdes_id: OH0020044
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800012004
+  county: CLARK
+  latitude: 39.933961
+  longitude: -84.034192
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110000761364'
+  name: CITY OF SPRINGFIELD WWTP
+  npdes_id: OH0027481
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 25.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011805
+  county: CLARK
+  latitude: 39.9161
+  longitude: -83.84472
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110006700276'
+  name: COVINGTON WWTP
+  npdes_id: OH0020761
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.75
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011303
+  county: MIAMI
+  latitude: 40.11497
+  longitude: -84.3519
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110006290236'
+  name: ENGLEWOOD WWTP
+  npdes_id: OH0025011
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 2.5
+  design_flow_missing: false
+  receiving_water: STILLWATER RIVER
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011406
+  county: MONTGOMERY
+  latitude: 39.86785
+  longitude: -84.283
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110039702701'
+  name: FAIRBORN WATER RECLAMATION CENTER
+  npdes_id: OH0025062
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 6.0
+  design_flow_missing: false
+  receiving_water: MAD RIVER
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011903
+  county: GREENE
+  latitude: 39.836506
+  longitude: -84.060611
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110002345472'
+  name: GREENVILLE WWTP
+  npdes_id: OH0025429
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.5
+  design_flow_missing: false
+  receiving_water: GREENVILLE CREEK
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011102
+  county: DARKE
+  latitude: 40.10013
+  longitude: -84.61792
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110008586020'
+  name: HICKORY DELL ESTATES WWTP
+  npdes_id: OH0127205
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.02
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010703
+  county: SHELBY
+  latitude: 40.24139
+  longitude: -84.1665
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110064595585'
+  name: INDIAN LAKE REGIONAL WWTP
+  npdes_id: OH0036641
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.6
+  design_flow_missing: false
+  receiving_water: GREAT MIAMI RIVER
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010302
+  county: LOGAN
+  latitude: 40.46082
+  longitude: -83.89664
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110006275244'
+  name: JACKSON CENTER WWTP
+  npdes_id: OH0025861
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.37
+  design_flow_missing: false
+  receiving_water: JACKSON CENTER CREEK
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010203
+  county: SHELBY
+  latitude: 40.44602
+  longitude: -84.04368
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110006206480'
+  name: KAMP-A-LOTT CAMPGROUND
+  npdes_id: OH0133639
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011502
+  county: LOGAN
+  latitude: 40.35208
+  longitude: -83.67883
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110009637615'
+  name: LAKE LORAMIE SPECIAL SANITARY SD
+  npdes_id: OH0096733
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.6
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010503
+  county: AUGLAIZE
+  latitude: 40.36377
+  longitude: -84.369551
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110009821274'
+  name: LAURA WWTP
+  npdes_id: OH0112704
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.06
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011402
+  county: MIAMI
+  latitude: 39.99031
+  longitude: -84.4087
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110039724527'
+  name: MINSTER WWTP
+  npdes_id: OH0026573
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 2.5
+  design_flow_missing: false
+  receiving_water: MIAMI & ERIE CANAL, MIAMI AND ERIE CANAL
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010503
+  county: AUGLAIZE
+  latitude: 40.38574
+  longitude: -84.3829
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110000578919'
+  name: PIQUA WWTP
+  npdes_id: OH0027049
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 8.7
+  design_flow_missing: false
+  receiving_water: GREAT MIAMI RIVER
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010705
+  county: MIAMI
+  latitude: 40.13128
+  longitude: -84.23466
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110011017336'
+  name: PLEASANT HILL WWTP
+  npdes_id: OH0029475
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011303
+  county: MIAMI
+  latitude: 40.05182
+  longitude: -84.348583
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110006699368'
+  name: ROLIN ACRES SUBDIV WWTP
+  npdes_id: OH0085561
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.024
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010904
+  county: DARKE
+  latitude: 40.100579
+  longitude: -84.631319
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110006347239'
+  name: SAINT PARIS WWTP
+  npdes_id: OH0021806
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011603
+  county: CHAMPAIGN
+  latitude: 40.1316
+  longitude: -83.94918
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110002345597'
+  name: SIDNEY WWTP
+  npdes_id: OH0027421
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 7.0
+  design_flow_missing: false
+  receiving_water: GREAT MIAMI RIVER
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010703
+  county: SHELBY
+  latitude: 40.2709
+  longitude: -84.15031
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110064255700'
+  name: SOUTH VIENNA VILLAGE WWTP
+  npdes_id: OH0105198
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0772
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011704
+  county: CLARK
+  latitude: 39.9276
+  longitude: -83.6168
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110064612575'
+  name: SOUTHWEST REGIONAL WWTP
+  npdes_id: OH0049794
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.0
+  design_flow_missing: false
+  receiving_water: MAD RIVER
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011806
+  county: CLARK
+  latitude: 39.87081
+  longitude: -84.02117
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110012664492'
+  name: SUNSET TERRACE MOBILE HOME PARK
+  npdes_id: OH0132098
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011801
+  county: CHAMPAIGN
+  latitude: 40.05494
+  longitude: -83.78139
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110000570757'
+  name: TRI-CITIES NORTH REGIONAL WW AUTHORITY
+  npdes_id: OH0049646
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 11.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800012005
+  county: MONTGOMERY
+  latitude: 39.825
+  longitude: -84.150472
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110002345613'
+  name: TROY WWTP
+  npdes_id: OH0027758
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 9.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010805
+  county: MIAMI
+  latitude: 40.02492
+  longitude: -84.19087
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110006660498'
+  name: UNION CITY WWTP
+  npdes_id: OH0022454
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: DISMAL CREEK
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011001
+  county: DARKE
+  latitude: 40.193717
+  longitude: -84.784272
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110039740171'
+  name: UNION WWTP
+  npdes_id: OH0021644
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.0
+  design_flow_missing: false
+  receiving_water: UNNAMED TRIBUTARY OF THE STILLWATER RIVER
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011405
+  county: MONTGOMERY
+  latitude: 39.898299
+  longitude: -84.304551
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110001855449'
+  name: URBANA WPCF
+  npdes_id: OH0027880
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.5
+  design_flow_missing: false
+  receiving_water: MAD  RIVER
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011607
+  county: CHAMPAIGN
+  latitude: 40.10405
+  longitude: -83.78147
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110007719567'
+  name: VERSAILLES WWTP
+  npdes_id: OH0020656
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.75
+  design_flow_missing: false
+  receiving_water: SWAMP CREEK
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011202
+  county: DARKE
+  latitude: 40.22057
+  longitude: -84.49356
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110009822692'
+  name: VILLAGES OF QUINCY AND DEGRAFF WWTP
+  npdes_id: OH0035882
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.495
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010406
+  county: LOGAN
+  latitude: 40.304587
+  longitude: -83.967272
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110006376359'
+  name: WAYNESFIELD WWTP
+  npdes_id: OH0028029
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.123
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800010202
+  county: AUGLAIZE
+  latitude: 40.58921
+  longitude: -83.96996
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110006302811'
+  name: WEST LIBERTY STP
+  npdes_id: OH0022098
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.5
+  design_flow_missing: false
+  receiving_water: W LIBERTY TRIBUTARY, WEST LIBERTY TRIBUTARY
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011504
+  county: LOGAN
+  latitude: 40.2465
+  longitude: -83.7652
+  compliance_status: Effluent - Non-monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110011017540'
+  name: WEST MILTON WWTP
+  npdes_id: OH0021857
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.2
+  design_flow_missing: false
+  receiving_water: STILLWATER RIVER
+  huc8: 05080001
+  huc8_name: Upper Great Miami
+  huc12: 050800011404
+  county: MIAMI
+  latitude: 39.95135
+  longitude: -84.32347
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080001
+- frs_registry_id: '110011017764'
+  name: BROOKVILLE WWTP
+  npdes_id: OH0020605
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020102
+  county: MONTGOMERY
+  latitude: 39.82638
+  longitude: -84.4089
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110009699246'
+  name: CAMDEN WWTP
+  npdes_id: OH0024317
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.35
+  design_flow_missing: false
+  receiving_water: SEVEN MILE CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020504
+  county: PREBLE
+  latitude: 39.62311
+  longitude: -84.64992
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110012660441'
+  name: CAMP CAMPBELL GARD
+  npdes_id: OH0131865
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020706
+  county: BUTLER
+  latitude: 39.43375
+  longitude: -84.49571
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110002321069'
+  name: DAYTON WWTP
+  npdes_id: OH0024881
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 72.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020105
+  county: MONTGOMERY
+  latitude: 39.72541
+  longitude: -84.23007
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006280354'
+  name: EATON WWTP
+  npdes_id: OH0020907
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.9
+  design_flow_missing: false
+  receiving_water: SEVEN MILE CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020501
+  county: PREBLE
+  latitude: 39.73333
+  longitude: -84.63417
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110009822353'
+  name: ELDORADO WWTP
+  npdes_id: OH0049492
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.1
+  design_flow_missing: false
+  receiving_water: PRICE CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020204
+  county: PREBLE
+  latitude: 39.89875
+  longitude: -84.6773
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110004705542'
+  name: FAIRFIELD WWTP
+  npdes_id: OH0025071
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 10.0
+  design_flow_missing: false
+  receiving_water: GREAT MIAMI RIVER
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020902
+  county: BUTLER
+  latitude: 39.34756
+  longitude: -84.59027
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006211713'
+  name: FARMERSVILLE WWTP
+  npdes_id: OH0020770
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.22
+  design_flow_missing: false
+  receiving_water: UNNAMED TRIBUTARY OF TWIN CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020305
+  county: MONTGOMERY
+  latitude: 39.67948
+  longitude: -84.42385
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006215755'
+  name: GRATIS WWTP
+  npdes_id: OH0047571
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.119
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020304
+  county: PREBLE
+  latitude: 39.64468
+  longitude: -84.52926
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110004637769'
+  name: HAMILTON WATER RECLAMATION FACILITY
+  npdes_id: OH0025445
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 32.0
+  design_flow_missing: false
+  receiving_water: GREAT MIAMI RIVER, TWO MILE CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020902
+  county: BUTLER
+  latitude: 39.37195
+  longitude: -84.56885
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110011017103'
+  name: HUESTON WOODS STATE PARK BEACH & MARINA
+  npdes_id: OH0037541
+  npdes_ids_secondary:
+  - OH0037532
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.055
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020604
+  county: BUTLER
+  latitude: 39.58234
+  longitude: -84.76156
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006212053'
+  name: JEFFERSON TWP JR HIGH ELEM
+  npdes_id: OH0132250
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020402
+  county: MONTGOMERY
+  latitude: 39.70246
+  longitude: -84.30908
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006280461'
+  name: LAKENGREN WATER AUTHORITY
+  npdes_id: OH0049476
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.6
+  design_flow_missing: false
+  receiving_water: SUGAR RUN
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020502
+  county: PREBLE
+  latitude: 39.67754
+  longitude: -84.708456
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110009688579'
+  name: LESOURDSVILLE WATER RECLAMATION FACILITY
+  npdes_id: OH0049417
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 15.0
+  design_flow_missing: false
+  receiving_water: GREAT MIAMI RIVER
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020706
+  county: BUTLER
+  latitude: 39.43215
+  longitude: -84.44224
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110009822923'
+  name: LEWISBURG WWTP
+  npdes_id: OH0026051
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.261
+  design_flow_missing: false
+  receiving_water: TWIN CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020205
+  county: PREBLE
+  latitude: 39.8474
+  longitude: -84.5391
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110009699237'
+  name: MAYFLOWER ESTATES WWTP
+  npdes_id: OH0025623
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.08
+  design_flow_missing: false
+  receiving_water: UNNAMED TRIB. BANKLICK CREEK, UT TO BANKLICK CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020902
+  county: HAMILTON
+  latitude: 39.28728
+  longitude: -84.57937
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110039783936'
+  name: MIAMISBURG WATER RECLAMATION FACILITY
+  npdes_id: OH0026492
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.0
+  design_flow_missing: false
+  receiving_water: GREAT MIAMI RIVER
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020404
+  county: MONTGOMERY
+  latitude: 39.61764
+  longitude: -84.29049
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110000540834'
+  name: MIDDLETOWN WWTP
+  npdes_id: OH0026522
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 26.0
+  design_flow_missing: false
+  receiving_water: GREAT MIAMI RIVER
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020706
+  county: BUTLER
+  latitude: 39.48147
+  longitude: -84.42723
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: 1
+  queried_huc8: 05080002
+- frs_registry_id: '110015648717'
+  name: MODERN ICE
+  npdes_id: OH0133795
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020905
+  county: HAMILTON
+  latitude: 39.169595
+  longitude: -84.637571
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110010578142'
+  name: NEW MIAMI WWTP
+  npdes_id: OH0026719
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.8
+  design_flow_missing: false
+  receiving_water: FOUR MILE CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020605
+  county: BUTLER
+  latitude: 39.43437
+  longitude: -84.54473
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110000735410'
+  name: OXFORD WWTP
+  npdes_id: OH0026930
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020604
+  county: BUTLER
+  latitude: 39.496117
+  longitude: -84.720189
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006314247'
+  name: PEACHGROVE TOWNHOUSE CONDOS
+  npdes_id: OH0118028
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020904
+  county: HAMILTON
+  latitude: 39.23398
+  longitude: -84.62702
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110009610787'
+  name: PREBLE COUNTY SANITARY LANDFILL
+  npdes_id: OH0122807
+  npdes_ids_secondary:
+  - OH0092886
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020503
+  county: PREBLE
+  latitude: 39.688082
+  longitude: -84.641051
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006350046'
+  name: QUEEN ACRES WATER RECLAMATION FACILITY
+  npdes_id: OH0024261
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.6
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020803
+  county: BUTLER
+  latitude: 39.39128
+  longitude: -84.645889
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006201751'
+  name: SKYRIDGE APARTMENT HOMES
+  npdes_id: OH0071803
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIBUTARY OF TAYLOR CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020905
+  county: HAMILTON
+  latitude: 39.19156
+  longitude: -84.65484
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006314265'
+  name: SKYRIDGE APARTMENT HOMES
+  npdes_id: OH0115797
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIBUTARY OF TAYLOR CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020905
+  county: HAMILTON
+  latitude: 39.19079
+  longitude: -84.657013
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110002464100'
+  name: SPRINGBORO WASTEWATER TREATMENT FACILITY
+  npdes_id: OH0027472
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020403
+  county: WARREN
+  latitude: 39.55042
+  longitude: -84.24035
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110009821988'
+  name: SYCAMORE TRAILS WWTP
+  npdes_id: OH0072451
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.18
+  design_flow_missing: false
+  receiving_water: BEECH RUN
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020403
+  county: WARREN
+  latitude: 39.55955
+  longitude: -84.1732
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006200878'
+  name: TAYLOR CREEK WWTP
+  npdes_id: OH0040983
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 5.5
+  design_flow_missing: false
+  receiving_water: GREAT MIAMI RIVER
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020906
+  county: HAMILTON
+  latitude: 39.2158
+  longitude: -84.69376
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006235181'
+  name: THE PINES MHC
+  npdes_id: OH0127329
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020706
+  county: BUTLER
+  latitude: 39.44587
+  longitude: -84.51456
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006767132'
+  name: VALLEY RURAL UTILITY COMPANY
+  npdes_id: INJ043168
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: Individual State Issued Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: DOUBBLE LICK CR & HIDDEN VALLEY LK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020907
+  county: DEARBORN
+  latitude: 39.157111
+  longitude: -84.822778
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110064255540'
+  name: VERONA WWTP
+  npdes_id: OH0131849
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.085
+  design_flow_missing: false
+  receiving_water: SWAMP CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020203
+  county: PREBLE
+  latitude: 39.90416
+  longitude: -84.48532
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110009643822'
+  name: VILLAGE OF NEW LEBANON
+  npdes_id: OH0026697
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.8
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020401
+  county: MONTGOMERY
+  latitude: 39.74832
+  longitude: -84.37949
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006233520'
+  name: VINOKLET WINERY
+  npdes_id: OH0127141
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0026
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020904
+  county: HAMILTON
+  latitude: 39.28232
+  longitude: -84.61351
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006348274'
+  name: WADE MILL WATER RECLAMATION FACILITY
+  npdes_id: OH0123145
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020904
+  county: BUTLER
+  latitude: 39.3111
+  longitude: -84.6525
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110006215951'
+  name: WEST ALEXANDRIA WWTP
+  npdes_id: OH0021598
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.3
+  design_flow_missing: false
+  receiving_water: TWIN CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020205
+  county: PREBLE
+  latitude: 39.744072
+  longitude: -84.524393
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110000735214'
+  name: WEST CARROLLTON WWTP
+  npdes_id: OH0020133
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.4
+  design_flow_missing: false
+  receiving_water: GREAT MIAMI RIVER
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020503
+  county: MONTGOMERY
+  latitude: 39.66762
+  longitude: -84.26193
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110009977775'
+  name: WEST COLLEGE CORNER WWTP, TOWN OF
+  npdes_id: IN0039411
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.24
+  design_flow_missing: false
+  receiving_water: MIAMI R VIA LITTLE FOURMILE CREEK, W FK FOURMILE CR, WEST FORK
+    OF FOUR MILE CREEK
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020802
+  county: UNION
+  latitude: 39.559056
+  longitude: -84.816167
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 4
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110024560919'
+  name: WEST MANCHESTER WWTP
+  npdes_id: OH0127540
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.065
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020202
+  county: PREBLE
+  latitude: 39.90222
+  longitude: -84.625363
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110017742111'
+  name: WESTERN REGIONAL WRF
+  npdes_id: OH0026638
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 20.0
+  design_flow_missing: false
+  receiving_water: GREAT MIAMI RIVER
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020106
+  county: MONTGOMERY
+  latitude: 39.68272
+  longitude: -84.25176
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05080002
+- frs_registry_id: '110015640207'
+  name: WOODLAND COUNTRY MANOR
+  npdes_id: OH0134023
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIBUTARY OF HARKERS RUN
+  huc8: 05080002
+  huc8_name: Lower Great Miami
+  huc12: 050800020604
+  county: BUTLER
+  latitude: 39.54401
+  longitude: -84.69673
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05080002
