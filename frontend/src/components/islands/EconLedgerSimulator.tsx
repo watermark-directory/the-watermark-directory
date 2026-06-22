@@ -33,6 +33,7 @@ import {
   summarize,
   tornado,
 } from "../../lib/uncertainty";
+import { Line, Slider } from "./scenarioControls";
 import { DistributionStrip, RegisterMark, TornadoChart } from "./uncertaintyGrammar";
 
 const REFRESH_CENTRAL = 1.5;
@@ -273,64 +274,6 @@ export default function EconLedgerSimulator(): JSX.Element {
           </p>
         </div>
       )}
-    </div>
-  );
-}
-
-function Slider({
-  label,
-  value,
-  min,
-  max,
-  step,
-  onChange,
-  fmt,
-  register,
-}: {
-  label: string;
-  value: number;
-  min: number;
-  max: number;
-  step: number;
-  onChange: (v: number) => void;
-  fmt: (v: number) => string;
-  register: "verified" | "assumption" | "open";
-}): JSX.Element {
-  return (
-    <label className="unc-slider">
-      <span className="unc-slider-label">
-        <RegisterMark register={register} /> {label}
-      </span>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-      />
-      <span className="unc-slider-val">{fmt(value)}</span>
-    </label>
-  );
-}
-
-function Line({
-  label,
-  value,
-  register,
-  strong,
-}: {
-  label: string;
-  value: string;
-  register: "verified" | "assumption" | "inference" | "open";
-  strong?: boolean;
-}): JSX.Element {
-  return (
-    <div className={`unc-line${strong ? " is-strong" : ""}`}>
-      <dt>
-        <RegisterMark register={register} /> {label}
-      </dt>
-      <dd>{value}</dd>
     </div>
   );
 }

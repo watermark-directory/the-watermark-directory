@@ -10,8 +10,6 @@ globs:
 
 # Hand-authored docs only. Excludes:
 #  - frontend/**  — Astro/MDX, its own toolchain
-#  - notebooks/** — marimo authoring artifacts (like ruff's extend-exclude)
-#  - web/**       — generated SSG output (git-ignored anyway)
 #  - .claude/**   — ephemeral agent worktrees
 #  - data/research/*/** — agent-GENERATED research-run output (findings.md); regenerable,
 #    prose varies per run — don't hand-fix. The authored data/research/README.md stays linted.
@@ -19,8 +17,6 @@ globs:
 #    fix their generators, not the output.
 ignores:
   - "frontend/**"
-  - "notebooks/**"
-  - "web/**"
   - ".claude/**"
   - "**/node_modules/**"
   - "data/research/*/**"

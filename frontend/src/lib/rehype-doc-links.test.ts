@@ -58,10 +58,12 @@ describe("rehype-doc-links — generated-page (LINK_MAP) branch", () => {
     expect(rewrite("docs/narrative/x.md", "entities.md", { base: "/bosc" })).toBe("/wiki/entities/");
   });
 
-  it("passes an absolute LINK_MAP value through without base-prefixing", () => {
-    // notebooks.md maps to an absolute github URL.
-    expect(LINK_MAP["notebooks.md"]).toMatch(/^https?:/);
-    expect(rewrite("docs/narrative/x.md", "notebooks.md", { base: "/bosc" })).toBe(LINK_MAP["notebooks.md"]);
+  it("rewrites the retired notebooks link to the OPC scenario page, base-prefixed", () => {
+    // notebooks.md (the legacy generated page) now points at the native OPC scenario explorer.
+    expect(LINK_MAP["notebooks.md"]).toBe("/reports/opc-scenario");
+    expect(rewrite("docs/narrative/x.md", "notebooks.md", { base: "/bosc" })).toBe(
+      "/bosc/reports/opc-scenario",
+    );
   });
 
   it("preserves the #hash across a rewrite (splitHash)", () => {
