@@ -1,0 +1,243 @@
+meta:
+  topic: 'onboard new-albany (New Albany): data-center activity + receiving-water
+    screen for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-22T17:27:20+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__program_overview
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__entities
+    - mcp__bosc__timeline
+    - Grep
+    - Read
+    - Glob
+    num_turns: 25
+    max_turns: 30
+    cost_usd: 1.0542354999999999
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Pull Scioto ECHO NPDES inventory to unblock Big Walnut Creek basin-screen
+  dedupe_key: pull-scioto-echo-npdes-inventory-to-unblock-big-walnut-creek-bas
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - npdes
+  - hydrology
+  - basin-screen
+  rationale: The receiving-water screen cannot produce any result — numerator or ratio
+    — until the NPDES inventory is in place; this is the single most direct unblocking
+    action for the New Albany screen.
+  body: '## Context
+
+    The New Albany onboarding basin-screen is currently **0/0** — the denominator
+    (Big Walnut Creek 7Q10 = 35.43 cfs, derived from USGS gage 03229500) exists, but
+    the numerator is absent because the Scioto ECHO NPDES inventory was never pulled.
+    The pull was deferred at onboard time due to an HTTP 429 (ECHO 300/hr throttle).
+
+
+    ## Grounding
+
+    From the findings: *"`scioto-wwtp.potw.yaml` does not exist (only `echo/maumee-wwtp.potw.yaml`
+    and `echo/great-miami-wwtp.potw.yaml` are committed). [verified]`"* and *"`plant_receiving={}`
+    — no WWTP NPDES fact sheet; no permitted design flow."* The ONBOARDING.md review
+    gate for basin-screen coverage is unchecked.
+
+
+    ## Acceptance Criterion
+
+    - `data/echo/scioto-wwtp.potw.yaml` is committed with NPDES-permitted dischargers
+    for HUC 05060001 (Big Walnut Creek sub-basin).
+
+    - The basin-screen reruns successfully and produces a non-zero numerator (permitted
+    design flow) for the Big Walnut Creek receiving-water screen.
+
+    - The basin-screen review gate in `extracted/new-albany/ONBOARDING.md` is checked.'
+- title: Resolve Scioto↔Muskingum watershed divide and confirm operative receiving
+    water
+  dedupe_key: resolve-scioto-muskingum-watershed-divide-and-confirm-operative
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - entities
+  - basin-screen
+  - gis
+  rationale: Screening the wrong receiving water (and pulling the wrong basin's ECHO
+    inventory) would invalidate all downstream numerator and denominator work; resolving
+    the divide is a prerequisite to every other receiving-water deliverable.
+  body: '## Context
+
+    The New Albany site profile currently assigns `receiving_water_name="Big Walnut
+    Creek"` (Scioto side, HUC 05060001), but the findings identify a material ambiguity:
+    the Intel/business-park epicenter is in Jersey Township, Licking County, which
+    drains to the **South Fork Licking River → Muskingum basin (HUC 05040006)**. A
+    Scioto ECHO inventory would not cover the Licking side.
+
+
+    ## Grounding
+
+    From the findings: *"New Albany straddles the Scioto↔Muskingum divide. The profile
+    frames the Scioto/Big-Walnut side (HUC 05060001), but the Intel/business-park
+    epicenter is on the Licking side (Jersey Twp, Licking Co) → South Fork Licking
+    → Muskingum (HUC 05040006)… `receiving_water_name="Big Walnut Creek"` flips to
+    South Fork Licking if the pinned footprint lands Licking-side. [verified] from
+    profile/ONBOARDING.md; the Licking-side receiving water itself is `[open]`."*
+
+
+    Additionally, the findings note that Intel''s process wastewater is routed to
+    **Columbus'' sanitary sewer**, not a surface stream — a material nuance for any
+    effluent-dominance argument.
+
+
+    ## Acceptance Criterion
+
+    - The operative footprint is pinned to a specific county/township (Franklin/Scioto
+    vs. Licking/Muskingum) using GIS or parcel evidence.
+
+    - `receiving_water_name` in the site profile is updated to reflect the confirmed
+    receiving water (Big Walnut Creek *or* South Fork Licking).
+
+    - If Licking-side, a Muskingum-basin ECHO inventory is initiated.
+
+    - Intel''s sanitary-sewer routing is documented with a primary instrument citation
+    in the profile or ONBOARDING.md.'
+- title: Run data-center discover-and-pin first pass for Intel Ohio One and hyperscalers
+  dedupe_key: run-data-center-discover-and-pin-first-pass-for-intel-ohio-one-a
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  - data-center
+  rationale: With `facility=None` the entire data-center activity dimension of this
+    onboarding is unverified conjecture; pinning even one facility to a primary instrument
+    converts the site from a named target to an investigated record.
+  body: '## Context
+
+    No New Albany data-center facility is currently documented in the corpus or entity
+    graph (`facility=None`). The profile and ONBOARDING.md name Intel "Ohio One" plus
+    Google, Meta, AWS, Microsoft, and QTS in the New Albany International Business
+    Park as research targets, but none are pinned to a primary instrument. Without
+    a pinned facility there is no campus load, no consumptive draw, and no numerator
+    for the receiving-water screen.
+
+
+    ## Grounding
+
+    From the findings: *"no New Albany data-center facility is documented anywhere
+    in the corpus or entity graph. `facility=None` in the profile; the entity graph
+    holds only Lima/RSEI parties. [verified]"* and *"The self-research first pass
+    (`bosc onboard new-albany --research`, #247) and a discover-and-pin sweep have
+    not been run. Until a facility is pinned to a primary instrument, there is no
+    campus load, no consumptive draw, and therefore no numerator for the receiving-water
+    screen."* The findings also note the Springfield #454 discover-and-pin pattern
+    as the applicable methodology, and explicitly warn against Bistrozzi-graph bridging
+    across sites.
+
+
+    ## Acceptance Criterion
+
+    - `bosc onboard new-albany --research` (#247) is executed and its output is committed.
+
+    - At least one facility (Intel Ohio One or a named hyperscaler) is pinned to a
+    **primary instrument** (deed, NPDES permit, air PTI, or SOS filing).
+
+    - The entity graph is updated with the pinned facility; no cross-site Bistrozzi-graph
+    bridging is introduced.
+
+    - `grid-profile.yaml` campus-load field is populated or explicitly marked `[open]`
+    pending permit data.'
+- title: Commit site footprint to unblock SSURGO HSG, stormwater scenario, and divide
+    resolution
+  dedupe_key: commit-site-footprint-to-unblock-ssurgo-hsg-stormwater-scenario
+  labels:
+  - agent-proposed
+  - needs-triage
+  - gis
+  - extraction
+  - hydrology
+  - stormwater
+  rationale: The footprint is a foundational artifact that gates SSURGO, stormwater
+    modeling, and divide resolution simultaneously; committing it delivers the highest
+    number of unblocked downstream tasks per unit of effort.
+  body: '## Context
+
+    The New Albany site footprint file (`extracted/new-albany/bosc-site-footprint.yaml`
+    and `reference/new-albany/bosc-parcels.geojson`) does not exist. Its absence is
+    blocking at least three downstream tasks: (1) the SSURGO Hydrologic Soil Group
+    survey (currently only an `[inference]` of dominant HSG = C, not soil-survey confirmed),
+    (2) the stormwater pre/post runoff scenario, and (3) definitive resolution of
+    the Scioto↔Muskingum watershed divide.
+
+
+    ## Grounding
+
+    From the findings: *"SSURGO HSG — skipped, no footprint. Dominant HSG = C is `[inference]`,
+    not soil-survey confirmed"* and *"Identify and commit the site footprint — `extracted/new-albany/bosc-site-footprint.yaml`
+    + `reference/new-albany/bosc-parcels.geojson`. Unblocks SSURGO HSG (currently
+    `[inference] C`), the stormwater pre/post runoff scenario, and the divide resolution."*
+    The GIS gate in ONBOARDING.md is also unchecked, partly because Licking County''s
+    ArcGIS REST returns HTTP 500 and `SitusAddressAll` is null.
+
+
+    ## Acceptance Criterion
+
+    - `extracted/new-albany/bosc-site-footprint.yaml` and `reference/new-albany/bosc-parcels.geojson`
+    are committed with parcel boundaries sourced from a verified GIS layer (OGRIP-Licking
+    substitute or Franklin County Auditor CAMA layer).
+
+    - SSURGO HSG is re-run against the footprint and the `[inference]` tag is resolved
+    to a survey-confirmed value.
+
+    - The footprint''s HUC assignment confirms which side of the Scioto↔Muskingum
+    divide the operative campus sits on.'
+- title: Verify derived Big Walnut Creek 7Q10 against cited Ohio EPA regulatory value
+  dedupe_key: verify-derived-big-walnut-creek-7q10-against-cited-ohio-epa-regu
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - verification
+  - water-quality
+  rationale: Presenting a derived gage proxy as a regulatory 7Q10 in an effluent-dominance
+    or receiving-water screen would be a material misrepresentation; verifying or
+    documenting the gap protects the integrity of any downstream permit or WQS analysis.
+  body: '## Context
+
+    The current Big Walnut Creek low-flow figure used as the receiving-water denominator
+    (35.43 cfs, from `low-flow-7q10.derived.yaml`, USGS gage 03229500 at Rees OH,
+    log-Pearson III, 44 climatic years, 1980–2024) is explicitly flagged as a **medium-confidence
+    derived screening proxy**, not a cited regulatory 7Q10. The file header states
+    these are *not* the cited regulatory 7Q10s, which would live in `low-flow-7q10.yaml`.
+
+
+    ## Grounding
+
+    From the findings: *"These are medium-confidence derived screening denominators,
+    flagged in the file header as not the cited regulatory 7Q10s (those would live
+    in `low-flow-7q10.yaml`). Do not present them as regulatory low flows."* The recommended
+    follow-up states: *"Verify the derived Big Walnut 7Q10 against a cited regulatory
+    value — promote from medium-confidence derived to a cited Ohio EPA WQS/Total-Available-Flow
+    figure if one exists for the actual discharge reach. Discrepancy risk: derived
+    gage proxy ≠ regulatory 7Q10 at the reach."*
+
+
+    ## Acceptance Criterion
+
+    - An Ohio EPA Water Quality Standards antidegradation record or Total-Available-Flow
+    determination is located for the Big Walnut Creek discharge reach (or the relevant
+    South Fork Licking reach if the divide resolves Licking-side).
+
+    - If a cited regulatory value exists, it is committed to `low-flow-7q10.yaml`
+    and the derived entry''s confidence is updated accordingly.
+
+    - If no regulatory value exists, the derived proxy is explicitly documented as
+    the best-available figure with a confidence note, and the discrepancy risk is
+    recorded in ONBOARDING.md.'

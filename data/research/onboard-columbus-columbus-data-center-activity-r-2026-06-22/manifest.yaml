@@ -1,0 +1,254 @@
+meta:
+  topic: 'onboard columbus (Columbus): data-center activity + receiving-water screen
+    for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-22T17:31:17+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__program_overview
+    - Grep
+    - mcp__bosc__timeline
+    - mcp__bosc__entities
+    - mcp__bosc__hydrology_balance
+    - mcp__bosc__hydrology_scenario
+    - mcp__bosc__sanitary_basis
+    - Read
+    - mcp__bosc__read_extraction
+    num_turns: 18
+    max_turns: 30
+    cost_usd: 0.69770625
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Register a Columbus SiteProfile and run `bosc onboard columbus`
+  dedupe_key: register-a-columbus-siteprofile-and-run-bosc-onboard-columbus
+  labels:
+  - agent-proposed
+  - needs-triage
+  - onboarding
+  - sites
+  - infrastructure
+  rationale: Without a registered SiteProfile, no downstream tooling — hydrology screens,
+    RSEI pulls, parcel lookups — can operate on Columbus inputs, making every other
+    onboarding step impossible.
+  body: '## Context
+
+    The findings confirm that the BOSC corpus contains no Columbus / Scioto-River-basin
+    primary-source material and that all site-specific tooling (hydrology screen,
+    RSEI, EIA-861 lookups) is hard-bound to the Lima/Allen County reference build.
+    Onboarding Columbus is described as a "net-new effort."
+
+
+    ## Grounding
+
+    Findings §3, Recommendation 1: "Register a `columbus` SiteProfile in `bosc.sites.SITES`
+    + `frontend/src/lib/sites.ts` (per CLAUDE.md: never re-hardcode a Lima value).
+    Required per-site knobs: `nwis_sites` (Scioto-basin USGS gauges), `rsei_fips`
+    (Franklin Co. 39049 + collar counties), `eia861_utility_number` (AEP Ohio / muni),
+    GIS URLs (Franklin Co. auditor parcels; OGRIP). Then run `bosc onboard columbus`.
+    Tracks to epic #486."
+
+
+    ## Acceptance Criterion
+
+    - A `columbus` SiteProfile exists in `bosc.sites.SITES` and `frontend/src/lib/sites.ts`
+    with all required per-site knobs populated (USGS gauge IDs for Scioto-basin receiving
+    waters, `rsei_fips` for Franklin Co. 39049 and collar counties, `eia861_utility_number`,
+    GIS source URLs).
+
+    - `bosc onboard columbus` runs to completion without error and without inheriting
+    any hardcoded Lima/Allen County values.'
+- title: Make hydrology screen tools site-aware so Columbus 7Q10 and WWTP flows can
+    be screened
+  dedupe_key: make-hydrology-screen-tools-site-aware-so-columbus-7q10-and-wwtp
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - infrastructure
+  - code-gap
+  rationale: The receiving-water screen is the core deliverable named in the onboarding
+    topic, and it is currently impossible to run it for Columbus due to this hardcoded
+    Lima dependency.
+  body: '## Context
+
+    The findings verify that `hydrology_balance`, `hydrology_scenario`, and `sanitary_basis`
+    take no site parameter and return only Lima objects — routing exclusively to Ottawa
+    River / Pike Run / Dug Run and the American/Shawnee permits (OH0037338, OH0023841,
+    OH0023850).
+
+
+    ## Grounding
+
+    Findings §1.2: "`hydrology_balance`, `hydrology_scenario`, and `sanitary_basis`
+    take **no site parameter** and return only Lima objects… These are the Lima reference
+    implementation of the screen, not a Columbus capability. A Columbus screen requires
+    its own profile and its own document-cited 7Q10 / WWTP design flows."
+
+    Findings §3, Recommendation 2: "Make the hydrology screen site-aware… They must
+    read `active_profile(settings)` so a Columbus 7Q10 + Columbus WWTP design flows
+    can be screened. *This is a code gap, not a corpus gap, but it blocks the deliverable
+    in the topic title.*"
+
+
+    ## Acceptance Criterion
+
+    - `hydrology_balance`, `hydrology_scenario`, and `sanitary_basis` each accept
+    (or read from `active_profile(settings)`) a site parameter.
+
+    - When invoked with the `columbus` profile, the tools return Scioto-basin receiving
+    waters and Columbus-area WWTP permit data — not Lima values.
+
+    - Existing Lima behavior is unchanged when the Lima profile is active.'
+- title: Acquire primary-source corpus for Columbus/Franklin-area data-center sites
+    and cross-check the EMH&T–Tilted Gate actor network
+  dedupe_key: acquire-primary-source-corpus-for-columbus-franklin-area-data-ce
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  - corpus-gap
+  - data-center
+  rationale: The actor-bridge finding gives a concrete, efficient starting point for
+    Columbus corpus acquisition rather than a blind geographic search, making this
+    a high-leverage first acquisition step.
+  body: '## Context
+
+    The findings confirm zero Columbus / Scioto-River-basin primary-source documents
+    in the corpus. However, the findings identify a concrete actor network — Tilted
+    Gate LLC, EMH&T (5500 New Albany Rd., Columbus, OH 43054), Michael Montfort, and
+    Vorys — already documented in the Lima corridor and the Dazzler (Scioto County)
+    site, providing a specific query list for Columbus-area discovery.
+
+
+    ## Grounding
+
+    Findings §1.1: keyword screen across `list_documents` (1,485 lines) and `timeline`
+    (328 lines) returns no Columbus-area document. Findings §1.4: "The Dazzler permits
+    supply a *documented* connection between the existing corpus and the Columbus
+    market… Whether that apparatus has a *Columbus/Scioto-River* project is **`[open]`**
+    — the corpus does not show one."
+
+    Findings §3, Recommendation 3: "Identify Columbus/Franklin-area data-center sites
+    and pull the primary record — Franklin/Licking/Delaware deeds, OEPA NPDES + isolated-wetland
+    permits, USACE 404 JDs, and the receiving water for each. Cross-check whether
+    **Tilted Gate LLC / EMH&T / Montfort / Vorys** recur."
+
+
+    ## Acceptance Criterion
+
+    - At least one targeted search against Ohio SOS, OEPA eDocs, and USACE records
+    using the named actors (Tilted Gate LLC, EMH&T, Michael Montfort, Vorys) for Franklin,
+    Licking, and Delaware counties is completed and documented.
+
+    - Results — whether positive (documents found and extracted) or negative (confirmed
+    absence) — are recorded in the corpus index.
+
+    - Any new instruments (deeds, NPDES applications, 404 JDs) are extracted into
+    the `columbus/` collection.'
+- title: Establish document-cited 7Q10 values for Columbus candidate receiving waters
+    (Scioto, Olentangy, Big Walnut, Alum Creek, Darby Creek)
+  dedupe_key: establish-document-cited-7q10-values-for-columbus-candidate-rece
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - corpus-gap
+  - receiving-water
+  rationale: Document-cited 7Q10 values are the essential numeric inputs for the receiving-water
+    screen; without them the screen produces no Columbus output regardless of code
+    or profile readiness.
+  body: '## Context
+
+    The hydrology screen methodology is grounded in document-cited 7Q10 low-flow statistics
+    for each receiving water. For Lima, the corpus holds cited values (e.g., Ottawa
+    River 7Q10 = 0.2 cfs). No equivalent exists for any Scioto-basin stream. Without
+    these values, a Columbus receiving-water screen cannot be run even after the tooling
+    is made site-aware.
+
+
+    ## Grounding
+
+    Findings §1.2: "`hydrology_scenario` compares the BOSC campus cooling draw to
+    **the Ottawa River 7Q10 (0.2 cfs, document-cited)**."
+
+    Findings §2: "The screen''s whole point is the effluent-dominated, low-7Q10 receiving
+    stream. **The onboarding question for Columbus is whether its candidate receiving
+    waters behave the same way** — the Scioto and its tributaries are larger than
+    Ottawa River, so a Columbus screen may *not* trip the same way, and that contrast
+    is itself a finding worth producing."
+
+    Findings §3, Recommendation 4: "Establish the candidate receiving waters and their
+    7Q10s (Scioto, Olentangy, Big Walnut, Alum Creek, Darby Creek) from a document-cited
+    source so the screen has Columbus inputs rather than Lima ones."
+
+
+    ## Acceptance Criterion
+
+    - A document-cited 7Q10 value (from an OEPA permit, USGS water-science report,
+    or equivalent primary source) is extracted for each of the five named Scioto-basin
+    candidate receiving waters.
+
+    - Each value is entered into the corpus with full provenance (source document,
+    page/section, citation method) and is distinguishable from derived estimates (no
+    `~` conflation).
+
+    - The Columbus hydrology screen can consume these values as inputs.'
+- title: Open a separate onboarding issue for Project Dazzler as an Ohio-River-branch
+    watershed-point site (Scioto County, HUC 05090103)
+  dedupe_key: open-a-separate-onboarding-issue-for-project-dazzler-as-an-ohio
+  labels:
+  - agent-proposed
+  - needs-triage
+  - onboarding
+  - entities
+  - extraction
+  - ohio-river
+  rationale: Dazzler shares actors with the Lima corridor and has corpus artifacts
+    already in hand, making it a high-readiness onboarding candidate — but only if
+    it is tracked separately from Columbus to avoid watershed conflation errors the
+    findings explicitly flag.
+  body: '## Context
+
+    The findings identify Project Dazzler — a ~914-acre data-center site in Green
+    Township, Scioto County, Ohio, draining to Ginat Creek and Grays Branch–Ohio River
+    (HUC 05090103) — as a strong candidate watershed-point site in its own right,
+    with extraction artifacts already in the corpus. The findings explicitly warn
+    against merging this thread into the Columbus onboarding.
+
+
+    ## Grounding
+
+    Findings §1.3(b): "''Project Dazzler'' is in Scioto *County* (Ohio River), not
+    the Scioto *River* basin at Columbus… Scioto *County* shares only a name with
+    the Scioto *River* basin. Folding Dazzler into a ''Columbus'' onboarding would
+    cross two unrelated watersheds. **Dazzler is its own candidate watershed-point
+    (Ohio River branch), and worth its own onboarding issue — but it is not Columbus.**"
+
+    Findings §3, Recommendation 5: "Open a separate ''Project Dazzler / Ohio-River
+    branch'' issue. Scioto County, HUC 05090103. Same Tilted Gate LLC applicant +
+    EMH&T engineer as Lima — a strong candidate watershed-point in its own right…
+    Extraction targets already in corpus: `permits/4071697.epa.yaml`, `permits/4081896.epa.yaml`
+    (and the `4081xxx` Dazzler family). Note both are *delineation reports*, not issued
+    permits — `permit_no` is EMH&T internal `20250390`, so a follow-up should pull
+    the actual USACE Huntington District action when issued."
+
+
+    ## Acceptance Criterion
+
+    - A dedicated GitHub issue exists for Project Dazzler / Ohio-River-branch onboarding,
+    scoped to Scioto County / HUC 05090103, explicitly separated from the Columbus/Scioto-River
+    thread.
+
+    - The issue references the existing corpus artifacts (`permits/4071697.epa.yaml`,
+    `permits/4081896.epa.yaml` and the `4081xxx` family) as starting extraction targets.
+
+    - A task is included to monitor and pull the actual USACE Huntington District
+    permit action (currently absent; EMH&T internal number `20250390` is a delineation
+    report, not an issued permit).'
