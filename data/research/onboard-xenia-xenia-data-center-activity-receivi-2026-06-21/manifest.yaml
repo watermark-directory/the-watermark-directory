@@ -1,0 +1,288 @@
+meta:
+  topic: 'onboard xenia (Xenia): data-center activity + receiving-water screen for
+    a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-21T23:58:20+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - Skill
+    - mcp__bosc__program_overview
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__entities
+    - Grep
+    - Read
+    - Glob
+    - mcp__bosc__hydrology_balance
+    - mcp__bosc__hydrology_scenario
+    num_turns: 33
+    max_turns: 30
+    cost_usd: 1.071624
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Extend `derive-low-flows` to the Little Miami basin for Xenia gages
+  dedupe_key: extend-derive-low-flows-to-the-little-miami-basin-for-xenia-gage
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  rationale: This is the single blocking dependency for the receiving-water screen;
+    no downstream hydrology analysis for Xenia can proceed without it.
+  body: '## Context
+
+    The receiving-water screen for Xenia (Greene County, OH) is currently blocked
+    because `low-flow-7q10.derived.yaml` covers only Maumee-basin mainstems (Maumee
+    at Waterville, Auglaize, St. Marys, St. Joseph). None of the three Little Miami
+    NWIS gages on the Xenia site profile have a derived low flow.
+
+
+    ## Grounding
+
+    The findings confirm (§3, `[verified]`): gages `03240000` (Little Miami nr Oldtown),
+    `03241500` (Massies Creek at Wilberforce), and `03242050` (Little Miami nr Spring
+    Valley) are all absent from the derived file. The findings state explicitly: "`bosc
+    derive-low-flows` has not been extended to this basin."
+
+
+    ## Task
+
+    1. Run or extend `bosc derive-low-flows` to cover the Little Miami (HUC-8 05090202)
+    basin.
+
+    2. Populate `low-flow-7q10.derived.yaml` (or a basin-scoped peer file under `reference/hydrology/xenia/`)
+    with cited 7Q10 values for the three gages above.
+
+    3. Confirm the derived values are source-cited (USGS StreamStats or equivalent)
+    and committed.
+
+
+    ## Acceptance Criterion
+
+    `low-flow-7q10.derived.yaml` (or equivalent) contains verified, cited 7Q10 values
+    for all three Xenia-profile Little Miami gages, unblocking the Tier-0 receiving-water
+    screen.'
+- title: Quantify the Little Miami Scenic River anti-degradation constraint for the
+    Xenia reach
+  dedupe_key: quantify-the-little-miami-scenic-river-anti-degradation-constrai
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - regulatory
+  - entities
+  rationale: The scenic-river overlay is the site's primary regulatory differentiator
+    and will dominate the receiving-water screen outcome; leaving it unquantified
+    makes any hydrology scenario misleading.
+  body: '## Context
+
+    The findings identify the Little Miami''s protected status as Xenia''s *defining*
+    differentiating feature versus all Maumee and Great-Miami sites in the BOSC corpus.
+    This designation materially constrains any large new discharger or withdrawal
+    and likely raises the in-stream passby minimum above a routine value.
+
+
+    ## Grounding
+
+    Findings §3 (`[reference]`): "The Little Miami is a National & State Scenic River
+    (NPS Wild & Scenic + Ohio Scenic River). Per the profile comment, this is Xenia''s
+    distinguishing feature... a protected receiving water whose anti-degradation /
+    scenic-river status materially constrains a large new discharger or withdrawal,
+    and likely raises the in-stream passby minimum above a routine value. This is
+    the single most important thing to verify and quantify before the site is screened."
+
+
+    The profile fields `passby_primary_cfs` and `passby_secondary_cfs` are currently
+    `0.0 [open]`.
+
+
+    ## Task
+
+    1. Confirm the Little Miami''s NPS Wild & Scenic and Ohio Scenic River designation
+    through the specific Xenia reach via primary sources (NPS, ODNR).
+
+    2. Research the applicable Ohio anti-degradation rules and any elevated passby
+    minimums tied to scenic-river status.
+
+    3. Update the Xenia `SiteProfile` fields `passby_primary_cfs` and `passby_secondary_cfs`
+    with cited, defensible values (or a documented rationale if no numeric floor is
+    codified).
+
+
+    ## Acceptance Criterion
+
+    The Xenia profile''s passby fields are populated with cited values (or a sourced
+    narrative explanation), and a note confirming the scenic-river designation through
+    the Xenia reach is committed to `data/extracted/xenia/ONBOARDING.md`.'
+- title: Ingest Xenia/Beavercreek WWTP NPDES permit and fact sheet to populate `plant_receiving`
+  dedupe_key: ingest-xenia-beavercreek-wwtp-npdes-permit-and-fact-sheet-to-pop
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  - regulatory
+  rationale: Without a local WWTP record, `hydrology_balance` cannot produce a meaningful
+    receiving-water screen for Xenia, even after 7Q10 data is added.
+  body: '## Context
+
+    The Xenia site profile currently has `plant_receiving={}` and both passby minimums
+    set to `0.0 [open]`. The `hydrology_balance` tool has no real inputs for this
+    site and would produce meaningless results even after Little Miami 7Q10 values
+    are available.
+
+
+    ## Grounding
+
+    Findings §3 (`[open]`): "No Xenia-area WWTP. Profile `plant_receiving={}` and
+    both passby minimums are `0.0 [open]` — no NPDES fact sheet has been ingested
+    for the Xenia/Beavercreek treatment plant(s)."
+
+
+    Findings §2 confirms that the corpus contains zero Xenia primary-source records:
+    "no Greene County deed, NPDES permit, meeting, or shell entity."
+
+
+    ## Task
+
+    1. Locate the current NPDES permit(s) for the Xenia and/or Beavercreek wastewater
+    treatment plant(s) via Ohio EPA eDMR / permit search.
+
+    2. Extract: permitted design flow (MGD), receiving stream and reach, and any effluent
+    limits relevant to a Tier-0 screen.
+
+    3. Ingest the fact sheet as a committed corpus document and populate `plant_receiving`
+    in the Xenia `SiteProfile`.
+
+
+    ## Acceptance Criterion
+
+    `plant_receiving` contains at least one WWTP entry with a cited permitted design
+    flow and receiving reach, and the source NPDES document is present in the corpus
+    under `data/` or `reference/`.'
+- title: Run data-center activity sweep for Xenia/Beavercreek and WPAFB corridor;
+    record flat finding
+  dedupe_key: run-data-center-activity-sweep-for-xenia-beavercreek-and-wpafb-c
+  labels:
+  - agent-proposed
+  - needs-triage
+  - entities
+  - extraction
+  rationale: 'Issue #444''s named research target is the WPAFB-corridor data-center/contamination
+    overlay; resolving it to a documented positive or negative finding is required
+    to advance the site''s onboarding gate.'
+  body: '## Context
+
+    The BOSC corpus contains zero evidence of data-center land assembly, rezoning,
+    large utility taps, or shell-entity filings in Xenia or the Wright-Patterson AFB
+    (WPAFB) defense-supplier corridor. The findings characterize this as a finding,
+    not merely a gap, but note that the sweep itself has not been executed against
+    primary sources.
+
+
+    ## Grounding
+
+    Findings §4 (`[verified-connector]` / `[inference]`): "There is no documented
+    data-center activity for Xenia in BOSC — no deeds, shell-LLC SOS filings, stormwater/air
+    permits, or meeting records (profile `facility=None [open]`; the WPAFB-corridor
+    data-center/contamination overlay is the named research target for #444)."
+
+
+    Findings §4 also note: "Information (NAICS 51): 435 jobs, LQ 0.29 — well below
+    the national share," consistent with no existing cluster, but this is employment
+    data, not a parcel/permit scan.
+
+
+    ## Task
+
+    1. Conduct an open-records / parcel scan for data-center land assembly, rezoning
+    applications, large utility interconnection requests, or SOS shell-entity filings
+    near Xenia, Beavercreek, and the WPAFB contractor corridor.
+
+    2. Check Greene County Recorder, Ohio SOS, and relevant utility interconnection
+    queues.
+
+    3. If activity is found, ingest deeds/permits/SOS records as corpus documents.
+
+    4. If no activity is found, commit a flat no-activity finding document to `data/extracted/xenia/`
+    (do not leave the field as merely `[open]`).
+
+    5. Include the WPAFB groundwater plume as the contamination overlay (`toxic_corridor_bbox`
+    is currently `(0,0,0,0)`).
+
+
+    ## Acceptance Criterion
+
+    Either: (a) at least one primary-source data-center activity document is ingested,
+    or (b) a committed `data/extracted/xenia/no-datacenter-activity.md` records the
+    negative finding with sources checked and date of sweep.'
+- title: 'Generate missing Xenia onboarding artifacts: `ONBOARDING.md` review gate
+    and connector gap remediation'
+  dedupe_key: generate-missing-xenia-onboarding-artifacts-onboarding-md-review
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  rationale: These artifacts are the formal parity gate for promotion from `queued`
+    to `live`/`selectable`; their absence means the site cannot be advanced even after
+    substantive research is complete.
+  body: '## Context
+
+    Xenia is registered and partially seeded but is missing several artifacts that
+    peer sites (Urbana, Springfield) already have, leaving the formal review gate
+    unpersisted and two connectors unrun.
+
+
+    ## Grounding
+
+    Findings §1 (`[verified]`):
+
+    - `data/extracted/xenia/ONBOARDING.md` does **not** exist (Urbana and Springfield
+    both have one).
+
+    - `data/research/onboard-xenia-*/findings.md` does not exist (peer sites have
+    one dated 2026-06-21).
+
+    - `reference/rsei/xenia/inventory.yaml` is absent (only README present).
+
+    - `reference/eia/xenia/grid-profile.yaml` is absent.
+
+    - `gis_parcel=None`, `gis_zoning=None`; `parcels_url`/`zoning_url` are `"TODO"`.
+
+    - `eia861_utility_number=0 [open]`; `lmp_usd_mwh=35.0` is a placeholder `[inference]`.
+
+
+    Findings §1 also flags the known connector-leak pattern risk: "verify the Greene
+    County retail utility + EIA-861 number (test for non-Lima/cross-state Ohio-hardcoding
+    per the known connector-leak pattern, even though Greene is in-state)."
+
+
+    ## Task
+
+    1. Persist `data/extracted/xenia/ONBOARDING.md` with the standard review-gate
+    checklist, pre-populated with the verified/open status from this findings pass.
+
+    2. Run `bosc onboard xenia --research` and commit the output to `data/research/onboard-xenia-<date>/findings.md`.
+
+    3. Run the RSEI connector and commit `reference/rsei/xenia/inventory.yaml`.
+
+    4. Verify the correct EIA-861 utility number for AES Ohio/DAY serving Greene County
+    and commit `reference/eia/xenia/grid-profile.yaml`; explicitly test for Lima-hardcoding
+    in the connector.
+
+    5. Discover and register Greene County parcel and City of Xenia/Greene County
+    zoning ArcGIS REST endpoints (`?f=json`); update `parcels_url` and `zoning_url`
+    in the profile (field names must not be fabricated).
+
+
+    ## Acceptance Criterion
+
+    `data/extracted/xenia/ONBOARDING.md` exists and is populated; `reference/rsei/xenia/inventory.yaml`
+    and `reference/eia/xenia/grid-profile.yaml` are committed with cited, non-hardcoded
+    values; `parcels_url` and `zoning_url` are non-`TODO` strings pointing to verified
+    live endpoints.'
