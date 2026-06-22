@@ -1,0 +1,258 @@
+meta:
+  topic: 'onboard wpafb (Wright-Patterson AFB): data-center activity + receiving-water
+    screen for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-22T00:16:45+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - Skill
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__entities
+    - mcp__bosc__program_overview
+    - mcp__bosc__timeline
+    - mcp__bosc__hydrology_balance
+    - mcp__bosc__hydrology_scenario
+    - Grep
+    - Glob
+    - Read
+    - Bash
+    num_turns: 30
+    max_turns: 30
+    cost_usd: 1.092072
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Verify Great Miami / Mad River Buried Valley Aquifer sole-source designation
+    and WPAFB TCE/PFAS plume, then reframe receiving-water screen to groundwater
+  dedupe_key: verify-great-miami-mad-river-buried-valley-aquifer-sole-source-d
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  - verification
+  rationale: This is the single most important unverified claim gating the WPAFB water-risk
+    screen — the site's entire groundwater story rests on two currently unsourced
+    assertions, and the bound surface tools cannot substitute for a proper aquifer/plume
+    overlay.
+  body: '## Context
+
+    The WPAFB `SiteProfile` asserts that the load-bearing water risk is the **Great
+    Miami / Mad River Buried Valley Aquifer** — a US-EPA designated sole-source aquifer
+    — and a documented **TCE/PFAS groundwater plume** on that same drinking-water
+    aquifer. Both claims are currently flagged `[inference]`/`[reference]` in the
+    profile only; no primary cited source for either appears in the corpus (findings
+    §3b).
+
+
+    The standard Tier-0 surface dilution screen (7Q10) is the wrong screen here: the
+    denominator is groundwater supply, not in-stream low flow. This is a genuinely
+    different analysis dimension from every Maumee/dilution site in the network, and
+    the bound `hydrology_balance` / `hydrology_scenario` tools do not cover it (findings
+    §2, §3).
+
+
+    ## Acceptance Criteria
+
+    - Locate and cite a **primary source** for the US-EPA sole-source aquifer designation
+    (e.g., EPA SSA designation record, Federal Register notice).
+
+    - Locate and cite a **primary source** for the WPAFB TCE/PFAS plume (e.g., Air
+    Force IRP/CERCLA administrative record, ATSDR assessment, or OEPA file).
+
+    - Define a buried-valley + plume overlay methodology appropriate for the BOSC
+    corpus (geometry, data schema).
+
+    - Update the profile flags from `[inference]` to `[verified]` or `[reference]`
+    with inline citations once sources are confirmed.
+
+    - Document explicitly if no primary source can be located within the corpus.'
+- title: Extend `derive-low-flows` to Great Miami / Mad River basin gages for WPAFB
+    surface 7Q10 completeness
+  dedupe_key: extend-derive-low-flows-to-great-miami-mad-river-basin-gages-for
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  rationale: Without Great Miami 7Q10 values and a populated WWTP record, the surface
+    receiving-water screen is structurally blocked regardless of whether it is ultimately
+    the right screen for WPAFB.
+  body: '## Context
+
+    The current `low-flow-7q10.derived.yaml` covers only Maumee-basin mainstems (Maumee,
+    Auglaize, St. Marys, St. Joseph). None of the three WPAFB-relevant NWIS gages
+    has a derived low flow (findings §3a):
+
+    - `03270000` — Mad River nr Dayton
+
+    - `03270500` — Great Miami at Dayton
+
+    - `03263000` — Great Miami at Taylorsville
+
+
+    Both `plant_receiving={}` and passby minimums are `0.0 [open]`, and no WWTP fact
+    sheet has been ingested, so a Tier-0 surface dilution screen cannot run for any
+    WPAFB outfall (findings §3a).
+
+
+    Also required as a prerequisite: ingest the WPAFB / Dayton-area WWTP NPDES permit
+    + fact sheet to populate `plant_receiving` (cited design flow, receiving reach)
+    and the in-stream passby minimum.
+
+
+    ## Acceptance Criteria
+
+    - `derive-low-flows` produces a basin-scoped 7Q10 entry for each of the three
+    gages above, committed to the reference tree.
+
+    - At least one Dayton-area WWTP NPDES permit / fact sheet is ingested, populating
+    `plant_receiving` with a cited design flow and receiving reach.
+
+    - `passby_*` fields are updated from `0.0 [open]` to sourced values.
+
+    - A Tier-0 surface dilution screen can execute without errors for at least one
+    WPAFB outfall scenario.'
+- title: 'Resolve WPAFB economic-unit scope: assess two-county (Greene + Montgomery)
+    treatment to expose defense Prof-Sci-Tech concentration'
+  dedupe_key: resolve-wpafb-economic-unit-scope-assess-two-county-greene-montg
+  labels:
+  - agent-proposed
+  - needs-triage
+  - economics
+  - entities
+  rationale: The economic unit as currently configured makes the primary analytical
+    claim about WPAFB (defense-cloud employment concentration) invisible in its own
+    baseline, which undermines the site's core thesis.
+  body: '## Context
+
+    The WPAFB `SiteProfile` sets its economic unit to **Montgomery County (FIPS 39113)**,
+    chosen for the well-field/plume/metro context. However, the findings show that
+    the defense-supplier employment concentration the WPAFB analytical thesis depends
+    on lives in **Greene County**, not Montgomery (findings §4):
+
+    - Montgomery County NAICS 54 (Prof-Sci-Tech): **LQ 0.81** — below national share.
+
+    - Greene County (Xenia profile #444): NAICS 54 **LQ 2.11** — significantly elevated.
+
+
+    The committed Montgomery County baseline (`reference/economics/wpafb/baseline.yaml`,
+    `confidence:high`) therefore does **not** show the defense-supplier employment
+    signature that the WPAFB corpus thread (defense-footprint testimony `bosc-written-testimony-2026-06-01.md:183`,
+    cloud-consumer profile `cloud-consumer-candidates.yaml:220–228`) relies on.
+
+
+    ## Acceptance Criteria
+
+    - A documented decision (in `ONBOARDING.md` or a profile comment) on whether WPAFB
+    requires a **two-county (Greene + Montgomery) economic treatment** or Montgomery-only
+    with a caveat.
+
+    - If two-county: a Greene County BLS QCEW / Census ACS baseline is added alongside
+    the existing Montgomery unit, and the defense NAICS 54 LQ is surfaced in the WPAFB
+    economic summary.
+
+    - If Montgomery-only: an explicit inline note explains why the defense-supplier
+    concentration in Greene is not load-bearing for the WPAFB analysis.
+
+    - The `bosc-written-testimony-2026-06-01.md` government-cloud-premium thesis can
+    be grounded in the chosen economic unit.'
+- title: 'Complete WPAFB connector set: run RSEI (Montgomery County 39113), pin EIA-861
+    grid profile (AES Ohio / DP&L, PJM DAY zone), and audit for cross-state hardcoding'
+  dedupe_key: complete-wpafb-connector-set-run-rsei-montgomery-county-39113-pi
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - economics
+  rationale: Two of four required connector outputs are missing, and an unresolved
+    utility/LMP placeholder will block any energy-cost or toxics analysis for WPAFB
+    until pinned.
+  body: '## Context
+
+    Two connectors remain unrun for WPAFB (findings §1, §5):
+
+    1. **RSEI county toxics inventory** — `reference/rsei/wpafb/inventory.yaml` is
+    absent (only a README placeholder).
+
+    2. **EIA-861 grid profile** — `reference/eia/wpafb/grid-profile.yaml` is absent;
+    `eia861_utility_number=0 [open]`; `lmp_pnode_id=0` and `lmp_usd_mwh=35.0` are
+    placeholders (PJM DAY zone not pinned).
+
+
+    Additionally, the findings flag a **known cross-state-leak pattern** in grid/econ
+    connectors (hardcoded Lima/Ohio values surfacing for out-of-state siblings); WPAFB
+    connectors should be audited for this even though WPAFB is also in Ohio (findings
+    §6, item 4).
+
+
+    ## Acceptance Criteria
+
+    - `reference/rsei/wpafb/inventory.yaml` is populated with Montgomery County 39113
+    RSEI data.
+
+    - `reference/eia/wpafb/grid-profile.yaml` is populated; `eia861_utility_number`
+    resolves to the correct AES Ohio / DP&L utility number; `lmp_pnode_id` resolves
+    to the PJM DAY zone node; `lmp_usd_mwh` is replaced with a sourced value.
+
+    - A code-level audit of the grid and econ connectors confirms no Lima-specific
+    or non-WPAFB Ohio hardcoding is present in the WPAFB execution path.
+
+    - `noaa_fallback_24h_depth_in` dict is populated from the committed Atlas-14 corridor-DDF
+    values already in `reference/hydrology/wpafb/atlas14-corridor-ddf.yaml`.'
+- title: 'Conduct data-center activity sweep for WPAFB corridor: confirm DoD-cloud
+    published-record thread and scan for primary sited-facility records'
+  dedupe_key: conduct-data-center-activity-sweep-for-wpafb-corridor-confirm-do
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  rationale: The WPAFB site's distinguishing data-center claim is currently backed
+    only by secondary published record; a sweep is needed to either surface a primary
+    instrument or formally close the gap with a documented negative finding.
+  body: '## Context
+
+    The WPAFB corpus thread on data-center activity is entirely **published-record
+    / secondary** in register (findings §4):
+
+    - Written testimony §8 (`bosc-written-testimony-2026-06-01.md:183`): Google Distributed
+    Cloud air-gapped appliance (DoD IL5, MIL-STD-810H), Air Force Rapid Sustainment
+    Office named early customer, GDIT + Google Public Sector demo at Exercise Mobility
+    Guardian 2025 — sourced from Google Cloud blog, Breaking Defense, Defense One,
+    GDIT.
+
+    - Cloud-consumer profile (`cloud-consumer-candidates.yaml:220–228`): Tier-3 entry,
+    `confirmed_cloud_relationship: GDIT (WPAFB Rapid Sustainment Office hub, per published
+    record)` — analyst-built from published record.
+
+
+    There is **no primary deed, SOS shell filing, or permit record** of any sited
+    data-center facility in the corpus. The economic frame (government-cloud premium
+    ≈20–30% above commercial; structurally barred local tenants per IL5/IL6 enclave,
+    `bosc-written-testimony-2026-06-01.md:73–97`) has not been verified against a
+    primary instrument.
+
+
+    ## Acceptance Criteria
+
+    - The published DoD-cloud thread (GDIT / Google Distributed Cloud IL5 / RSO) is
+    expanded with additional corroborating published sources or confirmed as fully
+    documented with existing citations.
+
+    - A parcel / SOS / NPDES permit scan of the Dayton–WPAFB corridor is executed;
+    if a sited data-center facility is found, its primary record (deed, permit, or
+    SOS filing) is committed to the corpus.
+
+    - If no primary record is found, a **flat no-primary-record finding** is explicitly
+    committed (not left as an absence).
+
+    - The `confirmed_cloud_relationship` entry in `cloud-consumer-candidates.yaml`
+    is updated to reflect the outcome of the above scan.
+
+    - The federal enclave land classification (WPAFB as military land, likely absent
+    from county CAMA) is documented as a structural search constraint.'

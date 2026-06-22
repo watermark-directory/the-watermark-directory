@@ -175,6 +175,21 @@ export const SITES: readonly NetworkSite[] = [
     issue: "444",
     href: "/directory/xenia",
   },
+  {
+    // The downstream terminus of the Mad River corridor and the richest Miami node: the SW-Ohio
+    // analog to Lima's defense nexus. Wright-Patterson AFB — regulated/air-gapped DoD cloud (the
+    // distinctive data-center variant), a sole-source buried-valley aquifer, and a documented
+    // TCE/PFAS plume on it. Already in the corpus (defense-footprint testimony). Tracking (#442).
+    slug: "wpafb",
+    codename: null,
+    mono: "WPA",
+    place: "Dayton · WPAFB",
+    basin: "Mad River · Great Miami",
+    status: "queued",
+    selectable: false,
+    issue: "442",
+    href: "/directory/wpafb",
+  },
 ] as const;
 
 /** This build is the Lima reference build. */
@@ -281,6 +296,7 @@ const PLACEMENT: Record<string, { state: string; watershed: string }> = {
   urbana: { state: "Ohio", watershed: "Great Miami (Mad River)" },
   springfield: { state: "Ohio", watershed: "Great Miami (Mad River)" },
   xenia: { state: "Ohio", watershed: "Little Miami" },
+  wpafb: { state: "Ohio", watershed: "Great Miami (Mad River)" },
 };
 const STATE_ABBR: Record<string, string> = { Ohio: "OH", Indiana: "IN" };
 
