@@ -1,8 +1,17 @@
 # marimo integration investigation
 
-*Investigation only. Nothing here is wired into the default build. A proof-of-concept
-notebook lives at `notebooks/opc_scenario.py` (+ `notebooks/public/`); it is not
-referenced by `bosc site build`.*
+> **Outcome (superseded — decision record).** This evaluation recommended a partial,
+> opt-in marimo **WASM** integration into the *legacy Python SSG*. That SSG was later
+> retired (the Astro `frontend/` became the sole presentation tier), and the single
+> proof-of-concept notebook (`notebooks/opc_scenario.py`) was **reimplemented as a native
+> React island** rather than a WASM export — see
+> `frontend/src/components/islands/OpcScenario.tsx` + `frontend/src/lib/opcScenario.ts`,
+> live at `/bosc/reports/opc-scenario`. marimo was **not** adopted and the `notebooks/`
+> directory was removed. This document is kept as the record of *why* — the
+> `pyswmm`/`pypdfium2` WASM blockers, the ~27 MB per-notebook bundle, and the
+> chain-of-custody fit — mirroring `docs/deckgl-spike.md`. The integration mechanics below
+> (`bosc site build --notebooks`, `nav.yaml`, `web/` wrappers) describe the retired SSG and
+> no longer exist; read them as history.
 
 ## Executive summary / recommendation
 
@@ -129,6 +138,7 @@ demand) rather than inlined into every page.
 
 **Chain-of-custody (litigation evidence).** This is a constraint marimo handles well
 *if used as designed*:
+
 - A WASM notebook reads **bundled copies** of committed artifacts. It physically
   cannot mutate `data/documents/**` or `data/extracted/**` — there is no filesystem
   and the bundle is a copy. Good.
@@ -260,12 +270,14 @@ posture and the chain-of-custody guarantee (browser reads read-only bundled copi
 Defer use case (3) and any live server.
 
 ### Phase 0 — POC (done in this investigation)
+
 - `notebooks/opc_scenario.py` + `notebooks/public/roundabouts.summary.opc.yaml`.
 - Verified: `marimo export html-wasm opc_scenario.py -o <out> --mode run` exits 0,
   bundles `public/`, serves over HTTP (index + data both 200). marimo not left in the
   synced env; nothing wired into the default build.
 
 ### Phase 1 — One real notebook, opt-in build step (~1 day)
+
 - Add `marimo` to the `docs` optional group in `pyproject.toml`.
 - Add `src/bosc/site/notebooks.py`: copy canonical artifact → `notebooks/<nb>/public/`,
   shell `marimo export html-wasm … --mode run`, prune stray sibling files from the
@@ -277,6 +289,7 @@ Defer use case (3) and any live server.
   conscious choice.
 
 ### Phase 2 — Hydrology via precomputed results (~1–2 days)
+
 - Add a `bosc` subcommand (or reuse an existing scenario run) that writes a small,
   committed **scenario-results** artifact under `data/extracted/.../scenario.*.yaml`
   from the *real* server-side model.
@@ -285,11 +298,13 @@ Defer use case (3) and any live server.
   keeps the authoritative model under `mise run check`.
 
 ### Phase 3 — Lessons + (cautiously) exploration
+
 - `--mode edit` tutorial notebooks (the `COURSE.md` material is a natural fit).
 - Only then evaluate an "exploration" notebook over the entity graph (networkx +
   shapely are available), accepting bundle size and the package limits.
 
 ### Effort / risk / maintenance
+
 - **Effort:** Phase 1 ~1 day; Phases 2–3 a few days each.
 - **Risk:** marimo version churn (pin it); bundle bloat (one notebook ≈ 27 MB of
   frontend assets + CDN-streamed runtime → keep notebook count small, lazy-load);
@@ -301,6 +316,7 @@ Defer use case (3) and any live server.
   chain-of-custody concern).
 
 ### Interaction with `mise run check` / mypy strict / tests
+
 - The marimo notebooks are `.py` files with marimo-injected globals and cell wiring;
   they would **not** pass `ruff`/`mypy --strict` as written (and shouldn't be held to
   it — they're generated/authoring artifacts, like `web/`). **Exclude `notebooks/`
@@ -318,6 +334,7 @@ Defer use case (3) and any live server.
 ## 5. Proof of concept (built and run)
 
 **Files (left in the worktree, uncommitted, not wired into the build):**
+
 - `notebooks/opc_scenario.py` — a marimo notebook over the OPC roundabout estimates.
 - `notebooks/public/roundabouts.summary.opc.yaml` — a copy of the committed artifact
   `data/extracted/aedg/roundabouts.summary.opc.yaml`, bundled read-only.
@@ -330,12 +347,14 @@ table comparing modeled vs source totals. It is explicitly read-only and carries
 evidence/confidence caveat in-page.
 
 **Export command (verified):**
+
 ```bash
 # from notebooks/
 marimo export html-wasm opc_scenario.py -o ../site_wasm_poc --mode run
 ```
 
 **Results:**
+
 - Exit 0. Output: `index.html` + `assets/` (689 files, ~27 MB) + the bundled
   `public/roundabouts.summary.opc.yaml`.
 - Served with `python -m http.server`: `index.html` → 200, bundled YAML → 200.
@@ -351,6 +370,7 @@ HTTP, and every library it imports (`yaml`) is Pyodide-resolvable — the same p
 marimo docs document for WASM data loading.
 
 ## Sources
+
 - [marimo — WebAssembly HTML export](https://docs.marimo.io/guides/exporting/webassembly_html/)
 - [marimo — WebAssembly notebooks (limitations)](https://docs.marimo.io/guides/wasm/)
 - [marimo — CLI commands](https://docs.marimo.io/cli/)

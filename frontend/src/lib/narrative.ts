@@ -157,9 +157,9 @@ export const LINK_MAP: Record<string, string> = {
   "candidates.md": "/wiki/",
   "gis-map.md": "/watershed/map",
   "economics-baseline.md": "/docs/economics",
-  // The interactive marimo notebooks aren't migrated to the new site; point at
-  // their repo source (absolute values are passed through, not base-prefixed).
-  "notebooks.md": "https://github.com/goedelsoup/bosc/tree/main/notebooks",
+  // The legacy "notebooks" page is superseded by the native OPC scenario explorer (the
+  // marimo POC was retired — see docs/marimo-integration-investigation.md). Base-relative.
+  "notebooks.md": "/reports/opc-scenario",
 };
 
 export const bySlug = new Map(NARRATIVE.map((d) => [d.slug, d]));
