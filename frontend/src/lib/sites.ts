@@ -223,17 +223,16 @@ export const SITES: readonly NetworkSite[] = [
     href: "/directory/troy-piqua",
   },
 
-  // --- Tracking sites (#440/#484 + basin epics): GitHub-tracked candidates with an issue but no
-  // registered SiteProfile yet — the earliest phase, routed to a lightweight "watch" page. These
-  // fill out the full network the grouped selector depicts (32 sites across 9 basins). ---
-  // Great Miami (the upstream headwaters + the basin-divide edge)
+  // The remaining Miami-basin sites, now onboarded (queued; #440) — registered SiteProfiles in
+  // `bosc.sites`: the Great Miami headwaters + the basin-divide edge, and the Little Miami Air
+  // Park node. They complete the Miami branch (great-miami + little-miami).
   {
     slug: "sidney",
     codename: null,
     mono: "SID",
     place: "Sidney",
     basin: "Great Miami · headwaters",
-    status: "tracking",
+    status: "queued",
     selectable: false,
     issue: "481",
     href: "/directory/sidney",
@@ -244,23 +243,26 @@ export const SITES: readonly NetworkSite[] = [
     mono: "GRV",
     place: "Greenville · Darke Co",
     basin: "Stillwater · basin divide",
-    status: "tracking",
+    status: "queued",
     selectable: false,
     issue: "482",
     href: "/directory/greenville",
   },
-  // Little Miami (the Air Park single-tenant node)
   {
     slug: "wilmington",
     codename: null,
     mono: "WIL",
     place: "Wilmington",
     basin: "Todd Fork · Little Miami",
-    status: "tracking",
+    status: "queued",
     selectable: false,
     issue: "492",
     href: "/directory/wilmington",
   },
+
+  // --- Tracking sites (#484 + basin epics): GitHub-tracked candidates with an issue but no
+  // registered SiteProfile yet — the earliest phase, routed to a lightweight "watch" page. These
+  // fill out the full network the grouped selector depicts (32 sites across 9 basins). ---
   // Scioto (the data-center epicenter)
   {
     slug: "new-albany",

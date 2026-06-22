@@ -93,7 +93,7 @@ describe("site build phases — the four-phase clock (#308 dictate B)", () => {
   });
   it("tracking sites exist (issue-only candidates), all non-selectable with a tracking issue", () => {
     const tracked = SITES.filter((s) => s.status === "tracking");
-    expect(tracked.length).toBeGreaterThanOrEqual(18);
+    expect(tracked.length).toBeGreaterThanOrEqual(15);
     for (const s of tracked) {
       expect(s.selectable).toBe(false);
       expect(s.issue).toBeTruthy();

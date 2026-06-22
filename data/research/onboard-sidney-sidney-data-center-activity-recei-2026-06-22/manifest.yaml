@@ -1,0 +1,294 @@
+meta:
+  topic: 'onboard sidney (Sidney): data-center activity + receiving-water screen for
+    a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-22T04:01:10+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__entities
+    - mcp__bosc__timeline
+    - mcp__bosc__program_overview
+    - mcp__bosc__hydrology_balance
+    - Grep
+    - mcp__bosc__hydrology_scenario
+    - Read
+    - Glob
+    num_turns: 33
+    max_turns: 30
+    cost_usd: 1.1702855
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Derive and commit Great Miami / Loramie Creek 7Q10 low-flows for Sidney receiving-water
+    screen
+  dedupe_key: derive-and-commit-great-miami-loramie-creek-7q10-low-flows-for-s
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  - receiving-water
+  rationale: Without a committed Great Miami 7Q10, the Sidney receiving-water screen
+    cannot be run or audited, and the onboarding log's basin-screen claim is unverifiable
+    — resolving this is the load-bearing prerequisite for Sidney promotion.
+  body: '## Background
+
+    The Sidney onboarding findings identify the absence of a Great Miami River or
+    Loramie Creek 7Q10 as the most critical gap blocking the receiving-water screen.
+    The committed `low-flow-7q10.derived.yaml` contains **only four Maumee-basin mainstems**
+    (Maumee 114.15, Auglaize 1.91, St. Marys 15.65, St. Joseph 29.69 cfs) — grepping
+    for Sidney gages, Shelby, Great Miami, and Loramie across both `low-flow-7q10.yaml`
+    and `low-flow-7q10.derived.yaml` returns zero matches.
+
+
+    Additionally, the ONBOARDING.md log line `"basin-screen ok | 7/129 dischargers
+    screened (1 violations, 2 tight)"` is **not reproducible** from committed data.
+    Given that the only committed 7Q10s are Maumee-basin values, any screen that ran
+    did so against the wrong basin or a transient cache. The findings identify this
+    as the Sidney instance of standing issue #445.
+
+
+    ## Task
+
+    1. Run an LP3 (Log-Pearson Type III) frequency analysis over USGS gages `03261500`
+    (Great Miami River at Sidney) and `03262000` (Loramie Creek at Lockington) to
+    derive 7Q10 values.
+
+    2. Commit results to `low-flow-7q10.derived.yaml` under the Great Miami / Shelby
+    County entries.
+
+    3. Reconcile or remove the orphaned `"7/129 dischargers screened"` claim in `ONBOARDING.md`
+    — either reproduce it with the newly committed denominator or document that it
+    was a transient run artifact.
+
+
+    ## Acceptance criteria
+
+    - `low-flow-7q10.derived.yaml` contains verified 7Q10 entries for gages `03261500`
+    and `03262000` with LP3 provenance metadata.
+
+    - The ONBOARDING.md basin-screen log line is either backed by a reproducible,
+    committed ECHO inventory (see companion issue) or annotated as a stale artifact
+    pending #446.
+
+    - The Sidney hydrology screen is no longer blocked on a missing denominator.'
+- title: Build Great Miami basin ECHO NPDES discharger inventory and identify Sidney
+    WWTP permit
+  dedupe_key: build-great-miami-basin-echo-npdes-discharger-inventory-and-iden
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - receiving-water
+  - entities
+  - hydrology
+  rationale: The NPDES discharger inventory and WWTP design discharge are the load-bearing
+    inputs for the effluent dilution screen; without them the receiving-water screen
+    cannot produce an auditable result for Sidney.
+  body: '## Background
+
+    The findings confirm that the only committed ECHO inventory is `data/reference/echo/maumee-wwtp.*`
+    — there is no Great Miami ECHO file. Consequently, `plant_receiving={}` is marked
+    `[open]` in the Sidney site profile (`src/bosc/sites.py` L2153–2224), and the
+    Sidney WWTP and its NPDES permit/fact sheet are unidentified. The ONBOARDING.md
+    log''s `"7/129 dischargers screened"` figure cannot be sourced to any committed
+    Great Miami discharger rows. The findings identify this as the Sidney instance
+    of standing issue #446.
+
+
+    ## Task
+
+    1. Query EPA ECHO for NPDES dischargers in the Great Miami River basin (HUC-8
+    `05080001`) and commit the inventory to `data/reference/echo/` mirroring the structure
+    of `maumee-wwtp.*`.
+
+    2. Identify the Sidney WWTP within that inventory; pull its NPDES permit and fact
+    sheet.
+
+    3. Populate `plant_receiving` in the Sidney site profile with the WWTP''s design
+    discharge (MGD) and permit limit data.
+
+    4. Set `passby_primary_cfs` and `passby_secondary_cfs` from the identified in-stream
+    passby minima (currently both `0.0 [open]`).
+
+
+    ## Acceptance criteria
+
+    - A committed `data/reference/echo/great-miami-wwtp.*` file (or equivalent) exists
+    with sourced discharger rows for HUC-8 `05080001`.
+
+    - `plant_receiving` in the Sidney profile is populated with cited NPDES permit
+    data, no longer `[open]`.
+
+    - `passby_primary_cfs` and `passby_secondary_cfs` are set to non-placeholder values
+    with source citations.
+
+    - The `"7/129"` ONBOARDING.md claim can be reproduced from or superseded by the
+    committed inventory.'
+- title: Pin Shelby County retail electric utility and EIA-861 number to unblock Sidney
+    grid-profile
+  dedupe_key: pin-shelby-county-retail-electric-utility-and-eia-861-number-to
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - grid
+  - economics
+  rationale: The grid-profile error on a zero-placeholder utility number is a known,
+    concrete defect that blocks the economics dimension of Sidney onboarding and is
+    straightforwardly fixable once the correct utility is identified.
+  body: '## Background
+
+    The Sidney onboarding `grid-profile` step **errored** during the `bosc onboard
+    sidney` run (#326) with the message: `"EIA-861 2024: no Short-Form (''861S'')
+    row for utility #0 in OH."` This error traces directly to the placeholder `eia861_utility_number=0`
+    in the Sidney site profile (`src/bosc/sites.py` L2166). The findings note that
+    the Shelby County retail electric utility is unidentified, and the profile''s
+    guess of AES Ohio / DAY PJM zone is explicitly marked `[inference]`. As a result,
+    `grid-profile.yaml` does not exist on disk for Sidney, blocking the economics
+    dimension.
+
+
+    ## Task
+
+    1. Identify the retail electric utility serving Sidney / Shelby County, OH — verify
+    whether it is AES Ohio, a municipal system, or another provider using EIA-861
+    2024 Form data for Ohio.
+
+    2. Look up the correct EIA-861 utility number and PJM load zone (confirm or correct
+    the DAY zone inference).
+
+    3. Update `eia861_utility_number` in `src/bosc/sites.py` L2166 from `0` to the
+    verified number, and annotate the PJM zone.
+
+    4. Re-run `bosc onboard sidney --step grid-profile` and commit the resulting `grid-profile.yaml`.
+
+
+    ## Acceptance criteria
+
+    - `eia861_utility_number` in the Sidney profile is a non-zero, verifiable EIA-861
+    utility number with a cited source.
+
+    - The PJM zone is confirmed or corrected from `[inference]` to `[verified]`.
+
+    - `grid-profile.yaml` exists on disk for Sidney and the onboarding step no longer
+    errors.'
+- title: Conduct data-center activity sweep for Sidney / Shelby County and document
+    findings in corpus
+  dedupe_key: conduct-data-center-activity-sweep-for-sidney-shelby-county-and
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  - data-center
+  rationale: Data-center activity is the explicit research target for Sidney (#481)
+    and the dimension is currently entirely empty; a documented sweep — whether it
+    finds a facility or a confirmed absence — is required before Sidney can advance
+    toward promotion.
+  body: '## Background
+
+    The findings confirm that **the data-center activity dimension is entirely empty**
+    for Sidney: `facility=None [open]` in the site profile, zero primary records in
+    the BOSC corpus (no deeds, EPA/NPDES permits, plans, or meeting minutes), and
+    no Shelby/Sidney party in the entity graph. The economic baseline (BLS QCEW 2023)
+    shows Information sector employment of only **73 jobs across 14 establishments
+    with LQ 0.14** — strongly inconsistent with an existing data-center cluster. The
+    findings characterize any hyperscale siting as a potential greenfield event with
+    no existing-cluster signal, matching the network''s standing finding that the
+    data-center leg is weakest for Miami greenfields. This is the direct research
+    target of issue #481.
+
+
+    The findings also warn explicitly that the Lima/Allen County entity graph **must
+    not** be bridged to Sidney without evidentiary linkage.
+
+
+    ## Task
+
+    Conduct a primary-source sweep across the following and commit any findings as
+    sourced documents to `data/extracted/sidney/`:
+
+    1. Shelby County Recorder — deeds and parcel transfers for large acreage (e.g.,
+    >50 acres) since 2020.
+
+    2. Ohio Secretary of State — LLC/corp filings with data-center, hyperscale, or
+    colocation keywords in Shelby County.
+
+    3. City of Sidney and Shelby County planning/zoning board minutes — large-load,
+    special-use, or economic-development approvals.
+
+    4. Ohio EPA permit-to-install (PTI) records for emergency generators or large
+    electrical infrastructure in Shelby County.
+
+    5. AES Ohio / utility interconnection queue — large new load requests in Shelby
+    County.
+
+
+    ## Acceptance criteria
+
+    - A committed research memo in `data/extracted/sidney/` summarizes sweep results
+    with cited sources and dates.
+
+    - If a credible on-the-record data-center fact is found, it is added to the entity
+    graph with provenance; if not, the absence is documented as a confirmed negative
+    with methodology noted.
+
+    - The Lima/Allen County entity graph remains unbridged unless a direct evidentiary
+    link is found.'
+- title: 'Reconcile stale memory note: Sidney is onboarded-but-unpromoted, not queued/unonboarded'
+  dedupe_key: reconcile-stale-memory-note-sidney-is-onboarded-but-unpromoted-n
+  labels:
+  - agent-proposed
+  - needs-triage
+  - reconciliation
+  rationale: A stale memory note that mischaracterizes Sidney's onboarding state will
+    cause future agents to repeat already-completed work or miss the specific gaps
+    that actually block promotion.
+  body: '## Background
+
+    The findings identify a direct conflict between the project memory state and the
+    filesystem. The memory note reads `"Sidney #481 … queued, NOT yet onboarded"`,
+    but the filesystem shows that `bosc onboard sidney` (#326) **has already run**
+    and `data/extracted/sidney/ONBOARDING.md` exists with hydrology and economics
+    dimensions marked complete. The findings list this as Discrepancy #1 in their
+    summary.
+
+
+    The correct characterization is **onboarded-but-unpromoted**: `frontend/src/lib/sites.ts`
+    L229–239 shows `status: "queued"`, `selectable: false`, which is the correct *frontend*
+    posture pending promotion, but the memory note conflates frontend status with
+    onboarding state.
+
+
+    ## Task
+
+    1. Update the `miami-basin-expansion` memory note for Sidney to reflect actual
+    state: `bosc onboard sidney` (#326) has run; hydrology and economics scaffolding
+    is committed; data-center activity (#481), GIS, RSEI, SSURGO, and grid-profile
+    remain incomplete; frontend status correctly remains `queued / selectable: false`
+    pending promotion gate.
+
+    2. Ensure the memory note lists the specific open onboarding steps (data-center
+    sweep, Great Miami 7Q10 + ECHO inventory, grid-profile utility pin, RSEI cache,
+    SSURGO footprint) so future agents do not re-tread ground already completed.
+
+    3. Verify no other memory notes carry the stale "not yet onboarded" characterization
+    for Sidney.
+
+
+    ## Acceptance criteria
+
+    - The canonical memory note for Sidney accurately distinguishes between completed
+    onboarding steps (hydrology, economics baseline) and open steps (data-center,
+    receiving-water screen, grid-profile, RSEI, SSURGO).
+
+    - The note does not describe Sidney as "not yet onboarded."
+
+    - Future agent queries for Sidney onboarding state return the correct partial-completion
+    picture.'

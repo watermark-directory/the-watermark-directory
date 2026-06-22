@@ -1,0 +1,298 @@
+meta:
+  topic: 'onboard greenville (Greenville · Darke Co): data-center activity + receiving-water
+    screen for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-22T04:07:35+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__program_overview
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__entities
+    - mcp__bosc__timeline
+    - Grep
+    - Read
+    - Glob
+    num_turns: 24
+    max_turns: 30
+    cost_usd: 0.8209005
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Commit Greenville Creek / Stillwater River 7Q10 denominators to low-flow-7q10.derived.yaml
+  dedupe_key: commit-greenville-creek-stillwater-river-7q10-denominators-to-lo
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - reconciliation
+  rationale: The at-site 7Q10 is the single most critical denominator for the receiving-water
+    screen; without it, no assimilative-capacity finding can be cited or defended.
+  body: '## Background
+
+
+    The onboarding run log (`data/extracted/greenville/ONBOARDING.md`) reports `derive-low-flows
+    → ok`, yet the committed derived low-flow file `data/reference/hydrology/low-flow-7q10.derived.yaml`
+    contains **only the four Maumee-basin mainstems** (Maumee, Auglaize, St. Marys,
+    St. Joseph). No Greenville Creek, Stillwater River, or Great Miami value is present.
+    The regulatory file `low-flow-7q10.yaml` likewise has no Stillwater/Greenville
+    Creek entry.
+
+
+    USGS gages identified in `src/bosc/sites.py` (lines 2238, 2284):
+
+    - **03264000** — Greenville Creek near Bradford OH (at-site / abstraction gage)
+
+    - **03265000** — Stillwater River at Pleasant Hill OH (downstream context)
+
+
+    ## Problem
+
+
+    The assimilative-capacity denominator for the at-site reach is absent from the
+    committed record. The receiving-water screen cannot currently be reproduced from
+    committed data alone. Either the Great Miami / Greenville Creek and Stillwater
+    LP3 7Q10s were computed during the run and not written out, or the basin-screen
+    ran against a denominator that was never persisted to the repo.
+
+
+    ## Acceptance Criteria
+
+
+    - [ ] LP3 7Q10 values for USGS gages 03264000 and 03265000 are computed (or retrieved
+    from a prior run) and committed to `data/reference/hydrology/low-flow-7q10.derived.yaml`.
+
+    - [ ] The committed values reconcile with what the `derive-low-flows` step logged
+    in `ONBOARDING.md`; any discrepancy is documented.
+
+    - [ ] A reviewer can reproduce the receiving-water screen end-to-end from committed
+    data without re-running any untracked computation.'
+- title: Persist the per-discharger basin-screen artifact behind the '1 violation
+    / 2 tight' result
+  dedupe_key: persist-the-per-discharger-basin-screen-artifact-behind-the-1-vi
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  rationale: An unattributed violation finding in a run log with no inspectable artifact
+    cannot be cited or defended; persisting the artifact is required before the basin
+    screen can appear in the published record.
+  body: '## Background
+
+
+    The onboarding log (`data/extracted/greenville/ONBOARDING.md`) records a basin-screen
+    result of **7/129 dischargers screened, 1 violation, 2 tight**. No per-discharger
+    output file exists in the committed repository; there is no artifact to inspect,
+    and the violation cannot currently be attributed to a named outfall or receiving
+    water.
+
+
+    The findings note: *"The ''1 violation / 2 tight'' basin-screen result is logged
+    but not committed — there is no per-discharger output file to inspect, and it
+    cannot be confirmed which receiving water the violation sits on. I am reporting
+    it as what the run logged, not as an established finding."*
+
+
+    ## Problem
+
+
+    A pollution-loading violation finding is present in the run log but is not reproducible
+    or attributable from committed data. It cannot be cited in the record until the
+    underlying per-discharger table is committed and the receiving water of the violation
+    is identified.
+
+
+    ## Acceptance Criteria
+
+
+    - [ ] A per-discharger screen output file is committed under `data/reference/hydrology/greenville/`
+    (or equivalent canonical path) showing all 129 screened dischargers with load
+    ratios.
+
+    - [ ] The 1 violation and 2 tight-margin dischargers are each attributed to a
+    named outfall and receiving water.
+
+    - [ ] The committed artifact is consistent with the 7Q10 denominators resolved
+    in the companion issue (Greenville Creek / Stillwater 7Q10 commit).'
+- title: Execute data-center activity extraction for Greenville / Darke County (the
+    open research dimension)
+  dedupe_key: execute-data-center-activity-extraction-for-greenville-darke-cou
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  rationale: Data-center activity is the named research dimension for this site and
+    the primary reason the node exists; it cannot remain `[inference]` indefinitely
+    without a documented extraction attempt.
+  body: '## Background
+
+
+    The findings confirm a **flat no-data finding** for data-center activity in Greenville/Darke
+    County: `_GREENVILLE.facility=None` (`src/bosc/sites.py:2291`), zero entity-graph
+    nodes for Greenville, and no Darke County deed, NPDES applicant, or shell-LLC
+    record in the corpus. The cross-document tools (`entities`, `timeline`, `program_overview`)
+    return only Lima/Allen County content.
+
+
+    The framing in `sites.py:2227–2234` — Darke as a greenfield farmland-conversion
+    target with a likely rural electric co-op utility — is **explicitly tagged `[inference]`
+    in-source** and is a research hypothesis, not a finding. There is no evidentiary
+    bridge from the Lima Bistrozzi/Amazon/Google thread into Darke County.
+
+
+    The data-center activity gate in `ONBOARDING.md` is marked ☐ not started. The
+    site is held at `status: "queued"`, `selectable: false` in `frontend/src/lib/sites.ts`
+    (issue #482).
+
+
+    ## Work
+
+
+    1. Run `bosc onboard --research` (per issue #247) to seed Darke County / City
+    of Greenville record proposals.
+
+    2. Issue targeted public-records requests (PRRs) for: rezoning applications, CRA/TIF
+    agreements, port-authority resolutions, and large-load utility-interconnection
+    filings in Darke County.
+
+    3. Search Ohio EPA NPDES permit database for any new industrial applicants with
+    a Greenville/Darke County address.
+
+    4. Do **not** carry Lima entity-graph actors (Bistrozzi, Tilted Gate, Magenta
+    Capital, Vorys/EMH&T) into this register without a documented link.
+
+
+    ## Acceptance Criteria
+
+
+    - [ ] At least one primary instrument (deed, permit, utility filing, or rezoning
+    record) is located and committed, OR a documented negative search is recorded
+    confirming no such instrument exists as of the search date.
+
+    - [ ] `_GREENVILLE.facility` is updated from `None` to a named entity (if found)
+    or the `[inference]` tag on the farmland-conversion angle is explicitly retained
+    with a dated negative-search note.
+
+    - [ ] The data-center gate in `ONBOARDING.md` is updated to reflect the outcome.'
+- title: Wire per-jurisdiction parcel & zoning GIS connector for Darke County OH (FIPS
+    39037), guarding against same-name county collision
+  dedupe_key: wire-per-jurisdiction-parcel-zoning-gis-connector-for-darke-coun
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - gis
+  rationale: Parcel and zoning data are prerequisites for SSURGO HSG derivation and
+    for locating any candidate data-center footprint; the same-name county collision
+    risk makes explicit verification essential before the connector is wired.
+  body: '## Background
+
+
+    The site profile in `src/bosc/sites.py` records `parcels_url` and `zoning_url`
+    as `"TODO"` — the per-jurisdiction GIS connector step is marked ☐ not started
+    in `ONBOARDING.md`. No parcel or zoning data for Darke County, Ohio is committed.
+
+
+    The findings flag a standing memory hazard: *"verify the discovered ArcGIS endpoint
+    is Darke County, Ohio (FIPS 39037), not a same-named county elsewhere, from a
+    live sample before wiring."* Additionally, any candidate site footprint must be
+    confirmed to sit **east of the Wabash drainage divide** before the Great Miami
+    receiving-water screen applies — western Darke drains to the Wabash → Mississippi,
+    not the Ohio (`sites.py:2229–2231`).
+
+
+    ## Work
+
+
+    1. Locate the authoritative Darke County, OH ArcGIS (or equivalent) parcel and
+    zoning REST endpoints.
+
+    2. Pull a live sample and confirm FIPS code 39037 appears in the returned attributes
+    before wiring.
+
+    3. Commit `parcels_url` and `zoning_url` to the site profile.
+
+    4. Document the drainage-divide boundary (approximate easting) so that any future
+    candidate footprint can be checked against it.
+
+
+    ## Acceptance Criteria
+
+
+    - [ ] `parcels_url` and `zoning_url` are populated with verified, live-tested
+    endpoints for Darke County, **Ohio** (FIPS 39037).
+
+    - [ ] A sample parcel response confirming FIPS 39037 is committed or linked.
+
+    - [ ] The drainage-divide boundary is noted in the site profile or a companion
+    GIS note so that footprint east/west classification is unambiguous.
+
+    - [ ] The per-jurisdiction GIS gate in `ONBOARDING.md` is updated to ☑.'
+- title: 'Resolve three skipped/errored onboarding steps: RSEI cache, grid-profile
+    EIA-861S, and SSURGO HSG'
+  dedupe_key: resolve-three-skipped-errored-onboarding-steps-rsei-cache-grid-p
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - hydrology
+  - entities
+  rationale: These three skipped steps leave placeholder or inferred values in the
+    site profile that will propagate into downstream analysis; resolving them is required
+    before the site can advance past `queued` status.
+  body: '## Background
+
+
+    The findings identify three onboarding steps that did not complete successfully,
+    leaving explicit gaps in the site profile:
+
+
+    1. **RSEI skipped** — the step failed due to a missing cache file: `data/cache/rsei/v234/.../elements.csv.gz`.
+    No RSEI toxicity-weighted release data is available for Darke County.
+
+    2. **Grid-profile errored** — "no Short-Form (''861S'') row for utility #0 in
+    OH" (`eia861_utility_number=0` unset). The serving utility is currently `[inference]`:
+    "likely a rural electric co-op (Darke REC / Pioneer) ± AES Ohio, DAY zone" (`sites.py:2227–2234`).
+    The findings note the known muni/co-op pattern expects an EIA-861S short-form
+    row, suggesting the correct utility number just needs to be identified.
+
+    3. **SSURGO HSG skipped** — requires `extracted/greenville/bosc-site-footprint.yaml`,
+    which depends on identifying a candidate site footprint (itself blocked on the
+    data-center extraction and GIS connector work). `dominant_hsg="C"` is currently
+    tagged `[inference]` pending SSURGO area-weighted confirmation.
+
+
+    ## Work
+
+
+    - **RSEI:** Populate or refresh `data/cache/rsei/v234/` so the Darke County RSEI
+    step can run; document whether no releases are found (a valid negative result)
+    or the cache was simply absent.
+
+    - **Grid-profile:** Identify the correct EIA-861 utility number for the serving
+    entity (Darke REC, Pioneer REC, or AES Ohio DAY zone) and set `eia861_utility_number`;
+    re-run the grid-profile step.
+
+    - **SSURGO:** Once a candidate footprint is available (from GIS connector / data-center
+    extraction work), run the SSURGO area-weighted HSG derivation and replace the
+    `[inference]` placeholder.
+
+
+    ## Acceptance Criteria
+
+
+    - [ ] RSEI step completes (with data or a documented negative) and the result
+    is committed.
+
+    - [ ] `eia861_utility_number` is set to a verified value; the grid-profile step
+    completes without error.
+
+    - [ ] SSURGO HSG is derived from an area-weighted calculation over a committed
+    footprint polygon, replacing `dominant_hsg="C" [inference]`.
+
+    - [ ] All three gate checkboxes in `ONBOARDING.md` are updated accordingly.'

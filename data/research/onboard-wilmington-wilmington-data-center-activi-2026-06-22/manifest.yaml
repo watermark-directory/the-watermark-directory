@@ -1,0 +1,278 @@
+meta:
+  topic: 'onboard wilmington (Wilmington): data-center activity + receiving-water
+    screen for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-22T04:11:29+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__program_overview
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__entities
+    - Grep
+    - Glob
+    - Read
+    - Bash
+    num_turns: 30
+    max_turns: 30
+    cost_usd: 1.0078627500000001
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Derive and commit Little Miami / Todd Fork 7Q10 low-flows and re-run basin-screen
+    as a reviewable artifact
+  dedupe_key: derive-and-commit-little-miami-todd-fork-7q10-low-flows-and-re-r
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  rationale: Without a verifiable 7Q10 denominator and a committed screen artifact,
+    the basin-screen result is unauditable and cannot support any receiving-water
+    finding for Wilmington.
+  body: '## Background
+
+    The findings confirm that no Little Miami or Todd Fork 7Q10 value exists anywhere
+    in the committed corpus. The file `low-flow-7q10.yaml` is Lima-only (Dug Run,
+    Pike Run, Ottawa River), and `low-flow-7q10.derived.yaml` contains only Maumee-basin
+    mainstems. Despite `derive-low-flows` reportedly completing with status `ok`,
+    neither USGS gage 03245500 (Little Miami at Milford) nor 03240000 (Little Miami
+    at Oldtown) appears in any committed output.
+
+
+    Further, `ONBOARDING.md` line 21 records `basin-screen ok | 7/129 dischargers
+    screened (1 violations, 2 tight)`, but a glob for `*screen*` under `data/reference/hydrology/`
+    returns nothing — no screen output artifact is committed. The "1 violation, 2
+    tight" result therefore has no reviewable, verifiable denominator.
+
+
+    ## Concrete steps
+
+    1. Investigate why `derive-low-flows` did not write Little Miami gage entries;
+    fix or re-run it for gages 03245500 and 03240000.
+
+    2. Commit the resulting 7Q10 values to `data/reference/hydrology/wilmington/low-flow-7q10.derived.yaml`
+    (or equivalent path).
+
+    3. Re-run `basin-screen` for Wilmington and commit the output artifact (e.g.,
+    `basin-screen-results.yaml`) to `data/reference/hydrology/wilmington/`.
+
+
+    ## Acceptance criterion
+
+    - `data/reference/hydrology/wilmington/low-flow-7q10.derived.yaml` contains sourced
+    7Q10 entries for at least one Little Miami / Todd Fork gage.
+
+    - A committed basin-screen output file exists and is traceable to those 7Q10 values.
+
+    - The "1 violation, 2 tight" log line can be independently reproduced from the
+    committed artifact.'
+- title: Document and commit a drainage-area-ratio adjustment for ungaged Todd Fork
+    and pin the scenic-river passby minimum
+  dedupe_key: document-and-commit-a-drainage-area-ratio-adjustment-for-ungaged
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - entities
+  rationale: Using an overstating downstream integrator gage with a zero passby minimum
+    produces an optimistic dilution estimate for a Scenic River, which would undermine
+    any effluent-dominance or assimilative-capacity finding.
+  body: '## Background
+
+    The findings verify (`[verified caveat]`) that Todd Fork is ungaged — USGS gage
+    03244000 is discontinued and Clinton County has no active gage. The SiteProfile
+    (`src/bosc/sites.py`, lines 2366–2370) uses gage 03245500 (Little Miami at Milford)
+    as the `abstraction_gage` and `supply_gage_primary`, but explicitly flags that
+    Milford "overstates at-site dilution."
+
+
+    Additionally, `passby_primary_cfs` is currently `0.0` (`[open]`), despite the
+    profile noting that Todd Fork''s National & State Scenic River designation (Little
+    Miami Scenic River corridor) "likely raises" the in-stream passby minimum above
+    zero.
+
+
+    ## Concrete steps
+
+    1. Compute a drainage-area-ratio (DAR) scalar from Milford (gage 03245500) to
+    the Todd Fork confluence or relevant site point; document the source area data
+    and commit the adjustment factor to a reference file.
+
+    2. Research the OEPA / ODNR scenic-river passby standard applicable to the Little
+    Miami corridor and set `passby_primary_cfs` to the verified value in the SiteProfile.
+
+    3. Record both items in `data/extracted/wilmington/ONBOARDING.md` with source
+    citations.
+
+
+    ## Acceptance criterion
+
+    - A committed reference file documents the DAR scalar with source drainage-area
+    data.
+
+    - `passby_primary_cfs` in `_WILMINGTON` SiteProfile is non-zero and cites an OEPA/ODNR
+    authority.
+
+    - The profile''s `[open]` and `[inference]` tags on dilution and passby fields
+    are resolved.'
+- title: Run bosc onboard wilmington --research to seed data-center-activity extraction
+    for the Air Park / Amazon Air / ATSG thesis
+  dedupe_key: run-bosc-onboard-wilmington-research-to-seed-data-center-activit
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - entities
+  rationale: The site's entire analytical thesis rests on a single-tenant air-cargo
+    hub, but no extracted instrument currently backs that claim, making the Wilmington
+    onboard unpublishable.
+  body: '## Background
+
+    The findings confirm that the data-center-activity onboarding dimension is entirely
+    empty: `facility=None` in the SiteProfile (`src/bosc/sites.py`, line 2373), and
+    `data/extracted/wilmington/` contains only `README` and `ONBOARDING.md` — no deeds,
+    NPDES permits, township minutes, or entity-graph parties for Clinton County.
+
+
+    The site thesis ("place shaped by one tenant") centers on the Wilmington Air Park
+    (ILN) as an Amazon Air cargo hub / ATSG base, but this is tagged `[reference]`/`[inference]`
+    in the profile (lines 2310–2316, 2345) and is not backed by any extracted instrument.
+
+
+    **Important no-link caveat:** The 44 repo files currently matching "wilmington"
+    are Wilmington, *Delaware* registered-agent addresses (e.g., `permits/4081910.epa.yaml`,
+    `recorder/202508130008300.deed.yaml`, Tilted Gate LLC / Bistrozzi grantee) belonging
+    to the Lima/Allen County thread. They must not be treated as Wilmington, Ohio
+    activity.
+
+
+    ## Concrete steps
+
+    1. Run `bosc onboard wilmington --research` (per issues #247 / #492) to generate
+    Air Park / Amazon Air / ATSG extraction proposals.
+
+    2. Search Clinton County / City of Wilmington records for NPDES permits, stormwater
+    permits, conditional-use approvals, or utility agreements referencing the Air
+    Park.
+
+    3. Commit any extracted instruments to `data/extracted/wilmington/` and populate
+    `facility` in the SiteProfile with a verified entity.
+
+
+    ## Acceptance criterion
+
+    - At least one extracted instrument (permit, deed, or public record) for the Wilmington
+    Air Park / ILN is committed to `data/extracted/wilmington/`.
+
+    - `facility` in `_WILMINGTON` SiteProfile is non-`None` and cites a sourced record.
+
+    - The Amazon Air / ATSG tenant claim is upgraded from `[inference]` to `[verified]`
+    or `[reference]` with a document citation.'
+- title: Identify Clinton County's EIA-861 utility number and commit a grid-profile
+    for the Wilmington site
+  dedupe_key: identify-clinton-county-s-eia-861-utility-number-and-commit-a-gr
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  rationale: A missing grid profile leaves the site's energy-cost and grid-intensity
+    analysis entirely unsourced, blocking the economics dimension from being marked
+    complete.
+  body: '## Background
+
+    The findings confirm that the `grid-profile` step errored during the last onboard
+    run with: "EIA-861 2024: no Short-Form (''861S'') row for utility #0 in OH" —
+    because `eia861_utility_number=0` is a placeholder in the SiteProfile. No `grid-profile.yaml`
+    was produced for Wilmington.
+
+
+    The profile guesses AES Ohio as the retail utility and PJM **DAY** as the LMP
+    zone, both tagged `[inference]`. The consumer-energy file (`data/reference/eia/wilmington/consumer-energy.yaml`)
+    contains only Ohio statewide rates, not Clinton County–specific figures. The findings
+    note this follows the same muni/Short-Form (861S) pattern as Bryan, OH.
+
+
+    ## Concrete steps
+
+    1. Query EIA-861 (including Short-Form 861S) for Clinton County, OH to identify
+    the correct retail utility and its utility number.
+
+    2. Update `eia861_utility_number` in `_WILMINGTON` SiteProfile to the verified
+    value.
+
+    3. Confirm the PJM zone (DAY vs. alternative) and identify the applicable LMP
+    pnode for the Air Park area.
+
+    4. Re-run `grid-profile` and commit the resulting `grid-profile.yaml` to `data/reference/eia/wilmington/`.
+
+
+    ## Acceptance criterion
+
+    - `eia861_utility_number` in the SiteProfile is non-zero and matches a verified
+    EIA-861 / 861S record.
+
+    - `data/reference/eia/wilmington/grid-profile.yaml` is committed with sourced
+    PJM zone and pnode.
+
+    - The `[inference]` tags on utility and zone fields in the SiteProfile are resolved.'
+- title: Stand up Clinton County GIS connector (parcels + zoning) with situs verification,
+    then unblock SSURGO HSG confirmation
+  dedupe_key: stand-up-clinton-county-gis-connector-parcels-zoning-with-situs
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  - entities
+  rationale: Without a verified site footprint and GIS connector, SSURGO soil classification,
+    stormwater modeling, and parcel-level entity research are all blocked, preventing
+    the site from reaching the promotion gate.
+  body: '## Background
+
+    The findings confirm that `parcels_url`, `zoning_url`, `gis_parcel`, and `gis_zoning`
+    are all `TODO`/`None` in the SiteProfile. Only the national FEMA NFHL flood layer
+    is wired. Without a site footprint, the `ssurgo-hsg` step was skipped, leaving
+    `dominant_hsg="C"` as an `[inference]` based on glaciated till-plain reasoning
+    rather than an area-weighted SSURGO pull. The stormwater runoff scenario (`pre_cover`/`post_cover`/`developed_pervious_cover`
+    = `TODO`) cannot run.
+
+
+    The findings flag the **county-name/state trap** explicitly: repo memory records
+    that Williams County was briefly wired to a North Dakota GIS source. Any discovered
+    "Clinton County" GIS endpoint must be verified against a live parcel sample (situs
+    city = Wilmington, OH; state = Ohio; FIPS = 39027) before being committed.
+
+
+    ## Concrete steps
+
+    1. Locate the Clinton County, Ohio auditor/GIS parcel and zoning endpoints.
+
+    2. Pull a live sample and verify situs fields (city, state, FIPS 39027) to guard
+    against same-name county confusion.
+
+    3. Wire verified URLs into the SiteProfile (`parcels_url`, `zoning_url`) and the
+    GIS connector.
+
+    4. Generate a site footprint (`extracted/wilmington/bosc-site-footprint.yaml`)
+    for the Air Park area.
+
+    5. Re-run `ssurgo-hsg` against the footprint and commit the area-weighted HSG
+    result, replacing the `[inference]` `dominant_hsg` value.
+
+
+    ## Acceptance criterion
+
+    - `parcels_url` and `zoning_url` in `_WILMINGTON` SiteProfile point to verified
+    Clinton County, OH endpoints confirmed by live situs sample.
+
+    - `data/extracted/wilmington/bosc-site-footprint.yaml` is committed.
+
+    - `dominant_hsg` is sourced from an SSURGO area-weighted pull and the `[inference]`
+    tag is removed.
+
+    - `pre_cover`, `post_cover`, and `developed_pervious_cover` are populated, enabling
+    the stormwater runoff scenario.'
