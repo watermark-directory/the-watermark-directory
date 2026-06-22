@@ -289,6 +289,21 @@ def test_proposal_drafts_coerces_stringified_list_with_control_chars() -> None:
     assert drafts.proposals[0].body == "para one\npara two"
 
 
+def test_proposal_drafts_coerces_fenced_prose_and_trailing_commas() -> None:
+    """Three more stringified-array quirks that broke a Sidney onboarding run: a wrapping
+    markdown code fence, prose around the array, and a trailing comma before ``]``/``}`` (valid
+    JS, invalid JSON). The coercion strips/repairs all three rather than lose the run."""
+    from bosc.research.models import ProposalDrafts
+
+    fenced = '```json\n[{"title": "T", "body": "B", "rationale": "R"}]\n```'
+    prose = 'Here are the proposals:\n[{"title": "T", "body": "B", "rationale": "R"}]\nDone.'
+    trailing = '[{"title": "T", "body": "B", "rationale": "R", "labels": ["x",]},]'
+    for raw in (fenced, prose, trailing):
+        drafts = ProposalDrafts.model_validate({"proposals": raw})
+        assert len(drafts.proposals) == 1
+        assert drafts.proposals[0].title == "T"
+
+
 def test_proposal_draft_coerces_stringified_labels() -> None:
     """The model also stringifies the nested `labels` array — coerce it back too (the other
     failure mode the Urbana run surfaced)."""

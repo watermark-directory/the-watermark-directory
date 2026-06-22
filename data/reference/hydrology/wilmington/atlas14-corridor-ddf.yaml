@@ -1,0 +1,48 @@
+meta:
+  subject: NOAA Atlas-14 design-storm depths — Wilmington Air Park (single-tenant)
+    corridor
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  point:
+    latitude: 39.4453
+    longitude: -83.8285
+  units: inches (point precipitation depth)
+ddf:
+  latitude: 39.4453
+  longitude: -83.8285
+  durations:
+  - 60-min
+  - 6-hr
+  - 12-hr
+  - 24-hr
+  return_periods:
+  - 2
+  - 10
+  - 25
+  - 50
+  - 100
+  depths_in:
+    60-min:
+      '2': 1.38
+      '10': 1.95
+      '25': 2.28
+      '50': 2.54
+      '100': 2.8
+    6-hr:
+      '2': 2.03
+      '10': 2.89
+      '25': 3.43
+      '50': 3.87
+      '100': 4.33
+    12-hr:
+      '2': 2.4
+      '10': 3.39
+      '25': 4.0
+      '50': 4.5
+      '100': 5.01
+    24-hr:
+      '2': 2.79
+      '10': 3.91
+      '25': 4.58
+      '50': 5.12
+      '100': 5.67
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)

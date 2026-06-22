@@ -2145,6 +2145,258 @@ _TROY_PIQUA = SiteProfile(
 )
 
 
+# The UPPER-UPPER Great Miami node (Shelby County) — the next mainstem city UPSTREAM of Troy/Piqua
+# (#475): headwaters (Indian Lake) -> Sidney -> Piqua -> Troy -> Dayton, on I-75. Same upper Great
+# Miami buried-valley sole-source aquifer as Troy/Piqua (groundwater-dominated HSG A/B), and a
+# compressor/refrigeration-manufacturing town (Emerson/Copeland HQ) — the upstream sibling of the
+# Troy/Piqua manufacturing reach. Tracking -> onboarding (#481 / epic #440).
+_SIDNEY = SiteProfile(
+    slug="sidney",
+    place="Sidney",
+    basin="great-miami",  # [verified] upper Great Miami River → Ohio River (HUC-8 05080001)
+    nwis_sites=[
+        "03261500",  # [verified] Great Miami River at Sidney OH (the at-site mainstem reach)
+        "03262000",  # [verified] Loramie Creek at Lockington OH (the major local tributary; Lockington dam)
+        "03261950",  # [verified] Loramie Creek near Newport OH (upstream Loramie tributary)
+    ],
+    nasa_power_lat=40.2842,  # [verified] Sidney, OH city centroid (40deg17'03"N 84deg09'21"W)
+    nasa_power_lon=-84.1558,
+    rsei_fips="39149",  # [verified] Shelby County, OH
+    econ_fips="39149",
+    eia861_utility_number=0,  # [open] Shelby County retail utility — pin via research (likely AES Ohio / DAY)
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the Shelby County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Sidney GIS REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32616,  # [verified] UTM 16N (Sidney ~84.16 degW; zone 16 spans 90-84 degW) — NOT zone 17
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
+    gis_parcel=None,  # [open] pending Shelby County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Sidney zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "sidney-gis"}),
+    design_lat=40.2842,  # [verified] Sidney centroid = NOAA Atlas-14 point
+    design_lon=-84.1558,
+    corridor_name="Upper Great Miami headwaters corridor",  # [inference] the Sidney mainstem reach (I-75)
+    dominant_hsg="B",  # [inference] upper Great Miami buried-valley outwash (well-drained valley fill)
+    hsg_citation=(
+        "Sidney (Shelby County) sits on the upper Great Miami Buried Valley Aquifer - glacial "
+        "outwash sand & gravel, a US-EPA designated sole-source aquifer the Sidney well field "
+        "draws on - so the valley fill is well-drained HSG A/B, the INVERSE of the Maumee "
+        "lake-plain Black Swamp clays (HSG D); [inference] pending an SSURGO area-weighted "
+        "confirmation (onboard SSURGO needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
+    parcels_relpath="reference/sidney/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/sidney/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/sidney/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/sidney/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/sidney/baseline.yaml",
+    rsei_relpath="reference/rsei/sidney/inventory.yaml",
+    consumer_energy_relpath="reference/eia/sidney/consumer-energy.yaml",
+    grid_relpath="reference/eia/sidney/grid-profile.yaml",
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending the corridor (the Sidney manufacturing reach)
+    receiving_water_name="Great Miami River",  # [verified] the upper Great Miami mainstem (→ Ohio R.)
+    plant_receiving={},  # [open] pending the Sidney WWTP NPDES fact sheet
+    abstraction_gage="03261500",  # [verified] Great Miami River at Sidney OH
+    supply_gage_primary="03261500",  # [verified] Great Miami River at Sidney
+    supply_gage_secondary="03262000",  # [verified] Loramie Creek at Lockington (the major local tributary)
+    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum
+    passby_secondary_cfs=0.0,  # [open]
+    facility=None,  # [open] the Sidney / I-75-corridor data-center dimension is the research target (#481)
+    serving_utility_citation="[open] pending Shelby County retail utility verification (likely AES Ohio / DAY; research)",
+    serving_utility_source="reference",
+    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
+    lmp_citation=(
+        "PJM LMP placeholder for the Sidney area; [inference] the PJM transmission zone is not "
+        "yet pinned - likely the DAY zone (AES Ohio territory) - verify the utility + zone (research)"
+    ),
+    lmp_pnode_id=0,  # [open] pending the Shelby County PJM zone (likely DAY)
+    lmp_pnode_name="",
+    county_name="Shelby County, OH",  # [verified]
+    map_view_lat=40.2842,
+    map_view_lon=-84.1558,
+    map_view_zoom=12,
+)
+
+
+# The AGRICULTURAL / basin-edge node (Darke County, seat Greenville) — WEST of Miami County on the
+# Indiana border, the most DIFFERENT Miami-basin candidate and a deliberate contrast to the
+# industrial mainstem nodes. Darke straddles a drainage divide: eastern Darke (Greenville Creek ->
+# Stillwater R. -> Great Miami -> Ohio R.) is the Great-Miami headwaters edge; western Darke drains
+# to the Wabash (direct Mississippi). A till-plain county (NOT buried-valley) and one of Ohio's top
+# agricultural counties — the data-center angle is greenfield farmland conversion, and the likely
+# utility is a rural electric co-op (a third utility type for the network). Tracking -> onboarding
+# (#482 / epic #440).
+_GREENVILLE = SiteProfile(
+    slug="greenville",
+    place="Greenville · Darke Co",
+    basin="great-miami",  # [verified] eastern Darke: Greenville Creek → Stillwater R. → Great Miami → Ohio R.
+    nwis_sites=[
+        "03264000",  # [verified] Greenville Creek near Bradford OH (the at-site receiving-water reach)
+        "03265000",  # [verified] Stillwater River at Pleasant Hill OH (downstream Stillwater context; Greenville Ck feeds it)
+    ],
+    nasa_power_lat=40.1023,  # [verified] Greenville, OH city centroid (40deg06'08"N 84deg37'59"W)
+    nasa_power_lon=-84.6330,
+    rsei_fips="39037",  # [verified] Darke County, OH
+    econ_fips="39037",
+    eia861_utility_number=0,  # [open] Darke County retail utility — likely a rural electric co-op ± AES Ohio (research)
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the Darke County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Greenville / Darke County zoning REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32616,  # [verified] UTM 16N (Greenville ~84.63 degW; zone 16 spans 90-84 degW)
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
+    gis_parcel=None,  # [open] pending Darke County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Greenville / Darke County zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "greenville-gis"}),
+    design_lat=40.1023,  # [verified] Greenville centroid = NOAA Atlas-14 point
+    design_lon=-84.6330,
+    corridor_name="Greenville Creek agricultural headwaters",  # [inference] the basin-edge / ag reach (not industrial)
+    dominant_hsg="C",  # [inference] Darke till plain (ground moraine) — less-permeable uplands, NOT buried valley
+    hsg_citation=(
+        "Darke County is largely glaciated till plain (Wisconsinan ground moraine) - likely "
+        "less-permeable HSG C/D uplands, with glacial outwash only in the Stillwater/Greenville "
+        "Creek valleys - the till-plain CONTRAST to the Great Miami buried-valley aquifer at "
+        "Troy/Piqua/Sidney; [inference] pending an SSURGO area-weighted confirmation (onboard "
+        "SSURGO needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
+    parcels_relpath="reference/greenville/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/greenville/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/greenville/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/greenville/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/greenville/baseline.yaml",
+    rsei_relpath="reference/rsei/greenville/inventory.yaml",
+    consumer_energy_relpath="reference/eia/greenville/consumer-energy.yaml",
+    grid_relpath="reference/eia/greenville/grid-profile.yaml",
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending the corridor (the Greenville ag/food-processing reach)
+    receiving_water_name="Greenville Creek",  # [verified] → Stillwater R. → Great Miami → Ohio R.
+    plant_receiving={},  # [open] pending the Greenville WWTP NPDES fact sheet
+    abstraction_gage="03264000",  # [verified] Greenville Creek near Bradford OH
+    supply_gage_primary="03264000",  # [verified] Greenville Creek near Bradford
+    supply_gage_secondary="03265000",  # [verified] Stillwater River at Pleasant Hill (downstream context)
+    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum
+    passby_secondary_cfs=0.0,  # [open]
+    facility=None,  # [open] the data-center / ag-land-conversion dimension is the research target (#482)
+    serving_utility_citation="[open] pending Darke County retail utility verification (likely a rural electric co-op ± AES Ohio; research)",
+    serving_utility_source="reference",
+    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (co-op served from it); pin via research
+    lmp_citation=(
+        "PJM LMP placeholder for the Greenville/Darke area; [inference] heavily rural so likely a "
+        "rural electric co-op (e.g. Darke REC / Pioneer) within the DAY zone (AES Ohio) - co-ops "
+        "file their own EIA-861 forms - verify the utility + zone (research)"
+    ),
+    lmp_pnode_id=0,  # [open] pending the Darke County PJM zone (likely DAY)
+    lmp_pnode_name="",
+    county_name="Darke County, OH",  # [verified] FIPS 39037
+    map_view_lat=40.1023,
+    map_view_lon=-84.6330,
+    map_view_zoom=12,
+)
+
+
+# The Little Miami's SECOND tracking point (with Xenia #444), east of the river in Clinton County —
+# defined by a single dominant large-load tenant: the Wilmington Air Park (ILN), the former DHL /
+# Airborne Express super-hub (the 2008 DHL pullout is a landmark company-town economic collapse),
+# now an Amazon Air cargo hub + ATSG base. The "place shaped by one tenant" comparator and an
+# Amazon footprint to set against the Lima Amazon data-center tenant. Receiving water is Todd Fork
+# -> Little Miami (a National & State Scenic River, the same anti-degradation overlay as Xenia) — but
+# Todd Fork is UNGAGED (the old 03244000 is discontinued; Clinton County has no active gage), so the
+# nearest mainstem integrators bracket it. Tracking -> onboarding (#492 / epic #440).
+_WILMINGTON = SiteProfile(
+    slug="wilmington",
+    place="Wilmington",
+    basin="little-miami",  # [verified] Todd Fork → Little Miami River → Ohio River (HUC-8 05090202)
+    nwis_sites=[
+        "03245500",  # [verified] Little Miami River at Milford OH (downstream mainstem integrator, incl. Todd Fork)
+        "03240000",  # [verified] Little Miami River near Oldtown OH (upstream Xenia reach — brackets Todd Fork above)
+        "03242350",  # [verified] Caesar Creek near Wellman OH (a nearer Little Miami tributary; reservoir-regulated)
+    ],
+    nasa_power_lat=39.4453,  # [verified] Wilmington, OH city centroid (39deg26'43"N 83deg49'43"W)
+    nasa_power_lon=-83.8285,
+    rsei_fips="39027",  # [verified] Clinton County, OH
+    econ_fips="39027",
+    eia861_utility_number=0,  # [open] Clinton County retail utility — pin via research (likely AES Ohio / DAY)
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the Clinton County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Wilmington / Clinton County zoning REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (Wilmington ~83.83 degW; zone 17 spans 84-78 degW) — east of 84 degW
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
+    gis_parcel=None,  # [open] pending Clinton County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Wilmington / Clinton County zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "wilmington-gis"}),
+    design_lat=39.4453,  # [verified] Wilmington centroid = NOAA Atlas-14 point
+    design_lon=-83.8285,
+    corridor_name="Wilmington Air Park (single-tenant) corridor",  # [reference] ILN — Amazon Air / ATSG cargo hub
+    dominant_hsg="C",  # [inference] Clinton County glaciated till plain — less-permeable HSG C/D uplands (cf. Xenia uplands)
+    hsg_citation=(
+        "Clinton County is glaciated till plain - likely less-permeable HSG C/D uplands (cf. the "
+        "Xenia inter-valley till uplands), NOT the buried-valley outwash of the Mad River / Great "
+        "Miami sites; [inference] pending an SSURGO area-weighted confirmation (onboard SSURGO "
+        "needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
+    parcels_relpath="reference/wilmington/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/wilmington/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/wilmington/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/wilmington/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/wilmington/baseline.yaml",
+    rsei_relpath="reference/rsei/wilmington/inventory.yaml",
+    consumer_energy_relpath="reference/eia/wilmington/consumer-energy.yaml",
+    grid_relpath="reference/eia/wilmington/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # [open] pending the corridor (the Air Park reach)
+    receiving_water_name="Todd Fork",  # [verified] → Little Miami River (Scenic River) → Ohio R.; [open] Todd Fork is ungaged
+    plant_receiving={},  # [open] pending the Wilmington WWTP NPDES fact sheet
+    abstraction_gage="03245500",  # [open] Todd Fork ungaged — Little Miami at Milford is the nearest downstream integrator (overstates at-site dilution)
+    supply_gage_primary="03245500",  # [verified] Little Miami River at Milford (downstream integrator)
+    supply_gage_secondary="03240000",  # [verified] Little Miami River near Oldtown (upstream reach; brackets Todd Fork)
+    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum (scenic-river protection likely raises it)
+    passby_secondary_cfs=0.0,  # [open]
+    facility=None,  # [open] the Air Park large-load / data-center dimension is the research target (#492)
+    serving_utility_citation="[open] pending Clinton County, OH retail utility verification (research)",
+    serving_utility_source="reference",
+    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio); pin via research
+    lmp_citation=(
+        "PJM LMP placeholder for the Wilmington area; [inference] the PJM transmission zone is not "
+        "yet pinned - likely the DAY zone (AES Ohio territory) - verify the utility + zone (research)"
+    ),
+    lmp_pnode_id=0,  # [open] pending the Clinton County PJM zone (likely DAY)
+    lmp_pnode_name="",
+    county_name="Clinton County, OH",  # [verified] FIPS 39027
+    map_view_lat=39.4453,
+    map_view_lon=-83.8285,
+    map_view_zoom=12,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
@@ -2160,6 +2412,9 @@ SITES: dict[str, SiteProfile] = {
     _WPAFB.slug: _WPAFB,
     _HAMILTON_MIDDLETOWN.slug: _HAMILTON_MIDDLETOWN,
     _TROY_PIQUA.slug: _TROY_PIQUA,
+    _SIDNEY.slug: _SIDNEY,
+    _GREENVILLE.slug: _GREENVILLE,
+    _WILMINGTON.slug: _WILMINGTON,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so

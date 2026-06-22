@@ -10,6 +10,7 @@ prose findings live alongside it as ``findings.md``.
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -25,18 +26,33 @@ def _coerce_json_list(v: Any) -> Any:
     """Tolerate the distillation model emitting a list field as a JSON-encoded *string*.
 
     Forced-tool-use occasionally returns an array field (``proposals``, or a nested
-    ``labels``) as a stringified JSON array instead of a native list — and that string
-    routinely carries **unescaped control characters** (literal newlines in the long body /
-    rationale text), which trips the default strict JSON parser. Parse with ``strict=False``
-    so a whole research run isn't lost to that quirk (the prose findings already succeeded by
-    this point). On a genuinely unparseable string, return it unchanged and let validation
-    raise a clear error.
+    ``labels``) as a stringified JSON array instead of a native list. That string routinely
+    carries one or more model quirks that trip a plain ``json.loads``:
+      - **unescaped control characters** (literal newlines in long body / rationale text) →
+        parse with ``strict=False``;
+      - a wrapping **markdown code fence** (```` ```json … ``` ````) → strip it;
+      - **prose around the array** → trim to the outermost ``[ … ]``;
+      - a **trailing comma** before ``]``/``}`` (valid JS, invalid JSON) → repair it.
+    We try the cleaned candidate first, then the raw string, so a whole research run isn't
+    lost to that quirk (the costly prose findings already succeeded by this point). On a
+    genuinely unparseable string, return it unchanged and let validation raise a clear error.
     """
-    if isinstance(v, str):
-        try:
-            return json.loads(v, strict=False)
-        except json.JSONDecodeError:
-            return v
+    if not isinstance(v, str):
+        return v
+    s = v.strip()
+    if s.startswith("```"):  # a wrapping markdown code fence
+        s = re.sub(r"^```[a-zA-Z0-9]*\n?", "", s)
+        s = re.sub(r"\n?```\s*$", "", s).strip()
+    start, end = s.find("["), s.rfind("]")
+    candidates = [s[start : end + 1]] if 0 <= start < end else []
+    candidates.append(s)
+    for c in candidates:
+        # Try as-is, then with trailing commas (before } or ]) stripped.
+        for attempt in (c, re.sub(r",(\s*[}\]])", r"\1", c)):
+            try:
+                return json.loads(attempt, strict=False)
+            except json.JSONDecodeError:
+                continue
     return v
 
 
