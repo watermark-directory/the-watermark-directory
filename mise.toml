@@ -1,9 +1,30 @@
-# mise — dev toolchain for Project BOSC.
-#   mise install        # install pinned tools (python, uv, node, git-lfs)
-#   mise run setup      # bootstrap: deps, Git LFS, Claude Code CLI
-#   mise run check      # lint + format + types + tests
+# mise — dev toolchain for Project BOSC, configured as a monorepo.
 #
-# Not using mise? See Brewfile for the Homebrew fallback.
+# Two projects share one toolchain:
+#   • backend (this root): the Python `bosc` package + corpus — tasks `mise run <task>`
+#   • frontend (frontend/): the Astro site — tasks `mise run //frontend:<task>`
+#
+# A bare task name runs the project you're standing in: `mise run test` is the backend's
+# pytest at the repo root and the frontend's vitest inside frontend/. Target a project
+# explicitly from anywhere with the `//project:task` path (`mise run //frontend:test`).
+#
+#   mise install            # install pinned tools (python, uv, node, git-lfs)
+#   mise run setup          # bootstrap BOTH projects (deps, Git LFS, Claude Code CLI)
+#   mise run check          # backend gate (lint + format + markdown + types + tests)
+#   mise run //frontend:check  # frontend gate (lint + types + tests + build + links)
+#   mise run ci             # the whole-repo gate — both of the above
+#   mise tasks --all        # list every task across both projects
+#
+# CI (.github/workflows/ci.yml) calls the underlying commands directly, not these tasks,
+# so editing a task never changes CI. Not using mise? See Brewfile for the Homebrew fallback.
+
+monorepo_root = true
+
+[settings]
+experimental = true   # required for the monorepo task paths (`//project:task`)
+
+[monorepo]
+config_roots = ["frontend"]   # subprojects with their own mise.toml
 
 [tools]
 python = "3.11"
@@ -15,38 +36,60 @@ git-lfs = "latest"
 # Keep uv's managed virtualenv in-project so mise and uv agree on the interpreter.
 UV_PROJECT_ENVIRONMENT = ".venv"
 
+# === cross-cutting (both projects) ==========================================
 [tasks.setup]
-description = "Install Python deps, initialize Git LFS, install the Claude Code CLI"
+description = "Bootstrap both projects: Python + frontend deps, Git LFS, Claude Code CLI"
+depends = ["//frontend:install"]
 run = [
   "uv sync --extra dev",
-  "npm install",   # root dev tooling (markdownlint-cli2); the Astro site installs under frontend/
+  "npm install",   # root dev tooling (markdownlint-cli2); the Astro site installs via //frontend:install
   "git lfs install --local",
   "npm install -g @anthropic-ai/claude-code",
 ]
 
+[tasks.ci]
+description = "The whole-repo gate — backend `check` + frontend `check` (mirrors the CI jobs)"
+depends = ["check", "//frontend:check"]
+
+[tasks.clean]
+description = "Remove regenerable caches/outputs (connector cache, Astro cache, dist)"
+run = "rm -rf data/cache frontend/node_modules/.astro frontend/dist"
+
+# === backend (the Python `bosc` package) ====================================
+[tasks.dev]
+description = "Run the bosc CLI — pass args after `--`, e.g. `mise run dev -- export`"
+run = "uv run bosc"
+
 [tasks.check]
-description = "Lint, format-check, type-check, and test"
+description = "Backend gate: ruff lint + format-check + Markdown lint + mypy + pytest"
 run = [
   "uv run ruff check .",
   "uv run ruff format --check .",
-  "node_modules/.bin/markdownlint-cli2",   # Markdown lint (config: .markdownlint-cli2.yaml); needs `mise run setup`
+  "node_modules/.bin/markdownlint-cli2",   # repo-wide Markdown (config: .markdownlint-cli2.yaml)
   "uv run mypy",
-  "uv run pytest -n auto",   # pytest-xdist: parallelize across cores (override with `-n0` when debugging)
+  "uv run pytest -n auto",   # pytest-xdist: parallelize across cores (override with `-n0` to debug)
 ]
 
+[tasks.test]
+description = "Backend tests only (pytest)"
+run = "uv run pytest -n auto"
+
+[tasks.lint]
+description = "Backend lint only (ruff check)"
+run = "uv run ruff check ."
+
+[tasks.types]
+description = "Backend type-check only (mypy strict)"
+run = "uv run mypy"
+
 [tasks.fmt]
-description = "Auto-fix lint issues and format"
+description = "Auto-fix the backend: ruff lint --fix + ruff format + Markdown"
 run = [
   "uv run ruff check --fix .",
   "uv run ruff format .",
-  "node_modules/.bin/markdownlint-cli2 --fix",   # auto-fix Markdown
+  "node_modules/.bin/markdownlint-cli2 --fix",
 ]
 
-[tasks.frontend]
-description = "Type-check and build the Astro frontend (reads the content bundle)"
-dir = "frontend"
-run = [
-  "npm ci",
-  "npm run check",
-  "npm run build",
-]
+[tasks.export]
+description = "Regenerate the content bundle the frontend reads (bosc export → data/site/bundle/)"
+run = "uv run bosc export"
