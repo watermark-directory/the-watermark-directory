@@ -3,8 +3,8 @@
 # Phase 1 of the host migration (Epic #56): the redesigned Astro site (frontend/) and
 # its Pages Functions (frontend/functions/ — the submissions endpoint, #74) deploy
 # together to Cloudflare Pages, one origin for static assets + serverless. This
-# supersedes the never-flipped GitHub Pages deploy. The legacy Python SSG stays a local
-# fallback: `bosc site build` regenerates the old `site/` tree if ever needed.
+# supersedes the never-flipped GitHub Pages deploy. (The legacy Python SSG was retired at
+# the parity cutover; this Astro frontend is now the only site.)
 #
 # Still MANUAL and build-only by default: `workflow_dispatch` with a `deploy` toggle
 # that defaults to false, so a run only *builds* unless you tick the box. Recommended

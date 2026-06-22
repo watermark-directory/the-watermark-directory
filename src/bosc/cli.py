@@ -6,7 +6,7 @@ Commands:
     bosc reconcile <file>       # arithmetic checks over a summary extraction
     bosc ask "<question>"       # ask the research agent
     bosc extract <doc-id> ...   # run an agentic extraction (seam for your data)
-    bosc site build             # stage the GitHub Pages site under web/
+    bosc export                 # write the typed content bundle the frontend reads
 """
 
 from __future__ import annotations
@@ -3419,15 +3419,6 @@ def people() -> None:
     )
 
 
-site_app = typer.Typer(
-    name="site",
-    help="Generate / preview the GitHub Pages site from the corpus.",
-    no_args_is_help=True,
-    add_completion=False,
-)
-app.add_typer(site_app, name="site")
-
-
 @app.command("export")
 def export(
     out: str | None = typer.Option(
@@ -3436,9 +3427,8 @@ def export(
 ) -> None:
     """Export the corpus as the typed JSON content bundle under data/site/bundle/ (regenerable).
 
-    The build-alongside data peer of `bosc site build`: writes versioned, schema-validated
-    JSON feeds (records, timeline, entities, geo, …) + a manifest for the new frontend,
-    without touching the legacy web/ + site/ render path.
+    Writes versioned, schema-validated JSON feeds (records, timeline, entities, geo, …) +
+    a manifest read by the frontend at build time.
     """
     from bosc.site import export_bundle
 
@@ -3448,71 +3438,6 @@ def export(
     )
     for ref in result.feeds:
         console.print(f"[dim]  {ref.name:<22} {ref.count:>6}  {ref.path}[/]")
-
-
-@site_app.command("build")
-def site_build(
-    notebooks: bool = typer.Option(
-        False,
-        "--notebooks/--no-notebooks",
-        help="Also export the marimo methodology notebooks to WASM (needs `marimo`).",
-    ),
-) -> None:
-    """Stage web/ from data/extracted + docs, then render the static HTML site/ (regenerable)."""
-    from bosc.site import build_site, render_site
-
-    result = build_site(notebooks=notebooks)
-    rendered = render_site(result.web_dir, result.web_dir.parent / "site")
-    console.print(
-        f"[green]Built[/] {result.web_dir} — {result.n_records} records "
-        f"({len(result.record_pages)} kind pages), {result.n_events} timeline events, "
-        f"{result.n_entities} entities, {result.narrative_files} narrative/artifact files."
-    )
-    console.print(
-        f"[green]Rendered[/] {rendered.site_dir} — {rendered.pages} HTML pages, "
-        f"{rendered.assets} assets copied."
-    )
-    available = sum(1 for e in result.exhibits if e.available)
-    if result.exhibits:
-        console.print(
-            f"[dim]exhibits: {available}/{len(result.exhibits)} available (rest need `git lfs pull`)[/]"
-        )
-    console.print(
-        "[dim]Next:[/] bosc site serve   [dim](local preview at http://localhost:8000)[/]"
-    )
-
-
-@site_app.command("serve")
-def site_serve(
-    build: bool = typer.Option(True, "--build/--no-build", help="Rebuild the site before serving."),
-    port: int = typer.Option(8000, "--port", help="Port for the local preview server."),
-) -> None:
-    """Build (unless --no-build) then serve the static site/ for a local preview."""
-    import functools
-    import http.server
-    import socketserver
-
-    from bosc.config import get_settings
-
-    site_dir = get_settings().data_dir.parent / "site"
-    if build:
-        from bosc.site import build_site, render_site
-
-        result = build_site()
-        render_site(result.web_dir, site_dir)
-    if not site_dir.is_dir():
-        console.print("[red]No site/ to serve.[/] Run without --no-build first.")
-        raise typer.Exit(1)
-
-    handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(site_dir))
-    console.print(
-        f"[green]Serving[/] {site_dir} at [bold]http://localhost:{port}[/] (Ctrl-C to stop)"
-    )
-    with socketserver.TCPServer(("", port), handler) as httpd:
-        try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            console.print("\n[dim]stopped[/]")
 
 
 subdivisions_app = typer.Typer(

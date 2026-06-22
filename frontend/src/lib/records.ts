@@ -26,8 +26,8 @@ export function groupsOf(records: RecordItem[]): string[] {
 
 /**
  * Whether a value is a *structured* field — a non-empty object or array, which
- * renders as a hierarchy (the `FieldValue` component, mirroring the legacy SSG's
- * bullet tree) rather than a flat cell. Scalars (incl. empty containers) are not.
+ * renders as a hierarchy (the `FieldValue` component's bullet tree) rather than a
+ * flat cell. Scalars (incl. empty containers) are not.
  */
 export function isStructured(value: unknown): boolean {
   if (Array.isArray(value)) return value.length > 0;

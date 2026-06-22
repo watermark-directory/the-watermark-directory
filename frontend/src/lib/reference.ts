@@ -7,8 +7,7 @@
  * link-rewrite map the rehype plugin consults so `../<set>/README.md` cross-links
  * between reference pages resolve to their new `/bosc/site/reference/<slug>` routes.
  *
- * The READMEs are read AS-IS (the legacy Python SSG also renders them); source is
- * never moved or edited.
+ * The READMEs are read AS-IS — source is never moved or edited.
  */
 export interface ReferenceDataset {
   /** Path under `data/reference/` (the README). */

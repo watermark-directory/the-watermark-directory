@@ -71,8 +71,8 @@ function relRecordId(rel: string): string {
 
 /** Map a live `records`-feed row onto the Record Block shape. */
 export function recordToBlock(r: RecordItem): LibraryRecord {
-  // Scalars render as the flat grid; structured values become a hierarchy (the
-  // legacy SSG's bullet tree), never a `JSON.stringify` blob.
+  // Scalars render as the flat grid; structured values become a hierarchy (a
+  // bullet tree), never a `JSON.stringify` blob.
   const fields: BlockField[] = [];
   const nested: NestedField[] = [];
   for (const [k, v] of Object.entries(r.fields)) {

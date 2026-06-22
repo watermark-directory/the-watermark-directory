@@ -7,25 +7,22 @@
 | `site/` | **Yes** | Site config — currently `exhibits.yaml`, the curated PDF allowlist. |
 | `cache/`, `scratch/` | No | Regenerable intermediate working files. |
 
-## Publishing (GitHub Pages)
+## Publishing (the content bundle)
 
-`bosc site build` stages a markdown source tree under `web/` from `extracted/` +
-the repo `docs/` + the cross-document layer (timeline, entity graph), then renders
-it to plain multipage HTML under `site/` (Python-Markdown + Jinja2 — no MkDocs).
-Both `web/` and `site/` are git-ignored and fully regenerable — the generator
-(`src/bosc/site/`) is the source.
+`bosc export` assembles the typed content bundle — JSON feeds + a manifest — from
+`extracted/` + the repo `docs/` + the cross-document layer (timeline, entity graph)
+and writes it to `data/site/bundle/`. The Astro `frontend/` app reads that bundle
+at build time (the sole presentation tier). The data tier is `src/bosc/site/`.
 
 ```bash
-uv sync --extra docs       # install the renderer (markdown + jinja2)
-bosc site build            # stage web/ and render site/
-bosc site serve            # rebuild + local preview at http://localhost:8000
+bosc export                # write the content bundle to data/site/bundle/
 ```
 
 Curated source PDFs are published as **Exhibits**; edit
 [`site/exhibits.yaml`](site/exhibits.yaml) to add/remove them (page-range slices
 are cut from large bundles, so the full file is never republished). Deployment is
-**manual** (`.github/workflows/pages.yml`, `workflow_dispatch`) — the site is a
-private/unlisted draft until you choose to publish.
+to **Cloudflare Pages** (`.github/workflows/pages.yml`); the public cutover to the
+new site is parity-gated.
 
 ## Extraction file conventions
 

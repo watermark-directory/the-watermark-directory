@@ -9,9 +9,9 @@ and the human research deep-link to each other.
 ## The `expanded_research` gate
 
 Track *meaningful* individuals here freely. Only profiles with
-`expanded_research: true` are **published to the site** (`bosc site build` renders
-them under `web/people/` and links them from the entity graph). Everyone else is
-tracked privately and stays off the site until promoted.
+`expanded_research: true` are **published to the site** (`bosc export` includes
+them in the content bundle the frontend renders, linked from the entity graph).
+Everyone else is tracked privately and stays off the site until promoted.
 
 ## Frontmatter schema
 
@@ -41,4 +41,5 @@ cited source before quoting it in a filing.
 
 - `bosc people` — list tracked individuals, the expanded-research flag, and whether
   each resolves in the entity graph.
-- `bosc site build` — render the expanded-research profiles into the site.
+- `bosc export` — include the expanded-research profiles in the content bundle the
+  frontend renders.

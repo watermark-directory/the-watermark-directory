@@ -210,8 +210,7 @@ stream because they come from a different identity.
 - **Build:** unchanged from the host migration — GitHub Actions runs `bosc export` →
   `npm run build` (the Python bundle step stays where uv caching works), then deploys
   `frontend/dist` **and** `frontend/functions/` to Cloudflare Pages via Wrangler. This
-  supersedes the GitHub Pages flip ([#102](https://github.com/goedelsoup/bosc/issues/102)/[#107](https://github.com/goedelsoup/bosc/issues/107));
-  `bosc site build` remains the local fallback.
+  supersedes the GitHub Pages flip ([#102](https://github.com/goedelsoup/bosc/issues/102)/[#107](https://github.com/goedelsoup/bosc/issues/107)).
 
 ### Environment
 

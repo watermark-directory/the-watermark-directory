@@ -20,10 +20,9 @@ record of decisions/deviations.*
   yet** — those arrive with P2 (asset signing + COG reads). The offline miss raises
   `ImageryOfflineError` (a `bosc.connectors.OfflineError` subclass) naming the key.
 
-*Note: `bosc site build` mirrors every `.md` under `docs/` into the published site
-([`build.py`](../src/bosc/site/build.py)). This is an internal engineering plan — keep
-it out of a public deploy unless that's intended (deploy is manual `workflow_dispatch`,
-so it never ships automatically).*
+*Note: the Astro `frontend/` surfaces `docs/` markdown via its narrative content
+collection (links rewritten at build by the rehype plugin). This is an internal
+engineering plan — publish it only via the curated narrative set, not by default.*
 
 ## Executive summary / decisions
 

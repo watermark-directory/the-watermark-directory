@@ -2,8 +2,8 @@
  * Rehype plugin (issue #69, generalized in #104): rewrite the in-repo links inside
  * the markdown the Astro site renders AS-IS — the migrated `docs/` narrative, the
  * `data/reference/` READMEs, and the `data/extracted/` legal docs — so they resolve
- * in the new IA WITHOUT editing the source (the legacy Python SSG also renders these,
- * where the original links still work). Runs on files under those roots.
+ * in the new IA WITHOUT editing the source (the docs source stays canonical, with the
+ * original links intact). Runs on files under those roots.
  *
  * A link is resolved relative to its file's repo location, then rewritten:
  *   1. a migrated narrative doc            → its `/docs/<slug>` route

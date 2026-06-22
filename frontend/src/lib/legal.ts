@@ -8,7 +8,7 @@
  * for which extracted docs are published, their slugs/titles/groups, and (via
  * `PUBLISHED_LEGAL`) the link-rewrite map the rehype plugin consults so intra-set
  * cross-links resolve to their `/bosc/site/legal/<slug>` routes. The source is read
- * AS-IS — never moved or edited (the legacy Python SSG also renders it).
+ * AS-IS — never moved or edited.
  */
 export interface LegalDoc {
   /** Path under `data/extracted/` (the source markdown). */

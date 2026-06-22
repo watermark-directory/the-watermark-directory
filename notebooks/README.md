@@ -1,6 +1,6 @@
 # notebooks/ — marimo investigation + proof-of-concept
 
-**Status: research spike, not wired into `bosc site build`.** This directory is a
+**Status: research spike, not wired into the site build.** This directory is a
 self-contained unit exploring whether to integrate [marimo](https://marimo.io)
 reactive notebooks into the BOSC site for scenario demos, lessons, and
 exploration. Nothing here is published by the site yet.

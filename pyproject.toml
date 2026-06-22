@@ -42,19 +42,7 @@ dev = [
     "pytest-asyncio>=0.23",
     "jsonschema>=4.0",  # validates emitted bundle feeds against their JSON Schemas
     "types-PyYAML>=6.0",
-    "types-Markdown>=3.6",
     "types-jsonschema>=4.0",
-    "bosc[docs]",  # the site renderer is imported by tests + type-checked
-]
-# Static-site publishing (the `bosc site` command); not needed at runtime. The
-# site is rendered in-process — Python-Markdown + Jinja2, no MkDocs/theme.
-docs = [
-    "markdown>=3.6",
-    "jinja2>=3.1",
-    "pymdown-extensions>=10.7",
-    # Methodology notebooks: `bosc site build --notebooks` exports these to WASM apps.
-    # Optional and heavy; the default build skips export if marimo is absent.
-    "marimo>=0.9",
 ]
 
 [project.scripts]
@@ -108,7 +96,7 @@ mypy_path = "src"
 packages = ["bosc"]
 
 [[tool.mypy.overrides]]
-module = ["claude_agent_sdk.*", "pypdfium2.*", "shapely.*", "pyproj.*", "pyswmm.*", "pymdownx.*", "pygments.*", "pytesseract.*", "rasterio.*", "planetary_computer.*"]
+module = ["claude_agent_sdk.*", "pypdfium2.*", "shapely.*", "pyproj.*", "pyswmm.*", "pytesseract.*", "rasterio.*", "planetary_computer.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
