@@ -4,7 +4,7 @@ import Logo from "./Logo.astro";
 import SwitcherRow from "./SwitcherRow.astro";
 import { NAV_TABS, navItemActive, type SectionId } from "../lib/nav";
 import { withBase } from "../lib/site";
-import { groupSites, siteForPath } from "../lib/sites";
+import { groupSites, SITE_STATUS_META, SITES, siteForPath } from "../lib/sites";
 
 interface Props {
   active: SectionId;
@@ -20,19 +20,19 @@ const base = import.meta.env.BASE_URL || "/";
 const here = siteForPath(Astro.url.pathname, base);
 const herePlace = here ? here.place : "network";
 const hereLabel = here ? `current site: ${here.place}` : "network overview";
-const statusMeta: Record<string, { label: string; cls: string }> = {
-  live: { label: "Live", cls: "is-live" },
-  building: { label: "Building", cls: "is-building" },
-  queued: { label: "Queued", cls: "is-queued" },
-};
 // The site's build phase, shown as a pill beside the switcher (the left/site cluster). Only on a
 // resolved site — the network hub / cross-cutting globals carry no phase.
-const herePhase = here ? statusMeta[here.status] : null;
-// The grouped switcher (#307): the same sites pivoted by jurisdiction (State) or basin (Watershed).
-// The toggle is no-JS (radio inputs + :checked), so it works with JS off.
+const herePhase = here ? SITE_STATUS_META[here.status] : null;
+// The grouped selector (#307/#308 dictate C): the same sites pivoted by jurisdiction (State) or
+// the nine major basins (Basin). The toggle is no-JS (radio inputs + :checked), so it works with
+// JS off. The full network — 32 sites / 9 basins — so the panel opens full-width (see site.css).
 const stateGroups = groupSites("state");
-const watershedGroups = groupSites("watershed");
+const basinGroups = groupSites("basin");
 const hereSlug = here?.slug ?? null;
+const totalSites = SITES.length;
+// Dim the left/site section tabs when the current site isn't live (dictate B — the bar is a build
+// gauge). `null` (network hub) and the live build keep full-strength tabs.
+const sectionsDimmed = here !== null && here.status !== "live";
 
 // The mobile nav sheet (#400): on phones the section tabs reopen as a labeled
 // "This site / Platform" sheet. Split NAV_TABS at the ownership divider; the platform
@@ -59,13 +59,16 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
     </summary>
     <div class="switcher-menu">
       <input type="radio" name="switcher-groupby" id="gb-state" class="gb-radio" checked />
-      <input type="radio" name="switcher-groupby" id="gb-ws" class="gb-radio" />
+      <input type="radio" name="switcher-groupby" id="gb-basin" class="gb-radio" />
       <div class="switcher-head">
-        <span class="switcher-title">Switch site</span>
+        <span class="switcher-head-l">
+          <span class="switcher-title">Switch site</span>
+          <span class="switcher-count">{totalSites} sites · 9 basins</span>
+        </span>
         <span class="switcher-groupby">
           <span class="gb-k">Group by</span>
           <label for="gb-state" class="gb-btn gb-state">State</label>
-          <label for="gb-ws" class="gb-btn gb-ws">Watershed</label>
+          <label for="gb-basin" class="gb-btn gb-basin">Basin</label>
         </span>
       </div>
       <div class="switcher-groups by-state">
@@ -77,36 +80,49 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
                 <span class="switcher-grouplabel">{g.label}</span>
                 <span class="switcher-groupcount">{g.sites.length}</span>
               </div>
-              {g.sites.map((s) => (
-                <SwitcherRow site={s} activeSlug={hereSlug} />
-              ))}
+              <div class="switcher-grouprows">
+                {g.sites.map((s) => (
+                  <SwitcherRow site={s} activeSlug={hereSlug} />
+                ))}
+              </div>
             </div>
           ))
         }
       </div>
-      <div class="switcher-groups by-watershed">
+      <div class="switcher-groups by-basin">
         {
-          watershedGroups.map((g) => (
+          basinGroups.map((g) => (
             <div class="switcher-group">
               <div class="switcher-grouphead">
+                {g.tag && <span class="switcher-grouptag">{g.tag}</span>}
                 <span class="switcher-grouplabel">{g.label}</span>
                 <span class="switcher-groupcount">{g.sites.length}</span>
               </div>
-              {g.sites.map((s) => (
-                <SwitcherRow site={s} activeSlug={hereSlug} />
-              ))}
+              <div class="switcher-grouprows">
+                {g.sites.map((s) => (
+                  <SwitcherRow site={s} activeSlug={hereSlug} />
+                ))}
+              </div>
             </div>
           ))
         }
       </div>
-      <p class="switcher-foot">
-        Each site is a section of the Watermark platform — pivoted by <b>state</b> or
-        <b>watershed</b>; queued sites route to their coming-soon page.
-      </p>
+      <div class="switcher-foot">
+        <span class="switcher-foot-note">
+          Each site is a section of the Watermark platform. Live &amp; building sites open; queued and
+          tracking sites route to their coming-soon / watch page.
+        </span>
+        <span class="switcher-legend" aria-hidden="true">
+          <span class="leg leg-live">Live</span>
+          <span class="leg leg-building">Building</span>
+          <span class="leg leg-queued">Queued</span>
+          <span class="leg leg-tracking">Tracking</span>
+        </span>
+      </div>
     </div>
   </details>
   {herePhase && <span class:list={["phase-pill", herePhase.cls]} title={`Site build phase: ${herePhase.label}`}>{herePhase.label}</span>}
-  <nav class="sections" id="bosc-sections" aria-label="Sections">
+  <nav class:list={["sections", { "is-dimmed": sectionsDimmed }]} id="bosc-sections" aria-label="Sections">
     {
       NAV_TABS.map((item) => {
         if (item.kind === "divider") return <span class="nav-divider" aria-hidden="true" />;

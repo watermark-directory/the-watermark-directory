@@ -256,7 +256,13 @@ a { color: var(--bosc-link); }
 .phase-pill.is-live { --phase-dot: #6fdf78; }
 .phase-pill.is-building { --phase-dot: #aab4f0; }
 .phase-pill.is-queued { --phase-dot: #f0b35e; }
+.phase-pill.is-tracking { --phase-dot: #aab1c4; }
 @media (max-width: 900px) { .phase-pill { display: none; } }
+
+/* Dictate B — the left/site section tabs are a build gauge: dim them when the current site isn't
+   live (queued/building/tracking). The live build (and the neutral network hub) keep full strength. */
+.sections.is-dimmed .section-tab { opacity: 0.5; }
+.sections.is-dimmed .section-tab:hover { opacity: 1; }
 
 /* ---- The Watermark network switcher (#304) — a no-JS <details> on the brand ---- */
 .site-switcher { position: relative; display: inline-flex; align-items: stretch; }
@@ -269,18 +275,37 @@ a { color: var(--bosc-link); }
   top: calc(100% + 9px);
   left: 0;
   z-index: 60;
-  width: 340px;
-  max-width: calc(100vw - 28px);
+  /* Full-width panel (#308 dictate C) — built to hold the whole 32-site network; rows flow across
+     columns inside each group. Caps at the viewport with a small inset so it never overflows. */
+  width: min(1180px, calc(100vw - 24px));
+  max-height: min(74vh, 720px);
+  overflow-y: auto;
   background: #fff;
   color: var(--bosc-ink);
   border: 1px solid #d7dae4;
-  border-radius: 13px;
+  border-radius: 14px;
   box-shadow: 0 18px 44px rgba(20, 24, 40, 0.26);
   padding: 7px;
 }
-.switcher-head { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px 9px; }
+.switcher-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 10px 10px;
+  border-bottom: 1px solid #eef0f4;
+}
+.switcher-head-l { display: inline-flex; align-items: baseline; gap: 9px; }
 .switcher-title { font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--bosc-muted); font-weight: 700; }
+.switcher-count { font-size: 0.66rem; color: #aeb4c2; font-family: var(--bosc-mono); }
+.switcher-groupby { margin-left: auto; }
 .switcher-repo { font-size: 0.68rem; color: #aeb4c2; font-family: var(--bosc-mono); }
+/* Rows flow across as many columns as the width allows, within each group. */
+.switcher-grouprows {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px 12px;
+}
 .switcher-row {
   display: flex;
   align-items: center;
@@ -338,25 +363,45 @@ a { color: var(--bosc-link); }
 .switcher-status.is-live { color: #2e7d32; background: #e9f3ea; }
 .switcher-status.is-building { color: #3f51b5; background: #f3f4fb; }
 .switcher-status.is-queued { color: #b46e00; background: #fbf1dd; }
+.switcher-status.is-tracking { color: var(--bosc-muted); background: #eceef2; }
 .switcher-issue { font-size: 0.64rem; color: #aeb4c2; font-family: var(--bosc-mono); }
 .switcher-check { flex: 0 0 auto; width: 14px; color: var(--bosc-indigo); font-weight: 800; font-size: 0.85rem; }
-.switcher-foot { border-top: 1px solid #eef0f4; margin: 5px 0 0; padding: 9px 10px 5px; font-size: 0.7rem; color: var(--bosc-muted); line-height: 1.45; }
+.switcher-foot {
+  border-top: 1px solid #eef0f4;
+  margin: 6px 0 0;
+  padding: 9px 10px 5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 0.7rem;
+  color: var(--bosc-muted);
+  line-height: 1.45;
+}
+.switcher-foot-note { flex: 1 1 300px; min-width: 0; }
+.switcher-legend { display: inline-flex; align-items: center; gap: 11px; margin-left: auto; flex: 0 0 auto; }
+.switcher-legend .leg { display: inline-flex; align-items: center; gap: 5px; font-size: 0.62rem; font-weight: 700; }
+.switcher-legend .leg::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.leg-live { color: #2e7d32; }
+.leg-building { color: var(--bosc-indigo); }
+.leg-queued { color: #b46e00; }
+.leg-tracking { color: #8a90a2; }
 
-/* ---- Grouped switcher (#307): no-JS State/Watershed pivot via radios ---- */
+/* ---- Grouped selector (#307/#308): no-JS State/Basin pivot via radios ---- */
 .gb-radio { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .switcher-groupby { display: inline-flex; align-items: center; gap: 4px; }
 .gb-k { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.5px; color: #aeb4c2; font-weight: 700; margin-right: 2px; }
 .gb-btn { font-size: 0.7rem; font-weight: 700; color: var(--bosc-muted); background: #eceef2; border-radius: 7px; padding: 3px 9px; cursor: pointer; user-select: none; }
 .gb-btn:hover { color: var(--bosc-ink); }
 #gb-state:focus-visible ~ .switcher-head .gb-state,
-#gb-ws:focus-visible ~ .switcher-head .gb-ws { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; }
+#gb-basin:focus-visible ~ .switcher-head .gb-basin { outline: 2px solid var(--bosc-indigo); outline-offset: 2px; }
 #gb-state:checked ~ .switcher-head .gb-state,
-#gb-ws:checked ~ .switcher-head .gb-ws { background: var(--bosc-indigo); color: #fff; }
-.switcher-groups { max-height: 58vh; overflow-y: auto; }
-.switcher-groups.by-watershed { display: none; }
-#gb-ws:checked ~ .switcher-groups.by-watershed { display: block; }
-#gb-ws:checked ~ .switcher-groups.by-state { display: none; }
-.switcher-group + .switcher-group { margin-top: 2px; }
+#gb-basin:checked ~ .switcher-head .gb-basin { background: var(--bosc-indigo); color: #fff; }
+.switcher-groups.by-basin { display: none; }
+#gb-basin:checked ~ .switcher-groups.by-basin { display: block; }
+#gb-basin:checked ~ .switcher-groups.by-state { display: none; }
+.switcher-group { padding: 2px 4px 6px; }
+.switcher-group + .switcher-group { margin-top: 2px; border-top: 1px solid #f1f2f5; }
 .switcher-grouphead {
   display: flex;
   align-items: center;
@@ -1095,6 +1140,7 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
     bottom: 0;
     width: auto;
     max-width: none;
+    max-height: none;
     border: 0;
     border-radius: 0;
     box-shadow: none;
@@ -1103,6 +1149,12 @@ a.card:hover { border-color: var(--bosc-indigo); background: #f8f9fc; }
     -webkit-overflow-scrolling: touch;
   }
   .switcher-groups { max-height: none; }
+  /* Phone: one column per group, sticky group headers, comfortable touch rows (#308 mobile). */
+  .switcher-grouprows { grid-template-columns: 1fr; }
+  .switcher-grouphead { position: sticky; top: 0; background: #fff; z-index: 1; }
+  .switcher-row { padding: 11px 10px; }
+  .switcher-foot { flex-direction: column; align-items: flex-start; gap: 7px; }
+  .switcher-legend { margin-left: 0; }
 }
 @media (max-width: 900px) {
   .topbar-ask-label { display: none; }
@@ -2320,6 +2372,7 @@ a.walk-dot:hover { opacity: 0.82; }
 .netgrid-status.is-live { color: #2e7d32; background: #e9f3ea; }
 .netgrid-status.is-building { color: #3f51b5; background: #f3f4fb; }
 .netgrid-status.is-queued { color: #b46e00; background: #fbf1dd; }
+.netgrid-status.is-tracking { color: var(--bosc-muted); background: #eceef2; }
 .netgrid-go { font-size: 0.74rem; color: var(--bosc-indigo); font-weight: 600; }
 
 /* ---- Per-site coming-soon (/network/[site]) ---- */
@@ -2333,6 +2386,7 @@ a.walk-dot:hover { opacity: 0.82; }
 .netsite-status { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; font-weight: 700; border-radius: 999px; padding: 5px 14px; }
 .netsite-status.is-building { color: #3f51b5; background: #f3f4fb; border: 1px solid #c5cae9; }
 .netsite-status.is-queued { color: #b46e00; background: #fbf1dd; border: 1px solid #ecd98a; }
+.netsite-status.is-tracking { color: var(--bosc-muted); background: #eceef2; border: 1px solid #d7dae4; }
 .netsite-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 .netsite-issue {
   display: inline-flex; align-items: center; font-size: 0.8rem; font-weight: 600; color: var(--bosc-muted);
