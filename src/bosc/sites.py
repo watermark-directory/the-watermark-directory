@@ -2404,10 +2404,12 @@ _WILMINGTON = SiteProfile(
 # the New Albany International Business Park. It STRADDLES the Scioto↔Muskingum divide: the city
 # core (Franklin Co) drains Rocky Fork + Blacklick → Big Walnut Creek → Scioto (HUC 05060001); the
 # Intel/business-park epicenter (Licking Co, Jersey Twp) drains the South Fork Licking → Licking →
-# Muskingum (HUC 05040006). `basin="scioto"` frames the city/Big-Walnut side; the Muskingum-side
-# receiving water is [open] (it flips if the pinned footprint lands on the Licking side). Grid is
-# PINNED: AEP Ohio (Ohio Power #14006), PJM AEP zone — back to the Maumee sites' zone, unlike the
-# Miami branch's DAY/DEOK.
+# Muskingum (HUC 05040006). The DC footprint is [verified] on the Beech Rd / Licking / Muskingum
+# side (#485 register); `basin="scioto"` holds for the SOURCE-WATER screen — the cluster's cooling
+# draw is on the City of Columbus / Scioto system (Intel ~5 MGD, its effluent routed to Columbus'
+# Scioto-discharging WWTPs) — while surface drainage is Muskingum (no S. Fork Licking 7Q10 yet,
+# [open]). Grid is PINNED: AEP Ohio (Ohio Power #14006), PJM AEP zone — back to the Maumee sites'
+# zone, unlike the Miami branch's DAY/DEOK.
 _NEW_ALBANY = SiteProfile(
     slug="new-albany",
     place="New Albany",
