@@ -1963,6 +1963,100 @@ _WPAFB = SiteProfile(
 )
 
 
+# The LOWER Great Miami **heavy-industry** node and the I-75 Cincinnati-Dayton corridor's southern
+# anchor, near the Great Miami's Ohio River confluence. This is the **established-industry comparator**
+# to the speculative-greenfield Miami sites: **Cleveland-Cliffs Middletown Works** (the former AK Steel
+# integrated mill) anchors a legacy steel/paper/chemicals corridor of large existing water users +
+# NPDES dischargers on the Great Miami **mainstem** — so unlike the bare headwaters, the toxics/NPDES
+# dimension here is REAL and rich. The water story shifts too: the lower Great Miami is a large
+# mainstem (genuine dilution capacity), not a buried-valley headwater 7Q10 — though the buried-valley
+# sole-source aquifer is wider here near the confluence. The grid story is distinctive: the City of
+# Hamilton runs its own **municipal electric utility** (AMP member, home-rule — the EIA-861S short-form
+# pattern), while Middletown is Duke Energy Ohio; both settle in PJM's **DEOK** (Duke Energy Ohio/
+# Kentucky) zone — a third PJM zone for the network (after AEP and DAY). DISAMBIGUATION: the City of
+# Hamilton is the seat of **Butler County (FIPS 39017)** — NOT Hamilton County, OH (which is
+# Cincinnati). Both cities sit west of the 84 degW meridian, so this is a **UTM 16N** site (like WPAFB).
+_HAMILTON_MIDDLETOWN = SiteProfile(
+    slug="hamilton-middletown",
+    place="Hamilton · Middletown",
+    basin="great-miami",  # [verified] lower Great Miami River → Ohio River (HUC-8 05080002)
+    nwis_sites=[
+        "03274000",  # [verified] Great Miami River at Hamilton OH (downstream reach; Hamilton well-field)
+        "03272100",  # [verified] Great Miami River at Middletown OH (the Middletown Works reach)
+    ],
+    nasa_power_lat=39.3994,  # [verified] Hamilton, OH city centroid (39deg23'58"N 84deg33'41"W)
+    nasa_power_lon=-84.5613,
+    rsei_fips="39017",  # [verified] Butler County, OH (seat = City of Hamilton; NOT Hamilton County/Cincinnati)
+    econ_fips="39017",
+    eia861_utility_number=0,  # [open] Hamilton muni (AMP; EIA-861S short-form) vs Middletown=Duke — pin via research
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the Butler County, OH GIS REST endpoint discovery
+    zoning_url="TODO",  # [open] pending the City of Hamilton / Middletown GIS REST endpoint discovery
+    floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
+        "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
+    ),
+    gnis_default_state="OH",
+    hydro_utm_epsg=32616,  # [verified] UTM 16N (Hamilton ~84.56 degW; zone 16 spans 90-84 degW) — NOT zone 17
+    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
+    gis_parcel=None,  # [open] pending Butler County, OH parcel-layer discovery
+    gis_zoning=None,  # [open] pending City of Hamilton / Middletown zoning-layer discovery
+    gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(
+        update={"reference_dir": "hamilton-middletown-gis"}
+    ),
+    design_lat=39.3994,  # [verified] Hamilton centroid = NOAA Atlas-14 point
+    design_lon=-84.5613,
+    corridor_name="Lower Great Miami industrial corridor",  # [inference] the Hamilton-Middletown mainstem reach
+    dominant_hsg="B",  # [inference] lower Great Miami buried-valley outwash (wider near the Ohio confluence)
+    hsg_citation=(
+        "The lower Great Miami valley (Hamilton/Middletown, Butler County) sits on the Great Miami "
+        "Buried Valley Aquifer - glacial outwash sand & gravel, a US-EPA designated sole-source "
+        "aquifer, wider near the Ohio River confluence - so the valley fill is well-drained HSG A/B, "
+        "the INVERSE of the Maumee lake-plain Black Swamp clays (HSG D); [inference] pending an "
+        "SSURGO area-weighted confirmation (onboard SSURGO needs a footprint)"
+    ),
+    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
+    parcels_relpath="reference/hamilton-middletown/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/hamilton-middletown/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/hamilton-middletown/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/hamilton-middletown/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/hamilton-middletown/baseline.yaml",
+    rsei_relpath="reference/rsei/hamilton-middletown/inventory.yaml",
+    consumer_energy_relpath="reference/eia/hamilton-middletown/consumer-energy.yaml",
+    grid_relpath="reference/eia/hamilton-middletown/grid-profile.yaml",
+    toxic_corridor_bbox=(
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+    ),  # [open] pending the identified corridor (the Middletown Works + Hamilton industrial reach)
+    receiving_water_name="Great Miami River",  # [verified] the lower Great Miami mainstem (→ Ohio R.)
+    plant_receiving={},  # [open] pending the Hamilton/Middletown WWTP + industrial NPDES fact sheet(s)
+    abstraction_gage="03274000",  # [verified] Great Miami River at Hamilton OH
+    supply_gage_primary="03274000",  # [verified] Great Miami River at Hamilton
+    supply_gage_secondary="03272100",  # [verified] Great Miami River at Middletown (the Works reach)
+    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum
+    passby_secondary_cfs=0.0,  # [open]
+    facility=None,  # [open] the I-75-corridor data-center dimension is the research target (#443)
+    serving_utility_citation="[open] pending Butler County retail utility verification (Hamilton muni / Duke; research)",
+    serving_utility_source="reference",
+    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — Butler County is the DEOK zone (Duke Energy OH/KY); pin via research
+    lmp_citation=(
+        "PJM LMP placeholder for the Hamilton/Middletown area; [inference] the PJM transmission zone "
+        "is not yet pinned - Butler County is the DEOK zone (Duke Energy Ohio/Kentucky), with Hamilton "
+        "on its own municipal system (AMP) - verify the utility + zone (research)"
+    ),
+    lmp_pnode_id=0,  # [open] pending the Butler County PJM zone (DEOK)
+    lmp_pnode_name="",
+    county_name="Butler County, OH",  # [verified] (seat = City of Hamilton; NOT Hamilton County/Cincinnati)
+    map_view_lat=39.455,  # centered on the lower Great Miami reach between Hamilton + Middletown
+    map_view_lon=-84.49,
+    map_view_zoom=11,
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
@@ -1976,6 +2070,7 @@ SITES: dict[str, SiteProfile] = {
     _SPRINGFIELD.slug: _SPRINGFIELD,
     _XENIA.slug: _XENIA,
     _WPAFB.slug: _WPAFB,
+    _HAMILTON_MIDDLETOWN.slug: _HAMILTON_MIDDLETOWN,
 }
 
 # The per-site output relpaths `bosc onboard` writes. Each must be unique to its site so

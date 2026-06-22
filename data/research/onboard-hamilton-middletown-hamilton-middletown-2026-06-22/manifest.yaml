@@ -1,0 +1,224 @@
+meta:
+  topic: 'onboard hamilton-middletown (Hamilton · Middletown): data-center activity
+    + receiving-water screen for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-22T01:26:18+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    issue-proposal distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__bosc__list_documents
+    - mcp__bosc__list_extractions
+    - mcp__bosc__program_overview
+    - mcp__bosc__entities
+    - mcp__bosc__timeline
+    - mcp__bosc__hydrology_balance
+    - mcp__bosc__hydrology_scenario
+    - Grep
+    - Read
+    - Glob
+    num_turns: 26
+    max_turns: 30
+    cost_usd: 1.09158825
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Extend derive-low-flows to the Great Miami basin (gages 03274000 & 03272100)
+  dedupe_key: extend-derive-low-flows-to-the-great-miami-basin-gages-03274000
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - extraction
+  - hamilton-middletown
+  rationale: Without a cited Great Miami 7Q10, no receiving-water screen for any outfall
+    at this site can be computed or published — it is the single hardest blocker for
+    promoting hamilton-middletown past its current half-seeded state.
+  body: '## Context
+
+    The receiving-water screen for hamilton-middletown is currently blocked because
+    no Great Miami 7Q10 values exist in the BOSC corpus. A grep of `low-flow-7q10.derived.yaml`
+    for both profile gages — `03274000` (Great Miami River at Hamilton) and `03272100`
+    (Great Miami River at Middletown) — and for the string "great miami" returns **nothing**.
+    `bosc derive-low-flows` has not been extended to the Great Miami basin (findings
+    §3).
+
+
+    Unlike the Lima loop, where small effluent-dominated headwater tributaries (Dug
+    Run 7Q10 ≈ 0.03 cfs, Pike Run 0.78 cfs) drive dilution-ratio violations, Hamilton
+    and Middletown sit on the **lower Great Miami mainstem** near the Ohio confluence
+    — a qualitatively different assimilative-capacity context. The direction of any
+    screen result must not be pre-judged; it depends on deriving the actual 7Q10 values
+    from the two cited NWIS gages.
+
+
+    ## Acceptance Criteria
+
+    - `bosc derive-low-flows` (or a basin-scoped peer script) is run for HUC-8 05080002
+    (Great Miami lower).
+
+    - 7Q10 values for gages `03274000` and `03272100` are present and cited in `low-flow-7q10.derived.yaml`
+    (or an equivalent Great Miami basin file).
+
+    - The receiving-water screen in `data/extracted/hamilton-middletown/` can reference
+    those values in at least one `hydrology_balance`-compatible input.'
+- title: Run RSEI county toxics inventory for Butler County (FIPS 39017) and populate
+    toxic_corridor_bbox
+  dedupe_key: run-rsei-county-toxics-inventory-for-butler-county-fips-39017-an
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - toxics
+  - hamilton-middletown
+  rationale: The active heavy-industrial discharger on the mainstem is the defining
+    differentiator of this site relative to all other Miami-basin BOSC points, making
+    the RSEI inventory the most consequential analytical gap remaining.
+  body: '## Context
+
+    The RSEI connector has never been executed for hamilton-middletown: `reference/rsei/hamilton-middletown/inventory.yaml`
+    is absent (only a README is present), and `toxic_corridor_bbox=(0,0,0,0)` is flagged
+    `[open]` in the site profile (findings §1, §4).
+
+
+    The findings identify this as the **highest-value outstanding connector** for
+    this site specifically because hamilton-middletown is the established-heavy-industry
+    comparator in the Miami basin — Cleveland-Cliffs Middletown Works / former AK
+    Steel is an *active* large industrial discharger on the Great Miami mainstem over
+    a sole-source aquifer. The RSEI inventory is therefore likely to be material here
+    in a way it is not for the greenfield sibling sites (findings §4).
+
+
+    ## Acceptance Criteria
+
+    - `reference/rsei/hamilton-middletown/inventory.yaml` is populated with cited
+    RSEI data for FIPS 39017.
+
+    - `toxic_corridor_bbox` in the site profile is updated from `(0,0,0,0)` to a real
+    bounding box covering the Middletown Works and Hamilton industrial reach.
+
+    - The inventory is tagged with confidence level and source citation consistent
+    with other BOSC RSEI outputs.'
+- title: Ingest Hamilton/Middletown WWTP and Middletown Works NPDES permits to enable
+    hydrology_balance inputs
+  dedupe_key: ingest-hamilton-middletown-wwtp-and-middletown-works-npdes-permi
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - hydrology
+  - permits
+  - hamilton-middletown
+  rationale: Populating NPDES permit data is the prerequisite step that turns the
+    Great Miami 7Q10 derivation into an actual receiving-water screen result rather
+    than a standalone hydrologic data point.
+  body: '## Context
+
+    The site profile currently has `plant_receiving={}` and both passby minimums set
+    to `0.0 [open]` — no NPDES fact sheet has been ingested for any municipal wastewater
+    plant in Hamilton or Middletown, nor for the Middletown Works industrial discharge
+    (findings §3). Without a cited permitted design flow and receiving-reach assignment,
+    no `hydrology_balance`-compatible input can be constructed for this site.
+
+
+    The MCP `hydrology_balance` tool currently returns only Lima/Allen County WWTPs
+    (Shawnee II → Ottawa River 4.64 cfs; American Bath → Pike Run 2.32 cfs; American
+    II → Dug Run 1.86 cfs) because the active site remains `lima` — hamilton-middletown
+    will require its own committed NPDES reference data before the tool can be scoped
+    to this site (findings §2, §3).
+
+
+    ## Acceptance Criteria
+
+    - At least one municipal WWTP NPDES permit (City of Hamilton or City of Middletown)
+    and the Middletown Works industrial NPDES permit are ingested into `data/extracted/hamilton-middletown/`.
+
+    - `plant_receiving` in the site profile is populated with cited design flow(s)
+    and receiving stream(s).
+
+    - A `hydrology_balance` input YAML exists that can be validated against the derived
+    Great Miami 7Q10 values (dependency: the derive-low-flows issue above).'
+- title: Verify EPA Sole-Source Aquifer designation for the Great Miami Buried Valley
+    Aquifer through the Hamilton/Middletown reach
+  dedupe_key: verify-epa-sole-source-aquifer-designation-for-the-great-miami-b
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - groundwater
+  - verification
+  - hamilton-middletown
+  rationale: An unverified sole-source aquifer claim in the site profile could materially
+    misrepresent the groundwater-protection constraints for any facility sited here,
+    and it is a straightforward record-check that resolves a tagged inference.
+  body: '## Context
+
+    The site profile''s `hsg_citation` describes the Great Miami Buried Valley Aquifer
+    as a **US-EPA designated sole-source aquifer**, but this claim is currently flagged
+    `[inference] pending SSURGO` — it has not been verified against the EPA designation
+    record (findings §3, §5). The findings explicitly note it should be promoted from
+    `[inference]` to `[reference]` once confirmed.
+
+
+    This designation is the groundwater analogue of Xenia''s Scenic-River constraint:
+    it bears directly on any large groundwater withdrawal or contamination pathway
+    associated with a data-center or industrial facility at this site, and it is particularly
+    salient given the active heavy-industrial discharger (Middletown Works) on the
+    mainstem above a buried-valley aquifer (findings §5).
+
+
+    ## Acceptance Criteria
+
+    - The EPA Sole-Source Aquifer designation record for the Great Miami Buried Valley
+    Aquifer is located and cited (EPA SSA program reference or Federal Register entry).
+
+    - Confirmation that the designation extends through the Hamilton/Middletown reach
+    (HUC-8 05080002 / Butler County FIPS 39017) is documented.
+
+    - `hsg_citation` in the site profile is updated from `[inference]` to `[reference]`
+    with a direct citation, or the claim is corrected/narrowed if the designation
+    does not cover this reach.'
+- title: Resolve split-utility configuration and pin PJM DEOK zone for hamilton-middletown
+  dedupe_key: resolve-split-utility-configuration-and-pin-pjm-deok-zone-for-ha
+  labels:
+  - agent-proposed
+  - needs-triage
+  - energy
+  - grid
+  - extraction
+  - hamilton-middletown
+  rationale: An unresolved utility identity and placeholder LMP block any energy-cost
+    or grid-capacity analysis for this site, and the known EIA-861S connector-leak
+    risk makes an explicit validation pass necessary before the grid profile can be
+    trusted.
+  body: '## Context
+
+    The site profile currently has `eia861_utility_number=0 [open]` and `lmp_usd_mwh=35.0
+    [inference]` with `lmp_pnode_id=0 [open]`. The findings identify an unresolved
+    split-utility question: the City of Hamilton is served by its own **municipal
+    electric system** (American Municipal Power, filing EIA-861S short-form) while
+    Middletown is served by **Duke Energy Ohio** — a third distinct PJM zone (**DEOK**)
+    for the BOSC network, after the Maumee and Mad-River points (findings §5, §6 item
+    5).
+
+
+    The findings also flag that the EIA-861 grid-profile file (`reference/eia/hamilton-middletown/grid-profile.yaml`)
+    is absent, and they note a known connector-leak risk: the muni/short-form EIA-861S
+    path is the same one that caused data-quality issues for the Bryan site. Butler
+    County is in-state Ohio, but the municipal utility path warrants an explicit re-scan
+    for Lima/cross-state hardcoding in the connector.
+
+
+    ## Acceptance Criteria
+
+    - `eia861_utility_number` is populated for both utilities (City of Hamilton municipal
+    / AMP and Duke Energy Ohio) with cited EIA-861 or EIA-861S identifiers.
+
+    - `lmp_pnode_id` is set to the correct PJM DEOK node and `lmp_usd_mwh` is updated
+    from the placeholder to a cited value.
+
+    - `reference/eia/hamilton-middletown/grid-profile.yaml` is generated and present.
+
+    - The grid and consumer-energy connectors are re-validated for any Lima/cross-state
+    Ohio hardcoding on the muni short-form path.'
