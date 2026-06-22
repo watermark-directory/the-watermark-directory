@@ -1,7 +1,8 @@
 # Springfield (Clark County, OH) — Data-Center Activity Register
 
 Discover-and-pin register for the Springfield onboarding (epic #451 / onboarding #452;
-sub-issues #454 discover-and-pin, #453 Roshel scope-out). Status **as of 2026-06-22**.
+sub-issues #454 discover-and-pin, #453 Roshel scope-out, #523 Z-2026-05 records request).
+Status **as of 2026-06-22**.
 Tags are BOSC evidentiary discipline: `[verified]` = cited public source, `[inference]`,
 `[open]`. **Nothing here is in the BOSC corpus yet** — this records the *verified public
 record* and the specific primary instruments to *pull*. Every figure is cited; none is
@@ -16,6 +17,12 @@ Carlisle, Clark County, OH. New Carlisle, OH shows **no** data-center activity. 
 (St. Joseph County, IN bodies — WSBT/WVPE, 2025.) **No Indiana parcel enters this register.**
 The Clark County activity is concentrated at **PrimeOhio Corporate Park in Springfield**, not
 New Carlisle.
+
+**"Green Township" is likewise ambiguous.** The 5232 Peacock Rd rezoning (Z-2026-05, below) is in
+**Clark County's** Green Township (the Springfield-Beckley Airport). The large "Green Township data
+center" in Ohio news — Google's **"Project Dazzler,"** ~792 acres by the Ohio River near Franklin
+Furnace — is **Scioto County's** Green Township. `[verified]` Do not conflate; no Scioto County parcel
+enters this register.
 
 ## Project 1 — 5C Data Centers USA / Vultr (flagship)
 
@@ -57,6 +64,30 @@ New Carlisle.
   2025-12-17) covering non-contact cooling water, cooling-tower/boiler blowdown, generator/fuel
   stormwater; bars discharge within 500 yds upstream of a public-water surface intake. Directly
   relevant to the Springfield receiving-water screen. `[verified]`
+
+## Filed land-use instruments (Clark County)
+
+### Rezoning #Z-2026-05 — City of Springfield, 5232 Peacock Rd, Green Township (airport JEDD)
+
+`[verified]` — Clark County Rural Zoning Commission **Notice of Meeting for a Rezoning** (Case
+**#Z-2026-05**, dated 2026-06-18; public hearing **2026-07-09**, Conference Room 151, Springview
+Government Center; Senior Planner Stephanie Dunlap). The **City of Springfield** (applicant/owner)
+seeks to rezone **71.19 acres at 5232 Peacock Rd, Green Township** from **A-1 (Agricultural) → I-1
+(Light Industrial)** "to ensure zoning consistency for parcels surrounding the **Springfield-Beckley
+Airport** and/or parcels within the **Joint Economic Development District**." Advances to the Board of
+Clark County Commissioners after the hearing. Source: the mailed notice received by an adjacent owner
+(physical instrument; not yet imaged into `data/documents/`).
+
+- **On-subject context `[verified]`:** the Springfield-Beckley Municipal Airport is in Green Township and
+  is **City-of-Springfield-owned**, anchoring a real **JEDD** (Ohio Auditor "Springfield-Beckley Municipal
+  Airport JEDD" report) and the ~190-ac **Airpark Ohio** industrial park. This is the City — the same
+  entity that granted 5C its enterprise-zone abatement — **zoning/assembling industrial land in its own
+  airport JEDD** during the data-center buildout: land-readiness context for large-load siting pressure.
+- **Data-center link: `[open]`.** The notice names **no** data center (it states "zoning consistency"). It
+  is **not** the 5C site (601 Benjamin Drive / PrimeOhio, SE city edge — a different location). It *could*
+  be **Crusoe's** still-undisclosed parcel or generic airport-JEDD industrial prep — unverified. The full
+  Z-2026-05 application + staff report + the JEDD agreement would name the end use; **records request filed
+  as #523.**
 
 ## Roshel / International Motors "Springfield APA" — disposition: OUT-OF-GRAPH (#453)
 
@@ -100,10 +131,16 @@ air-permit power figure before relying on the draw. `[open]`
 5. **Ohio TCA award documents** — Constant Company (Oct 2025) + Crusoe DC sales-tax exemptions (state edges).
 6. **Ohio EPA NPDES** — whether 5C/Crusoe take coverage under draft General Permit OHD000001 (the Mad
    River discharge edge, if any; closed-loop should minimize it).
+7. **Clark County C&ED — rezoning Z-2026-05 file** (application + staff report + parcel map) and the
+   **Springfield-Beckley Airport JEDD** agreement, to name the end use of the 5232 Peacock Rd I-1
+   rezoning (data center vs. generic industrial). Records request **#523**.
 
 ## Sources
 
 City of Springfield 5C FAQ (springfieldohio.gov/5c-data-center-faqs); Springfield News-Sun (5C proposal;
 Crusoe); WYSO (2025-12-09 $1.3B; 2026-01-07 water/energy); JobsOhio (Vultr $1B); WVXU / Work Truck Online
 (Roshel/International APA); International Motors press release 2026-03-30; Bricker Graydon (OHD000001);
-WSBT / WVPE (New Carlisle, IN disambiguation). Full URLs recorded in GitHub issues #454 and #453.
+WSBT / WVPE (New Carlisle, IN disambiguation); Clark County Rural Zoning Commission notice **Z-2026-05**
+(2026-06-18, mailed); Ohio Auditor "Springfield-Beckley Municipal Airport JEDD" report; herald-dispatch
+(Google "Project Dazzler," Green Twp / **Scioto** Co — disambiguation). Full URLs recorded in GitHub
+issues #454, #453, and #523.
