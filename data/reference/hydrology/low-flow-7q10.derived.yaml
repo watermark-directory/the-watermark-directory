@@ -1,5 +1,5 @@
 meta:
-  subject: DERIVED receiving-stream 7Q10s for the major network mainstems (Maumee + Great Miami)
+  subject: DERIVED receiving-stream 7Q10s for the major mainstems of the network's river basins
   source: USGS NWIS daily discharge -> log-Pearson III (bosc.hydrology.lowflow_frequency)
   discipline: DERIVED screening denominators (source=derived), NOT cited regulatory 7Q10s — those live
     in low-flow-7q10.yaml. Each value is the 7Q10 AT THE GAGE, a proxy for a direct-discharge reach on
@@ -84,5 +84,59 @@ streams:
     - great miami r
     - miami river
     citation: LP3 7Q10 from USGS 03274000 (Great Miami River at Hamilton OH), 44 climatic years 1980-2024
+      (gage value; screening proxy for the discharge reach)
+    confidence: medium
+  scioto river:
+    seven_q10_cfs: 515.73
+    source: derived
+    gage: '03234500'
+    gage_name: Scioto River at Higby OH
+    period: 1980-01-01..2024-12-31
+    complete_years: 44
+    aliases:
+    - scioto river
+    - scioto r
+    citation: LP3 7Q10 from USGS 03234500 (Scioto River at Higby OH), 44 climatic years 1980-2024 (gage
+      value; screening proxy for the discharge reach)
+    confidence: medium
+  olentangy river:
+    seven_q10_cfs: 13.53
+    source: derived
+    gage: 03226800
+    gage_name: Olentangy River near Worthington OH
+    period: 1980-01-01..2024-12-31
+    complete_years: 31
+    aliases:
+    - olentangy river
+    - olentangy r
+    citation: LP3 7Q10 from USGS 03226800 (Olentangy River near Worthington OH), 31 climatic years 1980-2024
+      (gage value; screening proxy for the discharge reach)
+    confidence: medium
+  big walnut creek:
+    seven_q10_cfs: 35.43
+    source: derived
+    gage: 03229500
+    gage_name: Big Walnut Creek at Rees OH
+    period: 1980-01-01..2024-12-31
+    complete_years: 44
+    aliases:
+    - big walnut creek
+    - big walnut cr
+    - big walnut
+    citation: LP3 7Q10 from USGS 03229500 (Big Walnut Creek at Rees OH), 44 climatic years 1980-2024 (gage
+      value; screening proxy for the discharge reach)
+    confidence: medium
+  big darby creek:
+    seven_q10_cfs: 11.24
+    source: derived
+    gage: '03230500'
+    gage_name: Big Darby Creek at Darbyville OH
+    period: 1980-01-01..2024-12-31
+    complete_years: 44
+    aliases:
+    - big darby creek
+    - big darby cr
+    - big darby
+    citation: LP3 7Q10 from USGS 03230500 (Big Darby Creek at Darbyville OH), 44 climatic years 1980-2024
       (gage value; screening proxy for the discharge reach)
     confidence: medium

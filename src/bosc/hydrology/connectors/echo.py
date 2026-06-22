@@ -2,12 +2,12 @@
 
 Pulls the inventory of CWA-permitted facilities in a watershed from ECHO's Clean
 Water Act REST services (``cwa_rest_services``) at ``echodata.epa.gov``. Used to
-build verified per-basin inventories of wastewater dischargers (the Maumee and the
-Great Miami today; a basin is a :class:`Basin` registry entry, never hardcoded).
+build verified per-basin inventories of wastewater dischargers (the Maumee, Great
+Miami, and Scioto today; a basin is a :class:`Basin` registry entry, never hardcoded).
 
-A basin is a set of USGS HUC-8 subbasins (the Maumee's seven in :data:`MAUMEE_HUC8S`,
-the Great Miami's two in :data:`GREAT_MIAMI_HUC8S`). ECHO is queried one HUC-8 at a
-time and the results are deduplicated to one row per physical facility by FRS
+A basin is a set of USGS HUC-8 subbasins (e.g. the Maumee's seven in
+:data:`MAUMEE_HUC8S`, the Scioto's three in :data:`SCIOTO_HUC8S`). ECHO is queried one
+HUC-8 at a time and the results are deduplicated to one row per physical facility by FRS
 Registry ID (:func:`deduplicate`).
 
 Call pattern, per HUC-8 (mirrors the documented ECHO flow):
@@ -73,6 +73,17 @@ GREAT_MIAMI_HUC8S: dict[str, str] = {
     "05080002": "Lower Great Miami",
 }
 
+# The Scioto River basin (subregion 0506, an Ohio River tributary): three HUC-8 subbasins.
+# The Columbus metro + the New Albany Scioto-side cluster (Big Walnut/Olentangy/Darby) sit in
+# Upper Scioto (05060001). The New Albany epicenter also spills east across the divide into the
+# Licking River (Muskingum basin, subregion 0504) — that side is NOT Scioto drainage and is
+# tracked separately, not in this inventory.
+SCIOTO_HUC8S: dict[str, str] = {
+    "05060001": "Upper Scioto",
+    "05060002": "Lower Scioto",
+    "05060003": "Paint",
+}
+
 
 @dataclass(frozen=True)
 class Basin:
@@ -116,10 +127,21 @@ GREAT_MIAMI = Basin(
         "Ohio EPA / IDEM near the basin mouth for completeness.",
     ),
 )
-BASINS: dict[str, Basin] = {b.slug: b for b in (MAUMEE, GREAT_MIAMI)}
+SCIOTO = Basin(
+    slug="scioto",
+    huc8s=SCIOTO_HUC8S,
+    watershed="Scioto River — 3 HUC-8 subbasins, subregion 0506 (Ohio River tributary)",
+    subject="Scioto-watershed NPDES wastewater dischargers",
+    file_stem="scioto-wwtp",
+    caveats=(
+        "The New Albany cluster straddles the Scioto/Muskingum divide; its Licking River "
+        "(Muskingum, subregion 0504) side is NOT in this Scioto inventory.",
+    ),
+)
+BASINS: dict[str, Basin] = {b.slug: b for b in (MAUMEE, GREAT_MIAMI, SCIOTO)}
 
 # Merged HUC-8 -> name map for the per-HUC fetch display label (any registered basin).
-_HUC8_NAMES: dict[str, str] = {**MAUMEE_HUC8S, **GREAT_MIAMI_HUC8S}
+_HUC8_NAMES: dict[str, str] = {**MAUMEE_HUC8S, **GREAT_MIAMI_HUC8S, **SCIOTO_HUC8S}
 
 # Result columns to request, selected *by ObjectName* against the verified
 # metadata and mapped to their ColumnID for the ``qcolumns`` parameter. get_qid

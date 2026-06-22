@@ -43,6 +43,7 @@ _DERIVED_FILE = "low-flow-7q10.derived.yaml"
 _BASIN_POTW_INVENTORY: dict[str, tuple[str, str]] = {
     "maumee": ("echo", "maumee-wwtp.potw.yaml"),
     "great-miami": ("echo", "great-miami-wwtp.potw.yaml"),
+    "scioto": ("echo", "scioto-wwtp.potw.yaml"),
 }
 _MIN_YEARS = 20  # climatic years of record needed for a defensible LP3 7Q10
 
@@ -75,6 +76,20 @@ _MAINSTEM_GAGES: dict[str, dict[str, Any]] = {
     "Great Miami River": {
         "gage": "03274000",
         "aliases": ["great miami river", "great miami r", "miami river"],
+    },
+    # Scioto basin (subregion 0506, → Ohio River). Scioto River uses the mouth-ward gage
+    # at Higby (03234500, DA 5131 mi²). Big Walnut Creek (03229500) is the New Albany
+    # Scioto-side receiving water; the Olentangy uses the near-Worthington gage (03227000
+    # at Columbus has no discharge record in-window).
+    "Scioto River": {"gage": "03234500", "aliases": ["scioto river", "scioto r"]},
+    "Olentangy River": {"gage": "03226800", "aliases": ["olentangy river", "olentangy r"]},
+    "Big Walnut Creek": {
+        "gage": "03229500",
+        "aliases": ["big walnut creek", "big walnut cr", "big walnut"],
+    },
+    "Big Darby Creek": {
+        "gage": "03230500",
+        "aliases": ["big darby creek", "big darby cr", "big darby"],
     },
 }
 
@@ -145,7 +160,7 @@ def write_derived_low_flows(
     path.parent.mkdir(parents=True, exist_ok=True)
     doc = {
         "meta": {
-            "subject": "DERIVED receiving-stream 7Q10s for the major network mainstems (Maumee + Great Miami)",
+            "subject": "DERIVED receiving-stream 7Q10s for the major mainstems of the network's river basins",
             "source": "USGS NWIS daily discharge -> log-Pearson III (bosc.hydrology.lowflow_frequency)",
             "discipline": (
                 "DERIVED screening denominators (source=derived), NOT cited regulatory "

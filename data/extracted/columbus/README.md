@@ -1,0 +1,16 @@
+# Columbus (columbus) — extractions
+
+Per-site onboarding tree for the Columbus watershed point (basin: scioto), scaffolded by `bosc onboard columbus` (#326). Values come from the portable reach connectors keyed to this site's `SiteProfile` in `bosc.sites` — nothing here is fabricated; regenerate, don't hand-edit.
+
+## Source
+
+`bosc onboard columbus` over the Columbus `SiteProfile` (reach connectors: NWIS / NOAA Atlas-14 / SSURGO / NASA-POWER).
+
+## Known gaps & caveats
+
+- Onboarding seed — **review every value against a cited source before promotion** (`frontend/src/lib/sites.ts` `status`/`selectable`, parity-gated).
+- County/City parcel & zoning GIS is jurisdiction-specific and is **not** populated by the portable reach connectors — it needs a per-jurisdiction connector (see `docs/onboarding.md`).
+
+## Regenerate
+
+`bosc onboard columbus`  (or the per-connector commands: `derive-low-flows`, `nasa-power --write`, etc.)
