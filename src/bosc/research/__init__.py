@@ -19,6 +19,10 @@ from bosc.research.publish import (
     marker,
 )
 from bosc.research.run import (
+    HYPOTHESIS_ASSESSMENT_RECIPE,
+    ISSUE_PROPOSAL_RECIPE,
+    RECIPES,
+    ResearchRecipe,
     distill_proposals,
     load_manifest,
     run_research,
@@ -29,9 +33,13 @@ from bosc.research.run import (
 
 __all__ = [
     "DEDUPE_MARKER",
+    "HYPOTHESIS_ASSESSMENT_RECIPE",
+    "ISSUE_PROPOSAL_RECIPE",
+    "RECIPES",
     "IssueProposal",
     "PlannedIssue",
     "PublishPlan",
+    "ResearchRecipe",
     "ResearchRunManifest",
     "RunProvenance",
     "build_plan",

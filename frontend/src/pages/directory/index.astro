@@ -12,8 +12,12 @@
  */
 import Base from "../../layouts/Base.astro";
 import { hasFeed, loadFeed, loadManifest } from "../../lib/bundle";
-import { buildLens, LENS_ORDER, LENSES, lensCount } from "../../lib/directory";
-import type { DocumentCollectionItem } from "../../lib/feeds";
+import { buildLens, indexAssessments, LENS_ORDER, lensConfig, lensCount } from "../../lib/directory";
+import type {
+  DocumentCollectionItem,
+  HypothesisAssessmentItem,
+  HypothesisItem,
+} from "../../lib/feeds";
 import { withBase } from "../../lib/site";
 
 const manifest = loadManifest();
@@ -27,10 +31,19 @@ const nFiles = documents.reduce((a, c) => a + c.entries.length, 0);
 const nRecords = feedCount("records");
 const limaCounts = { docs: nFiles ? num(nFiles) : "—", records: nRecords ? num(nRecords) : "—" };
 
+// The boom-origin hypotheses + their (site x hypothesis) evidence cells (#308) — now read from
+// the bundle, no longer hardcoded in directory.ts. Each cell carries a Citation (provenance).
+const hypItems = hasFeed("hypotheses") ? loadFeed<HypothesisItem[]>("hypotheses") : [];
+const hypByKey = new Map(hypItems.map((h) => [h.id, h]));
+const cells = hasFeed("hypothesis-assessments")
+  ? loadFeed<HypothesisAssessmentItem[]>("hypothesis-assessments")
+  : [];
+const lensData = indexAssessments(cells);
+
 const lenses = LENS_ORDER.map((key) => ({
-  cfg: LENSES[key],
-  view: buildLens(key, limaCounts),
-  count: lensCount(key),
+  cfg: lensConfig(key, hypByKey.get(key)),
+  view: buildLens(key, limaCounts, lensData),
+  count: lensCount(key, lensData),
 }));
 
 const statusSwatch = (kind: "live" | "new") =>

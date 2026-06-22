@@ -25,24 +25,34 @@ def _text(payload: str) -> dict[str, Any]:
     return {"content": [{"type": "text", "text": payload}]}
 
 
-# Read-side per-site scope (#424). The corpus + hydrology models are the Lima reference build
-# until a non-Lima site reaches parity (its own committed corpus / scenario). Until then, a
-# per-site research run (`bosc --site <slug> research run`) must NOT be silently handed Lima data:
-# `_scoped` prepends an explicit banner naming the active site. Per-site DATA resolution — making
-# these tools read the active site's own corpus — is the parity-gated flip this seam prepares.
+# Read-side per-site resolution (#424). The extraction-reading tools resolve against the ACTIVE
+# site's own committed corpus: the whole data/extracted/ tree for the corpus home (Lima), else the
+# site's own subtree (data/extracted/<slug>/) — so a per-site run reads its own record, never
+# another site's. The corpus + hydrology *reference* models (entities, timeline, the hydrology
+# suite) are the Lima reference build; for another site they are NOT silently substituted — the
+# tool returns an honest "no per-site X yet" notice (`_reference_only`). Resolving a non-home
+# site's own entity/timeline/scenario equivalents is the remaining parity work this seam leaves.
 _CORPUS_HOME = "lima"
 
 
+def _is_corpus_home(settings: Any) -> bool:
+    return bool(settings.site == _CORPUS_HOME)
+
+
+def _site_extracted_root(settings: Any) -> Path:
+    """The active site's extracted-corpus root: the whole tree for the corpus home, else the
+    site's own subtree (data/extracted/<slug>/)."""
+    root: Path = settings.extracted_dir
+    return root if _is_corpus_home(settings) else root / str(settings.site)
+
+
 def _site_scope_note(settings: Any) -> str:
-    """A scope banner when the active site isn't the corpus home (empty for Lima → zero-drift)."""
-    site = settings.site
-    if site == _CORPUS_HOME:
+    """A scope banner naming whose corpus a payload is (empty for the corpus home → zero drift)."""
+    if _is_corpus_home(settings):
         return ""
     return (
-        f"[scope] Active site is {site!r}, but the read-side corpus + hydrology models are the "
-        f"{_CORPUS_HOME!r} reference build — {site} has no committed corpus/scenario of its own yet "
-        f"(per-site read-side resolution is gated on parity, #424). The data below is "
-        f"{_CORPUS_HOME}'s.\n\n"
+        f"[scope] Reading site {settings.site!r}'s own committed corpus "
+        f"(data/extracted/{settings.site}/).\n\n"
     )
 
 
@@ -51,29 +61,48 @@ def _scoped(payload: str) -> dict[str, Any]:
     return _text(_site_scope_note(get_settings()) + payload)
 
 
-def _resolve(filename: str | None, pattern: str = "*.yaml") -> Path | None:
-    """Resolve an extraction within data/extracted (now a collection tree).
+def _reference_only(tool: str) -> dict[str, Any] | None:
+    """Guard for the Lima-reference tools (entities/timeline/hydrology): off the corpus home they
+    have no per-site equivalent yet, so return an honest notice instead of silently serving Lima's
+    record (#424). Returns ``None`` on the corpus home (the caller proceeds normally)."""
+    settings = get_settings()
+    if _is_corpus_home(settings):
+        return None
+    return _text(
+        f"[scope] No committed {tool} for site {settings.site!r} yet. This tool serves the "
+        f"{_CORPUS_HOME!r} reference build, which is not substituted for another site (#424); "
+        f"onboard {settings.site}'s corpus/scenario to populate it."
+    )
 
-    A ``filename`` may be a path relative to ``extracted`` (``recorder/foo.yaml``)
-    or a bare basename matched anywhere in the tree. With no filename, the first
-    ``pattern`` match (recursive) is returned.
+
+def _resolve(filename: str | None, pattern: str = "*.yaml") -> Path | None:
+    """Resolve an extraction within the ACTIVE SITE's extracted corpus (#424).
+
+    The search root is the whole ``data/extracted`` tree for the corpus home (Lima), else the
+    active site's own subtree. A ``filename`` may be a path relative to that root
+    (``recorder/foo.yaml``) or a bare basename matched anywhere under it; with no filename, the
+    first ``pattern`` match (recursive) is returned.
     """
-    extracted = get_settings().extracted_dir
-    if not extracted.exists():
+    base = _site_extracted_root(get_settings())
+    if not base.exists():
         return None
     if filename:
-        direct = extracted / filename
+        direct = base / filename
         if direct.is_file():
             return direct
         name = Path(filename).name
-        matches = sorted(p for p in extracted.rglob(name) if p.is_file())
+        matches = sorted(p for p in base.rglob(name) if p.is_file())
         return matches[0] if matches else None
-    matches = sorted(extracted.rglob(pattern))
+    matches = sorted(base.rglob(pattern))
     return matches[0] if matches else None
 
 
 @tool("list_documents", "List ingested source documents and their collections.", {})
 async def list_documents(_args: dict[str, Any]) -> dict[str, Any]:
+    # The raw source corpus (data/documents/) is not partitioned per site; off the corpus home
+    # there is no per-site document tree, so don't hand back the home's documents (#424).
+    if (note := _reference_only("source documents")) is not None:
+        return note
     docs = ingest.discover()
     if not docs:
         return _text("No source documents found under data/documents.")
@@ -86,12 +115,14 @@ async def list_documents(_args: dict[str, Any]) -> dict[str, Any]:
 
 @tool("list_extractions", "List available structured extraction files.", {})
 async def list_extractions(_args: dict[str, Any]) -> dict[str, Any]:
-    extracted = get_settings().extracted_dir
-    files = sorted(extracted.rglob("*.yaml")) if extracted.exists() else []
+    settings = get_settings()
+    base = _site_extracted_root(settings)
+    files = sorted(base.rglob("*.yaml")) if base.exists() else []
     if not files:
-        return _text("No extractions found under data/extracted.")
-    # Show the collection-relative path so the agent sees provenance (recorder/...).
-    return _scoped("\n".join(f"- {f.relative_to(extracted)}" for f in files))
+        loc = "data/extracted" if _is_corpus_home(settings) else f"data/extracted/{settings.site}"
+        return _text(f"No extractions found under {loc}.")
+    # Show the path relative to the site root so the agent sees provenance (recorder/...).
+    return _scoped("\n".join(f"- {f.relative_to(base)}" for f in files))
 
 
 @tool(
@@ -156,6 +187,8 @@ async def program_overview(_args: dict[str, Any]) -> dict[str, Any]:
     {},
 )
 async def timeline(_args: dict[str, Any]) -> dict[str, Any]:
+    if (note := _reference_only("timeline")) is not None:
+        return note
     from bosc.pipeline import timeline as timeline_stage
 
     events = timeline_stage.build_timeline()
@@ -178,6 +211,8 @@ async def timeline(_args: dict[str, Any]) -> dict[str, Any]:
     {},
 )
 async def entities(_args: dict[str, Any]) -> dict[str, Any]:
+    if (note := _reference_only("entities")) is not None:
+        return note
     from bosc.pipeline import entities as entities_stage
 
     graph = entities_stage.build_entity_graph(
@@ -213,6 +248,8 @@ async def entities(_args: dict[str, Any]) -> dict[str, Any]:
     {},
 )
 async def hydrology_balance(_args: dict[str, Any]) -> dict[str, Any]:
+    if (note := _reference_only("hydrology_balance")) is not None:
+        return note
     from bosc.pipeline import hydrology as hydro_stage
 
     balance, _checks, findings = hydro_stage.run_baseline()
@@ -240,6 +277,8 @@ async def hydrology_balance(_args: dict[str, Any]) -> dict[str, Any]:
     {},
 )
 async def stormwater_runoff(_args: dict[str, Any]) -> dict[str, Any]:
+    if (note := _reference_only("stormwater_runoff")) is not None:
+        return note
     from bosc.pipeline import hydrology as hydro_stage
 
     runoff, findings = hydro_stage.run_storm()
@@ -266,6 +305,8 @@ async def stormwater_runoff(_args: dict[str, Any]) -> dict[str, Any]:
     {},
 )
 async def hydrology_scenario(_args: dict[str, Any]) -> dict[str, Any]:
+    if (note := _reference_only("hydrology_scenario")) is not None:
+        return note
     from bosc.pipeline import hydrology as hydro_stage
 
     base, build, delta = hydro_stage.run_scenarios()
@@ -297,6 +338,8 @@ async def hydrology_scenario(_args: dict[str, Any]) -> dict[str, Any]:
     {},
 )
 async def storm_plan_inventory(_args: dict[str, Any]) -> dict[str, Any]:
+    if (note := _reference_only("storm_plan_inventory")) is not None:
+        return note
     from bosc.hydrology import stormplan
 
     inv = stormplan.load_inventory()
@@ -326,6 +369,8 @@ async def storm_plan_inventory(_args: dict[str, Any]) -> dict[str, Any]:
     {},
 )
 async def sanitary_basis(_args: dict[str, Any]) -> dict[str, Any]:
+    if (note := _reference_only("sanitary_basis")) is not None:
+        return note
     from bosc.hydrology.sanitary import load_sanitary_basis
 
     basis = load_sanitary_basis()
@@ -356,6 +401,8 @@ async def sanitary_basis(_args: dict[str, Any]) -> dict[str, Any]:
     {},
 )
 async def tier1_swmm(_args: dict[str, Any]) -> dict[str, Any]:
+    if (note := _reference_only("tier1_swmm")) is not None:
+        return note
     from bosc.hydrology.tier1 import run_tier1, tier1_findings
 
     result = run_tier1()

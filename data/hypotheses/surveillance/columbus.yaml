@@ -1,0 +1,10 @@
+site: columbus
+hypothesis: surveillance
+signal: watch
+tag: open
+group: subsidy
+fields:
+  operator: "—"
+  capital: Enterprise-zone abatement (signal)
+# tag: open — abatement is a signal pending the on-record instrument. Tracking candidate (#486).
+citations: []

@@ -332,6 +332,14 @@ class Settings(BaseSettings):
         corpus by construction — a run writes only here, never under documents_dir."""
         return self.data_dir / "research"
 
+    @property
+    def hypotheses_dir(self) -> Path:
+        """Reviewed (site x hypothesis) evidence cells — the boom-origin assessment
+        store (``<hypothesis-id>/<site-slug>.yaml``, each carrying evidentiary tags +
+        citations). Hand-authored or promoted from a research run; committed. The
+        backend peer of the frontend directory lens (bosc.hypotheses)."""
+        return self.data_dir / "hypotheses"
+
     def ensure_dirs(self) -> None:
         """Create the data directories if they do not yet exist."""
         for path in (self.documents_dir, self.extracted_dir, self.cache_dir):

@@ -1,0 +1,16 @@
+site: new-albany
+hypothesis: surveillance
+signal: moderate
+tag: inference
+group: onrecord
+fields:
+  operator: Hyperscaler cluster (inferred)
+  capital: JobsOhio · TIF (inference)
+citations:
+  - source: docs/ECONOMICS.md
+    source_kind: assumption
+    confidence: medium
+    note: >-
+      The operator is inferred from the New Albany hyperscaler cluster; the JobsOhio / TIF
+      incentive stack is inferred from the regional pattern — verify each against the public
+      record before promoting the tag past inference. Tracking candidate (epic #485).

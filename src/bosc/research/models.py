@@ -15,6 +15,8 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from bosc.hypotheses import Citation, HypothesisAssessment
+
 # Process labels every agent-proposed issue carries: provenance (``agent-proposed``)
 # plus inert-until-triaged (``needs-triage``). These are the runtime labels managed in
 # ``.github/config`` (Pulumi, Epic 5.4); a proposal stays inert until a maintainer
@@ -91,6 +93,42 @@ class ProposalDrafts(BaseModel):
         return _coerce_json_list(v)
 
 
+class AssessmentDraft(BaseModel):
+    """One ``(site x hypothesis)`` evidence cell as drafted by the hypothesis-assessment recipe.
+
+    The forced-tool-use schema the model fills for a single site under one hypothesis.
+    ``signal``/``tag``/``group`` are plain strings here (lenient) — normalization into a
+    :class:`bosc.hypotheses.HypothesisAssessment` validates them against the hypothesis
+    taxonomy, so a bad draw is caught and re-rolled rather than silently accepted.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    signal: str | None = None
+    tag: str = "open"
+    group: str | None = None
+    fields: dict[str, str] = Field(default_factory=dict)
+    citations: list[Citation] = Field(default_factory=list)
+    rationale: str = ""
+
+    @field_validator("citations", mode="before")
+    @classmethod
+    def _coerce_citations(cls, v: Any) -> Any:
+        """The model sometimes stringifies the nested ``citations`` array — coerce it back."""
+        return _coerce_json_list(v)
+
+    @field_validator("fields", mode="before")
+    @classmethod
+    def _coerce_fields(cls, v: Any) -> Any:
+        """Tolerate a stringified JSON object for ``fields`` (the forced-tool-use quirk)."""
+        if isinstance(v, str):
+            try:
+                return json.loads(v, strict=False)
+            except json.JSONDecodeError:
+                return v
+        return v
+
+
 class IssueProposal(BaseModel):
     """A normalized, ready-to-open issue proposal (runtime labels + dedupe key)."""
 
@@ -120,10 +158,16 @@ class RunProvenance(BaseModel):
 
 
 class ResearchRunManifest(BaseModel):
-    """A complete research run: provenance, prose findings, and issue proposals."""
+    """A complete research run: provenance, prose findings, and the recipe's output.
+
+    The default ``issue-proposal`` recipe fills ``proposals``; the ``hypothesis-assessment``
+    recipe fills ``assessments`` (candidate ``(site x hypothesis)`` cells, proposed for review
+    — promotion into ``data/hypotheses/`` stays a manual edit). A run uses one or the other.
+    """
 
     model_config = ConfigDict(extra="forbid")
 
     provenance: RunProvenance
     findings: str
-    proposals: list[IssueProposal]
+    proposals: list[IssueProposal] = Field(default_factory=list)
+    assessments: list[HypothesisAssessment] = Field(default_factory=list)

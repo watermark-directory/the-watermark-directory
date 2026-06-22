@@ -1,0 +1,15 @@
+site: columbus
+hypothesis: defense
+signal: moderate
+tag: verified
+group: federal
+fields:
+  nexus: DLA Land & Maritime
+  linkage: Supply chain
+citations:
+  - source: docs/defense-nexus.md
+    source_kind: reference
+    confidence: medium
+    note: >-
+      The Defense Logistics Agency's Land & Maritime supply center is in the Columbus area —
+      a documented federal supply-chain node. Columbus is a tracking candidate (epic #486).

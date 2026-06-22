@@ -394,6 +394,33 @@ export interface BasinNetwork {
   nodes: WatershedNode[];
 }
 
+// --- boom-origin hypotheses (the directory lenses) + their evidence cells (#308) ----------
+/** One reading of the boom — content of a directory lens (`bosc.hypotheses.Hypothesis`). */
+export interface HypothesisItem {
+  id: string; // "water" | "defense" | "surveillance"
+  number: string; // "H1" | "H2" | "H3"
+  name: string;
+  claim: string;
+  thesis: string;
+  status: "reference" | "emerging";
+  signals: string[];
+  groups: string[];
+  fields: string[];
+  related_docs: string[];
+  predicted_evidence: string[];
+}
+
+/** One (site x hypothesis) evidence cell (`bosc.hypotheses.HypothesisAssessment`). */
+export interface HypothesisAssessmentItem {
+  site: string;
+  hypothesis: string;
+  signal?: string | null;
+  tag: "verified" | "inference" | "open";
+  group?: string | null;
+  fields: Record<string, string>;
+  citations: Citation[];
+}
+
 // --- helpers -----------------------------------------------------------------
 
 /** A URL-safe slug from any label/key (e.g. an entity key "AMAZON COM SERVICES"). */
