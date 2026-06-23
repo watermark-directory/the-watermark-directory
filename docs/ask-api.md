@@ -258,7 +258,7 @@ Two ways to exercise this endpoint locally without spending tokens, both detaile
 
 - **Automated:** `src/lib/askRoute.test.ts` drives `onRequestPost` end-to-end — the gates,
   the deterministic no-model refusal, and both the JSON and SSE answer paths (real retrieval
-  + real stream parsing) — with a stubbed `fetch`, under `npm test`. No model call.
+  and real stream parsing) — with a stubbed `fetch`, under `npm test`. No model call.
 - **Interactive:** `mise run //frontend:dev:stack` serves the `/ask` page + endpoint under
   `wrangler pages dev`; the Messages API is mocked (`scripts/dev-mocks.mjs` via
   `ANTHROPIC_API_BASE`, JSON + SSE), so answers stream from a canned response at no cost.
