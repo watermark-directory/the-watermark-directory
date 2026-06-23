@@ -213,36 +213,36 @@ a { color: var(--bosc-link); }
 .nav-dd[open] .nav-dd-caret { transform: rotate(180deg); }
 .nav-dd-menu {
   position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
+  top: 100%; /* flush under the bar — the green top-rule meets the tab row (no floating gap) */
+  left: 0; /* anchored to the tab's left edge; item text (0.8rem inset) lines up under the label */
   width: 15rem;
   background: var(--bosc-bg);
   color: var(--bosc-ink);
   border: 1px solid var(--bosc-rule);
   border-top: 3px solid var(--bosc-forest);
   box-shadow: 0 16px 34px -18px rgba(22, 32, 26, 0.5) !important;
-  padding: 5px;
+  padding: 5px 0;
   z-index: 25;
 }
 .nav-dd-item {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  padding: 0.55rem 0.7rem;
+  padding: 0.5rem 0.8rem;
   color: var(--bosc-ink);
   text-decoration: none;
 }
 .nav-dd-item:hover { background: var(--td-tint); }
 .nav-dd-item-label { font-size: 0.84rem; font-weight: 700; }
 .nav-dd-item-blurb { font-size: 0.72rem; color: var(--bosc-faint); }
-.nav-dd-hr { border: 0; border-top: 1px solid var(--bosc-rule); margin: 0.3rem 0.2rem; }
+.nav-dd-hr { border: 0; border-top: 1px solid var(--bosc-rule); margin: 0.3rem 0; }
 
 /* "The site" mega-menu (design "Chrome") — a wider panel: two intro tiles, the story spine, and
    the themes it crosses. Matches the light bone dropdown aesthetic (not the comp's dark panel). */
 .nav-mega { position: relative; }
 .nav-mega-menu {
   position: absolute;
-  top: calc(100% + 6px);
+  top: 100%; /* flush under the bar, same as the simple dropdown */
   left: 0;
   width: 41rem;
   max-width: calc(100vw - 2rem);
