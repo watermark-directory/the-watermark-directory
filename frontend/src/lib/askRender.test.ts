@@ -33,7 +33,9 @@ describe("escapeHtml", () => {
 
 describe("withBasePath", () => {
   it("joins base + root-absolute path without doubling slashes", () => {
-    expect(withBasePath("/bosc", "/site/records/opc/")).toBe("/bosc/site/records/opc/");
+    expect(withBasePath("/network/american-sugar-creek-allen-co", "/site/records/opc/")).toBe(
+      "/network/american-sugar-creek-allen-co/site/records/opc/",
+    );
     expect(withBasePath("/", "/timeline")).toBe("/timeline");
   });
 });
@@ -64,7 +66,9 @@ describe("renderAnswer", () => {
   });
 
   it("prefixes citation links with the site base", () => {
-    expect(renderAnswer("x [1]", CITES, "/bosc")).toContain('href="/bosc/site/records/opc/"');
+    expect(renderAnswer("x [1]", CITES, "/network/american-sugar-creek-allen-co")).toContain(
+      'href="/network/american-sugar-creek-allen-co/site/records/opc/"',
+    );
   });
 });
 

@@ -1,0 +1,101 @@
+---
+import type { GetStaticPaths } from "astro";
+import Base from "../../../../../layouts/Base.astro";
+import Provenance from "../../../../../components/Provenance.astro";
+import ProfileHeader from "../../../../../components/ProfileHeader.astro";
+import { hasFeed, loadFeed } from "../../../../../lib/bundle";
+import type { PlaceItem } from "../../../../../lib/feeds";
+import type { ProfileAttr, ProfileHeaderData } from "../../../../../lib/profile";
+import type { FigureStatData } from "../../../../../lib/viz";
+import { entityHref } from "../../../../../lib/entityLinks";
+import { withBase } from "../../../../../lib/site";
+import { renderBody } from "../../../../../lib/wiki";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
+  return places.map((place) => ({ params: { slug: place.slug }, props: { place } }));
+};
+
+interface Props {
+  place: PlaceItem;
+}
+const { place } = Astro.props;
+
+const stats: FigureStatData[] = [];
+if (place.parcels.length) stats.push({ label: "Parcels", value: String(place.parcels.length), evidence: "verified" });
+if (place.members.length) stats.push({ label: "Members", value: String(place.members.length), evidence: "verified" });
+
+const attrs: ProfileAttr[] = [];
+if (place.depth) attrs.push({ label: "Research depth", value: place.depth });
+if (place.location?.method)
+  attrs.push({ label: "Location", value: `${place.location.method}${place.location.confidence ? ` · ${place.location.confidence}` : ""}` });
+if (place.location?.bbox && place.location.bbox.length === 4)
+  attrs.push({ label: "Bounding box", value: place.location.bbox.map((n) => n.toFixed(4)).join(", ") });
+
+const rels = place.relationships.map((r) => ({ kind: r.role, label: r.entity, href: entityHref(r.entity) }));
+
+const header: ProfileHeaderData = {
+  kindLabel: `Place · ${place.kind}`,
+  name: place.name,
+  variants: place.aliases,
+  evidence: "verified",
+  stats: stats.length ? stats : undefined,
+  attrs: attrs.length ? attrs : undefined,
+  relLabel: "Relationships",
+  relationships: rels.length ? rels : undefined,
+  correctHref: withBase(
+    `/network/american-sugar-creek-allen-co/submit?ref_kind=place&ref_id=${encodeURIComponent(place.slug)}&ref_label=${encodeURIComponent(place.name)}`,
+  ),
+};
+
+const sections = [
+  { anchor: "overview", label: "Identity" },
+  ...(place.members.length ? [{ anchor: "members", label: "Members" }] : []),
+  ...(place.citations.length ? [{ anchor: "sources", label: "Sources" }] : []),
+];
+const profileToc = sections.length >= 2 ? sections : [];
+---
+
+<Base title={place.name} section="site" toc={profileToc}>
+  <p class="prose"><a href={withBase("/network/american-sugar-creek-allen-co/site/places/")}>← Places &amp; parcels</a></p>
+  <div id="overview"><ProfileHeader profile={header} /></div>
+
+  <article class="prose">
+    {
+      place.tags.length > 0 && (
+        <ul class="chips">
+          {place.tags.map((t) => (
+            <li class="chip">{t}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    {place.body && <Fragment set:html={renderBody(place.body)} />}
+
+    {
+      place.members.length > 0 && (
+        <div class="backlinks">
+          <h2 id="members">Members</h2>
+          <ul class="chips">
+            {place.members.map((m) => {
+              const href = entityHref(m);
+              return <li class="chip">{href ? <a href={href}>{m}</a> : m}</li>;
+            })}
+          </ul>
+        </div>
+      )
+    }
+
+    {
+      place.citations.length > 0 && (
+        <div class="backlinks">
+          <h2 id="sources">Sources</h2>
+          {place.citations.map((c) => (
+            <Provenance citation={c} />
+          ))}
+        </div>
+      )
+    }
+  </article>
+</Base>

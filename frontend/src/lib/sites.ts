@@ -16,6 +16,8 @@
  *  sections coming online; `queued` = registered profile + coming-soon page, in the build queue;
  *  `tracking` = a GitHub-tracked candidate with an issue but no registered profile yet (the
  *  earliest phase — it routes to a lightweight "watch" page). Only `live` is selectable. */
+import { SITE_BASE } from "./routes";
+
 export type SiteStatus = "live" | "building" | "queued" | "tracking";
 
 export interface NetworkSite {
@@ -57,7 +59,7 @@ export const SITES: readonly NetworkSite[] = [
     basin: "Ottawa River · Lima, OH",
     status: "live",
     selectable: true,
-    href: "/bosc",
+    href: SITE_BASE,
   },
   {
     // A live data-center facility; the site build is queued (onboard fast, not selectable yet).

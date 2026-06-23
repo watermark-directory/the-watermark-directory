@@ -1,0 +1,122 @@
+---
+/**
+ * Story home (design "Site Home" → "Story home, where the walk begins") for the Project BOSC
+ * story, at STORY_BASE (`/network/<id>/stories/project-bosc`). It merges the guided-walk on-ramp
+ * with the orientation that used to live on the separate "Intro" page: what this is, why it
+ * matters, the promise that every figure is checkable, the six chapters, and how to read it.
+ * A site can host several stories — this is one (codename `project-bosc`). Declares section "story".
+ */
+import Base from "../../../../../layouts/Base.astro";
+import { hasFeed, loadFeed, loadManifest } from "../../../../../lib/bundle";
+import { type DocumentCollectionItem } from "../../../../../lib/feeds";
+import { WALK_CHAPTERS, WALK_INDEX_HREF, walkHref } from "../../../../../lib/walk";
+import { withSite } from "../../../../../lib/site";
+
+const manifest = loadManifest();
+const byName = new Map(manifest.feeds.map((f) => [f.name, f]));
+const count = (name: string): number => byName.get(name)?.count ?? 0;
+const num = (n: number): string => n.toLocaleString("en-US");
+
+const docCollections = hasFeed("documents") ? loadFeed<DocumentCollectionItem[]>("documents") : [];
+const nDocuments = docCollections.reduce((a, c) => a + c.entries.length, 0);
+const firstChapter = walkHref(WALK_CHAPTERS[0].slug);
+---
+
+<Base
+  title="Project BOSC — the story"
+  section="story"
+  description="The Project BOSC guided walk: the story told through the records, with every figure checkable."
+>
+  <div class="walk-onramp">
+    <div class="walk-kicker">The story · Project BOSC</div>
+    <h1>A data center is coming to Lima</h1>
+    <p class="walk-onramp-lead">
+      A ~340-acre hardened data-center campus is being built in American Township,
+      just outside Lima, Ohio — by a Delaware shell, <strong>“Bistrozzi LLC,”</strong>
+      for an end user the developers worked to keep quiet. This walk shows what the
+      public record reveals, and teaches you how to read it yourself.
+    </p>
+
+    <div class="walk-promise">
+      <p class="walk-promise-title">Every figure here is checkable.</p>
+      <p>
+        Each number is read from a cited source and carries a confidence tag, so you
+        never have to take our word for it:
+      </p>
+      <div class="td-chips walk-promise-tags">
+        <span class="td-tag td-tag--verified"><span class="td-tag-dot" aria-hidden="true"></span>[verified]<span class="walk-tag-gloss"> read from a cited record</span></span>
+        <span class="td-tag td-tag--inference"><span class="td-tag-dot" aria-hidden="true"></span>[inference]<span class="walk-tag-gloss"> a labelled reading of the record</span></span>
+        <span class="td-tag td-tag--open"><span class="td-tag-dot" aria-hidden="true"></span>[open]<span class="walk-tag-gloss"> withheld or unresolved</span></span>
+      </div>
+    </div>
+
+    <div class="callout" id="why">
+      <p class="callout-title">The whole story turns on small numbers</p>
+      <p>
+        The Ottawa — the river this project discharges into, on a basin its cooling
+        draws down — has a design low flow of about <strong>0.2 cubic feet per
+        second</strong>, and runs dry in the driest summers. Against that, a campus
+        whose backup power and cooling are built for a city. Holding the
+        document-by-document record against numbers like this is how the analysis
+        moves from anecdote to evidence.
+      </p>
+    </div>
+
+    <p class="walk-corpus">
+      The walk draws on <a href={`${withSite("/site/")}#documents`}><strong>{num(nDocuments)}</strong> primary
+      documents</a>, <strong>{num(count("records"))}</strong> structured records,
+      <strong>{num(count("entities"))}</strong> resolved entities, and
+      <strong>{num(count("timeline"))}</strong> dated events — the same feeds the
+      reference library reads.
+    </p>
+
+    <h2>The walk — six chapters</h2>
+    <ol class="walk-chapters">
+      {
+        WALK_CHAPTERS.map((c) => (
+          <li class:list={["walk-chapter", !c.live && "is-draft"]}>
+            <span class="walk-step-badge">{c.step}</span>
+            <span class="walk-chapter-main">
+              {c.live ? (
+                <a class="walk-chapter-title" href={walkHref(c.slug)}>{c.title}</a>
+              ) : (
+                <span class="walk-chapter-title">{c.title} <span class="walk-draft-tag">drafting</span></span>
+              )}
+              <span class="walk-chapter-skill">{c.skill}</span>
+              <span class="walk-chapter-anchor">Anchor: {c.anchor}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="walk-cta">
+      <a class="btn" href={firstChapter}>Begin the walk →</a>
+      <a class="walk-cta-secondary" href={WALK_INDEX_HREF}>or see the table of contents</a>
+      <a class="walk-cta-secondary" href={withSite("/site/")}>or browse the archive</a>
+    </div>
+
+    <article class="prose walk-orientation">
+      <h2 id="methodology">How the record is read</h2>
+      <p>
+        Each record is read from the <em>image</em>, not the OCR text layer (whose digits are
+        unreliable), validated against a typed schema, and cited back to a source page —
+        confidence surfaced inline as evidence tags. Read the full write-up:
+        <a href={withSite("/docs/methodology")}>Methodology</a> ·
+        the <a href={withSite("/docs/course")}>research course</a> ·
+        or <a href="/about">about the method</a>.
+      </p>
+    </article>
+
+    <div class="home-disclaimer">
+      <span class="footer-pill"><span class="dot" aria-hidden="true"></span>provenance-first</span>
+      <p>
+        <strong>Draft.</strong> Assembled from public records the developer didn't write.
+        Registered-agent and organizer overlaps are <em>common-control plumbing</em>, not a
+        verdict on ownership; inference is labeled <code>[inference]</code> and never dressed
+        as fact. Nothing here is legal advice or a verdict — verify every figure against its
+        cited source.
+      </p>
+    </div>
+  </div>
+</Base>

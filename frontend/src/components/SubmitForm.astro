@@ -2,7 +2,7 @@
 // The submission form body, shared by both submit routes:
 //   - /submit       — the network-tier canonical route (the "Submit" tab, the footer,
 //                     and the network-global pages link here → network chrome).
-//   - /bosc/submit  — the site-tier route the per-record "✎ Suggest a correction"
+//   - /network/american-sugar-creek-allen-co/submit  — the site-tier route the per-record "✎ Suggest a correction"
 //                     deep-links target, so correcting a Lima record keeps Lima chrome.
 // Both wrap this in <Base>; only the surrounding `section` (and thus the tier chrome)
 // differs. The ref-context banner is filled client-side from the query string, so it
@@ -15,8 +15,8 @@
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 const enabled = Boolean(siteKey);
 
-const CONTRACT_URL = "https://github.com/goedelsoup/bosc/blob/main/docs/submissions-api.md";
-const NEW_ISSUE_URL = "https://github.com/goedelsoup/bosc/issues/new";
+const CONTRACT_URL = "https://github.com/goedelsoup/network/american-sugar-creek-allen-co/blob/main/docs/submissions-api.md";
+const NEW_ISSUE_URL = "https://github.com/goedelsoup/network/american-sugar-creek-allen-co/issues/new";
 
 // Pages Functions are root-relative and NOT base-prefixed (unlike static assets), so
 // the endpoint is a literal path even if the static site is served under a subpath.

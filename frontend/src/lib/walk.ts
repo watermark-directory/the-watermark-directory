@@ -1,9 +1,10 @@
 /**
- * The guided walk — the narrative spine layered over the reference library
- * (design handoff: "Project BOSC · guided walk"). Single source of truth for the
- * chapter order, the wayfinding bar, the `/bosc/start` on-ramp, and the `/bosc/walk` index.
+ * The guided walk — the narrative spine of the Project BOSC *story*, layered over the
+ * reference library. Single source of truth for the chapter order, the wayfinding bar, the
+ * story home (the on-ramp), and the table of contents. The story lives under the site at
+ * `STORY_BASE` (`/network/<id>/stories/project-bosc`); chapters are flattened directly beneath.
  *
- * Six teaching chapters (steps 1–6), bookended by the `/bosc/start` on-ramp (Ch. 0).
+ * Six teaching chapters (steps 1–6), bookended by the story home (Ch. 0).
  * Ordering is cause → consequence so no figure depends on a number established in
  * a later chapter — Assembly (how the land + deal were put together and kept
  * quiet) follows Who and precedes Scale; Scale (air) precedes Water because the
@@ -12,12 +13,12 @@
  * on.
  */
 
-import { withBase } from "./site";
+import { withStory } from "./site";
 
 export interface WalkChapter {
   /** 1-based position among the five teaching chapters. */
   step: number;
-  /** Route slug under `/bosc/walk/`. */
+  /** Route slug, flattened directly under the story (`STORY_BASE/<slug>`). */
   slug: string;
   title: string;
   /** The record-reading skill the chapter teaches. */
@@ -81,11 +82,13 @@ export const WALK_CHAPTERS: WalkChapter[] = [
   },
 ];
 
-export const WALK_START_HREF = withBase("/bosc/start");
-export const WALK_INDEX_HREF = withBase("/bosc/walk/");
+/** The story home (the on-ramp / "where the walk begins"). */
+export const WALK_START_HREF = withStory("");
+/** The table of contents — all six chapters in order. */
+export const WALK_INDEX_HREF = withStory("/contents");
 
 export function walkHref(slug: string): string {
-  return withBase(`/bosc/walk/${slug}`);
+  return withStory(`/${slug}`);
 }
 
 export function chapterByStep(step: number): WalkChapter | undefined {

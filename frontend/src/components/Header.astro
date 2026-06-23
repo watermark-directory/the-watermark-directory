@@ -160,6 +160,61 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
     {
       leftTabs.map((item) => {
         const isActive = navItemActive(item, active);
+        if (item.kind === "mega") {
+          const m = item.mega;
+          return (
+            <details class:list={["nav-dd", "nav-mega", { active: isActive }]}>
+              <summary class="section-tab nav-dd-summary" aria-current={isActive ? "page" : undefined}>
+                {item.label}
+                <span class="nav-dd-caret" aria-hidden="true">▾</span>
+              </summary>
+              <div class="nav-mega-menu">
+                <div class="nav-mega-tiles">
+                  {m.tiles.map((t) => (
+                    <a class="nav-mega-tile" href={withBase(t.href)}>
+                      <span class="nav-mega-tile-label">{t.label}</span>
+                      <span class="nav-mega-tile-blurb">{t.blurb}</span>
+                    </a>
+                  ))}
+                </div>
+                <div class="nav-mega-cols">
+                  <div class="nav-mega-spine">
+                    <a class="nav-mega-spine-head" href={withBase(m.spine.href)}>
+                      <span class="nav-mega-spine-title">{m.spine.title}</span>
+                      <span class="nav-mega-spine-count">{m.spine.count}</span>
+                    </a>
+                    <p class="nav-mega-spine-blurb">{m.spine.blurb}</p>
+                    {m.spine.items.map((it) => (
+                      <a class="nav-mega-link" href={withBase(it.href)}>
+                        <span class="nav-mega-num">{it.num}</span>
+                        <span class="nav-mega-link-main">
+                          <span class="nav-mega-link-label">{it.label}</span>
+                          {it.blurb && <span class="nav-mega-link-blurb">{it.blurb}</span>}
+                        </span>
+                      </a>
+                    ))}
+                    <a class="nav-mega-toc" href={withBase(m.spine.tocHref)}>Open the table of contents →</a>
+                  </div>
+                  <div class="nav-mega-themes">
+                    <div class="nav-mega-themes-head">Themes it crosses</div>
+                    <div class="nav-mega-themes-grid">
+                      {m.themes.map((th) => (
+                        <div class="nav-mega-theme">
+                          <div class="nav-mega-theme-title">{th.title}</div>
+                          {th.items.map((it) => (
+                            <a class="nav-mega-tlink" href={withBase(it.href)}>
+                              {it.label}
+                            </a>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </details>
+          );
+        }
         if (item.kind === "dropdown") {
           return (
             <details class:list={["nav-dd", { active: isActive }]}>
@@ -209,6 +264,12 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
             >
               {item.label}
             </a>
+          ) : item.kind === "mega" ? (
+            item.mega.tiles.map((t) => (
+              <a class="sheet-link" href={withBase(t.href)}>
+                {t.label}
+              </a>
+            ))
           ) : (
             <>
               <div class="sheet-sublabel">{item.label}</div>
@@ -236,7 +297,7 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
             >
               {item.label}
             </a>
-          ) : (
+          ) : item.kind === "dropdown" ? (
             <>
               <div class="sheet-sublabel">{item.label}</div>
               {item.children.map((child) =>
@@ -247,7 +308,7 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
                 ),
               )}
             </>
-          ),
+          ) : null,
         )
       }
     </div>

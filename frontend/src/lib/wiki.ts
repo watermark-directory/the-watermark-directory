@@ -58,7 +58,7 @@ export function wikiIndex(): Map<string, WikiTarget> {
   if (hasFeed("people")) {
     for (const p of loadFeed<PersonItem[]>("people")) {
       add([p.slug, p.name, ...p.aliases], {
-        url: `${withBase("/bosc/site/people/")}${p.slug}/`,
+        url: `${withBase("/network/american-sugar-creek-allen-co/site/people/")}${p.slug}/`,
         label: p.name,
         kind: "person",
       });

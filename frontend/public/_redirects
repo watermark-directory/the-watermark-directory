@@ -1,33 +1,46 @@
-# Cloudflare Pages redirects — the /bosc re-root (#307 PR 2).
-# Site-specific record content (Lima) moved from the root to /bosc so future watershed
-# sites are clean siblings (/gcp, …). These keep every old, deployed URL working.
+# Cloudflare Pages redirects — the /network/<id> re-root + the stories layer.
 #
-# The network root `/` is a TEMPORARY (302) redirect, not a permanent one: it will host
-# real network-level content once a second site lands, so browsers must not hard-cache it.
+# The live site (Lima) was rooted at /bosc; it now lives at /network/american-sugar-creek-allen-co
+# so future watershed sites are clean siblings, and its investigation is a *story* beneath it at
+# /stories/project-bosc (the guided walk; chapters flattened). These keep every old, deployed URL
+# working. The network root `/` is a TEMPORARY (302), not permanent — it'll host real network
+# content once warranted, so browsers must not hard-cache it.
 #
-# NETWORK-GLOBAL pages stay at the root and are NOT rewritten — they're shared across every
-# watershed site, so their URLs don't change: /about, /about-me, /wiki/*, /ask, /directory/*,
-# /submit (the network-tier lead form, #532), and the API (/api/*).
+# NETWORK-GLOBAL pages stay at the root and are NOT rewritten — /about, /about-me, /wiki/*, /ask,
+# /directory/*, /submit (the network-tier lead form), and the API (/api/*).
 #
-# The network hub moved /network → /directory (#402); the old, deployed /network/* URLs keep
-# working via the 301s below.
-#
-# IMPORTANT — on Cloudflare Pages a redirect ALWAYS fires before a matching static asset
-# ("redirects are always followed, regardless of whether an asset matches"). So a broad
-# `/<x>/*` rule will shadow real files living under that path. Two consequences below:
-#  - there is NO `/submit` rule: it's a real network-tier page (#532); a redirect here would
-#    make it unreachable and bounce the network Submit into Lima's site chrome.
-#  - `/walk/crops/*` is served as-is (a 200 passthrough) BEFORE `/walk/*` redirects, because
-#    the teardown source-card images live at /walk/crops/ (public/walk/crops, see teardowns.ts).
+# IMPORTANT — on Cloudflare Pages a redirect ALWAYS fires before a matching static asset. So a
+# broad `/<x>/*` rule shadows real files under that path. Consequences encoded in the order below:
+#  - NO `/submit` rule: it's a real network-tier page; a redirect would make it unreachable.
+#  - `/walk/crops/*` is a 200 passthrough BEFORE `/walk/*` (teardown source-card crops live at
+#    public/walk/crops, served at /walk/crops — see teardowns.ts).
+#  - the live site now lives UNDER /network, so the old broad `/network/* -> /directory` rule was
+#    REMOVED (it would shadow /network/american-sugar-creek-allen-co/*); only the exact /network
+#    hub redirect remains. Story-specific /bosc rules come BEFORE the generic /bosc/*.
 
-/                       /bosc/                      302
-/start                  /bosc/start                 301
-/timeline               /bosc/timeline              301
-/site/*                 /bosc/site/:splat           301
-/watershed/*            /bosc/watershed/:splat      301
-/docs/*                 /bosc/docs/:splat           301
-/reports/*              /bosc/reports/:splat        301
-/walk/crops/*           /walk/crops/:splat          200
-/walk/*                 /bosc/walk/:splat           301
-/network                /directory/                 301
-/network/*              /directory/:splat           301
+/                       /network/american-sugar-creek-allen-co/                                301
+
+# Teardown crops — serve as-is before any /walk redirect.
+/walk/crops/*           /walk/crops/:splat                                                     200
+
+# /bosc -> /network/<id>, and the story moved to /stories/project-bosc (chapters flattened).
+/bosc/start             /network/american-sugar-creek-allen-co/stories/project-bosc            301
+/bosc/intro             /network/american-sugar-creek-allen-co/stories/project-bosc            301
+/bosc/walk              /network/american-sugar-creek-allen-co/stories/project-bosc/contents   301
+/bosc/walk/*            /network/american-sugar-creek-allen-co/stories/project-bosc/:splat     301
+/bosc                   /network/american-sugar-creek-allen-co/                                301
+/bosc/*                 /network/american-sugar-creek-allen-co/:splat                          301
+
+# Even-older root-level legacy URLs (pre-/bosc) — straight to the new paths.
+/start                  /network/american-sugar-creek-allen-co/stories/project-bosc            301
+/timeline               /network/american-sugar-creek-allen-co/timeline                        301
+/site/*                 /network/american-sugar-creek-allen-co/site/:splat                     301
+/watershed/*            /network/american-sugar-creek-allen-co/watershed/:splat                301
+/docs/*                 /network/american-sugar-creek-allen-co/docs/:splat                     301
+/reports/*              /network/american-sugar-creek-allen-co/reports/:splat                  301
+/walk/*                 /network/american-sugar-creek-allen-co/stories/project-bosc/:splat     301
+
+# The network hub moved /network -> /directory (#402); keep the exact old hub URLs working. The
+# broad /network/* rule is intentionally gone — /network/<slug> is now real per-site content.
+/network                /directory/                                                            301
+/network/hypotheses     /directory/hypotheses                                                  301

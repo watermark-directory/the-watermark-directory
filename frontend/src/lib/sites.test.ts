@@ -33,7 +33,7 @@ describe("sites registry — the Watermark network (#304)", () => {
 
   it("routes the live site to the root and everything else to its coming-soon page", () => {
     for (const s of SITES) {
-      if (s.selectable) expect(s.href).toBe("/bosc");
+      if (s.selectable) expect(s.href).toBe("/network/american-sugar-creek-allen-co");
       else expect(s.href).toBe(`/directory/${s.slug}`);
     }
   });
@@ -195,8 +195,14 @@ describe("facility-status rail — the 4-stage facility clock (#401)", () => {
 });
 
 describe("siteForPath — the switcher's current-site resolution (#316)", () => {
-  it("resolves the live Lima build for /bosc and any page beneath it", () => {
-    for (const p of ["/bosc", "/bosc/", "/bosc/site/", "/bosc/watershed/map", "/bosc/timeline"]) {
+  it("resolves the live Lima build for /network/american-sugar-creek-allen-co and any page beneath it", () => {
+    for (const p of [
+      "/network/american-sugar-creek-allen-co",
+      "/network/american-sugar-creek-allen-co/",
+      "/network/american-sugar-creek-allen-co/site/",
+      "/network/american-sugar-creek-allen-co/watershed/map",
+      "/network/american-sugar-creek-allen-co/timeline",
+    ]) {
       expect(siteForPath(p)?.slug).toBe("lima");
     }
   });
@@ -218,8 +224,8 @@ describe("siteForPath — the switcher's current-site resolution (#316)", () => 
   });
 
   it("strips a non-root Astro base before matching", () => {
-    expect(siteForPath("/app/bosc/site/", "/app")?.slug).toBe("lima");
+    expect(siteForPath("/app/network/american-sugar-creek-allen-co/site/", "/app")?.slug).toBe("lima");
     expect(siteForPath("/app/directory/findlay", "/app")?.slug).toBe("findlay");
-    expect(siteForPath("/bosc/site/", "/")?.slug).toBe("lima"); // base "/" is a no-op
+    expect(siteForPath("/network/american-sugar-creek-allen-co/site/", "/")?.slug).toBe("lima"); // base "/" is a no-op
   });
 });

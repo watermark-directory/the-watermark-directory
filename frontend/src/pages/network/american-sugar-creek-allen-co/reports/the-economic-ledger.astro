@@ -1,0 +1,89 @@
+---
+/**
+ * The economic ledger — the interactive companion to the full report
+ * (docs/the-economic-ledger.md, epic #271 flagship #269). The essay holds one
+ * discipline: where a load-bearing figure is withheld or non-binding, it is neither
+ * blanked nor guessed at a point — it is a band across explicit, sourced scenarios.
+ * The simulator makes that band manipulable: turn the four withheld knobs, watch the
+ * 15-year public give move, and watch it collapse as each record is produced.
+ *
+ * Island-over-SSR: the table below is the no-JS fallback (the essay's ledger in a band,
+ * computed from the same model the island runs); the simulator is the client island.
+ */
+import EconLedgerSimulator from "../../../../components/islands/EconLedgerSimulator.tsx";
+import Base from "../../../../layouts/Base.astro";
+import { COUNTY_JOBS_2023, ledgerLines, ledgerProfiles } from "../../../../lib/econLedger";
+import { fmtUsdM } from "../../../../lib/money";
+import { withBase } from "../../../../lib/site";
+
+const lines = ledgerLines();
+const profiles = ledgerProfiles();
+const net = lines.find((l) => l.key === "net");
+---
+
+<Base
+  title="The economic ledger"
+  section="reports"
+  description="The public extended a 15-year abatement, roadwork, and a sales-tax exemption to a ~$500M build for ~50 jobs. Four withheld numbers move the public give by tens of millions. Turn the knobs, price the opacity, and watch the band collapse as each record is produced."
+>
+  <div class="walk-chapter-page">
+    <article class="prose">
+      <p><a href={withBase("/network/american-sugar-creek-allen-co/reports")}>← Reports</a></p>
+      <div class="walk-chapter-eyebrow">Extension narrative · #233 · the cost of opacity</div>
+      <h1 class="walk-chapter-h1">The ledger, as a band you can move</h1>
+      <p class="section-lead">
+        The whole assessment hinges on <strong>four withheld or non-binding inputs</strong>:
+        the building share of the $500M, the real job count, whether the campus takes the
+        sales-tax exemption, and the School District Compensation the county won't disclose.
+        None is invented here; each is turned across its industry-reference band
+        <em>(industry reference, not this campus)</em>. The simulator prices the opacity —
+        and shows, record by record, exactly how much disclosure would narrow it.
+      </p>
+
+      <p class="section-lead unc-ssr-lead">
+        Net 15-year public give:
+        <strong>{net ? `${fmtUsdM(net.band.low)} – ${fmtUsdM(net.band.high)}` : "tens of millions"}</strong>
+        for ~50 jobs — about <strong>0.1%</strong> of the county's
+        {COUNTY_JOBS_2023.toLocaleString("en-US")} covered jobs.
+        Full essay: <a href={withBase("/network/american-sugar-creek-allen-co/docs/the-economic-ledger")}>the economic ledger →</a>
+      </p>
+    </article>
+
+    <EconLedgerSimulator client:only="react" />
+
+    {/* No-JS fallback: the essay's ledger in a band, computed from the same model. */}
+    <noscript>
+      <article class="prose">
+        <h2>The fifteen-year ledger, in a band</h2>
+        <table>
+          <thead><tr><th>Line</th><th>15-year figure</th><th>Register</th></tr></thead>
+          <tbody>
+            {lines.map((l) => (
+              <tr>
+                <td>{l.label}</td>
+                <td>{fmtUsdM(l.band.low)} – {fmtUsdM(l.band.high)}</td>
+                <td><code>[{l.register}]</code></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <h3>The four profiles</h3>
+        <table>
+          <thead><tr><th>Profile</th><th>Build share</th><th>Jobs</th><th>Abatement</th><th>Per job</th></tr></thead>
+          <tbody>
+            {profiles.map((p) => (
+              <tr>
+                <td>{p.label}</td>
+                <td>{Math.round(p.buildingShare * 100)}%</td>
+                <td>{p.jobs}</td>
+                <td>{fmtUsdM(p.abatementUsd)}</td>
+                <td>{fmtUsdM(p.abatementPerJobUsd)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p>The record pins none of these. Enable JavaScript to turn the knobs and collapse the band.</p>
+      </article>
+    </noscript>
+  </div>
+</Base>

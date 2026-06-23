@@ -14,7 +14,7 @@ function rewrite(filePath: string, href: string, opts?: DocLinkOptions): string 
   return node.properties!.href as string;
 }
 
-const REPO = "https://github.com/goedelsoup/bosc/blob/main/";
+const REPO = "https://github.com/goedelsoup/network/american-sugar-creek-allen-co/blob/main/";
 
 describe("rehype-doc-links — guards (data-independent)", () => {
   it("ignores files outside the as-is-rendered roots", () => {
@@ -55,15 +55,17 @@ describe("rehype-doc-links — guards (data-independent)", () => {
 describe("rehype-doc-links — generated-page (LINK_MAP) branch", () => {
   it("rewrites a bare generated-page basename to its IA route, base-prefixed", () => {
     expect(rewrite("docs/narrative/x.md", "entities.md")).toBe("/wiki/entities/");
-    expect(rewrite("docs/narrative/x.md", "entities.md", { base: "/bosc" })).toBe("/wiki/entities/");
+    expect(
+      rewrite("docs/narrative/x.md", "entities.md", { base: "/network/american-sugar-creek-allen-co" }),
+    ).toBe("/wiki/entities/");
   });
 
   it("rewrites the retired notebooks link to the OPC scenario page, base-prefixed", () => {
     // notebooks.md (the legacy generated page) now points at the native OPC scenario explorer.
     expect(LINK_MAP["notebooks.md"]).toBe("/reports/opc-scenario");
-    expect(rewrite("docs/narrative/x.md", "notebooks.md", { base: "/bosc" })).toBe(
-      "/bosc/reports/opc-scenario",
-    );
+    expect(
+      rewrite("docs/narrative/x.md", "notebooks.md", { base: "/network/american-sugar-creek-allen-co" }),
+    ).toBe("/network/american-sugar-creek-allen-co/reports/opc-scenario");
   });
 
   it("preserves the #hash across a rewrite (splitHash)", () => {
@@ -98,6 +100,8 @@ describe("rehype-doc-links — data-driven branches (representative real entries
 
   it("honours the base prefix on the migrated-doc route", () => {
     const target = [...MIGRATED][0];
-    expect(siblingRewrite(target, { base: "/bosc" })).toBe(`/bosc/docs/${slugForRepoPath(target)}`);
+    expect(siblingRewrite(target, { base: "/network/american-sugar-creek-allen-co" })).toBe(
+      `/network/american-sugar-creek-allen-co/docs/${slugForRepoPath(target)}`,
+    );
   });
 });

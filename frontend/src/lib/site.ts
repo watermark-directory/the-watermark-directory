@@ -1,5 +1,9 @@
 /** Site-wide constants and the base-path helper for internal links/assets. */
 
+import { SITE_BASE, STORY_BASE } from "./routes";
+
+export { SITE_BASE, STORY_BASE } from "./routes";
+
 export const SITE_NAME = "Watermark";
 export const SITE_TAGLINE = "the public record, by watershed";
 export const SITE_DESCRIPTION =
@@ -17,4 +21,21 @@ export function withBase(path: string): string {
   const left = base.endsWith("/") ? base.slice(0, -1) : base;
   const right = path.startsWith("/") ? path : `/${path}`;
   return `${left}${right}` || "/";
+}
+
+/**
+ * Prefix a path with the live site root (`SITE_BASE`, was `/bosc`) and the deploy base.
+ * `withSite("/site/")` → `/network/american-sugar-creek-allen-co/site/`. Pass "" for the
+ * site home. This (and `withStory`) is the one seam a future re-root touches.
+ */
+export function withSite(path = ""): string {
+  return withBase(`${SITE_BASE}${path}`);
+}
+
+/**
+ * Prefix a path with the story root (`STORY_BASE` = the site's `stories/project-bosc`).
+ * `withStory("")` → the story home; `withStory("/water")` → a flattened chapter.
+ */
+export function withStory(path = ""): string {
+  return withBase(`${STORY_BASE}${path}`);
 }

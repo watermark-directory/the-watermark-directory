@@ -51,19 +51,19 @@ export function buildBalanceSheet(
     {
       outcome: econ,
       unit: "usd",
-      href: "/bosc/reports/the-economic-ledger",
+      href: "/network/american-sugar-creek-allen-co/reports/the-economic-ledger",
       narrative: "The economic ledger",
     },
     {
       outcome: grid,
       unit: "mw",
-      href: "/bosc/reports/the-load-and-the-grid",
+      href: "/network/american-sugar-creek-allen-co/reports/the-load-and-the-grid",
       narrative: "The load and the grid",
     },
     {
       outcome: toxics,
       unit: "pct",
-      href: "/bosc/reports/toxics-and-the-corridor",
+      href: "/network/american-sugar-creek-allen-co/reports/toxics-and-the-corridor",
       narrative: "Toxics and the corridor",
     },
   ];

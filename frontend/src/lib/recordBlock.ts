@@ -104,13 +104,17 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
   // anchor, the chapter that teaches it. Entity/concept/timeline/map chips await a
   // record↔graph join the records feed doesn't carry.
   const connect: BlockConnect[] = [
-    { kind: "records", label: groupName, href: withBase(`/bosc/site/records/${r.group}`) },
+    {
+      kind: "records",
+      label: groupName,
+      href: withBase(`/network/american-sugar-creek-allen-co/site/records/${r.group}`),
+    },
   ];
   if (anchor) {
     connect.push({
       kind: "walk",
       label: `Ch.${anchor.ch} · ${anchor.label}`,
-      href: withBase(`/bosc/walk/${anchor.slug}`),
+      href: withBase(`/network/american-sugar-creek-allen-co/stories/project-bosc/${anchor.slug}`),
     });
   }
   return {
@@ -120,7 +124,11 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
     recordId: relRecordId(r.rel),
     evidence: evidenceKind(c),
     seenIn: anchor
-      ? { ch: anchor.ch, label: anchor.label, href: withBase(`/bosc/walk/${anchor.slug}`) }
+      ? {
+          ch: anchor.ch,
+          label: anchor.label,
+          href: withBase(`/network/american-sugar-creek-allen-co/stories/project-bosc/${anchor.slug}`),
+        }
       : undefined,
     fields,
     nested,
@@ -131,11 +139,11 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
       pages: c.page ? `p.${c.page}` : "—",
       collection: relCollection(r.rel),
     },
-    // The record's own screen (/bosc/site/records/<group>/<id>) — the compact row links
+    // The record's own screen (/network/american-sugar-creek-allen-co/site/records/<group>/<id>) — the compact row links
     // here; the full block ignores it (it IS the screen).
-    href: withBase(`/bosc/site/records/${r.group}/${slugify(r.rel)}`),
+    href: withBase(`/network/american-sugar-creek-allen-co/site/records/${r.group}/${slugify(r.rel)}`),
     correctHref: withBase(
-      `/bosc/submit?ref_kind=record&ref_id=${encodeURIComponent(r.rel)}&ref_label=${encodeURIComponent(r.title)}`,
+      `/network/american-sugar-creek-allen-co/submit?ref_kind=record&ref_id=${encodeURIComponent(r.rel)}&ref_label=${encodeURIComponent(r.title)}`,
     ),
     connect,
   };

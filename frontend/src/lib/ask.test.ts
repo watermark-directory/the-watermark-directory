@@ -15,7 +15,7 @@ const HITS: Hit[] = [
       id: "records:opc.summary",
       feed: "records",
       title: "Roundabouts OPC — summary",
-      url: "/bosc/site/records/opc/",
+      url: "/network/american-sugar-creek-allen-co/site/records/opc/",
       text: "opinion of probable cost roadway subtotal",
       source: "data/documents/aedg/PRR-01-bundle.ocr.pdf",
       page: 318,
@@ -28,7 +28,7 @@ const HITS: Hit[] = [
       id: "timeline:nda",
       feed: "timeline",
       title: "2019 — NDA signed",
-      url: "/bosc/timeline",
+      url: "/network/american-sugar-creek-allen-co/timeline",
       text: "confidentiality agreement",
       source: "data/extracted/legal/nda.yaml",
       source_kind: "document",
@@ -55,7 +55,7 @@ describe("extractCitations", () => {
     expect(cites.map((c) => c.marker)).toEqual([1, 2]);
     expect(cites[0]).toMatchObject({
       id: "records:opc.summary",
-      url: "/bosc/site/records/opc/",
+      url: "/network/american-sugar-creek-allen-co/site/records/opc/",
       source: "data/documents/aedg/PRR-01-bundle.ocr.pdf",
       page: 318,
     });
@@ -77,7 +77,7 @@ describe("candidateCitations", () => {
     expect(cands[0]).toMatchObject({
       marker: 1,
       id: "records:opc.summary",
-      url: "/bosc/site/records/opc/",
+      url: "/network/american-sugar-creek-allen-co/site/records/opc/",
       page: 318,
     });
     expect(cands[1]).toMatchObject({ marker: 2, id: "timeline:nda", page: null });

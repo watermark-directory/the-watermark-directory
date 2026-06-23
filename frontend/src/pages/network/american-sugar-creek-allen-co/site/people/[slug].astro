@@ -1,0 +1,78 @@
+---
+import type { GetStaticPaths } from "astro";
+import Base from "../../../../../layouts/Base.astro";
+import Provenance from "../../../../../components/Provenance.astro";
+import ProfileHeader from "../../../../../components/ProfileHeader.astro";
+import { hasFeed, loadFeed } from "../../../../../lib/bundle";
+import { evidenceKind, type PersonItem } from "../../../../../lib/feeds";
+import type { ProfileAttr, ProfileHeaderData } from "../../../../../lib/profile";
+import { entityHref } from "../../../../../lib/entityLinks";
+import { withBase } from "../../../../../lib/site";
+import { renderBody } from "../../../../../lib/wiki";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const people = hasFeed("people") ? loadFeed<PersonItem[]>("people") : [];
+  return people.map((person) => ({ params: { slug: person.slug }, props: { person } }));
+};
+
+interface Props {
+  person: PersonItem;
+}
+const { person } = Astro.props;
+
+const attrs: ProfileAttr[] = [];
+if (person.roles.length) attrs.push({ label: "Roles", value: person.roles.join("; ") });
+if (person.affiliations.length) attrs.push({ label: "Affiliations", value: person.affiliations.join("; ") });
+
+const header: ProfileHeaderData = {
+  kindLabel: `Person${person.roles[0] ? ` · ${person.roles[0]}` : ""}`,
+  name: person.name,
+  variants: person.aliases,
+  descriptor: person.summary ?? undefined,
+  evidence: person.sources[0] ? evidenceKind(person.sources[0]) : "verified",
+  attrs: attrs.length ? attrs : undefined,
+  relLabel: "Linked entity",
+  relationships: person.entity_key
+    ? [{ kind: "entity", label: person.name, href: entityHref(person.entity_key) }]
+    : undefined,
+  correctHref: withBase(
+    `/network/american-sugar-creek-allen-co/submit?ref_kind=person&ref_id=${encodeURIComponent(person.slug)}&ref_label=${encodeURIComponent(person.name)}`,
+  ),
+};
+
+const sections = [
+  { anchor: "overview", label: "Identity" },
+  ...(person.sources.length ? [{ anchor: "sources", label: "Sources" }] : []),
+];
+const profileToc = sections.length >= 2 ? sections : [];
+---
+
+<Base title={person.name} section="site" description={person.summary ?? undefined} toc={profileToc}>
+  <p class="prose"><a href={withBase("/network/american-sugar-creek-allen-co/site/people/")}>← People &amp; places</a></p>
+  <div id="overview"><ProfileHeader profile={header} /></div>
+
+  <article class="prose">
+    {
+      person.tags.length > 0 && (
+        <ul class="chips">
+          {person.tags.map((t) => (
+            <li class="chip">{t}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    {person.body && <Fragment set:html={renderBody(person.body)} />}
+
+    {
+      person.sources.length > 0 && (
+        <div class="backlinks">
+          <h2 id="sources">Sources</h2>
+          {person.sources.map((c) => (
+            <Provenance citation={c} />
+          ))}
+        </div>
+      )
+    }
+  </article>
+</Base>

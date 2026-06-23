@@ -187,7 +187,9 @@ describe("resolveTeardown — source viewer + links", () => {
     const res = resolveTeardown(teardown({ recordRel: "aedg/opc.yaml" }));
     expect(res.verifyResolved).toBe(true);
     expect(res.liveCitation?.verified).toBe(true);
-    expect(res.teardown.check.verifyHref).toContain("/bosc/site/records/opc/");
+    expect(res.teardown.check.verifyHref).toContain(
+      "/network/american-sugar-creek-allen-co/site/records/opc/",
+    );
     // instrument_type is present; the null `empty`/`consideration` scalars are dropped.
     const labels = res.sourceFields.map((f) => f.label);
     expect(labels).toContain("instrument_type");
@@ -265,7 +267,9 @@ describe("resolveTeardown — redaction-reveal (#220)", () => {
   it("defaults the redaction deep link to the resolved verify target", async () => {
     const { resolveTeardown } = await loadResolver(makeBundle([OPC_RECORD]));
     const res = resolveTeardown(teardown({ recordRel: "aedg/opc.yaml", redaction }));
-    expect(res.teardown.redaction?.href).toContain("/bosc/site/records/opc/");
+    expect(res.teardown.redaction?.href).toContain(
+      "/network/american-sugar-creek-allen-co/site/records/opc/",
+    );
   });
 
   it("preserves an authored redaction href", async () => {

@@ -1,0 +1,75 @@
+---
+/**
+ * The load and the grid — the interactive companion (docs/the-load-and-the-grid.md, epic
+ * #271 Phase 2 #265). The essay's discipline: the famous "313 MW" is *backup*, not the
+ * operating load, and the per-engine rating behind it is redacted in the issued permit —
+ * so the working load is an inference chain, and that chain is the uncertainty. The
+ * simulator makes the band draggable-by-disclosure; the RedactionReveal (the #220 pattern)
+ * shows that the headline rests on the draft.
+ *
+ * Island-over-SSR: the inference table is the no-JS fallback; the simulator is the island.
+ */
+import GridLoadScreen from "../../../../components/islands/GridLoadScreen.tsx";
+import RedactionReveal from "../../../../components/RedactionReveal.astro";
+import Base from "../../../../layouts/Base.astro";
+import { facilityDrawOutcome } from "../../../../lib/gridLoad";
+import type { TeardownRedaction } from "../../../../lib/teardown";
+import { withBase } from "../../../../lib/site";
+
+const draw = facilityDrawOutcome();
+
+// The per-engine redaction — the #220 reveal: the headline 313 MW rests on the draft.
+const redaction: TeardownRedaction = {
+  label: "REDACTED · per-engine rating (final permit)",
+  summary: "Why won't the issued permit say how big the engines are?",
+  lock: "The final Air PTI (eDoc 4132514, issued 2026-05-28) withholds the emergency-generator make, model, and size as confidential business information. The ~2,750 ekW/engine figure that multiplies to the famous 313 MW survives only on the draft public notice (3987141) — not in the issued permit.",
+  cite: "data/extracted/permits/4132514.epa.yaml (Comments 16, 19; Response 16) · draft data/extracted/permits/3987141.epa.yaml",
+  read: "So the most-cited number about this facility — 313 MW — rests on a figure the issued permit redacts. The backup capacity is real; the per-engine rating behind it, and the operating load you would derive from it, are withheld.",
+};
+---
+
+<Base
+  title="The load and the grid"
+  section="reports"
+  description="The famous 313 MW is backup, not load — and the number behind it is redacted in the issued permit. So the working load is an inference: 313 MW backup → IT via N+1 → × PUE ≈ 348 MW, ~5–6% of AEP Ohio's entire retail electricity, ~260k homes, for ~50 jobs."
+>
+  <div class="walk-chapter-page">
+    <article class="prose">
+      <p><a href={withBase("/network/american-sugar-creek-allen-co/reports")}>← Reports</a></p>
+      <div class="walk-chapter-eyebrow">Extension narrative · #233 · the grid it will carry</div>
+      <h1 class="walk-chapter-h1">The number everyone cites is the backup — and it's redacted</h1>
+      <p class="section-lead">
+        Every summary repeats <strong>313 MW</strong>. It is <em>backup generation</em> —
+        114 emergency gensets — <strong>not the operating load</strong>, and the per-engine
+        rating that multiplies to it is <strong>redacted in the issued permit</strong>. So
+        the working draw can only be inferred:
+        <strong>{Math.round(draw.low)}–{Math.round(draw.high)} MW</strong> (central
+        ~{Math.round(draw.central)}), and that inference chain <em>is</em> the uncertainty.
+        Drag it open below. Full essay:
+        <a href={withBase("/network/american-sugar-creek-allen-co/docs/the-load-and-the-grid")}>the load and the grid →</a>
+      </p>
+    </article>
+
+    <RedactionReveal redaction={redaction} />
+
+    <GridLoadScreen client:only="react" />
+
+    <noscript>
+      <article class="prose">
+        <h2>The inference chain</h2>
+        <table>
+          <thead><tr><th>Step</th><th>Figure</th><th>Register</th></tr></thead>
+          <tbody>
+            <tr><td>Backup generation (114 gensets)</td><td>313 MW</td><td><code>[verified: draft]</code></td></tr>
+            <tr><td>IT load (N+1 backup ≈ IT)</td><td>~250–300 MW</td><td><code>[inference]</code></td></tr>
+            <tr><td>Facility draw (IT × PUE)</td><td>~{Math.round(draw.low)}–{Math.round(draw.high)} MW</td><td><code>[inference]</code></td></tr>
+          </tbody>
+        </table>
+        <p>
+          ~2,740 GWh/yr — about <strong>5.6%</strong> of AEP Ohio's entire retail electricity,
+          ~260k homes, for ~50 jobs. Load, not jobs. Enable JavaScript to collapse the band by disclosure.
+        </p>
+      </article>
+    </noscript>
+  </div>
+</Base>
