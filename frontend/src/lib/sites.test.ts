@@ -131,23 +131,45 @@ describe("grouped selector — State / Basin lenses (#307/#308)", () => {
     expect(groups.find((g) => g.label === "Indiana")?.sites.map((s) => s.slug)).toEqual(["fort-wayne"]);
     expect(groups.find((g) => g.label === "Ohio")?.tag).toBe("OH");
   });
-  it("by basin: the nine major basins, each tagged with a 3-letter code", () => {
+  it("by basin: the nine basins nested under four regions (design 'Site Selector')", () => {
     const groups = groupSites("basin");
+    // Region order (maumee → the two miamis → southeastern → northeast), basins within each.
     expect(groups.map((g) => g.label)).toEqual([
       "Maumee",
       "Great Miami",
       "Little Miami",
       "Scioto",
       "Muskingum",
+      "Hocking",
       "Sandusky",
       "Cuyahoga",
       "Mahoning",
-      "Hocking",
     ]);
     expect(groups.find((g) => g.label === "Maumee")?.tag).toBe("MAU");
     // the lower/upper Great Miami siblings collapse into one basin group
     expect(groups.find((g) => g.label === "Great Miami")?.sites.map((s) => s.slug)).toContain("wpafb");
     expect(groups.find((g) => g.label === "Great Miami")?.sites.map((s) => s.slug)).toContain("troy-piqua");
+  });
+  it("by basin: a region header bar opens each region (showRegion on the first basin)", () => {
+    const groups = groupSites("basin");
+    const regionHeads = groups.filter((g) => g.showRegion);
+    expect(regionHeads.map((g) => g.regionLabel)).toEqual([
+      "Maumee Basin",
+      "The Two Miamis",
+      "Southeastern Basins",
+      "Northeast Basins",
+    ]);
+    // The Two Miamis header opens on Great Miami and counts both its basins' sites.
+    const miamis = groups.find((g) => g.region === "miamis" && g.showRegion);
+    expect(miamis?.label).toBe("Great Miami");
+    expect(miamis?.regionTag).toBe("2MI");
+    const miamiSites = groups.filter((g) => g.region === "miamis").reduce((n, g) => n + g.sites.length, 0);
+    expect(miamis?.regionCount).toBe(miamiSites);
+    // The state lens carries no region fields.
+    expect(groupSites("state").every((g) => g.region === undefined)).toBe(true);
+  });
+  it("the locked field is a capability — orthogonal to status, none set by default", () => {
+    expect(SITES.every((s) => !s.locked)).toBe(true);
   });
 });
 

@@ -446,6 +446,37 @@ a { color: var(--bosc-link); }
 .leg-building { color: var(--bosc-ink); }
 .leg-queued { color: var(--bosc-inference); }
 .leg-tracking { color: var(--bosc-faint); }
+.leg-locked { color: #3a4036; }
+.leg-locked::before { display: none; }
+
+/* ---- Site Selector additions (design "Site Selector"): the facility-stage line, the
+   restricted (locked) row, and the basin lens's region super-group headers. ---- */
+.switcher-lock { flex: 0 0 auto; color: #23211c; }
+.switcher-submeta { display: inline-flex; align-items: center; gap: 7px; }
+.switcher-facility { display: inline-flex; align-items: center; gap: 4px; font-size: 0.62rem; font-weight: 700; }
+.switcher-status.is-locked { color: #3a4036; background: #e3dfd4; }
+.switcher-row.is-locked { background: var(--bosc-surface); }
+.switcher-row.is-locked .switcher-badge { background: #e3dfd4; color: #3a4036; border-color: var(--bosc-rule); }
+.switcher-region {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 6px 6px;
+  margin: 9px 0 2px;
+  border-bottom: 2px solid #bcd2c4;
+}
+.switcher-region:first-child { margin-top: 2px; }
+.switcher-region-tag {
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  color: var(--bosc-bg);
+  background: var(--bosc-forest);
+  padding: 2px 6px;
+  font-family: var(--bosc-mono);
+}
+.switcher-region-label { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.4px; color: var(--bosc-forest); }
+.switcher-region-count { margin-left: auto; font-size: 0.64rem; color: var(--bosc-faint); font-family: var(--bosc-mono); }
 
 /* ---- Grouped selector (#307/#308): no-JS State/Basin pivot via radios ---- */
 .gb-radio { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
