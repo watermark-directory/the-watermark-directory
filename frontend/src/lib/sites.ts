@@ -35,6 +35,15 @@ export interface NetworkSite {
   issue?: string;
   /** Where the switcher row points: the live root, or the coming-soon page. */
   href: string;
+  /**
+   * Restricted by policy (design "Site Locked") — the record is sealed (source protection,
+   * legal sensitivity, or an embargo). Orthogonal to `status`: a locked site can be at any
+   * build phase. The switcher marks it with a lock and routes to its request-access page; the
+   * directory route renders the locked screen. No real site is locked today (a capability).
+   */
+  locked?: boolean;
+  /** Why a `locked` site is sealed — drives the request-access dek. */
+  lockReason?: "sourcing" | "legal" | "embargo";
 }
 
 /** The single source of truth for the switcher, the coming-soon pages, and the basin map.
@@ -586,6 +595,45 @@ const BASIN_ABBR: Record<string, string> = {
   Hocking: "HOC",
 };
 
+// Region super-groups (design "Site Selector") — the basin lens nests its nine basins under
+// four regions so the panel reads geographically. Keyed by the display basin name.
+const BASIN_REGION: Record<string, string> = {
+  Maumee: "maumee",
+  "Great Miami": "miamis",
+  "Little Miami": "miamis",
+  Scioto: "southeast",
+  Muskingum: "southeast",
+  Hocking: "southeast",
+  Cuyahoga: "northeast",
+  Mahoning: "northeast",
+  Sandusky: "northeast",
+};
+const REGION_ORDER = ["maumee", "miamis", "southeast", "northeast"] as const;
+const REGION_LABEL: Record<string, string> = {
+  maumee: "Maumee Basin",
+  miamis: "The Two Miamis",
+  southeast: "Southeastern Basins",
+  northeast: "Northeast Basins",
+};
+const REGION_ABBR: Record<string, string> = {
+  maumee: "MAU",
+  miamis: "2MI",
+  southeast: "SE",
+  northeast: "NE",
+};
+// Basin order within a region (the panel's row order); the basin lens walks REGION_ORDER then this.
+const BASIN_ORDER = [
+  "Maumee",
+  "Great Miami",
+  "Little Miami",
+  "Scioto",
+  "Muskingum",
+  "Hocking",
+  "Sandusky",
+  "Cuyahoga",
+  "Mahoning",
+];
+
 export type GroupBy = "state" | "basin";
 
 export interface SiteGroup {
@@ -594,28 +642,65 @@ export interface SiteGroup {
   /** Short tag shown beside the heading (the state abbr, or the 3-letter basin code). */
   tag: string;
   sites: NetworkSite[];
+  /** Region super-group (basin lens only): set on the FIRST basin group of each region so the
+   *  panel can render a region header bar before it. Absent in the state lens. */
+  region?: string;
+  regionLabel?: string;
+  regionTag?: string;
+  regionCount?: number;
+  showRegion?: boolean;
 }
 
 /**
  * Group the registry by the State (jurisdiction) or Basin (the nine major river basins) axis —
- * the grouped selector's two lenses (#307/#308). Group order follows first appearance in `SITES`;
- * rows keep their registry order, so toggling the axis pivots the same sites without reshuffling.
+ * the grouped selector's two lenses (#307/#308). The state lens groups by first appearance; the
+ * basin lens nests basins under four regions (design "Site Selector"), walking REGION_ORDER then
+ * the basin order within each region. Rows keep their registry order, so the same sites pivot
+ * without reshuffling.
  */
 export function groupSites(by: GroupBy): SiteGroup[] {
-  const groups: SiteGroup[] = [];
-  const index = new Map<string, SiteGroup>();
+  if (by === "state") {
+    const groups: SiteGroup[] = [];
+    const index = new Map<string, SiteGroup>();
+    for (const s of SITES) {
+      const p = PLACEMENT[s.slug];
+      if (!p) continue;
+      let g = index.get(p.state);
+      if (!g) {
+        g = { label: p.state, tag: STATE_ABBR[p.state] ?? "", sites: [] };
+        index.set(p.state, g);
+        groups.push(g);
+      }
+      g.sites.push(s);
+    }
+    return groups;
+  }
+
+  // Basin lens — region super-groups, then basins within each region.
+  const byBasin = new Map<string, NetworkSite[]>();
   for (const s of SITES) {
     const p = PLACEMENT[s.slug];
     if (!p) continue;
-    const label = by === "state" ? p.state : p.basin;
-    let g = index.get(label);
-    if (!g) {
-      const tag = by === "state" ? (STATE_ABBR[p.state] ?? "") : (BASIN_ABBR[p.basin] ?? "");
-      g = { label, tag, sites: [] };
-      index.set(label, g);
-      groups.push(g);
-    }
-    g.sites.push(s);
+    const arr = byBasin.get(p.basin);
+    if (arr) arr.push(s);
+    else byBasin.set(p.basin, [s]);
+  }
+  const groups: SiteGroup[] = [];
+  for (const region of REGION_ORDER) {
+    const basins = BASIN_ORDER.filter((b) => BASIN_REGION[b] === region && byBasin.has(b));
+    const regionCount = basins.reduce((n, b) => n + (byBasin.get(b)?.length ?? 0), 0);
+    basins.forEach((b, i) => {
+      groups.push({
+        label: b,
+        tag: BASIN_ABBR[b] ?? "",
+        sites: byBasin.get(b) ?? [],
+        region,
+        regionLabel: REGION_LABEL[region],
+        regionTag: REGION_ABBR[region],
+        regionCount,
+        showRegion: i === 0,
+      });
+    });
   }
   return groups;
 }

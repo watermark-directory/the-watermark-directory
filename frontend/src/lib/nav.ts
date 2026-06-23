@@ -23,6 +23,7 @@ export type SectionId =
   | "about"
   | "site"
   | "watershed"
+  | "economy"
   | "wiki"
   | "ask"
   | "search"
@@ -121,6 +122,18 @@ export const SECTIONS: Section[] = [
     ],
   },
   {
+    // The economy section (design "Chrome", 5-tab site bar) — the economic ground the
+    // data-center deal sits on: the localized labor baseline, the grid/load backdrop, the
+    // end-use & workloads read, and the cost-of-opacity narrative.
+    id: "economy",
+    label: "The economy",
+    tab: "Economy",
+    href: "/bosc/economy/",
+    blurb:
+      "The local economic ground — labor baseline, the grid/load backdrop, end-use & workloads, and the cost of opacity.",
+    toc: [],
+  },
+  {
     id: "about",
     label: "About",
     tab: "About",
@@ -193,7 +206,7 @@ export function getSection(id: SectionId): Section {
 // One bar, two tiers. The `Watermark.` wordmark always links home to the network;
 // a chip (the breadcrumb / switcher) sits beside it. The LEFT tabs swap by tier:
 //  - network level (the directory + cross-cutting globals) → Directory · Research · About▾
-//  - inside a site → The site · The record · The watershed
+//  - inside a site → The site · The story · The watershed · The economy · The record
 // The PLATFORM cluster (Docs · Wiki · | · Submit · Ask · Search) sits right and never
 // changes — Submit is a right-side affordance present on BOTH tiers (design "Chrome"),
 // not a left network tab. The active tier is resolved from the route (`siteForPath` in
@@ -223,11 +236,14 @@ export const NETWORK_TABS: NavItem[] = [
   },
 ];
 
-/** Site-tier left tabs — shown inside a site (e.g. Lima, under /bosc). */
+/** Site-tier left tabs — shown inside a site (e.g. Lima, under /bosc). The 5-tab bar
+ *  (design "Chrome"): The site · The story · The watershed · The economy · The record. */
 export const SITE_TABS: NavItem[] = [
   { kind: "link", label: "The site", section: "home", href: "/bosc" },
-  { kind: "link", label: "The record", section: "site", href: "/bosc/site/", match: ["timeline"] },
+  { kind: "link", label: "The story", section: "story", href: "/bosc/start" },
   { kind: "link", label: "The watershed", section: "watershed", href: "/bosc/watershed/" },
+  { kind: "link", label: "The economy", section: "economy", href: "/bosc/economy/" },
+  { kind: "link", label: "The record", section: "site", href: "/bosc/site/", match: ["timeline"] },
 ];
 
 /** The platform cluster (right of the bar), constant across tiers. Ask + Search and

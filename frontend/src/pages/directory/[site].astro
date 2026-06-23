@@ -7,6 +7,7 @@
  */
 import FacilityStatusRail from "../../components/FacilityStatusRail.astro";
 import Icon from "../../components/Icon.astro";
+import SiteLocked from "../../components/SiteLocked.astro";
 import Base from "../../layouts/Base.astro";
 import { type NetworkSite, comingSoonSites } from "../../lib/sites";
 import { withBase } from "../../lib/site";
@@ -55,10 +56,24 @@ const doors = [
 ---
 
 <Base
-  title={`${site.place} — coming soon`}
+  title={site.locked ? `${site.place} — locked` : `${site.place} — coming soon`}
   section="directory"
-  description={`A Watermark-network record site for the ${site.basin}, being assembled from the Lima reference build.`}
+  description={
+    site.locked
+      ? `${site.place} is a restricted Watermark-network site — its record is sealed.`
+      : `A Watermark-network record site for the ${site.basin}, being assembled from the Lima reference build.`
+  }
 >
+  {
+    site.locked ? (
+      <SiteLocked
+        place={site.place}
+        location={site.basin}
+        codename={site.codename}
+        basin={site.basin}
+        lockReason={site.lockReason}
+      />
+    ) : (
   <article class="netsite">
     <header class="netsite-hero">
       <div class="netsite-eyebrow">
@@ -162,4 +177,6 @@ const doors = [
       hide them. Nothing here is a verdict.
     </p>
   </article>
+    )
+  }
 </Base>

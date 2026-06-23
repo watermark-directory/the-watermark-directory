@@ -1,0 +1,277 @@
+---
+/**
+ * The restricted-site screen (design "Site Locked"). A locked site exists in the directory but
+ * its record is sealed — source protection, legal sensitivity, or an embargo. Rendered inside
+ * Base (the site chrome) by the directory route when a registry site is `locked`, and by the
+ * locked-preview route. Locked is a POLICY state, orthogonal to build phase. The request-access
+ * form is a client-only progressive enhancement (no backend; the submissions API ships dark).
+ */
+import { withBase } from "../lib/site";
+
+interface Props {
+  place: string;
+  location: string;
+  codename?: string | null;
+  basin: string;
+  lockReason?: "sourcing" | "legal" | "embargo";
+  sealedCount?: number;
+  reviewWhen?: string;
+}
+const {
+  place,
+  location,
+  codename = null,
+  basin,
+  lockReason = "sourcing",
+  sealedCount = null,
+  reviewWhen = "monthly",
+} = Astro.props as Props;
+
+const DEK: Record<string, string> = {
+  sourcing:
+    "Its record draws on sources that could identify a confidential contributor, so it's sealed until those sources are safe to publish. The site stays listed — the documents behind it don't.",
+  legal:
+    "An active legal matter touches this site's record, so it's held back on counsel's advice until the matter resolves. The listing stays; the file is sealed.",
+  embargo:
+    "This site's findings are under embargo ahead of a coordinated publication. It's listed in the directory now, but the record opens on the embargo date.",
+};
+const dek = DEK[lockReason] ?? DEK.sourcing;
+
+const reasons = [
+  {
+    title: "Source protection",
+    body: "Opening the file now could point back to someone who took a risk to share it. It stays sealed until that's no longer true.",
+  },
+  {
+    title: "Legal sensitivity",
+    body: "Parts of this record intersect an open matter. We hold the whole site rather than publish around the gap.",
+  },
+  {
+    title: "Reviewed for unlock",
+    body: "Locked sites are re-checked on a schedule. Most reopen; a few stay sealed until the underlying reason clears.",
+  },
+];
+const doors = [
+  { t: "Request access", b: "if you're a contributor, reporter, or directly affected, ask and we'll review it." },
+  { t: "Get notified", b: "leave an address and we'll tell you the day it unlocks — nothing before then." },
+  { t: "Contribute anyway", b: "you can still submit a lead for this site; it queues against the sealed record." },
+];
+const meta = [
+  { k: "Code", v: codename || "RESTRICTED" },
+  { k: "Basin", v: basin },
+  { k: "Status", v: "Locked" },
+];
+---
+
+<article class="locked" data-site={place}>
+  <div class="locked-banner">
+    <span class="locked-tag">
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="5" y="11" width="14" height="9" rx="1"></rect>
+        <path d="M8 11 V7.5 A4 4 0 0 1 16 7.5 V11"></path>
+      </svg>Locked
+    </span>
+    <span class="locked-banner-text">This site's record is <b>restricted.</b> It exists in the directory, but its documents and figures are sealed.</span>
+    <a class="locked-back" href={withBase("/directory/")}>← Back to the directory</a>
+  </div>
+
+  <div class="locked-hero">
+    <div class="locked-hero-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="#7fb89a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="10.5" width="16" height="10" rx="1.2"></rect>
+        <path d="M7.5 10.5 V7 A4.5 4.5 0 0 1 16.5 7 V10.5"></path>
+        <circle cx="12" cy="15.2" r="1.3"></circle>
+      </svg>
+    </div>
+    <div class="locked-hero-body">
+      <div class="locked-eyebrow">Access restricted · {location}</div>
+      <h1 class="locked-h1">{place} is locked.</h1>
+      <p class="locked-dek">{dek}</p>
+      <div class="locked-meta">
+        {meta.map((m) => (
+          <span class="locked-metachip"><span class="locked-metak">{m.k}</span>{m.v}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="locked-grid">
+    <div class="locked-why">
+      <div class="locked-kicker">Why this site is locked</div>
+      <div class="locked-reasons">
+        {reasons.map((r) => (
+          <div class="locked-reason">
+            <span class="locked-reason-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3 L20 6 V11 C20 16 16.5 19.5 12 21 C7.5 19.5 4 16 4 11 V6 Z"></path>
+              </svg>
+            </span>
+            <div>
+              <div class="locked-reason-t">{r.title}</div>
+              <div class="locked-reason-b">{r.body}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="locked-kicker locked-kicker--gap">What you can do</div>
+      <div class="locked-doors">
+        {doors.map((d) => (
+          <div class="locked-door">
+            <span class="locked-door-dot" aria-hidden="true"></span>
+            <div class="locked-door-text"><b>{d.t}</b> — {d.b}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="locked-aside">
+      <form class="locked-request" id="locked-request">
+        <div class="locked-req-live">
+          <div class="locked-req-kicker">Request access</div>
+          <div class="locked-req-h">Ask the record team to unlock this site for you.</div>
+          <p class="locked-req-p">Tell us who you are and why. Access is granted case by case — usually to contributors, reporters, and affected residents.</p>
+          <div class="locked-req-fields">
+            <input class="locked-input" type="text" name="contact" placeholder="email or Signal…" autocomplete="off" required />
+            <textarea class="locked-input" name="reason" rows="3" placeholder="Why do you need access to this site?"></textarea>
+            <button class="locked-req-btn" type="submit">Request access →</button>
+          </div>
+          <div class="locked-req-alt">Or <button class="locked-req-notify" type="button" data-notify>just get notified when it unlocks →</button></div>
+        </div>
+        <div class="locked-req-done" hidden>
+          <span class="locked-req-check" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#0f1712" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13 L10 18 L19 7"></path></svg>
+          </span>
+          <div>
+            <div class="locked-req-done-t" data-done-title>Request received.</div>
+            <div class="locked-req-done-b" data-done-body>The record team will review your request and follow up by your contact above. Access is granted case by case.</div>
+          </div>
+        </div>
+      </form>
+
+      <div class="locked-status">
+        <div class="locked-status-kicker">Status</div>
+        <div class="locked-status-row"><span class="locked-status-dot locked-status-dot--sealed"></span>Record sealed{sealedCount != null && <> — <b>{sealedCount}</b> items withheld</>}</div>
+        <div class="locked-status-row"><span class="locked-status-dot locked-status-dot--review"></span>Reviewed for unlock <b>{reviewWhen}</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="locked-foot">
+    <span class="locked-foot-tag">
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="5" y="11" width="14" height="9" rx="1"></rect>
+        <path d="M8 11 V7.5 A4 4 0 0 1 16 7.5 V11"></path>
+      </svg>restricted
+    </span>
+    <span class="locked-foot-text"><b>Locked by policy, not by phase.</b> A locked site can be at any stage of its record — the lock is about access, not completeness.</span>
+  </div>
+</article>
+
+<script>
+  // Client-only progressive enhancement: flip the request form to a confirmation. No backend —
+  // the submissions API ships dark; this mirrors the design's local-only success state.
+  const form = document.getElementById("locked-request") as HTMLFormElement | null;
+  if (form) {
+    const live = form.querySelector<HTMLElement>(".locked-req-live");
+    const done = form.querySelector<HTMLElement>(".locked-req-done");
+    const title = form.querySelector<HTMLElement>("[data-done-title]");
+    const body = form.querySelector<HTMLElement>("[data-done-body]");
+    const contact = form.querySelector<HTMLInputElement>('input[name="contact"]');
+    const site = form.closest<HTMLElement>(".locked")?.dataset.site ?? "this site";
+    const reveal = (mode: "request" | "notify") => {
+      if (!live || !done) return;
+      if (mode === "notify") {
+        if (title) title.textContent = "We'll let you know.";
+        if (body) body.textContent = `You'll get a single note the day ${site} unlocks — and nothing else.`;
+      }
+      live.hidden = true;
+      done.hidden = false;
+    };
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (contact && /\S+@\S+|\S+/.test(contact.value.trim()) && contact.value.trim()) reveal("request");
+    });
+    form.querySelector<HTMLButtonElement>("[data-notify]")?.addEventListener("click", () => reveal("notify"));
+  }
+</script>
+
+<style>
+  .locked { background: var(--bosc-bg); border: 1px solid var(--bosc-ink); overflow: hidden; }
+  /* banner */
+  .locked-banner { background: #23211c; color: #e9e6dc; padding: 11px 30px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .locked-tag {
+    display: inline-flex; align-items: center; gap: 7px; font-size: 0.66rem; font-weight: 800;
+    letter-spacing: 0.6px; text-transform: uppercase; color: #e9e6dc;
+    background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); padding: 3px 9px;
+  }
+  .locked-banner-text { font-size: 0.82rem; color: #cdd6cd; line-height: 1.4; }
+  .locked-banner-text b { color: var(--bosc-bg); }
+  .locked-back { margin-left: auto; font-size: 0.76rem; color: #9ccbb0; font-weight: 700; white-space: nowrap; }
+  /* hero */
+  .locked-hero { padding: 40px 40px 30px; border-bottom: 1px solid var(--bosc-rule); display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+  .locked-hero-icon { flex: 0 0 auto; width: 74px; height: 74px; background: var(--bosc-ink); display: flex; align-items: center; justify-content: center; }
+  .locked-hero-body { flex: 1 1 480px; max-width: 640px; }
+  .locked-eyebrow { font-size: 0.72rem; letter-spacing: 1.4px; text-transform: uppercase; font-weight: 700; color: var(--bosc-muted); }
+  .locked-h1 { font-size: 2.3rem; font-weight: 800; letter-spacing: -0.9px; line-height: 1.05; margin: 0.4rem 0 0; }
+  .locked-dek { font-size: 1.02rem; line-height: 1.55; color: #3a4036; margin: 0.8rem 0 0; max-width: 580px; }
+  .locked-meta { display: flex; gap: 9px; margin-top: 16px; flex-wrap: wrap; }
+  .locked-metachip {
+    display: inline-flex; align-items: center; gap: 7px; font-family: var(--bosc-mono); font-size: 0.72rem;
+    color: var(--bosc-muted); background: #efece2; border: 1px solid var(--bosc-rule); padding: 5px 11px;
+  }
+  .locked-metak { font-size: 0.56rem; letter-spacing: 0.6px; text-transform: uppercase; color: var(--bosc-faint); }
+  /* body grid */
+  .locked-grid { display: grid; grid-template-columns: 1fr 340px; gap: 26px; padding: 28px 40px 34px; }
+  .locked-kicker { font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--bosc-faint); font-weight: 700; margin-bottom: 14px; }
+  .locked-kicker--gap { margin-top: 24px; margin-bottom: 12px; }
+  .locked-reasons { display: flex; flex-direction: column; border: 1px solid var(--bosc-rule); }
+  .locked-reason { display: flex; gap: 14px; align-items: flex-start; padding: 15px 17px; background: var(--bosc-bg); }
+  .locked-reason + .locked-reason { border-top: 1px solid var(--bosc-rule); }
+  .locked-reason-icon { flex: 0 0 auto; width: 30px; height: 30px; background: #23211c; display: flex; align-items: center; justify-content: center; color: #9ccbb0; }
+  .locked-reason-t { font-size: 0.95rem; font-weight: 700; }
+  .locked-reason-b { font-size: 0.82rem; color: var(--bosc-muted); line-height: 1.5; margin-top: 3px; }
+  .locked-doors { display: flex; flex-direction: column; gap: 10px; }
+  .locked-door { display: flex; gap: 12px; align-items: flex-start; }
+  .locked-door-dot { flex: 0 0 auto; width: 7px; height: 7px; background: var(--bosc-forest); margin-top: 7px; }
+  .locked-door-text { font-size: 0.88rem; color: #3a4036; line-height: 1.5; }
+  .locked-door-text b { color: var(--bosc-ink); }
+  /* aside: request + status */
+  .locked-aside { display: flex; flex-direction: column; gap: 16px; }
+  .locked-request { background: var(--bosc-ink); color: var(--bosc-bg); padding: 22px; }
+  .locked-req-kicker { font-family: var(--bosc-mono); font-size: 0.68rem; letter-spacing: 1.2px; text-transform: uppercase; color: #7fb89a; }
+  .locked-req-h { font-size: 1.18rem; font-weight: 800; letter-spacing: -0.3px; margin-top: 7px; line-height: 1.2; }
+  .locked-req-p { font-size: 0.82rem; color: #bcd2c4; line-height: 1.5; margin: 8px 0 0; }
+  .locked-req-fields { display: flex; flex-direction: column; gap: 9px; margin-top: 16px; }
+  .locked-input { font: inherit; font-size: 0.88rem; color: var(--bosc-bg); background: #0f1712; border: 1px solid #3a463d; padding: 11px 12px; outline: none; }
+  .locked-input::placeholder { color: #7d8a86; }
+  .locked-input:focus { border-color: #3d8f63; }
+  textarea.locked-input { resize: vertical; line-height: 1.5; }
+  .locked-req-btn { border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 0.9rem; color: var(--bosc-ink); background: #7fb89a; padding: 12px 18px; }
+  .locked-req-btn:hover { background: #9ccbb0; }
+  .locked-req-alt { font-size: 0.76rem; color: #8c9789; line-height: 1.5; margin-top: 11px; }
+  .locked-req-notify { border: 0; background: none; padding: 0; font: inherit; font-size: 0.76rem; color: #bcd2c4; font-weight: 600; cursor: pointer; }
+  .locked-req-done:not([hidden]) { display: flex; gap: 13px; align-items: flex-start; }
+  .locked-req-check { flex: 0 0 auto; width: 26px; height: 26px; background: #3d8f63; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+  .locked-req-done-t { font-size: 1.05rem; font-weight: 800; }
+  .locked-req-done-b { font-size: 0.83rem; color: #bcd2c4; line-height: 1.5; margin-top: 4px; }
+  .locked-status { background: #efece2; border: 1px solid var(--bosc-rule); padding: 16px 18px; }
+  .locked-status-kicker { font-family: var(--bosc-mono); font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; color: var(--bosc-faint); margin-bottom: 9px; }
+  .locked-status-row { display: flex; align-items: center; gap: 9px; font-size: 0.82rem; color: #3a4036; }
+  .locked-status-row + .locked-status-row { margin-top: 9px; }
+  .locked-status-dot { width: 8px; height: 8px; flex: 0 0 auto; }
+  .locked-status-dot--sealed { background: #23211c; }
+  .locked-status-dot--review { background: var(--bosc-forest); }
+  /* foot */
+  .locked-foot { padding: 14px 40px; background: #efece2; border-top: 1px solid var(--bosc-rule); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .locked-foot-tag {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 700; color: var(--bosc-muted);
+    background: #e8e4d8; border: 1px solid var(--bosc-rule); padding: 3px 11px;
+  }
+  .locked-foot-text { font-size: 0.82rem; color: var(--bosc-muted); line-height: 1.5; }
+  .locked-foot-text b { color: #3a4036; }
+  @media (max-width: 720px) {
+    .locked-grid { grid-template-columns: 1fr; }
+    .locked-hero, .locked-grid, .locked-foot, .locked-banner { padding-left: 20px; padding-right: 20px; }
+  }
+</style>

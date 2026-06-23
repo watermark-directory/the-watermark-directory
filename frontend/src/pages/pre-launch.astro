@@ -1,0 +1,277 @@
+---
+/**
+ * The platform pre-launch landing (design "Pre-Launch"). Standalone — its own minimal bar, NOT
+ * the data nav (the record isn't open yet). Shown before the public go-live: the shape of the
+ * record (counts only), the three sealed hypotheses, how the record is built, and a notify-me /
+ * contribute path. Deliberately not wired into Base (no chrome); the live site stays reachable.
+ */
+import { SITES } from "../lib/sites";
+import { withBase } from "../lib/site";
+import "../styles/site.css";
+
+const pad2 = (n: number): string => String(n).padStart(2, "0");
+const siteCount = SITES.length;
+const basinCount = 9; // the nine major Ohio river basins the network spans
+
+const stats = [
+  { n: pad2(siteCount), l: "Sites tracked" },
+  { n: pad2(basinCount), l: "River basins" },
+  { n: "01", l: "Live reference" },
+  { n: "03", l: "Hypotheses" },
+];
+const lenses = [
+  { n: "H1", name: "Water & Power", claim: "Where compute meets the watershed — draws, discharges, and the grid behind them.", status: "Reference building", accent: "var(--bosc-forest)" },
+  { n: "H2", name: "Defense & Federal", claim: "Where it meets federal land and the defense base.", status: "Sealed", accent: "var(--bosc-ink)" },
+  { n: "H3", name: "Corporate & Capital", claim: "Who owns it, through which shells, and where the money moves.", status: "Sealed", accent: "var(--bosc-ink)" },
+];
+const principles = [
+  { k: "01 · Sourced", title: "Every figure carries its source", body: "Nothing enters the record without a citation you can follow back to the document. Inference is labeled as inference — never dressed up as fact." },
+  { k: "02 · In the open", title: "Built in public, by contributors", body: "The record is assembled from public filings, deeds, and permits — out in the open, with corrections and leads welcome from anyone." },
+  { k: "03 · Two clocks", title: "The facility and the record are separate", body: "How far a data center is built is one clock; how complete our record of it is, is another. We never let one stand in for the other." },
+];
+const submitHref = withBase("/submit");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <meta name="theme-color" content="#16201a" />
+    <title>Watermark — pre-launch</title>
+    <meta name="description" content="Watermark is a provenance-first public record of the hyperscale data-center build-out. The record is being assembled in the open; it opens soon." />
+  </head>
+  <body class="pl-body">
+    <div class="pl">
+      <!-- minimal pre-launch bar -->
+      <div class="pl-bar">
+        <span class="pl-word">Watermark<span class="pl-dot">.</span></span>
+        <span class="pl-status"><span class="pl-status-dot" aria-hidden="true"></span>Pre-launch</span>
+        <a class="pl-bar-submit" href={submitHref}>Submit a lead →</a>
+      </div>
+
+      <!-- hero -->
+      <div class="pl-hero-wrap">
+        <div class="pl-hero">
+          <div class="pl-hero-main">
+            <div class="pl-eyebrow">Pre-launch · assembling the record</div>
+            <h1 class="pl-h1">The record is being built — before it's revealed.</h1>
+            <p class="pl-lead">
+              Watermark is a provenance-first public record of the hyperscale data-center build-out —
+              <b>where compute meets ground, water, and power.</b> We're assembling it in the open. When the
+              record opens, every figure will carry its source. Until then, here's the shape of it.
+            </p>
+            <form class="pl-notify" id="pl-notify">
+              <div class="pl-notify-live">
+                <div class="pl-notify-kicker">Get told when it opens</div>
+                <div class="pl-notify-fields">
+                  <input class="pl-input" type="email" name="email" placeholder="you@domain.org" autocomplete="off" required />
+                  <button class="pl-notify-btn" type="submit">Notify me →</button>
+                </div>
+                <div class="pl-notify-fine">One email at launch. No list, no tracking, no account. <a href={submitHref}>Or contribute a lead now →</a></div>
+              </div>
+              <div class="pl-notify-done" hidden>
+                <span class="pl-notify-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#0f1712" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13 L10 18 L19 7"></path></svg>
+                </span>
+                <div>
+                  <div class="pl-notify-done-t">You're on the list.</div>
+                  <div class="pl-notify-done-b">We'll send a single note to <b data-email>you</b> the day the record opens. Nothing before then.</div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- count ledger -->
+          <div class="pl-ledger">
+            <div class="pl-ledger-head">The scope, so far</div>
+            <div class="pl-ledger-grid">
+              {stats.map((s) => (
+                <div class="pl-stat">
+                  <div class="pl-stat-n">{s.n}</div>
+                  <div class="pl-stat-l">{s.l}</div>
+                </div>
+              ))}
+            </div>
+            <div class="pl-ledger-foot">Counts only. The sites, the figures, and the sources stay sealed until the record opens.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- shape of what's coming -->
+      <div class="pl-coming">
+        <div class="pl-section">
+          <div class="pl-coming-head">
+            <h2 class="pl-h2">The shape of what's coming</h2>
+            <span class="pl-coming-sub">— one map, three hypotheses. Sealed until launch.</span>
+          </div>
+          <div class="pl-lenses">
+            {lenses.map((L) => (
+              <div class="pl-lens">
+                <div class="pl-lens-top">
+                  <span class="pl-lens-n" style={`color:${L.accent}; border-color:${L.accent}`}>{L.n}</span>
+                  <span class="pl-lens-status">
+                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1"></rect><path d="M8 11 V7.5 A4 4 0 0 1 16 7.5 V11"></path></svg>
+                    {L.status}
+                  </span>
+                </div>
+                <div class="pl-lens-name">{L.name}</div>
+                <div class="pl-lens-claim">{L.claim}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- how the record is built -->
+      <div class="pl-how">
+        <div class="pl-section">
+          <div class="pl-how-kicker">How the record is built</div>
+          <div class="pl-principles">
+            {principles.map((p) => (
+              <div class="pl-principle">
+                <div class="pl-principle-k">{p.k}</div>
+                <div class="pl-principle-t">{p.title}</div>
+                <div class="pl-principle-b">{p.body}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- contributor CTA -->
+      <div class="pl-cta">
+        <div class="pl-section pl-cta-inner">
+          <div class="pl-cta-text">
+            <div class="pl-cta-kicker">You don't have to wait for launch</div>
+            <div class="pl-cta-h">Every confirmed figure starts as a lead.</div>
+            <div class="pl-cta-b">A document, a name, a parcel that moved. If you know something about a site in the build-out, the record is already listening — no account needed.</div>
+          </div>
+          <a class="pl-cta-btn" href={submitHref}>Submit a lead →</a>
+        </div>
+      </div>
+
+      <!-- footer -->
+      <div class="pl-foot">
+        <div class="pl-section pl-foot-inner">
+          <span class="pl-foot-word">watermark<span class="pl-dot">.</span>directory</span>
+          <span class="pl-foot-pill"><span class="pl-status-dot" aria-hidden="true"></span>provenance-first</span>
+          <span class="pl-foot-meta">A public record assembled from documents the developers didn't write. Opening soon.</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Client-only notify confirmation (no backend; mirrors the design's local success state).
+      const form = document.getElementById("pl-notify") as HTMLFormElement | null;
+      if (form) {
+        const live = form.querySelector<HTMLElement>(".pl-notify-live");
+        const done = form.querySelector<HTMLElement>(".pl-notify-done");
+        const email = form.querySelector<HTMLInputElement>('input[name="email"]');
+        const shown = form.querySelector<HTMLElement>("[data-email]");
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const v = (email?.value ?? "").trim();
+          if (!/\S+@\S+\.\S+/.test(v) || !live || !done) return;
+          if (shown) shown.textContent = v;
+          live.hidden = true;
+          done.hidden = false;
+        });
+      }
+    </script>
+
+    <style>
+      .pl-body { margin: 0; background: var(--bosc-ink); color: var(--bosc-bg); font-family: var(--bosc-sans); }
+      .pl-section { max-width: 1180px; margin: 0 auto; padding: 0 36px; }
+      /* bar */
+      .pl-bar { max-width: 1180px; margin: 0 auto; padding: 22px 36px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+      .pl-word { font-weight: 800; font-size: 1.32rem; letter-spacing: -0.6px; }
+      .pl-dot { color: #3d8f63; }
+      .pl-status { display: inline-flex; align-items: center; gap: 7px; font-family: var(--bosc-mono); font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: #9aa89a; border: 1px solid #2b362e; padding: 4px 10px; }
+      .pl-status-dot { width: 6px; height: 6px; background: #3d8f63; }
+      .pl-bar-submit { margin-left: auto; font-size: 0.84rem; font-weight: 600; color: #bcd2c4; text-decoration: none; }
+      /* hero */
+      .pl-hero-wrap { border-top: 1px solid #2b362e; }
+      .pl-hero { max-width: 1180px; margin: 0 auto; padding: 60px 36px 56px; display: flex; gap: 50px; flex-wrap: wrap; align-items: flex-start; }
+      .pl-hero-main { flex: 1 1 540px; max-width: 660px; }
+      .pl-eyebrow { font-family: var(--bosc-mono); font-size: 0.74rem; letter-spacing: 2px; text-transform: uppercase; color: #7fb89a; }
+      .pl-h1 { font-size: 3.3rem; font-weight: 800; letter-spacing: -2.2px; line-height: 0.99; margin: 16px 0 0; }
+      .pl-lead { font-size: 1.12rem; line-height: 1.55; color: #cdd6cd; margin: 20px 0 0; max-width: 600px; }
+      .pl-lead b { color: var(--bosc-bg); }
+      .pl-notify { margin-top: 32px; max-width: 520px; }
+      .pl-notify-kicker { font-family: var(--bosc-mono); font-size: 0.68rem; letter-spacing: 1.2px; text-transform: uppercase; color: #9aa89a; margin-bottom: 10px; }
+      .pl-notify-fields { display: flex; gap: 10px; flex-wrap: wrap; }
+      .pl-input { flex: 1 1 240px; min-width: 0; font: inherit; font-size: 0.95rem; color: var(--bosc-bg); background: #0f1712; border: 1px solid #3a463d; padding: 13px 15px; outline: none; }
+      .pl-input::placeholder { color: #7d8a86; }
+      .pl-input:focus { border-color: #3d8f63; }
+      .pl-notify-btn { flex: 0 0 auto; border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 0.95rem; color: var(--bosc-ink); background: #7fb89a; padding: 13px 24px; }
+      .pl-notify-btn:hover { background: #9ccbb0; }
+      .pl-notify-fine { font-size: 0.78rem; color: #8c9789; margin-top: 10px; line-height: 1.5; }
+      .pl-notify-fine a { color: #bcd2c4; font-weight: 600; }
+      .pl-notify-done:not([hidden]) { display: flex; gap: 14px; align-items: flex-start; background: #0f1712; border: 1px solid #2f4a3a; border-left: 3px solid #3d8f63; padding: 18px 20px; }
+      .pl-notify-check { flex: 0 0 auto; width: 26px; height: 26px; background: #3d8f63; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+      .pl-notify-done-t { font-size: 1rem; font-weight: 700; color: var(--bosc-bg); }
+      .pl-notify-done-b { font-size: 0.84rem; color: #bcd2c4; line-height: 1.5; margin-top: 3px; }
+      /* ledger */
+      .pl-ledger { flex: 1 1 300px; max-width: 360px; border: 1px solid #2b362e; }
+      .pl-ledger-head { font-family: var(--bosc-mono); font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase; color: #9aa89a; padding: 12px 15px; border-bottom: 1px solid #2b362e; }
+      .pl-ledger-grid { display: grid; grid-template-columns: 1fr 1fr; }
+      .pl-stat { border-top: 1px solid #2b362e; padding: 17px; }
+      .pl-stat:nth-child(odd) { border-right: 1px solid #2b362e; }
+      .pl-stat-n { font-family: var(--bosc-mono); font-size: 2.1rem; font-weight: 600; letter-spacing: -1.5px; line-height: 1; color: var(--bosc-bg); }
+      .pl-stat-l { font-family: var(--bosc-mono); font-size: 0.62rem; letter-spacing: 1px; text-transform: uppercase; color: #8c9789; margin-top: 7px; }
+      .pl-ledger-foot { padding: 14px 15px; border-top: 1px solid #2b362e; font-size: 0.78rem; line-height: 1.5; color: #9aa89a; }
+      /* shape of what's coming (bone) */
+      .pl-coming { background: var(--bosc-bg); color: var(--bosc-ink); }
+      .pl-coming .pl-section { padding-top: 50px; padding-bottom: 44px; }
+      .pl-coming-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+      .pl-h2 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.7px; margin: 0; }
+      .pl-coming-sub { font-size: 0.9rem; color: var(--bosc-faint); }
+      .pl-lenses { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--bosc-ink); }
+      .pl-lens { padding: 22px 22px 24px; }
+      .pl-lens + .pl-lens { border-left: 1px solid var(--bosc-rule); }
+      .pl-lens-top { display: flex; align-items: center; gap: 10px; }
+      .pl-lens-n { font-family: var(--bosc-mono); font-size: 0.74rem; font-weight: 600; border: 1px solid; padding: 1px 8px; }
+      .pl-lens-status { margin-left: auto; display: inline-flex; align-items: center; gap: 5px; font-family: var(--bosc-mono); font-size: 0.62rem; letter-spacing: 0.8px; text-transform: uppercase; color: var(--bosc-faint); }
+      .pl-lens-name { font-size: 1.18rem; font-weight: 800; letter-spacing: -0.4px; margin-top: 15px; }
+      .pl-lens-claim { font-size: 0.86rem; color: var(--bosc-muted); line-height: 1.5; margin-top: 7px; }
+      /* how (page canvas) */
+      .pl-how { background: var(--bosc-page); color: var(--bosc-ink); border-top: 1px solid var(--bosc-rule); }
+      .pl-how .pl-section { padding-top: 50px; padding-bottom: 46px; }
+      .pl-how-kicker { font-family: var(--bosc-mono); font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--bosc-muted); margin-bottom: 22px; }
+      .pl-principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+      .pl-principle { border-top: 2px solid var(--bosc-ink); padding-top: 17px; }
+      .pl-principle-k { font-family: var(--bosc-mono); font-size: 0.8rem; font-weight: 600; color: var(--bosc-forest); }
+      .pl-principle-t { font-size: 1.08rem; font-weight: 800; letter-spacing: -0.3px; margin-top: 11px; }
+      .pl-principle-b { font-size: 0.9rem; color: var(--bosc-muted); line-height: 1.55; margin-top: 8px; }
+      /* CTA (ink) */
+      .pl-cta { background: var(--bosc-ink); color: var(--bosc-bg); }
+      .pl-cta-inner { padding-top: 44px; padding-bottom: 44px; display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+      .pl-cta-text { flex: 1 1 440px; }
+      .pl-cta-kicker { font-family: var(--bosc-mono); font-size: 0.68rem; letter-spacing: 1.4px; text-transform: uppercase; color: #7fb89a; }
+      .pl-cta-h { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.8px; margin-top: 8px; line-height: 1.05; }
+      .pl-cta-b { font-size: 0.96rem; color: #bcd2c4; line-height: 1.55; margin-top: 10px; max-width: 560px; }
+      .pl-cta-btn { display: inline-flex; align-items: center; gap: 8px; background: #7fb89a; color: var(--bosc-ink); font-weight: 800; font-size: 0.95rem; padding: 14px 22px; text-decoration: none; }
+      .pl-cta-btn:hover { background: #9ccbb0; }
+      /* footer (deep ink) */
+      .pl-foot { background: #0f1712; color: #9aa89a; border-top: 1px solid #2b362e; }
+      .pl-foot-inner { padding-top: 24px; padding-bottom: 24px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+      .pl-foot-word { font-family: var(--bosc-mono); font-size: 0.78rem; color: #7d8a86; }
+      .pl-foot-pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--bosc-mono); font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; color: #9aa89a; border: 1px solid #2b362e; padding: 3px 10px; }
+      .pl-foot-meta { margin-left: auto; font-size: 0.8rem; color: #7d8a86; line-height: 1.5; }
+      @media (max-width: 720px) {
+        .pl-h1 { font-size: 2.3rem; letter-spacing: -1.2px; }
+        .pl-lenses, .pl-principles { grid-template-columns: 1fr; }
+        .pl-lens + .pl-lens { border-left: 0; border-top: 1px solid var(--bosc-rule); }
+      }
+    </style>
+  </body>
+</html>
