@@ -5,7 +5,7 @@
  * "Chart Set".
  *
  * Grammar (enforced here):
- *  - **Indigo is data** — one hue, four tints (`INDIGO_TINTS`) for series/slices.
+ *  - **Forest is data** — one hue, four tints (`FOREST_TINTS`) for series/slices.
  *  - The **evidence palette** (`EVIDENCE_FILL`) is spent only on *encoding evidence*
  *    (the stacked status bar), never on decoration.
  *  - Figures are monospace (the components set the mono face); the grid is light
@@ -18,22 +18,22 @@ const round = (n: number, p = 1): number => {
   return Math.round(n * f) / f;
 };
 
-/** Indigo data tints — series and slices, in order. */
-export const INDIGO_TINTS = ["#3f51b5", "#5c6bc0", "#7986cb", "#9fa8da", "#c5cae9"] as const;
-export const INDIGO = "#3f51b5";
-export const INK = "#1f2330";
-export const GRID = "#eef0f4";
-export const BASELINE = "#d7dae4";
-export const LIMIT = "#c0392b";
+/** Forest is data (Swiss 03 chart set): one hue, four tints for series and slices. */
+export const FOREST_TINTS = ["#1f6f4a", "#3f8a63", "#5fa07f", "#8fbca0", "#bcd2c4"] as const;
+export const FOREST = "#1f6f4a";
+export const INK = "#16201a";
+export const GRID = "#ece8dc";
+export const BASELINE = "#cdc8b8";
+export const LIMIT = "#7a2230";
 /** The withheld/soft tint for a ranked bar whose value is present but its price isn't. */
-export const WITHHELD_FILL = "rgba(63,81,181,0.22)";
-export const WITHHELD_STROKE = "#c5cae9";
+export const WITHHELD_FILL = "rgba(31,111,74,0.22)";
+export const WITHHELD_STROKE = "#bcd2c4";
 
 /** Evidence encoding — the ONE place the semantic palette enters a chart. */
 export const EVIDENCE_FILL: Record<TagKind, string> = {
-  verified: "#2e7d32",
-  inference: "#b46e00",
-  open: "#aeb4c2",
+  verified: "#1f6f4a",
+  inference: "#9a6a14",
+  open: "#a8a596",
 };
 
 /** A "nice" axis ceiling at or above `v` (1/2/2.5/5 × 10ⁿ). */
@@ -102,7 +102,7 @@ export function buildVBars(data: BarDatum[], opts: { max?: number; barW?: number
       cx: round(x + barW / 2),
       valY: round(base - h - 5),
       peak,
-      fill: peak ? INDIGO : INDIGO_TINTS[2],
+      fill: peak ? FOREST : FOREST_TINTS[2],
     };
   });
   const grid = ticks(max).map((value) => ({ value, y: round(base - (value / max) * plotH) }));
@@ -154,7 +154,7 @@ export function buildHBars(data: RankedBarDatum[], opts: { max?: number; unit?: 
       w: round(w),
       valX: round(x0 + w + 6),
       valLabel: unit ? `${round(d.value)} ${unit}` : `${round(d.value)}`,
-      fill: d.withheld ? WITHHELD_FILL : INDIGO,
+      fill: d.withheld ? WITHHELD_FILL : FOREST,
       stroke: d.withheld ? WITHHELD_STROKE : "none",
       strokeW: d.withheld ? 1 : 0,
     };
@@ -302,7 +302,7 @@ export function buildDonut(slices: DonutSlice[], opts: { ro?: number; ri?: numbe
       label: d.label,
       value: d.value,
       d: `M${x0} ${y0} A${ro} ${ro} 0 ${large} 1 ${x1} ${y1} L${x2} ${y2} A${ri} ${ri} 0 ${large} 0 ${x3} ${y3} Z`,
-      fill: INDIGO_TINTS[i % INDIGO_TINTS.length],
+      fill: FOREST_TINTS[i % FOREST_TINTS.length],
       pct: round((d.value / total) * 100),
     };
   });

@@ -53,7 +53,7 @@ const pins = r.pins ?? [];
         </div>
         {/* ② what we read */}
         <div class="td-pane td-pane--read">
-          <div class="td-part is-indigo">② What we read from it</div>
+          <div class="td-part is-forest">② What we read from it</div>
           <div class="td-rows">
             {r.extraction.map((row) => (
               <div class="td-row">
@@ -111,7 +111,7 @@ const pins = r.pins ?? [];
       <TeardownSourceCard source={r.source} fields={sourceFields} sourceDoc={sourceDoc} size="sm" />
 
       <div class="td-block td-block--read">
-        <div class="td-part is-indigo">② What we read from it</div>
+        <div class="td-part is-forest">② What we read from it</div>
         <div class="td-readcards">
           {r.extraction.map((row) => (
             <div class="td-readcard">
@@ -175,7 +175,7 @@ const pins = r.pins ?? [];
         </div>
         {/* margin rail keyed to pins */}
         <div>
-          <div class="td-part is-indigo">② What we read</div>
+          <div class="td-part is-forest">② What we read</div>
           <div class="td-rail">
             {pins.map((p) => (
               <div class="td-rail-item">

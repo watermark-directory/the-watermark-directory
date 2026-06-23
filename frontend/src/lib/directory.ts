@@ -43,19 +43,19 @@ interface Swatch {
 }
 
 export const SIGNAL_META: Record<Signal, Swatch> = {
-  anchor: { label: "Anchor case", color: "#3f51b5", bg: "#e8eaf6", dot: "#3f51b5" },
-  strong: { label: "Strong signal", color: "#3f51b5", bg: "#f3f4fb", dot: "#5667c8" },
-  moderate: { label: "Moderate", color: "#5b6172", bg: "#eceef2", dot: "#8a90a2" },
-  watch: { label: "Under investigation", color: "#8a90a2", bg: "#f4f5f8", dot: "#c0c4cf" },
+  anchor: { label: "Anchor case", color: "#1f6f4a", bg: "#e4ece4", dot: "#1f6f4a" },
+  strong: { label: "Strong signal", color: "#1f6f4a", bg: "#e4ece4", dot: "#3f8a63" },
+  moderate: { label: "Moderate", color: "#566159", bg: "#e8e4d8", dot: "#8c9389" },
+  watch: { label: "Under investigation", color: "#8c9389", bg: "#faf8f1", dot: "#cdc8b8" },
 };
 
 /** Build-phase pill swatches (the hex peer of `SITE_STATUS_META`'s CSS classes — the directory
  *  renders pills inline, like the facility pill, rather than through the switcher's class set). */
 export const PHASE_PILL: Record<SiteStatus, Swatch> = {
-  live: { label: "Live", color: "#2e7d32", bg: "#e9f3ea", dot: "#2e7d32" },
-  building: { label: "Building", color: "#3f51b5", bg: "#f3f4fb", dot: "#3f51b5" },
-  queued: { label: "Queued", color: "#b46e00", bg: "#fbf1dd", dot: "#b46e00" },
-  tracking: { label: "Tracking", color: "#5b6172", bg: "#eceef2", dot: "#8a90a2" },
+  live: { label: "Live", color: "#1f6f4a", bg: "#e4ece4", dot: "#1f6f4a" },
+  building: { label: "Building", color: "#1f6f4a", bg: "#e4ece4", dot: "#1f6f4a" },
+  queued: { label: "Queued", color: "#9a6a14", bg: "#efe6d0", dot: "#9a6a14" },
+  tracking: { label: "Tracking", color: "#566159", bg: "#e8e4d8", dot: "#8c9389" },
 };
 
 // --- The defense (H2) and surveillance (H3) reading of each site --------------------------------
@@ -165,9 +165,9 @@ export const LENSES: Record<DirLens, LensConfig> = {
     key: "water",
     n: "H1",
     name: "Water & Power",
-    accent: "#3f51b5",
-    accentBg: "#f3f4fb",
-    accentBd: "#c5cae9",
+    accent: "#1f6f4a",
+    accentBg: "#e4ece4",
+    accentBd: "#bcd2c4",
     status: "Reference build",
     statusKind: "live",
     claim: "Where compute meets the watershed.",
@@ -191,9 +191,9 @@ export const LENSES: Record<DirLens, LensConfig> = {
     key: "defense",
     n: "H2",
     name: "Defense & Federal Enclave",
-    accent: "#4a5a6b",
-    accentBg: "#eef1f4",
-    accentBd: "#cdd5dd",
+    accent: "#16201a",
+    accentBg: "#ece8dc",
+    accentBd: "#cdc8b8",
     status: "Emerging hypothesis",
     statusKind: "new",
     claim: "Where the build-out meets federal land and the defense base.",
@@ -217,9 +217,9 @@ export const LENSES: Record<DirLens, LensConfig> = {
     key: "surveillance",
     n: "H3",
     name: "Corporate & Economic Surveillance",
-    accent: "#715a78",
-    accentBg: "#f2eef3",
-    accentBd: "#d8cdda",
+    accent: "#566159",
+    accentBg: "#e8e4d8",
+    accentBd: "#cdc8b8",
     status: "Emerging hypothesis",
     statusKind: "new",
     claim: "Who owns it, who's watching, and where the money moves.",
@@ -318,8 +318,8 @@ const siteCell = (s: NetworkSite): Cell => {
     kind: "site",
     badge: siteBadge(s),
     place: s.place,
-    badgeBg: live ? "#3f51b5" : codename ? "#eef0f4" : "#eceef2",
-    badgeColor: live ? "#fff" : codename ? "#3f51b5" : "#5b6172",
+    badgeBg: live ? "#1f6f4a" : codename ? "#ece8dc" : "#e8e4d8",
+    badgeColor: live ? "#f5f2ea" : codename ? "#1f6f4a" : "#566159",
   };
 };
 const textCell = (t: string, muted = false): Cell => {

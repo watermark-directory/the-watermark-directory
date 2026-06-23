@@ -213,7 +213,7 @@ describe("directory lenses — one network, read three ways (#308)", () => {
     expect(cfg.status).toBe("Emerging hypothesis");
     expect(cfg.statusKind).toBe("new");
     // Presentation (accent, columns) stays local to the frontend.
-    expect(cfg.accent).toBe("#4a5a6b");
+    expect(cfg.accent).toBe("#16201a");
     // Falls back to the built-in config when the feed lacks the hypothesis.
     expect(lensConfig("defense").name).toBe("Defense & Federal Enclave");
   });

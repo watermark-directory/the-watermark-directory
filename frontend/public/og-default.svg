@@ -1,24 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <!-- Default share card (1200x630). Source for og-default.png; regenerate with:
        rsvg-convert -w 1200 -h 630 og-default.svg -o og-default.png
-       (or `node scripts/gen-icons.mjs`, which emits this + the favicon raster set). -->
-  <rect width="1200" height="630" fill="#1f2330"/>
-  <rect width="16" height="630" fill="#3f51b5"/>
+       (or `node scripts/gen-icons.mjs`). Brand Final — the wordmark, no glyph,
+       on ink, with the one green signal period. -->
+  <rect width="1200" height="630" fill="#16201a"/>
+  <rect width="16" height="630" fill="#3d8f63"/>
 
-  <!-- the Watermark brand chip (matches favicon.svg): brackets framing a waterline over a record rule -->
-  <g transform="translate(96,72) scale(1.7)">
-    <rect width="64" height="64" rx="14" fill="#3f51b5"/>
-    <g fill="none" stroke="#ffffff" stroke-width="3.8">
-      <path d="M23 13 H13 V51 H23" stroke-linecap="square"/>
-      <path d="M41 13 H51 V51 H41" stroke-linecap="square"/>
-      <path d="M21 29 q5.5 -6 11 0 t11 0" stroke-linecap="round"/>
-      <line x1="21" y1="42" x2="43" y2="42" stroke-linecap="round"/>
-    </g>
-  </g>
-  <text x="220" y="156" font-family="sans-serif" font-size="38" font-weight="700" letter-spacing="6" fill="#9fa8da">PUBLIC RECORDS</text>
+  <text x="92" y="200" font-family="monospace" font-size="30" font-weight="600" letter-spacing="7" fill="#9aa89a">PUBLIC RECORDS · BY WATERSHED</text>
 
-  <text x="92" y="392" font-family="sans-serif" font-size="104" font-weight="800" letter-spacing="-2" fill="#ffffff">Watermark</text>
-  <text x="96" y="462" font-family="sans-serif" font-size="46" fill="#9fa8da">the public record, by watershed</text>
-  <text x="96" y="560" font-family="sans-serif" font-size="30" fill="#aeb4c2">Primary documents read into structured data — sourced, cited, open.</text>
-  <text x="1104" y="592" text-anchor="end" font-family="sans-serif" font-size="26" fill="#5b6172">bosc.pages.dev</text>
+  <text x="86" y="372" font-family="Archivo, Arial, sans-serif" font-size="150" font-weight="800" letter-spacing="-7" fill="#f5f2ea">Watermark<tspan fill="#3d8f63">.</tspan></text>
+
+  <text x="96" y="452" font-family="Archivo, Arial, sans-serif" font-size="40" fill="#bcb6a4">Primary documents read into structured data — sourced, cited, open.</text>
+  <text x="1104" y="568" text-anchor="end" font-family="monospace" font-size="26" fill="#6f776c">watermark.directory</text>
 </svg>

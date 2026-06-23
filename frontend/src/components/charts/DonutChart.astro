@@ -1,7 +1,7 @@
 ---
 /**
  * Donut chart (#306) — composition, the total in the center, a labeled legend beside it.
- * SSR SVG, no JS. Indigo tints for the slices.
+ * SSR SVG, no JS. Forest tints for the slices.
  */
 import type { TagKind } from "../../lib/teardown";
 import { buildDonut, type DonutSlice } from "../../lib/charts";
@@ -27,7 +27,7 @@ const c = buildDonut(slices);
   </figcaption>
   <div class="chart-donut">
     <svg viewBox="0 0 200 200" class="chart-donut-svg" role="img" aria-label={title}>
-      {c.segments.map((s) => <path d={s.d} fill={s.fill} stroke="#fff" stroke-width="2" />)}
+      {c.segments.map((s) => <path d={s.d} fill={s.fill} stroke="#f5f2ea" stroke-width="2" />)}
       <text x="100" y="96" text-anchor="middle" class="chart-donut-total">{c.total}</text>
       {centerLabel && <text x="100" y="116" text-anchor="middle" class="chart-axis">{centerLabel}</text>}
     </svg>
