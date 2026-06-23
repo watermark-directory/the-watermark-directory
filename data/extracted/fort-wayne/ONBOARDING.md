@@ -54,12 +54,17 @@ exists to catch). It carries the basin's **largest POTW** — Fort Wayne WWTP (I
 114 cfs**) discharging to the Maumee at the headwaters under an active "Effluent – Monthly Average
 Limit" ECHO flag (1 informal enforcement).
 
-**The screen verdict is denominator-sensitive and unresolved.** The committed derived Maumee 7Q10
-(114 cfs) is the **Waterville, OH** proxy — ~50 river-mi downstream, below the Auglaize/Tiffin
-confluences. Fort Wayne discharges at the headwaters, where the mainstem is just the St. Joseph +
-St. Marys sum (~45 cfs): against that, 74 MGD is **effluent-dominant (~2.5:1)**, not the "tight ~1:1"
-the downstream proxy implies. `bosc basin-network` records `no_7q10`, dilution `null`. The verdict for
-the basin's largest plant turns on deriving a headwaters 7Q10 (proposal #358; permit/DMR detail #359).
+**The screen verdict — RESOLVED (#358/#359, 2026-06-23).** See the reviewed characterization
+[`wwtp-receiving-water.md`](wwtp-receiving-water.md). Two corrections to
+the hypothesis above: (1) the basin-screen **never** used the Waterville proxy for this plant — its
+primary receiver is **Baldwin Ditch** (ungaged), so it is correctly left **unscreened** (omit-don't-
+guess), and (2) the "~45 cfs / 2.5:1" figure used the *upstream* St. Joseph gage (Newville 04178000,
+29.69 cfs). The correct near-Fort-Wayne gages give a derived **headwaters 7Q10 ≈ 69.7 cfs** (St.
+Joseph nr FW 04180500 = 54.06 + St. Marys nr FW 04182000 = 15.65). Against it: design 74 MGD →
+**0.61:1 (effluent-dominant)**; actual 43.9 MGD (2023 DMR mean, ≈ 59% of design) → **1.03:1 (tight)**.
+The plant is effluent-balanced-to-dominant at low flow — significant, but milder than the hypothesis.
+The DMR record shows **no monthly-average exceedance 2021–2025** (the ECHO SNC label is uncorroborated
+by a recent exceedance — an open reconciliation item, likely historical).
 
 **Data-center activity — the inverse of every other point.** The registry presents Fort Wayne as the
 GCP/Google site (codename `GCP`, facility status *confirmed*) — the network's one **disclosed**
@@ -82,10 +87,14 @@ same fixture as the OH AEP sites), `source=connector`.
 parity" deferral, not a corpus gap. All Fort Wayne findings come from the slug-scoped onboarding
 outputs + the basin-shared ECHO inventory.
 
-**Proposals — 5 filed as sub-issues of #235:** #358 (resolve the headwaters 7Q10 denominator
-mismatch), #359 (extract the IN0032191 NPDES permit + DMR + ECHO detail), #360 (investigate the
-disclosed Fort Wayne / NE-Indiana data-center facility), ~~#361 (verify the I&M LMP, replace the
-$35/MWh placeholder)~~ **— resolved 2026-06-21: I&M is in the PJM AEP zone, LMP now connector-sourced
+**Proposals — 5 filed as sub-issues of #235:** ~~#358 (resolve the headwaters 7Q10 denominator
+mismatch)~~ **— resolved 2026-06-23: derived headwaters 7Q10 ≈ 69.7 cfs; FW correctly unscreened
+(Baldwin Ditch); see [`wwtp-receiving-water.md`](wwtp-receiving-water.md)**,
+~~#359 (extract the IN0032191 NPDES permit + DMR + ECHO detail)~~ **— resolved 2026-06-23: `bosc dmr`
+connector + [`wwtp-in0032191.dmr.yaml`](wwtp-in0032191.dmr.yaml); actual ≈ 43.9 MGD vs 74 design, no
+2021–2025 exceedance; the "1 violation" is American-Bath, not FW**, #360 (investigate the disclosed
+Fort Wayne / NE-Indiana data-center facility), ~~#361 (verify the I&M LMP, replace the $35/MWh
+placeholder)~~ **— resolved 2026-06-21: I&M is in the PJM AEP zone, LMP now connector-sourced
 $45.81/MWh**, #362 (commit a site footprint to unblock SSURGO HSG + GIS discovery). The GIS
 lift (Allen Co IN / City of Fort Wayne partial-CAMA parcel layers, no clean zoning catalog) is
 tracked under GIS discovery above.
@@ -94,7 +103,7 @@ tracked under GIS discovery above.
 
 - [ ] Every written reference value is reviewed against a cited source (no fabricated values).
 - [ ] SSURGO dominant HSG matches the profile, or the SiteProfile is updated with a citation.
-- [ ] basin-screen coverage is sane for this site's receiving waters.
+- [x] basin-screen coverage is sane for this site's receiving waters — IN0032191's primary receiver is the ungaged Baldwin Ditch, so it is correctly unscreened (omit-don't-guess); the receiving-water read is documented in [`wwtp-receiving-water.md`](wwtp-receiving-water.md) against the derived headwaters 7Q10 (#358/#359).
 - [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
 - [x] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/) — see self-research summary above; 5 proposals filed as sub-issues of #235 (#358–362).
 - [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'fort-wayne' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

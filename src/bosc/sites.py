@@ -979,8 +979,17 @@ _FORT_WAYNE = SiteProfile(
     # toxics (no identified industrial corridor yet)
     toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # [open] pending an identified corridor on the Maumee
     receiving_water_name="Maumee River",  # [verified: ECHO] FW WWTP IN0032191 → Baldwin Ditch → Maumee
-    # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
-    plant_receiving={},  # [open] pending Fort Wayne-area WWTP NPDES fact sheets
+    # balance — Fort Wayne WWTP (IN0032191), the basin's largest POTW. Immediate receptor is
+    # Baldwin Ditch (an ungaged ditch → the screen leaves it unscreened, omit-don't-guess); the
+    # ditch joins the Maumee at the St. Joseph/St. Marys headwaters (derived 7Q10 ≈ 69.7 cfs). #358/#359.
+    plant_receiving={
+        "fort-wayne-wwtp": (
+            "Baldwin Ditch (immediate receptor) → Maumee River at the St. Joseph/St. Marys headwaters",
+            "ECHO NPDES IN0032191 receiving water "
+            "(BALDWIN DITCH, MAUMEE R TO ST MARYS RIVER, MAUMEE RIVER); design 74.0 MGD, "
+            "actual ~43.9 MGD (2023 DMR) — data/extracted/fort-wayne/wwtp-in0032191.dmr.yaml",
+        ),
+    },  # [verified: ECHO IN0032191]
     abstraction_gage="04182900",  # [inference] the Maumee-at-Fort-Wayne mainstem gage
     # refill (the water-balance supply model is not yet designed for Fort Wayne)
     supply_gage_primary="TODO",  # [open] refill supply gage — pending the site's water-balance model

@@ -1763,6 +1763,76 @@ def npdes(
     )
 
 
+@app.command(name="dmr")
+def dmr(
+    npdes_id: str = typer.Argument(..., help="NPDES permit id, e.g. IN0032191."),
+    start: str = typer.Option("2023-01-01", "--start", help="Window start (ISO YYYY-MM-DD)."),
+    end: str = typer.Option("2023-12-31", "--end", help="Window end (ISO YYYY-MM-DD)."),
+    design_flow: float | None = typer.Option(
+        None, "--design-flow", help="Permitted design flow (MGD), for the % comparison."
+    ),
+    out: str | None = typer.Option(
+        None, "--out", help="Write the parsed effluent record to this YAML path."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached ECHO responses only; never touch the network."
+    ),
+) -> None:
+    """Pull a permit's reported effluent record (DMRs) from EPA ECHO -> actual flow vs design.
+
+    Reads ECHO's effluent-chart service for one NPDES permit over a window: the primary
+    outfall's reported monthly flow (vs. the permitted design flow), the CSO/bypass outfall
+    count, and any ECHO-flagged effluent exceedances. With ``--out`` it writes a regenerable
+    YAML; reported values are verbatim and exceedances are listed only where ECHO reports them.
+    """
+    import yaml
+
+    from bosc.config import Settings
+    from bosc.hydrology.connectors import echo_dmr
+
+    settings = Settings(hydro_offline=True) if offline else get_settings()
+    try:
+        chart = echo_dmr.fetch_effluent_chart(
+            npdes_id, start_date=start, end_date=end, settings=settings
+        )
+    except echo_dmr.EchoDmrError as exc:
+        raise typer.BadParameter(str(exc), param_hint="npdes_id") from exc
+
+    summary = echo_dmr.summarize_discharge(chart, design_flow_mgd=design_flow)
+    console.print(
+        f"[bold]{chart.name}[/] (NPDES {chart.npdes_id}) — {chart.permit_status}, "
+        f"SNC [yellow]{chart.snc_status or 'None'}[/]"
+    )
+    table = Table("metric", "value")
+    table.add_row("window", summary.window)
+    table.add_row("primary outfall", str(summary.primary_outfall))
+    table.add_row("reported flow months", str(summary.n_flow_months))
+    table.add_row("actual flow mean (MGD)", f"{summary.actual_flow_mean_mgd}")
+    table.add_row(
+        "actual flow min/max (MGD)",
+        f"{summary.actual_flow_min_mgd} / {summary.actual_flow_max_mgd}",
+    )
+    if design_flow is not None:
+        table.add_row("design flow (MGD)", f"{design_flow}")
+        table.add_row("mean actual / design", f"{summary.flow_pct_of_design}%")
+    table.add_row("CSO/bypass outfalls", str(summary.cso_outfalls))
+    table.add_row("reported exceedances", str(len(summary.exceedances)))
+    console.print(table)
+    for r in summary.exceedances:
+        console.print(f"[red]exceedance[/] {r.period_end}: {r.value} {r.unit} (limit {r.limit})")
+    if not summary.exceedances:
+        console.print("[dim]No ECHO-flagged effluent exceedance in the window.[/]")
+
+    if out:
+        doc = echo_dmr.dmr_document(chart, summary)
+        path = Path(out)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            yaml.safe_dump(doc, sort_keys=False, allow_unicode=True, width=100), encoding="utf-8"
+        )
+        console.print(f"[green]Wrote[/] {path}")
+
+
 @app.command(name="nasa-power")
 def nasa_power_cmd(
     lon: float = typer.Option(None, "--lon", help="Longitude (default: settings.nasa_power_lon)."),
