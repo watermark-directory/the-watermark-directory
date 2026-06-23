@@ -14,7 +14,7 @@ function rewrite(filePath: string, href: string, opts?: DocLinkOptions): string 
   return node.properties!.href as string;
 }
 
-const REPO = "https://github.com/goedelsoup/network/american-sugar-creek-allen-co/blob/main/";
+const REPO = "https://github.com/goedelsoup/bosc/blob/main/";
 
 describe("rehype-doc-links — guards (data-independent)", () => {
   it("ignores files outside the as-is-rendered roots", () => {
