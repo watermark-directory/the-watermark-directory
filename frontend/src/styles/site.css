@@ -237,6 +237,48 @@ a { color: var(--bosc-link); }
 .nav-dd-item-blurb { font-size: 0.72rem; color: var(--bosc-faint); }
 .nav-dd-hr { border: 0; border-top: 1px solid var(--bosc-rule); margin: 0.3rem 0.2rem; }
 
+/* "The site" mega-menu (design "Chrome") — a wider panel: two intro tiles, the story spine, and
+   the themes it crosses. Matches the light bone dropdown aesthetic (not the comp's dark panel). */
+.nav-mega { position: relative; }
+.nav-mega-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 41rem;
+  max-width: calc(100vw - 2rem);
+  background: var(--bosc-bg);
+  color: var(--bosc-ink);
+  border: 1px solid var(--bosc-rule);
+  border-top: 3px solid var(--bosc-forest);
+  box-shadow: 0 16px 34px -18px rgba(22, 32, 26, 0.5) !important;
+  z-index: 25;
+}
+.nav-mega-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 9px; border-bottom: 1px solid var(--bosc-rule); }
+.nav-mega-tile { display: flex; flex-direction: column; gap: 2px; padding: 0.7rem 0.85rem; text-decoration: none; color: var(--bosc-ink); background: var(--bosc-surface); border: 1px solid var(--bosc-rule); }
+.nav-mega-tile:hover { border-color: var(--bosc-forest); }
+.nav-mega-tile-label { font-size: 0.85rem; font-weight: 800; }
+.nav-mega-tile-blurb { font-size: 0.72rem; color: var(--bosc-faint); }
+.nav-mega-cols { display: grid; grid-template-columns: 1fr 1fr; }
+.nav-mega-spine { padding: 0.8rem 0.9rem; border-right: 1px solid var(--bosc-rule); }
+.nav-mega-spine-head { display: flex; align-items: baseline; gap: 0.5rem; text-decoration: none; }
+.nav-mega-spine-title { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--bosc-forest); }
+.nav-mega-spine-count { font-size: 0.62rem; color: var(--bosc-faint); font-family: var(--bosc-mono); }
+.nav-mega-spine-blurb { font-size: 0.7rem; color: var(--bosc-muted); line-height: 1.4; margin: 0.25rem 0 0.5rem; }
+.nav-mega-link { display: flex; gap: 0.5rem; align-items: baseline; padding: 0.35rem 0.4rem; text-decoration: none; color: var(--bosc-ink); }
+.nav-mega-link:hover { background: var(--td-tint); }
+.nav-mega-num { flex: 0 0 auto; font-size: 0.62rem; font-weight: 700; color: var(--bosc-faint); font-family: var(--bosc-mono); min-width: 0.8rem; }
+.nav-mega-link-main { display: flex; flex-direction: column; min-width: 0; }
+.nav-mega-link-label { font-size: 0.78rem; font-weight: 600; line-height: 1.25; }
+.nav-mega-link-blurb { font-size: 0.66rem; color: var(--bosc-faint); }
+.nav-mega-toc { display: inline-block; margin-top: 0.45rem; padding: 0.3rem 0.4rem; font-size: 0.72rem; font-weight: 700; color: var(--bosc-forest); text-decoration: none; }
+.nav-mega-themes { padding: 0.8rem 0.9rem; }
+.nav-mega-themes-head { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--bosc-faint); margin-bottom: 0.5rem; }
+.nav-mega-themes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 0.6rem; }
+.nav-mega-theme-title { font-size: 0.72rem; font-weight: 700; color: var(--bosc-ink-green); margin-bottom: 0.15rem; }
+.nav-mega-tlink { display: block; padding: 0.22rem 0; font-size: 0.74rem; color: var(--bosc-muted); text-decoration: none; }
+.nav-mega-tlink:hover { color: var(--bosc-forest); }
+@media (max-width: 720px) { .nav-mega-menu { width: 22rem; } .nav-mega-cols { grid-template-columns: 1fr; } .nav-mega-spine { border-right: 0; border-bottom: 1px solid var(--bosc-rule); } }
+
 /* A non-clickable "drafting" report card (Reports landing). */
 .door--draft { cursor: default; opacity: 0.78; background: var(--td-open-bg); }
 .door--draft:hover { transform: none; }
@@ -876,6 +918,21 @@ a { color: var(--bosc-link); }
 .home-way-text strong { color: var(--bosc-ink); }
 .home-way-go { margin-top: 0.35rem; font-size: 0.85rem; font-weight: 700; color: var(--bosc-forest); }
 @media (max-width: 560px) { .home-ways { grid-template-columns: 1fr; } }
+
+/* The story · six chapters (design "Site Home" Live) — the narrative spine on the home. */
+.home-story { max-width: 46rem; margin: 0 0 1.6rem; }
+.home-story-head { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+.home-story-kicker { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--td-faint); font-weight: 700; }
+.home-story-note { font-size: 0.8rem; color: var(--bosc-faint); }
+.home-story-toc { margin-left: auto; font-size: 0.8rem; font-weight: 700; color: var(--bosc-forest); text-decoration: none; }
+.home-story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+.home-chapter { display: flex; gap: 0.7rem; align-items: flex-start; padding: 0.8rem 0.9rem; border: 1px solid var(--bosc-rule); background: var(--bosc-bg); text-decoration: none; color: var(--bosc-ink); transition: border-color 0.12s, transform 0.12s; }
+.home-chapter:hover { border-color: var(--td-tint-line); transform: translateY(-1px); }
+.home-chapter-n { flex: 0 0 auto; width: 26px; height: 26px; background: var(--bosc-forest); color: var(--bosc-bg); font-size: 0.8rem; font-weight: 800; font-family: var(--bosc-mono); display: flex; align-items: center; justify-content: center; }
+.home-chapter-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.home-chapter-title { font-size: 0.92rem; font-weight: 700; line-height: 1.25; }
+.home-chapter-skill { font-size: 0.72rem; color: var(--bosc-forest); font-weight: 600; }
+@media (max-width: 560px) { .home-story-grid { grid-template-columns: 1fr; } }
 
 /* ===== Open leads board (design "Site Leads") ============================== */
 .leads { max-width: 72rem; }

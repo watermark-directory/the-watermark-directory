@@ -51,7 +51,10 @@ if (refKind) {
       "",
       "_Describe the correction. Cite a page or figure if you can._",
     ].join("\n");
-    const url = new URL(fallback.getAttribute("href") || "https://github.com/goedelsoup/bosc/issues/new");
+    const url = new URL(
+      fallback.getAttribute("href") ||
+        "https://github.com/goedelsoup/network/american-sugar-creek-allen-co/issues/new",
+    );
     url.searchParams.set("title", title);
     url.searchParams.set("body", body);
     fallback.href = url.toString();

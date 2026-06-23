@@ -3,7 +3,14 @@ import { norm, renderBody, type WikiTarget } from "./wiki";
 
 // An explicit index so the markdown rendering is tested in isolation (no feed loading).
 const index = new Map<string, WikiTarget>([
-  [norm("Cynthia Leis"), { url: "/bosc/site/people/cynthia-leis/", label: "Cynthia Leis", kind: "person" }],
+  [
+    norm("Cynthia Leis"),
+    {
+      url: "/network/american-sugar-creek-allen-co/site/people/cynthia-leis/",
+      label: "Cynthia Leis",
+      kind: "person",
+    },
+  ],
 ]);
 
 describe("renderBody — light markdown", () => {
@@ -32,7 +39,7 @@ describe("renderBody — light markdown", () => {
 
   it("resolves `[[wiki links]]` via the index; flags unresolved ones", () => {
     expect(renderBody("ask [[Cynthia Leis]] today", index)).toBe(
-      '<p>ask <a href="/bosc/site/people/cynthia-leis/">Cynthia Leis</a> today</p>',
+      '<p>ask <a href="/network/american-sugar-creek-allen-co/site/people/cynthia-leis/">Cynthia Leis</a> today</p>',
     );
     expect(renderBody("who is [[Nobody]]?", index)).toContain(
       '<span class="wikilink-missing" title="unresolved wiki link">Nobody</span>',

@@ -1,0 +1,178 @@
+---
+/**
+ * Open leads (design "Site Leads") — every gap we're chasing on the Lima site, in the open.
+ * Sits in the "The site" dropdown. The board reads the curated `leads.ts` module, where every
+ * lead traces to a real committed source (the corpus-completeness audit / a working hypothesis);
+ * the comp's fabricated contributor avatars + "updated 2h ago" timestamps are deliberately dropped.
+ *
+ * No-JS: filtering is radio inputs + `:checked` sibling CSS (the same pattern as the site
+ * switcher); pagination is omitted (14 leads show in full). Reads with JS off.
+ */
+import Base from "../../../layouts/Base.astro";
+import Icon from "../../../components/Icon.astro";
+import { KIND_META, LEAD_FILTERS, LEAD_LIFECYCLE, LEADS, RECENTLY_CLOSED, STATUS_META, leadCount, leadStats } from "../../../lib/leads";
+import { withBase } from "../../../lib/site";
+
+const stats = leadStats();
+const submitHref = withBase("/network/american-sugar-creek-allen-co/submit");
+const recordHref = withBase("/network/american-sugar-creek-allen-co/site/");
+const ghIssue = (n: number): string => `https://github.com/goedelsoup/network/american-sugar-creek-allen-co/issues/${n}`;
+---
+
+<Base
+  title="Open leads — Lima"
+  section="leads"
+  rail={false}
+  description="Every gap we're chasing on the Lima site, in the open — each lead unverified until a source corroborates it."
+>
+  <div class="leads">
+    <header class="leads-head">
+      <a class="leads-back" href={withBase("/network/american-sugar-creek-allen-co")}>← Back to the site</a>
+      <div class="leads-head-row">
+        <div class="leads-head-main">
+          <div class="leads-kicker">Open investigation · Lima, Ohio</div>
+          <h1>Open leads</h1>
+          <p class="leads-lead">
+            Every gap we're chasing on this site, in the open. Each lead is <strong>unverified inference</strong>
+            until a source corroborates it — and every one traces to the
+            <a href={withBase("/network/american-sugar-creek-allen-co/docs/dossier")}>corpus-completeness audit</a> or a working hypothesis.
+            Pick one up, answer it, or bring the document that closes it.
+          </p>
+        </div>
+        <a class="leads-submit" href={submitHref}>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Submit a lead
+        </a>
+      </div>
+    </header>
+
+    <div class="leads-stats">
+      {
+        stats.map((s) => (
+          <div class="leads-stat">
+            <div class:list={["leads-stat-n", `is-${s.mod}`]}>{s.n}</div>
+            <div class="leads-stat-l">{s.label}</div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="leads-layout">
+      <div class="leads-main">
+        {/* No-JS filter state — radios precede the toolbar + list so `:checked ~` reaches them. */}
+        {LEAD_FILTERS.map((f, i) => (
+          <input type="radio" name="lead-filter" id={`lf-${f.key}`} class="leads-filter-radio" checked={i === 0} />
+        ))}
+
+        <div class="leads-toolbar" role="tablist" aria-label="Filter leads by kind">
+          {
+            LEAD_FILTERS.map((f) => (
+              <label class:list={["leads-filter", `lf-${f.key}`]} for={`lf-${f.key}`}>
+                {f.label}
+                <span class="leads-filter-n">{leadCount(f.key)}</span>
+              </label>
+            ))
+          }
+        </div>
+
+        <div class="leads-count">
+          <span class="leads-count-l">{LEADS.length} open leads · unverified</span>
+          <span class="leads-count-rule" aria-hidden="true"></span>
+        </div>
+
+        <div class="lead-list">
+          {
+            LEADS.map((l) => {
+              const k = KIND_META[l.kind];
+              const s = STATUS_META[l.status];
+              return (
+                <article class:list={["lead", `lead--${k.mod}`, `lead-${l.kind}`]}>
+                  <div class="lead-body">
+                    <div class="lead-meta">
+                      <span class="lead-kind">{k.label}</span>
+                      <span class:list={["lead-chip", `is-${s.mod}`]}>
+                        <span class="lead-chip-dot" aria-hidden="true"></span>
+                        {s.label}
+                      </span>
+                      <span class:list={["lead-tag", `is-${l.tag}`]}>[{l.tag}]</span>
+                      <span class="lead-source">{l.source}</span>
+                    </div>
+                    <h2 class="lead-title">{l.title}</h2>
+                    <p class="lead-detail">{l.detail}</p>
+                    <div class="lead-foot">
+                      {l.note && <span class="lead-note">{l.note}</span>}
+                      {l.issue && (
+                        <a class="lead-gh" href={ghIssue(l.issue)} rel="noopener noreferrer" title="Linked tracking issue">
+                          <Icon name="repo" size={11} /> #{l.issue}
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  <div class="lead-action">
+                    <a class="lead-act-btn" href={submitHref}>{k.action} →</a>
+                    <span class="lead-id">{l.id}</span>
+                  </div>
+                </article>
+              );
+            })
+          }
+        </div>
+
+        <p class="leads-listfoot">
+          Showing all {LEADS.length} open leads. Closed leads move into <a href={recordHref}>the record →</a>
+        </p>
+      </div>
+
+      <aside class="leads-rail" aria-label="How leads work">
+        <div class="leads-cta">
+          <div class="leads-cta-kicker">Build the record</div>
+          <div class="leads-cta-h">Know something we don't?</div>
+          <p class="leads-cta-p">
+            A document, a name, a correction. We log every submission as a lead — not a verdict — and review
+            before the record changes.
+          </p>
+          <a class="leads-cta-btn" href={submitHref}>Submit a lead →</a>
+        </div>
+
+        <div class="leads-lifecycle">
+          <div class="leads-rail-kicker">How a lead closes</div>
+          <ol class="leads-lc-list">
+            {
+              LEAD_LIFECYCLE.map((p) => (
+                <li class="leads-lc-step">
+                  <span class="leads-lc-num">{p.num}</span>
+                  <span class="leads-lc-main">
+                    <span class="leads-lc-title">{p.title}</span>
+                    <span class="leads-lc-desc">{p.desc}</span>
+                  </span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+
+        <div class="leads-closed">
+          <div class="leads-closed-head">
+            <span class="leads-rail-kicker leads-rail-kicker--forest">Recently closed</span>
+            <span class="leads-closed-tag"><span class="leads-closed-dot" aria-hidden="true"></span>sourced</span>
+          </div>
+          <ul class="leads-closed-list">
+            {
+              RECENTLY_CLOSED.map((c) => (
+                <li class="leads-closed-item">
+                  <span class="leads-closed-check" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13 L10 18 L19 7"></path></svg>
+                  </span>
+                  <span class="leads-closed-main">
+                    <span class="leads-closed-title">{c.title}</span>
+                    <span class="leads-closed-meta">{c.meta}</span>
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</Base>

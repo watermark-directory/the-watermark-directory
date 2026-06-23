@@ -3,6 +3,7 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import rehypeDocLinks from "./src/lib/rehype-doc-links";
+import { SITE_BASE } from "./src/lib/routes";
 
 // Static build (the default). `site`/`base` come from the environment so the
 // parity-gated Pages cutover can set them later without a code change.
@@ -15,9 +16,10 @@ import rehypeDocLinks from "./src/lib/rehype-doc-links";
 // the new IA (issue #69) without editing the source — see rehype-doc-links.ts.
 const base = process.env.BASE_PATH || "";
 const site = process.env.SITE_URL || undefined;
-// Lima's content is physically re-rooted under /bosc (#307 PR 2) so future watershed sites
-// are clean siblings; the migrated markdown's doc/reference cross-links resolve there.
-const limaBase = `${base}/bosc`;
+// The live site is physically re-rooted under /network/<id> (was /bosc, #307 PR 2) so future
+// watershed sites are clean siblings; the migrated markdown's doc/reference cross-links resolve
+// there. SITE_BASE is the single source of truth (src/lib/routes.ts).
+const limaBase = `${base}${SITE_BASE}`;
 
 export default defineConfig({
   site,

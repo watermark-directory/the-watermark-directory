@@ -47,11 +47,16 @@ describe("searchEngine render grammar", () => {
 
   it("renders a row with kind, title, mono id, evidence dot, and base-prefixed href", () => {
     const html = renderRow(
-      doc({ title: "Deed", url: "/bosc/site/records/deeds/", id: "2025-08", tag: "verified" }),
+      doc({
+        title: "Deed",
+        url: "/network/american-sugar-creek-allen-co/site/records/deeds/",
+        id: "2025-08",
+        tag: "verified",
+      }),
       ["deed"],
       "/app",
     );
-    expect(html).toContain('href="/app/bosc/site/records/deeds/"');
+    expect(html).toContain('href="/app/network/american-sugar-creek-allen-co/site/records/deeds/"');
     expect(html).toContain('search-row-kind">Record<');
     expect(html).toContain('search-row-id">2025-08<');
     expect(html).toContain("search-row-dot tag-verified");

@@ -86,7 +86,7 @@ describe("buildAskIndex", () => {
     expect(units).toHaveLength(1);
     const u = units[0];
     expect(u.id).toBe("records:aedg/roundabouts.summary.opc.yaml");
-    expect(u.url).toBe("/bosc/site/records/opc/");
+    expect(u.url).toBe("/network/american-sugar-creek-allen-co/site/records/opc/");
     expect(u.source).toBe("data/documents/aedg/PRR-01-bundle.ocr.pdf");
     expect(u.page).toBe(318);
     expect(u.verified).toBe(true);

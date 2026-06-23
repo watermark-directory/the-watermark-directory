@@ -13,7 +13,13 @@
  * Each TOC `anchor` is an `id` the section's landing page renders, so the rail
  * links, the on-page scroll-spy, and search deep-links all resolve to a real
  * heading.
+ *
+ * Routes are built from `SITE_BASE` / `STORY_BASE` (src/lib/routes.ts) — the live
+ * site lives under `/network/<id>` (was `/bosc`) and the story beneath it.
  */
+
+import { SITE_BASE, STORY_BASE } from "./routes";
+import { WALK_CHAPTERS, WALK_INDEX_HREF, walkHref } from "./walk";
 
 export type SectionId =
   | "home"
@@ -47,7 +53,7 @@ export interface Section {
   label: string;
   /** Short label for the topbar tab. */
   tab: string;
-  /** Root-absolute path to the section landing (pre-base). */
+  /** Root-absolute path to the section landing (pre-deploy-base). */
   href: string;
   /** One-line description (used on the landing and in search). */
   blurb: string;
@@ -59,41 +65,41 @@ export const SECTIONS: Section[] = [
     id: "home",
     label: "Home",
     tab: "Home",
-    href: "/bosc",
+    href: SITE_BASE,
     blurb: "Landing, disclaimer, corpus at a glance, and the two doors in.",
     toc: [
       { label: "Disclaimer", anchor: "disclaimer" },
       { label: "Corpus at a glance", anchor: "corpus" },
-      { label: "Methodology", anchor: "methodology" },
-      { label: "The bigger picture", anchor: "bigger-picture" },
+      { label: "The story", anchor: "story" },
     ],
   },
   {
     // Open leads (design "Site Leads") — every gap on the site, in the open, each tracing
     // to a real committed source (the corpus-completeness audit's [open]/withheld items and
-    // the boom-origin hypotheses' open questions). Sits in the "The site" dropdown.
+    // the boom-origin hypotheses' open questions). A tile in the "The site" mega-menu.
     id: "leads",
     label: "Open leads",
     tab: "Leads",
-    href: "/bosc/leads",
+    href: `${SITE_BASE}/leads`,
     blurb: "Every gap we're chasing on this site — unverified inference until a source corroborates it.",
     toc: [],
   },
   {
-    // "The story" dropdown groups the orientation (Intro — the former home, design "Site
-    // Home" → moved to /bosc/intro) and the guided walk. Both pages declare section "story".
+    // The story (design "Site Home" → "Story home"): the Project BOSC guided walk, hosted under
+    // the site at STORY_BASE so a site can carry multiple stories. The on-ramp + the orientation
+    // are the story home; the six chapters flatten beneath it.
     id: "story",
     label: "The story",
     tab: "Story",
-    href: "/bosc/start",
-    blurb: "Start here — the intro and the guided walk; read the record one document at a time.",
+    href: STORY_BASE,
+    blurb: "Project BOSC — read the record one document at a time, no prior knowledge.",
     toc: [],
   },
   {
     id: "timeline",
     label: "Timeline",
     tab: "Timeline",
-    href: "/bosc/timeline",
+    href: `${SITE_BASE}/timeline`,
     blurb: "Every dated event in the record, ordered — confidentiality first, the public reveal last.",
     toc: [],
   },
@@ -101,7 +107,7 @@ export const SECTIONS: Section[] = [
     id: "reports",
     label: "Reports",
     tab: "Reports",
-    href: "/bosc/reports",
+    href: `${SITE_BASE}/reports`,
     blurb:
       "Long-form analysis over the corpus — the dossier, the water and economics reads, and the extension narratives.",
     toc: [],
@@ -110,7 +116,7 @@ export const SECTIONS: Section[] = [
     id: "site",
     label: "The corpus",
     tab: "Corpus",
-    href: "/bosc/site/",
+    href: `${SITE_BASE}/site/`,
     blurb: "Documents, records, exhibits, people & places, legal history, and the watershed data.",
     toc: [
       { label: "Documents", anchor: "documents" },
@@ -126,7 +132,7 @@ export const SECTIONS: Section[] = [
     id: "watershed",
     label: "The Maumee watershed",
     tab: "Watershed",
-    href: "/bosc/watershed/",
+    href: `${SITE_BASE}/watershed/`,
     blurb: "Hydrology dashboards, the watershed map, imagery before/during/after, and RSEI toxics.",
     toc: [
       { label: "Hydrology", anchor: "hydrology" },
@@ -142,7 +148,7 @@ export const SECTIONS: Section[] = [
     id: "economy",
     label: "The economy",
     tab: "Economy",
-    href: "/bosc/economy/",
+    href: `${SITE_BASE}/economy/`,
     blurb:
       "The local economic ground — labor baseline, the grid/load backdrop, end-use & workloads, and the cost of opacity.",
     toc: [],
@@ -178,8 +184,8 @@ export const SECTIONS: Section[] = [
   },
   {
     // The network directory — the multi-site overview (#304/#307, route renamed /network → /directory
-    // in #402). The root `/` redirects to the live site (/bosc); this directory lists every
-    // watershed-point site. The switcher is the primary entry.
+    // in #402). The root `/` redirects to the live site; this directory lists every watershed-point
+    // site. The switcher is the primary entry.
     id: "directory",
     label: "The network directory",
     tab: "Directory",
@@ -220,7 +226,7 @@ export function getSection(id: SectionId): Section {
 // One bar, two tiers. The `Watermark.` wordmark always links home to the network;
 // a chip (the breadcrumb / switcher) sits beside it. The LEFT tabs swap by tier:
 //  - network level (the directory + cross-cutting globals) → Directory · Research · About▾
-//  - inside a site → The site · The story · The watershed · The economy · The record
+//  - inside a site → The site▾ · The story · The watershed · The economy · The record
 // The PLATFORM cluster (Docs · Wiki · | · Submit · Ask · Search) sits right and never
 // changes — Submit is a right-side affordance present on BOTH tiers (design "Chrome"),
 // not a left network tab. The active tier is resolved from the route (`siteForPath` in
@@ -229,9 +235,24 @@ export function getSection(id: SectionId): Section {
 /** A link in a dropdown menu (an optional second line), or a horizontal divider. */
 export type NavChild = { label: string; href: string; blurb?: string } | { divider: true };
 
+/** A column of links inside the "The site" mega-menu (design "Chrome"). */
+export interface MegaLink {
+  label: string;
+  href: string;
+  blurb?: string;
+  num?: string;
+}
+/** The "The site" mega-menu: two intro tiles, the story spine, and the themes it crosses. */
+export interface MegaMenu {
+  tiles: { label: string; href: string; blurb: string; icon: "home" | "leads" }[];
+  spine: { title: string; href: string; count: string; blurb: string; tocHref: string; items: MegaLink[] };
+  themes: { title: string; items: MegaLink[] }[];
+}
+
 export type NavItem =
   | { kind: "link"; label: string; section: SectionId; href: string; match?: SectionId[] }
-  | { kind: "dropdown"; label: string; section: SectionId; children: NavChild[]; match?: SectionId[] };
+  | { kind: "dropdown"; label: string; section: SectionId; children: NavChild[]; match?: SectionId[] }
+  | { kind: "mega"; label: string; section: SectionId; mega: MegaMenu; match?: SectionId[] };
 
 /** Network-tier left tabs — shown at the directory and on cross-cutting globals.
  *  Submit is NOT here — it's a right-cluster affordance (see SUBMIT_LINK / the Header). */
@@ -243,75 +264,114 @@ export const NETWORK_TABS: NavItem[] = [
     label: "About",
     section: "about",
     children: [
-      { label: "Methodology", href: "/bosc/docs/methodology", blurb: "How the record is built & labeled" },
+      {
+        label: "Methodology",
+        href: `${SITE_BASE}/docs/methodology`,
+        blurb: "How the record is built & labeled",
+      },
       { label: "About the site", href: "/about", blurb: "What Watermark is, and why" },
       { label: "About the author", href: "/about-me", blurb: "Who keeps the record" },
     ],
   },
 ];
 
-/** Site-tier left tabs — shown inside a site (e.g. Lima, under /bosc). The 5-tab bar
- *  (design "Chrome"): The site · The story · The watershed · The economy · The record.
- *  "The site" and "The story" are no-JS dropdowns (design "Site Leads" / "Site Home"):
- *  The site → the home + the open-leads board; The story → the intro + the guided walk. */
+/** Site-tier left tabs — shown inside a site (under SITE_BASE). The 5-tab bar (design "Chrome"):
+ *  The site · The story · The watershed · The economy · The record. "The site" is a mega-menu
+ *  (design "Chrome"): two intro tiles (Overview + Open leads), the story spine (the six chapters),
+ *  and the themes it crosses (watershed, economy). "The story" links straight to the story home. */
 export const SITE_TABS: NavItem[] = [
   {
-    kind: "dropdown",
+    kind: "mega",
     label: "The site",
     section: "home",
-    match: ["leads"],
-    children: [
-      { label: "Overview", href: "/bosc", blurb: "The site at a glance — the front door" },
-      { label: "Open leads", href: "/bosc/leads", blurb: "Every gap we're chasing, in the open" },
-    ],
+    match: ["leads", "story"],
+    mega: {
+      tiles: [
+        { label: "Overview", href: SITE_BASE, blurb: "The site at a glance — the front door", icon: "home" },
+        {
+          label: "Open leads",
+          href: `${SITE_BASE}/leads`,
+          blurb: "Every gap we're chasing, in the open",
+          icon: "leads",
+        },
+      ],
+      spine: {
+        title: "The story",
+        href: STORY_BASE,
+        count: `${WALK_CHAPTERS.length} chapters · ~18 min`,
+        blurb: "One project, read document by document — it crosses every theme to the right.",
+        tocHref: WALK_INDEX_HREF,
+        items: WALK_CHAPTERS.map((c) => ({
+          num: String(c.step),
+          label: c.title,
+          href: walkHref(c.slug),
+          blurb: c.skill,
+        })),
+      },
+      themes: [
+        {
+          title: "The watershed",
+          items: [
+            { label: "Hydrology", href: `${SITE_BASE}/watershed/#hydrology` },
+            { label: "Watershed map", href: `${SITE_BASE}/watershed/#map` },
+            { label: "Imagery", href: `${SITE_BASE}/watershed/#imagery` },
+            { label: "RSEI / toxics", href: `${SITE_BASE}/watershed/#rsei` },
+          ],
+        },
+        {
+          title: "The economy",
+          items: [
+            { label: "The economy", href: `${SITE_BASE}/economy/` },
+            { label: "The economic ledger", href: `${SITE_BASE}/reports/the-economic-ledger` },
+            { label: "End use & workloads", href: `${SITE_BASE}/reports/end-use-and-workloads` },
+            { label: "The load & the grid", href: `${SITE_BASE}/reports/the-load-and-the-grid` },
+          ],
+        },
+      ],
+    },
   },
-  {
-    kind: "dropdown",
-    label: "The story",
-    section: "story",
-    children: [
-      { label: "Intro", href: "/bosc/intro", blurb: "What this is, and why it matters" },
-      { label: "The guided walk", href: "/bosc/start", blurb: "Read the record one document at a time" },
-    ],
-  },
-  { kind: "link", label: "The watershed", section: "watershed", href: "/bosc/watershed/" },
-  { kind: "link", label: "The economy", section: "economy", href: "/bosc/economy/" },
-  { kind: "link", label: "The record", section: "site", href: "/bosc/site/", match: ["timeline"] },
+  { kind: "link", label: "The story", section: "story", href: STORY_BASE },
+  { kind: "link", label: "The watershed", section: "watershed", href: `${SITE_BASE}/watershed/` },
+  { kind: "link", label: "The economy", section: "economy", href: `${SITE_BASE}/economy/` },
+  { kind: "link", label: "The record", section: "site", href: `${SITE_BASE}/site/`, match: ["timeline"] },
 ];
 
 /** The platform cluster (right of the bar), constant across tiers. Ask + Search and
  *  Submit are rendered separately as affordances; these two are the plain links. */
 export const PLATFORM_LINKS: { label: string; section: SectionId; href: string }[] = [
-  { label: "Docs", section: "reports", href: "/bosc/docs/" },
+  { label: "Docs", section: "reports", href: `${SITE_BASE}/docs/` },
   { label: "Wiki", section: "wiki", href: "/wiki/" },
 ];
 
 /** Submit — a right-cluster affordance (a `+` pill), present on both tiers (design
  *  "Chrome"). It's the network-tier `/submit` route; the per-record correction
- *  deep-links target the site-tier `/bosc/submit` instead (both share <SubmitForm>). */
+ *  deep-links target the site-tier `<SITE_BASE>/submit` instead (both share <SubmitForm>). */
 export const SUBMIT_LINK: { label: string; section: SectionId; href: string } = {
   label: "Submit",
   section: "submit",
   href: "/submit",
 };
 
-/** Whether `item` is the active header tab for the page's `active` section. A dropdown
- *  parent lights when any descendant section is active (its `match` list). */
+/** Whether `item` is the active header tab for the page's `active` section. A dropdown /
+ *  mega parent lights when its section or any descendant section (its `match` list) is active. */
 export function navItemActive(item: NavItem, active: SectionId): boolean {
   if (item.section === active) return true;
   return item.match?.includes(active) ?? false;
 }
 
-/** Flat primary-nav links for the footer row — both tiers + platform. A dropdown tab
- *  contributes its children (so the footer still reaches Overview / Open leads / Intro). */
+/** The flattened primary links a tab contributes to the footer row / mobile sheet. */
+export function navItemLinks(item: NavItem): { label: string; href: string }[] {
+  if (item.kind === "link") return [{ label: item.label, href: item.href }];
+  if (item.kind === "mega") return item.mega.tiles.map((t) => ({ label: t.label, href: t.href }));
+  return item.children
+    .filter((c): c is { label: string; href: string; blurb?: string } => !("divider" in c))
+    .map((c) => ({ label: c.label, href: c.href }));
+}
+
+/** Flat primary-nav links for the footer row — both tiers + platform. A dropdown / mega tab
+ *  contributes its children / tiles (so the footer still reaches Overview / Open leads / story). */
 export const NAV_LINKS: { label: string; href: string }[] = [
-  ...SITE_TABS.flatMap((t) =>
-    t.kind === "link"
-      ? [{ label: t.label, href: t.href }]
-      : t.children
-          .filter((c): c is { label: string; href: string; blurb?: string } => !("divider" in c))
-          .map((c) => ({ label: c.label, href: c.href })),
-  ),
+  ...SITE_TABS.flatMap(navItemLinks),
   { label: "Directory", href: "/directory/" },
   { label: "Research", href: "/directory/hypotheses" },
   ...PLATFORM_LINKS.map((t) => ({ label: t.label, href: t.href })),

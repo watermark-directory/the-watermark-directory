@@ -1,6 +1,6 @@
 ---
 /**
- * The Watermark network root (#307 PR 2). The live site is Lima, served under `/bosc` (the
+ * The Watermark network root (#307 PR 2). The live site is Lima, served under `/network/american-sugar-creek-allen-co` (the
  * physical re-root that makes future watershed sites clean siblings — `/gcp`, …). This
  * root redirects there; the network of sites is reached via the topbar switcher, and the
  * full directory lives at `/directory`. On Cloudflare this is a TEMPORARY 302 (`public/_redirects`)
@@ -8,7 +8,7 @@
  * hard-cached. The meta-refresh below is the local/static fallback.
  */
 import { withBase } from "../lib/site";
-const target = withBase("/bosc/");
+const target = withBase("/network/american-sugar-creek-allen-co/");
 ---
 
 <!doctype html>
