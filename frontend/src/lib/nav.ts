@@ -183,13 +183,13 @@ export const SECTIONS: Section[] = [
     toc: [],
   },
   {
-    // The network directory — the multi-site overview (#304/#307, route renamed /network → /directory
-    // in #402). The root `/` redirects to the live site; this directory lists every watershed-point
-    // site. The switcher is the primary entry.
+    // The network directory — the multi-site overview (#304/#307). It IS the root `/`: the
+    // landing lists every watershed-point site. The live site is /network/<id>; coming-soon
+    // sites are /network/<slug>; research moved to /research/hypotheses. The switcher is the entry.
     id: "directory",
     label: "The network directory",
     tab: "Directory",
-    href: "/directory/",
+    href: "/",
     blurb:
       "Data-center development across Ohio's Maumee watershed, point by point — Lima is the reference build.",
     toc: [],
@@ -200,7 +200,7 @@ export const SECTIONS: Section[] = [
     id: "hypotheses",
     label: "Hypotheses",
     tab: "Research",
-    href: "/directory/hypotheses",
+    href: "/research/hypotheses",
     blurb: "Read the network three ways — the boom-origin hypotheses, scored against each site.",
     toc: [],
   },
@@ -259,8 +259,8 @@ export type NavItem =
 /** Network-tier left tabs — shown at the directory and on cross-cutting globals.
  *  Submit is NOT here — it's a right-cluster affordance (see SUBMIT_LINK / the Header). */
 export const NETWORK_TABS: NavItem[] = [
-  { kind: "link", label: "Directory", section: "directory", href: "/directory/" },
-  { kind: "link", label: "Research", section: "hypotheses", href: "/directory/hypotheses" },
+  { kind: "link", label: "Directory", section: "directory", href: "/" },
+  { kind: "link", label: "Research", section: "hypotheses", href: "/research/hypotheses" },
   {
     kind: "dropdown",
     label: "About",
@@ -382,7 +382,7 @@ export function navItemLinks(item: NavItem): { label: string; href: string }[] {
  *  contributes its children / tiles (so the footer still reaches Overview / Open leads / story). */
 export const NAV_LINKS: { label: string; href: string }[] = [
   ...SITE_TABS.flatMap(navItemLinks),
-  { label: "Directory", href: "/directory/" },
-  { label: "Research", href: "/directory/hypotheses" },
+  { label: "Directory", href: "/" },
+  { label: "Research", href: "/research/hypotheses" },
   ...PLATFORM_LINKS.map((t) => ({ label: t.label, href: t.href })),
 ];

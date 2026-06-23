@@ -31,10 +31,10 @@ describe("sites registry — the Watermark network (#304)", () => {
     expect(ftw?.codename).toBe("GCP");
   });
 
-  it("routes the live site to the root and everything else to its coming-soon page", () => {
+  it("routes the live site + every coming-soon site under /network/<slug>", () => {
     for (const s of SITES) {
       if (s.selectable) expect(s.href).toBe("/network/american-sugar-creek-allen-co");
-      else expect(s.href).toBe(`/directory/${s.slug}`);
+      else expect(s.href).toBe(`/network/${s.slug}`);
     }
   });
 
@@ -207,25 +207,34 @@ describe("siteForPath — the switcher's current-site resolution (#316)", () => 
     }
   });
 
-  it("resolves a coming-soon site (incl. not-yet-built) from its /directory/<slug> route", () => {
-    expect(siteForPath("/directory/fort-wayne")?.slug).toBe("fort-wayne");
-    expect(siteForPath("/directory/defiance/")?.slug).toBe("defiance");
-    expect(siteForPath("/directory/toledo")?.codename).toBeNull();
+  it("keeps coming-soon sites on the neutral network tier (only the selectable site resolves)", () => {
+    // They live at /network/<slug> too, but aren't selectable → null (network chrome, not site).
+    expect(siteForPath("/network/fort-wayne")).toBeNull();
+    expect(siteForPath("/network/defiance/")).toBeNull();
+    expect(siteForPath("/network/toledo")).toBeNull();
   });
 
-  it("returns null for the network directory and the cross-cutting globals (neutral state)", () => {
-    for (const p of ["/directory", "/directory/", "/about", "/about-me", "/wiki/entities/", "/ask", "/"]) {
+  it("returns null for the directory root and the cross-cutting globals (neutral state)", () => {
+    for (const p of [
+      "/",
+      "/about",
+      "/about-me",
+      "/wiki/entities/",
+      "/ask",
+      "/research/hypotheses",
+      "/basin",
+    ]) {
       expect(siteForPath(p)).toBeNull();
     }
   });
 
-  it("does not mistake an unknown /directory/<slug> for a real site", () => {
-    expect(siteForPath("/directory/cincinnati")).toBeNull();
+  it("does not mistake an unknown /network/<slug> for a real site", () => {
+    expect(siteForPath("/network/cincinnati")).toBeNull();
   });
 
   it("strips a non-root Astro base before matching", () => {
     expect(siteForPath("/app/network/american-sugar-creek-allen-co/site/", "/app")?.slug).toBe("lima");
-    expect(siteForPath("/app/directory/findlay", "/app")?.slug).toBe("findlay");
+    expect(siteForPath("/app/network/findlay", "/app")).toBeNull(); // coming-soon → neutral, even with a base
     expect(siteForPath("/network/american-sugar-creek-allen-co/site/", "/")?.slug).toBe("lima"); // base "/" is a no-op
   });
 });

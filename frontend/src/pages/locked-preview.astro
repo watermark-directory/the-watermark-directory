@@ -3,10 +3,10 @@
  * Preview of the restricted-site screen (design "Site Locked"). No real registry site is
  * locked today — locking is a per-site policy decision. This route renders the SiteLocked
  * screen with sample props so the capability is reviewable; when a site's `locked` flag is
- * set in the registry, its /directory/<slug> route renders this same screen for real.
+ * set in the registry, its /network/<slug> route renders this same screen for real.
  */
-import SiteLocked from "../../components/SiteLocked.astro";
-import Base from "../../layouts/Base.astro";
+import SiteLocked from "../components/SiteLocked.astro";
+import Base from "../layouts/Base.astro";
 ---
 
 <Base title="Site Locked — preview" section="directory" description="Preview of the restricted-site (locked) screen.">

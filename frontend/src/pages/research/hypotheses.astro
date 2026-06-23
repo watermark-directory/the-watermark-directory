@@ -1,6 +1,6 @@
 ---
 /**
- * The network directory (#304; route /directory) — reimagined as a three-lens index (#308
+ * The network directory (#304; route /research/hypotheses) — reimagined as a three-lens index (#308
  * "Directory" dictate): one network, read three ways. The same 32 sites reorganize around one
  * of three hypotheses — H1 Water & Power (the live reference thesis), H2 Defense & Federal
  * Enclave, H3 Corporate & Economic Surveillance. The lens switch is no-JS (radio + :checked),
@@ -136,7 +136,7 @@ const statusSwatch = (kind: "live" | "new") =>
                   <div class="dir-frame-claim">{l.cfg.claim}</div>
                   <p class="dir-frame-blurb">{l.cfg.blurb}</p>
                   {l.cfg.key === "water" && (
-                    <a class="dir-frame-link" href={withBase("/directory/basin")}>
+                    <a class="dir-frame-link" href={withBase("/basin")}>
                       Open the drainage tree &amp; basin scorecard ›
                     </a>
                   )}

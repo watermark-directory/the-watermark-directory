@@ -1,27 +1,30 @@
-# Cloudflare Pages redirects — the /network/<id> re-root + the stories layer.
+# Cloudflare Pages redirects.
 #
-# The live site (Lima) was rooted at /bosc; it now lives at /network/american-sugar-creek-allen-co
-# so future watershed sites are clean siblings, and its investigation is a *story* beneath it at
-# /stories/project-bosc (the guided walk; chapters flattened). These keep every old, deployed URL
-# working. The network root `/` is a TEMPORARY (302), not permanent — it'll host real network
-# content once warranted, so browsers must not hard-cache it.
+# The network DIRECTORY is the root `/` now (it lists every watershed-point site). The live
+# site (Lima) lives at /network/american-sugar-creek-allen-co; coming-soon sites at /network/<slug>;
+# the live site's investigation is a *story* at /stories/project-bosc (guided walk, flattened
+# chapters); research moved to /research/hypotheses. These keep every old, deployed URL working.
 #
-# NETWORK-GLOBAL pages stay at the root and are NOT rewritten — /about, /about-me, /wiki/*, /ask,
-# /directory/*, /submit (the network-tier lead form), and the API (/api/*).
+# NETWORK-GLOBAL pages live at the root and are NOT rewritten — /about, /about-me, /wiki/*, /ask,
+# /submit (the network-tier lead form), /basin, and the API (/api/*).
 #
 # IMPORTANT — on Cloudflare Pages a redirect ALWAYS fires before a matching static asset. So a
 # broad `/<x>/*` rule shadows real files under that path. Consequences encoded in the order below:
-#  - NO `/submit` rule: it's a real network-tier page; a redirect would make it unreachable.
-#  - `/walk/crops/*` is a 200 passthrough BEFORE `/walk/*` (teardown source-card crops live at
-#    public/walk/crops, served at /walk/crops — see teardowns.ts).
-#  - the live site now lives UNDER /network, so the old broad `/network/* -> /directory` rule was
-#    REMOVED (it would shadow /network/american-sugar-creek-allen-co/*); only the exact /network
-#    hub redirect remains. Story-specific /bosc rules come BEFORE the generic /bosc/*.
-
-/                       /network/american-sugar-creek-allen-co/                                301
+#  - NO rule for `/`: it's the real directory hub now (served statically).
+#  - NO `/submit` / `/research` / `/network/*` broad rules: those are real pages now.
+#  - `/walk/crops/*` is a 200 passthrough BEFORE `/walk/*` (teardown crops live at public/walk/crops).
+#  - the per-directory sub-paths (hypotheses/basin/locked-preview) come BEFORE the `/directory/*`
+#    catch-all that maps the old coming-soon URLs onto /network/<slug>.
 
 # Teardown crops — serve as-is before any /walk redirect.
 /walk/crops/*           /walk/crops/:splat                                                     200
+
+# The old /directory tree → its new homes. Specific sub-paths first, then the coming-soon catch-all.
+/directory/hypotheses   /research/hypotheses                                                   301
+/directory/basin        /basin                                                                 301
+/directory/locked-preview  /locked-preview                                                     301
+/directory/*            /network/:splat                                                         301
+/directory              /                                                                      301
 
 # /bosc -> /network/<id>, and the story moved to /stories/project-bosc (chapters flattened).
 /bosc/start             /network/american-sugar-creek-allen-co/stories/project-bosc            301
@@ -40,7 +43,7 @@
 /reports/*              /network/american-sugar-creek-allen-co/reports/:splat                  301
 /walk/*                 /network/american-sugar-creek-allen-co/stories/project-bosc/:splat     301
 
-# The network hub moved /network -> /directory (#402); keep the exact old hub URLs working. The
-# broad /network/* rule is intentionally gone — /network/<slug> is now real per-site content.
-/network                /directory/                                                            301
-/network/hypotheses     /directory/hypotheses                                                  301
+# Old network-hub URLs (pre-#402, when the hub was /network). The hub is now `/`; research is
+# /research/hypotheses. Exact rules only — /network/<slug> is real coming-soon content.
+/network                /                                                                      301
+/network/hypotheses     /research/hypotheses                                                   301
