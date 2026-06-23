@@ -54,10 +54,9 @@ over the shared `src/lib/_routeHarness.ts`). No wrangler, no network, no real is
 no Anthropic spend — and it gates every frontend PR. This is the safety net; reach for it
 first when changing a Function.
 
-**Tier B — the full interactive stack.** `mise run //frontend:dev:stack` (or
-`npm run dev:stack`) builds the site and serves it **with** the Functions via
-`wrangler pages dev`, so you can click through submit/ask/doc in a browser
-(→ http://localhost:8788). It:
+**Tier B — the full interactive stack.** `mise run //frontend:dev:stack` builds the site and
+serves it **with** the Functions via `wrangler pages dev`, so you can click through
+submit/ask/doc in a browser (→ http://localhost:8788). It:
 
 - creates `frontend/.dev.vars` from [`.dev.vars.example`](.dev.vars.example) on first run
   (with a throwaway App key) — kill switches on, **mocked externals by default**;
@@ -67,11 +66,13 @@ first when changing a Function.
   **submit files no real issue and ask spends no tokens**;
 - binds local KV (rate-limit / budget / contact) and a local R2 simulator for `DOCS`.
 
-`npx wrangler` downloads wrangler on first use (it's intentionally **not** a committed dep,
-to keep `npm ci` and CI lean). Turnstile verification still makes one real call to
-Cloudflare's siteverify (the dummy secret always passes), so this needs network. For real
-end-to-end submit/ask instead of mocks, point the `*_API_BASE` vars in `.dev.vars` at the
-real hosts and supply real creds. `/api/doc`'s local R2 starts empty — seed it with
+`wrangler` is managed by **mise** (`frontend/mise.toml` `[tools]`, `npm:wrangler`), not an npm
+dependency — so it's pinned + isolated without bloating `npm ci` or the frontend CI job (which
+uses `setup-node`, not mise). Run the stack via `mise run //frontend:dev:stack` (not a bare
+`npm run dev:stack`) so wrangler is on `PATH`; its workerd binary downloads lazily on first run.
+Turnstile verification still makes one real call to Cloudflare's siteverify (the dummy secret
+always passes), so this needs network. For real end-to-end submit/ask instead of mocks, point
+the `*_API_BASE` vars in `.dev.vars` at the real hosts and supply real creds. `/api/doc`'s local R2 starts empty — seed it with
 `bosc objectstore sync --target local` + `wrangler pages dev --remote` (see
 [`docs/object-store.md`](../docs/object-store.md)); the doc-serving logic itself is fully
 covered by Tier A.

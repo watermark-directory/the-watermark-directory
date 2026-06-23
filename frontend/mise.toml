@@ -6,6 +6,12 @@
 # project path (`mise run //frontend:dev`). The node version is inherited from the root
 # [tools]. These wrap the package.json scripts so backend and frontend share one verb set.
 
+# Frontend-only tools (node still comes from the root). wrangler is mise-managed here — NOT an
+# npm devDependency — so it's pinned + isolated without bloating `npm ci` or the frontend CI
+# job (which uses setup-node, not mise). Used only by `dev:stack` (the local Functions stack).
+[tools]
+"npm:wrangler" = "4"
+
 [tasks.install]
 description = "Install frontend deps (clean, lockfile-exact)"
 run = "npm ci"

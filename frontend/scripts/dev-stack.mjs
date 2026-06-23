@@ -2,15 +2,16 @@
 // One-command interactive local stack for the FULL BOSC site, including its Cloudflare Pages
 // Functions (/api/submit, /api/ask, /api/doc) — which `astro dev` never runs. The
 // paid/destructive externals are mocked by default, so submit files no real issue and ask
-// spends no tokens. Invoke via `mise run //frontend:dev:stack` (or `npm run dev:stack`).
+// spends no tokens. Invoke via `mise run //frontend:dev:stack` — that puts the mise-managed
+// wrangler (frontend/mise.toml [tools]) on PATH, which a bare `npm run dev:stack` would not.
 //
 // Pipeline:
 //   1. ensure frontend/.dev.vars exists (generate a throwaway App key for JWT signing)
 //   2. astro build with the dummy Turnstile site key so the widgets render (not the disabled
 //      placeholder) — reads $BOSC_BUNDLE_DIR if set, else the committed sample-bundle/
 //   3. start the mock origin (scripts/dev-mocks.mjs)
-//   4. wrangler pages dev dist — serves dist/ + the Functions with local KV + R2 (DOCS from
-//      wrangler.toml), auto-loading .dev.vars
+//   4. wrangler pages dev — serves dist/ (pages_build_output_dir) + the Functions with local
+//      KV + R2 (DOCS from wrangler.toml), auto-loading .dev.vars
 // Ctrl-C (or wrangler dying) tears the whole stack down.
 
 import { spawn } from "node:child_process";
@@ -53,7 +54,13 @@ function run(label, command, args, env) {
     stdio: "inherit",
     env: { ...process.env, ...env },
   });
-  child.on("error", (e) => console.error(`[dev-stack] ${label} failed to start: ${e.message}`));
+  child.on("error", (e) => {
+    console.error(`[dev-stack] ${label} failed to start: ${e.message}`);
+    if (e.code === "ENOENT" && command === "wrangler")
+      console.error(
+        "[dev-stack] wrangler is a mise tool — run `mise run //frontend:dev:stack` so it's on PATH.",
+      );
+  });
   return child;
 }
 
@@ -67,14 +74,15 @@ async function main() {
   });
 
   const mock = run("dev-mocks", "node", ["scripts/dev-mocks.mjs"], { MOCK_PORT });
-  // No positional dir: wrangler serves pages_build_output_dir ("dist") from wrangler.toml
-  // (matches docs/object-store.md); the DOCS R2 binding comes from there too. KV namespaces
-  // are bound to local simulators via --kv (kept out of wrangler.toml so prod isn't affected).
+  // wrangler comes from mise (frontend/mise.toml [tools]) — run this via
+  // `mise run //frontend:dev:stack` so it's on PATH. No positional dir: wrangler serves
+  // pages_build_output_dir ("dist") from wrangler.toml (matches docs/object-store.md); the
+  // DOCS R2 binding comes from there too. KV namespaces bind to local simulators via --kv
+  // (kept out of wrangler.toml so prod isn't affected).
   const wrangler = run(
     "wrangler",
-    "npx",
+    "wrangler",
     [
-      "wrangler",
       "pages",
       "dev",
       "--port",
