@@ -1,0 +1,30 @@
+# Local secrets + vars for `wrangler pages dev`, loaded automatically from frontend/.dev.vars.
+# Copy this to `.dev.vars` (gitignored) — or just run `mise run //frontend:dev:stack`, which
+# creates it from this template on first run AND fills in a throwaway App key. Every value
+# here mocks the externals: NO real GitHub issue is filed and NO Anthropic tokens are spent.
+# See frontend/README.md "Local dev & testing" and docs/{submissions,ask,object-store}-api.md.
+
+# --- Kill switches: ON so the endpoints actually run locally. (They ship dark in prod — an
+#     operator flips these in the Cloudflare dashboard, never in committed config.) ---
+SUBMISSIONS_ENABLED = "true"
+ASK_ENABLED = "true"
+DOCS_ENABLED = "true"
+
+# --- Turnstile: Cloudflare's documented ALWAYS-PASS dummy secret (pairs with the dummy site
+#     key the build injects). The Worker verifies it against the real siteverify endpoint, so
+#     this one check needs network; it always succeeds. ---
+TURNSTILE_SECRET_KEY = "1x0000000000000000000000000000000AA"
+
+# --- Redirect the paid/destructive externals to the local mock origin (scripts/dev-mocks.mjs,
+#     default port 8799) via the base-URL seam. Unset in prod ⇒ the real hosts. ---
+GITHUB_API_BASE = "http://localhost:8799"
+ANTHROPIC_API_BASE = "http://localhost:8799/v1/messages"
+
+# --- submit signs a GitHub-App JWT before calling the (mock) API, so a *syntactically valid*
+#     PKCS#8 key must be present. dev-stack.mjs replaces this placeholder with a freshly
+#     generated throwaway key; the mock ignores its value. (Generate one manually with:
+#     `openssl genpkey -algorithm RSA -pkcs8 | tr -d '\n'` if you copy this file by hand.) ---
+TIPS_APP_ID = "1"
+TIPS_APP_PRIVATE_KEY = "__GENERATED_ON_FIRST_RUN__"
+GITHUB_OWNER = "goedelsoup"
+GITHUB_REPO = "bosc"

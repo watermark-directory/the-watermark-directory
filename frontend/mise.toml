@@ -11,8 +11,12 @@ description = "Install frontend deps (clean, lockfile-exact)"
 run = "npm ci"
 
 [tasks.dev]
-description = "Run the Astro dev server (hot reload)"
+description = "Run the Astro dev server (hot reload) — static pages only, no Pages Functions"
 run = "npm run dev"
+
+[tasks."dev:stack"]
+description = "Full local stack: astro build + wrangler pages dev (runs /api/submit·ask·doc) with mocked externals"
+run = "npm run dev:stack"
 
 [tasks.check]
 description = "Frontend gate (CI parity): Biome lint + astro/tsc types + vitest + build + link check"

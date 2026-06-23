@@ -99,6 +99,13 @@ cd frontend && npx wrangler pages dev            # bind DOCS to the preview buck
 
 For a lighter loop, scope the sync to one collection (`--collection recorder`).
 
+`mise run //frontend:dev:stack` runs `/api/doc` alongside `/api/submit` + `/api/ask` in one
+`wrangler pages dev` (externals mocked) — but its local R2 starts empty, so seed it with the
+sync above (and add `--remote` to that `wrangler pages dev` to serve from the populated dev
+bucket). The serving logic itself (gate, ranges, content-type) is covered offline by the
+`src/lib/docRoute.test.ts` integration test. See
+[`frontend/README.md`](../frontend/README.md) → *Local dev & testing*.
+
 ## Production
 
 The Pages deploy (`.github/workflows/pages.yml`) carries the `DOCS` binding from

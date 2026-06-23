@@ -9,6 +9,9 @@
 
 import { submissionMarker, type IssueDraft } from "./issue";
 
+// Default GitHub API host. Overridable per-call (`fileIssueAsApp({ apiBase })`, fed from
+// the GITHUB_API_BASE var) so the local dev stack can point at a mock origin — prod leaves
+// it unset and hits api.github.com. See frontend/scripts/dev-mocks.mjs.
 const API = "https://api.github.com";
 const UA = "bosc-tips-bot";
 
@@ -57,15 +60,15 @@ function ghHeaders(token: string, scheme: "Bearer" | "token"): Record<string, st
   };
 }
 
-async function installationToken(jwt: string, owner: string, repo: string): Promise<string> {
-  const inst = await fetch(`${API}/repos/${owner}/${repo}/installation`, {
+async function installationToken(jwt: string, owner: string, repo: string, api: string): Promise<string> {
+  const inst = await fetch(`${api}/repos/${owner}/${repo}/installation`, {
     headers: ghHeaders(jwt, "Bearer"),
   });
   if (!inst.ok) throw new Error(`installation lookup failed (${inst.status})`);
   const { id } = (await inst.json()) as { id: number };
 
   // Narrow the token to issues:write even though the App itself is issues-only.
-  const tok = await fetch(`${API}/app/installations/${id}/access_tokens`, {
+  const tok = await fetch(`${api}/app/installations/${id}/access_tokens`, {
     method: "POST",
     headers: { ...ghHeaders(jwt, "Bearer"), "Content-Type": "application/json" },
     body: JSON.stringify({ permissions: { issues: "write" } }),
@@ -87,10 +90,11 @@ async function findOpenSubmission(
   owner: string,
   repo: string,
   marker: string,
+  api: string,
 ): Promise<string | null> {
   try {
     const res = await fetch(
-      `${API}/repos/${owner}/${repo}/issues?labels=submission&state=open&per_page=100`,
+      `${api}/repos/${owner}/${repo}/issues?labels=submission&state=open&per_page=100`,
       { headers: ghHeaders(token, "token") },
     );
     if (!res.ok) return null;
@@ -114,14 +118,23 @@ export async function fileIssueAsApp(opts: {
   repo: string;
   issue: IssueDraft;
   dedupeHash: string;
+  /** Override the GitHub API host (local dev mock). Defaults to api.github.com. */
+  apiBase?: string;
 }): Promise<FileResult> {
+  const api = opts.apiBase || API;
   const jwt = await appJwt(opts.appId, opts.privateKey);
-  const token = await installationToken(jwt, opts.owner, opts.repo);
+  const token = await installationToken(jwt, opts.owner, opts.repo, api);
 
-  const existing = await findOpenSubmission(token, opts.owner, opts.repo, submissionMarker(opts.dedupeHash));
+  const existing = await findOpenSubmission(
+    token,
+    opts.owner,
+    opts.repo,
+    submissionMarker(opts.dedupeHash),
+    api,
+  );
   if (existing) return { url: existing, deduped: true };
 
-  const res = await fetch(`${API}/repos/${opts.owner}/${opts.repo}/issues`, {
+  const res = await fetch(`${api}/repos/${opts.owner}/${opts.repo}/issues`, {
     method: "POST",
     headers: { ...ghHeaders(token, "token"), "Content-Type": "application/json" },
     body: JSON.stringify(opts.issue),

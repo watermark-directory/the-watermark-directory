@@ -1,0 +1,270 @@
+// Tier A integration test for the /api/ask Pages Function (functions/api/ask.ts): drive
+// the exported `onRequestPost` end-to-end with a faked Env + a stubbed `fetch`. Covers the
+// wiring the pure-`_lib` suites (ask.test.ts, askRetrieval.test.ts, askStream.test.ts)
+// leave out: the kill-switch/misconfig gates, the deterministic no-model refusal, both the
+// JSON and SSE answer paths (real retrieval + real stream parsing), and the rate-limit /
+// daily-budget guards — all offline, no Anthropic spend. Exercises the ANTHROPIC_API_BASE
+// seam by pointing the model call at a stubbed host.
+
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { _resetAskIndexCache } from "../../functions/api/_lib/askIndexLoad";
+import { dayKey } from "../../functions/api/_lib/budget";
+import { windowKey } from "../../functions/api/_lib/ratelimit";
+import type { AskUnit } from "../../functions/api/_lib/retrieval";
+import { onRequestPost } from "../../functions/api/ask";
+import { type FetchRoute, fakeKV, jsonResponse, postJson, routingFetch } from "./_routeHarness";
+
+const ASK_URL = "https://bosc.test/api/ask";
+const ANTHROPIC_API_BASE = "https://anthropic.test/v1/messages";
+
+const ASK_INDEX: AskUnit[] = [
+  {
+    id: "records:opc-1",
+    feed: "records",
+    title: "Roundabout OPC estimate",
+    url: "/network/x/records/opc-1",
+    text: "Tetra Tech opinion of probable cost for the roundabout at SR-309. Total $1,234,567.",
+    source: "PRR-01-bundle.ocr.pdf",
+    page: 318,
+    verified: true,
+  },
+  {
+    id: "timeline:npdes",
+    feed: "timeline",
+    title: "NPDES permit issued",
+    url: "/network/x/timeline/npdes",
+    text: "Ohio EPA issued an NPDES permit for the wastewater outfall in 2019.",
+    source: "eDoc-555",
+    page: 2,
+    verified: true,
+  },
+];
+
+const askIndexRoute: FetchRoute = {
+  test: (url) => url.pathname === "/ask-index.json",
+  respond: () => jsonResponse(200, ASK_INDEX),
+};
+
+const turnstileRoute = (success: boolean): FetchRoute => ({
+  test: (url) => url.pathname === "/turnstile/v0/siteverify",
+  respond: () => jsonResponse(200, { success }),
+});
+
+const anthropicJsonRoute = (text: string): FetchRoute => ({
+  test: (url) => url.pathname === "/v1/messages",
+  respond: () =>
+    jsonResponse(200, {
+      content: [{ type: "text", text }],
+      usage: { input_tokens: 50, output_tokens: 12 },
+      stop_reason: "end_turn",
+    }),
+});
+
+// A well-formed Anthropic SSE body so the route's real streamMessage/drainSse/mapAnthropicEvent
+// path runs against actual bytes.
+const anthropicSseRoute = (text: string): FetchRoute => ({
+  test: (url) => url.pathname === "/v1/messages",
+  respond: () => {
+    const enc = new TextEncoder();
+    const events: Array<[string, unknown]> = [
+      [
+        "message_start",
+        { type: "message_start", message: { usage: { input_tokens: 50, output_tokens: 0 } } },
+      ],
+      ["content_block_delta", { type: "content_block_delta", index: 0, delta: { type: "text_delta", text } }],
+      ["message_delta", { type: "message_delta", usage: { output_tokens: 12 } }],
+      ["message_stop", { type: "message_stop" }],
+    ];
+    const body = new ReadableStream({
+      start(c) {
+        for (const [ev, data] of events)
+          c.enqueue(enc.encode(`event: ${ev}\ndata: ${JSON.stringify(data)}\n\n`));
+        c.close();
+      },
+    });
+    return new Response(body, { status: 200, headers: { "content-type": "text/event-stream" } });
+  },
+});
+
+function askEnv(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  return {
+    ASK_ENABLED: "true",
+    ANTHROPIC_API_KEY: "sk-ant-test",
+    TURNSTILE_SECRET_KEY: "1x0000000000000000000000000000000AA",
+    ANTHROPIC_API_BASE,
+    ...overrides,
+  };
+}
+
+const ask = (body: unknown, headers?: Record<string, string>) => postJson(ASK_URL, body, headers);
+
+async function readStream(res: Response): Promise<string> {
+  const reader = (res.body as ReadableStream).getReader();
+  const dec = new TextDecoder();
+  let out = "";
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    out += dec.decode(value, { stream: true });
+  }
+  return out;
+}
+
+beforeEach(() => {
+  _resetAskIndexCache();
+});
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
+});
+
+describe("/api/ask route", () => {
+  it("503s when the kill switch is off", async () => {
+    vi.stubGlobal("fetch", routingFetch([]));
+    const res = await onRequestPost({ request: ask({ question: "anything here" }), env: {} } as never);
+    expect(res.status).toBe(503);
+  });
+
+  it("500s when misconfigured (no API key / Turnstile secret)", async () => {
+    vi.stubGlobal("fetch", routingFetch([]));
+    const res = await onRequestPost({
+      request: ask({ question: "anything here" }),
+      env: { ASK_ENABLED: "true" },
+    } as never);
+    expect(res.status).toBe(500);
+  });
+
+  it("400s on a too-short question", async () => {
+    vi.stubGlobal("fetch", routingFetch([]));
+    const res = await onRequestPost({ request: ask({ question: "hi" }), env: askEnv() } as never);
+    expect(res.status).toBe(400);
+  });
+
+  it("403s when no Turnstile token is supplied (no model call)", async () => {
+    const fetchStub = routingFetch([askIndexRoute, anthropicJsonRoute("x")]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?" }),
+      env: askEnv(),
+    } as never);
+    expect(res.status).toBe(403);
+    expect(fetchStub.calls.some((c) => c.url.includes("/v1/messages"))).toBe(false);
+  });
+
+  it("403s when Turnstile verification fails", async () => {
+    vi.stubGlobal("fetch", routingFetch([turnstileRoute(false), askIndexRoute]));
+    const res = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok" }),
+      env: askEnv(),
+    } as never);
+    expect(res.status).toBe(403);
+  });
+
+  it("refuses deterministically (no model call) when retrieval is empty", async () => {
+    const fetchStub = routingFetch([
+      turnstileRoute(true),
+      askIndexRoute,
+      anthropicJsonRoute("should not run"),
+    ]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask({ question: "bananas pajamas xyzzy quux", turnstile_token: "tok" }),
+      env: askEnv(),
+    } as never);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.refused).toBe(true);
+    expect(data.citations).toEqual([]);
+    expect(fetchStub.calls.some((c) => c.url.includes("/v1/messages"))).toBe(false);
+  });
+
+  it("answers (non-streaming) with citations, honoring ANTHROPIC_API_BASE", async () => {
+    const answer = "The roundabout opinion of probable cost totals $1,234,567 [1].";
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute, anthropicJsonRoute(answer)]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok" }),
+      env: askEnv(),
+    } as never);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.answer).toBe(answer);
+    expect(data.refused).toBe(false);
+    expect(data.model).toBe("claude-opus-4-8");
+    expect(data.citations).toHaveLength(1);
+    expect(data.citations[0].id).toBe("records:opc-1");
+    expect(fetchStub.calls.some((c) => c.url === ANTHROPIC_API_BASE)).toBe(true);
+  });
+
+  it("streams meta/delta/done frames over SSE", async () => {
+    const answer = "The estimate totals $1,234,567 [1].";
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute, anthropicSseRoute(answer)]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask(
+        { question: "what is the roundabout cost?", turnstile_token: "tok" },
+        { Accept: "text/event-stream" },
+      ),
+      env: askEnv(),
+    } as never);
+    expect(res.headers.get("content-type")).toContain("text/event-stream");
+    const out = await readStream(res);
+    expect(out).toContain("event: meta");
+    expect(out).toContain("event: delta");
+    expect(out).toContain("event: done");
+    expect(out).toContain("$1,234,567");
+    expect(out).toContain('"refused":false');
+  });
+
+  it("streams a refusal (meta searched:0, no model call) over SSE when retrieval is empty", async () => {
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask(
+        { question: "bananas pajamas xyzzy quux", turnstile_token: "tok" },
+        { Accept: "text/event-stream" },
+      ),
+      env: askEnv(),
+    } as never);
+    const out = await readStream(res);
+    expect(out).toContain('"searched":0');
+    expect(out).toContain('"refused":true');
+    expect(fetchStub.calls.some((c) => c.url.includes("/v1/messages"))).toBe(false);
+  });
+
+  it("429s (before Turnstile) when the per-IP window is exhausted", async () => {
+    const fixedMs = 1_750_000_000_000;
+    vi.spyOn(Date, "now").mockReturnValue(fixedMs);
+    const ip = "203.0.113.7";
+    const kv = fakeKV({ [windowKey(ip, Math.floor(fixedMs / 1000), 3600)]: "10" }); // default ask max = 10
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask(
+        { question: "what is the roundabout cost?", turnstile_token: "tok" },
+        { "CF-Connecting-IP": ip },
+      ),
+      env: askEnv({ ASK_RATE_LIMIT: kv }),
+    } as never);
+    expect(res.status).toBe(429);
+    expect(fetchStub.calls.some((c) => c.url.includes("/siteverify"))).toBe(false);
+  });
+
+  it("503s when the daily token budget is exhausted", async () => {
+    const fixedMs = 1_750_000_000_000;
+    vi.spyOn(Date, "now").mockReturnValue(fixedMs);
+    const ip = "203.0.113.8";
+    const kv = fakeKV({ [dayKey(fixedMs)]: "999999" }); // > default 200k budget
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask(
+        { question: "what is the roundabout cost?", turnstile_token: "tok" },
+        { "CF-Connecting-IP": ip },
+      ),
+      env: askEnv({ ASK_RATE_LIMIT: kv }),
+    } as never);
+    expect(res.status).toBe(503);
+    expect(fetchStub.calls.some((c) => c.url.includes("/v1/messages"))).toBe(false);
+  });
+});

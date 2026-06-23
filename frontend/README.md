@@ -41,6 +41,41 @@ it (and a frontend-only PR skips the Python `check` job). Don't add a trigger-le
 the *workflow* would leave it stuck pending; skipping a *job* via the gate reports
 success instead.
 
+## Local dev & testing — the Pages Functions
+
+`npm run dev` (astro) serves every **static** page but **not** the Cloudflare Pages
+Functions in [`functions/`](functions/) — `/api/submit`, `/api/ask`, `/api/doc`. Those run
+only on the Workers runtime. There are two ways to exercise them locally, and you usually
+want the first:
+
+**Tier A — automated route tests (offline, in CI).** `npm test` drives each handler
+end-to-end with a faked `Env` + a stubbed `fetch` (`src/lib/{submit,ask,doc}Route.test.ts`
+over the shared `src/lib/_routeHarness.ts`). No wrangler, no network, no real issues filed,
+no Anthropic spend — and it gates every frontend PR. This is the safety net; reach for it
+first when changing a Function.
+
+**Tier B — the full interactive stack.** `mise run //frontend:dev:stack` (or
+`npm run dev:stack`) builds the site and serves it **with** the Functions via
+`wrangler pages dev`, so you can click through submit/ask/doc in a browser
+(→ http://localhost:8788). It:
+
+- creates `frontend/.dev.vars` from [`.dev.vars.example`](.dev.vars.example) on first run
+  (with a throwaway App key) — kill switches on, **mocked externals by default**;
+- builds with Cloudflare's always-pass **dummy Turnstile** keys so the widgets render;
+- starts a local mock origin ([`scripts/dev-mocks.mjs`](scripts/dev-mocks.mjs)) that stands
+  in for GitHub + Anthropic via the `GITHUB_API_BASE` / `ANTHROPIC_API_BASE` seam — so
+  **submit files no real issue and ask spends no tokens**;
+- binds local KV (rate-limit / budget / contact) and a local R2 simulator for `DOCS`.
+
+`npx wrangler` downloads wrangler on first use (it's intentionally **not** a committed dep,
+to keep `npm ci` and CI lean). Turnstile verification still makes one real call to
+Cloudflare's siteverify (the dummy secret always passes), so this needs network. For real
+end-to-end submit/ask instead of mocks, point the `*_API_BASE` vars in `.dev.vars` at the
+real hosts and supply real creds. `/api/doc`'s local R2 starts empty — seed it with
+`bosc objectstore sync --target local` + `wrangler pages dev --remote` (see
+[`docs/object-store.md`](../docs/object-store.md)); the doc-serving logic itself is fully
+covered by Tier A.
+
 ## How the content bundle is resolved
 
 `src/lib/bundle.ts` reads the bundle at build time. It picks the **first**

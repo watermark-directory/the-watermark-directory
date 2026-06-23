@@ -30,6 +30,19 @@ Two endpoints live here:
   without the runtime. Those modules are unit-tested from `src/lib/*.test.ts` via vitest
   (`npm test`), including the ask faithfulness eval (`askEval*.test.ts`).
 
+## Testing & local dev
+
+Two tiers, both in [`frontend/README.md`](../README.md) → *Local dev & testing*:
+
+- **Automated (offline, in CI):** the route handlers here are driven end-to-end by
+  `src/lib/{submit,ask,doc}Route.test.ts` (over `src/lib/_routeHarness.ts`) — a faked `Env`
+  + a stubbed `fetch`, so the full path (gates → validate → rate-limit → Turnstile → the
+  external call → response) runs under `npm test` with no wrangler, no network, no spend.
+- **Interactive:** `mise run //frontend:dev:stack` serves these Functions under
+  `wrangler pages dev` with the externals mocked by default (`scripts/dev-mocks.mjs`, the
+  `GITHUB_API_BASE` / `ANTHROPIC_API_BASE` seam in `_lib/{github,anthropic}.ts`, dummy
+  Turnstile keys, local KV/R2).
+
 ## Not live yet
 
 Each endpoint returns `503` until its kill switch is `=true` and its secrets are set in

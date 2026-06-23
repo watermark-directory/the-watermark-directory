@@ -7,6 +7,12 @@ dist/
 .env
 .env.local
 
+# wrangler pages dev: local secrets (.dev.vars, generated from .dev.vars.example) + its
+# local KV/R2 state dir. The committed .dev.vars.example IS the template — keep it tracked.
+.dev.vars
+!.dev.vars.example
+.wrangler/
+
 # Astro's static-assets dir IS source (favicon, etc.) — re-include it; a global
 # gitignore (`public`) would otherwise exclude it.
 !public/
