@@ -242,11 +242,13 @@ export interface MegaLink {
   blurb?: string;
   num?: string;
 }
-/** The "The site" mega-menu: two intro tiles, the story spine, and the themes it crosses. */
+/** The "The site" mega-menu: two intro tiles, the story spine, and the themes it crosses.
+ *  Each theme has a landing `href` (the section home) — its title links there, and it's what
+ *  the footer + mobile sheet surface (the deep `items` are desktop-mega-only). */
 export interface MegaMenu {
   tiles: { label: string; href: string; blurb: string; icon: "home" | "leads" }[];
   spine: { title: string; href: string; count: string; blurb: string; tocHref: string; items: MegaLink[] };
-  themes: { title: string; items: MegaLink[] }[];
+  themes: { title: string; href: string; items: MegaLink[] }[];
 }
 
 export type NavItem =
@@ -275,16 +277,18 @@ export const NETWORK_TABS: NavItem[] = [
   },
 ];
 
-/** Site-tier left tabs — shown inside a site (under SITE_BASE). The 5-tab bar (design "Chrome"):
- *  The site · The story · The watershed · The economy · The record. "The site" is a mega-menu
- *  (design "Chrome"): two intro tiles (Overview + Open leads), the story spine (the six chapters),
- *  and the themes it crosses (watershed, economy). "The story" links straight to the story home. */
+/** Site-tier left tabs — shown inside a site (under SITE_BASE). A lean 3-tab bar:
+ *  The site · The story · The record. The watershed + economy are NOT standalone tabs — they
+ *  live inside the "The site" mega-menu as "themes it crosses" (and the mega lights for them via
+ *  `match`), which both declutters the bar and reflects that they're cross-cutting reads of the
+ *  record, not separate destinations. "The site" is the mega (two intro tiles + the story spine +
+ *  the watershed/economy themes); "The story" links straight to the story home. */
 export const SITE_TABS: NavItem[] = [
   {
     kind: "mega",
     label: "The site",
     section: "home",
-    match: ["leads", "story"],
+    match: ["leads", "story", "watershed", "economy"],
     mega: {
       tiles: [
         { label: "Overview", href: SITE_BASE, blurb: "The site at a glance — the front door", icon: "home" },
@@ -311,6 +315,7 @@ export const SITE_TABS: NavItem[] = [
       themes: [
         {
           title: "The watershed",
+          href: `${SITE_BASE}/watershed/`,
           items: [
             { label: "Hydrology", href: `${SITE_BASE}/watershed/#hydrology` },
             { label: "Watershed map", href: `${SITE_BASE}/watershed/#map` },
@@ -320,6 +325,7 @@ export const SITE_TABS: NavItem[] = [
         },
         {
           title: "The economy",
+          href: `${SITE_BASE}/economy/`,
           items: [
             { label: "The economy", href: `${SITE_BASE}/economy/` },
             { label: "The economic ledger", href: `${SITE_BASE}/reports/the-economic-ledger` },
@@ -331,8 +337,6 @@ export const SITE_TABS: NavItem[] = [
     },
   },
   { kind: "link", label: "The story", section: "story", href: STORY_BASE },
-  { kind: "link", label: "The watershed", section: "watershed", href: `${SITE_BASE}/watershed/` },
-  { kind: "link", label: "The economy", section: "economy", href: `${SITE_BASE}/economy/` },
   { kind: "link", label: "The record", section: "site", href: `${SITE_BASE}/site/`, match: ["timeline"] },
 ];
 
@@ -359,10 +363,16 @@ export function navItemActive(item: NavItem, active: SectionId): boolean {
   return item.match?.includes(active) ?? false;
 }
 
-/** The flattened primary links a tab contributes to the footer row / mobile sheet. */
+/** The flattened primary links a tab contributes to the footer row / mobile sheet. For the
+ *  mega, that's the two tiles + each theme's landing (so watershed/economy stay reachable now
+ *  that they're not standalone tabs) — the deep theme `items` are desktop-mega-only. */
 export function navItemLinks(item: NavItem): { label: string; href: string }[] {
   if (item.kind === "link") return [{ label: item.label, href: item.href }];
-  if (item.kind === "mega") return item.mega.tiles.map((t) => ({ label: t.label, href: t.href }));
+  if (item.kind === "mega")
+    return [
+      ...item.mega.tiles.map((t) => ({ label: t.label, href: t.href })),
+      ...item.mega.themes.map((th) => ({ label: th.title, href: th.href })),
+    ];
   return item.children
     .filter((c): c is { label: string; href: string; blurb?: string } => !("divider" in c))
     .map((c) => ({ label: c.label, href: c.href }));

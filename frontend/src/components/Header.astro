@@ -2,7 +2,7 @@
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
 import SwitcherRow from "./SwitcherRow.astro";
-import { NETWORK_TABS, SITE_TABS, PLATFORM_LINKS, SUBMIT_LINK, navItemActive, type SectionId } from "../lib/nav";
+import { NETWORK_TABS, SITE_TABS, PLATFORM_LINKS, SUBMIT_LINK, navItemActive, navItemLinks, type SectionId } from "../lib/nav";
 import { withBase } from "../lib/site";
 import { groupSites, SITE_STATUS_META, SITES, siteForPath } from "../lib/sites";
 
@@ -200,7 +200,7 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
                     <div class="nav-mega-themes-grid">
                       {m.themes.map((th) => (
                         <div class="nav-mega-theme">
-                          <div class="nav-mega-theme-title">{th.title}</div>
+                          <a class="nav-mega-theme-title" href={withBase(th.href)}>{th.title}</a>
                           {th.items.map((it) => (
                             <a class="nav-mega-tlink" href={withBase(it.href)}>
                               {it.label}
@@ -265,9 +265,9 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
               {item.label}
             </a>
           ) : item.kind === "mega" ? (
-            item.mega.tiles.map((t) => (
-              <a class="sheet-link" href={withBase(t.href)}>
-                {t.label}
+            navItemLinks(item).map((l) => (
+              <a class="sheet-link" href={withBase(l.href)}>
+                {l.label}
               </a>
             ))
           ) : (

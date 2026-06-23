@@ -274,7 +274,8 @@ a { color: var(--bosc-link); }
 .nav-mega-themes { padding: 0.8rem 0.9rem; }
 .nav-mega-themes-head { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--bosc-faint); margin-bottom: 0.5rem; }
 .nav-mega-themes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 0.6rem; }
-.nav-mega-theme-title { font-size: 0.72rem; font-weight: 700; color: var(--bosc-ink-green); margin-bottom: 0.15rem; }
+.nav-mega-theme-title { display: block; font-size: 0.72rem; font-weight: 700; color: var(--bosc-ink-green); margin-bottom: 0.15rem; text-decoration: none; }
+.nav-mega-theme-title:hover { color: var(--bosc-forest); }
 .nav-mega-tlink { display: block; padding: 0.22rem 0; font-size: 0.74rem; color: var(--bosc-muted); text-decoration: none; }
 .nav-mega-tlink:hover { color: var(--bosc-forest); }
 @media (max-width: 720px) { .nav-mega-menu { width: 22rem; } .nav-mega-cols { grid-template-columns: 1fr; } .nav-mega-spine { border-right: 0; border-bottom: 1px solid var(--bosc-rule); } }
