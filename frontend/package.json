@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "astro dev",
     "dev:stack": "node scripts/dev-stack.mjs",
+    "seed:r2": "node scripts/seed-r2.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check && npm run check:functions",

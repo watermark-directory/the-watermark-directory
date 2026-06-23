@@ -90,20 +90,28 @@ Behaviour:
 
 ## The dev loop
 
+To view documents in the local interactive stack, just run it — it seeds the local R2 first:
+
 ```sh
-git lfs pull                                     # materialize the bytes you want to serve
-bosc objectstore sync --target local            # fill the dev bucket
-cd frontend && npx wrangler pages dev            # bind DOCS to the preview bucket
-# visit the viewer; /api/doc/<rel> streams from R2
+git lfs pull                     # materialize the bytes (LFS) you want to serve
+mise run //frontend:dev:stack    # build → seed published docs into local R2 → wrangler pages dev
+# visit the viewer; /api/doc/<rel> now streams the real bytes
 ```
 
-For a lighter loop, scope the sync to one collection (`--collection recorder`).
+The seed step ([`frontend/scripts/seed-r2.mjs`](../frontend/scripts/seed-r2.mjs)) writes the
+**published** docs through wrangler's `getPlatformProxy()` into the *same* local R2 that
+`wrangler pages dev` reads — so this needs **no Cloudflare creds**. (`wrangler pages dev` has no
+`--remote`, and its local R2 can't be filled with `wrangler r2 object put`, so this is the path
+that actually works.) To serve a wider set, seed a whole collection then restart the stack:
 
-`mise run //frontend:dev:stack` runs `/api/doc` alongside `/api/submit` + `/api/ask` in one
-`wrangler pages dev` (externals mocked) — but its local R2 starts empty, so seed it with the
-sync above (and add `--remote` to that `wrangler pages dev` to serve from the populated dev
-bucket). The serving logic itself (gate, ranges, content-type) is covered offline by the
-`src/lib/docRoute.test.ts` integration test. See
+```sh
+cd frontend && npm run seed:r2 -- --collection recorder   # or pass explicit data/documents rels
+```
+
+**`bosc objectstore sync --target local` is a different thing:** it uploads to the **remote**
+`bosc-documents-dev` bucket that Cloudflare **preview deployments** bind — *not* the local stack.
+Run it before a preview deploy, not for local dev. The doc-serving logic (gate, ranges,
+content-type) is also covered offline by `src/lib/docRoute.test.ts`. See
 [`frontend/README.md`](../frontend/README.md) → *Local dev & testing*.
 
 ## Production
