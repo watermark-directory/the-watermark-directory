@@ -5,6 +5,7 @@ Per-site onboarding tree for the Fort Wayne watershed point (basin: maumee), sca
 ## Contents
 
 - `ONBOARDING.md` — living onboarding record + review gate.
+- `datacenter-facility.md` — public-record discovery of the disclosed data-center facility (Google "Project Zodiac", #360).
 - `wwtp-receiving-water.md` — reviewed receiving-water characterization of the Fort Wayne WWTP (IN0032191) against the derived headwaters 7Q10 (#358/#359).
 - `wwtp-in0032191.dmr.yaml` — the plant's reported effluent record (EPA ECHO DMR), regenerable via `bosc dmr IN0032191`.
 

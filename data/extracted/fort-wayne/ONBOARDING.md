@@ -6,7 +6,7 @@ Living record for the Fort Wayne watershed point (basin: maumee), scaffolded by 
 
 - [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)
 - [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile
-- [~] **Data-center activity** — self-research first pass run (#247); the inverse of every other point — a **confirmed** real-world facility (registry codename `GCP`) but **zero primary corpus documents** for it (`facility=None`). Open discovery: #360. See self-research summary below.
+- [x] **Data-center activity** — DOCUMENTED (#360, 2026-06-23): the disclosed facility is **Google's $2B "Project Zodiac" campus** (700+ ac, SE Fort Wayne, served by I&M, operational Dec 2025) — see [`datacenter-facility.md`](datacenter-facility.md). Primary-record *extraction* (IDEM air permit → MW, IURC filings, abatement ordinance, wetland permits) is the open follow-up, so the `facility` power basis stays `None`.
 - [~] **Per-jurisdiction GIS** — flood = shared national NFHL (wired). Parcels/zoning `[open]` — see GIS discovery below; no clean queryable district catalog like Findlay's, so nothing committed yet
 
 ## Last onboard run
@@ -66,13 +66,17 @@ The plant is effluent-balanced-to-dominant at low flow — significant, but mild
 The DMR record shows **no monthly-average exceedance 2021–2025** (the ECHO SNC label is uncorroborated
 by a recent exceedance — an open reconciliation item, likely historical).
 
-**Data-center activity — the inverse of every other point.** The registry presents Fort Wayne as the
-GCP/Google site (codename `GCP`, facility status *confirmed*) — the network's one **disclosed**
-facility. But the **corpus holds zero primary Fort Wayne documents**: `facility=None`, no
-permits/deeds/entity-graph, information-sector LQ 0.44 (not yet IT-oriented). So the facility is known
-*from outside the record*, not yet *in* it — the open discovery (IURC large-load filings, permits,
-economic-development records) is proposal #360. Honest register: a confirmed real-world campus, an
-empty corpus dimension.
+**Data-center activity — DOCUMENTED (#360, 2026-06-23).** The disclosed facility is **Google's "Project
+Zodiac" campus** — $2B, 700+ ac in SE Fort Wayne (Tillman/Adams Center/Paulding Rds), ~200 permanent
+jobs, served by **I&M** (matching the grid profile), a 50%/$55.5M 10-yr abatement, operational Dec
+2025, with a Google–I&M IURC-approved demand-response program and a contested IDEM wetland-fill
+permit (6+ ac). See [`datacenter-facility.md`](datacenter-facility.md). **Still `facility=None`:** the
+`SiteFacility` power basis needs air-permit-grounded MW, and neither an IDEM air permit nor a disclosed
+IT load exists yet — the campus MW is genuinely undisclosed (the I&M demand-response framing substitutes
+for a capacity figure). So the *activity* is confirmed and characterized; *corpus extraction* of the
+primary records (air permit → MW, IURC dockets, abatement ordinance, wetland permits) is the open
+follow-up. On-thesis: $2B + ~200 jobs is the load-not-jobs shape (info-sector LQ 0.44), and the wetland
+fill sits in the Maumee headwaters drainage the WWTP discharges to ([`wwtp-receiving-water.md`](wwtp-receiving-water.md)).
 
 **Serving utility — VERIFIED across the state line.** Indiana Michigan Power (I&M, EIA #9324, an AEP
 subsidiary), regulator **IURC** (Indiana — correctly *not* PUCO), RTO PJM — the cross-state grid path
@@ -92,8 +96,11 @@ mismatch)~~ **— resolved 2026-06-23: derived headwaters 7Q10 ≈ 69.7 cfs; FW 
 (Baldwin Ditch); see [`wwtp-receiving-water.md`](wwtp-receiving-water.md)**,
 ~~#359 (extract the IN0032191 NPDES permit + DMR + ECHO detail)~~ **— resolved 2026-06-23: `bosc dmr`
 connector + [`wwtp-in0032191.dmr.yaml`](wwtp-in0032191.dmr.yaml); actual ≈ 43.9 MGD vs 74 design, no
-2021–2025 exceedance; the "1 violation" is American-Bath, not FW**, #360 (investigate the disclosed
-Fort Wayne / NE-Indiana data-center facility), ~~#361 (verify the I&M LMP, replace the $35/MWh
+2021–2025 exceedance; the "1 violation" is American-Bath, not FW**, ~~#360 (investigate the disclosed
+Fort Wayne / NE-Indiana data-center facility)~~ **— resolved 2026-06-23: Google "Project Zodiac" $2B
+campus documented from the public record (see [`datacenter-facility.md`](datacenter-facility.md));
+primary-record extraction (air permit → MW, IURC, abatement, wetlands) listed as follow-up targets in
+§7 of that doc; `facility` power basis stays None until the MW is grounded**, ~~#361 (verify the I&M LMP, replace the $35/MWh
 placeholder)~~ **— resolved 2026-06-21: I&M is in the PJM AEP zone, LMP now connector-sourced
 $45.81/MWh**, #362 (commit a site footprint to unblock SSURGO HSG + GIS discovery). The GIS
 lift (Allen Co IN / City of Fort Wayne partial-CAMA parcel layers, no clean zoning catalog) is
