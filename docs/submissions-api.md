@@ -323,6 +323,19 @@ defaults (5 / 3600s) with the `RATE_LIMIT_MAX` / `RATE_LIMIT_WINDOW_SEC` vars if
 Set `SUBMISSIONS_ENABLED` to anything but `true` (the endpoint returns `503`; the form
 shows the placeholder on the next build), or uninstall the App.
 
+## Local testing
+
+Two ways to exercise this endpoint locally without filing a real issue, both detailed in
+[`frontend/README.md`](../frontend/README.md) → *Local dev & testing*:
+
+- **Automated:** `src/lib/submitRoute.test.ts` drives `onRequestPost` end-to-end (kill
+  switch → validation → rate-limit → Turnstile → App-JWT → dedupe → issue → contact store)
+  with a stubbed `fetch`, under `npm test`. No network, no issue filed.
+- **Interactive:** `mise run //frontend:dev:stack` serves the form + endpoint under
+  `wrangler pages dev`; the GitHub API is mocked (`scripts/dev-mocks.mjs` via
+  `GITHUB_API_BASE`), Turnstile uses the always-pass dummy keys, so a submission opens a
+  *mock* issue only.
+
 ## Status — what's live
 
 | Part | State |

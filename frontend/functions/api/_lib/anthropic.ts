@@ -4,6 +4,9 @@
 // is added in #214 (functions/api/_lib/anthropicStream.ts can reuse this shape).
 // https://docs.anthropic.com/en/api/messages
 
+// Default Messages API endpoint. Overridable per-request (`MessageRequest.apiUrl`, fed
+// from the ANTHROPIC_API_BASE var) so the local dev stack can point at a mock origin —
+// prod leaves it unset and hits api.anthropic.com. See frontend/scripts/dev-mocks.mjs.
 const API_URL = "https://api.anthropic.com/v1/messages";
 const API_VERSION = "2023-06-01";
 
@@ -21,6 +24,8 @@ export interface MessageRequest {
   maxTokens: number;
   /** Defaults to 0 — grounded extraction wants determinism, not creativity. */
   temperature?: number;
+  /** Override the Messages API endpoint (local dev mock). Defaults to api.anthropic.com. */
+  apiUrl?: string;
 }
 
 export interface MessageResult {
@@ -48,7 +53,7 @@ export class AnthropicError extends Error {
 }
 
 export async function createMessage(req: MessageRequest): Promise<MessageResult> {
-  const res = await fetch(API_URL, {
+  const res = await fetch(req.apiUrl || API_URL, {
     method: "POST",
     headers: {
       "content-type": "application/json",

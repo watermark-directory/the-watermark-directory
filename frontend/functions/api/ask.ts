@@ -36,6 +36,8 @@ interface Env {
   ANTHROPIC_API_KEY?: string;
   /** Server-side Turnstile secret (Cloudflare secret). Absent ⇒ misconfigured. */
   TURNSTILE_SECRET_KEY?: string;
+  /** Override the Messages API endpoint (local dev mock). Absent ⇒ api.anthropic.com. */
+  ANTHROPIC_API_BASE?: string;
   /** Model id; defaults to the repo default. */
   ASK_MODEL?: string;
   /** Hard answer-length cap (cost guard); default 1024. */
@@ -200,7 +202,14 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
         let inTok: number | undefined;
         let outTok: number | undefined;
         try {
-          for await (const chunk of streamMessage({ apiKey, model, system, messages, maxTokens })) {
+          for await (const chunk of streamMessage({
+            apiKey,
+            model,
+            system,
+            messages,
+            maxTokens,
+            apiUrl: env.ANTHROPIC_API_BASE,
+          })) {
             if (chunk.text) {
               full += chunk.text;
               send("delta", { text: chunk.text });
@@ -229,7 +238,14 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   let text: string;
   let usage: AskResult["usage"];
   try {
-    const res = await createMessage({ apiKey, model, system, messages, maxTokens });
+    const res = await createMessage({
+      apiKey,
+      model,
+      system,
+      messages,
+      maxTokens,
+      apiUrl: env.ANTHROPIC_API_BASE,
+    });
     text = res.text;
     usage = res.usage;
   } catch (e) {

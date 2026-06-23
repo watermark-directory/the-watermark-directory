@@ -251,6 +251,18 @@ Turnstile keys.
 Set `ASK_ENABLED` to anything but `true` (the endpoint returns `503`; the form shows the
 placeholder on the next build), or unset `ANTHROPIC_API_KEY`.
 
+## Local testing
+
+Two ways to exercise this endpoint locally without spending tokens, both detailed in
+[`frontend/README.md`](../frontend/README.md) → *Local dev & testing*:
+
+- **Automated:** `src/lib/askRoute.test.ts` drives `onRequestPost` end-to-end — the gates,
+  the deterministic no-model refusal, and both the JSON and SSE answer paths (real retrieval
+  + real stream parsing) — with a stubbed `fetch`, under `npm test`. No model call.
+- **Interactive:** `mise run //frontend:dev:stack` serves the `/ask` page + endpoint under
+  `wrangler pages dev`; the Messages API is mocked (`scripts/dev-mocks.mjs` via
+  `ANTHROPIC_API_BASE`, JSON + SSE), so answers stream from a canned response at no cost.
+
 ## Status — what's live
 
 | Part | State |

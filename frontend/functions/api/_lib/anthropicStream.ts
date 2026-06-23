@@ -47,7 +47,7 @@ export function mapAnthropicEvent(ev: SseEvent): StreamChunk | null {
 
 /** Stream a grounded answer, yielding normalized chunks. Throws AnthropicError on a bad start. */
 export async function* streamMessage(req: MessageRequest): AsyncGenerator<StreamChunk> {
-  const res = await fetch(API_URL, {
+  const res = await fetch(req.apiUrl || API_URL, {
     method: "POST",
     headers: {
       "content-type": "application/json",

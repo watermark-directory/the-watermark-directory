@@ -22,6 +22,8 @@ interface Env {
   /** Default to this repo; overridable for forks/tests. */
   GITHUB_OWNER?: string;
   GITHUB_REPO?: string;
+  /** Override the GitHub API host (local dev mock). Absent ⇒ api.github.com. */
+  GITHUB_API_BASE?: string;
   /** Optional KV namespace for per-IP rate limiting; absent ⇒ rate limiting off. */
   RATE_LIMIT?: KVLike;
   RATE_LIMIT_MAX?: string;
@@ -116,6 +118,7 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
       repo: env.GITHUB_REPO ?? "bosc",
       issue,
       dedupeHash,
+      apiBase: env.GITHUB_API_BASE,
     });
 
     // Optional submitter contact (#242) → the PRIVATE store, keyed by issue number; never
