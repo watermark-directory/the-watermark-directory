@@ -953,9 +953,12 @@ _FORT_WAYNE = SiteProfile(
     hsg_citation=(
         "Allen County, IN dominant hydrologic soil group C — Blount/Glynwood till and Pewamo "
         "lake-plain clays of the upper Maumee (NRCS Soil Survey of Allen County, IN); [inference] "
-        "pending an SSURGO area-weighted confirmation (onboard SSURGO step needs a footprint)"
+        "pending an SSURGO area-weighted confirmation (#362, footprint-gated). The facility site is "
+        "now identified (Google 'Project Zodiac', SE Fort Wayne / 6015 Adams Center Rd, #360), but a "
+        "SURVEYED boundary is still pending the deed/rezoning/stormwater-permit extraction — no "
+        "constructed AOI is committed (mirrors Findlay #355)."
     ),
-    pre_cover="TODO",  # [open] development land-cover scenario — pending an identified site
+    pre_cover="TODO",  # [open] development land-cover scenario — pending the Project Zodiac stormwater permit (#360)
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={  # [reference] NOAA Atlas-14 Vol 2 (Ohio River Basin) PDS at 41.0891/-85.1439
@@ -971,7 +974,11 @@ _FORT_WAYNE = SiteProfile(
         1000: 8.04,
     },
     parcels_relpath="reference/fort-wayne/bosc-parcels.geojson",  # [open] commit the site's own geometry
-    footprint_relpath="extracted/fort-wayne/bosc-site-footprint.yaml",  # [open] pending an identified site
+    # [open] #362, footprint-gated: the facility site is identified (Google "Project Zodiac", #360), but
+    # the Allen County / City of Fort Wayne parcel REST endpoints found in 2026-06-19 onboarding now 404
+    # (re-verified 2026-06-23) and the deed/rezoning isn't extracted — so no surveyed boundary yet, and
+    # no constructed AOI is committed (conservative, mirrors Findlay #355). Unblock = the #360 deed/rezoning pull.
+    footprint_relpath="extracted/fort-wayne/bosc-site-footprint.yaml",
     # per-site onboard reach outputs (slug-scoped — never clobber Lima/Findlay)
     climatology_relpath="reference/hydrology/fort-wayne/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/fort-wayne/atlas14-corridor-ddf.yaml",
