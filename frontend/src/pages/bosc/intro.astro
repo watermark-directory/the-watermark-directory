@@ -1,20 +1,15 @@
 ---
 /**
- * The site home (design "Site Home" → the Live state). Lima is the live reference build, so the
- * front door renders the design's Live composition: a lean dashboard — hero + the facility chip,
- * a real open-leads pointer, the two doors (record / guided walk), the corpus-at-a-glance strip,
- * and the provenance footer. The richer orientation prose moved to the "Intro" page (/bosc/intro,
- * under the "The story" dropdown). `phase` is a prop on the design; here it's fixed to Live (the
- * other phases need per-site leads/contributor feeds Lima doesn't have — building them would mean
- * fabricating). Real feeds throughout; the open-leads count is the real `leads.ts` length.
+ * "Intro" — the site's orientation page (the former home, design "Site Home"). Moved under
+ * the "The story" dropdown (beside the guided walk) so the new front-door home can be a leaner
+ * dashboard. Declares section "story" so that dropdown lights. Same real-feed wiring as before.
  */
 import Base from "../../layouts/Base.astro";
+import FacilityStatusRail from "../../components/FacilityStatusRail.astro";
 import FigureStat from "../../components/FigureStat.astro";
 import { hasFeed, loadFeed, loadManifest } from "../../lib/bundle";
 import { type DocumentCollectionItem } from "../../lib/feeds";
-import { LEADS } from "../../lib/leads";
 import { NARRATIVE } from "../../lib/narrative";
-import { FACILITY_STATUS_META, facilityStatus } from "../../lib/sites";
 import type { FigureStatData } from "../../lib/viz";
 import { WALK_CHAPTERS } from "../../lib/walk";
 import { withBase } from "../../lib/site";
@@ -27,10 +22,6 @@ const num = (n: number): string => n.toLocaleString("en-US");
 const docCollections = hasFeed("documents") ? loadFeed<DocumentCollectionItem[]>("documents") : [];
 const nDocuments = docCollections.reduce((a, c) => a + c.entries.length, 0);
 const nChapters = WALK_CHAPTERS.length;
-const nLeads = LEADS.length;
-
-// The facility clock (separate from the site-build clock) — Lima's campus is under construction.
-const fac = FACILITY_STATUS_META[facilityStatus("lima")];
 
 // Corpus at a glance — five real, derivable counts (the design's at-a-glance strip).
 const stats: FigureStatData[] = [
@@ -47,10 +38,10 @@ const stats: FigureStatData[] = [
 ];
 ---
 
-<Base title="Watermark" section="home" rail={false} description="Watermark — the public record, by watershed.">
-  <div class="home home--live">
+<Base title="Intro — the site at a glance" section="story" rail={false} description="Watermark — the public record, by watershed.">
+  <div class="home">
     <div class="home-hero">
-      <div class="home-kicker">Public record · Lima, Ohio</div>
+      <div class="home-kicker">Intro · Lima, Ohio</div>
       <h1>A 340-acre data center,<br />built to be invisible.</h1>
       <p class="home-lead">
         A Delaware shell. Withheld land prices. 115 backup generators. A consumptive cooling
@@ -58,20 +49,8 @@ const stats: FigureStatData[] = [
         made thin on purpose — here it's reassembled in the open, and
         <strong>every figure is checkable.</strong>
       </p>
-      <div class="home-hero-meta">
-        <span class="home-fac-chip" style={`--fac:${fac.color};--fac-bg:${fac.bg}`}>
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="4" y="4.5" width="16" height="6.5" rx="1.4"></rect>
-            <rect x="4" y="13" width="16" height="6.5" rx="1.4"></rect>
-            <line x1="7" y1="7.75" x2="7.2" y2="7.75"></line>
-            <line x1="7" y1="16.25" x2="7.2" y2="16.25"></line>
-          </svg>
-          Facility · {fac.label}
-        </span>
-        <a class="home-leads-pill" href={withBase("/bosc/leads")}>
-          <span class="home-leads-dot" aria-hidden="true"></span>
-          {nLeads} open leads · help close them
-        </a>
+      <div class="home-facrail">
+        <FacilityStatusRail slug="lima" place="Lima" />
       </div>
     </div>
 
@@ -104,6 +83,17 @@ const stats: FigureStatData[] = [
       </a>
     </div>
 
+    {/* The third way in — a question, not a path. Answers are drawn only from the
+        extracted corpus and cited; the portal never guesses. */}
+    <a class="home-ask" href={withBase("/ask")}>
+      <span class="home-ask-mark" aria-hidden="true">✦</span>
+      <span class="home-ask-text">
+        <strong>Or just ask the record a question.</strong> Answers are drawn only from the
+        corpus, every claim cited — and where the record is silent, it says so.
+      </span>
+      <span class="home-ask-go">Ask the corpus →</span>
+    </a>
+
     <div class="home-stats" id="corpus">
       <div class="home-stats-label">The corpus at a glance</div>
       <div class="home-stats-grid">
@@ -111,28 +101,35 @@ const stats: FigureStatData[] = [
       </div>
     </div>
 
-    {/* New here? The moved orientation page (Intro), and the third way in (ask). */}
-    <div class="home-ways">
-      <a class="home-way home-way--intro" href={withBase("/bosc/intro")}>
-        <span class="home-way-eyebrow">New here?</span>
-        <span class="home-way-text">Start with the <strong>intro</strong> — what this is, why it matters, and how the record is read.</span>
-        <span class="home-way-go">Read the intro →</span>
-      </a>
-      <a class="home-way home-way--ask" href={withBase("/ask")}>
-        <span class="home-way-eyebrow">✦ Or just ask</span>
-        <span class="home-way-text">Ask the record a question — answers drawn only from the corpus, every claim cited.</span>
-        <span class="home-way-go">Ask the corpus →</span>
-      </a>
-    </div>
-
     <div class="home-disclaimer" id="disclaimer">
       <span class="footer-pill"><span class="dot" aria-hidden="true"></span>provenance-first</span>
       <p>
         <strong>Draft.</strong> Assembled from public records the developer didn't write.
-        Sourced figures carry their citation; <a href={withBase("/bosc/leads")}>open leads</a>
-        stay labeled as <code>[inference]</code> until a source corroborates them. Nothing here
-        is legal advice or a verdict — verify every figure against its cited source.
+        Registered-agent and organizer overlaps are <em>common-control plumbing</em>, not a
+        verdict on ownership; inference is labeled <code>[inference]</code> and never dressed
+        as fact. Nothing here is legal advice or a verdict — verify every figure against its
+        cited source.
       </p>
     </div>
+
+    <article class="prose">
+      <h2 id="methodology">How the record is read</h2>
+      <p>
+        Each record is read from the <em>image</em>, not the OCR text layer (whose
+        digits are unreliable), validated against a typed schema, and cited back to a
+        source page — confidence surfaced inline as evidence tags. Read the full
+        write-up: <a href={withBase("/bosc/docs/methodology")}>Methodology</a> ·
+        the <a href={withBase("/bosc/docs/course")}>research course</a> · or
+        <a href={withBase("/about")}>about the method</a>.
+      </p>
+
+      <h2 id="bigger-picture">The bigger picture</h2>
+      <p>
+        The BOSC site is one node in a regional data-center build-out; placing the
+        document-by-document record against the watershed's water balance is how the
+        analysis moves from anecdote to evidence. →
+        <a href={withBase("/bosc/docs/bigger-picture")}>The bigger picture</a>.
+      </p>
+    </article>
   </div>
 </Base>
