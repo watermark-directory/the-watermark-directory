@@ -439,11 +439,3 @@ export function formatBytes(n: number): string {
   const v = n / 1024 ** i;
   return `${v >= 100 || i === 0 ? Math.round(v) : v.toFixed(1)} ${units[i]}`;
 }
-
-/** Render a markdown-ish body as plain paragraphs (full MDX migration is #69). */
-export function paragraphs(body: string): string[] {
-  return body
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter(Boolean);
-}

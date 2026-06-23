@@ -32,6 +32,17 @@ export interface BlockSeenIn {
   href: string;
 }
 
+/** A "where it connects" chip — the same affordance that closes the teardown
+ *  (design "Record Block" ⑤). The records feed carries no entity/concept/timeline
+ *  join yet, so today's derivable connects are the group and the walk chapter;
+ *  richer cross-links wait on that join. */
+export interface BlockConnect {
+  /** Short uppercase eyebrow (e.g. "records", "walk"). */
+  kind: string;
+  label: string;
+  href?: string;
+}
+
 export interface LibraryRecord {
   /** Anchor id (slug of the record `rel`) for deep links from the walk. */
   id: string;
@@ -55,6 +66,9 @@ export interface LibraryRecord {
   correctHref?: string;
   /** Compact-density row link target. */
   href?: string;
+  /** "Where it connects" chips (full density) — the affordance that closes the
+   *  record, mirroring the teardown's ⑤. */
+  connect: BlockConnect[];
 }
 
 /** The top-level collection of a `rel` (e.g. "permits/4132514.epa.yaml" → "permits"). */
@@ -85,9 +99,23 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
   }
   const anchor = walkAnchorFor(r.rel);
   const c = r.citation;
+  const groupName = groupLabel(r.group).replace(/ —.*$/, "");
+  // The derivable connects: the record's group (its siblings) and, when it's a walk
+  // anchor, the chapter that teaches it. Entity/concept/timeline/map chips await a
+  // record↔graph join the records feed doesn't carry.
+  const connect: BlockConnect[] = [
+    { kind: "records", label: groupName, href: withBase(`/bosc/site/records/${r.group}`) },
+  ];
+  if (anchor) {
+    connect.push({
+      kind: "walk",
+      label: `Ch.${anchor.ch} · ${anchor.label}`,
+      href: withBase(`/bosc/walk/${anchor.slug}`),
+    });
+  }
   return {
     id: slugify(r.rel),
-    kind: `Record · ${groupLabel(r.group).replace(/ —.*$/, "")}`,
+    kind: `Record · ${groupName}`,
     title: r.title,
     recordId: relRecordId(r.rel),
     evidence: evidenceKind(c),
@@ -109,5 +137,6 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
     correctHref: withBase(
       `/bosc/submit?ref_kind=record&ref_id=${encodeURIComponent(r.rel)}&ref_label=${encodeURIComponent(r.title)}`,
     ),
+    connect,
   };
 }

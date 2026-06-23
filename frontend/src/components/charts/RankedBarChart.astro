@@ -41,7 +41,7 @@ const hasWithheld = legend ?? data.some((d) => d.withheld);
       c.bars.map((b) => (
         <Fragment>
           <text x="8" y={b.textY} class="chart-axis chart-axis--row">{b.label}</text>
-          <rect x={c.x0} y={b.y} width={b.w} height="14" rx="2.5" fill={b.fill} stroke={b.stroke} stroke-width={b.strokeW} />
+          <rect x={c.x0} y={b.y} width={b.w} height="14" fill={b.fill} stroke={b.stroke} stroke-width={b.strokeW} />
           <text x={b.valX} y={b.textY} class="chart-axis chart-axis--val">{b.valLabel}</text>
         </Fragment>
       ))

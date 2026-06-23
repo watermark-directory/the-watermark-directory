@@ -35,12 +35,18 @@ const teardown = teardownForRel(record.rel);
 const hasAnnotated = Boolean(teardown?.pins?.length);
 const groupName = groupLabel(record.group).replace(/ —.*$/, "");
 
-// The rail is this record's own anchors — the block, then the teardown (when one
-// is wired). A record with no teardown is just the block, so it needs no rail.
+// The rail is this record's own anchors (#195, design "Record Screen"): the block,
+// then the teardown's five beats. The beat ids live on the DEFAULT (split) teardown
+// instance only — see RecordTeardown `anchors`. A record with no teardown is just the
+// block, so it needs no rail.
 const toc = teardown
   ? [
-      { anchor: "the-record", label: "The record" },
-      { anchor: "the-teardown", label: "The teardown" },
+      { anchor: "the-record", label: "The record", num: "·" },
+      { anchor: "beat-source", label: "The source", num: "①" },
+      { anchor: "beat-read", label: "What we read", num: "②" },
+      { anchor: "beat-reveal", label: "What it reveals", num: "③" },
+      { anchor: "beat-check", label: "How to check it", num: "④" },
+      { anchor: "beat-connect", label: "Where it connects", num: "⑤" },
     ]
   : [];
 ---
@@ -49,6 +55,7 @@ const toc = teardown
   title={record.title}
   section="site"
   toc={toc}
+  tocTitle="On this record"
   description={`${record.title} — the record, read in the open with provenance on every figure.`}
 >
   <div class="rec">
@@ -89,7 +96,7 @@ const toc = teardown
               </div>
             </div>
             <div class="rec-flow-panel rec-flow-panel--split">
-              <RecordTeardown record={teardown} layout="split" />
+              <RecordTeardown record={teardown} layout="split" anchors />
             </div>
             <div class="rec-flow-panel rec-flow-panel--scroll">
               <RecordTeardown record={teardown} layout="scroll" />

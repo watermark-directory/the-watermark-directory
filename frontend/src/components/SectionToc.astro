@@ -22,7 +22,7 @@ const { items, title = "On this page" } = Astro.props;
         items.map((t, i) => (
           <li>
             <a href={`#${t.anchor}`}>
-              <span class="toc-num">{String(i + 1).padStart(2, "0")}</span>
+              <span class="toc-num">{t.num ?? String(i + 1).padStart(2, "0")}</span>
               <span class="toc-label">{t.label}</span>
             </a>
           </li>

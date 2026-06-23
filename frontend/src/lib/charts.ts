@@ -171,6 +171,24 @@ export interface LinePoint {
   label: string;
   value: number;
 }
+/** A horizontal reference line — the convention the comp's water stories are built on:
+ *  a draw/limit/level threshold drawn dashed with a right-aligned colored label
+ *  (oxblood `LIMIT` for a cap, amber `#9a6a14` for a modeled draw, `FOREST` for a
+ *  static level). The seam is reusable; the hydrology figures that consume it (FDC,
+ *  hydrograph, cumulative-vs-cap, drawdown) await time-series data the bundle doesn't
+ *  carry yet. */
+export interface RefLineInput {
+  value: number;
+  label: string;
+  color: string;
+  /** Dash pattern; defaults to "5 3" (the comp's limit/cap dash). */
+  dash?: string;
+}
+export interface RefLine extends RefLineInput {
+  dash: string;
+  /** Plotted y (clamped to the chart's [0, max] band). */
+  y: number;
+}
 export interface LineChart {
   width: number;
   height: number;
@@ -180,9 +198,15 @@ export interface LineChart {
   dots: { x: number; y: number; label: string }[];
   last: { x: number; y: number };
   grid: AxisGridLine[];
+  /** Plot x-extent for overlays (reference lines span L → right edge). */
+  plot: { left: number; right: number };
+  refLines: RefLine[];
 }
 
-export function buildLine(points: LinePoint[], opts: { max?: number } = {}): LineChart {
+export function buildLine(
+  points: LinePoint[],
+  opts: { max?: number; refs?: RefLineInput[] } = {},
+): LineChart {
   const W = 360;
   const H = 200;
   const L = 34;
@@ -203,7 +227,23 @@ export function buildLine(points: LinePoint[], opts: { max?: number } = {}): Lin
   const last = lastPt ? { x: lastPt.x, y: lastPt.y } : { x: L, y: base };
   const area = `${line} L${last.x} ${base} L${pts[0]?.x ?? L} ${base} Z`;
   const grid = ticks(max).map((value) => ({ value, y: round(base - (value / max) * plotH) }));
-  return { width: W, height: H, baselineY: base, line, area, dots: pts, last, grid };
+  const refLines: RefLine[] = (opts.refs ?? []).map((r) => ({
+    ...r,
+    dash: r.dash ?? "5 3",
+    y: round(base - (Math.max(0, Math.min(r.value, max)) / max) * plotH),
+  }));
+  return {
+    width: W,
+    height: H,
+    baselineY: base,
+    line,
+    area,
+    dots: pts,
+    last,
+    grid,
+    plot: { left: L, right: W - R },
+    refLines,
+  };
 }
 
 // ----------------------------------------------------------------------- 4 · bullet

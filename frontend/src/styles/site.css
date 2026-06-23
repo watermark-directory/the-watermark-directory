@@ -22,6 +22,8 @@
   --bosc-surface: #faf8f1;     /* faint inset panel */
   --bosc-rail-bg: #faf8f1;
   --bosc-link: #1f6f4a;
+  --bosc-ink-green: #3a4a3e;    /* structural ink-green (door/section kind labels) — NOT the forest signal */
+  --bosc-chart-faint: #a8a596;  /* chart axis ticks — a shade lighter than --bosc-faint */
 
   /* Semantic / evidence grammar (three kinds; open reads muted, per the design). */
   --bosc-verified: #1f6f4a;
@@ -1561,7 +1563,7 @@ a.card:hover { border-color: var(--bosc-forest); background: var(--bosc-surface)
 }
 
 .teardown {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--bosc-sans);
   color: var(--bosc-ink);
   background: var(--bosc-bg);
   border: 1px solid var(--td-card-line);
@@ -2107,8 +2109,10 @@ a.walk-dot:hover { opacity: 0.82; }
 .hub-head h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.5px; margin: 0.3rem 0 0; }
 .hub-lead { font-size: 0.98rem; color: var(--bosc-muted); margin: 0.5rem 0 0; max-width: 38rem; line-height: 1.5; }
 .hub-count { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.74rem; font-weight: 700; color: var(--bosc-muted); background: var(--td-open-bg); border-radius: 999px; padding: 0.25rem 0.75rem; }
-.hub-count .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr)); gap: 0.9rem; margin-top: 1.4rem; }
+/* A section heading within a hub (e.g. People / Places, or a docs section). */
+.hub-subhead { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bosc-muted); margin: 2rem 0 0; padding-bottom: 0.55rem; border-bottom: 1px solid var(--bosc-rule); }
+.hub-subhead + .hub-grid { margin-top: 1rem; }
 .hub-door {
   display: flex;
   flex-direction: column;
@@ -2124,7 +2128,7 @@ a.walk-dot:hover { opacity: 0.82; }
 }
 .hub-door:hover { border-color: var(--td-tint-line); box-shadow: 0 6px 18px rgba(20, 24, 40, 0.1); }
 .hub-door-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; }
-.hub-door-kind { font-size: 11px; letter-spacing: 0.9px; text-transform: uppercase; color: var(--td-chip-kind); font-weight: 700; }
+.hub-door-kind { font-size: 11px; letter-spacing: 0.9px; text-transform: uppercase; color: var(--bosc-ink-green); font-weight: 700; }
 .hub-door-count { font-size: 1.1rem; font-weight: 700; font-family: var(--bosc-mono); letter-spacing: -0.4px; }
 .hub-door-title { font-size: 1.05rem; font-weight: 700; margin: 0.5rem 0 0.25rem; }
 .hub-door-desc { font-size: 0.84rem; color: var(--bosc-muted); line-height: 1.45; }
@@ -2203,7 +2207,7 @@ a.walk-dot:hover { opacity: 0.82; }
 .ph-name-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 3px; }
 .ph-name { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.5px; margin: 0; line-height: 1.15; }
 .ph-variants { display: flex; gap: 6px; flex-wrap: wrap; }
-.ph-variant { font-size: 12px; font-family: var(--bosc-mono); color: var(--bosc-muted); background: var(--td-tint); border: 1px solid var(--td-tint-line); border-radius: 6px; padding: 2px 8px; }
+.ph-variant { font-size: 12px; font-family: var(--bosc-mono); color: var(--bosc-muted); background: #efece2; border: 1px solid var(--bosc-rule); border-radius: 6px; padding: 2px 8px; }
 .ph-descriptor { font-size: 0.92rem; color: var(--bosc-muted); line-height: 1.5; margin: 8px 0 0; max-width: 42rem; }
 .ph-id-right { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 9px; }
 .ph-graph { font-size: 13px; color: var(--bosc-forest); text-decoration: none; font-weight: 600; white-space: nowrap; }
@@ -2220,7 +2224,7 @@ a.walk-dot:hover { opacity: 0.82; }
 .ph-foot { padding: 13px 22px; background: var(--td-panel); border-top: 1px solid var(--td-line); display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .ph-rels { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
 .ph-rels-label { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--td-faint); font-weight: 700; }
-.ph-rel { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--bosc-forest); text-decoration: none; border: 1px solid var(--td-tint-line); background: var(--bosc-bg); border-radius: 999px; padding: 4px 11px; }
+.ph-rel { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--bosc-ink); text-decoration: none; border: 1px solid var(--bosc-rule); background: var(--bosc-bg); border-radius: 999px; padding: 4px 11px; }
 .ph-rel-kind { font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--td-chip-kind); font-weight: 700; }
 .ph-correct { margin-left: auto; font-size: 12.5px; color: var(--td-faint); text-decoration: none; white-space: nowrap; }
 .ph-correct:hover { text-decoration: underline; }
@@ -2555,10 +2559,12 @@ a.walk-dot:hover { opacity: 0.82; }
 .chart-head--row .chart-title { margin-bottom: 0; }
 .chart-svg { width: 100%; height: auto; display: block; }
 /* SVG figures are monospace — axis ticks, labels, totals, exactly like the rest of the record. */
-.chart-axis { font-family: var(--bosc-mono); font-size: 9px; fill: var(--bosc-faint); }
-.chart-axis--x { font-size: 10px; fill: var(--bosc-faint); }
+.chart-axis { font-family: var(--bosc-mono); font-size: 9px; fill: var(--bosc-chart-faint); }
+.chart-axis--x { font-size: 10px; fill: var(--bosc-chart-faint); }
 .chart-axis--row { font-size: 10px; fill: var(--bosc-muted); }
 .chart-axis--val { font-size: 9.5px; fill: var(--bosc-muted); }
+/* Dashed reference-line label (draw / limit / level) — fill is set inline per line color. */
+.chart-ref-label { font-family: var(--bosc-mono); font-size: 9px; font-weight: 600; }
 .chart-val { font-family: var(--bosc-mono); font-size: 9px; fill: var(--bosc-faint); }
 .chart-val.is-peak { fill: var(--bosc-ink); font-weight: 700; font-size: 11px; }
 .chart-foot { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; font-size: 0.78rem; color: var(--bosc-muted); flex-wrap: wrap; }
@@ -2567,7 +2573,7 @@ a.walk-dot:hover { opacity: 0.82; }
 .chart-legend--wide { gap: 0.5rem 1.4rem; margin-top: 0.85rem; font-size: 0.82rem; color: var(--bosc-ink); }
 .chart-legend-item { display: inline-flex; align-items: center; gap: 0.45rem; }
 .chart-swatch { width: 10px; height: 10px; border-radius: 2px; flex: 0 0 auto; background: var(--bosc-forest); }
-.chart-swatch--withheld { background: rgba(63, 81, 181, 0.22); border: 1px solid var(--td-tint-line); }
+.chart-swatch--withheld { background: rgba(31, 111, 74, 0.22); border: 1px solid var(--td-tint-line); }
 
 /* Donut */
 .chart-donut { display: flex; align-items: center; gap: 1rem; }

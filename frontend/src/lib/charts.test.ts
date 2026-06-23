@@ -62,6 +62,30 @@ describe("charts geometry (#306)", () => {
     expect(c.last).toEqual({ x: c.dots[2].x, y: c.dots[2].y });
   });
 
+  it("line: reference lines plot at the value's y, default to the 5·3 dash, clamp to max", () => {
+    const c = buildLine(
+      [
+        { label: "a", value: 0 },
+        { label: "b", value: 100 },
+      ],
+      {
+        max: 100,
+        refs: [
+          { value: 100, label: "cap", color: "#7a2230" },
+          { value: 50, label: "draw", color: "#9a6a14", dash: "4 3" },
+          { value: 500, label: "over", color: "#1f6f4a" },
+        ],
+      },
+    );
+    expect(c.refLines).toHaveLength(3);
+    // value === max → the top of the plot band (the line for value 100).
+    expect(c.refLines[0].y).toBe(c.grid[c.grid.length - 1].y);
+    expect(c.refLines[0].dash).toBe("5 3");
+    expect(c.refLines[1].dash).toBe("4 3");
+    // value > max clamps to the ceiling (never above the plot).
+    expect(c.refLines[2].y).toBe(c.refLines[0].y);
+  });
+
   it("bullet: ratio is measure÷limit, percentages on the shared scale", () => {
     const c = buildBullet(4.85, 0.2);
     expect(c.ratio).toBe(24.25);

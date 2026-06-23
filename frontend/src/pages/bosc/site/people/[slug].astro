@@ -4,10 +4,11 @@ import Base from "../../../../layouts/Base.astro";
 import Provenance from "../../../../components/Provenance.astro";
 import ProfileHeader from "../../../../components/ProfileHeader.astro";
 import { hasFeed, loadFeed } from "../../../../lib/bundle";
-import { evidenceKind, paragraphs, type PersonItem } from "../../../../lib/feeds";
+import { evidenceKind, type PersonItem } from "../../../../lib/feeds";
 import type { ProfileAttr, ProfileHeaderData } from "../../../../lib/profile";
 import { entityHref } from "../../../../lib/entityLinks";
 import { withBase } from "../../../../lib/site";
+import { renderBody } from "../../../../lib/wiki";
 
 export const getStaticPaths: GetStaticPaths = () => {
   const people = hasFeed("people") ? loadFeed<PersonItem[]>("people") : [];
@@ -61,7 +62,7 @@ const profileToc = sections.length >= 2 ? sections : [];
       )
     }
 
-    {person.body && paragraphs(person.body).map((p) => <p>{p}</p>)}
+    {person.body && <Fragment set:html={renderBody(person.body)} />}
 
     {
       person.sources.length > 0 && (
