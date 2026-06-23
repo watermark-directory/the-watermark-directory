@@ -7,18 +7,18 @@
  * FACILITY status (investigation → confirmed → construction → live — the data center in the
  * ground). Data is the `network` object feed joined with the sites.ts registry. Charts are forest.
  */
-import RankedBarChart from "../../components/charts/RankedBarChart.astro";
-import Base from "../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../lib/bundle";
-import type { BasinNetwork, WatershedNode } from "../../lib/feeds";
-import { withBase } from "../../lib/site";
-import { FACILITY_STATUS_META, facilityStatus, SITES } from "../../lib/sites";
+import RankedBarChart from "../components/charts/RankedBarChart.astro";
+import Base from "../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../lib/bundle";
+import type { BasinNetwork, WatershedNode } from "../lib/feeds";
+import { withBase } from "../lib/site";
+import { FACILITY_STATUS_META, facilityStatus, SITES } from "../lib/sites";
 
 const net = hasFeed("network") ? loadFeed<BasinNetwork>("network") : null;
 const nodes: WatershedNode[] = net?.nodes ?? [];
 
 const siteBySlug = new Map(SITES.map((s) => [s.slug, s]));
-const nodeHref = (slug: string): string => siteBySlug.get(slug)?.href ?? `/directory/${slug}`;
+const nodeHref = (slug: string): string => siteBySlug.get(slug)?.href ?? `/network/${slug}`;
 const codenameOf = (slug: string): string | null => siteBySlug.get(slug)?.codename ?? null;
 
 // Build phase (our website) — the FIRST clock. Distinct from facility status below.

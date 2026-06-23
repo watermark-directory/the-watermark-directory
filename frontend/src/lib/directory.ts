@@ -1,7 +1,7 @@
 /**
  * The directory's three-lens model (#308 "Directory" dictate) — one network, read three ways.
  *
- * The `/directory` index reorganizes the SAME 32 sites around one of three hypotheses:
+ * The /research/hypotheses index reorganizes the SAME 32 sites around one of three hypotheses:
  *   H1 water — where compute meets the watershed (the live reference thesis; Lima is worked).
  *   H2 defense — where the build-out meets federal land and the defense base (emerging).
  *   H3 surveillance — who owns it, who's watching, where the money moves (emerging).

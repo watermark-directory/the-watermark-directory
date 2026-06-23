@@ -1,26 +1,599 @@
 ---
 /**
- * The Watermark network root (#307 PR 2). The live site is Lima, served under `/network/american-sugar-creek-allen-co` (the
- * physical re-root that makes future watershed sites clean siblings — `/gcp`, …). This
- * root redirects there; the network of sites is reached via the topbar switcher, and the
- * full directory lives at `/directory`. On Cloudflare this is a TEMPORARY 302 (`public/_redirects`)
- * — the root will host real network content once a second site lands, so it must not be
- * hard-cached. The meta-refresh below is the local/static fallback.
+ * The network directory — the "Directory" tab (network tier). The lighter overview
+ * (design "Directory - Home"): a hero, the network-at-a-glance ledger, the three
+ * hypotheses in brief, the "start here" doors, and a featured slice of the network.
+ * The full lens scorecard lives at /research/hypotheses (the "Research" tab).
+ *
+ * Real data only — sites from `bosc.sites` (mirrored in lib/sites), the lens config
+ * from lib/directory + the bundle feeds. Figures are counts or a dash, never invented.
  */
+import Base from "../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../lib/bundle";
+import { LENS_ORDER, lensConfig } from "../lib/directory";
+import type { HypothesisItem } from "../lib/feeds";
 import { withBase } from "../lib/site";
-const target = withBase("/network/american-sugar-creek-allen-co/");
+import { groupSites, SITE_STATUS_META, SITES, type SiteStatus } from "../lib/sites";
+
+const totalSites = SITES.length;
+const basins = groupSites("basin").length;
+const states = groupSites("state").length;
+const liveCount = SITES.filter((s) => s.status === "live").length;
+
+// Build-phase distribution — real counts from the registry, in clock order.
+const PHASE_ORDER: SiteStatus[] = ["live", "building", "queued", "tracking"];
+const PHASE_COLOR: Record<SiteStatus, string> = {
+  live: "var(--bosc-forest)",
+  building: "var(--bosc-ink)",
+  queued: "var(--bosc-muted)",
+  tracking: "var(--bosc-faint)",
+};
+const phaseCounts = PHASE_ORDER.map((k) => ({
+  key: k,
+  label: SITE_STATUS_META[k].label,
+  count: SITES.filter((s) => s.status === k).length,
+  color: PHASE_COLOR[k],
+}));
+
+const stats = [
+  { n: String(totalSites), l: "Sites" },
+  { n: String(basins).padStart(2, "0"), l: "Basins" },
+  { n: String(liveCount).padStart(2, "0"), l: "Live reference" },
+  { n: String(states).padStart(2, "0"), l: "States" },
+];
+
+// The three hypotheses, in brief — config + status only (the scorecard does the scoring).
+const hypItems = hasFeed("hypotheses") ? loadFeed<HypothesisItem[]>("hypotheses") : [];
+const hypByKey = new Map(hypItems.map((h) => [h.id, h]));
+const lenses = LENS_ORDER.map((key) => lensConfig(key, hypByKey.get(key)));
+
+// The "start here" doors.
+const doors = [
+  {
+    nn: "01",
+    title: "The reference build",
+    meta: "LIMA (BOSC) · LIVE",
+    desc: "The one fully-assembled site — and the best place to start. New here? Its guided walk teaches you to read the record.",
+    href: "/network/american-sugar-creek-allen-co",
+    cta: "Enter the site",
+  },
+  {
+    nn: "02",
+    title: "How the record is built",
+    meta: "PROVENANCE-FIRST",
+    desc: "Sources, labeled inference, and the two-clock model — what Watermark is, and how to read it.",
+    href: "/about",
+    cta: "Read the method",
+  },
+  {
+    nn: "03",
+    title: "Contribute a lead",
+    meta: "NO ACCOUNT NEEDED",
+    desc: "A document, a name, a correction — every confirmed figure started as a lead.",
+    href: "/submit",
+    cta: "Submit a lead",
+  },
+];
+
+// A featured slice across the network for the home table (the scorecard holds all 32).
+const featured = SITES.slice(0, 8).map((s, i) => ({
+  idx: String(i + 1).padStart(2, "0"),
+  code: s.codename ?? s.mono,
+  place: s.place,
+  basin: s.basin,
+  phaseLabel: SITE_STATUS_META[s.status].label,
+  phaseColor: PHASE_COLOR[s.status],
+  rowBg: i % 2 ? "#ece8dc" : "transparent",
+}));
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="refresh" content={`0; url=${target}`} />
-    <link rel="canonical" href={target} />
-    <meta name="robots" content="noindex" />
-    <title>Watermark — the network</title>
-  </head>
-  <body>
-    <p>Redirecting to <a href={target}>the record</a>…</p>
-  </body>
-</html>
+<Base
+  title="The directory"
+  section="directory"
+  rail={false}
+  description="The Watermark network — the public record behind the hyperscale data-center build-out, watershed point by point. 32 sites across 9 basins; Lima is the live reference build. Read the network three ways."
+>
+  <div class="dirh">
+    <!-- hero -->
+    <section class="dirh-hero">
+      <div class="dirh-hero-l">
+        <div class="dirh-eyebrow">The Watermark network</div>
+        <h1 class="dirh-h1">The build-out, on the public record.</h1>
+        <p class="dirh-lead">
+          Watermark assembles the public record behind the hyperscale data-center build-out —
+          <b>{totalSites} sites across {basins} basins</b>, each a point where compute meets ground,
+          water, and power. Provenance-first, and built in the open.
+        </p>
+        <div class="dirh-cta">
+          <a class="dirh-btn dirh-btn--solid" href={withBase("/research/hypotheses")}>Explore the hypotheses →</a>
+          <a class="dirh-btn dirh-btn--ghost" href={withBase("/network/american-sugar-creek-allen-co")}>See the reference build →</a>
+        </div>
+      </div>
+
+      <!-- ledger -->
+      <div class="dirh-ledger">
+        <div class="dirh-ledger-head">Network at a glance</div>
+        <div class="dirh-stats">
+          {
+            stats.map((s) => (
+              <div class="dirh-stat">
+                <div class="dirh-stat-n">{s.n}</div>
+                <div class="dirh-stat-l">{s.l}</div>
+              </div>
+            ))
+          }
+        </div>
+        <div class="dirh-phase">
+          <div class="dirh-phase-head">Build phase</div>
+          <div class="dirh-phase-bar">
+            {
+              phaseCounts.map((p) => (
+                <span style={`flex:${p.count};background:${p.color}`} title={`${p.count} ${p.label}`} />
+              ))
+            }
+          </div>
+          <div class="dirh-phase-legend">
+            {
+              phaseCounts.map((p) => (
+                <span class="dirh-leg">
+                  <span class="dirh-leg-dot" style={`background:${p.color}`} />
+                  {p.count} {p.label.toLowerCase()}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- lenses -->
+    <section class="dirh-sec">
+      <div class="dirh-sec-head">
+        <h2 class="dirh-sec-title">Read the network three ways</h2>
+        <span class="dirh-sec-sub">— one map, three hypotheses.</span>
+        <a class="dirh-sec-link" href={withBase("/research/hypotheses")}>Open the scorecard →</a>
+      </div>
+      <div class="dirh-lenses">
+        {
+          lenses.map((l) => {
+            const live = l.statusKind === "live";
+            return (
+              <a class="dirh-lens" href={withBase("/research/hypotheses")}>
+                <span class="dirh-lens-top">
+                  <span class="dirh-lens-n" style={`color:${l.accent};border-color:${l.accent}`}>{l.n}</span>
+                  <span class:list={["dirh-lens-status", { "is-live": live }]}>{l.status}</span>
+                </span>
+                <span class="dirh-lens-name">{l.name}</span>
+                <span class="dirh-lens-claim">{l.claim}</span>
+              </a>
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <!-- start here -->
+    <section class="dirh-sec">
+      <div class="dirh-kicker">Start here</div>
+      <div class="dirh-doors">
+        {
+          doors.map((d) => (
+            <a class="dirh-door" href={withBase(d.href)}>
+              <span class="dirh-door-n">{d.nn}</span>
+              <span class="dirh-door-title">{d.title}</span>
+              <span class="dirh-door-meta">{d.meta}</span>
+              <span class="dirh-door-desc">{d.desc}</span>
+              <span class="dirh-door-cta">{d.cta} →</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- across the network -->
+    <section class="dirh-sec">
+      <div class="dirh-sec-head">
+        <div class="dirh-kicker">Across the network</div>
+        <a class="dirh-sec-link" href={withBase("/research/hypotheses")}>See all {totalSites} →</a>
+      </div>
+      <div class="dirh-table">
+        <div class="dirh-trow dirh-thead">
+          <span>#</span><span>Code</span><span>Place</span><span>Basin</span><span class="is-right">Phase</span>
+        </div>
+        {
+          featured.map((f) => (
+            <a class="dirh-trow dirh-drow" href={withBase("/research/hypotheses")} style={`background:${f.rowBg}`}>
+              <span class="dirh-td-idx">{f.idx}</span>
+              <span class="dirh-td-code">{f.code}</span>
+              <span class="dirh-td-place">{f.place}</span>
+              <span class="dirh-td-basin">{f.basin}</span>
+              <span class="dirh-td-phase" style={`color:${f.phaseColor}`}>
+                <span class="dirh-leg-dot" style={`background:${f.phaseColor}`} />{f.phaseLabel}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .dirh {
+    max-width: 76rem;
+    margin: 0 auto;
+  }
+  .dirh-eyebrow,
+  .dirh-kicker {
+    font-family: var(--bosc-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--bosc-muted);
+    font-weight: 500;
+  }
+  .dirh-kicker {
+    color: var(--bosc-faint);
+  }
+
+  /* hero */
+  .dirh-hero {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    padding: 0.5rem 0 2rem;
+    border-bottom: 1px solid var(--bosc-rule);
+  }
+  .dirh-hero-l {
+    flex: 1 1 32rem;
+    max-width: 38rem;
+  }
+  .dirh-h1 {
+    font-size: clamp(2.4rem, 5vw, 3.25rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+    margin: 0.8rem 0 0;
+  }
+  .dirh-lead {
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: var(--bosc-ink);
+    margin: 1.1rem 0 0;
+    max-width: 35rem;
+    text-wrap: pretty;
+  }
+  .dirh-cta {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.6rem;
+    flex-wrap: wrap;
+  }
+  .dirh-btn {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-decoration: none;
+    padding: 0.8rem 1.3rem;
+  }
+  .dirh-btn--solid {
+    background: var(--bosc-ink);
+    color: var(--bosc-bg);
+  }
+  .dirh-btn--ghost {
+    background: transparent;
+    border: 1.5px solid var(--bosc-ink);
+    color: var(--bosc-ink);
+  }
+
+  /* ledger */
+  .dirh-ledger {
+    flex: 1 1 20rem;
+    max-width: 22.5rem;
+    border: 1px solid var(--bosc-ink);
+    align-self: flex-start;
+  }
+  .dirh-ledger-head,
+  .dirh-phase-head {
+    font-family: var(--bosc-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bosc-muted);
+  }
+  .dirh-ledger-head {
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid var(--bosc-ink);
+  }
+  .dirh-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .dirh-stat {
+    border-left: 1px solid var(--bosc-rule);
+    border-top: 1px solid var(--bosc-rule);
+    padding: 0.9rem 1rem;
+  }
+  .dirh-stat:nth-child(odd) {
+    border-left: 0;
+  }
+  .dirh-stat-n {
+    font-family: var(--bosc-mono);
+    font-size: 1.85rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .dirh-stat-l {
+    font-family: var(--bosc-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bosc-faint);
+    margin-top: 0.4rem;
+  }
+  .dirh-phase {
+    padding: 0.9rem;
+    border-top: 1px solid var(--bosc-ink);
+  }
+  .dirh-phase-head {
+    margin-bottom: 0.55rem;
+  }
+  .dirh-phase-bar {
+    display: flex;
+    height: 10px;
+    border: 1px solid var(--bosc-ink);
+  }
+  .dirh-phase-bar > span + span {
+    border-left: 1px solid var(--bosc-bg);
+  }
+  .dirh-phase-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.9rem;
+    margin-top: 0.7rem;
+  }
+  .dirh-leg {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--bosc-mono);
+    font-size: 0.7rem;
+    color: var(--bosc-muted);
+  }
+  .dirh-leg-dot {
+    width: 8px;
+    height: 8px;
+    flex: none;
+  }
+
+  /* sections */
+  .dirh-sec {
+    padding: 1.7rem 0;
+    border-bottom: 1px solid var(--bosc-rule);
+  }
+  .dirh-sec:last-child {
+    border-bottom: 0;
+  }
+  .dirh-sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .dirh-sec-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .dirh-sec-sub {
+    font-size: 0.85rem;
+    color: var(--bosc-faint);
+  }
+  .dirh-sec-link {
+    margin-left: auto;
+    font-family: var(--bosc-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bosc-ink);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .dirh-sec-link:hover {
+    color: var(--bosc-forest);
+  }
+
+  /* lenses */
+  .dirh-lenses {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .dirh-lens {
+    border-left: 1px solid var(--bosc-rule);
+    padding: 0.25rem 1.4rem;
+    text-decoration: none;
+    color: var(--bosc-ink);
+  }
+  .dirh-lens:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .dirh-lens-top {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .dirh-lens-n {
+    font-family: var(--bosc-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    border: 1px solid currentColor;
+    padding: 1px 7px;
+  }
+  .dirh-lens-status {
+    font-family: var(--bosc-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bosc-faint);
+  }
+  .dirh-lens-status.is-live {
+    color: var(--bosc-forest);
+  }
+  .dirh-lens-name {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-top: 0.8rem;
+  }
+  .dirh-lens-claim {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--bosc-muted);
+    line-height: 1.45;
+    margin-top: 0.3rem;
+  }
+
+  /* doors */
+  .dirh-doors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .dirh-door {
+    border-left: 1px solid var(--bosc-rule);
+    padding: 0.1rem 1.4rem;
+    text-decoration: none;
+    color: var(--bosc-ink);
+    display: flex;
+    flex-direction: column;
+  }
+  .dirh-door:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .dirh-door-n {
+    font-family: var(--bosc-mono);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--bosc-faint);
+  }
+  .dirh-door-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-top: 0.5rem;
+  }
+  .dirh-door-meta {
+    font-family: var(--bosc-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    color: var(--bosc-faint);
+    margin-top: 0.35rem;
+  }
+  .dirh-door-desc {
+    font-size: 0.82rem;
+    color: var(--bosc-muted);
+    line-height: 1.5;
+    margin-top: 0.6rem;
+    flex: 1 1 auto;
+  }
+  .dirh-door-cta {
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-top: 0.9rem;
+  }
+
+  /* table */
+  .dirh-table {
+    border-top: 1px solid var(--bosc-ink);
+    border-bottom: 1px solid var(--bosc-ink);
+  }
+  .dirh-trow {
+    display: grid;
+    grid-template-columns: 42px 70px minmax(8rem, 1fr) minmax(0, 1.4fr) 130px;
+    align-items: center;
+    column-gap: 1rem;
+    padding: 0.55rem 0.4rem;
+  }
+  .dirh-thead {
+    font-family: var(--bosc-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bosc-faint);
+    border-bottom: 1px solid var(--bosc-rule);
+  }
+  .dirh-thead .is-right {
+    text-align: right;
+  }
+  .dirh-drow {
+    text-decoration: none;
+    color: var(--bosc-ink);
+    border-bottom: 1px solid var(--bosc-rule);
+  }
+  .dirh-drow:last-child {
+    border-bottom: 0;
+  }
+  .dirh-td-idx,
+  .dirh-td-code {
+    font-family: var(--bosc-mono);
+    font-size: 0.78rem;
+  }
+  .dirh-td-idx {
+    color: var(--bosc-faint);
+  }
+  .dirh-td-code {
+    font-weight: 600;
+  }
+  .dirh-td-place {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .dirh-td-basin {
+    font-size: 0.8rem;
+    color: var(--bosc-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dirh-td-phase {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.45rem;
+    font-family: var(--bosc-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 820px) {
+    .dirh-lenses,
+    .dirh-doors {
+      grid-template-columns: 1fr;
+    }
+    .dirh-lens,
+    .dirh-door {
+      border-left: 0;
+      padding-left: 0;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--bosc-rule);
+    }
+    .dirh-lens:first-child,
+    .dirh-door:first-child {
+      border-top: 0;
+      padding-top: 0.25rem;
+    }
+    .dirh-table {
+      overflow-x: auto;
+    }
+    .dirh-trow {
+      min-width: 36rem;
+    }
+  }
+</style>

@@ -71,7 +71,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "building",
     selectable: false,
     issue: "235",
-    href: "/directory/fort-wayne",
+    href: "/network/fort-wayne",
   },
   {
     slug: "defiance",
@@ -82,7 +82,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "238",
-    href: "/directory/defiance",
+    href: "/network/defiance",
   },
   {
     slug: "findlay",
@@ -93,7 +93,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "237",
-    href: "/directory/findlay",
+    href: "/network/findlay",
   },
   {
     slug: "toledo",
@@ -104,7 +104,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "236",
-    href: "/directory/toledo",
+    href: "/network/toledo",
   },
   {
     // Small-stream headwaters comparator: a 4 MGD plant on a small tributary (the
@@ -117,7 +117,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "363",
-    href: "/directory/van-wert",
+    href: "/network/van-wert",
   },
   {
     // Municipal-utility / Tiffin-subbasin headwaters comparator: the basin's first municipal
@@ -130,7 +130,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "380",
-    href: "/directory/bryan",
+    href: "/network/bryan",
   },
   {
     // Intra-tributary (same-river) comparator: the downstream Blanchard sibling of Findlay —
@@ -143,7 +143,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "381",
-    href: "/directory/ottawa",
+    href: "/network/ottawa",
   },
   {
     // The network's FIRST Miami-basin site (second basin branch): the clean headwaters of the
@@ -157,7 +157,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "441",
-    href: "/directory/urbana",
+    href: "/network/urbana",
   },
   {
     // The network's SECOND Miami-basin site: the Mad River MID-CORRIDOR node between the Urbana
@@ -172,7 +172,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "452",
-    href: "/directory/springfield",
+    href: "/network/springfield",
   },
   {
     // The network's FIRST Little Miami-basin site (a third basin branch): the WPAFB-adjacent
@@ -186,7 +186,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "444",
-    href: "/directory/xenia",
+    href: "/network/xenia",
   },
   {
     // The downstream terminus of the Mad River corridor and the richest Miami node: the SW-Ohio
@@ -201,7 +201,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "442",
-    href: "/directory/wpafb",
+    href: "/network/wpafb",
   },
   {
     // The lower Great Miami heavy-industry node and the I-75 Cincinnati–Dayton corridor's southern
@@ -216,7 +216,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "443",
-    href: "/directory/hamilton-middletown",
+    href: "/network/hamilton-middletown",
   },
   {
     // The upper Great Miami mainstem node (Miami County), upstream of WPAFB — the I-75 corridor
@@ -231,7 +231,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "475",
-    href: "/directory/troy-piqua",
+    href: "/network/troy-piqua",
   },
 
   // The remaining Miami-basin sites, now onboarded (queued; #440) — registered SiteProfiles in
@@ -246,7 +246,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "481",
-    href: "/directory/sidney",
+    href: "/network/sidney",
   },
   {
     slug: "greenville",
@@ -257,7 +257,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "482",
-    href: "/directory/greenville",
+    href: "/network/greenville",
   },
   {
     slug: "wilmington",
@@ -268,7 +268,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "queued",
     selectable: false,
     issue: "492",
-    href: "/directory/wilmington",
+    href: "/network/wilmington",
   },
 
   // --- Tracking sites (#484 + basin epics): GitHub-tracked candidates with an issue but no
@@ -284,7 +284,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "485",
-    href: "/directory/new-albany",
+    href: "/network/new-albany",
   },
   {
     slug: "columbus",
@@ -295,7 +295,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "486",
-    href: "/directory/columbus",
+    href: "/network/columbus",
   },
   // Muskingum (Ohio's largest basin)
   {
@@ -307,7 +307,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "493",
-    href: "/directory/newark",
+    href: "/network/newark",
   },
   {
     slug: "zanesville",
@@ -318,7 +318,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "494",
-    href: "/directory/zanesville",
+    href: "/network/zanesville",
   },
   {
     slug: "coshocton",
@@ -329,7 +329,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "495",
-    href: "/directory/coshocton",
+    href: "/network/coshocton",
   },
   // Sandusky (the Maumee's Lake Erie nutrient sibling)
   {
@@ -341,7 +341,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "496",
-    href: "/directory/fremont",
+    href: "/network/fremont",
   },
   {
     slug: "tiffin",
@@ -352,7 +352,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "497",
-    href: "/directory/tiffin",
+    href: "/network/tiffin",
   },
   {
     slug: "bucyrus",
@@ -363,7 +363,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "498",
-    href: "/directory/bucyrus",
+    href: "/network/bucyrus",
   },
   // Cuyahoga (the burning-river industrial legacy)
   {
@@ -375,7 +375,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "499",
-    href: "/directory/cleveland",
+    href: "/network/cleveland",
   },
   {
     slug: "akron",
@@ -386,7 +386,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "500",
-    href: "/directory/akron",
+    href: "/network/akron",
   },
   // Mahoning (Voltage Valley EV/battery load)
   {
@@ -398,7 +398,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "501",
-    href: "/directory/lordstown",
+    href: "/network/lordstown",
   },
   {
     slug: "youngstown",
@@ -409,7 +409,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "502",
-    href: "/directory/youngstown",
+    href: "/network/youngstown",
   },
   // Hocking (the unglaciated Appalachian contrast)
   {
@@ -421,7 +421,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "503",
-    href: "/directory/lancaster",
+    href: "/network/lancaster",
   },
   {
     slug: "athens",
@@ -432,7 +432,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "504",
-    href: "/directory/athens",
+    href: "/network/athens",
   },
   {
     slug: "logan",
@@ -443,7 +443,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "tracking",
     selectable: false,
     issue: "505",
-    href: "/directory/logan",
+    href: "/network/logan",
   },
 ] as const;
 
@@ -471,11 +471,12 @@ export function siteBadge(site: NetworkSite): string {
 }
 
 /**
- * Resolve which network site a route belongs to — the switcher's *current* state (#316).
- * Prefix-matches the path against each site's `href`: `/bosc[/…]` → the live Lima build,
- * `/directory/<slug>[/…]` → that site (incl. the not-yet-built ones). The network directory
- * (`/directory`) and the cross-cutting globals (`/about`, `/wiki`, `/ask`) belong to no
- * single site → `null` (a neutral network state). `base` strips an Astro base prefix.
+ * Resolve which network site a route belongs to — the switcher's *current* state (#316), and
+ * the site-vs-network chrome tier. Only a **selectable** (built) site triggers the site tier:
+ * `/network/american-sugar-creek-allen-co[/…]` → the live build. A coming-soon site lives at
+ * `/network/<slug>` too, but it's not selectable, so it stays on neutral **network** chrome
+ * (the directory `/`, the `/network/<slug>` watch pages, and the cross-cutting globals all →
+ * `null`). `base` strips an Astro base prefix.
  */
 export function siteForPath(pathname: string, base = ""): NetworkSite | null {
   let p = pathname;
@@ -484,6 +485,7 @@ export function siteForPath(pathname: string, base = ""): NetworkSite | null {
   p = p.replace(/\/+$/, "") || "/";
   return (
     SITES.find((s) => {
+      if (!s.selectable) return false;
       const h = s.href.replace(/\/+$/, "");
       return p === h || p.startsWith(`${h}/`);
     }) ?? null

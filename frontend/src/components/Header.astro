@@ -20,7 +20,7 @@ const base = import.meta.env.BASE_URL || "/";
 const here = siteForPath(Astro.url.pathname, base);
 const tier: "network" | "site" = here ? "site" : "network";
 const leftTabs = tier === "site" ? SITE_TABS : NETWORK_TABS;
-const networkHome = "/directory/";
+const networkHome = "/";
 
 // The site chip = the breadcrumb + the switcher trigger. Network tier shows "All sites".
 const chipPlace = here ? here.place : "All sites";
