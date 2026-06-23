@@ -7,7 +7,7 @@ Living record for the Fort Wayne watershed point (basin: maumee), scaffolded by 
 - [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)
 - [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile
 - [x] **Data-center activity** — DOCUMENTED (#360, 2026-06-23): the disclosed facility is **Google's $2B "Project Zodiac" campus** (700+ ac, SE Fort Wayne, served by I&M, operational Dec 2025) — see [`datacenter-facility.md`](datacenter-facility.md). Primary-record *extraction* (IDEM air permit → MW, IURC filings, abatement ordinance, wetland permits) is the open follow-up, so the `facility` power basis stays `None`.
-- [~] **Per-jurisdiction GIS** — flood = shared national NFHL (wired). Parcels/zoning `[open]` — see GIS discovery below; no clean queryable district catalog like Findlay's, so nothing committed yet
+- [~] **Per-jurisdiction GIS** — flood = shared national NFHL (wired). Parcels/zoning `[open]` — see GIS discovery below; no clean queryable district catalog like Findlay's, and the 2026-06-19 `acimap.us` parcel endpoints now 404 (re-verified 2026-06-23, #362), so nothing committed yet
 
 ## Last onboard run
 
@@ -40,6 +40,14 @@ district-catalog layer**, so nothing is committed yet; flood is the shared natio
 Follow-up (a research/issue lead): wire the City of Fort Wayne partial-CAMA parcel layer behind
 a `GisParcelSchema` once there are corpus parcels to resolve; locate a queryable Fort Wayne
 zoning layer (or accept that zoning is map-only here).
+
+**Re-verify 2026-06-23 (#362):** both `acimap.us` REST endpoints above now **404** (the abbreviated
+2026-06-19 paths no longer resolve), and the IndianaMap statewide hosted parcel layer times out — so a
+**surveyed parcel boundary is not reachable** by REST today. The facility *location* IS now sourced
+(Google "Project Zodiac", 6015 Adams Center Rd → −85.045/41.031, ArcGIS World geocoder + #360), but per
+the conservative discipline (no constructed AOI; mirrors Findlay #355) **no footprint geometry is
+committed**. #362 stays open; the unblock is the #360 deed/rezoning/stormwater-permit extraction (a
+surveyed boundary), which also feeds the SSURGO HSG validation below.
 
 ## Self-research (Phase 5; #247) — 2026-06-21
 
@@ -109,7 +117,7 @@ tracked under GIS discovery above.
 ## Review gate (blocking)
 
 - [ ] Every written reference value is reviewed against a cited source (no fabricated values).
-- [ ] SSURGO dominant HSG matches the profile, or the SiteProfile is updated with a citation.
+- [ ] SSURGO dominant HSG matches the profile, or the SiteProfile is updated with a citation. **(#362, footprint-gated — still `[inference]`: no surveyed boundary reachable by REST as of 2026-06-23; conservative, no constructed AOI; unblocks on the #360 deed/rezoning extraction.)**
 - [x] basin-screen coverage is sane for this site's receiving waters — IN0032191's primary receiver is the ungaged Baldwin Ditch, so it is correctly unscreened (omit-don't-guess); the receiving-water read is documented in [`wwtp-receiving-water.md`](wwtp-receiving-water.md) against the derived headwaters 7Q10 (#358/#359).
 - [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
 - [x] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/) — see self-research summary above; 5 proposals filed as sub-issues of #235 (#358–362).
