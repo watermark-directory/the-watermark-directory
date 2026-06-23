@@ -21,7 +21,7 @@ const clipId = `stk-${title.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
     <span class="chart-title">{title}</span>
   </figcaption>
   <svg viewBox={`0 0 ${c.width} ${c.height}`} class="chart-stacked-svg" role="img" aria-label={title}>
-    <defs><clipPath id={clipId}><rect x="3" y="3" width="354" height="24" rx="6" /></clipPath></defs>
+    <defs><clipPath id={clipId}><rect x="3" y="3" width="354" height="24" /></clipPath></defs>
     <g clip-path={`url(#${clipId})`}>
       {c.segments.map((s) => <rect x={s.x} y="3" width={s.w} height="24" fill={s.fill} />)}
     </g>

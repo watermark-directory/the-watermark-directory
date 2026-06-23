@@ -18,7 +18,7 @@ interface Props {
 }
 const { concept } = Astro.props;
 const index = wikiIndex();
-const paragraphs = renderBody(concept.body, index);
+const bodyHtml = renderBody(concept.body, index);
 const related = concept.related
   .map((r) => index.get(norm(r)))
   .filter((t): t is NonNullable<typeof t> => Boolean(t));
@@ -61,7 +61,7 @@ const profileToc = sections.length >= 2 ? sections : [];
       )
     }
 
-    {paragraphs.map((html) => <p set:html={html} />)}
+    <Fragment set:html={bodyHtml} />
 
     {
       backlinks.length > 0 && (

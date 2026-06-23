@@ -18,8 +18,12 @@ import { resolveTeardown } from "../lib/teardownResolve";
 interface Props {
   record: TeardownRecord;
   layout?: TeardownLayout;
+  /** Emit `beat-*` ids on the five beats so the record-screen rail can scroll-spy
+   *  them (#195). Set on the DEFAULT (split) instance only — the screen renders all
+   *  three layouts, so ids on more than one would collide. */
+  anchors?: boolean;
 }
-const { record, layout = "split" } = Astro.props;
+const { record, layout = "split", anchors = false } = Astro.props;
 // Resolve curated content against the live bundle: load-bearing figures + the
 // source viewer bind to the record's real extraction, deep verify/concept links,
 // present-checked, with graceful fallback to the curated value/links.
@@ -47,12 +51,12 @@ const pins = r.pins ?? [];
     <div class="td-body">
       <div class="td-split">
         {/* ① source */}
-        <div class="td-pane td-pane--source">
+        <div class="td-pane td-pane--source" id={anchors ? "beat-source" : undefined}>
           <div class="td-part">① The source</div>
           <TeardownSourceCard source={r.source} fields={sourceFields} sourceDoc={sourceDoc} size="md" />
         </div>
         {/* ② what we read */}
-        <div class="td-pane td-pane--read">
+        <div class="td-pane td-pane--read" id={anchors ? "beat-read" : undefined}>
           <div class="td-part is-forest">② What we read from it</div>
           <div class="td-rows">
             {r.extraction.map((row) => (
@@ -70,11 +74,11 @@ const pins = r.pins ?? [];
 
       {/* ③ reveals + ④ check */}
       <div class="td-rc">
-        <div class="td-reveal">
+        <div class="td-reveal" id={anchors ? "beat-reveal" : undefined}>
           <div class="td-part">③ What it reveals</div>
           <p class="td-reveal-text">{r.reveal.lead}<mark class="td-key">{r.reveal.key}</mark>{r.reveal.tail}</p>
         </div>
-        <div class="td-check">
+        <div class="td-check" id={anchors ? "beat-check" : undefined}>
           <div class="td-part is-green">④ How to check it</div>
           <span class:list={["td-tag", `td-tag--${r.check.tag}`]}><span class="td-tag-dot" aria-hidden="true"></span>[{r.check.tag}] {r.check.sub}</span>
           <div class="td-link-row">
@@ -91,7 +95,7 @@ const pins = r.pins ?? [];
       {r.redaction && <RedactionReveal redaction={r.redaction} />}
 
       {/* ⑤ connects */}
-      <div class="td-connects">
+      <div class="td-connects" id={anchors ? "beat-connect" : undefined}>
         <div class="td-part">⑤ Where it connects</div>
         <div class="td-chips">
           {r.connect.map((c) => (

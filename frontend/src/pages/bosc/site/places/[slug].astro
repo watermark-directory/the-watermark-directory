@@ -4,11 +4,12 @@ import Base from "../../../../layouts/Base.astro";
 import Provenance from "../../../../components/Provenance.astro";
 import ProfileHeader from "../../../../components/ProfileHeader.astro";
 import { hasFeed, loadFeed } from "../../../../lib/bundle";
-import { paragraphs, type PlaceItem } from "../../../../lib/feeds";
+import type { PlaceItem } from "../../../../lib/feeds";
 import type { ProfileAttr, ProfileHeaderData } from "../../../../lib/profile";
 import type { FigureStatData } from "../../../../lib/viz";
 import { entityHref } from "../../../../lib/entityLinks";
 import { withBase } from "../../../../lib/site";
+import { renderBody } from "../../../../lib/wiki";
 
 export const getStaticPaths: GetStaticPaths = () => {
   const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
@@ -70,7 +71,7 @@ const profileToc = sections.length >= 2 ? sections : [];
       )
     }
 
-    {place.body && paragraphs(place.body).map((p) => <p>{p}</p>)}
+    {place.body && <Fragment set:html={renderBody(place.body)} />}
 
     {
       place.members.length > 0 && (

@@ -39,7 +39,7 @@ const c = buildVBars(data, max != null ? { max } : {});
     {
       c.bars.map((b) => (
         <Fragment>
-          <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="2.5" fill={b.fill} />
+          <rect x={b.x} y={b.y} width={b.w} height={b.h} fill={b.fill} />
           <text x={b.cx} y={b.valY} text-anchor="middle" class:list={["chart-val", { "is-peak": b.peak }]}>{b.value}</text>
           <text x={b.cx} y="188" text-anchor="middle" class="chart-axis chart-axis--x">{b.label}</text>
         </Fragment>

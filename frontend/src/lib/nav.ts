@@ -35,6 +35,8 @@ export interface TocEntry {
   label: string;
   /** The `id` of the heading on the section page this entry points to. */
   anchor: string;
+  /** Optional rail glyph (e.g. "·", "①"); defaults to a 2-digit running index. */
+  num?: string;
 }
 
 export interface Section {

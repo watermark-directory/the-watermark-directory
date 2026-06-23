@@ -17,6 +17,9 @@ interface BaseProps {
   /** Page-local table of contents — anchors on THIS page. The rail is a TOC for
    *  the page you're on, never section navigation; it shows only when non-empty. */
   toc?: TocEntry[];
+  /** Rail heading override (defaults to "On this page"; the record screen uses
+   *  "On this record"). */
+  tocTitle?: string;
   /** og:type — defaults to "website"; docs essays pass "article". */
   ogType?: "website" | "article";
 }
@@ -30,6 +33,7 @@ const {
   section = "home",
   rail = true,
   toc = [],
+  tocTitle,
   ogType = "website",
 } = raw.frontmatter ?? raw;
 const showRail = rail !== false && toc.length > 0;
@@ -66,7 +70,7 @@ const showRail = rail !== false && toc.length > 0;
     />
     <Header active={section} />
     <div class:list={["layout", { "no-rail": !showRail }]}>
-      {showRail && <SectionToc items={toc} />}
+      {showRail && <SectionToc items={toc} title={tocTitle} />}
       <main id="main" class="content" tabindex="-1">
         <slot />
       </main>

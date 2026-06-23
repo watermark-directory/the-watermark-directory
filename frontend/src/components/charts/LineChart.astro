@@ -4,7 +4,7 @@
  * SSR SVG, no JS. Forest line over a faint forest fill.
  */
 import type { TagKind } from "../../lib/teardown";
-import { buildLine, type LinePoint } from "../../lib/charts";
+import { buildLine, type LinePoint, type RefLineInput } from "../../lib/charts";
 import EvidenceTag from "../EvidenceTag.astro";
 
 interface Props {
@@ -14,12 +14,14 @@ interface Props {
   max?: number;
   /** Label drawn at the final point (e.g. "340.2 ac"). */
   endLabel?: string;
+  /** Dashed horizontal threshold lines (draw / limit / level) — see `RefLineInput`. */
+  refs?: RefLineInput[];
   evidence?: TagKind;
   source?: string;
   caption?: string;
 }
-const { data, kicker = "Line · time series", title, max, endLabel, evidence, source, caption } = Astro.props;
-const c = buildLine(data, max != null ? { max } : {});
+const { data, kicker = "Line · time series", title, max, endLabel, refs, evidence, source, caption } = Astro.props;
+const c = buildLine(data, { ...(max != null ? { max } : {}), ...(refs ? { refs } : {}) });
 ---
 
 <figure class="chart-card">
@@ -38,6 +40,14 @@ const c = buildLine(data, max != null ? { max } : {});
     }
     <line x1="34" y1={c.baselineY} x2="348" y2={c.baselineY} stroke="#cdc8b8" stroke-width="1" />
     <path d={c.area} fill="#1f6f4a" fill-opacity="0.10" />
+    {
+      c.refLines.map((r) => (
+        <Fragment>
+          <line x1={c.plot.left} y1={r.y} x2={c.plot.right} y2={r.y} stroke={r.color} stroke-width="1.5" stroke-dasharray={r.dash} />
+          <text x={c.plot.right} y={r.y - 4} text-anchor="end" class="chart-ref-label" style={`fill:${r.color}`}>{r.label}</text>
+        </Fragment>
+      ))
+    }
     <path d={c.line} fill="none" stroke="#1f6f4a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" />
     {
       c.dots.map((d) => (

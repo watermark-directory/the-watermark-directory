@@ -77,6 +77,27 @@ const { record: r, density = "full" } = Astro.props;
         </div>
       )}
 
+      {r.connect.length > 0 && (
+        <div class="rb-connect">
+          <div class="rb-connect-label">Where it connects</div>
+          <div class="td-chips">
+            {r.connect.map((c) =>
+              c.href ? (
+                <a class="td-chip" href={c.href}>
+                  <span class="td-chip-kind">{c.kind}</span>
+                  {c.label}
+                </a>
+              ) : (
+                <span class="td-chip">
+                  <span class="td-chip-kind">{c.kind}</span>
+                  {c.label}
+                </span>
+              ),
+            )}
+          </div>
+        </div>
+      )}
+
       <div class="rb-foot">
         <div class="rb-src">
           <div class="rb-src-icon" aria-hidden="true" />

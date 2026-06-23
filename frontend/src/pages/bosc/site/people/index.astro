@@ -8,38 +8,59 @@ const people = hasFeed("people") ? loadFeed<PersonItem[]>("people") : [];
 const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
 ---
 
-<Base title="People & places" section="site">
-  <article class="prose">
-    <h1>People &amp; places</h1>
-    <p class="section-lead">
-      Curated individual and place profiles — the human and geographic detail
-      behind the entity graph.
-    </p>
+<Base title="People & places" section="site" rail={false}>
+  <div class="hub">
+    <div class="hub-head">
+      <div>
+        <div class="hub-eyebrow">The record · people &amp; places</div>
+        <h1>People &amp; places</h1>
+        <p class="hub-lead">
+          Curated individual and place profiles — the human and geographic detail
+          behind the entity graph.
+        </p>
+      </div>
+      <span class="hub-count">{people.length} people · {places.length} places</span>
+    </div>
 
-    <h2 id="people">People</h2>
-    <p>{people.length} profile(s).</p>
-    <div class="cards">
+    <h2 class="hub-subhead" id="people">People</h2>
+    <div class="hub-grid">
       {
         people.map((p) => (
-          <a class="card" href={`${withBase("/bosc/site/people/")}${p.slug}/`}>
-            <span class="card-title">{p.name}</span>
-            <span class="card-meta">{p.roles.slice(0, 2).join(" · ") || p.affiliations[0] || ""}</span>
+          <a class="hub-door" href={`${withBase("/bosc/site/people/")}${p.slug}/`}>
+            <div class="hub-door-top">
+              <span class="hub-door-kind">Person</span>
+            </div>
+            <div class="hub-door-title">{p.name}</div>
+            {(p.roles.length > 0 || p.affiliations.length > 0) && (
+              <div class="hub-door-desc">{p.roles.slice(0, 2).join(" · ") || p.affiliations[0]}</div>
+            )}
+            <div class="hub-door-foot">
+              <span class="hub-door-browse">Open profile</span>
+              <span class="hub-door-arrow" aria-hidden="true">›</span>
+            </div>
           </a>
         ))
       }
     </div>
 
-    <h2 id="places">Places</h2>
-    <p>{places.length} profile(s). → <a href={withBase("/bosc/site/places/")}>Places &amp; parcels index</a></p>
-    <div class="cards">
+    <h2 class="hub-subhead" id="places">Places</h2>
+    <div class="hub-grid">
       {
         places.map((p) => (
-          <a class="card" href={`${withBase("/bosc/site/places/")}${p.slug}/`}>
-            <span class="card-title">{p.name}</span>
-            <span class="card-meta">{p.kind}{p.parcels.length ? ` · ${p.parcels.length} parcel(s)` : ""}</span>
+          <a class="hub-door" href={`${withBase("/bosc/site/places/")}${p.slug}/`}>
+            <div class="hub-door-top">
+              <span class="hub-door-kind">{p.kind}</span>
+              {p.parcels.length > 0 && <span class="hub-door-count">{p.parcels.length}</span>}
+            </div>
+            <div class="hub-door-title">{p.name}</div>
+            <div class="hub-door-foot">
+              <span class="hub-door-browse">Open profile</span>
+              {p.parcels.length > 0 && <span class="hub-door-note">{p.parcels.length} parcel(s)</span>}
+              <span class="hub-door-arrow" aria-hidden="true">›</span>
+            </div>
           </a>
         ))
       }
     </div>
-  </article>
+  </div>
 </Base>

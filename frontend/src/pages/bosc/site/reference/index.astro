@@ -9,24 +9,36 @@ const present = new Set((await getCollection("reference")).map((e) => e.id));
 const datasets = REFERENCE.filter((d) => present.has(d.slug) && refBySlug.has(d.slug));
 ---
 
-<Base title="Reference data" section="site">
-  <article class="prose">
-    <p><a href={withBase("/bosc/site/")}>← The record</a></p>
-    <h1>Reference data</h1>
-    <p class="section-lead">
-      The authoritative datasets from <strong>outside</strong> sources that the analysis
-      draws on — EPA, USGS, BLS/Census, county and city GIS, GLEIF. Each is committed,
-      regenerable from its source, and documented here with its provenance and known gaps.
-    </p>
-    <div class="cards">
+<Base title="Reference data" section="site" rail={false}>
+  <div class="hub">
+    <div class="hub-head">
+      <div>
+        <div class="hub-eyebrow">The record · reference</div>
+        <h1>Reference data</h1>
+        <p class="hub-lead">
+          The authoritative datasets from <strong>outside</strong> sources that the analysis
+          draws on — EPA, USGS, BLS/Census, county and city GIS, GLEIF. Each is committed,
+          regenerable from its source, and documented here with its provenance and known gaps.
+        </p>
+      </div>
+      <span class="hub-count">{datasets.length} datasets</span>
+    </div>
+    <div class="hub-grid">
       {
         datasets.map((d) => (
-          <a class="card" href={`${withBase("/bosc/site/reference/")}${d.slug}`}>
-            <span class="card-title">{d.title}</span>
-            <span class="card-meta">{d.blurb}</span>
+          <a class="hub-door" href={`${withBase("/bosc/site/reference/")}${d.slug}`}>
+            <div class="hub-door-top">
+              <span class="hub-door-kind">Dataset</span>
+            </div>
+            <div class="hub-door-title">{d.title}</div>
+            <div class="hub-door-desc">{d.blurb}</div>
+            <div class="hub-door-foot">
+              <span class="hub-door-browse">Open</span>
+              <span class="hub-door-arrow" aria-hidden="true">›</span>
+            </div>
           </a>
         ))
       }
     </div>
-  </article>
+  </div>
 </Base>
