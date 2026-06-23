@@ -8,7 +8,7 @@ import {
   buildStacked,
   buildVBars,
   EVIDENCE_FILL,
-  INDIGO,
+  FOREST,
   niceMax,
   WITHHELD_FILL,
 } from "./charts";
@@ -21,7 +21,7 @@ describe("charts geometry (#306)", () => {
     expect([10, 20, 25, 50, 100]).toContain(niceMax(31));
   });
 
-  it("vertical bars: one bar per datum, peak highlighted in indigo, within the plot", () => {
+  it("vertical bars: one bar per datum, peak highlighted in forest, within the plot", () => {
     const c = buildVBars([
       { label: "a", value: 6 },
       { label: "b", value: 31 },
@@ -31,7 +31,7 @@ describe("charts geometry (#306)", () => {
     const peak = c.bars.filter((b) => b.peak);
     expect(peak).toHaveLength(1);
     expect(peak[0].value).toBe(31);
-    expect(peak[0].fill).toBe(INDIGO);
+    expect(peak[0].fill).toBe(FOREST);
     for (const b of c.bars) expect(b.y + b.h).toBeCloseTo(c.baselineY, 1); // bars sit on the baseline
     expect(c.grid).toHaveLength(5);
   });
@@ -46,7 +46,7 @@ describe("charts geometry (#306)", () => {
     );
     expect(c.bars).toHaveLength(2);
     expect(c.bars[1].fill).toBe(WITHHELD_FILL);
-    expect(c.bars[0].fill).toBe(INDIGO);
+    expect(c.bars[0].fill).toBe(FOREST);
     expect(c.bars[0].valLabel).toBe("92 ac");
   });
 
@@ -83,7 +83,7 @@ describe("charts geometry (#306)", () => {
     expect(c.segments.reduce((s, g) => s + g.pct, 0)).toBeCloseTo(100, 0);
   });
 
-  it("donut: one arc per slice, indigo tints, total summed", () => {
+  it("donut: one arc per slice, forest tints, total summed", () => {
     const c = buildDonut([
       { label: "a", value: 96 },
       { label: "b", value: 78 },

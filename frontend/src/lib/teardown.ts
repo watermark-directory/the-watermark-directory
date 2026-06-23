@@ -105,7 +105,7 @@ export interface TeardownPin {
   n: number;
   label: string;
   value: string;
-  /** Scope gap / redaction — renders red instead of indigo. */
+  /** Scope gap / redaction — renders red instead of forest. */
   danger?: boolean;
   /** CSS offset over the artifact, e.g. "44px". */
   x: string;

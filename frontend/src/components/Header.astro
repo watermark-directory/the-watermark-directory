@@ -2,7 +2,7 @@
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
 import SwitcherRow from "./SwitcherRow.astro";
-import { NAV_TABS, navItemActive, type SectionId } from "../lib/nav";
+import { NETWORK_TABS, SITE_TABS, PLATFORM_LINKS, navItemActive, type SectionId } from "../lib/nav";
 import { withBase } from "../lib/site";
 import { groupSites, SITE_STATUS_META, SITES, siteForPath } from "../lib/sites";
 
@@ -13,63 +13,68 @@ const { active } = Astro.props;
 const searchIndexUrl = withBase("/search-index.json");
 const base = import.meta.env.BASE_URL || "/";
 
-// The Watermark network switcher (#304). The mark opens a no-JS <details> menu of sites; only
-// the live reference build (Lima) is switchable — the rest route to their coming-soon page.
-// The *current* site is resolved from this page's route (#316), so the lockup shows where
-// you are — not a constant. `null` = the network hub / cross-cutting globals (neutral state).
+// The two-tier chrome (design "Global Chrome"). The active tier is resolved from the
+// route: inside a site (`here !== null`) → SITE tabs + the site chip; at the network
+// level (the directory + cross-cutting globals) → NETWORK tabs + the "All sites" chip.
+// The `Watermark.` wordmark always returns to the network home (the Report/directory).
 const here = siteForPath(Astro.url.pathname, base);
-const herePlace = here ? here.place : "network";
-const hereLabel = here ? `current site: ${here.place}` : "network overview";
-// The site's build phase, shown as a pill beside the switcher (the left/site cluster). Only on a
-// resolved site — the network hub / cross-cutting globals carry no phase.
+const tier: "network" | "site" = here ? "site" : "network";
+const leftTabs = tier === "site" ? SITE_TABS : NETWORK_TABS;
+const networkHome = "/directory/";
+
+// The site chip = the breadcrumb + the switcher trigger. Network tier shows "All sites".
+const chipPlace = here ? here.place : "All sites";
+const chipCodename = here?.codename ?? null;
 const herePhase = here ? SITE_STATUS_META[here.status] : null;
-// The grouped selector (#307/#308 dictate C): the same sites pivoted by jurisdiction (State) or
-// the nine major basins (Basin). The toggle is no-JS (radio inputs + :checked), so it works with
-// JS off. The full network — 32 sites / 9 basins — so the panel opens full-width (see site.css).
+
+// The grouped selector (#307/#308): the same 32-site panel, pivoted by State or Basin
+// (default Basin, design "Site Selector"). No-JS — radio inputs + :checked.
 const stateGroups = groupSites("state");
 const basinGroups = groupSites("basin");
 const hereSlug = here?.slug ?? null;
 const totalSites = SITES.length;
-// The scope line + footer noun pivot with the active group-by (no-JS: both rendered, toggled by
-// the gb-* radios in CSS). State is the default lens, so the state copy shows first.
 const stateCount = stateGroups.length;
 const basinCount = basinGroups.length;
-// Dim the left/site section tabs when the current site isn't live (dictate B — the bar is a build
-// gauge). `null` (network hub) and the live build keep full-strength tabs.
-const sectionsDimmed = here !== null && here.status !== "live";
 
-// The mobile nav sheet (#400): on phones the section tabs reopen as a labeled
-// "This site / Platform" sheet. Split NAV_TABS at the ownership divider; the platform
-// group also surfaces the cross-cutting globals (Directory, About, Ask, Search) that live
-// in the topbar-right / footer on desktop. Desktop chrome (.sections) is untouched.
-const dividerAt = NAV_TABS.findIndex((t) => t.kind === "divider");
-const siteTabs = (dividerAt === -1 ? NAV_TABS : NAV_TABS.slice(0, dividerAt)).filter((t) => t.kind !== "divider");
-const platformTabs = (dividerAt === -1 ? [] : NAV_TABS.slice(dividerAt + 1)).filter((t) => t.kind !== "divider");
+// The platform globals also surfaced in the mobile sheet's "Platform" group.
 const platformGlobals: { label: string; href: string; section: SectionId }[] = [
-  { label: "Directory", href: "/directory/", section: "directory" },
-  { label: "About", href: "/about", section: "about" },
   { label: "Ask the corpus", href: "/ask", section: "ask" },
   { label: "Search", href: "/search", section: "search" },
 ];
 ---
 
-<header class="topbar">
-  <label for="bosc-nav-toggle" class="nav-burger" aria-label="Toggle navigation"><Icon name="menu" size={22} /></label>
+<header class:list={["topbar", `tier-${tier}`]}>
+  <!-- Brand — the wordmark, always a link home to the network. On phones it collapses to the "w." mark. -->
+  <a class="brand" href={withBase(networkHome)} aria-label="Watermark — network home">
+    <Logo size={22} class="brand-mark" rounded />
+    <span class="brand-word">Watermark<span class="brand-dot">.</span></span>
+  </a>
+  <span class="brand-sep" aria-hidden="true">/</span>
+
+  <!-- The site chip — the breadcrumb into a site and the switcher trigger (no-JS <details>). -->
   <details class="site-switcher">
-    <summary class="brand" aria-label={`The Watermark network — ${hereLabel}`}>
-      <Logo size={26} class="brand-mark" />
-      <span class="brand-word"><strong>Watermark</strong> <span class="brand-tagline">· {herePlace}</span></span>
-      <span class="switcher-caret" aria-hidden="true">▾</span>
+    <summary class="site-chip" aria-label={tier === "network" ? "All sites — open the site selector" : `Current site: ${chipPlace} — switch site`}>
+      {
+        tier === "network" && (
+          <svg class="chip-grid" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3.5" y="4.5" width="17" height="6" rx="1" />
+            <rect x="3.5" y="13.5" width="17" height="6" rx="1" />
+          </svg>
+        )
+      }
+      <span class="chip-place">{chipPlace}</span>
+      {chipCodename && <span class="chip-codename">{chipCodename}</span>}
+      <span class="chip-caret" aria-hidden="true">▾</span>
     </summary>
     <div class="switcher-menu">
-      <input type="radio" name="switcher-groupby" id="gb-state" class="gb-radio" checked />
-      <input type="radio" name="switcher-groupby" id="gb-basin" class="gb-radio" />
+      <input type="radio" name="switcher-groupby" id="gb-basin" class="gb-radio" checked />
+      <input type="radio" name="switcher-groupby" id="gb-state" class="gb-radio" />
       <div class="switcher-head">
         <span class="switcher-head-l">
           <span class="switcher-title">Switch site</span>
           <span class="switcher-count"
-            >{totalSites} sites · <span class="sw-scope sw-scope-state">{stateCount} states</span><span
-              class="sw-scope sw-scope-basin">{basinCount} basins</span
+            >{totalSites} sites · <span class="sw-scope sw-scope-basin">{basinCount} basins</span><span
+              class="sw-scope sw-scope-state">{stateCount} states</span
             ></span
           >
         </span>
@@ -117,9 +122,9 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
       </div>
       <div class="switcher-foot">
         <span class="switcher-foot-note">
-          Each site is a section of the Watermark platform — pivoted by <span class="sw-scope sw-scope-state"
-            >state</span
-          ><span class="sw-scope sw-scope-basin">basin</span>. Live &amp; building sites open; queued and tracking
+          Each site is a section of the Watermark platform — pivoted by <span class="sw-scope sw-scope-basin"
+            >basin</span
+          ><span class="sw-scope sw-scope-state">state</span>. Live &amp; building sites open; queued and tracking
           sites route to their coming-soon / watch page.
         </span>
         <span class="switcher-legend" aria-hidden="true">
@@ -132,10 +137,11 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
     </div>
   </details>
   {herePhase && <span class:list={["phase-pill", herePhase.cls]} title={`Site build phase: ${herePhase.label}`}>{herePhase.label}</span>}
-  <nav class:list={["sections", { "is-dimmed": sectionsDimmed }]} id="bosc-sections" aria-label="Sections">
+
+  <!-- Left tabs — swap by tier (site vs network). About is a no-JS dropdown. -->
+  <nav class="sections" id="bosc-sections" aria-label={tier === "site" ? "This site" : "Network"}>
     {
-      NAV_TABS.map((item) => {
-        if (item.kind === "divider") return <span class="nav-divider" aria-hidden="true" />;
+      leftTabs.map((item) => {
         const isActive = navItemActive(item, active);
         if (item.kind === "dropdown") {
           return (
@@ -150,7 +156,8 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
                     <hr class="nav-dd-hr" />
                   ) : (
                     <a class="nav-dd-item" href={withBase(child.href)}>
-                      {child.label}
+                      <span class="nav-dd-item-label">{child.label}</span>
+                      {child.blurb && <span class="nav-dd-item-blurb">{child.blurb}</span>}
                     </a>
                   ),
                 )}
@@ -170,11 +177,13 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
       })
     }
   </nav>
+
+  <!-- Mobile sheet (#400): This site / Network / Platform, toggled by the burger checkbox. -->
   <nav class="nav-sheet" id="bosc-nav-sheet" aria-label="Site menu">
     <div class="sheet-group">
-      <div class="sheet-grouphead">This site</div>
+      <div class="sheet-grouphead">This site · {here ? here.place : "Lima"}</div>
       {
-        siteTabs.map((item) =>
+        SITE_TABS.map((item) =>
           item.kind === "link" ? (
             <a
               class:list={["sheet-link", { active: navItemActive(item, active) }]}
@@ -183,7 +192,23 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
             >
               {item.label}
             </a>
-          ) : item.kind === "dropdown" ? (
+          ) : null,
+        )
+      }
+    </div>
+    <div class="sheet-group">
+      <div class="sheet-grouphead">Network</div>
+      {
+        NETWORK_TABS.map((item) =>
+          item.kind === "link" ? (
+            <a
+              class:list={["sheet-link", { active: navItemActive(item, active) }]}
+              href={withBase(item.href)}
+              aria-current={navItemActive(item, active) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ) : (
             <>
               <div class="sheet-sublabel">{item.label}</div>
               {item.children.map((child) =>
@@ -194,39 +219,55 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
                 ),
               )}
             </>
-          ) : null,
+          ),
         )
       }
     </div>
     <div class="sheet-group">
       <div class="sheet-grouphead">Platform</div>
-      {
-        platformTabs.map((item) =>
-          item.kind === "link" ? (
+      <div class="sheet-platform">
+        {
+          PLATFORM_LINKS.map((item) => (
             <a
-              class:list={["sheet-link", { active: navItemActive(item, active) }]}
+              class:list={["sheet-plink", { active: active === item.section }]}
               href={withBase(item.href)}
-              aria-current={navItemActive(item, active) ? "page" : undefined}
+              aria-current={active === item.section ? "page" : undefined}
             >
               {item.label}
             </a>
-          ) : null,
-        )
-      }
+          ))
+        }
+        {
+          platformGlobals.map((g) => (
+            <a
+              class:list={["sheet-plink", { active: active === g.section }]}
+              href={withBase(g.href)}
+              aria-current={active === g.section ? "page" : undefined}
+            >
+              {g.label === "Ask the corpus" ? "Ask" : g.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </nav>
+
+  <!-- Platform cluster (right) — Docs · Wiki · | · Ask · Search. Constant across tiers. -->
+  <div class="topbar-right">
+    <span class="platform-links">
       {
-        platformGlobals.map((g) => (
+        PLATFORM_LINKS.map((item) => (
           <a
-            class:list={["sheet-link", { active: active === g.section }]}
-            href={withBase(g.href)}
-            aria-current={active === g.section ? "page" : undefined}
+            class:list={["platform-link", { active: active === item.section }]}
+            href={withBase(item.href)}
+            aria-current={active === item.section ? "page" : undefined}
           >
-            {g.label}
+            {item.label}
           </a>
         ))
       }
-    </div>
-  </nav>
-  <div class="topbar-right">
+    </span>
+    <span class="topbar-div" aria-hidden="true"></span>
     <a
       class:list={["topbar-ask", { active: active === "ask" }]}
       href={withBase("/ask")}
@@ -239,7 +280,7 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
       <input
         type="search"
         id="bosc-search"
-        placeholder="Search the record…"
+        placeholder="Search…"
         autocomplete="off"
         aria-label="Search the corpus"
         spellcheck="false"
@@ -249,5 +290,6 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
       <kbd class="search-kbd" aria-hidden="true">⌘K</kbd>
       <div id="bosc-search-results" class="search-results" hidden></div>
     </div>
+    <label for="bosc-nav-toggle" class="nav-burger" aria-label="Toggle navigation"><Icon name="menu" size={22} /></label>
   </div>
 </header>

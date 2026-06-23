@@ -3,8 +3,9 @@
  *
  *  - `SECTIONS` — the **content areas**, each with a minimal table of contents
  *    (the per-section TOC rail, the search index, and the docs grouping read it).
- *  - `NAV_TABS` — the **header bar** presentation: ordered tabs, an About
- *    dropdown, and a vertical divider before the corpus/wiki cluster.
+ *  - `NETWORK_TABS` / `SITE_TABS` / `PLATFORM_LINKS` — the **header bar**
+ *    presentation (design "Global Chrome"): a two-tier bar whose left tabs swap
+ *    by tier, plus the constant platform cluster on the right.
  *
  * A page declares its `section`; the header resolves which tab is active via
  * `navItemActive` (so the Watershed sub-area lights the Corpus tab, etc.).
@@ -25,7 +26,9 @@ export type SectionId =
   | "wiki"
   | "ask"
   | "search"
-  | "directory";
+  | "directory"
+  | "hypotheses"
+  | "submit";
 
 export interface TocEntry {
   /** Visible label in the per-section TOC. */
@@ -150,10 +153,29 @@ export const SECTIONS: Section[] = [
     // watershed-point site. The switcher is the primary entry.
     id: "directory",
     label: "The network directory",
-    tab: "Directory",
+    tab: "Report",
     href: "/directory/",
     blurb:
       "Data-center development across Ohio's Maumee watershed, point by point — Lima is the reference build.",
+    toc: [],
+  },
+  {
+    // The network's hypotheses layer (the (site × hypothesis) join) — read the network
+    // through the boom-origin hypotheses. A network-tier tab beside Report.
+    id: "hypotheses",
+    label: "Hypotheses",
+    tab: "Hypotheses",
+    href: "/directory/hypotheses",
+    blurb: "Read the network three ways — the boom-origin hypotheses, scored against each site.",
+    toc: [],
+  },
+  {
+    // Contribute a lead — a network-tier entry (no account; a document, a name, a correction).
+    id: "submit",
+    label: "Submit a lead",
+    tab: "Submit",
+    href: "/bosc/submit",
+    blurb: "Contribute a document, a name, or a correction — every confirmed figure started as a lead.",
     toc: [],
   },
 ];
@@ -164,44 +186,68 @@ export function getSection(id: SectionId): Section {
   return section;
 }
 
-// --- Header bar model ------------------------------------------------------
+// --- Header bar model (two-tier chrome, design "Global Chrome") -------------
+//
+// One bar, two tiers. The `Watermark.` wordmark always links home to the network;
+// a chip (the breadcrumb / switcher) sits beside it. The LEFT tabs swap by tier:
+//  - network level (the directory + cross-cutting globals) → Report · Hypotheses ·
+//    Submit · About▾
+//  - inside a site → The site · The record · The watershed
+// The PLATFORM tools (Docs · Wiki · Ask · Search) sit right and never change —
+// Directory is gone, folded into the network's "Report" tab. The active tier is
+// resolved from the route (`siteForPath` in the Header): inside a site → site tier.
 
-/** A link in the About dropdown, or a horizontal divider within it. */
-export type NavChild = { label: string; href: string } | { divider: true };
+/** A link in a dropdown menu (an optional second line), or a horizontal divider. */
+export type NavChild = { label: string; href: string; blurb?: string } | { divider: true };
 
 export type NavItem =
   | { kind: "link"; label: string; section: SectionId; href: string; match?: SectionId[] }
-  | { kind: "dropdown"; label: string; section: SectionId; children: NavChild[] }
-  | { kind: "divider" };
+  | { kind: "dropdown"; label: string; section: SectionId; children: NavChild[] };
 
-/**
- * The header tabs, in order — the four section tabs of the reconciled IA (design
- * dictate 02, #307; first tab relabeled "The record" in the Watermark rebrand): **The
- * record · Watershed · Wiki · Docs**. The narrative spine and utilities live as topbar
- * affordances, not tabs: the logo lockup is Home, the "Start the walk" pill is the Story
- * spine, **Ask** is the conversational front door (rendered in the topbar, left of
- * search), and About/Methodology live in the footer + Docs. Timeline folds into The
- * record hub; Reports becomes the Docs essays layer.
- */
-// The bar splits by ownership (design dictate, #307): the SITE sections (The record · Watershed)
-// belong to the current site and sit left; the divider then pushes the PLATFORM nav (Wiki · Docs,
-// joined by Ask + search in the topbar-right) hard right — constant on every site. The divider is
-// a vertical rule on desktop (a margin-left:auto spacer) and a horizontal break in the mobile
-// flyout, so every tab stays in one nav (mobile reachability preserved).
-export const NAV_TABS: NavItem[] = [
+/** Network-tier left tabs — shown at the directory and on cross-cutting globals. */
+export const NETWORK_TABS: NavItem[] = [
+  { kind: "link", label: "Report", section: "directory", href: "/directory/" },
+  { kind: "link", label: "Hypotheses", section: "hypotheses", href: "/directory/hypotheses" },
+  { kind: "link", label: "Submit", section: "submit", href: "/bosc/submit" },
+  {
+    kind: "dropdown",
+    label: "About",
+    section: "about",
+    children: [
+      { label: "Methodology", href: "/bosc/docs/methodology", blurb: "How the record is built & labeled" },
+      { label: "About the site", href: "/about", blurb: "What Watermark is, and why" },
+      { label: "About the author", href: "/about-me", blurb: "Who keeps the record" },
+    ],
+  },
+];
+
+/** Site-tier left tabs — shown inside a site (e.g. Lima, under /bosc). */
+export const SITE_TABS: NavItem[] = [
+  { kind: "link", label: "The site", section: "home", href: "/bosc" },
   { kind: "link", label: "The record", section: "site", href: "/bosc/site/", match: ["timeline"] },
-  { kind: "link", label: "Watershed", section: "watershed", href: "/bosc/watershed/" },
-  { kind: "divider" },
-  { kind: "link", label: "Wiki", section: "wiki", href: "/wiki/" },
-  { kind: "link", label: "Docs", section: "reports", href: "/bosc/docs/" },
+  { kind: "link", label: "The watershed", section: "watershed", href: "/bosc/watershed/" },
+];
+
+/** The platform cluster (right of the bar), constant across tiers. Ask + Search are
+ *  rendered separately as affordances; these two are the plain links. */
+export const PLATFORM_LINKS: { label: string; section: SectionId; href: string }[] = [
+  { label: "Docs", section: "reports", href: "/bosc/docs/" },
+  { label: "Wiki", section: "wiki", href: "/wiki/" },
 ];
 
 /** Whether `item` is the active header tab for the page's `active` section. */
 export function navItemActive(item: NavItem, active: SectionId): boolean {
-  if (item.kind === "divider") return false;
   if (item.section === active) return true;
   return item.kind === "link" && (item.match?.includes(active) ?? false);
 }
 
-/** The header link tabs (for the footer's primary-nav row). */
-export const NAV_LINKS = NAV_TABS.filter((t): t is Extract<NavItem, { kind: "link" }> => t.kind === "link");
+/** Flat primary-nav links for the footer row — both tiers + platform. */
+export const NAV_LINKS: { label: string; href: string }[] = [
+  ...SITE_TABS.filter((t): t is Extract<NavItem, { kind: "link" }> => t.kind === "link").map((t) => ({
+    label: t.label,
+    href: t.href,
+  })),
+  { label: "Report", href: "/directory/" },
+  { label: "Hypotheses", href: "/directory/hypotheses" },
+  ...PLATFORM_LINKS.map((t) => ({ label: t.label, href: t.href })),
+];

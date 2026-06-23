@@ -1,9 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Watermark">
-  <rect width="64" height="64" rx="14" fill="#3f51b5"/>
-  <g fill="none" stroke="#ffffff" stroke-width="3.8">
-    <path d="M23 13 H13 V51 H23" stroke-linecap="square"/>
-    <path d="M41 13 H51 V51 H41" stroke-linecap="square"/>
-    <path d="M21 29 q5.5 -6 11 0 t11 0" stroke-linecap="round"/>
-    <line x1="21" y1="42" x2="43" y2="42" stroke-linecap="round"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#16201A"></rect>
+  <text x="32" y="47" text-anchor="middle" font-family="Archivo, Arial, sans-serif" font-weight="800" font-size="44" letter-spacing="-3"><tspan fill="#F5F2EA">w</tspan><tspan fill="#3D8F63">.</tspan></text>
 </svg>

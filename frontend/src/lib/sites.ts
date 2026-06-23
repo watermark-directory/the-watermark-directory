@@ -508,10 +508,10 @@ export const FACILITY_STATUS_META: Record<
   FacilityStatus,
   { label: string; color: string; bg: string; dot: string }
 > = {
-  investigation: { label: "Under investigation", color: "#5b6172", bg: "#eceef2", dot: "#8a90a2" },
-  confirmed: { label: "Confirmed", color: "#3f51b5", bg: "#f3f4fb", dot: "#3f51b5" },
-  construction: { label: "Under construction", color: "#b46e00", bg: "#fbf1dd", dot: "#b46e00" },
-  live: { label: "Live", color: "#2e7d32", bg: "#e9f3ea", dot: "#2e7d32" },
+  investigation: { label: "Under investigation", color: "#566159", bg: "#e8e4d8", dot: "#8c9389" },
+  confirmed: { label: "Confirmed", color: "#1f6f4a", bg: "#e4ece4", dot: "#1f6f4a" },
+  construction: { label: "Under construction", color: "#9a6a14", bg: "#efe6d0", dot: "#9a6a14" },
+  live: { label: "Live", color: "#1f6f4a", bg: "#e4ece4", dot: "#1f6f4a" },
 };
 
 /**

@@ -1,20 +1,20 @@
 ---
 /**
- * The Watermark logo mark (rebrand — design "Watermark · Brand Lockups"): the
- * citation brackets — kept from the old "bracketed record" mark — now framing a
- * waterline (the line water leaves behind) over a single record rule. The name's
- * triple read: the mark pressed into paper to prove a document, the watershed, and
- * the high-water line. Square caps on the brackets (reserved for the mark), round on
- * the waterline + rule; monochrome via `currentColor`, so it inherits white on the
- * indigo chrome and indigo/ink elsewhere. Mark only — the wordmark is system type
- * set alongside it.
+ * The Watermark "w." mark (rebrand — design "Watermark · Brand Final": *no logo,
+ * just the word*). The brand is the wordmark `Watermark.`; the only load-bearing
+ * mark is this favicon glyph — a lowercase `w` with the green signal period,
+ * knocked out of an ink tile. It reads as type, not an icon. Used where the full
+ * wordmark won't fit (the mobile bar, the footer, share/avatar tiles); the bar and
+ * footer render the wordmark itself. Matches public/favicon.svg + brand/favicon.svg.
  */
 interface Props {
   size?: number;
   class?: string;
   label?: string;
+  /** Rounded tile for app-icon contexts; square (raw favicon) by default. */
+  rounded?: boolean;
 }
-const { size = 26, class: cls, label } = Astro.props;
+const { size = 26, class: cls, label, rounded = false } = Astro.props;
 ---
 
 <svg
@@ -22,15 +22,17 @@ const { size = 26, class: cls, label } = Astro.props;
   viewBox="0 0 64 64"
   width={size}
   height={size}
-  fill="none"
-  stroke="currentColor"
-  stroke-width="3.6"
   role={label ? "img" : undefined}
   aria-label={label}
   aria-hidden={label ? undefined : "true"}
 >
-  <path d="M23 13 H13 V51 H23" stroke-linecap="square" />
-  <path d="M41 13 H51 V51 H41" stroke-linecap="square" />
-  <path d="M21 29 q5.5 -6 11 0 t11 0" stroke-linecap="round" />
-  <line x1="21" y1="42" x2="43" y2="42" stroke-linecap="round" />
+  <rect width="64" height="64" rx={rounded ? 13 : 0} fill="#16201a"></rect>
+  <text
+    x="32"
+    y="47"
+    text-anchor="middle"
+    font-family="Archivo, system-ui, Arial, sans-serif"
+    font-weight="800"
+    font-size="44"
+    letter-spacing="-3"><tspan fill="#f5f2ea">w</tspan><tspan fill="#3d8f63">.</tspan></text>
 </svg>

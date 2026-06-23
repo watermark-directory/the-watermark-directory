@@ -41,11 +41,17 @@ const showRail = rail !== false && toc.length > 0;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
     <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32.png")} />
     <link rel="icon" type="image/png" sizes="16x16" href={withBase("/favicon-16.png")} />
     <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png")} />
-    <meta name="theme-color" content="#3f51b5" />
+    <meta name="theme-color" content="#16201a" />
     <title>{title === SITE_NAME ? title : `${title} · ${SITE_NAME}`}</title>
     <SEO title={title} description={description} type={ogType} />
   </head>
@@ -78,7 +84,7 @@ const showRail = rail !== false && toc.length > 0;
         </div>
       </div>
       <div class="footer-bar">
-        <a class="footer-brand" href={withBase("/bosc")}><Logo size={17} class="footer-mark" />Watermark</a>
+        <a class="footer-brand" href={withBase("/directory/")}><Logo size={18} class="footer-mark" /><span class="footer-wordmark">Watermark<span class="brand-dot">.</span></span></a>
         {NAV_LINKS.map((t) => <a href={withBase(t.href)}>{t.label}</a>)}
         <span class="footer-sep" aria-hidden="true">·</span>
         <a href={withBase("/bosc/docs/methodology")}>Methodology</a>

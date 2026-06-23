@@ -1,7 +1,7 @@
 ---
 /**
  * Line + area chart (#306) — a cumulative time series, the last point labeled.
- * SSR SVG, no JS. Indigo line over a faint indigo fill.
+ * SSR SVG, no JS. Forest line over a faint forest fill.
  */
 import type { TagKind } from "../../lib/teardown";
 import { buildLine, type LinePoint } from "../../lib/charts";
@@ -31,23 +31,23 @@ const c = buildLine(data, max != null ? { max } : {});
     {
       c.grid.map((g) => (
         <Fragment>
-          <line x1="34" y1={g.y} x2="348" y2={g.y} stroke="#eef0f4" stroke-width="1" />
+          <line x1="34" y1={g.y} x2="348" y2={g.y} stroke="#ece8dc" stroke-width="1" />
           <text x="28" y={g.y + 3} text-anchor="end" class="chart-axis">{g.value}</text>
         </Fragment>
       ))
     }
-    <line x1="34" y1={c.baselineY} x2="348" y2={c.baselineY} stroke="#d7dae4" stroke-width="1" />
-    <path d={c.area} fill="#3f51b5" fill-opacity="0.10" />
-    <path d={c.line} fill="none" stroke="#3f51b5" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" />
+    <line x1="34" y1={c.baselineY} x2="348" y2={c.baselineY} stroke="#cdc8b8" stroke-width="1" />
+    <path d={c.area} fill="#1f6f4a" fill-opacity="0.10" />
+    <path d={c.line} fill="none" stroke="#1f6f4a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" />
     {
       c.dots.map((d) => (
         <Fragment>
-          <circle cx={d.x} cy={d.y} r="3" fill="#fff" stroke="#3f51b5" stroke-width="2" />
+          <circle cx={d.x} cy={d.y} r="3" fill="#f5f2ea" stroke="#1f6f4a" stroke-width="2" />
           <text x={d.x} y="188" text-anchor="middle" class="chart-axis chart-axis--x">{d.label}</text>
         </Fragment>
       ))
     }
-    <circle cx={c.last.x} cy={c.last.y} r="4.5" fill="#3f51b5" stroke="#fff" stroke-width="2" />
+    <circle cx={c.last.x} cy={c.last.y} r="4.5" fill="#1f6f4a" stroke="#f5f2ea" stroke-width="2" />
     {endLabel && <text x={c.last.x - 6} y={c.last.y + 4} text-anchor="end" class="chart-val is-peak">{endLabel}</text>}
   </svg>
   {

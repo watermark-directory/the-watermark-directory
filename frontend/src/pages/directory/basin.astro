@@ -5,7 +5,7 @@
  * from each node's drainage_path), a cross-site scorecard, and the facility-status "second clock".
  * Two clocks, kept distinct: the site BUILD status (live/onboarding/open — our website) vs the
  * FACILITY status (investigation → confirmed → construction → live — the data center in the
- * ground). Data is the `network` object feed joined with the sites.ts registry. Charts are indigo.
+ * ground). Data is the `network` object feed joined with the sites.ts registry. Charts are forest.
  */
 import RankedBarChart from "../../components/charts/RankedBarChart.astro";
 import Base from "../../layouts/Base.astro";
@@ -23,9 +23,9 @@ const codenameOf = (slug: string): string | null => siteBySlug.get(slug)?.codena
 
 // Build phase (our website) — the FIRST clock. Distinct from facility status below.
 const STATUS_META: Record<string, { label: string; color: string; dot: string }> = {
-  live: { label: "Live", color: "#2e7d32", dot: "#2e7d32" },
-  building: { label: "Building", color: "#3f51b5", dot: "#3f51b5" },
-  queued: { label: "Queued", color: "#b46e00", dot: "#b46e00" },
+  live: { label: "Live", color: "#1f6f4a", dot: "#1f6f4a" },
+  building: { label: "Building", color: "#1f6f4a", dot: "#1f6f4a" },
+  queued: { label: "Queued", color: "#9a6a14", dot: "#9a6a14" },
 };
 const statusOf = (slug: string): { label: string; color: string; dot: string } =>
   STATUS_META[siteBySlug.get(slug)?.status ?? "queued"] ?? STATUS_META.queued;
@@ -78,7 +78,7 @@ const screenText = (n: WatershedNode): string => {
 };
 const num = (v: number | null | undefined, d = 1): string => (v == null ? "—" : v.toFixed(d));
 
-// Charts (indigo = data): grid bundled price is the genuine differentiator; mfg LQ the universal base.
+// Charts (forest = data): grid bundled price is the genuine differentiator; mfg LQ the universal base.
 const priceData = nodes
   .filter((n) => n.grid.avg_price_cents_kwh != null)
   .map((n) => ({ label: n.place, value: n.grid.avg_price_cents_kwh as number }))
@@ -132,9 +132,9 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
               ),
             )}
             <div class="nest-legend">
-              <span style="color:#2e7d32"><span class="nest-dot" style="background:#2e7d32" />Live</span>
-              <span style="color:#3f51b5"><span class="nest-dot" style="background:#3f51b5" />Building</span>
-              <span style="color:#b46e00"><span class="nest-dot" style="background:#b46e00" />Queued</span>
+              <span style="color:#1f6f4a"><span class="nest-dot" style="background:#1f6f4a" />Live</span>
+              <span style="color:#1f6f4a"><span class="nest-dot" style="background:#1f6f4a" />Building</span>
+              <span style="color:#9a6a14"><span class="nest-dot" style="background:#9a6a14" />Queued</span>
             </div>
           </div>
 
@@ -289,16 +289,16 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
     }
   }
   .nest-tree {
-    border: 1px solid var(--rule, #e3e5ec);
+    border: 1px solid var(--rule, #dcd8cc);
     border-radius: 14px;
     padding: 1.1rem 1.25rem;
-    background: #fafbfc;
+    background: #faf8f1;
   }
   .nest-kicker {
     font-size: 0.7rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #8a90a2;
+    color: #8c9389;
     font-weight: 700;
     margin-bottom: 0.7rem;
   }
@@ -316,15 +316,15 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
   .nest-row.d4 { padding-left: 4.5rem; }
   .nest-river {
     font-weight: 700;
-    color: #3a3f4d;
+    color: #3a4036;
   }
   .nest-row.d0 .nest-river,
   .nest-row.d1 .nest-river {
     font-weight: 800;
-    color: #1f2330;
+    color: #16201a;
   }
   .nest-arrow {
-    color: #aeb4c2;
+    color: #8c9389;
   }
   .nest-dot {
     display: inline-block;
@@ -335,7 +335,7 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
   }
   .nest-site {
     font-weight: 700;
-    color: #1f2330;
+    color: #16201a;
     text-decoration: none;
   }
   .nest-site:hover {
@@ -347,8 +347,8 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
     text-transform: uppercase;
     font-weight: 700;
     color: #7a82c4;
-    background: #f3f4fb;
-    border: 1px solid #c5cae9;
+    background: #e4ece4;
+    border: 1px solid #bcd2c4;
     border-radius: 4px;
     padding: 0 0.3rem;
     font-family: var(--mono, ui-monospace, monospace);
@@ -361,7 +361,7 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
   .nest-legend {
     margin-top: 0.9rem;
     padding-top: 0.7rem;
-    border-top: 1px solid #eef0f4;
+    border-top: 1px solid #ece8dc;
     display: flex;
     gap: 1rem;
     font-size: 0.7rem;
@@ -378,31 +378,31 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
     gap: 0.9rem;
   }
   .nest-note {
-    border: 1px solid #e3e5ec;
+    border: 1px solid #dcd8cc;
     border-radius: 14px;
     padding: 1rem 1.15rem;
-    background: #fff;
+    background: #f5f2ea;
   }
   .nest-note.is-accent {
-    border-color: #c5cae9;
-    background: #f3f4fb;
+    border-color: #bcd2c4;
+    background: #e4ece4;
   }
   .nest-note-k {
     font-size: 0.68rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #8a90a2;
+    color: #8c9389;
     font-weight: 700;
     margin-bottom: 0.4rem;
   }
   .nest-note.is-accent .nest-note-k {
-    color: #3f51b5;
+    color: #1f6f4a;
   }
   .nest-note p {
     margin: 0;
     font-size: 0.86rem;
     line-height: 1.5;
-    color: #3a3f4d;
+    color: #3a4036;
   }
   .scorecard-head {
     display: flex;
@@ -413,7 +413,7 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
   }
   .two-clocks {
     font-size: 0.8rem;
-    color: #8a90a2;
+    color: #8c9389;
   }
   .scorecard-wrap {
     overflow-x: auto;
@@ -427,7 +427,7 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
   table.scorecard td {
     text-align: left;
     padding: 0.4rem 0.6rem;
-    border-bottom: 1px solid var(--rule, #eef0f4);
+    border-bottom: 1px solid var(--rule, #ece8dc);
     white-space: nowrap;
   }
   table.scorecard th {
@@ -450,8 +450,8 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
     font-size: 0.6rem;
     font-weight: 700;
     border-radius: 4px;
-    background: #eef0f4;
-    color: #3f51b5;
+    background: #ece8dc;
+    color: #1f6f4a;
     font-family: var(--mono, ui-monospace, monospace);
   }
   .fac-pill {
@@ -464,11 +464,11 @@ const screenedCount = nodes.filter((n) => n.screen.status === "screened").length
     padding: 0.12rem 0.55rem;
   }
   .screen.violation {
-    color: #c0392b;
+    color: #7a2230;
     font-weight: 700;
   }
   .screen.tight {
-    color: #b46e00;
+    color: #9a6a14;
     font-weight: 600;
   }
   .screen.unscreened {

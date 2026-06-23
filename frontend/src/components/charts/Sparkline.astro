@@ -8,12 +8,12 @@ import { buildSparkline } from "../../lib/charts";
 
 interface Props {
   values: number[];
-  /** Line color — defaults to indigo; a tint distinguishes a second series in a row. */
+  /** Line color — defaults to forest; a tint distinguishes a second series in a row. */
   color?: string;
   width?: number;
   class?: string;
 }
-const { values, color = "#3f51b5", width = 120, class: cls } = Astro.props;
+const { values, color = "#1f6f4a", width = 120, class: cls } = Astro.props;
 const c = buildSparkline(values);
 ---
 
@@ -25,5 +25,5 @@ const c = buildSparkline(values);
   aria-hidden="true"
 >
   <path d={c.path} fill="none" stroke={color} stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
-  <circle cx={c.dot.x} cy={c.dot.y} r="3" fill={color} stroke="#fff" stroke-width="1.5" />
+  <circle cx={c.dot.x} cy={c.dot.y} r="3" fill={color} stroke="#f5f2ea" stroke-width="1.5" />
 </svg>
