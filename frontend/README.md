@@ -72,10 +72,17 @@ uses `setup-node`, not mise). Run the stack via `mise run //frontend:dev:stack` 
 `npm run dev:stack`) so wrangler is on `PATH`; its workerd binary downloads lazily on first run.
 Turnstile verification still makes one real call to Cloudflare's siteverify (the dummy secret
 always passes), so this needs network. For real end-to-end submit/ask instead of mocks, point
-the `*_API_BASE` vars in `.dev.vars` at the real hosts and supply real creds. `/api/doc`'s local R2 starts empty — seed it with
-`bosc objectstore sync --target local` + `wrangler pages dev --remote` (see
-[`docs/object-store.md`](../docs/object-store.md)); the doc-serving logic itself is fully
-covered by Tier A.
+the `*_API_BASE` vars in `.dev.vars` at the real hosts and supply real creds.
+
+**Serving real documents (`/api/doc`).** Before launch, `dev:stack` seeds the local R2 with the
+**published** documents ([`scripts/seed-r2.mjs`](scripts/seed-r2.mjs)) — writing through
+wrangler's own `getPlatformProxy()` into the *same* store `wrangler pages dev` reads (you can't
+fill it with `wrangler r2 object put`). So PDFs/images load with **no Cloudflare creds and no
+remote bucket**. It's incremental and LFS-aware; you need a real content bundle
+(`BOSC_BUNDLE_DIR` or `bosc export`) and `git lfs pull` for the bytes. To serve more than the
+published set, `npm run seed:r2 -- --collection <slug>` (or pass explicit rels) and restart the
+stack. Skip seeding with `DEV_STACK_NO_SEED=1`. The doc-serving *logic* (gate, ranges,
+content-type) is covered offline by `src/lib/docRoute.test.ts`.
 
 ## How the content bundle is resolved
 

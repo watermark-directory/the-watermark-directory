@@ -9,8 +9,10 @@
 //   1. ensure frontend/.dev.vars exists (generate a throwaway App key for JWT signing)
 //   2. astro build with the dummy Turnstile site key so the widgets render (not the disabled
 //      placeholder) — reads $BOSC_BUNDLE_DIR if set, else the committed sample-bundle/
-//   3. start the mock origin (scripts/dev-mocks.mjs)
-//   4. wrangler pages dev — serves dist/ (pages_build_output_dir) + the Functions with local
+//   3. seed the local R2 with the published documents so /api/doc serves real bytes
+//      (scripts/seed-r2.mjs; skip with DEV_STACK_NO_SEED=1)
+//   4. start the mock origin (scripts/dev-mocks.mjs)
+//   5. wrangler pages dev — serves dist/ (pages_build_output_dir) + the Functions with local
 //      KV + R2 (DOCS from wrangler.toml), auto-loading .dev.vars
 // Ctrl-C (or wrangler dying) tears the whole stack down.
 
@@ -73,6 +75,18 @@ async function main() {
     build.on("exit", (code) => (code === 0 ? res() : rej(new Error(`astro build failed (exit ${code})`))));
   });
 
+  // Seed the local R2 so /api/doc serves real document bytes — the published set by default
+  // (scripts/seed-r2.mjs writes via getPlatformProxy into the SAME store pages dev reads).
+  // Pre-launch so the server sees it on boot; best-effort (needs a real bundle + `git lfs pull`
+  // for bytes, else docs just 404). Skip with DEV_STACK_NO_SEED=1; seed more via seed-r2 directly.
+  if (process.env.DEV_STACK_NO_SEED !== "1") {
+    console.log("[dev-stack] seeding local R2 with the published documents…");
+    await new Promise((res) => {
+      const seed = run("seed-r2", "node", ["scripts/seed-r2.mjs"], {});
+      seed.on("exit", () => res()); // non-fatal: a seed failure must not block the stack
+    });
+  }
+
   const mock = run("dev-mocks", "node", ["scripts/dev-mocks.mjs"], { MOCK_PORT });
   // wrangler comes from mise (frontend/mise.toml [tools]) — run this via
   // `mise run //frontend:dev:stack` so it's on PATH. No positional dir: wrangler serves
@@ -98,7 +112,7 @@ async function main() {
   );
 
   console.log(`[dev-stack] site → http://localhost:${SITE_PORT}  ·  mocks → http://localhost:${MOCK_PORT}`);
-  console.log("[dev-stack] try /submit, /ask, and (once R2 is seeded) /api/doc/<rel>. Ctrl-C to stop.");
+  console.log("[dev-stack] try /submit, /ask, and /api/doc/<rel> (published docs seeded). Ctrl-C to stop.");
 
   let stopping = false;
   const shutdown = (code) => {
