@@ -103,8 +103,7 @@ export const WITHHOLDING_STACK: WithholdingLayer[] = [
       "The Soil & Water Conservation District withholds the data-center plan sets on two grounds at once: R.C. 149.433 “infrastructure records” (a 25-year exemption) and R.C. 1333.61(D) trade secret — “water and wastewater usage for a data center” — redacting even the plan-share links in the produced emails.",
     effect:
       "Extends the architecture to the site-level stormwater jurisdiction, under statutes the County's own productions never invoked — and reaches the very water/usage data the cooling and sanitary analyses turn on.",
-    source:
-      "legal/prr-mandamus/network/american-sugar-creek-allen-co-prr-production-2026-06-12-aswcd.response-index.yaml",
+    source: "legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml",
   },
 ];
 
