@@ -911,8 +911,11 @@ _FINDLAY = SiteProfile(
 # [violation]). A *coming-soon* point. The first **out-of-state** site, so it exercises the
 # per-site axis across a jurisdiction boundary: Indiana FIPS/state/utility, a UTM-16 reach, the
 # national NFHL for flood, and the Ohio-only LSC connector falling away. Geography is sourced +
-# cited below; the data-center dimension and facility-specific model inputs stay `[open]` until a
-# site is identified (NE Indiana is an active boom region — discovery work, `--research` + corpus).
+# cited below. The data-center dimension is now DOCUMENTED (#360): the disclosed facility is Google's
+# $2B "Project Zodiac" campus (700+ ac, SE Fort Wayne, served by I&M, operational Dec 2025) — see
+# data/extracted/fort-wayne/datacenter-facility.md. The facility-specific model inputs (`facility`
+# power basis, `load_share`) stay `[open]`: no MW is publicly disclosed and the IDEM air permit isn't
+# extracted yet (the follow-up extraction targets in that doc).
 _FORT_WAYNE = SiteProfile(
     slug="fort-wayne",
     place="Fort Wayne",
@@ -997,11 +1000,14 @@ _FORT_WAYNE = SiteProfile(
     passby_primary_cfs=0.0,  # [open] in-stream passby minimums — pending the model
     passby_secondary_cfs=0.0,
     # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
-    facility=None,  # [open] the data-center dimension onboarding doesn't capture (no disclosed facility)
+    # Facility CONFIRMED — Google "Project Zodiac" $2B campus (#360, data/extracted/fort-wayne/
+    # datacenter-facility.md). Power basis stays None: SiteFacility needs air-permit-grounded MW and
+    # neither an IDEM air permit nor a disclosed IT load exists yet (so load_share=null is correct).
+    facility=None,  # [open] power basis pending the IDEM air-permit extraction (activity is documented)
     serving_utility_source="reference",  # not corpus-grounded — EIA-861/IURC record
     serving_utility_citation=(  # [reference] not corpus
         "EIA-861 service-territory file (Indiana Michigan Power Co #9324, an AEP subsidiary) + "
-        "Indiana IURC certified-territory; I&M serves the Fort Wayne area"
+        "Indiana IURC certified-territory; I&M serves the Fort Wayne area (Google Project Zodiac campus)"
     ),
     # grid: Indiana Michigan Power (I&M) settles in PJM's AEP zone — PJM has no separate I&M zone
     # (the 23 ZONE pnodes carry no I&M), so Fort Wayne's zonal LMP IS the AEP zone (#361, verified
