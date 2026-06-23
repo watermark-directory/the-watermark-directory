@@ -7,19 +7,27 @@
 #
 # NETWORK-GLOBAL pages stay at the root and are NOT rewritten — they're shared across every
 # watershed site, so their URLs don't change: /about, /about-me, /wiki/*, /ask, /directory/*,
-# and the API (/api/*).
+# /submit (the network-tier lead form, #532), and the API (/api/*).
 #
 # The network hub moved /network → /directory (#402); the old, deployed /network/* URLs keep
 # working via the 301s below.
+#
+# IMPORTANT — on Cloudflare Pages a redirect ALWAYS fires before a matching static asset
+# ("redirects are always followed, regardless of whether an asset matches"). So a broad
+# `/<x>/*` rule will shadow real files living under that path. Two consequences below:
+#  - there is NO `/submit` rule: it's a real network-tier page (#532); a redirect here would
+#    make it unreachable and bounce the network Submit into Lima's site chrome.
+#  - `/walk/crops/*` is served as-is (a 200 passthrough) BEFORE `/walk/*` redirects, because
+#    the teardown source-card images live at /walk/crops/ (public/walk/crops, see teardowns.ts).
 
 /                       /bosc/                      302
 /start                  /bosc/start                 301
 /timeline               /bosc/timeline              301
-/submit                 /bosc/submit                301
 /site/*                 /bosc/site/:splat           301
 /watershed/*            /bosc/watershed/:splat      301
 /docs/*                 /bosc/docs/:splat           301
 /reports/*              /bosc/reports/:splat        301
+/walk/crops/*           /walk/crops/:splat          200
 /walk/*                 /bosc/walk/:splat           301
 /network                /directory/                 301
 /network/*              /directory/:splat           301
