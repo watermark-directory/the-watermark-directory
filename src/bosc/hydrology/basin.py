@@ -93,6 +93,31 @@ _MAINSTEM_GAGES: dict[str, dict[str, Any]] = {
     },
 }
 
+# Synthesized headwaters-confluence 7Q10s: a mainstem formed by the junction of two gaged
+# tributaries, where no single LONG-record gage sits at the confluence itself (the Maumee
+# mainstem gage at Fort Wayne, 04182900, has only ~13 yr — below ``_MIN_YEARS``). The
+# confluence 7Q10 is the SUM of the component tributaries' 7Q10s — a CONSERVATIVE proxy:
+# the two streams' annual 7-day minima need not coincide, so the true confluence 7Q10 is
+# ``>=`` the sum (#358). Aliases are point-specific and deliberately EXCLUDE the bare
+# "maumee river" (that is the lower-basin Waterville proxy, 114 cfs). They are screen-inert
+# by design: the Fort Wayne WWTP (IN0032191) discharges to an ungaged ditch ("Baldwin Ditch,
+# Maumee R …"), so it is screened only on that primary receiver (left unscreened, omit-don't-
+# guess) — this entry is the documented at-mainstem denominator for the manual receiving-water
+# characterization, not an auto-applied screen value.
+_HEADWATERS_CONFLUENCES: dict[str, dict[str, Any]] = {
+    "Maumee River (Fort Wayne headwaters)": {
+        "components": [
+            ("04180500", "St. Joseph River near Fort Wayne, IN"),
+            ("04182000", "St. Marys River near Fort Wayne, IN"),
+        ],
+        "aliases": [
+            "maumee river at fort wayne",
+            "maumee river (fort wayne headwaters)",
+            "maumee river headwaters",
+        ],
+    },
+}
+
 
 def _norm(name: str) -> str:
     """Normalize a receiving-water surface form for matching (lowercase, collapse ws)."""
@@ -143,8 +168,74 @@ def derive_basin_low_flows(
             ),
             "confidence": "medium",
         }
+    streams.update(_derive_confluences(settings=settings, min_years=min_years))
     log.info("basin.lowflow.derived", rivers=sorted(streams))
     return streams
+
+
+def _derive_confluences(*, settings: Settings, min_years: int) -> dict[str, dict[str, Any]]:
+    """Derive each synthesized headwaters-confluence 7Q10 (sum of its component gages).
+
+    Same omit-don't-guess floor as the mainstem gages: a confluence is emitted only when
+    *every* component gage clears ``min_years`` with a positive 7Q10. The sum is a
+    conservative denominator (the tributaries' annual minima need not coincide); the entry
+    records its components and is tagged ``confidence: low`` accordingly.
+    """
+    out: dict[str, dict[str, Any]] = {}
+    for name, spec in _HEADWATERS_CONFLUENCES.items():
+        parts: list[dict[str, Any]] = []
+        for gage, label in spec["components"]:
+            lff = compute_low_flow_frequency(site_no=gage, receiving_water=name, settings=settings)
+            stat = lff.stat("7Q10")
+            q7 = stat.lp3_cfs.value if stat is not None else math.nan
+            if lff.complete_years < min_years or math.isnan(q7) or q7 <= 0.0:
+                log.warning(
+                    "basin.lowflow.confluence_omit",
+                    confluence=name,
+                    gage=gage,
+                    years=lff.complete_years,
+                    q7=q7,
+                )
+                parts = []
+                break
+            parts.append(
+                {
+                    "gage": gage,
+                    "gage_name": label,
+                    "seven_q10_cfs": round(q7, 2),
+                    "complete_years": lff.complete_years,
+                    "period_start": lff.period_start,
+                    "period_end": lff.period_end,
+                }
+            )
+        if not parts:
+            continue
+        total = round(sum(p["seven_q10_cfs"] for p in parts), 2)
+        terms = " + ".join(f"USGS {p['gage']} {p['seven_q10_cfs']} cfs" for p in parts)
+        out[name.lower()] = {
+            "seven_q10_cfs": total,
+            "source": "derived",
+            "gage": "+".join(p["gage"] for p in parts),
+            "gage_name": " + ".join(p["gage_name"] for p in parts),
+            "period": f"{min(p['period_start'] for p in parts)}..{max(p['period_end'] for p in parts)}",
+            "complete_years": min(p["complete_years"] for p in parts),
+            "components": [
+                {
+                    "gage": p["gage"],
+                    "gage_name": p["gage_name"],
+                    "seven_q10_cfs": p["seven_q10_cfs"],
+                }
+                for p in parts
+            ],
+            "aliases": spec["aliases"],
+            "citation": (
+                f"sum of LP3 7Q10s ({terms}) — the St. Joseph + St. Marys junction that forms "
+                "the Maumee at Fort Wayne; conservative (component annual minima need not "
+                "coincide, so the true confluence 7Q10 is >= this sum)"
+            ),
+            "confidence": "low",
+        }
+    return out
 
 
 def _derived_path(settings: Settings) -> Path:

@@ -2,9 +2,15 @@
 
 Per-site onboarding tree for the Fort Wayne watershed point (basin: maumee), scaffolded by `bosc onboard fort-wayne` (#326). Values come from the portable reach connectors keyed to this site's `SiteProfile` in `bosc.sites` — nothing here is fabricated; regenerate, don't hand-edit.
 
+## Contents
+
+- `ONBOARDING.md` — living onboarding record + review gate.
+- `wwtp-receiving-water.md` — reviewed receiving-water characterization of the Fort Wayne WWTP (IN0032191) against the derived headwaters 7Q10 (#358/#359).
+- `wwtp-in0032191.dmr.yaml` — the plant's reported effluent record (EPA ECHO DMR), regenerable via `bosc dmr IN0032191`.
+
 ## Source
 
-`bosc onboard fort-wayne` over the Fort Wayne `SiteProfile` (reach connectors: NWIS / NOAA Atlas-14 / SSURGO / NASA-POWER).
+`bosc onboard fort-wayne` over the Fort Wayne `SiteProfile` (reach connectors: NWIS / NOAA Atlas-14 / SSURGO / NASA-POWER). The WWTP DMR artifact is an EPA ECHO `eff_rest_services` pull (`bosc dmr`).
 
 ## Known gaps & caveats
 

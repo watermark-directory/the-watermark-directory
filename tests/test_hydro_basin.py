@@ -94,6 +94,41 @@ def test_basin_screen_follows_active_basin(data_settings: Settings) -> None:
     assert c.no_receiving_water >= 1
 
 
+def test_headwaters_confluence_derived(data_settings: Settings) -> None:
+    # The synthesized Maumee-at-Fort-Wayne 7Q10 (#358) = St. Joseph-near-FW + St. Marys-near-FW.
+    derived = basin.load_derived_low_flows(settings=data_settings)
+    hw = derived[basin._norm("maumee river at fort wayne")]
+    assert hw.source == "derived"
+    assert hw.confidence == "low"  # sum-of-tributaries is a conservative inference
+    assert hw.value == pytest.approx(69.71, abs=0.5)  # 04180500 (54.06) + 04182000 (15.65)
+    # All point-specific aliases resolve to the same value...
+    for alias in (
+        "maumee river at fort wayne",
+        "maumee river (fort wayne headwaters)",
+        "maumee river headwaters",
+    ):
+        assert derived[basin._norm(alias)].value == pytest.approx(69.71, abs=0.5)
+    # ...and the bare "maumee river" is UNCHANGED — still the lower-basin Waterville proxy,
+    # not shadowed by the Fort Wayne headwaters value.
+    assert derived[basin._norm("maumee river")].value == pytest.approx(114.15, abs=0.5)
+
+
+def test_fort_wayne_wwtp_unscreened_by_discipline(data_settings: Settings) -> None:
+    # The Fort Wayne WWTP discharges to "Baldwin Ditch, Maumee R …"; its PRIMARY receiver is an
+    # ungaged ditch, so it is correctly left unscreened (omit, don't guess) — the headwaters 7Q10
+    # is a documented at-mainstem proxy, never auto-credited to a Baldwin Ditch discharger.
+    lookup = basin.load_derived_low_flows(settings=data_settings)
+    fac = {
+        "name": "FORT WAYNE WWTP",
+        "npdes_id": "IN0032191",
+        "receiving_water": "BALDWIN DITCH, MAUMEE R TO ST MARYS RIVER, MAUMEE RIVER",
+        "design_flow_mgd": 74.0,
+    }
+    check, status = basin.screen_facility(fac, lookup)
+    assert check is None
+    assert status == "no_7q10"
+
+
 def test_screen_omits_tributary_compounds(data_settings: Settings) -> None:
     # A discharger whose PRIMARY receiver is a ditch must not borrow a downstream
     # mainstem's larger 7Q10 (that would overstate dilution). Omit, don't guess.

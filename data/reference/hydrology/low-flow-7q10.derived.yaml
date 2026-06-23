@@ -140,3 +140,25 @@ streams:
     citation: LP3 7Q10 from USGS 03230500 (Big Darby Creek at Darbyville OH), 44 climatic years 1980-2024
       (gage value; screening proxy for the discharge reach)
     confidence: medium
+  maumee river (fort wayne headwaters):
+    seven_q10_cfs: 69.71
+    source: derived
+    gage: 04180500+04182000
+    gage_name: St. Joseph River near Fort Wayne, IN + St. Marys River near Fort Wayne, IN
+    period: 1980-01-01..2024-12-31
+    complete_years: 40
+    components:
+    - gage: 04180500
+      gage_name: St. Joseph River near Fort Wayne, IN
+      seven_q10_cfs: 54.06
+    - gage: 04182000
+      gage_name: St. Marys River near Fort Wayne, IN
+      seven_q10_cfs: 15.65
+    aliases:
+    - maumee river at fort wayne
+    - maumee river (fort wayne headwaters)
+    - maumee river headwaters
+    citation: sum of LP3 7Q10s (USGS 04180500 54.06 cfs + USGS 04182000 15.65 cfs) — the St. Joseph +
+      St. Marys junction that forms the Maumee at Fort Wayne; conservative (component annual minima need
+      not coincide, so the true confluence 7Q10 is >= this sum)
+    confidence: low
