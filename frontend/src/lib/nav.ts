@@ -17,6 +17,7 @@
 
 export type SectionId =
   | "home"
+  | "leads"
   | "story"
   | "timeline"
   | "reports"
@@ -68,11 +69,24 @@ export const SECTIONS: Section[] = [
     ],
   },
   {
+    // Open leads (design "Site Leads") — every gap on the site, in the open, each tracing
+    // to a real committed source (the corpus-completeness audit's [open]/withheld items and
+    // the boom-origin hypotheses' open questions). Sits in the "The site" dropdown.
+    id: "leads",
+    label: "Open leads",
+    tab: "Leads",
+    href: "/bosc/leads",
+    blurb: "Every gap we're chasing on this site — unverified inference until a source corroborates it.",
+    toc: [],
+  },
+  {
+    // "The story" dropdown groups the orientation (Intro — the former home, design "Site
+    // Home" → moved to /bosc/intro) and the guided walk. Both pages declare section "story".
     id: "story",
     label: "The story",
     tab: "Story",
     href: "/bosc/start",
-    blurb: "The guided walk — read the record one document at a time, no prior knowledge.",
+    blurb: "Start here — the intro and the guided walk; read the record one document at a time.",
     toc: [],
   },
   {
@@ -217,7 +231,7 @@ export type NavChild = { label: string; href: string; blurb?: string } | { divid
 
 export type NavItem =
   | { kind: "link"; label: string; section: SectionId; href: string; match?: SectionId[] }
-  | { kind: "dropdown"; label: string; section: SectionId; children: NavChild[] };
+  | { kind: "dropdown"; label: string; section: SectionId; children: NavChild[]; match?: SectionId[] };
 
 /** Network-tier left tabs — shown at the directory and on cross-cutting globals.
  *  Submit is NOT here — it's a right-cluster affordance (see SUBMIT_LINK / the Header). */
@@ -237,10 +251,29 @@ export const NETWORK_TABS: NavItem[] = [
 ];
 
 /** Site-tier left tabs — shown inside a site (e.g. Lima, under /bosc). The 5-tab bar
- *  (design "Chrome"): The site · The story · The watershed · The economy · The record. */
+ *  (design "Chrome"): The site · The story · The watershed · The economy · The record.
+ *  "The site" and "The story" are no-JS dropdowns (design "Site Leads" / "Site Home"):
+ *  The site → the home + the open-leads board; The story → the intro + the guided walk. */
 export const SITE_TABS: NavItem[] = [
-  { kind: "link", label: "The site", section: "home", href: "/bosc" },
-  { kind: "link", label: "The story", section: "story", href: "/bosc/start" },
+  {
+    kind: "dropdown",
+    label: "The site",
+    section: "home",
+    match: ["leads"],
+    children: [
+      { label: "Overview", href: "/bosc", blurb: "The site at a glance — the front door" },
+      { label: "Open leads", href: "/bosc/leads", blurb: "Every gap we're chasing, in the open" },
+    ],
+  },
+  {
+    kind: "dropdown",
+    label: "The story",
+    section: "story",
+    children: [
+      { label: "Intro", href: "/bosc/intro", blurb: "What this is, and why it matters" },
+      { label: "The guided walk", href: "/bosc/start", blurb: "Read the record one document at a time" },
+    ],
+  },
   { kind: "link", label: "The watershed", section: "watershed", href: "/bosc/watershed/" },
   { kind: "link", label: "The economy", section: "economy", href: "/bosc/economy/" },
   { kind: "link", label: "The record", section: "site", href: "/bosc/site/", match: ["timeline"] },
@@ -262,18 +295,23 @@ export const SUBMIT_LINK: { label: string; section: SectionId; href: string } = 
   href: "/submit",
 };
 
-/** Whether `item` is the active header tab for the page's `active` section. */
+/** Whether `item` is the active header tab for the page's `active` section. A dropdown
+ *  parent lights when any descendant section is active (its `match` list). */
 export function navItemActive(item: NavItem, active: SectionId): boolean {
   if (item.section === active) return true;
-  return item.kind === "link" && (item.match?.includes(active) ?? false);
+  return item.match?.includes(active) ?? false;
 }
 
-/** Flat primary-nav links for the footer row — both tiers + platform. */
+/** Flat primary-nav links for the footer row — both tiers + platform. A dropdown tab
+ *  contributes its children (so the footer still reaches Overview / Open leads / Intro). */
 export const NAV_LINKS: { label: string; href: string }[] = [
-  ...SITE_TABS.filter((t): t is Extract<NavItem, { kind: "link" }> => t.kind === "link").map((t) => ({
-    label: t.label,
-    href: t.href,
-  })),
+  ...SITE_TABS.flatMap((t) =>
+    t.kind === "link"
+      ? [{ label: t.label, href: t.href }]
+      : t.children
+          .filter((c): c is { label: string; href: string; blurb?: string } => !("divider" in c))
+          .map((c) => ({ label: c.label, href: c.href })),
+  ),
   { label: "Directory", href: "/directory/" },
   { label: "Research", href: "/directory/hypotheses" },
   ...PLATFORM_LINKS.map((t) => ({ label: t.label, href: t.href })),

@@ -209,7 +209,18 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
             >
               {item.label}
             </a>
-          ) : null,
+          ) : (
+            <>
+              <div class="sheet-sublabel">{item.label}</div>
+              {item.children.map((child) =>
+                "divider" in child ? null : (
+                  <a class="sheet-link sheet-link--sub" href={withBase(child.href)}>
+                    {child.label}
+                  </a>
+                ),
+              )}
+            </>
+          ),
         )
       }
     </div>
