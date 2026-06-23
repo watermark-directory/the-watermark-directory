@@ -58,7 +58,7 @@ const header: ProfileHeaderData = {
   relLabel: "Graph neighborhood",
   relationships: rels.length ? rels : undefined,
   correctHref: withBase(
-    `/bosc/submit?ref_kind=entity&ref_id=${encodeURIComponent(entity.key)}&ref_label=${encodeURIComponent(entity.display)}`,
+    `/submit?ref_kind=entity&ref_id=${encodeURIComponent(entity.key)}&ref_label=${encodeURIComponent(entity.display)}`,
   ),
 };
 

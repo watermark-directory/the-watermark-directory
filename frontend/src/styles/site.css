@@ -272,6 +272,26 @@ a { color: var(--bosc-link); }
 .topbar-ask:hover { background: rgba(255, 255, 255, 0.26); }
 .topbar-ask.active { background: var(--bosc-forest); border-color: rgba(150, 200, 170, 0.5); }
 
+/* Submit — a right-cluster affordance (a `+` pill), constant on both tiers (design
+   "Chrome"). Sage-tinted to read as the contribute action, distinct from Ask. */
+.topbar-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(127, 184, 154, 0.16);
+  border: 1px solid rgba(150, 200, 170, 0.55);
+  padding: 0.36rem 0.7rem;
+  color: var(--bosc-bg);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.topbar-submit svg { stroke: #7fb89a; }
+.topbar-submit:hover { background: rgba(127, 184, 154, 0.26); }
+.topbar-submit.active { background: var(--bosc-forest); border-color: rgba(150, 200, 170, 0.6); }
+.topbar-submit.active svg { stroke: var(--bosc-bg); }
+
 /* ---- Site build-phase pill (site tier, beside the chip) — sage on the ink bar ---- */
 .phase-pill {
   align-self: center;
@@ -1125,7 +1145,7 @@ a.card:hover { border-color: var(--bosc-forest); background: var(--bosc-surface)
   }
   /* Desktop tabs/links are replaced by the sheet on phones; the brand collapses to "w.". */
   .sections { display: none; }
-  .platform-links, .topbar-div, .topbar-ask, .brand-sep { display: none; }
+  .platform-links, .topbar-div, .topbar-ask, .topbar-submit, .brand-sep { display: none; }
   .brand-word { display: none; }
   .topbar .brand-mark { display: inline-block; }
   .sheet-platform { display: flex; gap: 8px; padding: 0 0.3rem; }

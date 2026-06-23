@@ -153,7 +153,7 @@ export const SECTIONS: Section[] = [
     // watershed-point site. The switcher is the primary entry.
     id: "directory",
     label: "The network directory",
-    tab: "Report",
+    tab: "Directory",
     href: "/directory/",
     blurb:
       "Data-center development across Ohio's Maumee watershed, point by point — Lima is the reference build.",
@@ -164,7 +164,7 @@ export const SECTIONS: Section[] = [
     // through the boom-origin hypotheses. A network-tier tab beside Report.
     id: "hypotheses",
     label: "Hypotheses",
-    tab: "Hypotheses",
+    tab: "Research",
     href: "/directory/hypotheses",
     blurb: "Read the network three ways — the boom-origin hypotheses, scored against each site.",
     toc: [],
@@ -174,7 +174,7 @@ export const SECTIONS: Section[] = [
     id: "submit",
     label: "Submit a lead",
     tab: "Submit",
-    href: "/bosc/submit",
+    href: "/submit",
     blurb: "Contribute a document, a name, or a correction — every confirmed figure started as a lead.",
     toc: [],
   },
@@ -190,12 +190,12 @@ export function getSection(id: SectionId): Section {
 //
 // One bar, two tiers. The `Watermark.` wordmark always links home to the network;
 // a chip (the breadcrumb / switcher) sits beside it. The LEFT tabs swap by tier:
-//  - network level (the directory + cross-cutting globals) → Report · Hypotheses ·
-//    Submit · About▾
+//  - network level (the directory + cross-cutting globals) → Directory · Research · About▾
 //  - inside a site → The site · The record · The watershed
-// The PLATFORM tools (Docs · Wiki · Ask · Search) sit right and never change —
-// Directory is gone, folded into the network's "Report" tab. The active tier is
-// resolved from the route (`siteForPath` in the Header): inside a site → site tier.
+// The PLATFORM cluster (Docs · Wiki · | · Submit · Ask · Search) sits right and never
+// changes — Submit is a right-side affordance present on BOTH tiers (design "Chrome"),
+// not a left network tab. The active tier is resolved from the route (`siteForPath` in
+// the Header): inside a site → site tier.
 
 /** A link in a dropdown menu (an optional second line), or a horizontal divider. */
 export type NavChild = { label: string; href: string; blurb?: string } | { divider: true };
@@ -204,11 +204,11 @@ export type NavItem =
   | { kind: "link"; label: string; section: SectionId; href: string; match?: SectionId[] }
   | { kind: "dropdown"; label: string; section: SectionId; children: NavChild[] };
 
-/** Network-tier left tabs — shown at the directory and on cross-cutting globals. */
+/** Network-tier left tabs — shown at the directory and on cross-cutting globals.
+ *  Submit is NOT here — it's a right-cluster affordance (see SUBMIT_LINK / the Header). */
 export const NETWORK_TABS: NavItem[] = [
-  { kind: "link", label: "Report", section: "directory", href: "/directory/" },
-  { kind: "link", label: "Hypotheses", section: "hypotheses", href: "/directory/hypotheses" },
-  { kind: "link", label: "Submit", section: "submit", href: "/bosc/submit" },
+  { kind: "link", label: "Directory", section: "directory", href: "/directory/" },
+  { kind: "link", label: "Research", section: "hypotheses", href: "/directory/hypotheses" },
   {
     kind: "dropdown",
     label: "About",
@@ -228,12 +228,21 @@ export const SITE_TABS: NavItem[] = [
   { kind: "link", label: "The watershed", section: "watershed", href: "/bosc/watershed/" },
 ];
 
-/** The platform cluster (right of the bar), constant across tiers. Ask + Search are
- *  rendered separately as affordances; these two are the plain links. */
+/** The platform cluster (right of the bar), constant across tiers. Ask + Search and
+ *  Submit are rendered separately as affordances; these two are the plain links. */
 export const PLATFORM_LINKS: { label: string; section: SectionId; href: string }[] = [
   { label: "Docs", section: "reports", href: "/bosc/docs/" },
   { label: "Wiki", section: "wiki", href: "/wiki/" },
 ];
+
+/** Submit — a right-cluster affordance (a `+` pill), present on both tiers (design
+ *  "Chrome"). It's the network-tier `/submit` route; the per-record correction
+ *  deep-links target the site-tier `/bosc/submit` instead (both share <SubmitForm>). */
+export const SUBMIT_LINK: { label: string; section: SectionId; href: string } = {
+  label: "Submit",
+  section: "submit",
+  href: "/submit",
+};
 
 /** Whether `item` is the active header tab for the page's `active` section. */
 export function navItemActive(item: NavItem, active: SectionId): boolean {
@@ -247,7 +256,7 @@ export const NAV_LINKS: { label: string; href: string }[] = [
     label: t.label,
     href: t.href,
   })),
-  { label: "Report", href: "/directory/" },
-  { label: "Hypotheses", href: "/directory/hypotheses" },
+  { label: "Directory", href: "/directory/" },
+  { label: "Research", href: "/directory/hypotheses" },
   ...PLATFORM_LINKS.map((t) => ({ label: t.label, href: t.href })),
 ];

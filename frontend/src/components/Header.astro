@@ -2,7 +2,7 @@
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
 import SwitcherRow from "./SwitcherRow.astro";
-import { NETWORK_TABS, SITE_TABS, PLATFORM_LINKS, navItemActive, type SectionId } from "../lib/nav";
+import { NETWORK_TABS, SITE_TABS, PLATFORM_LINKS, SUBMIT_LINK, navItemActive, type SectionId } from "../lib/nav";
 import { withBase } from "../lib/site";
 import { groupSites, SITE_STATUS_META, SITES, siteForPath } from "../lib/sites";
 
@@ -16,7 +16,7 @@ const base = import.meta.env.BASE_URL || "/";
 // The two-tier chrome (design "Global Chrome"). The active tier is resolved from the
 // route: inside a site (`here !== null`) → SITE tabs + the site chip; at the network
 // level (the directory + cross-cutting globals) → NETWORK tabs + the "All sites" chip.
-// The `Watermark.` wordmark always returns to the network home (the Report/directory).
+// The `Watermark.` wordmark always returns to the network home (the Directory).
 const here = siteForPath(Astro.url.pathname, base);
 const tier: "network" | "site" = here ? "site" : "network";
 const leftTabs = tier === "site" ? SITE_TABS : NETWORK_TABS;
@@ -36,8 +36,10 @@ const totalSites = SITES.length;
 const stateCount = stateGroups.length;
 const basinCount = basinGroups.length;
 
-// The platform globals also surfaced in the mobile sheet's "Platform" group.
+// The platform globals also surfaced in the mobile sheet's "Platform" group. Submit
+// rides here on phones (on desktop it's the right-cluster pill); Ask + Search follow.
 const platformGlobals: { label: string; href: string; section: SectionId }[] = [
+  { label: SUBMIT_LINK.label, href: SUBMIT_LINK.href, section: SUBMIT_LINK.section },
   { label: "Ask the corpus", href: "/ask", section: "ask" },
   { label: "Search", href: "/search", section: "search" },
 ];
@@ -252,7 +254,7 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
     </div>
   </nav>
 
-  <!-- Platform cluster (right) — Docs · Wiki · | · Ask · Search. Constant across tiers. -->
+  <!-- Platform cluster (right) — Docs · Wiki · | · Submit · Ask · Search. Constant across tiers. -->
   <div class="topbar-right">
     <span class="platform-links">
       {
@@ -268,6 +270,17 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
       }
     </span>
     <span class="topbar-div" aria-hidden="true"></span>
+    <a
+      class:list={["topbar-submit", { active: active === SUBMIT_LINK.section }]}
+      href={withBase(SUBMIT_LINK.href)}
+      aria-current={active === SUBMIT_LINK.section ? "page" : undefined}
+    >
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      <span class="topbar-submit-label">Submit</span>
+    </a>
     <a
       class:list={["topbar-ask", { active: active === "ask" }]}
       href={withBase("/ask")}

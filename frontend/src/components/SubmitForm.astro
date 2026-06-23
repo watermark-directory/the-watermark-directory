@@ -1,0 +1,139 @@
+---
+// The submission form body, shared by both submit routes:
+//   - /submit       — the network-tier canonical route (the "Submit" tab, the footer,
+//                     and the network-global pages link here → network chrome).
+//   - /bosc/submit  — the site-tier route the per-record "✎ Suggest a correction"
+//                     deep-links target, so correcting a Lima record keeps Lima chrome.
+// Both wrap this in <Base>; only the surrounding `section` (and thus the tier chrome)
+// differs. The ref-context banner is filled client-side from the query string, so it
+// works identically on either route.
+
+// The form goes live only when the Turnstile site key is present at build time (set
+// in the host/CI env once the endpoint is bootstrapped — docs/submissions-api.md).
+// Until then, render a disabled placeholder with the manual GitHub-issue fallback so
+// the page is honest in every environment (local, CI, and the not-yet-live deploy).
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+const enabled = Boolean(siteKey);
+
+const CONTRACT_URL = "https://github.com/goedelsoup/bosc/blob/main/docs/submissions-api.md";
+const NEW_ISSUE_URL = "https://github.com/goedelsoup/bosc/issues/new";
+
+// Pages Functions are root-relative and NOT base-prefixed (unlike static assets), so
+// the endpoint is a literal path even if the static site is served under a subpath.
+const ENDPOINT = "/api/submit";
+---
+
+<article class="prose">
+  <div class="submit-eyebrow">Participate</div>
+  <h1>Submit a tip or correction</h1>
+  <p class="section-lead">
+    We treat every submission as a <strong>lead, not a verdict</strong> — tell us what's
+    off and how to check it. A submission opens a public, labeled GitHub issue that a
+    maintainer reviews; it never changes the record itself.
+  </p>
+
+  {/*
+    Ref-context banner — surfaces the record a correction is about when this page is
+    reached from a per-record "✎ Suggest a correction" deep-link
+    (?ref_kind=…&ref_id=…&ref_label=…). Rendered hidden and OUTSIDE the enabled/disabled
+    branch so the context survives in both the live-form and the not-yet-live fallback
+    states; submitRef.ts fills + reveals it client-side.
+  */}
+  <div id="submit-ref" class="submit-ref" hidden>
+    <span class="submit-ref-mark" aria-hidden="true">✎</span>
+    <div class="submit-ref-body">
+      <span class="submit-ref-eyebrow">You're correcting a specific record</span>
+      <span class="submit-ref-label" id="submit-ref-label"></span>
+      <span class="submit-ref-id" id="submit-ref-id"></span>
+    </div>
+    <button type="button" class="submit-ref-clear" id="submit-ref-clear">
+      Not this record? <span aria-hidden="true">✕</span>
+    </button>
+  </div>
+
+  {
+    enabled ? (
+      <Fragment>
+        <form id="submit-form" class="form submit-card" data-endpoint={ENDPOINT}>
+          <fieldset class="field seg">
+            <legend>What kind of submission?</legend>
+            <div class="seg-row">
+              <input type="radio" id="k-correction" name="kind" value="correction" checked />
+              <label for="k-correction">Correction</label>
+              <input type="radio" id="k-source" name="kind" value="new_source" />
+              <label for="k-source">New source</label>
+              <input type="radio" id="k-tip" name="kind" value="tip" />
+              <label for="k-tip">Tip</label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="f-body">
+              What's the claim or correction?
+              <span class="field-hint">— be specific; cite a page/figure if you can. Max 4000 characters.</span>
+            </label>
+            <textarea
+              id="f-body"
+              name="body"
+              maxlength="4000"
+              required
+              placeholder="e.g. “Parcel 4's price wasn't blank — it's in the auditor's transfer record.”"
+            />
+          </div>
+
+          <div class="field">
+            <label for="f-evidence">
+              Where can we verify it? <span class="field-hint">— optional; one public URL.</span>
+            </label>
+            <input id="f-evidence" name="evidence_url" type="url" maxlength="500" placeholder="Link to a public record…" />
+          </div>
+
+          <div class="field">
+            <label for="f-contact">
+              Contact <span class="field-hint">— optional; email or Signal, only if you're open to
+              follow-up. Kept <strong>private</strong>; never shown on the public issue.</span>
+            </label>
+            <input
+              id="f-contact"
+              name="contact"
+              type="text"
+              maxlength="200"
+              autocomplete="off"
+              placeholder="email or Signal — kept private"
+            />
+          </div>
+
+          <div class="cf-turnstile" data-sitekey={siteKey} />
+
+          <div class="form-foot">
+            <button type="submit" class="btn">Send to the record team</button>
+            <p id="submit-status" class="form-status" role="status" aria-live="polite" />
+          </div>
+          <p class="submit-note">
+            No account needed; reviewed before anything in the record changes. The issue is
+            <strong>public</strong> — keep private or identifying details out of your description
+            (use the optional <strong>Contact</strong> field above if you want follow-up).
+            Full contract: <a href={CONTRACT_URL}>docs/submissions-api.md</a>.
+          </p>
+        </form>
+
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline />
+        <script>import "../scripts/submit.ts";</script>
+      </Fragment>
+    ) : (
+      <div class="callout callout-warning">
+        <p class="callout-title">Submissions aren't live yet</p>
+        <p>
+          The submissions endpoint isn't enabled in this build. In the meantime you can
+          <a id="submit-fallback-link" href={NEW_ISSUE_URL}>open a GitHub issue</a>
+          directly (a GitHub account is required) — if you arrived here from a record, that
+          issue is pre-filled with which record you're correcting. The anonymous form will
+          appear here once the endpoint is live.
+        </p>
+      </div>
+    )
+  }
+</article>
+
+{/* Always loaded (both states): owns the ref-context banner + fallback pre-fill. */}
+<script>import "../scripts/submitRef.ts";</script>

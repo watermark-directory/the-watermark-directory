@@ -4,8 +4,9 @@ interface ImportMetaEnv {
   /**
    * Cloudflare Turnstile site key (public). Set in the host/CI build env once the
    * submissions endpoint is bootstrapped (docs/submissions-api.md). When unset, the
-   * `/bosc/submit` form renders as a disabled placeholder — so the form's enabled state
-   * tracks whether the endpoint is actually live.
+   * submit form (the shared SubmitForm, served at both /submit and /bosc/submit) renders
+   * as a disabled placeholder — so the form's enabled state tracks whether the endpoint
+   * is actually live.
    */
   readonly PUBLIC_TURNSTILE_SITE_KEY?: string;
 }

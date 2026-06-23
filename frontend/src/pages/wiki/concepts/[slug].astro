@@ -35,7 +35,7 @@ const header: ProfileHeaderData = {
   relLabel: "Related",
   relationships: rels.length ? rels : undefined,
   correctHref: withBase(
-    `/bosc/submit?ref_kind=concept&ref_id=${encodeURIComponent(concept.slug)}&ref_label=${encodeURIComponent(concept.title)}`,
+    `/submit?ref_kind=concept&ref_id=${encodeURIComponent(concept.slug)}&ref_label=${encodeURIComponent(concept.title)}`,
   ),
 };
 
