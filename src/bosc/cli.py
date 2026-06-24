@@ -2052,10 +2052,16 @@ def npdes(
     except echo.EchoError as exc:
         raise typer.BadParameter(str(exc), param_hint="--basin") from exc
 
+    from bosc.catalog import output_dir_for_command
+
     settings = get_settings()
     if offline:
         settings = Settings(hydro_offline=True)
-    target = Path(out_dir) if out_dir else settings.reference_dir / "echo"
+    target = (
+        Path(out_dir)
+        if out_dir
+        else (output_dir_for_command("npdes", settings=settings) or settings.reference_dir / "echo")
+    )
 
     results = echo.fetch_basin(b, settings=settings)
 
@@ -2300,10 +2306,15 @@ def toxics_cmd(
     cited 7Q10, and flags where the toxic load meets near-zero assimilative capacity.
     Consumes the committed RSEI + ECHO + 7Q10 artifacts (no network).
     """
+    from bosc.catalog import output_dir_for_command
     from bosc.hydrology import toxics
 
     settings = get_settings()
-    target = Path(out_dir) if out_dir else settings.reference_dir / "rsei"
+    target = (
+        Path(out_dir)
+        if out_dir
+        else (output_dir_for_command("rsei", settings=settings) or settings.reference_dir / "rsei")
+    )
 
     inv = toxics.build_screen(settings)
 
@@ -2896,12 +2907,19 @@ def lei_cmd(
     data/cache/gleif; the curated YAML is the committed artifact.
     """
     from bosc import gleif
+    from bosc.catalog import output_dir_for_command
     from bosc.config import Settings
 
     settings = get_settings()
     if offline:
         settings = Settings(gleif_offline=True)
-    target = Path(out_dir) if out_dir else settings.reference_dir / "gleif"
+    target = (
+        Path(out_dir)
+        if out_dir
+        else (
+            output_dir_for_command("gleif", settings=settings) or settings.reference_dir / "gleif"
+        )
+    )
 
     inv = gleif.resolve_watchlist(settings)
 
@@ -2939,12 +2957,20 @@ def usaspending_cmd(
     under data/cache/usaspending; the curated YAML is the committed artifact.
     """
     from bosc import usaspending
+    from bosc.catalog import output_dir_for_command
     from bosc.config import Settings
 
     settings = get_settings()
     if offline:
         settings = Settings(usaspending_offline=True)
-    target = Path(out_dir) if out_dir else settings.reference_dir / "usaspending"
+    target = (
+        Path(out_dir)
+        if out_dir
+        else (
+            output_dir_for_command("usaspending", settings=settings)
+            or settings.reference_dir / "usaspending"
+        )
+    )
 
     inv = usaspending.resolve_watchlist(settings)
 
