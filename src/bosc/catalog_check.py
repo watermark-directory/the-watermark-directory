@@ -40,6 +40,7 @@ CheckKind = Literal[
     "stale",
     "checksum-drift",
     "render-drift",
+    "audit-drift",
     "unmaterialized",
     "no-snapshot",
 ]
@@ -167,6 +168,20 @@ def check(
                 severity="error",
                 subject=relpath,
                 detail=f"{collection} README out of sync — run `bosc catalog render --apply`",
+            )
+        )
+
+    # 7. audit drift — the generated COMPLETENESS.md no longer matches the snapshot.
+    from bosc.catalog_audit import audit_drift
+
+    drifted_audit = audit_drift(settings=settings)
+    if drifted_audit is not None:
+        findings.append(
+            CheckFinding(
+                kind="audit-drift",
+                severity="error",
+                subject=drifted_audit,
+                detail="completeness audit out of sync — run `bosc catalog audit --apply`",
             )
         )
 

@@ -1,4 +1,4 @@
-reconciled_at: '2026-06-24T20:18:28.654979+00:00'
+reconciled_at: '2026-06-24T22:56:46.052117+00:00'
 entries:
   aedg:
     exists: true
@@ -308,8 +308,8 @@ entries:
     stale: false
   legal:
     exists: true
-    sha256: 54c259be6f54a3e79d5ba5ddc29894ed78c82e46b6d2de14708f850472779e26
-    size_bytes: 41209
+    sha256: 2122ca7471da8161c0a2aad7ac0fa6513323cd36c48d8623f23b147a40bd0d60
+    size_bytes: 41626
     lfs_materialized: true
     file_count: 2
     missing: []
