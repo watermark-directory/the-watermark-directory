@@ -6,36 +6,43 @@
    meaning. Type is Archivo for prose, IBM Plex Mono for every load-bearing
    figure. (Replaces the v0 Material-derived indigo chrome.) */
 
+/* Design-system tokens (DesignSync — frontend/design-system/, mirrored from the Watermark
+   Design System project). The --bosc-* names below alias these, so the design system drives
+   the palette; the values are identical, so this is visually a no-op. Fonts still load via the
+   <link> in the layout, so only colors are imported here. See design-system/DESIGNSYNC.md. */
+@import url("../../design-system/tokens/colors.css");
+
 :root {
   /* The forest signal — the one accent, referenced ~130× across this sheet.
      Status, links, and active state are the only things it touches; structure
      is carried by ink + hairline, never the signal. */
-  --bosc-forest: #1f6f4a;
-  --bosc-forest-dark: #155539;
+  --bosc-forest: var(--forest);
+  --bosc-forest-dark: #155539;  /* darker forest — no design-system token; kept literal */
   /* Swiss 03 foundational palette — bone paper, ink, one forest signal. */
-  --bosc-ink: #16201a;
-  --bosc-muted: #566159;
-  --bosc-faint: #8c9389;       /* lightest labels / provenance */
-  --bosc-rule: #dcd8cc;        /* the hairline */
-  --bosc-bg: #f5f2ea;          /* bone — the dominant paper surface */
-  --bosc-page: #e9e6dc;        /* the canvas behind the paper */
-  --bosc-surface: #faf8f1;     /* faint inset panel */
-  --bosc-rail-bg: #faf8f1;
-  --bosc-link: #1f6f4a;
-  --bosc-ink-green: #3a4a3e;    /* structural ink-green (door/section kind labels) — NOT the forest signal */
-  --bosc-chart-faint: #a8a596;  /* chart axis ticks — a shade lighter than --bosc-faint */
+  --bosc-ink: var(--ink);
+  --bosc-muted: var(--ink-muted);
+  --bosc-faint: var(--ink-faint);      /* lightest labels / provenance */
+  --bosc-rule: var(--line-hair);       /* the hairline */
+  --bosc-bg: var(--bone-surface);      /* bone — the dominant paper surface */
+  --bosc-page: var(--bone-page);       /* the canvas behind the paper */
+  --bosc-surface: var(--bone-raised);  /* faint inset panel */
+  --bosc-rail-bg: var(--bone-raised);
+  --bosc-link: var(--forest);
+  --bosc-ink-green: #3a4a3e;    /* structural ink-green (door/section kind labels) — NOT the forest signal; no DS token */
+  --bosc-chart-faint: var(--ink-ghost);  /* chart axis ticks — a shade lighter than --bosc-faint */
 
   /* Semantic / evidence grammar (three kinds; open reads muted, per the design). */
-  --bosc-verified: #1f6f4a;
-  --bosc-inference: #9a6a14;
-  --bosc-open: #566159;
-  --bosc-filename: #566159;
+  --bosc-verified: var(--ev-verified-fg);
+  --bosc-inference: var(--ev-inference-fg);
+  --bosc-open: var(--ev-open-fg);
+  --bosc-filename: var(--ev-open-fg);
 
-  /* Archivo for prose & display; IBM Plex Mono for every load-bearing figure &
-     provenance. The scope-gap / redaction signal is oxblood. */
+  /* Archivo for prose & display; IBM Plex Mono for every load-bearing figure & provenance.
+     Kept literal — the site's font stacks carry extra fallbacks the design-system tokens
+     don't (Roboto/Helvetica/Arial; SF Mono/Consolas). The scope-gap signal is oxblood. */
   --bosc-sans: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --bosc-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --bosc-danger: #7a2230;
+  --bosc-danger: var(--ev-gap-fg);
 
   --rail-w: 15rem;
   --topbar-h: 3.5rem;
