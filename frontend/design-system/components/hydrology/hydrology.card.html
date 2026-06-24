@@ -1,0 +1,110 @@
+<!-- @dsCard group="Components" viewport="900x900" name="Hydrology — water stories from the record" subtitle="Six domain charts: flow-duration, hydrograph, waterfall, threshold-vs-cap, gauge, aquifer section. Forest is data, amber is modeled, oxblood is the limit." -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; background:var(--bg-page); font-family:var(--font-sans); color:var(--text-strong); }
+  .wrap { padding:22px 24px; display:flex; flex-direction:column; gap:18px; }
+  .row { display:grid; gap:18px; }
+  .panel { background:var(--surface-card); border:1px solid var(--line-2); padding:20px 22px; }
+  .ey { font-family:var(--font-mono); font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--ink-faint); }
+  .ti { font-size:16px; font-weight:700; letter-spacing:-0.2px; margin:3px 0 14px; }
+  .note { margin-top:12px; font-size:12.5px; color:var(--ink-muted); line-height:1.45; }
+  .tag { margin-top:13px; display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; padding:2px 8px; }
+  .tg-v { color:var(--ev-verified-fg); background:var(--ev-verified-bg); border:1px solid var(--ev-verified-border); }
+  .tg-i { color:var(--ev-inference-fg); background:var(--ev-inference-bg); border:1px solid var(--ev-inference-border); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { FlowDurationCurve, Hydrograph, Waterfall, ThresholdLine, GaugeBar, AquiferSection } = window.WatermarkDesignSystem_dbe30a;
+
+const FDC = [[0.5,4600],[1,4200],[2,3100],[5,1600],[10,900],[20,420],[30,260],[40,180],[50,110],[60,72],[70,46],[80,24],[90,9],[95,3.5],[98,0.9],[99.5,0.3]].map(([exceedance,flow])=>({exceedance,flow}));
+const TYP = [280,340,520,470,300,150,70,45,38,90,175,240];
+const DRY = [120,140,210,180,90,38,12,4.2,3.1,18,60,110];
+const CUM = [240,480,740,1020,1320,1650,2010,2370,2700,2990,3240,3470];
+const M = ["J","F","M","A","M","J","J","A","S","O","N","D"];
+
+function Tag({k, src}) { return <span><span className={"tag " + (k==="v"?"tg-v":"tg-i")}><span style={{width:6,height:6,background:k==="v"?"var(--ev-verified-fg)":"var(--ev-inference-fg)"}}></span>{k==="v"?"verified":"inference"}</span> <span style={{fontFamily:"var(--font-mono)",fontSize:11,color:"var(--ink-faint)",marginLeft:8}}>{src}</span></span>; }
+
+function Demo() {
+  return (
+    <div className="wrap">
+      <div className="row" style={{gridTemplateColumns:'1fr 1fr'}}>
+        <div className="panel">
+          <div className="ey">Flow-duration · log</div>
+          <div className="ti">How often the river runs that low</div>
+          <FlowDurationCurve data={FDC} shadeBelow={4.85}
+            thresholds={[{value:4.85,label:"draw 4.85"},{value:0.2,label:"7Q10 0.2",color:"var(--ev-gap-fg)"}]}/>
+          <div className="note">Hover the curve — right of the red line the river is below the plant's draw.</div>
+          <div><Tag k="v" src="USGS 04187100 · 1996–2024"/></div>
+        </div>
+        <div className="panel">
+          <div className="ey">Hydrograph · bars</div>
+          <div className="ti">Months that fall below the draw</div>
+          <Hydrograph mode="bars" series={DRY} drawLine={4.85} labels={M}/>
+          <div className="note">In a drought year, August and September fall below the draw (oxblood).</div>
+          <div><Tag k="v" src="USGS · monthly means · dry year"/></div>
+        </div>
+      </div>
+
+      <div className="panel">
+        <div className="ey">Hydrograph · envelope</div>
+        <div className="ti">The range each month can take — typical vs dry</div>
+        <div style={{maxWidth:520}}><Hydrograph mode="envelope" typical={TYP} dry={DRY} drawLine={4.85} labels={M}/></div>
+        <div style={{marginTop:12, display:'flex', gap:16, fontSize:12, color:'var(--ink-muted)'}}>
+          <span style={{display:'inline-flex',alignItems:'center',gap:7}}><span style={{width:14,height:3,background:'var(--data-1)'}}></span>typical</span>
+          <span style={{display:'inline-flex',alignItems:'center',gap:7}}><span style={{width:14,height:3,background:'var(--ev-inference-fg)'}}></span>dry year</span>
+        </div>
+      </div>
+
+      <div className="row" style={{gridTemplateColumns:'1fr 1fr'}}>
+        <div className="panel">
+          <div className="ey">Waterfall · net</div>
+          <div className="ti">Intake minus what returns</div>
+          <Waterfall steps={[
+            {label:"intake",value:7.0,kind:"base"},
+            {label:"returned",value:2.15,kind:"down"},
+            {label:"consumed",value:4.85,kind:"result"}]}/>
+          <div className="note">Reads as an equation — the amber bar is the irreversible loss.</div>
+          <div><Tag k="i" src="permit consumptive calc · cfs"/></div>
+        </div>
+        <div className="panel">
+          <div className="ey">Cumulative · line vs cap</div>
+          <div className="ti">Crossing the permit cap</div>
+          <ThresholdLine data={CUM.map((value,i)=>({label:M[i],value}))} limit={3200} limitLabel="cap" unit="af"/>
+          <div className="note">The oxblood dot is the day the cap is spent; the wedge is the overage.</div>
+          <div><Tag k="i" src="acre-ft · projected"/></div>
+        </div>
+      </div>
+
+      <div className="row" style={{gridTemplateColumns:'1fr 1fr'}}>
+        <div className="panel">
+          <div className="ey">Gauge · headline</div>
+          <div className="ti">Year-end against the cap</div>
+          <GaugeBar value={3470} cap={3200} unit="af" label="of the annual permit cap"/>
+          <div className="note">The single-figure form — overage in oxblood past the cap mark.</div>
+          <div><Tag k="i" src="3,470 ÷ 3,200 af"/></div>
+        </div>
+        <div className="panel">
+          <div className="ey">Section · schematic</div>
+          <div className="ti">Water table under pumping</div>
+          <AquiferSection drawdownFt={42} wells={[{x:0.2, depthFrac:0.4, label:"domestic"}]}/>
+          <div className="note">Forest dashed = rest level; amber = the drawn-down surface.</div>
+          <div><Tag k="i" src="Theis · modeled"/></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body>
+</html>

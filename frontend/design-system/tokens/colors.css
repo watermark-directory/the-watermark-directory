@@ -54,6 +54,18 @@
   --ev-key-bg:     #f3e7c4;
   --ev-key-border: #dcc98a;
 
+  /* ---------- DATA VIZ · "forest is data" ----------
+     One hue carries the series; the evidence palette is NEVER spent on
+     decoration. Five forest tints for bars/slices, light grid, mono figures. */
+  --data-1: #1f6f4a; /* primary series / peak / disclosed */
+  --data-2: #3f8a63;
+  --data-3: #5fa07f;
+  --data-4: #8fbca0;
+  --data-5: #bcd2c4; /* quietest tint */
+  --data-withheld: rgba(31,111,74,0.22); /* secondary / "price withheld" fill */
+  --data-grid: #ece8dc; /* gridlines */
+  --data-axis: #cdc8b8; /* baseline / outer axis rule */
+
   /* ---------- SEMANTIC ALIASES (use these in components) ---------- */
   --bg-page:        var(--bone-page);
   --surface-card:   var(--bone-surface);

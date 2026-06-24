@@ -302,11 +302,69 @@ same chunked + dev-stack-review cadence as the token work; **repo class names ar
 | **RadioCard** | `.radiocard` + `RadioCard.astro`; repoint SubmitForm | nudge leads-filter styling | 1 picker (5 surfaces) |
 | **TextField** | `.field`/`TextField.astro` (optional/icon) | retune `.form input/textarea` tokens | 7 inputs |
 
+## Coverage extension — charts · hydrology · Icon (added upstream 2026-06-23)
+
+After the initial audit, the design project added **three new families** that close the coverage
+gaps flagged below — mirrored + audited here. The token layer grew too: `tokens/colors.css` gained
+the `--data-1..5` / `--data-withheld` / `--data-grid` / `--data-axis` **chart-series ramp**
+("forest is data"); additive-only, so the live site (which `@import`s it) is unaffected.
+
+### Charts (`components/charts/`) — 6/6 mapped to `src/components/charts/*.astro`
+
+Repo charts are hand-rolled SSR Astro SVG (`lib/charts.ts` + `charts/*.astro`); geometry is a
+near-literal match to the specs. **One uniform drift: palette tokenization** — the specs use the new
+`--data-*` tokens, the repo hardcodes the equivalent hex (`FOREST`/`FOREST_TINTS`/`GRID`/… in
+`charts.ts`; `site.css` defines zero `--data-*`). The impl is *ahead* in two places worth pushing up.
+
+| spec | impl | drift | direction | effort |
+|---|---|---|---|---|
+| BarChart (orientation v/h) | BarChart.astro + RankedBarChart.astro | spec folds both into `orientation`; palette tokens; impl adds card-shell + `niceMax` axis | both | M |
+| BulletBar | BulletChart.astro | palette; **impl ahead** — typed `evidence` register vs spec's raw `noteColor`; spec has per-row markers | both | S |
+| Donut | DonutChart.astro | palette; spec adds `center`/`size`/per-slice color knobs | both | S |
+| LineChart | LineChart.astro | palette; **impl ahead** — `refs` dashed reference/threshold lines (no spec concept) | push impl→spec | M |
+| Sparkline | Sparkline.astro | palette; spec exposes `strokeWidth`/`dot`/`height` | reconcile impl←spec | S |
+| StackedBar | StackedBar.astro | the one evidence-palette chart; **spec broader** — adds `gap`/`key` kinds + forest-series fallback (impl is 3 kinds) | reconcile impl←spec | M |
+
+Net: `--data-*` palette adoption is the coherent reconcile; LineChart `refs` + BulletChart's
+evidence-register are the two impl→spec pushes.
+
+### Hydrology (`components/hydrology/`) — 0/6 have a dedicated impl (all missing-impl)
+
+The watershed-hub gap the audit flagged, now spec'd. The repo renders draw-vs-low-flow as a
+`BulletChart` + the `DilutionScreen` island — **none of the six domain charts exist.** `charts.ts:174`
+already records that FDC / hydrograph / cumulative-vs-cap / drawdown await time-series the content
+bundle doesn't carry. Palette/grammar (forest=data, amber=modeled, oxblood=limit) is consistent.
+
+| spec | dedicated impl | build readiness | effort | risk |
+|---|---|---|---|---|
+| **Waterfall** (intake−returned=consumed) | none | **buildable now** — data in-bundle (`dilution.ts` cfs), pure SSR | M | low |
+| **GaugeBar** (value vs cap + overage) | none | **buildable now** — value+cap in-bundle, plain HTML/CSS | S | low |
+| FlowDurationCurve (log exceedance) | none | data-gated — needs an exceedance feed; best as an island | L | med |
+| Hydrograph (bars/envelope) | none (`DilutionScreen` adjacent) | data-gated — needs a monthly-flow feed | L | med |
+| ThresholdLine (cumulative vs cap) | none (`RefLine` seam partial) | data-gated — needs a cumulative acre-ft feed | M | med |
+| AquiferSection (drawdown schematic) | none | **needs a modeled `[inference]` groundwater input the corpus lacks** | M/L | high |
+
+Net: 2 buildable now (Waterfall, GaugeBar), 3 data-gated (need new `data/reference/hydrology` feeds +
+bundle), 1 (AquiferSection) blocked on a citable drawdown model — **don't draw it without a cited
+basis** (evidentiary discipline).
+
+### Icon (`components/core/Icon`) — mapped to `Icon.astro` (+ `lib/icons.ts`)
+
+~44/47 glyphs are byte-identical geometry. Real deltas: impl-missing **`dropdown`**, spec-missing
+**`ask`** (the repo's Ask-affordance glyph), and a `verify-link`(spec) ≡ `external`(repo) **rename**.
+Substantive drift: the **spec auto-colors semantic evidence icons** (in-component `SEMANTIC` map →
+`--ev-*-fg`); `Icon.astro` is pure `currentColor` and relies on callers to colorize. Spec also exposes
+`stroke`/`color`/`inherit`/`ICON_NAMES`; impl has `class`/`label`. → **both** (adopt the auto-coloring
++ add `dropdown`; push the `ask` glyph upstream). Effort S · risk low.
+
 ## Coverage notes
 
-- **Unspecified in the design project (no spec to sync):** the interactive **watershed hub**
-  (hydrology/map/imagery/rsei islands), and all 13 React islands generally — the design kit covers
-  the documentary surface, not the interactive simulators.
+- **Unspecified in the design project (no spec to sync):** the **map/graph** islands (deck.gl
+  `CorridorMap`/`DefenseNexusMap`/`EntityGraph`) and the economic/grid **simulators** (`EconLedger`,
+  `GridLoad`, `MoneyFlow`, `EndUse`). Charts and the watershed hydrology surface are **now spec'd**
+  (see the coverage extension above) — the remaining gap is the interactive map/sim islands.
+- **Not mirrored (design-canvas artifacts, not components):** `explorations/hydrology/**` (a
+  hydrology-viz working exploration) and `templates/social-kit/**`.
 - **Not mirrored (by design):** `assets/brand/**` (binaries already in `frontend/public/`),
   `templates/social-kit/**` (a social-card template, not a component), `_ds_*` (generated).
 - **Dead-source hygiene (optional, low priority):** the radius/shadow/round-dot declarations the
