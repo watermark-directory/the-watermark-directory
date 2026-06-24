@@ -1,0 +1,77 @@
+<!-- @dsCard group="Components" viewport="700x540" name="Core — buttons, tags, chips, pins" subtitle="The primitives: actions, the evidence grammar, phase dots, connect chips, annotation pins" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; background:var(--bg-page); font-family:var(--font-sans); color:var(--text-strong); }
+  .wrap { padding:22px 24px; display:flex; flex-direction:column; gap:20px; }
+  .row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .lbl { font-family:var(--font-mono); font-size:10px; letter-spacing:1.4px; text-transform:uppercase; color:var(--ink-faint); margin-bottom:9px; }
+  .grp { background:var(--surface-card); border:1px solid var(--border-card); padding:16px 18px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { Button, EvidenceTag, PhaseDot, ConnectChip, AnnotationPin, Eyebrow } = window.WatermarkDesignSystem_dbe30a;
+const Arrow = () => <span>→</span>;
+function Demo() {
+  return (
+    <div className="wrap">
+      <div className="grp">
+        <div className="lbl">Buttons</div>
+        <div className="row">
+          <Button variant="solid" iconRight={<Arrow/>}>Explore the directory</Button>
+          <Button variant="forest">Start the walk</Button>
+          <Button variant="ghost">Browse archive</Button>
+          <Button variant="link" iconRight="↗">Verify link</Button>
+          <Button variant="solid" disabled>Disabled</Button>
+        </div>
+      </div>
+      <div className="grp">
+        <div className="lbl">Evidence grammar — every figure wears one</div>
+        <div className="row">
+          <EvidenceTag kind="verified"/>
+          <EvidenceTag kind="inference"/>
+          <EvidenceTag kind="open"/>
+          <EvidenceTag kind="gap"/>
+          <EvidenceTag kind="key"/>
+          <EvidenceTag kind="verified" brackets size="sm"/>
+        </div>
+      </div>
+      <div className="row" style={{alignItems:'stretch'}}>
+        <div className="grp" style={{flex:'1 1 280px'}}>
+          <div className="lbl">Phase dots</div>
+          <div className="row" style={{gap:18}}>
+            <PhaseDot phase="live"/><PhaseDot phase="building"/><PhaseDot phase="queued"/><PhaseDot phase="tracking"/>
+          </div>
+        </div>
+        <div className="grp" style={{flex:'0 0 auto'}}>
+          <div className="lbl">Annotation pins</div>
+          <div className="row">
+            <AnnotationPin n={1}/><AnnotationPin n={2} active/><AnnotationPin n={3} tone="oxblood"/>
+          </div>
+        </div>
+      </div>
+      <div className="grp">
+        <div className="lbl">Connect chips — library doors</div>
+        <div className="row">
+          <ConnectChip kind="entity">Tetra Tech</ConnectChip>
+          <ConnectChip kind="concept">[[7Q10]]</ConnectChip>
+          <ConnectChip kind="timeline">2025-08-13 · recorded</ConnectChip>
+          <ConnectChip kind="map" tone="neutral">roundabout layer</ConnectChip>
+        </div>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body>
+</html>

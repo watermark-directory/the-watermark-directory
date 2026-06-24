@@ -1,0 +1,85 @@
+<!-- @dsCard group="Components" viewport="700x980" name="Record grammar — record block, figures, leads, sources" subtitle="The documentary units: a record card, figure tiles, an open lead, a source fallback, section doors" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; background:var(--bg-page); font-family:var(--font-sans); color:var(--text-strong); }
+  .wrap { padding:22px 24px; display:flex; flex-direction:column; gap:18px; }
+  .lbl { font-family:var(--font-mono); font-size:10px; letter-spacing:1.4px; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px; }
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { RecordBlock, FigureStat, SourceCard, LeadCard, SectionCard } = window.WatermarkDesignSystem_dbe30a;
+const DEED = {
+  kind: "Record · deed", title: "Limited Warranty Deed", recordId: "instr. 202508130008300", evidence: "verified",
+  fields: [
+    { label: "Grantor", value: "Brenneman Family Trusts" },
+    { label: "Grantee", value: "Bistrozzi LLC" },
+    { label: "Parcels conveyed", value: "7 · 340.2 ac" },
+    { label: "Stated price · Parcel 1", value: "$600,000 · 5.0 ac" },
+    { label: "Other DTE-100 prices", value: "~ blank", warn: true, tag: "open" },
+    { label: "Recorded", value: "2025-08-13" },
+  ],
+  warnings: ["6 of 7 conveyance prices left blank on the DTE-100 — only the 5-acre parcel carries a public figure."],
+  source: { file: "AUD_DTE100_…08300.pdf", pages: "instrument …08300", collection: "Allen County Recorder" },
+  verify: "Open instrument · Recorder",
+  connect: [{ kind:"entity", label:"Bistrozzi LLC" }, { kind:"entity", label:"Brenneman Trusts" }, { kind:"concept", label:"[[common-control]]" }],
+};
+function Demo() {
+  return (
+    <div className="wrap">
+      <div>
+        <div className="lbl">Record block · full (reference density)</div>
+        <RecordBlock record={DEED} />
+      </div>
+      <div>
+        <div className="lbl">Record block · compact (list row)</div>
+        <div style={{display:'flex', flexDirection:'column', gap:8}}>
+          <RecordBlock density="compact" record={{ title:"Rezoning application", recordId:"PZ-2024-118", source:{collection:"City planning"}, evidence:"verified", headlineValue:"$600,000" }} />
+          <RecordBlock density="compact" record={{ title:"Annexation notice", recordId:"REC-2024-0091", source:{collection:"County recorder"}, evidence:"inference", headlineValue:"~ pending", headlineWarn:true }} />
+        </div>
+      </div>
+      <div className="cols">
+        <div>
+          <div className="lbl">Figure tiles</div>
+          <div style={{display:'flex', flexDirection:'column', gap:12}}>
+            <FigureStat label="Program total" value="$14,223,081" unit="road package" evidence="verified" sub="6 corridors · 7.5% to drainage" source="PRR-01 · pp. 317–328" />
+            <FigureStat label="Cooling draw ÷ 7Q10" value="24.3×" unit="design low flow" evidence="inference" basis="modeled" sub="4.85 cfs ÷ 0.2 cfs" warn />
+          </div>
+        </div>
+        <div>
+          <div className="lbl">Open lead</div>
+          <LeadCard kind="Open question" confidence="unanswered" title="Who is behind the Parcel 7 buyer?" detail="The deed names a trust with no public principals. Anyone recognize the agent?" source="Auditor · 0008300" action="Answer this" count="open thread" />
+        </div>
+      </div>
+      <div className="cols">
+        <div>
+          <div className="lbl">Source fallback</div>
+          <SourceCard file="PRR-01-bundle.pdf" badge="SCAN" pages="pp. 317–328" collection="Public Records Request 01" />
+        </div>
+        <div>
+          <div className="lbl">Section doors</div>
+          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:10}}>
+            <SectionCard badge="DOC" title="Documents" count="63" />
+            <SectionCard badge="REC" title="Records" count="18" />
+            <SectionCard badge="TML" title="Timeline" locked lockNote="Needs 2 corroborated events" />
+            <SectionCard badge="ENT" title="Entities" count="22" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body>
+</html>

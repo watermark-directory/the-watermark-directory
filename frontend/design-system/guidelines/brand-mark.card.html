@@ -1,0 +1,34 @@
+<!-- @dsCard group="Brand" viewport="700x180" name="The mark — “w.”" subtitle="The wordmark shrunk to one letter: a baseline-set w with the forest period, knocked out of ink." -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; background:var(--bone-surface); font-family:var(--font-sans); color:var(--ink); }
+  .wrap { padding:22px 24px; display:flex; gap:26px; align-items:center; flex-wrap:wrap; }
+  .glyph { display:flex; align-items:flex-end; justify-content:center; padding-bottom:14%; }
+  .glyph span { font-weight:800; color:var(--bone-surface); line-height:0.6; }
+  .glyph .dot { color:var(--forest-bright); }
+  .cap { font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); text-align:center; margin-top:8px; }
+  .col { display:flex; flex-direction:column; align-items:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="col">
+    <div class="glyph" style="width:96px;height:96px;background:var(--ink);border-radius:var(--radius-app-icon);"><span style="font-size:58px;letter-spacing:-2.4px;">w<span class="dot">.</span></span></div>
+    <div class="cap">app icon · rounded</div>
+  </div>
+  <div class="col">
+    <div class="glyph" style="width:96px;height:96px;background:var(--ink);"><span style="font-size:58px;letter-spacing:-2.4px;">w<span class="dot">.</span></span></div>
+    <div class="cap">favicon · square</div>
+  </div>
+  <div class="col">
+    <div class="glyph" style="width:64px;height:64px;background:var(--forest);"><span style="font-size:38px;letter-spacing:-1.5px;">w<span class="dot" style="color:#bfe3cf;">.</span></span></div>
+    <div class="cap">forest variant</div>
+  </div>
+  <div style="flex:1 1 200px;min-width:180px;font-size:13.5px;line-height:1.55;color:var(--ink-muted);">It reads as type, not an icon — the only place a mark is load-bearing is the tab, the home screen, the avatar. The green period does the talking.</div>
+</div>
+</body>
+</html>

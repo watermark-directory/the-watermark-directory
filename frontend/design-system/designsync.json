@@ -10,15 +10,15 @@
     "tokens/colors.css",
     "tokens/fonts.css",
     "tokens/typography.css",
-    "tokens/spacing.css"
-  ],
-  "pending": [
+    "tokens/spacing.css",
     "components/core/**",
     "components/forms/**",
     "components/record/**",
-    "guidelines/**",
     "ui_kits/directory/**",
     "ui_kits/site/**",
+    "guidelines/**"
+  ],
+  "pending": [
     "assets/brand/**"
   ],
   "generated": [
@@ -27,8 +27,8 @@
     "_adherence.oxlintrc.json"
   ],
   "notes": {
-    "synced": "Foundations pulled into the mirror. On the next pull, move newly-synced paths here from `pending`.",
-    "pending": "Tracked but not yet mirrored — pull each on first sync (globs; the exact paths come from DesignSync list_files).",
+    "synced": "Foundations + all 27 component specs (components/**, ui_kits/**) + 11 guideline cards are mirrored. Drift vs the live Astro impls is recorded in COMPONENT-AUDIT.md; reconciliation (Stage 2) is gated on review. On the next pull, move newly-synced paths here from `pending`.",
+    "pending": "Only assets/brand/** remains (intentionally — see below). On a future pull, the exact paths come from DesignSync list_files.",
     "generated": "Authored by the Claude Design app's self-check / tooling — never mirror or push these.",
     "assets/brand/**": "Brand binaries already live in frontend/public/ (favicons, app icons); only mirror here if you want them version-controlled in the design system too."
   }
