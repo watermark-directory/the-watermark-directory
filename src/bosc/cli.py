@@ -257,6 +257,93 @@ def hypotheses_check() -> None:
         raise typer.Exit(1)
 
 
+catalog_app = typer.Typer(
+    name="catalog",
+    help="Inspect + validate the data catalog (bosc.catalog) — one entry per data/ dataset.",
+)
+app.add_typer(catalog_app, name="catalog")
+
+
+@catalog_app.command("list")
+def catalog_list(
+    scope: str = typer.Option("", "--scope", help="Filter to one scope (e.g. reference)."),
+) -> None:
+    """List the committed catalog entries (data/catalog/<scope>/<id>.yaml)."""
+    from bosc.catalog import load_entries
+
+    entries = load_entries()
+    if scope:
+        entries = [e for e in entries if e.scope == scope]
+    if not entries:
+        console.print(f"[dim](no catalog entries{f' for scope {scope!r}' if scope else ''})[/]")
+        return
+    table = Table("id", "scope", "status", "tier", "site", "producer", "files")
+    for e in sorted(entries, key=lambda x: (x.scope, x.id)):
+        table.add_row(
+            e.id,
+            e.scope,
+            e.status,
+            e.access_tier,
+            e.site_scope,
+            e.producer.kind,
+            str(len(e.storage)),
+        )
+    console.print(table)
+
+
+@catalog_app.command("show")
+def catalog_show(
+    entry_id: str = typer.Argument(..., help="Catalog entry id to display."),
+) -> None:
+    """Print a single catalog entry's resolved record."""
+    from bosc.catalog import get_entry
+
+    entry = get_entry(entry_id)
+    if entry is None:
+        raise typer.BadParameter(f"unknown catalog entry {entry_id!r}", param_hint="entry_id")
+    console.print(f"[bold]{entry.id}[/]  [dim]({entry.scope} · {entry.status})[/]")
+    console.print(f"  {entry.title}")
+    console.print(f"  [dim]producer:[/] {entry.producer.kind} · {entry.producer.source}")
+    if entry.producer.command:
+        console.print(f"  [dim]regen:[/] bosc {entry.producer.command}")
+    console.print(
+        f"  [dim]license:[/] {entry.license or '—'}  "
+        f"[dim]access:[/] {entry.access_tier}  [dim]site:[/] {entry.site_scope}"
+    )
+    console.print(
+        f"  [dim]refresh:[/] {entry.refresh.cadence}"
+        f"{f' · ttl {entry.refresh.ttl_days}d' if entry.refresh.ttl_days else ''}"
+        f"{f' · last {entry.refresh.last_refreshed}' if entry.refresh.last_refreshed else ''}"
+    )
+    if entry.storage:
+        table = Table("relpath", "media_type", "lfs")
+        for s in entry.storage:
+            table.add_row(s.relpath, s.media_type, "yes" if s.lfs else "no")
+        console.print(table)
+
+
+@catalog_app.command("validate")
+def catalog_validate() -> None:
+    """Structurally validate the catalog (schema + scope/id path match + unique ids).
+
+    The model-layer half of the gate; the fuller missing/orphan/staleness checks land with
+    ``bosc catalog check`` (issue #626) once ``reconcile`` supplies the observed snapshot.
+    """
+    from bosc.catalog import validate_entries
+
+    findings = validate_entries()
+    if not findings:
+        from bosc.catalog import load_entries
+
+        console.print(f"[green]catalog: valid[/] — {len(load_entries())} entries, no findings.")
+        return
+    table = Table("entry", "issue", "detail")
+    for f in findings:
+        table.add_row(f.entry_id, f"[red]{f.kind}[/]", f.detail)
+    console.print(table)
+    raise typer.Exit(1)
+
+
 @app.command(name="ingest")
 def ingest_cmd() -> None:
     """Inventory source documents under data/documents."""

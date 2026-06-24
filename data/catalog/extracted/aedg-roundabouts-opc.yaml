@@ -1,0 +1,33 @@
+id: aedg-roundabouts-opc
+title: AEDG roundabouts — Tetra Tech OPC estimates (extracted)
+scope: extracted
+status: reviewed
+producer:
+  kind: extracted
+  command: extract aedg/PRR-01-bundle.ocr.pdf --kind opc
+  connector_ref: bosc.pipeline.extract
+  source: Tetra Tech OPC estimates, PRR-01 bundle (0-based PDF pages 317 summary, 318-327 detail)
+license: Public record (Allen County public-records request PRR-01)
+access_tier: public
+site_scope: lima-legacy
+storage:
+  - relpath: extracted/aedg/roundabouts.summary.opc.yaml
+    media_type: application/x-yaml
+  - relpath: extracted/aedg/roundabouts.detail.opc.yaml
+    media_type: application/x-yaml
+refresh:
+  cadence: static
+provenance: document
+schema_ref: bosc.models.Estimate
+tags:
+  - opc
+  - aedg
+  - roundabouts
+  - tetra-tech
+notes: >-
+  The reference extraction target — the six Tetra Tech opinion-of-probable-cost (OPC)
+  estimates rendered from `data/documents/aedg/PRR-01-bundle.ocr.pdf` by the hybrid
+  vision pipeline (OCR hint + 300 DPI render → Tetra Tech `Profile` → forced-tool-use
+  vision read → Pydantic `Estimate`). Figures come from the page image, never the garbled
+  OCR text layer. `summary` is the assembled summary sheet; `detail` adds per-section line
+  items. Static: a fixed public record, regenerable but not refreshed.
