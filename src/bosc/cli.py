@@ -543,6 +543,41 @@ def catalog_check_cmd(
         raise typer.Exit(1)
 
 
+@catalog_app.command("producer-check")
+def catalog_producer_check_cmd(
+    base: str = typer.Option("origin/main", "--base", help="Diff base ref (default: origin/main)."),
+) -> None:
+    """Fail if a producer changed without its catalog entry (the producer→entry drift gate).
+
+    Maps a changed connector module (producer.connector_ref) to its catalog entries; if the
+    producer changed in the diff vs --base but none of its entries did, that's drift. Bypass
+    with a `[catalog-waiver: <reason>]` token in a commit message. Skips cleanly (passes) when
+    the base ref isn't available (e.g. a shallow checkout), so it never false-fails.
+    """
+    from bosc.catalog_producer import run_producer_check
+
+    result = run_producer_check(base=base)
+    if result.status == "skipped":
+        console.print(f"[dim]producer-check skipped — {result.detail}[/]")
+        return
+    if result.status == "clean":
+        console.print("[green]producer-check: clean[/] — no producer changed without its entry.")
+        return
+    table = Table("connector_ref", "changed source", "expected entry touched")
+    for f in result.findings:
+        table.add_row(f.connector_ref, f.source, ", ".join(f.expected_entries))
+    console.print(table)
+    if result.status == "waived":
+        console.print(f"\n[yellow]waived[/] — [catalog-waiver: {result.detail}] (logged for audit)")
+        return
+    console.print(
+        f"\n[red]{len(result.findings)} producer(s) changed without a catalog update.[/] "
+        "Update the entry (`bosc catalog backfill --apply` then review) or add "
+        "`[catalog-waiver: <reason>]` to a commit message."
+    )
+    raise typer.Exit(1)
+
+
 @app.command(name="ingest")
 def ingest_cmd() -> None:
     """Inventory source documents under data/documents."""
