@@ -279,6 +279,110 @@ export function buildBullet(measure: number, limit: number, max?: number): Bulle
   };
 }
 
+// ---------------------------------------------------------------- waterfall (net)
+export type WaterfallKind = "base" | "down" | "up" | "result";
+export interface WaterfallStep {
+  label: string;
+  value: number;
+  /** base = full bar from 0; down/up = a delta off the running total; result = the net from 0. */
+  kind: WaterfallKind;
+  /** Override the tone (defaults by kind). */
+  color?: string;
+}
+export interface WaterfallBar {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  cx: number;
+  color: string;
+  label: string;
+  name: string;
+  /** y of the running-total level after this step — where the dashed connector sits. */
+  connectorY: number;
+  /** x of the next bar's left edge the connector runs to (null on the last bar). */
+  connectorX2: number | null;
+}
+export interface WaterfallChart {
+  width: number;
+  height: number;
+  baselineY: number;
+  bars: WaterfallBar[];
+  grid: AxisGridLine[];
+}
+
+/** Tone by step kind: a base total in ink, a returned/recovered delta in forest (data),
+ *  an addition or the net remainder in amber (the modeled loss). */
+const WATERFALL_TONE: Record<WaterfallKind, string> = {
+  base: INK,
+  down: FOREST,
+  up: EVIDENCE_FILL.inference,
+  result: EVIDENCE_FILL.inference,
+};
+
+/** A step waterfall — each step floats from the running total; reads as an equation
+ *  (the classic case: intake − returned = consumed). Pure geometry; the component is SSR SVG. */
+export function buildWaterfall(steps: WaterfallStep[], opts: { max?: number } = {}): WaterfallChart {
+  const W = 360;
+  const H = 200;
+  const L = 40;
+  const R = 344;
+  const T = 32;
+  const base = 172;
+  const plotH = base - T;
+  const peak = opts.max ?? Math.max(1, ...steps.map((s) => s.value)) * 1.05;
+  const sy = (v: number): number => round(base - (v / peak) * plotH);
+  const n = steps.length || 1;
+  const slot = (R - L) / n;
+  const barW = Math.min(58, slot * 0.6);
+
+  let cur = 0;
+  const bars: WaterfallBar[] = steps.map((s, i) => {
+    // top = the bar's smaller y (visual top); bot = the larger y (visual bottom).
+    let top: number;
+    let bot: number;
+    let label: string;
+    if (s.kind === "base" || s.kind === "result") {
+      cur = s.value; // a full bar from zero
+      top = sy(s.value);
+      bot = base;
+      label = String(s.value);
+    } else if (s.kind === "down") {
+      const before = cur; // spans [cur-value, cur] — the subtracted band
+      cur -= s.value;
+      top = sy(before);
+      bot = sy(cur);
+      label = `−${s.value}`;
+    } else {
+      const before = cur; // up: spans [cur, cur+value]
+      cur += s.value;
+      top = sy(cur);
+      bot = sy(before);
+      label = `+${s.value}`;
+    }
+    const cx = L + slot * i + slot / 2;
+    return {
+      x: round(cx - barW / 2),
+      w: round(barW),
+      y: round(top),
+      h: round(Math.max(bot - top, 1)),
+      cx: round(cx),
+      color: s.color ?? WATERFALL_TONE[s.kind],
+      label,
+      name: s.label,
+      connectorY: sy(cur), // the running total after this step
+      connectorX2: null,
+    };
+  });
+  for (let i = 0; i < bars.length - 1; i++) bars[i].connectorX2 = bars[i + 1].x;
+
+  const grid: AxisGridLine[] = [0, 0.33, 0.66, 1].map((f) => {
+    const value = round(f * peak);
+    return { value, y: sy(value) };
+  });
+  return { width: W, height: H, baselineY: base, bars, grid };
+}
+
 // ---------------------------------------------------------------- 5 · stacked status
 export interface StackSegment {
   label: string;

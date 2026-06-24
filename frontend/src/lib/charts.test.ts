@@ -7,6 +7,7 @@ import {
   buildSparkline,
   buildStacked,
   buildVBars,
+  buildWaterfall,
   EVIDENCE_FILL,
   FOREST,
   niceMax,
@@ -122,5 +123,24 @@ describe("charts geometry (#306)", () => {
     const c = buildSparkline([2, 3, 5, 4, 9, 14]);
     expect(c.path.startsWith("M")).toBe(true);
     expect(c.dot.x).toBeGreaterThan(0);
+  });
+
+  it("waterfall: base + result run from the baseline, the down delta floats with real height", () => {
+    const c = buildWaterfall([
+      { label: "intake", value: 7, kind: "base" },
+      { label: "returned", value: 2.15, kind: "down" },
+      { label: "consumed", value: 4.85, kind: "result" },
+    ]);
+    expect(c.bars).toHaveLength(3);
+    // base + result are full bars from zero → their bottom sits on the baseline
+    expect(c.bars[0].y + c.bars[0].h).toBeCloseTo(c.baselineY, 0);
+    expect(c.bars[2].y + c.bars[2].h).toBeCloseTo(c.baselineY, 0);
+    // the "down" (returned) band floats above the baseline, spanning 4.85→7, with real height
+    expect(c.bars[1].y + c.bars[1].h).toBeLessThan(c.baselineY);
+    expect(c.bars[1].h).toBeGreaterThan(1);
+    expect(c.bars[1].label).toBe("−2.15");
+    // connectors run from each bar to the next, except the last
+    expect(c.bars[0].connectorX2).not.toBeNull();
+    expect(c.bars[2].connectorX2).toBeNull();
   });
 });

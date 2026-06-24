@@ -2845,6 +2845,21 @@ a.walk-dot:hover { opacity: 0.82; }
 .chart-bullet-note { margin-top: 1rem; padding-top: var(--sp-3); border-top: 1px solid #ece8dc; display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-meta); color: var(--bosc-muted); line-height: 1.5; }
 .chart-bullet-tick { width: 2px; height: 15px; background: var(--bosc-danger); flex: 0 0 auto; }
 
+/* Gauge bar (hydrology) — one figure vs a permitted cap: amber fill to the cap, oxblood overage
+   past an ink cap mark; the headline % flips oxblood when the cap is breached. (DesignSync) */
+.chart-gauge-headline { display: flex; align-items: baseline; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.chart-gauge-pct { font-family: var(--bosc-mono); font-size: var(--fs-display); font-weight: 700; letter-spacing: -1.5px; color: var(--data-1); line-height: 1; }
+.chart-gauge-pct.is-over { color: var(--bosc-danger); }
+.chart-gauge-label { font-size: var(--fs-meta); color: var(--bosc-muted); }
+.chart-gauge-track { position: relative; height: 26px; background: var(--bone-band); border: 1px solid var(--data-axis); }
+.chart-gauge-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ev-inference-fg); }
+.chart-gauge-over { position: absolute; top: 0; bottom: 0; background: var(--ev-gap-fg); }
+.chart-gauge-cap { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--bosc-ink); }
+.chart-gauge-scale { display: flex; justify-content: space-between; margin-top: var(--sp-2); font-family: var(--bosc-mono); font-size: var(--fs-nano); color: var(--bosc-faint); }
+.chart-gauge-capval { color: var(--bosc-ink); font-weight: 600; }
+/* Waterfall — per-bar value label; the fill comes from the bar's tone (SVG attr), so no fill here. */
+.chart-wf-val { font-family: var(--bosc-mono); font-size: var(--fs-nano); font-weight: 700; }
+
 /* Sparkline — inline, sits in a record row */
 .chart-sparkline { display: inline-block; vertical-align: middle; flex: 0 0 auto; }
 
