@@ -39,7 +39,9 @@ from pydantic import BaseModel, ConfigDict, Field, computed_field
 # 1.5.0: adds the `hypotheses` + `hypothesis-assessments` feeds — the boom-origin lenses and their
 #   (site x hypothesis) evidence cells (bosc.hypotheses; #308). The directory reads these instead of
 #   the formerly-hardcoded LENSES/LENS_DATA, so each cell now ships with a Citation.
-CONTRACT_VERSION = "1.5.0"
+# 1.6.0: adds the `catalog` feed — the published data catalog (bosc.catalog projected to
+#   CatalogItem + the reconcile observed snapshot; epic #631 Phase 3 / #659).
+CONTRACT_VERSION = "1.6.0"
 
 SourceKind = Literal["document", "connector", "reference", "assumption", "derived"]
 Confidence = Literal["high", "medium", "low"]
@@ -368,6 +370,64 @@ class ConceptItem(BaseModel):
     summary: str = ""
     related: list[str] = Field(default_factory=list)  # sibling concept slugs
     body: str = ""
+
+
+# --- data catalog feed (epic #631, Phase 3 / #659) ----------------------------
+class CatalogStorageFile(BaseModel):
+    """One committed file belonging to a catalogued dataset (a published storage row)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    relpath: str  # relative to data/, ``{site}`` template kept verbatim for slug-scoped sets
+    media_type: str
+    lfs: bool = False
+
+
+class CatalogObserved(BaseModel):
+    """The reconcile snapshot's observed half for a dataset (``data/catalog/_observed.yaml``)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    exists: bool
+    sha256: str | None = None
+    size_bytes: int = 0
+    lfs_materialized: bool = True
+    file_count: int = 0
+    stale: bool = False
+    asof: str | None = None
+
+
+class CatalogItem(BaseModel):
+    """One dataset in the published data catalog — the bundle projection of a ``CatalogEntry``.
+
+    The presentation peer of :class:`bosc.catalog.CatalogEntry`: the declared facts (producer,
+    license, access tier, refresh, the per-site ``site_scope`` axis, storage) joined to the
+    observed snapshot (:class:`CatalogObserved`). ``citation`` carries the producer as the
+    bundle's shared provenance shape so the catalog speaks the same language as every other feed.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    title: str
+    scope: str  # documents | extracted | reference | derived | bundle | people | hypotheses | poi
+    collection: str  # the first dir under the scope (e.g. "echo"), or the scope when flat
+    status: str  # needs-review | reviewed | deprecated
+    producer_kind: str  # connector | derived | vendored | manual | extracted
+    command: str | None = None  # the `bosc <cmd>` regenerator
+    connector_ref: str | None = None
+    source: str  # human upstream label
+    external_url: str | None = None
+    license: str | None = None
+    access_tier: str  # public | keyed | throttled
+    site_scope: str  # lima-legacy | slug-scoped | basin-shared
+    cadence: str  # daily | weekly | monthly | quarterly | annual | on-demand | static
+    ttl_days: int | None = None
+    last_refreshed: str | None = None
+    tags: list[str] = Field(default_factory=list)
+    storage: list[CatalogStorageFile] = Field(default_factory=list)
+    observed: CatalogObserved | None = None  # None until `bosc catalog reconcile` has run
+    citation: Citation
 
 
 # --- typed GeoJSON feeds (issue #61) ------------------------------------------
