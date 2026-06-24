@@ -49,6 +49,7 @@ from bosc.pipeline.timeline import build_timeline
 from bosc.poi import load_pois
 from bosc.rsei import load_inventory as load_rsei_inventory
 from bosc.site import candidates as candidates_mod
+from bosc.site import catalog as catalog_mod
 from bosc.site import concepts as concepts_mod
 from bosc.site import documents as documents_mod
 from bosc.site import economics as economics_mod
@@ -64,6 +65,7 @@ from bosc.site import rsei as rsei_mod
 from bosc.site.feeds import (
     CONTRACT_VERSION,
     CandidateItem,
+    CatalogItem,
     Citation,
     ConceptItem,
     DocumentCollectionItem,
@@ -334,6 +336,11 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
     )
 
     feeds.append(_collection_feed("hydrology-scenarios", ScenarioResult, _load_scenarios(settings)))
+
+    # The published data catalog (epic #631 Phase 3 / #659): every dataset under data/ with its
+    # producer/license/access-tier/refresh + the reconcile observed snapshot — the data tier
+    # the /about/data page reads.
+    feeds.append(_collection_feed("catalog", CatalogItem, catalog_mod.export_catalog(settings)))
 
     # Typed GeoJSON layer feeds (issue #61).
     findings = settings.data_dir / "site" / "gis-findings.geojson"
