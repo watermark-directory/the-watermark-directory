@@ -30,12 +30,12 @@ const c = buildVBars(data, max != null ? { max } : {});
     {
       c.grid.map((g) => (
         <Fragment>
-          <line x1="34" y1={g.y} x2="348" y2={g.y} stroke="#ece8dc" stroke-width="1" />
+          <line x1="34" y1={g.y} x2="348" y2={g.y} stroke="var(--data-grid)" stroke-width="1" />
           <text x="28" y={g.y + 3} text-anchor="end" class="chart-axis">{g.value}</text>
         </Fragment>
       ))
     }
-    <line x1="34" y1={c.baselineY} x2="348" y2={c.baselineY} stroke="#cdc8b8" stroke-width="1" />
+    <line x1="34" y1={c.baselineY} x2="348" y2={c.baselineY} stroke="var(--data-axis)" stroke-width="1" />
     {
       c.bars.map((b) => (
         <Fragment>

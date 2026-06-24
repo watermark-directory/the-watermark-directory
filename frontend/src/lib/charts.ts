@@ -18,22 +18,38 @@ const round = (n: number, p = 1): number => {
   return Math.round(n * f) / f;
 };
 
-/** Forest is data (Swiss 03 chart set): one hue, four tints for series and slices. */
-export const FOREST_TINTS = ["#1f6f4a", "#3f8a63", "#5fa07f", "#8fbca0", "#bcd2c4"] as const;
-export const FOREST = "#1f6f4a";
-export const INK = "#16201a";
-export const GRID = "#ece8dc";
-export const BASELINE = "#cdc8b8";
-export const LIMIT = "#7a2230";
+/**
+ * Forest is data (Swiss 03 chart set): one hue, five tints for series and slices.
+ * The palette is now driven by the design-system **chart-series tokens** (`--data-*` in
+ * `design-system/tokens/colors.css`, which `site.css` @imports). These are CSS `var()`
+ * refs rendered into SVG `fill`/`stroke`, so they resolve in the live cascade. Values are
+ * unchanged vs the prior hex (zero visual change) — the design system is now the single
+ * source for the chart palette.
+ */
+export const FOREST_TINTS = [
+  "var(--data-1)",
+  "var(--data-2)",
+  "var(--data-3)",
+  "var(--data-4)",
+  "var(--data-5)",
+] as const;
+export const FOREST = "var(--data-1)";
+export const INK = "var(--ink)";
+export const GRID = "var(--data-grid)";
+export const BASELINE = "var(--data-axis)";
+export const LIMIT = "var(--ev-gap-fg)";
 /** The withheld/soft tint for a ranked bar whose value is present but its price isn't. */
-export const WITHHELD_FILL = "rgba(31,111,74,0.22)";
-export const WITHHELD_STROKE = "#bcd2c4";
+export const WITHHELD_FILL = "var(--data-withheld)";
+export const WITHHELD_STROKE = "var(--forest-line)";
 
 /** Evidence encoding — the ONE place the semantic palette enters a chart. */
 export const EVIDENCE_FILL: Record<TagKind, string> = {
-  verified: "#1f6f4a",
-  inference: "#9a6a14",
-  open: "#a8a596",
+  verified: "var(--ev-verified-fg)",
+  inference: "var(--ev-inference-fg)",
+  // The live chart uses ink-ghost (#a8a596) for the "open" proportion — a receding light
+  // tone — NOT the evidence --ev-open-fg (#566159) the spec maps. Kept as-is (zero change);
+  // aligning it to --ev-open-fg is a deferred decision (see COMPONENT-AUDIT.md · StackedBar).
+  open: "var(--ink-ghost)",
 };
 
 /** A "nice" axis ceiling at or above `v` (1/2/2.5/5 × 10ⁿ). */
