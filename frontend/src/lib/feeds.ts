@@ -169,6 +169,47 @@ export interface ProvenancedValue {
   asof?: string | null;
 }
 
+/** A screening dilution band (`bosc.hydrology.model.Flag`): violation < tight < ok. */
+export type DilutionFlag = "ok" | "tight" | "violation";
+
+/** A point in the municipal water loop (`bosc.hydrology.model.Node`). */
+export interface WaterNode {
+  id: string;
+  name: string;
+  role: string;
+  receiving_water?: string | null;
+  lat?: number | null;
+  lon?: number | null;
+}
+
+/** One node's flow terms in the Tier-0 balance (`bosc.hydrology.model.WaterBalanceNode`). */
+export interface WaterBalanceNode {
+  node: WaterNode;
+  inflow?: ProvenancedValue | null;
+  consumptive_use?: ProvenancedValue | null;
+  return_flow?: ProvenancedValue | null;
+  stormwater?: ProvenancedValue | null;
+}
+
+/** The assembled source→use→WWTP→receiving loop (`bosc.hydrology.model.WaterBalance`). */
+export interface WaterBalance {
+  nodes: WaterBalanceNode[];
+  tier: "tier0";
+  warnings: string[];
+}
+
+/** One low-flow dilution check (`bosc.hydrology.model.AssimilativeCheck`). */
+export interface AssimilativeCheck {
+  receiving_water: string;
+  discharger: string;
+  design_low_flow: ProvenancedValue; // the cited 7Q10
+  discharge: ProvenancedValue;
+  upstream_returns?: ProvenancedValue | null;
+  dilution_ratio: number;
+  flag: DilutionFlag;
+  detail: string;
+}
+
 export interface ScenarioResult {
   scenario: {
     name: string;
@@ -180,8 +221,11 @@ export interface ScenarioResult {
   consumptive_loss: ProvenancedValue;
   ottawa_7q10: ProvenancedValue;
   ottawa_live: ProvenancedValue;
-  balance: ProvenancedValue;
-  assimilative: ProvenancedValue;
+  // `balance` is the composite Tier-0 loop and `assimilative` is a per-discharger
+  // array — NOT scalar provenanced values. (Previously both mistyped as
+  // ProvenancedValue, which rendered blank, falsely-tagged headline tiles — #635.)
+  balance: WaterBalance;
+  assimilative: AssimilativeCheck[];
 }
 
 /** One dated Esri Wayback aerial release (the `geo/imagery` feed's `meta.wayback`). */

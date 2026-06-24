@@ -89,21 +89,28 @@ const drawRatio = showScreen ? Math.round((drawV!.value as number) / (lowV!.valu
 
     {
       scenarios.map((s) => {
-        const metrics: { label: string; v: ProvenancedValue; tone?: "neg" | "pos" }[] = [
-          { label: "Consumptive loss", v: s.consumptive_loss },
-          { label: "Ottawa 7Q10", v: s.ottawa_7q10 },
-          { label: "Ottawa live flow", v: s.ottawa_live },
-          {
-            label: "Balance",
-            v: s.balance,
-            tone: (s.balance.value ?? 0) < 0 ? "neg" : "pos",
-          },
-          {
-            label: "Assimilative headroom",
-            v: s.assimilative,
-            tone: (s.assimilative.value ?? 0) < 0 ? "neg" : "pos",
-          },
+        // The three genuinely-scalar provenanced metrics.
+        const stats: FigureStatData[] = [
+          toStat("Consumptive loss", s.consumptive_loss),
+          toStat("Ottawa 7Q10", s.ottawa_7q10),
+          toStat("Ottawa live flow", s.ottawa_live),
         ];
+        // `assimilative` is a per-discharger array, not a scalar: surface the binding
+        // (worst-diluted) reach as the headline, carrying its own cited provenance.
+        const assim = s.assimilative ?? [];
+        const binding =
+          assim.length > 0 ? assim.reduce((a, b) => (b.dilution_ratio < a.dilution_ratio ? b : a)) : null;
+        if (binding) {
+          stats.push({
+            label: "Binding dilution",
+            value: `${binding.dilution_ratio.toFixed(2)}:1`,
+            evidence: grounded(binding.design_low_flow) ? "verified" : "inference",
+            basis: grounded(binding.design_low_flow) ? "grounded" : "modeled",
+            sub: `${binding.discharger} → ${binding.receiving_water}`,
+            warn: binding.flag !== "ok",
+          });
+        }
+        const violations = assim.filter((r) => r.flag === "violation").length;
         return (
           <div class="scenario">
             <h2>{s.scenario.name}</h2>
@@ -113,13 +120,37 @@ const drawRatio = showScreen ? Math.round((drawV!.value as number) / (lowV!.valu
               {fmt(s.scenario.consumptive_fraction)}
             </p>
             <div class="fs-grid">
-              {metrics.map((m) => (
-                <FigureStat stat={toStat(m.label, m.v, m.tone === "neg")} size="lg" />
+              {stats.map((st) => (
+                <FigureStat stat={st} size="lg" />
               ))}
             </div>
+            {assim.length > 0 && (
+              <p class="card-meta">
+                Assimilative screen · {violations} of {assim.length} receiving reaches fail the dilution
+                band at design low flow ({assim.map((r) => `${r.discharger} ${r.dilution_ratio.toFixed(2)}:1`).join(" · ")}).
+                A screening band, not a permit determination.
+              </p>
+            )}
+            {s.balance.warnings.length > 0 && (
+              <>
+                <p class="card-meta">
+                  Tier-0 water balance · {s.balance.nodes.length} nodes · modeling caveats:
+                </p>
+                <ul class="hydro-caveats">
+                  {s.balance.warnings.map((w) => (
+                    <li>{w}</li>
+                  ))}
+                </ul>
+              </>
+            )}
           </div>
         );
       })
     }
   </article>
 </Base>
+
+<style>
+  .hydro-caveats { margin: 6px 0 0; padding-left: 1.1rem; }
+  .hydro-caveats li { font-size: 0.85rem; color: var(--bosc-muted); line-height: 1.5; margin-top: 4px; }
+</style>

@@ -94,14 +94,6 @@ const CAMPUS_FM2_CFS = 3.87;
 
 const round2 = (n: number): number => Math.round(n * 100) / 100;
 
-/** One row of the feed's `assimilative` array (mistyped as a scalar in feeds.ts). */
-interface AssimRow {
-  discharger?: string;
-  receiving_water?: string;
-  discharge?: { value: number | null };
-  design_low_flow?: { value: number | null };
-}
-
 const FALLBACK_DISCHARGE_ROWS: DischargeRow[] = [
   { discharger: "Shawnee II WWTP", receiving: "Ottawa River", dischargeCfs: 4.64, lowFlowCfs: 0.2 },
   { discharger: "American Bath WWTP", receiving: "Pike Run", dischargeCfs: 2.32, lowFlowCfs: 0.03 },
@@ -148,12 +140,12 @@ export function buildDilution(): DilutionData {
   // The discharge story (the river is already effluent): WWTP discharges + the
   // receiving streams' natural low flows from the feed's assimilative rows; the
   // campus FM-2 routed discharge is the cited constant; the effluent share derives.
-  const assim = (buildout?.assimilative as unknown as AssimRow[] | undefined) ?? [];
+  const assim = buildout?.assimilative ?? [];
   const rows: DischargeRow[] = assim.map((a) => ({
-    discharger: a.discharger ?? "—",
-    receiving: a.receiving_water ?? "—",
-    dischargeCfs: round2(a.discharge?.value ?? 0),
-    lowFlowCfs: a.design_low_flow?.value ?? 0,
+    discharger: a.discharger,
+    receiving: a.receiving_water,
+    dischargeCfs: round2(a.discharge.value ?? 0),
+    lowFlowCfs: a.design_low_flow.value ?? 0,
   }));
   const dischargeRows = rows.length > 0 ? rows : FALLBACK_DISCHARGE_ROWS;
   const wwtpCfs = round2(dischargeRows.reduce((s, r) => s + r.dischargeCfs, 0));
