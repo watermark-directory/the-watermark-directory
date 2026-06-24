@@ -59,7 +59,11 @@ jobs:
     if: ${{ needs.changes.outputs.backend == 'true' }}
     runs-on: ubuntu-latest
     steps:
+      # fetch-depth: 0 gives the full history the producer-drift gate needs to merge-base
+      # against origin/main (the default shallow checkout has no base to diff against).
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -102,6 +106,14 @@ jobs:
       # an informational note, never a failure.
       - name: Catalog check
         run: uv run bosc catalog check
+
+      # Producer→entry drift gate (#629): a changed connector without its catalog entry fails.
+      # Resolves origin/main from the full-history checkout; skips cleanly if it can't, so it
+      # never false-fails. Bypass with a `[catalog-waiver: <reason>]` commit token.
+      - name: Catalog producer-drift gate
+        run: |
+          git fetch --no-tags --quiet origin main || true
+          uv run bosc catalog producer-check --base origin/main
 
       - name: Test
         run: uv run pytest -n auto   # pytest-xdist: parallelize across the runner's cores
