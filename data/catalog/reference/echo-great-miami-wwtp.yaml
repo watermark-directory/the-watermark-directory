@@ -1,0 +1,24 @@
+id: echo-great-miami-wwtp
+title: Echo Great Miami Wwtp
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  command: npdes
+  connector_ref: bosc.hydrology.connectors.echo
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/echo/great-miami-wwtp.all-npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/echo/great-miami-wwtp.huc-counts.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/echo/great-miami-wwtp.potw.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector

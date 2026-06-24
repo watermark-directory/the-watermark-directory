@@ -1,0 +1,16 @@
+id: allen-boe
+title: Allen Boe
+scope: reference
+status: needs-review
+producer:
+  kind: manual
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/allen-boe/registration-turnout.csv
+  media_type: text/csv
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: reference

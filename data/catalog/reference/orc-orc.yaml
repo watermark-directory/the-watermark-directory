@@ -1,0 +1,53 @@
+id: orc-orc
+title: Orc Orc
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  command: orc
+  source: Ohio LSC code portal — codes.ohio.gov
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/orc/orc.cited.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-1.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-13.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-15.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-17.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-23.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-3.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-35.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-37.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-45.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-53.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-57.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/orc/orc.title-general-provisions.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector

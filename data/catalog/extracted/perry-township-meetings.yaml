@@ -1,0 +1,25 @@
+id: perry-township-meetings
+title: Perry Township Meetings
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: extracted/perry-township/meetings/completeness-audit.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/perry-township/meetings/download-manifest.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/perry-township/meetings/meeting-index.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/perry-township/meetings/meeting-summaries.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

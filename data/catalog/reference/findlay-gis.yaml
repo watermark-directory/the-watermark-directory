@@ -1,0 +1,17 @@
+id: findlay-gis
+title: Findlay Gis
+scope: reference
+status: needs-review
+producer:
+  kind: manual
+  source: City of Findlay GIS — ArcGIS Online hosted FeatureServer 'FindlayZoning' (org XMr9uonP553LyU3o),
+    layer 0
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/findlay-gis/zoning-districts.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: reference

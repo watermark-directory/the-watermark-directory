@@ -1,0 +1,22 @@
+id: watershed
+title: Watershed
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: extracted/watershed/osu-lima-ag-runoff-treatment.capture.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/watershed/shedekar-edge-of-field.findings.md
+  media_type: text/markdown
+  lfs: false
+- relpath: extracted/watershed/shedekar-vinayak.bibliography.md
+  media_type: text/markdown
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

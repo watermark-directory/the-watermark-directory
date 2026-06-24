@@ -1,0 +1,25 @@
+id: plans
+title: Plans
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: extracted/plans/4091286.engineering.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/plans/LMA1A-95-SPS-2025-10-28.plan.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/plans/bosc-site-footprint.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/plans/lma1a.storm-inventory.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

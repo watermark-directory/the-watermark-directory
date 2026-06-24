@@ -1,0 +1,22 @@
+id: allen-boe-results-csv
+title: Allen Boe Results Csv
+scope: reference
+status: needs-review
+producer:
+  kind: manual
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/allen-boe/results-csv/2019-general-summary.csv
+  media_type: text/csv
+  lfs: false
+- relpath: reference/allen-boe/results-csv/2024-general-summary.csv
+  media_type: text/csv
+  lfs: false
+- relpath: reference/allen-boe/results-csv/2026-primary-summary.csv
+  media_type: text/csv
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: reference

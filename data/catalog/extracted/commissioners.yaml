@@ -1,0 +1,28 @@
+id: commissioners
+title: Commissioners
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: extracted/commissioners/bosc-2023-backfill.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/commissioners/bosc-resolution-ledger.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/commissioners/bosc-water-balance.analysis.md
+  media_type: text/markdown
+  lfs: false
+- relpath: extracted/commissioners/closed-deliberation-and-corridor.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/commissioners/sanitary-economics.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

@@ -1,0 +1,18 @@
+id: usaspending
+title: Usaspending
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  command: usaspending
+  connector_ref: bosc.usaspending
+  source: USASpending.gov API (api.usaspending.gov), U.S. Treasury; public domain
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/usaspending/awards.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector

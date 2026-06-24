@@ -1,0 +1,20 @@
+id: hydrology-wbd
+title: Hydrology Wbd
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  connector_ref: bosc.hydrology
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/hydrology/wbd/0410000704-middle-ottawa-river.geojson
+  media_type: application/geo+json
+  lfs: false
+- relpath: reference/hydrology/wbd/041000070404-pike-run.geojson
+  media_type: application/geo+json
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector

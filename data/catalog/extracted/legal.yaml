@@ -1,0 +1,19 @@
+id: legal
+title: Legal
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: extracted/legal/corpus-completeness-audit.md
+  media_type: text/markdown
+  lfs: false
+- relpath: extracted/legal/cross-production-referral-map.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

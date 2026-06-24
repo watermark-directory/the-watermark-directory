@@ -1,0 +1,28 @@
+id: aedg
+title: Aedg
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: extracted/aedg/aedg-data-center-release.release.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/aedg/paac-board-minutes.minutes.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/aedg/paac-records-policy.policy.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/aedg/roadwork-development-agreement.rda.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/aedg/seller-land-packets.land.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

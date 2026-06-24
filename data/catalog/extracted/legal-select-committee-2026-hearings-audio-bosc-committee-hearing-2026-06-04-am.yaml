@@ -1,0 +1,19 @@
+id: legal-select-committee-2026-hearings-audio-bosc-committee-hearing-2026-06-04-am
+title: Legal Select Committee 2026 Hearings Audio Bosc Committee Hearing 2026 06 04 Am
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: lima-legacy
+storage:
+- relpath: extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-am.index.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/select-committee-2026/hearings-audio/bosc-committee-hearing-2026-06-04-am.transcript.md
+  media_type: text/markdown
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

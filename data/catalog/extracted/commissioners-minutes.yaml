@@ -1,0 +1,31 @@
+id: commissioners-minutes
+title: Commissioners Minutes
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: extracted/commissioners/minutes/filename-map.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/commissioners/minutes/index.json
+  media_type: application/json
+  lfs: false
+- relpath: extracted/commissioners/minutes/manifest.json
+  media_type: application/json
+  lfs: false
+- relpath: extracted/commissioners/minutes/meeting-pages.parquet
+  media_type: application/octet-stream
+  lfs: false
+- relpath: extracted/commissioners/minutes/meeting-refs.parquet
+  media_type: application/octet-stream
+  lfs: false
+- relpath: extracted/commissioners/minutes/meetings.parquet
+  media_type: application/octet-stream
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

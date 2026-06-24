@@ -344,6 +344,44 @@ def catalog_validate() -> None:
     raise typer.Exit(1)
 
 
+@catalog_app.command("backfill")
+def catalog_backfill_cmd(
+    scope: str = typer.Option("", "--scope", help="Restrict to one scope (reference | extracted)."),
+    only: str = typer.Option("", "--only", help="Restrict to entry ids with this prefix."),
+    apply: bool = typer.Option(
+        False, "--apply", help="Write the stubs (default: dry-run, show what would change)."
+    ),
+) -> None:
+    """Idempotently scaffold catalog entries from committed data/reference + data/extracted.
+
+    Groups files into logical datasets (per-site files collapse onto a {site} template),
+    enriches each with a producer hint + embedded meta.source, and writes needs-review stubs.
+    Reviewed entries are never touched; needs-review entries are refreshed with prose preserved.
+    """
+    from bosc.catalog_backfill import BACKFILL_SCOPES, backfill
+
+    scopes = tuple(s for s in BACKFILL_SCOPES if s == scope) if scope else BACKFILL_SCOPES
+    if scope and not scopes:
+        raise typer.BadParameter(f"scope must be one of {BACKFILL_SCOPES}", param_hint="--scope")
+    actions = backfill(scopes=scopes, only=only or None, apply=apply)
+    colors = {
+        "create": "green",
+        "refresh": "yellow",
+        "skip-reviewed": "dim",
+        "skip-unchanged": "dim",
+    }
+    table = Table("action", "id", "scope", "detail")
+    for a in actions:
+        table.add_row(f"[{colors[a.action]}]{a.action}[/]", a.id, a.scope, a.detail)
+    console.print(table)
+    counts: dict[str, int] = {}
+    for a in actions:
+        counts[a.action] = counts.get(a.action, 0) + 1
+    summary = " · ".join(f"{k}: {v}" for k, v in sorted(counts.items()))
+    mode = "[green]applied[/]" if apply else "[dim]dry-run (use --apply to write)[/]"
+    console.print(f"\n{summary}  —  {mode}")
+
+
 @app.command(name="ingest")
 def ingest_cmd() -> None:
     """Inventory source documents under data/documents."""

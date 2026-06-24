@@ -1,0 +1,19 @@
+id: legal-select-committee-2026-relator-testimony
+title: Legal Select Committee 2026 Relator Testimony
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: lima-legacy
+storage:
+- relpath: extracted/legal/select-committee-2026/relator-testimony/bosc-data-appendix-2026-06-01.md
+  media_type: text/markdown
+  lfs: false
+- relpath: extracted/legal/select-committee-2026/relator-testimony/bosc-testimony-deck-2026-06-01.md
+  media_type: text/markdown
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

@@ -1,0 +1,62 @@
+id: hydrology
+title: Hydrology
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  connector_ref: bosc.hydrology
+  source: USGS NWIS daily-values service, gage 04187100
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/hydrology/bosc-stormwater-discharge.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/campus-floodzone.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/cn-lookup.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/low-flow-frequency.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/maumee-tmdl-budget.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/maumee-tmdl-responsiveness.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/maumee-tmdl-wla.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/network.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/ottawa-lima-tmdl.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/refill-adequacy.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/routing.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/sanitary-basis.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/theories.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/tier1-swmm.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/water-supply.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/wwtp-floodzone.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector

@@ -1,0 +1,19 @@
+id: meetings
+title: Meetings
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: slug-scoped
+storage:
+- relpath: extracted/{site}/meetings/download-manifest.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/{site}/meetings/meeting-index.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

@@ -1,0 +1,16 @@
+id: ferc
+title: Ferc
+scope: reference
+status: needs-review
+producer:
+  kind: manual
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/ferc/ferc-seam.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: reference
