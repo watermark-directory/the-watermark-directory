@@ -1,0 +1,10 @@
+/* ============================================================
+   Watermark Design System — global entry point.
+   Consumers link THIS file. It is @import lines only.
+   Everything reachable from here ships to consumers; the
+   @font-face / @import in fonts.css declares the webfonts.
+   ============================================================ */
+@import url("./tokens/fonts.css");
+@import url("./tokens/colors.css");
+@import url("./tokens/typography.css");
+@import url("./tokens/spacing.css");

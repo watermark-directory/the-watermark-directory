@@ -1,0 +1,49 @@
+/* ============================================================
+   Watershed — SPACING, BORDERS, RADII, ELEVATION
+   The system is flat and hard-grid. Square corners EVERYWHERE
+   (radius is 0). Depth comes ONLY from hairline + rule weight —
+   never from shadow. These tokens encode that discipline.
+   ============================================================ */
+:root {
+  /* --- spacing scale (4px base) --- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* component-level rhythm */
+  --pad-chip:   3px 11px;   /* tag / evidence pill */
+  --pad-btn:    13px 21px;  /* primary button */
+  --pad-card:   16px 20px;  /* card body */
+  --pad-panel:  24px;       /* foundation panel */
+  --gap-row:    12px;
+  --gap-grid:   14px;
+
+  /* --- radii --- the whole point: there is no radius --- */
+  --radius: 0;     /* everything. pills, chips, cards, buttons, inputs */
+  --radius-app-icon: 14px; /* the SOLE exception: the rounded PWA app-icon mask */
+
+  /* --- border weights --- */
+  --bw-hair:   1px;   /* hairline divider within a panel */
+  --bw-mid:    1.5px; /* ghost-button & emphasis outline */
+  --bw-rule:   2px;   /* ink rule: frames a panel, marks active edge */
+  --bw-rail:   3px;   /* forest accent rail (left edge) */
+  --bw-rail-4: 4px;   /* heavier lead rail (record header, lead cards) */
+
+  /* --- elevation --- there is none. flat by doctrine. --- */
+  --shadow-none: none;
+  /* the only "depth": active-tab underline, inset, no blur */
+  --underline-active: inset 0 -3px 0 currentColor; /* @kind shadow */
+  --ring-focus: 0 0 0 2px rgba(31,111,74,0.30); /* @kind shadow */
+
+  /* --- motion --- restrained: short ease, gentle lift, no bounce --- */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --dur:  0.15s; /* @kind other */
+  --lift: translateY(-2px); /* @kind other */
+}
