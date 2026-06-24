@@ -8,7 +8,7 @@ Snapshot reconciled: **2026-06-24T22:56:46.052117+00:00**. Regenerate with `bosc
 
 ## Headline
 
-- **69** catalogued datasets — **2** reviewed.
+- **69** catalogued datasets — **69** reviewed.
 - **69** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
 - **0** missing (declared files absent) · **0** unobserved (no snapshot record).
 

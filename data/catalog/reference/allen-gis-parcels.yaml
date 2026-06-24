@@ -1,10 +1,14 @@
 id: allen-gis-parcels
-title: Allen Gis Parcels
+title: Allen County, Ohio Parcels (CAMA) — Corpus Subset
 scope: reference
-status: needs-review
+status: reviewed
 producer:
-  kind: manual
-  source: Allen County GIS — ArcGIS REST, Current Parcels (AGOL_NonEditLayers/1)
+  kind: connector
+  command: parcels --cited
+  connector_ref: bosc.hydrology.connectors.allen_gis
+  source: Allen County GIS public ArcGIS REST — 'Current Parcels' (auditor CAMA joined to geometry)
+  external_url: https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1
+license: Public records (local government open data)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -16,4 +20,12 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
-provenance: reference
+provenance: connector
+schema_ref: bosc.hydrology.connectors.allen_gis.Parcel
+tags:
+- parcels
+- cama
+- allen-county
+- gis
+notes: Two YAMLs — every corpus-cited deed parcel resolved against the county GIS (45) plus the defense-industry
+  land scan — values verbatim from the anonymous public Allen County ArcGIS service.

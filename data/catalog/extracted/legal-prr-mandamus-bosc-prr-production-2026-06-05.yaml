@@ -1,10 +1,12 @@
 id: legal-prr-mandamus-bosc-prr-production-2026-06-05
-title: Legal Prr Mandamus Bosc Prr Production 2026 06 05
+title: Allen County Commissioners PRR Production — Batch 1 (2026-06-05)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Allen County Board of Commissioners — PRR production batch 1 (cover letter 2026-06-05, Clerk
+    of Board Brittany N. Woods)
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: lima-legacy
 storage:
@@ -15,5 +17,13 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-05'
 provenance: document
+tags:
+- public-records
+- commissioners
+- production
+notes: 'Item-by-item response index plus analysis for the Commissioners'' first rolling PRR production
+  (NDA Res #417-25, CRA Res #548-25, school-district notices) — the leverage record behind the mandamus
+  draft.'

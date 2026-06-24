@@ -107,9 +107,9 @@ the other two are corridor inferences.
 
 **Cataloged datasets** — generated from `data/catalog/reference/`; run `bosc catalog render --apply` after editing an entry.
 
-### `rsei` — Rsei
+### `rsei` — RSEI Toxic-Discharge Water Screen
 
-Source: EPA RSEI (water-media releases) × EPA ECHO (receiving water) × Ohio EPA cited 7Q10 (data/reference/hydrology/low-flow-7q10.yaml) · License: unspecified · Access: public · Site scope: basin-shared · Refresh: on-demand
+Source: EPA RSEI (water-media releases) × EPA ECHO (receiving water) × Ohio EPA cited 7Q10 — a multi-source derivation · License: U.S. Government work (public domain) · Access: public · Site scope: basin-shared · Refresh: on-demand
 
 Regenerate: `bosc rsei`
 
@@ -117,9 +117,9 @@ Regenerate: `bosc rsei`
 | --- | --- | --- |
 | `reference/rsei/toxic-discharge-screen.yaml` | application/x-yaml | no |
 
-### `rsei-inventory` — Rsei Inventory
+### `rsei-inventory` — Allen County RSEI Toxic-Release Inventory (EPA RSEI Public Data Set v234)
 
-Source: EPA RSEI Public Data Set (AWS Open Data s3://epa-rsei-pds) · License: unspecified · Access: public · Site scope: slug-scoped · Refresh: on-demand
+Source: EPA RSEI Public Data Set (AWS Open Data s3://epa-rsei-pds), version v234 · License: U.S. Government work (public domain) · Access: public · Site scope: slug-scoped · Refresh: on-demand
 
 Regenerate: `bosc rsei`
 

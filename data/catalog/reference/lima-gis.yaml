@@ -1,10 +1,15 @@
 id: lima-gis
-title: Lima Gis
+title: City of Lima, Ohio GIS — Zoning, Cited-Parcel Scan & FEMA Flood Zones
 scope: reference
-status: needs-review
+status: reviewed
 producer:
-  kind: manual
-  source: City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 4 'Floodzone' (FEMA DFIRM)
+  kind: connector
+  command: zoning --districts
+  connector_ref: bosc.hydrology.connectors.lima_gis
+  source: City of Lima GIS public ArcGIS REST — zoning (layer 6) + FEMA DFIRM flood zones (layer 4, panel
+    39003C)
+  external_url: https://colgis.cityhall.lima.oh.us/server/rest/services/CitywideMaps/Lima_Zoning/MapServer
+license: Public records (local government open data); flood layer FEMA DFIRM (U.S. Government public domain)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -19,4 +24,12 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
-provenance: reference
+provenance: connector
+tags:
+- zoning
+- floodzone
+- lima
+- gis
+notes: Three YAMLs — the 10-district zoning catalog (2,670 polygons), the cited-parcel jurisdiction scan
+  (0 of 48 cited parcels inside Lima zoning), and the FEMA flood-zone catalog (368 SFHA polygons) — verbatim
+  from the anonymous public City of Lima ArcGIS service.

@@ -1,10 +1,14 @@
 id: perry-township-meetings
-title: Perry Township Meetings
+title: Perry Township Trustee Meeting Records
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
-  kind: extracted
-  source: (unknown — fill in)
+  kind: connector
+  command: subdivisions download perry-township
+  connector_ref: bosc.civic
+  source: Perry Township Board of Trustees (Allen County, OH) — minutes/agendas published at perryallenohio.com
+  external_url: https://perryallenohio.com/administration-trustees/meeting-archives/
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -22,4 +26,12 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
-provenance: document
+  last_refreshed: '2026-06-08'
+provenance: connector
+tags:
+- civic
+- township
+- meetings
+- perry-township
+notes: Civic-pipeline pull of Perry Township's published meeting record (221 documents, 118 with corridor
+  hits).

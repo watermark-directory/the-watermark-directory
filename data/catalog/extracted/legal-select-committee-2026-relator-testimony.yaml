@@ -1,10 +1,12 @@
 id: legal-select-committee-2026-relator-testimony
-title: Legal Select Committee 2026 Relator Testimony
+title: Relator Testimony Deck & Data Appendix — 'Who Is the Customer?' (2026-06-01)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Cory Parent (relator / interested-party witness) — testimony slide deck + cloud-pricing/AI-hardware
+    data appendix
+license: Public record (Ohio legislative hearing submission; Ohio R.C. 149.43)
 access_tier: public
 site_scope: lima-legacy
 storage:
@@ -15,5 +17,12 @@ storage:
   media_type: text/markdown
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-01'
 provenance: document
+tags:
+- select-committee
+- testimony
+- relator
+notes: The relator's testimony deck ('Who Is the Customer?', 13 slides) and the cloud-pricing/AI-hardware/facility-economics
+  data appendix supporting the beneficial-ownership-disclosure argument.

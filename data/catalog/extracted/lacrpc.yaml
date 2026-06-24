@@ -1,10 +1,12 @@
 id: lacrpc
-title: Lacrpc
+title: LACRPC Planning / Land-Use / Zoning Extractions
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Lima-Allen County Regional Planning Commission (LACRPC) — the 36-document planning/zoning corpus
+  external_url: https://www.lacrpc.com/
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -15,5 +17,14 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
 provenance: document
+tags:
+- lacrpc
+- planning
+- zoning
+- land-use
+- american-township
+notes: Reviewed reads of the LACRPC corpus — American Township (the site's jurisdiction) is deep-extracted
+  (its zoning resolution defines 'Hyperscale Data Center' as an M-2 conditional use), with a relevance-tiered
+  index over all 36 documents.

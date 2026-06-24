@@ -1,10 +1,12 @@
 id: legal-web-vendor-audit
-title: Legal Web Vendor Audit
+title: Allen County Web-Vendor Audit — Vendor Corporate Records & County-Level Sites
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Project BOSC web-vendor/CMS-custody audit of Allen County government sites (captured 2026-06-05);
+    vendor corporate-registry records + county-level site profile
+license: Public record / public web capture (Ohio R.C. 149.43 context)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -15,5 +17,13 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-05'
 provenance: document
+tags:
+- web-vendor-audit
+- cms-custody
+- allen-county
+notes: The county-level reference profile plus the Ohio SoS corporate-registry records for the private
+  web vendors (CorpComm, Anne Decker Marketing, et al.) identified as the actual CMS custodians behind
+  PRR item 16.

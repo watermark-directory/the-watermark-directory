@@ -1,10 +1,12 @@
 id: recorder
-title: Recorder
+title: Allen County Recorder Deed Extractions
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Allen County Recorder — recorded deeds/instruments (incl. the Amazon/port-authority conveyance),
+    named by instrument number
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -27,5 +29,12 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
 provenance: document
+tags:
+- recorder
+- deeds
+- land-assembly
+- parcels
+notes: One file per deed — grantor/grantee, parcels, consideration, and dates read from the instrument
+  image/text and never inferred; the …-amazon-deed file is the port-authority conveyance.

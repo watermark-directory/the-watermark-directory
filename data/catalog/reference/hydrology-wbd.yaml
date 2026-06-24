@@ -1,11 +1,14 @@
 id: hydrology-wbd
-title: Hydrology Wbd
+title: USGS Watershed Boundary Dataset — Campus HUC Boundaries (HU10/HU12)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: connector
-  connector_ref: bosc.hydrology
-  source: (unknown — fill in)
+  command: wbd --write
+  connector_ref: bosc.hydrology.connectors.wbd
+  source: USGS National Map Watershed Boundary Dataset (WBD) — ArcGIS REST MapServer HU sublayers
+  external_url: https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer
+license: U.S. Government work (public domain)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -18,3 +21,12 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
+schema_ref: bosc.hydrology.connectors.wbd.HucBoundary
+tags:
+- wbd
+- huc
+- watershed-boundary
+- usgs
+- geojson
+notes: Verbatim WGS84 HU polygons containing the campus point — the Pike Run HU12 nested in the Middle
+  Ottawa River HU10 — display geometry feeding the bundle's watershed GeoJSON feed (#61).

@@ -1,13 +1,15 @@
 id: echo-great-miami-wwtp
-title: Echo Great Miami Wwtp
+title: Great Miami-basin NPDES discharger inventory (EPA ECHO)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: connector
-  command: npdes
+  command: npdes --basin great-miami
   connector_ref: bosc.hydrology.connectors.echo
   source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
-access_tier: public
+  external_url: https://echo.epa.gov/tools/web-services
+license: U.S. Government work (public domain)
+access_tier: throttled
 site_scope: basin-shared
 storage:
 - relpath: reference/echo/great-miami-wwtp.all-npdes.yaml
@@ -20,5 +22,15 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: quarterly
+  ttl_days: 180
 provenance: connector
+schema_ref: bosc.hydrology.connectors.echo.Facility
+tags:
+- npdes
+- cwa
+- great-miami
+- wastewater
+notes: Verified inventory of active CWA-permitted dischargers across the Great Miami's two Ohio HUC-8
+  subbasins (subregion 0508), deduplicated to one record per facility by FRS Registry ID; every value
+  is ECHO-returned, nulls are genuine. See data/reference/echo/README.md.

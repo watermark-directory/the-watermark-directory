@@ -1,16 +1,30 @@
 id: pjm
-title: Pjm
+title: PJM Wholesale-Market Reference (LMP / RPM Capacity / Large-Load Queue)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
-  kind: manual
-  source: (unknown — fill in)
-access_tier: public
+  kind: connector
+  command: pjm
+  connector_ref: bosc.grid.lmp
+  source: PJM Data Miner 2 (da_hrl_lmps, AEP zone) for LMP; PJM RPM Base Residual Auction + interconnection-queue
+    reporting (transcribed) for capacity/queue
+  external_url: https://dataminer2.pjm.com/
+license: PJM market data (PJM Terms of Use)
+access_tier: keyed
 site_scope: basin-shared
 storage:
 - relpath: reference/pjm/pjm-market.yaml
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
-provenance: reference
+  cadence: annual
+provenance: connector
+schema_ref: bosc.grid.market.PjmMarketReference
+tags:
+- pjm
+- lmp
+- capacity
+- rpm
+- grid
+notes: Hybrid reference — zonal LMP pulled live from PJM Data Miner 2 (keyed) while the RPM clearing price
+  and large-load queue stay transcribed verify-flagged reference; only the campus facility_draw is facility-specific.

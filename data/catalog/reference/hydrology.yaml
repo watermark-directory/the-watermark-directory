@@ -1,11 +1,13 @@
 id: hydrology
-title: Hydrology
+title: Lima-Loop Hydrology Reference Bundle (Water Balance · TMDL · Routing · Stormwater)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
-  kind: connector
-  connector_ref: bosc.hydrology
-  source: USGS NWIS daily-values service, gage 04187100
+  kind: derived
+  source: Mixed-provenance hydrology working set — USGS NWIS, Ohio EPA TMDL documents, SSURGO/document-derived
+    stormwater inputs, and BOSC-derived routing/water-supply artifacts (per-file provenance tagged)
+license: Mixed (USGS public domain · Ohio public-record TMDL values · BOSC-derived); per-file provenance
+  tagged
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -59,4 +61,12 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
-provenance: connector
+provenance: derived
+tags:
+- hydrology
+- water-balance
+- tmdl
+- stormwater
+- routing
+notes: A 17-file mixed-provenance hydrology working set; each file carries its own per-quantity provenance
+  tags — do not assert one source/license for the whole bundle.

@@ -1,11 +1,14 @@
 id: orc
-title: Orc
+title: Ohio Revised Code — Corpus Citation Index
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: connector
   command: orc
+  connector_ref: bosc.hydrology.connectors.orc
   source: Ohio LSC code portal — codes.ohio.gov
+  external_url: https://codes.ohio.gov/ohio-revised-code
+license: Ohio public record
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -15,3 +18,11 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
+tags:
+- orc
+- citations
+- ohio
+- statute
+- index
+notes: The index of every ORC section the corpus cites (scanned from data/extracted/** and docs/**), each
+  resolved to its Title/Chapter/heading/URL, with unresolved markers recorded separately.

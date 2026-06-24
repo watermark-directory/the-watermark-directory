@@ -1,11 +1,12 @@
 id: hydrology-ohio-principal-streams
-title: Hydrology Ohio Principal Streams
+title: Ohio Principal Streams & Drainage Areas (ODNR, Sherman 1925 / 1999 reprint)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
-  kind: connector
-  connector_ref: bosc.hydrology
-  source: (unknown — fill in)
+  kind: manual
+  source: Ohio DNR, Division of Water — 'Principal Streams and Their Drainage Areas' (C.E. Sherman map,
+    July 1925; reprinted 1999)
+license: Ohio state-government work (public domain)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -13,5 +14,13 @@ storage:
   media_type: application/pdf
   lfs: true
 refresh:
-  cadence: on-demand
-provenance: connector
+  cadence: static
+provenance: reference
+tags:
+- ohio
+- drainage-basins
+- odnr
+- orientation
+- basin-axis
+notes: A statewide basin-distribution orientation/sanity-check map for the network's basin axis, LFS-tracked;
+  an orientation reference, not a quantitative data source.

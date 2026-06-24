@@ -1,10 +1,12 @@
 id: legal-select-committee-2026-hearings-audio-bosc-committee-testimony-2026-06-04
-title: Legal Select Committee 2026 Hearings Audio Bosc Committee Testimony 2026 06 04
+title: Cory Parent Oral Testimony — Ohio Select Committee on Data Centers (2026-06-04)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Ohio General Assembly — Select Committee on Data Centers; on-device transcript of relator Cory
+    Parent's oral interested-party testimony
+license: Public record (Ohio legislative hearing recording; Ohio R.C. 149.43)
 access_tier: public
 site_scope: lima-legacy
 storage:
@@ -15,5 +17,12 @@ storage:
   media_type: text/markdown
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-04'
 provenance: document
+tags:
+- select-committee
+- testimony
+- transcript
+notes: Index + machine-derived transcript of Cory Parent's 12:17 oral testimony (interested party), the
+  spoken companion to his 2026-06-01 written submission.

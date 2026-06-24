@@ -1,10 +1,12 @@
 id: legal-prr-mandamus-bosc-prr-production-2026-06-12
-title: Legal Prr Mandamus Bosc Prr Production 2026 06 12
+title: Allen County PRR Production — Batch 2, Category-B Wastewater Works (2026-06-12)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Allen County (Commissioners resolutions + Sanitary Engineering instruments) — PRR production
+    batch 2 (items 5–15), received 2026-06-12
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: lima-legacy
 storage:
@@ -15,5 +17,12 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-12'
 provenance: document
+tags:
+- public-records
+- wastewater
+- production
+notes: 'Response index + analysis for the County''s second PRR batch — the Category-B wastewater procurement
+  record (CMAR chain, data-center-flows Task Order #5 / Res #679-24) that batch 1 deferred.'

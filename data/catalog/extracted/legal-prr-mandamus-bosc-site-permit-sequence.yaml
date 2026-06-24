@@ -1,10 +1,12 @@
 id: legal-prr-mandamus-bosc-site-permit-sequence
-title: Legal Prr Mandamus Bosc Site Permit Sequence
+title: Project BOSC Site — Permit/Approval vs Earth-Disturbance Sequence (4110 N. Cole St.)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Project BOSC analysis (#150) — cross-document ordering reconstruction from in-corpus produced
+    records
+license: Analysis of public records (Ohio R.C. 149.43) — derived work product
 access_tier: public
 site_scope: lima-legacy
 storage:
@@ -15,5 +17,12 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
 provenance: document
+tags:
+- analysis
+- permit-sequence
+- npdes
+notes: An ordering analysis (not a legal conclusion) reconstructing when the site's 401 wetland permits,
+  the SW1225 county permit, and the ASWCD ESC inspections attached relative to earth disturbance, flagging
+  the still-open NPDES CGP coverage record (#143).

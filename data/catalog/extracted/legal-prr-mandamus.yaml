@@ -1,10 +1,12 @@
 id: legal-prr-mandamus
-title: Legal Prr Mandamus
+title: PRR & Mandamus — Source Instruments and the Layered Withholding Map
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Allen County (records produced in the 2026 BOSC public-records request) + Project BOSC analysis
+    — NDA/CRA/school-notice source instruments and the consolidated withholding map
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -24,5 +26,12 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-08'
 provenance: document
+tags:
+- public-records
+- mandamus
+- withholding
+notes: The PRR/mandamus thread's source instruments (County–Bistrozzi NDA, the CRA Agreement, the Elida/Apollo
+  school-district CRA notices) plus the consolidated map of the layered withholding architecture.

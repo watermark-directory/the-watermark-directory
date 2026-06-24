@@ -1,10 +1,14 @@
 id: american-township-meetings
-title: American Township Meetings
+title: American Township Trustee Meeting Records
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
-  kind: extracted
-  source: (unknown — fill in)
+  kind: connector
+  command: subdivisions download american-township
+  connector_ref: bosc.civic
+  source: American Township Board of Trustees (Allen County, OH) — minutes/agendas published at amertwp.us
+  external_url: https://www.amertwp.us/trustee-minutes
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -22,4 +26,12 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
-provenance: document
+  last_refreshed: '2026-06-08'
+provenance: connector
+tags:
+- civic
+- township
+- meetings
+- american-township
+notes: Civic-pipeline pull of American Township's published meeting record (49 documents, 19 with corridor
+  hits) — the site's own jurisdiction.

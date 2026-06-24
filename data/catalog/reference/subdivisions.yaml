@@ -1,10 +1,14 @@
 id: subdivisions
-title: Subdivisions
+title: Allen County Political-Subdivision Meeting-Records Registry
 scope: reference
-status: needs-review
+status: reviewed
 producer:
-  kind: manual
-  source: (unknown — fill in)
+  kind: connector
+  command: subdivisions discover
+  connector_ref: bosc.civic.registry
+  source: Allen County county-published rosters (Township Trustees & Fiscal Officers; Mayors; Govt-Structure)
+    + live-web discovery of publishing blocks
+license: Public records (local government open data)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -13,4 +17,14 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
-provenance: reference
+  last_refreshed: '2026-06-08'
+provenance: connector
+schema_ref: bosc.civic.models.Registry
+tags:
+- subdivisions
+- civic
+- allen-county
+- meeting-records
+notes: The 24 Allen County meeting-holding bodies with verbatim governing-body cadence transcribed from
+  county rosters, plus a discovered publishing block (last sweep 2026-06-08) recording where each posts
+  minutes/agendas.

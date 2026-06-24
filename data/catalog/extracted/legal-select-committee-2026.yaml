@@ -1,10 +1,12 @@
 id: legal-select-committee-2026
-title: Legal Select Committee 2026
+title: Ohio Select Committee on Data Centers (2026) — Hearing Index & Witness-Submissions Digest
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Ohio General Assembly — Select/Joint Data Center Study Committee (Co-Chairs Holmes & Chavez);
+    reviewed reads of the 2026 hearing record
+license: Public record (Ohio legislative hearing record; Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -15,5 +17,12 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-07'
 provenance: document
+tags:
+- select-committee
+- data-centers
+- testimony
+notes: Top-level index of the committee hearing record (2026-05-27 through 2026-06-04) and the per-witness
+  digest of the 16 written submissions (Google, QTS, ODNR, ODOD, Ohio EPA, PUCO, PJM, et al.).

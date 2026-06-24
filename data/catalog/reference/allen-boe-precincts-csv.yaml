@@ -1,10 +1,12 @@
 id: allen-boe-precincts-csv
-title: Allen Boe Precincts Csv
+title: Allen County BOE — Per-Precinct Election Results (Long Form)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
-  kind: manual
-  source: (unknown — fill in)
+  kind: derived
+  source: Allen County (OH) Board of Elections — precinct/SOVC result PDFs flattened to tidy long form
+  external_url: https://allen.boe.ohio.gov/category/election-results/
+license: Public records (local government open data)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -19,4 +21,12 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
-provenance: reference
+  last_refreshed: '2026-06-06'
+provenance: derived
+tags:
+- elections
+- allen-county
+- precincts
+- csv
+notes: Per-precinct vote counts for the 2024 General, 2019 General, and 2026 Primary, flattened verbatim
+  from the BOE precinct/SOVC PDFs and reconciled against the countywide summaries.

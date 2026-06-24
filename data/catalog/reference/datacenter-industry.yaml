@@ -1,10 +1,12 @@
 id: datacenter-industry
-title: Datacenter Industry
+title: Data-Center Industry Reference Priors (Uncertainty Bands)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: manual
-  source: (unknown — fill in)
+  source: Pooled meta-analysis of published industry reports (Epoch AI, US Chamber CTEC, McKinsey, Good
+    Jobs First, Brookings, Virginia JLARC, DOE/LBNL, Green Grid/Vertiv)
+license: Pooled third-party published reports (per-prior sources cited)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -13,4 +15,14 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
+  last_refreshed: '2026-06-17'
 provenance: reference
+tags:
+- datacenter
+- priors
+- uncertainty
+- meta-analysis
+- reference
+notes: Hand-assembled low/central/high priors pooling independent published estimates to bound the uncertainty
+  engine's [assumption] inputs; each prior carries a lima_status — industry reference, not a Lima facility
+  fact.

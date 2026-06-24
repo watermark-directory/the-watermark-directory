@@ -1,10 +1,14 @@
 id: meetings
-title: Meetings
+title: Per-Site Civic Meeting Records (Slug-Scoped)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
-  kind: extracted
-  source: (unknown — fill in)
+  kind: connector
+  command: subdivisions download
+  connector_ref: bosc.civic
+  source: Per-site governing bodies (e.g. City of Lima council) — published meeting documents, scraped
+    per watershed-point site
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: slug-scoped
 storage:
@@ -16,4 +20,13 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
-provenance: document
+  last_refreshed: '2026-06-08'
+provenance: connector
+tags:
+- civic
+- meetings
+- per-site
+- slug-scoped
+notes: The slug-scoped per-site civic meeting-index template (extracted/{site}/meetings/*) produced by
+  the civic pipeline — e.g. the Lima index carries 52 documents (41 text-extracted); each site supplies
+  its own manifest.

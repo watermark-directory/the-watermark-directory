@@ -1,10 +1,12 @@
 id: legal-select-committee-2026-hearings-audio-bosc-committee-hearing-2026-06-04-pm2
-title: Legal Select Committee 2026 Hearings Audio Bosc Committee Hearing 2026 06 04 Pm2
+title: 'Data-Center Committee Hearing — 2026-06-04 Late Afternoon (Closing Witnesses: MARA + Vantage)'
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Ohio General Assembly — Joint Data Center Study Committee; on-device transcript of the 2026-06-04
+    closing session
+license: Public record (Ohio legislative hearing recording; Ohio R.C. 149.43)
 access_tier: public
 site_scope: lima-legacy
 storage:
@@ -15,5 +17,12 @@ storage:
   media_type: text/markdown
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-04'
 provenance: document
+tags:
+- select-committee
+- hearing-audio
+- transcript
+notes: Index + machine-derived transcript of the 2026-06-04 closing session (34:18) — the two final developer
+  witnesses (MARA, Vantage) and adjournment; approximate ASR, verify against the .wav.

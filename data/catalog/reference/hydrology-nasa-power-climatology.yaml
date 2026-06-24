@@ -1,11 +1,15 @@
 id: hydrology-nasa-power-climatology
-title: Hydrology Nasa Power Climatology
+title: NASA POWER Climate Normals — Lima Loop Point
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: connector
-  connector_ref: bosc.hydrology
-  source: NASA POWER (AWS Open Data s3://nasa-power), climatology point API
+  command: nasa-power --write
+  connector_ref: bosc.hydrology.connectors.nasa_power
+  source: NASA POWER (Prediction Of Worldwide Energy Resources) — climatology point REST API (satellite-derived
+    monthly/annual normals)
+  external_url: https://power.larc.nasa.gov/
+license: U.S. Government work (public domain)
 access_tier: public
 site_scope: slug-scoped
 storage:
@@ -18,3 +22,12 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
+schema_ref: bosc.hydrology.connectors.nasa_power.NasaPowerClimatology
+tags:
+- nasa-power
+- climatology
+- climate-normals
+- precipitation
+- water-balance
+notes: 12 monthly + annual normals at the Lima point feeding the annual water-balance context (complement
+  to, not a substitute for, the Atlas-14 design-storm depths); slug-scoped for other sites.

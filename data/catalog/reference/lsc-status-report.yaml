@@ -1,11 +1,14 @@
 id: lsc-status-report
-title: Lsc Status Report
+title: Ohio LSC Status Report of Legislation
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: connector
   command: lsc
-  source: Ohio Legislative Service Commission (LSC) — statusreport.lsc.ohio.gov
+  connector_ref: bosc.hydrology.connectors.lsc
+  source: Ohio Legislative Service Commission — Status Report of Legislation (statusreport.lsc.ohio.gov)
+  external_url: https://statusreport.lsc.ohio.gov/
+license: Ohio public record
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -21,3 +24,12 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
+schema_ref: bosc.hydrology.connectors.lsc.StatusReport
+tags:
+- lsc
+- legislation
+- ohio
+- statute
+- bills
+notes: Per–General Assembly Status Report parsed verbatim from the LSC xlsx workbook (134th–136th GAs);
+  each file self-dates via meta.as_of.

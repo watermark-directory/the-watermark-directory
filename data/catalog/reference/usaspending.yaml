@@ -1,12 +1,14 @@
 id: usaspending
-title: Usaspending
+title: Federal-Award Footprint (USASpending.gov)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: connector
   command: usaspending
   connector_ref: bosc.usaspending
-  source: USASpending.gov API (api.usaspending.gov), U.S. Treasury; public domain
+  source: USASpending.gov API (api.usaspending.gov), U.S. Treasury
+  external_url: https://api.usaspending.gov/
+license: U.S. Government work (public domain)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -16,3 +18,13 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
+schema_ref: bosc.usaspending.UsaSpendingInventory
+tags:
+- usaspending
+- federal
+- awards
+- entities
+- corridor
+notes: All-time federal prime-award obligations for a pinned recipient watchlist, each verified by recipient_id
+  + UEI and tagged with a verified/context/open corridor nexus; figures verbatim from the public Treasury
+  API.
