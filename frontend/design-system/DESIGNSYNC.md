@@ -101,12 +101,16 @@ it needs `npm run build` + a visual pass — out of scope for token availability
 
 ## Scope status
 
-- **Synced now:** the foundations — `tokens/*`, `styles.css`, `readme.md`, `SKILL.md`.
-- **Colors:** the design system **drives** the live palette (done). **Type + spacing tokens are
-  imported/available**; adopting the scales (+ the divergences above) is a pending, visual-review
-  decision.
-- **Pending (pull incrementally):** `components/**`, `ui_kits/**`, `guidelines/**`, `assets/brand/**`
-  (brand binaries already live in `frontend/public/`). The Astro `.astro`/`.tsx` components in
-  `frontend/src/components/` are the *implementations* of these `.jsx` specs — reconcile per
-  component, not by file copy.
+- **Synced now:** the foundations (`tokens/*`, `styles.css`, `readme.md`, `SKILL.md`), **all 27
+  component specs** (`components/core|forms|record/**`, `ui_kits/directory|site/**` — each `.jsx`
+  + `.d.ts` + `.prompt.md` + `*.card.html`), and the **11 guideline cards** (`guidelines/**`).
+- **Colors / type / spacing:** the design system **drives** the live palette (done), and the live
+  `site.css` is **regularized onto the `--fs-*` / `--sp-*` / motion token scales** (PRs #551–#554).
+- **Components — mirrored + audited, reconciliation gated:** every `.jsx` spec is now compared to
+  its live Astro impl in [`COMPONENT-AUDIT.md`](./COMPONENT-AUDIT.md) (per-component drift, the
+  resolve **direction**, effort, and the extract-vs-align call for the 6 primitives). The Astro
+  `.astro`/`.tsx` components are the *implementations* of these specs — reconcile per component
+  (Stage 2, gated on review of the audit), **not** by file copy. NB: most page-composition drift is
+  the spec **lagging** the live site (`push impl→spec`) — closing it is the first DesignSync *push*.
+- **Pending:** only `assets/brand/**` (brand binaries already live in `frontend/public/`).
 - **Never mirror:** `_ds_bundle.js`, `_ds_manifest.json`, `_adherence.oxlintrc.json` (`generated`).

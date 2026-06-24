@@ -1,0 +1,78 @@
+<!-- @dsCard group="Site" viewport="1180x720" name="Site — the record, live" subtitle="The adaptive site home (Live ↔ Investigation), a record-screen teardown, and the leads board. Interactive." -->
+<!-- @startingPoint section="Site" subtitle="Watermark site — adaptive home, record screen, leads board" viewport="1180x900" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/brand/favicon.svg">
+<title>Watermark — Lima (BOSC)</title>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; background:var(--bg-page); font-family:var(--font-sans); color:var(--ink); }
+  .page { max-width:1180px; margin:0 auto; padding:40px 36px 80px; }
+  .toolbar { display:flex; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:1.6px; text-transform:uppercase; color:var(--forest); font-weight:700; }
+  .seg { display:inline-flex; background:#e0ddd2; border:1px solid var(--line-2); padding:3px; }
+  .seg button { border:0; cursor:pointer; font:inherit; font-size:12px; font-weight:700; padding:6px 13px; background:transparent; color:var(--ink-muted); }
+  .seg button.on { background:var(--surface-card); color:var(--forest); }
+  .frame { background:var(--surface-card); border:1px solid var(--ink); overflow:hidden; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="SiteChrome.jsx"></script>
+<script type="text/babel" src="SiteHome.jsx"></script>
+<script type="text/babel" src="RecordScreen.jsx"></script>
+<script type="text/babel" src="Profile.jsx"></script>
+<script type="text/babel" src="Watershed.jsx"></script>
+<script type="text/babel" src="LeadsBoard.jsx"></script>
+<script type="text/babel">
+function App() {
+  const [screen, setScreen] = React.useState("home"); // home | record | leads
+  const [phase, setPhase] = React.useState("live");   // live | investigation
+  const [selOpen, setSelOpen] = React.useState(false);
+  const tierActive = screen === "record" || screen === "profile" ? "record" : screen === "watershed" ? "watershed" : "site";
+  return (
+    <div className="page">
+      <div className="toolbar">
+        <div>
+          <div className="eyebrow">Watermark · site · Lima (BOSC)</div>
+          <div style={{ fontSize: 14, color: "var(--ink-muted)", marginTop: 3 }}>The same landing reveals as the record fills in — flip the phase.</div>
+        </div>
+        <div style={{ marginLeft: "auto" }} className="seg">
+          <button className={phase === "investigation" ? "on" : ""} onClick={() => { setPhase("investigation"); setScreen("home"); }}>Investigation</button>
+          <button className={phase === "live" ? "on" : ""} onClick={() => { setPhase("live"); setScreen("home"); }}>Live</button>
+        </div>
+      </div>
+      <div className="frame">
+        <window.SiteChrome
+          active={tierActive}
+          phaseLabel={phase === "live" ? "Live" : "Building · 14%"}
+          phaseLive={phase === "live"}
+          onNav={(k) => { if (k === "network") window.location.href = "../directory/index.html"; else if (k === "site") setScreen("home"); else if (k === "record") setScreen("record"); else if (k === "watershed") setScreen("watershed"); }}
+          onToggleSelector={() => setSelOpen((v) => !v)}
+          selectorOpen={selOpen}
+        />
+        {selOpen ? (
+          <div style={{ padding: 14, borderBottom: "1px solid var(--line-hair)", fontSize: 13, color: "var(--ink-muted)" }}>
+            The site chip opens the same grouped selector as the network — see the Directory kit. <a style={{ color: "var(--forest)", cursor: "pointer" }} onClick={() => { setSelOpen(false); window.location.href = "../directory/index.html"; }}>Open the directory →</a>
+          </div>
+        ) : null}
+        {screen === "home" ? <window.SiteHome phase={phase} onOpenRecord={() => setScreen("record")} onOpenLeads={() => setScreen("leads")} /> : null}
+        {screen === "record" ? <window.RecordScreen onBack={() => setScreen("home")} onOpenProfile={() => setScreen("profile")} /> : null}
+        {screen === "profile" ? <window.ProfileScreen onBack={() => setScreen("record")} /> : null}
+        {screen === "watershed" ? <window.WatershedScreen /> : null}
+        {screen === "leads" ? <window.LeadsBoard onBack={() => setScreen("home")} /> : null}
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

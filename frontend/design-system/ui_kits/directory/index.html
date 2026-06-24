@@ -1,0 +1,57 @@
+<!-- @dsCard group="Directory" viewport="1180x720" name="Directory — the network" subtitle="The network-tier home: hero ledger, three lenses, start-here doors, and the across-the-network table. Interactive." -->
+<!-- @startingPoint section="Directory" subtitle="Watermark network directory — home, selector, hypotheses" viewport="1180x900" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/brand/favicon.svg">
+<title>Watermark — the directory</title>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; background:var(--bg-page); font-family:var(--font-sans); color:var(--ink); }
+  .page { max-width:1180px; margin:0 auto; padding:40px 36px 80px; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--ink-muted); margin-bottom:14px; }
+  .frame { background:var(--surface-card); border:1px solid var(--ink); overflow:hidden; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="NetworkChrome.jsx"></script>
+<script type="text/babel" src="SiteSelector.jsx"></script>
+<script type="text/babel" src="DirectoryHome.jsx"></script>
+<script type="text/babel" src="Hypotheses.jsx"></script>
+<script type="text/babel" src="SubmitLead.jsx"></script>
+<script type="text/babel">
+function App() {
+  const [tab, setTab] = React.useState("report");
+  const [selOpen, setSelOpen] = React.useState(false);
+  const goSite = () => { window.location.href = "../site/index.html"; };
+  return (
+    <div className="page">
+      <div className="eyebrow">Watermark · the network · home</div>
+      <div className="frame">
+        <window.DirectoryChrome
+          active={tab}
+          onNav={(k) => { if (k === "report" || k === "hypotheses" || k === "submit") setTab(k); }}
+          onToggleSelector={() => setSelOpen((v) => !v)}
+          selectorOpen={selOpen}
+        />
+        {selOpen ? (
+          <div style={{ padding: 8, borderBottom: "1px solid var(--line-hair)" }}>
+            <window.SiteSelector active="" onPick={() => { setSelOpen(false); goSite(); }} />
+          </div>
+        ) : null}
+        {tab === "report" ? <window.DirectoryHome onEnterSite={goSite} /> : tab === "hypotheses" ? <window.Hypotheses /> : <window.SubmitLead />}
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

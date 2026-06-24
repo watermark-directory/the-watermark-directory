@@ -1,0 +1,60 @@
+<!-- @dsCard group="Components" viewport="700x760" name="Timeline & profile" subtitle="The record chronology and the wiki identity card" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; background:var(--bg-page); font-family:var(--font-sans); color:var(--ink); }
+  .wrap { padding:24px; display:flex; flex-direction:column; gap:20px; }
+  .lbl { font-family:var(--font-mono); font-size:10px; letter-spacing:1.4px; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { Timeline, ProfileHeader } = window.WatermarkDesignSystem_dbe30a;
+const EVENTS = [
+  { year:"2025", date:"2025-07-11", kind:"cost estimate", title:"Tetra Tech Opinion of Probable Cost filed", summary:"A $14,223,081 roadwork program, priced to the dollar — but drainage is 7.5% of it, the only line itemized.", evidence:"verified", connect:[{kind:"entity",label:"Tetra Tech"}] },
+  { year:"2025", date:"2025-08-13", kind:"deed", title:"Seven-parcel deed recorded", summary:"Brenneman Trusts → Bistrozzi LLC, 340.2 ac. Six DTE-100 prices are blank.", evidence:"verified", connect:[{kind:"entity",label:"Bistrozzi LLC"}] },
+  { year:"2026", date:"2026-05-28", kind:"air permit", title:"Air Permit-to-Install P0138965 finalized", summary:"115 emissions units; per-engine power is CBI-locked, so ~313 MW survives only in the draft.", evidence:"verified" },
+  { year:"2026", date:"2026 · pending", kind:"records request", title:"Cost-benefit analysis withheld — mandamus open", summary:"PRR item 4 is refused; the public cost-vs-benefit basis remains out of the record.", evidence:"open" },
+];
+const PROFILE = {
+  kindLabel:"Entity · shell company", name:"Bistrozzi LLC", variants:["Bistrozzi Addition LLC","DE 7•••214"],
+  descriptor:"Delaware LLC; grantee on the seven-parcel deed chain. Shares a registered agent and PMB with two sibling shells — the common-control plumbing the walk traces in Chapter 1.",
+  evidence:"inference", graph:true, relLabel:"Graph neighborhood",
+  stats:[
+    {label:"Parcels controlled", value:"7", evidence:"verified", sub:"340.2 ac"},
+    {label:"Public price", value:"$600k", evidence:"verified", sub:"1 of 7 parcels"},
+    {label:"Sibling shells", value:"3", evidence:"inference", sub:"shared agent / PMB"},
+    {label:"Records", value:"12", evidence:"verified", sub:"across 4 groups"},
+  ],
+  attrs:[
+    {label:"State of formation", value:"Delaware", tag:"verified"},
+    {label:"Registered agent", value:"shared · CT Corp", tag:"verified"},
+    {label:"First recorded", value:"2025-08-13"},
+    {label:"Ultimate control", value:"Google (AEDG)", tag:"inference"},
+  ],
+  relationships:[
+    {kind:"grantor", label:"Brenneman Trusts"},
+    {kind:"sibling", label:"Tilted Gate LLC"},
+    {kind:"contractor", label:"Tetra Tech"},
+  ],
+};
+function Demo() {
+  return (
+    <div className="wrap">
+      <div><div className="lbl">Profile header — wiki identity card</div><ProfileHeader profile={PROFILE} /></div>
+      <div><div className="lbl">Timeline — the record chronology</div><Timeline events={EVENTS} /></div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body>
+</html>

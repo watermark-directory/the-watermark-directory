@@ -1,0 +1,54 @@
+// Watermark — site-tier chrome. Wordmark home + site chip (breadcrumb / selector opener)
+// + site tabs (The site / The record / The watershed) + live pill + platform tools.
+function SIcon({ d, size = 14, stroke = "#bcd2c4", fill = "none", sw = 1.8, children }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill={fill} stroke={stroke} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round">
+      {children || <path d={d} />}
+    </svg>
+  );
+}
+
+function SiteChrome({ active = "record", site = "Lima", codename = "BOSC", phaseLabel = "Live", phaseLive = true, onNav, onToggleSelector, selectorOpen }) {
+  const tab = (key, label) => {
+    const on = active === key;
+    return (
+      <span key={key} onClick={() => onNav && onNav(key)} style={{ color: on ? "#f5f2ea" : "#bcd2c4", fontSize: 14, fontWeight: on ? 600 : 400, padding: "0 13px", height: "100%", display: "flex", alignItems: "center", cursor: "pointer", boxShadow: on ? "inset 0 -3px 0 #f5f2ea" : "none" }}>{label}</span>
+    );
+  };
+  return (
+    <div style={{ background: "var(--ink)", padding: "0 16px", height: 56, display: "flex", alignItems: "center", gap: 13 }}>
+      <span onClick={() => onNav && onNav("network")} style={{ display: "flex", alignItems: "center", cursor: "pointer", color: "#f5f2ea" }}>
+        <span style={{ fontWeight: 800, fontSize: 16, letterSpacing: "-0.2px" }}>Watermark<span style={{ color: "#7fb89a" }}>.</span></span>
+      </span>
+      <span style={{ color: "#566159", fontSize: 15 }}>/</span>
+      <span onClick={onToggleSelector} style={{ display: "flex", alignItems: "center", gap: 7, background: "rgba(255,255,255,0.16)", border: `1px solid ${selectorOpen ? "rgba(150,200,170,0.55)" : "rgba(255,255,255,0.26)"}`, boxShadow: selectorOpen ? "0 0 0 2px rgba(31,111,74,0.3)" : "none", padding: "6px 10px", cursor: "pointer" }}>
+        <span style={{ color: "#f5f2ea", fontSize: 13.5, fontWeight: 700 }}>{site}</span>
+        <span style={{ color: "#bcd2c4", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.5px", textTransform: "uppercase", fontFamily: "var(--font-mono)", background: "rgba(255,255,255,0.14)", border: "1px solid rgba(255,255,255,0.26)", padding: "1px 5px" }}>{codename}</span>
+        <span style={{ color: "#9aa890", fontSize: 9 }}>{selectorOpen ? "▴" : "▾"}</span>
+      </span>
+      <span style={{ display: "flex", alignItems: "center", gap: 1, height: "100%", marginLeft: 3 }}>
+        {tab("site", "The site")}
+        {tab("record", "The record")}
+        {tab("watershed", "The watershed")}
+      </span>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11.5, fontWeight: 700, color: "#f5f2ea", background: phaseLive ? "rgba(31,111,74,0.32)" : "rgba(255,255,255,0.1)", border: `1px solid ${phaseLive ? "rgba(150,200,170,0.5)" : "rgba(255,255,255,0.2)"}`, padding: "3px 10px" }}>
+        <span style={{ width: 6, height: 6, background: phaseLive ? "#7fb89a" : "#9aa890" }} />{phaseLabel}
+      </span>
+      <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <span style={{ color: "#bcd2c4", fontSize: 14, padding: "0 11px", cursor: "pointer" }}>Docs</span>
+          <span style={{ color: "#bcd2c4", fontSize: 14, padding: "0 11px", cursor: "pointer" }}>Wiki</span>
+        </span>
+        <span style={{ width: 1, height: 22, background: "rgba(255,255,255,0.2)" }} />
+        <span style={{ display: "flex", alignItems: "center", gap: 7, background: "rgba(255,255,255,0.16)", border: "1px solid rgba(255,255,255,0.26)", padding: "6px 10px", cursor: "pointer" }}>
+          <SIcon size={14} stroke="#f5f2ea" d="M4 6.5 A2.2 2.2 0 0 1 6.2 4.3 H17.8 A2.2 2.2 0 0 1 20 6.5 V13 A2.2 2.2 0 0 1 17.8 15.2 H9.5 L5.5 18.7 V15.2 A2.2 2.2 0 0 1 4 13 Z" />
+          <span style={{ color: "#f5f2ea", fontSize: 13, fontWeight: 600 }}>Ask</span>
+        </span>
+        <span style={{ display: "flex", alignItems: "center", color: "#bcd2c4", cursor: "pointer" }}>
+          <SIcon size={15} stroke="currentColor" sw={2}><circle cx="11" cy="11" r="6.5" /><line x1="16" y1="16" x2="21" y2="21" /></SIcon>
+        </span>
+      </span>
+    </div>
+  );
+}
+Object.assign(window, { SiteChrome, WmSIcon: SIcon });

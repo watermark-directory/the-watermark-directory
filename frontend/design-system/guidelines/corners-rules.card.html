@@ -1,0 +1,25 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Corners & rules — flat, no elevation" subtitle="Square corners everywhere (radius 0). Depth is hairline + rule weight, never shadow." -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; background:var(--bone-surface); font-family:var(--font-sans); color:var(--ink); }
+  .wrap { padding:22px 24px; display:flex; gap:18px; flex-wrap:wrap; align-items:flex-end; }
+  .item { text-align:center; }
+  .box { width:84px; height:56px; background:var(--bone-surface); }
+  .cap { font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin-top:8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="item"><div class="box" style="background:var(--forest-tint);border:1px solid var(--forest-line)"></div><div class="cap">radius 0 · all</div></div>
+  <div class="item"><div class="box" style="border:1px solid var(--line-hair)"></div><div class="cap">1px hairline</div></div>
+  <div class="item"><div class="box" style="border:1.5px solid var(--ink)"></div><div class="cap">1.5px outline</div></div>
+  <div class="item"><div class="box" style="border:2px solid var(--ink)"></div><div class="cap">2px rule / frame</div></div>
+  <div class="item"><div class="box" style="border:1px solid var(--line-hair);border-left:3px solid var(--forest)"></div><div class="cap">3px accent rail</div></div>
+  <div class="item"><div class="box" style="border:1px solid var(--line-hair)"></div><div class="cap">no shadow — flat</div></div>
+</div>
+</body>
+</html>
