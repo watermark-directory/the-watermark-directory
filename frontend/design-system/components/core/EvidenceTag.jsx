@@ -6,6 +6,7 @@ const MAP = {
   open:      { label: "open",      fg: "var(--ev-open-fg)",      bg: "var(--ev-open-bg)",      bd: "var(--ev-open-border)" },
   gap:       { label: "scope gap", fg: "var(--ev-gap-fg)",       bg: "var(--ev-gap-bg)",       bd: "var(--ev-gap-border)" },
   key:       { label: "key figure",fg: "var(--ev-key-fg)",       bg: "var(--ev-key-bg)",       bd: "var(--ev-key-border)" },
+  filename:  { label: "filename",  fg: "var(--ev-open-fg)",      bg: "var(--ev-open-bg)",      bd: "var(--ev-open-border)" },
 };
 
 /**

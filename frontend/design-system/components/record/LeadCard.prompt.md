@@ -14,4 +14,4 @@ An open, unverified thread published in the open for the public to corroborate, 
 
 Notes
 - The colored left rail + confidence chip together declare standing; never drop the rail.
-- `confidence`: low / unanswered (forest) / withheld (muted) / rumored. The action button is always forest — picking up a lead is the affirmative move.
+- `confidence`: low / unanswered (forest) / withheld (muted) / review (under review, amber). The action button is always forest — picking up a lead is the affirmative move.

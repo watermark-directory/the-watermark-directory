@@ -8,7 +8,7 @@ const MONO = "var(--font-mono)";
  * inline figure. Light grid, no chrome.
  */
 export function LineChart({
-  data = [], max, area = true, height = 200, lastLabel, style, ...rest
+  data = [], max, area = true, height = 200, lastLabel, refs = [], style, ...rest
 }) {
   const r = (n, p = 1) => { const f = 10 ** p; return Math.round(n * f) / f; };
   const W = 360, l = 34, rpad = 14, top = 16, base = height - 26;
@@ -35,6 +35,16 @@ export function LineChart({
         })}
         <line x1={l} y1={base} x2={W - rpad} y2={base} stroke="var(--data-axis)" strokeWidth="1" />
         {area ? <path d={areaD} fill="var(--data-1)" fillOpacity="0.10" /> : null}
+        {refs.map((rf, i) => {
+          const ry = r(base - (Math.min(rf.value, vmax) / vmax) * plotH);
+          const rc = rf.color || "var(--ev-gap-fg)";
+          return (
+            <g key={`ref-${i}`}>
+              <line x1={l} y1={ry} x2={W - rpad} y2={ry} stroke={rc} strokeWidth="1.5" strokeDasharray={rf.dash || "5 3"} />
+              {rf.label ? <text x={W - rpad} y={r(ry - 4)} textAnchor="end" fontFamily={MONO} fontSize="9.5" fontWeight="700" fill={rc}>{rf.label}</text> : null}
+            </g>
+          );
+        })}
         <path d={line} fill="none" stroke="var(--data-1)" strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" />
         {pts.map((p, i) => (
           <g key={i}>

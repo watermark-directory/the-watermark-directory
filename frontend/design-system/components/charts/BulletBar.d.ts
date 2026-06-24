@@ -2,9 +2,14 @@ import * as React from "react";
 
 export interface BulletRow {
   label: string;
-  /** Small evidence note under the label, e.g. "[verified] · USGS". */
+  /** Typed evidence register — declares the row's standing and colors the note
+   *  from the matching evidence palette (preferred over the raw note/noteColor). */
+  evidence?: "verified" | "inference" | "open" | "gap" | "key";
+  /** Note shown beside the evidence kind, e.g. "USGS" → "[verified] · USGS". */
+  evidenceNote?: string;
+  /** Raw evidence note under the label (fallback when `evidence` is unset), e.g. "[verified] · USGS". */
   note?: string;
-  /** Color of the note text (e.g. var(--ev-inference-fg)). */
+  /** Color of the raw note text (e.g. var(--ev-inference-fg)). */
   noteColor?: string;
   value: number;
   /** Bar fill. @default forest (var(--data-1)) */
