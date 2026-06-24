@@ -1,0 +1,17 @@
+id: orc
+title: Orc
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  command: orc
+  source: Ohio LSC code portal — codes.ohio.gov
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/orc/citations.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector

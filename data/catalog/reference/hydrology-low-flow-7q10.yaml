@@ -1,0 +1,20 @@
+id: hydrology-low-flow-7q10
+title: Hydrology Low Flow 7Q10
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  connector_ref: bosc.hydrology
+  source: USGS NWIS daily discharge -> log-Pearson III (bosc.hydrology.lowflow_frequency)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/hydrology/low-flow-7q10.derived.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/low-flow-7q10.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector

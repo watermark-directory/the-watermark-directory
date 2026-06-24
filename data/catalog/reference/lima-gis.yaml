@@ -1,0 +1,22 @@
+id: lima-gis
+title: Lima Gis
+scope: reference
+status: needs-review
+producer:
+  kind: manual
+  source: City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 4 'Floodzone' (FEMA DFIRM)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/lima-gis/floodzones.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/lima-gis/parcels.zoning.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/lima-gis/zoning-districts.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: reference

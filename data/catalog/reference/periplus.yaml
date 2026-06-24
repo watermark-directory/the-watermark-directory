@@ -1,0 +1,25 @@
+id: periplus
+title: Periplus
+scope: reference
+status: needs-review
+producer:
+  kind: manual
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/periplus/bosc-parcels.geojson
+  media_type: application/geo+json
+  lfs: false
+- relpath: reference/periplus/corridor-centerline.geojson
+  media_type: application/geo+json
+  lfs: false
+- relpath: reference/periplus/corridor.geojson
+  media_type: application/geo+json
+  lfs: false
+- relpath: reference/periplus/watch-items.geojson
+  media_type: application/geo+json
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: reference

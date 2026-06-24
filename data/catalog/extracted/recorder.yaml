@@ -1,0 +1,31 @@
+id: recorder
+title: Recorder
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: extracted/recorder/202508130008300.deed.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/recorder/202508130008312.deed.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/recorder/202508130008316.deed.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/recorder/202511180011830-amazon-deed.deed.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/recorder/202603040002064.deed.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/recorder/202604210003890.deed.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

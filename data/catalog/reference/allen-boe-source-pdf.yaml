@@ -1,0 +1,64 @@
+id: allen-boe-source-pdf
+title: Allen Boe Source Pdf
+scope: reference
+status: needs-review
+producer:
+  kind: manual
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/allen-boe/source-pdf/2024_GEN_OFFICIAL_CANDIDATES_MOST_POPULOUS.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/2024_GEN_OFFICIAL_QUESTIONS-ISSUES_MOST_POPULOUS.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/2024_GEN_PRECINCT_OFFICIAL.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/2024_GEN_SUMMARY_OFFICIAL.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/2024_Gen_Audit_Results.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/2024_SOVC_OFFICIAL.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/2026_PRIMARY_MOST_POPULOUS_CANDIDATES.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/2026_PRIMARY_MOST_POPULOUS_ISSUES.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/2026_PRIMARY_SOVC_OFFICIAL.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/2026_PRIMARY_SUMMARY_OFFICIAL.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/G2019_Audit.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/G2019_OFFICIAL_PRECINCT.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/G2019_OFFICIAL_SUMMARY.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/G2019_Official_Overlaps.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/G2019_Recount_PandoraGilboaSchoolBoard.pdf
+  media_type: application/pdf
+  lfs: true
+- relpath: reference/allen-boe/source-pdf/SHA256SUMS.txt
+  media_type: text/plain
+  lfs: false
+- relpath: reference/allen-boe/source-pdf/SOURCES.txt
+  media_type: text/plain
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: reference

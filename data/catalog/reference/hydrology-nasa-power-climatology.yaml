@@ -1,0 +1,20 @@
+id: hydrology-nasa-power-climatology
+title: Hydrology Nasa Power Climatology
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  connector_ref: bosc.hydrology
+  source: NASA POWER (AWS Open Data s3://nasa-power), climatology point API
+access_tier: public
+site_scope: slug-scoped
+storage:
+- relpath: reference/hydrology/nasa-power-climatology.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/hydrology/{site}/nasa-power-climatology.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector

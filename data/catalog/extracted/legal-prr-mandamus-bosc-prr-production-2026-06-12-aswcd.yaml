@@ -1,0 +1,19 @@
+id: legal-prr-mandamus-bosc-prr-production-2026-06-12-aswcd
+title: Legal Prr Mandamus Bosc Prr Production 2026 06 12 Aswcd
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: lima-legacy
+storage:
+- relpath: extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.analysis.md
+  media_type: text/markdown
+  lfs: false
+- relpath: extracted/legal/prr-mandamus/bosc-prr-production-2026-06-12-aswcd.response-index.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

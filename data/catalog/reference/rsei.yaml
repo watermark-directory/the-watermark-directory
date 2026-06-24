@@ -1,0 +1,18 @@
+id: rsei
+title: Rsei
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  command: rsei
+  connector_ref: bosc.rsei
+  source: EPA RSEI (water-media releases) × EPA ECHO (receiving water) × Ohio EPA cited 7Q10 (data/reference/hydrology/low-flow-7q10.yaml)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/rsei/toxic-discharge-screen.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector

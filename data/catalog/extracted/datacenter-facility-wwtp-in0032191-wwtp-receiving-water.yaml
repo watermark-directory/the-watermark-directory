@@ -1,0 +1,22 @@
+id: datacenter-facility-wwtp-in0032191-wwtp-receiving-water
+title: Datacenter Facility Wwtp In0032191 Wwtp Receiving Water
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: EPA ECHO eff_rest_services.get_effluent_chart
+access_tier: public
+site_scope: slug-scoped
+storage:
+- relpath: extracted/{site}/datacenter-facility.md
+  media_type: text/markdown
+  lfs: false
+- relpath: extracted/{site}/wwtp-in0032191.dmr.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/{site}/wwtp-receiving-water.md
+  media_type: text/markdown
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

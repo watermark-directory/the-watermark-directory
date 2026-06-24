@@ -1,0 +1,19 @@
+id: lacrpc
+title: Lacrpc
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: extracted/lacrpc/american-township-zoning.zoning.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/lacrpc/collection-index.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

@@ -1,0 +1,17 @@
+id: hydrology-ohio-principal-streams
+title: Hydrology Ohio Principal Streams
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  connector_ref: bosc.hydrology
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/hydrology/ohio-principal-streams/principal-streams-and-drainage-areas.pdf
+  media_type: application/pdf
+  lfs: true
+refresh:
+  cadence: on-demand
+provenance: connector

@@ -1,0 +1,18 @@
+id: gleif
+title: Gleif
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  command: gleif
+  connector_ref: bosc.gleif
+  source: GLEIF (AWS Open Data s3://gleif), REST API api.gleif.org; license CC0
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/gleif/lei-records.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector

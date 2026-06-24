@@ -1,0 +1,21 @@
+id: eia-consumer-energy
+title: Eia Consumer Energy
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  command: eia
+  connector_ref: bosc.economics.energy
+  source: (unknown — fill in)
+access_tier: public
+site_scope: slug-scoped
+storage:
+- relpath: reference/eia/consumer-energy.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/eia/{site}/consumer-energy.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector

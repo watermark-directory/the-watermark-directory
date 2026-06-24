@@ -1,0 +1,16 @@
+id: data-centers
+title: Data Centers
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: (unknown — fill in)
+access_tier: public
+site_scope: slug-scoped
+storage:
+- relpath: extracted/{site}/data-centers.md
+  media_type: text/markdown
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document

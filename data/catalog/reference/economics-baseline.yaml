@@ -1,0 +1,19 @@
+id: economics-baseline
+title: Economics Baseline
+scope: reference
+status: needs-review
+producer:
+  kind: manual
+  source: (unknown — fill in)
+access_tier: public
+site_scope: slug-scoped
+storage:
+- relpath: reference/economics/baseline.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/economics/{site}/baseline.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: reference

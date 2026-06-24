@@ -1,0 +1,19 @@
+id: allen-gis-parcels
+title: Allen Gis Parcels
+scope: reference
+status: needs-review
+producer:
+  kind: manual
+  source: Allen County GIS — ArcGIS REST, Current Parcels (AGOL_NonEditLayers/1)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/allen-gis/parcels.cited.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/allen-gis/parcels.defense.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: reference

@@ -1,0 +1,26 @@
+id: hydrology-swmm
+title: Hydrology Swmm
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  connector_ref: bosc.hydrology
+  source: (unknown — fill in)
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: reference/hydrology/swmm/tier1-detention.inp
+  media_type: application/octet-stream
+  lfs: false
+- relpath: reference/hydrology/swmm/tier1-post.inp
+  media_type: application/octet-stream
+  lfs: false
+- relpath: reference/hydrology/swmm/tier1-pre.inp
+  media_type: application/octet-stream
+  lfs: false
+- relpath: reference/hydrology/swmm/tier1-sanitary.inp
+  media_type: application/octet-stream
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector
