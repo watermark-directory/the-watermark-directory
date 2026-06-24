@@ -13,7 +13,7 @@ interface Props {
   width?: number;
   class?: string;
 }
-const { values, color = "#1f6f4a", width = 120, class: cls } = Astro.props;
+const { values, color = "var(--data-1)", width = 120, class: cls } = Astro.props;
 const c = buildSparkline(values);
 ---
 
@@ -25,5 +25,5 @@ const c = buildSparkline(values);
   aria-hidden="true"
 >
   <path d={c.path} fill="none" stroke={color} stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
-  <circle cx={c.dot.x} cy={c.dot.y} r="3" fill={color} stroke="#f5f2ea" stroke-width="1.5" />
+  <circle cx={c.dot.x} cy={c.dot.y} r="3" fill={color} stroke="var(--surface-card)" stroke-width="1.5" />
 </svg>

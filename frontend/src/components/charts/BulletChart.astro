@@ -50,7 +50,7 @@ const fmt = (v: number): string => (Number.isInteger(v) ? String(v) : v.toFixed(
             {r.evidence && <EvidenceTag kind={r.evidence} title={r.evidenceNote} label={r.evidenceNote ? `${r.evidence}` : undefined} />}
           </div>
           <div class="chart-bullet-track">
-            <div class="chart-bullet-fill" style={`width:${pct(r.value)}; background:${r.fill ?? "#1f6f4a"}`} />
+            <div class="chart-bullet-fill" style={`width:${pct(r.value)}; background:${r.fill ?? "var(--data-1)"}`} />
             {marker != null && <div class="chart-bullet-marker" style={`left:${pct(marker)}`} />}
           </div>
           <div class="chart-bullet-val">{fmt(r.value)} {unit && <span class="chart-bullet-unit">{unit}</span>}</div>

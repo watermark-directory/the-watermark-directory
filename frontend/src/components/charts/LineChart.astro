@@ -33,13 +33,13 @@ const c = buildLine(data, { ...(max != null ? { max } : {}), ...(refs ? { refs }
     {
       c.grid.map((g) => (
         <Fragment>
-          <line x1="34" y1={g.y} x2="348" y2={g.y} stroke="#ece8dc" stroke-width="1" />
+          <line x1="34" y1={g.y} x2="348" y2={g.y} stroke="var(--data-grid)" stroke-width="1" />
           <text x="28" y={g.y + 3} text-anchor="end" class="chart-axis">{g.value}</text>
         </Fragment>
       ))
     }
-    <line x1="34" y1={c.baselineY} x2="348" y2={c.baselineY} stroke="#cdc8b8" stroke-width="1" />
-    <path d={c.area} fill="#1f6f4a" fill-opacity="0.10" />
+    <line x1="34" y1={c.baselineY} x2="348" y2={c.baselineY} stroke="var(--data-axis)" stroke-width="1" />
+    <path d={c.area} fill="var(--data-1)" fill-opacity="0.10" />
     {
       c.refLines.map((r) => (
         <Fragment>
@@ -48,16 +48,16 @@ const c = buildLine(data, { ...(max != null ? { max } : {}), ...(refs ? { refs }
         </Fragment>
       ))
     }
-    <path d={c.line} fill="none" stroke="#1f6f4a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" />
+    <path d={c.line} fill="none" stroke="var(--data-1)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" />
     {
       c.dots.map((d) => (
         <Fragment>
-          <circle cx={d.x} cy={d.y} r="3" fill="#f5f2ea" stroke="#1f6f4a" stroke-width="2" />
+          <circle cx={d.x} cy={d.y} r="3" fill="var(--surface-card)" stroke="var(--data-1)" stroke-width="2" />
           <text x={d.x} y="188" text-anchor="middle" class="chart-axis chart-axis--x">{d.label}</text>
         </Fragment>
       ))
     }
-    <circle cx={c.last.x} cy={c.last.y} r="4.5" fill="#1f6f4a" stroke="#f5f2ea" stroke-width="2" />
+    <circle cx={c.last.x} cy={c.last.y} r="4.5" fill="var(--data-1)" stroke="var(--surface-card)" stroke-width="2" />
     {endLabel && <text x={c.last.x - 6} y={c.last.y + 4} text-anchor="end" class="chart-val is-peak">{endLabel}</text>}
   </svg>
   {

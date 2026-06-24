@@ -32,7 +32,7 @@ const hasWithheld = legend ?? data.some((d) => d.withheld);
     {
       c.ticks.map((t) => (
         <Fragment>
-          <line x1={t.x} y1="8" x2={t.x} y2="178" stroke="#ece8dc" stroke-width="1" />
+          <line x1={t.x} y1="8" x2={t.x} y2="178" stroke="var(--data-grid)" stroke-width="1" />
           <text x={t.x} y="192" text-anchor="middle" class="chart-axis">{t.value}</text>
         </Fragment>
       ))
@@ -50,7 +50,7 @@ const hasWithheld = legend ?? data.some((d) => d.withheld);
   {
     hasWithheld && (
       <div class="chart-legend">
-        <span class="chart-legend-item"><span class="chart-swatch" style="background:#1f6f4a" />price disclosed</span>
+        <span class="chart-legend-item"><span class="chart-swatch" style="background:var(--data-1)" />price disclosed</span>
         <span class="chart-legend-item"><span class="chart-swatch chart-swatch--withheld" />price withheld</span>
       </div>
     )
