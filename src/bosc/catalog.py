@@ -24,7 +24,7 @@ backfill, render) lands in the sibling issues — this is the schema everything 
 
 from __future__ import annotations
 
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Literal
 
 import yaml
@@ -196,6 +196,30 @@ def get_entry(entry_id: str, *, settings: Settings | None = None) -> CatalogEntr
 def entries_for_scope(scope: Scope, *, settings: Settings | None = None) -> list[CatalogEntry]:
     """The catalogued datasets under one ``scope``."""
     return [e for e in load_entries(settings=settings) if e.scope == scope]
+
+
+def output_dir_for_command(command: str, *, settings: Settings | None = None) -> Path | None:
+    """The single reference output directory the catalog assigns to ``bosc <command>``.
+
+    Resolves the collection dir from the ``storage`` relpaths of every entry whose
+    ``producer.command`` verb matches ``command`` — a ``{site}`` segment is dropped, since the
+    per-site template shares its collection dir. Returns ``None`` when no entry names the command
+    or the entries span more than one collection (ambiguous), so a caller keeps its own default.
+    This is what lets the regeneration commands derive their ``--out`` from the catalog (#630)
+    instead of hardcoding the path in a third place.
+    """
+    settings = settings or get_settings()
+    dirs: set[str] = set()
+    for entry in load_entries(settings=settings):
+        cmd = entry.producer.command
+        if not cmd or cmd.split()[0] != command:
+            continue
+        for item in entry.storage:
+            parts = [p for p in PurePosixPath(item.relpath).parent.parts if p != "{site}"]
+            dirs.add("/".join(parts))
+    if len(dirs) != 1:
+        return None
+    return settings.data_dir / dirs.pop()
 
 
 # --- structural validation (the model-layer half of `bosc catalog check`, #626) ------------
