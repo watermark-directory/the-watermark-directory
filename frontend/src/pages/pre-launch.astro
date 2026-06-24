@@ -30,6 +30,7 @@ const principles = [
   { k: "03 · Two clocks", title: "The facility and the record are separate", body: "How far a data center is built is one clock; how complete our record of it is, is another. We never let one stand in for the other." },
 ];
 const submitHref = withBase("/submit");
+const repoHref = "https://github.com/goedelsoup/bosc";
 ---
 
 <!doctype html>
@@ -69,25 +70,14 @@ const submitHref = withBase("/submit");
               <b>where compute meets ground, water, and power.</b> We're assembling it in the open. When the
               record opens, every figure will carry its source. Until then, here's the shape of it.
             </p>
-            <form class="pl-notify" id="pl-notify">
-              <div class="pl-notify-live">
-                <div class="pl-notify-kicker">Get told when it opens</div>
-                <div class="pl-notify-fields">
-                  <input class="pl-input" type="email" name="email" placeholder="you@domain.org" autocomplete="off" required />
-                  <button class="pl-notify-btn" type="submit">Notify me →</button>
-                </div>
-                <div class="pl-notify-fine">One email at launch. No list, no tracking, no account. <a href={submitHref}>Or contribute a lead now →</a></div>
+            <div class="pl-notify">
+              <div class="pl-notify-kicker">Follow the build</div>
+              <div class="pl-notify-fields">
+                <a class="pl-notify-btn" href={repoHref} rel="noopener noreferrer">Watch on GitHub →</a>
+                <a class="pl-notify-btn pl-notify-btn--ghost" href={submitHref}>Contribute a lead →</a>
               </div>
-              <div class="pl-notify-done" hidden>
-                <span class="pl-notify-check" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#0f1712" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13 L10 18 L19 7"></path></svg>
-                </span>
-                <div>
-                  <div class="pl-notify-done-t">You're on the list.</div>
-                  <div class="pl-notify-done-b">We'll send a single note to <b data-email>you</b> the day the record opens. Nothing before then.</div>
-                </div>
-              </div>
-            </form>
+              <div class="pl-notify-fine">There's no mailing list. The record is assembled in the open — watch the repository to follow it to launch, or contribute a lead now.</div>
+            </div>
           </div>
 
           <!-- count ledger -->
@@ -169,25 +159,6 @@ const submitHref = withBase("/submit");
       </div>
     </div>
 
-    <script>
-      // Client-only notify confirmation (no backend; mirrors the design's local success state).
-      const form = document.getElementById("pl-notify") as HTMLFormElement | null;
-      if (form) {
-        const live = form.querySelector<HTMLElement>(".pl-notify-live");
-        const done = form.querySelector<HTMLElement>(".pl-notify-done");
-        const email = form.querySelector<HTMLInputElement>('input[name="email"]');
-        const shown = form.querySelector<HTMLElement>("[data-email]");
-        form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const v = (email?.value ?? "").trim();
-          if (!/\S+@\S+\.\S+/.test(v) || !live || !done) return;
-          if (shown) shown.textContent = v;
-          live.hidden = true;
-          done.hidden = false;
-        });
-      }
-    </script>
-
     <style>
       .pl-body { margin: 0; background: var(--bosc-ink); color: var(--bosc-bg); font-family: var(--bosc-sans); }
       .pl-section { max-width: 1180px; margin: 0 auto; padding: 0 36px; }
@@ -209,17 +180,12 @@ const submitHref = withBase("/submit");
       .pl-notify { margin-top: 32px; max-width: 520px; }
       .pl-notify-kicker { font-family: var(--bosc-mono); font-size: 0.68rem; letter-spacing: 1.2px; text-transform: uppercase; color: #9aa89a; margin-bottom: 10px; }
       .pl-notify-fields { display: flex; gap: 10px; flex-wrap: wrap; }
-      .pl-input { flex: 1 1 240px; min-width: 0; font: inherit; font-size: 0.95rem; color: var(--bosc-bg); background: #0f1712; border: 1px solid #3a463d; padding: 13px 15px; outline: none; }
-      .pl-input::placeholder { color: #7d8a86; }
-      .pl-input:focus { border-color: #3d8f63; }
-      .pl-notify-btn { flex: 0 0 auto; border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 0.95rem; color: var(--bosc-ink); background: #7fb89a; padding: 13px 24px; }
+      .pl-notify-btn { flex: 0 0 auto; display: inline-flex; align-items: center; border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 0.95rem; color: var(--bosc-ink); background: #7fb89a; padding: 13px 24px; text-decoration: none; }
       .pl-notify-btn:hover { background: #9ccbb0; }
+      .pl-notify-btn--ghost { background: transparent; color: #bcd2c4; border: 1px solid #3a463d; }
+      .pl-notify-btn--ghost:hover { background: #0f1712; color: var(--bosc-bg); }
       .pl-notify-fine { font-size: 0.78rem; color: #8c9789; margin-top: 10px; line-height: 1.5; }
       .pl-notify-fine a { color: #bcd2c4; font-weight: 600; }
-      .pl-notify-done:not([hidden]) { display: flex; gap: 14px; align-items: flex-start; background: #0f1712; border: 1px solid #2f4a3a; border-left: 3px solid #3d8f63; padding: 18px 20px; }
-      .pl-notify-check { flex: 0 0 auto; width: 26px; height: 26px; background: #3d8f63; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
-      .pl-notify-done-t { font-size: 1rem; font-weight: 700; color: var(--bosc-bg); }
-      .pl-notify-done-b { font-size: 0.84rem; color: #bcd2c4; line-height: 1.5; margin-top: 3px; }
       /* ledger */
       .pl-ledger { flex: 1 1 300px; max-width: 360px; border: 1px solid #2b362e; }
       .pl-ledger-head { font-family: var(--bosc-mono); font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase; color: #9aa89a; padding: 12px 15px; border-bottom: 1px solid #2b362e; }
