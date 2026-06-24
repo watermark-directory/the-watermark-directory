@@ -340,6 +340,14 @@ class Settings(BaseSettings):
         backend peer of the frontend directory lens (bosc.hypotheses)."""
         return self.data_dir / "hypotheses"
 
+    @property
+    def catalog_dir(self) -> Path:
+        """The data catalog — one typed :class:`bosc.catalog.CatalogEntry` per dataset
+        (``<scope>/<id>.yaml``), the single registry of what lives under ``data/``,
+        where it came from, its license/access tier, and how it regenerates. Committed
+        (epic #631). The peer of ``hypotheses_dir``; validated by ``bosc catalog check``."""
+        return self.data_dir / "catalog"
+
     def ensure_dirs(self) -> None:
         """Create the data directories if they do not yet exist."""
         for path in (self.documents_dir, self.extracted_dir, self.cache_dir):
