@@ -52,10 +52,12 @@ const reasons = [
   },
 ];
 const doors = [
-  { t: "Request access", b: "if you're a contributor, reporter, or directly affected, ask and we'll review it." },
-  { t: "Get notified", b: "leave an address and we'll tell you the day it unlocks — nothing before then." },
+  { t: "Request access", b: "if you're a contributor, reporter, or directly affected, ask on GitHub and we'll review it." },
+  { t: "Get notified", b: "watch the repository on GitHub and you'll hear the day it unlocks — nothing before then." },
   { t: "Contribute anyway", b: "you can still submit a lead for this site; it queues against the sealed record." },
 ];
+const NEW_ISSUE_URL = "https://github.com/goedelsoup/bosc/issues/new";
+const REPO_URL = "https://github.com/goedelsoup/bosc";
 const meta = [
   { k: "Code", v: codename || "RESTRICTED" },
   { k: "Basin", v: basin },
@@ -63,7 +65,7 @@ const meta = [
 ];
 ---
 
-<article class="locked" data-site={place}>
+<article class="locked">
   <div class="locked-banner">
     <span class="locked-tag">
       <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -126,28 +128,15 @@ const meta = [
     </div>
 
     <div class="locked-aside">
-      <form class="locked-request" id="locked-request">
-        <div class="locked-req-live">
-          <div class="locked-req-kicker">Request access</div>
-          <div class="locked-req-h">Ask the record team to unlock this site for you.</div>
-          <p class="locked-req-p">Tell us who you are and why. Access is granted case by case — usually to contributors, reporters, and affected residents.</p>
-          <div class="locked-req-fields">
-            <input class="locked-input" type="text" name="contact" placeholder="email or Signal…" autocomplete="off" required />
-            <textarea class="locked-input" name="reason" rows="3" placeholder="Why do you need access to this site?"></textarea>
-            <button class="locked-req-btn" type="submit">Request access →</button>
-          </div>
-          <div class="locked-req-alt">Or <button class="locked-req-notify" type="button" data-notify>just get notified when it unlocks →</button></div>
+      <div class="locked-request">
+        <div class="locked-req-kicker">Request access</div>
+        <div class="locked-req-h">Ask the record team to unlock this site for you.</div>
+        <p class="locked-req-p">Access is granted case by case — usually to contributors, reporters, and affected residents. Requests are handled in the open on GitHub; open one saying who you are and why.</p>
+        <div class="locked-req-actions">
+          <a class="locked-req-btn" href={NEW_ISSUE_URL} rel="noopener noreferrer">Request access on GitHub →</a>
+          <a class="locked-req-notify" href={REPO_URL} rel="noopener noreferrer">Or watch the repository to hear when it unlocks →</a>
         </div>
-        <div class="locked-req-done" hidden>
-          <span class="locked-req-check" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#0f1712" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13 L10 18 L19 7"></path></svg>
-          </span>
-          <div>
-            <div class="locked-req-done-t" data-done-title>Request received.</div>
-            <div class="locked-req-done-b" data-done-body>The record team will review your request and follow up by your contact above. Access is granted case by case.</div>
-          </div>
-        </div>
-      </form>
+      </div>
 
       <div class="locked-status">
         <div class="locked-status-kicker">Status</div>
@@ -167,34 +156,6 @@ const meta = [
     <span class="locked-foot-text"><b>Locked by policy, not by phase.</b> A locked site can be at any stage of its record — the lock is about access, not completeness.</span>
   </div>
 </article>
-
-<script>
-  // Client-only progressive enhancement: flip the request form to a confirmation. No backend —
-  // the submissions API ships dark; this mirrors the design's local-only success state.
-  const form = document.getElementById("locked-request") as HTMLFormElement | null;
-  if (form) {
-    const live = form.querySelector<HTMLElement>(".locked-req-live");
-    const done = form.querySelector<HTMLElement>(".locked-req-done");
-    const title = form.querySelector<HTMLElement>("[data-done-title]");
-    const body = form.querySelector<HTMLElement>("[data-done-body]");
-    const contact = form.querySelector<HTMLInputElement>('input[name="contact"]');
-    const site = form.closest<HTMLElement>(".locked")?.dataset.site ?? "this site";
-    const reveal = (mode: "request" | "notify") => {
-      if (!live || !done) return;
-      if (mode === "notify") {
-        if (title) title.textContent = "We'll let you know.";
-        if (body) body.textContent = `You'll get a single note the day ${site} unlocks — and nothing else.`;
-      }
-      live.hidden = true;
-      done.hidden = false;
-    };
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      if (contact && /\S+@\S+|\S+/.test(contact.value.trim()) && contact.value.trim()) reveal("request");
-    });
-    form.querySelector<HTMLButtonElement>("[data-notify]")?.addEventListener("click", () => reveal("notify"));
-  }
-</script>
 
 <style>
   .locked { background: var(--bosc-bg); border: 1px solid var(--bosc-ink); overflow: hidden; }
@@ -242,19 +203,11 @@ const meta = [
   .locked-req-kicker { font-family: var(--bosc-mono); font-size: 0.68rem; letter-spacing: 1.2px; text-transform: uppercase; color: #7fb89a; }
   .locked-req-h { font-size: 1.18rem; font-weight: 800; letter-spacing: -0.3px; margin-top: 7px; line-height: 1.2; }
   .locked-req-p { font-size: 0.82rem; color: #bcd2c4; line-height: 1.5; margin: 8px 0 0; }
-  .locked-req-fields { display: flex; flex-direction: column; gap: 9px; margin-top: 16px; }
-  .locked-input { font: inherit; font-size: 0.88rem; color: var(--bosc-bg); background: #0f1712; border: 1px solid #3a463d; padding: 11px 12px; outline: none; }
-  .locked-input::placeholder { color: #7d8a86; }
-  .locked-input:focus { border-color: #3d8f63; }
-  textarea.locked-input { resize: vertical; line-height: 1.5; }
-  .locked-req-btn { border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 0.9rem; color: var(--bosc-ink); background: #7fb89a; padding: 12px 18px; }
+  .locked-req-actions { display: flex; flex-direction: column; gap: 11px; margin-top: 16px; align-items: flex-start; }
+  .locked-req-btn { display: inline-flex; align-items: center; border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 0.9rem; color: var(--bosc-ink); background: #7fb89a; padding: 12px 18px; text-decoration: none; }
   .locked-req-btn:hover { background: #9ccbb0; }
-  .locked-req-alt { font-size: 0.76rem; color: #8c9789; line-height: 1.5; margin-top: 11px; }
-  .locked-req-notify { border: 0; background: none; padding: 0; font: inherit; font-size: 0.76rem; color: #bcd2c4; font-weight: 600; cursor: pointer; }
-  .locked-req-done:not([hidden]) { display: flex; gap: 13px; align-items: flex-start; }
-  .locked-req-check { flex: 0 0 auto; width: 26px; height: 26px; background: #3d8f63; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
-  .locked-req-done-t { font-size: 1.05rem; font-weight: 800; }
-  .locked-req-done-b { font-size: 0.83rem; color: #bcd2c4; line-height: 1.5; margin-top: 4px; }
+  .locked-req-notify { font: inherit; font-size: 0.76rem; color: #bcd2c4; font-weight: 600; text-decoration: none; }
+  .locked-req-notify:hover { text-decoration: underline; }
   .locked-status { background: #efece2; border: 1px solid var(--bosc-rule); padding: 16px 18px; }
   .locked-status-kicker { font-family: var(--bosc-mono); font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; color: var(--bosc-faint); margin-bottom: 9px; }
   .locked-status-row { display: flex; align-items: center; gap: 9px; font-size: 0.82rem; color: #3a4036; }
