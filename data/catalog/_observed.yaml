@@ -1,0 +1,623 @@
+reconciled_at: '2026-06-24T20:18:28.654979+00:00'
+entries:
+  aedg:
+    exists: true
+    sha256: 4322f0546ce83fb787ab891966e391ff38f5a2676be67efe20f03b75f72b8089
+    size_bytes: 55899
+    lfs_materialized: true
+    file_count: 5
+    missing: []
+    asof: null
+    stale: false
+  aedg-roundabouts-opc:
+    exists: true
+    sha256: 7f52e51708d8d8b89fb6fdc75c2d465e2f11cc9d0014031551c5c71bdb765391
+    size_bytes: 20591
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  allen-boe:
+    exists: true
+    sha256: 6cfa719a0612de2530e0d4e0cc80b3b8233d6d24ca9161ee342bf62fb4faaaf0
+    size_bytes: 1850
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  allen-boe-precincts-csv:
+    exists: true
+    sha256: fc0f5f4955552cc2e0e917e31fe1ba61fb32ad223625e6aabd6ce6a10e8ec8ed
+    size_bytes: 3709738
+    lfs_materialized: true
+    file_count: 3
+    missing: []
+    asof: null
+    stale: false
+  allen-boe-results-csv:
+    exists: true
+    sha256: c0c0b9efb684b1bb7becdf218d9dcae3d4fac1e2ec8a4731916deb6ae5b8e06f
+    size_bytes: 84398
+    lfs_materialized: true
+    file_count: 3
+    missing: []
+    asof: null
+    stale: false
+  allen-boe-source-pdf:
+    exists: true
+    sha256: 910ad6ff5d76b85d61044abdae221124c497b8b162c9b2b52228035062985c7d
+    size_bytes: 5720421
+    lfs_materialized: true
+    file_count: 17
+    missing: []
+    asof: null
+    stale: false
+  allen-gis-parcels:
+    exists: true
+    sha256: f6db33887628cb209769c5f7342099bafb72ddc48c7806ed5ce9f46f3c70dedb
+    size_bytes: 25568
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  american-township-meetings:
+    exists: true
+    sha256: 0a7e10f0c2cf2b0bf43764efed41285a8abb39c172684dd0090cd6a9efa079a4
+    size_bytes: 81424
+    lfs_materialized: true
+    file_count: 4
+    missing: []
+    asof: null
+    stale: false
+  commissioners:
+    exists: true
+    sha256: 5f5c19b82057313369ece06f3d7f9a4c5e3401ea5ee734582dd05bac6366b867
+    size_bytes: 58836
+    lfs_materialized: true
+    file_count: 5
+    missing: []
+    asof: null
+    stale: false
+  commissioners-meetings:
+    exists: true
+    sha256: 62fa556db1a5139815bf01b27968e5715e16ccec12f32b2cb20da3958278c603
+    size_bytes: 938951
+    lfs_materialized: true
+    file_count: 3
+    missing: []
+    asof: null
+    stale: false
+  commissioners-minutes:
+    exists: true
+    sha256: a30938a788336b25d200b6d081aff1e90fe621151b14f378afa2ed9d769d4741
+    size_bytes: 1425078
+    lfs_materialized: true
+    file_count: 6
+    missing: []
+    asof: null
+    stale: false
+  compute:
+    exists: true
+    sha256: 0e8697e080006aefd837694ed9d6c918b19e970749fca56c3b2375cce32465e5
+    size_bytes: 12105
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  data-centers:
+    exists: true
+    sha256: 34f6f4a43714184765b7181b24872da2c5e15e7be4dfdbd0c7e5d73674146590
+    size_bytes: 30229
+    lfs_materialized: true
+    file_count: 3
+    missing: []
+    asof: null
+    stale: false
+  datacenter-facility-wwtp-in0032191-wwtp-receiving-water:
+    exists: true
+    sha256: b61f9365d243561d71500ba706a0f589897a250219134a781b3ff0c485c6ea08
+    size_bytes: 15370
+    lfs_materialized: true
+    file_count: 3
+    missing: []
+    asof: null
+    stale: false
+  datacenter-industry:
+    exists: true
+    sha256: b7d6fd8fc6e949919f877199e8e04c95496bb0bf4365bdf14183bfa13db2e553
+    size_bytes: 12057
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  echo-great-miami-wwtp:
+    exists: true
+    sha256: 2cfc98655fe07a9da4cf0b3592744502d1a435f6f06510f93df36c6062adab8d
+    size_bytes: 192924
+    lfs_materialized: true
+    file_count: 3
+    missing: []
+    asof: null
+    stale: false
+  echo-maumee-npdes:
+    exists: true
+    sha256: 402765f1c8cbb21643f5d9b44e05ebe79776dd66f4c1767a1b484dbc9a5c1a22
+    size_bytes: 649905
+    lfs_materialized: true
+    file_count: 3
+    missing: []
+    asof: null
+    stale: false
+  economics-baseline:
+    exists: true
+    sha256: bc9c41e2b1fdffb10cee6d5856d562f97f51a3139eb597ceb5819d52e80a0767
+    size_bytes: 268995
+    lfs_materialized: true
+    file_count: 19
+    missing: []
+    asof: null
+    stale: false
+  eia:
+    exists: true
+    sha256: e1a519a7faed4746aadc62cb77a531398940ace7c6360d724f06f2d2888b745b
+    size_bytes: 1539
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  eia-consumer-energy:
+    exists: true
+    sha256: 8ea561986f05c55d7c35bf68b43ea3c794667464f8cbf193ad72cc27f9bc7666
+    size_bytes: 23328
+    lfs_materialized: true
+    file_count: 19
+    missing: []
+    asof: null
+    stale: false
+  eia-grid-profile:
+    exists: true
+    sha256: 729b4b2648beda066e6ef8b25fe474418179c3a36834ad184a9f28747afac2cf
+    size_bytes: 58617
+    lfs_materialized: true
+    file_count: 19
+    missing: []
+    asof: null
+    stale: false
+  federal:
+    exists: true
+    sha256: 2f3001719a94893ce39eaaa60704e4e5c012c15e2a6ee2513daad62c03d8538a
+    size_bytes: 9523
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  ferc:
+    exists: true
+    sha256: 45fa0fbcd1d42ffa88264e00f939426de0da908f7b0d4fd91e5006ce31ed2b7e
+    size_bytes: 5092
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  findlay-gis:
+    exists: true
+    sha256: f02447372c26dc6e1b37525c7cacda3b3e5350a8d450fda44e717ddfdd4ff0c0
+    size_bytes: 1447
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  gleif:
+    exists: true
+    sha256: f2ce4ea8de0d36a7c1d51601fac8bdd77c4bdb81e205dedd4177d18753d22bfd
+    size_bytes: 4327
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  hydrology:
+    exists: true
+    sha256: 5e1bf8a559c2f88276fd663858a24dac3cb433fca5b7245592da090f9d84e1a4
+    size_bytes: 77650
+    lfs_materialized: true
+    file_count: 16
+    missing: []
+    asof: null
+    stale: false
+  hydrology-atlas14-corridor-ddf:
+    exists: true
+    sha256: 3da6290dc181dd180c40f64f868e3d26e6c658e690c69f342438516ce63133ae
+    size_bytes: 16426
+    lfs_materialized: true
+    file_count: 19
+    missing: []
+    asof: null
+    stale: false
+  hydrology-low-flow-7q10:
+    exists: true
+    sha256: 7cd21e77ea18f52c831782afeb5e68e72377ae9f3fc926c5f46721c5a62b6a53
+    size_bytes: 8418
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  hydrology-nasa-power-climatology:
+    exists: true
+    sha256: 2ee0ba327f54aee638d1671036e44c8438202eed5ebfe9d23ee87ec3d3c2c9f4
+    size_bytes: 50249
+    lfs_materialized: true
+    file_count: 19
+    missing: []
+    asof: null
+    stale: false
+  hydrology-ohio-principal-streams:
+    exists: true
+    sha256: 6cdbc7b5096a17dfd9d003c9e8f0baa77aabb5baafe048a9fb8713eeafb91a8e
+    size_bytes: 7337655
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  hydrology-swmm:
+    exists: true
+    sha256: 1a72f530ba3bdd1e3914744dd57fe834109c13b45967f99e3ef3f0c27b711617
+    size_bytes: 20719
+    lfs_materialized: true
+    file_count: 4
+    missing: []
+    asof: null
+    stale: false
+  hydrology-wbd:
+    exists: true
+    sha256: f2e3455fce0a343a5af4d763d3ee8d109f9361e0c2b2adbc44ba9c1417962920
+    size_bytes: 360314
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  lacrpc:
+    exists: true
+    sha256: 74ae27c9ffae0f897797ff22d7fed2a01c8c4259af67a2b689948fba0b92b8d9
+    size_bytes: 20251
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  lacrpc-meetings:
+    exists: true
+    sha256: 1891742d80e124c785236eb723f2debb78042083b3b3196c43ec06fc635e7bf6
+    size_bytes: 47229
+    lfs_materialized: true
+    file_count: 3
+    missing: []
+    asof: null
+    stale: false
+  legal:
+    exists: true
+    sha256: 54c259be6f54a3e79d5ba5ddc29894ed78c82e46b6d2de14708f850472779e26
+    size_bytes: 41209
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-prr-mandamus:
+    exists: true
+    sha256: 510e2122a4b8f4c3d0af7973e3809c129fdfc8038b83f138a6b91b33bcf8f7cc
+    size_bytes: 31572
+    lfs_materialized: true
+    file_count: 5
+    missing: []
+    asof: null
+    stale: false
+  legal-prr-mandamus-bosc-prr-production-2026-06-05:
+    exists: true
+    sha256: dd428c37fa92e0b1ef0b239bd6438a2bde74d54acab768f3330dce825c6c2ee8
+    size_bytes: 25916
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-prr-mandamus-bosc-prr-production-2026-06-12:
+    exists: true
+    sha256: 2a53ef567b3c42a6e9e19f39393da0de37820b16e3ca8034a4aca121feb6fa7f
+    size_bytes: 28712
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-prr-mandamus-bosc-prr-production-2026-06-12-aswcd:
+    exists: true
+    sha256: ab252d991c9c0184ceee4b437ea7f122d2e5c206d578540ab9bace1c12af146e
+    size_bytes: 42653
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-prr-mandamus-bosc-site-permit-sequence:
+    exists: true
+    sha256: ba226378ac8a8ce3a32c4b2b415826eacbff38fcb86eca672b172e49d4ee74db
+    size_bytes: 30134
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-select-committee-2026:
+    exists: true
+    sha256: e91ffa023f77c68de8ad013930e43fc50ddf81e0801ac26baab106ca66e54051
+    size_bytes: 32484
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-select-committee-2026-hearings-audio-bosc-committee-hearing-2026-06-04-am:
+    exists: true
+    sha256: 566e3449079cc55fcb3e39ae75514a4f10c28af83647021cfba00a6a4a222fa6
+    size_bytes: 143712
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-select-committee-2026-hearings-audio-bosc-committee-hearing-2026-06-04-pm:
+    exists: true
+    sha256: 51affaa61d84907a254efaeaa8a1b70996f7915935106fe732bfc4b875309e76
+    size_bytes: 119495
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-select-committee-2026-hearings-audio-bosc-committee-hearing-2026-06-04-pm2:
+    exists: true
+    sha256: eeca85ae87074d445339cbec3ae67309b6e7d8f763694cd038e6c8938cb9b7ae
+    size_bytes: 45371
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-select-committee-2026-hearings-audio-bosc-committee-testimony-2026-06-04:
+    exists: true
+    sha256: aa1dcd0533b89aa9eea8c377e8c87aa948452bd19c93e33e45618d5125509b83
+    size_bytes: 19024
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-select-committee-2026-relator-testimony:
+    exists: true
+    sha256: b7dfcef1e62623ffd7837906b3f676039653a151c99e1969ea1d63015c379cf2
+    size_bytes: 10945
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-select-committee-2026-relator-testimony-bosc-written-testimony-2026-06-01:
+    exists: true
+    sha256: 48f22ce2256d738aa6fbe698e3fcceedf56b16b206dd5798637ffa59259592a3
+    size_bytes: 27412
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-web-vendor-audit:
+    exists: true
+    sha256: f5adeac7ef3273d65fec1b4c256ee038b0005baf68d6d8a868f42c91ba24fdbc
+    size_bytes: 22934
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  legal-web-vendor-audit-allen-county-web-vendor-audit:
+    exists: true
+    sha256: 24ce434b9324b17b69e8581e3007a2f29b07b3eed628945929fec3b32fd8eb61
+    size_bytes: 27376
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  lima-gis:
+    exists: true
+    sha256: 275286c6269d36afb9bbf409221cb3fc6ae6a5e50a5faacb56dfb23af6e67c94
+    size_bytes: 7612
+    lfs_materialized: true
+    file_count: 3
+    missing: []
+    asof: null
+    stale: false
+  lsc-status-report:
+    exists: true
+    sha256: 6215d2664d23cf0a919a6b63360b567e06dcb43146a2788241b057ba1edace63
+    size_bytes: 3203438
+    lfs_materialized: true
+    file_count: 3
+    missing: []
+    asof: null
+    stale: false
+  meetings:
+    exists: true
+    sha256: 5ef5921d45d31f2bfb2bc3a843df5faed35f402d5ad8bf01d4736b12285cc5d3
+    size_bytes: 47074
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  network:
+    exists: true
+    sha256: c82f0f0ae13dd1141260b8ef9c37d8a9be03f568a2f7ecb27b1ad47a120dd67a
+    size_bytes: 15377
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  oepa:
+    exists: true
+    sha256: 8c8f6428673194de91edfb99369c2ebe2662124ea83becee502bbead08ac5749
+    size_bytes: 17894
+    lfs_materialized: true
+    file_count: 9
+    missing: []
+    asof: null
+    stale: false
+  orc:
+    exists: true
+    sha256: 674d78b7d8fc5f420683f007f0191a672226eeb93b52c903bfc01737613853af
+    size_bytes: 3665
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  orc-orc:
+    exists: true
+    sha256: f7b17468a1b512bf9afc5c5c8103e0ed6d9bd12e973674360af4c9814ec30673
+    size_bytes: 36392569
+    lfs_materialized: true
+    file_count: 13
+    missing: []
+    asof: null
+    stale: false
+  periplus:
+    exists: true
+    sha256: 922e09eb27262d28f11a0ca038c23263e0628d48c3b061dd8164bc57831adfff
+    size_bytes: 61227
+    lfs_materialized: true
+    file_count: 4
+    missing: []
+    asof: null
+    stale: false
+  permits:
+    exists: true
+    sha256: f6454de91c4b21d7a28f18765890ba7453c5f78a835e08e2476ef1d8d5eeaeac
+    size_bytes: 118576
+    lfs_materialized: true
+    file_count: 39
+    missing: []
+    asof: null
+    stale: false
+  perry-township-meetings:
+    exists: true
+    sha256: 97e3cb4624478eec2d5294992fe39728d466c9dd5fa863154c38d20cdcbcddd4
+    size_bytes: 335944
+    lfs_materialized: true
+    file_count: 4
+    missing: []
+    asof: null
+    stale: false
+  pjm:
+    exists: true
+    sha256: eda546118c035662bd711554ca9f244432d8eaf854f3c7dd2735a48843481707
+    size_bytes: 1865
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  plans:
+    exists: true
+    sha256: 1efe4b4b89c1fc5439e4a8d2340f48584a00336cc4fe68bfd87a134e7b378dc2
+    size_bytes: 17442
+    lfs_materialized: true
+    file_count: 4
+    missing: []
+    asof: null
+    stale: false
+  recorder:
+    exists: true
+    sha256: c30917c85c4c98090afc3e97487816b6798a3f51bb003a6ac9f80d4dd2217eb6
+    size_bytes: 9955
+    lfs_materialized: true
+    file_count: 6
+    missing: []
+    asof: null
+    stale: false
+  regulatory:
+    exists: true
+    sha256: 7509cb9c9fe58e0fddd667a57320a796bd6da07da72a523c4b045319ce98b5ad
+    size_bytes: 16996
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  rsei:
+    exists: true
+    sha256: ef5135139502130089f4095bbdafbd80c291125c53348e12cff2a09d9cca9cda
+    size_bytes: 11916
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  rsei-inventory:
+    exists: true
+    sha256: c3d133214905cd3f1f55bc4e278ec87167cb3e6d1a2fe55b2c703726824e68bc
+    size_bytes: 2382372
+    lfs_materialized: true
+    file_count: 19
+    missing: []
+    asof: null
+    stale: false
+  shawnee-township-meetings:
+    exists: true
+    sha256: f8ccdbf81a1fae29a676a9a757b30e5481161196694cd1b1d1c03cabb0caea7f
+    size_bytes: 22549
+    lfs_materialized: true
+    file_count: 4
+    missing: []
+    asof: null
+    stale: false
+  subdivisions:
+    exists: true
+    sha256: 2b00e95f26045a264e04fb4ae27c04ee6acfe471e58987b5e37d5adb0a0d005b
+    size_bytes: 20416
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  usaspending:
+    exists: true
+    sha256: de5f7d7fec8ff97ab3b5f5202de00386fcf2026f78723def180d31d73597f270
+    size_bytes: 3659
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  watershed:
+    exists: true
+    sha256: 1d32b846a2251c42211a79025438d858de56db29ea39e6519a352c4cfc4fea63
+    size_bytes: 37960
+    lfs_materialized: true
+    file_count: 3
+    missing: []
+    asof: null
+    stale: false

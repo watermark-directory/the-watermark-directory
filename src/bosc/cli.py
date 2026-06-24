@@ -382,6 +382,37 @@ def catalog_backfill_cmd(
     console.print(f"\n{summary}  —  {mode}")
 
 
+@catalog_app.command("reconcile")
+def catalog_reconcile_cmd(
+    dry_run: bool = typer.Option(
+        False, "--dry-run", help="Compute the snapshot but don't write _observed.yaml."
+    ),
+) -> None:
+    """Observe the catalog's storage on disk → data/catalog/_observed.yaml (offline).
+
+    The declared-vs-observed split's observed half: stat + sha256 + LFS-materialization +
+    freshness for every entry. Reconcile observes; `bosc catalog check` (#626) gates on it.
+    """
+    from bosc.catalog_reconcile import reconcile, write_observed
+
+    snapshot = reconcile()
+    n = len(snapshot.entries)
+    missing = [e for e in snapshot.entries.values() if not e.exists]
+    unmaterialized = [e for e in snapshot.entries.values() if not e.lfs_materialized]
+    stale = [e for e in snapshot.entries.values() if e.stale]
+    console.print(
+        f"reconciled {n} entries — "
+        f"[red]{len(missing)} missing[/] · "
+        f"[yellow]{len(unmaterialized)} lfs-unmaterialized[/] · "
+        f"[yellow]{len(stale)} stale[/]"
+    )
+    if dry_run:
+        console.print("[dim]dry-run — _observed.yaml not written.[/]")
+        return
+    path = write_observed(snapshot)
+    console.print(f"[green]wrote[/] {path.relative_to(get_settings().data_dir.parent)}")
+
+
 @app.command(name="ingest")
 def ingest_cmd() -> None:
     """Inventory source documents under data/documents."""
