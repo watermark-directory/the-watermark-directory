@@ -207,6 +207,16 @@ def output_dir_for_command(command: str, *, settings: Settings | None = None) ->
     or the entries span more than one collection (ambiguous), so a caller keeps its own default.
     This is what lets the regeneration commands derive their ``--out`` from the catalog (#630)
     instead of hardcoding the path in a third place.
+
+    **Applies only to basin-shared, single-collection commands** (the wired set: ``npdes``,
+    ``rsei``, ``gleif``, ``usaspending``, ``interchange``). It is deliberately **not** used to
+    drive the output of *per-site* commands (#658): the slug-scoped writers (``eia``, ``grid``,
+    ``economics``) persist through the active ``SiteProfile`` relpath, and the per-jurisdiction
+    GIS writers (``parcels``, ``zoning``, ``floodzone``) persist through the per-site GIS
+    ``schema.reference_dir`` / URLs. Those paths carry the site/jurisdiction the collection dir
+    alone can't, so the ``SiteProfile`` stays their single source of truth — collapsing them to
+    one catalog dir would pin Lima's path for every site. (``zoning``/``floodzone`` already
+    resolve to ``None`` here, since their entries span multiple jurisdiction dirs.)
     """
     settings = settings or get_settings()
     dirs: set[str] = set()

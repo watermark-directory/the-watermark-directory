@@ -322,9 +322,21 @@ def _reference_path(reference_dir: Path) -> Path:
 
 
 def write_ba_interchange(interchange: BAInterchange, *, settings: Settings | None = None) -> str:
-    """Persist the BA interchange slice as committed reference YAML; return the path."""
+    """Persist the BA interchange slice as committed reference YAML; return the path.
+
+    The output collection dir is derived from the catalog (``output_dir_for_command``, #630/#658) —
+    ``interchange`` is a basin-shared, single-collection command, so its dir resolves cleanly —
+    falling back to the historical ``reference/eia`` literal. (The per-site ``eia``/``grid``
+    commands are *not* wired this way: they write via the ``SiteProfile`` relpath, which carries
+    the ``{site}`` segment a single collection dir can't — see ``output_dir_for_command``.)
+    """
+    from bosc.catalog import output_dir_for_command
+
     settings = settings or get_settings()
-    path = _reference_path(settings.reference_dir)
+    base = (
+        output_dir_for_command("interchange", settings=settings) or settings.reference_dir / "eia"
+    )
+    path = base / "ba-interchange.yaml"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
         yaml.safe_dump(interchange.model_dump(), sort_keys=False, allow_unicode=True),
