@@ -578,6 +578,36 @@ def catalog_producer_check_cmd(
     raise typer.Exit(1)
 
 
+@catalog_app.command("audit")
+def catalog_audit_cmd(
+    apply: bool = typer.Option(
+        False, "--apply", help="Write data/catalog/COMPLETENESS.md (default: dry-run summary)."
+    ),
+) -> None:
+    """Generate the corpus completeness integrity audit from the catalog + reconcile snapshot.
+
+    The automated half of the corpus-completeness audit: existence + freshness for every
+    catalogued dataset, rendered to data/catalog/COMPLETENESS.md (the substantive "what was
+    withheld" half stays human-authored). Reads the committed snapshot, so it's content-stable;
+    `bosc catalog check` gates the committed report's drift.
+    """
+    from bosc.catalog_audit import build_audit, write_audit
+
+    report = build_audit()
+    console.print(
+        f"[bold]{report.total}[/] datasets — [green]{report.present}[/] fresh · "
+        f"[yellow]{report.stale}[/] stale · [red]{report.missing}[/] missing · "
+        f"{report.unmaterialized} LFS-pointer · {report.unobserved} unobserved "
+        f"(snapshot {report.reconciled_at or 'none'})"
+    )
+    if apply:
+        relpath, changed = write_audit()
+        state = "[green]written[/]" if changed else "[dim]unchanged[/]"
+        console.print(f"{state}  data/{relpath}")
+    else:
+        console.print("[dim]dry-run — use --apply to write data/catalog/COMPLETENESS.md[/]")
+
+
 @app.command(name="ingest")
 def ingest_cmd() -> None:
     """Inventory source documents under data/documents."""
