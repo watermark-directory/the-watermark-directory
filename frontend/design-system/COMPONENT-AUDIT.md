@@ -387,3 +387,18 @@ longer exists; brought to the shipped IA (`src/lib/nav.ts`, authoritative): netw
 `The site · The record · The watershed` → **`The site▾ (mega) · The story · The record`**;
 and **Submit moved off the left tabs to a right-cluster `+` pill** on both tiers (watershed +
 economy now fold into the "The site" mega rather than standing as tabs).
+
+### Batch 2 — concrete component vocab (2026-06-24) ✅ pushed
+The surgical, clearly-correct vocabulary the impls carry that the specs lacked — each a
+discrete addition, no structural rewrite:
+- **EvidenceTag** — added the **`filename`** kind (a source-file reference; the muted `open`
+  palette, name passed via `label`), so the spec covers the repo's full six-kind taxonomy.
+- **Icon** — added the **`ask`** glyph (the speech-bubble "conversational front door" / Ask
+  topbar affordance) to `STROKE` + `ICON_NAMES` + the icon card's Navigation row.
+- **LineChart** — added **`refs`**: dashed horizontal threshold lines (a disclosed cap, a
+  design low flow, a target), clamped to the scale with a right-aligned label.
+- **BulletBar** — added a typed **`evidence` + `evidenceNote`** register per row (colored from
+  the evidence palette), preferred over the raw `note`/`noteColor`.
+- **LeadCard** — renamed the 4th confidence **`rumored` → `review`** ("Under review") to match
+  `lib/leads.ts` `LeadStatus`; also updated the two consumers that passed it (`SiteHome`,
+  `LeadsBoard` sample data) so the enum stays consistent.

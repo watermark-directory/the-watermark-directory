@@ -23,6 +23,8 @@ const STROKE = {
   notify: <><path d="M12 4 V5.6" /><path d="M7 16.5 V11 a5 5 0 0 1 10 0 V16.5" /><line x1="5" y1="16.5" x2="19" y2="16.5" /><path d="M9.8 19.4 a2.3 2.3 0 0 0 4.4 0" /></>,
   locked: <><rect x="5" y="10.5" width="14" height="9.5" rx="2" /><path d="M8 10.5 V8 a4 4 0 0 1 8 0 V10.5" /><circle cx="12" cy="14.5" r="1.25" /><line x1="12" y1="15.5" x2="12" y2="17.2" /></>,
   secure: <><path d="M12 3.5 L19 6 V11.4 C19 16 15.8 19.1 12 20.5 C8.2 19.1 5 16 5 11.4 V6 Z" /><path d="M9 12 L11.2 14.2 L15.2 9.9" /></>,
+  // the conversational front door — the Ask topbar affordance
+  ask: <path d="M4 6.5 A2.2 2.2 0 0 1 6.2 4.3 H17.8 A2.2 2.2 0 0 1 20 6.5 V13 A2.2 2.2 0 0 1 17.8 15.2 H9.5 L5.5 18.7 V15.2 A2.2 2.2 0 0 1 4 13 Z" />,
   // --- records & sources ---
   document: <><path d="M6 3 H14 L19 8 V21 H6 Z" /><path d="M14 3 V8 H19" /><line x1="9" y1="13" x2="16" y2="13" /><line x1="9" y1="16.5" x2="16" y2="16.5" /></>,
   scan: <><path d="M5 8.5 V5 H8.5" /><path d="M15.5 5 H19 V8.5" /><path d="M19 15.5 V19 H15.5" /><path d="M8.5 19 H5 V15.5" /><line x1="4" y1="12" x2="20" y2="12" /></>,

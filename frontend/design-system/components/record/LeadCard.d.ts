@@ -4,7 +4,7 @@ export interface LeadCardProps {
   /** Lead type — shown as a mono tag. e.g. "Signal", "Open question", "Redaction", "Claim". */
   kind?: string;
   /** Confidence / standing of the lead. */
-  confidence?: "low" | "unanswered" | "withheld" | "rumored";
+  confidence?: "low" | "unanswered" | "withheld" | "review";
   title?: string;
   detail?: string;
   /** Provenance / where it came from. */

@@ -4,7 +4,7 @@ const CONF = {
   low:        { label: "Low confidence", fg: "var(--ev-inference-fg)", bg: "var(--ev-inference-bg)", rail: "var(--ev-inference-fg)" },
   unanswered: { label: "Unanswered",     fg: "var(--forest)",          bg: "var(--forest-tint)",     rail: "var(--forest)" },
   withheld:   { label: "Withheld",       fg: "var(--ev-open-fg)",      bg: "var(--ev-open-bg)",      rail: "var(--ink-faint)" },
-  rumored:    { label: "Rumored",        fg: "var(--ev-inference-fg)", bg: "var(--ev-inference-bg)", rail: "var(--ev-inference-fg)" },
+  review:     { label: "Under review",   fg: "var(--ev-inference-fg)", bg: "var(--ev-inference-bg)", rail: "var(--ev-inference-fg)" },
 };
 
 /**

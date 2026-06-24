@@ -4,7 +4,7 @@ import * as React from "react";
 export type IconName =
   // navigation & chrome
   | "search" | "menu" | "home" | "chevron" | "dropdown" | "arrow"
-  | "verify-link" | "close" | "email" | "notify" | "locked" | "secure"
+  | "verify-link" | "close" | "email" | "notify" | "locked" | "secure" | "ask"
   // records & sources
   | "document" | "scan" | "corpus" | "archive" | "citation" | "link" | "pages" | "repo"
   // entities & places

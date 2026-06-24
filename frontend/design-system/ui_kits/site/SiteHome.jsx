@@ -17,7 +17,7 @@ function SiteHome({ phase = "live", onOpenRecord, onOpenLeads }) {
     { kind: "Open question", confidence: "unanswered", title: "Who is behind the Parcel 7 buyer?", detail: "The deed names a trust with no public principals. Anyone recognize the agent?", source: "Auditor · 0008300", action: "Answer this", count: "open thread" },
     { kind: "Redaction", confidence: "withheld", title: "Land price — withheld", detail: "The transfer shows the sale, but the consideration field is blank. Have the auditor card?", source: "Transfer · 2025", action: "Fill the gap", count: "2 looking" },
     { kind: "Signal", confidence: "low", title: "A Delaware LLC quietly assembled four parcels", detail: "Same registered agent as two known data-center shells. Not yet tied to an operator.", source: "OH Sec. of State · 2025", action: "Help confirm", count: "3 on this" },
-    { kind: "Claim", confidence: "rumored", title: "A 200 MW substation upgrade is planned", detail: "Heard at a zoning meeting; no filing found yet. Corroborate with a document?", source: "Public comment", action: "Corroborate", count: "1 corroboration" },
+    { kind: "Claim", confidence: "review", title: "A 200 MW substation upgrade is planned", detail: "Heard at a zoning meeting; no filing found yet. Corroborate with a document?", source: "Public comment", action: "Corroborate", count: "1 corroboration" },
   ];
 
   return (
