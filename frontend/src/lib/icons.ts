@@ -24,6 +24,7 @@ export const ICONS: Record<string, IconDef> = {
     body: '<path d="M4 11 L12 4 L20 11"/><path d="M6 9.7 V20 H18 V9.7"/><path d="M10 20 V14 H14 V20"/>',
   },
   chevron: { body: '<path d="M9 5 L16 12 L9 19"/>' },
+  dropdown: { body: '<path d="M7 10 L12 15 L17 10"/>' },
   arrow: { body: '<line x1="3.5" y1="12" x2="20" y2="12"/><path d="M13.5 5.5 L20 12 L13.5 18.5"/>' },
   external: {
     body: '<path d="M13 4 H20 V11"/><line x1="20" y1="4" x2="11" y2="13"/><path d="M18 13.5 V20 H4 V6 H10.5"/>',
