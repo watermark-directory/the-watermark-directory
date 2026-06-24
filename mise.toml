@@ -61,12 +61,13 @@ description = "Run the bosc CLI — pass args after `--`, e.g. `mise run dev -- 
 run = "uv run bosc"
 
 [tasks.check]
-description = "Backend gate: ruff lint + format-check + Markdown lint + mypy + pytest"
+description = "Backend gate: ruff + format-check + Markdown lint + mypy + catalog gate + pytest"
 run = [
   "uv run ruff check .",
   "uv run ruff format --check .",
   "node_modules/.bin/markdownlint-cli2",   # repo-wide Markdown (config: .markdownlint-cli2.yaml)
   "uv run mypy",
+  "uv run bosc catalog check",   # data-catalog gate: schema · missing · orphan · drift (#631)
   "uv run pytest -n auto",   # pytest-xdist: parallelize across cores (override with `-n0` to debug)
 ]
 

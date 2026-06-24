@@ -413,6 +413,35 @@ def catalog_reconcile_cmd(
     console.print(f"[green]wrote[/] {path.relative_to(get_settings().data_dir.parent)}")
 
 
+@catalog_app.command("check")
+def catalog_check_cmd(
+    strict: bool = typer.Option(
+        False, "--strict", help="Promote staleness from a warning to a failure."
+    ),
+) -> None:
+    """Validate the catalog + gate on drift (schema · missing · orphan · stale · checksum).
+
+    The CI-enforced successor to the manual corpus-completeness audit. Exits non-zero on any
+    error finding; warnings (unmaterialized LFS, staleness without --strict) print but pass.
+    """
+    from bosc.catalog_check import check, errors
+
+    findings = check(strict=strict)
+    if not findings:
+        console.print("[green]catalog: clean[/] — no findings.")
+        return
+    table = Table("severity", "kind", "subject", "detail")
+    for f in findings:
+        color = "red" if f.severity == "error" else "yellow"
+        table.add_row(f"[{color}]{f.severity}[/]", f.kind, f.subject, f.detail)
+    console.print(table)
+    errs = errors(findings)
+    n_err, n_warn = len(errs), len(findings) - len(errs)
+    console.print(f"\n[red]{n_err} error(s)[/] · [yellow]{n_warn} warning(s)[/]")
+    if errs:
+        raise typer.Exit(1)
+
+
 @app.command(name="ingest")
 def ingest_cmd() -> None:
     """Inventory source documents under data/documents."""

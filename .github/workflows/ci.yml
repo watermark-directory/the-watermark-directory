@@ -97,6 +97,12 @@ jobs:
       - name: Type check
         run: uv run mypy
 
+      # Data-catalog gate (#631): schema · missing · orphan · checksum drift. Hermetic and
+      # LFS-aware — the runner checks out without LFS bytes, so unmaterialized pointers are
+      # an informational note, never a failure.
+      - name: Catalog check
+        run: uv run bosc catalog check
+
       - name: Test
         run: uv run pytest -n auto   # pytest-xdist: parallelize across the runner's cores
 
