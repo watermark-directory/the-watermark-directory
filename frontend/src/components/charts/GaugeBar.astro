@@ -1,0 +1,67 @@
+---
+/**
+ * Gauge bar (DesignSync · hydrology chart set) — a single figure against a permitted
+ * cap. The fill runs amber to the cap; anything past it is the oxblood overage, with an
+ * ink cap mark. The headline % turns oxblood once the cap is exceeded. SSR, no JS —
+ * a div-based bar (the spec is plain HTML/CSS, no SVG). Forest is data, amber is the
+ * modeled measure, oxblood is the breach.
+ */
+interface Props {
+  /** The measured / projected value. */
+  value: number;
+  /** The permitted cap (the constraint). */
+  cap: number;
+  /** Scale ceiling; defaults just past max(value, cap). */
+  max?: number;
+  unit?: string;
+  /** Sits beside the headline percentage. */
+  label?: string;
+  kicker?: string;
+  title: string;
+  showPercent?: boolean;
+}
+const {
+  value,
+  cap,
+  max,
+  unit = "",
+  label,
+  kicker = "Gauge · against the cap",
+  title,
+  showPercent = true,
+} = Astro.props;
+
+const ceiling = max ?? Math.max(value, cap) * 1.04;
+const pct = (v: number): number => Math.max(0, Math.min(100, (v / ceiling) * 100));
+const over = value > cap;
+const capPct = pct(cap);
+const fillPct = pct(Math.min(value, cap));
+const overPct = over ? pct(value) - capPct : 0;
+const percent = Math.round((value / cap) * 100);
+const fmt = (v: number): string => (v >= 1000 ? v.toLocaleString() : String(Math.round(v * 10) / 10));
+---
+
+<figure class="chart-card">
+  <div class="chart-head">
+    <span class="chart-kicker">{kicker}</span>
+    <span class="chart-title">{title}</span>
+  </div>
+  {
+    showPercent && (
+      <div class="chart-gauge-headline">
+        <span class:list={["chart-gauge-pct", over && "is-over"]}>{percent}%</span>
+        {label && <span class="chart-gauge-label">{label}</span>}
+      </div>
+    )
+  }
+  <div class="chart-gauge-track">
+    <div class="chart-gauge-fill" style={`width:${fillPct}%`}></div>
+    {over && <div class="chart-gauge-over" style={`left:${capPct}%; width:${overPct}%`} />}
+    <div class="chart-gauge-cap" style={`left:${capPct}%`}></div>
+  </div>
+  <div class="chart-gauge-scale">
+    <span>0</span>
+    <span class="chart-gauge-capval">cap · {fmt(cap)}{unit && ` ${unit}`}</span>
+    <span>{fmt(Math.round(ceiling))}</span>
+  </div>
+</figure>

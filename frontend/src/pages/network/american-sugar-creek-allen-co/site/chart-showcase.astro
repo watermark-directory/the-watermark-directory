@@ -12,6 +12,8 @@ import LineChart from "../../../../components/charts/LineChart.astro";
 import RankedBarChart from "../../../../components/charts/RankedBarChart.astro";
 import Sparkline from "../../../../components/charts/Sparkline.astro";
 import StackedBar from "../../../../components/charts/StackedBar.astro";
+import Waterfall from "../../../../components/charts/Waterfall.astro";
+import GaugeBar from "../../../../components/charts/GaugeBar.astro";
 import Base from "../../../../layouts/Base.astro";
 import { withBase } from "../../../../lib/site";
 ---
@@ -139,6 +141,25 @@ import { withBase } from "../../../../lib/site";
           <span class="chart-sparkrow-val">209</span>
         </div>
       </figure>
+    </div>
+
+    <div class="chart-grid">
+      <Waterfall
+        title="Intake minus what returns · cfs"
+        steps={[
+          { label: "intake", value: 7.0, kind: "base" },
+          { label: "returned", value: 2.15, kind: "down" },
+          { label: "consumed", value: 4.85, kind: "result" },
+        ]}
+        note="Reads as an equation — the amber bar is the irreversible loss."
+      />
+      <GaugeBar
+        title="Year-end against the cap"
+        value={3470}
+        cap={3200}
+        unit="af"
+        label="of the annual permit cap"
+      />
     </div>
 
     <p class="chart-caption" style="margin-top:1.4rem;">
