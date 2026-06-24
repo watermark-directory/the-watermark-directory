@@ -7,10 +7,16 @@
    figure. (Replaces the v0 Material-derived indigo chrome.) */
 
 /* Design-system tokens (DesignSync — frontend/design-system/, mirrored from the Watermark
-   Design System project). The --bosc-* names below alias these, so the design system drives
-   the palette; the values are identical, so this is visually a no-op. Fonts still load via the
-   <link> in the layout, so only colors are imported here. See design-system/DESIGNSYNC.md. */
+   Design System project). The --bosc-* names below alias the COLOR tokens, so the design
+   system drives the palette (values identical → visually a no-op). The TYPE + SPACING tokens
+   (--font-*, --fs-*, --sp-*, --pad-*, --bw-*, --ease/--dur/--lift, --ring-focus, …) are
+   imported so they're available to adopt incrementally — but the site has DIVERGED from them
+   (its own inline rem/px sizes; transitions at 0.12s ease, not the DS 0.15s cubic-bezier), so
+   they are NOT force-applied. See design-system/DESIGNSYNC.md → "Type & spacing". Fonts load
+   via the layout <link>, so fonts.css is deliberately NOT imported (no double-load). */
 @import url("../../design-system/tokens/colors.css");
+@import url("../../design-system/tokens/typography.css");
+@import url("../../design-system/tokens/spacing.css");
 
 :root {
   /* The forest signal — the one accent, referenced ~130× across this sheet.
@@ -175,7 +181,7 @@ a { color: var(--bosc-link); }
 .site-switcher[open] .chip-caret { transform: rotate(180deg); }
 .site-switcher[open] .site-chip {
   border-color: rgba(150, 200, 170, 0.55);
-  box-shadow: 0 0 0 2px rgba(31, 111, 74, 0.3) !important;
+  box-shadow: var(--ring-focus) !important; /* DS token — 0 0 0 2px rgba(31,111,74,.30) */
 }
 
 /* ---- Logo mark + icon set (design-system extension) ---- */
@@ -1038,7 +1044,7 @@ a { color: var(--bosc-link); }
 .leads-cta-h { font-size: 1.1rem; font-weight: 800; margin: 0.3rem 0 0.45rem; }
 .leads-cta-p { font-size: 0.82rem; color: #bcd2c4; line-height: 1.5; margin: 0 0 0.9rem; }
 .leads-cta-btn { display: inline-flex; align-items: center; background: var(--bosc-bg); color: var(--bosc-ink); font-weight: 800; font-size: 0.85rem; padding: 0.6rem 1rem; text-decoration: none; transition: transform 0.12s; }
-.leads-cta-btn:hover { transform: translateY(-2px); }
+.leads-cta-btn:hover { transform: var(--lift); } /* DS token --lift = translateY(-2px) */
 .leads-rail-kicker { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--bosc-faint); font-weight: 700; }
 .leads-rail-kicker--forest { color: var(--bosc-forest); }
 .leads-lifecycle { background: var(--bosc-bg); border: 1px solid var(--bosc-rule); padding: 1.1rem 1.2rem; }
