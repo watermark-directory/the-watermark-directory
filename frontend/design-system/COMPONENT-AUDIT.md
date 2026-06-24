@@ -402,3 +402,14 @@ discrete addition, no structural rewrite:
 - **LeadCard** — renamed the 4th confidence **`rumored` → `review`** ("Under review") to match
   `lib/leads.ts` `LeadStatus`; also updated the two consumers that passed it (`SiteHome`,
   `LeadsBoard` sample data) so the enum stays consistent.
+
+### Batch 3 (curated) — SiteSelector (2026-06-24) ✅ pushed
+`ui_kits/directory/SiteSelector.jsx`. The one remaining **concretely-stale** comp — the other
+`push impl→spec` page comps are "the comp is a simpler reference of a *richer* shipped page" and
+were left as references (the user's call: fix what's misleading, preserve the rest). Brought the
+selector up to the shipped switcher (`Header.astro` + `SwitcherRow.astro` + `lib/sites.ts`): a
+**State⇄Basin group-by toggle** (Basin default), **region bands** in the basin lens (Maumee Basin /
+The Two Miamis / Southeastern / Northeast), and a per-row **facility lifecycle clock** (a separate
+clock from the build phase) + **tracking issue `#NNN`**, with the **lock** affordance in the foot
+legend. **The push stops here** — batches 1–3 closed the concrete + clearly-stale tier; the richer
+page-comp pushes are documented above but intentionally not made.
