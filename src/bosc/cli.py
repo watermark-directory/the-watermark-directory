@@ -413,6 +413,35 @@ def catalog_reconcile_cmd(
     console.print(f"[green]wrote[/] {path.relative_to(get_settings().data_dir.parent)}")
 
 
+@catalog_app.command("render")
+def catalog_render_cmd(
+    only: str = typer.Option("", "--only", help="Restrict to one reference collection."),
+    apply: bool = typer.Option(
+        False, "--apply", help="Write the READMEs (default: dry-run, show what would change)."
+    ),
+) -> None:
+    """Generate the data/reference/<collection>/README.md facts block from the catalog.
+
+    Additive + prose-preserving: injects a marker-delimited generated block (files, regen
+    command, source, license, access tier, refresh) and leaves all other prose untouched. A
+    collection opts in the first time it is rendered; `bosc catalog check` then gates its drift.
+    """
+    from bosc.catalog_render import render
+
+    actions = render(only=only or None, apply=apply)
+    colors = {"added": "green", "updated": "yellow", "unchanged": "dim", "no-readme": "red"}
+    table = Table("action", "collection", "readme")
+    for a in actions:
+        table.add_row(f"[{colors[a.action]}]{a.action}[/]", a.collection, a.relpath)
+    console.print(table)
+    counts: dict[str, int] = {}
+    for a in actions:
+        counts[a.action] = counts.get(a.action, 0) + 1
+    summary = " · ".join(f"{k}: {v}" for k, v in sorted(counts.items()))
+    mode = "[green]applied[/]" if apply else "[dim]dry-run (use --apply to write)[/]"
+    console.print(f"\n{summary}  —  {mode}")
+
+
 @catalog_app.command("check")
 def catalog_check_cmd(
     strict: bool = typer.Option(
