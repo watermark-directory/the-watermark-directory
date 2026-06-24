@@ -1,0 +1,4 @@
+/* Watermark webfonts — Archivo (prose & display) + IBM Plex Mono (figures, provenance).
+   Both are Google Fonts; pulled via @import so consumers who link styles.css get them
+   with no extra setup. Swap for self-hosted @font-face if offline use is required. */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');

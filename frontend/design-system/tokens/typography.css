@@ -1,0 +1,55 @@
+/* ============================================================
+   Watermark — TYPOGRAPHY TOKENS
+   Archivo carries all prose & display. IBM Plex Mono carries
+   EVERY load-bearing figure, eyebrow, code, and provenance line.
+   The split is doctrinal: if it's a number that matters or a
+   citation, it's mono. If it's language, it's Archivo.
+   ============================================================ */
+:root {
+  /* --- families --- */
+  --font-sans: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* aliases by role */
+  --font-display: var(--font-sans); /* headlines, chapter titles */
+  --font-body:    var(--font-sans); /* prose */
+  --font-figure:  var(--font-mono); /* numbers, stats, IDs */
+  --font-eyebrow: var(--font-mono); /* uppercase part labels */
+  --font-code:    var(--font-mono);
+
+  /* --- weights --- */
+  --fw-regular:  400; /* @kind font */
+  --fw-medium:   500; /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+  --fw-bold:     700; /* @kind font */
+  --fw-extra:    800; /* @kind font */
+  --fw-black:    900; /* @kind font */
+
+  /* --- type scale (px) --- */
+  --fs-hero:    52px; /* directory hero */
+  --fs-display: 40px; /* page H1 / brand */
+  --fs-title:   36px; /* site hero headline */
+  --fs-h2:      24px;
+  --fs-h3:      20px; /* record / section heading */
+  --fs-lg:      18px;
+  --fs-body:    16px; /* default prose */
+  --fs-sm:      14px;
+  --fs-meta:    13px;
+  --fs-caption: 12px;
+  --fs-micro:   11px; /* eyebrow / provenance */
+  --fs-nano:    10px; /* badge / tag micro-label */
+
+  /* --- line heights --- */
+  --lh-tight:  1.04; /* @kind font */
+  --lh-snug:   1.25; /* @kind font */
+  --lh-body:   1.55; /* @kind font */
+  --lh-loose:  1.7;  /* @kind font */
+
+  /* --- letter spacing --- */
+  --ls-display: -1px;    /* @kind font */
+  --ls-hero:    -2px;    /* @kind font */
+  --ls-heading: -0.3px;  /* @kind font */
+  --ls-eyebrow: 1.6px;   /* @kind font */
+  --ls-label:   1px;     /* @kind font */
+  --ls-figure:  -1px;    /* @kind font */
+}

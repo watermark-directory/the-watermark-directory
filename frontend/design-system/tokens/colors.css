@@ -1,0 +1,78 @@
+/* ============================================================
+   Watermark — COLOR TOKENS
+   Ink, bone & one forest signal. One signal carries status;
+   the evidence grammar (verified / inference / open / scope-gap)
+   carries meaning. Square, flat, no elevation — see spacing.css.
+   ============================================================ */
+:root {
+  /* --- Bone (paper) --- */
+  --bone-page:    #e9e6dc; /* the page field behind every surface */
+  --bone-surface: #f5f2ea; /* the default panel / card surface */
+  --bone-raised:  #faf8f1; /* a surface sitting on a surface (rail wells) */
+  --bone-sunk:    #efece2; /* footers, provenance strips, icon wells */
+  --bone-band:    #ece8dc; /* zebra row / faint band */
+
+  /* --- Ink (text + frame) --- */
+  --ink:        #16201a; /* primary ink: headlines, frame rules, solid buttons */
+  --ink-prose:  #3a4036; /* long-form body prose */
+  --ink-muted:  #566159; /* secondary text, labels, ghost-button ink */
+  --ink-faint:  #8c9389; /* tertiary: captions, units, provenance meta */
+  --ink-ghost:  #a8a596; /* quietest: row indices, disabled chevrons */
+
+  /* --- Forest (the one signal) --- */
+  --forest:        #1f6f4a; /* primary signal: live, verified, links, accent rail */
+  --forest-bright: #3d8f63; /* the wordmark's green period; brighter accents */
+  --forest-on-ink: #7fb89a; /* forest legible on the ink bar */
+  --forest-tint:   #e4ece4; /* verified / forest-chip fill */
+  --forest-line:   #bcd2c4; /* verified / forest-chip border */
+
+  /* --- Hairlines & rules (depth without shadow) --- */
+  --line-hair:  #dcd8cc; /* 1px hairline, divides within a panel */
+  --line-2:     #cdc8b8; /* slightly stronger hairline (chips, sunk borders) */
+  --line-faint: #ece7db; /* faintest divider, field rows */
+  --rule-ink:   #16201a; /* 2px ink rule frames a panel / marks active edge */
+
+  /* ---------- SEMANTIC · the evidence grammar ---------- */
+  /* verified — a figure backed by a cited source */
+  --ev-verified-fg:     #1f6f4a;
+  --ev-verified-bg:     #e4ece4;
+  --ev-verified-border: #bcd2c4;
+  /* inference — modeled / derived, labeled as such */
+  --ev-inference-fg:     #9a6a14;
+  --ev-inference-bg:     #efe6d0;
+  --ev-inference-border: #dcc98a;
+  /* open — an unverified lead / open question */
+  --ev-open-fg:     #566159;
+  --ev-open-bg:     #e8e4d8;
+  --ev-open-border: #cdc8b8;
+  /* scope gap / redaction / warning — oxblood */
+  --ev-gap-fg:     #7a2230;
+  --ev-gap-bg:     #f3e6e2;
+  --ev-gap-border: #d8b8b2;
+  /* key figure — the highlighted load-bearing number */
+  --ev-key-fg:     #6a5524;
+  --ev-key-bg:     #f3e7c4;
+  --ev-key-border: #dcc98a;
+
+  /* ---------- SEMANTIC ALIASES (use these in components) ---------- */
+  --bg-page:        var(--bone-page);
+  --surface-card:   var(--bone-surface);
+  --surface-sunk:   var(--bone-sunk);
+  --text-strong:    var(--ink);
+  --text-body:      var(--ink-prose);
+  --text-muted:     var(--ink-muted);
+  --text-faint:     var(--ink-faint);
+  --signal:         var(--forest);
+  --link:           var(--forest);
+  --border-card:    var(--line-hair);
+  --border-strong:  var(--rule-ink);
+  --accent-rail:    var(--forest);
+
+  /* on the ink bar (global chrome) */
+  --bar-bg:        var(--ink);
+  --bar-fg:        var(--bone-surface);
+  --bar-fg-dim:    var(--forest-line);
+  --bar-divider:   rgba(255,255,255,0.20);
+  --bar-chip-bg:   rgba(255,255,255,0.16);
+  --bar-chip-line: rgba(255,255,255,0.26);
+}
