@@ -1112,6 +1112,8 @@ a { color: var(--bosc-link); }
 .evidence-inference { color: var(--bosc-inference); background: var(--td-inference-bg); }
 .evidence-open { color: var(--bosc-open); background: #ece8dc; }
 .evidence-filename { color: var(--bosc-filename); background: #ece8dc; }
+.evidence-gap { color: var(--ev-gap-fg); background: var(--ev-gap-bg); }
+.evidence-key { color: var(--ev-key-fg); background: var(--ev-key-bg); }
 
 /* ---- Cards / lists used across sections B–D ---- */
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--sp-3); margin: 1rem 0; }

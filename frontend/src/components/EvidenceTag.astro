@@ -2,11 +2,18 @@
 // Evidence-discipline badge — the corpus marks confidence inline as
 // [verified] / [inference] / [open] / [filename]; this tints them so a reader
 // sees the provenance at a glance. Pair with a Citation via `evidenceKind()`.
-export type EvidenceKind = "verified" | "inference" | "open" | "filename";
+// `gap` (scope gap, oxblood) and `key` (key figure) complete the design-system
+// evidence taxonomy (DesignSync). NB vs the spec: the [bracket] notation is the
+// repo's load-bearing convention (kept, not the spec's bracket-less default), and
+// the tag sizes with its context via `em` rather than the spec's fixed sm/md px.
+export type EvidenceKind = "verified" | "inference" | "open" | "filename" | "gap" | "key";
+
+/** Kinds whose printed label differs from the kind name (design-system labels). */
+const LABELS: Partial<Record<EvidenceKind, string>> = { gap: "scope gap", key: "key figure" };
 
 interface Props {
   kind: EvidenceKind;
-  /** Override label text; defaults to the kind. */
+  /** Override label text; defaults to the kind's label. */
   label?: string;
   /** Tooltip (e.g. the source or note). */
   title?: string;
@@ -15,5 +22,5 @@ const { kind, label, title } = Astro.props;
 ---
 
 <span class:list={["evidence", `evidence-${kind}`]} title={title} data-kind={kind}>
-  <span class="evidence-dot" aria-hidden="true"></span>[{label ?? kind}]
+  <span class="evidence-dot" aria-hidden="true"></span>[{label ?? LABELS[kind] ?? kind}]
 </span>
