@@ -28,7 +28,7 @@
 <script type="text/babel" src="SubmitLead.jsx"></script>
 <script type="text/babel">
 function App() {
-  const [tab, setTab] = React.useState("report");
+  const [tab, setTab] = React.useState("directory");
   const [selOpen, setSelOpen] = React.useState(false);
   const goSite = () => { window.location.href = "../site/index.html"; };
   return (
@@ -37,7 +37,7 @@ function App() {
       <div className="frame">
         <window.DirectoryChrome
           active={tab}
-          onNav={(k) => { if (k === "report" || k === "hypotheses" || k === "submit") setTab(k); }}
+          onNav={(k) => { if (k === "directory" || k === "research" || k === "submit") setTab(k); }}
           onToggleSelector={() => setSelOpen((v) => !v)}
           selectorOpen={selOpen}
         />
@@ -46,7 +46,7 @@ function App() {
             <window.SiteSelector active="" onPick={() => { setSelOpen(false); goSite(); }} />
           </div>
         ) : null}
-        {tab === "report" ? <window.DirectoryHome onEnterSite={goSite} /> : tab === "hypotheses" ? <window.Hypotheses /> : <window.SubmitLead />}
+        {tab === "directory" ? <window.DirectoryHome onEnterSite={goSite} /> : tab === "research" ? <window.Hypotheses /> : <window.SubmitLead />}
       </div>
     </div>
   );

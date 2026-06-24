@@ -36,7 +36,7 @@ function App() {
   const [screen, setScreen] = React.useState("home"); // home | record | leads
   const [phase, setPhase] = React.useState("live");   // live | investigation
   const [selOpen, setSelOpen] = React.useState(false);
-  const tierActive = screen === "record" || screen === "profile" ? "record" : screen === "watershed" ? "watershed" : "site";
+  const tierActive = screen === "record" || screen === "profile" ? "record" : "site";
   return (
     <div className="page">
       <div className="toolbar">
@@ -54,7 +54,7 @@ function App() {
           active={tierActive}
           phaseLabel={phase === "live" ? "Live" : "Building · 14%"}
           phaseLive={phase === "live"}
-          onNav={(k) => { if (k === "network") window.location.href = "../directory/index.html"; else if (k === "site") setScreen("home"); else if (k === "record") setScreen("record"); else if (k === "watershed") setScreen("watershed"); }}
+          onNav={(k) => { if (k === "network") window.location.href = "../directory/index.html"; else if (k === "site") setScreen("home"); else if (k === "record") setScreen("record"); }}
           onToggleSelector={() => setSelOpen((v) => !v)}
           selectorOpen={selOpen}
         />
