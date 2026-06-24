@@ -370,3 +370,20 @@ Substantive drift: the **spec auto-colors semantic evidence icons** (in-componen
 - **Dead-source hygiene (optional, low priority):** the radius/shadow/round-dot declarations the
   flatten layer overrides could be removed so the source matches intent — but it's invisible and
   out of scope for reconciliation.
+
+---
+
+## DesignSync push log (Stage 2, Wave 3 — `impl→spec`)
+
+The `push impl→spec` items round-trip upstream to the Watermark project in reviewable
+batches (the DesignSync "incrementally, one component at a time — never a wholesale
+replace" discipline). Each batch: edit the mirror spec → `finalize_plan` → `write_files`.
+
+### Batch 1 — the stale chrome (2026-06-24) ✅ pushed
+`ui_kits/directory/NetworkChrome.jsx` · `ui_kits/site/SiteChrome.jsx` (+ both kit
+`index.html` preview harnesses). The two-tier chrome comps described navigation that no
+longer exists; brought to the shipped IA (`src/lib/nav.ts`, authoritative): network tabs
+`Report · Hypotheses · Submit · About` → **`Directory · Research · About▾`**; site tabs
+`The site · The record · The watershed` → **`The site▾ (mega) · The story · The record`**;
+and **Submit moved off the left tabs to a right-cluster `+` pill** on both tiers (watershed +
+economy now fold into the "The site" mega rather than standing as tabs).

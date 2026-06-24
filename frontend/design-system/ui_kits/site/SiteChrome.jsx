@@ -1,5 +1,6 @@
 // Watermark — site-tier chrome. Wordmark home + site chip (breadcrumb / selector opener)
-// + site tabs (The site / The record / The watershed) + live pill + platform tools.
+// + site tabs (The site▾ mega / The story / The record) + live pill + a Submit "+" pill
+// + platform tools. The watershed + economy fold into the "The site" mega, not standalone tabs.
 function SIcon({ d, size = 14, stroke = "#bcd2c4", fill = "none", sw = 1.8, children }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} fill={fill} stroke={stroke} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round">
@@ -9,10 +10,10 @@ function SIcon({ d, size = 14, stroke = "#bcd2c4", fill = "none", sw = 1.8, chil
 }
 
 function SiteChrome({ active = "record", site = "Lima", codename = "BOSC", phaseLabel = "Live", phaseLive = true, onNav, onToggleSelector, selectorOpen }) {
-  const tab = (key, label) => {
+  const tab = (key, label, isMega) => {
     const on = active === key;
     return (
-      <span key={key} onClick={() => onNav && onNav(key)} style={{ color: on ? "#f5f2ea" : "#bcd2c4", fontSize: 14, fontWeight: on ? 600 : 400, padding: "0 13px", height: "100%", display: "flex", alignItems: "center", cursor: "pointer", boxShadow: on ? "inset 0 -3px 0 #f5f2ea" : "none" }}>{label}</span>
+      <span key={key} onClick={() => onNav && onNav(key)} style={{ color: on ? "#f5f2ea" : "#bcd2c4", fontSize: 14, fontWeight: on ? 600 : 400, padding: "0 13px", height: "100%", display: "flex", alignItems: "center", cursor: "pointer", boxShadow: on ? "inset 0 -3px 0 #f5f2ea" : "none" }}>{label}{isMega ? <span style={{ fontSize: 9, color: "#9aa890", marginLeft: 6 }}>▾</span> : null}</span>
     );
   };
   return (
@@ -27,9 +28,9 @@ function SiteChrome({ active = "record", site = "Lima", codename = "BOSC", phase
         <span style={{ color: "#9aa890", fontSize: 9 }}>{selectorOpen ? "▴" : "▾"}</span>
       </span>
       <span style={{ display: "flex", alignItems: "center", gap: 1, height: "100%", marginLeft: 3 }}>
-        {tab("site", "The site")}
+        {tab("site", "The site", true)}
+        {tab("story", "The story")}
         {tab("record", "The record")}
-        {tab("watershed", "The watershed")}
       </span>
       <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11.5, fontWeight: 700, color: "#f5f2ea", background: phaseLive ? "rgba(31,111,74,0.32)" : "rgba(255,255,255,0.1)", border: `1px solid ${phaseLive ? "rgba(150,200,170,0.5)" : "rgba(255,255,255,0.2)"}`, padding: "3px 10px" }}>
         <span style={{ width: 6, height: 6, background: phaseLive ? "#7fb89a" : "#9aa890" }} />{phaseLabel}
@@ -40,6 +41,10 @@ function SiteChrome({ active = "record", site = "Lima", codename = "BOSC", phase
           <span style={{ color: "#bcd2c4", fontSize: 14, padding: "0 11px", cursor: "pointer" }}>Wiki</span>
         </span>
         <span style={{ width: 1, height: 22, background: "rgba(255,255,255,0.2)" }} />
+        <span onClick={() => onNav && onNav("submit")} style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.16)", border: "1px solid rgba(255,255,255,0.26)", padding: "6px 10px", cursor: "pointer" }}>
+          <SIcon size={13} stroke="#f5f2ea" sw={2.2}><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></SIcon>
+          <span style={{ color: "#f5f2ea", fontSize: 13, fontWeight: 600 }}>Submit</span>
+        </span>
         <span style={{ display: "flex", alignItems: "center", gap: 7, background: "rgba(255,255,255,0.16)", border: "1px solid rgba(255,255,255,0.26)", padding: "6px 10px", cursor: "pointer" }}>
           <SIcon size={14} stroke="#f5f2ea" d="M4 6.5 A2.2 2.2 0 0 1 6.2 4.3 H17.8 A2.2 2.2 0 0 1 20 6.5 V13 A2.2 2.2 0 0 1 17.8 15.2 H9.5 L5.5 18.7 V15.2 A2.2 2.2 0 0 1 4 13 Z" />
           <span style={{ color: "#f5f2ea", fontSize: 13, fontWeight: 600 }}>Ask</span>
