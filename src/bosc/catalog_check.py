@@ -39,6 +39,7 @@ CheckKind = Literal[
     "orphan-file",
     "stale",
     "checksum-drift",
+    "render-drift",
     "unmaterialized",
     "no-snapshot",
 ]
@@ -155,6 +156,19 @@ def check(
 
     # 5. checksum drift — a pinned single-file entry whose observed sha ≠ its pin.
     findings.extend(_checksum_findings(entries, settings))
+
+    # 6. render drift — a README that opted into `bosc catalog render` but fell out of sync.
+    from bosc.catalog_render import render_drift
+
+    for collection, relpath in render_drift(settings=settings):
+        findings.append(
+            CheckFinding(
+                kind="render-drift",
+                severity="error",
+                subject=relpath,
+                detail=f"{collection} README out of sync — run `bosc catalog render --apply`",
+            )
+        )
 
     return findings
 
