@@ -132,6 +132,16 @@ def onboard_cmd(
     console.print("\n[bold]Review gate[/] — blocking; complete before promotion:")
     for i, item in enumerate(report.review_checklist, 1):
         console.print(f"  {i}. {item}")
+
+    from bosc.catalog_sites import readiness
+
+    r = readiness(report.slug)
+    ready = "[green]ready[/]" if r.ready else f"[yellow]{len(r.missing)} missing[/]"
+    console.print(
+        f"\n[bold]Catalog readiness[/] — {r.present}/{r.total} datasets present · {ready}"
+    )
+    if r.missing:
+        console.print(f"  [dim]still needed (catalog per-site axis):[/] {', '.join(r.missing)}")
     console.print(
         "\n[dim]onboard never promotes. When parity is reached, flip status/selectable in "
         "frontend/src/lib/sites.ts by hand (one reviewed edit).[/]"
@@ -165,6 +175,22 @@ def sites_show(
     for name in type(prof).model_fields:
         table.add_row(name, str(getattr(prof, name)))
     console.print(table)
+
+    from bosc.catalog_sites import readiness
+
+    r = readiness(slug)
+    ready = "[green]ready[/]" if r.ready else f"[yellow]{len(r.missing)} missing[/]"
+    console.print(
+        f"\n[bold]Catalog readiness[/] — {r.present}/{r.total} datasets present · {ready}"
+    )
+    if r.missing:
+        console.print(f"  [dim]missing:[/] {', '.join(r.missing)}")
+    if r.stale:
+        console.print(f"  [dim]stale:[/] {', '.join(r.stale)}")
+    console.print(
+        "  [dim](datasets derived from the catalog's per-site axis — `bosc catalog "
+        f"list --site {slug}`)[/]"
+    )
 
 
 @sites_app.command("new")
@@ -267,13 +293,32 @@ app.add_typer(catalog_app, name="catalog")
 @catalog_app.command("list")
 def catalog_list(
     scope: str = typer.Option("", "--scope", help="Filter to one scope (e.g. reference)."),
+    site: str = typer.Option("", "--site", help="View per-site existence/freshness for a slug."),
+    stale: bool = typer.Option(False, "--stale", help="Only datasets past their refresh TTL."),
+    missing: bool = typer.Option(False, "--missing", help="Only datasets absent (for the site)."),
 ) -> None:
-    """List the committed catalog entries (data/catalog/<scope>/<id>.yaml)."""
+    """List the committed catalog entries (data/catalog/<scope>/<id>.yaml).
+
+    With ``--site <slug>`` the per-site axis is resolved: each dataset's ``site_scope`` is joined
+    against that site (basin-shared + the site's slug-scoped copy) and printed with per-site
+    existence + freshness — so "what does findlay still need?" is ``--site findlay --missing``.
+    """
+    if site:
+        _catalog_list_site(site, scope=scope, stale=stale, missing=missing)
+        return
+
     from bosc.catalog import load_entries
 
-    entries = load_entries()
-    if scope:
-        entries = [e for e in entries if e.scope == scope]
+    entries = [e for e in load_entries() if not scope or e.scope == scope]
+    obs = {}
+    if stale or missing:
+        from bosc.catalog_reconcile import reconcile
+
+        obs = reconcile().entries
+    if stale:
+        entries = [e for e in entries if obs.get(e.id) and obs[e.id].stale]
+    if missing:
+        entries = [e for e in entries if obs.get(e.id) and not obs[e.id].exists]
     if not entries:
         console.print(f"[dim](no catalog entries{f' for scope {scope!r}' if scope else ''})[/]")
         return
@@ -289,6 +334,33 @@ def catalog_list(
             str(len(e.storage)),
         )
     console.print(table)
+
+
+def _catalog_list_site(site: str, *, scope: str, stale: bool, missing: bool) -> None:
+    """The ``--site`` view of ``catalog list`` — per-site existence + freshness + readiness."""
+    from bosc.catalog_sites import readiness, site_view
+
+    if site not in SITES:
+        raise typer.BadParameter(
+            f"unknown site {site!r}; known: {sorted(SITES)}", param_hint="--site"
+        )
+    rows = [s for s in site_view(site) if not scope or s.scope == scope]
+    if stale:
+        rows = [s for s in rows if s.stale]
+    if missing:
+        rows = [s for s in rows if not s.present]
+    table = Table("dataset", "scope", "site_scope", "present", "stale")
+    for s in rows:
+        present = "[green]yes[/]" if s.present else "[red]no[/]"
+        is_stale = "[yellow]stale[/]" if s.stale else "—"
+        table.add_row(s.id, s.scope, s.site_scope, present, is_stale)
+    console.print(table)
+    r = readiness(site)
+    ready = "[green]ready[/]" if r.ready else f"[yellow]{len(r.missing)} missing[/]"
+    console.print(
+        f"\n[bold]{site}[/]: {r.present}/{r.total} datasets present · {ready}"
+        f"{f' · {len(r.stale)} stale' if r.stale else ''}"
+    )
 
 
 @catalog_app.command("show")
