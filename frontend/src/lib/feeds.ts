@@ -465,6 +465,59 @@ export interface HypothesisAssessmentItem {
   citations: Citation[];
 }
 
+// --- the data catalog (`bosc.site.feeds.CatalogItem`, epic #631 Phase 3 / #659) -----------
+/** One storage file of a catalog dataset. */
+export interface CatalogStorageFile {
+  relpath: string;
+  media_type: string;
+  lfs: boolean;
+}
+/** The reconcile snapshot for a dataset (`data/catalog/_observed.yaml`). */
+export interface CatalogObserved {
+  exists: boolean;
+  sha256?: string | null;
+  size_bytes: number;
+  lfs_materialized: boolean;
+  file_count: number;
+  stale: boolean;
+  asof?: string | null;
+}
+/** One registered dataset in the data catalog — what exists, where from, license, freshness. */
+export interface CatalogItem {
+  id: string;
+  title: string;
+  scope: string;
+  collection: string;
+  status: string;
+  producer_kind: string;
+  command?: string | null;
+  connector_ref?: string | null;
+  source: string;
+  external_url?: string | null;
+  license?: string | null;
+  access_tier: string;
+  site_scope: string;
+  cadence: string;
+  ttl_days?: number | null;
+  last_refreshed?: string | null;
+  tags: string[];
+  storage: CatalogStorageFile[];
+  observed?: CatalogObserved | null;
+  citation: Citation;
+}
+
+/** A dataset's freshness state, derived from its reconcile snapshot. */
+export type CatalogFreshness = "fresh" | "stale" | "missing" | "unmaterialized" | "unknown";
+
+/** Reduce the observed snapshot to a single freshness state for display. */
+export function catalogFreshness(o: CatalogObserved | null | undefined): CatalogFreshness {
+  if (!o) return "unknown";
+  if (!o.exists) return "missing";
+  if (!o.lfs_materialized) return "unmaterialized"; // LFS pointer in this checkout — expected
+  if (o.stale) return "stale";
+  return "fresh";
+}
+
 // --- helpers -----------------------------------------------------------------
 
 /** A URL-safe slug from any label/key (e.g. an entity key "AMAZON COM SERVICES"). */
