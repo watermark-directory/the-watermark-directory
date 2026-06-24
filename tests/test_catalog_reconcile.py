@@ -256,14 +256,31 @@ def test_load_observed_is_none_before_first_run(tmp_path: Path) -> None:
 
 
 # --- regression guard against the committed catalog ----------------------------------------
+# sha256/size_bytes/lfs_materialized depend on whether the checkout *materialized* the Git-LFS
+# bytes — CI does not pull LFS (data/documents is ~5.4GB), so for LFS-bearing entries a fresh
+# reconcile sees pointers, not real bytes. The committed snapshot is authored from a full-LFS
+# checkout; compare those entries on the materialization-independent fields only.
+_LFS_SENSITIVE = {"sha256", "size_bytes", "lfs_materialized"}
+
+
 def test_committed_observed_is_in_sync_with_catalog() -> None:
     """The committed _observed.yaml matches a fresh reconcile (content-stable, no mtime).
 
     Precursor to the #626 checksum-drift gate — if a catalogued file changed bytes or a new
     entry landed without re-reconciling, this turns red. ``reconciled_at`` is excluded (it is
-    the one intentionally non-deterministic field).
+    the one intentionally non-deterministic field), and LFS-materialization-sensitive fields
+    are compared only for entries with no LFS storage (CI runs without LFS bytes).
     """
+    from bosc.catalog import load_entries
+
     committed = load_observed()
     assert committed is not None, "run `bosc catalog reconcile`"
     fresh = reconcile(reconciled_at=committed.reconciled_at)
-    assert fresh.entries == committed.entries
+    assert set(fresh.entries) == set(committed.entries)
+    lfs_ids = {e.id for e in load_entries() if any(s.lfs for s in e.storage)}
+    for eid, c in committed.entries.items():
+        f = fresh.entries[eid]
+        if eid in lfs_ids:
+            assert f.model_dump(exclude=_LFS_SENSITIVE) == c.model_dump(exclude=_LFS_SENSITIVE), eid
+        else:
+            assert f == c, eid
