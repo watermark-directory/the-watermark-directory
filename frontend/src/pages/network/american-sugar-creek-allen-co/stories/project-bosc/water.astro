@@ -8,6 +8,13 @@
  * flow (~24× annual, ~3× summer, dry at 1Q10). The draw model is feed-sourced
  * (`buildDilution`, no fork); the ratio is a reservoir-buffered worst-case bound,
  * carried as [inference] — not a record read. Pays off into the live dashboard.
+ *
+ * The chapter then follows the water past the model into the record: WHY the draw
+ * is [inference] and not [verified] (the cooling flowrate was claimed and granted
+ * as a trade secret, eDoc 3859883); where the cooling water GOES (the blowdown →
+ * American Bath WWTP keystone, Res #679-24 / #137-26, dual forcemains); and the
+ * GROUND it all sits on (≈309 ac graded to Pike Run, the 401 isolated-wetland
+ * fills, the Level-2 delineation Ohio EPA returned incomplete as grading ran).
  */
 import Base from "../../../../../layouts/Base.astro";
 import PathWayfinding from "../../../../../components/PathWayfinding.astro";
@@ -33,7 +40,7 @@ const naturalBarPct = Math.max(Math.round((dilution.discharge.naturalCfs / efflu
 ---
 
 <Base
-  title="What it does to the water — Chapter 3"
+  title="What it does to the water — Chapter 4"
   section="story"
   description="A data center cools itself with water. Read what the receiving streams can spare — Ohio EPA already wrote it down, in the low flows it uses to permit every discharge."
 >
@@ -111,6 +118,18 @@ const naturalBarPct = Math.max(Math.round((dilution.discharge.naturalCfs / efflu
         <code>[inference]</code>, not <code>[verified]</code>.
       </p>
       <p>
+        There is a second reason the draw is modeled rather than read. The one number that would
+        settle it — the cooling system's design flowrate — was claimed by the developer as a trade
+        secret, and Ohio EPA granted the claim on <strong>2025-10-08</strong> (eDoc 3859883). The
+        justification is unusually candid about the stakes: the air permit, it argues, is “the only
+        public document that requests the size” of the equipment, so “by preventing this information
+        from becoming public via the air permitting process, the facility has taken a significant
+        step to ensure the confidentiality of this information.” The flowrate is not missing by
+        accident — the single public path to it was identified and closed. So we model the draw, tag
+        it <code>[inference]</code>, and can say precisely why the <code>[verified]</code> figure
+        does not exist.
+      </p>
+      <p>
         And because the screen is built from live gauges, you don't have to take a static number on
         faith — the hydrology dashboard re-runs it against the Ottawa's current flow from USGS on every
         build.
@@ -168,16 +187,59 @@ const naturalBarPct = Math.max(Math.round((dilution.discharge.naturalCfs / efflu
       </p>
     </div>
 
-    <div class="callout walk-takeaway">
-      <p class="callout-title">What you can read anywhere now</p>
-      <p>
-        The <strong>7Q10</strong> is the denominator of a discharge permit — the
-        smaller the receiving stream, the less any limit actually protects it. And
-        when a withdrawal is compared to a low flow, ask whether the supply is
-        <em>buffered</em> — reservoirs, storage — before you read the ratio as the
-        lived reality.
-      </p>
-    </div>
+    <section class="walk-interactive" aria-label="Where the cooling water goes">
+      <h2 class="walk-explore-h">Where the water goes when it's done cooling</h2>
+      <div class="walk-prose">
+        <p>
+          The water an evaporative tower doesn't lose to the sky comes back dirtier than it left.
+          The towers concentrate whatever is in the make-up water — dissolved salts, treatment
+          chemicals — into a waste stream called <em>blowdown</em>, and that stream has to go
+          somewhere. For Project BOSC, the somewhere is on the record. In August 2024 — more than a
+          year before the public knew whose data center this was — the County Commissioners approved
+          <strong>Resolution #679-24</strong>: a <strong>$47,600</strong> task order to MS
+          Consultants for a “WWTP Data Center Flows Treatment Evaluation,” studying the campus
+          blowdown's demands, its flows over a typical year, and its water-quality parameters for
+          storage and treatment at the <strong>American Bath WWTP</strong> — the County to gather
+          the figures from “the developer and data center manufacturer.” It is the first
+          primary-source document tying the cooling system to the public sewer.
+          <code>[verified]</code>, from the produced record.
+        </p>
+        <p>
+          What that study scopes, the build-out commits to: a dedicated BOSC pump station and
+          <strong>dual forcemains</strong> — a 10-inch line to the American Bath plant and a 16-inch
+          line to Lima's existing 78-inch interceptor, sized for <strong>2.5 MGD</strong> peak (Res
+          #137-26). The campus's waste heat leaves the site as water, and the public sewer system is
+          being enlarged to receive it — the cost of that enlargement is the next chapter's
+          business.
+        </p>
+      </div>
+    </section>
+
+    <section class="walk-interactive" aria-label="The site and its headwaters">
+      <h2 class="walk-explore-h">It starts in a soybean field</h2>
+      <div class="walk-prose">
+        <p>
+          All of it lands on ground that drains the wrong way for it. The campus is roughly
+          <strong>309 acres</strong> of former CAUV farmland — the construction-stormwater coverage
+          (facility 2GC08468, Turner Construction) was modified to 309.2 acres in June 2026 — graded
+          to discharge into <strong>Pike Run</strong>, a headwater tributary of the same Ottawa
+          system the 7Q10 above describes. Two on-site isolated wetlands, <strong>0.33 acres</strong>
+          of Category-1 (0.29 forested, 0.04 not), were authorized for fill on 2025-08-12, the loss
+          offset by credits bought at the Pearson Metropark mitigation bank a county away (eDoc
+          3788677).
+        </p>
+        <p>
+          A broader fill across the site's <strong>358-acre</strong> wetland delineation went
+          differently. The developer applied for it on <strong>2025-12-09</strong> — the day after
+          the first erosion-control inspection recorded clearing and mass grading already underway —
+          and Ohio EPA returned the application <strong>incomplete</strong> two weeks later, for
+          missing an analysis of practicable on-site alternatives (eDoc 3949585). The corpus doesn't
+          show how that one resolved. What it shows is the order: the earth was moving before the
+          wider wetland question was answered. <em>Analysis of the produced record, not a legal
+          conclusion.</em>
+        </p>
+      </div>
+    </section>
 
     <h2 class="walk-explore-h">Explore this in the library</h2>
     <div class="doors">
@@ -192,6 +254,14 @@ const naturalBarPct = Math.max(Math.round((dilution.discharge.naturalCfs / efflu
       <a class="door" href={withBase("/network/american-sugar-creek-allen-co/docs/hydrology")}>
         <span class="door-label">The hydrology write-up</span>
         <span class="door-blurb">The full Tier-0 water balance and the assimilative-capacity screen.</span>
+      </a>
+      <a class="door" href={withBase("/network/american-sugar-creek-allen-co/site/legal/")}>
+        <span class="door-label">The sanitary build-out</span>
+        <span class="door-blurb">Resolution #679-24, the blowdown-treatment study, and the BOSC forcemains to the American Bath WWTP.</span>
+      </a>
+      <a class="door" href={withBase("/network/american-sugar-creek-allen-co/site/records/")}>
+        <span class="door-label">The site &amp; wetland permits</span>
+        <span class="door-blurb">The 401 isolated-wetland authorizations, the stormwater coverage, and the discharge to Pike Run.</span>
       </a>
     </div>
 
