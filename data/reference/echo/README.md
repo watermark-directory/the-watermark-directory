@@ -146,11 +146,11 @@ Each entry under `facilities:` carries these keys (`null` = ECHO returned nothin
 
 **Cataloged datasets** — generated from `data/catalog/reference/`; run `bosc catalog render --apply` after editing an entry.
 
-### `echo-great-miami-wwtp` — Echo Great Miami Wwtp
+### `echo-great-miami-wwtp` — Great Miami-basin NPDES discharger inventory (EPA ECHO)
 
-Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: unspecified · Access: public · Site scope: basin-shared · Refresh: on-demand
+Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: U.S. Government work (public domain) · Access: throttled · Site scope: basin-shared · Refresh: quarterly (ttl 180d)
 
-Regenerate: `bosc npdes`
+Regenerate: `bosc npdes --basin great-miami`
 
 | file | type | lfs |
 | --- | --- | --- |

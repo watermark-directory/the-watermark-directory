@@ -1,13 +1,15 @@
 id: eia-grid-profile
-title: Eia Grid Profile
+title: Lima Campus Grid Profile — Serving Utility, BA & Load Share (EIA-861/930)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: connector
-  command: eia
-  connector_ref: bosc.economics.energy
-  source: (unknown — fill in)
-access_tier: public
+  command: grid
+  connector_ref: bosc.grid.utility
+  source: U.S. EIA — Form EIA-861 (AEP Ohio retail sales) + Form EIA-930 (PJM hourly demand)
+  external_url: https://www.eia.gov/electricity/data/eia861/
+license: U.S. Government work (public domain)
+access_tier: keyed
 site_scope: slug-scoped
 storage:
 - relpath: reference/eia/grid-profile.yaml
@@ -17,5 +19,15 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: annual
 provenance: connector
+schema_ref: bosc.grid.model.GridProfile
+tags:
+- eia
+- grid
+- electricity
+- aep-ohio
+- pjm
+- ohio
+notes: Identifies the serving utility (AEP Ohio, corpus-grounded + PUCO/EIA-861 confirmation) and BA (PJM),
+  expressing campus load as a share of AEP-Ohio retail, PJM total, and Ohio state retail.

@@ -1,11 +1,14 @@
 id: orc-orc
-title: Orc Orc
+title: Ohio Revised Code — Full Text (Cited Sections + Titles)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: connector
   command: orc
+  connector_ref: bosc.hydrology.connectors.orc
   source: Ohio LSC code portal — codes.ohio.gov
+  external_url: https://codes.ohio.gov/ohio-revised-code
+license: Ohio public record
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -51,3 +54,12 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
+schema_ref: bosc.hydrology.connectors.orc.OrcSection
+tags:
+- orc
+- statute
+- ohio
+- full-text
+- legal
+notes: Verbatim Ohio Revised Code full text from codes.ohio.gov — cited sections plus eleven numbered
+  Titles (~12,593 sections); each record keeps its URL and amendment history.

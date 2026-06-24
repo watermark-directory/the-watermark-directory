@@ -1,11 +1,15 @@
 id: economics-baseline
-title: Economics Baseline
+title: Allen County Economic Baseline (BLS QCEW + US Census ACS)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
-  kind: manual
-  source: (unknown — fill in)
-access_tier: public
+  kind: connector
+  command: economics
+  connector_ref: bosc.economics.connectors.qcew
+  source: BLS QCEW annual averages (keyless) + US Census ACS 5-year (B01003_001E)
+  external_url: https://www.bls.gov/cew/
+license: U.S. Government work (public domain)
+access_tier: keyed
 site_scope: slug-scoped
 storage:
 - relpath: reference/economics/baseline.yaml
@@ -15,5 +19,14 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
-provenance: reference
+  cadence: annual
+provenance: connector
+schema_ref: bosc.economics.model.EconomicBaseline
+tags:
+- economics
+- qcew
+- census
+- employment
+- baseline
+notes: Connector-regenerated county employment-by-NAICS with location quotients plus an ACS population
+  series (population needs BOSC_CENSUS_API_KEY; QCEW is keyless); site-scoped under reference/economics/{site}/.

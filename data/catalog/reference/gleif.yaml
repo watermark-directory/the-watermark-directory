@@ -1,12 +1,14 @@
 id: gleif
-title: Gleif
+title: Corridor Entity LEIs (GLEIF)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: connector
   command: gleif
   connector_ref: bosc.gleif
-  source: GLEIF (AWS Open Data s3://gleif), REST API api.gleif.org; license CC0
+  source: GLEIF — REST API api.gleif.org (Golden Copy)
+  external_url: https://www.gleif.org/en/lei-data/gleif-golden-copy
+license: CC0 1.0
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -16,3 +18,13 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
+schema_ref: bosc.gleif.LeiInventory
+tags:
+- lei
+- gleif
+- entities
+- ownership
+- corridor
+notes: 'Curated GLEIF LEI records for a pinned corridor/RSEI-parent watchlist, each fetched by exact 20-char
+  LEI with reported direct/ultimate parent; CC0. (CLI verb is `bosc lei`; catalog command key stays `gleif`
+  for the #630 output-dir derivation.)'

@@ -1,10 +1,12 @@
 id: legal-web-vendor-audit-allen-county-web-vendor-audit
-title: Legal Web Vendor Audit Allen County Web Vendor Audit
+title: Allen County Government Web-Vendor & CMS-Custody Audit (41 entities, captured 2026-06-05)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Project BOSC web-vendor audit — raw HTTP GET + WHOIS of 41 Allen County government/subdivision
+    sites, captured 2026-06-05
+license: Public record / public web capture (Ohio R.C. 149.43 context)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -15,5 +17,13 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-05'
 provenance: document
+tags:
+- web-vendor-audit
+- cms-custody
+- allen-county
+notes: Markdown narrative + structured YAML identifying the web vendors behind 41 Allen County government
+  entities (CorpComm Group also builds the AEDG site), grounding who holds the website CMS audit logs
+  the county disclaimed in PRR item 16.

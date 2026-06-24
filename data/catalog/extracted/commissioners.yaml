@@ -1,10 +1,12 @@
 id: commissioners
-title: Commissioners
+title: Allen County Commissioners — Legislative Record Analysis (Project BOSC)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Allen County Board of Commissioners — derived analysis mined from the published minutes/agenda
+    corpus
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -26,3 +28,10 @@ storage:
 refresh:
   cadence: on-demand
 provenance: document
+tags:
+- commissioners
+- legislative
+- resolutions
+- wastewater
+notes: Reviewed reads mining the Commissioners' meeting record into the legislative spine — the resolution
+  ledger, executive-session census, sanitary-economics thread, and 2023 pre-BOSC baseline.

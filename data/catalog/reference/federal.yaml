@@ -1,16 +1,31 @@
 id: federal
-title: Federal
+title: Federal Energy-Policy & National-Output Backdrop (IRA + EIA + LBNL/DOE)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
-  kind: manual
-  source: (unknown — fill in)
-access_tier: public
+  kind: connector
+  command: federal
+  connector_ref: bosc.economics.connectors.eia
+  source: EIA national series (net generation, retail price) + LBNL/DOE 2024 Data Center Energy Usage
+    Report + Inflation Reduction Act (Pub. L. 117-169)
+  external_url: https://www.eia.gov/opendata/
+license: U.S. Government work (public domain)
+access_tier: keyed
 site_scope: basin-shared
 storage:
 - relpath: reference/federal/federal-energy.yaml
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
-provenance: reference
+  cadence: annual
+provenance: connector
+schema_ref: bosc.grid.policy.FederalBackdrop
+tags:
+- federal
+- energy
+- eia
+- ira
+- policy
+notes: Federal clean-energy policy levers mapped to direction-on-cost, plus live EIA national net-gen/retail-price
+  and the LBNL/DOE data-center load share, integrated against the campus facility_draw; nothing is a facility
+  disclosure.

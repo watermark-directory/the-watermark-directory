@@ -1,10 +1,12 @@
 id: compute
-title: Compute
+title: AI Accelerator & Rack-Density Compute Reference
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: manual
-  source: (unknown — fill in)
+  source: Vendor datasheets (NVIDIA H100/H200/B200/GB200; Google TPU v5e/v5p/v6e) + in-corpus relator
+    data appendix
+license: Third-party vendor datasheets + in-corpus appendix (reference use)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -16,4 +18,14 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
+  last_refreshed: '2026-06-11'
 provenance: reference
+schema_ref: bosc.facility.model.AcceleratorSpec
+tags:
+- compute
+- accelerators
+- rack-density
+- datacenter
+- reference
+notes: Hand-transcribed vendor accelerator specs + rack-density/PUE/footprint assumption bands consumed
+  by bosc.facility to derive AI capacity scenarios; not connector-regenerable and not a facility measurement.

@@ -1,10 +1,12 @@
 id: oepa
-title: Oepa
+title: Ohio EPA NPDES Permit Extractions (American II / American-Bath / Shawnee II)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Ohio EPA — issued NPDES permits, fact sheets, and draft public notices for permits 2PH00006,
+    2PH00007, 2PK00002
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -36,5 +38,13 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
 provenance: document
+tags:
+- oepa
+- npdes
+- permits
+- wastewater
+- receiving-wwtp
+notes: One file per source PDF — issued permit, fact sheet, and draft public notice across the three receiving
+  WWTP permits; figures read from the document image/text, never inferred.

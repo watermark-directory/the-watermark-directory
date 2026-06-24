@@ -1,10 +1,12 @@
 id: allen-boe-source-pdf
-title: Allen Boe Source Pdf
+title: Allen County BOE — Official Election Result PDFs (Primary Source)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: manual
-  source: (unknown — fill in)
+  source: Allen County (OH) Board of Elections — official result PDFs, downloaded verbatim
+  external_url: https://allen.boe.ohio.gov/category/election-results/
+license: Public records (local government open data)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -61,4 +63,13 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
+  last_refreshed: '2026-06-06'
 provenance: reference
+tags:
+- elections
+- allen-county
+- source-pdf
+- primary-source
+notes: 15 unaltered official BOE PDFs (2024 General, 2026 Primary, 2019 General) with SHA256SUMS.txt and
+  SOURCES.txt for chain of custody; a BOE filename typo was normalized only in the local name (recorded
+  in SOURCES.txt).

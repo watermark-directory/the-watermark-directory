@@ -1,10 +1,12 @@
 id: legal-select-committee-2026-relator-testimony-bosc-written-testimony-2026-06-01
-title: Legal Select Committee 2026 Relator Testimony Bosc Written Testimony 2026 06 01
+title: Cory Parent Written Testimony — Beneficial-Ownership Disclosure (2026-06-01)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Cory Parent (relator / interested-party witness) — written testimony submitted to the Ohio Select
+    Committee on Data Centers, dated 2026-06-01
+license: Public record (Ohio legislative hearing submission; Ohio R.C. 149.43)
 access_tier: public
 site_scope: lima-legacy
 storage:
@@ -15,5 +17,12 @@ storage:
   media_type: text/markdown
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-01'
 provenance: document
+tags:
+- select-committee
+- testimony
+- relator
+notes: Index + faithful reproduction of the relator's 8-page written interested-party testimony arguing
+  beneficial-ownership disclosure as the foundational fix, with the witness's own footnotes (1–14).

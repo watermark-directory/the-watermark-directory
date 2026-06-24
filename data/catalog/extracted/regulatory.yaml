@@ -1,10 +1,12 @@
 id: regulatory
-title: Regulatory
+title: Regulatory Enforcement & Framework Extractions (Allen Co. Sanitary / OHC000006)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: U.S. EPA / U.S. DOJ + Ohio EPA — 1996 federal CWA consent decree, 2005 SSO-elimination agreement/CNA,
+    and statewide NPDES Construction Stormwater General Permit OHC000006
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -15,5 +17,13 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
 provenance: document
+tags:
+- regulatory
+- enforcement
+- consent-decree
+- npdes
+- general-permit
+notes: Reviewed reads of the enforcement/capacity instruments governing the Allen County sanitary system
+  (the binding history BOSC-1A routing is read against) plus the OHC000006 statewide stormwater framework.

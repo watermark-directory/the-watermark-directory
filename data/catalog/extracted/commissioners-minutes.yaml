@@ -1,10 +1,12 @@
 id: commissioners-minutes
-title: Commissioners Minutes
+title: Allen County Commissioners — Minutes/Agendas OCR Index Bundle
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
-  kind: extracted
-  source: (unknown — fill in)
+  kind: derived
+  source: Allen County Board of Commissioners — derived OCR parquet/JSON index over the meeting corpus
+  external_url: https://commissioners.allencountyohio.com/
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -28,4 +30,12 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
-provenance: document
+provenance: derived
+tags:
+- commissioners
+- minutes
+- ocr
+- index
+- parquet
+notes: Derived OCR index bundle (parquet/JSON + non-destructive filename-map) over the minutes corpus;
+  the parquet per-page bundle covers the original 634 meetings (2024–2026).

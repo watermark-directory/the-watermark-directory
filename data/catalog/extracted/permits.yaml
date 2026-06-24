@@ -1,10 +1,12 @@
 id: permits
-title: Permits
+title: Permit & Corporate-Filing Extractions (Ohio EPA / USACE / Ohio SoS)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Ohio EPA (DSW §401/PTI + DAPC air permits), USACE (wetland determinations), and Ohio Secretary
+    of State (business filings)
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -126,5 +128,14 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
 provenance: document
+tags:
+- permits
+- epa
+- air-pti
+- wetland
+- npdes
+notes: Reviewed reads keyed by EPA Application ID — §401/PTI letters, the air Permit-to-Install P0138965
+  (draft + 2026-05-28 final), NPDES construction-stormwater coverage history, USACE wetland forms, and
+  Ohio SoS filings.

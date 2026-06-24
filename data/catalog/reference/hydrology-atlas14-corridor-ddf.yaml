@@ -1,11 +1,14 @@
 id: hydrology-atlas14-corridor-ddf
-title: Hydrology Atlas14 Corridor Ddf
+title: NOAA Atlas-14 Corridor Design-Storm Depths (Depth-Duration-Frequency)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: connector
-  connector_ref: bosc.hydrology
-  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  connector_ref: bosc.hydrology.connectors.noaa_atlas14
+  source: NOAA NWS HDSC Atlas-14 — precipitation-frequency point query (Partial-Duration Series, English
+    depths)
+  external_url: https://hdsc.nws.noaa.gov/pfds/
+license: U.S. Government work (public domain)
 access_tier: public
 site_scope: slug-scoped
 storage:
@@ -18,3 +21,12 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
+schema_ref: bosc.hydrology.drainage.CorridorDdf
+tags:
+- atlas14
+- design-storm
+- precipitation-frequency
+- ddf
+- noaa
+notes: Atlas-14 PDS English depths (durations 60-min..24-hr × return periods 2-100 yr) for the corridor
+  point, assembled into a per-site DDF and slug-scoped for other network sites.

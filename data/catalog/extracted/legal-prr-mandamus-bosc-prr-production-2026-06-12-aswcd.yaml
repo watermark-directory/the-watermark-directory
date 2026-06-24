@@ -1,10 +1,12 @@
 id: legal-prr-mandamus-bosc-prr-production-2026-06-12-aswcd
-title: Legal Prr Mandamus Bosc Prr Production 2026 06 12 Aswcd
+title: Allen SWCD PRR Production — Site Stormwater/Erosion Record (2026-06-12)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Allen Soil & Water Conservation District (custodian Lydia Archambo) — PRR production over the
+    4110 N. Cole St. site, received 2026-06-12
+license: Public record (Ohio R.C. 149.43); plan sets withheld under R.C. 149.433 + R.C. 1333.61
 access_tier: public
 site_scope: lima-legacy
 storage:
@@ -15,5 +17,13 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-12'
 provenance: document
+tags:
+- public-records
+- stormwater
+- aswcd
+notes: Response index + analysis for the ASWCD production (ESC inspections, SW1225, plan-review emails);
+  the data-center plan sets were withheld under R.C. 149.433 + R.C. 1333.61 and items 6–11 answered 'no
+  responsive records.'

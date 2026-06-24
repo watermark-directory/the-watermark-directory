@@ -1,10 +1,14 @@
 id: aedg
-title: Aedg
+title: AEDG / PAAC PRR-01 Bundle Extractions (Project BOSC)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  command: extract
+  connector_ref: bosc.pipeline.extract
+  source: Port Authority of Allen County (PAAC) / Allen Economic Development Group (AEDG) — the 'Responsive
+    Records — Parent PRR' public-records production (PRR-01 bundle)
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -24,5 +28,14 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
 provenance: document
+tags:
+- aedg
+- paac
+- prr
+- roundabouts
+- opc
+notes: Reviewed structured reads of the PAAC public-records bundle — Tetra Tech roundabout OPC estimates
+  (the extract-stage reference target), the Roadwork Development Agreement, board minutes (the BOSC=Bistrozzi=Google
+  decoder), and the seller land-assembly packets.

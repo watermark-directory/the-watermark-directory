@@ -1,12 +1,15 @@
 id: rsei
-title: Rsei
+title: RSEI Toxic-Discharge Water Screen
 scope: reference
-status: needs-review
+status: reviewed
 producer:
-  kind: connector
+  kind: derived
   command: rsei
   connector_ref: bosc.rsei
-  source: EPA RSEI (water-media releases) × EPA ECHO (receiving water) × Ohio EPA cited 7Q10 (data/reference/hydrology/low-flow-7q10.yaml)
+  source: EPA RSEI (water-media releases) × EPA ECHO (receiving water) × Ohio EPA cited 7Q10 — a multi-source
+    derivation
+  external_url: https://registry.opendata.aws/epa-rsei-pds/
+license: U.S. Government work (public domain)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -15,4 +18,12 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
-provenance: connector
+provenance: derived
+tags:
+- rsei
+- toxics
+- water
+- screening
+- derived
+notes: A derived water-discharge screen crossing RSEI water-media releases with ECHO receiving water and
+  the Ohio-EPA cited 7Q10 low flow; provenance is a derivation, not a single connector pull.

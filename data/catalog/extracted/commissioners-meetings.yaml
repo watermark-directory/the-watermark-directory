@@ -1,10 +1,14 @@
 id: commissioners-meetings
-title: Commissioners Meetings
+title: Allen County Commissioners — Meeting Records (Civic Connector)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
-  kind: extracted
-  source: (unknown — fill in)
+  kind: connector
+  command: subdivisions download commissioners
+  connector_ref: bosc.civic
+  source: Allen County Board of Commissioners — meeting record scraped from commissioners.allencountyohio.com
+  external_url: https://commissioners.allencountyohio.com/
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -19,4 +23,12 @@ storage:
   lfs: false
 refresh:
   cadence: on-demand
-provenance: document
+  last_refreshed: '2026-06-12'
+provenance: connector
+tags:
+- civic
+- commissioners
+- meetings
+- minutes
+notes: 'Civic-pipeline meeting index over the Board of Commissioners'' full published record — the #135
+  OCR pass (2026-06-12) text-extracted all 991 files incl. the 2023 backfill (270 corridor-hit meetings).'

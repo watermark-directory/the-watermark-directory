@@ -1,10 +1,12 @@
 id: plans
-title: Plans
+title: Engineering-Plan Extractions (Project BOSC / LMA1A)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Project engineers (EMH&T, WSP USA) / George J. Igel & Co. — the BOSC/LMA1A plan sheets and SWP3
+    stormwater plans
+license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -21,5 +23,13 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
 provenance: document
+tags:
+- plans
+- engineering
+- swp3
+- stormwater
+- lma1a
+notes: Reviewed reads of the plan sheets — the 95% SPS grading/storm plan, the parsed storm-structure
+  inventory, the site footprint, and the Beery/Cole roundabout SWP3 discharging to Pike Run → Ottawa.

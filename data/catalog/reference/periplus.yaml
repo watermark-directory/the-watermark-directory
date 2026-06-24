@@ -1,10 +1,11 @@
 id: periplus
-title: Periplus
+title: Periplus Corridor GIS (Frozen Fork-Point Import)
 scope: reference
-status: needs-review
+status: reviewed
 producer:
   kind: manual
-  source: (unknown — fill in)
+  source: Periplus GIS project (the ../gis repository), copied unmodified at the BOSC fork-point commit
+license: Imported from the Periplus GIS project (fork-point copy)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -21,5 +22,14 @@ storage:
   media_type: application/geo+json
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
 provenance: reference
+tags:
+- periplus
+- gis
+- corridor
+- geojson
+- imported
+notes: Four GeoJSON layers (parcels, corridor, centerline, watch-items) copied unmodified from the Periplus
+  GIS project at spin-out as independent external corroboration; BOSC's data/extracted/** remains the
+  system of record.

@@ -1,10 +1,12 @@
 id: watershed
-title: Watershed
+title: Watershed / Conservation Extractions & Findings (Maumee)
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Allen SWCD / OSU-Lima (captured project page) + edge-of-field monitoring secondary literature
+    (Shedekar et al.)
+license: Public agency web capture + secondary literature (sources cited)
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -18,5 +20,14 @@ storage:
   media_type: text/markdown
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
 provenance: document
+tags:
+- watershed
+- conservation
+- runoff
+- edge-of-field
+- maumee
+notes: A chain-of-custody web capture of the Allen SWCD OSU-Lima Agricultural Runoff Treatment project
+  page plus distilled findings/bibliography notes from edge-of-field monitoring literature (secondary
+  sources).

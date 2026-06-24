@@ -1,10 +1,12 @@
 id: legal
-title: Legal
+title: BOSC Legal Record — Corpus Completeness Audit & Cross-Production Referral Map
 scope: extracted
-status: needs-review
+status: reviewed
 producer:
   kind: extracted
-  source: (unknown — fill in)
+  source: Project BOSC — reviewed legal-analysis layer over the litigation/hearing corpus (standing completeness
+    audit + cross-production referral map)
+license: Analysis of public records (Ohio R.C. 149.43) — derived work product
 access_tier: public
 site_scope: basin-shared
 storage:
@@ -15,5 +17,12 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: static
+  last_refreshed: '2026-06-06'
 provenance: document
+tags:
+- legal
+- audit
+- public-records
+notes: 'The bundle''s two cross-cutting analysis artifacts — the standing corpus-completeness audit (audited
+  2026-06-06) and the #151 cross-production referral map of which producing body disclaimed which item.'
