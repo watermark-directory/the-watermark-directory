@@ -351,6 +351,10 @@ a { color: var(--bosc-link); }
 .topbar-submit.active svg { stroke: var(--bosc-bg); }
 
 /* ---- Site build-phase pill (site tier, beside the chip) — sage on the ink bar ---- */
+/* DesignSync · PhaseDot — the neutral status ramp (the design system's PhaseDot): only `live`
+   is colored (forest); building/queued/tracking are neutral ink steps, no fill — the bare mono
+   label + a square dot that tracks the label color. On the DARK masthead the ramp is bone steps
+   (building = full bone, queued/tracking dimmer) since ink would vanish on ink. */
 .phase-pill {
   align-self: center;
   display: inline-flex;
@@ -359,22 +363,19 @@ a { color: var(--bosc-link); }
   font-size: var(--fs-micro);
   font-weight: 700;
   letter-spacing: 0.02em;
-  padding: var(--sp-1) var(--sp-2);
   white-space: nowrap;
-  color: var(--bosc-bg);
-  background: rgba(31, 111, 74, 0.32);
-  border: 1px solid rgba(150, 200, 170, 0.5);
+  color: var(--phase-fg, #7fb89a);
 }
 .phase-pill::before {
   content: "";
   width: 6px;
   height: 6px;
-  background: var(--phase-dot, #7fb89a);
+  background: var(--phase-fg, #7fb89a);
 }
-.phase-pill.is-live { --phase-dot: #7fb89a; }
-.phase-pill.is-building { --phase-dot: #7fb89a; }
-.phase-pill.is-queued { --phase-dot: #e0b34a; }
-.phase-pill.is-tracking { --phase-dot: #bcd2c4; }
+.phase-pill.is-live { --phase-fg: #7fb89a; }
+.phase-pill.is-building { --phase-fg: var(--bosc-bg); }
+.phase-pill.is-queued { --phase-fg: rgba(245, 242, 234, 0.62); }
+.phase-pill.is-tracking { --phase-fg: rgba(245, 242, 234, 0.4); }
 @media (max-width: 900px) { .phase-pill { display: none; } }
 
 /* Dictate B — the left/site section tabs are a build gauge: dim them when the current site isn't
@@ -476,10 +477,11 @@ a { color: var(--bosc-link); }
   font-weight: 700;
   padding: var(--sp-1) var(--sp-2);
 }
-.switcher-status.is-live { color: var(--bosc-verified); background: var(--td-verified-bg); }
-.switcher-status.is-building { color: var(--bosc-ink); background: var(--bosc-surface); }
-.switcher-status.is-queued { color: var(--bosc-inference); background: var(--td-inference-bg); }
-.switcher-status.is-tracking { color: var(--bosc-muted); background: var(--td-open-bg); }
+/* Neutral ramp (no fill) — see .phase-pill above. live→forest, building→ink, queued→muted, tracking→faint. */
+.switcher-status.is-live { color: var(--bosc-forest); }
+.switcher-status.is-building { color: var(--bosc-ink); }
+.switcher-status.is-queued { color: var(--bosc-muted); }
+.switcher-status.is-tracking { color: var(--bosc-faint); }
 .switcher-issue { font-size: var(--fs-nano); color: var(--bosc-faint); font-family: var(--bosc-mono); }
 .switcher-check { flex: 0 0 auto; width: 14px; color: var(--bosc-forest); font-weight: 800; font-size: var(--fs-sm); }
 .switcher-foot {
@@ -2689,11 +2691,12 @@ a.walk-dot:hover { opacity: 0.82; }
 }
 .netgrid-basin { font-size: var(--fs-meta); color: var(--bosc-muted); }
 .netgrid-meta { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: var(--sp-1); text-align: right; }
-.netgrid-status { font-size: var(--fs-micro); font-weight: 700; border-radius: 999px; padding: var(--sp-1) var(--sp-2); }
-.netgrid-status.is-live { color: var(--bosc-verified); background: var(--td-verified-bg); }
-.netgrid-status.is-building { color: var(--bosc-forest); background: var(--td-tint); }
-.netgrid-status.is-queued { color: var(--bosc-inference); background: var(--td-inference-bg); }
-.netgrid-status.is-tracking { color: var(--bosc-muted); background: #ece8dc; }
+/* Neutral ramp (no fill/pill) — see .phase-pill above. */
+.netgrid-status { font-size: var(--fs-micro); font-weight: 700; }
+.netgrid-status.is-live { color: var(--bosc-forest); }
+.netgrid-status.is-building { color: var(--bosc-ink); }
+.netgrid-status.is-queued { color: var(--bosc-muted); }
+.netgrid-status.is-tracking { color: var(--bosc-faint); }
 .netgrid-go { font-size: var(--fs-caption); color: var(--bosc-forest); font-weight: 600; }
 
 /* ---- Per-site coming-soon (/network/[site]) ---- */
@@ -2704,10 +2707,11 @@ a.walk-dot:hover { opacity: 0.82; }
 .netsite-lead { max-width: 38rem; margin: 1.1rem auto 0; font-size: var(--fs-body); line-height: 1.55; color: var(--bosc-muted); }
 .netsite-chips { display: flex; align-items: center; justify-content: center; gap: var(--sp-2); margin-top: 1.4rem; flex-wrap: wrap; }
 .netsite-facrail { display: flex; justify-content: center; margin-top: 1.3rem; }
-.netsite-status { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-meta); font-weight: 700; border-radius: 999px; padding: var(--sp-1) var(--sp-3); }
-.netsite-status.is-building { color: var(--bosc-forest); background: var(--td-tint); border: 1px solid var(--td-tint-line); }
-.netsite-status.is-queued { color: var(--bosc-inference); background: var(--td-inference-bg); border: 1px solid var(--td-key-line); }
-.netsite-status.is-tracking { color: var(--bosc-muted); background: #ece8dc; border: 1px solid var(--bosc-rule); }
+/* Neutral ramp (no fill/pill/border) — see .phase-pill above. */
+.netsite-status { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-meta); font-weight: 700; }
+.netsite-status.is-building { color: var(--bosc-ink); }
+.netsite-status.is-queued { color: var(--bosc-muted); }
+.netsite-status.is-tracking { color: var(--bosc-faint); }
 .netsite-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 .netsite-issue {
   display: inline-flex; align-items: center; font-size: var(--fs-meta); font-weight: 600; color: var(--bosc-muted);
