@@ -107,33 +107,6 @@ def build_exhibits(manifest_path: Path, documents_dir: Path, exhibits_dir: Path)
     return results
 
 
-def render_exhibits(exhibits: list[Exhibit]) -> str:
-    """Render ``exhibits.md`` — a table of downloadable source documents."""
-    lines = [
-        "# Exhibits",
-        "",
-        "A curated set of primary-source documents from the corpus, published as "
-        "downloadable PDFs. Page-range exhibits are sliced from larger bundles. "
-        "Everything else in the record is summarized under "
-        "[Records](records/index.md) with its raw extraction.",
-        "",
-    ]
-    if not exhibits:
-        lines.append("*No exhibits configured.*")
-        return "\n".join(lines) + "\n"
-    lines += ["| Exhibit | Source | Download |", "|---|---|---|"]
-    for ex in exhibits:
-        src = f"`{ex.source}`" + (f" (pp. {ex.pages})" if ex.pages else "")
-        if ex.available and ex.out_name:
-            link = f"[Download PDF](exhibits/{ex.out_name})"
-        else:
-            link = "_unavailable — `git lfs pull` the source_"
-        title = ex.title + (f"<br><small>{ex.caption}</small>" if ex.caption else "")
-        lines.append(f"| {title} | {src} | {link} |")
-    lines.append("")
-    return "\n".join(lines)
-
-
 def _bytes_present(src: Path) -> bool:
     """True when the source PDF is present locally (not an unresolved Git-LFS pointer)."""
     if not src.is_file():

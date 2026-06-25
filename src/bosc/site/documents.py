@@ -1,13 +1,14 @@
-"""Catalog the full source-document corpus as a browsable library.
+"""Catalog the full source-document corpus as typed library feeds.
 
 Mission goal (1): *present a downloadable form of each document.* The raw corpus
 under ``data/documents`` is ~5 GB across ~1,500 files — far too large to
-republish onto a static host — so this renders a complete **catalog** instead:
-one index page plus a page per collection, listing every source file with its
-size and type. Direct downloads are wired only for the curated
-:mod:`bosc.site.exhibits` (already copied/sliced into ``web/exhibits/``); the
-rest are catalogued with their repo-relative path so the record is transparent
-even when the bytes aren't republished.
+republish onto a static host — so this exports a complete **catalog** instead
+(:func:`export_documents` → :class:`~bosc.site.feeds.DocumentCollectionItem`),
+listing every source file with its size and type. Direct downloads are wired only
+for the curated :mod:`bosc.site.exhibits`; the rest are catalogued with their
+repo-relative path so the record is transparent even when the bytes aren't
+republished. (The legacy markdown ``render_documents`` peer was removed at the
+SSG-cutover cleanup, #603.)
 
 Set ``settings.documents_mirror_base_url`` to an external mirror (Archive.org /
 S3 / Drive) to turn every catalogued file into a direct download link.
@@ -177,15 +178,6 @@ class DocumentsResult:
         return sum(c.n_downloadable for c in self.collections)
 
 
-def _human_size(n: int) -> str:
-    size = float(n)
-    for unit in ("B", "KB", "MB", "GB"):
-        if size < 1024 or unit == "GB":
-            return f"{size:.0f} {unit}" if unit == "B" else f"{size:.1f} {unit}"
-        size /= 1024
-    return f"{size:.1f} GB"
-
-
 def _is_lfs_pointer(path: Path) -> bool:
     """True if ``path`` is an unresolved Git-LFS pointer rather than the real bytes."""
     try:
@@ -310,102 +302,6 @@ def build_documents(
         documents=result.n_documents,
         downloadable=result.n_downloadable,
     )
-    return result
-
-
-def _access_cell(entry: DocumentEntry) -> str:
-    """The 'Access' column: a download link, a mirror link, or a catalog note."""
-    if entry.download_url:
-        label = "Download" if entry.download_url.startswith("../exhibits/") else "Mirror"
-        return f"[{label}]({entry.download_url})"
-    if not entry.available:
-        return "_unpulled — `git lfs pull`_"
-    return "_in the evidence corpus_"
-
-
-def render_collection_page(collection: DocumentCollection) -> str:
-    """Render ``documents/<slug>.md`` — every file in one collection."""
-    lines = [
-        f"# Documents — {collection.title}",
-        "",
-    ]
-    if collection.description:
-        lines += [collection.description, ""]
-    lines += [
-        f"{len(collection.entries)} document(s) · {_human_size(collection.total_bytes)} total. "
-        "Files are listed by their **as-received name** (never renamed — chain of "
-        "custody). Curated exhibits download directly; the rest are catalogued by "
-        "their corpus path.",
-        "",
-        "[← All collections](index.md)",
-        "",
-        "| Document | Type | Size | Access |",
-        "|---|---|---|---|",
-    ]
-    for e in sorted(collection.entries, key=lambda x: x.rel):
-        lines.append(
-            f"| `{e.rel}` | {e.suffix or '—'} | {_human_size(e.size_bytes)} | {_access_cell(e)} |"
-        )
-    lines.append("")
-    return "\n".join(lines)
-
-
-def render_index(result: DocumentsResult, *, mirror_configured: bool) -> str:
-    """Render ``documents/index.md`` — the collection-level catalog overview."""
-    n_docs = result.n_documents
-    n_dl = result.n_downloadable
-    lines = [
-        "# Documents",
-        "",
-        "The complete catalog of primary-source documents behind Project BOSC — "
-        f"**{n_docs}** files across **{len(result.collections)}** collections, every "
-        "one read into the structured record under [Records](../records/index.md).",
-        "",
-    ]
-    if mirror_configured:
-        lines += [
-            '!!! note "Downloads"',
-            f"    All {n_docs} documents link to the full-corpus mirror; the "
-            f"{n_dl} curated exhibits also download directly here.",
-            "",
-        ]
-    else:
-        lines += [
-            '!!! note "Why most documents are catalog-only"',
-            "    The source corpus is ~5 GB — too large to republish on a static "
-            f"host. The **{n_dl}** curated [exhibits](../exhibits.md) download "
-            "directly; every other document is catalogued by its corpus path and "
-            "available on request. Each file keeps its **as-received name** — "
-            "nothing is renamed (chain of custody).",
-            "",
-        ]
-    lines += ["| Collection | Documents | Size | Direct downloads |", "|---|---|---|---|"]
-    for c in result.collections:
-        lines.append(
-            f"| [{c.title}]({c.slug}.md) | {len(c.entries)} | "
-            f"{_human_size(c.total_bytes)} | {c.n_downloadable or '—'} |"
-        )
-    lines.append("")
-    return "\n".join(lines)
-
-
-def render_documents(
-    documents_dir: Path,
-    documents_out_dir: Path,
-    *,
-    exhibits: list[exhibits_mod.Exhibit] | None = None,
-    mirror_base_url: str = "",
-) -> DocumentsResult:
-    """Write ``documents/index.md`` + ``documents/<slug>.md`` and return the catalog."""
-    result = build_documents(documents_dir, exhibits=exhibits, mirror_base_url=mirror_base_url)
-    documents_out_dir.mkdir(parents=True, exist_ok=True)
-    (documents_out_dir / "index.md").write_text(
-        render_index(result, mirror_configured=bool(mirror_base_url)), encoding="utf-8"
-    )
-    for collection in result.collections:
-        (documents_out_dir / f"{collection.slug}.md").write_text(
-            render_collection_page(collection), encoding="utf-8"
-        )
     return result
 
 

@@ -8,49 +8,8 @@ from pathlib import Path
 
 from bosc import rsei
 from bosc.config import Settings
-from bosc.rsei import RseiFacility, RseiInventory
-from bosc.site.rsei import render_rsei
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-
-
-def _gdls(**kw: object) -> RseiFacility:
-    base: dict[str, object] = {
-        "facility_id": "GD1",
-        "facility_number": "1",
-        "name": "GENERAL DYNAMICS LAND SYSTEMS",
-        "parent_name": "GENERAL DYNAMICS",
-        "fips": "39003",
-    }
-    base.update(kw)
-    return RseiFacility(**base)  # type: ignore[arg-type]
-
-
-def test_render_rsei_zero_score_gdls_does_not_divide_by_zero() -> None:
-    """#617: a GDLS facility reporting pounds but a zero modeled Score must not crash
-    the corridor highlight (which divides by Score for the cancer share)."""
-    inv = RseiInventory(
-        meta={},
-        county_fips="39003",
-        county_name="Allen",
-        facilities=[_gdls(score=0.0, cancer_score=0.0, pounds=1234.0)],
-    )
-    md = render_rsei(inv)  # must not raise ZeroDivisionError
-    # The score-ranked corridor highlight is omitted when there's no score to rank by.
-    assert "cancer-driven" not in md
-
-
-def test_render_rsei_scored_gdls_renders_highlight() -> None:
-    """The corridor highlight renders (with the cancer share) when Score is non-zero."""
-    inv = RseiInventory(
-        meta={},
-        county_fips="39003",
-        county_name="Allen",
-        facilities=[_gdls(score=200.0, cancer_score=150.0)],
-    )
-    md = render_rsei(inv)
-    assert "cancer-driven" in md
-    assert "75% cancer-driven" in md  # 100 * 150 / 200
 
 
 def _write_gz(path: Path, rows: list[dict[str, object]]) -> None:
