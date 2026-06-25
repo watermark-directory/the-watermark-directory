@@ -295,7 +295,7 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
 
     defense = load_defense_contractors(settings.entities_dir)
     if defense is not None:
-        scan = load_defense_scan(settings.reference_dir)
+        scan = load_defense_scan(settings)
         feeds.append(
             _object_feed(
                 "defense-contractors",

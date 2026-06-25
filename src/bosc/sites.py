@@ -118,6 +118,11 @@ class SiteProfile(BaseModel):
     noaa_fallback_24h_depth_in: dict[int, float]
     parcels_relpath: str  # relative to settings.data_dir
     footprint_relpath: str  # relative to settings.data_dir
+    # The frozen external-corroboration corridor geometry dir (corridor.geojson +
+    # corridor-centerline.geojson), relative to settings.data_dir — folded into the GIS
+    # findings by site/gismap.merge_corridor_layer. ``None`` = no corridor layer for this
+    # site (the merge then emits nothing rather than reading another site's geometry).
+    corridor_geo_relpath: str | None = None
 
     # --- Per-site onboard reach outputs (point-specific writes; relative to data_dir) ----
     # The point-specific connector outputs `bosc onboard` writes. Lima keeps its legacy
@@ -724,6 +729,7 @@ _LIMA = SiteProfile(
     },
     parcels_relpath="reference/periplus/bosc-parcels.geojson",
     footprint_relpath="extracted/plans/bosc-site-footprint.yaml",
+    corridor_geo_relpath="reference/periplus",  # the frozen Periplus corridor study area + centerline
     # per-site onboard reach outputs (Lima = legacy un-slugged paths)
     climatology_relpath="reference/hydrology/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/atlas14-corridor-ddf.yaml",

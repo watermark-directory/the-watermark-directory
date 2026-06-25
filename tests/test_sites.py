@@ -71,6 +71,7 @@ _LIMA_GOLDEN = {
     },
     "parcels_relpath": "reference/periplus/bosc-parcels.geojson",
     "footprint_relpath": "extracted/plans/bosc-site-footprint.yaml",
+    "corridor_geo_relpath": "reference/periplus",
     "climatology_relpath": "reference/hydrology/nasa-power-climatology.yaml",
     "corridor_ddf_relpath": "reference/hydrology/atlas14-corridor-ddf.yaml",
     "baseline_relpath": "reference/economics/baseline.yaml",

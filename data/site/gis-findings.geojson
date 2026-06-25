@@ -7,8 +7,8 @@
    "Campus: data/reference/periplus/bosc-parcels.geojson (recorded Bistrozzi parcels)",
    "JSMC: Allen County GIS Current Parcels (UNITED STATES, tax district L35)",
    "Floodplain/floodway: City of Lima GIS FEMA DFIRM 39003C (within ~1 km of the campus)",
-   "EPA RSEI Public Data Set \u2014 Allen County facility points, sized by RSEI Score",
-   "Periplus frozen corridor study area + roadwork centerline (data/reference/periplus/) \u2014 external corroboration"
+   "EPA RSEI Public Data Set \u2014 Allen County, OH facility points, sized by RSEI Score",
+   "Cole St / Bluelick corridor \u2014 frozen corridor study area + roadwork centerline (reference/periplus/) \u2014 external corroboration"
   ]
  },
  "features": [
@@ -24413,7 +24413,7 @@
    },
    "properties": {
     "layer": "corridor",
-    "label": "North Cole Street corridor \u2014 Periplus study area"
+    "label": "Cole St / Bluelick corridor \u2014 study area"
    }
   },
   {

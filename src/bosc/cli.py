@@ -2313,7 +2313,9 @@ def rsei_cmd(
             from bosc.hydrology import toxics
 
             fc = json.loads(geojson.read_text(encoding="utf-8"))
-            fc, n = gismap.merge_rsei_layer(fc, inv, toxics.load_screen(settings.reference_dir))
+            fc, n = gismap.merge_rsei_layer(
+                fc, inv, toxics.load_screen(settings.reference_dir), settings=settings
+            )
             geojson.write_text(json.dumps(fc, indent=1), encoding="utf-8")
             console.print(f"[green]Merged[/] {n} RSEI points into {geojson}")
         else:
@@ -2378,7 +2380,7 @@ def toxics_cmd(
         geojson = settings.data_dir / "site" / "gis-findings.geojson"
         if rsei_inv is not None and geojson.is_file():
             fc = json.loads(geojson.read_text(encoding="utf-8"))
-            fc, n = gismap.merge_rsei_layer(fc, rsei_inv, inv)
+            fc, n = gismap.merge_rsei_layer(fc, rsei_inv, inv, settings=settings)
             geojson.write_text(json.dumps(fc, indent=1), encoding="utf-8")
             console.print(
                 f"[green]Ringed[/] flagged dischargers across {n} RSEI points in {geojson}"
