@@ -4,6 +4,8 @@
 // is added in #214 (functions/api/_lib/anthropicStream.ts can reuse this shape).
 // https://docs.anthropic.com/en/api/messages
 
+import { fetchWithTimeout, isTimeoutError } from "./http";
+
 // Default Messages API endpoint. Overridable per-request (`MessageRequest.apiUrl`, fed
 // from the ANTHROPIC_API_BASE var) so the local dev stack can point at a mock origin —
 // prod leaves it unset and hits api.anthropic.com. See frontend/scripts/dev-mocks.mjs.
@@ -53,21 +55,27 @@ export class AnthropicError extends Error {
 }
 
 export async function createMessage(req: MessageRequest): Promise<MessageResult> {
-  const res = await fetch(req.apiUrl || API_URL, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": req.apiKey,
-      "anthropic-version": API_VERSION,
-    },
-    body: JSON.stringify({
-      model: req.model,
-      max_tokens: req.maxTokens,
-      temperature: req.temperature ?? 0,
-      system: req.system,
-      messages: req.messages,
-    }),
-  });
+  let res: Response;
+  try {
+    res = await fetchWithTimeout(req.apiUrl || API_URL, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": req.apiKey,
+        "anthropic-version": API_VERSION,
+      },
+      body: JSON.stringify({
+        model: req.model,
+        max_tokens: req.maxTokens,
+        temperature: req.temperature ?? 0,
+        system: req.system,
+        messages: req.messages,
+      }),
+    });
+  } catch (e) {
+    if (isTimeoutError(e)) throw new AnthropicError("Anthropic request timed out", 504);
+    throw e;
+  }
 
   const data = (await res.json().catch(() => null)) as RawResponse | null;
   if (!res.ok) {

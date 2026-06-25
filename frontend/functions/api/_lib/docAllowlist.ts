@@ -2,6 +2,8 @@
 // asset and cache the parsed set in module scope. The asset is immutable per deploy, so
 // caching across requests in the same Workers isolate is safe. Mirrors askIndexLoad.ts.
 
+import { fetchWithTimeout } from "./http";
+
 let cached: Set<string> | null = null;
 
 /** Test seam: drop the isolate cache. */
@@ -17,7 +19,7 @@ export function _resetPublishedCache(): void {
 export async function loadPublishedDocs(requestUrl: string, listUrl?: string): Promise<Set<string>> {
   if (cached) return cached;
   const url = listUrl ?? new URL("/published-documents.json", requestUrl).toString();
-  const res = await fetch(url);
+  const res = await fetchWithTimeout(url);
   if (!res.ok) throw new Error(`published-documents fetch failed: ${res.status}`);
   const data = (await res.json()) as { rels?: string[] };
   if (!Array.isArray(data.rels)) throw new Error("published-documents is malformed");

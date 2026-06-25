@@ -25,6 +25,31 @@ export function requireEnabled(flag: string | undefined, deny: () => Response): 
   return flag === "true" ? null : deny();
 }
 
+/** Default deadline for a single external round-trip (ms) — generous for a cold upstream,
+ *  short enough that a hung dependency can't pin the Worker open (#590). */
+export const DEFAULT_FETCH_TIMEOUT_MS = 10_000;
+
+/**
+ * `fetch` with an abort deadline. On timeout the promise rejects with the signal's
+ * `TimeoutError`; callers map it to a clean 5xx or a fail-closed default. Composes with a
+ * caller-supplied `signal` (either firing aborts) so a streaming reader can still cancel.
+ */
+export function fetchWithTimeout(
+  input: string | URL,
+  init: RequestInit = {},
+  timeoutMs: number = DEFAULT_FETCH_TIMEOUT_MS,
+): Promise<Response> {
+  const deadline = AbortSignal.timeout(timeoutMs);
+  const signal = init.signal ? AbortSignal.any([init.signal, deadline]) : deadline;
+  return fetch(input, { ...init, signal });
+}
+
+/** True for an abort/timeout rejection (from `AbortSignal.timeout` or a manual controller). */
+export function isTimeoutError(e: unknown): boolean {
+  const name = (e as { name?: string } | null)?.name;
+  return name === "TimeoutError" || name === "AbortError";
+}
+
 /** Parse a JSON request body; on malformed input, carry a ready 400 envelope to return. */
 export async function parseJsonBody(
   request: Request,
