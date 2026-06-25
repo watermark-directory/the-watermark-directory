@@ -119,7 +119,7 @@ A `meta` frame leads **every** stream, including the deterministic empty-retriev
 | `400` | malformed JSON, or the question is missing / too short / too long / has unexpected fields |
 | `403` | missing or failed Turnstile verification |
 | `429` | per-IP rate limit exceeded (`Retry-After` header) |
-| `503` | endpoint disabled (`ASK_ENABLED` ≠ `true`), or the daily budget is spent |
+| `503` | endpoint disabled (`ASK_ENABLED` ≠ `true`), the daily budget is spent, or fail-closed (no budget KV bound and `ASK_ALLOW_UNCAPPED` ≠ `true`) |
 | `500` | misconfigured (no `ANTHROPIC_API_KEY` / `TURNSTILE_SECRET_KEY`) or the index is unavailable |
 | `502` | the upstream model call failed |
 
@@ -159,11 +159,15 @@ A public, **paid** LLM endpoint. Controls (reusing submit's `_lib/`):
 - **Per-IP rate limit** — a fixed-window KV counter (default **10 / IP / hour**,
   `ASK_RATE_LIMIT_MAX` / `ASK_RATE_LIMIT_WINDOW_SEC`); over-limit → `429` + `Retry-After`.
   **Opt-in and fail-open**: with no `ASK_RATE_LIMIT` KV namespace bound it's off, and a KV
-  error allows the request (Turnstile stays the primary gate).
+  error allows the request (Turnstile stays the primary gate). A configured `"0"` blocks all.
 - **Hard cost guards** — `max_tokens` cap (`ASK_MAX_TOKENS`, default 1024) + the input
   size cap, plus an **account-wide daily output-token budget** (`ASK_DAILY_TOKEN_BUDGET`,
-  default 200k) counted in the same KV namespace; over budget → `503` until the next UTC
-  day. Token usage / cost is logged per request.
+  default 200k; `"0"` = hard stop) counted in a KV namespace (`ASK_BUDGET`, falling back to
+  `ASK_RATE_LIMIT` — so it's enforceable independently of per-IP limiting, #587); over budget →
+  `503` until the next UTC day. **Fail-closed (#587):** with the endpoint enabled but *no*
+  budget KV bound, the paid route returns `503` rather than spend unbounded — set
+  `ASK_ALLOW_UNCAPPED="true"` to deliberately run uncapped. Token usage / cost is logged
+  per request.
 - **Empty-retrieval shortcut** — an off-topic question costs **no** model call.
 
 ## Runtime & deploy
@@ -193,9 +197,11 @@ A public, **paid** LLM endpoint. Controls (reusing submit's `_lib/`):
 | `ASK_MODEL` | Cloudflare (Function var) | model id; default `claude-opus-4-8` |
 | `ASK_MAX_TOKENS` | Cloudflare (Function var) | answer-length cap; default `1024` |
 | `ASK_TOP_K` | Cloudflare (Function var) | retrieval depth; default `6` |
-| `ASK_RATE_LIMIT` | Cloudflare (**KV** binding) | per-IP rate limit + daily budget counter; absent ⇒ both off |
-| `ASK_RATE_LIMIT_MAX` / `ASK_RATE_LIMIT_WINDOW_SEC` | Cloudflare (Function var) | per-IP window; default `10` / `3600` |
-| `ASK_DAILY_TOKEN_BUDGET` | Cloudflare (Function var) | account-wide daily output-token cap; default `200000` |
+| `ASK_RATE_LIMIT` | Cloudflare (**KV** binding) | per-IP rate limit (and the budget counter's fallback KV); absent ⇒ per-IP limit off |
+| `ASK_RATE_LIMIT_MAX` / `ASK_RATE_LIMIT_WINDOW_SEC` | Cloudflare (Function var) | per-IP window; default `10` / `3600` (`"0"` max = block all) |
+| `ASK_BUDGET` | Cloudflare (**KV** binding, optional) | daily-budget counter namespace; falls back to `ASK_RATE_LIMIT` |
+| `ASK_DAILY_TOKEN_BUDGET` | Cloudflare (Function var) | account-wide daily output-token cap; default `200000` (`"0"` = hard stop) |
+| `ASK_ALLOW_UNCAPPED` | Cloudflare (Function var) | `"true"` lets the enabled endpoint run with **no** budget KV (else it fail-closes to `503`, #587) |
 | `ASK_INDEX_URL` | Cloudflare (Function var) | optional override for the ask-index asset URL (sharded/CDN index) |
 
 The non-secret vars and the `ASK_RATE_LIMIT` KV binding are documented (commented) in
@@ -214,12 +220,11 @@ can only be set once the Pages project exists (see `docs/submissions-api.md` Pha
 2. **Turnstile** — reuse the submit endpoint's `TURNSTILE_SECRET_KEY` secret +
    `PUBLIC_TURNSTILE_SITE_KEY` build var (they're shared). If submit is already live,
    nothing to do here.
-3. **Bind the rate-limit + budget KV — recommended before any public flip.** The per-IP
-   rate limit *and* the account-wide daily token budget are **opt-in**: they only engage
-   once a KV namespace is bound as `ASK_RATE_LIMIT`. Without it, the only cost guards on a
-   public, **paid** endpoint are Turnstile + the per-answer `max_tokens` cap — there is
-   **no per-IP throttle and no daily spend ceiling**, so a scripted/solved-challenge abuser
-   is bounded only per-request. For anything past a private dry-run, bind it before step 4:
+3. **Bind the rate-limit + budget KV — REQUIRED before flipping `ASK_ENABLED` on.** The daily
+   budget is **fail-closed (#587)**: an enabled endpoint with no budget KV bound (`ASK_BUDGET`,
+   or its `ASK_RATE_LIMIT` fallback) returns `503` rather than spend unbounded. The per-IP rate
+   limit stays opt-in (off without `ASK_RATE_LIMIT`). To run the **paid** endpoint deliberately
+   uncapped (e.g. a private dry-run) set `ASK_ALLOW_UNCAPPED="true"` — otherwise bind the KV:
 
    ```sh
    npx wrangler kv namespace create ASK_RATE_LIMIT   # prints the namespace id

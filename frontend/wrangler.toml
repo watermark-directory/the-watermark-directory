@@ -40,16 +40,22 @@ GITHUB_REPO = "bosc"
 # ASK_MODEL = "claude-opus-4-8"
 # ASK_MAX_TOKENS = "1024"          # hard answer-length cap (cost guard)
 # ASK_TOP_K = "6"                  # retrieval depth over the ask-index
-# ASK_RATE_LIMIT_MAX = "10"        # per-IP questions per window
+# ASK_RATE_LIMIT_MAX = "10"        # per-IP questions per window ("0" = block all)
 # ASK_RATE_LIMIT_WINDOW_SEC = "3600"
-# ASK_DAILY_TOKEN_BUDGET = "200000"  # account-wide daily output-token cap
+# ASK_DAILY_TOKEN_BUDGET = "200000"  # account-wide daily output-token cap ("0" = hard stop)
 
-# The ask endpoint's per-IP rate limit + daily budget counter share their own KV
-# namespace (kept separate from submit's RATE_LIMIT so the counters don't collide).
-# Create one and fill in the printed id, then uncomment:
+# The ask endpoint is FAIL-CLOSED (#587): with ASK_ENABLED="true" but no budget KV bound it
+# returns 503 rather than allow unbounded paid model spend behind Turnstile alone. Bind a KV
+# (below) before go-live, OR set ASK_ALLOW_UNCAPPED = "true" to deliberately run uncapped.
+# The per-IP rate limit reads ASK_RATE_LIMIT; the daily budget reads ASK_BUDGET and falls back
+# to ASK_RATE_LIMIT, so binding the one namespace below enforces both.
 #   npx wrangler kv namespace create ASK_RATE_LIMIT
 # [[kv_namespaces]]
 # binding = "ASK_RATE_LIMIT"
+# id = "<namespace-id>"
+# Optional: a distinct budget counter (enables the daily cap without per-IP limiting):
+# [[kv_namespaces]]
+# binding = "ASK_BUDGET"
 # id = "<namespace-id>"
 
 # --- Source documents object store (/api/doc, Epic #274) --------------------------

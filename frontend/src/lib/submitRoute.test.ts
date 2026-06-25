@@ -203,6 +203,23 @@ describe("/api/submit route", () => {
     expect(fetchStub.calls.some((c) => c.url.includes("/siteverify"))).toBe(false);
   });
 
+  it('treats RATE_LIMIT_MAX="0" as block-all (not the default 5) (#588)', async () => {
+    const fixedMs = 1_750_000_000_000;
+    vi.spyOn(Date, "now").mockReturnValue(fixedMs);
+    const ip = "203.0.113.10";
+    const kv = fakeKV({}); // no prior submissions
+    const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes()]);
+    vi.stubGlobal("fetch", fetchStub);
+
+    const request = postJson(SUBMIT_URL, validSubmission(), { "CF-Connecting-IP": ip });
+    const res = await onRequestPost({
+      request,
+      env: submitEnv({ RATE_LIMIT: kv, RATE_LIMIT_MAX: "0" }),
+    } as never);
+    expect(res.status).toBe(429); // 0 allowed ⇒ first submission already over
+    expect(fetchStub.calls.some((c) => c.url.includes("/siteverify"))).toBe(false);
+  });
+
   it("stores submitter contact in the private KV, never in the public issue", async () => {
     const kv = fakeKV();
     const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes()]);

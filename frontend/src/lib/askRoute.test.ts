@@ -92,6 +92,9 @@ function askEnv(overrides: Record<string, unknown> = {}): Record<string, unknown
     ANTHROPIC_API_KEY: "sk-ant-test",
     TURNSTILE_SECRET_KEY: "1x0000000000000000000000000000000AA",
     ANTHROPIC_API_BASE,
+    // The suite runs without a KV binding; opt into the uncapped path explicitly so the
+    // fail-closed guard (#587) doesn't 503 every test. The dedicated guard test omits this.
+    ASK_ALLOW_UNCAPPED: "true",
     ...overrides,
   };
 }
@@ -266,5 +269,67 @@ describe("/api/ask route", () => {
     } as never);
     expect(res.status).toBe(503);
     expect(fetchStub.calls.some((c) => c.url.includes("/v1/messages"))).toBe(false);
+  });
+
+  // --- #587: fail-closed when uncapped -----------------------------------------------------
+  it("503s (fail-closed) when no budget KV is bound and uncapped isn't allowed", async () => {
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok" }),
+      // No ASK_RATE_LIMIT / ASK_BUDGET KV, and the uncapped escape hatch withdrawn.
+      env: askEnv({ ASK_ALLOW_UNCAPPED: undefined }),
+    } as never);
+    expect(res.status).toBe(503);
+    // Refused before any paid call OR Turnstile verification.
+    expect(fetchStub.calls.some((c) => c.url.includes("/v1/messages"))).toBe(false);
+    expect(fetchStub.calls.some((c) => c.url.includes("/siteverify"))).toBe(false);
+  });
+
+  it("enforces the daily budget on its own KV, independent of per-IP limiting (#587)", async () => {
+    const fixedMs = 1_750_000_000_000;
+    vi.spyOn(Date, "now").mockReturnValue(fixedMs);
+    const budgetKv = fakeKV({ [dayKey(fixedMs)]: "999999" }); // > default 200k
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok" }),
+      // Only the budget KV is bound — no ASK_RATE_LIMIT — yet the budget still gates.
+      env: askEnv({ ASK_BUDGET: budgetKv }),
+    } as never);
+    expect(res.status).toBe(503);
+    expect(fetchStub.calls.some((c) => c.url.includes("/v1/messages"))).toBe(false);
+  });
+
+  // --- #588: a configured "0" is honored, not coerced back to the default ------------------
+  it('treats ASK_DAILY_TOKEN_BUDGET="0" as a hard stop (not the 200k default)', async () => {
+    const fixedMs = 1_750_000_000_000;
+    vi.spyOn(Date, "now").mockReturnValue(fixedMs);
+    const kv = fakeKV({}); // zero spend recorded
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok" }),
+      env: askEnv({ ASK_RATE_LIMIT: kv, ASK_DAILY_TOKEN_BUDGET: "0" }),
+    } as never);
+    expect(res.status).toBe(503); // 0 budget ⇒ over budget even with no spend
+    expect(fetchStub.calls.some((c) => c.url.includes("/v1/messages"))).toBe(false);
+  });
+
+  it('treats ASK_RATE_LIMIT_MAX="0" as block-all (not the default 10)', async () => {
+    const fixedMs = 1_750_000_000_000;
+    vi.spyOn(Date, "now").mockReturnValue(fixedMs);
+    const ip = "203.0.113.9";
+    const kv = fakeKV({}); // no prior requests
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask(
+        { question: "what is the roundabout cost?", turnstile_token: "tok" },
+        { "CF-Connecting-IP": ip },
+      ),
+      env: askEnv({ ASK_RATE_LIMIT: kv, ASK_RATE_LIMIT_MAX: "0" }),
+    } as never);
+    expect(res.status).toBe(429); // 0 allowed ⇒ first request already over
   });
 });
