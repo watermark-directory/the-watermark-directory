@@ -48,6 +48,12 @@ describe("/api/doc route", () => {
     expect(res.status).toBe(405);
   });
 
+  it("405s on OPTIONS (no preflight handler — non-GET/HEAD)", async () => {
+    vi.stubGlobal("fetch", routingFetch([]));
+    const res = await call(new Request(DOC_URL, { method: "OPTIONS" }), devEnv());
+    expect(res.status).toBe(405);
+  });
+
   it("503s when the kill switch is off", async () => {
     vi.stubGlobal("fetch", routingFetch([]));
     const res = await call(get(), { DOCS: docs() });
@@ -143,6 +149,25 @@ describe("/api/doc route", () => {
       );
       const res = await call(get(), devEnv({ DOCS_PUBLIC_GATE: "on" }));
       expect(res.status).toBe(503);
+    });
+
+    it("enforces the gate on the production branch (CF_PAGES_BRANCH=main, no override)", async () => {
+      // No DOCS_PUBLIC_GATE override — the gate turns on purely from the branch, and the
+      // allowlist (which omits KEY) 404s it. Exercises the branch-driven gate path.
+      const fetchStub = routingFetch([publishedRoute(["recorder/other.pdf"])]);
+      vi.stubGlobal("fetch", fetchStub);
+      const res = await call(get(), devEnv({ CF_PAGES_BRANCH: "main" }));
+      expect(res.status).toBe(404);
+      expect(fetchStub.calls.some((c) => c.url.includes("/published-documents.json"))).toBe(true);
+    });
+
+    it('the DOCS_PUBLIC_GATE="off" override serves a non-allowlisted key, even on main', async () => {
+      // Operator escape hatch: gate explicitly off ⇒ no allowlist fetch, serve everything.
+      const fetchStub = routingFetch([]); // any allowlist fetch would throw (unmatched)
+      vi.stubGlobal("fetch", fetchStub);
+      const res = await call(get(), devEnv({ CF_PAGES_BRANCH: "main", DOCS_PUBLIC_GATE: "off" }));
+      expect(res.status).toBe(200);
+      expect(fetchStub.calls.some((c) => c.url.includes("/published-documents.json"))).toBe(false);
     });
   });
 });

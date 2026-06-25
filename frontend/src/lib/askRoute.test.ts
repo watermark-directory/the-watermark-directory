@@ -332,4 +332,69 @@ describe("/api/ask route", () => {
     } as never);
     expect(res.status).toBe(429); // 0 allowed ⇒ first request already over
   });
+
+  // --- #592: previously-untested failure + accounting branches ----------------------------
+  it("500s when the ask-index asset can't be loaded", async () => {
+    const askIndex500: FetchRoute = {
+      test: (url) => url.pathname === "/ask-index.json",
+      respond: () => new Response("nope", { status: 500 }),
+    };
+    const fetchStub = routingFetch([turnstileRoute(true), askIndex500]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok" }),
+      env: askEnv(),
+    } as never);
+    expect(res.status).toBe(500);
+  });
+
+  it("502s (non-streaming) when the model call fails", async () => {
+    const anthropic500: FetchRoute = {
+      test: (url) => url.pathname === "/v1/messages",
+      respond: () => jsonResponse(500, { error: { message: "upstream boom" } }),
+    };
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute, anthropic500]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok" }),
+      env: askEnv(),
+    } as never);
+    expect(res.status).toBe(502);
+  });
+
+  it("emits an SSE error frame when the stream fails to start", async () => {
+    const anthropic500: FetchRoute = {
+      test: (url) => url.pathname === "/v1/messages",
+      respond: () => new Response("boom", { status: 500 }),
+    };
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute, anthropic500]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask(
+        { question: "what is the roundabout cost?", turnstile_token: "tok" },
+        { Accept: "text/event-stream" },
+      ),
+      env: askEnv(),
+    } as never);
+    expect(res.headers.get("content-type")).toContain("text/event-stream");
+    const out = await readStream(res);
+    expect(out).toContain("event: meta"); // the pre-answer frame always ships first
+    expect(out).toContain("event: error"); // …then the failure is relayed, not thrown
+  });
+
+  it("records the answer's output tokens against the daily budget (addUsage)", async () => {
+    const fixedMs = 1_750_000_000_000;
+    vi.spyOn(Date, "now").mockReturnValue(fixedMs);
+    const budgetKv = fakeKV({}); // no prior spend
+    const answer = "The estimate totals $1,234,567 [1].";
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute, anthropicJsonRoute(answer)]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok" }),
+      env: askEnv({ ASK_BUDGET: budgetKv }),
+    } as never);
+    expect(res.status).toBe(200);
+    // anthropicJsonRoute reports output_tokens: 12 → the day counter is incremented by it.
+    expect(budgetKv.store.get(dayKey(fixedMs))).toBe("12");
+  });
 });
