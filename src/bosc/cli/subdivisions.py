@@ -8,6 +8,7 @@ from rich.table import Table
 from bosc.cli._base import (
     console,
     get_settings,
+    offline_settings,
     subdivisions_app,
 )
 
@@ -69,9 +70,8 @@ def subdivisions_discover(
 
     from bosc.civic import load_registry
     from bosc.civic.discovery import discover
-    from bosc.config import Settings
 
-    settings = Settings(hydro_offline=True) if offline else get_settings()
+    settings = offline_settings("hydro", offline)
     reg = load_registry(settings)
 
     if all_known:
@@ -126,9 +126,8 @@ def subdivisions_fetch(
 
     from bosc.civic import load_registry
     from bosc.civic.fetchers import FetcherNotImplementedError, fetch_meetings
-    from bosc.config import Settings
 
-    settings = Settings(hydro_offline=True) if offline else get_settings()
+    settings = offline_settings("hydro", offline)
     reg = load_registry(settings)
     body = reg.get(slug)
     if body is None:

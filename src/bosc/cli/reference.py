@@ -6,10 +6,13 @@ import typer
 from rich.table import Table
 
 from bosc.cli._base import (
+    Settings,
     app,
     console,
     get_settings,
+    offline_settings,
     repo_fixtures_dir,
+    wrote,
 )
 
 
@@ -31,7 +34,6 @@ def npdes(
     POTW-only YAML, an all-dischargers YAML, and a per-HUC count manifest. The basin is a
     registry entry in ``bosc.hydrology.connectors.echo`` (default: the Maumee).
     """
-    from bosc.config import Settings
     from bosc.hydrology.connectors import echo
 
     try:
@@ -101,10 +103,9 @@ def dmr(
     """
     import yaml
 
-    from bosc.config import Settings
     from bosc.hydrology.connectors import echo_dmr
 
-    settings = Settings(hydro_offline=True) if offline else get_settings()
+    settings = offline_settings("hydro", offline)
     try:
         chart = echo_dmr.fetch_effluent_chart(
             npdes_id, start_date=start, end_date=end, settings=settings
@@ -144,7 +145,7 @@ def dmr(
         path.write_text(
             yaml.safe_dump(doc, sort_keys=False, allow_unicode=True, width=100), encoding="utf-8"
         )
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
 
 @app.command(name="nasa-power")
@@ -165,7 +166,6 @@ def nasa_power_cmd(
     Atlas-14 still supplies the design-storm depths. ``--write`` refreshes the
     committed reference the hydrology report reads.
     """
-    from bosc.config import Settings
     from bosc.hydrology import climate
     from bosc.hydrology.connectors import nasa_power
 
@@ -206,7 +206,7 @@ def nasa_power_cmd(
 
     if write:
         path = climate.write_climatology(clim, settings=get_settings())
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
 
 @app.command(name="rsei")
@@ -234,7 +234,6 @@ def rsei_cmd(
     import json
 
     from bosc import rsei
-    from bosc.config import Settings
 
     settings = get_settings()
     if offline:
@@ -256,7 +255,7 @@ def rsei_cmd(
     )
 
     path = rsei.write_inventory(inv, target)
-    console.print(f"[green]Wrote[/] {path}")
+    wrote(path)
     console.print(
         "[dim]Score is EPA's modeled, population-weighted Risk-Screening Score "
         "(unitless, comparative only). Pounds are reported TRI releases.[/]"
@@ -321,7 +320,7 @@ def toxics_cmd(
     )
 
     path = toxics.write_screen(inv, target)
-    console.print(f"[green]Wrote[/] {path}")
+    wrote(path)
     console.print(
         "[dim]Screening concentration is a derived order-of-magnitude value (annual "
         "reported water pounds at the 7Q10), not a measured concentration.[/]"

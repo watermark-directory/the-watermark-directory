@@ -11,6 +11,7 @@ The command modules live in sibling files and import from here; the package
 from __future__ import annotations
 
 import os
+from typing import Any
 
 import typer
 from rich.console import Console
@@ -30,6 +31,25 @@ app = typer.Typer(
     add_completion=False,
 )
 console = Console()
+
+
+def offline_settings(subsystem: str, offline: bool) -> Settings:
+    """The recurring offline/online ``Settings`` switch used across the connector commands.
+
+    When ``offline`` is set, serve committed fixtures for ``<subsystem>`` only (never touch
+    the network) by flipping its ``<subsystem>_offline`` flag; otherwise return the live,
+    cached config. Replaces the ``Settings(<sub>_offline=True) if offline else get_settings()``
+    idiom that recurred across the command modules (#596).
+    """
+    if not offline:
+        return get_settings()
+    overrides: dict[str, Any] = {f"{subsystem}_offline": True}
+    return Settings(**overrides)
+
+
+def wrote(path: object) -> None:
+    """Standard ``Wrote <path>`` confirmation — the repeated success line (#596)."""
+    console.print(f"[green]Wrote[/] {path}")
 
 
 @app.callback()

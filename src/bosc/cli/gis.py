@@ -6,9 +6,12 @@ import typer
 from rich.table import Table
 
 from bosc.cli._base import (
+    Settings,
     app,
     console,
     get_settings,
+    offline_settings,
+    wrote,
 )
 
 
@@ -34,7 +37,6 @@ def parcels(
     ),
 ) -> None:
     """Query the county GIS parcel (CAMA) layer: by number, owner, citations, or defense scan."""
-    from bosc.config import Settings
     from bosc.hydrology.connectors import allen_gis
     from bosc.sites import active_profile
 
@@ -153,7 +155,6 @@ def zoning(
     ),
 ) -> None:
     """Query the jurisdiction zoning layer (Lima = city limits only; joins by parcel number)."""
-    from bosc.config import Settings
     from bosc.hydrology.connectors import allen_gis, lima_gis
     from bosc.sites import active_profile
 
@@ -205,7 +206,7 @@ def zoning(
         if write:
             target = Path(out_dir) if out_dir else ref_dir
             path = lima_gis.write_cited_zoning(scan, target, settings=settings)
-            console.print(f"[green]Wrote[/] {path}")
+            wrote(path)
         return
 
     console.print("Pass one of --parcel, --districts, or --cited.")
@@ -229,7 +230,6 @@ def floodzone(
     ),
 ) -> None:
     """Query the FEMA floodzone layer: zone catalog, or a footprint's flood risk."""
-    from bosc.config import Settings
     from bosc.hydrology.connectors import lima_gis
     from bosc.hydrology.floodplain import write_campus_floodzone
     from bosc.sites import active_profile
@@ -316,11 +316,10 @@ def wbd(
     which nest into the Auglaize/Maumee basin. With --write, lands them as committed
     reference GeoJSON the `watershed` feed reads.
     """
-    from bosc.config import Settings
     from bosc.gis.sites import get_site
     from bosc.hydrology.connectors import wbd as wbd_mod
 
-    settings = Settings(hydro_offline=True) if offline else get_settings()
+    settings = offline_settings("hydro", offline)
 
     if point is not None:
         try:
