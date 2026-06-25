@@ -513,3 +513,15 @@ Left as-is (spec-ahead — a separate `reconcile impl←spec` if pursued, not th
   counts are dropped (provenance discipline) — only the sparse truthful `note` survives;
 - **`claim` filter** — filters are now All / Signals / Questions / Redactions / **Claims** (+ per-
   filter counts). Backed by the 14 real curated leads, each tracing to a committed source.
+
+### Batch 11 — Site tier · Profile (#574, epic #564) ✅ pushed
+`ui_kits/site/Profile.jsx`, brought up to the shipped wiki profile (`ProfileHeader.astro`, rendered
+by the `wiki/{entities,concepts,people}` pages). The `ProfileHeader` *component* already gained the
+new contract in Batch 4 (#565); this screen's `PROFILE` data is updated to exercise it:
+- **seen-in-story backlink** — `seenIn: {href, ch, label}` → the header's "↩ seen in the story ·
+  Chapter 1 · … · resume the story ›" backlink;
+- **suggest-correction foot** — `correctHref` → the header's "✎ Suggest a correction";
+- `graph: true` → **`graphHref`** ("◉ View in graph"), and per-relationship **`href`s** on the
+  graph-neighborhood chips; "walk" → "story" in the descriptor (#638). The deed row in the
+  page-composed "records that mention this" list also gains a `seenIn` to show the compact
+  RecordBlock backlink. The list itself stays page-composed (not part of the header comp).
