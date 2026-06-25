@@ -39,6 +39,25 @@ def test_resolve_address_is_a_proposal(poi_offline_settings: Settings) -> None:
     assert r.parcel is not None and "SPENCERVILLE" in (r.parcel.situs_address or "")
 
 
+def test_geocode_match_carries_state(poi_offline_settings: Settings) -> None:
+    # The match now exposes its USPS state (addressComponents.state) for the guard (#621).
+    m = geocode_address("3640 Spencerville Road, Lima, OH", settings=poi_offline_settings)
+    assert m is not None and m.state == "OH"
+
+
+def test_resolve_address_rejects_wrong_state(poi_offline_settings: Settings) -> None:
+    # The same OH geocode, but against a site whose state is IN: an unconstrained geocoder
+    # can match another state, so a cross-state point is rejected before becoming a lead (#621).
+    in_site = poi_offline_settings.model_copy(
+        update={"gnis_default_state": "IN", "eia_state": "IN"}
+    )
+    r = resolve_value("address", "3640 Spencerville Road, Lima, OH", settings=in_site)
+    assert r.method == "unresolved"
+    assert r.confidence == "none"
+    assert r.parcel is None
+    assert "wrong-state" in (r.note or "")
+
+
 def test_resolve_candidate_dispatches(poi_offline_settings: Settings) -> None:
     cand = POICandidate(
         kind="parcel-id", value="36-0100-03-002.000", normalized="36010003002000", occurrences=1

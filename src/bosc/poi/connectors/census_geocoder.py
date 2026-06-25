@@ -36,6 +36,8 @@ class GeocodeMatch(BaseModel):
     matched_address: str
     lon: float
     lat: float
+    state: str | None = None  # USPS state of the match (addressComponents.state), for the
+    # wrong-state sanity check in resolve — an under-qualified address can match another state.
     source: str = "US Census Geocoder (Public_AR_Current)"
 
 
@@ -78,9 +80,11 @@ def _parse(payload: dict[str, Any], *, query: str) -> GeocodeMatch | None:
     lon, lat = coords.get("x"), coords.get("y")
     if lon is None or lat is None:
         return None
+    state = (top.get("addressComponents") or {}).get("state")
     return GeocodeMatch(
         query=query,
         matched_address=str(top.get("matchedAddress", "")),
         lon=float(lon),
         lat=float(lat),
+        state=str(state) if state else None,
     )

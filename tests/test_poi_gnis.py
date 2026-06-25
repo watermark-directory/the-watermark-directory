@@ -44,6 +44,14 @@ def test_gnis_offline_miss_raises(poi_offline_settings: Settings) -> None:
         find_feature("Nonexistent Creek", settings=poi_offline_settings)
 
 
+def test_find_feature_refuses_empty_state(poi_offline_settings: Settings) -> None:
+    # An empty state would build `state_alpha=''` and silently match nothing; refuse
+    # cleanly instead, naming the missing knob (#621).
+    no_state = poi_offline_settings.model_copy(update={"gnis_default_state": ""})
+    with pytest.raises(ValueError, match="gnis_default_state"):
+        find_feature("Ottawa River", settings=no_state)
+
+
 def test_merge_blocks_feature_by_fallback_key(poi_settings: Settings) -> None:
     def cand(kind: str, value: str) -> POICandidate:
         return POICandidate(

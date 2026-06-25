@@ -54,6 +54,14 @@ def find_feature(
     """The first GNIS feature named ``name`` in ``state`` across the configured layers."""
     settings = settings or get_settings()
     state = state or settings.gnis_default_state
+    # Refuse on an empty state rather than build `state_alpha=''` — which silently matches
+    # nothing (the opposite of the "a connector refuses cleanly" discipline) (#621). Every
+    # registered site sets this; an empty value means the active profile omitted it.
+    if not state:
+        raise ValueError(
+            "no state for the GNIS query — set `gnis_default_state` on the active site profile "
+            "(or pass state=...)"
+        )
     layers = layers if layers is not None else list(settings.gnis_layers)
     safe = name.replace("'", "''")
 
@@ -94,6 +102,13 @@ def find_feature(
 
 
 def _parse(payload: dict[str, Any], *, name: str, state: str) -> GnisFeature | None:
+    """The first matching GNIS feature, or ``None``.
+
+    Takes ``features[0]`` as-is: the query is already constrained by exact ``gaz_name``
+    + ``state_alpha``, so within a state a name is effectively unique. There is **no**
+    gaz_id dedup or county disambiguation here — a same-name feature in two counties of
+    the same state would resolve to whichever the service returns first.
+    """
     features = payload.get("features") or []
     if not features:
         return None
