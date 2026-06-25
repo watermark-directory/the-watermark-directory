@@ -48,7 +48,15 @@ _BLOCK_TO_GROUP: dict[str, str] = {
 _OPC_KEYS = frozenset({"estimate", "sub_estimates", "estimate_template"})
 # Envelope keys that are provenance, not subject fields — rendered separately.
 _ENVELOPE = frozenset(
-    {"doc_id", "source_path", "kind", "pages_read", "image_pages_read", "dpi", "source_text_excerpt"}
+    {
+        "doc_id",
+        "source_path",
+        "kind",
+        "pages_read",
+        "image_pages_read",
+        "dpi",
+        "source_text_excerpt",
+    }
 )
 
 
