@@ -6,9 +6,12 @@ import typer
 from rich.table import Table
 
 from bosc.cli._base import (
+    Settings,
     app,
     console,
     get_settings,
+    offline_settings,
+    wrote,
 )
 
 
@@ -173,10 +176,9 @@ def economics(
     ),
 ) -> None:
     """Pull the localized economic baseline (BLS QCEW) — employment mix + export-orientation."""
-    from bosc.config import Settings
     from bosc.economics.baseline import build_baseline, write_baseline
 
-    settings = Settings(econ_offline=True) if offline else get_settings()
+    settings = offline_settings("econ", offline)
     baseline = build_baseline(settings=settings)
     latest = baseline.latest
 
@@ -210,7 +212,7 @@ def economics(
     )
     if write:
         path = write_baseline(baseline, settings=settings)
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
 
 @app.command(name="eia")
@@ -223,14 +225,13 @@ def eia_cmd(
     ),
 ) -> None:
     """Consumer energy costs (EIA) + the data-center demand → price-pressure sensitivity."""
-    from bosc.config import Settings
     from bosc.economics.energy import (
         build_consumer_energy,
         derive_demand_pressure,
         write_consumer_energy,
     )
 
-    settings = Settings(econ_offline=True) if offline else get_settings()
+    settings = offline_settings("econ", offline)
     costs = build_consumer_energy(settings=settings)
 
     console.print(f"[bold]{costs.area_name} consumer energy costs[/] [dim](EIA API v2)[/]")
@@ -268,7 +269,7 @@ def eia_cmd(
         )
     if write:
         path = write_consumer_energy(costs, settings=settings)
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
 
 @app.command(name="grid")
@@ -334,7 +335,7 @@ def grid_cmd(
     )
     if write:
         path = write_grid_profile(gp, settings=settings)
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
 
 @app.command(name="interchange")
@@ -389,7 +390,7 @@ def interchange_cmd(
     console.print(f"\n[dim]{cmp.interpretation}[/]")
     if write and not offline:  # offline reads the committed slice; only a live pull rewrites it
         path = write_ba_interchange(bai, settings=settings)
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
 
 @app.command(name="pjm")
@@ -443,7 +444,7 @@ def pjm_cmd(
     )
     if write:
         path = write_pjm_market(_market_reference(settings), settings=settings)
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
 
 @app.command(name="lmp")
@@ -512,7 +513,7 @@ def ferc_cmd(
     )
     if write:
         path = write_ferc_seam(seam, settings=settings)
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
 
 @app.command(name="federal")
@@ -565,7 +566,7 @@ def federal_cmd(
     )
     if write:
         path = write_federal_backdrop(fb, settings=settings)
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
 
 @app.command(name="lei")
@@ -585,7 +586,6 @@ def lei_cmd(
     """
     from bosc import gleif
     from bosc.catalog import output_dir_for_command
-    from bosc.config import Settings
 
     settings = get_settings()
     if offline:
@@ -614,7 +614,7 @@ def lei_cmd(
     )
 
     path = gleif.write_inventory(inv, target)
-    console.print(f"[green]Wrote[/] {path}")
+    wrote(path)
 
 
 @app.command(name="usaspending")
@@ -635,7 +635,6 @@ def usaspending_cmd(
     """
     from bosc import usaspending
     from bosc.catalog import output_dir_for_command
-    from bosc.config import Settings
 
     settings = get_settings()
     if offline:
@@ -670,7 +669,7 @@ def usaspending_cmd(
     )
 
     path = usaspending.write_inventory(inv, target)
-    console.print(f"[green]Wrote[/] {path}")
+    wrote(path)
 
 
 @app.command(name="lsc")
@@ -690,7 +689,6 @@ def lsc(
     Downloads the LSC status-report workbook, parses every measure's chamber-by-
     chamber milestones verbatim, and writes a YAML with a provenance meta block.
     """
-    from bosc.config import Settings
     from bosc.hydrology.connectors import lsc as lsc_connector
 
     settings = get_settings()
@@ -710,7 +708,7 @@ def lsc(
     )
 
     path = lsc_connector.write_status_report(report, target)
-    console.print(f"[green]Wrote[/] {path}")
+    wrote(path)
 
 
 @app.command(name="orc")
@@ -733,7 +731,6 @@ def orc(
     writes the cited sections' full text plus a citations manifest. With --titles,
     also pulls the entire titles those sections live in (thousands of sections).
     """
-    from bosc.config import Settings
     from bosc.hydrology.connectors import orc as orc_connector
 
     settings = get_settings()

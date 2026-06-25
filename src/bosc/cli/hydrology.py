@@ -8,7 +8,9 @@ from bosc.cli._base import (
     app,
     console,
     get_settings,
+    offline_settings,
     repo_fixtures_dir,
+    wrote,
 )
 
 
@@ -19,7 +21,6 @@ def hydro(
     ),
 ) -> None:
     """Tier-0 water balance + low-flow assimilative screen of the municipal loop."""
-    from bosc.config import Settings
     from bosc.pipeline import hydrology as hydro_stage
 
     settings = get_settings()
@@ -167,7 +168,7 @@ def derive_low_flows(
     """Regenerate the derived mainstem 7Q10 reference (USGS NWIS daily record -> LP3)."""
     from bosc.hydrology.basin import derive_basin_low_flows, write_derived_low_flows
 
-    settings = Settings(hydro_offline=True) if offline else get_settings()
+    settings = offline_settings("hydro", offline)
     streams = derive_basin_low_flows(settings=settings)
     path = write_derived_low_flows(streams, settings=settings)
     console.print(f"[green]Wrote[/] {path} — {len(streams)} mainstem 7Q10s:")
@@ -188,7 +189,6 @@ def storm(
     ),
 ) -> None:
     """Tier-0 pre- vs post-development design-storm runoff for the campus footprint."""
-    from bosc.config import Settings
     from bosc.hydrology import stormwater
     from bosc.pipeline import hydrology as hydro_stage
 
@@ -264,7 +264,6 @@ def storm_discharge(
     peak against Dug Run's cited 7Q10 — the receiving water the inspections call "the creek
     west of the site."
     """
-    from bosc.config import Settings
     from bosc.hydrology import stormwater
     from bosc.pipeline import hydrology as hydro_stage
 
@@ -336,7 +335,6 @@ def scenario(
     offline: bool = typer.Option(False, "--offline", help="Use cached/fixture streamflow only."),
 ) -> None:
     """Baseline vs data-center buildout: net consumptive draw vs the Ottawa 7Q10."""
-    from bosc.config import Settings
     from bosc.hydrology import scenario as scenario_stage
     from bosc.pipeline import hydrology as hydro_stage
 
@@ -401,7 +399,7 @@ def scenario(
     if write:
         for r in (base, build):
             path = scenario_stage.write_scenario(r, settings=settings)
-            console.print(f"[green]Wrote[/] {path}")
+            wrote(path)
 
 
 @app.command(name="hydro-hypotheses")
@@ -423,10 +421,9 @@ def hydro_hypotheses(
     """Compare BOSC-routing / cooling hypotheses at macro/local/site level vs the baseline."""
     import yaml
 
-    from bosc.config import Settings
     from bosc.hydrology import hypothesis as hyp_stage
 
-    settings = Settings(hydro_offline=True) if offline else get_settings()
+    settings = offline_settings("hydro", offline)
     hyps = hyp_stage.default_hypotheses(
         cooling_demand_mgd=cooling_demand, consumptive_fraction=consumptive_fraction
     )
@@ -471,7 +468,7 @@ def hydro_hypotheses(
             yaml.safe_dump(comparison.model_dump(), sort_keys=False, allow_unicode=True),
             encoding="utf-8",
         )
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
 
 @app.command(name="tier1")
@@ -487,10 +484,9 @@ def tier1(
     ),
 ) -> None:
     """Tier-1 EPA SWMM: detention sizing + sanitary wet-weather surcharge."""
-    from bosc.config import Settings
     from bosc.hydrology.tier1 import run_tier1, tier1_findings, write_tier1
 
-    settings = Settings(hydro_offline=True) if offline else get_settings()
+    settings = offline_settings("hydro", offline)
     result = run_tier1(return_period_yr=return_period, settings=settings, live=True)
     if not result.available:
         console.print(f"[yellow]{result.note}[/]")
@@ -583,13 +579,12 @@ def hydro_report(
     ),
 ) -> None:
     """Render (or write) the evidence-tagged hydrology dossier section."""
-    from bosc.config import Settings
     from bosc.hydrology import report
 
-    settings = get_settings() if live else Settings(hydro_offline=True)
+    settings = offline_settings("hydro", not live)
     if write:
         path = report.write_report(settings=settings, live=live)
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
     else:
         console.print(report.render_report(settings=settings, live=live), markup=False)
 
@@ -672,15 +667,14 @@ def drainage_audit_cmd(
     DDF and the 95% SPS storm plan (which shows no detention). A design-basis /
     scope-completeness audit — it does not size the roundabouts' hydraulics.
     """
-    from bosc.config import Settings
     from bosc.hydrology import drainage
 
-    settings = Settings(hydro_offline=True) if offline else get_settings()
+    settings = offline_settings("hydro", offline)
 
     if write_ddf:
         ddf = drainage.build_corridor_ddf(settings=settings)
         path = drainage.write_corridor_ddf(ddf, settings=settings)
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
     audit = drainage.build_drainage_audit(settings)
 
@@ -749,7 +743,6 @@ def lowflow_freq(
     each against the cited regulatory value. The computed figures are `derived` — a
     screening corroboration, not a substitute for the cited 7Q10.
     """
-    from bosc.config import Settings
     from bosc.hydrology import lowflow_frequency as lf
 
     settings = get_settings()
@@ -790,7 +783,7 @@ def lowflow_freq(
 
     if write:
         path = lf.write_low_flow_frequency(lff, settings=get_settings())
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
 
 
 @app.command(name="supply")
@@ -855,7 +848,7 @@ def refill_cmd(
     if write:
         ra = refill_mod.compute_refill_adequacy(settings=settings)
         path = refill_mod.write_refill_adequacy(ra, settings=settings)
-        console.print(f"[green]Wrote[/] {path}")
+        wrote(path)
         findings = refill_mod.refill_findings(ra)
     else:
         loaded, findings = hydro_stage.run_refill(settings=settings)

@@ -15,6 +15,7 @@ from bosc.cli._base import (
     app,
     console,
     get_settings,
+    offline_settings,
 )
 from bosc.pipeline import analyze, ingest
 
@@ -213,9 +214,8 @@ def ledger(
 ) -> None:
     """Public-subsidy vs. public-benefit ledger for the data-center CRA abatement."""
     from bosc import ledger as ledger_mod
-    from bosc.config import Settings
 
-    settings = Settings(hydro_offline=True) if offline else get_settings()
+    settings = offline_settings("hydro", offline)
     pl = ledger_mod.build_ledger(settings)
     ft = pl.foregone_tax
 
