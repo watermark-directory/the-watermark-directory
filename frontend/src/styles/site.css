@@ -2143,6 +2143,11 @@ a.card:hover { border-color: var(--bosc-forest); background: var(--bosc-surface)
 .td-tag--verified { color: var(--td-verified); background: var(--td-verified-bg); }
 .td-tag--inference { color: var(--td-inference); background: var(--td-inference-bg); }
 .td-tag--open { color: var(--td-open); background: var(--td-open-bg); }
+/* The other three EvidenceTag kinds — emitters build `td-tag--${kind}` for all six, so these
+   must exist or `gap`/`key`/`filename` render unstyled (#589). Palette mirrors `.evidence-*`. */
+.td-tag--filename { color: var(--bosc-filename); background: var(--td-open-bg); }
+.td-tag--gap { color: var(--ev-gap-fg); background: var(--ev-gap-bg); }
+.td-tag--key { color: var(--ev-key-fg); background: var(--ev-key-bg); }
 
 .td-link-row { display: flex; flex-direction: column; align-items: flex-start; }
 .td-link { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-meta); text-decoration: none; }
