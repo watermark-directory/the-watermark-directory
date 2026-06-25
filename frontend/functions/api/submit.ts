@@ -7,6 +7,7 @@
 // rate-limit (soft, if a KV namespace is bound) → verify Turnstile → mint the
 // issues-only App token → dedupe vs open submissions → create the issue.
 
+import { intEnv } from "./_lib/env";
 import { fileIssueAsApp } from "./_lib/github";
 import { buildIssue, dedupeInput } from "./_lib/issue";
 import { checkRateLimit, DEFAULT_RATE_LIMIT, type KVLike } from "./_lib/ratelimit";
@@ -93,8 +94,8 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   // is bound and we have an IP. Soft + fail-open (Turnstile is the primary gate).
   if (env.RATE_LIMIT && remoteip) {
     const cfg = {
-      max: Number(env.RATE_LIMIT_MAX) || DEFAULT_RATE_LIMIT.max,
-      windowSec: Math.max(60, Number(env.RATE_LIMIT_WINDOW_SEC) || DEFAULT_RATE_LIMIT.windowSec),
+      max: intEnv(env.RATE_LIMIT_MAX, DEFAULT_RATE_LIMIT.max),
+      windowSec: Math.max(60, intEnv(env.RATE_LIMIT_WINDOW_SEC, DEFAULT_RATE_LIMIT.windowSec)),
     };
     const rl = await checkRateLimit(env.RATE_LIMIT, remoteip, Math.floor(Date.now() / 1000), cfg);
     if (!rl.allowed)

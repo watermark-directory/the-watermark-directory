@@ -24,6 +24,7 @@ import { streamMessage } from "./_lib/anthropicStream";
 import { loadAskIndex } from "./_lib/askIndexLoad";
 import { validateAsk } from "./_lib/askSchema";
 import { addUsage, DEFAULT_DAILY_TOKEN_BUDGET, isOverBudget } from "./_lib/budget";
+import { intEnv } from "./_lib/env";
 import { checkRateLimit, type KVLike } from "./_lib/ratelimit";
 import { type PreparedIndex, prepare, search } from "./_lib/retrieval";
 import { frame } from "./_lib/sse";
@@ -46,13 +47,19 @@ interface Env {
   ASK_TOP_K?: string;
   /** Optional override for the ask-index asset URL (sharded/CDN index). */
   ASK_INDEX_URL?: string;
-  /** Optional KV namespace for per-IP rate limiting + the daily budget counter. */
+  /** Optional KV namespace for per-IP rate limiting. */
   ASK_RATE_LIMIT?: KVLike;
   /** Per-IP fixed-window limits (defaults below). */
   ASK_RATE_LIMIT_MAX?: string;
   ASK_RATE_LIMIT_WINDOW_SEC?: string;
-  /** Account-wide daily output-token budget (default 200k). */
+  /** Optional KV namespace for the account-wide daily budget counter. Falls back to
+   *  ASK_RATE_LIMIT, so the budget can be enforced independently of per-IP limiting (#587). */
+  ASK_BUDGET?: KVLike;
+  /** Account-wide daily output-token budget (default 200k). A configured "0" is a hard stop. */
   ASK_DAILY_TOKEN_BUDGET?: string;
+  /** Escape hatch: with no budget KV bound the paid endpoint fails closed (#587) unless this
+   *  is "true" (local dev / explicit operator opt-in to an uncapped endpoint). */
+  ASK_ALLOW_UNCAPPED?: string;
 }
 
 // A paid endpoint deserves a tighter per-IP window than the tips form.
@@ -114,27 +121,35 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
 
   const remoteip = request.headers.get("CF-Connecting-IP") ?? undefined;
   const nowMs = Date.now();
-  const budgetLimit = Math.max(0, Number(env.ASK_DAILY_TOKEN_BUDGET) || DEFAULT_DAILY_TOKEN_BUDGET);
+  const budgetLimit = Math.max(0, intEnv(env.ASK_DAILY_TOKEN_BUDGET, DEFAULT_DAILY_TOKEN_BUDGET));
+  // Budget counter KV — its own optional binding, falling back to the rate-limit namespace, so
+  // the daily cap can be enforced without also enabling per-IP limiting (#587).
+  const budgetKv = env.ASK_BUDGET ?? env.ASK_RATE_LIMIT;
 
-  // Per-IP rate limit + account-wide budget guard, when a KV namespace is bound. Both
-  // are soft + fail-open (Turnstile is the primary gate). Checked before the model call.
-  if (env.ASK_RATE_LIMIT) {
-    if (remoteip) {
-      const cfg = {
-        max: Number(env.ASK_RATE_LIMIT_MAX) || DEFAULT_ASK_RATE_LIMIT.max,
-        windowSec: Math.max(60, Number(env.ASK_RATE_LIMIT_WINDOW_SEC) || DEFAULT_ASK_RATE_LIMIT.windowSec),
-      };
-      const rl = await checkRateLimit(env.ASK_RATE_LIMIT, remoteip, Math.floor(nowMs / 1000), cfg);
-      if (!rl.allowed)
-        return json(
-          429,
-          { error: "too many questions — please try again later" },
-          { "Retry-After": String(rl.retryAfter) },
-        );
-    }
-    if (await isOverBudget(env.ASK_RATE_LIMIT, nowMs, budgetLimit))
-      return json(503, { error: "the ask endpoint has reached today's budget — please try again tomorrow" });
+  // A paid endpoint must be capped. With no KV to enforce the daily budget, fail closed rather
+  // than allow unbounded model spend behind Turnstile alone — unless explicitly opted out (#587).
+  if (!budgetKv && env.ASK_ALLOW_UNCAPPED !== "true") {
+    console.error("ask: no budget KV bound and ASK_ALLOW_UNCAPPED!=true — refusing (fail-closed)");
+    return json(503, { error: "the ask endpoint is temporarily unavailable" });
   }
+
+  // Per-IP rate limit (independent of the budget) + account-wide budget guard. Both are soft +
+  // fail-open on KV error (Turnstile is the primary gate). Checked before the model call.
+  if (env.ASK_RATE_LIMIT && remoteip) {
+    const cfg = {
+      max: intEnv(env.ASK_RATE_LIMIT_MAX, DEFAULT_ASK_RATE_LIMIT.max),
+      windowSec: Math.max(60, intEnv(env.ASK_RATE_LIMIT_WINDOW_SEC, DEFAULT_ASK_RATE_LIMIT.windowSec)),
+    };
+    const rl = await checkRateLimit(env.ASK_RATE_LIMIT, remoteip, Math.floor(nowMs / 1000), cfg);
+    if (!rl.allowed)
+      return json(
+        429,
+        { error: "too many questions — please try again later" },
+        { "Retry-After": String(rl.retryAfter) },
+      );
+  }
+  if (budgetKv && (await isOverBudget(budgetKv, nowMs, budgetLimit)))
+    return json(503, { error: "the ask endpoint has reached today's budget — please try again tomorrow" });
 
   // Verify the human-challenge token (single-use, then discarded).
   if (!turnstile_token) return json(403, { error: "verification required — please complete the challenge" });
@@ -149,11 +164,11 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
     console.error("ask-index load failed:", e);
     return json(500, { error: "the corpus index is unavailable" });
   }
-  const k = Math.max(1, Number(env.ASK_TOP_K) || DEFAULT_TOP_K);
+  const k = Math.max(1, intEnv(env.ASK_TOP_K, DEFAULT_TOP_K));
   const hits = search(getPrepared(units), question, k);
 
   const model = env.ASK_MODEL || DEFAULT_MODEL;
-  const maxTokens = Math.max(256, Number(env.ASK_MAX_TOKENS) || DEFAULT_MAX_TOKENS);
+  const maxTokens = Math.max(256, intEnv(env.ASK_MAX_TOKENS, DEFAULT_MAX_TOKENS));
   const wantsStream = (request.headers.get("Accept") ?? "").includes("text/event-stream");
 
   // Record spend against the daily budget + log usage/cost for observability.
@@ -162,7 +177,7 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
     console.log(
       `ask: model=${model} in=${usage.input_tokens} out=${usage.output_tokens} hits=${hits.length}`,
     );
-    if (env.ASK_RATE_LIMIT) await addUsage(env.ASK_RATE_LIMIT, nowMs, usage.output_tokens);
+    if (budgetKv) await addUsage(budgetKv, nowMs, usage.output_tokens);
   };
 
   // Nothing relevant retrieved ⇒ refuse deterministically, before spending a model call.
