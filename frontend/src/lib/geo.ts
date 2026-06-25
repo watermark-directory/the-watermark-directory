@@ -5,6 +5,7 @@
  */
 import type { FeatureCollection } from "geojson";
 import { loadFeed, loadManifest } from "./bundle";
+import type { ImageryFeed } from "./feeds";
 import type { GeoFeature } from "./geoStyle";
 
 // The imagery feed is the time-slider's data (an AOI footprint + the Wayback
@@ -21,6 +22,12 @@ export function geoFeedNames(): string[] {
 /** One geo layer feed as a GeoJSON FeatureCollection (meta preserved). */
 export function loadGeo(name: string): FeatureCollection {
   return loadFeed<FeatureCollection>(name);
+}
+
+/** The `geo/imagery` feed, typed (the Wayback ladder + AOI footprints) — so the
+ *  slider page reads it without an `as unknown as` cast (#585). */
+export function loadImagery(): ImageryFeed {
+  return loadFeed<ImageryFeed>("geo/imagery");
 }
 
 /** The corridor + watershed map's source: every geo layer feed merged into one

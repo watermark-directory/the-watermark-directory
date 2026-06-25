@@ -72,9 +72,10 @@ export default function DefenseNexusMap({ data }: { data: DefenseNexusData }): J
 
   const fact = data.facts.find((f) => f.key === active) ?? data.facts[0];
   const emphasis: DnEmphasis = fact?.emphasis ?? "gap";
-  // Cast once — a fresh `as` cast is not a new array, but memoizing keeps the layers-memo dep
-  // stable and the intent explicit (#586).
-  const features = useMemo(() => data.geo.features as unknown as GeoFeature[], [data.geo.features]);
+  // `data.geo` is FeatureCollection<Polygon, GeoProps>; widen Polygon → Geometry to the
+  // shared GeoFeature (a safe single cast, not `as unknown as`). Memoized so the layers-memo
+  // dep stays stable (#586).
+  const features = useMemo<GeoFeature[]>(() => data.geo.features as GeoFeature[], [data.geo.features]);
   const [a, b] = data.metrics.nearestPair;
   const gapOn = emphasis === "gap";
 

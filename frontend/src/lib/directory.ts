@@ -95,6 +95,13 @@ export type LensData = Record<string, { def?: DefFact; surv?: SurvFact }>;
 const asSignal = (s: string | null | undefined): Signal =>
   s === "anchor" || s === "strong" || s === "moderate" ? s : "watch";
 
+// Narrow the feed's free `group` string to its union (an out-of-union value falls back
+// to "watch" rather than passing silently through a bare cast) (#585).
+const asDefGroup = (g: string | null | undefined): DefGroup =>
+  g === "arsenal" || g === "federal" || g === "supply" ? g : "watch";
+const asSurvGroup = (g: string | null | undefined): SurvGroup =>
+  g === "onrecord" || g === "subsidy" ? g : "watch";
+
 /** Fold the `hypothesis-assessments` feed into the per-site def/surv index the lenses read. */
 export function indexAssessments(cells: readonly HypothesisAssessmentItem[]): LensData {
   const data: LensData = {};
@@ -106,14 +113,14 @@ export function indexAssessments(cells: readonly HypothesisAssessmentItem[]): Le
         nexus: c.fields.nexus ?? "—",
         linkage: c.fields.linkage ?? "—",
         signal: asSignal(c.signal),
-        group: (c.group ?? "watch") as DefGroup,
+        group: asDefGroup(c.group),
       };
     } else if (c.hypothesis === "surveillance") {
       entry.surv = {
         operator: c.fields.operator ?? "—",
         capital: c.fields.capital ?? "—",
         signal: asSignal(c.signal),
-        group: (c.group ?? "watch") as SurvGroup,
+        group: asSurvGroup(c.group),
       };
     }
   }
@@ -413,15 +420,17 @@ export function buildLens(
     return { slug: s.slug, live: s.status === "live", cells };
   };
 
-  const cats: [string, string, string][] = isDef
+  // [key, abbr, full label, short axis label] — the short label is explicit, not derived
+  // by splitting the full label on " &" at the call site (#585).
+  const cats: [string, string, string, string][] = isDef
     ? [
-        ["arsenal", "MIL", "Arsenals & air bases"],
-        ["federal", "FED", "Federal semiconductor & research"],
-        ["supply", "SUP", "Defense supply corridors"],
+        ["arsenal", "MIL", "Arsenals & air bases", "Arsenals"],
+        ["federal", "FED", "Federal semiconductor & research", "Federal semiconductor"],
+        ["supply", "SUP", "Defense supply corridors", "Defense supply corridors"],
       ]
     : [
-        ["onrecord", "OPR", "Operator & subsidy on record"],
-        ["subsidy", "SUB", "Public-subsidy signal only"],
+        ["onrecord", "OPR", "Operator & subsidy on record", "Operator"],
+        ["subsidy", "SUB", "Public-subsidy signal only", "Public-subsidy signal only"],
       ];
 
   for (const [key, abbr, label] of cats) {
@@ -442,8 +451,8 @@ export function buildLens(
   }
   axisGroups.push({
     chips: [
-      ...cats.map(([key, , label]) => ({
-        name: label.split(" &")[0],
+      ...cats.map(([key, , , short]) => ({
+        name: short,
         count: SITES.filter((s) => grpKey(s) === key).length,
       })),
       { name: "Not yet assessed", count: watch.length },

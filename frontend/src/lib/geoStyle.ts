@@ -23,6 +23,18 @@ export interface GeoProps {
 export type GeoFeature = Feature<Geometry, GeoProps>;
 export type RGBA = [number, number, number, number];
 
+/** Runtime guard for a deck.gl pick result — narrows the loosely-typed `info.object`
+ *  to a `GeoFeature` instead of an unchecked cast (#585). */
+export function isGeoFeature(o: unknown): o is GeoFeature {
+  return (
+    typeof o === "object" &&
+    o !== null &&
+    "geometry" in o &&
+    "properties" in o &&
+    (o as { properties?: unknown }).properties != null
+  );
+}
+
 /** Draw order (areas first, points last) and friendly per-layer names. The
  *  watershed boundary draws first so it sits underneath as context. */
 export const LAYER_ORDER = [

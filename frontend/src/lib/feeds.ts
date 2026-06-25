@@ -4,6 +4,7 @@
  * fields the frontend reads are typed. The committed `schemas/*.schema.json` are
  * the authoritative contract (schema validation is issue #62).
  */
+import type { FeatureCollection, Geometry } from "geojson";
 
 export type Confidence = "high" | "medium" | "low";
 
@@ -234,9 +235,19 @@ export interface WaybackRelease {
   release: number; // the Wayback releaseNum, substituted into the tile template
 }
 
-/** The `geo/imagery` feed shape (issue #72): AOI footprints + the dated ladder. */
-export interface ImageryFeed {
-  type: "FeatureCollection";
+/** Properties on an imagery-AOI feature (the footprint + its bbox for the view fit). */
+export interface ImageryAoiProps {
+  layer: string;
+  label?: string;
+  color?: string;
+  site?: string;
+  bbox?: number[];
+}
+
+/** The `geo/imagery` feed shape (issue #72): AOI footprints + the dated ladder. A real
+ *  GeoJSON FeatureCollection (typed with geojson `Feature`/`Geometry`) so consumers read
+ *  it without an `as unknown as` cast (#585). */
+export interface ImageryFeed extends FeatureCollection<Geometry, ImageryAoiProps> {
   feed?: string;
   meta?: {
     crs?: string;
@@ -248,11 +259,6 @@ export interface ImageryFeed {
       releases: WaybackRelease[];
     };
   };
-  features: {
-    type: "Feature";
-    geometry: { type: string; coordinates: unknown };
-    properties: { layer: string; label?: string; color?: string; site?: string; bbox?: number[] };
-  }[];
 }
 
 export interface RseiFacility {

@@ -137,9 +137,9 @@ export default function EntityGraph({ src, focus: focusProp }: { src: string; fo
         lineWidthUnits: "pixels",
         getLineWidth: 1,
         pickable: true,
-        onHover: (info: PickingInfo) => setHovered((info.object as GNode) ?? null),
-        onClick: (info: PickingInfo) => {
-          const n = info.object as GNode | undefined;
+        onHover: (info: PickingInfo<GNode>) => setHovered(info.object ?? null),
+        onClick: (info: PickingInfo<GNode>) => {
+          const n = info.object;
           if (n) window.location.href = `${withBase("/wiki/entities/")}${n.slug}/`;
         },
       }),
