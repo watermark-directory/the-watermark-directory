@@ -2,9 +2,10 @@
 
 These mirror the ``*.opc.yaml`` extraction files under ``data/extracted``.
 The source scans are degraded, so many numbers are transcribed as *approximate*
-(written ``~12345`` in YAML, which parses as a string). :data:`ApproxInt`
-transparently coerces those to integers while preserving the approximate flag
-in a sidecar set on the model where it matters.
+(written ``~12345`` in YAML, which parses as a string). :data:`ApproxInt` /
+:data:`Number` coerce those to numbers, and :class:`ApproxModel` records which
+fields arrived approximate in a runtime ``.approximate`` sidecar so the marker is
+not silently dropped at validation.
 """
 
 from __future__ import annotations
@@ -13,15 +14,35 @@ from pathlib import Path
 from typing import Annotated, Any, ClassVar, Literal
 
 import yaml
-from pydantic import BaseModel, BeforeValidator, ConfigDict, Field
+from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, PrivateAttr, model_validator
+
+
+class _ApproxMarker:
+    """Sentinel placed in an approximate-number type's ``Annotated`` metadata.
+
+    Lets :class:`ApproxModel` tell *which* fields carry the ``~`` convention (so it
+    can record which ones actually arrived approximate) without re-listing them by
+    name. Pydantic preserves unrecognized metadata objects on ``FieldInfo.metadata``.
+    """
+
+    __slots__ = ()
+
+
+_APPROX = _ApproxMarker()
 
 
 def _coerce_number(value: Any) -> Any:
     """Coerce ``"~12345"`` / ``"12,345"`` style scalars to ``int``.
 
-    Plain ints/floats pass through. ``None`` passes through. Anything that
-    cannot be parsed is returned unchanged so Pydantic raises a clear error.
+    Plain ints/floats pass through. ``None`` passes through. A ``bool`` is rejected
+    (it is *not* a stray ``0``/``1`` — ``isinstance(True, int)`` is True, so without
+    this it would silently become ``1``). A fractional string is **rounded**, not
+    truncated (``"17.9"`` -> ``18``, ``"$108,307.89"`` -> ``108308``) — truncation
+    would silently drop value. Anything unparseable is returned unchanged so Pydantic
+    raises a clear error.
     """
+    if isinstance(value, bool):
+        raise ValueError("a boolean is not a valid number")
     if value is None or isinstance(value, (int, float)):
         return value
     if isinstance(value, str):
@@ -29,23 +50,26 @@ def _coerce_number(value: Any) -> Any:
         if cleaned == "":
             return None
         try:
-            return int(float(cleaned))
+            return round(float(cleaned))
         except ValueError:
             return value
     return value
 
 
 # An int that tolerates the approximate ``~`` marker and thousands separators.
-ApproxInt = Annotated[int, BeforeValidator(_coerce_number)]
-OptApproxInt = Annotated[int | None, BeforeValidator(_coerce_number)]
+ApproxInt = Annotated[int, BeforeValidator(_coerce_number), _APPROX]
+OptApproxInt = Annotated[int | None, BeforeValidator(_coerce_number), _APPROX]
 
 
 def _coerce_number_keep(value: Any) -> Any:
     """Like :func:`_coerce_number` but preserves int-vs-float for line items.
 
     ``"~17.0"`` -> ``17.0`` (a unit rate), ``"~2,490"`` -> ``2490`` (a quantity).
-    Numbers pass through unchanged so a printed ``17.0`` stays a float.
+    Numbers pass through unchanged so a printed ``17.0`` stays a float; a ``bool`` is
+    rejected (see :func:`_coerce_number`).
     """
+    if isinstance(value, bool):
+        raise ValueError("a boolean is not a valid number")
     if value is None or isinstance(value, (int, float)):
         return value
     if isinstance(value, str):
@@ -60,7 +84,51 @@ def _coerce_number_keep(value: Any) -> Any:
 
 
 # A quantity / unit-rate / dollar amount that may be approximate; keeps int or float.
-Number = Annotated[int | float | None, BeforeValidator(_coerce_number_keep)]
+Number = Annotated[int | float | None, BeforeValidator(_coerce_number_keep), _APPROX]
+
+
+def _approximate_fields(cls: type[BaseModel], data: Any) -> set[str]:
+    """Names of this model's ``~``-typed fields whose raw input arrived approximate."""
+    if not isinstance(data, dict):
+        return set()
+    found: set[str] = set()
+    for name, field in cls.model_fields.items():
+        if not any(isinstance(m, _ApproxMarker) for m in field.metadata):
+            continue
+        raw = data.get(name)
+        if isinstance(raw, str) and raw.strip().startswith("~"):
+            found.add(name)
+    return found
+
+
+class ApproxModel(BaseModel):
+    """Base for models with approximate (``~``) numeric fields.
+
+    Coercion strips the ``~`` to a plain number; this records *which* fields arrived
+    approximate in a runtime sidecar (``.approximate``), so the marker is no longer
+    silently dropped at validation (the data-discipline rule in CLAUDE.md). The sidecar
+    is a :class:`~pydantic.PrivateAttr` — it never enters the JSON/tool schema or
+    ``model_dump`` output, so it changes neither the LLM extraction contract nor the
+    committed YAML shape. The source YAML keeps its literal ``~12345`` regardless.
+    """
+
+    _approximate: set[str] = PrivateAttr(default_factory=set)
+
+    @model_validator(mode="wrap")
+    @classmethod
+    def _capture_approximate(cls, data: Any, handler: Any) -> Any:
+        # mode="wrap" sees the raw input (still carrying the ``~``) before coercion,
+        # then stamps the result of normal validation.
+        approx = _approximate_fields(cls, data)
+        obj = handler(data)
+        if approx:
+            obj._approximate |= approx
+        return obj
+
+    @property
+    def approximate(self) -> set[str]:
+        """Set of field names whose value was transcribed approximate (``~``)."""
+        return self._approximate
 
 
 def _as_str_list(value: Any) -> Any:
@@ -83,7 +151,7 @@ def _as_str_list(value: Any) -> Any:
 StrList = Annotated[list[str], BeforeValidator(_as_str_list)]
 
 
-class OPCMeta(BaseModel):
+class OPCMeta(ApproxModel):
     """Top-level metadata block of an OPC extraction."""
 
     model_config = ConfigDict(extra="allow")
@@ -98,7 +166,7 @@ class OPCMeta(BaseModel):
     summary_construction_total: OptApproxInt = None
 
 
-class SectionSubtotals(BaseModel):
+class SectionSubtotals(ApproxModel):
     """Per-section construction subtotals. Corridors omit several sections."""
 
     model_config = ConfigDict(extra="allow")
@@ -120,7 +188,7 @@ class SectionSubtotals(BaseModel):
         return sum(v for v in self.model_dump().values() if isinstance(v, int))
 
 
-class SubEstimate(BaseModel):
+class SubEstimate(ApproxModel):
     """A single roundabout or corridor sub-estimate."""
 
     model_config = ConfigDict(extra="allow")
@@ -188,7 +256,7 @@ def _num(value: Any) -> float:
     return float(value) if isinstance(value, (int, float)) else 0.0
 
 
-class LineItem(BaseModel):
+class LineItem(ApproxModel):
     """A single estimate line item read from a cost sheet."""
 
     model_config = ConfigDict(extra="allow")
@@ -202,7 +270,7 @@ class LineItem(BaseModel):
     note: str | None = None  # e.g. "qty inferred from total"
 
 
-class EstimateSection(BaseModel):
+class EstimateSection(ApproxModel):
     """One section of an estimate, named as printed on the sheet."""
 
     model_config = ConfigDict(extra="allow")
@@ -222,7 +290,7 @@ class EstimateSection(BaseModel):
         return "_".join(self.name.lower().split())
 
 
-class MarkupLine(BaseModel):
+class MarkupLine(ApproxModel):
     """A markup/adjustment applied to the construction subtotal.
 
     Covers contingency, inflation, mobilization, escalation, etc. ``rate`` is the
@@ -236,7 +304,7 @@ class MarkupLine(BaseModel):
     amount: Number = None
 
 
-class Estimate(BaseModel):
+class Estimate(ApproxModel):
     """A contractor-agnostic Opinion of Probable Cost read from one sheet."""
 
     model_config = ConfigDict(extra="allow")
@@ -302,7 +370,7 @@ class PageExtraction(BaseModel):
 # ---------------------------------------------------------------------------
 
 
-class _Extracted(BaseModel):
+class _Extracted(ApproxModel):
     """Mixin: self-reported confidence + warnings for any extracted document."""
 
     model_config = ConfigDict(extra="allow")
