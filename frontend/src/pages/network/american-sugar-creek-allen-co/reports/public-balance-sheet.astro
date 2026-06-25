@@ -14,7 +14,7 @@ import Base from "../../../../layouts/Base.astro";
 import { type BalanceUnit, buildBalanceSheet } from "../../../../lib/balanceSheet";
 import { buildDilution } from "../../../../lib/dilution";
 import { fmtUsdM } from "../../../../lib/money";
-import { withBase } from "../../../../lib/site";
+import { withSite } from "../../../../lib/site";
 
 const dc = buildDilution().discharge;
 const effluentCfs = dc.wwtpCfs + dc.campusFm2Cfs;
@@ -32,7 +32,7 @@ const e = sheet.econExposure;
 >
   <div class="walk-chapter-page">
     <article class="prose">
-      <p><a href={withBase("/network/american-sugar-creek-allen-co/reports")}>← Reports</a></p>
+      <p><a href={withSite("/reports")}>← Reports</a></p>
       <div class="walk-chapter-eyebrow">Extension narrative · #233 · the capstone</div>
       <h1 class="walk-chapter-h1">The cost of opacity, on one sheet</h1>
       <p class="section-lead">
@@ -66,7 +66,7 @@ const e = sheet.econExposure;
         </table>
         <p>
           {sheet.resolvingRecords.length} withheld records span the public's exposure. Enable JavaScript for
-          the register-encoded bands; the <a href={withBase("/network/american-sugar-creek-allen-co/site/legal/corpus-completeness-audit")}>corpus
+          the register-encoded bands; the <a href={withSite("/site/legal/corpus-completeness-audit")}>corpus
           audit</a> tracks what's missing.
         </p>
       </article>

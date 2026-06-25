@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../../../../../layouts/Base.astro";
 import { refBySlug, REFERENCE } from "../../../../../lib/reference";
-import { withBase } from "../../../../../lib/site";
+import { withSite } from "../../../../../lib/site";
 
 // Only list datasets whose README is actually present in this checkout.
 const present = new Set((await getCollection("reference")).map((e) => e.id));
@@ -26,7 +26,7 @@ const datasets = REFERENCE.filter((d) => present.has(d.slug) && refBySlug.has(d.
     <div class="hub-grid">
       {
         datasets.map((d) => (
-          <a class="hub-door" href={`${withBase("/network/american-sugar-creek-allen-co/site/reference/")}${d.slug}`}>
+          <a class="hub-door" href={`${withSite("/site/reference/")}${d.slug}`}>
             <div class="hub-door-top">
               <span class="hub-door-kind">Dataset</span>
             </div>

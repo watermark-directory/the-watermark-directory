@@ -14,7 +14,7 @@ import EconLedgerSimulator from "../../../../components/islands/EconLedgerSimula
 import Base from "../../../../layouts/Base.astro";
 import { COUNTY_JOBS_2023, ledgerLines, ledgerProfiles } from "../../../../lib/econLedger";
 import { fmtUsdM } from "../../../../lib/money";
-import { withBase } from "../../../../lib/site";
+import { withSite } from "../../../../lib/site";
 
 const lines = ledgerLines();
 const profiles = ledgerProfiles();
@@ -28,7 +28,7 @@ const net = lines.find((l) => l.key === "net");
 >
   <div class="walk-chapter-page">
     <article class="prose">
-      <p><a href={withBase("/network/american-sugar-creek-allen-co/reports")}>← Reports</a></p>
+      <p><a href={withSite("/reports")}>← Reports</a></p>
       <div class="walk-chapter-eyebrow">Extension narrative · #233 · the cost of opacity</div>
       <h1 class="walk-chapter-h1">The ledger, as a band you can move</h1>
       <p class="section-lead">
@@ -45,7 +45,7 @@ const net = lines.find((l) => l.key === "net");
         <strong>{net ? `${fmtUsdM(net.band.low)} – ${fmtUsdM(net.band.high)}` : "tens of millions"}</strong>
         for ~50 jobs — about <strong>0.1%</strong> of the county's
         {COUNTY_JOBS_2023.toLocaleString("en-US")} covered jobs.
-        Full essay: <a href={withBase("/network/american-sugar-creek-allen-co/docs/the-economic-ledger")}>the economic ledger →</a>
+        Full essay: <a href={withSite("/docs/the-economic-ledger")}>the economic ledger →</a>
       </p>
     </article>
 

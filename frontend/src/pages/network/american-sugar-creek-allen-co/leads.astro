@@ -11,11 +11,11 @@
 import Base from "../../../layouts/Base.astro";
 import Icon from "../../../components/Icon.astro";
 import { KIND_META, LEAD_FILTERS, LEAD_LIFECYCLE, LEADS, RECENTLY_CLOSED, STATUS_META, leadCount, leadStats } from "../../../lib/leads";
-import { withBase } from "../../../lib/site";
+import { withSite } from "../../../lib/site";
 
 const stats = leadStats();
-const submitHref = withBase("/network/american-sugar-creek-allen-co/submit");
-const recordHref = withBase("/network/american-sugar-creek-allen-co/site/");
+const submitHref = withSite("/submit");
+const recordHref = withSite("/site/");
 const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issues/${n}`;
 ---
 
@@ -27,7 +27,7 @@ const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issue
 >
   <div class="leads">
     <header class="leads-head">
-      <a class="leads-back" href={withBase("/network/american-sugar-creek-allen-co")}>← Back to the site</a>
+      <a class="leads-back" href={withSite()}>← Back to the site</a>
       <div class="leads-head-row">
         <div class="leads-head-main">
           <div class="leads-kicker">Open investigation · Lima, Ohio</div>
@@ -35,7 +35,7 @@ const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issue
           <p class="leads-lead">
             Every gap we're chasing on this site, in the open. Each lead is <strong>unverified inference</strong>
             until a source corroborates it — and every one traces to the
-            <a href={withBase("/network/american-sugar-creek-allen-co/docs/dossier")}>corpus-completeness audit</a> or a working hypothesis.
+            <a href={withSite("/docs/dossier")}>corpus-completeness audit</a> or a working hypothesis.
             Pick one up, answer it, or bring the document that closes it.
           </p>
         </div>

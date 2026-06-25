@@ -2,7 +2,7 @@
 import Base from "../../../../layouts/Base.astro";
 import { NARRATIVE } from "../../../../lib/narrative";
 import { getSection, SECTIONS, type SectionId } from "../../../../lib/nav";
-import { withBase } from "../../../../lib/site";
+import { withSite } from "../../../../lib/site";
 
 // Group the migrated narrative by the section each piece belongs to.
 const groups = SECTIONS.map((s) => ({
@@ -32,7 +32,7 @@ const groups = SECTIONS.map((s) => ({
           <h2 class="hub-subhead" id={g.section.id}>{getSection(g.section.id).label}</h2>
           <div class="hub-grid">
             {g.docs.map((d) => (
-              <a class="hub-door" href={`${withBase("/network/american-sugar-creek-allen-co/docs/")}${d.slug}`}>
+              <a class="hub-door" href={`${withSite("/docs/")}${d.slug}`}>
                 <div class="hub-door-top">
                   <span class="hub-door-kind">{getSection(g.section.id).tab}</span>
                 </div>

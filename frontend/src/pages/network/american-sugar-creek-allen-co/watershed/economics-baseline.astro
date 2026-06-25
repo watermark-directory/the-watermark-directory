@@ -2,7 +2,7 @@
 import Base from "../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../lib/bundle";
 import type { EconomicBaseline, ProvenancedValue } from "../../../../lib/feeds";
-import { withBase } from "../../../../lib/site";
+import { withSite } from "../../../../lib/site";
 
 const eb = hasFeed("economics-baseline") ? loadFeed<EconomicBaseline>("economics-baseline") : null;
 const num = (v?: ProvenancedValue | null): string =>
@@ -26,7 +26,7 @@ const pct = first?.total_employment.value ? (delta / first.total_employment.valu
 
 <Base title="Economics — localized baseline" section="watershed">
   <article class="prose">
-    <p><a href={withBase("/network/american-sugar-creek-allen-co/watershed/")}>← The Maumee watershed</a></p>
+    <p><a href={withSite("/watershed/")}>← The Maumee watershed</a></p>
     <h1>Economics — localized baseline</h1>
     {
       eb === null ? (
@@ -39,7 +39,7 @@ const pct = first?.total_employment.value ? (delta / first.total_employment.valu
             <strong> location quotient</strong> (county share ÷ national share), and population (US Census
             ACS). The employment and population figures are connector-sourced <code>[verified]</code>, with each
             sector's location quotient <strong>derived</strong> from them; the prose companion is
-            <a href={withBase("/network/american-sugar-creek-allen-co/docs/economics")}> Economics — demand &amp; public benefits</a>.
+            <a href={withSite("/docs/economics")}> Economics — demand &amp; public benefits</a>.
           </p>
 
           {pop.length > 0 && (

@@ -15,7 +15,7 @@ import ToxicsDilutionScreen from "../../../../components/islands/ToxicsDilutionS
 import BulletChart from "../../../../components/charts/BulletChart.astro";
 import Base from "../../../../layouts/Base.astro";
 import { buildDilution } from "../../../../lib/dilution";
-import { withBase } from "../../../../lib/site";
+import { withSite } from "../../../../lib/site";
 
 const d = buildDilution();
 const dc = d.discharge;
@@ -30,7 +30,7 @@ const effluentMultiple = Math.round(effluentCfs / dc.naturalCfs);
 >
   <div class="walk-chapter-page">
     <article class="prose">
-      <p><a href={withBase("/network/american-sugar-creek-allen-co/reports")}>← Reports</a></p>
+      <p><a href={withSite("/reports")}>← Reports</a></p>
       <div class="walk-chapter-eyebrow">Extension narrative · #233 · the corridor it joins</div>
       <h1 class="walk-chapter-h1">The river is already effluent — drag the season</h1>
       <p class="section-lead">
@@ -42,7 +42,7 @@ const effluentMultiple = Math.round(effluentCfs / dc.naturalCfs);
         on it. The screen below is <em>modeled</em>, not measured — it shows who and how
         much, never that the river's capacity is exceeded. That record is
         <code>[open]</code>. Full essay:
-        <a href={withBase("/network/american-sugar-creek-allen-co/docs/toxics-and-the-corridor")}>toxics and the corridor →</a>
+        <a href={withSite("/docs/toxics-and-the-corridor")}>toxics and the corridor →</a>
       </p>
     </article>
 

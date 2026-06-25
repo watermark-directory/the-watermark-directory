@@ -13,6 +13,7 @@
  * the Worker (functions/api/_lib/retrieval.ts), at query time, so the build only ships
  * raw text + provenance.
  */
+import { siteUrl } from "./routes";
 import { hasFeed, loadFeed } from "./bundle";
 import {
   type Citation,
@@ -83,7 +84,7 @@ export function buildAskIndex(): AskUnit[] {
         id: `records:${r.rel}`,
         feed: "records",
         title: r.title,
-        url: `/network/american-sugar-creek-allen-co/site/records/${r.group}/`,
+        url: siteUrl(`/site/records/${r.group}/`),
         text: blob(r.group, r.confidence, ...r.warnings, fieldText(r.fields)),
         ...cite(r.citation),
       });
@@ -96,7 +97,7 @@ export function buildAskIndex(): AskUnit[] {
         id: `timeline:${e.ref || slugify(`${e.date}-${e.title}`)}`,
         feed: "timeline",
         title: `${e.date} — ${e.title}`,
-        url: "/network/american-sugar-creek-allen-co/timeline",
+        url: siteUrl("/timeline"),
         text: blob(e.category, e.detail, e.source, ...e.parties, ...e.also_sources),
         // The timeline carries an explicit source string even when citation is null.
         ...(e.citation ? cite(e.citation) : { source: e.source, source_kind: "document" }),
@@ -110,7 +111,7 @@ export function buildAskIndex(): AskUnit[] {
         id: `documents:${c.slug}`,
         feed: "documents",
         title: c.title,
-        url: `/network/american-sugar-creek-allen-co/site/documents/#doc-${c.slug}`,
+        url: siteUrl(`/site/documents/#doc-${c.slug}`),
         text: blob(c.description, ...c.entries.slice(0, 20).map((x) => x.name)),
         source: c.entries[0]?.rel,
         source_kind: "document",
@@ -124,7 +125,7 @@ export function buildAskIndex(): AskUnit[] {
         id: `meetings:${m.slug}`,
         feed: "meetings",
         title: `${m.date ?? ""} — ${m.kind ?? "meeting"} (${m.slug})`.trim(),
-        url: "/network/american-sugar-creek-allen-co/site/legal#meetings",
+        url: siteUrl("/site/legal#meetings"),
         text: blob(m.summary, m.corridor_relevance, ...m.decisions, ...m.parties, ...m.dollar_figures),
         ...cite(m.citation),
       });
@@ -137,7 +138,7 @@ export function buildAskIndex(): AskUnit[] {
         id: `people:${p.slug}`,
         feed: "people",
         title: p.name,
-        url: `/network/american-sugar-creek-allen-co/site/people/${p.slug}/`,
+        url: siteUrl(`/site/people/${p.slug}/`),
         text: blob(...p.aliases, ...p.roles, ...p.affiliations, p.summary, p.body),
         ...cite(p.sources[0]),
       });
@@ -150,7 +151,7 @@ export function buildAskIndex(): AskUnit[] {
         id: `places:${p.slug}`,
         feed: "places",
         title: p.name,
-        url: `/network/american-sugar-creek-allen-co/site/places/${p.slug}/`,
+        url: siteUrl(`/site/places/${p.slug}/`),
         text: blob(p.kind, ...p.aliases, ...p.tags, ...p.parcels, p.body),
         ...cite(p.citations[0]),
       });

@@ -9,7 +9,7 @@
 import Base from "../../../../layouts/Base.astro";
 import RecordTeardown from "../../../../components/RecordTeardown.astro";
 import { OPC_TEARDOWN, RDA_TEARDOWN } from "../../../../lib/teardowns";
-import { withBase } from "../../../../lib/site";
+import { withSite } from "../../../../lib/site";
 
 // Literal braces would be parsed as JSX expressions inside markup, so the
 // contract snippet is a plain string.
@@ -21,7 +21,7 @@ const contractSnippet = `<RecordTeardown
 
 <Base title="Record Teardown — component preview" section="site">
   <div class="td-showcase">
-    <p><a href={withBase("/network/american-sugar-creek-allen-co/site/")}>← The record</a></p>
+    <p><a href={withSite("/site/")}>← The record</a></p>
     <div class="td-showcase-kicker">Watermark · component family</div>
     <h1>The Record Teardown</h1>
     <p class="td-showcase-lead">

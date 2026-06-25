@@ -2,7 +2,7 @@
 
 import { SITE_BASE, STORY_BASE } from "./routes";
 
-export { SITE_BASE, STORY_BASE } from "./routes";
+export { SITE_BASE, STORY_BASE, siteUrl, storyUrl } from "./routes";
 
 export const SITE_NAME = "Watermark";
 export const SITE_TAGLINE = "the public record, by watershed";

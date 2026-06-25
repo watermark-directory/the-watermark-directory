@@ -12,7 +12,7 @@ import RecordTeardown from "../../../../../components/RecordTeardown.astro";
 import EntityGraph from "../../../../../components/islands/EntityGraph.tsx";
 import { DEED_TEARDOWN, SHELL_TEARDOWN } from "../../../../../lib/teardowns";
 import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../../../../lib/walk";
-import { withBase } from "../../../../../lib/site";
+import { withBase, withSite, withStory } from "../../../../../lib/site";
 
 const STEP = 1;
 const prev = chapterByStep(STEP - 1);
@@ -109,7 +109,7 @@ const next = chapterByStep(STEP + 1);
         <span class="door-label">Entities</span>
         <span class="door-blurb">Bistrozzi, Tilted Gate, Magenta, and the people named on the filings.</span>
       </a>
-      <a class="door" href={withBase("/network/american-sugar-creek-allen-co/site/records/")}>
+      <a class="door" href={withSite("/site/records/")}>
         <span class="door-label">The deed records</span>
         <span class="door-blurb">The full conveyance chain — every parcel, grantor, and grantee.</span>
       </a>
@@ -122,7 +122,7 @@ const next = chapterByStep(STEP + 1);
         ) : prev ? (
           <span class="walk-nav-link walk-nav-prev is-disabled" title="Drafting">← {prev.step}. {prev.title}</span>
         ) : (
-          <a class="walk-nav-link walk-nav-prev" href={withBase("/network/american-sugar-creek-allen-co/stories/project-bosc")}>← Start here</a>
+          <a class="walk-nav-link walk-nav-prev" href={withStory()}>← Start here</a>
         )
       }
       <a class="walk-nav-leave" href={WALK_INDEX_HREF}>All chapters</a>

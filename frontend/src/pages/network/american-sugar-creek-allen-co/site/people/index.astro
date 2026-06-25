@@ -2,7 +2,7 @@
 import Base from "../../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../../lib/bundle";
 import type { PersonItem, PlaceItem } from "../../../../../lib/feeds";
-import { withBase } from "../../../../../lib/site";
+import { withSite } from "../../../../../lib/site";
 
 const people = hasFeed("people") ? loadFeed<PersonItem[]>("people") : [];
 const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
@@ -26,7 +26,7 @@ const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
     <div class="hub-grid">
       {
         people.map((p) => (
-          <a class="hub-door" href={`${withBase("/network/american-sugar-creek-allen-co/site/people/")}${p.slug}/`}>
+          <a class="hub-door" href={`${withSite("/site/people/")}${p.slug}/`}>
             <div class="hub-door-top">
               <span class="hub-door-kind">Person</span>
             </div>
@@ -47,7 +47,7 @@ const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
     <div class="hub-grid">
       {
         places.map((p) => (
-          <a class="hub-door" href={`${withBase("/network/american-sugar-creek-allen-co/site/places/")}${p.slug}/`}>
+          <a class="hub-door" href={`${withSite("/site/places/")}${p.slug}/`}>
             <div class="hub-door-top">
               <span class="hub-door-kind">{p.kind}</span>
               {p.parcels.length > 0 && <span class="hub-door-count">{p.parcels.length}</span>}

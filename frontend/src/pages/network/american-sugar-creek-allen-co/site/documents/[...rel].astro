@@ -6,7 +6,7 @@ import Base from "../../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../../lib/bundle";
 import { docAccess } from "../../../../../lib/docView";
 import { type DocumentCollectionItem, type DocumentEntry, formatBytes } from "../../../../../lib/feeds";
-import { withBase } from "../../../../../lib/site";
+import { withSite } from "../../../../../lib/site";
 
 export function getStaticPaths() {
   const collections = hasFeed("documents")
@@ -36,9 +36,9 @@ const accessChip = {
 <Base title={entry.name} section="site">
   <article class="docpage">
     <p class="rec-crumb">
-      <a href={withBase("/network/american-sugar-creek-allen-co/site/documents/")}>Documents</a>
+      <a href={withSite("/site/documents/")}>Documents</a>
       <span aria-hidden="true">→</span>
-      <a href={`${withBase("/network/american-sugar-creek-allen-co/site/documents/")}#doc-${collectionSlug}`}>{collectionTitle}</a>
+      <a href={`${withSite("/site/documents/")}#doc-${collectionSlug}`}>{collectionTitle}</a>
       <span aria-hidden="true">→</span>
       <span class="rec-crumb-here">{entry.name}</span>
     </p>

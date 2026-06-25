@@ -8,10 +8,10 @@
  * not a node (Google stays an annotation).
  */
 import { buildWalkSpine } from "../lib/walkTimeline";
-import { withBase } from "../lib/site";
+import { withSite } from "../lib/site";
 
 const spine = buildWalkSpine();
-const timelineHref = withBase("/network/american-sugar-creek-allen-co/timeline");
+const timelineHref = withSite("/timeline");
 ---
 
 <section class="wspine" aria-label="The confidentiality-first sequence">

@@ -15,12 +15,12 @@ import StackedBar from "../../../../components/charts/StackedBar.astro";
 import Waterfall from "../../../../components/charts/Waterfall.astro";
 import GaugeBar from "../../../../components/charts/GaugeBar.astro";
 import Base from "../../../../layouts/Base.astro";
-import { withBase } from "../../../../lib/site";
+import { withSite } from "../../../../lib/site";
 ---
 
 <Base title="Chart set — component preview" section="site">
   <div class="td-showcase">
-    <p><a href={withBase("/network/american-sugar-creek-allen-co/site/")}>← The record</a></p>
+    <p><a href={withSite("/site/")}>← The record</a></p>
     <div class="td-showcase-kicker">Watermark · component family</div>
     <h1>The chart set</h1>
     <p class="td-showcase-lead">

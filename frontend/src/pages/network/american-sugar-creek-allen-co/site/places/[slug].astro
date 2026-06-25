@@ -8,7 +8,7 @@ import type { PlaceItem } from "../../../../../lib/feeds";
 import type { ProfileAttr, ProfileHeaderData } from "../../../../../lib/profile";
 import type { FigureStatData } from "../../../../../lib/viz";
 import { entityHref } from "../../../../../lib/entityLinks";
-import { withBase } from "../../../../../lib/site";
+import { withBase, withSite, siteUrl } from "../../../../../lib/site";
 import { renderBody } from "../../../../../lib/wiki";
 
 export const getStaticPaths: GetStaticPaths = () => {
@@ -44,7 +44,7 @@ const header: ProfileHeaderData = {
   relLabel: "Relationships",
   relationships: rels.length ? rels : undefined,
   correctHref: withBase(
-    `/network/american-sugar-creek-allen-co/submit?ref_kind=place&ref_id=${encodeURIComponent(place.slug)}&ref_label=${encodeURIComponent(place.name)}`,
+    siteUrl(`/submit?ref_kind=place&ref_id=${encodeURIComponent(place.slug)}&ref_label=${encodeURIComponent(place.name)}`),
   ),
 };
 
@@ -57,7 +57,7 @@ const profileToc = sections.length >= 2 ? sections : [];
 ---
 
 <Base title={place.name} section="site" toc={profileToc}>
-  <p class="prose"><a href={withBase("/network/american-sugar-creek-allen-co/site/places/")}>← Places &amp; parcels</a></p>
+  <p class="prose"><a href={withSite("/site/places/")}>← Places &amp; parcels</a></p>
   <div id="overview"><ProfileHeader profile={header} /></div>
 
   <article class="prose">

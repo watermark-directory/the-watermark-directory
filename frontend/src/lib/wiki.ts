@@ -8,7 +8,7 @@
  */
 import { hasFeed, loadFeed } from "./bundle";
 import { slugify, type ConceptItem, type EntityNode, type PersonItem } from "./feeds";
-import { withBase } from "./site";
+import { withBase, withSite } from "./site";
 
 export interface WikiTarget {
   url: string;
@@ -58,7 +58,7 @@ export function wikiIndex(): Map<string, WikiTarget> {
   if (hasFeed("people")) {
     for (const p of loadFeed<PersonItem[]>("people")) {
       add([p.slug, p.name, ...p.aliases], {
-        url: `${withBase("/network/american-sugar-creek-allen-co/site/people/")}${p.slug}/`,
+        url: `${withSite("/site/people/")}${p.slug}/`,
         label: p.name,
         kind: "person",
       });

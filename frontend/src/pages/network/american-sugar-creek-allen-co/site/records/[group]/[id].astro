@@ -16,7 +16,7 @@ import { slugify, type RecordItem } from "../../../../../../lib/feeds";
 import { groupLabel } from "../../../../../../lib/records";
 import { recordToBlock } from "../../../../../../lib/recordBlock";
 import { teardownForRel } from "../../../../../../lib/teardowns";
-import { withBase } from "../../../../../../lib/site";
+import { withSite } from "../../../../../../lib/site";
 
 export const getStaticPaths: GetStaticPaths = () => {
   const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
@@ -60,9 +60,9 @@ const toc = teardown
 >
   <div class="rec">
     <nav class="rec-crumb" aria-label="Breadcrumb">
-      <a href={withBase("/network/american-sugar-creek-allen-co/site/")}>The record</a> ›
-      <a href={withBase("/network/american-sugar-creek-allen-co/site/records/")}>Records</a> ›
-      <a href={withBase(`/network/american-sugar-creek-allen-co/site/records/${record.group}`)}>{groupName}</a> ›
+      <a href={withSite("/site/")}>The record</a> ›
+      <a href={withSite("/site/records/")}>Records</a> ›
+      <a href={withSite(`/site/records/${record.group}`)}>{groupName}</a> ›
       <span class="rec-crumb-here">{record.title}</span>
     </nav>
 

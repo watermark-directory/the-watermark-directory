@@ -8,7 +8,7 @@
  */
 import { type BalanceUnit, buildBalanceSheet } from "../../lib/balanceSheet";
 import { fmtUsdM } from "../../lib/money";
-import { withBase } from "../../lib/site";
+import { withBase, withSite } from "../../lib/site";
 import { DistributionStrip, RegisterMark } from "./uncertaintyGrammar";
 
 function formatter(unit: BalanceUnit): (n: number) => string {
@@ -85,10 +85,8 @@ export default function BalanceSheet({
         Each band above is wide for one reason: a figure the county has not produced. The economic give is the
         only line in dollars; the load and the river are bands the record never measures. Disclosure — not a
         verdict from this page — is what narrows any of them. See the{" "}
-        <a href={withBase("/network/american-sugar-creek-allen-co/site/legal/corpus-completeness-audit")}>
-          corpus-completeness audit
-        </a>{" "}
-        for what's missing, and why.
+        <a href={withSite("/site/legal/corpus-completeness-audit")}>corpus-completeness audit</a> for what's
+        missing, and why.
       </p>
     </div>
   );

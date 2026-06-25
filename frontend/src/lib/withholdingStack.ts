@@ -9,7 +9,7 @@
  * committed extraction; the **"engineered system" reading is argument**, and the
  * record labels it as such — `STACK_THESIS`/`STACK_CLOSE` keep that explicit.
  */
-import { withBase } from "./site";
+import { withSite } from "./site";
 
 export interface WithholdingLayer {
   n: number;
@@ -119,15 +119,15 @@ export const STACK_CLOSE = {
   links: [
     {
       label: "the full withholding map",
-      href: withBase("/network/american-sugar-creek-allen-co/site/legal/withholding-map"),
+      href: withSite("/site/legal/withholding-map"),
     },
     {
       label: "the mandamus production analysis",
-      href: withBase("/network/american-sugar-creek-allen-co/site/legal/prr-production"),
+      href: withSite("/site/legal/prr-production"),
     },
     {
       label: "the Select-Committee testimony",
-      href: withBase("/network/american-sugar-creek-allen-co/site/legal/written-testimony"),
+      href: withSite("/site/legal/written-testimony"),
     },
   ],
 };

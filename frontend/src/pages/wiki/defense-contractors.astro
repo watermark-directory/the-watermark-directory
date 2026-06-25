@@ -2,7 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../lib/bundle";
 import { slugify, type DefenseContractors } from "../../lib/feeds";
-import { withBase } from "../../lib/site";
+import { withBase, withSite } from "../../lib/site";
 
 const dc = hasFeed("defense-contractors") ? loadFeed<DefenseContractors>("defense-contractors") : null;
 const contractors = dc?.contractors ?? [];
@@ -107,7 +107,7 @@ const field = (row: Record<string, unknown>, key: string): string =>
                 <p>
                   EPA's RSEI Public Data Set lists <strong>US ARMY JSMC / General Dynamics Land Systems</strong>
                   as a TRI reporter at this footprint — Allen County's #3 toxic-release Score. See the
-                  <a href={withBase("/network/american-sugar-creek-allen-co/watershed/rsei")}> RSEI inventory</a>.
+                  <a href={withSite("/watershed/rsei")}> RSEI inventory</a>.
                 </p>
               </div>
             </>

@@ -2,7 +2,7 @@
 import Base from "../../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../../lib/bundle";
 import type { PlaceItem } from "../../../../../lib/feeds";
-import { withBase } from "../../../../../lib/site";
+import { withSite } from "../../../../../lib/site";
 
 const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
 const sorted = [...places].sort((a, b) => a.name.localeCompare(b.name));
@@ -11,8 +11,8 @@ const sorted = [...places].sort((a, b) => a.name.localeCompare(b.name));
 <Base title="Places & parcels" section="site">
   <article class="prose">
     <p>
-      <a href={withBase("/network/american-sugar-creek-allen-co/site/")}>← The record</a> ·
-      <a href={withBase("/network/american-sugar-creek-allen-co/site/people/")}>People &amp; places</a>
+      <a href={withSite("/site/")}>← The record</a> ·
+      <a href={withSite("/site/people/")}>People &amp; places</a>
     </p>
     <h1>Places &amp; parcels</h1>
     <p class="section-lead">
@@ -31,7 +31,7 @@ const sorted = [...places].sort((a, b) => a.name.localeCompare(b.name));
             {sorted.map((p) => (
               <tr>
                 <td>
-                  <a href={`${withBase("/network/american-sugar-creek-allen-co/site/places/")}${p.slug}/`}>{p.name}</a>
+                  <a href={`${withSite("/site/places/")}${p.slug}/`}>{p.name}</a>
                 </td>
                 <td>{p.kind}</td>
                 <td>{p.parcels.length || "—"}</td>

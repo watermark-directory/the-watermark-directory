@@ -5,7 +5,7 @@ import type { TimelineItem } from "../../../lib/viz";
 import { hasFeed, loadFeed } from "../../../lib/bundle";
 import { evidenceKind, type TimelineEntry } from "../../../lib/feeds";
 import { walkAnchorFor } from "../../../lib/walk";
-import { withBase } from "../../../lib/site";
+import { withStory } from "../../../lib/site";
 
 const entries = hasFeed("timeline") ? loadFeed<TimelineEntry[]>("timeline") : [];
 const isDated = (e: TimelineEntry): boolean => /^\d{4}/.test(e.date);
@@ -21,7 +21,7 @@ const items: TimelineItem[] = ordered.map((e) => {
     summary: e.detail ?? undefined,
     evidence: evidenceKind(e.citation),
     seenInCh: anchor?.ch,
-    seenInHref: anchor ? withBase(`/network/american-sugar-creek-allen-co/stories/project-bosc/${anchor.slug}`) : undefined,
+    seenInHref: anchor ? withStory(`/${anchor.slug}`) : undefined,
   };
 });
 ---

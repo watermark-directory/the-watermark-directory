@@ -11,7 +11,7 @@
  */
 import { useState } from "react";
 import { type DcKey, type EndUseData, IL_LADDER } from "../../lib/endUse";
-import { withBase } from "../../lib/site";
+import { withSite } from "../../lib/site";
 import { RegisterMark } from "./uncertaintyGrammar";
 
 export default function EndUseExplorer({ data }: { data: EndUseData }): JSX.Element {
@@ -67,10 +67,7 @@ export default function EndUseExplorer({ data }: { data: EndUseData }): JSX.Elem
             <dt>Who captures the abatement</dt>
             <dd>
               <RegisterMark register={active.benefitCapture.register} /> {active.benefitCapture.who}{" "}
-              <a
-                className="eu-ledger-link"
-                href={withBase("/network/american-sugar-creek-allen-co/reports/the-economic-ledger")}
-              >
+              <a className="eu-ledger-link" href={withSite("/reports/the-economic-ledger")}>
                 (the subsidy →)
               </a>
             </dd>

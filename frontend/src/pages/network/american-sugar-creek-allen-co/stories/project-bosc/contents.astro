@@ -6,7 +6,7 @@
  */
 import Base from "../../../../../layouts/Base.astro";
 import { WALK_CHAPTERS, WALK_START_HREF, walkHref } from "../../../../../lib/walk";
-import { withBase } from "../../../../../lib/site";
+import { withSite } from "../../../../../lib/site";
 ---
 
 <Base
@@ -49,12 +49,12 @@ import { withBase } from "../../../../../lib/site";
       All six chapters are live, end to end — each teaches one record-reading
       skill through the Record Teardown pattern, in cause → consequence order. You
       can also preview the teardown component on its own
-      <a href={withBase("/network/american-sugar-creek-allen-co/site/teardown-showcase")}>here</a>.
+      <a href={withSite("/site/teardown-showcase")}>here</a>.
     </p>
 
     <div class="walk-cta">
       <a class="btn" href={walkHref("who")}>Start the walk →</a>
-      <a class="walk-cta-secondary" href={withBase("/network/american-sugar-creek-allen-co/site/")}>or browse the archive</a>
+      <a class="walk-cta-secondary" href={withSite("/site/")}>or browse the archive</a>
     </div>
   </div>
 </Base>
