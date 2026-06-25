@@ -5,7 +5,7 @@
  * Each row keeps its own evidence register. The marker is the only red — a constraint.
  */
 import type { TagKind } from "../../lib/teardown";
-import { niceMax } from "../../lib/charts";
+import { fmtChartVal, niceMax, scalePct } from "../../lib/charts";
 import EvidenceTag from "../EvidenceTag.astro";
 
 interface BulletRow {
@@ -29,8 +29,7 @@ interface Props {
 }
 const { rows, unit, max, marker, kicker = "Bullet · measure vs limit", title, scaleLabel, note } = Astro.props;
 const ceiling = max ?? niceMax(Math.max(...rows.map((r) => r.value), marker ?? 0));
-const pct = (v: number): string => `${Math.round((v / ceiling) * 1000) / 10}%`;
-const fmt = (v: number): string => (Number.isInteger(v) ? String(v) : v.toFixed(2));
+const pct = (v: number): string => `${scalePct(v, ceiling)}%`;
 ---
 
 <figure class="chart-card">
@@ -53,7 +52,7 @@ const fmt = (v: number): string => (Number.isInteger(v) ? String(v) : v.toFixed(
             <div class="chart-bullet-fill" style={`width:${pct(r.value)}; background:${r.fill ?? "var(--data-1)"}`} />
             {marker != null && <div class="chart-bullet-marker" style={`left:${pct(marker)}`} />}
           </div>
-          <div class="chart-bullet-val">{fmt(r.value)} {unit && <span class="chart-bullet-unit">{unit}</span>}</div>
+          <div class="chart-bullet-val">{fmtChartVal(r.value)} {unit && <span class="chart-bullet-unit">{unit}</span>}</div>
         </div>
       ))
     }

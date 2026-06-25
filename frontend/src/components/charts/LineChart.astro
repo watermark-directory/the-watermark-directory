@@ -33,12 +33,12 @@ const c = buildLine(data, { ...(max != null ? { max } : {}), ...(refs ? { refs }
     {
       c.grid.map((g) => (
         <Fragment>
-          <line x1="34" y1={g.y} x2="348" y2={g.y} stroke="var(--data-grid)" stroke-width="1" />
-          <text x="28" y={g.y + 3} text-anchor="end" class="chart-axis">{g.value}</text>
+          <line x1={c.plot.left} y1={g.y} x2={c.plot.right} y2={g.y} stroke="var(--data-grid)" stroke-width="1" />
+          <text x={c.plot.left - 6} y={g.y + 3} text-anchor="end" class="chart-axis">{g.value}</text>
         </Fragment>
       ))
     }
-    <line x1="34" y1={c.baselineY} x2="348" y2={c.baselineY} stroke="var(--data-axis)" stroke-width="1" />
+    <line x1={c.plot.left} y1={c.baselineY} x2={c.plot.right} y2={c.baselineY} stroke="var(--data-axis)" stroke-width="1" />
     <path d={c.area} fill="var(--data-1)" fill-opacity="0.10" />
     {
       c.refLines.map((r) => (
@@ -53,7 +53,7 @@ const c = buildLine(data, { ...(max != null ? { max } : {}), ...(refs ? { refs }
       c.dots.map((d) => (
         <Fragment>
           <circle cx={d.x} cy={d.y} r="3" fill="var(--surface-card)" stroke="var(--data-1)" stroke-width="2" />
-          <text x={d.x} y="188" text-anchor="middle" class="chart-axis chart-axis--x">{d.label}</text>
+          <text x={d.x} y={c.plot.labelY} text-anchor="middle" class="chart-axis chart-axis--x">{d.label}</text>
         </Fragment>
       ))
     }

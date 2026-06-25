@@ -61,6 +61,34 @@ function ticks(max: number, n = 4): number[] {
   return Array.from({ length: n + 1 }, (_, i) => round((max / n) * i, 4));
 }
 
+/**
+ * The plot frame of an axed chart: the x-extent the gridlines/baseline span and the
+ * y the category (x-axis) labels sit on. The `.astro` components read these instead
+ * of re-hardcoding `x1="34" x2="348"` / label `y="188"` magic numbers (#582).
+ */
+export interface PlotFrame {
+  left: number;
+  right: number;
+  /** y of the x-axis (category) labels, below the baseline. */
+  labelY: number;
+}
+
+/**
+ * Compact value formatter for chart figures and scale ends: thousands grouped,
+ * integers bare, fractions to 2 dp. Unifies the divergent BulletChart (`toFixed(2)`)
+ * and GaugeBar (`Math.round(v*10)/10`) formatters (#582).
+ */
+export function fmtChartVal(v: number): string {
+  const r = round(v, 2);
+  return Math.abs(r) >= 1000 ? r.toLocaleString() : String(r);
+}
+
+/** A value as a percentage of a scale ceiling (1 dp). `clamp` pins it to [0, 100]. */
+export function scalePct(v: number, ceiling: number, clamp = false): number {
+  const p = ceiling > 0 ? (v / ceiling) * 100 : 0;
+  return round(clamp ? Math.max(0, Math.min(100, p)) : p, 1);
+}
+
 // ---------------------------------------------------------------- 1 · vertical bars
 export interface BarDatum {
   label: string;
@@ -86,6 +114,7 @@ export interface VBarChart {
   baselineY: number;
   bars: VBar[];
   grid: AxisGridLine[];
+  plot: PlotFrame;
 }
 
 export function buildVBars(data: BarDatum[], opts: { max?: number; barW?: number } = {}): VBarChart {
@@ -118,7 +147,7 @@ export function buildVBars(data: BarDatum[], opts: { max?: number; barW?: number
     };
   });
   const grid = ticks(max).map((value) => ({ value, y: round(base - (value / max) * plotH, 1) }));
-  return { width: W, height: H, baselineY: base, bars, grid };
+  return { width: W, height: H, baselineY: base, bars, grid, plot: { left: L, right: W - R, labelY: 188 } };
 }
 
 // -------------------------------------------------------------- 2 · horizontal bars
@@ -210,8 +239,8 @@ export interface LineChart {
   dots: { x: number; y: number; label: string }[];
   last: { x: number; y: number };
   grid: AxisGridLine[];
-  /** Plot x-extent for overlays (reference lines span L → right edge). */
-  plot: { left: number; right: number };
+  /** Plot frame for overlays/axes (reference + grid lines span L → right edge). */
+  plot: PlotFrame;
   refLines: RefLine[];
 }
 
@@ -253,7 +282,7 @@ export function buildLine(
     dots: pts,
     last,
     grid,
-    plot: { left: L, right: W - R },
+    plot: { left: L, right: W - R, labelY: 188 },
     refLines,
   };
 }
