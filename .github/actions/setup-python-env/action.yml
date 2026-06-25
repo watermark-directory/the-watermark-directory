@@ -1,0 +1,21 @@
+name: Set up backend Python env
+description: Install uv (with its wheel cache), Python 3.11, and the project's dev dependencies.
+
+# Shared by the parallel backend legs (lint / types / test) so the uv + Python + sync
+# setup lives in one place. Checkout is intentionally NOT here — the legs need different
+# checkout depths (the test leg needs full history for the producer-drift merge-base).
+runs:
+  using: composite
+  steps:
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+
+    - name: Set up Python
+      shell: bash
+      run: uv python install 3.11
+
+    - name: Install dependencies
+      shell: bash
+      run: uv sync --extra dev --frozen
