@@ -1,676 +1,26 @@
-"""The BOSC network — the Python registry of watershed-point site profiles.
+"""The registered :class:`SiteProfile` literals + the ``SITES`` registry (#597 split).
 
-The data-tier peer of ``frontend/src/lib/sites.ts`` (Epic #308 / #323, Track 1): one
-:class:`SiteProfile` per watershed point, holding every value that is specific to *that*
-site. Lima is the live reference build; basin sites (Fort Wayne, Defiance, …) come online
-incrementally and are populated by their onboarding issues (#235-#238), not here.
-
-The active site is selected by ``BOSC_SITE`` (``bosc.config.Settings.site``, default
-``"lima"``). :class:`~bosc.config.Settings` resolves the profile's *config knobs*
-(the fields in :data:`PROFILE_SETTINGS_FIELDS`) into itself, so the existing ``settings.X``
-consumers are unchanged; the deeper hydrology/grid/rsei constants are read by their modules
-via :func:`active_profile`.
-
-Per-**basin** data (the Maumee HUC-8 set, the curated mainstem gages) is shared across all
-Maumee sites and stays in its modules; a profile only names its ``basin``.
-
-This module imports nothing from :mod:`bosc.config` — ``active_profile`` duck-types the
-``.site`` accessor — so the dependency runs one way (``config → sites``). The GIS field-map
-*models* come from :mod:`bosc.connectors.gis_schema` (a pure-pydantic leaf under the neutral
-connectors package, deliberately *not* ``bosc.hydrology.connectors``, which would close a
-``config → sites → connectors → config`` loop); the schema *instances* live here with the
-profiles, where site-specific values belong.
+One profile per watershed point. Lima is the live reference build; basin sites come online
+via their onboarding issues. Per-profile values that equal the network-wide default
+(Ohio ``eia_state``/``gnis_default_state``, the 136th GA, ``serving_utility_source``) are
+omitted here and supplied by the :class:`SiteProfile` model defaults — only the outliers
+(Fort Wayne/Indiana, Lima's corpus-grounded utility source) carry an explicit value.
 """
 
 from __future__ import annotations
 
-from pathlib import PurePosixPath
-from typing import TYPE_CHECKING, Literal, get_args, get_origin
-
-from pydantic import BaseModel, ConfigDict
-
-from bosc.connectors.gis_schema import (
-    GisCitedZoningMeta,
-    GisDefenseConfig,
-    GisDefenseMeta,
-    GisFloodSchema,
-    GisMeta,
-    GisParcelSchema,
-    GisZoningSchema,
+from bosc.sites._gis_schemas import (
+    FINDLAY_ZONING_SCHEMA,
+    LIMA_FLOOD_SCHEMA,
+    LIMA_PARCEL_SCHEMA,
+    LIMA_ZONING_SCHEMA,
+    LUCAS_AREIS_PARCEL_SCHEMA,
+    LUCAS_ZONING_SCHEMA,
+    NATIONAL_NFHL_FLOOD_SCHEMA,
+    OHIO_STATEWIDE_PARCEL_SCHEMA,
+    PUTNAM_PARCEL_SCHEMA,
 )
-
-if TYPE_CHECKING:
-    from bosc.config import Settings
-
-
-class SiteFacility(BaseModel):
-    """A site's disclosed data-center facility power basis (air-permit-grounded).
-
-    Present only for a site with an identified, documented facility (Lima, from Ohio EPA
-    Air PTI P0138965). A site with no such facility leaves ``SiteProfile.facility = None`` —
-    the grid stack then emits the per-site grid backdrop (utility / BA / state denominators)
-    **without** fabricating a campus load share. Drives :func:`bosc.facility.power.derive_power_basis`.
-    """
-
-    model_config = ConfigDict(extra="forbid", frozen=True)
-
-    genset_count: int  # emergency gensets disclosed in the air permit
-    genset_mw: float  # ekW each
-    it_load_mw: float  # central IT load (N+1 backup ~= IT)
-    it_load_low_mw: float  # low end of the N+1 range
-    it_load_high_mw: float  # high end
-    air_permit_citation: str  # the disclosing permit + committed extraction
-    # Disclosed cooling/industrial blowdown discharge — the independent cross-check for the
-    # cooling back-solve (:func:`bosc.hydrology.cooling.derive_cooling_basis`, method 2). Per-site
-    # (#607): a site that doesn't disclose one leaves these None and the back-solve uses the
-    # site's own power-derived consumptive as the high bound (no Lima FM-2 leak).
-    blowdown_mgd: float | None = None
-    blowdown_citation: str | None = None
-
-
-class SiteProfile(BaseModel):
-    """Everything specific to one watershed-point site. Frozen — a fixed reference value."""
-
-    model_config = ConfigDict(extra="forbid", frozen=True)
-
-    # --- Identity (mirrors sites.ts; ``basin`` is the shared-across-Maumee axis) ---------
-    slug: str
-    place: str
-    basin: str
-
-    # --- Config knobs resolved into Settings (see PROFILE_SETTINGS_FIELDS) ---------------
-    nwis_sites: list[str]
-    nasa_power_lat: float
-    nasa_power_lon: float
-    rsei_fips: str
-    econ_fips: str
-    eia861_utility_number: int
-    eia_state: str
-    # County/City GIS layer endpoints — per-site. The connector code that reads them is now
-    # jurisdiction-agnostic: the field names + encodings live in the gis_* schemas below (#237).
-    parcels_url: str
-    zoning_url: str
-    floodzone_url: str
-    gnis_default_state: str
-    hydro_utm_epsg: int
-    lsc_default_ga: str
-
-    # --- GIS layer field-maps (jurisdiction schemas; #237) ------------------------------
-    # The ArcGIS field names + value encodings the GIS connectors read, lifted off Lima/Allen
-    # so a new jurisdiction is config, not a copied connector (mirrors the OPC Profile idiom).
-    # Optional: ``None`` means "no connector for this layer here yet" — the connector/CLI then
-    # refuses cleanly rather than querying another jurisdiction's fields. Read via
-    # ``active_profile`` (NOT in PROFILE_SETTINGS_FIELDS — never bled into Settings).
-    gis_parcel: GisParcelSchema | None = None
-    gis_zoning: GisZoningSchema | None = None
-    gis_flood: GisFloodSchema | None = None
-
-    # --- Stormwater design point + cited assumptions (hydrology/stormwater.py) -----------
-    # The NOAA-Atlas-14 corridor point — distinct from the nasa_power loop centroid above.
-    design_lat: float
-    design_lon: float
-    corridor_name: str  # the Atlas-14 design-storm corridor label (drainage.py meta.subject)
-    dominant_hsg: str
-    hsg_citation: str
-    pre_cover: str
-    post_cover: str
-    developed_pervious_cover: str
-    noaa_fallback_24h_depth_in: dict[int, float]
-    parcels_relpath: str  # relative to settings.data_dir
-    footprint_relpath: str  # relative to settings.data_dir
-    # The frozen external-corroboration corridor geometry dir (corridor.geojson +
-    # corridor-centerline.geojson), relative to settings.data_dir — folded into the GIS
-    # findings by site/gismap.merge_corridor_layer. ``None`` = no corridor layer for this
-    # site (the merge then emits nothing rather than reading another site's geometry).
-    corridor_geo_relpath: str | None = None
-
-    # --- Per-site onboard reach outputs (point-specific writes; relative to data_dir) ----
-    # The point-specific connector outputs `bosc onboard` writes. Lima keeps its legacy
-    # (un-slugged) filenames; a new site slug-scopes them so onboarding never clobbers Lima.
-    # Basin/state/PJM/national outputs (derived 7Q10, ECHO POTW, consumer-energy is state-
-    # but kept per-site for uniformity, ba-interchange, federal) — the shared ones are NOT here.
-    # Hydrology (#326):
-    climatology_relpath: str  # NASA-POWER climatology (hydrology/climate.py)
-    corridor_ddf_relpath: str  # NOAA Atlas-14 corridor DDF (hydrology/drainage.py)
-    # Economics (per-site by county FIPS / state / utility):
-    baseline_relpath: str  # Census+QCEW county baseline (economics/baseline.py)
-    rsei_relpath: str  # EPA RSEI county toxics inventory (rsei.py)
-    consumer_energy_relpath: str  # EIA consumer energy prices (economics/energy.py)
-    grid_relpath: str  # EIA-861 utility + grid profile (grid/utility.py)
-
-    # --- Toxics corridor inference (hydrology/toxics.py) ---------------------------------
-    toxic_corridor_bbox: tuple[float, float, float, float]  # lat_min, lat_max, lon_min, lon_max
-    receiving_water_name: str
-
-    # --- Water-balance routing fallback (hydrology/balance.py) ---------------------------
-    plant_receiving: dict[str, tuple[str, str]]  # fid -> (receiving water, citation)
-    abstraction_gage: str
-
-    # --- Refill supply rivers (hydrology/refill.py) -------------------------------------
-    # The site's two refill supply rivers (the model sums both, each passby-adjusted). Named
-    # by role, not river: for Lima, primary = Auglaize (Fort Jennings), secondary = Ottawa.
-    supply_gage_primary: str
-    supply_gage_secondary: str
-    passby_primary_cfs: float
-    passby_secondary_cfs: float
-
-    # --- Grid / facility (grid/*.py, facility/power.py) ---------------------------------
-    # The disclosed DC facility (None = no identified facility yet → grid backdrop only, no
-    # fabricated campus load share). The serving-utility *identity* (name) is connector-sourced
-    # (EIA-861); only its provenance is per-site: a corpus document for Lima, the EIA-861/PUCO
-    # service-territory record for a site without corpus coverage.
-    facility: SiteFacility | None = None
-    serving_utility_citation: str
-    serving_utility_source: Literal["document", "connector", "reference", "assumption"]
-
-    # --- Grid market (grid/market.py) ---------------------------------------------------
-    lmp_usd_mwh: float  # zonal day-ahead LMP fallback (connector-sourced when lmp_pnode_id is set)
-    lmp_citation: str
-    # The site's PJM pricing zone for the live LMP connector (grid/lmp.py, #121). When pinned,
-    # the connector's zonal day-ahead mean overrides lmp_usd_mwh; 0/"" leaves the placeholder
-    # (e.g. Bryan/AMP #411, Fort Wayne/I&M #361 — zones not yet pinned). AEP=8445784, ATSI=116013753.
-    lmp_pnode_id: int = 0
-    lmp_pnode_name: str = ""
-
-    # --- RSEI county (rsei.py) ----------------------------------------------------------
-    county_name: str
-
-    # --- Legacy SSG map default view (site/gismap.py) -----------------------------------
-    map_view_lat: float
-    map_view_lon: float
-    map_view_zoom: int
-
-
-# The config-knob fields a profile shares 1:1 with Settings; Settings fills any of these the
-# caller did not set explicitly (env/dotenv/kwarg) from the active profile.
-PROFILE_SETTINGS_FIELDS: tuple[str, ...] = (
-    "nwis_sites",
-    "nasa_power_lat",
-    "nasa_power_lon",
-    "rsei_fips",
-    "econ_fips",
-    "eia861_utility_number",
-    "eia_state",
-    "parcels_url",
-    "zoning_url",
-    "floodzone_url",
-    "gnis_default_state",
-    "hydro_utm_epsg",
-    "lsc_default_ga",
-)
-
-
-# --- GIS field-map schema constants (#237) -------------------------------------------------
-# Lima's schemas reproduce the pre-#237 hardcoded field names / encodings / write-meta prose
-# exactly (zero-drift): the connector emits the identical request params, so the committed
-# fixtures replay and the committed reference YAML stays byte-identical. See tests/test_sites.py
-# for the schema golden + param-stability tests. NATIONAL_NFHL_FLOOD_SCHEMA / FINDLAY_* are
-# defined just below, from a live FeatureServer metadata read (never fabricated field names).
-
-# Allen County, OH parcel/CAMA layer (was allen_gis._OUT_FIELDS + the inline write-meta).
-LIMA_PARCEL_SCHEMA = GisParcelSchema(
-    connector="allen_gis",
-    reference_dir="allen-gis",
-    page_size=1000,
-    out_fields=(
-        "PARCEL_NO",
-        "OWNNAM1",
-        "OWNNAM2",
-        "DEEDOWN",
-        "HOUSENO",
-        "ST_DIR",
-        "STREET",
-        "ST_DESC",
-        "OWNADR1",
-        "OWNADR2",
-        "OWNST",
-        "OWNZIP",
-        "LNDUSECD",
-        "ACRES",
-        "MKTLNDVAL",
-        "MKTIMPVAL",
-        "MKTTOTVAL",
-        "CAUVVAL",
-        "TAXDIST",
-        "SCHOOL",
-        "NBRHCODE",
-        "DATE",
-        "SALEAMT",
-        "VAL_SAL",
-    ),
-    id_field="PARCEL_NO",
-    owner_field="OWNNAM1",
-    owner_2_field="OWNNAM2",
-    deeded_owner_field="DEEDOWN",
-    situs_fields=("HOUSENO", "ST_DIR", "STREET", "ST_DESC"),
-    owner_addr_fields=("OWNADR1", "OWNADR2"),
-    land_use_field="LNDUSECD",
-    acres_field="ACRES",
-    market_land_field="MKTLNDVAL",
-    market_improvement_field="MKTIMPVAL",
-    market_total_field="MKTTOTVAL",
-    cauv_field="CAUVVAL",
-    tax_district_field="TAXDIST",
-    school_field="SCHOOL",
-    neighborhood_field="NBRHCODE",
-    sale_date_field="DATE",
-    sale_amount_field="SALEAMT",
-    valid_sale_field="VAL_SAL",
-    id_normalize="dashless",
-    date_decode="mmddyyyy",
-    deed_id_regex=r"\b\d{2}-\d{4}-\d{2}-\d{3}\.\d{3}\b",
-    meta=GisMeta(
-        subject="Allen County, Ohio parcels (CAMA)",
-        source="Allen County GIS — ArcGIS REST, Current Parcels (AGOL_NonEditLayers/1)",
-        source_url="https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1",
-        caveats=(
-            "Values are verbatim from the county GIS; null means the service had no value.",
-            "Market values are the auditor's appraised values, not sale prices.",
-            "last_sale_date is decoded from the GIS M(M)DDYYYY integer; verify against the deed.",
-        ),
-    ),
-    defense=GisDefenseConfig(
-        owner_scan_fields=("OWNNAM1", "DEEDOWN", "OWNNAM2"),
-        enclave_owner="UNITED STATES",
-        enclave_tax_district="L35",
-        meta=GisDefenseMeta(
-            subject="Allen County, Ohio defense-industry land scan",
-            source="Allen County GIS — ArcGIS REST, Current Parcels (AGOL_NonEditLayers/1)",
-            source_url="https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1",
-            scan="Owner-name match of the curated DoD-prime seed list "
-            "(data/entities/profiles/defense-contractors.yaml) against the CAMA "
-            "owner / deeded-owner / second-owner fields.",
-            finding="No Allen County parcel is owned by a DoD prime in its own name. "
-            "The local defense footprint is the federally-held JSMC reservation below.",
-            army_controlled_note="[inference] the UNITED STATES-owned cluster in tax "
-            "district L35 on Buckeye/Reed Rd is the Joint Systems Manufacturing Center "
-            "(Lima Army Tank Plant; 1151 Buckeye Rd), operated by General Dynamics Land "
-            "Systems. Ownership is verbatim from the GIS; the JSMC identification is an "
-            "analyst inference — verify against the deed/lease before relying on it.",
-            caveats=(
-                "Values are verbatim from the county GIS; null means the service had no value.",
-                "A pattern match is a lead to verify, not a classification or accusation.",
-            ),
-        ),
-    ),
-)
-
-# City of Lima, OH zoning layer (was lima_gis zoning fields + the inline write-meta/finding).
-LIMA_ZONING_SCHEMA = GisZoningSchema(
-    connector="lima_gis",
-    reference_dir="lima-gis",
-    page_size=10000,
-    object_id_field="OBJECTID",
-    parcel_field="PARCEL_NO",
-    zoning_field="ZONING",
-    http_method="POST",
-    id_normalize="dashless",
-    meta=GisMeta(
-        subject="City of Lima, Ohio zoning districts (catalog)",
-        source="City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 6 'Current Lima Zoning'",
-        source_url=(
-            "https://colgis.cityhall.lima.oh.us/server/rest/services/"
-            "CitywideMaps/Lima_Zoning/MapServer/6"
-        ),
-        caveats=(
-            "Values are verbatim from the City of Lima GIS.",
-            "Coverage is Lima CITY LIMITS ONLY; unincorporated Allen County parcels "
-            "(e.g. the American Township corridor) are not in this layer.",
-            "polygon_count counts zoning polygons, not distinct parcels (a parcel may "
-            "carry more than one polygon).",
-        ),
-    ),
-    cited_meta=GisCitedZoningMeta(
-        subject="City of Lima zoning for cited corpus parcels (jurisdiction scan)",
-        source="City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 6, "
-        "joined by PARCEL_NO to corpus-cited parcel ids",
-        finding_lead="fall within the City of Lima zoning jurisdiction",
-        in_city_finding=".",
-        out_of_city_finding=" — the corridor (data-center campus + JSMC) sits in American/county "
-        "townships, so it is NOT subject to the City of Lima zoning code. Allen County "
-        "GIS publishes no county/township zoning layer (only Tax and School districts), "
-        "so land-use authority here is township/county, not GIS-mapped.",
-        caveats=(
-            "Coverage is Lima CITY LIMITS ONLY; in_city=false is a verified outside-"
-            "city result, not a missing lookup.",
-            "Parcel ids are scanned from data/extracted; normalized to the dashless "
-            "PARCEL_NO the GIS join uses.",
-        ),
-    ),
-)
-
-# FEMA DFIRM floodzone layer as served by the City of Lima GIS (was lima_gis flood fields).
-LIMA_FLOOD_SCHEMA = GisFloodSchema(
-    connector="lima_gis_flood",
-    reference_dir="lima-gis",
-    page_size=10000,
-    object_id_field="OBJECTID",
-    fld_zone_field="FLD_ZONE",
-    zone_subtype_field="ZONE_SUBTY",
-    sfha_field="SFHA_TF",
-    static_bfe_field="STATIC_BFE",
-    dfirm_id_field="DFIRM_ID",
-    source_cit_field="SOURCE_CIT",
-    http_method="POST",
-    bfe_sentinel=-9999.0,
-    sfha_true_value="T",
-    meta=GisMeta(
-        subject="FEMA flood-hazard zones over Allen County (DFIRM panel 39003C)",
-        source="City of Lima GIS — ArcGIS REST, CitywideMaps/Lima_Zoning, layer 4 'Floodzone' (FEMA DFIRM)",
-        source_url=(
-            "https://colgis.cityhall.lima.oh.us/server/rest/services/"
-            "CitywideMaps/Lima_Zoning/MapServer/4"
-        ),
-        caveats=(
-            "Values are verbatim from the FEMA DFIRM served by the City of Lima GIS.",
-            "Only Special Flood Hazard Areas (1%-annual-chance: A/AE incl. floodway, AO) "
-            "are mapped here; areas outside the SFHA carry no polygon.",
-            "A site's flood zone is a SPATIAL question (no PARCEL_NO on this layer) — use "
-            "footprint_floodzones() / bosc floodzone --footprint.",
-        ),
-    ),
-)
-
-# The national FEMA NFHL flood layer (S_FLD_HAZ_AR) — the shared, any-US-site flood field-map.
-# A site without a local flood REST service points its floodzone_url at this MapServer layer
-# and references this schema (overriding reference_dir per site). Field names confirmed from the
-# layer metadata 2026-06-19 (they match the FEMA DFIRM standard). Lima keeps its own City-served
-# DFIRM schema for zero-drift; it is NOT migrated onto NFHL here (that would change request params).
-NATIONAL_NFHL_FLOOD_SCHEMA = GisFloodSchema(
-    connector="nfhl_flood",
-    reference_dir="nfhl",
-    page_size=2000,
-    object_id_field="OBJECTID",
-    fld_zone_field="FLD_ZONE",
-    zone_subtype_field="ZONE_SUBTY",
-    sfha_field="SFHA_TF",
-    static_bfe_field="STATIC_BFE",
-    dfirm_id_field="DFIRM_ID",
-    source_cit_field="SOURCE_CIT",
-    http_method="POST",
-    bfe_sentinel=-9999.0,
-    sfha_true_value="T",
-    meta=GisMeta(
-        subject="FEMA flood-hazard zones (National Flood Hazard Layer, S_FLD_HAZ_AR)",
-        source="FEMA NFHL — ArcGIS REST, public/NFHL/MapServer/28 'Flood Hazard Zones'",
-        source_url="https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
-        caveats=(
-            "Values are verbatim from the FEMA National Flood Hazard Layer (NFHL).",
-            "Only Special Flood Hazard Areas (1%-annual-chance: A/AE incl. floodway, AO) "
-            "are mapped; areas outside the SFHA carry no polygon.",
-            "A site's flood zone is a SPATIAL question (no parcel id on this layer) — use "
-            "footprint_floodzones() / bosc floodzone --footprint.",
-            "Field names confirmed from the NFHL layer-28 metadata (2026-06-19).",
-        ),
-    ),
-)
-
-# City of Findlay, OH zoning — a hosted ArcGIS Online FeatureServer. Field names confirmed live
-# from the layer-0 metadata 2026-06-19: it is POLYGON-ONLY (no parcel-id field), so the district
-# catalog is supported but per-parcel zoning joins are not (cited_meta=None).
-FINDLAY_ZONING_SCHEMA = GisZoningSchema(
-    connector="findlay_gis",
-    reference_dir="findlay-gis",
-    page_size=2000,
-    object_id_field="FID",
-    parcel_field=None,  # polygon-only layer — no parcel id to join on
-    zoning_field="Zoning",  # current district label (Category = coarse group; OLDZONING = prior)
-    http_method="POST",
-    id_normalize="dashless",
-    meta=GisMeta(
-        subject="City of Findlay, Ohio zoning districts (catalog)",
-        source="City of Findlay GIS — ArcGIS Online hosted FeatureServer 'FindlayZoning' "
-        "(org XMr9uonP553LyU3o), layer 0",
-        source_url=(
-            "https://services6.arcgis.com/XMr9uonP553LyU3o/arcgis/rest/services/"
-            "FindlayZoning/FeatureServer/0"
-        ),
-        caveats=(
-            "Values are verbatim from the City of Findlay hosted zoning FeatureServer.",
-            "Polygon-only layer (no parcel id): the district catalog is supported; per-parcel "
-            "zoning joins are not.",
-            "Field names confirmed from the layer-0 metadata (2026-06-19).",
-        ),
-    ),
-)
-
-
-# The OGRIP "Ohio Statewide Parcels Public View" — the shared parcel substitute for any Ohio
-# watershed point whose county has no public parcel ArcGIS REST of its own (#237 Findlay follow-up).
-# It is one statewide layer, so each site filters it to its county via `query_scope` (e.g.
-# `County='Hancock'`), with a site-scoped `reference_dir`, exactly like NATIONAL_NFHL_FLOOD_SCHEMA.
-# It is a deliberately PARTIAL fit: the public view is owner-name-redacted (owner appears only
-# inside the mailing label, so owner_field is empty and owner searches refuse cleanly), land use is
-# a "<code>: <label>" string (decoded leading_int), and there are no market/CAUV/sale/tax fields.
-# What it does give, cleanly: the parcel id, situs address, land use code, acreage, and geometry —
-# i.e. the parcel catalog + the resolve-to-parcel funnel. Field names confirmed from the live
-# layer-0 metadata + a Hancock sample (2026-06-20). Never run an owner/defense scan against it.
-OHIO_STATEWIDE_PARCEL_SCHEMA = GisParcelSchema(
-    connector="ohio_parcels",
-    reference_dir="ohio-parcels",  # per-site override (e.g. "findlay-gis")
-    page_size=2000,
-    out_fields=(
-        "OBJECTID",
-        "County",
-        "LocalParcelID",
-        "StateParcelID",
-        "StateLUC",
-        "SitusAddressAll",
-        "MailAddressAll",
-        "LandArea",
-    ),
-    id_field="LocalParcelID",  # the county-local parcel number (dashless digits)
-    owner_field="",  # owner-redacted in the public view (only embedded in the mailing label)
-    owner_2_field="",
-    deeded_owner_field="",
-    situs_fields=("SitusAddressAll",),  # a single pre-assembled situs string
-    owner_addr_fields=("MailAddressAll",),  # the mailing label (recipient + city + zip)
-    land_use_field="StateLUC",
-    acres_field="LandArea",
-    market_land_field="",  # absent in this layer -> None (never fabricated)
-    market_improvement_field="",
-    market_total_field="",
-    cauv_field="",
-    tax_district_field="",
-    school_field="",
-    neighborhood_field="",
-    sale_date_field="",
-    sale_amount_field="",
-    valid_sale_field="",
-    id_normalize="dashless",
-    date_decode="none",
-    land_use_decode="leading_int",  # "511: Res-Custom Code" -> 511
-    query_scope="",  # set per site (e.g. "County='Hancock'") — base is unscoped (never queried bare)
-    deed_id_regex=r"\b\d{12}\b",  # Hancock LocalParcelID is 12 dashless digits (stored; no corpus scan)
-    meta=GisMeta(
-        subject="Ohio statewide parcels (OGRIP public view), scoped per county",
-        source="OGRIP — Ohio Statewide Parcels Public View (owner ogrip_agol), FeatureServer layer 0",
-        source_url=(
-            "https://services2.arcgis.com/MlJ0G8iWUyC7jAmu/arcgis/rest/services/"
-            "OhioStatewidePacels_full_view/FeatureServer/0"
-        ),
-        caveats=(
-            "OGRIP statewide compilation of county parcels; currency varies by county (CurrentTo).",
-            "The public view is owner-name-redacted: no owner field (only the mailing label in "
-            "MailAddressAll); no market/CAUV value, sale, or tax-district fields.",
-            "Land use is a '<code>: <label>' string (StateLUC); the numeric code is parsed out.",
-            "Field names confirmed from the live layer-0 metadata + a Hancock sample (2026-06-20).",
-        ),
-    ),
-)
-
-
-# Putnam County, OH parcels (Ottawa watershed point; #420). Putnam self-hosts a valid-cert ArcGIS
-# (`putnamcountygis.com`) whose `Parcels` layer carries owner AND auditor CAMA values on one layer —
-# the full fit Findlay's owner-redacted OGRIP substitute can't give. Field names confirmed from the
-# live layer-0 `?f=json` + samples (2026-06-21). Notes: OWNER holds the whole owner string (no
-# separate second/deeded-owner field); OWNERC/OWNERD are the property situs (an owner may mail to a
-# different state — verified against a parcel whose mailing city is The Woodlands, TX); MAILC/MAILD
-# are the owner's mailing address; the populated land-use code lives in CLASS_1 (the `Class` field is
-# 0/unused here); LANDVALUE/BLDGVALUE are the auditor's land/building values with no combined-total
-# field; SALEDATE is a MM-DD-YY string (date_decode="mmddyy"). No CAUV/school/neighborhood/tax-
-# district/valid-sale fields on this layer (they stay absent → None, never fabricated); CAUV + the
-# full appraisal split live on the separate LandUseParcels CAMA layer, not joined here.
-PUTNAM_PARCEL_SCHEMA = GisParcelSchema(
-    connector="putnam_gis",
-    reference_dir="ottawa-gis",
-    page_size=1000,
-    out_fields=(
-        "PIN",
-        "OWNER",
-        "OWNERC",
-        "OWNERD",
-        "MAILC",
-        "MAILD",
-        "CLASS_1",
-        "ACRESOWNED",
-        "LANDVALUE",
-        "BLDGVALUE",
-        "SALEDATE",
-        "PURPRI",
-    ),
-    id_field="PIN",  # 12-digit zero-padded parcel id string (PARCELNUM is the same digits as a float)
-    owner_field="OWNER",
-    owner_2_field="",  # no separate second-owner field (OWNER carries the full string)
-    deeded_owner_field="",  # no separate deeded-owner field
-    situs_fields=("OWNERC", "OWNERD"),  # the property situs (location + city/state/zip)
-    owner_addr_fields=(
-        "MAILC",
-        "MAILD",
-    ),  # the owner's mailing address (may be out of county/state)
-    land_use_field="CLASS_1",  # the populated 3-digit Ohio use code (`Class` is 0/unused here)
-    acres_field="ACRESOWNED",
-    market_land_field="LANDVALUE",
-    market_improvement_field="BLDGVALUE",
-    market_total_field="",  # no combined-total field on this layer (never summed/fabricated)
-    cauv_field="",  # CAUV lives on the separate LandUseParcels CAMA layer, not joined here
-    tax_district_field="",
-    school_field="",
-    neighborhood_field="",
-    sale_date_field="SALEDATE",  # MM-DD-YY string
-    sale_amount_field="PURPRI",
-    valid_sale_field="",  # PURCOD is a conveyance-type code, not a validity flag — left unmapped
-    id_normalize="dashless",
-    date_decode="mmddyy",
-    deed_id_regex=r"\b\d{12}\b",  # 12 dashless digits (no Putnam corpus scan; pattern for parity)
-    meta=GisMeta(
-        subject="Putnam County, Ohio parcels (CAMA)",
-        source="Putnam County GIS — ArcGIS REST, Parcels/Parcels layer 0 (auditor CAMA + geometry)",
-        source_url="https://putnamcountygis.com/arcgis/rest/services/Parcels/Parcels/MapServer/0",
-        caveats=(
-            "Values are verbatim from the county GIS; null means the service had no value.",
-            "Market values are the auditor's land/building appraised values; this layer has no "
-            "combined total field, so market_total_value is always null (never summed here).",
-            "Land use is the auditor's 3-digit Ohio use code in CLASS_1; the `Class` field is "
-            "0/unused in this layer.",
-            "OWNERC/OWNERD are the property situs; MAILC/MAILD the owner's (possibly out-of-state) "
-            "mailing address.",
-            "last_sale_date is decoded from the MM-DD-YY string with the standard %y century pivot "
-            "(69-99 -> 1900s, 00-68 -> 2000s); verify the century against the deed near the pivot.",
-            "Field names confirmed from the live layer-0 metadata + samples (2026-06-21).",
-        ),
-    ),
-)
-
-
-# Lucas County, OH parcels (Toledo watershed point; #384). Lucas County's AREIS is the richest GIS
-# in the network: a full, valid-cert, self-hosted ArcGIS (lcaudgis.co.lucas.oh.us). The owner-bearing
-# CAMA lives on AREIS_Web_Map_MIL1/MapServer layer 38 ("Parcels Land Use Classification"): one polygon
-# layer carrying PARID + OWNER + PROPERTY_ADDRESS (situs) + MAILING_ADDRESS + LUC (use code) + ZONING
-# + TAXDIST. This is the network's first owner-bearing parcel layer wired from a county's own REST
-# (Putnam has owner+value but is a different host; Findlay/Bryan are OGRIP owner-redacted substitutes).
-# Field names confirmed from the live layer-38 `?f=json` + Waterville-area samples (2026-06-21).
-# NOTE: the auditor's appraised values (APRLAND/APRBLDG/APRTOT) are NOT on this layer — they live on
-# layer 83 ("Land Values"), joined by PARID. The single-layer connector can't join, so market values
-# stay null here; the PARID value-join is a tracked follow-up (the network's first multi-layer parcel
-# connector). No sale-date/amount or CAUV fields on layer 38 either (absent -> None, never fabricated).
-LUCAS_AREIS_PARCEL_SCHEMA = GisParcelSchema(
-    connector="lucas_areis",
-    reference_dir="toledo-gis",
-    page_size=2000,
-    out_fields=(
-        "PARID",
-        "OWNER",
-        "PROPERTY_ADDRESS",
-        "MAILING_ADDRESS",
-        "LUC",
-        "ACREAGE",
-        "TAXDIST",
-    ),
-    id_field="PARID",  # AREIS parcel id (plain digits, e.g. "3850130")
-    owner_field="OWNER",
-    owner_2_field="",  # no separate second-owner field on this layer
-    deeded_owner_field="",
-    situs_fields=(
-        "PROPERTY_ADDRESS",
-    ),  # a single pre-assembled situs string ("... , WATERVILLE OH 43566")
-    owner_addr_fields=("MAILING_ADDRESS",),  # the pre-assembled owner mailing address
-    land_use_field="LUC",  # the auditor's land-use code (bare numeric string, e.g. "550")
-    acres_field="ACREAGE",
-    market_land_field="",  # appraised values are on layer 83 (PARID join) — deferred follow-up
-    market_improvement_field="",
-    market_total_field="",
-    cauv_field="",  # CAUV split is a separate AREIS layer, not joined here
-    tax_district_field="TAXDIST",
-    school_field="",
-    neighborhood_field="",
-    sale_date_field="",  # no sale date/amount on the land-use-classification layer
-    sale_amount_field="",
-    valid_sale_field="",
-    id_normalize="dashless",  # PARID is plain digits; dashless tolerates a dotted/dashed input form
-    date_decode="none",
-    land_use_decode="int",  # bare numeric LUC code
-    deed_id_regex=r"\b\d{7}\b",  # AREIS PARID is ~7 digits (no Toledo corpus scan; pattern for parity)
-    meta=GisMeta(
-        subject="Lucas County, Ohio parcels (AREIS CAMA — land-use classification)",
-        source="Lucas County Auditor AREIS — ArcGIS REST, AREIS_Web_Map_MIL1/MapServer layer 38 "
-        "('Parcels Land Use Classification')",
-        source_url=(
-            "https://lcaudgis.co.lucas.oh.us/gisaudserver/rest/services/"
-            "AREIS_Web_Map_MIL1/MapServer/38"
-        ),
-        caveats=(
-            "Values are verbatim from the county AREIS; null means the service had no value.",
-            "Appraised values (APRLAND/APRBLDG/APRTOT) are NOT on this layer — they live on AREIS "
-            "layer 83 (PARID join), so market_*_value is always null here (never fabricated).",
-            "PROPERTY_ADDRESS is the situs; MAILING_ADDRESS the owner's mailing address; both are "
-            "pre-assembled single strings.",
-            "LUC is the auditor's numeric land-use code; CLASS (R/C/E/...) is the coarse use group.",
-            "Field names confirmed from the live layer-38 metadata + samples (2026-06-21).",
-        ),
-    ),
-)
-
-
-# City of Toledo / Lucas County zoning (#384): the AREIS Parcel_Zoning layer — a PARCEL-level zoning
-# catalog (PARID + ZONING), so unlike Findlay's polygon-only layer it supports the per-parcel join.
-LUCAS_ZONING_SCHEMA = GisZoningSchema(
-    connector="lucas_zoning",
-    reference_dir="toledo-gis",
-    page_size=2000,
-    object_id_field="OBJECTID",
-    parcel_field="PARID",  # parcel-level layer (supports zoning_for_parcel, unlike Findlay)
-    zoning_field="ZONING",
-    http_method="GET",
-    id_normalize="dashless",
-    meta=GisMeta(
-        subject="Lucas County / City of Toledo zoning districts (catalog)",
-        source="Lucas County Auditor AREIS — ArcGIS REST, LandUse_Zoning/Parcel_Zoning/MapServer "
-        "layer 0 ('Parcels Zoning')",
-        source_url=(
-            "https://lcaudgis.co.lucas.oh.us/gisaudserver/rest/services/"
-            "LandUse_Zoning/Parcel_Zoning/MapServer/0"
-        ),
-        caveats=(
-            "Values are verbatim from the county AREIS Parcel_Zoning layer.",
-            "ZONING is the parcel-level district code (a jurisdiction prefix + district, e.g. "
-            "'17-R3'); coverage is county-wide across Lucas jurisdictions, not Toledo city-only.",
-            "polygon_count counts zoning polygons, not distinct parcels.",
-            "Field names confirmed from the live layer metadata + samples (2026-06-21).",
-        ),
-    ),
-)
-
+from bosc.sites._model import SiteFacility, SiteProfile
 
 # The live reference build. Every value reproduces the pre-#325 hardcoded default exactly —
 # see tests/test_sites.py for the zero-drift golden snapshot.
@@ -685,7 +35,6 @@ _LIMA = SiteProfile(
     rsei_fips="39003",
     econ_fips="39003",
     eia861_utility_number=14006,
-    eia_state="OH",
     parcels_url=(
         "https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1"
     ),
@@ -697,9 +46,7 @@ _LIMA = SiteProfile(
         "https://colgis.cityhall.lima.oh.us/server/rest/services/"
         "CitywideMaps/Lima_Zoning/MapServer/4"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32617,
-    lsc_default_ga="136",
     # GIS field-maps (Allen County parcels + City of Lima zoning/floodzone)
     gis_parcel=LIMA_PARCEL_SCHEMA,
     gis_zoning=LIMA_ZONING_SCHEMA,
@@ -825,7 +172,6 @@ _FINDLAY = SiteProfile(
     rsei_fips="39063",  # [verified] Hancock County, OH
     econ_fips="39063",
     eia861_utility_number=14006,  # [verified] Ohio Power Co (AEP Ohio); no municipal electric utility
-    eia_state="OH",
     # GIS — schema-driven (#237): the field-maps live in gis_parcel/gis_zoning/gis_flood below.
     parcels_url=(  # [reference] Hancock County has no county parcel REST (Beacon/Schneider-only);
         # substitute = the OGRIP Ohio statewide parcels public view, scoped to County='Hancock'
@@ -846,9 +192,7 @@ _FINDLAY = SiteProfile(
     ),
     gis_zoning=FINDLAY_ZONING_SCHEMA,
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "findlay-gis"}),
-    gnis_default_state="OH",
     hydro_utm_epsg=32617,  # [verified] UTM 17N (Findlay ~83.64degW; zone 17 spans 84-78degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima
     # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
     design_lat=41.0428,  # [verified] city centroid = NOAA Atlas-14 point
     design_lon=-83.6422,
@@ -901,7 +245,6 @@ _FINDLAY = SiteProfile(
     passby_secondary_cfs=0.0,
     # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
     facility=None,  # [open] the data-center dimension onboard doesn't capture (no disclosed facility)
-    serving_utility_source="reference",  # not corpus-grounded — EIA-861/PUCO record
     serving_utility_citation=(  # [reference] not Lima's corpus
         "EIA-861 service-territory file (Ohio Power Co #14006) + PUCO certified-territory map; "
         "AEP Ohio serving Findlay corroborated by the City of Findlay (AEP smart-meter notice)"
@@ -1028,7 +371,6 @@ _FORT_WAYNE = SiteProfile(
     # datacenter-facility.md). Power basis stays None: SiteFacility needs air-permit-grounded MW and
     # neither an IDEM air permit nor a disclosed IT load exists yet (so load_share=null is correct).
     facility=None,  # [open] power basis pending the IDEM air-permit extraction (activity is documented)
-    serving_utility_source="reference",  # not corpus-grounded — EIA-861/IURC record
     serving_utility_citation=(  # [reference] not corpus
         "EIA-861 service-territory file (Indiana Michigan Power Co #9324, an AEP subsidiary) + "
         "Indiana IURC certified-territory; I&M serves the Fort Wayne area (Google Project Zodiac campus)"
@@ -1074,7 +416,6 @@ _VAN_WERT = SiteProfile(
     rsei_fips="39161",  # [verified] Van Wert County, OH
     econ_fips="39161",
     eia861_utility_number=14006,  # [verified] Ohio Power Co (AEP Ohio); the Van Wert County AEP aggregation
-    eia_state="OH",
     # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
     # a follow-up live metadata read (Van Wert County GIS + City of Van Wert GIS).
     parcels_url="TODO",  # [open] pending the Van Wert County, OH GIS REST endpoint discovery
@@ -1085,9 +426,7 @@ _VAN_WERT = SiteProfile(
     gis_parcel=None,  # [open] pending Van Wert County, OH parcel-layer discovery
     gis_zoning=None,  # [open] pending City of Van Wert zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "van-wert-gis"}),
-    gnis_default_state="OH",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (Van Wert ~84.58 degW; zone 16 spans 90-84 degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima
     # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
     design_lat=40.8696,  # [verified] city centroid = NOAA Atlas-14 point
     design_lon=-84.5829,
@@ -1135,7 +474,6 @@ _VAN_WERT = SiteProfile(
     passby_secondary_cfs=0.0,
     # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
     facility=None,  # [open] the data-center dimension onboarding doesn't capture (no disclosed facility)
-    serving_utility_source="reference",  # not corpus-grounded — EIA-861/PUCO record
     serving_utility_citation=(  # [reference] not corpus
         "EIA-861 service-territory file (Ohio Power Co #14006) + PUCO certified-territory; AEP Ohio "
         "serving the City of Van Wert corroborated by the Van Wert County AEP Ohio electric-aggregation program"
@@ -1180,7 +518,6 @@ _TOLEDO = SiteProfile(
     rsei_fips="39095",  # [verified] Lucas County, OH
     econ_fips="39095",
     eia861_utility_number=18997,  # [verified] The Toledo Edison Co (FirstEnergy); EIA-861 2024 States sheet
-    eia_state="OH",
     # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
     # a follow-up live metadata read (Lucas County GIS / AREIS + City of Toledo GIS).
     # GIS — schema-driven (#237 / #384). Lucas County's AREIS is the richest GIS in the network:
@@ -1200,9 +537,7 @@ _TOLEDO = SiteProfile(
     gis_parcel=LUCAS_AREIS_PARCEL_SCHEMA,  # [verified] AREIS layer 38 — owner + land-use (#384)
     gis_zoning=LUCAS_ZONING_SCHEMA,  # [verified] AREIS Parcel_Zoning — parcel-level catalog (#384)
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "toledo-gis"}),
-    gnis_default_state="OH",
     hydro_utm_epsg=32617,  # [verified] UTM 17N (Toledo ~83.54 degW; zone 17 spans 84-78 degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima
     # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
     design_lat=41.6529,  # [verified] city centroid = NOAA Atlas-14 point
     design_lon=-83.5378,
@@ -1255,7 +590,6 @@ _TOLEDO = SiteProfile(
     passby_secondary_cfs=0.0,
     # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
     facility=None,  # [open] the data-center dimension onboarding doesn't capture (no disclosed facility)
-    serving_utility_source="reference",  # not corpus-grounded — EIA-861/PUCO record
     serving_utility_citation=(  # [reference] not corpus
         "EIA-861 service-territory file (The Toledo Edison Co #18997, a FirstEnergy operating "
         "company) + PUCO certified-territory; Toledo Edison serves the Toledo metro"
@@ -1300,7 +634,6 @@ _DEFIANCE = SiteProfile(
     rsei_fips="39039",  # [verified] Defiance County, OH
     econ_fips="39039",
     eia861_utility_number=18997,  # [reference] The Toledo Edison Co (FirstEnergy) — largest IOU in Defiance Co
-    eia_state="OH",
     # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
     # a follow-up live metadata read (Defiance County GIS + City of Defiance GIS).
     parcels_url="TODO",  # [open] pending the Defiance County, OH GIS REST endpoint discovery
@@ -1311,9 +644,7 @@ _DEFIANCE = SiteProfile(
     gis_parcel=None,  # [open] pending Defiance County, OH parcel-layer discovery
     gis_zoning=None,  # [open] pending City of Defiance zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "defiance-gis"}),
-    gnis_default_state="OH",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (Defiance ~84.36 degW; zone 16 spans 90-84 degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima
     # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
     design_lat=41.2868,  # [verified] city centroid = NOAA Atlas-14 point
     design_lon=-84.3621,
@@ -1367,7 +698,6 @@ _DEFIANCE = SiteProfile(
     passby_secondary_cfs=0.0,
     # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
     facility=None,  # [open] the data-center dimension onboarding doesn't capture (no disclosed facility)
-    serving_utility_source="reference",  # not corpus-grounded — EIA-861/PUCO record
     serving_utility_citation=(  # [reference] not corpus
         "EIA-861 service-territory file (The Toledo Edison Co #18997, a FirstEnergy operating "
         "company; the largest IOU in Defiance County) + PUCO certified-territory; the City of "
@@ -1411,7 +741,6 @@ _BRYAN = SiteProfile(
     rsei_fips="39171",  # [verified] Williams County, OH
     econ_fips="39171",
     eia861_utility_number=2439,  # [verified] City of Bryan - (OH); MUNICIPAL, EIA-861S short-form filer (BA=PJM)
-    eia_state="OH",
     # GIS — schema-driven (#237). Parcels (#410): Williams County, OH publishes NO county parcel
     # REST of its own (the bhamaps PAT MapServer that would host one has the same expired TLS cert
     # as Van Wert/Defiance, #421/#394), so — exactly like Findlay/Hancock — the substitute is the
@@ -1440,9 +769,7 @@ _BRYAN = SiteProfile(
     ),
     gis_zoning=None,  # [open] no real City of Bryan/Williams OH zoning REST (the discovered one was ND)
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "bryan-gis"}),
-    gnis_default_state="OH",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (Bryan ~84.55 degW; zone 16 spans 90-84 degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima
     # stormwater (the Atlas-14 corridor point = city centroid; cover scenario pending a site)
     design_lat=41.4748,  # [verified] city centroid = NOAA Atlas-14 point
     design_lon=-84.5525,
@@ -1496,7 +823,6 @@ _BRYAN = SiteProfile(
     passby_secondary_cfs=0.0,
     # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
     facility=None,  # [open] the data-center dimension onboarding doesn't capture (no disclosed facility)
-    serving_utility_source="reference",  # not corpus-grounded — the EIA-861S municipal record
     serving_utility_citation=(  # [reference] municipal home-rule electric (NOT PUCO rate-regulated)
         "EIA-861S Short Form (City of Bryan - OH, #2439; Municipal, BA=PJM, ~160 GWh sold 2024) — "
         "Bryan Municipal Utilities, a municipally-owned electric system and American Municipal "
@@ -1548,7 +874,6 @@ _OTTAWA = SiteProfile(
     rsei_fips="39137",  # [verified] Putnam County, OH
     econ_fips="39137",
     eia861_utility_number=14006,  # [reference] Ohio Power Co (AEP Ohio) — the IOU serving the incorporated village
-    eia_state="OH",
     # GIS — schema-driven (#237): parcels = Putnam County's self-hosted ArcGIS (#420); flood = the
     # shared national NFHL; zoning still pending (the village's zoning is class-coded / map-only).
     parcels_url=(  # [verified] Putnam County GIS — Parcels layer 0 (auditor CAMA + geometry)
@@ -1561,9 +886,7 @@ _OTTAWA = SiteProfile(
     gis_parcel=PUTNAM_PARCEL_SCHEMA,  # [verified] Putnam County Parcels (owner + CAMA values; #420)
     gis_zoning=None,  # [open] pending Village of Ottawa zoning-layer discovery (class-coded/map-only)
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "ottawa-gis"}),
-    gnis_default_state="OH",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (Ottawa ~84.05 degW; zone 16 spans 90-84 degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level, shared with Lima
     # stormwater (the Atlas-14 corridor point = village centroid; cover scenario pending a site)
     design_lat=41.0192,  # [verified] village centroid = NOAA Atlas-14 point
     design_lon=-84.0472,
@@ -1616,7 +939,6 @@ _OTTAWA = SiteProfile(
     passby_secondary_cfs=0.0,
     # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
     facility=None,  # [open] the data-center dimension onboarding doesn't capture (no disclosed facility)
-    serving_utility_source="reference",  # not corpus-grounded — EIA-861/PUCO record
     serving_utility_citation=(  # [reference] not corpus
         "EIA-861 service-territory file (Ohio Power Co #14006) + PUCO certified-territory: AEP Ohio "
         "serves the incorporated Village of Ottawa; rural Putnam County is served by cooperatives "
@@ -1662,15 +984,12 @@ _URBANA = SiteProfile(
     rsei_fips="39021",  # [verified] Champaign County, OH
     econ_fips="39021",
     eia861_utility_number=4922,  # Dayton Power & Light (AES Ohio) — EIA-861 2024 Service_Territory, Champaign Co [verified]
-    eia_state="OH",
     parcels_url="TODO",  # [open] pending the Champaign County, OH GIS REST endpoint discovery
     zoning_url="TODO",  # [open] pending the City of Urbana, OH GIS REST endpoint discovery
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32617,  # [verified] UTM 17N (Urbana ~83.75 degW; zone 17 spans 84-78 degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
     gis_parcel=None,  # [open] pending Champaign County, OH parcel-layer discovery
     gis_zoning=None,  # [open] pending City of Urbana zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "urbana-gis"}),
@@ -1712,7 +1031,6 @@ _URBANA = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the WPAFB-corridor data-center dimension is the research target (#440)
     serving_utility_citation="EIA-861 2024 Service_Territory: Dayton Power & Light Co (AES Ohio, #4922) is the IOU serving Champaign County, OH — the Urbana LSE (no municipal electric). [verified]",
-    serving_utility_source="reference",
     lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio/DP&L); pin via research
     lmp_citation=(
         "PJM LMP placeholder for the Urbana area; [inference] the PJM transmission zone is not yet "
@@ -1754,15 +1072,12 @@ _SPRINGFIELD = SiteProfile(
     rsei_fips="39023",  # [verified] Clark County, OH
     econ_fips="39023",
     eia861_utility_number=4922,  # Dayton Power & Light (AES Ohio) — EIA-861 2024 Service_Territory, Clark Co [verified]
-    eia_state="OH",
     parcels_url="TODO",  # [open] pending the Clark County, OH GIS REST endpoint discovery
     zoning_url="TODO",  # [open] pending the City of Springfield, OH GIS REST endpoint discovery
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32617,  # [verified] UTM 17N (Springfield ~83.81 degW; zone 17 spans 84-78 degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
     gis_parcel=None,  # [open] pending Clark County, OH parcel-layer discovery
     gis_zoning=None,  # [open] pending City of Springfield zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "springfield-gis"}),
@@ -1804,7 +1119,6 @@ _SPRINGFIELD = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] data-center dimension = 5C/Vultr + Crusoe at PrimeOhio (#454); pending a pinned facility
     serving_utility_citation="EIA-861 2024 Service_Territory: Clark County, OH is served by Dayton Power & Light (#4922), Duke Energy Ohio (#3542) and Ohio Edison — no AEP; the Springfield city LSE is DP&L #4922. [verified]",
-    serving_utility_source="reference",
     lmp_usd_mwh=35.0,  # [inference] PJM placeholder — Clark County sits at the AEP/DAY seam; pin via research
     lmp_citation=(
         "PJM LMP placeholder for the Springfield area; [inference] the PJM transmission zone is "
@@ -1843,15 +1157,12 @@ _XENIA = SiteProfile(
     rsei_fips="39057",  # [verified] Greene County, OH
     econ_fips="39057",
     eia861_utility_number=4922,  # Dayton Power & Light (AES Ohio) — EIA-861 2024 Service_Territory, Greene Co [verified]
-    eia_state="OH",
     parcels_url="TODO",  # [open] pending the Greene County, OH GIS REST endpoint discovery
     zoning_url="TODO",  # [open] pending the City of Xenia / Greene County zoning REST endpoint discovery
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32617,  # [verified] UTM 17N (Xenia ~83.93 degW; zone 17 spans 84-78 degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
     gis_parcel=None,  # [open] pending Greene County, OH parcel-layer discovery
     gis_zoning=None,  # [open] pending City of Xenia / Greene County zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "xenia-gis"}),
@@ -1894,7 +1205,6 @@ _XENIA = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the WPAFB-corridor defense/data-center dimension is the research target (#444)
     serving_utility_citation="EIA-861 2024 Service_Territory: Dayton Power & Light Co (AES Ohio, #4922) is the IOU serving Greene County, OH — the Xenia LSE (Duke #3542 fringes the SW county; Village of Yellow Springs muni is separate). [verified]",
-    serving_utility_source="reference",
     lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
     lmp_citation=(
         "PJM LMP placeholder for the Xenia area; [inference] the PJM transmission zone is not yet "
@@ -1939,15 +1249,12 @@ _WPAFB = SiteProfile(
     rsei_fips="39113",  # [verified] Montgomery County, OH (Dayton metro; base straddles Greene+Montgomery)
     econ_fips="39113",
     eia861_utility_number=4922,  # Dayton Power & Light (AES Ohio) — EIA-861 2024 Service_Territory, Greene+Montgomery Co [verified]
-    eia_state="OH",
     parcels_url="TODO",  # [open] pending the Montgomery County, OH GIS REST endpoint discovery
     zoning_url="TODO",  # [open] pending the City of Dayton / Montgomery County zoning REST endpoint discovery
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (WPAFB ~84.05 degW; zone 16 spans 90-84 degW) — NOT zone 17
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
     gis_parcel=None,  # [open] pending Montgomery County, OH parcel-layer discovery (+ the WPAFB federal enclave)
     gis_zoning=None,  # [open] pending City of Dayton / Montgomery County zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "wpafb-gis"}),
@@ -1989,7 +1296,6 @@ _WPAFB = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the DoD-cloud / GDIT-RSO data-center dimension is the research target (#442)
     serving_utility_citation="EIA-861 2024 Service_Territory: Dayton Power & Light Co (AES Ohio, #4922) serves both Greene and Montgomery counties, OH — the WPAFB-area LSE. [verified]",
-    serving_utility_source="reference",
     lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
     lmp_citation=(
         "PJM LMP placeholder for the Dayton/WPAFB area; [inference] the PJM transmission zone is not "
@@ -2030,15 +1336,12 @@ _HAMILTON_MIDDLETOWN = SiteProfile(
     rsei_fips="39017",  # [verified] Butler County, OH (seat = City of Hamilton; NOT Hamilton County/Cincinnati)
     econ_fips="39017",
     eia861_utility_number=3542,  # Duke Energy Ohio (dominant Butler Co IOU, PJM DEOK) — EIA-861 2024 Service_Territory [verified]; Hamilton muni #7977 is the Hamilton-side split [inference]
-    eia_state="OH",
     parcels_url="TODO",  # [open] pending the Butler County, OH GIS REST endpoint discovery
     zoning_url="TODO",  # [open] pending the City of Hamilton / Middletown GIS REST endpoint discovery
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (Hamilton ~84.56 degW; zone 16 spans 90-84 degW) — NOT zone 17
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
     gis_parcel=None,  # [open] pending Butler County, OH parcel-layer discovery
     gis_zoning=None,  # [open] pending City of Hamilton / Middletown zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(
@@ -2082,7 +1385,6 @@ _HAMILTON_MIDDLETOWN = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the I-75-corridor data-center dimension is the research target (#443)
     serving_utility_citation="EIA-861 2024 Service_Territory: Butler County, OH is split — Duke Energy Ohio Inc (#3542, PJM DEOK) serves Middletown + most of the county; the City of Hamilton municipal (#7977) serves Hamilton. Pinned to Duke #3542 as the dominant IOU (the Middletown Works mainstem load); the Hamilton-muni share is [inference]. [verified]",
-    serving_utility_source="reference",
     lmp_usd_mwh=35.0,  # [inference] PJM placeholder — Butler County is the DEOK zone (Duke Energy OH/KY); pin via research
     lmp_citation=(
         "PJM LMP placeholder for the Hamilton/Middletown area; [inference] the PJM transmission zone "
@@ -2120,15 +1422,12 @@ _TROY_PIQUA = SiteProfile(
     rsei_fips="39109",  # [verified] Miami County, OH
     econ_fips="39109",
     eia861_utility_number=4922,  # Dayton Power & Light (AES Ohio, county-dominant IOU) — EIA-861 2024 Service_Territory, Miami Co [verified]; City of Piqua muni #15095 is the Piqua split
-    eia_state="OH",
     parcels_url="TODO",  # [open] pending the Miami County, OH GIS REST endpoint discovery
     zoning_url="TODO",  # [open] pending the City of Troy / Piqua GIS REST endpoint discovery
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (Troy ~84.20 degW; zone 16 spans 90-84 degW) — NOT zone 17
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
     gis_parcel=None,  # [open] pending Miami County, OH parcel-layer discovery
     gis_zoning=None,  # [open] pending City of Troy / Piqua zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "troy-piqua-gis"}),
@@ -2170,7 +1469,6 @@ _TROY_PIQUA = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the I-75-corridor data-center dimension is the research target (#475)
     serving_utility_citation="EIA-861 2024 Service_Territory: Miami County, OH is split — Dayton Power & Light (AES Ohio, #4922) serves Troy + most of the county; the City of Piqua municipal (#15095) serves Piqua. Pinned to DP&L #4922 (county-dominant IOU); the Piqua-muni share is [inference]. [verified]",
-    serving_utility_source="reference",
     lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
     lmp_citation=(
         "PJM LMP placeholder for the Troy/Piqua area; [inference] the PJM transmission zone is not "
@@ -2205,15 +1503,12 @@ _SIDNEY = SiteProfile(
     rsei_fips="39149",  # [verified] Shelby County, OH
     econ_fips="39149",
     eia861_utility_number=4922,  # Dayton Power & Light (AES Ohio) — EIA-861 2024 Service_Territory, Shelby Co [verified] (not 'City of Shelby' #17043, a Richland-Co muni)
-    eia_state="OH",
     parcels_url="TODO",  # [open] pending the Shelby County, OH GIS REST endpoint discovery
     zoning_url="TODO",  # [open] pending the City of Sidney GIS REST endpoint discovery
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (Sidney ~84.16 degW; zone 16 spans 90-84 degW) — NOT zone 17
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
     gis_parcel=None,  # [open] pending Shelby County, OH parcel-layer discovery
     gis_zoning=None,  # [open] pending City of Sidney zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "sidney-gis"}),
@@ -2255,7 +1550,6 @@ _SIDNEY = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the Sidney / I-75-corridor data-center dimension is the research target (#481)
     serving_utility_citation="EIA-861 2024 Service_Territory: Dayton Power & Light Co (AES Ohio, #4922) is the IOU serving Shelby County, OH / Sidney — distinct from 'City of Shelby' (#17043, a Richland-County muni). [verified]",
-    serving_utility_source="reference",
     lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
     lmp_citation=(
         "PJM LMP placeholder for the Sidney area; [inference] the PJM transmission zone is not "
@@ -2291,15 +1585,12 @@ _GREENVILLE = SiteProfile(
     rsei_fips="39037",  # [verified] Darke County, OH
     econ_fips="39037",
     eia861_utility_number=4922,  # Dayton Power & Light (AES Ohio) — EIA-861 2024 Service_Territory, Greenville city LSE [verified]; rural Darke is a co-op/AEP/muni patchwork
-    eia_state="OH",
     parcels_url="TODO",  # [open] pending the Darke County, OH GIS REST endpoint discovery
     zoning_url="TODO",  # [open] pending the City of Greenville / Darke County zoning REST endpoint discovery
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (Greenville ~84.63 degW; zone 16 spans 90-84 degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
     gis_parcel=None,  # [open] pending Darke County, OH parcel-layer discovery
     gis_zoning=None,  # [open] pending City of Greenville / Darke County zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "greenville-gis"}),
@@ -2341,7 +1632,6 @@ _GREENVILLE = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the data-center / ag-land-conversion dimension is the research target (#482)
     serving_utility_citation="EIA-861 2024 Service_Territory: Darke County, OH is a patchwork (DP&L #4922, AEP #14006 on the east fringe, Darke Rural Electric co-op #4796, village munis Arcanum/Versailles); the City of Greenville LSE is Dayton Power & Light (#4922). [verified]",
-    serving_utility_source="reference",
     lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (co-op served from it); pin via research
     lmp_citation=(
         "PJM LMP placeholder for the Greenville/Darke area; [inference] heavily rural so likely a "
@@ -2379,15 +1669,12 @@ _WILMINGTON = SiteProfile(
     rsei_fips="39027",  # [verified] Clinton County, OH
     econ_fips="39027",
     eia861_utility_number=4922,  # Dayton Power & Light (AES Ohio) — EIA-861 2024 Service_Territory, Clinton Co [verified]
-    eia_state="OH",
     parcels_url="TODO",  # [open] pending the Clinton County, OH GIS REST endpoint discovery
     zoning_url="TODO",  # [open] pending the City of Wilmington / Clinton County zoning REST endpoint discovery
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32617,  # [verified] UTM 17N (Wilmington ~83.83 degW; zone 17 spans 84-78 degW) — east of 84 degW
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
     gis_parcel=None,  # [open] pending Clinton County, OH parcel-layer discovery
     gis_zoning=None,  # [open] pending City of Wilmington / Clinton County zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "wilmington-gis"}),
@@ -2423,7 +1710,6 @@ _WILMINGTON = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the Air Park large-load / data-center dimension is the research target (#492)
     serving_utility_citation="EIA-861 2024 Service_Territory: Dayton Power & Light Co (AES Ohio, #4922) is the IOU serving Clinton County, OH — the Wilmington / Air Park LSE (Duke #3542 + South Central Power co-op also in-county). [verified]",
-    serving_utility_source="reference",
     lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio); pin via research
     lmp_citation=(
         "PJM LMP placeholder for the Wilmington area; [inference] the PJM transmission zone is not "
@@ -2465,7 +1751,6 @@ _NEW_ALBANY = SiteProfile(
     rsei_fips="39089",  # [verified] Licking County, OH — the Intel/business-park epicenter (city core is Franklin 39049)
     econ_fips="39089",
     eia861_utility_number=14006,  # [verified] Ohio Power Co (AEP Ohio); serves New Albany + the business park — PJM AEP zone
-    eia_state="OH",
     parcels_url=(  # [reference] Licking County's own ArcGIS parcel/zoning REST is currently stopped (HTTP 500);
         # substitute = the OGRIP Ohio statewide parcels public view, scoped to County='Licking'
         "https://services2.arcgis.com/MlJ0G8iWUyC7jAmu/arcgis/rest/services/"
@@ -2475,9 +1760,7 @@ _NEW_ALBANY = SiteProfile(
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32617,  # [verified] UTM 17N (New Albany ~82.78 degW; zone 17 spans 84-78 degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
     gis_parcel=OHIO_STATEWIDE_PARCEL_SCHEMA.model_copy(
         update={"reference_dir": "new-albany-gis", "query_scope": "County='Licking'"}
     ),  # [reference] OGRIP scoped to Licking (operative-for-DC); SitusAddressAll is null for Licking (thin catalog)
@@ -2526,7 +1809,6 @@ _NEW_ALBANY = SiteProfile(
         "EIA-861 service territory (Ohio Power Co #14006) + PJM AEP zone; AEP Ohio serves New "
         "Albany / the New Albany International Business Park. [verified] No municipal electric utility."
     ),
-    serving_utility_source="reference",
     lmp_usd_mwh=45.81,  # [reference] connector-sourced AEP-zone day-ahead annual mean (same PJM AEP zone as Lima, #121)
     lmp_citation=(
         "PJM AEP-zone day-ahead annual-mean LMP applied to New Albany (AEP Ohio territory, PJM AEP "
@@ -2559,7 +1841,6 @@ _COLUMBUS = SiteProfile(
     rsei_fips="39049",  # [verified] Franklin County, OH
     econ_fips="39049",
     eia861_utility_number=14006,  # [verified] Ohio Power Co (AEP Ohio HQ Columbus); PJM AEP zone
-    eia_state="OH",
     parcels_url=(  # [reference] substitute = the OGRIP Ohio statewide parcels public view, scoped to County='Franklin'
         # (the Franklin County Auditor also hosts a fuller native owner+CAMA layer — a follow-up upgrade)
         "https://services2.arcgis.com/MlJ0G8iWUyC7jAmu/arcgis/rest/services/"
@@ -2571,9 +1852,7 @@ _COLUMBUS = SiteProfile(
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gnis_default_state="OH",
     hydro_utm_epsg=32617,  # [verified] UTM 17N (Columbus ~82.99 degW; zone 17 spans 84-78 degW)
-    lsc_default_ga="136",  # [verified] Ohio 136th General Assembly (2025-2026); state-level
     gis_parcel=OHIO_STATEWIDE_PARCEL_SCHEMA.model_copy(
         update={"reference_dir": "columbus-gis", "query_scope": "County='Franklin'"}
     ),  # [reference] OGRIP scoped to Franklin; the Franklin County Auditor native owner+CAMA layer is a follow-up upgrade
@@ -2619,7 +1898,6 @@ _COLUMBUS = SiteProfile(
     serving_utility_citation=(
         "EIA-861 service territory (Ohio Power Co #14006, AEP HQ Columbus) + PJM AEP zone. [verified]"
     ),
-    serving_utility_source="reference",
     lmp_usd_mwh=45.81,  # [reference] connector-sourced AEP-zone day-ahead annual mean (same PJM AEP zone as Lima, #121)
     lmp_citation=(
         "PJM AEP-zone day-ahead annual-mean LMP applied to Columbus (AEP Ohio HQ, PJM AEP zone); "
@@ -2667,163 +1945,3 @@ PER_SITE_OUTPUT_FIELDS: tuple[str, ...] = (
     "consumer_energy_relpath",
     "grid_relpath",
 )
-
-
-def get_profile(slug: str) -> SiteProfile:
-    """The :class:`SiteProfile` for ``slug``; raises ``KeyError`` if unknown."""
-    return SITES[slug]
-
-
-def active_profile(settings: Settings) -> SiteProfile:
-    """The active site's profile, keyed by ``settings.site``."""
-    return SITES[settings.site]
-
-
-def output_path_collisions(slug: str) -> dict[str, list[str]]:
-    """Other registered sites that share ``slug``'s per-site output relpaths.
-
-    Returns ``{field: [other_slug, …]}`` for each :data:`PER_SITE_OUTPUT_FIELDS` value
-    another site also uses — empty when ``slug``'s outputs are safely unique.
-    """
-    prof = SITES[slug]
-    clashes: dict[str, list[str]] = {}
-    for field in PER_SITE_OUTPUT_FIELDS:
-        value = getattr(prof, field)
-        others = [s for s, p in SITES.items() if s != slug and getattr(p, field) == value]
-        if others:
-            clashes[field] = others
-    return clashes
-
-
-# --- Authoring tooling (scaffold a new profile + lint a draft) ------------------------------
-# Geometry inputs a new site supplies itself (not connector outputs, so not in
-# PER_SITE_OUTPUT_FIELDS, but still slug-scoped by the scaffold).
-_GEOMETRY_RELPATH_FIELDS = ("parcels_relpath", "footprint_relpath")
-
-
-def _slug_scope(relpath: str, slug: str) -> str:
-    """Insert ``slug`` as a subdir before the filename (Lima's path -> a new site's)."""
-    p = PurePosixPath(relpath)
-    return str(p.parent / slug / p.name)
-
-
-def _type_placeholder(annotation: object) -> str:
-    """A constructible-but-obviously-empty literal for a field's type (scaffold TODO)."""
-    origin = get_origin(annotation)
-    if annotation is str:
-        return '"TODO"'
-    if annotation is bool:
-        return "False"
-    if annotation is int:
-        return "0"
-    if annotation is float:
-        return "0.0"
-    if origin is list:
-        return '["TODO"]'
-    if origin is tuple:
-        n = len([a for a in get_args(annotation) if a is not Ellipsis])
-        return "(" + ", ".join(["0.0"] * n) + ")"
-    if origin is dict:
-        return "{}"
-    if origin is Literal:
-        return repr(get_args(annotation)[0])  # first allowed value (constructible)
-    return "None"
-
-
-def scaffold_profile_src(slug: str, *, basin: str = "maumee") -> str:
-    """A paste-ready ``SiteProfile(...)`` stub for a new site (the #326 authoring aid).
-
-    Identity + the per-site output relpaths are filled (the relpaths pre-slug-scoped, so the
-    stub is collision-safe by construction); every other field is a typed ``TODO`` placeholder
-    to replace from a cited source (see ``docs/onboarding.md``). Then ``bosc sites check`` flags
-    anything still unfilled.
-    """
-    lima = SITES["lima"]
-    lines: list[str] = [f'    "{slug}": SiteProfile(']
-    for name, field in SiteProfile.model_fields.items():
-        comment = ""
-        if name == "slug":
-            value = repr(slug)
-        elif name == "basin":
-            value = repr(basin)
-            comment = "  # TODO: confirm the basin"
-        elif name in PER_SITE_OUTPUT_FIELDS:
-            value = repr(_slug_scope(getattr(lima, name), slug))  # pre-slug-scoped, collision-safe
-        elif name in _GEOMETRY_RELPATH_FIELDS:
-            stem = "reference" if name == "parcels_relpath" else "extracted"
-            value = repr(f"{stem}/{slug}/{PurePosixPath(getattr(lima, name)).name}")
-            comment = "  # TODO: commit the site's own geometry here"
-        elif not field.is_required():  # optional (e.g. facility) — absence is a valid state
-            value = repr(field.get_default())
-            comment = "  # optional (set only if the site has a documented facility)"
-        else:
-            value = _type_placeholder(field.annotation)
-            comment = "  # TODO"
-        lines.append(f"        {name}={value},{comment}")
-    lines.append("    ),")
-    header = (
-        f"# Paste into bosc.sites.SITES (the key must equal slug={slug!r}). Replace every TODO\n"
-        "# with this site's value from a cited source — see the field guide in\n"
-        "# docs/onboarding.md. The output relpaths are pre-slug-scoped (collision-safe);\n"
-        f"# run `bosc onboard {slug} --check` to find anything still unfilled.\n"
-    )
-    return header + "\n".join(lines) + "\n"
-
-
-class ReadinessFinding(BaseModel):
-    """One issue a draft profile lints up before a live onboard run."""
-
-    model_config = ConfigDict(extra="forbid")
-
-    field: str
-    kind: Literal["placeholder", "matches-lima"]
-    detail: str
-
-
-def _is_placeholder(value: object) -> bool:
-    """True for the scaffold's unfilled sentinels (TODO / zeros / empties)."""
-    if isinstance(value, str):
-        return value == "" or "TODO" in value
-    if isinstance(value, bool):
-        return False
-    if isinstance(value, (int, float)):
-        return value == 0
-    if isinstance(value, (list, tuple)):
-        return len(value) == 0 or any(_is_placeholder(v) for v in value)
-    if isinstance(value, dict):
-        return len(value) == 0
-    return value is None
-
-
-def profile_readiness(slug: str) -> list[ReadinessFinding]:
-    """Lint a non-Lima draft profile before onboarding: unfilled placeholders + copied values.
-
-    Flags any field still a scaffold placeholder (``placeholder`` — must fix) and any field
-    still equal to Lima's value (``matches-lima`` — verify; some, e.g. an Ohio site's
-    ``eia_state``, legitimately match). Empty for Lima itself.
-    """
-    if slug == "lima":
-        return []
-    prof, lima = SITES[slug], SITES["lima"]
-    findings: list[ReadinessFinding] = []
-    for name, field in SiteProfile.model_fields.items():
-        if name == "slug":
-            continue
-        value = getattr(prof, name)
-        # An optional field left at its default (e.g. facility=None) is a deliberate absence,
-        # not an unfilled gap — don't flag it.
-        if not field.is_required() and value == field.get_default():
-            continue
-        if _is_placeholder(value):
-            findings.append(
-                ReadinessFinding(
-                    field=name, kind="placeholder", detail=f"still unfilled: {value!r}"
-                )
-            )
-        elif value == getattr(lima, name):
-            findings.append(
-                ReadinessFinding(
-                    field=name, kind="matches-lima", detail=f"== Lima's value: {value!r}"
-                )
-            )
-    return findings
