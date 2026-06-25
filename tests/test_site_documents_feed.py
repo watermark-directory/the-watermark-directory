@@ -44,6 +44,23 @@ def test_render_class_sniff_overrides_a_mislabeled_extension(tmp_path: Path) -> 
     assert got["recorder/real.txt"][:2] == ("text/plain", "text")
 
 
+def test_file_directly_under_documents_dir_is_not_a_single_file_collection(
+    tmp_path: Path,
+) -> None:
+    """#617: a file dropped directly under documents_dir has no collection — it must be
+    skipped, not turned into a single-file 'collection' named after the file."""
+    docs = tmp_path / "documents"
+    (docs / "recorder").mkdir(parents=True)
+    (docs / "recorder" / "deed.pdf").write_bytes(b"%PDF-1.5\n")
+    (docs / "stray.pdf").write_bytes(b"%PDF-1.5\n")  # no collection subdir
+
+    result = build_documents(docs)
+    slugs = {c.slug for c in result.collections}
+    assert slugs == {"recorder"}
+    assert "stray" not in slugs
+    assert "stray.pdf" not in slugs
+
+
 def test_office_override_table(tmp_path: Path) -> None:
     docs = tmp_path / "documents"
     (docs / "plans").mkdir(parents=True)

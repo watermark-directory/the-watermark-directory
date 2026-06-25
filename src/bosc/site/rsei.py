@@ -68,9 +68,11 @@ def render_rsei(inv: RseiInventory, *, egraph: EntityGraph | None = None) -> str
         "",
     ]
 
-    # Corridor highlight: the JSMC / GDLS defense footprint, if present.
+    # Corridor highlight: the JSMC / GDLS defense footprint, if present. Requires a
+    # non-zero RSEI Score — the highlight ranks by score and divides by it for the
+    # cancer share, and a facility can report pounds with a zero modeled score (#617).
     gdls = next((f for f in facs if "GENERAL DYNAMICS" in f.name.upper()), None)
-    if gdls is not None:
+    if gdls is not None and gdls.score:
         rank = facs.index(gdls) + 1
         top = gdls.top_chemicals[0].chemical if gdls.top_chemicals else "—"
         lines += [
