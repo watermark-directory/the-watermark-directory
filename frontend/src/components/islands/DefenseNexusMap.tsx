@@ -72,13 +72,17 @@ export default function DefenseNexusMap({ data }: { data: DefenseNexusData }): J
 
   const fact = data.facts.find((f) => f.key === active) ?? data.facts[0];
   const emphasis: DnEmphasis = fact?.emphasis ?? "gap";
-  const features = data.geo.features as unknown as GeoFeature[];
+  // Cast once — a fresh `as` cast is not a new array, but memoizing keeps the layers-memo dep
+  // stable and the intent explicit (#586).
+  const features = useMemo(() => data.geo.features as unknown as GeoFeature[], [data.geo.features]);
   const [a, b] = data.metrics.nearestPair;
-  const mid: [number, number] = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
   const gapOn = emphasis === "gap";
 
   const layers = useMemo(() => {
     const out: Layer[] = [];
+    // Derive the gap-label midpoint inside the memo: as a fresh `[x,y]` literal at module scope
+    // it was a dep that changed identity every render, so the layers never cached (#586).
+    const mid: [number, number] = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
     if (basemap === "imagery") out.push(rasterTileLayer(ESRI));
     out.push(footprint("jsmc", features, emphasis === "jsmc" ? 165 : 70, emphasis === "jsmc"));
     out.push(footprint("campus", features, emphasis === "campus" ? 165 : 70, emphasis === "campus"));
@@ -148,7 +152,7 @@ export default function DefenseNexusMap({ data }: { data: DefenseNexusData }): J
       );
     }
     return out;
-  }, [features, emphasis, basemap, gapOn, a, b, mid, data.metrics.nearestMi, data.annotations, active]);
+  }, [features, emphasis, basemap, gapOn, a, b, data.metrics.nearestMi, data.annotations, active]);
 
   return (
     <div className="dn">
