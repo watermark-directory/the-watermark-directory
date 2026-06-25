@@ -107,7 +107,10 @@ jobs:
       - name: Type check
         run: uv run mypy
 
-  test:
+  # The two data-catalog gates (#631) run ONCE, in their own job — not duplicated per
+  # test shard. The producer-drift gate is the only leg that needs the full commit graph
+  # (to merge-base against origin/main), so this is the one job paying for fetch-depth: 0.
+  catalog:
     needs: changes
     if: ${{ needs.changes.outputs.backend == 'true' }}
     runs-on: ubuntu-latest
@@ -121,21 +124,11 @@ jobs:
           fetch-depth: 0
           filter: blob:none
       - uses: ./.github/actions/setup-python-env
-      - name: Cache pytest
-        uses: actions/cache@v4
-        with:
-          path: .cache/pytest
-          key: pytestcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-${{ github.sha }}
-          restore-keys: |
-            pytestcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-
-            pytestcache-${{ runner.os }}-py311-
-
       # Data-catalog gate (#631): schema · missing · orphan · checksum drift. Hermetic and
       # LFS-aware — the runner checks out without LFS bytes, so unmaterialized pointers are
       # an informational note, never a failure.
       - name: Catalog check
         run: uv run bosc catalog check
-
       # Producer→entry drift gate (#629): a changed connector without its catalog entry fails.
       # Resolves origin/main from the full-history checkout; skips cleanly if it can't, so it
       # never false-fails. Bypass with a `[catalog-waiver: <reason>]` commit token.
@@ -144,27 +137,52 @@ jobs:
           git fetch --no-tags --quiet origin main || true
           uv run bosc catalog producer-check --base origin/main
 
-      - name: Test
-        run: uv run pytest -n auto   # pytest-xdist: parallelize across the runner's cores
+  # Pytest, sharded across runners. pytest-split partitions the suite into `total-splits`
+  # duration-balanced groups (from the committed .test_durations); each shard ALSO runs
+  # -n auto for intra-runner core parallelism. A shallow checkout is enough — the suite is
+  # hermetic over committed fixtures + data/extracted (no LFS bytes, no full history).
+  # Regenerate .test_durations with `uv run pytest -n0 --store-durations` when it drifts.
+  test:
+    needs: changes
+    if: ${{ needs.changes.outputs.backend == 'true' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-python-env
+      - name: Cache pytest
+        uses: actions/cache@v4
+        with:
+          path: .cache/pytest
+          key: pytestcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-g${{ matrix.group }}-${{ github.sha }}
+          restore-keys: |
+            pytestcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-g${{ matrix.group }}-
+            pytestcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-
+      - name: Test (shard ${{ matrix.group }}/4)
+        run: uv run pytest -n auto --splits 4 --group ${{ matrix.group }}
 
   # The required backend status check (#682): a thin aggregator over the three legs above.
   # It keeps the job name `check` (the gate keys on it — see .github/config/index.ts
   # `requiredChecks`) and `if: always()` so it ALWAYS reports a status, never stuck
   # pending. It passes only when each leg succeeded or was skipped — so a backend-untouched
-  # PR (all three legs skipped) is green, and any leg failing fails `check`.
+  # PR (all legs skipped) is green, and any leg failing fails `check`. `test` is a matrix
+  # (4 shards), so its rolled-up result is success only when every shard passed.
   check:
-    needs: [changes, lint, types, test]
+    needs: [changes, lint, types, catalog, test]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - name: Roll up backend legs
         run: |
-          echo "changes=${{ needs.changes.result }} lint=${{ needs.lint.result }} types=${{ needs.types.result }} test=${{ needs.test.result }}"
+          echo "changes=${{ needs.changes.result }} lint=${{ needs.lint.result }} types=${{ needs.types.result }} catalog=${{ needs.catalog.result }} test=${{ needs.test.result }}"
           if [ "${{ needs.changes.result }}" != "success" ]; then
             echo "::error::the changes filter job did not succeed (result: ${{ needs.changes.result }})"
             exit 1
           fi
-          for r in "${{ needs.lint.result }}" "${{ needs.types.result }}" "${{ needs.test.result }}"; do
+          for r in "${{ needs.lint.result }}" "${{ needs.types.result }}" "${{ needs.catalog.result }}" "${{ needs.test.result }}"; do
             case "$r" in
               success|skipped) ;;
               *) echo "::error::a backend check leg did not pass (result: $r)"; exit 1 ;;
