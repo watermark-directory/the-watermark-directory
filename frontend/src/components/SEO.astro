@@ -19,8 +19,10 @@ interface Props {
   image?: string;
   /** og:type — "website" for hubs/most pages, "article" for docs essays. */
   type?: "website" | "article";
+  /** Keep this route out of search indexes (internal galleries, previews, leftovers). */
+  noindex?: boolean;
 }
-const { title, description, image = "/og-default.png", type = "website" } = Astro.props;
+const { title, description, image = "/og-default.png", type = "website", noindex = false } = Astro.props;
 
 const site = Astro.site;
 const canonical = site ? new URL(Astro.url.pathname, site).href : undefined;
@@ -41,6 +43,7 @@ const jsonLd = site
 ---
 
 <meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
 {canonical && <link rel="canonical" href={canonical} />}
 
 <meta property="og:type" content={type} />

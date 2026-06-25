@@ -26,11 +26,25 @@ export default defineConfig({
   base: process.env.BASE_PATH || undefined,
   // The sitemap needs an absolute `site`; only register it in production builds
   // where SITE_URL is set (locally / in CI it'd warn and emit nothing useful).
-  // `teardown-showcase` is an orphaned internal preview board, not content.
+  // Keep the `noindex` routes out of the sitemap too: the internal component galleries
+  // and the unlinked launch/locked previews aren't content (#593).
   integrations: [
     react(),
     mdx(),
-    ...(site ? [sitemap({ filter: (page) => !page.includes("/site/teardown-showcase") })] : []),
+    ...(site
+      ? [
+          sitemap({
+            filter: (page) =>
+              ![
+                "/site/icon-showcase",
+                "/site/chart-showcase",
+                "/site/teardown-showcase",
+                "/pre-launch",
+                "/locked-preview",
+              ].some((p) => page.includes(p)),
+          }),
+        ]
+      : []),
   ],
   markdown: {
     // Shiki's default theme is github-dark; the site chrome is light (and
