@@ -19,6 +19,7 @@ import {
   screeningConc,
 } from "../../lib/toxicsDilution";
 import { fmtMult } from "../../lib/format";
+import { Slider } from "./scenarioControls";
 import { DistributionStrip, RegisterMark } from "./uncertaintyGrammar";
 
 const fmtPct = (n: number): string => `${n.toFixed(0)}%`;
@@ -52,20 +53,16 @@ export default function ToxicsDilutionScreen({ discharge }: { discharge: Dilutio
       </div>
 
       <div className="unc-sliders">
-        <label className="unc-slider">
-          <span className="unc-slider-label">
-            <RegisterMark register="open" /> Ottawa low flow — drag toward the dry floor
-          </span>
-          <input
-            type="range"
-            min={0}
-            max={MAX_OTTAWA_CFS}
-            step={0.05}
-            value={ottawa}
-            onChange={(e) => setOttawa(Number(e.target.value))}
-          />
-          <span className="unc-slider-val">{ottawa.toFixed(2)} cfs</span>
-        </label>
+        <Slider
+          label="Ottawa low flow — drag toward the dry floor"
+          value={ottawa}
+          min={0}
+          max={MAX_OTTAWA_CFS}
+          step={0.05}
+          onChange={setOttawa}
+          fmt={(v) => `${v.toFixed(2)} cfs`}
+          register="open"
+        />
         <div className="unc-tabs" role="group" aria-label="Low-flow regime">
           {FLOW_REGIMES.map((r) => (
             <button

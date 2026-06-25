@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  applyDisclosures,
   bounds,
   central,
   disclose,
@@ -7,6 +8,7 @@ import {
   mulberry32,
   outcomeBand,
   type Prior,
+  priorCentral,
   quantile,
   sample,
   summarize,
@@ -41,6 +43,37 @@ describe("distribution helpers", () => {
     expect(quantile(tri, 0.999999)).toBeCloseTo(10, 1);
     expect(quantile({ kind: "uniform", low: 10, high: 20 }, 0.5)).toBeCloseTo(15);
     expect(quantile({ kind: "fixed", value: 7 }, 0.42)).toBe(7);
+  });
+});
+
+describe("disclosure helpers (#580)", () => {
+  it("priorCentral reads a prior's central by key, 0 when absent", () => {
+    expect(priorCentral(PRIORS, "share")).toBeCloseTo(central(PRIORS[0].dist));
+    expect(priorCentral(PRIORS, "rate")).toBe(0.02);
+    expect(priorCentral(PRIORS, "missing")).toBe(0);
+  });
+
+  it("applyDisclosures pins disclosed knobs to their central, leaving the rest", () => {
+    const out = applyDisclosures(PRIORS, { share: true });
+    const share = out.find((p) => p.key === "share");
+    expect(share?.register).toBe("verified");
+    expect(share?.dist).toEqual({ kind: "fixed", value: central(PRIORS[0].dist) });
+    // untouched knob keeps its distribution
+    expect(out.find((p) => p.key === "jobs")?.dist).toEqual(PRIORS[1].dist);
+  });
+
+  it("applyDisclosures is order-independent and a no-op when nothing is disclosed", () => {
+    expect(applyDisclosures(PRIORS, {})).toEqual(PRIORS);
+    expect(applyDisclosures(PRIORS, { share: false })).toEqual(PRIORS);
+    const all = applyDisclosures(PRIORS, { share: true, jobs: true });
+    expect(all.every((p) => p.dist.kind === "fixed")).toBe(true);
+    // matches composing single disclosures by hand, regardless of order
+    const byHand = disclose(
+      disclose(PRIORS, "jobs", central(PRIORS[1].dist)),
+      "share",
+      central(PRIORS[0].dist),
+    );
+    expect(all).toEqual(expect.arrayContaining(byHand));
   });
 });
 
