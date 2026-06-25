@@ -14,7 +14,15 @@ from pathlib import Path
 from typing import Annotated, Any, ClassVar, Literal
 
 import yaml
-from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, PrivateAttr, model_validator
+from pydantic import (
+    AliasChoices,
+    BaseModel,
+    BeforeValidator,
+    ConfigDict,
+    Field,
+    PrivateAttr,
+    model_validator,
+)
 
 
 class _ApproxMarker:
@@ -196,13 +204,15 @@ class SubEstimate(ApproxModel):
     name: str
     pdf_page: int | None = None
     work: str | None = None
-    note: str | None = None
+    # One free-text note. Transcriptions arrived under either ``note`` or ``notes`` (the LLM
+    # picked inconsistently, so data silently split between them, #605) — collapsed to ``note``
+    # with ``notes`` accepted as an input alias so every committed key still lands in one field.
+    note: str | None = Field(default=None, validation_alias=AliasChoices("note", "notes"))
     type: str | None = None
     construction_subtotal: ApproxInt
     contingency_inflation_25pct: OptApproxInt = None
     total: ApproxInt
     section_subtotals: SectionSubtotals = Field(default_factory=SectionSubtotals)
-    notes: str | None = None
 
     def reconciles(self, tolerance: int = 2) -> bool:
         """True if section subtotals roughly sum to the construction subtotal.

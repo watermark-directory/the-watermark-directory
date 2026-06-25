@@ -19,7 +19,7 @@ from __future__ import annotations
 import re
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any
+from typing import Any, TypeVar
 
 import yaml
 from pydantic import ValidationError
@@ -54,6 +54,29 @@ _DISTILL_MAX_TOKENS = 16384
 # findings pass already succeeded — so re-roll the deterministic extractor a few times rather
 # than lose the whole run; a fresh draw almost always returns a clean native array.
 _DISTILL_ATTEMPTS = 3
+
+_T = TypeVar("_T")
+
+
+def _distill_with_retry(op: Callable[[], _T], *, event: str, fail_msg: str) -> _T:
+    """Re-roll a forced-tool-use distillation on a model quirk, up to ``_DISTILL_ATTEMPTS``.
+
+    Shared by :func:`distill_proposals` + :func:`_distill_assessment`: each failed draw
+    (``ValidationError`` / ``ExtractionError`` — a stringified field, an off-taxonomy value)
+    is logged and re-rolled; on exhaustion the last model error is re-raised explicitly (not
+    ``assert``, which ``python -O`` strips into a confusing ``raise None`` — #617).
+    """
+    last_err: Exception | None = None
+    for attempt in range(1, _DISTILL_ATTEMPTS + 1):
+        try:
+            return op()
+        except (ValidationError, ExtractionError) as exc:  # model quirk; re-roll the draw
+            last_err = exc
+            log.warning(event, attempt=attempt, max=_DISTILL_ATTEMPTS, error=str(exc)[:160])
+    if last_err is None:  # unreachable: every failed attempt records last_err
+        raise RuntimeError(fail_msg)
+    raise last_err
+
 
 _RESEARCH_PROMPT = """\
 Investigate this topic over the Project BOSC corpus using the read-only BOSC tools
@@ -115,28 +138,11 @@ def distill_proposals(
     """
     instructions = _DISTILL_INSTRUCTIONS.format(topic=topic, max_proposals=max_proposals)
     text = findings[:_MAX_FINDINGS_CHARS]
-    drafts: ProposalDrafts | None = None
-    last_err: Exception | None = None
-    for attempt in range(1, _DISTILL_ATTEMPTS + 1):
-        try:
-            drafts = extractor.extract_from_text(
-                ProposalDrafts, instructions=instructions, text=text
-            )
-            break
-        except (ValidationError, ExtractionError) as exc:  # model quirk; re-roll the draw
-            last_err = exc
-            log.warning(
-                "research.distill.retry",
-                attempt=attempt,
-                max=_DISTILL_ATTEMPTS,
-                error=str(exc)[:160],
-            )
-    if drafts is None:
-        # Re-raise the last model error. An explicit raise, not `assert` — `python -O`
-        # strips assertions, which would turn this into a confusing `raise None` (#617).
-        if last_err is None:  # unreachable: every failed attempt records last_err
-            raise RuntimeError("proposal distillation failed with no recorded error")
-        raise last_err
+    drafts = _distill_with_retry(
+        lambda: extractor.extract_from_text(ProposalDrafts, instructions=instructions, text=text),
+        event="research.distill.retry",
+        fail_msg="proposal distillation failed with no recorded error",
+    )
 
     proposals: list[IssueProposal] = []
     for d in drafts.proposals[:max_proposals]:
@@ -202,33 +208,24 @@ def _distill_assessment(
     """
     hyp = HYPOTHESES[hypothesis_id]
     text = findings[:_MAX_FINDINGS_CHARS]
-    last_err: Exception | None = None
-    for attempt in range(1, _DISTILL_ATTEMPTS + 1):
-        try:
-            draft: AssessmentDraft = extractor.extract_from_text(
-                AssessmentDraft, instructions=instructions, text=text
-            )
-            return HypothesisAssessment(
-                site=site,
-                hypothesis=hyp.id,
-                signal=draft.signal or None,  # "" -> None
-                tag=draft.tag,  # validated against the EvidenceTag literal here
-                group=draft.group or None,
-                fields={k: v for k, v in draft.fields.items() if k in hyp.fields},
-                citations=draft.citations,
-            )
-        except (ValidationError, ExtractionError) as exc:  # model quirk / off-taxonomy; re-roll
-            last_err = exc
-            log.warning(
-                "research.assess.retry",
-                attempt=attempt,
-                max=_DISTILL_ATTEMPTS,
-                error=str(exc)[:160],
-            )
-    # Explicit raise, not `assert` — stripped under `python -O` (#617).
-    if last_err is None:  # unreachable: every failed attempt records last_err
-        raise RuntimeError("assessment failed with no recorded error")
-    raise last_err
+
+    def _assess() -> HypothesisAssessment:
+        draft: AssessmentDraft = extractor.extract_from_text(
+            AssessmentDraft, instructions=instructions, text=text
+        )
+        return HypothesisAssessment(
+            site=site,
+            hypothesis=hyp.id,
+            signal=draft.signal or None,  # "" -> None
+            tag=draft.tag,  # validated against the EvidenceTag literal here
+            group=draft.group or None,
+            fields={k: v for k, v in draft.fields.items() if k in hyp.fields},
+            citations=draft.citations,
+        )
+
+    return _distill_with_retry(
+        _assess, event="research.assess.retry", fail_msg="assessment failed with no recorded error"
+    )
 
 
 # --- recipes: a research-agent kind is a prompt + a distillation, registered here ----------

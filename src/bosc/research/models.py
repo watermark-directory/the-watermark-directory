@@ -24,16 +24,16 @@ from bosc.hypotheses import Citation, HypothesisAssessment
 RUNTIME_LABELS: tuple[str, ...] = ("agent-proposed", "needs-triage")
 
 
-def _coerce_json_list(v: Any) -> Any:
-    """Tolerate the distillation model emitting a list field as a JSON-encoded *string*.
+def _coerce_json(v: Any, open_ch: str, close_ch: str) -> Any:
+    """Tolerate the distillation model emitting a container field as a JSON-encoded *string*.
 
-    Forced-tool-use occasionally returns an array field (``proposals``, or a nested
-    ``labels``) as a stringified JSON array instead of a native list. That string routinely
-    carries one or more model quirks that trip a plain ``json.loads``:
+    Forced-tool-use occasionally returns an array (``proposals``, a nested ``labels``) or an
+    object (``fields``) as a stringified JSON value instead of a native one. That string
+    routinely carries one or more model quirks that trip a plain ``json.loads``:
       - **unescaped control characters** (literal newlines in long body / rationale text) →
         parse with ``strict=False``;
       - a wrapping **markdown code fence** (```` ```json … ``` ````) → strip it;
-      - **prose around the array** → trim to the outermost ``[ … ]``;
+      - **prose around the value** → trim to the outermost ``open_ch … close_ch``;
       - a **trailing comma** before ``]``/``}`` (valid JS, invalid JSON) → repair it.
     We try the cleaned candidate first, then the raw string, so a whole research run isn't
     lost to that quirk (the costly prose findings already succeeded by this point). On a
@@ -45,7 +45,7 @@ def _coerce_json_list(v: Any) -> Any:
     if s.startswith("```"):  # a wrapping markdown code fence
         s = re.sub(r"^```[a-zA-Z0-9]*\n?", "", s)
         s = re.sub(r"\n?```\s*$", "", s).strip()
-    start, end = s.find("["), s.rfind("]")
+    start, end = s.find(open_ch), s.rfind(close_ch)
     candidates = [s[start : end + 1]] if 0 <= start < end else []
     candidates.append(s)
     for c in candidates:
@@ -56,6 +56,11 @@ def _coerce_json_list(v: Any) -> Any:
             except json.JSONDecodeError:
                 continue
     return v
+
+
+def _coerce_json_list(v: Any) -> Any:
+    """Coerce a stringified JSON *array* field back to a list (see :func:`_coerce_json`)."""
+    return _coerce_json(v, "[", "]")
 
 
 class ProposalDraft(BaseModel):
@@ -121,12 +126,7 @@ class AssessmentDraft(BaseModel):
     @classmethod
     def _coerce_fields(cls, v: Any) -> Any:
         """Tolerate a stringified JSON object for ``fields`` (the forced-tool-use quirk)."""
-        if isinstance(v, str):
-            try:
-                return json.loads(v, strict=False)
-            except json.JSONDecodeError:
-                return v
-        return v
+        return _coerce_json(v, "{", "}")
 
 
 class IssueProposal(BaseModel):

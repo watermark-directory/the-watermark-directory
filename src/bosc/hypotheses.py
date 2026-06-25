@@ -38,6 +38,9 @@ import yaml
 from pydantic import BaseModel, ConfigDict, Field, computed_field
 
 from bosc.config import Settings, get_settings
+from bosc.provenance import Confidence as Confidence
+from bosc.provenance import SourceKind as SourceKind
+from bosc.provenance import source_is_verified
 from bosc.sites import SITES
 
 # Signal strength of a site's nexus under a hypothesis (orthogonal to `tag`: `signal` is
@@ -48,10 +51,9 @@ Signal = Literal["anchor", "strong", "moderate", "watch"]
 # open question. NOT a verdict on the hypothesis — a federal nexus is a signal, not proof.
 EvidenceTag = Literal["verified", "inference", "open"]
 HypothesisStatus = Literal["reference", "emerging"]
-# Mirrors bosc.site.feeds.Citation.source_kind exactly so the Phase-2 feed map is lossless
-# (kept local so this core module doesn't import the heavy bosc.site package).
-SourceKind = Literal["document", "connector", "reference", "assumption", "derived"]
-Confidence = Literal["high", "medium", "low"]
+# SourceKind / Confidence are shared from bosc.provenance (#605) — the lightweight core that
+# bosc.site.feeds.Citation + hydrology.ProvenancedValue also speak, so the Phase-2 feed map
+# stays lossless without this core module importing the heavy bosc.site package.
 
 
 class Citation(BaseModel):
@@ -75,7 +77,7 @@ class Citation(BaseModel):
     @property
     def verified(self) -> bool:
         """True when grounded in a record or a live gauge ([verified] in prose)."""
-        return self.source_kind in ("document", "connector")
+        return source_is_verified(self.source_kind)
 
 
 class Hypothesis(BaseModel):
