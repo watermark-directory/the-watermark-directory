@@ -29,6 +29,15 @@ def _ev(pv: ProvenancedValue | None) -> str:
     return f"{pv.value:,.2f} {pv.unit} `[{_TAG[pv.source]}: {pv.source}]`"
 
 
+def _short_reach(name: str) -> str:
+    """A reach's short label for inline prose — drop a ``(…)`` qualifier and any ``River …`` tail.
+
+    ``Ottawa River upstream of Lima`` → ``Ottawa``; ``Dug Run (headwater)`` → ``Dug Run``.
+    """
+    base = name.split("(")[0].strip()
+    return base.split(" River")[0].strip() if " River" in base else base
+
+
 def _render_toxic_screen(emit: Callable[[str], None], settings: Settings) -> None:
     """The industrial RSEI toxic dischargers on the same receiving reaches."""
     from bosc.hydrology import toxics
@@ -159,6 +168,12 @@ def _render_routed_network(emit: Callable[[str], None], settings: Settings) -> N
             "design low flow"
         )
 
+    # Per-headwater 7Q10 breakdown, derived from the routed model's injected base flows (#611):
+    # the literals must equal the displayed natural_total_cfs, not a separately-typed list that
+    # silently diverges if the topology changes.
+    natural_breakdown = " + ".join(
+        f"{_short_reach(r.name)} {r.base.value:g}" for r in baseline.reaches if r.base is not None
+    )
     emit(
         "\n### The whole loop at design low flow: a routed mass balance\n\n"
         "The screen above reads each plant against its *own* tributary in isolation. "
@@ -167,7 +182,7 @@ def _render_routed_network(emit: Callable[[str], None], settings: Settings) -> N
         "(`data/reference/hydrology/network.yaml`) shows the system picture the per-stream "
         "rows miss. At design low flow the loop's streams carry, in total, only "
         f"**{baseline.natural_total_cfs:g} cfs** of *natural* low flow "
-        f"(Ottawa 0.2 + Dug Run 0.78 + Pike Run 0.03 `[verified: document]`). The three county "
+        f"({natural_breakdown} `[verified: document]`). The three county "
         f"WWTP discharges alone add **{municipal_cfs:.2f} cfs** of treated effluent — "
         f"{municipal_multiple}, with no data center in the picture. The river at design low flow "
         "is effluent, not "
@@ -280,7 +295,8 @@ def _render_refill_adequacy(emit: Callable[[str], None], settings: Settings) -> 
         "calls on at a constant demand — measures the drought margin and the campus's bite:\n"
     )
     emit(
-        "\n| demand scenario | storage the worst drought needs | of the 14.4 BG | worst drawdown |"
+        "\n| demand scenario | storage the worst drought needs | "
+        f"of the {ra.storage_capacity_mg / 1000:.1f} BG | worst drawdown |"
     )
     emit("|---|--:|--:|---|")
     for sc in ra.scenarios:
@@ -295,14 +311,19 @@ def _render_refill_adequacy(emit: Callable[[str], None], settings: Settings) -> 
         if high is not None
         else ""
     )
+    # The worst-drought year is the calendar year of the campus scenario's worst drawdown (#611),
+    # not a typed-in literal that can diverge from the gauged record.
+    worst_year = campus.worst_spell_start[:4] if campus.worst_spell_start else "worst-gauged"
     emit(
-        f"\nThe worst gauged drought (the 1999 event, a ~{campus.worst_spell_days}-day drawdown) is "
+        f"\nThe worst gauged drought (the {worst_year} event, a "
+        f"~{campus.worst_spell_days}-day drawdown) is "
         f"survived with large margin — but the campus raises the storage it calls on from "
         f"**{base.pct_of_capacity:g}% to {campus.pct_of_capacity:g}%** of capacity "
         f"(**+{eroded:,.0f} MG**, and ~{campus.worst_spell_days - base.worst_spell_days} more days of "
         f"drawdown).{high_txt} `[inference: derived]` So refill is adequate and the system survives the "
         "historical record — but the campus measurably erodes the buffer, and **a drought longer or "
-        "deeper than 1988—2024 is the residual exposure** this screen cannot bound. The estimate is "
+        f"deeper than {ra.period_start[:4]}—{ra.period_end[:4]} is the residual exposure** this "
+        "screen cannot bound. The estimate is "
         "*optimistic* (the Auglaize gage is downstream of the intakes; no pump-rate cap or reservoir "
         "evaporation), so the real margin is tighter.\n"
     )

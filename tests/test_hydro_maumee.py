@@ -41,3 +41,13 @@ def test_report_weaves_tmdl_section(hydro_settings: Settings) -> None:
     # A concrete WLA figure and the grouped-load total render.
     assert "2PH00006" in md
     assert "64.1 metric tons" in md
+
+
+def test_short_reach_label() -> None:
+    """#611: the inline natural-flow breakdown uses short reach labels derived from the model."""
+    from bosc.hydrology.report import _short_reach
+
+    assert _short_reach("Ottawa River upstream of Lima") == "Ottawa"
+    assert _short_reach("Dug Run (headwater)") == "Dug Run"
+    assert _short_reach("Pike Run (headwater)") == "Pike Run"
+    assert _short_reach("Blanchard River") == "Blanchard"

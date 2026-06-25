@@ -64,6 +64,29 @@ def test_display_order_is_upstream_to_downstream(net: BasinNetwork) -> None:
     assert order.index("bryan") < order.index("fort-wayne") < order.index("defiance")
 
 
+def test_subtree_generalizes_across_basins() -> None:
+    """#610: the subtree is derived from the drainage path, not a Maumee-only literal table.
+
+    A cross-basin (Miami / Scioto) node buckets into its OWN basin's grouping instead of
+    silently falling through to ``Maumee mainstem``; the Maumee labels are unchanged.
+    """
+    from bosc.network import _subtree
+
+    # Maumee — exactly as before.
+    assert _subtree(["Ottawa River", "Auglaize River", "Maumee River"]) == "Auglaize"
+    assert _subtree(["Town Creek", "Little Auglaize River", "Auglaize River", "Maumee River"]) == (
+        "Auglaize"
+    )
+    assert _subtree(["Prairie Creek", "Tiffin River", "Maumee River"]) == "Tiffin"
+    assert _subtree(["Maumee River"]) == "Maumee mainstem"
+    # Great Miami basin — its own grouping, never "Maumee mainstem".
+    assert _subtree(["Mad River", "Great Miami River"]) == "Mad"
+    assert _subtree(["Great Miami River"]) == "Great Miami mainstem"
+    # Scioto basin.
+    assert _subtree(["Olentangy River", "Scioto River"]) == "Olentangy"
+    assert _subtree(["Scioto River"]) == "Scioto mainstem"
+
+
 def test_screen_is_one_dimension_honestly_sparse(net: BasinNetwork) -> None:
     # Only Lima (violation) and Defiance (tight) are cleanly screenable from ECHO + gages.
     lima = _node(net, "lima").screen

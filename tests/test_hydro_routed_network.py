@@ -155,6 +155,10 @@ def test_route_baseline_system_totals(hydro_settings: Settings) -> None:
     assert rn.outlet_effluent_fraction is not None and rn.outlet_effluent_fraction > 0.9
     assert rn.closes
     assert not rn.warnings  # every flow term resolved from a grounded source
+    # #611: the report's per-headwater breakdown is derived from these injected base flows, so
+    # the typed-out terms can't silently diverge from the displayed natural_total_cfs.
+    headwater_bases = [r.base.value for r in rn.reaches if r.base is not None]
+    assert sum(headwater_bases) == pytest.approx(rn.natural_total_cfs, abs=0.001)
 
 
 def test_buildout_draw_runs_the_mainstem_dry(hydro_settings: Settings) -> None:

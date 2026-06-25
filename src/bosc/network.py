@@ -159,13 +159,26 @@ def _topology(settings: Settings) -> dict[str, Any]:
 
 
 # --- topology derivation --------------------------------------------------------------------
+def _river_label(reach: str) -> str:
+    """A reach name as a subtree label — drop a trailing ``River`` (``Auglaize River`` → ``Auglaize``)."""
+    return reach.removesuffix(" River").strip()
+
+
 def _subtree(drainage_path: list[str]) -> str:
-    """The major tributary subtree a node sits in, from its drainage path to the Maumee."""
-    if any("Auglaize" in r for r in drainage_path) and len(drainage_path) > 1:
-        return "Auglaize"
-    if any("Tiffin" in r for r in drainage_path):
-        return "Tiffin"
-    return "Maumee mainstem"
+    """The major tributary subtree a node sits in, derived from its drainage path (basin-agnostic).
+
+    The path is ordered headwater→mainstem (``[tributary…, major_tributary, basin_mainstem]``), so
+    the subtree is the trunk tributary feeding the mainstem (the second-to-last reach), or the basin
+    mainstem itself for a node discharging directly to it. This generalizes the former Maumee-only
+    literal table (#610): a Maumee node still yields ``Auglaize`` / ``Tiffin`` / ``Maumee mainstem``
+    exactly as before, and a cross-basin (Miami / Scioto) node yields its own basin's grouping rather
+    than mis-bucketing to ``Maumee mainstem``.
+    """
+    if not drainage_path:
+        return "unrooted"
+    if len(drainage_path) == 1:
+        return f"{_river_label(drainage_path[-1])} mainstem"
+    return _river_label(drainage_path[-2])
 
 
 def _downstream(slug: str, sink: str, spine: list[str]) -> str:
@@ -182,15 +195,19 @@ def _downstream(slug: str, sink: str, spine: list[str]) -> str:
     return spine[0]
 
 
-_SUBTREE_ORDER = {"Auglaize": 0, "Tiffin": 1, "Maumee mainstem": 2}
-
-
 def _node_rank(node: WatershedNode, spine: list[str]) -> tuple[int, int, str]:
-    """Upstream→downstream display order: tributary subtrees first, then the upper mainstem,
-    then the lower-Maumee collectors (spine) in downstream order."""
+    """Upstream→downstream display order: tributary subtrees first, then each basin's upper
+    mainstem, then the collector spine (downstream order).
+
+    Basin-agnostic (#610): groups by subtree name rather than a Maumee-only literal table — a
+    tributary node sorts before a mainstem one, then by ``subtree:slug`` so a basin's tributaries
+    stay grouped. For the Maumee-only network today this reproduces the prior order exactly
+    (``Auglaize`` < ``Tiffin`` alphabetically matches the old explicit ordering).
+    """
     if node.slug in spine:
         return (3, spine.index(node.slug), node.slug)
-    return (_SUBTREE_ORDER.get(node.subtree, 0), 0, node.slug)
+    tier = 2 if node.subtree.endswith("mainstem") else 0
+    return (tier, 0, f"{node.subtree}:{node.slug}")
 
 
 # --- per-node dimension extraction ----------------------------------------------------------

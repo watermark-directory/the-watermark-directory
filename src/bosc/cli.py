@@ -3197,7 +3197,7 @@ def parcels(
 
     if cited:
         target = Path(out_dir) if out_dir else ref_dir
-        ids = allen_gis.scan_parcel_ids(settings.extracted_dir)
+        ids = allen_gis.scan_parcel_ids(settings.extracted_dir, settings=settings)
         console.print(f"Found [bold]{len(ids)}[/] cited parcel ids in the corpus.")
         found: list[allen_gis.Parcel] = []
         for pid in ids:
@@ -3313,7 +3313,7 @@ def zoning(
         return
 
     if cited:
-        ids = allen_gis.scan_parcel_ids(settings.extracted_dir)
+        ids = allen_gis.scan_parcel_ids(settings.extracted_dir, settings=settings)
         console.print(f"Found [bold]{len(ids)}[/] cited parcel ids; looking up zoning.")
         scan = lima_gis.scan_cited_zoning(ids, settings=settings)
         in_city = [s for s in scan if s.in_city]

@@ -320,13 +320,19 @@ def parcel_at_point(lon: float, lat: float, *, settings: Settings | None = None)
 
 # --- Citations + reference dataset -----------------------------------------
 
-# Deed-style parcel ids cited in the corpus (Lima/Allen: 36-0100-03-002.000, the 2-4-2-3.3
-# form). Bound to the Lima schema's pattern at import; a corpus scan is Lima-specific.
-_PARCEL_ID_RE = re.compile(LIMA_PARCEL_SCHEMA.deed_id_regex)
 
+def scan_parcel_ids(*roots: Path, settings: Settings | None = None) -> list[str]:
+    """Distinct deed-style parcel ids cited under the given roots (verbatim form).
 
-def scan_parcel_ids(*roots: Path) -> list[str]:
-    """Distinct deed-style parcel ids cited under the given roots (verbatim form)."""
+    Per-site (#611): the deed-id pattern comes from the active site's ``gis_parcel`` schema
+    (``deed_id_regex``), resolved at call time — not bound to Lima's format at import (Lima =
+    the ``36-0100-03-002.000`` 2-4-2-3.3 form). A site with no parcel schema yields no ids.
+    """
+    settings = settings or get_settings()
+    schema = active_profile(settings).gis_parcel
+    if schema is None:
+        return []
+    parcel_re = re.compile(schema.deed_id_regex)
     found: set[str] = set()
     for root in roots:
         if not root.exists():
@@ -338,7 +344,7 @@ def scan_parcel_ids(*roots: Path) -> list[str]:
                 text = path.read_text(encoding="utf-8", errors="ignore")
             except OSError:
                 continue
-            found.update(_PARCEL_ID_RE.findall(text))
+            found.update(parcel_re.findall(text))
     return sorted(found)
 
 
