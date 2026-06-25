@@ -247,4 +247,49 @@ describe("/api/submit route", () => {
     } as never);
     expect(res.status).toBe(201);
   });
+
+  // --- #592: previously-untested failure branches -----------------------------------------
+  it("502s when the GitHub issue create fails", async () => {
+    // installation + token mint succeed, the dedupe scan finds nothing, the create POST 500s.
+    const failingCreate: FetchRoute[] = [
+      { test: (url) => url.pathname.endsWith("/installation"), respond: () => jsonResponse(200, { id: 42 }) },
+      {
+        test: (url) => url.pathname.endsWith("/access_tokens"),
+        respond: () => jsonResponse(201, { token: "ghs_test" }),
+      },
+      {
+        test: (url, m) => url.pathname.endsWith("/issues") && m === "GET",
+        respond: () => jsonResponse(200, []),
+      },
+      {
+        test: (url, m) => url.pathname.endsWith("/issues") && m === "POST",
+        respond: () => jsonResponse(500, { message: "GitHub is down" }),
+      },
+    ];
+    const fetchStub = routingFetch([turnstileRoute(true), ...failingCreate]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission()),
+      env: submitEnv(),
+    } as never);
+    expect(res.status).toBe(502);
+  });
+
+  it("still returns 201 when the contact-store put fails (the tip is what matters)", async () => {
+    // A KV whose put rejects — the submission must not fail; contact is best-effort.
+    const flakyContact = {
+      get: async () => null,
+      put: async () => {
+        throw new Error("contact KV unavailable");
+      },
+    };
+    const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes()]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission({ contact: "tipster@example.com" })),
+      env: submitEnv({ SUBMISSION_CONTACT: flakyContact }),
+    } as never);
+    expect(res.status).toBe(201);
+    expect(await res.json()).toEqual({ issue_url: ISSUE_URL, deduped: false });
+  });
 });
