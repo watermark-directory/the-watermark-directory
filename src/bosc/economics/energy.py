@@ -15,8 +15,6 @@ more complex than one coefficient, so it is reported as a sensitivity, never a f
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import yaml
 
 from bosc.config import Settings, get_settings
@@ -153,16 +151,12 @@ def derive_demand_pressure(
     )
 
 
-def _reference_path(reference_dir: Path) -> Path:
-    return reference_dir / "eia" / "consumer-energy.yaml"
-
-
 def write_consumer_energy(costs: ConsumerEnergyCosts, *, settings: Settings | None = None) -> str:
     """Persist the EIA consumer energy-cost dataset as committed reference YAML.
 
     Per-site write (#326 econ): the active site's ``consumer_energy_relpath`` (Lima = the
     legacy path). State-level data, but kept per-site for a uniform onboard tree; the reader
-    side stays Lima-keyed until parity.
+    (``load_consumer_energy``) resolves the same per-site path.
     """
     settings = settings or get_settings()
     path = settings.data_dir / active_profile(settings).consumer_energy_relpath
@@ -175,9 +169,14 @@ def write_consumer_energy(costs: ConsumerEnergyCosts, *, settings: Settings | No
     return str(path)
 
 
-def load_consumer_energy(reference_dir: Path) -> ConsumerEnergyCosts | None:
-    """Read the committed consumer energy-cost YAML, or ``None`` if absent."""
-    path = _reference_path(reference_dir)
+def load_consumer_energy(settings: Settings | None = None) -> ConsumerEnergyCosts | None:
+    """Read the committed consumer energy-cost YAML for the active site, or ``None``.
+
+    Per-site (#606): resolves ``consumer_energy_relpath`` off the active profile so a
+    non-Lima read returns that site's state-level prices, not Lima's.
+    """
+    settings = settings or get_settings()
+    path = settings.data_dir / active_profile(settings).consumer_energy_relpath
     if not path.is_file():
         return None
     data = yaml.safe_load(path.read_text(encoding="utf-8"))

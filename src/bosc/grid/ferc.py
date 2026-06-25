@@ -33,6 +33,7 @@ campus's grid arrangement determines which regulator sets its price - PUCO retai
 from __future__ import annotations
 
 from pathlib import Path
+from typing import NamedTuple
 
 import yaml
 from pydantic import BaseModel, ConfigDict
@@ -41,23 +42,83 @@ from bosc.config import Settings, get_settings
 from bosc.grid.model import CitedFact
 from bosc.hydrology.model import ProvenancedValue
 from bosc.logging import get_logger
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
-# --- Statutory / jurisdictional citations (general law - high confidence) -------
+# --- Statutory citations (general law - high confidence) ------------------------
 _FPA_CITE = (
     "Federal Power Act sections 205/206 (16 U.S.C. 824d/824e); FERC jurisdiction over "
     "wholesale sales in interstate commerce and interstate transmission"
 )
-_FPA_RETAIL_CITE = (
-    "Federal Power Act section 201(b) reserves retail sales and local distribution to "
-    "the states; Ohio retail electric service is PUCO-regulated (intrastate)"
-)
-# Cross-reference to the #94 serving-utility identification (AEP Ohio / PJM / PUCO).
-_UTILITY_XREF = (
-    "serving utility identified in #94 (bosc.grid.utility): AEP Ohio (Ohio Power "
-    "Company), a PJM transmission zone, PUCO-regulated at retail"
-)
+
+# --- Per-site jurisdiction (profile-only, so the FERC seam stays hermetic; #608) -------
+# The FERC<->state-PUC seam, the serving-utility identity, and the Form-1 filer all vary by
+# site. They are resolved from the active ``SiteProfile`` (eia_state + eia861_utility_number),
+# never hardcoded to Ohio/PUCO/AEP — running ``bosc ferc`` under a non-OH site must emit that
+# site's regulator (e.g. IN retail = IURC) and serving utility, not Lima's.
+
+# State retail regulator, keyed by EIA state. OH + IN cover registered sites; an unlisted
+# state falls back to a generic "<ST> PUC".
+_STATE_PUC: dict[str, tuple[str, str]] = {
+    "OH": ("PUCO", "Public Utilities Commission of Ohio (PUCO)"),
+    "IN": ("IURC", "Indiana Utility Regulatory Commission (IURC)"),
+}
+_STATE_NAME: dict[str, str] = {"OH": "Ohio", "IN": "Indiana"}
+
+
+class _Form1Filer(NamedTuple):
+    """A serving utility's FERC identity (the FERC Form-1 filer / IOU operating company)."""
+
+    short: str  # short label woven into the seam prose, e.g. "AEP Ohio"
+    operating_company: str  # FERC Form-1 filer (IOU operating company), e.g. "Ohio Power Company"
+    files_form1: bool  # IOUs file FERC Form 1; municipal / cooperative systems do not
+
+
+# Serving-utility FERC identity, keyed by EIA-861 utility number (profile-only — mirrors
+# bosc.grid.utility._UTILITY_GRID). Lima/Findlay/Van Wert = Ohio Power (#14006); Fort Wayne =
+# Indiana Michigan Power (#9324); Toledo = Toledo Edison (#18997); Bryan = a municipal system
+# (#2439), not a FERC Form-1 filer.
+_FORM1_FILER: dict[int, _Form1Filer] = {
+    14006: _Form1Filer("AEP Ohio", "Ohio Power Company", True),
+    9324: _Form1Filer("AEP I&M", "Indiana Michigan Power Company", True),
+    18997: _Form1Filer("FirstEnergy (Toledo Edison)", "The Toledo Edison Company", True),
+    2439: _Form1Filer("Bryan Municipal Utilities", "Bryan Municipal Utilities", False),
+}
+
+
+class _Jurisdiction(NamedTuple):
+    """The active site's FERC<->state-PUC seam inputs, resolved from its ``SiteProfile``."""
+
+    state: str  # "OH"
+    state_name: str  # "Ohio"
+    puc_short: str  # "PUCO"
+    puc_full: str  # "Public Utilities Commission of Ohio (PUCO)"
+    utility_short: str  # "AEP Ohio"
+    form1_filer: str  # "Ohio Power Company"
+    files_form1: bool
+
+
+def _jurisdiction(settings: Settings) -> _Jurisdiction:
+    prof = active_profile(settings)
+    state = prof.eia_state
+    state_name = _STATE_NAME.get(state, state)
+    puc_short, puc_full = _STATE_PUC.get(
+        state, (f"{state} PUC", f"the {state} state public utilities commission")
+    )
+    filer = _FORM1_FILER.get(
+        prof.eia861_utility_number,
+        _Form1Filer("the serving utility", "the serving utility", True),
+    )
+    return _Jurisdiction(
+        state=state,
+        state_name=state_name,
+        puc_short=puc_short,
+        puc_full=puc_full,
+        utility_short=filer.short,
+        form1_filer=filer.operating_company,
+        files_form1=filer.files_form1,
+    )
 
 
 class JurisdictionalBoundary(BaseModel):
@@ -134,7 +195,15 @@ class FercSeam(BaseModel):
     note: str = ""
 
 
-def _boundary() -> JurisdictionalBoundary:
+def _boundary(j: _Jurisdiction) -> JurisdictionalBoundary:
+    retail_cite = (
+        "Federal Power Act section 201(b) reserves retail sales and local distribution to "
+        f"the states; {j.state_name} retail electric service is {j.puc_short}-regulated (intrastate)"
+    )
+    utility_xref = (
+        f"serving utility identified in #94 (bosc.grid.utility): {j.utility_short} "
+        f"({j.form1_filer}), a PJM transmission zone, {j.puc_short}-regulated at retail"
+    )
     return JurisdictionalBoundary(
         ferc_scope=CitedFact(
             value=(
@@ -148,33 +217,33 @@ def _boundary() -> JurisdictionalBoundary:
         ),
         puco_scope=CitedFact(
             value=(
-                "PUCO governs Ohio retail electric service, local distribution, and "
-                "retail rates / tariffs (intrastate)"
+                f"{j.puc_short} governs {j.state_name} retail electric service, local "
+                "distribution, and retail rates / tariffs (intrastate)"
             ),
             source="reference",
-            citation=_FPA_RETAIL_CITE,
+            citation=retail_cite,
             confidence="high",
         ),
         campus_arrangement=CitedFact(
             value=(
-                "PUCO retail (grid-served), unless behind-the-meter co-location: the "
-                "campus is a retail tariff customer of AEP Ohio, so its service and rate "
-                "fall under PUCO retail jurisdiction; a behind-the-meter co-location at a "
+                f"{j.puc_short} retail (grid-served), unless behind-the-meter co-location: the "
+                f"campus is a retail tariff customer of {j.utility_short}, so its service and rate "
+                f"fall under {j.puc_short} retail jurisdiction; a behind-the-meter co-location at a "
                 "FERC-jurisdictional generator would instead implicate FERC"
             ),
             source="reference",
             citation=(
-                f"{_UTILITY_XREF}; classification of the campus's likely arrangement - "
+                f"{utility_xref}; classification of the campus's likely arrangement - "
                 "verify against the campus's actual service agreement / tariff filing"
             ),
             confidence="medium",
         ),
         note=(
-            "The FERC<->PUCO line is the wholesale/retail boundary of the Federal Power "
-            "Act (general law, high confidence). The campus's classification as PUCO "
-            "retail is the most likely arrangement (grid-served retail customer of AEP "
-            "Ohio per #94); a behind-the-meter co-location would move the seam to FERC "
-            "and is the live policy question the captured dockets address."
+            f"The FERC<->{j.puc_short} line is the wholesale/retail boundary of the Federal Power "
+            f"Act (general law, high confidence). The campus's classification as {j.puc_short} "
+            f"retail is the most likely arrangement (grid-served retail customer of "
+            f"{j.utility_short} per #94); a behind-the-meter co-location would move the seam to "
+            "FERC and is the live policy question the captured dockets address."
         ),
     )
 
@@ -245,22 +314,41 @@ def _dockets() -> list[FercDocket]:
     ]
 
 
-def _form1() -> FercForm1:
+def _form1(j: _Jurisdiction) -> FercForm1:
     # Form 1 is captured as a cited POINTER, not a transcribed figure: no rate-base or
     # revenue number is asserted unless it can be confidently cited from the filing. The
-    # serving utility (Ohio Power Company / AEP Ohio) is the #94 identification.
+    # serving utility (e.g. Ohio Power Company / AEP Ohio for Lima) is the #94 identification.
+    # A municipal / cooperative system is not FERC Form-1 jurisdictional — say so rather than
+    # point at a filing that does not exist.
+    if not j.files_form1:
+        return FercForm1(
+            utility=f"{j.utility_short} (municipal — not FERC Form-1 jurisdictional)",
+            pointer=CitedFact(
+                value=(
+                    f"{j.utility_short} is a municipal electric system and does not file FERC "
+                    "Form 1 (FERC Form-1 is filed by FERC-jurisdictional IOUs); its financials "
+                    "are reported through its municipal budget / wholesale supplier, not FERC Online"
+                ),
+                source="reference",
+                citation=(
+                    f"{j.utility_short} is municipally owned (EIA-861 ownership); municipal systems "
+                    "are not FERC Form-1 filers — verify against the utility's annual report"
+                ),
+                confidence="medium",
+            ),
+        )
     return FercForm1(
-        utility="Ohio Power Company (AEP Ohio)",
+        utility=f"{j.form1_filer} ({j.utility_short})",
         pointer=CitedFact(
             value=(
-                "Ohio Power Company files FERC Form 1 (annual financial & operating "
+                f"{j.form1_filer} files FERC Form 1 (annual financial & operating "
                 "report) covering rate base, operating revenues, and transmission plant - "
                 "the primary source for the serving utility's FERC-jurisdictional "
                 "transmission financials; obtain the current vintage from FERC Online"
             ),
             source="reference",
             citation=(
-                "FERC Form 1 (FERC Online), Ohio Power Company; pointer - transcribe the "
+                f"FERC Form 1 (FERC Online), {j.form1_filer}; pointer - transcribe the "
                 "specific rate-base / revenue figures from the filing and verify before "
                 "relying on them"
             ),
@@ -272,27 +360,28 @@ def _form1() -> FercForm1:
 
 
 def derive_ferc_seam(*, settings: Settings | None = None) -> FercSeam:
-    """Assemble the FERC<->PUCO jurisdictional seam (#97).
+    """Assemble the FERC<->state-PUC jurisdictional seam (#97).
 
-    Cross-references the #94 serving-utility identification (AEP Ohio / PJM / PUCO) - the
-    campus is a retail customer of AEP Ohio, so it falls under PUCO retail jurisdiction
-    for its service and tariff. The jurisdictional map is cited to the Federal Power Act;
+    Cross-references the #94 serving-utility identification (for Lima: AEP Ohio / PJM / PUCO)
+    - the campus is a retail customer of its serving utility, so it falls under that state's
+    retail jurisdiction for its service and tariff. The state retail regulator, the serving
+    utility, and the Form-1 filer are resolved per-site from the active ``SiteProfile`` (#608),
+    never hardcoded to Ohio/PUCO/AEP. The jurisdictional map is cited to the Federal Power Act;
     the dockets and Form-1 pointer are cited evidence flagged for verification.
 
-    ``settings`` is accepted for interface parity with the other grid derivations (and so
-    a caller can pass the test ``Settings``); this seam is structural / regulatory and
-    does not read a numeric connector.
+    Hermetic: the seam is structural / regulatory and reads no numeric connector — the per-site
+    inputs come from the profile (eia_state + eia861_utility_number).
     """
     settings = settings or get_settings()
-    _ = settings  # interface parity; no numeric pull on this regulatory seam
+    j = _jurisdiction(settings)
 
-    boundary = _boundary()
+    boundary = _boundary(j)
     dockets = _dockets()
-    form1 = _form1()
+    form1 = _form1(j)
 
     log.info(
         "grid.ferc.seam",
-        arrangement="PUCO retail (grid-served), unless behind-the-meter co-location",
+        arrangement=f"{j.puc_short} retail (grid-served), unless behind-the-meter co-location",
         dockets=[d.docket_no or d.title for d in dockets],
     )
     return FercSeam(
@@ -300,15 +389,15 @@ def derive_ferc_seam(*, settings: Settings | None = None) -> FercSeam:
         dockets=dockets,
         form1=form1,
         note=(
-            "FERC regulatory seam (#97). The FERC<->PUCO boundary is the wholesale/retail "
+            f"FERC regulatory seam (#97). The FERC<->{j.puc_short} boundary is the wholesale/retail "
             "line of the Federal Power Act: FERC = wholesale + interstate transmission + "
             "PJM market rules (and behind-the-meter co-location at FERC-jurisdictional "
-            "generators); PUCO = Ohio retail service, distribution, and retail rates. The "
-            "campus is most likely PUCO-retail (grid-served customer of AEP Ohio, #94). "
-            "This determines which regulator sets the campus's price - PUCO retail vs "
-            "FERC wholesale - the regulatory backdrop the consumer-cost thread (#91) sits "
-            "under. Dockets and the Form-1 pointer are public records captured as cited "
-            "evidence, flagged for verification against FERC eLibrary / FERC Online."
+            f"generators); {j.puc_short} = {j.state_name} retail service, distribution, and retail "
+            f"rates. The campus is most likely {j.puc_short}-retail (grid-served customer of "
+            f"{j.utility_short}, #94). This determines which regulator sets the campus's price - "
+            f"{j.puc_short} retail vs FERC wholesale - the regulatory backdrop the consumer-cost "
+            "thread (#91) sits under. Dockets and the Form-1 pointer are public records captured "
+            "as cited evidence, flagged for verification against FERC eLibrary / FERC Online."
         ),
     )
 

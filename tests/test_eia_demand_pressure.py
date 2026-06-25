@@ -135,7 +135,7 @@ def test_demand_pressure_band_is_stylized_and_flagged(econ_settings: Settings) -
 
 def test_committed_consumer_energy_loads() -> None:
     """The committed reference YAML round-trips into the model (what the scenario reads)."""
-    costs = load_consumer_energy(REPO_ROOT / "data" / "reference")
+    costs = load_consumer_energy(Settings(data_dir=REPO_ROOT / "data"))
     assert costs is not None
     assert costs.area == "OH"
     assert costs.by_metric("electricity", "price") is not None

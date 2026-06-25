@@ -56,7 +56,7 @@ def test_offline_miss_raises(econ_settings: Settings) -> None:
 
 def test_committed_baseline_loads() -> None:
     """The committed reference YAML round-trips into the model (what the site reads)."""
-    baseline = load_baseline(REPO_ROOT / "data" / "reference")
+    baseline = load_baseline(Settings(data_dir=REPO_ROOT / "data"))
     assert baseline is not None
     assert baseline.fips == "39003"
     assert baseline.latest.sectors

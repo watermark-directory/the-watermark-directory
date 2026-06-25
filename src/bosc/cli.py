@@ -2858,10 +2858,10 @@ def ferc_cmd(
         f"  {f1.pointer.value}\n  [dim]{f1.pointer.citation}[/]"
     )
     console.print(
-        "\n[dim]FERC = wholesale + interstate transmission + PJM market rules; PUCO = OH retail. "
-        "The campus is most likely PUCO-retail (grid-served customer of AEP Ohio, #94) - which "
-        "determines which regulator sets its price (#91). Dockets / Form 1 are public records "
-        "captured as cited evidence, flagged verify.[/]"
+        "\n[dim]FERC = wholesale + interstate transmission + PJM market rules; the state PUC = "
+        "retail. The campus is most likely state-retail (grid-served customer of its serving "
+        "utility, #94) - which determines which regulator sets its price (#91). Dockets / Form 1 "
+        "are public records captured as cited evidence, flagged verify.[/]"
     )
     if write:
         path = write_ferc_seam(seam, settings=settings)

@@ -60,6 +60,12 @@ class SiteFacility(BaseModel):
     it_load_low_mw: float  # low end of the N+1 range
     it_load_high_mw: float  # high end
     air_permit_citation: str  # the disclosing permit + committed extraction
+    # Disclosed cooling/industrial blowdown discharge — the independent cross-check for the
+    # cooling back-solve (:func:`bosc.hydrology.cooling.derive_cooling_basis`, method 2). Per-site
+    # (#607): a site that doesn't disclose one leaves these None and the back-solve uses the
+    # site's own power-derived consumptive as the high bound (no Lima FM-2 leak).
+    blowdown_mgd: float | None = None
+    blowdown_citation: str | None = None
 
 
 class SiteProfile(BaseModel):
@@ -760,6 +766,11 @@ _LIMA = SiteProfile(
             "Per-engine ekW from the draft public notice (3987141/3987144); engine "
             "size CBI-redacted in the final permit under an Ohio EPA trade-secret grant "
             "(OAC 3745-49-03, 2025-10-08; data/extracted/permits/3859883.epa.yaml)."
+        ),
+        blowdown_mgd=2.5,  # documented FM-2 industrial discharge, as a blowdown upper bound
+        blowdown_citation=(
+            "bosc-fm2 2.5 MGD industrial discharge (CMAR RFQ §A.6), taken as cooling "
+            "blowdown upper bound"
         ),
     ),
     serving_utility_source="document",
