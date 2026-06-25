@@ -9,6 +9,8 @@
  * are **flagged, not silently dropped** (the whole point of grounding an evidence corpus).
  */
 
+import { escapeHtml } from "./format";
+
 /** One source the answer cited — mirrors `AskCitation` in functions/api/_lib/ask.ts. */
 export interface AskCitation {
   marker: number;
@@ -20,13 +22,6 @@ export interface AskCitation {
   page?: number | null;
   source_kind?: string | null;
   verified?: boolean;
-}
-
-export function escapeHtml(s: string): string {
-  return s.replace(
-    /[&<>"]/g,
-    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c] as string,
-  );
 }
 
 /** Pre-answer status: how many records the answer is grounded in (#331). */

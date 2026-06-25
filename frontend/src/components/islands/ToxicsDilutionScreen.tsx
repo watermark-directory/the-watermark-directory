@@ -18,11 +18,11 @@ import {
   naturalAt,
   screeningConc,
 } from "../../lib/toxicsDilution";
+import { fmtMult } from "../../lib/format";
 import { DistributionStrip, RegisterMark } from "./uncertaintyGrammar";
 
 const fmtPct = (n: number): string => `${n.toFixed(0)}%`;
 const fmtConc = (n: number): string => (Number.isFinite(n) ? `${n.toFixed(0)} mg/L` : "→ ∞");
-const fmtMult = (n: number): string => (Number.isFinite(n) ? `${n.toFixed(n < 10 ? 1 : 0)}×` : "∞");
 
 export default function ToxicsDilutionScreen({ discharge }: { discharge: DilutionDischarge }): JSX.Element {
   const effluentCfs = discharge.wwtpCfs + discharge.campusFm2Cfs;

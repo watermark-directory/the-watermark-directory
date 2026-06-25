@@ -7,6 +7,7 @@
  * consumed by the dependency-free client matcher in `scripts/search.ts` — no
  * lunr, no CDN.
  */
+import { blob } from "./format";
 import { siteUrl } from "./routes";
 import { hasFeed, loadFeed } from "./bundle";
 import {
@@ -43,11 +44,6 @@ export interface SearchDoc {
   /** Evidence dot — set only where the row carries a genuine evidence signal
    *  (records, via their citation). Absent rows show no dot — no fabricated tag. */
   tag?: TagKind;
-}
-
-/** Join defined, non-empty string-ish bits into one searchable blob. */
-function blob(...parts: (string | null | undefined)[]): string {
-  return parts.filter((p): p is string => typeof p === "string" && p.trim().length > 0).join(" · ");
 }
 
 export function buildSearchIndex(): SearchDoc[] {

@@ -12,6 +12,7 @@
  * campus." GovCloud is a what-if profile, not a defense finding. The output is a band,
  * not a verdict; every band carries the record whose disclosure would collapse it.
  */
+import { CRA_PROFILES } from "./craProfiles";
 import { type Model, type Prior, type UncertainOutcome, outcomeBand } from "./uncertainty";
 
 // --- the deployed abatement constants (pinned to moneyFlow by the test) -------
@@ -118,44 +119,10 @@ export interface LedgerProfile {
   abatementPerJobUsd: number;
 }
 
-const PROFILE_DEFS: Omit<
-  LedgerProfile,
-  "abatementUsd" | "keptUsd" | "exemptionUsd" | "netSubsidyUsd" | "abatementPerJobUsd"
->[] = [
-  {
-    key: "stated",
-    label: "Take the application at its word",
-    buildingShare: 0.35,
-    jobs: 50,
-    note: "the CRA's own ~50 jobs; a mid building-shell share of the $500M",
-  },
-  {
-    key: "equipment",
-    label: "AI / GPU-dense (equipment-heavy)",
-    buildingShare: 0.25,
-    jobs: 50,
-    note: "most value is servers + electrical — personal property, not abated — so the abated base shrinks",
-  },
-  {
-    key: "hyperscale",
-    label: "Hyperscale-realistic (lean ops)",
-    buildingShare: 0.35,
-    jobs: 30,
-    note: "data centers staff lean at steady state; the CRA warns actuals 'may differ significantly'",
-  },
-  {
-    key: "govcloud",
-    label: "GovCloud / defense-hardened",
-    buildingShare: 0.5,
-    jobs: 30,
-    note: "hardened construction lifts the real-property share, cleared ops run lean — a what-if profile, not a finding (#233)",
-  },
-];
-
 const REFRESH_CENTRAL = 1.5;
 
 export function ledgerProfiles(): LedgerProfile[] {
-  return PROFILE_DEFS.map((p) => {
+  return CRA_PROFILES.map((p) => {
     const ab = abatement(p.buildingShare);
     const ex = salesTaxExemption(p.buildingShare, REFRESH_CENTRAL);
     return {

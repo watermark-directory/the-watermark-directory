@@ -27,9 +27,9 @@ import {
   sample,
   summarize,
 } from "../../lib/uncertainty";
+import { fmtMw } from "../../lib/format";
 import { DistributionStrip, RegisterMark } from "./uncertaintyGrammar";
 
-const fmtMw = (n: number): string => `${Math.round(n)} MW`;
 const priorCentral = (key: string): number => {
   const p = GRID_PRIORS.find((x) => x.key === key);
   return p ? central(p.dist) : 0;
