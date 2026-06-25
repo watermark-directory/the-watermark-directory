@@ -1,33 +1,23 @@
 // Watermark — the directory home (network tier). Hero + network ledger, three lenses,
 // "start here" doors, and the across-the-network table.
 function DirectoryHome({ onEnterSite }) {
-  const { Eyebrow, Button, PhaseDot, EvidenceTag } = window.WatermarkDesignSystem_dbe30a;
+  const { Eyebrow, Button, PhaseDot } = window.WatermarkDesignSystem_dbe30a;
   const ink = "#16201a", muted = "#566159", faint = "#8c9389", forest = "#1f6f4a";
-  const stats = [["32", "SITES"], ["09", "BASINS"], ["01", "LIVE REFERENCE"], ["41", "CONTRIBUTORS"]];
-  const phaseSegs = [["3%", forest], ["3%", ink], ["19%", muted], ["75%", faint]];
-  const phaseLegend = [[forest, "1 live"], [ink, "1 building"], [muted, "6 queued"], [faint, "24 tracking"]];
+  // Stats are DERIVED from the site registry on the live home (SITES.length · groupSites("basin")
+  // · the live filter · groupSites("state")) — never hardcoded. The 4th is States, not Contributors.
+  // The values below are a current snapshot; the shipped page recomputes them at build time.
+  const stats = [["33", "SITES"], ["08", "BASINS"], ["01", "LIVE REFERENCE"], ["02", "STATES"]];
+  const phaseSegs = [["6%", forest], ["3%", ink], ["45%", muted], ["46%", faint]];
+  const phaseLegend = [[forest, "2 live"], [ink, "1 building"], [muted, "15 queued"], [faint, "15 tracking"]];
   const lenses = [
     { n: "H1", name: "Water & Power", claim: "Where compute meets the watershed.", status: "Reference build", live: true },
     { n: "H2", name: "Defense & Federal Enclave", claim: "Where it meets federal land & the defense base.", status: "Emerging", live: false },
     { n: "H3", name: "Corporate & Economic Surveillance", claim: "Who owns it, and where the money moves.", status: "Emerging", live: false },
   ];
   const doors = [
-    { nn: "01", title: "The reference build", meta: "LIMA (BOSC) · LIVE", desc: "The one fully-assembled site — and the best place to start. New here? Its guided walk teaches you to read the record.", cta: "Enter the site", act: true },
+    { nn: "01", title: "The reference build", meta: "LIMA (BOSC) · LIVE", desc: "The one fully-assembled site — and the best place to start. New here? Its story teaches you to read the record.", cta: "Enter the site", act: true },
     { nn: "02", title: "How the record is built", meta: "PROVENANCE-FIRST", desc: "Sources, labeled inference, and the two-clock model — what Watermark is, and how to read it.", cta: "Read the method" },
     { nn: "03", title: "Contribute a lead", meta: "NO ACCOUNT NEEDED", desc: "A document, a name, a correction — every confirmed figure started as a lead.", cta: "Submit a lead" },
-  ];
-  const process = [
-    ["01", "Source", "Start at the document itself — a deed, a permit, a filing — scanned or linked, exactly as it was filed.", false],
-    ["02", "Structured read", "We lift the load-bearing facts into fields you can scan — parties, parcels, figures, dates.", false],
-    ["03", "Meaning", "What those facts add up to, said plainly — and connected to the entities, places, and concepts around them.", false],
-    ["04", "Verify", "Every figure carries its standing and a citation. Follow it back to the source — or flag where we’re wrong.", true],
-  ];
-  const grammar = [
-    ["verified", "Backed by a cited source you can open."],
-    ["inference", "Modeled or derived, and labeled as such."],
-    ["open", "An unverified lead, published for you to corroborate."],
-    ["gap", "Withheld or redacted — the gap is shown, not hidden."],
-    ["key", "The one number a whole record turns on."],
   ];
   const featured = [
     ["BOSC", "Lima", "Maumee · Ottawa River", "live"],
@@ -44,11 +34,11 @@ function DirectoryHome({ onEnterSite }) {
       {/* hero */}
       <div style={{ display: "flex", gap: 40, padding: "42px 28px 34px", borderBottom: "1px solid var(--line-hair)", flexWrap: "wrap" }}>
         <div style={{ flex: "1 1 520px", maxWidth: 600 }}>
-          <Eyebrow>The Watermark directory</Eyebrow>
+          <Eyebrow>The Watermark network</Eyebrow>
           <h1 style={{ fontSize: 52, fontWeight: 800, letterSpacing: "-2px", lineHeight: 0.98, margin: "14px 0 0" }}>The build-out, on the public record.</h1>
-          <p style={{ fontSize: 16.5, lineHeight: 1.55, margin: "18px 0 0", maxWidth: 560, textWrap: "pretty" }}>Watermark assembles the public record behind the hyperscale data-center build-out — <b>32 sites across 9 basins</b>, each a point where compute meets ground, water, and power. Provenance-first, and built in the open.</p>
+          <p style={{ fontSize: 16.5, lineHeight: 1.55, margin: "18px 0 0", maxWidth: 560, textWrap: "pretty" }}>Watermark assembles the public record behind the hyperscale data-center build-out — <b>33 sites across 8 basins</b>, each a point where compute meets ground, water, and power. Provenance-first, and built in the open.</p>
           <div style={{ display: "flex", gap: 12, marginTop: 26, flexWrap: "wrap" }}>
-            <Button variant="solid" iconRight="→">Explore the directory</Button>
+            <Button variant="solid" iconRight="→">Explore the hypotheses</Button>
             <Button variant="ghost" onClick={onEnterSite} iconRight="→">See the reference build</Button>
           </div>
         </div>
@@ -81,6 +71,7 @@ function DirectoryHome({ onEnterSite }) {
         <div style={{ display: "flex", alignItems: "baseline", gap: 11, marginBottom: 20, flexWrap: "wrap" }}>
           <h2 style={{ fontSize: 19, fontWeight: 800, letterSpacing: "-0.4px", margin: 0 }}>Read the network three ways</h2>
           <span style={{ fontSize: 13, color: faint }}>— one map, three hypotheses.</span>
+          <a href="#" style={{ marginLeft: "auto", fontFamily: "var(--font-mono)", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.5px", color: ink, fontWeight: 600, textDecoration: "none" }}>Open the scorecard →</a>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", marginLeft: -1 }}>
           {lenses.map((L) => (
@@ -93,40 +84,6 @@ function DirectoryHome({ onEnterSite }) {
               <div style={{ fontSize: 13, color: muted, lineHeight: 1.45, marginTop: 5 }}>{L.claim}</div>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* how to read the record */}
-      <div style={{ padding: "28px 28px 32px", borderBottom: "1px solid var(--line-hair)" }}>
-        <Eyebrow style={{ marginBottom: 6 }}>How to read the record</Eyebrow>
-        <h2 style={{ fontSize: 19, fontWeight: 800, letterSpacing: "-0.4px", margin: "0 0 20px", maxWidth: 680 }}>Source first, meaning second — never the other way around.</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", marginLeft: -1 }}>
-          {process.map(([nn, title, desc, live]) => (
-            <div key={nn} style={{ borderLeft: "1px solid var(--line-hair)", padding: "2px 20px" }}>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: 22, fontWeight: 600, color: live ? forest : faint }}>{nn}</div>
-              <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.2px", marginTop: 8 }}>{title}</div>
-              <div style={{ fontSize: 13, color: muted, lineHeight: 1.5, marginTop: 7 }}>{desc}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* a lead, not a verdict — the evidence grammar */}
-      <div style={{ display: "flex", gap: 48, padding: "30px 28px 34px", borderBottom: "1px solid var(--line-hair)", flexWrap: "wrap" }}>
-        <div style={{ flex: "1 1 300px", maxWidth: 380 }}>
-          <Eyebrow style={{ marginBottom: 6 }}>The evidence grammar</Eyebrow>
-          <h2 style={{ fontSize: 30, fontWeight: 800, letterSpacing: "-1px", lineHeight: 1.05, margin: 0 }}>A lead, not a verdict.</h2>
-          <p style={{ fontSize: 15, lineHeight: 1.55, margin: "16px 0 0", color: "var(--ink-soft, #3a4036)", textWrap: "pretty" }}>We publish unconfirmed material — but never as fact. Every figure, record, and claim wears its standing, so you always know what you’re reading: sourced, modeled, or still open. That tag is the whole contract.</p>
-        </div>
-        <div style={{ flex: "1 1 420px", maxWidth: 560, alignSelf: "center" }}>
-          <div style={{ borderTop: "1px solid var(--line-hair)" }}>
-            {grammar.map(([kind, desc]) => (
-              <div key={kind} style={{ display: "flex", alignItems: "center", gap: 16, padding: "13px 0", borderBottom: "1px solid var(--line-hair)" }}>
-                <span style={{ flex: "0 0 132px" }}><EvidenceTag kind={kind} /></span>
-                <span style={{ fontSize: 13.5, color: muted }}>{desc}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
@@ -165,15 +122,6 @@ function DirectoryHome({ onEnterSite }) {
               <span style={{ display: "flex", justifyContent: "flex-end" }}><PhaseDot phase={phase} size="sm" /></span>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* footer */}
-      <div style={{ borderTop: "2px solid var(--ink)", padding: "20px 28px", display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
-        <div style={{ fontSize: 13, lineHeight: 1.5, maxWidth: 600 }}><b>Draft — the record is still being assembled.</b> Every figure carries a source; inference is labeled; redactions are shown, not hidden.</div>
-        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 13 }}>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.5px", textTransform: "uppercase", color: ink, border: "1px solid var(--ink)", padding: "4px 11px" }}><span style={{ width: 7, height: 7, background: forest }} />provenance-first</span>
-          <Button variant="solid" size="sm">Submit a lead</Button>
         </div>
       </div>
     </div>
