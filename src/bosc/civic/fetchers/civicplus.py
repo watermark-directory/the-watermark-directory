@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import html as _html
 import re
+from datetime import date as _date
 from typing import cast
 
 from bosc.civic._http import get_page
@@ -55,11 +56,19 @@ def _body_name(h2_inner: str) -> str:
 
 
 def _iso_date(mmddyyyy: str) -> str | None:
-    """``05062024`` -> ``2024-05-06``; ``None`` if the components aren't a real date."""
+    """``05062024`` -> ``2024-05-06``; ``None`` if the components aren't a real date.
+
+    Validates via :class:`datetime.date` so an impossible calendar date (e.g. ``02302024``
+    = Feb 30) returns ``None`` rather than a string that later crashes ``date.fromisoformat``
+    in the corpus audit (#615) — "prefer omission over invention".
+    """
     month, day, year = int(mmddyyyy[:2]), int(mmddyyyy[2:4]), int(mmddyyyy[4:])
-    if not (1 <= month <= 12 and 1 <= day <= 31 and 1900 <= year <= 2100):
+    if not (1900 <= year <= 2100):
         return None
-    return f"{year:04d}-{month:02d}-{day:02d}"
+    try:
+        return _date(year, month, day).isoformat()
+    except ValueError:
+        return None
 
 
 def parse_agenda_center(html: str, *, base_url: str, slug: str) -> list[MeetingDoc]:

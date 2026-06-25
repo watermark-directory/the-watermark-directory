@@ -404,3 +404,54 @@ def test_pipeline_compare_theory_isolates_overlay(hydro_settings: Settings) -> N
     assert without.theories == [] and with_theory.theories == ["waterfall-roundabout-pike-run"]
     assert with_theory.outlet_cfs > without.outlet_cfs
     assert any(f.check == "theory-net-effect" for f in findings)
+
+
+# ----------------------------------------------------- report render (#614)
+
+
+def test_render_routed_network_handles_zero_natural_low_flow(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """#614: the routed-balance section divides municipal effluent by the natural total —
+    which the section's own premise (the river 'effectively dries') can drive to 0. The
+    render must guard the ratio, not raise ZeroDivisionError."""
+    from bosc.config import Settings
+    from bosc.hydrology import report
+    from bosc.hydrology.model import ReachFlow, RoutedNetwork, RoutedNetworkDiff
+
+    def _reach(node_id: str) -> ReachFlow:
+        return ReachFlow(
+            node_id=node_id,
+            name=node_id,
+            kind="outfall",
+            inflow_cfs=0.0,
+            natural_cfs=0.0,
+            effluent_cfs=5.0,
+            routed_cfs=5.0,
+        )
+
+    baseline = RoutedNetwork(
+        reaches=[_reach("bosc-fm2-return")],
+        natural_total_cfs=0.0,  # the streams have dried — the section's own premise
+        effluent_total_cfs=5.0,
+        consumptive_cfs=0.0,
+        outlet_cfs=5.0,
+        outlet_effluent_fraction=1.0,
+    )
+    buildout = baseline.model_copy(update={"scenario": "buildout"})
+    delta = RoutedNetworkDiff(
+        baseline="baseline",
+        scenario="buildout",
+        natural_total_cfs=0.0,
+        consumptive_increase_cfs=0.0,
+        outlet_decrease_cfs=0.0,
+        mainstem_runs_dry=False,
+    )
+    monkeypatch.setattr(
+        "bosc.pipeline.hydrology.run_network", lambda **_: (baseline, buildout, delta)
+    )
+
+    lines: list[str] = []
+    report._render_routed_network(lines.append, Settings())  # must not raise
+    blob = "".join(lines)
+    assert "effectively zero at design low flow" in blob  # the guarded phrasing rendered

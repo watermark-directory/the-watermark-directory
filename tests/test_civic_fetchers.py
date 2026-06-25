@@ -45,6 +45,12 @@ def test_iso_date_rejects_bad_components() -> None:
     assert civicplus._iso_date("05062024") == "2024-05-06"
     assert civicplus._iso_date("13012024") is None  # month 13
     assert civicplus._iso_date("00002024") is None
+    # Impossible calendar dates are rejected, not emitted (#615): they pass a loose
+    # 1<=day<=31 check but crash date.fromisoformat downstream in the corpus audit.
+    assert civicplus._iso_date("02302024") is None  # Feb 30
+    assert civicplus._iso_date("04312024") is None  # Apr 31
+    assert civicplus._iso_date("02292023") is None  # 2023 is not a leap year
+    assert civicplus._iso_date("02292024") == "2024-02-29"  # 2024 is a leap year
 
 
 def test_fetch_offline_replay(hydro_settings: Settings) -> None:

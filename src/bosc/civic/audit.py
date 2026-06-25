@@ -150,7 +150,11 @@ def audit_body(
         }
     )
     cadence = parse_cadence(subdivision.meeting_schedule)
-    if not actual:
+    # Skip impossible calendar dates (e.g. a Feb 30 from a malformed source link, #615): the
+    # `_is_iso` regex admits them but `date.fromisoformat` would crash. A non-empty `actual`
+    # can thus yield no usable dates — guard on `actual_dates`, not the raw strings.
+    actual_dates = {d for a in actual if (d := _parse_iso(a)) is not None}
+    if not actual_dates:
         return AuditReport(
             slug=subdivision.slug,
             schedule=subdivision.meeting_schedule,
@@ -163,7 +167,6 @@ def audit_body(
             missing=[],
             special=[],
         )
-    actual_dates = {date.fromisoformat(a) for a in actual if _is_iso(a)}
     start, end = min(actual_dates), max(actual_dates)
     if cadence is None:
         return AuditReport(
@@ -198,6 +201,20 @@ def audit_body(
 
 def _is_iso(s: str) -> bool:
     return bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", s))
+
+
+def _parse_iso(s: str) -> date | None:
+    """Parse an ISO ``yyyy-mm-dd`` string, or ``None`` if it isn't a real calendar date.
+
+    The ``_is_iso`` regex admits impossible dates (e.g. ``2024-02-30``) that crash
+    ``date.fromisoformat``; this keeps the audit robust to a single bad source link (#615).
+    """
+    if not _is_iso(s):
+        return None
+    try:
+        return date.fromisoformat(s)
+    except ValueError:
+        return None
 
 
 def write_audit(report: AuditReport, out_path: Path) -> Path:

@@ -146,6 +146,19 @@ def _render_routed_network(emit: Callable[[str], None], settings: Settings) -> N
     campus_cfs = campus.gain.value if campus is not None and campus.gain is not None else 0.0
     municipal_cfs = baseline.effluent_total_cfs - campus_cfs
 
+    # The section's own thesis is that the streams nearly dry at design low flow, so the routed
+    # natural total can reach 0 — guard the ratio (#614) rather than divide by it.
+    if baseline.natural_total_cfs > 0:
+        municipal_multiple = (
+            f"**{municipal_cfs / baseline.natural_total_cfs:.1f}x** the streams' entire natural "
+            "low flow"
+        )
+    else:
+        municipal_multiple = (
+            "more than the streams' entire natural low flow, which is effectively zero at "
+            "design low flow"
+        )
+
     emit(
         "\n### The whole loop at design low flow: a routed mass balance\n\n"
         "The screen above reads each plant against its *own* tributary in isolation. "
@@ -156,8 +169,8 @@ def _render_routed_network(emit: Callable[[str], None], settings: Settings) -> N
         f"**{baseline.natural_total_cfs:g} cfs** of *natural* low flow "
         f"(Ottawa 0.2 + Dug Run 0.78 + Pike Run 0.03 `[verified: document]`). The three county "
         f"WWTP discharges alone add **{municipal_cfs:.2f} cfs** of treated effluent — "
-        f"**{municipal_cfs / baseline.natural_total_cfs:.1f}x** the streams' entire natural low "
-        "flow, with no data center in the picture. The river at design low flow is effluent, not "
+        f"{municipal_multiple}, with no data center in the picture. The river at design low flow "
+        "is effluent, not "
         "stream. The campus then adds its own documented "
         f"**{campus_cfs:.2f} cfs** FM-2 industrial discharge (routed via Lima's sewer + WWTP), "
         f"taking the Ottawa leaving Lima to **{baseline.outlet_effluent_fraction:.0%} treated "

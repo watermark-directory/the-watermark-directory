@@ -20,6 +20,10 @@ from bosc.config import Settings
         ("2026-01-06 packet", "2026-01-06"),  # ISO wins
         ("no date here", None),
         ("13-40-2026", None),  # impossible month/day
+        ("2-30-2024 Minutes", None),  # Feb 30 — impossible calendar date (#615)
+        ("4-31-2024", None),  # Apr has 30 days
+        ("2-29-2023", None),  # 2023 is not a leap year
+        ("2-29-2024", "2024-02-29"),  # 2024 is a leap year
     ],
 )
 def test_parse_date(text: str, expected: str | None) -> None:
