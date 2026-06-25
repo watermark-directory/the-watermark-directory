@@ -11,10 +11,10 @@ import DeckGL from "@deck.gl/react";
 import type { Layer } from "@deck.gl/core";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import { Map } from "react-map-gl/maplibre";
-import type { FeatureCollection } from "geojson";
+import type { FeatureCollection, Geometry } from "geojson";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { rasterTileLayer } from "./rasterTile";
-import type { ImageryFeed, WaybackRelease } from "../../lib/feeds";
+import type { ImageryAoiProps, ImageryFeed, WaybackRelease } from "../../lib/feeds";
 
 // The committed AOI centroid; also the fallback when no bbox is read from the feed.
 const FALLBACK_VIEW = { longitude: -84.1234, latitude: 40.7969, zoom: 13.2, pitch: 0, bearing: 0 };
@@ -56,7 +56,10 @@ export default function ImagerySlider({ src }: { src: string }): JSX.Element {
       out.push(rasterTileLayer(url, `wayback-${current.release}`));
     }
     if (aoi.length) {
-      const data = { type: "FeatureCollection", features: aoi } as unknown as FeatureCollection;
+      const data: FeatureCollection<Geometry, ImageryAoiProps> = {
+        type: "FeatureCollection",
+        features: aoi,
+      };
       out.push(
         new GeoJsonLayer({
           id: "imagery-aoi",

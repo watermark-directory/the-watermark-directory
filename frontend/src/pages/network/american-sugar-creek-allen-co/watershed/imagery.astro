@@ -4,14 +4,14 @@ import BeforeAfterSlider from "../../../../components/BeforeAfterSlider.astro";
 import ImagerySlider from "../../../../components/islands/ImagerySlider.tsx";
 import Base from "../../../../layouts/Base.astro";
 import { hasFeed } from "../../../../lib/bundle";
-import type { ImageryFeed, WaybackRelease } from "../../../../lib/feeds";
-import { loadGeo } from "../../../../lib/geo";
+import type { WaybackRelease } from "../../../../lib/feeds";
+import { loadImagery } from "../../../../lib/geo";
 import { withBase, withSite } from "../../../../lib/site";
 
 // Build-time: read the imagery feed so the page server-renders a real
 // before/during/after view (dated Wayback tiles over the AOI centroid) plus the
 // release table — the no-JS fallback and a plain data view under the deck island.
-const feed = hasFeed("geo/imagery") ? (loadGeo("geo/imagery") as unknown as ImageryFeed) : null;
+const feed = hasFeed("geo/imagery") ? loadImagery() : null;
 const wayback = feed?.meta?.wayback;
 const releases: WaybackRelease[] = wayback?.releases ?? [];
 const aoi = feed?.features ?? [];

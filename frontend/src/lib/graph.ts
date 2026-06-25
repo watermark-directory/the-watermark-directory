@@ -31,6 +31,10 @@ interface SimLink extends SimulationLinkDatum<SimNode> {
   rel: string;
 }
 
+/** A force link's endpoint is an id string (pre-simulation) or the resolved `SimNode`
+ *  (after d3 mutates it); read its id without an unchecked cast (#585). */
+const linkEndId = (e: SimNode | string | number): string => (typeof e === "object" ? e.id : String(e));
+
 export interface GraphNode {
   key: string;
   slug: string;
@@ -102,8 +106,8 @@ export function buildGraph(): GraphData {
       y: Math.round((n.y ?? 0) * 100) / 100,
     })),
     edges: links.map((l) => ({
-      source: typeof l.source === "object" ? (l.source as SimNode).id : String(l.source),
-      target: typeof l.target === "object" ? (l.target as SimNode).id : String(l.target),
+      source: linkEndId(l.source),
+      target: linkEndId(l.target),
       rel: l.rel,
     })),
   };

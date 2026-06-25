@@ -18,6 +18,7 @@ import type { FeatureCollection } from "geojson";
 import "maplibre-gl/dist/maplibre-gl.css";
 import {
   DEFAULT_OFF,
+  isGeoFeature,
   layerLabel,
   layersPresent,
   rgba,
@@ -117,7 +118,7 @@ export default function CorridorMap({ src }: { src: string }): JSX.Element {
         getTooltip={({ object }) =>
           object?.properties?.label ? { html: object.properties.label as string } : null
         }
-        onClick={({ object }) => setPicked((object as GeoFeature) ?? null)}
+        onClick={({ object }) => setPicked(isGeoFeature(object) ? object : null)}
       >
         <Map mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json" />
       </DeckGL>
