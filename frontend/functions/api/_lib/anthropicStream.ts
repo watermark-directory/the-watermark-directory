@@ -5,7 +5,12 @@
 // https://docs.anthropic.com/en/api/messages-streaming
 
 import { AnthropicError, API_URL, API_VERSION, type AnthropicUsage, type MessageRequest } from "./anthropic";
+import { isTimeoutError } from "./http";
 import { drainSse, type SseEvent } from "./sse";
+
+/** Idle deadline between stream chunks (ms). A stalled upstream aborts rather than holding
+ *  the Worker + the client's SSE connection open indefinitely (#590). */
+const STREAM_IDLE_TIMEOUT_MS = 30_000;
 
 /** A normalized chunk from the Anthropic stream. */
 export interface StreamChunk {
@@ -42,26 +47,48 @@ export function mapAnthropicEvent(ev: SseEvent): StreamChunk | null {
   }
 }
 
-/** Stream a grounded answer, yielding normalized chunks. Throws AnthropicError on a bad start. */
-export async function* streamMessage(req: MessageRequest): AsyncGenerator<StreamChunk> {
-  const res = await fetch(req.apiUrl || API_URL, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": req.apiKey,
-      "anthropic-version": API_VERSION,
-      accept: "text/event-stream",
-    },
-    body: JSON.stringify({
-      model: req.model,
-      max_tokens: req.maxTokens,
-      temperature: req.temperature ?? 0,
-      system: req.system,
-      messages: req.messages,
-      stream: true,
-    }),
-  });
+/** Stream a grounded answer, yielding normalized chunks. Throws AnthropicError on a bad
+ *  start or a stalled stream (no chunk within `idleMs` → a clean 504). */
+export async function* streamMessage(
+  req: MessageRequest,
+  idleMs: number = STREAM_IDLE_TIMEOUT_MS,
+): AsyncGenerator<StreamChunk> {
+  // One controller guards the whole stream: an idle timer (re-armed on every chunk) aborts
+  // both the initial fetch and a mid-stream stall, so a hung upstream can't pin us open.
+  const controller = new AbortController();
+  let idle = setTimeout(() => controller.abort(), idleMs);
+  const rearm = (): void => {
+    clearTimeout(idle);
+    idle = setTimeout(() => controller.abort(), idleMs);
+  };
+
+  let res: Response;
+  try {
+    res = await fetch(req.apiUrl || API_URL, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": req.apiKey,
+        "anthropic-version": API_VERSION,
+        accept: "text/event-stream",
+      },
+      body: JSON.stringify({
+        model: req.model,
+        max_tokens: req.maxTokens,
+        temperature: req.temperature ?? 0,
+        system: req.system,
+        messages: req.messages,
+        stream: true,
+      }),
+      signal: controller.signal,
+    });
+  } catch (e) {
+    clearTimeout(idle);
+    if (isTimeoutError(e)) throw new AnthropicError("Anthropic stream timed out", 504);
+    throw e;
+  }
   if (!res.ok || !res.body) {
+    clearTimeout(idle);
     const detail = await res.text().catch(() => "");
     throw new AnthropicError(detail || `Anthropic API error ${res.status}`, res.status);
   }
@@ -69,15 +96,26 @@ export async function* streamMessage(req: MessageRequest): AsyncGenerator<Stream
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
-  for (;;) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buffer += decoder.decode(value, { stream: true });
-    const { events, rest } = drainSse(buffer);
-    buffer = rest;
-    for (const ev of events) {
-      const chunk = mapAnthropicEvent(ev);
-      if (chunk) yield chunk;
+  try {
+    for (;;) {
+      let result: ReadableStreamReadResult<Uint8Array>;
+      try {
+        result = await reader.read();
+      } catch (e) {
+        if (isTimeoutError(e)) throw new AnthropicError("Anthropic stream stalled", 504);
+        throw e;
+      }
+      rearm();
+      if (result.done) break;
+      buffer += decoder.decode(result.value, { stream: true });
+      const { events, rest } = drainSse(buffer);
+      buffer = rest;
+      for (const ev of events) {
+        const chunk = mapAnthropicEvent(ev);
+        if (chunk) yield chunk;
+      }
     }
+  } finally {
+    clearTimeout(idle);
   }
 }

@@ -7,6 +7,7 @@
 // downloads a PKCS#1 key (`-----BEGIN RSA PRIVATE KEY-----`); convert it once with
 // `openssl pkcs8 -topk8 -nocrypt -in app.pem -out app.pkcs8.pem` (bootstrap step).
 
+import { fetchWithTimeout } from "./http";
 import { submissionMarker, type IssueDraft } from "./issue";
 
 // Default GitHub API host. Overridable per-call (`fileIssueAsApp({ apiBase })`, fed from
@@ -61,14 +62,14 @@ function ghHeaders(token: string, scheme: "Bearer" | "token"): Record<string, st
 }
 
 async function installationToken(jwt: string, owner: string, repo: string, api: string): Promise<string> {
-  const inst = await fetch(`${api}/repos/${owner}/${repo}/installation`, {
+  const inst = await fetchWithTimeout(`${api}/repos/${owner}/${repo}/installation`, {
     headers: ghHeaders(jwt, "Bearer"),
   });
   if (!inst.ok) throw new Error(`installation lookup failed (${inst.status})`);
   const { id } = (await inst.json()) as { id: number };
 
   // Narrow the token to issues:write even though the App itself is issues-only.
-  const tok = await fetch(`${api}/app/installations/${id}/access_tokens`, {
+  const tok = await fetchWithTimeout(`${api}/app/installations/${id}/access_tokens`, {
     method: "POST",
     headers: { ...ghHeaders(jwt, "Bearer"), "Content-Type": "application/json" },
     body: JSON.stringify({ permissions: { issues: "write" } }),
@@ -93,7 +94,7 @@ async function findOpenSubmission(
   api: string,
 ): Promise<string | null> {
   try {
-    const res = await fetch(
+    const res = await fetchWithTimeout(
       `${api}/repos/${owner}/${repo}/issues?labels=submission&state=open&per_page=100`,
       { headers: ghHeaders(token, "token") },
     );
@@ -134,7 +135,7 @@ export async function fileIssueAsApp(opts: {
   );
   if (existing) return { url: existing, deduped: true };
 
-  const res = await fetch(`${api}/repos/${opts.owner}/${opts.repo}/issues`, {
+  const res = await fetchWithTimeout(`${api}/repos/${opts.owner}/${opts.repo}/issues`, {
     method: "POST",
     headers: { ...ghHeaders(token, "token"), "Content-Type": "application/json" },
     body: JSON.stringify(opts.issue),

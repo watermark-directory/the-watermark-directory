@@ -83,7 +83,11 @@ describe("loadPublishedDocs", () => {
     vi.stubGlobal("fetch", fetchMock);
     const set = await loadPublishedDocs("https://site.example/api/doc/x");
     expect(set.has("aedg/a.pdf")).toBe(true);
-    expect(fetchMock).toHaveBeenCalledWith("https://site.example/published-documents.json");
+    // the asset fetch carries an abort deadline (#590)
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://site.example/published-documents.json",
+      expect.objectContaining({ signal: expect.anything() }),
+    );
     await loadPublishedDocs("https://site.example/api/doc/y"); // cached → no second fetch
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
