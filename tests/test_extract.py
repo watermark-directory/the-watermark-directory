@@ -14,7 +14,12 @@ import pytest
 from bosc.agent.extractor import ExtractionError, StructuredExtractor, _tool_schema
 from bosc.config import Settings
 from bosc.models import Estimate, PageExtraction
-from bosc.pipeline.extract import extract_opc_page, extract_page, save_extraction
+from bosc.pipeline.extract import (
+    extract_document,
+    extract_opc_page,
+    extract_page,
+    save_extraction,
+)
 from bosc.pipeline.ingest import SourceDocument
 
 
@@ -143,6 +148,17 @@ def _doc() -> SourceDocument:
         size_bytes=137_000_000,
         collection="aedg",
     )
+
+
+def test_extract_page_rejects_unknown_kind() -> None:
+    # The kind dispatcher must fail loudly, not silently no-op (#620).
+    with pytest.raises(ValueError, match="unknown document kind 'bogus'"):
+        extract_page(_doc(), 0, kind="bogus")
+
+
+def test_extract_document_rejects_unknown_kind() -> None:
+    with pytest.raises(ValueError, match="unknown document kind 'bogus'"):
+        extract_document(_doc(), kind="bogus")
 
 
 def test_extract_opc_page_sets_profile_and_provenance() -> None:

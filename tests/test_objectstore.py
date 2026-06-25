@@ -9,9 +9,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import httpx
+import pytest
+
 from bosc.config import Settings
 from bosc.site.objectstore import (
     ObjectStoreUnconfiguredError,
+    R2Store,
     RemoteHead,
     SyncItem,
     corpus_items,
@@ -21,6 +25,77 @@ from bosc.site.objectstore import (
     sigv4_authorization,
     store_from_settings,
 )
+
+
+class _FakeClient:
+    """Records the request httpx would have sent; returns a canned response."""
+
+    def __init__(self, response: httpx.Response) -> None:
+        self.response = response
+        self.calls: list[dict[str, object]] = []
+
+    def request(
+        self, method: str, url: str, *, headers: dict[str, str], content: bytes | None = None
+    ) -> httpx.Response:
+        self.calls.append({"method": method, "url": url, "headers": headers, "content": content})
+        # raise_for_status() needs the originating request attached.
+        self.response.request = httpx.Request(method, url)
+        return self.response
+
+
+def _store(client: _FakeClient) -> R2Store:
+    return R2Store(
+        account_id="acct123",
+        bucket="bkt",
+        access_key_id="AK",
+        secret_access_key="SK",
+        client=client,  # type: ignore[arg-type]
+    )
+
+
+def test_head_404_is_absent_not_an_error() -> None:
+    store = _store(_FakeClient(httpx.Response(404)))
+    assert store.head("x/y.pdf") is None
+
+
+def test_head_200_parses_size_and_unquoted_etag() -> None:
+    resp = httpx.Response(200, headers={"content-length": "1234", "etag": '"abc123"'})
+    store = _store(_FakeClient(resp))
+    head = store.head("x/y.pdf")
+    assert head == RemoteHead(size=1234, etag="abc123")
+
+
+def test_head_missing_content_length_defaults_to_zero() -> None:
+    store = _store(_FakeClient(httpx.Response(200, headers={"etag": '"e"'})))
+    assert store.head("k") == RemoteHead(size=0, etag="e")
+
+
+def test_head_other_error_raises() -> None:
+    store = _store(_FakeClient(httpx.Response(500)))
+    with pytest.raises(httpx.HTTPStatusError):
+        store.head("k")
+
+
+def test_put_rewrites_metadata_underscores_and_sends_body() -> None:
+    client = _FakeClient(httpx.Response(200))
+    store = _store(client)
+    store.put(
+        "x/y.pdf", b"PDFBYTES", content_type="application/pdf", metadata={"sha_256": "deadbeef"}
+    )
+    call = client.calls[-1]
+    assert call["method"] == "PUT"
+    assert call["content"] == b"PDFBYTES"
+    headers = call["headers"]
+    assert isinstance(headers, dict)
+    assert headers["content-type"] == "application/pdf"
+    # underscores → hyphens for proxy safety, x-amz-meta- prefix.
+    assert headers["x-amz-meta-sha-256"] == "deadbeef"
+
+
+def test_put_raises_on_error_status() -> None:
+    store = _store(_FakeClient(httpx.Response(403)))
+    with pytest.raises(httpx.HTTPStatusError):
+        store.put("k", b"b", content_type="text/plain", metadata={})
 
 
 # --- SigV4 against the AWS reference vector -----------------------------------
