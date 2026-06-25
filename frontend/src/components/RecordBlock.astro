@@ -33,11 +33,11 @@ const { record: r, density = "full" } = Astro.props;
 
       {r.seenIn && (
         <a class="rb-seen" href={r.seenIn.href}>
-          <span class="rb-seen-badge">↩ seen in the walk</span>
+          <span class="rb-seen-badge">↩ seen in the story</span>
           <span class="rb-seen-text">
             Chapter {r.seenIn.ch} · <b>{r.seenIn.label}</b>
           </span>
-          <span class="rb-seen-resume">resume the walk ›</span>
+          <span class="rb-seen-resume">resume the story ›</span>
         </a>
       )}
 
@@ -129,7 +129,7 @@ const { record: r, density = "full" } = Astro.props;
       <div class="rb-row-main">
         <div class="rb-row-title">
           <b>{r.title}</b>
-          {r.seenIn && <span class="rb-row-walk">↩ walk Ch.{r.seenIn.ch}</span>}
+          {r.seenIn && <span class="rb-row-walk">↩ story Ch.{r.seenIn.ch}</span>}
         </div>
         <div class="rb-row-id">
           {r.recordId} · {r.source.collection}

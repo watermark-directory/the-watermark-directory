@@ -49,9 +49,9 @@ for (const e of events) {
                 <EvidenceTag kind={row.event.evidence} />
                 {row.event.seenInCh &&
                   (row.event.seenInHref ? (
-                    <a class="tl-walk" href={row.event.seenInHref}>↩ walk Ch.{row.event.seenInCh}</a>
+                    <a class="tl-walk" href={row.event.seenInHref}>↩ story Ch.{row.event.seenInCh}</a>
                   ) : (
-                    <span class="tl-walk">↩ walk Ch.{row.event.seenInCh}</span>
+                    <span class="tl-walk">↩ story Ch.{row.event.seenInCh}</span>
                   ))}
               </div>
               <div class="tl-title">{row.event.title}</div>

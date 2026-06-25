@@ -26,7 +26,7 @@ const firstChapter = walkHref(WALK_CHAPTERS[0].slug);
 <Base
   title="Project BOSC — the story"
   section="story"
-  description="The Project BOSC guided walk: the story told through the records, with every figure checkable."
+  description="The Project BOSC story: told through the records, with every figure checkable."
 >
   <div class="walk-onramp">
     <div class="walk-kicker">The story · Project BOSC</div>
@@ -34,7 +34,7 @@ const firstChapter = walkHref(WALK_CHAPTERS[0].slug);
     <p class="walk-onramp-lead">
       A ~340-acre hardened data-center campus is being built in American Township,
       just outside Lima, Ohio — by a Delaware shell, <strong>“Bistrozzi LLC,”</strong>
-      for an end user the developers worked to keep quiet. This walk shows what the
+      for an end user the developers worked to keep quiet. This story shows what the
       public record reveals, and teaches you how to read it yourself.
     </p>
 
@@ -64,14 +64,14 @@ const firstChapter = walkHref(WALK_CHAPTERS[0].slug);
     </div>
 
     <p class="walk-corpus">
-      The walk draws on <a href={`${withSite("/site/")}#documents`}><strong>{num(nDocuments)}</strong> primary
+      The story draws on <a href={`${withSite("/site/")}#documents`}><strong>{num(nDocuments)}</strong> primary
       documents</a>, <strong>{num(count("records"))}</strong> structured records,
       <strong>{num(count("entities"))}</strong> resolved entities, and
       <strong>{num(count("timeline"))}</strong> dated events — the same feeds the
       reference library reads.
     </p>
 
-    <h2>The walk — six chapters</h2>
+    <h2>The story — six chapters</h2>
     <ol class="walk-chapters">
       {
         WALK_CHAPTERS.map((c) => (
@@ -92,7 +92,7 @@ const firstChapter = walkHref(WALK_CHAPTERS[0].slug);
     </ol>
 
     <div class="walk-cta">
-      <a class="btn" href={firstChapter}>Begin the walk →</a>
+      <a class="btn" href={firstChapter}>Begin the story →</a>
       <a class="walk-cta-secondary" href={WALK_INDEX_HREF}>or see the table of contents</a>
       <a class="walk-cta-secondary" href={withSite("/site/")}>or browse the archive</a>
     </div>
