@@ -453,3 +453,19 @@ via DesignSync (`finalize_plan` → `write_files` → verified `Timeline.d.ts` w
   record", "The evidence grammar") + the in-comp draft footer were removed (that content is an
   `/about` concern, and ties to the open #643 explainer gap — the user's call: trim to match
   what ships). "story" wording per #638.
+
+### Batch 7 — Directory tier · Hypotheses (#570, epic #564) ✅ pushed
+`ui_kits/directory/Hypotheses.jsx`, rebuilt from the single flat 5-col `useState` table up to the
+shipped `src/pages/research/hypotheses.astro` + `lib/directory.ts` model:
+- **no-JS lens switch → lens cards** — the inline tab strip is replaced by the three lens *cards*
+  (H-tag badge · status pill · name · claim · count line · active ✓), the shipped radio+`:checked`
+  switch (React state is canvas-only, noted in the header comment), plus the **"not mutually
+  exclusive · Lima worked example"** note;
+- **lens framing panel** — per-lens claim + blurb + (water-only) drainage-tree link on the left,
+  `axisTitle` + axis chip groups (divide-labeled for water) on the right;
+- **bundle-driven cross-site scorecard** — per-lens column spec + `fr` grid, **grouped** rows with
+  divide banners (water) / category group-heads, typed cells (site badge · text · right-aligned
+  numerics · `PHASE`/`SIGNAL`/`FAC` pills — the two-clock build-phase vs facility-status split),
+  the **"not yet assessed under this thesis" chip tail** (never a zero), and the discipline foot
+  note. Swatches mirror `PHASE_PILL`/`SIGNAL_META`/`FACILITY_STATUS_META`; data is a representative
+  snapshot (33 sites · 8 basins), not bundle-wired (it's a design canvas).
