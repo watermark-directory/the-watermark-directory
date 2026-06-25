@@ -4,11 +4,8 @@
 // event→delta mapping is a pure function (`mapAnthropicEvent`), unit-tested.
 // https://docs.anthropic.com/en/api/messages-streaming
 
-import { AnthropicError, type AnthropicUsage, type MessageRequest } from "./anthropic";
+import { AnthropicError, API_URL, API_VERSION, type AnthropicUsage, type MessageRequest } from "./anthropic";
 import { drainSse, type SseEvent } from "./sse";
-
-const API_URL = "https://api.anthropic.com/v1/messages";
-const API_VERSION = "2023-06-01";
 
 /** A normalized chunk from the Anthropic stream. */
 export interface StreamChunk {

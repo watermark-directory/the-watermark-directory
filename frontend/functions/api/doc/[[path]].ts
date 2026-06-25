@@ -6,6 +6,7 @@
 
 import { loadPublishedDocs } from "../_lib/docAllowlist";
 import { docContentType, enforcePublishGate, parseByteRange, resolveDocKey } from "../_lib/docServe";
+import { requireEnabled, text } from "../_lib/http";
 
 // Minimal R2 surface (avoids a dep on @cloudflare/workers-types).
 interface R2Object {
@@ -40,9 +41,6 @@ interface RequestContext {
   params: { path?: string | string[] };
 }
 
-const text = (status: number, body: string): Response =>
-  new Response(body, { status, headers: { "content-type": "text/plain; charset=utf-8" } });
-
 function baseHeaders(obj: R2Object): Headers {
   const h = new Headers();
   h.set("content-type", docContentType(obj.httpMetadata?.contentType, obj.customMetadata?.["media-type"]));
@@ -58,7 +56,8 @@ export const onRequest = async (ctx: RequestContext): Promise<Response> => {
   const { request, env, params } = ctx;
 
   if (request.method !== "GET" && request.method !== "HEAD") return text(405, "method not allowed");
-  if (env.DOCS_ENABLED !== "true") return text(503, "document serving is not enabled");
+  const disabled = requireEnabled(env.DOCS_ENABLED, () => text(503, "document serving is not enabled"));
+  if (disabled) return disabled;
   if (!env.DOCS) return text(500, "document store is not configured");
 
   const key = resolveDocKey(params.path);
