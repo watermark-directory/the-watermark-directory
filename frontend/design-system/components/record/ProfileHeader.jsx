@@ -8,8 +8,10 @@ const EV = {
 
 /**
  * ProfileHeader — the wiki identity card for an entity, person, or place. Forest
- * rail + name + variants, evidence standing, a stat strip, an attributes grid, and
- * a graph-neighborhood relationship row.
+ * rail + name + variants, evidence standing (with a real `graphHref`), an optional
+ * "seen in the story" backlink to the chapter that tore this entity down, a stat
+ * strip, an attributes grid, and a graph-neighborhood relationship row whose chips
+ * carry real `href`s — plus a `correctHref` suggest-a-correction affordance.
  */
 export function ProfileHeader({ profile = {}, style, ...rest }) {
   const p = profile;
@@ -34,9 +36,18 @@ export function ProfileHeader({ profile = {}, style, ...rest }) {
         </div>
         <div style={{ flex: "0 0 auto", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 9 }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 700, color: t.color, background: t.bg, padding: "3px 11px" }}><span style={{ width: 6, height: 6, background: t.color }} />[{t.text}]</span>
-          {p.graph ? <a href="#" style={{ fontSize: 13, color: "var(--forest)", textDecoration: "none", fontWeight: 600, whiteSpace: "nowrap" }}>◉ View in graph</a> : null}
+          {p.graphHref ? <a href={p.graphHref} style={{ fontSize: 13, color: "var(--forest)", textDecoration: "none", fontWeight: 600, whiteSpace: "nowrap" }}>◉ View in graph</a> : null}
         </div>
       </div>
+
+      {/* seen-in-the-story backlink — present when a story chapter tears this entity down */}
+      {p.seenIn ? (
+        <a href={p.seenIn.href} style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", textDecoration: "none", padding: "9px 22px", background: "var(--forest-tint)", borderTop: "1px solid var(--line-faint)" }}>
+          <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.8px", textTransform: "uppercase", color: "var(--bone-surface)", background: "var(--forest)", padding: "2px 7px" }}>↩ seen in the story</span>
+          <span style={{ fontSize: 12, color: "var(--ink-prose)" }}>Chapter {p.seenIn.ch} · <b style={{ color: "var(--forest)" }}>{p.seenIn.label}</b></span>
+          <span style={{ marginLeft: "auto", fontSize: 12, color: "var(--forest)" }}>resume the story ›</span>
+        </a>
+      ) : null}
 
       {/* stat strip */}
       {stats.length ? (
@@ -75,18 +86,20 @@ export function ProfileHeader({ profile = {}, style, ...rest }) {
         </div>
       ) : null}
 
-      {/* relationships */}
-      {rels.length ? (
+      {/* relationships + suggest-correction foot — shown when either is present */}
+      {(rels.length || p.correctHref) ? (
         <div style={{ padding: "13px 22px", background: "var(--surface-card)", borderTop: "1px solid var(--line-faint)", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", minWidth: 0 }}>
-            <span style={{ fontSize: 11, letterSpacing: "0.8px", textTransform: "uppercase", color: "var(--ink-faint)", fontWeight: 700 }}>{p.relLabel || "Related"}</span>
-            {rels.map((r, i) => (
-              <a key={i} href="#" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--ink)", textDecoration: "none", border: "1px solid var(--line-2)", background: "#fff", padding: "4px 11px" }}>
-                <span style={{ fontSize: 10, letterSpacing: "0.5px", textTransform: "uppercase", color: "var(--forest)", fontWeight: 700 }}>{r.kind}</span>{r.label}
-              </a>
-            ))}
-          </div>
-          <a href="#" style={{ marginLeft: "auto", fontSize: 12.5, color: "var(--ink-muted)", textDecoration: "none", whiteSpace: "nowrap" }}>✎ Suggest a correction</a>
+          {rels.length ? (
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", minWidth: 0 }}>
+              <span style={{ fontSize: 11, letterSpacing: "0.8px", textTransform: "uppercase", color: "var(--ink-faint)", fontWeight: 700 }}>{p.relLabel || "Related"}</span>
+              {rels.map((r, i) => (
+                <a key={i} href={r.href || "#"} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--ink)", textDecoration: "none", border: "1px solid var(--line-2)", background: "#fff", padding: "4px 11px" }}>
+                  <span style={{ fontSize: 10, letterSpacing: "0.5px", textTransform: "uppercase", color: "var(--forest)", fontWeight: 700 }}>{r.kind}</span>{r.label}
+                </a>
+              ))}
+            </div>
+          ) : null}
+          {p.correctHref ? <a href={p.correctHref} style={{ marginLeft: "auto", fontSize: 12.5, color: "var(--ink-muted)", textDecoration: "none", whiteSpace: "nowrap" }}>✎ Suggest a correction</a> : null}
         </div>
       ) : null}
     </div>

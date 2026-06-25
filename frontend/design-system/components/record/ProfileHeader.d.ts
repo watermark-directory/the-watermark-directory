@@ -12,17 +12,24 @@ export interface ProfileAttr {
   value: React.ReactNode;
   tag?: "verified" | "inference" | "open";
 }
+export interface ProfileSeenIn {
+  href: string;                // link into the story chapter
+  ch: number | string;         // chapter number / label
+  label: string;               // the chapter title
+}
 export interface Profile {
   kindLabel?: string;          // "Entity · shell company"
   name?: string;
   variants?: string[];         // aliases / registration codes
   descriptor?: string;
   evidence?: "verified" | "inference" | "open";
-  graph?: boolean;             // show "View in graph"
+  graphHref?: string;          // when set, renders "◉ View in graph" → the entity graph
+  seenIn?: ProfileSeenIn;      // "↩ seen in the story" backlink to the teardown chapter
   stats?: ProfileStat[];
   attrs?: ProfileAttr[];
   relLabel?: string;
-  relationships?: { kind: string; label: string }[];
+  relationships?: { kind: string; label: string; href?: string }[];
+  correctHref?: string;        // when set, renders "✎ Suggest a correction"
 }
 
 export interface ProfileHeaderProps {

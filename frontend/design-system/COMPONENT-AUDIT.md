@@ -413,3 +413,14 @@ The Two Miamis / Southeastern / Northeast), and a per-row **facility lifecycle c
 clock from the build phase) + **tracking issue `#NNN`**, with the **lock** affordance in the foot
 legend. **The push stops here** — batches 1–3 closed the concrete + clearly-stale tier; the richer
 page-comp pushes are documented above but intentionally not made.
+
+### Batch 4 — Record tier · ProfileHeader (#565, epic #564) ✅ pushed
+**Epic #564 resumes the deferred `push impl→spec` page-comp parity** (opt-in, one comp/tier per PR).
+`components/record/ProfileHeader.{jsx,d.ts,prompt.md}` + the `timeline-profile.card.html` demo,
+brought up to the shipped `src/components/ProfileHeader.astro`:
+- a **`seenIn`** model rendering the **"↩ seen in the story"** backlink to the teardown chapter
+  (the impl's `.rb-seen` strip; "story" per the #638 walk→story rename);
+- **`graphHref`** (a real entity-graph link) replacing the `graph` boolean + `#` placeholder;
+- real **`href`s** on the typed relationship chips; and
+- a **`correctHref`**-gated "✎ Suggest a correction" (the foot now renders when relationships *or*
+  `correctHref` are present, matching the impl).
