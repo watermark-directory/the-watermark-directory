@@ -338,7 +338,7 @@ export const AIR_TEARDOWN: TeardownRecord = {
     {
       n: 2,
       label: "Three matched groups → three data halls",
-      value: "115 gensets · 36 towers",
+      value: "114 gensets · 36 towers",
       x: "162px",
       y: "150px",
     },
@@ -354,8 +354,8 @@ export const AIR_TEARDOWN: TeardownRecord = {
   redactionLabel: "REDACTED · CBI",
   reveal: {
     lead: "The permit fixes the plant's shape exactly — three matched groups of generators and cooling towers, ",
-    key: "115 emergency generators",
-    tail: " in all — yet locks the one number that sets its true scale, per-engine power, as a trade secret. The ~313 MW everyone cites is the draft public-notice figure; the issued permit will not confirm it.",
+    key: "114 data-hall gensets",
+    tail: " — yet locks the one number that sets its true scale, per-engine power, as a trade secret. The ~313 MW everyone cites is the draft public-notice figure; the issued permit will not confirm it.",
   },
   check: {
     tag: "open",
@@ -384,7 +384,7 @@ export const AIR_TEARDOWN: TeardownRecord = {
     summary: "Why won't the permit say how big it is?",
     lock: "Engine make / model / size — and so the per-engine ekW that sets the plant's true electrical scale — is claimed as a trade secret and withheld from the issued permit.",
     cite: "Air PTI eDoc 4132514 · Response to Comments 16 & 19 · trade-secret / CBI under ORC 3704.08 (rule OAC 3745-49)",
-    read: "The permit fixes the plant's shape exactly — 115 emergency generators and 36 cooling towers in three matched groups — yet locks the one number that would let you compute its real backup capacity. The ~313 MW everyone cites is the draft public-notice figure; the issued permit will not confirm it. The scale is set; the proof is withheld.",
+    read: "The permit fixes the plant's shape exactly — 114 data-hall gensets and 36 cooling towers in three matched groups — yet locks the one number that would let you compute its real backup capacity. The ~313 MW everyone cites is the draft public-notice figure; the issued permit will not confirm it. The scale is set; the proof is withheld.",
   },
   recordRel: "permits/4132514.epa.yaml",
 };
