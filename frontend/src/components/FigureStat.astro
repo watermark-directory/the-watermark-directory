@@ -6,6 +6,7 @@
  * grounded → [verified], modeled → [inference], withheld → [open].
  */
 import type { FigureStatData } from "../lib/viz";
+import EvidenceTag from "./EvidenceTag.astro";
 
 interface Props {
   stat: FigureStatData;
@@ -27,9 +28,7 @@ const { stat: s, size = "lg" } = Astro.props;
       </div>
       {s.sub && <div class="fs-sub">{s.sub}</div>}
       <div class="fs-foot">
-        <span class:list={["td-tag", `td-tag--${s.evidence}`]}>
-          <span class="td-tag-dot" aria-hidden="true" />[{s.evidence}]
-        </span>
+        <EvidenceTag kind={s.evidence} />
         {s.source && <span class="fs-source">{s.source}</span>}
       </div>
     </div>

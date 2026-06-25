@@ -29,7 +29,7 @@ export type DnEmphasis = "campus" | "jsmc" | "gap";
 /** The register of a map annotation — the visual encoding matching the engine grammar
  *  (#272). `verified` = a labeled fact on the ground; `inference` = a capability whose
  *  bearing on Lima is inferred; `open` = an absence (the "no records" marker). */
-export type DnRegister = "verified" | "inference" | "open";
+export type DnRegister = import("./evidence").TagKind; // the canonical TagKind (#579)
 
 /** A labeled annotation pinned to real geometry — never a connecting line. The capability
  *  pin carries its caveat inline; the silence marker sits exactly where an inferred line

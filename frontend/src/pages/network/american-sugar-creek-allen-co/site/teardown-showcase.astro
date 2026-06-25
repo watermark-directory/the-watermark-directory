@@ -7,6 +7,7 @@
  * pages (Epic: guided walk) will embed `<RecordTeardown>` the same way.
  */
 import Base from "../../../../layouts/Base.astro";
+import EvidenceTag from "../../../../components/EvidenceTag.astro";
 import RecordTeardown from "../../../../components/RecordTeardown.astro";
 import { OPC_TEARDOWN, RDA_TEARDOWN } from "../../../../lib/teardowns";
 import { withSite } from "../../../../lib/site";
@@ -54,9 +55,9 @@ const contractSnippet = `<RecordTeardown
       <div class="td-contract-col">
         <h2>Evidence tags</h2>
         <div class="td-chips" style="flex-direction:column;align-items:flex-start;gap:7px;">
-          <span class="td-tag td-tag--verified"><span class="td-tag-dot" aria-hidden="true"></span>[verified]</span>
-          <span class="td-tag td-tag--inference"><span class="td-tag-dot" aria-hidden="true"></span>[inference]</span>
-          <span class="td-tag td-tag--open"><span class="td-tag-dot" aria-hidden="true"></span>[open]</span>
+          <EvidenceTag kind="verified" />
+          <EvidenceTag kind="inference" />
+          <EvidenceTag kind="open" />
         </div>
         <p class="td-note">[derived] → inference · [live] → verified (mapped, minimal)</p>
       </div>

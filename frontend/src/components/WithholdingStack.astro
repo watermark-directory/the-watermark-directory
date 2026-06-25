@@ -8,6 +8,7 @@
  * the thesis + the mandamus / Select-Committee close. SSR-only, no-JS readable.
  */
 import { STACK_CLOSE, STACK_THESIS, WITHHOLDING_STACK } from "../lib/withholdingStack";
+import EvidenceTag from "./EvidenceTag.astro";
 ---
 
 <section class="wstack" aria-label="The records-withholding stack — seven layers">
@@ -27,7 +28,7 @@ import { STACK_CLOSE, STACK_THESIS, WITHHOLDING_STACK } from "../lib/withholding
                 <span class="wstack-statute">{l.statute}</span>
                 <span class="wstack-title">{l.title}</span>
               </span>
-              <span class="wstack-tag">[verified]</span>
+              <span class="wstack-tag"><EvidenceTag kind="verified" /></span>
               <span class="wstack-cue" aria-hidden="true" />
             </summary>
             <div class="wstack-body">

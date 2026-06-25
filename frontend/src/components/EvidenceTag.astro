@@ -6,10 +6,13 @@
 // evidence taxonomy (DesignSync). NB vs the spec: the [bracket] notation is the
 // repo's load-bearing convention (kept, not the spec's bracket-less default), and
 // the tag sizes with its context via `em` rather than the spec's fixed sm/md px.
-export type EvidenceKind = "verified" | "inference" | "open" | "filename" | "gap" | "key";
+//
+// The single evidence-pill renderer (#579): figure stats, the timeline, record
+// teardowns, profile attributes, and the withholding stack all route through here.
+// A trailing `<slot />` carries any in-pill detail (a teardown's sub, a legend gloss).
+import { type EvidenceKind, EVIDENCE_LABELS } from "../lib/evidence";
 
-/** Kinds whose printed label differs from the kind name (design-system labels). */
-const LABELS: Partial<Record<EvidenceKind, string>> = { gap: "scope gap", key: "key figure" };
+export type { EvidenceKind };
 
 interface Props {
   kind: EvidenceKind;
@@ -22,5 +25,5 @@ const { kind, label, title } = Astro.props;
 ---
 
 <span class:list={["evidence", `evidence-${kind}`]} title={title} data-kind={kind}>
-  <span class="evidence-dot" aria-hidden="true"></span>[{label ?? LABELS[kind] ?? kind}]
+  <span class="evidence-dot" aria-hidden="true"></span>[{label ?? EVIDENCE_LABELS[kind] ?? kind}]<slot />
 </span>

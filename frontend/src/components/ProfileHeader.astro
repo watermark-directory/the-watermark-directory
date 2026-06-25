@@ -57,7 +57,7 @@ const { profile: p } = Astro.props;
         <div class="ph-attr">
           <div class="ph-attr-label">{a.label}</div>
           <div class="ph-attr-value-wrap">
-            {a.tag && <span class:list={["ph-attr-tag", `ph-tag--${a.tag}`]}>[{a.tag}]</span>}
+            {a.tag && <EvidenceTag kind={a.tag} />}
             <div class="ph-attr-value">{a.value}</div>
           </div>
         </div>

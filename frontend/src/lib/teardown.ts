@@ -7,9 +7,11 @@
  * renders; it mirrors the design's `RecordRow`.
  */
 
-/** Maps onto the existing three evidence kinds (EvidenceTag). The design's
- *  `derived → inference` and `live → verified` collapse into these. */
-export type TagKind = "verified" | "inference" | "open";
+/** The canonical evidence-tag data vocabulary lives in `./evidence` (#579). Imported + re-exported
+ *  here for the teardown/viz/profile consumers that already pull `TagKind` from this module. */
+import type { TagKind } from "./evidence";
+
+export type { TagKind };
 
 export type TeardownLayout = "split" | "scroll" | "annotated";
 
