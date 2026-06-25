@@ -424,3 +424,20 @@ brought up to the shipped `src/components/ProfileHeader.astro`:
 - real **`href`s** on the typed relationship chips; and
 - a **`correctHref`**-gated "✎ Suggest a correction" (the foot now renders when relationships *or*
   `correctHref` are present, matching the impl).
+
+### Batch 5 — Record tier · RecordBlock · SourceCard · Timeline (#566–#568, epic #564) ✅ pushed
+The rest of the Record tier, each brought up to its shipped Astro impl:
+- **RecordBlock** (`src/components/RecordBlock.astro`) — added the **`seenIn`** backlink (full + the
+  compact "↩ story Ch.N" badge), a **`nested`** structured-field model rendered as a recursive
+  key/value tree (`~` approximate leaves render oxblood, via an inline `FieldValue` helper),
+  a structured **`verify {href,label}`** (was a bare string), a **`correctHref`**-gated correction,
+  and real **`href`s** on the connect chips.
+- **SourceCard** (`src/components/TeardownSourceCard.astro`) — reframed from the single fallback card
+  to the impl's **four-tier preview** (auto-priority: committed scan **`crop`** + redaction overlay →
+  published **`embed`** → extraction **`fields`** facsimile → on-request fallback), plus a `docHref`
+  "View the source document →" and the render-class `badge`.
+- **Timeline** (`src/components/Timeline.astro`) — added the per-event **"↩ story Ch.N" badge**
+  (`seenInCh` + `seenInHref`) and real **`href`s** on the connect chips.
+
+Pushed the 9 spec files + both preview cards (`record.card.html`, `timeline-profile.card.html`)
+via DesignSync (`finalize_plan` → `write_files` → verified `Timeline.d.ts` with `get_file`).
