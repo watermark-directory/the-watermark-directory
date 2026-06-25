@@ -10,7 +10,10 @@ export interface TimelineEvent {
   title: string;
   summary?: string;
   evidence?: "verified" | "inference" | "open";
-  connect?: { kind: string; label: string }[];
+  connect?: { kind: string; label: string; href?: string }[];
+  /** Story chapter that tears this event down — renders an "↩ story Ch.N" badge. */
+  seenInCh?: number | string;
+  seenInHref?: string;
 }
 
 export interface TimelineProps {

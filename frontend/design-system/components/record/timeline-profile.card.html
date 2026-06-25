@@ -19,9 +19,9 @@
 <script type="text/babel">
 const { Timeline, ProfileHeader } = window.WatermarkDesignSystem_dbe30a;
 const EVENTS = [
-  { year:"2025", date:"2025-07-11", kind:"cost estimate", title:"Tetra Tech Opinion of Probable Cost filed", summary:"A $14,223,081 roadwork program, priced to the dollar — but drainage is 7.5% of it, the only line itemized.", evidence:"verified", connect:[{kind:"entity",label:"Tetra Tech"}] },
-  { year:"2025", date:"2025-08-13", kind:"deed", title:"Seven-parcel deed recorded", summary:"Brenneman Trusts → Bistrozzi LLC, 340.2 ac. Six DTE-100 prices are blank.", evidence:"verified", connect:[{kind:"entity",label:"Bistrozzi LLC"}] },
-  { year:"2026", date:"2026-05-28", kind:"air permit", title:"Air Permit-to-Install P0138965 finalized", summary:"115 emissions units; per-engine power is CBI-locked, so ~313 MW survives only in the draft.", evidence:"verified" },
+  { year:"2025", date:"2025-07-11", kind:"cost estimate", title:"Tetra Tech Opinion of Probable Cost filed", summary:"A $14,223,081 roadwork program, priced to the dollar — but drainage is 7.5% of it, the only line itemized.", evidence:"verified", connect:[{kind:"entity",label:"Tetra Tech",href:"#tetra-tech"}], seenInCh:5, seenInHref:"#cost" },
+  { year:"2025", date:"2025-08-13", kind:"deed", title:"Seven-parcel deed recorded", summary:"Brenneman Trusts → Bistrozzi LLC, 340.2 ac. Six DTE-100 prices are blank.", evidence:"verified", connect:[{kind:"entity",label:"Bistrozzi LLC",href:"#bistrozzi"}], seenInCh:1, seenInHref:"#who" },
+  { year:"2026", date:"2026-05-28", kind:"air permit", title:"Air Permit-to-Install P0138965 finalized", summary:"115 emissions units; per-engine power is CBI-locked, so ~313 MW survives only in the draft.", evidence:"verified", seenInCh:3, seenInHref:"#scale" },
   { year:"2026", date:"2026 · pending", kind:"records request", title:"Cost-benefit analysis withheld — mandamus open", summary:"PRR item 4 is refused; the public cost-vs-benefit basis remains out of the record.", evidence:"open" },
 ];
 const PROFILE = {

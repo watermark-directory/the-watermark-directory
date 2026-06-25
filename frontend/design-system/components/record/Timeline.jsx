@@ -9,7 +9,8 @@ const EV = {
 /**
  * Timeline — the record's chronology. A single ink spine with square evidence-colored
  * nodes; year markers are forest diamonds. Each event is a card with its standing,
- * kind, summary, and optional connect chips. Inserts year dividers automatically.
+ * kind, summary, optional connect chips, and an optional "↩ story Ch.N" badge linking
+ * to the story chapter that tears the event down. Inserts year dividers automatically.
  */
 export function Timeline({ events = [], style, ...rest }) {
   const items = [];
@@ -48,13 +49,14 @@ export function Timeline({ events = [], style, ...rest }) {
                   <span style={{ fontSize: 12, fontWeight: 700, fontFamily: "var(--font-mono)", color: "var(--ink-muted)" }}>{it.date}</span>
                   {it.kind ? <span style={{ fontSize: 10, letterSpacing: "0.7px", textTransform: "uppercase", color: "#3a4a3e", fontWeight: 700 }}>{it.kind}</span> : null}
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 11, fontWeight: 700, color: t.color, background: t.bg, padding: "2px 9px" }}><span style={{ width: 5, height: 5, background: t.color }} />[{t.text}]</span>
+                  {it.seenInCh ? <a href={it.seenInHref || "#"} style={{ marginLeft: "auto", fontSize: 11, fontWeight: 700, color: "var(--forest)", background: "var(--forest-tint)", border: "1px solid var(--forest-line)", padding: "1px 7px", textDecoration: "none", whiteSpace: "nowrap" }}>↩ story Ch.{it.seenInCh}</a> : null}
                 </div>
                 <div style={{ fontSize: 15.5, fontWeight: 700, letterSpacing: "-0.1px" }}>{it.title}</div>
                 {it.summary ? <div style={{ fontSize: 13.5, color: "var(--ink-muted)", lineHeight: 1.5, marginTop: 3 }}>{it.summary}</div> : null}
                 {it.connect && it.connect.length ? (
                   <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginTop: 10 }}>
                     {it.connect.map((c, j) => (
-                      <a key={j} href="#" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, color: "var(--forest)", textDecoration: "none", border: "1px solid var(--forest-line)", background: "var(--forest-tint)", padding: "3px 10px" }}>
+                      <a key={j} href={c.href || "#"} style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, color: "var(--forest)", textDecoration: "none", border: "1px solid var(--forest-line)", background: "var(--forest-tint)", padding: "3px 10px" }}>
                         <span style={{ fontSize: 9, letterSpacing: "0.5px", textTransform: "uppercase", color: "#3a4a3e", fontWeight: 700 }}>{c.kind}</span>{c.label}
                       </a>
                     ))}

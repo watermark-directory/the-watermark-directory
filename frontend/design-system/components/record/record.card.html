@@ -21,6 +21,7 @@
 const { RecordBlock, FigureStat, SourceCard, LeadCard, SectionCard } = window.WatermarkDesignSystem_dbe30a;
 const DEED = {
   kind: "Record · deed", title: "Limited Warranty Deed", recordId: "instr. 202508130008300", evidence: "verified",
+  seenIn: { href:"#who", ch:1, label:"Who is actually building this?" },
   fields: [
     { label: "Grantor", value: "Brenneman Family Trusts" },
     { label: "Grantee", value: "Bistrozzi LLC" },
@@ -29,10 +30,18 @@ const DEED = {
     { label: "Other DTE-100 prices", value: "~ blank", warn: true, tag: "open" },
     { label: "Recorded", value: "2025-08-13" },
   ],
+  nested: [
+    { label: "dte100_prices", value: [
+      { parcel: "0100-03-002.000", acres: 5.0, price: "$600,000" },
+      { parcel: "0100-03-003.000", acres: "~120.4", price: "~ blank" },
+      { parcel: "0100-03-004.000", acres: "~88.1", price: "~ blank" },
+    ] },
+  ],
   warnings: ["6 of 7 conveyance prices left blank on the DTE-100 — only the 5-acre parcel carries a public figure."],
   source: { file: "AUD_DTE100_…08300.pdf", pages: "instrument …08300", collection: "Allen County Recorder" },
-  verify: "Open instrument · Recorder",
-  connect: [{ kind:"entity", label:"Bistrozzi LLC" }, { kind:"entity", label:"Brenneman Trusts" }, { kind:"concept", label:"[[common-control]]" }],
+  verify: { href:"#recorder", label:"Open instrument · Recorder" },
+  correctHref: "#correct",
+  connect: [{ kind:"entity", label:"Bistrozzi LLC", href:"#bistrozzi" }, { kind:"entity", label:"Brenneman Trusts", href:"#brenneman" }, { kind:"concept", label:"[[common-control]]", href:"#common-control" }],
 };
 function Demo() {
   return (
@@ -44,7 +53,7 @@ function Demo() {
       <div>
         <div className="lbl">Record block · compact (list row)</div>
         <div style={{display:'flex', flexDirection:'column', gap:8}}>
-          <RecordBlock density="compact" record={{ title:"Rezoning application", recordId:"PZ-2024-118", source:{collection:"City planning"}, evidence:"verified", headlineValue:"$600,000" }} />
+          <RecordBlock density="compact" record={{ title:"Rezoning application", recordId:"PZ-2024-118", source:{collection:"City planning"}, evidence:"verified", headlineValue:"$600,000", seenIn:{href:"#assembly", ch:2, label:"How it was assembled"} }} />
           <RecordBlock density="compact" record={{ title:"Annexation notice", recordId:"REC-2024-0091", source:{collection:"County recorder"}, evidence:"inference", headlineValue:"~ pending", headlineWarn:true }} />
         </div>
       </div>
@@ -64,7 +73,7 @@ function Demo() {
       <div className="cols">
         <div>
           <div className="lbl">Source fallback</div>
-          <SourceCard file="PRR-01-bundle.pdf" badge="SCAN" pages="pp. 317–328" collection="Public Records Request 01" />
+          <SourceCard file="AUD_DTE100_…08300.pdf" badge="PDF" pages="instrument …08300" collection="Allen County Recorder" fields={[{label:"Grantee", value:"Bistrozzi LLC"}, {label:"Parcel 1 price", value:"$600,000"}, {label:"Parcel 7 price", value:"~ blank", warn:true}]} docHref="#recorder" />
         </div>
         <div>
           <div className="lbl">Section doors</div>
