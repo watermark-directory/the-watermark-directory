@@ -484,3 +484,19 @@ shipped `src/components/SubmitForm.astro`:
 
 Left as-is (spec-ahead — a separate `reconcile impl←spec` if pursued, not this PR): the right rail
 (pipeline + "this site right now" stat card), the 4 lead types, attach-a-file, the credit checkbox.
+
+### Batch 9 — Site tier · SiteHome (#572, epic #564) ✅ pushed
+`ui_kits/site/SiteHome.jsx`, brought up to the shipped route-root home
+(`network/american-sugar-creek-allen-co/index.astro`):
+- **Live-only model** — the dual-state `phase` (Investigation ↔ Live) is a deliberate cut; the
+  Investigation composition (open-leads grid, the dual-state banner, the "Record assembled" fill
+  card) is removed — the other phases need per-site leads / contributor feeds Lima doesn't have,
+  and building them would mean fabricating. Single-column hero replaces the two-column hero;
+- **facility chip + open-leads pill** — the hero meta now carries the real facility-clock chip
+  ("Facility · Under construction", separate from the site-build clock) and a "12 open leads · help
+  close them" pointer;
+- **the ask door** — the `.home-ask` "Or just ask the record a question" third way in (cited,
+  corpus-only) added below the corpus strip;
+- impl wording — "Read the story" / "▶ Start the story →" (per #638), the story-head "Table of
+  contents →" link, the **114** backup-gen figure (#633) + cooling-loss phrasing, and the
+  "Pre-launch." provenance footer.
