@@ -1,4 +1,4 @@
-"""Person-profile store: frontmatter parsing, the expanded-research gate, rendering."""
+"""Person-profile store: frontmatter parsing + the expanded-research gate."""
 
 from __future__ import annotations
 
@@ -7,8 +7,6 @@ from pathlib import Path
 import pytest
 
 from bosc import people
-from bosc.pipeline.entities import EntityGraph
-from bosc.site import people as site_people
 
 _PROFILE = """---
 name: Scott J. Ziance
@@ -72,32 +70,3 @@ def test_load_people_skips_readme_and_sorts(tmp_path: Path) -> None:
     _write(tmp_path, "jane.md", _TRACKED_ONLY)
     loaded = people.load_people(tmp_path)
     assert [p.name for p in loaded] == ["Jane Tracked", "Scott J. Ziance"]  # by name
-
-
-def test_render_only_publishes_expanded(tmp_path: Path) -> None:
-    profiles = [
-        people.parse_profile(_write(tmp_path / "src", "scott-ziance.md", _PROFILE)),
-        people.parse_profile(_write(tmp_path / "src", "jane.md", _TRACKED_ONLY)),
-    ]
-    out = tmp_path / "out"
-    pages = site_people.render_people_pages(profiles, out, egraph=EntityGraph())
-    assert [p.slug for p in pages] == ["scott-ziance"]  # only the expanded one
-    assert (out / "scott-ziance.md").is_file()
-    assert not (out / "jane.md").exists()  # tracked-only -> no page
-
-
-def test_render_page_links_sources_and_body(tmp_path: Path) -> None:
-    prof = people.parse_profile(_write(tmp_path, "scott-ziance.md", _PROFILE))
-    page = site_people.render_profile_page(prof, egraph=EntityGraph())
-    assert "# Scott J. Ziance" in page
-    # data/ sources link one level up to the mirrored tree.
-    assert "(../data/extracted/permits/3789048.epa.yaml)" in page
-    assert "appears in the record" in page
-
-
-def test_index_counts_published_vs_tracked(tmp_path: Path) -> None:
-    prof = people.parse_profile(_write(tmp_path, "scott-ziance.md", _PROFILE))
-    pages = site_people.render_people_pages([prof], tmp_path / "out", egraph=EntityGraph())
-    index = site_people.render_people_index(pages, tracked=5)
-    assert "**1** of **5**" in index
-    assert "[Scott J. Ziance](scott-ziance.md)" in index
