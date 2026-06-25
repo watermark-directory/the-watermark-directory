@@ -433,8 +433,14 @@ def _read_doc(
     image_pages: int,
     dpi: int,
     pdf: PdfDocument | None,
-) -> tuple[str, list[bytes], list[int]]:
-    """Read the first pages of a document: ``(text, page_images, pages_touched)``."""
+) -> tuple[str, list[bytes], list[int], list[int]]:
+    """Read the first pages of a document.
+
+    Returns ``(text, page_images, pages_consulted, image_pages)``: ``pages_consulted``
+    is the text-and-image page union; ``image_pages`` is the honest subset actually
+    rendered and sent to the vision model — recorded separately so a text-primary read
+    (e.g. 6 text pages, 1 image) doesn't over-report the pages the model *saw* (#613).
+    """
     owns_pdf = pdf is None
     pdf = pdf or PdfDocument(doc.path, dpi=dpi)
     try:
@@ -442,7 +448,7 @@ def _read_doc(
         n_img = min(image_pages, pdf.page_count)
         text = "\n\n".join(pdf.page_text(i) for i in range(n_text))
         images = [pdf.render_page_png(i, dpi=dpi) for i in range(n_img)]
-        return text, images, list(range(max(n_text, n_img)))
+        return text, images, list(range(max(n_text, n_img))), list(range(n_img))
     finally:
         if owns_pdf:
             pdf.close()
@@ -462,7 +468,7 @@ def extract_deed(
 
     settings = settings or get_settings()
     extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages = _read_doc(
+    text, images, pages, image_pages = _read_doc(
         doc, text_pages=max_pages, image_pages=max_pages, dpi=dpi, pdf=pdf
     )
 
@@ -473,6 +479,7 @@ def extract_deed(
         source_path=str(doc.path),
         kind="deed",
         pages_read=pages,
+        image_pages_read=image_pages,
         dpi=dpi,
         deed=deed,
         source_text_excerpt=text[:600],
@@ -503,7 +510,7 @@ def extract_npdes(
 
     settings = settings or get_settings()
     extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages = _read_doc(doc, text_pages=text_pages, image_pages=1, dpi=dpi, pdf=pdf)
+    text, images, pages, image_pages = _read_doc(doc, text_pages=text_pages, image_pages=1, dpi=dpi, pdf=pdf)
 
     log.info("extract.doc.start", doc_id=doc.doc_id, kind="npdes", pages=len(pages), dpi=dpi)
     permit = extractor.extract(
@@ -514,6 +521,7 @@ def extract_npdes(
         source_path=str(doc.path),
         kind="npdes",
         pages_read=pages,
+        image_pages_read=image_pages,
         dpi=dpi,
         permit=permit,
         source_text_excerpt=text[:600],
@@ -544,7 +552,7 @@ def extract_sos(
 
     settings = settings or get_settings()
     extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages = _read_doc(
+    text, images, pages, image_pages = _read_doc(
         doc, text_pages=max_pages, image_pages=max_pages, dpi=dpi, pdf=pdf
     )
 
@@ -557,6 +565,7 @@ def extract_sos(
         source_path=str(doc.path),
         kind="sos",
         pages_read=pages,
+        image_pages_read=image_pages,
         dpi=dpi,
         filing=filing,
         source_text_excerpt=text[:600],
@@ -653,7 +662,7 @@ def extract_epa(
 
     settings = settings or get_settings()
     extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages = _read_doc(doc, text_pages=text_pages, image_pages=1, dpi=dpi, pdf=pdf)
+    text, images, pages, image_pages = _read_doc(doc, text_pages=text_pages, image_pages=1, dpi=dpi, pdf=pdf)
 
     log.info("extract.doc.start", doc_id=doc.doc_id, kind="epa", pages=len(pages), dpi=dpi)
     action = extractor.extract(
@@ -664,6 +673,7 @@ def extract_epa(
         source_path=str(doc.path),
         kind="epa",
         pages_read=pages,
+        image_pages_read=image_pages,
         dpi=dpi,
         action=action,
         source_text_excerpt=text[:600],
@@ -695,7 +705,7 @@ def extract_wetland(
 
     settings = settings or get_settings()
     extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages = _read_doc(doc, text_pages=text_pages, image_pages=2, dpi=dpi, pdf=pdf)
+    text, images, pages, image_pages = _read_doc(doc, text_pages=text_pages, image_pages=2, dpi=dpi, pdf=pdf)
 
     log.info("extract.doc.start", doc_id=doc.doc_id, kind="wetland", pages=len(pages), dpi=dpi)
     determination = extractor.extract(
@@ -706,6 +716,7 @@ def extract_wetland(
         source_path=str(doc.path),
         kind="wetland",
         pages_read=pages,
+        image_pages_read=image_pages,
         dpi=dpi,
         determination=determination,
         source_text_excerpt=text[:600],
@@ -786,7 +797,7 @@ def extract_engineering(
 
     settings = settings or get_settings()
     extractor = extractor or StructuredExtractor(settings=settings, max_tokens=_DETAIL_MAX_TOKENS)
-    text, images, pages = _read_doc(
+    text, images, pages, image_pages = _read_doc(
         doc, text_pages=max_pages, image_pages=max_pages, dpi=dpi, pdf=pdf
     )
 
@@ -799,6 +810,7 @@ def extract_engineering(
         source_path=str(doc.path),
         kind=kind,
         pages_read=pages,
+        image_pages_read=image_pages,
         dpi=dpi,
         record=record,
         source_text_excerpt=text[:600],

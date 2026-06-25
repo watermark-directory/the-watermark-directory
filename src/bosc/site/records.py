@@ -47,7 +47,9 @@ _BLOCK_TO_GROUP: dict[str, str] = {
 # OPC estimates are whole-document (summary/detail/page) — no single block key.
 _OPC_KEYS = frozenset({"estimate", "sub_estimates", "estimate_template"})
 # Envelope keys that are provenance, not subject fields — rendered separately.
-_ENVELOPE = frozenset({"doc_id", "source_path", "kind", "pages_read", "dpi", "source_text_excerpt"})
+_ENVELOPE = frozenset(
+    {"doc_id", "source_path", "kind", "pages_read", "image_pages_read", "dpi", "source_text_excerpt"}
+)
 
 
 @dataclass

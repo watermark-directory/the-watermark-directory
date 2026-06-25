@@ -65,7 +65,15 @@ class PdfDocument:
 
     def render_page_png(self, index: int, *, dpi: int | None = None) -> bytes:
         """Render a page to PNG bytes at ``dpi`` (default :data:`DEFAULT_DPI`)."""
-        self._check_index(index)
+        # Bound-check against the render backend actually indexed below, not just
+        # pypdf's page_count: a malformed PDF the two backends count differently
+        # would otherwise pass _check_index and index pdfium out of range (#613).
+        n_render = len(self._render)
+        if not 0 <= index < n_render:
+            raise IndexError(
+                f"page index {index} out of range for the render backend "
+                f"(0..{n_render - 1}); pypdf/pdfium disagree on page count for {self.path.name}"
+            )
         scale = (dpi or self.dpi) / _PDF_NATIVE_DPI
         bitmap = self._render[index].render(scale=scale)
         image = bitmap.to_pil()

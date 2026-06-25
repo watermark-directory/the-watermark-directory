@@ -9,7 +9,7 @@ from typing import Any
 import pytest
 import yaml
 
-from bosc.agent.extractor import StructuredExtractor
+from bosc.agent.extractor import ExtractionError, StructuredExtractor
 from bosc.config import Settings
 from bosc.models import (
     BusinessFiling,
@@ -131,6 +131,20 @@ def test_extractor_sends_multiple_images() -> None:
     assert content[-1]["type"] == "text" and "read" in content[-1]["text"]
 
 
+def test_extractor_flags_max_tokens_truncation() -> None:
+    # A max_tokens stop with no tool call raises a distinct, actionable error rather
+    # than the opaque "did not call tool" (#613).
+    from bosc.agent.extractor import _first_tool_input
+
+    msg = SimpleNamespace(content=[_Block("text")], stop_reason="max_tokens")
+    with pytest.raises(ExtractionError, match="max_tokens"):
+        _first_tool_input(msg, "record_extraction")
+    # A non-truncation non-call still raises, now naming the stop_reason.
+    msg2 = SimpleNamespace(content=[_Block("text")], stop_reason="end_turn")
+    with pytest.raises(ExtractionError, match="end_turn"):
+        _first_tool_input(msg2, "record_extraction")
+
+
 # --- pipeline --------------------------------------------------------------
 def test_extract_deed_attaches_provenance() -> None:
     deed = Deed(
@@ -144,6 +158,7 @@ def test_extract_deed_attaches_provenance() -> None:
     assert extraction.kind == "deed"
     assert extraction.deed.instrument_no == "202511180011830"
     assert extraction.pages_read == list(range(6))  # all 6 pages read
+    assert extraction.image_pages_read == list(range(6))  # deed is vision-primary (#613)
 
 
 def test_extract_npdes_attaches_provenance() -> None:
@@ -152,6 +167,8 @@ def test_extract_npdes_attaches_provenance() -> None:
     assert isinstance(extraction, NpdesExtraction)
     assert extraction.permit.permit_no == "2PH00006*LD"
     assert extraction.pages_read == list(range(6))  # text_pages=6 dominates the 1 image page
+    # …but only page 0 was rendered as an image and sent to the model (#613).
+    assert extraction.image_pages_read == [0]
 
 
 def test_extract_sos_attaches_provenance() -> None:

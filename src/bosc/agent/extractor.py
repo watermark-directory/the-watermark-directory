@@ -54,7 +54,16 @@ def _first_tool_input(message: Any, tool_name: str) -> dict[str, Any]:
     for block in message.content:
         if getattr(block, "type", None) == "tool_use" and getattr(block, "name", None) == tool_name:
             return cast("dict[str, Any]", block.input)
-    raise ExtractionError(f"model did not call tool {tool_name!r}")
+    # No tool call. Distinguish a token-budget truncation (an actionable cause —
+    # plausible for --detail at _DETAIL_MAX_TOKENS) from a generic non-call, so the
+    # failure names its cause instead of an opaque "did not call tool" (#613).
+    stop = getattr(message, "stop_reason", None)
+    if stop == "max_tokens":
+        raise ExtractionError(
+            f"model hit the max_tokens limit before calling {tool_name!r}; raise max_tokens "
+            "(e.g. the larger --detail budget) or narrow the input"
+        )
+    raise ExtractionError(f"model did not call tool {tool_name!r} (stop_reason={stop!r})")
 
 
 class StructuredExtractor:

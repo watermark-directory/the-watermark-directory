@@ -550,7 +550,10 @@ class DocExtraction(BaseModel):
     doc_id: str
     source_path: str
     kind: str
-    pages_read: list[int] = Field(default_factory=list)  # 0-based pages the model saw
+    pages_read: list[int] = Field(default_factory=list)  # 0-based pages consulted (text + images)
+    # 0-based subset actually rendered as images and sent to the vision model. For a
+    # text-primary read this is far smaller than pages_read (e.g. npdes: 1 vs 6) (#613).
+    image_pages_read: list[int] = Field(default_factory=list)
     dpi: int
     source_text_excerpt: str = ""
 
