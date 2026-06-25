@@ -122,6 +122,17 @@ def _resolve_address(value: str, settings: Settings) -> Resolution:
     match = geocode_address(value, settings=settings)
     if match is None:
         return _unresolved("address", value, "no geocoder match")
+    # Wrong-state guard (#621): the geocoder is unconstrained, so an under-qualified
+    # address can match another state entirely. Reject a cross-state match before it
+    # enters the funnel as a lead. The site's state is the profile's geo anchor
+    # (gnis_default_state, else eia_state); skip the check only if neither is set.
+    site_state = settings.gnis_default_state or settings.eia_state
+    if match.state and site_state and match.state.upper() != site_state.upper():
+        return _unresolved(
+            "address",
+            value,
+            f"geocoded to {match.state}, outside the site state {site_state} — wrong-state match",
+        )
     point = (match.lon, match.lat)
     parcel = parcel_at_point(match.lon, match.lat, settings=settings)
     if parcel is None:
