@@ -5,6 +5,7 @@
  * reserved for the logo; the repo octocat is the lone filled, foreign mark. Evidence +
  * measure icons carry the semantic palette wherever they appear.
  */
+import BackLink from "../../../../components/BackLink.astro";
 import Icon from "../../../../components/Icon.astro";
 import Base from "../../../../layouts/Base.astro";
 import { withSite } from "../../../../lib/site";
@@ -35,7 +36,7 @@ const ICON_COLOR: Record<string, string> = {
 
 <Base title="Icon set — component preview" section="site">
   <div class="td-showcase">
-    <p><a href={withSite("/site/")}>← The record</a></p>
+    <BackLink href={withSite("/site/")} label="The record" />
     <div class="td-showcase-kicker">Watermark · design system</div>
     <h1>The icon set</h1>
     <p class="td-showcase-lead">

@@ -1,6 +1,7 @@
 ---
 import Base from "../../../../layouts/Base.astro";
 import { NARRATIVE } from "../../../../lib/narrative";
+import { hasInteractive, reportUrl } from "../../../../lib/reports";
 import { withBase, withStory, withSite, siteUrl } from "../../../../lib/site";
 
 // Published reports: the long-form analytical essays already in the corpus, in a
@@ -22,16 +23,10 @@ const ORDER = [
 const bySlug = new Map(NARRATIVE.map((d) => [d.slug, d]));
 const published = ORDER.map((s) => bySlug.get(s)).filter((d): d is NonNullable<typeof d> => Boolean(d));
 
-// Reports with an interactive companion page link there instead of the plain essay
-// (the companion links onward to the full cited text).
-const INTERACTIVE: Record<string, string> = {
-  "end-use-and-workloads": siteUrl("/reports/end-use-and-workloads"),
-  "defense-nexus": siteUrl("/reports/defense-nexus"),
-  "the-economic-ledger": siteUrl("/reports/the-economic-ledger"),
-  "toxics-and-the-corridor": siteUrl("/reports/toxics-and-the-corridor"),
-  "the-load-and-the-grid": siteUrl("/reports/the-load-and-the-grid"),
-};
-const reportHref = (slug: string): string => INTERACTIVE[slug] ?? siteUrl(`/docs/${slug}`);
+// Reports with an interactive companion page (registry SSOT, lib/reports) link there
+// instead of the plain essay (the companion links onward to the full cited text).
+const reportHref = (slug: string): string =>
+  hasInteractive(slug) ? reportUrl(slug) : siteUrl(`/docs/${slug}`);
 
 // Forthcoming: the extension narratives tracked in epic #233 — deeper dives that the
 // corpus is being assembled to support. Carried here as drafting, not findings. The
@@ -76,7 +71,7 @@ const forthcoming: { title: string; blurb: string }[] = [];
         <a class="door" href={withBase(reportHref(d.slug))}>
           <span class="door-label">
             {d.title}
-            {INTERACTIVE[d.slug] && <span class="door-badge">interactive</span>}
+            {hasInteractive(d.slug) && <span class="door-badge">interactive</span>}
           </span>
           <span class="door-blurb">{d.blurb}</span>
         </a>

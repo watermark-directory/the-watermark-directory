@@ -11,7 +11,7 @@
  * Discipline: a map of what *isn't* known, not a verdict. The aggregate is a band; every
  * row carries its register and the specific record whose disclosure would collapse it.
  */
-import { siteUrl } from "./routes";
+import { reportUrl } from "./reports";
 import { netSubsidyOutcome } from "./econLedger";
 import { facilityDrawOutcome } from "./gridLoad";
 import { assimilativeOutcome } from "./toxicsDilution";
@@ -52,19 +52,19 @@ export function buildBalanceSheet(
     {
       outcome: econ,
       unit: "usd",
-      href: siteUrl("/reports/the-economic-ledger"),
+      href: reportUrl("the-economic-ledger"),
       narrative: "The economic ledger",
     },
     {
       outcome: grid,
       unit: "mw",
-      href: siteUrl("/reports/the-load-and-the-grid"),
+      href: reportUrl("the-load-and-the-grid"),
       narrative: "The load and the grid",
     },
     {
       outcome: toxics,
       unit: "pct",
-      href: siteUrl("/reports/toxics-and-the-corridor"),
+      href: reportUrl("toxics-and-the-corridor"),
       narrative: "Toxics and the corridor",
     },
   ];

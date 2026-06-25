@@ -1,0 +1,34 @@
+---
+/**
+ * The shared shell for an interactive report page (#584). The seven `reports/*`
+ * companion pages all opened with the identical chrome — the `Base` wrapper, the
+ * `walk-chapter-page` frame, a "← Reports" back-link, an eyebrow, and the h1 — before
+ * their page-specific lead and body. That skeleton lives here now; each page supplies
+ * its `eyebrow` / `h1` / description as props, its lead via the `lead` slot, and the
+ * rest (island, fallback table, callouts, the "read the full report" footer) as the
+ * default slot.
+ */
+import Base from "./Base.astro";
+import BackLink from "../components/BackLink.astro";
+import { withSite } from "../lib/site";
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  h1: string;
+}
+const { title, description, eyebrow, h1 } = Astro.props;
+---
+
+<Base title={title} section="reports" description={description}>
+  <div class="walk-chapter-page">
+    <article class="prose">
+      <BackLink href={withSite("/reports")} label="Reports" />
+      <div class="walk-chapter-eyebrow">{eyebrow}</div>
+      <h1 class="walk-chapter-h1">{h1}</h1>
+      <slot name="lead" />
+    </article>
+    <slot />
+  </div>
+</Base>

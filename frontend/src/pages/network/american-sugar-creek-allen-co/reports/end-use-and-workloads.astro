@@ -6,7 +6,7 @@
  * names four businesses that answer "who can use it" differently — and that the
  * Lima record leaves the answer [open]. Pays off into the full cited essay.
  */
-import Base from "../../../../layouts/Base.astro";
+import ReportShell from "../../../../layouts/ReportShell.astro";
 import EndUseExplorer from "../../../../components/islands/EndUseExplorer.tsx";
 import { buildEndUse } from "../../../../lib/endUse";
 import { withSite } from "../../../../lib/site";
@@ -15,16 +15,13 @@ const endUse = buildEndUse();
 const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[open]");
 ---
 
-<Base
+<ReportShell
   title="End use & workloads"
-  section="reports"
   description="The customer is known (Google); the use is not. Explore the four things called 'data center' — and the open question of who can use the Lima campus."
+  eyebrow="Extension narrative · #233"
+  h1="What the facility is for"
 >
-  <div class="walk-chapter-page">
-    <article class="prose">
-      <p><a href={withSite("/reports")}>← Reports</a></p>
-      <div class="walk-chapter-eyebrow">Extension narrative · #233</div>
-      <h1 class="walk-chapter-h1">What the facility is for</h1>
+  <Fragment slot="lead">
       <p class="section-lead">
         The customer question is settled — the developer is <strong>Google</strong>
         (<code>[verified]</code>). This works one layer downstream: not <em>who builds it</em>,
@@ -33,7 +30,7 @@ const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[op
         answer the public's two plain questions, <em>who benefits</em> and <em>who can use it</em>,
         in completely different ways.
       </p>
-    </article>
+  </Fragment>
 
     <section class="walk-interactive" aria-label="The four things called a data center">
       <h2 class="walk-explore-h">Pick a type — read who can use it</h2>
@@ -113,5 +110,4 @@ const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[op
         </a>
       </p>
     </article>
-  </div>
-</Base>
+</ReportShell>

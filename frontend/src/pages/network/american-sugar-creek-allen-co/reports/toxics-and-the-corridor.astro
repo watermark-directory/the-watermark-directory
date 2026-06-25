@@ -13,7 +13,7 @@
  */
 import ToxicsDilutionScreen from "../../../../components/islands/ToxicsDilutionScreen.tsx";
 import BulletChart from "../../../../components/charts/BulletChart.astro";
-import Base from "../../../../layouts/Base.astro";
+import ReportShell from "../../../../layouts/ReportShell.astro";
 import { buildDilution } from "../../../../lib/dilution";
 import { withSite } from "../../../../lib/site";
 
@@ -23,16 +23,13 @@ const effluentCfs = Math.round((dc.wwtpCfs + dc.campusFm2Cfs) * 100) / 100;
 const effluentMultiple = Math.round(effluentCfs / dc.naturalCfs);
 ---
 
-<Base
+<ReportShell
   title="Toxics and the corridor"
-  section="reports"
   description={`At design low flow the Ottawa leaving Lima is ${dc.effluentPct}% treated effluent — and at the driest week the river is effluent. Drag the season, watch the dilution collapse, and read the RSEI dischargers for exactly what they are: a modeled screen, not the river.`}
+  eyebrow="Extension narrative · #233 · the corridor it joins"
+  h1="The river is already effluent — drag the season"
 >
-  <div class="walk-chapter-page">
-    <article class="prose">
-      <p><a href={withSite("/reports")}>← Reports</a></p>
-      <div class="walk-chapter-eyebrow">Extension narrative · #233 · the corridor it joins</div>
-      <h1 class="walk-chapter-h1">The river is already effluent — drag the season</h1>
+  <Fragment slot="lead">
       <p class="section-lead">
         At the drought flow Ohio writes discharge permits at, the Ottawa leaving Lima is
         <strong>{dc.effluentPct}% treated effluent</strong> — {effluentCfs} cfs of WWTP +
@@ -44,7 +41,7 @@ const effluentMultiple = Math.round(effluentCfs / dc.naturalCfs);
         <code>[open]</code>. Full essay:
         <a href={withSite("/docs/toxics-and-the-corridor")}>toxics and the corridor →</a>
       </p>
-    </article>
+  </Fragment>
 
     <BulletChart
       title="At the design low flow, the Ottawa is effluent"
@@ -79,5 +76,4 @@ const effluentMultiple = Math.round(effluentCfs / dc.naturalCfs);
         </table>
       </article>
     </noscript>
-  </div>
-</Base>
+</ReportShell>

@@ -1,0 +1,17 @@
+---
+/**
+ * A "← back" link (#584) — the leaf-page return affordance repeated across the
+ * `reports/*`, `watershed/*`, and `site/**` route tree. The caller passes a
+ * deploy-base-aware href (typically `withSite("/...")`); this only owns the arrow +
+ * markup so they stay consistent. `prose` adds the `prose` class some leaves wrap it in.
+ */
+interface Props {
+  href: string;
+  label: string;
+  /** Wrap in `<p class="prose">` (matches the people/places leaves). */
+  prose?: boolean;
+}
+const { href, label, prose = false } = Astro.props;
+---
+
+<p class:list={[{ prose }]}><a href={href}>← {label}</a></p>

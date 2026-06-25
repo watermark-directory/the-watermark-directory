@@ -11,7 +11,7 @@
  */
 import GridLoadScreen from "../../../../components/islands/GridLoadScreen.tsx";
 import RedactionReveal from "../../../../components/RedactionReveal.astro";
-import Base from "../../../../layouts/Base.astro";
+import ReportShell from "../../../../layouts/ReportShell.astro";
 import { facilityDrawOutcome } from "../../../../lib/gridLoad";
 import type { TeardownRedaction } from "../../../../lib/teardown";
 import { withSite } from "../../../../lib/site";
@@ -28,16 +28,13 @@ const redaction: TeardownRedaction = {
 };
 ---
 
-<Base
+<ReportShell
   title="The load and the grid"
-  section="reports"
   description="The famous 313 MW is backup, not load — and the number behind it is redacted in the issued permit. So the working load is an inference: 313 MW backup → IT via N+1 → × PUE ≈ 348 MW, ~5–6% of AEP Ohio's entire retail electricity, ~260k homes, for ~50 jobs."
+  eyebrow="Extension narrative · #233 · the grid it will carry"
+  h1="The number everyone cites is the backup — and it's redacted"
 >
-  <div class="walk-chapter-page">
-    <article class="prose">
-      <p><a href={withSite("/reports")}>← Reports</a></p>
-      <div class="walk-chapter-eyebrow">Extension narrative · #233 · the grid it will carry</div>
-      <h1 class="walk-chapter-h1">The number everyone cites is the backup — and it's redacted</h1>
+  <Fragment slot="lead">
       <p class="section-lead">
         Every summary repeats <strong>313 MW</strong>. It is <em>backup generation</em> —
         114 emergency gensets — <strong>not the operating load</strong>, and the per-engine
@@ -48,7 +45,7 @@ const redaction: TeardownRedaction = {
         Drag it open below. Full essay:
         <a href={withSite("/docs/the-load-and-the-grid")}>the load and the grid →</a>
       </p>
-    </article>
+  </Fragment>
 
     <RedactionReveal redaction={redaction} />
 
@@ -71,5 +68,4 @@ const redaction: TeardownRedaction = {
         </p>
       </article>
     </noscript>
-  </div>
-</Base>
+</ReportShell>

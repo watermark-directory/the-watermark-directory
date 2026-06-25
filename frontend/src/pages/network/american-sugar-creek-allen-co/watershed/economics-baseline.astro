@@ -1,4 +1,5 @@
 ---
+import BackLink from "../../../../components/BackLink.astro";
 import Base from "../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../lib/bundle";
 import type { EconomicBaseline, ProvenancedValue } from "../../../../lib/feeds";
@@ -26,7 +27,7 @@ const pct = first?.total_employment.value ? (delta / first.total_employment.valu
 
 <Base title="Economics — localized baseline" section="watershed">
   <article class="prose">
-    <p><a href={withSite("/watershed/")}>← The Maumee watershed</a></p>
+    <BackLink href={withSite("/watershed/")} label="The Maumee watershed" />
     <h1>Economics — localized baseline</h1>
     {
       eb === null ? (

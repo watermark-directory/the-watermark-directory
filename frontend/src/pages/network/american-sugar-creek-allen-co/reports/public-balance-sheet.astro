@@ -10,7 +10,7 @@
  * to the island so the balance sheet never forks the narratives.
  */
 import BalanceSheet from "../../../../components/islands/BalanceSheet.tsx";
-import Base from "../../../../layouts/Base.astro";
+import ReportShell from "../../../../layouts/ReportShell.astro";
 import { type BalanceUnit, buildBalanceSheet } from "../../../../lib/balanceSheet";
 import { buildDilution } from "../../../../lib/dilution";
 import { fmtUsdM } from "../../../../lib/money";
@@ -25,16 +25,13 @@ const fmt = (n: number, unit: BalanceUnit): string =>
 const e = sheet.econExposure;
 ---
 
-<Base
+<ReportShell
   title="The public balance sheet"
-  section="reports"
   description="Every narrative's band on one register-encoded sheet — the economic give, the load, the river — and the cost of opacity in aggregate: the public's exposure rides on records the county won't produce, and disclosing them collapses the band."
+  eyebrow="Extension narrative · #233 · the capstone"
+  h1="The cost of opacity, on one sheet"
 >
-  <div class="walk-chapter-page">
-    <article class="prose">
-      <p><a href={withSite("/reports")}>← Reports</a></p>
-      <div class="walk-chapter-eyebrow">Extension narrative · #233 · the capstone</div>
-      <h1 class="walk-chapter-h1">The cost of opacity, on one sheet</h1>
+  <Fragment slot="lead">
       <p class="section-lead">
         Each report ends <code>[open]</code> for the same reason — a figure the record
         withholds. Set them side by side and the pattern becomes a quantity: the public's
@@ -44,7 +41,7 @@ const e = sheet.econExposure;
         This page composes every band the narratives compute — it adds no new data, and it
         returns no verdict. It is a map of what isn't known, and what would close it.
       </p>
-    </article>
+  </Fragment>
 
     <BalanceSheet client:only="react" toxicsEffluentCfs={effluentCfs} toxicsNaturalCfs={dc.naturalCfs} />
 
@@ -71,5 +68,4 @@ const e = sheet.econExposure;
         </p>
       </article>
     </noscript>
-  </div>
-</Base>
+</ReportShell>

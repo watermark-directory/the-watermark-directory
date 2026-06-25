@@ -14,13 +14,14 @@ import Sparkline from "../../../../components/charts/Sparkline.astro";
 import StackedBar from "../../../../components/charts/StackedBar.astro";
 import Waterfall from "../../../../components/charts/Waterfall.astro";
 import GaugeBar from "../../../../components/charts/GaugeBar.astro";
+import BackLink from "../../../../components/BackLink.astro";
 import Base from "../../../../layouts/Base.astro";
 import { withSite } from "../../../../lib/site";
 ---
 
 <Base title="Chart set — component preview" section="site">
   <div class="td-showcase">
-    <p><a href={withSite("/site/")}>← The record</a></p>
+    <BackLink href={withSite("/site/")} label="The record" />
     <div class="td-showcase-kicker">Watermark · component family</div>
     <h1>The chart set</h1>
     <p class="td-showcase-lead">
