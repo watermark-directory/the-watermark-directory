@@ -9,8 +9,10 @@ import {
   buildVBars,
   buildWaterfall,
   EVIDENCE_FILL,
+  fmtChartVal,
   FOREST,
   niceMax,
+  scalePct,
   WITHHELD_FILL,
 } from "./charts";
 
@@ -20,6 +22,41 @@ describe("charts geometry (#306)", () => {
     expect(niceMax(8)).toBeGreaterThanOrEqual(8);
     expect(niceMax(0)).toBe(1);
     expect([10, 20, 25, 50, 100]).toContain(niceMax(31));
+  });
+
+  it("shared plot frame: VBars and Line expose the same axis extent the axed components read", () => {
+    const v = buildVBars([{ label: "a", value: 1 }]);
+    const l = buildLine([
+      { label: "a", value: 1 },
+      { label: "b", value: 2 },
+    ]);
+    // left edge + x-label baseline are shared; right edge matches each chart's W − R.
+    expect(v.plot.left).toBe(34);
+    expect(l.plot.left).toBe(34);
+    expect(v.plot.labelY).toBe(188);
+    expect(l.plot.labelY).toBe(188);
+    // grid/baseline span exactly the plot extent (no hardcoded 348/346 drift).
+    expect(v.plot.right).toBe(348);
+    expect(l.plot.right).toBe(346);
+    // ref lines plot within the same frame they're drawn against.
+    expect(l.plot.right).toBeGreaterThan(l.plot.left);
+  });
+
+  it("scalePct: percentage of a ceiling, 1 dp, optional clamp", () => {
+    expect(scalePct(25, 100)).toBe(25);
+    expect(scalePct(1, 3)).toBe(33.3);
+    expect(scalePct(0, 0)).toBe(0); // zero ceiling → 0, never NaN
+    expect(scalePct(150, 100)).toBe(150); // unclamped overflows past 100
+    expect(scalePct(150, 100, true)).toBe(100); // clamped pins to the track
+    expect(scalePct(-5, 100, true)).toBe(0);
+  });
+
+  it("fmtChartVal: integers bare, fractions to 2 dp, thousands grouped", () => {
+    expect(fmtChartVal(42)).toBe("42");
+    expect(fmtChartVal(0.2)).toBe("0.2");
+    expect(fmtChartVal(3.456)).toBe("3.46");
+    expect(fmtChartVal(1234)).toBe("1,234");
+    expect(fmtChartVal(1234.5)).toBe("1,234.5");
   });
 
   it("vertical bars: one bar per datum, peak highlighted in forest, within the plot", () => {

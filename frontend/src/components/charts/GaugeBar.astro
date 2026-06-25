@@ -6,6 +6,8 @@
  * a div-based bar (the spec is plain HTML/CSS, no SVG). Forest is data, amber is the
  * modeled measure, oxblood is the breach.
  */
+import { fmtChartVal, niceMax, scalePct } from "../../lib/charts";
+
 interface Props {
   /** The measured / projected value. */
   value: number;
@@ -31,14 +33,13 @@ const {
   showPercent = true,
 } = Astro.props;
 
-const ceiling = max ?? Math.max(value, cap) * 1.04;
-const pct = (v: number): number => Math.max(0, Math.min(100, (v / ceiling) * 100));
+const ceiling = max ?? niceMax(Math.max(value, cap));
+const pct = (v: number): number => scalePct(v, ceiling, true);
 const over = value > cap;
 const capPct = pct(cap);
 const fillPct = pct(Math.min(value, cap));
 const overPct = over ? pct(value) - capPct : 0;
 const percent = Math.round((value / cap) * 100);
-const fmt = (v: number): string => (v >= 1000 ? v.toLocaleString() : String(Math.round(v * 10) / 10));
 ---
 
 <figure class="chart-card">
@@ -61,7 +62,7 @@ const fmt = (v: number): string => (v >= 1000 ? v.toLocaleString() : String(Math
   </div>
   <div class="chart-gauge-scale">
     <span>0</span>
-    <span class="chart-gauge-capval">cap · {fmt(cap)}{unit && ` ${unit}`}</span>
-    <span>{fmt(Math.round(ceiling))}</span>
+    <span class="chart-gauge-capval">cap · {fmtChartVal(cap)}{unit && ` ${unit}`}</span>
+    <span>{fmtChartVal(ceiling)}</span>
   </div>
 </figure>
