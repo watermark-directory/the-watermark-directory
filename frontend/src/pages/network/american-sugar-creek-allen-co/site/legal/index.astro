@@ -50,7 +50,7 @@ const groups = LEGAL_GROUPS.filter((g) => docs.some((d) => d.group === g));
     }
 
     <h2 id="meetings">Meeting summaries</h2>
-    <p>{meetings.length} corridor-relevant meeting record(s) — grounded, no inference.</p>
+    <p>{meetings.length} corridor-relevant meeting record(s) — summarized only from what the minutes state, with no added inference.</p>
     {
       sorted.map((m) => (
         <div class="item">

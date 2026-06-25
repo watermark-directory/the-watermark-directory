@@ -1,28 +1,26 @@
 ---
 import Base from "../../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../../lib/bundle";
-import type { PersonItem, PlaceItem } from "../../../../../lib/feeds";
+import type { PersonItem } from "../../../../../lib/feeds";
 import { withSite } from "../../../../../lib/site";
 
 const people = hasFeed("people") ? loadFeed<PersonItem[]>("people") : [];
-const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
 ---
 
-<Base title="People & places" section="site" rail={false}>
+<Base title="People" section="site" rail={false}>
   <div class="hub">
     <div class="hub-head">
       <div>
-        <div class="hub-eyebrow">The record · people &amp; places</div>
-        <h1>People &amp; places</h1>
+        <div class="hub-eyebrow">The record · people</div>
+        <h1>People</h1>
         <p class="hub-lead">
-          Curated individual and place profiles — the human and geographic detail
-          behind the entity graph.
+          Curated individual profiles — the people behind the entity graph.
+          For sites and parcels, see <a href={withSite("/site/places/")}>Places &amp; parcels</a>.
         </p>
       </div>
-      <span class="hub-count">{people.length} people · {places.length} places</span>
+      <span class="hub-count">{people.length} people</span>
     </div>
 
-    <h2 class="hub-subhead" id="people">People</h2>
     <div class="hub-grid">
       {
         people.map((p) => (
@@ -36,26 +34,6 @@ const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
             )}
             <div class="hub-door-foot">
               <span class="hub-door-browse">Open profile</span>
-              <span class="hub-door-arrow" aria-hidden="true">›</span>
-            </div>
-          </a>
-        ))
-      }
-    </div>
-
-    <h2 class="hub-subhead" id="places">Places</h2>
-    <div class="hub-grid">
-      {
-        places.map((p) => (
-          <a class="hub-door" href={`${withSite("/site/places/")}${p.slug}/`}>
-            <div class="hub-door-top">
-              <span class="hub-door-kind">{p.kind}</span>
-              {p.parcels.length > 0 && <span class="hub-door-count">{p.parcels.length}</span>}
-            </div>
-            <div class="hub-door-title">{p.name}</div>
-            <div class="hub-door-foot">
-              <span class="hub-door-browse">Open profile</span>
-              {p.parcels.length > 0 && <span class="hub-door-note">{p.parcels.length} parcel(s)</span>}
               <span class="hub-door-arrow" aria-hidden="true">›</span>
             </div>
           </a>

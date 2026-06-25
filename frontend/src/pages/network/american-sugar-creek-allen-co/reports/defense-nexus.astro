@@ -32,8 +32,9 @@ const closeIt: TeardownRedaction = {
 <ReportShell
   title="The defense nexus"
   description="A federal plant a few miles from the campus, a developer cleared to SECRET, an industry that hosts the CIA — three true facts that don't, combined, make a finding. Map the footprints, measure the gap, hold the question open."
-  eyebrow="Extension narrative · #233"
+  eyebrow="Extension narrative · #233 · the defense thread"
   h1="What the corridor shows, and what it can't"
+  fullReportHref="/docs/defense-nexus"
 >
   <Fragment slot="lead">
       <p class="section-lead">
@@ -129,18 +130,10 @@ const closeIt: TeardownRedaction = {
       <RedactionReveal redaction={closeIt} />
     </div>
 
-    <article class="prose">
-      <p>
-        This is the short, interactive version. The full report walks every claim to its
-        source — the IL-6 credential, the AWS testimony naming the Department of War and
-        the CIA, Executive Order 14265, the relator's own framing of the thread as
-        “likely speculative,” and why the “no records” response forecloses one avenue
-        without proving the connection absent or present.
-      </p>
-      <p>
-        <a class="btn btn--icon" href={withSite("/docs/defense-nexus")}>
-          Read the full report →
-        </a>
-      </p>
-    </article>
+    <Fragment slot="full-report">
+      the IL-6 credential, the AWS testimony naming the Department of War and the CIA,
+      Executive Order 14265, the relator's own framing of the thread as “likely
+      speculative,” and why the “no records” response forecloses one avenue without
+      proving the connection absent or present
+    </Fragment>
 </ReportShell>
