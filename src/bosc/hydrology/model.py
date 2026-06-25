@@ -19,7 +19,9 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-SourceKind = Literal["document", "connector", "reference", "assumption", "derived"]
+from bosc.provenance import SourceKind as SourceKind
+from bosc.provenance import source_is_verified
+
 NodeRole = Literal["abstraction", "demand", "wwtp", "receiving"]
 Flag = Literal["ok", "tight", "violation"]
 
@@ -126,7 +128,7 @@ class ProvenancedValue(BaseModel):
         ``reference`` (a vendored published spec) is authoritative but is *not* a
         record about this facility, so it is not "verified" in the dossier sense.
         """
-        return self.source in ("document", "connector")
+        return source_is_verified(self.source)
 
     def __str__(self) -> str:
         tag = {

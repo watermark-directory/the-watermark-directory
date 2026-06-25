@@ -28,6 +28,10 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, computed_field
 
+from bosc.provenance import Confidence as Confidence
+from bosc.provenance import SourceKind as SourceKind
+from bosc.provenance import source_is_verified
+
 # --- bundle contract version ---------------------------------------------------
 # Bumped per the back-compat policy in data/site/bundle/README.md: PATCH for additive
 # optional fields, MINOR for new feeds, MAJOR for a breaking field change/removal.
@@ -43,8 +47,9 @@ from pydantic import BaseModel, ConfigDict, Field, computed_field
 #   CatalogItem + the reconcile observed snapshot; epic #631 Phase 3 / #659).
 CONTRACT_VERSION = "1.6.0"
 
-SourceKind = Literal["document", "connector", "reference", "assumption", "derived"]
-Confidence = Literal["high", "medium", "low"]
+# SourceKind / Confidence now live in bosc.provenance (shared with bosc.hypotheses +
+# hydrology.ProvenancedValue, #605); re-exported here so importers of bosc.site.feeds are
+# unchanged.
 RecordGroup = Literal["deeds", "permits-epa", "permits-npdes", "permits-sos", "plans", "opc"]
 # What the frontend document viewer dispatches on — derived from the *real* file
 # (extension + content sniff), never from hand-authored genre metadata (epic #274).
@@ -74,7 +79,7 @@ class Citation(BaseModel):
     @property
     def verified(self) -> bool:
         """True when grounded in a record or a live gauge (``[verified]`` in prose)."""
-        return self.source_kind in ("document", "connector")
+        return source_is_verified(self.source_kind)
 
 
 class Figure(BaseModel):
