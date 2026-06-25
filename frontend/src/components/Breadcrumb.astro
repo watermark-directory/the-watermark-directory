@@ -1,0 +1,32 @@
+---
+/**
+ * A breadcrumb trail (#584) — a list of ancestor links ending in the current page.
+ * Items with an `href` render as links joined by `›`; the final item (no `href`) is
+ * the current location. Hrefs are deploy-base-aware (the caller passes `withSite(...)`).
+ * Today's consumer is the record detail page; the primitive is the canonical pattern
+ * for any future leaf that needs a trail rather than a single `<BackLink>`.
+ */
+interface Crumb {
+  label: string;
+  /** Omit on the last (current) crumb. */
+  href?: string;
+}
+interface Props {
+  items: Crumb[];
+  /** Nav class; defaults to the record trail's `rec-crumb`. */
+  class?: string;
+  ariaLabel?: string;
+}
+const { items, class: className = "rec-crumb", ariaLabel = "Breadcrumb" } = Astro.props;
+---
+
+<nav class:list={[className]} aria-label={ariaLabel}>
+  {
+    items.map((c, i) => (
+      <>
+        {i > 0 && " › "}
+        {c.href ? <a href={c.href}>{c.label}</a> : <span class="rec-crumb-here">{c.label}</span>}
+      </>
+    ))
+  }
+</nav>

@@ -8,7 +8,7 @@
  * (~5.5 mi, not the "two miles" the prose first reached for). Reuses the walk's
  * island-over-SSR pattern; pays off into the full cited essay.
  */
-import Base from "../../../../layouts/Base.astro";
+import ReportShell from "../../../../layouts/ReportShell.astro";
 import DefenseNexusMap from "../../../../components/islands/DefenseNexusMap.tsx";
 import RedactionReveal from "../../../../components/RedactionReveal.astro";
 import { buildDefenseNexus } from "../../../../lib/defenseNexus";
@@ -29,16 +29,13 @@ const closeIt: TeardownRedaction = {
 };
 ---
 
-<Base
+<ReportShell
   title="The defense nexus"
-  section="reports"
   description="A federal plant a few miles from the campus, a developer cleared to SECRET, an industry that hosts the CIA — three true facts that don't, combined, make a finding. Map the footprints, measure the gap, hold the question open."
+  eyebrow="Extension narrative · #233"
+  h1="What the corridor shows, and what it can't"
 >
-  <div class="walk-chapter-page">
-    <article class="prose">
-      <p><a href={withSite("/reports")}>← Reports</a></p>
-      <div class="walk-chapter-eyebrow">Extension narrative · #233</div>
-      <h1 class="walk-chapter-h1">What the corridor shows, and what it can't</h1>
+  <Fragment slot="lead">
       <p class="section-lead">
         There is a defense installation near the campus, the developer has the
         credentials to do defense work, and an industry witness told a state committee
@@ -48,7 +45,7 @@ const closeIt: TeardownRedaction = {
         and the gap between them is <em>{dn.available ? `${m.nearestMi.toFixed(1)} measured miles` : "real distance"}</em>
         of city, drawn but never crossed.
       </p>
-    </article>
+  </Fragment>
 
     {
       dn.available && (
@@ -146,5 +143,4 @@ const closeIt: TeardownRedaction = {
         </a>
       </p>
     </article>
-  </div>
-</Base>
+</ReportShell>

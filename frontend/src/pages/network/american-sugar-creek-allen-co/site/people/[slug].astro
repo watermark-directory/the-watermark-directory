@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths } from "astro";
 import Base from "../../../../../layouts/Base.astro";
+import BackLink from "../../../../../components/BackLink.astro";
 import Provenance from "../../../../../components/Provenance.astro";
 import ProfileHeader from "../../../../../components/ProfileHeader.astro";
 import { hasFeed, loadFeed } from "../../../../../lib/bundle";
@@ -48,7 +49,7 @@ const profileToc = sections.length >= 2 ? sections : [];
 ---
 
 <Base title={person.name} section="site" description={person.summary ?? undefined} toc={profileToc}>
-  <p class="prose"><a href={withSite("/site/people/")}>← People &amp; places</a></p>
+  <BackLink href={withSite("/site/people/")} label="People & places" prose />
   <div id="overview"><ProfileHeader profile={header} /></div>
 
   <article class="prose">

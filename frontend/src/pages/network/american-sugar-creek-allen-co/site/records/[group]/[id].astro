@@ -9,6 +9,7 @@
  */
 import type { GetStaticPaths } from "astro";
 import Base from "../../../../../../layouts/Base.astro";
+import Breadcrumb from "../../../../../../components/Breadcrumb.astro";
 import RecordBlock from "../../../../../../components/RecordBlock.astro";
 import RecordTeardown from "../../../../../../components/RecordTeardown.astro";
 import { hasFeed, loadFeed } from "../../../../../../lib/bundle";
@@ -59,12 +60,14 @@ const toc = teardown
   description={`${record.title} — the record, read in the open with provenance on every figure.`}
 >
   <div class="rec">
-    <nav class="rec-crumb" aria-label="Breadcrumb">
-      <a href={withSite("/site/")}>The record</a> ›
-      <a href={withSite("/site/records/")}>Records</a> ›
-      <a href={withSite(`/site/records/${record.group}`)}>{groupName}</a> ›
-      <span class="rec-crumb-here">{record.title}</span>
-    </nav>
+    <Breadcrumb
+      items={[
+        { label: "The record", href: withSite("/site/") },
+        { label: "Records", href: withSite("/site/records/") },
+        { label: groupName, href: withSite(`/site/records/${record.group}`) },
+        { label: record.title },
+      ]}
+    />
 
     <div class="rec-part" id="the-record">The record</div>
     <div class="rb-list"><RecordBlock record={block} density="full" /></div>

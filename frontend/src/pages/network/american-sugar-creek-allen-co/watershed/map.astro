@@ -1,4 +1,5 @@
 ---
+import BackLink from "../../../../components/BackLink.astro";
 import CorridorMap from "../../../../components/islands/CorridorMap.tsx";
 import Base from "../../../../layouts/Base.astro";
 import { mergedGeo } from "../../../../lib/geo";
@@ -23,7 +24,7 @@ const mapSrc = withBase("/feeds/geo/corridor-map.geojson");
 
 <Base title="Watershed & corridor map" section="watershed">
   <article class="prose">
-    <p><a href={withSite("/watershed/")}>← The Maumee watershed</a></p>
+    <BackLink href={withSite("/watershed/")} label="The Maumee watershed" />
     <h1>Watershed &amp; corridor map</h1>
     <p class="section-lead">
       The USGS WBD watershed boundary (the Pike Run subwatershed within the Ottawa

@@ -9,7 +9,7 @@
  * source's own 25% convention, from the same `opcScenario` model the island runs.
  */
 import OpcScenario from "../../../../components/islands/OpcScenario.tsx";
-import Base from "../../../../layouts/Base.astro";
+import ReportShell from "../../../../layouts/ReportShell.astro";
 import { hasFeed, loadFeed } from "../../../../lib/bundle";
 import type { RecordItem } from "../../../../lib/feeds";
 import { fmtUsdFull } from "../../../../lib/money";
@@ -27,16 +27,13 @@ const ssrConstruction = ssrSubs.reduce((a, s) => a + s.constructionSubtotal, 0);
 const ssrSource = sourceProgramTotal(ssrSubs);
 ---
 
-<Base
+<ReportShell
   title="OPC scenario explorer"
-  section="reports"
   description="The six Tetra Tech cost estimates for the public roadwork, made manipulable: move the contingency-and-inflation rate and pick intersections to re-derive the modeled program cost from the high-confidence construction subtotals — over the committed record, never editing it."
+  eyebrow="Cost · the public roadwork, priced"
+  h1="The roadwork estimate, as a knob you can turn"
 >
-  <div class="walk-chapter-page">
-    <article class="prose">
-      <p><a href={withSite("/reports")}>← Reports</a></p>
-      <div class="walk-chapter-eyebrow">Cost · the public roadwork, priced</div>
-      <h1 class="walk-chapter-h1">The roadwork estimate, as a knob you can turn</h1>
+  <Fragment slot="lead">
       <p class="section-lead">
         The public's share of the project arrives as roads — four roundabouts and two
         corridor rebuilds the developer books as a private contribution. The price is set by six Tetra Tech
@@ -48,7 +45,7 @@ const ssrSource = sourceProgramTotal(ssrSubs);
         <a href={withSite("/site/records/opc/")}>the cost estimates (OPC) →</a>;
         the narrative: <a href={withStory("/cost")}>follow the money →</a>.
       </p>
-    </article>
+  </Fragment>
 
     {
       scenario ? (
@@ -100,5 +97,4 @@ const ssrSource = sourceProgramTotal(ssrSubs);
         </p>
       </article>
     </noscript>
-  </div>
-</Base>
+</ReportShell>
