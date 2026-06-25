@@ -441,3 +441,15 @@ The rest of the Record tier, each brought up to its shipped Astro impl:
 
 Pushed the 9 spec files + both preview cards (`record.card.html`, `timeline-profile.card.html`)
 via DesignSync (`finalize_plan` → `write_files` → verified `Timeline.d.ts` with `get_file`).
+
+### Batch 6 — Directory tier · DirectoryHome (#569, epic #564) ✅ pushed
+`ui_kits/directory/DirectoryHome.jsx`, brought up to the shipped `src/pages/index.astro`:
+- **real stat derivation** — the 4th ledger stat is **States** (not the hardcoded "Contributors"),
+  derived from the registry (`SITES.length` · `groupSites("basin")` · the live filter ·
+  `groupSites("state")`); the demo carries a current snapshot + a note that the page recomputes it;
+- the hero eyebrow → **"The Watermark network"** and the primary CTA → **"Explore the hypotheses →"**
+  (matching the shipped home); a **"Open the scorecard →"** link added to the lenses head;
+- **trimmed to the shipped "lighter overview"** — the two narrative sections ("How to read the
+  record", "The evidence grammar") + the in-comp draft footer were removed (that content is an
+  `/about` concern, and ties to the open #643 explainer gap — the user's call: trim to match
+  what ships). "story" wording per #638.
