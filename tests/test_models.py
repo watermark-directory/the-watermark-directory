@@ -50,6 +50,16 @@ def test_coerce_number_keep_preserves_int_vs_float() -> None:
     assert isinstance(_coerce_number_keep("2490"), int)
 
 
+def test_coercers_treat_a_bare_marker_as_empty() -> None:
+    # "~" with nothing after it is not a number — it cleans to "" → None, not a crash (#620).
+    assert _coerce_number("~") is None
+    assert _coerce_number_keep("~") is None
+    assert _coerce_number("  ") is None
+    assert _coerce_number_keep(None) is None
+    # An unparseable string passes through unchanged so Pydantic raises a clear error.
+    assert _coerce_number("not a number") == "not a number"
+
+
 def test_approximate_sidecar_records_tilde_fields() -> None:
     # The ~ marker is coerced away to a number, but which fields arrived approximate
     # is preserved in the .approximate sidecar — not silently dropped (#612).
