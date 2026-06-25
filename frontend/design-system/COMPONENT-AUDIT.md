@@ -469,3 +469,18 @@ shipped `src/pages/research/hypotheses.astro` + `lib/directory.ts` model:
   the **"not yet assessed under this thesis" chip tail** (never a zero), and the discipline foot
   note. Swatches mirror `PHASE_PILL`/`SIGNAL_META`/`FACILITY_STATUS_META`; data is a representative
   snapshot (33 sites · 8 basins), not bundle-wired (it's a design canvas).
+
+### Batch 8 — Directory tier · SubmitLead (#571, epic #564) ✅ pushed
+`ui_kits/directory/SubmitLead.jsx` — the **impl-ahead half** of the `both`, pushed up from the
+shipped `src/components/SubmitForm.astro`:
+- **real Turnstile** — the faked pre-checked "Verified — you're human" green box is replaced by the
+  actual *unverified* Cloudflare Turnstile managed widget (empty checkbox · "Verify you are human" ·
+  Cloudflare branding) — honest about the challenge happening on submit, not already-passed;
+- **not-yet-live fallback** — a canvas toggle previews the build-time `enabled` gate: live form vs
+  the "Submissions aren't live yet" callout with the manual **open-a-GitHub-issue** link (the page
+  is honest in every environment until the endpoint is bootstrapped);
+- **ref-context banner** — the "✎ You're correcting a specific record" deep-link banner (label +
+  instrument id + "Not this record? ✕"), rendered populated, sitting outside the enabled branch.
+
+Left as-is (spec-ahead — a separate `reconcile impl←spec` if pursued, not this PR): the right rail
+(pipeline + "this site right now" stat card), the 4 lead types, attach-a-file, the credit checkbox.
