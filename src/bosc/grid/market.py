@@ -33,6 +33,9 @@ from pydantic import BaseModel, ConfigDict
 
 from bosc.config import Settings, get_settings
 from bosc.connectors import OfflineError
+from bosc.facility.consumption import HOURS_PER_YEAR as _HOURS_PER_YEAR
+from bosc.facility.consumption import LOAD_FACTOR as _LOAD_FACTOR
+from bosc.facility.consumption import annual_consumption_gwh
 from bosc.facility.power import derive_power_basis
 from bosc.grid.lmp import PjmLmpError, fetch_zonal_lmp
 from bosc.grid.model import CitedFact
@@ -42,8 +45,6 @@ from bosc.sites import SiteProfile, active_profile
 
 log = get_logger(__name__)
 
-_HOURS_PER_YEAR = 8760.0
-_LOAD_FACTOR = 0.9  # data centers run near-flat (shared convention with #91/#94/#95)
 _LOAD_FACTOR_CITE = (
     "data-center capacity utilization ~0.9 (near-flat 24x7); assumption (cf. #91/#94/#95)"
 )
@@ -222,7 +223,7 @@ def derive_pjm_market_scenario(*, settings: Settings | None = None) -> PjmMarket
 
     draw_mw = power.facility_draw.value
     consumption_mwh = draw_mw * _HOURS_PER_YEAR * _LOAD_FACTOR
-    consumption_gwh = consumption_mwh / 1000.0
+    consumption_gwh = annual_consumption_gwh(draw_mw)  # == consumption_mwh / 1000.0
 
     lmp = ref.zonal_lmp_usd_mwh.value
     clearing = ref.rpm_clearing_usd_mw_day.value
