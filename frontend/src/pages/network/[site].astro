@@ -43,7 +43,7 @@ const stages = [
     state: building ? "in progress" : "queued",
   },
   { title: "Data tier", desc: `${site.basin} sources ingested, structured, and provenance-linked.`, state: "queued" },
-  { title: "Frontend", desc: "Record screens, profiles, timeline, and the guided walk.", state: "queued" },
+  { title: "Frontend", desc: "Record screens, profiles, timeline, and the story.", state: "queued" },
 ];
 const startedCount = stages.filter((s) => s.state === "in progress").length;
 
@@ -51,7 +51,7 @@ const doors = [
   { kind: "Records", title: "The source record", desc: "Documents, structured records, and the external reference datasets behind them." },
   { kind: "Chronology", title: "The timeline", desc: `Events along the ${site.basin}, each tied back to its source.` },
   { kind: "People & places", title: "Profiles", desc: "The entities, agencies, and sites that recur across the record." },
-  { kind: "Narrative", title: "The guided walk", desc: "A reading path through the record for first-time visitors." },
+  { kind: "Narrative", title: "The story", desc: "A reading path through the record for first-time visitors." },
 ];
 ---
 
@@ -165,7 +165,7 @@ const doors = [
         <div class="netsite-lima-h">See the Lima build</div>
         <p class="netsite-lima-p">
           Watermark — the reference site on the Ottawa River, Lima OH. The complete record,
-          timeline, and guided walk that {site.place} is modeled on.
+          timeline, and story that {site.place} is modeled on.
         </p>
         <div class="netsite-lima-go">Explore the reference site ›</div>
       </a>

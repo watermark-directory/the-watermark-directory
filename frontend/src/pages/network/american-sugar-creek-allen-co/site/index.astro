@@ -19,7 +19,7 @@ const meetings = hasFeed("meetings") ? loadFeed<MeetingItem[]>("meetings") : [];
 const doors = [
   { id: "documents", kind: "Catalog", href: siteUrl("/site/documents/"), count: num(nFiles), title: "Documents", desc: "Source-document catalog, grouped by collection — names, types, sizes, LFS status.", note: `${documents.length} collections` },
   { id: "records", kind: "Structured records", href: siteUrl("/site/records/"), count: num(count("records")), title: "Records", desc: "Structured record groups read from the corpus — deeds, permits, filings, plans, cost estimates.", note: "the per-record unit" },
-  { id: "timeline", kind: "Chronology", href: siteUrl("/timeline"), count: num(timeline.length), title: "Timeline", desc: "Events in sequence — the spine the guided walk pays off into.", note: "cause → consequence" },
+  { id: "timeline", kind: "Chronology", href: siteUrl("/timeline"), count: num(timeline.length), title: "Timeline", desc: "Events in sequence — the spine the story pays off into.", note: "cause → consequence" },
   { id: "exhibits", kind: "Curated excerpts", href: siteUrl("/site/exhibits"), count: num(count("exhibits")), title: "Exhibits", desc: "Curated, citable slices of the source record.", note: "downloadable" },
   { id: "people", kind: "Profiles", href: siteUrl("/site/people/"), count: num(count("people")), title: "People & places", desc: "Profiles — roles, affiliations, aliases, parcels, sources.", note: `${count("places")} places` },
   { id: "legal", kind: "Filings & analysis", href: siteUrl("/site/legal"), count: num(meetings.length), title: "Legal history", desc: "Meeting summaries, PRR & mandamus, and Select-Committee testimony.", note: "filings & analysis" },

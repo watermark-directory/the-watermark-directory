@@ -31,9 +31,9 @@ const anchors = records.filter((r) => recordToBlock(r).seenIn).length;
     <BackLink href={withSite("/site/records/")} label="Records" />
     <h1>{label}</h1>
     <p class="section-lead">
-      {records.length} record(s) — open one for its full reading and, where it's a walk
+      {records.length} record(s) — open one for its full reading and, where it's a story
       anchor, the teardown.
-      {anchors > 0 && ` ${anchors} of these is a walk anchor — its seen-in-the-walk badge links back to the chapter that unpacked it.`}
+      {anchors > 0 && ` ${anchors} of these is a story anchor — its seen-in-the-story badge links back to the chapter that unpacked it.`}
     </p>
   </article>
   <div class="rb-list">

@@ -80,7 +80,7 @@ export const OPACITY_TEARDOWN: TeardownRecord = {
   reveal: {
     lead: "No single refusal hides this deal — a stack of seven lawful-looking layers does, from a statutory non-record shield to closed sessions to a production that returns the deciding figures ",
     key: "blank or not at all",
-    tail: ". Each layer stands on its own; the audit can call the whole an engineered system only as argument, not as record. And yet — read together, the thin record still reassembles the project. That reassembly is the point of the walk.",
+    tail: ". Each layer stands on its own; the audit can call the whole an engineered system only as argument, not as record. And yet — read together, the thin record still reassembles the project. That reassembly is the point of the story.",
   },
   check: {
     tag: "verified",
@@ -204,7 +204,7 @@ export const SHELL_TEARDOWN: TeardownRecord = {
   reveal: {
     lead: "Four Delaware LLCs orbit the project, and two of them — Tilted Gate and Magenta Capital — share both the ",
     key: "same agent and organizer",
-    tail: ". That is a signal of common-control plumbing, not proof of beneficial ownership: it shows coordination, and it marks exactly where to look next. The walk's entity graph draws the overlaps so you can see them at once.",
+    tail: ". That is a signal of common-control plumbing, not proof of beneficial ownership: it shows coordination, and it marks exactly where to look next. The story's entity graph draws the overlaps so you can see them at once.",
   },
   check: {
     tag: "inference",

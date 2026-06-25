@@ -1,6 +1,6 @@
 ---
 /**
- * Path wayfinding — the "you are on the guided walk · step N of 5" affordance
+ * Path wayfinding — the "you are on the story · step N of 6" affordance
  * (design handoff: Design System artboard → "Path wayfinding"). Unobtrusive,
  * always offers an exit. Dots link to the live chapters; the current step is
  * widened and outlined. SSR-only, no JS.
@@ -8,7 +8,7 @@
 import { WALK_CHAPTERS, WALK_TOTAL, WALK_INDEX_HREF, walkHref } from "../lib/walk";
 
 interface Props {
-  /** 1-based current step (1–5). */
+  /** 1-based current step (1–6). */
   step: number;
   /** Where "leave" goes (defaults to the walk index). */
   leaveHref?: string;
@@ -16,8 +16,8 @@ interface Props {
 const { step, leaveHref = WALK_INDEX_HREF } = Astro.props;
 ---
 
-<nav class="walk-bar" aria-label={`Guided walk — step ${step} of ${WALK_TOTAL}`}>
-  <span class="walk-bar-label">On the guided walk</span>
+<nav class="walk-bar" aria-label={`Story — step ${step} of ${WALK_TOTAL}`}>
+  <span class="walk-bar-label">On the story</span>
   <div class="walk-dots">
     {
       WALK_CHAPTERS.map((c) => {
