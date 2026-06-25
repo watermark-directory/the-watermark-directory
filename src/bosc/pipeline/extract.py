@@ -510,7 +510,9 @@ def extract_npdes(
 
     settings = settings or get_settings()
     extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages, image_pages = _read_doc(doc, text_pages=text_pages, image_pages=1, dpi=dpi, pdf=pdf)
+    text, images, pages, image_pages = _read_doc(
+        doc, text_pages=text_pages, image_pages=1, dpi=dpi, pdf=pdf
+    )
 
     log.info("extract.doc.start", doc_id=doc.doc_id, kind="npdes", pages=len(pages), dpi=dpi)
     permit = extractor.extract(
@@ -662,7 +664,9 @@ def extract_epa(
 
     settings = settings or get_settings()
     extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages, image_pages = _read_doc(doc, text_pages=text_pages, image_pages=1, dpi=dpi, pdf=pdf)
+    text, images, pages, image_pages = _read_doc(
+        doc, text_pages=text_pages, image_pages=1, dpi=dpi, pdf=pdf
+    )
 
     log.info("extract.doc.start", doc_id=doc.doc_id, kind="epa", pages=len(pages), dpi=dpi)
     action = extractor.extract(
@@ -705,7 +709,9 @@ def extract_wetland(
 
     settings = settings or get_settings()
     extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages, image_pages = _read_doc(doc, text_pages=text_pages, image_pages=2, dpi=dpi, pdf=pdf)
+    text, images, pages, image_pages = _read_doc(
+        doc, text_pages=text_pages, image_pages=2, dpi=dpi, pdf=pdf
+    )
 
     log.info("extract.doc.start", doc_id=doc.doc_id, kind="wetland", pages=len(pages), dpi=dpi)
     determination = extractor.extract(
