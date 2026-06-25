@@ -24,6 +24,9 @@ import yaml
 
 from bosc.config import Settings, get_settings
 from bosc.economics.energy import load_consumer_energy
+from bosc.facility.consumption import HOURS_PER_YEAR as _HOURS_PER_YEAR
+from bosc.facility.consumption import LOAD_FACTOR as _LOAD_FACTOR
+from bosc.facility.consumption import annual_consumption_gwh
 from bosc.facility.power import derive_power_basis
 from bosc.grid.eia861 import fetch_utility_retail
 from bosc.grid.interchange import fetch_ba_annual_load
@@ -40,8 +43,6 @@ from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
-_HOURS_PER_YEAR = 8760.0
-_LOAD_FACTOR = 0.9  # data centers run near-flat (shared convention with #91)
 _LOAD_FACTOR_CITE = "data-center capacity utilization ~0.9 (near-flat 24x7); assumption (cf. #91)"
 
 # The AEP-Ohio (EIA-861 per-utility) and PJM (EIA-930 annual) figures are now LIVE
@@ -271,7 +272,7 @@ def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
     load_share: GridLoadShare | None = None
     if power is not None:
         draw_mw = power.facility_draw.value
-        consumption_gwh = draw_mw * _HOURS_PER_YEAR * _LOAD_FACTOR / 1000.0  # MWh -> GWh
+        consumption_gwh = annual_consumption_gwh(draw_mw)
         utility_retail = utility_profile.retail_sales_gwh
         eia_state = active_profile(settings).eia_state
         state_name = _STATE_NAME.get(eia_state, eia_state)

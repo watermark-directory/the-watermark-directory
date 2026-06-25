@@ -11,5 +11,6 @@ pass its own :class:`OfflineError` subclass (e.g. ``HydroOfflineError``,
 from __future__ import annotations
 
 from bosc.connectors._cache import OfflineError, cache_key, cached_get
+from bosc.connectors._util import to_float
 
-__all__ = ["OfflineError", "cache_key", "cached_get"]
+__all__ = ["OfflineError", "cache_key", "cached_get", "to_float"]

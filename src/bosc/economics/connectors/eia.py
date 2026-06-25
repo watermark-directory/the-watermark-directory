@@ -39,7 +39,7 @@ from bosc.hydrology.model import ProvenancedValue
 # ids with the state substituted (OH-RES/OH-ALL/N3010OH3 → IN-RES/IN-ALL/N3010IN3). A new state
 # is config (its name in _STATE_NAME), not a new hardcoded series; only the US-national backdrop
 # series (#98) are static, below.
-_STATE_NAME: dict[str, str] = {"OH": "Ohio", "IN": "Indiana", "MI": "Michigan"}
+_STATE_NAME: dict[str, str] = {"OH": "Ohio", "IN": "Indiana"}
 
 
 def _state_name(state: str) -> str:

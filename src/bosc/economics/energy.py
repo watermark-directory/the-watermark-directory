@@ -20,6 +20,9 @@ import yaml
 from bosc.config import Settings, get_settings
 from bosc.economics.connectors.eia import fetch_consumer_energy
 from bosc.economics.model import ConsumerEnergyCosts, FacilityDemandPressure
+from bosc.facility.consumption import HOURS_PER_YEAR as _HOURS_PER_YEAR
+from bosc.facility.consumption import LOAD_FACTOR as _LOAD_FACTOR
+from bosc.facility.consumption import annual_consumption_gwh
 from bosc.facility.power import derive_power_basis
 from bosc.hydrology.model import ProvenancedValue
 from bosc.logging import get_logger
@@ -27,8 +30,6 @@ from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
-_HOURS_PER_YEAR = 8760.0
-_LOAD_FACTOR = 0.9  # data centers run near-flat; capacity utilization (assumption)
 _LOAD_FACTOR_CITE = "data-center capacity utilization ~0.9 (near-flat 24x7 load); assumption"
 # EIA: US average annual residential electricity consumption ~10,500 kWh/household.
 _AVG_HOUSEHOLD_KWH_YR = 10500.0
@@ -81,7 +82,7 @@ def derive_demand_pressure(
         raise ValueError(f"consumer-energy dataset is missing {sales_id} / {price_id}")
 
     draw_mw = power.facility_draw.value
-    consumption_gwh = draw_mw * _HOURS_PER_YEAR * _LOAD_FACTOR / 1000.0  # MWh -> GWh
+    consumption_gwh = annual_consumption_gwh(draw_mw)
     # EIA "million kWh" is numerically GWh (1 million kWh = 1 GWh).
     sales_gwh = sales.value.value
     share_pct = consumption_gwh / sales_gwh * 100.0 if sales_gwh else 0.0

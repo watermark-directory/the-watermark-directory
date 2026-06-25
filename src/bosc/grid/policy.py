@@ -39,6 +39,9 @@ from pydantic import BaseModel, ConfigDict
 
 from bosc.config import Settings, get_settings
 from bosc.economics.connectors.eia import fetch_eia_series
+from bosc.facility.consumption import HOURS_PER_YEAR as _HOURS_PER_YEAR
+from bosc.facility.consumption import LOAD_FACTOR as _LOAD_FACTOR
+from bosc.facility.consumption import annual_consumption_gwh
 from bosc.facility.power import derive_power_basis
 from bosc.grid.model import CitedFact
 from bosc.hydrology.model import ProvenancedValue
@@ -46,8 +49,6 @@ from bosc.logging import get_logger
 
 log = get_logger(__name__)
 
-_HOURS_PER_YEAR = 8760.0
-_LOAD_FACTOR = 0.9  # data centers run near-flat (shared convention with #91/#94/#95)
 _LOAD_FACTOR_CITE = "data-center capacity utilization ~0.9 (near-flat 24x7); assumption (cf. #91)"
 
 # --- Federal output / statistics ----------------------------------------------
@@ -259,7 +260,7 @@ def derive_federal_backdrop(*, settings: Settings | None = None) -> FederalBackd
     output = _federal_output(settings)
 
     draw_mw = power.facility_draw.value
-    consumption_gwh = draw_mw * _HOURS_PER_YEAR * _LOAD_FACTOR / 1000.0  # MWh -> GWh
+    consumption_gwh = annual_consumption_gwh(draw_mw)
 
     # US national denominators in GWh (1 TWh = 1000 GWh).
     us_datacenter_gwh = output.datacenter_use_2023_twh.value * 1000.0

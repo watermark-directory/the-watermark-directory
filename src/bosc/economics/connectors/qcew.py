@@ -19,7 +19,7 @@ from typing import Any, cast
 import httpx
 
 from bosc.config import Settings, get_settings
-from bosc.connectors import cached_get
+from bosc.connectors import cached_get, to_float
 from bosc.economics.model import IndustryEmployment, SectorEmployment
 from bosc.hydrology.model import ProvenancedValue
 from bosc.sites import active_profile
@@ -54,13 +54,6 @@ _TOTAL_OWN = "0"  # all ownerships (for the total)
 _PRIVATE_OWN = "5"  # private (for the sector mix)
 
 
-def _num(value: str) -> float | None:
-    try:
-        return float(value)
-    except (TypeError, ValueError):
-        return None
-
-
 def _reduce_csv(text: str) -> dict[str, Any]:
     """Reduce the full county CSV to the county total + private NAICS-sector rows."""
     total: dict[str, Any] | None = None
@@ -69,16 +62,16 @@ def _reduce_csv(text: str) -> dict[str, Any]:
         own, agg = row.get("own_code"), row.get("agglvl_code")
         if own == _TOTAL_OWN and agg == _TOTAL_AGG:
             total = {
-                "emp": _num(row.get("annual_avg_emplvl", "")),
-                "estabs": _num(row.get("annual_avg_estabs", "")),
+                "emp": to_float(row.get("annual_avg_emplvl", "")),
+                "estabs": to_float(row.get("annual_avg_estabs", "")),
             }
         elif own == _PRIVATE_OWN and agg == _SECTOR_AGG:
             sectors.append(
                 {
                     "naics": row.get("industry_code", ""),
-                    "emp": _num(row.get("annual_avg_emplvl", "")),
-                    "estabs": _num(row.get("annual_avg_estabs", "")),
-                    "lq": _num(row.get("lq_annual_avg_emplvl", "")),
+                    "emp": to_float(row.get("annual_avg_emplvl", "")),
+                    "estabs": to_float(row.get("annual_avg_estabs", "")),
+                    "lq": to_float(row.get("lq_annual_avg_emplvl", "")),
                 }
             )
     return {"total": total or {}, "sectors": sectors}

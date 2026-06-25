@@ -30,7 +30,7 @@ import httpx
 import openpyxl
 
 from bosc.config import Settings, get_settings
-from bosc.connectors import cached_get
+from bosc.connectors import cached_get, to_float
 from bosc.grid.model import UtilityProfile
 from bosc.hydrology.model import ProvenancedValue
 from bosc.logging import get_logger
@@ -69,10 +69,7 @@ class Eia861Error(RuntimeError):
 
 
 def _num(x: Any) -> float:
-    try:
-        return float(x)
-    except (TypeError, ValueError):
-        return 0.0
+    return to_float(x, 0.0)
 
 
 def _sales_ult_cust_name(year: int) -> str:
