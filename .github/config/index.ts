@@ -25,8 +25,11 @@ const enforceAdmins = config.getBoolean("enforceAdmins") ?? false;
 const requireUpToDate = config.getBoolean("requireUpToDate") ?? true;
 
 // Status-check contexts that must pass before `main` can be updated. Each name is a
-// job id in .github/workflows/ci.yml (also its reported check name). Both are
-// path-filtered jobs that report success when skipped, so requiring them is safe.
+// job id in .github/workflows/ci.yml (also its reported check name). `check` is the
+// backend aggregator — it always runs and rolls up the parallel lint/types/test legs,
+// reporting success when the backend tree is untouched (the legs skip). `markdown` is a
+// path-filtered job that reports success when skipped. So requiring both is safe — a
+// PR that touches neither tree still gets two green required checks.
 const requiredChecks = ["check", "markdown"];
 
 // ---------------------------------------------------------------------------

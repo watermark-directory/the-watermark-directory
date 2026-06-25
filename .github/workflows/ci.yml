@@ -14,10 +14,17 @@ on:
 # trigger-level `paths:` filter would skip the whole workflow on, say, a
 # frontend-only PR, leaving that required check stuck "pending" and blocking the
 # PR forever. A job skipped by an `if:` condition instead reports as success, so
-# the gate is satisfied. Net effect: each job (`check` = Python backend, `frontend`
-# = Astro site, `markdown` = repo-wide Markdown lint) is skipped when its tree is
-# untouched, and required-check semantics still hold. `check` and `markdown` are the
-# required checks (see .github/config/index.ts `requiredChecks`).
+# the gate is satisfied. Net effect: the backend / `frontend` / `markdown` work is
+# skipped when its tree is untouched, and required-check semantics still hold.
+# `check` and `markdown` are the required checks (see .github/config/index.ts
+# `requiredChecks`).
+#
+# The backend `check` is split into three PARALLEL legs — `lint`, `types`, `test` —
+# rolled up by a thin `check` aggregator (#682). Wall-clock is the slowest leg, not the
+# sum, and a fast formatting nit no longer waits behind pytest. `check` keeps its name
+# and required-status semantics: it `needs:` the three legs, runs with `if: always()` so
+# it always reports a status (never stuck pending), and passes only when each leg
+# succeeded or was skipped (backend untouched ⇒ all three skip ⇒ `check` is green).
 
 jobs:
   # Detect which half of the repo a push/PR touched. Cheap: no LFS, no deps —
@@ -54,52 +61,74 @@ jobs:
               - 'package-lock.json'
               - '.github/workflows/ci.yml'
 
-  check:
+  # --- Backend legs (#682) -------------------------------------------------------------
+  # Three parallel legs, each gated on the backend filter, rolled up by `check` below.
+  # Lint/types need no git history, so they take the default shallow checkout; only the
+  # `test` leg fetches history (for the producer-drift merge-base). Each leg carries only
+  # the incremental tool cache it uses (ruff / mypy / pytest), keyed per-leg so they don't
+  # clobber each other. github.sha in the key saves a fresh cache each run; restore-keys
+  # fall back to the most recent prior one. Cache dirs are set in pyproject.toml.
+  lint:
     needs: changes
     if: ${{ needs.changes.outputs.backend == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      # fetch-depth: 0 gives the full history the producer-drift gate needs to merge-base
-      # against origin/main (the default shallow checkout has no base to diff against).
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
-
-      - name: Set up Python
-        run: uv python install 3.11
-
-      - name: Install dependencies
-        run: uv sync --extra dev --frozen
-
-      # Persist incremental tool caches across runs. mypy is the big win (it only
-      # re-checks changed files on a warm cache); ruff/pytest caches are cheap extras.
-      # github.sha in the key means every run saves a fresh cache; restore-keys fall
-      # back to the most recent prior one. Cache dirs are set in pyproject.toml.
-      - name: Cache mypy / ruff / pytest
+      - uses: ./.github/actions/setup-python-env
+      - name: Cache ruff
         uses: actions/cache@v4
         with:
-          path: |
-            .cache/mypy
-            .cache/ruff
-            .cache/pytest
-          key: toolcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-${{ github.sha }}
+          path: .cache/ruff
+          key: ruffcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-${{ github.sha }}
           restore-keys: |
-            toolcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-
-            toolcache-${{ runner.os }}-py311-
-
+            ruffcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-
+            ruffcache-${{ runner.os }}-py311-
       - name: Lint
         run: uv run ruff check .
-
       - name: Format check
         run: uv run ruff format --check .
 
+  types:
+    needs: changes
+    if: ${{ needs.changes.outputs.backend == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-python-env
+      # mypy is the big cache win — on a warm cache it only re-checks changed files.
+      - name: Cache mypy
+        uses: actions/cache@v4
+        with:
+          path: .cache/mypy
+          key: mypycache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-${{ github.sha }}
+          restore-keys: |
+            mypycache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-
+            mypycache-${{ runner.os }}-py311-
       - name: Type check
         run: uv run mypy
+
+  test:
+    needs: changes
+    if: ${{ needs.changes.outputs.backend == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      # fetch-depth: 0 gives the full commit graph the producer-drift gate needs to
+      # merge-base against origin/main; filter: blob:none makes it a blobless partial
+      # clone, so the ~5.4 GB LFS-history repo doesn't pull historical file blobs — the
+      # missing blobs are fetched lazily only if a diff actually needs them (#682).
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none
+      - uses: ./.github/actions/setup-python-env
+      - name: Cache pytest
+        uses: actions/cache@v4
+        with:
+          path: .cache/pytest
+          key: pytestcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-${{ github.sha }}
+          restore-keys: |
+            pytestcache-${{ runner.os }}-py311-${{ hashFiles('uv.lock') }}-
+            pytestcache-${{ runner.os }}-py311-
 
       # Data-catalog gate (#631): schema · missing · orphan · checksum drift. Hermetic and
       # LFS-aware — the runner checks out without LFS bytes, so unmaterialized pointers are
@@ -117,6 +146,31 @@ jobs:
 
       - name: Test
         run: uv run pytest -n auto   # pytest-xdist: parallelize across the runner's cores
+
+  # The required backend status check (#682): a thin aggregator over the three legs above.
+  # It keeps the job name `check` (the gate keys on it — see .github/config/index.ts
+  # `requiredChecks`) and `if: always()` so it ALWAYS reports a status, never stuck
+  # pending. It passes only when each leg succeeded or was skipped — so a backend-untouched
+  # PR (all three legs skipped) is green, and any leg failing fails `check`.
+  check:
+    needs: [changes, lint, types, test]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Roll up backend legs
+        run: |
+          echo "changes=${{ needs.changes.result }} lint=${{ needs.lint.result }} types=${{ needs.types.result }} test=${{ needs.test.result }}"
+          if [ "${{ needs.changes.result }}" != "success" ]; then
+            echo "::error::the changes filter job did not succeed (result: ${{ needs.changes.result }})"
+            exit 1
+          fi
+          for r in "${{ needs.lint.result }}" "${{ needs.types.result }}" "${{ needs.test.result }}"; do
+            case "$r" in
+              success|skipped) ;;
+              *) echo "::error::a backend check leg did not pass (result: $r)"; exit 1 ;;
+            esac
+          done
+          echo "All backend legs passed or were skipped."
 
   # Build the Astro/MDX frontend (Epic #54). Decoupled from the Python job: it
   # builds against the committed frontend/sample-bundle/ fixture, so no uv/LFS
