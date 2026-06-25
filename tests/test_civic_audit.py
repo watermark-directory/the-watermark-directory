@@ -78,6 +78,27 @@ def test_audit_body_none_when_not_ingested(tmp_path: Path) -> None:
     assert audit_body(_body("y-township", "1st Tuesday"), settings=settings) is None
 
 
+def test_audit_skips_impossible_date_without_crashing(tmp_path: Path) -> None:
+    """#615: a malformed source link can leave a Feb-30 in the manifest — it passes the
+    `_is_iso` regex but crashes `date.fromisoformat`. The audit must skip it, not crash."""
+    settings = _seed_index(tmp_path, "x-township", ["2026-01-12", "2026-02-30", "2026-02-23"])
+    report = audit_body(_body("x-township", "2nd & 4th Monday, 7:00 PM"), settings=settings)
+    assert report is not None
+    # The impossible 2026-02-30 is dropped; the real dates still bound the span.
+    assert report.span_start == "2026-01-12" and report.span_end == "2026-02-23"
+    assert "2026-02-30" not in report.special
+
+
+def test_audit_all_impossible_dates_returns_empty_report(tmp_path: Path) -> None:
+    """If every date is impossible, `actual_dates` is empty even though `actual` is not —
+    the empty-span guard must catch it rather than blow up on `min([])` (#615)."""
+    settings = _seed_index(tmp_path, "x-township", ["2026-02-30", "2026-04-31"])
+    report = audit_body(_body("x-township", "2nd & 4th Monday, 7:00 PM"), settings=settings)
+    assert report is not None
+    assert report.span_start is None and report.span_end is None
+    assert report.expected == 0 and report.present == 0
+
+
 def test_audit_irregular_schedule_lists_specials_only(tmp_path: Path) -> None:
     settings = _seed_index(tmp_path, "z-village", ["2026-01-08", "2026-02-12"])
     report = audit_body(_body("z-village", "1st Thursday after 1st Monday"), settings=settings)

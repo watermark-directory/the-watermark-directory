@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import html as _html
 import re
+from datetime import date as _date
 from typing import cast
 from urllib.parse import unquote, urljoin
 
@@ -49,9 +50,17 @@ _NAMED_DATE = re.compile(r"\b([A-Za-z]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})\b")
 
 
 def _valid(year: int, month: int, day: int) -> str | None:
-    if not (1 <= month <= 12 and 1 <= day <= 31 and 1900 <= year <= 2100):
+    """ISO ``yyyy-mm-dd``, or ``None`` if the components aren't a real calendar date.
+
+    Validates via :class:`datetime.date` so an impossible date (e.g. Feb 30) returns ``None``
+    rather than a string that later crashes ``date.fromisoformat`` in the corpus audit (#615).
+    """
+    if not (1900 <= year <= 2100):
         return None
-    return f"{year:04d}-{month:02d}-{day:02d}"
+    try:
+        return _date(year, month, day).isoformat()
+    except ValueError:
+        return None
 
 
 def parse_date(text: str) -> str | None:
