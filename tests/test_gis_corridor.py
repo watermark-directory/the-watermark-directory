@@ -59,11 +59,11 @@ def test_merge_corridor_layer_idempotent(gis_settings: Settings) -> None:
     layers = [f["properties"]["layer"] for f in fc["features"]]
     assert layers.count("corridor") == 1 and layers.count("roadwork") == 1
     assert all(f["properties"].get("label") for f in fc["features"])
-    assert any("Periplus frozen corridor" in s for s in fc["meta"]["sources"])
+    assert any("external corroboration" in s for s in fc["meta"]["sources"])
 
     # Re-running drops the prior corridor/roadwork features first → no duplication.
     fc, added2 = gismap.merge_corridor_layer(fc, settings=gis_settings)
     assert added2 == 2
     layers = [f["properties"]["layer"] for f in fc["features"]]
     assert layers.count("corridor") == 1 and layers.count("roadwork") == 1
-    assert sum(1 for s in fc["meta"]["sources"] if "Periplus frozen corridor" in s) == 1
+    assert sum(1 for s in fc["meta"]["sources"] if "external corroboration" in s) == 1

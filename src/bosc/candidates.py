@@ -24,6 +24,9 @@ from typing import Any
 import yaml
 from pydantic import BaseModel, ConfigDict, Field
 
+from bosc.config import Settings
+from bosc.sites import active_profile
+
 # Curated inventories live under this subdirectory of ``settings.entities_dir``.
 PROFILES_SUBDIR = "profiles"
 
@@ -134,9 +137,18 @@ class DefenseLandScan(BaseModel):
     army_controlled: list[dict[str, Any]] = Field(default_factory=list)
 
 
-def load_defense_scan(reference_dir: Path) -> DefenseLandScan | None:
-    """Load ``allen-gis/parcels.defense.yaml`` from the reference tree, if present."""
-    path = reference_dir / "allen-gis" / "parcels.defense.yaml"
+def load_defense_scan(settings: Settings) -> DefenseLandScan | None:
+    """Load the active site's defense-land scan, if present.
+
+    The parcel reference subfolder is the active profile's ``gis_parcel.reference_dir``
+    (Lima = ``allen-gis``), so a non-Lima site reads its own ``parcels.defense.yaml``
+    rather than Allen County's. Returns ``None`` when the site registers no parcel GIS
+    schema or the scan file is absent.
+    """
+    prof = active_profile(settings)
+    if prof.gis_parcel is None:
+        return None
+    path = settings.reference_dir / prof.gis_parcel.reference_dir / "parcels.defense.yaml"
     if not path.is_file():
         return None
     data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}

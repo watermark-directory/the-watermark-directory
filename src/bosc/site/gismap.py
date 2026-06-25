@@ -18,6 +18,7 @@ from typing import TYPE_CHECKING, Any
 
 from bosc.config import Settings, get_settings
 from bosc.site.feeds import GeoFeature, GeoFeatureCollection, GeoProperties
+from bosc.sites import active_profile
 
 if TYPE_CHECKING:
     from bosc.hydrology.toxics import ToxicDischargeInventory
@@ -53,6 +54,8 @@ def merge_rsei_layer(
     fc: dict[str, Any],
     inv: RseiInventory,
     screen: ToxicDischargeInventory | None = None,
+    *,
+    settings: Settings | None = None,
 ) -> tuple[dict[str, Any], int]:
     """Idempotently add the RSEI facility point layer to a findings FeatureCollection.
 
@@ -62,6 +65,7 @@ def merge_rsei_layer(
     to a near-undiluted reach are tagged ``water_flag`` (critical/elevated) so the map
     rings them. Returns the updated collection and the number of points added.
     """
+    county = active_profile(settings or get_settings()).county_name
     by_id = {s.rsei_facility_id: s for s in (screen.screens if screen else [])}
     feats = [
         f for f in fc.get("features", []) if f.get("properties", {}).get("layer") != _RSEI_LAYER
@@ -119,7 +123,7 @@ def merge_rsei_layer(
     fc["features"] = feats
     meta = fc.setdefault("meta", {})
     sources = meta.setdefault("sources", [])
-    note = "EPA RSEI Public Data Set — Allen County facility points, sized by RSEI Score"
+    note = f"EPA RSEI Public Data Set — {county} facility points, sized by RSEI Score"
     if note not in sources:
         sources.append(note)
     return fc, added
@@ -138,12 +142,17 @@ def merge_corridor_layer(
     this is its visual frame. Returns the updated collection and the feature count added.
     """
     settings = settings or get_settings()
-    ref = settings.reference_dir / "periplus"
+    prof = active_profile(settings)
     feats = [
         f
         for f in fc.get("features", [])
         if f.get("properties", {}).get("layer") not in _CORRIDOR_LAYERS
     ]
+    if prof.corridor_geo_relpath is None:
+        # No corridor geometry registered for this site — drop any stale features and stop.
+        fc["features"] = feats
+        return fc, 0
+    ref = settings.data_dir / prof.corridor_geo_relpath
     added = 0
 
     study = ref / "corridor.geojson"
@@ -157,7 +166,7 @@ def merge_corridor_layer(
                     "geometry": f["geometry"],
                     "properties": {
                         "layer": "corridor",
-                        "label": "North Cole Street corridor — Periplus study area",
+                        "label": f"{prof.corridor_name} — study area",
                     },
                 }
             )
@@ -188,8 +197,8 @@ def merge_corridor_layer(
     fc["features"] = feats
     sources = fc.setdefault("meta", {}).setdefault("sources", [])
     note = (
-        "Periplus frozen corridor study area + roadwork centerline "
-        "(data/reference/periplus/) — external corroboration"
+        f"{prof.corridor_name} — frozen corridor study area + roadwork centerline "
+        f"({prof.corridor_geo_relpath}/) — external corroboration"
     )
     if note not in sources:
         sources.append(note)

@@ -33,10 +33,28 @@ from pydantic import BaseModel, ConfigDict
 
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
 _CRA_REL = ("legal", "prr-mandamus", "cra-agreement.cra.yaml")
+
+
+def _buildout_consumptive_cfs(settings: Settings) -> float | None:
+    """The buildout scenario's net consumptive cooling draw (cfs), from the committed artifact.
+
+    Reads ``consumptive_loss.value`` off ``data/scenarios/buildout.scenario.yaml`` rather than
+    carrying a per-site literal — a non-Lima site supplies its own reviewed scenario.
+    """
+    path = settings.scenarios_dir / "buildout.scenario.yaml"
+    if not path.is_file():
+        return None
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        return float(data["consumptive_loss"]["value"])
+    except (KeyError, TypeError, ValueError):
+        return None
+
 
 # Ohio real-property tax mechanics: assessed value = 35% of market value (R.C. 5715.01).
 # Effective commercial/industrial rates (gross millage on the assessed value, net of
@@ -188,7 +206,16 @@ def _burdens(settings: Settings) -> list[BurdenItem]:
     try:
         from bosc.hydrology import scenario
 
-        sw = scenario.evaluate_seasonal(4.851, settings=settings)
+        draw_cfs = _buildout_consumptive_cfs(settings)
+        sw = (
+            scenario.evaluate_seasonal(
+                draw_cfs,
+                receiving_water=active_profile(settings).receiving_water_name,
+                settings=settings,
+            )
+            if draw_cfs is not None
+            else None
+        )
         if sw is not None and sw.summer_multiple is not None:
             out.append(
                 BurdenItem(
