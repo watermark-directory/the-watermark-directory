@@ -14,7 +14,9 @@
  * — no `Math.random`, no fork between server and client. Everything here is pure.
  */
 
-/** Evidence register — the same vocabulary as the prose tags and `EvidenceTag`. */
+/** Evidence register for the uncertainty engine. A deliberate dialect of the canonical
+ *  `TagKind` (`./evidence`, #579): `assumption` stands in for `inference` because the engine's
+ *  inputs are cited *bounds*, not a single labelled reading. Kept distinct on purpose. */
 export type Register = "verified" | "assumption" | "open";
 
 /** A prior's shape: a disclosed point, a bounded (cited) band, or a wide-open range. */

@@ -459,7 +459,7 @@ export interface HypothesisAssessmentItem {
   site: string;
   hypothesis: string;
   signal?: string | null;
-  tag: "verified" | "inference" | "open";
+  tag: import("./evidence").TagKind; // the canonical evidence vocabulary (#579)
   group?: string | null;
   fields: Record<string, string>;
   citations: Citation[];

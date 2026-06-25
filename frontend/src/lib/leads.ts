@@ -18,8 +18,9 @@
 export type LeadKind = "signal" | "question" | "redaction" | "claim";
 /** Lead status — drives the chip; maps onto the repo's evidence palette. */
 export type LeadStatus = "low" | "unanswered" | "withheld" | "review";
-/** Evidence tag — the repo's tag vocabulary (`[open]` gap vs. `[inference]` reading). */
-export type LeadTag = "open" | "inference";
+/** Evidence tag — a lead is only ever `[open]` (a gap) or `[inference]` (a reading), never
+ *  `[verified]`; a narrowing of the canonical `TagKind` from `./evidence` (#579). */
+export type LeadTag = Exclude<import("./evidence").TagKind, "verified">;
 
 export interface Lead {
   /** Stable local id; mirrors the PRR item / source where apt (shown mono, like the comp). */

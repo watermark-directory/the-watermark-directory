@@ -19,8 +19,9 @@ export type LimaStatus = "ruled-out" | "open";
 /** How open access to the compute is — the "who can use it" axis that narrows. */
 export type AccessLevel = "self" | "commercial" | "private-tenants" | "authorized-only";
 
-/** The evidence register, matching the engine grammar (#272) + the prose tags. */
-export type Register = "verified" | "inference" | "open";
+/** The evidence register, matching the engine grammar (#272) + the prose tags — the canonical
+ *  `TagKind` from `./evidence` (#579). */
+export type Register = import("./evidence").TagKind;
 
 export interface DcType {
   key: DcKey;

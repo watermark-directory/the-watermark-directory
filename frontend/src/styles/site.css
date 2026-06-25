@@ -1096,7 +1096,8 @@ a { color: var(--bosc-link); }
 
 /* ---- Evidence-discipline pills (EvidenceTag.astro) ----
    The design language's evidence tag: a filled pill with a leading status dot,
-   bracketed label, no border. Shared visual with the teardown's `.td-tag`. */
+   bracketed label, no border. The single evidence-pill treatment site-wide (#579) —
+   figure stats, the timeline, record teardowns, profile attrs, and the withholding stack. */
 .evidence {
   display: inline-flex;
   align-items: center;
@@ -1908,7 +1909,8 @@ a.card:hover { border-color: var(--bosc-forest); background: var(--bosc-surface)
 .wstack-sum-main { display: flex; flex-direction: column; gap: var(--sp-1); min-width: 0; }
 .wstack-statute { font-family: var(--td-mono); font-size: var(--fs-meta); font-weight: 700; color: var(--bosc-ink); }
 .wstack-title { font-size: var(--fs-caption); color: var(--td-faint); }
-.wstack-tag { margin-left: auto; flex: none; font-size: var(--fs-nano); font-weight: 700; letter-spacing: 0.5px; color: var(--bosc-verified); background: var(--td-verified-bg); border-radius: 4px; padding: var(--sp-1) var(--sp-1); }
+/* Positioning-only wrapper — the pill itself is an `EvidenceTag` now (#579). */
+.wstack-tag { margin-left: auto; flex: none; }
 .wstack-cue { flex: none; width: 9px; height: 9px; border-right: 2px solid var(--td-faint); border-bottom: 2px solid var(--td-faint); transform: rotate(-45deg); transition: transform var(--dur) var(--ease); }
 .wstack-det[open] .wstack-cue { transform: rotate(45deg); }
 .wstack-sum:focus-visible { outline: 2px solid var(--bosc-ink); outline-offset: -3px; }
@@ -2138,16 +2140,8 @@ a.card:hover { border-color: var(--bosc-forest); background: var(--bosc-surface)
 .td-key { background: var(--td-key-bg); box-shadow: 0 0 0 1px var(--td-key-line); border-radius: 3px; padding: 0 var(--sp-1); font-weight: 700; white-space: nowrap; color: inherit; }
 .td-check { border: 1px solid var(--td-check-line); background: var(--td-check-bg); border-radius: 10px; padding: var(--sp-4); }
 
-.td-tag { display: inline-flex; align-items: center; gap: var(--sp-1); font-size: var(--fs-caption); font-weight: 700; border-radius: 999px; padding: var(--sp-1) var(--sp-3); }
-.td-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
-.td-tag--verified { color: var(--td-verified); background: var(--td-verified-bg); }
-.td-tag--inference { color: var(--td-inference); background: var(--td-inference-bg); }
-.td-tag--open { color: var(--td-open); background: var(--td-open-bg); }
-/* The other three EvidenceTag kinds — emitters build `td-tag--${kind}` for all six, so these
-   must exist or `gap`/`key`/`filename` render unstyled (#589). Palette mirrors `.evidence-*`. */
-.td-tag--filename { color: var(--bosc-filename); background: var(--td-open-bg); }
-.td-tag--gap { color: var(--ev-gap-fg); background: var(--ev-gap-bg); }
-.td-tag--key { color: var(--ev-key-fg); background: var(--ev-key-bg); }
+/* The `.td-tag*` evidence pills were consolidated into `EvidenceTag` / `.evidence-*` (#579);
+   every emitter now routes through that single component. */
 
 .td-link-row { display: flex; flex-direction: column; align-items: flex-start; }
 .td-link { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-meta); text-decoration: none; }
@@ -2268,7 +2262,6 @@ a.td-chip:hover { background: var(--td-tint); }
 .walk-promise-title { font-weight: 700; margin: 0 0 0.3rem; }
 .walk-promise p { margin: 0 0 0.6rem; }
 .walk-promise-tags { gap: var(--sp-2) var(--sp-3); }
-.walk-promise-tags .td-tag { font-weight: 700; }
 .walk-tag-gloss { font-weight: 400; opacity: 0.85; }
 
 .walk-corpus { font-size: var(--fs-body); color: var(--bosc-ink); max-width: 44rem; }
@@ -2466,10 +2459,7 @@ a.walk-dot:hover { opacity: 0.82; }
 .ph-attr-label { font-size: var(--fs-meta); color: var(--bosc-muted); }
 .ph-attr-value-wrap { display: flex; align-items: baseline; gap: var(--sp-2); min-width: 0; }
 .ph-attr-value { font-size: var(--fs-meta); font-weight: 600; font-family: var(--bosc-mono); text-align: right; word-break: break-word; }
-.ph-attr-tag { font-size: var(--fs-nano); font-weight: 700; border-radius: 5px; padding: var(--sp-1) var(--sp-1); flex: 0 0 auto; }
-.ph-tag--verified { color: var(--bosc-verified); background: var(--td-verified-bg); }
-.ph-tag--inference { color: var(--bosc-inference); background: var(--td-inference-bg); }
-.ph-tag--open { color: var(--bosc-open); background: var(--td-open-bg); }
+/* Profile-attribute tags route through `EvidenceTag` / `.evidence-*` now (#579). */
 .ph-foot { padding: var(--sp-3) var(--sp-5); background: var(--td-panel); border-top: 1px solid var(--td-line); display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
 .ph-rels { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; min-width: 0; }
 .ph-rels-label { font-size: var(--fs-micro); letter-spacing: 0.8px; text-transform: uppercase; color: var(--td-faint); font-weight: 700; }

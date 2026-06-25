@@ -6,6 +6,7 @@
  * year from a flat, chronologically-sorted event list. SSR-only.
  */
 import type { TimelineItem } from "../lib/viz";
+import EvidenceTag from "./EvidenceTag.astro";
 
 interface Props {
   events: TimelineItem[];
@@ -45,9 +46,7 @@ for (const e of events) {
               <div class="tl-meta">
                 <span class="tl-date">{row.event.date || "—"}</span>
                 <span class="tl-kind">{row.event.kind}</span>
-                <span class:list={["td-tag", `td-tag--${row.event.evidence}`]}>
-                  <span class="td-tag-dot" aria-hidden="true" />[{row.event.evidence}]
-                </span>
+                <EvidenceTag kind={row.event.evidence} />
                 {row.event.seenInCh &&
                   (row.event.seenInHref ? (
                     <a class="tl-walk" href={row.event.seenInHref}>↩ walk Ch.{row.event.seenInCh}</a>

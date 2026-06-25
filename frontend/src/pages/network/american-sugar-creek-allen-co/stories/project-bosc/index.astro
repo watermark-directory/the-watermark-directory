@@ -7,6 +7,7 @@
  * A site can host several stories — this is one (codename `project-bosc`). Declares section "story".
  */
 import Base from "../../../../../layouts/Base.astro";
+import EvidenceTag from "../../../../../components/EvidenceTag.astro";
 import { hasFeed, loadFeed, loadManifest } from "../../../../../lib/bundle";
 import { type DocumentCollectionItem } from "../../../../../lib/feeds";
 import { WALK_CHAPTERS, WALK_INDEX_HREF, walkHref } from "../../../../../lib/walk";
@@ -44,9 +45,9 @@ const firstChapter = walkHref(WALK_CHAPTERS[0].slug);
         never have to take our word for it:
       </p>
       <div class="td-chips walk-promise-tags">
-        <span class="td-tag td-tag--verified"><span class="td-tag-dot" aria-hidden="true"></span>[verified]<span class="walk-tag-gloss"> read from a cited record</span></span>
-        <span class="td-tag td-tag--inference"><span class="td-tag-dot" aria-hidden="true"></span>[inference]<span class="walk-tag-gloss"> a labelled reading of the record</span></span>
-        <span class="td-tag td-tag--open"><span class="td-tag-dot" aria-hidden="true"></span>[open]<span class="walk-tag-gloss"> withheld or unresolved</span></span>
+        <EvidenceTag kind="verified"><span class="walk-tag-gloss"> read from a cited record</span></EvidenceTag>
+        <EvidenceTag kind="inference"><span class="walk-tag-gloss"> a labelled reading of the record</span></EvidenceTag>
+        <EvidenceTag kind="open"><span class="walk-tag-gloss"> withheld or unresolved</span></EvidenceTag>
       </div>
     </div>
 

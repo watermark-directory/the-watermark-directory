@@ -10,6 +10,7 @@
  * ⑤ where it connects. Styling lives in styles/site.css (`.td-*`), an extension
  * of the existing token vocabulary. SSR-only — no JS, fully readable with JS off.
  */
+import EvidenceTag from "./EvidenceTag.astro";
 import RedactionReveal from "./RedactionReveal.astro";
 import TeardownSourceCard from "./TeardownSourceCard.astro";
 import type { TeardownLayout, TeardownRecord } from "../lib/teardown";
@@ -80,7 +81,7 @@ const pins = r.pins ?? [];
         </div>
         <div class="td-check" id={anchors ? "beat-check" : undefined}>
           <div class="td-part is-green">④ How to check it</div>
-          <span class:list={["td-tag", `td-tag--${r.check.tag}`]}><span class="td-tag-dot" aria-hidden="true"></span>[{r.check.tag}] {r.check.sub}</span>
+          <EvidenceTag kind={r.check.tag}> {r.check.sub}</EvidenceTag>
           <div class="td-link-row">
             {r.check.verifyHref
               ? <a class="td-link td-link--verify" href={r.check.verifyHref}><span aria-hidden="true">↗</span>{r.check.verify}</a>
@@ -136,7 +137,7 @@ const pins = r.pins ?? [];
       <div class="td-block td-block--check">
         <div class="td-part is-green">④ How to check it</div>
         <div class="td-check-inline">
-          <span class:list={["td-tag", `td-tag--${r.check.tag}`]}><span class="td-tag-dot" aria-hidden="true"></span>[{r.check.tag}] {r.check.sub}</span>
+          <EvidenceTag kind={r.check.tag}> {r.check.sub}</EvidenceTag>
           {r.check.verifyHref
             ? <a class="td-link td-link--verify" href={r.check.verifyHref}><span aria-hidden="true">↗</span>{r.check.verify}</a>
             : <span class="td-link td-link--verify"><span aria-hidden="true">↗</span>{r.check.verify}</span>}
@@ -209,7 +210,7 @@ const pins = r.pins ?? [];
         </div>
         <div class="td-annot-check">
           <div class="td-part is-green">④ How to check it</div>
-          <span class:list={["td-tag", `td-tag--${r.check.tag}`]}><span class="td-tag-dot" aria-hidden="true"></span>[{r.check.tag}] {r.check.sub}</span>
+          <EvidenceTag kind={r.check.tag}> {r.check.sub}</EvidenceTag>
           <div class="td-link-row">
             {r.check.verifyHref
               ? <a class="td-link td-link--verify" href={r.check.verifyHref}><span aria-hidden="true">↗</span>{r.check.verify}</a>
