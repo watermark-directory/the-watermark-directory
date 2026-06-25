@@ -132,7 +132,10 @@ def distill_proposals(
                 error=str(exc)[:160],
             )
     if drafts is None:
-        assert last_err is not None  # the loop set it on every failed attempt
+        # Re-raise the last model error. An explicit raise, not `assert` — `python -O`
+        # strips assertions, which would turn this into a confusing `raise None` (#617).
+        if last_err is None:  # unreachable: every failed attempt records last_err
+            raise RuntimeError("proposal distillation failed with no recorded error")
         raise last_err
 
     proposals: list[IssueProposal] = []
@@ -222,7 +225,9 @@ def _distill_assessment(
                 max=_DISTILL_ATTEMPTS,
                 error=str(exc)[:160],
             )
-    assert last_err is not None
+    # Explicit raise, not `assert` — stripped under `python -O` (#617).
+    if last_err is None:  # unreachable: every failed attempt records last_err
+        raise RuntimeError("assessment failed with no recorded error")
     raise last_err
 
 
@@ -501,6 +506,11 @@ def write_run(
     if resolved == docs or docs in resolved.parents:
         raise ValueError(f"refusing to write a research run under the immutable corpus: {out_dir}")
 
+    # Same-day reruns share a run_slug (<topic>-<date>), so a second run silently
+    # clobbers the first's outputs. Keep overwriting (idempotent reruns are useful) but
+    # warn, so a clobber is never silent (#617).
+    if (out_dir / "findings.md").exists():
+        log.warning("research.run.overwrite", out_dir=str(out_dir))
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "findings.md").write_text(_findings_markdown(manifest), encoding="utf-8")
     (out_dir / "manifest.yaml").write_text(

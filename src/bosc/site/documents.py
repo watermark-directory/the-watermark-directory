@@ -261,6 +261,12 @@ def build_documents(
         if path.name in _SKIP_NAMES or path.suffix.lower() in _SKIP_SUFFIXES:
             continue
         rel_path = path.relative_to(documents_dir)
+        # A collection is a first-level subdirectory; a file dropped directly under
+        # documents_dir has no collection and would otherwise become a single-file
+        # "collection" named after the file (#617). Skip it, surfaced for review.
+        if len(rel_path.parts) < 2:
+            log.warning("site.documents.uncollected_file", path=str(rel_path))
+            continue
         slug = rel_path.parts[0]
         rel = str(rel_path)
         coll = collections.get(slug)
