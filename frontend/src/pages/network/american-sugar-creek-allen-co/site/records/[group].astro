@@ -33,7 +33,8 @@ const anchors = records.filter((r) => recordToBlock(r).seenIn).length;
     <p class="section-lead">
       {records.length} record(s) — open one for its full reading and, where it's a story
       anchor, the teardown.
-      {anchors > 0 && ` ${anchors} of these is a story anchor — its seen-in-the-story badge links back to the chapter that unpacked it.`}
+      {anchors === 1 && " One of these is a story anchor — its seen-in-the-story badge links back to the chapter that unpacked it."}
+      {anchors > 1 && ` ${anchors} of these are story anchors — their seen-in-the-story badges link back to the chapter that unpacked each.`}
     </p>
   </article>
   <div class="rb-list">

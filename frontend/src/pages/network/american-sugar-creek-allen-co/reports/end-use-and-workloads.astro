@@ -9,7 +9,6 @@
 import ReportShell from "../../../../layouts/ReportShell.astro";
 import EndUseExplorer from "../../../../components/islands/EndUseExplorer.tsx";
 import { buildEndUse } from "../../../../lib/endUse";
-import { withSite } from "../../../../lib/site";
 
 const endUse = buildEndUse();
 const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[open]");
@@ -18,8 +17,9 @@ const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[op
 <ReportShell
   title="End use & workloads"
   description="The customer is known (Google); the use is not. Explore the four things called 'data center' — and the open question of who can use the Lima campus."
-  eyebrow="Extension narrative · #233"
+  eyebrow="Extension narrative · #233 · the workloads it will run"
   h1="What the facility is for"
+  fullReportHref="/docs/end-use-and-workloads"
 >
   <Fragment slot="lead">
       <p class="section-lead">
@@ -98,16 +98,8 @@ const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[op
       </p>
     </div>
 
-    <article class="prose">
-      <p>
-        This is the short, interactive version. The full report walks every claim to its source —
-        the hyperscale-vs-colocation split, the “cannot say” abatement opacity, the FedRAMP / DoD
-        impact-level ladder, and why the answer changes the public-benefit math.
-      </p>
-      <p>
-        <a class="btn btn--icon" href={withSite("/docs/end-use-and-workloads")}>
-          Read the full report →
-        </a>
-      </p>
-    </article>
+    <Fragment slot="full-report">
+      the hyperscale-vs-colocation split, the “cannot say” abatement opacity, the FedRAMP /
+      DoD impact-level ladder, and why the answer changes the public-benefit math
+    </Fragment>
 </ReportShell>

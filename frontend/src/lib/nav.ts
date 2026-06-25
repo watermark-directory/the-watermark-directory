@@ -273,7 +273,7 @@ export const NETWORK_TABS: NavItem[] = [
       },
       { label: "About the site", href: "/about", blurb: "What Watermark is, and why" },
       { label: "Data catalog", href: "/about/data", blurb: "Every dataset: source, license, freshness" },
-      { label: "About the author", href: "/about-me", blurb: "Who keeps the record" },
+      { label: "Who runs this", href: "/about-me", blurb: "The team behind the record" },
     ],
   },
 ];

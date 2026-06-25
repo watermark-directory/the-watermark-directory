@@ -15,7 +15,7 @@ const concepts = hasFeed("concepts") ? loadFeed<ConceptItem[]>("concepts") : [];
       The concept glossary — term and method definitions cross-linked through the
       record. {concepts.length} concept(s).
     </p>
-    {concepts.length === 0 && <p class="stub-note">No concepts feed in this bundle.</p>}
+    {concepts.length === 0 && <p class="stub-note">No concepts have been published yet.</p>}
     <div class="cards">
       {
         concepts.map((c) => (

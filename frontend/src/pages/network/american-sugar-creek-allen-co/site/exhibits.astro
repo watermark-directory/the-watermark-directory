@@ -15,7 +15,7 @@ const exhibits = hasFeed("exhibits") ? loadFeed<ExhibitItem[]>("exhibits") : [];
       immutable source under <code>data/documents/</code>.
     </p>
 
-    {exhibits.length === 0 && <p class="stub-note">No exhibits feed in this bundle.</p>}
+    {exhibits.length === 0 && <p class="stub-note">No exhibits have been published yet for this site.</p>}
 
     <div class="cards">
       {

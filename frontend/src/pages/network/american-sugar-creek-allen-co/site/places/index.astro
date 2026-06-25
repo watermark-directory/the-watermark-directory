@@ -12,7 +12,7 @@ const sorted = [...places].sort((a, b) => a.name.localeCompare(b.name));
   <article class="prose">
     <p>
       <a href={withSite("/site/")}>← The record</a> ·
-      <a href={withSite("/site/people/")}>People &amp; places</a>
+      <a href={withSite("/site/people/")}>People</a>
     </p>
     <h1>Places &amp; parcels</h1>
     <p class="section-lead">
@@ -21,7 +21,7 @@ const sorted = [...places].sort((a, b) => a.name.localeCompare(b.name));
     </p>
     {
       places.length === 0 ? (
-        <p class="stub-note">No <code>places</code> feed in this bundle.</p>
+        <p class="stub-note">No places have been published yet for this site.</p>
       ) : (
         <table>
           <thead>
