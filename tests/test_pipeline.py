@@ -31,17 +31,22 @@ def test_discover_handles_missing_dir(tmp_path: Path) -> None:
     assert ingest.discover(settings) == []
 
 
-def test_discover_finds_documents(tmp_path: Path) -> None:
+def test_discover_finds_only_extractable_sources(tmp_path: Path) -> None:
     from bosc.config import Settings
 
     coll = tmp_path / "documents" / "aedg"
     coll.mkdir(parents=True)
     (coll / "exhibit.pdf").write_bytes(b"%PDF-1.4 stub")
+    (coll / "drawing.odg").write_bytes(b"PK\x03\x04 stub")
+    # Admitted by the old SOURCE_SUFFIXES but with no extractor path — would crash
+    # PdfDocument, so the extraction inventory must not surface them (#619).
+    (coll / "scan.png").write_bytes(b"\x89PNG stub")
+    (coll / "agenda.jpg").write_bytes(b"\xff\xd8\xff stub")
     (coll / "notes.txt").write_text("hello")
-    (coll / "ignore.csv").write_text("a,b")  # not an ingestible suffix
+    (coll / "ignore.csv").write_text("a,b")
 
     settings = Settings(data_dir=tmp_path)
     docs = ingest.discover(settings)
-    assert {d.path.name for d in docs} == {"exhibit.pdf", "notes.txt"}
+    assert {d.path.name for d in docs} == {"exhibit.pdf", "drawing.odg"}
     assert all(d.collection == "aedg" for d in docs)
     assert next(d for d in docs if d.is_pdf)

@@ -16,8 +16,14 @@ from bosc.logging import get_logger
 
 log = get_logger(__name__)
 
-# Extensions we treat as ingestible source material.
-SOURCE_SUFFIXES = {".pdf", ".png", ".jpg", ".jpeg", ".tif", ".tiff", ".txt", ".odg"}
+# Extensions the extract stage can actually read: PDF (pdfium render + pypdf text)
+# and OpenDocument Drawing (read_odg). `discover` is the *extraction* inventory, so it
+# admits only what has an extractor path — a discovered .png/.tif/.txt scan has none
+# and would crash PdfDocument (#619). Raw image-source extraction (wrapping .png/.jpg
+# straight into the vision model) is a separate feature, not advertised here until built.
+# (Reference/evidence images + text under data/documents/ are still immutable corpus and
+# are surfaced by the site documents feed, which walks the tree independently.)
+SOURCE_SUFFIXES = {".pdf", ".odg"}
 
 
 @dataclass(frozen=True)
