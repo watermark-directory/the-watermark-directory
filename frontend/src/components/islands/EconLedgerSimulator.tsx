@@ -25,25 +25,17 @@ import {
 import { fmtUsdM } from "../../lib/money";
 import {
   DEFAULT_SEED,
-  type Prior,
-  central,
-  disclose,
+  applyDisclosures,
   outcomeBand,
   sample,
   summarize,
   tornado,
 } from "../../lib/uncertainty";
-import { Line, Slider } from "./scenarioControls";
+import { DiscloseList, Line, Slider } from "./scenarioControls";
 import { DistributionStrip, RegisterMark, TornadoChart } from "./uncertaintyGrammar";
 
 const REFRESH_CENTRAL = 1.5;
 const PROFILES = ledgerProfiles();
-const PRIOR_BY_KEY = new Map(ECON_PRIORS.map((p) => [p.key, p]));
-
-function priorCentral(key: string): number {
-  const p = PRIOR_BY_KEY.get(key);
-  return p ? central(p.dist) : 0;
-}
 
 export default function EconLedgerSimulator(): JSX.Element {
   const [mode, setMode] = useState<"discrete" | "distribution">("discrete");
@@ -81,13 +73,7 @@ export default function EconLedgerSimulator(): JSX.Element {
   }, [share, jobs, schoolComp, dcte]);
 
   // --- distribution: priors with disclosed knobs collapsed to their central ---
-  const effectivePriors: Prior[] = useMemo(() => {
-    let priors = ECON_PRIORS;
-    for (const key of Object.keys(disclosed)) {
-      if (disclosed[key]) priors = disclose(priors, key, priorCentral(key));
-    }
-    return priors;
-  }, [disclosed]);
+  const effectivePriors = useMemo(() => applyDisclosures(ECON_PRIORS, disclosed), [disclosed]);
 
   const sim = useMemo(() => {
     const perJobModel = netSubsidyPerJobModel(dcte);
@@ -253,21 +239,11 @@ export default function EconLedgerSimulator(): JSX.Element {
           />
 
           <h4 className="unc-h4">Produce a record → collapse the band</h4>
-          <div className="unc-disclose">
-            {ECON_PRIORS.map((p) => (
-              <label key={p.key} className={`unc-disclose-row${disclosed[p.key] ? " is-disclosed" : ""}`}>
-                <input
-                  type="checkbox"
-                  checked={!!disclosed[p.key]}
-                  onChange={(e) => setDisclosed((d) => ({ ...d, [p.key]: e.target.checked }))}
-                />
-                <span className="unc-disclose-label">
-                  <RegisterMark register={p.register} /> {p.label}
-                </span>
-                <span className="unc-disclose-rec">{disclosed[p.key] ? "disclosed" : p.resolvingRecord}</span>
-              </label>
-            ))}
-          </div>
+          <DiscloseList
+            priors={ECON_PRIORS}
+            disclosed={disclosed}
+            onToggle={(key, value) => setDisclosed((d) => ({ ...d, [key]: value }))}
+          />
           <p className="unc-note">
             Each toggle pins one withheld figure to its reference value and re-prices the opacity. The record
             pins none of these today — that is the finding, in dollars.

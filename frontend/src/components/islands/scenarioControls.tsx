@@ -5,6 +5,7 @@
  * knob/readout grammar over the same `unc-*` styles. Pure presentational; the
  * evidence-palette `RegisterMark` keeps a knob's evidence status legible at a glance.
  */
+import type { Prior } from "../../lib/uncertainty";
 import { RegisterMark } from "./uncertaintyGrammar";
 
 /** A register-marked range input with a formatted live value (a scenario knob). */
@@ -42,6 +43,39 @@ export function Slider({
       />
       <span className="unc-slider-val">{fmt(value)}</span>
     </label>
+  );
+}
+
+/**
+ * The "produce a record → collapse the band" disclose list — one toggle per withheld
+ * prior, each pinning its knob to reference on check. Lifted out of the econ/grid
+ * simulators, which rendered byte-identical markup over their `*_PRIORS` (#580).
+ */
+export function DiscloseList({
+  priors,
+  disclosed,
+  onToggle,
+}: {
+  priors: Prior[];
+  disclosed: Record<string, boolean>;
+  onToggle: (key: string, value: boolean) => void;
+}): JSX.Element {
+  return (
+    <div className="unc-disclose">
+      {priors.map((p) => (
+        <label key={p.key} className={`unc-disclose-row${disclosed[p.key] ? " is-disclosed" : ""}`}>
+          <input
+            type="checkbox"
+            checked={!!disclosed[p.key]}
+            onChange={(e) => onToggle(p.key, e.target.checked)}
+          />
+          <span className="unc-disclose-label">
+            <RegisterMark register={p.register} /> {p.label}
+          </span>
+          <span className="unc-disclose-rec">{disclosed[p.key] ? "disclosed" : p.resolvingRecord}</span>
+        </label>
+      ))}
+    </div>
   );
 }
 

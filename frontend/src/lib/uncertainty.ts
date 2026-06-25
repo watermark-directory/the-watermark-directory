@@ -197,6 +197,24 @@ export function disclose(priors: Prior[], key: string, value: number): Prior[] {
   );
 }
 
+/** A prior's central value, by key (0 if absent). The shared lookup the simulators used to
+ *  re-implement as a local `priorCentral`/`PRIOR_BY_KEY` (#580). */
+export function priorCentral(priors: Prior[], key: string): number {
+  const p = priors.find((x) => x.key === key);
+  return p ? central(p.dist) : 0;
+}
+
+/** Fold every disclosed knob to its (undisclosed) central value — the "produce a record →
+ *  pin it to reference" step every uncertainty simulator runs over its disclose toggles.
+ *  Centrals are read from the original priors, so the result is independent of toggle order. */
+export function applyDisclosures(priors: Prior[], disclosed: Record<string, boolean>): Prior[] {
+  let out = priors;
+  for (const p of priors) {
+    if (disclosed[p.key]) out = disclose(out, p.key, central(p.dist));
+  }
+  return out;
+}
+
 // --- the shared band contract -------------------------------------------------
 /** What every consumer emits so the public balance sheet (#273) can aggregate them. */
 export interface UncertainOutcome {

@@ -20,31 +20,20 @@ import {
 } from "../../lib/gridLoad";
 import {
   DEFAULT_SEED,
-  type Prior,
-  central,
-  disclose,
+  applyDisclosures,
   outcomeBand,
+  priorCentral,
   sample,
   summarize,
 } from "../../lib/uncertainty";
 import { fmtMw } from "../../lib/format";
+import { DiscloseList, Line } from "./scenarioControls";
 import { DistributionStrip, RegisterMark } from "./uncertaintyGrammar";
-
-const priorCentral = (key: string): number => {
-  const p = GRID_PRIORS.find((x) => x.key === key);
-  return p ? central(p.dist) : 0;
-};
 
 export default function GridLoadScreen(): JSX.Element {
   const [disclosed, setDisclosed] = useState<Record<string, boolean>>({});
 
-  const effectivePriors: Prior[] = useMemo(() => {
-    let priors = GRID_PRIORS;
-    for (const key of Object.keys(disclosed)) {
-      if (disclosed[key]) priors = disclose(priors, key, priorCentral(key));
-    }
-    return priors;
-  }, [disclosed]);
+  const effectivePriors = useMemo(() => applyDisclosures(GRID_PRIORS, disclosed), [disclosed]);
 
   const band = useMemo(() => outcomeBand(effectivePriors, facilityDrawModel), [effectivePriors]);
   const summary = useMemo(
@@ -55,7 +44,7 @@ export default function GridLoadScreen(): JSX.Element {
 
   // The load-not-jobs figures, read off the central inferred facility draw + IT load.
   const gwh = annualGwh(band.central);
-  const itCentral = priorCentral("it_load");
+  const itCentral = priorCentral(GRID_PRIORS, "it_load");
   const halfWidth = (band.high - band.low) / 2;
 
   return (
@@ -100,45 +89,35 @@ export default function GridLoadScreen(): JSX.Element {
       />
 
       <h4 className="unc-h4">Produce a record → collapse the inference</h4>
-      <div className="unc-disclose">
-        {GRID_PRIORS.map((p) => (
-          <label key={p.key} className={`unc-disclose-row${disclosed[p.key] ? " is-disclosed" : ""}`}>
-            <input
-              type="checkbox"
-              checked={!!disclosed[p.key]}
-              onChange={(e) => setDisclosed((d) => ({ ...d, [p.key]: e.target.checked }))}
-            />
-            <span className="unc-disclose-label">
-              <RegisterMark register={p.register} /> {p.label}
-            </span>
-            <span className="unc-disclose-rec">{disclosed[p.key] ? "disclosed" : p.resolvingRecord}</span>
-          </label>
-        ))}
-      </div>
+      <DiscloseList
+        priors={GRID_PRIORS}
+        disclosed={disclosed}
+        onToggle={(key, value) => setDisclosed((d) => ({ ...d, [key]: value }))}
+      />
 
       <h4 className="unc-h4">Load, not jobs</h4>
       <dl className="unc-readout">
-        <Stat
+        <Line
           label="Annual energy"
           value={`${Math.round(gwh).toLocaleString("en-US")} GWh/yr`}
-          reg="inference"
+          register="inference"
         />
-        <Stat
+        <Line
           label="Share of AEP Ohio retail sales"
           value={`${pctOfAepRetail(gwh).toFixed(1)}% of ${AEP_OHIO_RETAIL_GWH.toLocaleString("en-US")} GWh`}
-          reg="verified"
+          register="verified"
           strong
         />
-        <Stat
+        <Line
           label="Equivalent Ohio homes"
           value={`~${Math.round(equivalentHomes(gwh) / 1000)}k homes`}
-          reg="inference"
+          register="inference"
         />
-        <Stat label="Promised jobs" value={`~${PROMISED_JOBS}`} reg="verified" />
-        <Stat
+        <Line label="Promised jobs" value={`~${PROMISED_JOBS}`} register="verified" />
+        <Line
           label="Load per job"
           value={`~${mwPerJob(itCentral).toFixed(1)} MW / job`}
-          reg="inference"
+          register="inference"
           strong
         />
       </dl>
@@ -151,27 +130,6 @@ export default function GridLoadScreen(): JSX.Element {
         <code>[reference]</code> screen, not a finding. What survives is the load: ~5–6% of a utility's entire
         retail electricity, ~260k homes of it, for ~50 jobs.
       </p>
-    </div>
-  );
-}
-
-function Stat({
-  label,
-  value,
-  reg,
-  strong,
-}: {
-  label: string;
-  value: string;
-  reg: "verified" | "assumption" | "inference" | "open";
-  strong?: boolean;
-}): JSX.Element {
-  return (
-    <div className={`unc-line${strong ? " is-strong" : ""}`}>
-      <dt>
-        <RegisterMark register={reg} /> {label}
-      </dt>
-      <dd>{value}</dd>
     </div>
   );
 }
