@@ -35,8 +35,8 @@ describe("prompt contract", () => {
     expect(system).toContain(REFUSAL);
     expect(system).toMatch(/ONLY the provided sources/i);
     expect(system).toMatch(/cite every factual claim/i);
-    // The numbered sources the model must cite by are present in the user turn.
-    expect(user).toContain("[1] ");
+    // The numbered, fenced sources the model must cite by are present in the user turn.
+    expect(user).toContain('<source id="1">');
   });
 });
 
