@@ -44,3 +44,10 @@ def test_renders_page_to_png() -> None:
 def test_out_of_range_page_raises() -> None:
     with PdfDocument(PDF) as pdf, pytest.raises(IndexError):
         pdf.page_text(99_999)
+
+
+def test_out_of_range_render_raises() -> None:
+    # render_page_png is bound-checked against the render (pdfium) backend it indexes,
+    # not just pypdf's page_count, so an out-of-range render fails cleanly (#613).
+    with PdfDocument(PDF) as pdf, pytest.raises(IndexError, match="render backend"):
+        pdf.render_page_png(99_999)
