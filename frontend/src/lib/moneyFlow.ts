@@ -24,6 +24,7 @@
  * the facility is defense (that thread stays [open], tracked in #233).
  */
 import { hasFeed, loadFeed } from "./bundle";
+import { CRA_PROFILES } from "./craProfiles";
 import type { RecordItem } from "./feeds";
 
 export { fmtUsd, fmtUsdFull, fmtUsdM } from "./money";
@@ -131,44 +132,13 @@ const ABATE_MILLS = 0.063; // ~63 effective commercial mills [assumption — exa
 const ABATE_PCT = 0.75; // Res #548-25 / CRA §3 [verified]
 const ABATE_YEARS = 15; // CRA §3, per building [verified]
 
-const ABATE_PROFILES: Omit<AbatementProfile, "perJobUsd">[] = [
-  {
-    key: "stated",
-    label: "Take the application at its word",
-    buildingShare: 0.35,
-    jobs: 50,
-    note: "the CRA's own ~50 jobs; a mid building-shell share of the $500M",
-  },
-  {
-    key: "equipment",
-    label: "AI / GPU-dense (equipment-heavy)",
-    buildingShare: 0.25,
-    jobs: 50,
-    note: "most value is servers + electrical — personal property, not abated — so the abated base shrinks",
-  },
-  {
-    key: "hyperscale",
-    label: "Hyperscale-realistic (lean ops)",
-    buildingShare: 0.35,
-    jobs: 30,
-    note: "data centers staff lean at steady state; the CRA warns actuals 'may differ significantly'",
-  },
-  {
-    key: "govcloud",
-    label: "GovCloud / defense-hardened",
-    buildingShare: 0.5,
-    jobs: 30,
-    note: "hardened construction lifts the real-property share, cleared ops run lean — a what-if profile, not a finding (#233)",
-  },
-];
-
 /** Compute the abatement-per-job band from the labeled constants + profiles.
  *  Per-job = (capex × building share × effective rate × 75% × 15 yr) ÷ jobs. */
 export function buildAbatementPerJob(): AbatementPerJob {
   const effectiveRate = ABATE_ASSESS * ABATE_MILLS; // of market value, per year
   const perJob = (share: number, jobs: number): number =>
     Math.round((ABATE_CAPEX * share * effectiveRate * ABATE_PCT * ABATE_YEARS) / jobs);
-  const profiles: AbatementProfile[] = ABATE_PROFILES.map((p) => ({
+  const profiles: AbatementProfile[] = CRA_PROFILES.map((p) => ({
     ...p,
     perJobUsd: perJob(p.buildingShare, p.jobs),
   }));

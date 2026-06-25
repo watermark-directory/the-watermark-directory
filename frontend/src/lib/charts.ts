@@ -11,12 +11,8 @@
  *  - Figures are monospace (the components set the mono face); the grid is light
  *    (`GRID`, `BASELINE`) with no chrome.
  */
+import { round } from "./format";
 import type { TagKind } from "./teardown";
-
-const round = (n: number, p = 1): number => {
-  const f = 10 ** p;
-  return Math.round(n * f) / f;
-};
 
 /**
  * Forest is data (Swiss 03 chart set): one hue, five tints for series and slices.
@@ -111,17 +107,17 @@ export function buildVBars(data: BarDatum[], opts: { max?: number; barW?: number
     const peak = d.value === peakVal;
     return {
       ...d,
-      x: round(x),
-      y: round(base - h),
+      x: round(x, 1),
+      y: round(base - h, 1),
       w: barW,
-      h: round(h),
-      cx: round(x + barW / 2),
-      valY: round(base - h - 5),
+      h: round(h, 1),
+      cx: round(x + barW / 2, 1),
+      valY: round(base - h - 5, 1),
       peak,
       fill: peak ? FOREST : FOREST_TINTS[2],
     };
   });
-  const grid = ticks(max).map((value) => ({ value, y: round(base - (value / max) * plotH) }));
+  const grid = ticks(max).map((value) => ({ value, y: round(base - (value / max) * plotH, 1) }));
   return { width: W, height: H, baselineY: base, bars, grid };
 }
 
@@ -165,11 +161,11 @@ export function buildHBars(data: RankedBarDatum[], opts: { max?: number; unit?: 
     const y = top + slot * i + (slot - barH) / 2;
     return {
       ...d,
-      y: round(y),
-      textY: round(y + barH / 2 + 3.5),
-      w: round(w),
-      valX: round(x0 + w + 6),
-      valLabel: unit ? `${round(d.value)} ${unit}` : `${round(d.value)}`,
+      y: round(y, 1),
+      textY: round(y + barH / 2 + 3.5, 1),
+      w: round(w, 1),
+      valX: round(x0 + w + 6, 1),
+      valLabel: unit ? `${round(d.value, 1)} ${unit}` : `${round(d.value, 1)}`,
       fill: d.withheld ? WITHHELD_FILL : FOREST,
       stroke: d.withheld ? WITHHELD_STROKE : "none",
       strokeW: d.withheld ? 1 : 0,
@@ -177,7 +173,7 @@ export function buildHBars(data: RankedBarDatum[], opts: { max?: number; unit?: 
   });
   const t = [0, max / 2, max].map((value) => ({
     value: round(value, 4),
-    x: round(x0 + (value / max) * barAreaW),
+    x: round(x0 + (value / max) * barAreaW, 1),
   }));
   return { width: W, height: H, x0, unit, bars, ticks: t };
 }
@@ -235,18 +231,18 @@ export function buildLine(
   const step = points.length > 1 ? plotW / (points.length - 1) : 0;
   const pts = points.map((p, i) => ({
     label: p.label,
-    x: round(L + step * i),
-    y: round(base - (p.value / max) * plotH),
+    x: round(L + step * i, 1),
+    y: round(base - (p.value / max) * plotH, 1),
   }));
   const line = `M${pts.map((p) => `${p.x} ${p.y}`).join(" L")}`;
   const lastPt = pts[pts.length - 1];
   const last = lastPt ? { x: lastPt.x, y: lastPt.y } : { x: L, y: base };
   const area = `${line} L${last.x} ${base} L${pts[0]?.x ?? L} ${base} Z`;
-  const grid = ticks(max).map((value) => ({ value, y: round(base - (value / max) * plotH) }));
+  const grid = ticks(max).map((value) => ({ value, y: round(base - (value / max) * plotH, 1) }));
   const refLines: RefLine[] = (opts.refs ?? []).map((r) => ({
     ...r,
     dash: r.dash ?? "5 3",
-    y: round(base - (Math.max(0, Math.min(r.value, max)) / max) * plotH),
+    y: round(base - (Math.max(0, Math.min(r.value, max)) / max) * plotH, 1),
   }));
   return {
     width: W,
@@ -331,7 +327,7 @@ export function buildWaterfall(steps: WaterfallStep[], opts: { max?: number } = 
   const base = 172;
   const plotH = base - T;
   const peak = opts.max ?? Math.max(1, ...steps.map((s) => s.value)) * 1.05;
-  const sy = (v: number): number => round(base - (v / peak) * plotH);
+  const sy = (v: number): number => round(base - (v / peak) * plotH, 1);
   const n = steps.length || 1;
   const slot = (R - L) / n;
   const barW = Math.min(58, slot * 0.6);
@@ -362,11 +358,11 @@ export function buildWaterfall(steps: WaterfallStep[], opts: { max?: number } = 
     }
     const cx = L + slot * i + slot / 2;
     return {
-      x: round(cx - barW / 2),
-      w: round(barW),
-      y: round(top),
-      h: round(Math.max(bot - top, 1)),
-      cx: round(cx),
+      x: round(cx - barW / 2, 1),
+      w: round(barW, 1),
+      y: round(top, 1),
+      h: round(Math.max(bot - top, 1), 1),
+      cx: round(cx, 1),
       color: s.color ?? WATERFALL_TONE[s.kind],
       label,
       name: s.label,
@@ -377,7 +373,7 @@ export function buildWaterfall(steps: WaterfallStep[], opts: { max?: number } = 
   for (let i = 0; i < bars.length - 1; i++) bars[i].connectorX2 = bars[i + 1].x;
 
   const grid: AxisGridLine[] = [0, 0.33, 0.66, 1].map((f) => {
-    const value = round(f * peak);
+    const value = round(f * peak, 1);
     return { value, y: sy(value) };
   });
   return { width: W, height: H, baselineY: base, bars, grid };
@@ -417,10 +413,10 @@ export function buildStacked(segments: StackSegment[]): StackedBar {
       label: d.label,
       value: d.value,
       kind: d.kind,
-      x: round(acc),
-      w: round(w),
+      x: round(acc, 1),
+      w: round(w, 1),
       fill: EVIDENCE_FILL[d.kind],
-      pct: round((d.value / total) * 100),
+      pct: round((d.value / total) * 100, 1),
     };
     acc += w;
     return seg;
@@ -463,7 +459,7 @@ export function buildDonut(slices: DonutSlice[], opts: { ro?: number; ri?: numbe
       value: d.value,
       d: `M${x0} ${y0} A${ro} ${ro} 0 ${large} 1 ${x1} ${y1} L${x2} ${y2} A${ri} ${ri} 0 ${large} 0 ${x3} ${y3} Z`,
       fill: FOREST_TINTS[i % FOREST_TINTS.length],
-      pct: round((d.value / total) * 100),
+      pct: round((d.value / total) * 100, 1),
     };
   });
   return { total, segments };
@@ -488,7 +484,10 @@ export function buildSparkline(values: number[]): Sparkline {
   const min = Math.min(...values);
   const span = max - min || 1;
   const step = values.length > 1 ? w / (values.length - 1) : 0;
-  const pts = values.map((v, i) => ({ x: round(x0 + step * i), y: round(y0 + (1 - (v - min) / span) * h) }));
+  const pts = values.map((v, i) => ({
+    x: round(x0 + step * i, 1),
+    y: round(y0 + (1 - (v - min) / span) * h, 1),
+  }));
   return {
     width: W,
     height: H,

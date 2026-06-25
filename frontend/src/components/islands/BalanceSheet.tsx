@@ -7,13 +7,14 @@
  * Reads as a map of what *isn't* known, not a verdict. Reuses the uncertainty grammar.
  */
 import { type BalanceUnit, buildBalanceSheet } from "../../lib/balanceSheet";
+import { fmtMw } from "../../lib/format";
 import { fmtUsdM } from "../../lib/money";
 import { withBase, withSite } from "../../lib/site";
 import { DistributionStrip, RegisterMark } from "./uncertaintyGrammar";
 
 function formatter(unit: BalanceUnit): (n: number) => string {
   if (unit === "usd") return fmtUsdM;
-  if (unit === "mw") return (n) => `${Math.round(n)} MW`;
+  if (unit === "mw") return fmtMw;
   return (n) => `${n.toFixed(0)}%`;
 }
 

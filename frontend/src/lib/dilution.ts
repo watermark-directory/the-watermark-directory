@@ -23,6 +23,7 @@
  */
 import { hasFeed, loadFeed } from "./bundle";
 import type { ScenarioResult } from "./feeds";
+import { round } from "./format";
 
 export interface DilutionFloor {
   key: "annual" | "summer" | "driest";
@@ -92,8 +93,6 @@ const OTTAWA_SEASONAL_CITE =
 // figure (docs/HYDROLOGY.md §1); not carried in the hydrology-scenarios feed.
 const CAMPUS_FM2_CFS = 3.87;
 
-const round2 = (n: number): number => Math.round(n * 100) / 100;
-
 const FALLBACK_DISCHARGE_ROWS: DischargeRow[] = [
   { discharger: "Shawnee II WWTP", receiving: "Ottawa River", dischargeCfs: 4.64, lowFlowCfs: 0.2 },
   { discharger: "American Bath WWTP", receiving: "Pike Run", dischargeCfs: 2.32, lowFlowCfs: 0.03 },
@@ -144,12 +143,18 @@ export function buildDilution(): DilutionData {
   const rows: DischargeRow[] = assim.map((a) => ({
     discharger: a.discharger,
     receiving: a.receiving_water,
-    dischargeCfs: round2(a.discharge.value ?? 0),
+    dischargeCfs: round(a.discharge.value ?? 0, 2),
     lowFlowCfs: a.design_low_flow.value ?? 0,
   }));
   const dischargeRows = rows.length > 0 ? rows : FALLBACK_DISCHARGE_ROWS;
-  const wwtpCfs = round2(dischargeRows.reduce((s, r) => s + r.dischargeCfs, 0));
-  const naturalCfs = round2(dischargeRows.reduce((s, r) => s + r.lowFlowCfs, 0));
+  const wwtpCfs = round(
+    dischargeRows.reduce((s, r) => s + r.dischargeCfs, 0),
+    2,
+  );
+  const naturalCfs = round(
+    dischargeRows.reduce((s, r) => s + r.lowFlowCfs, 0),
+    2,
+  );
   const effluentCfs = wwtpCfs + CAMPUS_FM2_CFS;
   const discharge: DilutionDischarge = {
     wwtpCfs,

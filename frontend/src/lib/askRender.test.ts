@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
+import { escapeHtml } from "./format";
 import {
   type AskCitation,
   badgeKind,
-  escapeHtml,
   renderAnswer,
   renderSources,
   searchingHint,

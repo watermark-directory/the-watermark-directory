@@ -18,6 +18,7 @@
  */
 import type { Feature, FeatureCollection, Polygon } from "geojson";
 import { hasFeed } from "./bundle";
+import { round } from "./format";
 import { loadGeo } from "./geo";
 import type { GeoProps } from "./geoStyle";
 
@@ -162,12 +163,12 @@ function fitView(b: [number, number, number, number]): DnView {
   const [w, s, e, n] = b;
   const latSpan = Math.max(0.002, n - s);
   const zoom = Math.min(13, Math.max(10, Math.log2(360 / (latSpan * 1.6))));
-  return { longitude: (w + e) / 2, latitude: (s + n) / 2, zoom: Math.round(zoom * 10) / 10 };
+  return { longitude: (w + e) / 2, latitude: (s + n) / 2, zoom: round(zoom, 1) };
 }
 
 function acres(fc: FeatureCollection<Polygon, GeoProps>): number {
   const sum = fc.features.reduce((t, f) => t + (Number(f.properties.acreage) || 0), 0);
-  return Math.round(sum * 10) / 10;
+  return round(sum, 1);
 }
 
 function facts(m: DnMetrics): DnFact[] {
@@ -265,8 +266,8 @@ export function buildDefenseNexus(): DefenseNexusData {
   const jr = outerRings(jsmc);
   const near = nearest(cr, jr);
   const metrics: DnMetrics = {
-    nearestMi: Math.round(near.mi * 10) / 10,
-    centroidMi: Math.round(haversineMi(centroid(cr), centroid(jr)) * 10) / 10,
+    nearestMi: round(near.mi, 1),
+    centroidMi: round(haversineMi(centroid(cr), centroid(jr)), 1),
     nearestPair: near.pair,
     campusAcres: acres(campus),
     jsmcAcres: acres(jsmc),

@@ -8,6 +8,7 @@
  */
 import { hasFeed, loadFeed } from "./bundle";
 import { slugify, type ConceptItem, type EntityNode, type PersonItem } from "./feeds";
+import { escapeHtml } from "./format";
 import { withBase, withSite } from "./site";
 
 export interface WikiTarget {
@@ -67,9 +68,6 @@ export function wikiIndex(): Map<string, WikiTarget> {
   cached = index;
   return index;
 }
-
-const escapeHtml = (s: string): string =>
-  s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
 /**
  * Inline markdown on an already-HTML-escaped string: code spans, `[[wiki links]]`,

@@ -13,6 +13,7 @@
  * the Worker (functions/api/_lib/retrieval.ts), at query time, so the build only ships
  * raw text + provenance.
  */
+import { blob } from "./format";
 import { siteUrl } from "./routes";
 import { hasFeed, loadFeed } from "./bundle";
 import {
@@ -45,11 +46,6 @@ export interface AskUnit {
   source_kind?: string | null;
   confidence?: string | null;
   verified?: boolean;
-}
-
-/** Join defined, non-empty string-ish bits into one searchable blob. */
-function blob(...parts: (string | null | undefined)[]): string {
-  return parts.filter((p): p is string => typeof p === "string" && p.trim().length > 0).join(" · ");
 }
 
 /** Flatten a record's scalar `fields` into "key value" pairs so figures are searchable. */

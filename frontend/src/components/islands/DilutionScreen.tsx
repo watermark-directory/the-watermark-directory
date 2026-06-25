@@ -12,12 +12,7 @@
  */
 import { useId, useState } from "react";
 import type { DilutionData, DilutionFloor } from "../../lib/dilution";
-
-function fmtMult(m: number): string {
-  if (!Number.isFinite(m)) return "∞×";
-  if (m >= 10) return `${Math.round(m)}×`;
-  return `${m.toFixed(1)}×`;
-}
+import { fmtMult } from "../../lib/format";
 
 export default function DilutionScreen({ data }: { data: DilutionData }): JSX.Element {
   const [coolingMgd, setCoolingMgd] = useState(data.maxCoolingMgd);
