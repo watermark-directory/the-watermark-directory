@@ -83,3 +83,9 @@ export function dedupeInput(s: Submission): string {
   const ref = s.target ? `${s.target.ref_kind}:${s.target.ref_id}` : "";
   return `${ref}\n${s.body.trim().toLowerCase()}`;
 }
+
+/** Hex SHA-256 over Web Crypto — the dedupe hash's digest (paired with `dedupeInput`). */
+export async function sha256Hex(input: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}

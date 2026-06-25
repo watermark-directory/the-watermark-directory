@@ -7,6 +7,8 @@
 // skips rate limiting entirely, and any KV error here fails **open** (allow) — Turnstile
 // remains the primary gate, so a KV outage must not drop legitimate submissions.
 
+import { json } from "./http";
+
 /** The slice of the Workers KV API we use (avoids a dep on @cloudflare/workers-types). */
 export interface KVLike {
   get(key: string): Promise<string | null>;
@@ -59,4 +61,20 @@ export async function checkRateLimit(
   } catch {
     return { allowed: true, retryAfter }; // fail open — Turnstile is the primary gate
   }
+}
+
+/**
+ * Check the limiter and, when blocked, return a ready 429 envelope carrying `Retry-After`
+ * (else null so the caller proceeds). Factors the near-identical 429 block the submit and
+ * ask routes shared; the per-route `cfg` + `message` are passed in (#583).
+ */
+export async function enforceRateLimit(
+  kv: KVLike,
+  ip: string,
+  nowSec: number,
+  cfg: RateLimitConfig,
+  message: string,
+): Promise<Response | null> {
+  const rl = await checkRateLimit(kv, ip, nowSec, cfg);
+  return rl.allowed ? null : json(429, { error: message }, { "Retry-After": String(rl.retryAfter) });
 }

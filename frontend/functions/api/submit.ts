@@ -9,8 +9,9 @@
 
 import { intEnv } from "./_lib/env";
 import { fileIssueAsApp } from "./_lib/github";
-import { buildIssue, dedupeInput } from "./_lib/issue";
-import { checkRateLimit, DEFAULT_RATE_LIMIT, type KVLike } from "./_lib/ratelimit";
+import { json, parseJsonBody, requireEnabled } from "./_lib/http";
+import { buildIssue, dedupeInput, sha256Hex } from "./_lib/issue";
+import { DEFAULT_RATE_LIMIT, enforceRateLimit, type KVLike } from "./_lib/ratelimit";
 import { validateSubmission } from "./_lib/schema";
 import { verifyTurnstile } from "./_lib/turnstile";
 
@@ -50,32 +51,20 @@ interface RequestContext {
   env: Env;
 }
 
-const json = (status: number, data: unknown, headers?: Record<string, string>): Response =>
-  new Response(JSON.stringify(data), {
-    status,
-    headers: { "Content-Type": "application/json", ...headers },
-  });
-
-async function sha256Hex(input: string): Promise<string> {
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
-  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-
 export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   const { request, env } = ctx;
 
-  if (env.SUBMISSIONS_ENABLED !== "true") return json(503, { error: "submissions are not enabled" });
+  const disabled = requireEnabled(env.SUBMISSIONS_ENABLED, () =>
+    json(503, { error: "submissions are not enabled" }),
+  );
+  if (disabled) return disabled;
   if (!env.TURNSTILE_SECRET_KEY || !env.TIPS_APP_ID || !env.TIPS_APP_PRIVATE_KEY)
     return json(500, { error: "endpoint is misconfigured" });
 
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return json(400, { error: "invalid JSON" });
-  }
+  const body = await parseJsonBody(request);
+  if (!body.ok) return body.response;
 
-  const parsed = validateSubmission(raw);
+  const parsed = validateSubmission(body.value);
   if (!parsed.ok) return json(400, { error: parsed.error });
   const submission = parsed.value;
 
@@ -93,17 +82,17 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   // Rate-limit early — before spending a Turnstile verification — when a KV namespace
   // is bound and we have an IP. Soft + fail-open (Turnstile is the primary gate).
   if (env.RATE_LIMIT && remoteip) {
-    const cfg = {
-      max: intEnv(env.RATE_LIMIT_MAX, DEFAULT_RATE_LIMIT.max),
-      windowSec: Math.max(60, intEnv(env.RATE_LIMIT_WINDOW_SEC, DEFAULT_RATE_LIMIT.windowSec)),
-    };
-    const rl = await checkRateLimit(env.RATE_LIMIT, remoteip, Math.floor(Date.now() / 1000), cfg);
-    if (!rl.allowed)
-      return json(
-        429,
-        { error: "too many submissions — please try again later" },
-        { "Retry-After": String(rl.retryAfter) },
-      );
+    const blocked = await enforceRateLimit(
+      env.RATE_LIMIT,
+      remoteip,
+      Math.floor(Date.now() / 1000),
+      {
+        max: intEnv(env.RATE_LIMIT_MAX, DEFAULT_RATE_LIMIT.max),
+        windowSec: Math.max(60, intEnv(env.RATE_LIMIT_WINDOW_SEC, DEFAULT_RATE_LIMIT.windowSec)),
+      },
+      "too many submissions — please try again later",
+    );
+    if (blocked) return blocked;
   }
 
   const human = await verifyTurnstile(submission.turnstile_token, env.TURNSTILE_SECRET_KEY, remoteip);

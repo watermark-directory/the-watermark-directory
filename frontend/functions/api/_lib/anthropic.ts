@@ -7,8 +7,8 @@
 // Default Messages API endpoint. Overridable per-request (`MessageRequest.apiUrl`, fed
 // from the ANTHROPIC_API_BASE var) so the local dev stack can point at a mock origin —
 // prod leaves it unset and hits api.anthropic.com. See frontend/scripts/dev-mocks.mjs.
-const API_URL = "https://api.anthropic.com/v1/messages";
-const API_VERSION = "2023-06-01";
+export const API_URL = "https://api.anthropic.com/v1/messages";
+export const API_VERSION = "2023-06-01";
 
 export interface AnthropicUsage {
   input_tokens: number;

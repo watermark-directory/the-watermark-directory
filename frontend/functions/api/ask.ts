@@ -25,7 +25,8 @@ import { loadAskIndex } from "./_lib/askIndexLoad";
 import { validateAsk } from "./_lib/askSchema";
 import { addUsage, DEFAULT_DAILY_TOKEN_BUDGET, isOverBudget } from "./_lib/budget";
 import { intEnv } from "./_lib/env";
-import { checkRateLimit, type KVLike } from "./_lib/ratelimit";
+import { json, parseJsonBody, requireEnabled } from "./_lib/http";
+import { enforceRateLimit, type KVLike } from "./_lib/ratelimit";
 import { type PreparedIndex, prepare, search } from "./_lib/retrieval";
 import { frame } from "./_lib/sse";
 import { verifyTurnstile } from "./_lib/turnstile";
@@ -70,12 +71,6 @@ interface RequestContext {
   env: Env;
 }
 
-const json = (status: number, data: unknown, headers?: Record<string, string>): Response =>
-  new Response(JSON.stringify(data), {
-    status,
-    headers: { "content-type": "application/json", ...headers },
-  });
-
 const sse = (stream: ReadableStream): Response =>
   new Response(stream, {
     headers: {
@@ -103,19 +98,18 @@ function getPrepared(units: Parameters<typeof prepare>[0]): PreparedIndex {
 export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   const { request, env } = ctx;
 
-  if (env.ASK_ENABLED !== "true") return json(503, { error: "the ask endpoint is not enabled" });
+  const disabled = requireEnabled(env.ASK_ENABLED, () =>
+    json(503, { error: "the ask endpoint is not enabled" }),
+  );
+  if (disabled) return disabled;
   if (!env.ANTHROPIC_API_KEY || !env.TURNSTILE_SECRET_KEY)
     return json(500, { error: "endpoint is misconfigured" });
   const apiKey = env.ANTHROPIC_API_KEY; // captured for the stream closure (narrowing is lost there)
 
-  let raw: unknown;
-  try {
-    raw = await request.json();
-  } catch {
-    return json(400, { error: "invalid JSON" });
-  }
+  const body = await parseJsonBody(request);
+  if (!body.ok) return body.response;
 
-  const parsed = validateAsk(raw);
+  const parsed = validateAsk(body.value);
   if (!parsed.ok) return json(400, { error: parsed.error });
   const { question, turnstile_token } = parsed.value;
 
@@ -136,17 +130,17 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   // Per-IP rate limit (independent of the budget) + account-wide budget guard. Both are soft +
   // fail-open on KV error (Turnstile is the primary gate). Checked before the model call.
   if (env.ASK_RATE_LIMIT && remoteip) {
-    const cfg = {
-      max: intEnv(env.ASK_RATE_LIMIT_MAX, DEFAULT_ASK_RATE_LIMIT.max),
-      windowSec: Math.max(60, intEnv(env.ASK_RATE_LIMIT_WINDOW_SEC, DEFAULT_ASK_RATE_LIMIT.windowSec)),
-    };
-    const rl = await checkRateLimit(env.ASK_RATE_LIMIT, remoteip, Math.floor(nowMs / 1000), cfg);
-    if (!rl.allowed)
-      return json(
-        429,
-        { error: "too many questions — please try again later" },
-        { "Retry-After": String(rl.retryAfter) },
-      );
+    const blocked = await enforceRateLimit(
+      env.ASK_RATE_LIMIT,
+      remoteip,
+      Math.floor(nowMs / 1000),
+      {
+        max: intEnv(env.ASK_RATE_LIMIT_MAX, DEFAULT_ASK_RATE_LIMIT.max),
+        windowSec: Math.max(60, intEnv(env.ASK_RATE_LIMIT_WINDOW_SEC, DEFAULT_ASK_RATE_LIMIT.windowSec)),
+      },
+      "too many questions — please try again later",
+    );
+    if (blocked) return blocked;
   }
   if (budgetKv && (await isOverBudget(budgetKv, nowMs, budgetLimit)))
     return json(503, { error: "the ask endpoint has reached today's budget — please try again tomorrow" });
