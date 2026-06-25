@@ -20,7 +20,7 @@ from rich.console import Console
 from rich.table import Table
 
 from bosc import __version__
-from bosc.config import Settings, get_settings
+from bosc.config import Settings, get_settings, repo_fixtures_dir
 from bosc.documents import DEFAULT_DPI
 from bosc.logging import configure_logging
 from bosc.models import OPCSummary
@@ -2216,7 +2216,7 @@ def nasa_power_cmd(
     if offline:
         settings = Settings(
             hydro_offline=True,
-            hydro_fixtures_dir=settings.data_dir.parent / "tests" / "fixtures" / "hydrology",
+            hydro_fixtures_dir=repo_fixtures_dir("hydrology"),
         )
     clim = nasa_power.fetch_climatology(lon=lon, lat=lat, settings=settings)
 
@@ -3525,7 +3525,7 @@ def lowflow_freq(
         settings = Settings(
             data_dir=settings.data_dir,
             hydro_offline=True,
-            hydro_fixtures_dir=settings.data_dir.parent / "tests" / "fixtures" / "hydrology",
+            hydro_fixtures_dir=repo_fixtures_dir("hydrology"),
         )
 
     lff = lf.compute_low_flow_frequency(
@@ -4280,10 +4280,9 @@ app.add_typer(imagery_app, name="imagery")
 
 def _gis_offline_settings() -> Settings:
     """Settings that serve committed GIS fixtures only (never touch the network)."""
-    base = get_settings()
     return Settings(
         gis_offline=True,
-        gis_fixtures_dir=base.data_dir.parent / "tests" / "fixtures" / "gis",
+        gis_fixtures_dir=repo_fixtures_dir("gis"),
     )
 
 
@@ -4632,12 +4631,11 @@ def poi_discover(
 
 def _poi_offline_settings() -> Settings:
     """Settings that serve committed POI + parcel fixtures only (never touch the network)."""
-    fixtures = get_settings().data_dir.parent / "tests" / "fixtures"
     return Settings(
         poi_offline=True,
-        poi_fixtures_dir=fixtures / "poi",
+        poi_fixtures_dir=repo_fixtures_dir("poi"),
         hydro_offline=True,
-        hydro_fixtures_dir=fixtures / "hydrology",
+        hydro_fixtures_dir=repo_fixtures_dir("hydrology"),
     )
 
 

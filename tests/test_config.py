@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bosc.config import Settings
+from bosc.config import Settings, repo_fixtures_dir
 
 
 def test_defaults() -> None:
@@ -28,6 +28,21 @@ def test_derived_paths(tmp_path: Path) -> None:
     settings.ensure_dirs()
     assert settings.documents_dir.is_dir()
     assert settings.extracted_dir.is_dir()
+
+
+def test_repo_fixtures_dir_anchored_to_repo_not_data_dir(tmp_path: Path) -> None:
+    """#616: offline `--offline` fixture paths must resolve relative to the repo, not
+    `data_dir.parent` — which breaks under a relocated BOSC_DATA_DIR (e.g. a tmp dir)."""
+    relocated = Settings(data_dir=tmp_path)
+    fixtures = repo_fixtures_dir("hydrology")
+    # Anchored at the real repo tree (these are committed), independent of data_dir.
+    assert fixtures.is_dir()
+    assert tmp_path not in fixtures.parents
+    # And the committed gis/poi fixtures resolve the same way.
+    assert repo_fixtures_dir("gis").is_dir()
+    assert repo_fixtures_dir("poi").is_dir()
+    # The relocated settings didn't change where fixtures live.
+    assert relocated.data_dir == tmp_path
 
 
 def test_site_default_resolves_lima() -> None:

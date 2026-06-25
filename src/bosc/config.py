@@ -19,6 +19,17 @@ from bosc.sites import PROFILE_SETTINGS_FIELDS, SITES
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
+def repo_fixtures_dir(*parts: str) -> Path:
+    """A committed test/CI fixtures path under ``tests/fixtures/<parts>``.
+
+    Anchored at the repo root via ``_REPO_ROOT`` — NOT ``settings.data_dir.parent``,
+    which breaks when ``BOSC_DATA_DIR`` is relocated (e.g. a tmp dir in tests) or the
+    package is installed without the repo tree (#616). The CLI's ``--offline`` paths
+    route their ``*_fixtures_dir`` settings through here.
+    """
+    return _REPO_ROOT.joinpath("tests", "fixtures", *parts)
+
+
 class Settings(BaseSettings):
     """Application settings, populated from the environment and ``.env``."""
 
