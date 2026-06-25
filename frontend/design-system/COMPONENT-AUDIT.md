@@ -525,3 +525,19 @@ new contract in Batch 4 (#565); this screen's `PROFILE` data is updated to exerc
   graph-neighborhood chips; "walk" → "story" in the descriptor (#638). The deed row in the
   page-composed "records that mention this" list also gains a `seenIn` to show the compact
   RecordBlock backlink. The list itself stays page-composed (not part of the header comp).
+
+### Batch 12 — Site tier · RecordScreen (#575, epic #564) ✅ pushed
+`ui_kits/site/RecordScreen.jsx`, brought up to the shipped Record Teardown (`RecordTeardown.astro`
+via `…/site/records/[group]/[id].astro`):
+- **live-bundle binding** — the "● in the published bundle" badge (`verifyResolved`-gated; per-
+  variant `inBundle`), surfacing that a record resolves against the same row the library renders;
+- **3 layouts** — split (default) / scroll (vertical scrollytelling + small-screen reflow) /
+  annotated (numbered margin pins), via a layout switch (the shipped page renders all three; the
+  canvas previews each);
+- **5 beats** — the rail/pins now track the impl's five (① source ② read ③ reveals ④ check
+  ⑤ connects), renumbered from the spec's four (check was a non-beat side panel);
+- **the teaching switcher is now behind a feature flag** — `RecordScreen({ teaching = false })`:
+  **default off** renders exactly what ships (one record, no type switcher); flipped on, the rail
+  adds the Cost/Air/NPDES record-type switcher, a **comp-only teaching device** (labeled ⚑ COMP-
+  ONLY) with no live counterpart. The 114-gen figure (#633) lands in the air variant. Decision +
+  the comp-only gap tracked in **#697**.
