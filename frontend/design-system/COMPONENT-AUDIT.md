@@ -500,3 +500,16 @@ Left as-is (spec-ahead — a separate `reconcile impl←spec` if pursued, not th
 - impl wording — "Read the story" / "▶ Start the story →" (per #638), the story-head "Table of
   contents →" link, the **114** backup-gen figure (#633) + cooling-loss phrasing, and the
   "Pre-launch." provenance footer.
+
+### Batch 10 — Site tier · LeadsBoard (#573, epic #564) ✅ pushed
+`ui_kits/site/LeadsBoard.jsx`, brought up to the shipped board (`…/leads.astro` + `lib/leads.ts`):
+- **the right rail** — a "Build the record" CTA card, the "How a lead closes" 4-step lifecycle, and
+  a "Recently closed" sourced list (3 real corpus closures). Two-column layout (list + rail);
+- **stats strip** — 4 derived counts (open / withheld·sealed / under review / closed recently);
+- **per-lead meta** — the `LeadCard` showcase is replaced by the impl's article: a **status chip**
+  (Withheld / Unanswered / Under review / Low confidence), an **evidence tag** (`[open]` /
+  `[inference]`, never `[verified]`), an optional **GitHub tracking-issue** link (#151), and a
+  **stable mono id** (PRR-04, …). The comp's fabricated contributor avatars / "3 looking" standing
+  counts are dropped (provenance discipline) — only the sparse truthful `note` survives;
+- **`claim` filter** — filters are now All / Signals / Questions / Redactions / **Claims** (+ per-
+  filter counts). Backed by the 14 real curated leads, each tracing to a committed source.
