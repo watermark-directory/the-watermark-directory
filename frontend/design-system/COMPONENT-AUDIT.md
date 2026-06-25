@@ -541,3 +541,28 @@ via `…/site/records/[group]/[id].astro`):
   adds the Cost/Air/NPDES record-type switcher, a **comp-only teaching device** (labeled ⚑ COMP-
   ONLY) with no live counterpart. The 114-gen figure (#633) lands in the air variant. Decision +
   the comp-only gap tracked in **#697**.
+
+### Batch 13 — Site tier · Watershed (#576, epic #564) ✅ pushed + reconciled — **epic complete**
+`ui_kits/site/Watershed.jsx` is — despite the filename — the **chronology / Timeline** screen
+(it renders `<Timeline>`), mapping to the shipped `timeline.astro`, NOT the interactive watershed
+hub. A `both`:
+- **push (impl→spec)** — the live timeline is feed-bound (dated events sorted, undated last) and
+  resolves each event to a story chapter via `walkAnchorFor`; the spec events now carry
+  `seenInCh`/`seenInHref` → the Timeline's "↩ story Ch.N" backlink (#568) — and connect chips get
+  real `href`s. Eyebrow "watershed" → "record · chronology" (it's the chronology, not the hub);
+- **reconcile (impl←spec)** — the spec's stronger framing is adopted by `timeline.astro`: H1
+  "Timeline" → **"How the record was assembled — and withheld"**, and the standing sentence folded
+  into the lead (keeping the impl's "the order is the argument" line). Frontend gate run (biome /
+  astro check 0-err / build 1883 pp / links OK).
+
+> ⚠ **Coverage gap (filed separately, not this issue):** the *real* interactive watershed hub
+> (`…/watershed/index.astro` — hydrology / map / imagery / rsei islands) has **no spec** in the
+> Watermark project. Noted on the epic as the one remaining unmapped live screen.
+
+---
+
+## Epic #564 complete — 12/12 sub-issues delivered
+
+All Watermark Design System specs are now at parity with the live Astro implementation across the
+Record, Directory, and Site tiers (Batches 4–13). Remaining follow-ups: the comp-only teaching
+switcher (#697) and the unspecced interactive watershed hub (epic note above).
