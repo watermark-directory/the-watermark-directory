@@ -317,7 +317,7 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
     lei_inv = load_lei_inventory(settings.reference_dir)
     if lei_inv is not None:
         feeds.append(_object_feed("lei", gleif_mod.export_gleif(lei_inv)))
-    econ = load_econ_baseline(settings.reference_dir)
+    econ = load_econ_baseline(settings)
     if econ is not None:
         feeds.append(_object_feed("economics-baseline", economics_mod.export_economics(econ)))
 

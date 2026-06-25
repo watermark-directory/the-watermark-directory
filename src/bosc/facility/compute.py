@@ -287,7 +287,7 @@ def derive_compute_capacity(
             f"site {settings.site!r} has no documented facility (SiteProfile.facility is None) — "
             "the compute-capacity estimate needs a facility power basis"
         )
-    cooling = derive_cooling_basis()
+    cooling = derive_cooling_basis(settings=settings)
 
     # --- Method 1: power / gensets (PRIMARY) ---------------------------------
     it_power = power.it_load.value

@@ -18,7 +18,6 @@ Customers" file (:mod:`bosc.grid.eia861`), and the PJM annual demand from EIA-93
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import NamedTuple
 
 import yaml
@@ -50,6 +49,12 @@ _LOAD_FACTOR_CITE = "data-center capacity utilization ~0.9 (near-flat 24x7); ass
 # (bosc.grid.interchange). Only the Ohio state-retail fallback stays a transcribed const.
 _OH_STATE_RETAIL_GWH = 149_003.0
 _OH_STATE_CITE = "EIA ELEC.SALES.OH-ALL.A 2023 (Ohio total retail electricity sales)"
+
+
+# Full state name for prose/citation labels (keyed by EIA state). Keeps the readable form
+# in per-site citations (Lima "Ohio", Fort Wayne "Indiana") rather than the bare abbreviation;
+# an unlisted state falls back to its abbreviation.
+_STATE_NAME: dict[str, str] = {"OH": "Ohio", "IN": "Indiana"}
 
 
 # Per-state retail electric regulator (the serving-utility chain). OH + IN cover the sites
@@ -232,10 +237,10 @@ def _serving_utility(
 
 
 def _state_retail_gwh(settings: Settings) -> ProvenancedValue:
-    """Ohio total retail sales from the committed #91 EIA dataset (connector), or a
+    """State total retail sales from the committed #91 EIA dataset (connector), or a
     transcribed reference fallback. EIA 'million kWh' is numerically GWh.
     """
-    costs = load_consumer_energy(settings.reference_dir)
+    costs = load_consumer_energy(settings)
     if costs is not None:
         sales = costs.by_metric("electricity", "sales")
         if sales is not None:
@@ -268,6 +273,8 @@ def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
         draw_mw = power.facility_draw.value
         consumption_gwh = draw_mw * _HOURS_PER_YEAR * _LOAD_FACTOR / 1000.0  # MWh -> GWh
         utility_retail = utility_profile.retail_sales_gwh
+        eia_state = active_profile(settings).eia_state
+        state_name = _STATE_NAME.get(eia_state, eia_state)
 
         def _share(denom: float) -> float:
             return consumption_gwh / denom * 100.0 if denom else 0.0
@@ -292,8 +299,8 @@ def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
             share_of_utility_pct=ProvenancedValue.derived(
                 round(_share(utility_retail.value), 2),
                 "percent",
-                citation=f"campus {consumption_gwh:.0f} GWh / AEP Ohio {utility_retail.value:,.0f} GWh "
-                f"(EIA-861 {settings.eia861_year} per-utility)",
+                citation=f"campus {consumption_gwh:.0f} GWh / {utility_profile.utility} "
+                f"{utility_retail.value:,.0f} GWh (EIA-861 {settings.eia861_year} per-utility)",
             ),
             share_of_ba_pct=ProvenancedValue.derived(
                 round(_share(ba_load.value), 3),
@@ -304,7 +311,8 @@ def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
             share_of_state_pct=ProvenancedValue.derived(
                 round(_share(state_retail.value), 2),
                 "percent",
-                citation=f"campus {consumption_gwh:.0f} GWh / Ohio {state_retail.value:.0f} GWh",
+                citation=f"campus {consumption_gwh:.0f} GWh / "
+                f"{state_name} {state_retail.value:.0f} GWh",
             ),
         )
 
@@ -345,16 +353,12 @@ def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
     )
 
 
-def _reference_path(reference_dir: Path) -> Path:
-    return reference_dir / "eia" / "grid-profile.yaml"
-
-
 def write_grid_profile(profile: GridProfile, *, settings: Settings | None = None) -> str:
     """Persist the grid profile as committed reference YAML; return the path.
 
     Per-site write (#326 econ): the active site's ``grid_relpath`` (Lima = the legacy path).
     The profile aggregates the per-site utility (EIA-861) + shared state/PJM data; the reader
-    side stays Lima-keyed until parity.
+    (``load_grid_profile``) resolves the same per-site path.
     """
     settings = settings or get_settings()
     path = settings.data_dir / active_profile(settings).grid_relpath
@@ -367,9 +371,14 @@ def write_grid_profile(profile: GridProfile, *, settings: Settings | None = None
     return str(path)
 
 
-def load_grid_profile(reference_dir: Path) -> GridProfile | None:
-    """Read the committed grid-profile YAML, or ``None`` if absent."""
-    path = _reference_path(reference_dir)
+def load_grid_profile(settings: Settings | None = None) -> GridProfile | None:
+    """Read the committed grid-profile YAML for the active site, or ``None`` if absent.
+
+    Per-site (#606): resolves ``grid_relpath`` off the active profile so a non-Lima read
+    returns that site's grid profile, not Lima's.
+    """
+    settings = settings or get_settings()
+    path = settings.data_dir / active_profile(settings).grid_relpath
     if not path.is_file():
         return None
     data = yaml.safe_load(path.read_text(encoding="utf-8"))

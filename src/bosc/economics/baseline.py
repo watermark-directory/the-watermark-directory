@@ -9,8 +9,6 @@ build, so the site never needs a live pull.
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import httpx
 import yaml
 
@@ -89,16 +87,12 @@ def build_baseline(
     )
 
 
-def _reference_path(reference_dir: Path) -> Path:
-    return reference_dir / "economics" / "baseline.yaml"
-
-
 def write_baseline(baseline: EconomicBaseline, *, settings: Settings | None = None) -> str:
     """Persist the baseline as committed reference YAML; return the path.
 
     Per-site (#326 econ): writes the active site's ``baseline_relpath`` (Lima = the legacy
     un-slugged path; a new site slug-scopes it so onboarding never clobbers Lima). The reader
-    side stays Lima-keyed until a site reaches parity.
+    (``load_baseline``) resolves the same per-site path.
     """
     settings = settings or get_settings()
     path = settings.data_dir / active_profile(settings).baseline_relpath
@@ -111,9 +105,14 @@ def write_baseline(baseline: EconomicBaseline, *, settings: Settings | None = No
     return str(path)
 
 
-def load_baseline(reference_dir: Path) -> EconomicBaseline | None:
-    """Read the committed baseline YAML, or ``None`` if absent (site page then skipped)."""
-    path = _reference_path(reference_dir)
+def load_baseline(settings: Settings | None = None) -> EconomicBaseline | None:
+    """Read the committed baseline YAML for the active site, or ``None`` if absent.
+
+    Per-site (#606): resolves ``baseline_relpath`` off the active profile so a non-Lima
+    export reads its own committed baseline, not Lima's. Absent → the site page is skipped.
+    """
+    settings = settings or get_settings()
+    path = settings.data_dir / active_profile(settings).baseline_relpath
     if not path.is_file():
         return None
     data = yaml.safe_load(path.read_text(encoding="utf-8"))

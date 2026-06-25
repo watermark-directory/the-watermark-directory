@@ -18,7 +18,9 @@ Ottawa's 0.2 cfs 7Q10. Inputs are document/assumption-tagged; demands are derive
 
 from __future__ import annotations
 
+from bosc.config import Settings, get_settings
 from bosc.hydrology.model import CoolingBasis, ProvenancedValue
+from bosc.sites import active_profile
 
 _L_PER_GAL = 3.785411784
 
@@ -56,19 +58,49 @@ def _consumptive_mgd_from_power(it_load_mw: float, wue_l_per_kwh: float) -> floa
 
 
 def derive_cooling_basis(
+    settings: Settings | None = None,
     *,
-    it_load_mw: float = _IT_LOAD_MW,
+    it_load_mw: float | None = None,
+    blowdown_mgd: float | None = None,
     wue_l_per_kwh: float = _WUE_L_PER_KWH,
     cycles: float = _CYCLES,
 ) -> CoolingBasis:
-    """Derive the cooling design basis from cited inputs (both methods)."""
+    """Derive the cooling design basis from the active site's cited inputs (both methods).
+
+    Per-site (#607): IT load, the blowdown cross-check, and their citations come from the
+    active site's ``SiteProfile.facility`` (Lima = the air-permit basis; module constants are
+    the last-resort fallback). The ``it_load_mw`` / ``blowdown_mgd`` keyword overrides still
+    win, for sensitivity sweeps. A facility that discloses no blowdown uses the site's own
+    power-derived consumptive as the high bound — so no Lima FM-2 figure leaks into another
+    site's estimate.
+    """
+    settings = settings or get_settings()
+    facility = active_profile(settings).facility
+
+    if it_load_mw is None:
+        it_load_mw = facility.it_load_mw if facility else _IT_LOAD_MW
+    it_load_cite = facility.air_permit_citation if facility else _AIR_PERMIT_CITE
+    if blowdown_mgd is None and facility is not None:
+        blowdown_mgd = facility.blowdown_mgd
+    blowdown_cite = (
+        facility.blowdown_citation if (facility and facility.blowdown_citation) else _FM2_CITE
+    )
+
     frac = (cycles - 1.0) / cycles  # evaporation / makeup
     consumptive_low = _consumptive_mgd_from_power(it_load_mw, wue_l_per_kwh)
     makeup = consumptive_low / frac if frac > 0 else consumptive_low
-    consumptive_high = _FM2_BLOWDOWN_MGD * (cycles - 1.0)  # blowdown x (CoC-1) = evaporation
+    if blowdown_mgd is not None:
+        consumptive_high = blowdown_mgd * (cycles - 1.0)  # blowdown x (CoC-1) = evaporation
+        high_cite = f"{blowdown_mgd:g} MGD blowdown x (CoC-1); {blowdown_cite}"
+    else:
+        # No disclosed discharge for this site — the power-method consumptive is the high bound.
+        consumptive_high = consumptive_low
+        high_cite = (
+            f"{it_load_mw:g} MW x {wue_l_per_kwh:g} L/kWh (power x WUE; no disclosed blowdown)"
+        )
 
     return CoolingBasis(
-        it_load=ProvenancedValue.from_document(it_load_mw, "MW", citation=_AIR_PERMIT_CITE),
+        it_load=ProvenancedValue.from_document(it_load_mw, "MW", citation=it_load_cite),
         wue=ProvenancedValue.assume(wue_l_per_kwh, "L/kWh", why=_WUE_CITE),
         cycles_of_concentration=ProvenancedValue.assume(cycles, "ratio", why=_CYCLES_CITE),
         consumptive_fraction=ProvenancedValue.derived(
@@ -87,6 +119,6 @@ def derive_cooling_basis(
         consumptive_high=ProvenancedValue.derived(
             round(consumptive_high, 2),
             "MGD",
-            citation=f"{_FM2_BLOWDOWN_MGD:g} MGD blowdown x (CoC-1); {_FM2_CITE}",
+            citation=high_cite,
         ),
     )

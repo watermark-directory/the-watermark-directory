@@ -107,7 +107,7 @@ def test_serving_utility_municipal_is_home_rule_not_puco() -> None:
 
 def test_committed_grid_profile_loads() -> None:
     """The committed reference YAML round-trips into the model."""
-    gp = load_grid_profile(REPO_ROOT / "data" / "reference")
+    gp = load_grid_profile(Settings(data_dir=REPO_ROOT / "data"))
     assert gp is not None
     assert "AEP Ohio" in gp.serving_utility.utility.value
     assert gp.load_share.share_of_utility_pct.value > 0.0
