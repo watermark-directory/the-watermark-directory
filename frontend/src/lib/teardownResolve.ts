@@ -20,6 +20,7 @@
  * fixture (CI) gracefully falls back to the curated value/link rather than
  * forking or 404-ing.
  */
+import { siteUrl } from "./routes";
 import { hasFeed, loadFeed } from "./bundle";
 import {
   type Citation,
@@ -32,7 +33,7 @@ import {
 import { legalBySlug } from "./legal";
 import { type BlockField, recordToBlock } from "./recordBlock";
 import { formatScalar } from "./records";
-import { withBase } from "./site";
+import { withBase, withSite } from "./site";
 import type { TeardownConnect, TeardownRecord, TeardownRow, TeardownUnit } from "./teardown";
 
 /** Records in the bundle being built, by `rel` (built once). */
@@ -157,9 +158,7 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
     liveCitation = row.citation;
     check = {
       ...check,
-      verifyHref: withBase(
-        `/network/american-sugar-creek-allen-co/site/records/${row.group}/${slugify(t.recordRel)}`,
-      ),
+      verifyHref: withBase(siteUrl(`/site/records/${row.group}/${slugify(t.recordRel)}`)),
     };
     verifyResolved = true;
     extraction = t.extraction.map((r) => bindRow(r, row));
@@ -173,7 +172,7 @@ export function resolveTeardown(t: TeardownRecord): ResolvedTeardown {
     // 2. legal-backed → deep-link verify to the legal-history page.
     check = {
       ...check,
-      verifyHref: withBase(`/network/american-sugar-creek-allen-co/site/legal/${t.legalSlug}`),
+      verifyHref: withSite(`/site/legal/${t.legalSlug}`),
     };
     verifyResolved = true;
   }

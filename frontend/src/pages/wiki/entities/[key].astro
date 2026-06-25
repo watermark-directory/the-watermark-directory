@@ -7,7 +7,7 @@ import { slugify, type EntityNode, type PersonItem, type RelationshipEdge } from
 import type { ProfileAttr, ProfileHeaderData, ProfileRel } from "../../../lib/profile";
 import type { FigureStatData } from "../../../lib/viz";
 import { entityHref } from "../../../lib/entityLinks";
-import { withBase } from "../../../lib/site";
+import { withBase, withSite } from "../../../lib/site";
 
 export const getStaticPaths = (() => {
   const entities = hasFeed("entities") ? loadFeed<EntityNode[]>("entities") : [];
@@ -130,7 +130,7 @@ const profileToc = [
           <ul class="neighborhood">
             {profiles.map((p) => (
               <li>
-                Profile: <a href={`${withBase("/network/american-sugar-creek-allen-co/site/people/")}${p.slug}/`}>{p.name}</a>
+                Profile: <a href={`${withSite("/site/people/")}${p.slug}/`}>{p.name}</a>
               </li>
             ))}
           </ul>

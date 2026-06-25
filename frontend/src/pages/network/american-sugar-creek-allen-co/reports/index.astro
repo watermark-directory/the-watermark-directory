@@ -1,7 +1,7 @@
 ---
 import Base from "../../../../layouts/Base.astro";
 import { NARRATIVE } from "../../../../lib/narrative";
-import { withBase } from "../../../../lib/site";
+import { withBase, withStory, withSite, siteUrl } from "../../../../lib/site";
 
 // Published reports: the long-form analytical essays already in the corpus, in a
 // curated reading order. Pulled from the narrative collection by slug so titles and
@@ -25,13 +25,13 @@ const published = ORDER.map((s) => bySlug.get(s)).filter((d): d is NonNullable<t
 // Reports with an interactive companion page link there instead of the plain essay
 // (the companion links onward to the full cited text).
 const INTERACTIVE: Record<string, string> = {
-  "end-use-and-workloads": "/network/american-sugar-creek-allen-co/reports/end-use-and-workloads",
-  "defense-nexus": "/network/american-sugar-creek-allen-co/reports/defense-nexus",
-  "the-economic-ledger": "/network/american-sugar-creek-allen-co/reports/the-economic-ledger",
-  "toxics-and-the-corridor": "/network/american-sugar-creek-allen-co/reports/toxics-and-the-corridor",
-  "the-load-and-the-grid": "/network/american-sugar-creek-allen-co/reports/the-load-and-the-grid",
+  "end-use-and-workloads": siteUrl("/reports/end-use-and-workloads"),
+  "defense-nexus": siteUrl("/reports/defense-nexus"),
+  "the-economic-ledger": siteUrl("/reports/the-economic-ledger"),
+  "toxics-and-the-corridor": siteUrl("/reports/toxics-and-the-corridor"),
+  "the-load-and-the-grid": siteUrl("/reports/the-load-and-the-grid"),
 };
-const reportHref = (slug: string): string => INTERACTIVE[slug] ?? `/network/american-sugar-creek-allen-co/docs/${slug}`;
+const reportHref = (slug: string): string => INTERACTIVE[slug] ?? siteUrl(`/docs/${slug}`);
 
 // Forthcoming: the extension narratives tracked in epic #233 — deeper dives that the
 // corpus is being assembled to support. Carried here as drafting, not findings. The
@@ -50,14 +50,14 @@ const forthcoming: { title: string; blurb: string }[] = [];
     <p class="section-lead">
       Long-form analysis built <em>over</em> the corpus — each report stands on cited
       records, with inference labeled and nothing dressed as a verdict. The
-      <a href={withBase("/network/american-sugar-creek-allen-co/stories/project-bosc")}>guided walk</a> teaches you to read the record; these
+      <a href={withStory()}>guided walk</a> teaches you to read the record; these
       go deeper on one thread at a time.
     </p>
   </article>
 
   <h2 class="walk-explore-h">The capstone</h2>
   <div class="doors">
-    <a class="door door--capstone" href={withBase("/network/american-sugar-creek-allen-co/reports/public-balance-sheet")}>
+    <a class="door door--capstone" href={withSite("/reports/public-balance-sheet")}>
       <span class="door-label">
         The public balance sheet <span class="door-badge">interactive</span>
       </span>
@@ -86,7 +86,7 @@ const forthcoming: { title: string; blurb: string }[] = [];
 
   <h2 class="walk-explore-h">Interactive tools</h2>
   <div class="doors">
-    <a class="door" href={withBase("/network/american-sugar-creek-allen-co/reports/opc-scenario")}>
+    <a class="door" href={withSite("/reports/opc-scenario")}>
       <span class="door-label">
         OPC scenario explorer <span class="door-badge">interactive</span>
       </span>

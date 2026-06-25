@@ -7,7 +7,7 @@
  * exactly like /ask (a client index can't search without JS).
  */
 import Base from "../layouts/Base.astro";
-import { withBase } from "../lib/site";
+import { withBase, withSite } from "../lib/site";
 
 const q = Astro.url.searchParams.get("q") ?? "";
 const base = import.meta.env.BASE_URL || "/";
@@ -50,8 +50,8 @@ const indexUrl = withBase("/search-index.json");
         <p class="callout-title">JavaScript is required to search</p>
         <p>
           The index is loaded and matched in your browser, so search needs JavaScript. With
-          it off, browse the record directly — <a href={withBase("/network/american-sugar-creek-allen-co/site/")}>the corpus</a>,
-          <a href={withBase("/wiki/")}>the wiki</a>, or <a href={withBase("/network/american-sugar-creek-allen-co/timeline")}>the timeline</a>.
+          it off, browse the record directly — <a href={withSite("/site/")}>the corpus</a>,
+          <a href={withBase("/wiki/")}>the wiki</a>, or <a href={withSite("/timeline")}>the timeline</a>.
         </p>
       </div>
     </noscript>

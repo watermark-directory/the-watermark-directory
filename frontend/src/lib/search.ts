@@ -7,6 +7,7 @@
  * consumed by the dependency-free client matcher in `scripts/search.ts` — no
  * lunr, no CDN.
  */
+import { siteUrl } from "./routes";
 import { hasFeed, loadFeed } from "./bundle";
 import {
   evidenceKind,
@@ -70,7 +71,7 @@ export function buildSearchIndex(): SearchDoc[] {
   for (const d of NARRATIVE) {
     docs.push({
       title: d.title,
-      url: `/network/american-sugar-creek-allen-co/docs/${d.slug}`,
+      url: siteUrl(`/docs/${d.slug}`),
       section: getSection(d.section).label,
       text: d.blurb,
       kind: "Doc",
@@ -81,7 +82,7 @@ export function buildSearchIndex(): SearchDoc[] {
   for (const d of REFERENCE) {
     docs.push({
       title: d.title,
-      url: `/network/american-sugar-creek-allen-co/site/reference/${d.slug}`,
+      url: siteUrl(`/site/reference/${d.slug}`),
       section: "The corpus",
       text: blob("reference data", d.blurb),
       kind: "Reference",
@@ -92,7 +93,7 @@ export function buildSearchIndex(): SearchDoc[] {
   for (const d of LEGAL) {
     docs.push({
       title: d.title,
-      url: `/network/american-sugar-creek-allen-co/site/legal/${d.slug}`,
+      url: siteUrl(`/site/legal/${d.slug}`),
       section: "The corpus",
       text: blob(d.group, d.blurb),
       kind: "Legal",
@@ -107,7 +108,7 @@ export function buildSearchIndex(): SearchDoc[] {
       const instrument = r.fields?.instrument_no;
       docs.push({
         title: r.title,
-        url: `/network/american-sugar-creek-allen-co/site/records/${r.group}/`,
+        url: siteUrl(`/site/records/${r.group}/`),
         section: SITE,
         text: blob(r.group, r.confidence, ...r.warnings, String(instrument ?? "")),
         kind: "Record",
@@ -122,7 +123,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const e of loadFeed<TimelineEntry[]>("timeline")) {
       docs.push({
         title: `${e.date} — ${e.title}`,
-        url: "/network/american-sugar-creek-allen-co/timeline",
+        url: siteUrl("/timeline"),
         section: SITE,
         text: blob(e.category, e.detail, e.source, ...e.parties),
         kind: "Timeline",
@@ -134,7 +135,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const c of loadFeed<DocumentCollectionItem[]>("documents")) {
       docs.push({
         title: c.title,
-        url: `/network/american-sugar-creek-allen-co/site/documents/#doc-${c.slug}`,
+        url: siteUrl(`/site/documents/#doc-${c.slug}`),
         section: SITE,
         text: blob(c.description, ...c.entries.slice(0, 12).map((e) => e.name)),
         kind: "Document",
@@ -146,7 +147,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const m of loadFeed<MeetingItem[]>("meetings")) {
       docs.push({
         title: `${m.date} — ${m.kind}`,
-        url: "/network/american-sugar-creek-allen-co/site/legal#meetings",
+        url: siteUrl("/site/legal#meetings"),
         section: SITE,
         text: blob(m.summary),
         kind: "Meeting",
@@ -159,7 +160,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const p of loadFeed<PlaceItem[]>("places")) {
       docs.push({
         title: p.name,
-        url: `/network/american-sugar-creek-allen-co/site/places/${p.slug}/`,
+        url: siteUrl(`/site/places/${p.slug}/`),
         section: SITE,
         text: blob(p.kind, ...p.aliases, ...p.tags, p.body),
         kind: "Place",
@@ -171,7 +172,7 @@ export function buildSearchIndex(): SearchDoc[] {
     for (const p of loadFeed<PersonItem[]>("people")) {
       docs.push({
         title: p.name,
-        url: `/network/american-sugar-creek-allen-co/site/people/${p.slug}/`,
+        url: siteUrl(`/site/people/${p.slug}/`),
         section: SITE,
         text: blob(...p.aliases, ...p.roles, ...p.affiliations, p.summary),
         kind: "Person",
@@ -238,7 +239,7 @@ export function buildSearchIndex(): SearchDoc[] {
     const eb = loadFeed<EconomicBaseline>("economics-baseline");
     docs.push({
       title: "Economics — localized baseline",
-      url: "/network/american-sugar-creek-allen-co/watershed/economics-baseline",
+      url: siteUrl("/watershed/economics-baseline"),
       section: getSection("watershed").label,
       text: blob("BLS QCEW Census employment population baseline", eb.area_name, eb.note),
       kind: "Dataset",

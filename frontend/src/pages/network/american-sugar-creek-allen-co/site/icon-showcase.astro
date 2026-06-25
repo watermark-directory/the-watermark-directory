@@ -7,7 +7,7 @@
  */
 import Icon from "../../../../components/Icon.astro";
 import Base from "../../../../layouts/Base.astro";
-import { withBase } from "../../../../lib/site";
+import { withSite } from "../../../../lib/site";
 
 const groups: { title: string; names: string[]; note?: string }[] = [
   { title: "Navigation & chrome", names: ["search", "menu", "home", "chevron", "arrow", "external", "close", "email", "notify", "locked", "secure"] },
@@ -35,13 +35,13 @@ const ICON_COLOR: Record<string, string> = {
 
 <Base title="Icon set — component preview" section="site">
   <div class="td-showcase">
-    <p><a href={withBase("/network/american-sugar-creek-allen-co/site/")}>← The record</a></p>
+    <p><a href={withSite("/site/")}>← The record</a></p>
     <div class="td-showcase-kicker">Watermark · design system</div>
     <h1>The icon set</h1>
     <p class="td-showcase-lead">
       One stroke-based family on a 24px grid, 1.7 weight, round cap/join, <code>currentColor</code> — so every
       icon inherits the ink, forest, or evidence color of its context. The bracket-square caps stay reserved
-      for the <a href={withBase("/network/american-sugar-creek-allen-co")}>logo mark</a>; the <strong>repo</strong> glyph is GitHub's own octocat,
+      for the <a href={withSite()}>logo mark</a>; the <strong>repo</strong> glyph is GitHub's own octocat,
       the lone filled, foreign mark, used only for the source-repo link.
     </p>
 

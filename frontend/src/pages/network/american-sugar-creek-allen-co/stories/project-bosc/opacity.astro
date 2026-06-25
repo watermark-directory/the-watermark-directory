@@ -11,7 +11,7 @@ import RecordTeardown from "../../../../../components/RecordTeardown.astro";
 import WithholdingStack from "../../../../../components/WithholdingStack.astro";
 import { OPACITY_TEARDOWN } from "../../../../../lib/teardowns";
 import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../../../../lib/walk";
-import { withBase } from "../../../../../lib/site";
+import { withSite, withStory } from "../../../../../lib/site";
 
 const STEP = 6;
 const prev = chapterByStep(STEP - 1);
@@ -110,8 +110,8 @@ const prev = chapterByStep(STEP - 1);
       </p>
       <p>Now it's yours. Pick any figure and follow its citation to the source.</p>
       <div class="walk-coda-cta">
-        <a class="btn" href={withBase("/network/american-sugar-creek-allen-co/site/")}>Browse the full archive →</a>
-        <a class="walk-cta-secondary" href={withBase("/network/american-sugar-creek-allen-co/submit")}>or submit a correction or tip</a>
+        <a class="btn" href={withSite("/site/")}>Browse the full archive →</a>
+        <a class="walk-cta-secondary" href={withSite("/submit")}>or submit a correction or tip</a>
       </div>
     </div>
 
@@ -124,7 +124,7 @@ const prev = chapterByStep(STEP - 1);
         )
       }
       <a class="walk-nav-leave" href={WALK_INDEX_HREF}>All chapters</a>
-      <a class="walk-nav-link walk-nav-next" href={withBase("/network/american-sugar-creek-allen-co/stories/project-bosc")}>↺ Start the walk over</a>
+      <a class="walk-nav-link walk-nav-next" href={withStory()}>↺ Start the walk over</a>
     </nav>
   </div>
 </Base>

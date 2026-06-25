@@ -4,11 +4,12 @@
  * shape the `RecordBlock.astro` component renders, plus a mapper from a live
  * `records`-feed row so the library and the walk read the same feed.
  */
+import { siteUrl } from "./routes";
 import type { TagKind } from "./teardown";
 import { evidenceKind, slugify, type RecordItem } from "./feeds";
 import { formatScalar, groupLabel, isApproximate, isStructured, withApproxMark } from "./records";
 import { walkAnchorFor } from "./walk";
-import { withBase } from "./site";
+import { withBase, withSite, withStory } from "./site";
 
 export interface BlockField {
   label: string;
@@ -107,14 +108,14 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
     {
       kind: "records",
       label: groupName,
-      href: withBase(`/network/american-sugar-creek-allen-co/site/records/${r.group}`),
+      href: withSite(`/site/records/${r.group}`),
     },
   ];
   if (anchor) {
     connect.push({
       kind: "walk",
       label: `Ch.${anchor.ch} · ${anchor.label}`,
-      href: withBase(`/network/american-sugar-creek-allen-co/stories/project-bosc/${anchor.slug}`),
+      href: withStory(`/${anchor.slug}`),
     });
   }
   return {
@@ -127,7 +128,7 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
       ? {
           ch: anchor.ch,
           label: anchor.label,
-          href: withBase(`/network/american-sugar-creek-allen-co/stories/project-bosc/${anchor.slug}`),
+          href: withStory(`/${anchor.slug}`),
         }
       : undefined,
     fields,
@@ -141,9 +142,11 @@ export function recordToBlock(r: RecordItem): LibraryRecord {
     },
     // The record's own screen (/network/american-sugar-creek-allen-co/site/records/<group>/<id>) — the compact row links
     // here; the full block ignores it (it IS the screen).
-    href: withBase(`/network/american-sugar-creek-allen-co/site/records/${r.group}/${slugify(r.rel)}`),
+    href: withSite(`/site/records/${r.group}/${slugify(r.rel)}`),
     correctHref: withBase(
-      `/network/american-sugar-creek-allen-co/submit?ref_kind=record&ref_id=${encodeURIComponent(r.rel)}&ref_label=${encodeURIComponent(r.title)}`,
+      siteUrl(
+        `/submit?ref_kind=record&ref_id=${encodeURIComponent(r.rel)}&ref_label=${encodeURIComponent(r.title)}`,
+      ),
     ),
     connect,
   };

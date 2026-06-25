@@ -14,7 +14,7 @@ import { hasFeed, loadFeed } from "../../../../lib/bundle";
 import type { RecordItem } from "../../../../lib/feeds";
 import { fmtUsdFull } from "../../../../lib/money";
 import { opcScenarioFromRecords, sourceProgramTotal } from "../../../../lib/opcScenario";
-import { withBase } from "../../../../lib/site";
+import { withSite, withStory } from "../../../../lib/site";
 
 const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
 const scenario = opcScenarioFromRecords(records);
@@ -34,7 +34,7 @@ const ssrSource = sourceProgramTotal(ssrSubs);
 >
   <div class="walk-chapter-page">
     <article class="prose">
-      <p><a href={withBase("/network/american-sugar-creek-allen-co/reports")}>← Reports</a></p>
+      <p><a href={withSite("/reports")}>← Reports</a></p>
       <div class="walk-chapter-eyebrow">Cost · the public roadwork, priced</div>
       <h1 class="walk-chapter-h1">The roadwork estimate, as a knob you can turn</h1>
       <p class="section-lead">
@@ -45,8 +45,8 @@ const ssrSource = sourceProgramTotal(ssrSubs);
         carried up by a <strong>contingency + inflation</strong> rate (the source applies 25%).
         Turn the rate, pick intersections, and watch the modeled program cost re-derive —
         over the committed estimate, which it reads but never edits. Full record:
-        <a href={withBase("/network/american-sugar-creek-allen-co/site/records/opc/")}>the cost estimates (OPC) →</a>;
-        the narrative: <a href={withBase("/network/american-sugar-creek-allen-co/stories/project-bosc/cost")}>follow the money →</a>.
+        <a href={withSite("/site/records/opc/")}>the cost estimates (OPC) →</a>;
+        the narrative: <a href={withStory("/cost")}>follow the money →</a>.
       </p>
     </article>
 

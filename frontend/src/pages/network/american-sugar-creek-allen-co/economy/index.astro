@@ -8,7 +8,7 @@
 import Base from "../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../lib/bundle";
 import type { EconomicBaseline } from "../../../../lib/feeds";
-import { withBase } from "../../../../lib/site";
+import { withBase, siteUrl, storyUrl } from "../../../../lib/site";
 
 const eb = hasFeed("economics-baseline") ? loadFeed<EconomicBaseline>("economics-baseline") : null;
 const area = eb?.area_name ?? "the corridor";
@@ -29,7 +29,7 @@ const doors: Door[] = [
   {
     id: "baseline",
     kind: "Baseline data",
-    href: "/network/american-sugar-creek-allen-co/watershed/economics-baseline",
+    href: siteUrl("/watershed/economics-baseline"),
     count: sectorCount ? String(sectorCount) : "—",
     title: "Localized labor baseline",
     desc: `What ${area}'s economy actually is — employment by NAICS sector with each sector's location quotient, and population. BLS QCEW + US Census, every figure connector-sourced.`,
@@ -38,7 +38,7 @@ const doors: Door[] = [
   {
     id: "end-use",
     kind: "Load & workloads",
-    href: "/network/american-sugar-creek-allen-co/reports/end-use-and-workloads",
+    href: siteUrl("/reports/end-use-and-workloads"),
     count: "—",
     title: "End-use & workloads",
     desc: "Where the campus load actually goes — the end-use mix and the workload profile behind the megawatts, against the grid backdrop the site sits on.",
@@ -47,7 +47,7 @@ const doors: Door[] = [
   {
     id: "cost",
     kind: "Narrative",
-    href: "/network/american-sugar-creek-allen-co/stories/project-bosc/cost",
+    href: storyUrl("/cost"),
     count: "—",
     title: "The cost of opacity",
     desc: "The deal as the public can see it — incentives, abatement, and load-not-jobs — read against what stays sealed. A chapter of the guided walk.",
@@ -56,7 +56,7 @@ const doors: Door[] = [
   {
     id: "demand",
     kind: "Reference",
-    href: "/network/american-sugar-creek-allen-co/docs/economics",
+    href: siteUrl("/docs/economics"),
     count: "—",
     title: "Demand & public benefits",
     desc: "The prose companion: how the demand pressure and the public-benefit case are built from the record — the method behind the figures.",

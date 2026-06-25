@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { withBase } from "../lib/site";
+import { withSite, withStory } from "../lib/site";
 
 // The portal goes live only when the Turnstile site key is present at build time (set in
 // the host/CI env once the endpoint is bootstrapped — docs/ask-api.md). Until then,
@@ -41,9 +41,9 @@ const EXAMPLES = [
               <p>
                 The question box verifies you're human and streams the answer, both of which
                 need JavaScript. With it off, browse the record directly —
-                <a href={withBase("/network/american-sugar-creek-allen-co/site/")}>the corpus</a>,
-                <a href={withBase("/network/american-sugar-creek-allen-co/timeline")}>the timeline</a>, or
-                <a href={withBase("/network/american-sugar-creek-allen-co/stories/project-bosc")}>the guided walk</a>.
+                <a href={withSite("/site/")}>the corpus</a>,
+                <a href={withSite("/timeline")}>the timeline</a>, or
+                <a href={withStory()}>the guided walk</a>.
               </p>
             </div>
           </noscript>
@@ -103,9 +103,9 @@ const EXAMPLES = [
           <p class="callout-title">Ask isn't live yet</p>
           <p>
             The question endpoint isn't enabled in this build. In the meantime you can
-            explore the record directly — browse <a href={withBase("/network/american-sugar-creek-allen-co/site/")}>the corpus</a>,
-            walk <a href={withBase("/network/american-sugar-creek-allen-co/timeline")}>the timeline</a>, or
-            <a href={withBase("/network/american-sugar-creek-allen-co/stories/project-bosc")}>start the guided walk</a>. The question box will
+            explore the record directly — browse <a href={withSite("/site/")}>the corpus</a>,
+            walk <a href={withSite("/timeline")}>the timeline</a>, or
+            <a href={withStory()}>start the guided walk</a>. The question box will
             appear here once the endpoint is live.
           </p>
         </div>

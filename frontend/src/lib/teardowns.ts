@@ -12,7 +12,7 @@
  */
 
 import type { TeardownRecord } from "./teardown";
-import { withBase } from "./site";
+import { withBase, withSite } from "./site";
 
 /**
  * The withholding stack — Ch. 5 anchor ("Why you had to dig for this"), the
@@ -86,22 +86,22 @@ export const OPACITY_TEARDOWN: TeardownRecord = {
     tag: "verified",
     sub: "clauses cited · the “system” is argument",
     verify: "Open the withholding map & PRR analysis",
-    verifyHref: withBase("/network/american-sugar-creek-allen-co/site/legal/"),
+    verifyHref: withSite("/site/legal/"),
     method: "How to read a statutory exemption",
-    methodHref: withBase("/network/american-sugar-creek-allen-co/docs/methodology"),
+    methodHref: withSite("/docs/methodology"),
   },
   connect: [
     { kind: "concept", label: "[[public-records-mandamus]]", href: withBase("/wiki/concepts/") },
     {
       kind: "legal",
       label: "the PRR production analysis",
-      href: withBase("/network/american-sugar-creek-allen-co/site/legal/"),
+      href: withSite("/site/legal/"),
     },
     { kind: "entity", label: "Cynthia Leis", href: withBase("/wiki/entities/") },
     {
       kind: "timeline",
       label: "2025-05-27 · first closed session",
-      href: withBase("/network/american-sugar-creek-allen-co/timeline"),
+      href: withSite("/timeline"),
     },
   ],
   legalSlug: "withholding-map",
@@ -143,9 +143,9 @@ export const DEED_TEARDOWN: TeardownRecord = {
     tag: "verified",
     sub: "recorded instrument",
     verify: "Open the deed · instrument 202508130008300",
-    verifyHref: withBase("/network/american-sugar-creek-allen-co/site/records/"),
+    verifyHref: withSite("/site/records/"),
     method: "How we read a deed",
-    methodHref: withBase("/network/american-sugar-creek-allen-co/docs/methodology"),
+    methodHref: withSite("/docs/methodology"),
   },
   connect: [
     { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
@@ -153,7 +153,7 @@ export const DEED_TEARDOWN: TeardownRecord = {
     {
       kind: "timeline",
       label: "2025-08-13 · deed recorded",
-      href: withBase("/network/american-sugar-creek-allen-co/timeline"),
+      href: withSite("/timeline"),
     },
     { kind: "graph", label: "land assembly", href: withBase("/wiki/graph") },
   ],
@@ -210,9 +210,9 @@ export const SHELL_TEARDOWN: TeardownRecord = {
     tag: "inference",
     sub: "signals, not a verdict",
     verify: "Open the SoS filings",
-    verifyHref: withBase("/network/american-sugar-creek-allen-co/site/records/"),
+    verifyHref: withSite("/site/records/"),
     method: "Signals vs. verdicts",
-    methodHref: withBase("/network/american-sugar-creek-allen-co/docs/methodology"),
+    methodHref: withSite("/docs/methodology"),
   },
   connect: [
     { kind: "entity", label: "Tilted Gate LLC", href: withBase("/wiki/entities/") },
@@ -277,22 +277,22 @@ export const OPC_TEARDOWN: TeardownRecord = {
     tag: "verified",
     sub: "totals",
     verify: "Open exhibit · pp. 317–328",
-    verifyHref: withBase("/network/american-sugar-creek-allen-co/site/records/"),
+    verifyHref: withSite("/site/records/"),
     method: "Read the extraction method",
-    methodHref: withBase("/network/american-sugar-creek-allen-co/docs/methodology"),
+    methodHref: withSite("/docs/methodology"),
   },
   connect: [
     { kind: "entity", label: "Tetra Tech", href: withBase("/wiki/entities/") },
     {
       kind: "timeline",
       label: "2025 · OPC filed",
-      href: withBase("/network/american-sugar-creek-allen-co/timeline"),
+      href: withSite("/timeline"),
     },
     { kind: "concept", label: "[[roadwork-development-agreement]]", href: withBase("/wiki/concepts/") },
     {
       kind: "map",
       label: "roundabout layer",
-      href: withBase("/network/american-sugar-creek-allen-co/watershed/map"),
+      href: withSite("/watershed/map"),
     },
   ],
   recordRel: "aedg/roundabouts.summary.opc.yaml",
@@ -361,22 +361,22 @@ export const AIR_TEARDOWN: TeardownRecord = {
     tag: "open",
     sub: "per-engine ekW · trade secret",
     verify: "Open the permit · eDoc 4132514",
-    verifyHref: withBase("/network/american-sugar-creek-allen-co/site/records/"),
+    verifyHref: withSite("/site/records/"),
     method: "How a CBI redaction works",
-    methodHref: withBase("/network/american-sugar-creek-allen-co/docs/methodology"),
+    methodHref: withSite("/docs/methodology"),
   },
   connect: [
     { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
     {
       kind: "timeline",
       label: "2026-05-28 · permit issued",
-      href: withBase("/network/american-sugar-creek-allen-co/timeline"),
+      href: withSite("/timeline"),
     },
     { kind: "concept", label: "[[hyperscale-data-center]]", href: withBase("/wiki/concepts/") },
     {
       kind: "doc",
       label: "the bigger picture",
-      href: withBase("/network/american-sugar-creek-allen-co/docs/bigger-picture"),
+      href: withSite("/docs/bigger-picture"),
     },
   ],
   redaction: {
@@ -428,9 +428,9 @@ export const NPDES_TEARDOWN: TeardownRecord = {
     tag: "verified",
     sub: "fact-sheet 7Q10",
     verify: "Open the fact sheet · permit 2PH00006",
-    verifyHref: withBase("/network/american-sugar-creek-allen-co/site/records/"),
+    verifyHref: withSite("/site/records/"),
     method: "How the 7Q10 screen works",
-    methodHref: withBase("/network/american-sugar-creek-allen-co/docs/hydrology"),
+    methodHref: withSite("/docs/hydrology"),
   },
   connect: [
     { kind: "concept", label: "[[7q10]]", href: withBase("/wiki/concepts/") },
@@ -438,12 +438,12 @@ export const NPDES_TEARDOWN: TeardownRecord = {
     {
       kind: "map",
       label: "watershed + WWTP layers",
-      href: withBase("/network/american-sugar-creek-allen-co/watershed/map"),
+      href: withSite("/watershed/map"),
     },
     {
       kind: "dashboard",
       label: "live hydrology",
-      href: withBase("/network/american-sugar-creek-allen-co/watershed/hydrology"),
+      href: withSite("/watershed/hydrology"),
     },
   ],
   recordRel: "oepa/oepa-2PH00006-american-ii-fact-sheet.npdes.yaml",
@@ -478,22 +478,22 @@ export const RDA_TEARDOWN: TeardownRecord = {
     tag: "verified",
     sub: "executed text",
     verify: "Open RDA · §5.5, §9.13, §9.17",
-    verifyHref: withBase("/network/american-sugar-creek-allen-co/site/legal/"),
+    verifyHref: withSite("/site/legal/"),
     method: "Read the clause analysis",
-    methodHref: withBase("/network/american-sugar-creek-allen-co/docs/economics"),
+    methodHref: withSite("/docs/economics"),
   },
   connect: [
     { kind: "entity", label: "Bistrozzi LLC", href: withBase("/wiki/entities/") },
     {
       kind: "timeline",
       label: "2025-09-15 · RDA effective",
-      href: withBase("/network/american-sugar-creek-allen-co/timeline"),
+      href: withSite("/timeline"),
     },
     { kind: "concept", label: "[[grant-refund-clause]]", href: withBase("/wiki/concepts/") },
     {
       kind: "doc",
       label: "ECONOMICS.md",
-      href: withBase("/network/american-sugar-creek-allen-co/docs/economics"),
+      href: withSite("/docs/economics"),
     },
   ],
   legalSlug: "withholding-map",
@@ -564,9 +564,9 @@ export const ASSEMBLY_TEARDOWN: TeardownRecord = {
     tag: "verified",
     sub: "options + assignment dates",
     verify: "Open the deeds & land records",
-    verifyHref: withBase("/network/american-sugar-creek-allen-co/site/records/"),
+    verifyHref: withSite("/site/records/"),
     method: "How an option-to-assignment chain works",
-    methodHref: withBase("/network/american-sugar-creek-allen-co/docs/methodology"),
+    methodHref: withSite("/docs/methodology"),
   },
   connect: [
     { kind: "entity", label: "Port Authority of Allen County", href: withBase("/wiki/entities/") },
@@ -574,7 +574,7 @@ export const ASSEMBLY_TEARDOWN: TeardownRecord = {
     {
       kind: "timeline",
       label: "2025-07-03 · option assignment",
-      href: withBase("/network/american-sugar-creek-allen-co/timeline"),
+      href: withSite("/timeline"),
     },
     { kind: "graph", label: "the land assembly", href: withBase("/wiki/graph") },
   ],

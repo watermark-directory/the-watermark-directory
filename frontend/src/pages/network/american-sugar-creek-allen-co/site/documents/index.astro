@@ -3,7 +3,7 @@ import Base from "../../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../../lib/bundle";
 import { docAccess } from "../../../../../lib/docView";
 import { formatBytes, type DocumentCollectionItem } from "../../../../../lib/feeds";
-import { withBase } from "../../../../../lib/site";
+import { withSite } from "../../../../../lib/site";
 
 const collections = hasFeed("documents") ? loadFeed<DocumentCollectionItem[]>("documents") : [];
 const totalFiles = collections.reduce((a, c) => a + c.entries.length, 0);
@@ -51,7 +51,7 @@ const ACCESS_CHIP = {
                 return (
                   <tr>
                     <td class="file">
-                      <a href={withBase(`/network/american-sugar-creek-allen-co/site/documents/${e.rel}`)}>{e.name}</a>
+                      <a href={withSite(`/site/documents/${e.rel}`)}>{e.name}</a>
                     </td>
                     <td><span class="dchip dchip--type">{e.render_class}</span></td>
                     <td class="num">{formatBytes(e.size_bytes)}</td>

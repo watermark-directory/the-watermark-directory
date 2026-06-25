@@ -5,6 +5,8 @@ section: about
 description: "What Watermark is: source → structured read → meaning → verify."
 ---
 
+import { withSite } from "../lib/site";
+
 # What this is
 
 A browsable, citable view of the public record behind a contested data-center
@@ -34,4 +36,4 @@ Nothing here is legal advice, and nothing here is a verdict. Registered-agent an
 organizer overlaps are *common-control plumbing* — evidence of coordination, not a
 statement about beneficial ownership.
 
-<p class="about-meta">maintained by the record team · <a href="/network/american-sugar-creek-allen-co/docs/methodology">methodology</a> · <a href="/about/data">data catalog</a> · <a href="/network/american-sugar-creek-allen-co/docs/course">the research course</a> · <a href="/network/american-sugar-creek-allen-co/site/documents/">source bundle</a></p>
+<p class="about-meta">maintained by the record team · <a href={withSite("/docs/methodology")}>methodology</a> · <a href="/about/data">data catalog</a> · <a href={withSite("/docs/course")}>the research course</a> · <a href={withSite("/site/documents/")}>source bundle</a></p>

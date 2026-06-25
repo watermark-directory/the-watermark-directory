@@ -23,7 +23,7 @@ import DilutionScreen from "../../../../../components/islands/DilutionScreen.tsx
 import { NPDES_TEARDOWN } from "../../../../../lib/teardowns";
 import { buildDilution, dilutionMultiple } from "../../../../../lib/dilution";
 import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../../../../lib/walk";
-import { withBase } from "../../../../../lib/site";
+import { withSite } from "../../../../../lib/site";
 
 const STEP = 4;
 const prev = chapterByStep(STEP - 1);
@@ -243,23 +243,23 @@ const naturalBarPct = Math.max(Math.round((dilution.discharge.naturalCfs / efflu
 
     <h2 class="walk-explore-h">Explore this in the library</h2>
     <div class="doors">
-      <a class="door" href={withBase("/network/american-sugar-creek-allen-co/watershed/hydrology")}>
+      <a class="door" href={withSite("/watershed/hydrology")}>
         <span class="door-label">Live hydrology dashboard</span>
         <span class="door-blurb">The screen, re-run against the Ottawa's current USGS flow.</span>
       </a>
-      <a class="door" href={withBase("/network/american-sugar-creek-allen-co/watershed/map")}>
+      <a class="door" href={withSite("/watershed/map")}>
         <span class="door-label">Watershed map</span>
         <span class="door-blurb">The WWTP outfalls and the streams they discharge to.</span>
       </a>
-      <a class="door" href={withBase("/network/american-sugar-creek-allen-co/docs/hydrology")}>
+      <a class="door" href={withSite("/docs/hydrology")}>
         <span class="door-label">The hydrology write-up</span>
         <span class="door-blurb">The full Tier-0 water balance and the assimilative-capacity screen.</span>
       </a>
-      <a class="door" href={withBase("/network/american-sugar-creek-allen-co/site/legal/")}>
+      <a class="door" href={withSite("/site/legal/")}>
         <span class="door-label">The sanitary build-out</span>
         <span class="door-blurb">Resolution #679-24, the blowdown-treatment study, and the BOSC forcemains to the American Bath WWTP.</span>
       </a>
-      <a class="door" href={withBase("/network/american-sugar-creek-allen-co/site/records/")}>
+      <a class="door" href={withSite("/site/records/")}>
         <span class="door-label">The site &amp; wetland permits</span>
         <span class="door-blurb">The 401 isolated-wetland authorizations, the stormwater coverage, and the discharge to Pike Run.</span>
       </a>

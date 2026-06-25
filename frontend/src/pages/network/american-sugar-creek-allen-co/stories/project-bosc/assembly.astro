@@ -13,7 +13,7 @@ import RecordTeardown from "../../../../../components/RecordTeardown.astro";
 import WalkTimeline from "../../../../../components/WalkTimeline.astro";
 import { ASSEMBLY_TEARDOWN } from "../../../../../lib/teardowns";
 import { chapterByStep, WALK_INDEX_HREF, WALK_TOTAL, walkHref } from "../../../../../lib/walk";
-import { withBase } from "../../../../../lib/site";
+import { withBase, withSite } from "../../../../../lib/site";
 
 const STEP = 2;
 const prev = chapterByStep(STEP - 1);
@@ -89,11 +89,11 @@ const next = chapterByStep(STEP + 1);
 
     <h2 class="walk-explore-h">Explore this in the library</h2>
     <div class="doors">
-      <a class="door" href={withBase("/network/american-sugar-creek-allen-co/timeline")}>
+      <a class="door" href={withSite("/timeline")}>
         <span class="door-label">The full timeline</span>
         <span class="door-blurb">Every dated event, the sequence this chapter reads three beats of.</span>
       </a>
-      <a class="door" href={withBase("/network/american-sugar-creek-allen-co/site/records/")}>
+      <a class="door" href={withSite("/site/records/")}>
         <span class="door-label">The deeds &amp; land records</span>
         <span class="door-blurb">The recorded instruments behind the assembly.</span>
       </a>

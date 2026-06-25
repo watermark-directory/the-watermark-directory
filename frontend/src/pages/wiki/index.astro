@@ -1,7 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { hasFeed, loadManifest } from "../../lib/bundle";
-import { withBase } from "../../lib/site";
+import { withBase, siteUrl } from "../../lib/site";
 
 const manifest = loadManifest();
 const byName = new Map(manifest.feeds.map((f) => [f.name, f]));
@@ -21,7 +21,7 @@ const doors: Door[] = [
   { id: "entities", kind: "Directory", href: "/wiki/entities/", count: num(count("entities")), title: "Entities", desc: "Resolved parties — variants, parcels, identifiers, graph neighborhood, and sources.", note: "who appears" },
   { id: "graph", kind: "Visualization", href: "/wiki/graph", count: num(count("relationships")), title: "Entity graph", desc: "The interactive force-directed graph of entities and the relationships between them.", note: "interactive" },
   { id: "concepts", kind: "Glossary", href: "/wiki/concepts/", count: num(count("concepts")), title: "Concepts", desc: "Glossary entries cross-linked via [[wiki links]] — the method, defined.", note: "the glossary" },
-  { id: "people", kind: "Profiles", href: "/network/american-sugar-creek-allen-co/site/people/", count: num(count("people")), title: "People", desc: "Curated individual profiles, kept under the BOSC site.", note: "profiles" },
+  { id: "people", kind: "Profiles", href: siteUrl("/site/people/"), count: num(count("people")), title: "People", desc: "Curated individual profiles, kept under the BOSC site.", note: "profiles" },
 ];
 const curated: string[] = [];
 if (hasFeed("candidates")) curated.push("candidates");

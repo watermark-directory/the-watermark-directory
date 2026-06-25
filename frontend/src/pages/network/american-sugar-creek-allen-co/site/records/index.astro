@@ -4,7 +4,7 @@ import Base from "../../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../../lib/bundle";
 import type { RecordItem } from "../../../../../lib/feeds";
 import { groupLabel, groupsOf } from "../../../../../lib/records";
-import { withBase } from "../../../../../lib/site";
+import { withSite } from "../../../../../lib/site";
 
 const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
 const groups = groupsOf(records);
@@ -31,7 +31,7 @@ const byGroup = groups.map((g) => ({ label: groupLabel(g), value: countOf(g) }))
     <div class="hub-grid">
       {
         groups.map((g) => (
-          <a class="hub-door" href={`${withBase("/network/american-sugar-creek-allen-co/site/records/")}${g}/`}>
+          <a class="hub-door" href={`${withSite("/site/records/")}${g}/`}>
             <div class="hub-door-top">
               <span class="hub-door-kind">Record group</span>
               <span class="hub-door-count">{countOf(g)}</span>

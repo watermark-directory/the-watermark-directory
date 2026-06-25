@@ -9,7 +9,7 @@
 import Base from "../../../../layouts/Base.astro";
 import EndUseExplorer from "../../../../components/islands/EndUseExplorer.tsx";
 import { buildEndUse } from "../../../../lib/endUse";
-import { withBase } from "../../../../lib/site";
+import { withSite } from "../../../../lib/site";
 
 const endUse = buildEndUse();
 const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[open]");
@@ -22,7 +22,7 @@ const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[op
 >
   <div class="walk-chapter-page">
     <article class="prose">
-      <p><a href={withBase("/network/american-sugar-creek-allen-co/reports")}>← Reports</a></p>
+      <p><a href={withSite("/reports")}>← Reports</a></p>
       <div class="walk-chapter-eyebrow">Extension narrative · #233</div>
       <h1 class="walk-chapter-h1">What the facility is for</h1>
       <p class="section-lead">
@@ -108,7 +108,7 @@ const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[op
         impact-level ladder, and why the answer changes the public-benefit math.
       </p>
       <p>
-        <a class="btn btn--icon" href={withBase("/network/american-sugar-creek-allen-co/docs/end-use-and-workloads")}>
+        <a class="btn btn--icon" href={withSite("/docs/end-use-and-workloads")}>
           Read the full report →
         </a>
       </p>

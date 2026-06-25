@@ -6,7 +6,7 @@ import { hasFeed, loadFeed } from "../../../../../lib/bundle";
 import type { RecordItem } from "../../../../../lib/feeds";
 import { groupLabel, groupsOf } from "../../../../../lib/records";
 import { recordToBlock } from "../../../../../lib/recordBlock";
-import { withBase } from "../../../../../lib/site";
+import { withSite } from "../../../../../lib/site";
 
 export const getStaticPaths: GetStaticPaths = () => {
   const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
@@ -27,7 +27,7 @@ const anchors = records.filter((r) => recordToBlock(r).seenIn).length;
 
 <Base title={label} section="site">
   <article class="prose">
-    <p><a href={withBase("/network/american-sugar-creek-allen-co/site/records/")}>← Records</a></p>
+    <p><a href={withSite("/site/records/")}>← Records</a></p>
     <h1>{label}</h1>
     <p class="section-lead">
       {records.length} record(s) — open one for its full reading and, where it's a walk
