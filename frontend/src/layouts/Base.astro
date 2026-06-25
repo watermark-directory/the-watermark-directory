@@ -22,6 +22,8 @@ interface BaseProps {
   tocTitle?: string;
   /** og:type — defaults to "website"; docs essays pass "article". */
   ogType?: "website" | "article";
+  /** Keep this route out of search indexes (internal galleries, previews, leftovers). */
+  noindex?: boolean;
 }
 
 // `.astro` pages pass these props directly; `.mdx` pages using `layout:` pass
@@ -35,6 +37,7 @@ const {
   toc = [],
   tocTitle,
   ogType = "website",
+  noindex = false,
 } = raw.frontmatter ?? raw;
 const showRail = rail !== false && toc.length > 0;
 ---
@@ -57,7 +60,7 @@ const showRail = rail !== false && toc.length > 0;
     <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png")} />
     <meta name="theme-color" content="#16201a" />
     <title>{title === SITE_NAME ? title : `${title} · ${SITE_NAME}`}</title>
-    <SEO title={title} description={description} type={ogType} />
+    <SEO title={title} description={description} type={ogType} noindex={noindex} />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
