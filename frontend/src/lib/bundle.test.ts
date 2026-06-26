@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
@@ -22,6 +22,21 @@ function makeBundle(manifest: object, files: Record<string, string>): string {
   writeFileSync(join(dir, "manifest.json"), JSON.stringify(manifest));
   for (const [name, body] of Object.entries(files)) writeFileSync(join(dir, name), body);
   return dir;
+}
+
+/** A parent dir holding one bundle per slug under `<parent>/<slug>/` — the per-site layout. */
+function makeSiteBundles(
+  bySlug: Record<string, { manifest: object; files: Record<string, string> }>,
+): string {
+  const parent = mkdtempSync(join(tmpdir(), "bosc-bundles-"));
+  tmpDirs.push(parent);
+  for (const [slug, { manifest, files }] of Object.entries(bySlug)) {
+    const dir = join(parent, slug);
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, "manifest.json"), JSON.stringify(manifest));
+    for (const [name, body] of Object.entries(files)) writeFileSync(join(dir, name), body);
+  }
+  return parent;
 }
 
 // bundle.ts memoizes the resolved dir + manifest at module scope, so each case
@@ -66,7 +81,7 @@ describe("bundle resolution + JSON feeds", () => {
   it("throws a helpful error for a feed not in the manifest", async () => {
     const dir = makeBundle(manifestWith([]), {});
     const m = await loadBundleModule(dir);
-    expect(() => m.loadFeed("missing")).toThrow(/not in the bundle manifest/);
+    expect(() => m.loadFeed("missing")).toThrow(/not in the .* bundle manifest/);
   });
 });
 
@@ -101,5 +116,49 @@ describe("contract-version guard", () => {
     const dir = makeBundle(manifestWith([], "1.9"), {});
     const m = await loadBundleModule(dir);
     expect(m.loadManifest().contract_version).toBe("1.9");
+  });
+});
+
+describe("per-site resolution", () => {
+  const feed = (count: number) => ({
+    name: "things",
+    path: "things.json",
+    media_type: "application/json",
+    schema: "s",
+    kind: "collection",
+    count,
+  });
+
+  it("reads each site's bundle from its <parent>/<slug> subdir", async () => {
+    const parent = makeSiteBundles({
+      lima: { manifest: manifestWith([feed(1)]), files: { "things.json": JSON.stringify([{ s: "lima" }]) } },
+      "fort-wayne": {
+        manifest: manifestWith([feed(1)]),
+        files: { "things.json": JSON.stringify([{ s: "fw" }]) },
+      },
+    });
+    const m = await loadBundleModule(parent);
+
+    // Default slug is Lima; an explicit slug reads that site's subdir.
+    expect(m.loadFeed("things")).toEqual([{ s: "lima" }]);
+    expect(m.loadFeed("things", "lima")).toEqual([{ s: "lima" }]);
+    expect(m.loadFeed("things", "fort-wayne")).toEqual([{ s: "fw" }]);
+    expect(m.bundleDir("fort-wayne")).toBe(join(parent, "fort-wayne"));
+  });
+
+  it("falls back to the override dir itself when it has no per-site subdir (back-compat)", async () => {
+    // A flat BOSC_BUNDLE_DIR (no <slug>/ inside) still resolves for the default site.
+    const dir = makeBundle(manifestWith([feed(1)]), { "things.json": JSON.stringify([{ s: "flat" }]) });
+    const m = await loadBundleModule(dir);
+    expect(m.bundleDir()).toBe(dir);
+    expect(m.loadFeed("things")).toEqual([{ s: "flat" }]);
+  });
+
+  it("errors with the site slug when a bundle is missing", async () => {
+    const parent = makeSiteBundles({
+      lima: { manifest: manifestWith([]), files: {} },
+    });
+    const m = await loadBundleModule(parent);
+    expect(() => m.loadManifest("nope")).toThrow(/site "nope"/);
   });
 });
