@@ -1,9 +1,9 @@
 ---
 /**
  * Chart set — component preview (#306, ported from the Claude Design "Chart Set" board).
- * The seven record-grammar primitives, each shown once. Figures are corpus-derived
- * examples; real per-page integrations (records / reports / watershed) follow. The
- * components are pure SSR SVG — this page reads with JavaScript off.
+ * The seven record-grammar primitives, each shown once. Figures are illustrative
+ * sample data (not findings); real per-page integrations (records / reports /
+ * watershed) follow. The components are pure SSR SVG — this page reads with JS off.
  */
 import BarChart from "../../../../components/charts/BarChart.astro";
 import BulletChart from "../../../../components/charts/BulletChart.astro";
@@ -44,7 +44,7 @@ import { withSite } from "../../../../lib/site";
           { label: "2026", value: 13 },
         ]}
         max={32}
-        caption="Peak intake · the 2025 surge after the rezoning."
+        caption="Illustrative data · in a real chart the caption names the finding the bars carry."
       />
       <RankedBarChart
         title="Acquired parcels, by acreage"
@@ -69,7 +69,7 @@ import { withSite } from "../../../../lib/site";
         endLabel="340.2 ac"
         refs={[{ value: 340, label: "340-ac site footprint", color: "#1f6f4a" }]}
         evidence="verified"
-        caption="Seven shell purchases over 18 months, from recorded deeds. The dashed line is the disclosed 340-ac footprint the assemblage converges to."
+        caption="Illustrative cumulative series against a reference line · sample values, not a finding."
         data={[
           { label: "'19", value: 5 },
           { label: "'20", value: 5 },
@@ -110,7 +110,7 @@ import { withSite } from "../../../../lib/site";
 
     <div class="chart-grid chart-grid--full">
       <StackedBar
-        title="Evidence status across 318 records"
+        title="Evidence status across a sample record set"
         segments={[
           { label: "verified", value: 196, kind: "verified" },
           { label: "inference", value: 78, kind: "inference" },
@@ -164,8 +164,9 @@ import { withSite } from "../../../../lib/site";
     </div>
 
     <p class="chart-caption" style="margin-top:1.4rem;">
-      Figures shown are corpus-derived examples for the preview; each primitive takes plain data props
-      and an evidence tag, so a chart carries its provenance exactly like the figures it visualizes.
+      Figures shown are illustrative sample data for the preview, not findings; each primitive takes
+      plain data props and an evidence tag, so a chart carries its provenance exactly like the figures
+      it visualizes.
     </p>
   </div>
 </Base>
