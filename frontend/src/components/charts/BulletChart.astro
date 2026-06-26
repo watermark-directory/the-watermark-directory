@@ -27,7 +27,16 @@ interface Props {
   scaleLabel?: string;
   note?: string;
 }
-const { rows, unit, max, marker, kicker = "Bullet · measure vs limit", title, scaleLabel, note } = Astro.props;
+const {
+  rows,
+  unit,
+  max,
+  marker,
+  kicker = "Bullet · measure vs limit",
+  title,
+  scaleLabel,
+  note,
+} = Astro.props;
 const ceiling = max ?? niceMax(Math.max(...rows.map((r) => r.value), marker ?? 0));
 const pct = (v: number): string => `${scalePct(v, ceiling)}%`;
 ---

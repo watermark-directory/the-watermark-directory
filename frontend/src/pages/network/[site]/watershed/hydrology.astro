@@ -9,9 +9,7 @@ import type { ProvenancedValue, ScenarioResult } from "../../../../lib/feeds";
 import type { FigureStatData } from "../../../../lib/viz";
 import { withSite } from "../../../../lib/site";
 
-const scenarios = hasFeed("hydrology-scenarios")
-  ? loadFeed<ScenarioResult[]>("hydrology-scenarios")
-  : [];
+const scenarios = hasFeed("hydrology-scenarios") ? loadFeed<ScenarioResult[]>("hydrology-scenarios") : [];
 
 const numOf = (v: ProvenancedValue): string => (v.value == null ? "—" : v.value.toLocaleString("en-US"));
 // document/connector-sourced values are grounded; assumption/derived are inferred.

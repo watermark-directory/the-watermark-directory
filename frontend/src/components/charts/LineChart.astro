@@ -20,7 +20,17 @@ interface Props {
   source?: string;
   caption?: string;
 }
-const { data, kicker = "Line · time series", title, max, endLabel, refs, evidence, source, caption } = Astro.props;
+const {
+  data,
+  kicker = "Line · time series",
+  title,
+  max,
+  endLabel,
+  refs,
+  evidence,
+  source,
+  caption,
+} = Astro.props;
 const c = buildLine(data, { ...(max != null ? { max } : {}), ...(refs ? { refs } : {}) });
 ---
 

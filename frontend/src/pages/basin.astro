@@ -73,7 +73,8 @@ const STATUS_TEXT: Record<string, string> = {
 };
 const screenText = (n: WatershedNode): string => {
   const s = n.screen;
-  if (s.status === "screened" && s.dilution_ratio != null) return `${s.flag} · ${s.dilution_ratio.toFixed(2)}:1`;
+  if (s.status === "screened" && s.dilution_ratio != null)
+    return `${s.flag} · ${s.dilution_ratio.toFixed(2)}:1`;
   return STATUS_TEXT[s.status] ?? "unscreened";
 };
 const num = (v: number | null | undefined, d = 1): string => (v == null ? "—" : v.toFixed(d));
