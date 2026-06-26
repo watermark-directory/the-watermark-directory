@@ -1,4 +1,6 @@
 ---
+import { selectableSitePaths } from "../../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
 import { getCollection } from "astro:content";
 import Base from "../../../../../layouts/Base.astro";
 import { refBySlug, REFERENCE } from "../../../../../lib/reference";

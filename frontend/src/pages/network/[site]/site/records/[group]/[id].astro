@@ -1,4 +1,5 @@
 ---
+import { withSitePaths } from "../../../../../../lib/sites";
 /**
  * The Record Screen (design "Record Screen", #193): the per-record leaf at
  * /site/records/<group>/<id>. It opens with the reference Record Block (the
@@ -21,10 +22,12 @@ import { withSite } from "../../../../../../lib/site";
 
 export const getStaticPaths: GetStaticPaths = () => {
   const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
-  return records.map((r) => ({
-    params: { group: r.group, id: slugify(r.rel) },
-    props: { record: r },
-  }));
+  return withSitePaths(
+    records.map((r) => ({
+      params: { group: r.group, id: slugify(r.rel) },
+      props: { record: r },
+    })),
+  );
 };
 
 interface Props {

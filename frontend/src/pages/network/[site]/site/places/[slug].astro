@@ -1,4 +1,5 @@
 ---
+import { withSitePaths } from "../../../../../lib/sites";
 import type { GetStaticPaths } from "astro";
 import Base from "../../../../../layouts/Base.astro";
 import BackLink from "../../../../../components/BackLink.astro";
@@ -14,7 +15,7 @@ import { renderBody } from "../../../../../lib/wiki";
 
 export const getStaticPaths: GetStaticPaths = () => {
   const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
-  return places.map((place) => ({ params: { slug: place.slug }, props: { place } }));
+  return withSitePaths(places.map((place) => ({ params: { slug: place.slug }, props: { place } })));
 };
 
 interface Props {

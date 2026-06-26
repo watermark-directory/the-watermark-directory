@@ -1,4 +1,5 @@
 ---
+import { withSitePaths } from "../../../../../lib/sites";
 import type { GetStaticPaths } from "astro";
 import Base from "../../../../../layouts/Base.astro";
 import BackLink from "../../../../../components/BackLink.astro";
@@ -11,10 +12,12 @@ import { withSite } from "../../../../../lib/site";
 
 export const getStaticPaths: GetStaticPaths = () => {
   const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
-  return groupsOf(records).map((group) => ({
-    params: { group },
-    props: { records: records.filter((r) => r.group === group) },
-  }));
+  return withSitePaths(
+    groupsOf(records).map((group) => ({
+      params: { group },
+      props: { records: records.filter((r) => r.group === group) },
+    })),
+  );
 };
 
 interface Props {
