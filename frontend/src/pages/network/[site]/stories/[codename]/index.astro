@@ -1,0 +1,49 @@
+---
+/**
+ * The story home (on-ramp) shell (#724/#732) — renders a story's `_home.mdx` (the prose-heavy
+ * intro) for every selectable site. The route owns the on-ramp wrapper + the kicker/h1 (from the
+ * home frontmatter); the MDX body carries the lead, the promise, the corpus counts, the chapter
+ * list (via the provided `StoryChapters`), and the orientation/disclaimer.
+ */
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { getCollection, getEntry, render } from "astro:content";
+import { STORY_COMPONENTS } from "../../../../../components/story";
+import Base from "../../../../../layouts/Base.astro";
+import { siteBase } from "../../../../../lib/routes";
+import { SITES } from "../../../../../lib/sites";
+
+export async function getStaticPaths() {
+  const selectable = new Set(SITES.filter((s) => s.selectable).map((s) => s.slug));
+  const entries = await getCollection("stories");
+  const paths = [];
+  for (const entry of entries) {
+    if (!("kind" in entry.data) || entry.data.kind !== "home") continue;
+    const [slug, codename] = String(entry.id).split("/");
+    if (!selectable.has(slug)) continue;
+    const siteId = siteBase(slug).replace("/network/", "");
+    const literal = fileURLToPath(
+      new URL(`../../../${siteId}/stories/${codename}/index.astro`, import.meta.url),
+    );
+    if (existsSync(literal)) continue; // a literal index page still serves this URL
+    paths.push({ params: { site: siteId, codename }, props: { entryId: entry.id } });
+  }
+  return paths;
+}
+
+const { entryId } = Astro.props as { entryId: string };
+const entry = await getEntry("stories", entryId);
+if (!entry || !("kind" in entry.data) || entry.data.kind !== "home") {
+  throw new Error(`Story home not found: ${entryId}`);
+}
+const fm = entry.data;
+const { Content } = await render(entry);
+---
+
+<Base title={fm.pageTitle ?? fm.h1} section="story" description={fm.description}>
+  <div class="walk-onramp">
+    {fm.kicker && <div class="walk-kicker">{fm.kicker}</div>}
+    <h1>{fm.h1}</h1>
+    <Content components={STORY_COMPONENTS} />
+  </div>
+</Base>

@@ -75,6 +75,8 @@ export async function loadStories(): Promise<Story[]> {
 
   const groups = new Map<string, { site: string; codename: string; spines: StoryChapterSpine[] }>();
   for (const entry of entries) {
+    // Skip the story home (`_home.mdx`) and any non-chapter entry — chapters carry a numeric step.
+    if (typeof (entry.data as { step?: unknown }).step !== "number") continue;
     const [site, codename] = String(entry.id).split("/");
     if (!site || !codename) continue;
     const key = `${site}/${codename}`;
