@@ -24,6 +24,10 @@ export const STORY_CHAPTER_SCHEMA = z.object({
   live: z.boolean().default(true),
   /** Optional eyebrow override; defaults to "Chapter <step>" at render. */
   eyebrow: z.string().optional(),
+  /** Optional `<title>` override; defaults to `<title> — Chapter <step>` at render. */
+  pageTitle: z.string().optional(),
+  /** Meta description for the chapter page. */
+  description: z.string().optional(),
 });
 
 const stories = defineCollection({
