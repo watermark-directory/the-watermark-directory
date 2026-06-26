@@ -17,7 +17,10 @@ import { RegisterMark } from "./uncertaintyGrammar";
 export default function EndUseExplorer({
   data,
   site = "lima",
-}: { data: EndUseData; site?: string }): JSX.Element {
+}: {
+  data: EndUseData;
+  site?: string;
+}): JSX.Element {
   const [activeKey, setActiveKey] = useState<DcKey>("hyperscale");
   const active = data.types.find((t) => t.key === activeKey) ?? data.types[0];
   const reach = active.ladderReach; // [from, to] indices into IL_LADDER, or null (self only)
