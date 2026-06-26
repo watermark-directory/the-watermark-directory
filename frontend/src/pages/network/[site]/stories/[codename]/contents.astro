@@ -1,0 +1,65 @@
+---
+/**
+ * The story table-of-contents shell (#724/#732) — the chapter index for every selectable site's
+ * story, driven by the `Story` model (the chapter list is `StoryChapters`, hrefs come from the
+ * story helpers). The framing copy is generic story-TOC boilerplate; a future pass can move the
+ * story-specific bits (the lead, the meta) to data for the multi-site network.
+ */
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import StoryChapters from "../../../../../components/story/StoryChapters.astro";
+import Base from "../../../../../layouts/Base.astro";
+import { siteBase } from "../../../../../lib/routes";
+import { siteHref } from "../../../../../lib/site";
+import { SITES } from "../../../../../lib/sites";
+import { type Story, chapterHref, storyFor, storyHomeHref } from "../../../../../lib/walk";
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const site of SITES.filter((s) => s.selectable)) {
+    const siteId = siteBase(site.slug).replace("/network/", "");
+    for (const ref of site.stories ?? []) {
+      const literal = fileURLToPath(
+        new URL(`../../../${siteId}/stories/${ref.codename}/contents.astro`, import.meta.url),
+      );
+      if (existsSync(literal)) continue; // a literal contents page still serves this URL
+      paths.push({ params: { site: siteId, codename: ref.codename }, props: { slug: site.slug, codename: ref.codename } });
+    }
+  }
+  return paths;
+}
+
+const { slug, codename } = Astro.props as { slug: string; codename: string };
+const story = storyFor(slug, codename) as Story;
+const firstSlug = story.chapters[0]?.slug ?? "";
+---
+
+<Base
+  title="The story"
+  section="story"
+  description="The narrative spine over the BOSC record: six chapters that tell the story and teach you to read the documents."
+>
+  <div class="walk-onramp">
+    <p><a href={storyHomeHref(story)}>← Start here</a></p>
+    <div class="walk-kicker">Watermark · story</div>
+    <h1>The story, chapter by chapter</h1>
+    <p class="walk-onramp-lead">
+      Six chapters, ordered cause → consequence. Each advances the story and
+      teaches one record-reading skill, anchored to a real document you can open
+      and check. Follow it straight through, or drop into any chapter and peel off
+      into the library when something catches your eye.
+    </p>
+
+    <StoryChapters story={story} variant="full" />
+
+    <p class="stub-note">
+      All six chapters are live, end to end — each teaches one record-reading
+      skill through the Record Teardown pattern, in cause → consequence order.
+    </p>
+
+    <div class="walk-cta">
+      <a class="btn" href={chapterHref(story, firstSlug)}>Start the story →</a>
+      <a class="walk-cta-secondary" href={siteHref(slug, "/site/")}>or browse the archive</a>
+    </div>
+  </div>
+</Base>

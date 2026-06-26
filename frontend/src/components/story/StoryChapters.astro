@@ -1,0 +1,41 @@
+---
+/**
+ * Story · StoryChapters — a provided story-component (#724/#732). The ordered chapter list, used
+ * on the story home (compact) and the table of contents (full, with go-arrows). Driven by the
+ * `Story` model, so it lists whatever chapters a site's story registers. Reuses the existing
+ * `.walk-chapters` site styles (no scoped CSS → safe to import in MDX with no chunk leak).
+ */
+import { type Story, chapterHref } from "../../lib/walk";
+
+interface Props {
+  story: Story;
+  /** `compact` = the home on-ramp list; `full` = the table of contents (adds the go-arrow). */
+  variant?: "compact" | "full";
+}
+const { story, variant = "compact" } = Astro.props;
+const full = variant === "full";
+---
+
+<ol class:list={["walk-chapters", full && "walk-chapters--full"]}>
+  {
+    story.chapters.map((c) => (
+      <li class:list={["walk-chapter", !c.live && "is-draft"]}>
+        <span class="walk-step-badge">{c.step}</span>
+        <span class="walk-chapter-main">
+          {c.live ? (
+            <a class="walk-chapter-title" href={chapterHref(story, c.slug)}>{c.title}</a>
+          ) : (
+            <span class="walk-chapter-title">{c.title} <span class="walk-draft-tag">drafting</span></span>
+          )}
+          <span class="walk-chapter-skill">{c.skill}</span>
+          <span class="walk-chapter-anchor">Anchor: {c.anchor}</span>
+        </span>
+        {full && c.live && (
+          <a class="walk-chapter-go" href={chapterHref(story, c.slug)} aria-label={`Read chapter ${c.step}`}>
+            →
+          </a>
+        )}
+      </li>
+    ))
+  }
+</ol>

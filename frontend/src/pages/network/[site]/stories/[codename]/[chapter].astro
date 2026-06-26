@@ -25,6 +25,7 @@ export async function getStaticPaths() {
   const entries = await getCollection("stories");
   const paths = [];
   for (const entry of entries) {
+    if (typeof (entry.data as { step?: unknown }).step !== "number") continue; // skip the home
     const [slug, codename, chapter] = String(entry.id).split("/");
     if (!selectable.has(slug)) continue;
     const siteId = siteBase(slug).replace("/network/", "");
@@ -41,7 +42,9 @@ const { slug, codename, chapter } = Astro.props as { slug: string; codename: str
 // biome-ignore lint/style/noNonNullAssertion: getStaticPaths only emits registered, present entries.
 const story = storyFor(slug, codename) as Story;
 const entry = await getEntry("stories", `${slug}/${codename}/${chapter}`);
-if (!entry) throw new Error(`Story chapter not found: ${slug}/${codename}/${chapter}`);
+if (!entry || !("step" in entry.data)) {
+  throw new Error(`Story chapter not found: ${slug}/${codename}/${chapter}`);
+}
 const { Content } = await render(entry);
 
 const fm = entry.data;

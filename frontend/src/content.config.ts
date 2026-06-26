@@ -30,13 +30,27 @@ export const STORY_CHAPTER_SCHEMA = z.object({
   description: z.string().optional(),
 });
 
+// A story's on-ramp / home (`_home.mdx`): the prose-heavy intro the index route renders. Data
+// bits (the chapter list, corpus counts, CTAs) come from the model/bundle; the body is the prose.
+export const STORY_HOME_SCHEMA = z.object({
+  kind: z.literal("home"),
+  /** The on-ramp H1 (e.g. "A data center is coming to Lima"). */
+  h1: z.string().min(1),
+  /** Kicker eyebrow (e.g. "The story · Project BOSC"). */
+  kicker: z.string().optional(),
+  pageTitle: z.string().optional(),
+  description: z.string().optional(),
+});
+
 const stories = defineCollection({
   loader: glob({
     pattern: "**/*.{md,mdx}",
     base: "./src/content/stories",
     generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/, ""),
   }),
-  schema: STORY_CHAPTER_SCHEMA,
+  // A chapter, or the story home (`_home.mdx`). Chapters carry a numeric `step`; the home a
+  // `kind: home`. `loadStories` / the chapter route key off `step` to tell them apart.
+  schema: z.union([STORY_CHAPTER_SCHEMA, STORY_HOME_SCHEMA]),
 });
 
 // The `narrative` collection sources the public prose under the repo-root `docs/`
