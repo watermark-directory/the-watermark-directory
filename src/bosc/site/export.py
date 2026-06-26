@@ -1,4 +1,4 @@
-"""Export the committed corpus into the typed content bundle under ``data/site/bundle/``.
+"""Export the committed corpus into the typed content bundle under ``data/site/bundles/<slug>/``.
 
 The site's data tier (issue #53, Tier 1): :func:`export_bundle` emits the versioned,
 schema-validated JSON feeds the Astro/DeckGL frontend reads at build time, loading the
@@ -6,7 +6,13 @@ corpus through the shared loaders (``load_corpus``, ``build_timeline``,
 ``build_entity_graph``, ``load_people``, ``load_pois``, …) and the per-section builders
 in this package (``records``, ``economics``, ``gismap``, …).
 
-Layout written under ``out_dir`` (default ``data/site/bundle``):
+The output is **per network site** (#724/#727): each site's feeds land under
+``data/site/bundles/<slug>/`` (the active site is ``settings.site``, from the global
+``bosc --site <slug>`` flag / ``BOSC_SITE``), so the network's sites never clobber each
+other. The committed, site-agnostic contract (``schemas/``, README, example manifest) stays
+shared at ``data/site/bundle/``.
+
+Layout written under ``out_dir`` (default ``data/site/bundles/<slug>``):
 
 * ``manifest.json`` — bundle/contract version, ``generated_at``, and the feed index.
 * ``schemas/<feed>.schema.json`` — one JSON Schema per feed, generated from the
@@ -371,7 +377,11 @@ def export_bundle(
     it defaults to the current UTC time.
     """
     settings = settings or get_settings()
-    out = out_dir or (settings.data_dir / "site" / "bundle")
+    # Per-site bundle (#724/#727): the generated feeds + manifest live under a slug-scoped
+    # dir so the network's sites don't clobber each other; the active site comes from
+    # `settings.site` (the global `bosc --site <slug>` flag / `BOSC_SITE`). The committed,
+    # site-agnostic contract (schemas/README/example) stays at `data/site/bundle/`.
+    out = out_dir or (settings.data_dir / "site" / "bundles" / settings.site)
     schemas_dir = out / "schemas"
     feeds_dir = out / "feeds"
     schemas_dir.mkdir(parents=True, exist_ok=True)

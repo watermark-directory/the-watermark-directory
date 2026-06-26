@@ -2,22 +2,27 @@
  * Build-time reader for the BOSC content bundle (Epic #53 — the data tier).
  *
  * The bundle is a directory of typed JSON feeds indexed by a `manifest.json`
- * (see `data/site/bundle/README.md`). This module resolves which bundle to read
- * and pulls feeds off disk at build time — Astro page frontmatter runs in Node
- * during `astro build`, so plain `node:fs` is the right tool, not `fetch`.
+ * (see `data/site/bundle/README.md`). Bundles are **per network site** (#724/#727):
+ * each call resolves a site's bundle by registry slug (default `lima`), so the
+ * network's sites read independent data in one build. This module pulls feeds off
+ * disk at build time — Astro page frontmatter runs in Node during `astro build`, so
+ * plain `node:fs` is the right tool, not `fetch`.
  *
- * Bundle resolution order (first that has a `manifest.json` wins):
- *   1. $BOSC_BUNDLE_DIR        — explicit override (absolute, or relative to CWD)
- *   2. ../data/site/bundle     — the real bundle, present after `bosc export`
- *   3. ./sample-bundle         — the committed minimal fixture (offline/CI default)
+ * Per-site resolution order for a slug (first with a `manifest.json` wins):
+ *   1. $BOSC_BUNDLE_DIR/<slug>     — explicit override, per-site subdir
+ *   2. $BOSC_BUNDLE_DIR            — explicit override as a single bundle (back-compat)
+ *   3. ../data/site/bundles/<slug> — the real per-site bundle, after `bosc … export`
+ *   4. ../data/site/bundle         — legacy single-site path (Lima only; pre-#727 parity)
+ *   5. ./sample-bundle/<slug>      — the committed minimal fixture (offline/CI default)
  *
- * The feeds under (2) are git-ignored and only exist once you run `bosc export`;
- * the fixture under (3) is committed so `npm run build` works with zero Python.
+ * The feeds under (3)/(4) are git-ignored and only exist once you run `bosc export`;
+ * the fixtures under (5) are committed so `npm run build` works with zero Python.
  */
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import { cwd, env } from "node:process";
 import { fileURLToPath } from "node:url";
+import { LIMA_SLUG } from "./routes";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const FRONTEND_ROOT = resolve(HERE, "..", "..");
@@ -45,33 +50,41 @@ export interface Manifest {
   feeds: FeedRef[];
 }
 
-function candidateDirs(): string[] {
+function candidateDirs(slug: string): string[] {
   const dirs: string[] = [];
   const override = env.BOSC_BUNDLE_DIR;
-  if (override) dirs.push(isAbsolute(override) ? override : resolve(cwd(), override));
-  dirs.push(resolve(FRONTEND_ROOT, "..", "data", "site", "bundle"));
-  dirs.push(resolve(FRONTEND_ROOT, "sample-bundle"));
+  if (override) {
+    const root = isAbsolute(override) ? override : resolve(cwd(), override);
+    // Prefer a per-site subdir of the override; fall back to it as a single bundle.
+    dirs.push(join(root, slug), root);
+  }
+  dirs.push(resolve(FRONTEND_ROOT, "..", "data", "site", "bundles", slug));
+  // The pre-#727 single-site path, kept as a Lima-only fallback so an existing local
+  // bundle keeps rendering until it's re-exported to the per-site path.
+  if (slug === LIMA_SLUG) dirs.push(resolve(FRONTEND_ROOT, "..", "data", "site", "bundle"));
+  dirs.push(resolve(FRONTEND_ROOT, "sample-bundle", slug));
   return dirs;
 }
 
-let cachedDir: string | undefined;
+const cachedDirs = new Map<string, string>();
 
-/** The resolved bundle root — the first candidate that holds a `manifest.json`. */
-export function bundleDir(): string {
-  if (cachedDir) return cachedDir;
-  for (const dir of candidateDirs()) {
+/** The resolved bundle root for a site — the first candidate that holds a `manifest.json`. */
+export function bundleDir(slug: string = LIMA_SLUG): string {
+  const cached = cachedDirs.get(slug);
+  if (cached) return cached;
+  for (const dir of candidateDirs(slug)) {
     if (existsSync(join(dir, "manifest.json"))) {
-      cachedDir = dir;
+      cachedDirs.set(slug, dir);
       return dir;
     }
   }
   throw new Error(
-    `No content bundle found. Set BOSC_BUNDLE_DIR, run \`bosc export\`, or restore ` +
-      `frontend/sample-bundle/. Looked in:\n  ${candidateDirs().join("\n  ")}`,
+    `No content bundle found for site "${slug}". Set BOSC_BUNDLE_DIR, run ` +
+      `\`bosc --site ${slug} export\`, or restore frontend/sample-bundle/${slug}/. Looked in:\n  ${candidateDirs(slug).join("\n  ")}`,
   );
 }
 
-let cachedManifest: Manifest | undefined;
+const cachedManifests = new Map<string, Manifest>();
 
 /**
  * The bundle `contract_version` major this frontend is built against. A bundle
@@ -82,49 +95,49 @@ let cachedManifest: Manifest | undefined;
  */
 export const EXPECTED_CONTRACT_MAJOR = 1;
 
-/** Parse and return the bundle manifest (cached for the build). */
-export function loadManifest(): Manifest {
-  if (cachedManifest) return cachedManifest;
-  const raw = readFileSync(join(bundleDir(), "manifest.json"), "utf-8");
+/** Parse and return a site's bundle manifest (cached per slug for the build). */
+export function loadManifest(slug: string = LIMA_SLUG): Manifest {
+  const cached = cachedManifests.get(slug);
+  if (cached) return cached;
+  const raw = readFileSync(join(bundleDir(slug), "manifest.json"), "utf-8");
   const manifest = JSON.parse(raw) as Manifest;
   const major = Number.parseInt(String(manifest.contract_version).split(".")[0], 10);
   if (!Number.isFinite(major) || major !== EXPECTED_CONTRACT_MAJOR) {
     throw new Error(
-      `Bundle contract_version "${manifest.contract_version}" is incompatible with this ` +
-        `frontend (expected major ${EXPECTED_CONTRACT_MAJOR}). Regenerate with a matching ` +
-        `\`bosc export\`, or bump EXPECTED_CONTRACT_MAJOR in src/lib/bundle.ts.`,
+      `Bundle contract_version "${manifest.contract_version}" (site "${slug}") is incompatible ` +
+        `with this frontend (expected major ${EXPECTED_CONTRACT_MAJOR}). Regenerate with a ` +
+        `matching \`bosc export\`, or bump EXPECTED_CONTRACT_MAJOR in src/lib/bundle.ts.`,
     );
   }
-  cachedManifest = manifest;
-  return cachedManifest;
+  cachedManifests.set(slug, manifest);
+  return manifest;
 }
 
-/** Whether the resolved bundle exposes a feed by this name. Section pages and the
- * search index guard on this because the committed sample bundle ships a subset. */
-export function hasFeed(name: string): boolean {
-  return loadManifest().feeds.some((f) => f.name === name);
+/** Whether a site's bundle exposes a feed by this name. Section pages and the search
+ * index guard on this because the committed sample bundle ships a subset. */
+export function hasFeed(name: string, slug: string = LIMA_SLUG): boolean {
+  return loadManifest(slug).feeds.some((f) => f.name === name);
 }
 
-function feedRef(name: string): FeedRef {
-  const ref = loadManifest().feeds.find((f) => f.name === name);
+function feedRef(name: string, slug: string): FeedRef {
+  const manifest = loadManifest(slug);
+  const ref = manifest.feeds.find((f) => f.name === name);
   if (!ref) {
-    const known = loadManifest()
-      .feeds.map((f) => f.name)
-      .join(", ");
-    throw new Error(`Feed "${name}" is not in the bundle manifest. Available: ${known}`);
+    const known = manifest.feeds.map((f) => f.name).join(", ");
+    throw new Error(`Feed "${name}" is not in the "${slug}" bundle manifest. Available: ${known}`);
   }
   return ref;
 }
 
 /**
- * Read one feed by manifest name. `collection`/`geojson` feeds return the parsed
- * array or FeatureCollection; `object` feeds return the single object. NDJSON
- * collections (large feeds, one row per line) are parsed line-by-line. The shape
+ * Read one feed by manifest name from a site's bundle. `collection`/`geojson` feeds
+ * return the parsed array or FeatureCollection; `object` feeds return the single object.
+ * NDJSON collections (large feeds, one row per line) are parsed line-by-line. The shape
  * is the caller's responsibility — pass the matching feed type as `T`.
  */
-export function loadFeed<T = unknown>(name: string): T {
-  const ref = feedRef(name);
-  const raw = readFileSync(join(bundleDir(), ref.path), "utf-8");
+export function loadFeed<T = unknown>(name: string, slug: string = LIMA_SLUG): T {
+  const ref = feedRef(name, slug);
+  const raw = readFileSync(join(bundleDir(slug), ref.path), "utf-8");
   if (ref.path.endsWith(".ndjson")) {
     const rows = raw
       .split("\n")

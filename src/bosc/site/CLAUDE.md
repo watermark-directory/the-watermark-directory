@@ -1,8 +1,10 @@
 # CLAUDE.md — `bosc.site`
 
 The site's **data tier**: turns the committed corpus into the typed **content bundle**
-(`bosc export` → `data/site/bundle/`) that the Astro frontend (`frontend/`) reads at build
-time. Defers to the root [`CLAUDE.md`](../../../CLAUDE.md).
+(`bosc export` → `data/site/bundles/<slug>/`, per network site #724/#727) that the Astro
+frontend (`frontend/`) reads at build time. The committed, site-agnostic contract
+(`README`, `schemas/`, example manifest) stays shared at `data/site/bundle/`. Defers to the
+root [`CLAUDE.md`](../../../CLAUDE.md).
 
 - **`export.py` is the entry point** (`export_bundle`): loads the corpus once through the
   shared loaders (`load_corpus`, `build_timeline`, `build_entity_graph`, `load_people`,
