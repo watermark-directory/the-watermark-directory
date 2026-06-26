@@ -27,7 +27,7 @@ import {
   type TimelineEntry,
 } from "./feeds";
 import { LEGAL } from "./legal";
-import { getSection, SECTIONS } from "./nav";
+import { getSection, sections } from "./nav";
 import { NARRATIVE } from "./narrative";
 import { REFERENCE } from "./reference";
 import type { TagKind } from "./teardown";
@@ -50,7 +50,7 @@ export function buildSearchIndex(): SearchDoc[] {
   const docs: SearchDoc[] = [];
 
   // Section landings + their TOC areas — always present, bundle or not.
-  for (const s of SECTIONS) {
+  for (const s of sections()) {
     docs.push({ title: s.label, url: s.href, section: s.label, text: s.blurb, kind: "Section" });
     for (const t of s.toc) {
       docs.push({

@@ -1,25 +1,26 @@
 /**
  * The site's information architecture. Two related models:
  *
- *  - `SECTIONS` — the **content areas**, each with a minimal table of contents
+ *  - `sections()` — the **content areas**, each with a minimal table of contents
  *    (the per-section TOC rail, the search index, and the docs grouping read it).
- *  - `NETWORK_TABS` / `SITE_TABS` / `PLATFORM_LINKS` — the **header bar**
+ *  - `networkTabs()` / `siteTabs()` / `platformLinks()` — the **header bar**
  *    presentation (design "Global Chrome"): a two-tier bar whose left tabs swap
  *    by tier, plus the constant platform cluster on the right.
  *
  * A page declares its `section`; the header resolves which tab is active via
  * `navItemActive` (so the Watershed sub-area lights the Corpus tab, etc.).
  *
- * Each TOC `anchor` is an `id` the section's landing page renders, so the rail
- * links, the on-page scroll-spy, and search deep-links all resolve to a real
- * heading.
- *
- * Routes are built from `SITE_BASE` / `STORY_BASE` (src/lib/routes.ts) — the live
- * site lives under `/network/<id>` (was `/bosc`) and the story beneath it.
+ * **Per-site (#724/#740):** these are now functions, not constants — every site-rooted href is
+ * built from the **active** site (`siteBase(activeSite())` / the active site's default story), so
+ * a second site's chrome points at its own pages. They're evaluated per render (inside the
+ * middleware's `runWithSite` scope); nav.ts is build-only, so reading the ambient site is safe.
+ * Network-global hrefs (`/about`, `/wiki/`, `/`, …) are unchanged.
  */
 
-import { SITE_BASE, STORY_BASE } from "./routes";
-import { WALK_CHAPTERS, WALK_INDEX_HREF, walkHref } from "./walk";
+import { activeSite } from "./bundle";
+import { DEFAULT_STORY_CODENAME, siteBase, storyBase } from "./routes";
+import { SITES } from "./sites";
+import { type Story, chapterHref, storyContentsHref, storyFor } from "./walk";
 
 export type SectionId =
   | "home"
@@ -60,163 +61,181 @@ export interface Section {
   toc: TocEntry[];
 }
 
-export const SECTIONS: Section[] = [
-  {
-    id: "home",
-    label: "Home",
-    tab: "Home",
-    href: SITE_BASE,
-    blurb: "Landing, disclaimer, corpus at a glance, and the two doors in.",
-    toc: [
-      { label: "Disclaimer", anchor: "disclaimer" },
-      { label: "Corpus at a glance", anchor: "corpus" },
-      { label: "The story", anchor: "story" },
-    ],
-  },
-  {
-    // Open leads (design "Site Leads") — every gap on the site, in the open, each tracing
-    // to a real committed source (the corpus-completeness audit's [open]/withheld items and
-    // the boom-origin hypotheses' open questions). A tile in the "The site" mega-menu.
-    id: "leads",
-    label: "Open leads",
-    tab: "Leads",
-    href: `${SITE_BASE}/leads`,
-    blurb: "Every gap we're chasing on this site — unverified inference until a source corroborates it.",
-    toc: [],
-  },
-  {
-    // The story (design "Site Home" → "Story home"): the Project BOSC guided walk, hosted under
-    // the site at STORY_BASE so a site can carry multiple stories. The on-ramp + the orientation
-    // are the story home; the six chapters flatten beneath it.
-    id: "story",
-    label: "The story",
-    tab: "Story",
-    href: STORY_BASE,
-    blurb: "Project BOSC — read the record one document at a time, no prior knowledge.",
-    toc: [],
-  },
-  {
-    id: "timeline",
-    label: "Timeline",
-    tab: "Timeline",
-    href: `${SITE_BASE}/timeline`,
-    blurb: "Every dated event in the record, ordered — confidentiality first, the public reveal last.",
-    toc: [],
-  },
-  {
-    id: "reports",
-    label: "Reports",
-    tab: "Reports",
-    href: `${SITE_BASE}/reports`,
-    blurb:
-      "Long-form analysis over the corpus — the dossier, the water and economics reads, and the extension narratives.",
-    toc: [],
-  },
-  {
-    id: "site",
-    label: "The corpus",
-    tab: "Corpus",
-    href: `${SITE_BASE}/site/`,
-    blurb: "Documents, records, exhibits, people & places, legal history, and the watershed data.",
-    toc: [
-      { label: "Documents", anchor: "documents" },
-      { label: "Records", anchor: "records" },
-      { label: "Timeline", anchor: "timeline" },
-      { label: "Exhibits", anchor: "exhibits" },
-      { label: "People & places", anchor: "people" },
-      { label: "Legal history", anchor: "legal" },
-      { label: "Reference data", anchor: "reference" },
-    ],
-  },
-  {
-    id: "watershed",
-    label: "The Maumee watershed",
-    tab: "Watershed",
-    href: `${SITE_BASE}/watershed/`,
-    blurb: "Hydrology dashboards, the watershed map, imagery before/during/after, and RSEI toxics.",
-    toc: [
-      { label: "Hydrology", anchor: "hydrology" },
-      { label: "Watershed map", anchor: "map" },
-      { label: "Imagery", anchor: "imagery" },
-      { label: "RSEI / toxics", anchor: "rsei" },
-    ],
-  },
-  {
-    // The economy section (design "Chrome", 5-tab site bar) — the economic ground the
-    // data-center deal sits on: the localized labor baseline, the grid/load backdrop, the
-    // end-use & workloads read, and the cost-of-opacity narrative.
-    id: "economy",
-    label: "The economy",
-    tab: "Economy",
-    href: `${SITE_BASE}/economy/`,
-    blurb:
-      "The local economic ground — labor baseline, the grid/load backdrop, end-use & workloads, and the cost of opacity.",
-    toc: [],
-  },
-  {
-    id: "about",
-    label: "About",
-    tab: "About",
-    href: "/about",
-    blurb: "What Watermark is, the method behind it, and who's assembling it.",
-    toc: [],
-  },
-  {
-    id: "wiki",
-    label: "Wiki",
-    tab: "Wiki",
-    href: "/wiki/",
-    blurb: "Entity & concept pages with backlinks and a graph neighborhood.",
-    toc: [
-      { label: "Entities", anchor: "entities" },
-      { label: "People", anchor: "people" },
-      { label: "Concepts", anchor: "concepts" },
-      { label: "Curated entities", anchor: "curated" },
-    ],
-  },
-  {
-    id: "ask",
-    label: "Ask the corpus",
-    tab: "Ask",
-    href: "/ask",
-    blurb: "Ask a question of the record and get a cited answer drawn only from the extracted corpus.",
-    toc: [],
-  },
-  {
-    // The network directory — the multi-site overview (#304/#307). It IS the root `/`: the
-    // landing lists every watershed-point site. The live site is /network/<id>; coming-soon
-    // sites are /network/<slug>; research moved to /research/hypotheses. The switcher is the entry.
-    id: "directory",
-    label: "The network directory",
-    tab: "Directory",
-    href: "/",
-    blurb:
-      "Data-center development across Ohio's Maumee watershed, point by point — Lima is the reference build.",
-    toc: [],
-  },
-  {
-    // The network's hypotheses layer (the (site × hypothesis) join) — read the network
-    // through the boom-origin hypotheses. A network-tier tab beside Report.
-    id: "hypotheses",
-    label: "Hypotheses",
-    tab: "Research",
-    href: "/research/hypotheses",
-    blurb: "Read the network three ways — the boom-origin hypotheses, scored against each site.",
-    toc: [],
-  },
-  {
-    // Contribute a lead — a network-tier entry (no account; a document, a name, a correction).
-    id: "submit",
-    label: "Submit a lead",
-    tab: "Submit",
-    href: "/submit",
-    blurb: "Contribute a document, a name, or a correction — every confirmed figure started as a lead.",
-    toc: [],
-  },
-];
+/** The active site's default story (its first registered story), or `undefined` if it has none. */
+function activeStory(): Story | undefined {
+  const slug = activeSite();
+  const codename = SITES.find((s) => s.slug === slug)?.stories?.[0]?.codename ?? DEFAULT_STORY_CODENAME;
+  return storyFor(slug, codename);
+}
+
+/** The active site's URL root (pre-deploy-base) and its default story's root. */
+function siteRoots(): { base: string; storyRoot: string; story: Story | undefined } {
+  const base = siteBase(activeSite());
+  const story = activeStory();
+  const storyRoot = story ? storyBase(story.site, story.codename) : `${base}/stories/${DEFAULT_STORY_CODENAME}`;
+  return { base, storyRoot, story };
+}
+
+/** The content-area model for the active site (TOC rail / search index / docs grouping). */
+export function sections(): Section[] {
+  const { base, storyRoot } = siteRoots();
+  return [
+    {
+      id: "home",
+      label: "Home",
+      tab: "Home",
+      href: base,
+      blurb: "Landing, disclaimer, corpus at a glance, and the two doors in.",
+      toc: [
+        { label: "Disclaimer", anchor: "disclaimer" },
+        { label: "Corpus at a glance", anchor: "corpus" },
+        { label: "The story", anchor: "story" },
+      ],
+    },
+    {
+      // Open leads (design "Site Leads") — every gap on the site, in the open, each tracing
+      // to a real committed source (the corpus-completeness audit's [open]/withheld items and
+      // the boom-origin hypotheses' open questions). A tile in the "The site" mega-menu.
+      id: "leads",
+      label: "Open leads",
+      tab: "Leads",
+      href: `${base}/leads`,
+      blurb: "Every gap we're chasing on this site — unverified inference until a source corroborates it.",
+      toc: [],
+    },
+    {
+      // The story (design "Site Home" → "Story home"): the guided walk, hosted under the site at
+      // its story root so a site can carry multiple stories.
+      id: "story",
+      label: "The story",
+      tab: "Story",
+      href: storyRoot,
+      blurb: "Project BOSC — read the record one document at a time, no prior knowledge.",
+      toc: [],
+    },
+    {
+      id: "timeline",
+      label: "Timeline",
+      tab: "Timeline",
+      href: `${base}/timeline`,
+      blurb: "Every dated event in the record, ordered — confidentiality first, the public reveal last.",
+      toc: [],
+    },
+    {
+      id: "reports",
+      label: "Reports",
+      tab: "Reports",
+      href: `${base}/reports`,
+      blurb:
+        "Long-form analysis over the corpus — the dossier, the water and economics reads, and the extension narratives.",
+      toc: [],
+    },
+    {
+      id: "site",
+      label: "The corpus",
+      tab: "Corpus",
+      href: `${base}/site/`,
+      blurb: "Documents, records, exhibits, people & places, legal history, and the watershed data.",
+      toc: [
+        { label: "Documents", anchor: "documents" },
+        { label: "Records", anchor: "records" },
+        { label: "Timeline", anchor: "timeline" },
+        { label: "Exhibits", anchor: "exhibits" },
+        { label: "People & places", anchor: "people" },
+        { label: "Legal history", anchor: "legal" },
+        { label: "Reference data", anchor: "reference" },
+      ],
+    },
+    {
+      id: "watershed",
+      label: "The Maumee watershed",
+      tab: "Watershed",
+      href: `${base}/watershed/`,
+      blurb: "Hydrology dashboards, the watershed map, imagery before/during/after, and RSEI toxics.",
+      toc: [
+        { label: "Hydrology", anchor: "hydrology" },
+        { label: "Watershed map", anchor: "map" },
+        { label: "Imagery", anchor: "imagery" },
+        { label: "RSEI / toxics", anchor: "rsei" },
+      ],
+    },
+    {
+      // The economy section (design "Chrome", 5-tab site bar) — the economic ground the
+      // data-center deal sits on: the localized labor baseline, the grid/load backdrop, the
+      // end-use & workloads read, and the cost-of-opacity narrative.
+      id: "economy",
+      label: "The economy",
+      tab: "Economy",
+      href: `${base}/economy/`,
+      blurb:
+        "The local economic ground — labor baseline, the grid/load backdrop, end-use & workloads, and the cost of opacity.",
+      toc: [],
+    },
+    {
+      id: "about",
+      label: "About",
+      tab: "About",
+      href: "/about",
+      blurb: "What Watermark is, the method behind it, and who's assembling it.",
+      toc: [],
+    },
+    {
+      id: "wiki",
+      label: "Wiki",
+      tab: "Wiki",
+      href: "/wiki/",
+      blurb: "Entity & concept pages with backlinks and a graph neighborhood.",
+      toc: [
+        { label: "Entities", anchor: "entities" },
+        { label: "People", anchor: "people" },
+        { label: "Concepts", anchor: "concepts" },
+        { label: "Curated entities", anchor: "curated" },
+      ],
+    },
+    {
+      id: "ask",
+      label: "Ask the corpus",
+      tab: "Ask",
+      href: "/ask",
+      blurb: "Ask a question of the record and get a cited answer drawn only from the extracted corpus.",
+      toc: [],
+    },
+    {
+      // The network directory — the multi-site overview (#304/#307). It IS the root `/`: the
+      // landing lists every watershed-point site. The live site is /network/<id>; coming-soon
+      // sites are /network/<slug>; research moved to /research/hypotheses. The switcher is the entry.
+      id: "directory",
+      label: "The network directory",
+      tab: "Directory",
+      href: "/",
+      blurb:
+        "Data-center development across Ohio's Maumee watershed, point by point — Lima is the reference build.",
+      toc: [],
+    },
+    {
+      // The network's hypotheses layer (the (site × hypothesis) join) — read the network
+      // through the boom-origin hypotheses. A network-tier tab beside Report.
+      id: "hypotheses",
+      label: "Hypotheses",
+      tab: "Research",
+      href: "/research/hypotheses",
+      blurb: "Read the network three ways — the boom-origin hypotheses, scored against each site.",
+      toc: [],
+    },
+    {
+      // Contribute a lead — a network-tier entry (no account; a document, a name, a correction).
+      id: "submit",
+      label: "Submit a lead",
+      tab: "Submit",
+      href: "/submit",
+      blurb: "Contribute a document, a name, or a correction — every confirmed figure started as a lead.",
+      toc: [],
+    },
+  ];
+}
 
 export function getSection(id: SectionId): Section {
-  const section = SECTIONS.find((s) => s.id === id);
+  const section = sections().find((s) => s.id === id);
   if (!section) throw new Error(`Unknown section "${id}"`);
   return section;
 }
@@ -258,99 +277,105 @@ export type NavItem =
 
 /** Network-tier left tabs — shown at the directory and on cross-cutting globals.
  *  Submit is NOT here — it's a right-cluster affordance (see SUBMIT_LINK / the Header). */
-export const NETWORK_TABS: NavItem[] = [
-  { kind: "link", label: "Directory", section: "directory", href: "/" },
-  { kind: "link", label: "Research", section: "hypotheses", href: "/research/hypotheses" },
-  {
-    kind: "dropdown",
-    label: "About",
-    section: "about",
-    children: [
-      {
-        label: "Methodology",
-        href: `${SITE_BASE}/docs/methodology`,
-        blurb: "How the record is built & labeled",
-      },
-      { label: "About the site", href: "/about", blurb: "What Watermark is, and why" },
-      { label: "Data catalog", href: "/about/data", blurb: "Every dataset: source, license, freshness" },
-      { label: "Who runs this", href: "/about-me", blurb: "The team behind the record" },
-    ],
-  },
-];
-
-/** Site-tier left tabs — shown inside a site (under SITE_BASE). A lean 3-tab bar:
- *  The site · The story · The record. The watershed + economy are NOT standalone tabs — they
- *  live inside the "The site" mega-menu as "themes it crosses" (and the mega lights for them via
- *  `match`), which both declutters the bar and reflects that they're cross-cutting reads of the
- *  record, not separate destinations. "The site" is the mega (two intro tiles + the story spine +
- *  the watershed/economy themes); "The story" links straight to the story home. */
-export const SITE_TABS: NavItem[] = [
-  {
-    kind: "mega",
-    label: "The site",
-    section: "home",
-    match: ["leads", "story", "watershed", "economy"],
-    mega: {
-      tiles: [
-        { label: "Overview", href: SITE_BASE, blurb: "The site at a glance — the front door", icon: "home" },
+export function networkTabs(): NavItem[] {
+  const { base } = siteRoots();
+  return [
+    { kind: "link", label: "Directory", section: "directory", href: "/" },
+    { kind: "link", label: "Research", section: "hypotheses", href: "/research/hypotheses" },
+    {
+      kind: "dropdown",
+      label: "About",
+      section: "about",
+      children: [
         {
-          label: "Open leads",
-          href: `${SITE_BASE}/leads`,
-          blurb: "Every gap we're chasing, in the open",
-          icon: "leads",
+          label: "Methodology",
+          href: `${base}/docs/methodology`,
+          blurb: "How the record is built & labeled",
         },
-      ],
-      spine: {
-        title: "The story",
-        href: STORY_BASE,
-        count: `${WALK_CHAPTERS.length} chapters · ~18 min`,
-        blurb: "One project, read document by document — it crosses every theme to the right.",
-        tocHref: WALK_INDEX_HREF,
-        items: WALK_CHAPTERS.map((c) => ({
-          num: String(c.step),
-          label: c.title,
-          href: walkHref(c.slug),
-          blurb: c.skill,
-        })),
-      },
-      themes: [
-        {
-          title: "The watershed",
-          href: `${SITE_BASE}/watershed/`,
-          items: [
-            { label: "Hydrology", href: `${SITE_BASE}/watershed/#hydrology` },
-            { label: "Watershed map", href: `${SITE_BASE}/watershed/#map` },
-            { label: "Imagery", href: `${SITE_BASE}/watershed/#imagery` },
-            { label: "RSEI / toxics", href: `${SITE_BASE}/watershed/#rsei` },
-          ],
-        },
-        {
-          title: "The economy",
-          href: `${SITE_BASE}/economy/`,
-          items: [
-            { label: "The economy", href: `${SITE_BASE}/economy/` },
-            { label: "The economic ledger", href: `${SITE_BASE}/reports/the-economic-ledger` },
-            { label: "End use & workloads", href: `${SITE_BASE}/reports/end-use-and-workloads` },
-            { label: "The load & the grid", href: `${SITE_BASE}/reports/the-load-and-the-grid` },
-          ],
-        },
+        { label: "About the site", href: "/about", blurb: "What Watermark is, and why" },
+        { label: "Data catalog", href: "/about/data", blurb: "Every dataset: source, license, freshness" },
+        { label: "Who runs this", href: "/about-me", blurb: "The team behind the record" },
       ],
     },
-  },
-  { kind: "link", label: "The story", section: "story", href: STORY_BASE },
-  { kind: "link", label: "The record", section: "site", href: `${SITE_BASE}/site/`, match: ["timeline"] },
-];
+  ];
+}
+
+/** Site-tier left tabs — shown inside a site. A lean 3-tab bar: The site · The story · The record.
+ *  The watershed + economy live inside the "The site" mega-menu as "themes it crosses". */
+export function siteTabs(): NavItem[] {
+  const { base, storyRoot, story } = siteRoots();
+  const chapters = story?.chapters ?? [];
+  return [
+    {
+      kind: "mega",
+      label: "The site",
+      section: "home",
+      match: ["leads", "story", "watershed", "economy"],
+      mega: {
+        tiles: [
+          { label: "Overview", href: base, blurb: "The site at a glance — the front door", icon: "home" },
+          {
+            label: "Open leads",
+            href: `${base}/leads`,
+            blurb: "Every gap we're chasing, in the open",
+            icon: "leads",
+          },
+        ],
+        spine: {
+          title: "The story",
+          href: storyRoot,
+          count: `${chapters.length} chapters · ~18 min`,
+          blurb: "One project, read document by document — it crosses every theme to the right.",
+          tocHref: story ? storyContentsHref(story) : `${storyRoot}/contents`,
+          items: chapters.map((c) => ({
+            num: String(c.step),
+            label: c.title,
+            href: story ? chapterHref(story, c.slug) : `${storyRoot}/${c.slug}`,
+            blurb: c.skill,
+          })),
+        },
+        themes: [
+          {
+            title: "The watershed",
+            href: `${base}/watershed/`,
+            items: [
+              { label: "Hydrology", href: `${base}/watershed/#hydrology` },
+              { label: "Watershed map", href: `${base}/watershed/#map` },
+              { label: "Imagery", href: `${base}/watershed/#imagery` },
+              { label: "RSEI / toxics", href: `${base}/watershed/#rsei` },
+            ],
+          },
+          {
+            title: "The economy",
+            href: `${base}/economy/`,
+            items: [
+              { label: "The economy", href: `${base}/economy/` },
+              { label: "The economic ledger", href: `${base}/reports/the-economic-ledger` },
+              { label: "End use & workloads", href: `${base}/reports/end-use-and-workloads` },
+              { label: "The load & the grid", href: `${base}/reports/the-load-and-the-grid` },
+            ],
+          },
+        ],
+      },
+    },
+    { kind: "link", label: "The story", section: "story", href: storyRoot },
+    { kind: "link", label: "The record", section: "site", href: `${base}/site/`, match: ["timeline"] },
+  ];
+}
 
 /** The platform cluster (right of the bar), constant across tiers. Ask + Search and
  *  Submit are rendered separately as affordances; these two are the plain links. */
-export const PLATFORM_LINKS: { label: string; section: SectionId; href: string }[] = [
-  { label: "Docs", section: "reports", href: `${SITE_BASE}/docs/` },
-  { label: "Wiki", section: "wiki", href: "/wiki/" },
-];
+export function platformLinks(): { label: string; section: SectionId; href: string }[] {
+  const { base } = siteRoots();
+  return [
+    { label: "Docs", section: "reports", href: `${base}/docs/` },
+    { label: "Wiki", section: "wiki", href: "/wiki/" },
+  ];
+}
 
-/** Submit — a right-cluster affordance (a `+` pill), present on both tiers (design
- *  "Chrome"). It's the network-tier `/submit` route; the per-record correction
- *  deep-links target the site-tier `<SITE_BASE>/submit` instead (both share <SubmitForm>). */
+/** Submit — a right-cluster affordance (a `+` pill), present on both tiers (design "Chrome").
+ *  It's the network-tier `/submit` route; the per-record correction deep-links target the
+ *  site-tier `<base>/submit` instead (both share <SubmitForm>). */
 export const SUBMIT_LINK: { label: string; section: SectionId; href: string } = {
   label: "Submit",
   section: "submit",
@@ -381,9 +406,11 @@ export function navItemLinks(item: NavItem): { label: string; href: string }[] {
 
 /** Flat primary-nav links for the footer row — both tiers + platform. A dropdown / mega tab
  *  contributes its children / tiles (so the footer still reaches Overview / Open leads / story). */
-export const NAV_LINKS: { label: string; href: string }[] = [
-  ...SITE_TABS.flatMap(navItemLinks),
-  { label: "Directory", href: "/" },
-  { label: "Research", href: "/research/hypotheses" },
-  ...PLATFORM_LINKS.map((t) => ({ label: t.label, href: t.href })),
-];
+export function navLinks(): { label: string; href: string }[] {
+  return [
+    ...siteTabs().flatMap(navItemLinks),
+    { label: "Directory", href: "/" },
+    { label: "Research", href: "/research/hypotheses" },
+    ...platformLinks().map((t) => ({ label: t.label, href: t.href })),
+  ];
+}
