@@ -18,6 +18,7 @@
  * The feeds under (3)/(4) are git-ignored and only exist once you run `bosc export`;
  * the fixtures under (5) are committed so `npm run build` works with zero Python.
  */
+import { AsyncLocalStorage } from "node:async_hooks";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import { cwd, env } from "node:process";
@@ -26,6 +27,27 @@ import { LIMA_SLUG } from "./routes";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const FRONTEND_ROOT = resolve(HERE, "..", "..");
+
+/**
+ * The active network site (#724/#739) — an ambient context so every `loadFeed`/`hasFeed` reads
+ * the right site's bundle without threading a slug through the ~12 feed libs and ~40 pages. The
+ * middleware (`src/middleware.ts`) resolves the slug from the request path and wraps the page
+ * render in `runWithSite`; build-time reads inside that render pick it up. This module is
+ * build-only (it already uses `node:fs`), so `AsyncLocalStorage` is safe here — it never reaches
+ * a client bundle. Outside a render (global pages, getStaticPaths planning) the store is empty
+ * and the active site defaults to Lima.
+ */
+const siteStore = new AsyncLocalStorage<string>();
+
+/** Run `fn` with `slug` as the active site for any bundle reads it (transitively) performs. */
+export function runWithSite<T>(slug: string, fn: () => T): T {
+  return siteStore.run(slug, fn);
+}
+
+/** The active site's registry slug, or `lima` outside a `runWithSite` scope. */
+export function activeSite(): string {
+  return siteStore.getStore() ?? LIMA_SLUG;
+}
 
 /** A feed's storage shape, mirroring `bosc.site.feeds.FeedKind`. */
 export type FeedKind = "collection" | "object" | "geojson";
@@ -69,7 +91,7 @@ function candidateDirs(slug: string): string[] {
 const cachedDirs = new Map<string, string>();
 
 /** The resolved bundle root for a site — the first candidate that holds a `manifest.json`. */
-export function bundleDir(slug: string = LIMA_SLUG): string {
+export function bundleDir(slug: string = activeSite()): string {
   const cached = cachedDirs.get(slug);
   if (cached) return cached;
   for (const dir of candidateDirs(slug)) {
@@ -96,7 +118,7 @@ const cachedManifests = new Map<string, Manifest>();
 export const EXPECTED_CONTRACT_MAJOR = 1;
 
 /** Parse and return a site's bundle manifest (cached per slug for the build). */
-export function loadManifest(slug: string = LIMA_SLUG): Manifest {
+export function loadManifest(slug: string = activeSite()): Manifest {
   const cached = cachedManifests.get(slug);
   if (cached) return cached;
   const raw = readFileSync(join(bundleDir(slug), "manifest.json"), "utf-8");
@@ -115,7 +137,7 @@ export function loadManifest(slug: string = LIMA_SLUG): Manifest {
 
 /** Whether a site's bundle exposes a feed by this name. Section pages and the search
  * index guard on this because the committed sample bundle ships a subset. */
-export function hasFeed(name: string, slug: string = LIMA_SLUG): boolean {
+export function hasFeed(name: string, slug: string = activeSite()): boolean {
   return loadManifest(slug).feeds.some((f) => f.name === name);
 }
 
@@ -135,7 +157,7 @@ function feedRef(name: string, slug: string): FeedRef {
  * NDJSON collections (large feeds, one row per line) are parsed line-by-line. The shape
  * is the caller's responsibility — pass the matching feed type as `T`.
  */
-export function loadFeed<T = unknown>(name: string, slug: string = LIMA_SLUG): T {
+export function loadFeed<T = unknown>(name: string, slug: string = activeSite()): T {
   const ref = feedRef(name, slug);
   const raw = readFileSync(join(bundleDir(slug), ref.path), "utf-8");
   if (ref.path.endsWith(".ndjson")) {

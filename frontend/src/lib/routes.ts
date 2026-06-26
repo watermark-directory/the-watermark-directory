@@ -39,6 +39,20 @@ export function siteBase(slug: string): string {
   return `/network/${SITE_URL_IDS[slug] ?? slug}`;
 }
 
+/** The inverse of `SITE_URL_IDS`: a site's URL segment → its registry slug. */
+const SITE_IDS_TO_SLUG: Record<string, string> = Object.fromEntries(
+  Object.entries(SITE_URL_IDS).map(([slug, id]) => [id, slug]),
+);
+
+/**
+ * Resolve a registry slug from a `/network/<id>/` URL segment — the inverse of `siteBase`.
+ * `slugForSiteId("american-sugar-creek-allen-co")` → `"lima"`; any other id maps to itself.
+ * Used by the middleware to set the active site from the request path (#724/#739).
+ */
+export function slugForSiteId(id: string): string {
+  return SITE_IDS_TO_SLUG[id] ?? id;
+}
+
 /**
  * A story's URL root (`<siteBase>/stories/<codename>`) — a site can host several stories.
  * `storyBase("lima", "project-bosc")` → the Project BOSC story root.
