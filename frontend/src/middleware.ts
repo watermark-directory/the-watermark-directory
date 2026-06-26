@@ -12,11 +12,18 @@
  */
 import { runWithSite } from "./lib/bundle";
 import { LIMA_SLUG, slugForSiteId } from "./lib/routes";
+import { SITES } from "./lib/sites";
 import { defineMiddleware } from "astro:middleware";
+
+const SELECTABLE = new Set(SITES.filter((s) => s.selectable).map((s) => s.slug));
 
 export const onRequest = defineMiddleware((context, next) => {
   const match = context.url.pathname.match(/\/network\/([^/]+)(?:\/|$)/);
-  const slug = match ? slugForSiteId(match[1]) : LIMA_SLUG;
+  const urlSlug = match ? slugForSiteId(match[1]) : null;
+  // Only a *selectable* site has its own bundle + page tree; a non-selectable (coming-soon)
+  // `/network/<id>/` page has no data, so it renders against the Lima reference. Global pages
+  // (no `/network/<id>/`) are Lima too.
+  const slug = urlSlug && SELECTABLE.has(urlSlug) ? urlSlug : LIMA_SLUG;
   context.locals.site = slug;
   return runWithSite(slug, () => next());
 });
