@@ -1,4 +1,6 @@
 ---
+import { selectableSitePaths } from "../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
 import Base from "../../../../layouts/Base.astro";
 import { hasFeed, loadFeed, loadManifest } from "../../../../lib/bundle";
 import { type DocumentCollectionItem, type MeetingItem, type TimelineEntry } from "../../../../lib/feeds";

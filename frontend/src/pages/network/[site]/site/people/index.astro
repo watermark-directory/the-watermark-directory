@@ -1,4 +1,6 @@
 ---
+import { selectableSitePaths } from "../../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
 import Base from "../../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../../lib/bundle";
 import type { PersonItem } from "../../../../../lib/feeds";

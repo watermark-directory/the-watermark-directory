@@ -1,4 +1,6 @@
 ---
+import { selectableSitePaths } from "../../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
 import EvidenceLegend from "../../../../../components/EvidenceLegend.astro";
 import DonutChart from "../../../../../components/charts/DonutChart.astro";
 import Base from "../../../../../layouts/Base.astro";

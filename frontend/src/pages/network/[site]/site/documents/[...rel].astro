@@ -1,4 +1,5 @@
 ---
+import { withSitePaths } from "../../../../../lib/sites";
 // One deep-linkable page per source document (epic #274 / D2) — good for citations.
 // Resolves the doc from the documents feed and renders the tiered <DocViewer>.
 import DocViewer from "../../../../../components/DocViewer.astro";
@@ -12,11 +13,13 @@ export function getStaticPaths() {
   const collections = hasFeed("documents")
     ? loadFeed<DocumentCollectionItem[]>("documents")
     : [];
-  return collections.flatMap((c) =>
-    c.entries.map((entry) => ({
-      params: { rel: entry.rel },
-      props: { entry, collectionTitle: c.title, collectionSlug: c.slug },
-    })),
+  return withSitePaths(
+    collections.flatMap((c) =>
+      c.entries.map((entry) => ({
+        params: { rel: entry.rel },
+        props: { entry, collectionTitle: c.title, collectionSlug: c.slug },
+      })),
+    ),
   );
 }
 

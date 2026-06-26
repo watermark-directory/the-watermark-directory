@@ -536,6 +536,23 @@ export function selectableSitePaths(): Array<{ params: { site: string }; props: 
 }
 
 /**
+ * Cross a `network/[site]/…/[item]` route's per-item paths with the selectable sites (#724/#735):
+ * each item is emitted once per site, with the `site` param and the registry `slug` prop folded
+ * in. Use it to wrap an existing item enumeration in a dynamic route's `getStaticPaths`. Today,
+ * with Lima alone, the result is just the items; a second selectable site multiplies them.
+ */
+export function withSitePaths<P extends Record<string, unknown>, Q extends Record<string, unknown>>(
+  itemPaths: Array<{ params: P; props?: Q }>,
+): Array<{ params: P & { site: string }; props: Q & { slug: string } }> {
+  return selectableSitePaths().flatMap(({ params: siteParam, props: siteProps }) =>
+    itemPaths.map((it) => ({
+      params: { ...it.params, ...siteParam },
+      props: { ...((it.props ?? {}) as Q), ...siteProps },
+    })),
+  );
+}
+
+/**
  * The data center's real-world lifecycle — a SEPARATE clock from the site build `status`.
  * The build `status` (live/building/queued) tracks our progress assembling the *website*; this
  * tracks the *facility in the ground* (investigation → confirmed → construction → live). The two

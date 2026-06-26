@@ -1,4 +1,5 @@
 ---
+import { withSitePaths } from "../../../../../lib/sites";
 import { getCollection, render } from "astro:content";
 import Base from "../../../../../layouts/Base.astro";
 import { legalBySlug } from "../../../../../lib/legal";
@@ -7,7 +8,7 @@ import { withSite } from "../../../../../lib/site";
 export async function getStaticPaths() {
   // Only the curated legal-history set (lib/legal.ts) is published.
   const entries = await getCollection("legal", (e) => legalBySlug.has(e.id));
-  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  return withSitePaths(entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } })));
 }
 
 const { entry } = Astro.props;
