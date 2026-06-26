@@ -20,15 +20,14 @@ import { recordToBlock } from "../../../../../../lib/recordBlock";
 import { teardownForRel } from "../../../../../../lib/teardowns";
 import { withSite } from "../../../../../../lib/site";
 
-export const getStaticPaths: GetStaticPaths = () => {
-  const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
-  return withSitePaths(
-    records.map((r) => ({
+export const getStaticPaths: GetStaticPaths = () =>
+  withSitePaths(() => {
+    const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
+    return records.map((r) => ({
       params: { group: r.group, id: slugify(r.rel) },
       props: { record: r },
-    })),
-  );
-};
+    }));
+  });
 
 interface Props {
   record: RecordItem;

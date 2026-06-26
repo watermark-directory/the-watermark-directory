@@ -16,6 +16,7 @@
  *  sections coming online; `queued` = registered profile + coming-soon page, in the build queue;
  *  `tracking` = a GitHub-tracked candidate with an issue but no registered profile yet (the
  *  earliest phase — it routes to a lightweight "watch" page). Only `live` is selectable. */
+import { runWithSite } from "./bundle";
 import { DEFAULT_STORY_CODENAME, SITE_BASE, siteBase } from "./routes";
 
 export type SiteStatus = "live" | "building" | "queued" | "tracking";
@@ -540,16 +541,37 @@ export function selectableSitePaths(): Array<{ params: { site: string }; props: 
  * each item is emitted once per site, with the `site` param and the registry `slug` prop folded
  * in. Use it to wrap an existing item enumeration in a dynamic route's `getStaticPaths`. Today,
  * with Lima alone, the result is just the items; a second selectable site multiplies them.
+ *
+ * Two call forms (#744):
+ * - **Array** — *shared* items (content collections: legal/reference/narrative MDX), the same set
+ *   for every site, so they're crossed as-is.
+ * - **Callback** `(slug) => items` — *per-site* items (feed-derived routes: records/people/places/
+ *   documents). `getStaticPaths` runs **outside** the request-time active-site ALS, so a bare
+ *   `loadFeed(...)` there resolves Lima's bundle for *every* site. The callback is invoked inside
+ *   `runWithSite(slug)`, so its `hasFeed`/`loadFeed` reads bind to **that** site's bundle. With Lima
+ *   alone the two forms are identical; a second selectable site is what makes the difference real.
  */
 export function withSitePaths<P extends Record<string, unknown>, Q extends Record<string, unknown>>(
   itemPaths: Array<{ params: P; props?: Q }>,
-): Array<{ params: P & { site: string }; props: Q & { slug: string } }> {
-  return selectableSitePaths().flatMap(({ params: siteParam, props: siteProps }) =>
-    itemPaths.map((it) => ({
+): Array<{ params: P & { site: string }; props: Q & { slug: string } }>;
+export function withSitePaths<P extends Record<string, unknown>, Q extends Record<string, unknown>>(
+  itemPathsFor: (slug: string) => Array<{ params: P; props?: Q }>,
+): Array<{ params: P & { site: string }; props: Q & { slug: string } }>;
+export function withSitePaths(
+  itemPaths:
+    | Array<{ params: Record<string, unknown>; props?: Record<string, unknown> }>
+    | ((slug: string) => Array<{ params: Record<string, unknown>; props?: Record<string, unknown> }>),
+): Array<{ params: Record<string, unknown>; props: Record<string, unknown> }> {
+  return selectableSitePaths().flatMap(({ params: siteParam, props: siteProps }) => {
+    const items =
+      typeof itemPaths === "function"
+        ? runWithSite(siteProps.slug, () => itemPaths(siteProps.slug))
+        : itemPaths;
+    return items.map((it) => ({
       params: { ...it.params, ...siteParam },
-      props: { ...((it.props ?? {}) as Q), ...siteProps },
-    })),
-  );
+      props: { ...(it.props ?? {}), ...siteProps },
+    }));
+  });
 }
 
 /**

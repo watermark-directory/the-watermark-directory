@@ -12,10 +12,11 @@ import { entityHref } from "../../../../../lib/entityLinks";
 import { withBase, withSite, siteUrl } from "../../../../../lib/site";
 import { renderBody } from "../../../../../lib/wiki";
 
-export const getStaticPaths: GetStaticPaths = () => {
-  const people = hasFeed("people") ? loadFeed<PersonItem[]>("people") : [];
-  return withSitePaths(people.map((person) => ({ params: { slug: person.slug }, props: { person } })));
-};
+export const getStaticPaths: GetStaticPaths = () =>
+  withSitePaths(() => {
+    const people = hasFeed("people") ? loadFeed<PersonItem[]>("people") : [];
+    return people.map((person) => ({ params: { slug: person.slug }, props: { person } }));
+  });
 
 interface Props {
   person: PersonItem;

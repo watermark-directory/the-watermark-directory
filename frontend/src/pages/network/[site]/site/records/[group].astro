@@ -10,15 +10,14 @@ import { groupLabel, groupsOf } from "../../../../../lib/records";
 import { recordToBlock } from "../../../../../lib/recordBlock";
 import { withSite } from "../../../../../lib/site";
 
-export const getStaticPaths: GetStaticPaths = () => {
-  const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
-  return withSitePaths(
-    groupsOf(records).map((group) => ({
+export const getStaticPaths: GetStaticPaths = () =>
+  withSitePaths(() => {
+    const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
+    return groupsOf(records).map((group) => ({
       params: { group },
       props: { records: records.filter((r) => r.group === group) },
-    })),
-  );
-};
+    }));
+  });
 
 interface Props {
   records: RecordItem[];

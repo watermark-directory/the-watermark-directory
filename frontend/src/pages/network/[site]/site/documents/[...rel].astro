@@ -10,17 +10,15 @@ import { type DocumentCollectionItem, type DocumentEntry, formatBytes } from "..
 import { withSite } from "../../../../../lib/site";
 
 export function getStaticPaths() {
-  const collections = hasFeed("documents")
-    ? loadFeed<DocumentCollectionItem[]>("documents")
-    : [];
-  return withSitePaths(
-    collections.flatMap((c) =>
+  return withSitePaths(() => {
+    const collections = hasFeed("documents") ? loadFeed<DocumentCollectionItem[]>("documents") : [];
+    return collections.flatMap((c) =>
       c.entries.map((entry) => ({
         params: { rel: entry.rel },
         props: { entry, collectionTitle: c.title, collectionSlug: c.slug },
       })),
-    ),
-  );
+    );
+  });
 }
 
 const { entry, collectionTitle, collectionSlug } = Astro.props as {
