@@ -1,0 +1,91 @@
+---
+/**
+ * The story chapter shell (#724/#732) — one dynamic route renders every chapter of every
+ * selectable site's story from the `stories` MDX collection. The shell owns the chrome
+ * (wayfinding, eyebrow, title, chapter nav); the MDX body is the prose, composed from the
+ * provided story components (`STORY_COMPONENTS`).
+ *
+ * Incremental migration (#733): while a literal `<chapter>.astro` page still exists for a slug,
+ * it serves the URL and `getStaticPaths` skips it here — so the two never collide. The
+ * `existsSync` guard self-clears as each literal page is deleted; remove it once they're all gone.
+ */
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { getEntry, render } from "astro:content";
+import PathWayfinding from "../../../../../components/PathWayfinding.astro";
+import { STORY_COMPONENTS } from "../../../../../components/story";
+import Base from "../../../../../layouts/Base.astro";
+import { siteBase } from "../../../../../lib/routes";
+import { SITES } from "../../../../../lib/sites";
+import { type Story, chapterHref, storyChapterByStep, storyContentsHref, storyFor, storyHomeHref } from "../../../../../lib/walk";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const selectable = new Set(SITES.filter((s) => s.selectable).map((s) => s.slug));
+  const entries = await getCollection("stories");
+  const paths = [];
+  for (const entry of entries) {
+    const [slug, codename, chapter] = String(entry.id).split("/");
+    if (!selectable.has(slug)) continue;
+    const siteId = siteBase(slug).replace("/network/", "");
+    const literal = fileURLToPath(
+      new URL(`../../../${siteId}/stories/${codename}/${chapter}.astro`, import.meta.url),
+    );
+    if (existsSync(literal)) continue; // a literal page still serves this URL
+    paths.push({ params: { site: siteId, codename, chapter }, props: { slug, codename, chapter } });
+  }
+  return paths;
+}
+
+const { slug, codename, chapter } = Astro.props as { slug: string; codename: string; chapter: string };
+// biome-ignore lint/style/noNonNullAssertion: getStaticPaths only emits registered, present entries.
+const story = storyFor(slug, codename) as Story;
+const entry = await getEntry("stories", `${slug}/${codename}/${chapter}`);
+if (!entry) throw new Error(`Story chapter not found: ${slug}/${codename}/${chapter}`);
+const { Content } = await render(entry);
+
+const fm = entry.data;
+const ch = story.chapters.find((c) => c.slug === chapter) ?? {
+  step: fm.step,
+  slug: fm.slug,
+  title: fm.title,
+};
+const step = ch.step;
+const total = story.chapters.length;
+const prev = storyChapterByStep(story, step - 1);
+const next = storyChapterByStep(story, step + 1);
+const pageTitle = fm.pageTitle ?? `${ch.title} — Chapter ${step}`;
+---
+
+<Base title={pageTitle} section="story" description={fm.description}>
+  <div class="walk-chapter-page">
+    <PathWayfinding step={step} story={story} />
+
+    <div class="walk-chapter-eyebrow">{fm.eyebrow ?? `Chapter ${step} of ${total} · the story`}</div>
+    <h1 class="walk-chapter-h1">{ch.title}</h1>
+
+    <Content components={STORY_COMPONENTS} />
+
+    <nav class="walk-nav" aria-label="Chapter navigation">
+      {
+        prev?.live ? (
+          <a class="walk-nav-link walk-nav-prev" href={chapterHref(story, prev.slug)}>← {prev.step}. {prev.title}</a>
+        ) : prev ? (
+          <span class="walk-nav-link walk-nav-prev is-disabled" title="Drafting">← {prev.step}. {prev.title}</span>
+        ) : (
+          <a class="walk-nav-link walk-nav-prev" href={storyHomeHref(story)}>← Start here</a>
+        )
+      }
+      <a class="walk-nav-leave" href={storyContentsHref(story)}>All chapters</a>
+      {
+        next?.live ? (
+          <a class="walk-nav-link walk-nav-next" href={chapterHref(story, next.slug)}>{next.step}. {next.title} →</a>
+        ) : next ? (
+          <span class="walk-nav-link walk-nav-next is-disabled" title="Drafting">{next.step}. {next.title} →</span>
+        ) : (
+          <span></span>
+        )
+      }
+    </nav>
+  </div>
+</Base>

@@ -13,13 +13,15 @@
  *   ]} />
  */
 import { LIMA_SLUG } from "../../lib/routes";
-import { siteHref } from "../../lib/site";
+import { siteHref, withBase } from "../../lib/site";
 
 export interface ChapterDoor {
   label: string;
   blurb: string;
   /** Site-relative path (e.g. "/watershed/hydrology"); resolved against the active site. */
-  path: string;
+  path?: string;
+  /** Network-global root-absolute path (e.g. "/wiki/graph") — NOT site-prefixed, only deploy-based. */
+  href?: string;
 }
 interface Props {
   doors: ChapterDoor[];
@@ -29,13 +31,15 @@ interface Props {
   heading?: string;
 }
 const { doors, site = LIMA_SLUG, heading = "Explore this in the library" } = Astro.props;
+const doorHref = (d: ChapterDoor): string =>
+  d.path != null ? siteHref(site, d.path) : withBase(d.href ?? "/");
 ---
 
 {heading && <h2 class="walk-explore-h">{heading}</h2>}
 <div class="doors">
   {
     doors.map((d) => (
-      <a class="door" href={siteHref(site, d.path)}>
+      <a class="door" href={doorHref(d)}>
         <span class="door-label">{d.label}</span>
         <span class="door-blurb">{d.blurb}</span>
       </a>
