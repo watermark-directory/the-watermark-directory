@@ -1,5 +1,19 @@
 import { describe, expect, it } from "vitest";
-import { WALK_ANCHORS, WALK_CHAPTERS, WALK_TOTAL, chapterByStep, walkAnchorFor, walkHref } from "./walk";
+import { SITES } from "./sites";
+import {
+  WALK_ANCHORS,
+  WALK_CHAPTERS,
+  WALK_INDEX_HREF,
+  WALK_TOTAL,
+  chapterByStep,
+  chapterHref,
+  storyAnchorFor,
+  storyChapterByStep,
+  storyContentsHref,
+  storyFor,
+  walkAnchorFor,
+  walkHref,
+} from "./walk";
 
 describe("WALK_CHAPTERS invariants", () => {
   it("holds exactly WALK_TOTAL chapters, all live", () => {
@@ -59,6 +73,40 @@ describe("walkAnchorFor", () => {
     const slugs = new Set(WALK_CHAPTERS.map((c) => c.slug));
     for (const a of Object.values(WALK_ANCHORS)) {
       expect(slugs.has(a.slug)).toBe(true);
+    }
+  });
+});
+
+describe("Story model", () => {
+  it("registers Lima's project-bosc story and resolves it by (site, codename)", () => {
+    const story = storyFor("lima", "project-bosc");
+    expect(story?.title).toBe("Project BOSC");
+    expect(story?.chapters).toHaveLength(WALK_TOTAL);
+  });
+
+  it("returns undefined for an unregistered (site, codename)", () => {
+    expect(storyFor("lima", "nope")).toBeUndefined();
+    expect(storyFor("fort-wayne", "project-bosc")).toBeUndefined();
+  });
+
+  it("derives the Lima-pinned conveniences from the Lima story", () => {
+    const story = storyFor("lima", "project-bosc");
+    if (!story) throw new Error("Lima story must exist");
+    expect(chapterHref(story, "who")).toBe(walkHref("who"));
+    expect(storyContentsHref(story)).toBe(WALK_INDEX_HREF);
+    expect(storyChapterByStep(story, 3)?.slug).toBe(chapterByStep(3)?.slug);
+    expect(storyAnchorFor(story, "aedg/roundabouts.summary.opc.yaml")).toEqual(
+      walkAnchorFor("aedg/roundabouts.summary.opc.yaml"),
+    );
+  });
+
+  it("the registry's story refs resolve to a real story in the store", () => {
+    for (const site of SITES) {
+      for (const ref of site.stories ?? []) {
+        const story = storyFor(site.slug, ref.codename);
+        expect(story, `${site.slug}/${ref.codename} must resolve`).toBeDefined();
+        expect(story?.title).toBe(ref.title);
+      }
     }
   });
 });
