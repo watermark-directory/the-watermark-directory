@@ -35,6 +35,7 @@ import yaml
 from pydantic import BaseModel, ConfigDict
 
 from bosc.config import Settings, get_settings
+from bosc.hydrology import units
 from bosc.hydrology.lowflow import _normalize, load_low_flows
 from bosc.hydrology.model import ProvenancedValue, SourceKind
 from bosc.logging import get_logger
@@ -47,9 +48,9 @@ if TYPE_CHECKING:
 log = get_logger(__name__)
 
 # lbs/day -> mg/L at a flow Q: mg/L = (lbs/day) / (MGD * 8.34). The 8.34 lb per
-# (mg/L · MG) factor is the standard regulatory mass-balance conversion; 1 cfs is
-# 0.6464 MGD. Used only for the screening concentration below.
-_CFS_TO_MGD = 0.6464
+# (mg/L · MG) factor is the standard regulatory mass-balance conversion; cfs->MGD
+# goes through units.cfs_to_mgd (1 cfs ≈ 0.6464 MGD). Used only for the screening
+# concentration below.
 _LBS_PER_MGL_MGD = 8.34
 
 # The receiving-water industrial corridor box + its inferred receiving water are per-site
@@ -172,7 +173,7 @@ def _resolve_receiving_water(
 
 def _screening_concentration(annual_lbs: float, q7: ProvenancedValue) -> ProvenancedValue | None:
     """mg/L if the annual reported water pounds entered the reach at its 7Q10 (screen-only)."""
-    mgd = q7.value * _CFS_TO_MGD
+    mgd = units.cfs_to_mgd(q7.value)
     if mgd <= 0 or annual_lbs <= 0:
         return None
     conc = (annual_lbs / 365.0) / (mgd * _LBS_PER_MGL_MGD)

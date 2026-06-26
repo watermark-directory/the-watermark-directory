@@ -39,7 +39,7 @@ screens:
     confidence: high
     asof: null
   screening_concentration:
-    value: 66.492
+    value: 66.491
     unit: mg/L
     source: derived
     citation: 26,167 lb/yr reported to water / 365 d, fully mixed at the 0.2 cfs 7Q10
@@ -49,7 +49,7 @@ screens:
     asof: null
   flag: critical
   detail: 'INEOS USA LLC: RSEI Score 23,483,255, 706,520 lb to water → Ottawa River
-    (inferred, 0.2 cfs 7Q10; ~66.492 mg/L at design low flow) [critical].'
+    (inferred, 0.2 cfs 7Q10; ~66.491 mg/L at design low flow) [critical].'
 - facility: LIMA REFINING CO
   rsei_facility_id: 45804SHLCM1150S
   latitude: 40.720649
@@ -73,7 +73,7 @@ screens:
     confidence: high
     asof: null
   screening_concentration:
-    value: 164.656
+    value: 164.653
     unit: mg/L
     source: derived
     citation: 64,799 lb/yr reported to water / 365 d, fully mixed at the 0.2 cfs 7Q10
@@ -83,7 +83,7 @@ screens:
     asof: null
   flag: critical
   detail: 'LIMA REFINING CO: RSEI Score 1,899,615, 1,749,576 lb to water → OTTAWA
-    RIVER (cited, 0.2 cfs 7Q10; ~164.656 mg/L at design low flow) [critical].'
+    RIVER (cited, 0.2 cfs 7Q10; ~164.653 mg/L at design low flow) [critical].'
 - facility: PCS NITROGEN OHIO LP
   rsei_facility_id: 45802RCDNH1900F
   latitude: 40.717499
@@ -108,7 +108,7 @@ screens:
     confidence: high
     asof: null
   screening_concentration:
-    value: 274.375
+    value: 274.37
     unit: mg/L
     source: derived
     citation: 107,978 lb/yr reported to water / 365 d, fully mixed at the 0.2 cfs
@@ -118,7 +118,7 @@ screens:
     asof: null
   flag: critical
   detail: 'PCS NITROGEN OHIO LP: RSEI Score 532,740, 2,375,516 lb to water → Ottawa
-    River (inferred, 0.2 cfs 7Q10; ~274.375 mg/L at design low flow) [critical].'
+    River (inferred, 0.2 cfs 7Q10; ~274.37 mg/L at design low flow) [critical].'
 - facility: EQUILON ENTERPRISES LLC LIMA SOUTH TERMINAL
   rsei_facility_id: 45804LMTRM1500B
   latitude: 40.71032

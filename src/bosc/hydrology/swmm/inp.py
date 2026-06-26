@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from bosc.hydrology import units
 from bosc.hydrology.solver.rainfall import scs_type_ii_hyetograph
 
 _SQFT_PER_ACRE = 43560.0
@@ -149,7 +150,7 @@ def sanitary_inp(
     end_hr: float = 36.0,
 ) -> tuple[str, str]:
     """Build a sanitary ``.inp`` with DWF + RDII. Returns (text, wwtp_outfall)."""
-    base_cfs = base_mgd * 1.547
+    base_cfs = units.mgd_to_cfs(base_mgd)
     wwtp = "WWTP"
     junction = "J1"
 

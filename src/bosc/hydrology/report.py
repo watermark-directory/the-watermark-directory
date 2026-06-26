@@ -12,21 +12,46 @@ from __future__ import annotations
 from collections.abc import Callable
 
 from bosc.config import Settings, get_settings
-from bosc.hydrology.model import ProvenancedValue
+from bosc.hydrology.model import HydroFinding, ProvenancedValue, SourceKind, StormRunoff
 from bosc.pipeline import hydrology as hydro_stage
 
 _TAG = {
     "document": "verified",
     "connector": "verified",
+    "reference": "reference",
     "assumption": "inference",
     "derived": "inference",
 }
+
+# flag / severity -> dossier glyph, shared by the assimilative, toxic, and surcharge rows.
+_MARK = {"ok": "✅", "tight": "⚠️", "violation": "❌", "critical": "❌", "elevated": "⚠️"}
+
+# gallons scale: storage figures are carried in million gallons (MG) and shown in BG.
+_MG_PER_BG = 1000.0
+
+
+def _tag(source: SourceKind) -> str:
+    """The evidence tag for a provenance source, e.g. ``[verified: document]`` (no backticks).
+
+    The single source of truth is :data:`_TAG`; callers wrap the result in backticks.
+    """
+    return f"[{_TAG[source]}: {source}]"
+
+
+def _flag_mark(flag: str) -> str:
+    """The ❌ / ⚠️ / ✅ glyph for an assimilative/toxic/severity flag."""
+    return _MARK[flag]
+
+
+def _mg_to_bg(mg: float) -> float:
+    """Million gallons -> billion gallons (the storage figures' display scale)."""
+    return mg / _MG_PER_BG
 
 
 def _ev(pv: ProvenancedValue | None) -> str:
     if pv is None:
         return "—"
-    return f"{pv.value:,.2f} {pv.unit} `[{_TAG[pv.source]}: {pv.source}]`"
+    return f"{pv.value:,.2f} {pv.unit} `{_tag(pv.source)}`"
 
 
 def _short_reach(name: str) -> str:
@@ -62,7 +87,7 @@ def _render_toxic_screen(emit: Callable[[str], None], settings: Settings) -> Non
     emit("\n| facility | RSEI Score | to water (lb) | receiving | 7Q10 | screen mg/L |")
     emit("|---|--:|--:|---|--:|--:|")
     for s in ranked:
-        mark = "❌" if s.flag == "critical" else "⚠️"
+        mark = _flag_mark(s.flag)
         rw = s.receiving_water or "—"
         rw += " `[verified: ECHO]`" if s.receiving_water_source == "connector" else " *"
         q7 = f"{s.low_flow_7q10.value:g} cfs" if s.low_flow_7q10 else "—"
@@ -231,13 +256,13 @@ def _render_water_supply(emit: Callable[[str], None], settings: Settings) -> Non
         return
 
     by_river = supply.storage_by_river()
-    river_txt = ", ".join(f"{r} {mg / 1000:.1f} BG" for r, mg in sorted(by_river.items()))
+    river_txt = ", ".join(f"{r} {_mg_to_bg(mg):.1f} BG" for r, mg in sorted(by_river.items()))
     emit(
         "\n### The supply side: off-stream storage, not a 7Q10 intake\n\n"
         "The screen above reads the campus draw as if it depleted the Ottawa at design low flow. "
         "It does not — and the real mechanism is a *stronger* finding. Lima's raw water is held in "
         f"**{len(supply.reservoirs)} upground (off-stream) reservoirs totalling "
-        f"~{supply.total_storage_mg / 1000:.1f} billion gallons** ({river_txt}), filled by pumping "
+        f"~{_mg_to_bg(supply.total_storage_mg):.1f} billion gallons** ({river_txt}), filled by pumping "
         "from **both** the Auglaize (west) and the Ottawa (east) through four pump stations **at "
         "high flow** `[verified: document]`. So Lima never withdraws at the 7Q10 — it lives off "
         "stored water, and the binding low-flow constraint is reservoir **drawdown**, not intake "
@@ -296,7 +321,7 @@ def _render_refill_adequacy(emit: Callable[[str], None], settings: Settings) -> 
     )
     emit(
         "\n| demand scenario | storage the worst drought needs | "
-        f"of the {ra.storage_capacity_mg / 1000:.1f} BG | worst drawdown |"
+        f"of the {_mg_to_bg(ra.storage_capacity_mg):.1f} BG | worst drawdown |"
     )
     emit("|---|--:|--:|---|")
     for sc in ra.scenarios:
@@ -465,6 +490,220 @@ def _render_seasonal_withdrawal(
     )
 
 
+def _render_wwtp_floodzones(emit: Callable[[str], None], settings: Settings) -> None:
+    """The three WWTP outfalls' FEMA flood exposure on the same undiluted reaches."""
+    from bosc.hydrology.floodplain import load_wwtp_floodzones
+
+    wf = load_wwtp_floodzones(settings=settings)
+    if wf is None or not wf.plants:
+        return
+    sited = [p for p in wf.plants if p.in_sfha]
+    adjacent = [p for p in wf.plants if not p.in_sfha and p.nearest_buffer(contains="AE")]
+    lead = (
+        "All three plant sites sit in the FEMA floodplain"
+        if len(sited) == len(wf.plants)
+        else (
+            f"None of the {len(wf.plants)} plant sites sits in the FEMA Special Flood "
+            "Hazard Area at its ECHO-reported point"
+            if not sited
+            else f"{len(sited)} of {len(wf.plants)} plant sites sit in the FEMA SFHA"
+        )
+    )
+    emit(
+        f"\n**Outfall flood exposure.** {lead}, but the discharge infrastructure is "
+        f"flood-adjacent on streams already shown to be undiluted at low flow "
+        f"`{_tag('document')}`:\n"
+    )
+    emit("\n| Plant | Receiving water | In SFHA | Nearest AE | Nearest floodway |")
+    emit("|---|---|---|---|---|")
+    for p in wf.plants:
+        ae = p.nearest_buffer(contains="AE")
+        fw = p.nearest_buffer(contains="FLOODWAY")
+        emit(
+            f"| {p.name} | {p.receiving_water or '—'} | {'yes' if p.in_sfha else 'no'} "
+            f"| {f'≤{ae} m' if ae else '—'} | {f'≤{fw} m' if fw else '—'} |"
+        )
+    if adjacent:
+        emit(
+            f"\n{wf.note} So the mapped exposure understates the outfalls': the "
+            "discharge points themselves sit at the receiving water, inside or at the "
+            "edge of the AE floodplain.\n"
+        )
+
+
+def _render_maumee_tmdl(emit: Callable[[str], None], settings: Settings) -> None:
+    """The Maumee Nutrient TMDL phosphorus WLAs on the same permits (§2)."""
+    from bosc.hydrology.maumee import load_maumee_tmdl
+
+    tmdl = load_maumee_tmdl(settings=settings)
+    if tmdl is None or not tmdl.facilities:
+        return
+    emit("\n## 2. The Maumee Nutrient TMDL: the same discharges are capped phosphorus loads\n")
+    emit(
+        "These discharges don't just strain a local stream. The Ottawa flows to the\n"
+        "Auglaize and on to the **Maumee** — Lake Erie's largest tributary and the\n"
+        "driver of its western-basin harmful algal blooms. The 2023 Maumee Watershed\n"
+        "Nutrient TMDL (Ohio EPA, US-EPA-approved) assigns each individually permitted\n"
+        "discharger a total-phosphorus **wasteload allocation**: a spring-season\n"
+        "(March-July) cap, also stated as a daily equivalent. The plants the low-flow\n"
+        "screen flags as effectively undiluted are the same permits carrying these caps\n"
+        f"`{_tag('document')}`:\n"
+    )
+    emit("\n| facility | NPDES | spring TP (metric tons) | daily TP (kg) |")
+    emit("|---|---|---|---|")
+    for fac in tmdl.facilities:
+        emit(
+            f"| {fac.facility} | {fac.npdes or '—'} | "
+            f"{fac.spring_tp.value:g} | {fac.daily_tp.value:g} |"
+        )
+    if tmdl.grouped_spring_tp is not None and tmdl.grouped_daily_tp is not None:
+        emit(
+            f"\nAcross the whole grouped category of individually permitted dischargers the\n"
+            f"cap totals **{tmdl.grouped_spring_tp.value:g} metric tons** "
+            f"({tmdl.grouped_daily_tp.value:g} kg/day) of spring phosphorus. So the local\n"
+            f"dilution failure compounds a basin-scale constraint: at design low flow these\n"
+            f"effluents are near-undiluted, and every pound of phosphorus is metered against a\n"
+            f"Lake Erie nutrient budget.\n"
+        )
+
+
+def _render_climate_et(emit: Callable[[str], None], settings: Settings) -> None:
+    """The NASA POWER climate baseline + FAO-56 reference-ET growing-season deficit."""
+    from bosc.hydrology.climate import load_climatology
+
+    clim = load_climatology(settings=settings)
+    if clim is None:
+        return
+    ann = clim.annual_precip_mm()
+    wettest = clim.wettest_month()
+    t2m = clim.get("T2M")
+    if ann is None or wettest is None or t2m is None:
+        return
+    emit(
+        f"**Climate baseline (NASA POWER).** The Lima point averages "
+        f"**~{ann:,.0f} mm/yr** of precipitation (corrected), peaking in "
+        f"{wettest[0].title()}, at a mean annual temperature of "
+        f"**{t2m.annual:.1f} °C** `[reference: NASA POWER climatology]`. The "
+        f"satellite climate *normal* sets the long-run water budget; the design "
+        f"storm below is the NOAA Atlas-14 *extreme* the corridor must detain — "
+        f"the two are complementary.\n"
+    )
+    from bosc.hydrology.et import penman_monteith_et0
+
+    try:
+        et0 = penman_monteith_et0(clim)
+    except ValueError:
+        et0 = None
+    if et0 is None:
+        return
+    net = ann - et0.annual_mm
+    precip_m = clim.get("PRECTOTCORR")
+    deficit = (
+        [m for m in et0.monthly_mm_day if et0.monthly_mm_day[m] > precip_m.monthly[m]]
+        if precip_m is not None
+        else []
+    )
+    span = f"{deficit[0].title()}-{deficit[-1].title()}" if deficit else "none"
+    emit(
+        f"\n**Reference ET (FAO-56 Penman-Monteith).** Atmospheric water "
+        f"*demand* runs **~{et0.annual_mm:,.0f} mm/yr** of reference ET0, "
+        f"computed from the same POWER normals (temperature, humidity, wind, "
+        f"solar) `[derived: FAO-56 Penman-Monteith]`. Net of precipitation "
+        f"that is **{net:+,.0f} mm/yr** — and ET0 *exceeds* rainfall across "
+        f"the **{span}** growing season, so summer soil moisture, pond "
+        f"evaporation, and any consumptive cooling draw compete for water in "
+        f"the months the Ottawa is already near its low-flow floor (§4).\n"
+    )
+
+
+def _render_stormwater_runoff(
+    emit: Callable[[str], None],
+    settings: Settings,
+    runoff: StormRunoff,
+    storm_findings: list[HydroFinding],
+) -> None:
+    """The pre/post design-storm runoff table + the campus footprint's flood exposure."""
+    emit(
+        f"A {runoff.storm.return_period_yr}-yr 24-hr design storm "
+        f"({_ev(runoff.storm.depth)}) over the {runoff.area.value:,.0f}-ac footprint "
+        f"`[{_TAG[runoff.area.source]}]`:\n"
+    )
+    emit("\n| case | curve number | peak (cfs) | volume (ac-ft) |")
+    emit("|---|---|---|---|")
+    emit(
+        f"| pre-development (cropland) | {runoff.pre.curve_number:.0f} | {runoff.pre.peak_cfs:,.0f} | {runoff.pre.volume_acft:,.0f} |"
+    )
+    emit(
+        f"| post-development (impervious) | {runoff.post.curve_number:.0f} | {runoff.post.peak_cfs:,.0f} | {runoff.post.volume_acft:,.0f} |"
+    )
+    for f in storm_findings:
+        emit(f"\n- {f.detail}")
+
+    from bosc.hydrology.floodplain import load_campus_floodzone
+
+    cf = load_campus_floodzone(settings=settings)
+    if cf is None:
+        return
+    if cf.in_floodplain:
+        emit(
+            f"\n\n**Part of the footprint lies in the FEMA floodplain.** The recorded\n"
+            f"campus parcels intersect FEMA Special Flood Hazard Area "
+            f"({', '.join(cf.in_parcels_zones)}; DFIRM {cf.firm}) `{_tag('document')}` —\n"
+            f"development there faces base-flood-elevation and floodway constraints.\n"
+        )
+    elif cf.nearby_zones:
+        emit(
+            f"\n\n**The footprint sits just outside the FEMA floodplain — but only just.**\n"
+            f"The recorded campus parcels intersect no FEMA Special Flood Hazard Area, yet\n"
+            f"Zone {' and '.join(cf.nearby_zones)} (1%-annual-chance floodplain and regulatory\n"
+            f"floodway) reach within ~{cf.nearby_buffer_m} m of them (FEMA DFIRM {cf.firm})\n"
+            f"`{_tag('document')}`. The post-development runoff increase routes toward that\n"
+            f"corridor; a regulatory floodway tolerates no rise, so added peak discharge there\n"
+            f"is a permitting constraint, not only a detention-sizing question.\n"
+        )
+
+
+def _render_sanitary_context(emit: Callable[[str], None], settings: Settings) -> None:
+    """The cited sanitary-headroom decree context + the absent on-site detention finding."""
+    from bosc.hydrology.sanitary import load_sanitary_basis
+
+    san = load_sanitary_basis(settings=settings)
+    if san is not None and san.decree_note:
+        rows = "; ".join(
+            f"{p.plant} {p.avg_design_flow.value:g}/{p.peak_capacity.value:g} MGD "
+            f"(headroom {p.headroom_mgd:g})"
+            for p in san.plants
+            if p.peak_capacity is not None and p.headroom_mgd is not None
+        )
+        emit(
+            f"\n**The surcharge lands on a system with no headroom to give.** Permitted\n"
+            f"average / peak design flows are document-cited [verified]: {rows}. The decisive\n"
+            f"fact is regulatory: the collection system is already under a **2005 OEPA mandate\n"
+            f"to eliminate all SSO bypassing by 2015**, with **${san.ii_remediation_musd.value:g}M**\n"
+            f"of storm-water I/I remediation and a 21-inch trunk replaced by 48-inch purely to\n"
+            f"equalize wet-weather I/I. So each plant's nominal wet-weather headroom (peak minus\n"
+            f"permitted average) is already documented as effectively spent before the campus\n"
+            f"adds load. The campus's documented dry-weather contribution is the {san.campus_industrial.value:g}\n"
+            f"MGD FM-2 industrial discharge; the storm RDII multiplier on top remains an assumption.\n"
+        )
+    from bosc.hydrology.stormplan import load_inventory
+
+    inv = load_inventory(settings=settings)
+    if inv is not None and not inv.detention_shown:
+        emit(
+            f"\n**Detention is the absent control, not a modeled redesign.** The campus\n"
+            f"grading & stormwater plan (`{inv.sheet_id}`, {inv.phase}, "
+            f"{'[verified]' if inv.rim_min.verified else '[inference]'}) routes runoff via\n"
+            f"catch basins -> inlets -> storm sewer to headwall outfalls (with rock check dams\n"
+            f"and overland flood routing) and shows **no detention, retention, or infiltration\n"
+            f"storage** across its {inv.rim_labels} storm-structure rims "
+            f"({inv.rim_min.value:.0f}-{inv.rim_max.value:.0f} ft). So the SWMM-sized basin is the\n"
+            f"on-site control the as-drawn 95% design omits. Pipe connectivity/inverts are drawn\n"
+            f"as vector geometry with no schedule table, so a routable network is deliberately\n"
+            f"not transcribed (omission over invention).\n"
+        )
+
+
 def render_report(*, settings: Settings | None = None, live: bool = False) -> str:
     """Build the full hydrology markdown dossier (offline-deterministic by default)."""
     settings = settings or get_settings()
@@ -491,7 +730,7 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
         w(f"| {n.node.name} | {n.node.role} | {_ev(flow)} | {n.node.receiving_water or '—'} |")
     w("\n**Low-flow assimilative screen** (discharge vs the receiving stream's cited 7Q10):\n")
     for c in assim:
-        mark = "❌" if c.flag == "violation" else ("⚠️" if c.flag == "tight" else "✅")
+        mark = _flag_mark(c.flag)
         w(
             f"- {mark} **{c.discharger} → {c.receiving_water}**: 7Q10 "
             f"{c.design_low_flow.value:g} cfs vs discharge {c.discharge.value:.2f} cfs "
@@ -508,159 +747,12 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
     _render_water_supply(w, settings)
     _render_refill_adequacy(w, settings)
     _render_toxic_screen(w, settings)
-
-    from bosc.hydrology.floodplain import load_wwtp_floodzones
-
-    wf = load_wwtp_floodzones(settings=settings)
-    if wf is not None and wf.plants:
-        sited = [p for p in wf.plants if p.in_sfha]
-        adjacent = [p for p in wf.plants if not p.in_sfha and p.nearest_buffer(contains="AE")]
-        lead = (
-            "All three plant sites sit in the FEMA floodplain"
-            if len(sited) == len(wf.plants)
-            else (
-                f"None of the {len(wf.plants)} plant sites sits in the FEMA Special Flood "
-                "Hazard Area at its ECHO-reported point"
-                if not sited
-                else f"{len(sited)} of {len(wf.plants)} plant sites sit in the FEMA SFHA"
-            )
-        )
-        w(
-            f"\n**Outfall flood exposure.** {lead}, but the discharge infrastructure is "
-            f"flood-adjacent on streams already shown to be undiluted at low flow "
-            f"`[verified: document]`:\n"
-        )
-        w("\n| Plant | Receiving water | In SFHA | Nearest AE | Nearest floodway |")
-        w("|---|---|---|---|---|")
-        for p in wf.plants:
-            ae = p.nearest_buffer(contains="AE")
-            fw = p.nearest_buffer(contains="FLOODWAY")
-            w(
-                f"| {p.name} | {p.receiving_water or '—'} | {'yes' if p.in_sfha else 'no'} "
-                f"| {f'≤{ae} m' if ae else '—'} | {f'≤{fw} m' if fw else '—'} |"
-            )
-        if adjacent:
-            w(
-                f"\n{wf.note} So the mapped exposure understates the outfalls': the "
-                "discharge points themselves sit at the receiving water, inside or at the "
-                "edge of the AE floodplain.\n"
-            )
-
-    from bosc.hydrology.maumee import load_maumee_tmdl
-
-    tmdl = load_maumee_tmdl(settings=settings)
-    if tmdl is not None and tmdl.facilities:
-        w("\n## 2. The Maumee Nutrient TMDL: the same discharges are capped phosphorus loads\n")
-        w(
-            "These discharges don't just strain a local stream. The Ottawa flows to the\n"
-            "Auglaize and on to the **Maumee** — Lake Erie's largest tributary and the\n"
-            "driver of its western-basin harmful algal blooms. The 2023 Maumee Watershed\n"
-            "Nutrient TMDL (Ohio EPA, US-EPA-approved) assigns each individually permitted\n"
-            "discharger a total-phosphorus **wasteload allocation**: a spring-season\n"
-            "(March-July) cap, also stated as a daily equivalent. The plants the low-flow\n"
-            "screen flags as effectively undiluted are the same permits carrying these caps\n"
-            "`[verified: document]`:\n"
-        )
-        w("\n| facility | NPDES | spring TP (metric tons) | daily TP (kg) |")
-        w("|---|---|---|---|")
-        for fac in tmdl.facilities:
-            w(
-                f"| {fac.facility} | {fac.npdes or '—'} | "
-                f"{fac.spring_tp.value:g} | {fac.daily_tp.value:g} |"
-            )
-        if tmdl.grouped_spring_tp is not None and tmdl.grouped_daily_tp is not None:
-            w(
-                f"\nAcross the whole grouped category of individually permitted dischargers the\n"
-                f"cap totals **{tmdl.grouped_spring_tp.value:g} metric tons** "
-                f"({tmdl.grouped_daily_tp.value:g} kg/day) of spring phosphorus. So the local\n"
-                f"dilution failure compounds a basin-scale constraint: at design low flow these\n"
-                f"effluents are near-undiluted, and every pound of phosphorus is metered against a\n"
-                f"Lake Erie nutrient budget.\n"
-            )
+    _render_wwtp_floodzones(w, settings)
+    _render_maumee_tmdl(w, settings)
 
     w("\n## 3. Stormwater: paving the corridor\n")
-
-    from bosc.hydrology.climate import load_climatology
-
-    clim = load_climatology(settings=settings)
-    if clim is not None:
-        ann = clim.annual_precip_mm()
-        wettest = clim.wettest_month()
-        t2m = clim.get("T2M")
-        if ann is not None and wettest is not None and t2m is not None:
-            w(
-                f"**Climate baseline (NASA POWER).** The Lima point averages "
-                f"**~{ann:,.0f} mm/yr** of precipitation (corrected), peaking in "
-                f"{wettest[0].title()}, at a mean annual temperature of "
-                f"**{t2m.annual:.1f} °C** `[reference: NASA POWER climatology]`. The "
-                f"satellite climate *normal* sets the long-run water budget; the design "
-                f"storm below is the NOAA Atlas-14 *extreme* the corridor must detain — "
-                f"the two are complementary.\n"
-            )
-            from bosc.hydrology.et import penman_monteith_et0
-
-            try:
-                et0 = penman_monteith_et0(clim)
-            except ValueError:
-                et0 = None
-            if et0 is not None:
-                net = ann - et0.annual_mm
-                precip_m = clim.get("PRECTOTCORR")
-                deficit = (
-                    [m for m in et0.monthly_mm_day if et0.monthly_mm_day[m] > precip_m.monthly[m]]
-                    if precip_m is not None
-                    else []
-                )
-                span = f"{deficit[0].title()}-{deficit[-1].title()}" if deficit else "none"
-                w(
-                    f"\n**Reference ET (FAO-56 Penman-Monteith).** Atmospheric water "
-                    f"*demand* runs **~{et0.annual_mm:,.0f} mm/yr** of reference ET0, "
-                    f"computed from the same POWER normals (temperature, humidity, wind, "
-                    f"solar) `[derived: FAO-56 Penman-Monteith]`. Net of precipitation "
-                    f"that is **{net:+,.0f} mm/yr** — and ET0 *exceeds* rainfall across "
-                    f"the **{span}** growing season, so summer soil moisture, pond "
-                    f"evaporation, and any consumptive cooling draw compete for water in "
-                    f"the months the Ottawa is already near its low-flow floor (§4).\n"
-                )
-
-    w(
-        f"A {runoff.storm.return_period_yr}-yr 24-hr design storm "
-        f"({_ev(runoff.storm.depth)}) over the {runoff.area.value:,.0f}-ac footprint "
-        f"`[{_TAG[runoff.area.source]}]`:\n"
-    )
-    w("\n| case | curve number | peak (cfs) | volume (ac-ft) |")
-    w("|---|---|---|---|")
-    w(
-        f"| pre-development (cropland) | {runoff.pre.curve_number:.0f} | {runoff.pre.peak_cfs:,.0f} | {runoff.pre.volume_acft:,.0f} |"
-    )
-    w(
-        f"| post-development (impervious) | {runoff.post.curve_number:.0f} | {runoff.post.peak_cfs:,.0f} | {runoff.post.volume_acft:,.0f} |"
-    )
-    for f in storm_findings:
-        w(f"\n- {f.detail}")
-
-    from bosc.hydrology.floodplain import load_campus_floodzone
-
-    cf = load_campus_floodzone(settings=settings)
-    if cf is not None:
-        if cf.in_floodplain:
-            w(
-                f"\n\n**Part of the footprint lies in the FEMA floodplain.** The recorded\n"
-                f"campus parcels intersect FEMA Special Flood Hazard Area "
-                f"({', '.join(cf.in_parcels_zones)}; DFIRM {cf.firm}) `[verified: document]` —\n"
-                f"development there faces base-flood-elevation and floodway constraints.\n"
-            )
-        elif cf.nearby_zones:
-            w(
-                f"\n\n**The footprint sits just outside the FEMA floodplain — but only just.**\n"
-                f"The recorded campus parcels intersect no FEMA Special Flood Hazard Area, yet\n"
-                f"Zone {' and '.join(cf.nearby_zones)} (1%-annual-chance floodplain and regulatory\n"
-                f"floodway) reach within ~{cf.nearby_buffer_m} m of them (FEMA DFIRM {cf.firm})\n"
-                f"`[verified: document]`. The post-development runoff increase routes toward that\n"
-                f"corridor; a regulatory floodway tolerates no rise, so added peak discharge there\n"
-                f"is a permitting constraint, not only a detention-sizing question.\n"
-            )
-
+    _render_climate_et(w, settings)
+    _render_stormwater_runoff(w, settings, runoff, storm_findings)
     _render_drainage_audit(w, settings)
 
     w("\n\n## 4. Scenario: data-center cooling vs the Ottawa's low flow\n")
@@ -708,44 +800,8 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
     )
 
     _render_tier1_swmm(w, settings)
+    _render_sanitary_context(w, settings)
 
-    from bosc.hydrology.sanitary import load_sanitary_basis
-
-    san = load_sanitary_basis(settings=settings)
-    if san is not None and san.decree_note:
-        rows = "; ".join(
-            f"{p.plant} {p.avg_design_flow.value:g}/{p.peak_capacity.value:g} MGD "
-            f"(headroom {p.headroom_mgd:g})"
-            for p in san.plants
-            if p.peak_capacity is not None and p.headroom_mgd is not None
-        )
-        w(
-            f"\n**The surcharge lands on a system with no headroom to give.** Permitted\n"
-            f"average / peak design flows are document-cited [verified]: {rows}. The decisive\n"
-            f"fact is regulatory: the collection system is already under a **2005 OEPA mandate\n"
-            f"to eliminate all SSO bypassing by 2015**, with **${san.ii_remediation_musd.value:g}M**\n"
-            f"of storm-water I/I remediation and a 21-inch trunk replaced by 48-inch purely to\n"
-            f"equalize wet-weather I/I. So each plant's nominal wet-weather headroom (peak minus\n"
-            f"permitted average) is already documented as effectively spent before the campus\n"
-            f"adds load. The campus's documented dry-weather contribution is the {san.campus_industrial.value:g}\n"
-            f"MGD FM-2 industrial discharge; the storm RDII multiplier on top remains an assumption.\n"
-        )
-    from bosc.hydrology.stormplan import load_inventory
-
-    inv = load_inventory(settings=settings)
-    if inv is not None and not inv.detention_shown:
-        w(
-            f"\n**Detention is the absent control, not a modeled redesign.** The campus\n"
-            f"grading & stormwater plan (`{inv.sheet_id}`, {inv.phase}, "
-            f"{'[verified]' if inv.rim_min.verified else '[inference]'}) routes runoff via\n"
-            f"catch basins -> inlets -> storm sewer to headwall outfalls (with rock check dams\n"
-            f"and overland flood routing) and shows **no detention, retention, or infiltration\n"
-            f"storage** across its {inv.rim_labels} storm-structure rims "
-            f"({inv.rim_min.value:.0f}-{inv.rim_max.value:.0f} ft). So the SWMM-sized basin is the\n"
-            f"on-site control the as-drawn 95% design omits. Pipe connectivity/inverts are drawn\n"
-            f"as vector geometry with no schedule table, so a routable network is deliberately\n"
-            f"not transcribed (omission over invention).\n"
-        )
     w("\n---\n")
     w(
         "_Sources: USGS NWIS (streamflow), NOAA Atlas-14 (design rainfall), NASA POWER\n"
