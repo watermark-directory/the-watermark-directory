@@ -6,6 +6,10 @@ import { hasFeed, loadFeed } from "../../../lib/bundle";
 import { evidenceKind, type TimelineEntry } from "../../../lib/feeds";
 import { walkAnchorFor } from "../../../lib/walk";
 import { withStory } from "../../../lib/site";
+import { selectableSitePaths } from "../../../lib/sites";
+
+// One `network/[site]/…` route per selectable site (#724/#734); Lima alone today.
+export const getStaticPaths = selectableSitePaths;
 
 const entries = hasFeed("timeline") ? loadFeed<TimelineEntry[]>("timeline") : [];
 const isDated = (e: TimelineEntry): boolean => /^\d{4}/.test(e.date);

@@ -16,7 +16,7 @@
  *  sections coming online; `queued` = registered profile + coming-soon page, in the build queue;
  *  `tracking` = a GitHub-tracked candidate with an issue but no registered profile yet (the
  *  earliest phase — it routes to a lightweight "watch" page). Only `live` is selectable. */
-import { DEFAULT_STORY_CODENAME, SITE_BASE } from "./routes";
+import { DEFAULT_STORY_CODENAME, SITE_BASE, siteBase } from "./routes";
 
 export type SiteStatus = "live" | "building" | "queued" | "tracking";
 
@@ -519,6 +519,20 @@ export function siteForPath(pathname: string, base = ""): NetworkSite | null {
 /** The sites that need a coming-soon page (everything not switchable). */
 export function comingSoonSites(): NetworkSite[] {
   return SITES.filter((s) => !s.selectable);
+}
+
+/**
+ * `getStaticPaths` entries for the `network/[site]/…` routes (#724/#734): one per *selectable*
+ * site, keyed by its URL id (`siteBase(slug)` minus `/network/`), with the registry `slug` passed
+ * as a prop so a page can thread it into `siteHref(slug, …)` / `loadFeed(name, slug)` (#739).
+ * Today that's Lima alone, so these routes reproduce the live build; a second selectable site
+ * (#740) gets its own build with no new page files.
+ */
+export function selectableSitePaths(): Array<{ params: { site: string }; props: { slug: string } }> {
+  return SITES.filter((s) => s.selectable).map((s) => ({
+    params: { site: siteBase(s.slug).replace("/network/", "") },
+    props: { slug: s.slug },
+  }));
 }
 
 /**
