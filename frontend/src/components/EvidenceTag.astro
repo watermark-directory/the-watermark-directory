@@ -10,7 +10,7 @@
 // The single evidence-pill renderer (#579): figure stats, the timeline, record
 // teardowns, profile attributes, and the withholding stack all route through here.
 // A trailing `<slot />` carries any in-pill detail (a teardown's sub, a legend gloss).
-import { type EvidenceKind, EVIDENCE_LABELS } from "../lib/evidence";
+import { type EvidenceKind, EVIDENCE_GLOSS, EVIDENCE_LABELS } from "../lib/evidence";
 
 export type { EvidenceKind };
 
@@ -18,12 +18,14 @@ interface Props {
   kind: EvidenceKind;
   /** Override label text; defaults to the kind's label. */
   label?: string;
-  /** Tooltip (e.g. the source or note). */
+  /** Tooltip (e.g. the source or note). Falls back to the kind's reader gloss so a bare
+   *  pill always explains itself on hover. */
   title?: string;
 }
 const { kind, label, title } = Astro.props;
+const tip = title ?? EVIDENCE_GLOSS[kind];
 ---
 
-<span class:list={["evidence", `evidence-${kind}`]} title={title} data-kind={kind}>
+<span class:list={["evidence", `evidence-${kind}`]} title={tip} data-kind={kind}>
   <span class="evidence-dot" aria-hidden="true"></span>[{label ?? EVIDENCE_LABELS[kind] ?? kind}]<slot />
 </span>

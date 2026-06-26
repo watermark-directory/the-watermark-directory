@@ -1,0 +1,32 @@
+---
+// The evidence-tag legend — the one reader-facing definition of the corpus's
+// evidence vocabulary ([verified] / [inference] / [reference] / [open]). Lifted from
+// the teardown dev board (#643) so the tags surfaced on every record, profile, and
+// provenance line are explained on a stable, indexed page. Glosses come from
+// `lib/evidence` (EVIDENCE_GLOSS) — the same source as the EvidenceTag default
+// tooltip — so the legend and the hover text can never drift.
+import { EVIDENCE_GLOSS, EVIDENCE_PRIMARY } from "../lib/evidence";
+import EvidenceTag from "./EvidenceTag.astro";
+
+interface Props {
+  /** Heading text; pass `null` for a bare inline legend. */
+  heading?: string | null;
+}
+const { heading = "Evidence tags" } = Astro.props;
+---
+
+<section class="ev-legend" aria-label="Evidence tag legend">
+  {heading && <h2 class="ev-legend-title">{heading}</h2>}
+  <dl class="ev-legend-list">
+    {
+      EVIDENCE_PRIMARY.map((kind) => (
+        <div class="ev-legend-row">
+          <dt class="ev-legend-tag">
+            <EvidenceTag kind={kind} />
+          </dt>
+          <dd class="ev-legend-gloss">{EVIDENCE_GLOSS[kind]}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>

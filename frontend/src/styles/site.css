@@ -37,11 +37,13 @@
   --bosc-ink-green: #3a4a3e;    /* structural ink-green (door/section kind labels) — NOT the forest signal; no DS token */
   --bosc-chart-faint: var(--ink-ghost);  /* chart axis ticks — a shade lighter than --bosc-faint */
 
-  /* Semantic / evidence grammar (three kinds; open reads muted, per the design). */
+  /* Semantic / evidence grammar (open reads muted, per the design; reference reads ink —
+     an authoritative outside spec, distinct from the muted open/filename). */
   --bosc-verified: var(--ev-verified-fg);
   --bosc-inference: var(--ev-inference-fg);
   --bosc-open: var(--ev-open-fg);
   --bosc-filename: var(--ev-open-fg);
+  --bosc-reference: var(--bosc-ink);
 
   /* Archivo for prose & display; IBM Plex Mono for every load-bearing figure & provenance.
      Kept literal — the site's font stacks carry extra fallbacks the design-system tokens
@@ -1114,9 +1116,20 @@ a { color: var(--bosc-link); }
 .evidence-verified { color: var(--bosc-verified); background: var(--td-verified-bg); }
 .evidence-inference { color: var(--bosc-inference); background: var(--td-inference-bg); }
 .evidence-open { color: var(--bosc-open); background: #ece8dc; }
+.evidence-reference { color: var(--bosc-reference); background: #ece8dc; }
 .evidence-filename { color: var(--bosc-filename); background: #ece8dc; }
 .evidence-gap { color: var(--ev-gap-fg); background: var(--ev-gap-bg); }
 .evidence-key { color: var(--ev-key-fg); background: var(--ev-key-bg); }
+
+/* Evidence-tag legend (EvidenceLegend.astro) — the reader-facing definition of the
+   four canonical classes, lifted from the teardown dev board onto stable pages (#643). */
+.ev-legend { border: 1px solid var(--bosc-rule); background: var(--bosc-surface); padding: var(--sp-4); }
+.ev-legend-title { margin: 0 0 var(--sp-3); font-size: var(--fs-caption); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--bosc-muted); }
+.ev-legend-list { margin: 0; display: grid; gap: var(--sp-3); }
+.ev-legend-row { display: grid; grid-template-columns: 9rem 1fr; gap: var(--sp-3); align-items: baseline; }
+.ev-legend-tag { margin: 0; }
+.ev-legend-gloss { margin: 0; font-size: var(--fs-caption); color: var(--bosc-muted); line-height: 1.5; }
+@media (max-width: 30rem) { .ev-legend-row { grid-template-columns: 1fr; gap: var(--sp-1); } }
 
 /* ---- Cards / lists used across sections B–D ---- */
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--sp-3); margin: 1rem 0; }
