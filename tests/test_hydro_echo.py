@@ -35,11 +35,16 @@ def test_maumee_is_seven_subbasins() -> None:
 def test_basin_registry_and_resolve() -> None:
     assert echo.resolve_basin("maumee") is echo.MAUMEE
     assert echo.resolve_basin("great-miami") is echo.GREAT_MIAMI
+    assert echo.resolve_basin("little-miami") is echo.LITTLE_MIAMI
     assert echo.resolve_basin("scioto") is echo.SCIOTO
     assert echo.resolve_basin(echo.GREAT_MIAMI) is echo.GREAT_MIAMI  # idempotent
     # The Great Miami is the two Ohio HUC-8s; Whitewater (mostly IN) is excluded.
     assert list(echo.GREAT_MIAMI_HUC8S) == ["05080001", "05080002"]
     assert "05080003" not in echo.GREAT_MIAMI_HUC8S
+    # The Little Miami is a single HUC-8 (Xenia + Wilmington/Todd Fork); Mill Creek excluded.
+    assert list(echo.LITTLE_MIAMI_HUC8S) == ["05090202"]
+    assert "05090203" not in echo.LITTLE_MIAMI_HUC8S
+    assert echo.LITTLE_MIAMI.file_stem == "little-miami-wwtp"
     # The Scioto is its three HUC-8s (Upper/Lower Scioto + Paint).
     assert list(echo.SCIOTO_HUC8S) == ["05060001", "05060002", "05060003"]
     assert echo.SCIOTO.file_stem == "scioto-wwtp"

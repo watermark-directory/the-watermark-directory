@@ -73,6 +73,16 @@ GREAT_MIAMI_HUC8S: dict[str, str] = {
     "05080002": "Lower Great Miami",
 }
 
+# The Little Miami River basin (subregion 0509, an Ohio River tributary): a single HUC-8
+# cataloging unit (05090202) that both network points sit on — Xenia (05090202, upstream
+# near Oldtown) and Wilmington / Todd Fork (05090202, the Clinton County tributary). The
+# Little Miami is a National & State Scenic River. Adjacent Mill Creek (05090203, the
+# Cincinnati urban drainage) is NOT Little Miami drainage and is deliberately excluded,
+# mirroring the Maumee's excluded WLE neighbors and the Great Miami's excluded Whitewater.
+LITTLE_MIAMI_HUC8S: dict[str, str] = {
+    "05090202": "Little Miami",
+}
+
 # The Scioto River basin (subregion 0506, an Ohio River tributary): three HUC-8 subbasins.
 # The Columbus metro + the New Albany Scioto-side cluster (Big Walnut/Olentangy/Darby) sit in
 # Upper Scioto (05060001). The New Albany epicenter also spills east across the divide into the
@@ -138,10 +148,28 @@ SCIOTO = Basin(
         "(Muskingum, subregion 0504) side is NOT in this Scioto inventory.",
     ),
 )
-BASINS: dict[str, Basin] = {b.slug: b for b in (MAUMEE, GREAT_MIAMI, SCIOTO)}
+LITTLE_MIAMI = Basin(
+    slug="little-miami",
+    huc8s=LITTLE_MIAMI_HUC8S,
+    watershed="Little Miami River — 1 HUC-8 subbasin, subregion 0509 (Ohio River tributary, Scenic River)",
+    subject="Little Miami-watershed NPDES wastewater dischargers",
+    file_stem="little-miami-wwtp",
+    caveats=(
+        "Mill Creek (05090203, the Cincinnati urban drainage) is the adjacent 0509 basin and is "
+        "excluded; cross-check Ohio EPA near the basin mouth for completeness.",
+        "Todd Fork (the Wilmington / Clinton County tributary) is ungaged — the at-site dilution "
+        "screen relies on the downstream Little Miami integrator at Milford.",
+    ),
+)
+BASINS: dict[str, Basin] = {b.slug: b for b in (MAUMEE, GREAT_MIAMI, LITTLE_MIAMI, SCIOTO)}
 
 # Merged HUC-8 -> name map for the per-HUC fetch display label (any registered basin).
-_HUC8_NAMES: dict[str, str] = {**MAUMEE_HUC8S, **GREAT_MIAMI_HUC8S, **SCIOTO_HUC8S}
+_HUC8_NAMES: dict[str, str] = {
+    **MAUMEE_HUC8S,
+    **GREAT_MIAMI_HUC8S,
+    **LITTLE_MIAMI_HUC8S,
+    **SCIOTO_HUC8S,
+}
 
 # Result columns to request, selected *by ObjectName* against the verified
 # metadata and mapped to their ColumnID for the ``qcolumns`` parameter. get_qid

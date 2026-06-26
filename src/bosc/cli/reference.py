@@ -19,7 +19,7 @@ from bosc.cli._base import (
 @app.command(name="npdes")
 def npdes(
     basin: str = typer.Option(
-        "maumee", "--basin", help="Watershed slug (maumee | great-miami | scioto)."
+        "maumee", "--basin", help="Watershed slug (maumee | great-miami | little-miami | scioto)."
     ),
     offline: bool = typer.Option(
         False, "--offline", help="Use cached ECHO responses only; never touch the network."

@@ -6,11 +6,14 @@ NPDES ID, and value here was returned by the ECHO API — nothing is fabricated,
 inferred, or filled in. Two basins are committed today, each with its own
 `<basin>-wwtp.*` fileset: the **Maumee** (`bosc npdes`, the default) and the **Great
 Miami** (`bosc npdes --basin great-miami`, the Miami-basin sites — Urbana, Springfield,
-WPAFB, Troy-Piqua, Hamilton-Middletown). A third basin, the **Scioto** (`--basin scioto`,
-the Columbus / New Albany data-center cluster), is registered in the connector but its
-inventory is **not yet committed** — the pull was deferred on an ECHO 300/hr throttle
-(HTTP 429); run `bosc npdes --basin scioto` to write `scioto-wwtp.*`. Add a basin by
-registering it in `bosc.hydrology.connectors.echo`; never hardcode one into the connector.
+WPAFB, Troy-Piqua, Hamilton-Middletown). Two further basins are **registered in the
+connector but not yet committed**: the **Scioto** (`--basin scioto`, the Columbus /
+New Albany data-center cluster) — deferred on an ECHO 300/hr throttle (HTTP 429) — and
+the **Little Miami** (`--basin little-miami`, the Scenic-River sites Xenia and
+Wilmington / Todd Fork, a single HUC-8 `05090202`) — deferred when ECHO returned read
+timeouts then a 500. Run `bosc npdes --basin scioto` / `--basin little-miami` to write
+their `<basin>-wwtp.*` filesets when ECHO is healthy. Add a basin by registering it in
+`bosc.hydrology.connectors.echo`; never hardcode one into the connector.
 
 ## What the watershed is
 
