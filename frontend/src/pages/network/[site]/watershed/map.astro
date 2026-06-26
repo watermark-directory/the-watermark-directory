@@ -1,4 +1,6 @@
 ---
+import { selectableSitePaths } from "../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
 import BackLink from "../../../../components/BackLink.astro";
 import CorridorMap from "../../../../components/islands/CorridorMap.tsx";
 import Base from "../../../../layouts/Base.astro";
