@@ -72,7 +72,9 @@ function activeStory(): Story | undefined {
 function siteRoots(): { base: string; storyRoot: string; story: Story | undefined } {
   const base = siteBase(activeSite());
   const story = activeStory();
-  const storyRoot = story ? storyBase(story.site, story.codename) : `${base}/stories/${DEFAULT_STORY_CODENAME}`;
+  const storyRoot = story
+    ? storyBase(story.site, story.codename)
+    : `${base}/stories/${DEFAULT_STORY_CODENAME}`;
   return { base, storyRoot, story };
 }
 

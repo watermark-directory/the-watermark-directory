@@ -89,8 +89,8 @@ export default function BalanceSheet({
         Each band above is wide for one reason: a figure the county has not produced. The economic give is the
         only line in dollars; the load and the river are bands the record never measures. Disclosure — not a
         verdict from this page — is what narrows any of them. See the{" "}
-        <a href={siteHref(site, "/site/legal/corpus-completeness-audit")}>corpus-completeness audit</a> for what's
-        missing, and why.
+        <a href={siteHref(site, "/site/legal/corpus-completeness-audit")}>corpus-completeness audit</a> for
+        what's missing, and why.
       </p>
     </div>
   );
