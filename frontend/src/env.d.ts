@@ -14,3 +14,15 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare namespace App {
+  /**
+   * Per-request locals. `site` is the active network site's registry slug — the seam the
+   * multi-site build (#724) routes on. Set by `src/middleware.ts`; today always `"lima"`
+   * (the only rendered site), later resolved from the `[site]` route param (#734). Pages
+   * that render a known site pass it explicitly to `siteHref(slug, …)`.
+   */
+  interface Locals {
+    site: string;
+  }
+}
