@@ -26,6 +26,7 @@ Discipline:
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from typing import Any
 
 import yaml
@@ -182,191 +183,202 @@ def _foregone(cra: dict[str, Any]) -> ForegoneTax:
     )
 
 
-def _burdens(settings: Settings) -> list[BurdenItem]:
-    """Pull the headline burden from each committed cross-thread artifact (best-effort)."""
-    out: list[BurdenItem] = []
+def _burden_toxics(settings: Settings) -> BurdenItem | None:
+    from bosc.hydrology import toxics
 
-    try:
-        from bosc.hydrology import toxics
+    tx = toxics.build_screen(settings)
+    return BurdenItem(
+        thread="toxics x dilution",
+        headline=(
+            f"{tx.meta['critical_count']} of {tx.meta['water_releaser_count']} county "
+            "toxic water dischargers sit on the Ottawa at Lima (7Q10 0.2 cfs, 1Q10 0)"
+        ),
+        source="data/reference/rsei/toxic-discharge-screen.yaml",
+    )
 
-        tx = toxics.build_screen(settings)
-        out.append(
-            BurdenItem(
-                thread="toxics x dilution",
-                headline=(
-                    f"{tx.meta['critical_count']} of {tx.meta['water_releaser_count']} county "
-                    "toxic water dischargers sit on the Ottawa at Lima (7Q10 0.2 cfs, 1Q10 0)"
-                ),
-                source="data/reference/rsei/toxic-discharge-screen.yaml",
-            )
+
+def _burden_cooling(settings: Settings) -> BurdenItem | None:
+    from bosc.hydrology import scenario
+
+    draw_cfs = _buildout_consumptive_cfs(settings)
+    sw = (
+        scenario.evaluate_seasonal(
+            draw_cfs,
+            receiving_water=active_profile(settings).receiving_water_name,
+            settings=settings,
         )
-    except (FileNotFoundError, KeyError):
-        pass
+        if draw_cfs is not None
+        else None
+    )
+    if sw is None or sw.summer_multiple is None:
+        return None
+    return BurdenItem(
+        thread="cooling withdrawal",
+        headline=(
+            f"~{sw.consumptive_cfs:g} cfs consumptive cooling draw — {sw.summer_multiple:g}x "
+            f"the Ottawa summer 30Q10, {sw.annual_multiple:g}x the annual 7Q10"
+        ),
+        source="data/scenarios/buildout.scenario.yaml + low-flow-7q10.yaml",
+    )
 
-    try:
-        from bosc.hydrology import scenario
 
-        draw_cfs = _buildout_consumptive_cfs(settings)
-        sw = (
-            scenario.evaluate_seasonal(
-                draw_cfs,
-                receiving_water=active_profile(settings).receiving_water_name,
-                settings=settings,
-            )
-            if draw_cfs is not None
-            else None
-        )
-        if sw is not None and sw.summer_multiple is not None:
-            out.append(
-                BurdenItem(
-                    thread="cooling withdrawal",
-                    headline=(
-                        f"~{sw.consumptive_cfs:g} cfs consumptive cooling draw — {sw.summer_multiple:g}x "
-                        f"the Ottawa summer 30Q10, {sw.annual_multiple:g}x the annual 7Q10"
-                    ),
-                    source="data/scenarios/buildout.scenario.yaml + low-flow-7q10.yaml",
-                )
-            )
-    except (FileNotFoundError, KeyError):
-        pass
+def _burden_drainage(settings: Settings) -> BurdenItem | None:
+    from bosc.hydrology import drainage
 
-    try:
-        from bosc.hydrology import drainage
+    da = drainage.build_drainage_audit(settings)
+    return BurdenItem(
+        thread="drainage scope",
+        headline=(
+            f"${da.meta['program_drainage_total']:,} of roundabout drainage budgeted with "
+            f"only {da.meta['itemized_count']}/{da.meta['sub_estimate_count']} estimates "
+            "itemized and no detention sized"
+        ),
+        source="data/extracted/aedg/roundabouts.*.opc.yaml + atlas14-corridor-ddf.yaml",
+    )
 
-        da = drainage.build_drainage_audit(settings)
-        out.append(
-            BurdenItem(
-                thread="drainage scope",
-                headline=(
-                    f"${da.meta['program_drainage_total']:,} of roundabout drainage budgeted with "
-                    f"only {da.meta['itemized_count']}/{da.meta['sub_estimate_count']} estimates "
-                    "itemized and no detention sized"
-                ),
-                source="data/extracted/aedg/roundabouts.*.opc.yaml + atlas14-corridor-ddf.yaml",
-            )
-        )
-    except (FileNotFoundError, KeyError):
-        pass
 
-    try:
-        from bosc.usaspending import load_inventory as load_awards
+def _burden_federal(settings: Settings) -> BurdenItem | None:
+    from bosc.usaspending import load_inventory as load_awards
 
-        inv = load_awards(settings.reference_dir)
-        if inv is not None:
-            by = {r.watchlist_name: r for r in inv.records}
-            gdls = by.get("General Dynamics Land Systems Inc.")
-            if gdls is not None:
-                out.append(
-                    BurdenItem(
-                        thread="federal nexus",
-                        headline=(
-                            f"corridor's federal defense anchor (JSMC operator GDLS, "
-                            f"${gdls.total_obligations / 1e9:.0f}B all-time federal awards)"
-                        ),
-                        source="data/reference/usaspending/awards.yaml",
-                    )
-                )
-    except (FileNotFoundError, KeyError):
-        pass
+    inv = load_awards(settings.reference_dir)
+    if inv is None:
+        return None
+    gdls = {r.watchlist_name: r for r in inv.records}.get("General Dynamics Land Systems Inc.")
+    if gdls is None:
+        return None
+    return BurdenItem(
+        thread="federal nexus",
+        headline=(
+            f"corridor's federal defense anchor (JSMC operator GDLS, "
+            f"${gdls.total_obligations / 1e9:.0f}B all-time federal awards)"
+        ),
+        source="data/reference/usaspending/awards.yaml",
+    )
 
-    # Air permit — a document-cited static fact (the extraction structure is permit-specific).
-    air = settings.extracted_dir / "permits" / "4132514.epa.yaml"
-    if air.is_file():
-        out.append(
-            BurdenItem(
-                thread="air permit",
-                headline=(
-                    "115 diesel emergency gensets (114 data-hall + 1 HUBGEN, ~313 MW backup), "
-                    "permitted synthetic-minor to stay just under major-source NSR review"
-                ),
-                # Count + synthetic-minor caps from the final PTI; the ~313 MW per-engine ekW
-                # is from the draft public notice (engine size is CBI-redacted in the final).
-                source=(
-                    "data/extracted/permits/4132514.epa.yaml (OEPA Final Air PTI P0138965, "
-                    "issued 2026-05-28; ekW basis: draft notice 3987141/3987144)"
-                ),
-            )
-        )
 
-    # Roadwork — the PAAC/Bistrozzi Roadwork Development Agreement (the public-road channel).
+def _burden_air(settings: Settings) -> BurdenItem | None:
+    # A document-cited static fact (the extraction structure is permit-specific).
+    if not (settings.extracted_dir / "permits" / "4132514.epa.yaml").is_file():
+        return None
+    return BurdenItem(
+        thread="air permit",
+        headline=(
+            "115 diesel emergency gensets (114 data-hall + 1 HUBGEN, ~313 MW backup), "
+            "permitted synthetic-minor to stay just under major-source NSR review"
+        ),
+        # Count + synthetic-minor caps from the final PTI; the ~313 MW per-engine ekW
+        # is from the draft public notice (engine size is CBI-redacted in the final).
+        source=(
+            "data/extracted/permits/4132514.epa.yaml (OEPA Final Air PTI P0138965, "
+            "issued 2026-05-28; ekW basis: draft notice 3987141/3987144)"
+        ),
+    )
+
+
+def _burden_roadwork(settings: Settings) -> BurdenItem | None:
+    # The PAAC/Bistrozzi Roadwork Development Agreement (the public-road channel).
     rda = settings.extracted_dir / "aedg" / "roadwork-development-agreement.rda.yaml"
-    if rda.is_file():
-        try:
-            data = yaml.safe_load(rda.read_text(encoding="utf-8")) or {}
-            contrib = _num(data["financial_terms"]["company_contribution_usd"])
-            out.append(
-                BurdenItem(
-                    thread="roadwork (PAAC)",
-                    headline=(
-                        f"${contrib:,} developer 'contribution' builds 4 roundabouts + 2 road rehabs "
-                        "dedicated to the County for PERPETUAL maintenance; RDA §5.5 lets State 629 / "
-                        "ODOD grants refund the contribution to the company (so the public may fund the "
-                        "'private' share)"
-                    ),
-                    source="data/extracted/aedg/roadwork-development-agreement.rda.yaml",
-                )
-            )
-        except (KeyError, ValueError):
-            pass
+    if not rda.is_file():
+        return None
+    data = yaml.safe_load(rda.read_text(encoding="utf-8")) or {}
+    contrib = _num(data["financial_terms"]["company_contribution_usd"])
+    return BurdenItem(
+        thread="roadwork (PAAC)",
+        headline=(
+            f"${contrib:,} developer 'contribution' builds 4 roundabouts + 2 road rehabs "
+            "dedicated to the County for PERPETUAL maintenance; RDA §5.5 lets State 629 / "
+            "ODOD grants refund the contribution to the company (so the public may fund the "
+            "'private' share)"
+        ),
+        source="data/extracted/aedg/roadwork-development-agreement.rda.yaml",
+    )
 
-    # Wastewater x TMDL — a new sanitary load against a fully-allocated, reduction-bound watershed.
+
+def _burden_tmdl(settings: Settings) -> BurdenItem | None:
+    # A new sanitary load against a fully-allocated, reduction-bound watershed.
     tmdl = settings.reference_dir / "hydrology" / "maumee-tmdl-budget.yaml"
-    if tmdl.is_file():
-        try:
-            data = yaml.safe_load(tmdl.read_text(encoding="utf-8")) or {}
-            afg = data["future_growth_headroom"]["point_source_group_afg_spring_tp_metric_tons"]
-            out.append(
-                BurdenItem(
-                    thread="wastewater x TMDL",
-                    headline=(
-                        f"a new data-center sanitary load enters a fully-allocated watershed (point-source "
-                        f"future-growth reserve only ~{afg:g} mt P/spring for the whole basin) and, as a new/"
-                        "expanding discharger, must add secondary+tertiary treatment to hit a 0.5 mg/L TP "
-                        "limit — a ratepayer cost the incentive package omits"
-                    ),
-                    source="data/reference/hydrology/maumee-tmdl-budget.yaml + maumee-tmdl-responsiveness.yaml",
-                )
-            )
-        except (KeyError, ValueError):
-            pass
+    if not tmdl.is_file():
+        return None
+    data = yaml.safe_load(tmdl.read_text(encoding="utf-8")) or {}
+    afg = data["future_growth_headroom"]["point_source_group_afg_spring_tp_metric_tons"]
+    return BurdenItem(
+        thread="wastewater x TMDL",
+        headline=(
+            f"a new data-center sanitary load enters a fully-allocated watershed (point-source "
+            f"future-growth reserve only ~{afg:g} mt P/spring for the whole basin) and, as a new/"
+            "expanding discharger, must add secondary+tertiary treatment to hit a 0.5 mg/L TP "
+            "limit — a ratepayer cost the incentive package omits"
+        ),
+        source="data/reference/hydrology/maumee-tmdl-budget.yaml + maumee-tmdl-responsiveness.yaml",
+    )
 
-    # Sanitary capital — the BOSC pump-station/forcemain + the Cridersville reroute (ratepayer).
+
+def _burden_sanitary(settings: Settings) -> BurdenItem | None:
+    # The BOSC pump-station/forcemain + the Cridersville reroute (ratepayer).
     san = settings.extracted_dir / "commissioners" / "sanitary-economics.yaml"
-    if san.is_file():
-        try:
-            data = yaml.safe_load(san.read_text(encoding="utf-8")) or {}
-            fig = data["figures"]
-            out.append(
-                BurdenItem(
-                    thread="sanitary capital (BOSC)",
-                    headline=(
-                        f"the BOSC sanitary load (0.13 MGD @ 83 F interim) is served by a "
-                        f"~${_num(fig['developer_pump_station_usd']):,} developer pump station + a "
-                        f"~${_num(fig['bosc_capital_permit_fee_usd']):,} capital permit fee, while the County "
-                        f"reroutes Cridersville/Shawnee Oaks to its own plant "
-                        f"(${_num(fig['reroute_loan_usd']):,} 0% loan) and moves to raise capital-permit/tap "
-                        "fees — onto a system already strained (Elm St 45->250 homes)"
-                    ),
-                    source="data/extracted/commissioners/sanitary-economics.yaml",
-                )
-            )
-        except (KeyError, ValueError):
-            pass
+    if not san.is_file():
+        return None
+    data = yaml.safe_load(san.read_text(encoding="utf-8")) or {}
+    fig = data["figures"]
+    return BurdenItem(
+        thread="sanitary capital (BOSC)",
+        headline=(
+            f"the BOSC sanitary load (0.13 MGD @ 83 F interim) is served by a "
+            f"~${_num(fig['developer_pump_station_usd']):,} developer pump station + a "
+            f"~${_num(fig['bosc_capital_permit_fee_usd']):,} capital permit fee, while the County "
+            f"reroutes Cridersville/Shawnee Oaks to its own plant "
+            f"(${_num(fig['reroute_loan_usd']):,} 0% loan) and moves to raise capital-permit/tap "
+            "fees — onto a system already strained (Elm St 45->250 homes)"
+        ),
+        source="data/extracted/commissioners/sanitary-economics.yaml",
+    )
 
-    # Land conversion — CAUV farmland taken out of agricultural use for the campus.
-    land = settings.extracted_dir / "aedg" / "seller-land-packets.land.yaml"
-    if land.is_file():
-        out.append(
-            BurdenItem(
-                thread="land conversion (CAUV)",
-                headline=(
-                    "the assembled campus parcels (Neff/Brenneman/Miller-Pike Run/Neighbors) were CAUV "
-                    "farmland; conversion triggers a one-time CAUV recoupment and removes productive ag "
-                    "land from the Elida LSD tax base — onto which the 75% abatement is then layered"
-                ),
-                source="data/extracted/aedg/seller-land-packets.land.yaml",
-            )
-        )
+
+def _burden_land(settings: Settings) -> BurdenItem | None:
+    # CAUV farmland taken out of agricultural use for the campus.
+    if not (settings.extracted_dir / "aedg" / "seller-land-packets.land.yaml").is_file():
+        return None
+    return BurdenItem(
+        thread="land conversion (CAUV)",
+        headline=(
+            "the assembled campus parcels (Neff/Brenneman/Miller-Pike Run/Neighbors) were CAUV "
+            "farmland; conversion triggers a one-time CAUV recoupment and removes productive ag "
+            "land from the Elida LSD tax base — onto which the 75% abatement is then layered"
+        ),
+        source="data/extracted/aedg/seller-land-packets.land.yaml",
+    )
+
+
+# In bundle order. Each builder pulls one thread's headline or returns None when its artifact
+# is absent/unbuildable; the shared loop normalizes the formerly-inconsistent catch sets (#604).
+_BURDEN_BUILDERS: tuple[Callable[[Settings], BurdenItem | None], ...] = (
+    _burden_toxics,
+    _burden_cooling,
+    _burden_drainage,
+    _burden_federal,
+    _burden_air,
+    _burden_roadwork,
+    _burden_tmdl,
+    _burden_sanitary,
+    _burden_land,
+)
+
+
+def _burdens(settings: Settings) -> list[BurdenItem]:
+    """Pull the headline burden from each committed cross-thread artifact (best-effort).
+
+    A missing file / key / value skips that thread uniformly (one normalized catch set,
+    #604) rather than the prior mix of ``(FileNotFoundError, KeyError)`` /
+    ``(KeyError, ValueError)`` — never a partial crash, never a silent type-level surprise.
+    """
+    out: list[BurdenItem] = []
+    for build in _BURDEN_BUILDERS:
+        try:
+            item = build(settings)
+        except (FileNotFoundError, KeyError, ValueError):
+            continue
+        if item is not None:
+            out.append(item)
     return out
 
 

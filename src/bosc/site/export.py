@@ -20,11 +20,11 @@ The contract itself (README, schemas, an example manifest) is committed; the gen
 from __future__ import annotations
 
 import json
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import yaml
 from pydantic import BaseModel
@@ -258,89 +258,86 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
     )
     doc_index = documents_mod.build_doc_index(doc_collections)
 
-    feeds.append(
-        _collection_feed(
+    # Remaining unconditional source loads + the opt-in inventories (None => the feed is skipped).
+    people = load_people(settings.people_dir)
+    concepts = concepts_mod.load_concepts(settings.concepts_dir)  # wiki glossary (#68)
+    pois = load_pois(settings=settings)
+    summaries = load_committed_summaries(settings)
+    cand_inv = load_cloud_consumer_candidates(settings.entities_dir)
+    defense = load_defense_contractors(settings.entities_dir)
+    rsei_inv = load_rsei_inventory(settings.reference_dir)
+    lei_inv = load_lei_inventory(settings.reference_dir)
+    econ = load_econ_baseline(settings)
+
+    # The feed registry — one row per feed, in bundle order. ``model`` set => a collection feed
+    # of that item type; ``None`` => an already-provenanced object feed (its own Pydantic model,
+    # #60). A ``build`` that returns ``None`` (an absent optional inventory) is skipped. Adding a
+    # feed is one row here. The geo feeds (variable count / conditional) stay below.
+    specs: list[tuple[str, type[BaseModel] | None, Callable[[], object | None]]] = [
+        (
             "records",
             RecordItem,
-            records_mod.export_records(settings.extracted_dir, doc_index=doc_index),
-        )
-    )
-    feeds.append(_collection_feed("timeline", TimelineEntry, graph_mod.export_timeline(events)))
-    feeds.append(_collection_feed("entities", EntityNode, graph_mod.export_entities(egraph)))
-    feeds.append(
-        _collection_feed("relationships", RelationshipEdge, graph_mod.export_relationships(egraph))
-    )
-
-    people = load_people(settings.people_dir)
-    feeds.append(
-        _collection_feed("people", PersonItem, people_mod.export_people(people, egraph=egraph))
-    )
-
-    # Wiki concept-glossary store (issue #68) — curated term/method definitions.
-    concepts = concepts_mod.load_concepts(settings.concepts_dir)
-    feeds.append(_collection_feed("concepts", ConceptItem, concepts_mod.export_concepts(concepts)))
-
-    pois = load_pois(settings=settings)
-    feeds.append(_collection_feed("places", PlaceItem, places_mod.export_places(pois)))
-
-    cand_inv = load_cloud_consumer_candidates(settings.entities_dir)
-    if cand_inv is not None:
-        feeds.append(
-            _collection_feed(
-                "candidates",
-                CandidateItem,
-                candidates_mod.export_candidates(cand_inv, egraph=egraph),
-            )
-        )
-
-    defense = load_defense_contractors(settings.entities_dir)
-    if defense is not None:
-        scan = load_defense_scan(settings)
-        feeds.append(
-            _object_feed(
-                "defense-contractors",
-                candidates_mod.export_defense_contractors(defense, egraph=egraph, scan=scan),
-            )
-        )
-
-    summaries = load_committed_summaries(settings)
-    feeds.append(_collection_feed("meetings", MeetingItem, meetings_mod.export_meetings(summaries)))
-
-    feeds.append(_collection_feed("documents", DocumentCollectionItem, doc_collections))
-
-    feeds.append(_collection_feed("exhibits", ExhibitItem, exhibit_items))
-
-    # Already-provenanced inventories — exported as their own Pydantic models (#60).
-    rsei_inv = load_rsei_inventory(settings.reference_dir)
-    if rsei_inv is not None:
-        feeds.append(_object_feed("rsei", rsei_mod.export_rsei(rsei_inv)))
-    lei_inv = load_lei_inventory(settings.reference_dir)
-    if lei_inv is not None:
-        feeds.append(_object_feed("lei", gleif_mod.export_gleif(lei_inv)))
-    econ = load_econ_baseline(settings)
-    if econ is not None:
-        feeds.append(_object_feed("economics-baseline", economics_mod.export_economics(econ)))
-
-    # Cross-site basin synthesis (#308/#323): the watershed points as one connected basin —
-    # joins the curated topology with each node's committed economy/grid/toxics + low-flow screen.
-    feeds.append(_object_feed("network", build_basin_network(settings=settings)))
-
-    # The boom-origin hypotheses (the directory lenses) + their (site x hypothesis) evidence
-    # cells (#308). The frontend reads these instead of the formerly-hardcoded LENSES/LENS_DATA;
-    # each cell now carries a Citation, so the directory shows provenance, not bare prose.
-    feeds.append(_collection_feed("hypotheses", Hypothesis, list(HYPOTHESES.values())))
-    feeds.append(
-        _collection_feed(
-            "hypothesis-assessments", HypothesisAssessment, load_assessments(settings=settings)
-        )
-    )
-
-    feeds.append(_collection_feed("hydrology-scenarios", ScenarioResult, _load_scenarios(settings)))
-
-    # The published data catalog (epic #631 Phase 3 / #659): every dataset under data/ with its
-    # producer/license/access-tier/refresh + the reconcile observed snapshot — the data tier
-    # the /about/data page reads.
-    feeds.append(_collection_feed("catalog", CatalogItem, catalog_mod.export_catalog(settings)))
+            lambda: records_mod.export_records(settings.extracted_dir, doc_index=doc_index),
+        ),
+        ("timeline", TimelineEntry, lambda: graph_mod.export_timeline(events)),
+        ("entities", EntityNode, lambda: graph_mod.export_entities(egraph)),
+        ("relationships", RelationshipEdge, lambda: graph_mod.export_relationships(egraph)),
+        ("people", PersonItem, lambda: people_mod.export_people(people, egraph=egraph)),
+        ("concepts", ConceptItem, lambda: concepts_mod.export_concepts(concepts)),
+        ("places", PlaceItem, lambda: places_mod.export_places(pois)),
+        (
+            "candidates",
+            CandidateItem,
+            lambda: (
+                None
+                if cand_inv is None
+                else candidates_mod.export_candidates(cand_inv, egraph=egraph)
+            ),
+        ),
+        (
+            "defense-contractors",
+            None,
+            lambda: (
+                None
+                if defense is None
+                else candidates_mod.export_defense_contractors(
+                    defense, egraph=egraph, scan=load_defense_scan(settings)
+                )
+            ),
+        ),
+        ("meetings", MeetingItem, lambda: meetings_mod.export_meetings(summaries)),
+        ("documents", DocumentCollectionItem, lambda: doc_collections),
+        ("exhibits", ExhibitItem, lambda: exhibit_items),
+        # Already-provenanced inventories — exported as their own Pydantic models (#60).
+        ("rsei", None, lambda: None if rsei_inv is None else rsei_mod.export_rsei(rsei_inv)),
+        ("lei", None, lambda: None if lei_inv is None else gleif_mod.export_gleif(lei_inv)),
+        (
+            "economics-baseline",
+            None,
+            lambda: None if econ is None else economics_mod.export_economics(econ),
+        ),
+        # Cross-site basin synthesis (#308/#323): the watershed points as one connected basin.
+        ("network", None, lambda: build_basin_network(settings=settings)),
+        # The boom-origin hypotheses (directory lenses) + their (site x hypothesis) evidence
+        # cells (#308) — each cell carries a Citation, so the directory shows provenance.
+        ("hypotheses", Hypothesis, lambda: list(HYPOTHESES.values())),
+        (
+            "hypothesis-assessments",
+            HypothesisAssessment,
+            lambda: load_assessments(settings=settings),
+        ),
+        ("hydrology-scenarios", ScenarioResult, lambda: _load_scenarios(settings)),
+        # The published data catalog (epic #631 Phase 3 / #659) — the data tier /about/data reads.
+        ("catalog", CatalogItem, lambda: catalog_mod.export_catalog(settings)),
+    ]
+    for name, model, build in specs:
+        result = build()
+        if result is None:
+            continue
+        if model is not None:
+            feeds.append(_collection_feed(name, model, cast("Sequence[BaseModel]", result)))
+        else:
+            feeds.append(_object_feed(name, cast("BaseModel", result)))
 
     # Typed GeoJSON layer feeds (issue #61).
     findings = settings.data_dir / "site" / "gis-findings.geojson"
