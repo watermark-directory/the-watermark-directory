@@ -13,6 +13,7 @@ from pathlib import Path
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from bosc.connectors import DEFAULT_CACHE_TTL_HOURS
 from bosc.sites import PROFILE_SETTINGS_FIELDS, SITES
 
 # Repo root = two levels up from this file (src/bosc/config.py -> repo root).
@@ -69,7 +70,7 @@ class Settings(BaseSettings):
     # When true, connectors never touch the network: they serve cached/fixture
     # responses only (so tests and CI stay hermetic). A cache miss raises.
     hydro_offline: bool = False
-    hydro_cache_ttl_hours: int = 168  # 1 week; streamflow is slow-moving here
+    hydro_cache_ttl_hours: int = DEFAULT_CACHE_TTL_HOURS  # streamflow is slow-moving here
     hydro_request_timeout_s: float = 30.0
     # Per-site (from the active SiteProfile): UTM zone for area calcs (Lima = 17N / 32617).
     hydro_utm_epsg: int = 0
@@ -195,7 +196,7 @@ class Settings(BaseSettings):
     gis_search_limit: int = 50
     gis_offline: bool = False  # serve cached/fixture STAC responses only; never fetch
     gis_request_timeout_s: float = 60.0
-    gis_cache_ttl_hours: int = 168  # 1 week; the scene archive is slow-moving
+    gis_cache_ttl_hours: int = DEFAULT_CACHE_TTL_HOURS  # the scene archive is slow-moving
     gis_fixtures_dir: Path | None = None  # committed connector fixtures (tests/CI)
     # Tracking sites are no longer layers here — they are watched POIs in data/poi/
     # (bosc.gis.load_tracking_sites reads tracked_pois()). See docs/poi-subsystem.md.
@@ -209,6 +210,9 @@ class Settings(BaseSettings):
     census_geocoder_benchmark: str = "Public_AR_Current"
     poi_offline: bool = False  # serve cached/fixture geocoder responses only; never fetch
     poi_request_timeout_s: float = 30.0
+    poi_cache_ttl_hours: int = (
+        DEFAULT_CACHE_TTL_HOURS  # geocodes are stable (was the silent default)
+    )
     poi_fixtures_dir: Path | None = None  # committed connector fixtures (tests/CI)
     # USGS GNIS (geonames) via the National Map ArcGIS service — for non-parcel features
     # (rivers, water bodies, landforms) the parcel funnel can't anchor. Free, no key,
@@ -217,6 +221,17 @@ class Settings(BaseSettings):
     # Per-site (from the active SiteProfile): the default state for GNIS queries.
     gnis_default_state: str = ""
     gnis_layers: list[int] = Field(default_factory=lambda: [6, 7])  # Streams, Other Hydro
+
+    # --- Civic (political-subdivision meeting records) ---------------------
+    # The civic discovery + fetchers + downloader reach county CMS/WAF pages through
+    # the same connector cache/offline/fixture machinery as every other subsystem,
+    # but with their own namespace (fixtures under tests/fixtures/civic/). Browser-like
+    # page fetches govern their own timeout — distinct from the streamflow knob they
+    # used to borrow (#602).
+    civic_offline: bool = False  # serve cached/fixture pages only; never fetch
+    civic_request_timeout_s: float = 30.0
+    civic_cache_ttl_hours: int = DEFAULT_CACHE_TTL_HOURS  # meeting listings are slow-moving
+    civic_fixtures_dir: Path | None = None  # committed connector fixtures (tests/CI)
 
     # --- Documents library -------------------------------------------------
     # The full source corpus (~5 GB) is too large to republish on a static host,
@@ -285,6 +300,11 @@ class Settings(BaseSettings):
     def poi_cache_dir(self) -> Path:
         """Cached POI geocoder responses (US Census Geocoder). Not committed."""
         return self.cache_dir / "poi"
+
+    @property
+    def civic_cache_dir(self) -> Path:
+        """Cached civic page fetches (county CMS/WAF listings). Not committed."""
+        return self.cache_dir / "civic"
 
     @property
     def gis_findings_path(self) -> Path:

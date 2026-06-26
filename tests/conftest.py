@@ -54,6 +54,16 @@ def gis_settings() -> Settings:
 
 
 @pytest.fixture
+def civic_settings() -> Settings:
+    """Offline civic settings: real repo data dir, civic page fixtures, no network."""
+    return Settings(
+        data_dir=REPO_ROOT / "data",
+        civic_offline=True,
+        civic_fixtures_dir=FIXTURES / "civic",
+    )
+
+
+@pytest.fixture
 def poi_settings() -> Settings:
     """Settings for the committed POI store (data/poi/) — no network, no connector."""
     return Settings(data_dir=REPO_ROOT / "data")

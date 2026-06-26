@@ -66,6 +66,7 @@ def geocode_address(address: str, *, settings: Settings | None = None) -> Geocod
             cache_dir=settings.poi_cache_dir,
             offline=settings.poi_offline,
             fixtures_dir=settings.poi_fixtures_dir,
+            ttl_hours=settings.poi_cache_ttl_hours,
         ),
     )
     return _parse(payload, query=address)

@@ -31,7 +31,10 @@ from bosc.logging import get_logger
 
 log = get_logger(__name__)
 
-_DEFAULT_TTL_HOURS = 168  # 1 week; slow-moving public datasets
+# The single source of truth for the cache freshness window. Subsystems whose
+# settings expose a ``*_cache_ttl_hours`` knob default it to this; the others
+# (poi, civic) ride it directly. 1 week, for slow-moving public datasets.
+DEFAULT_CACHE_TTL_HOURS = 168
 
 
 class OfflineError(RuntimeError):
@@ -69,7 +72,7 @@ def cached_get(
     cache_dir: Path,
     offline: bool = False,
     fixtures_dir: Path | None = None,
-    ttl_hours: int = _DEFAULT_TTL_HOURS,
+    ttl_hours: int = DEFAULT_CACHE_TTL_HOURS,
     offline_error: type[OfflineError] = OfflineError,
 ) -> Any:
     """Return the (cached or freshly fetched) JSON payload for a request.

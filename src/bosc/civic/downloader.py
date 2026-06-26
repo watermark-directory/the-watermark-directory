@@ -35,7 +35,7 @@ import httpx
 import yaml
 from pydantic import BaseModel, ConfigDict
 
-from bosc.civic._http import BROWSER_HEADERS
+from bosc.civic._http import _browser_request
 from bosc.civic.models import MeetingDoc, Subdivision
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
@@ -137,15 +137,12 @@ def _canonical_name(doc: MeetingDoc, filename: str) -> str | None:
 
 
 def _get_bytes(url: str, settings: Settings) -> tuple[bytes, str | None, str | None]:
-    """Default network fetch: stream a URL to bytes + content-type + disposition."""
-    with httpx.stream(
-        "GET",
-        url,
-        follow_redirects=True,
-        timeout=settings.hydro_request_timeout_s,
-        headers=BROWSER_HEADERS,
-    ) as resp:
-        resp.raise_for_status()
+    """Default network fetch: stream a URL to bytes + content-type + disposition.
+
+    Uses the shared browser-request policy (headers, timeout, redirects) from
+    :mod:`bosc.civic._http`; the downloader only differs in wanting raw bytes.
+    """
+    with _browser_request("GET", url, settings, stream=True) as resp:
         content = resp.read()
         return content, resp.headers.get("content-type"), resp.headers.get("content-disposition")
 

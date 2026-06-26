@@ -13,10 +13,13 @@ Defers to the root [`CLAUDE.md`](../../../CLAUDE.md).
   `discovered:` provenance. `platform: unknown` means *not yet looked*, never
   *publishes nothing* — and never fabricate a `records_url`.
 - **Discovery reuses the connector cache.** `discovery.py` fetches through the neutral
-  `bosc.connectors.cached_get` (connector name `subdivision_discovery`), against the
-  hydrology cache root + fixtures it shares — the same offline/fixture discipline as
-  every subsystem's connectors, so tests never hit the network. `classify_platform` /
-  `find_records_links` are pure and unit-tested without fixtures.
+  `bosc.connectors.cached_get` (connector name `subdivision_discovery`), against civic's
+  own `civic_*` cache root + fixtures (`tests/fixtures/civic/`, set via `civic_offline`/
+  `civic_fixtures_dir`) — the same offline/fixture discipline as every subsystem's
+  connectors, so tests never hit the network. The browser request policy (headers,
+  timeout, redirects) has one home, `_http._browser_request`, shared by the cached page
+  fetch and the downloader's raw-bytes stream. `classify_platform` / `find_records_links`
+  are pure and unit-tested without fixtures.
 - **`discover` is read-only.** It prints/exports findings for review; it does not
   rewrite the curated registry. Fold confirmed results into the YAML by hand.
 - **Per-platform fetchers dispatch on `Platform`** (`fetchers/`, via

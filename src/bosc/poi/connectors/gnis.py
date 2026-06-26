@@ -93,6 +93,7 @@ def find_feature(
                 cache_dir=settings.poi_cache_dir,
                 offline=settings.poi_offline,
                 fixtures_dir=settings.poi_fixtures_dir,
+                ttl_hours=settings.poi_cache_ttl_hours,
             ),
         )
         feature = _parse(payload, name=name, state=state)
