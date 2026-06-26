@@ -19,8 +19,11 @@ Extraction is dispatched by *document kind* (``opc`` today) via
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, cast
+
+from pydantic import BaseModel
 
 from bosc import profiles
 from bosc.config import Settings, get_settings
@@ -189,13 +192,6 @@ def save_extraction(extraction: PageExtraction, *, settings: Settings | None = N
     path.write_text(extraction.to_yaml(), encoding="utf-8")
     log.info("extract.saved", path=str(path))
     return path
-
-
-def validate_summary(path: str | Path) -> OPCSummary:
-    """Load and validate an assembled summary extraction (legacy Tetra Tech shape)."""
-    summary = OPCSummary.from_yaml(path)
-    log.info("extract.validated", path=str(path), sub_estimates=len(summary.sub_estimates))
-    return summary
 
 
 # ---------------------------------------------------------------------------
@@ -454,6 +450,105 @@ def _read_doc(
             pdf.close()
 
 
+@dataclass(frozen=True)
+class DocSpec:
+    """A document-level extraction recipe — the per-kind knobs the generic read varies.
+
+    The six document extractors (deed, npdes, sos, epa, wetland, engineering) share one
+    body: default settings/extractor → :func:`_read_doc` → force the model to populate a
+    record → wrap it with provenance → log start/done. Only these fields differ, so
+    :func:`_extract_doc` drives the whole read from one spec.
+
+    ``summary`` maps the extracted record to the *type-specific* ``extract.doc.done`` log
+    fields; the universal ``confidence``/``warnings`` are added by :func:`_extract_doc`.
+    """
+
+    kind: str
+    model: type[BaseModel]
+    extraction_cls: type[DocExtraction]
+    field: str  # the attribute on ``extraction_cls`` that receives the extracted record
+    instructions: str
+    dpi: int
+    text_pages: int
+    image_pages: int
+    summary: Callable[[Any], dict[str, object]]
+    max_tokens: int = 4096
+
+
+def _extract_doc(
+    spec: DocSpec,
+    doc: SourceDocument,
+    *,
+    kind: str | None = None,
+    extractor: StructuredExtractor | None = None,
+    pdf: PdfDocument | None = None,
+    dpi: int | None = None,
+    settings: Settings | None = None,
+    text_pages: int | None = None,
+    image_pages: int | None = None,
+) -> DocExtraction:
+    """Run the document-level extraction described by ``spec``.
+
+    The shared body of the document extractors: ``spec`` supplies the model,
+    instructions, page budget, and per-kind summary fields, while the keyword overrides
+    (``kind``/``dpi``/``text_pages``/``image_pages``) let a wrapper or caller adjust
+    without copying the body. ``kind`` defaults to ``spec.kind`` but is overridable so a
+    discipline alias (e.g. ``sanitary``) stamps its own provenance / output filename.
+    """
+    from bosc.agent.extractor import StructuredExtractor
+
+    settings = settings or get_settings()
+    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=spec.max_tokens)
+    dpi = spec.dpi if dpi is None else dpi
+    kind = kind or spec.kind
+    text, images, pages, image_pages_read = _read_doc(
+        doc,
+        text_pages=spec.text_pages if text_pages is None else text_pages,
+        image_pages=spec.image_pages if image_pages is None else image_pages,
+        dpi=dpi,
+        pdf=pdf,
+    )
+
+    log.info("extract.doc.start", doc_id=doc.doc_id, kind=kind, pages=len(pages), dpi=dpi)
+    record: Any = extractor.extract(
+        spec.model, instructions=spec.instructions, images=images, context_text=text
+    )
+    extraction = spec.extraction_cls(
+        **{
+            "doc_id": doc.doc_id,
+            "source_path": str(doc.path),
+            "kind": kind,
+            "pages_read": pages,
+            "image_pages_read": image_pages_read,
+            "dpi": dpi,
+            "source_text_excerpt": text[:600],
+            spec.field: record,
+        }
+    )
+    log.info(
+        "extract.doc.done",
+        doc_id=doc.doc_id,
+        kind=kind,
+        **spec.summary(record),
+        confidence=record.confidence,
+        warnings=len(record.warnings),
+    )
+    return extraction
+
+
+_DEED_SPEC = DocSpec(
+    kind="deed",
+    model=Deed,
+    extraction_cls=DeedExtraction,
+    field="deed",
+    instructions=DEED_INSTRUCTIONS,
+    dpi=_DEED_DPI,
+    text_pages=8,
+    image_pages=8,
+    summary=lambda d: {"grantees": len(d.grantees), "parcels": len(d.parcel_ids)},
+)
+
+
 def extract_deed(
     doc: SourceDocument,
     *,
@@ -464,36 +559,32 @@ def extract_deed(
     max_pages: int = 8,
 ) -> DeedExtraction:
     """Extract a recorded deed (vision-primary across its first pages)."""
-    from bosc.agent.extractor import StructuredExtractor
-
-    settings = settings or get_settings()
-    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages, image_pages = _read_doc(
-        doc, text_pages=max_pages, image_pages=max_pages, dpi=dpi, pdf=pdf
+    return cast(
+        "DeedExtraction",
+        _extract_doc(
+            _DEED_SPEC,
+            doc,
+            extractor=extractor,
+            pdf=pdf,
+            dpi=dpi,
+            settings=settings,
+            text_pages=max_pages,
+            image_pages=max_pages,
+        ),
     )
 
-    log.info("extract.doc.start", doc_id=doc.doc_id, kind="deed", pages=len(pages), dpi=dpi)
-    deed = extractor.extract(Deed, instructions=DEED_INSTRUCTIONS, images=images, context_text=text)
-    extraction = DeedExtraction(
-        doc_id=doc.doc_id,
-        source_path=str(doc.path),
-        kind="deed",
-        pages_read=pages,
-        image_pages_read=image_pages,
-        dpi=dpi,
-        deed=deed,
-        source_text_excerpt=text[:600],
-    )
-    log.info(
-        "extract.doc.done",
-        doc_id=doc.doc_id,
-        kind="deed",
-        grantees=len(deed.grantees),
-        parcels=len(deed.parcel_ids),
-        confidence=deed.confidence,
-        warnings=len(deed.warnings),
-    )
-    return extraction
+
+_NPDES_SPEC = DocSpec(
+    kind="npdes",
+    model=NpdesPermit,
+    extraction_cls=NpdesExtraction,
+    field="permit",
+    instructions=NPDES_INSTRUCTIONS,
+    dpi=_NPDES_DPI,
+    text_pages=6,
+    image_pages=1,
+    summary=lambda p: {"permit_no": p.permit_no, "facility": p.facility_name},
+)
 
 
 def extract_npdes(
@@ -506,38 +597,35 @@ def extract_npdes(
     text_pages: int = 6,
 ) -> NpdesExtraction:
     """Extract an NPDES permit / fact sheet (text-primary, page-1 image as backup)."""
-    from bosc.agent.extractor import StructuredExtractor
-
-    settings = settings or get_settings()
-    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages, image_pages = _read_doc(
-        doc, text_pages=text_pages, image_pages=1, dpi=dpi, pdf=pdf
+    return cast(
+        "NpdesExtraction",
+        _extract_doc(
+            _NPDES_SPEC,
+            doc,
+            extractor=extractor,
+            pdf=pdf,
+            dpi=dpi,
+            settings=settings,
+            text_pages=text_pages,
+        ),
     )
 
-    log.info("extract.doc.start", doc_id=doc.doc_id, kind="npdes", pages=len(pages), dpi=dpi)
-    permit = extractor.extract(
-        NpdesPermit, instructions=NPDES_INSTRUCTIONS, images=images, context_text=text
-    )
-    extraction = NpdesExtraction(
-        doc_id=doc.doc_id,
-        source_path=str(doc.path),
-        kind="npdes",
-        pages_read=pages,
-        image_pages_read=image_pages,
-        dpi=dpi,
-        permit=permit,
-        source_text_excerpt=text[:600],
-    )
-    log.info(
-        "extract.doc.done",
-        doc_id=doc.doc_id,
-        kind="npdes",
-        permit_no=permit.permit_no,
-        facility=permit.facility_name,
-        confidence=permit.confidence,
-        warnings=len(permit.warnings),
-    )
-    return extraction
+
+_SOS_SPEC = DocSpec(
+    kind="sos",
+    model=BusinessFiling,
+    extraction_cls=SosExtraction,
+    field="filing",
+    instructions=SOS_INSTRUCTIONS,
+    dpi=_SOS_DPI,
+    text_pages=6,
+    image_pages=6,
+    summary=lambda f: {
+        "entity": f.entity_name,
+        "agent": f.registered_agent,
+        "jurisdiction": f.jurisdiction,
+    },
+)
 
 
 def extract_sos(
@@ -550,39 +638,19 @@ def extract_sos(
     max_pages: int = 6,
 ) -> SosExtraction:
     """Extract a Secretary-of-State business filing (vision-primary)."""
-    from bosc.agent.extractor import StructuredExtractor
-
-    settings = settings or get_settings()
-    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages, image_pages = _read_doc(
-        doc, text_pages=max_pages, image_pages=max_pages, dpi=dpi, pdf=pdf
+    return cast(
+        "SosExtraction",
+        _extract_doc(
+            _SOS_SPEC,
+            doc,
+            extractor=extractor,
+            pdf=pdf,
+            dpi=dpi,
+            settings=settings,
+            text_pages=max_pages,
+            image_pages=max_pages,
+        ),
     )
-
-    log.info("extract.doc.start", doc_id=doc.doc_id, kind="sos", pages=len(pages), dpi=dpi)
-    filing = extractor.extract(
-        BusinessFiling, instructions=SOS_INSTRUCTIONS, images=images, context_text=text
-    )
-    extraction = SosExtraction(
-        doc_id=doc.doc_id,
-        source_path=str(doc.path),
-        kind="sos",
-        pages_read=pages,
-        image_pages_read=image_pages,
-        dpi=dpi,
-        filing=filing,
-        source_text_excerpt=text[:600],
-    )
-    log.info(
-        "extract.doc.done",
-        doc_id=doc.doc_id,
-        kind="sos",
-        entity=filing.entity_name,
-        agent=filing.registered_agent,
-        jurisdiction=filing.jurisdiction,
-        confidence=filing.confidence,
-        warnings=len(filing.warnings),
-    )
-    return extraction
 
 
 PLAN_INSTRUCTIONS = """\
@@ -650,6 +718,19 @@ def extract_plan(
     return extraction
 
 
+_EPA_SPEC = DocSpec(
+    kind="epa",
+    model=EpaPermitAction,
+    extraction_cls=EpaExtraction,
+    field="action",
+    instructions=EPA_INSTRUCTIONS,
+    dpi=_EPA_DPI,
+    text_pages=3,
+    image_pages=1,
+    summary=lambda a: {"program": a.program, "permit_no": a.permit_no, "applicant": a.applicant},
+)
+
+
 def extract_epa(
     doc: SourceDocument,
     *,
@@ -660,39 +741,31 @@ def extract_epa(
     text_pages: int = 3,
 ) -> EpaExtraction:
     """Extract an Ohio EPA / USACE permit action letter (text-first, page-1 image)."""
-    from bosc.agent.extractor import StructuredExtractor
-
-    settings = settings or get_settings()
-    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages, image_pages = _read_doc(
-        doc, text_pages=text_pages, image_pages=1, dpi=dpi, pdf=pdf
+    return cast(
+        "EpaExtraction",
+        _extract_doc(
+            _EPA_SPEC,
+            doc,
+            extractor=extractor,
+            pdf=pdf,
+            dpi=dpi,
+            settings=settings,
+            text_pages=text_pages,
+        ),
     )
 
-    log.info("extract.doc.start", doc_id=doc.doc_id, kind="epa", pages=len(pages), dpi=dpi)
-    action = extractor.extract(
-        EpaPermitAction, instructions=EPA_INSTRUCTIONS, images=images, context_text=text
-    )
-    extraction = EpaExtraction(
-        doc_id=doc.doc_id,
-        source_path=str(doc.path),
-        kind="epa",
-        pages_read=pages,
-        image_pages_read=image_pages,
-        dpi=dpi,
-        action=action,
-        source_text_excerpt=text[:600],
-    )
-    log.info(
-        "extract.doc.done",
-        doc_id=doc.doc_id,
-        kind="epa",
-        program=action.program,
-        permit_no=action.permit_no,
-        applicant=action.applicant,
-        confidence=action.confidence,
-        warnings=len(action.warnings),
-    )
-    return extraction
+
+_WETLAND_SPEC = DocSpec(
+    kind="wetland",
+    model=WetlandDetermination,
+    extraction_cls=WetlandExtraction,
+    field="determination",
+    instructions=WETLAND_INSTRUCTIONS,
+    dpi=_WETLAND_DPI,
+    text_pages=2,
+    image_pages=2,
+    summary=lambda d: {"sampling_point": d.sampling_point, "is_wetland": d.is_wetland},
+)
 
 
 def extract_wetland(
@@ -705,38 +778,18 @@ def extract_wetland(
     text_pages: int = 2,
 ) -> WetlandExtraction:
     """Extract a USACE Wetland Determination Data Form (image-first, both pages)."""
-    from bosc.agent.extractor import StructuredExtractor
-
-    settings = settings or get_settings()
-    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=4096)
-    text, images, pages, image_pages = _read_doc(
-        doc, text_pages=text_pages, image_pages=2, dpi=dpi, pdf=pdf
+    return cast(
+        "WetlandExtraction",
+        _extract_doc(
+            _WETLAND_SPEC,
+            doc,
+            extractor=extractor,
+            pdf=pdf,
+            dpi=dpi,
+            settings=settings,
+            text_pages=text_pages,
+        ),
     )
-
-    log.info("extract.doc.start", doc_id=doc.doc_id, kind="wetland", pages=len(pages), dpi=dpi)
-    determination = extractor.extract(
-        WetlandDetermination, instructions=WETLAND_INSTRUCTIONS, images=images, context_text=text
-    )
-    extraction = WetlandExtraction(
-        doc_id=doc.doc_id,
-        source_path=str(doc.path),
-        kind="wetland",
-        pages_read=pages,
-        image_pages_read=image_pages,
-        dpi=dpi,
-        determination=determination,
-        source_text_excerpt=text[:600],
-    )
-    log.info(
-        "extract.doc.done",
-        doc_id=doc.doc_id,
-        kind="wetland",
-        sampling_point=determination.sampling_point,
-        is_wetland=determination.is_wetland,
-        confidence=determination.confidence,
-        warnings=len(determination.warnings),
-    )
-    return extraction
 
 
 ENGINEERING_INSTRUCTIONS = """\
@@ -781,6 +834,25 @@ a warning for any schedule or callout you had to strain to read.
 """
 
 
+_ENGINEERING_SPEC = DocSpec(
+    kind="engineering",
+    model=EngineeringRecord,
+    extraction_cls=EngineeringExtraction,
+    field="record",
+    instructions=ENGINEERING_INSTRUCTIONS,
+    dpi=_ENGINEERING_DPI,
+    text_pages=12,
+    image_pages=12,
+    summary=lambda r: {
+        "facility": r.facility_name,
+        "discipline": r.discipline,
+        "components": len(r.components),
+        "sheets": len(r.sheets),
+    },
+    max_tokens=_DETAIL_MAX_TOKENS,
+)
+
+
 def extract_engineering(
     doc: SourceDocument,
     *,
@@ -799,40 +871,20 @@ def extract_engineering(
     alias such as ``"sanitary"`` — without changing what is read. ``pdf``/
     ``extractor`` are injectable for page reuse and for offline tests.
     """
-    from bosc.agent.extractor import StructuredExtractor
-
-    settings = settings or get_settings()
-    extractor = extractor or StructuredExtractor(settings=settings, max_tokens=_DETAIL_MAX_TOKENS)
-    text, images, pages, image_pages = _read_doc(
-        doc, text_pages=max_pages, image_pages=max_pages, dpi=dpi, pdf=pdf
+    return cast(
+        "EngineeringExtraction",
+        _extract_doc(
+            _ENGINEERING_SPEC,
+            doc,
+            kind=kind,
+            extractor=extractor,
+            pdf=pdf,
+            dpi=dpi,
+            settings=settings,
+            text_pages=max_pages,
+            image_pages=max_pages,
+        ),
     )
-
-    log.info("extract.doc.start", doc_id=doc.doc_id, kind=kind, pages=len(pages), dpi=dpi)
-    record = extractor.extract(
-        EngineeringRecord, instructions=ENGINEERING_INSTRUCTIONS, images=images, context_text=text
-    )
-    extraction = EngineeringExtraction(
-        doc_id=doc.doc_id,
-        source_path=str(doc.path),
-        kind=kind,
-        pages_read=pages,
-        image_pages_read=image_pages,
-        dpi=dpi,
-        record=record,
-        source_text_excerpt=text[:600],
-    )
-    log.info(
-        "extract.doc.done",
-        doc_id=doc.doc_id,
-        kind=kind,
-        facility=record.facility_name,
-        discipline=record.discipline,
-        components=len(record.components),
-        sheets=len(record.sheets),
-        confidence=record.confidence,
-        warnings=len(record.warnings),
-    )
-    return extraction
 
 
 def extract_sanitary(doc: SourceDocument, **kwargs: object) -> EngineeringExtraction:

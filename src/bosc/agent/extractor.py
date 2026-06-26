@@ -93,6 +93,38 @@ class StructuredExtractor:
             self._client = Anthropic(api_key=self.settings.anthropic_api_key or None)
         return self._client
 
+    def _force_tool(
+        self,
+        target: type[T],
+        content: list[dict[str, Any]],
+        *,
+        tool_name: str,
+        description: str,
+        log_event: str,
+    ) -> T:
+        """Force a single tool call returning ``target``, validate it, and return it.
+
+        The shared spine of :meth:`extract` and :meth:`extract_from_text`: they
+        differ only in the ``content`` payload they assemble (images + text vs.
+        text alone) and the log event they emit.
+        """
+        message = self.client.messages.create(
+            model=self.model,
+            max_tokens=self.max_tokens,
+            tools=[
+                {
+                    "name": tool_name,
+                    "description": description,
+                    "input_schema": _tool_schema(target),
+                }
+            ],
+            tool_choice={"type": "tool", "name": tool_name},
+            messages=[{"role": "user", "content": content}],
+        )
+        result = target.model_validate(_first_tool_input(message, tool_name))
+        log.info(log_event, model=self.model, target=target.__name__)
+        return result
+
     def extract(
         self,
         target: type[T],
@@ -123,22 +155,13 @@ class StructuredExtractor:
         text = instructions + (_OCR_HINT_HEADER + context_text if context_text else "")
         content.append({"type": "text", "text": text})
 
-        message = self.client.messages.create(
-            model=self.model,
-            max_tokens=self.max_tokens,
-            tools=[
-                {
-                    "name": tool_name,
-                    "description": f"Record the extracted {target.__name__} for this page.",
-                    "input_schema": _tool_schema(target),
-                }
-            ],
-            tool_choice={"type": "tool", "name": tool_name},
-            messages=[{"role": "user", "content": content}],
+        return self._force_tool(
+            target,
+            content,
+            tool_name=tool_name,
+            description=f"Record the extracted {target.__name__} for this page.",
+            log_event="extractor.extracted",
         )
-        result = target.model_validate(_first_tool_input(message, tool_name))
-        log.info("extractor.extracted", model=self.model, target=target.__name__)
-        return result
 
     def extract_from_text(
         self,
@@ -153,20 +176,13 @@ class StructuredExtractor:
         For already-clean text (e.g. extracted meeting minutes) rather than a page
         render — same forced-tool-use + schema-validation contract as :meth:`extract`.
         """
-        content = [{"type": "text", "text": f"{instructions}\n\n--- Document text ---\n{text}"}]
-        message = self.client.messages.create(
-            model=self.model,
-            max_tokens=self.max_tokens,
-            tools=[
-                {
-                    "name": tool_name,
-                    "description": f"Record the extracted {target.__name__}.",
-                    "input_schema": _tool_schema(target),
-                }
-            ],
-            tool_choice={"type": "tool", "name": tool_name},
-            messages=[{"role": "user", "content": content}],
+        content: list[dict[str, Any]] = [
+            {"type": "text", "text": f"{instructions}\n\n--- Document text ---\n{text}"}
+        ]
+        return self._force_tool(
+            target,
+            content,
+            tool_name=tool_name,
+            description=f"Record the extracted {target.__name__}.",
+            log_event="extractor.extracted_text",
         )
-        result = target.model_validate(_first_tool_input(message, tool_name))
-        log.info("extractor.extracted_text", model=self.model, target=target.__name__)
-        return result
