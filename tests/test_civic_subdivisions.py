@@ -15,8 +15,8 @@ from bosc.config import Settings
 from bosc.connectors import OfflineError
 
 
-def test_registry_loads_and_validates(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_registry_loads_and_validates(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     # All 12 townships present.
     townships = [s for s in reg.subdivisions if s.type == "township"]
     assert len(townships) == 12
@@ -27,8 +27,8 @@ def test_registry_loads_and_validates(hydro_settings: Settings) -> None:
     assert shawnee.grounded_from == "township-trustees-fiscal-officers"
 
 
-def test_registry_discovered_corridor_bodies(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_registry_discovered_corridor_bodies(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     lima = reg.get("lima")
     assert lima is not None
     assert lima.publishing.platform is Platform.CIVICPLUS
@@ -36,8 +36,8 @@ def test_registry_discovered_corridor_bodies(hydro_settings: Settings) -> None:
     assert lima.publishing.discovered is not None
 
 
-def test_registry_request_only_body_has_no_url(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_registry_request_only_body_has_no_url(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     jackson = reg.get("jackson-township")  # no official site found
     assert jackson is not None
     assert jackson.publishing.platform is Platform.REQUEST_ONLY
@@ -80,28 +80,28 @@ def test_find_records_links_resolves_and_dedupes() -> None:
     ]
 
 
-def test_discover_offline_replay(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_discover_offline_replay(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     shawnee = reg.get("shawnee-township")
     assert shawnee is not None
-    result = discover(shawnee, url="https://example-township.test/", settings=hydro_settings)
+    result = discover(shawnee, url="https://example-township.test/", settings=civic_settings)
     assert result.platform is Platform.WORDPRESS
     assert result.records_url == "https://example-township.test/meeting-minutes/"
     assert "https://example-township.test/agendas" in result.records_url_candidates
 
 
-def test_discover_no_homepage_is_flagged(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_discover_no_homepage_is_flagged(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     jackson = reg.get("jackson-township")  # request_only, no website on record
     assert jackson is not None
-    result = discover(jackson, settings=hydro_settings)
+    result = discover(jackson, settings=civic_settings)
     assert result.homepage is None
     assert result.platform is Platform.UNKNOWN
     assert result.note is not None
 
 
 def test_discover_blocked_is_flagged_not_raised(
-    hydro_settings: Settings, monkeypatch: pytest.MonkeyPatch
+    civic_settings: Settings, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     import httpx
 
@@ -113,19 +113,19 @@ def test_discover_blocked_is_flagged_not_raised(
         raise httpx.HTTPStatusError("blocked", request=req, response=resp)
 
     monkeypatch.setattr(discovery, "_fetch_page", _blocked)
-    reg = load_registry(hydro_settings)
+    reg = load_registry(civic_settings)
     bath = reg.get("bath-township")
     assert bath is not None
-    result = discover(bath, url="https://waf.example/", settings=hydro_settings)
+    result = discover(bath, url="https://waf.example/", settings=civic_settings)
     assert result.platform is Platform.UNKNOWN
     assert result.note is not None and "403" in result.note
 
 
-def test_discover_offline_miss_raises(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_discover_offline_miss_raises(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     bath = reg.get("bath-township")
     assert bath is not None
     # A homepage with no recorded cache/fixture -> offline miss is actionable.
     # (Use an .invalid host so a real local cache pull can never mask this.)
     with pytest.raises(OfflineError):
-        discover(bath, url="https://bath-township.invalid/", settings=hydro_settings)
+        discover(bath, url="https://bath-township.invalid/", settings=civic_settings)

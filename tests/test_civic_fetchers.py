@@ -53,12 +53,12 @@ def test_iso_date_rejects_bad_components() -> None:
     assert civicplus._iso_date("02292024") == "2024-02-29"  # 2024 is a leap year
 
 
-def test_fetch_offline_replay(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_fetch_offline_replay(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     lima = reg.get("lima")
     assert lima is not None
     # Synthetic URL so a real local `bosc subdivisions fetch lima` can't mask the fixture.
-    docs = civicplus.fetch(lima, url="https://lima.test/AgendaCenter", settings=hydro_settings)
+    docs = civicplus.fetch(lima, url="https://lima.test/AgendaCenter", settings=civic_settings)
     # Fixture has 3 bodies, 5 documents (City Council: 2 agendas + 1 minutes).
     assert len(docs) == 5
     bodies = {d.body for d in docs}
@@ -69,17 +69,17 @@ def test_fetch_offline_replay(hydro_settings: Settings) -> None:
     assert land_bank.kind == "agenda"
 
 
-def test_dispatch_via_platform(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_dispatch_via_platform(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     lima = reg.get("lima")  # platform civicplus
     assert lima is not None
-    docs = fetch_meetings(lima, url="https://lima.test/AgendaCenter", settings=hydro_settings)
+    docs = fetch_meetings(lima, url="https://lima.test/AgendaCenter", settings=civic_settings)
     assert len(docs) == 5
 
 
-def test_dispatch_unsupported_platform_raises(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_dispatch_unsupported_platform_raises(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     jackson = reg.get("jackson-township")  # request_only — no machine-readable records
     assert jackson is not None
     with pytest.raises(FetcherNotImplementedError):
-        fetch_meetings(jackson, settings=hydro_settings)
+        fetch_meetings(jackson, settings=civic_settings)

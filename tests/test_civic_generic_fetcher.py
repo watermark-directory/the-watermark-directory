@@ -76,12 +76,12 @@ def test_classify_allen_county_filename_convention() -> None:
     ]
 
 
-def test_generic_fetch_offline_replay(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_generic_fetch_offline_replay(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     bath = reg.get("bath-township")  # platform wordpress
     assert bath is not None
     # Synthetic URL so a real local fetch can't mask the fixture.
-    docs = generic.fetch(bath, url="https://bath.test/minutes/", settings=hydro_settings)
+    docs = generic.fetch(bath, url="https://bath.test/minutes/", settings=civic_settings)
     # Fixture: 3 distinct documents (one duplicate + one non-doc link dropped).
     assert len(docs) == 3
     kinds = sorted(d.kind for d in docs)
@@ -89,17 +89,17 @@ def test_generic_fetch_offline_replay(hydro_settings: Settings) -> None:
     assert all(d.body is None for d in docs)  # single-body records page
 
 
-def test_dispatch_routes_wordpress_to_generic(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_dispatch_routes_wordpress_to_generic(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     bath = reg.get("bath-township")
     assert bath is not None
-    docs = fetch_meetings(bath, url="https://bath.test/minutes/", settings=hydro_settings)
+    docs = fetch_meetings(bath, url="https://bath.test/minutes/", settings=civic_settings)
     assert len(docs) == 3
 
 
-def test_dispatch_facebook_body_still_raises(hydro_settings: Settings) -> None:
-    reg = load_registry(hydro_settings)
+def test_dispatch_facebook_body_still_raises(civic_settings: Settings) -> None:
+    reg = load_registry(civic_settings)
     richland = reg.get("richland-township")  # facebook, no records_url
     assert richland is not None
     with pytest.raises(FetcherNotImplementedError):
-        fetch_meetings(richland, settings=hydro_settings)
+        fetch_meetings(richland, settings=civic_settings)
