@@ -3,11 +3,11 @@ import { selectableSitePaths } from "../../../../lib/sites";
 export const getStaticPaths = selectableSitePaths;
 import Base from "../../../../layouts/Base.astro";
 import { NARRATIVE } from "../../../../lib/narrative";
-import { getSection, SECTIONS, type SectionId } from "../../../../lib/nav";
+import { getSection, sections, type SectionId } from "../../../../lib/nav";
 import { withSite } from "../../../../lib/site";
 
 // Group the migrated narrative by the section each piece belongs to.
-const groups = SECTIONS.map((s) => ({
+const groups = sections().map((s) => ({
   section: s,
   docs: NARRATIVE.filter((d) => d.section === (s.id as SectionId)),
 })).filter((g) => g.docs.length > 0);

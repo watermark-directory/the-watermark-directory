@@ -3,7 +3,7 @@
 // against the committed sample bundle. Asserts the structural contract the client matcher
 // (scripts/search.ts) and the result UI depend on, not exact counts.
 import { describe, expect, it } from "vitest";
-import { SECTIONS } from "./nav";
+import { sections } from "./nav";
 import { buildSearchIndex, type SearchDoc } from "./search";
 
 describe("buildSearchIndex (#592)", () => {
@@ -23,7 +23,7 @@ describe("buildSearchIndex (#592)", () => {
   });
 
   it("indexes every section page", () => {
-    const sectionTitles = new Set(SECTIONS.map((s) => s.label));
+    const sectionTitles = new Set(sections().map((s) => s.label));
     const indexed = new Set(docs.filter((d) => d.kind === "Section").map((d) => d.title));
     for (const label of sectionTitles) expect(indexed.has(label)).toBe(true);
   });
