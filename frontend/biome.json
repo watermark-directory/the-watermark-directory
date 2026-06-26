@@ -1,5 +1,17 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
+  "files": {
+    "includes": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.astro",
+      "**/*.js",
+      "**/*.mjs",
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/.astro/**"
+    ]
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
@@ -20,5 +32,15 @@
       "style": { "noNonNullAssertion": "off" },
       "a11y": { "useSemanticElements": "off" }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "correctness": { "noUnusedVariables": "off", "noUnusedImports": "off" }
+        }
+      }
+    }
+  ]
 }
