@@ -16,9 +16,22 @@
  *  sections coming online; `queued` = registered profile + coming-soon page, in the build queue;
  *  `tracking` = a GitHub-tracked candidate with an issue but no registered profile yet (the
  *  earliest phase — it routes to a lightweight "watch" page). Only `live` is selectable. */
-import { SITE_BASE } from "./routes";
+import { DEFAULT_STORY_CODENAME, SITE_BASE } from "./routes";
 
 export type SiteStatus = "live" | "building" | "queued" | "tracking";
+
+/**
+ * A story a site hosts — the lightweight registry reference (#724/#729). It names the story
+ * (codename + title) for the switcher / nav; the full reading path (chapters, anchors) lives
+ * in the story store keyed by `(site.slug, codename)` — `storyFor` in `./walk` today, the MDX
+ * `stories` collection later (#730).
+ */
+export interface StoryRef {
+  /** Story codename — the URL segment under the site's `stories/` and the store key. */
+  codename: string;
+  /** Display title, e.g. "Project BOSC". */
+  title: string;
+}
 
 export interface NetworkSite {
   /** Registry + URL key (kebab). */
@@ -46,6 +59,8 @@ export interface NetworkSite {
   locked?: boolean;
   /** Why a `locked` site is sealed — drives the request-access dek. */
   lockReason?: "sourcing" | "legal" | "embargo";
+  /** The stories this site hosts, in display order. Absent until a site has one (#724). */
+  stories?: readonly StoryRef[];
 }
 
 /** The single source of truth for the switcher, the coming-soon pages, and the basin map.
@@ -60,6 +75,7 @@ export const SITES: readonly NetworkSite[] = [
     status: "live",
     selectable: true,
     href: SITE_BASE,
+    stories: [{ codename: DEFAULT_STORY_CODENAME, title: "Project BOSC" }],
   },
   {
     // A live data-center facility; the site build is queued (onboard fast, not selectable yet).
