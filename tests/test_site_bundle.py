@@ -21,7 +21,8 @@ from bosc.site.export import export_bundle
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 COMMITTED_SCHEMAS = REPO_ROOT / "data" / "site" / "bundle" / "schemas"
-FRONTEND_SAMPLE = REPO_ROOT / "frontend" / "sample-bundle"
+# The per-site offline fixture (#727): the trimmed Lima bundle the frontend build reads.
+FRONTEND_SAMPLE = REPO_ROOT / "frontend" / "sample-bundle" / "lima"
 
 
 @pytest.fixture(scope="module")
