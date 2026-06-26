@@ -1,4 +1,6 @@
 ---
+import { selectableSitePaths } from "../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
 import Base from "../../../../layouts/Base.astro";
 import FigureStat from "../../../../components/FigureStat.astro";
 import BulletChart from "../../../../components/charts/BulletChart.astro";

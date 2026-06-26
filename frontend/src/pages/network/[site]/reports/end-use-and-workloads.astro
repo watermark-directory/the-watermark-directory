@@ -1,4 +1,6 @@
 ---
+import { selectableSitePaths } from "../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
 /**
  * End-use & workloads — the interactive companion to the full report
  * (docs/end-use-and-workloads.md, #251). Reuses the walk's island-over-SSR pattern:

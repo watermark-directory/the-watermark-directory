@@ -1,4 +1,6 @@
 ---
+import { selectableSitePaths } from "../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
 import Base from "../../../../layouts/Base.astro";
 import { NARRATIVE } from "../../../../lib/narrative";
 import { hasInteractive, reportUrl } from "../../../../lib/reports";

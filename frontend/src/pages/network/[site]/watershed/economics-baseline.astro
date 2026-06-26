@@ -1,4 +1,6 @@
 ---
+import { selectableSitePaths } from "../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
 import BackLink from "../../../../components/BackLink.astro";
 import Base from "../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../lib/bundle";

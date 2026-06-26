@@ -1,4 +1,6 @@
 ---
+import { selectableSitePaths } from "../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
 import BackLink from "../../../../components/BackLink.astro";
 import BeforeAfterSlider from "../../../../components/BeforeAfterSlider.astro";
 import ImagerySlider from "../../../../components/islands/ImagerySlider.tsx";
