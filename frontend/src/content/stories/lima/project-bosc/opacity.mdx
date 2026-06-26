@@ -5,6 +5,85 @@ title: "Why you had to dig for this"
 skill: "Reading statutory exemptions"
 anchor: "The withholding stack + the mandamus thread"
 live: true
+pageTitle: "Why you had to dig for this — Chapter 6"
+description: "None of this was meant to be easy to see: a stack of lawful-looking layers keeps the deal's substance non-public. Yet the thin record, reassembled, still tells the story."
 ---
 
-{/* Prose migrated from the .astro chapter in #733 (parity-gated). */}
+import { OPACITY_TEARDOWN } from "../../../../lib/teardowns";
+import { withSite } from "../../../../lib/site";
+
+<Prose>
+By now a fair question: if all of this is public record, why did it take a
+story to assemble it? Because none of it was meant to be easy to see. The
+withholding here is not one refusal — it's an architecture, layered along
+the records lifecycle, and each layer is individually lawful-looking.
+Open each layer below to read the operative clause and the document it
+lives in.
+</Prose>
+
+<WithholdingStack />
+
+<Prose>
+One record consolidates the whole architecture — the withholding map. Here
+it is as a teardown, with the deciding analysis (item 4) still locked.
+</Prose>
+
+<RecordTeardown record={OPACITY_TEARDOWN} layout="annotated" />
+
+<Prose>
+Hold the line one more time. Every clause and statute above is read from a
+committed document — that part is `[verified]`. Calling the whole
+an *engineered system* is argument, and the record says so itself.
+The other distinction worth carrying: “we have no records” is not the same
+as “we won't produce these records.” When items 5–15 were
+*deferred* as if held elsewhere, the resolutions authorizing them
+were sitting in the Board's own minutes — which means the records exist
+where the request was directed. That gap is a fight you can win.
+</Prose>
+
+<Interactive heading={'When “no records” isn’t “no records”'} label='When "no records" isn&#39;t "no records"'>
+  <Prose>
+  The sharpest example is the one that sounds the most innocent. Asked for the edit history
+  of the county websites that carried the project's notices — item 16 of the request — the
+  county answered “no records.” But the sites keep revision histories; the endpoints that
+  serve them answer, just behind a login. The records exist; the county simply doesn't hold
+  them in hand. They sit with the **host** — AhelioTech Services, named in the
+  commissioners' own 2024 minutes as the county's web host — and with the in-house author,
+  county IT director **Brian Mauk**, identifiable as the WordPress author on a
+  county site. A request for the audit logs has somewhere to go. “No records” was true only
+  in the narrowest custodial sense, and the county's own minutes say so.
+
+  The vendor trail has its own tell. The firm credited with building the county sites —
+  including the AEDG booster site that fronted the project — is **CorpComm Group,
+  Inc.**, a corporation that has been **legally dissolved since 2023-06-05**,
+  its credit and a live link still sitting on the public pages, its domain quietly renewed
+  and paid through 2027 more than a year after it died. `[verified]` from the
+  Secretary of State's dissolution record and the live page source; reading this as an
+  *architecture* rather than an accident is, as ever, the argument.
+
+  And sometimes the withholding is a void rather than a wall. The request asked the Soil
+  & Water district for anything touching **Beth Seibert** — a county
+  commissioner who is also a former district staffer and now presides over its board, a
+  person sitting on both sides of the table. The answer came back **zero, in both
+  directions, with no onward referral**: no district-to-Seibert correspondence, no
+  county trace through her either. A blank where the paper should be densest is its own kind
+  of finding — though, held to the discipline, a null is a question, not yet a verdict.
+  </Prose>
+</Interactive>
+
+<div class="walk-coda">
+  <div class="walk-coda-kicker">The end of the story</div>
+  <h2>The thin record, reassembled</h2>
+  <p>
+    Six chapters, six records, one method: take a source, read it into
+    structured data, say plainly what it means, and leave a path back to the
+    proof. The deal was built to be hard to see — and yet, document by
+    document, it reassembles. That reassembly, done in the open with provenance
+    on every figure, is the whole point.
+  </p>
+  <p>Now it's yours. Pick any figure and follow its citation to the source.</p>
+  <div class="walk-coda-cta">
+    <a class="btn" href={withSite("/site/")}>Browse the full archive →</a>
+    <a class="walk-cta-secondary" href={withSite("/submit")}>or submit a correction or tip</a>
+  </div>
+</div>

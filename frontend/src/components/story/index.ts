@@ -16,12 +16,14 @@
 import EvidenceTag from "../EvidenceTag.astro";
 import FigureStat from "../FigureStat.astro";
 import RecordTeardown from "../RecordTeardown.astro";
+import WalkTimeline from "../WalkTimeline.astro";
+import WithholdingStack from "../WithholdingStack.astro";
 import Callout from "./Callout.astro";
 import ChapterDoors from "./ChapterDoors.astro";
 import Interactive from "./Interactive.astro";
 import Prose from "./Prose.astro";
 
-export { Callout, ChapterDoors, Prose, Interactive, EvidenceTag, FigureStat, RecordTeardown };
+export { Callout, ChapterDoors, Prose, Interactive, EvidenceTag, FigureStat, RecordTeardown, WalkTimeline, WithholdingStack };
 export type { ChapterDoor } from "./ChapterDoors.astro";
 
 /**
@@ -37,4 +39,6 @@ export const STORY_COMPONENTS = {
   EvidenceTag,
   FigureStat,
   RecordTeardown,
+  WalkTimeline,
+  WithholdingStack,
 };

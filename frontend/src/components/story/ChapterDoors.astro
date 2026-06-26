@@ -22,6 +22,8 @@ export interface ChapterDoor {
   path?: string;
   /** Network-global root-absolute path (e.g. "/wiki/graph") — NOT site-prefixed, only deploy-based. */
   href?: string;
+  /** Optional inline badge after the label (e.g. "interactive"). */
+  badge?: string;
 }
 interface Props {
   doors: ChapterDoor[];
@@ -40,7 +42,7 @@ const doorHref = (d: ChapterDoor): string =>
   {
     doors.map((d) => (
       <a class="door" href={doorHref(d)}>
-        <span class="door-label">{d.label}</span>
+        <span class="door-label">{d.label}{d.badge && <> <span class="door-badge">{d.badge}</span></>}</span>
         <span class="door-blurb">{d.blurb}</span>
       </a>
     ))

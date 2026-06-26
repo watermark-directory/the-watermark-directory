@@ -8,7 +8,79 @@ anchorRecordRels:
   - recorder/202508130008300.deed.yaml
   - permits/sos-tilted-gate-llc-2025-09-29.sos.yaml
 live: true
+pageTitle: "Who is actually building this? — Chapter 1"
+description: "The land is public, so start there: a recorded deed names names. Then ask the question it can't answer — who the Delaware buyer really is."
 ---
 
-{/* Prose migrated from the .astro chapter in #733 (parity-gated). The spine above is the
-canonical chapter metadata; the rendering shell + provided story components arrive in #731/#732. */}
+import { DEED_TEARDOWN, SHELL_TEARDOWN } from "../../../../lib/teardowns";
+import EntityGraph from "../../../../components/islands/EntityGraph.tsx";
+import { withBase } from "../../../../lib/site";
+
+<Prose>
+Start with the land, because the land is public. Every parcel that became
+the campus changed hands through a recorded deed — and recorded deeds name
+names. Read one, and then ask the question it can't answer: who is the
+buyer, really?
+</Prose>
+
+<RecordTeardown record={DEED_TEARDOWN} layout="split" />
+
+<div class="td-beat">
+  <div class="td-beat-arrow" aria-hidden="true">↓</div>
+  <div class="td-beat-text">
+    <b>and then —</b> the buyer is a Delaware shell, so the deed's “who” is
+    really a question about a cluster of entities that share more than a state
+    of formation.
+  </div>
+</div>
+
+<RecordTeardown record={SHELL_TEARDOWN} layout="split" />
+
+<Prose>
+Hold the discipline here. Shared agents, shared organizers, a shared
+Wilmington mailbox — these are signals of coordination, the plumbing of
+common control. They are not, by themselves, proof of who owns or benefits.
+The record earns the word *signal*; it has not earned *verdict*.
+That distinction is the whole method — and it's why the buyer's name reads
+`[verified]` while the link between the shells reads
+`[inference]`.
+</Prose>
+
+<Interactive heading="The cluster, drawn" label="The shell cluster, drawn">
+  <div class="deck-surface">
+    <EntityGraph client:only="react" src={withBase("/feeds/graph.json")} focus="bistrozzi" />
+    <noscript>
+      <div class="deck-loading">
+        The interactive graph needs JavaScript — the cluster's entities are
+        listed in the Secretary-of-State teardown above, and the full graph is
+        a <a href={withBase("/wiki/graph")}>library door</a> below.
+      </div>
+    </noscript>
+  </div>
+  <p class="walk-graph-note">
+    Focused on Bistrozzi's neighborhood: the Delaware siblings — <strong>Tilted Gate</strong>
+    and <strong>Magenta Capital</strong> share both a registered agent (CSC) and an organizer
+    (Montfort) — <strong>Bistrozzi Addition</strong> (CT Corp / Ziance), and the <strong>Vorys</strong>
+    advisory hub. The overlaps are the <code>[inference]</code> the chapter earns; common control is a
+    signal, not beneficial ownership — and <em>that</em>, not the customer, is what stays open. The
+    customer is <strong>Google</strong> (<code>[verified]</code> — AEDG's release, allencountydatacenter.com,
+    Liz Schwab's committee testimony); in the graph it's held as an <strong>annotation, not a node</strong>
+    because it's the customer, not a party to the deal mechanics — a method choice, not an open question.
+  </p>
+</Interactive>
+
+<Callout title="What you can read anywhere now" variant="takeaway">
+A **deed** — grantor, grantee, parcels, and the consideration
+line, where a blank or nominal price is itself a finding. And a
+**Secretary-of-State filing** — the registered agent and
+organizer are how you link entities that share nothing else on their face.
+Overlaps are leads to verify, not conclusions to publish.
+</Callout>
+
+<ChapterDoors
+  doors={[
+    { label: "The entity graph", blurb: "The shells, their agents, and the overlaps — drawn so you can see them at once.", href: "/wiki/graph" },
+    { label: "Entities", blurb: "Bistrozzi, Tilted Gate, Magenta, and the people named on the filings.", href: "/wiki/entities/" },
+    { label: "The deed records", blurb: "The full conveyance chain — every parcel, grantor, and grantee.", path: "/site/records/" },
+  ]}
+/>
