@@ -25,6 +25,17 @@ never editing it.
     - **The Tier-0 water balance** — the assimilative screen behind the
       [Hydrology](HYDROLOGY.md) findings.
 
-The evidence discipline these articles formalize is summarized on every page:
-claims are tagged `[verified]` (read from a cited extraction) or `[inference]`
-(a labelled reading of the assembled record).
+The evidence discipline these articles formalize is summarized on every page.
+Every claim, figure, and record carries one of four evidence tags — read them as
+confidence signals, not decoration:
+
+- **`[verified]`** — read from a cited record or a live source: confirmed and
+  reproducible.
+- **`[inference]`** — a labelled reading or derivation from cited inputs: reasoning
+  over the assembled record, not a record itself.
+- **`[reference]`** — an outside published specification or dataset: authoritative,
+  but not a record about this site.
+- **`[open]`** — withheld, unresolved, or not yet checked: a question, not a verdict.
+
+The same four-tag legend appears on the records index, and each tag explains itself
+on hover anywhere it is shown.

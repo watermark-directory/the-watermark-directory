@@ -1,4 +1,5 @@
 ---
+import EvidenceLegend from "../../../../../components/EvidenceLegend.astro";
 import DonutChart from "../../../../../components/charts/DonutChart.astro";
 import Base from "../../../../../layouts/Base.astro";
 import { hasFeed, loadFeed } from "../../../../../lib/bundle";
@@ -46,5 +47,10 @@ const byGroup = groups.map((g) => ({ label: groupLabel(g), value: countOf(g) }))
         ))
       }
     </div>
+    <p class="hub-lead">
+      Every record, profile, and figure is tagged with its evidence class — read it as
+      a confidence signal, not decoration:
+    </p>
+    <EvidenceLegend />
   </div>
 </Base>
