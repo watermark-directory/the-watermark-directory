@@ -1,7 +1,39 @@
-import { defineCollection } from "astro:content";
+import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 import { LEGAL } from "./lib/legal";
 import { REFERENCE } from "./lib/reference";
+
+// The `stories` collection (#724/#730): a site's *story* as data — one MDX file per chapter
+// under `src/content/stories/<site>/<codename>/<slug>.mdx`. The frontmatter is the chapter
+// SPINE (validated below); the MDX body is the prose, which imports the provided story
+// components (#731). `id` is `<site>/<codename>/<slug>`, so `loadStories` (src/lib/stories.ts)
+// recovers the site + codename from the path and groups chapters into a `Story` (src/lib/walk.ts).
+export const STORY_CHAPTER_SCHEMA = z.object({
+  /** 1-based reading position within the story. */
+  step: z.number().int().positive(),
+  /** Route slug, flattened under the story; must match the filename. */
+  slug: z.string().min(1),
+  title: z.string().min(1),
+  /** The record-reading skill this chapter teaches. */
+  skill: z.string().min(1),
+  /** Human description of the anchor record(s) it tears down. */
+  anchor: z.string().min(1),
+  /** Library record `rel`s this chapter tears down — drives the "↩ seen in the walk" backlinks. */
+  anchorRecordRels: z.array(z.string()).default([]),
+  /** Whether the chapter is published (vs. still drafting); gates its wayfinding go-links. */
+  live: z.boolean().default(true),
+  /** Optional eyebrow override; defaults to "Chapter <step>" at render. */
+  eyebrow: z.string().optional(),
+});
+
+const stories = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/stories",
+    generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/, ""),
+  }),
+  schema: STORY_CHAPTER_SCHEMA,
+});
 
 // The `narrative` collection sources the public prose under the repo-root `docs/`
 // AS-IS (issue #69) — docs are never moved/edited; the docs source stays canonical.
@@ -49,4 +81,4 @@ const legal = defineCollection({
   }),
 });
 
-export const collections = { narrative, reference, legal };
+export const collections = { narrative, reference, legal, stories };

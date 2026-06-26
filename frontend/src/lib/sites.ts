@@ -31,6 +31,8 @@ export interface StoryRef {
   codename: string;
   /** Display title, e.g. "Project BOSC". */
   title: string;
+  /** One-line description — the on-ramp dek / nav blurb (story-level, not per chapter). */
+  dek: string;
 }
 
 export interface NetworkSite {
@@ -75,7 +77,13 @@ export const SITES: readonly NetworkSite[] = [
     status: "live",
     selectable: true,
     href: SITE_BASE,
-    stories: [{ codename: DEFAULT_STORY_CODENAME, title: "Project BOSC" }],
+    stories: [
+      {
+        codename: DEFAULT_STORY_CODENAME,
+        title: "Project BOSC",
+        dek: "Project BOSC — read the record one document at a time, no prior knowledge.",
+      },
+    ],
   },
   {
     // A live data-center facility; the site build is queued (onboard fast, not selectable yet).
