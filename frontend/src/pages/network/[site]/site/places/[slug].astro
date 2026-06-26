@@ -13,10 +13,11 @@ import { entityHref } from "../../../../../lib/entityLinks";
 import { withBase, withSite, siteUrl } from "../../../../../lib/site";
 import { renderBody } from "../../../../../lib/wiki";
 
-export const getStaticPaths: GetStaticPaths = () => {
-  const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
-  return withSitePaths(places.map((place) => ({ params: { slug: place.slug }, props: { place } })));
-};
+export const getStaticPaths: GetStaticPaths = () =>
+  withSitePaths(() => {
+    const places = hasFeed("places") ? loadFeed<PlaceItem[]>("places") : [];
+    return places.map((place) => ({ params: { slug: place.slug }, props: { place } }));
+  });
 
 interface Props {
   place: PlaceItem;
