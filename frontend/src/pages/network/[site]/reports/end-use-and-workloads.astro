@@ -37,7 +37,7 @@ const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[op
     <section class="walk-interactive" aria-label="The four things called a data center">
       <h2 class="walk-explore-h">Pick a type — read who can use it</h2>
       <div class="eu-surface">
-        <EndUseExplorer client:only="react" data={endUse} />
+        <EndUseExplorer client:only="react" data={endUse} site={Astro.locals.site} />
         <noscript>
           <div class="dil-noscript">
             The explorer needs JavaScript — the same content is in the full table below.

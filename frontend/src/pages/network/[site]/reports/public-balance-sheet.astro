@@ -45,7 +45,7 @@ const e = sheet.econExposure;
       </p>
   </Fragment>
 
-    <BalanceSheet client:only="react" toxicsEffluentCfs={effluentCfs} toxicsNaturalCfs={dc.naturalCfs} />
+    <BalanceSheet client:only="react" toxicsEffluentCfs={effluentCfs} toxicsNaturalCfs={dc.naturalCfs} site={Astro.locals.site} />
 
     <noscript>
       <article class="prose">

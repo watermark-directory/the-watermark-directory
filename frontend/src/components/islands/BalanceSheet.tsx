@@ -9,7 +9,7 @@
 import { type BalanceUnit, buildBalanceSheet } from "../../lib/balanceSheet";
 import { fmtMw } from "../../lib/format";
 import { fmtUsdM } from "../../lib/money";
-import { withBase, withSite } from "../../lib/site";
+import { siteHref, withBase } from "../../lib/base";
 import { DistributionStrip, RegisterMark } from "./uncertaintyGrammar";
 
 function formatter(unit: BalanceUnit): (n: number) => string {
@@ -21,9 +21,12 @@ function formatter(unit: BalanceUnit): (n: number) => string {
 export default function BalanceSheet({
   toxicsEffluentCfs,
   toxicsNaturalCfs,
+  site = "lima",
 }: {
   toxicsEffluentCfs: number;
   toxicsNaturalCfs: number;
+  /** Active site slug — the page passes it so in-island links resolve to this site (#740). */
+  site?: string;
 }): JSX.Element {
   const sheet = buildBalanceSheet(toxicsEffluentCfs, toxicsNaturalCfs);
   const e = sheet.econExposure;
@@ -86,7 +89,7 @@ export default function BalanceSheet({
         Each band above is wide for one reason: a figure the county has not produced. The economic give is the
         only line in dollars; the load and the river are bands the record never measures. Disclosure — not a
         verdict from this page — is what narrows any of them. See the{" "}
-        <a href={withSite("/site/legal/corpus-completeness-audit")}>corpus-completeness audit</a> for what's
+        <a href={siteHref(site, "/site/legal/corpus-completeness-audit")}>corpus-completeness audit</a> for what's
         missing, and why.
       </p>
     </div>

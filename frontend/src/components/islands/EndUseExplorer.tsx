@@ -11,10 +11,13 @@
  */
 import { useState } from "react";
 import { type DcKey, type EndUseData, IL_LADDER } from "../../lib/endUse";
-import { withSite } from "../../lib/site";
+import { siteHref } from "../../lib/base";
 import { RegisterMark } from "./uncertaintyGrammar";
 
-export default function EndUseExplorer({ data }: { data: EndUseData }): JSX.Element {
+export default function EndUseExplorer({
+  data,
+  site = "lima",
+}: { data: EndUseData; site?: string }): JSX.Element {
   const [activeKey, setActiveKey] = useState<DcKey>("hyperscale");
   const active = data.types.find((t) => t.key === activeKey) ?? data.types[0];
   const reach = active.ladderReach; // [from, to] indices into IL_LADDER, or null (self only)
@@ -67,7 +70,7 @@ export default function EndUseExplorer({ data }: { data: EndUseData }): JSX.Elem
             <dt>Who captures the abatement</dt>
             <dd>
               <RegisterMark register={active.benefitCapture.register} /> {active.benefitCapture.who}{" "}
-              <a className="eu-ledger-link" href={withSite("/reports/the-economic-ledger")}>
+              <a className="eu-ledger-link" href={siteHref(site, "/reports/the-economic-ledger")}>
                 (the subsidy →)
               </a>
             </dd>

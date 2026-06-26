@@ -9,8 +9,9 @@ import FacilityStatusRail from "../../components/FacilityStatusRail.astro";
 import Icon from "../../components/Icon.astro";
 import SiteLocked from "../../components/SiteLocked.astro";
 import Base from "../../layouts/Base.astro";
+import { siteHref } from "../../lib/base";
+import { LIMA_SLUG } from "../../lib/routes";
 import { type NetworkSite, comingSoonSites } from "../../lib/sites";
-import { withSite } from "../../lib/site";
 
 export function getStaticPaths() {
   return comingSoonSites().map((site) => ({ params: { site: site.slug }, props: { site } }));
@@ -160,7 +161,7 @@ const doors = [
           )
         }
       </div>
-      <a class="netsite-lima" href={withSite()}>
+      <a class="netsite-lima" href={siteHref(LIMA_SLUG)}>
         <span class="netsite-lima-pill"><span class="netsite-dot" aria-hidden="true"></span>Complete</span>
         <div class="netsite-lima-h">See the Lima build</div>
         <p class="netsite-lima-p">
