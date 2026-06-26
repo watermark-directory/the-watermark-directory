@@ -1,0 +1,15 @@
+---
+/**
+ * Story · Prose — a provided story-component (#724/#731). Wraps a run of chapter prose in the
+ * `.walk-prose` measure/typography the chapters use, so an MDX body can interleave readable
+ * prose blocks with full-bleed `<Interactive>` sections.
+ *
+ *   <Prose>
+ *     A data center cools itself with water, and the water it gives back is not the water it takes…
+ *   </Prose>
+ */
+---
+
+<div class="walk-prose">
+  <slot />
+</div>
