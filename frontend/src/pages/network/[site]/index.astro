@@ -13,10 +13,13 @@ import { hasFeed, loadFeed, loadManifest } from "../../../lib/bundle";
 import { type DocumentCollectionItem } from "../../../lib/feeds";
 import { LEADS } from "../../../lib/leads";
 import { NARRATIVE } from "../../../lib/narrative";
-import { FACILITY_STATUS_META, facilityStatus } from "../../../lib/sites";
+import { FACILITY_STATUS_META, facilityStatus, selectableSitePaths } from "../../../lib/sites";
 import type { FigureStatData } from "../../../lib/viz";
 import { WALK_CHAPTERS, walkHref } from "../../../lib/walk";
 import { withSite, withStory } from "../../../lib/site";
+
+// One `network/[site]/…` route per selectable site (#724/#734); Lima alone today.
+export const getStaticPaths = selectableSitePaths;
 
 const manifest = loadManifest();
 const byName = new Map(manifest.feeds.map((f) => [f.name, f]));

@@ -1,6 +1,10 @@
 ---
 import Base from "../../../layouts/Base.astro";
 import SubmitForm from "../../../components/SubmitForm.astro";
+import { selectableSitePaths } from "../../../lib/sites";
+
+// One `network/[site]/…` route per selectable site (#724/#734); Lima alone today.
+export const getStaticPaths = selectableSitePaths;
 
 // The site-tier submission route. The per-record "✎ Suggest a correction" deep-links
 // from inside Lima (records, people, places, the walk) target this so the correction
