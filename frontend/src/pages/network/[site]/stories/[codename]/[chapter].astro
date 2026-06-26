@@ -83,7 +83,7 @@ const pageTitle = fm.pageTitle ?? `${ch.title} — Chapter ${step}`;
         ) : next ? (
           <span class="walk-nav-link walk-nav-next is-disabled" title="Drafting">{next.step}. {next.title} →</span>
         ) : (
-          <span></span>
+          <a class="walk-nav-link walk-nav-next" href={storyHomeHref(story)}>↺ Start the story over</a>
         )
       }
     </nav>
