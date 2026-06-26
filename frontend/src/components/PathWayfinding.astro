@@ -1,37 +1,48 @@
 ---
 /**
- * Path wayfinding — the "you are on the story · step N of 6" affordance
+ * Path wayfinding — the "you are on the story · step N of M" affordance
  * (design handoff: Design System artboard → "Path wayfinding"). Unobtrusive,
  * always offers an exit. Dots link to the live chapters; the current step is
  * widened and outlined. SSR-only, no JS.
+ *
+ * Story-parameterized (#724/#732): pass the active `story` to render any site's walk; defaults
+ * to the Lima `project-bosc` story so existing callers are unchanged.
  */
-import { WALK_CHAPTERS, WALK_TOTAL, WALK_INDEX_HREF, walkHref } from "../lib/walk";
+import { DEFAULT_STORY_CODENAME, LIMA_SLUG } from "../lib/routes";
+import { type Story, chapterHref, storyContentsHref, storyFor } from "../lib/walk";
 
 interface Props {
-  /** 1-based current step (1–6). */
+  /** 1-based current step. */
   step: number;
-  /** Where "leave" goes (defaults to the walk index). */
+  /** The story being walked; defaults to Lima's project-bosc. */
+  story?: Story;
+  /** Where "leave" goes (defaults to the story's table of contents). */
   leaveHref?: string;
 }
-const { step, leaveHref = WALK_INDEX_HREF } = Astro.props;
+const { step, story: storyProp, leaveHref } = Astro.props;
+// The Lima default story is always registered.
+const story = storyProp ?? storyFor(LIMA_SLUG, DEFAULT_STORY_CODENAME)!;
+const chapters = story.chapters;
+const total = chapters.length;
+const leave = leaveHref ?? storyContentsHref(story);
 ---
 
-<nav class="walk-bar" aria-label={`Story — step ${step} of ${WALK_TOTAL}`}>
+<nav class="walk-bar" aria-label={`Story — step ${step} of ${total}`}>
   <span class="walk-bar-label">On the story</span>
   <div class="walk-dots">
     {
-      WALK_CHAPTERS.map((c) => {
+      chapters.map((c) => {
         const state = c.step === step ? "is-current" : c.step < step ? "is-done" : "is-future";
         const title = `Step ${c.step}: ${c.title}`;
         const current = c.step === step ? "step" : undefined;
         return c.live ? (
-          <a class:list={["walk-dot", state]} href={walkHref(c.slug)} title={title} aria-label={title} aria-current={current}></a>
+          <a class:list={["walk-dot", state]} href={chapterHref(story, c.slug)} title={title} aria-label={title} aria-current={current}></a>
         ) : (
           <span class:list={["walk-dot", state]} title={`${title} (drafting)`} aria-label={`${title} (drafting)`} aria-current={current}></span>
         );
       })
     }
   </div>
-  <span class="walk-step">step {step} / {WALK_TOTAL}</span>
-  <a class="walk-leave" href={leaveHref}>✕ leave</a>
+  <span class="walk-step">step {step} / {total}</span>
+  <a class="walk-leave" href={leave}>✕ leave</a>
 </nav>

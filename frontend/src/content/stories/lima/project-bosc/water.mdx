@@ -1,0 +1,199 @@
+---
+step: 4
+slug: water
+title: "What it does to the water"
+skill: "Reading an NPDES permit · the 7Q10 low-flow screen"
+anchor: "NPDES dilution + the cooling-draw screen"
+live: true
+pageTitle: "What it does to the water — Chapter 4"
+description: "A data center cools itself with water. Read what the receiving streams can spare — Ohio EPA already wrote it down, in the low flows it uses to permit every discharge."
+---
+
+import { NPDES_TEARDOWN } from "../../../../lib/teardowns";
+import DilutionScreen from "../../../../components/islands/DilutionScreen.tsx";
+import { buildDilution, dilutionMultiple } from "../../../../lib/dilution";
+
+export const dilution = buildDilution();
+export const fmtMult = (m) =>
+  Number.isFinite(m) ? `${m >= 10 ? Math.round(m) : m.toFixed(1)}×` : "∞ (dry)";
+export const effluentCfs = dilution.discharge.wwtpCfs + dilution.discharge.campusFm2Cfs;
+export const naturalBarPct = Math.max(Math.round((dilution.discharge.naturalCfs / effluentCfs) * 100), 2);
+
+<Prose>
+A data center cools itself with water, and the water it gives back is not
+the water it takes — evaporation is a permanent loss to the basin. Before
+asking what the campus removes, read what the receiving streams can spare.
+Ohio EPA already wrote it down, in the low-flow number it uses to set the
+limits on every discharge.
+</Prose>
+
+<RecordTeardown record={NPDES_TEARDOWN} layout="split" />
+
+<Interactive heading="The river is already effluent" label="The river is already effluent">
+  <div class="dil">
+    <div class="dil-head">
+      <strong>What the campus discharges into</strong>
+      <span class="dil-tag dil-tag--verified" title="Read directly from the Ohio EPA NPDES fact sheets (the feed's assimilative rows) and the cited water balance.">[verified] · fact-sheet discharge</span>
+    </div>
+    <p class="dil-framing">
+      Before the campus takes a drop, read what the river already carries. At design low flow the three
+      county WWTPs discharge <strong>{dilution.discharge.wwtpCfs} cfs</strong> of treated effluent into
+      streams whose <em>natural</em> low flow totals just <strong>{dilution.discharge.naturalCfs} cfs</strong> —
+      and the campus adds its own routed <strong>{dilution.discharge.campusFm2Cfs} cfs</strong> FM-2 discharge.
+      The Ottawa leaving Lima runs <strong>{dilution.discharge.effluentPct}% treated effluent</strong>, before
+      counting a drop of what the campus evaporates.
+    </p>
+    <div class="dil-bars">
+      <div class="dil-barrow">
+        <div class="dil-barlabel">Streams · natural low flow<span class="dil-barnum">{dilution.discharge.naturalCfs.toFixed(2)} cfs</span></div>
+        <div class="dil-track"><div class="dil-bar dil-bar--river" style={`width:${naturalBarPct}%`}></div></div>
+      </div>
+      <div class="dil-barrow">
+        <div class="dil-barlabel">Treated effluent · WWTP + campus<span class="dil-barnum">{effluentCfs.toFixed(2)} cfs</span></div>
+        <div class="dil-track"><div class="dil-bar dil-bar--draw" style="width:100%"></div></div>
+      </div>
+    </div>
+    <table class="dtable">
+      <caption>The three county WWTP discharges vs their receiving streams' cited 7Q10 — each already runs undiluted at design low flow.</caption>
+      <thead><tr><th scope="col">Discharger</th><th scope="col">Receiving stream</th><th scope="col">Discharge</th><th scope="col">7Q10</th></tr></thead>
+      <tbody>
+        {dilution.discharge.rows.map((r) => (
+          <tr>
+            <td>{r.discharger}</td>
+            <td>{r.receiving}</td>
+            <td>{r.dischargeCfs.toFixed(2)} cfs</td>
+            <td>{r.lowFlowCfs.toFixed(2)} cfs</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="dil-cite">⌖ {dilution.discharge.cite}</p>
+  </div>
+</Interactive>
+
+<Prose>
+That is what the campus discharges *into*. It also takes water *out* of the basin:
+a data center cools by evaporation, and the water it gives back is not the water it takes. But
+read the next comparison carefully — it is a **worst-case bound**, not the operating
+reality. Lima doesn't pump from the river at low flow; it lives off five off-stream reservoirs
+filled at high flow. So setting the campus's net loss against the Ottawa's low flow measures the
+*scale* of the basin stress, not a withdrawal from the river — the honest tag is
+`[inference]`, not `[verified]`.
+
+There is a second reason the draw is modeled rather than read. The one number that would
+settle it — the cooling system's design flowrate — was claimed by the developer as a trade
+secret, and Ohio EPA granted the claim on **2025-10-08** (eDoc 3859883). The
+justification is unusually candid about the stakes: the air permit, it argues, is “the only
+public document that requests the size” of the equipment, so “by preventing this information
+from becoming public via the air permitting process, the facility has taken a significant
+step to ensure the confidentiality of this information.” The flowrate is not missing by
+accident — the single public path to it was identified and closed. So we model the draw, tag
+it `[inference]`, and can say precisely why the `[verified]` figure
+does not exist.
+
+And because the screen is built from live gauges, you don't have to take a static number on
+faith — the hydrology dashboard re-runs it against the Ottawa's current flow from USGS on every
+build.
+</Prose>
+
+<Interactive heading="What the campus takes out of the basin" label="What the campus takes out of the basin">
+  <div class="dil-surface">
+    <DilutionScreen client:only="react" data={dilution} />
+    <noscript>
+      <div class="dil-noscript">
+        The interactive screen needs JavaScript — the seasonal table below is
+        the same data.
+      </div>
+    </noscript>
+  </div>
+
+  <table class="dtable dil-table">
+    <caption>
+      Net consumptive loss at full buildout (<strong>{dilution.drawAtBuildoutCfs.toFixed(2)} cfs</strong>,
+      from {dilution.maxCoolingMgd.toFixed(2)} MGD cooling × {dilution.consumptiveFraction} consumptive) as a
+      scale against the Ottawa's low-flow floors. The campus draws from reservoirs, not the river — a worst-case
+      bound, <code>[inference]</code>.
+    </caption>
+    <thead>
+      <tr><th scope="col">Season</th><th scope="col">Ottawa low flow</th><th scope="col">Loss ÷ low flow</th><th scope="col">Source</th></tr>
+    </thead>
+    <tbody>
+      {dilution.floors.map((f) => (
+        <tr>
+          <td>{f.label}</td>
+          <td>{f.cfs.toFixed(2)} cfs</td>
+          <td><strong>{fmtMult(dilutionMultiple(dilution.drawAtBuildoutCfs, f.cfs))}</strong></td>
+          <td class="dil-td-cite">{f.cite}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</Interactive>
+
+<Prose>
+Now weigh that against what the proponents say. AEDG's own FAQ assures that
+data centers “increasingly use closed-loop cooling systems that recirculate
+water” — but the air permit you read in the last chapter fixes
+**36 evaporative cooling towers**, and evaporative towers lose
+water to the sky by design. Google's “120% water replenishment” pledge is
+real, but it's **global and offsite** — it says nothing about the
+Ottawa. The tower count is `[verified]`; the consumptive draw above
+is `[inference]`; the claim that this “reduces water use” here is
+neither.
+</Prose>
+
+<Interactive heading="Where the water goes when it's done cooling" label="Where the cooling water goes">
+  <Prose>
+  The water an evaporative tower doesn't lose to the sky comes back dirtier than it left.
+  The towers concentrate whatever is in the make-up water — dissolved salts, treatment
+  chemicals — into a waste stream called *blowdown*, and that stream has to go
+  somewhere. For Project BOSC, the somewhere is on the record. In August 2024 — more than a
+  year before the public knew whose data center this was — the County Commissioners approved
+  **Resolution #679-24**: a **$47,600** task order to MS
+  Consultants for a “WWTP Data Center Flows Treatment Evaluation,” studying the campus
+  blowdown's demands, its flows over a typical year, and its water-quality parameters for
+  storage and treatment at the **American Bath WWTP** — the County to gather
+  the figures from “the developer and data center manufacturer.” It is the first
+  primary-source document tying the cooling system to the public sewer.
+  `[verified]`, from the produced record.
+
+  What that study scopes, the build-out commits to: a dedicated BOSC pump station and
+  **dual forcemains** — a 10-inch line to the American Bath plant and a 16-inch
+  line to Lima's existing 78-inch interceptor, sized for **2.5 MGD** peak (Res
+  #137-26). The campus's waste heat leaves the site as water, and the public sewer system is
+  being enlarged to receive it — the cost of that enlargement is the next chapter's
+  business.
+  </Prose>
+</Interactive>
+
+<Interactive heading="It starts in a soybean field" label="The site and its headwaters">
+  <Prose>
+  All of it lands on ground that drains the wrong way for it. The campus is roughly
+  **309 acres** of former CAUV farmland — the construction-stormwater coverage
+  (facility 2GC08468, Turner Construction) was modified to 309.2 acres in June 2026 — graded
+  to discharge into **Pike Run**, a headwater tributary of the same Ottawa
+  system the 7Q10 above describes. Two on-site isolated wetlands, **0.33 acres**
+  of Category-1 (0.29 forested, 0.04 not), were authorized for fill on 2025-08-12, the loss
+  offset by credits bought at the Pearson Metropark mitigation bank a county away (eDoc
+  3788677).
+
+  A broader fill across the site's **358-acre** wetland delineation went
+  differently. The developer applied for it on **2025-12-09** — the day after
+  the first erosion-control inspection recorded clearing and mass grading already underway —
+  and Ohio EPA returned the application **incomplete** two weeks later, for
+  missing an analysis of practicable on-site alternatives (eDoc 3949585). The corpus doesn't
+  show how that one resolved. What it shows is the order: the earth was moving before the
+  wider wetland question was answered. *Analysis of the produced record, not a legal
+  conclusion.*
+  </Prose>
+</Interactive>
+
+<ChapterDoors
+  doors={[
+    { label: "Live hydrology dashboard", blurb: "The screen, re-run against the Ottawa's current USGS flow.", path: "/watershed/hydrology" },
+    { label: "Watershed map", blurb: "The WWTP outfalls and the streams they discharge to.", path: "/watershed/map" },
+    { label: "The hydrology write-up", blurb: "The full Tier-0 water balance and the assimilative-capacity screen.", path: "/docs/hydrology" },
+    { label: "The sanitary build-out", blurb: "Resolution #679-24, the blowdown-treatment study, and the BOSC forcemains to the American Bath WWTP.", path: "/site/legal/" },
+    { label: "The site & wetland permits", blurb: "The 401 isolated-wetland authorizations, the stormwater coverage, and the discharge to Pike Run.", path: "/site/records/" },
+  ]}
+/>

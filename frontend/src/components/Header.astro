@@ -2,7 +2,15 @@
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
 import SwitcherRow from "./SwitcherRow.astro";
-import { NETWORK_TABS, SITE_TABS, PLATFORM_LINKS, SUBMIT_LINK, navItemActive, navItemLinks, type SectionId } from "../lib/nav";
+import {
+  networkTabs,
+  platformLinks,
+  siteTabs,
+  SUBMIT_LINK,
+  navItemActive,
+  navItemLinks,
+  type SectionId,
+} from "../lib/nav";
 import { withBase } from "../lib/site";
 import { groupSites, SITE_STATUS_META, SITES, siteForPath } from "../lib/sites";
 
@@ -19,7 +27,10 @@ const base = import.meta.env.BASE_URL || "/";
 // The `Watermark.` wordmark always returns to the network home (the Directory).
 const here = siteForPath(Astro.url.pathname, base);
 const tier: "network" | "site" = here ? "site" : "network";
-const leftTabs = tier === "site" ? SITE_TABS : NETWORK_TABS;
+const siteTabsList = siteTabs();
+const networkTabsList = networkTabs();
+const platformList = platformLinks();
+const leftTabs = tier === "site" ? siteTabsList : networkTabsList;
 const networkHome = "/";
 
 // The site chip = the breadcrumb + the switcher trigger. Network tier shows "All sites".
@@ -255,7 +266,7 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
     <div class="sheet-group">
       <div class="sheet-grouphead">This site · {here ? here.place : "Lima"}</div>
       {
-        SITE_TABS.map((item) =>
+        siteTabsList.map((item) =>
           item.kind === "link" ? (
             <a
               class:list={["sheet-link", { active: navItemActive(item, active) }]}
@@ -288,7 +299,7 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
     <div class="sheet-group">
       <div class="sheet-grouphead">Network</div>
       {
-        NETWORK_TABS.map((item) =>
+        networkTabsList.map((item) =>
           item.kind === "link" ? (
             <a
               class:list={["sheet-link", { active: navItemActive(item, active) }]}
@@ -316,7 +327,7 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
       <div class="sheet-grouphead">Platform</div>
       <div class="sheet-platform">
         {
-          PLATFORM_LINKS.map((item) => (
+          platformList.map((item) => (
             <a
               class:list={["sheet-plink", { active: active === item.section }]}
               href={withBase(item.href)}
@@ -345,7 +356,7 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
   <div class="topbar-right">
     <span class="platform-links">
       {
-        PLATFORM_LINKS.map((item) => (
+        platformList.map((item) => (
           <a
             class:list={["platform-link", { active: active === item.section }]}
             href={withBase(item.href)}

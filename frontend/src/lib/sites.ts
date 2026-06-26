@@ -16,9 +16,25 @@
  *  sections coming online; `queued` = registered profile + coming-soon page, in the build queue;
  *  `tracking` = a GitHub-tracked candidate with an issue but no registered profile yet (the
  *  earliest phase — it routes to a lightweight "watch" page). Only `live` is selectable. */
-import { SITE_BASE } from "./routes";
+import { runWithSite } from "./bundle";
+import { DEFAULT_STORY_CODENAME, SITE_BASE, siteBase } from "./routes";
 
 export type SiteStatus = "live" | "building" | "queued" | "tracking";
+
+/**
+ * A story a site hosts — the lightweight registry reference (#724/#729). It names the story
+ * (codename + title) for the switcher / nav; the full reading path (chapters, anchors) lives
+ * in the story store keyed by `(site.slug, codename)` — `storyFor` in `./walk` today, the MDX
+ * `stories` collection later (#730).
+ */
+export interface StoryRef {
+  /** Story codename — the URL segment under the site's `stories/` and the store key. */
+  codename: string;
+  /** Display title, e.g. "Project BOSC". */
+  title: string;
+  /** One-line description — the on-ramp dek / nav blurb (story-level, not per chapter). */
+  dek: string;
+}
 
 export interface NetworkSite {
   /** Registry + URL key (kebab). */
@@ -46,6 +62,8 @@ export interface NetworkSite {
   locked?: boolean;
   /** Why a `locked` site is sealed — drives the request-access dek. */
   lockReason?: "sourcing" | "legal" | "embargo";
+  /** The stories this site hosts, in display order. Absent until a site has one (#724). */
+  stories?: readonly StoryRef[];
 }
 
 /** The single source of truth for the switcher, the coming-soon pages, and the basin map.
@@ -60,6 +78,13 @@ export const SITES: readonly NetworkSite[] = [
     status: "live",
     selectable: true,
     href: SITE_BASE,
+    stories: [
+      {
+        codename: DEFAULT_STORY_CODENAME,
+        title: "Project BOSC",
+        dek: "Project BOSC — read the record one document at a time, no prior knowledge.",
+      },
+    ],
   },
   {
     // A live data-center facility; the site build is queued (onboard fast, not selectable yet).
@@ -495,6 +520,58 @@ export function siteForPath(pathname: string, base = ""): NetworkSite | null {
 /** The sites that need a coming-soon page (everything not switchable). */
 export function comingSoonSites(): NetworkSite[] {
   return SITES.filter((s) => !s.selectable);
+}
+
+/**
+ * `getStaticPaths` entries for the `network/[site]/…` routes (#724/#734): one per *selectable*
+ * site, keyed by its URL id (`siteBase(slug)` minus `/network/`), with the registry `slug` passed
+ * as a prop so a page can thread it into `siteHref(slug, …)` / `loadFeed(name, slug)` (#739).
+ * Today that's Lima alone, so these routes reproduce the live build; a second selectable site
+ * (#740) gets its own build with no new page files.
+ */
+export function selectableSitePaths(): Array<{ params: { site: string }; props: { slug: string } }> {
+  return SITES.filter((s) => s.selectable).map((s) => ({
+    params: { site: siteBase(s.slug).replace("/network/", "") },
+    props: { slug: s.slug },
+  }));
+}
+
+/**
+ * Cross a `network/[site]/…/[item]` route's per-item paths with the selectable sites (#724/#735):
+ * each item is emitted once per site, with the `site` param and the registry `slug` prop folded
+ * in. Use it to wrap an existing item enumeration in a dynamic route's `getStaticPaths`. Today,
+ * with Lima alone, the result is just the items; a second selectable site multiplies them.
+ *
+ * Two call forms (#744):
+ * - **Array** — *shared* items (content collections: legal/reference/narrative MDX), the same set
+ *   for every site, so they're crossed as-is.
+ * - **Callback** `(slug) => items` — *per-site* items (feed-derived routes: records/people/places/
+ *   documents). `getStaticPaths` runs **outside** the request-time active-site ALS, so a bare
+ *   `loadFeed(...)` there resolves Lima's bundle for *every* site. The callback is invoked inside
+ *   `runWithSite(slug)`, so its `hasFeed`/`loadFeed` reads bind to **that** site's bundle. With Lima
+ *   alone the two forms are identical; a second selectable site is what makes the difference real.
+ */
+export function withSitePaths<P extends Record<string, unknown>, Q extends Record<string, unknown>>(
+  itemPaths: Array<{ params: P; props?: Q }>,
+): Array<{ params: P & { site: string }; props: Q & { slug: string } }>;
+export function withSitePaths<P extends Record<string, unknown>, Q extends Record<string, unknown>>(
+  itemPathsFor: (slug: string) => Array<{ params: P; props?: Q }>,
+): Array<{ params: P & { site: string }; props: Q & { slug: string } }>;
+export function withSitePaths(
+  itemPaths:
+    | Array<{ params: Record<string, unknown>; props?: Record<string, unknown> }>
+    | ((slug: string) => Array<{ params: Record<string, unknown>; props?: Record<string, unknown> }>),
+): Array<{ params: Record<string, unknown>; props: Record<string, unknown> }> {
+  return selectableSitePaths().flatMap(({ params: siteParam, props: siteProps }) => {
+    const items =
+      typeof itemPaths === "function"
+        ? runWithSite(siteProps.slug, () => itemPaths(siteProps.slug))
+        : itemPaths;
+    return items.map((it) => ({
+      params: { ...it.params, ...siteParam },
+      props: { ...(it.props ?? {}), ...siteProps },
+    }));
+  });
 }
 
 /**

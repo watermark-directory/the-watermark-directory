@@ -1,0 +1,50 @@
+---
+/**
+ * Story · ChapterDoors — a provided story-component (#724/#731). The "Explore this in the
+ * library" grid that closes a chapter, sending the reader from the narrative back into the
+ * site's reference library. Reuses the existing `.doors` / `.door` site styles.
+ *
+ * Doors are authored with **site-relative paths**; the component resolves each against the
+ * active site (`siteHref(site, path)`), so the same chapter works for any site that hosts the
+ * story. `site` defaults to Lima; the rendering shell (#732) passes the active slug.
+ *
+ *   <ChapterDoors site="lima" doors={[
+ *     { label: "Live hydrology dashboard", blurb: "The screen, re-run against current USGS flow.", path: "/watershed/hydrology" },
+ *   ]} />
+ */
+import { LIMA_SLUG } from "../../lib/routes";
+import { siteHref, withBase } from "../../lib/site";
+
+export interface ChapterDoor {
+  label: string;
+  blurb: string;
+  /** Site-relative path (e.g. "/watershed/hydrology"); resolved against the active site. */
+  path?: string;
+  /** Network-global root-absolute path (e.g. "/wiki/graph") — NOT site-prefixed, only deploy-based. */
+  href?: string;
+  /** Optional inline badge after the label (e.g. "interactive"). */
+  badge?: string;
+}
+interface Props {
+  doors: ChapterDoor[];
+  /** Active site slug; the shell passes this. Defaults to Lima. */
+  site?: string;
+  /** Section heading; omit to render the bare grid. */
+  heading?: string;
+}
+const { doors, site = LIMA_SLUG, heading = "Explore this in the library" } = Astro.props;
+const doorHref = (d: ChapterDoor): string =>
+  d.path != null ? siteHref(site, d.path) : withBase(d.href ?? "/");
+---
+
+{heading && <h2 class="walk-explore-h">{heading}</h2>}
+<div class="doors">
+  {
+    doors.map((d) => (
+      <a class="door" href={doorHref(d)}>
+        <span class="door-label">{d.label}{d.badge && <> <span class="door-badge">{d.badge}</span></>}</span>
+        <span class="door-blurb">{d.blurb}</span>
+      </a>
+    ))
+  }
+</div>

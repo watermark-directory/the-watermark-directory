@@ -1,0 +1,201 @@
+---
+step: 5
+slug: cost
+title: "What it costs the public"
+skill: "Reading a cost estimate · reading a contract clause"
+anchor: "Tetra Tech OPC + the Roadwork Development Agreement"
+anchorRecordRels:
+  - aedg/roundabouts.summary.opc.yaml
+live: true
+pageTitle: "What it costs the public — Chapter 5"
+description: "The public's share of the data-center project arrives as roads, booked as a private gift. Read the cost estimate and the agreement that prices it."
+---
+
+import { OPC_TEARDOWN, RDA_TEARDOWN } from "../../../../lib/teardowns";
+import MoneyFlow from "../../../../components/islands/MoneyFlow.tsx";
+import { buildMoneyFlow, fmtUsd, fmtUsdFull, fmtUsdM } from "../../../../lib/moneyFlow";
+
+export const money = buildMoneyFlow();
+export const perJob = money.abatementPerJob;
+export const a = perJob.assumptions;
+
+<Prose>
+The public's share of this project arrives as roads — four roundabouts and
+two corridor rebuilds, dedicated to the county to maintain in perpetuity,
+and booked in the agreement that authorizes them as a *private*
+contribution from the developer. The estimate that sets the price is a Tetra
+Tech **Opinion of Probable Cost**. Read it the way an engineer
+would: start from the total, then ask what the total leaves out.
+</Prose>
+
+<RecordTeardown record={OPC_TEARDOWN} layout="split" />
+
+<div class="td-beat">
+  <div class="td-beat-arrow" aria-hidden="true">↓</div>
+  <div class="td-beat-text">
+    <b>and then —</b> that {fmtUsdM(money.opcTotalUsd)} estimate becomes a “private” contribution in
+    the deal itself, where the clauses decide who really pays.
+  </div>
+</div>
+
+<RecordTeardown record={RDA_TEARDOWN} layout="split" />
+
+<Prose>
+Read together, the two records say the same thing twice: a public-works
+number precise to the dollar sitting on a scope thin enough to hide a
+floodplain, wrapped in a contract whose quiet clauses decide who actually
+carries the cost.
+</Prose>
+
+<Interactive heading="Follow the money" label="Follow the money">
+  <div class="mf-surface">
+    <MoneyFlow client:only="react" data={money} />
+    <noscript>
+      <div class="dil-noscript">
+        The interactive flow needs JavaScript — the table below is the same data.
+      </div>
+    </noscript>
+  </div>
+
+  <table class="dtable mf-table">
+    <caption>
+      The roadwork money, traced. The OPC line items are the records feed's own (no fork); the
+      §5.5 refund consequence is <code>[inference]</code> — it turns on grant awards not in the document.
+    </caption>
+    <thead>
+      <tr><th scope="col">Stage</th><th scope="col">Amount</th><th scope="col">Source</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Collected · “Company Contribution”</td>
+        <td><strong>{fmtUsdFull(money.collectedUsd)}</strong></td>
+        <td class="mf-td-cite">{money.collectedCite}</td>
+      </tr>
+      {money.opcItems.map((it) => (
+        <tr class="mf-tr-item">
+          <td>— {it.name}</td>
+          <td>{fmtUsdFull(it.usd)}</td>
+          <td class="mf-td-cite">OPC line item (records feed)</td>
+        </tr>
+      ))}
+      <tr>
+        <td>Tetra Tech OPC estimate · total</td>
+        <td><strong>{fmtUsdFull(money.opcTotalUsd)}</strong></td>
+        <td class="mf-td-cite">aedg/roundabouts.summary.opc.yaml (records feed)</td>
+      </tr>
+      <tr>
+        <td>First actual award · Eagle Bridge (N. Cole)</td>
+        <td><strong>~{fmtUsdFull(money.firstAward.usd)}</strong></td>
+        <td class="mf-td-cite">{money.firstAward.cite}</td>
+      </tr>
+      <tr>
+        <td>§5.5 grant-refund <code>[inference]</code></td>
+        <td>surplus → developer</td>
+        <td class="mf-td-cite">{money.refund.cite}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout--open mf-abate">
+    <p class="callout-title">The parallel strand — the abatement</p>
+    <p>
+      A <strong>{money.abatement.pct}%</strong> real-property abatement for
+      <strong> {money.abatement.years} years</strong> on a ~{fmtUsd(money.abatement.buildUsd)} build,
+      pulled from the <strong>{money.abatement.taxBase}</strong> tax base — and the land was CAUV
+      farmland, so converting it triggers tax recoupment. The public return: ~{money.abatement.jobs} jobs
+      / ~{fmtUsd(money.abatement.payrollUsd)} payroll by 2030, from a near-zero today.
+    </p>
+    <p>
+      What the abatement costs <em>per job</em> is the deciding number, and the record that would
+      pin it — the School District Compensation Agreement — is <strong>non-public</strong>. So we
+      don't leave the blank, and we don't invent a figure: we <em>model</em> it, and carry the
+      answer as <span class="mf-tag mf-tag--open">[open]</span> until the record arrives. Across a
+      few facility profiles the value lands between
+      <strong>{fmtUsdM(perJob.lowUsd)}</strong> and <strong>{fmtUsdM(perJob.highUsd)}</strong> per job —
+      about <strong>{fmtUsdM(perJob.centralUsd)}</strong> if you take the application's own ~{money.abatement.jobs} jobs
+      at face value. Every one of those dwarfs the ~{fmtUsd(money.abatement.payrollUsd / money.abatement.jobs)} a
+      job pays in a year.
+    </p>
+
+    <table class="dtable mf-perjob">
+      <caption>
+        The abated <em>base</em> (how much of the ~{fmtUsd(a.capexUsd)} is taxable building, not exempt
+        equipment) and the <em>job count</em> are the two unknowns; each profile is a credible reading of
+        them. The <strong>defense-hardened</strong> row is a modeling <em>what-if</em>, not a finding —
+        the defense question itself stays <code>[open]</code> (#233).
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Profile</th>
+          <th scope="col">Building share</th>
+          <th scope="col">Jobs</th>
+          <th scope="col">Per job</th>
+        </tr>
+      </thead>
+      <tbody>
+        {perJob.profiles.map((p) => (
+          <tr class={p.key === "stated" ? "mf-perjob-central" : undefined}>
+            <td>
+              {p.label}
+              <span class="mf-perjob-note">{p.note}</span>
+            </td>
+            <td>{Math.round(p.buildingShare * 100)}%</td>
+            <td>{p.jobs}</td>
+            <td><strong>{fmtUsdM(p.perJobUsd)}</strong></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <p class="mf-perjob-model">
+      <strong>How it's modeled.</strong> {money.abatement.pct}% × {money.abatement.years}-yr abatement
+      <code>[verified]</code> (Res #548-25) on the building share of the ~{fmtUsd(a.capexUsd)} build
+      <code>[verified]</code> (CRA §2, a non-binding estimate), taxed at Ohio's {Math.round(a.assessmentRatio * 100)}%
+      assessment <code>[verified]</code> × ~{Math.round(a.effectiveMills * 1000)} effective mills
+      <code>[assumption]</code> (the exact Elida rate isn't in the corpus). The result is a screening band,
+      <code>[open]</code> — the real number is owed to the non-public School District Compensation Agreement.
+    </p>
+  </div>
+</Interactive>
+
+<Interactive heading="The roads are the part you can see" label="The costs beyond the roads">
+  <Prose>
+  The roundabouts are the visible public cost. Two larger ones sit just outside the frame.
+  The first is the pipe the water chapter handed off: to carry the campus's cooling blowdown
+  and sewage, the county is building a BOSC pump station and dual forcemains, and that
+  construction estimate **rose from $20,250,000 to $29,834,256 in eight months**
+  — a ~47% jump between the June 2025 engineering advertisement (Res #469-25) and the
+  February 2026 construction-manager RFQ (Res #137-26). `[verified]`, from the
+  produced resolutions. The roads are dedicated to the county “in perpetuity”; the sewer is
+  sized to a single customer.
+
+  The second is a subsidy the abatement above doesn't count. The CRA this chapter models
+  abates *real property* — land and buildings — only. But Ohio's signature
+  data-center incentive is a different instrument: the **Data Center Tax Exemption**
+  (DCTE, from HB 59), which waives the sales-and-use tax on the *equipment* — the
+  servers and the cooling plant, the tangible bulk of a $500M-plus build, and the part that
+  gets replaced every three to five years. Whether this campus holds a DCTE isn't in the
+  record, so we carry it `[open]` — but it is the standard companion to a
+  real-property abatement, and if it's here, the public's contribution isn't the roads plus
+  the sewer plus the abatement. It's all of that, plus the larger number nobody has had to
+  publish.
+
+  One document would total it. Across Ohio's thirteen data-center deals approved through
+  September 2024 — about **$5.1 billion** in investment — the state booked
+  **356 jobs** and $31.6M in payroll against an estimated **$281.9M**
+  in forgone revenue: closer to **$1 million of public cost per job**
+  (`[reference]`, Policy Matters Ohio / state development figures). The analysis
+  that would run that arithmetic for *this* deal — the county's own cost-benefit study,
+  item 4 of the records request — is the one document the production withheld. In a sense the
+  chapter you're reading is the cost-benefit analysis the public was refused.
+  </Prose>
+</Interactive>
+
+<ChapterDoors
+  doors={[
+    { label: "The OPC record", blurb: "The full extraction — every roundabout's line items and subtotals.", path: "/site/records/" },
+    { label: "OPC scenario explorer", badge: "interactive", blurb: "Turn the contingency rate and pick intersections to re-derive the modeled program cost from the construction subtotals.", path: "/reports/opc-scenario" },
+    { label: "Legal history", blurb: "The Roadwork Development Agreement and the resolutions that adopted it.", path: "/site/legal/" },
+    { label: "The economics", blurb: "The abatement and public-cost picture the roadwork sits inside.", path: "/docs/economics" },
+  ]}
+/>

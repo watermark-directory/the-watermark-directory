@@ -1,28 +1,20 @@
-# `sample-bundle/` — committed content-bundle fixture
+# `sample-bundle/` — the committed, per-site offline fixtures
 
-A **minimal, trimmed snapshot** of the real content bundle (`bosc export` →
-`data/site/bundle/`), committed so `npm run build` and offline UI work need zero
-Python or Git-LFS. The full bundle's `feeds/**` are git-ignored by design (they
-churn and `documents` availability depends on local LFS) — this fixture is the
-small, stable stand-in.
+Each subdirectory is one network site's **trimmed content bundle** — the committed fixture the
+Astro build reads offline (CI, zero-Python). The frontend resolves a site's bundle by registry
+slug (`bundleFor(slug)` in `src/lib/bundle.ts`), so the fixtures are keyed the same way:
 
-It carries a few authentic rows per feed (real shapes, not mocks) across every
-section's feeds (records, timeline, entities, relationships, people, places,
-meetings, exhibits, documents, hydrology-scenarios, concepts, rsei, geo). Schemas
-are **not** duplicated here — the canonical `schemas/*.schema.json` live under
-`data/site/bundle/`, and bundle schema validation is issue #62.
-
-**Build against the real bundle instead** of this fixture:
-
-```sh
-bosc export                       # writes data/site/bundle/ (the loader prefers it)
-# or point anywhere:
-BOSC_BUNDLE_DIR=/path/to/bundle npm run build
+```
+sample-bundle/
+  lima/                 # the Lima reference site (BOSC_SITE default)
+    manifest.json
+    feeds/**
+    README.md           # how this fixture is trimmed + refreshed
 ```
 
-**Refresh this fixture** after a contract change (run from the repo root):
+A new site adds its own `sample-bundle/<slug>/` (e.g. `fort-wayne/`, #741). The real,
+full bundles are generated per-site by `bosc --site <slug> export` →
+`data/site/bundles/<slug>/` (git-ignored) and take precedence over these fixtures when present.
 
-```sh
-bosc export --out /tmp/bundle
-# then re-trim /tmp/bundle into this directory (a handful of rows per feed)
-```
+See `lima/README.md` for how a fixture is trimmed from the real export and the drift guard
+(`tests/test_site_bundle.py::test_frontend_sample_bundle_tracks_the_export_contract`).

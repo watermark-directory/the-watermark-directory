@@ -1,0 +1,38 @@
+---
+import { selectableSitePaths } from "../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
+import Base from "../../../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../../../lib/bundle";
+import type { ExhibitItem } from "../../../../lib/feeds";
+
+const exhibits = hasFeed("exhibits") ? loadFeed<ExhibitItem[]>("exhibits") : [];
+---
+
+<Base title="Exhibits" section="site">
+  <article class="prose">
+    <h1>Exhibits</h1>
+    <p class="section-lead">
+      Curated, citable slices of the source record — a whole document or a
+      page-range slice of a bundle (0-based, inclusive). Downloads point at the
+      immutable source under <code>data/documents/</code>.
+    </p>
+
+    {exhibits.length === 0 && <p class="stub-note">No exhibits have been published yet for this site.</p>}
+
+    <div class="cards">
+      {
+        exhibits.map((x) => (
+          <div class="card">
+            <span class="card-title">{x.title}</span>
+            {x.caption && <p>{x.caption}</p>}
+            <span class="card-meta">
+              <code>{x.source}</code>
+              {x.pages ? ` · pages ${x.pages}` : " · full document"}
+              {x.available ? "" : " · source not materialized"}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,105 @@
+---
+import { selectableSitePaths } from "../../../../lib/sites";
+export const getStaticPaths = selectableSitePaths;
+/**
+ * The economy section hub (design "Chrome", the 5-tab site bar). The economic ground the
+ * data-center deal sits on — doored to the content that already exists: the localized labor
+ * baseline (BLS QCEW), the end-use & workloads read, the cost-of-opacity narrative, and the
+ * economics prose companion. A hub like the watershed hub; doors point to real routes.
+ */
+import Base from "../../../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../../../lib/bundle";
+import type { EconomicBaseline } from "../../../../lib/feeds";
+import { withBase, siteUrl, storyUrl } from "../../../../lib/site";
+
+const eb = hasFeed("economics-baseline") ? loadFeed<EconomicBaseline>("economics-baseline") : null;
+const area = eb?.area_name ?? "the corridor";
+const jobs = eb?.latest.sectors?.reduce((sum, s) => sum + (s.annual_avg_employment.value ?? 0), 0) ?? null;
+const sectorCount = eb?.latest.sectors?.length ?? 0;
+const num = (n: number): string => n.toLocaleString("en-US");
+
+interface Door {
+  id: string;
+  kind: string;
+  href: string;
+  count: string;
+  title: string;
+  desc: string;
+  note: string;
+}
+const doors: Door[] = [
+  {
+    id: "baseline",
+    kind: "Baseline data",
+    href: siteUrl("/watershed/economics-baseline"),
+    count: sectorCount ? String(sectorCount) : "—",
+    title: "Localized labor baseline",
+    desc: `What ${area}'s economy actually is — employment by NAICS sector with each sector's location quotient, and population. BLS QCEW + US Census, every figure connector-sourced.`,
+    note: "BLS · Census",
+  },
+  {
+    id: "end-use",
+    kind: "Load & workloads",
+    href: siteUrl("/reports/end-use-and-workloads"),
+    count: "—",
+    title: "End-use & workloads",
+    desc: "Where the campus load actually goes — the end-use mix and the workload profile behind the megawatts, against the grid backdrop the site sits on.",
+    note: "interactive",
+  },
+  {
+    id: "cost",
+    kind: "Narrative",
+    href: storyUrl("/cost"),
+    count: "—",
+    title: "The cost of opacity",
+    desc: "The deal as the public can see it — incentives, abatement, and load-not-jobs — read against what stays sealed. A chapter of the story.",
+    note: "story",
+  },
+  {
+    id: "demand",
+    kind: "Reference",
+    href: siteUrl("/docs/economics"),
+    count: "—",
+    title: "Demand & public benefits",
+    desc: "The prose companion: how the demand pressure and the public-benefit case are built from the record — the method behind the figures.",
+    note: "method",
+  },
+];
+---
+
+<Base title="The economy" section="economy" rail={false}>
+  <div class="hub">
+    <div class="hub-head">
+      <div>
+        <div class="hub-eyebrow">Section · the economy</div>
+        <h1>The ground the deal sits on</h1>
+        <p class="hub-lead">
+          The local economic base the data-center build-out lands on — the labor baseline,
+          the grid and load backdrop, the end-use read, and the cost the public can and can't see.
+        </p>
+      </div>
+      <span class="hub-count">
+        {jobs ? `${area} · ${num(Math.round(jobs))} jobs` : area}
+      </span>
+    </div>
+    <div class="hub-grid">
+      {
+        doors.map((d) => (
+          <a class="hub-door" id={d.id} href={withBase(d.href)}>
+            <div class="hub-door-top">
+              <span class="hub-door-kind">{d.kind}</span>
+              <span class="hub-door-count">{d.count}</span>
+            </div>
+            <div class="hub-door-title">{d.title}</div>
+            <div class="hub-door-desc">{d.desc}</div>
+            <div class="hub-door-foot">
+              <span class="hub-door-browse">Browse</span>
+              <span class="hub-door-note">{d.note}</span>
+              <span class="hub-door-arrow" aria-hidden="true">›</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</Base>

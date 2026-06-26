@@ -1,37 +1,48 @@
 # The content bundle — the data tier contract
 
-This directory is the **versioned, schema-validated content bundle** the frontend reads
-(Project BOSC two-tier site refactor, [#53](../../../README.md) Tier 1). Python turns the
-committed corpus into typed JSON feeds here; the Astro frontend (Epic 2) and the DeckGL
-visualizations (Epic 3) consume them. The Astro `frontend/` is the sole presentation
-tier — this bundle is its build-time input.
+This directory is the **committed, site-agnostic contract** for the versioned,
+schema-validated content bundle the frontend reads (Project BOSC two-tier site refactor,
+[#53](../../../README.md) Tier 1). Python turns the committed corpus into typed JSON feeds;
+the Astro frontend (Epic 2) and the DeckGL visualizations (Epic 3) consume them. The Astro
+`frontend/` is the sole presentation tier — this bundle is its build-time input.
 
-**Regenerate the whole bundle:**
+The bundle is generated **per network site** (#724/#727): the feeds + manifest land under
+`data/site/bundles/<slug>/`, one directory per site, so the network's sites never clobber
+each other. The **contract** (this README, `schemas/`, `manifest.example.json`) is the same
+for every site and stays committed here under `data/site/bundle/`.
+
+**Regenerate a site's bundle:**
 
 ```sh
-bosc export                 # → data/site/bundle/
-bosc export --out /tmp/b    # → anywhere
+bosc export                          # → data/site/bundles/<active-site>/ (default: lima)
+bosc --site fort-wayne export        # → data/site/bundles/fort-wayne/
+bosc export --out /tmp/b             # → anywhere
 ```
 
 The generator is [`bosc.site.export.export_bundle`](../../../src/bosc/site/export.py); each
-feed comes from an `export_X()` next to the matching `render_X()` in `bosc.site.*`.
+feed comes from an `export_X()` next to the matching `render_X()` in `bosc.site.*`. The
+frontend resolves a site's bundle by slug (`bundleFor(slug)` in
+[`frontend/src/lib/bundle.ts`](../../../frontend/src/lib/bundle.ts)).
 
 ## Layout
 
 ```
-data/site/bundle/
-  README.md                     # this contract
-  manifest.example.json         # a committed example manifest (counts/structure)
+data/site/bundle/                 # ← the committed, site-agnostic CONTRACT (this dir)
+  README.md                       # this contract
+  manifest.example.json           # a committed example manifest (counts/structure)
   schemas/
-    manifest.schema.json        # the manifest shape (see bosc.site.feeds.Manifest)
-    citation.schema.json        # the shared provenance shape (see "Provenance" below)
-    <feed>.schema.json          # one JSON Schema per feed
-    geo.schema.json             # shared by every geo/* feed
-  feeds/                        # ← generated, git-ignored
-    <feed>.json                 # a JSON array (a "collection") or single object
-    <feed>.ndjson               # a collection above the NDJSON threshold (one row/line)
-    geo/<feed>.geojson          # a typed GeoJSON FeatureCollection
-  manifest.json                 # ← generated, git-ignored (timestamped)
+    manifest.schema.json          # the manifest shape (see bosc.site.feeds.Manifest)
+    citation.schema.json          # the shared provenance shape (see "Provenance" below)
+    <feed>.schema.json            # one JSON Schema per feed
+    geo.schema.json               # shared by every geo/* feed
+
+data/site/bundles/<slug>/         # ← generated per site, git-ignored
+  schemas/                        # a regenerated copy (self-contained bundle)
+  feeds/
+    <feed>.json                   # a JSON array (a "collection") or single object
+    <feed>.ndjson                 # a collection above the NDJSON threshold (one row/line)
+    geo/<feed>.geojson            # a typed GeoJSON FeatureCollection
+  manifest.json                   # timestamped
 ```
 
 ### Committed vs generated

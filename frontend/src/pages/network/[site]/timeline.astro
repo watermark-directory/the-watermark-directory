@@ -1,0 +1,52 @@
+---
+import Base from "../../../layouts/Base.astro";
+import Timeline from "../../../components/Timeline.astro";
+import type { TimelineItem } from "../../../lib/viz";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
+import { evidenceKind, type TimelineEntry } from "../../../lib/feeds";
+import { walkAnchorFor } from "../../../lib/walk";
+import { withStory } from "../../../lib/site";
+import { selectableSitePaths } from "../../../lib/sites";
+
+// One `network/[site]/…` route per selectable site (#724/#734); Lima alone today.
+export const getStaticPaths = selectableSitePaths;
+
+const entries = hasFeed("timeline") ? loadFeed<TimelineEntry[]>("timeline") : [];
+const isDated = (e: TimelineEntry): boolean => /^\d{4}/.test(e.date);
+const dated = entries.filter(isDated).sort((a, b) => a.date.localeCompare(b.date));
+const ordered = [...dated, ...entries.filter((e) => !isDated(e))];
+
+const items: TimelineItem[] = ordered.map((e) => {
+  const anchor = walkAnchorFor(e.source) ?? (e.also_sources ?? []).map(walkAnchorFor).find(Boolean);
+  return {
+    date: e.date || "",
+    kind: e.category.replace(/_/g, " "),
+    title: e.title,
+    summary: e.detail ?? undefined,
+    evidence: evidenceKind(e.citation),
+    seenInCh: anchor?.ch,
+    seenInHref: anchor ? withStory(`/${anchor.slug}`) : undefined,
+  };
+});
+---
+
+<Base
+  title="Timeline"
+  section="timeline"
+  description="Every dated event in the record, ordered — confidentiality first, the public reveal last."
+>
+  <article class="prose">
+    <h1>How the record was assembled — and withheld</h1>
+    <p class="section-lead">
+      {entries.length} events, cause → consequence — each traceable to the
+      extraction that supplied it, the evidence node colored by its citation.
+      Every beat carries its standing: verified events are sourced; open events
+      mark where the record is still being fought for. The <strong>order is the
+      argument</strong>: the confidentiality went on before the public ever heard
+      the name.
+    </p>
+  </article>
+  <div class="rb-list">
+    <Timeline events={items} />
+  </div>
+</Base>

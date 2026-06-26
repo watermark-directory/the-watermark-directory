@@ -1,0 +1,91 @@
+---
+kind: home
+h1: "A data center is coming to Lima"
+kicker: "The story · Project BOSC"
+pageTitle: "Project BOSC — the story"
+description: "The Project BOSC story: told through the records, with every figure checkable."
+---
+
+import { hasFeed, loadFeed, loadManifest } from "../../../../lib/bundle";
+import { withSite } from "../../../../lib/site";
+import { chapterHref, storyContentsHref, storyFor } from "../../../../lib/walk";
+
+export const story = storyFor("lima", "project-bosc");
+export const manifest = loadManifest();
+export const count = (name) => manifest.feeds.find((f) => f.name === name)?.count ?? 0;
+export const num = (n) => n.toLocaleString("en-US");
+export const docCollections = hasFeed("documents") ? loadFeed("documents") : [];
+export const nDocuments = docCollections.reduce((acc, c) => acc + c.entries.length, 0);
+
+<p class="walk-onramp-lead">
+  A ~340-acre hardened data-center campus is being built in American Township,
+  just outside Lima, Ohio — by a Delaware shell, <strong>“Bistrozzi LLC,”</strong>
+  for an end user the developers worked to keep quiet. This story shows what the
+  public record reveals, and teaches you how to read it yourself.
+</p>
+
+<div class="walk-promise">
+  <p class="walk-promise-title">Every figure here is checkable.</p>
+  <p>
+    Each number is read from a cited source and carries a confidence tag, so you
+    never have to take our word for it:
+  </p>
+  <div class="td-chips walk-promise-tags">
+    <EvidenceTag kind="verified"><span class="walk-tag-gloss"> read from a cited record</span></EvidenceTag>
+    <EvidenceTag kind="inference"><span class="walk-tag-gloss"> a labelled reading of the record</span></EvidenceTag>
+    <EvidenceTag kind="open"><span class="walk-tag-gloss"> withheld or unresolved</span></EvidenceTag>
+  </div>
+</div>
+
+<div class="callout" id="why">
+  <p class="callout-title">The whole story turns on small numbers</p>
+  <p>
+    The Ottawa — the river this project discharges into, on a basin its cooling
+    draws down — has a design low flow of about <strong>0.2 cubic feet per
+    second</strong>, and runs dry in the driest summers. Against that, a campus
+    whose backup power and cooling are built for a city. Holding the
+    document-by-document record against numbers like this is how the analysis
+    moves from anecdote to evidence.
+  </p>
+</div>
+
+<p class="walk-corpus">
+  The story draws on <a href={`${withSite("/site/")}#documents`}><strong>{num(nDocuments)}</strong> primary
+  documents</a>, <strong>{num(count("records"))}</strong> structured records,
+  <strong>{num(count("entities"))}</strong> resolved entities, and
+  <strong>{num(count("timeline"))}</strong> dated events — the same feeds the
+  reference library reads.
+</p>
+
+<h2>The story — six chapters</h2>
+
+<StoryChapters story={story} />
+
+<div class="walk-cta">
+  <a class="btn" href={chapterHref(story, story.chapters[0].slug)}>Begin the story →</a>
+  <a class="walk-cta-secondary" href={storyContentsHref(story)}>or see the table of contents</a>
+  <a class="walk-cta-secondary" href={withSite("/site/")}>or browse the archive</a>
+</div>
+
+<article class="prose walk-orientation">
+  <h2 id="methodology">How the record is read</h2>
+  <p>
+    Each record is read from the <em>image</em>, not the OCR text layer (whose digits are
+    unreliable), validated against a typed schema, and cited back to a source page —
+    confidence surfaced inline as evidence tags. Read the full write-up:
+    <a href={withSite("/docs/methodology")}>Methodology</a> ·
+    the <a href={withSite("/docs/course")}>research course</a> ·
+    or <a href="/about">about the method</a>.
+  </p>
+</article>
+
+<div class="home-disclaimer">
+  <span class="footer-pill"><span class="dot" aria-hidden="true"></span>provenance-first</span>
+  <p>
+    <strong>Pre-launch.</strong> Assembled from public records the developer didn't write.
+    Registered-agent and organizer overlaps are <em>common-control plumbing</em>, not a
+    verdict on ownership; inference is labeled <code>[inference]</code> and never dressed
+    as fact. Nothing here is legal advice or a verdict — verify every figure against its
+    cited source.
+  </p>
+</div>

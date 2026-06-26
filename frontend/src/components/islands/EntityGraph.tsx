@@ -13,7 +13,7 @@ import DeckGL from "@deck.gl/react";
 import { OrthographicView, type Layer, type PickingInfo } from "@deck.gl/core";
 import { LineLayer, ScatterplotLayer, TextLayer } from "@deck.gl/layers";
 import { relationClassLabel, relationClassRgb } from "../../lib/relationClasses";
-import { withBase } from "../../lib/site";
+import { withBase } from "../../lib/base";
 
 interface GNode {
   key: string;

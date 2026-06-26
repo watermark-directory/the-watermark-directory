@@ -59,9 +59,12 @@ data/documents/**/*.wav
 runs/
 *.log
 
-# Generated content bundle (`bosc export` → data/site/bundle/). The contract is
-# committed — README.md, schemas/, manifest.example.json — but the feed data and the
-# timestamped manifest are regenerable (and the documents feed is LFS-state-dependent),
-# so they stay out of git. Regenerate any time with `bosc export`.
+# Generated content bundles (`bosc export` → data/site/bundles/<slug>/, per network site).
+# The contract is committed under data/site/bundle/ — README.md, schemas/,
+# manifest.example.json — but the per-site feed data and the timestamped manifest are
+# regenerable (and the documents feed is LFS-state-dependent), so they stay out of git.
+# Regenerate any time with `bosc --site <slug> export`.
+/data/site/bundles/
+# Legacy single-site output path (pre-#727); ignored so a stale local bundle never lands.
 /data/site/bundle/feeds/
 /data/site/bundle/manifest.json

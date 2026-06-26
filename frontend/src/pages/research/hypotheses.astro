@@ -13,11 +13,7 @@
 import Base from "../../layouts/Base.astro";
 import { hasFeed, loadFeed, loadManifest } from "../../lib/bundle";
 import { buildLens, indexAssessments, LENS_ORDER, lensConfig, lensCount } from "../../lib/directory";
-import type {
-  DocumentCollectionItem,
-  HypothesisAssessmentItem,
-  HypothesisItem,
-} from "../../lib/feeds";
+import type { DocumentCollectionItem, HypothesisAssessmentItem, HypothesisItem } from "../../lib/feeds";
 import { withBase } from "../../lib/site";
 
 const manifest = loadManifest();

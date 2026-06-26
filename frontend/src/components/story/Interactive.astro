@@ -1,0 +1,23 @@
+---
+/**
+ * Story · Interactive — a provided story-component (#724/#731). The full-bleed section wrapper
+ * the chapters use around an interactive island or a data table (`.walk-interactive`), with an
+ * optional heading. Breaks out of the `<Prose>` measure so a screen/table can use the width.
+ *
+ *   <Interactive heading="The river is already effluent">
+ *     <DilutionScreen client:only="react" data={dilution} />
+ *   </Interactive>
+ */
+interface Props {
+  /** Section heading (`.walk-explore-h`); omit for an unheaded section. */
+  heading?: string;
+  /** Accessible label for the section when there's no visible heading. */
+  label?: string;
+}
+const { heading, label } = Astro.props;
+---
+
+<section class="walk-interactive" aria-label={label}>
+  {heading && <h2 class="walk-explore-h">{heading}</h2>}
+  <slot />
+</section>

@@ -772,13 +772,15 @@ def people() -> None:
 @app.command("export")
 def export(
     out: str | None = typer.Option(
-        None, "--out", help="Output directory for the bundle (default: data/site/bundle)."
+        None, "--out", help="Output directory (default: data/site/bundles/<active-site>)."
     ),
 ) -> None:
-    """Export the corpus as the typed JSON content bundle under data/site/bundle/ (regenerable).
+    """Export the corpus as the typed JSON content bundle (regenerable).
 
     Writes versioned, schema-validated JSON feeds (records, timeline, entities, geo, …) +
-    a manifest read by the frontend at build time.
+    a manifest read by the frontend at build time. The bundle is per network site — it lands
+    under data/site/bundles/<slug>/ for the active site (pick one with `bosc --site <slug>
+    export`; default is the BOSC_SITE site).
     """
     from bosc.site import export_bundle
 

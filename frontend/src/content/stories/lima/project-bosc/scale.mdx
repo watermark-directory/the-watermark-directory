@@ -1,0 +1,49 @@
+---
+step: 3
+slug: scale
+title: "How big is it — and what won't they tell you?"
+skill: "Reading an air permit · recognizing a CBI redaction"
+anchor: "Ohio EPA Air Permit-to-Install P0138965"
+anchorRecordRels:
+  - permits/4132514.epa.yaml
+live: true
+pageTitle: "How big is it — Chapter 3"
+description: "The air permit is the one record that fixes the data center's scale — and it locks the number that matters most behind a trade-secret redaction."
+---
+
+import { AIR_TEARDOWN } from "../../../../lib/teardowns";
+
+<Prose>
+Most of this project is described in documents the developer wrote, and
+most of those are vague about scale. The air permit is different: to set
+federally enforceable pollution limits, Ohio EPA had to count the plant's
+equipment, unit by unit. Read it for the *shape* it's forced to
+disclose — and notice where it stops.
+</Prose>
+
+<RecordTeardown record={AIR_TEARDOWN} layout="annotated" />
+
+<Prose>
+The structure is unambiguous: three matched groups of generators and
+cooling towers — three data halls. The pollution caps are printed in black
+and white. But the single number that would convert “114 generators” into
+megawatts — the per-engine nameplate power — is withheld as a trade secret,
+so the widely-quoted **~313 MW** traces only to the draft
+public notice, not the issued permit. Knowing which is which is the skill.
+</Prose>
+
+<Callout title="What you can read anywhere now" variant="takeaway">
+A **synthetic-minor** permit caps emissions just under the
+threshold that would trigger major-source review — so the caps tell you the
+operator's own ceiling. Repeated equipment groups reveal layout the plans
+won't. And a **CBI / trade-secret redaction** is not a dead end:
+it marks exactly which fact someone paid to keep out of the record.
+</Callout>
+
+<ChapterDoors
+  doors={[
+    { label: "The permit record", blurb: "The full extraction — emission units, caps, and the redaction note.", path: "/site/records/" },
+    { label: "Timeline", blurb: "The draft, the comment period, and the final issuance, in sequence.", path: "/timeline" },
+    { label: "The bigger picture", blurb: "How the disclosed plant implies the compute — and the cooling load.", path: "/docs/bigger-picture" },
+  ]}
+/>

@@ -9,7 +9,9 @@ import { withBase } from "../../lib/site";
 // SSR fallback / data view: the entity list the island visualizes.
 const entities = hasFeed("entities") ? loadFeed<EntityNode[]>("entities") : [];
 const roleTotal = (e: EntityNode): number => Object.values(e.roles ?? {}).reduce((a, b) => a + b, 0);
-const sorted = [...entities].sort((a, b) => roleTotal(b) - roleTotal(a) || a.display.localeCompare(b.display));
+const sorted = [...entities].sort(
+  (a, b) => roleTotal(b) - roleTotal(a) || a.display.localeCompare(b.display),
+);
 
 // The relation-class grouping the legacy graph carried — entities by how they
 // relate to Project BOSC, in the controlled-vocabulary order.

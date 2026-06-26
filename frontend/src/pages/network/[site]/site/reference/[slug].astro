@@ -1,0 +1,27 @@
+---
+import { withSitePaths } from "../../../../../lib/sites";
+import { getCollection, render } from "astro:content";
+import Base from "../../../../../layouts/Base.astro";
+import { refBySlug } from "../../../../../lib/reference";
+import { withSite } from "../../../../../lib/site";
+
+export async function getStaticPaths() {
+  // Only the curated reference set (lib/reference.ts) is published.
+  const entries = await getCollection("reference", (e) => refBySlug.has(e.id));
+  return withSitePaths(entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } })));
+}
+
+const { entry } = Astro.props;
+const dataset = refBySlug.get(entry.id)!;
+const { Content } = await render(entry);
+---
+
+<Base title={dataset.title} section="site" description={dataset.blurb}>
+  <article class="prose">
+    <p>
+      <a href={withSite("/site/")}>← The record</a> ·
+      <a href={withSite("/site/reference/")}>All reference data</a>
+    </p>
+    <Content />
+  </article>
+</Base>
