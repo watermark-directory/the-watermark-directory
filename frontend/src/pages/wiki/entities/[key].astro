@@ -33,19 +33,35 @@ const roleTotal = Object.values(entity.roles ?? {}).reduce((a, b) => a + b, 0);
 const topRole = Object.entries(entity.roles ?? {}).sort((a, b) => b[1] - a[1])[0];
 
 const stats: FigureStatData[] = [];
-if (entity.parcels.length) stats.push({ label: "Parcels", value: String(entity.parcels.length), evidence: "verified" });
-if (roleTotal) stats.push({ label: "Record roles", value: String(roleTotal), evidence: "verified", sub: topRole ? `${topRole[0].replace(/_/g, " ")}` : undefined });
-if (entity.addresses.length) stats.push({ label: "Addresses", value: String(entity.addresses.length), evidence: "verified" });
+if (entity.parcels.length)
+  stats.push({ label: "Parcels", value: String(entity.parcels.length), evidence: "verified" });
+if (roleTotal)
+  stats.push({
+    label: "Record roles",
+    value: String(roleTotal),
+    evidence: "verified",
+    sub: topRole ? `${topRole[0].replace(/_/g, " ")}` : undefined,
+  });
+if (entity.addresses.length)
+  stats.push({ label: "Addresses", value: String(entity.addresses.length), evidence: "verified" });
 if (entity.federal_obligations != null)
-  stats.push({ label: "Federal obligations", value: `$${entity.federal_obligations.toLocaleString("en-US")}`, evidence: "verified" });
+  stats.push({
+    label: "Federal obligations",
+    value: `$${entity.federal_obligations.toLocaleString("en-US")}`,
+    evidence: "verified",
+  });
 
 const attrs: ProfileAttr[] = [];
-if (entity.classification) attrs.push({ label: "Classification", value: entity.classification, tag: "verified" });
-if (entity.signals?.length) attrs.push({ label: "Signals", value: entity.signals.join(", "), tag: "inference" });
+if (entity.classification)
+  attrs.push({ label: "Classification", value: entity.classification, tag: "verified" });
+if (entity.signals?.length)
+  attrs.push({ label: "Signals", value: entity.signals.join(", "), tag: "inference" });
 if (entity.lei) attrs.push({ label: "LEI", value: entity.lei, tag: "verified" });
 if (entity.uei) attrs.push({ label: "UEI", value: entity.uei, tag: "verified" });
 
-const rels: ProfileRel[] = outgoing.slice(0, 5).map((r) => ({ kind: r.rel, label: label(r.dst), href: entityHref(r.dst) }));
+const rels: ProfileRel[] = outgoing
+  .slice(0, 5)
+  .map((r) => ({ kind: r.rel, label: label(r.dst), href: entityHref(r.dst) }));
 
 const header: ProfileHeaderData = {
   kindLabel: `Entity · ${entity.kind}`,

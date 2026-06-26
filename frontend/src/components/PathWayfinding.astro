@@ -20,7 +20,7 @@ interface Props {
   leaveHref?: string;
 }
 const { step, story: storyProp, leaveHref } = Astro.props;
-// biome-ignore lint/style/noNonNullAssertion: the Lima default story is always registered.
+// The Lima default story is always registered.
 const story = storyProp ?? storyFor(LIMA_SLUG, DEFAULT_STORY_CODENAME)!;
 const chapters = story.chapters;
 const total = chapters.length;

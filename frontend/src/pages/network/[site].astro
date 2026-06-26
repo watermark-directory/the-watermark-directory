@@ -43,16 +43,36 @@ const stages = [
     desc: `Routes and the forest chrome wired up for the ${site.place} record.`,
     state: building ? "in progress" : "queued",
   },
-  { title: "Data tier", desc: `${site.basin} sources ingested, structured, and provenance-linked.`, state: "queued" },
+  {
+    title: "Data tier",
+    desc: `${site.basin} sources ingested, structured, and provenance-linked.`,
+    state: "queued",
+  },
   { title: "Frontend", desc: "Record screens, profiles, timeline, and the story.", state: "queued" },
 ];
 const startedCount = stages.filter((s) => s.state === "in progress").length;
 
 const doors = [
-  { kind: "Records", title: "The source record", desc: "Documents, structured records, and the external reference datasets behind them." },
-  { kind: "Chronology", title: "The timeline", desc: `Events along the ${site.basin}, each tied back to its source.` },
-  { kind: "People & places", title: "Profiles", desc: "The entities, agencies, and sites that recur across the record." },
-  { kind: "Narrative", title: "The story", desc: "A reading path through the record for first-time visitors." },
+  {
+    kind: "Records",
+    title: "The source record",
+    desc: "Documents, structured records, and the external reference datasets behind them.",
+  },
+  {
+    kind: "Chronology",
+    title: "The timeline",
+    desc: `Events along the ${site.basin}, each tied back to its source.`,
+  },
+  {
+    kind: "People & places",
+    title: "Profiles",
+    desc: "The entities, agencies, and sites that recur across the record.",
+  },
+  {
+    kind: "Narrative",
+    title: "The story",
+    desc: "A reading path through the record for first-time visitors.",
+  },
 ];
 ---
 

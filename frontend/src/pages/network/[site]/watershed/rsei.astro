@@ -8,9 +8,7 @@ import type { RseiInventory } from "../../../../lib/feeds";
 const rsei = hasFeed("rsei") ? loadFeed<RseiInventory>("rsei") : null;
 const facilities = rsei?.facilities ?? [];
 // Rank by EPA's modeled Risk-Screening Score (comparative only, unitless).
-const ranked = [...facilities]
-  .sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0))
-  .slice(0, 25);
+const ranked = [...facilities].sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0)).slice(0, 25);
 const num = (v: unknown): string => (v == null ? "—" : Number(v).toLocaleString("en-US"));
 ---
 

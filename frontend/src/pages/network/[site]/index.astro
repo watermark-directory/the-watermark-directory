@@ -10,7 +10,7 @@
 import Base from "../../../layouts/Base.astro";
 import FigureStat from "../../../components/FigureStat.astro";
 import { hasFeed, loadFeed, loadManifest } from "../../../lib/bundle";
-import { type DocumentCollectionItem } from "../../../lib/feeds";
+import type { DocumentCollectionItem } from "../../../lib/feeds";
 import { LEADS } from "../../../lib/leads";
 import { NARRATIVE } from "../../../lib/narrative";
 import { FACILITY_STATUS_META, facilityStatus, selectableSitePaths } from "../../../lib/sites";
@@ -36,7 +36,12 @@ const fac = FACILITY_STATUS_META[facilityStatus("lima")];
 
 // Corpus at a glance — five real, derivable counts (the design's at-a-glance strip).
 const stats: FigureStatData[] = [
-  { label: "Source files", value: num(nDocuments), evidence: "verified", sub: `${docCollections.length} collections` },
+  {
+    label: "Source files",
+    value: num(nDocuments),
+    evidence: "verified",
+    sub: `${docCollections.length} collections`,
+  },
   { label: "Records", value: num(count("records")), evidence: "verified", sub: "deeds · permits · filings" },
   { label: "Timeline events", value: num(count("timeline")), evidence: "verified", sub: "dated" },
   {

@@ -25,13 +25,18 @@ interface Props {
 const { place } = Astro.props;
 
 const stats: FigureStatData[] = [];
-if (place.parcels.length) stats.push({ label: "Parcels", value: String(place.parcels.length), evidence: "verified" });
-if (place.members.length) stats.push({ label: "Members", value: String(place.members.length), evidence: "verified" });
+if (place.parcels.length)
+  stats.push({ label: "Parcels", value: String(place.parcels.length), evidence: "verified" });
+if (place.members.length)
+  stats.push({ label: "Members", value: String(place.members.length), evidence: "verified" });
 
 const attrs: ProfileAttr[] = [];
 if (place.depth) attrs.push({ label: "Research depth", value: place.depth });
 if (place.location?.method)
-  attrs.push({ label: "Location", value: `${place.location.method}${place.location.confidence ? ` · ${place.location.confidence}` : ""}` });
+  attrs.push({
+    label: "Location",
+    value: `${place.location.method}${place.location.confidence ? ` · ${place.location.confidence}` : ""}`,
+  });
 if (place.location?.bbox && place.location.bbox.length === 4)
   attrs.push({ label: "Bounding box", value: place.location.bbox.map((n) => n.toFixed(4)).join(", ") });
 
@@ -47,7 +52,9 @@ const header: ProfileHeaderData = {
   relLabel: "Relationships",
   relationships: rels.length ? rels : undefined,
   correctHref: withBase(
-    siteUrl(`/submit?ref_kind=place&ref_id=${encodeURIComponent(place.slug)}&ref_label=${encodeURIComponent(place.name)}`),
+    siteUrl(
+      `/submit?ref_kind=place&ref_id=${encodeURIComponent(place.slug)}&ref_label=${encodeURIComponent(place.name)}`,
+    ),
   ),
 };
 

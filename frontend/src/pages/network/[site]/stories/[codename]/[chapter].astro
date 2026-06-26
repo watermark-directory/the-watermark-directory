@@ -17,7 +17,14 @@ import { STORY_COMPONENTS } from "../../../../../components/story";
 import Base from "../../../../../layouts/Base.astro";
 import { siteBase } from "../../../../../lib/routes";
 import { SITES } from "../../../../../lib/sites";
-import { type Story, chapterHref, storyChapterByStep, storyContentsHref, storyFor, storyHomeHref } from "../../../../../lib/walk";
+import {
+  type Story,
+  chapterHref,
+  storyChapterByStep,
+  storyContentsHref,
+  storyFor,
+  storyHomeHref,
+} from "../../../../../lib/walk";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -39,7 +46,7 @@ export async function getStaticPaths() {
 }
 
 const { slug, codename, chapter } = Astro.props as { slug: string; codename: string; chapter: string };
-// biome-ignore lint/style/noNonNullAssertion: getStaticPaths only emits registered, present entries.
+// getStaticPaths only emits registered, present entries.
 const story = storyFor(slug, codename) as Story;
 const entry = await getEntry("stories", `${slug}/${codename}/${chapter}`);
 if (!entry || !("step" in entry.data)) {

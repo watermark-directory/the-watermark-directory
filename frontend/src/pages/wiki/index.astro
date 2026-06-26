@@ -18,18 +18,62 @@ interface Door {
   note: string;
 }
 const doors: Door[] = [
-  { id: "entities", kind: "Directory", href: "/wiki/entities/", count: num(count("entities")), title: "Entities", desc: "Resolved parties — variants, parcels, identifiers, graph neighborhood, and sources.", note: "who appears" },
-  { id: "graph", kind: "Visualization", href: "/wiki/graph", count: num(count("relationships")), title: "Entity graph", desc: "The interactive force-directed graph of entities and the relationships between them.", note: "interactive" },
-  { id: "concepts", kind: "Glossary", href: "/wiki/concepts/", count: num(count("concepts")), title: "Concepts", desc: "Glossary entries cross-linked via [[wiki links]] — the method, defined.", note: "the glossary" },
-  { id: "people", kind: "Profiles", href: siteUrl("/site/people/"), count: num(count("people")), title: "People", desc: "Curated individual profiles, kept under the BOSC site.", note: "profiles" },
+  {
+    id: "entities",
+    kind: "Directory",
+    href: "/wiki/entities/",
+    count: num(count("entities")),
+    title: "Entities",
+    desc: "Resolved parties — variants, parcels, identifiers, graph neighborhood, and sources.",
+    note: "who appears",
+  },
+  {
+    id: "graph",
+    kind: "Visualization",
+    href: "/wiki/graph",
+    count: num(count("relationships")),
+    title: "Entity graph",
+    desc: "The interactive force-directed graph of entities and the relationships between them.",
+    note: "interactive",
+  },
+  {
+    id: "concepts",
+    kind: "Glossary",
+    href: "/wiki/concepts/",
+    count: num(count("concepts")),
+    title: "Concepts",
+    desc: "Glossary entries cross-linked via [[wiki links]] — the method, defined.",
+    note: "the glossary",
+  },
+  {
+    id: "people",
+    kind: "Profiles",
+    href: siteUrl("/site/people/"),
+    count: num(count("people")),
+    title: "People",
+    desc: "Curated individual profiles, kept under the BOSC site.",
+    note: "profiles",
+  },
 ];
 const curated: string[] = [];
 if (hasFeed("candidates")) curated.push("candidates");
 if (hasFeed("defense-contractors")) curated.push("defense-contractors");
 if (hasFeed("lei")) curated.push("LEIs");
 if (curated.length) {
-  const href = hasFeed("candidates") ? "/wiki/candidates" : hasFeed("lei") ? "/wiki/lei" : "/wiki/defense-contractors";
-  doors.push({ id: "curated", kind: "Curated lists", href, count: String(curated.length), title: "Curated inventories", desc: "Hand-curated lists alongside the corpus graph — leads to verify, not classifications.", note: curated.join(" · ") });
+  const href = hasFeed("candidates")
+    ? "/wiki/candidates"
+    : hasFeed("lei")
+      ? "/wiki/lei"
+      : "/wiki/defense-contractors";
+  doors.push({
+    id: "curated",
+    kind: "Curated lists",
+    href,
+    count: String(curated.length),
+    title: "Curated inventories",
+    desc: "Hand-curated lists alongside the corpus graph — leads to verify, not classifications.",
+    note: curated.join(" · "),
+  });
 }
 ---
 

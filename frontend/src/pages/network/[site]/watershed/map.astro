@@ -15,7 +15,10 @@ const features = fc.features as GeoFeature[];
 const present = layersPresent(features);
 
 const stripHtml = (s: string | undefined): string =>
-  (s ?? "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  (s ?? "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
 const legend = present.map((layer) => {
   const inLayer = features.filter((f) => f.properties.layer === layer);

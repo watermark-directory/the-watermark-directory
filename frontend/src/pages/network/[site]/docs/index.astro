@@ -7,10 +7,12 @@ import { getSection, sections, type SectionId } from "../../../../lib/nav";
 import { withSite } from "../../../../lib/site";
 
 // Group the migrated narrative by the section each piece belongs to.
-const groups = sections().map((s) => ({
-  section: s,
-  docs: NARRATIVE.filter((d) => d.section === (s.id as SectionId)),
-})).filter((g) => g.docs.length > 0);
+const groups = sections()
+  .map((s) => ({
+    section: s,
+    docs: NARRATIVE.filter((d) => d.section === (s.id as SectionId)),
+  }))
+  .filter((g) => g.docs.length > 0);
 ---
 
 <Base title="Docs" section="reports" rail={false} description="The project's narrative prose — methodology, dossier, hydrology, economics, and legal analysis.">

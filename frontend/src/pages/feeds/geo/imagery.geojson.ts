@@ -7,9 +7,7 @@ import { loadGeo } from "../../../lib/geo";
 // feed's `meta` (the dated Esri Wayback ladder the ImagerySlider island reads) and
 // the per-AOI footprint. Falls back to an empty collection if the bundle lacks it.
 export const GET: APIRoute = () => {
-  const fc = hasFeed("geo/imagery")
-    ? loadGeo("geo/imagery")
-    : { type: "FeatureCollection", features: [] };
+  const fc = hasFeed("geo/imagery") ? loadGeo("geo/imagery") : { type: "FeatureCollection", features: [] };
   return new Response(JSON.stringify(fc), {
     headers: { "content-type": "application/geo+json; charset=utf-8" },
   });

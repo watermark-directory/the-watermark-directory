@@ -23,7 +23,10 @@ export async function getStaticPaths() {
         new URL(`../../../${siteId}/stories/${ref.codename}/contents.astro`, import.meta.url),
       );
       if (existsSync(literal)) continue; // a literal contents page still serves this URL
-      paths.push({ params: { site: siteId, codename: ref.codename }, props: { slug: site.slug, codename: ref.codename } });
+      paths.push({
+        params: { site: siteId, codename: ref.codename },
+        props: { slug: site.slug, codename: ref.codename },
+      });
     }
   }
   return paths;

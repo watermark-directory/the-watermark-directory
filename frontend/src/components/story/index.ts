@@ -24,7 +24,18 @@ import Interactive from "./Interactive.astro";
 import Prose from "./Prose.astro";
 import StoryChapters from "./StoryChapters.astro";
 
-export { Callout, ChapterDoors, Prose, Interactive, StoryChapters, EvidenceTag, FigureStat, RecordTeardown, WalkTimeline, WithholdingStack };
+export {
+  Callout,
+  ChapterDoors,
+  Prose,
+  Interactive,
+  StoryChapters,
+  EvidenceTag,
+  FigureStat,
+  RecordTeardown,
+  WalkTimeline,
+  WithholdingStack,
+};
 export type { ChapterDoor } from "./ChapterDoors.astro";
 
 /**

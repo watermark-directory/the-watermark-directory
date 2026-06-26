@@ -14,7 +14,13 @@ const lq = (v?: ProvenancedValue | null): number | null => (v?.value == null ? n
 // A location quotient is the county's employment share over the national share:
 // ≥ 1.25 means the county does much more of that work than the nation (it exports).
 const orientation = (q: number | null): string =>
-  q == null ? "—" : q >= 1.25 ? `${q.toFixed(2)} · exports` : q >= 1.0 ? `${q.toFixed(2)}` : `${q.toFixed(2)} · imports`;
+  q == null
+    ? "—"
+    : q >= 1.25
+      ? `${q.toFixed(2)} · exports`
+      : q >= 1.0
+        ? `${q.toFixed(2)}`
+        : `${q.toFixed(2)} · imports`;
 
 const sectors = [...(eb?.latest.sectors ?? [])].sort(
   (a, b) => (b.annual_avg_employment.value ?? 0) - (a.annual_avg_employment.value ?? 0),

@@ -39,7 +39,9 @@ const header: ProfileHeaderData = {
     ? [{ kind: "entity", label: person.name, href: entityHref(person.entity_key) }]
     : undefined,
   correctHref: withBase(
-    siteUrl(`/submit?ref_kind=person&ref_id=${encodeURIComponent(person.slug)}&ref_label=${encodeURIComponent(person.name)}`),
+    siteUrl(
+      `/submit?ref_kind=person&ref_id=${encodeURIComponent(person.slug)}&ref_label=${encodeURIComponent(person.name)}`,
+    ),
   ),
 };
 

@@ -13,14 +13,35 @@ import Base from "../../../../layouts/Base.astro";
 import { withSite } from "../../../../lib/site";
 
 const groups: { title: string; names: string[]; note?: string }[] = [
-  { title: "Navigation & chrome", names: ["search", "menu", "home", "chevron", "arrow", "external", "close", "email", "notify", "locked", "secure"] },
-  { title: "Records & sources", names: ["document", "scan", "corpus", "archive", "citation", "link", "pages", "repo"] },
+  {
+    title: "Navigation & chrome",
+    names: [
+      "search",
+      "menu",
+      "home",
+      "chevron",
+      "arrow",
+      "external",
+      "close",
+      "email",
+      "notify",
+      "locked",
+      "secure",
+    ],
+  },
+  {
+    title: "Records & sources",
+    names: ["document", "scan", "corpus", "archive", "citation", "link", "pages", "repo"],
+  },
   {
     title: "Evidence & provenance",
     names: ["verified", "inference", "open", "redaction", "scope-gap", "excerpt"],
     note: "These carry the semantic palette wherever they appear — never recolored to ink.",
   },
-  { title: "Entities & places", names: ["entity", "person", "place", "watershed", "timeline", "concept", "map"] },
+  {
+    title: "Entities & places",
+    names: ["entity", "person", "place", "watershed", "timeline", "concept", "map"],
+  },
   { title: "Actions", names: ["download", "attach", "send", "correction", "filter", "copy", "submit"] },
   { title: "Data & figures", names: ["chart", "trend", "measure", "key-figure"] },
   { title: "Footprint & measures", names: ["cost", "power", "discharge"] },
