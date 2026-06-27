@@ -21,10 +21,15 @@ import {
   leadStats,
 } from "../../../lib/leads";
 import { withSite } from "../../../lib/site";
-import { selectableSitePaths } from "../../../lib/sites";
+import { activeSite, selectableSitePaths, siteForSlug, siteState } from "../../../lib/sites";
 
 // One `network/[site]/…` route per selectable site (#724/#734); Lima alone today.
 export const getStaticPaths = selectableSitePaths;
+
+// The active site (route prop) drives the dateline + title — not a hardcoded "Lima" (#741).
+const { slug } = Astro.props as { slug: string };
+const site = siteForSlug(slug) ?? activeSite();
+const dateline = `${site.place}, ${siteState(slug)}`;
 
 const stats = leadStats();
 const submitHref = withSite("/submit");
@@ -33,17 +38,17 @@ const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issue
 ---
 
 <Base
-  title="Open leads — Lima"
+  title={`Open leads — ${site.place}`}
   section="leads"
   rail={false}
-  description="Every gap we're chasing on the Lima site, in the open — each lead unverified until a source corroborates it."
+  description={`Every gap we're chasing on the ${site.place} site, in the open — each lead unverified until a source corroborates it.`}
 >
   <div class="leads">
     <header class="leads-head">
       <a class="leads-back" href={withSite()}>← Back to the site</a>
       <div class="leads-head-row">
         <div class="leads-head-main">
-          <div class="leads-kicker">Open investigation · Lima, Ohio</div>
+          <div class="leads-kicker">Open investigation · {dateline}</div>
           <h1>Open leads</h1>
           <p class="leads-lead">
             Every gap we're chasing on this site, in the open. Each lead is <strong>unverified inference</strong>

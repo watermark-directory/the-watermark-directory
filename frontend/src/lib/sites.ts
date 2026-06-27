@@ -663,6 +663,21 @@ const PLACEMENT: Record<string, { state: string; basin: string }> = {
   athens: { state: "Ohio", basin: "Hocking" },
   logan: { state: "Ohio", basin: "Hocking" },
 };
+
+/** The registry entry for a slug (the canonical {@link NetworkSite}), or `undefined`. */
+export function siteForSlug(slug: string): NetworkSite | undefined {
+  return SITES.find((s) => s.slug === slug);
+}
+
+/**
+ * The legal jurisdiction (US state) a site's records live under — e.g. `"Ohio"`, `"Indiana"`.
+ * The source for per-site datelines/kickers, so the site pages read it instead of hardcoding
+ * "Lima, Ohio" (#741). Empty string for an unplaced slug.
+ */
+export function siteState(slug: string): string {
+  return PLACEMENT[slug]?.state ?? "";
+}
+
 const STATE_ABBR: Record<string, string> = { Ohio: "OH", Indiana: "IN" };
 const BASIN_ABBR: Record<string, string> = {
   Maumee: "MAU",
