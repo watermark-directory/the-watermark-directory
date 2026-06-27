@@ -114,6 +114,36 @@ $45.81/MWh**, #362 (commit a site footprint to unblock SSURGO HSG + GIS discover
 lift (Allen Co IN / City of Fort Wayne partial-CAMA parcel layers, no clean zoning catalog) is
 tracked under GIS discovery above.
 
+## Bring the site live — content + story (#741)
+
+The **plumbing is done**: the content bundle is per-site (#762, via #763/#764/#765 — `bosc --site
+fort-wayne export` carries no Lima data), the site-page chrome reads the active site (#766), and the
+curation stores + the Project Zodiac story are scaffolded (#767). What remains is **sourced
+authoring** written into the scaffolded slots, then promotion. Each item cites a committed source —
+**never fabricate** a person, place, exhibit, or claim (chain of custody). This is the runbook in
+[`docs/onboarding.md`](../../../docs/onboarding.md) → "Bringing a site's story live", tracked here.
+
+- [ ] **Write the Project Zodiac story prose + flip each chapter `live: true`.** Fill the four
+  scaffold files under [`frontend/src/content/stories/fort-wayne/project-zodiac/`](../../../frontend/src/content/stories/fort-wayne/project-zodiac/)
+  — `_home.mdx` (on-ramp) + `who.mdx` / `power.mdx` / `water.mdx`, each already anchored to its
+  committed record (the parcel footprint, the IDEM Title V air permit [`idem/fort-wayne/47378f.idem.yaml`](../idem/fort-wayne/47378f.idem.yaml),
+  the §401 WQC [`idem/fort-wayne/wqc001454.idem.yaml`](../idem/fort-wayne/wqc001454.idem.yaml)).
+  Re-add the record-teardown islands / bundle-count imports as in `stories/lima/project-bosc/`; set
+  each chapter `live: true` as it's finished. Figures carry their source + confidence.
+- [ ] **Curate the real FW people / places / exhibits.** Add profiles under
+  [`data/people/fort-wayne/`](../../people/fort-wayne/) (the Hatchworks principals, permit contacts,
+  IURC/abatement parties) and [`data/poi/fort-wayne/`](../../poi/fort-wayne/) (the 11-parcel campus
+  composite, the WWTP IN0032191), and exhibits to [`data/site/fort-wayne/exhibits.yaml`](../../site/fort-wayne/exhibits.yaml)
+  (candidate IDEM sources noted there). The `people`/`places`/`exhibits` feeds stay empty until these land.
+- [ ] **Register the story** on the Fort Wayne entry in
+  [`frontend/src/lib/sites.ts`](../../../frontend/src/lib/sites.ts) (`stories: [{ codename:
+  "project-zodiac", title, dek }]`) so the switcher/nav surface it.
+- [ ] **Meet the parity gate (#746/#742) → flip `selectable: true`** (and `status: "live"`) for
+  `fort-wayne` in `frontend/src/lib/sites.ts` — the one manual, parity-gated edit (also the last
+  Review-gate box) that makes every `network/[site]/…` route, including the story, render for Fort
+  Wayne. The page chrome (#766) already reads "Fort Wayne, Indiana"; the Lima-specific *prose* on the
+  hero/report pages still needs its FW equivalent before this flip.
+
 ## Review gate (blocking)
 
 - [ ] Every written reference value is reviewed against a cited source (no fabricated values).
