@@ -4,13 +4,13 @@
 
 The **mechanical** half of the corpus-completeness audit: every dataset registered in the data catalog (`data/catalog/`) checked for existence and freshness against the committed reconcile snapshot (`data/catalog/_observed.yaml`). The **substantive** half — records an authority has *withheld* — stays human-authored in [`data/extracted/legal/corpus-completeness-audit.md`](../extracted/legal/corpus-completeness-audit.md).
 
-Snapshot reconciled: **2026-06-27T06:02:12.750059+00:00**. Regenerate with `bosc catalog audit --apply` after `bosc catalog reconcile`.
+Snapshot reconciled: **2026-06-27T21:19:52.867162+00:00**. Regenerate with `bosc catalog audit --apply` after `bosc catalog reconcile`.
 
 ## Headline
 
 - **72** catalogued datasets — **71** reviewed.
-- **71** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
-- **0** missing (declared files absent) · **1** unobserved (no snapshot record).
+- **72** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
+- **0** missing (declared files absent) · **0** unobserved (no snapshot record).
 
 ## Coverage by collection
 
@@ -20,7 +20,7 @@ Snapshot reconciled: **2026-06-27T06:02:12.750059+00:00**. Regenerate with `bosc
 | extracted | american-township | 1 | 1 | 0 | 0 |
 | extracted | commissioners | 3 | 3 | 0 | 0 |
 | extracted | extracted | 2 | 2 | 0 | 0 |
-| extracted | history | 1 | 0 | 0 | 1 |
+| extracted | history | 1 | 1 | 0 | 0 |
 | extracted | idem | 1 | 1 | 0 | 0 |
 | extracted | lacrpc | 2 | 2 | 0 | 0 |
 | extracted | legal | 15 | 15 | 0 | 0 |
@@ -82,6 +82,4 @@ Snapshot reconciled: **2026-06-27T06:02:12.750059+00:00**. Regenerate with `bosc
 
 ## Integrity gaps
 
-| dataset | scope | state |
-| --- | --- | --- |
-| `history-allen-oh-leeson-1885-corpus-intersect` | extracted | unobserved |
+None — every catalogued dataset is present and within its refresh cadence.
