@@ -27,7 +27,7 @@ from pydantic import BaseModel
 
 from bosc import profiles
 from bosc.config import Settings, get_settings
-from bosc.documents import DEFAULT_DPI, PdfDocument, read_odg
+from bosc.documents import DEFAULT_DPI, PdfDocument, read_image_png, read_odg
 from bosc.logging import get_logger
 from bosc.models import (
     BusinessFiling,
@@ -437,6 +437,11 @@ def _read_doc(
     rendered and sent to the vision model — recorded separately so a text-primary read
     (e.g. 6 text pages, 1 image) doesn't over-report the pages the model *saw* (#613).
     """
+    if doc.is_image:
+        # A raster source (#703): no text layer, no pages — the single image is read
+        # straight into the vision model with no OCR hint. `text_pages`/`image_pages`/
+        # `dpi`/`pdf` don't apply (it's already a rendered scan).
+        return "", [read_image_png(doc.path)], [0], [0]
     owns_pdf = pdf is None
     pdf = pdf or PdfDocument(doc.path, dpi=dpi)
     try:
@@ -520,7 +525,8 @@ def _extract_doc(
             "kind": kind,
             "pages_read": pages,
             "image_pages_read": image_pages_read,
-            "dpi": dpi,
+            # A raster source isn't rendered at a DPI — it's already an image (#703).
+            "dpi": 0 if doc.is_image else dpi,
             "source_text_excerpt": text[:600],
             spec.field: record,
         }

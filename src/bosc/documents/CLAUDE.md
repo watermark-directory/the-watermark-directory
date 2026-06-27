@@ -11,4 +11,9 @@ Read-only source-document access. Defers to the root [`CLAUDE.md`](../../../CLAU
   **text leads, the preview thumbnail hints** (the scan hybrid is the opposite).
   Reads are deliberately CRC-tolerant — engineering exports can exceed 70 MB and
   ship a bad CRC on `content.xml`; salvage what decompresses rather than failing.
+- `image.py` — raster scans (`.png/.jpg/.tif`) with **no text layer** (#703):
+  decode + re-encode to PNG (the extractor pins `image/png`) and hand the single
+  image straight to the vision model, no OCR hint. The document *kind* dispatch is
+  unchanged — an image source flows through the same `extract_<kind>` as a PDF; it's
+  an alternate *source format*, not a new kind (`_read_doc` branches on `is_image`).
 - New backends should stay permissively licensed (this is a proprietary project).

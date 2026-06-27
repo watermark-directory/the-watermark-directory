@@ -1,8 +1,16 @@
-"""Source-document access (PDF text + image rendering)."""
+"""Source-document access (PDF text + image rendering, ODG labels, raster sources)."""
 
 from __future__ import annotations
 
+from bosc.documents.image import IMAGE_SUFFIXES, read_image_png
 from bosc.documents.odg import OdgContent, read_odg
 from bosc.documents.pdf import DEFAULT_DPI, PdfDocument
 
-__all__ = ["DEFAULT_DPI", "OdgContent", "PdfDocument", "read_odg"]
+__all__ = [
+    "DEFAULT_DPI",
+    "IMAGE_SUFFIXES",
+    "OdgContent",
+    "PdfDocument",
+    "read_image_png",
+    "read_odg",
+]
