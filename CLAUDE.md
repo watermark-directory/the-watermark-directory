@@ -65,6 +65,11 @@ repo-working agents now.
   (`mise run //frontend:check`, `//frontend:dev`, `//frontend:test`, …), and
   `mise run ci` runs the whole-repo gate (both `check`s). A bare task name runs the
   project you're standing in. The frontend is its own Node toolchain; it doesn't touch uv.
+- **Markdown lint:** `markdown` is a **separate required CI check** (alongside `check`).
+  Any PR that adds or edits `.md` files triggers it. Run `npx markdownlint-cli2` locally
+  before pushing — common failures: missing blank line before a list (`MD032`), multiple
+  consecutive blank lines (`MD012`). Config and ignores live in `.markdownlint-cli2.yaml`
+  (generated docs like `docs/HYDROLOGY.md` and `data/research/*/**` are excluded).
 - **CI / path filtering:** `.github/workflows/ci.yml` is split into two halves
   gated by a `changes` job — the Python `check` job (ruff/format/mypy/pytest) runs
   only when the backend tree changed (`src/`, `tests/`, `data/`, `pyproject.toml`,
@@ -109,6 +114,10 @@ repo-working agents now.
 
 - `data/documents/**` is raw, immutable, and **versioned via Git LFS** for large
   binaries (see `.gitattributes`). Add new scan/PDF types to LFS tracking.
+  The `history/` sub-tree is for secondary/reference sources (public-domain books,
+  surveys) and nests **by site** (`history/allen-oh/`, `history/allen-in/`, …) so
+  books for different watershed points don't collide. All claims from `history/`
+  sources are tagged `[reference]`, never `[verified]`.
 - `data/extracted/**` is the committed, reviewed artifact and what tests run on.
 - `data/reference/**` is committed **authoritative data from outside sources**
   (EPA ECHO, USGS/NOAA, parcels). Each folder carries a `README.md` naming its
