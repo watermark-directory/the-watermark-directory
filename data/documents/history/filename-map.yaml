@@ -1,0 +1,33 @@
+# Chain-of-custody alias manifest — history/ collection
+#
+# Keeps the as-received filename (IA download name) and records the canonical
+# title + a content-verified date (from the title page / text layer, NOT the
+# filename or outside knowledge). Policy: non-destructive alias layer; originals
+# are never renamed.
+
+meta:
+  subject: History collection — filename normalization and provenance
+  collection: data/documents/history/
+  policy: non-destructive alias layer; originals kept in place
+
+aliases:
+  - file: historyallencou00leesgoog_text.pdf
+    canonical_title: "History of Allen County, Ohio. Containing a history of the county, its townships, towns, villages, schools, churches, industries, etc; portraits of early settlers and prominent men; biographies; history of the Northwest Territory; history of Ohio; statistical and miscellaneous matter"
+    author: "M. A. Leeson"
+    content_verified_date: "1885"
+    date_evidence: title_page_text_layer
+    provenance_url: "https://archive.org/details/historyallencou00leesgoog"
+    provenance_source: Internet Archive (Google-digitized)
+    rights: public_domain
+    shape:
+      pages: 827
+      size_mb: ~62
+      format: PDF
+      text_layer: embedded_ia_ocr
+    site_scope: lima
+    notes: >
+      Filed from a local copy at ~/Downloads/historyallencou00leesgoog_text.pdf.
+      The IA identifier (historyallencou00leesgoog) is the authoritative provenance
+      anchor. Content-verified date 1885 is from the title-page text layer, not the
+      filename. Most pages are genealogy; the corridor-relevant slices (drainage /
+      canal / township / early industry) are tracked in data/extracted/history/.
