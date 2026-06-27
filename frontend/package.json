@@ -45,6 +45,7 @@
     "@types/react-dom": "^18.3.7",
     "typescript": "^5.7.0",
     "unist-util-visit": "^5.1.0",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.9",
+    "yaml": "2.9.0"
   }
 }

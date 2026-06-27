@@ -4,11 +4,14 @@
  * the frontmatter is the chapter spine, the body is the prose (rendered in #732).
  *
  * `buildStory` is a pure function (no `astro:content`), so it's unit-testable and the spine
- * derivation is verified against the canonical Lima story. `loadStories` is the build-time
- * wrapper that reads the collection (lazy `astro:content` import keeps this module importable
- * outside the Astro runtime, e.g. in vitest). The collection becomes the live source of
- * `STORIES` when Lima's prose is migrated and the source flips (#733).
+ * derivation is verified against the canonical Lima story. `loadStories` is the **async**
+ * build-time wrapper (lazy `astro:content`) used where a render path already awaits; `buildAllStories`
+ * is the **sync** source the `walk.STORIES` const is built from (#733) — it reads the same chapter
+ * frontmatter via `import.meta.glob('?raw')`, which is plugin-free (so it works in the Astro build
+ * AND in vitest, which has no MDX transform). The MDX *bodies* are still rendered by `astro:content`;
+ * this reads only the frontmatter spine.
  */
+import { parse as parseYaml } from "yaml";
 import { SITES } from "./sites";
 import type { Chapter, Story, WalkAnchor } from "./walk";
 
@@ -88,6 +91,67 @@ export async function loadStories(): Promise<Story[]> {
     group.spines.push(entry.data as StoryChapterSpine);
   }
 
+  return [...groups.values()].map((g) =>
+    buildStory(g.site, g.codename, storyMetaFor(g.site, g.codename), g.spines),
+  );
+}
+
+// ── The sync source of `walk.STORIES` (#733) ─────────────────────────────────
+// Read every chapter's frontmatter at build, plugin-free: `?raw` gives the file text (no MDX
+// transform needed, so this resolves the same in vitest as in the Astro build), and we parse the
+// YAML frontmatter ourselves. Build-only — `walk.ts` has no client consumers (like `bundle.ts`).
+const STORY_RAW = import.meta.glob("../content/stories/**/*.mdx", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+}) as Record<string, string>;
+
+/** The YAML frontmatter block of an MDX file, parsed to an object (empty if none). */
+function frontmatterOf(raw: string): Record<string, unknown> {
+  const m = raw.match(/^---\n([\s\S]*?)\n---/);
+  return m ? ((parseYaml(m[1]) as Record<string, unknown>) ?? {}) : {};
+}
+
+/** Recover `[site, codename, slug]` from a `…/stories/<site>/<codename>/<slug>.mdx` path. */
+function pathParts(path: string): [string, string] | null {
+  const parts = path.split("/");
+  const i = parts.lastIndexOf("stories");
+  const site = parts[i + 1];
+  const codename = parts[i + 2];
+  return i >= 0 && site && codename ? [site, codename] : null;
+}
+
+/**
+ * Every registered `Story`, built synchronously from the `stories` collection frontmatter — the
+ * source of `walk.STORIES` (#733). `_home.mdx` and any non-chapter entry (no numeric `step`) are
+ * skipped; chapters group by `<site>/<codename>` and `buildStory` assembles each, with title/dek
+ * from the site registry (`storyMetaFor`).
+ */
+export function buildAllStories(): Story[] {
+  const groups = new Map<string, { site: string; codename: string; spines: StoryChapterSpine[] }>();
+  for (const [path, raw] of Object.entries(STORY_RAW)) {
+    const fm = frontmatterOf(raw);
+    if (typeof fm.step !== "number") continue; // skip _home + any non-chapter entry
+    const ids = pathParts(path);
+    if (!ids) continue;
+    const [site, codename] = ids;
+    const key = `${site}/${codename}`;
+    let group = groups.get(key);
+    if (!group) {
+      group = { site, codename, spines: [] };
+      groups.set(key, group);
+    }
+    group.spines.push({
+      step: fm.step,
+      slug: String(fm.slug),
+      title: String(fm.title),
+      skill: String(fm.skill),
+      anchor: String(fm.anchor),
+      anchorRecordRels: Array.isArray(fm.anchorRecordRels) ? (fm.anchorRecordRels as string[]) : [],
+      live: fm.live !== false, // STORY_CHAPTER_SCHEMA defaults live=true
+      eyebrow: fm.eyebrow != null ? String(fm.eyebrow) : undefined,
+    });
+  }
   return [...groups.values()].map((g) =>
     buildStory(g.site, g.codename, storyMetaFor(g.site, g.codename), g.spines),
   );

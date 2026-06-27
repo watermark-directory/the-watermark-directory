@@ -97,6 +97,13 @@ export const SITES: readonly NetworkSite[] = [
     selectable: false,
     issue: "235",
     href: "/network/fort-wayne",
+    stories: [
+      {
+        codename: "project-zodiac",
+        title: "Project Zodiac",
+        dek: "Project Zodiac — a $2B Google data center in Fort Wayne, read from the records.",
+      },
+    ],
   },
   {
     slug: "defiance",

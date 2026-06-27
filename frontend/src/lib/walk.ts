@@ -20,6 +20,7 @@
 
 import { DEFAULT_STORY_CODENAME, LIMA_SLUG } from "./routes";
 import { storyHref } from "./site";
+import { buildAllStories } from "./stories";
 
 export interface Chapter {
   /** 1-based position among the teaching chapters. */
@@ -65,85 +66,14 @@ export interface Story {
   anchors: Record<string, WalkAnchor>;
 }
 
-/** Lima's `project-bosc` — the original guided walk, the network's first story. */
-const PROJECT_BOSC: Story = {
-  site: LIMA_SLUG,
-  codename: DEFAULT_STORY_CODENAME,
-  title: "Project BOSC",
-  dek: "Project BOSC — read the record one document at a time, no prior knowledge.",
-  chapters: [
-    {
-      step: 1,
-      slug: "who",
-      title: "Who is actually building this?",
-      skill: "Reading a deed · cross-document entity resolution",
-      anchor: "The deed chain + the Bistrozzi Delaware shell cluster",
-      live: true,
-    },
-    {
-      step: 2,
-      slug: "assembly",
-      title: "How it was assembled & hidden",
-      skill: "Reading an options-to-assignment chain · the confidentiality-first sequence",
-      anchor: "The Port Authority options → Bistrozzi assignment + the blank DTE-100 prices",
-      live: true,
-    },
-    {
-      step: 3,
-      slug: "scale",
-      title: "How big is it — and what won't they tell you?",
-      skill: "Reading an air permit · recognizing a CBI redaction",
-      anchor: "Ohio EPA Air Permit-to-Install P0138965",
-      live: true,
-    },
-    {
-      step: 4,
-      slug: "water",
-      title: "What it does to the water",
-      skill: "Reading an NPDES permit · the 7Q10 low-flow screen",
-      anchor: "NPDES dilution + the cooling-draw screen",
-      live: true,
-    },
-    {
-      step: 5,
-      slug: "cost",
-      title: "What it costs the public",
-      skill: "Reading a cost estimate · reading a contract clause",
-      anchor: "Tetra Tech OPC + the Roadwork Development Agreement",
-      live: true,
-    },
-    {
-      step: 6,
-      slug: "opacity",
-      title: "Why you had to dig for this",
-      skill: "Reading statutory exemptions",
-      anchor: "The withholding stack + the mandamus thread",
-      live: true,
-    },
-  ],
-  anchors: {
-    "recorder/202508130008300.deed.yaml": { ch: "01", slug: "who", label: "Who is actually building this?" },
-    "permits/sos-tilted-gate-llc-2025-09-29.sos.yaml": {
-      ch: "01",
-      slug: "who",
-      label: "Who is actually building this?",
-    },
-    "permits/4132514.epa.yaml": {
-      ch: "03",
-      slug: "scale",
-      label: "How big is it — and what won't they tell you?",
-    },
-    "oepa/oepa-2PH00006-american-ii-fact-sheet.npdes.yaml": {
-      ch: "04",
-      slug: "water",
-      label: "What it does to the water",
-    },
-    "aedg/roundabouts.summary.opc.yaml": { ch: "05", slug: "cost", label: "What it costs the public" },
-  },
-};
-
-/** Every registered story across the network. The MDX collection (#730) will feed this later. */
-export const STORIES: readonly Story[] = [PROJECT_BOSC];
+/**
+ * Every registered story across the network — built from the `stories` MDX collection (#733):
+ * each chapter's frontmatter is its spine, grouped by `<site>/<codename>` and assembled by
+ * `buildStory` (title/dek come from the site registry). The collection is now the single source
+ * of truth; the hand-maintained Lima spine that used to live here is gone. Adding a chapter (or a
+ * whole site's story) is an MDX edit, not a code edit.
+ */
+export const STORIES: readonly Story[] = buildAllStories();
 
 /** The story for a (site, codename) pair, or `undefined` if none is registered. */
 export function storyFor(site: string, codename: string): Story | undefined {
@@ -176,27 +106,38 @@ export function storyAnchorFor(story: Story, rel: string): WalkAnchor | undefine
 }
 
 // ── Lima-pinned conveniences ────────────────────────────────────────────────
-// The original `WALK_*` / `walk*` API, now derived from the Lima `project-bosc` story so
-// every existing caller (the story pages, nav, the record block) is unchanged. Multi-site
-// callers resolve a `Story` via `storyFor` and use the per-story helpers above.
+// The original `WALK_*` / `walk*` API, now derived from the Lima `project-bosc` story (resolved
+// from the collection) so every existing caller (the story pages, nav, the record block) is
+// unchanged. Multi-site callers resolve a `Story` via `storyFor` and use the per-story helpers.
 
-export const WALK_CHAPTERS: Chapter[] = PROJECT_BOSC.chapters;
+const LIMA_STORY: Story = (() => {
+  const story = storyFor(LIMA_SLUG, DEFAULT_STORY_CODENAME);
+  if (!story) {
+    throw new Error(
+      `The Lima "${DEFAULT_STORY_CODENAME}" story is missing from the stories collection — ` +
+        "the WALK_* conveniences derive from it.",
+    );
+  }
+  return story;
+})();
+
+export const WALK_CHAPTERS: Chapter[] = LIMA_STORY.chapters;
 export const WALK_TOTAL = WALK_CHAPTERS.length;
-export const WALK_ANCHORS: Record<string, WalkAnchor> = PROJECT_BOSC.anchors;
+export const WALK_ANCHORS: Record<string, WalkAnchor> = LIMA_STORY.anchors;
 
 /** The story home (the on-ramp / "where the walk begins"). */
-export const WALK_START_HREF = storyHomeHref(PROJECT_BOSC);
+export const WALK_START_HREF = storyHomeHref(LIMA_STORY);
 /** The table of contents — all chapters in order. */
-export const WALK_INDEX_HREF = storyContentsHref(PROJECT_BOSC);
+export const WALK_INDEX_HREF = storyContentsHref(LIMA_STORY);
 
 export function walkHref(slug: string): string {
-  return chapterHref(PROJECT_BOSC, slug);
+  return chapterHref(LIMA_STORY, slug);
 }
 
 export function chapterByStep(step: number): Chapter | undefined {
-  return storyChapterByStep(PROJECT_BOSC, step);
+  return storyChapterByStep(LIMA_STORY, step);
 }
 
 export function walkAnchorFor(rel: string): WalkAnchor | undefined {
-  return storyAnchorFor(PROJECT_BOSC, rel);
+  return storyAnchorFor(LIMA_STORY, rel);
 }
