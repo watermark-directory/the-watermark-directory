@@ -26,6 +26,7 @@ from bosc.civic.keywords import CORRIDOR_SUBJECTS
 from bosc.civic.models import Subdivision
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
+from bosc.pipeline.corpus import relpath_in_scope
 
 log = get_logger(__name__)
 
@@ -145,6 +146,8 @@ def summarize_corridor_meetings(
 
 def load_committed_summaries(
     settings: Settings | None = None,
+    *,
+    scope: tuple[str, ...] | None = None,
 ) -> list[tuple[str, dict[str, Any]]]:
     """Read every committed ``<slug>/meetings/meeting-summaries.yaml``.
 
@@ -153,10 +156,17 @@ def load_committed_summaries(
     (``date``/``kind``/``filename``/``hits`` + the :class:`MeetingSummary` fields).
     Shared by the timeline (event-detail enrichment) and the site meetings page so
     neither re-parses the artifact independently.
+
+    ``scope`` is the active site's corpus prefixes (#762): when set, only summaries under an
+    in-scope ``<body>/meetings/`` path are read, so a non-Lima site's meetings feed carries its
+    own bodies (none yet for the basin's newer sites). ``None`` reads every body (Lima).
     """
     settings = settings or get_settings()
+    extracted = settings.extracted_dir
     out: list[tuple[str, dict[str, Any]]] = []
-    for path in sorted(settings.extracted_dir.glob("*/meetings/meeting-summaries.yaml")):
+    for path in sorted(extracted.glob("*/meetings/meeting-summaries.yaml")):
+        if not relpath_in_scope(str(path.relative_to(extracted)), scope):
+            continue
         try:
             data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         except yaml.YAMLError:

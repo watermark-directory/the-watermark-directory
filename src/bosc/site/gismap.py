@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING, Any
 
 from bosc.config import Settings, get_settings
 from bosc.site.feeds import GeoFeature, GeoFeatureCollection, GeoProperties
-from bosc.sites import active_profile
+from bosc.sites import active_profile, site_scoped_path
 
 if TYPE_CHECKING:
     from bosc.hydrology.toxics import ToxicDischargeInventory
@@ -336,7 +336,11 @@ def export_watershed_geo(settings: Settings | None = None) -> GeoFeatureCollecti
     finest so the finer subwatershed draws on top. ``None`` when no boundaries exist.
     """
     settings = settings or get_settings()
-    wbd_dir = settings.reference_dir / "hydrology" / "wbd"
+    # Per-site (#762): Lima reads the flat `reference/hydrology/wbd/`; a sibling site reads its own
+    # `reference/<slug>/hydrology/wbd/` (absent today => no watershed feed, not Lima's Ottawa HUCs).
+    wbd_dir = (
+        site_scoped_path(settings.reference_dir, settings.site, is_dir=True) / "hydrology" / "wbd"
+    )
     if not wbd_dir.is_dir():
         return None
     ranked: list[tuple[int, GeoFeature]] = []

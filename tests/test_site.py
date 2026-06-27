@@ -73,6 +73,67 @@ def test_corpus_feeds_are_site_scoped_not_lima_bound() -> None:
     ), [r.rel for r in fw_records]
 
 
+def test_site_scoped_path_is_flat_for_lima_subdir_for_others() -> None:
+    """#762: a curated store is flat for Lima (the reference build) and under a `<slug>/` subdir
+    for every other site — a directory gets the slug appended; a file gets it before the name."""
+    from bosc.sites import site_scoped_path
+
+    d = Path("/data/poi")
+    assert site_scoped_path(d, "lima", is_dir=True) == d
+    assert site_scoped_path(d, "fort-wayne", is_dir=True) == d / "fort-wayne"
+    f = Path("/data/site/exhibits.yaml")
+    assert site_scoped_path(f, "lima", is_dir=False) == f
+    assert site_scoped_path(f, "fort-wayne", is_dir=False) == Path(
+        "/data/site/fort-wayne/exhibits.yaml"
+    )
+
+
+def test_curated_stores_are_per_site_not_lima_bound() -> None:
+    """#762: the curated stores (people, POIs) and the meetings feed read the active site's own
+    copy. Fort Wayne has none committed, so each is empty — never Lima's. Lima reads its flat store.
+    (POI scoping also fixes the imagery feed, which derives its tracking sites from watched POIs.)"""
+    from bosc.civic.summarize import load_committed_summaries
+    from bosc.config import Settings
+    from bosc.people import load_people
+    from bosc.poi.store import load_pois
+    from bosc.sites import active_profile, site_scoped_path
+
+    fw = Settings(site="fort-wayne", data_dir=REPO_ROOT / "data")
+    lima = Settings(site="lima", data_dir=REPO_ROOT / "data")
+    fw_scope = active_profile(fw).corpus_relpaths
+
+    # POIs (places + imagery tracking): FW reads data/poi/fort-wayne/ (absent) → empty.
+    assert load_pois(settings=fw) == []
+    assert load_pois(settings=lima)  # Lima has its flat POI store
+
+    # People: same slug-subdir convention.
+    assert load_people(site_scoped_path(fw.people_dir, "fort-wayne", is_dir=True)) == []
+    assert load_people(site_scoped_path(lima.people_dir, "lima", is_dir=True))
+
+    # Meetings: extracted-tree scope → FW has no in-scope bodies; Lima reads all.
+    assert load_committed_summaries(fw, scope=fw_scope) == []
+    assert load_committed_summaries(lima, scope=None)
+
+
+def test_export_documents_honors_site_scope(tmp_path: Path) -> None:
+    """#762: a non-Lima site's document catalog carries only its own in-scope source docs; a
+    collection left with no in-scope entry is dropped. Lima (scope=None) keeps the whole tree."""
+    from bosc.site.documents import export_documents
+
+    docs = tmp_path / "documents"
+    (docs / "recorder").mkdir(parents=True)  # a Lima collection
+    (docs / "recorder" / "deed.pdf").write_bytes(b"%PDF-1.4 lima")
+    (docs / "idem" / "fort-wayne").mkdir(parents=True)  # the FW jurisdiction+site subtree
+    (docs / "idem" / "fort-wayne" / "permit.pdf").write_bytes(b"%PDF-1.4 fw")
+
+    scoped = export_documents(docs, scope=("fort-wayne", "idem/fort-wayne"))
+    rels = [e.rel for c in scoped for e in c.entries]
+    assert rels == ["idem/fort-wayne/permit.pdf"]  # the Lima recorder collection is dropped
+
+    everything = [e.rel for c in export_documents(docs, scope=None) for e in c.entries]
+    assert set(everything) == {"recorder/deed.pdf", "idem/fort-wayne/permit.pdf"}
+
+
 def test_gis_findings_geojson_is_valid() -> None:
     import json
 

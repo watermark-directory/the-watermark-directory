@@ -28,6 +28,7 @@ from urllib.parse import quote
 import yaml
 
 from bosc.logging import get_logger
+from bosc.pipeline.corpus import relpath_in_scope
 from bosc.site import exhibits as exhibits_mod
 from bosc.site.feeds import DocumentCollectionItem, DocumentItem, RenderClass
 
@@ -311,38 +312,47 @@ def export_documents(
     exhibits: list[exhibits_mod.Exhibit] | None = None,
     mirror_base_url: str = "",
     allowlist: PublishAllowlist | None = None,
+    scope: tuple[str, ...] | None = None,
 ) -> list[DocumentCollectionItem]:
     """Export the source-document catalog as :class:`DocumentCollectionItem` items.
 
     Reuses :func:`build_documents` (the same enumeration the renderer uses) without
     writing any markdown — each file keeps its as-received corpus path (chain of custody).
     ``allowlist`` (#280) sets each item's ``published`` flag; ``None`` is default-deny.
+
+    ``scope`` is the active site's corpus prefixes (#762): when set, only documents whose rel
+    is in scope are exported (so a non-Lima site's catalog carries its own source docs, e.g.
+    ``idem/<slug>/…``), and a collection left with no in-scope entries is dropped. ``None``
+    exports the whole tree (Lima, the reference build).
     """
     result = build_documents(
         documents_dir, exhibits=exhibits, mirror_base_url=mirror_base_url, allowlist=allowlist
     )
-    return [
-        DocumentCollectionItem(
-            slug=c.slug,
-            title=c.title,
-            description=c.description,
-            entries=[
-                DocumentItem(
-                    rel=e.rel,
-                    name=e.name,
-                    size_bytes=e.size_bytes,
-                    suffix=e.suffix,
-                    media_type=e.media_type,
-                    render_class=e.render_class,
-                    published=e.published,
-                    available=e.available,
-                    download_url=e.download_url,
-                )
-                for e in c.entries
-            ],
+    items: list[DocumentCollectionItem] = []
+    for c in result.collections:
+        entries = [
+            DocumentItem(
+                rel=e.rel,
+                name=e.name,
+                size_bytes=e.size_bytes,
+                suffix=e.suffix,
+                media_type=e.media_type,
+                render_class=e.render_class,
+                published=e.published,
+                available=e.available,
+                download_url=e.download_url,
+            )
+            for e in c.entries
+            if relpath_in_scope(e.rel, scope)
+        ]
+        if not entries:
+            continue
+        items.append(
+            DocumentCollectionItem(
+                slug=c.slug, title=c.title, description=c.description, entries=entries
+            )
         )
-        for c in result.collections
-    ]
+    return items
 
 
 @dataclass(frozen=True)
