@@ -8,9 +8,9 @@ Snapshot reconciled: **2026-06-27T06:02:12.750059+00:00**. Regenerate with `bosc
 
 ## Headline
 
-- **71** catalogued datasets — **71** reviewed.
+- **72** catalogued datasets — **71** reviewed.
 - **71** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
-- **0** missing (declared files absent) · **0** unobserved (no snapshot record).
+- **0** missing (declared files absent) · **1** unobserved (no snapshot record).
 
 ## Coverage by collection
 
@@ -20,6 +20,7 @@ Snapshot reconciled: **2026-06-27T06:02:12.750059+00:00**. Regenerate with `bosc
 | extracted | american-township | 1 | 1 | 0 | 0 |
 | extracted | commissioners | 3 | 3 | 0 | 0 |
 | extracted | extracted | 2 | 2 | 0 | 0 |
+| extracted | history | 1 | 0 | 0 | 1 |
 | extracted | idem | 1 | 1 | 0 | 0 |
 | extracted | lacrpc | 2 | 2 | 0 | 0 |
 | extracted | legal | 15 | 15 | 0 | 0 |
@@ -59,26 +60,28 @@ Snapshot reconciled: **2026-06-27T06:02:12.750059+00:00**. Regenerate with `bosc
 
 | site | relevant | present | missing |
 | --- | --- | --- | --- |
-| bryan | 34 | 29 | 5 |
-| columbus | 34 | 30 | 4 |
-| defiance | 34 | 29 | 5 |
-| findlay | 34 | 29 | 5 |
-| fort-wayne | 34 | 32 | 2 |
-| greenville | 34 | 29 | 5 |
-| hamilton-middletown | 34 | 29 | 5 |
-| lima | 71 | 67 | 4 |
-| new-albany | 34 | 30 | 4 |
-| ottawa | 34 | 29 | 5 |
-| sidney | 34 | 29 | 5 |
-| springfield | 34 | 30 | 4 |
-| toledo | 34 | 29 | 5 |
-| troy-piqua | 34 | 29 | 5 |
-| urbana | 34 | 29 | 5 |
-| van-wert | 34 | 29 | 5 |
-| wilmington | 34 | 29 | 5 |
-| wpafb | 34 | 29 | 5 |
-| xenia | 34 | 29 | 5 |
+| bryan | 35 | 30 | 5 |
+| columbus | 35 | 31 | 4 |
+| defiance | 35 | 30 | 5 |
+| findlay | 35 | 30 | 5 |
+| fort-wayne | 35 | 33 | 2 |
+| greenville | 35 | 30 | 5 |
+| hamilton-middletown | 35 | 30 | 5 |
+| lima | 72 | 68 | 4 |
+| new-albany | 35 | 31 | 4 |
+| ottawa | 35 | 30 | 5 |
+| sidney | 35 | 30 | 5 |
+| springfield | 35 | 31 | 4 |
+| toledo | 35 | 30 | 5 |
+| troy-piqua | 35 | 30 | 5 |
+| urbana | 35 | 30 | 5 |
+| van-wert | 35 | 30 | 5 |
+| wilmington | 35 | 30 | 5 |
+| wpafb | 35 | 30 | 5 |
+| xenia | 35 | 30 | 5 |
 
 ## Integrity gaps
 
-None — every catalogued dataset is present and within its refresh cadence.
+| dataset | scope | state |
+| --- | --- | --- |
+| `history-allen-oh-leeson-1885-corpus-intersect` | extracted | unobserved |

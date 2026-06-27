@@ -1,0 +1,19 @@
+id: history-allen-oh-leeson-1885-corpus-intersect
+title: History Allen Oh Leeson 1885 Corpus Intersect
+scope: extracted
+status: needs-review
+producer:
+  kind: extracted
+  source: data/documents/history/allen-oh/historyallencou00leesgoog_text.pdf
+access_tier: public
+site_scope: basin-shared
+storage:
+- relpath: extracted/history/allen-oh/leeson-1885-corpus-intersect.summary.md
+  media_type: text/markdown
+  lfs: false
+- relpath: extracted/history/allen-oh/leeson-1885-corpus-intersect.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document
