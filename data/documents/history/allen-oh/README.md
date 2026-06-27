@@ -1,6 +1,6 @@
-# History / Geography — physical geography and place-history sources
+# History / Allen County, OH — place-history sources
 
-**Sub-collection:** `history/geography/` · immutable source evidence · public domain
+**Sub-collection:** `history/allen-oh/` · immutable source evidence · public domain
 
 County and regional histories covering physical geography, watershed / drainage /
 canal history, and land-use surveys relevant to the Lima site and American Sugar
@@ -24,4 +24,4 @@ Most of the 827-page volume is genealogy. The corridor-relevant slices:
 - **Early industry** (pp. 378–442): mills, tanneries, early waterworks on Hog Creek / Ottawa
 
 A full corpus-intersection index (topics / names / POI → page numbers) is at
-[`data/extracted/history/geography/leeson-1885-corpus-intersect.yaml`](../../../../extracted/history/geography/leeson-1885-corpus-intersect.yaml).
+[`data/extracted/history/allen-oh/leeson-1885-corpus-intersect.yaml`](../../../../extracted/history/allen-oh/leeson-1885-corpus-intersect.yaml).

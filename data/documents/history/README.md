@@ -12,7 +12,7 @@ present-day finding.
 
 | Sub-collection | Description |
 |---|---|
-| [`geography/`](geography/README.md) | Physical geography, drainage / waterway history, canal and land-use surveys |
+| [`allen-oh/`](allen-oh/README.md) | Allen County, Ohio — place-history, drainage / waterway history, canal and land-use surveys |
 
 ## Conventions
 
