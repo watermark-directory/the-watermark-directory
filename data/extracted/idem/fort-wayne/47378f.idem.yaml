@@ -53,6 +53,10 @@ power_basis:
   genset_count: 34  # [verified] the Gen 1..34 data-hall backup fleet (excludes DEGH1/DEP1)
   genset_mw_each: 3.0  # [inference] 26.4 MMBTU/hr HHV heat input / engine; at a large-diesel full-load
                        # electrical efficiency of ~38-43% (HHV) -> ~2.9-3.3 MWe, central ~3.0 MWe.
+                       # The engine nameplate (ekW) is DERIVED because it was claimed CONFIDENTIAL:
+                       # IDEM confidentiality claim 003-47378C-00530 (received 2023-12-27, contact Robin
+                       # Fried; data/documents/idem/fort-wayne/caats-confidentiality.pdf) — an opacity
+                       # finding, the engine rating is withheld as CBI, so the permit gives only heat input.
   genset_mw_low: 2.9   # [inference] 38% HHV efficiency
   genset_mw_high: 3.3  # [inference] 43% HHV efficiency
   backup_mw_total: 102  # [inference] 34 x ~3.0 MWe

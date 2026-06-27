@@ -20,7 +20,13 @@ Indiana DEM Permit Status Search — <https://apps.idem.in.gov/PermitStatusSearc
 | File | Permit | Level | Date | Pages |
 |---|---|---|---|---|
 | `47378f.pdf` | `003-47378-00530` | Title V New Source Construction (Minor PSD/EO) | 2024-09-06 | 226 |
+| `47378PN-JS.pdf` | `003-47378-00530` | NSC/Part 70 — public-comment notice (procedural) | 2024 | 2 |
+| `caats-confidentiality.pdf` | `003-47378C-00530` | **Confidentiality Claim** (CBI on the engine rating) | 2023-12-27 | 1 |
 | `48739d.pdf` | `003-48739-00530` (+ `003-48840-00530`) | Part 70 Significant Modification — public-hearing draft | 2025-11-13 | 187 |
+
+The **confidentiality claim** (`caats-confidentiality.pdf`) is why the air permit discloses only heat
+input (26.4 MMBTU/hr) and not the engine electrical rating — the genset nameplate was claimed as CBI
+(received 2023-12-27, contact Robin Fried), so `SiteProfile.facility.genset_mw` stays *derived* (#360).
 
 The facility is a **Title V (major) air source** — for a data center, the permitted units
 are the standby/backup engine fleet. The 2024 NSC permit is the construction authorization;

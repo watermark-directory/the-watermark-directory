@@ -24,16 +24,37 @@ parcel_acres:
     publicly-reported ~700-ac campus because the anchor deed spans multiple section-halves.
   confidence: high
 
+building_footprint_acres:
+  value: 46
+  unit: acre
+  source: document
+  citation: >-
+    [inference] Measured from the §401 WQC001454 site plan (notice_20260403_401_wqc001454.pdf,
+    Exhibit 7 "Alternative B", scale 1"=200'): the seven data-center building footprints (DC-01..07
+    + hubs, the tan building fill), color-segmented and scaled. The firmest sub-component of the
+    impervious estimate; ~46 ac ≈ 2.0M sf over 7 buildings (~290k sf each, typical hyperscale).
+  confidence: medium
+
+impervious_acres:
+  value: 226
+  unit: acre
+  source: document
+  citation: >-
+    [inference] Measured from §401 WQC001454 Exhibit 7 (Alternative B, 1"=200'): building footprints
+    (~46 ac, tan fill) + paved/developed surface (~180 ac gray fill: parking, internal drives,
+    equipment yards) = ~226 ac impervious on the 858-ac permit area (~26%, vs Lima's 34%; lower
+    because the FW parcel preserves extensive wetland/buffer area). Raster color-segmentation +
+    scale-bar calibration; method uncertainty ~±15-20%. SUPERSEDES the prior [open]; confirm against
+    the SWPPP / IDEM Rule 5 construction stormwater permit (the regulatory figure) when available.
+  confidence: medium
+
 developed_acres:
   value: null
   source: assumption
-  citation: '[open] pending the Allen County (IN) / City of Fort Wayne stormwater (SWPPP) permit — not yet in the corpus'
-  confidence: null
-
-impervious_acres:
-  value: null
-  source: assumption
-  citation: '[open] pending the stormwater permit (see developed_acres)'
+  citation: >-
+    [open] The total disturbed/developed area is >= impervious_acres (~226 ac) — it adds the
+    detention basins and graded-pervious areas (not separately tabulated on Exhibit 7). The precise
+    developed/disturbed figure needs the SWPPP / Rule 5 construction stormwater permit.
   confidence: null
 
 dominant_hsg:
