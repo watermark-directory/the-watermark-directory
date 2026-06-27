@@ -12,7 +12,7 @@ their AS-RECEIVED IDEM portal names (permit/document number + a stage suffix —
 
 ## Source
 
-Indiana DEM Permit Status Search — https://apps.idem.in.gov/PermitStatusSearch/
+Indiana DEM Permit Status Search — <https://apps.idem.in.gov/PermitStatusSearch/>
 (facility: Hatchworks LLC; IDEM **AI ID 133680**; OAQ Stationary Source ID **1800300530**).
 
 ## Contents
