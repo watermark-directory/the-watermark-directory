@@ -49,6 +49,10 @@
   "additionalProperties": false,
   "description": "The bundle index: version, provenance of the generation, and the feed list.",
   "properties": {
+    "site": {
+      "title": "Site",
+      "type": "string"
+    },
     "bundle_version": {
       "title": "Bundle Version",
       "type": "string"
@@ -78,6 +82,7 @@
     }
   },
   "required": [
+    "site",
     "bundle_version",
     "contract_version",
     "generated_at",

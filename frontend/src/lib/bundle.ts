@@ -64,6 +64,8 @@ export interface FeedRef {
 
 /** The bundle index (`bosc.site.feeds.Manifest`). Read this first. */
 export interface Manifest {
+  /** The network-site slug this bundle is for (#762) — so a bundle self-identifies. */
+  site: string;
   bundle_version: string;
   contract_version: string;
   generated_at: string;

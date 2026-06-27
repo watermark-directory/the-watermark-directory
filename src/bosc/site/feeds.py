@@ -45,7 +45,9 @@ from bosc.provenance import source_is_verified
 #   the formerly-hardcoded LENSES/LENS_DATA, so each cell now ships with a Citation.
 # 1.6.0: adds the `catalog` feed — the published data catalog (bosc.catalog projected to
 #   CatalogItem + the reconcile observed snapshot; epic #631 Phase 3 / #659).
-CONTRACT_VERSION = "1.6.0"
+# 1.6.1: the manifest gains `site` — the network-site slug a bundle is for, so it self-identifies
+#   (per-site bundle scoping; #762).
+CONTRACT_VERSION = "1.6.1"
 
 # SourceKind / Confidence now live in bosc.provenance (shared with bosc.hypotheses +
 # hydrology.ProvenancedValue, #605); re-exported here so importers of bosc.site.feeds are
@@ -488,6 +490,7 @@ class Manifest(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
+    site: str  # the network-site slug this bundle is for (#762) — so a bundle self-identifies
     bundle_version: str  # the data generation's version (bumped on every export)
     contract_version: str  # the schema/contract version these feeds conform to
     generated_at: str  # ISO-8601 UTC

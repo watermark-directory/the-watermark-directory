@@ -271,7 +271,7 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
     summaries = load_committed_summaries(settings)
     cand_inv = load_cloud_consumer_candidates(settings.entities_dir)
     defense = load_defense_contractors(settings.entities_dir)
-    rsei_inv = load_rsei_inventory(settings.reference_dir)
+    rsei_inv = load_rsei_inventory(settings)
     lei_inv = load_lei_inventory(settings.reference_dir)
     econ = load_econ_baseline(settings)
 
@@ -345,10 +345,18 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
         else:
             feeds.append(_object_feed(name, cast("BaseModel", result)))
 
-    # Typed GeoJSON layer feeds (issue #61).
+    # Typed GeoJSON layer feeds (issue #61). The committed `gis-findings.geojson` is a Lima
+    # artifact (Bistrozzi campus + JSMC + the North Cole corridor), so it's read only for Lima
+    # (#762): a sibling site would otherwise inherit Lima's parcels, a phantom Army installation,
+    # and Lima's corridor/flood/RSEI points. A non-Lima site emits the per-site geo it can derive
+    # — today the campus, from its own parcel assemblage (active_profile().parcels_relpath).
     findings = settings.data_dir / "site" / "gis-findings.geojson"
-    if findings.is_file():
+    if settings.site == "lima" and findings.is_file():
         feeds.extend(_geo_feed(fc) for fc in gismap_mod.export_geo(findings))
+    elif settings.site != "lima":
+        campus = gismap_mod.campus_from_parcels(settings)
+        if campus is not None:
+            feeds.append(_geo_feed(campus))
     # Two more geo feeds assembled outside gis-findings: the USGS WBD watershed
     # boundaries and the imagery tracking-AOI footprints + Wayback ladder (for #72).
     watershed = gismap_mod.export_watershed_geo(settings)
@@ -425,6 +433,7 @@ def export_bundle(
 
     row_total = sum(r.count for r in refs)
     manifest = Manifest(
+        site=settings.site,
         bundle_version=BUNDLE_VERSION,
         contract_version=CONTRACT_VERSION,
         generated_at=generated_at or _now_iso(),

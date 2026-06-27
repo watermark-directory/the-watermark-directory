@@ -283,6 +283,49 @@ def export_geo(geojson_path: Path) -> list[GeoFeatureCollection]:
     ]
 
 
+def campus_from_parcels(settings: Settings | None = None) -> GeoFeatureCollection | None:
+    """The ``campus`` geo feed built from the **active site's** parcel assemblage (#762).
+
+    The frozen ``gis-findings.geojson`` is a Lima artifact, so a non-Lima site's campus must come
+    from its own committed parcels (``active_profile().parcels_relpath`` — e.g. Fort Wayne's
+    Hatchworks/Project Zodiac assemblage), not Lima's Bistrozzi parcels. Reads that GeoJSON, maps
+    each parcel polygon to a ``campus``-layer feature (WGS84 verbatim, display-only), and carries
+    the parcel's popup fields through (``extra="allow"``). Returns ``None`` if the site has no
+    committed parcels file. Tolerant of the ``bosc:provenance`` foreign member (non-Feature entries).
+    """
+    settings = settings or get_settings()
+    path = settings.data_dir / active_profile(settings).parcels_relpath
+    if not path.is_file():
+        return None
+    fc = json.loads(path.read_text(encoding="utf-8"))
+    features: list[GeoFeature] = []
+    for feat in fc.get("features", []):
+        geometry = feat.get("geometry")
+        if not geometry:
+            continue
+        src = dict(feat.get("properties") or {})
+        # Map to the campus popup shape; pass source fields through (owner/situs/transfer_date, or
+        # Lima's grantee/acreage). `grantee` is the owner of record; `label` is a human handle.
+        props: dict[str, Any] = {
+            "layer": "campus",
+            "label": src.get("situs_address") or src.get("label") or src.get("parcel_id"),
+            "color": _LAYER_COLORS["campus"],
+            "role": _geometry_role(geometry),
+            "grantee": src.get("grantee") or src.get("owner"),
+            **{k: v for k, v in src.items() if k not in {"label", "grantee", "color", "role"}},
+        }
+        features.append(
+            GeoFeature(geometry=geometry, properties=GeoProperties.model_validate(props))
+        )
+    if not features:
+        return None
+    return GeoFeatureCollection(
+        feed="campus",
+        meta={"crs": "WGS84 (EPSG:4326)", "layers": ["campus"]},
+        features=features,
+    )
+
+
 def export_watershed_geo(settings: Settings | None = None) -> GeoFeatureCollection | None:
     """The ``watershed`` feed — USGS WBD HU boundaries framing the campus AOI (#61).
 

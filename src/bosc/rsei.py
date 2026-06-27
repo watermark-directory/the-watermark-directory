@@ -395,9 +395,13 @@ def _rollup(
 
 
 # --- Load / write ----------------------------------------------------------
-def load_inventory(reference_dir: Path) -> RseiInventory | None:
-    """Load the committed ``data/reference/rsei/inventory.yaml`` if present."""
-    path = reference_dir / "rsei" / "inventory.yaml"
+def load_inventory(settings: Settings) -> RseiInventory | None:
+    """Load the **active site's** committed RSEI inventory if present (#762).
+
+    Resolves the per-site path via :func:`inventory_path` (``rsei_relpath`` off the active
+    profile), so a non-Lima site reads its own committed inventory instead of Lima's.
+    """
+    path = inventory_path(settings)
     if not path.is_file():
         return None
     data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
@@ -407,9 +411,9 @@ def load_inventory(reference_dir: Path) -> RseiInventory | None:
 def inventory_path(settings: Settings) -> Path:
     """The active site's committed RSEI inventory path (Lima = the legacy un-slugged path).
 
-    Per-site write target (#326 econ): pass ``inventory_path(settings).parent`` to
-    :func:`write_inventory` so onboarding a new site never clobbers Lima's inventory. The
-    reader (:func:`load_inventory`) stays Lima-keyed until a site reaches parity.
+    Per-site (#326 econ / #762): the write target (pass ``inventory_path(settings).parent`` to
+    :func:`write_inventory`) and the reader (:func:`load_inventory`) both resolve here, so
+    onboarding a new site never clobbers Lima's inventory and the bundle reads the active site's.
     """
     return settings.data_dir / active_profile(settings).rsei_relpath
 

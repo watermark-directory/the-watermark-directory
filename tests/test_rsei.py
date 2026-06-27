@@ -197,7 +197,7 @@ def test_build_inventory_joins_and_rolls_up(tmp_path: Path) -> None:
 
 def test_committed_inventory_loads() -> None:
     """The committed Allen County inventory loads and has the expected shape."""
-    inv = rsei.load_inventory(Settings().reference_dir)
+    inv = rsei.load_inventory(Settings())
     assert inv is not None, "data/reference/rsei/inventory.yaml is missing"
     assert inv.county_fips == "39003"
     assert len(inv.facilities) >= 40
