@@ -261,9 +261,10 @@ def test_non_reference_site_bundle_carries_no_lima_corpus(fort_wayne_bundle: Pat
     a non-Lima export silently inherited Lima's commissioners spine, township meetings, and
     Ottawa-River scenarios. Each is now bounded by the active site's ``corpus_relpaths``.
 
-    Network-global feeds (``network``, ``concepts``, ``hypotheses``/``hypothesis-assessments``,
-    ``catalog``) are *cross-site by design* and legitimately mention other sites, so they're not
-    asserted here — this guards only the feeds that are meant to be one site's own record.
+    The basin-/network-shared lenses (``network``, ``concepts``, the ``hypotheses`` *definitions*)
+    are cross-site by design and not asserted here. The two site-tagged cross-site feeds —
+    ``catalog`` and ``hypothesis-assessments`` — are narrowed for a sibling site (its own slice
+    only) and asserted separately in :func:`test_sibling_bundle_narrows_cross_site_feeds`.
     """
     scope = get_profile("fort-wayne").corpus_relpaths
     assert scope is not None, "a sibling site must declare a corpus scope"
@@ -292,6 +293,31 @@ def test_non_reference_site_bundle_carries_no_lima_corpus(fort_wayne_bundle: Pat
         text = (fort_wayne_bundle / ref["path"]).read_text(encoding="utf-8")
         for marker in lima_markers:
             assert marker not in text, f"feed {name!r} leaks Lima marker {marker!r}"
+
+
+def test_sibling_bundle_narrows_cross_site_feeds(bundle: Path, fort_wayne_bundle: Path) -> None:
+    """The two site-tagged cross-site feeds are strictly the sibling's own slice (#762).
+
+    ``catalog`` and ``hypothesis-assessments`` form network-global sets, but each row is tagged
+    with the site it belongs to. A sibling site's bundle carries only its own rows; the reference
+    build (Lima) keeps the whole set — it's the network host the root ``/about/data`` and
+    ``/research/hypotheses`` pages read, so narrowing it too would regress those views.
+    """
+    ref_feeds = _feeds_by_name(bundle)
+    fw_feeds = _feeds_by_name(fort_wayne_bundle)
+
+    # hypothesis-assessments: Lima carries the cross-site matrix; Fort Wayne only its own cells
+    # (none committed yet → an empty feed, not other sites' rows).
+    ref_cells = _rows(bundle, ref_feeds["hypothesis-assessments"])
+    fw_cells = _rows(fort_wayne_bundle, fw_feeds["hypothesis-assessments"])
+    assert {c["site"] for c in ref_cells} > {"lima"}, "reference build must keep the full matrix"
+    assert all(c["site"] == "fort-wayne" for c in fw_cells), "sibling carries only its own cells"
+
+    # catalog: the sibling drops Lima's pre-network legacy rows; the reference build keeps them.
+    ref_scopes = {r["site_scope"] for r in _rows(bundle, ref_feeds["catalog"])}
+    fw_scopes = {r["site_scope"] for r in _rows(fort_wayne_bundle, fw_feeds["catalog"])}
+    assert "lima-legacy" in ref_scopes, "reference build keeps lima-legacy catalog rows"
+    assert "lima-legacy" not in fw_scopes, "sibling bundle must drop lima-legacy catalog rows"
 
 
 def test_approximate_markers_are_preserved_as_data(bundle: Path) -> None:

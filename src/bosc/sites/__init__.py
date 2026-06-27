@@ -98,6 +98,17 @@ def active_profile(settings: Settings) -> SiteProfile:
 _REFERENCE_LAYOUT_SITE = "lima"
 
 
+def is_reference_site(slug: str) -> bool:
+    """Whether ``slug`` is the reference build (Lima).
+
+    The reference build keeps the flat committed layout *and* hosts the network-global feeds
+    (the cross-site hypothesis matrix, the whole-data-tier catalog) that the root pages read —
+    a sibling site's bundle carries only its own slice (#762). Use this to keep the reference
+    bundle byte-identical while narrowing siblings.
+    """
+    return slug == _REFERENCE_LAYOUT_SITE
+
+
 def site_scoped_path(path: Path, slug: str, *, is_dir: bool) -> Path:
     """A curated store's per-site location (#762).
 
