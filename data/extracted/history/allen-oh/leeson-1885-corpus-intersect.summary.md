@@ -2,131 +2,145 @@
 
 **Source:** *History of Allen County, Ohio*, M. A. Leeson (1885)  
 **Analysis date:** 2026-06-27  
-**Method:** pypdf text-layer scan, 827 pages  
+**Method:** pypdf text-layer scan (v2, OCR-aware), 827 pages  
 
 ---
 
-## Headline findings
+## Negative findings
 
-**Waterway** — 253 substantive hits across 7 entities: Ottawa River, Pike Run, Sugar Creek (stream), Miami & Erie Canal, Blanchard River, Maumee River, Drainage / Reclamation
-
-**Township** — 164 substantive hits across 5 entities: Sugar Creek Township, Shawnee Township, Perry Township, Bath Township, Township formation
-
-**Municipality** — 513 substantive hits across 5 entities: Lima (city), Cridersville, Spencerville, Delphos, Early settlements
-
-**Industry** — 247 substantive hits across 4 entities: Grist mills / Sawmills, Tanneries / Foundries, Railroad history, Waterworks / Water supply
-
-**Person Place** — 98 substantive hits across 3 entities: Shawnee (tribal/geographic), Cole / Cole Street, Neff
+- **American Township** — no chapter under this name in Leeson (1885); Allen County had no such division
+- **Lost Creek** — name does not appear in the text layer; likely a local/later usage
+- **Pike Run** — appears once substantively (PDF page 548, Sugar Creek Township chapter) but OCR renders as "Pike Bun"; captured by fuzzy pattern. Page 153 hit is a false positive (Piketon/turnpike, Ohio history section)
 
 ## Entity hit counts
 
 | Entity | Category | Hits |
 |--------|----------|------|
 | Ottawa River | waterway | 99 |
-| Pike Run | waterway | 1 |
+| Pike Run *(OCR fuzzy)* | waterway | 2 |
 | Sugar Creek (stream) | waterway | 50 |
-| Miami & Erie Canal | waterway | 42 |
+| Lost Creek | waterway | 0 *(absent)* |
+| Miami & Erie Canal | waterway | 17 |
 | Blanchard River | waterway | 6 |
 | Maumee River | waterway | 35 |
-| Drainage / Reclamation | waterway | 20 |
+| Auglaize River | waterway | 114 |
+| Drainage / Reclamation | waterway | 18 |
+| American Township | township | 0 *(absent)* |
 | Sugar Creek Township | township | 37 |
 | Shawnee Township | township | 34 |
 | Perry Township | township | 33 |
 | Bath Township | township | 53 |
-| Township formation | township | 7 |
+| Township formation | township | 23 |
 | Lima (city) | municipality | 249 |
 | Cridersville | municipality | 9 |
 | Spencerville | municipality | 36 |
 | Delphos | municipality | 98 |
-| Early settlements | municipality | 121 |
-| Grist mills / Sawmills | industry | 84 |
-| Tanneries / Foundries | industry | 73 |
+| Early settlements | municipality | 125 |
+| Grist mills / Sawmills | industry | 45 |
+| Tanneries / Foundries | industry | 75 |
+| Canal commerce | industry | 7 |
 | Railroad history | industry | 83 |
 | Waterworks / Water supply | industry | 7 |
 | Shawnee (tribal/geographic) | person_place | 71 |
 | Cole / Cole Street | person_place | 15 |
 | Neff | person_place | 12 |
 
+## Headline findings
+
+**Waterway** — 341 substantive hits: Ottawa River, Pike Run, Sugar Creek (stream), Miami & Erie Canal, Blanchard River, Maumee River, Auglaize River, Drainage / Reclamation
+
+**Township** — 180 substantive hits: Sugar Creek Township, Shawnee Township, Perry Township, Bath Township, Township formation
+
+**Municipality** — 517 substantive hits: Lima (city), Cridersville, Spencerville, Delphos, Early settlements
+
+**Industry** — 217 substantive hits: Grist mills / Sawmills, Tanneries / Foundries, Canal commerce, Railroad history, Waterworks / Water supply
+
+**Person Place** — 98 substantive hits: Shawnee (tribal/geographic), Cole / Cole Street, Neff
+
 ## Pages with highest entity density
 
-These pages are prime candidates for targeted extraction:
-
-- **PDF page 15** (13 entity hits) — CONTENTS.
-- **PDF page 14** (10 entity hits) — CONTENTS.
-- **PDF page 391** (9 entity hits) — HISTORY  OF  ALLEN  COUNTY.
-- **PDF page 183** (7 entity hits) — BIVEBS  AND. GREEKS.
-- **PDF page 411** (7 entity hits) — HISTORY  OF  ALLEN  COUNTY.
-- **PDF page 378** (6 entity hits) — HISTORY  OF  ALLEN  COUNTY.
-- **PDF page 394** (6 entity hits) — HISTORY  OF  ALLEN  COUNTT.
-- **PDF page 435** (6 entity hits) — CHAPTER  XXI.
-- **PDF page 548** (6 entity hits) — HISTORY  OF  ALLEN  COUNTY.
-- **PDF page 232** (6 entity hits) — HISTORY  OF  ALLEN  COUNTY.
-- **PDF page 384** (6 entity hits) — HISTORY  OF  ALLEN  COUNTY.
-- **PDF page 574** (6 entity hits) — BIOGRAPHICAL  SKETCHES.
-- **PDF page 618** (6 entity hits) — BIOGRAPHICAL  SKETCHES.
-- **PDF page 126** (6 entity hits) — HISTOEY  OF   THE   STATE   OF   OHIO.
-- **PDF page 442** (6 entity hits) — HISTORY  OF  ALLEN  COUNTY.
-- **PDF page 613** (6 entity hits) — BIOGRAPHICAL  SKETCHES.
-- **PDF page 685** (6 entity hits) — BIOGRAPHICAL  SKETCHES.
-- **PDF page 134** (5 entity hits) — HISTORY   OF   THE   STATE   OF   OHIO.
-- **PDF page 216** (5 entity hits) — HISTORY  OF  ALLEN  COUNTY.
-- **PDF page 307** (5 entity hits) — BOABD  OF  PXJBLIC  WORKS.
+- **PDF page 15** (13 hits) — CONTENTS.
+- **PDF page 14** (11 hits) — CONTENTS.
+- **PDF page 391** (10 hits) — HISTORY  OF  ALLEN  COUNTY.
+- **PDF page 435** (8 hits) — CHAPTER  XXI.
+- **PDF page 548** (8 hits) — HISTORY  OF  ALLEN  COUNTY.
+- **PDF page 394** (7 hits) — HISTORY  OF  ALLEN  COUNTT.
+- **PDF page 411** (7 hits) — HISTORY  OF  ALLEN  COUNTY.
+- **PDF page 384** (7 hits) — HISTORY  OF  ALLEN  COUNTY.
+- **PDF page 574** (7 hits) — BIOGRAPHICAL  SKETCHES.
+- **PDF page 183** (6 hits) — BIVEBS  AND. GREEKS.
+- **PDF page 216** (6 hits) — HISTORY  OF  ALLEN  COUNTY.
+- **PDF page 307** (6 hits) — BOABD  OF  PXJBLIC  WORKS.
+- **PDF page 378** (6 hits) — HISTORY  OF  ALLEN  COUNTY.
+- **PDF page 687** (6 hits) — BIOGRAPHICAL  SKETCHES.
+- **PDF page 232** (6 hits) — HISTORY  OF  ALLEN  COUNTY.
+- **PDF page 618** (6 hits) — BIOGRAPHICAL  SKETCHES.
+- **PDF page 181** (6 hits) — HISTORY  OF  ALLEN  COUNTY.
+- **PDF page 441** (6 hits) — DELPHOS.
+- **PDF page 442** (6 hits) — HISTORY  OF  ALLEN  COUNTY.
+- **PDF page 613** (6 hits) — BIOGRAPHICAL  SKETCHES.
 
 ## Notable passages
 
-### Ottawa River — page 14
+### Ottawa River — page 79
 
-*Section: CONTENTS.*
+*Section: HISTORY   OF    THE   STATE   OF    OHIO.*
 
-> "ster — West Newton— Miscellaneous. CHAPTER XVIII.— Bath Township „416-428 Topography— Seat of Justice— Organiza- tion—Pioneers— Biography of Christopher Wood— Original Land Buyers— Churches — Schools— Railroads— Miscellaneous."
+> "to make treaties with the Indians, and .the English, in their flush of victory after Pitt's succession, assumed the authority over Indians and lands. The savages did not accept the situation with anything resembling the gentle spirit of resigna- tion, and the Ottawa chief, Pontiac, led the several tribes into a general war against the intruders."
 
-### Ottawa River — page 15
+### Ottawa River — page 134
 
-*Section: CONTENTS.*
+*Section: HISTORY   OF   THE   STATE   OF   OHIO.*
 
-> "Churches— Postoffice— Gomer ViL- LAOE— Its Additions-Physicians — Churches. PART IV. BIOOBAFHICAL SKETCHES. Amanda Township 561 Auglaize Township....^^ 570 Bath Township 574 German Township 590 Jackson Township... ^ 601 HarioQ Township.. 618 Monroe Township 662 Ottawa Township 677 Perry Township 784 Richland Township ^ 751 Shawnee Township 784 Spen"
+> "188 HISTORY OF THE STATE OF OHIO. Ottawa County waa formed from Erie, Sandusky and Lucas, March 6, 1840, It is mostly within the Black Swamp, and considerable of its land is prairie and marsh. It was very thinly settled befere 1830. Extensive plaster beds exist on the peninsula, which extends int"
 
 ### Pike Run — page 153
 
 *Section: HISTORY   OF   THE   STATE   OF   OHIO.*
 
-> "wo came together. Before each of these entranceB were mounds of earth, from four to five feet high and nearly forty feet in diameter. Evidently these were designed for defenses for the openings^ in cases of emergency. A short distance from Piketon, the turnpike runs, for several hundred feet, between two parallel artificial walls of earth, fifteen "
+> "wo came together. Before each of these entranceB were mounds of earth, from four to five feet high and nearly forty feet in diameter. Evidently these were designed for defenses for the openings^ in cases of emergency. A short distance from Piketon, the turnpike runs, for several hundred feet, between two parallel artificial walls of earth, fifteen feet high, and six rods apart."
 
-### Sugar Creek (stream) — page 15
+### Pike Run — page 548
 
-*Section: CONTENTS.*
+*Section: HISTORY  OF  ALLEN  COUNTY.*
 
-> "Quarries — Population — Or- ganic History — Pioneer History— List of Original Entries— Schools— Spencerville Village — Incorporation — Officials — Churches— Postmasters— G. A. R.— Hotel- Newspaper— Societies— Schools and Church- es—Rauroads and Canal. CHAPTER XXVIII."
+> "very section comfortable homes, substantial farm buildings, well cultivated farms and orchards tell of progresa The Ottawa River flows north in a tortuous course through the west- em section& Sugar Creek waters the eastern sections, while the streams known as Pike Bun, Rabbit Run, Taway Run, Beaver Run, Dug Run, Toad Run and Honey Run offer water to the territory at a distance "
 
 ### Sugar Creek (stream) — page 190
 
 *Section: HISTORY  OP  ALLEN  COUNTY.*
 
-> "affords a good ^pply of water, strongly impregnated with valuable chemical properties. In almost any portion of the county wat«r for domestic purposes may be found at a depth of from ten to thirty feet In Spencer, South Marion, Amanda, part of German and Sugar Creek Townships, a good supply of good water is found on penetrating the bed-rock; while "
+> "affords a good ^pply of water, strongly impregnated with valuable chemical properties. In almost any portion of the county wat«r for domestic purposes may be found at a depth of from ten to thirty feet In Spencer, South Marion, Amanda, part of German and Sugar Creek Townships, a good supply of good water is found on penetrating the bed-rock; while in North Marion, on the Van We"
 
-### Miami & Erie Canal — page 13
+### Sugar Creek (stream) — page 217
 
-*Section: CONTENTS.*
+*Section: HISTORY  OF  ALLEN  COUNTY.*
 
-> "Ohio _ 78 Frenon History 76 Ordinance of 1787, No. 82 87 Comments apon the Ordinance of 1787, from the Statntes of Ohio, Edited hj Salmon P. Chase, and Published in the year 1888 ».. 91 The War of 1812 ^..^ 107 Banking — 111 The Canal System........ ....^ 118 Ohio Land Tracts... ^ «.„ 114 ImfffOTements. 119 €tsu Boundaries..... 121 Organisation of "
+> "st of Pht This warrant was placed in the hands of Elmer Hartshorn to serve, and the Constable, accompanied by Matthew Allison, proceeded eight miles to the Indian settlement, where Pht surrendered, and further volun- teered to accompany the Constable back to Sugar Creek. Before start- ing out, however, the Indian knew that an interpreter would be required, and sent for one to W"
 
-### Miami & Erie Canal — page 14
+### Miami & Erie Canal — page 111
 
-*Section: CONTENTS.*
+*Section: HISTORY  OP   THE   STATE   OP   OHIO.*
 
-> "Bills— School Lands and School Funds— School Commissioners, Superinten- dents and Examiners— Separate (Colored) Schools. CHAPTER XIII.— PhysiciaHS 894-895 Pioneer Physicians— Medical Men of the Present Day in the County— Alphabetical List."
+> "many Western States, in the establishment of a firm basis upon which a banking law could be sustained, with mutual benefit to the institution and the people. THE CANAL STSTEM. In the first part of 1817, the Legislature considered a resolution relating to a canal between Lake Erie and the Ohio River. No action was taken and the subject was not again agitated until 1819. Gov."
+
+### Miami & Erie Canal — page 114
+
+*Section: HISTORY  OF   THE   STATE   OF    OHIO.*
+
+> "ford and Marion Counties. They were designed for the transportation of mail stages, troops and other United States property, free from toll. The grant waa made in 1827. " The Ohio Canal Lands " comprise about 1,000,000 acres, set aside for the purpose of canal construction."
 
 ### Blanchard River — page 126
 
 *Section: HISTOEY  OF   THE   STATE   OF   OHIO.*
 
-> "ortance in the early settlement of the State. About thirty yards from Harrison's tomb is the grave of Judge Symmes. Hancock County was formed April 1, 1820. It produces wheat, oats, com, pork and maple sugar. The surface is level and its soil is fertile. Blanchard's Fork waters the central and southern part of the county. Findlay, the county seat, "
+> "ortance in the early settlement of the State. About thirty yards from Harrison's tomb is the grave of Judge Symmes. Hancock County was formed April 1, 1820. It produces wheat, oats, com, pork and maple sugar. The surface is level and its soil is fertile. Blanchard's Fork waters the central and southern part of the county. Findlay, the county seat, was laid out by ex-Qov."
 
 ### Blanchard River — page 144
 
 *Section: HISTORY  OF   THE   STATE   OP    OHIO.*
 
-> "weight being transported on sleds and in wagons. He engaged in mercantile business at Urbana and Fort Meigs — now Perrysburg. While thus employed, he was elected to the Legislature, and there remained four years. He then purchased a large tract of land on Blanchard's Fork, and laid out the town of Findlay. He was sent to Congress in 1821, and was a"
+> "weight being transported on sleds and in wagons. He engaged in mercantile business at Urbana and Fort Meigs — now Perrysburg. While thus employed, he was elected to the Legislature, and there remained four years. He then purchased a large tract of land on Blanchard's Fork, and laid out the town of Findlay. He was sent to Congress in 1821, and was a member of that body for fifte"
 
 ### Maumee River — page 28
 
@@ -140,35 +154,41 @@ These pages are prime candidates for targeted extraction:
 
 > "answer conciUated the savages, and did much to insure the safety of Rogers and his party during their stay, and while on their journey home. Rogers set out for Fort Pitt on December 23, and was just one month on the way. His route was from Detroit to Maumee, thence across the present State of Ohio directly to the fort."
 
+### Auglaize River — page 97
+
+*Section: HISTORY  OF   THE   STATE   OF   OHIO.*
+
+> "irty's Town, they built Fort Mary's, later on Fort Adams. ' Throw- ing the enemy off their guard by feints and counter-marching, the troops, surprised the Indians, and without the slightest resistance took possession of their villages at the confluence of the Auglaize and Maumee. They found provision in abundance, and tarried a week building Fort Defiance. ^^*^^ " 7 C> Again Ge"
+
+### Auglaize River — page 106
+
+*Section: HISTORY  OP   THE   STATE   OF   OHIO.*
+
+> "Gen. Win- chester marched from Fort Defiance down the Maumee to the foot of the rapids. A large force of British and Indians moved up the left bank of the Mau- mee toward Fort Wayne, and Gen. Harrison, to intercept them, marched to the confluence of the Auglaize with the Maumee. Harrison was aware that the enemy would be also hemmed in by Win- i^hester."
+
 ### Drainage / Reclamation — page 74
 
 *Section: HISTORY   OF   THE    STATE    OF    OHIO.*
 
-> "he glacier moving forward, and the forces proving an "equilibrium," Ae edge of this ice-field was held in a solid stronghold, and the material thus de- posited forms a ridge, called by geologists "terminjal moraine," first exemplified in Ohio by the " Black Swamp," in the Maumee Valley."
+> "way. The glacier moving forward, and the forces proving an "equilibrium," Ae edge of this ice-field was held in a solid stronghold, and the material thus de- posited forms a ridge, called by geologists "terminjal moraine," first exemplified in Ohio by the " Black Swamp," in the Maumee Valley."
 
 ### Drainage / Reclamation — page 105
 
 *Section: HISTORY   OF   THE   STATE   OP   OHIO.*
 
-> "TORY OP THE STATE OP OfflO. 107 the same, however. Horace Gunn was the carrier. Benoni Adams brought the news from Cleveland to the same point, his trip requiring a fortnight. It must be remembered that this journey was mostly made on foot. The Black Swamp could not be traversed in any other manner. THE WAR OP 1812."
-
-### Sugar Creek Township — page 15
-
-*Section: CONTENTS.*
-
-> "p 561 Auglaize Township....^^ 570 Bath Township 574 German Township 590 Jackson Township... ^ 601 HarioQ Township.. 618 Monroe Township 662 Ottawa Township 677 Perry Township 784 Richland Township ^ 751 Shawnee Township 784 Spencer Township... 799 Sugar Creek Township 817 PORTBAITS. Altstetter, Jacob. Monroe Township 455 Bowdle, J. L., Perry Townsh"
+> "HISTORY OP THE STATE OP OfflO. 107 the same, however. Horace Gunn was the carrier. Benoni Adams brought the news from Cleveland to the same point, his trip requiring a fortnight. It must be remembered that this journey was mostly made on foot. The Black Swamp could not be traversed in any other manner. THE WAR OP 1812."
 
 ### Sugar Creek Township — page 190
 
 *Section: HISTORY  OP  ALLEN  COUNTY.*
 
-> "affords a good ^pply of water, strongly impregnated with valuable chemical properties. In almost any portion of the county wat«r for domestic purposes may be found at a depth of from ten to thirty feet In Spencer, South Marion, Amanda, part of German and Sugar Creek Townships, a good supply of good water is found on penetrating the bed-rock; while "
+> "affords a good ^pply of water, strongly impregnated with valuable chemical properties. In almost any portion of the county wat«r for domestic purposes may be found at a depth of from ten to thirty feet In Spencer, South Marion, Amanda, part of German and Sugar Creek Townships, a good supply of good water is found on penetrating the bed-rock; while in North Marion, on the Van We"
 
-### Shawnee Township — page 15
+### Sugar Creek Township — page 239
 
-*Section: CONTENTS.*
+*Section: HISTORY  OP  ALLEN  COUNTY.*
 
-> ". PART IV. BIOOBAFHICAL SKETCHES. Amanda Township 561 Auglaize Township....^^ 570 Bath Township 574 German Township 590 Jackson Township... ^ 601 HarioQ Township.. 618 Monroe Township 662 Ottawa Township 677 Perry Township 784 Richland Township ^ 751 Shawnee Township 784 Spencer Township... 799 Sugar Creek Township 817 PORTBAITS. Altstetter, Jacob."
+> "tled here in 1832 or 1833. Daniel Myers^ settled in German Township in 1831, with his step- father, Peter BicTenour. He erected the first building, other than the old Lutheran Church, on the site of Elida Village. James Nicholas, a Pennsylvanian, settled in Sugar Creek Township, September 13, 1833, and the same year purchased his lands on Section 28."
 
 ### Shawnee Township — page 232
 
@@ -176,11 +196,11 @@ These pages are prime candidates for targeted extraction:
 
 > "s of pioneer days. Henry Carter, a native of Delaware, with Edward Cox and Thomas Kane, settled in Bichland Township, in 1834. William Chaffee, a Baptist preacher, settled at Lima about 1833. {Vide History Baptist Chnrch.) He purchased a farm on Section 1, Shawnee Township, in 1832."
 
-### Perry Township — page 15
+### Shawnee Township — page 236
 
-*Section: CONTENTS.*
+*Section: HISTORY  OP  ALLEN  COUNTY.*
 
-> "o o 1 s — ChuTehes—Postoffice—Preae- Masonic His- toiy— Knights of Pythias— Odd Fellows- Other Societies— Principal Buildings of Li- Tom — Faurot's Opera House Building— The Opera House and Music Hall— Reriew of ComnMrce and manufactures— Railroads- Bank."
+> "Hocken- berry in 1845. Joseph Higgs settled in Bath Township previous to 1832, and erected the first saw-mill on Sugar Creek that year. Martin Hire settled in Allen County in 1824. Joseph Hover, a Pennsylvanian, arrived in 1833 and settled on Sec- tion 1, Shawnee Township. Here he resided until his death in 1844. W. U.^over accompanied his father and brother James A. Mr."
 
 ### Perry Township — page 182
 
@@ -188,41 +208,47 @@ These pages are prime candidates for targeted extraction:
 
 > "he result, no doubt, of a great glacial flow. The undulating surface prevails over most of the township of Sugar Greek, but is more or less wanting in Bichland and Monroe Townships. There are likewise some flat and prairie-like tracts even in Auglaize and Perry Townships. In the former, Sections 11, 12, 13 and 14 have this character."
 
-### Bath Township — page 14
-
-*Section: CONTENTS.*
-
-> "ize Township.... 411-416 Organisation— Villages— Population— Pio- neers—United States Lands Entered in Au- flaize. 1830-1852— First White Womai|— Irst Cabin— First Township Board— Schools — Churches — Maysville — Westminster — West Newton— Miscellaneous."
-
-### Bath Township — page 15
-
-*Section: CONTENTS.*
-
-> "Creek Toww- .QHIP 554-558 Name — Population— Streams— Organ Ization —Pioneers — List of Original Entries- Schools— Churches— Postoffice— Gomer ViL- LAOE— Its Additions-Physicians — Churches. PART IV. BIOOBAFHICAL SKETCHES. Amanda Township 561 Auglaize Township....^^ 570 Bath Township 574 German Township 590 Jackson Township... ^ 601 HarioQ Township"
-
-### Township formation — page 391
+### Perry Township — page 235
 
 *Section: HISTORY  OF  ALLEN  COUNTY.*
 
-> "affair. In 1837 a grist-mill was erected by Solomon Carr & Co. The Shawnee saw mill was built by Ezekiel Hover and Ashei Tompkins on Hog Creek, south of Lima; while the Scott saw- mill was erected in the vicinity in 1834. The first grist-mill in Shawnee Township was erected by Ashel Tompkins and Daniel Hindel m the win- ter of 1834-85."
+> "ar on Section 8. Ezra Edgeoomb also entered a tract of land in the same section. Michael Flynn, who located at Ada, in Hardin County in 1856, is an old resident of Allen County. Saul Faulkner, an old settler of Champaign County, settled on Sec- tion 21, Perry Township, in 1832. In 1883 he purchased Goyemment lands in Section 21."
 
-### Township formation — page 402
+### Bath Township — page 186
+
+*Section: HISTORY  OP  ALLEN  COUNTY.*
+
+> "of perhaps six inches. In Auglaize Township the water-lime appears, and has been some- what used for general purposes and for lime, on the land of David Crall, Section 17, taken from the bed of the stream. Beds here are about two inches in thickness."
+
+### Bath Township — page 216
 
 *Section: HISTORY  OF  ALLEN  COUNTY.*
 
-> "r of the township, is on the Miami & Erie Canal and Delphos & Indianapolis B. B. The post office known as Armstrong, Amanda Township, was moved to Conant, the nucleus of a new village on the Chicago & Atlantic Bail- road, in 1884. OBOAKIZATION."
+> "222 HISTORY OF ALLEN COUNTY. A PIONKEB MEXTINO. The settlement of the MoClner family on Section 28, Bath Township, in 1826, and of the Wood family on Sn^^ar Greek, the year before, are noticed in this chapter. Here they resided until Jane, 1826, each settle- ment ignorant of the existence of the other. According to statements made by Nathaniel McClaer, three white men"
 
-### Lima (city) — page 12
+### Township formation — page 271
 
-*Section: THE  PUBLISHERS.*
+*Section: HISTORY  OF  ALLEN  COUNTY.*
 
-> "county, great care had to be manifested in distinguishing between the varied items, which belonged specially to each township, and those which had a direct bearing on the history of the whole county. An instance of this may be adduced. In the history of Lima a simple mention of the court house and jail is made."
+> "sided as Commissioners. In March, 1834, a petition presen- ted by Benjamin F. Cochran, asking for the establishment of a new town- ship off the north end of Amanda, was granted, and Marion Township was ordered to be organized. At this session Town 5 south. Range 7 east, was set off as a township to be named Union."
 
-### Lima (city) — page 14
+### Township formation — page 272
 
-*Section: CONTENTS.*
+*Section: HISTORY  OP  ALLBN  COUNTY.*
 
-> "CONTENTS. PAOB. CHAPTER VII.— Political History- 289-314 Review of National Campaigns, — Countj Officials. 1881-1843 — Lima Convention of 1836— Election Returni, 1844-16— Successful Candidates, 1847-49— Election Returns, 1850 —Vote for License and Names of Officers Elected, 1851— Elections, 1852— Question ol Railroad Aid— Conventions and Elections,"
+> "ett Sf Co's mill at Wapakonetta raised from $250 to $300. On November, 1834, James H. Coleman, Griffith John and James A. Anderson, Coanty Commissioners, appointed Samael Black, Auditor. On December 1 a petition presented by E. Hover asking that Township 4, Range 6, be set off into a separate township, was granted, and the name Shawnee adopted."
+
+### Lima (city) — page 74
+
+*Section: HISTORY   OF   THE    STATE    OF    OHIO.*
+
+> "st extreme rigor of this period beginning to wane, the ice of the Maumee and Miami Valleys began to move slowly forward, toward the north, reaching the points now termed Hudson, Mich.; Fort Wayne, Ind., and Kenton, Ohio— reaching somewhat further south than Lima and Van Wert. The edge of the glacier was defined in outline by the present western border of Lake Erie, and panJlel "
+
+### Lima (city) — page 119
+
+*Section: HISTORY  OF   THE   STATE   OP   OHIO.*
+
+> "ral years. Daniel Carter raised the first cabin within the county limits in 1811. Auglaize County was formed in February, 1848, from Allen and Mercer Counties. Wapakoneta is its county seat. Allen County was formed from the Indian Territory April 1, 1820. Lima is its county seat. Ashtabula County was formed June 7, 1807, and was organized January 22, 1811."
 
 ### Cridersville — page 557
 
@@ -236,31 +262,63 @@ These pages are prime candidates for targeted extraction:
 
 > "d and Seventy-ninth Regiment Ohio Volunteer Infantry, and since 1865 he has devoted considerable time to preaching in ''the Church of Christ, in Christian Union,'* traveling from 1,400 to 2,350 miles annually. / DANIEL CRIDER, farmer, P. O."
 
-### Spencerville — page 15
-
-*Section: CONTENTS.*
-
-> "ement in the Town- ship—The Shawnees— Schools— Churches — Railroads and Postoffices. CHAPTER XXVII.— Spencer Township..J544-654 Topography— Streams — Canal— Kailrosd — Fore^s— Stone Quarries — Population — Or- ganic History — Pioneer History— List of Original Entries— Schools— Spencerville Village — Incorporation — Officials — Churches— Postmasters"
-
 ### Spencerville — page 181
 
 *Section: HISTORY  OF  ALLEN  COUNTY.*
 
-> "from Delphos. The number of pike roads, together with thii9 net-work of railroads, renders travel in this county agreeable and economical. Delphos in the northwestern corner, and Bluffton in the northeastern portion of the county, are two important villages. Spencerville in the southwest part of the county is a village which shows many evidences of"
+> "from Delphos. The number of pike roads, together with thii9 net-work of railroads, renders travel in this county agreeable and economical. Delphos in the northwestern corner, and Bluffton in the northeastern portion of the county, are two important villages. Spencerville in the southwest part of the county is a village which shows many evidences of progress."
 
-### Delphos — page 14
+### Spencerville — page 376
 
-*Section: CONTENTS.*
+*Section: HISTORY  OF  ALLEN  COUNTY.*
 
-> "es, etc CHAPTER X.— The Press - 878-882 Lima Newspapers — Herald^ Porcupine^ Argut, Reporter^ Western Oazette, OoMeUe, Doily Oazette, Ptopl^i Pretty Democrat, Sun, JVbon, AUm Qmnty Republican, DailyR^mbli- can, VolkMatt, Oourier, Democratic Tim4s and Daily Time*. Delphos Newspapers— /SeeMon Ten Budget^ Oracle, Norihwettem Rfjmblioan, Herald, Cburan"
+> "office was moved to Blufifton. This is a monthly journal, published in the interest of the Church of the Disciples, and printed by N. W. Cunningham, of the NewSy for Mr. TJpdike. The circulation is about 600 copies per month. SPENOEBVILLB NEWSPAPEB. The Spencerville Journal was founded in May, 1878, by J. W. Sum- mersett Messrs."
+
+### Delphos — page 181
+
+*Section: HISTORY  OF  ALLEN  COUNTY.*
+
+> "HISTORY OF ALLEN COUNTY. CHAPTER I. TOPOGRAPHY. ALLEN COXTNTT is bounded on the north by Pntnam, south by Auglaize, east by Hancock and Hardin, and west by Van Wert The elevation at Delphos is only 188 feet aboTe the level of Lake Erie, while at Lima depot the altitude is 268 feet The area is about 408 square milee, and the present (1885) population estimated at 40,000."
+
+### Delphos — page 189
+
+*Section: HISTORY  OF  ALLEN  COUNTY.*
+
+> "openings in such beds within the county. The formation is chiefly wrought in its thinner blue layers, owing to the exenness of the stone, and the ease with which it can be obtained. Much of this kind' of stone is used for flagging at Lima, Blnffton and Delphos. Some of the best quar- riee are located at Lima, and afford also a handsome stone for wells and foundations."
+
+### Early settlements — page 26
+
+*Section: THE  NORTHWEST  TEERITOEY.*
+
+> "lle's labors ; for, though he had founded neither of them (unless Peoria, which was built nearly upon the site of Fort Crevecoeur,) it was by those whom he led into the West that these places were peopled and civilized."
 
 ## Recommended extraction targets
 
-- **Canal history:** pages [13, 14, 15, 64, 93, 111, 112, 114, 115, 118]
-- **Ottawa River:** pages [14, 15, 79, 134, 135, 175, 182, 183, 184, 187]
-- **Township records:** pages [14, 15, 182, 186, 190, 216, 217, 230, 232, 233, 234, 235, 236, 237, 238]
-- **Lima city history:** pages [12, 14, 15, 74, 119, 181, 183, 186, 187, 188, 189, 191, 208, 216, 219]
+Priority pages for deeper targeted extraction:
+
+### Hydrology / Waterways
+
+- **Pages 183–190** (Rivers and Creeks chapter): Ottawa River origin, Sugar Creek drainage, Blanchard, Auglaize
+- **Page 548** (Sugar Creek Township): Ottawa River + Sugar Creek + Pike Run (OCR: 'Pike Bun') confluence + named runs
+- **Pages 113–118** (Canal system): Miami & Erie Canal history
+
+### Township formation
+
+- Sugar Creek Township chapter: pages 548–552
+- Shawnee Township chapter: pages ~437–444
+- Bath Township chapter: pages ~416–428
+
+### Lima and canal corridor
+
+- Lima chapters: pages ~429–515 (city history, waterworks, railroads)
+- Canal history: pages ~395–410 (Chapter XIV)
+- Delphos: pages ~458–475 (chapter on Spencer Township including Delphos)
+
+### Mills and industry
+
+- Early mills chapter: pages ~387–395
+- Page 391: Sugar Creek + Shawnee + Auglaize mill dates
 
 ---
 
-*Generated by leeson_scan.py — pypdf text layer. OCR quality moderate; numbers may be garbled.*
+*Generated by leeson_scan_v2.py — pypdf text layer, OCR-aware patterns. Cite by PDF page (0-based).*
