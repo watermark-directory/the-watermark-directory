@@ -1,0 +1,14 @@
+# Curated exhibits — Fort Wayne (Project Zodiac).
+#
+# The per-site peer of data/site/exhibits.yaml (Lima): primary-source PDFs published as
+# downloadable files on the Fort Wayne site. Read by `bosc --site fort-wayne export` via
+# `bosc.sites.site_scoped_path` (#762). `source` is relative to data/documents (Git-LFS), e.g.
+# `idem/fort-wayne/<file>.pdf`; `pages` (0-based inclusive) slices a large bundle. A source not
+# pulled locally is listed "unavailable" rather than failing the build.
+#
+# Empty today — add Fort Wayne's exhibits here as the record is curated. Candidate sources:
+#   - idem/fort-wayne/47378f.pdf                  (IDEM Title V air permit — the power basis)
+#   - idem/fort-wayne/<the WQC001454 set>         (IDEM §401 Water Quality Certification)
+# Cite from a committed source; never invent an exhibit. See data/site/exhibits.yaml for the
+# field shape and examples.
+exhibits: []
