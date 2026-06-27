@@ -13,13 +13,26 @@ import { hasFeed, loadFeed, loadManifest } from "../../../lib/bundle";
 import type { DocumentCollectionItem } from "../../../lib/feeds";
 import { LEADS } from "../../../lib/leads";
 import { NARRATIVE } from "../../../lib/narrative";
-import { FACILITY_STATUS_META, facilityStatus, selectableSitePaths } from "../../../lib/sites";
+import {
+  activeSite,
+  FACILITY_STATUS_META,
+  facilityStatus,
+  selectableSitePaths,
+  siteForSlug,
+  siteState,
+} from "../../../lib/sites";
 import type { FigureStatData } from "../../../lib/viz";
 import { WALK_CHAPTERS, walkHref } from "../../../lib/walk";
 import { withSite, withStory } from "../../../lib/site";
 
 // One `network/[site]/…` route per selectable site (#724/#734); Lima alone today.
 export const getStaticPaths = selectableSitePaths;
+
+// The active site (from the route prop) drives the dateline/facility chrome — no hardcoded
+// "Lima, Ohio" — so a second selectable site renders its own place/state (#741).
+const { slug } = Astro.props as { slug: string };
+const site = siteForSlug(slug) ?? activeSite();
+const dateline = `${site.place}, ${siteState(slug)}`;
 
 const manifest = loadManifest();
 const byName = new Map(manifest.feeds.map((f) => [f.name, f]));
@@ -31,8 +44,8 @@ const nDocuments = docCollections.reduce((a, c) => a + c.entries.length, 0);
 const nChapters = WALK_CHAPTERS.length;
 const nLeads = LEADS.length;
 
-// The facility clock (separate from the site-build clock) — Lima's campus is under construction.
-const fac = FACILITY_STATUS_META[facilityStatus("lima")];
+// The facility clock (separate from the site-build clock) — the active site's campus lifecycle.
+const fac = FACILITY_STATUS_META[facilityStatus(slug)];
 
 // Corpus at a glance — five real, derivable counts (the design's at-a-glance strip).
 const stats: FigureStatData[] = [
@@ -57,7 +70,7 @@ const stats: FigureStatData[] = [
 <Base title="Watermark" section="home" rail={false} description="Watermark — the public record, by watershed.">
   <div class="home home--live">
     <div class="home-hero">
-      <div class="home-kicker">Public record · Lima, Ohio</div>
+      <div class="home-kicker">Public record · {dateline}</div>
       <h1>A 340-acre data center,<br />built to be invisible.</h1>
       <p class="home-lead">
         A Delaware shell. Withheld land prices. 114 backup generators. A consumptive cooling
