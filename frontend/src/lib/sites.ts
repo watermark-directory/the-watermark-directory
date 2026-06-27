@@ -511,12 +511,24 @@ export function siteBadge(site: NetworkSite): string {
  * `null`). `base` strips an Astro base prefix.
  */
 export function siteForPath(pathname: string, base = ""): NetworkSite | null {
+  return siteForPathIn(SITES, pathname, base);
+}
+
+/**
+ * The seam of {@link siteForPath} (#746): resolve a route to its site over an explicit `sites`
+ * list, so the multi-site chrome logic is testable against a two-selectable-site fixture.
+ */
+export function siteForPathIn(
+  sites: readonly NetworkSite[],
+  pathname: string,
+  base = "",
+): NetworkSite | null {
   let p = pathname;
   if (base && base !== "/" && p.startsWith(base)) p = p.slice(base.length);
   if (!p.startsWith("/")) p = `/${p}`;
   p = p.replace(/\/+$/, "") || "/";
   return (
-    SITES.find((s) => {
+    sites.find((s) => {
       if (!s.selectable) return false;
       const h = s.href.replace(/\/+$/, "");
       return p === h || p.startsWith(`${h}/`);
@@ -526,7 +538,12 @@ export function siteForPath(pathname: string, base = ""): NetworkSite | null {
 
 /** The sites that need a coming-soon page (everything not switchable). */
 export function comingSoonSites(): NetworkSite[] {
-  return SITES.filter((s) => !s.selectable);
+  return comingSoonFrom(SITES);
+}
+
+/** The seam of {@link comingSoonSites} (#746) over an explicit `sites` list. */
+export function comingSoonFrom(sites: readonly NetworkSite[]): NetworkSite[] {
+  return sites.filter((s) => !s.selectable);
 }
 
 /**
@@ -537,10 +554,22 @@ export function comingSoonSites(): NetworkSite[] {
  * (#740) gets its own build with no new page files.
  */
 export function selectableSitePaths(): Array<{ params: { site: string }; props: { slug: string } }> {
-  return SITES.filter((s) => s.selectable).map((s) => ({
-    params: { site: siteBase(s.slug).replace("/network/", "") },
-    props: { slug: s.slug },
-  }));
+  return selectablePathsFrom(SITES);
+}
+
+/**
+ * The seam of {@link selectableSitePaths} (#746) over an explicit `sites` list — the testable core
+ * that a two-selectable-site fixture exercises (each site keyed by its own `siteBase`).
+ */
+export function selectablePathsFrom(
+  sites: readonly NetworkSite[],
+): Array<{ params: { site: string }; props: { slug: string } }> {
+  return sites
+    .filter((s) => s.selectable)
+    .map((s) => ({
+      params: { site: siteBase(s.slug).replace("/network/", "") },
+      props: { slug: s.slug },
+    }));
 }
 
 /**
