@@ -2,15 +2,18 @@
 
 from __future__ import annotations
 
+import io
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
 
 import pytest
 import yaml
+from PIL import Image
 
 from bosc.agent.extractor import ExtractionError, StructuredExtractor
 from bosc.config import Settings
+from bosc.documents import IMAGE_SUFFIXES, read_image_png
 from bosc.models import (
     BusinessFiling,
     Deed,
@@ -29,7 +32,7 @@ from bosc.pipeline.extract import (
     extract_sos,
     save_doc_extraction,
 )
-from bosc.pipeline.ingest import SourceDocument
+from bosc.pipeline.ingest import SOURCE_SUFFIXES, SourceDocument
 
 
 # --- fakes -----------------------------------------------------------------
@@ -251,3 +254,58 @@ def test_save_doc_extraction_mirrors_collection(tmp_path: Path) -> None:
     path = save_doc_extraction(extraction, settings=settings)
     assert path.parent == settings.extracted_dir / "recorder"
     assert path.name == "202511180011830-amazon-deed.deed.yaml"
+
+
+# --- raster image sources (#703) -------------------------------------------
+def _img_doc(path: Path) -> SourceDocument:
+    return SourceDocument(path=path, doc_id="img-1234", suffix=path.suffix.lower(), size_bytes=0)
+
+
+def test_image_suffixes_are_admitted_to_the_extraction_inventory() -> None:
+    # #619 dropped images from the inventory because no path existed; #703 re-admits them.
+    assert IMAGE_SUFFIXES <= SOURCE_SUFFIXES
+    assert {".png", ".jpg", ".jpeg", ".tif", ".tiff"} <= SOURCE_SUFFIXES
+    assert _img_doc(Path("/x/scan.png")).is_image
+    assert not _img_doc(Path("/x/scan.png")).is_pdf
+    assert not _doc().is_image  # a .pdf is not an image
+
+
+def test_read_image_png_reencodes_non_png_to_png(tmp_path: Path) -> None:
+    # A .jpg / .tif source must come back as valid PNG bytes (the extractor pins image/png).
+    for name, fmt in [("scan.jpg", "JPEG"), ("scan.tif", "TIFF")]:
+        src = tmp_path / name
+        Image.new("RGB", (8, 8), (200, 100, 50)).save(src, format=fmt)
+        out = read_image_png(src)
+        assert out[:8] == b"\x89PNG\r\n\x1a\n"  # PNG signature
+        assert Image.open(io.BytesIO(out)).format == "PNG"
+
+
+def test_read_image_png_flattens_cmyk_and_alpha(tmp_path: Path) -> None:
+    # CMYK TIFF and RGBA PNG modes flatten to RGB rather than failing the PNG encode.
+    cmyk = tmp_path / "cmyk.tif"
+    Image.new("CMYK", (4, 4)).save(cmyk, format="TIFF")
+    rgba = tmp_path / "alpha.png"
+    Image.new("RGBA", (4, 4), (1, 2, 3, 128)).save(rgba, format="PNG")
+    for src in (cmyk, rgba):
+        assert Image.open(io.BytesIO(read_image_png(src))).mode == "RGB"
+
+
+def test_extract_deed_from_image_source_sends_raw_image_no_text(tmp_path: Path) -> None:
+    # The headline #703 path: a .png scan extracts through the same extract_deed as a PDF,
+    # but with the single image and NO OCR text hint, and an honest dpi=0.
+    src = tmp_path / "deed-scan.png"
+    Image.new("RGB", (16, 16), (255, 255, 255)).save(src, format="PNG")
+    deed = Deed(instrument_no="202511180011830", grantees=["Anonymous LLC"])
+    extractor = _FakeExtractor(deed)
+    extraction = extract_deed(_img_doc(src), extractor=extractor)  # type: ignore[arg-type]
+
+    assert isinstance(extraction, DeedExtraction)
+    assert extraction.deed.instrument_no == "202511180011830"
+    assert extraction.pages_read == [0]
+    assert extraction.image_pages_read == [0]
+    assert extraction.dpi == 0  # a raster source isn't rendered at a DPI
+    # the extractor saw exactly one image and no text hint
+    (call,) = extractor.calls
+    assert call["context"] == ""
+    assert call["images"] is not None and len(call["images"]) == 1
+    assert call["images"][0][:8] == b"\x89PNG\r\n\x1a\n"

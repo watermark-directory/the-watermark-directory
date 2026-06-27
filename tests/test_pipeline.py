@@ -38,15 +38,17 @@ def test_discover_finds_only_extractable_sources(tmp_path: Path) -> None:
     coll.mkdir(parents=True)
     (coll / "exhibit.pdf").write_bytes(b"%PDF-1.4 stub")
     (coll / "drawing.odg").write_bytes(b"PK\x03\x04 stub")
-    # Admitted by the old SOURCE_SUFFIXES but with no extractor path — would crash
-    # PdfDocument, so the extraction inventory must not surface them (#619).
+    # Raster scans now have an extractor path (read straight into the vision model,
+    # no text layer), so they're back in the inventory (#703, reversing #619's #).
     (coll / "scan.png").write_bytes(b"\x89PNG stub")
     (coll / "agenda.jpg").write_bytes(b"\xff\xd8\xff stub")
+    # …but a .txt / .csv still has no vision path and stays out.
     (coll / "notes.txt").write_text("hello")
     (coll / "ignore.csv").write_text("a,b")
 
     settings = Settings(data_dir=tmp_path)
     docs = ingest.discover(settings)
-    assert {d.path.name for d in docs} == {"exhibit.pdf", "drawing.odg"}
+    assert {d.path.name for d in docs} == {"exhibit.pdf", "drawing.odg", "scan.png", "agenda.jpg"}
     assert all(d.collection == "aedg" for d in docs)
     assert next(d for d in docs if d.is_pdf)
+    assert {d.path.name for d in docs if d.is_image} == {"scan.png", "agenda.jpg"}

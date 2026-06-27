@@ -12,18 +12,20 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from bosc.config import Settings, get_settings
+from bosc.documents import IMAGE_SUFFIXES
 from bosc.logging import get_logger
 
 log = get_logger(__name__)
 
-# Extensions the extract stage can actually read: PDF (pdfium render + pypdf text)
-# and OpenDocument Drawing (read_odg). `discover` is the *extraction* inventory, so it
-# admits only what has an extractor path — a discovered .png/.tif/.txt scan has none
-# and would crash PdfDocument (#619). Raw image-source extraction (wrapping .png/.jpg
-# straight into the vision model) is a separate feature, not advertised here until built.
-# (Reference/evidence images + text under data/documents/ are still immutable corpus and
-# are surfaced by the site documents feed, which walks the tree independently.)
-SOURCE_SUFFIXES = {".pdf", ".odg"}
+# Extensions the extract stage can actually read: PDF (pdfium render + pypdf text),
+# OpenDocument Drawing (read_odg), and raster scans (read_image_png → straight to the
+# vision model, no text layer; #703). `discover` is the *extraction* inventory, so it
+# admits only what has an extractor path. Discovery only inventories — extraction is
+# kind-dispatched (`extract_document(doc, kind=…)`), so an admitted image isn't
+# auto-extracted; it just becomes a handle. A `.txt` source has no vision path and stays
+# out. (Reference/evidence files under data/documents/ remain immutable corpus and are
+# surfaced by the site documents feed, which walks the tree independently.)
+SOURCE_SUFFIXES = {".pdf", ".odg", *IMAGE_SUFFIXES}
 
 
 @dataclass(frozen=True)
@@ -39,6 +41,11 @@ class SourceDocument:
     @property
     def is_pdf(self) -> bool:
         return self.suffix == ".pdf"
+
+    @property
+    def is_image(self) -> bool:
+        """A raster source (.png/.jpg/.tif) read straight into the vision model (#703)."""
+        return self.suffix in IMAGE_SUFFIXES
 
 
 def _doc_id(path: Path) -> str:
