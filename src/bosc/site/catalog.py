@@ -20,6 +20,7 @@ from bosc.site.feeds import (
     Citation,
     SourceKind,
 )
+from bosc.sites import is_reference_site
 
 # Producer kind → the bundle's shared provenance vocabulary (mirrors catalog_backfill).
 _SOURCE_KIND: dict[ProducerKind, SourceKind] = {
@@ -39,12 +40,32 @@ def _collection(entry: CatalogEntry) -> str:
     return parts[0] if parts else entry.scope
 
 
+def _in_site_scope(entry: CatalogEntry, slug: str) -> bool:
+    """Whether a catalog entry belongs in ``slug``'s per-site bundle (#762).
+
+    ``basin-shared`` (basin/national outputs) and ``slug-scoped`` (the ``{site}`` per-site
+    templates that resolve to *this* site's copy) belong in every site's bundle. ``lima-legacy``
+    is Lima's own pre-network data, so it stays only in the reference build — a sibling site's
+    bundle is strictly its own. The reference build keeps everything (byte-identical).
+    """
+    if entry.site_scope == "lima-legacy":
+        return is_reference_site(slug)
+    return True
+
+
 def export_catalog(settings: Settings | None = None) -> list[CatalogItem]:
-    """Project every catalog entry to a :class:`CatalogItem`, joined to the observed snapshot."""
+    """Project every catalog entry to a :class:`CatalogItem`, joined to the observed snapshot.
+
+    Per-site (#762): a sibling site's bundle carries only the entries in its own scope; the
+    reference build (Lima, the network host the root ``/about/data`` page reads) keeps the whole
+    inventory. See :func:`_in_site_scope`.
+    """
     settings = settings or get_settings()
     snapshot = load_observed(settings=settings)
     items: list[CatalogItem] = []
     for entry in load_entries(settings=settings):
+        if not _in_site_scope(entry, settings.site):
+            continue
         obs = snapshot.entries.get(entry.id) if snapshot else None
         observed = (
             CatalogObserved(
