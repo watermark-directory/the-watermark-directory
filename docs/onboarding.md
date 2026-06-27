@@ -199,3 +199,43 @@ bosc onboard <slug> --research
 It's a **paid/online** LLM call (needs `ANTHROPIC_API_KEY`), so it's opt-in and **skips
 cleanly** without a key or under `--offline`. The proposal manifest feeds the step-3 review;
 the equivalent standalone command is `bosc research run --topic "…"`.
+
+## Curating a site's content (people / places / exhibits)
+
+Steps 2–3 cover the connector + corpus data; this is the **hand-curated** layer the content
+bundle renders. The bundle is **per-site** (#762): `bosc --site <slug> export` reads a site's
+*own* curated stores via `bosc.sites.site_scoped_path`, so a non-Lima site never inherits
+Lima's. Lima (the reference build) keeps the flat committed layout; every other site lives
+under a `<slug>/` subdir. Scaffold these — Fort Wayne's are the worked example
+(`data/people/fort-wayne/`, `data/poi/fort-wayne/`, `data/site/fort-wayne/exhibits.yaml`):
+
+| Feed | Lima reads | A site `<slug>` reads |
+| --- | --- | --- |
+| `people` | `data/people/*.md` | `data/people/<slug>/*.md` |
+| `places` (+ imagery) | `data/poi/*.md` | `data/poi/<slug>/*.md` |
+| `exhibits` | `data/site/exhibits.yaml` | `data/site/<slug>/exhibits.yaml` |
+| `candidates` | `entities/profiles/…` | `entities/<slug>/profiles/…` |
+| `lei` | `reference/gleif/…` | `reference/<slug>/gleif/…` |
+| `geo/watershed` | `reference/hydrology/wbd/` | `reference/<slug>/hydrology/wbd/` |
+
+An empty/absent store yields a legitimately-empty feed — never Lima's. Every curated record
+cites a committed source; **never fabricate a person, place, or exhibit** (chain of custody).
+
+## Bringing a site's story live
+
+A site's *story* is the MDX `stories` collection under
+`frontend/src/content/stories/<slug>/<codename>/` — `_home.mdx` (the on-ramp) plus one
+`<chapter>.mdx` per chapter (a frontmatter spine + a prose body). Fort Wayne's scaffold is
+`stories/fort-wayne/project-zodiac/` (chapters in draft, `live: false`). The story **routes are
+gated to `selectable` sites**, so a draft story is schema-validated but **never rendered** until
+the site is promoted (step 5). To bring it live:
+
+1. **Write the prose.** Replace each scaffold body; anchor every chapter's `anchorRecordRels` to
+   the site's committed records (the backlinks the library shows). Re-add the record-teardown
+   islands / bundle-count imports as in `stories/lima/project-bosc/`. Keep figures cited.
+2. **Set chapters `live: true`** as each is finished (it gates that chapter's wayfinding links).
+3. **Register the story** on the site's `frontend/src/lib/sites.ts` entry (`stories: [{ codename,
+   title, dek }]`) so the switcher/nav surface it.
+4. **Promote** (step 5 above): the parity-gated `status: "live"` + `selectable: true` flip makes
+   every `network/[site]/…` route — including the story — render for the site. No new page files
+   are needed; the existing routes emit for the newly-selectable site automatically.
