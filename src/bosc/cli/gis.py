@@ -27,6 +27,11 @@ def parcels(
         "--defense",
         help="Scan parcel owners against the defense-contractor seed list -> reference YAML.",
     ),
+    geojson: str | None = typer.Option(
+        None,
+        "--geojson",
+        help="With --owner, write the matching parcels (with WGS84 geometry) to this GeoJSON path.",
+    ),
     offline: bool = typer.Option(
         False, "--offline", help="Use cached GIS responses only; never touch the network."
     ),
@@ -63,6 +68,12 @@ def parcels(
         return
 
     if owner:
+        if geojson:
+            fc = allen_gis.parcels_geojson_by_owner(owner, settings=settings)
+            path = allen_gis.write_parcels_geojson(fc, Path(geojson), settings=settings)
+            n = len(fc.get("features", []))
+            console.print(f"[green]Wrote[/] {n} parcels (with geometry) -> {path}")
+            return
         results = allen_gis.parcels_by_owner(owner, settings=settings)
         table = Table("Parcel", "Owner", "Situs", "Acres", "Mkt total")
         for p in results:

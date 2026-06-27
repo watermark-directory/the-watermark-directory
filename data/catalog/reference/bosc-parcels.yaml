@@ -1,0 +1,37 @@
+id: bosc-parcels
+title: Per-Site Parcel Assemblage Geometry
+scope: reference
+status: reviewed
+producer:
+  kind: connector
+  command: parcels --owner <assembler> --geojson data/reference/<site>/bosc-parcels.geojson
+  connector_ref: bosc.hydrology.connectors.allen_gis
+  source: Per-site county parcel GIS via the gis_parcel field-map, pulled as f=geojson reprojected
+    to WGS84 (Fort Wayne = Allen County, IN iMap, parcel layer 10)
+  external_url: https://gis1.acimap.us/imapweb/rest/services/QueryLayers/QueryLayers/MapServer/10
+license: Public records (local government open data)
+access_tier: public
+site_scope: slug-scoped
+storage:
+- relpath: reference/{site}/bosc-parcels.geojson
+  media_type: application/geo+json
+  lfs: false
+refresh:
+  cadence: on-demand
+  last_refreshed: '2026-06-27'
+provenance: connector
+tags:
+- parcels
+- gis
+- land-assembly
+- footprint
+notes: >-
+  The per-site data-center parcel assemblage geometry (WGS84 GeoJSON, friendly schema-decoded
+  properties + a bosc-provenance foreign member). Currently instantiated only for Fort Wayne: the
+  11 parcels owned by Hatchworks LLC (the Google land-assembly shell behind Project Zodiac; mailing
+  Mountain View CA / Wilmington DE) — anchor 6015 Adams Center Rd (transferred 2024-01-10) plus the
+  Tillman Rd cluster (Jan-2024 + a second wave 2025-10-31), ~856 ac planar (UTM 16N). This is the
+  recorded OWNERSHIP assemblage, NOT a surveyed developed footprint (that stays pending the
+  deed/rezoning/stormwater-permit extraction, #360/#362). NOTE the bosc-parcels.geojson filename
+  drives the slug-collapsed bosc-parcels id and is shared with the unrelated Periplus frozen import
+  (reference/periplus/bosc-parcels.geojson) — the naming needs rework (see the open issue).

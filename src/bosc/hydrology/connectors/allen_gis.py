@@ -24,6 +24,7 @@ machinery; synchronous (``httpx``).
 from __future__ import annotations
 
 import datetime
+import json
 import re
 from pathlib import Path
 from typing import Any, cast
@@ -311,6 +312,70 @@ def parcels_by_owner(name: str, *, settings: Settings | None = None) -> list[Par
     return query_parcels(f"UPPER({schema.owner_field}) LIKE '%{safe}%'", settings=settings)
 
 
+def _geojson_feature(parcel: Parcel, geometry: Any) -> dict[str, Any]:
+    """One GeoJSON Feature with schema-decoded, friendly properties (never the raw SDE keys)."""
+    return {
+        "type": "Feature",
+        "geometry": geometry,
+        "properties": {
+            "parcel_id": parcel.parcel_no,
+            "owner": parcel.owner,
+            "situs_address": parcel.situs_address,
+            "owner_mailing_address": parcel.owner_address,
+            "transfer_date": parcel.last_sale_date,
+        },
+    }
+
+
+def query_parcels_geojson(where: str, *, settings: Settings | None = None) -> dict[str, Any]:
+    """Every parcel matching ``where`` as a WGS84 GeoJSON ``FeatureCollection`` (with geometry).
+
+    Asks ArcGIS for ``f=geojson`` (so the server emits RFC-7946 geometry — no Esri-ring
+    conversion) reprojected to ``outSR=4326``, then re-keys each feature's properties through
+    the schema decode (``Parcel.from_attrs``) so the committed file carries friendly names, not
+    the layer's fully-qualified SDE field keys. Paged to completion like ``query_parcels``.
+    """
+    settings = settings or get_settings()
+    schema = _parcel_schema(settings)
+    fields = ",".join(schema.out_fields)
+    features: list[dict[str, Any]] = []
+    offset = 0
+    while True:
+        page = _query(
+            {
+                "where": _scope_where(where, schema),
+                "outFields": fields,
+                "returnGeometry": "true",
+                "outSR": "4326",
+                "f": "geojson",
+                "resultOffset": offset,
+                "resultRecordCount": schema.page_size,
+            },
+            settings=settings,
+            connector=schema.connector,
+        )
+        page_features = page.get("features") or []
+        for ft in page_features:
+            parcel = Parcel.from_attrs(ft.get("properties", {}), schema)
+            features.append(_geojson_feature(parcel, ft.get("geometry")))
+        if not page.get("exceededTransferLimit") or not page_features:
+            return {"type": "FeatureCollection", "features": features}
+        offset += len(page_features)
+
+
+def parcels_geojson_by_owner(name: str, *, settings: Settings | None = None) -> dict[str, Any]:
+    """A WGS84 GeoJSON ``FeatureCollection`` of every parcel whose owner contains ``name``."""
+    settings = settings or get_settings()
+    schema = _parcel_schema(settings)
+    if not schema.owner_field:
+        raise AllenGisError(
+            f"site {settings.site!r} parcel layer has no owner-name field "
+            "(owner-redacted) — owner search is unavailable"
+        )
+    safe = name.upper().replace("'", "''")
+    return query_parcels_geojson(f"UPPER({schema.owner_field}) LIKE '%{safe}%'", settings=settings)
+
+
 def parcel_at_point(lon: float, lat: float, *, settings: Settings | None = None) -> Parcel | None:
     """The parcel containing a WGS84 point, or ``None`` if none intersects.
 
@@ -510,4 +575,35 @@ def write_parcels(
         "parcels": [_parcel_doc(p) for p in ordered],
     }
     path.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    return path
+
+
+def write_parcels_geojson(
+    feature_collection: dict[str, Any], path: Path, *, settings: Settings | None = None
+) -> Path:
+    """Write a parcel ``FeatureCollection`` to ``path``, stamping a provenance foreign member.
+
+    The provenance lives under a top-level ``bosc:provenance`` key (an RFC-7946 foreign member,
+    ignored by GeoJSON readers) so the committed reference file is self-describing and regenerable.
+    """
+    settings = settings or get_settings()
+    meta = _parcel_schema(settings).meta
+    path.parent.mkdir(parents=True, exist_ok=True)
+    features = sorted(
+        feature_collection.get("features", []),
+        key=lambda f: f.get("properties", {}).get("parcel_id") or "",
+    )
+    doc = {
+        "type": "FeatureCollection",
+        "bosc:provenance": {
+            "subject": meta.subject,
+            "source": meta.source,
+            "source_url": meta.source_url,
+            "crs": "EPSG:4326 (WGS84)",
+            "count": len(features),
+            "caveats": list(meta.caveats),
+        },
+        "features": features,
+    }
+    path.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     return path
