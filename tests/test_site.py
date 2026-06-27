@@ -89,9 +89,9 @@ def test_site_scoped_path_is_flat_for_lima_subdir_for_others() -> None:
 
 
 def test_curated_stores_are_per_site_not_lima_bound() -> None:
-    """#762: the curated stores (people, POIs) and the meetings feed read the active site's own
-    copy. Fort Wayne has none committed, so each is empty — never Lima's. Lima reads its flat store.
-    (POI scoping also fixes the imagery feed, which derives its tracking sites from watched POIs.)"""
+    """#762: the curated stores (people, POIs) and the meetings feed read the active site's OWN
+    copy — Fort Wayne carries its own places/people, never Lima's. (POI scoping also fixes the
+    imagery feed, which derives its tracking sites from watched POIs.)"""
     from bosc.civic.summarize import load_committed_summaries
     from bosc.config import Settings
     from bosc.people import load_people
@@ -102,12 +102,17 @@ def test_curated_stores_are_per_site_not_lima_bound() -> None:
     lima = Settings(site="lima", data_dir=REPO_ROOT / "data")
     fw_scope = active_profile(fw).corpus_relpaths
 
-    # POIs (places + imagery tracking): FW reads data/poi/fort-wayne/ (absent) → empty.
-    assert load_pois(settings=fw) == []
-    assert load_pois(settings=lima)  # Lima has its flat POI store
+    # POIs (places + imagery tracking): FW reads data/poi/fort-wayne/ — its own campus, not Lima's.
+    fw_poi_slugs = {p.slug for p in load_pois(settings=fw)}
+    assert "project-zodiac-campus" in fw_poi_slugs  # the FW Hatchworks assemblage
+    assert "data-center-campus" not in fw_poi_slugs  # NOT Lima's Bistrozzi campus
+    assert load_pois(settings=lima)  # Lima still reads its flat POI store
 
-    # People: same slug-subdir convention.
-    assert load_people(site_scoped_path(fw.people_dir, "fort-wayne", is_dir=True)) == []
+    # People: same slug-subdir convention — FW carries its own named actors, not Lima's.
+    fw_people = load_people(site_scoped_path(fw.people_dir, "fort-wayne", is_dir=True))
+    fw_person_names = {p.name for p in fw_people}
+    assert "Marc Stern" in fw_person_names  # the FW §401 applicant
+    assert "Amanda Davis" not in fw_person_names  # NOT a Lima actor
     assert load_people(site_scoped_path(lima.people_dir, "lima", is_dir=True))
 
     # Meetings: extracted-tree scope → FW has no in-scope bodies; Lima reads all.
