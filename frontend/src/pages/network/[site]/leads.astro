@@ -10,6 +10,7 @@
  */
 import Base from "../../../layouts/Base.astro";
 import Icon from "../../../components/Icon.astro";
+import SiteNeeds from "../../../components/SiteNeeds.astro";
 import {
   KIND_META,
   LEAD_FILTERS,
@@ -20,6 +21,7 @@ import {
   leadCount,
   leadStats,
 } from "../../../lib/leads";
+import { isReferenceSite, lockedSections } from "../../../lib/readiness";
 import { withSite } from "../../../lib/site";
 import { activeSite, selectableSitePaths, siteForSlug, siteState } from "../../../lib/sites";
 
@@ -30,6 +32,12 @@ export const getStaticPaths = selectableSitePaths;
 const { slug } = Astro.props as { slug: string };
 const site = siteForSlug(slug) ?? activeSite();
 const dateline = `${site.place}, ${siteState(slug)}`;
+
+// The Lima leads board reads the curated corpus-audit (`leads.ts`); a thinner peer has no per-site
+// leads feed yet, so its honest "leads/needs" is the set of sections still waiting on a source —
+// the readiness gaps, rendered by <SiteNeeds> (#781). Reference build keeps the full board.
+const isPeer = !isReferenceSite(slug);
+const needsCount = lockedSections(slug).length;
 
 const stats = leadStats();
 const submitHref = withSite("/submit");
@@ -43,6 +51,69 @@ const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issue
   rail={false}
   description={`Every gap we're chasing on the ${site.place} site, in the open — each lead unverified until a source corroborates it.`}
 >
+  {isPeer ? (
+    <div class="leads">
+      <header class="leads-head">
+        <a class="leads-back" href={withSite()}>← Back to the site</a>
+        <div class="leads-head-row">
+          <div class="leads-head-main">
+            <div class="leads-kicker">Open investigation · {dateline}</div>
+            <h1>Open leads</h1>
+            <p class="leads-lead">
+              This is an early build of the {site.place} record — there's no curated leads board
+              yet. What it needs most are the <strong>sources behind the sections still locked</strong>
+              below. We don't fill them with another site's record; bring a document and it opens
+              that section.
+            </p>
+          </div>
+          <a class="leads-submit" href={submitHref}>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Submit a lead
+          </a>
+        </div>
+      </header>
+
+      <div class="leads-layout">
+        <div class="leads-main">
+          <div class="leads-count">
+            <span class="leads-count-l">{needsCount} {needsCount === 1 ? "section needs" : "sections need"} sources</span>
+            <span class="leads-count-rule" aria-hidden="true"></span>
+          </div>
+          <SiteNeeds slug={slug} />
+          <p class="leads-listfoot">
+            As each section is sourced it opens into <a href={recordHref}>the record →</a>
+          </p>
+        </div>
+
+        <aside class="leads-rail" aria-label="How leads work">
+          <div class="leads-cta">
+            <div class="leads-cta-kicker">Build the record</div>
+            <div class="leads-cta-h">Know something we don't?</div>
+            <p class="leads-cta-p">
+              A document, a name, a correction. We log every submission as a lead — not a verdict — and review
+              before the record changes.
+            </p>
+            <a class="leads-cta-btn" href={submitHref}>Submit a lead →</a>
+          </div>
+
+          <div class="leads-lifecycle">
+            <div class="leads-rail-kicker">How a lead closes</div>
+            <ol class="leads-lc-list">
+              {LEAD_LIFECYCLE.map((p) => (
+                <li class="leads-lc-step">
+                  <span class="leads-lc-num">{p.num}</span>
+                  <span class="leads-lc-main">
+                    <span class="leads-lc-title">{p.title}</span>
+                    <span class="leads-lc-desc">{p.desc}</span>
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </aside>
+      </div>
+    </div>
+  ) : (
   <div class="leads">
     <header class="leads-head">
       <a class="leads-back" href={withSite()}>← Back to the site</a>
@@ -193,4 +264,5 @@ const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issue
       </aside>
     </div>
   </div>
+  )}
 </Base>
