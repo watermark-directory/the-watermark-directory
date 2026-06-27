@@ -23,6 +23,7 @@ machinery; synchronous (``httpx``).
 
 from __future__ import annotations
 
+import datetime
 import re
 from pathlib import Path
 from typing import Any, cast
@@ -142,6 +143,8 @@ def _decode_sale_date(value: Any, mode: str) -> str | None:
         return _s(value)
     if mode == "mmddyy":
         return _parse_mmddyy(value)
+    if mode == "epoch_millis":
+        return _parse_epoch_millis(value)
     return None
 
 
@@ -174,6 +177,20 @@ def _parse_parcel_date(value: Any) -> str | None:
     if not (1 <= month <= 12 and 1 <= day <= 31 and 1800 <= year <= 2100):
         return None
     return f"{year:04d}-{month:02d}-{day:02d}"
+
+
+def _parse_epoch_millis(value: Any) -> str | None:
+    """Decode an Esri ``esriFieldTypeDate`` (epoch milliseconds, UTC) to ISO ``yyyy-mm-dd``.
+
+    ArcGIS serves Date fields as integer milliseconds since the Unix epoch (e.g. Allen County,
+    IN ``TransferDate`` ``1704844800000`` -> ``2024-01-10``). Negative/zero/unparseable ->
+    ``None`` (never inventing a date). Decoded in UTC, matching how the service stores the field.
+    """
+    n = _i(value)
+    if not n or n <= 0:
+        return None
+    dt = datetime.datetime.fromtimestamp(n / 1000, tz=datetime.UTC)
+    return dt.date().isoformat()
 
 
 def _parse_mmddyy(value: Any) -> str | None:
