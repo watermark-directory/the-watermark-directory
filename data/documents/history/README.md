@@ -8,24 +8,15 @@ the Allen County / Maumee headwaters corridor. These are **reference** sources
 narrative and hydrology context rather than serving as primary evidence for any
 present-day finding.
 
-## Contents
+## Sub-collections
 
-| File | Title | Author | Date | IA identifier |
-|---|---|---|---|---|
-| `historyallencou00leesgoog_text.pdf` | *History of Allen County, Ohio* | M. A. Leeson | 1885 | `historyallencou00leesgoog` |
+| Sub-collection | Description |
+|---|---|
+| [`geography/`](geography/README.md) | Physical geography, drainage / waterway history, canal and land-use surveys |
 
-## Source provenance
+## Conventions
 
-All documents in this collection originate from **Internet Archive** (Google-digitized
-scans), are in the **public domain**, and carry the IA `details` URL as the
-canonical provenance source. As-received filenames are preserved; the canonical
-title and a content-verified date are recorded in `filename-map.yaml`.
-
-## Scope note
-
-Most of the Leeson volume (827 pp) is genealogy. The corridor-relevant slices are:
-- Allen County drainage / river / canal history (Ottawa River, Miami & Erie corridor)
-- Township formation (American, Sugar Creek, Shawnee, Perry)
-- Early industry and land use in the American Sugar Creek basin
-
-Extraction of those slices is tracked in [`data/extracted/history/`](../../extracted/history/).
+Each sub-collection carries its own `README.md` (sources, scope, rights) and a
+`filename-map.yaml` for chain-of-custody aliases (as-received filename → canonical
+title + content-verified date). All sources are **public domain** unless noted.
+Extraction outputs mirror this structure under `data/extracted/history/`.
