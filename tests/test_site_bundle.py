@@ -19,7 +19,7 @@ from jsonschema.validators import Draft202012Validator
 from bosc.config import Settings
 from bosc.pipeline.corpus import relpath_in_scope
 from bosc.site.export import export_bundle
-from bosc.sites import get_profile
+from bosc.sites import effective_corpus_scope, get_profile
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 COMMITTED_SCHEMAS = REPO_ROOT / "data" / "site" / "bundle" / "schemas"
@@ -268,31 +268,43 @@ def fort_wayne_bundle(tmp_path_factory: pytest.TempPathFactory) -> Path:
     return out
 
 
-def test_non_reference_site_bundle_carries_no_lima_corpus(fort_wayne_bundle: Path) -> None:
-    """A sibling site's per-site-scoped feeds must not inherit Lima's Allen-County-OH corpus.
+@pytest.fixture(scope="module")
+def urbana_bundle(tmp_path_factory: pytest.TempPathFactory) -> Path:
+    """An Urbana bundle (#782's validation candidate) — a sibling with **no committed corpus**
+    and ``corpus_relpaths`` left unset, so it exercises the #780 *default* scope, not Fort
+    Wayne's explicit one. Hermetic: no network, same committed data."""
+    out = tmp_path_factory.mktemp("urbanabundle") / "b"
+    settings = Settings(data_dir=REPO_ROOT / "data", site="urbana")
+    export_bundle(settings, out_dir=out, generated_at="2026-01-01T00:00:00+00:00")
+    return out
 
-    This is the #762 *content* guard the original count-based check missed: several feeds are
-    built by readers that once globbed the whole extracted tree (the timeline civic builders,
-    the entity-graph subdivision/relation-class overlays, the flat ``data/scenarios`` dir), so
-    a non-Lima export silently inherited Lima's commissioners spine, township meetings, and
-    Ottawa-River scenarios. Each is now bounded by the active site's ``corpus_relpaths``.
+
+def _assert_corpus_feeds_lima_free(slug: str, bundle_dir: Path) -> None:
+    """The reusable new-site smoke test (#762/#780): a sibling site's corpus-derived feeds must
+    carry none of Lima's Allen-County-OH record.
+
+    Several feeds are built by readers that once globbed the whole extracted tree (the timeline
+    civic builders, the entity-graph subdivision/relation-class overlays, the flat
+    ``data/scenarios`` dir); each is now bounded by the site's *effective* corpus scope. A site's
+    scope is its explicit ``corpus_relpaths`` or, when unset, its own slug — **never** the
+    reference build's whole tree (only Lima resolves to ``None``).
 
     The basin-/network-shared lenses (``network``, ``concepts``, the ``hypotheses`` *definitions*)
-    are cross-site by design and not asserted here. The two site-tagged cross-site feeds —
-    ``catalog`` and ``hypothesis-assessments`` — are narrowed for a sibling site (its own slice
-    only) and asserted separately in :func:`test_sibling_bundle_narrows_cross_site_feeds`.
+    are cross-site by design. ``catalog`` and ``hypothesis-assessments`` are narrowed separately
+    (:func:`test_sibling_bundle_narrows_cross_site_feeds`); the residual Fort-Wayne-specific
+    ``catalog`` rows are the #778 taxonomy gap and out of scope for this corpus guard.
     """
-    scope = get_profile("fort-wayne").corpus_relpaths
-    assert scope is not None, "a sibling site must declare a corpus scope"
+    scope = effective_corpus_scope(get_profile(slug))
+    assert scope is not None, f"{slug} is not the reference build, so its scope must be bounded"
 
-    # Every timeline event must cite a source inside Fort Wayne's corpus scope.
-    feeds = _feeds_by_name(fort_wayne_bundle)
-    for event in _rows(fort_wayne_bundle, feeds["timeline"]):
+    feeds = _feeds_by_name(bundle_dir)
+    # Every timeline event must cite a source inside the site's own corpus scope.
+    for event in _rows(bundle_dir, feeds["timeline"]):
         assert relpath_in_scope(event["source"], scope), (
-            f"timeline leaks an out-of-scope source: {event['source']}"
+            f"{slug} timeline leaks an out-of-scope source: {event['source']}"
         )
 
-    # No per-site feed may name a Lima-only collection (the markers these leaks left behind).
+    # No per-site corpus feed may name a Lima-only collection (the markers these leaks left).
     lima_markers = (
         "commissioners/",
         "lacrpc/",
@@ -306,9 +318,24 @@ def test_non_reference_site_bundle_carries_no_lima_corpus(fort_wayne_bundle: Pat
         ref = feeds.get(name)
         if ref is None:
             continue
-        text = (fort_wayne_bundle / ref["path"]).read_text(encoding="utf-8")
+        text = (bundle_dir / ref["path"]).read_text(encoding="utf-8")
         for marker in lima_markers:
-            assert marker not in text, f"feed {name!r} leaks Lima marker {marker!r}"
+            assert marker not in text, f"{slug} feed {name!r} leaks Lima marker {marker!r}"
+
+
+def test_explicit_scoped_sibling_bundle_carries_no_lima_corpus(fort_wayne_bundle: Path) -> None:
+    """Fort Wayne — a sibling with an *explicit* ``corpus_relpaths`` — is Lima-free (#762)."""
+    assert get_profile("fort-wayne").corpus_relpaths is not None, "FW sets an explicit scope"
+    _assert_corpus_feeds_lima_free("fort-wayne", fort_wayne_bundle)
+
+
+def test_default_scoped_sibling_bundle_carries_no_lima_corpus(urbana_bundle: Path) -> None:
+    """The new-site smoke test (#780): a freshly-registered site on the **default** scope is also
+    Lima-free. Urbana leaves ``corpus_relpaths`` unset (so it defaults to ``('urbana',)``) and has
+    no committed corpus — before #780 its ``None`` scope meant the whole tree, silently inheriting
+    Lima's 174 timeline events and 72 entities. Adding a new site to this guard is one line."""
+    assert get_profile("urbana").corpus_relpaths is None, "Urbana relies on the default scope"
+    _assert_corpus_feeds_lima_free("urbana", urbana_bundle)
 
 
 def test_sibling_bundle_narrows_cross_site_feeds(bundle: Path, fort_wayne_bundle: Path) -> None:
