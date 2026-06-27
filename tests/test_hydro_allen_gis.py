@@ -2,11 +2,25 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 
 from bosc.config import Settings
 from bosc.hydrology.connectors import allen_gis
 from bosc.hydrology.connectors._cache import HydroOfflineError
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+FIXTURES = REPO_ROOT / "tests" / "fixtures"
+
+
+def _fort_wayne_offline() -> Settings:
+    return Settings(
+        site="fort-wayne",
+        data_dir=REPO_ROOT / "data",
+        hydro_offline=True,
+        hydro_fixtures_dir=FIXTURES / "hydrology",
+    )
 
 
 def test_fetch_parcel_from_fixture(hydro_settings: Settings) -> None:
@@ -102,6 +116,32 @@ def test_parse_mmddyy() -> None:
     assert allen_gis._parse_mmddyy("") is None
     assert allen_gis._parse_mmddyy("2024-01-01") is None  # not MM-DD-YY
     assert allen_gis._parse_mmddyy("13-40-99") is None  # invalid month/day
+
+
+def test_parcels_geojson_by_owner_fort_wayne() -> None:
+    # The Hatchworks (Project Zodiac) assemblage as a WGS84 GeoJSON FeatureCollection, offline.
+    fc = allen_gis.parcels_geojson_by_owner("Hatchworks", settings=_fort_wayne_offline())
+    assert fc["type"] == "FeatureCollection"
+    assert len(fc["features"]) == 11  # the assemblage as of the committed fixture
+
+    by_id = {f["properties"]["parcel_id"]: f for f in fc["features"]}
+    anchor = by_id["021327100001000077"]  # 6015 Adams Center Rd
+    props = anchor["properties"]
+    assert props["owner"] == "Hatchworks LLC"
+    assert props["transfer_date"] == "2024-01-10"  # decoded from Esri epoch-millis
+    assert "6015 Adams Center Rd" in (props["situs_address"] or "")
+    assert anchor["geometry"]["type"] in ("Polygon", "MultiPolygon")
+    assert anchor["geometry"]["coordinates"]  # geometry actually present
+
+    # Properties are the friendly, schema-decoded keys — never the raw SDE field names.
+    assert set(props) == {
+        "parcel_id",
+        "owner",
+        "situs_address",
+        "owner_mailing_address",
+        "transfer_date",
+    }
+    assert all("GISPublished" not in k for f in fc["features"] for k in f["properties"])
 
 
 def test_parse_epoch_millis() -> None:

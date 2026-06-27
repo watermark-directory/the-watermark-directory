@@ -1,4 +1,4 @@
-reconciled_at: '2026-06-26T01:13:43.385008+00:00'
+reconciled_at: '2026-06-27T04:12:17.685664+00:00'
 entries:
   aedg:
     exists: true
@@ -69,6 +69,15 @@ entries:
     size_bytes: 81424
     lfs_materialized: true
     file_count: 4
+    missing: []
+    asof: null
+    stale: false
+  bosc-parcels:
+    exists: true
+    sha256: bb267c62bf54da26a0ac944fc31d5da4ec02ad4edec0efe09ef1b3a9c97b775f
+    size_bytes: 136410
+    lfs_materialized: true
+    file_count: 1
     missing: []
     asof: null
     stale: false

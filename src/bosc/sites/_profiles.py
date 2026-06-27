@@ -340,14 +340,14 @@ _FORT_WAYNE = SiteProfile(
         500: 7.30,
         1000: 8.04,
     },
-    parcels_relpath="reference/fort-wayne/bosc-parcels.geojson",  # [open] commit the site's own geometry
-    # [open] #362, footprint-gated: the facility site is identified (Google "Project Zodiac", #360) and
-    # the Allen County (IN) parcel REST is now wired (gis1.acimap.us, gis_parcel above) — the assemblage
-    # resolves to the Hatchworks LLC parcels (anchor 6015 Adams Center Rd, mailing Mountain View CA;
-    # 11 parcels as of 2026-06-26, transferred Jan-2024 + Oct-2025). A committed AOI is still [open]:
-    # it needs the parcel geometries dissolved (returnGeometry=true) and reconciled against the
-    # deed/rezoning/stormwater-permit extraction before a surveyed boundary is asserted (mirrors
-    # Findlay #355). Unblock = the geometry pull + the #360 deed/rezoning extraction.
+    parcels_relpath="reference/fort-wayne/bosc-parcels.geojson",  # [reference] the Hatchworks assemblage
+    # [reference] #362: the facility is Google "Project Zodiac" (#360); the Allen County (IN) parcel REST
+    # is wired (gis1.acimap.us, gis_parcel above) and the assemblage geometry is committed — the 11
+    # Hatchworks LLC parcels (anchor 6015 Adams Center Rd, mailing Mountain View CA; transferred Jan-2024
+    # + a second wave Oct-2025), pulled as WGS84 GeoJSON (bosc-parcels.geojson, catalogued fort-wayne-
+    # parcels). Measured planar acreage ~856 ac (UTM 16N). This is the recorded OWNERSHIP assemblage,
+    # NOT a surveyed developed footprint — the developed/impervious boundary stays [open] pending the
+    # #360 deed/rezoning/stormwater-permit extraction (mirrors Findlay #355).
     footprint_relpath="extracted/fort-wayne/bosc-site-footprint.yaml",
     # per-site onboard reach outputs (slug-scoped — never clobber Lima/Findlay)
     climatology_relpath="reference/hydrology/fort-wayne/nasa-power-climatology.yaml",
