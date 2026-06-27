@@ -1,17 +1,21 @@
 id: idem
-title: IDEM (Indiana) Air-Permit Extractions
+title: IDEM (Indiana) Permit Extractions — Air (Title V) & Water (§401 WQC)
 scope: extracted
 status: reviewed
 producer:
   kind: extracted
-  source: Indiana DEM, Office of Air Quality — Title V air permits (hand extraction of the facility
-    power basis from the committed source PDFs under data/documents/idem/<site>/)
+  source: Indiana DEM, Office of Air Quality (Title V air permits) + Office of Water Quality (§401
+    Water Quality Certifications) — hand extraction of the verified facts from the committed source
+    PDFs under data/documents/idem/<site>/
   external_url: https://apps.idem.in.gov/PermitStatusSearch/
 license: Public record
 access_tier: public
 site_scope: slug-scoped
 storage:
 - relpath: extracted/idem/{site}/47378f.idem.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/idem/{site}/wqc001454.idem.yaml
   media_type: application/x-yaml
   lfs: false
 refresh:
@@ -22,12 +26,16 @@ tags:
 - idem
 - air-permit
 - title-v
+- section-401
+- water-quality
 - data-center
 - fort-wayne
 - project-zodiac
 notes: >-
-  Structured extraction of the verified facts from the IDEM Title V air permit for the Hatchworks
-  LLC / Project Zodiac data center (Fort Wayne) — 34 diesel emergency gensets (26.4 MMBTU/hr each),
-  operator "a stationary data center" (SIC 7374), NOx 240 tpy. The power basis (genset_mw / IT load)
-  is DERIVED from heat input (the permit discloses no electrical rating) and feeds SiteProfile.facility
-  (#360). Source bytes + chain of custody: data/documents/idem/<site>/ (filename-map.yaml).
+  Structured extractions of the verified facts from IDEM permits for the Hatchworks LLC / Project
+  Zodiac data center (Fort Wayne). 47378f.idem.yaml = the Title V air permit (34 diesel emergency
+  gensets @ 26.4 MMBTU/hr, operator "a stationary data center", NOx 240 tpy) — the power basis
+  feeding SiteProfile.facility (#360). wqc001454.idem.yaml = the §401 Water Quality Certification
+  (Phase 3 contested record): the verbatim "Google Data Center" attribution, receiving water (Adams
+  Ditch / Maumee HUC 04100005), Phase-3 stream/wetland impacts, and the issued-over-opposition
+  posture. Source bytes + chain of custody: data/documents/idem/<site>/ (filename-map.yaml).

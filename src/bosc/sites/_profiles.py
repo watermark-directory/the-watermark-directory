@@ -275,7 +275,9 @@ _FINDLAY = SiteProfile(
 # national NFHL for flood, and the Ohio-only LSC connector falling away. Geography is sourced +
 # cited below. The data-center dimension is now DOCUMENTED (#360): the disclosed facility is Google's
 # $2B "Project Zodiac" campus (700+ ac, SE Fort Wayne, served by I&M, operational Dec 2025) — see
-# data/extracted/fort-wayne/datacenter-facility.md. The `facility` power basis is now populated from
+# data/extracted/fort-wayne/datacenter-facility.md. The Hatchworks=Google link is [verified] (no longer
+# inference): the IDEM §401 WQC001454 record names the applicant verbatim as "Google Data Center"
+# (data/extracted/idem/fort-wayne/wqc001454.idem.yaml). The `facility` power basis is now populated from
 # the committed IDEM Title V air-permit extraction (data/extracted/idem/fort-wayne/47378f.idem.yaml,
 # #360): 34 diesel gensets → ~90 MW IT (genset_mw DERIVED from heat input). The grid `load_share` in
 # grid-profile.yaml is still null — it's now derivable (derive_grid_profile reads the power basis) but

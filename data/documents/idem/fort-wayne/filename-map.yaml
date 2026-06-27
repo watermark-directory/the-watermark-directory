@@ -52,6 +52,70 @@ aliases:
       November 17, 2025. This is the DRAFT/public-notice stage — the modification was later
       issued 2026-04-10 (003-48739) / 2026-06-01 (003-48840) per the IDEM permit table.
 
+  # --- Section 401 Water Quality Certification WQC001454 (the Phase 3 contested-permit record).
+  # IDEM Office of Water Quality, Waterways Section. Applicant Marc Stern (Hatchworks LLC); agent
+  # EMH&T (Heather Dardinger). USACE LRE-2023-00646-102. The documents name the applicant verbatim
+  # as "Google Data Center" / "Project Zodiac Phase 3". The campus stormwater receiving water is
+  # Adams Ditch (Maumee watershed, HUC 04100005). The cert was ISSUED 2026-06-05 over public
+  # opposition (Hoosier Environmental Council et al.). These keep their as-received names.
+  - file: notice_20260403_401_wqc001454.pdf
+    canonical: idem-wqc001454-section401-public-notice-2026-03-13.pdf
+    date: 2026-03-13   # publication date (comment close 2026-04-03 — the as-received filename date)
+    evidence: native_text
+    permit_number: WQC001454
+    corps_id: LRE-2023-00646-102
+    permit_level: Section 401 Water Quality Certification — public notice (application summary)
+    stage: notice
+    pages: 9
+    note: >-
+      The §401 WQC public notice: applicant Marc Stern / Hatchworks LLC (agent EMH&T), 858-acre
+      parcel at 41.030378/-85.048069, affected waterbodies Adams Ditch + an unnamed tributary of
+      Doctor Ditch + one forested wetland. Phase 3 = expansion of the existing data-center campus
+      (3 buildings incl. DC06/DC07), relocating 3,415 lf (0.78 ac) of Adams Ditch.
+  - file: 043026-IDEM-Hearing-ORIGINAL.pdf
+    canonical: idem-wqc001454-public-hearing-transcript-2026-04-30.pdf
+    date: 2026-04-30
+    evidence: native_text
+    permit_number: WQC001454
+    permit_level: Section 401 WQC — public hearing transcript (Hearing Officer James Turner)
+    stage: hearing
+    pages: 90
+    note: >-
+      Verbatim transcript of the virtual public hearing, captioned "PUBLIC HEARING REGARDING
+      PROJECT ZODIAC PHASE 3 (GOOGLE DATA CENTER) WQC001454".
+  - file: public-comments-compiled.pdf
+    canonical: idem-wqc001454-public-comments-compiled-2026-04.pdf
+    date: 2026-04-03   # comment-period close
+    evidence: native_text
+    permit_number: WQC001454
+    permit_level: Section 401 WQC — compiled public comments (opposition + support)
+    stage: comments
+    pages: 295
+    note: >-
+      The compiled public-comment record (organized opposition incl. the Hoosier Environmental
+      Council). Third-party correspondence captured verbatim as evidence (not redacted).
+  - file: Response-to-Public-Comments-WQC001454-Project-Zodiac-Phase-3-Google-Data-Center.pdf
+    canonical: idem-wqc001454-response-to-public-comments-2026-06-05.pdf
+    date: 2026-06-05
+    evidence: native_text
+    permit_number: WQC001454
+    permit_level: Section 401 WQC — IDEM response to public comments
+    stage: response
+    pages: 11
+    note: IDEM's formal response to the public comments, issued with the final certification.
+  - file: WQC001454-Section-401-WQC-Approval.pdf
+    canonical: idem-wqc001454-section401-approval-2026-06-05.pdf
+    date: 2026-06-05
+    evidence: native_text
+    permit_number: WQC001454
+    corps_id: LRE-2023-00646-102
+    permit_level: Section 401 Water Quality Certification — APPROVAL (final, issued)
+    stage: final
+    pages: 14
+    note: >-
+      The issued §401 WQC certificate — IDEM certified the Phase 3 stream/wetland impacts comply
+      with Indiana water quality standards (327 IAC 2), issued 2026-06-05 over public opposition.
+
 # NOT INGESTED (recorded so the omission is deliberate, not a gap):
 #   23665f.pdf — a stray file in the source drop: it is "Keller Crescent Company /
 #   097-23665-00270" (City of Indianapolis Office of Environmental Services), an

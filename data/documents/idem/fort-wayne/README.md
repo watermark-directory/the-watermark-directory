@@ -28,6 +28,27 @@ the 2025 filing is the significant Part 70 operating-permit modification (public
 stage). Ties to `bosc.sites` `_FORT_WAYNE` (#360/#362) and the Hatchworks parcel assemblage
 (`data/reference/fort-wayne/bosc-parcels.geojson`).
 
+### §401 Water Quality Certification WQC001454 (Phase 3 — the contested-permit record)
+
+IDEM Office of Water Quality, Waterways Section. The complete administrative record of the
+**Section 401 Water Quality Certification** for **Project Zodiac Phase 3** — the campus
+expansion (USACE `LRE-2023-00646-102`). The documents name the applicant verbatim as
+**"Google Data Center"** (applicant Marc Stern / Hatchworks LLC; agent EMH&T). Phase 3 relocates
+**Adams Ditch** (3,415 lf / 0.78 ac) and fills **0.84 ac of forested wetland** to build DC06/DC07,
+with mitigation via the Maumee Service Area + Openings stream/wetland banks. The cert was **issued
+2026-06-05 over organized public opposition** (Hoosier Environmental Council et al.).
+
+| File | Stage | Date | Pages |
+|---|---|---|---|
+| `notice_20260403_401_wqc001454.pdf` | public notice (application summary) | 2026-03-13 | 9 |
+| `043026-IDEM-Hearing-ORIGINAL.pdf` | public hearing transcript | 2026-04-30 | 90 |
+| `public-comments-compiled.pdf` | compiled public comments | 2026-04 | 295 |
+| `Response-to-Public-Comments-WQC001454-...pdf` | IDEM response to comments | 2026-06-05 | 11 |
+| `WQC001454-Section-401-WQC-Approval.pdf` | **APPROVAL (final, issued)** | 2026-06-05 | 14 |
+
+The campus stormwater receiving water is **Adams Ditch** (an unnamed tributary of Doctor Ditch;
+**Maumee watershed, HUC 04100005**) — distinct from the Fort Wayne WWTP's Maumee-mainstem receptor.
+
 ## Known gaps & caveats
 
 - The IDEM table lists further authorizations not yet captured here: the issued `003-48739`

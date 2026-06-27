@@ -19,9 +19,10 @@ parcel_acres:
   source: reference
   citation: >-
     bosc-parcels.geojson — UTM-16N (EPSG:32616) planar area of the 11 recorded Hatchworks LLC
-    parcels (bosc.hydrology.geo.parcels_total_acres). The full ownership assemblage; larger than
-    the publicly-reported ~700-ac campus because the anchor deed spans multiple section-halves.
-  confidence: medium
+    parcels (bosc.hydrology.geo.parcels_total_acres). CORROBORATED: the IDEM §401 WQC001454 states
+    an "858-acre parcel" (wqc001454.idem.yaml) — within ~0.3% of the GIS measure. Larger than the
+    publicly-reported ~700-ac campus because the anchor deed spans multiple section-halves.
+  confidence: high
 
 developed_acres:
   value: null
@@ -46,7 +47,11 @@ dominant_hsg:
     material for the stormwater model.
   confidence: high
 
-receiving_water: '[open] pending the stormwater outfall / SWPPP — the campus drains toward the upper Maumee (St. Marys/Baldwin Ditch corridor)'
+receiving_water: >-
+  [verified] Adams Ditch (an unnamed tributary of Doctor Ditch), Maumee watershed HUC 04100005 —
+  the campus stormwater receptor, per the IDEM §401 Water Quality Certification WQC001454
+  (data/extracted/idem/fort-wayne/wqc001454.idem.yaml; Phase 3 permanently relocates 3,415 lf of
+  Adams Ditch). DISTINCT from the Fort Wayne WWTP receptor (IN0032191 → Baldwin Ditch → Maumee mainstem).
 
 notes:
   - 'The air permit (47378f.idem.yaml) discloses 34 diesel emergency generators (26.4 MMBTU/hr each) — the data-hall backup fleet — but no developed-area or impervious-area figure; those require the stormwater permit.'
