@@ -149,6 +149,16 @@ class SiteProfile(BaseModel):
     lmp_pnode_id: int = 0
     lmp_pnode_name: str = ""
 
+    # --- Corpus scope — the content bundle's extracted-tree feeds (#762) -----------------
+    # The ``data/extracted/**`` collection prefixes that hold THIS site's records. The bundle's
+    # corpus-derived feeds (records/timeline/entities/relationships, via ``load_corpus`` +
+    # ``load_records``) read only artifacts whose rel-path is under one of these prefixes, so a
+    # non-Lima site never inherits Lima's deeds/permits/filings/meetings. A prefix is a path
+    # segment, so it spans both a slug-named collection (``"fort-wayne"``) and a jurisdiction+site
+    # hybrid (``"idem/fort-wayne"``). ``None`` = the whole extracted tree — Lima, the reference
+    # build that owns the un-slugged Allen-County-OH collections (keeps its bundle byte-identical).
+    corpus_relpaths: tuple[str, ...] | None = None
+
     # --- RSEI county (rsei.py) ----------------------------------------------------------
     county_name: str
 

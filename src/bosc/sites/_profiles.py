@@ -419,6 +419,9 @@ _FORT_WAYNE = SiteProfile(
     ),
     lmp_pnode_id=8445784,
     lmp_pnode_name="AEP",
+    # corpus scope (#762): only Fort Wayne's own extracted records — the slug collection plus the
+    # IDEM (Indiana) jurisdiction+site subtree. Without this the bundle inherits Lima's whole corpus.
+    corpus_relpaths=("fort-wayne", "idem/fort-wayne"),
     # rsei
     county_name="Allen County, IN",  # [verified]
     # map

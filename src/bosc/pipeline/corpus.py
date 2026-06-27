@@ -33,8 +33,24 @@ from bosc.models import (
     SosExtraction,
     WetlandExtraction,
 )
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
+
+
+def relpath_in_scope(rel: str, prefixes: tuple[str, ...] | None) -> bool:
+    """Whether an extracted artifact's ``rel`` (relative to ``data/extracted``) is in a site's
+    corpus scope (#762).
+
+    ``prefixes is None`` means the whole tree is in scope — Lima, the reference build that owns
+    the un-slugged Allen-County-OH collections. Otherwise a prefix matches as a path *segment*:
+    ``"fort-wayne"`` matches ``fort-wayne/…`` and ``"idem/fort-wayne"`` matches
+    ``idem/fort-wayne/…`` (but ``"fort-wayne"`` never matches ``fort-wayne-foo/…``).
+    """
+    if prefixes is None:
+        return True
+    norm = rel.replace("\\", "/")
+    return any(norm == p or norm.startswith(f"{p}/") for p in prefixes)
 
 
 @dataclass(frozen=True)
@@ -172,6 +188,9 @@ def load_corpus(settings: Settings | None = None) -> Corpus:
     """
     settings = settings or get_settings()
     extracted = settings.extracted_dir
+    # Per-site corpus scope (#762): a non-Lima site reads only its own extracted collections, so
+    # the cross-document feeds (timeline/entities/relationships) never inherit Lima's records.
+    scope = active_profile(settings).corpus_relpaths
     corpus = Corpus()
     if not extracted.exists():
         log.warning("corpus.no_extracted_dir", path=str(extracted))
@@ -179,6 +198,8 @@ def load_corpus(settings: Settings | None = None) -> Corpus:
 
     for path in sorted(extracted.rglob("*.yaml")):
         rel = str(path.relative_to(extracted))
+        if not relpath_in_scope(rel, scope):
+            continue
         try:
             data = yaml.safe_load(path.read_text(encoding="utf-8"))
         except yaml.YAMLError as exc:
