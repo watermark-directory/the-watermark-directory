@@ -10,7 +10,7 @@ producer:
   external_url: https://echo.epa.gov/tools/web-services
 license: U.S. Government work (public domain)
 access_tier: throttled
-site_scope: basin-shared
+site_scope: basin:maumee
 storage:
   - relpath: reference/echo/maumee-wwtp.all-npdes.yaml
     media_type: application/x-yaml

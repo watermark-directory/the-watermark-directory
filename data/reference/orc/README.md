@@ -49,7 +49,7 @@ git-ignored `data/cache/` so re-runs don't refetch.
 
 ### `orc` — Ohio Revised Code — Corpus Citation Index
 
-Source: Ohio LSC code portal — codes.ohio.gov · License: Ohio public record · Access: public · Site scope: basin-shared · Refresh: on-demand
+Source: Ohio LSC code portal — codes.ohio.gov · License: Ohio public record · Access: public · Site scope: state:OH · Refresh: on-demand
 
 Regenerate: `bosc orc`
 
@@ -59,7 +59,7 @@ Regenerate: `bosc orc`
 
 ### `orc-orc` — Ohio Revised Code — Full Text (Cited Sections + Titles)
 
-Source: Ohio LSC code portal — codes.ohio.gov · License: Ohio public record · Access: public · Site scope: basin-shared · Refresh: on-demand
+Source: Ohio LSC code portal — codes.ohio.gov · License: Ohio public record · Access: public · Site scope: state:OH · Refresh: on-demand
 
 Regenerate: `bosc orc`
 

@@ -10,7 +10,7 @@ producer:
   external_url: https://apps.idem.in.gov/PermitStatusSearch/
 license: Public record
 access_tier: public
-site_scope: slug-scoped
+site_scope: site:fort-wayne
 storage:
 - relpath: extracted/idem/{site}/47378f.idem.yaml
   media_type: application/x-yaml

@@ -6,7 +6,7 @@ producer:
   kind: extracted
   source: data/documents/history/historyallencou00leesgoog_text.pdf
 access_tier: public
-site_scope: basin-shared
+site_scope: lima-legacy
 storage:
 - relpath: extracted/history/allen-oh/leeson-1885-corpus-intersect.summary.md
   media_type: text/markdown

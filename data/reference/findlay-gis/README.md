@@ -53,7 +53,7 @@ and [`tests/fixtures/hydrology/ohio_parcels/`](../../../tests/fixtures/hydrology
 
 ### `findlay-gis` — City of Findlay, Ohio Zoning Districts
 
-Source: City of Findlay GIS — hosted ArcGIS FeatureServer 'FindlayZoning' · License: Public records (local government open data) · Access: public · Site scope: basin-shared · Refresh: on-demand, last 2026-06-19
+Source: City of Findlay GIS — hosted ArcGIS FeatureServer 'FindlayZoning' · License: Public records (local government open data) · Access: public · Site scope: site:findlay · Refresh: on-demand, last 2026-06-19
 
 Regenerate: `bosc zoning --districts`
 

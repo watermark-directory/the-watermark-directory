@@ -22,17 +22,43 @@ from pydantic import BaseModel, ConfigDict, Field
 from bosc.catalog import CatalogEntry, Scope, SiteScope, load_entries
 from bosc.catalog_reconcile import reconcile
 from bosc.config import Settings, get_settings
+from bosc.sites import SITES, get_profile
 
 # Lima keeps its reference/extracted files un-slugged (the `lima-legacy`/un-templated peer);
 # every other site's slug-scoped copy lives under a `<slug>/` segment (the `{site}` template).
 _LEGACY_SITE = "lima"
 
 
-def is_relevant(entry: CatalogEntry, slug: str) -> bool:
-    """Whether a dataset is part of ``slug``'s expected set."""
-    if entry.site_scope == "lima-legacy":
+def owner_matches(site_scope: SiteScope, slug: str) -> bool:
+    """Whether a dataset with this ``site_scope`` belongs to ``slug`` (#778) — the single owner
+    rule shared by the readiness view and the bundle feed.
+
+    ``basin-shared`` (national) and ``slug-scoped`` (a ``{site}`` template every site instances)
+    belong to everyone; ``lima-legacy`` only to the reference build. The explicit-owner kinds
+    match the site's identity: ``site:<slug>`` its slug, ``basin:<name>`` its ``basin``,
+    ``state:<XX>`` its ``eia_state``. An unknown/unregistered site is treated as no match for the
+    owner kinds (it can't claim another site's data).
+    """
+    if site_scope in ("basin-shared", "slug-scoped"):
+        return True
+    if site_scope == "lima-legacy":
         return slug == _LEGACY_SITE
-    return True  # basin-shared (everyone) and slug-scoped (everyone, per-site copy)
+    kind, _, value = site_scope.partition(":")
+    if kind == "site":
+        return slug == value
+    if slug not in SITES:
+        return False
+    profile = get_profile(slug)
+    if kind == "basin":
+        return profile.basin == value
+    if kind == "state":
+        return profile.eia_state == value
+    return False
+
+
+def is_relevant(entry: CatalogEntry, slug: str) -> bool:
+    """Whether a dataset is part of ``slug``'s expected set (its owner matches the site)."""
+    return owner_matches(entry.site_scope, slug)
 
 
 def _resolved_relpaths(entry: CatalogEntry, slug: str) -> list[str]:

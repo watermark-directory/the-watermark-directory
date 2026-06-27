@@ -11,7 +11,7 @@ producer:
   external_url: https://echo.epa.gov/tools/web-services
 license: U.S. Government work (public domain) [DMR]; public record otherwise
 access_tier: public
-site_scope: slug-scoped
+site_scope: site:fort-wayne
 storage:
 - relpath: extracted/{site}/datacenter-facility.md
   media_type: text/markdown

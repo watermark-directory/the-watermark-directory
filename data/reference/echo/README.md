@@ -151,7 +151,7 @@ Each entry under `facilities:` carries these keys (`null` = ECHO returned nothin
 
 ### `echo-great-miami-wwtp` — Great Miami-basin NPDES discharger inventory (EPA ECHO)
 
-Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: U.S. Government work (public domain) · Access: throttled · Site scope: basin-shared · Refresh: quarterly (ttl 180d)
+Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: U.S. Government work (public domain) · Access: throttled · Site scope: basin:great-miami · Refresh: quarterly (ttl 180d)
 
 Regenerate: `bosc npdes --basin great-miami`
 
@@ -163,7 +163,7 @@ Regenerate: `bosc npdes --basin great-miami`
 
 ### `echo-maumee-npdes` — Maumee-basin NPDES discharger inventory (EPA ECHO)
 
-Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: U.S. Government work (public domain) · Access: throttled · Site scope: basin-shared · Refresh: quarterly (ttl 180d)
+Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: U.S. Government work (public domain) · Access: throttled · Site scope: basin:maumee · Refresh: quarterly (ttl 180d)
 
 Regenerate: `bosc npdes --basin maumee`
 

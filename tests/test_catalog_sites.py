@@ -10,8 +10,29 @@ from __future__ import annotations
 import textwrap
 from pathlib import Path
 
-from bosc.catalog_sites import is_relevant, readiness, site_view
+from bosc.catalog_sites import is_relevant, owner_matches, readiness, site_view
 from bosc.config import Settings
+
+
+def test_owner_matches_explicit_owner_kinds() -> None:
+    """The #778 owner grammar: ``site:``/``basin:``/``state:`` match the site's identity, and the
+    legacy kinds keep their meaning. Fort Wayne is Maumee/Indiana; Urbana is Great-Miami/Ohio."""
+    # site: only the named slug
+    assert owner_matches("site:fort-wayne", "fort-wayne")
+    assert not owner_matches("site:fort-wayne", "urbana")
+    # basin: only sites in that basin
+    assert owner_matches("basin:great-miami", "urbana")
+    assert not owner_matches("basin:great-miami", "fort-wayne")
+    # state: only sites in that state (profile.eia_state)
+    assert owner_matches("state:OH", "urbana")
+    assert not owner_matches("state:OH", "fort-wayne")  # Indiana
+    # legacy kinds unchanged: shared/template everyone, lima-legacy only the reference build
+    assert owner_matches("basin-shared", "urbana")
+    assert owner_matches("slug-scoped", "urbana")
+    assert owner_matches("lima-legacy", "lima")
+    assert not owner_matches("lima-legacy", "urbana")
+    # an unregistered site can't claim another owner's data
+    assert not owner_matches("basin:great-miami", "no-such-site")
 
 
 def _settings(tmp_path: Path) -> Settings:

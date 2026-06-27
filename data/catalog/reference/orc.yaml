@@ -10,7 +10,7 @@ producer:
   external_url: https://codes.ohio.gov/ohio-revised-code
 license: Ohio public record
 access_tier: public
-site_scope: basin-shared
+site_scope: state:OH
 storage:
 - relpath: reference/orc/citations.yaml
   media_type: application/x-yaml
