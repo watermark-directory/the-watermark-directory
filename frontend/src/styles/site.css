@@ -2499,6 +2499,20 @@ a.walk-dot:hover { opacity: 0.82; }
 .dchip--type { color: var(--td-chip-kind); background: var(--td-tint); border: 1px solid var(--td-tint-line); font-family: var(--bosc-mono); }
 .dchip--devonly { color: var(--bosc-forest); background: var(--td-tint); }
 
+/* Documents catalog (#725) — one sortable/filterable table + its JS-revealed toolbar. */
+.dtable.doccat { max-width: none; }
+.doccat-coll { color: var(--bosc-muted); white-space: nowrap; }
+.doccat-tools { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--sp-3); margin: 0.9rem 0; }
+.doccat-search { flex: 1 1 16rem; min-width: 12rem; padding: var(--sp-2) var(--sp-3); font: inherit; font-size: var(--fs-sm); border: 1px solid var(--bosc-rule); border-radius: 8px; background: var(--bosc-bg); color: var(--bosc-ink); }
+.doccat-filter { display: flex; flex-direction: column; gap: 2px; font-size: var(--fs-micro); letter-spacing: 0.5px; text-transform: uppercase; font-weight: 700; color: var(--td-faint); }
+.doccat-filter select { font: inherit; font-size: var(--fs-sm); font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--bosc-ink); padding: var(--sp-1) var(--sp-2); border: 1px solid var(--bosc-rule); border-radius: 7px; background: var(--bosc-bg); }
+.doccat-count { margin-left: auto; align-self: center; font-family: var(--bosc-mono); font-size: var(--fs-meta); color: var(--bosc-muted); }
+.doccat th.doccat-sortable { cursor: pointer; user-select: none; }
+.doccat th.doccat-sortable:hover { color: var(--bosc-ink); }
+.doccat th[aria-sort="ascending"]::after { content: " \2191"; }
+.doccat th[aria-sort="descending"]::after { content: " \2193"; }
+.doccat-empty { color: var(--bosc-muted); font-size: var(--fs-sm); margin: 0.6rem 0; }
+
 /* ===========================================================================
    Document viewer (/site/documents/<rel>, epic #274 D1–D2): the tiered renderer
    over /api/doc, plus the per-document page chrome.
