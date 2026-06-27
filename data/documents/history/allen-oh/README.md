@@ -18,6 +18,7 @@ date + provenance URL) are in [`filename-map.yaml`](filename-map.yaml).
 ## Scope note — Leeson 1885
 
 Most of the 827-page volume is genealogy. The corridor-relevant slices:
+
 - **Rivers and creeks** (pp. 182–191): Ottawa River drainage, soil character, geology
 - **Miami & Erie Canal** (pp. 111–119): canal system history and commerce
 - **Township formation** (pp. 182–238): American, Sugar Creek, Shawnee, Perry

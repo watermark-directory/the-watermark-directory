@@ -18,7 +18,6 @@
 
 **Person Place** — 98 substantive hits across 3 entities: Shawnee (tribal/geographic), Cole / Cole Street, Neff
 
-
 ## Entity hit counts
 
 | Entity | Category | Hits |
@@ -254,7 +253,6 @@ These pages are prime candidates for targeted extraction:
 *Section: CONTENTS.*
 
 > "es, etc CHAPTER X.— The Press - 878-882 Lima Newspapers — Herald^ Porcupine^ Argut, Reporter^ Western Oazette, OoMeUe, Doily Oazette, Ptopl^i Pretty Democrat, Sun, JVbon, AUm Qmnty Republican, DailyR^mbli- can, VolkMatt, Oourier, Democratic Tim4s and Daily Time*. Delphos Newspapers— /SeeMon Ten Budget^ Oracle, Norihwettem Rfjmblioan, Herald, Cburan"
-
 
 ## Recommended extraction targets
 
