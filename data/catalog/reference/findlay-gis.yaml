@@ -10,7 +10,7 @@ producer:
   external_url: https://services6.arcgis.com/XMr9uonP553LyU3o/arcgis/rest/services/FindlayZoning/FeatureServer/0
 license: Public records (local government open data)
 access_tier: public
-site_scope: basin-shared
+site_scope: site:findlay
 storage:
 - relpath: reference/findlay-gis/zoning-districts.yaml
   media_type: application/x-yaml

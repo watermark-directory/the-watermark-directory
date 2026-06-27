@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from bosc.catalog import CatalogEntry, ProducerKind, load_entries
 from bosc.catalog_reconcile import load_observed
+from bosc.catalog_sites import owner_matches
 from bosc.config import Settings, get_settings
 from bosc.site.feeds import (
     CatalogItem,
@@ -41,16 +42,14 @@ def _collection(entry: CatalogEntry) -> str:
 
 
 def _in_site_scope(entry: CatalogEntry, slug: str) -> bool:
-    """Whether a catalog entry belongs in ``slug``'s per-site bundle (#762).
+    """Whether a catalog entry belongs in ``slug``'s per-site bundle (#762/#778).
 
-    ``basin-shared`` (basin/national outputs) and ``slug-scoped`` (the ``{site}`` per-site
-    templates that resolve to *this* site's copy) belong in every site's bundle. ``lima-legacy``
-    is Lima's own pre-network data, so it stays only in the reference build — a sibling site's
-    bundle is strictly its own. The reference build keeps everything (byte-identical).
+    A sibling site's bundle is strictly its own: a row is included iff its owner matches the site
+    (:func:`bosc.catalog_sites.owner_matches` — ``site:``/``basin:``/``state:`` against the site's
+    slug/basin/state, plus the shared/template kinds). The reference build (Lima, the network host
+    the root ``/about/data`` page reads) keeps the whole catalog, byte-identical.
     """
-    if entry.site_scope == "lima-legacy":
-        return is_reference_site(slug)
-    return True
+    return is_reference_site(slug) or owner_matches(entry.site_scope, slug)
 
 
 def export_catalog(settings: Settings | None = None) -> list[CatalogItem]:

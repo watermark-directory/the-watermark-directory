@@ -45,8 +45,20 @@ const FRESH_LABEL: Record<CatalogFreshness, string> = {
 const SITE_SCOPE_LABEL: Record<string, string> = {
   "lima-legacy": "Lima",
   "slug-scoped": "per-site",
-  "basin-shared": "basin",
+  "basin-shared": "shared",
 };
+// The #778 owner grammar: site:<slug> / basin:<name> / state:<XX>. Render the value readably,
+// falling through to the fixed labels above (and the raw string for anything unrecognized).
+function siteScopeLabel(scope: string): string {
+  const [kind, value] = scope.split(":");
+  if (value) {
+    const pretty = value.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    if (kind === "site") return pretty;
+    if (kind === "basin") return `${pretty} basin`;
+    if (kind === "state") return value; // a 2-letter code reads fine as-is
+  }
+  return SITE_SCOPE_LABEL[scope] ?? scope;
+}
 function fileSummary(it: CatalogItem): string {
   const n = it.observed?.file_count ?? it.storage.length;
   return `${n} file${n === 1 ? "" : "s"}`;
@@ -114,7 +126,7 @@ function fileSummary(it: CatalogItem): string {
                         </td>
                         <td>{it.license ?? "—"}</td>
                         <td><span class={`cat-pill tier-${it.access_tier}`}>{it.access_tier}</span></td>
-                        <td><span class="cat-scope">{SITE_SCOPE_LABEL[it.site_scope] ?? it.site_scope}</span></td>
+                        <td><span class="cat-scope">{siteScopeLabel(it.site_scope)}</span></td>
                         <td><span class={`cat-pill fresh-${fresh}`}>{FRESH_LABEL[fresh]}</span></td>
                       </tr>
                     );

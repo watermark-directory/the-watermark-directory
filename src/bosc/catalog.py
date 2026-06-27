@@ -24,11 +24,12 @@ backfill, render) lands in the sibling issues — this is the schema everything 
 
 from __future__ import annotations
 
+import re
 from pathlib import Path, PurePosixPath
-from typing import Literal
+from typing import Annotated, Literal
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import AfterValidator, BaseModel, ConfigDict, Field, model_validator
 
 from bosc.config import Settings, get_settings
 
@@ -57,9 +58,33 @@ ProducerKind = Literal[
 # Who can fetch the dataset's upstream — captures facts (BOSC_EIA_API_KEY required, the ECHO
 # 300-req/hr throttle) that today live in only a few of the 40 READMEs.
 AccessTier = Literal["public", "keyed", "throttled"]
-# The per-site axis (see ``bosc.sites``): Lima's legacy un-slugged files, a slug-scoped
-# per-site template, or a basin/national output shared across sites.
-SiteScope = Literal["lima-legacy", "slug-scoped", "basin-shared"]
+# The per-site axis (see ``bosc.sites``) — the *owner* of a dataset (#778). The three legacy
+# kinds plus an explicit-owner grammar so a dataset that belongs to one specific site, basin, or
+# state is expressible (not just "Lima vs everyone"):
+#   - ``lima-legacy``     — Lima's un-slugged reference-layout files (the reference build's own)
+#   - ``slug-scoped``     — a genuine ``{site}`` per-site template; every site has its own copy
+#   - ``basin-shared``    — a basin/national output shared across every site
+#   - ``site:<slug>``     — owned by one specific site (e.g. Fort Wayne's IDEM permits)
+#   - ``basin:<name>``    — owned by one basin (e.g. the Great Miami ECHO inventory)
+#   - ``state:<XX>``      — owned by one state (e.g. the Ohio Revised Code)
+# A site's bundle/readiness includes a row iff its owner matches the site — see
+# ``bosc.catalog_sites.owner_matches``. The reference build still hosts the whole catalog.
+_FIXED_SITE_SCOPES = ("lima-legacy", "slug-scoped", "basin-shared")
+_OWNER_SITE_SCOPE_RE = re.compile(r"^(?:site|basin):[a-z0-9-]+$|^state:[A-Z]{2}$")
+
+
+def _validate_site_scope(value: str) -> str:
+    """Enforce the ``site_scope`` grammar (#778); semantic checks (real slug/basin/state) live
+    in ``bosc catalog check``."""
+    if value in _FIXED_SITE_SCOPES or _OWNER_SITE_SCOPE_RE.match(value):
+        return value
+    raise ValueError(
+        f"invalid site_scope {value!r}: expected one of {_FIXED_SITE_SCOPES} or "
+        "'site:<slug>' / 'basin:<name>' / 'state:<XX>'"
+    )
+
+
+SiteScope = Annotated[str, AfterValidator(_validate_site_scope)]
 # How often the upstream is expected to move — drives staleness with ``Refresh.ttl_days``.
 Cadence = Literal["daily", "weekly", "monthly", "quarterly", "annual", "on-demand", "static"]
 # Where a dataset's *facts* come from — reused verbatim from the provenance vocabulary so
@@ -244,7 +269,7 @@ class CatalogFinding(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     entry_id: str
-    kind: Literal["duplicate-id", "load-error"]
+    kind: Literal["duplicate-id", "load-error", "unknown-owner"]
     detail: str
 
 
@@ -271,6 +296,28 @@ def validate_entries(*, settings: Settings | None = None) -> list[CatalogFinding
                     entry_id=entry_id,
                     kind="duplicate-id",
                     detail=f"id committed {n} times (must be unique across the catalog)",
+                )
+            )
+
+    # An explicit-owner site_scope (#778) must reference a real site / basin / state — the
+    # grammar shape is validated by the model; this catches a typo'd or stale owner value.
+    from bosc.sites import SITES
+
+    pools: dict[str, set[str]] = {
+        "site": set(SITES),
+        "basin": {p.basin for p in SITES.values()},
+        "state": {p.eia_state for p in SITES.values()},
+    }
+    for entry in entries:
+        kind, _, value = str(entry.site_scope).partition(":")
+        pool = pools.get(kind)
+        if pool is not None and value not in pool:
+            findings.append(
+                CatalogFinding(
+                    entry_id=entry.id,
+                    kind="unknown-owner",
+                    detail=f"site_scope {entry.site_scope!r} names an unknown {kind} "
+                    f"(not in the bosc.sites registry)",
                 )
             )
     return findings

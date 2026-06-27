@@ -51,7 +51,7 @@ generation timestamp), so re-running regenerates identical bytes.
 
 ### `lsc-status-report` — Ohio LSC Status Report of Legislation
 
-Source: Ohio Legislative Service Commission — Status Report of Legislation (statusreport.lsc.ohio.gov) · License: Ohio public record · Access: public · Site scope: basin-shared · Refresh: on-demand
+Source: Ohio Legislative Service Commission — Status Report of Legislation (statusreport.lsc.ohio.gov) · License: Ohio public record · Access: public · Site scope: state:OH · Refresh: on-demand
 
 Regenerate: `bosc lsc`
 

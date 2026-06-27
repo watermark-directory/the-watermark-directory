@@ -18,9 +18,10 @@ curated ``command → collection`` hint map for the ``bosc`` regenerator and con
 **Idempotent + prose-preserving** (mirrors the periplus backfill): a discovered dataset is matched
 to an existing entry by id *or* storage overlap (so a human-renamed reviewed entry is never
 duplicated). ``reviewed`` entries are left untouched; ``needs-review`` entries have their
-*mechanical* fields (storage, producer, scope, site_scope) rewritten while the reviewer's prose
-(``title``, ``license``, ``access_tier``, ``notes``, ``tags``, ``refresh``, …) is preserved
-verbatim; an unmatched dataset becomes a fresh ``needs-review`` stub. The human pass that flips
+*mechanical* fields (storage, producer, scope) rewritten while the reviewer's curation
+(``title``, ``license``, ``access_tier``, ``notes``, ``tags``, ``refresh``, and the editorial
+``site_scope`` owner #778) is preserved verbatim; an unmatched dataset becomes a fresh
+``needs-review`` stub with a mechanically-defaulted ``site_scope``. The human pass that flips
 ``needs-review → reviewed`` (filling license/access_tier) is tracked separately, not here.
 """
 
@@ -361,6 +362,10 @@ _PRESERVED_FIELDS = (
     "schema_ref",
     "tags",
     "notes",
+    # ``site_scope`` is editorial (#778): a path can't tell that Fort Wayne's IDEM permits are
+    # `site:fort-wayne` rather than a generic `slug-scoped` template, so the reviewer's owner tag
+    # is preserved on refresh. The mechanical default below is only for a brand-new stub.
+    "site_scope",
 )
 
 

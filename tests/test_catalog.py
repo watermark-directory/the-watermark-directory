@@ -122,6 +122,32 @@ def test_misfiled_scope_is_a_load_error(tmp_path) -> None:  # type: ignore[no-un
     assert [f.kind for f in findings] == ["load-error"]
 
 
+def test_unknown_owner_site_scope_is_flagged(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    """#778 lint: a grammatically-valid ``site_scope`` owner must reference a real site/basin/state.
+    ``site:nope`` parses (right shape) but names no registered site → an ``unknown-owner`` finding."""
+    settings = Settings(data_dir=tmp_path)
+    d = settings.catalog_dir / "reference"
+    d.mkdir(parents=True)
+    (d / "ghost.yaml").write_text(
+        textwrap.dedent(
+            """\
+            id: ghost
+            title: Ghost
+            scope: reference
+            site_scope: site:nope
+            producer:
+              kind: manual
+              source: x
+            refresh:
+              cadence: static
+            """
+        ),
+        encoding="utf-8",
+    )
+    findings = validate_entries(settings=settings)
+    assert [f.kind for f in findings] == ["unknown-owner"]
+
+
 def test_id_filename_mismatch_is_a_load_error(tmp_path) -> None:  # type: ignore[no-untyped-def]
     settings = Settings(data_dir=tmp_path)
     d = settings.catalog_dir / "reference"
