@@ -16,8 +16,10 @@ import yaml
 
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
+from bosc.pipeline.corpus import relpath_in_scope
 from bosc.pipeline.entities._graph import Entity, EntityGraph, Relationship
 from bosc.pipeline.entities._names import RELATION_CLASS_ORDER, normalize_name
+from bosc.sites import active_profile, site_scoped_path
 
 log = get_logger(__name__)
 
@@ -114,8 +116,13 @@ def _subdivision_meeting_entities(graph: EntityGraph, *, settings: Settings | No
     count lives in the entity's ``roles``.
     """
     settings = settings or get_settings()
+    scope = active_profile(settings).corpus_relpaths
     seen_edges: set[tuple[str, str]] = set()
     for path in sorted(settings.extracted_dir.glob("*/meetings/meeting-summaries.yaml")):
+        # Per-site (#762): these meeting indices are Lima's Allen-County townships; a
+        # sibling site only folds in its own. Match the actual path, not the meta slug.
+        if not relpath_in_scope(path.relative_to(settings.extracted_dir).as_posix(), scope):
+            continue
         try:
             data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         except yaml.YAMLError:
@@ -516,7 +523,13 @@ def enrich_with_relation_classes(
     are rejected. Idempotent; no-op if the overlay is absent.
     """
     settings = settings or get_settings()
-    path = settings.entities_dir / "profiles" / "relation-classes.yaml"
+    # Per-site (#762): the relation-class overlay is Lima's editorial reading of its parties;
+    # a sibling site reads its own ``entities/<slug>/profiles/`` (absent → a no-op overlay).
+    path = (
+        site_scoped_path(settings.entities_dir, settings.site, is_dir=True)
+        / "profiles"
+        / "relation-classes.yaml"
+    )
     if not path.is_file():
         return graph
     data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}

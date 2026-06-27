@@ -21,7 +21,8 @@ import yaml
 
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
-from bosc.pipeline.corpus import Corpus, load_corpus
+from bosc.pipeline.corpus import Corpus, load_corpus, relpath_in_scope
+from bosc.sites import active_profile
 
 log = get_logger(__name__)
 
@@ -219,19 +220,29 @@ def _load_yaml(path: Path) -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
-def _commissioners_events(settings: Settings) -> list[TimelineEvent]:
+def _commissioners_events(
+    settings: Settings, scope: tuple[str, ...] | None = None
+) -> list[TimelineEvent]:
     """Dated events from the committed commissioners extractions.
 
     These artifacts carry ``kind``s the corpus loader does not recognize (resolution
     ledgers, closed-session logs), so they are read directly here — the citable
     legislative spine of the project (NDA/CRA/RDA resolutions, the wastewater works,
     the codename-phase narrative, and the economic-development executive sessions).
+
+    ``scope`` is the active site's corpus scope (#762): these read the extracted tree
+    directly, so they are gated per-file like the corpus loader is — a sibling site
+    (Fort Wayne) whose scope excludes ``commissioners/`` gets none of Lima's spine.
     """
     base = settings.extracted_dir / "commissioners"
     events: list[TimelineEvent] = []
 
     ledger_rel = "commissioners/bosc-resolution-ledger.yaml"
-    ledger = _load_yaml(base / "bosc-resolution-ledger.yaml")
+    ledger = (
+        _load_yaml(base / "bosc-resolution-ledger.yaml")
+        if relpath_in_scope(ledger_rel, scope)
+        else {}
+    )
     for key in ("resolutions", "adjacent_wastewater_resolutions"):
         for r in ledger.get(key, []):
             if not isinstance(r, dict) or not r.get("date"):
@@ -262,7 +273,11 @@ def _commissioners_events(settings: Settings) -> list[TimelineEvent]:
         )
 
     sessions_rel = "commissioners/closed-deliberation-and-corridor.yaml"
-    closed = _load_yaml(base / "closed-deliberation-and-corridor.yaml")
+    closed = (
+        _load_yaml(base / "closed-deliberation-and-corridor.yaml")
+        if relpath_in_scope(sessions_rel, scope)
+        else {}
+    )
     for s in closed.get("econdev_and_property_sessions", []):
         if not isinstance(s, dict) or not s.get("date"):
             continue
@@ -280,9 +295,15 @@ def _commissioners_events(settings: Settings) -> list[TimelineEvent]:
     return events
 
 
-def _zoning_events(settings: Settings) -> list[TimelineEvent]:
-    """The American Township zoning-resolution adoption dates (data-center M-2 basis)."""
+def _zoning_events(settings: Settings, scope: tuple[str, ...] | None = None) -> list[TimelineEvent]:
+    """The American Township zoning-resolution adoption dates (data-center M-2 basis).
+
+    Lima-specific (``lacrpc/``) and gated on the active site's scope (#762): a sibling
+    site whose scope excludes ``lacrpc/`` gets nothing here.
+    """
     rel = "lacrpc/american-township-zoning.zoning.yaml"
+    if not relpath_in_scope(rel, scope):
+        return []
     data = _load_yaml(settings.extracted_dir / "lacrpc" / "american-township-zoning.zoning.yaml")
     doc = data.get("document", {}) if isinstance(data.get("document"), dict) else {}
     events: list[TimelineEvent] = []
@@ -320,7 +341,9 @@ def _summary_detail(meeting: dict[str, Any]) -> str:
     return rel
 
 
-def _subdivision_meeting_events(settings: Settings) -> list[TimelineEvent]:
+def _subdivision_meeting_events(
+    settings: Settings, scope: tuple[str, ...] | None = None
+) -> list[TimelineEvent]:
     """Subdivision meetings that name the corridor project in their minutes/agendas.
 
     Reads every committed ``<slug>/meetings/meeting-index.yaml`` (built by
@@ -330,9 +353,15 @@ def _subdivision_meeting_events(settings: Settings) -> list[TimelineEvent]:
     for the same meeting collapse via a shared ``ref``. When a meeting has a committed
     summary (``meeting-summaries.yaml``), its grounded relevance + dollar figures
     become the event detail; otherwise the detail is the raw hit set.
+
+    ``scope`` bounds the glob to the active site's collections (#762): each index is
+    keyed by its own ``rel``, so a sibling site only sees its own meeting indices, not
+    Lima's Allen-County townships.
     """
     events: list[TimelineEvent] = []
     for index_path in sorted(settings.extracted_dir.glob("*/meetings/meeting-index.yaml")):
+        if not relpath_in_scope(index_path.relative_to(settings.extracted_dir).as_posix(), scope):
+            continue
         data = _load_yaml(index_path)
         slug = str(data.get("meta", {}).get("slug", index_path.parent.parent.name))
         rel = f"{slug}/meetings/meeting-index.yaml"
@@ -367,15 +396,22 @@ def _subdivision_meeting_events(settings: Settings) -> list[TimelineEvent]:
 
 
 def build_timeline(
-    corpus: Corpus | None = None, *, include_curated: bool = True
+    corpus: Corpus | None = None,
+    *,
+    include_curated: bool = True,
+    scope: tuple[str, ...] | None = None,
 ) -> list[TimelineEvent]:
     """Assemble a single sorted chronology across the whole corpus.
 
-    The recognized-genre events come from ``corpus``. When ``include_curated`` (the
-    default for production — the CLI and site build), the committed unrecognized-kind
-    extractions — the commissioners ledger, closed-session log, and the zoning
-    resolution — are folded in directly. Tests pass ``include_curated=False`` to stay
-    hermetic against a synthetic corpus.
+    The recognized-genre events come from ``corpus`` (already site-scoped by
+    ``load_corpus``). When ``include_curated`` (the default for production — the CLI and
+    site build), the committed unrecognized-kind extractions — the commissioners ledger,
+    closed-session log, the zoning resolution, and the subdivision meeting indices — are
+    folded in directly. Those read the extracted tree directly, so they are bounded by
+    the active site's corpus scope (#762): when ``scope`` is omitted it's derived from the
+    active site's profile (``None`` for Lima → the whole tree, byte-identical), so a
+    sibling site (Fort Wayne) never inherits Lima's Allen-County civic spine. Tests pass
+    ``include_curated=False`` to stay hermetic against a synthetic corpus.
     """
     corpus = corpus if corpus is not None else load_corpus()
     events = (
@@ -387,10 +423,11 @@ def build_timeline(
     )
     if include_curated:
         settings = get_settings()
+        site_scope = scope if scope is not None else active_profile(settings).corpus_relpaths
         events += (
-            _commissioners_events(settings)
-            + _zoning_events(settings)
-            + _subdivision_meeting_events(settings)
+            _commissioners_events(settings, site_scope)
+            + _zoning_events(settings, site_scope)
+            + _subdivision_meeting_events(settings, site_scope)
         )
     events = _dedup(events)
     events.sort(key=lambda e: e.sort_key)

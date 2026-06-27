@@ -17,7 +17,9 @@ import pytest
 from jsonschema.validators import Draft202012Validator
 
 from bosc.config import Settings
+from bosc.pipeline.corpus import relpath_in_scope
 from bosc.site.export import export_bundle
+from bosc.sites import get_profile
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 COMMITTED_SCHEMAS = REPO_ROOT / "data" / "site" / "bundle" / "schemas"
@@ -238,6 +240,58 @@ def test_frontend_sample_bundle_tracks_the_export_contract(bundle: Path) -> None
     assert sample["row_total"] == sum(f["count"] for f in sample["feeds"])
     for f in sample["feeds"]:
         assert (FRONTEND_SAMPLE / f["path"]).is_file(), f"sample-bundle missing file {f['path']}"
+
+
+@pytest.fixture(scope="module")
+def fort_wayne_bundle(tmp_path_factory: pytest.TempPathFactory) -> Path:
+    """A Fort Wayne bundle exported off the committed corpus — the sibling site used to
+    prove per-site content scope (#762). Hermetic: no network, same committed data."""
+    out = tmp_path_factory.mktemp("fwbundle") / "b"
+    settings = Settings(data_dir=REPO_ROOT / "data", site="fort-wayne")
+    export_bundle(settings, out_dir=out, generated_at="2026-01-01T00:00:00+00:00")
+    return out
+
+
+def test_non_reference_site_bundle_carries_no_lima_corpus(fort_wayne_bundle: Path) -> None:
+    """A sibling site's per-site-scoped feeds must not inherit Lima's Allen-County-OH corpus.
+
+    This is the #762 *content* guard the original count-based check missed: several feeds are
+    built by readers that once globbed the whole extracted tree (the timeline civic builders,
+    the entity-graph subdivision/relation-class overlays, the flat ``data/scenarios`` dir), so
+    a non-Lima export silently inherited Lima's commissioners spine, township meetings, and
+    Ottawa-River scenarios. Each is now bounded by the active site's ``corpus_relpaths``.
+
+    Network-global feeds (``network``, ``concepts``, ``hypotheses``/``hypothesis-assessments``,
+    ``catalog``) are *cross-site by design* and legitimately mention other sites, so they're not
+    asserted here — this guards only the feeds that are meant to be one site's own record.
+    """
+    scope = get_profile("fort-wayne").corpus_relpaths
+    assert scope is not None, "a sibling site must declare a corpus scope"
+
+    # Every timeline event must cite a source inside Fort Wayne's corpus scope.
+    feeds = _feeds_by_name(fort_wayne_bundle)
+    for event in _rows(fort_wayne_bundle, feeds["timeline"]):
+        assert relpath_in_scope(event["source"], scope), (
+            f"timeline leaks an out-of-scope source: {event['source']}"
+        )
+
+    # No per-site feed may name a Lima-only collection (the markers these leaks left behind).
+    lima_markers = (
+        "commissioners/",
+        "lacrpc/",
+        "perry-township/",
+        "american-township/",
+        "shawnee-township/",
+        "scenarios/baseline",
+        "scenarios/buildout",
+    )
+    for name in ("timeline", "entities", "relationships", "hydrology-scenarios"):
+        ref = feeds.get(name)
+        if ref is None:
+            continue
+        text = (fort_wayne_bundle / ref["path"]).read_text(encoding="utf-8")
+        for marker in lima_markers:
+            assert marker not in text, f"feed {name!r} leaks Lima marker {marker!r}"
 
 
 def test_approximate_markers_are_preserved_as_data(bundle: Path) -> None:
