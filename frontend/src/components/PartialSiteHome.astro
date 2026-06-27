@@ -15,6 +15,7 @@
  *   - the ask-the-record door.
  * Available vs locked is always explicit; nothing here is borrowed from another site.
  */
+import SiteNeeds from "./SiteNeeds.astro";
 import { loadManifest } from "../lib/bundle";
 import { type ReadinessSection, SECTION_META, isAvailable, lockedSections } from "../lib/readiness";
 import { withSite, withStory } from "../lib/site";
@@ -80,12 +81,9 @@ const onRecord = DATA_SECTIONS.filter((s) => isAvailable(slug, s)).map((s) => {
   };
 });
 
-// "Help us source it" — the locked sections are the gaps; each is an open ask for a source.
-const needs = lockedSections(slug).map((s) => ({
-  section: s,
-  label: SECTION_META[s].label,
-  holds: SECTION_META[s].holds,
-}));
+// "Help us source it" — the locked sections are the gaps; the board itself is `<SiteNeeds>`, so
+// here we only need the count for the hero pill + the section guard.
+const needsCount = lockedSections(slug).length;
 ---
 
 <div class="psite">
@@ -103,10 +101,10 @@ const needs = lockedSections(slug).map((s) => ({
         Facility · {fac.label}
       </span>
       {
-        needs.length > 0 ? (
+        needsCount > 0 ? (
           <a class="psite-needs-pill" href="#needs">
             <span class="psite-needs-dot" aria-hidden="true" />
-            {needs.length} {needs.length === 1 ? "section" : "sections"} need sources · help fill them
+            {needsCount} {needsCount === 1 ? "section" : "sections"} need sources · help fill them
           </a>
         ) : null
       }
@@ -141,7 +139,7 @@ const needs = lockedSections(slug).map((s) => ({
 
   {/* What we DON'T — the gaps, framed as an open invitation to contribute. */}
   {
-    needs.length > 0 ? (
+    needsCount > 0 ? (
       <section class="psite-block" id="needs" aria-label="Help us source it">
         <div class="psite-block-head">
           <span class="psite-block-kicker">Help us source it</span>
@@ -149,23 +147,7 @@ const needs = lockedSections(slug).map((s) => ({
             sections still waiting on a source — we don't fill them with another site's record
           </span>
         </div>
-        <div class="psite-cards">
-          {needs.map((c) => (
-            <a class="psite-card psite-card--need" href={withSite("/submit")}>
-              <div class="psite-card-top">
-                <span class="psite-card-label">{c.label}</span>
-                <span class="psite-card-lock" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="5" y="11" width="14" height="9" rx="1" />
-                    <path d="M8 11 V7.5 A4 4 0 0 1 16 7.5 V11" />
-                  </svg>
-                </span>
-              </div>
-              <span class="psite-card-desc">{c.holds}</span>
-              <span class="psite-card-go">Have a source? Submit it →</span>
-            </a>
-          ))}
-        </div>
+        <SiteNeeds slug={slug} />
       </section>
     ) : null
   }
@@ -231,15 +213,11 @@ const needs = lockedSections(slug).map((s) => ({
     padding: 16px 18px; text-decoration: none; color: inherit;
   }
   .psite-card--open:hover { border-color: var(--bosc-ink); }
-  .psite-card--need { background: #efece2; }
-  .psite-card--need:hover { border-color: var(--bosc-forest); }
   .psite-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .psite-card-label { font-size: 1rem; font-weight: 700; color: var(--bosc-ink); }
   .psite-card-count { font-family: var(--bosc-mono); font-size: 0.9rem; color: var(--bosc-muted); }
-  .psite-card-lock { color: var(--bosc-faint); display: inline-flex; }
   .psite-card-desc { font-size: 0.82rem; color: var(--bosc-muted); line-height: 1.5; margin-top: 6px; flex: 1 1 auto; }
   .psite-card-go { font-size: 0.78rem; font-weight: 700; color: var(--bosc-forest); margin-top: 12px; }
-  .psite-card--need .psite-card-go { color: var(--bosc-ink); }
   /* ask */
   .psite-ask {
     display: flex; align-items: center; gap: 16px; margin: 2.25rem 0; padding: 18px 22px;
