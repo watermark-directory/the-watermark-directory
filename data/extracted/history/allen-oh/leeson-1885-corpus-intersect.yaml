@@ -3,10 +3,15 @@ meta:
   source_title: "History of Allen County, Ohio"
   source_author: "M. A. Leeson"
   source_date: 1885
-  analysis_method: text-layer scan (pypdf) — corpus entity intersection
+  analysis_method: text-layer scan (pypdf, v2 with OCR fuzzy patterns) — corpus entity intersection
   corpus_version: "2026-06-27"
   notes: >
     PDF page indices are 0-based. OCR quality is moderate; numbers may be garbled.
+    Notable OCR error: "Pike Run" renders as "Pike Bun" on page 548 — captured by fuzzy pattern.
+    The pdf_page 153 Pike Run hit is a false positive (Piketon/turnpike in Ohio history
+    section, not Allen County); the substantive hit is page 548 only.
+    "American Township" does not appear as a named chapter; Allen County in 1885 had no such
+    division under that name. "Lost Creek" also absent from the text layer entirely.
     All claims are [reference] — cite by page. This map guides targeted extraction
     of corridor-relevant slices only.
 
@@ -15,6 +20,7 @@ entities:
 
   - entity: 'Ottawa River'
     category: waterway
+    notes: 'Named after Ottawa tribe; main stream through Lima'
     occurrence_count: 99
     occurrences:
       - pdf_page: 14
@@ -743,7 +749,8 @@ entities:
 
   - entity: 'Pike Run'
     category: waterway
-    occurrence_count: 1
+    notes: 'Small tributary in Sugar Creek Township; page 548 key passage'
+    occurrence_count: 2
     occurrences:
       - pdf_page: 153
         section: "HISTORY   OF   THE   STATE   OF   OHIO."
@@ -753,9 +760,18 @@ entities:
           ses of emergency. A short distance from Piketon, the turnpike runs, for several hundred feet, betwee
           n two parallel artificial walls of earth, fifteen feet high, and six rods apart.
         pattern_matched: 'pike  run'
+      - pdf_page: 548
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          very section comfortable homes, substantial farm buildings, well cultivated farms and orchards tell 
+          of progresa The Ottawa River flows north in a tortuous course through the west- em section& Sugar Cr
+          eek waters the eastern sections, while the streams known as Pike Bun, Rabbit Run, Taway Run, Beaver 
+          Run, Dug Run, Toad Run and Honey Run offer water to the territory at a distance from the main ...
+        pattern_matched: 'Pike  Bun'
 
   - entity: 'Sugar Creek (stream)'
     category: waterway
+    notes: 'Derives name from maple groves; enters Ottawa south of Kalida'
     occurrence_count: 50
     occurrences:
       - pdf_page: 15
@@ -1145,7 +1161,8 @@ entities:
 
   - entity: 'Miami & Erie Canal'
     category: waterway
-    occurrence_count: 42
+    notes: 'Major infrastructure; completed 1845; Delphos terminus'
+    occurrence_count: 17
     occurrences:
       - pdf_page: 13
         section: "CONTENTS."
@@ -1154,57 +1171,30 @@ entities:
           he Statntes of Ohio, Edited hj Salmon P. Chase, and Published in the year 1888 ».. 91 The War of 181
           2 ^..^ 107 Banking — 111 The Canal System........ ....^ 118 Ohio Land Tracts... ^ «.„ 114 ImfffOTeme
           nts. 119 €tsu Boundaries..... 121 Organisation of Counties.
-        pattern_matched: 'Canal'
+        pattern_matched: 'Canal  System'
       - pdf_page: 14
         section: "CONTENTS."
         quote: >
-          Bills— School Lands and School Funds— School Commissioners, Superinten- dents and Examiners— Separat
-          e (Colored) Schools. CHAPTER XIII.— PhysiciaHS 894-895 Pioneer Physicians— Medical Men of the Presen
-          t Day in the County— Alphabetical List.
-        pattern_matched: 'Canal'
-      - pdf_page: 15
-        section: "CONTENTS."
-        quote: >
-          e Town8HIP....687-544 Past and Present— Organization— Pioneers —List of Original Entries— Hume Villa
-          ge — Reminiscences of Settlement in the Town- ship—The Shawnees— Schools— Churches — Railroads and P
-          ostoffices.
-        pattern_matched: 'Canal'
-      - pdf_page: 64
-        section: "BLACK  HAWK  AND  THE  BLACK  HAWK  WAR."
-        quote: >
-          il 1826 that the trade was extended to Lake Michigan, or that steamships began to navigate the bosom
-           of that inland sea. Until the year 1832, the commencement of the Black Hawk War, but few hostilitie
-          s were experienced with the Indians.
-        pattern_matched: 'canal'
-      - pdf_page: 93
-        section: "HISTORY  OP  THE  STATE  OF  OHIO."
-        quote: >
-          es which form that Union, she is now the fourth in respect to population* In other respects her rank
-           is even higher. Already her resources have been adequate, not only to the expense of government and
-           instruction, but to the construction of long lines of canals.
-        pattern_matched: 'canal'
+          .— PhysiciaHS 894-895 Pioneer Physicians— Medical Men of the Present Day in the County— Alphabetical
+           List. CHAPTER Xrv.— First Industries, Canals, Railroads, etc 395 Primitive Mills— Hominy Blocks— Co
+          rn- Crackers— Robert Bowers' Reminiscences- Early Grist and Saw-Mills— Canal between the Ohio River 
+          and Lake Erie— Miami A Erie Canal— Wabash A Erie Canal -Miami Extention —Samuel Forrer — Pro...
+        pattern_matched: 'Canal  between'
       - pdf_page: 111
         section: "HISTORY  OP   THE   STATE   OP   OHIO."
         quote: >
-          , not been subjected to those whirlwind speculations and questionable fidlures which have marked man
-          y Western States, in the establishment of a firm basis upon which a banking law could be sustained, 
-          with mutual benefit to the institution and the people. THE CANAL STSTEM.
-        pattern_matched: 'CANAL'
-      - pdf_page: 112
-        section: "HISTORY  OF   THE   STATE   OF   OHIO."
-        quote: >
-          matter was taken up by the courts, but a grand jury could not be found in Mercer County to find a bi
-          ll of indictment. The ofiEicers who had charge of the work, ignored the law requiring the cut- ing a
-          nd saving of the timber on lands appropriated, for canal reservoirs.
-        pattern_matched: 'canal'
+          many Western States, in the establishment of a firm basis upon which a banking law could be sustaine
+          d, with mutual benefit to the institution and the people. THE CANAL STSTEM. In the first part of 181
+          7, the Legislature considered a resolution relating to a canal between Lake Erie and the Ohio River.
+           No action was taken and the subject was not again agitated until 1819. Gov.
+        pattern_matched: 'canal  between'
       - pdf_page: 114
         section: "HISTORY  OF   THE   STATE   OF    OHIO."
         quote: >
-          of the Columbus 4; Sandusky Turnpike, in the eastern parts of Seneca, Craw- ford and Marion Counties
-          . They were designed for the transportation of mail stages, troops and other United States property,
-           free from toll. The grant waa made in 1827. ' The Ohio Canal Lands ' comprise about 1,000,000 acres
-          , set aside for the purpose of canal construction.
-        pattern_matched: 'Canal'
+          ford and Marion Counties. They were designed for the transportation of mail stages, troops and other
+           United States property, free from toll. The grant waa made in 1827. ' The Ohio Canal Lands ' compri
+          se about 1,000,000 acres, set aside for the purpose of canal construction.
+        pattern_matched: 'canal  construction'
       - pdf_page: 115
         section: "IMPROVEMENTS."
         quote: >
@@ -1212,79 +1202,15 @@ entities:
           nds. The proceeds were to be devoted to literary requirements, such as might be specified by Congres
           s. IMPROVEMENTS. We have heretofore briefly alluded to the canal system of Ohio, which in the beginn
           ing caused considerable anxiety to settlers directly in the course of its survey.
-        pattern_matched: 'canal'
-      - pdf_page: 118
-        section: "HISTORY  OF   THE   STATE   OP   OHIO."
-        quote: >
-          precipitous hills gradually lessen until they are resolved into gentle undulations, and toward the s
-          ources of the river the land is low and marshy. Although Ohio has no inland lakes of importance, she
-           possesses a &vorable river system, which, aided by her canals, gives her prestige of a convenient w
-          ater transportation.
-        pattern_matched: 'canal'
-      - pdf_page: 119
-        section: "HISTORY  OF   THE   STATE   OP   OHIO."
-        quote: >
-          thens County was formed from Washington March 1, 1805. It produces wheat, com, oats and tobacco. The
-           surfiu^ is hilly and broken, with rich bot- tom lands between. Coal, iron ore and salt add material
-          ly to its commercial value. It has the advantage of the canal, as well as other transportation. Athe
-          ns, its county seat, is situated on the Hocking River.
-        pattern_matched: 'canal'
-      - pdf_page: 122
-        section: "HISTORY   OF   THE   STATE    OF    OHIO."
-        quote: >
-          Commercial Bank is now located. Bodolphus Edwards and Nathaniel Doane settled here. The town was, in
-           1813, a depot of supplies and a rendezvous for troops engaged in the war. Cleveland, the county sea
-          t, is situated at the northern termination of the Ohio Canal, on the lake shore. In 1814, it was inc
-          orporated as a village, and in 1836, as a city.
-        pattern_matched: 'Canal'
-      - pdf_page: 126
-        section: "HISTOEY  OF   THE   STATE   OF   OHIO."
-        quote: >
-          the city have one male and female orphan asylum. The Commercial Hospital and Lunatic Asylum of Ohio 
-          was incorporated in 1821. Cincinnati is a large manu&cturing city, and possesses fine water-power fa
-          cilities. It communicates with the world by means of its canal, river, turnpikes, and railways. Nort
-          h Bend is another prominent town in this county, having been the residence of Gen. William H.
-        pattern_matched: 'canal'
-      - pdf_page: 129
-        section: "HISTORY  OF    THE    STATE   OF    OHIO."
-        quote: >
-          HISTORY OF THE STATE OF OHIO. 188 Speculation in lots began in 1834. The Wabash k Erie Canal interes
-          t arose in 1836. Mr. Mason and Edward Bissel added their energies to assist the growth of the town. 
-          It was incorporated as a city in 1836. It was the center of the military operations in the '^ Ohio a
-          nd Michigan war,' known as the ' boundary co
-        pattern_matched: 'Canal'
-      - pdf_page: 133
-        section: "HISTORY  OF   THE   STATE   OF   OHIO."
-        quote: >
-          ed on the Oreat Miami, at the mouth of Mad River. A company was formed in 1788, but Indian wars prev
-          ented settlement. After Wayne's treaty, in 1795, a new. company was formed. It advanced rapidly betw
-          een the years 1812 and 1820. The beginning of the Miami Canal , renewed its prosperity, in 1827. The
-           first canal-boat from Cincinnati arrived at Dayton on the 25th of January, 1829.
-        pattern_matched: 'Canal'
-      - pdf_page: 134
-        section: "HISTORY   OF   THE   STATE   OF   OHIO."
-        quote: >
-          ought the battle of Point Pleasant. Dunmore's campaign was terminated on these plains. It was at the
-           Chillicothe towns, after Dun- more's treaty, that Logan delivered his famous speech. Circleville, t
-          he county seat, is situated on the Scioto River and the Ohio Canal. It was laid out in 1810, by Dani
-          el Dresbach. It is situated on the site of ancient fortifications.
-        pattern_matched: 'Canal'
-      - pdf_page: 142
-        section: "HISTORY   OF   THE    STATE    OF    OHIO."
-        quote: >
-          ing these years, Mr. Morrow represented the State. In 1813, he was sent to the United States Senate,
-           and ig, 1822, was elected Governor of Ohio, almost unanimously, being re-elected in 1824. It was du
-          ring his administration that work was begun on the Ohio Canal. Mr. Morrow received the national gues
-          t.
-        pattern_matched: 'Canal'
+        pattern_matched: 'canal  system'
       - pdf_page: 155
         section: "HISTORY   OF    THE   STATE   OF    OHIO."
         quote: >
-          size, the entire length of its course. From Pitts- burgh to its mouth, measuring it meanderings, it 
-          is 908 miles long. Its current is gentle, having no falls except at Louisville, Ky., where the desce
-          nt is twenty- two and a half feet in two miles. A canal obviates this obstruction. The Muskingum is 
-          the largest river that flows entirely within the State.
-        pattern_matched: 'canal'
+          orthern boundary. The State has sev- eral fine harbors, the Maumee and Sandusky Bays being the large
+          st We have, in tracing the record of the earlier counties, given the educational inter- -ests as exe
+          mplified by different institutions. We have also given the canal system of the State, in previous pa
+          ges. The Ck)vemor is elected every two years, by the people.
+        pattern_matched: 'canal  system'
       - pdf_page: 181
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
@@ -1292,13 +1218,6 @@ entities:
           o bring the townships along the eastern line of the county into direct communication with the coxmty
            seat. The Toledo, Delphos & Indianapolis Railroad and the Miami & ErieOanal run south from Delphos.
         pattern_matched: 'Miami  &  Erie'
-      - pdf_page: 183
-        section: "BIVEBS  AND. GREEKS."
-        quote: >
-          nd enters the Maumee River in the town of Defiance. Although the Auglaize of to-day is what may be t
-          ermed a diminutive river, in the past it was a navigable stream, capable of floating heavily-laden f
-          lat-boats or scows.
-        pattern_matched: 'canal'
       - pdf_page: 184
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
@@ -1307,28 +1226,14 @@ entities:
           outhwest part of Marion, and thence parallel with the Miami & Erie Ganal. CHAPTER n. NATURAL HISTORY
           .
         pattern_matched: 'Miami  & \nErie'
-      - pdf_page: 226
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          00; 1,058 cattle, valued at $8,464; merchants' stock, assessed value $8,557; physi- cians and lawyer
-          s were assessed at $2,875, giving a total assessed valua- tion of $69,461. On this assessment the su
-          m of $991.66 was levied, of which $197.05 formed State and canal tax, $783.16 county and school tax 
-          and $11.46 town tax. The delinquencies reported by collectors were very few.
-        pattern_matched: 'canal'
-      - pdf_page: 235
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          , in Hardin County in 1856, is an old resident of Allen County. Saul Faulkner, an old settler of Cha
-          mpaign County, settled on Sec- tion 21, Perry Township, in 1832. In 1883 he purchased Goyemment land
-          s in Section 21.
-        pattern_matched: 'Canal'
       - pdf_page: 391
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
-          ills, planing-mills, wheel, hub and spoke factories, stave, hoop and excelsior works, machine shops,
-           flouring- mills, etc., eta, have taken the place of the old time industries, keeping pace precisely
-           with the progressive movement of the people. BAILBOADS AlO) CANALS.
-        pattern_matched: 'CANAL'
+          a, have taken the place of the old time industries, keeping pace precisely with the progressive move
+          ment of the people. BAILBOADS AlO) CANALS. The Ohio Legislature in February 1820, directed the Gover
+          nor to ap- point commissioners to lay out the route for a canal between the Ohio river and lake Erie
+          .
+        pattern_matched: 'canal  between'
       - pdf_page: 392
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
@@ -1352,14 +1257,6 @@ entities:
           he township in almost level channels, rendering the complete drainage of the country practicable at 
           little expense.
         pattern_matched: 'Miami  &  Erie'
-      - pdf_page: 440
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          under the administration of Gh>v. De Witt Clinton in the Stat« of New York, and was gradually increa
-          sing its advo- cates in Ohio. As early as 1828 the United States gave to the State of Ohio certain l
-          ands, on the condition that the State would build a canal from Dayton to Defiance, on the Auglaize B
-          iyer.
-        pattern_matched: 'canal'
       - pdf_page: 441
         section: "DELPHOS."
         quote: >
@@ -1376,28 +1273,6 @@ entities:
           . In 1855 Mr. Heitz and others were carried away. The Miami & Erie Canal was opened in 1845. Ten yea
           rs later the link in the Pennsylvania B. R, or the P., Ft. W. & G. £t. B. was in operation.
         pattern_matched: 'Miami  &  Erie'
-      - pdf_page: 445
-        section: "^  CHUBCHES."
-        quote: >
-          1888, J. H. Zimerle, F. J. Helmkamp, Theo. Wrocklage, Evan J. Williams. In 1884, F. J. Helmkamp, Joh
-          n Walsh, Joseph Hemme and John W. Evans. The Postmasters of Delphos were Amos Clutter, the first mas
-          ter, who had a little office on the west side of the canal He was succeeded by Andrew Linn, who serv
-          ed until May, 1858, when Winchton Bisley was appointed.
-        pattern_matched: 'canal'
-      - pdf_page: 456
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          ce, has not ex- ceeded ten tons annually. The price is 8 cents per poand. Th<^ Delphos Elevator, bai
-          lt by W. F. Mills & Co., in 1879, has a ca- pacity of 30,000 bushels. The original building was erec
-          ted by Curtis & Bliss, about thirty years ago, on Canal Street and Pennsylvania Bailroad.
-        pattern_matched: 'Canal'
-      - pdf_page: 457
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          s doubly applicable to-day. He states: Within a radius of four miles of Delphos there are over thirt
-          y mills constantly employed iu cutting and preparing lumber for the market. Immense quantities of ti
-          mber are annually conveyed to market by the railroads and canal.
-        pattern_matched: 'canal'
       - pdf_page: 539
         section: "HISTORY  OP  ALLEN  COUNTY."
         quote: >
@@ -1405,14 +1280,6 @@ entities:
           ction 12, Township 3, Eange 4 The Miami & Erie Canal forms the eastern line of the town to the canal
            look in Section 36.
         pattern_matched: 'Miami  &  Erie'
-      - pdf_page: 540
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          certainty that previoos to 1883 there were no permanent settlements made in this division of the ooo
-          nty. In 1834 the first land buyers came in. Dr. Campbell who settled in Spencer Town- ship, in 1851,
-           in his reminiscences written in 1880, states that 'the canal was opened for traffic in 1844, that t
-          he village of Spencerville was laid out for Tyler, McOonnell and Gonover of Dayton, about 1844-...
-        pattern_matched: 'canal'
       - pdf_page: 548
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
@@ -1428,48 +1295,10 @@ entities:
           th whom we find him happily associated. He removed to Delphos in 1850, and engaged extensively in ma
           nufacturing.
         pattern_matched: 'Miami  &  Erie'
-      - pdf_page: 649
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          r present property, have added materially to its capaci- ties and facilities. They now turn out abou
-          t 5,000 barrels per annum; have a new twenty- five horse power steam steel boiler from the Ricord Br
-          os, manufactory, Toledo, Ohio, and are laying pipe to the canal to facilitate their water privileges
-          .
-        pattern_matched: 'canal'
-      - pdf_page: 654
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          r. Weger came to Delphos as foreman for the Pittsburgh Keg and Barrel Company, with whom he remained
-           till joining interests with Mr. H. Goette in their present enterprise. HON. HENRY WEIBLE, member of
-           the State board of public works, Delphos, was bom near Canal Dover, Tuscarawas Co., Ohio, December 
-          10, 1827, son of Jacob Weible, who settled there with his people, who came from Wurtemberg, Ge...
-        pattern_matched: 'Canal'
-      - pdf_page: 695
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          in Licking Coimty, Ohio, son of Samuel and Susan (Weaver) Holmes, descendants of a Pennsyl- vania fa
-          mily, and who came to Ohio in a very early day, and took up a large tract of land, settling in Licki
-          ng County, near the old reser- voir which supplied the canals in that part of the State.
-        pattern_matched: 'canal'
-      - pdf_page: 711
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          nts of Allen County. The father of our subject, in the pioneer days, was a buyer of hides and pelts,
-           and subsequently embarked and for several years engaged in the grocery trade at Delphos. In the mea
-          ntime he built a large warehouse on the banks of the canal, and was an extensive dealer in grain and
-           prod- uce of all kinds. He was also a large owner of real estate.
-        pattern_matched: 'canal'
-      - pdf_page: 799
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          SPENCER TOWNSHIP. 805 N. Y., where he grew to maturity, spendiDg his ear]y life in attending school,
-           preparatory to entering college, but instead of so doing, he moved to Ohio in 1843, and fonr years 
-          later to Spencervilla He engaged in boating on the canal for several years, and eventually turned hi
-          s atten- tion to merchandising, in which he continued at intervals for several years.
-        pattern_matched: 'canal'
 
   - entity: 'Blanchard River'
     category: waterway
+    notes: "Blanchard's Fork of the Auglaize; flows through NE county"
     occurrence_count: 6
     occurrences:
       - pdf_page: 126
@@ -1523,6 +1352,7 @@ entities:
 
   - entity: 'Maumee River'
     category: waterway
+    notes: 'Receives Auglaize; historic battlefield corridor'
     occurrence_count: 35
     occurrences:
       - pdf_page: 28
@@ -1793,25 +1623,907 @@ entities:
            photo- graphic business, from which place he went to Maumee Cityy Ohio, and in 1866 came to Lima.
         pattern_matched: 'Maumee'
 
+  - entity: 'Auglaize River'
+    category: waterway
+    notes: 'Major Maumee tributary; Fort Amanda site'
+    occurrence_count: 114
+    occurrences:
+      - pdf_page: 14
+        section: "CONTENTS."
+        quote: >
+          Financial Sta- tistics. CHAPTER XVI.— Amanda Township 403-ilO Early History— Fort Amanda— First Set^
+           tiers— United Stetes Lands Entered in Amanda, 1822-1854 — Schools — Churches- Villages —Organizatio
+          n— Census— Railroads —Postoffices— Physical Characteristics. CHAPTER XVII.— Auglaize Township....
+        pattern_matched: 'Auglaize'
+      - pdf_page: 15
+        section: "CONTENTS."
+        quote: >
+          APTER XXVIII. — Sugar Creek Toww- .QHIP 554-558 Name — Population— Streams— Organ Ization —Pioneers 
+          — List of Original Entries- Schools— Churches— Postoffice— Gomer ViL- LAOE— Its Additions-Physicians
+           — Churches. PART IV. BIOOBAFHICAL SKETCHES. Amanda Township 561 Auglaize Township....^^ 570 Bath To
+          wnship 574 German Township 590 Jackson Township... ^ 601 HarioQ Township..
+        pattern_matched: 'Auglaize'
+      - pdf_page: 97
+        section: "HISTORY  OF   THE   STATE   OF   OHIO."
+        quote: >
+          irty's Town, they built Fort Mary's, later on Fort Adams. ' Throw- ing the enemy off their guard by 
+          feints and counter-marching, the troops, surprised the Indians, and without the slightest resistance
+           took possession of their villages at the confluence of the Auglaize and Maumee. They found provisio
+          n in abundance, and tarried a week building Fort Defiance. ^^*^^ ' 7 C> Again Gen.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 106
+        section: "HISTORY  OP   THE   STATE   OF   OHIO."
+        quote: >
+          Gen. Win- chester marched from Fort Defiance down the Maumee to the foot of the rapids. A large forc
+          e of British and Indians moved up the left bank of the Mau- mee toward Fort Wayne, and Gen. Harrison
+          , to intercept them, marched to the confluence of the Auglaize with the Maumee. Harrison was aware t
+          hat the enemy would be also hemmed in by Win- i^hester.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 119
+        section: "HISTORY  OF   THE   STATE   OP   OHIO."
+        quote: >
+          quan- tities of oats, com, potatoes, grass and fruit are raised. Ashland is its county seat, and was
+           laid out by William Montgomery in 1816. It was caUed Union- town for several years. Daniel Carter r
+          aised the first cabin within the county limits in 1811. Auglaize County was formed in February, 1848
+          , from Allen and Mercer Counties. Wapakoneta is its county seat.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 123
+        section: "HISTORY   OF   THE   STATE    OF    OHIO."
+        quote: >
+          TE OF OHIO. 127 oold hydro-Biilpharoiis nature, valuable for medicinal qualities in cases of bilious
+           derangements, dyspepsia, scrofulous affections, etc. Defiance County was inaugurated March 4, 1845,
+           firom Williams, Henry and Paulding. The Maumee, Tiffin and Auglaize flow through it. The Black Swam
+          p covers much of its area. Defiance, the county seat, is situated on the Maumee.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 181
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          HISTORY OF ALLEN COUNTY. CHAPTER I. TOPOGRAPHY. ALLEN COXTNTT is bounded on the north by Pntnam, sou
+          th by Auglaize, east by Hancock and Hardin, and west by Van Wert The elevation at Delphos is only 18
+          8 feet aboTe the level of Lake Erie, while at Lima depot the altitude is 268 feet The area is about 
+          408 square milee, and the present (1885) population estimated at 4
+        pattern_matched: 'Auglaize'
+      - pdf_page: 182
+        section: "HISTORY  OP  ALLEN  COUNTY."
+        quote: >
+          surface features and soil, states: ''The western half of the county is flat, and presents the common
+           features of the Black Swamp. The banks, left by erosion of the streams, are from ten to fifteen fee
+          t in height above the summer stage of the water. The Auglaize, below Cra- mersville (Section 3, Mari
+          on), has frequent exposures of the rock.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 183
+        section: "BIVEBS  AND. GREEKS."
+        quote: >
+          et, and continue of that height for two miles above the city, the water running on the surface of th
+          e rook.'' The rivers and streams flow west and southwest in the eastern* portion of the county and n
+          orthwest in the western towns. BIVEBS AND. GREEKS. The Auglaize is one of the historical streams of 
+          Ohio.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 184
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          190 HISTORY OF ALLEN COUNTY. Bilej Greek, which waters the northeast corner of the connty, has its m
+          ain source on the north border of Hog Creek Marsh, with tributary feeders between Beaver Dam and Blu
+          fiton. It flows northwest to Blan- chard's Fork of the Auglaize. Sugar Greek derives its name from t
+          he numerous maple groves along its banks.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 185
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          ray, slightly porous and fossilif erous, yet firm, and good for building purposes as well as for the
+           manufacture of quick- lime. Prof. N. H. Winchell in his geological report on Allen County, states t
+          hat 'The Niagara is quarried by Alex K Kerr, Section 80, Auglaize Township.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 186
+        section: "HISTORY  OP  ALLEN  COUNTY."
+        quote: >
+          in partings or crevices, the beds are thicker, affording a good building, stone. In any of the villa
+          ges or towns of the county the flagging and building water-lime may be seen in use. In Amanda Townsh
+          ip the chief exposures of the water- lime are in the Auglaize near the county line. It occurs in blu
+          e layers on the land of Samuel Stewart, northeast quarter of Section 9.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 189
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          people might actu- ally require for small local buildings, such as Niagara and water-lime rocks, bri
+          ck.clay, sand and gravel. The State Geologist fully realizes this fact, and in his report on this co
+          unty, states: ''The Niagara, in the south- eastern part of Auglaize Township, is of the Guelph or up
+          per portion of that great member of the Silurian age, and is an inferior stone for build- ing....
+        pattern_matched: 'Auglaize'
+      - pdf_page: 196
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          k County. Upper and Lower Piqua, in Miami County, were not far from the present site of the city of 
+          Piqua. When the troops under Gen. Logan destroyed the Mequachake towns on Mad Biver in 1786, the Sha
+          wnees fled toward ttie wilderness at the head of the Auglaize and Ottawa Bivers, where game abounded
+          , and where they would have time and protection to concoct their plans.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 198
+        section: "HISTORT  OF  ALLEN  COUNTY."
+        quote: >
+          males residing on Hog Greek in 1817, and numbered about twenty-one at the time of their removal in 1
+          882. The treaty of Maumee Rapids further provided that 640 acres should be set off for the children 
+          of Spamagelabe, Capt. Logan, on the east side of the Auglaize, adjoining the ten mile reservation at
+           Wapakonetta.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 206
+        section: "HISTORY  OP  ALLEN  COUNTY."
+        quote: >
+          212 HISTORY OP ALLEN COUNTY. assassinated at Pt. Pleasant, Ya. This Peter was a fine specimen of the
+           Indian, and a true friend of the settlers in the Auglaize country. He moved to Kansas in 1828 with 
+          the Prophet Nern-pe-neshe-qnah, also a son of Chief Cornstalk, went to Kansas in 1882. Henry Clay, s
+          on of Capt. Wolf, was educated under the supervision of Col.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 207
+        section: "HISTORY  OP  ALLEN  COUNTY."
+        quote: >
+          f presented to the Doctor cue of his best horses. Buck- ong-a-he- las, a noted old Delaware chief, m
+          ixed much with the Shawnees. He is supposed to have been bom near Philadelphia, Penn., a few years a
+          fter the treaties with Penn, and, when he lived on the Auglaize, was well advanced in age.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 208
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          as one of the first mail-carriers in the Northwest, having been employed by Mad Anthony to carry let
+          ters and dispatches between Piqua and Defiance. Smith Baxter relates the following story respecting 
+          him: *' Old Tutaw was one day, in 1830, passing down the Auglaize in his canoe loaded with bark, whi
+          ch grounded near Sam Baxter's cabin.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 209
+        section: "CHAPTER  IV."
+        quote: >
+          n County -L must be known as Fort Amanda. Here, in 1812, a post was estab* lished and liberally garr
+          isoned. One year later a ship-yard was founded here and a number of large scows built for use on the
+           Lower Miami^ as well as for the navigation of the Auglaize.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 210
+        section: "HISTORY  OP  ALLEN  COUNTY."
+        quote: >
+          Marys and Defiance, and made the sonthem line of the Black Swamps, from Upper Sandosky to St. Marys,
+           the base or left line of proposed operations. In the report of military affairs, following his appo
+          intment, we find the first mention of the poets on the Auglaize. Here also reference is made to the 
+          Ohio cavalry under CoL Finley, the Kentucky cavalry under B. M.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 216
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          NOES 1829-33. The contract to carry the mail from Piqua to Defiance, in 1829, was awarded to Samuel 
+          Marshall for two years, and carried on horse- back by Charles O. Marshall. Leaving Piqua he journeye
+          d weekly by Wapakonetta, thence to Sugar Grove on the Auglaize near the mouth of Blanchard, and then
+          ce to Defiance, touching but three settlements between Piqua and Defiance, the entire distance...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 217
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          n Oity with a Shawnee delegation, at the city of Cumberland, Md., in the summer of 1881. A large pro
+          portion of the Shawnees left Wapako- netta in 1882, and about fifty in the spnng of 1838. In 1884 Wi
+          lliam Brady and William Scott opened a road from the Auglaize River through the Ten-Mile Woods, afte
+          rward known as Section Ten, now Delphos, to Van Wert Not even one cabin was to be seen in all t...
+        pattern_matched: 'Auglaize  River'
+      - pdf_page: 222
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          fully, John Axstutz. The manner in which Jostioe Amstutz's good offices were received no doubt taugh
+          t him that justice and philanthropy are not entirely synonymous. ^ INDIAN NUOHBOBS, 1829-1831. When 
+          Francis Stephenson set out in 1829 for his new home in Auglaize Township, he took an ox-team and a w
+          agon load of com and meat, such as hams, shoulders and side meat, and after the cabin was er...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 223
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          ild beasts of the forest. In a few hoars an old Indian hnnter and his band made the family a visit. 
+          Lest the young people and the female portion of the family might be alarmed by the presence of the I
+          ndians, the cabin of Mr.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 228
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          lton, Daniel Woollett, Abram Ward, William Ward, John B. Walton, Joseph Ward, Philip Woollett, Georg
+          e White. The assessed valae of lands in Jackson in 1834 was $472, one steam- mill valned at $160, va
+          lae of personal property $3,800. Total tax levied $57.53. Auglaize, 1834.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 231
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          visited a nursery on the Sunderland farm in Amanda Township, soon after he commenced to clear his ow
+          n farm in 1835. He was told that the trees were planted by John Chapman some years before; and furth
+          er, that the old man had been along the Ottawa and Auglaize Rivers seeking out alluvial lands to set
+           out orchards, before white men had effected a settlement in Allen County.
+        pattern_matched: 'Auglaize  River'
+      - pdf_page: 233
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          in 1834 and located his farm on Section 16. He was accompanied by his step-son Henry J. Apple. Cross
+          ley was one of Wayne's soldiers^ and is said to have burned the first brick at Cincinnati) Chicago, 
+          Fort Wayne, Dayton, and Lima. Thomas Crooks arrived in Auglaize Township in 1831. James Crozier was 
+          one of the first Associate Judges.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 235
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          urveyed the Shelby Canal in 1824, may be con* sidered the pioneer of Marion Township, as he ultimate
+          ly settled here, and made Delphos his home until his death in 1874. In 1834 he pur- chased a tract o
+          f land on Sections 20 and 18. Tolson Ford settled in Auglaize Township in 1880.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 240
+        section: "HISTORY  OP  ALLEN  COUNTY."
+        quote: >
+          ndians to Eansiis in 1832. David N. Saxton purchased a tract of land on Section 80, Bath, in 1880. W
+          illiam Scott, who erected a saw-mill near Lima in 1884, must be considered among the pioneers. Isaac
+           Shockey, a native of Marylimd, settled on Section 80, Auglaize Township, in 1831, where he resided 
+          until his death in 1847. Digitized by LjOOQIC
+        pattern_matched: 'Auglaize'
+      - pdf_page: 241
+        section: "HISTORY  OP  ALLEN  COUNTY."
+        quote: >
+          HISTORY OF ALLEN COUNTY. 247 James Smith settled in Auglaize Township in 1831. Elijah Standiford pur
+          chased lands on Section 82, Bath, in 1830. Francis Stephenson settled on Section 17, Auglaize Townsh
+          ip, in March, 1829-30, with his wife and son Joseph, John Goode, Mrs. Ara- bella Goode and perhaps t
+          wo others. He died
+        pattern_matched: 'Auglaize'
+      - pdf_page: 271
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          struction of the State Boad and other matters were considered. Authority was also granted to organiz
+          e the Township of German. Christopher Wood, Director of the town of Lima, was ordered to sell out lo
+          ts as surveyed by James W. Biley. The order to organize Auglaize Township was issued March 5, 1832.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 274
+        section: "HISTORY  OF  ALLBN  COUNTY."
+        quote: >
+          1846, the Commissioners had the subject brought before them and orders were directed to the Sheriff 
+          to put a stop to such gaiety in that room. In March, 1846, the county was divided into assessors' di
+          stricts. District No. 1 comprised Jackson, Bath, Perry, Auglaize Townships; District No. 2, German, 
+          Marion, Amanda and Shawnee; District No.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 275
+        section: "HISTORY  OF  ALLBN  COUNTY."
+        quote: >
+          Messrs. Akerman, Bockhill and Dickey were the Com- missioners. In May, 1853, the Commissioners of Al
+          len and Putnam Counties met and agreed upon the sum of $3,848.76 as due by Allen County to Putnam, r
+          esulting from the changes following the establishment of Auglaize County. In December, 1853, Christi
+          an Steman took his place on the Board.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 277
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          Ward, 10 D., 108 C, or for Lima City, 31 D., 1,250 C; Monroe Township, 71 D., 208 C; Sugar Creek, 45
+           D., 117 C; Marion, 223D.,370C.; Spencer, 112 D., 137 C; Amanda, 92 D., 81 C. ; German, 16 D., 124 C
+          . ; Bath, 25 D., 154 C. ; Jackson, 85 D., 186 C; Auglaize, 33 D., 170 C; Perry, 75 D., 141 C; Shawne
+          e, 17 D., 152 C; and Ottawa, 1 D., 14 C; total, 1,014 D., 3,333 C. Com- missioners W. W.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 285
+        section: "OOUNTT    ELBOTIONS."
+        quote: >
+          white settler in Van Wert County, was elected in 1823 to the State Legislature as Representative fro
+          m the territory now comprised in Allen, Preble, ]\/(iami, Shelby, Darke, Mer- cer, Van Wert, Putnam,
+           Paulding, Defiance, Williams, Henry, Lake, Wood, Lucas and Auglaize. In the following record of ele
+          ctions, the candidates who were suc- oeesf al only are named, up to 1843.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 307
+        section: "BOABD  OF  PXJBLIC  WORKS."
+        quote: >
+          ph A. States, L. term, D 4288 Alex. Shenk, S. term, D 4588 INFIRMARY DIRECTOR. John L. B. Leatherman
+          , R 8220 Leri Reichelderfer, D 4471 The oflScial count of the votes polled in Allen County, Novemher
+           4, 1884, is as follows: Rep. Dem.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 309
+        section: "OOUBT   OF   COMMON   PLEAS."
+        quote: >
+          udges Watt, Crozier and Wood. President Judge Helfenstein succeeded Judge Holt in 1838; he was succe
+          eded by Judge Potter in 1839. Judge Tilden presided from 1842 until 1845, when Judge Goode was elect
+          ed. Under the Constitution of 1851, Allen, Hardin, Shelby, Auglaize, Madison, Union and Logafi were 
+          erected in one Common Pleas Court District, known as Na 3, Sub-Divisipn No.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 383
+        section: "CHAPTER  XII."
+        quote: >
+          HISTORY OF ALLEN COUNTY. 889 Lutherans. Thomas Hicknell, a WinebreDnerian, was one of the first prea
+          chers. In 1840 a church building was erected at Allentowu. Bey. Joseph Hill, the first missionary, a
+          nd others preached at Joseph Stevenson's, in Auglaize Township, until 1834.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 384
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          ry Township. The same year a house was built on Section 8, and in 1844 another house on Section 25, 
+          where John Terry conducted school. There are eight school buildings in the township employing fiftee
+          n teachers. The enrollment is A school was opened in Auglaize Township in 1884, by John Shookey, the
+           session being held in a cabin on Section 26.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 391
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          while the Scott saw- mill was erected in the vicinity in 1834. The first grist-mill in Shawnee Towns
+          hip was erected by Ashel Tompkins and Daniel Hindel m the win- ter of 1834-85. This mill stood on Ho
+          g Creek, one half mile below the village of Lima. In Auglaize Township a grist-mill was erected at a
+          n early day.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 394
+        section: "HISTORY  OF  ALLEN  COUNTT."
+        quote: >
+          400 HISTORY OF ALLEN COUNTT. TOWNSHIPS. Amanda Auglaize Bath Clay* Deuchoquette* German, in. Till El
+          ida Goshen* Jackson, in. vill Lafayette Marion, in. yill Delphos, east part . Delphos, intoto. .. Mo
+          nroe, in. vill Cairo Moulton* Ottawa, in. Lima — Lima Village , First Ward •Second ** Third
+        pattern_matched: 'Auglaize'
+      - pdf_page: 402
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          village of Amanda was platted in 1832 by Samuel Washburn, who married the widow of Andrew BusselL Ar
+          mstrong Village may be said to date from 1842, when the flouring-mill was erected at that point by T
+          one & Co.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 404
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          ttached to Amanda. In February, 1848, after the reorganization of the county, the south half of Mari
+          on and north half of Amanda were established as the township of Amanda, the south half of Amanda as 
+          known previously, becoming a part of the new county of Auglaize.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 405
+        section: "CHAPTER    XVII."
+        quote: >
+          AUGLAIZE TOWNSHIP. 411 CHAPTER XVII. AUGLAIZE TOWNSHIP. r I IJllS iownsbip forming the southwest cor
+          ner of the coanty north of JL the line of Auglaize County, west of the line of Hardin County, and so
+          uth and east of Jackson and Perry Townships, was established
+        pattern_matched: 'AUGLAIZE'
+      - pdf_page: 406
+        section: "HISTORY  OP  ALLEN  COUNTY."
+        quote: >
+          412 HISTORY OP ALLEN COUNTY. n. 8. LANDS ENTERED IN AUGLAIZE 1830-52. Jacob Sellers, Jr., section 1,
+           1834. John Swain, Jr., section 1, 1886. Andrew Grubb, section 1, 1886. John Bosher, section 1, 1886
+          . Joshua Braddock, section 1, 1884. William Hunter, section 1, 1887. David Robinson, section 1, 1886
+          . Jacob Sellers,
+        pattern_matched: 'AUGLAIZE'
+      - pdf_page: 407
+        section: "HISTORY  OP  ALLEN  COUNTY."
+        quote: >
+          AUGLAIZE TOWNSHIP. 418 John HulHberger, section 17, 1886. James Denison» section 17, 1886. William K
+          eith, section 17. 1885. Alexander Creps. section 17. 1888. David Berks, section 17, 1881. Henry Weav
+          er, section 17, 1880. Francis Stevenson, section 17, 1880. Alexander Cre
+        pattern_matched: 'AUGLAIZE'
+      - pdf_page: 408
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          84, 1884. Samuel Biddinger, section 36, 1885. James Boyd, section 34, 1886. Elisha Harbut, section 3
+          6. 1885. Mrs. Ooode, whose name is given among the settlers of 1829, was the first white woman who a
+          ppeared in the role of housekeeper within the bounds of Auglaize. Her husband, John Ooode, is credit
+          ed with build- ing the first cabin in the township.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 409
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          AUGLAIZE TOWNSHIP. 415 GHUBGHE8. From the earliest period of Rettlement, religious organization has 
+          existed in this division of the oonntj. To-day there are six ohnroh buildings. In 1881 Bev. Joseph H
+          ill, Elder Chaffee, and a preacher named Waddle visited this distric
+        pattern_matched: 'AUGLAIZE'
+      - pdf_page: 424
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          attendance is seventy-five. Isaac C. SteiDau h Superintendent. Albert Steman preceeded him as Super-
+           iDtendeDt. Mr. Counsellor is Treasurer of the Branch Missionary Society, and one of the Trustees of
+           the Otterbein University. The num- ber of members on the Auglaize Conference is 6,389 — fifteen pre
+          achera The Ho£iey Hun, Allentown, Marion and Elida churches now form the Elida circnit Bev.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 427
+        section: "CHAPTER  XX."
+        quote: >
+          R. B., in the center of a rich agricultural district, with churches and schools within its boundarie
+          s, rendering it at once an agreeable place of residence and a prosperous business town. The north pa
+          rt of Maysville village, (referred to in the history of Auglaize), occupies the extreme southeastern
+           comer of Section 36. Beaver Dam, in Richland Township, on the L. E. & W. R. R.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 428
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          which resulted in setting off all of Township 3 south, Range 8 east, the eastern half of Town* ship 
+          3 south, Bange 7 east, and northern tier of sections of Town- ship 4 south, Bange 8 east, and contin
+          uation of that line in Bange 7.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 435
+        section: "CHAPTER  XXI."
+        quote: >
+          h by Putnam and on the west by Van Wert County. It has an area of forty-two square miles, and a popu
+          lation of 5,000 (year 1885), including the eastern part of Delphos. Outside the town the population 
+          in 1880 was 2,485, or 59.16 to the square mile.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 436
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          ownship of Richland, in the north- eastern part of the county. The first Trustees were Christian Stu
+          key, Michael Swisher and Thomas J. Fair; Clerk, William J. Cochran; Treasurer. Ferdinand Miller; Wil
+          liam Brady and William Scott, Road Commissioners to open the Auglaize & Van Wert Road. LIST OF ORIGI
+          NAL LAND ENTRIES.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 439
+        section: "MARION  TOWNSHIP."
+        quote: >
+          rtin Rohrer, section 12, 1884. Joseph Willman, section 12, 1884. Wm. D. Kiplinger, section 12, 1884.
+           Mr. Harrison, in his paper on the settlement of Delphos, states that: ''About the year 1834, Willia
+          m Scott and William Brady opened the first road from the Auglaize Biver through the present site of 
+          Delphos to the Tillage of Van Wert It is stated that this road passed through what was then k...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 440
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          Witt Clinton in the Stat« of New York, and was gradually increasing its advo- cates in Ohio. As earl
+          y as 1828 the United States gave to the State of Ohio certain lands, on the condition that the State
+           would build a canal from Dayton to Defiance, on the Auglaize Biyer.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 511
+        section: "PIONEER&"
+        quote: >
+          Even in 1840 the township presented a very primitive appearanca Several rem- iniscences point out th
+          e fact that although almost all the lands were taken up at that time, the work of improvement was ca
+          rried on slowly. In 1836 James C. Hullinger settled in Auglaize Township, and in 1840, erected a cab
+          in on Section 25, Perry Township, and commenced improve- ments.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 514
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          s ninety-six — forty-three boys and fifty-three girls. SOUTH WARSAW VILLAGE. South Warsaw, on Sectio
+          n 35, Perry, was regularly laid out, but never rose above a small hamlet The little village comprise
+          s nine blocks of twenty lots, along the south bank of the Auglaize. A postoffice was es- tablished h
+          ere, imd in the neighborhood are a few church buildings.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 516
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          522 HISTORY OF ALLEN COUNTY. Miller and others. Henry Shank and Daniel Goble were the first jnsticee
+           of the peace, Henrj Garter, constable. In February, 1848, on the organization of Auglaize, the sout
+          hern tier of sections in Township 1, Bange 8, was taken from Biley Township, Putnam County, and atta
+          ched to Bichland, thus giving it an area of 42 square miles.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 532
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          538 HISTORY OF ALLEN COUNTY. Beed were elected trustees, and Ezekiel Hover, clerk The list of voters
+           comprised twelve names. In 1848 the southern tier of sections was attached to the new county of Aug
+          laize, and in May, 1857 the northeast quarter of Section 1 was attached to the new township of Ottaw
+          a.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 546
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          predecessor of Mr. Hess. The first Presiding Elders were George A. Brunig, Jacob Rothweiler, D. D., 
+          George Schwinn, and John S. Schneider, the present presiding elder, son of one of the first German M
+          ethodists in Ohio. Mr. Hess also attends Zion Church in Auglaize County. Christian Church was founde
+          d March 31, 1867, with the following named members: William Moorman and wife, B. D.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 557
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          about ninety years. Oar subject obtained a limited oommon school education, and having been raised a
+           farmer has made that occupa- tion the principle one of nis life. For about two years, however, he e
+          ngaged in mercantile business at Elida and Cridersville, Auglaize Co., Ohio.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 558
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          . Eempton, was bom in Jackson Township, Allen Co., Ohio, September 27, 1852; son of John R and Eliza
+          beih (Bobinson) Grubb, who are still living, the former born in Morgan County, the latter in Jackson
+           Township, Allen Co., Ohio. They were early settlers of Auglaize County, Ohio.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 560
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          occupation of a farmer until 1852, in which year he moved to Allen County and located on the farm wh
+          ere he resided the balance of his days. For many years he owned and operated a threshing machine; fo
+          r about five years was proprietor of a saw-mill in Auglaize County, which was conducted in coonectio
+          n with his farm. Mr.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 561
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          wnship, Allen Co., Ohio, July 6, 1849. His parents are still living, his father, Michael, a native o
+          f Pennsylvania and an early settler of Miami and Allen Counties, Ohio, being a farmer of Shawnee Tow
+          nship; his mother, Sarah (Whetstone) Shaffer, was bom in Auglaize, this county.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 564
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          570 BIOGRAPHICAL SKETCHES. AUGLAIZE TOWNSHIP. A. C. BITLEB, firm of Marriott & Bitler, merchantB, Ha
+          rrod. This hoose established business at Harrod, in 1883. They carry a general stock of abont $8,500
+          , and conduct a large and iacrati^e trade. The subject of this sketch, junior member of the
+        pattern_matched: 'AUGLAIZE'
+      - pdf_page: 565
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          AUGLAIZE TOWNSHIP. 571 the BebellioD, served m the One Hnndred and Forty-second Ohio National Guards
+           and saw active service at Petersburg, Ybl., and other points He has been trustee and steward of the
+           Methodist Episcopal Chunsh for twenty years. J. M. HABBOD, farmer
+        pattern_matched: 'AUGLAIZE'
+      - pdf_page: 567
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          / AUGLAIZE TOWNSHIP. 573 garet Jane, married to David N. Moyer (have oDe child — Robert Frank- lin).
+           Mr. Rose came to Ohio in 1864, and settled where he now lives. Beginning life with but little, he n
+          ow owns a well caltivated farm, which he purchased of Abraham Shocke
+        pattern_matched: 'AUGLAIZE'
+      - pdf_page: 574
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          ics he is a Democrat WILBUR FISK, liquor dealer, P. O. Lima, was bom in Dayton, Ohio, November 14, 1
+          844, and is a son of Samuel F. and Harriet (Lehman) Fisk, the former a native of New Hampshire, the 
+          latter of Pennsylvania. He was reared on a farm in Auglaize County, Obio (where his parents had loca
+          ted in 1848) and was educated in the common schools.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 579
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          chools. He liyed on a part of the old homestead until 1882, when he located on the farm where he now
+           resides. He has been twice married, his first wife, to whom he was wedded November 22, 1854, being 
+          Mary, daughter of George and Catherine Gudakunst, of Auglaize County, Ohio, the issue of which union
+           was six children: Elizabeth (wife of Walter Snjtier), William, John, George (deceaseil), Cathe...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 585
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          W. BLACKBUBN, farmer, P. O. Allentown, was born in Lima, Allen Co., Ohio, June 18, 1835, and is a so
+          n of William and Bebecca (Cully) Blackburn, natives of Pennsylvania and Virginia, of Irish and Germa
+          n descent, respectively, and who settled at Wapakonetta, Auglaize Co., Ohio, in 1834, where the fath
+          er served in the office of land receiver for several years, and about 1844 they came to Allento...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 587
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          -ninth Regiment Ohio Volunteer Infantry, and since 1865 he has devoted considerable time to preachin
+          g in ''the Church of Christ, in Christian Union,'* traveling from 1,400 to 2,350 miles annually. / D
+          ANIEL CRIDER, farmer, P. O.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 591
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          ubject is the only survivor. Om: subject began the study of medicine in Kentucky, and pursued it the
+          re for a short time, and graduated in 1853 from the Eclectic Medical College of Cincinnati, Ohio. He
+           commenced the practice of his profession in St. Johns, Auglaize County, Ohio, where he remained abo
+          ut two years, then in 1855, came to Elida, this county. Dr.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 598
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          In politics he is an active Democrat. E. LINCOLN DUBBIN, hardware merchant. Lafayette, was born in K
+          nox County, Ohio, July 3, 1860, third in the family of ten children of Samuel and Bachel (Shipley) D
+          urbin, natives of Knox County, Ohio, and now living in Auglaize Township, this county. Mr. Durbin wa
+          s married September 21, 1882, to Miss Mary F. Cook, daughter of Will- iam H.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 600
+        section: "BIOGRAPHICAL    SKETCHES."
+        quote: >
+          Beformed Church. Our subject has resided upon his present farm since 1863. He is one of the most ext
+          ensive stock dealers in this vicinity, his herd consisting of thoroughbred shorthorns. He was marrie
+          d April 30, 1863, to Miss Mahaley Ice, who was born in Auglaize Township, this * county, March 11, 1
+          842, daughter of Samuel and Mary (Shelenberger) Ice, natives of Pennsylvania, and who are among ...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 603
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          rship to the Methodist Episcopal Church in 1842 ; was licensed to preach in 1844 ; ordained a deacon
+           in 1851 ; entered the traveling connection in 1853 ; ordained an elder in 1857. He traveled as circ
+          uit preacher for twenty years in Allen, Hardin, Logan, Auglaize, Shelby, Mercer, Van Wert, Putnam an
+          d Hancock Counties, Ohio.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 606
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          612 BIOGRAPHICAL SKETCHES. a coDsistent member of the Methodist Chnrch, also an actiye Sabbath- scho
+          ol worker. Politically he is an ardent Democrat. A. S. RUDT, physician and surgeon, Lafayette, was b
+          om in Auglaize Township, this county, December 5, 1855; son of Frederick and Mary (Staley) Rudy, nat
+          ives of Miami County, Ohio, and who were among the early settlers of Allen County, former born...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 639
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          came to America in 1845 with his people, who settled here, and at eigh- teen years of age began his 
+          trade in Delphos, and has since been success- fully connected with the business here. He married, in
+           1858, Miss Clara Ossenbach, who was born in Kossuth, Auglaize County, Ohio, her father having settl
+          ed there, coming from Oldenburg, Germany, about 1840.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 661
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          ears, was cashier of the Cleveland branch of the New York Mutual Life Insurance Company, and is now 
+          a man of prominence in the State as a horseman, is secretary of the Cleveland Driving Park Associati
+          on; A. M.; and Charles S., a druggist of Cridersville, Auglaize County.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 687
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          children, two now living: Louis and George. Our subject received his early education in Seneca and M
+          ercer Counties, Ohio, and in 1859 he attended St Mary's College at Dayton, Ohio. In 1860, at the age
+           of seventeen, he commenced teaching school at Fry burg, Auglaize Co., Ohio, and continued there up 
+          to April, 1864.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 688
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          s and John. Our subject when quite young, began the study of medicine, and later took a course of le
+          ctures in the P. M. Medical Institute of Cincin- nati. He first practiced his profession for two yea
+          rs in his native town, and then removed to Si John's, Auglaize Co., Ohio, where he remained four and
+           a half yeara In September, ^884, the Doctor came to this county, locating in South Lima, where...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 716
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          as a native of Virginia and a farmer by occupation. Our subject was reared in his native county and 
+          educated in the common schools. When eight- een years of age he came to this county with his mother 
+          and stepfather (John Perkins), who purchased a farm in Auglaize Township, and with them he resided u
+          p to 1844, when he embarked at Westminster in mercan- tile business, in which he was engaged up...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 718
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          y whom he has four sons: George, John, Charles and Gustavu& After his marriage Mr. Schultheis establ
+          ished a tannery, between Horden and Newport, which he sold later, then returned to Bidge- way, where
+           he remained for four years.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 721
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          arles F., cashier in same bank; and Edmund E., who was fifteen years of age October 1, 1884, and is 
+          living with his parents, attending school. J. B. SUNDERLAND, county treasurer, Lima, was bom July 22
+          , 1848, in what was then Allen County, now a part of Auglaize County, Ohio, son of James and Jemima 
+          (Baker) Sunderland, natives of this county, and grandson of Dye Sunderland, who came to this c...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 727
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          , G. A. R. ADAM ZIMMERMANN, Jb., brewer, Lima, was bom July 22, 1846, in Baden, Germany; son of Adam
+           and Catherine (Detterer) Zimmermann, who came to America from Germany in 1863. They had a family of
+           seven children: Bertha (wife of H. Duval, residing in Auglaize County, Ohio), Mary, Louisa, Lewis, 
+          Michael, Henry and Adam, all living except Mary.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 728
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          offices of Perry Township where he located in 1881. In politics he is a Republican. JAMES BIDDINGER,
+           farmer, P. O South Warsaw, was bom in Tuscarawas County, Ohio, June 7, 1831; son of Samuel and Rebe
+          cca (Boyd) Biddinger, natives of Ohio, who settled in Auglaize Township, this county, in 1837, where
+           they cleared and improved a farm, former of whom died in 1883, at the age of seventy-six year...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 729
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          and William. Onr subject was reared in Ross County, Ohio, and educated in the district schools. He c
+          ame to Hardin County with his parents in 1831, and was married September 10, 1835, to Elizabeth, dau
+          ghter of Andrew and Sarah (Williams) McCoy, pioneers of Auglaize Township. The issue of this union w
+          as eight children: 'Miriam (wife of Andrew Ice), Thomas H., Sarah L.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 730
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          and was appraiser of real estate in 1880. In politics he is a Republican. WILLIAM R. COLVIN, farmer,
+           P. O. South Warsaw, was bom in Clark County, Ohio, June 7, 1834, son of James and Elizabeth (Hardes
+          t^) Colvin, natives of Virginia, and who settled in Auglaize Township, this county, in 1837.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 734
+        section: "BIOGRAPHICAL   SKETCHES."
+        quote: >
+          was received in the common schools, and com- prised but three months' attendance after his coming to
+           Allen County. He was married April 23, 1847, to Margaret T., daughter of William and Hannah (Morris
+          on) Roberts, formerly of Kentucky, and early settlers of Auglaize Township, Allen County. By this un
+          ion there were four chil- dren: Lois A.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 735
+        section: "BIOGRAPHICAL   SKETCHES."
+        quote: >
+          (deceased), and Maryette (Mrs. Dr. Peter Van Trump). The paternal grandfather of our subject, John H
+          ardin, was a native of Pennsylvania, and a pioneer of Enoz and Au- glaize Counties, Ohio. His matern
+          al grandfather was Daniel Brentlinger, an early settler of Auglaize County. Our subject was reared i
+          n Union Township, Auglaize County, and educated in the common schools.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 736
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          ip since 1882. He is a representative farmer and worthy citizen. In politics he is a Demo- crat. JAM
+          ES C. HULLINGEB, farmer, P. O. Westminster, was born in Greene County, Ohio, October 13, 1810, son o
+          f Christopher and Mary (Crabb) Hullinger, who settled in Auglaize Township, this county, in 1840, an
+          d there lived and died.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 737
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          the age of ninety-five years. The wife of Jehu Jacobs was a daughter of Adam Ereitser, a native of G
+          ermany, and a resident of Cum- berland County, Penn. The children of Jehu were six in number: Eliz- 
+          abeth (deceased), Samuel (deceased), John P., Ann (in Auglaize County, Ohio), Cadwallader and James 
+          J. (in Auglaize County, Ohio).
+        pattern_matched: 'Auglaize'
+      - pdf_page: 739
+        section: "BIOGRAPHICAL    SKETCHES."
+        quote: >
+          cleared and improved. Mr. Neely served five years in the Ohio military service, and was honorably di
+          scharged. He and his wife are membera of the Methodist Episcopal Church. In poli- tics he is a Democ
+          rat. GEOBGE H. BANKIN, farmer, P. O. Lima, was born in Auglaize Township, this county. May 11, 1846;
+           son of John and J^u (French) Bankin.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 740
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          his wife, he went to reside with William Ebling, Jr. Our subject is one of the oldest settlers now l
+          iving in Perry Township, this county. In politics he has always been a stanch Democrat. THOMAS C. BO
+          BEBTS, farmer, P. O. Lima, was bom in West- minster, Auglaize Township, Allen County, Ohio, April 14
+          , 1853, son of Josiah R and Margaret (Winrot) Boberts.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 741
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          mer, P. O. Westminster, was bom in Perry Township, this county, March 14, 1842, and is a son of Will
+          iam and Nancy (Hnllinger) Stevenson. His paternal grandfather, Francis Stevenson, was a pioneer of C
+          lark County, Ohio, and later of this county, settling in Auglaize Township in an early day, where he
+           cleared and improved a farm on which he lived and died.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 742
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          Beam ; Mary, wife of John Miller ; Francis M., James I. (deceased), Sarah J. (deceased), and Anna, w
+          ife of Jacob Hollar. For his second wife he married, August 14, 1836, Miss Susannah, daughter of Joh
+          n and Elizabeth (Hoiines) Brentlinger, early settlers of Auglaize County, Ohio, and by this union we
+          re bom eight children: Lucinda (deceased), Catherine (deceased), Elizabeth (deceased), John (d...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 743
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          in 1835, the former a native of Delaware, the latter of Woodstock, Yt His paternal grandfather was W
+          illiam Wonnell, a native of Dela- ware, and his maternal grandfather was Jonathan Stiles, a native o
+          f Ver- mont, and among the first settlers of what is now Auglaize County, Ohio. Our subject was rear
+          ed in Perry Township, this county, where he received a limited education in the common schools.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 772
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          uch), William (also engaged in farming in this county), David (at home), Mary Ellen (at home) and Sa
+          rah. Mr. Stager has served as township trustee and school director. Politically he is a Democrat HOR
+          ACE W. STEARNS, grocer, Bluffton, was born at St.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 778
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          Bliss. In 1870 he engaged in farming again, and has been located in Shawnee Township since 1875. Mr.
+           Adgata is a member of the E. of P. In politics he is a Republican. JOHN H. BERRYMAN, farmer, P. O L
+          ima, was bom in Logan Township^ now a part of Auglaize County, Ohio, August 19, 1843; son of Russell
+           and Margaret (Slain) Berryman.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 779
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          orn five chil- dren: Myrtle, Maggie, J. Russell, Hattie and Robert F. Mr. and Mrs. Berryman are memb
+          ers of the Methodist Episcopal Church. He has filled several offices in the township. In politics he
+           is a Democrat. JOHN BOYD, farmer, P. O.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 782
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          Naamah B. and John E. Mr. Breese is serving his first term as trustee of the township. He and his wi
+          fe are members of the Methodist Episcopal Church, of which he is steward. In politics, he is a Bepub
+          lican. GEOBQE BtJBKHABT, farmer, P.O.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 784
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          ing a family in Ross County, Ohio; and Oeorge (deceased, left family near Adelphi, Ohio). The childr
+          en of Ephraim and Mary Crider were ten in number: Isaac (residing near Howard, Eans.); Eliza (died, 
+          aged six years); Abraham; Hannah, wife of Jacob Darst, in Auglaize County, Ohio; Ma- ria, wife of Al
+          exander Shaw, of Cridersville, Ohio; Leanna, wife of Allen Spiker.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 785
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          Bebellion in the one hundred days* service. Li politics he is a Repub- lican. CHRISTOPHER GRAHAM, fa
+          rmer, P. O. Hume, was born in Guernsey County, Ohio, April 3, 1825; son of William and Mary (John- s
+          on) Oraham, who settled in Union Township, Allen (now in Auglaize) Co., Ohio, in 1835, where they cl
+          eared and improved a farm on which they lived and died.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 787
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          M. and Mary (Valentine) Breese, of Shawnee Township, this county. To this union has been born one ch
+          ild: Bertha B. Mr. and Mrs. Maltbie are members of the Methodist Episcopal Church. In politics he is
+           a Republican. AMOS MOWERY, farmer, P. O.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 788
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          was mar- ried in 1839, being Almira Ackley, daughter of Thomas Ackley, of Mid- dleburg, Ohio. His pr
+          esent wife, to whom he was married April 15, 1869, was Mrs. Eliza Truesdale, widow of Jesse Truesdal
+          e, and daughter of Jacob and Margaret (Warner) Connor, of Auglaize County, Ohio. Mr.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 789
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          now living in her seventy.first year, daughter of John G. and Elizabeth (Selteimer) Riggle. To Georg
+          e and Mary Shappell were bom eleven children: J. G., in Shawnee Township, this county, Elizabeth (wi
+          fe of William Hastings), Sarah (wifeof William Bo wsher, of Auglaize County, Ohio), Nelson (in Kansa
+          s), Eli (deceased at eight years of age), Jacob (residing near Lansing, Mich.), Daniel, Solomon...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 790
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          2 circular saw, twenty-five horse-power engine, the only enterprise of the kind in this vicinity, an
+          d doing a large business. Our subject is a member of the Methodist Episcopal Church. In politics he 
+          is a Democrat. SAMUEL SPYKEB, farmer, P. O.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 791
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          eceased), and Vilas E. Mr. and Mrs. Stepleton are members of the Lutheran Church. He has served as c
+          lerk of Shawnee Township three terms, and justice of the peace one term. In politics he is a Democra
+          t ROBERT Q. STOCKTON, farmer, P. O. Cridersville, .
+        pattern_matched: 'Auglaize'
+      - pdf_page: 793
+        section: "SPENCER  TOWNSHIP,"
+        quote: >
+          suring. During the late war of the Rebellion he en- listed in the Confederate Army, in the First Vir
+          ginia Cavalry, and was taken prisoner December 22, 1862. He took the oatib of allegiance at Camp Cha
+          se, and has since made the North his home. He came to Auglaize County, Ohio, in November, 1863, and 
+          while there served as township clerk for four years.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 796
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          is a Democrat CHARLES F. BUEHLEB, stoves and tinware, Spencerville, was bom in Baden, Germany, Novem
+          ber 4, 1853, youngest child of George and Anna Maria (Floesch) Buehler, and was brought to America b
+          y Ms parents when an infant They located at New Bremen, Auglaize County, Ohio.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 797
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          SPENCER TOWNSHIP. 803 for fiye years followed that occupation. He was married, March 31, 1872, to Mi
+          ss Margaret Berriman, of Auglaize County, Ohio. To them have been born three children, yiz.: Bert, C
+          arrie and Jennia Mr Coch- run came to Spencerville in about 1874, and engaged in mercantile busi- ne
+          ss with Joseph August for about two years, and a year later opened business for himself.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 801
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          the increase, as a result of close attention to business and the courteous manner in which they atte
+          nd to the wants of their customers. Mr. Hover was married Sep- tember 21, 1881, to Miss Mercy E., da
+          ughter of James and Jennie (Baker) Sunderland, bom in Auglaize County, Ohio, March 28, 1856. They ha
+          ve been blessed with one child, Mercy W., bom March 1, 1884. Mr. Hover is a member of the E.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 805
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          graduating in May of the latter year; previous to this, how- ever, he had practic^ medicine at Botki
+          ns Station, Shelby Ca, Ohio, about six montiis. Since then he has spent about two years at St; John,
+           two years at Bradford Junction, five years in Kossuth, Auglaize County, and in the spring of 1879 l
+          ocated in Spencerville, where he has gained a leading place in the medical profession. Dr.
+        pattern_matched: 'Auglaize'
+      - pdf_page: 806
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          e member of Eishler Post, G. A. JR., at St. Mary's, and is also a member of the I. O. O. F. and Meth
+          odist Episcopal Chorch. After he returned* from the war he engaged in mercantile business at Spencer
+          ville for five years, then moved back to his farm in Auglaize County, and turned his attention to ag
+          ricultural pursuits and raising short-horn cattle, of which he has the finest herd in that vicini...
+        pattern_matched: 'Auglaize'
+      - pdf_page: 810
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          ng upon the homestead farm, and having been raised a farmer he has always fol- lowed agricultural pu
+          rsuits, in connection with which he has worked more or less at the carpenter's ti'ade. He was marrie
+          d, September 5, 1861, to Alwilda Classon, who was born in Auglaize County, Ohio, August 10, 1844, di
+          ed August 20, 1866. She bore him two children: Carabel (deceased), and Charles M. Mr.
+        pattern_matched: 'Auglaize'
+
   - entity: 'Drainage / Reclamation'
     category: waterway
-    occurrence_count: 20
+    notes: 'Critical for corridor hydrology history'
+    occurrence_count: 18
     occurrences:
       - pdf_page: 74
         section: "HISTORY   OF   THE    STATE    OF    OHIO."
         quote: >
-          he glacier moving forward, and the forces proving an 'equilibrium,' Ae edge of this ice-field was he
-          ld in a solid stronghold, and the material thus de- posited forms a ridge, called by geologists 'ter
-          minjal moraine,' first exemplified in Ohio by the ' Black Swamp,' in the Maumee Valley.
-        pattern_matched: 'Swamp'
+          way. The glacier moving forward, and the forces proving an 'equilibrium,' Ae edge of this ice-field 
+          was held in a solid stronghold, and the material thus de- posited forms a ridge, called by geologist
+          s 'terminjal moraine,' first exemplified in Ohio by the ' Black Swamp,' in the Maumee Valley.
+        pattern_matched: 'Black  Swamp'
       - pdf_page: 105
         section: "HISTORY   OF   THE   STATE   OP   OHIO."
         quote: >
-          TORY OP THE STATE OP OfflO. 107 the same, however. Horace Gunn was the carrier. Benoni Adams brought
-           the news from Cleveland to the same point, his trip requiring a fortnight. It must be remembered th
-          at this journey was mostly made on foot. The Black Swamp could not be traversed in any other manner.
-           THE WAR OP 1812.
-        pattern_matched: 'Swamp'
+          HISTORY OP THE STATE OP OfflO. 107 the same, however. Horace Gunn was the carrier. Benoni Adams brou
+          ght the news from Cleveland to the same point, his trip requiring a fortnight. It must be remembered
+           that this journey was mostly made on foot. The Black Swamp could not be traversed in any other mann
+          er. THE WAR OP 1812.
+        pattern_matched: 'Black \nSwamp'
       - pdf_page: 108
         section: "HISTORY  OP   THE   STATE   OF    OHIO."
         quote: >
@@ -1822,27 +2534,27 @@ entities:
       - pdf_page: 123
         section: "HISTORY   OF   THE   STATE    OF    OHIO."
         quote: >
-          aroiis nature, valuable for medicinal qualities in cases of bilious derangements, dyspepsia, scroful
-          ous affections, etc. Defiance County was inaugurated March 4, 1845, firom Williams, Henry and Pauldi
-          ng. The Maumee, Tiffin and Auglaize flow through it. The Black Swamp covers much of its area. Defian
-          ce, the county seat, is situated on the Maumee. It was laid out in 1822, by B. Level and H.
-        pattern_matched: 'Swamp'
+          -Biilpharoiis nature, valuable for medicinal qualities in cases of bilious derangements, dyspepsia, 
+          scrofulous affections, etc. Defiance County was inaugurated March 4, 1845, firom Williams, Henry and
+           Paulding. The Maumee, Tiffin and Auglaize flow through it. The Black Swamp covers much of its area.
+           Defiance, the county seat, is situated on the Maumee. It was laid out in 1822, by B.
+        pattern_matched: 'Black \nSwamp'
       - pdf_page: 126
         section: "HISTOEY  OF   THE   STATE   OF   OHIO."
         quote: >
-          e old Indian Territory, April 1, 1820. Indian com, oats, potatoes, and maple sugar constitute the ma
-          in products. The county is well supplied with running streams, and the soil is unusually rich. The g
-          reater portion of this county is covered by the ' Black Swamp.' Throughout this swamp are ridges of 
-          limestone, covered with black walnut, red elm, buttemut and maple.
-        pattern_matched: 'Swamp'
+          rom the old Indian Territory, April 1, 1820. Indian com, oats, potatoes, and maple sugar constitute 
+          the main products. The county is well supplied with running streams, and the soil is unusually rich.
+           The greater portion of this county is covered by the ' Black Swamp.' Throughout this swamp are ridg
+          es of limestone, covered with black walnut, red elm, buttemut and maple.
+        pattern_matched: 'Black  Swamp'
       - pdf_page: 128
         section: "HISTORY  OF    THE    STATE   OF    OHIO."
         quote: >
-          d under the auspices of Bishop Chase, in July, 1826, in the center of a 4,000-acre tract belonging t
-          o Kenyon College. It was chartered as a theological seminary. Lucas County is of comparatively recen
-          t origin. A large portion is covered by the '^ Black Swamp.' It produces corn, wheat, potatoes and o
-          ats.
-        pattern_matched: 'Swamp'
+          ablished under the auspices of Bishop Chase, in July, 1826, in the center of a 4,000-acre tract belo
+          nging to Kenyon College. It was chartered as a theological seminary. Lucas County is of comparativel
+          y recent origin. A large portion is covered by the '^ Black Swamp.' It produces corn, wheat, potatoe
+          s and oats.
+        pattern_matched: 'Black  Swamp'
       - pdf_page: 134
         section: "HISTORY   OF   THE   STATE   OF   OHIO."
         quote: >
@@ -1850,7 +2562,7 @@ entities:
           840, It is mostly within the Black Swamp, and considerable of its land is prairie and marsh. It was 
           very thinly settled befere 1830. Extensive plaster beds exist on the peninsula, which extends into L
           ake Erie. It has also large limestone quarries, which are extensively worked.
-        pattern_matched: 'Swamp'
+        pattern_matched: 'Black  Swamp'
       - pdf_page: 144
         section: "HISTORY  OF   THE   STATE   OP    OHIO."
         quote: >
@@ -1877,18 +2589,11 @@ entities:
       - pdf_page: 182
         section: "HISTORY  OP  ALLEN  COUNTY."
         quote: >
-          ests, which indicate a fertile soil, the cleared lands of the connty are hidden away, so to speak. P
-          rof. Winchell, in his review of surface features and soil, states: ''The western half of the county 
-          is flat, and presents the common features of the Black Swamp. The banks, left by erosion of the stre
-          ams, are from ten to fifteen feet in height above the summer stage of the water.
-        pattern_matched: 'Swamp'
-      - pdf_page: 183
-        section: "BIVEBS  AND. GREEKS."
-        quote: >
-          s the Maumee River in the town of Defiance. Although the Auglaize of to-day is what may be termed a 
-          diminutive river, in the past it was a navigable stream, capable of floating heavily-laden flat-boat
-          s or scows.
-        pattern_matched: 'ditch'
+          od forests, which indicate a fertile soil, the cleared lands of the connty are hidden away, so to sp
+          eak. Prof. Winchell, in his review of surface features and soil, states: ''The western half of the c
+          ounty is flat, and presents the common features of the Black Swamp. The banks, left by erosion of th
+          e streams, are from ten to fifteen feet in height above the summer stage of the water.
+        pattern_matched: 'Black  Swamp'
       - pdf_page: 190
         section: "HISTORY  OP  ALLEN  COUNTY."
         quote: >
@@ -1904,7 +2609,7 @@ entities:
           oster, Urbana, St. Marys and Defiance, and made the sonthem line of the Black Swamps, from Upper San
           dosky to St. Marys, the base or left line of proposed operations. In the report of military affairs,
            following his appointment, we find the first mention of the poets on the Auglaize.
-        pattern_matched: 'Swamps'
+        pattern_matched: 'Black  Swamp'
       - pdf_page: 441
         section: "DELPHOS."
         quote: >
@@ -1937,14 +2642,6 @@ entities:
            within a month of each other. Our subject was thus early thrown on his own resources, and his educa
           tional advantages were necessarily limited to a few months each year in the common schools.
         pattern_matched: 'swamp'
-      - pdf_page: 654
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          his attention to public affairs, to which he had been chosen by the people of Van Wert County. In 18
-          72 he represented their interests in the Sixtieth G^- eral Assembly of the State, where he served wi
-          th distinction as chairman of the committee on drains, ditches, water-courses, and enunciated and br
-          ought about many good measures in that connection.
-        pattern_matched: 'ditch'
       - pdf_page: 663
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
@@ -1956,6 +2653,7 @@ entities:
 
   - entity: 'Sugar Creek Township'
     category: township
+    notes: 'Chapter XXVIII, pp. 554-558 (ToC); PDF pages ~548-552'
     occurrence_count: 37
     occurrences:
       - pdf_page: 15
@@ -2243,6 +2941,7 @@ entities:
 
   - entity: 'Shawnee Township'
     category: township
+    notes: 'Chapter XXVI, pp. 537-544 (ToC)'
     occurrence_count: 34
     occurrences:
       - pdf_page: 15
@@ -2503,6 +3202,7 @@ entities:
 
   - entity: 'Perry Township'
     category: township
+    notes: 'Chapter XXIV, pp. 516-521 (ToC)'
     occurrence_count: 33
     occurrences:
       - pdf_page: 15
@@ -2754,6 +3454,7 @@ entities:
 
   - entity: 'Bath Township'
     category: township
+    notes: 'Chapter XVIII, pp. 416-428 (ToC)'
     occurrence_count: 53
     occurrences:
       - pdf_page: 14
@@ -3159,8 +3860,25 @@ entities:
 
   - entity: 'Township formation'
     category: township
-    occurrence_count: 7
+    notes: 'Formation dates and survey ranges'
+    occurrence_count: 23
     occurrences:
+      - pdf_page: 271
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          sided as Commissioners. In March, 1834, a petition presen- ted by Benjamin F. Cochran, asking for th
+          e establishment of a new town- ship off the north end of Amanda, was granted, and Marion Township wa
+          s ordered to be organized. At this session Town 5 south. Range 7 east, was set off as a township to 
+          be named Union.
+        pattern_matched: 'Range  7'
+      - pdf_page: 272
+        section: "HISTORY  OP  ALLBN  COUNTY."
+        quote: >
+          ett Sf Co's mill at Wapakonetta raised from $250 to $300. On November, 1834, James H. Coleman, Griff
+          ith John and James A. Anderson, Coanty Commissioners, appointed Samael Black, Auditor. On December 1
+           a petition presented by E. Hover asking that Township 4, Range 6, be set off into a separate townsh
+          ip, was granted, and the name Shawnee adopted.
+        pattern_matched: 'Range  6'
       - pdf_page: 391
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
@@ -3184,14 +3902,69 @@ entities:
           ship in December, 1833, the twelve eastern sections of that township formed a portion of Auglaize To
           wnship.
         pattern_matched: 'township  formed'
+      - pdf_page: 418
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          name of the lower course of Hog Creek, enters the township from Shawnee in Section 33, pursues a nor
+          thwesterly course by the villages of Allentown and Elida, and enters Sugar Greek Township at the sou
+          th-east corner of Section 6, original Township 3 south, Range 6 east.
+        pattern_matched: 'Range  6'
+      - pdf_page: 420
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          1834. Susanna V. VanDolson, section 84, 1885. Joseph Edwards, section 84, 1885. OBOANIZATION. The Ck
+          >mmi88ioner8' Act of December 6, 1881, eetablishing the town- ship under the name German, decreed th
+          at all the territory extending west from Section 8, Town 3, Range 6 to the eastern boundary of the o
+          riginal town of Amanda, south to the county line; thence east to south- east comer of Sectio...
+        pattern_matched: 'Range  6'
+      - pdf_page: 421
+        section: "SCHOOLS."
+        quote: >
+          GERMAN TOWNSHIP. 427 time, when the town lines of Bath and Jaokson were altered, the two tiers of ea
+          stern sections of Town 3, Range 6, were added to German. In February, 1848, th^ north tier of sectio
+          ns of German were attached to the sonth-half of Sugar Creek Township, leaving only thirty sections b
+          e- longing to German. This area was further reduced in May, 1857, when 1,040 acres where t
+        pattern_matched: 'Range  6'
       - pdf_page: 428
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
-          east, and northern tier of sections of Town- ship 4 south, Bange 8 east, and continuation of that li
-          ne in Bange 7. In December, 1833, Auglaize and Perry claimed their sections, and in December, 1834, 
-          Bath claimed her eastern sections from Jackson, and the township was organized as a congressional to
-          wnship, under its original name.
-        pattern_matched: 'township  was  organized'
+          ile. During the four years ending in March, 1885, the population has increased about 200. OBGANIZATI
+          ON, A petition of the establishment of Jackson was presented to the Commissioners' Board June 6, 183
+          1, which resulted in setting off all of Township 3 south, Range 8 east, the eastern half of Town* sh
+          ip 3 south, Bange 7 east, and northern tier of sections of Town- ship 4 south, Bange 8 east, ...
+        pattern_matched: 'Range  8'
+      - pdf_page: 435
+        section: "CHAPTER  XXI."
+        quote: >
+          n part of Delphos. Outside the town the population in 1880 was 2,485, or 59.16 to the square mile. T
+          he Auglaize Rirer enters the township in its southwest quarter, flows north through a tortuous chann
+          el, and leaves the county in Section 21, Town 2 south. Range 5 east. The river at this point is an i
+          mpor- tant stream, running between steep banks in some places, through 1i>road.
+        pattern_matched: 'Range  5'
+      - pdf_page: 436
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          OBGANIG mSTOBT. The township of MarioD^ as originally oonstitnted, was set ofif from the north end o
+          f Amanda in December, 1833, by the Commissioners of Allen County, acting on a petition presented to 
+          them that year by the settlers in Township 8 south, Range 5 east When the counties of this district 
+          were redistricted in 1848, the south half of the original town- ship of Marion was added to th...
+        pattern_matched: 'Range  5'
+      - pdf_page: 438
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          ction 86, 1884. Daniel Sorber, section 86, 1884. 1845.Solomon Moyer, section 86, 1848. Fred Marquand
+          , section 86, 1885. Peter Stuckey, section 86, 1884. Thomas Williams, section 86, 1884. Fred Marquan
+          d, section 86, 1885. Peter Stuckey, section 85, 1884. SOUTH, RANGE 0 EAST. Jacob C. Gray, section 6,
+           1884. David D. Ditto, section 7, 1850. David B. Westbay, section 7, 1850.
+        pattern_matched: 'RANGE  0'
+      - pdf_page: 460
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          466 HISTORY OF ALLEN COUNTY. Township 2 south, Range 7 east was established under the name Monroe, w
+          ith John Peters, Peter Harpster, and Anthony Early, trustees; Benjamin Parker, olerk, and Luke Tipto
+          n, justice of the peace. N. G. Kidd has served as township clerk for many years. In 1848 this portio
+          n of Put-
+        pattern_matched: 'Range  7'
       - pdf_page: 466
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
@@ -3200,6 +3973,14 @@ entities:
           s Lisle, trustees. It claims an area of 3,360 acres, of which 1,600 acres belonged originally to Bat
           h; 1.040 acres to Qerma
         pattern_matched: 'township  was  formed'
+      - pdf_page: 467
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          (The northwest quarter of Cteotion 31,dMMif was sold to the county by the State for $200, and select
+          ed as the site for the county seat ) On the formation of Ottawa Township in 1857, portions of Sectio
+          ns 25 and 35, and all of Section 36 of Township 3, Range 6 east, were de- tached from Oerman and add
+          ed to the new town.
+        pattern_matched: 'Range  6'
       - pdf_page: 510
         section: "CHAPTER  XXIV."
         quote: >
@@ -3216,10 +3997,58 @@ entities:
           72 or about 90 to the square mile. ORGANIZATION. This township was organized in 1885 under authority
            granted by the commissioners of Putnam County on the petition of David Digitized by LjOOQIC
         pattern_matched: 'township  was  organized'
+      - pdf_page: 519
+        section: "NEW  YOPRK"
+        quote: >
+          . 1885. Thomas Gray, section 8)1, 1882. John Neiswander, section 86, 1886. Lucius Hubbard, section 8
+          8, 1884. Jacob Clover, section 86, 1888. Abraham Ritter, section 88, 1886. Isaac McHenry, section 86
+          , 1884. Simon Basinger, section 84, 1835. Township 2 Soath, Range 8 East James Purdy, section 1, 188
+          4. Joseph Deford, section 1, 1882. Samuel Viers, section 1, 1885.
+        pattern_matched: 'Range  8'
+      - pdf_page: 539
+        section: "HISTORY  OP  ALLEN  COUNTY."
+        quote: >
+          Section 12, Township 3, Eange 4 The Miami & Erie Canal forms the eastern line of the town to the can
+          al look in Section 36. Here this waterway takes a southwestern coarse by way of Spenoerville Village
+          , and leaves the township in Section 14, Township 4, Range 4 east The Narrow Gauge Railroad runs par
+          allel with the canal almost to Spencer- Tille and crosses this waterway jost north of the villa...
+        pattern_matched: 'Range  4'
+      - pdf_page: 542
+        section: "HISTORY  OP  ALLEN  COUNTY."
+        quote: >
+          548 HISTORY OP ALLEN COUNTY. Isaac N. Skillman, flection 86, 1885. Ellis J. Bayman, section 36, 1850
+          . Thomas Lockhead, section 86, 1846. James May, section 86, 1849. The Boathern portion of the townsh
+          ip in Township 4 south. Range 4 east, was entered by the persons whose names are given below: Caspar
+           Smith, section 1, 1846. James May, Jr., section 1, 1849. John G. Vaughn, section 1, 1850.
+        pattern_matched: 'Range  4'
+      - pdf_page: 548
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          way Run, Beaver Run, Dug Run, Toad Run and Honey Run offer water to the territory at a distance from
+           the main streams. ORGANIZATION. The township was set off in 1831 as a division of Putnam County. At
+           that time it was known as Coogressional Township 2, Range 6.
+        pattern_matched: 'Range  6'
+      - pdf_page: 550
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          ection 8, 1886. Vincent D. Engart, section 8, 1886. ChrUtian Weller, section 8, 1885. Nicholas Fass,
+           section 8, 1888. Jeremiah Yandemark, section 8, 1885. Hamilton Davison, section 8, 1841. Henry Drea
+          ching, section 8, 1885. David Berry, section 8, 1888. South, Range 6 East. Charles Long,*section 8, 
+          1884. Charles Drusly, section 8, 1884. John Brown, section 4, 1838.
+        pattern_matched: 'Range  6'
+      - pdf_page: 640
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          daughter of the late Thomas Harbaugh, of Putnam County. They have a family of four children: Thomas 
+          J., Omar L, Luella and Guy. He and his wife are active members of the Presbyterian Church of Delphos
+          . He is a mem- ber of Beul Post, G. A. B., Marion Grange 802, Edith Lodge, E. of H., Hope Lodge, F. 
+          & A. M. and Delphos Chapter 105, B. A M. CHABLES C. LUDWIG, farmer and teacher, P. O.
+        pattern_matched: 'range  8'
   # ---- MUNICIPALITY ----
 
   - entity: 'Lima (city)'
     category: municipality
+    notes: 'County seat; extensive coverage throughout'
     occurrence_count: 249
     occurrences:
       - pdf_page: 12
@@ -5223,6 +6052,7 @@ entities:
 
   - entity: 'Spencerville'
     category: municipality
+    notes: 'Chapter XXVII; canal village'
     occurrence_count: 36
     occurrences:
       - pdf_page: 15
@@ -5503,6 +6333,7 @@ entities:
 
   - entity: 'Delphos'
     category: municipality
+    notes: 'Miami-Erie Canal terminus in Allen County'
     occurrence_count: 98
     occurrences:
       - pdf_page: 14
@@ -6268,7 +7099,8 @@ entities:
 
   - entity: 'Early settlements'
     category: municipality
-    occurrence_count: 121
+    notes: 'Settlement and platting history'
+    occurrence_count: 125
     occurrences:
       - pdf_page: 9
         section: "HISTORY"
@@ -6301,6 +7133,14 @@ entities:
           e Virginia Military Tract included this section, and the first settlement made within its boundaries
            was in this county in 1790-91, between the Scioto and Little Miami, at Manchester, by Gen.
         pattern_matched: 'first  settlement'
+      - pdf_page: 119
+        section: "HISTORY  OF   THE   STATE   OP   OHIO."
+        quote: >
+          t comprises its principal crop, although large quan- tities of oats, com, potatoes, grass and fruit 
+          are raised. Ashland is its county seat, and was laid out by William Montgomery in 1816. It was caUed
+           Union- town for several years. Daniel Carter raised the first cabin within the county limits in 181
+          1. Auglaize County was formed in February, 1848, from Allen and Mercer Counties.
+        pattern_matched: 'first  cabin'
       - pdf_page: 120
         section: "HISTORY  OP   THE   STATE   OF   OHIO."
         quote: >
@@ -6404,6 +7244,14 @@ entities:
           atoes. Cheese and butter may be added as products. The first settlement made in the county was at Hu
           dson, in 1800.
         pattern_matched: 'first  settlement'
+      - pdf_page: 137
+        section: "HISTORY   OF   THE   STATE   OF   OHIO."
+        quote: >
+          is a good agricultural section, besides producing iron ore, coal and freestone. It is said that a Fr
+          ench fort stood at the mouth of the old Scioto, as early as 1740. In 1785, four fieanilies settled w
+          here Portsmouth now stands. Thomas McDonald built the first cabin in the county. The '^ French grant
+          ' was located in this section — a tract com- prising 24,000 acres.
+        pattern_matched: 'first  cabin'
       - pdf_page: 138
         section: "HISTORY   OF   THE    STATE    OF    OHIO."
         quote: >
@@ -6552,6 +7400,14 @@ entities:
           tion 29, Ottawa Township, in 1829. Samuel Bockhill, who platted the village of Bockport, settled in 
           Monroe Township in 1835 with his son, William Bockhill.
         pattern_matched: 'platted'
+      - pdf_page: 243
+        section: "MABBUOE   BEOORD   OF   PIONBEB   DAYS."
+        quote: >
+          n the foregoing record there are many names mentioned under one heading. Thus, under the name Turner
+          , there are no less than fourteen pioneers mentioned. The object of this portion of the chapter is t
+          o gather, as nearly as possible, the names of the very earliest settlers; so that, where the biograp
+          hical historian fails to obtain their history, the writer of the general history may be satisfi...
+        pattern_matched: 'earliest  settler'
       - pdf_page: 308
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
@@ -6574,6 +7430,13 @@ entities:
           ver and Robert Underwood arrived in 1830, and the following year, Isaac, John, Daniel and Samuel Sho
           ckey, and David Serkes came in.
         pattern_matched: 'early  settlement'
+      - pdf_page: 408
+        section: "HISTORY  OF  ALLEN  COUNTY."
+        quote: >
+          34, 1886. Elisha Harbut, section 36. 1885. Mrs. Ooode, whose name is given among the settlers of 182
+          9, was the first white woman who appeared in the role of housekeeper within the bounds of Auglaize. 
+          Her husband, John Ooode, is credited with build- ing the first cabin in the township.
+        pattern_matched: 'first  cabin'
       - pdf_page: 409
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
@@ -6714,11 +7577,11 @@ entities:
       - pdf_page: 536
         section: "HISTORY  OP  ALLEN  COUNTY."
         quote: >
-          the cabins of the settlers. The usual place for speaking was at the house of Mr. Goon. The earliest 
-          preacher remembered was Thomas Hicknell, a Winebrennerian. A congregation was formed and a church bu
-          ilt about 1840, in Allentown. Mr. C3oon and many of the early settlers were compelled to attend the 
-          mills of Piqua and Cherokee to obtain grinding, over mere paths in the forests.
-        pattern_matched: 'early  settler'
+          642 HISTORY OP ALLEN COUNTY. joined by William Deniston and family on the same section; soon after, 
+          by Thomas Flinn, an Irishman, who settled near him on Section 12. The first cabin had been occupied 
+          by a Shawnee family. The forests seem.ed to have been often burned oyer by the Indians, and the youn
+          g trees have grown within the last fifty years.
+        pattern_matched: 'first  cabin'
       - pdf_page: 541
         section: "SPENCER  TOWNSHIP."
         quote: >
@@ -7211,45 +8074,31 @@ entities:
 
   - entity: 'Grist mills / Sawmills'
     category: industry
-    occurrence_count: 84
+    notes: 'Water-powered mills — corridor hydrology evidence'
+    occurrence_count: 45
     occurrences:
       - pdf_page: 13
         section: "CONTENTS."
         quote: >
-          sl to Kansas— Indian Biomphy— Te- cumseh — Elsquatawa-LeatherlTps— Round- head—Logan and Other Noted
-           Chieft— Bur- ial of Pht (Pe-aitch-U)— Beminlscenoes. CHAPTER rV.— OccuPATiOH ahd Sbttle- MBHT.... »
-          .. » 215-280 Fort Amanda— Gen.Harrlson—ColJPo«gue —Fort Auglaiae— Saw-mill and Nary Yard —Gen.
-        pattern_matched: 'mill'
+          moTsl to Kansas— Indian Biomphy— Te- cumseh — Elsquatawa-LeatherlTps— Round- head—Logan and Other No
+          ted Chieft— Bur- ial of Pht (Pe-aitch-U)— Beminlscenoes. CHAPTER rV.— OccuPATiOH ahd Sbttle- MBHT...
+          . ».. » 215-280 Fort Amanda— Gen.Harrlson—ColJPo«gue —Fort Auglaiae— Saw-mill and Nary Yard —Gen.
+        pattern_matched: 'Saw-mill'
       - pdf_page: 14
         section: "CONTENTS."
         quote: >
-          ist of Original Land Entries— What Mr. Harrison Savs— Schools— Delphos— Its Favorable Lo- cation and
-           Many Advantages — Social and Intellectual Status — Malaria and Cholera Troubles— Miami & Erie Canal
-          — Railroads- Railroad Shops— Original Town Plats— First Houses— First Saw-mill and Grist-mill- First
-           White Child— Physicians— First Elec- tion—Mayors, Recorders, Treasurers, Mar- shals and Counci...
-        pattern_matched: 'mill'
-      - pdf_page: 57
-        section: "THE  NORTHWEST  TEBBITOBY."
-        quote: >
-          distant West, settlers and speculators b^an to appear in great numbers. In September, the City of Cl
-          eveland was laid out, and during the Summer and Autumn, Samuel Jackson and Jonathan Sharpless erecte
-          d the first manufsu^tory of paper — the *^ Red- stone Paper Mill' — in the West. St.
-        pattern_matched: 'Mill'
+          Commissioners, Superinten- dents and Examiners— Separate (Colored) Schools. CHAPTER XIII.— PhysiciaH
+          S 894-895 Pioneer Physicians— Medical Men of the Present Day in the County— Alphabetical List. CHAPT
+          ER Xrv.— First Industries, Canals, Railroads, etc 395 Primitive Mills— Hominy Blocks— Corn- Crackers
+          — Robert Bowers' Reminiscences- Early Grist and Saw-Mills— Canal between the Ohio River and ...
+        pattern_matched: 'Hominy  Block'
       - pdf_page: 101
         section: "HISTORY   OF   THE   STATE   OF    OHIO."
         quote: >
-          months, there was not an individual, but a boy thirteen years of age, able to procure food for the o
-          thers. Flour was out of all rational con- sideration, and the meal upon which they lived was pounded
-           by hand. In 1799, Williams and Myatt erected a grist-mill at the fiJls, near Newbury.
-        pattern_matched: 'mill'
-      - pdf_page: 116
-        section: "HISTORY   OF   THE   STATE    OF    OHIO."
-        quote: >
-          ealous in her educational interests than Ohio. Public lands were generously granted by Congress, and
-           the State added her afiEirmation. However, no practical and effectual system was adopted until 1825
-          . An act was then passed to tax all real property one-half mill per dollar for the establishment of 
-          schools in each township, and the support of the same.
-        pattern_matched: 'mill'
+          two months, there was not an individual, but a boy thirteen years of age, able to procure food for t
+          he others. Flour was out of all rational con- sideration, and the meal upon which they lived was pou
+          nded by hand. In 1799, Williams and Myatt erected a grist-mill at the fiJls, near Newbury.
+        pattern_matched: 'grist-mill'
       - pdf_page: 120
         section: "HISTORY  OP   THE   STATE   OF   OHIO."
         quote: >
@@ -7269,11 +8118,11 @@ entities:
       - pdf_page: 124
         section: "HISTORY   OF    THE    STATE    OF    OHIO."
         quote: >
-          and oats. Cambridge is the county seat and was laid out in June, 1806. Mr. Graham was the first sett
-          ler on the site of the town, and his was the only dwelling between Lancaster and Wheeling. The first
-           cannel coal found in the county was discovered near Mill's Creek. Greene County was formed May 1, 1
-          803, from Hamilton and Boss.
-        pattern_matched: 'Mill'
+          ancaster and Wheeling. The first cannel coal found in the county was discovered near Mill's Creek. G
+          reene County was formed May 1, 1803, from Hamilton and Boss. It produces wheat, com, rye, grass-seed
+          , oats, barley, sheep and swine. The streams ftimish good water-power. There are five limestone quar
+          ries, and & marble quarry of variegated colors.
+        pattern_matched: 'water-power'
       - pdf_page: 126
         section: "HISTOEY  OF   THE   STATE   OF   OHIO."
         quote: >
@@ -7322,54 +8171,30 @@ entities:
           om Hamilton. The soil is very fertile, and considerable water-power is furnished by its streams. Mr.
            Bedell made the first settlement in 1795. Lebanon is the •ounty seat.
         pattern_matched: 'water-power'
-      - pdf_page: 139
-        section: "HISTORY   OF   THE    STATE    OF    OHIO."
-        quote: >
-          ttlement of this sec- tion has already been briefly delineated. Wooster is the county seat It was la
-          id oat daring the fall of 1808, by John Beaver, William Henry and Joseph H. Liarwell, owners of the 
-          land. Its site is 337 feet above Lake Erie. The first mill was bailt by Joseph Stibbs, in 1809, on A
-          pple Greek In 1812, a block- hoase was erected in Wooster.
-        pattern_matched: 'mill'
       - pdf_page: 140
         section: "HISTORY   OF   THE   STATE   OF    OHIO."
         quote: >
-          gton, the sixth Governor, was bom in Jefferson County ^ Ya., in 1769. He gained an education in Will
-          iam and Mary's College. In 1788, he located at Chillicothe, and was the first Senator from the new S
-          tate. He was also the first man to erect the first saw-mill in Ohio. He served two terms as Senator,
-           from 1803 to 1815, resigning in 1814, to take his position as Govemor.
-        pattern_matched: 'mill'
-      - pdf_page: 159
-        section: "OHIO'S  RANK  DURING  THE  WAR."
-        quote: >
-          magnesia, iron, alumina, silez, sulphur, and some decomposed leaves, plants and sticks.. Some pebble
-          s are found. Li contact with the water, quicksand is formed. The Hickory Plains, at the forks of the
-           Great Miami and White Water, and also between EUgore's Mill and New Richmond, are the results of he
-          avy dilu- vial currents.
-        pattern_matched: 'Mill'
-      - pdf_page: 176
-        section: "HISTORY   OF   THE   STATE   OF   OHIO."
-        quote: >
-          3,000,000 tons of coal were raised during the year, owing to the dullness of the times. The State ch
-          arities reported the aggregate number under public care to be 29,508. The taxation for the maintenan
-          ce of these classes was one and one six-hundredth of a mill on each dollar of taxable property. The 
-          reports given of the year 1877 indicated a revival of business interests and prosperity. .
-        pattern_matched: 'mill'
+          thington, the sixth Governor, was bom in Jefferson County ^ Ya., in 1769. He gained an education in 
+          William and Mary's College. In 1788, he located at Chillicothe, and was the first Senator from the n
+          ew State. He was also the first man to erect the first saw-mill in Ohio. He served two terms as Sena
+          tor, from 1803 to 1815, resigning in 1814, to take his position as Govemor.
+        pattern_matched: 'saw-mill'
       - pdf_page: 193
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
-          uncil. '^ During the French and British wars and the wars for independence, the Quaker mission among
-           the Shawnees did not exist. After the peace of 1814, however, the Society of Friends renewed their 
-          friendship with Uiose Indians, established a school, a saw-mill, a flour-mill and house of worship a
-          mong them at Wapakonetta, with the zealous Henry Har- vey in charge, which was continued down ...
-        pattern_matched: 'mill'
+          council. '^ During the French and British wars and the wars for independence, the Quaker mission amo
+          ng the Shawnees did not exist. After the peace of 1814, however, the Society of Friends renewed thei
+          r friendship with Uiose Indians, established a school, a saw-mill, a flour-mill and house of worship
+           among them at Wapakonetta, with the zealous Henry Har- vey in charge, which was continued dow...
+        pattern_matched: 'saw-mill'
       - pdf_page: 213
         section: "SAW-MILL  AND  KAVT  TABD."
         quote: >
-          r in barrels was received from Fort Amanda throagh Ensign Gray. It is said, with some degree of aath
-          enticity, that one of the scows bailt here in 1813 was sabeeqaently ased by Commodore Perry in baoyi
-          ng his large ships oyer the shallows at Pat-in-Bay. SAW-MILL AND KAVT TABD. Daring the winter of 181
-          2^13 the garrison of Fort Amanda was con- stitated a ship-bailding company.
-        pattern_matched: 'MILL'
+          floar in barrels was received from Fort Amanda throagh Ensign Gray. It is said, with some degree of 
+          aathenticity, that one of the scows bailt here in 1813 was sabeeqaently ased by Commodore Perry in b
+          aoying his large ships oyer the shallows at Pat-in-Bay. SAW-MILL AND KAVT TABD. Daring the winter of
+           1812^13 the garrison of Fort Amanda was con- stitated a ship-bailding company.
+        pattern_matched: 'SAW-MILL'
       - pdf_page: 227
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
@@ -7377,38 +8202,6 @@ entities:
           oyers) Michael Noll, George Poppinmoyer, James Pettin, John Pool, George Rideman, Benjamin Reed, Joh
           n Sommersett, John Steaman, Christian Stukey, Jacob Shackemiller (Sawmiller), Robert Tate.
         pattern_matched: 'Sawmill'
-      - pdf_page: 228
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          er, William Watty James Watt, Adam White, Tobias Woods, Samael Watt, Joseph G. Walton, Daniel Woolle
-          tt, Abram Ward, William Ward, John B. Walton, Joseph Ward, Philip Woollett, George White. The assess
-          ed valae of lands in Jackson in 1834 was $472, one steam- mill valned at $160, valae of personal pro
-          perty $3,800. Total tax levied $57.53. Auglaize, 1834.
-        pattern_matched: 'mill'
-      - pdf_page: 272
-        section: "HISTORY  OP  ALLBN  COUNTY."
-        quote: >
-          y 24, 1834 Silas Faorot was Assessor. In Jane, 1834, Isaac Bowyer appeared before the Commissioners 
-          and made oath that the sum of $96 was all he had oat bearing interest instead of 1206, for which he 
-          was assessed. The Board placed the valae on Tompkin's mill at $300 and a like valae on Lippincott's 
-          milL The Capital of E. C.
-        pattern_matched: 'mill'
-      - pdf_page: 281
-        section: "THE   TOWEB   OLOOK."
-        quote: >
-          h and glass; the grating to be bars of iron 1 inch square, 3 inches apart; the ends to be let 2 inch
-          es into the timber. Above and below the upper window to be chinked with good, sufficient chinking, t
-          wo spikes and one pin to each Ic^. One pair of mill-stairs on the outside, to land on a platform of 
-          3 17 Digitized by LjOOQIC
-        pattern_matched: 'mill'
-      - pdf_page: 316
-        section: "HISTORY  OP  ALLEN  COUNTY."
-        quote: >
-          , J. B. Churchill, and A. N. Smithy Executive Committee. Thomas K Jacobs introduced a bill in the Oh
-          io Legislature, in April, 1861, to provide a fund for the support of soldiers' families, by author- 
-          izing the County Commissioners to levy a tax of half a milL On April 28, Bepresentative Baldwin intr
-          oduced a more elaborate bill, which was accepted.
-        pattern_matched: 'milL'
       - pdf_page: 356
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
@@ -7417,44 +8210,22 @@ entities:
           ., 118th O. V. I., Aug. 22, 1862, Nov. 2, 1865. Sawmiller, Geo. W., 12th O. Cav., Sept 15, 1863, Nov
           . 19, 1864 Sawmiller, Isaac, McLaughlin's Squad, l^Iarch, 1864, Nov., 1865.
         pattern_matched: 'Sawmill'
-      - pdf_page: 389
-        section: "CHAPTER  XIV."
-        quote: >
-          s studies and careful in his practice. CHAPTER XIV. FIBST INDUSTBIES, BAILBOADS, GANAL, ETG. WHEN th
-          e pioneers of the county took up their residence here, they were compelled to visit Sydney, Piqua, G
-          herokee, St Mary's, West Liberty, XTrbana, or the Quakers* Mill at Wapakonetta, in their search for 
-          milling facilities.
-        pattern_matched: 'Mill'
       - pdf_page: 390
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
           396 HISTORY OF ALLEN COUNTY. layed and by other means disappointed. To remedy this evil, hand-mills,
            hominy-blocks and corn-crackers were brought into use, which for a few years enabled the pioneers t
           o overcome the inconveniences of going to milL How this labor was performed within the family circle
-          , is shown in the following extract from Robert Bowers' reminiscences : ^^The horse and hand-m...
-        pattern_matched: 'milL'
+          , is shown in the following extract from Robert Bowers' reminiscences : ^^The horse and
+        pattern_matched: 'corn-cracker'
       - pdf_page: 391
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
           I HISTORY OP ALLEN COONTT. 397 below the Tompkins & Hindel Mill. A saw-mill was erected on Sugar Gre
           ek by Higgs in 1882, and the same year Benjamin Clevenger erected a small mill, lower down the creek
           , in Sugar Creek Township. In 1837 a grist-mill was erected by Peter Bhodes on the Ottawa. The Luke 
-          Tip- ton Mill was
-        pattern_matched: 'Mill'
-      - pdf_page: 396
-        section: "HISTORT  OF  ALLEN  COUNTY."
-        quote: >
-          s, $588,027. The mortgages recorded during the year amounted to $687,894, and the mortgages cancelle
-          d to $815,631. The former does not include $20,000 recorded in name of C. & A. B. R Co. FINANCIAL ST
-          ATISTICS.
-        pattern_matched: 'mill'
-      - pdf_page: 402
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          a house of worship, and in 1875 the United Bretiiren built on Section 25. yiLLA.OES. The village of 
-          Amanda was platted in 1832 by Samuel Washburn, who married the widow of Andrew BusselL Armstrong Vil
-          lage may be said to date from 1842, when the flouring-mill was erected at that point by Tone & Co.
-        pattern_matched: 'mill'
+          Tip- ton Mill was a horse-pow
+        pattern_matched: 'saw-mill'
       - pdf_page: 426
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
@@ -7466,111 +8237,43 @@ entities:
       - pdf_page: 442
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
-          ollowed close upon the enterprise of the Bredeick's. ^ Ferdinand Bredeick erected the first house on
-           the village site, and the first frame house was erected by Henry Menckhans; Capi McCune built the f
-          irst brick house. In 1845, E. N. Morton built the first saw mill, and in 1847 he erected the first g
-          rist-mill. Miss Amelia Bredeick, now Mrs. Geo.
-        pattern_matched: 'saw  mill'
-      - pdf_page: 456
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          dents have been Henry Flickinger 1868 to 1878, and J. M. C. Marble 1873 to 1885. Henry J. Trame has 
-          served as secretary from 1878 to present time. The value of annual products is about $120,000 ; the 
-          monthly pay roll is about $3,000. The Union Flouring- Mill Company was organized under State law in 
-          1872, with F. J. Lye, Peter Phelan, H. J. Moennig, H. J. Gerdeman, Theo Wrocklage, S. D.
-        pattern_matched: 'Mill'
+          eick's. ^ Ferdinand Bredeick erected the first house on the village site, and the first frame house 
+          was erected by Henry Menckhans; Capi McCune built the first brick house. In 1845, E. N. Morton built
+           the first saw mill, and in 1847 he erected the first grist-mill. Miss Amelia Bredeick, now Mrs. Geo
+          . Lang, was the first white child bom in the town.
+        pattern_matched: 'grist-mill'
       - pdf_page: 457
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
-          ber for the market. Immense quantities of timber are annually conveyed to market by the railroads an
-          d canal. The enterprise and growth of Del- phoe can be seen by the following list of business establ
-          ishments : two steam saw-mills, two grist-mills, one paper-mill, one woollen-mill, one machine shop 
-          and foundry, one stirrup factory, two planing-mills, one handle factory, one excelsior works, ...
-        pattern_matched: 'mill'
+          employed iu cutting and preparing lumber for the market. Immense quantities of timber are annually c
+          onveyed to market by the railroads and canal. The enterprise and growth of Del- phoe can be seen by 
+          the following list of business establishments : two steam saw-mills, two grist-mills, one paper-mill
+          , one woollen-mill, one machine shop and foundry, one stirrup factory, two planing-mills, one ...
+        pattern_matched: 'saw-mill'
       - pdf_page: 458
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
-          3 and 10, Marion Township, is a small village in the midst of a rich agricultural district The busin
-          ess portion of Lan- deck lies north of Main Street. South are the lands of the Catholic Church, Seba
-          stian Ley and J. Shaffer. The school and a steam saw-mill stand on the western limits. Catholic Chur
-          ch.
-        pattern_matched: 'mill'
-      - pdf_page: 460
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          preaching was generally in the log- cabins. Preaching frequently was held in the cabin of the Bockhi
-          lls. Bev. Wesley J. Wells was among the first preachers. He was of the Methodist Episcopal Church. T
-          he first milling was on Sugar Greek. It was at a horse mill, owned by Luke Tipton. Some families wen
-          t to Sidney, some to St. Mary's, and some to Wapakonetta.
-        pattern_matched: 'mill'
-      - pdf_page: 464
-        section: "HISTORY  OP  ALLEN  COUNTY."
-        quote: >
-          ruggists are W. W. Beeder and A. M. -Fasig; David Hartzog, post- master, was succeeded by A J. McFar
-          land in 1881. The office is in the Davis store, known as the Waltz & Harpster Building, west of the 
-          D. & M. depot on Bailroad Street The old Sugar Greek Mill of Daniel Miller, was purchased by D. Hart
-          zog, Peter Schlusser and J. Hall; repurchased in 1872 by Mr.
-        pattern_matched: 'Mill'
+          ions 3 and 10, Marion Township, is a small village in the midst of a rich agricultural district The 
+          business portion of Lan- deck lies north of Main Street. South are the lands of the Catholic Church,
+           Sebastian Ley and J. Shaffer. The school and a steam saw-mill stand on the western limits. Catholic
+           Church.
+        pattern_matched: 'saw-mill'
       - pdf_page: 477
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
-          ere tan^t in old buildings, the court house, and other convenient places. There were then no schoolh
-          ouses. Miss Emeline S. Holloway, now Mrs. Cunningham, J. W. Thomas, and Miss Bose, were early teach-
-           ers in Lima. Mr. Cunningham taught four years.
-        pattern_matched: 'mill'
-      - pdf_page: 502
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          e structure 200x40 feet, two stories high. There have been several build- ings erected since that ti
-          me, every one of which is complete in equip- ment, and in charge of competent mechanics. The trade o
-          f the com- pany extends throughouf the United States. Lima Mill Furnishing Company, established in 1
-          881 as the Keller Purifier Company, was organized in May, 1882, under the present name.
-        pattern_matched: 'Mill'
-      - pdf_page: 504
-        section: "HISTORY  OP  ALLEN  COUNTF."
-        quote: >
-          ngs, are the reading products. Excelsior Bagging Works Company was incorporated in 1879, with R. W. 
-          Thrift, G. W. Walker, John Melhorn, H. Q. Hadsell and E. B. Halliday members. The capital was placed
-           at $30,000.
-        pattern_matched: 'mill'
-      - pdf_page: 506
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          The manufacture of spokes, hubs, wheel material and plow beams formed the leading features of this e
-          stablishment. The com- pany had a very extensive trade. Geo. A. Heffner was superintendent of the sh
-          ops. In 1884 the Western Wood Fibre Company purchased the mill.
-        pattern_matched: 'mill'
-      - pdf_page: 508
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          The incorporators were David East, H. W. Lewis, James Irvine, B. C. Fanrot, S. W. Moore, George Fett
-          er, S. A. Baxter, L MoJunkin, John O'Connor, W. fl. Harper, R. E. Jones, and G^rge W. Overmjer. This
-           corporation never materialized. The ruins of the old mill stand, and the intentions of enterprise i
-          n this matter are un- known. George Fetter and Henry Boos now own the property.
-        pattern_matched: 'mill'
-      - pdf_page: 511
-        section: "PIONEER&"
-        quote: >
-          enced improve- ments. His nearest neighbors at that time were Isaac Schooler, one and a half miles w
-          est, Moses McCoy, Elijah McOoy, John Shockey, and Thomas Philips. The first schoolhouse was built on
-           Section 25 in 1844, and taught by John Terry. The first mill was in Auglaize Township, two and a ha
-          lf miles away. The pioneers generally had to go to Chero- kee to mill.
-        pattern_matched: 'mill'
+          e then no schoolhouses. Miss Emeline S. Holloway, now Mrs. Cunningham, J. W. Thomas, and Miss Bose, 
+          were early teach- ers in Lima. Mr. Cunningham taught four years. The first mill was built by Jacob H
+          indel and Abel Tompkins in 1884 They built a grist and saw-mill southwest of Lima, on the Ottawa : t
+          he grist-mill had two run of buhra William Scott built a saw-mill about the same time in 1884,...
+        pattern_matched: 'saw-mill'
       - pdf_page: 516
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
-          n McHenry and Isaac McHenry. These persons are all deceased. The first schoolhouse was built on Litt
-          le Biley Creek. It was a log-cabin and the teacher is believed to have been Franklin Smith. The firs
-          t preaching was in a cabin at Budd Gaskel's. The first mill was on Biley Creek, a little corn-cracke
-          r owned by Joseph Deford. In 1834 deer, turkeys and raccoons were very plentiful.
-        pattern_matched: 'mill'
-      - pdf_page: 519
-        section: "NEW  YOPRK"
-        quote: >
-          Stewart, Stephen Cook and Jefferson Y^ner. These were old settlers near Bookport and Beaver Dam. In 
-          Biohland Township, an early sohoolhoose was Hilty's, and the first teacher, William Bedding. The fir
-          st church, Methodist Episcopal, at Bookpori The first horse mill at Bockport, owned by Isaac Parker.
-        pattern_matched: 'mill'
+          persons are all deceased. The first schoolhouse was built on Little Biley Creek. It was a log-cabin 
+          and the teacher is believed to have been Franklin Smith. The first preaching was in a cabin at Budd 
+          Gaskel's. The first mill was on Biley Creek, a little corn-cracker owned by Joseph Deford. In 1834 d
+          eer, turkeys and raccoons were very plentiful. Digitized by LjOOQIC
+        pattern_matched: 'corn-cracker'
       - pdf_page: 528
         section: "HISTORY  OP  ALLEN  COUNTY."
         quote: >
@@ -7578,68 +8281,37 @@ entities:
           he wealth contributors of Allen. The leading indostries are St John's Sucker Bod and Handle Factory,
            the Althous Planing Mill, the Town- send Saw-Mill, Shingle and Lathe Factory, the Cherry Street Fou
           n- dry, a small gun-shop and brass foundry, Besire & Goble's Tile Works, Fischer's Carriage Fa...
-        pattern_matched: 'Mill'
-      - pdf_page: 536
-        section: "HISTORY  OP  ALLEN  COUNTY."
-        quote: >
-          A congregation was formed and a church built about 1840, in Allentown. Mr. C3oon and many of the ear
-          ly settlers were compelled to attend the mills of Piqua and Cherokee to obtain grinding, over mere p
-          aths in the forests. He often attended the government mill built by the Quakers at Wapako- netta, an
-          d sometimes changed to St Mary's, and finally to Lima. Col. George C.
-        pattern_matched: 'mill'
-      - pdf_page: 540
-        section: "HISTORY  OF  ALLEN  COUNTY."
-        quote: >
-          51, in his reminiscences written in 1880, states that 'the canal was opened for traffic in 1844, tha
-          t the village of Spencerville was laid out for Tyler, McOonnell and Gonover of Dayton, about 1844-45
-          , when they purchased a tract of 350 acres and built a mill at the upper lock.
-        pattern_matched: 'mill'
-      - pdf_page: 543
-        section: "SCHOOLS."
-        quote: >
-          ,198.06, expenditure $1,897. There are 212 pupils enrolled, of whom 107 are boys and 105 girls. SPEN
-          CERVILLE VILLAGK Spenoerville, in Spencer Township, was platted in 1845-46 by Conover, McGonnell and
-           Tyler of Dayton, Ohio, at the time they built their first mill at the lower lock. Hartford, an old 
-          settlement in this tovmship, ceased to exist on the establishment of Spencerville.
-        pattern_matched: 'mill'
-      - pdf_page: 549
-        section: "PIONEERS."
-        quote: >
-          1833, and taught by William Bamsey. It had but fifteen or sixteen scholars, and was what was known a
-          s a subscription school. Preaching was gererally in the cabins of the pioneers, and was usually by M
-          ethodist preachers. The early milling was at a little mill built on Sugar Creek by Benjamin Clev- en
-          ger, about 1832. The next mill was by Peter Bhodes, on Hog Creek, 1837.
-        pattern_matched: 'mill'
+        pattern_matched: 'Saw-Mill'
       - pdf_page: 556
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          age when his parents removed to Section 4, Shawnee Township, this county, and here he grew to maturi
-          ty, fully acquainted with pioneer life. At the age of nineteen he received his time from his father 
-          and went to Delphos, where he went to work in a saw-mill.
-        pattern_matched: 'mill'
+          of age when his parents removed to Section 4, Shawnee Township, this county, and here he grew to mat
+          urity, fully acquainted with pioneer life. At the age of nineteen he received his time from his fath
+          er and went to Delphos, where he went to work in a saw-mill.
+        pattern_matched: 'saw-mill'
       - pdf_page: 557
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          to Bachael Imler, who died in 1877; she bore him five children: Sarah C. (deceased), BaChael (deceas
-          ed), Hannah J., Clement Brinlen and Harriet I. In 1847 Mr. Gulp went to Auglaize County where he bou
-          ght a quarter seittion of wild land, built a water saw-mill, and remained for eleven years, then rem
-          oved to Lima, this county, and for two years was engaged in mercantile business and working at...
-        pattern_matched: 'mill'
+          ime to Bachael Imler, who died in 1877; she bore him five children: Sarah C. (deceased), BaChael (de
+          ceased), Hannah J., Clement Brinlen and Harriet I. In 1847 Mr. Gulp went to Auglaize County where he
+           bought a quarter seittion of wild land, built a water saw-mill, and remained for eleven years, then
+           removed to Lima, this county, and for two years was engaged in mercantile business and workin...
+        pattern_matched: 'saw-mill'
       - pdf_page: 563
         section: "AMANDA  TOWNSHIP."
         quote: >
-          settlers of this county, and by her he has had seven children: Nelson, John, Adison, Elnora, Irven, 
-          Alberta and David Oliver (deceased at the age of eleven months, twenty-four days). For some time aft
-          er his return from the war Mr. Weyer engaged in the saw-mill business.
-        pattern_matched: 'mill'
+          ly settlers of this county, and by her he has had seven children: Nelson, John, Adison, Elnora, Irve
+          n, Alberta and David Oliver (deceased at the age of eleven months, twenty-four days). For some time 
+          after his return from the war Mr. Weyer engaged in the saw-mill business.
+        pattern_matched: 'saw-mill'
       - pdf_page: 585
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          ent, respectively, and who settled at Wapakonetta, Auglaize Co., Ohio, in 1834, where the father ser
-          ved in the office of land receiver for several years, and about 1844 they came to Allentown, this co
-          unty, where he purchased land, and built a saw and grist-mill. They reared a large family. William B
-          lackburn served several times ii^^lhe Legisla- Digitized by LjOOQIC
-        pattern_matched: 'mill'
+          descent, respectively, and who settled at Wapakonetta, Auglaize Co., Ohio, in 1834, where the father
+           served in the office of land receiver for several years, and about 1844 they came to Allentown, thi
+          s county, where he purchased land, and built a saw and grist-mill. They reared a large family. Willi
+          am Blackburn served several times ii^^lhe Legisla- Digitized by LjOOQIC
+        pattern_matched: 'grist-mill'
       - pdf_page: 591
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
@@ -7656,219 +8328,113 @@ entities:
           52, and her mother September 22, 1833. To Mr. and Mrs. Sawmiller were bom four children: John B., Vi
           ola M., Arvilla J. and Addie L. Mr.
         pattern_matched: 'Sawmill'
-      - pdf_page: 596
+      - pdf_page: 594
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          her and step- father moved to this county, locating near Beaver DauL The first real estate Mr. Arnol
-          d owned was 100 acres of wild land in Paulding County, Ohio, and he paid for the same by day-labor. 
-          In 1864 he went to Bureau County, III, to work in a mill, but soon after enlisted in Company A, One 
-          Hundred and Thirty- sixth Illinois Volunteer Infantry with Capi E. B.
-        pattern_matched: 'mill'
-      - pdf_page: 642
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          en at Spencerville, and is an active member of the I. O. O. F. In pol- itics he is a Democrat. Our s
-          ubject has paid two visits to his native land, on the second of which his father came to America wit
-          h him. DAVID MINNIG, proprietor of Minnig's planing mill and furniture factory, Delphos, was born in
-           Berne, Switzerland, February 10, 1828, Digitized by LjOOQIC
-        pattern_matched: 'mill'
-      - pdf_page: 649
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          young, engaged in the drug business with J. W. Hunt at Delphoe, and at nine- teen years of age bough
-          t a business in that line for himself with which he has been successfully connected for many years, 
-          retiring from it to engage in his present business of flour milling.
-        pattern_matched: 'flour  mill'
+          ber, 1871. They were parents of eleven children, all now living. To the union of our subject and wif
+          e have been bom one son and one daughter : Oscar N. and Lelia M. Mr. Young did oot make a permanent 
+          settle- ment in this county until 1868. He followed saw-milling from 1871 to 1874. He makes a specia
+          lty of breeding Spanish' Merino sheep.
+        pattern_matched: 'saw-mill'
       - pdf_page: 661
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          at West Cairo in Aogast, 1870, where he has met with marked success in his profession and other impo
-          rtant business interests. Our subject is a stockholder in the First National Bank at Lima, owns and 
-          controls a farm, and is an active partner in a grist-mill. The high standing of the village schools 
-          is largely due to his great interest in educational matters.
-        pattern_matched: 'mill'
+          ocated at West Cairo in Aogast, 1870, where he has met with marked success in his profession and oth
+          er important business interests. Our subject is a stockholder in the First National Bank at Lima, ow
+          ns and controls a farm, and is an active partner in a grist-mill. The high standing of the village s
+          chools is largely due to his great interest in educational matters.
+        pattern_matched: 'grist-mill'
       - pdf_page: 663
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          and wife were bom the following children: Adelia (died, aged two years); Celia A. ; James William; L
-          illie Florence; Aaron K; Lucy E. ; Homer B.; Gregory M.; Sherman Grant and Blaine. Mr. Jennings is a
-           member of the firm of Jennings, Harding & Umbaugh, saw-mill and tile factory in Perry Township, thi
-          s county, established in 1880, also of the firm of Jennings & Snyder, saw-mill, tile and brick-...
-        pattern_matched: 'mill'
-      - pdf_page: 681
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          of her daughters. Of her children four are now living: Sarah (wife of John Dixon), Irena (wife of Wi
-          lliam Osborn), Lucina (wife of Michael Whisler), and James H., all residing in Allen County. Henry M
-          . Corns was a millwright by trade, and built the first mill in this county (locating on Hay Creek, f
-          our miles east of Lima) for Mr. Joseph Ward.
-        pattern_matched: 'mill'
-      - pdf_page: 683
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          uble smokehouse 20 feet square, with a capacity of smok- ing 3,000 pieces at a time, and being compe
-          lled to enlarge their facilities to meet the demands of their increasing trade, they erected a secon
-          d and larger slaughter-house on the creek below the paper-mill, which is sup- plied with every impro
-          vement, and has a capacity of killing 500 hogs per day.
-        pattern_matched: 'mill'
-      - pdf_page: 702
-        section: "BIOGRAPHICAL   SKETCHES."
-        quote: >
-          one year in the First Ohio Regiment, participating in the battles of Monterey, Saltillo and other mi
-          nor engagements. He was mustered out at New Orleans in 1847, and returned to Cincinnati, Ohio, where
-           he followed his trade until 1848, and then worked in a mill for a time. In 1849 he crossed the plai
-          ns to California, returning in 1851.
-        pattern_matched: 'mill'
+          ject and wife were bom the following children: Adelia (died, aged two years); Celia A. ; James Willi
+          am; Lillie Florence; Aaron K; Lucy E. ; Homer B.; Gregory M.; Sherman Grant and Blaine. Mr. Jennings
+           is a member of the firm of Jennings, Harding & Umbaugh, saw-mill and tile factory in Perry Township
+          , this county, established in 1880, also of the firm of Jennings & Snyder, saw-mill, tile and b...
+        pattern_matched: 'saw-mill'
       - pdf_page: 705
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          suited him; but, situated as he was, with mother and sister, he had to forego the advantages so magn
-          animously offered by Mr. Lee. During this spring, 1841, his business being dull, John worked with hi
-          s brother William and John Carlisle, who had Scott's saw-mill, at the river near East Market Street 
-          bridge. They left it in his hands, going to their new places near.
-        pattern_matched: 'mill'
-      - pdf_page: 712
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          Ohio Egg Case Company,' the officers being M. Seiberling, president; Morgan Thomas, vice-president; 
-          L. Beichelderfer, treasurer; W. E. Ghray, secretary; and O. L. Parmenter, manager. The firm, which i
-          s considered a safe and reliable one, have leased the paper mill to facilitate their operations, and
-           are doing a large business manu- facturing this patent The enterprise is fast becoming one of ...
-        pattern_matched: 'mill'
-      - pdf_page: 717
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          and Lorin M. DR. CHESTER F. RUNKLE, Dr. 8. M. Smith's associate in office, Lima, was bom in Albany, 
-          N. Y., in 1840; son of William and Maria (Johnson) Runkle, natives of that county. William Runkle wa
-          s a. mill- wright by trade, and was among the early mill -builders of New York State, but afterward 
-          followed farming.
-        pattern_matched: 'mill'
-      - pdf_page: 733
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          ge. His educational advantages were limited — six months' attendance during his boyhood in the distr
-          ict schools, and three months when twenty.five years of age comprising all his schooling. In 1843 he
-           went to Berkshire County, Mass., where he worked in a paper-mill at Mill River for seven years; the
-          n located at Great Barrington, where he worked at the carpenter's trade eight years.
-        pattern_matched: 'mill'
-      - pdf_page: 745
-        section: "RICHLAND  TOWNSHIP."
-        quote: >
-          e eldest Our subject received a common school education in Putnam County, Ohio, where his parents mo
-          ved when most of the county was a wilderness. He used to drive the oxen over the wheat to thresh it,
-           and, when it was ready, had to go many miles to a mill to have it ground.
-        pattern_matched: 'mill'
+          it suited him; but, situated as he was, with mother and sister, he had to forego the advantages so m
+          agnanimously offered by Mr. Lee. During this spring, 1841, his business being dull, John worked with
+           his brother William and John Carlisle, who had Scott's saw-mill, at the river near East Market Stre
+          et bridge. They left it in his hands, going to their new places near.
+        pattern_matched: 'saw-mill'
       - pdf_page: 746
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          o this county. Our subject was reared on the farm, and taking advantage of good schools improved his
-           time, obtaining a good education both in German and English. He then learned the carpenter's trade 
-          at which he worked several years and also operated a saw-mill for five years. He is now devoting his
-           time to farming, having eighty acres of land.
-        pattern_matched: 'mill'
+          e to this county. Our subject was reared on the farm, and taking advantage of good schools improved 
+          his time, obtaining a good education both in German and English. He then learned the carpenter's tra
+          de at which he worked several years and also operated a saw-mill for five years. He is now devoting 
+          his time to farming, having eighty acres of land.
+        pattern_matched: 'saw-mill'
       - pdf_page: 754
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          shall, Cynthia, Lowell and Lillie, and two by his second wife: Bow- ena Mabel and Boscoe. Onr subjec
-          t is a Republican in politics; has never held any public offica He is a member of the Northwestern O
-          hio Medical Association. L. C. CBIBLEZ, proprietor of saw-mill and lumber dealer, Beaver Dam, was bo
-          rn in Canton Berne, Switzerland, January 15, 1883.
-        pattern_matched: 'mill'
-      - pdf_page: 761
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          RICHLAND TOWNSHIP. 767 0. 0. Woodard he built the flooring-mill at Beaver Dam. This mill is in a fir
-          st-class condition, having six doable sets of rollers and one of bnhrs, costing him $18,000. Mr. Woo
-          dard sold his interest in 1884, and the business is now conducted by Lewis Jennings & Sons. O. S. LA
-          NGAN, banker, Blu
-        pattern_matched: 'mill'
-      - pdf_page: 764
-        section: "BIOGRAPHICAL    SKETCHES."
-        quote: >
-          wagon in 1851, and settled in the woods on the farm where he now resides, comprising 150 acres, whic
-          h his father, who never lived here, however, had previous- ly entered. He put up a cabin, and began 
-          clearing his farm, sending the grain he raised to the mill at Delphos.
-        pattern_matched: 'mill'
-      - pdf_page: 767
-        section: "BIOGRAPHICAL    SKETCHES."
-        quote: >
-          of John Steiner, a farmer and early settler of this county; he and his wife commenced housekeeping i
-          n a very primitive way; their cabin and bed were made of logs, and their table and cupboard of clapb
-          oards; in those days he had to take his min to the mill at Sidney, Ohio, and at times had to wait fi
-          fteen days for his grist.
-        pattern_matched: 'mill'
-      - pdf_page: 770
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          nsport, Ind., and here he engaged in the manufacture of walnut lumber for two years. He then bought 
-          a tract comprising 300 acres of land in Warren County, Penn., and after working the timber into lumb
-          er went to Erie City, Penn., where he bought a planing-mill which he operated till 1879.
-        pattern_matched: 'mill'
+          Marshall, Cynthia, Lowell and Lillie, and two by his second wife: Bow- ena Mabel and Boscoe. Onr sub
+          ject is a Republican in politics; has never held any public offica He is a member of the Northwester
+          n Ohio Medical Association. L. C. CBIBLEZ, proprietor of saw-mill and lumber dealer, Beaver Dam, was
+           born in Canton Berne, Switzerland, January 15, 1883.
+        pattern_matched: 'saw-mill'
       - pdf_page: 771
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          Pennsylvania and of German descent. Frederick Shull, a soldier in the war of 1812, was by turns a ho
-          tel keeper, merchant, farmer and miller, and was among the pioneers of Allen County, Ohio; he laid o
-          ut the town of Beaver Dam, and built the first flour-mill in the village; he had a family of fourtee
-          n children by his first wife and three by his second, Joseph being the eighth child by the fir...
-        pattern_matched: 'mill'
+          es of Pennsylvania and of German descent. Frederick Shull, a soldier in the war of 1812, was by turn
+          s a hotel keeper, merchant, farmer and miller, and was among the pioneers of Allen County, Ohio; he 
+          laid out the town of Beaver Dam, and built the first flour-mill in the village; he had a family of f
+          ourteen children by his first wife and three by his second, Joseph being the eighth child by t...
+        pattern_matched: 'flour-mill'
       - pdf_page: 789
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          Charles Andrew) and Laura. Mr. Reed came to this county in the fall of 1852, and settled in Shawnee 
-          Township, on the farm where he now resides, all of which he cleared and improved. In politics, he is
-           a Republican. SOLOMON SHAPPELL, proprietor of saw-mill and farmer, P. O.
-        pattern_matched: 'mill'
+          Mrs. Charles Andrew) and Laura. Mr. Reed came to this county in the fall of 1852, and settled in Sha
+          wnee Township, on the farm where he now resides, all of which he cleared and improved. In politics, 
+          he is a Republican. SOLOMON SHAPPELL, proprietor of saw-mill and farmer, P. O.
+        pattern_matched: 'saw-mill'
       - pdf_page: 800
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          s parents had moved in 1850. When seventeen years of age he enlisted in Company H, Twenty-third Ohio
-           Volunteer Infantry (in 1863), and received his discharge in 1865. After the war he engaged in lumbe
-          ring and, having purchased some timber land, built a saw-mill. During his business career he has own
-          ed a saw and planing-mill, a |p:ist- mill, etc.
-        pattern_matched: 'mill'
+          his parents had moved in 1850. When seventeen years of age he enlisted in Company H, Twenty-third Oh
+          io Volunteer Infantry (in 1863), and received his discharge in 1865. After the war he engaged in lum
+          bering and, having purchased some timber land, built a saw-mill. During his business career he has o
+          wned a saw and planing-mill, a |p:ist- mill, etc.
+        pattern_matched: 'saw-mill'
       - pdf_page: 801
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          e time about 2,000 acres of land in Amanda and Spencer Townships. In 1869 he removed to Spencerville
-          , and engaged in several business enterprises, but still retained his farm and stock in- terests. At
-           one time he owned and operated two grist-mills, a woolen-mill and a saw-mill. When the Chicago & At
-          lantic Bailroad was talked of, Mr.
-        pattern_matched: 'mill'
+          County, owning at one time about 2,000 acres of land in Amanda and Spencer Townships. In 1869 he rem
+          oved to Spencerville, and engaged in several business enterprises, but still retained his farm and s
+          tock in- terests. At one time he owned and operated two grist-mills, a woolen-mill and a saw-mill. W
+          hen the Chicago & Atlantic Bailroad was talked of, Mr.
+        pattern_matched: 'grist-mill'
       - pdf_page: 802
         section: "BIOGRAPHICAL   SKETCHES."
         quote: >
-          host'' in a genial and courteous manner. He was united in marriage, June 22, 1882, with Miss Jennie 
-          Benner, who was bom in North Baltimore, Ohio, December 11, 1861. To them was bom on September 8, 188
-          4, a son — Grover. GEORGE H. KEPHART, proprietor of saw-mill and handle factory at Spenoeryille, was
-           bom in Amanda Township, Allen Ck>., Ohio, October 81, 1846; son of Ormond and Ann A.
-        pattern_matched: 'mill'
+          ine host'' in a genial and courteous manner. He was united in marriage, June 22, 1882, with Miss Jen
+          nie Benner, who was bom in North Baltimore, Ohio, December 11, 1861. To them was bom on September 8,
+           1884, a son — Grover. GEORGE H. KEPHART, proprietor of saw-mill and handle factory at Spenoeryille,
+           was bom in Amanda Township, Allen Ck>., Ohio, October 81, 1846; son of Ormond and Ann A.
+        pattern_matched: 'saw-mill'
       - pdf_page: 803
         section: "BIOGRAPHICAL   SKETCHES."
         quote: >
-          e Company. He eventu- ally purchased a half interest of the stock owners and still continues in the 
-          business as partner and manager. The firm employ forty-five men and have a capacity of turning out 1
-          20,000 staves per week. They also own and operate a saw-mill in Van Wert County, Ohio.
-        pattern_matched: 'mill'
-      - pdf_page: 806
+          Stave Company. He eventu- ally purchased a half interest of the stock owners and still continues in 
+          the business as partner and manager. The firm employ forty-five men and have a capacity of turning o
+          ut 120,000 staves per week. They also own and operate a saw-mill in Van Wert County, Ohio.
+        pattern_matched: 'saw-mill'
+      - pdf_page: 817
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          who were the parents of fourteen child- ren, of whom Emanuel is the fifth. Our subject was reared on
-           the farm and received a common school education. He has made agriculture the principal occupation o
-          f his life, and in addition owns and operates a tile- mill on his farm.
-        pattern_matched: 'mill'
-      - pdf_page: 809
-        section: "BIOGRAPHICAL  SKETCHES."
-        quote: >
-          are the parents of six children: Irvin, Fanny, Levi, Effie, Ada (died in infancy), and Maud. In 1865
-           Mr. Welsh removed to Del- phos, Ohio, and two years later to Spencerville, where he remained until 
-          1884, engaged at his trade and as foreman of a planing-mill ; he was also in connection engaged more
-           or less extensively in farming.
-        pattern_matched: 'mill'
+          ., aged eighty- two. Charles M. came to this county in 1846 and purchased land, but gave most of his
+           time to the carpenter trade for several years, in connection with undertaking, which still continue
+          s his principal business. He has given some attention to saw-milling since 1875, his son operating t
+          he farm. Our subject was married, (>stober 8, 1848, to Miss Bebecc^ Sake- Digitized by LjOOQIC
+        pattern_matched: 'saw-mill'
 
   - entity: 'Tanneries / Foundries'
     category: industry
-    occurrence_count: 73
+    notes: 'Early manufacturing'
+    occurrence_count: 75
     occurrences:
       - pdf_page: 14
         section: "CONTENTS."
@@ -7893,6 +8459,13 @@ entities:
           s, should they extend their settlements west, to provide manufactures of some kind for themselves, a
           nd when all connection upheld by commerce with the mother country ceases, an independency in th...
         pattern_matched: 'manufactur'
+      - pdf_page: 57
+        section: "THE  NORTHWEST  TEBBITOBY."
+        quote: >
+          more distant West, settlers and speculators b^an to appear in great numbers. In September, the City 
+          of Cleveland was laid out, and during the Summer and Autumn, Samuel Jackson and Jonathan Sharpless e
+          rected the first manufsu^tory of paper — the *^ Red- stone Paper Mill' — in the West. St.
+        pattern_matched: 'Paper  Mill'
       - pdf_page: 63
         section: "THE    NORTHWEST    TEEEITOEY."
         quote: >
@@ -8308,10 +8881,11 @@ entities:
       - pdf_page: 709
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
-          paper-mills in Lima, which position he still retain& The mills were established in 1860 and have a c
-          apacity of making fifteen tons of straw board paper daily, employing 100 hands. Mr. Neff is a member
-           of Lima Lodge, No. 581, L O. O. F.
-        pattern_matched: 'manufactur'
+          and William. Mr. Myers, though comparatively a young man, has good business qualifications, and is w
+          ell fitted for the position he occupies. He held the office of township clerk for two years (1870, 1
+          871). He is a K T. HENRT C. NEFF, foreman of the Lima Paper Mills, Lima, was bom June 20, 1846, in M
+          arion County, Ohio, son of John G.
+        pattern_matched: 'Paper  Mill'
       - pdf_page: 711
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
@@ -8320,6 +8894,14 @@ entities:
           daughter — Edith May. OBVILLE L. PABMENTEB, patentee and manufacturer of egg boxes, Lima, was born J
           une 10, 1844, in Austinburg, Jefferson Co., Ohio; Bon of Austin W.
         pattern_matched: 'manufactur'
+      - pdf_page: 712
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          **The Ohio Egg Case Company,' the officers being M. Seiberling, president; Morgan Thomas, vice-presi
+          dent; L. Beichelderfer, treasurer; W. E. Ghray, secretary; and O. L. Parmenter, manager. The firm, w
+          hich is considered a safe and reliable one, have leased the paper mill to facilitate their operation
+          s, and are doing a large business manu- facturing this patent The enterprise is fast becoming o...
+        pattern_matched: 'paper \nmill'
       - pdf_page: 718
         section: "BIOGRAPHICAL  SKETCHES."
         quote: >
@@ -8426,8 +9008,70 @@ entities:
           .
         pattern_matched: 'manufactur'
 
+  - entity: 'Canal commerce'
+    category: industry
+    notes: 'Canal operations and trade'
+    occurrence_count: 7
+    occurrences:
+      - pdf_page: 13
+        section: "CONTENTS."
+        quote: >
+          Ohio _ 78 Frenon History 76 Ordinance of 1787, No. 82 87 Comments apon the Ordinance of 1787, from t
+          he Statntes of Ohio, Edited hj Salmon P. Chase, and Published in the year 1888 ».. 91 The War of 181
+          2 ^..^ 107 Banking — 111 The Canal System........ ....^ 118 Ohio Land Tracts... ^ «.„ 114 ImfffOTeme
+          nts. 119 €tsu Boundaries..... 121 Organisation of Counties.
+        pattern_matched: 'Canal  System'
+      - pdf_page: 22
+        section: "THB  NOETHWBST  TEBBTTOBY."
+        quote: >
+          his by the upsetting of his canoe on his way to Quebec. Afterward Marquette returned to the Illinois
+           Indians by their request, and ministered to them until 1675. On the 18th of May, in that year, as h
+          e was passing the mouth of a stream — going with his boatmen up Lake Michigan — ^he asked to land at
+           its mouth and celebrate Mass.
+        pattern_matched: 'boatmen'
+      - pdf_page: 115
+        section: "IMPROVEMENTS."
+        quote: >
+          elaware County. This swept over 27,040 acres. In 1824, Congress audionzed the State to sell these la
+          nds. The proceeds were to be devoted to literary requirements, such as might be specified by Congres
+          s. IMPROVEMENTS. We have heretofore briefly alluded to the canal system of Ohio, which in the beginn
+          ing caused considerable anxiety to settlers directly in the course of its survey.
+        pattern_matched: 'canal  system'
+      - pdf_page: 155
+        section: "HISTORY   OF    THE   STATE   OF    OHIO."
+        quote: >
+          orthern boundary. The State has sev- eral fine harbors, the Maumee and Sandusky Bays being the large
+          st We have, in tracing the record of the earlier counties, given the educational inter- -ests as exe
+          mplified by different institutions. We have also given the canal system of the State, in previous pa
+          ges. The Ck)vemor is elected every two years, by the people.
+        pattern_matched: 'canal  system'
+      - pdf_page: 441
+        section: "DELPHOS."
+        quote: >
+          ing historical sketch of Delphos, a great deal relating to the settlement and progress of this towns
+          hip is to be found. DELPHOS. This village is favorably situated on the Miami and Erie Canal, above t
+          he confluence of that waterway with the Wabash and Erie Canal system. Here also is the center of the
+           Toledo, Cincinnati & St.
+        pattern_matched: 'Canal  system'
+      - pdf_page: 737
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          sippi Rivers on a flat-boat as a coaster, selling all kinds of goods at different points on those ri
+          vers, which occupation he followed for five years, and during that time there was a period of nine m
+          onths in which he never slept on land.
+        pattern_matched: 'boating'
+      - pdf_page: 799
+        section: "BIOGRAPHICAL  SKETCHES."
+        quote: >
+          SPENCER TOWNSHIP. 805 N. Y., where he grew to maturity, spendiDg his ear]y life in attending school,
+           preparatory to entering college, but instead of so doing, he moved to Ohio in 1843, and fonr years 
+          later to Spencervilla He engaged in boating on the canal for several years, and eventually turned hi
+          s atten- tion to merchandising, in which he continued at intervals for several years.
+        pattern_matched: 'boating'
+
   - entity: 'Railroad history'
     category: industry
+    notes: 'Railroad construction affecting the corridor'
     occurrence_count: 83
     occurrences:
       - pdf_page: 13
@@ -9071,6 +9715,7 @@ entities:
 
   - entity: 'Waterworks / Water supply'
     category: industry
+    notes: 'Municipal water infrastructure'
     occurrence_count: 7
     occurrences:
       - pdf_page: 92
@@ -9121,15 +9766,15 @@ entities:
       - pdf_page: 476
         section: "HISTORY  OF  ALLEN  COUNTY."
         quote: >
-          8 Majority for Water-works. 829 J. D. Cook, the hydraulic engineer, estimates the expenses of water-
-           works for Lima at $190,000, whioh includes ninete^i and three-fourth miles of pipe, with special ca
-          stings, yalves, hydrants, building, pumps, engines, boilers, reservoir, and $11,500 for incidentals 
-          and ^igineer's salary. PIONIIB SEBTOHXS.
-        pattern_matched: 'reservoir'
+          on of oonstraoting a Bystem of water- works was brought before the people, on NoTember 4, 1884, with
+           the following result : Yes. No. Mai. FirstWard 854 277 77 SecondWard 427 215 212 Third Ward, 251 21
+          4 87 Fourth Ward, 8 Majority for Water-works. 829 J. D.
+        pattern_matched: 'Water-works'
   # ---- PERSON_PLACE ----
 
   - entity: 'Shawnee (tribal/geographic)'
     category: person_place
+    notes: 'Tribal and geographic namesake'
     occurrence_count: 71
     occurrences:
       - pdf_page: 15
@@ -9677,6 +10322,7 @@ entities:
 
   - entity: 'Cole / Cole Street'
     category: person_place
+    notes: 'Cole Street / Cole family'
     occurrence_count: 15
     occurrences:
       - pdf_page: 14
@@ -9799,6 +10445,7 @@ entities:
 
   - entity: 'Neff'
     category: person_place
+    notes: 'Neff family / parcel reference'
     occurrence_count: 12
     occurrences:
       - pdf_page: 316
