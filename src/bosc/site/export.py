@@ -213,8 +213,12 @@ def _geo_feed(fc: GeoFeatureCollection) -> _Feed:
 
 
 def _load_scenarios(settings: Settings) -> list[ScenarioResult]:
-    """Load the committed hydrology scenario results (``data/scenarios/*.scenario.yaml``)."""
-    sdir = settings.data_dir / "scenarios"
+    """Load the committed hydrology scenario results (``data/scenarios/*.scenario.yaml``).
+
+    Per-site (#762): the committed scenarios are Lima's (the Ottawa-River loop); a sibling
+    site reads its own ``scenarios/<slug>/`` (absent today → an empty feed, not Lima's).
+    """
+    sdir = site_scoped_path(settings.data_dir / "scenarios", settings.site, is_dir=True)
     if not sdir.is_dir():
         return []
     out: list[ScenarioResult] = []
@@ -236,7 +240,7 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
     # the `records` feed reads the same tree separately, so it's passed the scope explicitly.
     corpus_scope = active_profile(settings).corpus_relpaths
     corpus = load_corpus(settings)
-    events = build_timeline(corpus)
+    events = build_timeline(corpus, scope=corpus_scope)
     egraph = build_entity_graph(
         corpus,
         enrich_parcels=True,
