@@ -1,0 +1,89 @@
+# Structured extraction of the IDEM Section 401 Water Quality Certification WQC001454 for the
+# Project Zodiac Phase 3 campus expansion (Fort Wayne, IN). Source bytes: the WQC001454 set under
+# data/documents/idem/fort-wayne/ (chain of custody — see that dir's filename-map.yaml).
+# Tags: [verified] = stated verbatim in the documents; [inference] = derived here with the assumption.
+meta:
+  subject: Project Zodiac Phase 3 — IDEM §401 Water Quality Certification WQC001454
+  kind: idem
+  permit_number: WQC001454
+  corps_id: LRE-2023-00646-102
+  issuing_agency: Indiana DEM, Office of Water Quality (Waterways Section)
+  source_documents:
+    - data/documents/idem/fort-wayne/notice_20260403_401_wqc001454.pdf       # public notice
+    - data/documents/idem/fort-wayne/043026-IDEM-Hearing-ORIGINAL.pdf         # hearing transcript
+    - data/documents/idem/fort-wayne/public-comments-compiled.pdf             # public comments
+    - data/documents/idem/fort-wayne/Response-to-Public-Comments-WQC001454-Project-Zodiac-Phase-3-Google-Data-Center.pdf
+    - data/documents/idem/fort-wayne/WQC001454-Section-401-WQC-Approval.pdf   # final approval
+  extracted_at: 2026-06-27
+  method: hand extraction from the PDF text layer (pypdf); figures verbatim unless tagged [inference]
+
+# The strongest document-grounded confirmation that Hatchworks LLC = Google's Project Zodiac.
+operator_identity:
+  applicant: Marc Stern, Hatchworks LLC  # [verified] §401 notice §1; 7510 Zodiac Way, Fort Wayne IN 46816
+  agent: Heather Dardinger, EMH&T  # [verified] §401 notice §2 (5500 New Albany Road, Columbus OH 43054)
+  google_attribution: >-
+    [verified] The IDEM documents name the applicant verbatim as "Google Data Center": every page of
+    the hearing transcript and the response-to-comments is captioned "Hatchworks LLC - Google Data
+    Center - Fort Wayne: Project Zodiac Phase 3"; the hearing caption reads "PUBLIC HEARING REGARDING
+    PROJECT ZODIAC PHASE 3 (GOOGLE DATA CENTER) WQC001454". This upgrades the Hatchworks=Google link
+    from inference (the Mountain View tax-dept mailing on the parcel deeds) to a document-grounded fact.
+
+location:
+  latitude: 41.030378   # [verified] §401 notice §3
+  longitude: -85.048069  # [verified] §401 notice §3
+  description: 858-acre parcel east of Adams Center Road, north of E Tillman Road, south of Logistics Drive, west of the CFE Railroad, Fort Wayne, Allen County  # [verified] §401 notice §3
+  parcel_acres_stated: 858  # [verified] reconciles with the ~856 ac measured from bosc-parcels.geojson
+  huc: '04100005'  # [verified] Maumee watershed (response-to-comments)
+
+receiving_waters:  # [verified] §401 notice §4 — the campus stormwater receptors
+  basin: Maumee (HUC 04100005)
+  waterbodies:
+    - name: Adams Ditch
+      role: primary campus stormwater receiving stream (relocated under Phase 3)
+    - name: unnamed tributary of Doctor Ditch
+      role: crossed by a sanitary sewer line
+    - name: forested wetland (Wetland 56)
+      role: filled under Phase 3
+
+project:
+  phase: 3  # [verified] "This is Phase 3 of a multi-phase project" — an EXPANSION of the existing campus
+  description: three additional data-center buildings (incl. DC06 and DC07), utility infrastructure, internal drives, and stormwater facilities  # [verified]
+  jurisdictional_impacts:  # [verified] §401 notice + approval, Table 2
+    adams_ditch_stream2:
+      permanent_relocation_lf: 3415
+      permanent_relocation_acres: 0.78
+      new_open_channel_lf: 3255   # plus 200 lf in two culverts → 3,455 lf relocated channel
+      fill_cubic_yards: 3794
+      reason: filled/relocated to build DC06 and DC07
+    doctor_ditch_trib_stream5:
+      temporary_impact_lf: 68
+      temporary_impact_acres: 0.01
+      reason: sanitary sewer line installation
+    forested_wetland_56:
+      fill_acres: 0.84
+      disposition: restored/converted to herbaceous wetland
+  mitigation:  # [verified]
+    - 160 lf of stream credits, Maumee Service Area (Indiana Stream and Wetland Mitigation Program)
+    - 2.52 acres of forested wetland credits, the Openings mitigation bank
+    - on-site creation of 3,255 lf of open stream channel
+  timeline:  # [verified] approval/response
+    mass_excavation_through: early 2028
+    building_construction_through: 2030
+
+# A CONTESTED §401 — the administrative record (public records / opposition the platform tracks).
+disposition:
+  status: issued  # [verified] WQC001454-Section-401-WQC-Approval.pdf
+  issued: 2026-06-05
+  public_notice: 2026-03-13
+  comment_close: 2026-04-03
+  public_hearing: 2026-04-30  # virtual; Hearing Officer James Turner
+  contested: true
+  opposition: >-
+    [verified] Organized public opposition (90-page hearing transcript + 295 pages of compiled
+    comments incl. the Hoosier Environmental Council). IDEM certified compliance with Indiana water
+    quality standards (327 IAC 2) and issued the WQC over the opposition (see response-to-comments).
+
+notes:
+  - 'The campus stormwater receiving water (Adams Ditch, Maumee HUC 04100005) is DISTINCT from the Fort Wayne WWTP receptor (IN0032191 → Baldwin Ditch → Maumee mainstem); the data center discharges stormwater, not sanitary effluent.'
+  - 'This §401 covers stream/wetland (Clean Water Act §404 nexus) impacts, NOT the stormwater-runoff developed/impervious acreage — the Tier-0 stormwater model still needs the SWPPP / Rule 5 construction stormwater permit (#362).'
+  - 'DC06/DC07 are the Phase 3 buildings; the existing campus (Phases 1-2) is already built — useful for sizing the multi-phase final buildout.'
