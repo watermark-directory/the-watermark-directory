@@ -2,6 +2,7 @@
 import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
 import SwitcherRow from "./SwitcherRow.astro";
+import SwitcherRowV2 from "./SwitcherRowV2.astro";
 import {
   networkTabs,
   platformLinks,
@@ -46,6 +47,8 @@ const hereSlug = here?.slug ?? null;
 const totalSites = SITES.length;
 const stateCount = stateGroups.length;
 const basinCount = basinGroups.length;
+const lockedCount = SITES.filter((s) => s.locked).length;
+const openCount = totalSites - lockedCount;
 
 // The platform globals also surfaced in the mobile sheet's "Platform" group. Submit
 // rides here on phones (on desktop it's the right-cluster pill); Ask + Search follow.
@@ -161,6 +164,122 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
             </svg>Locked
           </span>
         </span>
+      </div>
+    </div>
+
+    <!-- V2 Site Selector — controlled by localStorage('site-selector-v2'='1'). Both panels
+         are rendered; CSS hides the inactive one so no redeploy is needed to flip the flag. -->
+    <div class="switcher-menu switcher-menu-v2">
+      <input type="radio" name="sw2-groupby" id="gb-v2-basin" class="gb-radio" checked />
+      <input type="radio" name="sw2-groupby" id="gb-v2-state" class="gb-radio" />
+      <div class="v2-head">
+        <div class="v2-head-row1">
+          <span class="v2-head-title">Switch site</span>
+          <span class="v2-head-count">
+            {totalSites} sites · <span class="sw-v2-scope sw-v2-scope-basin">{basinCount} basins</span><span class="sw-v2-scope sw-v2-scope-state">{stateCount} states</span>
+          </span>
+          <span class="v2-head-stats">
+            <span class="v2-head-open">{openCount} open</span>
+            {lockedCount > 0 && (
+              <span class="v2-head-locked">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="5" y="11" width="14" height="9" rx="1"/>
+                  <path d="M8 11 V7.5 A4 4 0 0 1 16 7.5 V11"/>
+                </svg>
+                {lockedCount} restricted
+              </span>
+            )}
+          </span>
+          <label class="v2-filter" for="sw-v2-filter">
+            <span class="v2-filter-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="6.5"/>
+                <line x1="16" y1="16" x2="21" y2="21"/>
+              </svg>
+            </span>
+            <input type="text" id="sw-v2-filter" placeholder="Filter by place…" autocomplete="off" spellcheck="false" />
+          </label>
+          <span class="v2-groupby-k">Group by</span>
+          <span class="v2-toggle">
+            <label for="gb-v2-state" class="gb-btn gb-v2-state">State</label>
+            <label for="gb-v2-basin" class="gb-btn gb-v2-basin">Basin</label>
+          </span>
+        </div>
+        <p class="v2-blurb">
+          Each <b>site</b> is one Watermark investigation. The <b>page</b> color says what opens; the <b>campus</b> line is the build on the ground — two different clocks.
+        </p>
+      </div>
+      <div class="v2-scroll">
+        <div class="v2-groups by-v2-state">
+          {
+            stateGroups.map((g) => (
+              <div class="v2-group">
+                <div class="v2-grouphead">
+                  {g.tag && <span class="v2-grouptag">{g.tag}</span>}
+                  <span class="v2-grouplabel">{g.label}</span>
+                  <span class="v2-groupcount">{g.sites.length}</span>
+                </div>
+                <div class="v2-grouprows">
+                  {g.sites.map((s) => (
+                    <SwitcherRowV2 site={s} activeSlug={hereSlug} />
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <div class="v2-groups by-v2-basin">
+          {
+            basinGroups.map((g) => (
+              <>
+                {g.showRegion && (
+                  <div class="v2-region">
+                    <span class="v2-region-tag">{g.regionTag}</span>
+                    <span class="v2-region-label">{g.regionLabel}</span>
+                    <span class="v2-region-count">{g.regionCount} sites</span>
+                  </div>
+                )}
+                <div class="v2-group">
+                  <div class="v2-grouphead">
+                    {g.tag && <span class="v2-grouptag">{g.tag}</span>}
+                    <span class="v2-grouplabel">{g.label}</span>
+                    <span class="v2-groupcount">{g.sites.length}</span>
+                  </div>
+                  <div class="v2-grouprows">
+                    {g.sites.map((s) => (
+                      <SwitcherRowV2 site={s} activeSlug={hereSlug} />
+                    ))}
+                  </div>
+                </div>
+              </>
+            ))
+          }
+        </div>
+      </div>
+      <div class="v2-foot">
+        <div class="v2-foot-col">
+          <span class="v2-foot-label">The page — what opens on Watermark</span>
+          <span class="v2-foot-legend">
+            <span class="v2-fl-item v2-fl-open">Open · Draft<span class="v2-fl-arrow">→</span><span class="v2-fl-note">full record</span></span>
+            <span class="v2-fl-item v2-fl-queued">Queued · Watching<span class="v2-fl-arrow">→</span><span class="v2-fl-note">preview page</span></span>
+            <span class="v2-fl-item v2-fl-locked">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="5" y="11" width="14" height="9" rx="1"/>
+                <path d="M8 11 V7.5 A4 4 0 0 1 16 7.5 V11"/>
+              </svg>
+              Restricted<span class="v2-fl-note">request access</span>
+            </span>
+          </span>
+        </div>
+        <div class="v2-foot-col">
+          <span class="v2-foot-label">The campus — the build on the ground</span>
+          <span class="v2-foot-legend">
+            <span class="v2-fl-campus v2-fl-inv">Investigating</span>
+            <span class="v2-fl-campus v2-fl-confirmed">Confirmed</span>
+            <span class="v2-fl-campus v2-fl-construction">Under construction</span>
+            <span class="v2-fl-campus v2-fl-operational">Operational</span>
+          </span>
+        </div>
       </div>
     </div>
   </details>
@@ -404,3 +523,26 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
     <label for="bosc-nav-toggle" class="nav-burger" aria-label="Toggle navigation"><Icon name="menu" size={22} /></label>
   </div>
 </header>
+
+<script is:inline>
+  // Runtime flag: localStorage.setItem('site-selector-v2','1') + reload to enable v2.
+  // localStorage.removeItem('site-selector-v2') + reload to revert.
+  (function () {
+    if (localStorage.getItem("site-selector-v2") === "1") {
+      document.documentElement.setAttribute("data-ssv2", "");
+    }
+  })();
+
+  // V2 place filter — filters .switcher-row-v2 elements by place name.
+  var filterInput = document.getElementById("sw-v2-filter");
+  if (filterInput) {
+    filterInput.addEventListener("input", function () {
+      var q = filterInput.value.toLowerCase().trim();
+      document.querySelectorAll(".switcher-row-v2").forEach(function (row) {
+        var place = row.querySelector(".v2-placename");
+        var text = place ? place.textContent.toLowerCase() : "";
+        row.hidden = q !== "" && !text.includes(q);
+      });
+    });
+  }
+</script>
