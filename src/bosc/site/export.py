@@ -88,7 +88,7 @@ from bosc.site.feeds import (
     RelationshipEdge,
     TimelineEntry,
 )
-from bosc.sites import active_profile, site_scoped_path
+from bosc.sites import active_profile, is_reference_site, site_scoped_path
 
 log = get_logger(__name__)
 
@@ -210,6 +210,19 @@ def _geo_feed(fc: GeoFeatureCollection) -> _Feed:
         payload=_dump_json(fc.model_dump(mode="json", by_alias=True)),
         count=len(fc.features),
     )
+
+
+def _scoped_assessments(settings: Settings) -> list[HypothesisAssessment]:
+    """The (site x hypothesis) evidence cells for this bundle (#762).
+
+    The cells form one cross-site matrix (``data/hypotheses/<hid>/<site>.yaml``). The reference
+    build (Lima, the network host the root ``/research/hypotheses`` matrix reads) carries the
+    whole matrix; a sibling site's bundle carries only its own rows — strictly its own data.
+    """
+    cells = load_assessments(settings=settings)
+    if is_reference_site(settings.site):
+        return cells
+    return [c for c in cells if c.site == settings.site]
 
 
 def _load_scenarios(settings: Settings) -> list[ScenarioResult]:
@@ -352,7 +365,7 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
         (
             "hypothesis-assessments",
             HypothesisAssessment,
-            lambda: load_assessments(settings=settings),
+            lambda: _scoped_assessments(settings),
         ),
         ("hydrology-scenarios", ScenarioResult, lambda: _load_scenarios(settings)),
         # The published data catalog (epic #631 Phase 3 / #659) — the data tier /about/data reads.
