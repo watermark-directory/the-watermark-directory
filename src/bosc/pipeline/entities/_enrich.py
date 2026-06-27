@@ -186,7 +186,15 @@ def enrich_with_parcel_owners(
     Mutates and returns ``graph``. Idempotent.
     """
     settings = settings or get_settings()
-    ref = settings.reference_dir / "allen-gis"
+    # Per-site (#762): the parcel CAMA reference dir is the active profile's
+    # ``gis_parcel.reference_dir`` (Lima = ``allen-gis``), so a sibling site reads its own
+    # (Fort Wayne = ``fort-wayne-gis``) and never inherits Allen County's defense parcels /
+    # JSMC node. A site with no parcel GIS schema gets nothing here.
+    parcel_schema = active_profile(settings).gis_parcel
+    if parcel_schema is None:
+        return graph
+    ref = settings.reference_dir / parcel_schema.reference_dir
+    defense_rel = f"data/reference/{parcel_schema.reference_dir}/parcels.defense.yaml"
 
     defense = ref / "parcels.defense.yaml"
     if defense.is_file():
@@ -208,7 +216,7 @@ def enrich_with_parcel_owners(
                     ent.addresses.add(str(p["situs_address"]))
             ent.roles["parcel_owner"] += len(army)
             ent.signals.update({"army_controlled", "defense_land"})
-            ent.sources.add("data/reference/allen-gis/parcels.defense.yaml")
+            ent.sources.add(defense_rel)
 
     cited = ref / "parcels.cited.yaml"
     if cited.is_file():

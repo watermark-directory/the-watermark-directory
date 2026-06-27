@@ -216,30 +216,46 @@ def test_geo_features_carry_layer_metadata(bundle: Path) -> None:
             assert props.get("role") in ("area", "line", "point")
 
 
-def test_frontend_sample_bundle_tracks_the_export_contract(bundle: Path) -> None:
-    """The committed CI fixture ``frontend/sample-bundle`` must not silently drift from
-    ``bosc export`` (issue #179). It is a deliberately *trimmed* bundle, so its feed set is a
-    subset — but the ``contract_version`` must match exactly, every feed it ships must still
-    exist in the real export (catches a rename/removal), and the trimmed manifest must stay
-    internally consistent. Refresh it (see ``frontend/sample-bundle/README.md``) on drift.
+def _assert_fixture_tracks_export(fixture_dir: Path, exported_manifest: dict[str, Any]) -> None:
+    """A committed ``sample-bundle/<slug>/`` fixture must not silently drift from its
+    ``bosc … export`` (issue #179). It's a deliberately *trimmed* bundle, so its feed set is a
+    subset — but the ``contract_version`` and ``site`` must match exactly, every feed it ships
+    must still exist in the real export (catches a rename/removal), and the trimmed manifest must
+    stay internally consistent. Refresh it (see the fixture's README.md) on drift.
     """
-    exported = _manifest(bundle)
-    sample = json.loads((FRONTEND_SAMPLE / "manifest.json").read_text(encoding="utf-8"))
+    sample = json.loads((fixture_dir / "manifest.json").read_text(encoding="utf-8"))
 
-    assert sample["contract_version"] == exported["contract_version"], (
-        f"sample-bundle contract_version {sample['contract_version']} != exported "
-        f"{exported['contract_version']} — refresh frontend/sample-bundle"
+    assert sample["contract_version"] == exported_manifest["contract_version"], (
+        f"{fixture_dir.name} contract_version {sample['contract_version']} != exported "
+        f"{exported_manifest['contract_version']} — refresh the fixture"
+    )
+    assert sample["site"] == exported_manifest["site"], (
+        f"{fixture_dir.name} fixture is for site {sample['site']!r} but exported {exported_manifest['site']!r}"
     )
 
-    exported_feeds = {f["name"] for f in exported["feeds"]}
+    exported_feeds = {f["name"] for f in exported_manifest["feeds"]}
     stale = {f["name"] for f in sample["feeds"]} - exported_feeds
-    assert not stale, f"sample-bundle has feeds no longer produced by `bosc export`: {stale}"
+    assert not stale, f"{fixture_dir.name} fixture has feeds no longer produced by export: {stale}"
 
     # The trimmed manifest must stay internally consistent and its feed files present.
     assert sample["feed_count"] == len(sample["feeds"])
     assert sample["row_total"] == sum(f["count"] for f in sample["feeds"])
     for f in sample["feeds"]:
-        assert (FRONTEND_SAMPLE / f["path"]).is_file(), f"sample-bundle missing file {f['path']}"
+        assert (fixture_dir / f["path"]).is_file(), f"{fixture_dir.name} missing file {f['path']}"
+
+
+def test_frontend_sample_bundle_tracks_the_export_contract(bundle: Path) -> None:
+    """The committed Lima CI fixture tracks `bosc export` (the reference build)."""
+    _assert_fixture_tracks_export(FRONTEND_SAMPLE, _manifest(bundle))
+
+
+def test_fort_wayne_sample_bundle_tracks_the_export_contract(fort_wayne_bundle: Path) -> None:
+    """The committed Fort Wayne fixture tracks `bosc --site fort-wayne export` (#741) — the
+    first non-Lima sample bundle, so this also guards that a sibling fixture stays a real,
+    per-site-scoped slice of its own export."""
+    _assert_fixture_tracks_export(
+        REPO_ROOT / "frontend" / "sample-bundle" / "fort-wayne", _manifest(fort_wayne_bundle)
+    )
 
 
 @pytest.fixture(scope="module")

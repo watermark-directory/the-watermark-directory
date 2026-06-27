@@ -8,7 +8,7 @@ producer:
     — NDA/CRA/school-notice source instruments and the consolidated withholding map
 license: Public record (Ohio R.C. 149.43)
 access_tier: public
-site_scope: basin-shared
+site_scope: lima-legacy
 storage:
 - relpath: extracted/legal/prr-mandamus/cra-agreement.cra.yaml
   media_type: application/x-yaml

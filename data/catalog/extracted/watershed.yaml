@@ -8,7 +8,7 @@ producer:
     (Shedekar et al.)
 license: Public agency web capture + secondary literature (sources cited)
 access_tier: public
-site_scope: basin-shared
+site_scope: lima-legacy
 storage:
 - relpath: extracted/watershed/osu-lima-ag-runoff-treatment.capture.yaml
   media_type: application/x-yaml

@@ -9,7 +9,7 @@ producer:
   external_url: https://allen.boe.ohio.gov/category/election-results/
 license: Public records (local government open data)
 access_tier: public
-site_scope: basin-shared
+site_scope: lima-legacy
 storage:
 - relpath: reference/allen-boe/results-csv/2019-general-summary.csv
   media_type: text/csv

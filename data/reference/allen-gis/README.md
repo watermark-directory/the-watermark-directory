@@ -56,7 +56,7 @@ inference, flagged as such in the file's `meta`.
 
 ### `allen-gis-parcels` — Allen County, Ohio Parcels (CAMA) — Corpus Subset
 
-Source: Allen County GIS public ArcGIS REST — 'Current Parcels' (auditor CAMA joined to geometry) · License: Public records (local government open data) · Access: public · Site scope: basin-shared · Refresh: on-demand
+Source: Allen County GIS public ArcGIS REST — 'Current Parcels' (auditor CAMA joined to geometry) · License: Public records (local government open data) · Access: public · Site scope: lima-legacy · Refresh: on-demand
 
 Regenerate: `bosc parcels --cited`
 

@@ -11,7 +11,7 @@ producer:
   external_url: https://colgis.cityhall.lima.oh.us/server/rest/services/CitywideMaps/Lima_Zoning/MapServer
 license: Public records (local government open data); flood layer FEMA DFIRM (U.S. Government public domain)
 access_tier: public
-site_scope: basin-shared
+site_scope: lima-legacy
 storage:
 - relpath: reference/lima-gis/floodzones.yaml
   media_type: application/x-yaml

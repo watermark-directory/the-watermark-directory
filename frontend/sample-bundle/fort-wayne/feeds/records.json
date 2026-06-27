@@ -1,0 +1,30 @@
+[
+  {
+    "rel": "fort-wayne/wwtp-in0032191.dmr.yaml",
+    "group": "permits-npdes",
+    "title": "FORT WAYNE WWTP",
+    "confidence": null,
+    "warnings": [],
+    "fields": {
+      "npdes_id": "IN0032191",
+      "name": "FORT WAYNE WWTP",
+      "permit_type": "NPDES Individual Permit",
+      "permit_status": "Admin Continued",
+      "major_minor": "M",
+      "snc_status": "Effluent - Monthly Average Limit",
+      "window": "2023-01-01..2023-12-31"
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "fort-wayne/wwtp-in0032191.dmr.yaml",
+      "source_kind": "document",
+      "page": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": null,
+    "source_doc_render_class": null,
+    "source_doc_published": false
+  }
+]

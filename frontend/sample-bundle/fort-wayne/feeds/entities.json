@@ -1,0 +1,132 @@
+[
+  {
+    "key": "DANA INCORPORATED",
+    "display": "DANA INCORPORATED",
+    "kind": "corporate",
+    "classification": "corporate_parent",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "DANA INCORPORATED"
+    ],
+    "signals": [],
+    "roles": {},
+    "parcels": [],
+    "addresses": [],
+    "sources": [
+      "data/reference/gleif/lei-records.yaml"
+    ],
+    "lei": "KVWHW7YLZPFJM8QYNJ51",
+    "uei": null,
+    "federal_obligations": null
+  },
+  {
+    "key": "GENERAL DYNAMICS",
+    "display": "GENERAL DYNAMICS CORPORATION",
+    "kind": "corporate",
+    "classification": "corporate_defense",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "GENERAL DYNAMICS CORPORATION"
+    ],
+    "signals": [],
+    "roles": {},
+    "parcels": [],
+    "addresses": [],
+    "sources": [
+      "data/reference/gleif/lei-records.yaml",
+      "data/reference/usaspending/awards.yaml"
+    ],
+    "lei": "9C1X8XOOTYY2FNYTVH06",
+    "uei": "VF58HFRNGEL8",
+    "federal_obligations": 299067439090.79
+  },
+  {
+    "key": "GENERAL DYNAMICS LAND SYSTEMS",
+    "display": "General Dynamics Land Systems Inc.",
+    "kind": "corporate",
+    "classification": "corporate_defense",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "General Dynamics Land Systems Inc."
+    ],
+    "signals": [],
+    "roles": {
+      "jsmc_operator": 1
+    },
+    "parcels": [],
+    "addresses": [],
+    "sources": [
+      "data/reference/gleif/lei-records.yaml",
+      "data/reference/usaspending/awards.yaml"
+    ],
+    "lei": "875500ULXB4CYQSJVA03",
+    "uei": "HAWKSQF848W7",
+    "federal_obligations": 33579510703.85
+  },
+  {
+    "key": "DANA LIGHT AXLE PRODUCTS",
+    "display": "DANA LIGHT AXLE PRODUCTS LLC",
+    "kind": "facility",
+    "classification": "industrial_facility",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "DANA LIGHT AXLE PRODUCTS LLC"
+    ],
+    "signals": [],
+    "roles": {
+      "rsei_facility": 1
+    },
+    "parcels": [],
+    "addresses": [],
+    "sources": [
+      "data/reference/rsei/inventory.yaml"
+    ],
+    "lei": null,
+    "uei": null,
+    "federal_obligations": null
+  },
+  {
+    "key": "project-zodiac-campus",
+    "display": "Hatchworks campus",
+    "kind": "place",
+    "classification": "place_watched",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "Google Fort Wayne data center",
+      "Hatchworks campus",
+      "Project Zodiac campus"
+    ],
+    "signals": [
+      "composite",
+      "tracked"
+    ],
+    "roles": {
+      "place": 1
+    },
+    "parcels": [
+      "021327100001000077",
+      "021327451001000077",
+      "021327451001003039",
+      "021327451001004039",
+      "021327476001001039",
+      "021327476002000039",
+      "021327476003000039",
+      "021327476004000039",
+      "021327476005000039",
+      "021327476006000039",
+      "021327476007000039"
+    ],
+    "addresses": [],
+    "sources": [
+      "data/poi/project-zodiac-campus.md"
+    ],
+    "lei": null,
+    "uei": null,
+    "federal_obligations": null
+  }
+]

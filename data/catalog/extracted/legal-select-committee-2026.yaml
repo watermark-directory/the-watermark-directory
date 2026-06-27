@@ -8,7 +8,7 @@ producer:
     reviewed reads of the 2026 hearing record
 license: Public record (Ohio legislative hearing record; Ohio R.C. 149.43)
 access_tier: public
-site_scope: basin-shared
+site_scope: lima-legacy
 storage:
 - relpath: extracted/legal/select-committee-2026/select-committee-2026.hearing-index.yaml
   media_type: application/x-yaml
