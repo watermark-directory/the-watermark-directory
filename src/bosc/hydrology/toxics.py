@@ -243,7 +243,7 @@ def _water_releasers(facilities: list[RseiFacility]) -> list[RseiFacility]:
 def build_screen(settings: Settings | None = None) -> ToxicDischargeInventory:
     """Screen every RSEI water-releasing facility against its receiving stream's 7Q10."""
     settings = settings or get_settings()
-    inv = load_inventory(settings.reference_dir)
+    inv = load_inventory(settings)
     if inv is None:
         raise FileNotFoundError(
             "RSEI inventory not found — run `bosc rsei` first (data/reference/rsei/inventory.yaml)."

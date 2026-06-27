@@ -7,6 +7,27 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
+def test_bundle_feeds_are_per_site_not_lima_bound() -> None:
+    """#762: a non-Lima bundle must carry its OWN data, not Lima's. Fort Wayne's campus geo and
+    RSEI inventory are the first two leaks fixed — guard them so they can't silently regress."""
+    from bosc.config import Settings
+    from bosc.rsei import load_inventory
+    from bosc.site.gismap import campus_from_parcels
+
+    fw = Settings(site="fort-wayne", data_dir=REPO_ROOT / "data")
+    lima = Settings(site="lima", data_dir=REPO_ROOT / "data")
+
+    # geo/campus: built from the active site's parcel assemblage (not the frozen Lima findings).
+    fw_campus = campus_from_parcels(fw)
+    assert fw_campus is not None and fw_campus.feed == "campus"
+    grantees = {f.properties.model_dump().get("grantee") for f in fw_campus.features}
+    assert grantees == {"Hatchworks LLC"}  # the Project Zodiac assemblage, not "Bistrozzi LLC"
+
+    # rsei: the active site's committed inventory (FW = Allen County, IN), not Lima's (Allen Co, OH).
+    assert load_inventory(fw).county_fips == "18003"  # type: ignore[union-attr]
+    assert load_inventory(lima).county_fips == "39003"  # type: ignore[union-attr]
+
+
 def test_gis_findings_geojson_is_valid() -> None:
     import json
 
@@ -41,7 +62,7 @@ def test_merge_rsei_layer_is_idempotent() -> None:
     from bosc.rsei import load_inventory
     from bosc.site.gismap import merge_rsei_layer
 
-    inv = load_inventory(Settings(data_dir=REPO_ROOT / "data").reference_dir)
+    inv = load_inventory(Settings(data_dir=REPO_ROOT / "data"))
     assert inv is not None
     base: dict = {
         "type": "FeatureCollection",
@@ -70,9 +91,9 @@ def test_merge_rsei_layer_rings_flagged_water_dischargers() -> None:
     from bosc.rsei import load_inventory
     from bosc.site.gismap import merge_rsei_layer
 
-    ref = Settings(data_dir=REPO_ROOT / "data").reference_dir
-    inv = load_inventory(ref)
-    screen = toxics.build_screen(Settings(data_dir=REPO_ROOT / "data"))
+    settings = Settings(data_dir=REPO_ROOT / "data")
+    inv = load_inventory(settings)
+    screen = toxics.build_screen(settings)
     assert inv is not None
     base: dict = {"type": "FeatureCollection", "features": []}
     fc, _ = merge_rsei_layer(base, inv, screen)

@@ -332,7 +332,7 @@ def toxics_cmd(
         from bosc.rsei import load_inventory
         from bosc.site import gismap
 
-        rsei_inv = load_inventory(settings.reference_dir)
+        rsei_inv = load_inventory(settings)
         geojson = settings.data_dir / "site" / "gis-findings.geojson"
         if rsei_inv is not None and geojson.is_file():
             fc = json.loads(geojson.read_text(encoding="utf-8"))

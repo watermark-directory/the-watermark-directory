@@ -384,7 +384,7 @@ def enrich_with_rsei_ownership(
     from bosc.hydrology import toxics
     from bosc.rsei import load_inventory as load_rsei_inventory
 
-    rsei = load_rsei_inventory(settings.reference_dir)
+    rsei = load_rsei_inventory(settings)
     lei_inv = load_lei_inventory(settings.reference_dir)
     if rsei is None or lei_inv is None:
         return graph
