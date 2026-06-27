@@ -1,0 +1,58 @@
+# Canonical-name / date map for the IDEM (Indiana) air-permit source files.
+#
+# The source binaries keep their AS-RECEIVED names (chain of custody) — the names
+# IDEM's PermitStatusSearch portal serves, which are the permit/document number plus
+# a one-letter stage suffix (e.g. "f" = final issuance, "d" = draft / public notice).
+# This non-destructive alias layer records the corpus-canonical name + the date
+# VERIFIED from each file's own content (PDF text layer), so the indexer can pair
+# them without renaming evidence.
+#
+# Source: Indiana Department of Environmental Management (IDEM), Office of Air Quality —
+#         https://apps.idem.in.gov/PermitStatusSearch/
+# Facility: Hatchworks LLC (the Google "Project Zodiac" data-center campus),
+#           7510 Zodiac Way, Fort Wayne, IN 46816 (Allen County). IDEM AI ID 133680;
+#           OAQ Stationary Source ID 1800300530. See bosc.sites _FORT_WAYNE (#360/#362).
+#
+# evidence: native_text = PDF text layer (pypdf) | filename = unambiguous id in the name.
+# policy: non-destructive — originals kept in place; this is an alias layer only.
+meta:
+  subject: IDEM Hatchworks LLC (Project Zodiac) air-permit filename normalization
+  generated_at: 2026-06-27
+  source_dir: data/documents/idem/fort-wayne/
+  source_portal: https://apps.idem.in.gov/PermitStatusSearch/
+  method: per-file identity + date read from the PDF text layer (page 1)
+  policy: non-destructive — originals kept in place; this is an alias layer only
+
+aliases:
+  - file: 47378f.pdf
+    canonical: idem-003-47378-00530-hatchworks-tv-nsc-2024-09-06.pdf
+    date: 2024-09-06
+    evidence: native_text
+    permit_number: 003-47378-00530
+    permit_level: Title V New Source Construction (Minor PSD/EO)
+    stage: final
+    pages: 226
+    note: >-
+      The foundational air construction permit for the Hatchworks LLC / Project Zodiac
+      campus. Issued by IDEM OAQ (Jenny Acker, Chief, Permits Branch), September 6, 2024.
+
+  - file: 48739d.pdf
+    canonical: idem-003-48739-00530-hatchworks-part70-sigmod-public-notice-2025-11.pdf
+    date: 2025-11-13
+    evidence: native_text
+    permit_number: 003-48739-00530
+    related_permit_number: 003-48840-00530   # the paired Significant Permit Modification
+    permit_level: Significant Modification to Part 70 Operating Permit (Notice of Public Hearing / Preliminary Findings)
+    stage: draft
+    pages: 187
+    note: >-
+      IDEM Notice of Public Hearing + preliminary findings for the Part 70 significant
+      source modification (003-48739) and significant permit modification (003-48840).
+      The public hearing was held November 13, 2025; the comment-period close referenced
+      November 17, 2025. This is the DRAFT/public-notice stage — the modification was later
+      issued 2026-04-10 (003-48739) / 2026-06-01 (003-48840) per the IDEM permit table.
+
+# NOT INGESTED (recorded so the omission is deliberate, not a gap):
+#   23665f.pdf — a stray file in the source drop: it is "Keller Crescent Company /
+#   097-23665-00270" (City of Indianapolis Office of Environmental Services), an
+#   unrelated facility in Indianapolis, NOT a Hatchworks/Project Zodiac record. Excluded.
