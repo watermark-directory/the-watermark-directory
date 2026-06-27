@@ -1,0 +1,262 @@
+---
+/**
+ * The site home for a PARTIAL network peer (#781) — a thinner-than-Lima selectable site (Fort
+ * Wayne: the Project Zodiac campus + rsei/econ/network, but no timeline / people / exhibits).
+ *
+ * The Lima home (`network/[site]/index.astro`) is a hand-written composition tied to Lima's
+ * record — its hero prose, its leads, its six chapters. Rendering it for a peer would fabricate
+ * Lima's story onto another site. So a peer gets THIS instead: a real, degraded front door built
+ * entirely from what the peer's own bundle carries —
+ *   - a hero grounded in the registered story (no invented prose),
+ *   - "On the record so far": the sections that have real data, linked, with their counts,
+ *   - "Help us source it": the sections still locked (the readiness gaps double as the needs
+ *     list), each routing to the submissions seam — engage and solicit sources without the whole
+ *     story (the issue's thesis),
+ *   - the ask-the-record door.
+ * Available vs locked is always explicit; nothing here is borrowed from another site.
+ */
+import { loadManifest } from "../lib/bundle";
+import { type ReadinessSection, SECTION_META, isAvailable, lockedSections } from "../lib/readiness";
+import { withSite, withStory } from "../lib/site";
+import { FACILITY_STATUS_META, type NetworkSite, facilityStatus } from "../lib/sites";
+
+interface Props {
+  slug: string;
+  site: NetworkSite;
+  dateline: string;
+}
+const { slug, site, dateline } = Astro.props as Props;
+
+const manifest = loadManifest(slug);
+const count = (name: string): number => manifest.feeds.find((f) => f.name === name)?.count ?? 0;
+
+const story = site.stories?.[0];
+const fac = FACILITY_STATUS_META[facilityStatus(slug)];
+
+// Section → its landing route + the feed whose row count is worth showing (omitted where a count
+// would mislead — `economy`/`watershed` are object/geo reads, not a tally).
+const SECTION_ROUTE: Record<ReadinessSection, string> = {
+  record: "/site/",
+  timeline: "/timeline",
+  people: "/site/people/",
+  places: "/site/places/",
+  exhibits: "/site/exhibits",
+  watershed: "/watershed/",
+  economy: "/economy/",
+  reports: "/reports/",
+  story: "",
+  leads: "/leads",
+};
+const SECTION_COUNT_FEED: Partial<Record<ReadinessSection, string>> = {
+  record: "records",
+  timeline: "timeline",
+  people: "people",
+  places: "places",
+  exhibits: "exhibits",
+  watershed: "rsei",
+};
+
+// "On the record so far" — the data sections this peer actually has (reports/leads are the
+// network-global Lima content, so they're never an *available* peer section; they fall to needs).
+const DATA_SECTIONS: ReadinessSection[] = [
+  "record",
+  "places",
+  "watershed",
+  "economy",
+  "people",
+  "timeline",
+  "exhibits",
+  "story",
+];
+const onRecord = DATA_SECTIONS.filter((s) => isAvailable(slug, s)).map((s) => {
+  const feed = SECTION_COUNT_FEED[s];
+  const n = feed ? count(feed) : 0;
+  return {
+    section: s,
+    label: SECTION_META[s].label,
+    holds: SECTION_META[s].holds,
+    href: s === "story" ? withStory("") : withSite(SECTION_ROUTE[s]),
+    count: n > 0 ? n : null,
+  };
+});
+
+// "Help us source it" — the locked sections are the gaps; each is an open ask for a source.
+const needs = lockedSections(slug).map((s) => ({
+  section: s,
+  label: SECTION_META[s].label,
+  holds: SECTION_META[s].holds,
+}));
+---
+
+<div class="psite">
+  <header class="psite-hero">
+    <div class="psite-kicker">Public record · {dateline}</div>
+    <h1>{story ? story.title : site.place}</h1>
+    <p class="psite-lead">
+      {story
+        ? story.dek
+        : `The ${site.place} record, assembled in the open from public documents — every figure checkable, every gap labeled.`}
+    </p>
+    <div class="psite-hero-meta">
+      <span class="psite-fac" style={`--fac:${fac.color};--fac-bg:${fac.bg}`}>
+        <span class="psite-fac-dot" style={`background:${fac.dot}`} aria-hidden="true"></span>
+        Facility · {fac.label}
+      </span>
+      {
+        needs.length > 0 ? (
+          <a class="psite-needs-pill" href="#needs">
+            <span class="psite-needs-dot" aria-hidden="true" />
+            {needs.length} {needs.length === 1 ? "section" : "sections"} need sources · help fill them
+          </a>
+        ) : null
+      }
+    </div>
+    <p class="psite-partial-note">
+      This is an <strong>early build</strong> — the record here is partial. What's assembled is
+      below; what's missing is named, not hidden, and you can help close it.
+    </p>
+  </header>
+
+  {/* What we DO have — the real, navigable slices. */}
+  <section class="psite-block" aria-label="On the record so far">
+    <div class="psite-block-head">
+      <span class="psite-block-kicker">On the record so far</span>
+      <span class="psite-block-note">the slices already assembled — follow any one to its sources</span>
+    </div>
+    <div class="psite-cards">
+      {
+        onRecord.map((c) => (
+          <a class="psite-card psite-card--open" href={c.href}>
+            <div class="psite-card-top">
+              <span class="psite-card-label">{c.label}</span>
+              {c.count !== null && <span class="psite-card-count">{c.count}</span>}
+            </div>
+            <span class="psite-card-desc">{c.holds}</span>
+            <span class="psite-card-go">Open →</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  {/* What we DON'T — the gaps, framed as an open invitation to contribute. */}
+  {
+    needs.length > 0 ? (
+      <section class="psite-block" id="needs" aria-label="Help us source it">
+        <div class="psite-block-head">
+          <span class="psite-block-kicker">Help us source it</span>
+          <span class="psite-block-note">
+            sections still waiting on a source — we don't fill them with another site's record
+          </span>
+        </div>
+        <div class="psite-cards">
+          {needs.map((c) => (
+            <a class="psite-card psite-card--need" href={withSite("/submit")}>
+              <div class="psite-card-top">
+                <span class="psite-card-label">{c.label}</span>
+                <span class="psite-card-lock" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="11" width="14" height="9" rx="1" />
+                    <path d="M8 11 V7.5 A4 4 0 0 1 16 7.5 V11" />
+                  </svg>
+                </span>
+              </div>
+              <span class="psite-card-desc">{c.holds}</span>
+              <span class="psite-card-go">Have a source? Submit it →</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ) : null
+  }
+
+  {/* The third way in — a question, drawn only from what's on the record. */}
+  <a class="psite-ask" href="/ask">
+    <span class="psite-ask-mark" aria-hidden="true">✦</span>
+    <span class="psite-ask-text">
+      <strong>Or ask the record what it already holds.</strong> Answers are drawn only from this
+      site's corpus, every claim cited — and where the record is thin, it says so.
+    </span>
+    <span class="psite-ask-go">Ask the corpus →</span>
+  </a>
+
+  <div class="psite-foot">
+    <span class="footer-pill"><span class="dot" aria-hidden="true"></span>provenance-first</span>
+    <p>
+      <strong>Early build.</strong> Assembled from public records the developer didn't write.
+      Sourced figures carry their citation; gaps stay labeled and open. Nothing here is legal
+      advice or a verdict — verify every figure against its cited source.
+    </p>
+  </div>
+</div>
+
+<style>
+  .psite { max-width: 960px; margin: 0 auto; }
+  /* hero */
+  .psite-hero { padding: 0.5rem 0 1.5rem; border-bottom: 1px solid var(--bosc-rule); }
+  .psite-kicker {
+    font-family: var(--bosc-mono); font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--bosc-muted);
+  }
+  .psite-hero h1 {
+    font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; line-height: 1.04; margin: 0.5rem 0 0;
+  }
+  .psite-lead { font-size: 1.1rem; line-height: 1.55; color: #3a4036; margin: 0.8rem 0 0; max-width: 60ch; }
+  .psite-hero-meta { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; align-items: center; }
+  .psite-fac {
+    display: inline-flex; align-items: center; gap: 7px; font-size: 0.74rem; font-weight: 700;
+    color: var(--fac); background: var(--fac-bg); border: 1px solid var(--bosc-rule); padding: 4px 11px;
+  }
+  .psite-fac-dot { width: 7px; height: 7px; flex: 0 0 auto; }
+  .psite-needs-pill {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 700;
+    color: var(--bosc-ink); background: var(--bosc-bg); border: 1px solid var(--bosc-ink); padding: 4px 12px;
+    text-decoration: none;
+  }
+  .psite-needs-pill:hover { background: var(--bosc-ink); color: var(--bosc-bg); }
+  .psite-needs-dot { width: 7px; height: 7px; background: var(--bosc-forest); flex: 0 0 auto; }
+  .psite-partial-note {
+    font-size: 0.86rem; color: var(--bosc-muted); line-height: 1.5; margin: 16px 0 0; max-width: 62ch;
+  }
+  /* blocks */
+  .psite-block { margin: 2.25rem 0; }
+  .psite-block-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 1rem; }
+  .psite-block-kicker {
+    font-size: 0.72rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--bosc-ink);
+  }
+  .psite-block-note { font-size: 0.82rem; color: var(--bosc-faint); }
+  .psite-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 14px; }
+  .psite-card {
+    display: flex; flex-direction: column; border: 1px solid var(--bosc-rule); background: var(--bosc-bg);
+    padding: 16px 18px; text-decoration: none; color: inherit;
+  }
+  .psite-card--open:hover { border-color: var(--bosc-ink); }
+  .psite-card--need { background: #efece2; }
+  .psite-card--need:hover { border-color: var(--bosc-forest); }
+  .psite-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .psite-card-label { font-size: 1rem; font-weight: 700; color: var(--bosc-ink); }
+  .psite-card-count { font-family: var(--bosc-mono); font-size: 0.9rem; color: var(--bosc-muted); }
+  .psite-card-lock { color: var(--bosc-faint); display: inline-flex; }
+  .psite-card-desc { font-size: 0.82rem; color: var(--bosc-muted); line-height: 1.5; margin-top: 6px; flex: 1 1 auto; }
+  .psite-card-go { font-size: 0.78rem; font-weight: 700; color: var(--bosc-forest); margin-top: 12px; }
+  .psite-card--need .psite-card-go { color: var(--bosc-ink); }
+  /* ask */
+  .psite-ask {
+    display: flex; align-items: center; gap: 16px; margin: 2.25rem 0; padding: 18px 22px;
+    background: var(--bosc-ink); color: var(--bosc-bg); text-decoration: none;
+  }
+  .psite-ask-mark { font-size: 1.3rem; color: #7fb89a; flex: 0 0 auto; }
+  .psite-ask-text { font-size: 0.92rem; line-height: 1.5; color: #cdd6cd; flex: 1 1 auto; }
+  .psite-ask-text strong { color: var(--bosc-bg); }
+  .psite-ask-go { font-size: 0.82rem; font-weight: 700; color: #7fb89a; white-space: nowrap; flex: 0 0 auto; }
+  /* foot */
+  .psite-foot {
+    display: flex; gap: 14px; align-items: flex-start; border-top: 1px solid var(--bosc-rule);
+    padding-top: 1.2rem; margin-top: 2.5rem;
+  }
+  .psite-foot p { font-size: 0.82rem; color: var(--bosc-muted); line-height: 1.5; margin: 0; max-width: 70ch; }
+  @media (max-width: 640px) {
+    .psite-hero h1 { font-size: 2rem; }
+    .psite-ask { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+</style>

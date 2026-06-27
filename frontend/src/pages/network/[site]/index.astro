@@ -9,6 +9,8 @@
  */
 import Base from "../../../layouts/Base.astro";
 import FigureStat from "../../../components/FigureStat.astro";
+import PartialSiteHome from "../../../components/PartialSiteHome.astro";
+import { isReferenceSite } from "../../../lib/readiness";
 import { hasFeed, loadFeed, loadManifest } from "../../../lib/bundle";
 import type { DocumentCollectionItem } from "../../../lib/feeds";
 import { LEADS } from "../../../lib/leads";
@@ -68,6 +70,7 @@ const stats: FigureStatData[] = [
 ---
 
 <Base title="Watermark" section="home" rail={false} description="Watermark — the public record, by watershed.">
+  {isReferenceSite(slug) ? (
   <div class="home home--live">
     <div class="home-hero">
       <div class="home-kicker">Public record · {dateline}</div>
@@ -174,4 +177,7 @@ const stats: FigureStatData[] = [
       </p>
     </div>
   </div>
+  ) : (
+    <PartialSiteHome slug={slug} site={site} dateline={dateline} />
+  )}
 </Base>
