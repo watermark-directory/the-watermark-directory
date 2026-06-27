@@ -24,7 +24,7 @@ profiles, where site-specific values belong.
 
 from __future__ import annotations
 
-from pathlib import PurePosixPath
+from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING, Literal, get_args, get_origin
 
 from pydantic import BaseModel, ConfigDict
@@ -90,6 +90,25 @@ def get_profile(slug: str) -> SiteProfile:
 def active_profile(settings: Settings) -> SiteProfile:
     """The active site's profile, keyed by ``settings.site``."""
     return SITES[settings.site]
+
+
+# The reference build (Lima) keeps the flat / un-slugged committed layout for its curated stores;
+# every other site's copy lives under a ``<slug>/`` subdir — the same convention the catalog's
+# ``site_scope`` axis encodes (:data:`bosc.catalog_sites._LEGACY_SITE`).
+_REFERENCE_LAYOUT_SITE = "lima"
+
+
+def site_scoped_path(path: Path, slug: str, *, is_dir: bool) -> Path:
+    """A curated store's per-site location (#762).
+
+    Lima (the reference build) keeps the flat committed ``path``; every other site reads a
+    ``<slug>/`` subdir — a directory becomes ``path/<slug>``, a file becomes
+    ``path.parent/<slug>/path.name``. So a non-Lima site reads *its own* committed people / POIs /
+    candidates / LEI / exhibits, or an absent/empty one, instead of inheriting Lima's.
+    """
+    if slug == _REFERENCE_LAYOUT_SITE:
+        return path
+    return path / slug if is_dir else path.parent / slug / path.name
 
 
 def output_path_collisions(slug: str) -> dict[str, list[str]]:

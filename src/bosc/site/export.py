@@ -88,7 +88,7 @@ from bosc.site.feeds import (
     RelationshipEdge,
     TimelineEntry,
 )
-from bosc.sites import active_profile
+from bosc.sites import active_profile, site_scoped_path
 
 log = get_logger(__name__)
 
@@ -249,9 +249,12 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
         settings=settings,
     )
 
-    # Curated exhibits (#56) — also the auto-included sources for the publish allowlist.
+    # Curated exhibits (#56) — also the auto-included sources for the publish allowlist. Per-site
+    # (#762): Lima's frozen exhibits.yaml is its own curation; a sibling site reads its own
+    # `site/<slug>/exhibits.yaml` (absent today → an empty exhibits feed, not Lima's).
     exhibit_items = exhibits_mod.export_exhibits(
-        settings.data_dir / "site" / "exhibits.yaml", settings.documents_dir
+        site_scoped_path(settings.data_dir / "site" / "exhibits.yaml", settings.site, is_dir=False),
+        settings.documents_dir,
     )
     # The default-deny public allowlist (#280): exhibits + the committed allowlist rules.
     allowlist = documents_mod.load_publish_allowlist(
@@ -265,18 +268,27 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
         settings.documents_dir,
         mirror_base_url=settings.documents_mirror_base_url,
         allowlist=allowlist,
+        scope=corpus_scope,
     )
     doc_index = documents_mod.build_doc_index(doc_collections)
 
     # Remaining unconditional source loads + the opt-in inventories (None => the feed is skipped).
-    people = load_people(settings.people_dir)
+    # The curated stores are per-site (#762): Lima reads its flat committed store; a sibling site
+    # reads its own `<slug>/` copy (absent today => an empty/skipped feed, never Lima's). `load_pois`
+    # site-scopes itself; meetings are extracted-tree-scoped like the corpus. `concepts` (the wiki
+    # glossary) and `defense` (the national contractor seed list) are network-shared — left flat.
+    people = load_people(site_scoped_path(settings.people_dir, settings.site, is_dir=True))
     concepts = concepts_mod.load_concepts(settings.concepts_dir)  # wiki glossary (#68)
     pois = load_pois(settings=settings)
-    summaries = load_committed_summaries(settings)
-    cand_inv = load_cloud_consumer_candidates(settings.entities_dir)
+    summaries = load_committed_summaries(settings, scope=corpus_scope)
+    cand_inv = load_cloud_consumer_candidates(
+        site_scoped_path(settings.entities_dir, settings.site, is_dir=True)
+    )
     defense = load_defense_contractors(settings.entities_dir)
     rsei_inv = load_rsei_inventory(settings)
-    lei_inv = load_lei_inventory(settings.reference_dir)
+    lei_inv = load_lei_inventory(
+        site_scoped_path(settings.reference_dir, settings.site, is_dir=True)
+    )
     econ = load_econ_baseline(settings)
 
     # The feed registry — one row per feed, in bundle order. ``model`` set => a collection feed

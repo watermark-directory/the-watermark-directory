@@ -19,6 +19,7 @@ import yaml
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
 from bosc.poi.model import POIFrontmatter, POIProfile
+from bosc.sites import site_scoped_path
 
 log = get_logger(__name__)
 
@@ -55,10 +56,13 @@ def parse_poi(path: Path) -> POIProfile:
 def load_pois(*, settings: Settings | None = None) -> list[POIProfile]:
     """Load every ``*.md`` POI profile (README excluded), sorted by name.
 
-    A profile that fails to parse/validate is logged and skipped.
+    Per-site (#762): the active site's POIs come from its own store — Lima reads the flat
+    ``data/poi/``; a non-Lima site reads ``data/poi/<slug>/`` — so a sibling site's places
+    (and the imagery tracking sites derived from ``watched`` POIs) are never Lima's. A profile
+    that fails to parse/validate is logged and skipped.
     """
     settings = settings or get_settings()
-    poi_dir = settings.poi_dir
+    poi_dir = site_scoped_path(settings.poi_dir, settings.site, is_dir=True)
     if not poi_dir.is_dir():
         return []
     profiles: list[POIProfile] = []
