@@ -1,0 +1,76 @@
+---
+/**
+ * Section-level "not on the record yet" state (#781) — shown when a partial network site doesn't
+ * yet carry the data a section needs (e.g. Fort Wayne's timeline / people / exhibits). This is the
+ * deliberate middle state between two others it must NOT be confused with:
+ *   - an organic empty ("0 events — nothing dated yet, but the section works"), and
+ *   - the whole-site policy lock (`SiteLocked` — a *sealed* record, an access decision).
+ * Here the section is simply *awaiting a source*: it reads as an open invitation to contribute,
+ * not as broken, barren, or restricted. The CTA routes to the always-present submissions seam so
+ * "here's a gap" leads straight to "send us the source." Never fabricates the missing data.
+ */
+import { withSite } from "../lib/site";
+import { SECTION_META, type ReadinessSection } from "../lib/readiness";
+
+interface Props {
+  section: ReadinessSection;
+  /** Override the default "what lands here" line for a page-specific framing. */
+  holds?: string;
+  /** A short, truthful standing note (e.g. "tracked in #740"); omitted by default. */
+  note?: string;
+}
+const { section, holds, note } = Astro.props as Props;
+const meta = SECTION_META[section];
+const blurb = holds ?? meta.holds;
+const REPO_URL = "https://github.com/goedelsoup/bosc";
+---
+
+<section class="seclock">
+  <div class="seclock-head">
+    <span class="seclock-tag">
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="5" y="11" width="14" height="9" rx="1"></rect>
+        <path d="M8 11 V7.5 A4 4 0 0 1 16 7.5 V11"></path>
+      </svg>
+      Not on the record yet
+    </span>
+  </div>
+  <h2 class="seclock-h">{meta.label} is still being assembled.</h2>
+  <p class="seclock-dek">
+    This site doesn't yet carry {blurb}. We don't fill the gap with another site's record —
+    the section opens the moment a source does.
+  </p>
+  {note && <p class="seclock-note">{note}</p>}
+  <div class="seclock-actions">
+    <a class="seclock-btn" href={withSite("/submit")}>Have a source? Submit it →</a>
+    <a class="seclock-watch" href={REPO_URL} rel="noopener noreferrer">Or watch the repository for when it lands →</a>
+  </div>
+</section>
+
+<style>
+  .seclock {
+    border: 1px solid var(--bosc-rule);
+    background: #efece2;
+    padding: 28px 30px 30px;
+    max-width: 640px;
+  }
+  .seclock-head { margin-bottom: 14px; }
+  .seclock-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 0.66rem; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
+    color: var(--bosc-muted); background: #e8e4d8; border: 1px solid var(--bosc-rule); padding: 3px 10px;
+  }
+  .seclock-h { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.4px; line-height: 1.1; margin: 0; }
+  .seclock-dek { font-size: 0.95rem; line-height: 1.55; color: #3a4036; margin: 0.7rem 0 0; }
+  .seclock-note {
+    font-family: var(--bosc-mono); font-size: 0.74rem; color: var(--bosc-faint); margin: 0.6rem 0 0;
+  }
+  .seclock-actions { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; margin-top: 20px; }
+  .seclock-btn {
+    display: inline-flex; align-items: center; font-weight: 700; font-size: 0.9rem;
+    color: var(--bosc-bg); background: var(--bosc-ink); padding: 11px 18px; text-decoration: none;
+  }
+  .seclock-btn:hover { background: var(--bosc-forest); }
+  .seclock-watch { font-size: 0.78rem; color: var(--bosc-muted); font-weight: 600; text-decoration: none; }
+  .seclock-watch:hover { text-decoration: underline; }
+</style>
