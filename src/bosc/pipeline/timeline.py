@@ -22,7 +22,7 @@ import yaml
 from bosc.config import Settings, get_settings
 from bosc.logging import get_logger
 from bosc.pipeline.corpus import Corpus, load_corpus, relpath_in_scope
-from bosc.sites import active_profile
+from bosc.sites import active_profile, effective_corpus_scope
 
 log = get_logger(__name__)
 
@@ -423,7 +423,9 @@ def build_timeline(
     )
     if include_curated:
         settings = get_settings()
-        site_scope = scope if scope is not None else active_profile(settings).corpus_relpaths
+        site_scope = (
+            scope if scope is not None else effective_corpus_scope(active_profile(settings))
+        )
         events += (
             _commissioners_events(settings, site_scope)
             + _zoning_events(settings, site_scope)

@@ -109,6 +109,23 @@ def is_reference_site(slug: str) -> bool:
     return slug == _REFERENCE_LAYOUT_SITE
 
 
+def effective_corpus_scope(profile: SiteProfile) -> tuple[str, ...] | None:
+    """The corpus scope to actually read for a site (#762/#780) — the extracted-tree prefixes
+    its bundle/derivations are bounded to.
+
+    An explicit ``corpus_relpaths`` always wins. Otherwise the default is **derived from the
+    slug, not inherited from Lima**: only the reference build (Lima) is the whole-tree catch-all
+    (``None``); every other site defaults to its own ``<slug>/`` collection. This is the #780
+    safe default — a freshly registered site (``corpus_relpaths`` left unset) reads *its own*
+    corpus or nothing, never silently inheriting Lima's Allen-County record. A site whose corpus
+    also lives under a jurisdiction prefix (Fort Wayne's ``idem/fort-wayne``) sets the tuple
+    explicitly.
+    """
+    if profile.corpus_relpaths is not None:
+        return profile.corpus_relpaths
+    return None if is_reference_site(profile.slug) else (profile.slug,)
+
+
 def site_scoped_path(path: Path, slug: str, *, is_dir: bool) -> Path:
     """A curated store's per-site location (#762).
 

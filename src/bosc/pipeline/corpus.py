@@ -33,7 +33,7 @@ from bosc.models import (
     SosExtraction,
     WetlandExtraction,
 )
-from bosc.sites import active_profile
+from bosc.sites import active_profile, effective_corpus_scope
 
 log = get_logger(__name__)
 
@@ -188,9 +188,10 @@ def load_corpus(settings: Settings | None = None) -> Corpus:
     """
     settings = settings or get_settings()
     extracted = settings.extracted_dir
-    # Per-site corpus scope (#762): a non-Lima site reads only its own extracted collections, so
-    # the cross-document feeds (timeline/entities/relationships) never inherit Lima's records.
-    scope = active_profile(settings).corpus_relpaths
+    # Per-site corpus scope (#762/#780): a non-Lima site reads only its own extracted collections,
+    # so the cross-document feeds (timeline/entities/relationships) never inherit Lima's records.
+    # The effective scope defaults to the site's own slug when unset (only Lima is whole-tree).
+    scope = effective_corpus_scope(active_profile(settings))
     corpus = Corpus()
     if not extracted.exists():
         log.warning("corpus.no_extracted_dir", path=str(extracted))

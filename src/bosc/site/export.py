@@ -88,7 +88,12 @@ from bosc.site.feeds import (
     RelationshipEdge,
     TimelineEntry,
 )
-from bosc.sites import active_profile, is_reference_site, site_scoped_path
+from bosc.sites import (
+    active_profile,
+    effective_corpus_scope,
+    is_reference_site,
+    site_scoped_path,
+)
 
 log = get_logger(__name__)
 
@@ -251,7 +256,7 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
     # Cross-document layer — load the corpus once, reuse for records/timeline/graph. The active
     # site's corpus scope (#762) bounds the extracted-tree feeds: `load_corpus` reads it itself;
     # the `records` feed reads the same tree separately, so it's passed the scope explicitly.
-    corpus_scope = active_profile(settings).corpus_relpaths
+    corpus_scope = effective_corpus_scope(active_profile(settings))
     corpus = load_corpus(settings)
     events = build_timeline(corpus, scope=corpus_scope)
     egraph = build_entity_graph(
