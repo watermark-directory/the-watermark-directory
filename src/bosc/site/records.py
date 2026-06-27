@@ -17,6 +17,7 @@ from typing import Any, cast
 import yaml
 
 from bosc.logging import get_logger
+from bosc.pipeline.corpus import relpath_in_scope
 from bosc.site.feeds import Citation, Confidence, RecordGroup, RecordItem, RenderClass
 
 log = get_logger(__name__)
@@ -91,10 +92,17 @@ def _record_title(rec: _Record) -> str:
     return Path(rec.rel).stem
 
 
-def load_records(extracted_dir: Path) -> list[_Record]:
-    """Load and classify every recognized record YAML under ``extracted_dir``."""
+def load_records(extracted_dir: Path, *, scope: tuple[str, ...] | None = None) -> list[_Record]:
+    """Load and classify every recognized record YAML under ``extracted_dir``.
+
+    ``scope`` is the active site's corpus prefixes (#762): when set, only artifacts whose
+    rel-path is in scope are loaded, so a non-Lima site's ``records`` feed carries its own
+    records. ``None`` reads the whole tree (Lima, the reference build)."""
     records: list[_Record] = []
     for path in sorted(extracted_dir.rglob("*.yaml")):
+        rel = str(path.relative_to(extracted_dir))
+        if not relpath_in_scope(rel, scope):
+            continue
         try:
             data = yaml.safe_load(path.read_text(encoding="utf-8"))
         except yaml.YAMLError as exc:
@@ -104,7 +112,6 @@ def load_records(extracted_dir: Path) -> list[_Record]:
         if hit is None:
             continue
         group, payload = hit
-        rel = str(path.relative_to(extracted_dir))
         records.append(_Record(rel=rel, group=group, data=data, payload=payload))
     return records
 
@@ -155,6 +162,7 @@ def export_records(
     extracted_dir: Path,
     *,
     doc_index: dict[str, tuple[RenderClass, bool]] | None = None,
+    scope: tuple[str, ...] | None = None,
 ) -> list[RecordItem]:
     """Export every committed extraction as a :class:`RecordItem` feed.
 
@@ -168,7 +176,7 @@ def export_records(
     when its ``source_path`` resolves to a catalogued file — connector-only records, and
     stale/removed sources, carry ``None``.
     """
-    records = load_records(extracted_dir)
+    records = load_records(extracted_dir, scope=scope)
     items: list[RecordItem] = []
     for rec in sorted(records, key=lambda r: (r.group, r.rel)):
         payload = rec.payload

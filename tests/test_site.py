@@ -28,6 +28,51 @@ def test_bundle_feeds_are_per_site_not_lima_bound() -> None:
     assert load_inventory(lima).county_fips == "39003"  # type: ignore[union-attr]
 
 
+def test_relpath_in_scope_matches_path_segments() -> None:
+    """#762: a corpus prefix matches a path segment — a slug collection or a jurisdiction+site
+    subtree — but never a partial name."""
+    from bosc.pipeline.corpus import relpath_in_scope
+
+    scope = ("fort-wayne", "idem/fort-wayne")
+    assert relpath_in_scope("fort-wayne/footprint.yaml", scope)
+    assert relpath_in_scope("idem/fort-wayne/wqc.yaml", scope)
+    assert not relpath_in_scope("recorder/deed.yaml", scope)  # a Lima collection
+    assert not relpath_in_scope("fort-wayne-foo/x.yaml", scope)  # not a segment match
+    # None = the whole tree (Lima, the reference build that owns the un-slugged collections).
+    assert relpath_in_scope("recorder/deed.yaml", None)
+
+
+def test_corpus_feeds_are_site_scoped_not_lima_bound() -> None:
+    """#762 (the structural fix): the extracted-tree feeds (records/timeline/entities) read only
+    the active site's collections. Fort Wayne must not inherit Lima's deeds/permits/filings; Lima,
+    the reference build, still reads the whole tree (its `corpus_relpaths` is None)."""
+    from bosc.config import Settings
+    from bosc.pipeline.corpus import load_corpus
+    from bosc.site.records import load_records
+    from bosc.sites import active_profile
+
+    fw = Settings(site="fort-wayne", data_dir=REPO_ROOT / "data")
+    lima = Settings(site="lima", data_dir=REPO_ROOT / "data")
+
+    # The cross-document corpus (timeline/entities/relationships derive from this): every Fort
+    # Wayne artifact sits under its own scope — no Lima recorder/oepa/commissioners records.
+    fw_corpus = load_corpus(fw)
+    fw_rels = [rel for group in vars(fw_corpus).values() for rel, _ in group]
+    assert fw_rels, "expected Fort Wayne to have at least one in-scope extraction"
+    assert all(r.startswith("fort-wayne/") or r.startswith("idem/fort-wayne/") for r in fw_rels), (
+        fw_rels
+    )
+
+    # Lima (scope None) keeps reading the whole tree — strictly larger than Fort Wayne's slice.
+    assert len(load_corpus(lima)) > len(fw_corpus)
+
+    # The `records` feed reads the extracted tree separately; it honors the same scope.
+    fw_records = load_records(fw.extracted_dir, scope=active_profile(fw).corpus_relpaths)
+    assert fw_records and all(
+        r.rel.startswith("fort-wayne/") or r.rel.startswith("idem/fort-wayne/") for r in fw_records
+    ), [r.rel for r in fw_records]
+
+
 def test_gis_findings_geojson_is_valid() -> None:
     import json
 
