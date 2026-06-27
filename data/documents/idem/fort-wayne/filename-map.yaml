@@ -36,6 +36,31 @@ aliases:
       The foundational air construction permit for the Hatchworks LLC / Project Zodiac
       campus. Issued by IDEM OAQ (Jenny Acker, Chief, Permits Branch), September 6, 2024.
 
+  - file: 47378PN-JS.pdf
+    canonical: idem-003-47378-00530-hatchworks-nsc-part70-public-notice-2024.pdf
+    date: '2024'   # undated in the text layer; the 30-day comment notice precedes the 2024-09-06 issuance (Holcomb/Rockensuess era)
+    evidence: native_text
+    permit_number: 003-47378-00530
+    permit_level: NSC/T003-47378-00530 — Notice of 30-Day Period for Public Comment (preliminary findings)
+    stage: notice
+    pages: 2
+    note: >-
+      The public-comment notice for the original New Source Construction / Part 70 permit (the air
+      permit issued as 47378f.pdf). A procedural notice — it does NOT disclose the per-engine rating.
+  - file: caats-confidentiality.pdf
+    canonical: idem-003-47378C-00530-hatchworks-confidentiality-claim-2023-12-27.pdf
+    date: 2023-12-27   # Application Received milestone (the confidentiality claim)
+    evidence: native_text
+    permit_number: 003-47378C-00530
+    permit_level: Confidentiality Claim (IDEM Air Quality Permit Status Search — Source Details)
+    stage: claim
+    pages: 1
+    note: >-
+      The IDEM record of the CONFIDENTIALITY CLAIM (CBI) on the 47378 air permit — received
+      2023-12-27, source contact Robin Fried. This is WHY the air permit discloses only heat input
+      (26.4 MMBTU/hr) and not the engine electrical rating: the genset nameplate was claimed as
+      confidential business information. Documents the opacity behind the DERIVED genset_mw (#360).
+
   - file: 48739d.pdf
     canonical: idem-003-48739-00530-hatchworks-part70-sigmod-public-notice-2025-11.pdf
     date: 2025-11-13
