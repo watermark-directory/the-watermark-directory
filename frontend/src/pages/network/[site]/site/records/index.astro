@@ -31,6 +31,11 @@ const byGroup = groups.map((g) => ({ label: groupLabel(g), value: countOf(g) }))
       <span class="hub-count">{records.length} records · {groups.length} groups</span>
     </div>
     {byGroup.length > 1 && <DonutChart title="Records by document kind" centerLabel="records" slices={byGroup} />}
+    <p class="hub-lead">
+      New to the record? <a href={`${withSite("/site/records/")}how-to-read`}>How to read any record</a> —
+      the five-beat grammar behind every figure here, shown across a cost estimate, an air permit, and a
+      water screen.
+    </p>
     <div class="hub-grid">
       {
         groups.map((g) => (

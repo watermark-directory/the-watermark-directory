@@ -7,9 +7,10 @@
 //
 // FEATURE FLAG `teaching` (default OFF → exactly what ships: one record, the 5-beat scroll-spy
 // rail, no type switcher). Flipped ON, the left rail adds the Cost · Air · NPDES record-type
-// switcher — a comp-only TEACHING device (one screen showing the evidence grammar across record
-// types) with no live counterpart; tracked as a parity gap, not stale drift. The canvas toggle
-// previews both. The shipped page renders one record per page and never shows the switcher.
+// switcher — a TEACHING device (one screen showing the evidence grammar across record types).
+// The per-record page never shows this switcher; the teaching intent now has its own live home:
+// the "How to read any record" explainer at …/site/records/how-to-read (#697, built on the real
+// OPC/AIR/NPDES teardowns). The canvas toggle previews both states.
 function RecordScreen({ onBack, onOpenProfile, teaching = false }) {
   const { Eyebrow, EvidenceTag, FigureStat, SourceCard, ConnectChip, AnnotationPin, Button } = window.WatermarkDesignSystem_dbe30a;
   const [teach, setTeach] = React.useState(teaching);
