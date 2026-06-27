@@ -18,6 +18,8 @@ from pydantic import ValidationError
 from bosc.config import Settings
 from bosc.connectors._cache import cache_key
 from bosc.sites import (
+    ALLEN_IN_PARCEL_SCHEMA,
+    FORT_WAYNE_ZONING_SCHEMA,
     LIMA_FLOOD_SCHEMA,
     LIMA_PARCEL_SCHEMA,
     LIMA_ZONING_SCHEMA,
@@ -410,9 +412,9 @@ def test_gis_connectors_refuse_a_schemaless_site() -> None:
 
     from bosc.hydrology.connectors import allen_gis
 
-    assert SITES["fort-wayne"].gis_parcel is None  # an Indiana site with no parcel schema wired
+    assert SITES["van-wert"].gis_parcel is None  # an Ohio site with no parcel schema wired yet
     with pytest.raises(allen_gis.AllenGisError, match="no parcel GIS schema"):
-        allen_gis.fetch_parcel("12-34", settings=Settings(site="fort-wayne"))
+        allen_gis.fetch_parcel("12-34", settings=Settings(site="van-wert"))
 
 
 def test_toxic_corridors_defined_for_defiance_and_bryan() -> None:
@@ -551,3 +553,41 @@ def test_toledo_gis_is_lucas_areis_owner_bearing() -> None:
         }
     )
     assert (FIXTURES / zz.connector / f"{zkey}.json").is_file(), f"lucas zoning param drift: {zkey}"
+
+
+def test_fort_wayne_gis_is_allen_in_imap_owner_bearing() -> None:
+    """Fort Wayne's parcel/zoning gap (#235/#360) is closed by the Allen County (IN) iMap ArcGIS —
+    the first non-Ohio GIS in the network. The parcel layer is owner-bearing (owner + situs + the
+    deed TransferDate, decoded from Esri epoch-millis) but NOT a CAMA layer (no market/land-use/
+    acreage fields). Zoning is a county-wide polygon-only catalog (no parcel join, like Findlay).
+    Golden + param-stability: the parcel schema reproduces the live field-map and a fetch_parcel
+    request built from it hashes to the committed fixture (the new connector's zero-drift guard)."""
+    fw = SITES["fort-wayne"]
+    p = fw.gis_parcel
+    assert p is not None and p is ALLEN_IN_PARCEL_SCHEMA
+    assert p.connector == "allen_in_gis" and p.reference_dir == "fort-wayne-gis"
+    assert p.id_field == "GISPublished.SDE.Parcel_Poly.PIN" and p.id_normalize == "dashless"
+    assert p.owner_field == "GISPublished.SDE.CurrentOwner.OwnerofRecord"  # owner-bearing
+    assert p.date_decode == "epoch_millis"  # esriFieldTypeDate (ms since epoch)
+    assert p.market_total_field == "" and p.land_use_field == ""  # not a CAMA layer
+    assert p.defense is None and p.query_scope == ""  # no federal-enclave scan; single jurisdiction
+    assert "gis1.acimap.us" in p.meta.source_url
+
+    z = fw.gis_zoning
+    assert z is not None and z is FORT_WAYNE_ZONING_SCHEMA
+    assert z.connector == "allen_in_gis_zoning" and z.reference_dir == "fort-wayne-gis"
+    assert z.parcel_field is None  # polygon-only — per-parcel zoning join refuses (like Findlay)
+    assert z.zoning_field == "GISPublished.SDE.Zoning_Polygons.ZONING_CLASS"
+    assert z.http_method == "GET" and z.cited_meta is None
+
+    base = {"f": "json", "returnGeometry": "false"}
+    key = cache_key(
+        {
+            **base,
+            "where": f"{p.id_field}='021327100001000077'",
+            "outFields": ",".join(p.out_fields),
+            "resultOffset": 0,
+            "resultRecordCount": p.page_size,
+        }
+    )
+    assert (FIXTURES / p.connector / f"{key}.json").is_file(), f"allen-in param drift: {key}"

@@ -489,3 +489,113 @@ LUCAS_ZONING_SCHEMA = GisZoningSchema(
         ),
     ),
 )
+
+
+# Allen County, IN parcels (Fort Wayne watershed point; #235/#360). The county's iMap ArcGIS
+# (`gis1.acimap.us`) serves an owner-bearing Parcel_Poly layer (10) that SDE-joins CurrentOwner —
+# owner, situs/mailing address, legal description, and a TransferDate (the deed-transfer date). It
+# is the live replacement for the Allen-IN / City-of-Fort-Wayne endpoints the 2026-06-19 onboarding
+# pass found, which 404'd by 2026-06-23. A PARTIAL fit vs. an Ohio CAMA layer: no auditor market
+# values, land-use code, acreage, CAUV, tax-district, sale-amount, or valid-sale fields on this
+# layer (those empty -> None, never fabricated). What it gives cleanly: parcel id, owner of record,
+# situs + mailing address, and the transfer date — i.e. the parcel catalog + owner/assembly trail.
+# Field names are the fully-qualified SDE names the service returns (selected by name, never index);
+# confirmed from the live layer-10 ``?f=json`` + samples (2026-06-26). No federal-enclave defense
+# scan is wired (Fort Wayne has no JSMC-equivalent cluster to surface) -> defense=None.
+ALLEN_IN_PARCEL_SCHEMA = GisParcelSchema(
+    connector="allen_in_gis",
+    reference_dir="fort-wayne-gis",
+    page_size=1000,
+    out_fields=(
+        "GISPublished.SDE.Parcel_Poly.PIN",
+        "GISPublished.SDE.CurrentOwner.OwnerofRecord",
+        "GISPublished.SDE.CurrentOwner.PropertyAddress1",
+        "GISPublished.SDE.CurrentOwner.PropertyCity",
+        "GISPublished.SDE.CurrentOwner.MailingAddress1",
+        "GISPublished.SDE.CurrentOwner.MailingCity",
+        "GISPublished.SDE.CurrentOwner.MailingState",
+        "GISPublished.SDE.CurrentOwner.MailingZip",
+        "GISPublished.SDE.CurrentOwner.TransferDate",
+    ),
+    id_field="GISPublished.SDE.Parcel_Poly.PIN",
+    owner_field="GISPublished.SDE.CurrentOwner.OwnerofRecord",
+    owner_2_field="",  # one owner-of-record string (no separate second/deeded owner field)
+    deeded_owner_field="",
+    situs_fields=(
+        "GISPublished.SDE.CurrentOwner.PropertyAddress1",
+        "GISPublished.SDE.CurrentOwner.PropertyCity",
+    ),
+    owner_addr_fields=(
+        "GISPublished.SDE.CurrentOwner.MailingAddress1",
+        "GISPublished.SDE.CurrentOwner.MailingCity",
+        "GISPublished.SDE.CurrentOwner.MailingState",
+        "GISPublished.SDE.CurrentOwner.MailingZip",
+    ),
+    land_use_field="",  # absent on this layer -> None (never fabricated)
+    acres_field="",  # acreage is in the legal-description text, not a numeric field
+    market_land_field="",
+    market_improvement_field="",
+    market_total_field="",
+    cauv_field="",
+    tax_district_field="",
+    school_field="",
+    neighborhood_field="",
+    sale_date_field="GISPublished.SDE.CurrentOwner.TransferDate",
+    sale_amount_field="",
+    valid_sale_field="",
+    id_normalize="dashless",  # the 18-digit PIN; an Indiana state key 02-13-27-100-001.000-077
+    date_decode="epoch_millis",  # esriFieldTypeDate (ms since epoch) -> ISO
+    # Indiana state parcel number: cc-tt-ss-qqq-ppp.ddd-rrr (county-township-section-...); dashless
+    # of that is the stored 18-digit PIN.
+    deed_id_regex=r"\b\d{2}-\d{2}-\d{2}-\d{3}-\d{3}\.\d{3}-\d{3}\b",
+    meta=GisMeta(
+        subject="Allen County, Indiana parcels (owner of record)",
+        source="Allen County GIS (iMap) — ArcGIS REST, QueryLayers Parcel_Poly (layer 10) "
+        "SDE-joined to CurrentOwner",
+        source_url=(
+            "https://gis1.acimap.us/imapweb/rest/services/QueryLayers/QueryLayers/MapServer/10"
+        ),
+        caveats=(
+            "Values are verbatim from the county GIS; null means the service had no value.",
+            "Owner-bearing but NOT a CAMA layer: no auditor market values, land-use code, acreage, "
+            "CAUV, tax district, or sale amount — those fields are empty and resolve to None.",
+            "last_sale_date is the CurrentOwner TransferDate (deed transfer), decoded from Esri "
+            "epoch-millis; it is the transfer date, not necessarily an arm's-length sale price.",
+            "Native CRS is WKID 2244 (Indiana East State Plane, ftUS); request outSR=4326 for WGS84.",
+            "Field names are the fully-qualified SDE names the service returns; confirmed from the "
+            "live layer-10 metadata + samples (2026-06-26).",
+        ),
+    ),
+)
+
+
+# Allen County, IN zoning (Fort Wayne; #235/#360). The same iMap MapServer serves a county-wide
+# Zoning_Polygons layer (9) carrying a ZONING_CLASS + JURISDICTION_NAME — broader than Lima's
+# city-only layer. Polygon-only (no parcel-id field to join on), so — like Findlay — the district
+# catalog is supported but per-parcel zoning joins are not (parcel_field=None, cited_meta=None).
+FORT_WAYNE_ZONING_SCHEMA = GisZoningSchema(
+    connector="allen_in_gis_zoning",
+    reference_dir="fort-wayne-gis",
+    page_size=1000,
+    object_id_field="GISPublished.SDE.Zoning_Polygons.OBJECTID",
+    parcel_field=None,  # polygon-only layer — no parcel id to join on (per-parcel join refuses)
+    zoning_field="GISPublished.SDE.Zoning_Polygons.ZONING_CLASS",
+    http_method="GET",
+    id_normalize="dashless",
+    meta=GisMeta(
+        subject="Allen County, Indiana zoning districts (catalog)",
+        source="Allen County GIS (iMap) — ArcGIS REST, QueryLayers Zoning_Polygons (layer 9)",
+        source_url=(
+            "https://gis1.acimap.us/imapweb/rest/services/QueryLayers/QueryLayers/MapServer/9"
+        ),
+        caveats=(
+            "Values are verbatim from the Allen County (IN) GIS.",
+            "Coverage is county-wide (a JURISDICTION_NAME field distinguishes city vs. county), "
+            "unlike Lima's city-limits-only zoning layer.",
+            "Polygon-only layer (no parcel id): the district catalog is supported; per-parcel "
+            "zoning joins are not.",
+            "polygon_count counts zoning polygons, not distinct parcels.",
+            "Field names confirmed from the live layer-9 metadata (2026-06-26).",
+        ),
+    ),
+)

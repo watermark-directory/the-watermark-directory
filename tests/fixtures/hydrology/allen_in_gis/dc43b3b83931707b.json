@@ -1,0 +1,96 @@
+{
+  "params": {
+    "f": "json",
+    "returnGeometry": "false",
+    "where": "GISPublished.SDE.Parcel_Poly.PIN='021327100001000077'",
+    "outFields": "GISPublished.SDE.Parcel_Poly.PIN,GISPublished.SDE.CurrentOwner.OwnerofRecord,GISPublished.SDE.CurrentOwner.PropertyAddress1,GISPublished.SDE.CurrentOwner.PropertyCity,GISPublished.SDE.CurrentOwner.MailingAddress1,GISPublished.SDE.CurrentOwner.MailingCity,GISPublished.SDE.CurrentOwner.MailingState,GISPublished.SDE.CurrentOwner.MailingZip,GISPublished.SDE.CurrentOwner.TransferDate",
+    "resultOffset": 0,
+    "resultRecordCount": 1000
+  },
+  "fetched_at": "2026-06-27T03:41:27.411854+00:00",
+  "payload": {
+    "displayFieldName": "GISPublished.SDE.Parcel_Poly.PIN",
+    "fieldAliases": {
+      "GISPublished.SDE.Parcel_Poly.PIN": "PIN",
+      "GISPublished.SDE.CurrentOwner.OwnerofRecord": "OwnerofRecord",
+      "GISPublished.SDE.CurrentOwner.PropertyAddress1": "PropertyAddress1",
+      "GISPublished.SDE.CurrentOwner.PropertyCity": "PropertyCity",
+      "GISPublished.SDE.CurrentOwner.MailingAddress1": "MailingAddress1",
+      "GISPublished.SDE.CurrentOwner.MailingCity": "MailingCity",
+      "GISPublished.SDE.CurrentOwner.MailingState": "MailingState",
+      "GISPublished.SDE.CurrentOwner.MailingZip": "MailingZip",
+      "GISPublished.SDE.CurrentOwner.TransferDate": "TransferDate"
+    },
+    "fields": [
+      {
+        "name": "GISPublished.SDE.Parcel_Poly.PIN",
+        "type": "esriFieldTypeString",
+        "alias": "PIN",
+        "length": 18
+      },
+      {
+        "name": "GISPublished.SDE.CurrentOwner.OwnerofRecord",
+        "type": "esriFieldTypeString",
+        "alias": "OwnerofRecord",
+        "length": 4000
+      },
+      {
+        "name": "GISPublished.SDE.CurrentOwner.PropertyAddress1",
+        "type": "esriFieldTypeString",
+        "alias": "PropertyAddress1",
+        "length": 30
+      },
+      {
+        "name": "GISPublished.SDE.CurrentOwner.PropertyCity",
+        "type": "esriFieldTypeString",
+        "alias": "PropertyCity",
+        "length": 25
+      },
+      {
+        "name": "GISPublished.SDE.CurrentOwner.MailingAddress1",
+        "type": "esriFieldTypeString",
+        "alias": "MailingAddress1",
+        "length": 30
+      },
+      {
+        "name": "GISPublished.SDE.CurrentOwner.MailingCity",
+        "type": "esriFieldTypeString",
+        "alias": "MailingCity",
+        "length": 25
+      },
+      {
+        "name": "GISPublished.SDE.CurrentOwner.MailingState",
+        "type": "esriFieldTypeString",
+        "alias": "MailingState",
+        "length": 2
+      },
+      {
+        "name": "GISPublished.SDE.CurrentOwner.MailingZip",
+        "type": "esriFieldTypeString",
+        "alias": "MailingZip",
+        "length": 6
+      },
+      {
+        "name": "GISPublished.SDE.CurrentOwner.TransferDate",
+        "type": "esriFieldTypeDate",
+        "alias": "TransferDate",
+        "length": 8
+      }
+    ],
+    "features": [
+      {
+        "attributes": {
+          "GISPublished.SDE.Parcel_Poly.PIN": "021327100001000077",
+          "GISPublished.SDE.CurrentOwner.OwnerofRecord": "Hatchworks LLC",
+          "GISPublished.SDE.CurrentOwner.PropertyAddress1": "6015 Adams Center Rd",
+          "GISPublished.SDE.CurrentOwner.PropertyCity": "Fort Wayne",
+          "GISPublished.SDE.CurrentOwner.MailingAddress1": "Attn: Tax Department",
+          "GISPublished.SDE.CurrentOwner.MailingCity": "Mountain View",
+          "GISPublished.SDE.CurrentOwner.MailingState": "CA",
+          "GISPublished.SDE.CurrentOwner.MailingZip": "94043",
+          "GISPublished.SDE.CurrentOwner.TransferDate": 1704844800000
+        }
+      }
+    ]
+  }
+}

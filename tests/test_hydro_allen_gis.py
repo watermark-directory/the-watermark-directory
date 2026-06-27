@@ -104,6 +104,21 @@ def test_parse_mmddyy() -> None:
     assert allen_gis._parse_mmddyy("13-40-99") is None  # invalid month/day
 
 
+def test_parse_epoch_millis() -> None:
+    # Esri esriFieldTypeDate (ms since the Unix epoch, UTC) — Allen County, IN TransferDate.
+    assert allen_gis._parse_epoch_millis(1704844800000) == "2024-01-10"  # Hatchworks anchor parcel
+    assert allen_gis._parse_epoch_millis(1761868800000) == "2025-10-31"  # the 2025 assembly wave
+    assert allen_gis._parse_epoch_millis(0) is None  # epoch 0 is the "no value" sentinel here
+    assert allen_gis._parse_epoch_millis(None) is None
+    assert allen_gis._parse_epoch_millis(-1) is None  # never a real transfer date
+
+
+def test_decode_sale_date_epoch_millis_mode() -> None:
+    # The schema-selected encoding routes TransferDate through the epoch-millis decoder.
+    assert allen_gis._decode_sale_date(1704844800000, "epoch_millis") == "2024-01-10"
+    assert allen_gis._decode_sale_date(None, "epoch_millis") is None
+
+
 def test_putnam_parcel_full_cama(hydro_settings: Settings) -> None:
     """Ottawa's parcels come from Putnam County's self-hosted ArcGIS (#420) — a FULL fit (owner +
     auditor CAMA values on one layer, unlike Findlay's owner-redacted OGRIP substitute). Every

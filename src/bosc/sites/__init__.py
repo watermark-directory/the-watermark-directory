@@ -30,7 +30,13 @@ from typing import TYPE_CHECKING, Literal, get_args, get_origin
 from pydantic import BaseModel, ConfigDict
 
 from bosc.sites._gis_schemas import (
+    ALLEN_IN_PARCEL_SCHEMA as ALLEN_IN_PARCEL_SCHEMA,
+)
+from bosc.sites._gis_schemas import (
     FINDLAY_ZONING_SCHEMA as FINDLAY_ZONING_SCHEMA,
+)
+from bosc.sites._gis_schemas import (
+    FORT_WAYNE_ZONING_SCHEMA as FORT_WAYNE_ZONING_SCHEMA,
 )
 from bosc.sites._gis_schemas import (
     LIMA_FLOOD_SCHEMA as LIMA_FLOOD_SCHEMA,

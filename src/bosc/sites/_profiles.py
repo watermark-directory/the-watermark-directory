@@ -10,7 +10,9 @@ omitted here and supplied by the :class:`SiteProfile` model defaults — only th
 from __future__ import annotations
 
 from bosc.sites._gis_schemas import (
+    ALLEN_IN_PARCEL_SCHEMA,
     FINDLAY_ZONING_SCHEMA,
+    FORT_WAYNE_ZONING_SCHEMA,
     LIMA_FLOOD_SCHEMA,
     LIMA_PARCEL_SCHEMA,
     LIMA_ZONING_SCHEMA,
@@ -292,15 +294,20 @@ _FORT_WAYNE = SiteProfile(
     econ_fips="18003",
     eia861_utility_number=9324,  # [verified] Indiana Michigan Power Co (AEP subsidiary); EIA-860 via EIA API
     eia_state="IN",
-    # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning discovered in
-    # a follow-up live metadata read (Allen County IN GIS + City of Fort Wayne GIS).
-    parcels_url="TODO",  # [open] pending the Allen County, IN GIS REST endpoint discovery
-    zoning_url="TODO",  # [open] pending the City of Fort Wayne GIS REST endpoint discovery
+    # GIS — schema-driven (#237): flood = the shared national NFHL; parcels/zoning = the Allen
+    # County (IN) iMap ArcGIS (gis1.acimap.us), the live replacement for the endpoints the
+    # 2026-06-19 onboarding found (they 404'd by 2026-06-23). Confirmed live 2026-06-26 (#360).
+    parcels_url=(  # [verified] Allen County IN iMap — Parcel_Poly layer 10 (owner + TransferDate)
+        "https://gis1.acimap.us/imapweb/rest/services/QueryLayers/QueryLayers/MapServer/10"
+    ),
+    zoning_url=(  # [verified] Allen County IN iMap — Zoning_Polygons layer 9 (county-wide catalog)
+        "https://gis1.acimap.us/imapweb/rest/services/QueryLayers/QueryLayers/MapServer/9"
+    ),
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
-    gis_parcel=None,  # [open] pending Allen County, IN parcel-layer discovery
-    gis_zoning=None,  # [open] pending City of Fort Wayne zoning-layer discovery
+    gis_parcel=ALLEN_IN_PARCEL_SCHEMA,  # [verified] owner-bearing, owner + transfer date (#360)
+    gis_zoning=FORT_WAYNE_ZONING_SCHEMA,  # [verified] county-wide zoning catalog (polygon-only)
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "fort-wayne-gis"}),
     gnis_default_state="IN",
     hydro_utm_epsg=32616,  # [verified] UTM 16N (Fort Wayne ~85.14 degW; zone 16 spans 90-84 degW)
@@ -334,10 +341,13 @@ _FORT_WAYNE = SiteProfile(
         1000: 8.04,
     },
     parcels_relpath="reference/fort-wayne/bosc-parcels.geojson",  # [open] commit the site's own geometry
-    # [open] #362, footprint-gated: the facility site is identified (Google "Project Zodiac", #360), but
-    # the Allen County / City of Fort Wayne parcel REST endpoints found in 2026-06-19 onboarding now 404
-    # (re-verified 2026-06-23) and the deed/rezoning isn't extracted — so no surveyed boundary yet, and
-    # no constructed AOI is committed (conservative, mirrors Findlay #355). Unblock = the #360 deed/rezoning pull.
+    # [open] #362, footprint-gated: the facility site is identified (Google "Project Zodiac", #360) and
+    # the Allen County (IN) parcel REST is now wired (gis1.acimap.us, gis_parcel above) — the assemblage
+    # resolves to the Hatchworks LLC parcels (anchor 6015 Adams Center Rd, mailing Mountain View CA;
+    # 11 parcels as of 2026-06-26, transferred Jan-2024 + Oct-2025). A committed AOI is still [open]:
+    # it needs the parcel geometries dissolved (returnGeometry=true) and reconciled against the
+    # deed/rezoning/stormwater-permit extraction before a surveyed boundary is asserted (mirrors
+    # Findlay #355). Unblock = the geometry pull + the #360 deed/rezoning extraction.
     footprint_relpath="extracted/fort-wayne/bosc-site-footprint.yaml",
     # per-site onboard reach outputs (slug-scoped — never clobber Lima/Findlay)
     climatology_relpath="reference/hydrology/fort-wayne/nasa-power-climatology.yaml",
