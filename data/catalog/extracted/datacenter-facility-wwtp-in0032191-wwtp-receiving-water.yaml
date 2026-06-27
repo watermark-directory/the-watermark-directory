@@ -1,5 +1,5 @@
 id: datacenter-facility-wwtp-in0032191-wwtp-receiving-water
-title: Fort Wayne WWTP (NPDES IN0032191) Receiving-Water & Facility Characterization
+title: Fort Wayne WWTP (NPDES IN0032191) Receiving-Water, Facility & Site-Footprint Characterization
 scope: extracted
 status: reviewed
 producer:
@@ -22,6 +22,9 @@ storage:
 - relpath: extracted/{site}/wwtp-receiving-water.md
   media_type: text/markdown
   lfs: false
+- relpath: extracted/{site}/bosc-site-footprint.yaml
+  media_type: application/x-yaml
+  lfs: false
 refresh:
   cadence: on-demand
 provenance: document
@@ -33,4 +36,5 @@ tags:
 - receiving-water
 notes: 'The DMR (wwtp-in0032191.dmr.yaml) is verbatim ECHO effluent-chart data regenerable via `bosc dmr`;
   the two .md files are reviewed receiving-water (7Q10) and facility-discovery syntheses resolving Fort
-  Wayne #358/#359/#360.'
+  Wayne #358/#359/#360. bosc-site-footprint.yaml is the parcel-assemblage boundary + measured acreage +
+  SSURGO-validated HSG (#362; developed/impervious still [open] pending the stormwater permit).'

@@ -324,12 +324,14 @@ def derive_grid_profile(*, settings: Settings | None = None) -> GridProfile:
         consumption_gwh=(load_share.annual_consumption_gwh.value if load_share else None),
         share_utility_pct=(load_share.share_of_utility_pct.value if load_share else None),
     )
+    state_label = _STATE_NAME.get(
+        active_profile(settings).eia_state, active_profile(settings).eia_state
+    )
     note = (
-        "Grid foundation layer (#94). The state, AEP-Ohio, and PJM denominators are "
-        "now all connector-sourced — Ohio retail from EIA (shared with #91), AEP-Ohio "
-        "retail from the EIA-861 per-utility file, and PJM annual demand from EIA-930. "
-        "The campus is a single load equal to a material fraction of its serving "
-        "utility's entire retail sales."
+        f"Grid foundation layer (#94). The state, {utility_profile.utility}, and PJM denominators "
+        f"are now all connector-sourced — {state_label} retail from EIA (shared with #91), "
+        "per-utility retail from the EIA-861 file, and PJM annual demand from EIA-930. The campus "
+        "is a single load equal to a material fraction of its serving utility's entire retail sales."
         if load_share is not None
         else (
             "Grid foundation layer (#94): per-site grid backdrop only. This site has no "

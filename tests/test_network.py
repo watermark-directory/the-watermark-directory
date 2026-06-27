@@ -125,10 +125,14 @@ def test_toxics_present(net: BasinNetwork) -> None:
         assert n.toxics.facility_count and n.toxics.facility_count > 0, n.slug
 
 
-def test_only_lima_has_a_disclosed_facility(net: BasinNetwork) -> None:
-    assert _node(net, "lima").activity.has_disclosed_facility is True
-    assert _node(net, "lima").activity.it_load_mw and _node(net, "lima").activity.it_load_mw > 0
-    assert all(not n.activity.has_disclosed_facility for n in net.nodes if n.slug != "lima")
+def test_disclosed_facilities_are_lima_and_fort_wayne(net: BasinNetwork) -> None:
+    # Lima (OEPA Air PTI) and Fort Wayne (IDEM Title V air permit, #360) are the disclosed
+    # data-center facilities; every other node carries the grid backdrop without a campus load.
+    disclosed = {n.slug for n in net.nodes if n.activity.has_disclosed_facility}
+    assert disclosed == {"lima", "fort-wayne"}
+    for slug in disclosed:
+        node = _node(net, slug)
+        assert node.activity.it_load_mw and node.activity.it_load_mw > 0
 
 
 def test_write_round_trips(tmp_path: Path, net: BasinNetwork) -> None:

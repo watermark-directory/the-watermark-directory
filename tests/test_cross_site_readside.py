@@ -20,6 +20,7 @@ import pytest
 from bosc.config import Settings
 from bosc.economics.baseline import load_baseline
 from bosc.economics.energy import load_consumer_energy
+from bosc.facility.power import derive_power_basis
 from bosc.grid.ferc import derive_ferc_seam
 from bosc.grid.utility import load_grid_profile
 from bosc.hydrology.cooling import derive_cooling_basis
@@ -123,8 +124,8 @@ def test_ferc_seam_still_correct_for_lima(lima_settings: Settings) -> None:
 def test_cooling_basis_does_not_leak_lima_fm2_for_other_site(
     fw_settings: Settings, lima_settings: Settings
 ) -> None:
-    # Fort Wayne discloses no facility/blowdown — the high bound must fall back to the site's
-    # own power-derived consumptive, never Lima's FM-2 (CMAR) figure.
+    # Fort Wayne's facility discloses no cooling/industrial blowdown (blowdown_mgd=None) — the high
+    # bound must fall back to the site's own power-derived consumptive, never Lima's FM-2 (CMAR) figure.
     fw_high = derive_cooling_basis(settings=fw_settings).consumptive_high
     assert "CMAR" not in (fw_high.citation or "")
     assert "FM2" not in (fw_high.citation or "") and "FM-2" not in (fw_high.citation or "")
@@ -134,3 +135,28 @@ def test_cooling_basis_does_not_leak_lima_fm2_for_other_site(
     assert "CMAR" in (lima.consumptive_high.citation or "")
     assert lima.it_load.value == pytest.approx(275.0)
     assert "P0138965" in (lima.it_load.citation or "")  # traces to the active facility's permit
+
+
+def test_power_basis_traces_to_the_active_facilitys_permit_not_lima(
+    fw_settings: Settings, lima_settings: Settings
+) -> None:
+    # #360/#607: Fort Wayne's power basis (the first non-Lima facility) must carry ITS OWN IDEM
+    # permit + derived figures, never Lima's hardcoded P0138965 / 313 MW / 114 x 2.75 ekW.
+    fw = derive_power_basis(settings=fw_settings)
+    assert fw is not None and fw.it_load.value == pytest.approx(90.0)
+    assert fw.backup_power.value == pytest.approx(102.0, abs=0.1)  # 34 x 3.0
+    blob = (
+        " ".join(
+            str(getattr(fw, f).citation or "")
+            for f in ("backup_power", "it_load", "it_load_low", "it_load_high")
+        )
+        + fw.cooling_overhead_note
+        + fw.generation_note
+        + fw.method
+    )
+    assert "003-47378" in (fw.it_load.citation or "")  # the IDEM Title V permit
+    for lima_literal in ("P0138965", "313", "114 x", "2.75", "250-300"):
+        assert lima_literal not in blob, f"Lima literal {lima_literal!r} leaked into Fort Wayne"
+    # Lima still carries its own permit.
+    lima = derive_power_basis(settings=lima_settings)
+    assert lima is not None and "P0138965" in (lima.it_load.citation or "")

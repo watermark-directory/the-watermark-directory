@@ -88,7 +88,7 @@ _ETA_SIMPLE = 0.38  # simple-cycle / reciprocating genset; band ~0.33-0.43
 _ETA_SIMPLE_CITE = (
     "simple-cycle net electrical efficiency ~0.38 (band 0.33-0.43): the prime mover "
     "drives the generator directly and exhaust heat is lost; consistent with the "
-    "disclosed emergency reciprocating diesel gensets (air permit P0138965)"
+    "disclosed emergency reciprocating diesel gensets (the active site's air permit)"
 )
 _ETA_COMBINED = 0.55  # combined-cycle / cogeneration; band ~0.50-0.62
 _ETA_COMBINED_CITE = (
@@ -106,7 +106,7 @@ _ETA_COMBINED_CITE = (
 _STEAM_WATER_GAL_PER_KWH = 0.2
 _STEAM_WATER_CITE = (
     "combined-cycle wet-recirculating condenser water ~0.2 gal/kWh of generation "
-    "(band ~0.1-0.3) applied to the ~275 MW load: an ADDITIONAL consumptive pathway "
+    "(band ~0.1-0.3) applied to the IT load: an ADDITIONAL consumptive pathway "
     "beyond IT cooling. Cross-ref bosc.hydrology.cooling, whose makeup figure covers "
     "data-hall cooling only; compute.py's water back-solve assumes cooling is the "
     "dominant draw. CONDITIONAL: the disclosed gensets are backup, so on-site primary "
@@ -178,11 +178,11 @@ class PowerBasis(BaseModel):
     implied_pue_from_backup: ProvenancedValue  # backup / IT — N+1 cross-check vs #33
     cooling_overhead_note: str = (
         "Cooling/mechanical overhead is a banded ASSUMPTION (PUE = total/IT), not a "
-        "disclosure. The ~313 MW N+1 genset backup is sized to IT + mechanical, so it "
-        "covers the facility draw only at the efficient PUE end (implied_pue_from_backup "
-        "~1.14); a cooling-dominated PUE (~1.43) implies either a lower IT load or "
-        "backup not covering full mechanical (open vs #33). facility_draw is the figure "
-        "downstream demand/economics (#91) should use, not IT load alone."
+        "disclosure. The N+1 genset backup is sized to IT + mechanical, so it covers "
+        "the facility draw only at the efficient PUE end (see implied_pue_from_backup); "
+        "a cooling-dominated PUE (~1.43) implies either a lower IT load or backup not "
+        "covering full mechanical (open vs #33). facility_draw is the figure downstream "
+        "demand/economics (#91) should use, not IT load alone."
     )
     # On-site generation cycle (issue #90): both simple- and combined-cycle as
     # labeled scenarios, each carrying its net-efficiency (the "power-loss
@@ -190,13 +190,13 @@ class PowerBasis(BaseModel):
     # spread; the disclosed units are backup, so this is a scenario, not a fact.
     generation: list[GenerationConfig]
     generation_note: str = (
-        "On-site generation cycle is an OPEN EVIDENCE QUESTION: the disclosed 114 x "
-        "2.75 ekW units (air permit P0138965) are emergency BACKUP reciprocating "
-        "gensets (simple-cycle by nature). Whether any PRIMARY on-site generation "
-        "exists, and its cycle, is unproven (#33) — the configs below are scenarios "
-        "labeled simple (single-phase) vs combined (double-phase)."
+        "On-site generation cycle is an OPEN EVIDENCE QUESTION: the disclosed gensets "
+        "(see the active site's air permit) are emergency BACKUP reciprocating gensets "
+        "(simple-cycle by nature). Whether any PRIMARY on-site generation exists, and "
+        "its cycle, is unproven (#33) — the configs below are scenarios labeled simple "
+        "(single-phase) vs combined (double-phase)."
     )
-    method: str = "air-permit genset count x rating -> N+1 backup -> IT load (250-300 MW)"
+    method: str = "air-permit genset count x rating -> N+1 backup -> IT load"
 
     def generation_config(self, cycle: GenerationCycle) -> GenerationConfig | None:
         """The simple- or combined-cycle generation scenario, by cycle label."""
@@ -289,18 +289,18 @@ def derive_power_basis(*, settings: Settings | None = None) -> PowerBasis | None
         backup_power=ProvenancedValue.derived(
             round(backup_mw, 1),
             "MW",
-            citation=f"{fac.genset_count} gensets x {fac.genset_mw:g} ekW (air permit P0138965)",
+            citation=f"{fac.genset_count} gensets x {fac.genset_mw:g} MW each (the site's air permit)",
         ),
         it_load=ProvenancedValue.from_document(fac.it_load_mw, "MW", citation=cite),
         it_load_low=ProvenancedValue.derived(
             fac.it_load_low_mw,
             "MW",
-            citation="low end of the N+1 IT estimate from ~313 MW backup",
+            citation=f"low end of the N+1 IT estimate from ~{round(backup_mw, 1):g} MW backup",
         ),
         it_load_high=ProvenancedValue.derived(
             fac.it_load_high_mw,
             "MW",
-            citation="high end of the N+1 IT estimate from ~313 MW backup",
+            citation=f"high end of the N+1 IT estimate from ~{round(backup_mw, 1):g} MW backup",
         ),
         pue_low=ProvenancedValue.assume(pue_lo, "ratio", why=f"{_PUE_CITE} (efficient end)"),
         pue_high=ProvenancedValue.assume(

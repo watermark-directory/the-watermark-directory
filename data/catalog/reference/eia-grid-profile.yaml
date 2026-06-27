@@ -1,5 +1,5 @@
 id: eia-grid-profile
-title: Lima Campus Grid Profile — Serving Utility, BA & Load Share (EIA-861/930)
+title: Per-Site Campus Grid Profile — Serving Utility, BA & Load Share (EIA-861/930)
 scope: reference
 status: reviewed
 producer:
@@ -26,8 +26,12 @@ tags:
 - eia
 - grid
 - electricity
-- aep-ohio
 - pjm
-- ohio
-notes: Identifies the serving utility (AEP Ohio, corpus-grounded + PUCO/EIA-861 confirmation) and BA (PJM),
-  expressing campus load as a share of AEP-Ohio retail, PJM total, and Ohio state retail.
+- aep-ohio
+- indiana-michigan-power
+notes: >-
+  Per-site (slug-scoped): identifies the active site's serving utility (corpus-grounded + EIA-861
+  confirmation) and BA, expressing campus load as a share of the utility retail, BA total, and state
+  retail. Denominators + labels are site-derived (Lima = AEP Ohio / Ohio; Fort Wayne = Indiana
+  Michigan Power / Indiana). Fort Wayne's load_share is now populated from the IDEM-air-permit power
+  basis (#360); a site with no documented facility carries the grid backdrop without a load share.

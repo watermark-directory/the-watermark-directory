@@ -1,0 +1,53 @@
+# Project Zodiac (Hatchworks LLC) data-center site — footprint record for Fort Wayne, IN.
+# UNLIKE Lima's footprint (which is document-transcribed developed/impervious acreages from the
+# stormwater permit), Fort Wayne's stormwater permit is not yet in the corpus, so the boundary
+# here is the RECORDED OWNERSHIP ASSEMBLAGE (the 11 Hatchworks parcels), not a surveyed developed
+# footprint. parcel_acres is the GIS-measured planar area; developed/impervious stay [open] pending
+# the deed/rezoning/stormwater-permit extraction (#360/#362). Source tags: reference = committed
+# GIS reference dataset; connector = a live public-data read; assumption = a stated modeling input.
+site: 7510 Zodiac Way, Fort Wayne, IN 46816 (Allen County); IDEM AI ID 133680
+operator: Hatchworks LLC (Google "Project Zodiac" data center)
+boundary_basis: >-
+  Recorded ownership assemblage — the 11 parcels owned by Hatchworks LLC, committed as
+  data/reference/fort-wayne/bosc-parcels.geojson (catalogued bosc-parcels). NOT a surveyed
+  earth-disturbance boundary; see bosc.sites _FORT_WAYNE and the IDEM air-permit extraction
+  (data/extracted/idem/fort-wayne/47378f.idem.yaml).
+
+parcel_acres:
+  value: 855.8
+  unit: acre
+  source: reference
+  citation: >-
+    bosc-parcels.geojson — UTM-16N (EPSG:32616) planar area of the 11 recorded Hatchworks LLC
+    parcels (bosc.hydrology.geo.parcels_total_acres). The full ownership assemblage; larger than
+    the publicly-reported ~700-ac campus because the anchor deed spans multiple section-halves.
+  confidence: medium
+
+developed_acres:
+  value: null
+  source: assumption
+  citation: '[open] pending the Allen County (IN) / City of Fort Wayne stormwater (SWPPP) permit — not yet in the corpus'
+  confidence: null
+
+impervious_acres:
+  value: null
+  source: assumption
+  citation: '[open] pending the stormwater permit (see developed_acres)'
+  confidence: null
+
+dominant_hsg:
+  value: C
+  source: connector
+  citation: >-
+    [verified] USDA NRCS SSURGO via Soil Data Access (SDA), 30-point grid sample over
+    bosc-parcels.geojson (bosc.hydrology.connectors.ssurgo.dominant_hsg, 2026-06-27): 50% C/D +
+    50% D (Pewamo/Blount-Glynwood lake-plain clays). hydrologic soil group C on the drained basis
+    (= profile dominant_hsg "C", confirmed); undrained these soils are group D — high runoff,
+    material for the stormwater model.
+  confidence: high
+
+receiving_water: '[open] pending the stormwater outfall / SWPPP — the campus drains toward the upper Maumee (St. Marys/Baldwin Ditch corridor)'
+
+notes:
+  - 'The air permit (47378f.idem.yaml) discloses 34 diesel emergency generators (26.4 MMBTU/hr each) — the data-hall backup fleet — but no developed-area or impervious-area figure; those require the stormwater permit.'
+  - 'A surveyed developed footprint (and the developed/impervious split the Tier-0 stormwater model needs) remains the open dependency; this record commits the boundary + measured acreage + the SSURGO-validated HSG so the HSG onboarding step no longer skips.'

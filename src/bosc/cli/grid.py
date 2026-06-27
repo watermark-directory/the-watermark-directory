@@ -280,6 +280,7 @@ def grid_cmd(
 ) -> None:
     """Grid foundation (#94): serving utility + BA (PJM) + campus load as a share."""
     from bosc.grid.utility import derive_grid_profile, write_grid_profile
+    from bosc.sites import active_profile
 
     settings = get_settings()
     gp = derive_grid_profile(settings=settings)
@@ -307,31 +308,34 @@ def grid_cmd(
             f"[dim](facility draw {ls.campus_load_mw.value:g} MW x {ls.load_factor.value:g} "
             f"→ {ls.annual_consumption_gwh.value:,.0f} GWh/yr)[/]"
         )
+        state_name = {"OH": "Ohio", "IN": "Indiana"}.get(
+            active_profile(settings).eia_state, active_profile(settings).eia_state
+        )
         table = Table("denominator", "annual load (GWh)", "campus share", "basis")
         table.add_row(
-            "AEP Ohio retail (EIA-861)",
+            f"{su.utility.value} retail (EIA-861)",
             f"{ls.utility_retail_gwh.value:,.0f}",
             f"[bold]{ls.share_of_utility_pct.value:g}%[/]",
             "connector",
         )
         table.add_row(
-            "PJM total load (EIA-930)",
+            f"{su.rto.value} total load (EIA-930)",
             f"{ls.ba_load_gwh.value:,.0f}",
             f"{ls.share_of_ba_pct.value:g}%",
             "connector",
         )
         table.add_row(
-            "Ohio retail (EIA, shared #91)",
+            f"{state_name} retail (EIA, shared #91)",
             f"{ls.state_retail_gwh.value:,.0f}",
             f"{ls.share_of_state_pct.value:g}%",
             "connector",
         )
         console.print(table)
     console.print(
-        "\n[dim]Serving utility is corpus-grounded (AEP Ohio tariff referenced for this "
-        "campus); RTO=PJM is authoritative. All three load denominators are EIA "
-        "connector-sourced: Ohio retail (shared #91), AEP-Ohio per-utility (EIA-861), "
-        "PJM annual demand (EIA-930). Source: corpus + EIA + the 2026-06-10 call.[/]"
+        f"\n[dim]Serving utility ({su.utility.value}) is corpus-grounded; RTO={su.rto.value} is "
+        "authoritative. The load denominators are EIA connector-sourced: state retail (shared "
+        "#91), per-utility retail (EIA-861), and RTO annual demand (EIA-930). "
+        "Source: corpus + EIA + the 2026-06-10 call.[/]"
     )
     if write:
         path = write_grid_profile(gp, settings=settings)
