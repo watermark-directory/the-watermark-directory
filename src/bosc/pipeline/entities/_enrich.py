@@ -19,7 +19,7 @@ from bosc.logging import get_logger
 from bosc.pipeline.corpus import relpath_in_scope
 from bosc.pipeline.entities._graph import Entity, EntityGraph, Relationship
 from bosc.pipeline.entities._names import RELATION_CLASS_ORDER, normalize_name
-from bosc.sites import active_profile, site_scoped_path
+from bosc.sites import active_profile, effective_corpus_scope, site_scoped_path
 
 log = get_logger(__name__)
 
@@ -116,7 +116,7 @@ def _subdivision_meeting_entities(graph: EntityGraph, *, settings: Settings | No
     count lives in the entity's ``roles``.
     """
     settings = settings or get_settings()
-    scope = active_profile(settings).corpus_relpaths
+    scope = effective_corpus_scope(active_profile(settings))
     seen_edges: set[tuple[str, str]] = set()
     for path in sorted(settings.extracted_dir.glob("*/meetings/meeting-summaries.yaml")):
         # Per-site (#762): these meeting indices are Lima's Allen-County townships; a

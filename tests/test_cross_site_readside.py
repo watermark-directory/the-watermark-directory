@@ -42,6 +42,39 @@ def lima_settings() -> Settings:
     return Settings(data_dir=REPO_ROOT / "data", hydro_offline=True, econ_offline=True)
 
 
+# --- #780: an unscoped sibling site defaults to its OWN corpus, never Lima's whole tree ----
+
+
+def test_effective_corpus_scope_defaults_to_own_slug_not_lima() -> None:
+    """#780 — the safe default. ``corpus_relpaths = None`` means "whole tree" ONLY for the
+    reference build (Lima); every other site defaults to its own ``<slug>/`` collection, so a
+    freshly-registered site (scope left unset) can't silently inherit Lima's Allen-County record.
+    An explicit scope (Fort Wayne's IDEM-included tuple) always wins.
+    """
+    from bosc.sites import SITES, effective_corpus_scope
+
+    assert effective_corpus_scope(SITES["lima"]) is None  # reference build = whole-tree catch-all
+    assert effective_corpus_scope(SITES["urbana"]) == ("urbana",)  # unset → own slug, not Lima
+    assert effective_corpus_scope(SITES["new-albany"]) == ("new-albany",)
+    assert effective_corpus_scope(SITES["fort-wayne"]) == ("fort-wayne", "idem/fort-wayne")
+
+
+def test_unscoped_sibling_loads_its_own_corpus_not_lima() -> None:
+    """The read side honors the #780 default: an unpopulated sibling (Urbana — the #782
+    validation candidate, no committed corpus) loads an empty corpus, not Lima's deeds/permits.
+    Before the fix its ``None`` scope meant the whole tree, silently inheriting Allen County."""
+    from bosc.pipeline.corpus import load_corpus
+
+    urbana = load_corpus(Settings(site="urbana", data_dir=REPO_ROOT / "data"))
+    assert not urbana.deeds, "Urbana must not inherit Lima's recorder deeds"
+    assert not urbana.permits, "Urbana must not inherit Lima's NPDES permits"
+    assert not urbana.summaries, "Urbana must not inherit Lima's OPC estimates"
+
+    # Contrast: Lima (the reference build) still loads its full corpus.
+    lima = load_corpus(Settings(site="lima", data_dir=REPO_ROOT / "data"))
+    assert lima.deeds and lima.permits, "the reference build still reads the whole tree"
+
+
 # --- #606: per-site reference YAML readers resolve the active site's path ---------------
 
 
