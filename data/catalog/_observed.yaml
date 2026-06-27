@@ -1,4 +1,4 @@
-reconciled_at: '2026-06-27T06:02:12.750059+00:00'
+reconciled_at: '2026-06-27T21:19:52.867162+00:00'
 entries:
   aedg:
     exists: true
@@ -231,6 +231,15 @@ entries:
     size_bytes: 4327
     lfs_materialized: true
     file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  history-allen-oh-leeson-1885-corpus-intersect:
+    exists: true
+    sha256: acb749c7ccde71f525795525617a1c4a51bfc680b6aa3f2a638285d9b1706607
+    size_bytes: 684929
+    lfs_materialized: true
+    file_count: 2
     missing: []
     asof: null
     stale: false
