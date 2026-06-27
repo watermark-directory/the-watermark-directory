@@ -1,6 +1,6 @@
 # History / Geography — extracted context
 
-Structured reads from `data/documents/history/geography/`. All claims are tagged
+Structured reads from `data/documents/history/allen-oh/`. All claims are tagged
 `[reference]` (cite page) — never `[verified]` for a present-day finding.
 
 ## Contents

@@ -7,4 +7,4 @@ tagged `[reference]` (cite page) — never `[verified]` for a present-day findin
 
 | Sub-collection | Description |
 |---|---|
-| [`geography/`](geography/README.md) | Structured reads from `data/documents/history/geography/` |
+| [`allen-oh/`](allen-oh/README.md) | Structured reads from `data/documents/history/allen-oh/` |
