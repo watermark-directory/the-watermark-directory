@@ -2656,6 +2656,25 @@ a.walk-dot:hover { opacity: 0.82; }
 #flow-annotated:focus-visible ~ .rec-flow-head label[for="flow-annotated"] { outline: 2px solid var(--bosc-forest); outline-offset: 2px; }
 .rec-flow-note { max-width: 54rem; margin: 0.9rem 0 0; font-size: var(--fs-meta); line-height: 1.55; color: var(--bosc-muted); }
 
+/* How to read any record (#697) — cross-record type switcher. No-JS radio + CSS
+   (mirrors .rec-flow): all three teardowns are SSR'd; the checked radio reveals one. */
+.htr-flow { margin: 1.1rem 0 0; }
+.htr-radio { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.htr-head { margin-bottom: 1rem; }
+.htr-seg { display: inline-flex; align-items: center; gap: var(--sp-1); background: var(--td-tint); border: 1px solid var(--td-tint-line); border-radius: 9px; padding: var(--sp-1); flex-wrap: wrap; }
+.htr-seg-lead { font-size: var(--fs-micro); color: var(--td-faint); padding: 0 var(--sp-2); }
+.htr-seg label { font-size: var(--fs-meta); color: var(--bosc-muted); padding: var(--sp-1) var(--sp-3); border-radius: 7px; cursor: pointer; user-select: none; }
+.htr-panel { display: none; }
+#htr-cost:checked ~ .htr-panel--cost,
+#htr-air:checked ~ .htr-panel--air,
+#htr-npdes:checked ~ .htr-panel--npdes { display: block; }
+#htr-cost:checked ~ .htr-head label[for="htr-cost"],
+#htr-air:checked ~ .htr-head label[for="htr-air"],
+#htr-npdes:checked ~ .htr-head label[for="htr-npdes"] { background: var(--bosc-forest); color: var(--bosc-bg); font-weight: 600; }
+#htr-cost:focus-visible ~ .htr-head label[for="htr-cost"],
+#htr-air:focus-visible ~ .htr-head label[for="htr-air"],
+#htr-npdes:focus-visible ~ .htr-head label[for="htr-npdes"] { outline: 2px solid var(--bosc-forest); outline-offset: 2px; }
+
 /* ===================== The Watermark network (#304/#305) ===================== */
 /* ---- Network hub (/network) ---- */
 .netgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-4); margin: 1.4rem 0; }
