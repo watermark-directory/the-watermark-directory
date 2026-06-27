@@ -275,9 +275,12 @@ _FINDLAY = SiteProfile(
 # national NFHL for flood, and the Ohio-only LSC connector falling away. Geography is sourced +
 # cited below. The data-center dimension is now DOCUMENTED (#360): the disclosed facility is Google's
 # $2B "Project Zodiac" campus (700+ ac, SE Fort Wayne, served by I&M, operational Dec 2025) — see
-# data/extracted/fort-wayne/datacenter-facility.md. The facility-specific model inputs (`facility`
-# power basis, `load_share`) stay `[open]`: no MW is publicly disclosed and the IDEM air permit isn't
-# extracted yet (the follow-up extraction targets in that doc).
+# data/extracted/fort-wayne/datacenter-facility.md. The `facility` power basis is now populated from
+# the committed IDEM Title V air-permit extraction (data/extracted/idem/fort-wayne/47378f.idem.yaml,
+# #360): 34 diesel gensets → ~90 MW IT (genset_mw DERIVED from heat input). The grid `load_share` in
+# grid-profile.yaml is still null — it's now derivable (derive_grid_profile reads the power basis) but
+# regenerating it needs a live EIA-861 pull for I&M (#9324) + Indiana state retail (BOSC_EIA_API_KEY);
+# offline it falls back to Ohio denominators, so the regen is a keyed follow-up.
 _FORT_WAYNE = SiteProfile(
     slug="fort-wayne",
     place="Fort Wayne",
@@ -316,14 +319,14 @@ _FORT_WAYNE = SiteProfile(
     design_lat=41.0891,  # [verified] city centroid = NOAA Atlas-14 point
     design_lon=-85.1439,
     corridor_name="Maumee headwaters corridor",  # [inference] the St. Joseph/St. Marys → Maumee reach
-    dominant_hsg="C",  # [inference] Allen County IN — Blount/Glynwood till + Pewamo lake-plain clays → HSG C
+    dominant_hsg="C",  # [verified] SSURGO over the assemblage: 50% C/D + 50% D → HSG C (drained basis)
     hsg_citation=(
-        "Allen County, IN dominant hydrologic soil group C — Blount/Glynwood till and Pewamo "
-        "lake-plain clays of the upper Maumee (NRCS Soil Survey of Allen County, IN); [inference] "
-        "pending an SSURGO area-weighted confirmation (#362, footprint-gated). The facility site is "
-        "now identified (Google 'Project Zodiac', SE Fort Wayne / 6015 Adams Center Rd, #360), but a "
-        "SURVEYED boundary is still pending the deed/rezoning/stormwater-permit extraction — no "
-        "constructed AOI is committed (mirrors Findlay #355)."
+        "Allen County, IN dominant hydrologic soil group C (drained basis) — [verified] USDA NRCS "
+        "SSURGO via Soil Data Access, a 30-point grid sample over the committed Hatchworks parcel "
+        "assemblage (bosc-parcels.geojson): 50% C/D + 50% D (Pewamo / Blount-Glynwood lake-plain "
+        "clays of the upper Maumee). HSG C confirms the prior NRCS-narrative inference; undrained "
+        "these soils are group D (high runoff). See data/extracted/fort-wayne/bosc-site-footprint.yaml "
+        "(#362). A SURVEYED developed footprint is still pending the stormwater-permit extraction."
     ),
     pre_cover="TODO",  # [open] development land-cover scenario — pending the Project Zodiac stormwater permit (#360)
     post_cover="TODO",
@@ -378,9 +381,28 @@ _FORT_WAYNE = SiteProfile(
     passby_secondary_cfs=0.0,
     # grid / facility (no identified data-center facility → grid backdrop only, no campus share)
     # Facility CONFIRMED — Google "Project Zodiac" $2B campus (#360, data/extracted/fort-wayne/
-    # datacenter-facility.md). Power basis stays None: SiteFacility needs air-permit-grounded MW and
-    # neither an IDEM air permit nor a disclosed IT load exists yet (so load_share=null is correct).
-    facility=None,  # [open] power basis pending the IDEM air-permit extraction (activity is documented)
+    # datacenter-facility.md). Power basis populated from the committed IDEM Title V air-permit
+    # extraction (data/extracted/idem/fort-wayne/47378f.idem.yaml).
+    facility=SiteFacility(
+        # Project Zodiac (Hatchworks LLC) — IDEM Title V air permit 003-47378-00530. The permit
+        # discloses heat input (26.4 MMBTU/hr per engine), NOT an electrical rating, so genset_mw
+        # is DERIVED (heat-input x efficiency), unlike Lima's disclosed ekW. genset_count is verbatim.
+        genset_count=34,  # [verified] "Thirty-four (34) diesel-fired emergency generators, Gen 1..34" (A.2)
+        genset_mw=3.0,  # [inference] 26.4 MMBTU/hr HHV / engine at ~38-43% electrical eff -> ~2.9-3.3 MWe
+        it_load_mw=90.0,  # [inference] N+1: IT ~= 0.88 x backup (Lima 275/313 convention); 34 x 3.0 ~= 102 MW backup
+        it_load_low_mw=80.0,
+        it_load_high_mw=100.0,
+        air_permit_citation=(
+            "IDEM Title V air permit 003-47378-00530 (issued 2024-09-06), committed "
+            "data/extracted/idem/fort-wayne/47378f.idem.yaml: 34 diesel emergency gensets "
+            "(Gen 1-34), each 26.4 MMBTU/hr heat input (A.2), operator 'a stationary data center' "
+            "(SIC 7374, 650-area phone). genset_mw/it_load are DERIVED from heat input (no disclosed "
+            "ekW); refine if the engine nameplate surfaces in the application or the 003-48739 "
+            "significant modification (data/documents/idem/fort-wayne/48739d.pdf)."
+        ),
+        # No disclosed cooling/industrial blowdown (the air permit doesn't cover discharge) → None,
+        # so the cooling back-solve uses the power-derived consumptive as the high bound (no Lima leak).
+    ),
     serving_utility_citation=(  # [reference] not corpus
         "EIA-861 service-territory file (Indiana Michigan Power Co #9324, an AEP subsidiary) + "
         "Indiana IURC certified-territory; I&M serves the Fort Wayne area (Google Project Zodiac campus)"

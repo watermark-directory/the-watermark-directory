@@ -259,17 +259,20 @@ def _exec_ddf(settings: Settings) -> OnboardStep:
 
 
 def _exec_hsg(settings: Settings, prof: SiteProfile) -> OnboardStep:
-    # SSURGO dominant HSG over the footprint (inline; no committed output — a validation read).
-    footprint = settings.data_dir / prof.footprint_relpath
-    if not footprint.is_file():
+    # SSURGO dominant HSG over the parcel-assemblage geometry (inline; no committed output — a
+    # validation read). The geometry source is parcels_relpath (a GeoJSON), not footprint_relpath
+    # (the stormwater-acreage YAML): dominant_hsg grid-samples polygon features, so it needs the
+    # parcel polygons. A coming-soon site has no committed parcel geometry yet -> skipped.
+    geometry = settings.data_dir / prof.parcels_relpath
+    if not geometry.is_file():
         # Record the data_dir-relative path, never an absolute machine path (the report is
-        # committed as ONBOARDING.md). A coming-soon site has no footprint geometry yet.
+        # committed as ONBOARDING.md).
         return OnboardStep(
             name="ssurgo-hsg",
             status="skipped",
-            detail=f"footprint missing: {prof.footprint_relpath}",
+            detail=f"parcel geometry missing: {prof.parcels_relpath}",
         )
-    survey = dominant_hsg(footprint, settings=settings)
+    survey = dominant_hsg(geometry, settings=settings)
     match = (
         "matches profile"
         if survey.hsg_letter == prof.dominant_hsg

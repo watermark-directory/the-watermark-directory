@@ -1,4 +1,4 @@
-reconciled_at: '2026-06-27T04:12:17.685664+00:00'
+reconciled_at: '2026-06-27T04:56:36.791946+00:00'
 entries:
   aedg:
     exists: true
@@ -128,10 +128,10 @@ entries:
     stale: false
   datacenter-facility-wwtp-in0032191-wwtp-receiving-water:
     exists: true
-    sha256: b61f9365d243561d71500ba706a0f589897a250219134a781b3ff0c485c6ea08
-    size_bytes: 15370
+    sha256: 64012dc4bc6c1543d4994ae673af215a6e2f37747353e450beeada32e84d609f
+    size_bytes: 18396
     lfs_materialized: true
-    file_count: 3
+    file_count: 4
     missing: []
     asof: null
     stale: false
@@ -191,8 +191,8 @@ entries:
     stale: false
   eia-grid-profile:
     exists: true
-    sha256: 729b4b2648beda066e6ef8b25fe474418179c3a36834ad184a9f28747afac2cf
-    size_bytes: 58617
+    sha256: 787ccbc1a9bd6ced610071cf2c5b0b6128c959e0ea1d3b38998fffbf769923ed
+    size_bytes: 60439
     lfs_materialized: true
     file_count: 19
     missing: []
@@ -294,6 +294,15 @@ entries:
     size_bytes: 360314
     lfs_materialized: true
     file_count: 2
+    missing: []
+    asof: null
+    stale: false
+  idem:
+    exists: true
+    sha256: 2fef59a9482ea1c1ce604ac26b88b26eff1c62376f2d5d953b4aa58995e4692f
+    size_bytes: 4047
+    lfs_materialized: true
+    file_count: 1
     missing: []
     asof: null
     stale: false
