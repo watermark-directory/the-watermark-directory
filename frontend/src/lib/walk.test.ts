@@ -109,4 +109,13 @@ describe("Story model", () => {
       }
     }
   });
+
+  it("surfaces a second site's story from the collection, not just Lima (#733)", () => {
+    // The flip's payoff: a non-Lima story registers + resolves with no hand-edit to this module.
+    const fw = storyFor("fort-wayne", "project-zodiac");
+    expect(fw, "Fort Wayne's project-zodiac story must resolve from the collection").toBeDefined();
+    expect(fw?.title).toBe("Project Zodiac");
+    expect(fw?.chapters.map((c) => c.slug)).toEqual(["who", "power", "water"]);
+    expect(fw?.chapters.every((c) => c.live)).toBe(true);
+  });
 });
