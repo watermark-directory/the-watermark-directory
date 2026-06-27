@@ -8,7 +8,7 @@ producer:
     and statewide NPDES Construction Stormwater General Permit OHC000006
 license: Public record (Ohio R.C. 149.43)
 access_tier: public
-site_scope: basin-shared
+site_scope: lima-legacy
 storage:
 - relpath: extracted/regulatory/ohc000006-construction-stormwater-gp.yaml
   media_type: application/x-yaml

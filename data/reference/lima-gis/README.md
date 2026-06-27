@@ -58,7 +58,7 @@ question — see `bosc floodzone --footprint` and
 
 ### `lima-gis` — City of Lima, Ohio GIS — Zoning, Cited-Parcel Scan & FEMA Flood Zones
 
-Source: City of Lima GIS public ArcGIS REST — zoning (layer 6) + FEMA DFIRM flood zones (layer 4, panel 39003C) · License: Public records (local government open data); flood layer FEMA DFIRM (U.S. Government public domain) · Access: public · Site scope: basin-shared · Refresh: on-demand
+Source: City of Lima GIS public ArcGIS REST — zoning (layer 6) + FEMA DFIRM flood zones (layer 4, panel 39003C) · License: Public records (local government open data); flood layer FEMA DFIRM (U.S. Government public domain) · Access: public · Site scope: lima-legacy · Refresh: on-demand
 
 Regenerate: `bosc zoning --districts`
 

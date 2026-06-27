@@ -1,0 +1,108 @@
+[
+  {
+    "slug": "idem",
+    "title": "Idem",
+    "description": "",
+    "entries": [
+      {
+        "rel": "idem/fort-wayne/043026-IDEM-Hearing-ORIGINAL.pdf",
+        "name": "043026-IDEM-Hearing-ORIGINAL.pdf",
+        "size_bytes": 256046,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null
+      },
+      {
+        "rel": "idem/fort-wayne/47378PN-JS.pdf",
+        "name": "47378PN-JS.pdf",
+        "size_bytes": 231211,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null
+      },
+      {
+        "rel": "idem/fort-wayne/47378f.pdf",
+        "name": "47378f.pdf",
+        "size_bytes": 4534916,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null
+      },
+      {
+        "rel": "idem/fort-wayne/48739d.pdf",
+        "name": "48739d.pdf",
+        "size_bytes": 2083664,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null
+      },
+      {
+        "rel": "idem/fort-wayne/Response-to-Public-Comments-WQC001454-Project-Zodiac-Phase-3-Google-Data-Center.pdf",
+        "name": "Response-to-Public-Comments-WQC001454-Project-Zodiac-Phase-3-Google-Data-Center.pdf",
+        "size_bytes": 428610,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null
+      },
+      {
+        "rel": "idem/fort-wayne/WQC001454-Section-401-WQC-Approval.pdf",
+        "name": "WQC001454-Section-401-WQC-Approval.pdf",
+        "size_bytes": 311730,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null
+      },
+      {
+        "rel": "idem/fort-wayne/caats-confidentiality.pdf",
+        "name": "caats-confidentiality.pdf",
+        "size_bytes": 146602,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null
+      },
+      {
+        "rel": "idem/fort-wayne/notice_20260403_401_wqc001454.pdf",
+        "name": "notice_20260403_401_wqc001454.pdf",
+        "size_bytes": 6735469,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null
+      },
+      {
+        "rel": "idem/fort-wayne/public-comments-compiled.pdf",
+        "name": "public-comments-compiled.pdf",
+        "size_bytes": 12710817,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null
+      }
+    ]
+  }
+]

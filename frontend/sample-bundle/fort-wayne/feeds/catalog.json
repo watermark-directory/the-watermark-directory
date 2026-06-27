@@ -1,0 +1,326 @@
+[
+  {
+    "id": "data-centers",
+    "title": "Per-Site Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "extracted",
+    "status": "reviewed",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "BOSC site-onboarding discovery \u2014 verified public-record register of per-site data-center activity (Columbus/New Albany/Springfield)",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "slug-scoped",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": "2026-06-22",
+    "tags": [
+      "data-centers",
+      "discovery",
+      "onboarding",
+      "per-site"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/{site}/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "34f6f4a43714184765b7181b24872da2c5e15e7be4dfdbd0c7e5d73674146590",
+      "size_bytes": 30229,
+      "lfs_materialized": true,
+      "file_count": 3,
+      "stale": false,
+      "asof": null
+    },
+    "citation": {
+      "source": "BOSC site-onboarding discovery \u2014 verified public-record register of per-site data-center activity (Columbus/New Albany/Springfield)",
+      "source_kind": "reference",
+      "page": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "datacenter-facility-wwtp-in0032191-wwtp-receiving-water",
+    "title": "Fort Wayne WWTP (NPDES IN0032191) Receiving-Water, Facility & Site-Footprint Characterization",
+    "scope": "extracted",
+    "collection": "extracted",
+    "status": "reviewed",
+    "producer_kind": "extracted",
+    "command": "dmr IN0032191 --start 2023-01-01 --end 2023-12-31 --design-flow 74.0",
+    "connector_ref": "bosc.hydrology.connectors.echo",
+    "source": "EPA ECHO (eff_rest_services DMR) for the effluent record + BOSC discovery synthesis of the Fort Wayne WWTP / 'Project Zodiac' facility and its low-flow receiving water",
+    "external_url": "https://echo.epa.gov/tools/web-services",
+    "license": "U.S. Government work (public domain) [DMR]; public record otherwise",
+    "access_tier": "public",
+    "site_scope": "slug-scoped",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "wwtp",
+      "npdes",
+      "dmr",
+      "echo",
+      "receiving-water"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/{site}/datacenter-facility.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/{site}/wwtp-in0032191.dmr.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/{site}/wwtp-receiving-water.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/{site}/bosc-site-footprint.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "3ab97eb76c738fb81265995b9b8eab56291094758b306635081de9e2a9a7e7eb",
+      "size_bytes": 19980,
+      "lfs_materialized": true,
+      "file_count": 4,
+      "stale": false,
+      "asof": null
+    },
+    "citation": {
+      "source": "EPA ECHO (eff_rest_services DMR) for the effluent record + BOSC discovery synthesis of the Fort Wayne WWTP / 'Project Zodiac' facility and its low-flow receiving water",
+      "source_kind": "document",
+      "page": null,
+      "confidence": "medium",
+      "note": "bosc dmr IN0032191 --start 2023-01-01 --end 2023-12-31 --design-flow 74.0",
+      "verified": true
+    }
+  },
+  {
+    "id": "idem",
+    "title": "IDEM (Indiana) Permit Extractions \u2014 Air (Title V) & Water (\u00a7401 WQC)",
+    "scope": "extracted",
+    "collection": "idem",
+    "status": "reviewed",
+    "producer_kind": "extracted",
+    "command": null,
+    "connector_ref": null,
+    "source": "Indiana DEM, Office of Air Quality (Title V air permits) + Office of Water Quality (\u00a7401 Water Quality Certifications) \u2014 hand extraction of the verified facts from the committed source PDFs under data/documents/idem/<site>/",
+    "external_url": "https://apps.idem.in.gov/PermitStatusSearch/",
+    "license": "Public record",
+    "access_tier": "public",
+    "site_scope": "slug-scoped",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": "2026-06-27",
+    "tags": [
+      "idem",
+      "air-permit",
+      "title-v",
+      "section-401",
+      "water-quality",
+      "data-center",
+      "fort-wayne",
+      "project-zodiac"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/idem/{site}/47378f.idem.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/idem/{site}/wqc001454.idem.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "c3a795798ab859180bbfe09866ce1819309a45c972f986e714b2155a3eef98e7",
+      "size_bytes": 10051,
+      "lfs_materialized": true,
+      "file_count": 2,
+      "stale": false,
+      "asof": null
+    },
+    "citation": {
+      "source": "Indiana DEM, Office of Air Quality (Title V air permits) + Office of Water Quality (\u00a7401 Water Quality Certifications) \u2014 hand extraction of the verified facts from the committed source PDFs under data/documents/idem/<site>/",
+      "source_kind": "document",
+      "page": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "id": "meetings",
+    "title": "Per-Site Civic Meeting Records (Slug-Scoped)",
+    "scope": "extracted",
+    "collection": "meetings",
+    "status": "reviewed",
+    "producer_kind": "connector",
+    "command": "subdivisions download",
+    "connector_ref": "bosc.civic",
+    "source": "Per-site governing bodies (e.g. City of Lima council) \u2014 published meeting documents, scraped per watershed-point site",
+    "external_url": null,
+    "license": "Public record (Ohio R.C. 149.43)",
+    "access_tier": "public",
+    "site_scope": "slug-scoped",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": "2026-06-08",
+    "tags": [
+      "civic",
+      "meetings",
+      "per-site",
+      "slug-scoped"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/{site}/meetings/download-manifest.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/{site}/meetings/meeting-index.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "5ef5921d45d31f2bfb2bc3a843df5faed35f402d5ad8bf01d4736b12285cc5d3",
+      "size_bytes": 47074,
+      "lfs_materialized": true,
+      "file_count": 2,
+      "stale": false,
+      "asof": null
+    },
+    "citation": {
+      "source": "Per-site governing bodies (e.g. City of Lima council) \u2014 published meeting documents, scraped per watershed-point site",
+      "source_kind": "connector",
+      "page": null,
+      "confidence": "medium",
+      "note": "bosc subdivisions download",
+      "verified": true
+    }
+  },
+  {
+    "id": "bosc-parcels",
+    "title": "Per-Site Parcel Assemblage Geometry",
+    "scope": "reference",
+    "collection": "reference",
+    "status": "reviewed",
+    "producer_kind": "connector",
+    "command": "parcels --owner <assembler> --geojson data/reference/<site>/bosc-parcels.geojson",
+    "connector_ref": "bosc.hydrology.connectors.allen_gis",
+    "source": "Per-site county parcel GIS via the gis_parcel field-map, pulled as f=geojson reprojected to WGS84 (Fort Wayne = Allen County, IN iMap, parcel layer 10)",
+    "external_url": "https://gis1.acimap.us/imapweb/rest/services/QueryLayers/QueryLayers/MapServer/10",
+    "license": "Public records (local government open data)",
+    "access_tier": "public",
+    "site_scope": "slug-scoped",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": "2026-06-27",
+    "tags": [
+      "parcels",
+      "gis",
+      "land-assembly",
+      "footprint"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/{site}/bosc-parcels.geojson",
+        "media_type": "application/geo+json",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "bb267c62bf54da26a0ac944fc31d5da4ec02ad4edec0efe09ef1b3a9c97b775f",
+      "size_bytes": 136410,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "citation": {
+      "source": "Per-site county parcel GIS via the gis_parcel field-map, pulled as f=geojson reprojected to WGS84 (Fort Wayne = Allen County, IN iMap, parcel layer 10)",
+      "source_kind": "connector",
+      "page": null,
+      "confidence": "medium",
+      "note": "bosc parcels --owner <assembler> --geojson data/reference/<site>/bosc-parcels.geojson",
+      "verified": true
+    }
+  },
+  {
+    "id": "compute",
+    "title": "AI Accelerator & Rack-Density Compute Reference",
+    "scope": "reference",
+    "collection": "compute",
+    "status": "reviewed",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "Vendor datasheets (NVIDIA H100/H200/B200/GB200; Google TPU v5e/v5p/v6e) + in-corpus relator data appendix",
+    "external_url": null,
+    "license": "Third-party vendor datasheets + in-corpus appendix (reference use)",
+    "access_tier": "public",
+    "site_scope": "basin-shared",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": "2026-06-11",
+    "tags": [
+      "compute",
+      "accelerators",
+      "rack-density",
+      "datacenter",
+      "reference"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/compute/accelerators.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "reference/compute/rack-density.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "0e8697e080006aefd837694ed9d6c918b19e970749fca56c3b2375cce32465e5",
+      "size_bytes": 12105,
+      "lfs_materialized": true,
+      "file_count": 2,
+      "stale": false,
+      "asof": null
+    },
+    "citation": {
+      "source": "Vendor datasheets (NVIDIA H100/H200/B200/GB200; Google TPU v5e/v5p/v6e) + in-corpus relator data appendix",
+      "source_kind": "reference",
+      "page": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  }
+]

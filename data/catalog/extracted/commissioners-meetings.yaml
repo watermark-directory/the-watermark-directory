@@ -10,7 +10,7 @@ producer:
   external_url: https://commissioners.allencountyohio.com/
 license: Public record (Ohio R.C. 149.43)
 access_tier: public
-site_scope: basin-shared
+site_scope: lima-legacy
 storage:
 - relpath: extracted/commissioners/meetings/cutover-reconciliation.yaml
   media_type: application/x-yaml

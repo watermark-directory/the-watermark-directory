@@ -59,25 +59,25 @@ Snapshot reconciled: **2026-06-27T06:02:12.750059+00:00**. Regenerate with `bosc
 
 | site | relevant | present | missing |
 | --- | --- | --- | --- |
-| bryan | 60 | 55 | 5 |
-| columbus | 60 | 56 | 4 |
-| defiance | 60 | 55 | 5 |
-| findlay | 60 | 55 | 5 |
-| fort-wayne | 60 | 58 | 2 |
-| greenville | 60 | 55 | 5 |
-| hamilton-middletown | 60 | 55 | 5 |
+| bryan | 34 | 29 | 5 |
+| columbus | 34 | 30 | 4 |
+| defiance | 34 | 29 | 5 |
+| findlay | 34 | 29 | 5 |
+| fort-wayne | 34 | 32 | 2 |
+| greenville | 34 | 29 | 5 |
+| hamilton-middletown | 34 | 29 | 5 |
 | lima | 71 | 67 | 4 |
-| new-albany | 60 | 56 | 4 |
-| ottawa | 60 | 55 | 5 |
-| sidney | 60 | 55 | 5 |
-| springfield | 60 | 56 | 4 |
-| toledo | 60 | 55 | 5 |
-| troy-piqua | 60 | 55 | 5 |
-| urbana | 60 | 55 | 5 |
-| van-wert | 60 | 55 | 5 |
-| wilmington | 60 | 55 | 5 |
-| wpafb | 60 | 55 | 5 |
-| xenia | 60 | 55 | 5 |
+| new-albany | 34 | 30 | 4 |
+| ottawa | 34 | 29 | 5 |
+| sidney | 34 | 29 | 5 |
+| springfield | 34 | 30 | 4 |
+| toledo | 34 | 29 | 5 |
+| troy-piqua | 34 | 29 | 5 |
+| urbana | 34 | 29 | 5 |
+| van-wert | 34 | 29 | 5 |
+| wilmington | 34 | 29 | 5 |
+| wpafb | 34 | 29 | 5 |
+| xenia | 34 | 29 | 5 |
 
 ## Integrity gaps
 

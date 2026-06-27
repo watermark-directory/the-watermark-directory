@@ -10,7 +10,7 @@ producer:
     Records — Parent PRR' public-records production (PRR-01 bundle)
 license: Public record (Ohio R.C. 149.43)
 access_tier: public
-site_scope: basin-shared
+site_scope: lima-legacy
 storage:
 - relpath: extracted/aedg/aedg-data-center-release.release.yaml
   media_type: application/x-yaml

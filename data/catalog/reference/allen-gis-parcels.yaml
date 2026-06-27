@@ -10,7 +10,7 @@ producer:
   external_url: https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1
 license: Public records (local government open data)
 access_tier: public
-site_scope: basin-shared
+site_scope: lima-legacy
 storage:
 - relpath: reference/allen-gis/parcels.cited.yaml
   media_type: application/x-yaml

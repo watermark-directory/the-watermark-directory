@@ -8,7 +8,7 @@ producer:
   external_url: https://allen.boe.ohio.gov/category/election-results/
 license: Public records (local government open data)
 access_tier: public
-site_scope: basin-shared
+site_scope: lima-legacy
 storage:
 - relpath: reference/allen-boe/source-pdf/2024_GEN_OFFICIAL_CANDIDATES_MOST_POPULOUS.pdf
   media_type: application/pdf

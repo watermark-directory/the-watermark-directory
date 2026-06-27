@@ -177,7 +177,7 @@ re-download the PDFs from the URLs in `source-pdf/SOURCES.txt`, run
 
 ### `allen-boe` — Allen County BOE — Cross-Election Registration & Turnout Statistics
 
-Source: Allen County (OH) Board of Elections — statistics blocks of the three summary canvass PDFs · License: Public records (local government open data) · Access: public · Site scope: basin-shared · Refresh: on-demand, last 2026-06-06
+Source: Allen County (OH) Board of Elections — statistics blocks of the three summary canvass PDFs · License: Public records (local government open data) · Access: public · Site scope: lima-legacy · Refresh: on-demand, last 2026-06-06
 
 | file | type | lfs |
 | --- | --- | --- |
@@ -185,7 +185,7 @@ Source: Allen County (OH) Board of Elections — statistics blocks of the three 
 
 ### `allen-boe-precincts-csv` — Allen County BOE — Per-Precinct Election Results (Long Form)
 
-Source: Allen County (OH) Board of Elections — precinct/SOVC result PDFs flattened to tidy long form · License: Public records (local government open data) · Access: public · Site scope: basin-shared · Refresh: on-demand, last 2026-06-06
+Source: Allen County (OH) Board of Elections — precinct/SOVC result PDFs flattened to tidy long form · License: Public records (local government open data) · Access: public · Site scope: lima-legacy · Refresh: on-demand, last 2026-06-06
 
 | file | type | lfs |
 | --- | --- | --- |
@@ -195,7 +195,7 @@ Source: Allen County (OH) Board of Elections — precinct/SOVC result PDFs flatt
 
 ### `allen-boe-results-csv` — Allen County BOE — Countywide Canvass Summary Results
 
-Source: Allen County (OH) Board of Elections — official summary canvass PDFs (Electionware), parsed per (election, section, contest, choice) · License: Public records (local government open data) · Access: public · Site scope: basin-shared · Refresh: on-demand, last 2026-06-06
+Source: Allen County (OH) Board of Elections — official summary canvass PDFs (Electionware), parsed per (election, section, contest, choice) · License: Public records (local government open data) · Access: public · Site scope: lima-legacy · Refresh: on-demand, last 2026-06-06
 
 | file | type | lfs |
 | --- | --- | --- |
@@ -205,7 +205,7 @@ Source: Allen County (OH) Board of Elections — official summary canvass PDFs (
 
 ### `allen-boe-source-pdf` — Allen County BOE — Official Election Result PDFs (Primary Source)
 
-Source: Allen County (OH) Board of Elections — official result PDFs, downloaded verbatim · License: Public records (local government open data) · Access: public · Site scope: basin-shared · Refresh: on-demand, last 2026-06-06
+Source: Allen County (OH) Board of Elections — official result PDFs, downloaded verbatim · License: Public records (local government open data) · Access: public · Site scope: lima-legacy · Refresh: on-demand, last 2026-06-06
 
 | file | type | lfs |
 | --- | --- | --- |
