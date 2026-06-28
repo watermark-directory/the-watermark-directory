@@ -30,7 +30,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from bosc.documents import PdfDocument
+from watermark.documents import PdfDocument
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DOCUMENTS = REPO_ROOT / "data" / "documents"
