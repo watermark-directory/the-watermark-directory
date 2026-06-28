@@ -293,6 +293,14 @@ a { color: var(--bosc-link); }
 .nav-mega-theme-title:hover { color: var(--bosc-forest); }
 .nav-mega-tlink { display: block; padding: var(--sp-1) 0; font-size: var(--fs-caption); color: var(--bosc-muted); text-decoration: none; }
 .nav-mega-tlink:hover { color: var(--bosc-forest); }
+/* #781 — a locked destination (not on a thinner peer's record yet): muted, with a lock glyph. The
+   link still resolves to a coherent lock page, so it stays a link — just visibly flagged. */
+.nav-mega-tlink.is-locked,
+.nav-mega-theme-title.is-locked,
+.nav-mega-spine-head.is-locked { color: var(--bosc-faint); display: flex; align-items: center; gap: 0.35rem; }
+.nav-mega-tlink.is-locked:hover,
+.nav-mega-theme-title.is-locked:hover { color: var(--bosc-muted); }
+.nav-mega-lock { color: var(--bosc-faint); flex: 0 0 auto; }
 @media (max-width: 720px) { .nav-mega-menu { width: 22rem; } .nav-mega-cols { grid-template-columns: 1fr; } .nav-mega-spine { border-right: 0; border-bottom: 1px solid var(--bosc-rule); } }
 
 /* A non-clickable "drafting" report card (Reports landing). */

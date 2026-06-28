@@ -309,9 +309,13 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
                 </div>
                 <div class="nav-mega-cols">
                   <div class="nav-mega-spine">
-                    <a class="nav-mega-spine-head" href={withBase(m.spine.href)}>
+                    <a class:list={["nav-mega-spine-head", { "is-locked": m.spine.locked }]} href={withBase(m.spine.href)}>
                       <span class="nav-mega-spine-title">{m.spine.title}</span>
-                      <span class="nav-mega-spine-count">{m.spine.count}</span>
+                      {m.spine.locked ? (
+                        <Icon name="locked" size={12} class="nav-mega-lock" />
+                      ) : (
+                        <span class="nav-mega-spine-count">{m.spine.count}</span>
+                      )}
                     </a>
                     <p class="nav-mega-spine-blurb">{m.spine.blurb}</p>
                     {m.spine.items.map((it) => (
@@ -330,10 +334,14 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
                     <div class="nav-mega-themes-grid">
                       {m.themes.map((th) => (
                         <div class="nav-mega-theme">
-                          <a class="nav-mega-theme-title" href={withBase(th.href)}>{th.title}</a>
+                          <a class:list={["nav-mega-theme-title", { "is-locked": th.locked }]} href={withBase(th.href)}>
+                            {th.title}
+                            {th.locked && <Icon name="locked" size={11} class="nav-mega-lock" />}
+                          </a>
                           {th.items.map((it) => (
-                            <a class="nav-mega-tlink" href={withBase(it.href)}>
+                            <a class:list={["nav-mega-tlink", { "is-locked": it.locked }]} href={withBase(it.href)}>
                               {it.label}
+                              {it.locked && <Icon name="locked" size={10} class="nav-mega-lock" />}
                             </a>
                           ))}
                         </div>
