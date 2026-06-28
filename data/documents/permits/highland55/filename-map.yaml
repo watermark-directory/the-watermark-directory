@@ -1,0 +1,128 @@
+meta:
+  subject: Canonical filename map for permits/highland55/ — Urbana Commerce Park / Vance Brands
+  note: >
+    Per chain-of-custody rules, source files keep their as-received OEPA eDoc ID filenames.
+    The 3938xxx and 3962xxx batches are related filings (3962xxx may be a re-submission or
+    second project phase). Byte-identical pairs are noted; both are retained.
+
+documents:
+  - edoc_id: "3938244"
+    filename: 3938244.pdf
+    canonical: oepa-401wqc-urbana-commerce-park-application-highland.pdf
+    type: section-401-wqc-application
+    applicant: Urbana Owner I LLC
+    agent: Civil & Environmental Consultants (CEC), Columbus OH
+    project: Urbana Commerce Park
+    content_verified: text-layer
+    notes: 3-page Section 401 WQC application form; slight byte difference vs 3962086.
+
+  - edoc_id: "3938247"
+    filename: 3938247.pdf
+    canonical: oepa-401wqc-urbana-commerce-park-attachments-highland.pdf
+    type: section-401-wqc-attachments
+    applicant: Urbana Owner I LLC
+    project: Urbana Commerce Park
+    content_verified: text-layer
+    notes: 97-page exhibits/attachments for the 401 WQC application. Byte-identical to 3962088.
+
+  - edoc_id: "3938251"
+    filename: 3938251.pdf
+    canonical: corps-jd-preliminary-urbana-commerce-park-cec344735-2024-09.pdf
+    type: corps-jd-preliminary
+    applicant: Highland Realty Development LLC
+    agent: CEC
+    project: Urbana Commerce Park
+    cec_project: "344-735"
+    submitted: "2024-09-27"
+    corps_district: Huntington WV
+    content_verified: text-layer
+    notes: >
+      92-page Preliminary Jurisdictional Determination request. Waters delineation along
+      US Route 68, Urbana Township, Champaign County OH. Assessment date: 2024-08-28.
+      Byte-identical to 3962092.
+
+  - edoc_id: "3938260"
+    filename: 3938260.pdf
+    canonical: cec-photos-urbana-vance-brands-355192-2025-06-07.pdf
+    type: site-photos
+    applicant: Urbana Owner I LLC
+    agent: CEC
+    project: Urbana Vance Brands Project
+    cec_project: "355-192, 355-449"
+    photo_dates: ["2025-06-26", "2025-07-28"]
+    content_verified: text-layer
+    notes: >
+      6-page hi-res (28 MB) site photo report. Wetland A (355-192) overview photos facing
+      north and south. Significantly different from 3962108 (lower-res, 4.5 MB).
+
+  - edoc_id: "3938271"
+    filename: 3938271.pdf
+    canonical: corps-jd-approved-urbana-vance-brands-cec352387-2025-04.pdf
+    type: corps-jd-approved
+    applicant: Highland Realty Development LLC
+    agent: CEC
+    project: Urbana Vance Brands Project
+    cec_project: "352-387"
+    letter_date: "2025-04-16"
+    corps_district: Huntington WV
+    content_verified: text-layer
+    notes: >
+      46-page Approved Jurisdictional Determination request. Waters delineation west of
+      S US Highway 68, Urbana, Champaign County OH. Byte-identical to 3962110.
+
+  - edoc_id: "3962086"
+    filename: 3962086.pdf
+    canonical: oepa-401wqc-urbana-commerce-park-application-highland-v2.pdf
+    type: section-401-wqc-application
+    applicant: Urbana Owner I LLC
+    agent: CEC
+    project: Urbana Commerce Park
+    content_verified: text-layer
+    notes: 3-page Section 401 WQC application form; 32-byte difference vs 3938244 (minor metadata).
+
+  - edoc_id: "3962088"
+    filename: 3962088.pdf
+    canonical: oepa-401wqc-urbana-commerce-park-attachments-highland-v2.pdf
+    type: section-401-wqc-attachments
+    applicant: Urbana Owner I LLC
+    project: Urbana Commerce Park
+    content_verified: text-layer
+    notes: 97-page exhibits; byte-identical to 3938247.
+
+  - edoc_id: "3962092"
+    filename: 3962092.pdf
+    canonical: corps-jd-preliminary-urbana-commerce-park-cec344735-2024-09-v2.pdf
+    type: corps-jd-preliminary
+    applicant: Highland Realty Development LLC
+    agent: CEC
+    project: Urbana Commerce Park
+    cec_project: "344-735"
+    submitted: "2024-09-27"
+    content_verified: text-layer
+    notes: 92-page Preliminary JD; byte-identical to 3938251.
+
+  - edoc_id: "3962108"
+    filename: 3962108.pdf
+    canonical: cec-photos-urbana-vance-brands-355192-2025-06-07-lowres.pdf
+    type: site-photos
+    applicant: Urbana Owner I LLC
+    agent: CEC
+    project: Urbana Vance Brands Project
+    cec_project: "355-192, 355-449"
+    photo_dates: ["2025-06-26", "2025-07-28"]
+    content_verified: text-layer
+    notes: >
+      6-page lower-res (4.5 MB) version of the site photo report. Same scenes as 3938260
+      but significantly compressed. Not byte-identical to 3938260.
+
+  - edoc_id: "3962110"
+    filename: 3962110.pdf
+    canonical: corps-jd-approved-urbana-vance-brands-cec352387-2025-04-v2.pdf
+    type: corps-jd-approved
+    applicant: Highland Realty Development LLC
+    agent: CEC
+    project: Urbana Vance Brands Project
+    cec_project: "352-387"
+    letter_date: "2025-04-16"
+    content_verified: text-layer
+    notes: 46-page Approved JD; byte-identical to 3938271.
