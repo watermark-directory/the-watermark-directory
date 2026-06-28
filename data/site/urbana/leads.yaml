@@ -1,8 +1,11 @@
 leads:
 - id: GH-447
   kind: signal
-  status: unanswered
-  tag: open
+  status: review
+  tag: inference
+  note: "2026-06-28: Instruments read (10 docs, PR #803). Thor Equities (Urbana Owner I LLC) confirmed\
+    \ as developer; 47.6+ ac west of US-68; project includes electrical substation + build-to-suit\
+    \ for 'Vance Brands' (end use [open]). See data/extracted/urbana/highland55-findings.md."
   title: Source Highland55 Urbana connection via primary instruments (recorder, ODOD, CRA/PILOT)
   detail: '## Context
 
