@@ -140,3 +140,12 @@ leads_app = typer.Typer(
     add_completion=False,
 )
 app.add_typer(leads_app, name="leads")
+
+
+oepa_app = typer.Typer(
+    name="oepa",
+    help="OEPA/DAM document discovery and fetch (#847).",
+    no_args_is_help=True,
+    add_completion=False,
+)
+app.add_typer(oepa_app, name="oepa")

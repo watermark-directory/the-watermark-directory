@@ -149,6 +149,11 @@ class SiteProfile(BaseModel):
     lmp_pnode_id: int = 0
     lmp_pnode_name: str = ""
 
+    # --- OEPA permit registry (#844) -----------------------------------------------------
+    # Known NPDES permit IDs for this site's facilities. Used by ``bosc oepa discover``
+    # to annotate results as "known" vs. "new". Not a Settings knob — per-site constant.
+    npdes_permits: list[str] = []
+
     # --- Corpus scope — the content bundle's extracted-tree feeds (#762) -----------------
     # The ``data/extracted/**`` collection prefixes that hold THIS site's records. The bundle's
     # corpus-derived feeds (records/timeline/entities/relationships, via ``load_corpus`` +
