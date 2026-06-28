@@ -1,7 +1,7 @@
 meta:
   topic: onboard sidney
   model: claude-opus-4-8
-  generated_at: '2026-06-28T17:28:35+00:00'
+  generated_at: '2026-06-28T20:14:44+00:00'
   method: open-ended research agent over the read-only BOSC tools, then structured
     distillation (forced tool use). Read-only on data/documents/**.
   provenance:
@@ -10,219 +10,235 @@ meta:
     - mcp__watermark__list_documents
     - mcp__watermark__list_extractions
     - mcp__watermark__entities
-    - mcp__watermark__program_overview
     - mcp__watermark__timeline
+    - mcp__watermark__program_overview
     - mcp__watermark__hydrology_balance
+    - mcp__watermark__hydrology_scenario
+    - mcp__watermark__sanitary_basis
+    - mcp__watermark__storm_plan_inventory
+    - mcp__watermark__stormwater_runoff
+    - mcp__watermark__tier1_swmm
     - mcp__watermark__retrieve_corpus
-    num_turns: 17
+    num_turns: 22
     max_turns: 30
-    cost_usd: 0.78272875
+    cost_usd: 0.99475425
     is_error: false
   findings: findings.md
 proposals:
-- title: Run `watermark onboard sidney` to scaffold site artifacts and unblock all
-    downstream work
-  dedupe_key: run-watermark-onboard-sidney-to-scaffold-site-artifacts-and-unbl
+- title: Run `watermark onboard sidney` to scaffold site directories and portable
+    reach connectors
+  dedupe_key: run-watermark-onboard-sidney-to-scaffold-site-directories-and-po
   labels:
-  - agent-proposed
-  - needs-triage
+  - status:agent-proposed
+  - status:needs-triage
   - onboarding
-  - sidney
-  rationale: Nothing else in the Sidney onboarding pipeline — ingest, extraction,
-    hydrology, GIS, hypothesis seeding — can proceed until the scaffolding step runs,
-    making this the single highest-priority unblocking action.
+  - infrastructure
+  rationale: This is the single action that unblocks every other subsystem gap identified
+    in the review; nothing else can populate until it is run.
   body: '## Context
 
-    The onboarding review confirms that `sidney` is a **recognized but un-onboarded**
-    site. Every site-scoped BOSC tool resolves the slug but returns zero committed
-    artifacts:
-
-
-    - `list_documents` → "No committed source documents for site ''sidney'' yet"
-
-    - `list_extractions` → "No extractions found under data/extracted/sidney"
-
-    - `entities`, `timeline`, `hydrology_balance`, `program_overview` → all empty
-
-
-    Per the findings, the single unblocking action is executing the onboarding runbook.
+    The onboarding review (2026-06-28) confirms that `sidney` is fully greenfield:
+    every BOSC tool returns the `#424` non-substitution message, `data/extracted/sidney`
+    does not exist, and no connector outputs exist for the site. The findings explicitly
+    identify `watermark onboard sidney` as the single highest-priority blocking action.
 
 
     ## Grounding
 
-    The findings explicitly state: *"Run `watermark onboard sidney` (runbook `docs/onboarding.md`)
-    — scaffolds per-site data dirs and runs portable reach connectors. Nothing downstream
-    is possible until this runs. `[verified: tools show zero artifacts]`"* and identify
-    this as the top blocking item before `selectable` promotion in `frontend/src/lib/sites.ts`.
+    From the findings (§ Prioritized checklist, item 1):
+
+    > **Run `watermark onboard sidney`** — scaffold per-site data dirs, set `corpus_relpaths`,
+    and execute the portable reach connectors. Without this, every bundle feed inherits
+    Lima or falls empty (the documented onboarding gotcha). *(Blocks all of §1–6.)*
 
 
-    ## Acceptance Criterion
+    ## Acceptance Criteria
 
     - `watermark onboard sidney` completes without error.
 
-    - `list_documents`, `list_extractions`, and `entities` no longer return "no committed
-    artifacts" responses for the `sidney` slug.
+    - `data/extracted/sidney/` directory is scaffolded and `corpus_relpaths` is set.
 
-    - Per-site data directories exist under a `sidney/` subdir and `corpus_relpaths`
-    is set (avoiding the documented onboarding trap where feeds silently inherit Lima
-    or fall empty).'
-- title: Ingest NPDES/permit corpus for Sidney and extract design flows to enable
-    hydrology balance
-  dedupe_key: ingest-npdes-permit-corpus-for-sidney-and-extract-design-flows-t
+    - Portable reach connectors execute and produce initial (possibly empty-but-non-null)
+    outputs for all six subsystems (NPDES, grid, hydrology, GIS, corpus, hypotheses).
+
+    - No BOSC tool for `sidney` returns the `#424` non-substitution message after
+    onboarding.'
+- title: Identify Great Miami NWIS gauges near Sidney and establish receiving-water
+    7Q10 baseline
+  dedupe_key: identify-great-miami-nwis-gauges-near-sidney-and-establish-recei
   labels:
-  - agent-proposed
-  - needs-triage
+  - status:agent-proposed
+  - status:needs-triage
+  - hydrology
+  - data-gap
+  rationale: The receiving-water 7Q10 is the hydrology spine; no downstream water-balance,
+    scenario, or stormwater computation can be verified without it.
+  body: '## Context
+
+    The onboarding review confirms that every hydrology tool (`hydrology_balance`,
+    `hydrology_scenario`, `sanitary_basis`, `stormwater_runoff`, `tier1_swmm`) returns
+    site-scoped empty for `sidney`. The Lima reference build uses a 7Q10 low-flow
+    screen against the Ottawa River; sidney''s receiving water is the Great Miami
+    system and Lima''s hydrology constants must **not** be inherited.
+
+
+    ## Grounding
+
+    From the findings (§3 Hydrology):
+
+    > **sidney status:** every hydrology tool site-scoped empty. No NWIS gauges configured,
+    no 7Q10, no water balance, no stormwater run.
+
+    > **Gap:** configure `nwis_sites` for the Great Miami reach near Sidney, establish
+    the receiving-water 7Q10, and run the portable reach connectors via `watermark
+    onboard sidney`.
+
+
+    Also from § Status at a glance:
+
+    > Its receiving water is the Great Miami system, **not** Lima''s Ottawa River;
+    do not inherit Lima''s hydrology constants.
+
+
+    ## Acceptance Criteria
+
+    - At least one USGS NWIS gauge on the Great Miami River reach near Sidney, OH
+    is identified and configured in the site profile.
+
+    - A 7Q10 low-flow value for that reach is computed or retrieved and recorded.
+
+    - `hydrology_balance` returns a non-empty result for `sidney` using the Great
+    Miami 7Q10 (not the Ottawa River value).'
+- title: Identify Sidney-area WWTP NPDES permit IDs, ingest OEPA fact sheets, and
+    run `watermark dmr`
+  dedupe_key: identify-sidney-area-wwtp-npdes-permit-ids-ingest-oepa-fact-shee
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - permits
   - extraction
-  - hydrology
-  - npdes
-  - sidney
-  rationale: NPDES design flows are the foundational input for the hydrology balance
-    and sanitary basis artifacts; without them, Sidney's water/wastewater profile
-    cannot be assessed at any tier.
+  - NPDES
+  rationale: The NPDES permit profile is required to perform any effluent-load or
+    water-quality analysis and to populate the site's regulatory evidence anchor.
   body: '## Context
 
-    The onboarding review identifies a **total gap** in Sidney''s NPDES/permit profile.
-    No `oepa`/`npdes` documents exist (`list_documents`), no extractions exist (`list_extractions`),
-    and no relevant entities are committed.
+    The onboarding review finds zero NPDES/permit data for `sidney`: no fact sheets,
+    no public notices, no DMR records. The Lima reference build has a multi-plant
+    OEPA NPDES record (`data/extracted/oepa/`) covering American II WWTP (`OH0037338`),
+    American Bath WWTP (`OH0023841`), and Shawnee II WWTP (`OH0023850`), established
+    as the baseline pattern.
 
 
     ## Grounding
 
-    The findings note: *"Gap: total — no permit corpus, no receiving-water identification,
-    no design flows."* The Lima baseline shows that `oepa/npdes` extractions feed
-    `hydrology_balance` (WWTP cited design flows → receiving waters → 7Q10 assimilative
-    screen) and `sanitary_basis` (per-plant avg design + peak hydraulic capacity,
-    I/I + consent-decree context). Without this corpus, neither artifact can be produced
-    for Sidney.
+    From the findings (§1 NPDES / permit profile):
+
+    > **sidney status:** nothing pulled. No fact sheets, no public notices, no DMR.
+
+    > **Gap:** sidney needs its WWTP NPDES inventory identified (OEPA permit IDs for
+    the Sidney-area plant(s) discharging to the Great Miami), the fact-sheet/public-notice
+    PDFs ingested under `oepa/` (Ohio jurisdiction), and `watermark dmr` run for the
+    actual-vs-design flow record. Also the basin NPDES inventory (`watermark npdes
+    --basin <miami>`) for the receiving reach.
 
 
-    ## Acceptance Criterion
+    The Lima DMR pattern uses `watermark dmr <id>` (e.g., peer Fort Wayne `IN0032191`).
 
-    - At least one NPDES/permit source document is committed under `data/documents/oepa/`
-    or a Sidney-scoped equivalent.
 
-    - Extractions are run and committed under `data/extracted/sidney`.
+    ## Acceptance Criteria
 
-    - `hydrology_balance` and `sanitary_basis` tools return non-empty results for
-    `site=''sidney''`, including identified receiving water and design flow figures.'
-- title: Configure NWIS gauge inputs and 7Q10 low-flow screen for Sidney's Great Miami
-    receiving water
-  dedupe_key: configure-nwis-gauge-inputs-and-7q10-low-flow-screen-for-sidney
+    - OEPA permit ID(s) for the Sidney-area WWTP(s) discharging to the Great Miami
+    are identified and recorded.
+
+    - Corresponding fact-sheet and public-notice PDFs are ingested under `data/extracted/sidney/oepa/`.
+
+    - `watermark dmr <permit_id>` is run and actual-vs-design flow records are available
+    for the site.
+
+    - `watermark npdes --basin <miami>` is run and results are recorded for the receiving
+    reach context.'
+- title: Resolve Sidney's serving electric utility and EIA-861 number, including muni
+    short-form check
+  dedupe_key: resolve-sidney-s-serving-electric-utility-and-eia-861-number-inc
   labels:
-  - agent-proposed
-  - needs-triage
-  - hydrology
-  - nwis
-  - sidney
-  rationale: 'The 7Q10-driven hydrology balance is a core parity requirement for site
-    promotion and directly gates the hypothesis assessment for the Miami-basin buried-valley-vs-lake-plain
-    thesis (epic #440).'
-  body: '## Context
-
-    The onboarding review identifies a **total gap** in Sidney''s hydrology profile.
-    `hydrology_balance` returns empty/not-substituted, and no NWIS configuration or
-    7Q10 value is evidenced from any tool.
-
-
-    ## Grounding
-
-    The findings state: *"Gap: total — no gauges, no water balance, no low-flow screen."*
-    The Lima baseline demonstrates that `nwis_sites` + cited 7Q10 drive `hydrology_balance`,
-    `hydrology_scenario` (campus consumptive draw vs river 7Q10), `sanitary_basis`,
-    `stormwater_runoff`, and `tier1_swmm`. Sidney is identified as located on the
-    Great Miami / Mad River corridor (Miami-basin expansion epic **#440**, queued
-    as **#481**).
-
-
-    ## Acceptance Criterion
-
-    - `nwis_sites` configuration is committed for the relevant Great Miami / Mad River
-    gauge(s) scoped to `sidney`.
-
-    - A cited 7Q10 low-flow value for Sidney''s receiving water is documented and
-    committed.
-
-    - `hydrology_balance` returns a non-empty, committed result for `site=''sidney''`
-    including a low-flow assimilative screen.'
-- title: Rebuild the corpus retrieval index (`watermark index`) to restore Lima-precedent
-    comparison capability
-  dedupe_key: rebuild-the-corpus-retrieval-index-watermark-index-to-restore-li
-  labels:
-  - agent-proposed
-  - needs-triage
-  - infrastructure
-  - retrieval-index
-  - lima
-  rationale: The broken retrieval index silently degrades every onboarding review
-    by preventing Lima-precedent comparison and novel-finding detection, making all
-    future assessments methodologically incomplete until it is fixed.
-  body: '## Context
-
-    The onboarding review methodology was materially constrained by an unresponsive
-    semantic retrieval index. The `retrieve_corpus` tool was probed six times with
-    `site=''lima''` across multiple filter combinations — including two filters known
-    to exist in the Lima build (`recorder/deed`, `aedg/opc`) — and every call returned
-    "No results found."
-
-
-    ## Grounding
-
-    The findings state: *"The Lima-vs-sidney precedent comparison via `retrieve_corpus(site=''lima'')`
-    could not be performed — the corpus index is unbuilt/unresponsive (6/6 probes
-    empty, including known-good filters)."* The tool itself warns it *"Requires the
-    index to be built first (`watermark index`)."* The findings recommend: *"Rebuild
-    the corpus index (`watermark index`) — currently unresponsive, blocking all semantic
-    retrieval / Lima-precedent comparison and the `report_novel_finding` workflow.
-    Recommend resolving before the next onboarding pass."*
-
-
-    ## Acceptance Criterion
-
-    - `watermark index` runs to completion without error.
-
-    - `retrieve_corpus(site=''lima'', filter=''recorder/deed'')` and `retrieve_corpus(site=''lima'',
-    filter=''aedg/opc'')` both return non-empty results consistent with known Lima
-    build contents.
-
-    - A follow-up Sidney onboarding review pass is able to execute the Lima-precedent
-    comparison step and fire the `report_novel_finding` workflow where applicable.'
-- title: Populate Sidney's grid profile knobs and verify EIA-861 vs 861S short-form
-    applicability
-  dedupe_key: populate-sidney-s-grid-profile-knobs-and-verify-eia-861-vs-861s
-  labels:
-  - agent-proposed
-  - needs-triage
+  - status:agent-proposed
+  - status:needs-triage
   - grid
-  - entities
-  - sidney
-  rationale: An unpopulated grid profile blocks any energy-side analysis and risks
-    silent data gaps that could cause Sidney to appear grid-complete when it is not,
-    undermining the readiness layer.
+  - utilities
+  - data-gap
+  rationale: Without the correct utility identity and EIA-861 number, grid demand
+    and energy-cost analyses will either fail or silently inherit incorrect Lima values.
   body: '## Context
 
-    The onboarding review identifies Sidney''s grid/utility profile as **unverified/absent**.
-    No `reference` grid artifacts are committed and the profile knobs (`eia861_utility_number`,
-    BA, LMP zone) cannot be confirmed as populated from any tool output.
+    The onboarding review finds no grid profile data for `sidney`: no `SiteProfile`
+    grid knobs are verifiable as populated, and no `sidney`-scoped grid reference
+    outputs exist. The Lima reference build uses `eia861_utility_number`, BA interchange
+    (PJM-930), and an LMP/pricing zone. The findings flag a specific risk: Sidney
+    may be a home-rule municipal utility requiring the EIA-861S short-form fallback.
 
 
     ## Grounding
 
-    The findings state: *"Gap: unverified/absent. Note `[reference]`: per project
-    memory, non-Ohio leaks don''t apply (Sidney is OH), but EIA-861S municipal short-form
-    fallback should be checked if Sidney is muni-served."* The Lima baseline shows
-    `reference/grid` artifacts feeding EIA-861 utility, BA interchange, and LMP/pricing
-    zone data to platform grid connectors.
+    From the findings (§2 Grid / utility profile):
+
+    > **Gap:** identify Sidney''s serving utility and its EIA-861 number (watch the
+    **muni short-form** case — Sidney is a home-rule municipal possibility; see the
+    EIA-861S fallback precedent), confirm the **AEP/PJM** BA and the correct LMP zone,
+    then run the grid/consumer-energy connectors.
 
 
-    ## Acceptance Criterion
+    ## Acceptance Criteria
 
-    - The correct EIA-861 utility number for Sidney''s serving utility is identified
-    and committed to the Sidney grid profile.
+    - Sidney''s serving electric utility is identified and its EIA-861 (or EIA-861S
+    short-form) utility number is recorded in the site profile.
 
-    - Balancing Authority (BA) and LMP/pricing zone are populated and verified.
+    - The BA (expected AEP/PJM) and LMP pricing zone are confirmed and recorded.
 
-    - It is explicitly documented whether the full EIA-861 form or the EIA-861S municipal
-    short-form applies for Sidney''s utility, with rationale recorded.
+    - Grid and consumer-energy connectors are run and produce non-empty outputs for
+    `sidney`.
 
-    - `reference/grid` artifacts are committed and accessible via `list_documents`
-    for `site=''sidney''`.'
+    - The muni short-form case is explicitly documented as resolved (applicable or
+    not applicable).'
+- title: Wire Shelby County OGRIP parcel/zoning GIS for Sidney after verifying situs
+    city and state
+  dedupe_key: wire-shelby-county-ogrip-parcel-zoning-gis-for-sidney-after-veri
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - GIS
+  - entities
+  - data-gap
+  rationale: Wiring the wrong county due to the same-name-county-wrong-state hazard
+    would silently corrupt all parcel and zoning lookups for the site.
+  body: '## Context
+
+    The onboarding review finds no GIS data for `sidney`: no parcel/zoning connectors
+    are wired, no footprint geometry exists, and no recorder deeds are present. The
+    Lima reference build uses Allen County OGRIP parcel/zoning and recorder deeds
+    (`data/extracted/recorder/`). The findings call out a specific hazard: "Shelby
+    County" exists in multiple states, and the situs must be verified from a live
+    sample before wiring.
+
+
+    ## Grounding
+
+    From the findings (§4 GIS):
+
+    > **Gap:** wire Sidney''s county (Shelby County, OH) parcel/zoning GIS — **verify
+    situs city + state from a live sample before wiring** (the same-name-county-wrong-state
+    hazard); OGRIP `County=''Shelby''` is the OH parcel substitute. Footprint `parcel_acres`/developed/impervious
+    stay `[open]` pending a recorded assemblage or stormwater permit. If no project
+    site is yet identified for Sidney, this is a candidate-siting task, not a transcription
+    task.
+
+
+    ## Acceptance Criteria
+
+    - A live sample from the Shelby County, OH OGRIP parcel layer is retrieved and
+    the situs (city=Sidney, state=OH) is confirmed before any connector is wired.
+
+    - The Shelby County OGRIP parcel/zoning connector is wired in the site profile
+    using `County=''Shelby''` (OH).
+
+    - If a project site has been identified, `parcel_acres` and zoning classification
+    are recorded; if not, the task is re-scoped as candidate-siting and tracked accordingly.'
