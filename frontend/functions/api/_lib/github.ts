@@ -14,7 +14,7 @@ import { submissionMarker, type IssueDraft } from "./issue";
 // the GITHUB_API_BASE var) so the local dev stack can point at a mock origin — prod leaves
 // it unset and hits api.github.com. See frontend/scripts/dev-mocks.mjs.
 const API = "https://api.github.com";
-const UA = "bosc-tips-bot";
+const UA = "watermark-bot";
 
 function b64url(bytes: Uint8Array): string {
   let s = "";

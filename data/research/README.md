@@ -1,7 +1,7 @@
 # `data/research/` — automated-research runs
 
 Output of `bosc research run --topic "<topic>"` (and, later, the research GitHub
-App — Epic [#57](https://github.com/goedelsoup/bosc/issues/57)). Each run is one
+App — Epic [#57](https://github.com/watermark-directory/the-watermark-directory/issues/57)). Each run is one
 investigation over the corpus by the open-ended `ResearchAgent`
 (`bosc.agent`), distilled into a reviewable **issue-proposal manifest**.
 

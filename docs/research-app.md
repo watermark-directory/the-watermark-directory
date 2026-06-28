@@ -1,6 +1,6 @@
 # The research GitHub App — bootstrap
 
-The automated-research bot (Epic [#57](https://github.com/goedelsoup/bosc/issues/57))
+The automated-research bot (Epic [#57](https://github.com/watermark-directory/the-watermark-directory/issues/57))
 is a **GitHub App** identity that drives `bosc research run` over the corpus and opens
 a PR + proposed issues *as the App*. This is the one-time setup. None of it runs until
 you finish it — the [`research.yml`](../.github/workflows/research.yml) workflow is
@@ -41,7 +41,7 @@ Create the App, then note its **App ID** and **generate a private key** (downloa
 
 ## 2. Install the App on the repo
 
-From the App's page → **Install App** → install on `goedelsoup/bosc`, **Only select
+From the App's page → **Install App** → install on `watermark-directory/the-watermark-directory`, **Only select
 repositories → bosc**.
 
 ## 3. Store the secrets and variables

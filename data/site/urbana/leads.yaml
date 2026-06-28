@@ -39,7 +39,7 @@ leads:
 
     _Proposed by `bosc onboard urbana --research` (Phase 5; onboard-urbana-urbana-data-center-activity-recei-2026-06-21).
     Sub-issue of #441 / epic #440._'
-  source: goedelsoup/bosc#447
+  source: watermark-directory/the-watermark-directory#447
   issue: 447
 - id: GH-448
   kind: question
@@ -85,5 +85,5 @@ leads:
 
     _Proposed by `bosc onboard urbana --research` (Phase 5; onboard-urbana-urbana-data-center-activity-recei-2026-06-21).
     Sub-issue of #441 / epic #440._'
-  source: goedelsoup/bosc#448
+  source: watermark-directory/the-watermark-directory#448
   issue: 448

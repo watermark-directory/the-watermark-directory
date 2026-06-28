@@ -2,10 +2,10 @@
 # The GitHub token is supplied out of band via the GITHUB_TOKEN env var (a PAT or
 # App token with Administration: write); never add it here.
 config:
-  github:owner: goedelsoup
-  bosc-repo-config:repo: "bosc"
+  github:owner: watermark-directory
+  watermark-repo-config:repo: "the-watermark-directory"
   # Branch-protection policy (tunable without touching code):
-  bosc-repo-config:requiredApprovals: "1"             # approving reviews required on main
-  bosc-repo-config:requireCodeOwnerReviews: "true"    # require a CODEOWNERS review too
-  bosc-repo-config:enforceAdmins: "false"             # also apply protection to admins
-  bosc-repo-config:requireUpToDate: "true"            # branch must be current before merge
+  watermark-repo-config:requiredApprovals: "1"             # approving reviews required on main
+  watermark-repo-config:requireCodeOwnerReviews: "true"    # require a CODEOWNERS review too
+  watermark-repo-config:enforceAdmins: "false"             # also apply protection to admins
+  watermark-repo-config:requireUpToDate: "true"            # branch must be current before merge

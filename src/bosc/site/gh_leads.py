@@ -23,7 +23,7 @@ from bosc.site.feeds import LeadItem
 log = get_logger(__name__)
 
 _LINK_RE = re.compile(r'<([^>]+)>;\s*rel="next"')
-_REPO = "goedelsoup/bosc"
+_REPO = "watermark-directory/the-watermark-directory"
 _DETAIL_MAX = 2_000
 
 
@@ -131,7 +131,7 @@ def issue_to_lead(issue: GithubIssue) -> LeadItem | None:
         tag=tags[0] if tags else "open",
         title=issue.title,
         detail=detail,
-        source=f"goedelsoup/bosc#{issue.number}",
+        source=f"watermark-directory/the-watermark-directory#{issue.number}",
         issue=issue.number,
         note=None,
     )

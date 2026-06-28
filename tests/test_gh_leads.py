@@ -43,7 +43,7 @@ def _issue(**overrides: object) -> GithubIssue:
             "lead:tag:inference",
         ],
         "state": "open",
-        "html_url": "https://github.com/goedelsoup/bosc/issues/7",
+        "html_url": "https://github.com/watermark-directory/the-watermark-directory/issues/7",
     }
     defaults.update(overrides)
     return GithubIssue(**defaults)  # type: ignore[arg-type]
@@ -64,7 +64,7 @@ def test_issue_to_lead_happy_path() -> None:
     assert lead.tag == "inference"
     assert lead.title == "Test issue"
     assert lead.detail == "Some body text."
-    assert lead.source == "goedelsoup/bosc#7"
+    assert lead.source == "watermark-directory/the-watermark-directory#7"
     assert lead.issue == 7
     assert lead.note is None
 
@@ -132,7 +132,7 @@ def _gh_lead(number: int = 7, title: str = "GH lead") -> LeadItem:
         tag="open",
         title=title,
         detail="Pulled from GitHub.",
-        source=f"goedelsoup/bosc#{number}",
+        source=f"watermark-directory/the-watermark-directory#{number}",
         issue=number,
     )
 

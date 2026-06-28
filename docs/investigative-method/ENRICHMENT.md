@@ -117,7 +117,7 @@ added only when an instrument names it. Follow that pattern.
 
 ## Platform
 
-GitHub repo `goedelsoup/bosc` — `bosc` Typer CLI; `ingest → extract → analyze`
+GitHub repo `watermark-directory/the-watermark-directory` — `bosc` Typer CLI; `ingest → extract → analyze`
 pipeline; entity graph + timeline + dossier synthesis; the `bosc.hydrology`
 water-balance subsystem; the Python data tier (`bosc.site`, `bosc export`) and the
 Astro presentation tier (`frontend/`). See the root `CLAUDE.md` and `README.md`.

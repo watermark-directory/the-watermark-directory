@@ -32,7 +32,7 @@ export interface Lead {
   detail: string;
   /** The real citation — where this gap is recorded. */
   source: string;
-  /** A linked GitHub tracking issue (goedelsoup/bosc), when one exists. */
+  /** A linked GitHub tracking issue (watermark-directory/the-watermark-directory), when one exists. */
   issue?: number;
   /** A short standing note (the comp's "3 working on this" slot), used sparingly + truthfully. */
   note?: string;

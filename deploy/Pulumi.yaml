@@ -1,7 +1,7 @@
-name: bosc-deploy
+name: watermark-deploy
 runtime: nodejs
 description: >-
-  Deployment infrastructure for the BOSC site — the submissions endpoint's Turnstile
+  Deployment infrastructure for the watermark site — the submissions endpoint's Turnstile
   widget + rate-limit KV namespace, and the Route53↔Cloudflare custom-domain exchange,
   managed as code. Separate from the GitHub repo-config stack (../.github/config).
 

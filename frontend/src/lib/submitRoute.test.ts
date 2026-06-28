@@ -20,7 +20,7 @@ import {
 
 const SUBMIT_URL = "https://bosc.test/api/submit";
 const GITHUB_API_BASE = "https://gh.test"; // exercises the GITHUB_API_BASE seam
-const ISSUE_URL = "https://github.com/goedelsoup/bosc/issues/123";
+const ISSUE_URL = "https://github.com/watermark-directory/the-watermark-directory/issues/123";
 
 let privateKey: string;
 beforeAll(async () => {
@@ -38,8 +38,8 @@ function submitEnv(overrides: Record<string, unknown> = {}): Record<string, unkn
     TURNSTILE_SECRET_KEY: "1x0000000000000000000000000000000AA",
     TIPS_APP_ID: "12345",
     TIPS_APP_PRIVATE_KEY: privateKey,
-    GITHUB_OWNER: "goedelsoup",
-    GITHUB_REPO: "bosc",
+    GITHUB_OWNER: "watermark-directory",
+    GITHUB_REPO: "the-watermark-directory",
     GITHUB_API_BASE,
     ...overrides,
   };
@@ -152,7 +152,7 @@ describe("/api/submit route", () => {
     const submission = validSubmission();
     const hash = await sha256Hex(dedupeInput(submission as never));
     const existing = {
-      html_url: "https://github.com/goedelsoup/bosc/issues/7",
+      html_url: "https://github.com/watermark-directory/the-watermark-directory/issues/7",
       body: `x ${submissionMarker(hash)} y`,
     };
     const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes([existing])]);
