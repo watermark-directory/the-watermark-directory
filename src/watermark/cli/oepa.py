@@ -156,10 +156,10 @@ def fetch(
             help="Bare NPDES permit ID to fetch from the DAM (repeatable; constructs URL automatically).",
         ),
     ] = None,
-    slug: str = typer.Option(
-        "lima",
+    slug: str | None = typer.Option(
+        None,
         "--site",
-        help="Site slug for the destination directory (overrides --site on the root app).",
+        help="Site slug for the destination directory (default: inherits from --site on the root app).",
     ),
     all_statuses: bool = typer.Option(
         False,
@@ -198,12 +198,12 @@ def fetch(
         if not mp.exists():
             raise typer.BadParameter(f"manifest not found: {mp}", param_hint="manifest")
         data = yaml.safe_load(mp.read_text(encoding="utf-8")) or {}
-        site_slug: str = slug or str(data.get("meta", {}).get("site", "lima"))
+        site_slug: str = slug or str(data.get("meta", {}).get("site", settings.site))
         for r in data.get("results", []):
             if all_statuses or r.get("status") == "new":
                 urls.append((r["url"], r.get("permit_id")))
     else:
-        site_slug = slug
+        site_slug = slug or settings.site
 
     for bare_id in ids:
         urls.append((dam_url(bare_id), bare_id))
