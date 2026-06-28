@@ -336,7 +336,9 @@ class _FlakyExtractor:
         self._fail_times = fail_times
         self.calls = 0
 
-    def extract_from_text(self, target: Any, *, instructions: str, text: str, system: str | None = None) -> Any:
+    def extract_from_text(
+        self, target: Any, *, instructions: str, text: str, system: str | None = None
+    ) -> Any:
         from watermark.research.models import ProposalDrafts
 
         self.calls += 1
