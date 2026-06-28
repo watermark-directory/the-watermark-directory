@@ -31,6 +31,8 @@ dependencies = [
     "pytesseract>=0.3.13",
     "openpyxl>=3.1.5",
     "types-openpyxl>=3.1.5.20260518",
+    "lancedb>=0.17",
+    "sentence-transformers>=3.0",
 ]
 
 [project.optional-dependencies]
@@ -96,7 +98,7 @@ mypy_path = "src"
 packages = ["watermark"]
 
 [[tool.mypy.overrides]]
-module = ["claude_agent_sdk.*", "pypdfium2.*", "shapely.*", "pyproj.*", "pyswmm.*", "pytesseract.*", "rasterio.*", "planetary_computer.*"]
+module = ["claude_agent_sdk.*", "pypdfium2.*", "shapely.*", "pyproj.*", "pyswmm.*", "pytesseract.*", "rasterio.*", "planetary_computer.*", "lancedb.*", "sentence_transformers.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

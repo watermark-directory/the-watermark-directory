@@ -26,6 +26,7 @@ from watermark.cli import (  # noqa: F401
     poi,
     reference,
     research,
+    retrieval,
     sites,
     subdivisions,
 )
