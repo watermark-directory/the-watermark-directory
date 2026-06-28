@@ -18,6 +18,44 @@ from pydantic import BaseModel, ConfigDict
 from watermark.research.models import IssueProposal, ResearchRunManifest
 from watermark.research.run import slug
 
+# Map short agent-output label names → canonical taxonomy (status:/area:/type: prefixed).
+# Labels already carrying a colon pass through unchanged; unrecognized unprefixed labels
+# are dropped so the plan never sends a non-existent label to GitHub.
+_LABEL_MAP: dict[str, str] = {
+    "agent-proposed": "status:agent-proposed",
+    "needs-triage": "status:needs-triage",
+    "blocked": "status:blocked",
+    "wontfix": "status:wontfix",
+    "extraction": "area:extraction",
+    "hydrology": "area:hydrology",
+    "grid": "area:grid",
+    "frontend": "area:frontend",
+    "core": "area:core",
+    "network": "area:network",
+    "data-tier": "area:data-tier",
+    "evidence": "area:evidence",
+    "facility": "area:facility",
+    "automation": "area:automation",
+    "corpus-hygiene": "area:corpus-hygiene",
+    "bug": "type:bug",
+    "enhancement": "type:enhancement",
+    "gap": "type:gap",
+    "chore": "type:chore",
+    "cleanup": "type:cleanup",
+    "docs": "type:docs",
+    "epic": "type:epic",
+}
+
+
+def _normalize_labels(labels: list[str]) -> list[str]:
+    result = []
+    for lbl in labels:
+        canonical = _LABEL_MAP.get(lbl, lbl if ":" in lbl else None)
+        if canonical is not None:
+            result.append(canonical)
+    return list(dict.fromkeys(result))
+
+
 # Embedded in every agent-opened issue body so a later run recognizes its own prior
 # proposals even if the title was edited: ``<!-- research-dedupe: <key> -->``.
 DEDUPE_MARKER = "research-dedupe"
@@ -136,7 +174,7 @@ def build_plan(
             PlannedIssue(
                 title=proposal.title,
                 body=_issue_body(proposal, run_ref=run_ref),
-                labels=proposal.labels,
+                labels=_normalize_labels(proposal.labels),
                 dedupe_key=proposal.dedupe_key,
             )
         )

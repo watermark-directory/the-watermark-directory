@@ -136,11 +136,16 @@ def research_publish_cmd(
     out: str = typer.Option(
         "", "--out", help="Write the publish plan JSON here (default: <run>/publish-plan.json)."
     ),
+    create_issues: bool = typer.Option(
+        False,
+        "--create-issues",
+        help="Open each planned issue on GitHub via gh. Pass --existing to dedupe first.",
+    ),
 ) -> None:
     """Build a publish plan from a research run: dedupe its proposals against existing
-    issues and render the PR body. Pure (no GitHub calls) — the research workflow feeds
-    in the existing-issues list and acts on the plan it writes."""
+    issues and render the PR body. Add --create-issues to also open them on GitHub."""
     import json
+    import subprocess
     from typing import Any
 
     from watermark.research import build_plan, load_manifest
@@ -158,3 +163,16 @@ def research_publish_cmd(
         f"[bold]Publish plan →[/] {out_path}  "
         f"({len(plan.issues)} to open, {len(plan.duplicates)} skipped)"
     )
+
+    if create_issues:
+        if not plan.issues:
+            console.print("[yellow]No issues to open (all deduped or none proposed).[/]")
+            return
+        console.print()
+        for iss in plan.issues:
+            cmd = ["gh", "issue", "create", "--title", iss.title, "--body", iss.body]
+            for label in iss.labels:
+                cmd += ["--label", label]
+            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            url = result.stdout.strip()
+            console.print(f"  [green]opened[/] {url}")
