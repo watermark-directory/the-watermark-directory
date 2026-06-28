@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
+import { loadFeed } from "./bundle";
 import {
   KIND_META,
   LEAD_FILTERS,
-  LEADS,
   type Lead,
   RECENTLY_CLOSED,
   STATUS_META,
@@ -10,7 +10,12 @@ import {
   leadStats,
 } from "./leads";
 
-describe("leads", () => {
+// The lead DATA now lives in the per-site `leads` bundle feed (#796), not a frontend constant —
+// so the data-discipline checks run against Lima's committed feed (the `sample-bundle/lima`
+// fixture), and the presentation helpers are exercised against it.
+const LEADS = loadFeed<Lead[]>("leads", "lima");
+
+describe("leads feed + helpers", () => {
   it("has leads, all with a real source citation (data discipline — no unsourced gap)", () => {
     expect(LEADS.length).toBeGreaterThan(0);
     for (const l of LEADS) {
@@ -35,13 +40,13 @@ describe("leads", () => {
 
   it("filter counts partition the leads (sum of kind buckets === total)", () => {
     const kinds = LEAD_FILTERS.filter((f) => f.key !== "all").map((f) => f.key as Lead["kind"]);
-    const sum = kinds.reduce((a, k) => a + leadCount(k), 0);
+    const sum = kinds.reduce((a, k) => a + leadCount(LEADS, k), 0);
     expect(sum).toBe(LEADS.length);
-    expect(leadCount("all")).toBe(LEADS.length);
+    expect(leadCount(LEADS, "all")).toBe(LEADS.length);
   });
 
-  it("stats are derived from the real leads", () => {
-    const stats = leadStats();
+  it("stats are derived from the leads + the closed-count argument", () => {
+    const stats = leadStats(LEADS, RECENTLY_CLOSED.length);
     const open = stats.find((s) => s.label === "open leads");
     const withheld = stats.find((s) => s.label === "withheld / sealed");
     expect(open?.n).toBe(LEADS.length);
@@ -51,7 +56,7 @@ describe("leads", () => {
 
   it("linked issues, when present, are positive integers", () => {
     for (const l of LEADS) {
-      if (l.issue !== undefined) {
+      if (l.issue != null) {
         expect(Number.isInteger(l.issue)).toBe(true);
         expect(l.issue).toBeGreaterThan(0);
       }

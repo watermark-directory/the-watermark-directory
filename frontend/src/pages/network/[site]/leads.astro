@@ -1,21 +1,26 @@
 ---
 /**
- * Open leads (design "Site Leads") — every gap we're chasing on the Lima site, in the open.
- * Sits in the "The site" dropdown. The board reads the curated `leads.ts` module, where every
- * lead traces to a real committed source (the corpus-completeness audit / a working hypothesis);
- * the comp's fabricated contributor avatars + "updated 2h ago" timestamps are deliberately dropped.
+ * Open leads (design "Site Leads") — every gap we're chasing on a site, in the open. Sits in the
+ * "The site" dropdown. The board reads the site's own `leads` bundle feed (#796), where every lead
+ * traces to a real committed source (the corpus-completeness audit / a working hypothesis); the
+ * comp's fabricated contributor avatars + "updated 2h ago" timestamps are deliberately dropped.
+ *
+ * A site with no `leads` feed (a thinner peer with no curated leads yet) falls back to the
+ * readiness-derived needs board (<SiteNeeds>, #781) — its honest "what we're seeking", never
+ * another site's leads.
  *
  * No-JS: filtering is radio inputs + `:checked` sibling CSS (the same pattern as the site
- * switcher); pagination is omitted (14 leads show in full). Reads with JS off.
+ * switcher); pagination is omitted. Reads with JS off.
  */
 import Base from "../../../layouts/Base.astro";
 import Icon from "../../../components/Icon.astro";
 import SiteNeeds from "../../../components/SiteNeeds.astro";
+import { hasFeed, loadFeed } from "../../../lib/bundle";
 import {
   KIND_META,
   LEAD_FILTERS,
   LEAD_LIFECYCLE,
-  LEADS,
+  type Lead,
   RECENTLY_CLOSED,
   STATUS_META,
   leadCount,
@@ -33,13 +38,15 @@ const { slug } = Astro.props as { slug: string };
 const site = siteForSlug(slug) ?? activeSite();
 const dateline = `${site.place}, ${siteState(slug)}`;
 
-// The Lima leads board reads the curated corpus-audit (`leads.ts`); a thinner peer has no per-site
-// leads feed yet, so its honest "leads/needs" is the set of sections still waiting on a source —
-// the readiness gaps, rendered by <SiteNeeds> (#781). Reference build keeps the full board.
-const isPeer = !isReferenceSite(slug);
+// The board is feed-driven (#796): a site renders its own `leads`; a site with none falls back to
+// the readiness needs board (<SiteNeeds>, #781). Recently-closed is the reference build's curated
+// presentation rail (no per-site closed-leads feed yet), so it's reference-only.
+const hasLeads = hasFeed("leads");
+const leads = hasLeads ? loadFeed<Lead[]>("leads") : [];
+const closedCount = isReferenceSite(slug) ? RECENTLY_CLOSED.length : 0;
 const needsCount = lockedSections(slug).length;
 
-const stats = leadStats();
+const stats = leadStats(leads, closedCount);
 const submitHref = withSite("/submit");
 const recordHref = withSite("/site/");
 const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issues/${n}`;
@@ -51,7 +58,7 @@ const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issue
   rail={false}
   description={`Every gap we're chasing on the ${site.place} site, in the open — each lead unverified until a source corroborates it.`}
 >
-  {isPeer ? (
+  {!hasLeads ? (
     <div class="leads">
       <header class="leads-head">
         <a class="leads-back" href={withSite()}>← Back to the site</a>
@@ -158,20 +165,20 @@ const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issue
             LEAD_FILTERS.map((f) => (
               <label class:list={["leads-filter", `lf-${f.key}`]} for={`lf-${f.key}`}>
                 {f.label}
-                <span class="leads-filter-n">{leadCount(f.key)}</span>
+                <span class="leads-filter-n">{leadCount(leads, f.key)}</span>
               </label>
             ))
           }
         </div>
 
         <div class="leads-count">
-          <span class="leads-count-l">{LEADS.length} open leads · unverified</span>
+          <span class="leads-count-l">{leads.length} open leads · unverified</span>
           <span class="leads-count-rule" aria-hidden="true"></span>
         </div>
 
         <div class="lead-list">
           {
-            LEADS.map((l) => {
+            leads.map((l) => {
               const k = KIND_META[l.kind];
               const s = STATUS_META[l.status];
               return (
@@ -208,7 +215,7 @@ const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issue
         </div>
 
         <p class="leads-listfoot">
-          Showing all {LEADS.length} open leads. Closed leads move into <a href={recordHref}>the record →</a>
+          Showing all {leads.length} open leads. Closed leads move into <a href={recordHref}>the record →</a>
         </p>
       </div>
 
@@ -240,14 +247,14 @@ const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issue
           </ol>
         </div>
 
-        <div class="leads-closed">
-          <div class="leads-closed-head">
-            <span class="leads-rail-kicker leads-rail-kicker--forest">Recently closed</span>
-            <span class="leads-closed-tag"><span class="leads-closed-dot" aria-hidden="true"></span>sourced</span>
-          </div>
-          <ul class="leads-closed-list">
-            {
-              RECENTLY_CLOSED.map((c) => (
+        {isReferenceSite(slug) ? (
+          <div class="leads-closed">
+            <div class="leads-closed-head">
+              <span class="leads-rail-kicker leads-rail-kicker--forest">Recently closed</span>
+              <span class="leads-closed-tag"><span class="leads-closed-dot" aria-hidden="true"></span>sourced</span>
+            </div>
+            <ul class="leads-closed-list">
+              {RECENTLY_CLOSED.map((c) => (
                 <li class="leads-closed-item">
                   <span class="leads-closed-check" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13 L10 18 L19 7"></path></svg>
@@ -257,10 +264,10 @@ const ghIssue = (n: number): string => `https://github.com/goedelsoup/bosc/issue
                     <span class="leads-closed-meta">{c.meta}</span>
                   </span>
                 </li>
-              ))
-            }
-          </ul>
-        </div>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </aside>
     </div>
   </div>

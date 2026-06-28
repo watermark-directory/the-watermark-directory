@@ -3,8 +3,8 @@
   "bundle_version": "1.0.0",
   "contract_version": "1.7.0",
   "generated_at": "2026-06-10T00:00:00+00:00",
-  "feed_count": 24,
-  "row_total": 83,
+  "feed_count": 25,
+  "row_total": 97,
   "feeds": [
     {
       "name": "records",
@@ -69,6 +69,14 @@
       "schema": "schemas/exhibits.schema.json",
       "kind": "collection",
       "count": 4
+    },
+    {
+      "name": "leads",
+      "path": "feeds/leads.json",
+      "media_type": "application/json",
+      "schema": "schemas/leads.schema.json",
+      "kind": "collection",
+      "count": 14
     },
     {
       "name": "documents",
