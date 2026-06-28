@@ -103,3 +103,31 @@ arg "<site>" help="Target site slug"
 run = '''
 watermark --site "${usage_site}" research run --recipe site-onboard
 '''
+
+[tasks.oepa-permit]
+description = "Fetch, ingest, and extract one OEPA/DAM permit end-to-end"
+usage = '''
+arg "<permit_id>" help="NPDES permit ID, e.g. 2PD00006"
+arg "<site>" help="Site slug, e.g. van-wert"
+arg "[kind]" help="Document kind for extract (default: npdes)" default="npdes"
+'''
+run = '''
+#!/usr/bin/env bash
+set -euo pipefail
+permit_id="${usage_permit_id}"
+site="${usage_site}"
+kind="${usage_kind:-npdes}"
+
+uv run watermark --site "${site}" oepa fetch --permit-id "${permit_id}"
+uv run watermark ingest
+
+# _doc_id mirrors watermark.pipeline.ingest._doc_id: sha256(str(absolute_path))[:8]
+doc_id=$(uv run python -c "
+import hashlib
+from watermark.config import get_settings
+p = get_settings().documents_dir / 'oepa' / '${site}' / '${permit_id}.pdf'
+print('${permit_id}-' + hashlib.sha256(str(p).encode()).hexdigest()[:8])
+")
+
+uv run watermark --site "${site}" extract "${doc_id}" --kind "${kind}"
+'''
