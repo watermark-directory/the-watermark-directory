@@ -14,6 +14,9 @@
  */
 import Base from "./Base.astro";
 import BackLink from "../components/BackLink.astro";
+import SectionLocked from "../components/SectionLocked.astro";
+import { activeSite } from "../lib/bundle";
+import { sectionStatus } from "../lib/readiness";
 import { withSite } from "../lib/site";
 
 interface Props {
@@ -25,18 +28,31 @@ interface Props {
   fullReportHref?: string;
 }
 const { title, description, eyebrow, h1, fullReportHref } = Astro.props;
+
+// The companion reports are the network-global Lima analysis — Lima's, today. Gate them at the
+// shell so all seven lock together for a thinner peer (the reports index already does, #787/#781):
+// a peer's report routes still resolve (the mega-menu links straight to them) but show the lock +
+// a contribute CTA instead of borrowing Lima's read. The reference build renders normally.
+const reportsLocked = sectionStatus(activeSite(), "reports") === "locked";
+
+// When locked, the page's own (Lima-authored) title / eyebrow / h1 / description would still leak
+// through the chrome + <head> meta — so swap them for generic Reports copy; the lock body carries
+// the real message.
+const LOCKED_DESC = "Long-form analysis built over the corpus — available once the corpus supports it.";
+const headTitle = reportsLocked ? "Reports" : title;
+const headDesc = reportsLocked ? LOCKED_DESC : description;
 ---
 
-<Base title={title} section="reports" description={description}>
+<Base title={headTitle} section="reports" description={headDesc}>
   <div class="walk-chapter-page">
     <article class="prose">
       <BackLink href={withSite("/reports")} label="Reports" />
-      <div class="walk-chapter-eyebrow">{eyebrow}</div>
-      <h1 class="walk-chapter-h1">{h1}</h1>
-      <slot name="lead" />
+      <div class="walk-chapter-eyebrow">{reportsLocked ? "Reports" : eyebrow}</div>
+      <h1 class="walk-chapter-h1">{reportsLocked ? "Reports" : h1}</h1>
+      {reportsLocked ? <SectionLocked section="reports" /> : <slot name="lead" />}
     </article>
-    <slot />
-    {fullReportHref && (
+    {reportsLocked ? null : <slot />}
+    {!reportsLocked && fullReportHref && (
       <article class="prose">
         <p>
           This is the short, interactive version. The full report walks every claim to its
