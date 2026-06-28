@@ -63,6 +63,7 @@ from bosc.site import exhibits as exhibits_mod
 from bosc.site import gismap as gismap_mod
 from bosc.site import gleif as gleif_mod
 from bosc.site import graph as graph_mod
+from bosc.site import leads as leads_mod
 from bosc.site import meetings as meetings_mod
 from bosc.site import people as people_mod
 from bosc.site import places as places_mod
@@ -80,6 +81,7 @@ from bosc.site.feeds import (
     FeedKind,
     FeedRef,
     GeoFeatureCollection,
+    LeadItem,
     Manifest,
     MeetingItem,
     PersonItem,
@@ -278,6 +280,12 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
         site_scoped_path(settings.data_dir / "site" / "exhibits.yaml", settings.site, is_dir=False),
         settings.documents_dir,
     )
+    # Open leads (#796) — the curated per-site leads board. Like exhibits, Lima reads its flat
+    # `data/site/leads.yaml`; a sibling reads its own `site/<slug>/leads.yaml` (absent → an empty
+    # leads feed, never Lima's; the frontend then falls back to the readiness-derived needs board).
+    lead_items = leads_mod.export_leads(
+        site_scoped_path(settings.data_dir / "site" / "leads.yaml", settings.site, is_dir=False),
+    )
     # The default-deny public allowlist (#280): exhibits + the committed allowlist rules.
     allowlist = documents_mod.load_publish_allowlist(
         settings.data_dir / "site" / "published-documents.yaml",
@@ -354,6 +362,9 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
         ("meetings", MeetingItem, lambda: meetings_mod.export_meetings(summaries)),
         ("documents", DocumentCollectionItem, lambda: doc_collections),
         ("exhibits", ExhibitItem, lambda: exhibit_items),
+        # `or None` skips the feed when a site has no curated leads, so `hasFeed("leads")` is false
+        # and the frontend cleanly falls back to the readiness-derived needs board (not an empty list).
+        ("leads", LeadItem, lambda: lead_items or None),
         # Already-provenanced inventories — exported as their own Pydantic models (#60).
         ("rsei", None, lambda: None if rsei_inv is None else rsei_mod.export_rsei(rsei_inv)),
         ("lei", None, lambda: None if lei_inv is None else gleif_mod.export_gleif(lei_inv)),

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "leads feed",
+  "type": "array",
+  "items": {
+    "additionalProperties": false,
+    "description": "One open lead — a gap we're chasing on a site, each tracing to a real committed source.\n\nThe per-site peer of Lima's curated leads board: read from `data/site/leads.yaml` (slug-scoped),\nso a sibling site carries its own leads, not Lima's (#796). No fabricated contributors or\ntimestamps — every lead names where the gap is recorded.",
+    "properties": {
+      "id": {
+        "title": "Id",
+        "type": "string"
+      },
+      "kind": {
+        "enum": [
+          "signal",
+          "question",
+          "redaction",
+          "claim"
+        ],
+        "title": "Kind",
+        "type": "string"
+      },
+      "status": {
+        "enum": [
+          "low",
+          "unanswered",
+          "withheld",
+          "review"
+        ],
+        "title": "Status",
+        "type": "string"
+      },
+      "tag": {
+        "enum": [
+          "open",
+          "inference"
+        ],
+        "title": "Tag",
+        "type": "string"
+      },
+      "title": {
+        "title": "Title",
+        "type": "string"
+      },
+      "detail": {
+        "title": "Detail",
+        "type": "string"
+      },
+      "source": {
+        "title": "Source",
+        "type": "string"
+      },
+      "issue": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Issue"
+      },
+      "note": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Note"
+      }
+    },
+    "required": [
+      "id",
+      "kind",
+      "status",
+      "tag",
+      "title",
+      "detail",
+      "source"
+    ],
+    "title": "LeadItem",
+    "type": "object"
+  }
+}
