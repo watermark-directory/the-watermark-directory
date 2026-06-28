@@ -102,6 +102,16 @@ repo-working agents now.
   connectors (per-site point outputs are slug-scoped so Lima is never clobbered; basin-level
   outputs stay shared), and prints a **blocking review checklist** — promotion to
   `live`/`selectable` in `frontend/src/lib/sites.ts` stays a manual, parity-gated edit.
+  **Registered ≠ selectable, and a thin peer is still engageable** (#781/#782): a
+  non-reference `/network/<site>` page **degrades, doesn't break** — the frontend
+  readiness layer (`frontend/src/lib/readiness.ts`, the peer of `bosc.sites.is_reference_site`)
+  classifies each section `available|locked` from the bundle's `manifest.json` feed counts,
+  locks the thin ones, and surfaces a needs/leads board instead. Chrome is **two-tier by the
+  current path** — site-level tabs when standing on a site (locked tabs render non-navigable),
+  network tabs otherwise; a non-`selectable` site gets registry-only locked tabs. So **never
+  fake a value to make a partial site look complete** — let it lock and ask for the source.
+  Onboarding only needs the verifiable knobs; the page is useful before parity. (Leads are a
+  per-site `leads` bundle feed, #796 — Lima's live in `data/site/leads.yaml`, a peer ships its own.)
 - **Models:** structured extractions are validated with the Pydantic models in
   `bosc.models`. Scan transcriptions may be **approximate**, written `~12345`
   in YAML; `ApproxInt`/`_coerce_number` handle that — preserve the marker in
