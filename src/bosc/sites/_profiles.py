@@ -221,7 +221,7 @@ _FINDLAY = SiteProfile(
         500: 6.72,
         1000: 7.42,
     },
-    parcels_relpath="reference/findlay/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/findlay/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/findlay/bosc-site-footprint.yaml",  # [open] pending an identified site
     # per-site onboard reach outputs (slug-scoped — never clobber Lima)
     climatology_relpath="reference/hydrology/findlay/nasa-power-climatology.yaml",
@@ -326,7 +326,7 @@ _FORT_WAYNE = SiteProfile(
     hsg_citation=(
         "Allen County, IN dominant hydrologic soil group C (drained basis) — [verified] USDA NRCS "
         "SSURGO via Soil Data Access, a 30-point grid sample over the committed Hatchworks parcel "
-        "assemblage (bosc-parcels.geojson): 50% C/D + 50% D (Pewamo / Blount-Glynwood lake-plain "
+        "assemblage (parcel-assemblage.geojson): 50% C/D + 50% D (Pewamo / Blount-Glynwood lake-plain "
         "clays of the upper Maumee). HSG C confirms the prior NRCS-narrative inference; undrained "
         "these soils are group D (high runoff). See data/extracted/fort-wayne/bosc-site-footprint.yaml "
         "(#362). A SURVEYED developed footprint is still pending the stormwater-permit extraction."
@@ -346,11 +346,11 @@ _FORT_WAYNE = SiteProfile(
         500: 7.30,
         1000: 8.04,
     },
-    parcels_relpath="reference/fort-wayne/bosc-parcels.geojson",  # [reference] the Hatchworks assemblage
+    parcels_relpath="reference/fort-wayne/parcel-assemblage.geojson",  # [reference] the Hatchworks assemblage
     # [reference] #362: the facility is Google "Project Zodiac" (#360); the Allen County (IN) parcel REST
     # is wired (gis1.acimap.us, gis_parcel above) and the assemblage geometry is committed — the 11
     # Hatchworks LLC parcels (anchor 6015 Adams Center Rd, mailing Mountain View CA; transferred Jan-2024
-    # + a second wave Oct-2025), pulled as WGS84 GeoJSON (bosc-parcels.geojson, catalogued fort-wayne-
+    # + a second wave Oct-2025), pulled as WGS84 GeoJSON (parcel-assemblage.geojson, catalogued fort-wayne-
     # parcels). Measured planar acreage ~856 ac (UTM 16N). This is the recorded OWNERSHIP assemblage,
     # NOT a surveyed developed footprint — the developed/impervious boundary stays [open] pending the
     # #360 deed/rezoning/stormwater-permit extraction (mirrors Findlay #355).
@@ -490,7 +490,7 @@ _VAN_WERT = SiteProfile(
         500: 6.98,
         1000: 7.68,
     },
-    parcels_relpath="reference/van-wert/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/van-wert/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/van-wert/bosc-site-footprint.yaml",  # [open] pending an identified site
     # per-site onboard reach outputs (slug-scoped — never clobber Lima/Findlay/Fort Wayne)
     climatology_relpath="reference/hydrology/van-wert/nasa-power-climatology.yaml",
@@ -601,7 +601,7 @@ _TOLEDO = SiteProfile(
         500: 7.12,
         1000: 7.92,
     },
-    parcels_relpath="reference/toledo/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/toledo/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/toledo/bosc-site-footprint.yaml",  # [open] pending an identified site
     # per-site onboard reach outputs (slug-scoped — never clobber Lima/Findlay/Fort Wayne/Van Wert)
     climatology_relpath="reference/hydrology/toledo/nasa-power-climatology.yaml",
@@ -708,7 +708,7 @@ _DEFIANCE = SiteProfile(
         500: 6.90,
         1000: 7.60,
     },
-    parcels_relpath="reference/defiance/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/defiance/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/defiance/bosc-site-footprint.yaml",  # [open] pending an identified site
     # per-site onboard reach outputs (slug-scoped — never clobber the other sites)
     climatology_relpath="reference/hydrology/defiance/nasa-power-climatology.yaml",
@@ -834,7 +834,7 @@ _BRYAN = SiteProfile(
         500: 7.04,
         1000: 7.78,
     },
-    parcels_relpath="reference/bryan/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/bryan/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/bryan/bosc-site-footprint.yaml",  # [open] pending an identified site
     # per-site onboard reach outputs (slug-scoped — never clobber the other sites)
     climatology_relpath="reference/hydrology/bryan/nasa-power-climatology.yaml",
@@ -950,7 +950,7 @@ _OTTAWA = SiteProfile(
         500: 6.75,
         1000: 7.44,
     },
-    parcels_relpath="reference/ottawa/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/ottawa/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/ottawa/bosc-site-footprint.yaml",  # [open] pending an identified site
     # per-site onboard reach outputs (slug-scoped — never clobber the other sites)
     climatology_relpath="reference/hydrology/ottawa/nasa-power-climatology.yaml",
@@ -1049,7 +1049,7 @@ _URBANA = SiteProfile(
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
-    parcels_relpath="reference/urbana/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/urbana/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/urbana/bosc-site-footprint.yaml",  # [open] pending an identified site
     climatology_relpath="reference/hydrology/urbana/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/urbana/atlas14-corridor-ddf.yaml",
@@ -1148,7 +1148,7 @@ _SPRINGFIELD = SiteProfile(
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
-    parcels_relpath="reference/springfield/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/springfield/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/springfield/bosc-site-footprint.yaml",  # [open] pending an identified site
     climatology_relpath="reference/hydrology/springfield/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/springfield/atlas14-corridor-ddf.yaml",
@@ -1234,7 +1234,7 @@ _XENIA = SiteProfile(
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
-    parcels_relpath="reference/xenia/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/xenia/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/xenia/bosc-site-footprint.yaml",  # [open] pending an identified site
     climatology_relpath="reference/hydrology/xenia/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/xenia/atlas14-corridor-ddf.yaml",
@@ -1325,7 +1325,7 @@ _WPAFB = SiteProfile(
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
-    parcels_relpath="reference/wpafb/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/wpafb/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/wpafb/bosc-site-footprint.yaml",  # [open] pending an identified site
     climatology_relpath="reference/hydrology/wpafb/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/wpafb/atlas14-corridor-ddf.yaml",
@@ -1414,7 +1414,7 @@ _HAMILTON_MIDDLETOWN = SiteProfile(
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
-    parcels_relpath="reference/hamilton-middletown/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/hamilton-middletown/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/hamilton-middletown/bosc-site-footprint.yaml",  # [open] pending an identified site
     climatology_relpath="reference/hydrology/hamilton-middletown/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/hamilton-middletown/atlas14-corridor-ddf.yaml",
@@ -1498,7 +1498,7 @@ _TROY_PIQUA = SiteProfile(
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
-    parcels_relpath="reference/troy-piqua/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/troy-piqua/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/troy-piqua/bosc-site-footprint.yaml",  # [open] pending an identified site
     climatology_relpath="reference/hydrology/troy-piqua/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/troy-piqua/atlas14-corridor-ddf.yaml",
@@ -1579,7 +1579,7 @@ _SIDNEY = SiteProfile(
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
-    parcels_relpath="reference/sidney/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/sidney/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/sidney/bosc-site-footprint.yaml",  # [open] pending an identified site
     climatology_relpath="reference/hydrology/sidney/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/sidney/atlas14-corridor-ddf.yaml",
@@ -1661,7 +1661,7 @@ _GREENVILLE = SiteProfile(
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
-    parcels_relpath="reference/greenville/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/greenville/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/greenville/bosc-site-footprint.yaml",  # [open] pending an identified site
     climatology_relpath="reference/hydrology/greenville/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/greenville/atlas14-corridor-ddf.yaml",
@@ -1744,7 +1744,7 @@ _WILMINGTON = SiteProfile(
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
-    parcels_relpath="reference/wilmington/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/wilmington/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/wilmington/bosc-site-footprint.yaml",  # [open] pending an identified site
     climatology_relpath="reference/hydrology/wilmington/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/wilmington/atlas14-corridor-ddf.yaml",
@@ -1833,7 +1833,7 @@ _NEW_ALBANY = SiteProfile(
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
-    parcels_relpath="reference/new-albany/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/new-albany/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/new-albany/bosc-site-footprint.yaml",  # [open] pending an identified site
     climatology_relpath="reference/hydrology/new-albany/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/new-albany/atlas14-corridor-ddf.yaml",
@@ -1925,7 +1925,7 @@ _COLUMBUS = SiteProfile(
     post_cover="TODO",
     developed_pervious_cover="TODO",
     noaa_fallback_24h_depth_in={},  # [open] pending the NOAA Atlas-14 pull (onboard corridor-DDF step)
-    parcels_relpath="reference/columbus/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    parcels_relpath="reference/columbus/parcel-assemblage.geojson",  # [open] commit the site's own geometry
     footprint_relpath="extracted/columbus/bosc-site-footprint.yaml",  # [open] pending an identified site
     climatology_relpath="reference/hydrology/columbus/nasa-power-climatology.yaml",
     corridor_ddf_relpath="reference/hydrology/columbus/atlas14-corridor-ddf.yaml",
