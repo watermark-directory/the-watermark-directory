@@ -146,6 +146,8 @@ _LIMA = SiteProfile(
     lmp_pnode_name="AEP",
     # rsei
     county_name="Allen County, OH",
+    # oepa permits (#844)
+    npdes_permits=["2PH00006", "2PH00007", "2PK00002"],
     # map
     map_view_lat=40.792,
     map_view_lon=-84.122,
