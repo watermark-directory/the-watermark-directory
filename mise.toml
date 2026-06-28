@@ -129,5 +129,5 @@ p = get_settings().documents_dir / 'oepa' / '${site}' / '${permit_id}.pdf'
 print('${permit_id}-' + hashlib.sha256(str(p).encode()).hexdigest()[:8])
 ")
 
-uv run watermark --site "${site}" extract "${doc_id}" --kind "${kind}"
+uv run watermark --site "${site}" extract "${doc_id}" --kind "${kind}" --write
 '''
