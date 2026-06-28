@@ -47,7 +47,9 @@ from bosc.provenance import source_is_verified
 #   CatalogItem + the reconcile observed snapshot; epic #631 Phase 3 / #659).
 # 1.6.1: the manifest gains `site` — the network-site slug a bundle is for, so it self-identifies
 #   (per-site bundle scoping; #762).
-CONTRACT_VERSION = "1.6.1"
+# 1.7.0: adds the per-site `leads` feed — the open-leads board read from a committed per-site store
+#   (`data/site/leads.yaml`, slug-scoped), so a peer carries its own leads, not Lima's (#796).
+CONTRACT_VERSION = "1.7.0"
 
 # SourceKind / Confidence now live in bosc.provenance (shared with bosc.hypotheses +
 # hydrology.ProvenancedValue, #605); re-exported here so importers of bosc.site.feeds are
@@ -355,6 +357,37 @@ class ExhibitItem(BaseModel):
     source: str  # path relative to data/documents
     pages: str | None = None  # "317-327" (0-based inclusive) or None for the whole file
     available: bool
+
+
+# --- leads feed (issue #796) --------------------------------------------------
+# The four lead kinds, the lead lifecycle status, and the evidence tag — the data vocabulary the
+# frontend's leads board renders (presentation labels stay frontend-side). A lead is *unverified
+# inference until a source corroborates it*, so the tag is only ever `open` (a documented gap) or
+# `inference` (a labeled reading), never `verified`.
+LeadKind = Literal["signal", "question", "redaction", "claim"]
+LeadStatus = Literal["low", "unanswered", "withheld", "review"]
+LeadTag = Literal["open", "inference"]
+
+
+class LeadItem(BaseModel):
+    """One open lead — a gap we're chasing on a site, each tracing to a real committed source.
+
+    The per-site peer of Lima's curated leads board: read from `data/site/leads.yaml` (slug-scoped),
+    so a sibling site carries its own leads, not Lima's (#796). No fabricated contributors or
+    timestamps — every lead names where the gap is recorded.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str  # stable local id; mirrors the PRR item / source where apt
+    kind: LeadKind
+    status: LeadStatus
+    tag: LeadTag
+    title: str
+    detail: str
+    source: str  # the real citation — where this gap is recorded
+    issue: int | None = None  # a linked goedelsoup/bosc tracking issue, when one exists
+    note: str | None = None  # a short standing note, used sparingly + truthfully
 
 
 # --- concepts feed (issue #68) ------------------------------------------------

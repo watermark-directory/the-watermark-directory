@@ -370,3 +370,29 @@ def test_approximate_markers_are_preserved_as_data(bundle: Path) -> None:
     assert opc, "expected at least one OPC record"
     # The Tetra Tech roundabouts summary carries ~-marked program totals.
     assert any(r["approximate_paths"] for r in opc), "no ~ approximate markers preserved"
+
+
+# --- leads feed (#796) ---------------------------------------------------------------------
+def test_lima_bundle_carries_its_curated_leads(bundle: Path) -> None:
+    """The reference build ships its committed leads board (`data/site/leads.yaml`) as the
+    per-site `leads` feed, with the evidence discipline intact (#796)."""
+    feeds = _feeds_by_name(bundle)
+    assert "leads" in feeds, "Lima bundle should carry its curated leads board (#796)"
+    rows = _rows(bundle, feeds["leads"])
+    ids = {r["id"] for r in rows}
+    assert {"PRR-04", "H1-DRAW"} <= ids
+    # A lead is unverified inference until a source corroborates it: only [open] or [inference].
+    assert all(r["tag"] in ("open", "inference") for r in rows)
+    assert all(r["source"] for r in rows), "every lead must name where the gap is recorded"
+
+
+def test_sibling_bundle_has_no_leads_feed(fort_wayne_bundle: Path) -> None:
+    """A site with no committed leads store carries no `leads` feed — so the frontend falls back
+    to the readiness-derived needs board, never Lima's leads (#796/#762)."""
+    assert "leads" not in _feeds_by_name(fort_wayne_bundle)
+
+
+def test_export_leads_is_empty_for_an_absent_store(tmp_path: Path) -> None:
+    from bosc.site.leads import export_leads
+
+    assert export_leads(tmp_path / "nope.yaml") == []
