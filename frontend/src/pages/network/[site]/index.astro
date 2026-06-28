@@ -13,7 +13,6 @@ import PartialSiteHome from "../../../components/PartialSiteHome.astro";
 import { isReferenceSite } from "../../../lib/readiness";
 import { hasFeed, loadFeed, loadManifest } from "../../../lib/bundle";
 import type { DocumentCollectionItem } from "../../../lib/feeds";
-import { LEADS } from "../../../lib/leads";
 import { NARRATIVE } from "../../../lib/narrative";
 import {
   activeSite,
@@ -44,7 +43,7 @@ const num = (n: number): string => n.toLocaleString("en-US");
 const docCollections = hasFeed("documents") ? loadFeed<DocumentCollectionItem[]>("documents") : [];
 const nDocuments = docCollections.reduce((a, c) => a + c.entries.length, 0);
 const nChapters = WALK_CHAPTERS.length;
-const nLeads = LEADS.length;
+const nLeads = count("leads");
 
 // The facility clock (separate from the site-build clock) — the active site's campus lifecycle.
 const fac = FACILITY_STATUS_META[facilityStatus(slug)];
