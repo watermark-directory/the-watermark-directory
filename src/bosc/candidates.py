@@ -44,6 +44,7 @@ class CandidateEntity(BaseModel):
     workload_classes: list[str] = Field(default_factory=list)
     confirmed_cloud_relationship: str | None = None
     cloud_consumer_candidate: bool = True
+    corridor_context: bool = False
     speculative: bool = False
     basis: str | None = None
 

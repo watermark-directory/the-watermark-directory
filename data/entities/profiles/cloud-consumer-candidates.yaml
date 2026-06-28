@@ -287,7 +287,12 @@ entities:
     workload_classes: [industrial_telemetry, vision_ml, low_latency_edge]
     confirmed_cloud_relationship: own Ohio data center (announced/investing)
     cloud_consumer_candidate: true
-    basis: Vehicle + manufacturing data at scale; demand-fit established by Honda's own data-center move.
+    corridor_context: true
+    basis: >
+      Vehicle + manufacturing data at scale; demand-fit established by Honda's own data-center move.
+      Location spans Union/Clark/Champaign (Marysville corridor) — no primary instrument (deed,
+      permit, or filing) pins the investment to Urbana or Champaign County specifically.
+      Downgraded to corridor context [2026-06-28]: excluded from Urbana promotion criteria.
 
   - name: Topre America (Springfield)
     tier: 4

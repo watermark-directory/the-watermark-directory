@@ -40,8 +40,11 @@ leads:
   issue: 447
 - id: GH-448
   kind: question
-  status: unanswered
-  tag: open
+  status: review
+  tag: inference
+  note: "Downgraded 2026-06-28: no primary instrument found pinning Honda investment to Urbana/Champaign\
+    \ County. cloud-consumer-candidates.yaml updated with corridor_context: true. Excluded from Urbana\
+    \ promotion criteria."
   title: Pin Honda 'Champaign-area' data center to a parcel or filing, or downgrade to corridor context
   detail: '## Context
 
