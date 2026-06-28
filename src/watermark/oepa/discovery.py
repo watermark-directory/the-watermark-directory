@@ -1,24 +1,34 @@
-"""DDG site-search connector for OEPA/DAM document discovery.
+"""OEPA/DAM document discovery — ECHO reference + Serper.
 
-Runs DuckDuckGo ``site:dam.assets.ohio.gov`` searches using a site's place and
-county name, parses result URLs, and returns structured :class:`DiscoveredDoc`
-entries.  Network-optional: when ``civic_offline`` is set, returns empty (discovery
-is inherently online; there is no fixture fallback for search results).
+Two-path discovery:
 
-The downstream :mod:`watermark.oepa.fetch` module downloads the discovered PDFs
-via the existing civic downloader; this module only identifies them.
+1. **ECHO reference** (permits only, no API key needed):
+   Loads the committed ECHO basin POTW reference YAML, filters by the site's
+   county, and HEAD-probes the DAM permit URL for each NPDES ID.  Returns
+   ``doc_type="permit"`` entries that the DAM confirms exist.  Requires
+   ``basin`` (e.g. ``"maumee"``) and a downloaded
+   ``data/reference/echo/{basin}-wwtp.potw.yaml``.
+
+2. **Serper site: search** (all doc types, requires ``WATERMARK_SERPER_API_KEY``):
+   Issues ``site:dam.assets.ohio.gov "<place>"`` / ``"<county>"`` queries via
+   the Serper Google Search API and parses the direct result URLs — permits,
+   fact sheets, draft PNs, etc.
+
+Both paths feed the same :class:`DiscoveredDoc` output and respect the
+``civic_offline`` flag.  ``_parse_html`` / ``_resolve_dam_url`` are kept as
+utilities for any future HTML-based source.
 """
 
 from __future__ import annotations
 
 import re
-import time
 import unicodedata
 from datetime import UTC, datetime
-from typing import Literal
+from typing import Any, Literal, cast
 from urllib.parse import parse_qs, unquote, urlparse
 
 import httpx
+import yaml
 from pydantic import BaseModel, ConfigDict
 
 from watermark.civic._http import BROWSER_HEADERS
@@ -29,24 +39,13 @@ from watermark.logging import get_logger
 log = get_logger(__name__)
 
 _DAM_HOST = "dam.assets.ohio.gov"
-_DDG_URL = "https://html.duckduckgo.com/html/"
+_DAM_PERMIT_URL = (
+    "https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/{id}.pdf"
+)
+_SERPER_URL = "https://google.serper.dev/search"
 
-# DDG HTML form submission headers — POST is the native method of the DDG HTML page;
-# GET requests receive a 202 bot-check response that contains no result links.
-_DDG_HEADERS = {
-    **BROWSER_HEADERS,
-    "Accept-Language": "en-US,en;q=0.9",
-    "Content-Type": "application/x-www-form-urlencoded",
-    "Origin": "https://html.duckduckgo.com",
-    "Referer": "https://html.duckduckgo.com/",
-}
-
-# Seconds to pause between consecutive DDG queries to avoid rate-limiting.
-_DDG_INTER_QUERY_DELAY = 1.5
-
-# Cache TTL for DDG responses — permit documents are issued infrequently; 7 days avoids
-# redundant queries on repeat discover runs and reduces rate-limit exposure.
-_DDG_CACHE_TTL_HOURS = 168
+# 7-day cache — OEPA permits and Serper results are slow-moving.
+_DISCOVERY_CACHE_TTL_HOURS = 168
 
 # Matches the permits path and captures the type-path segment + filename stem.
 # Handles both the short form (.../permits/doc/2PH00006.pdf) and the fact-sheet
@@ -74,7 +73,7 @@ _SUFFIX_MAP: dict[str, DocType] = {
 
 
 class DiscoveredDoc(BaseModel):
-    """One DAM document found via a DDG site-search result."""
+    """One DAM document found via discovery."""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -92,7 +91,7 @@ def _infer_type(type_path: str, suffix: str | None) -> DocType:
 
 
 def _resolve_dam_url(href: str) -> str | None:
-    """Return a ``dam.assets.ohio.gov`` URL from an href, or None if not one.
+    """Return a ``dam.assets.ohio.gov`` URL from a DDG-style href, or None if not one.
 
     DDG result links come in two forms:
     - Direct: ``https://dam.assets.ohio.gov/…``
@@ -110,7 +109,7 @@ def _resolve_dam_url(href: str) -> str | None:
 
 
 def _parse_html(html: str, query: str, fetched_at: str) -> list[DiscoveredDoc]:
-    """Extract DiscoveredDoc entries for every DAM permit URL in DDG result HTML."""
+    """Extract DiscoveredDoc entries for every DAM permit URL in an HTML page."""
     docs: list[DiscoveredDoc] = []
     seen: set[str] = set()
     for m in _HREF_RE.finditer(html):
@@ -134,7 +133,7 @@ def _parse_html(html: str, query: str, fetched_at: str) -> list[DiscoveredDoc]:
 
 
 def _sanitize_search_term(term: str) -> str:
-    """Collapse non-ASCII and punctuation/symbol chars to spaces for a DDG keyword.
+    """Collapse non-ASCII and punctuation/symbol chars to spaces for a search keyword.
 
     Handles place names like 'Troy · Piqua' (middle-dot separator) where the
     non-ASCII character would otherwise be percent-encoded in the query string.
@@ -145,65 +144,143 @@ def _sanitize_search_term(term: str) -> str:
     return " ".join(cleaned.split())
 
 
-def _fetch_ddg(query: str, settings: Settings) -> str:
-    """POST one DDG HTML search page (cached _DDG_CACHE_TTL_HOURS hours); returns HTML or ''.
+# ---------------------------------------------------------------------------
+# ECHO reference path (permits only)
+# ---------------------------------------------------------------------------
 
-    Uses POST (``application/x-www-form-urlencoded``), the native DDG HTML form method.
-    Any 2xx response is accepted — DDG sometimes returns 202 with valid result HTML.
-    Responses are cached under the civic cache dir so repeated discover runs skip the
-    network entirely, and the raw HTML is inspectable for debugging.
+
+def _echo_reference_ids(basin: str, county: str, settings: Settings) -> list[str]:
+    """Return NPDES permit IDs for ``county`` from the committed ECHO reference YAML.
+
+    Loads ``data/reference/echo/{basin}-wwtp.potw.yaml`` and filters by county.
+    Returns ``[]`` if the file doesn't exist or the county has no matches — never raises.
+    ECHO stores county as ``"ALLEN"`` or ``"ALLEN COUNTY"``; both are matched.
     """
+    ref_path = settings.data_dir / "reference" / "echo" / f"{basin}-wwtp.potw.yaml"
+    if not ref_path.exists():
+        log.info("oepa.echo.reference_missing", path=str(ref_path))
+        return []
+    try:
+        data = yaml.safe_load(ref_path.read_text(encoding="utf-8")) or {}
+    except Exception as exc:
+        log.warning("oepa.echo.reference_read_error", path=str(ref_path), error=str(exc))
+        return []
 
-    def _live() -> dict[str, object]:
+    # Normalise: "Allen County" → "ALLEN"; "Van Wert County" → "VAN WERT"
+    county_key = county.removesuffix(" County").removesuffix(" county").upper()
+    ids: list[str] = []
+    for fac in data.get("facilities", []):
+        fac_county = (fac.get("county") or "").upper()
+        if fac_county.startswith(county_key):
+            pid = fac.get("npdes_id")
+            if pid and str(pid) not in ids:
+                ids.append(str(pid))
+
+    log.info("oepa.echo.county_ids", county=county, found=len(ids))
+    return ids
+
+
+def _probe_dam_permit(permit_id: str, settings: Settings) -> str | None:
+    """HEAD-probe the standard DAM permit URL for ``permit_id``; return it if it exists."""
+    url = _DAM_PERMIT_URL.format(id=permit_id)
+    try:
+        resp = httpx.head(
+            url,
+            follow_redirects=True,
+            timeout=settings.civic_request_timeout_s,
+            headers=BROWSER_HEADERS,
+        )
+        return url if resp.status_code == 200 else None
+    except httpx.HTTPError as exc:
+        log.debug("oepa.probe.error", url=url, error=str(exc))
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Serper path (all doc types)
+# ---------------------------------------------------------------------------
+
+
+def _fetch_serper(query: str, settings: Settings) -> dict[str, Any]:
+    """POST a Serper Google search (cached 7 days); returns the JSON result or ``{}``."""
+
+    def _live() -> dict[str, Any]:
         try:
             resp = httpx.post(
-                _DDG_URL,
-                data={"q": query},
-                follow_redirects=True,
+                _SERPER_URL,
+                json={"q": query, "num": 20, "gl": "us", "hl": "en"},
+                headers={
+                    "X-API-KEY": settings.serper_api_key,
+                    "Content-Type": "application/json",
+                },
                 timeout=settings.civic_request_timeout_s,
-                headers=_DDG_HEADERS,
             )
-            if not (200 <= resp.status_code < 300):
-                log.warning(
-                    "oepa.discovery.unexpected_status",
-                    query=query,
-                    status=resp.status_code,
-                    html_bytes=len(resp.content),
-                )
-                return {"html": "", "status_code": resp.status_code}
-            log.info(
-                "oepa.discovery.fetched",
-                query=query,
-                status=resp.status_code,
-                html_bytes=len(resp.content),
-            )
-            return {"html": resp.text, "status_code": resp.status_code}
-        except httpx.HTTPError as exc:
-            log.warning("oepa.discovery.fetch_failed", query=query, error=str(exc))
-            return {"html": "", "status_code": 0}
+            resp.raise_for_status()
+            return cast("dict[str, Any]", resp.json())
+        except (httpx.HTTPError, ValueError) as exc:
+            log.warning("oepa.serper.fetch_failed", query=query, error=str(exc))
+            return {}
 
-    result: dict[str, object] = cached_get(
-        "oepa_discovery",
-        {"q": query},
-        _live,
-        cache_dir=settings.civic_cache_dir,
-        ttl_hours=_DDG_CACHE_TTL_HOURS,
+    return cast(
+        "dict[str, Any]",
+        cached_get(
+            "oepa_discovery",
+            {"q": query},
+            _live,
+            cache_dir=settings.civic_cache_dir,
+            ttl_hours=_DISCOVERY_CACHE_TTL_HOURS,
+        ),
     )
-    return str(result.get("html", ""))
+
+
+def _parse_serper_json(data: dict[str, Any], query: str, fetched_at: str) -> list[DiscoveredDoc]:
+    """Extract DiscoveredDoc entries from a Serper ``/search`` result object."""
+    docs: list[DiscoveredDoc] = []
+    seen: set[str] = set()
+    for item in data.get("organic", []):
+        url = str(item.get("link", ""))
+        if not url or url in seen or _DAM_HOST not in url:
+            continue
+        pm = _DAM_PERMIT_RE.search(url)
+        if not pm:
+            continue
+        seen.add(url)
+        docs.append(
+            DiscoveredDoc(
+                url=url,
+                permit_id=pm.group("stem"),
+                doc_type=_infer_type(pm.group("type_path"), pm.group("suffix")),
+                query=query,
+                fetched_at=fetched_at,
+            )
+        )
+    return docs
+
+
+# ---------------------------------------------------------------------------
+# Main entry point
+# ---------------------------------------------------------------------------
 
 
 def discover_dam_documents(
     place: str,
     county: str,
     *,
+    basin: str | None = None,
     extra_terms: list[str] | None = None,
     settings: Settings | None = None,
 ) -> list[DiscoveredDoc]:
-    """Search DDG for OEPA/DAM documents for a site's place and county.
+    """Discover OEPA/DAM documents for a site via two independent paths.
 
-    Returns an empty list in offline mode — discovery is inherently online.
-    ``extra_terms`` appends additional keyword suffixes to the place query
-    (e.g. ``["NPDES", "permit"]``) for finer targeting.
+    **ECHO** (``basin`` required): loads the committed basin POTW reference YAML,
+    filters by ``county``, and HEAD-probes the DAM permit URL for each NPDES ID.
+    Returns only permit entries that the DAM confirms exist.
+
+    **Serper** (``settings.serper_api_key`` required): queries
+    ``site:dam.assets.ohio.gov`` via Google (Serper API) and parses direct result
+    URLs — permits, fact sheets, draft PNs, and other DAM document types.
+
+    Both paths are skipped in offline mode.
     """
     settings = settings or get_settings()
     if settings.civic_offline:
@@ -211,31 +288,51 @@ def discover_dam_documents(
         return []
 
     now = datetime.now(UTC).isoformat()
-    place_clean = _sanitize_search_term(place)
-    county_clean = _sanitize_search_term(county)
-    queries = [
-        f'site:{_DAM_HOST} "{place_clean}"',
-        f'site:{_DAM_HOST} "{county_clean}"',
-    ]
-    if extra_terms:
-        for term in extra_terms:
-            queries.append(f'site:{_DAM_HOST} "{place_clean}" {term}')
-
     all_docs: list[DiscoveredDoc] = []
     seen_urls: set[str] = set()
-    for i, query in enumerate(queries):
-        if i > 0:
-            time.sleep(_DDG_INTER_QUERY_DELAY)
-        html = _fetch_ddg(query, settings)
-        for doc in _parse_html(html, query=query, fetched_at=now):
+
+    def _add(docs: list[DiscoveredDoc]) -> None:
+        for doc in docs:
             if doc.url not in seen_urls:
                 seen_urls.add(doc.url)
                 all_docs.append(doc)
 
-    log.info(
-        "oepa.discovery.complete",
-        place=place,
-        queries=len(queries),
-        found=len(all_docs),
-    )
+    # --- ECHO path: permits via committed basin reference YAML ---
+    if basin:
+        echo_ids = _echo_reference_ids(basin, county, settings)
+        for pid in echo_ids:
+            url = _probe_dam_permit(pid, settings)
+            if url:
+                _add(
+                    [
+                        DiscoveredDoc(
+                            url=url,
+                            permit_id=pid,
+                            doc_type="permit",
+                            query=f"echo:basin:{basin}:county:{county}",
+                            fetched_at=now,
+                        )
+                    ]
+                )
+
+    # --- Serper path: all doc types via Google site: search ---
+    if settings.serper_api_key:
+        place_clean = _sanitize_search_term(place)
+        county_clean = _sanitize_search_term(county)
+        queries = [
+            f'site:{_DAM_HOST} "{place_clean}"',
+            f'site:{_DAM_HOST} "{county_clean}"',
+        ]
+        if extra_terms:
+            for term in extra_terms:
+                queries.append(f'site:{_DAM_HOST} "{place_clean}" {term}')
+        for query in queries:
+            _add(_parse_serper_json(_fetch_serper(query, settings), query=query, fetched_at=now))
+    elif not basin:
+        log.warning(
+            "oepa.discovery.no_source",
+            note="set WATERMARK_SERPER_API_KEY or provide basin to enable ECHO path",
+        )
+
+    log.info("oepa.discovery.complete", place=place, found=len(all_docs))
     return all_docs

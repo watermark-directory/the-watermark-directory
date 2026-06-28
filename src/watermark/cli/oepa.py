@@ -65,6 +65,7 @@ def discover(
     docs = discover_dam_documents(
         prof.place,
         county,
+        basin=prof.basin,
         extra_terms=extra_terms or None,
         settings=settings,
     )
