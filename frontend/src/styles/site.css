@@ -219,6 +219,10 @@ a { color: var(--bosc-link); }
   font-weight: 600;
   box-shadow: inset 0 -3px 0 var(--bosc-bg) !important;
 }
+/* #793 — a coming-soon site's not-yet-built section: a muted, non-navigable marker with a lock. */
+.section-tab.is-locked { color: #6f8377; cursor: default; gap: 0.3rem; }
+.section-tab.is-locked:hover { color: #6f8377; }
+.section-tab-lock { color: #6f8377; flex: 0 0 auto; }
 
 /* ---- About dropdown (no-JS: native <details>); a bone menu with two-line items ---- */
 .nav-dd { position: relative; display: inline-flex; align-items: stretch; }

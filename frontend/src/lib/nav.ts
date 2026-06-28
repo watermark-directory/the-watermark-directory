@@ -20,7 +20,7 @@
 import { activeSite } from "./bundle";
 import { sectionStatus } from "./readiness";
 import { DEFAULT_STORY_CODENAME, siteBase, storyBase } from "./routes";
-import { SITES } from "./sites";
+import { type NetworkSite, SITES } from "./sites";
 import { type Story, chapterHref, storyContentsHref, storyFor } from "./walk";
 
 export type SectionId =
@@ -286,7 +286,7 @@ export interface MegaMenu {
 }
 
 export type NavItem =
-  | { kind: "link"; label: string; section: SectionId; href: string; match?: SectionId[] }
+  | { kind: "link"; label: string; section: SectionId; href: string; match?: SectionId[]; locked?: boolean }
   | { kind: "dropdown"; label: string; section: SectionId; children: NavChild[]; match?: SectionId[] }
   | { kind: "mega"; label: string; section: SectionId; mega: MegaMenu; match?: SectionId[] };
 
@@ -398,6 +398,23 @@ export function siteTabs(): NavItem[] {
     },
     { kind: "link", label: "The story", section: "story", href: storyRoot },
     { kind: "link", label: "The record", section: "site", href: `${base}/site/`, match: ["timeline"] },
+  ];
+}
+
+/**
+ * Site-tier tabs for a COMING-SOON (non-selectable) site (#793). Such a site has no inner pages or
+ * bundle yet — its only real page is the watch page — so this is a registry-only, mostly-locked
+ * bar: "The site" links to the overview (the watch page), while "The story" / "The record" are
+ * locked markers (the watch page itself lists what will land there). Built purely from the registry
+ * `NetworkSite`, never the bundle (a coming-soon site has none, and the page renders against the
+ * Lima reference), so the menu names the *current* site without reading its non-existent data.
+ */
+export function comingSoonSiteTabs(site: NetworkSite): NavItem[] {
+  const base = siteBase(site.slug);
+  return [
+    { kind: "link", label: "The site", section: "home", href: base },
+    { kind: "link", label: "The story", section: "story", href: base, locked: true },
+    { kind: "link", label: "The record", section: "site", href: base, locked: true },
   ];
 }
 
