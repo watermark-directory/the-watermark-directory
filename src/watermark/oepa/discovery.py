@@ -12,9 +12,11 @@ via the existing civic downloader; this module only identifies them.
 from __future__ import annotations
 
 import re
+import time
+import unicodedata
 from datetime import UTC, datetime
 from typing import Literal
-from urllib.parse import parse_qs, unquote, urlencode, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 import httpx
 from pydantic import BaseModel, ConfigDict
@@ -27,6 +29,19 @@ log = get_logger(__name__)
 
 _DAM_HOST = "dam.assets.ohio.gov"
 _DDG_URL = "https://html.duckduckgo.com/html/"
+
+# DDG HTML form submission headers — POST is the native method of the DDG HTML page;
+# GET requests receive a 202 bot-check response that contains no result links.
+_DDG_HEADERS = {
+    **BROWSER_HEADERS,
+    "Accept-Language": "en-US,en;q=0.9",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Origin": "https://html.duckduckgo.com",
+    "Referer": "https://html.duckduckgo.com/",
+}
+
+# Seconds to pause between consecutive DDG queries to avoid rate-limiting.
+_DDG_INTER_QUERY_DELAY = 1.5
 
 # Matches the permits path and captures the type-path segment + filename stem.
 # Handles both the short form (.../permits/doc/2PH00006.pdf) and the fact-sheet
@@ -113,17 +128,41 @@ def _parse_html(html: str, query: str, fetched_at: str) -> list[DiscoveredDoc]:
     return docs
 
 
+def _sanitize_search_term(term: str) -> str:
+    """Collapse non-ASCII and punctuation/symbol chars to spaces for a DDG keyword.
+
+    Handles place names like 'Troy · Piqua' (middle-dot separator) where the
+    non-ASCII character would otherwise be percent-encoded in the query string.
+    """
+    cleaned = "".join(
+        " " if ord(c) >= 128 or unicodedata.category(c).startswith(("P", "S")) else c for c in term
+    )
+    return " ".join(cleaned.split())
+
+
 def _fetch_ddg(query: str, settings: Settings) -> str:
-    """GET one DDG HTML search page; returns raw HTML (empty string on error)."""
-    url = f"{_DDG_URL}?{urlencode({'q': query})}"
+    """POST one DDG HTML search page; returns raw HTML (empty string on error).
+
+    Uses POST (``application/x-www-form-urlencoded``), which is how the DDG HTML
+    page itself submits the search form.  A GET to the same endpoint returns a 202
+    bot-check response with no result links.
+    """
     try:
-        resp = httpx.get(
-            url,
+        resp = httpx.post(
+            _DDG_URL,
+            data={"q": query},
             follow_redirects=True,
             timeout=settings.civic_request_timeout_s,
-            headers=BROWSER_HEADERS,
+            headers=_DDG_HEADERS,
         )
-        resp.raise_for_status()
+        if resp.status_code != 200:
+            log.warning(
+                "oepa.discovery.unexpected_status",
+                query=query,
+                status=resp.status_code,
+                html_bytes=len(resp.content),
+            )
+            return ""
         return resp.text
     except httpx.HTTPError as exc:
         log.warning("oepa.discovery.fetch_failed", query=query, error=str(exc))
@@ -149,17 +188,21 @@ def discover_dam_documents(
         return []
 
     now = datetime.now(UTC).isoformat()
+    place_clean = _sanitize_search_term(place)
+    county_clean = _sanitize_search_term(county)
     queries = [
-        f'site:{_DAM_HOST} "{place}"',
-        f'site:{_DAM_HOST} "{county}"',
+        f'site:{_DAM_HOST} "{place_clean}"',
+        f'site:{_DAM_HOST} "{county_clean}"',
     ]
     if extra_terms:
         for term in extra_terms:
-            queries.append(f'site:{_DAM_HOST} "{place}" {term}')
+            queries.append(f'site:{_DAM_HOST} "{place_clean}" {term}')
 
     all_docs: list[DiscoveredDoc] = []
     seen_urls: set[str] = set()
-    for query in queries:
+    for i, query in enumerate(queries):
+        if i > 0:
+            time.sleep(_DDG_INTER_QUERY_DELAY)
         html = _fetch_ddg(query, settings)
         for doc in _parse_html(html, query=query, fetched_at=now):
             if doc.url not in seen_urls:

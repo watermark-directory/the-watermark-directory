@@ -15,6 +15,7 @@ from watermark.oepa.discovery import (
     _infer_type,
     _parse_html,
     _resolve_dam_url,
+    _sanitize_search_term,
     discover_dam_documents,
 )
 
@@ -119,6 +120,25 @@ def test_parse_html_unrelated_links_ignored() -> None:
     html = '<a href="https://www.epa.ohio.gov/other">Ohio EPA</a>'
     docs = _parse_html(html, query="q", fetched_at="t")
     assert docs == []
+
+
+# ---------------------------------------------------------------------------
+# _sanitize_search_term
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "raw,expected",
+    [
+        ("Lima", "Lima"),
+        ("Allen County", "Allen County"),
+        ("Troy · Piqua", "Troy Piqua"),
+        ("  extra   spaces  ", "extra spaces"),
+        ("Fort Wayne", "Fort Wayne"),
+    ],
+)
+def test_sanitize_search_term(raw: str, expected: str) -> None:
+    assert _sanitize_search_term(raw) == expected
 
 
 # ---------------------------------------------------------------------------
