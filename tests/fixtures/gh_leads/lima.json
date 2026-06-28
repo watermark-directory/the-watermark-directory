@@ -1,0 +1,41 @@
+[
+  {
+    "number": 42,
+    "title": "What is the actual groundwater withdrawal rate?",
+    "body": "The PTI application references a 250 gpm peak draw but the SWPPP omits the sustained baseline figure. A public-records request to OEPA for the water-use permit file has not yet returned figures.",
+    "state": "open",
+    "html_url": "https://github.com/goedelsoup/bosc/issues/42",
+    "labels": [
+      {"name": "area:evidence"},
+      {"name": "site:lima"},
+      {"name": "lead:kind:question"},
+      {"name": "lead:status:unanswered"},
+      {"name": "lead:tag:open"}
+    ]
+  },
+  {
+    "number": 43,
+    "title": "Generator count behind the 313 MW figure",
+    "body": "Trade-secret redaction on the per-engine ekW prevents independent verification of the stated aggregate.",
+    "state": "open",
+    "html_url": "https://github.com/goedelsoup/bosc/issues/43",
+    "labels": [
+      {"name": "area:evidence"},
+      {"name": "site:lima"},
+      {"name": "lead:kind:redaction"},
+      {"name": "lead:status:withheld"}
+    ]
+  },
+  {
+    "number": 44,
+    "title": "Missing lead:kind label — should be skipped",
+    "body": "This issue has no lead:kind label so it must be dropped during sync.",
+    "state": "open",
+    "html_url": "https://github.com/goedelsoup/bosc/issues/44",
+    "labels": [
+      {"name": "area:evidence"},
+      {"name": "site:lima"},
+      {"name": "lead:status:unanswered"}
+    ]
+  }
+]

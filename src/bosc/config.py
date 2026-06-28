@@ -50,6 +50,10 @@ class Settings(BaseSettings):
     # --- Credentials -------------------------------------------------------
     # Not prefixed: the Anthropic SDK and Claude Agent SDK read this name.
     anthropic_api_key: str = Field(default="", alias="ANTHROPIC_API_KEY")
+    # Not prefixed: the standard GitHub Actions / gh CLI env-var name.
+    github_token: str = Field(default="", alias="GITHUB_TOKEN")
+    # Override for tests (points at a mock server or fixture endpoint).
+    github_base_url: str = "https://api.github.com"
 
     # --- Models ------------------------------------------------------------
     model: str = "claude-opus-4-8"

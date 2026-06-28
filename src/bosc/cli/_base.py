@@ -131,3 +131,12 @@ poi_app = typer.Typer(
     add_completion=False,
 )
 app.add_typer(poi_app, name="poi")
+
+
+leads_app = typer.Typer(
+    name="leads",
+    help="Open-leads board — pull site leads from GitHub issues.",
+    no_args_is_help=True,
+    add_completion=False,
+)
+app.add_typer(leads_app, name="leads")
