@@ -23,6 +23,7 @@ from pydantic import BaseModel, ConfigDict
 
 from watermark.civic._http import BROWSER_HEADERS
 from watermark.config import Settings, get_settings
+from watermark.connectors import cached_get
 from watermark.logging import get_logger
 
 log = get_logger(__name__)
@@ -42,6 +43,10 @@ _DDG_HEADERS = {
 
 # Seconds to pause between consecutive DDG queries to avoid rate-limiting.
 _DDG_INTER_QUERY_DELAY = 1.5
+
+# Cache TTL for DDG responses — permit documents are issued infrequently; 7 days avoids
+# redundant queries on repeat discover runs and reduces rate-limit exposure.
+_DDG_CACHE_TTL_HOURS = 168
 
 # Matches the permits path and captures the type-path segment + filename stem.
 # Handles both the short form (.../permits/doc/2PH00006.pdf) and the fact-sheet
@@ -141,32 +146,50 @@ def _sanitize_search_term(term: str) -> str:
 
 
 def _fetch_ddg(query: str, settings: Settings) -> str:
-    """POST one DDG HTML search page; returns raw HTML (empty string on error).
+    """POST one DDG HTML search page (cached _DDG_CACHE_TTL_HOURS hours); returns HTML or ''.
 
-    Uses POST (``application/x-www-form-urlencoded``), which is how the DDG HTML
-    page itself submits the search form.  A GET to the same endpoint returns a 202
-    bot-check response with no result links.
+    Uses POST (``application/x-www-form-urlencoded``), the native DDG HTML form method.
+    Any 2xx response is accepted — DDG sometimes returns 202 with valid result HTML.
+    Responses are cached under the civic cache dir so repeated discover runs skip the
+    network entirely, and the raw HTML is inspectable for debugging.
     """
-    try:
-        resp = httpx.post(
-            _DDG_URL,
-            data={"q": query},
-            follow_redirects=True,
-            timeout=settings.civic_request_timeout_s,
-            headers=_DDG_HEADERS,
-        )
-        if resp.status_code != 200:
-            log.warning(
-                "oepa.discovery.unexpected_status",
+
+    def _live() -> dict[str, object]:
+        try:
+            resp = httpx.post(
+                _DDG_URL,
+                data={"q": query},
+                follow_redirects=True,
+                timeout=settings.civic_request_timeout_s,
+                headers=_DDG_HEADERS,
+            )
+            if not (200 <= resp.status_code < 300):
+                log.warning(
+                    "oepa.discovery.unexpected_status",
+                    query=query,
+                    status=resp.status_code,
+                    html_bytes=len(resp.content),
+                )
+                return {"html": "", "status_code": resp.status_code}
+            log.info(
+                "oepa.discovery.fetched",
                 query=query,
                 status=resp.status_code,
                 html_bytes=len(resp.content),
             )
-            return ""
-        return resp.text
-    except httpx.HTTPError as exc:
-        log.warning("oepa.discovery.fetch_failed", query=query, error=str(exc))
-        return ""
+            return {"html": resp.text, "status_code": resp.status_code}
+        except httpx.HTTPError as exc:
+            log.warning("oepa.discovery.fetch_failed", query=query, error=str(exc))
+            return {"html": "", "status_code": 0}
+
+    result: dict[str, object] = cached_get(
+        "oepa_discovery",
+        {"q": query},
+        _live,
+        cache_dir=settings.civic_cache_dir,
+        ttl_hours=_DDG_CACHE_TTL_HOURS,
+    )
+    return str(result.get("html", ""))
 
 
 def discover_dam_documents(
