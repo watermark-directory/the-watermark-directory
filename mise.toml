@@ -94,3 +94,12 @@ run = [
 [tasks.export]
 description = "Regenerate the content bundle the frontend reads (watermark export → data/site/bundle/)"
 run = "uv run watermark export"
+
+[tasks.onboard-site]
+description = "Onboard a site to the research platform"
+usage = '''
+arg "<site>" help="Target site slug"
+'''
+run = '''
+watermark --site "${usage_site}" research run --recipe site-onboard
+'''
