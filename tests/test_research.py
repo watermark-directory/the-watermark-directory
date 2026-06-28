@@ -146,7 +146,8 @@ def test_write_run_persists_artifacts(tmp_path: Path, monkeypatch: pytest.Monkey
     out = write_run(manifest, tmp_path / "run", settings=Settings(data_dir=tmp_path / "data"))
 
     findings = (out / "findings.md").read_text(encoding="utf-8")
-    assert "Research run: Diller contingency" in findings
+    assert findings.startswith("---\n")  # YAML frontmatter
+    assert "topic: Diller contingency" in findings
     assert "25% contingency" in findings
 
     doc = yaml.safe_load((out / "manifest.yaml").read_text(encoding="utf-8"))

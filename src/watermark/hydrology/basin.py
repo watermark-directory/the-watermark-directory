@@ -245,10 +245,22 @@ def _derived_path(settings: Settings) -> Path:
 def write_derived_low_flows(
     streams: dict[str, dict[str, Any]], *, settings: Settings | None = None
 ) -> Path:
-    """Write the derived 7Q10 companion to committed reference YAML; return the path."""
+    """Merge *streams* into the shared derived 7Q10 file and return the path.
+
+    The file is shared across all basin onboard runs; keys are river names and
+    don't collide between basins. Merging (not overwriting) ensures that a Sidney
+    onboard run doesn't erase Maumee entries written by a Lima/Fort-Wayne run.
+    """
     settings = settings or get_settings()
     path = _derived_path(settings)
     path.parent.mkdir(parents=True, exist_ok=True)
+
+    existing: dict[str, Any] = {}
+    if path.is_file():
+        doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        existing = doc.get("streams") or {}
+
+    merged = {**existing, **streams}
     doc = {
         "meta": {
             "subject": "DERIVED receiving-stream 7Q10s for the major mainstems of the network's river basins",
@@ -261,12 +273,12 @@ def write_derived_low_flows(
                 "7Q10, never this one. Regenerate with `bosc derive-low-flows`."
             ),
         },
-        "streams": streams,
+        "streams": merged,
     }
     path.write_text(
         yaml.safe_dump(doc, sort_keys=False, allow_unicode=True, width=100), encoding="utf-8"
     )
-    log.info("basin.lowflow.wrote", path=str(path), rivers=len(streams))
+    log.info("basin.lowflow.wrote", path=str(path), rivers=len(merged), added=len(streams))
     return path
 
 

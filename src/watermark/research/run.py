@@ -535,19 +535,23 @@ def _manifest_doc(manifest: ResearchRunManifest) -> dict[str, Any]:
 
 
 def _findings_markdown(manifest: ResearchRunManifest) -> str:
-    """The human-readable ``findings.md``: a provenance header + the agent's report."""
+    """The human-readable ``findings.md``: YAML frontmatter + the agent's report."""
     p = manifest.provenance
-    cost = "—" if p.cost_usd is None else f"${p.cost_usd:.4f}"
-    head = (
-        f"# Research run: {p.topic}\n\n"
-        f"- model: `{p.model}`\n"
-        f"- generated: {p.generated_at}\n"
-        f"- turns: {p.num_turns} (cap {p.max_turns}); cost: {cost}\n"
-        f"- tools: {', '.join(p.tools_used) or '—'}\n"
-        f"- proposals: {len(manifest.proposals)} (see `manifest.yaml`)\n\n"
+    cost = "~" if p.cost_usd is None else f"{p.cost_usd:.4f}"
+    tools_list = "\n".join(f"  - {t}" for t in p.tools_used) if p.tools_used else "  []"
+    frontmatter = (
+        "---\n"
+        f"topic: {p.topic}\n"
+        f"model: {p.model}\n"
+        f"generated: {p.generated_at}\n"
+        f"turns: {p.num_turns}\n"
+        f"turns_cap: {p.max_turns}\n"
+        f"cost_usd: {cost}\n"
+        f"proposals: {len(manifest.proposals)}\n"
+        f"tools:\n{tools_list}\n"
         "---\n\n"
     )
-    return head + manifest.findings.strip() + "\n"
+    return frontmatter + manifest.findings.strip() + "\n"
 
 
 def write_run(
