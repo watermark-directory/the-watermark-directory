@@ -1,0 +1,84 @@
+meta:
+  subject: Canonical filename map for oepa/urbana/ — as-received eDoc IDs to canonical names
+  note: >
+    Per chain-of-custody rules, source files keep their as-received OEPA eDoc ID filenames.
+    This map records the canonical name, document type, and content-verified date for each file.
+
+documents:
+  - edoc_id: "2784672"
+    filename: 2784672.pdf
+    canonical: oepa-1pd00011-urbana-wpcf-inspection-2024-03.pdf
+    type: npdes-inspection
+    kind: CEI
+    permit: 1PD00011
+    facility: City of Urbana WPCF (OH0027880)
+    inspection_date: "2024-03-14"
+    letter_date: "2024-03-22"
+    content_verified: text-layer
+    notes: Average flow 1.5 MGD (33% of 4.5 MGD design). 0 effluent limit violations.
+
+  - edoc_id: "3816773"
+    filename: 3816773.pdf
+    canonical: oepa-1pd00011-urbana-wpcf-inspection-2025-08.pdf
+    type: npdes-inspection
+    kind: CEI
+    permit: 1PD00011
+    facility: City of Urbana WPCF (OH0027880)
+    inspection_date: "2025-08-13"
+    letter_date: "2025-09-05"
+    content_verified: text-layer
+    notes: Average flow 1.65 MGD (37% of 4.5 MGD design). 5 code events.
+
+  - edoc_id: "3832476"
+    filename: 3832476.pdf
+    canonical: oepa-oh0027880-urbana-wpcf-renewal-app-2025-05.pdf
+    type: npdes-renewal-application
+    permit: OH0027880
+    facility: City of Urbana Water Pollution Control Facility
+    submitted: "2025-05-29"
+    content_verified: text-layer
+    notes: >
+      Form 1 / Form 2A / Form 2S. Outfall 001 at 40.095278 -83.797222, receiving water: Mad River.
+      Design flow 4.5 MGD. ~11,161 population, 5 industrial users + septage.
+      Industrial flow: 0.750 MGD (categorical SIUs). Permit expiration 2025-11-30.
+
+  - edoc_id: "3858475"
+    filename: 3858475.pdf
+    canonical: oepa-1pd00011-urbana-wpcf-pci-2025-09.pdf
+    type: npdes-inspection
+    kind: PCI
+    permit: 1PD00011
+    facility: City of Urbana WPCF (OH0027880)
+    inspection_date: "2025-09-09"
+    letter_date: "2025-10-07"
+    content_verified: text-layer
+    notes: Pretreatment Compliance Inspection; 5 categorical industrial users.
+
+  - edoc_id: "3858492"
+    filename: 3858492.pdf
+    canonical: oepa-1pd00011-urbana-wpcf-nov-2025-10.pdf
+    type: npdes-nov
+    permit: 1PD00011
+    facility: City of Urbana WRF (OH0027880)
+    letter_date: "2025-10-07"
+    content_verified: text-layer
+    notes: Notice of Violation — Significant Non-Compliance (SNC) under pretreatment program.
+
+  - edoc_id: "3613310"
+    filename: 3613310.pdf
+    canonical: oepa-ohq000003-urbana-ms4-annual-report.pdf
+    type: ms4-annual-report
+    permit: OHQ000003
+    facility: City of Urbana (MS4)
+    content_verified: text-layer
+    notes: Small MS4 General Permit annual reporting form (stormwater).
+
+  - edoc_id: "3959035"
+    filename: 3959035.pdf
+    canonical: oepa-1gq00062-urbana-ms4-nov-2026-01.pdf
+    type: npdes-nov
+    permit: 1GQ00062
+    facility: City of Urbana (MS4)
+    letter_date: "2026-01-05"
+    content_verified: text-layer
+    notes: NPDES Municipal Stormwater (MS4) Notice of Violation.

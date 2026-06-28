@@ -1064,11 +1064,22 @@ _URBANA = SiteProfile(
         0.0,
     ),  # [open] pending an identified corridor on the Mad River
     receiving_water_name="Mad River",  # [verified] the Mad River reach at Urbana (→ Great Miami → Ohio R.)
-    plant_receiving={},  # [open] pending the Urbana-area WWTP NPDES fact sheet(s)
+    plant_receiving={
+        "urbana-wpcf": (
+            "Mad River",
+            # NPDES OH0027880 / Ohio EPA 1PD00011 (City of Urbana WPCF); outfall 001 at
+            # 40.095278 -83.797222 (0.38 mi south SR 36); design flow 4.5 MGD; avg ~1.6 MGD.
+            # Source: permit renewal application eDoc 3832476 (filed 2025-05-29) [verified].
+            "NPDES OH0027880/1PD00011 (City of Urbana WPCF); outfall 001 → Mad River; "
+            "design flow 4.5 MGD [verified — permit renewal app eDoc 3832476]",
+        ),
+    },
     abstraction_gage="03267000",  # [verified] Mad River near Urbana OH
     supply_gage_primary="03267000",  # [verified] Mad River near Urbana
     supply_gage_secondary="03267900",  # [verified] Mad River at Eagle City (downstream)
-    passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum
+    # [derived] LP3 7Q10 at USGS 03267000 (Mad River near Urbana, 39 yr 1980-2024) —
+    # conservative abstraction screen floor; regulatory passby pending the OEPA permit fact sheet.
+    passby_primary_cfs=53.67,
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the WPAFB-corridor data-center dimension is the research target (#440)
     serving_utility_citation="EIA-861 2024 Service_Territory: Dayton Power & Light Co (AES Ohio, #4922) is the IOU serving Champaign County, OH — the Urbana LSE (no municipal electric). [verified]",
