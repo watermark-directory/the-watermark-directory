@@ -128,14 +128,14 @@ jobs:
       # LFS-aware — the runner checks out without LFS bytes, so unmaterialized pointers are
       # an informational note, never a failure.
       - name: Catalog check
-        run: uv run bosc catalog check
+        run: uv run watermark catalog check
       # Producer→entry drift gate (#629): a changed connector without its catalog entry fails.
       # Resolves origin/main from the full-history checkout; skips cleanly if it can't, so it
       # never false-fails. Bypass with a `[catalog-waiver: <reason>]` commit token.
       - name: Catalog producer-drift gate
         run: |
           git fetch --no-tags --quiet origin main || true
-          uv run bosc catalog producer-check --base origin/main
+          uv run watermark catalog producer-check --base origin/main
 
   # Pytest, sharded across runners. pytest-split partitions the suite into `total-splits`
   # duration-balanced groups (from the committed .test_durations); each shard ALSO runs
