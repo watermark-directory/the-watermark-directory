@@ -2,9 +2,9 @@
 
 The **submissions endpoint** lets a visitor send a tip or a correction from the public
 site. A submission lands as a **labeled, inert GitHub issue** — a *proposal* a human
-triages — opened by a narrow GitHub App identity (Epic [#56](https://github.com/goedelsoup/bosc/issues/56),
-child [#74](https://github.com/goedelsoup/bosc/issues/74); the identity pattern follows
-the research App, Epic [#57](https://github.com/goedelsoup/bosc/issues/57)).
+triages — opened by a narrow GitHub App identity (Epic [#56](https://github.com/watermark-directory/the-watermark-directory/issues/56),
+child [#74](https://github.com/watermark-directory/the-watermark-directory/issues/74); the identity pattern follows
+the research App, Epic [#57](https://github.com/watermark-directory/the-watermark-directory/issues/57)).
 
 This document **is the contract**: the payload schema, the issue mapping, the abuse
 model, and the runtime. It is written so that adding the live endpoint never requires a
@@ -174,7 +174,7 @@ drift).
 **Still deferred:** optional notify-on-submit.
 
 **Triage** the queue with this saved filter — open submissions awaiting a human:
-<https://github.com/goedelsoup/bosc/issues?q=is%3Aopen+is%3Aissue+label%3Asubmission+label%3Aneeds-triage>.
+<https://github.com/watermark-directory/the-watermark-directory/issues?q=is%3Aopen+is%3Aissue+label%3Asubmission+label%3Aneeds-triage>.
 Closing an issue (or dropping `needs-triage`) takes it off the queue and out of dedupe's
 open-issue scan. The moderation model is the same as everywhere in BOSC: nothing a
 non-maintainer produces is acted on automatically — it sits labeled and inert until
@@ -210,7 +210,7 @@ stream because they come from a different identity.
 - **Build:** unchanged from the host migration — GitHub Actions runs `bosc export` →
   `npm run build` (the Python bundle step stays where uv caching works), then deploys
   `frontend/dist` **and** `frontend/functions/` to Cloudflare Pages via Wrangler. This
-  supersedes the GitHub Pages flip ([#102](https://github.com/goedelsoup/bosc/issues/102)/[#107](https://github.com/goedelsoup/bosc/issues/107)).
+  supersedes the GitHub Pages flip ([#102](https://github.com/watermark-directory/the-watermark-directory/issues/102)/[#107](https://github.com/watermark-directory/the-watermark-directory/issues/107)).
 
 ### Environment
 
@@ -247,7 +247,7 @@ the Pages project exists (Phase 1).
    - **Permissions:** **Issues — Read & write** and **Metadata — Read**, nothing else
      (no Contents, so it can never touch the corpus).
    - **Where can this App be installed?** Only on this account; install on
-     `goedelsoup/bosc` only.
+     `watermark-directory/the-watermark-directory` only.
 2. Note the **App ID**; generate and download a **private key**. GitHub issues a PKCS#1
    key (`-----BEGIN RSA PRIVATE KEY-----`); Web Crypto needs **PKCS#8** — convert once:
 
@@ -363,5 +363,5 @@ Two ways to exercise this endpoint locally without filing a real issue, both det
   Suggest a correction" deep-links across record/entity/concept/people/places); not
   `general`-only.
 - **Submitter contact** — still **none** in the public path; a private intake channel is
-  tracked separately in [#242](https://github.com/goedelsoup/bosc/issues/242), and
-  file-attach in [#243](https://github.com/goedelsoup/bosc/issues/243).
+  tracked separately in [#242](https://github.com/watermark-directory/the-watermark-directory/issues/242), and
+  file-attach in [#243](https://github.com/watermark-directory/the-watermark-directory/issues/243).

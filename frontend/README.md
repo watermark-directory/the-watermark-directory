@@ -1,6 +1,6 @@
 # `frontend/` — the redesigned BOSC site (Astro + MDX)
 
-Tier 2 of the two-tier site refactor ([Epic #54](https://github.com/goedelsoup/bosc/issues/54)).
+Tier 2 of the two-tier site refactor ([Epic #54](https://github.com/watermark-directory/the-watermark-directory/issues/54)).
 An in-repo [Astro](https://astro.build) + MDX app that reads the committed
 **content bundle** (the typed JSON feeds the Python data tier emits, Epic #53)
 at build time and renders the site as static HTML.
@@ -117,7 +117,7 @@ in [`data/site/bundle/README.md`](../data/site/bundle/README.md).
 ## Information architecture — the BOSC network
 
 The site is **one build** that hosts a *network* of watershed-point sites (the multi-site
-pivot, [#308](https://github.com/goedelsoup/bosc/issues/308)). Lima is the live reference
+pivot, [#308](https://github.com/watermark-directory/the-watermark-directory/issues/308)). Lima is the live reference
 build; the basin sites come online incrementally. Two sources of truth: the sites registry
 (`src/lib/sites.ts`) and the header IA (`src/lib/nav.ts` — the header tabs, the per-section
 TOC rail, and the search index).
@@ -132,7 +132,7 @@ TOC rail, and the search index).
 - **Cross-cutting pages are network-global** at the root, shared across every site:
   `/about`, `/about-me`, `/wiki/*`, `/ask`, `/search`, `/network/*`, and the `/api/*` functions.
 
-The four header tabs (the reconciled IA, design dictate 02 / [#307](https://github.com/goedelsoup/bosc/issues/307)):
+The four header tabs (the reconciled IA, design dictate 02 / [#307](https://github.com/watermark-directory/the-watermark-directory/issues/307)):
 
 - **The BOSC site** (`/bosc/site/`) — documents, records, timeline, exhibits, people & places, legal
 - **Watershed** (`/bosc/watershed/`) — hydrology, watershed map, imagery, RSEI/toxics
@@ -157,7 +157,7 @@ All-terms substring match, title hits first; `↵` opens `/search?q=…`. No lun
 ## Charts
 
 A hand-rolled SVG chart library (no charting dependency) in the record grammar
-([#306](https://github.com/goedelsoup/bosc/issues/306)): pure geometry builders in
+([#306](https://github.com/watermark-directory/the-watermark-directory/issues/306)): pure geometry builders in
 `src/lib/charts.ts` (`buildVBars`/`buildHBars`/`buildLine`/`buildBullet`/`buildStacked`/
 `buildDonut`/`buildSparkline`) feed seven SSR components in `src/components/charts/`. Two
 palette rules: **indigo encodes data**; the **evidence palette** (`EVIDENCE_FILL` — green/
@@ -173,13 +173,13 @@ the app — mounted `client:only` so their JS (deck.gl + MapLibre, ~heavy) loads
 has a **server-rendered no-JS fallback** (a legend + feature table, or the entity
 list) that doubles as a plain data view.
 
-- **Corridor map** (`/bosc/watershed/map`, [#71](https://github.com/goedelsoup/bosc/issues/71)) — `src/components/islands/CorridorMap.tsx`, deck.gl `GeoJsonLayer`s over a MapLibre basemap with dated Esri Wayback aerials. Styled **entirely from the feed** (`color`/`role`/`radius`); the data is the geo feeds merged by the `/feeds/geo/corridor-map.geojson` endpoint.
-- **Entity graph** (`/wiki/graph`, [#73](https://github.com/goedelsoup/bosc/issues/73)) — `src/components/islands/EntityGraph.tsx`, a deck.gl `OrthographicView` over nodes/edges laid out at build time by `d3-force` (`/feeds/graph.json`, deterministic). Click a node → its wiki page; entity pages deep-link `/wiki/graph#<slug>` to focus a neighborhood.
+- **Corridor map** (`/bosc/watershed/map`, [#71](https://github.com/watermark-directory/the-watermark-directory/issues/71)) — `src/components/islands/CorridorMap.tsx`, deck.gl `GeoJsonLayer`s over a MapLibre basemap with dated Esri Wayback aerials. Styled **entirely from the feed** (`color`/`role`/`radius`); the data is the geo feeds merged by the `/feeds/geo/corridor-map.geojson` endpoint.
+- **Entity graph** (`/wiki/graph`, [#73](https://github.com/watermark-directory/the-watermark-directory/issues/73)) — `src/components/islands/EntityGraph.tsx`, a deck.gl `OrthographicView` over nodes/edges laid out at build time by `d3-force` (`/feeds/graph.json`, deterministic). Click a node → its wiki page; entity pages deep-link `/wiki/graph#<slug>` to focus a neighborhood.
 
 The islands are build-verified (bundle, mount, endpoint fetch); a quick **browser
 visual pass** is still worth doing (WebGL rendering isn't covered by `astro check`).
 The watershed map (`/bosc/watershed/map`) and the before/during/after imagery slider
-(`/bosc/watershed/imagery`, [#72](https://github.com/goedelsoup/bosc/issues/72)) ship too —
+(`/bosc/watershed/imagery`, [#72](https://github.com/watermark-directory/the-watermark-directory/issues/72)) ship too —
 `ImagerySlider.tsx` over the `geo/imagery` Wayback feed, against the committed
 watershed-boundary + AOI geometry feeds.
 
@@ -187,7 +187,7 @@ watershed-boundary + AOI geometry feeds.
 
 The project's prose (DOSSIER, methodology, HYDROLOGY, ECONOMICS, the bigger
 picture, legal analyses…) is surfaced via an Astro **content collection** sourced
-from the repo-root `docs/` **as-is** ([#69](https://github.com/goedelsoup/bosc/issues/69)).
+from the repo-root `docs/` **as-is** ([#69](https://github.com/watermark-directory/the-watermark-directory/issues/69)).
 
 **Single-source decision:** `docs/` stays at the repo root and is **not** moved or
 edited — it's also general repo documentation.
@@ -258,13 +258,13 @@ frontend/
 
 ## Status / roadmap
 
-**Shipped — the two-tier site (Epic [#54](https://github.com/goedelsoup/bosc/issues/54)) is
+**Shipped — the two-tier site (Epic [#54](https://github.com/watermark-directory/the-watermark-directory/issues/54)) is
 complete.** Scaffold + app shell, all the content sections (the corpus catalog/records/
 timeline/exhibits/people/legal, the watershed water-balance + RSEI, the wiki entity/concept
 pages + `[[wiki-link]]` resolver), the **deck.gl layer** (Epic #55 — corridor map #71 +
 entity graph #73 + imagery slider #72), and the migrated narrative collection (#69).
 
-**Shipped — the BOSC-network design refresh (Epic [#308](https://github.com/goedelsoup/bosc/issues/308)).**
+**Shipped — the BOSC-network design refresh (Epic [#308](https://github.com/watermark-directory/the-watermark-directory/issues/308)).**
 The multi-site pivot and chrome restyle: the sites registry + project switcher (#304) with
 per-site coming-soon pages (#305); the chart library (#306); the icon/brand refresh (#309);
 the four-tab IA reconciliation, the `/bosc` re-root + root globals, and the search

@@ -2,7 +2,7 @@
 
 The **ask endpoint** lets a visitor ask a natural-language question about the BOSC
 record and get a **Claude-generated answer grounded in the extracted corpus, with
-citations back to source documents** (Epic [#207](https://github.com/goedelsoup/bosc/issues/207)).
+citations back to source documents** (Epic [#207](https://github.com/watermark-directory/the-watermark-directory/issues/207)).
 The corpus is litigation evidence; the bar is *faithful, cited, and refuses when the
 record is silent* — never a confident hallucination.
 
@@ -190,7 +190,7 @@ A public, **paid** LLM endpoint. Controls (reusing submit's `_lib/`):
 
 | Name | Where | What |
 | --- | --- | --- |
-| `ANTHROPIC_API_KEY` | Cloudflare (Function **secret**) | the Anthropic Messages API key ([#124](https://github.com/goedelsoup/bosc/issues/124)) |
+| `ANTHROPIC_API_KEY` | Cloudflare (Function **secret**) | the Anthropic Messages API key ([#124](https://github.com/watermark-directory/the-watermark-directory/issues/124)) |
 | `TURNSTILE_SECRET_KEY` | Cloudflare (Function **secret**) | server-side Turnstile verification — **shared** with submit |
 | `ASK_ENABLED` | Cloudflare (Function var) | on / kill switch — anything but `true` ⇒ `503` and the form shows disabled |
 | `PUBLIC_TURNSTILE_SITE_KEY` | GitHub Actions **build** var (in `pages.yml`) | the Turnstile widget's public site key — read at build time by `ask.astro`; **shared** with submit, so setting it flips both forms live |
@@ -214,7 +214,7 @@ Nothing is live until these steps are done: until then the endpoint returns `503
 (`ASK_ENABLED` unset) and the form shows a disabled placeholder. The Cloudflare secrets
 can only be set once the Pages project exists (see `docs/submissions-api.md` Phase 1).
 
-1. **Provision the Anthropic key** ([#124](https://github.com/goedelsoup/bosc/issues/124)).
+1. **Provision the Anthropic key** ([#124](https://github.com/watermark-directory/the-watermark-directory/issues/124)).
    In the Cloudflare Pages project → Settings → environment variables (production), set
    `ANTHROPIC_API_KEY` as a **secret**.
 2. **Turnstile** — reuse the submit endpoint's `TURNSTILE_SECRET_KEY` secret +
@@ -278,6 +278,6 @@ Two ways to exercise this endpoint locally without spending tokens, both detaile
 | Abuse + cost controls (Turnstile, per-IP rate limit, token/budget cap) | **built** (#211 — rate limit/budget opt-in via the `ASK_RATE_LIMIT` KV binding) |
 | `/ask` page + citation-resolution UI | **built** — disabled placeholder until `PUBLIC_TURNSTILE_SITE_KEY` is set |
 | Faithfulness eval (fixture tier in CI; live tier gated) | **built** (#215) |
-| `ANTHROPIC_API_KEY` provisioning | depends on [#124](https://github.com/goedelsoup/bosc/issues/124) |
+| `ANTHROPIC_API_KEY` provisioning | depends on [#124](https://github.com/watermark-directory/the-watermark-directory/issues/124) |
 | Go-live (`ASK_ENABLED=true` + secrets) | manual bootstrap, above — the last step |
 | Embeddings / vector retrieval | **deferred** — keyword/BM25 is the v1 decision |

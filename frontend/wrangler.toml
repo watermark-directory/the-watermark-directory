@@ -12,15 +12,15 @@
 # must stay operator-flippable without a redeploy. See docs/submissions-api.md,
 # docs/ask-api.md, and docs/object-store.md.
 
-name = "bosc"
+name = "the-watermark-directory"
 pages_build_output_dir = "dist"
 compatibility_date = "2024-11-01"
 
 # Non-secret, stable config for the submissions Function. (The Function also defaults
 # these in code, so this is belt-and-suspenders + documentation.)
 [vars]
-GITHUB_OWNER = "goedelsoup"
-GITHUB_REPO = "bosc"
+GITHUB_OWNER = "watermark-directory"
+GITHUB_REPO = "the-watermark-directory"
 # Optional rate-limit knobs (defaults in code: 5 / 3600s). Uncomment to override.
 # RATE_LIMIT_MAX = "5"
 # RATE_LIMIT_WINDOW_SEC = "3600"
@@ -63,10 +63,10 @@ GITHUB_REPO = "bosc"
 # Populated by `bosc objectstore sync` (#279). The DOCS_ENABLED kill switch lives in the
 # dashboard (ships dark — unset/"false" → /api/doc returns 503), mirroring the other
 # endpoints. Create the buckets once (prod + a distinct dev bucket for wrangler preview):
-#   npx wrangler r2 bucket create bosc-documents
-#   npx wrangler r2 bucket create bosc-documents-dev
+#   npx wrangler r2 bucket create watermark-documents
+#   npx wrangler r2 bucket create watermark-documents-dev
 # See docs/object-store.md for the full runbook (S3 credentials, the sync tool, dev loop).
 [[r2_buckets]]
 binding = "DOCS"
-bucket_name = "bosc-documents"
-preview_bucket_name = "bosc-documents-dev"
+bucket_name = "watermark-documents"
+preview_bucket_name = "watermark-documents-dev"

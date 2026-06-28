@@ -150,7 +150,7 @@ leads:
 
 
     Source: `data/extracted/legal/corpus-completeness-audit.md` §2; `docs/HYDROLOGY.md`.'
-  source: goedelsoup/bosc#34
+  source: watermark-directory/the-watermark-directory#34
   issue: 34
 - id: GH-35
   kind: signal
@@ -185,7 +185,7 @@ leads:
 
 
     Source: `data/extracted/legal/corpus-completeness-audit.md` §1; `prr-mandamus/bosc-prr-production-2026-06-05.response-index.yaml`.'
-  source: goedelsoup/bosc#35
+  source: watermark-directory/the-watermark-directory#35
   issue: 35
 - id: GH-144
   kind: claim
@@ -231,7 +231,7 @@ leads:
     - `data/extracted/legal/corpus-completeness-audit.md` §1 (Allen SWCD production)
 
     - Outstanding-records trackin…'
-  source: goedelsoup/bosc#144
+  source: watermark-directory/the-watermark-directory#144
   issue: 144
 - id: GH-155
   kind: question
@@ -281,7 +281,7 @@ leads:
     no source bytes altered. Analysis, not a legal conclusion.
 
     '
-  source: goedelsoup/bosc#155
+  source: watermark-directory/the-watermark-directory#155
   issue: 155
 - id: GH-160
   kind: signal
@@ -308,7 +308,7 @@ leads:
 
 
     **Refs.** `corpus-completeness-audit.md` §4; `docs/COMPUTE.md`; #33.'
-  source: goedelsoup/bosc#160
+  source: watermark-directory/the-watermark-directory#160
   issue: 160
 - id: GH-161
   kind: signal
@@ -341,7 +341,7 @@ leads:
 
     **Refs.** `legal/prr-mandamus/cross-production-referral-map.yaml`; `corpus-completeness-audit.md`
     §1; #35.'
-  source: goedelsoup/bosc#161
+  source: watermark-directory/the-watermark-directory#161
   issue: 161
 - id: GH-162
   kind: signal
@@ -365,7 +365,7 @@ leads:
 
     **Refs.** `legal/web-vendor-audit/allen-county-web-vendor-audit.md`, `allen-county-level-sites.md`;
     `corpus-completeness-audit.md` §1 (item 16).'
-  source: goedelsoup/bosc#162
+  source: watermark-directory/the-watermark-directory#162
   issue: 162
 - id: GH-752
   kind: signal
@@ -392,5 +392,5 @@ leads:
     \ artifact once committed.\n\n## Done when\nThe LACRPC CAC agenda is a committed, schema-valid extraction\
     \ under `data/extracted/lacrpc/`, sourced through the #703 image path, and (if it carries a date/parties)\
     \ wired into the timeline/meetings layer.\n"
-  source: goedelsoup/bosc#752
+  source: watermark-directory/the-watermark-directory#752
   issue: 752

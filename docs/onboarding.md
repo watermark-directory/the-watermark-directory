@@ -1,9 +1,9 @@
 # Onboarding a watershed-point site
 
-How to bring a new site in the BOSC network (epic [#323](https://github.com/goedelsoup/bosc/issues/323) / [#308](https://github.com/goedelsoup/bosc/issues/308))
+How to bring a new site in the BOSC network (epic [#323](https://github.com/watermark-directory/the-watermark-directory/issues/323) / [#308](https://github.com/watermark-directory/the-watermark-directory/issues/308))
 from nothing to a "coming soon" page, repeatably. Lima is the live reference build; the
 basin sites (Fort Wayne, Defiance, …) come online one at a time. The scaffold is
-registry-driven and the data tier is per-site keyed ([#325](https://github.com/goedelsoup/bosc/issues/325)),
+registry-driven and the data tier is per-site keyed ([#325](https://github.com/watermark-directory/the-watermark-directory/issues/325)),
 so onboarding is a short, ordered chain — `bosc onboard <slug>` runs the middle of it.
 
 > **`onboard` proposes; it never promotes.** Flipping a site to a live, switchable build is
@@ -177,7 +177,7 @@ deeper, separate cutover, not part of routine onboarding.
   parcels = `[open]` (Hancock County publishes no ArcGIS-REST parcel layer — Beacon/Schneider
   only; the substitute is the Ohio statewide parcel layer filtered to FIPS 39063). *Worked
   example — Ottawa (the full fit):* Putnam County self-hosts its own valid-cert ArcGIS, so parcels
-  = the county's `Parcels` layer (`PUTNAM_PARCEL_SCHEMA`, [#420](https://github.com/goedelsoup/bosc/issues/420))
+  = the county's `Parcels` layer (`PUTNAM_PARCEL_SCHEMA`, [#420](https://github.com/watermark-directory/the-watermark-directory/issues/420))
   — owner **and** auditor CAMA values on one layer, no statewide substitute needed; flood = the
   national NFHL; zoning = `[open]` (the village's zoning is parcel-class-coded / map-only, no REST).
   This is where reading the live `?f=json` earns its keep: the populated land-use code was `CLASS_1`
@@ -189,7 +189,7 @@ deeper, separate cutover, not part of routine onboarding.
 The flow chains a **discipline-bound `bosc.agent` first pass** that investigates the new site
 over the corpus and emits a *proposal* artifact a human triages — the agent proposes, never
 promotes. The investigative skills + system prompt are now wired into the agent
-([#247](https://github.com/goedelsoup/bosc/issues/247)), so onboard runs it as an **opt-in step**:
+([#247](https://github.com/watermark-directory/the-watermark-directory/issues/247)), so onboard runs it as an **opt-in step**:
 
 ```sh
 bosc onboard <slug> --research

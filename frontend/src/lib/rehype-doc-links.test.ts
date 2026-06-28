@@ -14,7 +14,7 @@ function rewrite(filePath: string, href: string, opts?: DocLinkOptions): string 
   return node.properties!.href as string;
 }
 
-const REPO = "https://github.com/goedelsoup/bosc/blob/main/";
+const REPO = "https://github.com/watermark-directory/the-watermark-directory/blob/main/";
 
 describe("rehype-doc-links — guards (data-independent)", () => {
   it("ignores files outside the as-is-rendered roots", () => {

@@ -12,8 +12,8 @@ custom-domain attach) and **AWS** (the Route53 record — only when a custom dom
 ## What it manages
 
 The underlying resources the public submissions endpoint
-([#74](https://github.com/goedelsoup/bosc/issues/74) / epic
-[#240](https://github.com/goedelsoup/bosc/issues/240), see
+([#74](https://github.com/watermark-directory/the-watermark-directory/issues/74) / epic
+[#240](https://github.com/watermark-directory/the-watermark-directory/issues/240), see
 [`docs/submissions-api.md`](../docs/submissions-api.md)) depends on:
 
 - **`cloudflare.WorkersKvNamespace`** — the KV namespace backing the per-IP rate limiter
@@ -29,7 +29,7 @@ When `siteDomain` is set (the late-bound custom subdomain), it also owns the
 - **`cloudflare.PagesDomain`** — attaches `siteDomain` to the `bosc` Pages project (the
   Cloudflare side: "expect this hostname, issue a cert once DNS validates").
 - **`aws.route53.Record`** — a CNAME `siteDomain` → `bosc.pages.dev` (the AWS side).
-  Decided shape ([#240](https://github.com/goedelsoup/bosc/issues/240)): a **subdomain**,
+  Decided shape ([#240](https://github.com/watermark-directory/the-watermark-directory/issues/240)): a **subdomain**,
   because a bare apex can't point cross-provider at pages.dev (a CNAME is illegal at the
   apex, and a Route53 ALIAS only targets AWS resources). For an apex you'd move DNS to
   Cloudflare or add a redirect — neither is wired here.

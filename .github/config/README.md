@@ -23,9 +23,9 @@ workflow](../workflows/repo-config.yml)) — not by clicking around in the GitHu
   `research-run`, `submission`: the vocabulary the automation tags its proposed
   issues/PRs with, so the work is inert until a human triages it. `agent-proposed` +
   `research-run` are the [research GitHub App](../../data/research/) (Epic
-  [#57](https://github.com/goedelsoup/bosc/issues/57)); `submission` is the public
+  [#57](https://github.com/watermark-directory/the-watermark-directory/issues/57)); `submission` is the public
   [submissions form](../../docs/submissions-api.md) (Epic
-  [#56](https://github.com/goedelsoup/bosc/issues/56)); both share `needs-triage`.
+  [#56](https://github.com/watermark-directory/the-watermark-directory/issues/56)); both share `needs-triage`.
   Pulumi manages only these four; pre-existing repo labels are left alone.
 
 ## Approval gates & the research App (Epic 5.4)

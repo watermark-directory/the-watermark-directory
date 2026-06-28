@@ -104,8 +104,8 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
     const result = await fileIssueAsApp({
       appId: env.TIPS_APP_ID,
       privateKey: env.TIPS_APP_PRIVATE_KEY,
-      owner: env.GITHUB_OWNER ?? "goedelsoup",
-      repo: env.GITHUB_REPO ?? "bosc",
+      owner: env.GITHUB_OWNER ?? "watermark-directory",
+      repo: env.GITHUB_REPO ?? "the-watermark-directory",
       issue,
       dedupeHash,
       apiBase: env.GITHUB_API_BASE,

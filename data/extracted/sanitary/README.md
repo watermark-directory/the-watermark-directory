@@ -25,4 +25,4 @@ bosc extract indianbrook-ps-asbuilt-2007 --kind sanitary --write
 ```
 
 See `bosc.models.EngineeringRecord` for the schema (the `components`/`specs` and
-`sheets`/`design_parameters` axes) and [issue #41](https://github.com/goedelsoup/bosc/issues/41).
+`sheets`/`design_parameters` axes) and [issue #41](https://github.com/watermark-directory/the-watermark-directory/issues/41).
