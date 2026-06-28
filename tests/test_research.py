@@ -32,6 +32,7 @@ from watermark.research import (
     run_slug,
     write_run,
 )
+from watermark.research.publish import _normalize_labels
 from watermark.research.run import distill_proposals
 
 _DRAFTS = {
@@ -99,7 +100,7 @@ def test_distill_normalizes_labels_and_dedupe_key() -> None:
     assert len(proposals) == 2
     first = proposals[0]
     # process labels are prepended in code; the topical suggestion is preserved, deduped.
-    assert first.labels == ["agent-proposed", "needs-triage", "extraction"]
+    assert first.labels == ["status:agent-proposed", "status:needs-triage", "extraction"]
     assert first.dedupe_key == "verify-the-diller-roundabout-contingency-rate"
 
 
@@ -128,7 +129,7 @@ def test_run_research_builds_manifest(monkeypatch: pytest.MonkeyPatch) -> None:
     assert prov.max_turns == Settings().research_max_turns  # taken from the agent
     assert "25% contingency" in manifest.findings
     assert len(manifest.proposals) == 2
-    assert manifest.proposals[0].labels[:2] == ["agent-proposed", "needs-triage"]
+    assert manifest.proposals[0].labels[:2] == ["status:agent-proposed", "status:needs-triage"]
 
 
 # --- persistence -----------------------------------------------------------
@@ -156,7 +157,7 @@ def test_write_run_persists_artifacts(tmp_path: Path, monkeypatch: pytest.Monkey
     assert doc["meta"]["provenance"]["num_turns"] == 3
     first = doc["proposals"][0]
     assert first["dedupe_key"] == "verify-the-diller-roundabout-contingency-rate"
-    assert "agent-proposed" in first["labels"]
+    assert "status:agent-proposed" in first["labels"]
 
 
 def test_write_run_refuses_corpus_path() -> None:
@@ -195,14 +196,14 @@ def _manifest() -> ResearchRunManifest:
             IssueProposal(
                 title="Verify the Diller roundabout contingency rate",
                 body="Reconcile 25% vs 20%.",
-                labels=["agent-proposed", "needs-triage", "extraction"],
+                labels=["status:agent-proposed", "status:needs-triage", "extraction"],
                 rationale="Moves the total.",
                 dedupe_key="verify-the-diller-roundabout-contingency-rate",
             ),
             IssueProposal(
                 title="Extract the missing OPC detail page 327",
                 body="Page 327 is unextracted.",
-                labels=["agent-proposed", "needs-triage"],
+                labels=["status:agent-proposed", "status:needs-triage"],
                 rationale="Corpus gap.",
                 dedupe_key="extract-the-missing-opc-detail-page-327",
             ),
@@ -235,6 +236,27 @@ def test_build_plan_dedupes_and_embeds_marker() -> None:
     # The opened issue's body carries the dedupe marker so a later run won't re-propose.
     assert marker("verify-the-diller-roundabout-contingency-rate") in plan.issues[0].body
     assert "data/research/run-1" in plan.issues[0].body
+
+
+def test_normalize_labels_maps_to_taxonomy() -> None:
+    result = _normalize_labels(["status:agent-proposed", "status:needs-triage", "extraction"])
+    assert result == ["status:agent-proposed", "status:needs-triage", "area:extraction"]
+
+
+def test_normalize_labels_drops_unknown_unprefixed() -> None:
+    result = _normalize_labels(["agent-proposed", "extraction", "entities", "onboarding"])
+    assert result == ["status:agent-proposed", "area:extraction"]
+    assert "entities" not in result
+    assert "onboarding" not in result
+
+
+def test_build_plan_normalizes_labels() -> None:
+    plan = build_plan(_manifest(), existing=[], run_ref="data/research/run-1")
+    labels = plan.issues[0].labels
+    assert "status:agent-proposed" in labels
+    assert "status:needs-triage" in labels
+    assert "area:extraction" in labels
+    assert "extraction" not in labels  # short form replaced
 
 
 def test_build_plan_skips_same_run_collision() -> None:
@@ -360,7 +382,7 @@ def test_distill_retries_then_succeeds() -> None:
     out = distill_proposals("findings", topic="t", extractor=ex, max_proposals=5)  # type: ignore[arg-type]
     assert ex.calls == 3
     assert out[0].title == "T"
-    assert "agent-proposed" in out[0].labels
+    assert "status:agent-proposed" in out[0].labels
 
 
 def test_distill_raises_after_exhausting_retries() -> None:

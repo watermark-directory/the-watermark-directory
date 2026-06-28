@@ -21,7 +21,7 @@ from watermark.hypotheses import Citation, HypothesisAssessment
 # plus inert-until-triaged (``needs-triage``). These are the runtime labels managed in
 # ``.github/config`` (Pulumi, Epic 5.4); a proposal stays inert until a maintainer
 # triages it. They are added in code, never by the distillation model.
-RUNTIME_LABELS: tuple[str, ...] = ("agent-proposed", "needs-triage")
+RUNTIME_LABELS: tuple[str, ...] = ("status:agent-proposed", "status:needs-triage")
 
 
 def _coerce_json(v: Any, open_ch: str, close_ch: str) -> Any:
