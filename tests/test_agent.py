@@ -12,12 +12,12 @@ from typing import Any
 import pytest
 from claude_agent_sdk import AssistantMessage, ResultMessage, TextBlock, ToolUseBlock
 
-from bosc.agent import client as client_mod
-from bosc.agent import tools
-from bosc.agent.client import DEFAULT_SYSTEM_PROMPT, RESEARCH_SKILLS, ResearchAgent
-from bosc.config import Settings
-from bosc.models import Estimate, PageExtraction
-from bosc.pipeline.extract import save_extraction
+from watermark.agent import client as client_mod
+from watermark.agent import tools
+from watermark.agent.client import DEFAULT_SYSTEM_PROMPT, RESEARCH_SKILLS, ResearchAgent
+from watermark.config import Settings
+from watermark.models import Estimate, PageExtraction
+from watermark.pipeline.extract import save_extraction
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
@@ -34,7 +34,7 @@ async def test_program_overview_reads_committed_summary() -> None:
 async def test_reference_tools_do_not_serve_lima_data_off_home(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # #424 flip: a per-site run (`bosc --site <slug> research run`) must NOT be silently handed
+    # #424 flip: a per-site run (**`watermark --site <slug> research run`) must NOT be silently handed
     # Lima's reference record — the gap the Bryan/Ottawa/Fort Wayne findings each hit. The
     # Lima-reference tools (entities/timeline/hydrology) now return an honest notice off-home
     # instead of Lima's data.

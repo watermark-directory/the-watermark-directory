@@ -12,9 +12,9 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.onboard import onboard_site, scaffold_dirs
-from bosc.sites import SITES
+from watermark.config import Settings
+from watermark.onboard import onboard_site, scaffold_dirs
+from watermark.sites import SITES
 
 
 def _fw(monkeypatch) -> None:  # type: ignore[no-untyped-def]

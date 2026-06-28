@@ -265,13 +265,13 @@ the Pages project exists (Phase 1).
    Wrangler direct-upload deploy is wired in [`pages.yml`](../.github/workflows/pages.yml)
    (manual, build-only by default) — config in [`frontend/wrangler.toml`](../frontend/wrangler.toml).
    Set two repo **secrets**: `CLOUDFLARE_API_TOKEN` (a token with *Cloudflare Pages —
-   Edit*) and `CLOUDFLARE_ACCOUNT_ID`. The default domain is `bosc.pages.dev` at the
+   Edit*) and `CLOUDFLARE_ACCOUNT_ID`. The default domain is `watermark.pages.dev` at the
    root (no base path).
 
    **Custom domain (decided: a subdomain on Route53).** Set `siteDomain` + `route53ZoneId`
    in the [`deploy/`](../deploy/) stack and `pulumi up` — Pulumi attaches the domain to the
    Pages project (`cloudflare.PagesDomain`) **and** creates the Route53 CNAME →
-   `bosc.pages.dev`, then Cloudflare validates and issues the cert. Set the repo var
+   `watermark.pages.dev`, then Cloudflare validates and issues the cert. Set the repo var
    `PAGES_SITE_URL` to the `siteUrl` output so the build emits absolute links (no code
    change). A bare apex isn't used — it can't point cross-provider at pages.dev.
 5. Create a free **Turnstile** widget for that domain; note the **site key** (public)
@@ -353,7 +353,7 @@ Two ways to exercise this endpoint locally without filing a real issue, both det
 
 ### Settled decisions (#240)
 
-- **Domain** — a **custom subdomain on Route53**, CNAME → `bosc.pages.dev`, attached to the
+- **Domain** — a **custom subdomain on Route53**, CNAME → `watermark.pages.dev`, attached to the
   Pages project via Pulumi (`cloudflare.PagesDomain` + `aws.route53.Record`). The exact
   name is late-bound (one `pulumi config set siteDomain …`); a bare apex is not used
   (illegal cross-provider CNAME / ALIAS).

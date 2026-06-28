@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: gleif
-  connector_ref: bosc.gleif
+  connector_ref: watermark.gleif
   source: GLEIF — REST API api.gleif.org (Golden Copy)
   external_url: https://www.gleif.org/en/lei-data/gleif-golden-copy
 license: CC0 1.0
@@ -18,7 +18,7 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
-schema_ref: bosc.gleif.LeiInventory
+schema_ref: watermark.gleif.LeiInventory
 tags:
 - lei
 - gleif

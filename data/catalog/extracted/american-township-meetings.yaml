@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: subdivisions download american-township
-  connector_ref: bosc.civic
+  connector_ref: watermark.civic
   source: American Township Board of Trustees (Allen County, OH) — minutes/agendas published at amertwp.us
   external_url: https://www.amertwp.us/trustee-minutes
 license: Public record (Ohio R.C. 149.43)

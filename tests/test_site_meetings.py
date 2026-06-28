@@ -6,8 +6,8 @@ from pathlib import Path
 
 import yaml
 
-from bosc.civic.summarize import load_committed_summaries
-from bosc.config import Settings
+from watermark.civic.summarize import load_committed_summaries
+from watermark.config import Settings
 
 
 def _seed(settings: Settings, slug: str, meetings: list[dict[str, object]]) -> None:

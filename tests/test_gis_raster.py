@@ -9,9 +9,9 @@ import pytest
 import rasterio
 import yaml
 
-from bosc.config import Settings
-from bosc.gis import imagery, raster
-from bosc.gis.sites import TrackingSite
+from watermark.config import Settings
+from watermark.gis import imagery, raster
+from watermark.gis.sites import TrackingSite
 
 
 def _campus_scenes(settings: Settings) -> tuple[TrackingSite, list[imagery.Scene]]:

@@ -71,7 +71,7 @@ jobs:
       - name: Install dependencies
         run: uv sync
       - name: Export the content bundle (-> data/site/bundle)
-        run: uv run bosc export
+        run: uv run watermark export
 
       # 2. Build the Astro site over that bundle.
       - name: Set up Node

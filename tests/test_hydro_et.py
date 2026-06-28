@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology import climate, et
-from bosc.hydrology.connectors.nasa_power import ClimatologyParameter, NasaPowerClimatology
+from watermark.config import Settings
+from watermark.hydrology import climate, et
+from watermark.hydrology.connectors.nasa_power import ClimatologyParameter, NasaPowerClimatology
 
 
 def test_et0_from_committed_climatology() -> None:

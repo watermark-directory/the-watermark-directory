@@ -31,7 +31,7 @@ input (26.4 MMBTU/hr) and not the engine electrical rating — the genset namepl
 The facility is a **Title V (major) air source** — for a data center, the permitted units
 are the standby/backup engine fleet. The 2024 NSC permit is the construction authorization;
 the 2025 filing is the significant Part 70 operating-permit modification (public-hearing
-stage). Ties to `bosc.sites` `_FORT_WAYNE` (#360/#362) and the Hatchworks parcel assemblage
+stage). Ties to `watermark.sites` `_FORT_WAYNE` (#360/#362) and the Hatchworks parcel assemblage
 (`data/reference/fort-wayne/bosc-parcels.geojson`).
 
 ### §401 Water Quality Certification WQC001454 (Phase 3 — the contested-permit record)

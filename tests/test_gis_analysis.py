@@ -8,10 +8,10 @@ import pytest
 import rasterio
 import yaml
 
-from bosc.config import Settings
-from bosc.gis import imagery
-from bosc.gis.analysis import compute_index
-from bosc.gis.imagery import Scene
+from watermark.config import Settings
+from watermark.gis import imagery
+from watermark.gis.analysis import compute_index
+from watermark.gis.imagery import Scene
 
 
 def _campus_top(settings: Settings) -> tuple[object, Scene]:

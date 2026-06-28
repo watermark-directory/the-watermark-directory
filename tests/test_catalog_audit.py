@@ -1,11 +1,11 @@
-"""Tests for ``bosc catalog audit`` — the generated integrity audit (epic #631 Phase 3 / #659)."""
+"""Tests for ``watermark catalog audit`` — the generated integrity audit (epic #631 Phase 3 / #659)."""
 
 from __future__ import annotations
 
 import textwrap
 from pathlib import Path
 
-from bosc.catalog_audit import (
+from watermark.catalog_audit import (
     AUDIT_RELPATH,
     _state,
     audit_drift,
@@ -13,8 +13,8 @@ from bosc.catalog_audit import (
     render_audit,
     write_audit,
 )
-from bosc.catalog_reconcile import ObservedEntry
-from bosc.config import Settings
+from watermark.catalog_reconcile import ObservedEntry
+from watermark.config import Settings
 
 
 def _settings(tmp_path: Path) -> Settings:

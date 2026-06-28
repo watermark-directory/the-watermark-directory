@@ -110,7 +110,7 @@ proposals:
     low-flow design value), and stated dilution ratio; the `receiving_water` null
     in the ECHO record is reconciled; and all extracted values are flagged with their
     source citation and confidence level in the profile.'
-- title: Run bosc onboard findlay --research and record affirmative finding on data-center
+- title: Run watermark onboard findlay --research and record affirmative finding on data-center
     activity
   dedupe_key: run-bosc-onboard-findlay-research-and-record-affirmative-finding
   labels:
@@ -130,7 +130,7 @@ proposals:
     files have been created; and `pre_cover`/`post_cover`/`developed_pervious_cover`
     remain `"TODO"` (`findings §1, §3`). The committed grid profile (`eia/findlay/grid-profile.yaml`)
     is a backdrop only — no campus load share has been fabricated (`findings §3`).
-    The self-research pass (`bosc onboard findlay --research`) has not been run.
+    The self-research pass (`watermark onboard findlay --research`) has not been run.
 
 
     ## Grounding
@@ -149,7 +149,7 @@ proposals:
 
     ## Acceptance Criterion
 
-    `bosc onboard findlay --research` is run and its proposals triaged; Ohio EPA eDoc,
+    `watermark onboard findlay --research` is run and its proposals triaged; Ohio EPA eDoc,
     Hancock County recorder, and Ohio SOS are searched for Findlay data-center permits
     or land assembly records; and `ONBOARDING.md` is updated with either (a) a documented
     data-center facility entry or (b) an explicit affirmative finding recorded as
@@ -232,7 +232,7 @@ proposals:
     - `_FINDLAY` profile: `parcels_url="TODO"`, `gis_parcel=None` `[open]` (`findings
     §1`)
 
-    - Findings §5, items 4 and 5: both flagged as live lint items that `bosc onboard
+    - Findings §5, items 4 and 5: both flagged as live lint items that `watermark onboard
     findlay --check` already surfaces
 
     - Findings §1: both are among the four blocking review-gate items in `ONBOARDING.md`
@@ -243,5 +243,5 @@ proposals:
     (1) An area-weighted SSURGO query is run over Hancock County OH063 (or a committed
     Findlay footprint) and `dominant_hsg` is either confirmed as `"D"` with a `[verified]`
     tag or corrected; (2) the Ohio statewide parcel layer (geohio, FIPS `39063`) is
-    registered as `parcels_url` and `gis_parcel` is populated; and (3) `bosc onboard
+    registered as `parcels_url` and `gis_parcel` is populated; and (3) `watermark onboard
     findlay --check` no longer flags either field as unresolved lint.'

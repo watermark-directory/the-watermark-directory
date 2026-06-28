@@ -1,4 +1,4 @@
-"""Unit tests for bosc.site.gh_leads — label parsing and merge logic."""
+"""Unit tests for watermark.site.gh_leads — label parsing and merge logic."""
 
 from __future__ import annotations
 
@@ -7,15 +7,15 @@ from pathlib import Path
 
 import pytest
 
-from bosc.site.feeds import LeadItem
-from bosc.site.gh_leads import GithubIssue, issue_to_lead, merge_leads
+from watermark.site.feeds import LeadItem
+from watermark.site.gh_leads import GithubIssue, issue_to_lead, merge_leads
 
 _FIXTURE = Path(__file__).parent / "fixtures" / "gh_leads" / "lima.json"
 
 
 def _load_fixture() -> list[GithubIssue]:
     raw = json.loads(_FIXTURE.read_text(encoding="utf-8"))
-    from bosc.site.gh_leads import _extract_labels
+    from watermark.site.gh_leads import _extract_labels
 
     return [
         GithubIssue(

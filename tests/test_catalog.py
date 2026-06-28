@@ -2,7 +2,7 @@
 
 The model layer everything else builds on: a typed :class:`CatalogEntry` per dataset at
 ``data/catalog/<scope>/<id>.yaml``, a ``data/`` loader that cross-checks scope/id against the
-path, and a structural validator (the model-layer half of the future ``bosc catalog check``).
+path, and a structural validator (the model-layer half of the future ``watermark catalog check``).
 The committed-store tests pin that the hand-written fixtures load and validate clean.
 """
 
@@ -13,7 +13,7 @@ import textwrap
 import pytest
 from pydantic import ValidationError
 
-from bosc.catalog import (
+from watermark.catalog import (
     CatalogEntry,
     Producer,
     Refresh,
@@ -24,7 +24,7 @@ from bosc.catalog import (
     load_entries,
     validate_entries,
 )
-from bosc.config import Settings
+from watermark.config import Settings
 
 
 def _entry(**over: object) -> CatalogEntry:

@@ -33,7 +33,7 @@ docs/investigative-method/
   entities, no statute numbers, no format values — with YAML frontmatter (`name`,
   `description`) whose `description` is written as *when to trigger*. They live
   under `.claude/skills/` so Claude Code discovers them natively, and so the
-  in-process Agent SDK research agent (`bosc.agent`) can load them via
+  in-process Agent SDK research agent (`watermark.agent`) can load them via
   `setting_sources` when that wiring lands.
 - **The enrichment layer is concrete.** [`ENRICHMENT.md`](ENRICHMENT.md) supplies
   the repo specifics each skill defers to — the `Provenanced` value model, the
@@ -46,7 +46,7 @@ docs/investigative-method/
   wins.
 - **The system prompt** ([`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md)) is the standing
   posture the skills assume. It is the candidate replacement for the terse
-  `DEFAULT_SYSTEM_PROMPT` in `bosc.agent.client` — see "In-app integration" below.
+  `DEFAULT_SYSTEM_PROMPT` in `watermark.agent.client` — see "In-app integration" below.
 
 ## How this maps onto the repo
 
@@ -57,10 +57,10 @@ describe. The enrichment layer documents the mapping in full; the short version:
 |---|---|
 | evidentiary-discipline | the `[verified]` / `[inference]` / `[reference]` / `[open]` tag vocabulary (`docs/methodology.md`, `CLAUDE.md`) |
 | public-records-and-legal-strategy | `docs/legal/` (`mandamus-analysis.md`, `proponent-analysis.md`) |
-| gis-and-siting-analysis | `bosc.gis` + the `ProvenancedValue` model in `bosc.hydrology.model` |
-| entity-and-document-deconstruction | `bosc.pipeline.entities` (`EntityGraph`) + `bosc.pipeline.timeline`; gap audit at `data/extracted/legal/corpus-completeness-audit.md` |
+| gis-and-siting-analysis | `watermark.gis` + the `ProvenancedValue` model in `watermark.hydrology.model` |
+| entity-and-document-deconstruction | `watermark.pipeline.entities` (`EntityGraph`) + `watermark.pipeline.timeline`; gap audit at `data/extracted/legal/corpus-completeness-audit.md` |
 | investigative-writing-and-editorial | the narrative draft under `docs/` and the Astro site under `frontend/` |
-| document-production-and-ocr | the vision-based `bosc.pipeline.extract` read path (the generic tesseract/docx recipes are fallbacks) |
+| document-production-and-ocr | the vision-based `watermark.pipeline.extract` read path (the generic tesseract/docx recipes are fallbacks) |
 
 ## In-app integration (deferred)
 
@@ -68,7 +68,7 @@ The `.claude/skills/` home is deliberately the one place that serves both
 audiences:
 
 1. **Claude Code** agents working in the repo discover the skills automatically.
-2. The **in-process research agent** (`bosc.agent.ResearchAgent`, an Agent SDK
+2. The **in-process research agent** (`watermark.agent.ResearchAgent`, an Agent SDK
    wrapper) can load the same skills via `ClaudeAgentOptions(setting_sources=[...])`
    and adopt `SYSTEM_PROMPT.md` in place of its current terse default.
 

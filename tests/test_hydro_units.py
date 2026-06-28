@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.hydrology import units
+from watermark.hydrology import units
 
 
 def test_mgd_to_cfs_matches_usgs_factor() -> None:

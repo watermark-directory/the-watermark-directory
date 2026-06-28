@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from collections import Counter
 
-from bosc.pipeline.entities import Entity, EntityGraph, Relationship
-from bosc.pipeline.timeline import TimelineEvent
-from bosc.site.graph import export_entities, export_relationships, export_timeline
+from watermark.pipeline.entities import Entity, EntityGraph, Relationship
+from watermark.pipeline.timeline import TimelineEvent
+from watermark.site.graph import export_entities, export_relationships, export_timeline
 
 
 def test_export_timeline_carries_fields_and_a_document_citation() -> None:

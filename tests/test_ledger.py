@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bosc import ledger
-from bosc.config import Settings
+from watermark import ledger
+from watermark.config import Settings
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 

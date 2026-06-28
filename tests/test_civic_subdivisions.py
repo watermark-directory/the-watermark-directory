@@ -4,15 +4,15 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.civic import load_registry
-from bosc.civic.discovery import (
+from watermark.civic import load_registry
+from watermark.civic.discovery import (
     classify_platform,
     discover,
     find_records_links,
 )
-from bosc.civic.models import Platform
-from bosc.config import Settings
-from bosc.connectors import OfflineError
+from watermark.civic.models import Platform
+from watermark.config import Settings
+from watermark.connectors import OfflineError
 
 
 def test_registry_loads_and_validates(civic_settings: Settings) -> None:
@@ -105,7 +105,7 @@ def test_discover_blocked_is_flagged_not_raised(
 ) -> None:
     import httpx
 
-    from bosc.civic import discovery
+    from watermark.civic import discovery
 
     def _blocked(url: str, *, settings: Settings) -> dict[str, object]:
         req = httpx.Request("GET", url)

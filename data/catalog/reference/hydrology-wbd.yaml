@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: wbd --write
-  connector_ref: bosc.hydrology.connectors.wbd
+  connector_ref: watermark.hydrology.connectors.wbd
   source: USGS National Map Watershed Boundary Dataset (WBD) — ArcGIS REST MapServer HU sublayers
   external_url: https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer
 license: U.S. Government work (public domain)
@@ -21,7 +21,7 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
-schema_ref: bosc.hydrology.connectors.wbd.HucBoundary
+schema_ref: watermark.hydrology.connectors.wbd.HucBoundary
 tags:
 - wbd
 - huc

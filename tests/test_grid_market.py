@@ -11,9 +11,9 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.facility.power import derive_power_basis
-from bosc.grid.market import (
+from watermark.config import Settings
+from watermark.facility.power import derive_power_basis
+from watermark.grid.market import (
     derive_pjm_market_scenario,
     load_pjm_market,
 )

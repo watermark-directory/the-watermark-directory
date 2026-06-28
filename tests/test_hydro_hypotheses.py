@@ -5,9 +5,9 @@ hypothesis explicitly promotes it.
 
 from __future__ import annotations
 
-from bosc.config import Settings
-from bosc.hydrology import hypothesis as hyp_stage
-from bosc.pipeline import hydrology as hydro_stage
+from watermark.config import Settings
+from watermark.hydrology import hypothesis as hyp_stage
+from watermark.pipeline import hydrology as hydro_stage
 
 
 def test_default_buildout_matches_run_scenarios(hydro_settings: Settings) -> None:

@@ -17,13 +17,13 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.economics.baseline import load_baseline
-from bosc.economics.energy import load_consumer_energy
-from bosc.facility.power import derive_power_basis
-from bosc.grid.ferc import derive_ferc_seam
-from bosc.grid.utility import load_grid_profile
-from bosc.hydrology.cooling import derive_cooling_basis
+from watermark.config import Settings
+from watermark.economics.baseline import load_baseline
+from watermark.economics.energy import load_consumer_energy
+from watermark.facility.power import derive_power_basis
+from watermark.grid.ferc import derive_ferc_seam
+from watermark.grid.utility import load_grid_profile
+from watermark.hydrology.cooling import derive_cooling_basis
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
@@ -51,7 +51,7 @@ def test_effective_corpus_scope_defaults_to_own_slug_not_lima() -> None:
     freshly-registered site (scope left unset) can't silently inherit Lima's Allen-County record.
     An explicit scope (Fort Wayne's IDEM-included tuple) always wins.
     """
-    from bosc.sites import SITES, effective_corpus_scope
+    from watermark.sites import SITES, effective_corpus_scope
 
     assert effective_corpus_scope(SITES["lima"]) is None  # reference build = whole-tree catch-all
     assert effective_corpus_scope(SITES["urbana"]) == ("urbana",)  # unset → own slug, not Lima
@@ -63,7 +63,7 @@ def test_unscoped_sibling_loads_its_own_corpus_not_lima() -> None:
     """The read side honors the #780 default: an unpopulated sibling (Urbana — the #782
     validation candidate, no committed corpus) loads an empty corpus, not Lima's deeds/permits.
     Before the fix its ``None`` scope meant the whole tree, silently inheriting Allen County."""
-    from bosc.pipeline.corpus import load_corpus
+    from watermark.pipeline.corpus import load_corpus
 
     urbana = load_corpus(Settings(site="urbana", data_dir=REPO_ROOT / "data"))
     assert not urbana.deeds, "Urbana must not inherit Lima's recorder deeds"

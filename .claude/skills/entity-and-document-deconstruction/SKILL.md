@@ -35,4 +35,4 @@ Periodically audit the record for material gaps. A gap audit names, for each gap
 
 ## Project enrichment
 
-The project layer supplies the actual entities, the graph schema, the extractor pipeline, and the current gap audit. In *Project BOSC* the graph and timeline are built by `bosc.pipeline.entities` (`EntityGraph`) and `bosc.pipeline.timeline` over the reviewed `data/extracted/**` corpus; the standing gap audit is `data/extracted/legal/corpus-completeness-audit.md` plus per-body `completeness-audit.yaml` files. Bind to those; keep this file entity-free. See `docs/investigative-method/ENRICHMENT.md`.
+The project layer supplies the actual entities, the graph schema, the extractor pipeline, and the current gap audit. In *Project BOSC* the graph and timeline are built by `watermark.pipeline.entities` (`EntityGraph`) and `watermark.pipeline.timeline` over the reviewed `data/extracted/**` corpus; the standing gap audit is `data/extracted/legal/corpus-completeness-audit.md` plus per-body `completeness-audit.yaml` files. Bind to those; keep this file entity-free. See `docs/investigative-method/ENRICHMENT.md`.

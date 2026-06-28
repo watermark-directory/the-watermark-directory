@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: parcels --cited
-  connector_ref: bosc.hydrology.connectors.allen_gis
+  connector_ref: watermark.hydrology.connectors.allen_gis
   source: Allen County GIS public ArcGIS REST — 'Current Parcels' (auditor CAMA joined to geometry)
   external_url: https://gis.allencountyohio.com/arcgis/rest/services/AGOL/AGOL_NonEditLayers/MapServer/1
 license: Public records (local government open data)
@@ -21,7 +21,7 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
-schema_ref: bosc.hydrology.connectors.allen_gis.Parcel
+schema_ref: watermark.hydrology.connectors.allen_gis.Parcel
 tags:
 - parcels
 - cama

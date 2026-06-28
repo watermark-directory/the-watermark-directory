@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: grid
-  connector_ref: bosc.grid.utility
+  connector_ref: watermark.grid.utility
   source: U.S. EIA — Form EIA-861 (AEP Ohio retail sales) + Form EIA-930 (PJM hourly demand)
   external_url: https://www.eia.gov/electricity/data/eia861/
 license: U.S. Government work (public domain)
@@ -21,7 +21,7 @@ storage:
 refresh:
   cadence: annual
 provenance: connector
-schema_ref: bosc.grid.model.GridProfile
+schema_ref: watermark.grid.model.GridProfile
 tags:
 - eia
 - grid

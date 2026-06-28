@@ -14,8 +14,8 @@ Living record for the Bryan watershed point (basin: maumee), scaffolded by `bosc
 Bryan is served by **Bryan Municipal Utilities** (City of Bryan, EIA **#2439**), not an IOU — the
 network's first municipal electric point. It files the **EIA-861 *short form* (861S)**, so it is
 absent from the full Sales-to-Ultimate-Customers sheet the grid connector reads; this onboarding
-added a **short-form fallback** + an **ownership-aware retail regulator** to `bosc.grid.eia861` /
-`bosc.grid.utility`. The generated `grid-profile.yaml` correctly shows: ownership Municipal,
+added a **short-form fallback** + an **ownership-aware retail regulator** to `watermark.grid.eia861` /
+`watermark.grid.utility`. The generated `grid-profile.yaml` correctly shows: ownership Municipal,
 ~160 GWh / 5,814 customers (861S 2024), avg price ~10.75¢/kWh; holding company = **American
 Municipal Power (AMP)** member (no IOU parent); BA/RTO = PJM (AMP-scheduled); retail regulator =
 **municipal home rule** (NOT PUCO rate-regulated). The PJM transmission **zone** is now pinned to

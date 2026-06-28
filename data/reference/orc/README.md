@@ -27,7 +27,7 @@ nothing is summarized, paraphrased, or fabricated. Regenerate with `bosc orc`
 The portal serves HTML, not JSON. A **section** page carries the text + a
 breadcrumb naming its Title/Chapter; a **chapter** page inlines every section
 (one fetch per chapter); a **title** page lists its chapters. The connector
-(`bosc.hydrology.connectors.orc`) parses these and caches the raw pages under the
+(`watermark.hydrology.connectors.orc`) parses these and caches the raw pages under the
 git-ignored `data/cache/` so re-runs don't refetch.
 
 ## Gaps / caveats

@@ -1,10 +1,10 @@
 # POI subsystem — design
 
-*Forward-looking design. **Nothing here is built yet** — there is no `bosc.poi`
+*Forward-looking design. **Nothing here is built yet** — there is no `watermark.poi`
 package and no `data/poi/` store. This is the plan for deriving **points of interest**
 from the corpus, geocoding them, and — when a POI is flagged — feeding it to the
-imagery tracking machinery (`bosc.gis`, see [`imagery-subsystem.md`](imagery-subsystem.md)).
-Hand-written design note; fold steady-state guidance into a `bosc.poi` `CLAUDE.md`
+imagery tracking machinery (`watermark.gis`, see [`imagery-subsystem.md`](imagery-subsystem.md)).
+Hand-written design note; fold steady-state guidance into a `watermark.poi` `CLAUDE.md`
 once code exists.*
 
 *Note: the Astro `frontend/` surfaces `docs/` markdown via its narrative content
@@ -29,7 +29,7 @@ Locked decisions (this design):
    cited, relationship-linked. A new node type in the entity graph (*place*).
 2. **Depth ladder** `mention → located → characterized → watched`, **human-set** except
    the mechanical `mention → located` (geocode) advance. Depth gates cost.
-3. **Pipeline** `discover → resolve → curate`, with `bosc.gis` consuming the `watched`
+3. **Pipeline** `discover → resolve → curate`, with `watermark.gis` consuming the `watched`
    POIs. Mirrors the civic/person candidate→profile machinery.
 4. **Dedup is two problems** — *atomic resolution* (mechanical, parcel-anchored) and
    *composite assembly* (curatorial). They must not be conflated.
@@ -38,7 +38,7 @@ Locked decisions (this design):
 6. **Geometry/AOI:** store the richest geometry geocoding yields; the tracking AOI is the
    footprint bbox, or a buffered box around a point when there is no footprint.
 7. **`track: true` in frontmatter is the single source of truth** for what gets imagery.
-   `bosc.gis.load_tracking_sites` reads `data/poi/`, **retiring `gis_tracking_layers`**;
+   `watermark.gis.load_tracking_sites` reads `data/poi/`, **retiring `gis_tracking_layers`**;
    `gis-findings.geojson` becomes a generated/display-only map layer.
 8. **Merge strictness (the dial):** auto-merge **only on exact parcel-id equality**;
    every geocoded/spatial/name match (address↔parcel, coord↔parcel, name↔owner) is a
@@ -63,7 +63,7 @@ person, and you don't track every place.
 | `mention` | cited in the corpus; a name/address/id string | a candidate, nothing fetched | ~0 | discover |
 | `located` | geocoded → point or footprint + method/confidence | map placement; AOI derivable | one cached geocode | **auto** (resolve) |
 | `characterized` | kind, owner/operator, parcel(s), graph links | entity-graph node + a place page | curation | **human** |
-| `watched` | `track: true` + cadence/collections | imagery pull time-series (`bosc.gis`) | repeated pulls + LFS | **human** |
+| `watched` | `track: true` + cadence/collections | imagery pull time-series (`watermark.gis`) | repeated pulls + LFS | **human** |
 
 The `characterized → watched` jump is the expensive, deliberately human-gated one —
 which is exactly why it lives in frontmatter, not in inference.
@@ -121,7 +121,7 @@ key is never "shares a parcel"; it is "is the same atomic place," guarded by `ki
 
 ## 4. Architecture
 
-### Package `bosc.poi`
+### Package `watermark.poi`
 
 - `model.py` — the Pydantic models (below).
 - `discover.py` — scan the committed corpus for place references → `POICandidate`s with
@@ -134,7 +134,7 @@ key is never "shares a parcel"; it is "is the same atomic place," guarded by `ki
   point), `allen_gis.parcel_at_point` (extend the existing connector), and later
   optionally `gnis` (named features → point).
 
-`bosc.gis` becomes a **consumer**: `load_tracking_sites` reads `data/poi/` for
+`watermark.gis` becomes a **consumer**: `load_tracking_sites` reads `data/poi/` for
 `track: true`, replacing the layer-grouping over `gis-findings.geojson`.
 
 ### Data models (Pydantic)
@@ -208,7 +208,7 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
 
 ## 8. Roadmap
 
-- **P0 — store + model. ✅ done.** `bosc.poi` package, `POIFrontmatter` schema,
+- **P0 — store + model. ✅ done.** `watermark.poi` package, `POIFrontmatter` schema,
   `data/poi/`, `store.py`, `bosc poi list/show`; seeded by porting the `gis-findings`
   `campus` layer as the first composite POI.
 - **P1 — discover. ✅ done.** `discover.py` scans the committed corpus text →
@@ -241,7 +241,7 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
   refuses to overwrite and warns on already-covered parcels. Promotion to
   `characterized`/`watched` (and adding a tracking `bbox`) stays a human step; composite
   assembly via `members` is hand-curated.
-- **P4 — wire tracking. ✅ done.** `bosc.gis.load_tracking_sites` / `get_site` read the
+- **P4 — wire tracking. ✅ done.** `watermark.gis.load_tracking_sites` / `get_site` read the
   POI store (`tracked_pois()` — `watched` + a `location.bbox`) and project each to a
   `TrackingSite` (id = POI slug). `gis_tracking_layers` and the `gis-findings` layer
   grouping are retired; the campus composite POI is now the source of the campus AOI, so
@@ -250,7 +250,7 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
 - **P5 — graph + site. ✅ done.** `enrich_with_places` folds the POI store into the
   entity graph as `place` nodes (keyed by slug, carrying parcels/depth), linking a POI's
   `relationships` to existing org nodes via `normalize_name` (skip+log unknown targets,
-  never fabricate). `bosc.site.places` renders a page per POI + a `places/index.md`
+  never fabricate). `watermark.site.places` renders a page per POI + a `places/index.md`
   directory (the place peer of `people/`), cross-linked to the entity graph; nav gains
   *Places and parcels*. The graph→place back-link in the entities table is a later polish.
 
@@ -269,10 +269,10 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
 
 ## Sources / prior art in-repo
 
-- People store + depth idiom: [`data/people/`](../data/people/), `bosc.people`.
-- Candidate→profile machinery: `bosc.candidates`, `bosc.civic` (discover/registry).
-- Geocoding anchors: `bosc.hydrology.connectors.allen_gis` (parcels),
+- People store + depth idiom: [`data/people/`](../data/people/), `watermark.people`.
+- Candidate→profile machinery: `watermark.candidates`, `watermark.civic` (discover/registry).
+- Geocoding anchors: `watermark.hydrology.connectors.allen_gis` (parcels),
   `lima_gis` (spatial floodzone queries), ECHO/RSEI (facility coords).
-- Downstream consumer: [`docs/imagery-subsystem.md`](imagery-subsystem.md), `bosc.gis`.
+- Downstream consumer: [`docs/imagery-subsystem.md`](imagery-subsystem.md), `watermark.gis`.
 - [US Census Geocoder](https://geocoding.geo.census.gov/geocoder/) ·
   [USGS GNIS](https://www.usgs.gov/us-board-on-geographic-names/domestic-names)

@@ -175,7 +175,7 @@ validation → provenance). Order is driven by inquiry leverage.
 ### Phase B — entities and breadth
 
 3a. **SoS business-filing extractor (`kind=sos`).** `[done]` — vision-primary
-   read of Secretary-of-State LLC filings (`bosc.models.BusinessFiling`): entity
+   read of Secretary-of-State LLC filings (`watermark.models.BusinessFiling`): entity
    name, filing id, formation jurisdiction, registered agent + address, organizer.
    Swept the three `permits/bistrozzi-permits/sos-*` filings (all Delaware foreign
    LLCs); feeds the entity graph with `organized_by` / `registered_agent` edges and
@@ -187,7 +187,7 @@ validation → provenance). Order is driven by inquiry leverage.
    Surface Water** actions on the project: Permits-to-Install (sanitary sewer),
    401 Water Quality Certifications / Isolated Wetland Permits, USACE Section 404,
    plus dated agency correspondence (incomplete notices, comment letters).
-   `bosc.models.EpaPermitAction` captures the letter header (agency, program,
+   `watermark.models.EpaPermitAction` captures the letter header (agency, program,
    permit no, action, dates, applicant + address, contact + firm, project,
    affected resource). Text-first read; feeds the timeline (regulatory milestones)
    and entity graph (`represented_by` / `affiliated_with`; the EPA applicant
@@ -203,7 +203,7 @@ validation → provenance). Order is driven by inquiry leverage.
 3c. **Wetland-determination extractor (`kind=wetland`).** `[done]` — the 2
    USACE Wetland Determination Data Forms in `permits/` are a different shape than
    the permit-action letters (a field-botany point-sample worksheet), so they get
-   their own kind. `bosc.models.WetlandDetermination` captures the sampling point,
+   their own kind. `watermark.models.WetlandDetermination` captures the sampling point,
    location/coords, applicant, and the three regulatory criteria (hydrophytic
    vegetation / hydric soil / wetland hydrology → is_wetland). Both points
    (`WD-1`, `WE-1`, `*.wetland.yaml`) tie to **Project BOSC** on the Bistrozzi
@@ -211,7 +211,7 @@ validation → provenance). Order is driven by inquiry leverage.
    soils): each is formally **not a wetland** despite hydric soil + wetland
    hydrology, because hydrophytic vegetation is absent due to farming disturbance.
 4. **Plan read (`kind=plan`).** `[done]` — an `.odg` is a *vector* drawing, so
-   `bosc.documents.read_odg` extracts the titleblock/legend/callout TEXT (the
+   `watermark.documents.read_odg` extracts the titleblock/legend/callout TEXT (the
    authoritative content) plus the preview thumbnail, tolerating the file's bad
    CRC via a raw zlib inflate. `SitePlan` captures project, sheet, discipline,
    phase, scale, the design team, and legend `key_features`. Validated live on
@@ -223,7 +223,7 @@ validation → provenance). Order is driven by inquiry leverage.
 
 ### Phase C — the cross-document layer (where the research lives)
 
-5. **Entity/parcel resolution.** `[done]` — `bosc.pipeline.entities`: normalize
+5. **Entity/parcel resolution.** `[done]` — `watermark.pipeline.entities`: normalize
    party names to a canonical key, merge variants, classify conservatively
    (government / corporate / individual / trust / facility / water; flag Delaware
    as a *signal*, not a verdict), and link conveyances / utility operation /
@@ -234,29 +234,29 @@ validation → provenance). Order is driven by inquiry leverage.
    `trustee_of`, with the conveyance running from the trust — so a deed person and an
    SoS organizer/principal of the same name reconcile to one node (the
    `_split_principal` de-fragmentation now also applies to deed parties).
-6. **Timeline assembly.** `[done]` — `bosc.pipeline.timeline`: one sorted
+6. **Timeline assembly.** `[done]` — `watermark.pipeline.timeline`: one sorted
    chronology across deeds/NPDES/OPC, deduped across corroborating artifacts.
    `bosc timeline` + agent `timeline` tool.
 7. **Corridor view.** `[done]` — **decided: build** (the frozen corridor geometry
    was sitting unused and the join is the research question, not Periplus platform
-   code). `bosc.gis.corridor` spatially joins every watch item (facilities + force
+   code). `watermark.gis.corridor` spatially joins every watch item (facilities + force
    mains) and recorded parcel onto the frozen Periplus `corridor.geojson` study area
    - `corridor-centerline.geojson` routes: in-study-area flag, distance to the
    nearest corridor route, the route, and station (chainage) along the roadwork road
    centerline (the roadway the roundabouts OPC prices). `bosc corridor` shows the
    join; `bosc corridor --map` adds the `corridor` (study area) + `roadwork` (road
    centerline) layers to `gis-findings.geojson`. Pure/hermetic (shapely+pyproj over
-   committed GeoJSON, like `bosc.hydrology.geo`); the corridor geometry stays cited
+   committed GeoJSON, like `watermark.hydrology.geo`); the corridor geometry stays cited
    external corroboration, never edited in place.
 
-Both built on `bosc.pipeline.corpus` — a loader that reads every committed
+Both built on `watermark.pipeline.corpus` — a loader that reads every committed
 extraction into one typed `Corpus`, classified by content shape.
 
 ### Phase D — close the deferred carve-outs (as they block inquiry)
 
 - **Entity-graph polish** `[done]` — contact-resolution noise cleaned
   (multi-value `;` split; middle-initial merge; no self-affiliation).
-- **Unify the hand-authored detail YAML** `[done]` — `bosc.pipeline.corpus`
+- **Unify the hand-authored detail YAML** `[done]` — `watermark.pipeline.corpus`
   parses the bespoke `roundabouts.detail.opc.yaml` into the generic `Estimate`
   shape *in memory* at load (markers preserved on disk per data discipline), so
   it joins `corpus.estimates` and reconciles (7/10 — the 3 fails are the known
@@ -284,7 +284,7 @@ data-center demand → county/Lima WWTPs → Ottawa River** — and the binding 
 is the Ottawa's (and its tributaries') **low flow**. We bring over Periplus's *Tier-0
 design idea* (SCS-CN + mass-balance) as document-grounded Python, not its solver/GIS
 stack. Every numeric input is a `ProvenancedValue` tagged `document|connector|
-assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splendid-roaming-peacock.md).)
+assumption|derived`. (`watermark.hydrology`, see [the plan](../../.claude/plans/splendid-roaming-peacock.md).)
 
 8. **Water-balance spine + low-flow assimilative screen.** `[done]` — Increment 1.
    `bosc hydro` (+ agent `hydrology_balance` tool) assembles the WWTP discharges (cited
@@ -298,7 +298,7 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
    `violation`; the American II fact sheet states the acute ratio itself as 1.3:1).
    Shawnee II → Ottawa mainstem has no cited 7Q10 and is **skipped, not invented**.
 9. **SCS-CN stormwater runoff.** `[done]` — Increment 2. `bosc storm` (+ agent
-   `stormwater_runoff` tool) runs the Tier-0 SCS chain (`bosc.hydrology.solver`:
+   `stormwater_runoff` tool) runs the Tier-0 SCS chain (`watermark.hydrology.solver`:
    Type-II rainfall → curve-number excess → SCS unit-hydrograph convolution; plus a
    Muskingum-Cunge routing module) for a **pre- vs post-development** design storm over
    the campus footprint. Rainfall is **live NOAA Atlas-14** (point query, offline cache +
@@ -318,7 +318,7 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
    not C.
 10. **Scenario diffing + dossier.** `[done]` — Increment 3. `bosc scenario` (+ agent
    `hydrology_scenario` tool) evaluates **baseline vs data-center buildout** on the
-   cooling consumptive-fraction knob (`bosc.hydrology.scenario`): the campus draws
+   cooling consumptive-fraction knob (`watermark.hydrology.scenario`): the campus draws
    cooling water from the same Ottawa/Auglaize supply the WWTPs discharge to, and the
    evaporated fraction is a net basin loss. Results persist to committed, self-auditing
    `data/scenarios/{baseline,buildout}.scenario.yaml`. The new grounding that makes it
@@ -329,7 +329,7 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
    renders the whole Tier-0 story as the evidence-tagged [`HYDROLOGY.md`](HYDROLOGY.md)
    dossier (regenerable).
 11. **Sourced cooling design basis.** `[done]` — replaces the bare "5 MGD, TBD"
-   assumption with `bosc.hydrology.cooling.derive_cooling_basis`, a basis *derived* from
+   assumption with `watermark.hydrology.cooling.derive_cooling_basis`, a basis *derived* from
    disclosed campus data by two independent cited methods: top-down **power × WUE** (OEPA
    air permit P0138965: 114 gensets × 2.75 MW ≈ 313 MW backup → ~275 MW IT load × ~1.8
    L/kWh evaporative WUE → ~3.1 MGD consumptive) and bottom-up **blowdown × cycles** (the
@@ -340,7 +340,7 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
    estimate = **4.85 cfs net basin loss ≈ 24× the Ottawa 7Q10**; the upper bound ~77×.
    Inputs are document/assumption-tagged, demands `derived`.
 12. **Tier-1 escalation — EPA SWMM.** `[done]` — `bosc tier1` (+ agent `tier1_swmm` tool)
-   runs the real EPA SWMM5 engine (`bosc.hydrology.swmm`, via pyswmm) for two questions
+   runs the real EPA SWMM5 engine (`watermark.hydrology.swmm`, via pyswmm) for two questions
    Tier-0 only approximated. **Detention sizing:** bisect a basin's bottom-orifice
    diameter until the released post-development peak matches the pre-development peak —
    for the 25-yr storm, SWMM finds **post 579 vs pre 215 cfs**, held by a **~42 ac-ft**
@@ -355,7 +355,7 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
    assumptions, since we lack the as-built drainage network.
 
 13. **Ground the detention result in the real civil design.** `[done]` —
-   `bosc storm-plan` (+ agent `storm_plan_inventory` tool, `bosc.hydrology.stormplan`)
+   `bosc storm-plan` (+ agent `storm_plan_inventory` tool, `watermark.hydrology.stormplan`)
    transcribes the campus **grading & stormwater plan** (sheet `1A-C-3104`, EMH&T 95% SPS,
    *Not For Construction* — the `.odg` under `plans/bistrozzi-plans/`) into a reviewed
    artifact (`data/extracted/plans/lma1a.storm-inventory.yaml`). The sheet's pipe
@@ -371,7 +371,7 @@ assumption|derived`. (`bosc.hydrology`, see [the plan](../../.claude/plans/splen
 
 14. **Ground the sanitary surcharge in cited design flows + the SSO mandate.** `[done]` —
    the surcharge had rested on a flat assumed base flow and an invented RDII rate.
-   `bosc.hydrology.sanitary` loads a vendored cited table
+   `watermark.hydrology.sanitary` loads a vendored cited table
    (`data/reference/hydrology/sanitary-basis.yaml`, the 7Q10-table pattern) of per-plant
    **permitted average / peak hydraulic** design flows — American II 1.2/3.6, Shawnee II
    3.0/12.6 MGD (peaking factors 3.0x, 4.2x) — from the OEPA NPDES permits + watch-items;

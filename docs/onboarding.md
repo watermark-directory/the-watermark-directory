@@ -15,7 +15,7 @@ so onboarding is a short, ordered chain — `bosc onboard <slug>` runs the middl
 
 ### 1. Register the `SiteProfile` (code edit)
 
-A site's identity is a `SiteProfile` in [`src/bosc/sites.py`](../src/bosc/sites.py)
+A site's identity is a `SiteProfile` in [`src/watermark/sites.py`](../src/watermark/sites.py)
 `SITES` — the Python peer of the frontend registry. **Start from the scaffold, not a Lima
 copy** — Lima's values are Lima-specific and the ones you forget will silently produce wrong
 output:
@@ -82,7 +82,7 @@ bosc onboard <slug>            # live connectors
 bosc onboard <slug> --offline  # cached/committed fixtures only (hermetic)
 ```
 
-`bosc onboard <slug>` ([`src/bosc/onboard.py`](../src/bosc/onboard.py)) builds its own
+`bosc onboard <slug>` ([`src/watermark/onboard.py`](../src/watermark/onboard.py)) builds its own
 `Settings(site=<slug>)` (the global `--site` flag is not needed) and, for that site:
 
 - **scaffolds** the per-site dirs (`data/reference/<slug>/`, `data/extracted/<slug>/`,
@@ -163,10 +163,10 @@ deeper, separate cutover, not part of routine onboarding.
 - **Per-jurisdiction GIS — now config, not a copied connector (#237):** the coordinate/id-based
   connectors (NWIS / Atlas-14 / SSURGO / NASA-POWER) are free for any reach. County/City parcel
   & zoning GIS is still jurisdiction-specific, but the connectors
-  ([`allen_gis.py`](../src/bosc/hydrology/connectors/allen_gis.py) /
-  [`lima_gis.py`](../src/bosc/hydrology/connectors/lima_gis.py)) are now **schema-driven**: the
+  ([`allen_gis.py`](../src/watermark/hydrology/connectors/allen_gis.py) /
+  [`lima_gis.py`](../src/watermark/hydrology/connectors/lima_gis.py)) are now **schema-driven**: the
   ArcGIS field names + encodings live in a `GisParcelSchema`/`GisZoningSchema`/`GisFloodSchema`
-  ([`bosc.connectors.gis_schema`](../src/bosc/connectors/gis_schema.py)) registered on the
+  ([`watermark.connectors.gis_schema`](../src/watermark/connectors/gis_schema.py)) registered on the
   profile (`gis_parcel`/`gis_zoning`/`gis_flood`, alongside the existing `*_url`s). **The lift
   shrinks to: find the layer + register its field-map** (read the live `/<layer>?f=json` to get
   the real field names — never fabricate them). A layer the site doesn't publish stays `None`
@@ -186,7 +186,7 @@ deeper, separate cutover, not part of routine onboarding.
 
 ## The self-research first pass (`--research`, #247)
 
-The flow chains a **discipline-bound `bosc.agent` first pass** that investigates the new site
+The flow chains a **discipline-bound `watermark.agent` first pass** that investigates the new site
 over the corpus and emits a *proposal* artifact a human triages — the agent proposes, never
 promotes. The investigative skills + system prompt are now wired into the agent
 ([#247](https://github.com/watermark-directory/the-watermark-directory/issues/247)), so onboard runs it as an **opt-in step**:
@@ -204,7 +204,7 @@ the equivalent standalone command is `bosc research run --topic "…"`.
 
 Steps 2–3 cover the connector + corpus data; this is the **hand-curated** layer the content
 bundle renders. The bundle is **per-site** (#762): `bosc --site <slug> export` reads a site's
-*own* curated stores via `bosc.sites.site_scoped_path`, so a non-Lima site never inherits
+*own* curated stores via `watermark.sites.site_scoped_path`, so a non-Lima site never inherits
 Lima's. Lima (the reference build) keeps the flat committed layout; every other site lives
 under a `<slug>/` subdir. Scaffold these — Fort Wayne's are the worked example
 (`data/people/fort-wayne/`, `data/poi/fort-wayne/`, `data/site/fort-wayne/exhibits.yaml`):

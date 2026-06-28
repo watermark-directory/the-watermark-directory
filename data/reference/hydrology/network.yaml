@@ -2,7 +2,7 @@
 #
 # This is the TOPOLOGY only — a directed graph of stream junctions and the node
 # each one drains into. It carries NO flow magnitudes: every flow term is read by
-# the solver (bosc.hydrology.network) from an already-grounded source, so the graph
+# the solver (watermark.hydrology.network) from an already-grounded source, so the graph
 # never fabricates a number.
 #
 #   low_flow:        inject the cited 7Q10 for that receiving water (low-flow-7q10.yaml)
@@ -38,7 +38,7 @@
 # reservoirs (~15 BG) filled by pumping from the Auglaize + Ottawa at HIGH flow (see
 # water-supply.yaml). The data center draws TREATED municipal water from that storage, so
 # the realistic low-flow constraint is reservoir DRAWDOWN (the supply water-budget,
-# `bosc supply` / bosc.hydrology.supply), not instantaneous Ottawa depletion. The
+# `bosc supply` / watermark.hydrology.supply), not instantaneous Ottawa depletion. The
 # `lima-abstraction` consumptive draw below answers only the hypothetical "if the campus
 # load were pumped straight from the Ottawa at design low flow" — a bound the supply
 # budget supersedes. Run the receiving network at consumptive_cfs=0 for the real picture.

@@ -15,8 +15,8 @@ stack (issue #98, epic #93). It is the macro backdrop the consumer-cost thread (
 
 ## The campus vs the federal backdrop
 
-`bosc.grid.policy.derive_federal_backdrop` links the facility's first-class total
-**`facility_draw`** (`bosc.facility.power`, issue #87 — IT load x PUE, ~348 MW central)
+`watermark.grid.policy.derive_federal_backdrop` links the facility's first-class total
+**`facility_draw`** (`watermark.facility.power`, issue #87 — IT load x PUE, ~348 MW central)
 to the national figures:
 
 - **Annual consumption** = facility draw x 8760 h x load factor (~0.9, assumption) —
@@ -38,7 +38,7 @@ deliverability, not a direct campus credit.
 - **EIA national output is a live connector pull (#98/#120).** US net generation
   (`ELEC.GEN.ALL-US-99.A`) and US average retail price (`ELEC.PRICE.US-ALL.A`) are
   pulled from the EIA seriesid connector (`source: connector`, keyed via
-  `BOSC_EIA_API_KEY`; offline replays `tests/fixtures/economics/eia/`). The
+  `WATERMARK_EIA_API_KEY`; offline replays `tests/fixtures/economics/eia/`). The
   **data-center share** (~176 TWh / ~4.4% / ~9.5% by 2028) stays a **report-cited
   reference** (LBNL/DOE 2024) — it is not on the EIA API.
 - **Figures are as-of the latest published vintage.** US net generation ~**4,430 TWh/yr**

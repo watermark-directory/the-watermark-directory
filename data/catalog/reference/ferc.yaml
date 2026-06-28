@@ -18,7 +18,7 @@ storage:
 refresh:
   cadence: on-demand
 provenance: derived
-schema_ref: bosc.grid.ferc.FercSeam
+schema_ref: watermark.grid.ferc.FercSeam
 tags:
 - ferc
 - puco

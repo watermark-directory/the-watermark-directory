@@ -10,7 +10,7 @@ The **second rolling production** — and specifically the **Category-B wastewat
 
 ## The three things that matter
 
-1. **The data-center → WWTP keystone.** Resolution **#679-24** (2024-08-22) approves MS Consultants **Task Order #5**, a *"WWTP Data Center Flows Treatment Evaluation"* for **$47,600**. Its scope evaluates the campus **blowdown flow stream** — demands, flows over a typical year, and water-quality parameters — for storage and treatment at the **American Bath WWTP**, with the County to gather data from *"the developer and data center manufacturer."* This is the **first primary-source link** between the data center's cooling system and the sanitary system; until now that connection lived only in secondhand citations behind `bosc.hydrology.cooling` and `sanitary-economics.yaml`.
+1. **The data-center → WWTP keystone.** Resolution **#679-24** (2024-08-22) approves MS Consultants **Task Order #5**, a *"WWTP Data Center Flows Treatment Evaluation"* for **$47,600**. Its scope evaluates the campus **blowdown flow stream** — demands, flows over a typical year, and water-quality parameters — for storage and treatment at the **American Bath WWTP**, with the County to gather data from *"the developer and data center manufacturer."* This is the **first primary-source link** between the data center's cooling system and the sanitary system; until now that connection lived only in secondhand citations behind `watermark.hydrology.cooling` and `sanitary-economics.yaml`.
 
 2. **The BOSC CMAR procurement, end to end.** Three resolutions complete the chain #134 asked for:
    - **#469-25** (2025-06-12) — advertise for engineering; Legal Notice: 2.5 MGD peak, ~17,000 ft, **construction cost $20,250,000**.

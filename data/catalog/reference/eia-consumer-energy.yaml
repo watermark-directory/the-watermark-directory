@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: eia
-  connector_ref: bosc.economics.energy
+  connector_ref: watermark.economics.energy
   source: U.S. EIA — API v2 seriesid route (OH residential electricity/gas price, total retail sales)
   external_url: https://www.eia.gov/opendata/
 license: U.S. Government work (public domain)
@@ -21,7 +21,7 @@ storage:
 refresh:
   cadence: annual
 provenance: connector
-schema_ref: bosc.economics.model.ConsumerEnergyCosts
+schema_ref: watermark.economics.model.ConsumerEnergyCosts
 tags:
 - eia
 - electricity

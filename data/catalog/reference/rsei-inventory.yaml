@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: rsei
-  connector_ref: bosc.rsei
+  connector_ref: watermark.rsei
   source: EPA RSEI Public Data Set (AWS Open Data s3://epa-rsei-pds), version v234
   external_url: https://registry.opendata.aws/epa-rsei-pds/
 license: U.S. Government work (public domain)
@@ -21,7 +21,7 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
-schema_ref: bosc.rsei.RseiInventory
+schema_ref: watermark.rsei.RseiInventory
 tags:
 - rsei
 - tri

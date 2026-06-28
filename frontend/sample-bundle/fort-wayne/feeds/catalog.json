@@ -55,7 +55,7 @@
     "status": "reviewed",
     "producer_kind": "extracted",
     "command": "dmr IN0032191 --start 2023-01-01 --end 2023-12-31 --design-flow 74.0",
-    "connector_ref": "bosc.hydrology.connectors.echo",
+    "connector_ref": "watermark.hydrology.connectors.echo",
     "source": "EPA ECHO (eff_rest_services DMR) for the effluent record + BOSC discovery synthesis of the Fort Wayne WWTP / 'Project Zodiac' facility and its low-flow receiving water",
     "external_url": "https://echo.epa.gov/tools/web-services",
     "license": "U.S. Government work (public domain) [DMR]; public record otherwise",
@@ -107,7 +107,7 @@
       "source_kind": "document",
       "page": null,
       "confidence": "medium",
-      "note": "bosc dmr IN0032191 --start 2023-01-01 --end 2023-12-31 --design-flow 74.0",
+      "note": "watermark dmr IN0032191 --start 2023-01-01 --end 2023-12-31 --design-flow 74.0",
       "verified": true
     }
   },
@@ -176,7 +176,7 @@
     "status": "reviewed",
     "producer_kind": "connector",
     "command": "subdivisions download",
-    "connector_ref": "bosc.civic",
+    "connector_ref": "watermark.civic",
     "source": "Per-site governing bodies (e.g. City of Lima council) \u2014 published meeting documents, scraped per watershed-point site",
     "external_url": null,
     "license": "Public record (Ohio R.C. 149.43)",
@@ -217,7 +217,7 @@
       "source_kind": "connector",
       "page": null,
       "confidence": "medium",
-      "note": "bosc subdivisions download",
+      "note": "watermark subdivisions download",
       "verified": true
     }
   },
@@ -229,7 +229,7 @@
     "status": "reviewed",
     "producer_kind": "connector",
     "command": "parcels --owner <assembler> --geojson data/reference/<site>/bosc-parcels.geojson",
-    "connector_ref": "bosc.hydrology.connectors.allen_gis",
+    "connector_ref": "watermark.hydrology.connectors.allen_gis",
     "source": "Per-site county parcel GIS via the gis_parcel field-map, pulled as f=geojson reprojected to WGS84 (Fort Wayne = Allen County, IN iMap, parcel layer 10)",
     "external_url": "https://gis1.acimap.us/imapweb/rest/services/QueryLayers/QueryLayers/MapServer/10",
     "license": "Public records (local government open data)",

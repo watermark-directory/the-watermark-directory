@@ -7,9 +7,9 @@ from pathlib import Path
 import pytest
 import yaml
 
-from bosc.config import Settings
-from bosc.hydrology.connectors import lima_gis
-from bosc.hydrology.connectors._cache import HydroOfflineError
+from watermark.config import Settings
+from watermark.hydrology.connectors import lima_gis
+from watermark.hydrology.connectors._cache import HydroOfflineError
 
 
 def test_zoning_for_parcel_in_city(hydro_settings: Settings) -> None:

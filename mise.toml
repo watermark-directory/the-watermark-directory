@@ -55,10 +55,10 @@ depends = ["check", "//frontend:check"]
 description = "Remove regenerable caches/outputs (connector cache, Astro cache, dist)"
 run = "rm -rf data/cache frontend/node_modules/.astro frontend/dist"
 
-# === backend (the Python `bosc` package) ====================================
+# === backend (the Python `watermark` package) ====================================
 [tasks.dev]
-description = "Run the bosc CLI — pass args after `--`, e.g. `mise run dev -- export`"
-run = "uv run bosc"
+description = "Run the watermark CLI — pass args after `--`, e.g. `mise run dev -- export`"
+run = "uv run watermark"
 
 [tasks.check]
 description = "Backend gate: ruff + format-check + Markdown lint + mypy + catalog gate + pytest"
@@ -67,7 +67,7 @@ run = [
   "uv run ruff format --check .",
   "node_modules/.bin/markdownlint-cli2",   # repo-wide Markdown (config: .markdownlint-cli2.yaml)
   "uv run mypy",
-  "uv run bosc catalog check",   # data-catalog gate: schema · missing · orphan · drift (#631)
+  "uv run watermark catalog check",   # data-catalog gate: schema · missing · orphan · drift (#631)
   "uv run pytest -n auto",   # pytest-xdist: parallelize across cores (override with `-n0` to debug)
 ]
 
@@ -92,5 +92,5 @@ run = [
 ]
 
 [tasks.export]
-description = "Regenerate the content bundle the frontend reads (bosc export → data/site/bundle/)"
-run = "uv run bosc export"
+description = "Regenerate the content bundle the frontend reads (watermark export → data/site/bundle/)"
+run = "uv run watermark export"

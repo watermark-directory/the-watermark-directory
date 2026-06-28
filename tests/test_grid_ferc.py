@@ -10,8 +10,8 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.grid.ferc import (
+from watermark.config import Settings
+from watermark.grid.ferc import (
     derive_ferc_seam,
     load_ferc_seam,
 )

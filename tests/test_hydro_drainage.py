@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from bosc.config import Settings
-from bosc.hydrology import drainage
+from watermark.config import Settings
+from watermark.hydrology import drainage
 
 
 def _settings() -> Settings:

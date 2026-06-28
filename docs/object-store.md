@@ -49,16 +49,16 @@ dashboard (R2 → Manage R2 API Tokens) create a token with object read/write on
 buckets, and note the **Access Key ID**, **Secret Access Key**, and your **account id**.
 
 These are **secrets** — they live in the environment, never in `wrangler.toml` or git.
-Read through `bosc.config.get_settings()` (never `os.environ` directly):
+Read through `watermark.config.get_settings()` (never `os.environ` directly):
 
 ```sh
-export BOSC_DOCUMENTS_OBJECT_STORE_ACCOUNT_ID="<account-id>"
-export BOSC_DOCUMENTS_OBJECT_STORE_ACCESS_KEY_ID="<access-key-id>"
-export BOSC_DOCUMENTS_OBJECT_STORE_SECRET_ACCESS_KEY="<secret>"
+export WATERMARK_DOCUMENTS_OBJECT_STORE_ACCOUNT_ID="<account-id>"
+export WATERMARK_DOCUMENTS_OBJECT_STORE_ACCESS_KEY_ID="<access-key-id>"
+export WATERMARK_DOCUMENTS_OBJECT_STORE_SECRET_ACCESS_KEY="<secret>"
 # Optional overrides (defaults shown):
-# export BOSC_DOCUMENTS_OBJECT_STORE_BUCKET="bosc-documents"
-# export BOSC_DOCUMENTS_OBJECT_STORE_DEV_BUCKET="bosc-documents-dev"
-# export BOSC_DOCUMENTS_OBJECT_STORE_ENDPOINT="https://<acct>.r2.cloudflarestorage.com"
+# export WATERMARK_DOCUMENTS_OBJECT_STORE_BUCKET="bosc-documents"
+# export WATERMARK_DOCUMENTS_OBJECT_STORE_DEV_BUCKET="bosc-documents-dev"
+# export WATERMARK_DOCUMENTS_OBJECT_STORE_ENDPOINT="https://<acct>.r2.cloudflarestorage.com"
 ```
 
 ### 3. The `DOCS_ENABLED` kill switch

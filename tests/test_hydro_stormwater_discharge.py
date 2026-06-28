@@ -13,16 +13,16 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology.solver.curve_number import cn_for
-from bosc.hydrology.stormwater import (
+from watermark.config import Settings
+from watermark.hydrology.solver.curve_number import cn_for
+from watermark.hydrology.stormwater import (
     discharge_findings,
     load_discharge_screen,
     load_site_footprint,
     manning_full_pipe_cfs,
     screen_campus_discharge,
 )
-from bosc.pipeline.hydrology import run_storm
+from watermark.pipeline.hydrology import run_storm
 
 
 def test_load_site_footprint_is_document_cited(hydro_settings: Settings) -> None:

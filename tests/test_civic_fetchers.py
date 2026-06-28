@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.civic import load_registry
-from bosc.civic.fetchers import FetcherNotImplementedError, civicplus, fetch_meetings
-from bosc.config import Settings
+from watermark.civic import load_registry
+from watermark.civic.fetchers import FetcherNotImplementedError, civicplus, fetch_meetings
+from watermark.config import Settings
 
 
 def test_parse_agenda_center_attributes_body_kind_date() -> None:
@@ -57,7 +57,7 @@ def test_fetch_offline_replay(civic_settings: Settings) -> None:
     reg = load_registry(civic_settings)
     lima = reg.get("lima")
     assert lima is not None
-    # Synthetic URL so a real local `bosc subdivisions fetch lima` can't mask the fixture.
+    # Synthetic URL so a real local `watermark subdivisions fetch lima` can't mask the fixture.
     docs = civicplus.fetch(lima, url="https://lima.test/AgendaCenter", settings=civic_settings)
     # Fixture has 3 bodies, 5 documents (City Council: 2 agendas + 1 minutes).
     assert len(docs) == 5

@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bosc.config import Settings
-from bosc.hydrology import climate
-from bosc.hydrology.connectors import nasa_power
+from watermark.config import Settings
+from watermark.hydrology import climate
+from watermark.hydrology.connectors import nasa_power
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 

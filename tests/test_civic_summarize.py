@@ -11,15 +11,15 @@ from typing import Any
 
 import yaml
 
-from bosc.agent.extractor import StructuredExtractor
-from bosc.civic.models import Subdivision
-from bosc.civic.summarize import (
+from watermark.agent.extractor import StructuredExtractor
+from watermark.civic.models import Subdivision
+from watermark.civic.summarize import (
     MeetingSummary,
     summarize_corridor_meetings,
     summarize_meeting,
     write_summaries,
 )
-from bosc.config import Settings
+from watermark.config import Settings
 
 _PAYLOAD = {
     "summary": "The board discussed the Bistrozzi data-center rezoning request.",

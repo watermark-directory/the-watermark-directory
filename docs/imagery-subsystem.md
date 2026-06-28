@@ -2,7 +2,7 @@
 
 *Design + roadmap. **P0 (scaffold) and P1 (STAC search) have shipped**; the
 raster-materialization layer (P2+) is not built yet. The working code is the
-`bosc.gis` package (`sites.py`, `imagery.py`) with `bosc imagery sites` /
+`watermark.gis` package (`sites.py`, `imagery.py`) with `bosc imagery sites` /
 `bosc imagery search`; steady-state guidance lives in
 [`src/bosc/gis/CLAUDE.md`](../src/bosc/gis/CLAUDE.md). This file is the plan and the
 record of decisions/deviations.*
@@ -10,7 +10,7 @@ record of decisions/deviations.*
 **Shipped in P1 (two deviations from the original plan, by design):**
 
 - **`_cache` lift — DONE (#423).** Imagery now sits on the neutral
-  `bosc.connectors._cache.cached_get` (the lift that `civic`/`economics`/`hydrology`
+  `watermark.connectors._cache.cached_get` (the lift that `civic`/`economics`/`hydrology`
   also resolved to): the search path calls it with `cache_dir=settings.gis_cache_dir`,
   `offline=settings.gis_offline`, `fixtures_dir=settings.gis_fixtures_dir`, and
   `offline_error=ImageryOfflineError`. (Originally P1 reused the hydrology `_cache` as
@@ -18,7 +18,7 @@ record of decisions/deviations.*
 - **Search needs no heavy deps.** A direct `httpx` POST to STAC `/search` (cached +
   fixtured) replaces `pystac-client` for P1, so **no `pystac-client`/`rasterio`/GDAL
   yet** — those arrive with P2 (asset signing + COG reads). The offline miss raises
-  `ImageryOfflineError` (a `bosc.connectors.OfflineError` subclass) naming the key.
+  `ImageryOfflineError` (a `watermark.connectors.OfflineError` subclass) naming the key.
 
 *Note: the Astro `frontend/` surfaces `docs/` markdown via its narrative content
 collection (links rewritten at build by the rehype plugin). This is an internal
@@ -26,7 +26,7 @@ engineering plan — publish it only via the curated narrative set, not by defau
 
 ## Executive summary / decisions
 
-Build a `bosc.gis.imagery` subsystem that, given a **tracking site** (an AOI drawn
+Build a `watermark.gis.imagery` subsystem that, given a **tracking site** (an AOI drawn
 from the GIS layer), searches a public STAC catalog, clips the matching scenes to the
 AOI, and writes dated, provenance-stamped GeoTIFFs — a regenerable image time series
 per site.
@@ -125,14 +125,14 @@ hydrology one.
 
 ### Package placement
 
-Promote a small **`bosc.gis`** package (`bosc.gis.imagery`, `bosc.gis.sites`) rather
-than wedging satellites under `bosc.hydrology`. The shared `_cache` currently lives at
-[`bosc.hydrology.connectors._cache`](../src/bosc/hydrology/connectors/_cache.py); lift
-it to a common location (e.g. `bosc.connectors._cache`) and re-export from hydrology so
+Promote a small **`watermark.gis`** package (`watermark.gis.imagery`, `watermark.gis.sites`) rather
+than wedging satellites under `watermark.hydrology`. The shared `_cache` currently lives at
+[`watermark.hydrology.connectors._cache`](../src/bosc/hydrology/connectors/_cache.py); lift
+it to a common location (e.g. `watermark.connectors._cache`) and re-export from hydrology so
 nothing breaks. The vector helpers in `geo.py` (`bbox_of`, area math) are also natural
-candidates to migrate into `bosc.gis` over time.
+candidates to migrate into `watermark.gis` over time.
 
-### Data models (Pydantic, `bosc.models` style)
+### Data models (Pydantic, `watermark.models` style)
 
 - `TrackingSite` — `id`, `name`, `geometry`, `bbox`, `notes`.
 - `Scene` — STAC search result: `collection`, `scene_id` (granule/scene id),
@@ -144,8 +144,8 @@ candidates to migrate into `bosc.gis` over time.
 ### Sites come from the POI store
 
 > **Superseded.** Tracking sites are now **watched POIs** in `data/poi/`, not a
-> `gis-findings.geojson` layer. `bosc.gis.load_tracking_sites` / `get_site` read
-> `bosc.poi.tracked_pois()` and project each to a `TrackingSite` (id = the POI slug,
+> `gis-findings.geojson` layer. `watermark.gis.load_tracking_sites` / `get_site` read
+> `watermark.poi.tracked_pois()` and project each to a `TrackingSite` (id = the POI slug,
 > `bbox` = the AOI). The `track` flag in a `data/poi/<slug>.md` profile is the single
 > source of truth. See [`poi-subsystem.md`](poi-subsystem.md) (decision #7). The original
 > group-by-layer sketch is kept below for history.
@@ -214,7 +214,7 @@ New deps (the real cost of "raster-capable"): `pystac-client`, `planetary-comput
 
 Each phase is a shippable slice.
 
-- **P0 — scaffold. ✅ done.** Created `bosc.gis`; added `gis_*` settings; defined
+- **P0 — scaffold. ✅ done.** Created `watermark.gis`; added `gis_*` settings; defined
   `TrackingSite` + the sites source (group-by-layer over `gis-findings.geojson`).
   (`_cache` lift + `ImageryOfflineError` since landed — see the deviations note up top, #423.)
 - **P1 — search. ✅ done.** Sentinel-2 STAC search via `httpx` + `cached_get` +
@@ -230,7 +230,7 @@ Each phase is a shippable slice.
   Real search + small COG fixtures for both; NAIP (0.3 m) pull-fixtures use a small
   sub-AOI. NAIP has no `eo:cloud_cover` (don't `--max-cloud` it). Gives the high-res
   before/after (NAIP) and the decadal baseline (Landsat).
-- **P4 — analysis. ✅ done.** `bosc.gis.analysis.compute_index` clips the band COGs
+- **P4 — analysis. ✅ done.** `watermark.gis.analysis.compute_index` clips the band COGs
   (shared `raster.clip_asset`) and computes **NDVI** (vegetation/disturbance) or **NDWI**
   (open water) → a `derived` float32 GeoTIFF + a sidecar with mean + **water fraction**.
   `bosc imagery index <site> --index ndvi|ndwi`. The campus reads NDVI ≈ 0.31 (vegetated),
@@ -253,7 +253,7 @@ Each phase is a shippable slice.
   **Amazon warehouse parcel** and **off-stream reservoir** still need committed
   geometry in `gis-findings.geojson` (pull the warehouse parcel via `bosc parcels`;
   add the reservoir footprint) before they can be tracked — not fabricated here.
-- **`_cache` lift target — decided (#423):** `bosc.connectors._cache` (the neutral base
+- **`_cache` lift target — decided (#423):** `watermark.connectors._cache` (the neutral base
   the whole repo lifted onto). Imagery's search path uses it with `gis_cache_dir` +
   `ImageryOfflineError`; binary COG pulls resolve their fixtures directly (not via the
   JSON cache).

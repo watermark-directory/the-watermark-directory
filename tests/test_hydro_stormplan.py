@@ -11,9 +11,9 @@ import zipfile
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology import stormplan
-from bosc.hydrology.model import StormPlanInventory
+from watermark.config import Settings
+from watermark.hydrology import stormplan
+from watermark.hydrology.model import StormPlanInventory
 
 
 def test_load_inventory_grounds_the_real_sheet(hydro_settings: Settings) -> None:

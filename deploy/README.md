@@ -28,7 +28,7 @@ When `siteDomain` is set (the late-bound custom subdomain), it also owns the
 
 - **`cloudflare.PagesDomain`** — attaches `siteDomain` to the `bosc` Pages project (the
   Cloudflare side: "expect this hostname, issue a cert once DNS validates").
-- **`aws.route53.Record`** — a CNAME `siteDomain` → `bosc.pages.dev` (the AWS side).
+- **`aws.route53.Record`** — a CNAME `siteDomain` → `watermark.pages.dev` (the AWS side).
   Decided shape ([#240](https://github.com/watermark-directory/the-watermark-directory/issues/240)): a **subdomain**,
   because a bare apex can't point cross-provider at pages.dev (a CNAME is illegal at the
   apex, and a Route53 ALIAS only targets AWS resources). For an apex you'd move DNS to
@@ -62,12 +62,12 @@ project by name, so the two don't fight.
 | --- | --- | --- |
 | `cloudflareAccountId` | *(required, unset)* | Cloudflare account that owns the resources |
 | `pagesProject` | `bosc` | the wrangler-deployed Pages project a custom domain attaches to |
-| `siteDomain` | *(unset)* | the live subdomain, e.g. `bosc.example.org` — **late-bound** |
+| `siteDomain` | *(unset)* | the live subdomain, e.g. `watermark.example.org` — **late-bound** |
 | `route53ZoneId` | *(unset)* | the Route53 hosted-zone id that owns `siteDomain` |
-| `siteDomains` | `["bosc.pages.dev"]` | preview hostnames for Turnstile (custom domain folded in automatically) |
+| `siteDomains` | `["watermark.pages.dev"]` | preview hostnames for Turnstile (custom domain folded in automatically) |
 
 Until `siteDomain` is set the stack manages KV + Turnstile only and the site stays on
-`bosc.pages.dev` — so it's **ready to go with the domain as the single late-bound value**.
+`watermark.pages.dev` — so it's **ready to go with the domain as the single late-bound value**.
 
 Provider auth: the Cloudflare **token** is never committed — supply it via
 `CLOUDFLARE_API_TOKEN` (or the `cloudflare:apiToken` Pulumi secret), scoped to **Workers
@@ -103,7 +103,7 @@ pulumi stack output                            # read the ids/keys to wire in
 pulumi stack output turnstileSecretKey --show-secrets
 
 # Later, once the domain is chosen — the Route53↔Cloudflare exchange:
-pulumi config set bosc-deploy:siteDomain   bosc.example.org
+pulumi config set bosc-deploy:siteDomain   watermark.example.org
 pulumi config set bosc-deploy:route53ZoneId Z0123456789ABC
 pulumi up                                      # PagesDomain + the Route53 CNAME
 pulumi stack output siteDomainStatus           # poll until "active"

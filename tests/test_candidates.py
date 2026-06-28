@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bosc import candidates
+from watermark import candidates
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 ENTITIES = REPO_ROOT / "data" / "entities"

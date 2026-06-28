@@ -47,17 +47,17 @@ across `docs/` and the Astro site:
 - `[reference]` — an outside-published spec (e.g. a vendor datasheet); cited, not
   a corpus finding.
 
-Approximate transcribed figures keep the `~` marker (`bosc.models._coerce_number`);
+Approximate transcribed figures keep the `~` marker (`watermark.models._coerce_number`);
 never silently drop it. The "documented edge only" rule has a concrete instance in
-`bosc.pipeline.entities`: Google is kept as an *annotation, off-graph* — a node is
+`watermark.pipeline.entities`: Google is kept as an *annotation, off-graph* — a node is
 added only when an instrument names it. Follow that pattern.
 
 ## entity-and-document-deconstruction → the pipeline
 
-- **Graph:** `bosc.pipeline.entities` — `EntityGraph` built by `build_entity_graph`
+- **Graph:** `watermark.pipeline.entities` — `EntityGraph` built by `build_entity_graph`
   over the reviewed corpus; `Entity` / `Relationship` are documented edges only.
   Enrichers (`enrich_with_places`, `enrich_with_lei`, …) extend it from cited data.
-- **Timeline:** `bosc.pipeline.timeline` — `TimelineEvent`s assembled from deeds,
+- **Timeline:** `watermark.pipeline.timeline` — `TimelineEvent`s assembled from deeds,
   NPDES, EPA, plans, OPC, and commissioners records; sequence carries the argument.
 - **Gap audits:** `data/extracted/legal/corpus-completeness-audit.md` is the master
   audit; the `web-vendor-audit/` and per-body `completeness-audit.yaml` files cover
@@ -77,13 +77,13 @@ added only when an instrument names it. Follow that pattern.
   district, and the Ohio EPA. Underlying records live under `data/documents/legal/`,
   reviewed reads under `data/extracted/legal/`.
 
-## gis-and-siting-analysis → bosc.gis
+## gis-and-siting-analysis → watermark.gis
 
-- **Provenanced value:** the `ProvenancedValue` model in `bosc.hydrology.model` —
+- **Provenanced value:** the `ProvenancedValue` model in `watermark.hydrology.model` —
   every emitted figure carries `source` (`document` / `connector` / `reference` /
   `assumption` / `derived`), `citation`, `confidence`, `asof`. A figure without
   provenance does not ship.
-- **Spatial layers:** `bosc.gis` — `sites` (AOI loader), `corridor` (spatial join
+- **Spatial layers:** `watermark.gis` — `sites` (AOI loader), `corridor` (spatial join
   to the frozen corridor geometry), `raster` / `imagery` (Planetary Computer STAC +
   GeoTIFF clip), `analysis` (NDVI/NDWI). These read **committed GeoJSON and a POI
   store**, not live ArcGIS REST; parcels come from `data/reference/`.
@@ -104,11 +104,11 @@ added only when an instrument names it. Follow that pattern.
 
 ## document-production-and-ocr → the extract pipeline
 
-- **Live read path is vision-based, not tesseract.** `bosc.pipeline.extract`
+- **Live read path is vision-based, not tesseract.** `watermark.pipeline.extract`
   renders pages at 300 DPI with pypdfium2 and reads figures from the **image** via a
-  forced-tool-use `Estimate` extraction (`bosc.agent.extractor`), validated against
-  the Pydantic models in `bosc.models`. The OCR text layer is a hint only — its
-  digits are unreliable (`$109,307.69` → `$108.307.89`). Profiles in `bosc.profiles`
+  forced-tool-use `Estimate` extraction (`watermark.agent.extractor`), validated against
+  the Pydantic models in `watermark.models`. The OCR text layer is a hint only — its
+  digits are unreliable (`$109,307.69` → `$108.307.89`). Profiles in `watermark.profiles`
   dispatch by format.
 - **Publishing is Astro + MkDocs, not docx.** There is no in-repo docx/LibreOffice
   house-format pipeline; the generic OCR (pdftoppm/tesseract), docx-XML, and
@@ -118,6 +118,6 @@ added only when an instrument names it. Follow that pattern.
 ## Platform
 
 GitHub repo `watermark-directory/the-watermark-directory` — `bosc` Typer CLI; `ingest → extract → analyze`
-pipeline; entity graph + timeline + dossier synthesis; the `bosc.hydrology`
-water-balance subsystem; the Python data tier (`bosc.site`, `bosc export`) and the
+pipeline; entity graph + timeline + dossier synthesis; the `watermark.hydrology`
+water-balance subsystem; the Python data tier (`watermark.site`, `bosc export`) and the
 Astro presentation tier (`frontend/`). See the root `CLAUDE.md` and `README.md`.

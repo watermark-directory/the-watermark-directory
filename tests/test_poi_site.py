@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from bosc.config import Settings
-from bosc.pipeline.entities import EntityGraph, enrich_with_places, normalize_name
+from watermark.config import Settings
+from watermark.pipeline.entities import EntityGraph, enrich_with_places, normalize_name
 
 
 def test_enrich_with_places_adds_node_and_owner_edge(poi_settings: Settings) -> None:

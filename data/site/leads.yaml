@@ -304,7 +304,7 @@ leads:
     **Acceptance.**
 
     - Data-hall floor area documented from a primary source; Method 3 re-grounded from land-area envelope
-    to floor area in `docs/COMPUTE.md` + `bosc.facility`.
+    to floor area in `docs/COMPUTE.md` + `watermark.facility`.
 
 
     **Refs.** `corpus-completeness-audit.md` §4; `docs/COMPUTE.md`; #33.'
@@ -386,7 +386,7 @@ leads:
     \ source only.\n  Prefer the smallest change that keeps the figure/text honest.\n- **Chain of custody:**\
     \ the `.jpg` is immutable evidence — don't rename/alter the source byte. Record the canonical name\
     \ + a content-verified date in the collection's alias manifest if one applies.\n- Validate the new\
-    \ extraction against `bosc.models` (`test_extracted_yaml_valid.py` must stay green).\n\n## Why it's\
+    \ extraction against `watermark.models` (`test_extracted_yaml_valid.py` must stay green).\n\n## Why it's\
     \ separate\nIt runs the API (cost) and lands a **reviewed corpus artifact** — a deliberate, gated\
     \ decision distinct from shipping the code path. Tag claims `[verified]` only against the extracted\
     \ artifact once committed.\n\n## Done when\nThe LACRPC CAC agenda is a committed, schema-valid extraction\

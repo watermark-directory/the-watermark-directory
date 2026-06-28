@@ -62,7 +62,7 @@ Repo → **Settings → Secrets and variables → Actions**.
 | --- | --- | --- |
 | `RESEARCH_ENABLED` | `true` | **on / kill switch.** Anything other than `true` disables the workflow. |
 | `RESEARCH_TOPIC` | *(optional)* | the topic the weekly cron investigates; empty = cron is a no-op |
-| `RESEARCH_MAX_TURNS` | *(optional)* | agent turn cap (default 30; maps to `BOSC_RESEARCH_MAX_TURNS`) |
+| `RESEARCH_MAX_TURNS` | *(optional)* | agent turn cap (default 30; maps to `WATERMARK_RESEARCH_MAX_TURNS`) |
 | `RESEARCH_MAX_PROPOSALS` | *(optional)* | issue proposals per run (default 5) |
 
 ## 4. Apply the branch-protection gates

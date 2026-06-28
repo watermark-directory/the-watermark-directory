@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: parcels --owner <assembler> --geojson data/reference/<site>/parcel-assemblage.geojson
-  connector_ref: bosc.hydrology.connectors.allen_gis
+  connector_ref: watermark.hydrology.connectors.allen_gis
   source: Per-site county parcel GIS via the gis_parcel field-map, pulled as f=geojson reprojected
     to WGS84 (Fort Wayne = Allen County, IN iMap, parcel layer 10)
   external_url: https://gis1.acimap.us/imapweb/rest/services/QueryLayers/QueryLayers/MapServer/10

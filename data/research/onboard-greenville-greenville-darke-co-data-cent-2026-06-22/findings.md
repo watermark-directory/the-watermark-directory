@@ -17,7 +17,7 @@ I have enough grounded material. Here is the findings report.
 
 ## Bottom line
 
-Greenville is a **registered but unpromoted** watershed-point site. A `bosc onboard greenville` run has already populated the portable reach connectors (hydrology climatology, design-storm DDF, county economics, consumer energy), and a `SiteProfile` exists in `bosc.sites`. But the two dimensions this task names are precisely the two that are **not** complete:
+Greenville is a **registered but unpromoted** watershed-point site. A `bosc onboard greenville` run has already populated the portable reach connectors (hydrology climatology, design-storm DDF, county economics, consumer energy), and a `SiteProfile` exists in `watermark.sites`. But the two dimensions this task names are precisely the two that are **not** complete:
 
 - **Data-center activity:** there is **zero** Greenville/Darke County content in the investigative corpus — no deeds, no NPDES permits, no entity-graph nodes, no meeting records. This is a flat no-data finding, not a weak one. `facility=None` in the profile; the data-center dimension is unchecked in the onboarding gate.
 - **Receiving-water screen:** the receiving reach is identified and gaged, but the **at-site assimilative denominator (7Q10) for Greenville Creek is not committed** — the derived low-flow file still contains only Maumee-basin streams.

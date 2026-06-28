@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from bosc.site.records import _approx_paths, _classify, _Record, _record_title
+from watermark.site.records import _approx_paths, _classify, _Record, _record_title
 
 
 def test_approx_paths_finds_every_tilde_scalar() -> None:

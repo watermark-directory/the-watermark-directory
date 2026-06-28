@@ -1,4 +1,4 @@
-"""Tests for ``bosc catalog render`` (epic #631, issue #627).
+"""Tests for ``watermark catalog render`` (epic #631, issue #627).
 
 Render generates a marker-delimited facts block into a reference collection's README and
 preserves all other prose; the block is markdownlint-clean and idempotent; opting in puts the
@@ -9,8 +9,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bosc.catalog_check import check, errors
-from bosc.catalog_render import (
+from watermark.catalog_check import check, errors
+from watermark.catalog_render import (
     BEGIN,
     END,
     has_block,
@@ -18,7 +18,7 @@ from bosc.catalog_render import (
     render_drift,
     splice_block,
 )
-from bosc.config import Settings
+from watermark.config import Settings
 
 
 def _settings(tmp_path: Path) -> Settings:
@@ -92,7 +92,7 @@ def test_render_adds_then_is_unchanged(tmp_path: Path) -> None:
     assert [(a.collection, a.action) for a in first] == [("echo", "added")]
     text = readme.read_text(encoding="utf-8")
     assert "Hand-written intro." in text  # prose preserved
-    assert "Regenerate: `bosc npdes`" in text
+    assert "Regenerate: `watermark npdes`" in text
     assert "License: Public domain" in text
     assert "`reference/echo/x.yaml`" in text
 

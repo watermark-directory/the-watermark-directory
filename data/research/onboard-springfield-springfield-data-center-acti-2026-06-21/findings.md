@@ -30,7 +30,7 @@ The hydrology and entity tools take **no site parameter** — they read the acti
 - `hydrology_balance` returns only the three Lima loop WWTPs — Shawnee II → Ottawa River (4.64 cfs `[doc]`), American Bath → Pike Run (2.32 cfs `[doc]`), American II → Dug Run (1.86 cfs `[doc]`) — each flagged a low-flow assimilative **violation** against its cited 7Q10.
 - `hydrology_scenario` returns only the Lima/BOSC campus draw (4.85 cfs net, =24.3× the cited Ottawa River 7Q10) `[doc]` / `[inference]` on the cooling knob.
 
-Per `CLAUDE.md`, per-site values live on a `SiteProfile` in `bosc.sites`, selected by `BOSC_SITE`. The MCP server here is bound to `lima`. So a Springfield receiving-water screen is **not blocked by analysis — it's blocked by the absence of a registered Springfield profile and its committed reference data.** This matches the documented onboarding model (`bosc onboard <slug>` → scaffold per-site dirs, run portable connectors, emit a blocking review checklist).
+Per `CLAUDE.md`, per-site values live on a `SiteProfile` in `watermark.sites`, selected by `WATERMARK_SITE`. The MCP server here is bound to `lima`. So a Springfield receiving-water screen is **not blocked by analysis — it's blocked by the absence of a registered Springfield profile and its committed reference data.** This matches the documented onboarding model (`bosc onboard <slug>` → scaffold per-site dirs, run portable connectors, emit a blocking review checklist).
 
 ## 3. Watershed fit is the lead open question `[open]`
 
@@ -53,7 +53,7 @@ The Lima build shows the two layers this task names, and what "done" looks like 
 ## 5. Actionable follow-ups (track as issues)
 
 1. **Disambiguate "Springfield" + confirm basin** before any work. Deliverable: a one-line situs (city/township, county, state) verified against a live NHD/parcel sample, and an explicit Maumee-fit yes/no. *(Blocks everything below.)*
-2. **Register a `SiteProfile`** in `bosc.sites.SITES` for the confirmed Springfield (GIS URLs, `nwis_sites`, `rsei_fips`, `eia861_utility_number`) — never reuse Lima/Allen values. Re-scan grid/economics connectors for Ohio-hardcoding if non-OH (cross-state-leak pattern).
+2. **Register a `SiteProfile`** in `watermark.sites.SITES` for the confirmed Springfield (GIS URLs, `nwis_sites`, `rsei_fips`, `eia861_utility_number`) — never reuse Lima/Allen values. Re-scan grid/economics connectors for Ohio-hardcoding if non-OH (cross-state-leak pattern).
 3. **EIA-861 lookup:** if Springfield's utility is municipal, expect EIA-861S (Short_Form sheet), not full Sales — record the utility number.
 4. **Receiving-water reference dataset:** pull the Springfield WWTP NPDES permit(s) + receiving stream 7Q10 into `data/reference/` so `hydrology_balance` has cited inputs.
 5. **Data-center activity scan:** open-records/parcel sweep for any data-center land assembly, rezoning, or utility-tap activity near Springfield; ingest deeds/SOS/permits if found, or record a flat **no-activity** finding if not.

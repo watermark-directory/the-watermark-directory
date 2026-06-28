@@ -6,12 +6,12 @@ networked `discover` (403/406 WAF branches) is exercised by the fetcher integrat
 
 from __future__ import annotations
 
-from bosc.civic.discovery import (
+from watermark.civic.discovery import (
     _pick_records_url,
     classify_platform,
     find_records_links,
 )
-from bosc.civic.models import Platform
+from watermark.civic.models import Platform
 
 
 def test_classify_platform_matches_signatures_and_url() -> None:

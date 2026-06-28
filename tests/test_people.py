@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from bosc import people
+from watermark import people
 
 _PROFILE = """---
 name: Scott J. Ziance

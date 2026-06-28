@@ -6,12 +6,12 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology.connectors.allen_gis import scan_parcel_ids
-from bosc.pipeline.entities import build_entity_graph, normalize_name
-from bosc.poi.connectors.gnis import GnisFeature
-from bosc.poi.discover import _default_roots, discover_candidates
-from bosc.poi.resolve import resolve_candidate
+from watermark.config import Settings
+from watermark.hydrology.connectors.allen_gis import scan_parcel_ids
+from watermark.pipeline.entities import build_entity_graph, normalize_name
+from watermark.poi.connectors.gnis import GnisFeature
+from watermark.poi.discover import _default_roots, discover_candidates
+from watermark.poi.resolve import resolve_candidate
 
 
 def test_discover_parcel_ids_and_coverage(poi_settings: Settings, tmp_path: Path) -> None:
@@ -101,7 +101,7 @@ def test_feature_candidate_flows_through_gnis_funnel(
 ) -> None:
     # Acceptance: a discovered facility-name candidate flows through the resolve funnel's
     # GNIS branch (`_resolve_feature`), not the "unsupported kind" dead end.
-    import bosc.poi.resolve as resolve_mod
+    import watermark.poi.resolve as resolve_mod
 
     cand = next(c for c in discover_candidates(settings=poi_settings) if c.kind == "feature")
 

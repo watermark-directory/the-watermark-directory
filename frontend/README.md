@@ -79,7 +79,7 @@ the `*_API_BASE` vars in `.dev.vars` at the real hosts and supply real creds.
 wrangler's own `getPlatformProxy()` into the *same* store `wrangler pages dev` reads (you can't
 fill it with `wrangler r2 object put`). So PDFs/images load with **no Cloudflare creds and no
 remote bucket**. It's incremental and LFS-aware; you need a real content bundle
-(`BOSC_BUNDLE_DIR` or `bosc export`) and `git lfs pull` for the bytes. To serve more than the
+(`WATERMARK_BUNDLE_DIR` or `watermark export`) and `git lfs pull` for the bytes. To serve more than the
 published set, `npm run seed:r2 -- --collection <slug>` (or pass explicit rels) and restart the
 stack. Skip seeding with `DEV_STACK_NO_SEED=1`. The doc-serving *logic* (gate, ranges,
 content-type) is covered offline by `src/lib/docRoute.test.ts`.
@@ -89,8 +89,8 @@ content-type) is covered offline by `src/lib/docRoute.test.ts`.
 `src/lib/bundle.ts` reads the bundle at build time. It picks the **first**
 directory that contains a `manifest.json`:
 
-1. **`$BOSC_BUNDLE_DIR`** — explicit override (absolute or relative to CWD).
-2. **`../data/site/bundle`** — the real bundle, present after `bosc export`.
+1. **`$WATERMARK_BUNDLE_DIR`** — explicit override (absolute or relative to CWD).
+2. **`../data/site/bundle`** — the real bundle, present after `watermark export`.
 3. **`./sample-bundle`** — the committed minimal fixture (the default in a fresh
    checkout and in CI; see [`sample-bundle/README.md`](sample-bundle/README.md)).
 
@@ -98,9 +98,9 @@ So a plain `npm run build` works with zero Python (it uses the fixture). To buil
 the full site against real data:
 
 ```sh
-bosc export                                   # → data/site/bundle/  (the loader then prefers it)
+watermark export                                   # → data/site/bundle/  (the loader then prefers it)
 # or point anywhere:
-BOSC_BUNDLE_DIR=/path/to/bundle npm run build
+WATERMARK_BUNDLE_DIR=/path/to/bundle npm run build
 ```
 
 Read `manifest.json` first, then feeds it lists:

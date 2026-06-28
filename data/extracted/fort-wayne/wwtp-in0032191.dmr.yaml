@@ -1,7 +1,7 @@
 meta:
   subject: FORT WAYNE WWTP (NPDES IN0032191) — reported effluent record (EPA ECHO DMR)
   source: EPA ECHO eff_rest_services.get_effluent_chart
-  regenerate: bosc dmr IN0032191 --start 2023-01-01 --end 2023-12-31 --design-flow 74.0
+  regenerate: watermark dmr IN0032191 --start 2023-01-01 --end 2023-12-31 --design-flow 74.0
   discipline: Reported DMR values are verbatim from the permittee's submissions via ECHO; a no-discharge/no-data
     period is null (never zero-filled), and an exceedance is listed only where ECHO reports one. Design
     flow is the permitted maximum, not a metered value.

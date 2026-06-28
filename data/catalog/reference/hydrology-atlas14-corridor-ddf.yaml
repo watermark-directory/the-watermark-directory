@@ -4,7 +4,7 @@ scope: reference
 status: reviewed
 producer:
   kind: connector
-  connector_ref: bosc.hydrology.connectors.noaa_atlas14
+  connector_ref: watermark.hydrology.connectors.noaa_atlas14
   source: NOAA NWS HDSC Atlas-14 — precipitation-frequency point query (Partial-Duration Series, English
     depths)
   external_url: https://hdsc.nws.noaa.gov/pfds/
@@ -21,7 +21,7 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
-schema_ref: bosc.hydrology.drainage.CorridorDdf
+schema_ref: watermark.hydrology.drainage.CorridorDdf
 tags:
 - atlas14
 - design-storm

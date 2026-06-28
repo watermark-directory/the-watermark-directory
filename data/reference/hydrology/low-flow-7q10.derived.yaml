@@ -1,6 +1,6 @@
 meta:
   subject: DERIVED receiving-stream 7Q10s for the major mainstems of the network's river basins
-  source: USGS NWIS daily discharge -> log-Pearson III (bosc.hydrology.lowflow_frequency)
+  source: USGS NWIS daily discharge -> log-Pearson III (watermark.hydrology.lowflow_frequency)
   discipline: DERIVED screening denominators (source=derived), NOT cited regulatory 7Q10s — those live
     in low-flow-7q10.yaml. Each value is the 7Q10 AT THE GAGE, a proxy for a direct-discharge reach on
     that mainstem; a discharger on a tributary is screened only against that tributary's own cited/derived

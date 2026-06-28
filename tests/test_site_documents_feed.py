@@ -10,14 +10,14 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bosc.site.documents import (
+from watermark.site.documents import (
     PublishAllowlist,
     build_doc_index,
     build_documents,
     export_documents,
     load_publish_allowlist,
 )
-from bosc.site.records import _normalize_source_rel, export_records
+from watermark.site.records import _normalize_source_rel, export_records
 
 
 def _entries(documents_dir: Path) -> dict[str, tuple[str, str, bool]]:

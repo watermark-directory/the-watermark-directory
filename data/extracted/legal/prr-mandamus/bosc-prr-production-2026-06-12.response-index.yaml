@@ -43,7 +43,7 @@ source_documents:
       requests to the developer and data center manufacturer." PO #14322 (FY2024, $47,600).
     significance: >
       FIRST primary-source document tying the data center's cooling-tower BLOWDOWN to the American
-      Bath WWTP and naming "the developer and data center manufacturer." Grounds bosc.hydrology.cooling
+      Bath WWTP and naming "the developer and data center manufacturer." Grounds watermark.hydrology.cooling
       and sanitary-economics, which until now rested on secondhand citations. (#33-adjacent: ties cooling
       water to sanitary load.)
     signatures: "Beth Seibert (Board President); Matthew L. Casey P.E. (ms consultants); Brad Niemeyer P.E. (Sanitary Engineer); Nathan Delisle P.E. (ms PM)"
@@ -224,7 +224,7 @@ new_findings:
       manufacturer."
     implication: >
       First primary record linking the campus cooling system to the sanitary system. Anchors
-      bosc.hydrology.cooling + sanitary-economics on a document (not a secondhand citation). The
+      watermark.hydrology.cooling + sanitary-economics on a document (not a secondhand citation). The
       "developer and data center manufacturer" language corroborates the code-named-shell pattern.
   - id: bosc-cmar-procurement-chain-complete
     finding: >

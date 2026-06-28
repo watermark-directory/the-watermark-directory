@@ -3,7 +3,7 @@
 # The static Astro build (frontend/dist) and the Pages Functions (frontend/functions/,
 # the submissions endpoint #74) deploy together to one origin. The deploy runs from the
 # Actions workflow (.github/workflows/pages.yml) via Wrangler direct-upload — Cloudflare's
-# own Git build is NOT used, because the content bundle is produced by `bosc export`
+# own Git build is NOT used, because the content bundle is produced by `watermark export`
 # (Python) before `npm run build`, which that build can't run.
 #
 # Secrets (TIPS_APP_ID, TIPS_APP_PRIVATE_KEY, TURNSTILE_SECRET_KEY, ANTHROPIC_API_KEY)
@@ -60,7 +60,7 @@ GITHUB_REPO = "the-watermark-directory"
 
 # --- Source documents object store (/api/doc, Epic #274) --------------------------
 # R2 bucket holding the corpus bytes that the /api/doc Pages Function (#278) streams.
-# Populated by `bosc objectstore sync` (#279). The DOCS_ENABLED kill switch lives in the
+# Populated by `watermark objectstore sync` (#279). The DOCS_ENABLED kill switch lives in the
 # dashboard (ships dark — unset/"false" → /api/doc returns 503), mirroring the other
 # endpoints. Create the buckets once (prod + a distinct dev bucket for wrangler preview):
 #   npx wrangler r2 bucket create watermark-documents

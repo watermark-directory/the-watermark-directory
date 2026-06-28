@@ -17,7 +17,7 @@ the same nutrient cap, so the sites are nested nodes on one connected basin, not
 - **`basin-network.yaml`** — *computed, regenerable.* The assembled cross-site comparison, written
   by `bosc network`. For each node it joins the topology above with the node's own committed
   artifacts (economic baseline, grid profile, RSEI inventory) and its low-flow screen, into one
-  provenance-tagged `BasinNetwork` (`bosc.network`). Regenerate with `bosc network --write`; do not
+  provenance-tagged `BasinNetwork` (`watermark.network`). Regenerate with `bosc network --write`; do not
   hand-edit. Reads only committed reference data — no network calls.
 
 ## Discipline
@@ -34,7 +34,7 @@ is itself a finding, surfaced rather than papered over.
 
 ### `network` — BOSC Watershed-Point Network Synthesis (Maumee Basin)
 
-Source: Registered bosc.sites SiteProfiles + per-node committed artifacts (economics, grid, RSEI, low-flow screen) joined over a curated cited basin topology · License: BOSC-derived synthesis (per-attribute provenance inherited from each source artifact) · Access: public · Site scope: basin-shared · Refresh: on-demand
+Source: Registered watermark.sites SiteProfiles + per-node committed artifacts (economics, grid, RSEI, low-flow screen) joined over a curated cited basin topology · License: BOSC-derived synthesis (per-attribute provenance inherited from each source artifact) · Access: public · Site scope: basin-shared · Refresh: on-demand
 
 Regenerate: `bosc network`
 

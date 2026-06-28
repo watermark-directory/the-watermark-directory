@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
+from watermark.config import Settings
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 EXTRACTED = REPO_ROOT / "data" / "extracted"

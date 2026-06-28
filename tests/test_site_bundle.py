@@ -16,10 +16,10 @@ from typing import Any
 import pytest
 from jsonschema.validators import Draft202012Validator
 
-from bosc.config import Settings
-from bosc.pipeline.corpus import relpath_in_scope
-from bosc.site.export import export_bundle
-from bosc.sites import effective_corpus_scope, get_profile
+from watermark.config import Settings
+from watermark.pipeline.corpus import relpath_in_scope
+from watermark.site.export import export_bundle
+from watermark.sites import effective_corpus_scope, get_profile
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 COMMITTED_SCHEMAS = REPO_ROOT / "data" / "site" / "bundle" / "schemas"
@@ -100,14 +100,14 @@ def test_all_schemas_are_valid_draft_2020_12(bundle: Path) -> None:
 
 
 def test_committed_schemas_match_generated(bundle: Path) -> None:
-    """The committed schemas/ must equal what the models generate — else `bosc export`."""
+    """The committed schemas/ must equal what the models generate — else `watermark export`."""
     generated = {p.name for p in (bundle / "schemas").glob("*.json")}
     committed = {p.name for p in COMMITTED_SCHEMAS.glob("*.json")}
-    assert generated == committed, "committed schema set differs — run `bosc export`"
+    assert generated == committed, "committed schema set differs — run `watermark export`"
     for name in generated:
         gen = json.loads((bundle / "schemas" / name).read_text(encoding="utf-8"))
         com = json.loads((COMMITTED_SCHEMAS / name).read_text(encoding="utf-8"))
-        assert gen == com, f"schema drift in {name} — regenerate with `bosc export`"
+        assert gen == com, f"schema drift in {name} — regenerate with `watermark export`"
 
 
 def test_cross_feed_references_resolve(bundle: Path) -> None:
@@ -245,12 +245,12 @@ def _assert_fixture_tracks_export(fixture_dir: Path, exported_manifest: dict[str
 
 
 def test_frontend_sample_bundle_tracks_the_export_contract(bundle: Path) -> None:
-    """The committed Lima CI fixture tracks `bosc export` (the reference build)."""
+    """The committed Lima CI fixture tracks `watermark export` (the reference build)."""
     _assert_fixture_tracks_export(FRONTEND_SAMPLE, _manifest(bundle))
 
 
 def test_fort_wayne_sample_bundle_tracks_the_export_contract(fort_wayne_bundle: Path) -> None:
-    """The committed Fort Wayne fixture tracks `bosc --site fort-wayne export` (#741) — the
+    """The committed Fort Wayne fixture tracks **`watermark --site fort-wayne export` (#741) — the
     first non-Lima sample bundle, so this also guards that a sibling fixture stays a real,
     per-site-scoped slice of its own export."""
     _assert_fixture_tracks_export(
@@ -393,6 +393,6 @@ def test_sibling_bundle_has_no_leads_feed(fort_wayne_bundle: Path) -> None:
 
 
 def test_export_leads_is_empty_for_an_absent_store(tmp_path: Path) -> None:
-    from bosc.site.leads import export_leads
+    from watermark.site.leads import export_leads
 
     assert export_leads(tmp_path / "nope.yaml") == []

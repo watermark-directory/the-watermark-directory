@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from bosc.config import Settings
-from bosc.models import (
+from watermark.config import Settings
+from watermark.models import (
     BusinessFiling,
     Deed,
     DeedExtraction,
@@ -13,8 +13,8 @@ from bosc.models import (
     NpdesPermit,
     SosExtraction,
 )
-from bosc.pipeline.corpus import Corpus
-from bosc.pipeline.entities import (
+from watermark.pipeline.corpus import Corpus
+from watermark.pipeline.entities import (
     _base_permit,
     _looks_like_person,
     _parse_trustee_recital,

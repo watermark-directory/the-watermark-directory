@@ -7,9 +7,9 @@ from datetime import date, timedelta
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology import lowflow_frequency as lf
-from bosc.hydrology.connectors.nwis import DailyDischargeSeries, fetch_daily_discharge
+from watermark.config import Settings
+from watermark.hydrology import lowflow_frequency as lf
+from watermark.hydrology.connectors.nwis import DailyDischargeSeries, fetch_daily_discharge
 
 # ------------------------------------------------------------------------ probit
 

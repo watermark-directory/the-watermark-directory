@@ -47,7 +47,7 @@ limits:
   nox_tpy_combined: 240  # [verified] "combined NOx emissions from the thirty-four (34) ... emergency
                          # generators shall not exceed 240 tons per twelve (12) consecutive month period" (D.1.1, p26/p35)
 
-# Power basis for SiteProfile.facility (bosc.facility.power.derive_power_basis). The permit discloses
+# Power basis for SiteProfile.facility (watermark.facility.power.derive_power_basis). The permit discloses
 # heat input, NOT an electrical rating, so genset_mw is DERIVED — unlike Lima (disclosed ekW).
 power_basis:
   genset_count: 34  # [verified] the Gen 1..34 data-hall backup fleet (excludes DEGH1/DEP1)

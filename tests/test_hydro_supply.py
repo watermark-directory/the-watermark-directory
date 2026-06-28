@@ -9,9 +9,9 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology import supply as sup
-from bosc.hydrology.cooling import derive_cooling_basis
+from watermark.config import Settings
+from watermark.hydrology import supply as sup
+from watermark.hydrology.cooling import derive_cooling_basis
 
 
 def test_supply_loads_dual_river_storage(hydro_settings: Settings) -> None:
@@ -92,7 +92,7 @@ def test_water_budget_findings_cover_the_story(hydro_settings: Settings) -> None
 
 
 def test_pipeline_run_water_budget(hydro_settings: Settings) -> None:
-    from bosc.pipeline import hydrology as hydro_stage
+    from watermark.pipeline import hydrology as hydro_stage
 
     system, budget, findings = hydro_stage.run_water_budget(settings=hydro_settings)
     assert system is not None and budget is not None

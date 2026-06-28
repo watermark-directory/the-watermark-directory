@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: npdes --basin great-miami
-  connector_ref: bosc.hydrology.connectors.echo
+  connector_ref: watermark.hydrology.connectors.echo
   source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
   external_url: https://echo.epa.gov/tools/web-services
 license: U.S. Government work (public domain)
@@ -25,7 +25,7 @@ refresh:
   cadence: quarterly
   ttl_days: 180
 provenance: connector
-schema_ref: bosc.hydrology.connectors.echo.Facility
+schema_ref: watermark.hydrology.connectors.echo.Facility
 tags:
 - npdes
 - cwa

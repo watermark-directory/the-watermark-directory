@@ -9,19 +9,19 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.connectors import OfflineError
-from bosc.economics.connectors.eia import (
+from watermark.config import Settings
+from watermark.connectors import OfflineError
+from watermark.economics.connectors.eia import (
     EiaError,
     _latest_point,
     fetch_consumer_energy,
     fetch_eia_series,
 )
-from bosc.economics.energy import (
+from watermark.economics.energy import (
     derive_demand_pressure,
     load_consumer_energy,
 )
-from bosc.facility.power import derive_power_basis
+from watermark.facility.power import derive_power_basis
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
@@ -149,8 +149,8 @@ def test_demand_pressure_resolves_the_dataset_state_not_ohio(
     resolve the IN series and say "Indiana retail", never OH."""
     import yaml as _yaml
 
-    from bosc.economics import energy
-    from bosc.economics.model import ConsumerEnergyCosts
+    from watermark.economics import energy
+    from watermark.economics.model import ConsumerEnergyCosts
 
     # Reuse Lima's real power basis as a stub — the only site with a documented facility today, so
     # a non-OH site can exercise the state-resolution path without a real non-OH facility.

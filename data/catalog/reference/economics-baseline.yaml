@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: economics
-  connector_ref: bosc.economics.connectors.qcew
+  connector_ref: watermark.economics.connectors.qcew
   source: BLS QCEW annual averages (keyless) + US Census ACS 5-year (B01003_001E)
   external_url: https://www.bls.gov/cew/
 license: U.S. Government work (public domain)
@@ -21,7 +21,7 @@ storage:
 refresh:
   cadence: annual
 provenance: connector
-schema_ref: bosc.economics.model.EconomicBaseline
+schema_ref: watermark.economics.model.EconomicBaseline
 tags:
 - economics
 - qcew
@@ -29,4 +29,4 @@ tags:
 - employment
 - baseline
 notes: Connector-regenerated county employment-by-NAICS with location quotients plus an ACS population
-  series (population needs BOSC_CENSUS_API_KEY; QCEW is keyless); site-scoped under reference/economics/{site}/.
+  series (population needs WATERMARK_CENSUS_API_KEY; QCEW is keyless); site-scoped under reference/economics/{site}/.

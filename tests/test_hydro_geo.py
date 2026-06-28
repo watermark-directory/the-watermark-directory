@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology import geo
+from watermark.config import Settings
+from watermark.hydrology import geo
 
 REPO = Path(__file__).resolve().parents[1]
 PARCELS = REPO / "tests" / "fixtures" / "periplus-bosc-parcels.geojson"

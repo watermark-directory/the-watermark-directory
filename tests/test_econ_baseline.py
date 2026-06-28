@@ -8,11 +8,11 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.connectors import OfflineError
-from bosc.economics.baseline import build_baseline, load_baseline
-from bosc.economics.connectors.census import fetch_population_series
-from bosc.economics.connectors.qcew import fetch_county_industries
+from watermark.config import Settings
+from watermark.connectors import OfflineError
+from watermark.economics.baseline import build_baseline, load_baseline
+from watermark.economics.connectors.census import fetch_population_series
+from watermark.economics.connectors.qcew import fetch_county_industries
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 

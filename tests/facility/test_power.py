@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.facility.power import derive_power_basis
+from watermark.facility.power import derive_power_basis
 
 
 def test_power_basis_traces_to_air_permit() -> None:
@@ -25,8 +25,8 @@ def test_facility_power_matches_cooling_it_load() -> None:
     The Lima ``SiteProfile.facility`` now carries the air-permit IT load; cooling.py still
     mirrors it as a private constant. This test is the seam that keeps them equal.
     """
-    from bosc.hydrology import cooling
-    from bosc.sites import SITES
+    from watermark.hydrology import cooling
+    from watermark.sites import SITES
 
     lima_facility = SITES["lima"].facility
     assert lima_facility is not None
@@ -38,7 +38,7 @@ def test_facility_power_matches_cooling_it_load() -> None:
 
 def test_power_basis_is_none_without_a_facility() -> None:
     """A registered site with no documented facility has no power basis (no fabrication)."""
-    from bosc.config import Settings
+    from watermark.config import Settings
 
     assert derive_power_basis(settings=Settings(site="findlay")) is None
 
@@ -46,8 +46,8 @@ def test_power_basis_is_none_without_a_facility() -> None:
 def test_compute_capacity_refuses_a_facility_less_site() -> None:
     """The compute-capacity estimate needs a facility power basis — it refuses for a
     facility-less site instead of reusing Lima's air-permit disclosure."""
-    from bosc.config import Settings
-    from bosc.facility.compute import derive_compute_capacity
+    from watermark.config import Settings
+    from watermark.facility.compute import derive_compute_capacity
 
     with pytest.raises(ValueError, match="no documented facility"):
         derive_compute_capacity(settings=Settings(site="findlay"))

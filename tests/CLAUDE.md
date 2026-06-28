@@ -12,5 +12,5 @@ Offline test suite. Defers to the root [`CLAUDE.md`](../CLAUDE.md).
   `HydroOfflineError` naming the key to record. Keep fixtures minimal; don't
   hand-edit recorded JSON.
 - `test_extracted_yaml_valid.py` validates every committed extraction against
-  `bosc.models` — adding extractions to the corpus means they must stay schema-valid.
+  `watermark.models` — adding extractions to the corpus means they must stay schema-valid.
 - Run via `mise run check` (ruff + mypy strict + pytest) before declaring done.

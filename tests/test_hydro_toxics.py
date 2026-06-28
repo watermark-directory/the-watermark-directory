@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from bosc.config import Settings
-from bosc.hydrology import toxics
-from bosc.hydrology.model import ProvenancedValue
+from watermark.config import Settings
+from watermark.hydrology import toxics
+from watermark.hydrology.model import ProvenancedValue
 
 
 def _by_name(inv: toxics.ToxicDischargeInventory, needle: str) -> toxics.ToxicDischargeScreen:

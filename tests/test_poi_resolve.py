@@ -4,11 +4,11 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.connectors import OfflineError
-from bosc.poi.connectors.census_geocoder import geocode_address
-from bosc.poi.model import POICandidate
-from bosc.poi.resolve import resolve_candidate, resolve_value
+from watermark.config import Settings
+from watermark.connectors import OfflineError
+from watermark.poi.connectors.census_geocoder import geocode_address
+from watermark.poi.model import POICandidate
+from watermark.poi.resolve import resolve_candidate, resolve_value
 
 
 def test_geocode_address_offline(poi_offline_settings: Settings) -> None:

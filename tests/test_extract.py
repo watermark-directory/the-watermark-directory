@@ -11,16 +11,16 @@ from typing import Any
 
 import pytest
 
-from bosc.agent.extractor import ExtractionError, StructuredExtractor, _tool_schema
-from bosc.config import Settings
-from bosc.models import Estimate, PageExtraction
-from bosc.pipeline.extract import (
+from watermark.agent.extractor import ExtractionError, StructuredExtractor, _tool_schema
+from watermark.config import Settings
+from watermark.models import Estimate, PageExtraction
+from watermark.pipeline.extract import (
     extract_document,
     extract_opc_page,
     extract_page,
     save_extraction,
 )
-from bosc.pipeline.ingest import SourceDocument
+from watermark.pipeline.ingest import SourceDocument
 
 
 # --- fakes -----------------------------------------------------------------

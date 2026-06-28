@@ -4,11 +4,11 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology import lowflow
-from bosc.hydrology.assimilative import assimilative_findings, check_assimilative
-from bosc.hydrology.balance import build_water_balance
-from bosc.pipeline.hydrology import run_baseline
+from watermark.config import Settings
+from watermark.hydrology import lowflow
+from watermark.hydrology.assimilative import assimilative_findings, check_assimilative
+from watermark.hydrology.balance import build_water_balance
+from watermark.pipeline.hydrology import run_baseline
 
 
 def test_cited_low_flows_load(hydro_settings: Settings) -> None:

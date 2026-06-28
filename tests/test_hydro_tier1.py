@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology.swmm import engine, inp
+from watermark.config import Settings
+from watermark.hydrology.swmm import engine, inp
 
 _SWMM = engine.swmm_available()
 _needs_swmm = pytest.mark.skipif(not _SWMM, reason="SWMM engine (pyswmm) not loadable here")
@@ -84,7 +84,7 @@ def test_detention_attenuates_peak() -> None:
 
 @_needs_swmm
 def test_run_tier1_sizes_detention_and_flags_surcharge() -> None:
-    from bosc.hydrology.tier1 import run_tier1
+    from watermark.hydrology.tier1 import run_tier1
 
     settings = Settings(
         data_dir=Path(__file__).resolve().parents[1] / "data",
@@ -118,6 +118,6 @@ def test_run_tier1_sizes_detention_and_flags_surcharge() -> None:
         am2.capacity.value - am2.avg_design_flow.value, abs=0.01
     )
     # The regulatory SSO-mandate context surfaces as a finding.
-    from bosc.hydrology.tier1 import tier1_findings
+    from watermark.hydrology.tier1 import tier1_findings
 
     assert any(f.check == "sso-mandate" for f in tier1_findings(result))

@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from bosc.models import Deed, DeedExtraction, NpdesExtraction, NpdesPermit
-from bosc.pipeline.corpus import Corpus
-from bosc.pipeline.timeline import _date_key, build_timeline
+from watermark.models import Deed, DeedExtraction, NpdesExtraction, NpdesPermit
+from watermark.pipeline.corpus import Corpus
+from watermark.pipeline.timeline import _date_key, build_timeline
 
 
 def _deed(

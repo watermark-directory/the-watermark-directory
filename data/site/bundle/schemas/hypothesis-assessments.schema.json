@@ -4,7 +4,7 @@
   "type": "array",
   "items": {
     "additionalProperties": false,
-    "description": "One ``(site x hypothesis)`` evidence cell — the join object joining the three axes.\n\nA site's standing under one hypothesis: a :attr:`signal` strength, an evidentiary\n:attr:`tag`, the hypothesis's taxonomy :attr:`group`, the per-hypothesis :attr:`fields`,\nand ≥1 :class:`Citation` (required for any non-``open`` cell). ``site`` is a slug — it\nmay name a *tracking* candidate not yet in :data:`bosc.sites.SITES` (the frontend lists\ntracked points too), so site membership is not hard-enforced here.",
+    "description": "One ``(site x hypothesis)`` evidence cell — the join object joining the three axes.\n\nA site's standing under one hypothesis: a :attr:`signal` strength, an evidentiary\n:attr:`tag`, the hypothesis's taxonomy :attr:`group`, the per-hypothesis :attr:`fields`,\nand ≥1 :class:`Citation` (required for any non-``open`` cell). ``site`` is a slug — it\nmay name a *tracking* candidate not yet in :data:`watermark.sites.SITES` (the frontend lists\ntracked points too), so site membership is not hard-enforced here.",
     "properties": {
       "site": {
         "title": "Site",
@@ -79,7 +79,7 @@
   "$defs": {
     "Citation": {
       "additionalProperties": false,
-      "description": "Where a cell's facts came from — the provenance the old LENS_DATA lacked.\n\nField-compatible with :class:`bosc.site.feeds.Citation` so a cell exports to the\ncontent bundle without translation. ``source_kind`` says what kind of artifact backs\nthe fact; ``verified`` is derived (a record or a live gauge), so a consumer never\nrecomputes it. An inferred connection uses ``source_kind='assumption'``.",
+      "description": "Where a cell's facts came from — the provenance the old LENS_DATA lacked.\n\nField-compatible with :class:`watermark.site.feeds.Citation` so a cell exports to the\ncontent bundle without translation. ``source_kind`` says what kind of artifact backs\nthe fact; ``verified`` is derived (a record or a live gauge), so a consumer never\nrecomputes it. An inferred connection uses ``source_kind='assumption'``.",
       "properties": {
         "source": {
           "anyOf": [

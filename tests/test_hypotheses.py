@@ -10,8 +10,8 @@ from __future__ import annotations
 
 import textwrap
 
-from bosc.config import Settings
-from bosc.hypotheses import (
+from watermark.config import Settings
+from watermark.hypotheses import (
     HYPOTHESES,
     Citation,
     Hypothesis,

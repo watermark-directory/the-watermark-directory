@@ -5,9 +5,9 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from bosc.models import WetlandDetermination, WetlandExtraction
-from bosc.pipeline.extract import extract_wetland
-from bosc.pipeline.ingest import SourceDocument
+from watermark.models import WetlandDetermination, WetlandExtraction
+from watermark.pipeline.extract import extract_wetland
+from watermark.pipeline.ingest import SourceDocument
 
 
 class _FakePdf:

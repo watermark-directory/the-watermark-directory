@@ -8,9 +8,9 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology import network as net
-from bosc.hydrology import roundabout as rb
+from watermark.config import Settings
+from watermark.hydrology import network as net
+from watermark.hydrology import roundabout as rb
 
 
 def test_impervious_area_derived_from_opc_quantities() -> None:
@@ -68,7 +68,7 @@ def test_committed_theory_inject_matches_the_derivation(hydro_settings: Settings
 
 
 def test_pipeline_run_roundabout(hydro_settings: Settings) -> None:
-    from bosc.pipeline import hydrology as hydro_stage
+    from watermark.pipeline import hydrology as hydro_stage
 
     rf, findings = hydro_stage.run_roundabout(settings=hydro_settings)
     assert rf.impervious_acres.value > 0

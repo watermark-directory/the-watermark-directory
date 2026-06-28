@@ -15,7 +15,7 @@ I have a complete picture. Here is the findings report.
 # Findings — Onboarding screen: Xenia (Greene County, OH) as a BOSC watershed-point site
 
 **Task:** assess data-center activity + a receiving-water screen for the candidate site "Xenia," over the BOSC corpus, using read-only tools.
-**Tools used:** `program_overview`, `entities`, `timeline`, `list_documents`, `list_extractions`, `hydrology_balance`, `hydrology_scenario`, `read_extraction`; plus text search over the committed reference tree, `bosc.sites`, the frontend registry, and the saved `list_documents` dump.
+**Tools used:** `program_overview`, `entities`, `timeline`, `list_documents`, `list_extractions`, `hydrology_balance`, `hydrology_scenario`, `read_extraction`; plus text search over the committed reference tree, `watermark.sites`, the frontend registry, and the saved `list_documents` dump.
 
 **Headline:** Unlike a greenfield onboarding, **Xenia is already mid-chain** — its `SiteProfile` is registered and the portable reach/economics connectors have partly run. But the two dimensions this task names — a **receiving-water screen** and **data-center activity** — are both **unbuilt**, and the corpus contains **zero** Xenia primary-source records. This is a clean status report on a half-onboarded site, not a discovery.
 

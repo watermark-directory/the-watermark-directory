@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: pjm
-  connector_ref: bosc.grid.lmp
+  connector_ref: watermark.grid.lmp
   source: PJM Data Miner 2 (da_hrl_lmps, AEP zone) for LMP; PJM RPM Base Residual Auction + interconnection-queue
     reporting (transcribed) for capacity/queue
   external_url: https://dataminer2.pjm.com/
@@ -19,7 +19,7 @@ storage:
 refresh:
   cadence: annual
 provenance: connector
-schema_ref: bosc.grid.market.PjmMarketReference
+schema_ref: watermark.grid.market.PjmMarketReference
 tags:
 - pjm
 - lmp

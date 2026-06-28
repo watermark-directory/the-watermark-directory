@@ -7,7 +7,7 @@ from pathlib import Path
 
 import yaml
 
-from bosc.civic.audit import (
+from watermark.civic.audit import (
     Cadence,
     audit_body,
     expected_dates,
@@ -15,8 +15,8 @@ from bosc.civic.audit import (
     parse_cadence,
     write_audit,
 )
-from bosc.civic.models import Subdivision
-from bosc.config import Settings
+from watermark.civic.models import Subdivision
+from watermark.config import Settings
 
 
 def test_parse_cadence() -> None:

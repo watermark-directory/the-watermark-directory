@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: interchange
-  connector_ref: bosc.economics.connectors.eia
+  connector_ref: watermark.economics.connectors.eia
   source: U.S. EIA — Form EIA-930 Hourly Electric Grid Monitor (PJM region demand/net-gen/interchange)
   external_url: https://www.eia.gov/electricity/gridmonitor/
 license: U.S. Government work (public domain)

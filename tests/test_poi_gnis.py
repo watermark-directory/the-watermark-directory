@@ -4,12 +4,12 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.connectors import OfflineError
-from bosc.poi.connectors.gnis import find_feature
-from bosc.poi.merge import Item, merge_resolutions
-from bosc.poi.model import POICandidate
-from bosc.poi.resolve import Resolution, _geohash, resolve_value
+from watermark.config import Settings
+from watermark.connectors import OfflineError
+from watermark.poi.connectors.gnis import find_feature
+from watermark.poi.merge import Item, merge_resolutions
+from watermark.poi.model import POICandidate
+from watermark.poi.resolve import Resolution, _geohash, resolve_value
 
 
 def test_geohash_is_deterministic() -> None:

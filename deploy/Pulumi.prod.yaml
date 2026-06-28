@@ -2,7 +2,7 @@
 #
 # Operator-specific / late-bound keys are NOT committed; set them out of band:
 #   pulumi config set bosc-deploy:cloudflareAccountId <account-id>   # REQUIRED
-#   pulumi config set bosc-deploy:siteDomain bosc.example.org        # when the name is chosen
+#   pulumi config set bosc-deploy:siteDomain watermark.example.org        # when the name is chosen
 #   pulumi config set bosc-deploy:route53ZoneId Z0123456789ABC       # the zone that owns siteDomain
 #   pulumi config set bosc-deploy:pagesProject bosc                  # only if not "bosc"
 #
@@ -18,4 +18,4 @@ config:
   # Preview hostnames the Turnstile widget may serve on; `siteDomain` is folded in
   # automatically when set, so this stays the pages.dev preview default.
   bosc-deploy:siteDomains:
-    - bosc.pages.dev
+    - watermark.pages.dev

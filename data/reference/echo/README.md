@@ -13,7 +13,7 @@ the **Little Miami** (`--basin little-miami`, the Scenic-River sites Xenia and
 Wilmington / Todd Fork, a single HUC-8 `05090202`) — deferred when ECHO returned read
 timeouts then a 500. Run `bosc npdes --basin scioto` / `--basin little-miami` to write
 their `<basin>-wwtp.*` filesets when ECHO is healthy. Add a basin by registering it in
-`bosc.hydrology.connectors.echo`; never hardcode one into the connector.
+`watermark.hydrology.connectors.echo`; never hardcode one into the connector.
 
 ## What the watershed is
 

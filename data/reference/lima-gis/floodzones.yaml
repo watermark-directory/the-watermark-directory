@@ -10,7 +10,7 @@ meta:
   - 'Only Special Flood Hazard Areas (1%-annual-chance: A/AE incl. floodway, AO) are
     mapped here; areas outside the SFHA carry no polygon.'
   - A site's flood zone is a SPATIAL question (no PARCEL_NO on this layer) — use footprint_floodzones()
-    / bosc floodzone --footprint.
+    / watermark floodzone --footprint.
 classes:
 - fld_zone: AE
   zone_subtype: null

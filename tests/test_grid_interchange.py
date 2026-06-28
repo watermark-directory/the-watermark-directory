@@ -9,10 +9,10 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.connectors import OfflineError
-from bosc.facility.power import derive_power_basis
-from bosc.grid.interchange import (
+from watermark.config import Settings
+from watermark.connectors import OfflineError
+from watermark.facility.power import derive_power_basis
+from watermark.grid.interchange import (
     _reduce_region_data,
     derive_interchange_comparison,
     fetch_ba_interchange,

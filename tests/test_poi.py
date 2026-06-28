@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.poi import load_poi, load_pois, tracked_pois
-from bosc.poi.model import POIFrontmatter
-from bosc.poi.store import split_frontmatter
+from watermark.config import Settings
+from watermark.poi import load_poi, load_pois, tracked_pois
+from watermark.poi.model import POIFrontmatter
+from watermark.poi.store import split_frontmatter
 
 
 def test_store_loads_and_validates(poi_settings: Settings) -> None:

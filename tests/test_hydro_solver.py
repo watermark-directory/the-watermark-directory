@@ -5,17 +5,17 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology.solver import routing
-from bosc.hydrology.solver.curve_number import (
+from watermark.config import Settings
+from watermark.hydrology.solver import routing
+from watermark.hydrology.solver.curve_number import (
     adjust_amc,
     cn_for,
     composite_cn,
     excess_rainfall,
     storage_s,
 )
-from bosc.hydrology.solver.rainfall import scs_type_ii_hyetograph
-from bosc.hydrology.solver.runoff import simulate_runoff
+from watermark.hydrology.solver.rainfall import scs_type_ii_hyetograph
+from watermark.hydrology.solver.runoff import simulate_runoff
 
 
 def test_hyetograph_conserves_mass() -> None:

@@ -7,7 +7,7 @@
     "status": "reviewed",
     "producer_kind": "extracted",
     "command": "extract aedg/PRR-01-bundle.ocr.pdf --kind opc",
-    "connector_ref": "bosc.pipeline.extract",
+    "connector_ref": "watermark.pipeline.extract",
     "source": "Tetra Tech OPC estimates, PRR-01 bundle (0-based PDF pages 317 summary, 318-327 detail)",
     "external_url": null,
     "license": "Public record (Allen County public-records request PRR-01)",
@@ -60,7 +60,7 @@
     "status": "reviewed",
     "producer_kind": "connector",
     "command": "npdes --basin maumee",
-    "connector_ref": "bosc.hydrology.connectors.echo",
+    "connector_ref": "watermark.hydrology.connectors.echo",
     "source": "EPA ECHO — cwa_rest_services (CWA v2017-10-13)",
     "external_url": "https://echo.epa.gov/tools/web-services",
     "license": "U.S. Government work (public domain)",
@@ -106,7 +106,7 @@
       "source_kind": "connector",
       "page": null,
       "confidence": "medium",
-      "note": "bosc npdes --basin maumee",
+      "note": "watermark npdes --basin maumee",
       "verified": true
     }
   },
@@ -118,7 +118,7 @@
     "status": "needs-review",
     "producer_kind": "connector",
     "command": "eia",
-    "connector_ref": "bosc.economics.energy",
+    "connector_ref": "watermark.economics.energy",
     "source": "(unknown — fill in)",
     "external_url": null,
     "license": null,
@@ -154,7 +154,7 @@
       "source_kind": "connector",
       "page": null,
       "confidence": "medium",
-      "note": "bosc eia",
+      "note": "watermark eia",
       "verified": true
     }
   },
@@ -166,7 +166,7 @@
     "status": "needs-review",
     "producer_kind": "connector",
     "command": null,
-    "connector_ref": "bosc.hydrology",
+    "connector_ref": "watermark.hydrology",
     "source": "(unknown — fill in)",
     "external_url": null,
     "license": null,

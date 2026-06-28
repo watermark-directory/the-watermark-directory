@@ -1,7 +1,7 @@
 # data/reference/imagery/
 
 AOI-clipped satellite captures for the tracking sites, produced by
-[`bosc imagery pull`](../../../docs/imagery-subsystem.md) (`bosc.gis.raster`).
+[`bosc imagery pull`](../../../docs/imagery-subsystem.md) (`watermark.gis.raster`).
 
 ## Layout
 

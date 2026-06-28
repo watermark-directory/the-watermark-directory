@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: subdivisions discover
-  connector_ref: bosc.civic.registry
+  connector_ref: watermark.civic.registry
   source: Allen County county-published rosters (Township Trustees & Fiscal Officers; Mayors; Govt-Structure)
     + live-web discovery of publishing blocks
 license: Public records (local government open data)
@@ -19,7 +19,7 @@ refresh:
   cadence: on-demand
   last_refreshed: '2026-06-08'
 provenance: connector
-schema_ref: bosc.civic.models.Registry
+schema_ref: watermark.civic.models.Registry
 tags:
 - subdivisions
 - civic

@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from bosc.config import Settings
-from bosc.hydrology.connectors import lima_gis
-from bosc.hydrology.floodplain import load_campus_floodzone, load_wwtp_floodzones
-from bosc.hydrology.report import render_report
+from watermark.config import Settings
+from watermark.hydrology.connectors import lima_gis
+from watermark.hydrology.floodplain import load_campus_floodzone, load_wwtp_floodzones
+from watermark.hydrology.report import render_report
 
 
 def _footprint(settings: Settings):  # type: ignore[no-untyped-def]

@@ -1,6 +1,6 @@
 # Columbus (columbus) — extractions
 
-Per-site onboarding tree for the Columbus watershed point (basin: scioto), scaffolded by `bosc onboard columbus` (#326). Values come from the portable reach connectors keyed to this site's `SiteProfile` in `bosc.sites` — nothing here is fabricated; regenerate, don't hand-edit.
+Per-site onboarding tree for the Columbus watershed point (basin: scioto), scaffolded by `bosc onboard columbus` (#326). Values come from the portable reach connectors keyed to this site's `SiteProfile` in `watermark.sites` — nothing here is fabricated; regenerate, don't hand-edit.
 
 ## Source
 

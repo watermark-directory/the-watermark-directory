@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: extracted
   command: extract aedg/PRR-01-bundle.ocr.pdf --kind opc
-  connector_ref: bosc.pipeline.extract
+  connector_ref: watermark.pipeline.extract
   source: Tetra Tech OPC estimates, PRR-01 bundle (0-based PDF pages 317 summary, 318-327 detail)
 license: Public record (Allen County public-records request PRR-01)
 access_tier: public
@@ -18,7 +18,7 @@ storage:
 refresh:
   cadence: static
 provenance: document
-schema_ref: bosc.models.Estimate
+schema_ref: watermark.models.Estimate
 tags:
   - opc
   - aedg

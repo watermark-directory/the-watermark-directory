@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology.connectors import nwis
+from watermark.config import Settings
+from watermark.hydrology.connectors import nwis
 
 
 @pytest.mark.network

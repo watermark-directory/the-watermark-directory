@@ -6,7 +6,7 @@ individual, a YAML frontmatter header over a hand-written body.
 
 This subdir exists because the content bundle is **per-site** (#762): `bosc --site fort-wayne
 export` reads `data/people/fort-wayne/` (not the flat Lima store), via
-`bosc.sites.site_scoped_path`. It ships **empty** today — Fort Wayne's actors are not yet
+`watermark.sites.site_scoped_path`. It ships **empty** today — Fort Wayne's actors are not yet
 curated — so the `people` feed is correctly absent for Fort Wayne until profiles land here.
 
 ## What goes here

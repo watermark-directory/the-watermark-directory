@@ -2,9 +2,9 @@
 #
 # Origin: imported from the Periplus (`../gis`) fork at the spin-out point, where
 # it seeded a `flag_defense_contractor` anomaly flag over parcel owner names. In
-# BOSC it is loaded by `bosc.candidates.load_defense_contractors` and matched,
+# BOSC it is loaded by `watermark.candidates.load_defense_contractors` and matched,
 # case-insensitively, against (a) the corpus entity graph
-# (`bosc.pipeline.entities`) and (b) Allen County parcel owner names from the
+# (`watermark.pipeline.entities`) and (b) Allen County parcel owner names from the
 # `allen_gis` connector. A match LIGHTS UP a party as DoD-prime-adjacent without
 # changing its entity-graph classification — the flag is orthogonal to category.
 #

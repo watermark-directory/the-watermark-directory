@@ -6,8 +6,8 @@ import csv
 import gzip
 from pathlib import Path
 
-from bosc import rsei
-from bosc.config import Settings
+from watermark import rsei
+from watermark.config import Settings
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 

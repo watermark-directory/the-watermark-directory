@@ -12,8 +12,8 @@ from pathlib import Path
 import httpx
 import pytest
 
-from bosc.config import Settings
-from bosc.site.objectstore import (
+from watermark.config import Settings
+from watermark.site.objectstore import (
     ObjectStoreUnconfiguredError,
     R2Store,
     RemoteHead,

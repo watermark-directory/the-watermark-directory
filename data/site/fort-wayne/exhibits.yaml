@@ -2,7 +2,7 @@
 #
 # The per-site peer of data/site/exhibits.yaml (Lima): primary-source PDFs published as
 # downloadable files on the Fort Wayne site. Read by `bosc --site fort-wayne export` via
-# `bosc.sites.site_scoped_path` (#762). `source` is relative to data/documents (Git-LFS), e.g.
+# `watermark.sites.site_scoped_path` (#762). `source` is relative to data/documents (Git-LFS), e.g.
 # `idem/fort-wayne/<file>.pdf`; `pages` (0-based inclusive) slices a large bundle. A source not
 # pulled locally is listed "unavailable" rather than failing the build.
 #

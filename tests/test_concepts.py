@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.site import concepts as concepts_mod
+from watermark.config import Settings
+from watermark.site import concepts as concepts_mod
 
 _CONCEPT = """---
 title: 7Q10

@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology import refill
+from watermark.config import Settings
+from watermark.hydrology import refill
 
 # ----------------------------------------------------------- pure algorithm
 
@@ -87,7 +87,7 @@ def test_refill_findings_cover_normal_drought_and_residual_risk(hydro_settings: 
 
 
 def test_pipeline_run_refill(hydro_settings: Settings) -> None:
-    from bosc.pipeline import hydrology as hydro_stage
+    from watermark.pipeline import hydrology as hydro_stage
 
     ra, findings = hydro_stage.run_refill(settings=hydro_settings)
     assert ra is not None

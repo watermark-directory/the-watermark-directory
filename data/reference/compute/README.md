@@ -1,6 +1,6 @@
 # Compute / AI-capacity reference parameters
 
-Committed reference inputs for `bosc.facility` — the subsystem that derives the
+Committed reference inputs for `watermark.facility` — the subsystem that derives the
 data-center facility's **compute / AI capacity** from disclosed power, water, and
 footprint figures (see [`docs/COMPUTE.md`](../../../docs/COMPUTE.md)). These are
 **published vendor specifications and standing modeling assumptions**, not
@@ -61,7 +61,7 @@ data appendix**:
 `data/extracted/legal/select-committee-2026/relator-testimony/bosc-data-appendix-2026-06-01.md`
 (itself citing NVIDIA HGX guidance via IntuitionLabs, The Green Grid, EESI/Vertiv).
 The air-permit IT-load chain (114 gensets × 2.75 ekW ≈ 313 MW backup → ~275 MW IT)
-in `bosc.facility.power` / `bosc.hydrology.cooling` traces to OEPA Air PTI **P0138965**
+in `watermark.facility.power` / `watermark.hydrology.cooling` traces to OEPA Air PTI **P0138965**
 (Facility 0302022054) — but the permit **is not committed** to the corpus; the figure
 currently enters via a *secondhand citation*. Ingesting the permit (and the
 **three-hall footprint** in its emission-unit layout, which would re-ground the
@@ -72,7 +72,7 @@ footprint method) is a tracked gap — see the
 
 These are **inputs, not measurements of the facility**. Accelerator choice, count,
 and utilization are undisclosed and presented as scenarios. Peak FLOPS are nameplate
-— distinct from delivered throughput, which `bosc.facility.compute` derates by a
+— distinct from delivered throughput, which `watermark.facility.compute` derates by a
 labeled MFU (model-FLOPS-utilization) assumption for any "training capacity" figure.
 The footprint method is the weakest of the three (land area is not floor area; no
 building footprint is documented in the plans) and is flagged as such throughout.

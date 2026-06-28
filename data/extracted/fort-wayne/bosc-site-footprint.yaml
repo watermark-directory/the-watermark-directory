@@ -10,7 +10,7 @@ operator: Hatchworks LLC (Google "Project Zodiac" data center)
 boundary_basis: >-
   Recorded ownership assemblage — the 11 parcels owned by Hatchworks LLC, committed as
   data/reference/fort-wayne/bosc-parcels.geojson (catalogued bosc-parcels). NOT a surveyed
-  earth-disturbance boundary; see bosc.sites _FORT_WAYNE and the IDEM air-permit extraction
+  earth-disturbance boundary; see watermark.sites _FORT_WAYNE and the IDEM air-permit extraction
   (data/extracted/idem/fort-wayne/47378f.idem.yaml).
 
 parcel_acres:
@@ -19,7 +19,7 @@ parcel_acres:
   source: reference
   citation: >-
     bosc-parcels.geojson — UTM-16N (EPSG:32616) planar area of the 11 recorded Hatchworks LLC
-    parcels (bosc.hydrology.geo.parcels_total_acres). CORROBORATED: the IDEM §401 WQC001454 states
+    parcels (watermark.hydrology.geo.parcels_total_acres). CORROBORATED: the IDEM §401 WQC001454 states
     an "858-acre parcel" (wqc001454.idem.yaml) — within ~0.3% of the GIS measure. Larger than the
     publicly-reported ~700-ac campus because the anchor deed spans multiple section-halves.
   confidence: high
@@ -62,7 +62,7 @@ dominant_hsg:
   source: connector
   citation: >-
     [verified] USDA NRCS SSURGO via Soil Data Access (SDA), 30-point grid sample over
-    bosc-parcels.geojson (bosc.hydrology.connectors.ssurgo.dominant_hsg, 2026-06-27): 50% C/D +
+    bosc-parcels.geojson (watermark.hydrology.connectors.ssurgo.dominant_hsg, 2026-06-27): 50% C/D +
     50% D (Pewamo/Blount-Glynwood lake-plain clays). hydrologic soil group C on the drained basis
     (= profile dominant_hsg "C", confirmed); undrained these soils are group D — high runoff,
     material for the stormwater model.

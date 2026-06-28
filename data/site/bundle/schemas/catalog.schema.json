@@ -4,7 +4,7 @@
   "type": "array",
   "items": {
     "additionalProperties": false,
-    "description": "One dataset in the published data catalog — the bundle projection of a ``CatalogEntry``.\n\nThe presentation peer of :class:`bosc.catalog.CatalogEntry`: the declared facts (producer,\nlicense, access tier, refresh, the per-site ``site_scope`` axis, storage) joined to the\nobserved snapshot (:class:`CatalogObserved`). ``citation`` carries the producer as the\nbundle's shared provenance shape so the catalog speaks the same language as every other feed.",
+    "description": "One dataset in the published data catalog — the bundle projection of a ``CatalogEntry``.\n\nThe presentation peer of :class:`watermark.catalog.CatalogEntry`: the declared facts (producer,\nlicense, access tier, refresh, the per-site ``site_scope`` axis, storage) joined to the\nobserved snapshot (:class:`CatalogObserved`). ``citation`` carries the producer as the\nbundle's shared provenance shape so the catalog speaks the same language as every other feed.",
     "properties": {
       "id": {
         "title": "Id",
@@ -250,7 +250,7 @@
     },
     "Citation": {
       "additionalProperties": false,
-      "description": "Structured provenance for a feed item or a single figure.\n\nMirrors :class:`bosc.hydrology.model.ProvenancedValue`'s evidence discipline so the\nwhole bundle speaks one provenance language: ``source_kind`` says where the value\ncame from, ``source`` is the citable artifact (a repo-relative ``data/`` path, an\nexternal dataset label, a permit/instrument number), ``page`` locates it within a\nmulti-page source, and ``verified`` is derived so a consumer never re-computes it.",
+      "description": "Structured provenance for a feed item or a single figure.\n\nMirrors :class:`watermark.hydrology.model.ProvenancedValue`'s evidence discipline so the\nwhole bundle speaks one provenance language: ``source_kind`` says where the value\ncame from, ``source`` is the citable artifact (a repo-relative ``data/`` path, an\nexternal dataset label, a permit/instrument number), ``page`` locates it within a\nmulti-page source, and ``verified`` is derived so a consumer never re-computes it.",
       "properties": {
         "source": {
           "anyOf": [

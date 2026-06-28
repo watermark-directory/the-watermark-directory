@@ -18,7 +18,7 @@ live in the mirrored [`data/extracted/permits/`](../../extracted/permits/) as
 `kind=epa`). Two documents are a different
 shape — USACE **Wetland Determination Data Forms** (`3727950.pdf`, `3727951.pdf`,
 the field-delineation point samples) — and are read as `*.wetland.yaml`
-(`kind=wetland`, `bosc.models.WetlandDetermination`).
+(`kind=wetland`, `watermark.models.WetlandDetermination`).
 
 ## Layout
 
