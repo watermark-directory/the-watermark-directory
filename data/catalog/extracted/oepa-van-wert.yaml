@@ -1,0 +1,28 @@
+id: oepa-van-wert
+title: Ohio EPA NPDES Permit Extractions (Van Wert WWTP)
+scope: extracted
+status: reviewed
+producer:
+  kind: extracted
+  source: Ohio EPA — issued NPDES permits, fact sheets, and draft public notices for permits at the Van
+    Wert WWTP (permit 2PD00006, Van Wert County)
+license: Public record (Ohio R.C. 149.43)
+access_tier: public
+site_scope: site:van-wert
+storage:
+- relpath: extracted/oepa/2PD00006.npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: static
+provenance: document
+tags:
+- oepa
+- npdes
+- permits
+- wastewater
+- van-wert
+notes: Van Wert WWTP permit 2PD00006*VD, renewal effective 2025-06-01 through 2030-05-31,
+  receiving Town Creek at River Mile 13.87. Outfalls 2PD00006001 (primary treated effluent)
+  and 2PD00006004 (CSO monitoring). Add additional van-wert OEPA extractions (fact sheets,
+  draft PNs) to storage as they are produced.
