@@ -1,0 +1,228 @@
+meta:
+  topic: onboard sidney
+  model: claude-opus-4-8
+  generated_at: '2026-06-28T17:28:35+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__watermark__list_documents
+    - mcp__watermark__list_extractions
+    - mcp__watermark__entities
+    - mcp__watermark__program_overview
+    - mcp__watermark__timeline
+    - mcp__watermark__hydrology_balance
+    - mcp__watermark__retrieve_corpus
+    num_turns: 17
+    max_turns: 30
+    cost_usd: 0.78272875
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Run `watermark onboard sidney` to scaffold site artifacts and unblock all
+    downstream work
+  dedupe_key: run-watermark-onboard-sidney-to-scaffold-site-artifacts-and-unbl
+  labels:
+  - agent-proposed
+  - needs-triage
+  - onboarding
+  - sidney
+  rationale: Nothing else in the Sidney onboarding pipeline — ingest, extraction,
+    hydrology, GIS, hypothesis seeding — can proceed until the scaffolding step runs,
+    making this the single highest-priority unblocking action.
+  body: '## Context
+
+    The onboarding review confirms that `sidney` is a **recognized but un-onboarded**
+    site. Every site-scoped BOSC tool resolves the slug but returns zero committed
+    artifacts:
+
+
+    - `list_documents` → "No committed source documents for site ''sidney'' yet"
+
+    - `list_extractions` → "No extractions found under data/extracted/sidney"
+
+    - `entities`, `timeline`, `hydrology_balance`, `program_overview` → all empty
+
+
+    Per the findings, the single unblocking action is executing the onboarding runbook.
+
+
+    ## Grounding
+
+    The findings explicitly state: *"Run `watermark onboard sidney` (runbook `docs/onboarding.md`)
+    — scaffolds per-site data dirs and runs portable reach connectors. Nothing downstream
+    is possible until this runs. `[verified: tools show zero artifacts]`"* and identify
+    this as the top blocking item before `selectable` promotion in `frontend/src/lib/sites.ts`.
+
+
+    ## Acceptance Criterion
+
+    - `watermark onboard sidney` completes without error.
+
+    - `list_documents`, `list_extractions`, and `entities` no longer return "no committed
+    artifacts" responses for the `sidney` slug.
+
+    - Per-site data directories exist under a `sidney/` subdir and `corpus_relpaths`
+    is set (avoiding the documented onboarding trap where feeds silently inherit Lima
+    or fall empty).'
+- title: Ingest NPDES/permit corpus for Sidney and extract design flows to enable
+    hydrology balance
+  dedupe_key: ingest-npdes-permit-corpus-for-sidney-and-extract-design-flows-t
+  labels:
+  - agent-proposed
+  - needs-triage
+  - extraction
+  - hydrology
+  - npdes
+  - sidney
+  rationale: NPDES design flows are the foundational input for the hydrology balance
+    and sanitary basis artifacts; without them, Sidney's water/wastewater profile
+    cannot be assessed at any tier.
+  body: '## Context
+
+    The onboarding review identifies a **total gap** in Sidney''s NPDES/permit profile.
+    No `oepa`/`npdes` documents exist (`list_documents`), no extractions exist (`list_extractions`),
+    and no relevant entities are committed.
+
+
+    ## Grounding
+
+    The findings note: *"Gap: total — no permit corpus, no receiving-water identification,
+    no design flows."* The Lima baseline shows that `oepa/npdes` extractions feed
+    `hydrology_balance` (WWTP cited design flows → receiving waters → 7Q10 assimilative
+    screen) and `sanitary_basis` (per-plant avg design + peak hydraulic capacity,
+    I/I + consent-decree context). Without this corpus, neither artifact can be produced
+    for Sidney.
+
+
+    ## Acceptance Criterion
+
+    - At least one NPDES/permit source document is committed under `data/documents/oepa/`
+    or a Sidney-scoped equivalent.
+
+    - Extractions are run and committed under `data/extracted/sidney`.
+
+    - `hydrology_balance` and `sanitary_basis` tools return non-empty results for
+    `site=''sidney''`, including identified receiving water and design flow figures.'
+- title: Configure NWIS gauge inputs and 7Q10 low-flow screen for Sidney's Great Miami
+    receiving water
+  dedupe_key: configure-nwis-gauge-inputs-and-7q10-low-flow-screen-for-sidney
+  labels:
+  - agent-proposed
+  - needs-triage
+  - hydrology
+  - nwis
+  - sidney
+  rationale: 'The 7Q10-driven hydrology balance is a core parity requirement for site
+    promotion and directly gates the hypothesis assessment for the Miami-basin buried-valley-vs-lake-plain
+    thesis (epic #440).'
+  body: '## Context
+
+    The onboarding review identifies a **total gap** in Sidney''s hydrology profile.
+    `hydrology_balance` returns empty/not-substituted, and no NWIS configuration or
+    7Q10 value is evidenced from any tool.
+
+
+    ## Grounding
+
+    The findings state: *"Gap: total — no gauges, no water balance, no low-flow screen."*
+    The Lima baseline demonstrates that `nwis_sites` + cited 7Q10 drive `hydrology_balance`,
+    `hydrology_scenario` (campus consumptive draw vs river 7Q10), `sanitary_basis`,
+    `stormwater_runoff`, and `tier1_swmm`. Sidney is identified as located on the
+    Great Miami / Mad River corridor (Miami-basin expansion epic **#440**, queued
+    as **#481**).
+
+
+    ## Acceptance Criterion
+
+    - `nwis_sites` configuration is committed for the relevant Great Miami / Mad River
+    gauge(s) scoped to `sidney`.
+
+    - A cited 7Q10 low-flow value for Sidney''s receiving water is documented and
+    committed.
+
+    - `hydrology_balance` returns a non-empty, committed result for `site=''sidney''`
+    including a low-flow assimilative screen.'
+- title: Rebuild the corpus retrieval index (`watermark index`) to restore Lima-precedent
+    comparison capability
+  dedupe_key: rebuild-the-corpus-retrieval-index-watermark-index-to-restore-li
+  labels:
+  - agent-proposed
+  - needs-triage
+  - infrastructure
+  - retrieval-index
+  - lima
+  rationale: The broken retrieval index silently degrades every onboarding review
+    by preventing Lima-precedent comparison and novel-finding detection, making all
+    future assessments methodologically incomplete until it is fixed.
+  body: '## Context
+
+    The onboarding review methodology was materially constrained by an unresponsive
+    semantic retrieval index. The `retrieve_corpus` tool was probed six times with
+    `site=''lima''` across multiple filter combinations — including two filters known
+    to exist in the Lima build (`recorder/deed`, `aedg/opc`) — and every call returned
+    "No results found."
+
+
+    ## Grounding
+
+    The findings state: *"The Lima-vs-sidney precedent comparison via `retrieve_corpus(site=''lima'')`
+    could not be performed — the corpus index is unbuilt/unresponsive (6/6 probes
+    empty, including known-good filters)."* The tool itself warns it *"Requires the
+    index to be built first (`watermark index`)."* The findings recommend: *"Rebuild
+    the corpus index (`watermark index`) — currently unresponsive, blocking all semantic
+    retrieval / Lima-precedent comparison and the `report_novel_finding` workflow.
+    Recommend resolving before the next onboarding pass."*
+
+
+    ## Acceptance Criterion
+
+    - `watermark index` runs to completion without error.
+
+    - `retrieve_corpus(site=''lima'', filter=''recorder/deed'')` and `retrieve_corpus(site=''lima'',
+    filter=''aedg/opc'')` both return non-empty results consistent with known Lima
+    build contents.
+
+    - A follow-up Sidney onboarding review pass is able to execute the Lima-precedent
+    comparison step and fire the `report_novel_finding` workflow where applicable.'
+- title: Populate Sidney's grid profile knobs and verify EIA-861 vs 861S short-form
+    applicability
+  dedupe_key: populate-sidney-s-grid-profile-knobs-and-verify-eia-861-vs-861s
+  labels:
+  - agent-proposed
+  - needs-triage
+  - grid
+  - entities
+  - sidney
+  rationale: An unpopulated grid profile blocks any energy-side analysis and risks
+    silent data gaps that could cause Sidney to appear grid-complete when it is not,
+    undermining the readiness layer.
+  body: '## Context
+
+    The onboarding review identifies Sidney''s grid/utility profile as **unverified/absent**.
+    No `reference` grid artifacts are committed and the profile knobs (`eia861_utility_number`,
+    BA, LMP zone) cannot be confirmed as populated from any tool output.
+
+
+    ## Grounding
+
+    The findings state: *"Gap: unverified/absent. Note `[reference]`: per project
+    memory, non-Ohio leaks don''t apply (Sidney is OH), but EIA-861S municipal short-form
+    fallback should be checked if Sidney is muni-served."* The Lima baseline shows
+    `reference/grid` artifacts feeding EIA-861 utility, BA interchange, and LMP/pricing
+    zone data to platform grid connectors.
+
+
+    ## Acceptance Criterion
+
+    - The correct EIA-861 utility number for Sidney''s serving utility is identified
+    and committed to the Sidney grid profile.
+
+    - Balancing Authority (BA) and LMP/pricing zone are populated and verified.
+
+    - It is explicitly documented whether the full EIA-861 form or the EIA-861S municipal
+    short-form applies for Sidney''s utility, with rationale recorded.
+
+    - `reference/grid` artifacts are committed and accessible via `list_documents`
+    for `site=''sidney''`.'
