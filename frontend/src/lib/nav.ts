@@ -18,6 +18,7 @@
  */
 
 import { activeSite } from "./bundle";
+import { sectionStatus } from "./readiness";
 import { DEFAULT_STORY_CODENAME, siteBase, storyBase } from "./routes";
 import { SITES } from "./sites";
 import { type Story, chapterHref, storyContentsHref, storyFor } from "./walk";
@@ -256,20 +257,32 @@ export function getSection(id: SectionId): Section {
 /** A link in a dropdown menu (an optional second line), or a horizontal divider. */
 export type NavChild = { label: string; href: string; blurb?: string } | { divider: true };
 
-/** A column of links inside the "The site" mega-menu (design "Chrome"). */
+/** A column of links inside the "The site" mega-menu (design "Chrome"). `locked` marks a
+ *  destination whose section isn't ready on a thinner peer (#781) — the link still resolves (to a
+ *  coherent lock), but the nav flags it so available vs locked is explicit in the menu itself. */
 export interface MegaLink {
   label: string;
   href: string;
   blurb?: string;
   num?: string;
+  locked?: boolean;
 }
 /** The "The site" mega-menu: two intro tiles, the story spine, and the themes it crosses.
  *  Each theme has a landing `href` (the section home) — its title links there, and it's what
- *  the footer + mobile sheet surface (the deep `items` are desktop-mega-only). */
+ *  the footer + mobile sheet surface (the deep `items` are desktop-mega-only). A theme / the spine
+ *  carries `locked` when its own section is locked for the active (peer) site (#781). */
 export interface MegaMenu {
   tiles: { label: string; href: string; blurb: string; icon: "home" | "leads" }[];
-  spine: { title: string; href: string; count: string; blurb: string; tocHref: string; items: MegaLink[] };
-  themes: { title: string; href: string; items: MegaLink[] }[];
+  spine: {
+    title: string;
+    href: string;
+    count: string;
+    blurb: string;
+    tocHref: string;
+    items: MegaLink[];
+    locked?: boolean;
+  };
+  themes: { title: string; href: string; items: MegaLink[]; locked?: boolean }[];
 }
 
 export type NavItem =
@@ -307,6 +320,14 @@ export function networkTabs(): NavItem[] {
 export function siteTabs(): NavItem[] {
   const { base, storyRoot, story } = siteRoots();
   const chapters = story?.chapters ?? [];
+  // Per-site readiness (#781): on a thinner peer some of these destinations aren't on the record
+  // yet. Mark them `locked` so the menu itself distinguishes available from coming — the reference
+  // build is never locked (`sectionStatus` short-circuits), so Lima's menu is unchanged.
+  const slug = activeSite();
+  const storyLocked = sectionStatus(slug, "story") === "locked";
+  const watershedLocked = sectionStatus(slug, "watershed") === "locked";
+  const economyLocked = sectionStatus(slug, "economy") === "locked";
+  const reportsLocked = sectionStatus(slug, "reports") === "locked";
   return [
     {
       kind: "mega",
@@ -329,6 +350,7 @@ export function siteTabs(): NavItem[] {
           count: `${chapters.length} chapters · ~18 min`,
           blurb: "One project, read document by document — it crosses every theme to the right.",
           tocHref: story ? storyContentsHref(story) : `${storyRoot}/contents`,
+          locked: storyLocked,
           items: chapters.map((c) => ({
             num: String(c.step),
             label: c.title,
@@ -340,21 +362,35 @@ export function siteTabs(): NavItem[] {
           {
             title: "The watershed",
             href: `${base}/watershed/`,
+            locked: watershedLocked,
             items: [
-              { label: "Hydrology", href: `${base}/watershed/#hydrology` },
-              { label: "Watershed map", href: `${base}/watershed/#map` },
-              { label: "Imagery", href: `${base}/watershed/#imagery` },
-              { label: "RSEI / toxics", href: `${base}/watershed/#rsei` },
+              { label: "Hydrology", href: `${base}/watershed/#hydrology`, locked: watershedLocked },
+              { label: "Watershed map", href: `${base}/watershed/#map`, locked: watershedLocked },
+              { label: "Imagery", href: `${base}/watershed/#imagery`, locked: watershedLocked },
+              { label: "RSEI / toxics", href: `${base}/watershed/#rsei`, locked: watershedLocked },
             ],
           },
           {
             title: "The economy",
             href: `${base}/economy/`,
+            locked: economyLocked,
             items: [
-              { label: "The economy", href: `${base}/economy/` },
-              { label: "The economic ledger", href: `${base}/reports/the-economic-ledger` },
-              { label: "End use & workloads", href: `${base}/reports/end-use-and-workloads` },
-              { label: "The load & the grid", href: `${base}/reports/the-load-and-the-grid` },
+              { label: "The economy", href: `${base}/economy/`, locked: economyLocked },
+              {
+                label: "The economic ledger",
+                href: `${base}/reports/the-economic-ledger`,
+                locked: reportsLocked,
+              },
+              {
+                label: "End use & workloads",
+                href: `${base}/reports/end-use-and-workloads`,
+                locked: reportsLocked,
+              },
+              {
+                label: "The load & the grid",
+                href: `${base}/reports/the-load-and-the-grid`,
+                locked: reportsLocked,
+              },
             ],
           },
         ],
