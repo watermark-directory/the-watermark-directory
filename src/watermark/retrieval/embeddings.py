@@ -35,9 +35,17 @@ class SentenceTransformersProvider(EmbeddingProvider):
 
     def _load(self) -> Any:
         if self._model is None:
+            import torch
             from sentence_transformers import SentenceTransformer
 
-            self._model = SentenceTransformer(self._model_name)
+            device = (
+                "cuda"
+                if torch.cuda.is_available()
+                else "mps"
+                if torch.backends.mps.is_available()
+                else "cpu"
+            )
+            self._model = SentenceTransformer(self._model_name, device=device)
         return self._model
 
     def embed(self, texts: list[str]) -> list[list[float]]:
@@ -49,11 +57,23 @@ class SentenceTransformersProvider(EmbeddingProvider):
         return int(self._load().get_sentence_embedding_dimension())
 
 
+_PROVIDER_CACHE: dict[str, EmbeddingProvider] = {}
+
+
 def get_provider(settings: Any) -> EmbeddingProvider:
-    """Resolve the :class:`EmbeddingProvider` specified in *settings*."""
+    """Resolve the :class:`EmbeddingProvider` specified in *settings*.
+
+    Cached by (provider, model) so the sentence-transformers model is only loaded once
+    per process — the MCP server calls this on every ``retrieve_corpus`` tool call.
+    """
     name: str = settings.embedding_provider
-    match name:
-        case "sentence_transformers":
-            return SentenceTransformersProvider(settings.embedding_model)
-        case _:
-            raise ValueError(f"unknown embedding provider {name!r}; known: sentence_transformers")
+    key = f"{name}:{settings.embedding_model}"
+    if key not in _PROVIDER_CACHE:
+        match name:
+            case "sentence_transformers":
+                _PROVIDER_CACHE[key] = SentenceTransformersProvider(settings.embedding_model)
+            case _:
+                raise ValueError(
+                    f"unknown embedding provider {name!r}; known: sentence_transformers"
+                )
+    return _PROVIDER_CACHE[key]
