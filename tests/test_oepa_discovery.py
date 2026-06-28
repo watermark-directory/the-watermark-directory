@@ -14,6 +14,7 @@ from watermark.oepa.discovery import (
     DiscoveredDoc,
     _infer_type,
     _parse_html,
+    _parse_serper_json,
     _resolve_dam_url,
     _sanitize_search_term,
     discover_dam_documents,
@@ -142,6 +143,53 @@ def test_sanitize_search_term(raw: str, expected: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# _parse_serper_json
+# ---------------------------------------------------------------------------
+
+
+def test_parse_serper_json_finds_permit() -> None:
+    data = {
+        "organic": [
+            {
+                "link": "https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/2PH00006.pdf",
+                "title": "Lima WWTP Permit",
+            },
+            {"link": "https://www.google.com/not-a-dam-link", "title": "Unrelated"},
+        ]
+    }
+    docs = _parse_serper_json(data, query="test", fetched_at="t")
+    assert len(docs) == 1
+    assert docs[0].permit_id == "2PH00006"
+    assert docs[0].doc_type == "permit"
+
+
+def test_parse_serper_json_infers_fact_sheet() -> None:
+    data = {
+        "organic": [
+            {
+                "link": "https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/2PH00006.fs.pdf",
+                "title": "Fact Sheet",
+            }
+        ]
+    }
+    docs = _parse_serper_json(data, query="q", fetched_at="t")
+    assert docs[0].doc_type == "fact_sheet"
+
+
+def test_parse_serper_json_deduplicates() -> None:
+    url = (
+        "https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/2PH00006.pdf"
+    )
+    data = {"organic": [{"link": url}, {"link": url}]}
+    docs = _parse_serper_json(data, query="q", fetched_at="t")
+    assert len(docs) == 1
+
+
+def test_parse_serper_json_empty_result() -> None:
+    assert _parse_serper_json({}, query="q", fetched_at="t") == []
+
+
+# ---------------------------------------------------------------------------
 # discover_dam_documents — offline mode
 # ---------------------------------------------------------------------------
 
@@ -150,5 +198,5 @@ def test_discover_returns_empty_offline() -> None:
     from watermark.config import Settings
 
     settings = Settings(civic_offline=True)
-    docs = discover_dam_documents("Lima", "Allen County", settings=settings)
+    docs = discover_dam_documents("Lima", "Allen County", basin="maumee", settings=settings)
     assert docs == []

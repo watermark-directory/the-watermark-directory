@@ -54,6 +54,8 @@ class Settings(BaseSettings):
     github_token: str = Field(default="", alias="GITHUB_TOKEN")
     # Override for tests (points at a mock server or fixture endpoint).
     github_base_url: str = "https://api.github.com"
+    # Google Search via serper.dev — OEPA/DAM non-permit document discovery.
+    serper_api_key: str = ""
 
     # --- Models ------------------------------------------------------------
     model: str = "claude-opus-4-8"
