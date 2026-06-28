@@ -9,10 +9,11 @@ Two-path discovery:
    ``basin`` (e.g. ``"maumee"``) and a downloaded
    ``data/reference/echo/{basin}-wwtp.potw.yaml``.
 
-2. **Serper site: search** (all doc types, requires ``WATERMARK_SERPER_API_KEY``):
-   Issues ``site:dam.assets.ohio.gov "<place>"`` / ``"<county>"`` queries via
-   the Serper Google Search API and parses the direct result URLs — permits,
-   fact sheets, draft PNs, etc.
+2. **Serper keyword search** (all doc types, requires ``WATERMARK_SERPER_API_KEY``):
+   Issues ``dam.assets.ohio.gov <place> filetype:pdf`` / ``<county> filetype:pdf``
+   queries via the Serper Google Search API and parses the direct result URLs —
+   permits, fact sheets, draft PNs, etc.  Keyword queries are used because the
+   Serper free tier blocks ``site:`` and exact-phrase (quoted-string) operators.
 
 Both paths feed the same :class:`DiscoveredDoc` output and respect the
 ``civic_offline`` flag.  ``_parse_html`` / ``_resolve_dam_url`` are kept as
@@ -272,13 +273,15 @@ def discover_dam_documents(
 ) -> list[DiscoveredDoc]:
     """Discover OEPA/DAM documents for a site via two independent paths.
 
-    **ECHO** (``basin`` required): loads the committed basin POTW reference YAML,
-    filters by ``county``, and HEAD-probes the DAM permit URL for each NPDES ID.
-    Returns only permit entries that the DAM confirms exist.
+    **ECHO** (``basin`` required): logs the known POTW NPDES IDs for ``county``
+    from the committed basin reference YAML.  DAM HEAD-probing is skipped because
+    ECHO stores federal IDs (``OH0020192``) while the DAM uses Ohio EPA internal
+    IDs (``2PH00006``), causing every probe to 404.
 
-    **Serper** (``settings.serper_api_key`` required): queries
-    ``site:dam.assets.ohio.gov`` via Google (Serper API) and parses direct result
-    URLs — permits, fact sheets, draft PNs, and other DAM document types.
+    **Serper** (``settings.serper_api_key`` required): queries Google via the
+    Serper API using keyword + ``filetype:pdf`` queries (the free tier blocks
+    ``site:`` and quoted-string operators) and parses direct DAM result URLs —
+    permits, fact sheets, draft PNs, and other DAM document types.
 
     Both paths are skipped in offline mode.
     """
@@ -297,35 +300,32 @@ def discover_dam_documents(
                 seen_urls.add(doc.url)
                 all_docs.append(doc)
 
-    # --- ECHO path: permits via committed basin reference YAML ---
+    # --- ECHO path: log known POTW IDs for context (probing skipped — ECHO stores
+    # federal NPDES IDs like OH0020192, but the DAM uses Ohio EPA internal IDs like
+    # 2PH00006, so HEAD probes against the DAM URL template always 404). ---
     if basin:
         echo_ids = _echo_reference_ids(basin, county, settings)
-        for pid in echo_ids:
-            url = _probe_dam_permit(pid, settings)
-            if url:
-                _add(
-                    [
-                        DiscoveredDoc(
-                            url=url,
-                            permit_id=pid,
-                            doc_type="permit",
-                            query=f"echo:basin:{basin}:county:{county}",
-                            fetched_at=now,
-                        )
-                    ]
-                )
+        if echo_ids:
+            log.info(
+                "oepa.echo.reference_ids",
+                county=county,
+                ids=echo_ids,
+                note="federal IDs only — DAM probing skipped (format mismatch)",
+            )
 
-    # --- Serper path: all doc types via Google site: search ---
+    # --- Serper path: all doc types via Google keyword search + filetype:pdf ---
+    # The Serper free tier blocks site:/inurl:/quoted operators; keyword queries
+    # with filetype:pdf reliably surface DAM permit documents.
     if settings.serper_api_key:
         place_clean = _sanitize_search_term(place)
         county_clean = _sanitize_search_term(county)
         queries = [
-            f'site:{_DAM_HOST} "{place_clean}"',
-            f'site:{_DAM_HOST} "{county_clean}"',
+            f"{_DAM_HOST} {place_clean} filetype:pdf",
+            f"{_DAM_HOST} {county_clean} filetype:pdf",
         ]
         if extra_terms:
             for term in extra_terms:
-                queries.append(f'site:{_DAM_HOST} "{place_clean}" {term}')
+                queries.append(f"{_DAM_HOST} {place_clean} {term} filetype:pdf")
         for query in queries:
             _add(_parse_serper_json(_fetch_serper(query, settings), query=query, fetched_at=now))
     elif not basin:
