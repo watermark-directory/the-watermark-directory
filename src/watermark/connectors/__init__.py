@@ -12,5 +12,13 @@ from __future__ import annotations
 
 from watermark.connectors._cache import DEFAULT_CACHE_TTL_HOURS, OfflineError, cache_key, cached_get
 from watermark.connectors._util import to_float
+from watermark.connectors.serper import serper_search
 
-__all__ = ["DEFAULT_CACHE_TTL_HOURS", "OfflineError", "cache_key", "cached_get", "to_float"]
+__all__ = [
+    "DEFAULT_CACHE_TTL_HOURS",
+    "OfflineError",
+    "cache_key",
+    "cached_get",
+    "serper_search",
+    "to_float",
+]

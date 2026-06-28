@@ -10,10 +10,10 @@ Two-path discovery:
    ``data/reference/echo/{basin}-wwtp.potw.yaml``.
 
 2. **Serper keyword search** (all doc types, requires ``WATERMARK_SERPER_API_KEY``):
-   Issues ``dam.assets.ohio.gov <place> filetype:pdf`` / ``<county> filetype:pdf``
-   queries via the Serper Google Search API and parses the direct result URLs —
-   permits, fact sheets, draft PNs, etc.  Keyword queries are used because the
-   Serper free tier blocks ``site:`` and exact-phrase (quoted-string) operators.
+   Calls :func:`watermark.connectors.serper_search` with ``domain=dam.assets.ohio.gov``
+   and ``filetype="pdf"`` to surface permit documents, fact sheets, draft PNs, etc.
+   Keyword + ``filetype:`` queries are used because the Serper free tier blocks
+   ``site:``, ``inurl:``, and quoted-string operators.
 
 Both paths feed the same :class:`DiscoveredDoc` output and respect the
 ``civic_offline`` flag.  ``_parse_html`` / ``_resolve_dam_url`` are kept as
@@ -25,7 +25,7 @@ from __future__ import annotations
 import re
 import unicodedata
 from datetime import UTC, datetime
-from typing import Any, Literal, cast
+from typing import Any, Literal
 from urllib.parse import parse_qs, unquote, urlparse
 
 import httpx
@@ -34,7 +34,7 @@ from pydantic import BaseModel, ConfigDict
 
 from watermark.civic._http import BROWSER_HEADERS
 from watermark.config import Settings, get_settings
-from watermark.connectors import cached_get
+from watermark.connectors import serper_search
 from watermark.logging import get_logger
 
 log = get_logger(__name__)
@@ -43,7 +43,6 @@ _DAM_HOST = "dam.assets.ohio.gov"
 _DAM_PERMIT_URL = (
     "https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/{id}.pdf"
 )
-_SERPER_URL = "https://google.serper.dev/search"
 
 # 7-day cache — OEPA permits and Serper results are slow-moving.
 _DISCOVERY_CACHE_TTL_HOURS = 168
@@ -202,43 +201,13 @@ def _probe_dam_permit(permit_id: str, settings: Settings) -> str | None:
 # ---------------------------------------------------------------------------
 
 
-def _fetch_serper(query: str, settings: Settings) -> dict[str, Any]:
-    """POST a Serper Google search (cached 7 days); returns the JSON result or ``{}``."""
-
-    def _live() -> dict[str, Any]:
-        try:
-            resp = httpx.post(
-                _SERPER_URL,
-                json={"q": query, "num": 20, "gl": "us", "hl": "en"},
-                headers={
-                    "X-API-KEY": settings.serper_api_key,
-                    "Content-Type": "application/json",
-                },
-                timeout=settings.civic_request_timeout_s,
-            )
-            resp.raise_for_status()
-            return cast("dict[str, Any]", resp.json())
-        except (httpx.HTTPError, ValueError) as exc:
-            log.warning("oepa.serper.fetch_failed", query=query, error=str(exc))
-            return {}
-
-    return cast(
-        "dict[str, Any]",
-        cached_get(
-            "oepa_discovery",
-            {"q": query},
-            _live,
-            cache_dir=settings.civic_cache_dir,
-            ttl_hours=_DISCOVERY_CACHE_TTL_HOURS,
-        ),
-    )
-
-
-def _parse_serper_json(data: dict[str, Any], query: str, fetched_at: str) -> list[DiscoveredDoc]:
-    """Extract DiscoveredDoc entries from a Serper ``/search`` result object."""
+def _parse_serper_json(
+    organic: list[dict[str, Any]], query: str, fetched_at: str
+) -> list[DiscoveredDoc]:
+    """Extract DiscoveredDoc entries from a Serper organic-results list."""
     docs: list[DiscoveredDoc] = []
     seen: set[str] = set()
-    for item in data.get("organic", []):
+    for item in organic:
         url = str(item.get("link", ""))
         if not url or url in seen or _DAM_HOST not in url:
             continue
@@ -278,10 +247,10 @@ def discover_dam_documents(
     ECHO stores federal IDs (``OH0020192``) while the DAM uses Ohio EPA internal
     IDs (``2PH00006``), causing every probe to 404.
 
-    **Serper** (``settings.serper_api_key`` required): queries Google via the
-    Serper API using keyword + ``filetype:pdf`` queries (the free tier blocks
-    ``site:`` and quoted-string operators) and parses direct DAM result URLs —
-    permits, fact sheets, draft PNs, and other DAM document types.
+    **Serper** (``settings.serper_api_key`` required): calls
+    :func:`~watermark.connectors.serper_search` with ``domain=dam.assets.ohio.gov``
+    and ``filetype="pdf"`` and parses direct DAM result URLs — permits, fact
+    sheets, draft PNs, and other document types.
 
     Both paths are skipped in offline mode.
     """
@@ -314,20 +283,28 @@ def discover_dam_documents(
             )
 
     # --- Serper path: all doc types via Google keyword search + filetype:pdf ---
-    # The Serper free tier blocks site:/inurl:/quoted operators; keyword queries
-    # with filetype:pdf reliably surface DAM permit documents.
     if settings.serper_api_key:
         place_clean = _sanitize_search_term(place)
         county_clean = _sanitize_search_term(county)
-        queries = [
-            f"{_DAM_HOST} {place_clean} filetype:pdf",
-            f"{_DAM_HOST} {county_clean} filetype:pdf",
-        ]
+        keyword_sets = [place_clean, county_clean]
         if extra_terms:
-            for term in extra_terms:
-                queries.append(f"{_DAM_HOST} {place_clean} {term} filetype:pdf")
-        for query in queries:
-            _add(_parse_serper_json(_fetch_serper(query, settings), query=query, fetched_at=now))
+            keyword_sets += [f"{place_clean} {t}" for t in extra_terms]
+        for kw in keyword_sets:
+            organic = serper_search(
+                kw,
+                domain=_DAM_HOST,
+                filetype="pdf",
+                cache_ns="oepa_discovery",
+                ttl_hours=_DISCOVERY_CACHE_TTL_HOURS,
+                settings=settings,
+            )
+            _add(
+                _parse_serper_json(
+                    organic,
+                    query=f"{kw} {_DAM_HOST} filetype:pdf",
+                    fetched_at=now,
+                )
+            )
     elif not basin:
         log.warning(
             "oepa.discovery.no_source",
