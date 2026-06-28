@@ -19,7 +19,7 @@ def research_run_cmd(
     recipe: str = typer.Option(
         "issue-proposal",
         "--recipe",
-        help="Research-agent recipe: issue-proposal | hypothesis-assessment.",
+        help="Research-agent recipe: issue-proposal | hypothesis-assessment | site-onboard.",
     ),
     hypothesis: str = typer.Option(
         "", "--hypothesis", help="Hypothesis id (required for the hypothesis-assessment recipe)."
@@ -54,6 +54,10 @@ def research_run_cmd(
         context = {"hypothesis": hypothesis, "site": settings.site}
         if not topic:
             topic = f"assess {settings.site} x {hypothesis}"
+    elif recipe == "site-onboard":
+        context = {"site": settings.site}
+        if not topic:
+            topic = f"onboard {settings.site}"
     elif not topic:
         raise typer.BadParameter("the issue-proposal recipe needs --topic", param_hint="--topic")
 
