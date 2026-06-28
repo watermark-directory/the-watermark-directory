@@ -1,4 +1,4 @@
-reconciled_at: '2026-06-28T15:01:58.016447+00:00'
+reconciled_at: '2026-06-28T15:14:12.771582+00:00'
 entries:
   aedg:
     exists: true
@@ -627,6 +627,15 @@ entries:
     size_bytes: 20416
     lfs_materialized: true
     file_count: 1
+    missing: []
+    asof: null
+    stale: false
+  urbana:
+    exists: true
+    sha256: 05e881f1287cc7cab5c4a9e6d6cf48fb1505f9bfce344768f940c5d0d7e09d8a
+    size_bytes: 14481
+    lfs_materialized: true
+    file_count: 2
     missing: []
     asof: null
     stale: false

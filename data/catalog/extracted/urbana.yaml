@@ -1,0 +1,33 @@
+id: urbana
+title: Urbana (Champaign County, OH) Investigative Findings & Onboarding Record
+scope: extracted
+status: reviewed
+producer:
+  kind: extracted
+  source: Primary instruments — OEPA eDocs, USACE Huntington District filings, Corps JDs (permits/highland55/)
+license: Public record (Ohio R.C. 149.43)
+access_tier: public
+site_scope: site:urbana
+storage:
+- relpath: extracted/urbana/ONBOARDING.md
+  media_type: text/markdown
+  lfs: false
+- relpath: extracted/urbana/highland55-findings.md
+  media_type: text/markdown
+  lfs: false
+refresh:
+  cadence: static
+provenance: document
+tags:
+- urbana
+- champaign-county
+- highland55
+- thor-equities
+- vance-brands
+- great-miami
+- mad-river
+notes: >
+  Onboarding record and investigative findings for the Urbana watershed point (Mad River corridor,
+  Champaign County OH). highland55-findings.md documents the Thor Equities / Vance Brands project
+  at 47.6+ acres west of US-68 — a build-to-suit commercial development including an electrical
+  substation; data-center end-use [open] pending further evidence.
