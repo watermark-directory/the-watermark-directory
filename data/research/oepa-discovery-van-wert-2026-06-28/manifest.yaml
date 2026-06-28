@@ -1,0 +1,18 @@
+meta:
+  subject: OEPA/DAM document discovery — van-wert
+  site: van-wert
+  place: Van Wert
+  county: Van Wert County
+  generated_at: '2026-06-28'
+  counts:
+    total: 1
+    new: 1
+    known: 0
+    committed: 0
+results:
+- url: https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/2PD00006.fs.pdf
+  permit_id: 2PD00006
+  doc_type: fact_sheet
+  query: dam.assets.ohio.gov Van Wert filetype:pdf
+  fetched_at: '2026-06-28T22:45:32.642942+00:00'
+  status: new
