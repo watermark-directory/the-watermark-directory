@@ -1,8 +1,8 @@
 fips: '39149'
-area_name: Shelby County, OH
+area_name: Shelby County, Ohio
 latest:
   fips: '39149'
-  area_name: Shelby County, OH
+  area_name: Shelby County, Ohio
   year: 2023
   total_employment:
     value: 27149.0
@@ -451,7 +451,43 @@ trend:
     citation: BLS QCEW 2023 annual averages, area 39149
     confidence: high
     asof: null
-population: null
+population:
+  fips: '39149'
+  area_name: Shelby County, Ohio
+  points:
+  - year: 2010
+    population:
+      value: 49350.0
+      unit: people
+      source: connector
+      citation: US Census ACS5 2010 B01003_001E (Shelby County, Ohio)
+      confidence: high
+      asof: null
+  - year: 2015
+    population:
+      value: 49067.0
+      unit: people
+      source: connector
+      citation: US Census ACS5 2015 B01003_001E (Shelby County, Ohio)
+      confidence: high
+      asof: null
+  - year: 2020
+    population:
+      value: 48610.0
+      unit: people
+      source: connector
+      citation: US Census ACS5 2020 B01003_001E (Shelby County, Ohio)
+      confidence: high
+      asof: null
+  - year: 2023
+    population:
+      value: 48007.0
+      unit: people
+      source: connector
+      citation: US Census ACS5 2023 B01003_001E (Shelby County, Ohio)
+      confidence: high
+      asof: null
+  source: US Census ACS 5-year (B01003)
 note: Employment from BLS QCEW (keyless open data). Location quotient = county sector
   share / national share (export-orientation; the county-level proxy for an import/export
-  ratio). Population-over-time needs a Census key (WATERMARK_CENSUS_API_KEY).
+  ratio). Population from US Census ACS 5-year (B01003).
