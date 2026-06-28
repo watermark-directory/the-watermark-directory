@@ -1,9 +1,9 @@
 # Curated entities
 
 Hand-curated entity inputs that aren't derived from the document corpus (the
-code-built entity graph in `bosc.pipeline.entities` covers corpus-derived parties).
+code-built entity graph in `watermark.pipeline.entities` covers corpus-derived parties).
 These are working inventories under `profiles/`, each marked by a flag/marker in
-the file and loaded by `bosc.candidates`.
+the file and loaded by `watermark.candidates`.
 
 ```
 data/entities/profiles/

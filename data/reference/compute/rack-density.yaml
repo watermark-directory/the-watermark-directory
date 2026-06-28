@@ -3,7 +3,7 @@
 # Vendored reference data (see README.md). The rack-density bands are reproduced
 # from the IN-CORPUS relator data appendix (which cites NVIDIA HGX guidance via
 # IntuitionLabs); the overhead/PUE/footprint figures are stated modeling
-# assumptions, NOT facility disclosures. Consumed by bosc.facility.compute.
+# assumptions, NOT facility disclosures. Consumed by watermark.facility.compute.
 
 # AI rack power density by accelerator class (kW per rack). Source: in-corpus
 # relator data appendix (data/extracted/legal/select-committee-2026/
@@ -20,7 +20,7 @@ ai_rack_kw_band: [40, 140]
 # Datacenter power overhead. PUE = total facility power / IT power. WUE/PUE
 # context figures are in the relator appendix (WUE ~1.8-1.9 L/kWh industry avg).
 # The air permit's ~313 MW backup is sized to the IT + mechanical load (N+1), so
-# the genset-derived IT figure in bosc.facility.power already nets most overhead;
+# the genset-derived IT figure in watermark.facility.power already nets most overhead;
 # PUE here translates an IT-power figure to total-facility draw (a first-class
 # `facility_draw` output on PowerBasis, issue #87), and is NOT used to inflate the
 # accelerator count. Ceiling raised to 1.43 to admit cooling-dominated designs: a

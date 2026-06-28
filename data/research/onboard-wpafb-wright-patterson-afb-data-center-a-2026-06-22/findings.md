@@ -15,7 +15,7 @@ I have a complete picture. Here is the findings report.
 # Findings — Onboarding screen: Wright-Patterson AFB (Dayton, Montgomery County, OH) as a BOSC watershed-point site
 
 **Task:** assess data-center activity + a receiving-water screen for the candidate site "wpafb," over the BOSC corpus, using read-only tools.
-**Tools used:** `program_overview`, `entities`, `timeline`, `list_documents`, `list_extractions`, `hydrology_balance`, `hydrology_scenario`; plus text search over the committed reference tree, `bosc.sites`, the frontend registry, the defense-footprint testimony, and the cloud-consumer profile.
+**Tools used:** `program_overview`, `entities`, `timeline`, `list_documents`, `list_extractions`, `hydrology_balance`, `hydrology_scenario`; plus text search over the committed reference tree, `watermark.sites`, the frontend registry, the defense-footprint testimony, and the cloud-consumer profile.
 
 **Headline:** Like the other Miami sites, WPAFB is **registered and partly seeded, not promoted** — its `SiteProfile` exists and the portable hydrometeorology + economics connectors have run. But it is the **one Miami node that already carries a corpus thread** (the defense-footprint testimony + the cloud-consumer candidate entry), and its water story is deliberately **not** the surface-7Q10 dilution screen the bound tools run — it is the **buried-valley sole-source aquifer + a TCE/PFAS plume**. Both named dimensions of this task are therefore in an unusual state: data-center activity is *documented but only as published record* (no primary instrument), and the receiving-water screen is *the wrong screen* unless reframed to groundwater.
 

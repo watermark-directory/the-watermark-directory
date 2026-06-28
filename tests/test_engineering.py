@@ -13,7 +13,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from bosc.models import (
+from watermark.models import (
     ComponentSpec,
     DesignFirm,
     EngineeringExtraction,
@@ -21,9 +21,9 @@ from bosc.models import (
     SheetRef,
     SpecItem,
 )
-from bosc.pipeline import extract as extract_stage
-from bosc.pipeline.extract import extract_engineering, extract_sanitary
-from bosc.pipeline.ingest import SourceDocument
+from watermark.pipeline import extract as extract_stage
+from watermark.pipeline.extract import extract_engineering, extract_sanitary
+from watermark.pipeline.ingest import SourceDocument
 
 
 class _FakePdf:

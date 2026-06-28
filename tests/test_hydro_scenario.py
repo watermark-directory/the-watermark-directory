@@ -7,10 +7,10 @@ from pathlib import Path
 import pytest
 import yaml
 
-from bosc.config import Settings
-from bosc.hydrology import report, scenario
-from bosc.hydrology.lowflow import low_flow_for
-from bosc.pipeline.hydrology import run_scenarios
+from watermark.config import Settings
+from watermark.hydrology import report, scenario
+from watermark.hydrology.lowflow import low_flow_for
+from watermark.pipeline.hydrology import run_scenarios
 
 
 def test_ottawa_7q10_now_cited(hydro_settings: Settings) -> None:

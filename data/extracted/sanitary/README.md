@@ -5,7 +5,7 @@
 Structured extractions of the sanitary as-built / record drawings under
 [`data/documents/sanitary/`](../../documents/sanitary/), produced by the
 discipline-agnostic engineering extractor
-(`bosc.pipeline.extract.extract_engineering`, `kind=sanitary` → `<stem>.sanitary.yaml`).
+(`watermark.pipeline.extract.extract_engineering`, `kind=sanitary` → `<stem>.sanitary.yaml`).
 
 ## Status
 
@@ -24,5 +24,5 @@ invented. Run once a key is available:
 bosc extract indianbrook-ps-asbuilt-2007 --kind sanitary --write
 ```
 
-See `bosc.models.EngineeringRecord` for the schema (the `components`/`specs` and
+See `watermark.models.EngineeringRecord` for the schema (the `components`/`specs` and
 `sheets`/`design_parameters` axes) and [issue #41](https://github.com/watermark-directory/the-watermark-directory/issues/41).

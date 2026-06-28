@@ -16,7 +16,7 @@ representations).
 
 > `defense-contractors.yaml` previously lived here as a frozen import. It has been
 > promoted to a first-class curated entity input at
-> `data/entities/profiles/defense-contractors.yaml` (loaded by `bosc.candidates`).
+> `data/entities/profiles/defense-contractors.yaml` (loaded by `watermark.candidates`).
 
 Treat these as **external corroboration**: cross-check BOSC's own extractions
 against them, but BOSC's `data/extracted/**` remains the system of record. Do not

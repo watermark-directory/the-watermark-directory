@@ -8,8 +8,8 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology.tier1 import deck_checksum_mismatches, load_tier1, tier1_findings
+from watermark.config import Settings
+from watermark.hydrology.tier1 import deck_checksum_mismatches, load_tier1, tier1_findings
 
 
 def test_committed_tier1_loads_with_grounding(hydro_settings: Settings) -> None:

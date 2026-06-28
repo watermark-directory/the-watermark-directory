@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.civic import load_registry
-from bosc.civic.fetchers import FetcherNotImplementedError, fetch_meetings, generic
-from bosc.config import Settings
+from watermark.civic import load_registry
+from watermark.civic.fetchers import FetcherNotImplementedError, fetch_meetings, generic
+from watermark.config import Settings
 
 
 @pytest.mark.parametrize(

@@ -2,7 +2,7 @@
 
 The Lima profile is the live reference build: its values must reproduce the pre-#325
 hardcoded defaults exactly. The golden snapshot below is the zero-drift contract — if a
-literal was mistranscribed when it moved into ``bosc.sites``, this test fails before any
+literal was mistranscribed when it moved into ``watermark.sites``, this test fails before any
 hydrology output can quietly change.
 """
 
@@ -15,9 +15,9 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from bosc.config import Settings
-from bosc.connectors._cache import cache_key
-from bosc.sites import (
+from watermark.config import Settings
+from watermark.connectors._cache import cache_key
+from watermark.sites import (
     ALLEN_IN_PARCEL_SCHEMA,
     FORT_WAYNE_ZONING_SCHEMA,
     LIMA_FLOOD_SCHEMA,
@@ -215,8 +215,8 @@ def test_python_sites_registered_in_frontend() -> None:
 def test_per_site_output_paths_resolve(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
     # The per-site onboard outputs (#326) resolve to Lima's legacy paths for lima and to
     # slug-scoped paths for a new site, so onboarding never clobbers Lima.
-    from bosc.hydrology.climate import _reference_path as climatology_path
-    from bosc.hydrology.drainage import _ddf_path
+    from watermark.hydrology.climate import _reference_path as climatology_path
+    from watermark.hydrology.drainage import _ddf_path
 
     lima = Settings(site="lima", data_dir=tmp_path)
     assert climatology_path(lima) == tmp_path / "reference/hydrology/nasa-power-climatology.yaml"
@@ -344,8 +344,8 @@ def test_gis_connector_decodes_by_field_name_for_a_new_jurisdiction(tmp_path, mo
     """A second jurisdiction with *different* ArcGIS field names decodes correctly — proof the
     connector selects by name (from the schema), not by Lima's hardcoded fields. Fully offline:
     a hand-rolled fixture under the synthetic connector's key."""
-    from bosc.connectors.gis_schema import GisCitedZoningMeta, GisMeta, GisZoningSchema
-    from bosc.hydrology.connectors import lima_gis
+    from watermark.connectors.gis_schema import GisCitedZoningMeta, GisMeta, GisZoningSchema
+    from watermark.hydrology.connectors import lima_gis
 
     alt = GisZoningSchema(
         connector="synthj_gis",
@@ -410,7 +410,7 @@ def test_gis_connectors_refuse_a_schemaless_site() -> None:
     """A site with no parcel GIS schema refuses cleanly rather than running Lima's fields."""
     import pytest
 
-    from bosc.hydrology.connectors import allen_gis
+    from watermark.hydrology.connectors import allen_gis
 
     assert SITES["van-wert"].gis_parcel is None  # an Ohio site with no parcel schema wired yet
     with pytest.raises(allen_gis.AllenGisError, match="no parcel GIS schema"):
@@ -421,7 +421,7 @@ def test_toxic_corridors_defined_for_defiance_and_bryan() -> None:
     """The Defiance (#393) and Bryan (#412) toxic corridors are delineated (no longer [0,0,0,0]):
     each box covers its receiving-water industrial cluster and excludes facilities on other
     drainages, so the RSEI corridor-inference (toxics._in_corridor) scopes correctly."""
-    from bosc.hydrology.toxics import _in_corridor
+    from watermark.hydrology.toxics import _in_corridor
 
     dz = SITES["defiance"].toxic_corridor_bbox
     assert dz != (0.0, 0.0, 0.0, 0.0)

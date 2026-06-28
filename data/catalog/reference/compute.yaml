@@ -20,7 +20,7 @@ refresh:
   cadence: on-demand
   last_refreshed: '2026-06-11'
 provenance: reference
-schema_ref: bosc.facility.model.AcceleratorSpec
+schema_ref: watermark.facility.model.AcceleratorSpec
 tags:
 - compute
 - accelerators
@@ -28,4 +28,4 @@ tags:
 - datacenter
 - reference
 notes: Hand-transcribed vendor accelerator specs + rack-density/PUE/footprint assumption bands consumed
-  by bosc.facility to derive AI capacity scenarios; not connector-regenerable and not a facility measurement.
+  by watermark.facility to derive AI capacity scenarios; not connector-regenerable and not a facility measurement.

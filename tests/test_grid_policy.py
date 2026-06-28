@@ -10,9 +10,9 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.facility.power import derive_power_basis
-from bosc.grid.policy import (
+from watermark.config import Settings
+from watermark.facility.power import derive_power_basis
+from watermark.grid.policy import (
     derive_federal_backdrop,
     load_federal_backdrop,
 )

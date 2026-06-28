@@ -10,10 +10,10 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.models import Estimate, EstimateSection, MarkupLine, PageExtraction
-from bosc.pipeline import analyze
-from bosc.pipeline import extract as extract_stage
-from bosc.pipeline.ingest import SourceDocument
+from watermark.models import Estimate, EstimateSection, MarkupLine, PageExtraction
+from watermark.pipeline import analyze
+from watermark.pipeline import extract as extract_stage
+from watermark.pipeline.ingest import SourceDocument
 
 
 def _est(name: str, roadway: int, pavement: int) -> Estimate:

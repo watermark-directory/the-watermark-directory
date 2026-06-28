@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: zoning --districts
-  connector_ref: bosc.hydrology.connectors.lima_gis
+  connector_ref: watermark.hydrology.connectors.lima_gis
   source: City of Lima GIS public ArcGIS REST — zoning (layer 6) + FEMA DFIRM flood zones (layer 4, panel
     39003C)
   external_url: https://colgis.cityhall.lima.oh.us/server/rest/services/CitywideMaps/Lima_Zoning/MapServer

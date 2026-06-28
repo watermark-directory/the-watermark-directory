@@ -20,7 +20,7 @@ The one hard, document-anchored magnitude is electrical:
 | Quantity | Value | Tag | Source |
 |---|---|---|---|
 | Backup generation | **114 gensets × 2,750 ekW ≈ 313 MW** | `[verified]` | OEPA Air PTI **P0138965** (`data/extracted/permits/3987141.epa.yaml`) |
-| Implied IT load | **~250–300 MW** (midpoint 275) | `[inference]` | N+1 backup≈IT (`bosc.hydrology.cooling`) |
+| Implied IT load | **~250–300 MW** (midpoint 275) | `[inference]` | N+1 backup≈IT (`watermark.hydrology.cooling`) |
 | Cooling towers | **36** | `[verified]` | air permit |
 | Consumptive water | **3.1–10 MGD** | `[inference]` | power × WUE / blowdown × cycles ([HYDROLOGY §3](HYDROLOGY.md)) |
 
@@ -105,7 +105,7 @@ with its cited sources — though whether each applies to *this* campus stays
 
 The 2026-06-10 facility-design call asked to *"bring in fuel costs at the consumer
 level due to macro pressures and data-center demand."* The
-[`bosc.economics.energy`](../src/bosc/economics/energy.py) thread sizes that spillover
+[`watermark.economics.energy`](../src/bosc/economics/energy.py) thread sizes that spillover
 against **committed EIA consumer prices** (`bosc eia` →
 [`data/reference/eia/`](../data/reference/eia/)): Ohio residential electricity (¢/kWh),
 residential natural gas ($/Mcf), and total state retail electricity sales.

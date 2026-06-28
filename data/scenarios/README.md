@@ -1,6 +1,6 @@
 # Water-balance scenarios
 
-Named what-if inputs for the hydrology water-balance model (`bosc.hydrology.scenario`).
+Named what-if inputs for the hydrology water-balance model (`watermark.hydrology.scenario`).
 Each scenario is a committed YAML of tagged inputs (value, unit, `source`, `citation`,
 `confidence`, `asof`) that the model runs over.
 

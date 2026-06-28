@@ -1,7 +1,7 @@
 # Findlay GIS — committed reference data
 
 City of Findlay (Hancock County, OH) GIS layers for the Findlay watershed point
-(`bosc.sites` `findlay`). Schema-driven via the per-site `gis_*` field-maps (#237); see
+(`watermark.sites` `findlay`). Schema-driven via the per-site `gis_*` field-maps (#237); see
 [`docs/onboarding.md`](../../../docs/onboarding.md) and
 [`src/bosc/connectors/gis_schema.py`](../../../src/bosc/connectors/gis_schema.py).
 

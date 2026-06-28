@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: federal
-  connector_ref: bosc.economics.connectors.eia
+  connector_ref: watermark.economics.connectors.eia
   source: EIA national series (net generation, retail price) + LBNL/DOE 2024 Data Center Energy Usage
     Report + Inflation Reduction Act (Pub. L. 117-169)
   external_url: https://www.eia.gov/opendata/
@@ -19,7 +19,7 @@ storage:
 refresh:
   cadence: annual
 provenance: connector
-schema_ref: bosc.grid.policy.FederalBackdrop
+schema_ref: watermark.grid.policy.FederalBackdrop
 tags:
 - federal
 - energy

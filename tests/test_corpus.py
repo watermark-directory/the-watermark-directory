@@ -6,8 +6,8 @@ from pathlib import Path
 
 import yaml
 
-from bosc.config import Settings
-from bosc.models import (
+from watermark.config import Settings
+from watermark.models import (
     BusinessFiling,
     Deed,
     DeedExtraction,
@@ -18,7 +18,7 @@ from bosc.models import (
     SosExtraction,
     SubEstimate,
 )
-from bosc.pipeline.corpus import load_corpus
+from watermark.pipeline.corpus import load_corpus
 
 
 def _write(path: Path, text: str) -> None:

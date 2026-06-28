@@ -2,7 +2,7 @@
 
 **Run:** `bosc hydro` (live) + the committed `buildout` scenario, 2026-06-08.
 **Engine:** Tier-0 water balance + 7Q10 low-flow assimilative screen
-(`bosc.hydrology`). Tier-0 is an auditable screen, **not** a SWMM/HEC-RAS result.
+(`watermark.hydrology`). Tier-0 is an auditable screen, **not** a SWMM/HEC-RAS result.
 **Live streamflow:** Ottawa River at Lima, NWIS gage `04187100` (today ~90.5 cfs /
 58.5 MGD — *ambient* flow, well above the regulatory low-flow design condition).
 

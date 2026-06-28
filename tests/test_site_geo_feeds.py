@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bosc.config import Settings
-from bosc.site import gismap
+from watermark.config import Settings
+from watermark.site import gismap
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 

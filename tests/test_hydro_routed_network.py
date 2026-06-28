@@ -5,10 +5,10 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology import network as net
-from bosc.hydrology.balance import build_water_balance
-from bosc.hydrology.model import NetworkNode, NetworkTheory, ProvenancedValue
+from watermark.config import Settings
+from watermark.hydrology import network as net
+from watermark.hydrology.balance import build_water_balance
+from watermark.hydrology.model import NetworkNode, NetworkTheory, ProvenancedValue
 
 
 def _head(node_id: str, downstream: str) -> NetworkNode:
@@ -195,7 +195,7 @@ def test_findings_flag_effluent_dominance_and_conservation(hydro_settings: Setti
 
 
 def test_pipeline_run_network(hydro_settings: Settings) -> None:
-    from bosc.pipeline import hydrology as hydro_stage
+    from watermark.pipeline import hydrology as hydro_stage
 
     baseline, buildout, delta = hydro_stage.run_network(settings=hydro_settings, live=False)
     assert baseline.natural_total_cfs == pytest.approx(1.01, abs=0.001)
@@ -398,7 +398,7 @@ def test_theory_findings_quantify_the_overlay(hydro_settings: Settings) -> None:
 
 
 def test_pipeline_compare_theory_isolates_overlay(hydro_settings: Settings) -> None:
-    from bosc.pipeline import hydrology as hydro_stage
+    from watermark.pipeline import hydrology as hydro_stage
 
     without, with_theory, findings = hydro_stage.compare_theory(
         ["waterfall-roundabout-pike-run"], settings=hydro_settings, live=False
@@ -419,9 +419,9 @@ def test_render_routed_network_handles_zero_natural_low_flow(
     """#614: the routed-balance section divides municipal effluent by the natural total —
     which the section's own premise (the river 'effectively dries') can drive to 0. The
     render must guard the ratio, not raise ZeroDivisionError."""
-    from bosc.config import Settings
-    from bosc.hydrology import report
-    from bosc.hydrology.model import ReachFlow, RoutedNetwork, RoutedNetworkDiff
+    from watermark.config import Settings
+    from watermark.hydrology import report
+    from watermark.hydrology.model import ReachFlow, RoutedNetwork, RoutedNetworkDiff
 
     def _reach(node_id: str) -> ReachFlow:
         return ReachFlow(

@@ -3,7 +3,7 @@
 # 1. `wwtp_receiving` — which receiving STREAM each county WWTP discharges to.
 #    This is the denominator side of the assimilative screen; every route is read
 #    from an Ohio EPA NPDES fact sheet in our corpus and tagged status:confirmed.
-#    (This externalizes what used to be hardcoded in bosc.hydrology.balance.)
+#    (This externalizes what used to be hardcoded in watermark.hydrology.balance.)
 #
 # 2. `bosc_routing` — where the BOSC data-center campus sends its OWN wastewater,
 #    by forcemain. This is the requirement to encode explicitly: BOSC output is

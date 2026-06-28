@@ -1,6 +1,6 @@
 # BOSC watershed-point network — basin topology + per-node synthesis metadata.
 #
-# The curated INPUT to the cross-site synthesis (`bosc network`, bosc.network). It encodes
+# The curated INPUT to the cross-site synthesis (`bosc network`, watermark.network). It encodes
 # the one fact the per-site artifacts don't: that every watershed point drains to the SAME
 # Maumee -> Lake Erie system under the SAME nutrient cap, so the sites are nested nodes on one
 # connected basin, not parallel/independent points. Per-node attribute data (hydrology screen,

@@ -6,9 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology.connectors import noaa_atlas14
-from bosc.pipeline.hydrology import run_storm
+from watermark.config import Settings
+from watermark.hydrology.connectors import noaa_atlas14
+from watermark.pipeline.hydrology import run_storm
 
 
 def test_design_storm_from_fixture(hydro_settings: Settings) -> None:
@@ -52,7 +52,7 @@ def test_storm_scenario_post_exceeds_pre(hydro_settings: Settings) -> None:
 
 def test_storm_offline_fallback_is_flagged(tmp_path: Path) -> None:
     # Empty data dir => no cache, no fixtures => cited fallback depth, tagged assumption.
-    from bosc.hydrology.stormwater import _resolve_storm
+    from watermark.hydrology.stormwater import _resolve_storm
 
     settings = Settings(data_dir=tmp_path, hydro_offline=True)
     storm = _resolve_storm(25, settings=settings, live=True)

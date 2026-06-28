@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from bosc.models import (
+from watermark.models import (
     Deed,
     Estimate,
     OPCSummary,

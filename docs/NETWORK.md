@@ -7,7 +7,7 @@ the Allen County two-river logic (Auglaize in, Ottawa out) scaled to the whole n
 data-center sanitary/nutrient load at *any* node accumulates downstream into one fully-allocated,
 Lake-Erie-bound budget.
 
-This page is generated from `bosc basin-network` (computed: [`bosc.network`](../src/bosc/network.py))
+This page is generated from `bosc basin-network` (computed: [`watermark.network`](../src/bosc/network.py))
 over the curated topology ([`data/reference/network/topology.yaml`](../data/reference/network/topology.yaml))
 and each node's own committed economy / grid / toxics artifacts. The dilution screen is **one
 dimension among several** — and most nodes are honestly *unscreened* (see below).

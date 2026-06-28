@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from bosc import gleif
-from bosc.config import Settings
+from watermark import gleif
+from watermark.config import Settings
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 

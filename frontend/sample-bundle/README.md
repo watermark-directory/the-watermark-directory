@@ -6,14 +6,14 @@ slug (`bundleFor(slug)` in `src/lib/bundle.ts`), so the fixtures are keyed the s
 
 ```
 sample-bundle/
-  lima/                 # the Lima reference site (BOSC_SITE default)
+  lima/                 # the Lima reference site (WATERMARK_SITE default)
     manifest.json
     feeds/**
     README.md           # how this fixture is trimmed + refreshed
 ```
 
 A new site adds its own `sample-bundle/<slug>/` (e.g. `fort-wayne/`, #741). The real,
-full bundles are generated per-site by `bosc --site <slug> export` →
+full bundles are generated per-site by `watermark --site <slug> export` →
 `data/site/bundles/<slug>/` (git-ignored) and take precedence over these fixtures when present.
 
 See `lima/README.md` for how a fixture is trimmed from the real export and the drift guard

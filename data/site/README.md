@@ -1,6 +1,6 @@
 # Site configuration
 
-Committed configuration consumed by the site generator (`bosc.site`) when it stages
+Committed configuration consumed by the site generator (`watermark.site`) when it stages
 the browsable MkDocs tree. This is **input config**, not generated output — the
 generated `web/` and `site/` trees are git-ignored and regenerable.
 

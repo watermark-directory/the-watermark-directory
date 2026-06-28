@@ -10,8 +10,8 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology import basin
+from watermark.config import Settings
+from watermark.hydrology import basin
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 

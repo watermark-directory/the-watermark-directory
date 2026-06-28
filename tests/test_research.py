@@ -17,10 +17,10 @@ import yaml
 from claude_agent_sdk import AssistantMessage, ResultMessage, TextBlock, ToolUseBlock
 from pydantic import ValidationError
 
-from bosc.agent import client as client_mod
-from bosc.agent.extractor import StructuredExtractor
-from bosc.config import Settings
-from bosc.research import (
+from watermark.agent import client as client_mod
+from watermark.agent.extractor import StructuredExtractor
+from watermark.config import Settings
+from watermark.research import (
     IssueProposal,
     ResearchRunManifest,
     RunProvenance,
@@ -32,7 +32,7 @@ from bosc.research import (
     run_slug,
     write_run,
 )
-from bosc.research.run import distill_proposals
+from watermark.research.run import distill_proposals
 
 _DRAFTS = {
     "proposals": [
@@ -265,7 +265,7 @@ def test_load_manifest_round_trips(tmp_path: Path, monkeypatch: pytest.MonkeyPat
 
 def test_proposal_drafts_coerces_json_string_list() -> None:
     """Forced tool use sometimes returns `proposals` as a JSON *string* — tolerate it."""
-    from bosc.research.models import ProposalDrafts
+    from watermark.research.models import ProposalDrafts
 
     drafts = [{"title": "T", "body": "B", "rationale": "R", "labels": ["extraction"]}]
     # native list (the normal path) and a JSON-encoded string both validate identically
@@ -280,7 +280,7 @@ def test_proposal_drafts_coerces_stringified_list_with_control_chars() -> None:
     long body/rationale text — the quirk that broke the first Urbana onboarding run. The default
     strict JSON parser rejects those control chars; the coercion uses strict=False so the run
     isn't lost."""
-    from bosc.research.models import ProposalDrafts
+    from watermark.research.models import ProposalDrafts
 
     # A model-emitted stringified array with a real newline inside `body` (not "\\n", an actual \n).
     raw = '[{"title": "T", "body": "para one\npara two", "rationale": "R", "labels": ["grid"]}]'
@@ -293,7 +293,7 @@ def test_proposal_drafts_coerces_fenced_prose_and_trailing_commas() -> None:
     """Three more stringified-array quirks that broke a Sidney onboarding run: a wrapping
     markdown code fence, prose around the array, and a trailing comma before ``]``/``}`` (valid
     JS, invalid JSON). The coercion strips/repairs all three rather than lose the run."""
-    from bosc.research.models import ProposalDrafts
+    from watermark.research.models import ProposalDrafts
 
     fenced = '```json\n[{"title": "T", "body": "B", "rationale": "R"}]\n```'
     prose = 'Here are the proposals:\n[{"title": "T", "body": "B", "rationale": "R"}]\nDone.'
@@ -307,7 +307,7 @@ def test_proposal_drafts_coerces_fenced_prose_and_trailing_commas() -> None:
 def test_proposal_draft_coerces_stringified_labels() -> None:
     """The model also stringifies the nested `labels` array — coerce it back too (the other
     failure mode the Urbana run surfaced)."""
-    from bosc.research.models import ProposalDrafts
+    from watermark.research.models import ProposalDrafts
 
     drafts = ProposalDrafts.model_validate(
         {
@@ -321,7 +321,7 @@ def test_proposal_draft_coerces_stringified_labels() -> None:
 
 def test_proposal_drafts_rejects_non_json_string() -> None:
     """A non-JSON string still fails validation (no silent swallow)."""
-    from bosc.research.models import ProposalDrafts
+    from watermark.research.models import ProposalDrafts
 
     with pytest.raises(ValueError):
         ProposalDrafts.model_validate({"proposals": "not json at all"})
@@ -336,7 +336,7 @@ class _FlakyExtractor:
         self.calls = 0
 
     def extract_from_text(self, target: Any, *, instructions: str, text: str) -> Any:
-        from bosc.research.models import ProposalDrafts
+        from watermark.research.models import ProposalDrafts
 
         self.calls += 1
         if self.calls <= self._fail_times:
@@ -348,7 +348,7 @@ class _FlakyExtractor:
 
 def test_distill_retries_then_succeeds() -> None:
     """The distiller re-rolls the model on a malformed draw rather than losing the run."""
-    from bosc.research.models import ProposalDrafts
+    from watermark.research.models import ProposalDrafts
 
     drafts = ProposalDrafts(
         proposals=[{"title": "T", "body": "B", "rationale": "R", "labels": ["hydrology"]}]
@@ -380,14 +380,14 @@ _ASSESS_DRAFT = {
 
 
 def test_recipes_registry_defaults_to_issue_proposal() -> None:
-    from bosc.research import ISSUE_PROPOSAL_RECIPE, RECIPES
+    from watermark.research import ISSUE_PROPOSAL_RECIPE, RECIPES
 
     assert set(RECIPES) == {"issue-proposal", "hypothesis-assessment"}
     assert RECIPES["issue-proposal"] is ISSUE_PROPOSAL_RECIPE
 
 
 def test_hypothesis_assessment_recipe_produces_a_cell(monkeypatch: pytest.MonkeyPatch) -> None:
-    from bosc.research import HYPOTHESIS_ASSESSMENT_RECIPE
+    from watermark.research import HYPOTHESIS_ASSESSMENT_RECIPE
 
     monkeypatch.setattr(client_mod, "query", _fake_query)
     manifest = asyncio.run(
@@ -413,7 +413,7 @@ def test_hypothesis_assessment_recipe_produces_a_cell(monkeypatch: pytest.Monkey
 
 
 def test_assessment_recipe_validates_context() -> None:
-    from bosc.research import HYPOTHESIS_ASSESSMENT_RECIPE
+    from watermark.research import HYPOTHESIS_ASSESSMENT_RECIPE
 
     with pytest.raises(ValueError, match="hypothesis"):
         asyncio.run(
@@ -431,8 +431,8 @@ def test_assessment_recipe_validates_context() -> None:
 def test_write_and_load_run_round_trips_assessment_cells(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from bosc.hypotheses import HypothesisAssessment
-    from bosc.research import HYPOTHESIS_ASSESSMENT_RECIPE
+    from watermark.hypotheses import HypothesisAssessment
+    from watermark.research import HYPOTHESIS_ASSESSMENT_RECIPE
 
     monkeypatch.setattr(client_mod, "query", _fake_query)
     manifest = asyncio.run(
@@ -464,7 +464,7 @@ def test_write_and_load_run_round_trips_assessment_cells(
 
 def test_assessment_draft_coerces_stringified_citations_and_fields() -> None:
     """Forced tool use sometimes stringifies the nested `citations`/`fields` — tolerate both."""
-    from bosc.research.models import AssessmentDraft
+    from watermark.research.models import AssessmentDraft
 
     draft = AssessmentDraft.model_validate(
         {

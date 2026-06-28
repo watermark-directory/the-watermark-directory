@@ -9,9 +9,9 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.facility.power import derive_power_basis
-from bosc.grid.utility import (
+from watermark.config import Settings
+from watermark.facility.power import derive_power_basis
+from watermark.grid.utility import (
     _retail_regulator,
     _serving_utility,
     derive_grid_profile,

@@ -75,7 +75,7 @@ proposals:
 
     - This issue is marked resolved only when the above are committed to `data/sites/springfield/`
     or equivalent scaffold.'
-- title: Register a SiteProfile for Springfield in bosc.sites.SITES
+- title: Register a SiteProfile for Springfield in watermark.sites.SITES
   dedupe_key: register-a-siteprofile-for-springfield-in-bosc-sites-sites
   labels:
   - agent-proposed
@@ -89,8 +89,8 @@ proposals:
 
     The findings explain why the bound MCP tools cannot screen Springfield: they take
     no site parameter and read only the active site''s committed data, which is Lima.
-    Per `CLAUDE.md`, per-site values live on a `SiteProfile` in `bosc.sites`, selected
-    by `BOSC_SITE`. A Springfield profile does not exist.
+    Per `CLAUDE.md`, per-site values live on a `SiteProfile` in `watermark.sites`, selected
+    by `WATERMARK_SITE`. A Springfield profile does not exist.
 
 
     ## Grounding
@@ -109,7 +109,7 @@ proposals:
 
     ## Acceptance Criterion
 
-    - A `SiteProfile` entry for the confirmed Springfield slug exists in `bosc.sites.SITES`
+    - A `SiteProfile` entry for the confirmed Springfield slug exists in `watermark.sites.SITES`
     with all required fields populated (GIS URLs, `nwis_sites`, `rsei_fips`, `eia861_utility_number`)
     and sourced from Springfield-specific data (not reused from Lima/Allen County).
 
@@ -119,7 +119,7 @@ proposals:
     - A connector audit confirms no Ohio-hardcoded assumptions leak into the Springfield
     run if the site is outside Allen County.
 
-    - `BOSC_SITE=springfield` runs without falling back to Lima values.'
+    - `WATERMARK_SITE=springfield` runs without falling back to Lima values.'
 - title: Pull Springfield WWTP NPDES permit(s) and receiving-stream 7Q10 into reference
     data
   dedupe_key: pull-springfield-wwtp-npdes-permit-s-and-receiving-stream-7q10-i
@@ -160,7 +160,7 @@ proposals:
     - The dilution ratio (design flow ÷ 7Q10) is calculated and any assimilative-capacity
     violation flagged, mirroring the Lima pattern.
 
-    - `hydrology_balance` (with `BOSC_SITE=springfield`) returns results sourced from
+    - `hydrology_balance` (with `WATERMARK_SITE=springfield`) returns results sourced from
     these committed documents rather than Lima defaults.'
 - title: Execute data-center activity scan for Springfield and ingest findings
   dedupe_key: execute-data-center-activity-scan-for-springfield-and-ingest-fin

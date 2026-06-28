@@ -21,7 +21,7 @@ I have enough to produce the findings report. Let me compile it.
 - **Data-center activity:** no documented activity in the corpus. `facility=None` by design. `[open]`
 - **Receiving-water screen:** the geography is sourced, but the screen has **no low-flow denominator and no discharger inventory** yet — it cannot be run. `[open]`
 
-The in-app BOSC hydrology tools (`hydrology_balance`, `hydrology_scenario`, `sanitary_basis`, `stormwater_runoff`, `tier1_swmm`) are **Lima-bound**: they returned the Ottawa River / three-Allen-County-WWTP model with no Troy/Piqua content. None of them is parameterized by `BOSC_SITE` in a way that reflects this seed.
+The in-app BOSC hydrology tools (`hydrology_balance`, `hydrology_scenario`, `sanitary_basis`, `stormwater_runoff`, `tier1_swmm`) are **Lima-bound**: they returned the Ottawa River / three-Allen-County-WWTP model with no Troy/Piqua content. None of them is parameterized by `WATERMARK_SITE` in a way that reflects this seed.
 
 ---
 

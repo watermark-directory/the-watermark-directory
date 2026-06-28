@@ -62,7 +62,7 @@ cridersville_shawnee_oaks_reroute:    # the County stops paying OUT and captures
     frs_registry_id: '110006351063'
     county: Allen
     huc8: '04100007'                 # Auglaize / Lima subbasin; ottawa_discharge = true
-    source: data/reference/echo/maumee-wwtp.potw.yaml   # EPA ECHO Maumee NPDES inventory (`bosc npdes`)
+    source: data/reference/echo/maumee-wwtp.potw.yaml   # EPA ECHO Maumee NPDES inventory (`watermark npdes`)
     note: >-
       The village plant the County pays ~$102k/yr to treat the Shawnee Oaks flow (233 customers); the
       #113-26/#136-26 reroute moves that flow off Cridersville onto the County's own Shawnee II WWTP.

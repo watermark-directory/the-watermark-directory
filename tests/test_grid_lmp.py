@@ -8,9 +8,9 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.connectors import OfflineError
-from bosc.grid.lmp import PjmLmpError, fetch_zonal_lmp
+from watermark.config import Settings
+from watermark.connectors import OfflineError
+from watermark.grid.lmp import PjmLmpError, fetch_zonal_lmp
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = REPO_ROOT / "tests" / "fixtures" / "economics"
@@ -67,8 +67,8 @@ def test_live_pull_requires_a_subscription_key(tmp_path: Path) -> None:
 def test_unpinned_zone_falls_back_to_reference() -> None:
     # A site whose PJM zone is not yet pinned (Defiance) uses the transcribed reference
     # placeholder, not a connector pull — the market layer never fabricates a zone.
-    from bosc.grid.market import _zonal_lmp
-    from bosc.sites import SITES
+    from watermark.grid.market import _zonal_lmp
+    from watermark.sites import SITES
 
     defiance = SITES["defiance"]
     assert defiance.lmp_pnode_id == 0  # zone not pinned
@@ -82,7 +82,7 @@ def test_fort_wayne_and_bryan_pinned_to_aep() -> None:
     # I&M (Fort Wayne #361) has no separate PJM zone, and the City-of-Bryan load (#411, CTYBRYAN)
     # settles in AEP — both verified against the live PJM pnode table (2026-06-21). So both pin to
     # the AEP zone, reusing the committed AEP fixture (no new token-dependent pull).
-    from bosc.sites import SITES
+    from watermark.sites import SITES
 
     for slug in ("fort-wayne", "bryan"):
         prof = SITES[slug]

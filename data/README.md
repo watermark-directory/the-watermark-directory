@@ -26,7 +26,7 @@ new site is parity-gated.
 
 ## Extraction file conventions
 
-Structured extractions are YAML validated by `bosc.models`. Filenames follow:
+Structured extractions are YAML validated by `watermark.models`. Filenames follow:
 
 ```
 <subject>.<kind>.opc.yaml      e.g. roundabouts.summary.opc.yaml
@@ -41,7 +41,7 @@ Structured extractions are YAML validated by `bosc.models`. Filenames follow:
 
 Source scans are degraded. Any figure read with less than full confidence is
 prefixed with `~` (e.g. `~2490`). In YAML this parses as a string; the models
-coerce it back to a number via `bosc.models._coerce_number` while signaling that
+coerce it back to a number via `watermark.models._coerce_number` while signaling that
 the value is approximate. **Dollar totals/subtotals are high-confidence; line-item
 quantities are often approximate.** Keep the marker — it is research metadata.
 

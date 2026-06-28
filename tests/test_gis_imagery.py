@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.gis import get_site, imagery, load_tracking_sites
+from watermark.config import Settings
+from watermark.gis import get_site, imagery, load_tracking_sites
 
 
 def test_campus_site_loads(gis_settings: Settings) -> None:

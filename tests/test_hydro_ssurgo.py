@@ -7,10 +7,10 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.connectors import OfflineError
-from bosc.hydrology.connectors import ssurgo
-from bosc.pipeline.hydrology import run_storm
+from watermark.config import Settings
+from watermark.connectors import OfflineError
+from watermark.hydrology.connectors import ssurgo
+from watermark.pipeline.hydrology import run_storm
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PARCELS = REPO_ROOT / "data" / "reference" / "periplus" / "bosc-parcels.geojson"
@@ -77,7 +77,7 @@ def test_storm_hsg_falls_back_to_assumption(
     hydro_settings: Settings, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     # When SSURGO can't be sourced, HSG falls back to the cited "C" assumption (flagged).
-    from bosc.hydrology import stormwater
+    from watermark.hydrology import stormwater
 
     def _boom(*_args: object, **_kwargs: object) -> object:
         raise ssurgo.SsurgoError("no soil data")

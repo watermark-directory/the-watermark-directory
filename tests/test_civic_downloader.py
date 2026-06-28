@@ -7,14 +7,14 @@ from pathlib import Path
 
 import yaml
 
-from bosc.civic.downloader import (
+from watermark.civic.downloader import (
     DownloadedDoc,
     derive_filename,
     download_meetings,
     write_manifest,
 )
-from bosc.civic.models import MeetingDoc, Platform, Publishing, Subdivision
-from bosc.config import Settings
+from watermark.civic.models import MeetingDoc, Platform, Publishing, Subdivision
+from watermark.config import Settings
 
 
 def _body() -> Subdivision:

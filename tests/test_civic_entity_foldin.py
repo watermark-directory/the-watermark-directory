@@ -7,9 +7,9 @@ from typing import Any
 
 import yaml
 
-from bosc.config import Settings
-from bosc.pipeline.corpus import Corpus
-from bosc.pipeline.entities import build_entity_graph
+from watermark.config import Settings
+from watermark.pipeline.corpus import Corpus
+from watermark.pipeline.entities import build_entity_graph
 
 
 def _seed(tmp: Path, meetings: list[dict[str, Any]]) -> Settings:

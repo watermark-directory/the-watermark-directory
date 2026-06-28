@@ -10,8 +10,8 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.network import BasinNetwork, build_basin_network, write_basin_network
+from watermark.config import Settings
+from watermark.network import BasinNetwork, build_basin_network, write_basin_network
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
@@ -70,7 +70,7 @@ def test_subtree_generalizes_across_basins() -> None:
     A cross-basin (Miami / Scioto) node buckets into its OWN basin's grouping instead of
     silently falling through to ``Maumee mainstem``; the Maumee labels are unchanged.
     """
-    from bosc.network import _subtree
+    from watermark.network import _subtree
 
     # Maumee — exactly as before.
     assert _subtree(["Ottawa River", "Auglaize River", "Maumee River"]) == "Auglaize"

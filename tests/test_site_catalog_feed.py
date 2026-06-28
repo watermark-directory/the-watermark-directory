@@ -5,9 +5,9 @@ from __future__ import annotations
 import textwrap
 from pathlib import Path
 
-from bosc.config import Settings
-from bosc.site.catalog import _collection, export_catalog
-from bosc.site.feeds import CatalogItem
+from watermark.config import Settings
+from watermark.site.catalog import _collection, export_catalog
+from watermark.site.feeds import CatalogItem
 
 
 def _settings(tmp_path: Path) -> Settings:
@@ -121,14 +121,14 @@ def test_observed_snapshot_is_joined_when_present() -> None:
 
 
 def test_every_entry_is_projected() -> None:
-    from bosc.catalog import load_entries
+    from watermark.catalog import load_entries
 
     items = export_catalog(Settings())
     assert {i.id for i in items} == {e.id for e in load_entries()}
 
 
 def test_collection_helper_direct() -> None:
-    from bosc.catalog import CatalogEntry
+    from watermark.catalog import CatalogEntry
 
     def e(relpath: str | None) -> CatalogEntry:
         storage = [{"relpath": relpath, "media_type": "application/x-yaml"}] if relpath else []

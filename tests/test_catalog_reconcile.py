@@ -1,4 +1,4 @@
-"""Tests for ``bosc catalog reconcile`` (epic #631, issue #625).
+"""Tests for ``watermark catalog reconcile`` (epic #631, issue #625).
 
 The observed half of declared-vs-observed: stat + sha256 + LFS-materialization + freshness for
 every entry, written to ``data/catalog/_observed.yaml``. Hermetic synthetic-tree tests pin the
@@ -14,12 +14,12 @@ import textwrap
 from datetime import UTC, datetime
 from pathlib import Path
 
-from bosc.catalog_reconcile import (
+from watermark.catalog_reconcile import (
     load_observed,
     reconcile,
     write_observed,
 )
-from bosc.config import Settings
+from watermark.config import Settings
 
 _FIXED = datetime(2026, 6, 24, 12, 0, tzinfo=UTC)
 
@@ -271,10 +271,10 @@ def test_committed_observed_is_in_sync_with_catalog() -> None:
     the one intentionally non-deterministic field), and LFS-materialization-sensitive fields
     are compared only for entries with no LFS storage (CI runs without LFS bytes).
     """
-    from bosc.catalog import load_entries
+    from watermark.catalog import load_entries
 
     committed = load_observed()
-    assert committed is not None, "run `bosc catalog reconcile`"
+    assert committed is not None, "run `watermark catalog reconcile`"
     fresh = reconcile(reconciled_at=committed.reconciled_at)
     assert set(fresh.entries) == set(committed.entries)
     lfs_ids = {e.id for e in load_entries() if any(s.lfs for s in e.storage)}

@@ -5,8 +5,8 @@ status: reviewed
 producer:
   kind: derived
   command: network
-  connector_ref: bosc.network
-  source: Registered bosc.sites SiteProfiles + per-node committed artifacts (economics, grid, RSEI, low-flow
+  connector_ref: watermark.network
+  source: Registered watermark.sites SiteProfiles + per-node committed artifacts (economics, grid, RSEI, low-flow
     screen) joined over a curated cited basin topology
 license: BOSC-derived synthesis (per-attribute provenance inherited from each source artifact)
 access_tier: public
@@ -21,7 +21,7 @@ storage:
 refresh:
   cadence: on-demand
 provenance: derived
-schema_ref: bosc.network.BasinNetwork
+schema_ref: watermark.network.BasinNetwork
 tags:
 - network
 - basin

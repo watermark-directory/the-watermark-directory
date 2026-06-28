@@ -12,10 +12,10 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.gis.sites import get_site
-from bosc.hydrology.connectors import wbd
-from bosc.hydrology.connectors._cache import HydroOfflineError
+from watermark.config import Settings
+from watermark.gis.sites import get_site
+from watermark.hydrology.connectors import wbd
+from watermark.hydrology.connectors._cache import HydroOfflineError
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 WBD_DIR = REPO_ROOT / "data" / "reference" / "hydrology" / "wbd"

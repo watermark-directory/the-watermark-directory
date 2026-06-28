@@ -10,9 +10,9 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 def test_bundle_feeds_are_per_site_not_lima_bound() -> None:
     """#762: a non-Lima bundle must carry its OWN data, not Lima's. Fort Wayne's campus geo and
     RSEI inventory are the first two leaks fixed — guard them so they can't silently regress."""
-    from bosc.config import Settings
-    from bosc.rsei import load_inventory
-    from bosc.site.gismap import campus_from_parcels
+    from watermark.config import Settings
+    from watermark.rsei import load_inventory
+    from watermark.site.gismap import campus_from_parcels
 
     fw = Settings(site="fort-wayne", data_dir=REPO_ROOT / "data")
     lima = Settings(site="lima", data_dir=REPO_ROOT / "data")
@@ -31,7 +31,7 @@ def test_bundle_feeds_are_per_site_not_lima_bound() -> None:
 def test_relpath_in_scope_matches_path_segments() -> None:
     """#762: a corpus prefix matches a path segment — a slug collection or a jurisdiction+site
     subtree — but never a partial name."""
-    from bosc.pipeline.corpus import relpath_in_scope
+    from watermark.pipeline.corpus import relpath_in_scope
 
     scope = ("fort-wayne", "idem/fort-wayne")
     assert relpath_in_scope("fort-wayne/footprint.yaml", scope)
@@ -46,10 +46,10 @@ def test_corpus_feeds_are_site_scoped_not_lima_bound() -> None:
     """#762 (the structural fix): the extracted-tree feeds (records/timeline/entities) read only
     the active site's collections. Fort Wayne must not inherit Lima's deeds/permits/filings; Lima,
     the reference build, still reads the whole tree (its `corpus_relpaths` is None)."""
-    from bosc.config import Settings
-    from bosc.pipeline.corpus import load_corpus
-    from bosc.site.records import load_records
-    from bosc.sites import active_profile
+    from watermark.config import Settings
+    from watermark.pipeline.corpus import load_corpus
+    from watermark.site.records import load_records
+    from watermark.sites import active_profile
 
     fw = Settings(site="fort-wayne", data_dir=REPO_ROOT / "data")
     lima = Settings(site="lima", data_dir=REPO_ROOT / "data")
@@ -76,7 +76,7 @@ def test_corpus_feeds_are_site_scoped_not_lima_bound() -> None:
 def test_site_scoped_path_is_flat_for_lima_subdir_for_others() -> None:
     """#762: a curated store is flat for Lima (the reference build) and under a `<slug>/` subdir
     for every other site — a directory gets the slug appended; a file gets it before the name."""
-    from bosc.sites import site_scoped_path
+    from watermark.sites import site_scoped_path
 
     d = Path("/data/poi")
     assert site_scoped_path(d, "lima", is_dir=True) == d
@@ -92,11 +92,11 @@ def test_curated_stores_are_per_site_not_lima_bound() -> None:
     """#762: the curated stores (people, POIs) and the meetings feed read the active site's OWN
     copy — Fort Wayne carries its own places/people, never Lima's. (POI scoping also fixes the
     imagery feed, which derives its tracking sites from watched POIs.)"""
-    from bosc.civic.summarize import load_committed_summaries
-    from bosc.config import Settings
-    from bosc.people import load_people
-    from bosc.poi.store import load_pois
-    from bosc.sites import active_profile, site_scoped_path
+    from watermark.civic.summarize import load_committed_summaries
+    from watermark.config import Settings
+    from watermark.people import load_people
+    from watermark.poi.store import load_pois
+    from watermark.sites import active_profile, site_scoped_path
 
     fw = Settings(site="fort-wayne", data_dir=REPO_ROOT / "data")
     lima = Settings(site="lima", data_dir=REPO_ROOT / "data")
@@ -123,7 +123,7 @@ def test_curated_stores_are_per_site_not_lima_bound() -> None:
 def test_export_documents_honors_site_scope(tmp_path: Path) -> None:
     """#762: a non-Lima site's document catalog carries only its own in-scope source docs; a
     collection left with no in-scope entry is dropped. Lima (scope=None) keeps the whole tree."""
-    from bosc.site.documents import export_documents
+    from watermark.site.documents import export_documents
 
     docs = tmp_path / "documents"
     (docs / "recorder").mkdir(parents=True)  # a Lima collection
@@ -169,9 +169,9 @@ def test_gis_findings_geojson_is_valid() -> None:
 
 def test_merge_rsei_layer_is_idempotent() -> None:
     """Merging RSEI points twice yields the same single rsei layer (no duplication)."""
-    from bosc.config import Settings
-    from bosc.rsei import load_inventory
-    from bosc.site.gismap import merge_rsei_layer
+    from watermark.config import Settings
+    from watermark.rsei import load_inventory
+    from watermark.site.gismap import merge_rsei_layer
 
     inv = load_inventory(Settings(data_dir=REPO_ROOT / "data"))
     assert inv is not None
@@ -197,10 +197,10 @@ def test_merge_rsei_layer_is_idempotent() -> None:
 
 def test_merge_rsei_layer_rings_flagged_water_dischargers() -> None:
     """With the toxic screen, critical water dischargers get a water_flag property."""
-    from bosc.config import Settings
-    from bosc.hydrology import toxics
-    from bosc.rsei import load_inventory
-    from bosc.site.gismap import merge_rsei_layer
+    from watermark.config import Settings
+    from watermark.hydrology import toxics
+    from watermark.rsei import load_inventory
+    from watermark.site.gismap import merge_rsei_layer
 
     settings = Settings(data_dir=REPO_ROOT / "data")
     inv = load_inventory(settings)

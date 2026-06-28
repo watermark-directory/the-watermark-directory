@@ -43,4 +43,4 @@ prices:
 source: 'US EIA API v2 (seriesid route): residential prices + retail sales'
 note: 'EIA API v2 (seriesid route): residential electricity + natural-gas prices and
   total electricity retail sales for Ohio. Annual averages; regenerable via `bosc
-  eia` with BOSC_EIA_API_KEY.'
+  eia` with WATERMARK_EIA_API_KEY.'

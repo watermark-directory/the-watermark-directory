@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: zoning --districts
-  connector_ref: bosc.hydrology.connectors.lima_gis
+  connector_ref: watermark.hydrology.connectors.lima_gis
   source: City of Findlay GIS — hosted ArcGIS FeatureServer 'FindlayZoning'
   external_url: https://services6.arcgis.com/XMr9uonP553LyU3o/arcgis/rest/services/FindlayZoning/FeatureServer/0
 license: Public records (local government open data)

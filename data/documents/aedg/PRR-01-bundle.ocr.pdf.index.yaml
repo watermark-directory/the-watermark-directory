@@ -24,8 +24,8 @@ bundle:
     full_text: "Allen_County_PRR_full_text.txt"
     exhibit_index: "Allen_County_PRR_exhibit_index.txt"
     project_table: "Allen_County_Project_Master_Table.md"
-    roadwork_yaml: "BOSC_Tetra_Tech_OPC.yaml"
-    opc_line_items: "BOSC_OPC_Detailed_Line_Items.yaml"
+    roadwork_yaml: "WATERMARK_Tetra_Tech_OPC.yaml"
+    opc_line_items: "WATERMARK_OPC_Detailed_Line_Items.yaml"
 
 # ----------------------------------------------------------------------------
 # PART 1 — PAAC BOARD MINUTES  (pp. 1-79, native text, chronological)

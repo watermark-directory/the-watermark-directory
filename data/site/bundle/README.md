@@ -19,8 +19,8 @@ bosc --site fort-wayne export        # → data/site/bundles/fort-wayne/
 bosc export --out /tmp/b             # → anywhere
 ```
 
-The generator is [`bosc.site.export.export_bundle`](../../../src/bosc/site/export.py); each
-feed comes from an `export_X()` next to the matching `render_X()` in `bosc.site.*`. The
+The generator is [`watermark.site.export.export_bundle`](../../../src/bosc/site/export.py); each
+feed comes from an `export_X()` next to the matching `render_X()` in `watermark.site.*`. The
 frontend resolves a site's bundle by slug (`bundleFor(slug)` in
 [`frontend/src/lib/bundle.ts`](../../../frontend/src/lib/bundle.ts)).
 
@@ -31,7 +31,7 @@ data/site/bundle/                 # ← the committed, site-agnostic CONTRACT (t
   README.md                       # this contract
   manifest.example.json           # a committed example manifest (counts/structure)
   schemas/
-    manifest.schema.json          # the manifest shape (see bosc.site.feeds.Manifest)
+    manifest.schema.json          # the manifest shape (see watermark.site.feeds.Manifest)
     citation.schema.json          # the shared provenance shape (see "Provenance" below)
     <feed>.schema.json            # one JSON Schema per feed
     geo.schema.json               # shared by every geo/* feed
@@ -54,7 +54,7 @@ of git (`.gitignore`), the same discipline as the regenerable `web/` + `site/` t
 reasons feeds aren't committed: they churn on every corpus edit, and the `documents` feed's
 `size_bytes` / `available` depend on whether the Git-LFS binaries are materialized locally,
 so a committed copy would be wrong in most checkouts. The schemas, by contrast, are
-generated from the Pydantic models in [`bosc.site.feeds`](../../../src/bosc/site/feeds.py)
+generated from the Pydantic models in [`watermark.site.feeds`](../../../src/bosc/site/feeds.py)
 and are deterministic, so they're committed and a test guards them against drift.
 
 ## The manifest
@@ -64,7 +64,7 @@ and are deterministic, so they're committed and a test guards them against drift
 | field | meaning |
 |---|---|
 | `bundle_version` | the data generation's version (bumped when the *data* changes shape/content) |
-| `contract_version` | the schema/contract version these feeds conform to (`bosc.site.feeds.CONTRACT_VERSION`) |
+| `contract_version` | the schema/contract version these feeds conform to (`watermark.site.feeds.CONTRACT_VERSION`) |
 | `generated_at` | ISO-8601 UTC timestamp of the export |
 | `feed_count` / `row_total` | quick internal-consistency checks (counts must match the feed list) |
 | `feeds[]` | one entry per feed: `name`, `path`, `media_type`, `schema`, `kind`, `count` |
@@ -117,7 +117,7 @@ both source the Maumee-watershed map and imagery time-slider (#72).
 Every figure-bearing feed carries provenance as **data**, so a consumer renders
 `[verified] cite p.X` or an approximate `~` value without re-deriving anything
 ([#60](../../../README.md)). Two shapes, both in
-[`bosc.site.feeds`](../../../src/bosc/site/feeds.py) (and `schemas/citation.schema.json`):
+[`watermark.site.feeds`](../../../src/bosc/site/feeds.py) (and `schemas/citation.schema.json`):
 
 * **`Citation`** — `{ source, source_kind, page, confidence, note, verified }`. `source_kind`
   is `document` / `connector` / `reference` / `assumption` / `derived`; `verified` is a

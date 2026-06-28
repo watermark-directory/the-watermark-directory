@@ -89,7 +89,7 @@ bearing_on_160: >-
 
 bearing_on_cooling: >-
   "Cooling system flowrates" are withheld too — the cooling-water design basis (docs/HYDROLOGY.md;
-  bosc.hydrology.cooling) cannot be primary-sourced from the air permit, so the WUE / blowdown estimates
+  watermark.hydrology.cooling) cannot be primary-sourced from the air permit, so the WUE / blowdown estimates
   stay derived / assumption-tagged.
 
 cross_refs:

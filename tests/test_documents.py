@@ -11,10 +11,10 @@ import pytest
 import yaml
 from PIL import Image
 
-from bosc.agent.extractor import ExtractionError, StructuredExtractor
-from bosc.config import Settings
-from bosc.documents import IMAGE_SUFFIXES, read_image_png
-from bosc.models import (
+from watermark.agent.extractor import ExtractionError, StructuredExtractor
+from watermark.config import Settings
+from watermark.documents import IMAGE_SUFFIXES, read_image_png
+from watermark.models import (
     BusinessFiling,
     Deed,
     DeedExtraction,
@@ -24,7 +24,7 @@ from bosc.models import (
     NpdesPermit,
     SosExtraction,
 )
-from bosc.pipeline.extract import (
+from watermark.pipeline.extract import (
     extract_deed,
     extract_document,
     extract_epa,
@@ -32,7 +32,7 @@ from bosc.pipeline.extract import (
     extract_sos,
     save_doc_extraction,
 )
-from bosc.pipeline.ingest import SOURCE_SUFFIXES, SourceDocument
+from watermark.pipeline.ingest import SOURCE_SUFFIXES, SourceDocument
 
 
 # --- fakes -----------------------------------------------------------------
@@ -137,7 +137,7 @@ def test_extractor_sends_multiple_images() -> None:
 def test_extractor_flags_max_tokens_truncation() -> None:
     # A max_tokens stop with no tool call raises a distinct, actionable error rather
     # than the opaque "did not call tool" (#613).
-    from bosc.agent.extractor import _first_tool_input
+    from watermark.agent.extractor import _first_tool_input
 
     msg = SimpleNamespace(content=[_Block("text")], stop_reason="max_tokens")
     with pytest.raises(ExtractionError, match="max_tokens"):

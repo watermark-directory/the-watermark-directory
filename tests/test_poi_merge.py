@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from bosc.config import Settings
-from bosc.poi.merge import Item, merge_candidates, merge_resolutions
-from bosc.poi.model import POICandidate
-from bosc.poi.resolve import Resolution
+from watermark.config import Settings
+from watermark.poi.merge import Item, merge_candidates, merge_resolutions
+from watermark.poi.model import POICandidate
+from watermark.poi.resolve import Resolution
 
 
 def _cand(kind: str, value: str, citations: list[str]) -> POICandidate:

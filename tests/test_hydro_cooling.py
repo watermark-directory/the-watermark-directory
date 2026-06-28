@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology import scenario
-from bosc.hydrology.cooling import derive_cooling_basis
+from watermark.config import Settings
+from watermark.hydrology import scenario
+from watermark.hydrology.cooling import derive_cooling_basis
 
 
 def test_basis_is_derived_from_cited_power() -> None:
@@ -51,7 +51,7 @@ def test_override_tags_as_assumption() -> None:
 
 
 def test_sourced_buildout_still_dwarfs_7q10(hydro_settings: Settings) -> None:
-    from bosc.pipeline.hydrology import run_scenarios
+    from watermark.pipeline.hydrology import run_scenarios
 
     _base, _build, delta = run_scenarios(settings=hydro_settings, live=True)
     # Even the conservative power-based central estimate is ~24x the Ottawa 7Q10.

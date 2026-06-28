@@ -6,9 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology.connectors import allen_gis
-from bosc.hydrology.connectors._cache import HydroOfflineError
+from watermark.config import Settings
+from watermark.hydrology.connectors import allen_gis
+from watermark.hydrology.connectors._cache import HydroOfflineError
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = REPO_ROOT / "tests" / "fixtures"
@@ -69,7 +69,7 @@ def test_offline_unfetched_parcel_raises(hydro_settings: Settings) -> None:
 
 
 def _seed_primes(settings: Settings) -> list[tuple[str, list[str]]]:
-    from bosc.candidates import load_defense_contractors
+    from watermark.candidates import load_defense_contractors
 
     dcl = load_defense_contractors(settings.entities_dir)
     assert dcl is not None

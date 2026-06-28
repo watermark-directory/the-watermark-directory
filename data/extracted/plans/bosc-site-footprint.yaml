@@ -3,7 +3,7 @@
 # District PRR production (2026-06-12): the Allen County Stormwater Permit SW1225
 # application (records bundle p53), the Mass-Ex Revision-1 / storm-sewer email exhibits,
 # and the ESC site-inspection reports. A document-grounded INPUT to the Tier-0 stormwater
-# model (bosc.hydrology.stormwater), sibling to lma1a.storm-inventory.yaml. Acreages are
+# model (watermark.hydrology.stormwater), sibling to lma1a.storm-inventory.yaml. Acreages are
 # applicant-declared on the permit form (high confidence); the 60" outfall diameter is
 # quoted verbatim in the engineer-of-record's emails.
 site: 4110 N. Cole St., Lima OH (American / Sugar Creek Twp); OEPA Facility ID 0302022054
@@ -30,7 +30,7 @@ measured_parcel_acres:
   value: 339.6
   unit: acre
   source: reference
-  citation: 'bosc-parcels.geojson — UTM-17N planar area of the 11 recorded Bistrozzi parcels (bosc.hydrology.geo.parcels_total_acres); reconciles with the declared 335 ac within ~1.4% (right-of-way / rounding). The recorded-deed acreage sum is ~344 ac.'
+  citation: 'bosc-parcels.geojson — UTM-17N planar area of the 11 recorded Bistrozzi parcels (watermark.hydrology.geo.parcels_total_acres); reconciles with the declared 335 ac within ~1.4% (right-of-way / rounding). The recorded-deed acreage sum is ~344 ac.'
   confidence: medium
 outfall_diameter_in:
   value: 60

@@ -6,10 +6,10 @@ import zipfile
 from pathlib import Path
 from typing import Any
 
-from bosc.documents import OdgContent, read_odg
-from bosc.models import DesignFirm, PlanExtraction, SitePlan
-from bosc.pipeline.extract import extract_plan
-from bosc.pipeline.ingest import SourceDocument
+from watermark.documents import OdgContent, read_odg
+from watermark.models import DesignFirm, PlanExtraction, SitePlan
+from watermark.pipeline.extract import extract_plan
+from watermark.pipeline.ingest import SourceDocument
 
 _CONTENT = (
     '<?xml version="1.0"?><doc xmlns:text="urn:t">'

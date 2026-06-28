@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: derived
   command: derive-low-flows
-  connector_ref: bosc.hydrology.connectors.nwis
+  connector_ref: watermark.hydrology.connectors.nwis
   source: Cited 7Q10s read from Ohio EPA NPDES fact sheets (document) + mainstem 7Q10s derived from USGS
     NWIS daily discharge via log-Pearson III
   external_url: https://waterservices.usgs.gov/

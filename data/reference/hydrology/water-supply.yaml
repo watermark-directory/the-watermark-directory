@@ -17,7 +17,7 @@
 # evaporative consumptive loss is a permanent loss to the basin (the returns go
 # DOWNSTREAM to the Ottawa via the WWTPs, not back to the reservoirs).
 #
-# Solved by bosc.hydrology.supply (`bosc supply`).
+# Solved by watermark.hydrology.supply (`bosc supply`).
 
 meta:
   subject: Lima municipal water supply (Auglaize + Ottawa -> upground reservoirs -> WTP)

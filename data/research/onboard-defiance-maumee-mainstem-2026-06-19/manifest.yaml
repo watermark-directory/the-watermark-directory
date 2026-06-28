@@ -224,7 +224,7 @@ proposals:
     is non-zero; if a post-2014 RSEI pull is possible, the inventory is updated; operating-status
     spot-checks for GM Defiance Casting and at least one Johns Manville facility are
     recorded.'
-- title: Register Defiance County GIS parcel/zoning connector and run bosc onboard
+- title: Register Defiance County GIS parcel/zoning connector and run watermark onboard
     defiance --research to populate data-center dimension
   dedupe_key: register-defiance-county-gis-parcel-zoning-connector-and-run-bos
   labels:
@@ -262,7 +262,7 @@ proposals:
     City of Defiance zoning layer; update `sites.py:997-1003` (`parcels_url`, `zoning_url`,
     `gis_parcel`, `gis_zoning`).
 
-    2. Run `bosc onboard defiance --research` to execute the self-research pass.
+    2. Run `watermark onboard defiance --research` to execute the self-research pass.
 
     3. Execute a parcel-assembly scan for large, contiguous, recently transferred
     parcels in or near Defiance City limits, noting proximity to the Toledo Edison

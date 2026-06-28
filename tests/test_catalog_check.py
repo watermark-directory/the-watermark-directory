@@ -1,4 +1,4 @@
-"""Tests for ``bosc catalog check`` — the validation + drift gate (epic #631, issue #626).
+"""Tests for ``watermark catalog check`` — the validation + drift gate (epic #631, issue #626).
 
 Hermetic synthetic-tree tests pin each finding kind (orphan / missing / unmaterialized LFS /
 stale / checksum-drift / duplicate-id), plus the regression guard that the *committed* catalog
@@ -11,9 +11,9 @@ import textwrap
 from datetime import UTC, datetime
 from pathlib import Path
 
-from bosc.catalog_check import check, errors
-from bosc.catalog_reconcile import reconcile, write_observed
-from bosc.config import Settings
+from watermark.catalog_check import check, errors
+from watermark.catalog_reconcile import reconcile, write_observed
+from watermark.config import Settings
 
 _FIXED = datetime(2026, 6, 24, 12, 0, tzinfo=UTC)
 

@@ -18,7 +18,7 @@ structural/regulatory seam, not a numeric connector).
 
 ## The jurisdictional map
 
-`bosc.grid.ferc.derive_ferc_seam` encodes the wholesale/retail boundary and where the
+`watermark.grid.ferc.derive_ferc_seam` encodes the wholesale/retail boundary and where the
 campus falls:
 
 - **FERC** (Federal Power Act sections 205/206) — wholesale sales of electricity,

@@ -119,7 +119,7 @@ proposals:
 
     - The profile''s `[open]` and `[inference]` tags on dilution and passby fields
     are resolved.'
-- title: Run bosc onboard wilmington --research to seed data-center-activity extraction
+- title: Run watermark onboard wilmington --research to seed data-center-activity extraction
     for the Air Park / Amazon Air / ATSG thesis
   dedupe_key: run-bosc-onboard-wilmington-research-to-seed-data-center-activit
   labels:
@@ -152,7 +152,7 @@ proposals:
 
     ## Concrete steps
 
-    1. Run `bosc onboard wilmington --research` (per issues #247 / #492) to generate
+    1. Run `watermark onboard wilmington --research` (per issues #247 / #492) to generate
     Air Park / Amazon Air / ATSG extraction proposals.
 
     2. Search Clinton County / City of Wilmington records for NPDES permits, stormwater

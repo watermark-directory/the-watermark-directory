@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology.connectors import nwis
-from bosc.hydrology.connectors._cache import HydroOfflineError, cache_key
+from watermark.config import Settings
+from watermark.hydrology.connectors import nwis
+from watermark.hydrology.connectors._cache import HydroOfflineError, cache_key
 
 
 def test_fetch_streamflow_from_fixture(hydro_settings: Settings) -> None:
@@ -30,7 +30,7 @@ def test_observed_min_is_derived_not_document(hydro_settings: Settings) -> None:
     # The 7-day-min cross-check, when present, must never masquerade as a 7Q10.
     # (No P7D fixture committed -> offline miss; the point is the source tag, which
     #  we assert directly on a freshly built derived value.)
-    from bosc.hydrology.model import ProvenancedValue
+    from watermark.hydrology.model import ProvenancedValue
 
     pv = ProvenancedValue.derived(0.4, "cfs", citation="NWIS min P7D (not 7Q10)")
     assert pv.source == "derived"

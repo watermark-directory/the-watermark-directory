@@ -8,9 +8,9 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.gis.corridor import build_corridor_view
-from bosc.site import gismap
+from watermark.config import Settings
+from watermark.gis.corridor import build_corridor_view
+from watermark.site import gismap
 
 
 def test_corridor_view_joins_facilities(gis_settings: Settings) -> None:

@@ -157,7 +157,7 @@ been taken, or not been produced.
 
 - The 93% effluent finding, the routed mass balance, the per-stream low-flow screen, the
   RSEI corridor table, and the Maumee TMDL phosphorus caps — [HYDROLOGY.md](HYDROLOGY.md)
-  §1–§2 (`bosc.hydrology`, generated; figures tagged `[verified]`/`[inference]` at source)
+  §1–§2 (`watermark.hydrology`, generated; figures tagged `[verified]`/`[inference]` at source)
 - The cited `7Q10` / `1Q10` / `30Q10` and their Ohio EPA fact-sheet provenance —
   `data/reference/hydrology/low-flow-7q10.yaml`; independent reproduction from USGS NWIS
   04187100 (Ottawa River at Lima)

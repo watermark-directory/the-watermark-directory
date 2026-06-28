@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bosc.models import OPCSummary
-from bosc.pipeline import analyze, ingest
+from watermark.models import OPCSummary
+from watermark.pipeline import analyze, ingest
 
 
 def test_reconcile_runs_all_checks(summary_path: Path) -> None:
@@ -25,14 +25,14 @@ def test_total_checks_pass(summary_path: Path) -> None:
 
 
 def test_discover_handles_missing_dir(tmp_path: Path) -> None:
-    from bosc.config import Settings
+    from watermark.config import Settings
 
     settings = Settings(data_dir=tmp_path / "nope")
     assert ingest.discover(settings) == []
 
 
 def test_discover_finds_only_extractable_sources(tmp_path: Path) -> None:
-    from bosc.config import Settings
+    from watermark.config import Settings
 
     coll = tmp_path / "documents" / "aedg"
     coll.mkdir(parents=True)

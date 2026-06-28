@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typer.testing import CliRunner
 
-from bosc.cli import app
+from watermark.cli import app
 
 runner = CliRunner()
 

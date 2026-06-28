@@ -172,7 +172,7 @@ proposals:
 
     - The `derive-low-flows: ok` status in `ONBOARDING.md` is annotated to reflect
     that "ok" means the step ran without error, not that a Blanchard value was produced.'
-- title: Run bosc onboard ottawa --research and record affirmative data-center finding
+- title: Run watermark onboard ottawa --research and record affirmative data-center finding
   dedupe_key: run-bosc-onboard-ottawa-research-and-record-affirmative-data-cen
   labels:
   - agent-proposed
@@ -203,12 +203,12 @@ proposals:
     PUCO, `load_share: null` — backdrop only, no campus load.
 
     - Methodology note (§4): data-center activity is a corpus-extraction + self-research
-    dimension that `bosc onboard` connectors do not capture.
+    dimension that `watermark onboard` connectors do not capture.
 
 
     ## Acceptance Criteria
 
-    - `bosc onboard ottawa --research` is run and output is committed to `data/research/ottawa-<date>/`.
+    - `watermark onboard ottawa --research` is run and output is committed to `data/research/ottawa-<date>/`.
 
     - Ohio EPA eDoc, Putnam County recorder, and Ohio SOS are searched for Ottawa/Putnam
     data-center permits or land-assembly records.

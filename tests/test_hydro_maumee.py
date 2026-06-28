@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from bosc.config import Settings
-from bosc.hydrology.maumee import load_maumee_tmdl
-from bosc.hydrology.report import render_report
+from watermark.config import Settings
+from watermark.hydrology.maumee import load_maumee_tmdl
+from watermark.hydrology.report import render_report
 
 
 def test_tmdl_wlas_load_cited(hydro_settings: Settings) -> None:
@@ -45,7 +45,7 @@ def test_report_weaves_tmdl_section(hydro_settings: Settings) -> None:
 
 def test_short_reach_label() -> None:
     """#611: the inline natural-flow breakdown uses short reach labels derived from the model."""
-    from bosc.hydrology.report import _short_reach
+    from watermark.hydrology.report import _short_reach
 
     assert _short_reach("Ottawa River upstream of Lima") == "Ottawa"
     assert _short_reach("Dug Run (headwater)") == "Dug Run"

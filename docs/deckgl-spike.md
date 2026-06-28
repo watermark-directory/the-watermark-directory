@@ -11,7 +11,7 @@ adopted in the Astro frontend, so this document is the retained decision record.
 ## Why we're looking at this
 
 The current map is a `_MAP_HTML` string blob in
-[`bosc.site.gismap`](../src/bosc/site/gismap.py): a Leaflet map injected as raw HTML/JS
+[`watermark.site.gismap`](../src/bosc/site/gismap.py): a Leaflet map injected as raw HTML/JS
 into a markdown page, with layer styles, the Wayback aerial ladder, and the RSEI overlay
 all hand-built in template strings. It works, but it's untyped, untestable, hard to
 restyle, and it can't grow into the watershed map, the imagery time-slider, or the entity

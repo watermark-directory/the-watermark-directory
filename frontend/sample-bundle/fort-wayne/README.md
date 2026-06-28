@@ -1,12 +1,12 @@
 # `sample-bundle/fort-wayne/` — Fort Wayne offline fixture
 
 A **minimal, trimmed snapshot** of the real Fort Wayne content bundle
-(`bosc --site fort-wayne export` → `data/site/bundles/fort-wayne/`), committed so
+(`watermark --site fort-wayne export` → `data/site/bundles/fort-wayne/`), committed so
 `npm run build` and offline UI work need zero Python or Git-LFS. It's the sibling of
 `../lima/` — the first non-Lima site fixture (Epic #741), keyed by registry slug like
 every other site (`bundleFor("fort-wayne")` in `src/lib/bundle.ts`).
 
-Production regenerates the real bundle (`bosc export` in `.github/workflows/pages.yml`),
+Production regenerates the real bundle (`watermark export` in `.github/workflows/pages.yml`),
 so this fixture is the **offline/CI stand-in only** — a few authentic rows per feed (real
 shapes, not mocks). Schemas are **not** duplicated here (the manifest keeps its schema refs;
 the canonical `schemas/*.schema.json` live under `data/site/bundle/`).
@@ -35,10 +35,10 @@ design and legitimately mention other sites — they are the same in every site'
 After a contract change or new Fort Wayne data (run from the repo root):
 
 ```sh
-bosc --site fort-wayne export --out /tmp/fw-bundle
+watermark --site fort-wayne export --out /tmp/fw-bundle
 # then re-trim /tmp/fw-bundle into this directory — a handful of rows per feed, dropping the
 # generated schemas/ dir (catalog → ~6 rows, rsei.facilities → ~6, geo/campus → ~2 features).
 ```
 
 The drift guard `tests/test_site_bundle.py::test_frontend_sample_bundle_tracks_the_export_contract`
-(parametrized over every committed fixture) fails if this drifts from `bosc export`.
+(parametrized over every committed fixture) fails if this drifts from `watermark export`.

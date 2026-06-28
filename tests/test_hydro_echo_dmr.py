@@ -11,9 +11,9 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology.connectors import echo_dmr
-from bosc.hydrology.connectors._cache import HydroOfflineError
+from watermark.config import Settings
+from watermark.hydrology.connectors import echo_dmr
+from watermark.hydrology.connectors._cache import HydroOfflineError
 
 
 def test_iso_period_parses_echo_date() -> None:

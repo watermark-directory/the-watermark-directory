@@ -6,9 +6,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bosc.config import Settings
-from bosc.pipeline.corpus import load_corpus
-from bosc.pipeline.entities import (
+from watermark.config import Settings
+from watermark.pipeline.corpus import load_corpus
+from watermark.pipeline.entities import (
     Entity,
     EntityGraph,
     Relationship,

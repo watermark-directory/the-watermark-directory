@@ -1,7 +1,7 @@
 # Toggleable network theories for the Lima municipal water loop.
 #
 # A "theory" is an UNPROVEN structural intervention on the routed low-flow network
-# (bosc.hydrology.network) that the relator wants to test as a what-if — held OUT of
+# (watermark.hydrology.network) that the relator wants to test as a what-if — held OUT of
 # the cited baseline and turned on by id per scenario. Each theory is a thin overlay:
 # it appends directed-inflow nodes (each carrying its OWN injected flow, tagged as an
 # assumption — never a 7Q10 or a document-cited discharge) and/or re-points an edge.
@@ -9,8 +9,8 @@
 # leaves the baseline numerically identical. Everything here is labelled `theorized`
 # and every magnitude is an `assumption` knob, not a measurement.
 #
-# Toggle:  bosc network --theory <id>            (repeatable; --all-theories enables all)
-# List:    bosc theories
+# Toggle:  watermark network --theory <id>            (repeatable; --all-theories enables all)
+# List:    watermark theories
 # Default: every theory ships `enabled: false`; the cited baseline runs with none.
 #
 # The injected magnitudes below are deliberately round, low-confidence PLACEHOLDERS so
@@ -42,7 +42,7 @@ theories:
       Theorized roundabout at Cole St / Beery Rd engineered to direct surface flow into
       Pike Run, augmenting its low-flow baseflow to flush sludge from the WWTP reach,
       accepting surface-runoff pollution as the tradeoff. UNPROVEN; the discharge point is
-      not corpus-confirmed. The injected flow is now DERIVED (bosc.hydrology.roundabout):
+      not corpus-confirmed. The injected flow is now DERIVED (watermark.hydrology.roundabout):
       the ~2.9-acre impervious catchment yields only ~0.012 cfs mean-annual and ZERO at
       design low flow (it does not rain at the 7Q10), so it CANNOT sustainably augment Pike
       Run. What it can deliver is transient storm surges (~3-7 cfs, a few hours) -- episodic
@@ -50,7 +50,7 @@ theories:
     status: theorized
     enabled: false
     confidence: low
-    citation: "Relator theory (Cole/Beery roundabout -> Pike Run); flow derived by bosc.hydrology.roundabout (`bosc roundabout`)."
+    citation: "Relator theory (Cole/Beery roundabout -> Pike Run); flow derived by watermark.hydrology.roundabout (`bosc roundabout`)."
     add_nodes:
       - id: roundabout-pike-run
         name: "Cole/Beery roundabout directed stormwater inflow"
@@ -65,7 +65,7 @@ theories:
           source: derived
           citation: >
             Mean-annual continuous-equivalent runoff off the ~2.9-acre impervious catchment
-            (OPC-derived area x Atlas-14/NASA-POWER rainfall; bosc.hydrology.roundabout). ZERO
+            (OPC-derived area x Atlas-14/NASA-POWER rainfall; watermark.hydrology.roundabout). ZERO
             at design low flow; storm surges ~3-7 cfs are transient, not this sustained value.
             Carries road-runoff pollution (a water-QUALITY load) even as it augments FLOW.
           confidence: low

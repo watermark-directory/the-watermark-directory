@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: subdivisions download shawnee-township
-  connector_ref: bosc.civic
+  connector_ref: watermark.civic
   source: Shawnee Township Board of Trustees (Allen County, OH) — minutes published at shawneetownshipohio.gov
   external_url: https://www.shawneetownshipohio.gov/meeting-minutes/
 license: Public record (Ohio R.C. 149.43)

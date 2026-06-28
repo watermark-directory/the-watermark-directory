@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from bosc.models import Estimate, LineItem
-from bosc.pipeline import analyze
+from watermark.models import Estimate, LineItem
+from watermark.pipeline import analyze
 
 
 def _diller() -> Estimate:

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from bosc import profiles
+from watermark import profiles
 
 
 def test_registry_has_builtin_profiles() -> None:

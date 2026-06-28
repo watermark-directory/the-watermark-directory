@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from bosc.config import Settings
-from bosc.hydrology.sanitary import load_sanitary_basis
+from watermark.config import Settings
+from watermark.hydrology.sanitary import load_sanitary_basis
 
 
 def test_basis_loads_cited_plant_flows(hydro_settings: Settings) -> None:

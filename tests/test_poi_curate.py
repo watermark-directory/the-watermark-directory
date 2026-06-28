@@ -6,11 +6,11 @@ from pathlib import Path
 
 import pytest
 
-from bosc.config import Settings
-from bosc.hydrology.connectors.allen_gis import Parcel
-from bosc.poi.curate import CurateError, scaffold_from_group, write_profile
-from bosc.poi.merge import MergeGroup, MergeMember
-from bosc.poi.store import parse_poi
+from watermark.config import Settings
+from watermark.hydrology.connectors.allen_gis import Parcel
+from watermark.poi.curate import CurateError, scaffold_from_group, write_profile
+from watermark.poi.merge import MergeGroup, MergeMember
+from watermark.poi.store import parse_poi
 
 
 def _group() -> MergeGroup:

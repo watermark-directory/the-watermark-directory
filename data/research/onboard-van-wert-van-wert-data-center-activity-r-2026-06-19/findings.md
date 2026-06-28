@@ -110,7 +110,7 @@ The onboard `basin-screen` step reports **"7/129 dischargers screened (1 violati
 ## 5. Reconciliation / data-quality notes
 
 - **No OPC/estimate artifacts** exist for Van Wert, so `program_overview`/`reconcile_*` are not applicable here (those read the Lima Tetra Tech summary).
-- The BOSC MCP analysis tools (`entities`, `timeline`, `list_extractions`) are **Lima-scoped** (`BOSC_SITE=lima`); they do not surface the Van Wert scaffold at all. Anyone auditing Van Wert through the tool layer alone would wrongly conclude the site is empty. The data lives in `data/reference/**/van-wert/` and `data/extracted/van-wert/` and must be read directly until a Van Wert analysis scope exists.
+- The BOSC MCP analysis tools (`entities`, `timeline`, `list_extractions`) are **Lima-scoped** (`WATERMARK_SITE=lima`); they do not surface the Van Wert scaffold at all. Anyone auditing Van Wert through the tool layer alone would wrongly conclude the site is empty. The data lives in `data/reference/**/van-wert/` and `data/extracted/van-wert/` and must be read directly until a Van Wert analysis scope exists.
 
 ---
 

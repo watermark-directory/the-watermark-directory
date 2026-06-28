@@ -4,7 +4,7 @@
 # These are PUBLISHED VENDOR SPECS for the chips, NOT facility-specific values: the
 # data center's actual accelerator type, count, and utilization are UNDISCLOSED. The
 # facility's end user is Google (corpus-verified), so BOTH NVIDIA GPUs and Google
-# TPUs are listed; bosc.facility.compute presents accelerator choice as labeled
+# TPUs are listed; watermark.facility.compute presents accelerator choice as labeled
 # SCENARIOS, never as an asserted fact about this facility.
 #
 # Conventions:

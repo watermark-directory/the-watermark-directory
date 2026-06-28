@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: subdivisions download commissioners
-  connector_ref: bosc.civic
+  connector_ref: watermark.civic
   source: Allen County Board of Commissioners — meeting record scraped from commissioners.allencountyohio.com
   external_url: https://commissioners.allencountyohio.com/
 license: Public record (Ohio R.C. 149.43)

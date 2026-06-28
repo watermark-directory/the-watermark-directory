@@ -10,7 +10,7 @@ GeoJSON feed (issue #61) is assembled from, for the watershed map (#72).
 - **USGS National Map WBD** — `https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer`
   (the seamless national WBD; HU-level sublayers keyed by digit count: layer 6 =
   12-digit Subwatershed, layer 5 = 10-digit Watershed, layer 4 = 8-digit Subbasin).
-- Pulled by the `bosc.hydrology.connectors.wbd` connector; **regenerable** with:
+- Pulled by the `watermark.hydrology.connectors.wbd` connector; **regenerable** with:
 
   ```sh
   bosc wbd --write              # the campus AOI's HU12 + HU10, default

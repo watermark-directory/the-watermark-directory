@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: subdivisions download
-  connector_ref: bosc.civic
+  connector_ref: watermark.civic
   source: Per-site governing bodies (e.g. City of Lima council) — published meeting documents, scraped
     per watershed-point site
 license: Public record (Ohio R.C. 149.43)

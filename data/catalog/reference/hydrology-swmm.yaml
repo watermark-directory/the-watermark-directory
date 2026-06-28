@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: derived
   command: tier1 --write
-  connector_ref: bosc.hydrology.tier1
+  connector_ref: watermark.hydrology.tier1
   source: BOSC-generated EPA SWMM5 (.inp) model decks over the campus parcels + Atlas-14 design storm
 license: BOSC work product (derived model decks; EPA SWMM engine is public-domain)
 access_tier: public
@@ -26,7 +26,7 @@ storage:
 refresh:
   cadence: on-demand
 provenance: derived
-schema_ref: bosc.hydrology.model.SwmmDeck
+schema_ref: watermark.hydrology.model.SwmmDeck
 tags:
 - swmm
 - stormwater

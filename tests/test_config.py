@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bosc.config import Settings, repo_fixtures_dir
+from watermark.config import Settings, repo_fixtures_dir
 
 
 def test_defaults() -> None:

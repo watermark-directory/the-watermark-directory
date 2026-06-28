@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from bosc.config import Settings
-from bosc.facility.compute import (
+from watermark.config import Settings
+from watermark.facility.compute import (
     _it_load_from_consumptive_mgd,
     _rack_floor_area_sqft,
     derive_compute_capacity,

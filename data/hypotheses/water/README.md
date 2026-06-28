@@ -5,7 +5,7 @@ data center's intake, discharge, and downstream effects are basin facts. Lima is
 live, fully-assembled reference.
 
 **No assessment cells live here.** Unlike H2/H3, the water lens is rendered from the
-site registry (`bosc.sites.SITES`) + the basin network (`bosc.network`), grouped by
+site registry (`watermark.sites.SITES`) + the basin network (`watermark.network`), grouped by
 drainage — two divides, nine basins. There is no per-site `(site × water)` cell to
 curate; the "assessment" is the assembled hydrology itself.
 

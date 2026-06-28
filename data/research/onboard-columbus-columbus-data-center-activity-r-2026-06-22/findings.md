@@ -81,7 +81,7 @@ The screen's whole point is the effluent-dominated, low-7Q10 receiving stream. *
 ## 3. Recommended follow-up investigations (track as issues)
 
 **Onboarding mechanics**
-1. **Register a `columbus` SiteProfile in `bosc.sites.SITES` + `frontend/src/lib/sites.ts`** (per CLAUDE.md: never re-hardcode a Lima value). Required per-site knobs: `nwis_sites` (Scioto-basin USGS gauges), `rsei_fips` (Franklin Co. 39049 + collar counties), `eia861_utility_number` (AEP Ohio / muni), GIS URLs (Franklin Co. auditor parcels; OGRIP). Then run `bosc onboard columbus`. Tracks to epic **#486**.
+1. **Register a `columbus` SiteProfile in `watermark.sites.SITES` + `frontend/src/lib/sites.ts`** (per CLAUDE.md: never re-hardcode a Lima value). Required per-site knobs: `nwis_sites` (Scioto-basin USGS gauges), `rsei_fips` (Franklin Co. 39049 + collar counties), `eia861_utility_number` (AEP Ohio / muni), GIS URLs (Franklin Co. auditor parcels; OGRIP). Then run `bosc onboard columbus`. Tracks to epic **#486**.
 2. **Make the hydrology screen site-aware.** `hydrology_balance` / `scenario` / `sanitary_basis` are hard-bound to Ottawa/American/Shawnee. They must read `active_profile(settings)` so a Columbus 7Q10 + Columbus WWTP design flows can be screened. *This is a code gap, not a corpus gap, but it blocks the deliverable in the topic title.*
 
 **Corpus gaps (net-new acquisition for Columbus)**

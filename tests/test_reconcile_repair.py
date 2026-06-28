@@ -12,9 +12,9 @@ from pathlib import Path
 
 import yaml
 
-from bosc.models import Estimate
-from bosc.pipeline import analyze
-from bosc.pipeline.corpus import _estimate_from_legacy_page
+from watermark.models import Estimate
+from watermark.pipeline import analyze
+from watermark.pipeline.corpus import _estimate_from_legacy_page
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 _DETAIL = REPO_ROOT / "data" / "extracted" / "aedg" / "roundabouts.detail.opc.yaml"

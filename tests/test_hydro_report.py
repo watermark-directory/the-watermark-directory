@@ -6,8 +6,8 @@
 
 from __future__ import annotations
 
-from bosc.config import Settings
-from bosc.hydrology.report import render_report
+from watermark.config import Settings
+from watermark.hydrology.report import render_report
 
 
 def test_render_report_offline_builds_the_full_dossier(hydro_settings: Settings) -> None:

@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: derived
   command: rsei
-  connector_ref: bosc.rsei
+  connector_ref: watermark.rsei
   source: EPA RSEI (water-media releases) × EPA ECHO (receiving water) × Ohio EPA cited 7Q10 — a multi-source
     derivation
   external_url: https://registry.opendata.aws/epa-rsei-pds/

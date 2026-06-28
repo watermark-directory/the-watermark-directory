@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: subdivisions download perry-township
-  connector_ref: bosc.civic
+  connector_ref: watermark.civic
   source: Perry Township Board of Trustees (Allen County, OH) — minutes/agendas published at perryallenohio.com
   external_url: https://perryallenohio.com/administration-trustees/meeting-archives/
 license: Public record (Ohio R.C. 149.43)

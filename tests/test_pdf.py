@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from bosc.documents import PdfDocument
+from watermark.documents import PdfDocument
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PDF = REPO_ROOT / "data" / "documents" / "aedg" / "PRR-01-bundle.ocr.pdf"

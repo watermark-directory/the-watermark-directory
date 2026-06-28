@@ -16,15 +16,15 @@ from pathlib import Path
 import openpyxl
 import pytest
 
-from bosc.config import Settings
-from bosc.connectors import OfflineError
-from bosc.grid.eia861 import (
+from watermark.config import Settings
+from watermark.connectors import OfflineError
+from watermark.grid.eia861 import (
     Eia861Error,
     _reduce_sales_ult_cust,
     _reduce_short_form,
     fetch_utility_retail,
 )
-from bosc.grid.interchange import fetch_ba_annual_load
+from watermark.grid.interchange import fetch_ba_annual_load
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = REPO_ROOT / "tests" / "fixtures" / "economics"
@@ -154,7 +154,7 @@ def test_fetch_utility_retail_falls_back_to_short_form(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """A municipal absent from the full Sales sheet resolves via the EIA-861 short form."""
-    import bosc.grid.eia861 as eia861
+    import watermark.grid.eia861 as eia861
 
     monkeypatch.setattr(
         eia861, "_ensure_zip", lambda settings, year: _short_form_zip(with_full_sheet=True)

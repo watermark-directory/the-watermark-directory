@@ -41,7 +41,7 @@ TLS, `?f=json` queryable) — discovered via the county GIS hub (`new-pcohio.hub
 Williams/Lucas it carries owner **and** CAMA values; the `Land Use` layer adds soil type and the
 full appraisal split. No standalone zoning FeatureServer (the village's zoning is class-coded /
 map-only). The parcel `gis_parcel` schema is now **wired** (#420) — `PUTNAM_PARCEL_SCHEMA` in
-`bosc.sites`, field-map confirmed from the live `?f=json` + samples (2026-06-21), with an offline
+`watermark.sites`, field-map confirmed from the live `?f=json` + samples (2026-06-21), with an offline
 fixture/decode test; the `?f=json` field semantics resolved during wiring are recorded in the
 schema comment (OWNERC/OWNERD = situs vs MAILC/MAILD = mailing; `CLASS_1` is the populated land-use
 code, not `Class`; `SALEDATE` is MM-DD-YY). No committed reference *data* yet (a `bosc parcels

@@ -1,6 +1,6 @@
 # Bryan (bryan) — hydrology connector outputs
 
-Per-site onboarding tree for the Bryan watershed point (basin: maumee), scaffolded by `bosc onboard bryan` (#326). Values come from the portable reach connectors keyed to this site's `SiteProfile` in `bosc.sites` — nothing here is fabricated; regenerate, don't hand-edit.
+Per-site onboarding tree for the Bryan watershed point (basin: maumee), scaffolded by `bosc onboard bryan` (#326). Values come from the portable reach connectors keyed to this site's `SiteProfile` in `watermark.sites` — nothing here is fabricated; regenerate, don't hand-edit.
 
 ## Source
 

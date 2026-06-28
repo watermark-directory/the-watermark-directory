@@ -3,10 +3,10 @@
 The Fort Wayne site's point-of-interest (place) store — the place peer of
 [`data/people/fort-wayne/`](../../people/fort-wayne/README.md). Same format and discipline as
 the network root [`data/poi/`](../README.md): one `data/poi/fort-wayne/<slug>.md` per place, a
-YAML frontmatter header (validated by `bosc.poi.model.POIFrontmatter`) over a markdown body.
+YAML frontmatter header (validated by `watermark.poi.model.POIFrontmatter`) over a markdown body.
 
 Per-site by construction (#762): `bosc --site fort-wayne export` reads `data/poi/fort-wayne/`
-via `bosc.sites.site_scoped_path`, so the `places` feed — **and the imagery tracking sites**,
+via `watermark.sites.site_scoped_path`, so the `places` feed — **and the imagery tracking sites**,
 which derive from `watched` POIs — carry Fort Wayne's own places, never Lima's. Empty today.
 
 ## What goes here

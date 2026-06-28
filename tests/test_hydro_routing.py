@@ -5,9 +5,9 @@ confirmed — encoding 'BOSC output to Lima + American only; Shawnee II unrouted
 
 from __future__ import annotations
 
-from bosc.config import Settings
-from bosc.hydrology.balance import build_water_balance
-from bosc.hydrology.routing import load_routing
+from watermark.config import Settings
+from watermark.hydrology.balance import build_water_balance
+from watermark.hydrology.routing import load_routing
 
 
 def test_routing_table_loads(hydro_settings: Settings) -> None:

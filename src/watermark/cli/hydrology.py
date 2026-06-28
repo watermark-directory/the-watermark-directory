@@ -1,0 +1,896 @@
+from __future__ import annotations
+
+import typer
+from rich.table import Table
+
+from watermark.cli._base import (
+    Settings,
+    app,
+    console,
+    get_settings,
+    offline_settings,
+    repo_fixtures_dir,
+    wrote,
+)
+
+
+@app.command()
+def hydro(
+    offline: bool = typer.Option(
+        False, "--offline", help="Don't fetch live streamflow; use cached/fixture data only."
+    ),
+) -> None:
+    """Tier-0 water balance + low-flow assimilative screen of the municipal loop."""
+    from watermark.pipeline import hydrology as hydro_stage
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+    balance, _checks, findings = hydro_stage.run_baseline(settings=settings, live=True)
+
+    flow_table = Table("node", "role", "flow (cfs)", "MGD", "receiving", "source")
+    for n in balance.nodes:
+        v = n.return_flow or n.inflow
+        flow = f"{v.value:,.2f}" if v else "—"
+        mgd = f"{v.value / 1.547:,.2f}" if v else "—"
+        tag = {"document": "doc", "connector": "live", "assumption": "assume", "derived": "calc"}
+        src = f"[dim]{tag.get(v.source, v.source)}[/]" if v else "—"
+        flow_table.add_row(n.node.name, n.node.role, flow, mgd, n.node.receiving_water or "—", src)
+    console.print(flow_table)
+
+    console.print("\n[bold]Low-flow assimilative screen[/] [dim](7Q10 dilution)[/]")
+    violations = 0
+    for f in findings:
+        color = "green" if f.ok else "red"
+        console.print(f"[{color}]{f}[/]")
+        violations += 0 if f.ok else 1
+    if not findings:
+        console.print("[yellow]No WWTP discharge had a cited receiving-water 7Q10.[/]")
+    console.print(
+        f"\n{len(findings)} checks, [{'red' if violations else 'green'}]{violations} violation(s)[/]."
+    )
+    for w in balance.warnings:
+        console.print(f"[dim]! {w}[/]")
+
+
+@app.command(name="basin-screen")
+def basin_screen() -> None:
+    """Basin-wide low-flow assimilative screen over the ECHO Maumee POTW inventory.
+
+    Extends the Lima-loop screen to every basin POTW, using the cited 7Q10s plus the
+    derived mainstem 7Q10s (`bosc derive-low-flows`). Dischargers on ungaged tributaries
+    or with no receiving water in ECHO are reported, not screened (omit, don't guess).
+    """
+    from watermark.hydrology.basin import check_basin_assimilative
+
+    screen = check_basin_assimilative(settings=get_settings())
+    cov = screen.coverage
+    table = Table("dilution", "flag", "discharger", "receiving water", "7Q10", "src")
+    for ch in screen.checks:
+        color = {"violation": "red", "tight": "yellow", "ok": "green"}[ch.flag]
+        table.add_row(
+            f"{ch.dilution_ratio:.2f}:1",
+            f"[{color}]{ch.flag}[/]",
+            ch.discharger,
+            ch.receiving_water,
+            f"{ch.design_low_flow.value:.2f} cfs",
+            ch.design_low_flow.source,
+        )
+    console.print(table)
+    console.print(
+        f"\n[bold]{cov.screened}[/] of [bold]{cov.total}[/] basin POTWs screened "
+        f"([red]{cov.violations} violation[/], [yellow]{cov.tight} tight[/], "
+        f"[green]{cov.ok} ok[/])."
+    )
+    console.print(
+        f"[dim]Unscreenable (reported, not guessed): {cov.no_receiving_water} no receiving "
+        f"water in ECHO, {cov.no_7q10} ungaged tributary / no 7Q10, "
+        f"{cov.no_design_flow} no design flow.[/]"
+    )
+
+
+@app.command(name="basin-network")
+def basin_network(
+    write: bool = typer.Option(
+        False, "--write", help="Persist data/reference/network/basin-network.yaml."
+    ),
+) -> None:
+    """The BOSC network synthesis: the Maumee watershed points as one connected basin.
+
+    Joins the curated basin topology (sink + shared TMDL + per-node position) with each node's
+    committed economy / grid / toxics artifacts and its low-flow screen, into one upstream->
+    downstream cross-site comparison. The screen is one dimension; nodes on ungaged tributaries
+    or with no ECHO receiving water are reported unscreened (the data gap is itself a finding).
+    Read-only over committed reference data.
+    """
+    from watermark.network import build_basin_network, write_basin_network
+
+    net = build_basin_network(settings=get_settings())
+    console.print(
+        f"[bold]BOSC network[/] - {len(net.nodes)} watershed points draining to [bold]{net.sink}[/]"
+    )
+    console.print(f"[dim]shared constraint: {net.shared_constraint}[/]\n")
+    table = Table(
+        "node",
+        "subtree",
+        "-> downstream",
+        "regime",
+        "screen",
+        "grid (holding . c/kWh)",
+        "jobs chg",
+        "mfg/info LQ",
+    )
+    flagcolor = {"violation": "red", "tight": "yellow", "ok": "green"}
+    for n in net.nodes:
+        s = n.screen
+        if s.status == "screened" and s.dilution_ratio is not None:
+            screen = f"[{flagcolor.get(s.flag or '', 'white')}]{s.flag} {s.dilution_ratio:.2f}:1[/]"
+        else:
+            screen = f"[dim]{s.status}[/]"
+        grid = n.grid.holding_company or "-"
+        if n.grid.avg_price_cents_kwh is not None:
+            grid += f" . {n.grid.avg_price_cents_kwh:.1f}c"
+        jobs = (
+            "-"
+            if n.economy.employment_change_pct is None
+            else f"{n.economy.employment_change_pct:+.1f}%"
+        )
+        mfg = "-" if n.economy.manufacturing_lq is None else f"{n.economy.manufacturing_lq:.1f}"
+        info = "-" if n.economy.information_lq is None else f"{n.economy.information_lq:.1f}"
+        node_label = f"{n.place}{' [cyan](DC)[/]' if n.activity.has_disclosed_facility else ''}"
+        table.add_row(
+            node_label,
+            n.subtree,
+            n.downstream,
+            n.regime.replace("_", " "),
+            screen,
+            grid,
+            jobs,
+            f"{mfg}/{info}",
+        )
+    console.print(table)
+    screened = sum(n.screen.status == "screened" for n in net.nodes)
+    console.print(
+        f"\n[dim]{screened}/{len(net.nodes)} nodes low-flow-screenable; the rest are unscreened "
+        f"(ungaged tributary / no ECHO receiving water) - the data gap is itself a finding.[/]"
+    )
+    if write:
+        out = write_basin_network(net, settings=get_settings())
+        console.print(f"[green]wrote[/] {out}")
+
+
+@app.command(name="derive-low-flows")
+def derive_low_flows(
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached NWIS records only; never fetch."
+    ),
+) -> None:
+    """Regenerate the derived mainstem 7Q10 reference (USGS NWIS daily record -> LP3)."""
+    from watermark.hydrology.basin import derive_basin_low_flows, write_derived_low_flows
+
+    settings = offline_settings("hydro", offline)
+    streams = derive_basin_low_flows(settings=settings)
+    path = write_derived_low_flows(streams, settings=settings)
+    console.print(f"[green]Wrote[/] {path} — {len(streams)} mainstem 7Q10s:")
+    for name, entry in streams.items():
+        console.print(
+            f"  {name.title():22} {entry['seven_q10_cfs']:8.2f} cfs  "
+            f"[dim]gage {entry['gage']} ({entry['complete_years']} yr)[/]"
+        )
+
+
+@app.command()
+def storm(
+    return_period: int = typer.Option(
+        25, "--return-period", help="Design storm return period (yr)."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached/fixture rainfall only; no NOAA fetch."
+    ),
+) -> None:
+    """Tier-0 pre- vs post-development design-storm runoff for the campus footprint."""
+    from watermark.hydrology import stormwater
+    from watermark.pipeline import hydrology as hydro_stage
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+    runoff, findings = hydro_stage.run_storm(
+        return_period_yr=return_period, settings=settings, live=True
+    )
+    # The post cover is the ASWCD-calibrated composite when the footprint is committed
+    # (only ~115 of ~344 ac impervious); else the blanket near-impervious full-buildout bound.
+    post_cover = (
+        "campus (ASWCD-calibrated)"
+        if stormwater.load_site_footprint(settings)
+        else "impervious campus"
+    )
+
+    tag = {"document": "doc", "connector": "live", "assumption": "assume", "derived": "calc"}
+    console.print(
+        f"[bold]{runoff.name}[/]  {runoff.area.value:,.0f} ac "
+        f"[dim]({tag[runoff.area.source]})[/]  "
+        f"storm {runoff.storm.return_period_yr}-yr 24-hr "
+        f"{runoff.storm.depth.value:.2f} in [dim]({tag[runoff.storm.depth.source]})[/]"
+    )
+    table = Table("case", "land cover", "CN", "peak (cfs)", "volume (ac-ft)")
+    table.add_row(
+        "pre-development",
+        "cropland",
+        f"{runoff.pre.curve_number:.0f}",
+        f"{runoff.pre.peak_cfs:,.0f}",
+        f"{runoff.pre.volume_acft:,.0f}",
+    )
+    table.add_row(
+        "post-development",
+        post_cover,
+        f"{runoff.post.curve_number:.0f}",
+        f"{runoff.post.peak_cfs:,.0f}",
+        f"{runoff.post.volume_acft:,.0f}",
+    )
+    console.print(table)
+
+    for f in findings:
+        console.print(f"[{'green' if f.ok else 'red'}]{f}[/]")
+    rainfall_src = (
+        "live NOAA Atlas-14"
+        if runoff.storm.depth.source == "connector"
+        else ("cited NOAA Atlas-14 depth (offline)")
+    )
+    console.print(
+        f"\n[dim]Tier-0 SCS screening. HSG {('ABCD'[int(runoff.hsg.value) - 1])} and land cover "
+        f"are cited assumptions; footprint is document-sourced; rainfall is {rainfall_src}. "
+        f"See `bosc storm-discharge` for the 60-in outfall + Dug Run screen.[/]"
+    )
+
+
+@app.command(name="storm-discharge")
+def storm_discharge(
+    return_period: int = typer.Option(
+        25, "--return-period", help="Design storm return period for the headline screen (yr)."
+    ),
+    offline: bool = typer.Option(
+        False, "--offline", help="Use cached/fixture rainfall only; no NOAA fetch."
+    ),
+    write: bool = typer.Option(
+        False, "--write", help="Regenerate data/reference/hydrology/bosc-stormwater-discharge.yaml."
+    ),
+) -> None:
+    """ASWCD-calibrated campus storm discharge: composite CN, 60-in outfall, Dug Run.
+
+    Calibrated to the SWCD-declared footprint (only ~115 of ~344 ac permanently impervious),
+    so the post-development CN is an area-weighted composite, not a blanket impervious parcel.
+    Screens the single 60-inch outfall's Manning full-flow capacity and reads the design-storm
+    peak against Dug Run's cited 7Q10 — the receiving water the inspections call "the creek
+    west of the site."
+    """
+    from watermark.hydrology import stormwater
+    from watermark.pipeline import hydrology as hydro_stage
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+    screen, findings = hydro_stage.run_discharge_screen(
+        settings=settings, live=True, design_return_period_yr=return_period
+    )
+
+    tag = {
+        "document": "doc",
+        "connector": "live",
+        "reference": "ref",
+        "assumption": "assume",
+        "derived": "calc",
+    }
+    console.print(
+        f"[bold]{screen.site}[/]\n"
+        f"footprint {screen.footprint_area.value:,.0f} ac "
+        f"[dim]({tag[screen.footprint_area.source]})[/]  HSG "
+        f"{'ABCD'[int(screen.hsg.value) - 1]}  outfall {screen.outfall_diameter_in.value:.0f} in "
+        f"[dim]({tag[screen.outfall_diameter_in.source]})[/]"
+    )
+    console.print(
+        f"[dim]post CN[/] as-permitted [bold]{screen.post_cn_as_permitted:g}[/] "
+        f"({screen.cover_breakdown}) vs pre {screen.pre_cn:g} "
+        f"[dim]| full-buildout bound {screen.post_cn_full_buildout:g}[/]"
+    )
+    table = Table("storm", "depth (in)", "pre (cfs)", "post (cfs)", "full-buildout (cfs)")
+    for p in screen.peaks:
+        table.add_row(
+            f"{p.return_period_yr}-yr",
+            f"{p.depth_in:.2f}",
+            f"{p.pre_peak_cfs:,.0f}",
+            f"{p.post_peak_cfs:,.0f}",
+            f"{p.full_buildout_peak_cfs:,.0f}",
+        )
+    console.print(table)
+    cap = Table("60-in outfall slope", "full-flow capacity (cfs)")
+    for c in screen.outfall_capacity:
+        cap.add_row(f"{c.slope_pct:g}%", f"{c.capacity_cfs:,.0f}")
+    console.print(cap)
+    console.print(f"[dim]{screen.receiving_note}[/]")
+    for f in findings:
+        console.print(f"[{'green' if f.ok else 'red'}]{f}[/]")
+    if write:
+        path = stormwater.write_discharge_screen(screen, settings=settings)
+        console.print(f"[green]wrote[/] {path}")
+    console.print(
+        "\n[dim]Tier-0 SCS screening; post cover calibrated to the ASWCD footprint. "
+        "Not a routed hydraulic model or a permit determination.[/]"
+    )
+
+
+@app.command()
+def scenario(
+    cooling_demand: float | None = typer.Option(
+        None,
+        "--cooling-demand",
+        help="Override campus cooling intake (MGD). Default: sourced basis.",
+    ),
+    consumptive_fraction: float | None = typer.Option(
+        None,
+        "--consumptive-fraction",
+        help="Override evaporated fraction (0..1). Default: sourced basis.",
+    ),
+    write: bool = typer.Option(False, "--write", help="Persist results under data/scenarios/."),
+    offline: bool = typer.Option(False, "--offline", help="Use cached/fixture streamflow only."),
+) -> None:
+    """Baseline vs data-center buildout: net consumptive draw vs the Ottawa 7Q10."""
+    from watermark.hydrology import scenario as scenario_stage
+    from watermark.pipeline import hydrology as hydro_stage
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(hydro_offline=True)
+    base, build, delta = hydro_stage.run_scenarios(
+        cooling_demand_mgd=cooling_demand,
+        consumptive_fraction=consumptive_fraction,
+        settings=settings,
+        live=True,
+    )
+
+    basis = build.scenario.basis
+    if basis is not None:
+        console.print(
+            f"[bold]Cooling design basis[/] (sourced): IT load {basis.it_load.value:g} MW "
+            f"[dim](doc: air permit P0138965)[/], WUE {basis.wue.value:g} L/kWh, "
+            f"CoC {basis.cycles_of_concentration.value:g}\n"
+            f"  consumptive estimate range: [bold]{basis.consumptive_low.value:g}-"
+            f"{basis.consumptive_high.value:g} MGD[/] "
+            f"[dim](powerxWUE … blowdownxcycles)[/]"
+        )
+
+    table = Table("scenario", "cooling intake", "consumptive frac", "net basin loss (cfs)", "src")
+    for r in (base, build):
+        table.add_row(
+            r.scenario.name,
+            f"{r.scenario.cooling_demand.value:g} MGD",
+            f"{r.scenario.consumptive_fraction.value:g}",
+            f"{r.consumptive_loss.value:,.2f}",
+            r.scenario.cooling_demand.source[:4],
+        )
+    console.print(table)
+
+    q7 = delta.ottawa_7q10_cfs
+    live_flow = build.ottawa_live.value if build.ottawa_live else None
+    console.print(
+        f"\n[bold red]Buildout adds {delta.consumptive_increase_cfs:,.2f} cfs[/] of net "
+        f"consumptive draw on the Ottawa/Auglaize supply."
+    )
+    if delta.multiple_of_7q10 is not None:
+        console.print(
+            f"That is [bold]{delta.multiple_of_7q10:g}x[/] the Ottawa River's cited 7Q10 "
+            f"low flow ({q7:g} cfs)"
+            + (f"; live flow now {live_flow:,.0f} cfs." if live_flow else ".")
+        )
+    # Seasonal screen: the same draw against the growing-season design low flow.
+    sw = scenario_stage.evaluate_seasonal(build.consumptive_loss.value, settings=settings)
+    if sw is not None and sw.summer_multiple is not None and sw.growing_season_months:
+        win = f"{sw.growing_season_months[0]}-{sw.growing_season_months[-1]}"
+        console.print(
+            f"\n[bold]Seasonal pinch[/] — in the [bold]{win}[/] growing season "
+            f"(ET > precip), the draw is [bold red]{sw.summer_multiple:g}x[/] the cited summer "
+            f"30Q10 ({sw.summer_30q10_cfs:g} cfs), vs {sw.annual_multiple:g}x the annual 7Q10. "
+            f"The absolute floor is 1Q10 = {sw.one_q10_cfs:g} cfs — no flow to draw against."
+        )
+    console.print(
+        "\n[dim]Cooling basis derived from the air permit + FM-2 discharge (see provenance "
+        "tags); the Ottawa 7Q10 is document-cited (Ohio EPA 2IG00001). Tier-0 screening.[/]"
+    )
+    if write:
+        for r in (base, build):
+            path = scenario_stage.write_scenario(r, settings=settings)
+            wrote(path)
+
+
+@app.command(name="hydro-hypotheses")
+def hydro_hypotheses(
+    level: str | None = typer.Option(
+        None, "--level", help="Filter to one level: macro | local | site."
+    ),
+    cooling_demand: float | None = typer.Option(
+        None, "--cooling-demand", help="Override campus cooling intake (MGD)."
+    ),
+    consumptive_fraction: float | None = typer.Option(
+        None, "--consumptive-fraction", help="Override evaporated fraction (0..1)."
+    ),
+    write: bool = typer.Option(
+        False, "--write", help="Persist the comparison under data/scenarios/."
+    ),
+    offline: bool = typer.Option(False, "--offline", help="Use cached/fixture streamflow only."),
+) -> None:
+    """Compare BOSC-routing / cooling hypotheses at macro/local/site level vs the baseline."""
+    import yaml
+
+    from watermark.hydrology import hypothesis as hyp_stage
+
+    settings = offline_settings("hydro", offline)
+    hyps = hyp_stage.default_hypotheses(
+        cooling_demand_mgd=cooling_demand, consumptive_fraction=consumptive_fraction
+    )
+    if level is not None:
+        hyps = [h for h in hyps if h.level == level]
+        if not hyps:
+            console.print(f"[yellow]No default hypotheses at level '{level}'.[/]")
+            raise typer.Exit()
+    comparison = hyp_stage.run_hypotheses(hyps, settings=settings, live=True)
+
+    table = Table(
+        "hypothesis", "level", "net loss (cfs)", "x7Q10", "BOSC routes (built)", "held out"
+    )
+    for hr in comparison.hypotheses:
+        built = ", ".join(r.via for r in hr.routing_applied) or "—"
+        held = ", ".join(r.via for r in hr.excluded_theorized) or "—"
+        x7 = hr.diff_vs_baseline.multiple_of_7q10
+        table.add_row(
+            hr.hypothesis.name,
+            hr.hypothesis.level,
+            f"{hr.result.consumptive_loss.value:,.2f}",
+            f"{x7:g}x" if x7 is not None else "—",
+            built,
+            held,
+        )
+    console.print(table)
+    for hr in comparison.hypotheses:
+        for br in hr.excluded_theorized:
+            console.print(
+                f"[dim]{hr.hypothesis.name}: held out {br.via} → {', '.join(br.to)} "
+                f"(status: {br.status}) — Shawnee II has no confirmed BOSC routing.[/]"
+            )
+    console.print(
+        "\n[dim]`level` frames the same Lima-loop numbers against its scale (macro=Maumee "
+        "basin); routing overrides re-label which forcemains are built, not the dilution math.[/]"
+    )
+    if write:
+        out_dir = settings.scenarios_dir
+        out_dir.mkdir(parents=True, exist_ok=True)
+        path = out_dir / "hypotheses.comparison.yaml"
+        path.write_text(
+            yaml.safe_dump(comparison.model_dump(), sort_keys=False, allow_unicode=True),
+            encoding="utf-8",
+        )
+        wrote(path)
+
+
+@app.command(name="tier1")
+def tier1(
+    return_period: int = typer.Option(
+        25, "--return-period", help="Design storm return period (yr)."
+    ),
+    offline: bool = typer.Option(False, "--offline", help="Use cached/fixture rainfall only."),
+    write: bool = typer.Option(
+        False,
+        "--write",
+        help="Persist the decks + result to data/reference/hydrology/ (requires the engine).",
+    ),
+) -> None:
+    """Tier-1 EPA SWMM: detention sizing + sanitary wet-weather surcharge."""
+    from watermark.hydrology.tier1 import run_tier1, tier1_findings, write_tier1
+
+    settings = offline_settings("hydro", offline)
+    result = run_tier1(return_period_yr=return_period, settings=settings, live=True)
+    if not result.available:
+        console.print(f"[yellow]{result.note}[/]")
+        console.print(
+            "[dim]Install the engine: `uv add pyswmm` (and, on Apple Silicon, ad-hoc "
+            "codesign the swmm-toolkit native libs).[/]"
+        )
+        raise typer.Exit()
+
+    d = result.detention
+    if d is not None:
+        console.print(
+            f"[bold]Stormwater detention[/] (SWMM, {return_period}-yr 24-hr storm)\n"
+            f"  pre-development peak  {d.pre_peak_cfs:,.0f} cfs\n"
+            f"  post-development peak {d.post_peak_cfs:,.0f} cfs [dim](undetained)[/]\n"
+            f"  -> a [bold]{d.required_storage_acft:,.0f} ac-ft[/] basin "
+            f"({d.basin_area_acres:g} ac, {d.orifice_diam_ft:g} ft orifice) holds the release to "
+            f"{d.controlled_peak_cfs:,.0f} cfs"
+        )
+        inv = result.inventory
+        if inv is not None and not inv.detention_shown:
+            console.print(
+                f"  [dim]grounded:[/] {inv.phase} {inv.sheet_id} shows piped conveyance with "
+                f"[red]no on-site detention[/] — the sized basin is the absent control"
+            )
+    console.print(
+        "\n[bold]Sanitary wet-weather surcharge[/] "
+        "[dim](campus contribution vs documented wet-weather headroom)[/]"
+    )
+    for f in tier1_findings(result):
+        if f.check in ("wet-weather-surcharge", "sso-mandate"):
+            console.print(f"[{'green' if f.ok else 'red'}]{f}[/]")
+    console.print(
+        "\n[dim]Tier-1 EPA SWMM. Footprint/storm/plant design flows document/connector-sourced; "
+        "imperviousness, RDII R, and basin geometry are assumptions.[/]"
+    )
+    if write:
+        path = write_tier1(result, settings=get_settings())
+        console.print(
+            f"[green]Wrote[/] {path} + {len(result.decks)} .inp decks "
+            f"[dim]({result.engine}, continuity "
+            f"{max((abs(d.continuity_error_pct) for d in result.decks), default=0.0):.2f}%)[/]"
+        )
+
+
+@app.command(name="storm-plan")
+def storm_plan(
+    refresh: bool = typer.Option(
+        False, "--refresh", help="Re-parse the source drawing and rewrite the artifact."
+    ),
+) -> None:
+    """Document-grounded drainage inventory from the campus grading & storm plan."""
+    from watermark.hydrology import stormplan
+
+    settings = get_settings()
+    if refresh:
+        inv = stormplan.refresh_inventory(settings=settings)
+        console.print(f"[green]Refreshed[/] {settings.data_dir / stormplan._INVENTORY_REL}")
+    else:
+        loaded = stormplan.load_inventory(settings=settings)
+        if loaded is None:
+            console.print("[yellow]No inventory yet — run `bosc storm-plan --refresh`.[/]")
+            raise typer.Exit()
+        inv = loaded
+
+    pipes = ", ".join(f'{s:g}"' for s in inv.pipe_sizes_in)
+    eng = f"; {inv.engineer}" if inv.engineer else ""
+    console.print(
+        f"[bold]{inv.sheet_id}[/] {inv.discipline} [dim]({inv.phase}, {inv.status}{eng})[/]\n"
+        f"  graded relief {inv.rim_min.value:.1f}-{inv.rim_max.value:.1f} ft "
+        f"([bold]{inv.relief.value:.1f} ft[/]) over {inv.rim_labels} storm-structure rims "
+        f"[dim](doc)[/]\n"
+        f"  conveyance: {', '.join(s.lower() for s in inv.structure_types)}\n"
+        f"  pipe callouts: {pipes}\n"
+        f"  features: {', '.join(f.lower() for f in inv.conveyance_features)}"
+    )
+    for f in stormplan.storm_plan_findings(inv):
+        console.print(f"[{'green' if f.ok else 'red'}]{f}[/]")
+    console.print(
+        "\n[dim]Transcribed from the civil sheet; pipe connectivity/inverts are vector "
+        "geometry with no schedule table, so a routable network is not fabricated.[/]"
+    )
+
+
+@app.command(name="hydro-report")
+def hydro_report(
+    write: bool = typer.Option(False, "--write", help="Write docs/HYDROLOGY.md."),
+    live: bool = typer.Option(
+        False, "--live", help="Use live connectors (default: offline/deterministic)."
+    ),
+) -> None:
+    """Render (or write) the evidence-tagged hydrology dossier section."""
+    from watermark.hydrology import report
+
+    settings = offline_settings("hydro", not live)
+    if write:
+        path = report.write_report(settings=settings, live=live)
+        wrote(path)
+    else:
+        console.print(report.render_report(settings=settings, live=live), markup=False)
+
+
+@app.command(name="corridor")
+def corridor_cmd(
+    in_corridor: bool = typer.Option(
+        False, "--in", help="Only features inside the corridor study area."
+    ),
+    update_map: bool = typer.Option(
+        False, "--map", help="Merge the corridor + roadwork layers into the GIS findings GeoJSON."
+    ),
+) -> None:
+    """Tie BOSC facilities / parcels / roadwork to the North Cole Street corridor.
+
+    A spatial join of every watch item (facilities + force mains) and recorded parcel
+    onto the frozen Periplus corridor geometry: in-study-area flag, distance to the
+    nearest corridor route, the route, and station (chainage) along the roadwork
+    centerline. Read-only and hermetic (committed GeoJSON only). ``--map`` writes the
+    corridor study area + roadwork centerline into ``data/site/gis-findings.geojson``.
+    """
+    import json
+
+    from watermark.gis.corridor import build_corridor_view
+
+    settings = get_settings()
+    view = build_corridor_view(settings=settings)
+
+    console.print(
+        f"[bold]North Cole Street corridor[/] — study area {view.study_area_acres:,.0f} ac, "
+        f"road centerline {view.road_length_m:,.0f} m; "
+        f"{len(view.in_corridor)}/{len(view.members)} features in the corridor."
+    )
+    routes = Table("role", "length (m)", "route")
+    for r in view.routes:
+        routes.add_row(r.role, f"{r.length_m:,.0f}" if r.length_m else "—", r.name[:48])
+    console.print(routes)
+
+    members = view.in_corridor if in_corridor else view.members
+    table = Table("in", "kind", "feature", "dist→route (m)", "via", "station (m)")
+    for m in members:
+        station = f"{m.station_m:,.0f}" if m.station_m is not None else "—"
+        table.add_row(
+            "✓" if m.in_study_area else "",
+            m.kind,
+            m.id[:32],
+            f"{m.distance_to_route_m:,.0f}",
+            m.nearest_route_role,
+            station,
+        )
+    console.print(table)
+    console.print(f"[dim]source: {view.source}[/]")
+
+    if update_map:
+        from watermark.site import gismap
+
+        geojson = settings.data_dir / "site" / "gis-findings.geojson"
+        if geojson.is_file():
+            fc = json.loads(geojson.read_text(encoding="utf-8"))
+            fc, n = gismap.merge_corridor_layer(fc, settings=settings)
+            geojson.write_text(json.dumps(fc, indent=1), encoding="utf-8")
+            console.print(f"[green]Merged[/] {n} corridor/roadwork features into {geojson}")
+        else:
+            console.print(f"[yellow]No GIS findings GeoJSON at {geojson}; skipped --map.[/]")
+
+
+@app.command(name="drainage-audit")
+def drainage_audit_cmd(
+    offline: bool = typer.Option(
+        False, "--offline", help="Use the committed/fixture Atlas-14 data only; never fetch."
+    ),
+    write_ddf: bool = typer.Option(
+        False, "--write-ddf", help="Regenerate the committed corridor Atlas-14 DDF reference."
+    ),
+) -> None:
+    """Audit the OPC drainage scope against the corridor design storm + the 95% plan.
+
+    Decomposes each Tetra Tech roundabout OPC's DRAINAGE section into sized conveyance
+    vs lump-sum allocation, and reads it against the committed NOAA Atlas-14 corridor
+    DDF and the 95% SPS storm plan (which shows no detention). A design-basis /
+    scope-completeness audit — it does not size the roundabouts' hydraulics.
+    """
+    from watermark.hydrology import drainage
+
+    settings = offline_settings("hydro", offline)
+
+    if write_ddf:
+        ddf = drainage.build_corridor_ddf(settings=settings)
+        path = drainage.write_corridor_ddf(ddf, settings=settings)
+        wrote(path)
+
+    audit = drainage.build_drainage_audit(settings)
+
+    table = Table("sub-estimate", "drainage $", "breakdown", "sized $", "lump-sum $", "sized %")
+    for s in audit.scopes:
+        if s.itemized:
+            frac = f"{s.sized_fraction:.0%}" if s.sized_fraction is not None else "—"
+            table.add_row(
+                s.name[:34],
+                f"{s.drainage_subtotal:,}" if s.drainage_subtotal else "—",
+                "itemized",
+                f"{s.sized_amount:,}" if s.sized_amount is not None else "—",
+                f"{s.lump_sum_amount:,}" if s.lump_sum_amount is not None else "—",
+                frac,
+            )
+        else:
+            table.add_row(
+                s.name[:34],
+                f"{s.drainage_subtotal:,}" if s.drainage_subtotal else "—",
+                "[yellow]subtotal only[/]",
+                "—",
+                "—",
+                "—",
+            )
+    console.print(table)
+
+    if audit.ddf is not None:
+        d = audit.ddf
+        depths = ", ".join(f'{rp}-yr {d.depth("24-hr", rp):.2f}"' for rp in d.return_periods)
+        console.print(f"\n[bold]Atlas-14 corridor design storm[/] (24-hr): {depths}")
+
+    console.print("\n[bold]Findings[/]")
+    for f in audit.findings:
+        mark = "[green]ok[/]" if f.ok else "[red]gap[/]"
+        console.print(f"  {mark} [{f.check}] {f.detail}")
+    console.print(
+        f"\n[dim]${audit.meta['program_drainage_total']:,} drainage program-wide; "
+        f"{audit.meta['itemized_count']}/{audit.meta['sub_estimate_count']} estimates itemized. "
+        "Scope/design-basis audit — roundabout hydraulics are not sized (no footprint area).[/]"
+    )
+
+
+@app.command(name="lowflow-freq")
+def lowflow_freq(
+    site: str = typer.Option(
+        "04187100", "--site", help="USGS NWIS gage (default: Ottawa at Lima)."
+    ),
+    receiving_water: str = typer.Option(
+        "Ottawa River", "--receiving", help="Receiving water whose cited 7Q10 to corroborate."
+    ),
+    start: str = typer.Option("1980-01-01", "--start", help="Record start date (ISO)."),
+    end: str = typer.Option("2024-12-31", "--end", help="Record end date (ISO)."),
+    offline: bool = typer.Option(
+        False,
+        "--offline",
+        help="Use the cached/committed gage record only; never touch the network.",
+    ),
+    write: bool = typer.Option(
+        False, "--write", help="Persist to data/reference/hydrology/low-flow-frequency.yaml."
+    ),
+) -> None:
+    """Independently COMPUTE the 1Q10/7Q10/30Q10 from the USGS daily-discharge record.
+
+    Reproduces the design low flows Ohio EPA cites from a fact sheet but never shows
+    its work for (log-Pearson III + Weibull on climatic-year n-day minima), and reads
+    each against the cited regulatory value. The computed figures are `derived` — a
+    screening corroboration, not a substitute for the cited 7Q10.
+    """
+    from watermark.hydrology import lowflow_frequency as lf
+
+    settings = get_settings()
+    if offline:
+        settings = Settings(
+            data_dir=settings.data_dir,
+            hydro_offline=True,
+            hydro_fixtures_dir=repo_fixtures_dir("hydrology"),
+        )
+
+    lff = lf.compute_low_flow_frequency(
+        site_no=site,
+        receiving_water=receiving_water,
+        start_date=start,
+        end_date=end,
+        settings=settings,
+    )
+    console.print(
+        f"[bold]{lff.site_name}[/] (NWIS {lff.site_no}) — "
+        f"{lff.period_start}..{lff.period_end}, {lff.complete_years} complete climatic years"
+    )
+    table = Table(
+        "Statistic", "LP3 (cfs)", "Weibull (cfs)", "log-skew", "dry frac", "cited", "corroborates"
+    )
+    for s in lff.statistics:
+        cited = f"{s.cited_cfs.value:g} ({s.cited_basis})" if s.cited_cfs else "—"
+        mark = "—" if s.corroborates is None else ("[green]✓[/]" if s.corroborates else "[red]✗[/]")
+        table.add_row(
+            s.label,
+            f"{s.lp3_cfs.value:g}",
+            f"{s.weibull_cfs.value:g}",
+            f"{s.log_skew:g}",
+            f"{s.zero_fraction:g}",
+            cited,
+            mark,
+        )
+    console.print(table)
+
+    if write:
+        path = lf.write_low_flow_frequency(lff, settings=get_settings())
+        wrote(path)
+
+
+@app.command(name="supply")
+def supply_cmd() -> None:
+    """Screen the campus draw against Lima's reservoir storage (the supply water-budget).
+
+    The intake-side counterpart to `bosc network`. Lima's supply is five upground
+    (off-stream) reservoirs (~15 BG) filled from the Auglaize + Ottawa at high flow, so
+    the low-flow constraint is reservoir DRAWDOWN, not a 7Q10 intake. Reports the
+    drought-reserve drawdown, the campus's share of plant production, and the net basin
+    loss.
+    """
+    from watermark.pipeline import hydrology as hydro_stage
+
+    settings = get_settings()
+    supply, budget, findings = hydro_stage.run_water_budget(settings=settings)
+    if supply is None or budget is None:
+        console.print("[yellow]No supply system[/] (data/reference/hydrology/water-supply.yaml).")
+        raise typer.Exit(1)
+
+    by_river = supply.storage_by_river()
+    river_txt = ", ".join(f"{r} {mg / 1000:.1f} BG" for r, mg in sorted(by_river.items()))
+    console.print(
+        f"[bold]Lima water supply[/] — {len(supply.reservoirs)} upground reservoirs, "
+        f"[bold]{supply.total_storage_mg / 1000:.1f} BG[/] off-stream storage ({river_txt}); "
+        f"treats ~{supply.current_production.value:g} MGD (rated {supply.plant_capacity.value:g})."
+    )
+    table = Table("reservoir", "built", "capacity (MG)", "source river")
+    for r in supply.reservoirs:
+        table.add_row(r.name, str(r.built), f"{r.capacity_mg:g}", r.source_river)
+    console.print(table)
+    console.print(
+        f"Campus makeup [bold]{budget.campus_makeup.value:g} MGD[/] "
+        f"([bold]{budget.campus_share_pct:g}%[/] of {budget.gross_production_mgd:g} MGD gross); "
+        f"drought reserve [bold]{budget.drought_reserve_days_baseline:g}[/] -> "
+        f"[bold]{budget.drought_reserve_days_buildout:g}[/] days "
+        f"([red]-{budget.drought_reserve_lost_days:g}[/]); net basin loss "
+        f"[bold]{budget.campus_consumptive.value:g} MGD[/]."
+    )
+    for f in findings:
+        console.print(f"  {'·' if f.ok else '!'} {f.detail}", markup=False)
+    for w in budget.warnings:
+        console.print(f"  ! {w}", markup=False)
+
+
+@app.command(name="refill")
+def refill_cmd(
+    write: bool = typer.Option(
+        False, "--write", help="Regenerate the committed analysis from the live USGS record."
+    ),
+) -> None:
+    """Can high-flow pumping refill the reservoirs against demand — incl. through drought?
+
+    The flow-side counterpart to `bosc supply`. Reports the normal-year supply surplus and
+    the sequent-peak (Rippl) storage the worst gauged drought calls on, city-only vs +campus.
+    `--write` re-pulls the Auglaize + Ottawa daily records and rewrites the committed artifact.
+    """
+    from watermark.hydrology import refill as refill_mod
+    from watermark.pipeline import hydrology as hydro_stage
+
+    settings = get_settings()
+    if write:
+        ra = refill_mod.compute_refill_adequacy(settings=settings)
+        path = refill_mod.write_refill_adequacy(ra, settings=settings)
+        wrote(path)
+        findings = refill_mod.refill_findings(ra)
+    else:
+        loaded, findings = hydro_stage.run_refill(settings=settings)
+        if loaded is None:
+            console.print(
+                "[yellow]No refill analysis[/] (data/reference/hydrology/refill-adequacy.yaml). "
+                "Run [bold]bosc refill --write[/] to generate it."
+            )
+            raise typer.Exit(1)
+        ra = loaded
+
+    console.print(
+        f"[bold]Reservoir refill adequacy[/] — combined mean flow "
+        f"[bold]{ra.combined_mean_cfs:g} cfs[/] = [bold]{ra.annual_supply_multiple:g}x[/] demand "
+        f"in a normal year; gauged {ra.period_start}..{ra.period_end} ({ra.aligned_days:,} days)."
+    )
+    rt = Table("river", "mean", "median", "p90", "p99", "min", "% days < demand")
+    for r in ra.rivers:
+        rt.add_row(
+            r.river,
+            f"{r.mean_cfs:g}",
+            f"{r.median_cfs:g}",
+            f"{r.p90_cfs:g}",
+            f"{r.p99_cfs:g}",
+            f"{r.min_cfs:g}",
+            f"{r.pct_days_below_demand:g}%" if r.pct_days_below_demand is not None else "—",
+        )
+    console.print(rt)
+    st = Table(
+        "demand scenario", "MGD", "storage needed", "% of 14.4 BG", "worst drawdown", "survives"
+    )
+    for sc in ra.scenarios:
+        st.add_row(
+            sc.label,
+            f"{sc.demand_mgd:g}",
+            f"{sc.required_storage_mg:,.0f} MG",
+            f"{sc.pct_of_capacity:g}%",
+            f"{sc.worst_spell_days}d from {sc.worst_spell_start}",
+            "[green]yes[/]" if sc.survives else "[red]NO[/]",
+        )
+    console.print(st)
+    for f in findings:
+        console.print(f"  {'·' if f.ok else '!'} {f.detail}", markup=False)
+    for c in ra.caveats:
+        console.print(f"  ~ {c}", markup=False)

@@ -2,7 +2,7 @@
 
 > **What this is.** A synthesis of everything BOSC has deconstructed from the
 > public-records corpus into structured data, assembled across documents via the
-> cross-document layer (`bosc.pipeline.corpus` → `entities` + `timeline`). It is
+> cross-document layer (`watermark.pipeline.corpus` → `entities` + `timeline`). It is
 > generated from, and cites, the committed artifacts under `data/extracted/**`.
 >
 > **Evidence discipline.** Claims are tagged `[verified]` (read from a committed

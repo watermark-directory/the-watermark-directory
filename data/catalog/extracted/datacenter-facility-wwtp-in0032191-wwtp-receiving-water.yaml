@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: extracted
   command: dmr IN0032191 --start 2023-01-01 --end 2023-12-31 --design-flow 74.0
-  connector_ref: bosc.hydrology.connectors.echo
+  connector_ref: watermark.hydrology.connectors.echo
   source: EPA ECHO (eff_rest_services DMR) for the effluent record + BOSC discovery synthesis of the Fort
     Wayne WWTP / 'Project Zodiac' facility and its low-flow receiving water
   external_url: https://echo.epa.gov/tools/web-services
@@ -34,7 +34,7 @@ tags:
 - dmr
 - echo
 - receiving-water
-notes: 'The DMR (wwtp-in0032191.dmr.yaml) is verbatim ECHO effluent-chart data regenerable via `bosc dmr`;
+notes: 'The DMR (wwtp-in0032191.dmr.yaml) is verbatim ECHO effluent-chart data regenerable via `watermark dmr`;
   the two .md files are reviewed receiving-water (7Q10) and facility-discovery syntheses resolving Fort
   Wayne #358/#359/#360. bosc-site-footprint.yaml is the parcel-assemblage boundary + measured acreage +
   SSURGO-validated HSG (#362; developed/impervious still [open] pending the stormwater permit).'

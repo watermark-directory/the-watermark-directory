@@ -9,12 +9,12 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
-from bosc.catalog import CatalogEntry
-from bosc.catalog_producer import (
+from watermark.catalog import CatalogEntry
+from watermark.catalog_producer import (
     producer_drift,
     run_producer_check,
 )
-from bosc.config import Settings
+from watermark.config import Settings
 
 
 def _entry(entry_id: str, connector_ref: str | None, scope: str = "reference") -> CatalogEntry:

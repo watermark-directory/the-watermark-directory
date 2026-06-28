@@ -15,7 +15,7 @@ I now have a complete, grounded picture. Here is the findings report.
 # Findings — Onboarding screen: Hamilton · Middletown (Butler County, OH) as a BOSC watershed-point site
 
 **Task:** assess data-center activity + a receiving-water screen for the candidate site "hamilton-middletown," over the BOSC corpus, using the read-only BOSC tools.
-**Tools used:** `list_documents`, `list_extractions`, `entities`, `timeline`, `program_overview`, `hydrology_balance`, `hydrology_scenario`; plus text/Glob/Read over the committed site-registry (`bosc.sites`, `frontend/src/lib/sites.ts`), the per-site reference tree, and the Xenia/Springfield/Urbana onboarding precedents.
+**Tools used:** `list_documents`, `list_extractions`, `entities`, `timeline`, `program_overview`, `hydrology_balance`, `hydrology_scenario`; plus text/Glob/Read over the committed site-registry (`watermark.sites`, `frontend/src/lib/sites.ts`), the per-site reference tree, and the Xenia/Springfield/Urbana onboarding precedents.
 
 **Headline:** Hamilton–Middletown is **registered and partly seeded**, like Xenia — its `SiteProfile` exists and the portable hydrometeorology + economics connectors have run. But the two dimensions this task names — a **receiving-water screen** and **data-center activity** — are both **unbuilt**, and the corpus holds **zero** Hamilton/Middletown/Butler County primary-source records. This is a clean status report on a half-onboarded site, not a discovery. Its distinguishing trait is the inverse of every other Miami-basin point: it is the **established-heavy-industry comparator** (Cleveland-Cliffs Middletown Works / former AK Steel) on a **large mainstem** receiving water, not a greenfield on a low-flow tributary.
 

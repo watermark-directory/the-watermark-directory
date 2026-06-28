@@ -1,4 +1,4 @@
-"""Tests for ``bosc catalog backfill`` (epic #631, issue #624).
+"""Tests for ``watermark catalog backfill`` (epic #631, issue #624).
 
 Two layers: hermetic synthetic-tree tests that pin the grouping rules (shared-stem filesets,
 singleton dir-bundles, per-site templating + Lima fold, meta.source/LFS enrichment, the
@@ -11,12 +11,12 @@ from __future__ import annotations
 import textwrap
 from pathlib import Path
 
-from bosc.catalog import CatalogEntry, load_entries
-from bosc.catalog_backfill import (
+from watermark.catalog import CatalogEntry, load_entries
+from watermark.catalog_backfill import (
     backfill,
     discover_datasets,
 )
-from bosc.config import Settings
+from watermark.config import Settings
 
 
 def _settings(tmp_path: Path) -> Settings:
@@ -220,7 +220,7 @@ def test_committed_catalog_is_in_sync_with_data_tree() -> None:
     actions = backfill(apply=False)
     drift = [a for a in actions if a.action in ("create", "refresh")]
     assert drift == [], (
-        f"catalog drift — run `bosc catalog backfill --apply`: {[a.id for a in drift]}"
+        f"catalog drift — run `watermark catalog backfill --apply`: {[a.id for a in drift]}"
     )
 
 

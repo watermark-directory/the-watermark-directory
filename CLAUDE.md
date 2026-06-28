@@ -6,24 +6,24 @@ runs Claude-driven analysis over it. Spun out from Periplus.
 
 ## Architecture
 
-Three-stage pipeline under `src/bosc/pipeline/`: **ingest → extract → analyze**.
-The `src/bosc/agent/` layer wraps the Claude Agent SDK and exposes in-process
+Three-stage pipeline under `src/watermark/pipeline/`: **ingest → extract → analyze**.
+The `src/watermark/agent/` layer wraps the Claude Agent SDK and exposes in-process
 tools so the agent inspects real data. Entry point is the `bosc` Typer CLI
-(`src/bosc/cli.py`).
+(`src/watermark/cli.py`).
 
-A second subsystem, `src/bosc/hydrology/`, runs water-balance / stormwater models
-of the Lima municipal loop. `src/bosc/hydrology/connectors/` pulls **live public
+A second subsystem, `src/watermark/hydrology/`, runs water-balance / stormwater models
+of the Lima municipal loop. `src/watermark/hydrology/connectors/` pulls **live public
 data** (USGS NWIS, NOAA Atlas-14, EPA ECHO) through `_cache.cached_get` — on-disk
 cache + TTL + offline/committed-fixture fallback, so tests never hit the network.
 A new connector is a pure sync `fn(..., settings) -> pydantic` in that dir, with a
 committed fixture under `tests/fixtures/hydrology/<connector>/`. External-data
 pulls land as committed reference datasets under `data/reference/<source>/` and
-are regenerable via a `bosc` subcommand (e.g. `bosc npdes` → the EPA ECHO Maumee
+are regenerable via a `bosc` subcommand (e.g. `watermark npdes` → the EPA ECHO Maumee
 NPDES inventory; columns are selected by ECHO **ObjectName**, never by index).
 
-The **public site** is built in two tiers. The Python data tier (`src/bosc/site/`)
+The **public site** is built in two tiers. The Python data tier (`src/watermark/site/`)
 emits a typed **content bundle** — JSON feeds + a manifest with a `CONTRACT_VERSION`,
-Pydantic models in `bosc.site.feeds`, written by `bosc export`. The presentation tier lives
+Pydantic models in `watermark.site.feeds`, written by `watermark export`. The presentation tier lives
 in **`frontend/`**: an Astro + MDX static site that reads that bundle at build time
 (Epic #54). It's pure Node (npm, no uv/LFS) and builds against the committed
 `frontend/sample-bundle/` fixture offline; deck.gl map/graph visualizations are the
@@ -52,7 +52,7 @@ skills (evidentiary-discipline is the spine; the rest defer to it), and
 `ENRICHMENT.md` that binds those skills to this repo's artifacts (the `[verified]`/
 `[inference]`/`[reference]`/`[open]` tag vocabulary, the `EntityGraph`,
 `ProvenancedValue`, `docs/legal/`, the corpus audit). Wiring it into the in-app
-`bosc.agent` research agent is deferred follow-up; the skills are usable by
+`watermark.agent` research agent is deferred follow-up; the skills are usable by
 repo-working agents now.
 
 ## Conventions
@@ -81,30 +81,30 @@ repo-working agents now.
   would leave that required check stuck "pending" and block the PR. Don't add a
   top-level `paths:` to this workflow.
 - **Python 3.11+**, `from __future__ import annotations` at the top of modules.
-- **Config:** never read `os.environ` directly — go through `bosc.config.get_settings()`.
-  Settings are `BOSC_`-prefixed; the model default is `claude-opus-4-8`, bulk
+- **Config:** never read `os.environ` directly — go through `watermark.config.get_settings()`.
+  Settings are `WATERMARK_`-prefixed; the model default is `claude-opus-4-8`, bulk
   extraction uses `claude-sonnet-4-6`.
 - **Site axis (the BOSC network):** the platform hosts a network of watershed-point
   sites (Lima today; Fort Wayne/Defiance/… queued — #323/#308). Per-site values are
-  **not** baked in: they live on a `SiteProfile` in `bosc.sites` (the Python peer of
-  `frontend/src/lib/sites.ts`), selected by `BOSC_SITE` (`Settings.site`, default
-  `lima`) or the global `bosc --site <slug>` flag. `Settings` fills the per-site config
+  **not** baked in: they live on a `SiteProfile` in `watermark.sites` (the Python peer of
+  `frontend/src/lib/sites.ts`), selected by `WATERMARK_SITE` (`Settings.site`, default
+  `lima`) or the global `watermark --site <slug>` flag. `Settings` fills the per-site config
   knobs (`PROFILE_SETTINGS_FIELDS`: `nwis_sites`, `rsei_fips`, `eia861_utility_number`,
   the GIS URLs, …) from the active profile unless a knob is set explicitly (env/`.env`/
-  kwarg still win); deeper hydrology/grid/rsei constants read `bosc.sites.active_profile(settings)`.
-  **Add a site by registering a profile in `bosc.sites.SITES`; never re-hardcode a
+  kwarg still win); deeper hydrology/grid/rsei constants read `watermark.sites.active_profile(settings)`.
+  **Add a site by registering a profile in `watermark.sites.SITES`; never re-hardcode a
   Lima/Allen-County value.** Profile `*_relpath`s are relative to `settings.data_dir`,
   and `bosc-`-prefixed reference/extracted filenames are Lima-specific by convention — a
-  new site supplies its own paths. (The `--site` callback writes `BOSC_SITE` to the env
+  new site supplies its own paths. (The `--site` callback writes `WATERMARK_SITE` to the env
   before the first `get_settings()`; that's the one sanctioned `os.environ` write.)
-  Onboard a registered site with `bosc onboard <slug>` (`bosc.onboard`; runbook
+  Onboard a registered site with `watermark onboard <slug>` (`watermark.onboard`; runbook
   `docs/onboarding.md`): it scaffolds the per-site data dirs, runs the portable reach
   connectors (per-site point outputs are slug-scoped so Lima is never clobbered; basin-level
   outputs stay shared), and prints a **blocking review checklist** — promotion to
   `live`/`selectable` in `frontend/src/lib/sites.ts` stays a manual, parity-gated edit.
   **Registered ≠ selectable, and a thin peer is still engageable** (#781/#782): a
   non-reference `/network/<site>` page **degrades, doesn't break** — the frontend
-  readiness layer (`frontend/src/lib/readiness.ts`, the peer of `bosc.sites.is_reference_site`)
+  readiness layer (`frontend/src/lib/readiness.ts`, the peer of `watermark.sites.is_reference_site`)
   classifies each section `available|locked` from the bundle's `manifest.json` feed counts,
   locks the thin ones, and surfaces a needs/leads board instead. Chrome is **two-tier by the
   current path** — site-level tabs when standing on a site (locked tabs render non-navigable),
@@ -113,7 +113,7 @@ repo-working agents now.
   Onboarding only needs the verifiable knobs; the page is useful before parity. (Leads are a
   per-site `leads` bundle feed, #796 — Lima's live in `data/site/leads.yaml`, a peer ships its own.)
 - **Models:** structured extractions are validated with the Pydantic models in
-  `bosc.models`. Scan transcriptions may be **approximate**, written `~12345`
+  `watermark.models`. Scan transcriptions may be **approximate**, written `~12345`
   in YAML; `ApproxInt`/`_coerce_number` handle that — preserve the marker in
   source data, don't silently drop it.
 - **CLI options:** a `typer.Option` default trips ruff `B008` when the parameter
@@ -160,10 +160,10 @@ The extracted tree **mirrors `data/documents/` by collection** — an artifact l
 under the same first-level collection as its source (`recorder/`, `oepa/`, `aedg/`).
 
 The extract stage is **implemented as a hybrid, profile-driven read**
-(`bosc.pipeline.extract`): OCR text layer (pypdf, hint only) + 300 DPI render
-(pypdfium2) → resolve a format `Profile` (`bosc.profiles`, auto-detected from the
+(`watermark.pipeline.extract`): OCR text layer (pypdf, hint only) + 300 DPI render
+(pypdfium2) → resolve a format `Profile` (`watermark.profiles`, auto-detected from the
 OCR text or `--profile`) → forced-tool-use vision extraction
-(`bosc.agent.extractor.StructuredExtractor`) → Pydantic-validated, contractor-
+(`watermark.agent.extractor.StructuredExtractor`) → Pydantic-validated, contractor-
 agnostic `Estimate` (dynamic `sections` + `markups`) with provenance
 (`PageExtraction`). The OCR text layer is badly garbled (e.g. `$109,307.69` →
 `$108.307.89`); **never trust its digits — figures come from the image.**

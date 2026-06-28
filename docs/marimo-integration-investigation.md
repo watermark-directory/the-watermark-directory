@@ -124,7 +124,7 @@ notebook is copied into the export and served as a same-origin asset (no CORS is
 `httpx`/`urllib` *can* reach out over the network, but only to CORS-permitting hosts —
 so a notebook could fetch a `data/reference` CSV from the deployed site, but should
 **not** be relied on to hit USGS/NOAA/EPA APIs live (those are what the server-side
-`bosc.hydrology.connectors` are for; the browser would be blocked by CORS and would
+`watermark.hydrology.connectors` are for; the browser would be blocked by CORS and would
 also bypass the on-disk cache/fixture discipline).
 
 **Bundle size / cold start.** The POC export is **~27 MB across 689 files** for a

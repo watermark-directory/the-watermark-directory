@@ -10,8 +10,8 @@ from __future__ import annotations
 import textwrap
 from pathlib import Path
 
-from bosc.catalog import output_dir_for_command
-from bosc.config import Settings
+from watermark.catalog import output_dir_for_command
+from watermark.config import Settings
 
 
 def _entry(settings: Settings, name: str, command: str, *relpaths: str) -> None:
@@ -130,7 +130,7 @@ def test_per_site_commands_stay_profile_driven() -> None:
 
 def test_interchange_writer_uses_the_catalog_dir(tmp_path: Path) -> None:
     """``write_ba_interchange`` derives its dir from the catalog (falls back to reference/eia)."""
-    from bosc.grid.interchange import load_ba_interchange, write_ba_interchange
+    from watermark.grid.interchange import load_ba_interchange, write_ba_interchange
 
     repo_root = Path(__file__).resolve().parents[1]
     bai = load_ba_interchange(repo_root / "data" / "reference")

@@ -7,17 +7,17 @@ from pathlib import Path
 
 import yaml
 
-from bosc.civic.indexer import (
+from watermark.civic.indexer import (
     _date_appears,
     _verify_date,
     extract_text,
     index_meetings,
     write_index,
 )
-from bosc.civic.keywords import scan_text
-from bosc.civic.models import Platform, Publishing, Subdivision
-from bosc.config import Settings
-from bosc.pipeline.timeline import _subdivision_meeting_events
+from watermark.civic.keywords import scan_text
+from watermark.civic.models import Platform, Publishing, Subdivision
+from watermark.config import Settings
+from watermark.pipeline.timeline import _subdivision_meeting_events
 
 
 def _make_docx(path: Path, text: str) -> None:
@@ -210,7 +210,7 @@ def test_write_index_shape(tmp_path: Path) -> None:
 def test_extract_text_ocr_fallback(tmp_path: Path, monkeypatch: object) -> None:
     from pypdf import PdfWriter
 
-    from bosc.civic import indexer
+    from watermark.civic import indexer
 
     p = tmp_path / "scan.pdf"
     writer = PdfWriter()

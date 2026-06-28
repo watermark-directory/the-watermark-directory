@@ -56,11 +56,11 @@ You don't need to run any code to use the archive: browse
 
 | Stage | Module | What it does |
 |-------|--------|--------------|
-| **ingest** | `bosc.pipeline.ingest` | Walk `data/documents`, inventory source files into a manifest (`doc_id`, collection, size). No parsing. |
-| **extract** | `bosc.pipeline.extract` | Drive the Claude agent to read a document and emit structured YAML; validate against `bosc.models`. The core deconstruction step. |
-| **analyze** | `bosc.pipeline.analyze` | Deterministic reconciliation (section roll-ups, the 25% contingency, totals) **and** free-form agentic research questions. |
+| **ingest** | `watermark.pipeline.ingest` | Walk `data/documents`, inventory source files into a manifest (`doc_id`, collection, size). No parsing. |
+| **extract** | `watermark.pipeline.extract` | Drive the Claude agent to read a document and emit structured YAML; validate against `watermark.models`. The core deconstruction step. |
+| **analyze** | `watermark.pipeline.analyze` | Deterministic reconciliation (section roll-ups, the 25% contingency, totals) **and** free-form agentic research questions. |
 
-The **agent** layer (`bosc.agent`) wraps the [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview)
+The **agent** layer (`watermark.agent`) wraps the [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview)
 and exposes in-process tools (`reconcile_summary`, `read_extraction`,
 `list_documents`, …) so the agent inspects real data instead of guessing.
 
@@ -131,7 +131,7 @@ src/bosc/
   hydrology/      water-balance & stormwater modeling of the Lima water loop;
                     connectors/ pull live public data (USGS streamflow, NOAA
                     rainfall, EPA ECHO permits), with on-disk caching
-  site/           the site's data tier: `bosc export` emits the typed content
+  site/           the site's data tier: `watermark export` emits the typed content
                     bundle (→ data/site/bundle/) the frontend/ app reads
 tests/            offline tests (run against committed data + saved fixtures)
 docs/             project notes + narrative prose (also the new site's content)
@@ -141,7 +141,7 @@ docs/             project notes + narrative prose (also the new site's content)
 
 The presentation tier of the two-tier site refactor (Epic #54): an
 [Astro](https://astro.build) + MDX static app that reads the committed content
-bundle (the JSON feeds `bosc export` emits) at build time, with deck.gl map/graph
+bundle (the JSON feeds `watermark export` emits) at build time, with deck.gl map/graph
 visualizations as the only React islands. It's structured as **the BOSC network**
 (Epic #308) — one build hosting a network of watershed-point sites: Lima (the live
 reference build) is re-rooted under `/bosc`, with cross-cutting pages (about, wiki,
@@ -154,7 +154,7 @@ was never flipped and Cloudflare supersedes it; the public cutover to the new si
 parity-gated. See [frontend/README.md](frontend/README.md).
 
 > **Reading the code as a non-coder:** start at the command you care about in
-> `cli.py` (e.g. `bosc npdes` for the wastewater pull), then follow it into the
+> `cli.py` (e.g. `watermark npdes` for the wastewater pull), then follow it into the
 > matching module. Each file opens with a plain-language docstring saying what it
 > does and why.
 
@@ -184,7 +184,7 @@ uv run bosc ask "Which roundabout has the largest design fee, and why?"
 3. **Profile resolve** — a format `Profile` is auto-detected from the OCR text
    (contractor name, document title) or set with `--profile`; it supplies the
    prompt vocabulary and markup convention.
-4. **Vision read** — a Claude model (`BOSC_EXTRACT_MODEL`) is forced via tool use
+4. **Vision read** — a Claude model (`WATERMARK_EXTRACT_MODEL`) is forced via tool use
    to populate a contractor-agnostic `Estimate` (a title + dynamic `sections`,
    each with line items and a subtotal + `markups` + construction subtotal +
    total), reading figures off the image and using the OCR text only as a hint.

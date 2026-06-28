@@ -5,7 +5,7 @@ status: reviewed
 producer:
   kind: connector
   command: nasa-power --write
-  connector_ref: bosc.hydrology.connectors.nasa_power
+  connector_ref: watermark.hydrology.connectors.nasa_power
   source: NASA POWER (Prediction Of Worldwide Energy Resources) — climatology point REST API (satellite-derived
     monthly/annual normals)
   external_url: https://power.larc.nasa.gov/
@@ -22,7 +22,7 @@ storage:
 refresh:
   cadence: on-demand
 provenance: connector
-schema_ref: bosc.hydrology.connectors.nasa_power.NasaPowerClimatology
+schema_ref: watermark.hydrology.connectors.nasa_power.NasaPowerClimatology
 tags:
 - nasa-power
 - climatology

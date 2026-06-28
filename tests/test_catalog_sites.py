@@ -10,8 +10,8 @@ from __future__ import annotations
 import textwrap
 from pathlib import Path
 
-from bosc.catalog_sites import is_relevant, owner_matches, readiness, site_view
-from bosc.config import Settings
+from watermark.catalog_sites import is_relevant, owner_matches, readiness, site_view
+from watermark.config import Settings
 
 
 def test_owner_matches_explicit_owner_kinds() -> None:
@@ -69,7 +69,7 @@ def _entry(settings: Settings, name: str, scope: str, site_scope: str, *relpaths
 
 # --- relevance -----------------------------------------------------------------------------
 def test_relevance_by_site_scope() -> None:
-    from bosc.catalog import CatalogEntry
+    from watermark.catalog import CatalogEntry
 
     def e(site_scope: str) -> CatalogEntry:
         return CatalogEntry.model_validate(
