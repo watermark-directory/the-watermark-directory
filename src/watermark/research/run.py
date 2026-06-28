@@ -342,11 +342,72 @@ class _HypothesisAssessmentRecipe(ResearchRecipe):
         return [], [cell]
 
 
+_ONBOARD_PROMPT = """\
+You are setting up a new watershed-point site ({site}) on the BOSC research platform.
+Use the read-only BOSC tools to assess the site's current state against the Lima reference
+build and produce a structured onboarding review.
+
+For each substantive comparison step:
+- Call retrieve_corpus with a focused semantic query and site="lima" to pull relevant Lima
+  precedents instead of loading Lima's full corpus.
+- If retrieve_corpus returns source-document context that has no corresponding entry in
+  data/extracted/ for this site, call report_novel_finding to file it as a triage lead and
+  move on — do not pursue it inline.
+
+Cover the following areas for {site}:
+1. NPDES / permit profile: connectors pulled, gaps vs Lima baseline.
+2. Grid / utility profile: EIA-861, BA interchange, LMP zone — what's present, what's missing.
+3. Hydrology: NWIS gauges configured, 7Q10 / water-balance status.
+4. GIS: parcel / zoning connectors wired; footprint geometry present.
+5. Extracted corpus: what's been extracted vs what source documents exist.
+6. Hypothesis assessments: which cells are populated vs open.
+
+End with a prioritized checklist of blocking gaps (items that must be resolved before the
+site can be promoted to selectable) and non-blocking gaps (good follow-up leads).
+Cite sources (connector outputs, committed files, GH issues) throughout. Do not fabricate
+status — prefer "not found" over invented figures.
+"""
+
+
+class _SiteOnboardRecipe(ResearchRecipe):
+    """Retrieval-augmented site-setup review: assess a new site against the Lima baseline.
+
+    Uses retrieve_corpus for cross-site comparison (low token cost) and
+    report_novel_finding to file novel source context as triage leads rather than
+    chasing unapproved research lines.
+    """
+
+    name = "site-onboard"
+
+    def validate_ctx(self, ctx: dict[str, Any]) -> None:
+        if not ctx.get("site"):
+            raise ValueError(f"recipe {self.name!r} needs context['site'] (the active --site slug)")
+
+    def build_prompt(self, *, topic: str, ctx: dict[str, Any]) -> str:
+        return _ONBOARD_PROMPT.format(site=ctx["site"])
+
+    def distill(
+        self,
+        findings: str,
+        *,
+        topic: str,
+        ctx: dict[str, Any],
+        extractor: StructuredExtractor,
+        max_proposals: int,
+    ) -> tuple[list[IssueProposal], list[HypothesisAssessment]]:
+        proposals = distill_proposals(
+            findings, topic=topic, extractor=extractor, max_proposals=max_proposals
+        )
+        return proposals, []
+
+
 ISSUE_PROPOSAL_RECIPE = _IssueProposalRecipe()
 HYPOTHESIS_ASSESSMENT_RECIPE = _HypothesisAssessmentRecipe()
+SITE_ONBOARD_RECIPE = _SiteOnboardRecipe()
 RECIPES: dict[str, ResearchRecipe] = {
     ISSUE_PROPOSAL_RECIPE.name: ISSUE_PROPOSAL_RECIPE,
     HYPOTHESIS_ASSESSMENT_RECIPE.name: HYPOTHESIS_ASSESSMENT_RECIPE,
+    SITE_ONBOARD_RECIPE.name: SITE_ONBOARD_RECIPE,
 }
 
 

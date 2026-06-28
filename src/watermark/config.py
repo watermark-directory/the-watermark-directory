@@ -262,6 +262,14 @@ class Settings(BaseSettings):
         ""  # override; else https://<account>.r2.cloudflarestorage.com
     )
 
+    # --- Retrieval (LanceDB corpus store + pluggable embeddings; #807-#810) -----
+    # Embedding provider name (WATERMARK_EMBEDDING_PROVIDER). New providers are
+    # registered in watermark.retrieval.embeddings.get_provider.
+    embedding_provider: str = "sentence_transformers"
+    # sentence-transformers model (WATERMARK_EMBEDDING_MODEL). Controls vector
+    # dimension — changing the model requires a full ``watermark index`` rebuild.
+    embedding_model: str = "all-MiniLM-L6-v2"
+
     # --- Paths -------------------------------------------------------------
     data_dir: Path = _REPO_ROOT / "data"
 
@@ -324,6 +332,11 @@ class Settings(BaseSettings):
     def usaspending_cache_dir(self) -> Path:
         """Cached USASpending API responses (recipient search + profiles). Not committed."""
         return self.cache_dir / "usaspending"
+
+    @property
+    def lancedb_dir(self) -> Path:
+        """LanceDB corpus retrieval index. Regenerable via ``watermark index``; not committed."""
+        return self.cache_dir / "lancedb"
 
     @property
     def reference_dir(self) -> Path:

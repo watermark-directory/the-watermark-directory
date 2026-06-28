@@ -133,9 +133,9 @@ def test_options_wire_the_discipline_prompt_and_research_skills() -> None:
     assert opts.skills == RESEARCH_SKILLS
     assert opts.setting_sources == ["project"]
     # Setting `skills` lets the SDK add the `Skill` tool itself — our allowlist stays the
-    # 14 read-only BOSC tools (no Bash/Write/etc. leak in).
+    # read-only BOSC tools (no Bash/Write/etc. leak in).
     assert opts.allowed_tools == tools.ALLOWED_TOOL_NAMES
-    assert len(tools.ALLOWED_TOOL_NAMES) == 14
+    assert len(tools.ALLOWED_TOOL_NAMES) == 16
 
 
 def test_held_back_skills_are_not_active() -> None:

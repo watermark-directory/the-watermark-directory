@@ -417,6 +417,139 @@ async def tier1_swmm(_args: dict[str, Any]) -> dict[str, Any]:
 
 
 @tool(
+    "retrieve_corpus",
+    "Semantic search over the indexed source corpus (documents, reference data, extracted "
+    "artifacts). Returns ranked chunks with text and provenance citations. Use to find "
+    "relevant precedents from reference sites, or to discover source context that has not "
+    "yet been extracted. Requires the index to be built first (watermark index).",
+    {
+        "query": str,
+        "site": str,
+        "collection": str,
+        "doc_kind": str,
+        "limit": int,
+    },
+)
+async def retrieve_corpus(args: dict[str, Any]) -> dict[str, Any]:
+    from watermark.retrieval.embeddings import get_provider
+    from watermark.retrieval.store import CorpusStore
+
+    settings = get_settings()
+    store = CorpusStore(settings.lancedb_dir, get_provider(settings))
+
+    if not store.exists:
+        return _text(
+            "[retrieval] Index not built. Run `watermark index` to build the corpus store "
+            "before using retrieve_corpus."
+        )
+
+    query: str = args.get("query", "")
+    if not query:
+        return _text("[retrieval] query is required.")
+
+    results = store.query(
+        query,
+        site=args.get("site") or None,
+        collection=args.get("collection") or None,
+        doc_kind=args.get("doc_kind") or None,
+        limit=int(args.get("limit", 10)),
+    )
+
+    if not results:
+        return _text("[retrieval] No results found for that query / filter combination.")
+
+    lines = [f"[retrieval] {len(results)} result(s) for: {query!r}\n"]
+    for i, r in enumerate(results, start=1):
+        page_note = f" p.{r.page + 1}" if r.page >= 0 else ""
+        site_note = f" [{r.site}]" if r.site else ""
+        lines.append(
+            f"--- {i}. {r.doc_kind}/{r.collection}/{r.source_path}{page_note}{site_note} "
+            f"(score {r.score:.3f}) ---"
+        )
+        lines.append(r.text[:600])
+        lines.append("")
+    return _text("\n".join(lines))
+
+
+_GH_REPO = "watermark-directory/the-watermark-directory"
+
+
+@tool(
+    "report_novel_finding",
+    "File a GitHub issue for context found in the source corpus that has no corresponding "
+    "extraction. Use when retrieve_corpus surfaces something significant that is not yet in "
+    "data/extracted/. Files the issue and returns immediately — do not pursue the finding "
+    "inline.",
+    {
+        "title": str,
+        "description": str,
+        "source_citation": str,
+        "site": str,
+        "collection": str,
+    },
+)
+async def report_novel_finding(args: dict[str, Any]) -> dict[str, Any]:
+    import httpx
+
+    settings = get_settings()
+    title: str = args.get("title", "").strip()
+    description: str = args.get("description", "").strip()
+    source_citation: str = args.get("source_citation", "").strip()
+    finding_site: str = args.get("site", "").strip()
+    collection: str = args.get("collection", "").strip()
+
+    if not title or not description:
+        return _text("[report_novel_finding] title and description are required.")
+
+    labels = ["type:gap", "area:evidence", "status:agent-proposed"]
+    if finding_site:
+        labels.append(f"site:{finding_site}")
+
+    body_parts = [description]
+    if source_citation:
+        body_parts.append(f"\n**Source citation:** {source_citation}")
+    if collection:
+        body_parts.append(f"**Collection:** {collection}")
+    body_parts.append(
+        "\n_Filed automatically by the research agent (status:agent-proposed). "
+        "Requires triage before any extraction work is scheduled._"
+    )
+    body = "\n".join(body_parts)
+
+    if not settings.github_token:
+        summary = (
+            f"[report_novel_finding] No GITHUB_TOKEN — issue not filed.\n"
+            f"Title: {title}\n"
+            f"Labels: {', '.join(labels)}\n"
+            f"Body:\n{body}"
+        )
+        return _text(summary)
+
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {settings.github_token}",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    payload = {"title": title, "body": body, "labels": labels}
+
+    try:
+        resp = httpx.post(
+            f"{settings.github_base_url}/repos/{_GH_REPO}/issues",
+            json=payload,
+            headers=headers,
+            timeout=30.0,
+        )
+        if resp.status_code == 201:
+            data = resp.json()
+            return _text(f"[report_novel_finding] Filed as #{data['number']}: {data['html_url']}")
+        return _text(
+            f"[report_novel_finding] GitHub API returned {resp.status_code}: {resp.text[:200]}"
+        )
+    except Exception as exc:
+        return _text(f"[report_novel_finding] Request failed: {exc}")
+
+
+@tool(
     "reconcile_estimate",
     "Reconcile a generated estimate extraction (*.opc.yaml): line items -> section "
     "subtotals -> construction subtotal + markups -> total.",
@@ -455,6 +588,8 @@ ALL_TOOLS = [
     storm_plan_inventory,
     sanitary_basis,
     tier1_swmm,
+    retrieve_corpus,
+    report_novel_finding,
 ]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]
 

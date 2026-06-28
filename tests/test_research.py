@@ -382,7 +382,7 @@ _ASSESS_DRAFT = {
 def test_recipes_registry_defaults_to_issue_proposal() -> None:
     from watermark.research import ISSUE_PROPOSAL_RECIPE, RECIPES
 
-    assert set(RECIPES) == {"issue-proposal", "hypothesis-assessment"}
+    assert set(RECIPES) == {"issue-proposal", "hypothesis-assessment", "site-onboard"}
     assert RECIPES["issue-proposal"] is ISSUE_PROPOSAL_RECIPE
 
 
