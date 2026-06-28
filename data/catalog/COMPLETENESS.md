@@ -8,9 +8,9 @@ Snapshot reconciled: **2026-06-28T18:41:23.186490+00:00**. Regenerate with `bosc
 
 ## Headline
 
-- **73** catalogued datasets — **72** reviewed.
+- **74** catalogued datasets — **73** reviewed.
 - **73** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
-- **0** missing (declared files absent) · **0** unobserved (no snapshot record).
+- **0** missing (declared files absent) · **1** unobserved (no snapshot record).
 
 ## Coverage by collection
 
@@ -25,7 +25,7 @@ Snapshot reconciled: **2026-06-28T18:41:23.186490+00:00**. Regenerate with `bosc
 | extracted | lacrpc | 2 | 2 | 0 | 0 |
 | extracted | legal | 15 | 15 | 0 | 0 |
 | extracted | meetings | 1 | 1 | 0 | 0 |
-| extracted | oepa | 1 | 1 | 0 | 0 |
+| extracted | oepa | 2 | 1 | 0 | 1 |
 | extracted | permits | 1 | 1 | 0 | 0 |
 | extracted | perry-township | 1 | 1 | 0 | 0 |
 | extracted | plans | 1 | 1 | 0 | 0 |
@@ -76,11 +76,13 @@ Snapshot reconciled: **2026-06-28T18:41:23.186490+00:00**. Regenerate with `bosc
 | toledo | 30 | 27 | 3 |
 | troy-piqua | 30 | 27 | 3 |
 | urbana | 31 | 28 | 3 |
-| van-wert | 30 | 27 | 3 |
+| van-wert | 31 | 28 | 3 |
 | wilmington | 29 | 26 | 3 |
 | wpafb | 30 | 27 | 3 |
 | xenia | 29 | 26 | 3 |
 
 ## Integrity gaps
 
-None — every catalogued dataset is present and within its refresh cadence.
+| dataset | scope | state |
+| --- | --- | --- |
+| `oepa-van-wert` | extracted | unobserved |
