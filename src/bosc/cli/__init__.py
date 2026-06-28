@@ -20,6 +20,7 @@ from bosc.cli import (  # noqa: F401
     hydrology,
     hypotheses,
     imagery,
+    leads,
     objectstore,
     pipeline,
     poi,
