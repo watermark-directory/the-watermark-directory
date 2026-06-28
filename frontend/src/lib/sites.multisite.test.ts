@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { comingSoonSiteTabs } from "./nav";
 import { siteBase } from "./routes";
 import {
   ACTIVE_SITE_SLUG,
@@ -81,6 +82,18 @@ describe("multi-site chrome parity (#746)", () => {
     // Off the network (the directory + cross-cutting globals) → no current site.
     expect(currentSiteForPath("/")).toBeNull();
     expect(currentSiteForPath("/about")).toBeNull();
+  });
+
+  it("a coming-soon site gets a registry-only, mostly-locked site-tier tab bar (#793)", () => {
+    const fw = SITES.find((s) => s.slug === "fort-wayne") as NetworkSite;
+    const tabs = comingSoonSiteTabs(fw);
+    // All registry-only plain links pointing at the site's own watch page (never a 404 into an
+    // unbuilt tree); the overview is live, the unbuilt sections are locked markers.
+    const base = siteBase("fort-wayne");
+    const links = tabs.map((t) => (t.kind === "link" ? t : null));
+    expect(links.map((t) => t?.label)).toEqual(["The site", "The story", "The record"]);
+    expect(links.map((t) => Boolean(t?.locked))).toEqual([false, true, true]);
+    for (const t of links) expect(t?.href).toBe(base);
   });
 
   it("promoting a site removes it from the coming-soon set", () => {

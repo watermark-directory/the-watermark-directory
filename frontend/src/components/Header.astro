@@ -4,6 +4,7 @@ import Logo from "./Logo.astro";
 import SwitcherRow from "./SwitcherRow.astro";
 import SwitcherRowV2 from "./SwitcherRowV2.astro";
 import {
+  comingSoonSiteTabs,
   networkTabs,
   platformLinks,
   siteTabs,
@@ -27,17 +28,21 @@ const base = import.meta.env.BASE_URL || "/";
 // level (the directory + cross-cutting globals) → NETWORK tabs + the "All sites" chip.
 // The `Watermark.` wordmark always returns to the network home (the Directory).
 const here = siteForPath(Astro.url.pathname, base);
-const tier: "network" | "site" = here ? "site" : "network";
-const siteTabsList = siteTabs();
+// The switcher's *current* state — and now the tab tier — react to any `/network/<slug>` route,
+// including a coming-soon site (where `here`, the *built-site* resolver, is null). On a site page
+// the left tabs are site-tier: Lima (built, `here`) gets its real bundle-backed `siteTabs`; a
+// coming-soon peer gets a registry-only, mostly-locked bar (`comingSoonSiteTabs`) so the chrome
+// matches the chip instead of dropping to the network tabs (#793).
+const current = currentSiteForPath(Astro.url.pathname, base);
+const tier: "network" | "site" = current ? "site" : "network";
 const networkTabsList = networkTabs();
 const platformList = platformLinks();
-const leftTabs = tier === "site" ? siteTabsList : networkTabsList;
+// The site-tier tab set for the current site: a coming-soon peer gets the registry-only locked bar;
+// a built site (or the global-default) gets the real bundle-backed tabs. The desktop left tabs use
+// it on a site page (network tabs off-network); the mobile sheet's "This site" group always does.
+const siteTabsList = current && !here ? comingSoonSiteTabs(current) : siteTabs();
+const leftTabs = current ? siteTabsList : networkTabsList;
 const networkHome = "/";
-
-// The switcher's *current* state reacts to any `/network/<slug>` route — including a coming-soon
-// site, where `here` (the tab-tier resolver) is null because its inner pages aren't built (#793).
-// So the chip + active row read from `current`, while the tab tier still keys off `here`.
-const current = currentSiteForPath(Astro.url.pathname, base);
 
 // The site chip = the breadcrumb + the switcher trigger. Off the network → "All sites".
 const chipPlace = current ? current.place : "All sites";
@@ -380,6 +385,16 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
             </details>
           );
         }
+        if (item.locked) {
+          // A coming-soon site's not-yet-built section (#793): a non-navigable marker, not a link
+          // (the page doesn't exist) — the watch page itself lists what will land there.
+          return (
+            <span class="section-tab is-locked" aria-disabled="true" title={`${item.label} — coming soon`}>
+              {item.label}
+              <Icon name="locked" size={11} class="section-tab-lock" />
+            </span>
+          );
+        }
         return (
           <a
             class:list={["section-tab", { active: isActive }]}
@@ -396,7 +411,7 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
   <!-- Mobile sheet (#400): This site / Network / Platform, toggled by the burger checkbox. -->
   <nav class="nav-sheet" id="bosc-nav-sheet" aria-label="Site menu">
     <div class="sheet-group">
-      <div class="sheet-grouphead">This site · {here ? here.place : "Lima"}</div>
+      <div class="sheet-grouphead">This site · {current ? current.place : "Lima"}</div>
       {
         siteTabsList.map((item) =>
           item.kind === "link" ? (
