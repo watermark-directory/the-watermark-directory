@@ -1,0 +1,227 @@
+meta:
+  topic: onboard van-wert
+  model: claude-opus-4-8
+  generated_at: '2026-06-28T20:28:47+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__watermark__program_overview
+    - mcp__watermark__list_documents
+    - mcp__watermark__list_extractions
+    - Bash
+    - Read
+    - mcp__watermark__retrieve_corpus
+    - mcp__watermark__hydrology_balance
+    num_turns: 26
+    max_turns: 30
+    cost_usd: 1.6299367500000002
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Ingest OEPA NPDES permit/fact sheet for Van Wert WWTP (OH0027910 / 2PD00006)
+    and extract cited Town Creek 7Q10
+  dedupe_key: ingest-oepa-npdes-permit-fact-sheet-for-van-wert-wwtp-oh0027910
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - extraction
+  - npdes
+  - hydrology
+  rationale: 'Without a cited Town Creek 7Q10 derived from the actual permit, every
+    ''effluent-dominated'' claim for van-wert remains an unverified inference, directly
+    blocking promotion to `selectable: true`.'
+  body: '## Background
+
+
+    The Van Wert WWTP permit `OH0027910` (`2PD00006`) is confirmed present in the
+    ECHO reference inventory (`data/reference/echo/maumee-wwtp.all-npdes.yaml`), but
+    `data/extracted/van-wert/` holds only `ONBOARDING.md` and `README.md` — zero ingested
+    OEPA documents. The ECHO row carries `design_flow_mgd: null, design_flow_missing:
+    true`, and the profile''s `~4.0 MGD` figure (line 436 of `src/watermark/sites/_profiles.py`)
+    is explicitly flagged `[open]` / uncited in-corpus.
+
+
+    Contrary to Lima''s three ingested fact sheets (`2PH00006`, `2PH00007`, `2IG00001`)
+    each with `source: document` 7Q10 values in `data/reference/hydrology/low-flow-7q10.yaml`,
+    Town Creek appears in neither the cited nor the derived 7Q10 tables (`low-flow-7q10.derived.yaml`),
+    and receiving-reach gauge `04191000` is absent from the derived set. This is the
+    single most load-bearing omission for a site whose entire thesis is effluent dominance
+    on a tiny tributary. Tracked as GH **#375**.
+
+
+    ## Acceptance criteria
+
+
+    - OEPA NPDES permit or fact sheet for `OH0027910` / `2PD00006` is ingested into
+    `data/documents/van-wert/` (or the canonical documents path).
+
+    - A structured extraction is committed under `data/extracted/van-wert/` referencing
+    that document.
+
+    - `data/reference/hydrology/low-flow-7q10.yaml` gains a Town Creek entry with
+    `source: document` and confidence ≥ medium.
+
+    - Design flow is recorded as a cited value (not `null`) and the `~4.0 MGD` profile
+    comment is either confirmed or corrected with a document citation.
+
+    - `ONBOARDING.md` gate box for permit ingestion is checked.'
+- title: Re-run basin-screen for OH0027910 against Town Creek 7Q10 and record the
+    dilution ratio
+  dedupe_key: re-run-basin-screen-for-oh0027910-against-town-creek-7q10-and-re
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - hydrology
+  - basin-screen
+  - npdes
+  rationale: A site whose promotional narrative centers on effluent dominance cannot
+    be responsibly advanced until the dilution ratio is computed from the correct
+    receiving-water flow, not a mainstem proxy.
+  body: '## Background
+
+
+    The findings note that `basin-screen` ran across only 7 of 129 dischargers and
+    that `OH0027910` was either not among them or was screened against a mainstem
+    proxy that overstates dilution by orders of magnitude (`ONBOARDING.md` line 22).
+    Town Creek does not appear in `low-flow-7q10.derived.yaml`, so any prior screen
+    of the Van Wert WWTP used a receiving-water flow value that is not site-specific.
+    Until `OH0027910` is screened against Town Creek''s own 7Q10, the site''s core
+    thesis — effluent dominance on a small tributary — is `[inference]`, not a documented
+    finding. Tracked as GH **#376**.
+
+
+    This task is downstream of #375 (permit ingest + 7Q10 extraction) but should be
+    filed and tracked independently.
+
+
+    ## Acceptance criteria
+
+
+    - `basin-screen` is re-run with `OH0027910` included and Town Creek 7Q10 as the
+    receiving-water denominator.
+
+    - The resulting dilution ratio (effluent design flow ÷ Town Creek 7Q10) is recorded
+    in a committed artifact (e.g., updated `ONBOARDING.md` or a new screen results
+    file).
+
+    - The screen result is cited as the basis for any ''effluent-dominated'' characterization
+    in site documentation.
+
+    - `ONBOARDING.md` gate box for basin-screen coverage is checked.'
+- title: Obtain a Van-Wert-jurisdiction primary document for QTS data-center activity
+    or commit a formal negative-search record
+  dedupe_key: obtain-a-van-wert-jurisdiction-primary-document-for-qts-data-cen
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - extraction
+  - entities
+  - data-center
+  rationale: Promotion of van-wert with a data-center thesis resting entirely on proponent
+    legislative testimony — and zero jurisdiction-specific primary documents — would
+    misrepresent the evidential basis of the site's economic rationale.
+  body: '## Background
+
+
+    The findings confirm that all data-center activity for van-wert is documented
+    **secondhand through Allen-County instruments**. The QTS `$10B Van Wert County
+    campus` claim (up to 4,500 construction jobs, closed-loop cooling ~600,000 gal/yr)
+    derives solely from proponent testimony in `data/extracted/legal/select-committee-2026/witness-submissions.digest.yaml`
+    — flagged `[verified]` only that the claim appears in the record, not that the
+    figures are independently confirmed. No Van-Wert-jurisdiction primary instrument
+    (county/city ED filing, CRA/PILOT agreement, recorder deed, or utility interconnection
+    application) exists in the corpus. Tracked as GH **#377**.
+
+
+    The findings also warn explicitly: *do not import the Allen-County Bistrozzi/Montfort/Ziance
+    graph into van-wert without a filed bridge.*
+
+
+    ## Acceptance criteria
+
+
+    - Either: a Van-Wert-jurisdiction primary document (recorder instrument, CRA/PILOT
+    resolution, county commissioner minutes, or utility filing naming Van Wert County)
+    is ingested and a structured extraction committed to `data/extracted/van-wert/`;
+
+    - Or: a formal negative-search record is committed to `ONBOARDING.md` documenting
+    the sources searched, dates, and null result.
+
+    - The $10B / 4,500-jobs figures are annotated with their evidential status (proponent
+    testimony vs. documented instrument) in all site-facing files.'
+- title: Resolve whether QTS and Thor Equities name the same Van Wert data-center
+    project
+  dedupe_key: resolve-whether-qts-and-thor-equities-name-the-same-van-wert-dat
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - entities
+  - data-center
+  - extraction
+  rationale: Merging two potentially distinct multi-billion-dollar projects on the
+    basis of an uncorroborated digest flag would corrupt the site's entity graph and
+    inflate activity estimates.
+  body: "## Background\n\nThe findings surface two distinct data-center threads pointing\
+    \ at Van Wert County:\n1. **QTS** — `$10B` campus, documented in `data/extracted/legal/select-committee-2026/witness-submissions.digest.yaml`\
+    \ (proponent testimony, Allen-County select-committee record).\n2. **Thor Equities**\
+    \ — *\"also doing a Van Wert data center; brought by AEP,\"* 1-yr LOI dated 2025-03-27\
+    \ at `$50K/ac` on Perry Industrial Park (Allen County), documented in `data/extracted/aedg/paac-board-minutes.minutes.yaml`.\n\
+    \nThe witness digest *flags* a possible tie between the two (line 120), but no\
+    \ instrument in the corpus establishes that they are the same project. The findings\
+    \ explicitly warn: *\"Do not merge\"* and *\"do not import the Allen-County …\
+    \ graph into van-wert without a filed bridge.\"* Tracked as GH **#378**.\n\n##\
+    \ Acceptance criteria\n\n- A primary document (recorder deed, utility application,\
+    \ press release with legal entity names, or official county filing) is located\
+    \ that either:\n  - Confirms QTS and Thor Equities refer to the same project (with\
+    \ the corporate relationship cited), or\n  - Establishes them as distinct projects\
+    \ with separate parcels/permits.\n- The corpus entries for both threads are updated\
+    \ to reflect the determination, with citations.\n- If no resolution is found after\
+    \ a documented search, a negative-search note is added to `ONBOARDING.md` and\
+    \ the two entities remain in separate register entries."
+- title: File a GIS tracking issue for Van Wert County PAT MapServer TLS failure and
+    parcel/zoning fallback path
+  dedupe_key: file-a-gis-tracking-issue-for-van-wert-county-pat-mapserver-tls
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - gis
+  - extraction
+  rationale: The parcel/footprint gap cascades into both the SSURGO HSG inference
+    and the absence of any site-boundary geometry, which are prerequisites for credible
+    water-balance and land-use analysis.
+  body: '## Background
+
+
+    The findings note that `parcels_url` and `zoning_url` are both `"TODO"` in `src/watermark/sites/_profiles.py`
+    (lines 459–465), and `gis_parcel` / `gis_zoning` are both `None`. The Van Wert
+    County PAT MapServer (`ags.bhamaps.com`, Bruce Harris & Assoc.) was identified
+    as the likely source but has an **expired TLS certificate**, making it unconsuable
+    by `cached_get`/httpx. The findings explicitly state: *"do not weaken TLS for
+    it."* No City of Van Wert zoning REST catalog was found. The parcel/footprint
+    absence also blocks the coupled SSURGO HSG confirmation (`dominant_hsg: "D"` remains
+    `[inference]`), since HSG requires an area-weighted footprint.
+
+
+    This gap is currently tracked only in `ONBOARDING.md` with no dedicated GitHub
+    issue.
+
+
+    ## Acceptance criteria
+
+
+    - A GitHub issue exists (this one) tracking the TLS/parcel/zoning gap with the
+    MapServer URL and the TLS expiry noted.
+
+    - A fallback path is documented: either the Van Wert County Engineer''s-office
+    parcel shapefile (direct download) or an alternative REST endpoint.
+
+    - Once a valid parcel source is confirmed, `parcels_url` and `gis_parcel` in `_profiles.py`
+    are populated and a `GisParcelSchema` entry committed.
+
+    - City of Van Wert zoning layer is either registered or formally accepted as map-only
+    with a note in `ONBOARDING.md`.
+
+    - SSURGO HSG confirmation is unblocked (footprint geometry present) and `dominant_hsg`
+    upgraded from `[inference]` to a cited area-weighted value.'
