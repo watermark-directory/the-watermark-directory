@@ -35,13 +35,14 @@ def discover(
     ),
     offline: bool = typer.Option(False, "--offline", help="Skip network; return empty results."),
 ) -> None:
-    """Search DuckDuckGo for OEPA/DAM documents for a site and write a discovery manifest.
+    """Search for OEPA/DAM documents for a site and write a discovery manifest.
 
-    Queries ``site:dam.assets.ohio.gov`` with the site's place name and county.
-    Results are annotated ``known`` (in the site's ``npdes_permits`` list),
-    ``committed`` (already on disk under ``data/documents/oepa/<slug>/``), or ``new``.
-    The manifest is written to ``data/research/oepa-discovery-<slug>-<date>/``
-    for human review — no files are downloaded.
+    Queries Google (via Serper) with the site's place name and county, filtered
+    to ``dam.assets.ohio.gov`` PDF results.  Results are annotated ``known`` (in
+    the site's ``npdes_permits`` list), ``committed`` (already on disk under
+    ``data/documents/oepa/<slug>/``), or ``new``.  The manifest is written to
+    ``data/research/oepa-discovery-<slug>-<date>/`` for human review — no files
+    are downloaded.
     """
     from datetime import UTC, datetime
 
@@ -106,7 +107,9 @@ def discover(
     )
 
     if not results:
-        console.print("[dim]No DAM documents found. Try --term NPDES or check online mode.[/]")
+        console.print(
+            "[dim]No DAM documents found. Try --term with a permit ID or check online mode.[/]"
+        )
         return
 
     # Write manifest
