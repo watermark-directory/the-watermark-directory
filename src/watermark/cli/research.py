@@ -57,6 +57,34 @@ def _publish_and_create_issues(
     if not plan.issues:
         console.print("[yellow]No issues to open (all deduped or none proposed).[/]")
         return
+
+    # Ensure the site label exists before trying to apply it.
+    site_label = f"site:{site}"
+    label_result = subprocess.run(
+        ["gh", "label", "list", "--json", "name", "--limit", "1000"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    existing_label_names = {lbl["name"] for lbl in json.loads(label_result.stdout)}
+    if site_label not in existing_label_names:
+        subprocess.run(
+            [
+                "gh",
+                "label",
+                "create",
+                site_label,
+                "--color",
+                "c5def5",
+                "--description",
+                f"Site: {site}",
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        console.print(f"[dim]Created label [bold]{site_label}[/].[/]")
+
     console.print()
     for iss in plan.issues:
         cmd = ["gh", "issue", "create", "--title", iss.title, "--body", iss.body]
