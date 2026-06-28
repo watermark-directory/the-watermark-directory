@@ -101,6 +101,7 @@ class StructuredExtractor:
         tool_name: str,
         description: str,
         log_event: str,
+        system: str | None = None,
     ) -> T:
         """Force a single tool call returning ``target``, validate it, and return it.
 
@@ -108,19 +109,22 @@ class StructuredExtractor:
         differ only in the ``content`` payload they assemble (images + text vs.
         text alone) and the log event they emit.
         """
-        message = self.client.messages.create(
-            model=self.model,
-            max_tokens=self.max_tokens,
-            tools=[
+        kwargs: dict[str, Any] = {
+            "model": self.model,
+            "max_tokens": self.max_tokens,
+            "tools": [
                 {
                     "name": tool_name,
                     "description": description,
                     "input_schema": _tool_schema(target),
                 }
             ],
-            tool_choice={"type": "tool", "name": tool_name},
-            messages=[{"role": "user", "content": content}],
-        )
+            "tool_choice": {"type": "tool", "name": tool_name},
+            "messages": [{"role": "user", "content": content}],
+        }
+        if system is not None:
+            kwargs["system"] = system
+        message = self.client.messages.create(**kwargs)
         result = target.model_validate(_first_tool_input(message, tool_name))
         log.info(log_event, model=self.model, target=target.__name__)
         return result
@@ -170,11 +174,13 @@ class StructuredExtractor:
         instructions: str,
         text: str,
         tool_name: str = "record_extraction",
+        system: str | None = None,
     ) -> T:
         """Force the model to populate ``target`` from a text document (no image).
 
         For already-clean text (e.g. extracted meeting minutes) rather than a page
         render — same forced-tool-use + schema-validation contract as :meth:`extract`.
+        Pass ``system`` to inject a system-level constraint (e.g. "use native JSON arrays").
         """
         content: list[dict[str, Any]] = [
             {"type": "text", "text": f"{instructions}\n\n--- Document text ---\n{text}"}
@@ -185,4 +191,5 @@ class StructuredExtractor:
             tool_name=tool_name,
             description=f"Record the extracted {target.__name__}.",
             log_event="extractor.extracted_text",
+            system=system,
         )

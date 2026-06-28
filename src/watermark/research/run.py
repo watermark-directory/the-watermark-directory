@@ -105,6 +105,9 @@ check, a reconciliation discrepancy, or a new extraction target). For each propo
   the process labels, they are added automatically.
 If the findings surface no actionable follow-ups, return an empty list.
 
+IMPORTANT: Call the tool with a native JSON array for the proposals field — not a
+JSON-encoded string. Each proposal must be a plain JSON object (not escaped or quoted).
+
 Topic: {topic}
 """
 
@@ -138,8 +141,15 @@ def distill_proposals(
     """
     instructions = _DISTILL_INSTRUCTIONS.format(topic=topic, max_proposals=max_proposals)
     text = findings[:_MAX_FINDINGS_CHARS]
+    distill_system = (
+        "You are a structured-data extractor. Always fill tool parameters with native JSON "
+        "values: arrays as JSON arrays, objects as JSON objects — never as JSON-encoded strings. "
+        'String fields may contain quotes; escape them properly as \\" in the JSON.'
+    )
     drafts = _distill_with_retry(
-        lambda: extractor.extract_from_text(ProposalDrafts, instructions=instructions, text=text),
+        lambda: extractor.extract_from_text(
+            ProposalDrafts, instructions=instructions, text=text, system=distill_system
+        ),
         event="research.distill.retry",
         fail_msg="proposal distillation failed with no recorded error",
     )
