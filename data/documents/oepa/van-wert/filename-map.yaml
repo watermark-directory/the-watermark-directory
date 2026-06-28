@@ -9,6 +9,6 @@ documents:
   sha256: 7e9cbd445986e4a76b4d85b0004d2fc1d6fa0f76e9b887ec2113562bb3ee1055
   bytes: 2308438
   content_type: application/pdf
-  fetched_at: '2026-06-28T23:06:01.648292+00:00'
-  status: downloaded
+  fetched_at: '2026-06-28T23:31:20.930184+00:00'
+  status: skipped_existing
   note: null

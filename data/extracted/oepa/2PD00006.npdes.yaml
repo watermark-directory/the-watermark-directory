@@ -1,0 +1,48 @@
+doc_id: 2PD00006-7c4ce869
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/oepa/van-wert/2PD00006.pdf
+kind: npdes
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: "Ohio EPA Permit No.: 2PD00006*VD \nApplication No: OH0027910\
+  \ \nAction Date: April 18, 2025\nEffective Date: June 1, 2025\nExpiration Date:\
+  \ May 31, 2030\nOhio Environmental Protection Agency \nAuthorization to Discharge\
+  \ Under the \nNational Pollutant Discharge Elimination System \nIn compliance with\
+  \ the provisions of the Federal Water Pollution Control Act, as amended (33 U.S.C.\
+  \ \n1251 et. seq., hereinafter referred to as the \"Act\"), and the Ohio Water Pollution\
+  \ Control Act (Ohio \nRevised Code Section 6111), \nVan Wert WWTP \nis authorized\
+  \ by the Ohio Environmental Protection Agency, hereinafter referred "
+permit:
+  confidence: high
+  warnings:
+  - No public notice number, public notice date, or comment period end date found
+    in the document.
+  - Permit action inferred as 'renewal' based on context (existing facility, expiration/effective
+    dates, reissuance format); not explicitly stated.
+  - Stream network downstream of Town Creek not stated in the document.
+  facility_name: Van Wert WWTP
+  permit_no: 2PD00006*VD
+  permit_action: renewal
+  applicant: Van Wert WWTP
+  application_no: OH0027910
+  public_notice_no: null
+  public_notice_date: null
+  comment_period_end: null
+  facility_address: 7998 S.R. 127 N., Van Wert, Ohio, Van Wert County
+  discharge_address: null
+  receiving_water: Town Creek at River Mile 13.87
+  stream_network: null
+  outfalls:
+  - 2PD00006001
+  - 2PD00006004
+  note: 'Action Date: 2025-04-18. Effective Date: 2025-06-01. Expiration Date: 2030-05-31.
+    Outfall 001 has interim limits (first 36 months) and final limits (remaining period).
+    Outfall 004 is a CSO monitoring station. No public notice number, date, or comment
+    period end found in the document.'
