@@ -5,6 +5,7 @@ import {
   type NetworkSite,
   SITES,
   comingSoonFrom,
+  currentSiteForPath,
   selectablePathsFrom,
   siteForPathIn,
 } from "./sites";
@@ -69,6 +70,17 @@ describe("multi-site chrome parity (#746)", () => {
     ]);
     expect(fw?.chapters.map((c) => c.slug)).toEqual(["who", "power", "water"]);
     expect(lima?.codename).not.toBe(fw?.codename);
+  });
+
+  it("the switcher's current state reacts to a coming-soon site, where the tab tier does not (#793)", () => {
+    // The tab-tier resolver (`siteForPath`) is null on a non-selectable site's watch page...
+    expect(siteForPathIn(SITES, "/network/fort-wayne")).toBeNull();
+    // ...but the switcher resolver names the current site regardless of `selectable`.
+    expect(currentSiteForPath("/network/fort-wayne")?.slug).toBe("fort-wayne");
+    expect(currentSiteForPath("/network/american-sugar-creek-allen-co/timeline")?.slug).toBe("lima");
+    // Off the network (the directory + cross-cutting globals) → no current site.
+    expect(currentSiteForPath("/")).toBeNull();
+    expect(currentSiteForPath("/about")).toBeNull();
   });
 
   it("promoting a site removes it from the coming-soon set", () => {

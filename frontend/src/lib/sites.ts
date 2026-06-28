@@ -523,13 +523,35 @@ export function siteForPathIn(
   pathname: string,
   base = "",
 ): NetworkSite | null {
+  return matchSiteByPath(sites, pathname, base, true);
+}
+
+/**
+ * Resolve the network site a `/network/<…>` route belongs to **regardless of `selectable`** — so
+ * the switcher reflects the *current* site even on a coming-soon / watch page (`/network/<slug>`),
+ * where {@link siteForPath} returns `null` because the full site tier isn't built yet (#793). Use
+ * this for the switcher chip + active row; the site-vs-network *tab tier* still keys off
+ * {@link siteForPath} (a non-selectable site has no inner pages to tab into).
+ */
+export function currentSiteForPath(pathname: string, base = ""): NetworkSite | null {
+  return matchSiteByPath(SITES, pathname, base, false);
+}
+
+/** Shared core: the first site whose `href` is a prefix of `pathname`. `requireSelectable`
+ *  restricts to built sites (the tab-tier resolver) vs any site (the switcher's current state). */
+function matchSiteByPath(
+  sites: readonly NetworkSite[],
+  pathname: string,
+  base: string,
+  requireSelectable: boolean,
+): NetworkSite | null {
   let p = pathname;
   if (base && base !== "/" && p.startsWith(base)) p = p.slice(base.length);
   if (!p.startsWith("/")) p = `/${p}`;
   p = p.replace(/\/+$/, "") || "/";
   return (
     sites.find((s) => {
-      if (!s.selectable) return false;
+      if (requireSelectable && !s.selectable) return false;
       const h = s.href.replace(/\/+$/, "");
       return p === h || p.startsWith(`${h}/`);
     }) ?? null

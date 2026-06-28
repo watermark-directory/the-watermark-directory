@@ -13,7 +13,7 @@ import {
   type SectionId,
 } from "../lib/nav";
 import { withBase } from "../lib/site";
-import { groupSites, SITE_STATUS_META, SITES, siteForPath } from "../lib/sites";
+import { currentSiteForPath, groupSites, SITE_STATUS_META, SITES, siteForPath } from "../lib/sites";
 
 interface Props {
   active: SectionId;
@@ -34,16 +34,21 @@ const platformList = platformLinks();
 const leftTabs = tier === "site" ? siteTabsList : networkTabsList;
 const networkHome = "/";
 
-// The site chip = the breadcrumb + the switcher trigger. Network tier shows "All sites".
-const chipPlace = here ? here.place : "All sites";
-const chipCodename = here?.codename ?? null;
-const herePhase = here ? SITE_STATUS_META[here.status] : null;
+// The switcher's *current* state reacts to any `/network/<slug>` route — including a coming-soon
+// site, where `here` (the tab-tier resolver) is null because its inner pages aren't built (#793).
+// So the chip + active row read from `current`, while the tab tier still keys off `here`.
+const current = currentSiteForPath(Astro.url.pathname, base);
+
+// The site chip = the breadcrumb + the switcher trigger. Off the network → "All sites".
+const chipPlace = current ? current.place : "All sites";
+const chipCodename = current?.codename ?? null;
+const herePhase = current ? SITE_STATUS_META[current.status] : null;
 
 // The grouped selector (#307/#308): the same 32-site panel, pivoted by State or Basin
 // (default Basin, design "Site Selector"). No-JS — radio inputs + :checked.
 const stateGroups = groupSites("state");
 const basinGroups = groupSites("basin");
-const hereSlug = here?.slug ?? null;
+const hereSlug = current?.slug ?? null;
 const totalSites = SITES.length;
 const stateCount = stateGroups.length;
 const basinCount = basinGroups.length;
@@ -69,7 +74,7 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
 
   <!-- The site chip — the breadcrumb into a site and the switcher trigger (no-JS <details>). -->
   <details class="site-switcher">
-    <summary class="site-chip" aria-label={tier === "network" ? "All sites — open the site selector" : `Current site: ${chipPlace} — switch site`}>
+    <summary class="site-chip" aria-label={current ? `Current site: ${chipPlace} — switch site` : "All sites — open the site selector"}>
       {
         tier === "network" && (
           <svg class="chip-grid" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
