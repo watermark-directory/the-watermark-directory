@@ -461,6 +461,78 @@ LUCAS_AREIS_PARCEL_SCHEMA = GisParcelSchema(
 )
 
 
+# Champaign County, OH parcels (Urbana watershed point; #441/#797). The county auditor map
+# (auditor.co.champaign.oh.us/Map) is a Cloudflare-fronted SPA backed by the Champaign County
+# Engineer ArcGIS Online org (CCEO, orgId HBIN2hfRscrws7eM); the owner-bearing CAMA join is the
+# `parcel_joined` FeatureServer layer 0 — PPOwner + PPAddress (situs street) + PPOwnerAddress
+# (mailing, full one-line) + PPClassCode (Ohio CAMA use code) + PPAcres + land/improvement/total
+# appraised values + the last sale. SAME-NAME-COUNTY GUARD: this is verified Champaign County
+# **OHIO** (FIPS 39021) — owner cities Urbana / St Paris / Mechanicsburg OH (ZIP 43078/43044) and
+# WKID 3735 (NAD83 Ohio South ftUS). The same-named Champaign County **ILLINOIS** (FIPS 17019;
+# ccgisc.org / gisportal.champaignil.gov / services3.arcgis.com/hrGHbYKdjpN9Dagg) surfaced first in
+# discovery and was rejected — it is NOT wired here (#797).
+CHAMPAIGN_PARCEL_SCHEMA = GisParcelSchema(
+    connector="champaign_cceo",
+    reference_dir="urbana-gis",
+    page_size=2000,
+    out_fields=(
+        "Parcel",
+        "PPOwner",
+        "PPOwnerAddress",
+        "PPAddress",
+        "PPClassCode",
+        "PPAcres",
+        "PPLandValue",
+        "PPImprValue",
+        "PPTotalValue",
+        "PPSaleDate",
+        "PPAmount",
+        "PPHasCAUV",
+    ),
+    id_field="Parcel",  # dashed, district-letter-prefixed, e.g. "K41-11-10-06-00-005-07"
+    owner_field="PPOwner",
+    owner_2_field="",  # no separate second-owner field (PPOwner carries the full string)
+    deeded_owner_field="",
+    situs_fields=("PPAddress",),  # the situs STREET only — no city token (see caveats)
+    owner_addr_fields=("PPOwnerAddress",),  # full one-line owner mailing (incl. city/state/ZIP)
+    land_use_field="PPClassCode",  # the Ohio CAMA use code (bare int, e.g. 511 res / 111 ag)
+    acres_field="PPAcres",
+    market_land_field="PPLandValue",
+    market_improvement_field="PPImprValue",
+    market_total_field="PPTotalValue",
+    cauv_field="PPHasCAUV",
+    tax_district_field="",  # encoded in the parcel-id leading district letter; no separate field
+    school_field="",
+    neighborhood_field="",
+    sale_date_field="PPSaleDate",  # epoch-millis (e.g. 1718323200000)
+    sale_amount_field="PPAmount",
+    valid_sale_field="",
+    id_normalize="verbatim",  # the dashed, prefixed id is stored verbatim
+    date_decode="epoch_millis",
+    land_use_decode="int",  # bare numeric CAMA code
+    deed_id_regex=r"\b[A-Z]\d{2}-\d{2}-\d{2}-\d{2}-\d{2}-\d{3}-\d{2}\b",
+    meta=GisMeta(
+        subject="Champaign County, Ohio parcels (CCEO parcel_joined — auditor CAMA)",
+        source="Champaign County Engineer ArcGIS Online org (CCEO, HBIN2hfRscrws7eM) — "
+        "parcel_joined FeatureServer layer 0 (auditor CAMA + geometry)",
+        source_url=(
+            "https://services5.arcgis.com/HBIN2hfRscrws7eM/arcgis/rest/services/"
+            "parcel_joined/FeatureServer/0"
+        ),
+        caveats=(
+            "Values are verbatim from the county CAMA; null means the service had no value.",
+            "PPAddress is the situs STREET only (no city token); the municipality is derived from "
+            "geometry / the parcel-id district prefix, not a column.",
+            "PPOwnerAddress is the full one-line owner mailing address (incl. city/state/ZIP).",
+            "Verified Champaign County OHIO (FIPS 39021): owner cities Urbana/St Paris/Mechanicsburg "
+            "OH, ZIP 43078/43044, WKID 3735 (NAD83 Ohio South). The same-named Champaign Co ILLINOIS "
+            "(ccgisc.org / gisportal.champaignil.gov) was found and rejected during discovery (#797).",
+            "Field names + samples confirmed from the live layer-0 query (2026-06-27).",
+        ),
+    ),
+)
+
+
 # City of Toledo / Lucas County zoning (#384): the AREIS Parcel_Zoning layer — a PARCEL-level zoning
 # catalog (PARID + ZONING), so unlike Findlay's polygon-only layer it supports the per-parcel join.
 LUCAS_ZONING_SCHEMA = GisZoningSchema(

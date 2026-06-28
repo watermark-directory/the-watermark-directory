@@ -11,6 +11,7 @@ from __future__ import annotations
 
 from bosc.sites._gis_schemas import (
     ALLEN_IN_PARCEL_SCHEMA,
+    CHAMPAIGN_PARCEL_SCHEMA,
     FINDLAY_ZONING_SCHEMA,
     FORT_WAYNE_ZONING_SCHEMA,
     LIMA_FLOOD_SCHEMA,
@@ -1021,13 +1022,16 @@ _URBANA = SiteProfile(
     rsei_fips="39021",  # [verified] Champaign County, OH
     econ_fips="39021",
     eia861_utility_number=4922,  # Dayton Power & Light (AES Ohio) — EIA-861 2024 Service_Territory, Champaign Co [verified]
-    parcels_url="TODO",  # [open] pending the Champaign County, OH GIS REST endpoint discovery
-    zoning_url="TODO",  # [open] pending the City of Urbana, OH GIS REST endpoint discovery
+    parcels_url=(  # [verified] Champaign County Engineer (CCEO) AGOL — parcel_joined layer 0 (owner CAMA)
+        "https://services5.arcgis.com/HBIN2hfRscrws7eM/arcgis/rest/services/"
+        "parcel_joined/FeatureServer/0"
+    ),
+    zoning_url="TODO",  # [open] no public per-parcel City of Urbana / Champaign Co OH zoning REST found
     floodzone_url=(  # [verified] FEMA NFHL S_FLD_HAZ_AR (national layer 28)
         "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
     ),
     hydro_utm_epsg=32617,  # [verified] UTM 17N (Urbana ~83.75 degW; zone 17 spans 84-78 degW)
-    gis_parcel=None,  # [open] pending Champaign County, OH parcel-layer discovery
+    gis_parcel=CHAMPAIGN_PARCEL_SCHEMA,  # [verified] CCEO parcel_joined — owner + CAMA values (#797)
     gis_zoning=None,  # [open] pending City of Urbana zoning-layer discovery
     gis_flood=NATIONAL_NFHL_FLOOD_SCHEMA.model_copy(update={"reference_dir": "urbana-gis"}),
     design_lat=40.1084,  # [verified] city centroid = NOAA Atlas-14 point
