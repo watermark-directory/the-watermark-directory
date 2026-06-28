@@ -1,4 +1,4 @@
-"""``bosc catalog check`` — the validation + drift gate (epic #631, issue #626).
+"""``watermark catalog check`` — the validation + drift gate (epic #631, issue #626).
 
 The capstone of Phase 1: turns the manual ``corpus-completeness-audit.md`` pass into a
 CI-enforced invariant. Wired into ``mise run check`` and the CI ``check`` job, it fails
@@ -151,14 +151,14 @@ def check(
                 kind="orphan-file",
                 severity="error",
                 subject=rel,
-                detail="no catalog entry — run `bosc catalog backfill --apply`",
+                detail="no catalog entry — run `watermark catalog backfill --apply`",
             )
         )
 
     # 5. checksum drift — a pinned single-file entry whose observed sha ≠ its pin.
     findings.extend(_checksum_findings(entries, settings))
 
-    # 6. render drift — a README that opted into `bosc catalog render` but fell out of sync.
+    # 6. render drift — a README that opted into `watermark catalog render` but fell out of sync.
     from watermark.catalog_render import render_drift
 
     for collection, relpath in render_drift(settings=settings):
@@ -167,7 +167,7 @@ def check(
                 kind="render-drift",
                 severity="error",
                 subject=relpath,
-                detail=f"{collection} README out of sync — run `bosc catalog render --apply`",
+                detail=f"{collection} README out of sync — run `watermark catalog render --apply`",
             )
         )
 
@@ -181,7 +181,7 @@ def check(
                 kind="audit-drift",
                 severity="error",
                 subject=drifted_audit,
-                detail="completeness audit out of sync — run `bosc catalog audit --apply`",
+                detail="completeness audit out of sync — run `watermark catalog audit --apply`",
             )
         )
 
@@ -199,7 +199,7 @@ def _checksum_findings(entries: list[CatalogEntry], settings: Settings) -> list[
                 kind="no-snapshot",
                 severity="warn",
                 subject="_observed.yaml",
-                detail="pinned entries exist but no snapshot — run `bosc catalog reconcile`",
+                detail="pinned entries exist but no snapshot — run `watermark catalog reconcile`",
             )
         )
         return out

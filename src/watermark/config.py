@@ -254,8 +254,8 @@ class Settings(BaseSettings):
     # the catalog/export still build. `endpoint` overrides the derived R2 host for a
     # local S3 (minio) or tests.
     documents_object_store_account_id: str = ""  # R2 account id → endpoint host
-    documents_object_store_bucket: str = "bosc-documents"  # prod (--target remote)
-    documents_object_store_dev_bucket: str = "bosc-documents-dev"  # dev (--target local)
+    documents_object_store_bucket: str = "watermark-documents"  # prod (--target remote)
+    documents_object_store_dev_bucket: str = "watermark-documents-dev"  # dev (--target local)
     documents_object_store_access_key_id: str = ""
     documents_object_store_secret_access_key: str = ""
     documents_object_store_endpoint: str = (

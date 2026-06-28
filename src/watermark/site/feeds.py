@@ -386,7 +386,9 @@ class LeadItem(BaseModel):
     title: str
     detail: str
     source: str  # the real citation — where this gap is recorded
-    issue: int | None = None  # a linked watermark-directory/the-watermark-directory tracking issue, when one exists
+    issue: int | None = (
+        None  # a linked watermark-directory/the-watermark-directory tracking issue, when one exists
+    )
     note: str | None = None  # a short standing note, used sparingly + truthfully
 
 

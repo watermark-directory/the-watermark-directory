@@ -23,7 +23,7 @@ from watermark.pipeline import analyze, ingest
 @app.command()
 def version() -> None:
     """Print the installed version."""
-    console.print(f"bosc {__version__}")
+    console.print(f"watermark {__version__}")
 
 
 @app.command(name="onboard")

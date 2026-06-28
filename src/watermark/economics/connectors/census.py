@@ -59,7 +59,9 @@ def _fetch_year(year: int, fips: str, settings: Settings) -> tuple[float, str]:
         except json.JSONDecodeError as exc:
             # Census serves an HTML "Invalid Key" page under HTTP 200 for a bad key.
             hint = (
-                "invalid or inactive WATERMARK_CENSUS_API_KEY" if settings.census_api_key else "no key"
+                "invalid or inactive WATERMARK_CENSUS_API_KEY"
+                if settings.census_api_key
+                else "no key"
             )
             raise CensusError(f"Census API returned non-JSON ({hint}): {resp.text[:60]!r}") from exc
 

@@ -105,7 +105,9 @@ class Producer(BaseModel):
 
     kind: ProducerKind
     command: str | None = None  # the `bosc <cmd>` regenerator, e.g. "npdes --basin maumee"
-    connector_ref: str | None = None  # dotted module path, e.g. "watermark.hydrology.connectors.echo"
+    connector_ref: str | None = (
+        None  # dotted module path, e.g. "watermark.hydrology.connectors.echo"
+    )
     source: str  # human upstream label, e.g. "EPA ECHO — cwa_rest_services v2017-10-13"
     external_url: str | None = None
 

@@ -29,7 +29,7 @@ Geospatial subsystem: tracking sites + satellite imagery. Defers to the root
   - *Analyze* (`analysis.compute_index`) reuses `raster.clip_asset` to read the band
     COGs and compute **NDVI/NDWI** → a `derived` float32 raster + stats (mean, NDWI
     **water fraction**). Bands per `(collection, index)` come from `analysis._BANDS`,
-    never hardcoded in the math. `bosc imagery index`.
+    never hardcoded in the math. `watermark imagery index`.
 - **Pixels are verbatim, output is evidence.** Captures land under
   `data/reference/imagery/<site>/<collection>/` (GeoTIFFs are Git LFS — see
   `.gitattributes`). Never resample or alter beyond the logged clip; keep the
@@ -47,7 +47,7 @@ Geospatial subsystem: tracking sites + satellite imagery. Defers to the root
   roadwork road centerline. Pure/hermetic: shapely+pyproj over committed GeoJSON, like
   `watermark.hydrology.geo` (project to `hydro_utm_epsg` so distances are metres); the
   corridor geometry is cited **external corroboration**, never edited in place. `bosc
-  corridor` shows the join; `bosc corridor --map` writes the `corridor` + `roadwork`
+  corridor` shows the join; `watermark corridor --map` writes the `corridor` + `roadwork`
   layers into `gis-findings.geojson` via `gismap.merge_corridor_layer` (the committed
   system-of-record the map fetches), mirroring the RSEI `--map` merge.
 - Sync throughout (`httpx`/`rasterio`), matching the rest of the pipeline.

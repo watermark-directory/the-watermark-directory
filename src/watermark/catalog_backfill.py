@@ -94,11 +94,15 @@ _PRODUCER_HINTS: dict[str, _ProducerHint] = {
     "reference/echo": _ProducerHint(
         kind="connector", command="npdes", connector_ref="watermark.hydrology.connectors.echo"
     ),
-    "reference/rsei": _ProducerHint(kind="connector", command="rsei", connector_ref="watermark.rsei"),
+    "reference/rsei": _ProducerHint(
+        kind="connector", command="rsei", connector_ref="watermark.rsei"
+    ),
     "reference/eia": _ProducerHint(
         kind="connector", command="eia", connector_ref="watermark.economics.energy"
     ),
-    "reference/gleif": _ProducerHint(kind="connector", command="gleif", connector_ref="watermark.gleif"),
+    "reference/gleif": _ProducerHint(
+        kind="connector", command="gleif", connector_ref="watermark.gleif"
+    ),
     "reference/usaspending": _ProducerHint(
         kind="connector", command="usaspending", connector_ref="watermark.usaspending"
     ),

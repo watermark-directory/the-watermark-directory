@@ -265,7 +265,7 @@
       "source_kind": "connector",
       "page": null,
       "confidence": "medium",
-      "note": "bosc parcels --owner <assembler> --geojson data/reference/<site>/bosc-parcels.geojson",
+      "note": "watermark parcels --owner <assembler> --geojson data/reference/<site>/bosc-parcels.geojson",
       "verified": true
     }
   },

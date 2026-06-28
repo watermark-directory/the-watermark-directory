@@ -84,7 +84,7 @@ def test_dmr_document_is_regenerable_and_faithful(hydro_settings: Settings) -> N
     assert doc["discharge_summary"]["design_flow_cfs"] == pytest.approx(114.48, abs=0.1)
     assert len(doc["flow_monthly"]) == 12
     assert doc["exceedances"] == []
-    assert "bosc dmr IN0032191" in doc["meta"]["regenerate"]
+    assert "watermark dmr IN0032191" in doc["meta"]["regenerate"]
 
 
 def test_offline_cache_miss_raises(hydro_settings: Settings) -> None:

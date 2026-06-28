@@ -363,7 +363,7 @@ def dmr_document(chart: EffluentChart, summary: DischargeSummary) -> dict[str, A
             "reported effluent record (EPA ECHO DMR)",
             "source": "EPA ECHO eff_rest_services.get_effluent_chart",
             "regenerate": (
-                f"bosc dmr {chart.npdes_id} --start {chart.start_date} --end {chart.end_date}"
+                f"watermark dmr {chart.npdes_id} --start {chart.start_date} --end {chart.end_date}"
                 + (f" --design-flow {summary.design_flow_mgd}" if summary.design_flow_mgd else "")
             ),
             "discipline": (

@@ -14,8 +14,8 @@ def test_defaults() -> None:
 
 
 def test_env_prefix_override(monkeypatch) -> None:  # type: ignore[no-untyped-def]
-    monkeypatch.setenv("BOSC_MODEL", "claude-sonnet-4-6")
-    monkeypatch.setenv("BOSC_MAX_TURNS", "5")
+    monkeypatch.setenv("WATERMARK_MODEL", "claude-sonnet-4-6")
+    monkeypatch.setenv("WATERMARK_MAX_TURNS", "5")
     settings = Settings()
     assert settings.model == "claude-sonnet-4-6"
     assert settings.max_turns == 5
@@ -32,7 +32,7 @@ def test_derived_paths(tmp_path: Path) -> None:
 
 def test_repo_fixtures_dir_anchored_to_repo_not_data_dir(tmp_path: Path) -> None:
     """#616: offline `--offline` fixture paths must resolve relative to the repo, not
-    `data_dir.parent` — which breaks under a relocated BOSC_DATA_DIR (e.g. a tmp dir)."""
+    `data_dir.parent` — which breaks under a relocated WATERMARK_DATA_DIR (e.g. a tmp dir)."""
     relocated = Settings(data_dir=tmp_path)
     fixtures = repo_fixtures_dir("hydrology")
     # Anchored at the real repo tree (these are committed), independent of data_dir.
@@ -59,7 +59,7 @@ def test_site_default_resolves_lima() -> None:
 
 def test_env_overrides_site_profile(monkeypatch) -> None:  # type: ignore[no-untyped-def]
     # An explicit env var still wins over the profile, but unrelated knobs stay profile-sourced.
-    monkeypatch.setenv("BOSC_NWIS_SITES", '["99999999"]')
+    monkeypatch.setenv("WATERMARK_NWIS_SITES", '["99999999"]')
     settings = Settings()
     assert settings.nwis_sites == ["99999999"]
     assert settings.rsei_fips == "39003"  # untouched -> from the Lima profile
