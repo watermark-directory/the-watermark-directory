@@ -41,7 +41,8 @@ function splitHash(href: string): [string, string] {
 
 export default function rehypeDocLinks(options: DocLinkOptions = {}) {
   const base = options.base ?? "";
-  const repoBase = options.repoBase ?? "https://github.com/watermark-directory/the-watermark-directory/blob/main/";
+  const repoBase =
+    options.repoBase ?? "https://github.com/watermark-directory/the-watermark-directory/blob/main/";
 
   return (tree: Root, file: VFile): void => {
     const path = String(file.path ?? "").replace(/\\/g, "/");
