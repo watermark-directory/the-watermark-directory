@@ -1,10 +1,10 @@
-id: bosc-parcels
+id: parcel-assemblage
 title: Per-Site Parcel Assemblage Geometry
 scope: reference
 status: reviewed
 producer:
   kind: connector
-  command: parcels --owner <assembler> --geojson data/reference/<site>/bosc-parcels.geojson
+  command: parcels --owner <assembler> --geojson data/reference/<site>/parcel-assemblage.geojson
   connector_ref: bosc.hydrology.connectors.allen_gis
   source: Per-site county parcel GIS via the gis_parcel field-map, pulled as f=geojson reprojected
     to WGS84 (Fort Wayne = Allen County, IN iMap, parcel layer 10)
@@ -13,7 +13,7 @@ license: Public records (local government open data)
 access_tier: public
 site_scope: slug-scoped
 storage:
-- relpath: reference/{site}/bosc-parcels.geojson
+- relpath: reference/{site}/parcel-assemblage.geojson
   media_type: application/geo+json
   lfs: false
 refresh:
@@ -32,6 +32,6 @@ notes: >-
   Mountain View CA / Wilmington DE) — anchor 6015 Adams Center Rd (transferred 2024-01-10) plus the
   Tillman Rd cluster (Jan-2024 + a second wave 2025-10-31), ~856 ac planar (UTM 16N). This is the
   recorded OWNERSHIP assemblage, NOT a surveyed developed footprint (that stays pending the
-  deed/rezoning/stormwater-permit extraction, #360/#362). NOTE the bosc-parcels.geojson filename
-  drives the slug-collapsed bosc-parcels id and is shared with the unrelated Periplus frozen import
-  (reference/periplus/bosc-parcels.geojson) — the naming needs rework (see the open issue).
+  deed/rezoning/stormwater-permit extraction, #360/#362). Distinct from the Periplus frozen import
+  (reference/periplus/bosc-parcels.geojson, catalogued under the periplus entry), which covers the
+  Lima corridor parcels only.
