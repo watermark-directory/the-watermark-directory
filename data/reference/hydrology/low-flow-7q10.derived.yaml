@@ -82,9 +82,9 @@ streams:
     aliases:
     - mad river at urbana
     - mad river (urbana reach)
-    citation: LP3 7Q10 from USGS 03267000 (Mad River near Urbana OH), 39 climatic years 1980-2024
-      (site abstraction gage; the at-reach 7Q10 for the Urbana WPCF receiving-water — NOT the
-      basin-screen proxy, which is the Springfield gage 03269500)
+    citation: LP3 7Q10 from USGS 03267000 (Mad River near Urbana OH), 39 climatic years 1980-2024 (site
+      abstraction gage; the at-reach 7Q10 for the Urbana WPCF receiving-water — NOT the basin-screen proxy,
+      which is the Springfield gage 03269500)
     confidence: medium
   great miami river:
     seven_q10_cfs: 407.67
