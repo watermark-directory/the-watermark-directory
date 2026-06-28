@@ -452,7 +452,7 @@ def test_render_routed_network_handles_zero_natural_low_flow(
         mainstem_runs_dry=False,
     )
     monkeypatch.setattr(
-        "bosc.pipeline.hydrology.run_network", lambda **_: (baseline, buildout, delta)
+        "watermark.pipeline.hydrology.run_network", lambda **_: (baseline, buildout, delta)
     )
 
     lines: list[str] = []

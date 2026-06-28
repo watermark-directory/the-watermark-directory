@@ -212,7 +212,7 @@ def _write_sidecar(capture: Capture, site: TrackingSite, path: Path) -> None:
             "aoi_bbox_wgs84": list(capture.aoi_bbox),
             "processing": "windowed read clipped to AOI bbox; native CRS, no resampling",
             "sha256": capture.sha256,
-            "tool": "bosc imagery pull",
+            "tool": "watermark imagery pull",
             "caveats": [
                 "Pixels are verbatim from the source scene; the clip applies no "
                 "radiometric or geometric correction beyond the windowed read.",

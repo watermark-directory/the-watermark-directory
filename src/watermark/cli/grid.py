@@ -404,7 +404,11 @@ def pjm_cmd(
     ),
 ) -> None:
     """RTO / wholesale market (#96): PJM LMP + RPM capacity + large-load queue vs the campus."""
-    from watermark.grid.market import _market_reference, derive_pjm_market_scenario, write_pjm_market
+    from watermark.grid.market import (
+        _market_reference,
+        derive_pjm_market_scenario,
+        write_pjm_market,
+    )
 
     settings = get_settings()
     sc = derive_pjm_market_scenario(settings=settings)

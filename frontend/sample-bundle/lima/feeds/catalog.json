@@ -48,7 +48,7 @@
       "source_kind": "document",
       "page": null,
       "confidence": "medium",
-      "note": "bosc extract aedg/PRR-01-bundle.ocr.pdf --kind opc",
+      "note": "watermark extract aedg/PRR-01-bundle.ocr.pdf --kind opc",
       "verified": true
     }
   },

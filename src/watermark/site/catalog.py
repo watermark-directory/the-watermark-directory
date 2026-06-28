@@ -106,7 +106,7 @@ def export_catalog(settings: Settings | None = None) -> list[CatalogItem]:
                 citation=Citation(
                     source=entry.producer.source,
                     source_kind=_SOURCE_KIND[entry.producer.kind],
-                    note=f"bosc {entry.producer.command}" if entry.producer.command else None,
+                    note=f"watermark {entry.producer.command}" if entry.producer.command else None,
                 ),
             )
         )

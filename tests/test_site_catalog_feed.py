@@ -106,7 +106,7 @@ def test_projection_carries_facts_and_citation(tmp_path: Path) -> None:
     assert item.citation.source == "EPA ECHO"
     assert item.citation.source_kind == "connector"
     assert item.citation.verified is True  # connector-sourced
-    assert item.citation.note == "bosc npdes --basin maumee"
+    assert item.citation.note == "watermark npdes --basin maumee"
     # no _observed.yaml committed in this tmp catalog -> observed is None
     assert item.observed is None
 

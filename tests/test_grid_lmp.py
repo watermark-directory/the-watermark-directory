@@ -54,7 +54,7 @@ def test_offline_miss_raises_naming_the_key() -> None:
 
 def test_live_pull_requires_a_subscription_key(tmp_path: Path) -> None:
     # Online with no key + no cache: refuse with a clear error before any network call.
-    with pytest.raises(PjmLmpError, match="BOSC_PJM_API_KEY"):
+    with pytest.raises(PjmLmpError, match="WATERMARK_PJM_API_KEY"):
         fetch_zonal_lmp(
             pnode_id=8445784,
             zone="AEP",

@@ -158,7 +158,7 @@ def _write_sidecar(
             "mean": result.mean,
             "water_fraction": result.water_fraction,
             "sha256": result.sha256,
-            "tool": "bosc imagery index",
+            "tool": "watermark imagery index",
             "source": "derived",
             "caveats": [
                 "A derived index, not raw radiance: computed from the cited band COGs.",
