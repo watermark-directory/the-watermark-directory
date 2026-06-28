@@ -52,6 +52,13 @@ def build_baseline(
     settings = settings or get_settings()
     years = sorted(years or _DEFAULT_YEARS)
     population = _maybe_population(settings)
+    if population is None:
+        # No Census key and no fixture — preserve the existing committed population rather
+        # than overwriting it with null. A re-run without a key must not drop real data.
+        existing = load_baseline(settings)
+        if existing is not None and existing.population is not None:
+            population = existing.population
+            log.info("econ.population.preserved", fips=settings.econ_fips)
     # Authoritative per-county label from the Census ACS NAME (e.g. "Hancock County, Ohio");
     # falls back to the active profile's county when no Census key/fixture is available.
     area_name = (
