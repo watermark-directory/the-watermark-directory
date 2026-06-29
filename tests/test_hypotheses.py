@@ -79,7 +79,9 @@ _EXPECTED = {
     ("water", "lima"): (
         "watch",
         "coercion",
-        {"wwtp": "Allen County Sanitary District (FM-1: American Bath / American II; FM-2: City of Lima)"},
+        {
+            "wwtp": "Allen County Sanitary District (FM-1: American Bath / American II; FM-2: City of Lima)"
+        },
     ),
 }
 
