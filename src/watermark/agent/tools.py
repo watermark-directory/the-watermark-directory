@@ -471,6 +471,96 @@ async def retrieve_corpus(args: dict[str, Any]) -> dict[str, Any]:
     return _text("\n".join(lines))
 
 
+@tool(
+    "discover_oepa_permits",
+    "Search the Ohio EPA DAM and ECHO for NPDES permit PDFs for the active site. "
+    "Returns each result annotated 'new' (not yet downloaded), 'committed' (already on disk), "
+    "or 'known' (in the site profile). Use before fetch_oepa_permit to identify what to pull.",
+    {"extra_terms": str},
+)
+async def discover_oepa_permits(args: dict[str, Any]) -> dict[str, Any]:
+    from pathlib import Path as _Path
+
+    from watermark.oepa.discovery import discover_dam_documents
+    from watermark.sites import SITES
+
+    settings = get_settings()
+    slug = str(settings.site)
+
+    if slug not in SITES:
+        return _text(f"[discover_oepa_permits] Unknown site {slug!r}.")
+
+    prof = SITES[slug]
+    county = prof.county_name.split(",")[0].strip()
+    extra = [args["extra_terms"]] if args.get("extra_terms") else None
+
+    docs = discover_dam_documents(
+        prof.place, county, basin=prof.basin, extra_terms=extra, settings=settings
+    )
+
+    known_ids = set(prof.npdes_permits)
+    doc_dir = settings.documents_dir / "oepa" / slug
+    committed_files = {p.name for p in doc_dir.glob("*.pdf")} if doc_dir.exists() else set()
+
+    results = []
+    for d in docs:
+        committed = _Path(d.url).name in committed_files
+        status = "committed" if committed else ("known" if d.permit_id in known_ids else "new")
+        results.append({**d.model_dump(), "status": status})
+
+    if not results:
+        return _text(f"[discover_oepa_permits] No DAM documents found for {slug!r}.")
+
+    lines = [f"[discover_oepa_permits] {len(results)} result(s) for {slug!r}:\n"]
+    for r in results:
+        lines.append(f"- {r['permit_id']:<15s}  {r['doc_type']:<20s}  [{r['status']}]  {r['url']}")
+    new_count = sum(1 for r in results if r["status"] == "new")
+    lines.append(
+        f"\n{new_count} new · "
+        f"{sum(1 for r in results if r['status'] == 'known')} known · "
+        f"{sum(1 for r in results if r['status'] == 'committed')} committed"
+    )
+    return _text("\n".join(lines))
+
+
+@tool(
+    "fetch_oepa_permit",
+    "Download an OEPA/DAM permit PDF by its DAM permit ID (e.g. '1PD00008') for the "
+    "active site. Saves to data/documents/oepa/<site>/ and updates filename-map.yaml. "
+    "After fetching, run `watermark ingest` and `watermark extract` to process the file.",
+    {"permit_id": str},
+)
+async def fetch_oepa_permit(args: dict[str, Any]) -> dict[str, Any]:
+    from watermark.oepa.fetch import dam_url, fetch_one, update_filename_map
+
+    settings = get_settings()
+    slug = str(settings.site)
+    permit_id: str = args.get("permit_id", "").strip()
+
+    if not permit_id:
+        return _text("[fetch_oepa_permit] permit_id is required (e.g. '1PD00008').")
+
+    url = dam_url(permit_id)
+    dest = settings.documents_dir / "oepa" / slug
+    dest.mkdir(parents=True, exist_ok=True)
+    map_path = dest / "filename-map.yaml"
+
+    result = fetch_one(url, dest, permit_id=permit_id, settings=settings)
+    update_filename_map([result], map_path)
+
+    if result.status == "downloaded":
+        return _text(
+            f"[fetch_oepa_permit] Downloaded {result.filename} ({result.bytes:,} bytes) "
+            f"→ data/documents/oepa/{slug}/{result.filename}\n"
+            f"SHA256: {result.sha256}\n"
+            f"Next: `watermark ingest` then "
+            f"`watermark --site {slug} extract <doc_id> --kind npdes --write`."
+        )
+    if result.status == "skipped_existing":
+        return _text(f"[fetch_oepa_permit] {result.filename} already on disk — not re-downloaded.")
+    return _text(f"[fetch_oepa_permit] {result.status}: {result.filename or permit_id}")
+
+
 _GH_REPO = "watermark-directory/the-watermark-directory"
 
 
@@ -589,6 +679,8 @@ ALL_TOOLS = [
     sanitary_basis,
     tier1_swmm,
     retrieve_corpus,
+    discover_oepa_permits,
+    fetch_oepa_permit,
     report_novel_finding,
 ]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]
