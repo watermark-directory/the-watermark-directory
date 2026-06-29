@@ -4,12 +4,14 @@ BOSC asks one question across a network of watershed-point sites: *what explains
 data-center boom?* The platform holds several competing readings of that question — the
 **hypotheses** (the frontend calls each a "lens"):
 
-* **H1 Water & Power** — compute lands where it can pull power and water; the reference
-  thesis, fully assembled at Lima.
+* **H1 Water & Coercion** — compute lands where it can pull power and water; the CWA
+  discharge backstop structurally compels municipal acceptance. The reference thesis,
+  fully assembled at Lima.
 * **H2 Defense & Federal Enclave** — the build-out tracks arsenals, air bases, federal
   research, and the CHIPS program. *Emerging — under test.*
-* **H3 Corporate & Economic Surveillance** — the operators behind shell LLCs and the
-  public-subsidy stack that pulls them in. *Emerging — under test.*
+* **H3 Consumer Surveillance** — the operators behind shell LLCs, the public-subsidy
+  stack that pulls them in, and the consumer surveillance apparatus the compute serves.
+  *Emerging — under test.*
 
 A :class:`Hypothesis` is the *content* of one reading (claim, thesis, the evidence it
 predicts); presentation (accent colors, column widths) stays in the frontend. A
@@ -143,8 +145,8 @@ HYPOTHESES: dict[str, Hypothesis] = {
     "water": Hypothesis(
         id="water",
         number="H1",
-        name="Water & Power",
-        claim="Where compute meets the watershed.",
+        name="Water & Coercion",
+        claim="Where discharge becomes leverage.",
         thesis=(
             "The original thesis: hyperscale compute lands where it can pull power and "
             "water, and a data center's intake, discharge, and downstream effects are "
@@ -200,12 +202,12 @@ HYPOTHESES: dict[str, Hypothesis] = {
     "surveillance": Hypothesis(
         id="surveillance",
         number="H3",
-        name="Corporate & Economic Surveillance",
-        claim="Who owns it, who's watching, and where the money moves.",
+        name="Consumer Surveillance",
+        claim="What the compute is for, who it watches, and who's paying.",
         thesis=(
             "A third reading: the operators behind shell LLCs, the public-subsidy stack "
             "that pulls them in, and the capital and data flows the facilities sit on. The "
-            "corporate-and-economic-surveillance thesis — opening now, mostly under "
+            "consumer-surveillance thesis — opening now, mostly under "
             "investigation, with Lima's abatement on record. "
             "An end-use sub-thesis (#904): these facilities are infrastructure nodes in a "
             "consumer surveillance apparatus — behavioral tracking, financial-transaction "
