@@ -37,9 +37,9 @@ def test_basin_screen_coverage(data_settings: Settings) -> None:
     screen = basin.check_basin_assimilative(settings=data_settings)
     c = screen.coverage
     assert c.total == 129
-    assert c.screened == len(screen.checks) == 7
+    assert c.screened == len(screen.checks) == 8
     # Honest coverage: most of the basin is unscreenable, surfaced explicitly.
-    assert c.no_receiving_water == 77
+    assert c.no_receiving_water == 76
     assert c.screened + c.no_receiving_water + c.no_7q10 + c.no_design_flow == c.total
     # The cited Lima-loop violation (American Bath -> Pike Run) is still caught.
     cited = [ch for ch in screen.checks if ch.design_low_flow.source == "document"]

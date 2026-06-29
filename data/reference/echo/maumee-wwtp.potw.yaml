@@ -21,6 +21,9 @@ meta:
   - design_flow_mgd is null where ECHO returned no value; it is never estimated.
   - ottawa_discharge keys on the sparse receiving_water field and undercounts (e.g.
     Lima WWTP).
+  - "receiving_water is null for OH0027910 (Van Wert WWTP) in ECHO; corrected to
+    Town Creek per NPDES fact sheet 2PD00006 (data/documents/oepa/van-wert/2PD00006.fs.pdf),
+    Table 12 — outfall 2PD00006001 at River Mile 13.87."
 facilities:
 - frs_registry_id: '110009911257'
   name: AMBOY TWP WWSL
@@ -2017,7 +2020,7 @@ facilities:
   permit_type: NPDES Individual Permit
   design_flow_mgd: 4.0
   design_flow_missing: false
-  receiving_water: null
+  receiving_water: Town Creek
   huc8: '04100007'
   huc8_name: Auglaize
   huc12: 041000070804

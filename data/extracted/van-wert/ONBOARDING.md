@@ -19,7 +19,7 @@ Living record for the Van Wert watershed point (basin: maumee), scaffolded by `b
 | corridor-ddf | ok | reference/hydrology/van-wert/atlas14-corridor-ddf.yaml |
 | ssurgo-hsg | skipped | footprint missing: extracted/van-wert/bosc-site-footprint.yaml |
 | climatology | ok | reference/hydrology/van-wert/nasa-power-climatology.yaml |
-| basin-screen | ok | 7/129 dischargers screened (1 violations, 2 tight) |
+| basin-screen | ok | 8/129 dischargers screened (2 violations, 2 tight) — OH0027910 now screened |
 | econ-baseline | ok | reference/economics/van-wert/baseline.yaml |
 | rsei | ok | reference/rsei/van-wert/inventory.yaml |
 | consumer-energy | ok | reference/eia/van-wert/consumer-energy.yaml |
@@ -46,14 +46,17 @@ Engineer's-office parcel shapefile; locate a Van Wert zoning layer (or accept ma
 First automated-research pass (`bosc onboard --research`, 27 turns, $1.28, read-only over the corpus) →
 `data/research/onboard-van-wert-van-wert-data-center-activity-r-2026-06-19/` (`findings.md` + `manifest.yaml`).
 
-**Headline — the effluent-dominance end-member, with the screen hole exactly where it matters.** Van
-Wert is the basin's small-stream end-member: a ~4.0 MGD plant (Van Wert WWTP, OH0027910) on a tiny
-tributary (Town Creek). But **Town Creek has no cited or derived 7Q10 in the corpus**, so the very
-discharger that motivates the site is **unscreened** (`bosc basin-network` status `no_receiving_water`,
-dilution `null`) — the data gap *is* the finding, and any QTS/Thor load would land on the
-least-buffered receiving water in the network. The "4.0 MGD" plant size is itself uncited in-corpus
-(the #363 issue text only). Proposals #375 (ingest the OH0027910 NPDES permit + Town Creek 7Q10) and
-#376 (re-screen once it lands) close this.
+**Headline — the effluent-dominance end-member, `[verified]` (resolves #376).** Van Wert is
+the basin's small-stream end-member: a 4.0 MGD plant (Van Wert WWTP, OH0027910, design flow
+6.1889 cfs) on a tiny tributary (Town Creek). Town Creek 7Q10 = **0.16 cfs** (annual;
+source=document, NPDES fact sheet 2PD00006, Table 12 via USGS drainage-area ratio —
+see `data/reference/hydrology/low-flow-7q10.yaml`). Basin-screen result: **dilution ratio
+0.03:1 → violation** — 39× effluent dominance. Summer and winter 7Q10 = 0 cfs (intermittent);
+acute dilution ratio 1.02:1 per the fact sheet. Design flow confirmed 4.0 MGD (fact sheet
+Table 7). `[inference]` caveat on effluent dominance is upgraded to `[verified]`.
+ECHO's `receiving_water` field was null for OH0027910; corrected to "Town Creek" per
+fact sheet (see `data/reference/echo/maumee-wwtp.potw.yaml` meta caveats). Proposals
+#375 and #376 closed.
 
 **Data-center activity — documented, but only secondhand through Allen-County records.** Unlike the
 other comparators (no disclosed facility), Van Wert carries **two** proponent threads, both

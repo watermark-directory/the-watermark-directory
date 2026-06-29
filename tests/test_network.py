@@ -88,15 +88,18 @@ def test_subtree_generalizes_across_basins() -> None:
 
 
 def test_screen_is_one_dimension_honestly_sparse(net: BasinNetwork) -> None:
-    # Only Lima (violation) and Defiance (tight) are cleanly screenable from ECHO + gages.
+    # Lima (violation), Defiance (tight), and Van Wert (violation) are cleanly screenable.
     lima = _node(net, "lima").screen
     assert lima.status == "screened" and lima.flag == "violation" and lima.dilution_ratio < 0.1
     defiance = _node(net, "defiance").screen
     assert defiance.status == "screened" and defiance.flag == "tight"
     assert 4.0 < (defiance.dilution_ratio or 0) < 9.0
+    van_wert = _node(net, "van-wert").screen
+    assert van_wert.status == "screened" and van_wert.flag == "violation"
+    assert (van_wert.dilution_ratio or 0) < 0.05  # 0.026:1 — 39x effluent dominance
     # The rest are reported unscreened, with the reason (omit, don't guess) — the data gap.
     screened = [n for n in net.nodes if n.screen.status == "screened"]
-    assert len(screened) == 2
+    assert len(screened) == 3
     assert _node(net, "bryan").screen.status == "no_7q10"  # ungaged Prairie Creek
     assert _node(net, "toledo").screen.status == "no_receiving_water"  # null in ECHO
 
