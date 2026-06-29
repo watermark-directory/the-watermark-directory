@@ -505,7 +505,9 @@ _VAN_WERT = SiteProfile(
     toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # [open] pending an identified corridor on Town Creek
     receiving_water_name="Town Creek",  # [verified] Ohio EPA NPDES 2PD00006/OH0027910 → Town Creek (RM 13.87)
     # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
-    plant_receiving={},  # [open] pending Van Wert-area WWTP NPDES fact sheets
+    plant_receiving={
+        "van-wert-wwtp": ("Town Creek", "Ohio EPA fact sheet 2PD00006 (Van Wert WWTP)"),
+    },  # [verified] OH0027910 → Town Creek RM 13.87; design flow 4.0 MGD; fact sheet 2PD00006
     abstraction_gage="04191000",  # [inference] the Town Creek near Van Wert receiving-reach gage
     # refill (the water-balance supply model is not yet designed for Van Wert)
     supply_gage_primary="TODO",  # [open] refill supply gage — pending the site's water-balance model

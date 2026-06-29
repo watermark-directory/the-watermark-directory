@@ -6,6 +6,7 @@ Living record for the Van Wert watershed point (basin: maumee), scaffolded by `b
 
 - [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)
 - [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile
+- [x] **OEPA permit ingest** — NPDES permit `2PD00006` (OH0027910) + fact sheet `2PD00006.fs` fetched and extracted (`data/documents/oepa/van-wert/`, `data/extracted/oepa/2PD00006*.npdes.yaml`). Town Creek 7Q10 = 0.16 cfs (annual; summer/winter = 0 — intermittent). Design flow confirmed 4.0 MGD. See `data/reference/hydrology/low-flow-7q10.yaml`. Resolves #837.
 - [~] **Data-center activity** — self-research first pass run (`bosc onboard --research`, #247); the QTS $10B campus + Thor Equities threads are documented **secondhand** (Allen-County records), `[open]` at the parcel/entity level (#377/#378). See self-research summary below.
 - [~] **Per-jurisdiction GIS** — flood = shared national NFHL (wired). Parcels/zoning `[open]` — see GIS discovery below; no clean queryable district catalog like Findlay's, so nothing committed yet
 
