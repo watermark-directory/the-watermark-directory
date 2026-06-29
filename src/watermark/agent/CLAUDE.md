@@ -18,11 +18,16 @@ Wraps the Claude Agent SDK and the Anthropic Messages API. Defers to the root
     **active site's own** corpus: the whole `data/extracted/` tree for the corpus home
     (`_CORPUS_HOME` = Lima), else that site's subtree (`data/extracted/<slug>/`) via
     `_site_extracted_root` — so a per-site run reads its own record, never another site's,
-    and `_scoped(...)` labels whose corpus it is. The corpus + hydrology **reference** models
-    (`entities`, `timeline`, the hydrology suite) are still the Lima reference build; off-home
-    they return an honest `_reference_only(...)` notice rather than *silently* serving Lima's
-    record. Resolving a non-home site's own entity/timeline/scenario equivalents is the
-    remaining parity work — don't fabricate per-site reads before a site has the committed data.
+    and `_scoped(...)` labels whose corpus it is. `entities` and `timeline` also resolve
+    per active site via `load_corpus(settings)` — for non-Lima sites they return that site's
+    own committed extractions (empty if none, not Lima's cross-site record). The hydrology
+    `list_documents` is also per-site scoped (#899): off the corpus home it filters
+    `data/documents/` to paths containing the active site slug (e.g.
+    `data/documents/idem/fort-wayne/`); with no matching docs it returns a helpful empty
+    message rather than a `_reference_only` notice. The hydrology suite
+    (`hydrology_balance`, `stormwater_runoff`, `hydrology_scenario`, `tier1_swmm`,
+    `storm_plan_inventory`, `sanitary_basis`) remains Lima-specific and returns an honest
+    `_reference_only(...)` notice off-home — tracked in #900/#901.
 - Models come from `get_settings()` (`WATERMARK_MODEL` for research, `WATERMARK_EXTRACT_MODEL`
   for bulk extraction) — never hardcode a model id here.
 - Figures come from the rendered **image**, not the OCR text layer; the extractor

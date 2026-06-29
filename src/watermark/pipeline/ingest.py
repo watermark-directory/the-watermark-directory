@@ -54,11 +54,14 @@ def _doc_id(path: Path) -> str:
     return f"{path.stem}-{digest[:8]}"
 
 
-def discover(settings: Settings | None = None) -> list[SourceDocument]:
+def discover(settings: Settings | None = None, site: str | None = None) -> list[SourceDocument]:
     """Walk ``documents_dir`` and return a manifest of source documents.
 
     ``collection`` is the first sub-directory under ``documents`` (e.g.
     ``aedg``), letting you group documents by their origin/request batch.
+    When ``site`` is provided, only documents whose path includes that slug as
+    a component are returned (e.g. ``data/documents/idem/fort-wayne/`` for
+    ``site="fort-wayne"``).
     """
     settings = settings or get_settings()
     root = settings.documents_dir
@@ -71,6 +74,8 @@ def discover(settings: Settings | None = None) -> list[SourceDocument]:
         if not path.is_file() or path.suffix.lower() not in SOURCE_SUFFIXES:
             continue
         rel = path.relative_to(root)
+        if site and site not in rel.parts:
+            continue
         collection = rel.parts[0] if len(rel.parts) > 1 else ""
         docs.append(
             SourceDocument(

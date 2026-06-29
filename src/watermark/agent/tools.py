@@ -28,10 +28,10 @@ def _text(payload: str) -> dict[str, Any]:
 # Read-side per-site resolution (#424). The extraction-reading tools resolve against the ACTIVE
 # site's own committed corpus: the whole data/extracted/ tree for the corpus home (Lima), else the
 # site's own subtree (data/extracted/<slug>/) — so a per-site run reads its own record, never
-# another site's. The corpus + hydrology *reference* models (entities, timeline, the hydrology
-# suite) are the Lima reference build; for another site they are NOT silently substituted — the
-# tool returns an honest "no per-site X yet" notice (`_reference_only`). Resolving a non-home
-# site's own entity/timeline/scenario equivalents is the remaining parity work this seam leaves.
+# another site's. `entities` and `timeline` resolve per active site via load_corpus(settings).
+# `list_documents` filters data/documents/ by site slug (#899). The hydrology suite
+# (hydrology_balance, stormwater_runoff, hydrology_scenario, tier1_swmm, storm_plan_inventory,
+# sanitary_basis) remains Lima-specific and returns `_reference_only(...)` off-home (#900/#901).
 _CORPUS_HOME = "lima"
 
 
@@ -121,12 +121,17 @@ def _resolve(filename: str | None, pattern: str = "*.yaml") -> Path | None:
 
 @tool("list_documents", "List ingested source documents and their collections.", {})
 async def list_documents(_args: dict[str, Any]) -> dict[str, Any]:
-    # The raw source corpus (data/documents/) is not partitioned per site; off the corpus home
-    # there is no per-site document tree, so don't hand back the home's documents (#424).
-    if (note := _reference_only("source documents")) is not None:
-        return note
-    docs = ingest.discover()
+    # Per-site scoping (#899): for the corpus home, return all docs; for other sites, filter
+    # to documents whose path contains the site slug (e.g. data/documents/idem/fort-wayne/).
+    settings = get_settings()
+    site_filter = None if _is_corpus_home(settings) else str(settings.site)
+    docs = ingest.discover(settings, site=site_filter)
     if not docs:
+        if site_filter:
+            return _text(
+                f"No source documents found for site {settings.site!r} yet. "
+                f"Commit documents under data/documents/<collection>/{settings.site}/ to populate."
+            )
         return _text("No source documents found under data/documents.")
     lines = [
         f"- {d.doc_id}  [{d.collection or 'root'}]  {d.path.name}  ({d.size_bytes / 1e6:.1f} MB)"
