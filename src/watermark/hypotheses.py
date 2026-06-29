@@ -149,17 +149,31 @@ HYPOTHESES: dict[str, Hypothesis] = {
             "The original thesis: hyperscale compute lands where it can pull power and "
             "water, and a data center's intake, discharge, and downstream effects are "
             "basin facts. Sites nest by drainage — two divides, nine basins. Lima is the "
-            "live, fully-assembled reference."
+            "live, fully-assembled reference. "
+            "A coercion sub-thesis (#903): in municipalities with declining populations, "
+            "the receiving WWTP may be running lean on influent — below the biological-treatment "
+            "minimum that keeps it in NPDES compliance. A datacenter's high-volume, consistent "
+            "discharge provides the flow buffer the plant needs, structurally compelling "
+            "municipal acceptance. The Clean Water Act is the backstop that makes the need "
+            "non-negotiable."
         ),
         status="reference",
-        # H1 is rendered from the site registry + network (by drainage), not from cells —
-        # so it declares no assessment groups/fields.
+        # H1 is rendered from the site registry + network (by drainage), not from cells
+        # for the water lens. Cells are enabled for the coercion sub-thesis (#903) so
+        # per-site WWTP lean-flow evidence can be committed and tracked.
+        groups=("coercion",),
+        fields=("wwtp", "gap"),
         related_docs=("docs/HYDROLOGY.md", "docs/COURSE.md"),
         predicted_evidence=(
             "cooling consumptive draw measured against the receiving water's cited 7Q10",
             "an NPDES discharge to an already effluent-dominated stream",
             "a paved campus footprint's pre/post-development stormwater delta",
             "a serving utility / PJM zone that makes the load economically siteable",
+            "ECHO DMR showing the receiving WWTP's actual annual influent below its design-flow minimum",
+            "a utility service agreement or NPDES commitment that quantifies the datacenter's "
+            "discharge volume relative to the WWTP's lean-flow deficit",
+            "OEPA enforcement correspondence or sanitary system capacity study citing the "
+            "same deficit the datacenter discharge would address",
         ),
     ),
     "defense": Hypothesis(
