@@ -4,7 +4,7 @@
     "number": "H1",
     "name": "Water & Power",
     "claim": "Where compute meets the watershed.",
-    "thesis": "The original thesis: hyperscale compute lands where it can pull power and water, and a data center's intake, discharge, and downstream effects are basin facts. Sites nest by drainage — two divides, nine basins. Lima is the live, fully-assembled reference.",
+    "thesis": "The original thesis: hyperscale compute lands where it can pull power and water, and a data center's intake, discharge, and downstream effects are basin facts. Sites nest by drainage — two divides, nine basins. Lima is the live, fully-assembled reference. A coercion sub-thesis (#903): in municipalities with declining populations, the receiving WWTP may be running lean on influent — below the biological-treatment minimum that keeps it in NPDES compliance. A datacenter's high-volume, consistent discharge provides the flow buffer the plant needs, structurally compelling municipal acceptance. The Clean Water Act is the backstop that makes the need non-negotiable.",
     "status": "reference",
     "signals": [
       "anchor",
@@ -12,8 +12,13 @@
       "moderate",
       "watch"
     ],
-    "groups": [],
-    "fields": [],
+    "groups": [
+      "coercion"
+    ],
+    "fields": [
+      "wwtp",
+      "gap"
+    ],
     "related_docs": [
       "docs/HYDROLOGY.md",
       "docs/COURSE.md"
@@ -22,7 +27,10 @@
       "cooling consumptive draw measured against the receiving water's cited 7Q10",
       "an NPDES discharge to an already effluent-dominated stream",
       "a paved campus footprint's pre/post-development stormwater delta",
-      "a serving utility / PJM zone that makes the load economically siteable"
+      "a serving utility / PJM zone that makes the load economically siteable",
+      "ECHO DMR showing the receiving WWTP's actual annual influent below its design-flow minimum",
+      "a utility service agreement or NPDES commitment that quantifies the datacenter's discharge volume relative to the WWTP's lean-flow deficit",
+      "OEPA enforcement correspondence or sanitary system capacity study citing the same deficit the datacenter discharge would address"
     ]
   },
   {
@@ -62,7 +70,7 @@
     "number": "H3",
     "name": "Corporate & Economic Surveillance",
     "claim": "Who owns it, who's watching, and where the money moves.",
-    "thesis": "A third reading: the operators behind shell LLCs, the public-subsidy stack that pulls them in, and the capital and data flows the facilities sit on. The corporate-and-economic-surveillance thesis — opening now, mostly under investigation, with Lima's abatement on record.",
+    "thesis": "A third reading: the operators behind shell LLCs, the public-subsidy stack that pulls them in, and the capital and data flows the facilities sit on. The corporate-and-economic-surveillance thesis — opening now, mostly under investigation, with Lima's abatement on record. An end-use sub-thesis (#904): these facilities are infrastructure nodes in a consumer surveillance apparatus — behavioral tracking, financial-transaction processing, or similar mass-scale surveillance of individual consumer activity, financed in part by the public subsidies the same communities provide.",
     "status": "emerging",
     "signals": [
       "anchor",
@@ -77,7 +85,8 @@
     ],
     "fields": [
       "operator",
-      "capital"
+      "capital",
+      "end_use"
     ],
     "related_docs": [
       "docs/ECONOMICS.md"
@@ -85,7 +94,9 @@
     "predicted_evidence": [
       "a named operator behind a shell LLC (deed / SOS / LEI trail)",
       "a public-subsidy instrument on record (CRA / TIF / enterprise-zone abatement)",
-      "a capital or data-flow linkage tying the site to a known operator"
+      "a capital or data-flow linkage tying the site to a known operator",
+      "the operator's active consumer-facing product lines at the time of the permit application (10-K / AWS availability-zone announcement / product launch timeline)",
+      "a product classification tying the compute to a consumer surveillance application class: behavioral-advertising, financial-transaction, consumer-credit, AI-inference over consumer data"
     ]
   }
 ]

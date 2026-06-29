@@ -4,6 +4,7 @@
     "hypothesis": "defense",
     "signal": "moderate",
     "tag": "verified",
+    "sub_thesis": null,
     "group": "federal",
     "fields": {
       "nexus": "DLA Land & Maritime",
@@ -25,6 +26,7 @@
     "hypothesis": "defense",
     "signal": "anchor",
     "tag": "verified",
+    "sub_thesis": null,
     "group": "arsenal",
     "fields": {
       "nexus": "Lima Army Tank Plant (JSMC)",
@@ -46,6 +48,7 @@
     "hypothesis": "defense",
     "signal": "watch",
     "tag": "inference",
+    "sub_thesis": null,
     "group": "supply",
     "fields": {
       "nexus": "Defense-battery corridor",
@@ -67,6 +70,7 @@
     "hypothesis": "defense",
     "signal": "moderate",
     "tag": "verified",
+    "sub_thesis": null,
     "group": "federal",
     "fields": {
       "nexus": "CHIPS semiconductor megasite",
@@ -88,6 +92,7 @@
     "hypothesis": "defense",
     "signal": "moderate",
     "tag": "verified",
+    "sub_thesis": null,
     "group": "arsenal",
     "fields": {
       "nexus": "Springfield-Beckley ANGB",
@@ -109,6 +114,7 @@
     "hypothesis": "defense",
     "signal": "strong",
     "tag": "verified",
+    "sub_thesis": null,
     "group": "arsenal",
     "fields": {
       "nexus": "Wright-Patterson AFB",
@@ -130,6 +136,7 @@
     "hypothesis": "surveillance",
     "signal": "watch",
     "tag": "open",
+    "sub_thesis": null,
     "group": "subsidy",
     "fields": {
       "operator": "—",
@@ -138,10 +145,34 @@
     "citations": []
   },
   {
+    "site": "fort-wayne",
+    "hypothesis": "surveillance",
+    "signal": "moderate",
+    "tag": "inference",
+    "sub_thesis": "end-use",
+    "group": "onrecord",
+    "fields": {
+      "operator": "Hatchworks LLC (Google shell — Mountain View CA mailing, Zodiac parcels)",
+      "capital": "—",
+      "end_use": "consumer_surveillance [inference]"
+    },
+    "citations": [
+      {
+        "source": "data/extracted/fort-wayne/gis-parcels.yaml",
+        "source_kind": "document",
+        "page": null,
+        "confidence": "medium",
+        "note": "Hatchworks LLC holds 11 parcels in the Zodiac assemblage (Jan-2024 + Oct-2025 acquisition tranches). Mountain View CA mailing address + entity structure consistent with a Google data-center shell. Google's primary revenue stream is consumer behavioral advertising / data analytics — consumer_surveillance is the inferred end-use. Operator principal not yet confirmed via SOS/LEI filing; tag stays inference until confirmed. See #904.",
+        "verified": true
+      }
+    ]
+  },
+  {
     "site": "hamilton-middletown",
     "hypothesis": "surveillance",
     "signal": "watch",
     "tag": "open",
+    "sub_thesis": null,
     "group": "subsidy",
     "fields": {
       "operator": "—",
@@ -154,6 +185,7 @@
     "hypothesis": "surveillance",
     "signal": "anchor",
     "tag": "verified",
+    "sub_thesis": "capture",
     "group": "onrecord",
     "fields": {
       "operator": "Shawnee Energy Campus",
@@ -175,6 +207,7 @@
     "hypothesis": "surveillance",
     "signal": "moderate",
     "tag": "inference",
+    "sub_thesis": null,
     "group": "onrecord",
     "fields": {
       "operator": "Hyperscaler cluster (inferred)",
@@ -190,5 +223,17 @@
         "verified": false
       }
     ]
+  },
+  {
+    "site": "lima",
+    "hypothesis": "water",
+    "signal": "watch",
+    "tag": "open",
+    "sub_thesis": "coercion",
+    "group": "coercion",
+    "fields": {
+      "wwtp": "Allen County Sanitary District (FM-1: American Bath / American II; FM-2: City of Lima)"
+    },
+    "citations": []
   }
 ]
