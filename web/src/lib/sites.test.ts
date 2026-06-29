@@ -185,7 +185,7 @@ describe("facility-status rail — the 4-stage facility clock (#401)", () => {
 
   it("places each known facility on the right step of the rail", () => {
     expect(facilityStageIndex(facilityStatus("lima"))).toBe(2); // under construction
-    expect(facilityStageIndex(facilityStatus("fort-wayne"))).toBe(1); // confirmed
+    expect(facilityStageIndex(facilityStatus("fort-wayne"))).toBe(3); // live
   });
 
   it("defaults an undisclosed facility to step 0 (investigation)", () => {
