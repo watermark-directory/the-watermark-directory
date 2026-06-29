@@ -36,7 +36,8 @@ permit:
   facility_address: 121 Bridge Street, Piqua, Ohio, Miami County
   discharge_address: null
   receiving_water: Great Miami River
-  stream_network: null
+  stream_network: Great Miami River → Ohio River (Great Miami basin, Miami County,
+    OH; HUC-8 05080002)
   outfalls:
   - 1PD00008001
   - 1PD00008300
@@ -45,4 +46,5 @@ permit:
     Date: August 31, 2027. No public notice number or comment period end date found
     in the document. Outfall 1PD00008300 is SSO monitoring; 1PD00008581 is sludge
     monitoring. Permit action inferred as renewal based on context (existing facility,
-    expiration/effective dates); no explicit label present.'
+    expiration/effective dates); no explicit label present. Basin attribution: Great
+    Miami basin, Miami County — not a Little Miami / Wilmington discharger.'

@@ -41,10 +41,15 @@ tags:
 - permits
 - wastewater
 - wilmington
-notes: All seven Wilmington-area OEPA permits extracted. 1MP00060 is a Land Application
+notes: 'All seven Wilmington-area OEPA permits extracted. 1MP00060 is a Land Application
   Management Plan (LAMP) permit for Wilmington Nursery — not a standard discharge permit;
-  receiving water is northern/southern swales draining to an agricultural pond (2065 Rombach
-  Ave). 1PT00125 (Clinton County Board of Developmental Disabilities) ingested separately
-  — initial fetch failed on a stale versioned URL. Receiving water for the NPDES discharge
-  permits is Todd Fork into the Little Miami River (National and State Scenic River). Add
-  the 1PD00013 fact sheet / draft PN to storage as produced.
+  receiving_water is cleared in the extraction to prevent a spurious discharges_to edge;
+  exclude from any surface-water load or assimilative-capacity screen. 1PT00125 (Clinton
+  County Board of Developmental Disabilities) ingested separately — initial fetch failed
+  on a stale versioned URL. Receiving water for the true NPDES discharge permits is Lytle
+  Creek, Todd Fork, or Wilson Creek (all Little Miami basin). EXCLUSION NOTE: 1PV00037
+  (Hidden Valley MHP, Sidney, Shelby County) and 1PD00008 (Piqua WWTP, Miami County) are
+  Great Miami basin permits extracted under their own site catalogs (oepa-sidney,
+  oepa-troy-piqua); they are not Wilmington dischargers and must not be counted toward
+  Lytle Creek or any Little Miami assimilative screen. Add the 1PD00013 fact sheet /
+  draft PN to storage as produced.'
