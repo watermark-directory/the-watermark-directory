@@ -75,6 +75,28 @@ def _reference_only(tool: str) -> dict[str, Any] | None:
     )
 
 
+def _load_all_permits(
+    settings: Any,
+) -> list[tuple[str, Any]]:
+    """Return ``(relpath, NpdesExtraction)`` pairs for every *.npdes.yaml in the corpus.
+
+    Used to annotate ``discharges_to`` edges with ``stream_network`` so the agent can
+    verify basin attribution without a separate ``read_extraction`` call per permit.
+    """
+    from watermark.models import NpdesExtraction
+
+    results = []
+    for path in sorted(settings.extracted_dir.rglob("*.npdes.yaml")):
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8"))
+            ex = NpdesExtraction.model_validate(data)
+            rel = path.relative_to(settings.extracted_dir).as_posix()
+            results.append((rel, ex))
+        except Exception:
+            pass
+    return results
+
+
 def _resolve(filename: str | None, pattern: str = "*.yaml") -> Path | None:
     """Resolve an extraction within the ACTIVE SITE's extracted corpus (#424).
 
@@ -224,7 +246,32 @@ async def entities(_args: dict[str, Any]) -> dict[str, Any]:
     )
     if not graph.entities:
         return _text("No entities found under data/extracted.")
-    lines = ["ENTITIES:"]
+
+    # Pre-load stream_network from every NPDES extraction so discharges_to edges can
+    # be annotated with the basin chain. This prevents the agent from attributing a
+    # permit from a different basin (e.g. Great Miami) to the active site's receiving
+    # waters (e.g. Little Miami / Lytle Creek). LAMP permits have receiving_water=null
+    # and will not have a discharges_to edge at all — they are excluded by construction.
+    settings = get_settings()
+    _stream_network_by_source: dict[str, str] = {}
+    try:
+        for rel_path, pex in _load_all_permits(settings):
+            sn = pex.permit.stream_network
+            if sn:
+                _stream_network_by_source[rel_path] = sn
+    except Exception:
+        pass  # annotation is best-effort; never block the main output
+
+    lines = [
+        "SCOPE NOTE: This is the Lima reference entity graph — it includes NPDES permits",
+        "from ALL sites in the corpus (not just the active site). Before attributing a",
+        "discharges_to edge to the active site's basin, verify the permit source_path",
+        "matches this site and that the stream_network annotation is consistent with",
+        "the active basin. LAMP/non-discharge permits (receiving_water=null) are excluded",
+        "from discharges_to edges by construction and must not appear in load screens.",
+        "",
+        "ENTITIES:",
+    ]
     for ent in sorted(graph.entities.values(), key=lambda e: (e.kind, e.key)):
         roles = ", ".join(f"{r} x{n}" for r, n in ent.roles.most_common())
         sig = f" signals={sorted(ent.signals)}" if ent.signals else ""
@@ -236,7 +283,12 @@ async def entities(_args: dict[str, Any]) -> dict[str, Any]:
         dst = graph.entities[r.dst].display if r.dst in graph.entities else r.dst
         when = f" ({r.date})" if r.date else ""
         ref = f" [{r.ref}]" if r.ref else ""
-        lines.append(f"- {src} --{r.rel}--> {dst}{when}{ref}")
+        basin = (
+            f" [stream_network: {_stream_network_by_source[r.source]}]"
+            if r.rel == "discharges_to" and r.source in _stream_network_by_source
+            else ""
+        )
+        lines.append(f"- {src} --{r.rel}--> {dst}{when}{ref}{basin}")
     return _scoped("\n".join(lines))
 
 
