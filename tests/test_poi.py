@@ -1,4 +1,4 @@
-"""POI store: load + validate the committed data/poi/ profiles, and the tracked view."""
+"""POI store: load + validate the committed data/entities/poi/ profiles, and the tracked view."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from watermark.poi.store import split_frontmatter
 
 def test_store_loads_and_validates(poi_settings: Settings) -> None:
     pois = load_pois(settings=poi_settings)
-    assert pois, "the committed data/poi/ store should not be empty"
+    assert pois, "the committed data/entities/poi/ store should not be empty"
     # Every committed profile validates (extra='forbid' + Literal depth/kind ladders).
     for p in pois:
         assert p.front.name

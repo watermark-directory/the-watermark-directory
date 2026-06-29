@@ -33,7 +33,7 @@ The last onboard run log (ONBOARDING.md lines 14–25) records four steps that d
 - `grid-profile` **errored** — "EIA-861 2024: no Short-Form ('861S') row for utility #0 in OH" (the profile's `eia861_utility_number=0` placeholder).
 - `corridor-ddf`, `climatology`, `econ-baseline`, `consumer-energy`, `derive-low-flows`, `basin-screen` all **ok**.
 
-Promotion (`frontend/src/lib/sites.ts` `status→live`/`selectable→true`) is a separate, parity-gated manual edit and has **not** happened. The blocking review gate (ONBOARDING.md lines 27–34) is entirely unchecked.
+Promotion (`web/src/lib/sites.ts` `status→live`/`selectable→true`) is a separate, parity-gated manual edit and has **not** happened. The blocking review gate (ONBOARDING.md lines 27–34) is entirely unchecked.
 
 ## 2. Site definition `[verified]` in the profile
 

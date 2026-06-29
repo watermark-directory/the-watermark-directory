@@ -1,4 +1,4 @@
-"""POI curate: scaffold a merge group into a data/poi/ profile (depth=located)."""
+"""POI curate: scaffold a merge group into a data/entities/poi/ profile (depth=located)."""
 
 from __future__ import annotations
 
@@ -66,7 +66,7 @@ def test_write_profile_roundtrips(tmp_path: Path) -> None:
     settings = Settings(data_dir=tmp_path)
     front, body = scaffold_from_group(_group(), asof="2026-06-09")
     path = write_profile(front, body, settings=settings)
-    assert path == tmp_path / "poi" / "parcel-11111111111111.md"
+    assert path == tmp_path / "entities" / "poi" / "parcel-11111111111111.md"
 
     parsed = parse_poi(path)  # the written frontmatter must re-validate
     assert parsed.front.name == "100 MAIN ST"

@@ -90,7 +90,7 @@ The good news for working it: the onboarding GIS discovery found **Lucas County 
 
 6. **SSURGO HSG confirmation.** `dominant_hsg="D"` is `[inference]` (Black Swamp lake-plain clays); the onboard SSURGO step skipped for lack of a footprint. Confirm area-weighted HSG once a candidate footprint exists — it materially changes any stormwater/detention result.
 
-**Promotion remains correctly gated:** Toledo is a *coming-soon* point; flipping `status→live` / `selectable→true` in `frontend/src/lib/sites.ts` is a separate manual, parity-gated edit and should not happen until at least #1 and #3 close.
+**Promotion remains correctly gated:** Toledo is a *coming-soon* point; flipping `status→live` / `selectable→true` in `web/src/lib/sites.ts` is a separate manual, parity-gated edit and should not happen until at least #1 and #3 close.
 
 ---
 

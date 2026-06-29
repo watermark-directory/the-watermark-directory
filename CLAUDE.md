@@ -24,9 +24,9 @@ NPDES inventory; columns are selected by ECHO **ObjectName**, never by index).
 The **public site** is built in two tiers. The Python data tier (`src/watermark/site/`)
 emits a typed **content bundle** — JSON feeds + a manifest with a `CONTRACT_VERSION`,
 Pydantic models in `watermark.site.feeds`, written by `watermark export`. The presentation tier lives
-in **`frontend/`**: an Astro + MDX static site that reads that bundle at build time
+in **`web/`**: an Astro + MDX static site that reads that bundle at build time
 (Epic #54). It's pure Node (npm, no uv/LFS) and builds against the committed
-`frontend/sample-bundle/` fixture offline; deck.gl map/graph visualizations are the
+`web/sample-bundle/` fixture offline; deck.gl map/graph visualizations are the
 only React islands. The frontend is structured as **the BOSC network** (Epic #308):
 one build hosting a network of watershed-point sites — Lima (the live reference build)
 is physically re-rooted under **`/bosc`** so future sites are clean siblings, with
@@ -34,13 +34,13 @@ cross-cutting pages (about, wiki, ask, search, the `/network/*` hub) global at t
 and a topbar switcher (`src/lib/sites.ts`) between them. Charts are a hand-rolled SVG
 library (`src/lib/charts.ts` + `components/charts/`) — indigo encodes data, the evidence
 palette only encodes evidence. The legacy Python SSG was retired at the parity cutover —
-the Astro `frontend/` is now the sole presentation tier. Production is
-**Cloudflare Pages** (`.github/workflows/pages.yml` + `frontend/wrangler.toml`,
-where the `frontend/functions/api/*` Pages Functions — `/api/submit`, `/api/ask` —
+the Astro `web/` is now the sole presentation tier. Production is
+**Cloudflare Pages** (`.github/workflows/pages.yml` + `web/wrangler.toml`,
+where the `web/functions/api/*` Pages Functions — `/api/submit`, `/api/ask` —
 also deploy), **not** GitHub Pages: that deploy was never flipped and Cloudflare
 supersedes it. See
-`frontend/README.md` for the architecture; **don't edit `docs/**` to fix the new
-site's cross-links** — they're rewritten at build time (`frontend/src/lib/rehype-doc-links.ts`,
+`web/README.md` for the architecture; **don't edit `docs/**` to fix the new
+site's cross-links** — they're rewritten at build time (`web/src/lib/rehype-doc-links.ts`,
 base-aware: Lima routes get the `/bosc` prefix, network-global ones don't), keeping the
 `docs/**` source canonical. After a base/`LINK_MAP` change, clear
 `node_modules/.astro` (Astro caches markdown rehype output there).
@@ -61,8 +61,8 @@ repo-working agents now.
   `Brewfile` is the fallback. uv for envs/deps, ruff for lint+format, mypy
   `strict`, pytest. mise is a **monorepo**: backend tasks run at the repo root
   (`mise run check` — the gate to run before declaring done — plus `test`/`lint`/
-  `types`/`fmt`/`dev`/`export`), the `frontend/` Astro project's tasks are namespaced
-  (`mise run //frontend:check`, `//frontend:dev`, `//frontend:test`, …), and
+  `types`/`fmt`/`dev`/`export`), the `web/` Astro project's tasks are namespaced
+  (`mise run //web:check`, `//web:dev`, `//web:test`, …), and
   `mise run ci` runs the whole-repo gate (both `check`s). A bare task name runs the
   project you're standing in. The frontend is its own Node toolchain; it doesn't touch uv.
 - **Markdown lint:** `markdown` is a **separate required CI check** (alongside `check`).
@@ -73,7 +73,7 @@ repo-working agents now.
 - **CI / path filtering:** `.github/workflows/ci.yml` is split into two halves
   gated by a `changes` job — the Python `check` job (ruff/format/mypy/pytest) runs
   only when the backend tree changed (`src/`, `tests/`, `data/`, `pyproject.toml`,
-  `uv.lock`, …), the Astro `frontend` job runs only when `frontend/` changed, and a
+  `uv.lock`, …), the Astro `web` job runs only when `web/` changed, and a
   `mise.toml`/`ci.yml` edit runs both. `check` is the one **required** status check
   on `main` (`.github/config/index.ts` `requiredChecks`), so filtering is done at
   the **job** level, not with a trigger-level `paths:` filter — a skipped job
@@ -87,7 +87,7 @@ repo-working agents now.
 - **Site axis (the BOSC network):** the platform hosts a network of watershed-point
   sites (Lima today; Fort Wayne/Defiance/… queued — #323/#308). Per-site values are
   **not** baked in: they live on a `SiteProfile` in `watermark.sites` (the Python peer of
-  `frontend/src/lib/sites.ts`), selected by `WATERMARK_SITE` (`Settings.site`, default
+  `web/src/lib/sites.ts`), selected by `WATERMARK_SITE` (`Settings.site`, default
   `lima`) or the global `watermark --site <slug>` flag. `Settings` fills the per-site config
   knobs (`PROFILE_SETTINGS_FIELDS`: `nwis_sites`, `rsei_fips`, `eia861_utility_number`,
   the GIS URLs, …) from the active profile unless a knob is set explicitly (env/`.env`/
@@ -101,10 +101,10 @@ repo-working agents now.
   `docs/onboarding.md`): it scaffolds the per-site data dirs, runs the portable reach
   connectors (per-site point outputs are slug-scoped so Lima is never clobbered; basin-level
   outputs stay shared), and prints a **blocking review checklist** — promotion to
-  `live`/`selectable` in `frontend/src/lib/sites.ts` stays a manual, parity-gated edit.
+  `live`/`selectable` in `web/src/lib/sites.ts` stays a manual, parity-gated edit.
   **Registered ≠ selectable, and a thin peer is still engageable** (#781/#782): a
   non-reference `/network/<site>` page **degrades, doesn't break** — the frontend
-  readiness layer (`frontend/src/lib/readiness.ts`, the peer of `watermark.sites.is_reference_site`)
+  readiness layer (`web/src/lib/readiness.ts`, the peer of `watermark.sites.is_reference_site`)
   classifies each section `available|locked` from the bundle's `manifest.json` feed counts,
   locks the thin ones, and surfaces a needs/leads board instead. Chrome is **two-tier by the
   current path** — site-level tabs when standing on a site (locked tabs render non-navigable),

@@ -237,7 +237,7 @@ def enrich_with_parcel_owners(
 def enrich_with_places(graph: EntityGraph, *, settings: Settings | None = None) -> EntityGraph:
     """Fold the curated POI store in as ``place`` nodes (opt-in).
 
-    Each ``data/poi/<slug>.md`` becomes a ``place`` entity keyed by its **slug**
+    Each ``data/entities/poi/<slug>.md`` becomes a ``place`` entity keyed by its **slug**
     (lowercase-dashed, so it never collides with the upper-cased corpus keys), carrying
     its anchor parcels and depth (``classification = place_<depth>``). The profile's
     frontmatter ``relationships`` link the place to entities the graph **already has** —
@@ -259,7 +259,7 @@ def enrich_with_places(graph: EntityGraph, *, settings: Settings | None = None) 
         ent.variants.update(front.aliases)
         ent.parcels.update(front.parcels)
         ent.roles["place"] += 1
-        ent.sources.add(f"data/poi/{poi.slug}.md")
+        ent.sources.add(f"data/entities/poi/{poi.slug}.md")
         if poi.tracked:
             ent.signals.add("tracked")
         if front.kind == "composite":
@@ -271,7 +271,9 @@ def enrich_with_places(graph: EntityGraph, *, settings: Settings | None = None) 
                 continue
             _add_edge(
                 graph,
-                Relationship(src=key, rel=rel.role, dst=dst.key, source=f"data/poi/{poi.slug}.md"),
+                Relationship(
+                    src=key, rel=rel.role, dst=dst.key, source=f"data/entities/poi/{poi.slug}.md"
+                ),
             )
     return graph
 

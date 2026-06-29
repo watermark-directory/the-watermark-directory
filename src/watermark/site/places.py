@@ -1,6 +1,6 @@
 """Export the curated place (POI) profiles as typed feeds.
 
-The place peer of :mod:`watermark.site.people`. Each ``data/poi/<slug>.md`` becomes a
+The place peer of :mod:`watermark.site.people`. Each ``data/entities/poi/<slug>.md`` becomes a
 :class:`~watermark.site.feeds.PlaceItem` — its body, identity (parcels, relationships,
 location/tracking), and a structured provenance footer. Every curated POI is exported;
 ``depth`` is already the quality gate. (The legacy markdown ``render_place_*`` peers were

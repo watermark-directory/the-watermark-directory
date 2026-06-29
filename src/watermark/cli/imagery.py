@@ -24,13 +24,13 @@ def _gis_offline_settings() -> Settings:
 
 @imagery_app.command("sites")
 def imagery_sites() -> None:
-    """List the tracking sites (the watched POIs in data/poi/ that feed imagery)."""
+    """List the tracking sites (the watched POIs in data/entities/poi/ that feed imagery)."""
     from watermark.gis import load_tracking_sites
 
     sites = load_tracking_sites()
     if not sites:
         console.print(
-            "[yellow]No tracking sites[/] — no POI in data/poi/ is watched "
+            "[yellow]No tracking sites[/] — no POI in data/entities/poi/ is watched "
             "(depth=watched + track.enabled with a location bbox). See `bosc poi list`."
         )
         raise typer.Exit(1)

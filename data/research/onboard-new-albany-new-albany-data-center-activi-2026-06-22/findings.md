@@ -24,7 +24,7 @@ One string-collision to retire before anyone trips on it: the corpus timeline co
 
 ## 1. Onboarding state (what exists)
 
-New Albany is registered as `_NEW_ALBANY` in `src/bosc/sites.py` (slug `new-albany`, `basin="scioto"`, Scioto epic #484 / onboarding #485) and was last onboarded **2026-06-22** (today). In the frontend (`frontend/src/lib/sites.ts`) it is `status: "tracking"`, `selectable: false` — **not promoted; not live.** Promotion is a separate, parity-gated manual edit. `[verified]`
+New Albany is registered as `_NEW_ALBANY` in `src/bosc/sites.py` (slug `new-albany`, `basin="scioto"`, Scioto epic #484 / onboarding #485) and was last onboarded **2026-06-22** (today). In the frontend (`web/src/lib/sites.ts`) it is `status: "tracking"`, `selectable: false` — **not promoted; not live.** Promotion is a separate, parity-gated manual edit. `[verified]`
 
 **Reach connectors that ran (committed, citable):**
 

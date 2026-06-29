@@ -1,6 +1,6 @@
 # Onboarding — Ottawa (ottawa)
 
-Living record for the Ottawa watershed point (basin: maumee), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Ottawa watershed point (basin: maumee), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 ## Dimension coverage
 
@@ -107,4 +107,4 @@ valid-cert, wireable) is tracked under GIS discovery above.
 - [ ] basin-screen coverage is sane for this site's receiving waters.
 - [x] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md). Parcels wired via `PUTNAM_PARCEL_SCHEMA` (#420); zoning stays `[open]` (village zoning is class-coded / map-only, no REST).
 - [x] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/) — see self-research summary above; 4 proposals filed as sub-issues of #381 (#414–417).
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'ottawa' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'ottawa' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

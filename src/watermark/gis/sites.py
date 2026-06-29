@@ -1,7 +1,7 @@
 """Tracking sites — the imagery AOIs, sourced from the POI store.
 
 A *tracking site* is a POI at depth ``watched`` (with ``track.enabled``): the single
-source of truth for what gets imagery is the ``track`` flag in a ``data/poi/<slug>.md``
+source of truth for what gets imagery is the ``track`` flag in a ``data/entities/poi/<slug>.md``
 profile, not a layer of ``gis-findings.geojson``. ``watermark.gis`` is a **consumer** of
 ``watermark.poi`` — this reads ``tracked_pois()`` and exposes each as a ``TrackingSite`` whose
 ``bbox`` is the AOI ``bosc imagery search``/``pull`` clips to. See
@@ -45,7 +45,7 @@ def _from_poi(poi: POIProfile, bbox: Bbox) -> TrackingSite:
         name=poi.name,
         bbox=bbox,
         parcels=list(poi.front.parcels),
-        source=f"data/poi/{poi.slug}.md",
+        source=f"data/entities/poi/{poi.slug}.md",
     )
 
 

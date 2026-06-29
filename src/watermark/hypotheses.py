@@ -128,7 +128,7 @@ class HypothesisAssessment(BaseModel):
     citations: list[Citation] = Field(default_factory=list)
 
 
-# --- the registry (ported from frontend/src/lib/directory.ts LENSES) -----------------------
+# --- the registry (ported from web/src/lib/directory.ts LENSES) -----------------------
 HYPOTHESES: dict[str, Hypothesis] = {
     "water": Hypothesis(
         id="water",

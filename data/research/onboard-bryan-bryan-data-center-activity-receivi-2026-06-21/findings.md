@@ -16,7 +16,7 @@ I now have a complete, sourced picture. Here is the findings report.
 
 ## Bottom line
 
-Bryan is **registered but not yet built** — a `status: "queued"`, `selectable: false` "coming-soon" point (`frontend/src/lib/sites.ts:112–120`, issue #380). Its **geography and grid identity are sourced and verified**; its **receiving-water assimilative screen cannot yet be run** (no 7Q10 low flow for Prairie Creek); and there is **no documented data-center activity** — but that last finding rests on a screening layer that, for Bryan, lacks the parcel/recorder/permit infrastructure that surfaced the data-center thread in Lima. The distinguishing reason to onboard Bryan is the **grid**: it is the network's **first municipal electric utility** (Bryan Municipal Utilities, an AMP member scheduled into PJM), which exercises code paths no IOU site does.
+Bryan is **registered but not yet built** — a `status: "queued"`, `selectable: false` "coming-soon" point (`web/src/lib/sites.ts:112–120`, issue #380). Its **geography and grid identity are sourced and verified**; its **receiving-water assimilative screen cannot yet be run** (no 7Q10 low flow for Prairie Creek); and there is **no documented data-center activity** — but that last finding rests on a screening layer that, for Bryan, lacks the parcel/recorder/permit infrastructure that surfaced the data-center thread in Lima. The distinguishing reason to onboard Bryan is the **grid**: it is the network's **first municipal electric utility** (Bryan Municipal Utilities, an AMP member scheduled into PJM), which exercises code paths no IOU site does.
 
 ---
 
@@ -90,7 +90,7 @@ Two caveats, faithfully: the RSEI set is **county-wide** (includes Stryker, Mont
 ## 6. Onboarding / parity status
 
 - **Committed reference artifacts exist**: grid-profile, economics baseline, RSEI inventory, NASA-POWER climatology, Atlas-14 corridor DDF (all under `data/reference/**/bryan/`).
-- **Not promoted**: `status: "queued"`, `selectable: false` (`frontend/src/lib/sites.ts`) — the parity gate is correctly still closed.
+- **Not promoted**: `status: "queued"`, `selectable: false` (`web/src/lib/sites.ts`) — the parity gate is correctly still closed.
 - **No onboarding research manifest / review checklist** exists for Bryan (`data/research/*bryan*` → none found), unlike Defiance and Fort Wayne, which have `onboard-…/manifest.yaml`. Bryan appears to have been hand-assembled from the profile rather than run through `bosc onboard bryan`.
 
 ---

@@ -206,7 +206,7 @@ def test_readiness_clean_for_lima() -> None:
 def test_python_sites_registered_in_frontend() -> None:
     # Every Python-registered site must also exist in the frontend registry (its switcher +
     # coming-soon page); catches drift between the two tiers.
-    ts = (REPO_ROOT / "frontend" / "src" / "lib" / "sites.ts").read_text(encoding="utf-8")
+    ts = (REPO_ROOT / "web" / "src" / "lib" / "sites.ts").read_text(encoding="utf-8")
     frontend_slugs = set(re.findall(r'slug:\s*"([^"]+)"', ts))
     assert frontend_slugs, "could not parse slugs from frontend sites.ts"
     assert set(SITES) <= frontend_slugs, set(SITES) - frontend_slugs

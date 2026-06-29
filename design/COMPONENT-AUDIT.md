@@ -3,12 +3,12 @@
 Spec↔implementation audit for the DesignSync component sync (the follow-up to the token
 regularization, PRs #549–#554). The **source-of-truth** is the Claude Design *Watermark Design
 System* project (`dbe30a08-547c-442e-b4ac-81492fa5570f`); the **mirror** of its specs now lives in
-`frontend/design-system/components/**` + `ui_kits/**` (pulled this pass). This document maps every
+`design/components/**` + `ui_kits/**` (pulled this pass). This document maps every
 spec to its live implementation and records the drift, the **direction** each should resolve, and
 the effort — so reconciliation (Stage 2) is targeted, not a blind rewrite.
 
 **The framework boundary:** specs are React `.jsx` (+ `.d.ts` prop contract + `.prompt.md` design
-intent); impls are Astro `.astro`/`.tsx` consuming one `frontend/src/styles/site.css`. "Sync" is
+intent); impls are Astro `.astro`/`.tsx` consuming one `web/src/styles/site.css`. "Sync" is
 never a file copy — it's reconciling *values / structure / variants / taxonomy*.
 
 ## ⚠️ Reading rule: the global flatten layer (do not chase ghost drift)
@@ -365,7 +365,7 @@ Substantive drift: the **spec auto-colors semantic evidence icons** (in-componen
   (see the coverage extension above) — the remaining gap is the interactive map/sim islands.
 - **Not mirrored (design-canvas artifacts, not components):** `explorations/hydrology/**` (a
   hydrology-viz working exploration) and `templates/social-kit/**`.
-- **Not mirrored (by design):** `assets/brand/**` (binaries already in `frontend/public/`),
+- **Not mirrored (by design):** `assets/brand/**` (binaries already in `web/public/`),
   `templates/social-kit/**` (a social-card template, not a component), `_ds_*` (generated).
 - **Dead-source hygiene (optional, low priority):** the radius/shadow/round-dot declarations the
   flatten layer overrides could be removed so the source matches intent — but it's invisible and

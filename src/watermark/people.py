@@ -1,6 +1,6 @@
 """Per-individual profile store — the curated detail layer of the entity graph.
 
-Each meaningful individual gets a markdown file under ``data/people/<slug>.md``
+Each meaningful individual gets a markdown file under ``data/entities/people/<slug>.md``
 opened by a YAML **frontmatter** header. The header carries identity, linkage to
 the resolved entity graph (``entity_key``), and the ``expanded_research`` flag that
 gates whether the person is published to the site; the markdown body below it is

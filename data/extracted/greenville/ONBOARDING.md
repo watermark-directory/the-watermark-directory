@@ -1,6 +1,6 @@
 # Onboarding — Greenville · Darke Co (greenville)
 
-Living record for the Greenville · Darke Co watershed point (basin: great-miami), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Greenville · Darke Co watershed point (basin: great-miami), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 ## Dimension coverage
 
@@ -31,7 +31,7 @@ Living record for the Greenville · Darke Co watershed point (basin: great-miami
 - [ ] basin-screen coverage is sane for this site's receiving waters.
 - [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
 - [ ] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/).
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'greenville' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'greenville' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
 
 ## Self-research (Phase 5; #247) — 2026-06-22
 

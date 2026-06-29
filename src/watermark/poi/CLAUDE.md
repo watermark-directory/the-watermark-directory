@@ -5,7 +5,7 @@ The point-of-interest (place) research store. Defers to the root
 [`docs/poi-subsystem.md`](../../../docs/poi-subsystem.md).
 
 - **A POI is the place peer of a person profile.** Same shape as `watermark.people`:
-  `data/poi/<slug>.md` = a `---` YAML frontmatter header (validated by
+  `data/entities/poi/<slug>.md` = a `---` YAML frontmatter header (validated by
   `POIFrontmatter`, `extra="forbid"`) + hand-written markdown body. `depth`/`kind` are
   `Literal` ladders — an out-of-vocabulary value is a loud validation error.
 - **Depth is a cost gate** (`mention → located → characterized → watched`), human-set
@@ -39,7 +39,7 @@ The point-of-interest (place) research store. Defers to the root
   synthetic resolutions); `bosc poi merge`. Atomic merge keeps distinct parcels distinct —
   a *composite* unifies them by hand in curate, not here.
 - **`curate` (built — scaffolding):** `curate.py` scaffolds a resolved `MergeGroup` into a
-  `data/poi/<slug>.md` profile at depth `located` (members → `surface_forms`, owner →
+  `data/entities/poi/<slug>.md` profile at depth `located` (members → `surface_forms`, owner →
   relationship, citations carried through; no AOI). `write_profile` refuses to overwrite
   unless `force`. `bosc poi curate <parcel-no> [--write]`. Promotion to
   `characterized`/`watched` (+ a tracking `bbox`) is a human edit, never auto.

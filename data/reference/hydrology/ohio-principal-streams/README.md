@@ -2,7 +2,7 @@
 
 `principal-streams-and-drainage-areas.pdf` — a statewide map of Ohio's principal streams and
 their drainage basins, used here as a **basin-distribution orientation + corroboration** reference
-for the network's `basin` axis (`watermark.sites` / `frontend/src/lib/sites.ts`). It is **not** a
+for the network's `basin` axis (`watermark.sites` / `web/src/lib/sites.ts`). It is **not** a
 quantitative data source.
 
 ## Source

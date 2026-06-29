@@ -6,17 +6,17 @@
    meaning. Type is Archivo for prose, IBM Plex Mono for every load-bearing
    figure. (Replaces the v0 Material-derived indigo chrome.) */
 
-/* Design-system tokens (DesignSync — frontend/design-system/, mirrored from the Watermark
+/* Design-system tokens (DesignSync — design/, mirrored from the Watermark
    Design System project). The --bosc-* names below alias the COLOR tokens, so the design
    system drives the palette (values identical → visually a no-op). The TYPE + SPACING tokens
    (--font-*, --fs-*, --sp-*, --pad-*, --bw-*, --ease/--dur/--lift, --ring-focus, …) are
    imported so they're available to adopt incrementally — but the site has DIVERGED from them
    (its own inline rem/px sizes; transitions at 0.12s ease, not the DS 0.15s cubic-bezier), so
-   they are NOT force-applied. See design-system/DESIGNSYNC.md → "Type & spacing". Fonts load
+   they are NOT force-applied. See design/DESIGNSYNC.md → "Type & spacing". Fonts load
    via the layout <link>, so fonts.css is deliberately NOT imported (no double-load). */
-@import url("../../design-system/tokens/colors.css");
-@import url("../../design-system/tokens/typography.css");
-@import url("../../design-system/tokens/spacing.css");
+@import url("../../../design/tokens/colors.css");
+@import url("../../../design/tokens/typography.css");
+@import url("../../../design/tokens/spacing.css");
 
 :root {
   /* The forest signal — the one accent, referenced ~130× across this sheet.

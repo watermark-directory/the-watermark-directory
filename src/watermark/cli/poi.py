@@ -25,7 +25,7 @@ def poi_list(
     if tracked:
         pois = [p for p in pois if p.tracked]
     if not pois:
-        console.print("[yellow]No POIs[/] — the store at data/poi/ is empty.")
+        console.print("[yellow]No POIs[/] — the store at data/entities/poi/ is empty.")
         raise typer.Exit(1)
     table = Table("slug", "kind", "depth", "tracked", "parcels", "located")
     for p in pois:
@@ -246,13 +246,15 @@ def poi_merge(
 def poi_curate(
     parcel_no: str = typer.Argument(..., help="A parcel number cited in the corpus."),
     write: bool = typer.Option(
-        False, "--write", help="Write the scaffold to data/poi/ (default: dry-run preview)."
+        False,
+        "--write",
+        help="Write the scaffold to data/entities/poi/ (default: dry-run preview).",
     ),
     force: bool = typer.Option(False, "--force", help="Re-scaffold even if a POI exists."),
 ) -> None:
     """Scaffold a POI profile for a parcel from its corpus surface forms (the promotion step).
 
-    Resolves the parcel + gathers its cited surface forms, then scaffolds a `data/poi/`
+    Resolves the parcel + gathers its cited surface forms, then scaffolds a `data/entities/poi/`
     profile at depth `located`. Promotion is a human step: review the dry-run, `--write`
     it, then hand-edit `depth`/relationships and add a tracking `bbox` to make it `watched`.
     """
@@ -288,7 +290,7 @@ def poi_curate(
     front, body = scaffold_from_group(group, asof=date.today().isoformat())
     if not write:
         console.print(profile_text(front, body))
-        console.print("[dim](dry run — pass --write to commit to data/poi/)[/]")
+        console.print("[dim](dry run — pass --write to commit to data/entities/poi/)[/]")
         return
     try:
         path = write_profile(front, body, settings=settings, force=force)

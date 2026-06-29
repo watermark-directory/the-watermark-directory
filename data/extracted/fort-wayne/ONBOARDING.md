@@ -1,6 +1,6 @@
 # Onboarding — Fort Wayne (fort-wayne)
 
-Living record for the Fort Wayne watershed point (basin: maumee), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Fort Wayne watershed point (basin: maumee), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 ## Dimension coverage
 
@@ -124,22 +124,22 @@ authoring** written into the scaffolded slots, then promotion. Each item cites a
 [`docs/onboarding.md`](../../../docs/onboarding.md) → "Bringing a site's story live", tracked here.
 
 - [ ] **Write the Project Zodiac story prose + flip each chapter `live: true`.** Fill the four
-  scaffold files under [`frontend/src/content/stories/fort-wayne/project-zodiac/`](../../../frontend/src/content/stories/fort-wayne/project-zodiac/)
+  scaffold files under [`web/src/content/stories/fort-wayne/project-zodiac/`](../../../web/src/content/stories/fort-wayne/project-zodiac/)
   — `_home.mdx` (on-ramp) + `who.mdx` / `power.mdx` / `water.mdx`, each already anchored to its
   committed record (the parcel footprint, the IDEM Title V air permit [`idem/fort-wayne/47378f.idem.yaml`](../idem/fort-wayne/47378f.idem.yaml),
   the §401 WQC [`idem/fort-wayne/wqc001454.idem.yaml`](../idem/fort-wayne/wqc001454.idem.yaml)).
   Re-add the record-teardown islands / bundle-count imports as in `stories/lima/project-bosc/`; set
   each chapter `live: true` as it's finished. Figures carry their source + confidence.
 - [ ] **Curate the real FW people / places / exhibits.** Add profiles under
-  [`data/people/fort-wayne/`](../../people/fort-wayne/) (the Hatchworks principals, permit contacts,
-  IURC/abatement parties) and [`data/poi/fort-wayne/`](../../poi/fort-wayne/) (the 11-parcel campus
+  [`data/entities/people/fort-wayne/`](../../people/fort-wayne/) (the Hatchworks principals, permit contacts,
+  IURC/abatement parties) and [`data/entities/poi/fort-wayne/`](../../poi/fort-wayne/) (the 11-parcel campus
   composite, the WWTP IN0032191), and exhibits to [`data/site/fort-wayne/exhibits.yaml`](../../site/fort-wayne/exhibits.yaml)
   (candidate IDEM sources noted there). The `people`/`places`/`exhibits` feeds stay empty until these land.
 - [ ] **Register the story** on the Fort Wayne entry in
-  [`frontend/src/lib/sites.ts`](../../../frontend/src/lib/sites.ts) (`stories: [{ codename:
+  [`web/src/lib/sites.ts`](../../../web/src/lib/sites.ts) (`stories: [{ codename:
   "project-zodiac", title, dek }]`) so the switcher/nav surface it.
 - [ ] **Meet the parity gate (#746/#742) → flip `selectable: true`** (and `status: "live"`) for
-  `fort-wayne` in `frontend/src/lib/sites.ts` — the one manual, parity-gated edit (also the last
+  `fort-wayne` in `web/src/lib/sites.ts` — the one manual, parity-gated edit (also the last
   Review-gate box) that makes every `network/[site]/…` route, including the story, render for Fort
   Wayne. The page chrome (#766) already reads "Fort Wayne, Indiana"; the Lima-specific *prose* on the
   hero/report pages still needs its FW equivalent before this flip.
@@ -151,4 +151,4 @@ authoring** written into the scaffolded slots, then promotion. Each item cites a
 - [x] basin-screen coverage is sane for this site's receiving waters — IN0032191's primary receiver is the ungaged Baldwin Ditch, so it is correctly unscreened (omit-don't-guess); the receiving-water read is documented in [`wwtp-receiving-water.md`](wwtp-receiving-water.md) against the derived headwaters 7Q10 (#358/#359).
 - [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
 - [x] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/) — see self-research summary above; 5 proposals filed as sub-issues of #235 (#358–362).
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'fort-wayne' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'fort-wayne' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

@@ -2,16 +2,16 @@
 #
 # Two projects share one toolchain:
 #   • backend (this root): the Python `bosc` package + corpus — tasks `mise run <task>`
-#   • frontend (frontend/): the Astro site — tasks `mise run //frontend:<task>`
+#   • web (web/): the Astro site — tasks `mise run //web:<task>`
 #
 # A bare task name runs the project you're standing in: `mise run test` is the backend's
-# pytest at the repo root and the frontend's vitest inside frontend/. Target a project
-# explicitly from anywhere with the `//project:task` path (`mise run //frontend:test`).
+# pytest at the repo root and the web's vitest inside web/. Target a project
+# explicitly from anywhere with the `//project:task` path (`mise run //web:test`).
 #
 #   mise install            # install pinned tools (python, uv, node, git-lfs)
 #   mise run setup          # bootstrap BOTH projects (deps, Git LFS, Claude Code CLI)
 #   mise run check          # backend gate (lint + format + markdown + types + tests)
-#   mise run //frontend:check  # frontend gate (lint + types + tests + build + links)
+#   mise run //web:check    # web gate (lint + types + tests + build + links)
 #   mise run ci             # the whole-repo gate — both of the above
 #   mise tasks --all        # list every task across both projects
 #
@@ -24,12 +24,12 @@ monorepo_root = true
 experimental = true   # required for the monorepo task paths (`//project:task`)
 
 [monorepo]
-config_roots = ["frontend"]   # subprojects with their own mise.toml
+config_roots = ["web"]   # subprojects with their own mise.toml
 
 [tools]
 python = "3.11"
 uv = "latest"
-node = "24"        # pinned LTS for the Astro frontend/ build (CI uses the same major)
+node = "24"        # pinned LTS for the Astro web/ build (CI uses the same major)
 git-lfs = "latest"
 
 [env]
@@ -38,22 +38,22 @@ UV_PROJECT_ENVIRONMENT = ".venv"
 
 # === cross-cutting (both projects) ==========================================
 [tasks.setup]
-description = "Bootstrap both projects: Python + frontend deps, Git LFS, Claude Code CLI"
-depends = ["//frontend:install"]
+description = "Bootstrap both projects: Python + web deps, Git LFS, Claude Code CLI"
+depends = ["//web:install"]
 run = [
   "uv sync --extra dev",
-  "npm install",   # root dev tooling (markdownlint-cli2); the Astro site installs via //frontend:install
+  "npm install",   # root dev tooling (markdownlint-cli2); the Astro site installs via //web:install
   "git lfs install --local",
   "npm install -g @anthropic-ai/claude-code",
 ]
 
 [tasks.ci]
-description = "The whole-repo gate — backend `check` + frontend `check` (mirrors the CI jobs)"
-depends = ["check", "//frontend:check"]
+description = "The whole-repo gate — backend `check` + web `check` (mirrors the CI jobs)"
+depends = ["check", "//web:check"]
 
 [tasks.clean]
 description = "Remove regenerable caches/outputs (connector cache, Astro cache, dist)"
-run = "rm -rf data/cache frontend/node_modules/.astro frontend/dist"
+run = "rm -rf data/cache web/node_modules/.astro web/dist"
 
 # === backend (the Python `watermark` package) ====================================
 [tasks.dev]
@@ -92,7 +92,7 @@ run = [
 ]
 
 [tasks.export]
-description = "Regenerate the content bundle the frontend reads (watermark export → data/site/bundle/)"
+description = "Regenerate the content bundle the web site reads (watermark export → data/site/bundle/)"
 run = "uv run watermark export"
 
 [tasks.onboard-site]

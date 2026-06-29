@@ -43,7 +43,7 @@ bosc onboard <slug> --check   # flags fields still unfilled (placeholder) or cop
   to the site (and a CI test enforces it), but scope them correctly from the start.
 - The `SITES` key must equal the profile's `slug` (CI enforces this too).
 
-Also register the site in the frontend [`frontend/src/lib/sites.ts`](../frontend/src/lib/sites.ts)
+Also register the site in the frontend [`web/src/lib/sites.ts`](../web/src/lib/sites.ts)
 `SITES` with `status: "open"` (or `"onboarding"` once the build is queued) and
 `selectable: false` — that alone auto-builds its `/network/<slug>` coming-soon page. (A CI
 test asserts every Python-registered site also exists in the frontend registry.)
@@ -131,14 +131,14 @@ before promotion:
 6. Promotion is a separate manual edit (step 5).
 
 The invariant is also enforced in CI by
-[`frontend/src/lib/sites.test.ts`](../frontend/src/lib/sites.test.ts): every `selectable`
+[`web/src/lib/sites.test.ts`](../web/src/lib/sites.test.ts): every `selectable`
 site must be `status: "live"`, and no `onboarding`/`open` site may be `selectable` — so a
 site cannot slip live without the deliberate two-field change.
 
 ### 5. Promote (manual, parity-gated)
 
 Once the site reaches parity, flip `status: "live"` + `selectable: true` for it in
-`frontend/src/lib/sites.ts`. **Note the single-live-build constraint:** today only Lima is a
+`web/src/lib/sites.ts`. **Note the single-live-build constraint:** today only Lima is a
 built site (re-rooted under `/bosc`); standing up a *second* live build at its own root is a
 deeper, separate cutover, not part of routine onboarding.
 
@@ -207,12 +207,12 @@ bundle renders. The bundle is **per-site** (#762): `bosc --site <slug> export` r
 *own* curated stores via `watermark.sites.site_scoped_path`, so a non-Lima site never inherits
 Lima's. Lima (the reference build) keeps the flat committed layout; every other site lives
 under a `<slug>/` subdir. Scaffold these — Fort Wayne's are the worked example
-(`data/people/fort-wayne/`, `data/poi/fort-wayne/`, `data/site/fort-wayne/exhibits.yaml`):
+(`data/entities/people/fort-wayne/`, `data/entities/poi/fort-wayne/`, `data/site/fort-wayne/exhibits.yaml`):
 
 | Feed | Lima reads | A site `<slug>` reads |
 | --- | --- | --- |
-| `people` | `data/people/*.md` | `data/people/<slug>/*.md` |
-| `places` (+ imagery) | `data/poi/*.md` | `data/poi/<slug>/*.md` |
+| `people` | `data/entities/people/*.md` | `data/entities/people/<slug>/*.md` |
+| `places` (+ imagery) | `data/entities/poi/*.md` | `data/entities/poi/<slug>/*.md` |
 | `exhibits` | `data/site/exhibits.yaml` | `data/site/<slug>/exhibits.yaml` |
 | `candidates` | `entities/profiles/…` | `entities/<slug>/profiles/…` |
 | `lei` | `reference/gleif/…` | `reference/<slug>/gleif/…` |
@@ -224,7 +224,7 @@ cites a committed source; **never fabricate a person, place, or exhibit** (chain
 ## Bringing a site's story live
 
 A site's *story* is the MDX `stories` collection under
-`frontend/src/content/stories/<slug>/<codename>/` — `_home.mdx` (the on-ramp) plus one
+`web/src/content/stories/<slug>/<codename>/` — `_home.mdx` (the on-ramp) plus one
 `<chapter>.mdx` per chapter (a frontmatter spine + a prose body). Fort Wayne's scaffold is
 `stories/fort-wayne/project-zodiac/` (chapters in draft, `live: false`). The story **routes are
 gated to `selectable` sites**, so a draft story is schema-validated but **never rendered** until
@@ -234,7 +234,7 @@ the site is promoted (step 5). To bring it live:
    the site's committed records (the backlinks the library shows). Re-add the record-teardown
    islands / bundle-count imports as in `stories/lima/project-bosc/`. Keep figures cited.
 2. **Set chapters `live: true`** as each is finished (it gates that chapter's wayfinding links).
-3. **Register the story** on the site's `frontend/src/lib/sites.ts` entry (`stories: [{ codename,
+3. **Register the story** on the site's `web/src/lib/sites.ts` entry (`stories: [{ codename,
    title, dek }]`) so the switcher/nav surface it.
 4. **Promote** (step 5 above): the parity-gated `status: "live"` + `selectable: true` flip makes
    every `network/[site]/…` route — including the story — render for the site. No new page files

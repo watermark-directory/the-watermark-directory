@@ -2,7 +2,7 @@
 
 Curated term/method definitions for the site's **Wiki** section (Project BOSC
 two-tier refactor, issue [#68](../../README.md)). The lightweight peer of the
-per-individual profile store under [`data/people/`](../people/): one markdown
+per-individual profile store under [`data/entities/people/`](../people/): one markdown
 file per concept, opened by a YAML **frontmatter** header.
 
 Each `data/concepts/<slug>.md`:

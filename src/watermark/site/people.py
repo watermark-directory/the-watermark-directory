@@ -1,7 +1,7 @@
 """Export the curated individual profiles as typed feeds.
 
 Only profiles flagged ``expanded_research: true`` are exported; the rest stay tracked under
-``data/people`` but off the bundle. Each becomes a :class:`~watermark.site.feeds.PersonItem` — its
+``data/entities/people`` but off the bundle. Each becomes a :class:`~watermark.site.feeds.PersonItem` — its
 body, identity block, and structured sources — with ``entity_key`` carried only when it
 resolves into the entity graph. (The legacy markdown ``render_*`` peers were removed at the
 SSG-cutover cleanup, #603.)

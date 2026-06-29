@@ -1,6 +1,6 @@
 # Onboarding — Bryan (bryan)
 
-Living record for the Bryan watershed point (basin: maumee), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Bryan watershed point (basin: maumee), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 ## Dimension coverage
 
@@ -127,4 +127,4 @@ GIS correction above — the originally-cited `ParcelsWeb`/`Zoning_OD` org is No
 - [ ] basin-screen coverage is sane for this site's receiving waters.
 - [x] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md). Parcels wired via the OGRIP `County='Williams'` substitute (#410); zoning `[open]` (no real OH REST; the discovered one was North Dakota).
 - [x] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/) — see self-research summary above; 5 proposals filed as sub-issues of #380 (#408–412).
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'bryan' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'bryan' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

@@ -10,7 +10,7 @@ This file is the runbook: how the store is provisioned, how the bytes get there,
 the dev loop works. The pieces:
 
 - **R2 bucket** — `bosc-documents` (prod) + `bosc-documents-dev` (preview/dev). Bound as
-  `DOCS` in [`frontend/wrangler.toml`](../frontend/wrangler.toml). *(B1 / #277.)*
+  `DOCS` in [`web/wrangler.toml`](../web/wrangler.toml). *(B1 / #277.)*
 - **`bosc objectstore sync`** — uploads `data/documents/**` into a bucket, incrementally
   and LFS-aware. *(B3 / #279.)*
 - **`/api/doc/<rel>` Pages Function** — streams a file from R2 and enforces the public
@@ -33,7 +33,7 @@ npx wrangler r2 bucket create bosc-documents
 npx wrangler r2 bucket create bosc-documents-dev
 ```
 
-The binding is already declared in `frontend/wrangler.toml`:
+The binding is already declared in `web/wrangler.toml`:
 
 ```toml
 [[r2_buckets]]
@@ -94,11 +94,11 @@ To view documents in the local interactive stack, just run it — it seeds the l
 
 ```sh
 git lfs pull                     # materialize the bytes (LFS) you want to serve
-mise run //frontend:dev:stack    # build → seed published docs into local R2 → wrangler pages dev
+mise run //web:dev:stack    # build → seed published docs into local R2 → wrangler pages dev
 # visit the viewer; /api/doc/<rel> now streams the real bytes
 ```
 
-The seed step ([`frontend/scripts/seed-r2.mjs`](../frontend/scripts/seed-r2.mjs)) writes the
+The seed step ([`web/scripts/seed-r2.mjs`](../web/scripts/seed-r2.mjs)) writes the
 **published** docs through wrangler's `getPlatformProxy()` into the *same* local R2 that
 `wrangler pages dev` reads — so this needs **no Cloudflare creds**. (`wrangler pages dev` has no
 `--remote`, and its local R2 can't be filled with `wrangler r2 object put`, so this is the path
@@ -112,7 +112,7 @@ cd frontend && npm run seed:r2 -- --collection recorder   # or pass explicit dat
 `bosc-documents-dev` bucket that Cloudflare **preview deployments** bind — *not* the local stack.
 Run it before a preview deploy, not for local dev. The doc-serving logic (gate, ranges,
 content-type) is also covered offline by `src/lib/docRoute.test.ts`. See
-[`frontend/README.md`](../frontend/README.md) → *Local dev & testing*.
+[`web/README.md`](../web/README.md) → *Local dev & testing*.
 
 ## Production
 

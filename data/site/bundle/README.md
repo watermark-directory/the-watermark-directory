@@ -4,7 +4,7 @@ This directory is the **committed, site-agnostic contract** for the versioned,
 schema-validated content bundle the frontend reads (Project BOSC two-tier site refactor,
 [#53](../../../README.md) Tier 1). Python turns the committed corpus into typed JSON feeds;
 the Astro frontend (Epic 2) and the DeckGL visualizations (Epic 3) consume them. The Astro
-`frontend/` is the sole presentation tier — this bundle is its build-time input.
+`web/` is the sole presentation tier — this bundle is its build-time input.
 
 The bundle is generated **per network site** (#724/#727): the feeds + manifest land under
 `data/site/bundles/<slug>/`, one directory per site, so the network's sites never clobber
@@ -22,7 +22,7 @@ bosc export --out /tmp/b             # → anywhere
 The generator is [`watermark.site.export.export_bundle`](../../../src/bosc/site/export.py); each
 feed comes from an `export_X()` next to the matching `render_X()` in `watermark.site.*`. The
 frontend resolves a site's bundle by slug (`bundleFor(slug)` in
-[`frontend/src/lib/bundle.ts`](../../../frontend/src/lib/bundle.ts)).
+[`web/src/lib/bundle.ts`](../../../web/src/lib/bundle.ts)).
 
 ## Layout
 

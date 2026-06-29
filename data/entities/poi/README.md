@@ -1,7 +1,7 @@
 # data/poi/
 
 Curated **point-of-interest (place)** profiles — the place peer of
-[`data/people/`](../people/). Each `<slug>.md` is a YAML frontmatter header (validated by
+[`data/entities/people/`](../people/). Each `<slug>.md` is a YAML frontmatter header (validated by
 `watermark.poi.model.POIFrontmatter`) over a hand-written markdown body. Design + roadmap:
 [`docs/poi-subsystem.md`](../../docs/poi-subsystem.md).
 
@@ -19,7 +19,7 @@ A place derived from the corpus, geocoded, deduplicated, and **depth-marked**
 
 ## Editing
 
-Hand-curated, like `data/people/`. Advance `depth` deliberately — `characterized` and
+Hand-curated, like `data/entities/people/`. Advance `depth` deliberately — `characterized` and
 `watched` are human gates. `bosc poi list` / `bosc poi show <slug>` read this store.
 
 ## Gaps

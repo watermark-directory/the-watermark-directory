@@ -1,7 +1,7 @@
 """``watermark.poi`` — the point-of-interest (place) research store.
 
 Places are the third curated entity type, peer to *person* (`watermark.people`) and *org*
-(`data/entities/`): markdown + frontmatter under ``data/poi/<slug>.md``, cited and
+(`data/entities/`): markdown + frontmatter under ``data/entities/poi/<slug>.md``, cited and
 **depth-marked** (`mention → located → characterized → watched`). The place-specific
 enrichment is geometry (geocoding); a POI flagged ``watched`` feeds the imagery tracking
 machinery (`watermark.gis`). Design + roadmap: [`docs/poi-subsystem.md`](../../../docs/poi-subsystem.md).

@@ -59,7 +59,7 @@ describe. The enrichment layer documents the mapping in full; the short version:
 | public-records-and-legal-strategy | `docs/legal/` (`mandamus-analysis.md`, `proponent-analysis.md`) |
 | gis-and-siting-analysis | `watermark.gis` + the `ProvenancedValue` model in `watermark.hydrology.model` |
 | entity-and-document-deconstruction | `watermark.pipeline.entities` (`EntityGraph`) + `watermark.pipeline.timeline`; gap audit at `data/extracted/legal/corpus-completeness-audit.md` |
-| investigative-writing-and-editorial | the narrative draft under `docs/` and the Astro site under `frontend/` |
+| investigative-writing-and-editorial | the narrative draft under `docs/` and the Astro site under `web/` |
 | document-production-and-ocr | the vision-based `watermark.pipeline.extract` read path (the generic tesseract/docx recipes are fallbacks) |
 
 ## In-app integration (deferred)

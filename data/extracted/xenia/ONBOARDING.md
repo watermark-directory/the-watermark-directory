@@ -1,6 +1,6 @@
 # Onboarding — Xenia (xenia)
 
-Living record for the Xenia watershed point (basin: little-miami), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Xenia watershed point (basin: little-miami), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 Xenia is the network's **first Little Miami-basin site** — a **third basin branch** after the Maumee lake plain and the Great Miami / Mad River corridor (tracking #444 / epic #440). It is the **WPAFB-adjacent** Greene County node, SE of Wright-Patterson AFB. Its distinguishing influence is **not a new geology** but a heightened **regulatory overlay** the other sites lack: the **Little Miami is a National & State Scenic River** (NPS Wild & Scenic + Ohio Scenic River) `[reference]` — a protected receiving water whose anti-degradation status materially constrains a large new discharger/withdrawal and likely raises the in-stream passby minimum. The aquifer is the same buried-valley sole-source system (the Xenia/Beavercreek well fields draw on the Mad River / Little Miami outwash valleys), but the inter-valley till uplands at Xenia proper are less permeable than the Mad River outwash — so the dominant HSG is footprint-dependent.
 
@@ -74,4 +74,4 @@ inventory is run (Greene Co, 20 facilities / 17 scored).
 - [ ] basin-screen coverage is sane for this site's receiving waters. (**Currently the Maumee inventory — a Little Miami 7Q10 + the Scenic-River overlay are required.**)
 - [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
 - [x] Self-research first pass reviewed (Phase 5, 2026-06-21; receiving-water screen empty + Scenic-River overlay unquantified, data-center economics argue against a cluster; proposals triaged — 4 filed as sub-issues of #444, 1 resolved recorded above).
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'xenia' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'xenia' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

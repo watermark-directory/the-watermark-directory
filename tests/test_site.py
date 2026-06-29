@@ -102,7 +102,7 @@ def test_curated_stores_are_per_site_not_lima_bound() -> None:
     lima = Settings(site="lima", data_dir=REPO_ROOT / "data")
     fw_scope = active_profile(fw).corpus_relpaths
 
-    # POIs (places + imagery tracking): FW reads data/poi/fort-wayne/ — its own campus, not Lima's.
+    # POIs (places + imagery tracking): FW reads data/entities/poi/fort-wayne/ — its own campus, not Lima's.
     fw_poi_slugs = {p.slug for p in load_pois(settings=fw)}
     assert "project-zodiac-campus" in fw_poi_slugs  # the FW Hatchworks assemblage
     assert "data-center-campus" not in fw_poi_slugs  # NOT Lima's Bistrozzi campus
