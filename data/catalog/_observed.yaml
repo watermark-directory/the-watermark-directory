@@ -1,4 +1,4 @@
-reconciled_at: '2026-06-28T23:44:45.403411+00:00'
+reconciled_at: '2026-06-29T00:17:32.750093+00:00'
 entries:
   aedg:
     exists: true
@@ -501,6 +501,15 @@ entries:
     size_bytes: 17894
     lfs_materialized: true
     file_count: 9
+    missing: []
+    asof: null
+    stale: false
+  oepa-troy-piqua:
+    exists: true
+    sha256: 219d043a2486497af94b9fc080c3360dbbf86e0f86ce1075f7b53dd8c303e887
+    size_bytes: 1989
+    lfs_materialized: true
+    file_count: 1
     missing: []
     asof: null
     stale: false
