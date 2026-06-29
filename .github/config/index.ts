@@ -139,6 +139,57 @@ for (const label of runtimeLabels) {
 }
 
 // ---------------------------------------------------------------------------
+// Orlop board + agent queue labels (Epic #870)
+// ---------------------------------------------------------------------------
+// Labels consumed by the Orlop HITL board (https://github.com/tonnetz-io/orlop).
+// The `orlop:*` namespace is board-managed (the Orlop App writes them); the
+// `agent:*` namespace is the agent work queue. Both augment the board's derived
+// lane logic — they never override the underlying GitHub state.
+//
+// Colors and names must match Orlop's own schema exactly (docs/labels.md in the
+// Orlop repo). Resource keys use `-` instead of `:` (Pulumi resource name rule).
+const orlopLabels = [
+    {
+        name: "agent:available",
+        color: "2da44e", // green — staged and ready for agent pickup
+        description: "Work is staged and ready for an agent to claim (Orlop queue).",
+    },
+    {
+        name: "agent:claimed",
+        color: "f9a03f", // orange — in flight
+        description: "An agent has claimed this issue and is actively working on it.",
+    },
+    {
+        name: "agent:needs-human",
+        color: "b60205", // red — blocked on a human
+        description: "Agent ran but got stuck; a human must intervene before work can continue.",
+    },
+    {
+        name: "orlop:hold",
+        color: "b60205", // red — explicitly held by a human
+        description: "Board-managed (Orlop): held by a human operator; agents must not pick this up.",
+    },
+    {
+        name: "orlop:parked",
+        color: "ededed", // grey — queued but not yet available
+        description: "Board-managed (Orlop): parked in the queue; not yet promoted to agent:available.",
+    },
+    {
+        name: "orlop:ready",
+        color: "0e8a16", // dark green — reviewed and cleared
+        description: "Board-managed (Orlop): reviewed and cleared; may be promoted to agent:available.",
+    },
+];
+for (const label of orlopLabels) {
+    new github.IssueLabel(label.name.replace(":", "-"), {
+        repository: repoName,
+        name: label.name,
+        color: label.color,
+        description: label.description,
+    });
+}
+
+// ---------------------------------------------------------------------------
 // Outputs
 // ---------------------------------------------------------------------------
 export const repository = repo.fullName;

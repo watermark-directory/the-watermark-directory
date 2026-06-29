@@ -1,0 +1,8 @@
+# Per-repo Orlop configuration — https://github.com/tonnetz-io/orlop
+#
+# actors.include registers identities that Orlop classifies as "agent" traffic
+# on this repo's board.  The value must be the exact GitHub login (incl. the
+# "[bot]" suffix for GitHub App installations).
+actors:
+  include:
+    - orlop-dashboard[bot]  # the research / agent-worker App (installation 143178181)

@@ -178,3 +178,33 @@ jobs:
             --body-file /tmp/pr-body.md \
             --label research-run \
             --head "$BRANCH"
+
+      - name: Push cost to Orlop ledger (non-fatal)
+        if: steps.topic.outputs.skip != 'true' && vars.ORLOP_COST_INGEST_URL != ''
+        env:
+          OUT: ${{ steps.run.outputs.out }}
+          ORLOP_COST_INGEST_URL: ${{ vars.ORLOP_COST_INGEST_URL }}
+          ORLOP_COST_INGEST_TOKEN: ${{ secrets.ORLOP_COST_INGEST_TOKEN }}
+        run: |
+          set -uo pipefail
+          COST=$(uv run python3 -c "
+          import yaml, sys
+          m = yaml.safe_load(open('$OUT/manifest.yaml'))
+          c = m.get('provenance', {}).get('cost_usd')
+          print(c if c is not None else '')
+          ")
+          if [ -z "$COST" ]; then
+            echo "No cost_usd in manifest — skipping."
+            exit 0
+          fi
+          curl -sf -X POST "${ORLOP_COST_INGEST_URL}/api/cost/ingest" \
+            -H "Authorization: Bearer ${ORLOP_COST_INGEST_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n \
+              --arg  source  "llm" \
+              --arg  run_id  "$GITHUB_RUN_ID" \
+              --arg  repo    "$GITHUB_REPOSITORY" \
+              --argjson cost "$COST" \
+              '{source: $source, run_id: $run_id, repo: $repo, cost_usd: $cost}')" \
+          && echo "Pushed cost \$${COST} to Orlop." \
+          || echo "::warning::Orlop cost push failed (non-fatal)."
