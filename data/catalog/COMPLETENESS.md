@@ -4,13 +4,13 @@
 
 The **mechanical** half of the corpus-completeness audit: every dataset registered in the data catalog (`data/catalog/`) checked for existence and freshness against the committed reconcile snapshot (`data/catalog/_observed.yaml`). The **substantive** half — records an authority has *withheld* — stays human-authored in [`data/extracted/legal/corpus-completeness-audit.md`](../extracted/legal/corpus-completeness-audit.md).
 
-Snapshot reconciled: **2026-06-29T04:57:15.521415+00:00**. Regenerate with `bosc catalog audit --apply` after `bosc catalog reconcile`.
+Snapshot reconciled: **2026-06-29T06:03:29.098538+00:00**. Regenerate with `bosc catalog audit --apply` after `bosc catalog reconcile`.
 
 ## Headline
 
 - **82** catalogued datasets — **81** reviewed.
-- **81** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
-- **0** missing (declared files absent) · **1** unobserved (no snapshot record).
+- **82** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
+- **0** missing (declared files absent) · **0** unobserved (no snapshot record).
 
 ## Coverage by collection
 
@@ -25,7 +25,7 @@ Snapshot reconciled: **2026-06-29T04:57:15.521415+00:00**. Regenerate with `bosc
 | extracted | lacrpc | 2 | 2 | 0 | 0 |
 | extracted | legal | 15 | 15 | 0 | 0 |
 | extracted | meetings | 1 | 1 | 0 | 0 |
-| extracted | oepa | 5 | 4 | 0 | 1 |
+| extracted | oepa | 5 | 5 | 0 | 0 |
 | extracted | permits | 1 | 1 | 0 | 0 |
 | extracted | perry-township | 1 | 1 | 0 | 0 |
 | extracted | plans | 1 | 1 | 0 | 0 |
@@ -86,6 +86,4 @@ Snapshot reconciled: **2026-06-29T04:57:15.521415+00:00**. Regenerate with `bosc
 
 ## Integrity gaps
 
-| dataset | scope | state |
-| --- | --- | --- |
-| `oepa-wilmington` | extracted | unobserved |
+None — every catalogued dataset is present and within its refresh cadence.
