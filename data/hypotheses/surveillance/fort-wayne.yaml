@@ -1,0 +1,21 @@
+site: fort-wayne
+hypothesis: surveillance
+signal: moderate
+tag: inference
+sub_thesis: end-use
+group: onrecord
+fields:
+  operator: "Hatchworks LLC (Google shell — Mountain View CA mailing, Zodiac parcels)"
+  capital: "—"
+  end_use: "consumer_surveillance [inference]"
+citations:
+  - source: data/extracted/fort-wayne/gis-parcels.yaml
+    source_kind: document
+    confidence: medium
+    note: >-
+      Hatchworks LLC holds 11 parcels in the Zodiac assemblage (Jan-2024 + Oct-2025
+      acquisition tranches). Mountain View CA mailing address + entity structure
+      consistent with a Google data-center shell. Google's primary revenue stream is
+      consumer behavioral advertising / data analytics — consumer_surveillance is the
+      inferred end-use. Operator principal not yet confirmed via SOS/LEI filing; tag
+      stays inference until confirmed. See #904.
