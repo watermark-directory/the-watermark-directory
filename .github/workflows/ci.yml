@@ -35,13 +35,16 @@ jobs:
   # Detect which part of the repo a push/PR touched. Uses tj-actions/changed-files
   # (#861) to distinguish pure-data from code changes so lint/types/test are skipped
   # on permit-ingest and catalog PRs.
+  # NOTE: in tj-actions/changed-files v40+, files_yaml groups output booleans as
+  # `<group>_any_changed`, NOT `<group>` (which returns the file list). The job
+  # outputs must use `_any_changed` so the downstream `== 'true'` checks work.
   changes:
     runs-on: ubuntu-latest
     outputs:
-      code: ${{ steps.filter.outputs.code }}
-      data: ${{ steps.filter.outputs.data }}
-      frontend: ${{ steps.filter.outputs.frontend }}
-      markdown: ${{ steps.filter.outputs.markdown }}
+      code: ${{ steps.filter.outputs.code_any_changed }}
+      data: ${{ steps.filter.outputs.data_any_changed }}
+      frontend: ${{ steps.filter.outputs.frontend_any_changed }}
+      markdown: ${{ steps.filter.outputs.markdown_any_changed }}
     steps:
       - uses: actions/checkout@v4
       - uses: tj-actions/changed-files@v47.0.6
