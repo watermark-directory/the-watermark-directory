@@ -1,0 +1,11 @@
+site: lima
+hypothesis: water
+signal: watch
+tag: open
+sub_thesis: coercion
+group: coercion
+fields:
+  wwtp: "Allen County Sanitary District (FM-1: American Bath / American II; FM-2: City of Lima)"
+citations: []
+# open — ECHO DMR influent data not yet pulled; `gap` field deferred until DMR confirms lean flow.
+# Evidence checklist: see #903.
