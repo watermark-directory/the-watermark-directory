@@ -34,7 +34,7 @@ def sites_show(
         table.add_row(name, str(getattr(prof, name)))
     console.print(table)
 
-    from watermark.catalog_sites import readiness
+    from watermark.catalog.sites import readiness
 
     r = readiness(slug)
     ready = "[green]ready[/]" if r.ready else f"[yellow]{len(r.missing)} missing[/]"

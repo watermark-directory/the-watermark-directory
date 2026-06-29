@@ -14,7 +14,7 @@ import textwrap
 from datetime import UTC, datetime
 from pathlib import Path
 
-from watermark.catalog_reconcile import (
+from watermark.catalog.reconcile import (
     load_observed,
     reconcile,
     write_observed,

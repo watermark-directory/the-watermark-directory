@@ -10,7 +10,7 @@ import subprocess
 from pathlib import Path
 
 from watermark.catalog import CatalogEntry
-from watermark.catalog_producer import (
+from watermark.catalog.producer import (
     producer_drift,
     run_producer_check,
 )

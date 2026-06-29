@@ -20,7 +20,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
 
 from watermark.catalog import CatalogEntry, Scope, SiteScope, load_entries
-from watermark.catalog_reconcile import reconcile
+from watermark.catalog.reconcile import reconcile
 from watermark.config import Settings, get_settings
 from watermark.sites import SITES, get_profile
 

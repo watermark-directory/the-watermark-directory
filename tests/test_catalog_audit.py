@@ -5,7 +5,7 @@ from __future__ import annotations
 import textwrap
 from pathlib import Path
 
-from watermark.catalog_audit import (
+from watermark.catalog.audit import (
     AUDIT_RELPATH,
     _state,
     audit_drift,
@@ -13,7 +13,7 @@ from watermark.catalog_audit import (
     render_audit,
     write_audit,
 )
-from watermark.catalog_reconcile import ObservedEntry
+from watermark.catalog.reconcile import ObservedEntry
 from watermark.config import Settings
 
 

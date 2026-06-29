@@ -9,8 +9,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from watermark.catalog_check import check, errors
-from watermark.catalog_render import (
+from watermark.catalog.check import check, errors
+from watermark.catalog.render import (
     BEGIN,
     END,
     has_block,

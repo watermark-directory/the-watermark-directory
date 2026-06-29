@@ -11,8 +11,8 @@ import textwrap
 from datetime import UTC, datetime
 from pathlib import Path
 
-from watermark.catalog_check import check, errors
-from watermark.catalog_reconcile import reconcile, write_observed
+from watermark.catalog.check import check, errors
+from watermark.catalog.reconcile import reconcile, write_observed
 from watermark.config import Settings
 
 _FIXED = datetime(2026, 6, 24, 12, 0, tzinfo=UTC)

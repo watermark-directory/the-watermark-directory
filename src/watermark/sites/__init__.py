@@ -94,7 +94,7 @@ def active_profile(settings: Settings) -> SiteProfile:
 
 # The reference build (Lima) keeps the flat / un-slugged committed layout for its curated stores;
 # every other site's copy lives under a ``<slug>/`` subdir — the same convention the catalog's
-# ``site_scope`` axis encodes (:data:`watermark.catalog_sites._LEGACY_SITE`).
+# ``site_scope`` axis encodes (:data:`watermark.catalog.sites._LEGACY_SITE`).
 _REFERENCE_LAYOUT_SITE = "lima"
 
 

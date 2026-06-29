@@ -13,7 +13,7 @@ CI-enforced invariant. Wired into ``mise run check`` and the CI ``check`` job, i
 * **stale** — an entry past ``refresh.ttl_days`` (warn by default; ``--strict`` makes it fail).
 * **checksum-drift** — a pinned single-file entry whose observed sha256 ≠ its pin.
 
-Offline and hermetic (it observes the filesystem via :func:`watermark.catalog_reconcile.reconcile`;
+Offline and hermetic (it observes the filesystem via :func:`watermark.catalog.reconcile.reconcile`;
 no network). It is **LFS-aware**: CI checks out without LFS bytes, so unmaterialized pointers
 are never treated as missing or drift — only as an informational ``unmaterialized`` note.
 """
@@ -26,8 +26,8 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict
 
 from watermark.catalog import CatalogEntry, load_entries, validate_entries
-from watermark.catalog_backfill import BACKFILL_SCOPES, _is_data_file
-from watermark.catalog_reconcile import load_observed, reconcile
+from watermark.catalog.backfill import BACKFILL_SCOPES, _is_data_file
+from watermark.catalog.reconcile import load_observed, reconcile
 from watermark.config import Settings, get_settings
 from watermark.sites import SITES
 
@@ -159,7 +159,7 @@ def check(
     findings.extend(_checksum_findings(entries, settings))
 
     # 6. render drift — a README that opted into `watermark catalog render` but fell out of sync.
-    from watermark.catalog_render import render_drift
+    from watermark.catalog.render import render_drift
 
     for collection, relpath in render_drift(settings=settings):
         findings.append(
@@ -172,7 +172,7 @@ def check(
         )
 
     # 7. audit drift — the generated COMPLETENESS.md no longer matches the snapshot.
-    from watermark.catalog_audit import audit_drift
+    from watermark.catalog.audit import audit_drift
 
     drifted_audit = audit_drift(settings=settings)
     if drifted_audit is not None:

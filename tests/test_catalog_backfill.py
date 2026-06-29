@@ -12,7 +12,7 @@ import textwrap
 from pathlib import Path
 
 from watermark.catalog import CatalogEntry, load_entries
-from watermark.catalog_backfill import (
+from watermark.catalog.backfill import (
     backfill,
     discover_datasets,
 )

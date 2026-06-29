@@ -68,7 +68,7 @@ AccessTier = Literal["public", "keyed", "throttled"]
 #   - ``basin:<name>``    — owned by one basin (e.g. the Great Miami ECHO inventory)
 #   - ``state:<XX>``      — owned by one state (e.g. the Ohio Revised Code)
 # A site's bundle/readiness includes a row iff its owner matches the site — see
-# ``watermark.catalog_sites.owner_matches``. The reference build still hosts the whole catalog.
+# ``watermark.catalog.sites.owner_matches``. The reference build still hosts the whole catalog.
 _FIXED_SITE_SCOPES = ("lima-legacy", "slug-scoped", "basin-shared")
 _OWNER_SITE_SCOPE_RE = re.compile(r"^(?:site|basin):[a-z0-9-]+$|^state:[A-Z]{2}$")
 
