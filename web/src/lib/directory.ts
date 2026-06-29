@@ -177,15 +177,15 @@ export const LENSES: Record<DirLens, LensConfig> = {
   water: {
     key: "water",
     n: "H1",
-    name: "Water & Power",
+    name: "Water & Coercion",
     accent: "#1f6f4a",
     accentBg: "#e4ece4",
     accentBd: "#bcd2c4",
     status: "Reference build",
     statusKind: "live",
-    claim: "Where compute meets the watershed.",
+    claim: "Where discharge becomes leverage.",
     blurb:
-      "The original thesis: hyperscale compute lands where it can pull power and water, and a data center's intake, discharge, and downstream effects are basin facts. Sites nest by drainage — two divides, nine basins. Lima is the live, fully-assembled reference.",
+      "The original thesis: hyperscale compute lands where it can pull power and water, and a data center's intake, discharge, and downstream effects are basin facts. Sites nest by drainage — two divides, nine basins. Lima is the live, fully-assembled reference. A coercion sub-thesis (#903): in municipalities with declining populations, the receiving WWTP may be running lean on influent — below the biological-treatment minimum that keeps it in NPDES compliance. A datacenter's high-volume, consistent discharge provides the flow buffer the plant needs, structurally compelling municipal acceptance. The Clean Water Act is the backstop that makes the need non-negotiable.",
     axisTitle: "Two divides · nine basins",
     scoreTitle: "Every point, by drainage",
     scoreNote: "Build phase and facility status are two clocks — kept distinct.",
@@ -229,18 +229,18 @@ export const LENSES: Record<DirLens, LensConfig> = {
   surveillance: {
     key: "surveillance",
     n: "H3",
-    name: "Corporate & Economic Surveillance",
+    name: "Consumer Surveillance",
     accent: "#566159",
     accentBg: "#e8e4d8",
     accentBd: "#cdc8b8",
     status: "Emerging hypothesis",
     statusKind: "new",
-    claim: "Who owns it, who's watching, and where the money moves.",
+    claim: "What the compute is for, who it watches, and who's paying.",
     blurb:
-      "A third reading: the operators behind shell LLCs, the public-subsidy stack that pulls them in, and the capital and data flows the facilities sit on. The corporate-and-economic-surveillance thesis — opening now, mostly under investigation, with Lima's abatement on record.",
+      "A third reading: the operators behind shell LLCs, the public-subsidy stack that pulls them in, and the capital and data flows the facilities sit on. The consumer-surveillance thesis — opening now, mostly under investigation, with Lima's abatement on record. An end-use sub-thesis (#904): these facilities are infrastructure nodes in a consumer surveillance apparatus — behavioral tracking, financial-transaction processing, or similar mass-scale surveillance of individual consumer activity, financed in part by the public subsidies the same communities provide.",
     axisTitle: "Assessment so far",
-    scoreTitle: "Every site, by operator & capital",
-    scoreNote: "Operators behind LLCs; public subsidy is on the public record.",
+    scoreTitle: "Every site, by operator & end-use",
+    scoreNote: "Operator identity constrains the end-use inference; public subsidy is on record.",
     footNote:
       "Sites without an entry are not yet assessed under this thesis — that is not the same as cleared.",
     cols: [

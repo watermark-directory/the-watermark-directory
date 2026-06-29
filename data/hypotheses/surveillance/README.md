@@ -1,9 +1,9 @@
-# H3 · Corporate & Economic Surveillance
+# H3 · Consumer Surveillance
 
-Who owns it, who's watching, and where the money moves: the operators behind shell LLCs,
-the public-subsidy stack that pulls them in, and the capital/data flows the facilities
-sit on. **Emerging hypothesis, under test** — mostly under investigation, with Lima's
-abatement on record.
+What the compute is for, who it watches, and who's paying: the operators behind shell LLCs,
+the public-subsidy stack that pulls them in, and the consumer surveillance apparatus the
+facilities serve. **Emerging hypothesis, under test** — mostly under investigation, with
+Lima's abatement on record.
 
 - `fields`: `operator` (the entity behind the LLC), `capital` (capital + public subsidy),
   `end_use` (application class — see end-use sub-thesis below).

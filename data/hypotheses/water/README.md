@@ -1,4 +1,4 @@
-# H1 · Water & Power
+# H1 · Water & Coercion
 
 The reference thesis: hyperscale compute lands where it can pull power and water, and a
 data center's intake, discharge, and downstream effects are basin facts. Lima is the
