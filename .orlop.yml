@@ -6,3 +6,11 @@
 actors:
   include:
     - orlop-dashboard[bot]  # the research / agent-worker App (installation 143178181)
+
+filters:
+  board:
+    eligible:
+      include_labels:
+        - status:needs-triage        # general triage inbox — awaiting maintainer review
+        - status:agent-proposed      # agent-opened findings pending human review before re-queuing
+        - lead:status:unanswered     # open investigative leads the research agent can tackle
