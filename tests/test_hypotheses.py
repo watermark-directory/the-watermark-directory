@@ -76,6 +76,11 @@ _EXPECTED = {
         "subsidy",
         {"operator": "—", "capital": "Enterprise-zone abatement (signal)"},
     ),
+    ("water", "lima"): (
+        "watch",
+        "coercion",
+        {"wwtp": "Allen County Sanitary District (FM-1: American Bath / American II; FM-2: City of Lima)"},
+    ),
 }
 
 
@@ -102,9 +107,9 @@ def test_hypothesis_fields_and_groups() -> None:
     assert HYPOTHESES["defense"].fields == ("nexus", "linkage")
     assert HYPOTHESES["defense"].groups == ("arsenal", "federal", "supply", "watch")
     assert HYPOTHESES["surveillance"].fields == ("operator", "capital")
-    # H1 is rendered from the site registry, not from cells.
-    assert HYPOTHESES["water"].fields == ()
-    assert HYPOTHESES["water"].groups == ()
+    # H1 CWA coercion cells use wwtp + gap; the basin network provides the rest.
+    assert HYPOTHESES["water"].fields == ("wwtp", "gap")
+    assert HYPOTHESES["water"].groups == ("coercion",)
 
 
 def test_committed_store_loads_and_matches_lens_data() -> None:
@@ -133,7 +138,7 @@ def test_assessments_for_filters_by_hypothesis() -> None:
         "new-albany",
         "columbus",
     }
-    assert assessments_for("water") == []
+    assert {c.site for c in assessments_for("water")} == {"lima"}
 
 
 def test_committed_store_lint_has_no_hard_findings() -> None:
