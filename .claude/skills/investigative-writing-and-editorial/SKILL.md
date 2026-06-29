@@ -44,4 +44,4 @@ Conflict-of-interest disclosure appears consistently wherever published work war
 
 ## Project enrichment
 
-The project layer supplies the published-series state, the exact document format spec, the disclosure sentence, and any installment-specific conventions. In *Project BOSC* the narrative lives as a living draft under `docs/` (e.g. `COURSE.md`, `bigger-picture.md`, `DOSSIER.md`) and the Astro site under `frontend/`, with the `[verified]` / `[inference]` / `[reference]` / `[open]` tags carried inline rather than as footnoted superscripts. Bind to those; keep this file project-free. See `docs/investigative-method/ENRICHMENT.md`.
+The project layer supplies the published-series state, the exact document format spec, the disclosure sentence, and any installment-specific conventions. In *Project BOSC* the narrative lives as a living draft under `docs/` (e.g. `COURSE.md`, `bigger-picture.md`, `DOSSIER.md`) and the Astro site under `web/`, with the `[verified]` / `[inference]` / `[reference]` / `[open]` tags carried inline rather than as footnoted superscripts. Bind to those; keep this file project-free. See `docs/investigative-method/ENRICHMENT.md`.

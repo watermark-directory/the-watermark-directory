@@ -204,7 +204,7 @@ class Settings(BaseSettings):
     gis_request_timeout_s: float = 60.0
     gis_cache_ttl_hours: int = DEFAULT_CACHE_TTL_HOURS  # the scene archive is slow-moving
     gis_fixtures_dir: Path | None = None  # committed connector fixtures (tests/CI)
-    # Tracking sites are no longer layers here — they are watched POIs in data/poi/
+    # Tracking sites are no longer layers here — they are watched POIs in data/entities/poi/
     # (watermark.gis.load_tracking_sites reads tracked_pois()). See docs/poi-subsystem.md.
 
     # --- POI / geocoding (the resolve-to-parcel funnel) --------------------
@@ -349,13 +349,13 @@ class Settings(BaseSettings):
     def people_dir(self) -> Path:
         """Curated per-individual profiles (markdown + frontmatter) — the entity
         graph's hand-written detail store. Committed."""
-        return self.data_dir / "people"
+        return self.data_dir / "entities" / "people"
 
     @property
     def poi_dir(self) -> Path:
         """Curated point-of-interest (place) profiles (markdown + frontmatter) — the
         place peer of people_dir; POIs flagged ``watched`` feed imagery tracking. Committed."""
-        return self.data_dir / "poi"
+        return self.data_dir / "entities" / "poi"
 
     @property
     def concepts_dir(self) -> Path:

@@ -11,9 +11,9 @@ mise run setup        # uv sync --extra dev + git lfs install
 cp .env.example .env  # set ANTHROPIC_API_KEY (+ WATERMARK_SITE if needed)
 ```
 
-The repo is a **mise monorepo**: the backend (repo root) and `frontend/` each
+The repo is a **mise monorepo**: the backend (repo root) and `web/` each
 have their own task set. A bare task name runs the project you are standing in;
-`//frontend:<task>` targets the frontend from anywhere.
+`//web:<task>` targets the web project from anywhere.
 
 ## Task reference
 
@@ -32,13 +32,13 @@ mise run dev -- … # run the watermark CLI
 ### Frontend (Astro)
 
 ```bash
-mise run //frontend:check      # gate: Biome + astro check + vitest + build + links
-mise run //frontend:dev        # astro dev server  → http://localhost:4321
-mise run //frontend:test       # vitest only
-mise run //frontend:lint       # biome ci
-mise run //frontend:fmt        # biome format (auto-fix)
-mise run //frontend:build      # static build  → frontend/dist/
-mise run //frontend:dev:stack  # wrangler + mocked externals (Pages Functions)
+mise run //web:check      # gate: Biome + astro check + vitest + build + links
+mise run //web:dev        # astro dev server  → http://localhost:4321
+mise run //web:test       # vitest only
+mise run //web:lint       # biome ci
+mise run //web:fmt        # biome format (auto-fix)
+mise run //web:build      # static build  → web/dist/
+mise run //web:dev:stack  # wrangler + mocked externals (Pages Functions)
 ```
 
 ### Whole-repo
@@ -60,7 +60,7 @@ mise run oepa-permit <permit_id> <site>   # fetch → ingest → extract → cat
 
 - **Python `check` job** (ruff/format/mypy/pytest) — runs when `src/`, `tests/`,
   `data/`, `pyproject.toml`, `uv.lock`, or `mise.toml` changed.
-- **Astro `frontend` job** — runs when `frontend/` changed.
+- **Astro `web` job** — runs when `web/` changed.
 - Either `mise.toml` or `ci.yml` edit triggers both.
 
 `check` is the one **required** status check on `main`. Filtering is at the job
@@ -128,7 +128,7 @@ src/watermark/
 1. `watermark sites new <slug>` — prints a paste-ready `SiteProfile` stub.
 2. Fill every field from a cited source; `watermark onboard <slug> --check`
    flags unfilled placeholders.
-3. Register in `frontend/src/lib/sites.ts` with `status: "open"`,
+3. Register in `web/src/lib/sites.ts` with `status: "open"`,
    `selectable: false`.
 4. `watermark onboard <slug>` — scaffolds per-site data dirs, runs portable
    reach connectors, prints the blocking review checklist.
@@ -140,6 +140,6 @@ See [docs/onboarding.md](docs/onboarding.md) for the full runbook.
 ## Frontend
 
 The frontend is a self-contained Node project. It builds offline against
-`frontend/sample-bundle/` (no Python, no LFS, no API keys). See
-[frontend/README.md](frontend/README.md) for the Pages Functions (submit/ask/doc)
+`web/sample-bundle/` (no Python, no LFS, no API keys). See
+[web/README.md](web/README.md) for the Pages Functions (submit/ask/doc)
 local testing approach, the wrangler dev stack, and the Cloudflare deployment.

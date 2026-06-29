@@ -19,8 +19,8 @@ meta:
     committee data appendix; curated, not auto-regenerable. Each source is cited with a
     URL where one exists. Reference figures as of June 2026.
   consumed_by:
-    - frontend/src/lib/uncertainty.ts (Prior bounds)
-    - frontend/src/lib/econLedger.ts (the economic-ledger simulator, #269)
+    - web/src/lib/uncertainty.ts (Prior bounds)
+    - web/src/lib/econLedger.ts (the economic-ledger simulator, #269)
   related_corpus:
     - data/extracted/legal/select-committee-2026/relator-testimony/bosc-data-appendix-2026-06-01.md
     - docs/the-economic-ledger.md

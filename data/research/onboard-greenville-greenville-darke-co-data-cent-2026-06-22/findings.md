@@ -22,7 +22,7 @@ Greenville is a **registered but unpromoted** watershed-point site. A `bosc onbo
 - **Data-center activity:** there is **zero** Greenville/Darke County content in the investigative corpus — no deeds, no NPDES permits, no entity-graph nodes, no meeting records. This is a flat no-data finding, not a weak one. `facility=None` in the profile; the data-center dimension is unchecked in the onboarding gate.
 - **Receiving-water screen:** the receiving reach is identified and gaged, but the **at-site assimilative denominator (7Q10) for Greenville Creek is not committed** — the derived low-flow file still contains only Maumee-basin streams.
 
-The site is correctly held at `status: "queued"`, `selectable: false` in `frontend/src/lib/sites.ts` (issue #482). Nothing below should be read as promotion-ready.
+The site is correctly held at `status: "queued"`, `selectable: false` in `web/src/lib/sites.ts` (issue #482). Nothing below should be read as promotion-ready.
 
 ---
 

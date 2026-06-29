@@ -34,7 +34,7 @@ What *does* exist is **onboarding scaffolding** (`bosc onboard troy-piqua`, #326
 | File | Status | Confidence |
 |---|---|---|
 | `src/bosc/sites.py` `_TROY_PIQUA` profile (lines 2068–2145) | registered | mixed (see §3) |
-| `frontend/src/lib/sites.ts` (lines 208–222) — `status: "queued"`, `selectable: false`, `issue: "475"` | registered | n/a |
+| `web/src/lib/sites.ts` (lines 208–222) — `status: "queued"`, `selectable: false`, `issue: "475"` | registered | n/a |
 | `data/reference/hydrology/troy-piqua/nasa-power-climatology.yaml` | populated | **high** (NASA-POWER connector) |
 | `data/reference/hydrology/troy-piqua/atlas14-corridor-ddf.yaml` | populated | **high** (NOAA Atlas-14 HDSC) |
 | `data/reference/economics/troy-piqua/baseline.yaml` | populated | **high** (BLS QCEW 2023 / Census ACS5) |

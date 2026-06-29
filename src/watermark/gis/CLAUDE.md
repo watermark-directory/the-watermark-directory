@@ -7,7 +7,7 @@ Geospatial subsystem: tracking sites + satellite imagery. Defers to the root
 - **Tracking sites come from the POI store — `watermark.gis` is a consumer of `watermark.poi`.**
   `load_tracking_sites` reads `tracked_pois()` (POIs at `depth: watched` with
   `track.enabled` + a `location.bbox`) and projects each to a `TrackingSite` (id = the
-  POI slug, `bbox` = the AOI). The `track` flag in `data/poi/<slug>.md` is the single
+  POI slug, `bbox` = the AOI). The `track` flag in `data/entities/poi/<slug>.md` is the single
   source of truth — **not** a `gis-findings.geojson` layer (that grouping, and
   `gis_tracking_layers`, were retired). To add a tracking site, curate a POI and promote
   it to `watched` with a `bbox`; don't author geometry here.

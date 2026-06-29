@@ -115,6 +115,6 @@ Economic backdrop (`economics/ottawa/baseline.yaml`, BLS QCEW 2023 / Census ACS,
 
 9. **Build the network-level intra-tributary comparison artifact.** Once item 1 lands, wire a Findlay↔Ottawa same-river comparison (upstream WPCC 15 MGD vs downstream Ottawa WWTP 3 MGD against a common Blanchard 7Q10) into the basin/network layer — this is the analytical payoff the whole control was scaffolded for, and the network's only along-one-river case.
 
-**Promotion remains correctly gated:** all four substantive review-gate boxes in `ONBOARDING.md` (L58–65) are unchecked, and `status:"live"`/`selectable:true` in `frontend/src/lib/sites.ts` is a separate, parity-gated manual edit — `onboard` never auto-promotes.
+**Promotion remains correctly gated:** all four substantive review-gate boxes in `ONBOARDING.md` (L58–65) are unchecked, and `status:"live"`/`selectable:true` in `web/src/lib/sites.ts` is a separate, parity-gated manual edit — `onboard` never auto-promotes.
 
 A note on scope: I did not open the full `mcp__bosc__list_documents` index (109k chars) line-by-line; the document/extraction/entity/timeline indices I did read are uniformly Lima/Allen County, and the targeted Blanchard/Putnam/Ottawa greps across `data/` returned only the connector-reference scaffolding reported above — consistent with "no Ottawa primary documents extracted yet."

@@ -3,7 +3,7 @@
 The first POI pipeline stage. Scan the reviewed corpus text for place references —
 deed-format **parcel ids** (the canonical anchor), **street addresses**, and
 **facility / business names** — aggregate them with the citations where they appear,
-and flag which the ``data/poi/`` store already covers. Read-only and idempotent: it
+and flag which the ``data/entities/poi/`` store already covers. Read-only and idempotent: it
 proposes a worklist; promoting a candidate to a curated POI is a human step (``curate``).
 
 Each kind is divergence-guarded so the pass can't invent a place: the parcel regex

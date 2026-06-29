@@ -104,7 +104,7 @@ A note on `report_novel_finding`: I did **not** fire it. The trigger is *unextra
 
 ### Blocking gaps — must resolve before promotion to `selectable`
 
-The frontend readiness layer will (correctly) lock a thin sidney site; **do not fake values to make it look complete** — let sections lock and supply the source. Promotion is a manual, parity-gated edit to `frontend/src/lib/sites.ts`.
+The frontend readiness layer will (correctly) lock a thin sidney site; **do not fake values to make it look complete** — let sections lock and supply the source. Promotion is a manual, parity-gated edit to `web/src/lib/sites.ts`.
 
 1. **Run `watermark onboard sidney`** — scaffold per-site data dirs, set `corpus_relpaths`, and execute the portable reach connectors. Without this, every bundle feed inherits Lima or falls empty (the documented onboarding gotcha). *(Blocks all of §1–6.)*
 2. **NWIS gauges + receiving-water 7Q10** for the Great Miami reach (§3) — the hydrology spine; nothing downstream computes without it.

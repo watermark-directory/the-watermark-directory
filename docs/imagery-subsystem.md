@@ -20,7 +20,7 @@ record of decisions/deviations.*
   yet** — those arrive with P2 (asset signing + COG reads). The offline miss raises
   `ImageryOfflineError` (a `watermark.connectors.OfflineError` subclass) naming the key.
 
-*Note: the Astro `frontend/` surfaces `docs/` markdown via its narrative content
+*Note: the Astro `web/` surfaces `docs/` markdown via its narrative content
 collection (links rewritten at build by the rehype plugin). This is an internal
 engineering plan — publish it only via the curated narrative set, not by default.*
 
@@ -143,10 +143,10 @@ candidates to migrate into `watermark.gis` over time.
 
 ### Sites come from the POI store
 
-> **Superseded.** Tracking sites are now **watched POIs** in `data/poi/`, not a
+> **Superseded.** Tracking sites are now **watched POIs** in `data/entities/poi/`, not a
 > `gis-findings.geojson` layer. `watermark.gis.load_tracking_sites` / `get_site` read
 > `watermark.poi.tracked_pois()` and project each to a `TrackingSite` (id = the POI slug,
-> `bbox` = the AOI). The `track` flag in a `data/poi/<slug>.md` profile is the single
+> `bbox` = the AOI). The `track` flag in a `data/entities/poi/<slug>.md` profile is the single
 > source of truth. See [`poi-subsystem.md`](poi-subsystem.md) (decision #7). The original
 > group-by-layer sketch is kept below for history.
 

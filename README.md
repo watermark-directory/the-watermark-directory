@@ -117,7 +117,7 @@ regenerable, and documented with source and gaps:
 
 Each site is a `SiteProfile` in `watermark.sites.SITES`, carrying all per-site
 knobs (USGS gages, county FIPS, GIS URLs, EIA utility number, output relpaths).
-The frontend registry mirrors it in `frontend/src/lib/sites.ts`. Onboard a new
+The frontend registry mirrors it in `web/src/lib/sites.ts`. Onboard a new
 site with `watermark onboard <slug>` (see [docs/onboarding.md](docs/onboarding.md)).
 Registered ≠ live: promotion to `selectable` in the frontend is a manual,
 parity-gated edit.
@@ -127,13 +127,13 @@ parity-gated edit.
 The site is built in two tiers. The **data tier** (`watermark.site`,
 `watermark export`) emits a typed content bundle — JSON feeds + a `manifest.json`
 with a `CONTRACT_VERSION` — from the extracted corpus. The **presentation tier**
-(`frontend/`) is an Astro + MDX static site that reads that bundle at build time.
+(`web/`) is an Astro + MDX static site that reads that bundle at build time.
 deck.gl map/graph visualizations are the only React islands; charts are a
-hand-rolled SVG library (`frontend/src/lib/charts.ts`). Cloudflare Pages hosts
+hand-rolled SVG library (`web/src/lib/charts.ts`). Cloudflare Pages hosts
 it; Pages Functions (`/api/submit`, `/api/ask`) deploy alongside. The frontend
 classifies each section `available|locked` from feed counts in the manifest, so
 a thin site degrades gracefully rather than breaking. See
-[frontend/README.md](frontend/README.md).
+[web/README.md](web/README.md).
 
 ---
 

@@ -25,7 +25,7 @@ I have a complete picture. Here is the findings report.
 
 Registered in both registries:
 - `src/bosc/sites.py` — `_WPAFB` profile (sites.py:1887–1963), basin `great-miami`, `Montgomery County, OH` / FIPS `39113`, slug-scoped output relpaths. Two distinctive choices, both flagged in-profile: it is the network's **first UTM 16N site** (`hydro_utm_epsg=32616`, base at ~84.05°W, west of the 84° meridian) and its economic/toxics unit is **Montgomery County (39113)**, deliberately distinct from the Greene-County (Xenia #444) unit even though the base straddles both counties.
-- `frontend/src/lib/sites.ts` (sites.ts:178–192) — `slug:"wpafb"`, `status:"queued"`, `selectable:false`, `issue:"442"`, `place:"Dayton · WPAFB"`, basin "Mad River · Great Miami".
+- `web/src/lib/sites.ts` (sites.ts:178–192) — `slug:"wpafb"`, `status:"queued"`, `selectable:false`, `issue:"442"`, `place:"Dayton · WPAFB"`, basin "Mad River · Great Miami".
 
 Connector outputs present, with **live data** `[verified-connector]`:
 

@@ -65,7 +65,7 @@ def civic_settings() -> Settings:
 
 @pytest.fixture
 def poi_settings() -> Settings:
-    """Settings for the committed POI store (data/poi/) — no network, no connector."""
+    """Settings for the committed POI store (data/entities/poi/) — no network, no connector."""
     return Settings(data_dir=REPO_ROOT / "data")
 
 

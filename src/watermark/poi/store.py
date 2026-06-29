@@ -1,4 +1,4 @@
-"""Read/parse the ``data/poi/`` profile store.
+"""Read/parse the ``data/entities/poi/`` profile store.
 
 Mirrors [`watermark.people`](../people.py): each ``<slug>.md`` opens with a ``---`` YAML
 frontmatter block (validated by :class:`POIFrontmatter`) followed by hand-written
@@ -57,7 +57,7 @@ def load_pois(*, settings: Settings | None = None) -> list[POIProfile]:
     """Load every ``*.md`` POI profile (README excluded), sorted by name.
 
     Per-site (#762): the active site's POIs come from its own store — Lima reads the flat
-    ``data/poi/``; a non-Lima site reads ``data/poi/<slug>/`` — so a sibling site's places
+    ``data/entities/poi/``; a non-Lima site reads ``data/entities/poi/<slug>/`` — so a sibling site's places
     (and the imagery tracking sites derived from ``watched`` POIs) are never Lima's. A profile
     that fails to parse/validate is logged and skipped.
     """

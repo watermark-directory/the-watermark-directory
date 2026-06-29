@@ -17,7 +17,7 @@ def test_enrich_with_places_adds_node_and_owner_edge(poi_settings: Settings) -> 
     assert place.classification == "place_watched"
     assert len(place.parcels) == 10
     assert {"tracked", "composite"} <= place.signals
-    assert "data/poi/data-center-campus.md" in place.sources
+    assert "data/entities/poi/data-center-campus.md" in place.sources
 
     # The owner relationship links the place to the pre-existing corpus org node.
     owner_key = normalize_name("Bistrozzi LLC")  # -> "BISTROZZI"

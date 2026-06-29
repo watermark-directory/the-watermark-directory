@@ -1,6 +1,6 @@
 # Onboarding — New Albany (new-albany)
 
-Living record for the New Albany watershed point (basin: scioto), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the New Albany watershed point (basin: scioto), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 New Albany / Licking County is the network's **third-basin branch** (Scioto epic #484, onboarding #485) and the **data-center epicenter** of the Ohio boom — Intel "Ohio One" + Google/Meta/AWS/Microsoft/QTS in the New Albany International Business Park, the at-scale, already-built comparator to the speculative Miami greenfields. It **straddles the Scioto↔Muskingum divide**: the New Albany city core (Franklin Co) drains Rocky Fork + Blacklick → **Big Walnut Creek → Scioto** (HUC-8 05060001); the Intel/business-park epicenter (Licking Co, Jersey Twp) drains the **South Fork Licking River → Licking → Muskingum** (HUC-8 05040006). The profile frames the Scioto/Big-Walnut side; the Muskingum-side receiving water is `[open]` and flips if the pinned footprint lands on the Licking side. Grid is back to the **PJM AEP** zone (AEP Ohio / Ohio Power #14006), unlike the Miami branch's DAY/DEOK.
 
@@ -39,4 +39,4 @@ New Albany / Licking County is the network's **third-basin branch** (Scioto epic
 - [ ] basin-screen coverage is sane for this site's receiving waters. (**Pending the Scioto ECHO inventory pull — `bosc npdes --basin scioto`.**)
 - [ ] A per-jurisdiction County/City GIS connector exists. (Parcels = OGRIP-Licking substitute; zoning `[open]`; Licking's own REST is down.)
 - [x] Self-research first pass reviewed (`--research` run 2026-06-22 + a web discover-and-pin sweep; register in `data-centers.md`). Primary-instrument ingestion (air PTI / deeds / SOS / abatements) is the open residual.
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'new-albany' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'new-albany' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

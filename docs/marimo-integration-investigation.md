@@ -2,10 +2,10 @@
 
 > **Outcome (superseded — decision record).** This evaluation recommended a partial,
 > opt-in marimo **WASM** integration into the *legacy Python SSG*. That SSG was later
-> retired (the Astro `frontend/` became the sole presentation tier), and the single
+> retired (the Astro `web/` became the sole presentation tier), and the single
 > proof-of-concept notebook (`notebooks/opc_scenario.py`) was **reimplemented as a native
 > React island** rather than a WASM export — see
-> `frontend/src/components/islands/OpcScenario.tsx` + `frontend/src/lib/opcScenario.ts`,
+> `web/src/components/islands/OpcScenario.tsx` + `web/src/lib/opcScenario.ts`,
 > live at `/bosc/reports/opc-scenario`. marimo was **not** adopted and the `notebooks/`
 > directory was removed. This document is kept as the record of *why* — the
 > `pyswmm`/`pypdfium2` WASM blockers, the ~27 MB per-notebook bundle, and the

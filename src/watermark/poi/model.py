@@ -1,7 +1,7 @@
 """Point-of-interest (place) models — the validated frontmatter of a POI profile.
 
 A POI is the **place** peer of a person profile ([`watermark.people`](../people.py)): a
-markdown file under ``data/poi/<slug>.md`` opened by a YAML frontmatter header, cited to
+markdown file under ``data/entities/poi/<slug>.md`` opened by a YAML frontmatter header, cited to
 the corpus and **depth-marked**. The place-specific enrichment is geometry (geocoding);
 the deepest depth rung, ``watched``, is what feeds imagery tracking (`watermark.gis`). See
 [`docs/poi-subsystem.md`](../../../docs/poi-subsystem.md).
@@ -68,7 +68,7 @@ class POIRelationship(BaseModel):
 
 
 class POIFrontmatter(BaseModel):
-    """The validated frontmatter header of a ``data/poi/<slug>.md`` profile."""
+    """The validated frontmatter header of a ``data/entities/poi/<slug>.md`` profile."""
 
     model_config = ConfigDict(extra="forbid")
 

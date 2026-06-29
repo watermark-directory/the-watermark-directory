@@ -1,6 +1,6 @@
 # Onboarding — Toledo (toledo)
 
-Living record for the Toledo watershed point (basin: maumee), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Toledo watershed point (basin: maumee), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 ## Dimension coverage
 
@@ -55,4 +55,4 @@ lands), output committed to `data/extracted/toledo/gis/`. Both filed as issues o
 - [ ] basin-screen coverage is sane for this site's receiving waters.
 - [x] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md). Lucas County AREIS parcels + zoning wired (#384); appraised-value PARID join + land-assembly screen are tracked follow-ups.
 - [ ] Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/).
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'toledo' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'toledo' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

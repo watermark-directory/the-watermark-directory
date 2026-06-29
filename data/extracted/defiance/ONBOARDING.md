@@ -1,6 +1,6 @@
 # Onboarding — Defiance (defiance)
 
-Living record for the Defiance watershed point (basin: maumee), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Defiance watershed point (basin: maumee), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 ## Dimension coverage
 
@@ -88,4 +88,4 @@ the distilled "verify serving utility" proposal is **resolved here and not filed
 - [ ] basin-screen coverage is sane for this site's receiving waters.
 - [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
 - [x] Self-research first pass reviewed (Phase 5, 2026-06-19; serving-utility verified, 4 proposals filed as sub-issues of #238; triage data/research/onboard-defiance-maumee-mainstem-2026-06-19/).
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'defiance' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'defiance' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

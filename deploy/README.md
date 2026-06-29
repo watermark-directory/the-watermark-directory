@@ -17,7 +17,7 @@ The underlying resources the public submissions endpoint
 [`docs/submissions-api.md`](../docs/submissions-api.md)) depends on:
 
 - **`cloudflare.WorkersKvNamespace`** — the KV namespace backing the per-IP rate limiter
-  (Phase 5). Bind its id as `RATE_LIMIT` in `frontend/wrangler.toml` to turn rate
+  (Phase 5). Bind its id as `RATE_LIMIT` in `web/wrangler.toml` to turn rate
   limiting on.
 - **`cloudflare.TurnstileWidget`** — the Turnstile widget guarding the form. Exports the
   public site key and the (sensitive) secret key. Serves on the custom domain + the
@@ -36,7 +36,7 @@ When `siteDomain` is set (the late-bound custom subdomain), it also owns the
 
 **Not** managed here: the **Pages project** itself. It is wrangler-deployed
 ([`pages.yml`](../.github/workflows/pages.yml)) with its env/bindings in
-[`frontend/wrangler.toml`](../frontend/wrangler.toml); managing that config in both Pulumi
+[`web/wrangler.toml`](../web/wrangler.toml); managing that config in both Pulumi
 and wrangler would drift on every deploy. `PagesDomain` only *attaches* to the existing
 project by name, so the two don't fight.
 
@@ -49,7 +49,7 @@ project by name, so the two don't fight.
 
 | Output | Wire it into |
 | --- | --- |
-| `rateLimitKvNamespaceId` | `frontend/wrangler.toml` → `[[kv_namespaces]]` `id` (RATE_LIMIT) |
+| `rateLimitKvNamespaceId` | `web/wrangler.toml` → `[[kv_namespaces]]` `id` (RATE_LIMIT) |
 | `turnstileSiteKey` | the `PUBLIC_TURNSTILE_SITE_KEY` **build** repo variable (public) |
 | `turnstileSecretKey` | the `TURNSTILE_SECRET_KEY` Function secret (`pulumi stack output turnstileSecretKey --show-secrets`) |
 | `siteUrl` | the `PAGES_SITE_URL` repo variable for the build |

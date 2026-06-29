@@ -1,7 +1,7 @@
 # Build & deploy the BOSC site to Cloudflare Pages — MANUAL ONLY.
 #
-# Phase 1 of the host migration (Epic #56): the redesigned Astro site (frontend/) and
-# its Pages Functions (frontend/functions/ — the submissions endpoint, #74) deploy
+# Phase 1 of the host migration (Epic #56): the redesigned Astro site (web/) and
+# its Pages Functions (web/functions/ — the submissions endpoint, #74) deploy
 # together to Cloudflare Pages, one origin for static assets + serverless. This
 # supersedes the never-flipped GitHub Pages deploy. (The legacy Python SSG was retired at
 # the parity cutover; this Astro frontend is now the only site.)
@@ -13,7 +13,7 @@
 #
 # Cloudflare's own Git build is NOT used — the content bundle is produced by `bosc
 # export` (Python) before `npm run build`, so the build runs here and Wrangler does a
-# direct upload. Pages config lives in `frontend/wrangler.toml`.
+# direct upload. Pages config lives in `web/wrangler.toml`.
 #
 # One-time setup before the first deploy (see docs/submissions-api.md):
 #   - Create the Cloudflare Pages project `bosc` (production branch: main).
@@ -79,12 +79,12 @@ jobs:
         with:
           node-version: "24"
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: web/package-lock.json
       - name: Install frontend dependencies
-        working-directory: frontend
+        working-directory: web
         run: npm ci
-      - name: Build the site (-> frontend/dist)
-        working-directory: frontend
+      - name: Build the site (-> web/dist)
+        working-directory: web
         run: npm run build
 
       # Hand the built assets to the deploy job (Functions come from source at checkout).
@@ -92,7 +92,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: site-dist
-          path: frontend/dist
+          path: web/dist
           retention-days: 1
 
   deploy:
@@ -104,20 +104,20 @@ jobs:
       name: cloudflare-pages
       url: ${{ steps.deploy.outputs.deployment-url }}
     steps:
-      # Source restores frontend/functions/ + frontend/wrangler.toml; the artifact
-      # restores the built frontend/dist/. Wrangler then uploads dist + compiles
+      # Source restores web/functions/ + web/wrangler.toml; the artifact
+      # restores the built web/dist/. Wrangler then uploads dist + compiles
       # functions/ (per wrangler.toml `pages_build_output_dir`).
       - uses: actions/checkout@v4
       - name: Download the build
         uses: actions/download-artifact@v4
         with:
           name: site-dist
-          path: frontend/dist
+          path: web/dist
       - name: Deploy to Cloudflare Pages
         id: deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: frontend
+          workingDirectory: web
           command: pages deploy --branch=main

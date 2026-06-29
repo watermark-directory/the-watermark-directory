@@ -108,7 +108,7 @@ def profile_text(front: POIFrontmatter, body: str) -> str:
 def write_profile(
     front: POIFrontmatter, body: str, *, settings: Settings | None = None, force: bool = False
 ) -> Path:
-    """Write the profile to ``data/poi/<slug>.md``; refuse to overwrite unless ``force``."""
+    """Write the profile to ``data/entities/poi/<slug>.md``; refuse to overwrite unless ``force``."""
     settings = settings or get_settings()
     if not front.slug:
         raise CurateError("frontmatter has no slug")

@@ -28,7 +28,7 @@ App private key lives as a platform secret, never in the browser.
 
 ```
                    ┌─ Cloudflare Pages (one origin) ──────────────────────┐
-  visitor ───────► │  static Astro build  (frontend/dist)                 │
+  visitor ───────► │  static Astro build  (web/dist)                 │
                    │                                                       │
   submit form ───► │  POST /api/submit  ──  Pages Function                │
                    │     1. parse + validate payload (schema + size caps) │
@@ -48,7 +48,7 @@ The Turnstile token is verified and discarded — never stored, never put in the
 ## The payload contract
 
 The form sends `POST /api/submit` with a JSON body. The canonical schema is the
-TypeScript type + JSON Schema co-located with the Function (`frontend/functions/api/`),
+TypeScript type + JSON Schema co-located with the Function (`web/functions/api/`),
 enforced server-side; this table is its prose source of truth.
 
 | Field | Type | Req. | Notes |
@@ -199,9 +199,9 @@ stream because they come from a different identity.
 
 ## Runtime & deploy
 
-- **Function:** `frontend/functions/api/submit.ts` — a Cloudflare Pages Function, routed
+- **Function:** `web/functions/api/submit.ts` — a Cloudflare Pages Function, routed
   to `/api/submit` because `functions/` sits at the deployed project root (Cloudflare
-  Pages points at `frontend/`; the Astro `dist/` is the static half).
+  Pages points at `web/`; the Astro `dist/` is the static half).
 - **Form:** a framework-free affordance (vanilla client script + the Turnstile widget,
   in the zero-React style of `src/scripts/search.ts`) — a standalone `/submit` page plus
   an inline "suggest a correction" control on record/entity/concept pages that pre-fills
@@ -209,7 +209,7 @@ stream because they come from a different identity.
   it) and links to opening a GitHub issue manually.
 - **Build:** unchanged from the host migration — GitHub Actions runs `bosc export` →
   `npm run build` (the Python bundle step stays where uv caching works), then deploys
-  `frontend/dist` **and** `frontend/functions/` to Cloudflare Pages via Wrangler. This
+  `web/dist` **and** `web/functions/` to Cloudflare Pages via Wrangler. This
   supersedes the GitHub Pages flip ([#102](https://github.com/watermark-directory/the-watermark-directory/issues/102)/[#107](https://github.com/watermark-directory/the-watermark-directory/issues/107)).
 
 ### Environment
@@ -263,7 +263,7 @@ the Pages project exists (Phase 1).
 
 4. Create a **Cloudflare Pages** project named **`bosc`** (production branch `main`). The
    Wrangler direct-upload deploy is wired in [`pages.yml`](../.github/workflows/pages.yml)
-   (manual, build-only by default) — config in [`frontend/wrangler.toml`](../frontend/wrangler.toml).
+   (manual, build-only by default) — config in [`web/wrangler.toml`](../web/wrangler.toml).
    Set two repo **secrets**: `CLOUDFLARE_API_TOKEN` (a token with *Cloudflare Pages —
    Edit*) and `CLOUDFLARE_ACCOUNT_ID`. The default domain is `watermark.pages.dev` at the
    root (no base path).
@@ -306,7 +306,7 @@ the Pages project exists (Phase 1).
 ### Optional — enable per-IP rate limiting (Phase 5)
 
 Rate limiting is off until a KV namespace is bound. To enable it, create one and wire the
-`RATE_LIMIT` binding in [`frontend/wrangler.toml`](../frontend/wrangler.toml):
+`RATE_LIMIT` binding in [`web/wrangler.toml`](../web/wrangler.toml):
 
 ```sh
 npx wrangler kv namespace create RATE_LIMIT   # prints the namespace id
@@ -326,12 +326,12 @@ shows the placeholder on the next build), or uninstall the App.
 ## Local testing
 
 Two ways to exercise this endpoint locally without filing a real issue, both detailed in
-[`frontend/README.md`](../frontend/README.md) → *Local dev & testing*:
+[`web/README.md`](../web/README.md) → *Local dev & testing*:
 
 - **Automated:** `src/lib/submitRoute.test.ts` drives `onRequestPost` end-to-end (kill
   switch → validation → rate-limit → Turnstile → App-JWT → dedupe → issue → contact store)
   with a stubbed `fetch`, under `npm test`. No network, no issue filed.
-- **Interactive:** `mise run //frontend:dev:stack` serves the form + endpoint under
+- **Interactive:** `mise run //web:dev:stack` serves the form + endpoint under
   `wrangler pages dev`; the GitHub API is mocked (`scripts/dev-mocks.mjs` via
   `GITHUB_API_BASE`), Turnstile uses the always-pass dummy keys, so a submission opens a
   *mock* issue only.
@@ -341,7 +341,7 @@ Two ways to exercise this endpoint locally without filing a real issue, both det
 | Part | State |
 | --- | --- |
 | This contract (schema, mapping, abuse model, identity) | **defined** (#74) |
-| Interim endpoint (`frontend/functions/api/submit.ts`: Turnstile + create issue) | **built** — dormant until bootstrapped (`SUBMISSIONS_ENABLED`) |
+| Interim endpoint (`web/functions/api/submit.ts`: Turnstile + create issue) | **built** — dormant until bootstrapped (`SUBMISSIONS_ENABLED`) |
 | Frontend form (`/submit`) + query-param `target` pre-fill | **built** — disabled placeholder until `PUBLIC_TURNSTILE_SITE_KEY` is set |
 | `submission` label (Pulumi) | **coded** (Phase 4 — `pulumi up` to apply) |
 | Cloudflare Pages host migration | **wired** (Phase 1 — `pages.yml` Wrangler deploy + `wrangler.toml`; needs the CF project + `CLOUDFLARE_*` secrets) |

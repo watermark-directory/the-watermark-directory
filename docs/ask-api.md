@@ -29,7 +29,7 @@ the Anthropic key lives as a platform secret, never in the browser. The Python
 
 ```
                    ┌─ Cloudflare Pages (one origin) ──────────────────────────┐
-  visitor ───────► │  static Astro build  (frontend/dist)                     │
+  visitor ───────► │  static Astro build  (web/dist)                     │
                    │    └─ /ask-index.json  (build-time BM25 corpus, #209)     │
                    │                                                           │
   /ask question ─► │  POST /api/ask  ──  Pages Function                        │
@@ -54,7 +54,7 @@ unit carries the item's provenance and a deep link to the page it lives on.
 ## The request contract
 
 `POST /api/ask` with a JSON body. Allowlist-validated server-side
-(`frontend/functions/api/_lib/askSchema.ts`): any field not named here is **rejected**.
+(`web/functions/api/_lib/askSchema.ts`): any field not named here is **rejected**.
 
 | Field | Type | Req. | Notes |
 | --- | --- | :---: | --- |
@@ -125,7 +125,7 @@ A `meta` frame leads **every** stream, including the deterministic empty-retriev
 
 ## Grounding & refusal policy
 
-The system prompt (`frontend/functions/api/_lib/ask.ts`) holds the model to the
+The system prompt (`web/functions/api/_lib/ask.ts`) holds the model to the
 data-discipline rules:
 
 - Answer **only** from the numbered sources injected into the prompt (the BM25 top-K).
@@ -142,7 +142,7 @@ guarded by the eval below.
 
 ### Faithfulness eval (CI guard)
 
-`frontend/src/lib/askEval*.test.ts` (set in `askEval.fixtures.ts`):
+`web/src/lib/askEval*.test.ts` (set in `askEval.fixtures.ts`):
 
 - **Fixture tier** — deterministic, runs in CI via `npm test`: in-corpus questions must
   surface the right source (grounding); out-of-corpus questions must retrieve nothing
@@ -172,18 +172,18 @@ A public, **paid** LLM endpoint. Controls (reusing submit's `_lib/`):
 
 ## Runtime & deploy
 
-- **Function:** `frontend/functions/api/ask.ts` — a Cloudflare Pages Function routed to
+- **Function:** `web/functions/api/ask.ts` — a Cloudflare Pages Function routed to
   `/api/ask`. Workers runtime, Web globals only, no SDK/Node deps; the Anthropic Messages
   API is called directly over `fetch`. Pure logic (BM25, prompt/citation assembly, SSE
   parsing, budget) lives in `api/_lib/`.
 - **Index:** `/ask-index.json` is emitted by the Astro static endpoint
   `src/pages/ask-index.json.ts` over `src/lib/askIndex.ts`. The Function fetches it as a
   static asset and caches it per isolate.
-- **Page:** `frontend/src/pages/ask.astro` + `src/scripts/ask.ts` — framework-free, in the
+- **Page:** `web/src/pages/ask.astro` + `src/scripts/ask.ts` — framework-free, in the
   zero-React style of submit. Renders the live form only when `PUBLIC_TURNSTILE_SITE_KEY`
   is set at build time, else a not-yet-live placeholder pointing at browsing the corpus.
 - **Build/deploy:** unchanged — `bosc export` → `npm run build` → Wrangler uploads
-  `frontend/dist` + `frontend/functions/` to **Cloudflare Pages** (`pages.yml`). This is
+  `web/dist` + `web/functions/` to **Cloudflare Pages** (`pages.yml`). This is
   production; the GitHub Pages deploy was never flipped and Cloudflare supersedes it.
 
 ### Environment
@@ -205,7 +205,7 @@ A public, **paid** LLM endpoint. Controls (reusing submit's `_lib/`):
 | `ASK_INDEX_URL` | Cloudflare (Function var) | optional override for the ask-index asset URL (sharded/CDN index) |
 
 The non-secret vars and the `ASK_RATE_LIMIT` KV binding are documented (commented) in
-[`frontend/wrangler.toml`](../frontend/wrangler.toml); secrets and the kill switch are set
+[`web/wrangler.toml`](../web/wrangler.toml); secrets and the kill switch are set
 in the Cloudflare dashboard, never in `wrangler.toml`.
 
 ## Bootstrap (one-time)
@@ -259,12 +259,12 @@ placeholder on the next build), or unset `ANTHROPIC_API_KEY`.
 ## Local testing
 
 Two ways to exercise this endpoint locally without spending tokens, both detailed in
-[`frontend/README.md`](../frontend/README.md) → *Local dev & testing*:
+[`web/README.md`](../web/README.md) → *Local dev & testing*:
 
 - **Automated:** `src/lib/askRoute.test.ts` drives `onRequestPost` end-to-end — the gates,
   the deterministic no-model refusal, and both the JSON and SSE answer paths (real retrieval
   and real stream parsing) — with a stubbed `fetch`, under `npm test`. No model call.
-- **Interactive:** `mise run //frontend:dev:stack` serves the `/ask` page + endpoint under
+- **Interactive:** `mise run //web:dev:stack` serves the `/ask` page + endpoint under
   `wrangler pages dev`; the Messages API is mocked (`scripts/dev-mocks.mjs` via
   `ANTHROPIC_API_BASE`, JSON + SSE), so answers stream from a canned response at no cost.
 

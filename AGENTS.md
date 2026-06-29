@@ -11,8 +11,8 @@ mise run check
 ```
 
 This runs ruff lint + format check + mypy strict + pytest. A change is not done
-until `check` is green. For changes that touch `frontend/`, also run
-`mise run //frontend:check`.
+until `check` is green. For changes that touch `web/`, also run
+`mise run //web:check`.
 
 ## Checkout
 

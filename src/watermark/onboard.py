@@ -7,7 +7,7 @@ NOAA Atlas-14 corridor DDF, SSURGO dominant HSG, NASA-POWER climatology), valida
 basin assimilative screen, and returns a report carrying a **blocking review checklist**.
 
 It *proposes*; it never promotes. Flipping a site to `live`/`selectable` in
-`frontend/src/lib/sites.ts` stays a separate, human, parity-gated edit.
+`web/src/lib/sites.ts` stays a separate, human, parity-gated edit.
 
 Preconditions: the site's `SiteProfile` is already registered in `watermark.sites.SITES`
 (authoring it is the first step — a code edit). Per-site point outputs (climatology, corridor
@@ -82,7 +82,7 @@ def _readme_body(place: str, slug: str, basin: str, purpose: str) -> str:
         "NOAA Atlas-14 / SSURGO / NASA-POWER).\n\n"
         "## Known gaps & caveats\n\n"
         "- Onboarding seed — **review every value against a cited source before promotion** "
-        "(`frontend/src/lib/sites.ts` `status`/`selectable`, parity-gated).\n"
+        "(`web/src/lib/sites.ts` `status`/`selectable`, parity-gated).\n"
         "- County/City parcel & zoning GIS is jurisdiction-specific and is **not** populated "
         "by the portable reach connectors — it needs a per-jurisdiction connector "
         "(see `docs/onboarding.md`).\n\n"
@@ -222,7 +222,7 @@ def render_onboarding_doc(report: OnboardReport) -> str:
         f"# Onboarding — {report.place} ({report.slug})\n\n"
         f"Living record for the {report.place} watershed point (basin: {report.basin}), "
         "scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** "
-        "promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.\n\n"
+        "promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.\n\n"
         "## Dimension coverage\n\n"
         "- [x] **Hydrology** — onboard reach connectors (low-flows, corridor DDF, SSURGO HSG, climatology)\n"
         "- [x] **Economics** — county baseline, RSEI toxics, consumer energy, grid profile\n"
@@ -482,6 +482,6 @@ def _review_checklist(slug: str) -> list[str]:
         "A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).",
         "Self-research first pass reviewed (run with --research; triage data/research/<slug>-<date>/).",
         f"PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for {slug!r} in "
-        "frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build "
+        "web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build "
         "(/bosc) exists today.",
     ]

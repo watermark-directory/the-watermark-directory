@@ -15,7 +15,7 @@ def test_campus_site_loads(gis_settings: Settings) -> None:
     campus = sites[0]
     assert campus.name == "Data-center campus"
     assert len(campus.parcels) == 10
-    assert campus.source == "data/poi/data-center-campus.md"
+    assert campus.source == "data/entities/poi/data-center-campus.md"
 
     minx, miny, maxx, maxy = campus.bbox
     assert -84.13 < minx < maxx < -84.11  # the Bistrozzi campus, NW of Lima

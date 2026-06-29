@@ -260,7 +260,7 @@ proposals:
     summary.
 
 
-    The correct characterization is **onboarded-but-unpromoted**: `frontend/src/lib/sites.ts`
+    The correct characterization is **onboarded-but-unpromoted**: `web/src/lib/sites.ts`
     L229–239 shows `status: "queued"`, `selectable: false`, which is the correct *frontend*
     posture pending promotion, but the memory note conflates frontend status with
     onboarding state.

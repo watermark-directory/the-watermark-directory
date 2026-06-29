@@ -1,20 +1,20 @@
 # POI subsystem — design
 
 *Forward-looking design. **Nothing here is built yet** — there is no `watermark.poi`
-package and no `data/poi/` store. This is the plan for deriving **points of interest**
+package and no `data/entities/poi/` store. This is the plan for deriving **points of interest**
 from the corpus, geocoding them, and — when a POI is flagged — feeding it to the
 imagery tracking machinery (`watermark.gis`, see [`imagery-subsystem.md`](imagery-subsystem.md)).
 Hand-written design note; fold steady-state guidance into a `watermark.poi` `CLAUDE.md`
 once code exists.*
 
-*Note: the Astro `frontend/` surfaces `docs/` markdown via its narrative content
+*Note: the Astro `web/` surfaces `docs/` markdown via its narrative content
 collection (links rewritten at build by the rehype plugin). This is an internal
 engineering plan — publish it only via the curated narrative set, not by default.*
 
 ## Executive summary / the abstraction
 
 A **POI is the third curated entity type — *place* — peer to *person*
-([`data/people/`](../data/people/)) and *org* ([`data/entities/`](../data/entities/)).**
+([`data/entities/people/`](../data/people/)) and *org* ([`data/entities/`](../data/entities/)).**
 Same artifact shape: a markdown file with frontmatter, cited to the corpus,
 **depth-marked**, linked into the entity graph. The place-specific *enrichment* is
 **geometry** (geocoding), and the deepest depth rung is **imagery tracking**.
@@ -25,7 +25,7 @@ is something a deeply-researched org gets.
 
 Locked decisions (this design):
 
-1. **POI = curated markdown + frontmatter** under `data/poi/<slug>.md`, depth-marked,
+1. **POI = curated markdown + frontmatter** under `data/entities/poi/<slug>.md`, depth-marked,
    cited, relationship-linked. A new node type in the entity graph (*place*).
 2. **Depth ladder** `mention → located → characterized → watched`, **human-set** except
    the mechanical `mention → located` (geocode) advance. Depth gates cost.
@@ -38,7 +38,7 @@ Locked decisions (this design):
 6. **Geometry/AOI:** store the richest geometry geocoding yields; the tracking AOI is the
    footprint bbox, or a buffered box around a point when there is no footprint.
 7. **`track: true` in frontmatter is the single source of truth** for what gets imagery.
-   `watermark.gis.load_tracking_sites` reads `data/poi/`, **retiring `gis_tracking_layers`**;
+   `watermark.gis.load_tracking_sites` reads `data/entities/poi/`, **retiring `gis_tracking_layers`**;
    `gis-findings.geojson` becomes a generated/display-only map layer.
 8. **Merge strictness (the dial):** auto-merge **only on exact parcel-id equality**;
    every geocoded/spatial/name match (address↔parcel, coord↔parcel, name↔owner) is a
@@ -115,7 +115,7 @@ key is never "shares a parcel"; it is "is the same atomic place," guarded by `ki
    already used for people/civic.
 3. **Record every surface form + its citation** on the merged POI, and *why* it merged.
    A merge is itself an evidentiary claim; never silently collapse.
-4. **Idempotency:** the merged POI in `data/poi/<slug>.md` carries its surface forms, so
+4. **Idempotency:** the merged POI in `data/entities/poi/<slug>.md` carries its surface forms, so
    re-running `discover` matches existing POIs instead of spawning duplicates — same as
    the civic/person registries.
 
@@ -128,13 +128,13 @@ key is never "shares a parcel"; it is "is the same atomic place," guarded by `ki
   citations. Reuses `allen_gis.scan_parcel_ids` / `_PARCEL_ID_RE`; adds address +
   facility-name extraction.
 - `resolve.py` — the resolve-to-parcel funnel + the merge/blocking logic.
-- `store.py` — read/write `data/poi/<slug>.md` profiles (frontmatter + body), like the
+- `store.py` — read/write `data/entities/poi/<slug>.md` profiles (frontmatter + body), like the
   people/civic stores.
 - New connectors under the shared connector pattern: `census_geocoder` (address →
   point), `allen_gis.parcel_at_point` (extend the existing connector), and later
   optionally `gnis` (named features → point).
 
-`watermark.gis` becomes a **consumer**: `load_tracking_sites` reads `data/poi/` for
+`watermark.gis` becomes a **consumer**: `load_tracking_sites` reads `data/entities/poi/` for
 `track: true`, replacing the layer-grouping over `gis-findings.geojson`.
 
 ### Data models (Pydantic)
@@ -204,12 +204,12 @@ Mostly reuse — no heavy new deps:
 
 Mirrors `bosc subdivisions`: `discover` (corpus → candidates), `resolve <candidate|all>`
 (funnel + propose merges), `list` / `show <slug>`, `track <slug> --on/--off` (flip the
-flag + tracking block), and the curation is hand-editing `data/poi/` (like people).
+flag + tracking block), and the curation is hand-editing `data/entities/poi/` (like people).
 
 ## 8. Roadmap
 
 - **P0 — store + model. ✅ done.** `watermark.poi` package, `POIFrontmatter` schema,
-  `data/poi/`, `store.py`, `bosc poi list/show`; seeded by porting the `gis-findings`
+  `data/entities/poi/`, `store.py`, `bosc poi list/show`; seeded by porting the `gis-findings`
   `campus` layer as the first composite POI.
 - **P1 — discover. ✅ done.** `discover.py` scans the committed corpus text →
   `POICandidate`s (deed-format **parcel ids**, **addresses**, and **facility/business
@@ -236,7 +236,7 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
     is pure (testable on synthetic resolutions); `bosc poi merge [--addresses --status]`.
     Distinct parcels stay distinct — a composite unifies them by hand in curate, not here.
 - **P3 — curate. ✅ done (scaffolding).** `curate.py` scaffolds a resolved `MergeGroup`
-  into a `data/poi/<slug>.md` profile at depth `located` (parcel id + `surface_forms` +
+  into a `data/entities/poi/<slug>.md` profile at depth `located` (parcel id + `surface_forms` +
   owner relationship + citations; no AOI yet). `bosc poi curate <parcel-no> [--write]`
   refuses to overwrite and warns on already-covered parcels. Promotion to
   `characterized`/`watched` (and adding a tracking `bbox`) stays a human step; composite
@@ -262,14 +262,14 @@ flag + tracking block), and the curation is hand-editing `data/poi/` (like peopl
   one source of truth (no separate manifest).
 - **Slug scheme** for parcel-anchored POIs (parcel-derived vs. human name) — open; lean
   human name for composites, parcel-derived for atomic parcel POIs.
-- **Entity-graph coupling** — is `data/poi/` the place-node source, or a parallel store
+- **Entity-graph coupling** — is `data/entities/poi/` the place-node source, or a parallel store
   the graph reads? (Recommend: the source.)
 - **Merge-strictness threshold** (decision #8 is the conservative default; expose it as a
   setting if a looser auto-merge is ever wanted).
 
 ## Sources / prior art in-repo
 
-- People store + depth idiom: [`data/people/`](../data/people/), `watermark.people`.
+- People store + depth idiom: [`data/entities/people/`](../data/people/), `watermark.people`.
 - Candidate→profile machinery: `watermark.candidates`, `watermark.civic` (discover/registry).
 - Geocoding anchors: `watermark.hydrology.connectors.allen_gis` (parcels),
   `lima_gis` (spatial floodzone queries), ECHO/RSEI (facility coords).

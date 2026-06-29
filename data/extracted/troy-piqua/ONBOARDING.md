@@ -1,6 +1,6 @@
 # Onboarding — Troy · Piqua (troy-piqua)
 
-Living record for the Troy · Piqua watershed point (basin: great-miami), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Troy · Piqua watershed point (basin: great-miami), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 Troy · Piqua is the **upper Great Miami mainstem** node (Miami County) — the I-75 corridor between the Great Miami headwaters (Indian Lake / Sidney) and Dayton, **upstream of WPAFB** (#442) and the **upstream complement** to the lower-mainstem Hamilton/Middletown node (#443). Same buried-valley sole-source aquifer, but a **mid-size manufacturing** county (Hobart commercial food-equipment HQ in Troy, auto parts) rather than Butler's heavy steel, and a distinctive **municipal-power split**: Piqua runs its own AMP-member electric utility (Great Miami hydro), while Troy/Miami County is likely AES Ohio. The site also carries a second supply water — the **Stillwater River** (gage 03265000). (UTM 16N, like WPAFB / Hamilton-Middletown — west of the 84°W meridian.) Tracking #475.
 
@@ -69,4 +69,4 @@ data-center activity sweep.
 - [ ] basin-screen coverage is sane for this site's receiving waters. (**Currently the Maumee inventory — a Great Miami / Stillwater 7Q10 + an upper-Great-Miami ECHO inventory are required.**)
 - [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md; verify Miami County **OH**, not another Miami County).
 - [x] Self-research first pass reviewed (Phase 5, 2026-06-22; upper-mainstem manufacturing node, muni-power split the distinctive angle; 4 proposals filed as sub-issues of #475, SSURGO-HSG kept as a gate item).
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'troy-piqua' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'troy-piqua' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

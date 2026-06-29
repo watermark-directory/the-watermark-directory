@@ -1,6 +1,6 @@
 # People — the entity graph's detail store
 
-One markdown file per **key individual**, `data/people/<slug>.md`, opened by a YAML
+One markdown file per **key individual**, `data/entities/people/<slug>.md`, opened by a YAML
 **frontmatter** header. This is the hand-authored detail layer of the
 [entity graph](../../src/bosc/pipeline/entities.py): a profile links to a resolved
 graph node by `entity_key` (the canonical normalized name), so the generated graph

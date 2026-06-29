@@ -25,7 +25,7 @@ I have a complete picture. Here is the findings report.
 
 Xenia is registered in both registries:
 - `src/bosc/sites.py` — `_XENIA` profile (basin `little-miami`), slug-scoped output relpaths, county `Greene County, OH` / FIPS `39057`. (sites.py:1791)
-- `frontend/src/lib/sites.ts` — `slug: "xenia"`, `status: "queued"`, `selectable: false`, `issue: "444"`, watershed "Little Miami". (sites.ts:168–177)
+- `web/src/lib/sites.ts` — `slug: "xenia"`, `status: "queued"`, `selectable: false`, `issue: "444"`, watershed "Little Miami". (sites.ts:168–177)
 
 `onboard` has clearly run at least partially — the per-site dirs and house-style READMEs exist, and these connector outputs are **populated with live data**:
 

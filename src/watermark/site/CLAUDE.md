@@ -2,7 +2,7 @@
 
 The site's **data tier**: turns the committed corpus into the typed **content bundle**
 (`watermark export` → `data/site/bundles/<slug>/`, per network site #724/#727) that the Astro
-frontend (`frontend/`) reads at build time. The committed, site-agnostic contract
+frontend (`web/`) reads at build time. The committed, site-agnostic contract
 (`README`, `schemas/`, example manifest) stays shared at `data/site/bundle/`. Defers to the
 root [`CLAUDE.md`](../../../CLAUDE.md).
 
@@ -27,4 +27,4 @@ root [`CLAUDE.md`](../../../CLAUDE.md).
   bundle.
 - The legacy Python SSG (`build.py` / `render.py` / `nav` / `templates/` / `assets/`, the
   `watermark site build|serve` CLI, the generated `web/` + `site/` trees) was **removed at the
-  parity cutover** — the Astro `frontend/` is now the sole presentation tier.
+  parity cutover** — the Astro `web/` is now the sole presentation tier.

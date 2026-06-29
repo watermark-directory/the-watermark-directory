@@ -2,7 +2,7 @@
   "_comment": "Two-way DesignSync config — see DESIGNSYNC.md. The Claude Design project is the source of truth; this repo mirrors it under localDir. Used as the target + localDir for the DesignSync MCP tool.",
   "projectId": "dbe30a08-547c-442e-b4ac-81492fa5570f",
   "name": "Watermark Design System",
-  "localDir": "frontend/design-system",
+  "localDir": "design",
   "synced": [
     "SKILL.md",
     "readme.md",
@@ -32,6 +32,6 @@
     "synced": "Foundations + all 40 component specs (components/{core,forms,record,charts,hydrology}/** + ui_kits/**) + 11 guideline cards are mirrored. The charts/hydrology/Icon families were added upstream after the first audit and pulled in a second pass (tokens/colors.css gained the --data-* chart-series ramp). Drift vs the live Astro impls is recorded in COMPONENT-AUDIT.md; reconciliation (Stage 2) is gated on review. On the next pull, move newly-synced paths here from `pending`.",
     "pending": "Only assets/brand/** remains (intentionally — see below). NOT mirrored (design-canvas artifacts, not components): explorations/** and templates/social-kit/**. On a future pull, the exact paths come from DesignSync list_files.",
     "generated": "Authored by the Claude Design app's self-check / tooling — never mirror or push these.",
-    "assets/brand/**": "Brand binaries already live in frontend/public/ (favicons, app icons); only mirror here if you want them version-controlled in the design system too."
+    "assets/brand/**": "Brand binaries already live in web/public/ (favicons, app icons); only mirror here if you want them version-controlled in the design system too."
   }
 }

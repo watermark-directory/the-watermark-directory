@@ -1,6 +1,6 @@
 # Onboarding — Columbus (columbus)
 
-Living record for the Columbus watershed point (basin: scioto), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Columbus watershed point (basin: scioto), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 Columbus / Franklin County is the **Scioto mainstem metro core** (Scioto epic #484, onboarding #486) — the largest municipal water user in the basin and **AEP's HQ city**. Receiving water = the **Scioto River** (the Olentangy joins downtown; Big Walnut + the Darby Creeks nearby); supply is a **managed metro** system — the **O'Shaughnessy / Hoover / Griggs upground reservoirs + well fields**, *not* a sole-source headwater (the inverse of the Miami buried valleys). Sink = the Ohio River at Portsmouth. Grid is the **PJM AEP** zone (AEP Ohio / Ohio Power #14006), AEP HQ being Columbus — the load that drives the contested **AEP Ohio data-center tariff** (PUCO).
 
@@ -39,4 +39,4 @@ Columbus / Franklin County is the **Scioto mainstem metro core** (Scioto epic #4
 - [ ] basin-screen coverage is sane for this site's receiving waters. (**Pending the Scioto ECHO inventory pull — `bosc npdes --basin scioto`.**)
 - [ ] A per-jurisdiction County/City GIS connector exists. (Parcels = OGRIP-Franklin; zoning = City of Columbus REST, schema-wiring deferred.)
 - [x] Self-research first pass reviewed (`--research` run 2026-06-22 + a web discover-and-pin sweep; register in `data-centers.md`). Primary-instrument ingestion (PUCO docket / air PTIs / abatement / deeds) is the open residual.
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'columbus' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'columbus' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

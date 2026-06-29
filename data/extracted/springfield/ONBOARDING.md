@@ -1,6 +1,6 @@
 # Onboarding — Springfield (springfield)
 
-Living record for the Springfield watershed point (basin: great-miami), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Springfield watershed point (basin: great-miami), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 Springfield is the network's **second Miami-basin site** (epic #451 / onboarding #452): the **Mad River mid-corridor** node — ~20 mi downstream of the Urbana headwaters (#441) and ~25 mi upstream of Dayton / Wright-Patterson AFB (#442) — on the same **Mad River buried-valley sole-source aquifer** (US-EPA designated; the Springfield municipal **well field** is the textbook draw on that outwash sand & gravel). What distinguishes it from headwater Urbana is a **second, managed supply water**: Buck Creek, regulated by USACE **C.J. Brown Reservoir** — a two-source, partly-impounded hydrology versus Urbana's single free-flowing reach. The geology is the deliberate **inverse** of the Maumee lake-plain sites (groundwater-dominated HSG B vs. poorly-drained Black Swamp clays HSG D; sink = Ohio River, not Lake Erie; no Maumee-style nutrient TMDL).
 
@@ -100,4 +100,4 @@ NPDES + Mad-River-at-Springfield 7Q10 (with #445/#446); and ~~pin the Clark Coun
 - [x] basin-screen coverage is sane for this site's receiving waters. (**Great Miami inventory + Mad River 7Q10 committed; 14/81 screened (#446/#455). The Springfield WWTP itself is unscreened — ECHO carries no receiving water for it — exactly like Lima WWTP.**)
 - [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
 - [x] Self-research first pass reviewed (Phase 5, 2026-06-21; data-center = barest leg, receiving-water screen empty; proposals triaged — 4 filed as sub-issues of #452, 3 resolved/moot recorded above).
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'springfield' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'springfield' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

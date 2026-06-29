@@ -25,7 +25,7 @@ I have what I need. Here is the findings report.
 - Defiance, OH; basin `maumee`; HUC-8 **04100009 (Lower Maumee)**. `[verified: src/bosc/sites.py _DEFIANCE; data/reference/echo/maumee-wwtp.potw.yaml:2462]`
 - Receiving reach gages registered: **04192500 Maumee near Defiance** (mainstem, below the confluence) and **04191500 Auglaize near Defiance**. `[verified: sites.py:985-988]`
 - County FIPS **39039**; design/centroid point 41.2868, −84.3621. `[verified]`
-- Frontend registry: `status: "open"`, `selectable: false`, issue 238 — **not promoted**. `[verified: frontend/src/lib/sites.ts:63-72]`
+- Frontend registry: `status: "open"`, `selectable: false`, issue 238 — **not promoted**. `[verified: web/src/lib/sites.ts:63-72]`
 
 ---
 

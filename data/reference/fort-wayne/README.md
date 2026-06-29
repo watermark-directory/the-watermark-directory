@@ -19,7 +19,7 @@ Per-site onboarding tree for the Fort Wayne watershed point (basin: maumee), sca
 
 ## Known gaps & caveats
 
-- Onboarding seed — **review every value against a cited source before promotion** (`frontend/src/lib/sites.ts` `status`/`selectable`, parity-gated).
+- Onboarding seed — **review every value against a cited source before promotion** (`web/src/lib/sites.ts` `status`/`selectable`, parity-gated).
 - Parcel GIS is now wired (the file above). Zoning GIS is the Allen County (IN) county-wide catalog
   (`gis_zoning`); per-parcel zoning joins are unavailable (polygon-only layer).
 

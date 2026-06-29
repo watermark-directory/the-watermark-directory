@@ -27,7 +27,7 @@ The corpus itself remains entirely Lima/Allen County: a search of the full docum
 
 ## 1. Onboarding state (what is done, what gates promotion)
 
-Source: `data/extracted/findlay/ONBOARDING.md`; `src/bosc/sites.py` L553–653; `frontend/src/lib/sites.ts` L73–83.
+Source: `data/extracted/findlay/ONBOARDING.md`; `src/bosc/sites.py` L553–653; `web/src/lib/sites.ts` L73–83.
 
 | Dimension | State | Evidence |
 |---|---|---|

@@ -34,7 +34,7 @@ Three onboard steps did **not** produce committed output (ONBOARDING.md "Last on
 - `rsei` — **skipped**, missing the RSEI v2.3.4 `elements.csv.gz` cache.
 - `grid-profile` — **errored**: "EIA-861 2024: no Short-Form ('861S') row for utility **#0** in OH." This is the `eia861_utility_number=0` placeholder in the profile (`src/bosc/sites.py` L2166) — the Shelby County retail utility is unidentified.
 
-Frontend status (`frontend/src/lib/sites.ts` L229–239): `status: "queued"`, `selectable: false`, issue 481. Promotion to live is a separate, parity-gated manual edit; only Lima (`/bosc`) is live today. This is the correct posture.
+Frontend status (`web/src/lib/sites.ts` L229–239): `status: "queued"`, `selectable: false`, issue 481. Promotion to live is a separate, parity-gated manual edit; only Lima (`/bosc`) is live today. This is the correct posture.
 
 ## 2. Verified site facts (from the `SiteProfile`, `src/bosc/sites.py` L2153–2224)
 

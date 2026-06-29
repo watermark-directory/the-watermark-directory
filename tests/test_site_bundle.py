@@ -24,7 +24,7 @@ from watermark.sites import effective_corpus_scope, get_profile
 REPO_ROOT = Path(__file__).resolve().parent.parent
 COMMITTED_SCHEMAS = REPO_ROOT / "data" / "site" / "bundle" / "schemas"
 # The per-site offline fixture (#727): the trimmed Lima bundle the frontend build reads.
-FRONTEND_SAMPLE = REPO_ROOT / "frontend" / "sample-bundle" / "lima"
+FRONTEND_SAMPLE = REPO_ROOT / "web" / "sample-bundle" / "lima"
 
 
 @pytest.fixture(scope="module")
@@ -254,7 +254,7 @@ def test_fort_wayne_sample_bundle_tracks_the_export_contract(fort_wayne_bundle: 
     first non-Lima sample bundle, so this also guards that a sibling fixture stays a real,
     per-site-scoped slice of its own export."""
     _assert_fixture_tracks_export(
-        REPO_ROOT / "frontend" / "sample-bundle" / "fort-wayne", _manifest(fort_wayne_bundle)
+        REPO_ROOT / "web" / "sample-bundle" / "fort-wayne", _manifest(fort_wayne_bundle)
     )
 
 

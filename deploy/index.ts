@@ -21,7 +21,7 @@ import * as cloudflare from "@pulumi/cloudflare";
 //                                 issues the edge cert.
 //
 // Deliberately NOT here: the **Pages project** itself. It is wrangler-deployed
-// (../.github/workflows/pages.yml) with its env/bindings in ../frontend/wrangler.toml;
+// (../.github/workflows/pages.yml) with its env/bindings in ../web/wrangler.toml;
 // managing that config in both Pulumi and wrangler would fight on every deploy. Pulumi
 // owns the stable resources its config references; PagesDomain only *attaches* to the
 // existing project by name, so the two don't drift.
@@ -63,7 +63,7 @@ const turnstileDomains = Array.from(new Set([...(siteDomain ? [siteDomain] : [])
 // --- Deploy-independent Cloudflare resources -------------------------------
 
 // Per-IP rate-limit store for the submissions Function (Phase 5). Bind its id as
-// RATE_LIMIT in frontend/wrangler.toml to turn rate limiting on; until then it sits idle.
+// RATE_LIMIT in web/wrangler.toml to turn rate limiting on; until then it sits idle.
 const rateLimitKv = new cloudflare.WorkersKvNamespace("submissions-ratelimit", {
     accountId,
     title: "bosc-submissions-ratelimit",
@@ -111,7 +111,7 @@ const route53Record =
 // ---------------------------------------------------------------------------
 // Outputs — wire these into the rest of the seam (see README + docs/submissions-api.md)
 // ---------------------------------------------------------------------------
-/** KV namespace id → `frontend/wrangler.toml` `[[kv_namespaces]]` `id` (RATE_LIMIT). */
+/** KV namespace id → `web/wrangler.toml` `[[kv_namespaces]]` `id` (RATE_LIMIT). */
 export const rateLimitKvNamespaceId = rateLimitKv.id;
 /** Public Turnstile site key → the `PUBLIC_TURNSTILE_SITE_KEY` build var. */
 export const turnstileSiteKey = turnstile.sitekey;

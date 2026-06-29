@@ -116,7 +116,7 @@ key_figures:                          # OCR-approximate where noted; verify agai
   hume_design_hb168_usd: 217500            # HB 168 funds the Hamlet of Hume project DESIGN (2026-05-12, M051226); separate from the $2.0M WPCLF principal forgiveness (#135-26)
   amazon_warehouse_roadwork_usd: 2600000   # Amazon's committed roadwork on the Commerce Pkwy/McClain Rd corridor (2026-04-28) — the WAREHOUSE, not a data center (see keyword_false_positives)
 
-new_actors:                           # surfaced here; candidates for data/people/
+new_actors:                           # surfaced here; candidates for data/entities/people/
   - {name: "Jon (John) Stock", role: "Project BOSC Attorney — developer-side CRA counsel (overview of CRA process + Housing Study)", note: "distinct from Vorys' Ziance/Tangeman; works with Willamowski Jr.", added_to_people: true}
   - {name: "Krista Bohn", role: "Allen County Treasurer — Star Ohio / BOSC Fund deposits", added_to_people: false}
   - {name: "Norm Capps", role: "advocated County encouragement for the Microsoft (Perry Twp) data center, 2024-08", added_to_people: false}

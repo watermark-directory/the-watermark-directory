@@ -23,7 +23,7 @@ I now have a complete, directly-sourced picture. Note on method before the findi
 
 # Onboarding review — Van Wert (`van-wert`)
 
-**Status:** registered + scaffolded, **not promoted**. `frontend/src/lib/sites.ts` carries `van-wert` as `status: "queued"`, `selectable: false`, `issue: 363`. The MCP analysis layer confirms emptiness on the gating side: `list_documents`, `list_extractions`, `program_overview`, and `hydrology_balance` all report *"No committed … for site 'van-wert' yet … serves the 'lima' reference build, … not substituted (#424)."* The substance that does exist lives in `data/reference/**/van-wert/` and `data/extracted/van-wert/`, read directly below.
+**Status:** registered + scaffolded, **not promoted**. `web/src/lib/sites.ts` carries `van-wert` as `status: "queued"`, `selectable: false`, `issue: 363`. The MCP analysis layer confirms emptiness on the gating side: `list_documents`, `list_extractions`, `program_overview`, and `hydrology_balance` all report *"No committed … for site 'van-wert' yet … serves the 'lima' reference build, … not substituted (#424)."* The substance that does exist lives in `data/reference/**/van-wert/` and `data/extracted/van-wert/`, read directly below.
 
 Profile of record: `src/watermark/sites/_profiles.py` `_VAN_WERT` (lines 443–533). Self-research first pass already ran (`data/research/onboard-van-wert-…-2026-06-19/`, 27 turns, $1.28) and distilled 5 proposals → GH **#375–#379** (all **OPEN**), under tracking issue **#363** (`status:blocked`, `area:network`).
 

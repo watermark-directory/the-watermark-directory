@@ -4,7 +4,7 @@ The walk's `① source` panel (frontend, issue #218) shows the *real* document
 region instead of a placeholder. The source PDFs live under `data/documents/**`
 (immutable, Git-LFS) and are far too large to ship to the static site, so we
 render a small, focused PNG crop of the operative region and commit *that* under
-`frontend/public/walk/crops/`. The crops are derived, regenerable artifacts —
+`web/public/walk/crops/`. The crops are derived, regenerable artifacts —
 this script is their provenance: it records the source PDF, the 0-based page,
 and the crop box, so any crop can be reproduced byte-for-similar from the
 immutable source.

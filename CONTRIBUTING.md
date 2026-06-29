@@ -73,7 +73,7 @@ The `oepa-permit` mise task does this automatically for permit runs.
   `fix(grid): …`, `chore(catalog): …`, `data(oepa): ingest …`.
 - One kind label + one or more area labels + optional status label per PR
   (`kind/*`, `area/*`, `status/*`).
-- Run `mise run check` (backend) or `mise run //frontend:check` (frontend)
+- Run `mise run check` (backend) or `mise run //web:check` (frontend)
   before opening a PR. Both must pass on `mise run ci`.
 - Markdown edits: run `npx markdownlint-cli2` locally. Common failures are
   `MD032` (missing blank line before list) and `MD012` (consecutive blank lines).

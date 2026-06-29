@@ -89,12 +89,12 @@ added only when an instrument names it. Follow that pattern.
   store**, not live ArcGIS REST; parcels come from `data/reference/`.
 - The siting output is a candidate set deserving a closer look, never a prediction.
 
-## investigative-writing-and-editorial → docs/ and frontend/
+## investigative-writing-and-editorial → docs/ and web/
 
 - **Published-series state:** a living draft, not discrete installments —
   `docs/COURSE.md`, `docs/bigger-picture.md`, `docs/DOSSIER.md`, and the topic docs
   (`HYDROLOGY.md`, `ECONOMICS.md`, `GRID.md`, `COMPUTE.md`). The reader-facing site
-  is Astro + MDX under `frontend/`, built from the typed content bundle.
+  is Astro + MDX under `web/`, built from the typed content bundle.
 - **Register in prose:** the `[verified]` / `[inference]` / `[open]` / `[reference]`
   tags are carried inline rather than as footnoted superscripts.
 - **Disclosure:** disclose, consistently and unsoftened, the author's
@@ -120,4 +120,4 @@ added only when an instrument names it. Follow that pattern.
 GitHub repo `watermark-directory/the-watermark-directory` — `bosc` Typer CLI; `ingest → extract → analyze`
 pipeline; entity graph + timeline + dossier synthesis; the `watermark.hydrology`
 water-balance subsystem; the Python data tier (`watermark.site`, `bosc export`) and the
-Astro presentation tier (`frontend/`). See the root `CLAUDE.md` and `README.md`.
+Astro presentation tier (`web/`). See the root `CLAUDE.md` and `README.md`.

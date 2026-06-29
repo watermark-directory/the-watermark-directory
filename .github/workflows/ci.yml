@@ -62,7 +62,7 @@ jobs:
             data:
               - 'data/**'
             frontend:
-              - 'frontend/**'
+              - 'web/**'
               - 'mise.toml'
               - '.github/workflows/ci.yml'
             markdown:
@@ -201,8 +201,8 @@ jobs:
           done
           echo "All backend legs passed or were skipped."
 
-  # Build the Astro/MDX frontend (Epic #54). Decoupled from the Python job: it
-  # builds against the committed frontend/sample-bundle/ fixture, so no uv/LFS
+  # Build the Astro/MDX site (Epic #54). Decoupled from the Python job: it
+  # builds against the committed web/sample-bundle/ fixture, so no uv/LFS
   # and no `bosc export` are needed here. The parity-gated Pages cutover (which
   # builds against the real `bosc export` bundle) is intentionally NOT wired yet.
   frontend:
@@ -211,7 +211,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: frontend
+        working-directory: web
     steps:
       - uses: actions/checkout@v4
 
@@ -220,7 +220,7 @@ jobs:
         with:
           node-version: "24"
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: web/package-lock.json
 
       - name: Install dependencies
         run: npm ci

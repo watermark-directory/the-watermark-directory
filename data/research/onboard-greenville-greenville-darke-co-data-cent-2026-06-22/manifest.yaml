@@ -146,7 +146,7 @@ proposals:
 
 
     The data-center activity gate in `ONBOARDING.md` is marked ☐ not started. The
-    site is held at `status: "queued"`, `selectable: false` in `frontend/src/lib/sites.ts`
+    site is held at `status: "queued"`, `selectable: false` in `web/src/lib/sites.ts`
     (issue #482).
 
 

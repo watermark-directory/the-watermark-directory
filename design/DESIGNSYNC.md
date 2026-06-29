@@ -9,7 +9,7 @@ code and what pushes/pulls go through.
 |---|---|
 | **Project** | Watermark Design System |
 | **Project ID** | `dbe30a08-547c-442e-b4ac-81492fa5570f` |
-| **localDir** | `frontend/design-system` |
+| **localDir** | `design` |
 | **Config** | [`designsync.json`](./designsync.json) — `synced` / `pending` / `generated` manifest |
 | **Skill** | `/watermark-design` (`.claude/skills/watermark-design/`) routes agents here |
 
@@ -29,7 +29,7 @@ When the design system changes upstream, bring the changes into the mirror:
 
 1. `DesignSync { method: "list_files", projectId }` → diff the paths/structure against this dir.
 2. For each **changed** path, `DesignSync { method: "get_file", projectId, path }` → write the
-   content into `frontend/design-system/<path>`. (Only fetch what changed — `get_file` pulls
+   content into `design/<path>`. (Only fetch what changed — `get_file` pulls
    content into context.)
 3. Move any newly-mirrored paths from `pending` → `synced` in `designsync.json`.
 
@@ -37,9 +37,9 @@ When the design system changes upstream, bring the changes into the mirror:
 
 When you edit the design system **here** (tokens, a component, a card) and want it upstream:
 
-1. Edit the file(s) under `frontend/design-system/`.
+1. Edit the file(s) under `design/`.
 2. `DesignSync { method: "finalize_plan", projectId, writes: ["<paths…>"], localDir:
-   "frontend/design-system" }` → returns a `planId`. (The user reviews the exact write list.)
+   "design" }` → returns a `planId`. (The user reviews the exact write list.)
 3. `DesignSync { method: "write_files", projectId, planId, files: [{ path: "<project path>",
    localPath: "<path under localDir>" }] }` — contents are read from disk and **never enter model
    context**. Up to 256 files per call.
@@ -112,5 +112,5 @@ it needs `npm run build` + a visual pass — out of scope for token availability
   `.astro`/`.tsx` components are the *implementations* of these specs — reconcile per component
   (Stage 2, gated on review of the audit), **not** by file copy. NB: most page-composition drift is
   the spec **lagging** the live site (`push impl→spec`) — closing it is the first DesignSync *push*.
-- **Pending:** only `assets/brand/**` (brand binaries already live in `frontend/public/`).
+- **Pending:** only `assets/brand/**` (brand binaries already live in `web/public/`).
 - **Never mirror:** `_ds_bundle.js`, `_ds_manifest.json`, `_adherence.oxlintrc.json` (`generated`).

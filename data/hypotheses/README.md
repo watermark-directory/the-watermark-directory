@@ -7,7 +7,7 @@ cells the `/directory` page renders, now carried as data with provenance.
 - Layout: `data/hypotheses/<hypothesis-id>/<site-slug>.yaml`, one **evidence cell** per
   `(site × hypothesis)`. Schema: `watermark.hypotheses.HypothesisAssessment`.
 - Hypotheses are registered in `watermark.hypotheses.HYPOTHESES` (ported from
-  `frontend/src/lib/directory.ts`). The three IDs are `water` (H1), `defense` (H2),
+  `web/src/lib/directory.ts`). The three IDs are `water` (H1), `defense` (H2),
   `surveillance` (H3).
 - Each cell carries a `signal` (anchor/strong/moderate/watch), an evidentiary `tag`
   (`verified` / `inference` / `open`), the hypothesis's `group` + `fields`, and ≥1

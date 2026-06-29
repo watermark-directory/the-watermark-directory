@@ -1,6 +1,6 @@
 # Onboarding — Wright-Patterson AFB (wpafb)
 
-Living record for the Wright-Patterson AFB watershed point (basin: great-miami), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`frontend/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Wright-Patterson AFB watershed point (basin: great-miami), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
 
 WPAFB is the **downstream terminus of the Mad River corridor** (Urbana → Springfield → **Dayton/WPAFB**) and the **richest node** of the Miami expansion — the SW-Ohio analog to Lima's JSMC / tank-plant defense nexus, and the **only Miami site that already carries a corpus thread**. Two distinctive choices are baked into the profile and both are correct: it is the network's **first UTM 16N site** (`hydro_utm_epsg=32616`; the base at ~84.05°W is *west* of the 84°W meridian, not in zone 17 like the other Miami sites), and its economic/toxics unit is **Montgomery County (Dayton metro, FIPS 39113)** even though the base straddles Greene + Montgomery (see the economics caveat below). The water story here is deliberately **groundwater** — the Great Miami / Mad River Buried Valley sole-source aquifer + a documented TCE/PFAS plume — **not** the surface-7Q10 dilution screen the other sites run.
 
@@ -74,4 +74,4 @@ thread + scan for a sited facility).
 - [ ] basin-screen coverage is sane for this site's receiving waters. (**Currently the Maumee inventory; and the real screen here is groundwater — the sole-source aquifer + plume — not surface 7Q10.**)
 - [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md; + the federal-enclave register).
 - [x] Self-research first pass reviewed (Phase 5, 2026-06-22; groundwater-reframe + published-record DoD-cloud + the economic-unit caveat; all 5 proposals filed as sub-issues of #442).
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'wpafb' in frontend/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'wpafb' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.

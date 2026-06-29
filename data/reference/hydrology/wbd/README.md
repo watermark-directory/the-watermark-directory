@@ -19,7 +19,7 @@ GeoJSON feed (issue #61) is assembled from, for the watershed map (#72).
   ```
 
   The AOI defaults to the `data-center-campus` tracking-site POI's bbox centroid
-  (`data/poi/data-center-campus.md`); the connector selects the HU **containing**
+  (`data/entities/poi/data-center-campus.md`); the connector selects the HU **containing**
   that point at each level. Raw responses cache under the git-ignored
   `data/cache/hydrology/wbd/`; the committed fixture for the offline test lives at
   `tests/fixtures/hydrology/wbd/`.
