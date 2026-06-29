@@ -54,6 +54,16 @@ class Settings(BaseSettings):
     github_token: str = Field(default="", alias="GITHUB_TOKEN")
     # Override for tests (points at a mock server or fixture endpoint).
     github_base_url: str = "https://api.github.com"
+    # GitHub App credentials for the watermark-admin-bot (issue #919).
+    # All three must be set together; the raw PEM from GitHub works as-is (PKCS#1 or PKCS#8).
+    github_app_id: str = ""
+    github_app_private_key: str = ""  # raw PEM — set via WATERMARK_GITHUB_APP_PRIVATE_KEY
+    github_app_installation_id: str = ""
+    # Comma-separated GitHub logins with platform-wide admin access.
+    admin_logins: str = ""
+    # When True, a missing GITHUB_ACTOR is treated as a trusted App actor (opt-in for
+    # GH Actions contexts where the runner itself is the authorized operator).
+    github_app_trusted: bool = False
     # Google Search via serper.dev — OEPA/DAM non-permit document discovery.
     serper_api_key: str = ""
 
