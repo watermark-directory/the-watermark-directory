@@ -365,7 +365,9 @@ For each substantive comparison step:
   move on — do not pursue it inline.
 
 Cover the following areas for {site}:
-1. NPDES / permit profile: connectors pulled, gaps vs Lima baseline.
+1. NPDES / permit profile: call discover_oepa_permits to find what's on the OEPA DAM
+   for this site, then call fetch_oepa_permit for each 'new' result to download it.
+   Note which permits were already committed vs newly fetched vs still missing.
 2. Grid / utility profile: EIA-861, BA interchange, LMP zone — what's present, what's missing.
 3. Hydrology: NWIS gauges configured, 7Q10 / water-balance status.
 4. GIS: parcel / zoning connectors wired; footprint geometry present.
