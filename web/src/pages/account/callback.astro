@@ -1,0 +1,88 @@
+---
+import Base from "../../layouts/Base.astro";
+import { withBase } from "../../lib/site";
+
+const cognitoDomain = import.meta.env.PUBLIC_COGNITO_DOMAIN;
+const clientId = import.meta.env.PUBLIC_COGNITO_CLIENT_ID;
+const enabled = Boolean(cognitoDomain && clientId);
+const callbackPath = withBase("/account/callback");
+---
+
+<Base title="Signing in…" section="home" rail={false}>
+  <div class="account-page">
+    <div class="account-flow" id="callback-flow">
+      <p class="account-flow-msg" id="callback-msg">
+        {enabled ? "Completing sign-in…" : "Sign-in is not enabled on this deployment."}
+      </p>
+    </div>
+  </div>
+</Base>
+
+{
+  enabled && (
+    <script
+      define:vars={{ callbackPath }}
+      is:inline
+    >
+      (async function () {
+        var msg = document.getElementById("callback-msg");
+        function fail(text) {
+          if (msg) msg.textContent = text;
+        }
+
+        var params = new URLSearchParams(location.search);
+        var code = params.get("code");
+        var stateRaw = params.get("state");
+        if (!code) return fail("Sign-in failed: no authorization code returned.");
+
+        var verifier = sessionStorage.getItem("watermark_pkce_cv");
+        if (!verifier) return fail("Sign-in failed: PKCE verifier missing. Please try signing in again.");
+
+        var redirectUri = location.origin + callbackPath;
+
+        var res;
+        try {
+          res = await fetch("/api/account/token", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ code: code, code_verifier: verifier }),
+          });
+        } catch (e) {
+          return fail("Sign-in failed: network error.");
+        }
+
+        if (!res.ok) return fail("Sign-in failed: token exchange error (" + res.status + ").");
+
+        var tokens = await res.json();
+        sessionStorage.setItem("watermark_id_token", tokens.id_token);
+        sessionStorage.removeItem("watermark_pkce_cv");
+
+        // Honour the ?next= destination carried through state, defaulting to home.
+        var next = "/";
+        try {
+          if (stateRaw) next = JSON.parse(atob(stateRaw)).next || "/";
+        } catch (e) {}
+        location.href = next;
+      })();
+    </script>
+  )
+}
+
+<style>
+  .account-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
+    padding: var(--sp-8);
+  }
+
+  .account-flow {
+    text-align: center;
+  }
+
+  .account-flow-msg {
+    font-size: var(--text-sm);
+    color: var(--bosc-ink-dim);
+  }
+</style>

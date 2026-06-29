@@ -72,6 +72,32 @@ GITHUB_REPO = "the-watermark-directory"
 # binding = "MCP_RATE_LIMIT"
 # id = "<namespace-id>"
 
+# --- Cognito auth (Epic #919) -----------------------------------------------------
+# Kill switch + non-secret config. AUTH_ENABLED (unset/"false" → 503), COGNITO_DOMAIN,
+# COGNITO_CLIENT_ID, COGNITO_REGION, COGNITO_USER_POOL_ID, and APP_BASE_URL can live
+# in [vars] below once provisioned. Secret: COGNITO_CLIENT_SECRET → dashboard only.
+# Secrets never go in wrangler.toml. See docs/auth.md for the full runbook.
+#
+# Uncomment and fill in after running `mise run bosc-auth-provision` (or manual setup):
+# [vars]
+# AUTH_ENABLED = "false"                            # flip to "true" to go live
+# COGNITO_REGION = "us-east-1"
+# COGNITO_USER_POOL_ID = "us-east-1_XXXXXXXXX"
+# COGNITO_CLIENT_ID = "<app-client-id>"             # public — safe to commit
+# COGNITO_DOMAIN = "auth.watermarkdirectory.org"    # or <prefix>.auth.<region>.amazoncognito.com
+# APP_BASE_URL = "https://watermarkdirectory.org"
+#
+# Also set in the CI build environment (not secrets — public Cognito identifiers):
+# PUBLIC_COGNITO_DOMAIN = "auth.watermarkdirectory.org"
+# PUBLIC_COGNITO_CLIENT_ID = "<app-client-id>"
+#
+# JWKS_CACHE KV: caches Cognito's public-key document (1-hour TTL) to avoid a cold
+# fetch on every JWT verification. Create once, then uncomment:
+#   npx wrangler kv namespace create JWKS_CACHE
+# [[kv_namespaces]]
+# binding = "JWKS_CACHE"
+# id = "<namespace-id>"
+
 # --- Source documents object store (/api/doc, Epic #274) --------------------------
 # R2 bucket holding the corpus bytes that the /api/doc Pages Function (#278) streams.
 # Populated by `watermark objectstore sync` (#279). The DOCS_ENABLED kill switch lives in the

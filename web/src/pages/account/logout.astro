@@ -1,0 +1,65 @@
+---
+import Base from "../../layouts/Base.astro";
+import { withBase } from "../../lib/site";
+
+const cognitoDomain = import.meta.env.PUBLIC_COGNITO_DOMAIN;
+const clientId = import.meta.env.PUBLIC_COGNITO_CLIENT_ID;
+const enabled = Boolean(cognitoDomain && clientId);
+// Cognito's /logout endpoint redirects here after ending the Hosted UI session.
+const postLogoutPath = withBase("/");
+---
+
+<Base title="Signing out…" section="home" rail={false}>
+  <div class="account-page">
+    <div class="account-flow">
+      <p class="account-flow-msg">
+        {enabled ? "Signing you out…" : "Sign-in is not enabled on this deployment."}
+      </p>
+    </div>
+  </div>
+</Base>
+
+{
+  enabled && (
+    <script
+      define:vars={{ cognitoDomain, clientId, postLogoutPath }}
+      is:inline
+    >
+      (async function () {
+        // Clear the client-side token.
+        sessionStorage.removeItem("watermark_id_token");
+        sessionStorage.removeItem("watermark_pkce_cv");
+
+        // Clear the HttpOnly refresh token cookie server-side.
+        try {
+          await fetch("/api/account/logout", { method: "POST" });
+        } catch (e) {}
+
+        // End the Cognito Hosted UI session and return to home.
+        var logoutUrl = new URL("https://" + cognitoDomain + "/logout");
+        logoutUrl.searchParams.set("client_id", clientId);
+        logoutUrl.searchParams.set("logout_uri", location.origin + postLogoutPath);
+        location.href = logoutUrl.toString();
+      })();
+    </script>
+  )
+}
+
+<style>
+  .account-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
+    padding: var(--sp-8);
+  }
+
+  .account-flow {
+    text-align: center;
+  }
+
+  .account-flow-msg {
+    font-size: var(--text-sm);
+    color: var(--bosc-ink-dim);
+  }
+</style>
