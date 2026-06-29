@@ -25,31 +25,39 @@ on:
 # and required-status semantics: it `needs:` the three legs, runs with `if: always()` so
 # it always reports a status (never stuck pending), and passes only when each leg
 # succeeded or was skipped (backend untouched ⇒ all three skip ⇒ `check` is green).
+#
+# Data-only commits (#861): `data/**` is split from `src/**` so permit ingest /
+# catalog-entry PRs skip lint + types + test (irrelevant gates) and run only
+# `catalog`.  `code` = Python source; `data` = corpus / catalog; both together
+# constitute the old `backend` union.
 
 jobs:
-  # Detect which half of the repo a push/PR touched. Cheap: no LFS, no deps —
-  # dorny/paths-filter just diffs the changed file paths.
+  # Detect which part of the repo a push/PR touched. Uses tj-actions/changed-files
+  # (#861) to distinguish pure-data from code changes so lint/types/test are skipped
+  # on permit-ingest and catalog PRs.
   changes:
     runs-on: ubuntu-latest
     outputs:
-      backend: ${{ steps.filter.outputs.backend }}
+      code: ${{ steps.filter.outputs.code }}
+      data: ${{ steps.filter.outputs.data }}
       frontend: ${{ steps.filter.outputs.frontend }}
       markdown: ${{ steps.filter.outputs.markdown }}
     steps:
       - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
+      - uses: tj-actions/changed-files@v47.0.6
         id: filter
         with:
-          filters: |
-            backend:
+          files_yaml: |
+            code:
               - 'src/**'
               - 'tests/**'
-              - 'data/**'
               - 'pyproject.toml'
               - 'uv.lock'
               - '.python-version'
               - 'mise.toml'
               - '.github/workflows/ci.yml'
+            data:
+              - 'data/**'
             frontend:
               - 'frontend/**'
               - 'mise.toml'
@@ -70,7 +78,7 @@ jobs:
   # fall back to the most recent prior one. Cache dirs are set in pyproject.toml.
   lint:
     needs: changes
-    if: ${{ needs.changes.outputs.backend == 'true' }}
+    if: ${{ needs.changes.outputs.code == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -90,7 +98,7 @@ jobs:
 
   types:
     needs: changes
-    if: ${{ needs.changes.outputs.backend == 'true' }}
+    if: ${{ needs.changes.outputs.code == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -112,7 +120,7 @@ jobs:
   # (to merge-base against origin/main), so this is the one job paying for fetch-depth: 0.
   catalog:
     needs: changes
-    if: ${{ needs.changes.outputs.backend == 'true' }}
+    if: ${{ needs.changes.outputs.data == 'true' || needs.changes.outputs.code == 'true' }}
     runs-on: ubuntu-latest
     steps:
       # fetch-depth: 0 gives the full commit graph the producer-drift gate needs to
@@ -144,7 +152,7 @@ jobs:
   # Regenerate .test_durations with `uv run pytest -n0 --store-durations` when it drifts.
   test:
     needs: changes
-    if: ${{ needs.changes.outputs.backend == 'true' }}
+    if: ${{ needs.changes.outputs.code == 'true' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
