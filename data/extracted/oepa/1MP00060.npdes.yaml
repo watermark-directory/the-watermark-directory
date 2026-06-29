@@ -1,0 +1,57 @@
+doc_id: 1MP00060-69b804bb
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/oepa/wilmington/1MP00060.pdf
+kind: npdes
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: "Sep 1\x1A, 2025 \nRe: Clinton County, Union Township \nApplication\
+  \ No. 1MP00060*AM \nLand Application Management Plan Permit for Wilmington Nursery\
+  \ \nPlans Received JuQH 13, 2025 \nRevised Plans Received July 28, 2025, August\
+  \ 12, 2025, August 26, 2025, August 27, 2025, and August \n29, 2025 \nFrom Kyle\
+  \ Isler, Wilmington Nursery \nAction Date: September 1\x1A, 2025 \nEffective Date:\
+  \ October 1, 2025 \nExpiration Date: September 31, 2030 \nWilmington Nursery \n\
+  Attn: Kyle Isler \n8600 East Pleasant Valley Road \nIndependence, Ohio 44131 \n\
+  Ladies and Gentlemen: \nThe Ohio Environmental Protection Agency has reviewed the"
+permit:
+  confidence: high
+  warnings:
+  - This is a Land Application Management Plan permit, not a standard NPDES discharge
+    permit — outfall IDs are monitoring stations, not traditional discharge outfalls.
+  - Expiration date in document reads 'September 31, 2030' which is an invalid calendar
+    date; likely intended as September 30, 2030.
+  - No public notice number or comment period end date found in the document.
+  - Application number and permit number appear identical (1MP00060*AM).
+  - OCR rendered the action date as 'September 1, 2025' but the image header and stamp
+    clearly show 09/17/2025.
+  facility_name: Wilmington Nursery
+  permit_no: 1MP00060*AM
+  permit_action: new
+  applicant: Kyle Isler, Wilmington Nursery
+  application_no: 1MP00060*AM
+  public_notice_no: null
+  public_notice_date: null
+  comment_period_end: null
+  facility_address: 8600 East Pleasant Valley Road, Independence, Ohio 44131
+  discharge_address: 2065 Rombach Avenue, Wilmington, Ohio (Clinton County)
+  receiving_water: Northern swale and southern swale draining to agricultural pond
+  stream_network: null
+  outfalls:
+  - 1MP00060901
+  - 1MP00060902
+  note: 'This is a Land Application Management Plan (LAMP) permit, not a standard
+    NPDES discharge permit. The permit explicitly states it is NOT an authorization
+    for a discharging land application system. Action date: 2025-09-17; Effective
+    date: 2025-10-01; Expiration date: 2030-09-30 (document says ''September 31, 2030''
+    which is an impossible date — likely September 30, 2030). Application number and
+    permit number appear to be the same (1MP00060*AM). The mailing address for the
+    applicant (Independence, OH) is the corporate address; the discharge/land application
+    site is 2065 Rombach Avenue, Wilmington, OH, Clinton County. Station 1MP00060901
+    monitors the northern swale; station 1MP00060902 monitors the southern swale,
+    both upstream of the agricultural pond.'
