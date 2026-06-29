@@ -1,0 +1,49 @@
+doc_id: 1PV00037-9ae0a8a4
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/oepa/sidney/1PV00037.pdf
+kind: npdes
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: "Ohio EPA Permit No.: 1PV00037*ED \nApplication No: OH0040657\
+  \ \nAction Date: July 21, 2025\nEffective Date: September 1, 2025\nExpiration Date:\
+  \ August 31, 2030 \nOhio Environmental Protection Agency \nAuthorization to Discharge\
+  \ Under the \nNational Pollutant Discharge Elimination System \nIn compliance with\
+  \ the provisions of the Federal Water Pollution Control Act, as amended (33 U.S.C.\
+  \ \n1251 et. seq., hereinafter referred to as the \"Act\"), and the Ohio Water Pollution\
+  \ Control Act (Ohio \nRevised Code Section 6111), \nAlexander R. Reck \ndba Hidden\
+  \ Valley MHP \nis authorized by the Ohio Environmental Prote"
+permit:
+  confidence: high
+  warnings:
+  - No public notice number found in document
+  - No comment period end date found in document
+  - Discharge address appears same as facility address; no distinct discharge address
+    stated
+  - Stream network downstream of Tawawa Creek not stated in document
+  - Action date used as public_notice_date proxy; actual public notice date not explicitly
+    stated
+  facility_name: Hidden Valley Mobile Home Park
+  permit_no: 1PV00037*ED
+  permit_action: renewal
+  applicant: Alexander R. Reck dba Hidden Valley MHP
+  application_no: OH0040657
+  public_notice_no: null
+  public_notice_date: '2025-07-21'
+  comment_period_end: null
+  facility_address: 5880 State Route 29 East, Sidney, Ohio, Shelby County
+  discharge_address: null
+  receiving_water: Tawawa Creek at River Mile 3.3
+  stream_network: null
+  outfalls:
+  - 1PV00037001
+  - 1PV00037588
+  note: 'Action Date: 2025-07-21; Effective Date: 2025-09-01; Expiration Date: 2030-08-31.
+    Outfall 1PV00037001 is the final effluent discharge after UV disinfection; 1PV00037588
+    is the sludge/biosolids transfer station. Design flow is 0.015 MGD.'

@@ -1,4 +1,4 @@
-reconciled_at: '2026-06-29T00:17:32.750093+00:00'
+reconciled_at: '2026-06-29T00:33:00.348657+00:00'
 entries:
   aedg:
     exists: true
@@ -501,6 +501,15 @@ entries:
     size_bytes: 17894
     lfs_materialized: true
     file_count: 9
+    missing: []
+    asof: null
+    stale: false
+  oepa-sidney:
+    exists: true
+    sha256: 6c248bd12e41a59a50cf3bb4c05b72db159505d0c347932d5f2465d14829ad7a
+    size_bytes: 2008
+    lfs_materialized: true
+    file_count: 1
     missing: []
     asof: null
     stale: false
