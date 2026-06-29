@@ -1,0 +1,47 @@
+doc_id: 1PD00013-1246cbb4
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/oepa/wilmington/1PD00013.pdf
+kind: npdes
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: "Mike DeWine, Governor \nJon Husted, Lt. Governor \nAnne M. Vogel,\
+  \ Director \n50 West Town Street • Suite 700 • P.O. Box 1049 • Columbus, OH 43216-1049\
+  \ \nepa.ohio.gov • (614) 644-3020 • (614) 644-3184 (fax) \nMay 12, 2023 \nOhio EPA\
+  \ Permit No. 1PD00013*PD \nApplication No. OH0028134 \nEffective Date: July 1, 2023\
+  \ \nFacility Name:  City of Wilmington WWTP \nCity of Wilmington  \nSteven Honeycutt\
+  \ \n475 S Nelson Avenue \nWilmington, OH 45177 \nDear Ladies and Gentlemen: \nIn\
+  \ accordance with Rule 3745-33-04 (D) of the Ohio Administrative Code (formerly\
+  \ Ohio EPA Regulation \nEP-31-06), the above referenced NPDES Pe"
+permit:
+  confidence: high
+  warnings:
+  - No public notice number found in document.
+  - No comment period end date found in document.
+  - Permit number on cover letter is 1PD00013*PD (prior) being changed to 1PD00013*QD
+    (new/modified); recorded the new number per document body.
+  facility_name: City of Wilmington WWTP
+  permit_no: 1PD00013*QD
+  permit_action: modification
+  applicant: City of Wilmington, Steven Honeycutt
+  application_no: OH0028134
+  public_notice_no: null
+  public_notice_date: '2023-05-12'
+  comment_period_end: null
+  facility_address: 475 South Nelson Avenue, Wilmington, Ohio 45177, Clinton County
+  discharge_address: null
+  receiving_water: Lytle Creek
+  stream_network: null
+  outfalls:
+  - '001'
+  - 1PD00013001
+  note: 'Modification letter dated May 12, 2023; prior permit number was 1PD00013*PD,
+    changed to 1PD00013*QD upon modification effective July 1, 2023. Expiration date:
+    September 30, 2026. Application number remains OH0028134. Interim limits apply
+    through Feb 28, 2026; final limits from March 1, 2026.'

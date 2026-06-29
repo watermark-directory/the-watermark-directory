@@ -1,0 +1,47 @@
+doc_id: 1PV00089-4c61943b
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/oepa/wilmington/1PV00089.pdf
+kind: npdes
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: "Ohio EPA Permit No.: 1PV00089*DD \nApplication No: OH0141232\
+  \ \nAction Date: March 16, 2026 \nEffective Date: May 1, 2026 \nExpiration Date:\
+  \ April 30, 2031 \nO\nhio Environmental Protection Agency \nAuthorization to Discharge\
+  \ Under the \nNational Pollutant Discharge Elimination System \nIn compliance with\
+  \ the provisions of the Federal Water Pollution Control Act, as amended (33 U.S.C.\
+  \ \n1251 et. seq., hereinafter referred to as the \"Act\"), and the Ohio Water Pollution\
+  \ Control Act (Ohio \nRevised Code Section 6111), \nR\nLR Investments, LLC dba Pine\
+  \ Hills Mobile Home Park \nis authorized by the Ohio Environme"
+permit:
+  confidence: high
+  warnings:
+  - No public notice number, public notice date, or comment period end date found
+    in document.
+  - permit_action inferred as 'renewal' based on context (existing permit with new
+    action/effective/expiration dates); no explicit label present.
+  - 1PV00089588 is a sludge monitoring station, not a discharge outfall; listed under
+    outfalls for completeness.
+  - Stream network downstream chain beyond Lytle Creek not stated in document.
+  facility_name: Pine Hills Mobile Home Park
+  permit_no: 1PV00089*DD
+  permit_action: renewal
+  applicant: RLR Investments, LLC dba Pine Hills Mobile Home Park
+  application_no: OH0141232
+  public_notice_no: null
+  public_notice_date: null
+  comment_period_end: null
+  facility_address: 2671 State Route 22/3, Wilmington, Ohio, Clinton County
+  discharge_address: null
+  receiving_water: unnamed tributary of Lytle Creek
+  stream_network: unnamed tributary of Lytle Creek
+  outfalls:
+  - 1PV00089001
+  - 1PV00089588
+  note: null
