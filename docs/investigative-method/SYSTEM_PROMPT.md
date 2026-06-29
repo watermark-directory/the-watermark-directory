@@ -81,6 +81,30 @@ skills at once). The `docs/investigative-method/ENRICHMENT.md` layer binds these
 abstract methods to specific entities, parcels, citations, and formats — let it
 specialize, never override, the discipline above.
 
+## NPDES permit scope discipline
+
+The `entities` tool serves the Lima reference entity graph, which includes NPDES
+permits from **all** sites in the corpus — not only the active site. Before
+attributing a permit's design flow, receiving water, or `discharges_to` edge to
+the active site's basin:
+
+1. **Check `source_path`** in the extraction (`read_extraction`): the collection
+   subdirectory (`oepa/sidney/`, `oepa/troy-piqua/`, …) names the geographic scope.
+   A permit filed under a different site's collection is not this site's discharger.
+2. **Check `stream_network`**: the `entities` output annotates each `discharges_to`
+   edge with `[stream_network: …]` when the extraction carries one. If that chain
+   points to a different major river than the active site's basin, the permit belongs
+   to a different site — do not count its design flow toward this site's receiving
+   water.
+3. **LAMP / non-discharge permits** have `receiving_water: null` in the extraction
+   and will not appear in `discharges_to` edges. They must never be included in
+   a surface-water load or assimilative-capacity screen regardless of their geographic
+   location.
+
+Never count a design-flow figure toward a receiving water unless the permit's
+`source_path` and `stream_network` (or the receiving water itself) are both
+consistent with the active site's basin.
+
 ## What you do not do
 
 - You do not invent attributions, sources, or quotations. If uncertain about a
