@@ -1,0 +1,50 @@
+doc_id: 1PX00010-3fc02cc1
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/oepa/wilmington/1PX00010.pdf
+kind: npdes
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: "Ohio EPA Permit No.: 1PX00010*HD \nApplication No: OH0085863\
+  \ \nAction Date: March 4, 2026\nEffective Date: April 1, 2026\nExpiration Date:\
+  \ March 31, 2031\nOhio E\nnvironmental Protection Agency \nAuthorization to Discharge\
+  \ Under the \nNational Pollutant Discharge Elimination System \nIn compliance with\
+  \ the provisions of the Federal Water Pollution Control Act, as amended (33 U.S.C.\
+  \ \n1251 et. seq., hereinafter referred to as the \"Act\"), and the Ohio Water Pollution\
+  \ Control Act (Ohio \nRevised Code Section 6111), \nMHC\n TT, L.P. \nis authorized\
+  \ by the Ohio Environmental Protection Agency, hereinafter referr"
+permit:
+  confidence: high
+  warnings:
+  - permit_action inferred as 'new' — document does not explicitly state renewal or
+    new; application number OH0085863 suggests a new facility
+  - No public notice number or comment period end date present in the document
+  - 'stream_network only partially stated: unnamed tributary of Todd Fork — no further
+    downstream chain provided'
+  facility_name: Wilmington RV Resort
+  permit_no: 1PX00010*HD
+  permit_action: new
+  applicant: MHC TT, L.P.
+  application_no: OH0085863
+  public_notice_no: null
+  public_notice_date: null
+  comment_period_end: null
+  facility_address: 1786 OH-380, Wilmington, Ohio, Clinton County
+  discharge_address: null
+  receiving_water: unnamed tributary of Todd Fork
+  stream_network: unnamed tributary to Todd Fork
+  outfalls:
+  - 1PX00010001
+  - 1PX00010588
+  note: 'Action Date: March 4, 2026; Effective Date: April 1, 2026; Expiration Date:
+    March 31, 2031. No public notice number or comment period end date found in the
+    document. Permit action is likely ''new'' given application number OH0085863 (no
+    prior permit cited), but could be a renewal — document does not explicitly state.
+    Outfall 1PX00010588 is a sludge monitoring station (not a discharge outfall).
+    Sampling station 1PX00010001 coordinates: N 39.454167, W -83.932778.'

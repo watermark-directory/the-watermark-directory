@@ -1,0 +1,46 @@
+doc_id: 1IW00240-bb98e59e
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/oepa/wilmington/1IW00240.pdf
+kind: npdes
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: "Page 1 \n1IW00240*ID \nOhio EPA Permit No.: 1IW00240*ID \nApplication\
+  \ No: OH0041891 \nAction Date:  June 5, 2023\nEffective Date:  July 1, 2023\nExpiration\
+  \ Date:  June 30, 2028\n Ohio Environmental Protection Agency \nAuthorization to\
+  \ Discharge Under the \n National Pollutant Discharge Elimination System \nIn compliance\
+  \ with the provisions of the Federal Water Pollution Control Act, as amended (33\
+  \ U.S.C. \n1251 et. seq., hereinafter referred to as the \"Act\"), and the Ohio\
+  \ Water Pollution Control Act (Ohio \nRevised Code Section 6111), \nWilmington Water\
+  \ Plant \nis authorized by the Ohio Environmental Protec"
+permit:
+  confidence: high
+  warnings:
+  - No public notice number, date, or comment period end date found in the document.
+  - Permit action inferred as 'renewal' based on context (existing permit with new
+    effective/expiration dates); not explicitly stated.
+  - The OCR header shows '1IW00240*ID' which matches the permit number in the body
+    text — verified against image.
+  facility_name: Wilmington Water Plant
+  permit_no: 1IW00240*ID
+  permit_action: renewal
+  applicant: Wilmington Water Plant
+  application_no: OH0041891
+  public_notice_no: null
+  public_notice_date: null
+  comment_period_end: null
+  facility_address: 1142 Prairie Avenue, Wilmington, Ohio, Clinton County
+  discharge_address: null
+  receiving_water: Unnamed Tributary of Lytle Creek
+  stream_network: null
+  outfalls:
+  - 1IW00240001
+  - 1IW00240002
+  - 1IW00240003
+  note: null

@@ -1,0 +1,49 @@
+doc_id: 1II00129-2d7559ee
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/oepa/wilmington/1II00129.pdf
+kind: npdes
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: "50 West Town Street • Suite 700 • P.O. Box 1049 • Columbus,\
+  \ OH 43216-1049 \nepa.ohio.gov • (614) 644-3020 • (614) 644-3184 (fax) \nMarch 11,\
+  \ 2025 \nOhio EPA permit No.  1II00129*GD \nApplication No. OH0131946 \nEffective\
+  \ Date: May 1, 2025   \nFacility Name:  Wilmington Sanitary Landfill \nWilmington\
+  \ Sanitary Landfill \nCody Romohr \n397 South Nelson Avenue \nWilmington, OH 45177\
+  \ \nDear Ladies and Gentlemen: \nIn accordance with Rule 3745-33-04 (D) of the Ohio\
+  \ Administrative Code (formerly Ohio EPA Regulation \nEP-31-06), the above referenced\
+  \ NPDES Permit is hereby modified as follows: \nRevision \n- Addition"
+permit:
+  confidence: high
+  warnings:
+  - No public notice number found in document
+  - No comment period end date found in document
+  - Permit number updated from 1II00129*GD to 1II00129*HD upon modification effective
+    date; recorded as the updated number per the permit text
+  facility_name: Wilmington Sanitary Landfill
+  permit_no: 1II00129*HD
+  permit_action: modification
+  applicant: City of Wilmington
+  application_no: OH0131946
+  public_notice_no: null
+  public_notice_date: '2025-03-11'
+  comment_period_end: null
+  facility_address: 397 South Nelson Avenue, Wilmington, OH 45177
+  discharge_address: null
+  receiving_water: Lytle Creek at River Mile 6.5
+  stream_network: null
+  outfalls:
+  - '001'
+  - '002'
+  - '101'
+  note: Permit modified from 1II00129*GD to 1II00129*HD, effective May 1, 2025. Modification
+    adds Stormwater Outfall 101 for reporting during new cell construction or sedimentation
+    pond construction activities impacting sedimentation pond 1. Previous permit number
+    was 1II00129*GD. Application number remains OH0131946. Permit expires September
+    30, 2028.
