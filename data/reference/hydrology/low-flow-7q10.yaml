@@ -1,4 +1,4 @@
-# Cited receiving-stream design low flows (7Q10) for the Lima municipal water loop.
+# Cited receiving-stream design low flows (7Q10) from Ohio EPA NPDES fact sheets.
 #
 # The 7Q10 — the lowest 7-day average streamflow expected once in 10 years — is the
 # design low flow Ohio EPA uses to set chronic water-quality-based effluent limits
@@ -7,10 +7,10 @@
 # `source: document`. Streams we cannot yet cite are OMITTED, not guessed — the
 # assimilative check reports them as "no cited 7Q10" rather than invent a number.
 #
-# Key insight these numbers carry: the two county plants on tiny tributaries
-# discharge MORE than the streams' entire 7Q10 low flow — at design low flow the
-# effluent is effectively undiluted. The fact sheets say so themselves (American II's
-# stated acute dilution ratio is 1.3 to 1).
+# Key insight these numbers carry: the plants on tiny tributaries discharge MORE than
+# the streams' entire 7Q10 low flow — at design low flow the effluent is effectively
+# undiluted. The fact sheets say so themselves (American II's stated acute dilution
+# ratio is 1.3 to 1; Van Wert's is 1.02 to 1 — more extreme).
 #
 # Basin-wide companion: `low-flow-7q10.derived.yaml` holds DERIVED (LP3, source=derived)
 # 7Q10s for the major USGS-gaged Maumee mainstems, used by `bosc basin-screen` to extend
@@ -54,3 +54,21 @@ streams:
       harmonic_mean_cfs: 4.8
       mixing_pct_avg: 25
       note: "Ottawa mainstem at Lima nearly dries at design low flow (1Q10 = 0 cfs) — heavily abstracted upstream for Lima's water supply"
+
+  town creek:
+    seven_q10_cfs: 0.16
+    source: document
+    citation: "Ohio EPA NPDES fact sheet 2PD00006 (Van Wert WWTP), Table 12 — USGS 04191500 (Auglaize River Near Defiance, 1915-2003) drainage area ratio applied to Town Creek"
+    confidence: high
+    context:
+      one_q10_cfs: 0.1
+      seven_q10_summer_cfs: 0.0
+      seven_q10_winter_cfs: 0.0
+      thirty_q10_summer_cfs: 0.29
+      thirty_q10_winter_cfs: 0.29
+      ninety_q10_cfs: 0.66
+      harmonic_mean_cfs: 1.62
+      mixing_pct_avg: 25
+      design_flow_cfs: 6.1889
+      acute_dilution_ratio: 1.02
+      note: "summer and winter 7Q10 = 0 cfs (intermittent at design low flow); Van Wert WWTP design flow 4.0 MGD (6.1889 cfs) overwhelms the 7Q10 by 39x — most extreme effluent-dominance case in the Maumee network"
