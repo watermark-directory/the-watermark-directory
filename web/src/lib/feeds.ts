@@ -466,6 +466,7 @@ export interface HypothesisAssessmentItem {
   hypothesis: string;
   signal?: string | null;
   tag: import("./evidence").TagKind; // the canonical evidence vocabulary (#579)
+  sub_thesis?: string | null; // investigative-frame tag (#905): coercion | end-use | capture | opacity | nexus
   group?: string | null;
   fields: Record<string, string>;
   citations: Citation[];

@@ -2,6 +2,7 @@ site: lima
 hypothesis: surveillance
 signal: anchor
 tag: verified
+sub_thesis: capture
 group: onrecord
 fields:
   operator: Shawnee Energy Campus
