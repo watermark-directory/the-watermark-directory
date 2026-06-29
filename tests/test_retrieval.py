@@ -144,9 +144,12 @@ def test_store_rebuild(tmp_path: Path) -> None:
 
 
 def test_store_query_returns_results(tmp_path: Path) -> None:
+    stored_text = "water quality discharge permit"
     store = _tmp_store(tmp_path)
-    store.rebuild([_chunk("a::0", "water quality discharge permit")])
-    results = store.query("water permit")
+    store.rebuild([_chunk("a::0", stored_text)])
+    # Query with the exact stored text so the hash-based stub produces the
+    # same vector — guarantees cosine distance = 0 regardless of hash seed.
+    results = store.query(stored_text)
     assert isinstance(results, list)
     assert len(results) >= 1
     r = results[0]

@@ -156,7 +156,7 @@ class CorpusStore:
             SearchResult(
                 chunk_id=str(r["chunk_id"]),
                 text=str(r["text"]),
-                score=max(0.0, 1.0 - float(r.get("_distance", 0.0))),
+                score=min(1.0, max(0.0, 1.0 - float(r.get("_distance", 0.0)))),
                 site=str(r["site"]),
                 collection=str(r["collection"]),
                 doc_kind=str(r["doc_kind"]),
