@@ -40,18 +40,20 @@ permit:
   comment_period_end: null
   facility_address: 8600 East Pleasant Valley Road, Independence, Ohio 44131
   discharge_address: 2065 Rombach Avenue, Wilmington, Ohio (Clinton County)
-  receiving_water: Northern swale and southern swale draining to agricultural pond
+  receiving_water: null
   stream_network: null
   outfalls:
   - 1MP00060901
   - 1MP00060902
-  note: 'This is a Land Application Management Plan (LAMP) permit, not a standard
-    NPDES discharge permit. The permit explicitly states it is NOT an authorization
-    for a discharging land application system. Action date: 2025-09-17; Effective
-    date: 2025-10-01; Expiration date: 2030-09-30 (document says ''September 31, 2030''
-    which is an impossible date — likely September 30, 2030). Application number and
-    permit number appear to be the same (1MP00060*AM). The mailing address for the
-    applicant (Independence, OH) is the corporate address; the discharge/land application
-    site is 2065 Rombach Avenue, Wilmington, OH, Clinton County. Station 1MP00060901
-    monitors the northern swale; station 1MP00060902 monitors the southern swale,
-    both upstream of the agricultural pond.'
+  note: 'LAMP (Land Application Management Plan) — NOT a discharge authorization.
+    The permit explicitly states it is not an authorization for a discharging land
+    application system; receiving_water is cleared to prevent a spurious discharges_to
+    edge in the entity graph. Monitoring water context: northern swale (station
+    1MP00060901) and southern swale (station 1MP00060902), both upstream of an
+    agricultural pond at 2065 Rombach Ave, Wilmington, OH, Clinton County. The swales
+    drain to the ag pond, not to a regulated surface water. Exclude from any
+    surface-water load screen or assimilative capacity calculation. Action date:
+    2025-09-17; Effective date: 2025-10-01; Expiration date: 2030-09-30 (document
+    reads ''September 31, 2030'', an invalid date — likely September 30, 2030).
+    Applicant mailing address is Independence, OH (Cuyahoga County); land-application
+    site is Clinton County. Application number and permit number are the same (1MP00060*AM).'

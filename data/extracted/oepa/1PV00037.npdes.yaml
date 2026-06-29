@@ -40,10 +40,14 @@ permit:
   facility_address: 5880 State Route 29 East, Sidney, Ohio, Shelby County
   discharge_address: null
   receiving_water: Tawawa Creek at River Mile 3.3
-  stream_network: null
+  stream_network: Tawawa Creek → Great Miami River → Ohio River (Great Miami basin,
+    Shelby County, OH; HUC-8 05080001)
   outfalls:
   - 1PV00037001
   - 1PV00037588
   note: 'Action Date: 2025-07-21; Effective Date: 2025-09-01; Expiration Date: 2030-08-31.
     Outfall 1PV00037001 is the final effluent discharge after UV disinfection; 1PV00037588
-    is the sludge/biosolids transfer station. Design flow is 0.015 MGD.'
+    is the sludge/biosolids transfer station. Design flow is 0.015 MGD. Basin attribution:
+    Great Miami basin, Shelby County — not a Little Miami / Wilmington discharger;
+    do not count this design-flow figure toward Lytle Creek or any Little Miami
+    assimilative screen.'
