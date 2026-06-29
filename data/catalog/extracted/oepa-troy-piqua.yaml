@@ -1,0 +1,28 @@
+id: oepa-troy-piqua
+title: Ohio EPA NPDES Permit Extractions (Piqua WWTP)
+scope: extracted
+status: reviewed
+producer:
+  kind: extracted
+  source: Ohio EPA — issued NPDES permits, fact sheets, and draft public notices for
+    permits at the Piqua wastewater treatment works (permit 1PD00008, Miami County)
+license: Public record (Ohio R.C. 149.43)
+access_tier: public
+site_scope: site:troy-piqua
+storage:
+- relpath: extracted/oepa/1PD00008.npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: static
+provenance: document
+tags:
+- oepa
+- npdes
+- permits
+- wastewater
+- troy-piqua
+notes: Piqua WWTP permit 1PD00008*WD, renewal effective 2022-09-01 through 2027-08-31,
+  receiving Great Miami River. Outfalls 1PD00008001 (primary treated effluent),
+  1PD00008300 (SSO monitoring), and 1PD00008581 (sludge monitoring). Add additional
+  troy-piqua OEPA extractions (fact sheets, draft PNs) to storage as they are produced.

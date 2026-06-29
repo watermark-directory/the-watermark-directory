@@ -1,0 +1,48 @@
+doc_id: 1PD00008-004510f0
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/oepa/troy-piqua/1PD00008.pdf
+kind: npdes
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: "Page 1\n1PD00008*WD\nApplication No.  OH0027049 \nAction Date:\
+  \ August 9, 2022\nEffective Date: September 1, 2022\nExpiration Date:  August 31,\
+  \ 2027\nOhio Environmental Protection Agency\nAuthorization to Discharge Under the\n\
+  National Pollutant Discharge Elimination System\nIn compliance with the provisions\
+  \ of the Federal Water Pollution Control Act, as \namended (33 U.S.C. 1251 et. seq.,\
+  \ hereinafter referred to as the \"Act\"), and the Ohio \nWater Pollution Control\
+  \ Act (Ohio Revised Code Section 6111),\nCity of Piqua\nis authorized by the Ohio\
+  \ Environmental Protection Agency, hereinafter referred to as\n\"Ohi"
+permit:
+  confidence: high
+  warnings:
+  - No public notice number or comment period end date present in the document
+  - Permit action not explicitly stated; 'renewal' inferred from context
+  - Stream network downstream of Great Miami River not stated in document
+  facility_name: City of Piqua wastewater treatment works
+  permit_no: 1PD00008*WD
+  permit_action: renewal
+  applicant: City of Piqua
+  application_no: OH0027049
+  public_notice_no: null
+  public_notice_date: null
+  comment_period_end: null
+  facility_address: 121 Bridge Street, Piqua, Ohio, Miami County
+  discharge_address: null
+  receiving_water: Great Miami River
+  stream_network: null
+  outfalls:
+  - 1PD00008001
+  - 1PD00008300
+  - 1PD00008581
+  note: 'Action Date: August 9, 2022. Effective Date: September 1, 2022. Expiration
+    Date: August 31, 2027. No public notice number or comment period end date found
+    in the document. Outfall 1PD00008300 is SSO monitoring; 1PD00008581 is sludge
+    monitoring. Permit action inferred as renewal based on context (existing facility,
+    expiration/effective dates); no explicit label present.'
