@@ -209,11 +209,19 @@ async def program_overview(_args: dict[str, Any]) -> dict[str, Any]:
     {},
 )
 async def timeline(_args: dict[str, Any]) -> dict[str, Any]:
-    if (note := _reference_only("timeline")) is not None:
-        return note
+    # build_timeline() delegates to load_corpus(), which is per-site scoped (#762/#780).
+    # A non-Lima site gets its own corpus events (or "No dated events" if none yet) —
+    # not Lima's Allen-County record. No _reference_only guard needed here (#424).
+    # We pre-load the corpus from the active settings so the per-site scope is honoured
+    # even when get_settings() is monkeypatched in tests.
     from watermark.pipeline import timeline as timeline_stage
+    from watermark.pipeline.corpus import load_corpus
+    from watermark.sites import active_profile, effective_corpus_scope
 
-    events = timeline_stage.build_timeline()
+    settings = get_settings()
+    corpus = load_corpus(settings)
+    scope = effective_corpus_scope(active_profile(settings))
+    events = timeline_stage.build_timeline(corpus=corpus, scope=scope)
     if not events:
         return _text("No dated events found under data/extracted.")
     lines = []
@@ -233,26 +241,34 @@ async def timeline(_args: dict[str, Any]) -> dict[str, Any]:
     {},
 )
 async def entities(_args: dict[str, Any]) -> dict[str, Any]:
-    if (note := _reference_only("entities")) is not None:
-        return note
+    # build_entity_graph() delegates to load_corpus(), which is per-site scoped (#762/#780).
+    # A non-Lima site gets its own corpus entities only — not Lima's cross-site reference
+    # graph. No _reference_only guard needed here (#424).
     from watermark.pipeline import entities as entities_stage
 
+    settings = get_settings()
+    # Pre-load the corpus from the active settings so the per-site scope is honoured
+    # even when get_settings() is monkeypatched in tests.
+    from watermark.pipeline.corpus import load_corpus
+
+    corpus = load_corpus(settings)
     graph = entities_stage.build_entity_graph(
+        corpus=corpus,
         enrich_parcels=True,
         enrich_lei=True,
         enrich_rsei=True,
         enrich_federal=True,
         enrich_subdivisions=True,
+        settings=settings,
     )
     if not graph.entities:
-        return _text("No entities found under data/extracted.")
+        return _scoped("No entities found under data/extracted.")
 
     # Pre-load stream_network from every NPDES extraction so discharges_to edges can
     # be annotated with the basin chain. This prevents the agent from attributing a
     # permit from a different basin (e.g. Great Miami) to the active site's receiving
     # waters (e.g. Little Miami / Lytle Creek). LAMP permits have receiving_water=null
     # and will not have a discharges_to edge at all — they are excluded by construction.
-    settings = get_settings()
     _stream_network_by_source: dict[str, str] = {}
     try:
         for rel_path, pex in _load_all_permits(settings):
@@ -262,16 +278,27 @@ async def entities(_args: dict[str, Any]) -> dict[str, Any]:
     except Exception:
         pass  # annotation is best-effort; never block the main output
 
-    lines = [
-        "SCOPE NOTE: This is the Lima reference entity graph — it includes NPDES permits",
-        "from ALL sites in the corpus (not just the active site). Before attributing a",
-        "discharges_to edge to the active site's basin, verify the permit source_path",
-        "matches this site and that the stream_network annotation is consistent with",
-        "the active basin. LAMP/non-discharge permits (receiving_water=null) are excluded",
-        "from discharges_to edges by construction and must not appear in load screens.",
-        "",
-        "ENTITIES:",
-    ]
+    # The Lima reference graph is whole-corpus (all sites' permits); for any other site
+    # load_corpus() scopes to that site's own extractions so the cross-basin attribution
+    # issue cannot arise from the data layer. Tailor the scope note accordingly.
+    if _is_corpus_home(settings):
+        lines = [
+            "SCOPE NOTE: This is the Lima reference entity graph — it includes NPDES permits",
+            "from ALL sites in the corpus (not just the active site). Before attributing a",
+            "discharges_to edge to the active site's basin, verify the permit source_path",
+            "matches this site and that the stream_network annotation is consistent with",
+            "the active basin. LAMP/non-discharge permits (receiving_water=null) are excluded",
+            "from discharges_to edges by construction and must not appear in load screens.",
+            "",
+            "ENTITIES:",
+        ]
+    else:
+        lines = [
+            f"SCOPE NOTE: Per-site entity graph for {settings.site!r} — "
+            "only this site's committed corpus extractions are included.",
+            "",
+            "ENTITIES:",
+        ]
     for ent in sorted(graph.entities.values(), key=lambda e: (e.kind, e.key)):
         roles = ", ".join(f"{r} x{n}" for r, n in ent.roles.most_common())
         sig = f" signals={sorted(ent.signals)}" if ent.signals else ""

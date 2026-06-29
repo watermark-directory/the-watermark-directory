@@ -83,10 +83,15 @@ specialize, never override, the discipline above.
 
 ## NPDES permit scope discipline
 
-The `entities` tool serves the Lima reference entity graph, which includes NPDES
-permits from **all** sites in the corpus — not only the active site. Before
-attributing a permit's design flow, receiving water, or `discharges_to` edge to
-the active site's basin:
+The `entities` tool is per-site scoped. **When running as the Lima reference site**
+it includes NPDES permits from **all** sites in the corpus (Lima's `load_corpus()`
+is whole-tree). **For any other active site**, it includes only that site's own
+committed corpus extractions — cross-basin contamination cannot arise from the data
+layer. The scope note at the top of the `entities` output identifies which case
+applies.
+
+Before attributing a permit's design flow, receiving water, or `discharges_to` edge
+to the active site's basin (this is most critical on Lima runs):
 
 1. **Check `source_path`** in the extraction (`read_extraction`): the collection
    subdirectory (`oepa/sidney/`, `oepa/troy-piqua/`, …) names the geographic scope.

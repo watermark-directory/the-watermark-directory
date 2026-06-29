@@ -34,16 +34,36 @@ async def test_program_overview_reads_committed_summary() -> None:
 async def test_reference_tools_do_not_serve_lima_data_off_home(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # #424 flip: a per-site run (**`watermark --site <slug> research run`) must NOT be silently handed
-    # Lima's reference record — the gap the Bryan/Ottawa/Fort Wayne findings each hit. The
-    # Lima-reference tools (entities/timeline/hydrology) now return an honest notice off-home
-    # instead of Lima's data.
+    # #424: a per-site run must NOT be silently handed Lima's reference record.
+    # timeline/entities now serve the active site's own corpus (per-site scoped via
+    # load_corpus()) rather than returning a _reference_only notice — they will return
+    # empty results for a site with no committed corpus (e.g. Findlay), NOT Lima's
+    # cross-site record. hydrology_balance is still Lima-specific (reads Lima's
+    # watch-items.geojson) so it keeps the _reference_only guard.
     monkeypatch.setattr(
         tools, "get_settings", lambda: Settings(site="findlay", data_dir=REPO_ROOT / "data")
     )
-    for handler in (tools.entities, tools.timeline, tools.hydrology_balance):
-        text = (await handler.handler({}))["content"][0]["text"]
-        assert text.startswith("[scope]") and "findlay" in text and "#424" in text
+
+    # hydrology_balance still returns a scoped notice for non-Lima sites.
+    hydro_text = (await tools.hydrology_balance.handler({}))["content"][0]["text"]
+    assert hydro_text.startswith("[scope]") and "findlay" in hydro_text and "#424" in hydro_text
+
+    # entities and timeline now serve findlay's own corpus — empty, so no Lima entities
+    # or events leak through. They must not reference Lima-specific records.
+    entities_text = (await tools.entities.handler({}))["content"][0]["text"]
+    assert "No entities found" in entities_text or "ENTITIES:" in entities_text
+    # The Lima reference graph has Amazon / Google / permit holders — must not appear.
+    assert "Amazon" not in entities_text and "Google" not in entities_text
+
+    timeline_text = (await tools.timeline.handler({}))["content"][0]["text"]
+    assert (
+        "No dated events" in timeline_text
+        or "[deed]" in timeline_text
+        or "[npdes]" in timeline_text
+    )
+    # Lima commissioners minutes must not bleed into a Findlay run.
+    assert "commissioners" not in timeline_text.lower()
+
     # program_overview resolves within findlay's own (empty) corpus — no Lima OPC leak.
     po = (await tools.program_overview.handler({}))["content"][0]["text"]
     assert "Program construction total" not in po
