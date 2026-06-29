@@ -15,6 +15,22 @@ import yaml
 from claude_agent_sdk import create_sdk_mcp_server, tool
 
 from watermark.config import get_settings
+from watermark.github import (
+    AdminChecker,
+    GitHubAppClient,
+)
+from watermark.github import (
+    add_label as _gh_add_label,
+)
+from watermark.github import (
+    comment_on_pr as _gh_comment_on_pr,
+)
+from watermark.github import (
+    remove_label as _gh_remove_label,
+)
+from watermark.github import (
+    set_issue_state as _gh_set_issue_state,
+)
 from watermark.models import Estimate, OPCSummary
 from watermark.pipeline import analyze, ingest
 
@@ -775,29 +791,26 @@ async def report_novel_finding(args: dict[str, Any]) -> dict[str, Any]:
     )
     body = "\n".join(body_parts)
 
-    if not settings.github_token:
+    gh_client = GitHubAppClient(settings)
+    if not GitHubAppClient.is_configured(settings) and not settings.github_token:
         summary = (
-            f"[report_novel_finding] No GITHUB_TOKEN — issue not filed.\n"
+            f"[report_novel_finding] No GitHub credentials — issue not filed.\n"
             f"Title: {title}\n"
             f"Labels: {', '.join(labels)}\n"
             f"Body:\n{body}"
         )
         return _text(summary)
 
-    headers = {
-        "Accept": "application/vnd.github+json",
-        "Authorization": f"Bearer {settings.github_token}",
-        "X-GitHub-Api-Version": "2022-11-28",
-    }
     payload = {"title": title, "body": body, "labels": labels}
 
     try:
-        resp = httpx.post(
-            f"{settings.github_base_url}/repos/{_GH_REPO}/issues",
-            json=payload,
-            headers=headers,
-            timeout=30.0,
-        )
+        headers = await gh_client.get_headers()
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            resp = await client.post(
+                f"{settings.github_base_url}/repos/{_GH_REPO}/issues",
+                json=payload,
+                headers=headers,
+            )
         if resp.status_code == 201:
             data = resp.json()
             return _text(f"[report_novel_finding] Filed as #{data['number']}: {data['html_url']}")
@@ -831,6 +844,173 @@ async def reconcile_estimate(args: dict[str, Any]) -> dict[str, Any]:
     return _text("\n".join(str(f) for f in findings))
 
 
+def _gh_app_required(tool_name: str) -> dict[str, Any]:
+    """Standard dry-run response when App credentials are not configured."""
+    return _text(
+        f"[{tool_name}] GitHub App credentials not configured — operation skipped. "
+        "Set WATERMARK_GITHUB_APP_ID, WATERMARK_GITHUB_APP_PRIVATE_KEY, and "
+        "WATERMARK_GITHUB_APP_INSTALLATION_ID to enable write operations."
+    )
+
+
+def _gh_permission_denied(tool_name: str, exc: PermissionError) -> dict[str, Any]:
+    return _text(f"[{tool_name}] Permission denied: {exc}")
+
+
+@tool(
+    "comment_on_pr",
+    "Post a comment on a GitHub PR or issue for the active site's repo. "
+    "Requires GitHub App credentials (WATERMARK_GITHUB_APP_*) and admin or site-admin access. "
+    "Use for research-run summaries, triage notes, or evidence annotations.",
+    {
+        "pr_number": {
+            "type": "integer",
+            "description": "PR or issue number to comment on.",
+        },
+        "body": {
+            "type": "string",
+            "description": "Markdown body of the comment (max 65536 chars).",
+        },
+    },
+)
+async def comment_on_pr(args: dict[str, Any]) -> dict[str, Any]:
+    settings = get_settings()
+    if not GitHubAppClient.is_configured(settings):
+        return _gh_app_required("comment_on_pr")
+
+    checker = AdminChecker(settings)
+    caller = checker.resolve_caller()
+    try:
+        checker.require_site_admin(caller, settings.site)
+    except PermissionError as exc:
+        return _gh_permission_denied("comment_on_pr", exc)
+
+    pr_number: int = int(args["pr_number"])
+    body: str = str(args.get("body", "")).strip()
+    if not body:
+        return _text("[comment_on_pr] body is required.")
+
+    result = await _gh_comment_on_pr(settings, pr_number, body)
+    if result.ok:
+        return _text(f"[comment_on_pr] Comment posted: {result.url}")
+    return _text(f"[comment_on_pr] Failed: {result.error}")
+
+
+@tool(
+    "add_label",
+    "Add a label to a GitHub issue or PR for the active site's repo. "
+    "Requires GitHub App credentials and admin or site-admin access.",
+    {
+        "issue_number": {
+            "type": "integer",
+            "description": "Issue or PR number.",
+        },
+        "label": {
+            "type": "string",
+            "description": "Label name to add (must already exist in the repo).",
+        },
+    },
+)
+async def add_label(args: dict[str, Any]) -> dict[str, Any]:
+    settings = get_settings()
+    if not GitHubAppClient.is_configured(settings):
+        return _gh_app_required("add_label")
+
+    checker = AdminChecker(settings)
+    caller = checker.resolve_caller()
+    try:
+        checker.require_site_admin(caller, settings.site)
+    except PermissionError as exc:
+        return _gh_permission_denied("add_label", exc)
+
+    issue_number: int = int(args["issue_number"])
+    label: str = str(args.get("label", "")).strip()
+    if not label:
+        return _text("[add_label] label is required.")
+
+    result = await _gh_add_label(settings, issue_number, label)
+    if result.ok:
+        return _text(f"[add_label] Label {label!r} added to #{issue_number}.")
+    return _text(f"[add_label] Failed: {result.error}")
+
+
+@tool(
+    "remove_label",
+    "Remove a label from a GitHub issue or PR for the active site's repo. "
+    "Requires GitHub App credentials and admin or site-admin access.",
+    {
+        "issue_number": {
+            "type": "integer",
+            "description": "Issue or PR number.",
+        },
+        "label": {
+            "type": "string",
+            "description": "Label name to remove.",
+        },
+    },
+)
+async def remove_label(args: dict[str, Any]) -> dict[str, Any]:
+    settings = get_settings()
+    if not GitHubAppClient.is_configured(settings):
+        return _gh_app_required("remove_label")
+
+    checker = AdminChecker(settings)
+    caller = checker.resolve_caller()
+    try:
+        checker.require_site_admin(caller, settings.site)
+    except PermissionError as exc:
+        return _gh_permission_denied("remove_label", exc)
+
+    issue_number: int = int(args["issue_number"])
+    label: str = str(args.get("label", "")).strip()
+    if not label:
+        return _text("[remove_label] label is required.")
+
+    result = await _gh_remove_label(settings, issue_number, label)
+    if result.ok:
+        return _text(f"[remove_label] Label {label!r} removed from #{issue_number}.")
+    return _text(f"[remove_label] Failed: {result.error}")
+
+
+@tool(
+    "set_issue_state",
+    "Open or close a GitHub issue for the active site's repo. "
+    "Requires GitHub App credentials and admin or site-admin access.",
+    {
+        "issue_number": {
+            "type": "integer",
+            "description": "Issue number to update.",
+        },
+        "state": {
+            "type": "string",
+            "enum": ["open", "closed"],
+            "description": "Target state: 'open' or 'closed'.",
+        },
+    },
+)
+async def set_issue_state(args: dict[str, Any]) -> dict[str, Any]:
+    settings = get_settings()
+    if not GitHubAppClient.is_configured(settings):
+        return _gh_app_required("set_issue_state")
+
+    checker = AdminChecker(settings)
+    caller = checker.resolve_caller()
+    try:
+        checker.require_site_admin(caller, settings.site)
+    except PermissionError as exc:
+        return _gh_permission_denied("set_issue_state", exc)
+
+    issue_number: int = int(args["issue_number"])
+    state: str = str(args.get("state", "")).strip()
+    if state not in ("open", "closed"):
+        return _text("[set_issue_state] state must be 'open' or 'closed'.")
+
+    result = await _gh_set_issue_state(settings, issue_number, state)
+    if result.ok:
+        return _text(f"[set_issue_state] #{issue_number} is now {state}: {result.url}")
+    return _text(f"[set_issue_state] Failed: {result.error}")
+
+
 # All tools, and the in-process MCP server that hosts them.
 ALL_TOOLS = [
     list_documents,
@@ -852,6 +1032,10 @@ ALL_TOOLS = [
     fetch_oepa_permit,
     list_site_issues,
     report_novel_finding,
+    comment_on_pr,
+    add_label,
+    remove_label,
+    set_issue_state,
 ]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]
 
