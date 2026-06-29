@@ -27,8 +27,8 @@ documents:
   sha256: 2b7f77a4721a5d97527769718d9e30644be1aab5a8ba114ad3c96c493d1e3e21
   bytes: 21961735
   content_type: application/pdf
-  fetched_at: '2026-06-29T04:35:19.907711+00:00'
-  status: downloaded
+  fetched_at: '2026-06-29T06:28:01.968842+00:00'
+  status: skipped_existing
   note: null
 - filename: 1PV00089.pdf
   permit_id: 1PV00089
