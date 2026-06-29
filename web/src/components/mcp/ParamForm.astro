@@ -1,0 +1,311 @@
+---
+// MCP Playground param form — right panel, top half. Renders the search_corpus
+// form by default; research.ts swaps field sets when the selected tool changes.
+// The form schema for each tool is encoded as JSON in data-schemas so the client
+// can generate fields without a round-trip.
+
+const SCHEMAS: Record<
+  string,
+  {
+    label: string;
+    desc: string;
+    fields: Array<{
+      name: string;
+      label: string;
+      required?: boolean;
+      type?: string;
+      placeholder?: string;
+    }>;
+  }
+> = {
+  search_corpus: {
+    label: "search_corpus",
+    desc: "Full-text + semantic search over the ingested documentary corpus.",
+    fields: [
+      { name: "query", label: "Query", required: true },
+      { name: "site", label: "Site", placeholder: "e.g. lima, fort-wayne — leave blank for all" },
+      { name: "collection", label: "Collection", placeholder: "e.g. oepa, recorder" },
+      { name: "limit", label: "Limit", type: "number", placeholder: "10" },
+    ],
+  },
+  get_timeline: {
+    label: "get_timeline",
+    desc: "Dated events from the corpus, filterable by date range and category.",
+    fields: [
+      { name: "since", label: "Since", placeholder: "ISO-8601, e.g. 2020-01-01" },
+      { name: "until", label: "Until", placeholder: "ISO-8601, e.g. 2025-12-31" },
+      { name: "category", label: "Category", placeholder: "e.g. permit, deed" },
+      { name: "site", label: "Site", placeholder: "e.g. lima — leave blank for all" },
+    ],
+  },
+  get_entities: {
+    label: "get_entities",
+    desc: "Entity graph: parties, roles, parcels, and relationships extracted from the record.",
+    fields: [
+      { name: "type", label: "Type", placeholder: "e.g. company, person, parcel" },
+      { name: "site", label: "Site", placeholder: "e.g. lima — leave blank for all" },
+    ],
+  },
+  get_hypotheses: {
+    label: "get_hypotheses",
+    desc: "Boom-origin hypothesis signals scored per site.",
+    fields: [{ name: "site", label: "Site", placeholder: "e.g. lima — leave blank for all sites" }],
+  },
+  get_documents: {
+    label: "get_documents",
+    desc: "Ingested source documents, filterable by collection.",
+    fields: [
+      { name: "collection", label: "Collection", placeholder: "e.g. oepa, recorder, aedg, commissioners" },
+      { name: "site", label: "Site", placeholder: "e.g. lima — leave blank for all" },
+    ],
+  },
+};
+---
+
+<div
+  class="param-form-wrap"
+  data-schemas={JSON.stringify(SCHEMAS)}
+>
+  <form id="mcp-form" class="param-form" autocomplete="off" novalidate>
+    <!-- Header row -->
+    <div class="param-form-header">
+      <div>
+        <div class="param-form-title" id="mcp-tool-label">search_corpus</div>
+        <div class="param-form-desc" id="mcp-tool-desc">
+          Full-text + semantic search over the ingested documentary corpus.
+        </div>
+      </div>
+      <button type="button" id="mcp-example-btn" class="btn btn-ghost btn-sm">
+        EXAMPLE ↓
+      </button>
+    </div>
+
+    <!-- Fields — rendered by research.ts based on the selected tool schema -->
+    <div class="param-fields" id="mcp-fields">
+      <!-- search_corpus default -->
+      <div class="field-group">
+        <label class="field-label field-label--required" for="mcp-f-query">
+          QUERY<span class="field-required" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="mcp-f-query"
+          class="field-input"
+          type="text"
+          name="query"
+          required
+          data-field="query"
+        />
+      </div>
+      <div class="field-row-2">
+        <div class="field-group">
+          <label class="field-label" for="mcp-f-site">
+            SITE<span class="field-optional">— optional</span>
+          </label>
+          <input
+            id="mcp-f-site"
+            class="field-input"
+            type="text"
+            name="site"
+            placeholder="e.g. lima, fort-wayne — leave blank for all"
+            data-field="site"
+          />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="mcp-f-collection">
+            COLLECTION<span class="field-optional">— optional</span>
+          </label>
+          <input
+            id="mcp-f-collection"
+            class="field-input"
+            type="text"
+            name="collection"
+            placeholder="e.g. oepa, recorder"
+            data-field="collection"
+          />
+        </div>
+      </div>
+      <div class="field-group field-group--narrow">
+        <label class="field-label" for="mcp-f-limit">
+          LIMIT<span class="field-optional">— optional</span>
+        </label>
+        <input
+          id="mcp-f-limit"
+          class="field-input"
+          type="number"
+          name="limit"
+          placeholder="10"
+          data-field="limit"
+        />
+      </div>
+    </div>
+
+    <!-- Submit row -->
+    <div class="param-form-foot">
+      <button type="submit" id="mcp-submit" class="btn btn-forest">Call tool →</button>
+      <button type="button" id="mcp-abort" class="btn btn-ghost" disabled>Abort ✕</button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .param-form-wrap {
+    background: var(--bone-raised);
+    border: 1px solid var(--line-hair);
+    padding: 18px 20px;
+  }
+
+  .param-form-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .param-form-title {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -0.4px;
+    line-height: 1.2;
+  }
+
+  .param-form-desc {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 5px;
+    line-height: 1.45;
+  }
+
+  .param-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .field-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field-group--narrow {
+    max-width: 150px;
+  }
+
+  .field-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+  }
+
+  .field-required {
+    color: #7a2230;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  .field-optional {
+    font-family: var(--font-sans);
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink-ghost);
+    font-weight: 400;
+    font-size: 11px;
+  }
+
+  .field-input {
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    color: var(--ink);
+    background: var(--bone-surface);
+    border: 1px solid var(--line-2);
+    padding: 10px 12px;
+    outline: none;
+    line-height: 1.5;
+    transition:
+      border-color var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease);
+  }
+
+  .field-input:focus {
+    border-color: var(--forest);
+    box-shadow: 0 0 0 2px rgba(31, 111, 74, 0.28);
+  }
+
+  .param-form-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line-hair);
+  }
+
+  /* Button variants */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 13.5px;
+    letter-spacing: 0.15px;
+    line-height: 1;
+    padding: 11px 18px;
+    cursor: pointer;
+    border: 1.5px solid;
+    transition:
+      background var(--dur) var(--ease),
+      color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease);
+  }
+
+  .btn:disabled {
+    opacity: 0.36;
+    cursor: not-allowed;
+  }
+
+  .btn-forest {
+    background: var(--forest);
+    color: var(--bone-surface);
+    border-color: var(--forest);
+  }
+
+  .btn-forest:hover:not(:disabled) {
+    background: #165636;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink-muted);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    color: var(--forest);
+    border-color: var(--forest);
+  }
+
+  .btn-sm {
+    font-size: 12.5px;
+    padding: 8px 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+</style>

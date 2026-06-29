@@ -1,0 +1,104 @@
+---
+// MCP Playground tool picker — left sidebar. Renders the tool list statically;
+// research.ts handles active-state toggling and tool selection at runtime.
+const TOOLS = [
+  { id: "search_corpus", desc: "Semantic + keyword search over the documentary corpus" },
+  { id: "get_timeline", desc: "Dated events filterable by date range and category" },
+  { id: "get_entities", desc: "Entity graph: parties, roles, parcels, and relationships" },
+  { id: "get_hypotheses", desc: "Boom-origin hypothesis signals per site" },
+  { id: "get_documents", desc: "Ingested source documents by collection" },
+];
+---
+
+<div class="tool-picker">
+  <div class="tool-picker-eyebrow">TOOLS · {TOOLS.length} AVAILABLE</div>
+  <div class="tool-list" role="listbox" aria-label="Available MCP tools">
+    {TOOLS.map((tool, i) => (
+      <button
+        type="button"
+        role="option"
+        class:list={["tool-row", { "tool-row--first": i === 0 }]}
+        data-tool={tool.id}
+        aria-selected={i === 0 ? "true" : "false"}
+      >
+        <span class="tool-name">{tool.id}</span>
+        <span class="tool-desc">{tool.desc}</span>
+      </button>
+    ))}
+  </div>
+</div>
+
+<style>
+  .tool-picker {
+    width: 260px;
+    flex-shrink: 0;
+  }
+
+  .tool-picker-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-bottom: 10px;
+    padding-left: 1px;
+  }
+
+  .tool-list {
+    border: 1px solid var(--line-hair);
+  }
+
+  .tool-row {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--bone-surface);
+    border: none;
+    border-top: 1px solid var(--line-hair);
+    border-left: 3px solid transparent;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: background var(--dur) var(--ease);
+  }
+
+  .tool-row--first {
+    border-top: none;
+  }
+
+  .tool-row:hover {
+    background: #f0ede4;
+  }
+
+  .tool-row[aria-selected="true"] {
+    background: var(--bone-raised);
+    border-left-color: var(--forest);
+  }
+
+  .tool-row[aria-selected="true"] .tool-name {
+    color: var(--forest);
+    font-weight: 600;
+  }
+
+  .tool-name {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+    letter-spacing: -0.1px;
+    transition: color var(--dur) var(--ease);
+  }
+
+  .tool-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--ink-muted);
+    line-height: 1.45;
+    font-weight: 400;
+  }
+</style>
