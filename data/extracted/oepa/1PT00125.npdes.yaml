@@ -1,0 +1,53 @@
+doc_id: 1PT00125-7b6b594c
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/oepa/wilmington/1PT00125.pdf
+kind: npdes
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: "Page 1 \n1PT00125*BD \nOhio EPA Permit No.: 1PT00125*BD \n Application\
+  \ No: OH0147907 \n Action Date:   October 31, 2022\n Effective Date:  January 1,\
+  \ 2023\n Expiration Date:  December 31, 2027\n Ohio Environmental Protection Agency\
+  \ \n Authorization to Discharge Under the \n National Pollutant Discharge Elimination\
+  \ System \nIn compliance with the provisions of the Federal Water Pollution Control\
+  \ Act, as amended (33 U.S.C. \n1251 et. seq., hereinafter referred to as the \"\
+  Act\"), and the Ohio Water Pollution Control Act (Ohio \nRevised Code Section 6111),\
+  \ \nClinton County Board of Developmental Disabilities \ni"
+permit:
+  confidence: high
+  warnings:
+  - No public notice number found in document
+  - No comment period end date found in document
+  - Permit action (renewal) inferred from context, not explicitly stated
+  - Station 1PT00125888 appears in Part II text but as '588' in Part I sludge table
+    — possible OCR/numbering discrepancy
+  - Stream network beyond Wilson Creek not stated in document
+  facility_name: Clinton County Board of Developmental Disabilities
+  permit_no: 1PT00125*BD
+  permit_action: renewal
+  applicant: Clinton County Board of Developmental Disabilities
+  application_no: OH0147907
+  public_notice_no: null
+  public_notice_date: '2022-10-31'
+  comment_period_end: null
+  facility_address: 4425 State Route 730, Wilmington, Ohio, Clinton County
+  discharge_address: null
+  receiving_water: unnamed tributary of Wilson Creek
+  stream_network: unnamed tributary of Wilson Creek
+  outfalls:
+  - 1PT00125001
+  - 1PT00125588
+  - 1PT00125888
+  - 1PT00125586
+  note: 'Action Date: October 31, 2022; Effective Date: January 1, 2023; Expiration
+    Date: December 31, 2027. Signed by Laurie A. Stevenson, Director. No public notice
+    number or comment period end date found in document. Outfall 1PT00125001 is the
+    final effluent outfall; 1PT00125588/888 are sludge stations; 1PT00125586 is emergency
+    landfill sludge disposal station. Permit action inferred as renewal based on application
+    type language.'

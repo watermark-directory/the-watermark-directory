@@ -57,3 +57,23 @@ documents:
   fetched_at: '2026-06-29T04:35:21.473467+00:00'
   status: downloaded
   note: null
+- filename: ''
+  permit_id: 1PT00125-7b6b594c
+  source_url: https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/1PT00125-7b6b594c.pdf
+  sha256: null
+  bytes: null
+  content_type: null
+  fetched_at: null
+  status: error
+  note: 'fetch failed: HTTPStatusError: Client error ''404 Not Found'' for url ''https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/1PT00125-7b6b594c.pdf''
+
+    For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404'
+- filename: 1PT00125.pdf
+  permit_id: 1PT00125
+  source_url: https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/1PT00125.pdf
+  sha256: dadd4d06dd5b925d3eeb0ceb9239770a86ee800d90159cd19e6567dcac2f7f95
+  bytes: 560485
+  content_type: application/pdf
+  fetched_at: '2026-06-29T06:03:14.807519+00:00'
+  status: skipped_existing
+  note: null
