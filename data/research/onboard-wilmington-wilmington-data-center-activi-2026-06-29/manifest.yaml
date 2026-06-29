@@ -1,0 +1,233 @@
+meta:
+  topic: 'onboard wilmington (Wilmington): data-center activity + receiving-water
+    screen for a new watershed-point site'
+  model: claude-opus-4-8
+  generated_at: '2026-06-29T06:49:06+00:00'
+  method: open-ended research agent over the read-only BOSC tools, then structured
+    distillation (forced tool use). Read-only on data/documents/**.
+  provenance:
+    tools_used:
+    - ToolSearch
+    - mcp__watermark__list_documents
+    - mcp__watermark__list_extractions
+    - mcp__watermark__entities
+    - TaskCreate
+    - mcp__watermark__read_extraction
+    - mcp__watermark__hydrology_balance
+    - TaskUpdate
+    - mcp__watermark__retrieve_corpus
+    num_turns: 33
+    max_turns: 30
+    cost_usd: 1.1670655
+    is_error: false
+  findings: findings.md
+proposals:
+- title: Verify external data-center load driver for Wilmington before investing in
+    full site profile
+  dedupe_key: verify-external-data-center-load-driver-for-wilmington-before-in
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - entities
+  - scope-verification
+  rationale: Without a confirmed load driver the entire onboarding effort for Wilmington
+    lacks a premise, and investing in profile scaffolding, design-flow extraction,
+    and 7Q10 derivation would be premature.
+  body: '## Context
+
+    The findings confirm that **no data-center, land-assembly, or hyperscale-utility
+    signal tied to Wilmington or Clinton County exists anywhere in the current corpus**.
+    Every data-center entity in the graph (Bistrozzi shells, Amazon.com Services LLC,
+    Google, Turner Construction, EMH&T/Vorys/WSGR) resolves exclusively to Allen County
+    parcels and bodies. The structured entity graph is authoritative for resolved
+    entities, but the semantic index is down, so a full-text sweep was unavailable.
+
+
+    The standing project discipline is that onboarding research-pass premises must
+    be verified empirically before profile work proceeds. The findings flag the following
+    real-world triggers as uncheck ed:
+
+    - JobsOhio / Clinton County economic-development announcements
+
+    - Wilmington Air Park (former DHL/ABX hub) redevelopment filings
+
+    - AEP Ohio / utility interconnection or substation filings
+
+    - OEPA new-source air or NPDES filings for large industrial loads in Clinton County
+
+
+    None of these are currently in the corpus.
+
+
+    ## Acceptance criterion
+
+    A researcher has queried at minimum: (1) JobsOhio and Clinton County ED public
+    announcements, (2) AEP Ohio interconnection queue for Clinton County, and (3)
+    OEPA eDMR / permit search for new industrial/large NPDES sources in Clinton County.
+    The outcome — confirmed driver, plausible lead, or no evidence — is recorded in
+    a Wilmington leads file or equivalent artifact. If no driver is found, Wilmington
+    is formally reclassified as inventory-only and profile work is placed on hold.'
+- title: Reconcile why oepa/wilmington/ was scaffolded with no load driver and no
+    SiteProfile
+  dedupe_key: reconcile-why-oepa-wilmington-was-scaffolded-with-no-load-driver
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - extraction
+  - corpus-hygiene
+  rationale: Untracked scaffolding creates ambiguity about corpus completeness and
+    can cause downstream tools or reviewers to assume a site is further along than
+    it is.
+  body: '## Context
+
+    The findings note that seven OEPA permits exist under `data/documents/oepa/wilmington/`
+    with clean extractions, but there is **no Wilmington `SiteProfile`, no site footprint
+    artifact, and no leads file**. The findings describe this as the *receiving-water
+    inventory getting scaffolded ahead of any documented load driver* and flag the
+    ordering as unresolved:
+
+
+    > "Why Wilmington permits were already pulled, then, is itself unresolved … That
+    ordering should be reconciled before promoting the site."
+
+
+    ## Acceptance criterion
+
+    The trigger for the original `oepa/wilmington/` pull is documented (e.g., a commit
+    message, a prior task, a basin-coverage stub decision). The result is one of:
+
+    - A leads file is created referencing the triggering evidence, OR
+
+    - The pull is formally reclassified as a **basin-coverage stub** (Little Miami
+    basin scaffolding) with a note that no site-specific driver has been confirmed,
+    and the directory README or equivalent artifact reflects that status.'
+- title: Re-extract permit 1PD00013 (City of Wilmington WWTP) at full depth to capture
+    design flow and peak hydraulic capacity
+  dedupe_key: re-extract-permit-1pd00013-city-of-wilmington-wwtp-at-full-depth
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - extraction
+  - hydrology
+  rationale: The design flow for the largest Lytle Creek discharger is the single
+    most important missing numeric input for any future assimilative screen of this
+    receiving water.
+  body: '## Context
+
+    The findings confirm that all seven Wilmington-area extractions are **cover-page
+    only** (`image_pages_read: [0]`). They carry facility name, permit number, receiving
+    water, and outfall identifiers but **no design average flow and no peak hydraulic
+    capacity**. These two values are the load term required for a Tier-0 assimilative
+    screen on Lytle Creek.
+
+
+    Permit `1PD00013*QD` (City of Wilmington WWTP, discharging to **Lytle Creek**)
+    is the dominant municipal discharger in the multi-discharger receiving-water setup
+    identified by the findings, making it the highest-priority re-extraction target.
+
+
+    The findings also note that fact sheets / Statements of Basis were not captured
+    for this permit.
+
+
+    ## Acceptance criterion
+
+    An updated extraction for `1PD00013` exists that includes, at minimum:
+
+    - Permitted average design flow (MGD)
+
+    - Peak hydraulic capacity (MGD)
+
+    - Outfall coordinates or description
+
+    - Extraction drawn from the permit body and/or fact sheet, not cover page only
+    (`image_pages_read` must include pages beyond `[0]`)'
+- title: Capture or derive 7Q10 low-flow values for Lytle Creek, Todd Fork, and Wilson
+    Creek
+  dedupe_key: capture-or-derive-7q10-low-flow-values-for-lytle-creek-todd-fork
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - hydrology
+  - extraction
+  rationale: The 7Q10 is the indispensable dilution denominator for any receiving-water
+    screen; its absence is the primary technical blocker preventing the Wilmington
+    assimilative screen from running.
+  body: '## Context
+
+    The findings confirm that the corpus contains **no 7Q10 low-flow value for Lytle
+    Creek, Todd Fork, or Wilson Creek** — the three named receiving waters in the
+    Wilmington permit set. The 7Q10 is the dilution term of a Tier-0 assimilative
+    screen; without it the screen cannot be computed regardless of design-flow availability.
+
+
+    The findings identify two potential sources not yet tapped:
+
+    1. **OEPA permit fact sheets / Statements of Basis** — these routinely contain
+    the low-flow design value used by the permit writer; fact sheets for `1PD00013`,
+    `1PX00010`, and `1PV00089` are noted as not yet captured.
+
+    2. **USGS streamflow connector** — a USGS gauge or regional regression could supply
+    a 7Q10 estimate for each reach.
+
+
+    The findings also note the hydrology toolchain (`hydrology_balance`, `hydrology_scenario`)
+    is bound to the active site profile and cannot screen Wilmington until a profile
+    and these inputs exist.
+
+
+    ## Acceptance criterion
+
+    For each of the three receiving waters (Lytle Creek, Todd Fork, Wilson Creek),
+    one of the following is recorded in the corpus:
+
+    - A 7Q10 value (cfs or MGD) with source citation (OEPA fact sheet permit number,
+    or USGS gauge/station ID and method), OR
+
+    - A documented finding that no fact sheet and no applicable USGS gauge exist,
+    with an alternative derivation approach proposed.'
+- title: Fix basin attribution to prevent 1PV00037 (Sidney/Tawawa Creek) and 1PD00008
+    (Piqua/Great Miami) from appearing as Wilmington dischargers
+  dedupe_key: fix-basin-attribution-to-prevent-1pv00037-sidney-tawawa-creek-an
+  labels:
+  - status:agent-proposed
+  - status:needs-triage
+  - entities
+  - corpus-hygiene
+  - hydrology
+  rationale: Misattributed dischargers would inflate apparent load on Lytle Creek
+    (or inject a spurious design-flow figure) and corrupt any future assimilative
+    screen or cumulative-load analysis.
+  body: '## Context
+
+    The findings identify two non-Wilmington permits that are surfacing in the Wilmington-area
+    entity rollup:
+
+
+    - **`1PV00037` Hidden Valley MHP** — Sidney, Shelby County; receiving water is
+    Tawawa Creek (Great Miami basin). It is the only permit in this pull carrying
+    a design-flow figure (0.015 MGD), which must **not** be counted toward Lytle Creek.
+    It is correctly filed under `oepa/sidney/` but leaks into the Wilmington rollup.
+
+    - **`1PD00008` Piqua WWTP** — Piqua, Miami County; receiving water is the Great
+    Miami River.
+
+
+    Additionally, **`1MP00060*AM` (Wilmington Nursery, Kyle Isler)** is a Land Application
+    Management Plan (LAMP) — explicitly *not* a discharge authorization — and must
+    be excluded from any surface-water screen. Its applicant mailing address is Independence,
+    OH (Cuyahoga County); the land-application site is 2065 Rombach Ave, Wilmington.
+
+
+    ## Acceptance criterion
+
+    - Entity-graph basin attribution for `1PV00037` is corrected to Great Miami basin
+    / Shelby County; it no longer appears in Wilmington or Little Miami basin rollups.
+
+    - `1PD00008` is similarly scoped to Great Miami basin / Miami County.
+
+    - `1MP00060` is tagged as LAMP / non-discharging and is filtered from surface-water
+    load screens by default.
+
+    - A brief note is added to the Wilmington extraction set documenting these exclusions
+    so future reviewers do not re-introduce the error.'
