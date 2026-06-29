@@ -50,6 +50,15 @@ Signal = Literal["anchor", "strong", "moderate", "watch"]
 # vocabulary in docs/investigative-method): a documented fact, an inferred connection, or an
 # open question. NOT a verdict on the hypothesis — a federal nexus is a signal, not proof.
 EvidenceTag = Literal["verified", "inference", "open"]
+# Sub-thesis tag: classifies what *kind of claim* the cell is making — the investigative
+# frame, orthogonal to signal (loudness) and tag (evidentiary weight). Optional; a cell
+# without one is valid. Vocabulary agreed in #905:
+#   coercion  — a regulatory/structural mechanism that compels locality acceptance
+#   end-use   — what the compute is actually for (application class)
+#   capture   — economic/political capture (subsidies, CRA/PILOT, abatements)
+#   opacity   — concealment via shell LLCs, redacted records, beneficial-ownership gaps
+#   nexus     — the specific institutional/regulatory framework enabling the site
+SubThesis = Literal["coercion", "end-use", "capture", "opacity", "nexus"]
 HypothesisStatus = Literal["reference", "emerging"]
 # SourceKind / Confidence are shared from watermark.provenance (#605) — the lightweight core that
 # watermark.site.feeds.Citation + hydrology.ProvenancedValue also speak, so the Phase-2 feed map
@@ -123,6 +132,7 @@ class HypothesisAssessment(BaseModel):
     hypothesis: str
     signal: Signal | None = None
     tag: EvidenceTag = "open"
+    sub_thesis: SubThesis | None = None
     group: str | None = None
     fields: dict[str, str] = Field(default_factory=dict)
     citations: list[Citation] = Field(default_factory=list)

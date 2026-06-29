@@ -14,6 +14,18 @@ cells the `/directory` page renders, now carried as data with provenance.
   `citation` (required for any non-`open` cell — the upgrade over the old hardcoded TS).
 - **`signal` ≠ `tag`.** `signal` is how loud the nexus is; `tag` is whether the cell's
   facts are documented or inferred. A federal nexus is a *signal*, not a verdict.
+- **`sub_thesis`** (optional) classifies what *kind of claim* the cell is making — the
+  investigative frame, orthogonal to signal and tag. Vocabulary (#905):
+
+  | value | what it captures |
+  |-------|-----------------|
+  | `coercion` | A regulatory/structural mechanism that compels locality acceptance |
+  | `end-use` | What the compute is actually for (application class) |
+  | `capture` | Economic/political capture: subsidies, CRA/PILOT, abatements |
+  | `opacity` | Concealment: shell LLCs, redacted records, beneficial-ownership gaps |
+  | `nexus` | The specific institutional/regulatory framework enabling the site |
+
+  Rendered as a `· [tag]` suffix on the primary field in the directory scorecard.
 - These are partly **our own inferences** (tagged as such), so this is a new tree — not
   `data/reference/` (authoritative outside data only).
 - A cell is hand-authored here, or **promoted** from a research run

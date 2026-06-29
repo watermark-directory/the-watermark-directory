@@ -225,6 +225,30 @@ def test_assessment_model_validates_from_yaml_shape() -> None:
     assert cell.citations[0].model_dump()["verified"] is False
 
 
+def test_sub_thesis_roundtrips_through_model() -> None:
+    """sub_thesis is optional, validated against the known vocabulary, and absent by default."""
+    base = {
+        "site": "lima",
+        "hypothesis": "surveillance",
+        "signal": "anchor",
+        "tag": "verified",
+        "group": "onrecord",
+        "fields": {"operator": "X", "capital": "Y"},
+        "citations": [],
+    }
+    cell_none = HypothesisAssessment.model_validate(base)
+    assert cell_none.sub_thesis is None
+
+    cell_capture = HypothesisAssessment.model_validate({**base, "sub_thesis": "capture"})
+    assert cell_capture.sub_thesis == "capture"
+
+    import pytest
+    from pydantic import ValidationError
+
+    with pytest.raises(ValidationError):
+        HypothesisAssessment.model_validate({**base, "sub_thesis": "unknown-tag"})
+
+
 def test_hypothesis_model_rejects_extra() -> None:
     import pytest
     from pydantic import ValidationError

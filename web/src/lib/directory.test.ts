@@ -192,6 +192,28 @@ describe("directory lenses — one network, read three ways (#308)", () => {
     expect(lensCount("defense", empty)).toBe(`0 assessed · ${SITES.length} to review`);
   });
 
+  it("sub_thesis flows through indexAssessments and renders as a bracketed suffix (#905)", () => {
+    const cellsWithTag: HypothesisAssessmentItem[] = [
+      ...CELLS,
+      {
+        site: "lima",
+        hypothesis: "surveillance",
+        signal: "anchor",
+        tag: "verified",
+        sub_thesis: "capture",
+        group: "onrecord",
+        fields: { operator: "Shawnee Energy Campus", capital: "CRA #548-25 · 15 yr / 75%" },
+        citations: [],
+      },
+    ];
+    const data = indexAssessments(cellsWithTag);
+    expect(lensDatum("lima", data).surv.sub_thesis).toBe("capture");
+    // The scorecard row appends · [capture] to the operator cell.
+    const v = buildLens("surveillance", LIMA_COUNTS, data);
+    const limaRow = v.groups.flatMap((g) => g.rows).find((r) => r.slug === "lima");
+    expect(limaRow?.cells[1].text).toBe("Shawnee Energy Campus · [capture]");
+  });
+
   it("lensConfig sources name/claim/blurb/status from the hypotheses feed (not hardcoded)", () => {
     const hyp: HypothesisItem = {
       id: "defense",

@@ -71,6 +71,8 @@ export interface DefFact {
   linkage: string;
   signal: Signal;
   group: DefGroup;
+  /** Investigative-frame tag (#905): what kind of claim the cell is making. */
+  sub_thesis?: string | null;
 }
 export interface SurvFact {
   /** Operator behind the LLC (inferred), or "—". */
@@ -79,6 +81,8 @@ export interface SurvFact {
   capital: string;
   signal: Signal;
   group: SurvGroup;
+  /** Investigative-frame tag (#905): what kind of claim the cell is making. */
+  sub_thesis?: string | null;
 }
 
 const DEF0: DefFact = { nexus: "—", linkage: "—", signal: "watch", group: "watch" };
@@ -114,6 +118,7 @@ export function indexAssessments(cells: readonly HypothesisAssessmentItem[]): Le
         linkage: c.fields.linkage ?? "—",
         signal: asSignal(c.signal),
         group: asDefGroup(c.group),
+        sub_thesis: c.sub_thesis,
       };
     } else if (c.hypothesis === "surveillance") {
       entry.surv = {
@@ -121,6 +126,7 @@ export function indexAssessments(cells: readonly HypothesisAssessmentItem[]): Le
         capital: c.fields.capital ?? "—",
         signal: asSignal(c.signal),
         group: asSurvGroup(c.group),
+        sub_thesis: c.sub_thesis,
       };
     }
   }
@@ -402,17 +408,19 @@ export function buildLens(
     isDef ? lensDatum(s.slug, data).def.group : lensDatum(s.slug, data).surv.group;
   const rowFor = (s: NetworkSite): Row => {
     const dat = lensDatum(s.slug, data);
+    const defTag = dat.def.sub_thesis ? ` · [${dat.def.sub_thesis}]` : "";
+    const survTag = dat.surv.sub_thesis ? ` · [${dat.surv.sub_thesis}]` : "";
     const cells = isDef
       ? [
           siteCell(s),
-          textCell(dat.def.nexus),
+          textCell(dat.def.nexus + defTag),
           textCell(dat.def.linkage, true),
           pillCell(SIGNAL_META[dat.def.signal]),
           facPill(s.slug),
         ]
       : [
           siteCell(s),
-          textCell(dat.surv.operator),
+          textCell(dat.surv.operator + survTag),
           textCell(dat.surv.capital),
           pillCell(SIGNAL_META[dat.surv.signal]),
           facPill(s.slug),
