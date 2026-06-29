@@ -29,7 +29,7 @@ interface Env {
 }
 
 const DEFAULT_MCP_RATE_LIMIT = { max: 60, windowSec: 60 }; // 60 req/min per IP
-const IDLE_TIMEOUT_MS = 30_000;
+const _IDLE_TIMEOUT_MS = 30_000;
 
 function sseResponse(body: string, headers?: Record<string, string>): Response {
   return new Response(body, {

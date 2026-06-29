@@ -1,0 +1,152 @@
+---
+import Base from "../../layouts/Base.astro";
+import { withBase } from "../../lib/site";
+import { SITES } from "../../lib/sites";
+
+// Auth gate: page requires Cognito vars at build time to render the live form.
+const authEnabled = Boolean(
+  import.meta.env.PUBLIC_COGNITO_DOMAIN && import.meta.env.PUBLIC_COGNITO_CLIENT_ID,
+);
+
+// Show all sites that have a registered profile (not mere "tracking" placeholders)
+// as selectable notification targets.
+const notifSites = SITES.filter((s) => s.status !== "tracking");
+
+const CATEGORIES: Array<{ value: string; label: string }> = [
+  { value: "tip", label: "Tips" },
+  { value: "correction", label: "Corrections" },
+  { value: "new_source", label: "New sources" },
+  { value: "hypothesis", label: "Hypotheses" },
+];
+---
+
+<Base title="Account" section="home" rail={false}>
+  <div class="account-page">
+    {
+      authEnabled ? (
+        <article class="prose account-profile">
+          <h1>Account</h1>
+
+          {/* Profile section */}
+          <section class="account-section">
+            <h2>Profile</h2>
+            <p id="profile-loading" class="account-loading">Loading&hellip;</p>
+            <div id="profile-form-wrap" hidden>
+              <p class="account-meta">
+                <span class="account-meta-label">Email</span>
+                <span id="profile-email" />
+              </p>
+              <p class="account-meta">
+                <span class="account-meta-label">Role</span>
+                <span id="profile-role" />
+              </p>
+              <form id="profile-form" class="form">
+                <div class="field">
+                  <label for="profile-display-name">
+                    Display name
+                    <span class="field-hint">
+                      &mdash; optional; shown on public submissions. Max 80 chars.
+                    </span>
+                  </label>
+                  <input
+                    id="profile-display-name"
+                    name="display_name"
+                    type="text"
+                    maxlength="80"
+                    autocomplete="name"
+                    placeholder="Your name or handle"
+                  />
+                </div>
+                <div class="form-foot">
+                  <button type="submit" class="btn">Save profile</button>
+                  <p id="profile-status" class="form-status" role="status" aria-live="polite" />
+                </div>
+              </form>
+            </div>
+          </section>
+
+          {/* Notification preferences section */}
+          <section class="account-section">
+            <h2>Notification preferences</h2>
+            <p class="section-lead">
+              Choose which sites and activity types you want to follow. Delivery is by email
+              once your address is verified.
+            </p>
+            <p id="notif-loading" class="account-loading">Loading&hellip;</p>
+            <div id="notif-form-wrap" hidden>
+              <p id="notif-email-note" class="account-note" />
+              <form id="notif-form" class="form">
+                <fieldset class="field">
+                  <legend>Sites</legend>
+                  <div class="check-grid">
+                    {notifSites.map((site) => (
+                      <label class="check-label">
+                        <input
+                          type="checkbox"
+                          name="sites"
+                          value={site.slug}
+                          id={`notif-site-${site.slug}`}
+                        />
+                        {site.place}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <fieldset class="field">
+                  <legend>Activity types</legend>
+                  <div class="check-grid check-grid--sm">
+                    {CATEGORIES.map((cat) => (
+                      <label class="check-label">
+                        <input
+                          type="checkbox"
+                          name="categories"
+                          value={cat.value}
+                          id={`notif-cat-${cat.value}`}
+                        />
+                        {cat.label}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <fieldset class="field seg">
+                  <legend>Frequency</legend>
+                  <div class="seg-row">
+                    <input
+                      type="radio"
+                      id="notif-freq-immediate"
+                      name="frequency"
+                      value="immediate"
+                      checked
+                    />
+                    <label for="notif-freq-immediate">Immediate</label>
+                    <input type="radio" id="notif-freq-daily" name="frequency" value="daily" />
+                    <label for="notif-freq-daily">Daily digest</label>
+                  </div>
+                </fieldset>
+
+                <div class="form-foot">
+                  <button type="submit" class="btn">Save preferences</button>
+                  <p id="notif-status" class="form-status" role="status" aria-live="polite" />
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <section class="account-section">
+            <h2>Session</h2>
+            <a href={withBase("/account/logout")} class="btn btn--ghost">Sign out</a>
+          </section>
+        </article>
+      ) : (
+        <div class="account-flow account-flow--disabled">
+          <p class="account-flow-msg">Account management is not yet enabled on this deployment.</p>
+          <a href={withBase("/")} class="btn">Return home</a>
+        </div>
+      )
+    }
+  </div>
+</Base>
+
+{authEnabled && <script>import "../../scripts/profilePage.ts";</script>}

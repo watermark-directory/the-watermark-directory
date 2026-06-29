@@ -23,8 +23,8 @@ interface Props {
 }
 
 export default function AuthShell({
-  cognitoDomain,
-  clientId,
+  cognitoDomain: _cognitoDomain,
+  clientId: _clientId,
   loginHref,
   logoutHref,
 }: Props): JSX.Element | null {

@@ -97,6 +97,13 @@ GITHUB_REPO = "the-watermark-directory"
 # [[kv_namespaces]]
 # binding = "JWKS_CACHE"
 # id = "<namespace-id>"
+#
+# AUTH_PREFS KV: per-user profile + notification prefs, keyed by Cognito sub (Epic #921).
+# Create once, then uncomment:
+#   npx wrangler kv namespace create AUTH_PREFS
+# [[kv_namespaces]]
+# binding = "AUTH_PREFS"
+# id = "<namespace-id>"
 
 # --- Source documents object store (/api/doc, Epic #274) --------------------------
 # R2 bucket holding the corpus bytes that the /api/doc Pages Function (#278) streams.

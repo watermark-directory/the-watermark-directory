@@ -30,6 +30,7 @@ export interface CognitoIdToken {
 export interface AuthContext {
   sub: string;
   email: string;
+  emailVerified: boolean;
   role: Role;
   /** Site slugs the user may administer (empty unless role is site-admin / admin). */
   adminSites: string[];
@@ -141,6 +142,7 @@ export function toAuthContext(payload: CognitoIdToken): AuthContext {
   return {
     sub: payload.sub,
     email: payload.email,
+    emailVerified: payload.email_verified,
     role: extractRole(payload),
     adminSites: extractAdminSites(payload),
   };
