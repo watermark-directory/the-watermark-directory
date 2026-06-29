@@ -8,9 +8,9 @@ Snapshot reconciled: **2026-06-28T23:44:45.403411+00:00**. Regenerate with `bosc
 
 ## Headline
 
-- **74** catalogued datasets — **73** reviewed.
+- **75** catalogued datasets — **74** reviewed.
 - **74** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
-- **0** missing (declared files absent) · **0** unobserved (no snapshot record).
+- **0** missing (declared files absent) · **1** unobserved (no snapshot record).
 
 ## Coverage by collection
 
@@ -25,7 +25,7 @@ Snapshot reconciled: **2026-06-28T23:44:45.403411+00:00**. Regenerate with `bosc
 | extracted | lacrpc | 2 | 2 | 0 | 0 |
 | extracted | legal | 15 | 15 | 0 | 0 |
 | extracted | meetings | 1 | 1 | 0 | 0 |
-| extracted | oepa | 2 | 2 | 0 | 0 |
+| extracted | oepa | 3 | 2 | 0 | 1 |
 | extracted | permits | 1 | 1 | 0 | 0 |
 | extracted | perry-township | 1 | 1 | 0 | 0 |
 | extracted | plans | 1 | 1 | 0 | 0 |
@@ -74,7 +74,7 @@ Snapshot reconciled: **2026-06-28T23:44:45.403411+00:00**. Regenerate with `bosc
 | sidney | 30 | 27 | 3 |
 | springfield | 30 | 28 | 2 |
 | toledo | 30 | 27 | 3 |
-| troy-piqua | 30 | 27 | 3 |
+| troy-piqua | 31 | 28 | 3 |
 | urbana | 31 | 28 | 3 |
 | van-wert | 31 | 28 | 3 |
 | wilmington | 29 | 26 | 3 |
@@ -83,4 +83,6 @@ Snapshot reconciled: **2026-06-28T23:44:45.403411+00:00**. Regenerate with `bosc
 
 ## Integrity gaps
 
-None — every catalogued dataset is present and within its refresh cadence.
+| dataset | scope | state |
+| --- | --- | --- |
+| `oepa-troy-piqua` | extracted | unobserved |
