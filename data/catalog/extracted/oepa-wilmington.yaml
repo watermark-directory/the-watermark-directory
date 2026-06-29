@@ -29,6 +29,9 @@ storage:
 - relpath: extracted/oepa/1PT00125.npdes.yaml
   media_type: application/x-yaml
   lfs: false
+- relpath: extracted/oepa/1MP00060.npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
 refresh:
   cadence: static
 provenance: document
@@ -38,9 +41,10 @@ tags:
 - permits
 - wastewater
 - wilmington
-notes: Six of seven Wilmington-area OEPA permits extracted; 1MP00060 (22 MB application
-  package) is deferred (GH issue 878). 1PT00125 (Clinton County Board of Developmental
-  Disabilities) ingested separately — initial fetch failed on a stale versioned URL.
-  Receiving water is Todd Fork into the Little Miami River (National and State Scenic
-  River). Add 1MP00060 extraction and the 1PD00013 fact sheet / draft PN to storage
-  as produced.
+notes: All seven Wilmington-area OEPA permits extracted. 1MP00060 is a Land Application
+  Management Plan (LAMP) permit for Wilmington Nursery — not a standard discharge permit;
+  receiving water is northern/southern swales draining to an agricultural pond (2065 Rombach
+  Ave). 1PT00125 (Clinton County Board of Developmental Disabilities) ingested separately
+  — initial fetch failed on a stale versioned URL. Receiving water for the NPDES discharge
+  permits is Todd Fork into the Little Miami River (National and State Scenic River). Add
+  the 1PD00013 fact sheet / draft PN to storage as produced.
