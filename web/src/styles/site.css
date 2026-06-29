@@ -364,6 +364,62 @@ a { color: var(--bosc-link); }
 .topbar-submit.active { background: var(--bosc-forest); border-color: rgba(150, 200, 170, 0.6); }
 .topbar-submit.active svg { stroke: var(--bosc-bg); }
 
+/* ---- Account chip (AuthShell island — Epic #919 A5) ---- */
+.account-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: transparent;
+  color: var(--bosc-bg);
+  font-size: var(--fs-sm);
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.account-chip:hover { background: rgba(255, 255, 255, 0.26); }
+.account-chip--in { gap: 6px; }
+
+.account-chip-label { font-size: var(--fs-sm); }
+
+.account-chip-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: var(--bosc-forest);
+  color: var(--bosc-bg);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.account-chip-role {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.account-chip-signout {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.account-chip-signout:hover { color: var(--bosc-bg); }
+
 /* ---- Site build-phase pill (site tier, beside the chip) — sage on the ink bar ---- */
 /* DesignSync · PhaseDot — the neutral status ramp (the design system's PhaseDot): only `live`
    is colored (forest); building/queued/tracking are neutral ink steps, no fill — the bare mono

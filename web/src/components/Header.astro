@@ -3,6 +3,7 @@ import Icon from "./Icon.astro";
 import Logo from "./Logo.astro";
 import SwitcherRow from "./SwitcherRow.astro";
 import SwitcherRowV2 from "./SwitcherRowV2.astro";
+import AuthShell from "./islands/AuthShell";
 import {
   comingSoonSiteTabs,
   networkTabs,
@@ -59,6 +60,11 @@ const stateCount = stateGroups.length;
 const basinCount = basinGroups.length;
 const lockedCount = SITES.filter((s) => s.locked).length;
 const openCount = totalSites - lockedCount;
+
+// Auth chip — only rendered when the PUBLIC_ build vars are set (kill switch mirrors submit/ask).
+const cognitoDomain = import.meta.env.PUBLIC_COGNITO_DOMAIN ?? "";
+const cognitoClientId = import.meta.env.PUBLIC_COGNITO_CLIENT_ID ?? "";
+const authEnabled = Boolean(cognitoDomain && cognitoClientId);
 
 // The platform globals also surfaced in the mobile sheet's "Platform" group. Submit
 // rides here on phones (on desktop it's the right-cluster pill); Ask + Search follow.
@@ -533,6 +539,17 @@ const platformGlobals: { label: string; href: string; section: SectionId }[] = [
     >
       <Icon name="ask" size={15} /> <span class="topbar-ask-label">Ask</span>
     </a>
+    {
+      authEnabled && (
+        <AuthShell
+          cognitoDomain={cognitoDomain}
+          clientId={cognitoClientId}
+          loginHref={withBase("/account/login")}
+          logoutHref={withBase("/account/logout")}
+          client:idle
+        />
+      )
+    }
     <div class="search">
       <Icon name="search" size={15} class="search-icon" />
       <input

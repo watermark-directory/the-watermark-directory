@@ -1,0 +1,94 @@
+---
+import Base from "../../layouts/Base.astro";
+import { withBase } from "../../lib/site";
+
+const cognitoDomain = import.meta.env.PUBLIC_COGNITO_DOMAIN;
+const clientId = import.meta.env.PUBLIC_COGNITO_CLIENT_ID;
+const enabled = Boolean(cognitoDomain && clientId);
+// Callback URI must match what's registered in the Cognito app client.
+const callbackPath = withBase("/account/callback");
+---
+
+<Base title="Sign in" section="home" rail={false}>
+  <div class="account-page">
+    {
+      enabled ? (
+        <div class="account-flow" id="login-flow">
+          <p class="account-flow-msg">Signing you in…</p>
+        </div>
+      ) : (
+        <div class="account-flow account-flow--disabled">
+          <p class="account-flow-msg">Sign-in is not yet enabled on this deployment.</p>
+          <a href={withBase("/")} class="btn">Return home</a>
+        </div>
+      )
+    }
+  </div>
+</Base>
+
+{
+  enabled && (
+    <script
+      define:vars={{ cognitoDomain, clientId, callbackPath }}
+      is:inline
+    >
+      (async function () {
+        // Generate PKCE verifier + challenge (RFC 7636 S256).
+        function base64urlEncode(buf) {
+          return btoa(String.fromCharCode(...buf))
+            .replace(/\+/g, "-")
+            .replace(/\//g, "_")
+            .replace(/=/g, "");
+        }
+        const verifierBytes = crypto.getRandomValues(new Uint8Array(32));
+        const verifier = base64urlEncode(verifierBytes);
+        const digest = await crypto.subtle.digest(
+          "SHA-256",
+          new TextEncoder().encode(verifier),
+        );
+        const challenge = base64urlEncode(new Uint8Array(digest));
+
+        sessionStorage.setItem("watermark_pkce_cv", verifier);
+
+        // Carry the requested destination through the OAuth round-trip.
+        const params = new URLSearchParams(location.search);
+        const next = params.get("next") || "/";
+        const state = btoa(JSON.stringify({ next }));
+
+        const origin = location.origin;
+        const redirectUri = origin + callbackPath;
+
+        const authUrl = new URL("https://" + cognitoDomain + "/oauth2/authorize");
+        authUrl.searchParams.set("response_type", "code");
+        authUrl.searchParams.set("client_id", clientId);
+        authUrl.searchParams.set("redirect_uri", redirectUri);
+        authUrl.searchParams.set("scope", "openid email profile");
+        authUrl.searchParams.set("code_challenge_method", "S256");
+        authUrl.searchParams.set("code_challenge", challenge);
+        authUrl.searchParams.set("state", state);
+
+        location.href = authUrl.toString();
+      })();
+    </script>
+  )
+}
+
+<style>
+  .account-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
+    padding: var(--sp-8);
+  }
+
+  .account-flow {
+    text-align: center;
+  }
+
+  .account-flow-msg {
+    font-size: var(--text-sm);
+    color: var(--bosc-ink-dim);
+    margin-bottom: var(--sp-4);
+  }
+</style>

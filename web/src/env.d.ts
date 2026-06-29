@@ -9,6 +9,17 @@ interface ImportMetaEnv {
    * is actually live.
    */
   readonly PUBLIC_TURNSTILE_SITE_KEY?: string;
+  /**
+   * Cognito Hosted UI domain (public — not a secret). Set in the CI build env when
+   * AUTH_ENABLED="true". e.g. "auth.watermarkdirectory.org" or the Cognito-provided
+   * "{prefix}.auth.{region}.amazoncognito.com". Unset → account pages degrade to a
+   * disabled placeholder (same pattern as Turnstile above).
+   */
+  readonly PUBLIC_COGNITO_DOMAIN?: string;
+  /**
+   * Cognito app client ID (public). Identifies the app client in PKCE authorize requests.
+   */
+  readonly PUBLIC_COGNITO_CLIENT_ID?: string;
 }
 
 interface ImportMeta {
