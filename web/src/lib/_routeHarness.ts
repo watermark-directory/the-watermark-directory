@@ -154,3 +154,75 @@ export async function generatePkcs8Pem(): Promise<string> {
   const body = (btoa(bin).match(/.{1,64}/g) ?? []).join("\n");
   return `-----BEGIN PRIVATE KEY-----\n${body}\n-----END PRIVATE KEY-----\n`;
 }
+
+// ---------------------------------------------------------------------------
+// Cognito test-JWT helpers (Epic #920 B3)
+// ---------------------------------------------------------------------------
+
+export interface CognitoTestKeyPair {
+  privateKey: CryptoKey;
+  kid: string;
+  /** The JWK public key — serve from a fake /.well-known/jwks.json route. */
+  jwk: { kid: string; kty: string; alg: string; use: string; n: string; e: string };
+}
+
+/** Generate an RS256 key pair and the matching JWK for a fake Cognito JWKS endpoint. */
+export async function generateCognitoKeyPair(): Promise<CognitoTestKeyPair> {
+  const kid = "test-cognito-kid";
+  const pair = await crypto.subtle.generateKey(
+    {
+      name: "RSASSA-PKCS1-v1_5",
+      modulusLength: 2048,
+      publicExponent: new Uint8Array([1, 0, 1]),
+      hash: "SHA-256",
+    },
+    true,
+    ["sign", "verify"],
+  );
+  const pub = await crypto.subtle.exportKey("jwk", pair.publicKey);
+  return {
+    privateKey: pair.privateKey,
+    kid,
+    jwk: { kid, kty: "RSA", alg: "RS256", use: "sig", n: pub.n as string, e: pub.e as string },
+  };
+}
+
+function b64url(obj: unknown): string {
+  return btoa(JSON.stringify(obj)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+}
+
+/** Mint a signed Cognito ID token for use in Authorization: Bearer tests. */
+export async function mintIdToken(
+  keypair: CognitoTestKeyPair,
+  claims: {
+    sub: string;
+    email: string;
+    clientId: string;
+    userPoolId: string;
+    region: string;
+    groups?: string[];
+    /** Seconds from now; default 3600. */
+    expiresIn?: number;
+  },
+): Promise<string> {
+  const now = Math.floor(Date.now() / 1000);
+  const header = b64url({ kid: keypair.kid, alg: "RS256" });
+  const payload = b64url({
+    sub: claims.sub,
+    email: claims.email,
+    email_verified: true,
+    aud: claims.clientId,
+    iss: `https://cognito-idp.${claims.region}.amazonaws.com/${claims.userPoolId}`,
+    exp: now + (claims.expiresIn ?? 3600),
+    iat: now,
+    token_use: "id",
+    "cognito:groups": claims.groups ?? [],
+  });
+  const signed = new TextEncoder().encode(`${header}.${payload}`);
+  const sig = await crypto.subtle.sign("RSASSA-PKCS1-v1_5", keypair.privateKey, signed);
+  const sigB64 = btoa(String.fromCharCode(...new Uint8Array(sig)))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "");
+  return `${header}.${payload}.${sigB64}`;
+}

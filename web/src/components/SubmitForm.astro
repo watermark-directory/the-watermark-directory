@@ -14,6 +14,13 @@
 // the page is honest in every environment (local, CI, and the not-yet-live deploy).
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 const enabled = Boolean(siteKey);
+// Auth gate: when both Cognito public vars are present at build time, the form requires
+// a signed-in user. The client-side inline script toggles visibility from sessionStorage.
+const authRequired = Boolean(
+  import.meta.env.PUBLIC_COGNITO_DOMAIN && import.meta.env.PUBLIC_COGNITO_CLIENT_ID,
+);
+const loginHref = "/account/login";
+const accountNote = authRequired ? "Sign-in required" : "No account needed";
 
 const CONTRACT_URL = "https://github.com/goedelsoup/bosc/blob/main/docs/submissions-api.md";
 const NEW_ISSUE_URL = "https://github.com/goedelsoup/bosc/issues/new";
@@ -54,71 +61,86 @@ const ENDPOINT = "/api/submit";
   {
     enabled ? (
       <Fragment>
-        <form id="submit-form" class="form submit-card" data-endpoint={ENDPOINT}>
-          <fieldset class="field seg">
-            <legend>What kind of submission?</legend>
-            <div class="seg-row">
-              <input type="radio" id="k-correction" name="kind" value="correction" checked />
-              <label for="k-correction">Correction</label>
-              <input type="radio" id="k-source" name="kind" value="new_source" />
-              <label for="k-source">New source</label>
-              <input type="radio" id="k-tip" name="kind" value="tip" />
-              <label for="k-tip">Tip</label>
-            </div>
-          </fieldset>
-
-          <div class="field">
-            <label for="f-body">
-              What's the claim or correction?
-              <span class="field-hint">— be specific; cite a page/figure if you can. Max 4000 characters.</span>
-            </label>
-            <textarea
-              id="f-body"
-              name="body"
-              maxlength="4000"
-              required
-              placeholder="e.g. “Parcel 4's price wasn't blank — it's in the auditor's transfer record.”"
-            />
-          </div>
-
-          <div class="field">
-            <label for="f-evidence">
-              Where can we verify it? <span class="field-hint">— optional; one public URL.</span>
-            </label>
-            <input id="f-evidence" name="evidence_url" type="url" maxlength="500" placeholder="Link to a public record…" />
-          </div>
-
-          <div class="field">
-            <label for="f-contact">
-              Contact <span class="field-hint">— optional; email or Signal, only if you're open to
-              follow-up. Kept <strong>private</strong>; never shown on the public issue.</span>
-            </label>
-            <input
-              id="f-contact"
-              name="contact"
-              type="text"
-              maxlength="200"
-              autocomplete="off"
-              placeholder="email or Signal — kept private"
-            />
-          </div>
-
-          <div class="cf-turnstile" data-sitekey={siteKey} />
-
-          <div class="form-foot">
-            <button type="submit" class="btn">Send to the record team</button>
-            <p id="submit-status" class="form-status" role="status" aria-live="polite" />
-          </div>
-          <p class="submit-note">
-            No account needed; reviewed before anything in the record changes. The issue is
-            <strong>public</strong> — keep private or identifying details out of your description
-            (use the optional <strong>Contact</strong> field above if you want follow-up).
-            Full contract: <a href={CONTRACT_URL}>docs/submissions-api.md</a>.
+        <!-- Auth gate prompt — visible only when authRequired; hidden attr removed by inline script
+             below when a valid session token is found in sessionStorage. -->
+        <div id="submit-auth-prompt" class="callout callout--note" hidden={!authRequired || undefined}>
+          <p class="callout-title">Sign in to submit</p>
+          <p>
+            A Watermark Directory account is required to submit tips and corrections.
+            Submissions are attributed and reviewed before anything in the record changes.
           </p>
-        </form>
+          <a href={loginHref} class="btn">Sign in</a>
+        </div>
+
+        <!-- Form wrapper — initially hidden when auth is required; revealed by the inline script. -->
+        <div id="submit-form-wrapper" hidden={authRequired || undefined}>
+          <form id="submit-form" class="form submit-card" data-endpoint={ENDPOINT}>
+            <fieldset class="field seg">
+              <legend>What kind of submission?</legend>
+              <div class="seg-row">
+                <input type="radio" id="k-correction" name="kind" value="correction" checked />
+                <label for="k-correction">Correction</label>
+                <input type="radio" id="k-source" name="kind" value="new_source" />
+                <label for="k-source">New source</label>
+                <input type="radio" id="k-tip" name="kind" value="tip" />
+                <label for="k-tip">Tip</label>
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label for="f-body">
+                What's the claim or correction?
+                <span class="field-hint">— be specific; cite a page/figure if you can. Max 4000 characters.</span>
+              </label>
+              <textarea
+                id="f-body"
+                name="body"
+                maxlength="4000"
+                required
+                placeholder="e.g. &ldquo;Parcel 4&rsquo;s price wasn&rsquo;t blank &mdash; it&rsquo;s in the auditor&rsquo;s transfer record.&rdquo;"
+              />
+            </div>
+
+            <div class="field">
+              <label for="f-evidence">
+                Where can we verify it? <span class="field-hint">— optional; one public URL.</span>
+              </label>
+              <input id="f-evidence" name="evidence_url" type="url" maxlength="500" placeholder="Link to a public record…" />
+            </div>
+
+            <div class="field">
+              <label for="f-contact">
+                Contact <span class="field-hint">— optional; email or Signal, only if you're open to
+                follow-up. Kept <strong>private</strong>; never shown on the public issue.</span>
+              </label>
+              <input
+                id="f-contact"
+                name="contact"
+                type="text"
+                maxlength="200"
+                autocomplete="off"
+                placeholder="email or Signal — kept private"
+              />
+            </div>
+
+            <div class="cf-turnstile" data-sitekey={siteKey} />
+
+            <div class="form-foot">
+              <button type="submit" class="btn">Send to the record team</button>
+              <p id="submit-status" class="form-status" role="status" aria-live="polite" />
+            </div>
+            <p class="submit-note">
+              {accountNote}; reviewed before anything in the record changes. The issue is
+              <strong>public</strong> — keep private or identifying details out of your description
+              (use the optional <strong>Contact</strong> field above if you want follow-up).
+              Full contract: <a href={CONTRACT_URL}>docs/submissions-api.md</a>.
+            </p>
+          </form>
+        </div>
 
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline />
         <script>import "../scripts/submit.ts";</script>
+        <script>import "../scripts/submitAuth.ts";</script>
       </Fragment>
     ) : (
       <div class="callout callout-warning">

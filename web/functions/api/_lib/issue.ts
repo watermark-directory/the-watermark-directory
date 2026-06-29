@@ -50,7 +50,7 @@ function titleText(s: Submission): string {
   return `${prefix} ${subject}`.slice(0, 120);
 }
 
-export function buildIssue(s: Submission, dedupeHash: string): IssueDraft {
+export function buildIssue(s: Submission, dedupeHash: string, sub?: string): IssueDraft {
   const lines: string[] = [];
 
   if (s.target && s.target.ref_kind !== "general") {
@@ -69,8 +69,9 @@ export function buildIssue(s: Submission, dedupeHash: string): IssueDraft {
   }
   lines.push("");
   lines.push("---");
+  const authAttr = sub ? `authenticated (sub: \`${inlineSafe(sub)}\`); ` : "";
   lines.push(
-    "_Submitted via the public form; Turnstile-verified; **unverified** — triage before " +
+    `_Submitted via the public form; Turnstile-verified; ${authAttr}**unverified** — triage before ` +
       "acting. A submission is a proposal, never evidence._",
   );
   lines.push(submissionMarker(dedupeHash));

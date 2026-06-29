@@ -14,6 +14,7 @@ import { buildIssue, dedupeInput, sha256Hex } from "./_lib/issue";
 import { DEFAULT_RATE_LIMIT, enforceRateLimit, type KVLike } from "./_lib/ratelimit";
 import { validateSubmission } from "./_lib/schema";
 import { verifyTurnstile } from "./_lib/turnstile";
+import { requireAuth } from "./_lib/auth";
 
 interface Env {
   /** On/kill switch — anything but "true" disables the endpoint. */
@@ -38,6 +39,13 @@ interface Env {
   SUBMISSION_CONTACT?: KVLike;
   /** Override the contact retention TTL (seconds); default below bounds PII retention. */
   CONTACT_TTL_SEC?: string;
+  /** When "true", a valid Cognito Bearer token is required on every request (Epic #920). */
+  AUTH_ENABLED?: string;
+  COGNITO_REGION?: string;
+  COGNITO_USER_POOL_ID?: string;
+  COGNITO_CLIENT_ID?: string;
+  /** Optional KV namespace for JWKS caching (1-hour TTL). */
+  JWKS_CACHE?: KVLike;
 }
 
 // Submitter contact is PII — keep it only as long as triage plausibly needs it, then let
@@ -60,6 +68,22 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   if (disabled) return disabled;
   if (!env.TURNSTILE_SECRET_KEY || !env.TIPS_APP_ID || !env.TIPS_APP_PRIVATE_KEY)
     return json(500, { error: "endpoint is misconfigured" });
+
+  // Auth gate — when enabled, a valid Cognito Bearer token is required. Fail-closed:
+  // missing COGNITO_* vars while AUTH_ENABLED=true is a misconfiguration, not a silent pass.
+  let sub: string | undefined;
+  if (env.AUTH_ENABLED === "true") {
+    if (!env.COGNITO_REGION || !env.COGNITO_USER_POOL_ID || !env.COGNITO_CLIENT_ID)
+      return json(500, { error: "endpoint is misconfigured" });
+    const auth = await requireAuth(request, {
+      COGNITO_REGION: env.COGNITO_REGION,
+      COGNITO_USER_POOL_ID: env.COGNITO_USER_POOL_ID,
+      COGNITO_CLIENT_ID: env.COGNITO_CLIENT_ID,
+      JWKS_CACHE: env.JWKS_CACHE,
+    });
+    if (!auth.ok) return auth.response;
+    sub = auth.ctx.sub;
+  }
 
   const body = await parseJsonBody(request);
   if (!body.ok) return body.response;
@@ -100,7 +124,7 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
 
   try {
     const dedupeHash = await sha256Hex(dedupeInput(submission));
-    const issue = buildIssue(submission, dedupeHash);
+    const issue = buildIssue(submission, dedupeHash, sub);
     const result = await fileIssueAsApp({
       appId: env.TIPS_APP_ID,
       privateKey: env.TIPS_APP_PRIVATE_KEY,

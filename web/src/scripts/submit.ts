@@ -63,9 +63,13 @@ if (form && statusEl) {
     if (submitBtn) submitBtn.disabled = true;
     setStatus("Sending…", "info");
 
+    const fetchHeaders: Record<string, string> = { "Content-Type": "application/json" };
+    const idToken = sessionStorage.getItem("watermark_id_token");
+    if (idToken) fetchHeaders["Authorization"] = `Bearer ${idToken}`;
+
     void fetch(endpoint, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: fetchHeaders,
       body: JSON.stringify(payload),
     })
       .then(async (r) => {
