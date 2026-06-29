@@ -10,7 +10,7 @@ from __future__ import annotations
 import textwrap
 from pathlib import Path
 
-from watermark.catalog_sites import is_relevant, owner_matches, readiness, site_view
+from watermark.catalog.sites import is_relevant, owner_matches, readiness, site_view
 from watermark.config import Settings
 
 

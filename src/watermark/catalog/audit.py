@@ -11,7 +11,7 @@ from the catalog (:mod:`watermark.catalog`) and the committed reconcile snapshot
 It reads the *committed* snapshot — not a live observation — so the report is content-stable
 and LFS-agnostic (it reflects what ``watermark catalog reconcile`` last recorded, exactly as the
 checksum gate does). The generated file is ``data/catalog/COMPLETENESS.md``; like
-``watermark catalog render``, drift is gated by :func:`watermark.catalog_check.check` so the committed
+``watermark catalog render``, drift is gated by :func:`watermark.catalog.check.check` so the committed
 report can't silently fall out of sync with the snapshot.
 """
 
@@ -22,8 +22,8 @@ from collections import defaultdict
 from pydantic import BaseModel, ConfigDict, Field
 
 from watermark.catalog import CatalogEntry, load_entries
-from watermark.catalog_reconcile import ObservedEntry, ObservedSnapshot, load_observed
-from watermark.catalog_sites import _resolved_relpaths, is_relevant
+from watermark.catalog.reconcile import ObservedEntry, ObservedSnapshot, load_observed
+from watermark.catalog.sites import _resolved_relpaths, is_relevant
 from watermark.config import Settings, get_settings
 from watermark.sites import SITES
 

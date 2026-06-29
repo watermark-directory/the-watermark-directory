@@ -9,7 +9,7 @@ hand-maintained READMEs (only a few of which state a license today).
 (``<!-- catalog:begin -->`` … ``<!-- catalog:end -->``) at the end of a collection's
 ``README.md`` and **preserves everything else verbatim** — the curated narrative survives
 untouched. A collection opts in the first time it is rendered; from then on
-:func:`watermark.catalog_check.check` re-derives the block and fails on drift (``render-drift``),
+:func:`watermark.catalog.check.check` re-derives the block and fails on drift (``render-drift``),
 so a rendered README can't silently fall out of sync with the catalog. Collections without the
 marker are left alone (they opt in as their entries are reviewed).
 """

@@ -11,8 +11,8 @@ fresh*, the legible successor to the manual corpus-completeness audit.
 from __future__ import annotations
 
 from watermark.catalog import CatalogEntry, ProducerKind, load_entries
-from watermark.catalog_reconcile import load_observed
-from watermark.catalog_sites import owner_matches
+from watermark.catalog.reconcile import load_observed
+from watermark.catalog.sites import owner_matches
 from watermark.config import Settings, get_settings
 from watermark.site.feeds import (
     CatalogItem,
@@ -45,7 +45,7 @@ def _in_site_scope(entry: CatalogEntry, slug: str) -> bool:
     """Whether a catalog entry belongs in ``slug``'s per-site bundle (#762/#778).
 
     A sibling site's bundle is strictly its own: a row is included iff its owner matches the site
-    (:func:`watermark.catalog_sites.owner_matches` — ``site:``/``basin:``/``state:`` against the site's
+    (:func:`watermark.catalog.sites.owner_matches` — ``site:``/``basin:``/``state:`` against the site's
     slug/basin/state, plus the shared/template kinds). The reference build (Lima, the network host
     the root ``/about/data`` page reads) keeps the whole catalog, byte-identical.
     """

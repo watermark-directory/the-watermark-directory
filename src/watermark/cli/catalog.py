@@ -33,7 +33,7 @@ def catalog_list(
     entries = [e for e in load_entries() if not scope or e.scope == scope]
     obs = {}
     if stale or missing:
-        from watermark.catalog_reconcile import reconcile
+        from watermark.catalog.reconcile import reconcile
 
         obs = reconcile().entries
     if stale:
@@ -59,7 +59,7 @@ def catalog_list(
 
 def _catalog_list_site(site: str, *, scope: str, stale: bool, missing: bool) -> None:
     """The ``--site`` view of ``catalog list`` — per-site existence + freshness + readiness."""
-    from watermark.catalog_sites import readiness, site_view
+    from watermark.catalog.sites import readiness, site_view
 
     if site not in SITES:
         raise typer.BadParameter(
@@ -151,7 +151,7 @@ def catalog_backfill_cmd(
     enriches each with a producer hint + embedded meta.source, and writes needs-review stubs.
     Reviewed entries are never touched; needs-review entries are refreshed with prose preserved.
     """
-    from watermark.catalog_backfill import BACKFILL_SCOPES, backfill
+    from watermark.catalog.backfill import BACKFILL_SCOPES, backfill
 
     scopes = tuple(s for s in BACKFILL_SCOPES if s == scope) if scope else BACKFILL_SCOPES
     if scope and not scopes:
@@ -186,7 +186,7 @@ def catalog_reconcile_cmd(
     The declared-vs-observed split's observed half: stat + sha256 + LFS-materialization +
     freshness for every entry. Reconcile observes; `bosc catalog check` (#626) gates on it.
     """
-    from watermark.catalog_reconcile import reconcile, write_observed
+    from watermark.catalog.reconcile import reconcile, write_observed
 
     snapshot = reconcile()
     n = len(snapshot.entries)
@@ -219,7 +219,7 @@ def catalog_render_cmd(
     command, source, license, access tier, refresh) and leaves all other prose untouched. A
     collection opts in the first time it is rendered; `bosc catalog check` then gates its drift.
     """
-    from watermark.catalog_render import render
+    from watermark.catalog.render import render
 
     actions = render(only=only or None, apply=apply)
     colors = {"added": "green", "updated": "yellow", "unchanged": "dim", "no-readme": "red"}
@@ -246,7 +246,7 @@ def catalog_check_cmd(
     The CI-enforced successor to the manual corpus-completeness audit. Exits non-zero on any
     error finding; warnings (unmaterialized LFS, staleness without --strict) print but pass.
     """
-    from watermark.catalog_check import check, errors
+    from watermark.catalog.check import check, errors
 
     findings = check(strict=strict)
     if not findings:
@@ -275,7 +275,7 @@ def catalog_producer_check_cmd(
     with a `[catalog-waiver: <reason>]` token in a commit message. Skips cleanly (passes) when
     the base ref isn't available (e.g. a shallow checkout), so it never false-fails.
     """
-    from watermark.catalog_producer import run_producer_check
+    from watermark.catalog.producer import run_producer_check
 
     result = run_producer_check(base=base)
     if result.status == "skipped":
@@ -312,7 +312,7 @@ def catalog_audit_cmd(
     withheld" half stays human-authored). Reads the committed snapshot, so it's content-stable;
     `bosc catalog check` gates the committed report's drift.
     """
-    from watermark.catalog_audit import build_audit, write_audit
+    from watermark.catalog.audit import build_audit, write_audit
 
     report = build_audit()
     console.print(

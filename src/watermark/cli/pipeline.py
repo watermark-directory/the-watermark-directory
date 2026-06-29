@@ -97,7 +97,7 @@ def onboard_cmd(
     for i, item in enumerate(report.review_checklist, 1):
         console.print(f"  {i}. {item}")
 
-    from watermark.catalog_sites import readiness
+    from watermark.catalog.sites import readiness
 
     r = readiness(report.slug)
     ready = "[green]ready[/]" if r.ready else f"[yellow]{len(r.missing)} missing[/]"
