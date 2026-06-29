@@ -1,0 +1,208 @@
+---
+// MCP Playground response viewer — right panel, bottom half.
+// Two tabs: RESULT (provenance-tagged rows) | RAW (JSON-RPC response).
+// research.ts populates these after a successful tool call.
+---
+
+<div class="response-viewer" id="mcp-response-viewer">
+  <!-- Tab bar -->
+  <div class="rv-tab-bar">
+    <div class="rv-tabs">
+      <button
+        type="button"
+        class="rv-tab rv-tab--active"
+        data-tab="result"
+        aria-selected="true"
+      >
+        RESULT
+      </button>
+      <button
+        type="button"
+        class="rv-tab"
+        data-tab="raw"
+        aria-selected="false"
+      >
+        RAW
+      </button>
+    </div>
+    <span class="rv-meta" id="mcp-response-meta" aria-live="polite"></span>
+  </div>
+
+  <!-- RESULT tab pane -->
+  <div class="rv-pane" id="mcp-result-pane" data-pane="result">
+    <div class="rv-empty" id="mcp-result-empty">
+      <span class="rv-empty-label">No results yet — call a tool above.</span>
+    </div>
+    <div class="rv-rows" id="mcp-result-rows" hidden></div>
+  </div>
+
+  <!-- RAW tab pane -->
+  <div class="rv-pane" id="mcp-raw-pane" data-pane="raw" hidden>
+    <div class="rv-raw-wrap">
+      <pre class="rv-raw" id="mcp-raw-pre"><span class="rv-raw-placeholder">Raw JSON-RPC response appears here.</span></pre>
+    </div>
+  </div>
+</div>
+
+<style>
+  .response-viewer {
+    border: 1px solid var(--line-hair);
+    background: var(--bone-raised);
+  }
+
+  /* Tab bar */
+  .rv-tab-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line-hair);
+    padding: 0 20px;
+    height: 44px;
+  }
+
+  .rv-tabs {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 4px;
+  }
+
+  .rv-tab {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    height: 100%;
+    padding: 0 14px 0 0;
+    cursor: pointer;
+    margin-right: 4px;
+    transition: color var(--dur) var(--ease);
+  }
+
+  .rv-tab--active,
+  .rv-tab[aria-selected="true"] {
+    color: var(--forest);
+    border-bottom-color: var(--forest);
+  }
+
+  .rv-meta {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1px;
+  }
+
+  /* Panes */
+  .rv-empty {
+    padding: 32px 20px;
+    text-align: center;
+  }
+
+  .rv-empty-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.3px;
+  }
+
+  .rv-rows {
+    padding: 0 20px;
+  }
+
+  /* Result rows — injected by research.ts */
+  .rv-rows :global(.result-row) {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-hair);
+  }
+
+  .rv-rows :global(.result-row:last-child) {
+    border-bottom: none;
+  }
+
+  .rv-rows :global(.result-meta) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 9px;
+  }
+
+  .rv-rows :global(.result-page) {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    flex-shrink: 0;
+  }
+
+  .rv-rows :global(.result-text) {
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    color: var(--ink-prose);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Evidence badge helpers (also used in result rows) */
+  .rv-rows :global(.ev-badge) {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+    line-height: 1.15;
+    padding: 2px 6px;
+    border: 1px solid;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .rv-rows :global(.ev-badge::before) {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  .rv-rows :global(.ev-verified)  { color: var(--ev-verified-fg);  background: var(--ev-verified-bg);  border-color: var(--ev-verified-border);  }
+  .rv-rows :global(.ev-inference) { color: var(--ev-inference-fg); background: var(--ev-inference-bg); border-color: var(--ev-inference-border); }
+  .rv-rows :global(.ev-open)      { color: var(--ev-open-fg);      background: var(--ev-open-bg);      border-color: var(--ev-open-border);      }
+  .rv-rows :global(.ev-filename)  {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--ev-open-fg);
+    background: var(--ev-open-bg);
+    border-color: var(--ev-open-border);
+    letter-spacing: 0.05px;
+  }
+
+  /* RAW pane */
+  .rv-raw-wrap {
+    padding: 16px 20px;
+  }
+
+  .rv-raw {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-muted);
+    background: var(--bone-surface);
+    border: 1px solid var(--line-hair);
+    padding: 16px 18px;
+    margin: 0;
+    overflow-x: auto;
+    line-height: 1.65;
+    white-space: pre;
+  }
+
+  .rv-raw-placeholder {
+    color: var(--ink-ghost);
+    font-style: italic;
+  }
+</style>

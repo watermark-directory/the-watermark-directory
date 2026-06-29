@@ -1,0 +1,132 @@
+---
+/**
+ * MCP Playground (#918) — in-browser tool explorer at /research.
+ * Calls POST /api/mcp (JSON-RPC 2.0 over the MCP Streamable HTTP transport, #911)
+ * and renders tool results with provenance metadata.
+ *
+ * Sits at the network level; Research tab is active. With JS off the form
+ * renders but the response pane is empty — a noscript callout explains why.
+ */
+import Base from "../layouts/Base.astro";
+import ParamForm from "../components/mcp/ParamForm.astro";
+import ResponseViewer from "../components/mcp/ResponseViewer.astro";
+import ToolPicker from "../components/mcp/ToolPicker.astro";
+
+const ENDPOINT = "/api/mcp";
+---
+
+<Base
+  title="MCP Playground"
+  section="hypotheses"
+  description="Query the Watermark Directory corpus directly — semantic search, timeline, entity graph, and hypothesis signals over the live documentary record."
+  rail={false}
+>
+  <div class="mcp-page" data-endpoint={ENDPOINT}>
+    <!-- Page header -->
+    <div class="mcp-page-header">
+      <div class="mcp-eyebrow">MCP PLAYGROUND · PUBLIC TIER</div>
+      <h1 class="mcp-h1">Query the corpus</h1>
+    </div>
+
+    <hr class="mcp-divider" />
+
+    <!-- Two-column layout: tool picker + form/response -->
+    <div class="mcp-layout">
+      <ToolPicker />
+      <div class="mcp-right">
+        <ParamForm />
+        <ResponseViewer />
+      </div>
+    </div>
+
+    <noscript>
+      <div class="mcp-noscript">
+        <strong>JavaScript is required to call tools.</strong>
+        The form submits to <code>/api/mcp</code> via JSON-RPC and the response
+        renders in-browser — both steps need JavaScript.
+      </div>
+    </noscript>
+  </div>
+
+  <script>import "../scripts/research.ts";</script>
+</Base>
+
+<style>
+  /* Override Base.astro's .content prose width for the full playground layout. */
+  :global(.content) {
+    max-width: none;
+    padding: 0;
+  }
+
+  .mcp-page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 32px 28px 64px;
+  }
+
+  .mcp-page-header {
+    margin-bottom: 28px;
+  }
+
+  .mcp-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+
+  .mcp-h1 {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 36px;
+    color: var(--ink);
+    letter-spacing: -1px;
+    line-height: 1.06;
+    margin: 0;
+  }
+
+  .mcp-divider {
+    height: 1px;
+    background: var(--line-hair);
+    border: none;
+    margin: 0 0 24px;
+  }
+
+  .mcp-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .mcp-right {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .mcp-noscript {
+    margin-top: 24px;
+    padding: 14px 16px;
+    border: 1px solid var(--line-2);
+    background: var(--bone-surface);
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  /* Responsive: stack on narrow viewports */
+  @media (max-width: 680px) {
+    .mcp-layout {
+      flex-direction: column;
+    }
+
+    :global(.tool-picker) {
+      width: 100% !important;
+    }
+  }
+</style>

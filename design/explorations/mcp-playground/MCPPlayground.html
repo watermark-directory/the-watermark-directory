@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watermark · Research · MCP Playground</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bone-page:    #e9e6dc;
+      --bone-surface: #f5f2ea;
+      --bone-raised:  #faf8f1;
+      --bone-sunk:    #efece2;
+      --bone-band:    #ece8dc;
+      --ink:        #16201a;
+      --ink-prose:  #3a4036;
+      --ink-muted:  #566159;
+      --ink-faint:  #8c9389;
+      --ink-ghost:  #a8a596;
+      --forest:        #1f6f4a;
+      --forest-bright: #3d8f63;
+      --forest-on-ink: #7fb89a;
+      --forest-tint:   #e4ece4;
+      --forest-line:   #bcd2c4;
+      --line-hair:  #dcd8cc;
+      --line-2:     #cdc8b8;
+      --rule-ink:   #16201a;
+      --ev-verified-fg:     #1f6f4a; --ev-verified-bg:     #e4ece4; --ev-verified-border: #bcd2c4;
+      --ev-inference-fg:    #9a6a14; --ev-inference-bg:    #efe6d0; --ev-inference-border: #dcc98a;
+      --ev-open-fg:         #566159; --ev-open-bg:         #e8e4d8; --ev-open-border:      #cdc8b8;
+      --ev-gap-fg:          #7a2230; --ev-gap-bg:          #f3e6e2; --ev-gap-border:       #d8b8b2;
+      --ev-key-fg:          #6a5524; --ev-key-bg:          #f3e7c4; --ev-key-border:       #dcc98a;
+      --font-sans: "Archivo", system-ui, -apple-system, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+      --radius: 0;
+      --ring-focus: 0 0 0 2px rgba(31,111,74,0.28);
+      --dur: 0.15s;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html, body {
+      background: var(--bone-page);
+      font-family: var(--font-sans);
+      color: var(--ink);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    * { border-radius: 0 !important; box-shadow: none; }
+    button, input, textarea, select { font-family: inherit; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: none;
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    // ─── SVG helpers ──────────────────────────────────────────────────────────
+    function Ico({ size = 14, stroke = "currentColor", sw = 1.8, children }) {
+      return (
+        <svg viewBox="0 0 24 24" width={size} height={size} fill="none"
+          stroke={stroke} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"
+          aria-hidden="true">
+          {children}
+        </svg>
+      );
+    }
+    function SearchIco({ size = 14, stroke = "currentColor" }) {
+      return <Ico size={size} stroke={stroke}><circle cx="11" cy="11" r="6.5"/><line x1="16" y1="16" x2="21" y2="21"/></Ico>;
+    }
+    function GridIco({ size = 13, stroke = "#bcd2c4" }) {
+      return <Ico size={size} stroke={stroke} sw={1.9}><rect x="3.5" y="4" width="17" height="6"/><rect x="3.5" y="14" width="17" height="6"/></Ico>;
+    }
+    function PlusIco({ size = 13, stroke = "#f5f2ea" }) {
+      return <Ico size={size} stroke={stroke} sw={2.2}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></Ico>;
+    }
+
+    // ─── EvidenceTag ──────────────────────────────────────────────────────────
+    const EV = {
+      verified:  { fg: "var(--ev-verified-fg)",  bg: "var(--ev-verified-bg)",  bd: "var(--ev-verified-border)",  label: "verified" },
+      inference: { fg: "var(--ev-inference-fg)", bg: "var(--ev-inference-bg)", bd: "var(--ev-inference-border)", label: "inference" },
+      open:      { fg: "var(--ev-open-fg)",      bg: "var(--ev-open-bg)",      bd: "var(--ev-open-border)",      label: "open" },
+      gap:       { fg: "var(--ev-gap-fg)",       bg: "var(--ev-gap-bg)",       bd: "var(--ev-gap-border)",       label: "scope gap" },
+      key:       { fg: "var(--ev-key-fg)",       bg: "var(--ev-key-bg)",       bd: "var(--ev-key-border)",       label: "key figure" },
+      filename:  { fg: "var(--ev-open-fg)",      bg: "var(--ev-open-bg)",      bd: "var(--ev-open-border)",      label: "" },
+    };
+    function EvidenceTag({ kind = "verified", label, brackets = false, size = "md" }) {
+      const t = EV[kind] || EV.open;
+      const text = label || t.label;
+      const isFile = kind === "filename";
+      const sm = size === "sm";
+      return (
+        <span style={{
+          display: "inline-flex", alignItems: "center", gap: sm ? 4 : 5,
+          fontFamily: isFile ? "var(--font-mono)" : "var(--font-sans)",
+          fontWeight: isFile ? 500 : 700,
+          fontSize: sm ? 10 : 11,
+          letterSpacing: isFile ? "0.05px" : "0.25px",
+          lineHeight: 1.15,
+          color: t.fg, background: t.bg,
+          border: `1px solid ${t.bd}`,
+          padding: sm ? "2px 6px" : "3px 9px",
+          flexShrink: 0, whiteSpace: "nowrap",
+        }}>
+          <span style={{ width: sm ? 5 : 6, height: sm ? 5 : 6, background: t.fg, flexShrink: 0 }} />
+          {brackets ? `[${text}]` : text}
+        </span>
+      );
+    }
+
+    // ─── Button ───────────────────────────────────────────────────────────────
+    function Button({ variant = "solid", size = "md", disabled = false, onClick, children, style }) {
+      const [hov, setHov] = useState(false);
+      const sz = { sm: { p: "8px 14px", fs: 12.5 }, md: { p: "11px 18px", fs: 13.5 }, lg: { p: "14px 24px", fs: 15 } }[size] || { p: "11px 18px", fs: 13.5 };
+      const V = {
+        solid:  { bg: hov ? "#0d2b1c" : "var(--ink)",    cl: "var(--bone-surface)", bd: "var(--ink)" },
+        forest: { bg: hov ? "#165636" : "var(--forest)", cl: "var(--bone-surface)", bd: "var(--forest)" },
+        ghost:  { bg: "transparent", cl: hov ? "var(--forest)" : "var(--ink)", bd: hov ? "var(--forest)" : "var(--ink-muted)" },
+        link:   { bg: "transparent", cl: "var(--forest)", bd: "transparent" },
+      }[variant] || {};
+      return (
+        <button
+          disabled={disabled}
+          onClick={disabled ? undefined : onClick}
+          onMouseEnter={() => setHov(true)}
+          onMouseLeave={() => setHov(false)}
+          style={{
+            display: "inline-flex", alignItems: "center", gap: 7,
+            fontFamily: "var(--font-sans)", fontWeight: 700,
+            fontSize: sz.fs, letterSpacing: "0.15px", lineHeight: 1,
+            padding: sz.p, cursor: disabled ? "not-allowed" : "pointer",
+            opacity: disabled ? 0.36 : 1,
+            background: V.bg, color: V.cl,
+            border: `1.5px solid ${V.bd}`,
+            transition: "background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease)",
+            ...style,
+          }}
+        >{children}</button>
+      );
+    }
+
+    // ─── TextField ────────────────────────────────────────────────────────────
+    function TextField({ label, required, optional, placeholder, value, onChange, type = "text" }) {
+      const [focus, setFocus] = useState(false);
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          {label && (
+            <label style={{
+              display: "flex", alignItems: "center", gap: 4,
+              fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.9px",
+              textTransform: "uppercase", color: "var(--ink-faint)", fontWeight: 600,
+            }}>
+              {label}
+              {required && <span style={{ color: "#7a2230", fontWeight: 700, letterSpacing: 0 }}>*</span>}
+              {optional && <span style={{ fontFamily: "var(--font-sans)", textTransform: "none", letterSpacing: 0, color: "var(--ink-ghost)", fontWeight: 400, fontSize: 11 }}>— optional</span>}
+            </label>
+          )}
+          <input
+            type={type}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            onFocus={() => setFocus(true)}
+            onBlur={() => setFocus(false)}
+            style={{
+              width: "100%", fontFamily: "var(--font-sans)", fontSize: 13.5,
+              color: "var(--ink)", background: "var(--bone-surface)",
+              border: `1px solid ${focus ? "var(--forest)" : "var(--line-2)"}`,
+              boxShadow: focus ? "var(--ring-focus)" : "none",
+              padding: "10px 12px", outline: "none", lineHeight: 1.5,
+              transition: "border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease)",
+            }}
+          />
+        </div>
+      );
+    }
+
+    // ─── NetworkChrome ────────────────────────────────────────────────────────
+    function NetworkChrome({ activeTab = "research" }) {
+      const Tab = ({ id, label, hasArrow }) => {
+        const on = activeTab === id;
+        return (
+          <span style={{
+            fontFamily: "var(--font-sans)", fontSize: 14,
+            fontWeight: on ? 600 : 400,
+            color: on ? "#f5f2ea" : "#bcd2c4",
+            padding: "0 13px", height: "100%",
+            display: "flex", alignItems: "center", cursor: "pointer",
+            boxShadow: on ? "inset 0 -2px 0 #f5f2ea" : "none",
+            transition: "color var(--dur) var(--ease)",
+          }}>
+            {label}{hasArrow && <span style={{ fontSize: 9, color: "#9aa890", marginLeft: 5 }}>▾</span>}
+          </span>
+        );
+      };
+      return (
+        <div style={{
+          background: "var(--ink)", height: 56,
+          display: "flex", alignItems: "center",
+          padding: "0 20px", gap: 0,
+          position: "sticky", top: 0, zIndex: 200,
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+        }}>
+          {/* Wordmark */}
+          <span style={{
+            fontFamily: "var(--font-sans)", fontWeight: 800, fontSize: 16,
+            letterSpacing: "-0.25px", color: "#f5f2ea", cursor: "pointer", flexShrink: 0,
+          }}>
+            Watermark<span style={{ color: "#3d8f63" }}>.</span>
+          </span>
+
+          <span style={{ color: "#3a4036", fontSize: 16, margin: "0 8px 0 6px", lineHeight: 1 }}>/</span>
+
+          {/* All sites chip */}
+          <span style={{
+            display: "flex", alignItems: "center", gap: 7,
+            background: "rgba(255,255,255,0.12)",
+            border: "1px solid rgba(255,255,255,0.22)",
+            padding: "5px 10px", cursor: "pointer", flexShrink: 0,
+          }}>
+            <GridIco />
+            <span style={{ color: "#f5f2ea", fontSize: 13, fontWeight: 700 }}>All sites</span>
+            <span style={{ color: "#9aa890", fontSize: 9 }}>▾</span>
+          </span>
+
+          <span style={{ width: 1, height: 22, background: "rgba(255,255,255,0.18)", margin: "0 10px" }} />
+
+          {/* Nav tabs */}
+          <div style={{ display: "flex", alignItems: "center", height: "100%", gap: 0 }}>
+            <Tab id="directory" label="Directory" />
+            <Tab id="research" label="Research" />
+            <Tab id="about" label="About" hasArrow />
+          </div>
+
+          {/* Right cluster */}
+          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 0 }}>
+            {["Docs", "Wiki"].map(l => (
+              <span key={l} style={{
+                color: "#bcd2c4", fontSize: 13.5,
+                padding: "0 11px", cursor: "pointer", lineHeight: 1,
+              }}>{l}</span>
+            ))}
+            <span style={{ width: 1, height: 22, background: "rgba(255,255,255,0.18)", margin: "0 8px" }} />
+            <span style={{
+              display: "flex", alignItems: "center", gap: 6,
+              background: "rgba(255,255,255,0.12)",
+              border: "1px solid rgba(255,255,255,0.22)",
+              padding: "5px 10px", cursor: "pointer", marginRight: 8,
+            }}>
+              <PlusIco />
+              <span style={{ color: "#f5f2ea", fontSize: 13, fontWeight: 600 }}>Submit</span>
+            </span>
+            <span style={{
+              display: "flex", alignItems: "center", gap: 8,
+              background: "rgba(255,255,255,0.07)",
+              border: "1px solid rgba(255,255,255,0.16)",
+              padding: "5px 10px", width: 162, cursor: "text",
+            }}>
+              <SearchIco size={13} stroke="#8c9389" />
+              <span style={{ color: "#8c9389", fontSize: 13, fontFamily: "var(--font-sans)" }}>Search…</span>
+              <span style={{
+                marginLeft: "auto", color: "#8c9389", fontSize: 10.5,
+                fontFamily: "var(--font-mono)",
+                border: "1px solid rgba(255,255,255,0.18)", padding: "1px 5px",
+              }}>⌘K</span>
+            </span>
+          </div>
+        </div>
+      );
+    }
+
+    // ─── Tool data ────────────────────────────────────────────────────────────
+    const TOOLS = [
+      { id: "search_corpus",  desc: "Semantic + keyword search over the documentary corpus" },
+      { id: "get_timeline",   desc: "Dated events filterable by date range and category" },
+      { id: "get_entities",   desc: "Entity graph: parties, roles, parcels, and relationships" },
+      { id: "get_hypotheses", desc: "Boom-origin hypothesis signals per site" },
+      { id: "get_documents",  desc: "Ingested source documents by collection" },
+    ];
+
+    // ─── ToolPicker ───────────────────────────────────────────────────────────
+    function ToolPicker({ selected, onSelect }) {
+      const [hov, setHov] = useState(null);
+      return (
+        <div style={{ width: 260, flexShrink: 0 }}>
+          {/* Eyebrow */}
+          <div style={{
+            fontFamily: "var(--font-mono)", fontSize: 9.5, letterSpacing: "1.7px",
+            textTransform: "uppercase", color: "var(--ink-faint)",
+            paddingBottom: 10, paddingLeft: 1,
+          }}>
+            TOOLS · 5 AVAILABLE
+          </div>
+
+          {/* Tool list */}
+          <div style={{ border: "1px solid var(--line-hair)" }}>
+            {TOOLS.map((tool, i) => {
+              const active = selected === tool.id;
+              const hovering = hov === tool.id && !active;
+              return (
+                <div
+                  key={tool.id}
+                  onClick={() => onSelect(tool.id)}
+                  onMouseEnter={() => setHov(tool.id)}
+                  onMouseLeave={() => setHov(null)}
+                  style={{
+                    borderTop: i > 0 ? "1px solid var(--line-hair)" : "none",
+                    borderLeft: active ? "3px solid var(--forest)" : "3px solid transparent",
+                    background: active ? "var(--bone-raised)" : hovering ? "#f0ede4" : "var(--bone-surface)",
+                    padding: "12px 14px",
+                    cursor: "pointer",
+                    transition: "background var(--dur) var(--ease)",
+                  }}
+                >
+                  <div style={{
+                    fontFamily: "var(--font-mono)", fontSize: 13,
+                    fontWeight: active ? 600 : 500,
+                    color: active ? "var(--forest)" : "var(--ink)",
+                    marginBottom: 4, letterSpacing: "-0.1px",
+                    transition: "color var(--dur) var(--ease)",
+                  }}>
+                    {tool.id}
+                  </div>
+                  <div style={{
+                    fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--ink-muted)",
+                    lineHeight: 1.45, fontWeight: 400,
+                    overflow: "hidden",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                  }}>
+                    {tool.desc}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+
+    // ─── ParamForm ────────────────────────────────────────────────────────────
+    function ParamForm() {
+      const [query, setQuery]           = useState("water discharge permit Lima");
+      const [site, setSite]             = useState("");
+      const [collection, setCollection] = useState("");
+      const [limit, setLimit]           = useState("");
+
+      return (
+        <div style={{
+          background: "var(--bone-raised)",
+          border: "1px solid var(--line-hair)",
+          padding: "18px 20px",
+        }}>
+          {/* Header */}
+          <div style={{
+            display: "flex", alignItems: "flex-start",
+            justifyContent: "space-between", gap: 16, marginBottom: 20,
+          }}>
+            <div>
+              <div style={{
+                fontFamily: "var(--font-sans)", fontWeight: 800, fontSize: 18,
+                color: "var(--ink)", letterSpacing: "-0.4px", lineHeight: 1.2,
+              }}>
+                search_corpus
+              </div>
+              <div style={{
+                fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--ink-muted)",
+                marginTop: 5, lineHeight: 1.45,
+              }}>
+                Full-text + semantic search over the ingested documentary corpus.
+              </div>
+            </div>
+            <Button variant="ghost" size="sm" style={{ flexShrink: 0, marginTop: 2 }}>
+              EXAMPLE ↓
+            </Button>
+          </div>
+
+          {/* Field group */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 15 }}>
+            <TextField
+              label="Query" required
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+            />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+              <TextField
+                label="Site" optional
+                placeholder="e.g. lima, fort-wayne — leave blank for all"
+                value={site}
+                onChange={e => setSite(e.target.value)}
+              />
+              <TextField
+                label="Collection" optional
+                placeholder="e.g. oepa, recorder"
+                value={collection}
+                onChange={e => setCollection(e.target.value)}
+              />
+            </div>
+            <div style={{ maxWidth: 150 }}>
+              <TextField
+                label="Limit" optional type="number"
+                placeholder="10"
+                value={limit}
+                onChange={e => setLimit(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Submit row */}
+          <div style={{
+            display: "flex", alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 20, paddingTop: 16,
+            borderTop: "1px solid var(--line-hair)",
+          }}>
+            <Button variant="forest">Call tool →</Button>
+            <Button variant="ghost" disabled>Abort ✕</Button>
+          </div>
+        </div>
+      );
+    }
+
+    // ─── ResponseViewer ───────────────────────────────────────────────────────
+    const RESULTS = [
+      {
+        kind: "verified",
+        filename: "oepa/npdes/lima-wwtp.npdes.yaml",
+        pageRef: "p. 4",
+        text: "Ottawa River outfall 001: permitted average flow 8.0 MGD; 7Q10 low flow 0.2 cfs — consumptive draw exceeds low flow by 24×.",
+      },
+      {
+        kind: "inference",
+        filename: "aedg/roundabouts.summary.opc.yaml",
+        pageRef: "p. 317",
+        text: "Cooling consumptive loss modeled at 4.85 cfs from design-storm basis — figure not cited in the permit, derived from NOAA Atlas-14 + SCS CN method.",
+      },
+    ];
+
+    const RAW_JSON = `{
+  "jsonrpc": "2.0",
+  "result": {
+    "content": [
+      {
+        "_type": "corpus_result",
+        "evidence": "verified",
+        "source": "oepa/npdes/lima-wwtp.npdes.yaml",
+        "page": 4,
+        "text": "Ottawa River outfall 001: permitted average flow 8.0 MGD..."
+      },
+      {
+        "_type": "corpus_result",
+        "evidence": "inference",
+        "source": "aedg/roundabouts.summary.opc.yaml",
+        "page": 317,
+        "text": "Cooling consumptive loss modeled at 4.85 cfs..."
+      }
+    ],
+    "meta": { "total": 2, "ms": 340 }
+  }
+}`;
+
+    function ResultRow({ kind, filename, pageRef, text }) {
+      return (
+        <div style={{
+          padding: "16px 0",
+          borderBottom: "1px solid var(--line-hair)",
+        }}>
+          <div style={{
+            display: "flex", alignItems: "center",
+            flexWrap: "wrap", gap: 7, marginBottom: 9,
+          }}>
+            <EvidenceTag kind={kind} brackets size="sm" />
+            <EvidenceTag kind="filename" label={filename} size="sm" />
+            <span style={{
+              fontFamily: "var(--font-mono)", fontSize: 10.5,
+              color: "var(--ink-faint)", flexShrink: 0,
+            }}>
+              {pageRef}
+            </span>
+          </div>
+          <p style={{
+            fontFamily: "var(--font-sans)", fontSize: 13.5,
+            color: "var(--ink-prose)", lineHeight: 1.6, margin: 0,
+            textWrap: "pretty",
+          }}>
+            {text}
+          </p>
+        </div>
+      );
+    }
+
+    function ResponseViewer() {
+      const [tab, setTab] = useState("result");
+      const tabs = [{ id: "result", label: "RESULT" }, { id: "raw", label: "RAW" }];
+
+      return (
+        <div style={{ border: "1px solid var(--line-hair)", background: "var(--bone-raised)" }}>
+
+          {/* Tab bar */}
+          <div style={{
+            display: "flex", alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: "1px solid var(--line-hair)",
+            padding: "0 20px",
+            height: 44,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", height: "100%", gap: 2 }}>
+              {tabs.map(t => (
+                <button
+                  key={t.id}
+                  onClick={() => setTab(t.id)}
+                  style={{
+                    fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600,
+                    letterSpacing: "1.1px", textTransform: "uppercase",
+                    color: tab === t.id ? "var(--forest)" : "var(--ink-faint)",
+                    background: "transparent", border: "none",
+                    borderBottom: tab === t.id
+                      ? "1px solid var(--forest)"
+                      : "1px solid transparent",
+                    height: "100%", padding: "0 14px 0 0",
+                    cursor: "pointer", marginRight: 4,
+                    transition: "color var(--dur) var(--ease)",
+                  }}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+            <span style={{
+              fontFamily: "var(--font-mono)", fontSize: 10.5,
+              color: "var(--ink-faint)", letterSpacing: "0.1px",
+            }}>
+              2 results · 340 ms
+            </span>
+          </div>
+
+          {/* Content */}
+          {tab === "result" ? (
+            <div style={{ padding: "0 20px" }}>
+              {RESULTS.map((r, i) => (
+                <ResultRow key={i} {...r} />
+              ))}
+              <div style={{ height: 8 }} />
+            </div>
+          ) : (
+            <div style={{ padding: "16px 20px" }}>
+              <pre style={{
+                fontFamily: "var(--font-mono)", fontSize: 12,
+                color: "var(--ink-muted)", background: "var(--bone-surface)",
+                border: "1px solid var(--line-hair)",
+                padding: "16px 18px", margin: 0,
+                overflowX: "auto", lineHeight: 1.65,
+                whiteSpace: "pre",
+              }}>
+                {RAW_JSON}
+              </pre>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ─── App ──────────────────────────────────────────────────────────────────
+    function App() {
+      const [selectedTool, setSelectedTool] = useState("search_corpus");
+
+      return (
+        <div style={{ minHeight: "100vh", background: "var(--bone-page)" }}>
+          <NetworkChrome activeTab="research" />
+
+          <main style={{ maxWidth: 1180, margin: "0 auto", padding: "32px 28px 64px" }}>
+
+            {/* Page header */}
+            <div style={{ marginBottom: 28 }}>
+              <div style={{
+                fontFamily: "var(--font-mono)", fontSize: 9.5, letterSpacing: "1.8px",
+                textTransform: "uppercase", color: "var(--ink-faint)",
+                marginBottom: 10,
+              }}>
+                MCP PLAYGROUND · PUBLIC TIER
+              </div>
+              <h1 style={{
+                fontFamily: "var(--font-sans)", fontWeight: 800, fontSize: 36,
+                color: "var(--ink)", letterSpacing: "-1px", lineHeight: 1.06, margin: 0,
+              }}>
+                Query the corpus
+              </h1>
+            </div>
+
+            {/* Divider */}
+            <div style={{ height: 1, background: "var(--line-hair)", marginBottom: 24 }} />
+
+            {/* Two-column layout */}
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 20 }}>
+              <ToolPicker selected={selectedTool} onSelect={setSelectedTool} />
+              <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
+                <ParamForm />
+                <ResponseViewer />
+              </div>
+            </div>
+
+          </main>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
