@@ -1,0 +1,81 @@
+name: agent-worker
+
+# Task-execution agent (Orlop integration, Epic #870).  Picks up issues labelled
+# `agent:available` from the Orlop queue, runs Claude Code on each, and opens a
+# draft PR.  Reuses the existing research GitHub App identity (RESEARCH_APP_ID /
+# RESEARCH_APP_PRIVATE_KEY) which already has the required contents/issues/
+# pull-requests write scope.
+#
+# Bootstrap (one-time) — all prerequisites except the App secrets are already in
+# place from the research.yml bootstrap (docs/research-app.md):
+#   - RESEARCH_APP_ID and RESEARCH_APP_PRIVATE_KEY secrets must exist.
+#   - ANTHROPIC_API_KEY secret must exist.
+#   - Set repository variable AGENT_ENABLED=true to activate (kill switch).
+#   - ORLOP_COST_INGEST_URL variable and ORLOP_COST_INGEST_TOKEN secret are used
+#     by research.yml; no additional provisioning needed for this workflow.
+
+on:
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue-number:
+        description: "Specific issue number to claim (blank = auto-discover)"
+        required: false
+        type: string
+
+# One concurrent run per issue (or one dispatch run).  Never cancel mid-run.
+concurrency:
+  group: agent-worker-${{ github.event.issue.number || inputs.issue-number || 'dispatch' }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  agent:
+    # Kill switch + label filter: only fire on agent:available labels, not every label.
+    if: >-
+      vars.AGENT_ENABLED == 'true' &&
+      (github.event_name == 'workflow_dispatch' ||
+       github.event.label.name == 'agent:available')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint a GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.RESEARCH_APP_ID }}
+          private-key: ${{ secrets.RESEARCH_APP_PRIVATE_KEY }}
+
+      # lfs:false — data/documents is ~5.4 GB LFS; smudging fills the disk.
+      - name: Checkout (no LFS)
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+          lfs: false
+
+      - name: Set up uv + Python
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Claim next available issue
+        id: queue
+        uses: tonnetz-io/orlop/.github/actions/agent-queue@main
+        with:
+          bot-login: ${{ steps.app-token.outputs.app-slug }}[bot]
+          github-token: ${{ steps.app-token.outputs.token }}
+          issue-number: ${{ inputs.issue-number || '' }}
+
+      - name: Run agent harness
+        if: steps.queue.outputs.claimed == 'true'
+        uses: tonnetz-io/orlop/.github/actions/agent-harness@main
+        with:
+          issue-number: ${{ steps.queue.outputs.issue-number }}
+          issue-title: ${{ steps.queue.outputs.issue-title }}
+          bot-login: ${{ steps.app-token.outputs.app-slug }}[bot]
+          github-token: ${{ steps.app-token.outputs.token }}
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          pre-run-script: uv sync --extra dev
