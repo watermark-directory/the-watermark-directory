@@ -11,7 +11,7 @@ function SiteSelector({ active, onPick }) {
   const FAC = {
     investigation: { short: "Investigating",    color: "#566159" },
     confirmed:     { short: "Confirmed",         color: "#1f6f4a" },
-    construction:  { short: "In construction",   color: "#9a6a14" },
+    construction:  { short: "Under construction",   color: "#9a6a14" },
     live:          { short: "Operational",       color: "#1f6f4a" },
   };
   const BASIN_ABBR = { Maumee: "MAU", "Great Miami": "GMI", "Little Miami": "LMI", Scioto: "SCI", Mahoning: "MAH" };

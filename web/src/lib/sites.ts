@@ -644,7 +644,7 @@ export type FacilityStatus = "investigation" | "confirmed" | "construction" | "l
 
 const FACILITY_STATUS: Record<string, FacilityStatus> = {
   lima: "construction", // Shawnee Energy Campus — air-permit-grounded, ~313 MW (the disclosed build)
-  "fort-wayne": "confirmed", // GCP — a disclosed facility, not yet a construction record
+  "fort-wayne": "live", // GCP — a disclosed facility, not yet a construction record
 };
 
 /** A site's facility lifecycle stage; "investigation" when no facility is disclosed. */
@@ -656,7 +656,7 @@ export const FACILITY_STATUS_META: Record<
   FacilityStatus,
   { label: string; color: string; bg: string; dot: string }
 > = {
-  investigation: { label: "Under investigation", color: "#566159", bg: "#e8e4d8", dot: "#8c9389" },
+  investigation: { label: "Investigating", color: "#566159", bg: "#e8e4d8", dot: "#8c9389" },
   confirmed: { label: "Confirmed", color: "#1f6f4a", bg: "#e4ece4", dot: "#1f6f4a" },
   construction: { label: "Under construction", color: "#9a6a14", bg: "#efe6d0", dot: "#9a6a14" },
   live: { label: "Live", color: "#1f6f4a", bg: "#e4ece4", dot: "#1f6f4a" },
@@ -672,7 +672,7 @@ export const FACILITY_STAGES: readonly { status: FacilityStatus; short: string }
   { status: "investigation", short: "Investigation" },
   { status: "confirmed", short: "Confirmed" },
   { status: "construction", short: "Construction" },
-  { status: "live", short: "Live" },
+  { status: "live", short: "Operational" },
 ];
 
 /** The 0-based position of a facility status within `FACILITY_STAGES` — the rail's current step. */

@@ -20,7 +20,7 @@ export function getStaticPaths() {
 const { site } = Astro.props as { site: NetworkSite };
 const building = site.status === "building";
 const tracking = site.status === "tracking";
-const issueUrl = site.issue ? `https://github.com/goedelsoup/bosc/issues/${site.issue}` : undefined;
+const issueUrl = site.issue ? `https://github.com/watermark-directory/the-watermark-directory/issues/${site.issue}` : undefined;
 
 // The build phase, in this page's vocabulary. A `tracking` site is the earliest phase — a
 // GitHub-tracked candidate with no scaffold yet, so this is a "watch" page rather than a build gauge.
@@ -113,7 +113,7 @@ const doors = [
         {
           issueUrl && (
             <a class="netsite-issue" href={issueUrl} rel="noopener noreferrer">
-              goedelsoup/bosc · #{site.issue}
+              watermark-directory/the-watermark-directory · #{site.issue}
             </a>
           )
         }
