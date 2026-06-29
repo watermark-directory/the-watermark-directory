@@ -42,6 +42,25 @@
         "title": "Tag",
         "type": "string"
       },
+      "sub_thesis": {
+        "anyOf": [
+          {
+            "enum": [
+              "coercion",
+              "end-use",
+              "capture",
+              "opacity",
+              "nexus"
+            ],
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Sub Thesis"
+      },
       "group": {
         "anyOf": [
           {
