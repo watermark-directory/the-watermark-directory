@@ -83,6 +83,15 @@ _EXPECTED = {
             "wwtp": "Allen County Sanitary District (FM-1: American Bath / American II; FM-2: City of Lima)"
         },
     ),
+    ("surveillance", "fort-wayne"): (
+        "moderate",
+        "onrecord",
+        {
+            "operator": "Hatchworks LLC (Google shell — Mountain View CA mailing, Zodiac parcels)",
+            "capital": "—",
+            "end_use": "consumer_surveillance [inference]",
+        },
+    ),
 }
 
 
@@ -108,7 +117,7 @@ def test_get_hypothesis() -> None:
 def test_hypothesis_fields_and_groups() -> None:
     assert HYPOTHESES["defense"].fields == ("nexus", "linkage")
     assert HYPOTHESES["defense"].groups == ("arsenal", "federal", "supply", "watch")
-    assert HYPOTHESES["surveillance"].fields == ("operator", "capital")
+    assert HYPOTHESES["surveillance"].fields == ("operator", "capital", "end_use")
     # H1 CWA coercion cells use wwtp + gap; the basin network provides the rest.
     assert HYPOTHESES["water"].fields == ("wwtp", "gap")
     assert HYPOTHESES["water"].groups == ("coercion",)
@@ -139,6 +148,7 @@ def test_assessments_for_filters_by_hypothesis() -> None:
         "hamilton-middletown",
         "new-albany",
         "columbus",
+        "fort-wayne",
     }
     assert {c.site for c in assessments_for("water")} == {"lima"}
 
