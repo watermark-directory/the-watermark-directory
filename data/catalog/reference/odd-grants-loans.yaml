@@ -1,0 +1,35 @@
+id: odd-grants-loans
+title: Ohio Department of Development — Grants and Loans disbursements (statewide)
+scope: reference
+status: reviewed
+producer:
+  kind: manual
+  source: Ohio Department of Development public transparency portal — direct export
+  external_url: https://development.ohio.gov
+license: Public records (Ohio state government open data)
+access_tier: public
+site_scope: state:OH
+storage:
+  - relpath: reference/odd/grants_and_loans.csv
+    media_type: text/csv
+    lfs: false
+refresh:
+  cadence: annual
+  last_refreshed: '2026-06-28'
+provenance: reference
+tags:
+  - odd
+  - grants
+  - loans
+  - csbg
+  - heap
+  - community-development
+  - economic-development
+  - ohio
+notes: >-
+  33,371 rows; one row per purchase-order distribution line for every ODD grant or loan
+  disbursement. Covers budget periods 2010–2026. Filter on SERVICE_LOCATION_DESCR for
+  per-county analysis (e.g. 'ALLEN COUNTY' = 522 rows, ~$103.5M). Dominant Allen County
+  recipient is West Ohio Community Action Partnership ($41.7M, HEAP/CSBG utility assistance).
+  Also covers infrastructure grants to Allen County Port Authority ($7.5M) and the Allen
+  County Land Reutilization Corp ($5.5M land bank). See data/reference/odd/README.md.

@@ -1,0 +1,35 @@
+id: odd-tax-incentives
+title: Ohio Department of Development — Tax Incentives (JCTC/JRTC/Historic/Datacenter)
+scope: reference
+status: reviewed
+producer:
+  kind: manual
+  source: Ohio Department of Development public transparency portal — direct export
+  external_url: https://development.ohio.gov
+license: Public records (Ohio state government open data)
+access_tier: public
+site_scope: state:OH
+storage:
+  - relpath: reference/odd/tax_incentives.csv
+    media_type: text/csv
+    lfs: false
+refresh:
+  cadence: annual
+  last_refreshed: '2026-06-28'
+provenance: reference
+tags:
+  - odd
+  - tax-incentives
+  - jctc
+  - jrtc
+  - datacenter
+  - economic-development
+  - ohio
+notes: >-
+  2,298 rows; one row per approved tax incentive agreement. Programs: JCTC Job Creation Tax
+  Credit (1,610), Ohio Historic Preservation Tax Credit (648), JRTC-NR Non-Refundable (23),
+  Datacenter Tax Exemption (9), JRTC-R Refundable (7), Ohio Motion Picture Tax Credit (1).
+  Allen County has 19 records — largest is P&G (2022 JCTC, $501M investment commitment, 135
+  new + 749 retained jobs). Zero Datacenter Tax Exemptions in Allen County; all 9 statewide
+  datacenter exemptions are in Franklin, Cuyahoga, Hamilton, Licking, and Monroe counties.
+  See data/reference/odd/README.md.
