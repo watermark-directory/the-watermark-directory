@@ -1,255 +1,179 @@
-# Project BOSC — Agentic Research Platform
+# Watermark Directory
 
-A Python platform for **deconstructing public-records source documents** into
-reviewed, structured, machine-checkable data — then running Claude-driven
-agentic analysis over the result.
+**An agentic research platform for investigating public infrastructure programs
+through their paper trails.** It deconstructs degraded public-records documents —
+scanned cost estimates, NPDES permits, meeting minutes, deed filings — into
+reviewed, structured data, then runs Claude-driven analysis across the result.
 
-The driving example: the Project BOSC roadwork records (a privately funded
-program with public-records exhibits), where degraded 300 DPI scans of
-financial projections and engineering cost estimates must be read faithfully,
-transcribed to structured YAML, and **reconciled arithmetically** so that
-transcription errors and budgeting discrepancies surface automatically.
+The subject is a network of watershed-point sites in the Ohio River basin, each
+paired to a specific data-center construction program and its documented impact
+on water infrastructure. Lima, OH (American Sugar Creek, Allen County) is the
+live reference build; 18 additional sites span the Maumee, Great Miami, Little
+Miami, and Scioto basins.
 
-> Spun out from Periplus to keep BOSC's research, data, and tooling
-> self-contained.
+The corpus is treated as **litigation evidence**. Nothing is guessed; nothing
+is invented. Every number either reads off a scanned page or returns from an
+official database. Uncertain scan transcriptions are marked `~` rather than
+presented as exact. All claims carry `[verified]`, `[inference]`, `[reference]`,
+or `[open]` tags throughout the extracted data.
 
-## In plain terms (for non-coders)
+---
 
-If you don't write software, here's the whole thing in a paragraph. This
-repository is **two things in one box**:
+## What it does
 
-1. **An archive of records.** The original public documents — scanned permits,
-   engineering cost estimates, meeting minutes, deeds, saved web pages — live
-   under [`data/documents/`](data/documents/), kept exactly as received and never
-   edited. Careful typed-up versions of the numbers and facts inside them live
-   under [`data/extracted/`](data/extracted/), in a structured, double-checkable
-   form.
-2. **A set of tools** (the code under [`src/`](src/bosc/)) that read those
-   records, re-check the arithmetic, pull in supporting official datasets (for
-   example the EPA's inventory of wastewater dischargers), and answer research
-   questions about it all.
+### Document pipeline
 
-The rule that governs everything: **never invent a number or a source.** If a
-figure can't be read off the page, or wasn't returned by an official database,
-it's left blank and flagged — not guessed. Where a scanned number is hard to
-read, it's marked approximate (`~`) rather than presented as exact.
-
-You don't need to run any code to use the archive: browse
-[`data/documents/`](data/documents/) for the originals and
-[`data/extracted/`](data/extracted/) for the typed-up data. The
-[Layout](#layout) section below is a plain-English map of where everything is.
-
-## Pipeline
+Three-stage pipeline in `src/watermark/pipeline/`:
 
 ```
-  data/documents/         data/extracted/
-  (raw scans, PDFs)       (reviewed YAML)
-        │                       │
-        ▼                       ▼
-   ┌─────────┐   ┌──────────┐   ┌──────────┐
-   │ ingest  │──▶│ extract  │──▶│ analyze  │
-   └─────────┘   └──────────┘   └──────────┘
-   inventory     document →      reconcile +
-   source docs   structured      agentic Q&A
-                 data (agent)
+ingest  →  extract  →  analyze
 ```
 
-| Stage | Module | What it does |
-|-------|--------|--------------|
-| **ingest** | `watermark.pipeline.ingest` | Walk `data/documents`, inventory source files into a manifest (`doc_id`, collection, size). No parsing. |
-| **extract** | `watermark.pipeline.extract` | Drive the Claude agent to read a document and emit structured YAML; validate against `watermark.models`. The core deconstruction step. |
-| **analyze** | `watermark.pipeline.analyze` | Deterministic reconciliation (section roll-ups, the 25% contingency, totals) **and** free-form agentic research questions. |
+**`watermark ingest`** — walks `data/documents/`, inventories source files by
+collection (`aedg/`, `oepa/`, `recorder/`, …), emits a manifest.
 
-The **agent** layer (`watermark.agent`) wraps the [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview)
-and exposes in-process tools (`reconcile_summary`, `read_extraction`,
-`list_documents`, …) so the agent inspects real data instead of guessing.
+**`watermark extract <doc_id> --kind <kind> --pdf-page <N>`** — hybrid vision
+read: OCR text layer (pypdf, hint only; its digits are unreliable on degraded
+scans) + 300 DPI render (pypdfium2) → profile auto-detection from OCR text →
+forced tool-use Claude call that reads figures off the *image* →
+Pydantic-validated structured YAML written to `data/extracted/`. Supports
+`--detail` for per-section line items (item number, description, quantity,
+unit, rate, extended amount) that are immediately cross-checked against section
+subtotals. A contractor-agnostic `Estimate` model with dynamic `sections`, `markups`,
+construction subtotal, and total dispatches by document `--kind` and contractor
+`--profile`; adding a new contractor is a `Profile` registration, not a model
+change.
 
-## Data policy
+**`watermark reconcile`** — deterministic arithmetic check: section roll-ups,
+markup rates, totals. Surfaces transcription errors and budgeting discrepancies
+without any model call.
 
-- `data/documents/**` — raw source material (scans/PDFs/web captures).
-  **Versioned**, with large binaries (`*.pdf`, images) stored via **Git LFS**
-  (see `.gitattributes`). Treated as immutable inputs — never edited.
-- `data/extracted/**` — reviewed structured extractions of those documents.
-  **Committed.** The durable research artifact and what the tests run against.
-- `data/reference/**` — supporting datasets from *outside* sources (e.g. the EPA
-  ECHO wastewater inventory, USGS/NOAA reference values, parcel geometry).
-  **Committed**, and labeled with where each came from.
-- `data/scenarios/**` — named what-if inputs for the water-balance model.
-  **Committed.**
-- `data/cache/` — regenerable downloads (e.g. saved API responses). Git-ignored.
+### Research agent
 
-Cloning requires Git LFS (`git lfs install`) to pull the full source documents;
-without it you get lightweight pointer files.
+**`watermark research run`** runs a Claude Agent SDK loop over the extracted
+corpus, backed by 18 in-process MCP tools that expose real committed data:
 
-See [data/README.md](data/README.md) for the extraction conventions (including
-the `~approximate` marker for uncertain scan transcriptions).
+| Tool group | Tools |
+|---|---|
+| Corpus | `list_documents`, `list_extractions`, `read_extraction`, `retrieve_corpus` |
+| Estimates | `reconcile_summary`, `reconcile_estimate`, `program_overview` |
+| Record | `timeline`, `entities` |
+| Hydrology | `hydrology_balance`, `stormwater_runoff`, `hydrology_scenario`, `storm_plan_inventory`, `sanitary_basis`, `tier1_swmm` |
+| OEPA | `discover_oepa_permits`, `fetch_oepa_permit` |
+| Research | `report_novel_finding` |
 
-## Layout
+Tools resolve per the active `--site`; off the Lima reference build they serve
+the active site's own corpus or return an honest "not yet available" notice
+rather than silently falling through to Lima's data.
 
-The repository has three parts: **`data/`** (the records and datasets),
-**`src/`** (the Python code that works on them), and **`frontend/`** (the
-redesigned web app). Everything else supports those.
+**`watermark research run --recipe site-onboard`** is a structured first-pass
+that directs the agent across six coverage areas: NPDES/permit profile,
+GIS/parcels, water-grid data, facility/RSEI toxics, economic ledger, and
+hypothesis assessment. It discovers and fetches new OEPA DAM permit PDFs
+automatically.
 
-### `data/` — the records and datasets
+**`watermark research publish`** promotes agent findings to GitHub issues with
+standardized labels (`kind/area/status` taxonomy).
+
+### Hydrology and water balance
+
+`src/watermark/hydrology/` runs water-balance and stormwater models of the
+municipal loop. Connectors pull live public data:
+
+| Source | What |
+|---|---|
+| USGS NWIS | Streamflow, 7Q10 low-flow |
+| NOAA Atlas-14 | Rainfall frequency (DDF curves) |
+| EPA ECHO | NPDES permit inventory, DMRs |
+| NASA POWER | Surface met data for ET calculation |
+| EIA-861 | Utility service territory and sales |
+| PJM | LMP, interchange, generation |
+
+All connectors use an on-disk cache with TTL and committed-fixture fallback,
+so `mise run test` never hits the network.
+
+### Reference datasets
+
+`data/reference/` holds authoritative external data that is committed,
+regenerable, and documented with source and gaps:
+
++ `echo/` — EPA ECHO NPDES discharger inventory (Maumee basin)
++ `hydrology/` — USGS flow and NOAA rainfall reference values
++ `rsei/` — EPA RSEI facility toxics scores
++ `economics/` — EIA utility baseline, USASpending federal outlays
++ `periplus/` — parcel geometry, road-corridor GIS
+
+### Site network
+
+19 sites registered across four basins:
+
+| Basin | Sites |
+|---|---|
+| Maumee | Lima, Findlay, Fort Wayne, Van Wert, Toledo, Defiance, Bryan, Ottawa |
+| Great Miami | Urbana, Springfield, Hamilton·Middletown, Troy·Piqua, Sidney, Greenville |
+| Little Miami | Xenia, Wilmington |
+| Scioto | New Albany, Columbus |
+| (multi) | Wright-Patterson AFB |
+
+Each site is a `SiteProfile` in `watermark.sites.SITES`, carrying all per-site
+knobs (USGS gages, county FIPS, GIS URLs, EIA utility number, output relpaths).
+The frontend registry mirrors it in `frontend/src/lib/sites.ts`. Onboard a new
+site with `watermark onboard <slug>` (see [docs/onboarding.md](docs/onboarding.md)).
+Registered ≠ live: promotion to `selectable` in the frontend is a manual,
+parity-gated edit.
+
+### Public site
+
+The site is built in two tiers. The **data tier** (`watermark.site`,
+`watermark export`) emits a typed content bundle — JSON feeds + a `manifest.json`
+with a `CONTRACT_VERSION` — from the extracted corpus. The **presentation tier**
+(`frontend/`) is an Astro + MDX static site that reads that bundle at build time.
+deck.gl map/graph visualizations are the only React islands; charts are a
+hand-rolled SVG library (`frontend/src/lib/charts.ts`). Cloudflare Pages hosts
+it; Pages Functions (`/api/submit`, `/api/ask`) deploy alongside. The frontend
+classifies each section `available|locked` from feed counts in the manifest, so
+a thin site degrades gracefully rather than breaking. See
+[frontend/README.md](frontend/README.md).
+
+---
+
+## Data layout
 
 ```
 data/
-  documents/    RAW originals, exactly as received — never edited:
+  documents/    Raw originals, exactly as received — never edited (Git LFS for PDFs)
+                  aedg/          engineering cost estimates
+                  oepa/<site>/   Ohio EPA NPDES permits & fact sheets
                   recorder/      property deeds & recorder filings
-                  oepa/          Ohio EPA NPDES permits & fact sheets
-                  aedg/          engineering cost estimates (the scans we read)
-                  commissioners/ county commission minutes & agendas
-                  legal/         saved web pages & legal exhibits
-                  permits/ plans/ regulatory/ sanitary/  supporting records
-  extracted/    The same records, carefully typed up into structured,
-                checkable form (YAML). The reviewed, durable artifact.
-  reference/    Supporting datasets from outside sources:
-                  echo/       EPA ECHO wastewater-discharger inventory (Maumee)
-                  hydrology/  river-flow & rainfall reference values
-                  periplus/   parcels, road-corridor geometry
-  scenarios/    Named water-balance "what-if" inputs (baseline, buildout)
-  cache/        Regenerable downloads (saved API responses). Not committed.
+                  commissioners/ county commission minutes
+                  idem/<site>/   Indiana IDEM permit docs
+                  legal/         web captures & legal exhibits
+  extracted/    Reviewed, structured YAML — the committed, durable artifact
+  reference/    Authoritative external datasets (each with a README + source)
+  catalog/      Pydantic-validated data catalog (watermark catalog check in CI)
+  hypotheses/   Per-site hypothesis store (boom-origin × site)
+  research/     Agent finding manifests and leads (data/research/<site>/)
+  site/         Export feeds and bundle (data/site/bundle/ — built by watermark export)
+  cache/        Regenerable API responses — git-ignored
 ```
 
-Each dataset folder has its own `README.md` explaining its source and columns —
-for example [data/reference/echo/README.md](data/reference/echo/README.md)
-documents the EPA wastewater inventory and its known gaps.
+Cloning requires Git LFS (`git lfs install`) for the full source documents.
+Without it, `data/documents/` contains lightweight pointer files.
 
-### `src/bosc/` — the code
-
-```
-src/bosc/
-  cli.py          the `bosc` command — every task is a subcommand of it
-  config.py       settings (env + .env) and where data lives
-  models.py       the typed shapes that extracted data must fit
-  profiles.py     per-contractor formats for reading cost estimates
-  agent/          wraps Claude so it reads the real data instead of guessing
-  documents/      opens PDFs and scanned engineering drawings
-  pipeline/       the main stages run end to end:
-                    ingest → extract → analyze, plus corpus, entities,
-                    timeline, and hydrology assembly
-  hydrology/      water-balance & stormwater modeling of the Lima water loop;
-                    connectors/ pull live public data (USGS streamflow, NOAA
-                    rainfall, EPA ECHO permits), with on-disk caching
-  site/           the site's data tier: `watermark export` emits the typed content
-                    bundle (→ data/site/bundle/) the frontend/ app reads
-tests/            offline tests (run against committed data + saved fixtures)
-docs/             project notes + narrative prose (also the new site's content)
-```
-
-### `frontend/` — the redesigned site (Astro + MDX)
-
-The presentation tier of the two-tier site refactor (Epic #54): an
-[Astro](https://astro.build) + MDX static app that reads the committed content
-bundle (the JSON feeds `watermark export` emits) at build time, with deck.gl map/graph
-visualizations as the only React islands. It's structured as **the BOSC network**
-(Epic #308) — one build hosting a network of watershed-point sites: Lima (the live
-reference build) is re-rooted under `/bosc`, with cross-cutting pages (about, wiki,
-ask, search, the network hub) global at the root and a topbar switcher between sites.
-It's a self-contained Node project — `mise run //frontend:check` (or `cd frontend &&
-npm ci && npm run build`) builds it offline against `frontend/sample-bundle/`,
-no Python or LFS needed. It deploys to
-**Cloudflare Pages** (`.github/workflows/pages.yml`), not GitHub Pages — that deploy
-was never flipped and Cloudflare supersedes it; the public cutover to the new site is
-parity-gated. See [frontend/README.md](frontend/README.md).
-
-> **Reading the code as a non-coder:** start at the command you care about in
-> `cli.py` (e.g. `watermark npdes` for the wastewater pull), then follow it into the
-> matching module. Each file opens with a plain-language docstring saying what it
-> does and why.
+---
 
 ## Quickstart
 
-Toolchain is managed by [mise](https://mise.jdx.dev/) (Python 3.11, uv, node,
-git-lfs). Without mise, `brew bundle` installs the same tools (see `Brewfile`).
-
 ```bash
-mise install          # install pinned tools
-mise run setup        # uv sync --extra dev + git lfs install + Claude Code CLI
-cp .env.example .env  # add your ANTHROPIC_API_KEY
+mise install          # Python 3.11, uv, node 24, git-lfs
+mise run setup        # uv sync --extra dev + git lfs install
+cp .env.example .env  # set ANTHROPIC_API_KEY
 
-uv run bosc version
-uv run bosc ingest                                   # inventory data/documents
-uv run bosc reconcile roundabouts.summary.opc.yaml   # arithmetic checks (no API key needed)
-uv run bosc extract <doc_id> --pdf-page 319 --write  # hybrid vision extraction of one sheet
-uv run bosc ask "Which roundabout has the largest design fee, and why?"
+watermark ingest
+watermark reconcile roundabouts.summary.opc.yaml   # no API key needed
+watermark --site lima research run --recipe site-onboard
 ```
 
-### Extracting a cost sheet (hybrid read)
-
-`bosc extract` reads one estimate page and writes a reviewed `*.opc.yaml`:
-
-1. **OCR text layer** (pypdf) — a cheap structural hint; its digits are unreliable.
-2. **300 DPI render** (pypdfium2) — the authoritative image.
-3. **Profile resolve** — a format `Profile` is auto-detected from the OCR text
-   (contractor name, document title) or set with `--profile`; it supplies the
-   prompt vocabulary and markup convention.
-4. **Vision read** — a Claude model (`WATERMARK_EXTRACT_MODEL`) is forced via tool use
-   to populate a contractor-agnostic `Estimate` (a title + dynamic `sections`,
-   each with line items and a subtotal + `markups` + construction subtotal +
-   total), reading figures off the image and using the OCR text only as a hint.
-   Pydantic-validated, tagged with `confidence`/`warnings`, and stamped with the
-   `profile` used.
-
-```bash
-uv run bosc extract <doc_id> --pdf-page 319                 # auto-detect profile
-uv run bosc extract <doc_id> --pdf-page 319 --profile tetratech --write
-```
-
-Pages are addressed by `--pdf-page` (1-based, the printed sheet number) or
-`--page` (0-based PDF index). In the reference bundle the six estimates are
-`--pdf-page 319..328`. After extraction, run `bosc reconcile` on the result to
-catch transcription errors arithmetically.
-
-**Generality.** Extraction dispatches by document `--kind` (`opc` today) and,
-within OPC, by contractor **profile** (`bosc/profiles.py`). The `Estimate` model
-and `analyze.reconcile_estimate` are format-agnostic — section taxonomy and
-markup rate come from the data/profile, not hardcoded. Add a contractor by
-registering a new `Profile`; no model changes.
-
-**Summary vs. detail.** By default `extract` reads the section subtotals and
-totals. Add `--detail` (`-d`) to extract the full per-section **line items**
-(item number, description, quantity, unit, unit rate, extended amount) into a
-`*.detail.opc.yaml`:
-
-```bash
-uv run bosc extract <doc_id> --pdf-page 319 --detail --write
-```
-
-Detail extractions are immediately checked **line-item → section subtotal**: the
-extended amounts in each section must roll up to that section's subtotal, surfacing
-a misread quantity or rate right away.
-
-<details>
-<summary>Without mise (Homebrew)</summary>
-
-```bash
-brew bundle                                  # python@3.11, uv, node, git-lfs
-uv sync --extra dev && git lfs install --local
-npm install -g @anthropic-ai/claude-code     # the Agent SDK drives this CLI
-```
-
-</details>
-
-## Development
-
-mise is set up as a **monorepo** — the backend (this root) and the `frontend/` Astro
-site each have a full `dev`/`test`/`lint`/`check`/`fmt` task set. A bare task name runs
-the project you're in; `//frontend:<task>` targets the frontend from anywhere.
-
-```bash
-# backend (repo root)
-mise run check    # gate: ruff + format-check + markdown + mypy + pytest
-mise run test     # pytest only          mise run lint / types / fmt
-mise run dev -- … # run the bosc CLI     mise run export
-
-# frontend (the Astro site)
-mise run //frontend:check   # gate: Biome + types + vitest + build + links
-mise run //frontend:dev     # astro dev server   //frontend:test / lint / build
-
-mise run ci         # the whole-repo gate (both checks)
-mise tasks --all    # list every task across both projects
-```
-
-Or invoke the tools directly (`uv run ruff check .`, `uv run mypy`,
-`uv run pytest`). Tests run offline against the committed extraction.
+See [DEVELOPMENT.md](DEVELOPMENT.md) for the full task reference and
+[CONTRIBUTING.md](CONTRIBUTING.md) for data conventions and the contribution
+workflow.
