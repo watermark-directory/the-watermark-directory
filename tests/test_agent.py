@@ -64,6 +64,12 @@ async def test_reference_tools_do_not_serve_lima_data_off_home(
     # Lima commissioners minutes must not bleed into a Findlay run.
     assert "commissioners" not in timeline_text.lower()
 
+    # list_documents now filters data/documents/ by site slug rather than returning a
+    # _reference_only notice — Findlay has no committed docs so the result is an empty message.
+    docs_text = (await tools.list_documents.handler({}))["content"][0]["text"]
+    assert "No source documents found for site 'findlay'" in docs_text
+    assert "[scope]" not in docs_text  # no reference-only notice, just an honest empty message
+
     # program_overview resolves within findlay's own (empty) corpus — no Lima OPC leak.
     po = (await tools.program_overview.handler({}))["content"][0]["text"]
     assert "Program construction total" not in po

@@ -36,6 +36,19 @@ export function withBasePath(base: string, path: string): string {
   return `${left}${right}` || "/";
 }
 
+/**
+ * The most precise deep link for a citation (#328): document-sourced citations go to the
+ * viewer page (`/site/documents/<rel>`) so the reader can verify against the source bytes;
+ * otherwise falls back to the bundle page (`c.url`).
+ */
+export function citationHref(c: AskCitation, base: string): string {
+  const DOC_PREFIX = "data/documents/";
+  if (c.source_kind === "document" && c.source?.startsWith(DOC_PREFIX)) {
+    return withBasePath(base, `/site/documents/${c.source.slice(DOC_PREFIX.length)}`);
+  }
+  return withBasePath(base, c.url);
+}
+
 /** The evidence badge for a source — record/connector-grounded vs. inferred/derived. */
 export function badgeKind(c: AskCitation): "verified" | "inference" | "open" {
   if (c.verified) return "verified";
@@ -72,7 +85,7 @@ export function renderAnswer(answer: string, citations: AskCitation[], base = "/
     if (!c) {
       return `<sup class="ask-cite ask-cite--unresolved" title="citation not resolved to a source">[${marker}]</sup>`;
     }
-    const href = escapeHtml(withBasePath(base, c.url));
+    const href = escapeHtml(citationHref(c, base));
     const title = escapeHtml(
       `${c.title}${c.source ? ` — ${c.source}` : ""}${c.page != null ? ` p.${c.page}` : ""}`,
     );
@@ -86,7 +99,7 @@ export function renderSources(citations: AskCitation[], base = "/"): string {
   const items = citations
     .map((c) => {
       const kind = badgeKind(c);
-      const href = escapeHtml(withBasePath(base, c.url));
+      const href = escapeHtml(citationHref(c, base));
       const loc = [c.source, c.page != null ? `p.${c.page}` : null].filter(Boolean).join(" ");
       return (
         `<li class="ask-source">` +

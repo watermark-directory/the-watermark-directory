@@ -31,6 +31,26 @@ def test_discover_handles_missing_dir(tmp_path: Path) -> None:
     assert ingest.discover(settings) == []
 
 
+def test_discover_filters_by_site(tmp_path: Path) -> None:
+    from watermark.config import Settings
+
+    root = tmp_path / "documents"
+    (root / "idem" / "fort-wayne").mkdir(parents=True)
+    (root / "idem" / "fort-wayne" / "permit.pdf").write_bytes(b"%PDF-1.4 stub")
+    (root / "idem" / "lima").mkdir(parents=True)
+    (root / "idem" / "lima" / "other.pdf").write_bytes(b"%PDF-1.4 stub")
+    (root / "aedg").mkdir(parents=True)
+    (root / "aedg" / "prr-01.pdf").write_bytes(b"%PDF-1.4 stub")
+
+    settings = Settings(data_dir=tmp_path)
+    all_docs = ingest.discover(settings)
+    assert {d.path.name for d in all_docs} == {"permit.pdf", "other.pdf", "prr-01.pdf"}
+
+    fw_docs = ingest.discover(settings, site="fort-wayne")
+    assert [d.path.name for d in fw_docs] == ["permit.pdf"]
+    assert fw_docs[0].collection == "idem"
+
+
 def test_discover_finds_only_extractable_sources(tmp_path: Path) -> None:
     from watermark.config import Settings
 

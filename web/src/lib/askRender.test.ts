@@ -3,6 +3,7 @@ import { escapeHtml } from "./format";
 import {
   type AskCitation,
   badgeKind,
+  citationHref,
   renderAnswer,
   renderSources,
   searchingHint,
@@ -40,11 +41,29 @@ describe("withBasePath", () => {
   });
 });
 
+describe("citationHref", () => {
+  it("resolves a document-sourced citation to the doc viewer page (#328)", () => {
+    expect(citationHref(CITES[0], "/")).toBe("/site/documents/aedg/PRR-01-bundle.ocr.pdf");
+  });
+
+  it("falls back to the bundle url for non-document sources", () => {
+    const c: AskCitation = { ...CITES[0], source_kind: "derived", source: null };
+    expect(citationHref(c, "/")).toBe("/site/records/opc/");
+  });
+
+  it("prefixes with the site base", () => {
+    expect(citationHref(CITES[0], "/network/american-sugar-creek-allen-co")).toBe(
+      "/network/american-sugar-creek-allen-co/site/documents/aedg/PRR-01-bundle.ocr.pdf",
+    );
+  });
+});
+
 describe("renderAnswer", () => {
-  it("resolves a [n] marker to a deep link into the bundle", () => {
+  it("links a [n] marker to the doc viewer page when source is a document (#328)", () => {
     const html = renderAnswer("The roundabouts cost ~$1.2M [1].", CITES, "/");
-    expect(html).toContain('<a href="/site/records/opc/"');
+    expect(html).toContain('<a href="/site/documents/aedg/PRR-01-bundle.ocr.pdf"');
     expect(html).toContain("[1]</a>");
+    // Title tooltip still includes the source path and page for orientation.
     expect(html).toContain(
       'title="Roundabouts OPC — summary — data/documents/aedg/PRR-01-bundle.ocr.pdf p.318"',
     );
@@ -65,9 +84,9 @@ describe("renderAnswer", () => {
     expect(renderAnswer("**bold** claim", [], "/")).toContain("<strong>bold</strong>");
   });
 
-  it("prefixes citation links with the site base", () => {
+  it("prefixes doc viewer citation links with the site base (#328)", () => {
     expect(renderAnswer("x [1]", CITES, "/network/american-sugar-creek-allen-co")).toContain(
-      'href="/network/american-sugar-creek-allen-co/site/records/opc/"',
+      'href="/network/american-sugar-creek-allen-co/site/documents/aedg/PRR-01-bundle.ocr.pdf"',
     );
   });
 });
@@ -89,11 +108,13 @@ describe("badgeKind", () => {
 });
 
 describe("renderSources", () => {
-  it("lists each cited source with its badge + deep link, empty when none", () => {
+  it("lists each cited source with its badge + doc viewer link, empty when none (#328)", () => {
     expect(renderSources([], "/")).toBe("");
     const html = renderSources(CITES, "/");
     expect(html).toContain("Sources used");
-    expect(html).toContain('href="/site/records/opc/"');
+    // Document-sourced citation links to the viewer page, not the abstract records page.
+    expect(html).toContain('href="/site/documents/aedg/PRR-01-bundle.ocr.pdf"');
+    expect(html).not.toContain('href="/site/records/opc/"');
     expect(html).toContain("evidence-verified");
     expect(html).toContain("p.318");
   });

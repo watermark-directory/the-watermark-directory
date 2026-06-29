@@ -90,10 +90,10 @@ describe("buildAskIndex", () => {
     expect(u.source).toBe("data/documents/aedg/PRR-01-bundle.ocr.pdf");
     expect(u.page).toBe(318);
     expect(u.verified).toBe(true);
-    // Scalar fields are flattened into the searchable text; nested blocks are skipped.
+    // Scalar fields are flattened; nested objects are recursed so their leaf values are indexed.
     expect(u.text).toContain("instrument_no 12345");
     expect(u.text).toContain("roadway_subtotal");
-    expect(u.text).not.toContain("skip");
+    expect(u.text).toContain("skip 1"); // nested: { skip: 1 } — leaf included (#327)
   });
 
   it("synthesizes provenance for entities (source paths, not a Citation)", async () => {

@@ -48,14 +48,24 @@ export interface AskUnit {
   verified?: boolean;
 }
 
-/** Flatten a record's scalar `fields` into "key value" pairs so figures are searchable. */
+/** Flatten a record's `fields` into "key value" pairs so figures are searchable (#327).
+ * Recurses into nested objects so structured values (e.g. markup breakdowns) are indexed. */
 function fieldText(fields: Record<string, unknown>): string {
   const bits: string[] = [];
-  for (const [k, v] of Object.entries(fields)) {
-    if (v == null) continue;
-    if (typeof v === "object") continue; // skip nested blocks — keep the blob compact
-    bits.push(`${k} ${String(v)}`);
+  function collect(obj: Record<string, unknown>): void {
+    for (const [k, v] of Object.entries(obj)) {
+      if (v == null) continue;
+      if (Array.isArray(v)) {
+        const scalars = v.filter((x) => x != null && typeof x !== "object").map(String);
+        if (scalars.length > 0) bits.push(`${k} ${scalars.join(" ")}`);
+      } else if (typeof v === "object") {
+        collect(v as Record<string, unknown>);
+      } else {
+        bits.push(`${k} ${String(v)}`);
+      }
+    }
   }
+  collect(fields);
   return bits.join(" · ");
 }
 
@@ -108,7 +118,7 @@ export function buildAskIndex(): AskUnit[] {
         feed: "documents",
         title: c.title,
         url: siteUrl(`/site/documents/#doc-${c.slug}`),
-        text: blob(c.description, ...c.entries.slice(0, 20).map((x) => x.name)),
+        text: blob(c.description, ...c.entries.map((x) => x.name)),
         source: c.entries[0]?.rel,
         source_kind: "document",
       });
