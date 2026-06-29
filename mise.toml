@@ -130,4 +130,8 @@ print('${permit_id}-' + hashlib.sha256(str(p).encode()).hexdigest()[:8])
 ")
 
 uv run watermark --site "${site}" extract "${doc_id}" --kind "${kind}" --write
+
+# Keep _observed.yaml in sync so catalog check passes without a manual reconcile step.
+uv run watermark catalog reconcile
+uv run watermark catalog audit --apply
 '''

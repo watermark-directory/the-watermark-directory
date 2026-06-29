@@ -1,0 +1,29 @@
+id: oepa-sidney
+title: Ohio EPA NPDES Permit Extractions (Sidney / Hidden Valley MHP)
+scope: extracted
+status: reviewed
+producer:
+  kind: extracted
+  source: Ohio EPA — issued NPDES permits, fact sheets, and draft public notices for
+    permits at facilities in Sidney, Ohio (Shelby County)
+license: Public record (Ohio R.C. 149.43)
+access_tier: public
+site_scope: site:sidney
+storage:
+- relpath: extracted/oepa/1PV00037.npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: static
+provenance: document
+tags:
+- oepa
+- npdes
+- permits
+- wastewater
+- sidney
+notes: Hidden Valley MHP permit 1PV00037*ED, renewal effective 2025-09-01 through
+  2030-08-31, receiving Tawawa Creek at River Mile 3.3. Outfalls 1PV00037001 (final
+  treated effluent after UV disinfection) and 1PV00037588 (sludge/biosolids transfer
+  station). Design flow 0.015 MGD. Add additional Sidney OEPA extractions (WWTPs,
+  other facilities) to storage as produced.
