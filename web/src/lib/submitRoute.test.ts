@@ -10,10 +10,13 @@ import { dedupeInput, submissionMarker } from "../../functions/api/_lib/issue";
 import { windowKey } from "../../functions/api/_lib/ratelimit";
 import { onRequestPost } from "../../functions/api/submit";
 import {
+  type CognitoTestKeyPair,
   type FetchRoute,
   fakeKV,
+  generateCognitoKeyPair,
   generatePkcs8Pem,
   jsonResponse,
+  mintIdToken,
   postJson,
   routingFetch,
 } from "./_routeHarness";
@@ -291,5 +294,109 @@ describe("/api/submit route", () => {
     } as never);
     expect(res.status).toBe(201);
     expect(await res.json()).toEqual({ issue_url: ISSUE_URL, deduped: false });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Auth gate tests (Epic #920 B3)
+// ---------------------------------------------------------------------------
+
+describe("/api/submit — auth gate (AUTH_ENABLED=true)", () => {
+  let cognitoKey: CognitoTestKeyPair;
+  beforeAll(async () => {
+    cognitoKey = await generateCognitoKeyPair();
+  });
+
+  const TEST_REGION = "us-east-1";
+  const TEST_POOL_ID = "us-east-1_TEST";
+  const TEST_CLIENT_ID = "test-client-id";
+
+  function authEnv(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+    return submitEnv({
+      AUTH_ENABLED: "true",
+      COGNITO_REGION: TEST_REGION,
+      COGNITO_USER_POOL_ID: TEST_POOL_ID,
+      COGNITO_CLIENT_ID: TEST_CLIENT_ID,
+      ...overrides,
+    });
+  }
+
+  const jwksRoute = (): FetchRoute => ({
+    test: (url) => url.pathname.endsWith("/.well-known/jwks.json"),
+    respond: () => jsonResponse(200, { keys: [cognitoKey.jwk] }),
+  });
+
+  it("401s when no Authorization header is present", async () => {
+    vi.stubGlobal("fetch", routingFetch([]));
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission()),
+      env: authEnv(),
+    } as never);
+    expect(res.status).toBe(401);
+  });
+
+  it("401s when an invalid Bearer token is provided", async () => {
+    vi.stubGlobal("fetch", routingFetch([jwksRoute()]));
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission(), { Authorization: "Bearer not.a.real.token" }),
+      env: authEnv(),
+    } as never);
+    expect(res.status).toBe(401);
+  });
+
+  it("401s when the Bearer token is signed with the wrong key", async () => {
+    const wrongKey = await generateCognitoKeyPair();
+    const token = await mintIdToken(wrongKey, {
+      sub: "user-sub",
+      email: "user@example.com",
+      clientId: TEST_CLIENT_ID,
+      userPoolId: TEST_POOL_ID,
+      region: TEST_REGION,
+    });
+    vi.stubGlobal("fetch", routingFetch([jwksRoute()])); // JWKS has cognitoKey, not wrongKey
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission(), { Authorization: `Bearer ${token}` }),
+      env: authEnv(),
+    } as never);
+    expect(res.status).toBe(401);
+  });
+
+  it("500s when AUTH_ENABLED=true but COGNITO vars are absent", async () => {
+    vi.stubGlobal("fetch", routingFetch([]));
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission()),
+      env: submitEnv({ AUTH_ENABLED: "true" }), // no COGNITO_* vars
+    } as never);
+    expect(res.status).toBe(500);
+  });
+
+  it("files issue with sub attribution when a valid Bearer token is provided", async () => {
+    const token = await mintIdToken(cognitoKey, {
+      sub: "user-sub-abc123",
+      email: "tipster@example.com",
+      clientId: TEST_CLIENT_ID,
+      userPoolId: TEST_POOL_ID,
+      region: TEST_REGION,
+    });
+    const fetchStub = routingFetch([jwksRoute(), turnstileRoute(true), ...githubRoutes()]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission(), { Authorization: `Bearer ${token}` }),
+      env: authEnv(),
+    } as never);
+    expect(res.status).toBe(201);
+    const issuePost = fetchStub.calls.find((c) => c.method === "POST" && c.url.endsWith("/issues"));
+    expect(issuePost?.body).toContain("user-sub-abc123");
+  });
+
+  it("existing tests are unaffected when AUTH_ENABLED is absent (backward compat)", async () => {
+    // submitEnv() does not set AUTH_ENABLED — the gate must be bypassed entirely.
+    const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes()]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission()),
+      env: submitEnv(), // no auth vars
+    } as never);
+    expect(res.status).toBe(201);
   });
 });
