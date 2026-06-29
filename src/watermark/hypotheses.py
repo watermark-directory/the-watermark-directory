@@ -206,16 +206,25 @@ HYPOTHESES: dict[str, Hypothesis] = {
             "A third reading: the operators behind shell LLCs, the public-subsidy stack "
             "that pulls them in, and the capital and data flows the facilities sit on. The "
             "corporate-and-economic-surveillance thesis — opening now, mostly under "
-            "investigation, with Lima's abatement on record."
+            "investigation, with Lima's abatement on record. "
+            "An end-use sub-thesis (#904): these facilities are infrastructure nodes in a "
+            "consumer surveillance apparatus — behavioral tracking, financial-transaction "
+            "processing, or similar mass-scale surveillance of individual consumer activity, "
+            "financed in part by the public subsidies the same communities provide."
         ),
         status="emerging",
         groups=("onrecord", "subsidy", "watch"),
-        fields=("operator", "capital"),
+        fields=("operator", "capital", "end_use"),
         related_docs=("docs/ECONOMICS.md",),
         predicted_evidence=(
             "a named operator behind a shell LLC (deed / SOS / LEI trail)",
             "a public-subsidy instrument on record (CRA / TIF / enterprise-zone abatement)",
             "a capital or data-flow linkage tying the site to a known operator",
+            "the operator's active consumer-facing product lines at the time of the permit "
+            "application (10-K / AWS availability-zone announcement / product launch timeline)",
+            "a product classification tying the compute to a consumer surveillance application "
+            "class: behavioral-advertising, financial-transaction, consumer-credit, "
+            "AI-inference over consumer data",
         ),
     ),
 }
