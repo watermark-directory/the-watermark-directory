@@ -10,6 +10,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+import httpx
 import yaml
 from claude_agent_sdk import create_sdk_mcp_server, tool
 
@@ -649,6 +650,92 @@ _GH_REPO = "watermark-directory/the-watermark-directory"
 
 
 @tool(
+    "list_site_issues",
+    "List GitHub issues for the active site (all states: open + closed). "
+    "Call this before proposing new issues to avoid duplicating tracked findings.",
+    {
+        "state": {
+            "type": "string",
+            "enum": ["open", "closed", "all"],
+            "description": "Issue state filter (default: 'all').",
+        }
+    },
+)
+async def list_site_issues(args: dict[str, Any]) -> dict[str, Any]:
+    settings = get_settings()
+    state: str = args.get("state", "all")
+    if state not in ("open", "closed", "all"):
+        state = "all"
+
+    if not settings.github_token:
+        return _text(
+            "[list_site_issues] No GITHUB_TOKEN configured — cannot read the issue backlog. "
+            "Set GITHUB_TOKEN to enable backlog deduplication."
+        )
+
+    site_label = f"site:{settings.site}"
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {settings.github_token}",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+
+    issues: list[dict[str, Any]] = []
+    url: str | None = (
+        f"{settings.github_base_url}/repos/{_GH_REPO}/issues"
+        f"?labels={site_label}&state={state}&per_page=100"
+    )
+
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            while url:
+                resp = await client.get(url, headers=headers)
+                if resp.status_code != 200:
+                    return _text(
+                        f"[list_site_issues] GitHub API returned {resp.status_code}: "
+                        f"{resp.text[:200]}"
+                    )
+                page = resp.json()
+                for item in page:
+                    issues.append(
+                        {
+                            "number": item["number"],
+                            "title": item["title"],
+                            "state": item["state"],
+                            "url": item["html_url"],
+                            "labels": [lb["name"] for lb in item.get("labels", [])],
+                        }
+                    )
+                # Follow Link rel="next" pagination
+                link_header = resp.headers.get("link", "")
+                url = None
+                for part in link_header.split(","):
+                    part = part.strip()
+                    if 'rel="next"' in part:
+                        url = part.split(";")[0].strip().lstrip("<").rstrip(">")
+                        break
+    except Exception as exc:
+        return _text(f"[list_site_issues] Request failed: {exc}")
+
+    if not issues:
+        return _text(
+            f"[list_site_issues] No issues found for site:{settings.site} (state={state})."
+        )
+
+    lines = [
+        f"[list_site_issues] {len(issues)} issue(s) for site:{settings.site} (state={state}):\n"
+    ]
+    for iss in issues:
+        label_str = ", ".join(iss["labels"])
+        lines.append(
+            f"- #{iss['number']} [{iss['state']}] {iss['title']}\n"
+            f"  {iss['url']}\n"
+            f"  labels: {label_str}"
+        )
+    return _text("\n".join(lines))
+
+
+@tool(
     "report_novel_finding",
     "File a GitHub issue for context found in the source corpus that has no corresponding "
     "extraction. Use when retrieve_corpus surfaces something significant that is not yet in "
@@ -663,8 +750,6 @@ _GH_REPO = "watermark-directory/the-watermark-directory"
     },
 )
 async def report_novel_finding(args: dict[str, Any]) -> dict[str, Any]:
-    import httpx
-
     settings = get_settings()
     title: str = args.get("title", "").strip()
     description: str = args.get("description", "").strip()
@@ -765,6 +850,7 @@ ALL_TOOLS = [
     retrieve_corpus,
     discover_oepa_permits,
     fetch_oepa_permit,
+    list_site_issues,
     report_novel_finding,
 ]
 ALLOWED_TOOL_NAMES = [f"mcp__{SERVER_NAME}__{t.name}" for t in ALL_TOOLS]

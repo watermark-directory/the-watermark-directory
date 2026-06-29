@@ -81,12 +81,18 @@ def _distill_with_retry(op: Callable[[], _T], *, event: str, fail_msg: str) -> _
 _RESEARCH_PROMPT = """\
 Investigate this topic over the Project BOSC corpus using the read-only BOSC tools
 (timeline, entities, program_overview, read_extraction, reconcile_*, the hydrology
-tools, etc.). Produce a thorough, citation-grounded findings report: state what the
-evidence shows and cite source pages/files; distinguish high-confidence figures from
-approximate (~) transcriptions; never fabricate sources or line items (prefer omission
-over invention). Then call out concrete, actionable follow-up investigations worth
-tracking as issues — corpus gaps, unverified claims, reconciliation discrepancies, or
-new extraction targets.
+tools, etc.).
+
+Before synthesizing findings, call list_site_issues(state="all") to load the existing
+issue backlog for this site. Use it to avoid re-proposing already-tracked findings:
+cite the existing issue number if you encounter terrain that is already covered, and
+prefer filling gaps in the backlog over re-covering resolved terrain.
+
+Produce a thorough, citation-grounded findings report: state what the evidence shows
+and cite source pages/files; distinguish high-confidence figures from approximate (~)
+transcriptions; never fabricate sources or line items (prefer omission over invention).
+Then call out concrete, actionable follow-up investigations worth tracking as issues —
+corpus gaps, unverified claims, reconciliation discrepancies, or new extraction targets.
 
 Topic: {topic}
 """
@@ -103,6 +109,8 @@ check, a reconciliation discrepancy, or a new extraction target). For each propo
 - rationale: one sentence on why this is worth doing.
 - labels: optional *topical* labels only (e.g. extraction, hydrology, entities); omit
   the process labels, they are added automatically.
+If the findings reference an existing tracked issue number for a finding, do NOT
+propose it again — omit it from the list entirely.
 If the findings surface no actionable follow-ups, return an empty list.
 
 IMPORTANT: Call the tool with a native JSON array for the proposals field — not a
@@ -356,6 +364,11 @@ _ONBOARD_PROMPT = """\
 You are setting up a new watershed-point site ({site}) on the BOSC research platform.
 Use the read-only BOSC tools to assess the site's current state against the Lima reference
 build and produce a structured onboarding review.
+
+Start by calling list_site_issues(state="all") to load the existing issue backlog for
+{site}. Use it to avoid re-filing leads that are already tracked: cite the existing
+issue number when you encounter terrain already in the backlog, and use the lead queue
+to calibrate where the gaps actually are before diving into each area.
 
 For each substantive comparison step:
 - Call retrieve_corpus with a focused semantic query and site="lima" to pull relevant Lima
