@@ -6,7 +6,7 @@ producer:
   kind: extracted
   source: Ohio EPA — issued NPDES permits for facilities in Wilmington, OH (Clinton County);
     sourced from the Ohio EPA DAM (permits 1PD00013, 1PX00010, 1PV00089, 1IW00240, 1II00129,
-    1MP00060)
+    1PT00125, 1MP00060)
 license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: site:wilmington
@@ -26,6 +26,9 @@ storage:
 - relpath: extracted/oepa/1II00129.npdes.yaml
   media_type: application/x-yaml
   lfs: false
+- relpath: extracted/oepa/1PT00125.npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
 refresh:
   cadence: static
 provenance: document
@@ -35,7 +38,9 @@ tags:
 - permits
 - wastewater
 - wilmington
-notes: Five of six Wilmington-area OEPA permits extracted; 1MP00060 (22 MB application
-  package) is deferred (GH issue 878). Receiving water is Todd Fork into the Little
-  Miami River (National and State Scenic River). Add 1MP00060 extraction and the
-  1PD00013 fact sheet / draft PN to storage as produced.
+notes: Six of seven Wilmington-area OEPA permits extracted; 1MP00060 (22 MB application
+  package) is deferred (GH issue 878). 1PT00125 (Clinton County Board of Developmental
+  Disabilities) ingested separately — initial fetch failed on a stale versioned URL.
+  Receiving water is Todd Fork into the Little Miami River (National and State Scenic
+  River). Add 1MP00060 extraction and the 1PD00013 fact sheet / draft PN to storage
+  as produced.
