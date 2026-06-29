@@ -1,0 +1,34 @@
+id: odot-driveohio-cv-av
+title: Ohio CV/AV System Core Service Requirements (DriveOhio / AECOM)
+scope: reference
+status: reviewed
+producer:
+  kind: manual
+  source: DriveOhio (Ohio DOT) — prepared by AECOM; deliverable item 15
+  external_url: https://driveohio.com
+license: Public records (Ohio state government)
+access_tier: public
+site_scope: state:OH
+storage:
+  - relpath: documents/odot/15-Core Service Requirements.pdf
+    media_type: application/pdf
+    lfs: true
+refresh:
+  cadence: on-demand
+  last_refreshed: '2026-06-29'
+provenance: reference
+tags:
+  - odot
+  - driveohio
+  - cv-av
+  - infrastructure
+  - data-centers
+  - ohio
+notes: >-
+  Technical specification for the Ohio connected/autonomous vehicle system, prepared by
+  AECOM for DriveOhio (Ohio DOT). Defines Core Services CS-1 through CS-7: Core
+  Authorization, Data Distribution, Infrastructure Management, Location and Time, Map
+  Management, Object Registration and Discovery, Privacy Protection. CS-3-18 explicitly
+  requires horizontal scaling at the data center layer. Connects Ohio's roadway
+  infrastructure investment to data center demand as a formal state requirement.
+  Deliverable item 15 in the DriveOhio system design package.

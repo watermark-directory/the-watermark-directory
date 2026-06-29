@@ -1,4 +1,4 @@
-reconciled_at: '2026-06-29T03:59:14.038382+00:00'
+reconciled_at: '2026-06-29T04:23:57.666948+00:00'
 entries:
   aedg:
     exists: true
@@ -513,12 +513,39 @@ entries:
     missing: []
     asof: null
     stale: false
+  odd-tca-minutes:
+    exists: true
+    sha256: 648ed41712af089ef2eab13fad98ee7ac109eccc7b39887a2249de2948d85b42
+    size_bytes: 790174
+    lfs_materialized: true
+    file_count: 4
+    missing: []
+    asof: null
+    stale: false
+  odot-driveohio-cv-av:
+    exists: true
+    sha256: d7088c0406bca54be57d6a3f4e9dbc867936645d78f4a7c928977d08a8d5059e
+    size_bytes: 519135
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
   oepa:
     exists: true
     sha256: 8c8f6428673194de91edfb99369c2ebe2662124ea83becee502bbead08ac5749
     size_bytes: 17894
     lfs_materialized: true
     file_count: 9
+    missing: []
+    asof: null
+    stale: false
+  oepa-ohd000001-gp:
+    exists: true
+    sha256: ad8b415ac2a8965109916fb65963983d3941d5a6fd8b3537f633d82ed82cbd44
+    size_bytes: 677894
+    lfs_materialized: true
+    file_count: 3
     missing: []
     asof: null
     stale: false

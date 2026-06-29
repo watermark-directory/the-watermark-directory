@@ -1,0 +1,45 @@
+id: oepa-ohd000001-gp
+title: Ohio EPA Draft General NPDES Permit for Data Center Facilities (OHD000001)
+scope: reference
+status: reviewed
+producer:
+  kind: manual
+  source: Ohio EPA Division of Surface Water — public notice and permit package
+  external_url: https://epa.ohio.gov
+license: Public records (Ohio state government)
+access_tier: public
+site_scope: state:OH
+storage:
+  - relpath: documents/oepa/OHD000001_Draft.pdf
+    media_type: application/pdf
+    lfs: true
+  - relpath: documents/oepa/OHD000001_Draft_PN.pdf
+    media_type: application/pdf
+    lfs: true
+  - relpath: documents/oepa/OHD000001_Draft.fs.pdf
+    media_type: application/pdf
+    lfs: true
+refresh:
+  cadence: on-demand
+  last_refreshed: '2026-06-29'
+provenance: reference
+tags:
+  - oepa
+  - npdes
+  - general-permit
+  - data-centers
+  - ohio
+  - ohd000001
+  - cooling-water
+  - antidegradation
+notes: >-
+  Ohio's first statewide General NPDES Permit class specifically for data center facilities.
+  Permit No. OHD000001. Draft issued October 31, 2025; public hearing December 17, 2025;
+  effective date TBD. Covers cooling water (once-through and recirculated), low-volume
+  wastewaters (cooling tower blowdown, boiler blowdown, air compressor condensate), and
+  stormwater. SIC code 7374. Antidegradation provision D(1)(j) invoked (social/economic
+  development carve-out; no alternatives analysis required). Key exclusion: facilities
+  within 500 yards upstream of a public water supply intake are ineligible — directly
+  relevant to any data center sited near Lima's Ottawa River intake. Three-document set:
+  31-page draft permit + 2-page public notice (No. 215991) + 7-page fact sheet. Contact:
+  Allison Cycyk, 330-963-1132.

@@ -1,0 +1,48 @@
+id: odd-tca-minutes
+title: Ohio Tax Credit Authority — meeting minutes (Jan 2025 – Mar 2026)
+scope: reference
+status: reviewed
+producer:
+  kind: manual
+  source: Ohio Tax Credit Authority public meeting minutes
+  external_url: https://development.ohio.gov
+license: Public records (Ohio state government)
+access_tier: public
+site_scope: state:OH
+storage:
+  - relpath: documents/odd/tca/Meeting_Minutes_1.27.25.pdf
+    media_type: application/pdf
+    lfs: true
+  - relpath: documents/odd/tca/Meeting_Minutes_6.2.2025.pdf
+    media_type: application/pdf
+    lfs: true
+  - relpath: documents/odd/tca/Meeting_Minutes_TCA_1.28.2026_gyzb8y.pdf
+    media_type: application/pdf
+    lfs: true
+  - relpath: documents/odd/tca/Meeting_Minutes_TCA_3.30.2026.pdf
+    media_type: application/pdf
+    lfs: true
+refresh:
+  cadence: on-demand
+  last_refreshed: '2026-06-29'
+provenance: reference
+tags:
+  - odd
+  - tca
+  - jctc
+  - jrtc
+  - tax-incentives
+  - data-centers
+  - ohio
+  - meeting-minutes
+notes: >-
+  Four Ohio Tax Credit Authority meeting minutes covering January 2025 through March 2026.
+  Key data-center entries: (1) June 2025 — ark data centers, LLC JCTC terminated with
+  company's written consent, no credits issued; Cologix, Inc. added Lambada, Inc. as
+  co-grantee. (2) March 2026 — Vantage Data Centers Management Company added Vantage
+  Data Centers OH21, LLC and Lancaster Newark Road OH 21, LLC as grantees (FEIN
+  85-1505619), locating a Vantage facility in the Fairfield/Licking County corridor.
+  Also March 2026: Vertiv Corporation new 10-yr JCTC in Ironton (520 jobs) plus Westerville
+  extension. January 2025: Anduril Industries/Arsenal-1 (Pickaway Co.) 30-yr JCTC,
+  4,008 jobs, $530M annual payroll — the largest single JCTC term in this batch.
+  See data/documents/odd/tca/README.md.

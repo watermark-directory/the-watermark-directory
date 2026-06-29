@@ -24,6 +24,7 @@ Department of Development Community Services Division (CSD). Required by HUD; co
 the CDBG, HOME, ESG, HOPWA, and NHTF programs administered by ODD.
 
 Relevant to Allen County:
+
 - Allen County is a **non-entitlement county** — CDBG flows through the state, not
   directly to the county.
 - Allen County is in **BoSCoC Region 12** (Balance of State Continuum of Care, with
