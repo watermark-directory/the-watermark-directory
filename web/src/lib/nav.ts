@@ -472,3 +472,47 @@ export function navLinks(): { label: string; href: string }[] {
     ...platformLinks().map((t) => ({ label: t.label, href: t.href })),
   ];
 }
+
+export interface FooterGroup {
+  heading: string;
+  links: { label: string; href: string }[];
+}
+
+/** Structured footer nav groups — the three-column nav band. Raw paths; apply `withBase` in the template. */
+export function footerGroups(): FooterGroup[] {
+  const { base, storyRoot } = siteRoots();
+  const plat = platformLinks();
+  const docs = plat.find((p) => p.section === "reports")!;
+  const wiki = plat.find((p) => p.section === "wiki")!;
+  const connect = plat.find((p) => p.section === "connect")!;
+  return [
+    {
+      heading: "The investigation",
+      links: [
+        { label: "Overview", href: base },
+        { label: "Open leads", href: `${base}/leads` },
+        { label: "The watershed", href: `${base}/watershed/` },
+        { label: "The economy", href: `${base}/economy/` },
+        { label: "The story", href: storyRoot },
+        { label: "The record", href: `${base}/site/` },
+      ],
+    },
+    {
+      heading: "Resources",
+      links: [
+        { label: "Directory", href: "/" },
+        { label: "Research", href: "/research/hypotheses" },
+        { label: docs.label, href: docs.href },
+        { label: wiki.label, href: wiki.href },
+      ],
+    },
+    {
+      heading: "Site",
+      links: [
+        { label: connect.label, href: connect.href },
+        { label: "Methodology", href: `${base}/docs/methodology` },
+        { label: "About", href: "/about" },
+      ],
+    },
+  ];
+}

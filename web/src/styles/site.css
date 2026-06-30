@@ -1615,7 +1615,7 @@ a.card:hover { border-color: var(--bosc-forest); background: var(--bosc-surface)
   margin-bottom: var(--sp-1);
 }
 .footer-col a { font-size: 13.5px; color: var(--bosc-muted); text-decoration: none; line-height: 1.35; transition: color 0.12s; }
-.footer-col a:hover { color: var(--bosc-link); }
+.footer-col a:hover, .footer-col a:focus-visible { color: var(--bosc-link); }
 
 /* ============================================================================
    Responsive — canonical breakpoint ladder.
