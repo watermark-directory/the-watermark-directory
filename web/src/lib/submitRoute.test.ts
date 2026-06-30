@@ -80,6 +80,11 @@ function githubRoutes(issuesOnGet: Array<{ html_url: string; body: string }> = [
       test: (url, m) => url.pathname.endsWith("/issues") && m === "POST",
       respond: () => jsonResponse(201, { html_url: ISSUE_URL }),
     },
+    {
+      // POST /issues/:num/comments — dedupe attachment comment (#243)
+      test: (url, m) => /\/issues\/\d+\/comments$/.test(url.pathname) && m === "POST",
+      respond: () => jsonResponse(201, { id: 999 }),
+    },
   ];
 }
 
@@ -545,5 +550,33 @@ describe("/api/submit — attachment_keys (#243)", () => {
       env: submitEnv(), // no SUBMISSION_ATTACHMENTS
     } as never);
     expect(res.status).toBe(201);
+  });
+
+  it("comments attachment keys on the existing issue when a dedupe hits with attachments (#243)", async () => {
+    const key = "submissions/2026-06-29/abc/report.pdf";
+    const r2 = fakeAttachR2([key]);
+    const base = validSubmission();
+    const hash = await sha256Hex(dedupeInput(base as never));
+    const existing = {
+      html_url: "https://github.com/watermark-directory/the-watermark-directory/issues/7",
+      body: `x ${submissionMarker(hash)} y`,
+    };
+    const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes([existing])]);
+    vi.stubGlobal("fetch", fetchStub);
+
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission({ attachment_keys: [key] })),
+      env: submitEnv({ SUBMISSION_ATTACHMENTS: r2 }),
+    } as never);
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { deduped?: boolean };
+    expect(body.deduped).toBe(true);
+
+    // A comment carrying the attachment key must have been posted on issue #7
+    const commentPost = fetchStub.calls.find(
+      (c) => c.method === "POST" && /\/issues\/7\/comments$/.test(new URL(c.url).pathname),
+    );
+    expect(commentPost).toBeTruthy();
+    expect(commentPost?.body).toContain(key);
   });
 });

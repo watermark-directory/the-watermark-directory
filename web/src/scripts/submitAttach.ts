@@ -17,17 +17,24 @@ const attachInput = document.getElementById("f-attach") as HTMLInputElement | nu
 const attachStatus = document.getElementById("attach-status");
 
 if (form && attachInput && attachStatus) {
+  // One-shot guard: when we re-dispatch a plain submit after uploads, the capture
+  // listener fires again. Skip the upload path the second time and let it fall through.
+  let uploading = false;
+
   // Listen in the capture phase, before submit.ts's bubble-phase handler fires,
   // so we can async pre-upload files and populate form._attachmentKeys first.
   form.addEventListener(
     "submit",
     async (e) => {
+      if (uploading) return; // re-dispatched event — skip upload, let submit.ts handle it
+
       const files = Array.from(attachInput.files ?? []).slice(0, MAX_FILES);
       if (files.length === 0) return; // nothing to upload — let the event proceed normally
 
       // Prevent submit.ts from seeing this event until uploads finish.
       e.stopImmediatePropagation();
       e.preventDefault();
+      uploading = true;
 
       attachStatus.textContent = `Uploading ${files.length} file${files.length > 1 ? "s" : ""}…`;
 
@@ -56,6 +63,7 @@ if (form && attachInput && attachStatus) {
       }
 
       form._attachmentKeys = keys;
+      uploading = false;
 
       if (failed.length > 0) {
         attachStatus.textContent = `Could not upload: ${failed.join(", ")}. Proceed anyway or remove the file.`;
@@ -71,8 +79,10 @@ if (form && attachInput && attachStatus) {
     true, // capture phase — runs before submit.ts's bubble-phase listener
   );
 
-  // Client-side validation: warn when too many files are selected (max enforced server-side too).
+  // When the file selection changes, clear any previously uploaded keys so a re-submit
+  // doesn't send stale keys from an earlier upload cycle.
   attachInput.addEventListener("change", () => {
+    form._attachmentKeys = undefined;
     const count = attachInput.files?.length ?? 0;
     attachStatus.textContent =
       count > MAX_FILES ? `Select up to ${MAX_FILES} files (${count} selected).` : "";

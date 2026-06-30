@@ -90,6 +90,17 @@ describe("sanitizeFilename", () => {
     expect(sanitizeFilename("   ")).toBe("attachment");
     expect(sanitizeFilename("../../")).toBe("attachment");
   });
+
+  it("strips double quotes (unsafe in Content-Disposition quoted strings)", () => {
+    expect(sanitizeFilename('file"name.pdf')).toBe("filename.pdf");
+    expect(sanitizeFilename('"injected".pdf')).toBe("injected.pdf");
+  });
+
+  it("strips CR/LF and other control characters (unsafe in HTTP headers)", () => {
+    expect(sanitizeFilename("file\r\nname.pdf")).toBe("filename.pdf");
+    expect(sanitizeFilename("file\x01name.pdf")).toBe("filename.pdf");
+    expect(sanitizeFilename("file\x7fname.pdf")).toBe("filename.pdf");
+  });
 });
 
 describe("attachmentKey", () => {

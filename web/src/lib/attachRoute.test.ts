@@ -10,8 +10,10 @@ import type { R2Like } from "../../functions/api/_lib/attachments";
 const ATTACH_URL = "https://bosc.test/api/attach";
 
 // Minimal in-memory R2 for the attach endpoint — tracks puts by key.
-function fakeAttachR2(): R2Like & { stored: Map<string, { bytes: Uint8Array; contentType?: string }> } {
-  const stored = new Map<string, { bytes: Uint8Array; contentType?: string }>();
+function fakeAttachR2(): R2Like & {
+  stored: Map<string, { bytes: Uint8Array; contentType?: string; contentDisposition?: string }>;
+} {
+  const stored = new Map<string, { bytes: Uint8Array; contentType?: string; contentDisposition?: string }>();
   return {
     stored,
     put: async (key, value, opts) => {
@@ -21,7 +23,11 @@ function fakeAttachR2(): R2Like & { stored: Map<string, { bytes: Uint8Array; con
           : value instanceof Uint8Array
             ? value
             : new Uint8Array(0);
-      stored.set(key, { bytes, contentType: opts?.httpMetadata?.contentType });
+      stored.set(key, {
+        bytes,
+        contentType: opts?.httpMetadata?.contentType,
+        contentDisposition: opts?.httpMetadata?.contentDisposition,
+      });
     },
     head: async (key) => (stored.has(key) ? { size: stored.get(key)!.bytes.length } : null),
   };
@@ -162,11 +168,10 @@ describe("/api/attach route", () => {
       request: multipartRequest(file),
       env: attachEnv({ SUBMISSION_ATTACHMENTS: r2 }),
     } as never);
-    // The put call should have set httpMetadata with contentDisposition
-    // fakeAttachR2 only stores bytes + contentType; verify the key was stored
     expect(r2.stored.size).toBe(1);
     const stored = [...r2.stored.values()][0];
     expect(stored.contentType).toBe("application/pdf");
+    expect(stored.contentDisposition).toMatch(/^attachment;\s*filename="/);
   });
 
   it("sanitizes the filename in the key", async () => {

@@ -171,6 +171,7 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
       repo: env.GITHUB_REPO ?? "the-watermark-directory",
       issue,
       dedupeHash,
+      attachmentKeys: validAttachmentKeys,
       apiBase: env.GITHUB_API_BASE,
     });
 

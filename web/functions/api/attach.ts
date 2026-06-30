@@ -109,12 +109,17 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   const filename = file.name ? sanitizeFilename(file.name) : "attachment";
   const key = attachmentKey(isoDate, uuid, filename);
 
-  await env.SUBMISSION_ATTACHMENTS.put(key, bytes.buffer as ArrayBuffer, {
-    httpMetadata: {
-      contentType: declaredType,
-      contentDisposition: `attachment; filename="${filename}"`,
-    },
-  });
+  try {
+    await env.SUBMISSION_ATTACHMENTS.put(key, bytes.buffer as ArrayBuffer, {
+      httpMetadata: {
+        contentType: declaredType,
+        contentDisposition: `attachment; filename="${filename}"`,
+      },
+    });
+  } catch (e) {
+    console.error("attach: R2 put failed", e);
+    return json(502, { error: "failed to store attachment — please try again" });
+  }
 
   return json(201, { key });
 };
