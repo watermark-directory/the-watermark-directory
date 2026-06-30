@@ -23,6 +23,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
 
+import opentelemetry.trace
+from opentelemetry.trace import StatusCode
 from pydantic import BaseModel
 
 from watermark import profiles
@@ -59,6 +61,7 @@ if TYPE_CHECKING:
     from watermark.agent.extractor import StructuredExtractor
 
 log = get_logger(__name__)
+tracer = opentelemetry.trace.get_tracer(__name__)
 
 # Token budgets: detail extractions can carry dozens of line items.
 _SUMMARY_MAX_TOKENS = 4096
@@ -154,7 +157,17 @@ def extract_page(
     """Dispatch a page extraction to the handler for ``kind`` (default ``opc``)."""
     if kind not in EXTRACTORS:
         raise ValueError(f"unknown document kind {kind!r}; known: {sorted(EXTRACTORS)}")
-    return EXTRACTORS[kind](doc, page_index, **kwargs)
+    with tracer.start_as_current_span("pipeline.extract.page") as span:
+        span.set_attribute("pipeline.doc_id", doc.doc_id)
+        span.set_attribute("pipeline.page_index", page_index)
+        span.set_attribute("pipeline.kind", kind)
+        try:
+            result = EXTRACTORS[kind](doc, page_index, **kwargs)
+            span.set_attribute("pipeline.profile", result.estimate.profile or "")
+            return result
+        except Exception as exc:
+            span.set_status(StatusCode.ERROR, str(exc))
+            raise
 
 
 def _collection_dir(source_path: str, settings: Settings) -> Path:
