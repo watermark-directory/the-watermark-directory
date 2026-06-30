@@ -82,6 +82,10 @@ class Settings(BaseSettings):
     # --- Logging -----------------------------------------------------------
     log_level: str = "INFO"
 
+    # --- OpenTelemetry / Honeycomb (#953) ----------------------------------
+    otel_enabled: bool = False  # WATERMARK_OTEL_ENABLED; no-op when false
+    honeycomb_api_key: str = ""  # WATERMARK_HONEYCOMB_API_KEY
+
     # --- Hydrology (live connectors + Tier-0 simulation) -------------------
     # When true, connectors never touch the network: they serve cached/fixture
     # responses only (so tests and CI stay hermetic). A cache miss raises.

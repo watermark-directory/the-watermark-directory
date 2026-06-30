@@ -20,7 +20,7 @@ from watermark.config import Settings as Settings
 from watermark.config import get_settings as get_settings
 from watermark.config import repo_fixtures_dir as repo_fixtures_dir
 from watermark.documents import DEFAULT_DPI as DEFAULT_DPI
-from watermark.logging import configure_logging
+from watermark.logging import configure_logging, configure_tracing
 from watermark.models import OPCSummary as OPCSummary
 from watermark.sites import SITES as SITES
 
@@ -69,7 +69,9 @@ def _main(
     # Set WATERMARK_SITE before the first get_settings() so the cached Settings resolve this
     # site; the callback runs ahead of every command, and cli has no import-time get_settings.
     os.environ["WATERMARK_SITE"] = site
-    configure_logging(get_settings().log_level)
+    settings = get_settings()
+    configure_logging(settings.log_level)
+    configure_tracing(settings)
 
 
 sites_app = typer.Typer(name="sites", help="Inspect + author the site registry (watermark.sites).")
