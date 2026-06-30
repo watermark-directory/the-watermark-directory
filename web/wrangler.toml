@@ -62,7 +62,7 @@ GITHUB_REPO = "the-watermark-directory"
 # ASK_TOP_K = "6"                  # retrieval depth over the ask-index
 # ASK_RATE_LIMIT_MAX = "10"        # per-IP questions per window ("0" = block all)
 # ASK_RATE_LIMIT_WINDOW_SEC = "3600"
-# ASK_DAILY_TOKEN_BUDGET = "200000"  # account-wide daily output-token cap ("0" = hard stop)
+# ASK_DAILY_TOKEN_BUDGET = "200000"  # account-wide daily total-token cap, input+output ("0" = hard stop)
 
 # The ask endpoint is FAIL-CLOSED (#587): with ASK_ENABLED="true" but no budget KV bound it
 # returns 503 rather than allow unbounded paid model spend behind Turnstile alone. Bind a KV

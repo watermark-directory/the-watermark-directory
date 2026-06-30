@@ -382,7 +382,7 @@ describe("/api/ask route", () => {
     expect(out).toContain("event: error"); // …then the failure is relayed, not thrown
   });
 
-  it("records the answer's output tokens against the daily budget (addUsage)", async () => {
+  it("records the answer's total tokens (input + output) against the daily budget (addUsage)", async () => {
     const fixedMs = 1_750_000_000_000;
     vi.spyOn(Date, "now").mockReturnValue(fixedMs);
     const budgetKv = fakeKV({}); // no prior spend
@@ -394,7 +394,7 @@ describe("/api/ask route", () => {
       env: askEnv({ ASK_BUDGET: budgetKv }),
     } as never);
     expect(res.status).toBe(200);
-    // anthropicJsonRoute reports output_tokens: 12 → the day counter is incremented by it.
-    expect(budgetKv.store.get(dayKey(fixedMs))).toBe("12");
+    // anthropicJsonRoute reports { input_tokens: 50, output_tokens: 12 } → counter increments by 62.
+    expect(budgetKv.store.get(dayKey(fixedMs))).toBe("62");
   });
 });
