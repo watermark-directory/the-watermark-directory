@@ -39,6 +39,7 @@ dependencies = [
     "opentelemetry-exporter-otlp-proto-http>=1.25",
     "opentelemetry-semantic-conventions>=0.46b0",
     "opentelemetry-instrumentation-httpx>=0.46b0",
+    "opentelemetry-instrumentation-anthropic>=0.46b0",
 ]
 
 [project.optional-dependencies]

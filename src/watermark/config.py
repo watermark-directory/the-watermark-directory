@@ -86,6 +86,9 @@ class Settings(BaseSettings):
     otel_enabled: bool = False  # WATERMARK_OTEL_ENABLED; no-op when false
     honeycomb_api_key: str = ""  # WATERMARK_HONEYCOMB_API_KEY
     otel_environment: str = "prod"  # WATERMARK_OTEL_ENVIRONMENT; sets deployment.environment
+    otel_trace_content: bool = (
+        False  # WATERMARK_OTEL_TRACE_CONTENT; opt-in to exporting prompts/completions
+    )
 
     # --- Hydrology (live connectors + Tier-0 simulation) -------------------
     # When true, connectors never touch the network: they serve cached/fixture

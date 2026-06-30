@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from collections.abc import MutableMapping
 from typing import TYPE_CHECKING, Any
 
@@ -90,8 +91,12 @@ def configure_tracing(settings: Settings) -> None:
     provider.add_span_processor(BatchSpanProcessor(exporter))
     trace.set_tracer_provider(provider)
 
+    from opentelemetry.instrumentation.anthropic import AnthropicInstrumentor
     from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
 
+    if not settings.otel_trace_content:
+        os.environ.setdefault("TRACELOOP_TRACE_CONTENT", "false")
+    AnthropicInstrumentor().instrument()
     HTTPXClientInstrumentor().instrument()
     _tracing_configured = True
 
