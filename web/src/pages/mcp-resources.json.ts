@@ -1,12 +1,20 @@
 import type { APIRoute } from "astro";
 import { activeSite, loadManifest } from "../lib/bundle";
 
-// Static endpoint: emits the MCP resource descriptors for all bundle feeds.
+// Static endpoint: emits the MCP resource descriptors for readable bundle feeds.
 // The MCP `resources/list` handler fetches this at runtime to build its response (#915).
 // Each resource maps to the `watermark://{site}/feeds/{name}` URI scheme.
 //
+// Only feeds with a corresponding /feeds/{name}.json static endpoint are advertised —
+// listing a feed that `resources/read` cannot serve breaks the list→read contract.
+// Extend READABLE_FEEDS as additional static endpoints are added.
+//
 // Feed descriptions embed the evidentiary tag vocabulary so MCP clients inherit
 // the investigative discipline when reading raw feeds.
+
+// Feeds with a /feeds/{name}.json static endpoint. hypothesis-assessments shares
+// the /feeds/hypotheses.json endpoint and is handled as a sub-key by readResource().
+const READABLE_FEEDS = new Set(["timeline", "entities", "hypotheses", "hypothesis-assessments", "documents"]);
 
 const FEED_DESCRIPTIONS: Record<string, string> = {
   records:
@@ -39,7 +47,7 @@ export const GET: APIRoute = () => {
   const site = activeSite();
   const manifest = loadManifest(site);
   const resources = manifest.feeds
-    .filter((f) => f.kind !== "geojson")
+    .filter((f) => f.kind !== "geojson" && READABLE_FEEDS.has(f.name))
     .map((f) => ({
       uri: `watermark://${site}/feeds/${f.name}`,
       name: `${f.name.replace(/-/g, " ")} — ${site}`,

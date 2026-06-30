@@ -4,6 +4,10 @@
 // The descriptor list is fetched from the `/mcp-resources.json` static endpoint
 // (src/pages/mcp-resources.json.ts) which is built from the bundle manifest.
 // Feed content is fetched from `/feeds/{name}.json` static endpoints.
+//
+// Multi-site note: feed endpoints are Lima-only today (/feeds/{name}.json).
+// When per-site endpoints are added, the URL construction below will route by site.
+// hypothesis-assessments already filters by the requested site segment.
 
 import { fetchWithTimeout } from "./http";
 import { McpError, RPC } from "./mcpDispatch";
@@ -24,14 +28,17 @@ function parseWatermarkUri(uri: string): { site: string; feed: string } | null {
 
 export async function listResources(requestUrl: string): Promise<{ resources: McpResource[] }> {
   const url = new URL("/mcp-resources.json", requestUrl).toString();
+  let res: Response;
   try {
-    const res = await fetchWithTimeout(url);
-    if (!res.ok) return { resources: [] };
-    const resources = (await res.json()) as McpResource[];
-    return { resources };
-  } catch {
-    return { resources: [] };
+    res = await fetchWithTimeout(url);
+  } catch (e) {
+    throw new McpError(RPC.INTERNAL_ERROR, `Failed to fetch resource manifest: ${String(e)}`);
   }
+  if (!res.ok) {
+    throw new McpError(RPC.INTERNAL_ERROR, `Resource manifest returned ${res.status}`);
+  }
+  const resources = (await res.json()) as McpResource[];
+  return { resources };
 }
 
 export async function readResource(
@@ -52,7 +59,7 @@ export async function readResource(
     );
   }
 
-  // Hypotheses and hypothesis-assessments share a combined endpoint.
+  // Hypotheses and hypothesis-assessments share a combined static endpoint.
   const feedName = parsed.feed === "hypothesis-assessments" ? "hypotheses" : parsed.feed;
 
   const feedUrl = new URL(`/feeds/${feedName}.json`, requestUrl).toString();
@@ -72,14 +79,18 @@ export async function readResource(
 
   const text = await res.text();
 
-  // If the caller asked for hypothesis-assessments specifically, extract that sub-key.
+  // hypothesis-assessments: extract the assessments sub-key and filter by the
+  // requested site so `watermark://lima/feeds/hypothesis-assessments` and
+  // `watermark://fort-wayne/feeds/hypothesis-assessments` return distinct rows.
   let content = text;
   if (parsed.feed === "hypothesis-assessments") {
     try {
-      const payload = JSON.parse(text) as { assessments?: unknown };
-      content = JSON.stringify(payload.assessments ?? []);
+      const payload = JSON.parse(text) as { assessments?: Array<{ site?: string }> };
+      const all = payload.assessments ?? [];
+      const filtered = all.filter((a) => !a.site || a.site === parsed.site);
+      content = JSON.stringify(filtered);
     } catch {
-      // Return the raw response if parse fails.
+      // Return the raw text if parse fails.
     }
   }
 
