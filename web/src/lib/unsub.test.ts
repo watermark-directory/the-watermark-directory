@@ -31,9 +31,10 @@ describe("signUnsubToken + verifyUnsubToken — round-trip", () => {
   it("returns null for a tampered token", async () => {
     const token = await signUnsubToken(SUB, CATEGORY, SECRET);
     const parts = token.split(".");
-    // Flip the last char of the signature.
-    const lastPart = parts[3];
-    parts[3] = lastPart.slice(0, -1) + (lastPart.endsWith("A") ? "B" : "A");
+    // Replace the entire signature with a known-wrong value. Flipping only the last
+    // base64url character is unreliable: for 32-byte HMAC output the low 2 bits of the
+    // last character are padding and don't affect the decoded bytes.
+    parts[3] = parts[3] === "AAAA" ? "BBBB" : "AAAA";
     const tampered = parts.join(".");
     const result = await verifyUnsubToken(tampered, SECRET);
     expect(result).toBeNull();

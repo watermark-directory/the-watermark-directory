@@ -43,13 +43,21 @@ export const onRequestGet = async ({ request, env }: RequestContext): Promise<Re
     users = users.filter((u) => u.adminSites.some((s) => callerSites.has(s)));
   }
 
-  // Enrich each user with their current group memberships.
-  const enriched = await Promise.all(
-    users.map(async (u) => {
-      const groups = await listGroupsForUser(env, u.sub).catch(() => []);
-      return { ...u, groups };
-    }),
-  );
+  // Enrich each user with their current group memberships. Swallowing failures
+  // here would make an error look like "no groups", which could cause a save to
+  // silently strip memberships, so propagate and return 502 on Cognito error.
+  let enriched: Array<{ sub: string; email: string; adminSites: string[]; groups: string[] }>;
+  try {
+    enriched = await Promise.all(
+      users.map(async (u) => {
+        const groups = await listGroupsForUser(env, u.sub);
+        return { ...u, groups };
+      }),
+    );
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return json(502, { error: `Cognito error: ${msg}` });
+  }
 
   return json(200, enriched);
 };

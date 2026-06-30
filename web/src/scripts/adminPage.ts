@@ -8,8 +8,11 @@
 import { withBase } from "../lib/base";
 
 const LOGIN_PATH = withBase("/account/login");
-const USERS_URL = "/api/admin/users";
-const AUDIT_URL = "/api/admin/audit";
+const USERS_URL = withBase("/api/admin/users");
+const AUDIT_URL = withBase("/api/admin/audit");
+const userGroupsUrl = (sub: string) => withBase(`/api/admin/users/${encodeURIComponent(sub)}/groups`);
+const userAdminSitesUrl = (sub: string) =>
+  withBase(`/api/admin/users/${encodeURIComponent(sub)}/admin-sites`);
 
 const MANAGED_GROUPS = ["admin", "site-admin", "standard"];
 
@@ -29,14 +32,18 @@ interface AuditEntry {
   at: string;
 }
 
+function b64urlDecode(s: string): string {
+  const base64 = s.replace(/-/g, "+").replace(/_/g, "/");
+  const rem = base64.length % 4;
+  return atob(rem ? base64 + "=".repeat(4 - rem) : base64);
+}
+
 function getToken(): string | null {
   const token = sessionStorage.getItem("watermark_id_token");
   if (!token) return null;
   try {
     const [, payloadB64] = token.split(".");
-    const payload = JSON.parse(atob(payloadB64.replace(/-/g, "+").replace(/_/g, "/"))) as {
-      exp?: unknown;
-    };
+    const payload = JSON.parse(b64urlDecode(payloadB64)) as { exp?: unknown };
     if (typeof payload.exp === "number" && payload.exp > Math.floor(Date.now() / 1000)) return token;
   } catch {
     // malformed
@@ -47,7 +54,7 @@ function getToken(): string | null {
 function getRole(token: string): string {
   try {
     const [, b64] = token.split(".");
-    const p = JSON.parse(atob(b64.replace(/-/g, "+").replace(/_/g, "/"))) as {
+    const p = JSON.parse(b64urlDecode(b64)) as {
       "cognito:groups"?: string[];
     };
     const groups = p["cognito:groups"] ?? [];
@@ -149,7 +156,7 @@ function attachCardHandlers(card: Element, token: string): void {
         (status as HTMLElement).dataset.kind = "info";
       }
       try {
-        const res = await fetch(`/api/admin/users/${encodeURIComponent(sub)}/groups`, {
+        const res = await fetch(userGroupsUrl(sub), {
           method: "POST",
           headers: bearer(token),
           body: JSON.stringify({ groups }),
@@ -183,7 +190,7 @@ function attachCardHandlers(card: Element, token: string): void {
         (status as HTMLElement).dataset.kind = "info";
       }
       try {
-        const res = await fetch(`/api/admin/users/${encodeURIComponent(sub)}/admin-sites`, {
+        const res = await fetch(userAdminSitesUrl(sub), {
           method: "POST",
           headers: bearer(token),
           body: JSON.stringify({ sites }),
@@ -235,7 +242,9 @@ async function handleSearch(token: string, q: string, callerRole: string): Promi
     setStatus(`${users.length} user${users.length === 1 ? "" : "s"} found.`, "ok");
     if (!resultsEl) return;
     resultsEl.innerHTML = users.map((u) => renderUserCard(u, callerRole)).join("");
-    resultsEl.querySelectorAll(".user-card").forEach((card) => attachCardHandlers(card, token));
+    resultsEl.querySelectorAll(".user-card").forEach((card) => {
+      attachCardHandlers(card, token);
+    });
   } catch {
     setStatus("Network error.", "err");
   }
