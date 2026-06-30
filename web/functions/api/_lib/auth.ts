@@ -104,7 +104,7 @@ export async function verifyIdToken(token: string, env: AuthEnv): Promise<Cognit
   const jwksUrl = `${expectedIss}/.well-known/jwks.json`;
   const jwks = await fetchJwks(jwksUrl, env.JWKS_CACHE);
   const jwk = jwks.keys.find((k) => k.kid === header.kid && k.alg === "RS256");
-  if (!jwk) throw new Error("no matching JWK for kid=" + header.kid);
+  if (!jwk) throw new Error(`no matching JWK for kid=${header.kid}`);
 
   const key = await crypto.subtle.importKey(
     "jwk",

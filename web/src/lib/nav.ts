@@ -38,7 +38,8 @@ export type SectionId =
   | "search"
   | "directory"
   | "hypotheses"
-  | "submit";
+  | "submit"
+  | "connect";
 
 export interface TocEntry {
   /** Visible label in the per-section TOC. */
@@ -425,6 +426,7 @@ export function platformLinks(): { label: string; section: SectionId; href: stri
   return [
     { label: "Docs", section: "reports", href: `${base}/docs/` },
     { label: "Wiki", section: "wiki", href: "/wiki/" },
+    { label: "Connect", section: "connect", href: "/network/connect" },
   ];
 }
 

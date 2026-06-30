@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "watermark-directory": {
+      "url": "https://watermark.directory/api/mcp",
+      "name": "Watermark Directory",
+      "description": "Documentary corpus of the American Sugar Creek watershed — Lima OH, Fort Wayne IN, and surrounding Maumee basin watershed points. Investigative-grade: evidence tagged [verified]/[inference]/[open].",
+      "tiers": {
+        "public": {
+          "rateLimit": "60 req/hour per IP",
+          "dailyBudget": "100k output tokens",
+          "tools": ["search_corpus", "get_timeline", "get_entities", "get_hypotheses", "get_documents"]
+        },
+        "cognito": {
+          "auth": "Bearer token",
+          "dailyBudget": "500k output tokens",
+          "tools": "all",
+          "requestAccess": "https://watermark.directory/network/connect"
+        }
+      }
+    }
+  }
+}
