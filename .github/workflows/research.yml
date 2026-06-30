@@ -100,6 +100,8 @@ jobs:
         id: run
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          WATERMARK_HONEYCOMB_API_KEY: ${{ secrets.HONEYCOMB_API_KEY }}
+          WATERMARK_OTEL_ENABLED: "true"
           BOSC_RESEARCH_MAX_TURNS: ${{ vars.RESEARCH_MAX_TURNS || '30' }}
           BOSC_RESEARCH_MAX_PROPOSALS: ${{ vars.RESEARCH_MAX_PROPOSALS || '5' }}
           TOPIC: ${{ steps.topic.outputs.topic }}

@@ -72,6 +72,9 @@ jobs:
       - name: Run agent harness
         if: steps.queue.outputs.claimed == 'true'
         uses: tonnetz-io/orlop/.github/actions/agent-harness@main
+        env:
+          WATERMARK_HONEYCOMB_API_KEY: ${{ secrets.HONEYCOMB_API_KEY }}
+          WATERMARK_OTEL_ENABLED: "true"
         with:
           issue-number: ${{ steps.queue.outputs.issue-number }}
           issue-title: ${{ steps.queue.outputs.issue-title }}

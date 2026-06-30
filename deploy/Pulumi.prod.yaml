@@ -11,6 +11,16 @@
 #   pulumi config set bosc-deploy:cognitoDomainPrefix watermark-auth # Hosted UI prefix (default "watermark-auth")
 #   pulumi config set bosc-deploy:cognitoRegion us-east-1           # must match AWS provider region
 #
+# OpenTelemetry / Honeycomb (#953): the API key is NOT managed by Pulumi (it goes to
+# three surfaces separately — see docs below). After creating the key in Honeycomb:
+#   1. Cloudflare dashboard → Pages project → Settings → Environment variables → Secret:
+#        HONEYCOMB_API_KEY = <key>
+#      Also set RUM_ENABLED=true and PUBLIC_RUM_ENABLED=true (build env) for browser RUM.
+#   2. GitHub repo → Settings → Secrets → Actions:
+#        HONEYCOMB_API_KEY = <key>
+#      Referenced in research.yml and agent-worker.yml.
+#   3. Local dev: add to .env (see .env.example).
+#
 # `siteDomain` + `route53ZoneId` together drive the Route53↔Cloudflare exchange (decided
 # shape: a subdomain CNAME — see index.ts / docs/submissions-api.md). `authEnabled` is
 # independent of `siteDomain`: the Cognito pool can be provisioned before or after a
