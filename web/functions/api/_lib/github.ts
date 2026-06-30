@@ -135,10 +135,14 @@ export async function fileIssueAsApp(opts: {
   );
   if (existing) return { url: existing, deduped: true };
 
+  const issuePayload: Record<string, unknown> = { ...opts.issue };
+  if (opts.issue.assignees && opts.issue.assignees.length > 0) {
+    issuePayload.assignees = opts.issue.assignees;
+  }
   const res = await fetchWithTimeout(`${api}/repos/${opts.owner}/${opts.repo}/issues`, {
     method: "POST",
     headers: { ...ghHeaders(token, "token"), "Content-Type": "application/json" },
-    body: JSON.stringify(opts.issue),
+    body: JSON.stringify(issuePayload),
   });
   if (!res.ok) throw new Error(`issue create failed (${res.status})`);
   const { html_url } = (await res.json()) as { html_url: string };

@@ -123,6 +123,20 @@ const ENDPOINT = "/api/submit";
               />
             </div>
 
+            <div class="field">
+              <label for="f-attach">
+                Attach a file <span class="field-hint">— optional; images, PDF, or plain text. Up to 3 files, 10 MB each.</span>
+              </label>
+              <input
+                id="f-attach"
+                name="attach"
+                type="file"
+                multiple
+                accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.txt,image/jpeg,image/png,image/gif,image/webp,application/pdf,text/plain"
+              />
+              <div id="attach-status" class="field-hint" aria-live="polite" />
+            </div>
+
             <div class="cf-turnstile" data-sitekey={siteKey} />
 
             <div class="form-foot">
@@ -141,6 +155,7 @@ const ENDPOINT = "/api/submit";
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline />
         <script>import "../scripts/submit.ts";</script>
         <script>import "../scripts/submitAuth.ts";</script>
+        <script>import "../scripts/submitAttach.ts";</script>
       </Fragment>
     ) : (
       <div class="callout callout-warning">

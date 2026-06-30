@@ -48,7 +48,7 @@ export const onRequestPatch = async ({ request, env }: RequestContext): Promise<
   }
 
   const patch = body.value as Record<string, unknown>;
-  const rawName = patch["display_name"];
+  const rawName = patch.display_name;
 
   if (rawName !== undefined && rawName !== null) {
     if (typeof rawName !== "string") return json(400, { error: "display_name must be a string" });

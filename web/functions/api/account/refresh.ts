@@ -37,7 +37,7 @@ export const onRequestPost = async ({ request, env }: RequestContext): Promise<R
   };
   if (env.COGNITO_CLIENT_SECRET) {
     const creds = btoa(`${env.COGNITO_CLIENT_ID}:${env.COGNITO_CLIENT_SECRET}`);
-    reqHeaders["authorization"] = `Basic ${creds}`;
+    reqHeaders.authorization = `Basic ${creds}`;
   }
 
   let res: Response;

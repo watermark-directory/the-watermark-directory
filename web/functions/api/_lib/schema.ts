@@ -27,6 +27,12 @@ export interface Submission {
    */
   contact?: string;
   turnstile_token: string;
+  /**
+   * R2 keys for pre-uploaded attachments (#243). Each key must begin with `submissions/`
+   * and be ≤ 300 chars. Max 3 keys. The handler verifies each key exists in R2 before
+   * including it in the issue; invalid/missing keys are silently dropped.
+   */
+  attachment_keys?: string[];
 }
 
 /** Size caps — mirror the contract table in docs/submissions-api.md. */
@@ -37,6 +43,8 @@ export const LIMITS = {
   url: 500,
   contact: 200,
   token: 4096,
+  attachment_key: 300,
+  attachment_count: 3,
 } as const;
 
 const KINDS: readonly SubmissionKind[] = ["tip", "correction", "new_source"];
@@ -70,6 +78,7 @@ export function validateSubmission(raw: unknown): ValidationResult {
     "page_url",
     "contact",
     "turnstile_token",
+    "attachment_keys",
   ]);
   for (const k of Object.keys(o)) if (!allowed.has(k)) return err(`unexpected field: ${k}`);
 
@@ -138,6 +147,21 @@ export function validateSubmission(raw: unknown): ValidationResult {
     if (o.contact.length > LIMITS.contact) return err("contact is too long");
     const contact = o.contact.trim();
     if (contact) value.contact = contact;
+  }
+
+  // Optional attachment keys (#243): R2 keys from a prior /api/attach upload.
+  if (o.attachment_keys !== undefined) {
+    if (!Array.isArray(o.attachment_keys)) return err("attachment_keys must be an array");
+    if (o.attachment_keys.length > LIMITS.attachment_count)
+      return err(`too many attachments (max ${LIMITS.attachment_count})`);
+    const keys: string[] = [];
+    for (const k of o.attachment_keys) {
+      if (typeof k !== "string") return err("each attachment_key must be a string");
+      if (k.length > LIMITS.attachment_key) return err("attachment_key is too long");
+      if (!k.startsWith("submissions/")) return err("attachment_key has invalid prefix");
+      keys.push(k);
+    }
+    if (keys.length > 0) value.attachment_keys = keys;
   }
 
   return { ok: true, value };

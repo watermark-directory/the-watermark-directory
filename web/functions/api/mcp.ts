@@ -154,7 +154,7 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
   const incomingSessionId = request.headers.get("mcp-session-id");
   let sessionId: string;
   const body = parsed.value as Record<string, unknown>;
-  const isInitialize = body["method"] === "initialize";
+  const isInitialize = body.method === "initialize";
 
   if (isInitialize) {
     sessionId = newSessionId();
@@ -164,7 +164,7 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
       if (!session) {
         return json(404, {
           jsonrpc: "2.0",
-          id: body["id"] ?? null,
+          id: body.id ?? null,
           error: { code: RPC.INVALID_REQUEST, message: "unknown or expired session" },
         });
       }
@@ -173,7 +173,7 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
   } else {
     return json(400, {
       jsonrpc: "2.0",
-      id: body["id"] ?? null,
+      id: body.id ?? null,
       error: {
         code: RPC.INVALID_REQUEST,
         message: "Mcp-Session-Id header required (call initialize first)",
@@ -196,13 +196,13 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
   const sessionHeaders: Record<string, string> = { "mcp-session-id": sessionId };
 
   // notifications/initialized: 202 No Content (no body needed)
-  if (body["method"] === "notifications/initialized") {
+  if (body.method === "notifications/initialized") {
     return new Response(null, { status: 202, headers: sessionHeaders });
   }
 
   // tools/call: SSE stream so implementations can stream results (#913/#914)
   // TODO(#913/#914): call addBudgetUsage(budgetKv, budgetKey, outputTokens) after real dispatch.
-  if (body["method"] === "tools/call") {
+  if (body.method === "tools/call") {
     const eventData = frame("message", rpcResponse);
     return sseResponse(eventData, sessionHeaders);
   }

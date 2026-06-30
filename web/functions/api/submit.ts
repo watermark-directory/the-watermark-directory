@@ -15,6 +15,7 @@ import { DEFAULT_RATE_LIMIT, enforceRateLimit, type KVLike } from "./_lib/rateli
 import { validateSubmission } from "./_lib/schema";
 import { verifyTurnstile } from "./_lib/turnstile";
 import { requireAuth } from "./_lib/auth";
+import type { R2Like } from "./_lib/attachments";
 
 interface Env {
   /** On/kill switch — anything but "true" disables the endpoint. */
@@ -46,6 +47,18 @@ interface Env {
   COGNITO_CLIENT_ID?: string;
   /** Optional KV namespace for JWKS caching (1-hour TTL). */
   JWKS_CACHE?: KVLike;
+  /**
+   * R2 bucket for pre-uploaded submission attachments (#243). Absent ⇒ attachment_keys
+   * in the payload are silently dropped (the tip is still filed; references just aren't
+   * validated or included in the issue).
+   */
+  SUBMISSION_ATTACHMENTS?: R2Like;
+  /**
+   * Comma-separated GitHub logins to assign on every new issue (#244). Absent ⇒ no
+   * assignees. Only fires on new issues — dedupe hits never re-assign. Assignees receive
+   * GitHub's standard notification so the triage queue is not poll-only.
+   */
+  NOTIFY_GITHUB_USERS?: string;
 }
 
 // Submitter contact is PII — keep it only as long as triage plausibly needs it, then let
@@ -122,9 +135,35 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   const human = await verifyTurnstile(submission.turnstile_token, env.TURNSTILE_SECRET_KEY, remoteip);
   if (!human) return json(403, { error: "verification failed — please retry the challenge" });
 
+  // Attachments (#243) — best-effort: validate each key exists in R2; silently drop
+  // invalid or unverifiable ones so they never appear in the issue.
+  let validAttachmentKeys: string[] | undefined;
+  if (submission.attachment_keys && submission.attachment_keys.length > 0 && env.SUBMISSION_ATTACHMENTS) {
+    const checks = await Promise.allSettled(
+      submission.attachment_keys.map((k) => env.SUBMISSION_ATTACHMENTS!.head(k)),
+    );
+    validAttachmentKeys = submission.attachment_keys.filter((_, i) => {
+      const r = checks[i];
+      return r.status === "fulfilled" && r.value !== null;
+    });
+    if (validAttachmentKeys.length === 0) validAttachmentKeys = undefined;
+  }
+
+  // Notify-on-submit (#244) — comma-separated GitHub logins; skip empty/blank entries.
+  const notifyUsers = (env.NOTIFY_GITHUB_USERS ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
   try {
     const dedupeHash = await sha256Hex(dedupeInput(submission));
-    const issue = buildIssue(submission, dedupeHash, sub);
+    const issue = buildIssue(
+      submission,
+      dedupeHash,
+      sub,
+      notifyUsers.length > 0 ? notifyUsers : undefined,
+      validAttachmentKeys,
+    );
     const result = await fileIssueAsApp({
       appId: env.TIPS_APP_ID,
       privateKey: env.TIPS_APP_PRIVATE_KEY,

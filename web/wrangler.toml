@@ -33,6 +33,26 @@ GITHUB_REPO = "the-watermark-directory"
 # binding = "RATE_LIMIT"
 # id = "<namespace-id>"
 
+# --- Submissions: file attachments (#243) -----------------------------------------
+# R2 bucket for pre-uploaded submission attachments (/api/attach → /api/submit).
+# Missing → /api/attach returns 503; /api/submit silently drops any attachment_keys.
+# SUBMISSION_ATTACHMENTS is separate from DOCS to keep evidence-chain isolation intact.
+#   npx wrangler r2 bucket create watermark-submission-attachments
+#   npx wrangler r2 bucket create watermark-submission-attachments-dev
+# [[r2_buckets]]
+# binding = "SUBMISSION_ATTACHMENTS"
+# bucket_name = "watermark-submission-attachments"
+# preview_bucket_name = "watermark-submission-attachments-dev"
+#
+# Optional size cap (default 10 MB):
+# ATTACH_MAX_BYTES = "10485760"
+
+# --- Submissions: notify-on-submit (#244) -----------------------------------------
+# Comma-separated GitHub logins to assign on every new submission issue (not dedupe
+# hits). Assignees receive GitHub's standard notification email. Set in the dashboard:
+#   NOTIFY_GITHUB_USERS = "goedelsoup"
+# (Comma-separate for multiple: "goedelsoup,other-maintainer")
+
 # --- Ask the corpus (/api/ask, Epic #207) -----------------------------------------
 # Non-secret knobs for the ask endpoint. The model + caps also default in code, so this
 # is documentation + override. ASK_ENABLED (kill switch) and the ANTHROPIC_API_KEY /
