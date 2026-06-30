@@ -8,6 +8,7 @@
 # auth is independent of all other features; it can be provisioned before or after
 # the domain is set (authEnabled in Pulumi.prod.yaml gates Cognito provisioning).
 
+preLaunch: true     # serve pre-launch.astro at / and redirect all other routes to /
 submissions: false
 ask: false
 docs: false
