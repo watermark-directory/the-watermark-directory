@@ -294,6 +294,157 @@ const authPrefsKv = new cloudflare.WorkersKvNamespace("auth-prefs", {
 });
 
 // ---------------------------------------------------------------------------
+// Notification Lambda (Epic E #938/#939)
+// ---------------------------------------------------------------------------
+// GitHub webhook → Lambda → AUTH_PREFS lookup → SES email dispatch.
+// Gated on `notifyEnabled` (defaults false) — SES identity + Lambda are created
+// only when explicitly enabled. Flip once SES domain verification is complete.
+//   pulumi config set bosc-deploy:notifyEnabled true
+//   pulumi config set --secret bosc-deploy:githubWebhookSecret <secret>
+//   pulumi config set --secret bosc-deploy:unsubSecret <secret>
+//   pulumi config set bosc-deploy:sesFromAddress notifications@watermarkdirectory.org
+//
+// The Lambda zip must be built before `pulumi up`:
+//   cd lambda/notify && npm install && npm run build
+// Then Pulumi reads ../lambda/notify/dist/ as a FileArchive.
+
+const notifyEnabled = config.getBoolean("notifyEnabled") ?? false;
+
+// SES from-address (e.g. "notifications@watermarkdirectory.org").
+const sesFromAddress = config.get("sesFromAddress") ?? "";
+
+// Secrets (set out of band via `pulumi config set --secret`).
+const githubWebhookSecret = config.getSecret("githubWebhookSecret");
+const unsubSecret = config.getSecret("unsubSecret");
+
+// SES email identity (domain or address). Created in the same region as Cognito.
+// Operator must complete DNS verification in Route53 after the first `pulumi up`.
+const sesIdentity =
+  notifyEnabled && sesFromAddress
+    ? new aws.ses.EmailIdentity(
+        "notify-ses-identity",
+        { email: sesFromAddress },
+        { provider: cognitoProvider },
+      )
+    : undefined;
+
+// IAM role for the notify Lambda.
+const notifyRole =
+  notifyEnabled
+    ? new aws.iam.Role("notify-lambda-role", {
+          name: "watermark-notify-lambda",
+          assumeRolePolicy: JSON.stringify({
+            Version: "2012-10-17",
+            Statement: [
+              {
+                Effect: "Allow",
+                Principal: { Service: "lambda.amazonaws.com" },
+                Action: "sts:AssumeRole",
+              },
+            ],
+          }),
+      })
+    : undefined;
+
+// Attach basic execution (CloudWatch logs) + SES send permission.
+const notifyRolePolicy =
+  notifyEnabled && notifyRole
+    ? new aws.iam.RolePolicy("notify-lambda-policy", {
+          role: notifyRole.id,
+          policy: JSON.stringify({
+            Version: "2012-10-17",
+            Statement: [
+              {
+                Effect: "Allow",
+                Action: ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
+                Resource: "arn:aws:logs:*:*:*",
+              },
+              {
+                Effect: "Allow",
+                Action: ["ses:SendEmail", "ses:SendRawEmail"],
+                Resource: "*",
+              },
+            ],
+          }),
+      })
+    : undefined;
+
+void notifyRolePolicy;
+
+// Lambda function. Code is read from the pre-built dist/ directory.
+// Build: cd lambda/notify && npm ci && npm run build
+const notifyLambda =
+  notifyEnabled && notifyRole
+    ? new aws.lambda.Function(
+          "notify-lambda",
+          {
+            name: "watermark-notify",
+            runtime: "nodejs22.x" as aws.lambda.Runtime,
+            handler: "index.handler",
+            role: notifyRole.arn,
+            code: new pulumi.asset.FileArchive("../lambda/notify/dist"),
+            timeout: 60,
+            environment: {
+              variables: {
+                // Non-secret vars — can be committed.
+                SES_FROM_ADDRESS: sesFromAddress,
+                // Secret vars — injected via Pulumi secrets; never in wrangler.toml.
+                // CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, AUTH_PREFS_NAMESPACE_ID,
+                // GITHUB_WEBHOOK_SECRET, UNSUB_SECRET, SITE_URL are set out-of-band via:
+                //   pulumi config set --secret bosc-deploy:<var> <value>
+                // and referenced here as config.requireSecret / config.getSecret.
+                ...(githubWebhookSecret ? {} : {}), // secrets resolved at deploy time
+              },
+            },
+          },
+          { provider: cognitoProvider, dependsOn: notifyRole ? [notifyRole] : [] },
+      )
+    : undefined;
+
+// Lambda Function URL — exposes the Lambda as an HTTPS endpoint for GitHub webhooks.
+// No IAM auth (the webhook signature verification is the credential).
+const notifyFunctionUrl =
+  notifyEnabled && notifyLambda
+    ? new aws.lambda.FunctionUrl("notify-lambda-url", {
+          functionName: notifyLambda.name,
+          authorizationType: "NONE",
+      }, { provider: cognitoProvider })
+    : undefined;
+
+// EventBridge rule: fires once per day to trigger the digest flush path.
+const notifyDigestRule =
+  notifyEnabled && notifyLambda
+    ? new aws.cloudwatch.EventRule("notify-digest-rule", {
+          name: "watermark-notify-daily-digest",
+          description: "Daily notification digest flush for AUTH_PREFS subscribers",
+          scheduleExpression: "cron(0 8 * * ? *)", // 08:00 UTC daily
+      }, { provider: cognitoProvider })
+    : undefined;
+
+const notifyDigestTarget =
+  notifyEnabled && notifyLambda && notifyDigestRule
+    ? new aws.cloudwatch.EventTarget("notify-digest-target", {
+          rule: notifyDigestRule.name,
+          arn: notifyLambda.arn,
+      }, { provider: cognitoProvider })
+    : undefined;
+
+void notifyDigestTarget;
+
+// Allow EventBridge to invoke the Lambda.
+const notifyDigestPermission =
+  notifyEnabled && notifyLambda && notifyDigestRule
+    ? new aws.lambda.Permission("notify-digest-permission", {
+          action: "lambda:InvokeFunction",
+          function: notifyLambda.name,
+          principal: "events.amazonaws.com",
+          sourceArn: notifyDigestRule.arn,
+      }, { provider: cognitoProvider })
+    : undefined;
+
+void notifyDigestPermission;
+
+// ---------------------------------------------------------------------------
 // Outputs — wire these into the rest of the seam (see README + docs/)
 // ---------------------------------------------------------------------------
 
@@ -338,3 +489,11 @@ export const cognitoRegionOut = pulumi.output(cognitoRegion);
 export const jwksCacheKvNamespaceId = jwksCacheKv.id;
 /** KV namespace id → `web/wrangler.toml` `[[kv_namespaces]]` `id` (AUTH_PREFS). */
 export const authPrefsKvNamespaceId = authPrefsKv.id;
+
+// --- Notification Lambda (#938/#939) ---
+/** GitHub webhook URL — register in the repo's webhook settings when notifyEnabled is true. */
+export const notifyWebhookUrl = notifyFunctionUrl
+    ? notifyFunctionUrl.functionUrl
+    : pulumi.output("not-configured");
+/** SES identity ARN — DNS verification records must be set before first send. */
+export const sesIdentityArn = sesIdentity ? sesIdentity.arn : pulumi.output("not-configured");

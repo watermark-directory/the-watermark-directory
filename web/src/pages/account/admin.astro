@@ -1,0 +1,114 @@
+---
+import Base from "../../layouts/Base.astro";
+import { withBase } from "../../lib/site";
+
+// Auth gate: page requires Cognito vars at build time to render.
+const authEnabled = Boolean(
+  import.meta.env.PUBLIC_COGNITO_DOMAIN && import.meta.env.PUBLIC_COGNITO_CLIENT_ID,
+);
+---
+
+<Base title="Admin — User management" section="home" rail={false}>
+  <div class="account-page">
+    {
+      authEnabled ? (
+        <article class="prose account-profile">
+          <h1>User management</h1>
+
+          <section class="account-section">
+            <div id="admin-gate-msg" class="account-loading">Checking access…</div>
+            <div id="admin-panel" hidden>
+              <form id="user-search-form" class="form admin-search-form">
+                <div class="field">
+                  <label for="admin-email-q">Search users by email</label>
+                  <div class="input-row">
+                    <input
+                      id="admin-email-q"
+                      name="q"
+                      type="email"
+                      autocomplete="off"
+                      placeholder="user@example.com"
+                    />
+                    <button type="submit" class="btn">Search</button>
+                  </div>
+                </div>
+              </form>
+
+              <p id="search-status" class="form-status" role="status" aria-live="polite" />
+
+              <div id="user-results" />
+            </div>
+          </section>
+
+          <section class="account-section">
+            <a href={withBase("/account")} class="btn btn--ghost">&larr; Back to account</a>
+          </section>
+        </article>
+      ) : (
+        <div class="account-flow account-flow--disabled">
+          <p class="account-flow-msg">Account management is not yet enabled on this deployment.</p>
+          <a href={withBase("/")} class="btn">Return home</a>
+        </div>
+      )
+    }
+  </div>
+</Base>
+
+{authEnabled && <script>import "../../scripts/adminPage.ts";</script>}
+
+<style>
+  .admin-search-form .input-row {
+    display: flex;
+    gap: var(--sp-2);
+  }
+
+  .admin-search-form input {
+    flex: 1;
+  }
+
+  .user-card {
+    border: 1px solid var(--bosc-rule);
+    padding: var(--sp-4);
+    margin-top: var(--sp-4);
+  }
+
+  .user-card-meta {
+    font-size: var(--text-sm);
+    color: var(--bosc-ink-dim);
+    margin-bottom: var(--sp-3);
+  }
+
+  .user-card h3 {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-bottom: var(--sp-2);
+  }
+
+  .user-card .check-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2) var(--sp-4);
+    margin-bottom: var(--sp-3);
+  }
+
+  .audit-trail {
+    margin-top: var(--sp-4);
+    border-top: 1px solid var(--bosc-rule);
+    padding-top: var(--sp-3);
+  }
+
+  .audit-trail h4 {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--bosc-ink-dim);
+    margin-bottom: var(--sp-2);
+  }
+
+  .audit-row {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--bosc-ink-dim);
+    line-height: 1.6;
+  }
+</style>
