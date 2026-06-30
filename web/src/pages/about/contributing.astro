@@ -1,0 +1,695 @@
+---
+// /about/contributing — how to contribute to Watermark Directory.
+// Network-global route (no withSite wrapper). Three sections: Donate (gated),
+// Code (open source contribution guide), Research (tip/document/correction submissions).
+// #966/#967
+import Base from "../../layouts/Base.astro";
+
+const SHOW_DONATE = false; // flip when Stripe is wired (#969)
+
+const REPO_PATH = "goedelsoup/bosc";
+const REPO_URL = "https://github.com/goedelsoup/bosc";
+const CONTRIBUTING_URL = "https://github.com/goedelsoup/bosc/blob/main/CONTRIBUTING.md";
+---
+
+<Base
+  title="Contributing — Watermark Directory"
+  section="about"
+  description="Three ways to help build the Watermark record: keep it funded, keep it running, or bring what you know."
+>
+  <article class="contributing-page">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="eyebrow-bar">
+        <span class="eyebrow-rule" aria-hidden="true"></span>
+        <span class="eyebrow-label">Contributing to Watermark</span>
+      </div>
+      <h1 class="hero-title">Help build the record<span class="period">.</span></h1>
+      <p class="hero-body">
+        Watermark is built in the open, by people who want the record to exist. Three ways in:
+        keep it funded, keep it running, or bring what you know.
+      </p>
+      <div class="hero-ctas">
+        <a href="#donate" class="cta-primary">Donate →</a>
+        <a href="#code" class="cta-secondary">View the repo →</a>
+        <a href="#research" class="cta-link">Submit a lead →</a>
+      </div>
+    </section>
+
+    <hr class="section-rule" />
+
+    <!-- DONATE (gated) -->
+    {SHOW_DONATE && (
+      <section id="donate" class="content-section">
+        <div class="section-header">
+          <span class="section-label">Donations</span>
+          <span class="header-rule" aria-hidden="true"></span>
+        </div>
+        <h2 class="section-title">Keep the record open.</h2>
+        <p class="section-body">
+          Watermark is free to read, built to stay that way. Hosting, FOIA requests, and field
+          research cost real money. Recurring support keeps the record funded and independent —
+          no paywalls, no sponsored content, no data sales.
+        </p>
+
+        <div class="tier-grid">
+          <div class="tier-card">
+            <div class="tier-label">Follower</div>
+            <div class="tier-price">$5<span class="tier-freq">/mo</span></div>
+            <p class="tier-desc">Keeps the lights on. Covers bandwidth and a share of the document-hosting costs.</p>
+            <a href="#" class="tier-cta tier-cta--outline">Start →</a>
+          </div>
+
+          <div class="tier-card tier-card--featured">
+            <div class="tier-badge">Most common</div>
+            <div class="tier-label tier-label--featured">Contributor</div>
+            <div class="tier-price">$20<span class="tier-freq">/mo</span></div>
+            <p class="tier-desc">Funds a document request. One FOIA filing, fully processed and published to the record.</p>
+            <a href="#" class="tier-cta tier-cta--filled">Start →</a>
+          </div>
+
+          <div class="tier-card">
+            <div class="tier-label">Sustainer</div>
+            <div class="tier-price">$50<span class="tier-freq">/mo</span></div>
+            <p class="tier-desc">Covers a field day. Travel, time, and camera to get a site on the public record.</p>
+            <a href="#" class="tier-cta tier-cta--outline">Start →</a>
+          </div>
+        </div>
+
+        <div class="one-time-strip">
+          <span class="one-time-label">One-time</span>
+          <span class="strip-divider" aria-hidden="true"></span>
+          <span class="one-time-body">
+            Prefer a single contribution? Any amount keeps the filing cabinet stocked.
+            <a href="#">Donate once →</a>
+          </span>
+        </div>
+      </section>
+    )}
+
+    <!-- CODE -->
+    <section id="code" class="content-section">
+      <div class="section-header">
+        <span class="section-label">Code</span>
+        <span class="header-rule" aria-hidden="true"></span>
+      </div>
+      <h2 class="section-title">The platform is open source.</h2>
+      <p class="section-body">
+        Every line of Watermark — the record parser, the evidence viewer, the source-linking engine
+        — is public and improvable. Bugs, gaps, and open feature work are tracked in the repo. No
+        contributor agreement required for small fixes.
+      </p>
+
+      <div class="repo-card">
+        <div class="repo-card-left">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--ink)" aria-hidden="true">
+            <path d="M12 .8C5.6.8.5 6 .5 12.3c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.7.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.7.1 3 .8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 6 18.4.8 12 .8Z" />
+          </svg>
+          <div>
+            <div class="repo-name">{REPO_PATH}</div>
+            <div class="repo-meta">Public · MIT license</div>
+          </div>
+        </div>
+        <a href={REPO_URL} class="repo-link" rel="noopener">View repo ↗</a>
+      </div>
+
+      <div class="label-chips-block">
+        <div class="chips-eyebrow">Issue labels · good places to start</div>
+        <div class="chips-row">
+          <span class="chip chip--gap">bug</span>
+          <span class="chip chip--inference">enhancement</span>
+          <span class="chip chip--verified">good first issue</span>
+          <span class="chip chip--open">documentation</span>
+          <span class="chip chip--key">data-pipeline</span>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <div class="step-title">Fork and clone the repo.</div>
+            <div class="step-desc">
+              The main branch is always deployable. Development happens in feature branches off
+              <code>dev</code>.
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <div class="step-title">Pick an open issue.</div>
+            <div class="step-desc">
+              Comment to claim it. Issues marked
+              <span class="chip chip--verified chip--inline">good first issue</span>
+              are self-contained and scoped, with no dependencies on the broader record layer.
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <div class="step-title">Open a pull request.</div>
+            <div class="step-desc">
+              Reference the issue number. The review team responds within a week; larger changes
+              get scoped before you write code.
+            </div>
+          </div>
+        </div>
+        <div class="step step--last">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <div class="step-title">Read CONTRIBUTING.md first.</div>
+            <div class="step-desc">
+              Coding conventions, test-coverage expectations, and the evidence-grammar rules that
+              govern anything touching the record layer.
+              <a href={CONTRIBUTING_URL} rel="noopener">Open CONTRIBUTING.md ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research" class="content-section">
+      <div class="section-header">
+        <span class="section-label">Research</span>
+        <span class="header-rule" aria-hidden="true"></span>
+      </div>
+      <h2 class="section-title">Know something we don't?</h2>
+      <p class="section-body">
+        The record grows from people closer to the ground. Leads come in as tips, document finds,
+        or first-hand knowledge. We treat every submission as a lead, not a verdict — it goes into
+        the open case file, labeled as such, until corroborated.
+      </p>
+
+      <div class="contribution-types">
+        <div class="contrib-row">
+          <div class="contrib-content">
+            <div class="contrib-header">
+              <span class="contrib-title">Submit a tip</span>
+              <span class="chip chip--open chip--inline">open</span>
+            </div>
+            <div class="contrib-desc">
+              Something you noticed, heard, or saw near a site. A truck count, a utility pull,
+              a conversation. No documentation required to start.
+            </div>
+          </div>
+          <a href="/submit?kind=tip" class="contrib-cta">Submit →</a>
+        </div>
+
+        <div class="contrib-row">
+          <div class="contrib-content">
+            <div class="contrib-header">
+              <span class="contrib-title">Share a document</span>
+              <span class="chip chip--verified chip--inline">verified</span>
+            </div>
+            <div class="contrib-desc">
+              A permit, deed, filing, or record you found through a request or a public counter.
+              Upload it directly — we'll process, cite, and publish it with full provenance.
+            </div>
+          </div>
+          <a href="/submit?kind=source" class="contrib-cta">Upload →</a>
+        </div>
+
+        <div class="contrib-row contrib-row--gap">
+          <div class="contrib-content">
+            <div class="contrib-header">
+              <span class="contrib-title">Request a correction</span>
+              <span class="chip chip--gap chip--inline">scope gap</span>
+            </div>
+            <div class="contrib-desc">
+              Something in the record that's wrong, outdated, or missing a source. Point us to the
+              discrepancy — corrections are published with a provenance note.
+            </div>
+          </div>
+          <a href="/submit?kind=correction" class="contrib-cta">Flag →</a>
+        </div>
+      </div>
+
+      <div class="provenance-note">
+        <div class="provenance-eyebrow">How we handle submissions</div>
+        <p class="provenance-body">
+          Every submission enters the open case file, labeled as a lead until a second source
+          corroborates it. Sources are never named without consent. Submissions may be published
+          in whole or in part, with provenance noted. We do not share contact information.
+        </p>
+      </div>
+    </section>
+
+  </article>
+</Base>
+
+<style>
+  .contributing-page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 72px 40px 120px;
+    color: var(--ink);
+    font-family: var(--bosc-sans);
+  }
+
+  /* Hero */
+  .hero { margin-bottom: 72px; }
+  .eyebrow-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .eyebrow-rule {
+    display: inline-block;
+    width: 28px;
+    height: 3px;
+    background: var(--forest);
+    flex-shrink: 0;
+  }
+  .eyebrow-label {
+    font-family: var(--bosc-mono);
+    font-size: 11px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .hero-title {
+    margin: 0 0 18px;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -1.6px;
+    line-height: 1.03;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .hero-title .period { color: var(--forest-bright); }
+  .hero-body {
+    margin: 0 0 36px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-prose);
+    max-width: 660px;
+    text-wrap: pretty;
+  }
+  .hero-ctas {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--forest);
+    color: var(--bone-surface);
+    border: 1.5px solid var(--forest);
+    padding: 13px 22px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.2px;
+  }
+  .cta-primary:hover { background: var(--forest-bright); border-color: var(--forest-bright); }
+  .cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 13px 22px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.2px;
+  }
+  .cta-secondary:hover { border-color: var(--forest); color: var(--forest); }
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 13px 0;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--forest);
+    letter-spacing: 0.2px;
+  }
+
+  .section-rule {
+    border: 0;
+    border-top: 1px solid var(--line-hair);
+    margin-bottom: 72px;
+  }
+
+  /* Sections */
+  .content-section { margin-bottom: 88px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+  .section-label {
+    font-family: var(--bosc-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .header-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--line-hair);
+  }
+  .section-title {
+    margin: 0 0 14px;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .section-body {
+    margin: 0 0 40px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-prose);
+    max-width: 640px;
+    text-wrap: pretty;
+  }
+
+  /* Tier cards (Donate) */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .tier-card {
+    background: var(--bone-surface);
+    border: 1px solid var(--line-hair);
+    border-top: 3px solid var(--forest-line);
+    padding: 26px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+  }
+  .tier-card--featured {
+    border: 1.5px solid var(--forest);
+    border-top: 3px solid var(--forest);
+  }
+  .tier-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: var(--bosc-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ev-verified-fg);
+    background: var(--ev-verified-bg);
+    border: 1px solid var(--ev-verified-border);
+    padding: 3px 8px;
+  }
+  .tier-label {
+    font-family: var(--bosc-mono);
+    font-size: 11px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .tier-label--featured { color: var(--forest); }
+  .tier-price {
+    font-family: var(--bosc-mono);
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .tier-freq {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--ink-faint);
+    letter-spacing: 0;
+  }
+  .tier-desc {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-prose);
+    flex: 1;
+  }
+  .tier-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 0;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.2px;
+  }
+  .tier-cta--outline {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--line-2);
+  }
+  .tier-cta--filled {
+    background: var(--forest);
+    color: var(--bone-surface);
+    border: 1.5px solid var(--forest);
+  }
+  .one-time-strip {
+    background: var(--bone-sunk);
+    border: 1px solid var(--line-hair);
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .one-time-label {
+    font-family: var(--bosc-mono);
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    flex-shrink: 0;
+  }
+  .strip-divider {
+    width: 1px;
+    height: 18px;
+    background: var(--line-hair);
+    flex-shrink: 0;
+  }
+  .one-time-body {
+    font-size: 14px;
+    color: var(--ink-prose);
+    line-height: 1.5;
+  }
+  .one-time-body a { color: var(--forest); text-decoration: none; font-weight: 600; }
+
+  /* Repo card (Code) */
+  .repo-card {
+    background: var(--bone-surface);
+    border: 1px solid var(--line-hair);
+    border-left: 3px solid var(--ink);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .repo-card-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .repo-name {
+    font-family: var(--bosc-mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.2px;
+  }
+  .repo-meta {
+    font-family: var(--bosc-mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-top: 3px;
+  }
+  .repo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 9px 16px;
+    font-family: var(--bosc-mono);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .repo-link:hover { color: var(--forest); border-color: var(--forest); }
+
+  /* Label chips */
+  .label-chips-block { margin-bottom: 36px; }
+  .chips-eyebrow {
+    font-family: var(--bosc-mono);
+    font-size: 11px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 14px;
+  }
+  .chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    font-family: var(--bosc-mono);
+    font-size: 12px;
+    padding: 4px 11px;
+    border: 1px solid;
+    letter-spacing: 0.3px;
+  }
+  .chip--inline {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+  }
+  .chip--gap    { color: var(--ev-gap-fg);      background: var(--ev-gap-bg);      border-color: var(--ev-gap-border); }
+  .chip--inference { color: var(--ev-inference-fg); background: var(--ev-inference-bg); border-color: var(--ev-inference-border); }
+  .chip--verified  { color: var(--ev-verified-fg);  background: var(--ev-verified-bg);  border-color: var(--ev-verified-border); }
+  .chip--open   { color: var(--ev-open-fg);     background: var(--ev-open-bg);     border-color: var(--ev-open-border); }
+  .chip--key    { color: var(--ev-key-fg);      background: var(--ev-key-bg);      border-color: var(--ev-key-border); }
+
+  /* Steps */
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-top: 1px solid var(--line-faint);
+  }
+  .step--last { border-bottom: 1px solid var(--line-faint); }
+  .step-num {
+    font-family: var(--bosc-mono);
+    font-size: 12px;
+    color: var(--ink-ghost);
+    width: 24px;
+    flex-shrink: 0;
+    padding-top: 1px;
+    line-height: 1.5;
+  }
+  .step-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+  .step-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-prose);
+  }
+  .step-desc code {
+    font-family: var(--bosc-mono);
+    font-size: 13px;
+    background: var(--bone-sunk);
+    padding: 1px 6px;
+    border: 1px solid var(--line-faint);
+  }
+  .step-desc a { color: var(--forest); text-decoration: none; font-weight: 600; }
+
+  /* Contribution types (Research) */
+  .contribution-types {
+    border: 1px solid var(--line-hair);
+    margin-bottom: 28px;
+  }
+  .contrib-row {
+    background: var(--bone-surface);
+    border-left: 3px solid var(--forest);
+    padding: 22px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .contrib-row + .contrib-row { border-top: 1px solid var(--line-faint); }
+  .contrib-row--gap { border-left-color: var(--ev-gap-fg); }
+  .contrib-content { flex: 1; }
+  .contrib-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 7px;
+    flex-wrap: wrap;
+  }
+  .contrib-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .contrib-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-prose);
+  }
+  .contrib-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .contrib-cta:hover { color: var(--forest); border-color: var(--forest); }
+
+  /* Provenance note */
+  .provenance-note {
+    background: var(--bone-sunk);
+    border: 1px solid var(--line-hair);
+    padding: 20px 24px;
+  }
+  .provenance-eyebrow {
+    font-family: var(--bosc-mono);
+    font-size: 11px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+  .provenance-body {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-prose);
+    max-width: 680px;
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 700px) {
+    .contributing-page { padding: 48px 20px 80px; }
+    .hero-title { font-size: 36px; }
+    .tier-grid { grid-template-columns: 1fr; }
+    .contrib-row { flex-direction: column; gap: 16px; }
+    .hero-ctas { flex-direction: column; align-items: flex-start; }
+  }
+</style>
