@@ -1,0 +1,87 @@
+// POST /api/admin/users/<sub>/admin-sites — update the custom:admin_sites attribute.
+// Body: { sites: string[] }
+//
+// admin: may set any sites.
+// site-admin: may only assign sites that are a subset of their own adminSites.
+//
+// Writes an audit record to AUTH_PREFS KV on success (best-effort).
+// Ships dark: AUTH_ENABLED kill switch must be "true".
+
+import { requireAuth, type AuthEnv } from "../../../_lib/auth";
+import { json, parseJsonBody } from "../../../_lib/http";
+import { setAdminSites, getUser, type CognitoAdminEnv } from "../../../_lib/cognitoAdmin";
+import { writeAuditEntry, type AuditEntry } from "../../../_lib/audit";
+import type { KVLike } from "../../../_lib/ratelimit";
+
+const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/;
+
+interface Env extends AuthEnv, CognitoAdminEnv {
+  AUTH_ENABLED?: string;
+  AUTH_PREFS?: KVLike;
+}
+
+interface RequestContext {
+  request: Request;
+  env: Env;
+  params: { sub: string };
+}
+
+export const onRequestPost = async ({ request, env, params }: RequestContext): Promise<Response> => {
+  if (env.AUTH_ENABLED !== "true") return json(503, { error: "auth not enabled" });
+
+  const auth = await requireAuth(request, env);
+  if (!auth.ok) return auth.response;
+
+  if (auth.ctx.role === "standard") {
+    return json(403, { error: "forbidden" });
+  }
+
+  const body = await parseJsonBody(request);
+  if (!body.ok) return body.response;
+
+  const { sub } = params;
+  const patch = body.value as Record<string, unknown>;
+
+  if (!Array.isArray(patch.sites)) {
+    return json(400, { error: "sites must be an array" });
+  }
+  const invalidSlugs = (patch.sites as unknown[]).filter((s) => typeof s !== "string" || !SLUG_RE.test(s));
+  if (invalidSlugs.length > 0) {
+    return json(400, { error: "sites must be valid slug strings" });
+  }
+  const newSites = patch.sites as string[];
+
+  // Site admins can only assign sites within their own scope.
+  if (auth.ctx.role === "site-admin") {
+    const callerSites = new Set(auth.ctx.adminSites);
+    const outOfScope = newSites.filter((s) => !callerSites.has(s));
+    if (outOfScope.length > 0) {
+      return json(403, { error: `cannot assign out-of-scope sites: ${outOfScope.join(", ")}` });
+    }
+  }
+
+  // Read current adminSites for the audit record.
+  const targetUser = await getUser(env, sub).catch(() => null);
+  const before = targetUser?.adminSites ?? [];
+
+  try {
+    await setAdminSites(env, sub, newSites);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return json(502, { error: `Cognito error: ${msg}` });
+  }
+
+  if (env.AUTH_PREFS) {
+    const entry: AuditEntry = {
+      actor: auth.ctx.sub,
+      target: sub,
+      action: "set-admin-sites",
+      before,
+      after: newSites,
+      at: new Date().toISOString(),
+    };
+    await writeAuditEntry(env.AUTH_PREFS, entry);
+  }
+
+  return json(200, { sub, adminSites: newSites });
+};

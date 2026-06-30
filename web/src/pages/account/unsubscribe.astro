@@ -1,0 +1,78 @@
+---
+import Base from "../../layouts/Base.astro";
+import { withBase } from "../../lib/site";
+
+// No auth gate: the signed token in the URL is the credential.
+// The page reads `?token=` from the URL client-side and calls the API.
+---
+
+<Base title="Unsubscribe" section="home" rail={false}>
+  <div class="account-page">
+    <div class="account-flow" id="unsub-flow">
+      <p class="account-flow-msg" id="unsub-msg">Processing your request&hellip;</p>
+      <div id="unsub-actions" hidden>
+        <a href={withBase("/")} class="btn">Return home</a>
+        <a href={withBase("/account")} class="btn btn--ghost">Manage preferences</a>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<script>
+  (async function () {
+    const msg = document.getElementById("unsub-msg");
+    const actions = document.getElementById("unsub-actions");
+
+    function finish(text: string): void {
+      if (msg) msg.textContent = text;
+      if (actions) actions.hidden = false;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (!token) { finish("No token provided."); return; }
+
+    try {
+      const res = await fetch(`/api/auth/unsubscribe?token=${encodeURIComponent(token)}`);
+      if (res.ok) {
+        const data = (await res.json()) as { removed?: string };
+        finish(`You have been unsubscribed from "${data.removed ?? "notifications"}". You can re-enable notifications from your account preferences at any time.`);
+      } else {
+        const data = (await res.json()) as { error?: string };
+        finish(data.error === "invalid or expired token"
+          ? "This unsubscribe link has expired or is invalid. Please use the link in your most recent notification email."
+          : `Could not process your request: ${data.error ?? "unknown error"}.`);
+      }
+    } catch {
+      finish("A network error occurred. Please try again or manage your preferences from your account page.");
+    }
+  })();
+</script>
+
+<style>
+  .account-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
+    padding: var(--sp-8);
+  }
+
+  .account-flow {
+    text-align: center;
+    max-width: 36rem;
+  }
+
+  .account-flow-msg {
+    font-size: var(--text-sm);
+    color: var(--bosc-ink-dim);
+    margin-bottom: var(--sp-4);
+  }
+
+  #unsub-actions {
+    display: flex;
+    gap: var(--sp-3);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>
