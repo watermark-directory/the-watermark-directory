@@ -1553,10 +1553,11 @@ a.card:hover { border-color: var(--bosc-forest); background: var(--bosc-surface)
 .legend li { display: flex; align-items: center; gap: var(--sp-2); }
 .legend .swatch { width: 0.9rem; height: 0.9rem; border-radius: 3px; border: 1px solid rgba(0, 0, 0, 0.25); flex: none; }
 
-/* ---- Footer (two-tier: contract + thin link bar) ---- */
+/* ---- Footer (two-band: notice + grouped nav) ---- */
 .site-footer {
   margin-top: 3rem;
-  border-top: 2px solid var(--bosc-ink);
+  border-top: 1px solid var(--line-hair);
+  background: var(--bone-sunk);
   color: var(--bosc-muted);
 }
 .footer-main {
@@ -1566,9 +1567,10 @@ a.card:hover { border-color: var(--bosc-forest); background: var(--bosc-surface)
   flex-wrap: wrap;
   max-width: 78rem;
   margin: 0 auto;
-  padding: var(--sp-5) var(--sp-10);
+  padding: var(--sp-4) var(--sp-10);
+  border-bottom: 1px solid var(--line-2);
 }
-.footer-contract { margin: 0; font-size: var(--fs-sm); color: var(--bosc-ink); line-height: 1.5; max-width: 40rem; }
+.footer-contract { margin: 0; font-size: var(--fs-sm); color: var(--bosc-ink); line-height: 1.55; max-width: 40rem; }
 .footer-actions { margin-left: auto; display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
 .footer-pill {
   display: inline-flex;
@@ -1581,24 +1583,39 @@ a.card:hover { border-color: var(--bosc-forest); background: var(--bosc-surface)
   border: 1px solid var(--td-tint-line);
   padding: var(--sp-1) var(--sp-3);
 }
-.footer-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-.footer-bar {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-4);
-  flex-wrap: wrap;
+.footer-pill .dot { width: 7px; height: 7px; background: currentColor; }
+.footer-nav {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0 var(--sp-12);
   max-width: 78rem;
   margin: 0 auto;
-  padding: var(--sp-3) var(--sp-10) var(--sp-6);
-  border-top: 1px solid var(--td-line);
-  font-size: var(--fs-caption);
+  padding: 28px var(--sp-10);
+  align-items: start;
 }
+.footer-brand-col { display: flex; flex-direction: column; gap: var(--sp-5); }
 .footer-brand { font-weight: 800; color: var(--bosc-muted); text-decoration: none; }
 .footer-wordmark { color: var(--bosc-ink); letter-spacing: -0.2px; }
-.footer-bar a { color: var(--bosc-muted); text-decoration: none; }
-.footer-bar a:hover { color: var(--bosc-link); }
-.footer-sep { color: var(--bosc-rule); }
-.footer-meta { margin-left: auto; font-family: var(--bosc-mono); font-size: var(--fs-caption); color: var(--bosc-faint); }
+.footer-manifesto {
+  font-family: var(--bosc-mono);
+  font-size: 11px;
+  color: var(--bosc-faint);
+  letter-spacing: 0.1px;
+  line-height: 1.7;
+}
+.footer-cols { display: flex; gap: 0 var(--sp-12); flex-wrap: wrap; }
+.footer-col { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 100px; }
+.footer-col-heading {
+  font-family: var(--bosc-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--bosc-faint);
+  margin-bottom: var(--sp-1);
+}
+.footer-col a { font-size: 13.5px; color: var(--bosc-muted); text-decoration: none; line-height: 1.35; transition: color 0.12s; }
+.footer-col a:hover { color: var(--bosc-link); }
 
 /* ============================================================================
    Responsive — canonical breakpoint ladder.
@@ -1741,11 +1758,12 @@ a.card:hover { border-color: var(--bosc-forest); background: var(--bosc-surface)
 @media (max-width: 900px) {
   .topbar-ask-label { display: none; }
 }
+@media (max-width: 640px) { .footer-nav { grid-template-columns: 1fr; gap: var(--sp-5) 0; } }
 @media (max-width: 560px) {
   .brand-tagline { display: none; }
   .search { width: 8rem; }
   .search-kbd { display: none; }
-  .footer-main, .footer-bar { padding-left: var(--sp-5); padding-right: var(--sp-5); }
+  .footer-main, .footer-nav { padding-left: var(--sp-5); padding-right: var(--sp-5); }
 }
 
 /* ===========================================================================

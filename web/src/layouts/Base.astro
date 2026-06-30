@@ -5,8 +5,8 @@ import Logo from "../components/Logo.astro";
 import RumScript from "../components/RumScript.astro";
 import SEO from "../components/SEO.astro";
 import SectionToc from "../components/SectionToc.astro";
-import { navLinks, type SectionId, type TocEntry } from "../lib/nav";
-import { SITE_NAME, SITE_DESCRIPTION, withBase, withSite } from "../lib/site";
+import { type SectionId, type TocEntry } from "../lib/nav";
+import { SITE_NAME, SITE_DESCRIPTION, withBase, withSite, withStory } from "../lib/site";
 import "../styles/site.css";
 
 interface BaseProps {
@@ -91,13 +91,35 @@ const showRail = rail !== false && toc.length > 0;
           <a class="btn btn--icon" href={withBase("/submit")}><Icon name="correction" size={15} /> Submit a tip or correction</a>
         </div>
       </div>
-      <div class="footer-bar">
-        <a class="footer-brand" href={withBase("/")}><Logo size={18} class="footer-mark" /><span class="footer-wordmark">Watermark<span class="brand-dot">.</span></span></a>
-        {navLinks().map((t) => <a href={withBase(t.href)}>{t.label}</a>)}
-        <span class="footer-sep" aria-hidden="true">·</span>
-        <a href={withSite("/docs/methodology")}>Methodology</a>
-        <a href={withBase("/about")}>About</a>
-        <span class="footer-meta">static · no trackers · every page reads with JS off</span>
+      <div class="footer-nav">
+        <div class="footer-brand-col">
+          <a class="footer-brand" href={withBase("/")}><Logo size={18} class="footer-mark" /><span class="footer-wordmark">Watermark<span class="brand-dot">.</span></span></a>
+          <span class="footer-manifesto">static · no trackers · every page reads with JS off</span>
+        </div>
+        <nav aria-label="Footer site navigation" class="footer-cols">
+          <div class="footer-col">
+            <span class="footer-col-heading">The investigation</span>
+            <a href={withSite()}>Overview</a>
+            <a href={withSite("/leads")}>Open leads</a>
+            <a href={withSite("/watershed/")}>The watershed</a>
+            <a href={withSite("/economy/")}>The economy</a>
+            <a href={withStory()}>The story</a>
+            <a href={withSite("/site/")}>The record</a>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-heading">Resources</span>
+            <a href={withBase("/")}>Directory</a>
+            <a href={withBase("/research/hypotheses")}>Research</a>
+            <a href={withSite("/docs/")}>Docs</a>
+            <a href={withBase("/wiki/")}>Wiki</a>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-heading">Site</span>
+            <a href={withBase("/network/connect")}>Connect</a>
+            <a href={withSite("/docs/methodology")}>Methodology</a>
+            <a href={withBase("/about")}>About</a>
+          </div>
+        </nav>
       </div>
     </footer>
     <script>
