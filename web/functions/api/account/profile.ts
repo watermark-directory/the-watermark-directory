@@ -43,6 +43,9 @@ export const onRequestPatch = async ({ request, env }: RequestContext): Promise<
 
   const body = await parseJsonBody(request);
   if (!body.ok) return body.response;
+  if (!body.value || typeof body.value !== "object" || Array.isArray(body.value)) {
+    return json(400, { error: "body must be an object" });
+  }
 
   const patch = body.value as Record<string, unknown>;
   const rawName = patch["display_name"];

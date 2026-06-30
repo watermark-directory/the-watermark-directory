@@ -3,9 +3,12 @@
 // Fetches /api/account/profile + /api/account/notifications and populates the form.
 // Handles PATCH on form submit for each section independently.
 
+import { withBase } from "../lib/base";
+
 const PROFILE_URL = "/api/account/profile";
 const NOTIF_URL = "/api/account/notifications";
-const LOGIN_PATH = "/account/login";
+// Use the Astro build-time base so redirects work regardless of deploy base path.
+const LOGIN_PATH = withBase("/account/login");
 
 function getToken(): string | null {
   const token = sessionStorage.getItem("watermark_id_token");
@@ -38,13 +41,27 @@ function setStatus(id: string, msg: string, kind: "ok" | "err" | "info"): void {
   el.dataset.kind = kind;
 }
 
+function setLoadError(id: string, msg: string): void {
+  const el = document.getElementById(id) as HTMLElement | null;
+  if (!el) return;
+  el.textContent = msg;
+  el.dataset.kind = "err";
+}
+
 async function loadProfile(token: string): Promise<void> {
-  const res = await fetch(PROFILE_URL, { headers: bearer(token) });
+  const res = await fetch(PROFILE_URL, { headers: bearer(token) }).catch(() => null);
+  if (!res) {
+    setLoadError("profile-loading", "Unable to load profile. Please try again.");
+    return;
+  }
   if (res.status === 401) {
     window.location.href = LOGIN_PATH;
     return;
   }
-  if (!res.ok) return;
+  if (!res.ok) {
+    setLoadError("profile-loading", "Account profile is temporarily unavailable.");
+    return;
+  }
   const data = (await res.json()) as {
     display_name: string | null;
     email: string;
@@ -61,12 +78,19 @@ async function loadProfile(token: string): Promise<void> {
 }
 
 async function loadNotifications(token: string): Promise<void> {
-  const res = await fetch(NOTIF_URL, { headers: bearer(token) });
+  const res = await fetch(NOTIF_URL, { headers: bearer(token) }).catch(() => null);
+  if (!res) {
+    setLoadError("notif-loading", "Unable to load notification preferences. Please try again.");
+    return;
+  }
   if (res.status === 401) {
     window.location.href = LOGIN_PATH;
     return;
   }
-  if (!res.ok) return;
+  if (!res.ok) {
+    setLoadError("notif-loading", "Notification preferences are temporarily unavailable.");
+    return;
+  }
   const data = (await res.json()) as {
     sites: string[];
     categories: string[];

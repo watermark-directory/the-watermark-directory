@@ -37,7 +37,18 @@ export async function getPrefs(kv: KVLike, sub: string): Promise<UserPrefs> {
   const raw = await kv.get(prefsKey(sub));
   if (!raw) return { notifications: { ...DEFAULT_NOTIFICATIONS } };
   try {
-    return JSON.parse(raw) as UserPrefs;
+    const parsed: unknown = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return { notifications: { ...DEFAULT_NOTIFICATIONS } };
+    }
+    const p = parsed as Partial<UserPrefs> & { notifications?: Partial<UserPrefs["notifications"]> | null };
+    return {
+      display_name: typeof p.display_name === "string" ? p.display_name : undefined,
+      notifications: {
+        ...DEFAULT_NOTIFICATIONS,
+        ...(p.notifications && typeof p.notifications === "object" ? p.notifications : {}),
+      },
+    };
   } catch {
     return { notifications: { ...DEFAULT_NOTIFICATIONS } };
   }

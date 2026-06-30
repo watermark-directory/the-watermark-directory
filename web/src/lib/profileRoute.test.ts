@@ -111,6 +111,8 @@ describe("GET /api/account/profile", () => {
     const body = (await res.json()) as Record<string, unknown>;
     expect(body.sub).toBe("sub-abc");
     expect(body.email).toBe("abc@example.com");
+    // mintIdToken always sets email_verified: true in the JWT payload
+    expect(body.email_verified).toBe(true);
     expect(body.display_name).toBeNull();
     expect(body.role).toBe("standard");
   });
@@ -154,6 +156,7 @@ describe("PATCH /api/account/profile", () => {
     const res = await profilePatch({ request: req, env: env as never });
     expect(res.status).toBe(200);
     const body = (await res.json()) as Record<string, unknown>;
+    expect(body.email_verified).toBe(true);
     expect(body.display_name).toBe("Alice");
 
     // GET confirms the stored value
@@ -300,6 +303,16 @@ describe("PATCH /api/account/notifications", () => {
     const req = bearerRequest(NOTIF_URL, "PATCH", token, { frequency: "weekly" });
     const res = await notifPatch({ request: req, env: authEnv() as never });
     expect(res.status).toBe(400);
+  });
+
+  it("returns 400 for an invalid site slug", async () => {
+    stubJwks();
+    const token = await validToken();
+    const req = bearerRequest(NOTIF_URL, "PATCH", token, { sites: ["lima", "BOGUS SITE!"] });
+    const res = await notifPatch({ request: req, env: authEnv() as never });
+    expect(res.status).toBe(400);
+    const body = (await res.json()) as Record<string, unknown>;
+    expect(String(body.error)).toContain("BOGUS SITE!");
   });
 
   it("updates sites, categories, and frequency", async () => {
