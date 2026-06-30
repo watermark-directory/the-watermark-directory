@@ -2,17 +2,16 @@
 // Returns up to 20 entries in reverse-chronological order.
 //
 // Requires `admin` or `site-admin` role.
-// site-admin: may only query audit entries for users in their own site scope
-//   (enforcement is best-effort — audit entries don't carry the target's adminSites,
-//    so this endpoint accepts any sub for site-admins; the intent is reviewed tooling).
+// site-admin: may only query audit entries for users whose adminSites overlap the caller's.
 //
 // Ships dark: AUTH_ENABLED kill switch must be "true".
 
 import { requireAuth, type AuthEnv } from "../_lib/auth";
 import { json } from "../_lib/http";
 import { listAuditEntries, type KVListable } from "../_lib/audit";
+import { getUser, type CognitoAdminEnv } from "../_lib/cognitoAdmin";
 
-interface Env extends AuthEnv {
+interface Env extends AuthEnv, CognitoAdminEnv {
   AUTH_ENABLED?: string;
   AUTH_PREFS?: KVListable;
 }
@@ -37,6 +36,16 @@ export const onRequestGet = async ({ request, env }: RequestContext): Promise<Re
   const url = new URL(request.url);
   const sub = url.searchParams.get("sub");
   if (!sub) return json(400, { error: "sub is required" });
+
+  // Site-admins may only read audit entries for users within their site scope.
+  if (auth.ctx.role === "site-admin") {
+    const targetUser = await getUser(env, sub).catch(() => null);
+    if (!targetUser) return json(404, { error: "user not found" });
+    const callerSites = new Set(auth.ctx.adminSites);
+    if (!targetUser.adminSites.some((s) => callerSites.has(s))) {
+      return json(403, { error: "forbidden" });
+    }
+  }
 
   const entries = await listAuditEntries(env.AUTH_PREFS, sub);
   return json(200, entries);

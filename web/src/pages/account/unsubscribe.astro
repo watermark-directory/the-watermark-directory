@@ -19,6 +19,8 @@ import { withBase } from "../../lib/site";
 </Base>
 
 <script>
+  import { withBase } from "../../lib/base";
+
   (async function () {
     const msg = document.getElementById("unsub-msg");
     const actions = document.getElementById("unsub-actions");
@@ -33,7 +35,7 @@ import { withBase } from "../../lib/site";
     if (!token) { finish("No token provided."); return; }
 
     try {
-      const res = await fetch(`/api/auth/unsubscribe?token=${encodeURIComponent(token)}`);
+      const res = await fetch(`${withBase("/api/auth/unsubscribe")}?token=${encodeURIComponent(token)}`);
       if (res.ok) {
         const data = (await res.json()) as { removed?: string };
         finish(`You have been unsubscribed from "${data.removed ?? "notifications"}". You can re-enable notifications from your account preferences at any time.`);

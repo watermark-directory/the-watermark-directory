@@ -222,6 +222,15 @@ export const handler = async (
     return;
   }
 
+  // Fail closed: all required env vars must be present before touching secrets.
+  const missing = Object.entries(env)
+    .filter(([, value]) => !value)
+    .map(([key]) => key);
+  if (missing.length) {
+    console.error("Notify Lambda missing required env vars", missing);
+    return { statusCode: 500, body: "notification service misconfigured" };
+  }
+
   // API Gateway webhook event.
   const webhookEvent = event as APIGatewayProxyEventV2;
   const body = webhookEvent.body ?? "";
@@ -259,6 +268,9 @@ export const handler = async (
 
   if (!category) {
     return { statusCode: 200, body: "no matching category label" };
+  }
+  if (!siteSlug) {
+    return { statusCode: 200, body: "no matching site label" };
   }
 
   // Enumerate AUTH_PREFS subscribers.
@@ -327,13 +339,9 @@ export const handler = async (
     // as a light guard; the from-address bounce handling covers the rest.
     if (!notif.email_verified) continue;
 
-    // Note: we don't have the subscriber's email in KV — it's in Cognito.
-    // A production implementation would either:
-    //   a) store email in prefs at write time, or
-    //   b) call Cognito AdminGetUser here.
-    // For the stub path, we log and skip.
+    // The subscriber's email lives in Cognito, not in KV. Until AdminGetUser is
+    // wired here, log and skip without counting as sent (#938 follow-up).
     console.log(`TODO: send immediate email to sub=${sub} category=${category}`);
-    sent++;
   }
 
   console.log(`Dispatched: ${sent} immediate, ${digest} queued for digest`);

@@ -43,9 +43,20 @@ export async function writeAuditEntry(kv: KVLike, entry: AuditEntry): Promise<vo
 /** List the most recent audit entries for a user (up to `limit`, default 20). */
 export async function listAuditEntries(kv: KVListable, targetSub: string, limit = 20): Promise<AuditEntry[]> {
   const prefix = `audit:role:${targetSub}:`;
-  const { keys } = await kv.list({ prefix, limit });
+  // Page through all keys so we see the full history, then take the tail — kv.list({ limit })
+  // returns the OLDEST page, not the newest.
+  const allKeys: Array<{ name: string }> = [];
+  let cursor: string | undefined;
+  while (true) {
+    const page = await kv.list({ prefix, ...(cursor ? { cursor } : {}) });
+    allKeys.push(...page.keys);
+    if (page.list_complete) break;
+    cursor = page.cursor;
+  }
+  // Keys are ascending (oldest-first); slice the tail for the most recent entries.
+  const tail = allKeys.slice(-limit);
   const entries: AuditEntry[] = [];
-  for (const { name } of keys) {
+  for (const { name } of tail) {
     const raw = await kv.get(name);
     if (!raw) continue;
     try {
@@ -54,6 +65,5 @@ export async function listAuditEntries(kv: KVListable, targetSub: string, limit 
       // skip malformed
     }
   }
-  // KV list is lexicographic; for reverse-chron, flip.
   return entries.reverse();
 }

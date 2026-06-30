@@ -316,6 +316,9 @@ const sesFromAddress = config.get("sesFromAddress") ?? "";
 // Secrets (set out of band via `pulumi config set --secret`).
 const githubWebhookSecret = config.getSecret("githubWebhookSecret");
 const unsubSecret = config.getSecret("unsubSecret");
+// Cloudflare API token for KV access from Lambda (separate from the CF provider env var).
+//   pulumi config set --secret bosc-deploy:cloudflareApiToken <token>
+const notifyCloudflareApiToken = config.getSecret("cloudflareApiToken");
 
 // SES email identity (domain or address). Created in the same region as Cognito.
 // Operator must complete DNS verification in Route53 after the first `pulumi up`.
@@ -386,14 +389,17 @@ const notifyLambda =
             timeout: 60,
             environment: {
               variables: {
-                // Non-secret vars — can be committed.
                 SES_FROM_ADDRESS: sesFromAddress,
-                // Secret vars — injected via Pulumi secrets; never in wrangler.toml.
-                // CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, AUTH_PREFS_NAMESPACE_ID,
-                // GITHUB_WEBHOOK_SECRET, UNSUB_SECRET, SITE_URL are set out-of-band via:
-                //   pulumi config set --secret bosc-deploy:<var> <value>
-                // and referenced here as config.requireSecret / config.getSecret.
-                ...(githubWebhookSecret ? {} : {}), // secrets resolved at deploy time
+                CLOUDFLARE_ACCOUNT_ID: accountId,
+                AUTH_PREFS_NAMESPACE_ID: authPrefsKv.id,
+                SITE_URL: siteDomain
+                  ? `https://${siteDomain}`
+                  : `https://${pagesProject}.pages.dev`,
+                ...(githubWebhookSecret ? { GITHUB_WEBHOOK_SECRET: githubWebhookSecret } : {}),
+                ...(unsubSecret ? { UNSUB_SECRET: unsubSecret } : {}),
+                ...(notifyCloudflareApiToken
+                  ? { CLOUDFLARE_API_TOKEN: notifyCloudflareApiToken }
+                  : {}),
               },
             },
           },

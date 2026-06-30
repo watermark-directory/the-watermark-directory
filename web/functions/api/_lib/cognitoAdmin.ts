@@ -37,7 +37,7 @@ function hex(buf: ArrayBuffer): string {
 
 function toAmzDate(d: Date): string {
   // Format: 20260629T123456Z (no separators)
-  return d.toISOString().replace(/[:-]/g, "").slice(0, 15) + "Z";
+  return `${d.toISOString().replace(/[:-]/g, "").slice(0, 15)}Z`;
 }
 
 async function authHeader(
@@ -238,22 +238,22 @@ export async function setGroupsForUser(
   const toRemove = current.filter((g) => MANAGED_GROUPS.includes(g) && !newGroups.includes(g));
   const toAdd = newGroups.filter((g) => MANAGED_GROUPS.includes(g) && !current.includes(g));
 
-  await Promise.all([
-    ...toRemove.map((g) =>
-      cognitoPost(env, "AdminRemoveUserFromGroup", {
-        UserPoolId: env.COGNITO_USER_POOL_ID,
-        Username: sub,
-        GroupName: g,
-      }),
-    ),
-    ...toAdd.map((g) =>
-      cognitoPost(env, "AdminAddUserToGroup", {
-        UserPoolId: env.COGNITO_USER_POOL_ID,
-        Username: sub,
-        GroupName: g,
-      }),
-    ),
-  ]);
+  // Apply removes before adds in sequence — parallel Promise.all can leave a
+  // half-applied role set if any call fails, with no clean recovery path.
+  for (const g of toRemove) {
+    await cognitoPost(env, "AdminRemoveUserFromGroup", {
+      UserPoolId: env.COGNITO_USER_POOL_ID,
+      Username: sub,
+      GroupName: g,
+    });
+  }
+  for (const g of toAdd) {
+    await cognitoPost(env, "AdminAddUserToGroup", {
+      UserPoolId: env.COGNITO_USER_POOL_ID,
+      Username: sub,
+      GroupName: g,
+    });
+  }
 }
 
 /** Update the `custom:admin_sites` attribute for a user. */
