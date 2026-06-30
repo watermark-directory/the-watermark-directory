@@ -71,6 +71,26 @@ GITHUB_REPO = "the-watermark-directory"
 # [[kv_namespaces]]
 # binding = "MCP_RATE_LIMIT"
 # id = "<namespace-id>"
+#
+# Bearer-key registry (#916): hashed API keys → {owner, tier, created_at, revoked}.
+# Missing → all Bearer tokens fall through as public (no KV = no key management yet).
+#   npx wrangler kv namespace create MCP_KEYS
+# [[kv_namespaces]]
+# binding = "MCP_KEYS"
+# id = "<namespace-id>"
+#
+# Daily output-token budget (#912). MCP_BUDGET_ENABLED="true" activates enforcement;
+# with it set but no KV bound the endpoint fails closed. MCP_ALLOW_UNCAPPED="true" bypasses
+# for local dev. Public cap defaults to 100k tokens/day; keyed cap defaults to 500k/day.
+# Set in the dashboard (not here — kill switch must be operator-flippable without redeploy):
+#   MCP_BUDGET_ENABLED = "true"
+#   MCP_BUDGET_PUBLIC_DAILY = "100000"
+#   MCP_BUDGET_KEY_DAILY = "500000"
+#   MCP_ALLOW_UNCAPPED = "true"   # local dev only
+#   npx wrangler kv namespace create MCP_BUDGET
+# [[kv_namespaces]]
+# binding = "MCP_BUDGET"
+# id = "<namespace-id>"
 
 # --- Cognito auth (Epic #919) -----------------------------------------------------
 # Kill switch + non-secret config. AUTH_ENABLED (unset/"false" → 503), COGNITO_DOMAIN,

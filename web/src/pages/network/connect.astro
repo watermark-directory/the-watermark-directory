@@ -1,0 +1,163 @@
+---
+/**
+ * /network/connect — how to connect the Watermark Directory MCP server to a research client (#917).
+ * Network-global route (parallel to /wiki, /ask, /submit) — lives at the root, not under a site.
+ */
+import Base from "../../layouts/Base.astro";
+import { MCP_TOOLS } from "../../lib/mcpTools";
+
+const MCP_ENDPOINT = "https://watermark.directory/api/mcp";
+
+const claudeDesktopConfig = JSON.stringify(
+  {
+    mcpServers: {
+      "watermark-directory": {
+        url: MCP_ENDPOINT,
+        type: "http",
+      },
+    },
+  },
+  null,
+  2,
+);
+
+// Precompute display data so the template stays simple (Astro/esbuild handles
+// complex JSX expressions poorly inside <table>).
+const toolRows = MCP_TOOLS.map((t) => ({
+  name: t.name,
+  description: t.description,
+  required: t.inputSchema.required?.join(", ") ?? "—",
+  example: t.example ?? "—",
+}));
+---
+
+<Base
+  title="Connect — Watermark Directory"
+  section="connect"
+  description="Connect the Watermark Directory MCP server to Claude Desktop or any MCP-compatible client. Investigative-grade corpus of the Maumee watershed."
+>
+  <article class="prose connect-page">
+    <div class="submit-eyebrow">MCP</div>
+    <h1>Connect to the corpus</h1>
+    <p class="section-lead">
+      The Watermark Directory exposes a <a href="https://modelcontextprotocol.io">Model Context Protocol</a>
+      endpoint at <code>{MCP_ENDPOINT}</code>. Connect Claude Desktop or any MCP-compatible client to search
+      and interrogate the investigative record directly.
+    </p>
+
+    <h2>Claude Desktop setup</h2>
+    <p>
+      Add the following block to your <code>claude_desktop_config.json</code> (find it at
+      <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> on macOS):
+    </p>
+    <pre><code>{claudeDesktopConfig}</code></pre>
+    <p>
+      Restart Claude Desktop after saving. The <strong>watermark-directory</strong> server will appear in the
+      MCP server list. No API key is required for the public tier.
+    </p>
+
+    <h2>Available tools</h2>
+    <p>
+      The public tier exposes {MCP_TOOLS.length} tools. All return evidentiary-tagged results — see
+      <a href="#evidence">evidentiary vocabulary</a> below.
+    </p>
+    <table class="tool-table">
+      <thead>
+        <tr>
+          <th>Tool</th>
+          <th>Description</th>
+          <th>Required params</th>
+          <th>Example call</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          toolRows.map((row) => (
+            <tr>
+              <td>
+                <code>{row.name}</code>
+              </td>
+              <td>{row.description}</td>
+              <td>
+                <code>{row.required}</code>
+              </td>
+              <td>
+                <pre>
+                  <code>{row.example}</code>
+                </pre>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    <h2>Rate limits and budget</h2>
+    <table class="tier-table">
+      <thead>
+        <tr>
+          <th>Tier</th>
+          <th>Rate limit</th>
+          <th>Daily output budget</th>
+          <th>Auth</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Public</strong></td>
+          <td>60 requests / hour per IP</td>
+          <td>100k tokens / day (shared)</td>
+          <td>None — open access</td>
+        </tr>
+        <tr>
+          <td><strong>Keyed</strong></td>
+          <td>Higher limits</td>
+          <td>500k tokens / day (per key)</td>
+          <td><code>Authorization: Bearer &lt;token&gt;</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      To request a keyed account, <a href="/submit">submit a tip or correction</a> and mention your research
+      use case. Keyed access is granted to journalists, researchers, and public-interest investigators.
+    </p>
+
+    <h2 id="evidence">Evidentiary vocabulary</h2>
+    <p>
+      Every result from the corpus carries an evidence tag. These tags encode how strongly the claim is
+      grounded in the documentary record:
+    </p>
+    <dl>
+      <dt><code>[verified]</code></dt>
+      <dd>
+        Directly confirmed in a primary source document — a permit, a recorded deed, meeting minutes, a
+        regulatory filing. The document is in the corpus and the claim is traceable to a specific page.
+      </dd>
+      <dt><code>[inference]</code></dt>
+      <dd>
+        Logically derived from verified facts but not explicitly stated in a source. A reasonable conclusion
+        the record supports, not a claim a document makes directly.
+      </dd>
+      <dt><code>[reference]</code></dt>
+      <dd>
+        Sourced from a secondary or historical reference (published books, surveys, news) rather than a
+        primary instrument. Accurate but one step removed from the primary record.
+      </dd>
+      <dt><code>[open]</code></dt>
+      <dd>
+        A question or gap the record has not yet resolved — an area where the corpus is incomplete or where
+        the evidence is insufficient to draw a conclusion.
+      </dd>
+    </dl>
+    <p>
+      When a model queries this corpus, it should surface these tags in its reasoning and not assert
+      <code>[inference]</code> claims with the same confidence as <code>[verified]</code> ones.
+    </p>
+
+    <h2>Auto-discovery</h2>
+    <p>
+      The endpoint publishes a <a href="/.well-known/mcp.json">/.well-known/mcp.json</a> discovery document.
+      MCP clients that support auto-discovery can find the server without manual configuration.
+    </p>
+  </article>
+</Base>

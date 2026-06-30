@@ -2,6 +2,9 @@
 // Each method returns a result object or throws a McpError. Tool implementations
 // live in sub-issues (#913-#915); this layer carries stubs so the protocol
 // handshake and session round-trips work end-to-end today.
+// Tool schemas are in src/lib/mcpTools.ts (shared with the /network/connect page, #917).
+
+import { MCP_TOOLS } from "../../../src/lib/mcpTools";
 
 export interface JsonRpcRequest {
   jsonrpc: string;
@@ -39,80 +42,8 @@ export const RPC = {
 const PROTOCOL_VERSION = "2025-03-26";
 const SERVER_INFO = { name: "watermark-directory", version: "1.0.0" };
 
-// Tool stubs — filled by #913 (search_corpus) and #914 (bundle reader tools)
-const TOOL_STUBS = [
-  {
-    name: "search_corpus",
-    description: "Semantic + keyword search over the documentary corpus",
-    inputSchema: {
-      type: "object" as const,
-      properties: {
-        query: { type: "string", description: "Search query" },
-        site: {
-          type: "string",
-          description: "Site slug (e.g. lima, fort-wayne). Leave blank to search all sites.",
-        },
-        collection: {
-          type: "string",
-          description: "Collection filter (e.g. oepa, recorder, aedg)",
-        },
-        limit: { type: "integer", description: "Max results (default 10)", default: 10 },
-      },
-      required: ["query"],
-    },
-  },
-  {
-    name: "get_timeline",
-    description: "Dated events filterable by date range and category",
-    inputSchema: {
-      type: "object" as const,
-      properties: {
-        since: { type: "string", description: "ISO-8601 date lower bound (inclusive)" },
-        until: { type: "string", description: "ISO-8601 date upper bound (inclusive)" },
-        category: { type: "string", description: "Event category filter" },
-        site: { type: "string", description: "Site slug (default: active site)" },
-      },
-    },
-  },
-  {
-    name: "get_entities",
-    description: "Entity graph: parties, roles, parcels, and relationships",
-    inputSchema: {
-      type: "object" as const,
-      properties: {
-        type: {
-          type: "string",
-          description: "Entity type filter (e.g. company, person, parcel)",
-        },
-        site: { type: "string", description: "Site slug (default: active site)" },
-      },
-    },
-  },
-  {
-    name: "get_hypotheses",
-    description: "Boom-origin hypothesis signals per site",
-    inputSchema: {
-      type: "object" as const,
-      properties: {
-        site: { type: "string", description: "Site slug (default: all sites)" },
-      },
-    },
-  },
-  {
-    name: "get_documents",
-    description: "Ingested source documents by collection",
-    inputSchema: {
-      type: "object" as const,
-      properties: {
-        collection: {
-          type: "string",
-          description: "Collection filter (e.g. oepa, recorder, aedg, commissioners)",
-        },
-        site: { type: "string", description: "Site slug (default: active site)" },
-      },
-    },
-  },
-];
+// Tool stubs — filled by #913 (search_corpus) and #914 (bundle reader tools).
+// Schema definitions live in src/lib/mcpTools.ts (shared with /network/connect, #917).
 
 function parseRequest(body: unknown): JsonRpcRequest {
   if (!body || typeof body !== "object" || Array.isArray(body)) {
@@ -144,7 +75,7 @@ function handleInitialize(params: unknown): unknown {
 }
 
 function handleToolsList(): unknown {
-  return { tools: TOOL_STUBS };
+  return { tools: MCP_TOOLS };
 }
 
 function handleToolsCall(params: unknown): unknown {
@@ -153,7 +84,7 @@ function handleToolsCall(params: unknown): unknown {
   if (typeof name !== "string") {
     throw new McpError(RPC.INVALID_PARAMS, "params.name must be a string");
   }
-  const tool = TOOL_STUBS.find((t) => t.name === name);
+  const tool = MCP_TOOLS.find((t) => t.name === name);
   if (!tool) {
     throw new McpError(RPC.INVALID_PARAMS, `Unknown tool: ${name}`);
   }

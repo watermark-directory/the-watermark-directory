@@ -8,16 +8,24 @@
 // tools/call returns text/event-stream so implementations can stream results.
 // Sessions are stored in MCP_SESSIONS KV (Mcp-Session-Id header round-trip).
 //
-// Flow: kill switch → parse body → rate limit → session lookup/create →
-//       dispatch → return JSON or SSE response.
+// Flow: kill switch → auth (#916) → per-IP rate limit → budget guard (#912)
+//       → parse body → session lookup/create → dispatch → return JSON or SSE.
 
 import { dispatch, RPC } from "./_lib/mcpDispatch";
 import { json, parseJsonBody } from "./_lib/http";
 import { enforceRateLimit, type KVLike } from "./_lib/ratelimit";
 import { frame } from "./_lib/sse";
 import { getSession, newSessionId, putSession } from "./_lib/mcpSession";
+import { verifyToken, type McpAuthEnv } from "./_lib/mcpAuth";
+import {
+  DEFAULT_KEY_DAILY,
+  DEFAULT_PUBLIC_DAILY,
+  isOverBudget,
+  keyedBudgetKey,
+  publicBudgetKey,
+} from "./_lib/mcpBudget";
 
-interface Env {
+interface Env extends McpAuthEnv {
   /** Kill switch — anything but "true" disables the endpoint. */
   MCP_ENABLED?: string;
   /** KV namespace for session storage. */
@@ -26,10 +34,19 @@ interface Env {
   MCP_RATE_LIMIT?: KVLike;
   MCP_RATE_LIMIT_MAX?: string;
   MCP_RATE_LIMIT_WINDOW_SEC?: string;
+  /** KV namespace for the daily output-token budget (#912). */
+  MCP_BUDGET?: KVLike;
+  /** Kill switch for budget enforcement. Default off (no enforcement until wired). */
+  MCP_BUDGET_ENABLED?: string;
+  /** Shared public-tier daily cap (output tokens). */
+  MCP_BUDGET_PUBLIC_DAILY?: string;
+  /** Per-key (cognito) daily cap (output tokens). */
+  MCP_BUDGET_KEY_DAILY?: string;
+  /** Bypass all budget guards for local dev (mirrors ASK_ALLOW_UNCAPPED). */
+  MCP_ALLOW_UNCAPPED?: string;
 }
 
 const DEFAULT_MCP_RATE_LIMIT = { max: 60, windowSec: 60 }; // 60 req/min per IP
-const _IDLE_TIMEOUT_MS = 30_000;
 
 function sseResponse(body: string, headers?: Record<string, string>): Response {
   return new Response(body, {
@@ -40,6 +57,11 @@ function sseResponse(body: string, headers?: Record<string, string>): Response {
       ...headers,
     },
   });
+}
+
+function intEnv(val: string | undefined, fallback: number): number {
+  const n = Number(val);
+  return Number.isFinite(n) ? n : fallback;
 }
 
 interface RequestContext {
@@ -57,6 +79,16 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
     });
   }
 
+  // Auth (#916) — public passthrough or Bearer key verification
+  const authResult = await verifyToken(request, env);
+  if ("error" in authResult) {
+    return json(200, {
+      jsonrpc: "2.0",
+      id: null,
+      error: { code: RPC.INVALID_REQUEST, message: "authentication failed", data: "auth" },
+    });
+  }
+
   // Per-IP rate limit
   if (env.MCP_RATE_LIMIT) {
     const ip =
@@ -64,8 +96,8 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
       request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
       "unknown";
     const cfg = {
-      max: Number(env.MCP_RATE_LIMIT_MAX ?? DEFAULT_MCP_RATE_LIMIT.max),
-      windowSec: Number(env.MCP_RATE_LIMIT_WINDOW_SEC ?? DEFAULT_MCP_RATE_LIMIT.windowSec),
+      max: intEnv(env.MCP_RATE_LIMIT_MAX, DEFAULT_MCP_RATE_LIMIT.max),
+      windowSec: intEnv(env.MCP_RATE_LIMIT_WINDOW_SEC, DEFAULT_MCP_RATE_LIMIT.windowSec),
     };
     const denied = await enforceRateLimit(
       env.MCP_RATE_LIMIT,
@@ -75,6 +107,37 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
       "rate limit exceeded",
     );
     if (denied) return denied;
+  }
+
+  // Budget guard (#912) — only active when MCP_BUDGET_ENABLED="true"
+  const nowMs = Date.now();
+  if (env.MCP_BUDGET_ENABLED === "true" && env.MCP_ALLOW_UNCAPPED !== "true") {
+    const budgetKv = env.MCP_BUDGET;
+    if (!budgetKv) {
+      console.error("mcp: MCP_BUDGET_ENABLED=true but no MCP_BUDGET KV bound — refusing (fail-closed)");
+      return json(503, {
+        jsonrpc: "2.0",
+        id: null,
+        error: { code: RPC.INTERNAL_ERROR, message: "budget store not configured" },
+      });
+    }
+    const budgetKey =
+      authResult.tier === "cognito" ? keyedBudgetKey(authResult.keyHash, nowMs) : publicBudgetKey(nowMs);
+    const limit =
+      authResult.tier === "cognito"
+        ? intEnv(env.MCP_BUDGET_KEY_DAILY, DEFAULT_KEY_DAILY)
+        : intEnv(env.MCP_BUDGET_PUBLIC_DAILY, DEFAULT_PUBLIC_DAILY);
+    if (await isOverBudget(budgetKv, budgetKey, limit)) {
+      return json(200, {
+        jsonrpc: "2.0",
+        id: null,
+        error: {
+          code: RPC.INTERNAL_ERROR,
+          message: "daily budget exceeded — try again tomorrow",
+          data: "budget_exceeded",
+        },
+      });
+    }
   }
 
   // Parse JSON body
@@ -94,10 +157,8 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
   const isInitialize = body["method"] === "initialize";
 
   if (isInitialize) {
-    // Always create a fresh session on initialize
     sessionId = newSessionId();
   } else if (incomingSessionId) {
-    // Verify the session exists
     if (env.MCP_SESSIONS) {
       const session = await getSession(env.MCP_SESSIONS, incomingSessionId);
       if (!session) {
@@ -140,6 +201,7 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
   }
 
   // tools/call: SSE stream so implementations can stream results (#913/#914)
+  // TODO(#913/#914): call addBudgetUsage(budgetKv, budgetKey, outputTokens) after real dispatch.
   if (body["method"] === "tools/call") {
     const eventData = frame("message", rpcResponse);
     return sseResponse(eventData, sessionHeaders);
