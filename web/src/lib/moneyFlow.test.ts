@@ -35,7 +35,7 @@ function makeBundle(records: object[]): string {
 }
 
 async function loadMoneyFlow(dir: string): Promise<typeof import("./moneyFlow")> {
-  process.env.BOSC_BUNDLE_DIR = dir;
+  process.env.WATERMARK_BUNDLE_DIR = dir;
   vi.resetModules();
   return import("./moneyFlow");
 }
@@ -57,7 +57,7 @@ const OPC_RECORD = {
 };
 
 afterEach(() => {
-  delete process.env.BOSC_BUNDLE_DIR;
+  delete process.env.WATERMARK_BUNDLE_DIR;
 });
 afterAll(() => {
   for (const d of tmpDirs) rmSync(d, { recursive: true, force: true });

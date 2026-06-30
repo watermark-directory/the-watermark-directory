@@ -34,7 +34,7 @@ function makeBundle(timeline: object[]): string {
 }
 
 async function loadSpine(dir: string): Promise<typeof import("./walkTimeline")> {
-  process.env.BOSC_BUNDLE_DIR = dir;
+  process.env.WATERMARK_BUNDLE_DIR = dir;
   vi.resetModules();
   return import("./walkTimeline");
 }
@@ -50,7 +50,7 @@ const EVENT = (date: string) => ({
 });
 
 afterEach(() => {
-  delete process.env.BOSC_BUNDLE_DIR;
+  delete process.env.WATERMARK_BUNDLE_DIR;
 });
 afterAll(() => {
   for (const d of tmpDirs) rmSync(d, { recursive: true, force: true });

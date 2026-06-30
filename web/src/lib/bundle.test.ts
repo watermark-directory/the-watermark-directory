@@ -40,22 +40,22 @@ function makeSiteBundles(
 }
 
 // bundle.ts memoizes the resolved dir + manifest at module scope, so each case
-// points BOSC_BUNDLE_DIR at a fresh fixture and re-imports with a clean registry.
+// points WATERMARK_BUNDLE_DIR at a fresh fixture and re-imports with a clean registry.
 async function loadBundleModule(dir: string): Promise<typeof import("./bundle")> {
-  process.env.BOSC_BUNDLE_DIR = dir;
+  process.env.WATERMARK_BUNDLE_DIR = dir;
   vi.resetModules();
   return import("./bundle");
 }
 
 afterEach(() => {
-  delete process.env.BOSC_BUNDLE_DIR;
+  delete process.env.WATERMARK_BUNDLE_DIR;
 });
 afterAll(() => {
   for (const d of tmpDirs) rmSync(d, { recursive: true, force: true });
 });
 
 describe("bundle resolution + JSON feeds", () => {
-  it("resolves the explicit BOSC_BUNDLE_DIR override and reads its feeds", async () => {
+  it("resolves the explicit WATERMARK_BUNDLE_DIR override and reads its feeds", async () => {
     const dir = makeBundle(
       manifestWith([
         {
@@ -147,7 +147,7 @@ describe("per-site resolution", () => {
   });
 
   it("falls back to the override dir itself when it has no per-site subdir (back-compat)", async () => {
-    // A flat BOSC_BUNDLE_DIR (no <slug>/ inside) still resolves for the default site.
+    // A flat WATERMARK_BUNDLE_DIR (no <slug>/ inside) still resolves for the default site.
     const dir = makeBundle(manifestWith([feed(1)]), { "things.json": JSON.stringify([{ s: "flat" }]) });
     const m = await loadBundleModule(dir);
     expect(m.bundleDir()).toBe(dir);
