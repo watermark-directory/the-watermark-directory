@@ -149,7 +149,7 @@ export function Footer({
 
             {/* submit CTA */}
             <a
-              href={submitHref || (onSubmitTip ? undefined : "#")}
+              href={submitHref || "#"}
               onClick={onSubmitTip}
               style={{
                 display:             "inline-flex",
@@ -256,6 +256,8 @@ export function Footer({
                   }}
                   onMouseEnter={(e) => { e.currentTarget.style.color = "var(--ink)"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.color = "var(--ink-muted)"; }}
+                  onFocus={(e) => { e.currentTarget.style.color = "var(--ink)"; }}
+                  onBlur={(e) => { e.currentTarget.style.color = "var(--ink-muted)"; }}
                 >
                   {link.label}
                 </a>
