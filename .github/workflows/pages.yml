@@ -1,4 +1,4 @@
-# Build & deploy the BOSC site to Cloudflare Pages — MANUAL ONLY.
+# Build & deploy the Watermark Directory site to Cloudflare Pages — MANUAL ONLY.
 #
 # Phase 1 of the host migration (Epic #56): the redesigned Astro site (web/) and
 # its Pages Functions (web/functions/ — the submissions endpoint, #74) deploy
@@ -16,7 +16,7 @@
 # direct upload. Pages config lives in `web/wrangler.toml`.
 #
 # One-time setup before the first deploy (see docs/submissions-api.md):
-#   - Create the Cloudflare Pages project `bosc` (production branch: main).
+#   - Create the Cloudflare Pages project `the-watermark-directory` (production branch: main).
 #   - Repo secrets: CLOUDFLARE_API_TOKEN (token with "Cloudflare Pages: Edit") and
 #     CLOUDFLARE_ACCOUNT_ID.
 #   - Repo var PUBLIC_TURNSTILE_SITE_KEY (public; from `pulumi stack output
