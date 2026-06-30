@@ -25,8 +25,9 @@ const accountNote = authRequired ? "Sign-in required" : "No account needed";
 const KIND_MAP: Record<string, string> = { tip: "tip", source: "new_source", correction: "correction" };
 const preselectedKind = KIND_MAP[Astro.url.searchParams.get("kind") ?? ""] ?? null;
 
-const CONTRACT_URL = "https://github.com/goedelsoup/bosc/blob/main/docs/submissions-api.md";
-const NEW_ISSUE_URL = "https://github.com/goedelsoup/bosc/issues/new";
+const CONTRACT_URL =
+  "https://github.com/watermark-directory/the-watermark-directory/blob/main/docs/submissions-api.md";
+const NEW_ISSUE_URL = "https://github.com/watermark-directory/the-watermark-directory/issues/new";
 
 // Pages Functions are root-relative and NOT base-prefixed (unlike static assets), so
 // the endpoint is a literal path even if the static site is served under a subpath.
