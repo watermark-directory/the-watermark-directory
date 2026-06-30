@@ -2,14 +2,19 @@
 #
 # Operator-specific / late-bound keys are NOT committed; set them out of band:
 #   pulumi config set bosc-deploy:cloudflareAccountId <account-id>   # REQUIRED
-#   pulumi config set bosc-deploy:siteDomain watermark.example.org        # when the name is chosen
+#   pulumi config set bosc-deploy:siteDomain watermark.example.org   # when the name is chosen
 #   pulumi config set bosc-deploy:route53ZoneId Z0123456789ABC       # the zone that owns siteDomain
 #   pulumi config set bosc-deploy:pagesProject bosc                  # only if not "bosc"
 #
-# Until `siteDomain` is set the stack manages KV + Turnstile only and the site stays on
-# <project>.pages.dev — so the stack is "ready to go" with the domain as the single
-# late-bound value. `siteDomain` + `route53ZoneId` together drive the Route53↔Cloudflare
-# exchange (decided shape: a subdomain CNAME — see index.ts / docs/submissions-api.md).
+# Auth / Cognito (#924):
+#   pulumi config set bosc-deploy:authEnabled true                   # provisions Cognito (DESTRUCTIVE to remove)
+#   pulumi config set bosc-deploy:cognitoDomainPrefix watermark-auth # Hosted UI prefix (default "watermark-auth")
+#   pulumi config set bosc-deploy:cognitoRegion us-east-1           # must match AWS provider region
+#
+# `siteDomain` + `route53ZoneId` together drive the Route53↔Cloudflare exchange (decided
+# shape: a subdomain CNAME — see index.ts / docs/submissions-api.md). Until `siteDomain`
+# is set the stack manages KV + R2 + Turnstile only. Until `authEnabled` is true the
+# Cognito pool is not created (KV namespaces for auth are always created).
 #
 # The Cloudflare API token is supplied via the CLOUDFLARE_API_TOKEN env var (or the
 # `cloudflare:apiToken` Pulumi secret); AWS uses the standard credential chain. Never
