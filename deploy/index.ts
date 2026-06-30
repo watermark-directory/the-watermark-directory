@@ -61,9 +61,24 @@ interface Features {
     rum: boolean;
     auth: boolean;
 }
-const features = yaml.load(
-    fs.readFileSync(path.join(__dirname, "features.yaml"), "utf8"),
-) as Features;
+function validateFeatures(raw: unknown): Features {
+    if (typeof raw !== "object" || raw === null) {
+        throw new Error("features.yaml must be a YAML mapping");
+    }
+    const obj = raw as Record<string, unknown>;
+    const keys: (keyof Features)[] = ["preLaunch", "submissions", "ask", "docs", "mcp", "rum", "auth"];
+    for (const key of keys) {
+        if (typeof obj[key] !== "boolean") {
+            throw new Error(
+                `features.yaml: "${key}" must be a boolean (true or false), got ${JSON.stringify(obj[key])}`,
+            );
+        }
+    }
+    return obj as unknown as Features;
+}
+const features = validateFeatures(
+    yaml.load(fs.readFileSync(path.join(__dirname, "features.yaml"), "utf8")),
+);
 
 // ---------------------------------------------------------------------------
 // Secrets — set out of band via `pulumi config set --secret bosc-deploy:<key>`
@@ -79,6 +94,7 @@ const anthropicApiKey = config.getSecret("anthropicApiKey");
 const honeycombApiKey = config.getSecret("honeycombApiKey");
 const tipsAppId = config.getSecret("tipsAppId");
 const tipsAppPrivateKey = config.getSecret("tipsAppPrivateKey");
+const notifyGithubUsers = config.get("notifyGithubUsers") ?? "";
 
 // Cloudflare account that owns the resources (required — set out of band):
 //   pulumi config set bosc-deploy:cloudflareAccountId <account-id>
@@ -510,6 +526,20 @@ void notifyDigestPermission;
 // KV bindings and R2 bindings are NOT set here — those remain in wrangler.toml
 // because wrangler applies them per-deployment (a future improvement could move them here).
 
+// Configuration guards — catch mismatches before writing env vars to Pages.
+if (features.ask && !anthropicApiKey) {
+    throw new Error(
+        "features.yaml: ask=true but bosc-deploy:anthropicApiKey is not set in Pulumi config. " +
+        "Run: pulumi config set --secret bosc-deploy:anthropicApiKey <key>",
+    );
+}
+if (features.auth && !authEnabled) {
+    throw new Error(
+        "features.yaml: auth=true but bosc-deploy:authEnabled is not set to true in Pulumi config. " +
+        "Run: pulumi config set bosc-deploy:authEnabled true",
+    );
+}
+
 type PageEnvVar = { value: pulumi.Input<string>; type: pulumi.Input<string> };
 const pageEnvVars: Record<string, PageEnvVar> = {
     // Feature toggles (features.yaml)
@@ -548,6 +578,10 @@ if (anthropicApiKey)   pageEnvVars.ANTHROPIC_API_KEY    = { value: anthropicApiK
 if (honeycombApiKey)   pageEnvVars.HONEYCOMB_API_KEY    = { value: honeycombApiKey,    type: "secret_text" };
 if (tipsAppId)         pageEnvVars.TIPS_APP_ID          = { value: tipsAppId,          type: "secret_text" };
 if (tipsAppPrivateKey) pageEnvVars.TIPS_APP_PRIVATE_KEY = { value: tipsAppPrivateKey,  type: "secret_text" };
+// Optional plain-text overrides — only added when set so omitting them doesn't wipe a value
+// that hasn't been migrated yet. (Other optional vars like MCP_BUDGET_* and RUM_HONEYCOMB_DATASET
+// have code-level defaults and are not currently deployed; add via Pulumi config if needed.)
+if (notifyGithubUsers) pageEnvVars.NOTIFY_GITHUB_USERS = { value: notifyGithubUsers,  type: "plain_text" };
 
 // The Pages project resource. Pulumi owns project-level config; wrangler owns deployments.
 // Import on first apply if the project already exists (see comment at top of file).

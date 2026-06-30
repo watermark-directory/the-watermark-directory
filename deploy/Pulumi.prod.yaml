@@ -11,6 +11,9 @@
 #   pulumi config set bosc-deploy:cognitoDomainPrefix watermark-auth        # Hosted UI prefix (default "watermark-auth")
 #   pulumi config set bosc-deploy:cognitoRegion us-east-1                  # must match AWS provider region
 #
+# Plain-text Pages vars (optional — omitting them leaves the var absent from the Pages project):
+#   pulumi config set bosc-deploy:notifyGithubUsers "goedelsoup"  # comma-sep logins for submit assignees
+#
 # Secrets written directly to the Cloudflare Pages project by `pulumi up`:
 # Set these once — Pulumi owns writing them; no dashboard step required afterwards.
 #   pulumi config set --secret bosc-deploy:anthropicApiKey   <key>          # Claude API — ask + extract
