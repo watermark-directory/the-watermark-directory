@@ -9,8 +9,8 @@
  * plain `node:fs` is the right tool, not `fetch`.
  *
  * Per-site resolution order for a slug (first with a `manifest.json` wins):
- *   1. $BOSC_BUNDLE_DIR/<slug>     — explicit override, per-site subdir
- *   2. $BOSC_BUNDLE_DIR            — explicit override as a single bundle (back-compat)
+ *   1. $WATERMARK_BUNDLE_DIR/<slug>     — explicit override, per-site subdir
+ *   2. $WATERMARK_BUNDLE_DIR            — explicit override as a single bundle (back-compat)
  *   3. ../data/site/bundles/<slug> — the real per-site bundle, after `bosc … export`
  *   4. ../data/site/bundle         — legacy single-site path (Lima only; pre-#727 parity)
  *   5. ./sample-bundle/<slug>      — the committed minimal fixture (offline/CI default)
@@ -76,7 +76,7 @@ export interface Manifest {
 
 function candidateDirs(slug: string): string[] {
   const dirs: string[] = [];
-  const override = env.BOSC_BUNDLE_DIR;
+  const override = env.WATERMARK_BUNDLE_DIR;
   if (override) {
     const root = isAbsolute(override) ? override : resolve(cwd(), override);
     // Prefer a per-site subdir of the override; fall back to it as a single bundle.
@@ -103,7 +103,7 @@ export function bundleDir(slug: string = activeSite()): string {
     }
   }
   throw new Error(
-    `No content bundle found for site "${slug}". Set BOSC_BUNDLE_DIR, run ` +
+    `No content bundle found for site "${slug}". Set WATERMARK_BUNDLE_DIR, run ` +
       `\`bosc --site ${slug} export\`, or restore frontend/sample-bundle/${slug}/. Looked in:\n  ${candidateDirs(slug).join("\n  ")}`,
   );
 }

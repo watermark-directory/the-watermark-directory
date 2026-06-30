@@ -5,7 +5,7 @@ import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import type { TeardownRecord } from "./teardown";
 
 // teardownResolve builds its records/concepts maps at module scope from the
-// bundle, so each case points BOSC_BUNDLE_DIR at a fresh fixture and re-imports
+// bundle, so each case points WATERMARK_BUNDLE_DIR at a fresh fixture and re-imports
 // with a clean registry (same harness as bundle.test.ts).
 const tmpDirs: string[] = [];
 
@@ -76,13 +76,13 @@ function docEntry(rel: string, overrides: object = {}): object {
 }
 
 async function loadResolver(dir: string): Promise<typeof import("./teardownResolve")> {
-  process.env.BOSC_BUNDLE_DIR = dir;
+  process.env.WATERMARK_BUNDLE_DIR = dir;
   vi.resetModules();
   return import("./teardownResolve");
 }
 
 afterEach(() => {
-  delete process.env.BOSC_BUNDLE_DIR;
+  delete process.env.WATERMARK_BUNDLE_DIR;
 });
 afterAll(() => {
   for (const d of tmpDirs) rmSync(d, { recursive: true, force: true });

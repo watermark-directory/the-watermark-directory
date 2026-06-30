@@ -12,7 +12,7 @@ name: research
 #   - Set the repository variable RESEARCH_ENABLED=true — the on / kill switch. Until
 #     it is 'true' every run is skipped (not failed).
 #   - Optional variables: RESEARCH_TOPIC (the scheduled topic), RESEARCH_MAX_TURNS,
-#     RESEARCH_MAX_PROPOSALS (budget caps; map to BOSC_ settings).
+#     RESEARCH_MAX_PROPOSALS (budget caps; map to WATERMARK_ settings).
 
 on:
   schedule:
@@ -102,8 +102,8 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           WATERMARK_HONEYCOMB_API_KEY: ${{ secrets.HONEYCOMB_API_KEY }}
           WATERMARK_OTEL_ENABLED: "true"
-          BOSC_RESEARCH_MAX_TURNS: ${{ vars.RESEARCH_MAX_TURNS || '30' }}
-          BOSC_RESEARCH_MAX_PROPOSALS: ${{ vars.RESEARCH_MAX_PROPOSALS || '5' }}
+          WATERMARK_RESEARCH_MAX_TURNS: ${{ vars.RESEARCH_MAX_TURNS || '30' }}
+          WATERMARK_RESEARCH_MAX_PROPOSALS: ${{ vars.RESEARCH_MAX_PROPOSALS || '5' }}
           TOPIC: ${{ steps.topic.outputs.topic }}
         run: |
           set -euo pipefail

@@ -4,17 +4,17 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 // buildDefenseNexus reads geo/campus + geo/jsmc from the bundle; pin the sample-bundle
 // (which carries both) so the test is deterministic regardless of a local export.
 async function load(): Promise<typeof import("./defenseNexus")> {
-  process.env.BOSC_BUNDLE_DIR = join(process.cwd(), "sample-bundle");
+  process.env.WATERMARK_BUNDLE_DIR = join(process.cwd(), "sample-bundle");
   vi.resetModules();
   return import("./defenseNexus");
 }
 
 describe("defenseNexus — map annotations (#267)", () => {
   beforeAll(() => {
-    process.env.BOSC_BUNDLE_DIR = join(process.cwd(), "sample-bundle");
+    process.env.WATERMARK_BUNDLE_DIR = join(process.cwd(), "sample-bundle");
   });
   afterAll(() => {
-    delete process.env.BOSC_BUNDLE_DIR;
+    delete process.env.WATERMARK_BUNDLE_DIR;
   });
 
   it("produces one register-encoded annotation per fact tab", async () => {

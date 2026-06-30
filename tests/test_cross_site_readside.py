@@ -1,10 +1,10 @@
 """#618 — cross-site (non-Lima, non-Ohio) read-side round-trip.
 
-The site axis (``SiteProfile`` / ``BOSC_SITE``) is honored on the **write / connector-input**
+The site axis (``SiteProfile`` / ``WATERMARK_SITE``) is honored on the **write / connector-input**
 side but historically leaked Lima/Ohio defaults on the **read / derivation** side — the same
 asymmetry that let Ohio-hardcoding through until a non-OH site (Fort Wayne) surfaced it. This
 module drives the per-site reference readers (#606), the FERC seam (#608), and the cooling
-basis (#607) under ``BOSC_SITE=fort-wayne`` (Indiana) and asserts the output is the active
+basis (#607) under ``WATERMARK_SITE=fort-wayne`` (Indiana) and asserts the output is the active
 site's, never Lima's. It reads only committed reference data — no network.
 
 Note: Fort Wayne and Lima are *both* in an "Allen County", so the discriminator here is the

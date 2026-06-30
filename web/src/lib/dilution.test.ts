@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 
-// buildDilution reads the bundle at call time; point BOSC_BUNDLE_DIR at a fixture
+// buildDilution reads the bundle at call time; point WATERMARK_BUNDLE_DIR at a fixture
 // and re-import with a clean registry (same harness as bundle.test.ts).
 const tmpDirs: string[] = [];
 
@@ -40,7 +40,7 @@ function makeBundle(scenarios: object[]): string {
 }
 
 async function loadDilution(dir: string): Promise<typeof import("./dilution")> {
-  process.env.BOSC_BUNDLE_DIR = dir;
+  process.env.WATERMARK_BUNDLE_DIR = dir;
   vi.resetModules();
   return import("./dilution");
 }
@@ -71,7 +71,7 @@ const BUILDOUT = {
 };
 
 afterEach(() => {
-  delete process.env.BOSC_BUNDLE_DIR;
+  delete process.env.WATERMARK_BUNDLE_DIR;
 });
 afterAll(() => {
   for (const d of tmpDirs) rmSync(d, { recursive: true, force: true });

@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 
 // Mirrors bundle.test.ts: askIndex.ts reads through bundle.ts, which memoizes the
-// resolved dir + manifest at module scope, so each case points BOSC_BUNDLE_DIR at a
+// resolved dir + manifest at module scope, so each case points WATERMARK_BUNDLE_DIR at a
 // fresh fixture and re-imports with a clean registry.
 const tmpDirs: string[] = [];
 
@@ -34,13 +34,13 @@ function makeBundle(feeds: object[], files: Record<string, string>): string {
 }
 
 async function loadAskIndex(dir: string): Promise<typeof import("./askIndex")> {
-  process.env.BOSC_BUNDLE_DIR = dir;
+  process.env.WATERMARK_BUNDLE_DIR = dir;
   vi.resetModules();
   return import("./askIndex");
 }
 
 afterEach(() => {
-  delete process.env.BOSC_BUNDLE_DIR;
+  delete process.env.WATERMARK_BUNDLE_DIR;
 });
 afterAll(() => {
   for (const d of tmpDirs) rmSync(d, { recursive: true, force: true });
