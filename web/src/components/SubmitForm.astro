@@ -22,6 +22,9 @@ const authRequired = Boolean(
 const loginHref = "/account/login";
 const accountNote = authRequired ? "Sign-in required" : "No account needed";
 
+const KIND_MAP: Record<string, string> = { tip: "tip", source: "new_source", correction: "correction" };
+const preselectedKind = KIND_MAP[Astro.url.searchParams.get("kind") ?? ""] ?? null;
+
 const CONTRACT_URL = "https://github.com/goedelsoup/bosc/blob/main/docs/submissions-api.md";
 const NEW_ISSUE_URL = "https://github.com/goedelsoup/bosc/issues/new";
 
@@ -78,11 +81,11 @@ const ENDPOINT = "/api/submit";
             <fieldset class="field seg">
               <legend>What kind of submission?</legend>
               <div class="seg-row">
-                <input type="radio" id="k-correction" name="kind" value="correction" checked />
+                <input type="radio" id="k-correction" name="kind" value="correction" checked={preselectedKind === "correction"} />
                 <label for="k-correction">Correction</label>
-                <input type="radio" id="k-source" name="kind" value="new_source" />
+                <input type="radio" id="k-source" name="kind" value="new_source" checked={preselectedKind === "new_source"} />
                 <label for="k-source">New source</label>
-                <input type="radio" id="k-tip" name="kind" value="tip" />
+                <input type="radio" id="k-tip" name="kind" value="tip" checked={preselectedKind === "tip"} />
                 <label for="k-tip">Tip</label>
               </div>
             </fieldset>
