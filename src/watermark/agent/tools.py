@@ -14,6 +14,7 @@ import httpx
 import yaml
 from claude_agent_sdk import create_sdk_mcp_server, tool
 
+from watermark.agent.tracing import traced_tool
 from watermark.config import get_settings
 from watermark.github import (
     AdminChecker,
@@ -137,6 +138,7 @@ def _resolve(filename: str | None, pattern: str = "*.yaml") -> Path | None:
 
 
 @tool("list_documents", "List ingested source documents and their collections.", {})
+@traced_tool
 async def list_documents(_args: dict[str, Any]) -> dict[str, Any]:
     # Per-site scoping (#899): for the corpus home, return all docs; for other sites, filter
     # to documents whose path contains the site slug (e.g. data/documents/idem/fort-wayne/).
@@ -158,6 +160,7 @@ async def list_documents(_args: dict[str, Any]) -> dict[str, Any]:
 
 
 @tool("list_extractions", "List available structured extraction files.", {})
+@traced_tool
 async def list_extractions(_args: dict[str, Any]) -> dict[str, Any]:
     settings = get_settings()
     base = _site_extracted_root(settings)
@@ -175,6 +178,7 @@ async def list_extractions(_args: dict[str, Any]) -> dict[str, Any]:
     "collection-relative path (e.g. 'recorder/202511180011830-amazon-deed.deed.yaml').",
     {"filename": str},
 )
+@traced_tool
 async def read_extraction(args: dict[str, Any]) -> dict[str, Any]:
     path = _resolve(args["filename"])
     if path is None:
@@ -187,6 +191,7 @@ async def read_extraction(args: dict[str, Any]) -> dict[str, Any]:
     "Run deterministic arithmetic reconciliation over a *.summary.opc.yaml file.",
     {"filename": str},
 )
+@traced_tool
 async def reconcile_summary(args: dict[str, Any]) -> dict[str, Any]:
     path = _resolve(args["filename"])
     if path is None:
@@ -202,6 +207,7 @@ async def reconcile_summary(args: dict[str, Any]) -> dict[str, Any]:
     "and reconciliation status (reads the summary extraction).",
     {},
 )
+@traced_tool
 async def program_overview(_args: dict[str, Any]) -> dict[str, Any]:
     path = _resolve(None, "*.summary.opc.yaml")
     if path is None:
@@ -230,6 +236,7 @@ async def program_overview(_args: dict[str, Any]) -> dict[str, Any]:
     "notices/comment deadlines, OPC estimates) from every extraction, in order.",
     {},
 )
+@traced_tool
 async def timeline(_args: dict[str, Any]) -> dict[str, Any]:
     # build_timeline() delegates to load_corpus(), which is per-site scoped (#762/#780).
     # A non-Lima site gets its own corpus events (or "No dated events" if none yet) —
@@ -262,6 +269,7 @@ async def timeline(_args: dict[str, Any]) -> dict[str, Any]:
     "classification, roles, parcels) and the relationships between them.",
     {},
 )
+@traced_tool
 async def entities(_args: dict[str, Any]) -> dict[str, Any]:
     # build_entity_graph() delegates to load_corpus(), which is per-site scoped (#762/#780).
     # A non-Lima site gets its own corpus entities only — not Lima's cross-site reference
@@ -348,6 +356,7 @@ async def entities(_args: dict[str, Any]) -> dict[str, Any]:
     "against the stream's cited 7Q10 low flow. Flags effluent-dominated streams.",
     {},
 )
+@traced_tool
 async def hydrology_balance(_args: dict[str, Any]) -> dict[str, Any]:
     if (note := _reference_only("hydrology_balance")) is not None:
         return note
@@ -377,6 +386,7 @@ async def hydrology_balance(_args: dict[str, Any]) -> dict[str, Any]:
     "and runoff-volume increase from paving the footprint (the detention deficit).",
     {},
 )
+@traced_tool
 async def stormwater_runoff(_args: dict[str, Any]) -> dict[str, Any]:
     if (note := _reference_only("stormwater_runoff")) is not None:
         return note
@@ -405,6 +415,7 @@ async def stormwater_runoff(_args: dict[str, Any]) -> dict[str, Any]:
     "how a data center stresses an already low-flow river.",
     {},
 )
+@traced_tool
 async def hydrology_scenario(_args: dict[str, Any]) -> dict[str, Any]:
     if (note := _reference_only("hydrology_scenario")) is not None:
         return note
@@ -438,6 +449,7 @@ async def hydrology_scenario(_args: dict[str, Any]) -> dict[str, Any]:
     "the Tier-1 detention result in the real civil design.",
     {},
 )
+@traced_tool
 async def storm_plan_inventory(_args: dict[str, Any]) -> dict[str, Any]:
     if (note := _reference_only("storm_plan_inventory")) is not None:
         return note
@@ -469,6 +481,7 @@ async def storm_plan_inventory(_args: dict[str, Any]) -> dict[str, Any]:
     "to eliminate bypassing by 2015). Grounds the Tier-1 sanitary surcharge.",
     {},
 )
+@traced_tool
 async def sanitary_basis(_args: dict[str, Any]) -> dict[str, Any]:
     if (note := _reference_only("sanitary_basis")) is not None:
         return note
@@ -501,6 +514,7 @@ async def sanitary_basis(_args: dict[str, Any]) -> dict[str, Any]:
     "SWMM engine; reports clearly if unavailable.",
     {},
 )
+@traced_tool
 async def tier1_swmm(_args: dict[str, Any]) -> dict[str, Any]:
     if (note := _reference_only("tier1_swmm")) is not None:
         return note
@@ -531,6 +545,7 @@ async def tier1_swmm(_args: dict[str, Any]) -> dict[str, Any]:
         "limit": int,
     },
 )
+@traced_tool
 async def retrieve_corpus(args: dict[str, Any]) -> dict[str, Any]:
     from watermark.retrieval.embeddings import get_provider
     from watermark.retrieval.store import CorpusStore
@@ -579,6 +594,7 @@ async def retrieve_corpus(args: dict[str, Any]) -> dict[str, Any]:
     "or 'known' (in the site profile). Use before fetch_oepa_permit to identify what to pull.",
     {"extra_terms": str},
 )
+@traced_tool
 async def discover_oepa_permits(args: dict[str, Any]) -> dict[str, Any]:
     from pathlib import Path as _Path
 
@@ -631,6 +647,7 @@ async def discover_oepa_permits(args: dict[str, Any]) -> dict[str, Any]:
     "After fetching, run `watermark ingest` and `watermark extract` to process the file.",
     {"permit_id": str},
 )
+@traced_tool
 async def fetch_oepa_permit(args: dict[str, Any]) -> dict[str, Any]:
     from watermark.oepa.fetch import dam_url, fetch_one, update_filename_map
 
@@ -677,6 +694,7 @@ _GH_REPO = "watermark-directory/the-watermark-directory"
         }
     },
 )
+@traced_tool
 async def list_site_issues(args: dict[str, Any]) -> dict[str, Any]:
     settings = get_settings()
     state: str = args.get("state", "all")
@@ -765,6 +783,7 @@ async def list_site_issues(args: dict[str, Any]) -> dict[str, Any]:
         "collection": str,
     },
 )
+@traced_tool
 async def report_novel_finding(args: dict[str, Any]) -> dict[str, Any]:
     settings = get_settings()
     title: str = args.get("title", "").strip()
@@ -827,6 +846,7 @@ async def report_novel_finding(args: dict[str, Any]) -> dict[str, Any]:
     "subtotals -> construction subtotal + markups -> total.",
     {"filename": str},
 )
+@traced_tool
 async def reconcile_estimate(args: dict[str, Any]) -> dict[str, Any]:
     path = _resolve(args["filename"], "*.opc.yaml")
     if path is None:
@@ -873,6 +893,7 @@ def _gh_permission_denied(tool_name: str, exc: PermissionError) -> dict[str, Any
         },
     },
 )
+@traced_tool
 async def comment_on_pr(args: dict[str, Any]) -> dict[str, Any]:
     settings = get_settings()
     if not GitHubAppClient.is_configured(settings):
@@ -911,6 +932,7 @@ async def comment_on_pr(args: dict[str, Any]) -> dict[str, Any]:
         },
     },
 )
+@traced_tool
 async def add_label(args: dict[str, Any]) -> dict[str, Any]:
     settings = get_settings()
     if not GitHubAppClient.is_configured(settings):
@@ -949,6 +971,7 @@ async def add_label(args: dict[str, Any]) -> dict[str, Any]:
         },
     },
 )
+@traced_tool
 async def remove_label(args: dict[str, Any]) -> dict[str, Any]:
     settings = get_settings()
     if not GitHubAppClient.is_configured(settings):
@@ -988,6 +1011,7 @@ async def remove_label(args: dict[str, Any]) -> dict[str, Any]:
         },
     },
 )
+@traced_tool
 async def set_issue_state(args: dict[str, Any]) -> dict[str, Any]:
     settings = get_settings()
     if not GitHubAppClient.is_configured(settings):

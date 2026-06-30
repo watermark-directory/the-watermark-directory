@@ -11,6 +11,7 @@ from collections.abc import AsyncIterator, Callable
 from dataclasses import dataclass, field
 from importlib.resources import files
 
+import opentelemetry.trace
 from claude_agent_sdk import (
     AssistantMessage,
     ClaudeAgentOptions,
@@ -19,6 +20,7 @@ from claude_agent_sdk import (
     ToolUseBlock,
     query,
 )
+from opentelemetry.trace import StatusCode
 
 from watermark.agent import tools
 from watermark.config import Settings, get_settings
@@ -100,33 +102,46 @@ class ResearchAgent:
         Captures the final answer (the SDK ``ResultMessage`` if present, else the
         concatenated assistant text), which tools the agent invoked, and run cost.
         """
-        log.info("agent.run", model=self.model, tools=self.enable_tools)
-        parts: list[str] = []
-        result = AgentResult(text="")
-        async for message in query(prompt=prompt, options=self._options()):
-            if isinstance(message, AssistantMessage):
-                for block in message.content:
-                    if isinstance(block, TextBlock):
-                        parts.append(block.text)
-                        if on_text is not None:
-                            on_text(block.text)
-                    elif isinstance(block, ToolUseBlock):
-                        result.tools_used.append(block.name)
-            elif isinstance(message, ResultMessage):
-                result.num_turns = message.num_turns
-                result.cost_usd = message.total_cost_usd
-                result.is_error = message.is_error
-                if message.result:
-                    result.text = message.result
-        if not result.text:
-            result.text = "\n".join(parts).strip()
-        log.info(
-            "agent.done",
-            tools=len(result.tools_used),
-            turns=result.num_turns,
-            cost_usd=result.cost_usd,
-        )
-        return result
+        tracer = opentelemetry.trace.get_tracer(__name__)
+        with tracer.start_as_current_span("agent.research") as span:
+            span.set_attribute("agent.model", self.model)
+            span.set_attribute("agent.max_turns", self.max_turns)
+            span.set_attribute(
+                "agent.tool_names",
+                list(tools.ALLOWED_TOOL_NAMES) if self.enable_tools else [],
+            )
+            log.info("agent.run", model=self.model, tools=self.enable_tools)
+            parts: list[str] = []
+            result = AgentResult(text="")
+            async for message in query(prompt=prompt, options=self._options()):
+                if isinstance(message, AssistantMessage):
+                    for block in message.content:
+                        if isinstance(block, TextBlock):
+                            parts.append(block.text)
+                            if on_text is not None:
+                                on_text(block.text)
+                        elif isinstance(block, ToolUseBlock):
+                            result.tools_used.append(block.name)
+                elif isinstance(message, ResultMessage):
+                    result.num_turns = message.num_turns
+                    result.cost_usd = message.total_cost_usd
+                    result.is_error = message.is_error
+                    if message.result:
+                        result.text = message.result
+            if not result.text:
+                result.text = "\n".join(parts).strip()
+            span.set_attribute("agent.turns", result.num_turns)
+            if result.cost_usd is not None:
+                span.set_attribute("agent.cost_usd", result.cost_usd)
+            if result.is_error:
+                span.set_status(StatusCode.ERROR)
+            log.info(
+                "agent.done",
+                tools=len(result.tools_used),
+                turns=result.num_turns,
+                cost_usd=result.cost_usd,
+            )
+            return result
 
     async def stream(self, prompt: str) -> AsyncIterator[str]:
         """Yield assistant text blocks as they arrive."""
