@@ -61,9 +61,9 @@ function parseRequest(body: unknown): JsonRpcRequest {
 
 function handleInitialize(params: unknown): unknown {
   const p = (params ?? {}) as Record<string, unknown>;
-  // Client may send its preferred protocol version — negotiate downward if needed
+  // Client may send its preferred protocol version — honour an older request, clamp a newer one.
   const clientVersion = typeof p.protocolVersion === "string" ? p.protocolVersion : PROTOCOL_VERSION;
-  const negotiated = clientVersion <= PROTOCOL_VERSION ? PROTOCOL_VERSION : PROTOCOL_VERSION;
+  const negotiated = clientVersion <= PROTOCOL_VERSION ? clientVersion : PROTOCOL_VERSION;
   return {
     protocolVersion: negotiated,
     capabilities: {

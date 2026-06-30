@@ -112,6 +112,37 @@ export interface FileResult {
   deduped: boolean;
 }
 
+/**
+ * Best-effort: when a dedupe hits and the re-submission included attachments,
+ * link the R2 keys in a comment on the existing issue so they are not orphaned.
+ * Any error is swallowed — the dedupe result is already correct.
+ */
+async function commentDedupeAttachments(
+  token: string,
+  owner: string,
+  repo: string,
+  issueUrl: string,
+  attachmentKeys: string[],
+  api: string,
+): Promise<void> {
+  const match = issueUrl.match(/\/issues\/(\d+)/);
+  if (!match) return;
+  const num = match[1];
+  const keyLines = attachmentKeys
+    .map((k) => `- \`${k}\` (\`wrangler r2 object get SUBMISSION_ATTACHMENTS ${k}\`)`)
+    .join("\n");
+  const body = `**Duplicate submission — attachments from re-submission:**\n\n${keyLines}`;
+  try {
+    await fetchWithTimeout(`${api}/repos/${owner}/${repo}/issues/${num}/comments`, {
+      method: "POST",
+      headers: { ...ghHeaders(token, "token"), "Content-Type": "application/json" },
+      body: JSON.stringify({ body }),
+    });
+  } catch {
+    // best-effort — never fail the dedupe response
+  }
+}
+
 export async function fileIssueAsApp(opts: {
   appId: string;
   privateKey: string;
@@ -119,6 +150,8 @@ export async function fileIssueAsApp(opts: {
   repo: string;
   issue: IssueDraft;
   dedupeHash: string;
+  /** R2 attachment keys from this submission — linked as a comment on dedupe hits (#243). */
+  attachmentKeys?: string[];
   /** Override the GitHub API host (local dev mock). Defaults to api.github.com. */
   apiBase?: string;
 }): Promise<FileResult> {
@@ -133,7 +166,12 @@ export async function fileIssueAsApp(opts: {
     submissionMarker(opts.dedupeHash),
     api,
   );
-  if (existing) return { url: existing, deduped: true };
+  if (existing) {
+    if (opts.attachmentKeys && opts.attachmentKeys.length > 0) {
+      await commentDedupeAttachments(token, opts.owner, opts.repo, existing, opts.attachmentKeys, api);
+    }
+    return { url: existing, deduped: true };
+  }
 
   const issuePayload: Record<string, unknown> = { ...opts.issue };
   if (opts.issue.assignees && opts.issue.assignees.length > 0) {

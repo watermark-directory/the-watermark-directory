@@ -60,7 +60,8 @@ export function sanitizeFilename(name: string): string {
   const safe = name
     .replace(/[/\\]/g, "_") // path separators → _
     .replace(/\.\./g, "_") // parent-dir sequences → _
-    .replace(/\0/g, "") // null bytes
+    // biome-ignore lint/suspicious/noControlCharactersInRegex: intentionally stripping control chars + double-quote from filenames to prevent Content-Disposition injection
+    .replace(/[\x00-\x1f\x7f"]/g, "") // control chars (incl. CR/LF/null) + " (Content-Disposition unsafe)
     .replace(/^\./g, "_") // leading dot (hidden file) → _
     .replace(/\s+/g, "_") // whitespace → _
     .replace(/_+/g, "_") // collapse consecutive underscores
