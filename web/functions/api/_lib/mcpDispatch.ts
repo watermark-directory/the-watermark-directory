@@ -1,10 +1,17 @@
 // JSON-RPC 2.0 router for the MCP Streamable HTTP transport (#911).
-// Each method returns a result object or throws a McpError. Tool implementations
-// live in sub-issues (#913-#915); this layer carries stubs so the protocol
-// handshake and session round-trips work end-to-end today.
-// Tool schemas are in src/lib/mcpTools.ts (shared with the /network/connect page, #917).
+// Tool implementations: #913 (search_corpus), #914 (bundle readers).
+// Resource implementations: #915 (watermark://{site}/feeds/{name}).
+// Tool schemas live in src/lib/mcpTools.ts (shared with /network/connect, #917).
 
 import { MCP_TOOLS } from "../../../src/lib/mcpTools";
+import { handleSearchCorpus } from "./mcpTools/searchCorpus";
+import {
+  handleGetDocuments,
+  handleGetEntities,
+  handleGetHypotheses,
+  handleGetTimeline,
+} from "./mcpTools/bundleReaders";
+import { listResources, readResource } from "./mcpResources";
 
 export interface JsonRpcRequest {
   jsonrpc: string;
@@ -42,9 +49,6 @@ export const RPC = {
 const PROTOCOL_VERSION = "2025-03-26";
 const SERVER_INFO = { name: "watermark-directory", version: "1.0.0" };
 
-// Tool stubs — filled by #913 (search_corpus) and #914 (bundle reader tools).
-// Schema definitions live in src/lib/mcpTools.ts (shared with /network/connect, #917).
-
 function parseRequest(body: unknown): JsonRpcRequest {
   if (!body || typeof body !== "object" || Array.isArray(body)) {
     throw new McpError(RPC.INVALID_REQUEST, "Expected a JSON-RPC 2.0 request object");
@@ -61,7 +65,6 @@ function parseRequest(body: unknown): JsonRpcRequest {
 
 function handleInitialize(params: unknown): unknown {
   const p = (params ?? {}) as Record<string, unknown>;
-  // Client may send its preferred protocol version — honour an older request, clamp a newer one.
   const clientVersion = typeof p.protocolVersion === "string" ? p.protocolVersion : PROTOCOL_VERSION;
   const negotiated = clientVersion <= PROTOCOL_VERSION ? clientVersion : PROTOCOL_VERSION;
   return {
@@ -78,7 +81,7 @@ function handleToolsList(): unknown {
   return { tools: MCP_TOOLS };
 }
 
-function handleToolsCall(params: unknown): unknown {
+async function handleToolsCall(params: unknown, requestUrl: string): Promise<unknown> {
   const p = (params ?? {}) as Record<string, unknown>;
   const name = p.name;
   if (typeof name !== "string") {
@@ -88,24 +91,34 @@ function handleToolsCall(params: unknown): unknown {
   if (!tool) {
     throw new McpError(RPC.INVALID_PARAMS, `Unknown tool: ${name}`);
   }
-  // Stub result — actual implementations land in #913 / #914
-  return {
-    content: [
-      {
-        type: "text",
-        text: `Tool "${name}" is registered but its implementation is pending (#913/#914). Call /api/mcp with tools/list to see what's available.`,
-      },
-    ],
-    isError: false,
-  };
+
+  const toolParams = p.arguments ?? {};
+
+  let content: Array<{ type: string; text: string }>;
+  switch (name) {
+    case "search_corpus":
+      content = await handleSearchCorpus(toolParams, requestUrl);
+      break;
+    case "get_timeline":
+      content = await handleGetTimeline(toolParams, requestUrl);
+      break;
+    case "get_entities":
+      content = await handleGetEntities(toolParams, requestUrl);
+      break;
+    case "get_hypotheses":
+      content = await handleGetHypotheses(toolParams, requestUrl);
+      break;
+    case "get_documents":
+      content = await handleGetDocuments(toolParams, requestUrl);
+      break;
+    default:
+      throw new McpError(RPC.INVALID_PARAMS, `Tool "${name}" has no implementation`);
+  }
+
+  return { content, isError: false };
 }
 
-function handleResourcesList(): unknown {
-  // Stub — filled by #915 (watermark://{site}/feeds/{name} resources)
-  return { resources: [] };
-}
-
-export function dispatch(body: unknown): JsonRpcResponse {
+export async function dispatch(body: unknown, requestUrl: string): Promise<JsonRpcResponse> {
   let req: JsonRpcRequest;
   try {
     req = parseRequest(body);
@@ -131,10 +144,13 @@ export function dispatch(body: unknown): JsonRpcResponse {
         result = handleToolsList();
         break;
       case "tools/call":
-        result = handleToolsCall(req.params);
+        result = await handleToolsCall(req.params, requestUrl);
         break;
       case "resources/list":
-        result = handleResourcesList();
+        result = await listResources(requestUrl);
+        break;
+      case "resources/read":
+        result = await readResource(req.params, requestUrl);
         break;
       default:
         throw new McpError(RPC.METHOD_NOT_FOUND, `Method not found: ${req.method}`);

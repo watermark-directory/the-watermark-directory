@@ -32,6 +32,8 @@ export interface AskUnit {
   source_kind?: string | null;
   confidence?: string | null;
   verified?: boolean;
+  /** Site slug this unit belongs to (e.g. "lima"). Absent on legacy index entries. */
+  site?: string;
 }
 
 /** One scored hit: the unit plus its BM25 score. */

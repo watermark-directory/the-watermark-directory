@@ -15,7 +15,7 @@
  */
 import { blob } from "./format";
 import { siteUrl } from "./routes";
-import { hasFeed, loadFeed } from "./bundle";
+import { activeSite, hasFeed, loadFeed } from "./bundle";
 import {
   type Citation,
   type ConceptItem,
@@ -46,6 +46,8 @@ export interface AskUnit {
   source_kind?: string | null;
   confidence?: string | null;
   verified?: boolean;
+  /** Site slug (e.g. "lima"). Set at build time from the active bundle. */
+  site?: string;
 }
 
 /** Flatten a record's `fields` into "key value" pairs so figures are searchable (#327).
@@ -82,6 +84,7 @@ function cite(c: Citation | null | undefined): Partial<AskUnit> {
 }
 
 export function buildAskIndex(): AskUnit[] {
+  const site = activeSite();
   const units: AskUnit[] = [];
 
   if (hasFeed("records")) {
@@ -200,5 +203,5 @@ export function buildAskIndex(): AskUnit[] {
     }
   }
 
-  return units;
+  return units.map((u) => ({ ...u, site }));
 }

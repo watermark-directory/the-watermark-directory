@@ -182,7 +182,7 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
   }
 
   // Dispatch
-  const rpcResponse = dispatch(parsed.value);
+  const rpcResponse = await dispatch(parsed.value, request.url);
 
   // Persist the session after a successful initialize
   if (isInitialize && env.MCP_SESSIONS && !rpcResponse.error) {
@@ -200,8 +200,9 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
     return new Response(null, { status: 202, headers: sessionHeaders });
   }
 
-  // tools/call: SSE stream so implementations can stream results (#913/#914)
-  // TODO(#913/#914): call addBudgetUsage(budgetKv, budgetKey, outputTokens) after real dispatch.
+  // tools/call: SSE stream so implementations can stream results.
+  // These are pure retrieval tools (no model calls), so output-token spend is 0.
+  // Wire addBudgetUsage here when model-calling tools are added in the future.
   if (body.method === "tools/call") {
     const eventData = frame("message", rpcResponse);
     return sseResponse(eventData, sessionHeaders);
