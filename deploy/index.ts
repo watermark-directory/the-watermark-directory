@@ -1,9 +1,12 @@
+import * as fs from "node:fs";
+import * as path from "node:path";
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 import * as cloudflare from "@pulumi/cloudflare";
+import * as yaml from "js-yaml";
 
 // ---------------------------------------------------------------------------
-// Deployment infrastructure for the BOSC site (Epic #56 / submissions #240)
+// Deployment infrastructure for the Watermark Directory (Epic #56 / #240)
 // ---------------------------------------------------------------------------
 // A dedicated Pulumi stack, separate from the GitHub repo-config stack
 // (../.github/config): different providers + credentials, lifecycle, blast radius.
@@ -12,37 +15,78 @@ import * as cloudflare from "@pulumi/cloudflare";
 // depends on, plus the auth layer (#919/#924), and — when a custom domain is set —
 // the AWS↔Cloudflare exchange that puts the Pages site on a Route53-hosted name:
 //
+//   • PagesProject env vars     — feature toggles (features.yaml) + all secrets +
+//                                 Cognito IDs written directly to the project config.
 //   • Workers KV namespaces     — rate limiter, contact store, auth caches.
 //   • R2 bucket                 — submission file attachments (#243).
 //   • Turnstile widget          — guards the public form.
 //   • Cognito User Pool         — auth identity (#924); gated on `authEnabled`.
 //   • Pages custom domain       — attaches `siteDomain` to the wrangler-deployed
-//                                 `bosc` Pages project (the Cloudflare side).
+//                                 Pages project (the Cloudflare side).
 //   • Route53 CNAME             — points `siteDomain` at `<project>.pages.dev`
 //                                 (the AWS side); Cloudflare validates via it and
 //                                 issues the edge cert.
 //
-// Deliberately NOT here: the **Pages project** itself. It is wrangler-deployed
-// (../.github/workflows/pages.yml) with its env/bindings in ../web/wrangler.toml;
-// managing that config in both Pulumi and wrangler would fight on every deploy. Pulumi
-// owns the stable resources its config references; PagesDomain only *attaches* to the
-// existing project by name, so the two don't drift.
+// The Pages project itself (code + bindings) is deployed by wrangler
+// (../.github/workflows/pages.yml / ../web/wrangler.toml). Pulumi manages the
+// project-level env var config via `PagesProject`; wrangler manages deployments.
+// The two don't conflict: wrangler `pages deploy` pushes code/assets; Pulumi owns
+// project settings. KV bindings + R2 bindings remain in wrangler.toml because the
+// binding IDs are written there after `pulumi up` (a future improvement could move
+// them here too).
+//
+// First apply on an existing project: import it first so Pulumi doesn't try to
+// recreate it:
+//   pulumi import cloudflare:index/pagesProject:PagesProject site-project \
+//     <accountId>/<projectName>
 //
 // State + auth (see README):
 //   • Backend  — self-managed **S3** (`pulumi login s3://…`); secrets via **awskms**.
 //   • Cloudflare — default provider reads `CLOUDFLARE_API_TOKEN` (KV + Turnstile +
-//     Pages-domain + R2 edit).
+//     Pages-domain + R2 edit + PagesProject).
 //   • AWS — standard credential chain (env / OIDC role); used for Route53 (when
 //     `siteDomain` + `route53ZoneId` are set) and Cognito (when `authEnabled`).
 
 const config = new pulumi.Config();
 
+// ---------------------------------------------------------------------------
+// features.yaml — committed feature kill switches applied by `pulumi up`
+// ---------------------------------------------------------------------------
+interface Features {
+    submissions: boolean;
+    ask: boolean;
+    docs: boolean;
+    mcp: boolean;
+    rum: boolean;
+    auth: boolean;
+}
+const features = yaml.load(
+    fs.readFileSync(path.join(__dirname, "features.yaml"), "utf8"),
+) as Features;
+
+// ---------------------------------------------------------------------------
+// Secrets — set out of band via `pulumi config set --secret bosc-deploy:<key>`
+// ---------------------------------------------------------------------------
+// These are written as secret_text env vars to the Pages project by `pulumi up`,
+// replacing manual dashboard steps. Each is optional so `pulumi up` doesn't fail
+// before the secret is provisioned; missing vars are simply omitted from Pages.
+//   pulumi config set --secret bosc-deploy:anthropicApiKey   <key>
+//   pulumi config set --secret bosc-deploy:honeycombApiKey   <key>
+//   pulumi config set --secret bosc-deploy:tipsAppId         <github-app-id>
+//   pulumi config set --secret bosc-deploy:tipsAppPrivateKey <pkcs8-pem>
+const anthropicApiKey = config.getSecret("anthropicApiKey");
+const honeycombApiKey = config.getSecret("honeycombApiKey");
+const tipsAppId = config.getSecret("tipsAppId");
+const tipsAppPrivateKey = config.getSecret("tipsAppPrivateKey");
+
 // Cloudflare account that owns the resources (required — set out of band):
 //   pulumi config set bosc-deploy:cloudflareAccountId <account-id>
 const accountId = config.require("cloudflareAccountId");
 
-// The wrangler-deployed Pages project a custom domain attaches to.
-const pagesProject = config.get("pagesProject") ?? "bosc";
+// The Cloudflare Pages project managed by wrangler. Must match `name` in web/wrangler.toml.
+// On first `pulumi up`, import the existing project before applying:
+//   pulumi import cloudflare:index/pagesProject:PagesProject site-project <accountId>/<name>
+const pagesProject = config.get("pagesProject") ?? "the-watermark-directory";
 
 // The custom subdomain for the live site, e.g. "bosc.example.org" — LATE-BOUND.
 // Until it's set, the stack manages KV + R2 + Turnstile and the site stays on
@@ -449,6 +493,72 @@ const notifyDigestPermission =
     : undefined;
 
 void notifyDigestPermission;
+
+// ---------------------------------------------------------------------------
+// Pages project env vars + feature toggles
+// ---------------------------------------------------------------------------
+// Pulumi writes all env vars it can know to the Pages project directly, so the
+// operator never has to copy values from `pulumi stack output` into the dashboard.
+//
+// Layout:
+//   • Feature toggles from features.yaml  — plain_text; flip + pulumi up to activate
+//   • Cognito IDs (when authEnabled)       — plain_text; Pulumi just provisioned them
+//   • TURNSTILE_SECRET_KEY                — secret_text; Pulumi provisioned it
+//   • External secrets from Pulumi config — secret_text; operator sets once, Pulumi writes
+//
+// KV bindings and R2 bindings are NOT set here — those remain in wrangler.toml
+// because wrangler applies them per-deployment (a future improvement could move them here).
+
+type PageEnvVar = { value: pulumi.Input<string>; type: pulumi.Input<string> };
+const pageEnvVars: Record<string, PageEnvVar> = {
+    // Feature toggles (features.yaml)
+    SUBMISSIONS_ENABLED: { value: features.submissions ? "true" : "false", type: "plain_text" },
+    ASK_ENABLED:         { value: features.ask         ? "true" : "false", type: "plain_text" },
+    DOCS_ENABLED:        { value: features.docs        ? "true" : "false", type: "plain_text" },
+    MCP_ENABLED:         { value: features.mcp         ? "true" : "false", type: "plain_text" },
+    // rum gates the edge beacon AND the Astro build-time script injection
+    RUM_ENABLED:         { value: features.rum         ? "true" : "false", type: "plain_text" },
+    PUBLIC_RUM_ENABLED:  { value: features.rum         ? "true" : "false", type: "plain_text" },
+    AUTH_ENABLED:        { value: features.auth        ? "true" : "false", type: "plain_text" },
+    // Computed non-secret vars
+    APP_BASE_URL: {
+        value: siteDomain ? `https://${siteDomain}` : `https://${pagesProject}.pages.dev`,
+        type: "plain_text",
+    },
+    // Turnstile secret (Pulumi provisioned it; written as secret_text so it's encrypted in CF)
+    TURNSTILE_SECRET_KEY: { value: turnstile.secret, type: "secret_text" },
+};
+
+// Cognito identifiers — added only when the pool was actually provisioned
+if (authEnabled && userPool && userPoolClient && userPoolDomain) {
+    const cognitoDomainFull = `${cognitoDomainPrefix}.auth.${cognitoRegion}.amazoncognito.com`;
+    pageEnvVars.COGNITO_REGION           = { value: cognitoRegion,        type: "plain_text" };
+    pageEnvVars.COGNITO_USER_POOL_ID     = { value: userPool.id,          type: "plain_text" };
+    pageEnvVars.COGNITO_CLIENT_ID        = { value: userPoolClient.id,    type: "plain_text" };
+    pageEnvVars.COGNITO_DOMAIN           = { value: cognitoDomainFull,    type: "plain_text" };
+    // PUBLIC_* variants are consumed by the Astro build (build-time env injection)
+    pageEnvVars.PUBLIC_COGNITO_CLIENT_ID = { value: userPoolClient.id,    type: "plain_text" };
+    pageEnvVars.PUBLIC_COGNITO_DOMAIN    = { value: cognitoDomainFull,    type: "plain_text" };
+}
+
+// External secrets — only set when the operator has provisioned the Pulumi config secret
+if (anthropicApiKey)   pageEnvVars.ANTHROPIC_API_KEY    = { value: anthropicApiKey,    type: "secret_text" };
+if (honeycombApiKey)   pageEnvVars.HONEYCOMB_API_KEY    = { value: honeycombApiKey,    type: "secret_text" };
+if (tipsAppId)         pageEnvVars.TIPS_APP_ID          = { value: tipsAppId,          type: "secret_text" };
+if (tipsAppPrivateKey) pageEnvVars.TIPS_APP_PRIVATE_KEY = { value: tipsAppPrivateKey,  type: "secret_text" };
+
+// The Pages project resource. Pulumi owns project-level config; wrangler owns deployments.
+// Import on first apply if the project already exists (see comment at top of file).
+new cloudflare.PagesProject("site-project", {
+    accountId,
+    name: pagesProject,
+    productionBranch: "main",
+    deploymentConfigs: {
+        production: {
+            envVars: pageEnvVars,
+        },
+    },
+});
 
 // ---------------------------------------------------------------------------
 // Outputs — wire these into the rest of the seam (see README + docs/)

@@ -1,4 +1,4 @@
-# Cloudflare Pages config for the BOSC site (Epic #56, Phase 1 — host migration).
+# Cloudflare Pages config for the Watermark Directory (Epic #56, Phase 1 — host migration).
 #
 # The static Astro build (frontend/dist) and the Pages Functions (frontend/functions/,
 # the submissions endpoint #74) deploy together to one origin. The deploy runs from the
@@ -6,18 +6,22 @@
 # own Git build is NOT used, because the content bundle is produced by `watermark export`
 # (Python) before `npm run build`, which that build can't run.
 #
-# Secrets (TIPS_APP_ID, TIPS_APP_PRIVATE_KEY, TURNSTILE_SECRET_KEY, ANTHROPIC_API_KEY)
-# and the kill switches (SUBMISSIONS_ENABLED, ASK_ENABLED, DOCS_ENABLED) are set in the
-# Cloudflare dashboard, NOT here: secrets never go in wrangler.toml, and the kill switches
-# must stay operator-flippable without a redeploy. See docs/submissions-api.md,
-# docs/ask-api.md, and docs/object-store.md.
+# Env vars (feature toggles, secrets, Cognito IDs) are managed by Pulumi (deploy/index.ts)
+# and applied to the Pages project via `pulumi up` — NOT set manually in the dashboard.
+# Feature toggles live in deploy/features.yaml. See deploy/Pulumi.prod.yaml for the full
+# config set commands.
+#
+# KV bindings and R2 bindings are still set here: they are wrangler-level bindings whose
+# namespace IDs come from `pulumi stack output` (wire them in after each first `pulumi up`).
+# See the comments below for each binding.
 
 name = "the-watermark-directory"
 pages_build_output_dir = "dist"
 compatibility_date = "2024-11-01"
 
-# Non-secret, stable config for the submissions Function. (The Function also defaults
-# these in code, so this is belt-and-suspenders + documentation.)
+# Static config for the submissions Function. The Function also defaults these in code.
+# Kill switch (SUBMISSIONS_ENABLED) and secrets (TIPS_APP_ID, TIPS_APP_PRIVATE_KEY,
+# TURNSTILE_SECRET_KEY, ANTHROPIC_API_KEY) are written by `pulumi up` — not here.
 [vars]
 GITHUB_OWNER = "watermark-directory"
 GITHUB_REPO = "the-watermark-directory"
@@ -55,8 +59,8 @@ GITHUB_REPO = "the-watermark-directory"
 
 # --- Ask the corpus (/api/ask, Epic #207) -----------------------------------------
 # Non-secret knobs for the ask endpoint. The model + caps also default in code, so this
-# is documentation + override. ASK_ENABLED (kill switch) and the ANTHROPIC_API_KEY /
-# TURNSTILE_SECRET_KEY secrets are set in the dashboard, not here. See docs/ask-api.md.
+# is documentation + override. ASK_ENABLED (kill switch) and secrets are written by
+# `pulumi up` — not set here or in the dashboard. See docs/ask-api.md.
 # ASK_MODEL = "claude-opus-4-8"
 # ASK_MAX_TOKENS = "1024"          # hard answer-length cap (cost guard)
 # ASK_TOP_K = "6"                  # retrieval depth over the ask-index
@@ -79,9 +83,9 @@ GITHUB_REPO = "the-watermark-directory"
 # id = "<namespace-id>"
 
 # --- MCP Streamable HTTP transport (/api/mcp, Epic #910) --------------------------
-# Session storage for the MCP endpoint (#911). Ships dark (MCP_ENABLED kill switch
-# unset/"false" → 503). Create the KV namespace and fill in the id, then flip
-# MCP_ENABLED="true" in the dashboard when ready:
+# Session storage for the MCP endpoint (#911). Ships dark (MCP_ENABLED kill switch in
+# deploy/features.yaml defaults false). Create the KV namespace and fill in the id;
+# flip mcp: true in features.yaml + pulumi up to go live:
 #   npx wrangler kv namespace create MCP_SESSIONS
 # then uncomment:
 # [[kv_namespaces]]
@@ -113,43 +117,31 @@ GITHUB_REPO = "the-watermark-directory"
 # id = "<namespace-id>"
 
 # --- Cognito auth (Epic #919) -----------------------------------------------------
-# Kill switch + non-secret config. AUTH_ENABLED (unset/"false" → 503), COGNITO_DOMAIN,
-# COGNITO_CLIENT_ID, COGNITO_REGION, COGNITO_USER_POOL_ID, and APP_BASE_URL can live
-# in [vars] below once provisioned. Secret: COGNITO_CLIENT_SECRET → dashboard only.
-# Secrets never go in wrangler.toml. See docs/auth.md for the full runbook.
+# AUTH_ENABLED, COGNITO_REGION, COGNITO_USER_POOL_ID, COGNITO_CLIENT_ID, COGNITO_DOMAIN,
+# PUBLIC_COGNITO_CLIENT_ID, PUBLIC_COGNITO_DOMAIN, and APP_BASE_URL are written to the
+# Pages project by `pulumi up` (deploy/index.ts) — do NOT set them here or in the dashboard.
+# To activate auth: set authEnabled=true in Pulumi config + flip auth: true in features.yaml.
+# See deploy/Pulumi.prod.yaml for the full runbook and docs/auth.md for the auth layer.
 #
-# Uncomment and fill in after running `mise run bosc-auth-provision` (or manual setup):
-# [vars]
-# AUTH_ENABLED = "false"                            # flip to "true" to go live
-# COGNITO_REGION = "us-east-1"
-# COGNITO_USER_POOL_ID = "us-east-1_XXXXXXXXX"
-# COGNITO_CLIENT_ID = "<app-client-id>"             # public — safe to commit
-# COGNITO_DOMAIN = "auth.watermarkdirectory.org"    # or <prefix>.auth.<region>.amazoncognito.com
-# APP_BASE_URL = "https://watermarkdirectory.org"
-#
-# Also set in the CI build environment (not secrets — public Cognito identifiers):
-# PUBLIC_COGNITO_DOMAIN = "auth.watermarkdirectory.org"
-# PUBLIC_COGNITO_CLIENT_ID = "<app-client-id>"
-#
-# JWKS_CACHE KV: caches Cognito's public-key document (1-hour TTL) to avoid a cold
-# fetch on every JWT verification. Create once, then uncomment:
+# JWKS_CACHE KV: caches Cognito's public-key document (1-hour TTL). Binding ID comes
+# from `pulumi stack output jwksCacheKvNamespaceId`. Create once if not already created:
 #   npx wrangler kv namespace create JWKS_CACHE
 # [[kv_namespaces]]
 # binding = "JWKS_CACHE"
-# id = "<namespace-id>"
+# id = "<from pulumi stack output jwksCacheKvNamespaceId>"
 #
 # AUTH_PREFS KV: per-user profile + notification prefs, keyed by Cognito sub (Epic #921).
-# Create once, then uncomment:
+# Binding ID comes from `pulumi stack output authPrefsKvNamespaceId`.
 #   npx wrangler kv namespace create AUTH_PREFS
 # [[kv_namespaces]]
 # binding = "AUTH_PREFS"
-# id = "<namespace-id>"
+# id = "<from pulumi stack output authPrefsKvNamespaceId>"
 
 # --- Browser RUM (#961) ----------------------------------------------------------
 # Two kill switches must both be on for events to reach Honeycomb:
-#   RUM_ENABLED (dashboard var)          — controls the /api/rum beacon server-side
-#   PUBLIC_RUM_ENABLED (Pages build env) — controls script injection at build time
-# Flipping either off stops collection without a code deploy.
+#   RUM_ENABLED        — controls the /api/rum beacon server-side
+#   PUBLIC_RUM_ENABLED — controls Astro build-time script injection
+# Both are set from the single `rum` flag in deploy/features.yaml via `pulumi up`.
 #
 # /api/rum always returns 204; upstream errors and rate-limit blocks are absorbed —
 # the browser must not retry on a non-2xx.
@@ -160,15 +152,14 @@ GITHUB_REPO = "the-watermark-directory"
 # binding = "RUM_RATE_LIMIT"
 # id = "<namespace-id>"
 #
-# HONEYCOMB_API_KEY is shared with the backend OTel setup (#959); no new credential.
-# Dataset defaults to "watermark-browser"; override in the dashboard if needed:
-#   RUM_HONEYCOMB_DATASET = "watermark-browser"
+# HONEYCOMB_API_KEY is written by `pulumi up` (shared with backend OTel setup, #959).
+# Dataset defaults to "watermark-browser"; override by setting RUM_HONEYCOMB_DATASET
+# as an additional plain-text env var on the Pages project (dashboard or Pulumi).
 
 # --- Source documents object store (/api/doc, Epic #274) --------------------------
 # R2 bucket holding the corpus bytes that the /api/doc Pages Function (#278) streams.
-# Populated by `watermark objectstore sync` (#279). The DOCS_ENABLED kill switch lives in the
-# dashboard (ships dark — unset/"false" → /api/doc returns 503), mirroring the other
-# endpoints. Create the buckets once (prod + a distinct dev bucket for wrangler preview):
+# Populated by `watermark objectstore sync` (#279). The DOCS_ENABLED kill switch lives in
+# deploy/features.yaml (flip docs: true + pulumi up). Create the buckets once:
 #   npx wrangler r2 bucket create watermark-documents
 #   npx wrangler r2 bucket create watermark-documents-dev
 # See docs/object-store.md for the full runbook (S3 credentials, the sync tool, dev loop).

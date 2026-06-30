@@ -1,0 +1,16 @@
+# Feature kill switches — committed here; apply with `pulumi up`.
+# Flipping a toggle requires a git commit + pulumi up, not a dashboard click.
+# That's intentional: changes are git-auditable and apply to exactly one environment.
+#
+# rum controls both RUM_ENABLED (edge beacon endpoint) and PUBLIC_RUM_ENABLED
+# (Astro build-time script injection) — both gates must be on for events to flow.
+#
+# auth is independent of all other features; it can be provisioned before or after
+# the domain is set (authEnabled in Pulumi.prod.yaml gates Cognito provisioning).
+
+submissions: false
+ask: false
+docs: false
+mcp: false
+rum: false
+auth: false
