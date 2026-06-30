@@ -22,10 +22,14 @@ const PRICE_PER_MTOK: Record<string, { input: number; output: number }> = {
   "claude-haiku-4-5": { input: 1.0, output: 5.0 },
 };
 
-/** Estimated dollar cost for one Messages API call. Returns 0 for unknown model IDs. */
-export function costDollars(usage: AnthropicUsage, model: string): number {
+/**
+ * Estimated dollar cost for one Messages API call.
+ * Returns `null` for unknown model IDs so callers can emit a `pricing_unknown` signal
+ * rather than silently logging a misleading zero.
+ */
+export function costDollars(usage: AnthropicUsage, model: string): number | null {
   const p = PRICE_PER_MTOK[model];
-  if (!p) return 0;
+  if (!p) return null;
   return (usage.input_tokens * p.input + usage.output_tokens * p.output) / 1_000_000;
 }
 
@@ -45,7 +49,14 @@ export async function isOverBudget(kv: KVLike, nowMs: number, limit: number): Pr
   }
 }
 
-/** Add this call's tokens (input + output) to today's spend counter. Best-effort; TTL self-reaps. */
+/**
+ * Add this call's tokens (input + output) to today's spend counter. Best-effort; TTL self-reaps.
+ *
+ * Note: Workers KV has no atomic increment, so this is a read-modify-write and can undercount
+ * when two requests complete concurrently. This is an accepted trade-off — the counter is an
+ * explicitly soft cap (fail-open, eventually-consistent by design); Turnstile and per-IP rate
+ * limiting are the primary gates.
+ */
 export async function addUsage(kv: KVLike, nowMs: number, usage: AnthropicUsage): Promise<void> {
   const tokens = usage.input_tokens + usage.output_tokens;
   if (tokens <= 0) return;

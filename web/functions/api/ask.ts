@@ -166,26 +166,29 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   const wantsStream = (request.headers.get("Accept") ?? "").includes("text/event-stream");
 
   // Record spend against the daily budget + emit structured telemetry for observability.
+  // outcome: "no_hits" = refused before any model call; "refused" = model refusal; "answered" = normal.
   let callT0 = 0;
-  const record = async (usage?: AnthropicUsage): Promise<void> => {
-    if (!usage) return;
+  const record = async (
+    outcome: "answered" | "refused" | "no_hits",
+    usage?: AnthropicUsage,
+  ): Promise<void> => {
     const latencyMs = callT0 > 0 ? Date.now() - callT0 : undefined;
-    console.log(
-      JSON.stringify({
-        endpoint: "ask",
-        model,
-        input_tokens: usage.input_tokens,
-        output_tokens: usage.output_tokens,
-        cost_usd: costDollars(usage, model),
-        ...(latencyMs != null && { latency_ms: latencyMs }),
-        hits: hits.length,
-      }),
-    );
-    if (budgetKv) await addUsage(budgetKv, nowMs, usage);
+    const cost = usage != null ? costDollars(usage, model) : null;
+    const entry: Record<string, unknown> = { endpoint: "ask", outcome, model, hits: hits.length };
+    if (usage != null) {
+      entry.input_tokens = usage.input_tokens;
+      entry.output_tokens = usage.output_tokens;
+    }
+    if (cost != null) entry.cost_usd = cost;
+    else if (usage != null) entry.pricing_unknown = true;
+    if (latencyMs != null) entry.latency_ms = latencyMs;
+    console.log(JSON.stringify(entry));
+    if (usage != null && budgetKv) await addUsage(budgetKv, nowMs, usage);
   };
 
   // Nothing relevant retrieved ⇒ refuse deterministically, before spending a model call.
   if (hits.length === 0) {
+    await record("no_hits");
     if (wantsStream) {
       return sse(
         new ReadableStream({
@@ -245,8 +248,8 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
         }
         const usage =
           inTok != null && outTok != null ? { input_tokens: inTok, output_tokens: outTok } : undefined;
-        await record(usage);
         const refused = isRefusal(full);
+        await record(refused ? "refused" : "answered", usage);
         send("done", { citations: refused ? [] : extractCitations(full, hits), refused, model, usage });
         controller.close();
       },
@@ -274,8 +277,8 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
     console.error("ask model call failed:", status, e);
     return json(502, { error: "could not generate an answer — please try again later" });
   }
-  await record(usage);
   const refused = isRefusal(text);
+  await record(refused ? "refused" : "answered", usage);
   return json(200, {
     answer: text,
     citations: refused ? [] : extractCitations(text, hits),
