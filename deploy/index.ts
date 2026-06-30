@@ -119,8 +119,8 @@ const siteDomain = config.get("siteDomain");
 const route53ZoneId = config.get("route53ZoneId");
 
 // Domains the Turnstile widget may be served on. The custom domain is folded in
-// automatically; bosc.pages.dev is kept so preview deploys still validate.
-const previewDomains = config.getObject<string[]>("siteDomains") ?? ["bosc.pages.dev"];
+// automatically; the-watermark-directory.pages.dev is kept so preview deploys still validate.
+const previewDomains = config.getObject<string[]>("siteDomains") ?? ["the-watermark-directory.pages.dev"];
 const turnstileDomains = Array.from(new Set([...(siteDomain ? [siteDomain] : []), ...previewDomains]));
 
 // --- Submissions: KV + Turnstile (#74/#240) ---------------------------------
@@ -129,14 +129,14 @@ const turnstileDomains = Array.from(new Set([...(siteDomain ? [siteDomain] : [])
 // web/wrangler.toml to turn rate limiting on; until then it sits idle (fail-open).
 const rateLimitKv = new cloudflare.WorkersKvNamespace("submissions-ratelimit", {
     accountId,
-    title: "bosc-submissions-ratelimit",
+    title: "watermark-submissions-ratelimit",
 });
 
 // Turnstile widget guarding the public form. `secret` is flagged sensitive by the
 // provider, so it stays a Pulumi secret output.
 const turnstile = new cloudflare.TurnstileWidget("submissions-turnstile", {
     accountId,
-    name: "bosc-submissions",
+    name: "watermark-submissions",
     domains: turnstileDomains,
     mode: "managed",
 });
@@ -164,7 +164,7 @@ const submissionAttachmentsBucketDev = new cloudflare.R2Bucket("submission-attac
 // the id as SUBMISSION_CONTACT in web/wrangler.toml once ready.
 const submissionContactKv = new cloudflare.WorkersKvNamespace("submission-contact", {
     accountId,
-    title: "bosc-submission-contact",
+    title: "watermark-submission-contact",
 });
 
 // --- The custom-domain exchange (only when siteDomain is set) ---------------

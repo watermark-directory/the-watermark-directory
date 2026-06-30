@@ -48,9 +48,9 @@ Always created (cheap; activation gate is wiring in `wrangler.toml`):
 
 ### Custom domain exchange (when `siteDomain` is set)
 
-- **`cloudflare.PagesDomain`** — attaches `siteDomain` to the `bosc` Pages project (the
+- **`cloudflare.PagesDomain`** — attaches `siteDomain` to the `the-watermark-directory` Pages project (the
   Cloudflare side: "expect this hostname, issue a cert once DNS validates").
-- **`aws.route53.Record`** — a CNAME `siteDomain` → `watermark.pages.dev` (the AWS side).
+- **`aws.route53.Record`** — a CNAME `siteDomain` → `the-watermark-directory.pages.dev` (the AWS side).
   Decided shape ([#240](https://github.com/watermark-directory/the-watermark-directory/issues/240)): a **subdomain**,
   because a bare apex can't point cross-provider at pages.dev (a CNAME is illegal at the
   apex, and a Route53 ALIAS only targets AWS resources). For an apex you'd move DNS to
@@ -99,10 +99,10 @@ project by name, so the two don't fight.
 | Key | Default | Meaning |
 | --- | --- | --- |
 | `cloudflareAccountId` | *(required, unset)* | Cloudflare account that owns the resources |
-| `pagesProject` | `bosc` | the wrangler-deployed Pages project a custom domain attaches to |
+| `pagesProject` | `the-watermark-directory` | the wrangler-deployed Pages project a custom domain attaches to |
 | `siteDomain` | *(unset)* | the live subdomain, e.g. `watermark.example.org` — **late-bound** |
 | `route53ZoneId` | *(unset)* | the Route53 hosted-zone id that owns `siteDomain` |
-| `siteDomains` | `["watermark.pages.dev"]` | preview hostnames for Turnstile (custom domain folded in automatically) |
+| `siteDomains` | `["the-watermark-directory.pages.dev"]` | preview hostnames for Turnstile (custom domain folded in automatically) |
 | `authEnabled` | `false` | set `true` to provision Cognito resources — **destructive to remove** |
 | `cognitoDomainPrefix` | `watermark-auth` | Hosted UI subdomain prefix (→ `<prefix>.auth.<region>.amazoncognito.com`) |
 | `cognitoRegion` | `us-east-1` | AWS region for the User Pool (must match the AWS provider region) |

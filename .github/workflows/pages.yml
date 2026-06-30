@@ -22,8 +22,8 @@
 #   - Repo var PUBLIC_TURNSTILE_SITE_KEY (public; from `pulumi stack output
 #     turnstileSiteKey`) — flips the /submit form from disabled-placeholder to live.
 #   - Optional repo vars PAGES_SITE_URL / PAGES_BASE_PATH for the custom subdomain (the
-#     Pulumi-managed Route53 CNAME → bosc.pages.dev); defaults target bosc.pages.dev at
-#     the root (no base path).
+#     Pulumi-managed Route53 CNAME → the-watermark-directory.pages.dev); defaults target
+#     the-watermark-directory.pages.dev at the root (no base path).
 
 name: Pages (manual)
 
@@ -49,7 +49,7 @@ jobs:
     # For a custom domain, set the PAGES_SITE_URL / PAGES_BASE_PATH repo variables — no
     # code change needed.
     env:
-      SITE_URL: ${{ vars.PAGES_SITE_URL || 'https://bosc.pages.dev' }}
+      SITE_URL: ${{ vars.PAGES_SITE_URL || 'https://the-watermark-directory.pages.dev' }}
       BASE_PATH: ${{ vars.PAGES_BASE_PATH || '' }}
       # The Turnstile site key is read at *build* time (import.meta.env in submit.astro),
       # so it must be present here, not just as a Function secret. It's public (a repo

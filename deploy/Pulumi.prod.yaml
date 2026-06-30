@@ -49,4 +49,4 @@ config:
   # Preview hostnames the Turnstile widget may serve on; `siteDomain` is folded in
   # automatically when set, so this stays the pages.dev preview default.
   bosc-deploy:siteDomains:
-    - watermark.pages.dev
+    - the-watermark-directory.pages.dev
