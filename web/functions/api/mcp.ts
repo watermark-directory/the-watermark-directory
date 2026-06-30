@@ -13,6 +13,7 @@
 
 import { dispatch, RPC } from "./_lib/mcpDispatch";
 import { json, parseJsonBody } from "./_lib/http";
+import { initTracer } from "./_lib/otel";
 import { enforceRateLimit, type KVLike } from "./_lib/ratelimit";
 import { frame } from "./_lib/sse";
 import { getSession, newSessionId, putSession } from "./_lib/mcpSession";
@@ -44,6 +45,10 @@ interface Env extends McpAuthEnv {
   MCP_BUDGET_KEY_DAILY?: string;
   /** Bypass all budget guards for local dev (mirrors ASK_ALLOW_UNCAPPED). */
   MCP_ALLOW_UNCAPPED?: string;
+  /** Honeycomb write key for edge OTel (#958). Absent ⇒ tracing no-ops. */
+  HONEYCOMB_API_KEY?: string;
+  /** Sets deployment.environment on spans (default "prod"). */
+  OTEL_ENVIRONMENT?: string;
 }
 
 const DEFAULT_MCP_RATE_LIMIT = { max: 60, windowSec: 60 }; // 60 req/min per IP
@@ -67,9 +72,10 @@ function intEnv(val: string | undefined, fallback: number): number {
 interface RequestContext {
   request: Request;
   env: Env;
+  waitUntil: (promise: Promise<unknown>) => void;
 }
 
-export async function onRequestPost({ request, env }: RequestContext): Promise<Response> {
+export async function onRequestPost({ request, env, waitUntil }: RequestContext): Promise<Response> {
   // Kill switch
   if (env.MCP_ENABLED !== "true") {
     return json(503, {
@@ -181,8 +187,24 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
     });
   }
 
-  // Dispatch
-  const rpcResponse = await dispatch(parsed.value, request.url);
+  // Dispatch — instrument with OTel spans (#958)
+  const otelHandle = initTracer(env);
+  const rpcSpan = otelHandle?.startSpan("mcp.rpc");
+  rpcSpan?.setAttribute("rpc.method", String(body.method ?? "unknown"));
+  rpcSpan?.setAttribute("mcp.session", sessionId);
+
+  let rpcResponse: Awaited<ReturnType<typeof dispatch>>;
+  if (body.method === "tools/call") {
+    const toolName = String((body.params as Record<string, unknown> | undefined)?.name ?? "unknown");
+    const toolSpan = otelHandle?.startSpan("mcp.tool", rpcSpan);
+    const t0 = Date.now();
+    rpcResponse = await dispatch(parsed.value, request.url);
+    toolSpan?.setAttribute("tool.name", toolName);
+    toolSpan?.setAttribute("tool.latency_ms", Date.now() - t0);
+    toolSpan?.end();
+  } else {
+    rpcResponse = await dispatch(parsed.value, request.url);
+  }
 
   // Persist the session after a successful initialize
   if (isInitialize && env.MCP_SESSIONS && !rpcResponse.error) {
@@ -195,19 +217,23 @@ export async function onRequestPost({ request, env }: RequestContext): Promise<R
 
   const sessionHeaders: Record<string, string> = { "mcp-session-id": sessionId };
 
+  let response: Response;
+
   // notifications/initialized: 202 No Content (no body needed)
   if (body.method === "notifications/initialized") {
-    return new Response(null, { status: 202, headers: sessionHeaders });
-  }
-
-  // tools/call: SSE stream so implementations can stream results.
-  // These are pure retrieval tools (no model calls), so output-token spend is 0.
-  // Wire addBudgetUsage here when model-calling tools are added in the future.
-  if (body.method === "tools/call") {
+    response = new Response(null, { status: 202, headers: sessionHeaders });
+  } else if (body.method === "tools/call") {
+    // tools/call: SSE stream so implementations can stream results.
+    // These are pure retrieval tools (no model calls), so output-token spend is 0.
+    // Wire addBudgetUsage here when model-calling tools are added in the future.
     const eventData = frame("message", rpcResponse);
-    return sseResponse(eventData, sessionHeaders);
+    response = sseResponse(eventData, sessionHeaders);
+  } else {
+    // All other methods: direct JSON
+    response = json(200, rpcResponse, sessionHeaders);
   }
 
-  // All other methods: direct JSON
-  return json(200, rpcResponse, sessionHeaders);
+  rpcSpan?.end();
+  if (otelHandle) waitUntil(otelHandle.flush());
+  return response;
 }

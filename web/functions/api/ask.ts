@@ -29,6 +29,7 @@ import { json, parseJsonBody, requireEnabled } from "./_lib/http";
 import { enforceRateLimit, type KVLike } from "./_lib/ratelimit";
 import { type PreparedIndex, prepare, search } from "./_lib/retrieval";
 import { frame } from "./_lib/sse";
+import { initTracer } from "./_lib/otel";
 import { verifyTurnstile } from "./_lib/turnstile";
 
 interface Env {
@@ -61,6 +62,10 @@ interface Env {
   /** Escape hatch: with no budget KV bound the paid endpoint fails closed (#587) unless this
    *  is "true" (local dev / explicit operator opt-in to an uncapped endpoint). */
   ASK_ALLOW_UNCAPPED?: string;
+  /** Honeycomb write key for edge OTel (#958). Absent ⇒ tracing no-ops. */
+  HONEYCOMB_API_KEY?: string;
+  /** Sets deployment.environment on spans (default "prod"). */
+  OTEL_ENVIRONMENT?: string;
 }
 
 // A paid endpoint deserves a tighter per-IP window than the tips form.
@@ -69,6 +74,7 @@ const DEFAULT_ASK_RATE_LIMIT = { max: 10, windowSec: 3600 };
 interface RequestContext {
   request: Request;
   env: Env;
+  waitUntil: (promise: Promise<unknown>) => void;
 }
 
 const sse = (stream: ReadableStream): Response =>
@@ -96,7 +102,9 @@ function getPrepared(units: Parameters<typeof prepare>[0]): PreparedIndex {
 }
 
 export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
-  const { request, env } = ctx;
+  const { request, env, waitUntil } = ctx;
+  const otelHandle = initTracer(env);
+  const otelSpan = otelHandle?.startSpan("ask.request");
 
   const disabled = requireEnabled(env.ASK_ENABLED, () =>
     json(503, { error: "the ask endpoint is not enabled" }),
@@ -183,12 +191,24 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
     else if (usage != null) entry.pricing_unknown = true;
     if (latencyMs != null) entry.latency_ms = latencyMs;
     console.log(JSON.stringify(entry));
+    // OTel span attributes mirror the console.log entry (#958)
+    otelSpan?.setAttribute("ask.outcome", outcome);
+    otelSpan?.setAttribute("retrieval.hits", hits.length);
+    otelSpan?.setAttribute("llm.model", model);
+    if (usage != null) {
+      otelSpan?.setAttribute("llm.usage.input_tokens", usage.input_tokens);
+      otelSpan?.setAttribute("llm.usage.output_tokens", usage.output_tokens);
+    }
+    if (cost != null) otelSpan?.setAttribute("ask.cost_usd", cost);
+    if (latencyMs != null) otelSpan?.setAttribute("ask.latency_ms", latencyMs);
+    otelSpan?.end();
     if (usage != null && budgetKv) await addUsage(budgetKv, nowMs, usage);
   };
 
   // Nothing relevant retrieved ⇒ refuse deterministically, before spending a model call.
   if (hits.length === 0) {
     await record("no_hits");
+    if (otelHandle) waitUntil(otelHandle.flush());
     if (wantsStream) {
       return sse(
         new ReadableStream({
@@ -213,6 +233,13 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   // end-of-stream. Abuse/cost guards above already ran; spend is recorded once usage lands.
   if (wantsStream) {
     const enc = new TextEncoder();
+    // Deferred promise so the OTel flush fires after the span ends inside the stream.
+    let resolveStreamDone: (() => void) | undefined;
+    const streamDone = otelHandle
+      ? new Promise<void>((r) => {
+          resolveStreamDone = r;
+        })
+      : Promise.resolve();
     const stream = new ReadableStream({
       async start(controller) {
         const send = (event: string, data: unknown): void =>
@@ -242,6 +269,9 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
           }
         } catch (e) {
           console.error("ask stream failed:", e);
+          otelSpan?.setStatus("error");
+          otelSpan?.end();
+          resolveStreamDone?.();
           send("error", { error: "could not generate an answer — please try again later" });
           controller.close();
           return;
@@ -250,10 +280,12 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
           inTok != null && outTok != null ? { input_tokens: inTok, output_tokens: outTok } : undefined;
         const refused = isRefusal(full);
         await record(refused ? "refused" : "answered", usage);
+        resolveStreamDone?.();
         send("done", { citations: refused ? [] : extractCitations(full, hits), refused, model, usage });
         controller.close();
       },
     });
+    if (otelHandle) waitUntil(streamDone.then(() => otelHandle.flush()));
     return sse(stream);
   }
 
@@ -275,10 +307,14 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   } catch (e) {
     const status = e instanceof AnthropicError ? e.status : 0;
     console.error("ask model call failed:", status, e);
+    otelSpan?.setStatus("error");
+    otelSpan?.end();
+    if (otelHandle) waitUntil(otelHandle.flush());
     return json(502, { error: "could not generate an answer — please try again later" });
   }
   const refused = isRefusal(text);
   await record(refused ? "refused" : "answered", usage);
+  if (otelHandle) waitUntil(otelHandle.flush());
   return json(200, {
     answer: text,
     citations: refused ? [] : extractCitations(text, hits),
