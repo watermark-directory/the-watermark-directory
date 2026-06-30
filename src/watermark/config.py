@@ -85,6 +85,7 @@ class Settings(BaseSettings):
     # --- OpenTelemetry / Honeycomb (#953) ----------------------------------
     otel_enabled: bool = False  # WATERMARK_OTEL_ENABLED; no-op when false
     honeycomb_api_key: str = ""  # WATERMARK_HONEYCOMB_API_KEY
+    otel_environment: str = "prod"  # WATERMARK_OTEL_ENVIRONMENT; sets deployment.environment
 
     # --- Hydrology (live connectors + Tier-0 simulation) -------------------
     # When true, connectors never touch the network: they serve cached/fixture
@@ -416,6 +417,14 @@ class Settings(BaseSettings):
         """Create the data directories if they do not yet exist."""
         for path in (self.documents_dir, self.extracted_dir, self.cache_dir):
             path.mkdir(parents=True, exist_ok=True)
+
+    @model_validator(mode="after")
+    def _check_otel_credentials(self) -> Settings:
+        if self.otel_enabled and not self.honeycomb_api_key:
+            raise ValueError(
+                "WATERMARK_HONEYCOMB_API_KEY must be set when WATERMARK_OTEL_ENABLED=true"
+            )
+        return self
 
     @model_validator(mode="after")
     def _resolve_site_profile(self) -> Settings:

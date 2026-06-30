@@ -75,11 +75,10 @@ def configure_tracing(settings: Settings) -> None:
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
     from opentelemetry.semconv.resource import ResourceAttributes
 
-    env = "prod" if settings.log_level.upper() != "DEBUG" else "dev"
     resource = Resource.create(
         {
             ResourceAttributes.SERVICE_NAME: "watermark-backend",
-            ResourceAttributes.DEPLOYMENT_ENVIRONMENT: env,
+            ResourceAttributes.DEPLOYMENT_ENVIRONMENT: settings.otel_environment,
             "watermark.site": settings.site,
         }
     )
