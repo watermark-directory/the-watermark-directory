@@ -153,9 +153,15 @@ const authEnabled = config.getBoolean("authEnabled") ?? false;
 //   pulumi config set bosc-deploy:cognitoDomainPrefix watermark-auth
 const cognitoDomainPrefix = config.get("cognitoDomainPrefix") ?? "watermark-auth";
 
-// The AWS region for Cognito. Must match the region the AWS provider uses.
+// The AWS region for Cognito. A dedicated provider is constructed from this value and
+// passed explicitly to every Cognito resource, so the deployed region always matches
+// the issuer/domain strings exported below. Using the ambient provider would silently
+// produce a mismatch if AWS_DEFAULT_REGION differs from the intended Cognito region.
 //   pulumi config set bosc-deploy:cognitoRegion us-east-1
 const cognitoRegion = config.get("cognitoRegion") ?? "us-east-1";
+const cognitoProvider = new aws.Provider("cognito-provider", {
+    region: cognitoRegion as aws.Region,
+});
 
 // Callback + logout URLs for the app client. The site domain is folded in automatically
 // when set; localhost:4321 is always included for local dev.
@@ -208,7 +214,7 @@ const userPool = authEnabled
           userAttributeUpdateSettings: {
               attributesRequireVerificationBeforeUpdates: ["email"],
           },
-      })
+      }, { provider: cognitoProvider })
     : undefined;
 
 // Hosted UI domain (Cognito-hosted subdomain; upgrading to a custom domain requires a
@@ -217,7 +223,7 @@ const userPoolDomain = authEnabled && userPool
     ? new aws.cognito.UserPoolDomain("auth-domain", {
           domain: cognitoDomainPrefix,
           userPoolId: userPool.id,
-      })
+      }, { provider: cognitoProvider })
     : undefined;
 
 // App client: public client (no secret), PKCE Authorization Code grant only.
@@ -237,7 +243,7 @@ const userPoolClient = authEnabled && userPool
           // Refresh-token auth is needed for the /api/account/refresh endpoint.
           explicitAuthFlows: ["ALLOW_REFRESH_TOKEN_AUTH"],
           preventUserExistenceErrors: "ENABLED",
-      })
+      }, { provider: cognitoProvider })
     : undefined;
 
 // User Pool Groups — three privilege tiers (see docs/auth.md).
@@ -248,21 +254,21 @@ const groupStandard = authEnabled && userPool
     ? new aws.cognito.UserGroup("auth-group-standard", {
           name: "standard",
           userPoolId: userPool.id,
-      })
+      }, { provider: cognitoProvider })
     : undefined;
 
 const groupSiteAdmin = authEnabled && userPool
     ? new aws.cognito.UserGroup("auth-group-site-admin", {
           name: "site-admin",
           userPoolId: userPool.id,
-      })
+      }, { provider: cognitoProvider })
     : undefined;
 
 const groupAdmin = authEnabled && userPool
     ? new aws.cognito.UserGroup("auth-group-admin", {
           name: "admin",
           userPoolId: userPool.id,
-      })
+      }, { provider: cognitoProvider })
     : undefined;
 
 // Suppress unused-variable warnings for the group resources — they're managed for
