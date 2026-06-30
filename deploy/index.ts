@@ -9,11 +9,13 @@ import * as cloudflare from "@pulumi/cloudflare";
 // (../.github/config): different providers + credentials, lifecycle, blast radius.
 //
 // It owns the deploy-independent resources the public submissions endpoint (#74)
-// depends on, plus — when a custom domain is set — the AWS↔Cloudflare exchange that
-// puts the Pages site on a Route53-hosted name:
+// depends on, plus the auth layer (#919/#924), and — when a custom domain is set —
+// the AWS↔Cloudflare exchange that puts the Pages site on a Route53-hosted name:
 //
-//   • Workers KV namespace      — per-IP rate limiter store (Phase 5).
+//   • Workers KV namespaces     — rate limiter, contact store, auth caches.
+//   • R2 bucket                 — submission file attachments (#243).
 //   • Turnstile widget          — guards the public form.
+//   • Cognito User Pool         — auth identity (#924); gated on `authEnabled`.
 //   • Pages custom domain       — attaches `siteDomain` to the wrangler-deployed
 //                                 `bosc` Pages project (the Cloudflare side).
 //   • Route53 CNAME             — points `siteDomain` at `<project>.pages.dev`
@@ -29,9 +31,9 @@ import * as cloudflare from "@pulumi/cloudflare";
 // State + auth (see README):
 //   • Backend  — self-managed **S3** (`pulumi login s3://…`); secrets via **awskms**.
 //   • Cloudflare — default provider reads `CLOUDFLARE_API_TOKEN` (KV + Turnstile +
-//     Pages-domain edit).
-//   • AWS — standard credential chain (env / OIDC role); only used when `siteDomain`
-//     + `route53ZoneId` are set, so the KV/Turnstile-only path needs no AWS creds.
+//     Pages-domain + R2 edit).
+//   • AWS — standard credential chain (env / OIDC role); used for Route53 (when
+//     `siteDomain` + `route53ZoneId` are set) and Cognito (when `authEnabled`).
 
 const config = new pulumi.Config();
 
@@ -43,7 +45,7 @@ const accountId = config.require("cloudflareAccountId");
 const pagesProject = config.get("pagesProject") ?? "bosc";
 
 // The custom subdomain for the live site, e.g. "bosc.example.org" — LATE-BOUND.
-// Until it's set, the stack manages only KV + Turnstile and the site stays on
+// Until it's set, the stack manages KV + R2 + Turnstile and the site stays on
 // <project>.pages.dev. Decided shape (#240): a **subdomain CNAME** in Route53, because
 // a bare apex can't point cross-provider at pages.dev (CNAME illegal at apex; a Route53
 // ALIAS only targets AWS resources). Set it when the name is chosen:
@@ -60,10 +62,10 @@ const route53ZoneId = config.get("route53ZoneId");
 const previewDomains = config.getObject<string[]>("siteDomains") ?? ["bosc.pages.dev"];
 const turnstileDomains = Array.from(new Set([...(siteDomain ? [siteDomain] : []), ...previewDomains]));
 
-// --- Deploy-independent Cloudflare resources -------------------------------
+// --- Submissions: KV + Turnstile (#74/#240) ---------------------------------
 
-// Per-IP rate-limit store for the submissions Function (Phase 5). Bind its id as
-// RATE_LIMIT in web/wrangler.toml to turn rate limiting on; until then it sits idle.
+// Per-IP rate-limit store for the submissions Function. Bind its id as RATE_LIMIT in
+// web/wrangler.toml to turn rate limiting on; until then it sits idle (fail-open).
 const rateLimitKv = new cloudflare.WorkersKvNamespace("submissions-ratelimit", {
     accountId,
     title: "bosc-submissions-ratelimit",
@@ -76,6 +78,32 @@ const turnstile = new cloudflare.TurnstileWidget("submissions-turnstile", {
     name: "bosc-submissions",
     domains: turnstileDomains,
     mode: "managed",
+});
+
+// --- Submissions: file attachments (#243) ------------------------------------
+// R2 bucket for pre-uploaded submission attachments (/api/attach → /api/submit).
+// SUBMISSION_ATTACHMENTS is separate from DOCS to keep evidence-chain isolation intact.
+// Wire the prod bucket id as SUBMISSION_ATTACHMENTS (and the dev bucket as the preview)
+// in web/wrangler.toml; until bound, /api/attach returns 503 and /api/submit silently
+// drops any attachment_keys.
+const submissionAttachmentsBucket = new cloudflare.R2Bucket("submission-attachments", {
+    accountId,
+    name: "watermark-submission-attachments",
+});
+
+const submissionAttachmentsBucketDev = new cloudflare.R2Bucket("submission-attachments-dev", {
+    accountId,
+    name: "watermark-submission-attachments-dev",
+});
+
+// --- Submissions: private contact store (#242) --------------------------------
+// KV namespace for the submitter contact field — stored out-of-band from the public issue,
+// keyed `contact:<issue-number>`, with a TTL (default 180 days). Optional: if not bound
+// in wrangler.toml the contact field is accepted but not retained (never leaked). Wire
+// the id as SUBMISSION_CONTACT in web/wrangler.toml once ready.
+const submissionContactKv = new cloudflare.WorkersKvNamespace("submission-contact", {
+    accountId,
+    title: "bosc-submission-contact",
 });
 
 // --- The custom-domain exchange (only when siteDomain is set) ---------------
@@ -108,9 +136,162 @@ const route53Record =
           )
         : undefined;
 
+// --- Auth: Cognito User Pool (Epic #919, issue #924) --------------------------
+// Gated on `authEnabled` (defaults false) — Cognito resources are stateful and
+// destructive to remove (existing users and sessions are lost). Provision the User Pool
+// once and leave `authEnabled` true. Flip to false only when decommissioning.
+//   pulumi config set bosc-deploy:authEnabled true
+//
+// The KV namespaces (JWKS_CACHE, AUTH_PREFS) are always created — they're cheap and
+// the bind-in-wrangler.toml step is the actual activation gate, not Pulumi.
+const authEnabled = config.getBoolean("authEnabled") ?? false;
+
+// Hosted UI domain prefix. The full domain becomes:
+//   <prefix>.auth.<region>.amazoncognito.com
+// Set a custom domain in the console after pool creation if desired (requires an ACM
+// cert in us-east-1). A custom domain cannot be set here without the cert ARN.
+//   pulumi config set bosc-deploy:cognitoDomainPrefix watermark-auth
+const cognitoDomainPrefix = config.get("cognitoDomainPrefix") ?? "watermark-auth";
+
+// The AWS region for Cognito. Must match the region the AWS provider uses.
+//   pulumi config set bosc-deploy:cognitoRegion us-east-1
+const cognitoRegion = config.get("cognitoRegion") ?? "us-east-1";
+
+// Callback + logout URLs for the app client. The site domain is folded in automatically
+// when set; localhost:4321 is always included for local dev.
+const appBaseUrl = siteDomain ? `https://${siteDomain}` : null;
+const cognitoCallbackUrls = [
+    ...(appBaseUrl ? [`${appBaseUrl}/account/callback`] : []),
+    "http://localhost:4321/account/callback",
+];
+const cognitoLogoutUrls = [
+    ...(appBaseUrl ? [`${appBaseUrl}/`] : []),
+    "http://localhost:4321/",
+];
+
+const userPool = authEnabled
+    ? new aws.cognito.UserPool("auth-pool", {
+          name: "watermark-prod",
+          autoVerifiedAttributes: ["email"],
+          usernameAttributes: ["email"],
+          schemas: [
+              {
+                  name: "email",
+                  attributeDataType: "String",
+                  required: true,
+                  mutable: true,
+              },
+              // Per-site admin scope: a comma-separated list of site slugs the user
+              // may curate. Read by the `site-admin` role path in _lib/auth.ts.
+              {
+                  name: "admin_sites",
+                  attributeDataType: "String",
+                  required: false,
+                  mutable: true,
+                  stringAttributeConstraints: {
+                      minLength: "0",
+                      maxLength: "2048",
+                  },
+              },
+          ],
+          passwordPolicy: {
+              minimumLength: 8,
+              requireLowercase: true,
+              requireUppercase: true,
+              requireNumbers: true,
+              requireSymbols: false,
+          },
+          accountRecoverySetting: {
+              recoveryMechanisms: [{ name: "verified_email", priority: 1 }],
+          },
+          // Prevent user-existence oracle (mitigates enumeration via sign-in errors).
+          userAttributeUpdateSettings: {
+              attributesRequireVerificationBeforeUpdates: ["email"],
+          },
+      })
+    : undefined;
+
+// Hosted UI domain (Cognito-hosted subdomain; upgrading to a custom domain requires a
+// separate ACM cert and a console step not modelled here).
+const userPoolDomain = authEnabled && userPool
+    ? new aws.cognito.UserPoolDomain("auth-domain", {
+          domain: cognitoDomainPrefix,
+          userPoolId: userPool.id,
+      })
+    : undefined;
+
+// App client: public client (no secret), PKCE Authorization Code grant only.
+// Social providers can be added later in the console; `supportedIdentityProviders`
+// starts with COGNITO only to keep the scope minimal.
+const userPoolClient = authEnabled && userPool
+    ? new aws.cognito.UserPoolClient("auth-client", {
+          name: "watermark-web",
+          userPoolId: userPool.id,
+          generateSecret: false,
+          supportedIdentityProviders: ["COGNITO"],
+          allowedOauthFlows: ["code"],
+          allowedOauthScopes: ["openid", "email", "profile"],
+          allowedOauthFlowsUserPoolClient: true,
+          callbackUrls: cognitoCallbackUrls,
+          logoutUrls: cognitoLogoutUrls,
+          // Refresh-token auth is needed for the /api/account/refresh endpoint.
+          explicitAuthFlows: ["ALLOW_REFRESH_TOKEN_AUTH"],
+          preventUserExistenceErrors: "ENABLED",
+      })
+    : undefined;
+
+// User Pool Groups — three privilege tiers (see docs/auth.md).
+// `extractRole()` in _lib/auth.ts picks the highest group in the ID token's
+// `cognito:groups` claim: admin > site-admin > standard (unauthenticated users
+// have no group and are rejected by auth-gated endpoints).
+const groupStandard = authEnabled && userPool
+    ? new aws.cognito.UserGroup("auth-group-standard", {
+          name: "standard",
+          userPoolId: userPool.id,
+      })
+    : undefined;
+
+const groupSiteAdmin = authEnabled && userPool
+    ? new aws.cognito.UserGroup("auth-group-site-admin", {
+          name: "site-admin",
+          userPoolId: userPool.id,
+      })
+    : undefined;
+
+const groupAdmin = authEnabled && userPool
+    ? new aws.cognito.UserGroup("auth-group-admin", {
+          name: "admin",
+          userPoolId: userPool.id,
+      })
+    : undefined;
+
+// Suppress unused-variable warnings for the group resources — they're managed for
+// side-effect (the groups exist in Cognito) and their ids aren't needed downstream.
+void groupStandard;
+void groupSiteAdmin;
+void groupAdmin;
+
+// --- Auth: KV namespaces (always created — cheap; activation gate is wrangler.toml) ---
+
+// JWKS key cache: caches Cognito's public-key document (1-hour TTL) so JWT verification
+// doesn't cold-fetch on every request. Wire the id as JWKS_CACHE in wrangler.toml.
+const jwksCacheKv = new cloudflare.WorkersKvNamespace("auth-jwks-cache", {
+    accountId,
+    title: "watermark-auth-jwks-cache",
+});
+
+// User profile + notification prefs, keyed by Cognito sub (Epic #921).
+// Wire the id as AUTH_PREFS in wrangler.toml.
+const authPrefsKv = new cloudflare.WorkersKvNamespace("auth-prefs", {
+    accountId,
+    title: "watermark-auth-prefs",
+});
+
 // ---------------------------------------------------------------------------
-// Outputs — wire these into the rest of the seam (see README + docs/submissions-api.md)
+// Outputs — wire these into the rest of the seam (see README + docs/)
 // ---------------------------------------------------------------------------
+
+// --- Submissions (#240 / #74) ---
 /** KV namespace id → `web/wrangler.toml` `[[kv_namespaces]]` `id` (RATE_LIMIT). */
 export const rateLimitKvNamespaceId = rateLimitKv.id;
 /** Public Turnstile site key → the `PUBLIC_TURNSTILE_SITE_KEY` build var. */
@@ -123,3 +304,31 @@ export const siteUrl = siteDomain ? `https://${siteDomain}` : `https://${pagesPr
 export const siteDomainStatus = pagesDomain ? pagesDomain.status : pulumi.output("not-configured");
 /** The Route53 record FQDN, when Pulumi manages the DNS side. */
 export const route53RecordFqdn = route53Record ? route53Record.fqdn : pulumi.output("not-managed");
+
+// --- Submissions: attachments (#243) ---
+/** R2 bucket name → `web/wrangler.toml` `bucket_name` (SUBMISSION_ATTACHMENTS). */
+export const submissionAttachmentsBucketName = submissionAttachmentsBucket.name;
+/** R2 dev bucket name → `web/wrangler.toml` `preview_bucket_name` (SUBMISSION_ATTACHMENTS). */
+export const submissionAttachmentsBucketDevName = submissionAttachmentsBucketDev.name;
+
+// --- Submissions: contact store (#242) ---
+/** KV namespace id → `web/wrangler.toml` `[[kv_namespaces]]` `id` (SUBMISSION_CONTACT). */
+export const submissionContactKvNamespaceId = submissionContactKv.id;
+
+// --- Auth: Cognito (#924) ---
+/** Cognito User Pool id → `COGNITO_USER_POOL_ID` in wrangler.toml `[vars]`. */
+export const cognitoUserPoolId = userPool ? userPool.id : pulumi.output("not-configured");
+/** App client id → `COGNITO_CLIENT_ID` in wrangler.toml `[vars]` and the CI build env. */
+export const cognitoClientId = userPoolClient ? userPoolClient.id : pulumi.output("not-configured");
+/** Hosted UI domain → `COGNITO_DOMAIN` in wrangler.toml `[vars]` and the CI build env. */
+export const cognitoDomain = userPoolDomain
+    ? pulumi.output(`${cognitoDomainPrefix}.auth.${cognitoRegion}.amazoncognito.com`)
+    : pulumi.output("not-configured");
+/** AWS region → `COGNITO_REGION` in wrangler.toml `[vars]`. */
+export const cognitoRegionOut = pulumi.output(cognitoRegion);
+
+// --- Auth: KV namespaces (#919) ---
+/** KV namespace id → `web/wrangler.toml` `[[kv_namespaces]]` `id` (JWKS_CACHE). */
+export const jwksCacheKvNamespaceId = jwksCacheKv.id;
+/** KV namespace id → `web/wrangler.toml` `[[kv_namespaces]]` `id` (AUTH_PREFS). */
+export const authPrefsKvNamespaceId = authPrefsKv.id;

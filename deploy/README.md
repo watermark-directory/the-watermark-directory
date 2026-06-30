@@ -11,20 +11,42 @@ custom-domain attach) and **AWS** (the Route53 record — only when a custom dom
 
 ## What it manages
 
-The underlying resources the public submissions endpoint
-([#74](https://github.com/watermark-directory/the-watermark-directory/issues/74) / epic
-[#240](https://github.com/watermark-directory/the-watermark-directory/issues/240), see
-[`docs/submissions-api.md`](../docs/submissions-api.md)) depends on:
+### Submissions (#74 / epic #240)
 
-- **`cloudflare.WorkersKvNamespace`** — the KV namespace backing the per-IP rate limiter
-  (Phase 5). Bind its id as `RATE_LIMIT` in `web/wrangler.toml` to turn rate
-  limiting on.
-- **`cloudflare.TurnstileWidget`** — the Turnstile widget guarding the form. Exports the
-  public site key and the (sensitive) secret key. Serves on the custom domain + the
-  pages.dev preview.
+- **`cloudflare.WorkersKvNamespace` — `RATE_LIMIT`** — per-IP rate limiter store (Phase 5).
+  Bind its id in `web/wrangler.toml`; until then, rate limiting is off (fail-open).
+- **`cloudflare.TurnstileWidget`** — guards the public form. Exports the public site key
+  and the (sensitive) secret key. Serves on the custom domain + pages.dev preview.
+- **`cloudflare.R2Bucket` — `SUBMISSION_ATTACHMENTS`** (#243) — pre-upload target for
+  submission file attachments. Missing → `/api/attach` returns 503.
+  Separate from `DOCS` to keep the evidence chain isolated.
+- **`cloudflare.WorkersKvNamespace` — `SUBMISSION_CONTACT`** (#242) — private submitter
+  contact store, keyed `contact:<issue-number>`, TTL-bounded. Optional: if not bound
+  the contact field is accepted but not retained.
 
-When `siteDomain` is set (the late-bound custom subdomain), it also owns the
-**Route53↔Cloudflare exchange** that puts the Pages site on the Route53-hosted name:
+### Auth — Cognito identity (#919 / #924)
+
+Gated on the `authEnabled` config flag (defaults false). Set it once to provision; do
+not flip it back — removing the pool destroys all users and sessions.
+
+- **`aws.cognito.UserPool`** — email-based pool with the `admin_sites` custom attribute
+  (per-site curator scope) and email-verification enforced.
+- **`aws.cognito.UserPoolDomain`** — Hosted UI domain
+  (`<cognitoDomainPrefix>.auth.<cognitoRegion>.amazoncognito.com`). Upgrade to a custom
+  domain in the console after creation (requires an ACM cert in us-east-1).
+- **`aws.cognito.UserPoolClient`** — public client (no secret), PKCE Authorization Code
+  grant only. Callback URLs include the live site domain (when `siteDomain` is set) and
+  `http://localhost:4321` for local dev.
+- **`aws.cognito.UserPoolGroup` × 3** — `standard`, `site-admin`, `admin` privilege tiers.
+
+Always created (cheap; activation gate is wiring in `wrangler.toml`):
+
+- **`cloudflare.WorkersKvNamespace` — `JWKS_CACHE`** — Cognito public-key cache (1-hour
+  TTL), avoiding a cold JWKS fetch on every JWT verification.
+- **`cloudflare.WorkersKvNamespace` — `AUTH_PREFS`** — per-user profile + notification
+  prefs, keyed by Cognito `sub` (#921).
+
+### Custom domain exchange (when `siteDomain` is set)
 
 - **`cloudflare.PagesDomain`** — attaches `siteDomain` to the `bosc` Pages project (the
   Cloudflare side: "expect this hostname, issue a cert once DNS validates").
@@ -47,14 +69,30 @@ project by name, so the two don't fight.
 
 `pulumi up` exports the values the rest of the seam wires in:
 
+### Submissions
+
 | Output | Wire it into |
 | --- | --- |
 | `rateLimitKvNamespaceId` | `web/wrangler.toml` → `[[kv_namespaces]]` `id` (RATE_LIMIT) |
 | `turnstileSiteKey` | the `PUBLIC_TURNSTILE_SITE_KEY` **build** repo variable (public) |
 | `turnstileSecretKey` | the `TURNSTILE_SECRET_KEY` Function secret (`pulumi stack output turnstileSecretKey --show-secrets`) |
+| `submissionAttachmentsBucketName` | `web/wrangler.toml` → `[[r2_buckets]]` `bucket_name` (SUBMISSION_ATTACHMENTS) |
+| `submissionAttachmentsBucketDevName` | `web/wrangler.toml` → `[[r2_buckets]]` `preview_bucket_name` (SUBMISSION_ATTACHMENTS) |
+| `submissionContactKvNamespaceId` | `web/wrangler.toml` → `[[kv_namespaces]]` `id` (SUBMISSION_CONTACT) |
 | `siteUrl` | the `PAGES_SITE_URL` repo variable for the build |
 | `siteDomainStatus` | watch for `active` — Cloudflare validated the domain + issued the cert |
 | `route53RecordFqdn` | sanity-check the managed DNS record |
+
+### Auth
+
+| Output | Wire it into |
+| --- | --- |
+| `cognitoUserPoolId` | `web/wrangler.toml` `[vars]` `COGNITO_USER_POOL_ID` |
+| `cognitoClientId` | `web/wrangler.toml` `[vars]` `COGNITO_CLIENT_ID` **and** `PUBLIC_COGNITO_CLIENT_ID` build var |
+| `cognitoDomain` | `web/wrangler.toml` `[vars]` `COGNITO_DOMAIN` **and** `PUBLIC_COGNITO_DOMAIN` build var |
+| `cognitoRegionOut` | `web/wrangler.toml` `[vars]` `COGNITO_REGION` |
+| `jwksCacheKvNamespaceId` | `web/wrangler.toml` → `[[kv_namespaces]]` `id` (JWKS_CACHE) |
+| `authPrefsKvNamespaceId` | `web/wrangler.toml` → `[[kv_namespaces]]` `id` (AUTH_PREFS) |
 
 ## Stack config (`Pulumi.prod.yaml`, committed — no secrets)
 
@@ -65,9 +103,14 @@ project by name, so the two don't fight.
 | `siteDomain` | *(unset)* | the live subdomain, e.g. `watermark.example.org` — **late-bound** |
 | `route53ZoneId` | *(unset)* | the Route53 hosted-zone id that owns `siteDomain` |
 | `siteDomains` | `["watermark.pages.dev"]` | preview hostnames for Turnstile (custom domain folded in automatically) |
+| `authEnabled` | `false` | set `true` to provision Cognito resources — **destructive to remove** |
+| `cognitoDomainPrefix` | `watermark-auth` | Hosted UI subdomain prefix (→ `<prefix>.auth.<region>.amazoncognito.com`) |
+| `cognitoRegion` | `us-east-1` | AWS region for the User Pool (must match the AWS provider region) |
 
-Until `siteDomain` is set the stack manages KV + Turnstile only and the site stays on
-`watermark.pages.dev` — so it's **ready to go with the domain as the single late-bound value**.
+Until `siteDomain` is set the stack manages KV + R2 + Turnstile only and the site stays on
+`watermark.pages.dev`. Until `authEnabled` is set the Cognito pool is not created (the
+JWKS_CACHE and AUTH_PREFS KV namespaces are always created — they're cheap and needed before
+the auth wiring can be tested).
 
 Provider auth: the Cloudflare **token** is never committed — supply it via
 `CLOUDFLARE_API_TOKEN` (or the `cloudflare:apiToken` Pulumi secret), scoped to **Workers
