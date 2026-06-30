@@ -35,20 +35,20 @@ describe("budget guard", () => {
   it("is under budget when nothing is spent and over once spend ≥ limit", async () => {
     const kv = fakeKV();
     expect(await isOverBudget(kv, T, 1000)).toBe(false);
-    await addUsage(kv, T, 600);
+    await addUsage(kv, T, { input_tokens: 0, output_tokens: 600 });
     expect(await isOverBudget(kv, T, 1000)).toBe(false);
-    await addUsage(kv, T, 400);
+    await addUsage(kv, T, { input_tokens: 0, output_tokens: 400 });
     expect(await isOverBudget(kv, T, 1000)).toBe(true);
   });
 
   it("accumulates only within the same UTC day", async () => {
     const kv = fakeKV();
-    await addUsage(kv, T, 900);
+    await addUsage(kv, T, { input_tokens: 0, output_tokens: 900 });
     expect(await isOverBudget(kv, Date.parse("2026-06-18T01:00:00Z"), 1000)).toBe(false);
   });
 
   it("fails open when KV is unavailable (Turnstile stays the primary gate)", async () => {
     expect(await isOverBudget(brokenKV, T, 1)).toBe(false);
-    await expect(addUsage(brokenKV, T, 100)).resolves.toBeUndefined();
+    await expect(addUsage(brokenKV, T, { input_tokens: 0, output_tokens: 100 })).resolves.toBeUndefined();
   });
 });

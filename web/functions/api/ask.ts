@@ -23,7 +23,7 @@ import { AnthropicError, type AnthropicUsage, createMessage } from "./_lib/anthr
 import { streamMessage } from "./_lib/anthropicStream";
 import { loadAskIndex } from "./_lib/askIndexLoad";
 import { validateAsk } from "./_lib/askSchema";
-import { addUsage, DEFAULT_DAILY_TOKEN_BUDGET, isOverBudget } from "./_lib/budget";
+import { addUsage, costDollars, DEFAULT_DAILY_TOKEN_BUDGET, isOverBudget } from "./_lib/budget";
 import { intEnv } from "./_lib/env";
 import { json, parseJsonBody, requireEnabled } from "./_lib/http";
 import { enforceRateLimit, type KVLike } from "./_lib/ratelimit";
@@ -56,7 +56,7 @@ interface Env {
   /** Optional KV namespace for the account-wide daily budget counter. Falls back to
    *  ASK_RATE_LIMIT, so the budget can be enforced independently of per-IP limiting (#587). */
   ASK_BUDGET?: KVLike;
-  /** Account-wide daily output-token budget (default 200k). A configured "0" is a hard stop. */
+  /** Account-wide daily total-token budget — input + output (default 200k). A configured "0" is a hard stop. */
   ASK_DAILY_TOKEN_BUDGET?: string;
   /** Escape hatch: with no budget KV bound the paid endpoint fails closed (#587) unless this
    *  is "true" (local dev / explicit operator opt-in to an uncapped endpoint). */
@@ -165,13 +165,23 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   const maxTokens = Math.max(256, intEnv(env.ASK_MAX_TOKENS, DEFAULT_MAX_TOKENS));
   const wantsStream = (request.headers.get("Accept") ?? "").includes("text/event-stream");
 
-  // Record spend against the daily budget + log usage/cost for observability.
+  // Record spend against the daily budget + emit structured telemetry for observability.
+  let callT0 = 0;
   const record = async (usage?: AnthropicUsage): Promise<void> => {
     if (!usage) return;
+    const latencyMs = callT0 > 0 ? Date.now() - callT0 : undefined;
     console.log(
-      `ask: model=${model} in=${usage.input_tokens} out=${usage.output_tokens} hits=${hits.length}`,
+      JSON.stringify({
+        endpoint: "ask",
+        model,
+        input_tokens: usage.input_tokens,
+        output_tokens: usage.output_tokens,
+        cost_usd: costDollars(usage, model),
+        ...(latencyMs != null && { latency_ms: latencyMs }),
+        hits: hits.length,
+      }),
     );
-    if (budgetKv) await addUsage(budgetKv, nowMs, usage.output_tokens);
+    if (budgetKv) await addUsage(budgetKv, nowMs, usage);
   };
 
   // Nothing relevant retrieved ⇒ refuse deterministically, before spending a model call.
@@ -211,6 +221,7 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
         let inTok: number | undefined;
         let outTok: number | undefined;
         try {
+          callT0 = Date.now();
           for await (const chunk of streamMessage({
             apiKey,
             model,
@@ -247,6 +258,7 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   let text: string;
   let usage: AskResult["usage"];
   try {
+    callT0 = Date.now();
     const res = await createMessage({
       apiKey,
       model,
