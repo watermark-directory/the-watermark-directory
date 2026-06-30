@@ -31,6 +31,7 @@ python = "3.11"
 uv = "latest"
 node = "24"        # pinned LTS for the Astro web/ build (CI uses the same major)
 git-lfs = "latest"
+pulumi = "latest"  # deploy/ stack — `cd deploy && pulumi up` (see deploy/README.md)
 
 [env]
 # Keep uv's managed virtualenv in-project so mise and uv agree on the interpreter.
