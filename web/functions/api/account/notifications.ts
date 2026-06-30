@@ -41,13 +41,23 @@ export const onRequestPatch = async ({ request, env }: RequestContext): Promise<
 
   const body = await parseJsonBody(request);
   if (!body.ok) return body.response;
+  if (!body.value || typeof body.value !== "object" || Array.isArray(body.value)) {
+    return json(400, { error: "body must be an object" });
+  }
 
   const patch = body.value as Record<string, unknown>;
 
-  // Validate sites (array of strings; values are not enumerated — new slugs can be added freely)
+  // Validate sites: array of slug-formatted strings (^[a-z0-9][a-z0-9-]*$).
+  // Full registry validation would require coupling to Astro-land; format validation
+  // rejects garbage while allowing any valid slug regardless of registry state.
   if (patch["sites"] !== undefined) {
-    if (!Array.isArray(patch["sites"]) || !patch["sites"].every((s) => typeof s === "string")) {
+    if (!Array.isArray(patch["sites"])) {
       return json(400, { error: "sites must be an array of strings" });
+    }
+    const slugRe = /^[a-z0-9][a-z0-9-]*$/;
+    const invalid = (patch["sites"] as unknown[]).filter((s) => typeof s !== "string" || !slugRe.test(s));
+    if (invalid.length > 0) {
+      return json(400, { error: `invalid site slugs: ${invalid.join(", ")}` });
     }
   }
 
