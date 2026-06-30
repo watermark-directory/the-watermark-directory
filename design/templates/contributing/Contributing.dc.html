@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Contributing" description="Donations, code contributions, and research submissions — the full contributing page for Watermark." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>
+  html, body { margin: 0; }
+  body { background: var(--bone-page); color: var(--ink); font-family: var(--font-sans); }
+  a:focus-visible { outline: 2px solid var(--forest); outline-offset: 2px; }
+</style>
+</helmet>
+
+<!-- ===== INK BAR (proper network chrome) ===== -->
+<header style="position:sticky;top:0;z-index:100;height:56px;background:var(--ink);display:flex;align-items:center;padding:0 16px;gap:13px;box-sizing:border-box;">
+
+  <!-- Wordmark -->
+  <a href="#" style="display:flex;align-items:center;text-decoration:none;font-family:var(--font-sans);font-weight:800;font-size:16px;letter-spacing:-0.2px;color:#f5f2ea;flex-shrink:0;">Watermark<span style="color:#7fb89a;">.</span></a>
+
+  <!-- Slash -->
+  <span style="color:#566159;font-size:15px;flex-shrink:0;">/</span>
+
+  <!-- All sites chip -->
+  <span style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.26);padding:6px 10px;cursor:pointer;flex-shrink:0;">
+    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#bcd2c4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="6" rx="1"/><rect x="3.5" y="13.5" width="17" height="6" rx="1"/></svg>
+    <span style="color:#f5f2ea;font-size:13.5px;font-weight:700;font-family:var(--font-sans);">All sites</span>
+    <span style="color:#9aa890;font-size:9px;">▾</span>
+  </span>
+
+  <!-- Vertical divider -->
+  <span style="width:1px;height:22px;background:rgba(255,255,255,0.2);flex-shrink:0;"></span>
+
+  <!-- Nav tabs -->
+  <nav style="display:flex;align-items:center;gap:1px;height:56px;">
+    <a href="#" style="display:flex;align-items:center;height:100%;padding:0 13px;color:#bcd2c4;font-size:14px;font-weight:400;font-family:var(--font-sans);text-decoration:none;box-shadow:none;white-space:nowrap;">Directory</a>
+    <a href="#" style="display:flex;align-items:center;height:100%;padding:0 13px;color:#bcd2c4;font-size:14px;font-weight:400;font-family:var(--font-sans);text-decoration:none;box-shadow:none;white-space:nowrap;">Research</a>
+    <a href="#" style="display:flex;align-items:center;height:100%;padding:0 13px;color:#f5f2ea;font-size:14px;font-weight:600;font-family:var(--font-sans);text-decoration:none;box-shadow:inset 0 -3px 0 #f5f2ea;white-space:nowrap;">About <span style="font-size:9px;color:#9aa890;margin-left:5px;">▾</span></a>
+  </nav>
+
+  <!-- Right cluster -->
+  <div style="margin-left:auto;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+
+    <!-- Docs · Wiki -->
+    <div style="display:flex;align-items:center;gap:1px;">
+      <span style="color:#bcd2c4;font-size:14px;font-family:var(--font-sans);padding:0 11px;cursor:pointer;">Docs</span>
+      <span style="color:#bcd2c4;font-size:14px;font-family:var(--font-sans);padding:0 11px;cursor:pointer;">Wiki</span>
+    </div>
+
+    <!-- Divider -->
+    <span style="width:1px;height:22px;background:rgba(255,255,255,0.2);flex-shrink:0;"></span>
+
+    <!-- Submit chip -->
+    <span style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.26);padding:6px 10px;cursor:pointer;">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#f5f2ea" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <span style="color:#f5f2ea;font-size:13px;font-weight:600;font-family:var(--font-sans);">Submit</span>
+    </span>
+
+    <!-- Ask chip -->
+    <span style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.26);padding:6px 10px;cursor:pointer;">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#f5f2ea" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5 A2.2 2.2 0 0 1 6.2 4.3 H17.8 A2.2 2.2 0 0 1 20 6.5 V13 A2.2 2.2 0 0 1 17.8 15.2 H9.5 L5.5 18.7 V15.2 A2.2 2.2 0 0 1 4 13 Z"/></svg>
+      <span style="color:#f5f2ea;font-size:13px;font-weight:600;font-family:var(--font-sans);">Ask</span>
+    </span>
+
+    <!-- Search bar -->
+    <span style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.2);padding:6px 10px;width:150px;box-sizing:border-box;cursor:text;">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#bcd2c4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><line x1="16" y1="16" x2="21" y2="21"/></svg>
+      <span style="color:#bcd2c4;font-size:13px;font-family:var(--font-sans);flex:1;">Search…</span>
+      <span style="color:#9aa890;font-size:11px;font-family:var(--font-mono);border:1px solid rgba(255,255,255,0.25);padding:0 5px;flex-shrink:0;">⌘K</span>
+    </span>
+
+  </div>
+</header>
+
+<!-- ===== PAGE BODY ===== -->
+<main style="max-width:860px;margin:0 auto;padding:72px 40px 120px;">
+
+  <!-- HERO -->
+  <section style="margin-bottom:72px;">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;">
+      <span style="display:inline-block;width:28px;height:3px;background:var(--forest);flex-shrink:0;"></span>
+      <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink-muted);">Contributing to Watermark</span>
+    </div>
+    <h1 style="margin:0 0 18px;font-size:48px;font-weight:800;letter-spacing:-1.6px;line-height:1.03;color:var(--ink);text-wrap:balance;">Help build the record<span style="color:var(--forest-bright);">.</span></h1>
+    <p style="margin:0 0 36px;font-size:18px;line-height:1.6;color:var(--ink-prose);max-width:660px;text-wrap:pretty;">Watermark is built in the open, by people who want the record to exist. Three ways in: keep it funded, keep it running, or bring what you know.</p>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <a href="#donate" style="display:inline-flex;align-items:center;gap:8px;background:var(--forest);color:var(--bone-surface);border:1.5px solid var(--forest);padding:13px 22px;font-size:14px;font-weight:700;text-decoration:none;letter-spacing:0.2px;">Donate →</a>
+      <a href="#code" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--ink);border:1.5px solid var(--ink);padding:13px 22px;font-size:14px;font-weight:700;text-decoration:none;letter-spacing:0.2px;">View the repo →</a>
+      <a href="#research" style="display:inline-flex;align-items:center;padding:13px 0;font-size:14px;font-weight:700;text-decoration:none;color:var(--forest);letter-spacing:0.2px;">Submit a lead →</a>
+    </div>
+  </section>
+
+  <div style="height:1px;background:var(--line-hair);margin-bottom:72px;"></div>
+
+  <!-- ===== DONATE ===== -->
+  <sc-if value="{{ showDonate }}" hint-placeholder-val="{{ true }}">
+  <section id="donate" style="margin-bottom:88px;">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:36px;">
+      <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);font-weight:600;">Donations</span>
+      <span style="flex:1;height:1px;background:var(--line-hair);"></span>
+    </div>
+    <h2 style="margin:0 0 14px;font-size:30px;font-weight:800;letter-spacing:-0.7px;line-height:1.1;color:var(--ink);">Keep the record open.</h2>
+    <p style="margin:0 0 40px;font-size:16px;line-height:1.65;color:var(--ink-prose);max-width:640px;text-wrap:pretty;">Watermark is free to read, built to stay that way. Hosting, FOIA requests, and field research cost real money. Recurring support keeps the record funded and independent — no paywalls, no sponsored content, no data sales.</p>
+
+    <!-- Tier cards -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;">
+
+      <!-- Follower -->
+      <div style="background:var(--bone-surface);border:1px solid var(--line-hair);border-top:3px solid var(--forest-line);padding:26px 22px;display:flex;flex-direction:column;gap:14px;">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink-muted);">Follower</div>
+        <div style="font-family:var(--font-mono);font-size:34px;font-weight:600;letter-spacing:-1px;color:var(--ink);line-height:1;">$5<span style="font-size:15px;font-weight:400;color:var(--ink-faint);letter-spacing:0;">/mo</span></div>
+        <p style="margin:0;font-size:14px;line-height:1.6;color:var(--ink-prose);flex:1;">Keeps the lights on. Covers bandwidth and a share of the document-hosting costs.</p>
+        <a href="#" style="display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--ink);border:1.5px solid var(--line-2);padding:11px 0;font-size:13px;font-weight:700;text-decoration:none;letter-spacing:0.2px;transition:border-color 0.15s;">Start →</a>
+      </div>
+
+      <!-- Contributor — highlighted -->
+      <div style="background:var(--bone-surface);border:1.5px solid var(--forest);border-top:3px solid var(--forest);padding:26px 22px;display:flex;flex-direction:column;gap:14px;position:relative;">
+        <div style="position:absolute;top:16px;right:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ev-verified-fg);background:var(--ev-verified-bg);border:1px solid var(--ev-verified-border);padding:3px 8px;">Most common</div>
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--forest);">Contributor</div>
+        <div style="font-family:var(--font-mono);font-size:34px;font-weight:600;letter-spacing:-1px;color:var(--ink);line-height:1;">$20<span style="font-size:15px;font-weight:400;color:var(--ink-faint);letter-spacing:0;">/mo</span></div>
+        <p style="margin:0;font-size:14px;line-height:1.6;color:var(--ink-prose);flex:1;">Funds a document request. One FOIA filing, fully processed and published to the record.</p>
+        <a href="#" style="display:inline-flex;align-items:center;justify-content:center;background:var(--forest);color:var(--bone-surface);border:1.5px solid var(--forest);padding:11px 0;font-size:13px;font-weight:700;text-decoration:none;letter-spacing:0.2px;">Start →</a>
+      </div>
+
+      <!-- Sustainer -->
+      <div style="background:var(--bone-surface);border:1px solid var(--line-hair);border-top:3px solid var(--forest-line);padding:26px 22px;display:flex;flex-direction:column;gap:14px;">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink-muted);">Sustainer</div>
+        <div style="font-family:var(--font-mono);font-size:34px;font-weight:600;letter-spacing:-1px;color:var(--ink);line-height:1;">$50<span style="font-size:15px;font-weight:400;color:var(--ink-faint);letter-spacing:0;">/mo</span></div>
+        <p style="margin:0;font-size:14px;line-height:1.6;color:var(--ink-prose);flex:1;">Covers a field day. Travel, time, and camera to get a site on the public record.</p>
+        <a href="#" style="display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--ink);border:1.5px solid var(--line-2);padding:11px 0;font-size:13px;font-weight:700;text-decoration:none;letter-spacing:0.2px;">Start →</a>
+      </div>
+
+    </div>
+
+    <!-- One-time strip -->
+    <div style="background:var(--bone-sunk);border:1px solid var(--line-hair);padding:16px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+      <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-muted);flex-shrink:0;">One-time</span>
+      <span style="width:1px;height:18px;background:var(--line-hair);flex-shrink:0;"></span>
+      <span style="font-size:14px;color:var(--ink-prose);line-height:1.5;">Prefer a single contribution? Any amount keeps the filing cabinet stocked. <a href="#" style="color:var(--forest);text-decoration:none;font-weight:600;">Donate once →</a></span>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ===== CODE ===== -->
+  <sc-if value="{{ showCode }}" hint-placeholder-val="{{ true }}">
+  <section id="code" style="margin-bottom:88px;">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:36px;">
+      <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);font-weight:600;">Code</span>
+      <span style="flex:1;height:1px;background:var(--line-hair);"></span>
+    </div>
+    <h2 style="margin:0 0 14px;font-size:30px;font-weight:800;letter-spacing:-0.7px;line-height:1.1;color:var(--ink);">The platform is open source.</h2>
+    <p style="margin:0 0 36px;font-size:16px;line-height:1.65;color:var(--ink-prose);max-width:640px;text-wrap:pretty;">Every line of Watermark — the record parser, the evidence viewer, the source-linking engine — is public and improvable. Bugs, gaps, and open feature work are tracked in the repo. No contributor agreement required for small fixes.</p>
+
+    <!-- Repo card -->
+    <div style="background:var(--bone-surface);border:1px solid var(--line-hair);border-left:3px solid var(--ink);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:36px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--ink)" stroke="none" aria-hidden="true"><path d="M12 .8C5.6.8.5 6 .5 12.3c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.7.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.7.1 3 .8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 6 18.4.8 12 .8Z"/></svg>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-0.2px;">{{ repoPath }}</div>
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);margin-top:3px;">Public · MIT license</div>
+        </div>
+      </div>
+      <a href="#" style="display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--ink);border:1.5px solid var(--ink);padding:9px 16px;font-family:var(--font-mono);font-size:12px;font-weight:600;text-decoration:none;letter-spacing:0.4px;white-space:nowrap;flex-shrink:0;">View repo ↗</a>
+    </div>
+
+    <!-- Issue labels -->
+    <div style="margin-bottom:36px;">
+      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-muted);margin-bottom:14px;">Issue labels · good places to start</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--ev-gap-fg);background:var(--ev-gap-bg);border:1px solid var(--ev-gap-border);padding:4px 11px;letter-spacing:0.3px;">bug</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--ev-inference-fg);background:var(--ev-inference-bg);border:1px solid var(--ev-inference-border);padding:4px 11px;letter-spacing:0.3px;">enhancement</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--ev-verified-fg);background:var(--ev-verified-bg);border:1px solid var(--ev-verified-border);padding:4px 11px;letter-spacing:0.3px;">good first issue</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--ev-open-fg);background:var(--ev-open-bg);border:1px solid var(--ev-open-border);padding:4px 11px;letter-spacing:0.3px;">documentation</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--ev-key-fg);background:var(--ev-key-bg);border:1px solid var(--ev-key-border);padding:4px 11px;letter-spacing:0.3px;">data-pipeline</span>
+      </div>
+    </div>
+
+    <!-- Steps -->
+    <div>
+      <div style="display:flex;gap:20px;padding:20px 0;border-top:1px solid var(--line-faint);">
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--ink-ghost);width:24px;flex-shrink:0;padding-top:1px;line-height:1.5;">01</div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:5px;">Fork and clone the repo.</div>
+          <div style="font-size:14px;line-height:1.6;color:var(--ink-prose);">The main branch is always deployable. Development happens in feature branches off <code style="font-family:var(--font-mono);font-size:13px;background:var(--bone-band);padding:1px 6px;border:1px solid var(--line-faint);">dev</code>.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;padding:20px 0;border-top:1px solid var(--line-faint);">
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--ink-ghost);width:24px;flex-shrink:0;padding-top:1px;line-height:1.5;">02</div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:5px;">Pick an open issue.</div>
+          <div style="font-size:14px;line-height:1.6;color:var(--ink-prose);">Comment to claim it. Issues marked <span style="font-family:var(--font-mono);font-size:11px;color:var(--ev-verified-fg);background:var(--ev-verified-bg);border:1px solid var(--ev-verified-border);padding:2px 8px;">good first issue</span> are self-contained and scoped, with no dependencies on the broader record layer.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;padding:20px 0;border-top:1px solid var(--line-faint);">
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--ink-ghost);width:24px;flex-shrink:0;padding-top:1px;line-height:1.5;">03</div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:5px;">Open a pull request.</div>
+          <div style="font-size:14px;line-height:1.6;color:var(--ink-prose);">Reference the issue number. The review team responds within a week; larger changes get scoped before you write code.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;padding:20px 0;border-top:1px solid var(--line-faint);border-bottom:1px solid var(--line-faint);">
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--ink-ghost);width:24px;flex-shrink:0;padding-top:1px;line-height:1.5;">04</div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:5px;">Read CONTRIBUTING.md first.</div>
+          <div style="font-size:14px;line-height:1.6;color:var(--ink-prose);">Coding conventions, test-coverage expectations, and the evidence-grammar rules that govern anything touching the record layer. <a href="#" style="color:var(--forest);text-decoration:none;font-weight:600;">Open CONTRIBUTING.md ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ===== RESEARCH ===== -->
+  <sc-if value="{{ showResearch }}" hint-placeholder-val="{{ true }}">
+  <section id="research" style="margin-bottom:80px;">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:36px;">
+      <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);font-weight:600;">Research</span>
+      <span style="flex:1;height:1px;background:var(--line-hair);"></span>
+    </div>
+    <h2 style="margin:0 0 14px;font-size:30px;font-weight:800;letter-spacing:-0.7px;line-height:1.1;color:var(--ink);">Know something we don't?</h2>
+    <p style="margin:0 0 40px;font-size:16px;line-height:1.65;color:var(--ink-prose);max-width:640px;text-wrap:pretty;">The record grows from people closer to the ground. Leads come in as tips, document finds, or first-hand knowledge. We treat every submission as a lead, not a verdict — it goes into the open case file, labeled as such, until corroborated.</p>
+
+    <!-- Contribution types -->
+    <div style="display:flex;flex-direction:column;border:1px solid var(--line-hair);margin-bottom:28px;">
+
+      <div style="background:var(--bone-surface);border-left:3px solid var(--forest);padding:22px 24px;display:flex;align-items:flex-start;gap:24px;">
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;flex-wrap:wrap;">
+            <span style="font-size:15px;font-weight:700;color:var(--ink);">Submit a tip</span>
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ev-open-fg);background:var(--ev-open-bg);border:1px solid var(--ev-open-border);padding:2px 8px;">open</span>
+          </div>
+          <div style="font-size:14px;line-height:1.6;color:var(--ink-prose);">Something you noticed, heard, or saw near a site. A truck count, a utility pull, a conversation. No documentation required to start.</div>
+        </div>
+        <a href="#" style="display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--ink);border:1.5px solid var(--ink);padding:9px 18px;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;">Submit →</a>
+      </div>
+
+      <div style="background:var(--bone-surface);border-left:3px solid var(--forest);border-top:1px solid var(--line-faint);padding:22px 24px;display:flex;align-items:flex-start;gap:24px;">
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;flex-wrap:wrap;">
+            <span style="font-size:15px;font-weight:700;color:var(--ink);">Share a document</span>
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ev-verified-fg);background:var(--ev-verified-bg);border:1px solid var(--ev-verified-border);padding:2px 8px;">verified</span>
+          </div>
+          <div style="font-size:14px;line-height:1.6;color:var(--ink-prose);">A permit, deed, filing, or record you found through a request or a public counter. Upload it directly — we'll process, cite, and publish it with full provenance.</div>
+        </div>
+        <a href="#" style="display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--ink);border:1.5px solid var(--ink);padding:9px 18px;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;">Upload →</a>
+      </div>
+
+      <div style="background:var(--bone-surface);border-left:3px solid var(--ev-gap-fg);border-top:1px solid var(--line-faint);padding:22px 24px;display:flex;align-items:flex-start;gap:24px;">
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;flex-wrap:wrap;">
+            <span style="font-size:15px;font-weight:700;color:var(--ink);">Request a correction</span>
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ev-gap-fg);background:var(--ev-gap-bg);border:1px solid var(--ev-gap-border);padding:2px 8px;">scope gap</span>
+          </div>
+          <div style="font-size:14px;line-height:1.6;color:var(--ink-prose);">Something in the record that's wrong, outdated, or missing a source. Point us to the discrepancy — corrections are published with a provenance note.</div>
+        </div>
+        <a href="#" style="display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--ink);border:1.5px solid var(--ink);padding:9px 18px;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;">Flag →</a>
+      </div>
+
+    </div>
+
+    <!-- Provenance note -->
+    <div style="background:var(--bone-sunk);border:1px solid var(--line-hair);padding:20px 24px;">
+      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-muted);margin-bottom:10px;">How we handle submissions</div>
+      <p style="margin:0;font-size:14px;line-height:1.65;color:var(--ink-prose);max-width:680px;text-wrap:pretty;">Every submission enters the open case file, labeled as a lead until a second source corroborates it. Sources are never named without consent. Submissions may be published in whole or in part, with provenance noted. We do not share contact information.</p>
+    </div>
+  </section>
+  </sc-if>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer style="background:var(--bone-sunk);border-top:1px solid var(--line-hair);padding:32px 40px;">
+  <div style="max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+    <span style="font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);">watermark<span style="color:var(--forest-bright);">.</span>directory · Contributing</span>
+    <span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-ghost);letter-spacing:0.4px;">Provenance-first · Open record · Open source</span>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;repoPath&quot;:     { &quot;editor&quot;: &quot;text&quot;,    &quot;default&quot;: &quot;watermark-project / watermark&quot;, &quot;section&quot;: &quot;Configuration&quot; },
+  &quot;showDonate&quot;:   { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true,  &quot;section&quot;: &quot;Sections&quot; },
+  &quot;showCode&quot;:     { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true,  &quot;section&quot;: &quot;Sections&quot; },
+  &quot;showResearch&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true,  &quot;section&quot;: &quot;Sections&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      repoPath:     this.props.repoPath    ?? 'watermark-project / watermark',
+      showDonate:   this.props.showDonate  ?? true,
+      showCode:     this.props.showCode    ?? true,
+      showResearch: this.props.showResearch ?? true,
+    };
+  }
+}
+</script>
+</body>
+</html>

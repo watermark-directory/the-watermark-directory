@@ -18,7 +18,8 @@
     "components/hydrology/**",
     "ui_kits/directory/**",
     "ui_kits/site/**",
-    "guidelines/**"
+    "guidelines/**",
+    "templates/contributing/**"
   ],
   "pending": [
     "assets/brand/**"
