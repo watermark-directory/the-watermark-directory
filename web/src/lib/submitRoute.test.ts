@@ -400,3 +400,150 @@ describe("/api/submit — auth gate (AUTH_ENABLED=true)", () => {
     expect(res.status).toBe(201);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Notify-on-submit tests (#244)
+// ---------------------------------------------------------------------------
+
+describe("/api/submit — NOTIFY_GITHUB_USERS (#244)", () => {
+  it("includes assignees in the issue create body when NOTIFY_GITHUB_USERS is set", async () => {
+    const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes()]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission()),
+      env: submitEnv({ NOTIFY_GITHUB_USERS: "goedelsoup" }),
+    } as never);
+    expect(res.status).toBe(201);
+    const issuePost = fetchStub.calls.find((c) => c.method === "POST" && c.url.endsWith("/issues"));
+    const body = JSON.parse(issuePost?.body ?? "{}") as { assignees?: string[] };
+    expect(body.assignees).toEqual(["goedelsoup"]);
+  });
+
+  it("supports multiple assignees (comma-separated)", async () => {
+    const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes()]);
+    vi.stubGlobal("fetch", fetchStub);
+    await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission()),
+      env: submitEnv({ NOTIFY_GITHUB_USERS: "alice, bob, carol" }),
+    } as never);
+    const issuePost = fetchStub.calls.find((c) => c.method === "POST" && c.url.endsWith("/issues"));
+    const body = JSON.parse(issuePost?.body ?? "{}") as { assignees?: string[] };
+    expect(body.assignees).toEqual(["alice", "bob", "carol"]);
+  });
+
+  it("does not set assignees when NOTIFY_GITHUB_USERS is absent", async () => {
+    const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes()]);
+    vi.stubGlobal("fetch", fetchStub);
+    await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission()),
+      env: submitEnv(), // no NOTIFY_GITHUB_USERS
+    } as never);
+    const issuePost = fetchStub.calls.find((c) => c.method === "POST" && c.url.endsWith("/issues"));
+    const body = JSON.parse(issuePost?.body ?? "{}") as { assignees?: string[] };
+    // assignees should be absent or empty (github.ts only sets it when non-empty)
+    expect(body.assignees == null || body.assignees.length === 0).toBe(true);
+  });
+
+  it("does not assign on deduped submissions (no new issue opened)", async () => {
+    const submission = validSubmission();
+    const hash = await sha256Hex(`\n${String(submission.body).trim().toLowerCase()}`);
+    const marker = `<!-- submission: ${hash} -->`;
+    const existing = [{ html_url: ISSUE_URL, body: marker }];
+    const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes(existing)]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, submission),
+      env: submitEnv({ NOTIFY_GITHUB_USERS: "goedelsoup" }),
+    } as never);
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { deduped?: boolean };
+    expect(body.deduped).toBe(true);
+    // No POST /issues call — dedupe returned early
+    const issuePosts = fetchStub.calls.filter((c) => c.method === "POST" && c.url.endsWith("/issues"));
+    expect(issuePosts.length).toBe(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// File attachment tests (#243)
+// ---------------------------------------------------------------------------
+
+describe("/api/submit — attachment_keys (#243)", () => {
+  // Minimal fake R2 for the submit endpoint's head() validation calls.
+  function fakeAttachR2(storedKeys: string[] = []) {
+    const stored = new Set(storedKeys);
+    return {
+      put: async () => undefined,
+      head: async (key: string) => (stored.has(key) ? { size: 1234 } : null),
+    };
+  }
+
+  it("rejects attachment_keys with invalid prefix", async () => {
+    vi.stubGlobal("fetch", routingFetch([]));
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission({ attachment_keys: ["evil/path/file.pdf"] })),
+      env: submitEnv(),
+    } as never);
+    expect(res.status).toBe(400);
+  });
+
+  it("rejects more than 3 attachment_keys", async () => {
+    vi.stubGlobal("fetch", routingFetch([]));
+    const res = await onRequestPost({
+      request: postJson(
+        SUBMIT_URL,
+        validSubmission({
+          attachment_keys: [
+            "submissions/2026-06-29/a/1.pdf",
+            "submissions/2026-06-29/b/2.pdf",
+            "submissions/2026-06-29/c/3.pdf",
+            "submissions/2026-06-29/d/4.pdf",
+          ],
+        }),
+      ),
+      env: submitEnv(),
+    } as never);
+    expect(res.status).toBe(400);
+  });
+
+  it("includes verified attachment keys in the issue body", async () => {
+    const key = "submissions/2026-06-29/abc/report.pdf";
+    const r2 = fakeAttachR2([key]);
+    const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes()]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission({ attachment_keys: [key] })),
+      env: submitEnv({ SUBMISSION_ATTACHMENTS: r2 }),
+    } as never);
+    expect(res.status).toBe(201);
+    const issuePost = fetchStub.calls.find((c) => c.method === "POST" && c.url.endsWith("/issues"));
+    expect(issuePost?.body).toContain(key);
+    expect(issuePost?.body).toContain("Attachments");
+  });
+
+  it("silently drops attachment keys that don't exist in R2", async () => {
+    const key = "submissions/2026-06-29/ghost/missing.pdf";
+    const r2 = fakeAttachR2([]); // key not stored
+    const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes()]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission({ attachment_keys: [key] })),
+      env: submitEnv({ SUBMISSION_ATTACHMENTS: r2 }),
+    } as never);
+    // Submission should still succeed
+    expect(res.status).toBe(201);
+    const issuePost = fetchStub.calls.find((c) => c.method === "POST" && c.url.endsWith("/issues"));
+    expect(issuePost?.body).not.toContain("Attachments");
+  });
+
+  it("files successfully when SUBMISSION_ATTACHMENTS is absent (attachment_keys silently dropped)", async () => {
+    const key = "submissions/2026-06-29/abc/file.pdf";
+    const fetchStub = routingFetch([turnstileRoute(true), ...githubRoutes()]);
+    vi.stubGlobal("fetch", fetchStub);
+    const res = await onRequestPost({
+      request: postJson(SUBMIT_URL, validSubmission({ attachment_keys: [key] })),
+      env: submitEnv(), // no SUBMISSION_ATTACHMENTS
+    } as never);
+    expect(res.status).toBe(201);
+  });
+});

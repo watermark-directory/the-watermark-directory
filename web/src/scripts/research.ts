@@ -39,7 +39,7 @@ type EvidenceKind = "verified" | "inference" | "open" | "gap" | "key" | "filenam
 // ─── DOM handles ─────────────────────────────────────────────────────────────
 
 const page = document.querySelector<HTMLElement>(".mcp-page");
-const endpoint = page?.dataset["endpoint"] ?? "/api/mcp";
+const endpoint = page?.dataset.endpoint ?? "/api/mcp";
 
 const form = document.getElementById("mcp-form") as HTMLFormElement | null;
 const fieldsEl = document.getElementById("mcp-fields");
@@ -55,8 +55,8 @@ const rawPre = document.getElementById("mcp-raw-pre");
 const metaEl = document.getElementById("mcp-response-meta");
 
 const formWrap = document.querySelector<HTMLElement>(".param-form-wrap");
-const schemas: Record<string, ToolSchema> = formWrap?.dataset["schemas"]
-  ? (JSON.parse(formWrap.dataset["schemas"]) as Record<string, ToolSchema>)
+const schemas: Record<string, ToolSchema> = formWrap?.dataset.schemas
+  ? (JSON.parse(formWrap.dataset.schemas) as Record<string, ToolSchema>)
   : {};
 
 // ─── Session state ────────────────────────────────────────────────────────────
@@ -70,7 +70,7 @@ let rpcId = 1;
 
 for (const row of document.querySelectorAll<HTMLButtonElement>(".tool-row")) {
   row.addEventListener("click", () => {
-    const tool = row.dataset["tool"];
+    const tool = row.dataset.tool;
     if (!tool || tool === selectedTool) return;
     selectTool(tool);
   });
@@ -81,7 +81,7 @@ function selectTool(tool: string): void {
 
   // Update picker active state
   for (const row of document.querySelectorAll<HTMLButtonElement>(".tool-row")) {
-    const active = row.dataset["tool"] === tool;
+    const active = row.dataset.tool === tool;
     row.setAttribute("aria-selected", active ? "true" : "false");
     row.classList.toggle("tool-row--active", active);
   }
@@ -142,7 +142,7 @@ function buildFieldGroup(f: ToolSchema["fields"][number], value: string): HTMLDi
   input.className = "field-input";
   input.type = f.type ?? "text";
   input.name = f.name;
-  input.dataset["field"] = f.name;
+  input.dataset.field = f.name;
   if (f.placeholder) input.placeholder = f.placeholder;
   if (f.required) input.required = true;
   if (value) input.value = value;
@@ -222,7 +222,7 @@ form?.addEventListener("submit", async (e) => {
   // Collect params from current fields
   const params: Record<string, unknown> = {};
   for (const input of form.querySelectorAll<HTMLInputElement>("[data-field]")) {
-    const key = input.dataset["field"];
+    const key = input.dataset.field;
     if (key && input.value.trim()) {
       params[key] = input.type === "number" ? Number(input.value) : input.value.trim();
     }
@@ -407,11 +407,11 @@ function esc(s: string): string {
 
 for (const tab of document.querySelectorAll<HTMLButtonElement>(".rv-tab")) {
   tab.addEventListener("click", () => {
-    const name = tab.dataset["tab"];
+    const name = tab.dataset.tab;
     if (!name) return;
 
     for (const t of document.querySelectorAll<HTMLButtonElement>(".rv-tab")) {
-      const active = t.dataset["tab"] === name;
+      const active = t.dataset.tab === name;
       t.classList.toggle("rv-tab--active", active);
       t.setAttribute("aria-selected", active ? "true" : "false");
     }

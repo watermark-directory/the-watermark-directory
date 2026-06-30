@@ -12,6 +12,8 @@ export interface IssueDraft {
   title: string;
   body: string;
   labels: string[];
+  /** GitHub logins to assign on issue creation (#244). Empty ⇒ no assignees set. */
+  assignees?: string[];
 }
 
 /** `submission` is the provenance marker (cf. `agent-proposed`); `needs-triage` is inert-until-human. */
@@ -50,7 +52,13 @@ function titleText(s: Submission): string {
   return `${prefix} ${subject}`.slice(0, 120);
 }
 
-export function buildIssue(s: Submission, dedupeHash: string, sub?: string): IssueDraft {
+export function buildIssue(
+  s: Submission,
+  dedupeHash: string,
+  sub?: string,
+  notifyUsers?: string[],
+  attachmentKeys?: string[],
+): IssueDraft {
   const lines: string[] = [];
 
   if (s.target && s.target.ref_kind !== "general") {
@@ -67,6 +75,13 @@ export function buildIssue(s: Submission, dedupeHash: string, sub?: string): Iss
     lines.push("");
     lines.push(`**Cited evidence:** ${s.evidence_url}`);
   }
+  if (attachmentKeys && attachmentKeys.length > 0) {
+    lines.push("");
+    lines.push("**Attachments** _(retrieve via `wrangler r2 object get SUBMISSION_ATTACHMENTS <key>`)_:");
+    for (const key of attachmentKeys) {
+      lines.push(`- \`${inlineSafe(key)}\``);
+    }
+  }
   lines.push("");
   lines.push("---");
   const authAttr = sub ? `authenticated (sub: \`${inlineSafe(sub)}\`); ` : "";
@@ -76,7 +91,8 @@ export function buildIssue(s: Submission, dedupeHash: string, sub?: string): Iss
   );
   lines.push(submissionMarker(dedupeHash));
 
-  return { title: titleText(s), body: lines.join("\n"), labels: SUBMISSION_LABELS };
+  const assignees = notifyUsers && notifyUsers.length > 0 ? notifyUsers.slice(0, 10) : undefined;
+  return { title: titleText(s), body: lines.join("\n"), labels: SUBMISSION_LABELS, assignees };
 }
 
 /** Stable input for the dedupe hash: the target + the normalized body. */

@@ -47,6 +47,11 @@ if (form && statusEl) {
     const contact = String(data.get("contact") || "").trim();
     if (contact) payload.contact = contact;
 
+    // Attachment keys (#243) — pre-uploaded by submitAttach.ts; keys stored on the form
+    // element as a data attribute to survive FormData serialization.
+    const attachKeysRaw = (form as HTMLFormElement & { _attachmentKeys?: string[] })._attachmentKeys;
+    if (attachKeysRaw && attachKeysRaw.length > 0) payload.attachment_keys = attachKeysRaw;
+
     // Record target — read from the live banner (submitRef.ts), so a "cleared"
     // banner means no target is attached.
     const banner = document.getElementById("submit-ref");
@@ -65,7 +70,7 @@ if (form && statusEl) {
 
     const fetchHeaders: Record<string, string> = { "Content-Type": "application/json" };
     const idToken = sessionStorage.getItem("watermark_id_token");
-    if (idToken) fetchHeaders["Authorization"] = `Bearer ${idToken}`;
+    if (idToken) fetchHeaders.Authorization = `Bearer ${idToken}`;
 
     void fetch(endpoint, {
       method: "POST",
@@ -97,3 +102,5 @@ if (form && statusEl) {
       });
   });
 }
+
+export {};

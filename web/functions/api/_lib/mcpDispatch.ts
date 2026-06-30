@@ -50,10 +50,10 @@ function parseRequest(body: unknown): JsonRpcRequest {
     throw new McpError(RPC.INVALID_REQUEST, "Expected a JSON-RPC 2.0 request object");
   }
   const r = body as Record<string, unknown>;
-  if (r["jsonrpc"] !== "2.0") {
+  if (r.jsonrpc !== "2.0") {
     throw new McpError(RPC.INVALID_REQUEST, 'jsonrpc must be "2.0"');
   }
-  if (typeof r["method"] !== "string") {
+  if (typeof r.method !== "string") {
     throw new McpError(RPC.INVALID_REQUEST, "method must be a string");
   }
   return r as unknown as JsonRpcRequest;
@@ -62,7 +62,7 @@ function parseRequest(body: unknown): JsonRpcRequest {
 function handleInitialize(params: unknown): unknown {
   const p = (params ?? {}) as Record<string, unknown>;
   // Client may send its preferred protocol version — negotiate downward if needed
-  const clientVersion = typeof p["protocolVersion"] === "string" ? p["protocolVersion"] : PROTOCOL_VERSION;
+  const clientVersion = typeof p.protocolVersion === "string" ? p.protocolVersion : PROTOCOL_VERSION;
   const negotiated = clientVersion <= PROTOCOL_VERSION ? PROTOCOL_VERSION : PROTOCOL_VERSION;
   return {
     protocolVersion: negotiated,
@@ -80,7 +80,7 @@ function handleToolsList(): unknown {
 
 function handleToolsCall(params: unknown): unknown {
   const p = (params ?? {}) as Record<string, unknown>;
-  const name = p["name"];
+  const name = p.name;
   if (typeof name !== "string") {
     throw new McpError(RPC.INVALID_PARAMS, "params.name must be a string");
   }

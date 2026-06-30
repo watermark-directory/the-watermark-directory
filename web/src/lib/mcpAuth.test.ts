@@ -18,7 +18,7 @@ function fakeKV(seed: Record<string, string> = {}): KVLike {
 
 function bearerRequest(token?: string): Request {
   const headers: Record<string, string> = {};
-  if (token !== undefined) headers["authorization"] = `Bearer ${token}`;
+  if (token !== undefined) headers.authorization = `Bearer ${token}`;
   return new Request("https://example.com/api/mcp", { method: "POST", headers });
 }
 

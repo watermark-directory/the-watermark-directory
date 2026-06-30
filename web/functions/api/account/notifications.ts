@@ -50,23 +50,23 @@ export const onRequestPatch = async ({ request, env }: RequestContext): Promise<
   // Validate sites: array of slug-formatted strings (^[a-z0-9][a-z0-9-]*$).
   // Full registry validation would require coupling to Astro-land; format validation
   // rejects garbage while allowing any valid slug regardless of registry state.
-  if (patch["sites"] !== undefined) {
-    if (!Array.isArray(patch["sites"])) {
+  if (patch.sites !== undefined) {
+    if (!Array.isArray(patch.sites)) {
       return json(400, { error: "sites must be an array of strings" });
     }
     const slugRe = /^[a-z0-9][a-z0-9-]*$/;
-    const invalid = (patch["sites"] as unknown[]).filter((s) => typeof s !== "string" || !slugRe.test(s));
+    const invalid = (patch.sites as unknown[]).filter((s) => typeof s !== "string" || !slugRe.test(s));
     if (invalid.length > 0) {
       return json(400, { error: `invalid site slugs: ${invalid.join(", ")}` });
     }
   }
 
   // Validate categories
-  if (patch["categories"] !== undefined) {
-    if (!Array.isArray(patch["categories"])) {
+  if (patch.categories !== undefined) {
+    if (!Array.isArray(patch.categories)) {
       return json(400, { error: "categories must be an array" });
     }
-    const invalid = (patch["categories"] as unknown[]).filter(
+    const invalid = (patch.categories as unknown[]).filter(
       (c) => !VALID_CATEGORIES.includes(c as NotifCategory),
     );
     if (invalid.length > 0) {
@@ -77,16 +77,15 @@ export const onRequestPatch = async ({ request, env }: RequestContext): Promise<
   }
 
   // Validate frequency
-  if (patch["frequency"] !== undefined && !VALID_FREQUENCIES.includes(patch["frequency"] as NotifFrequency)) {
+  if (patch.frequency !== undefined && !VALID_FREQUENCIES.includes(patch.frequency as NotifFrequency)) {
     return json(400, { error: `frequency must be one of: ${VALID_FREQUENCIES.join(", ")}` });
   }
 
   const prefs = await getPrefs(env.AUTH_PREFS, auth.ctx.sub);
 
-  if (patch["sites"] !== undefined) prefs.notifications.sites = patch["sites"] as string[];
-  if (patch["categories"] !== undefined)
-    prefs.notifications.categories = patch["categories"] as NotifCategory[];
-  if (patch["frequency"] !== undefined) prefs.notifications.frequency = patch["frequency"] as NotifFrequency;
+  if (patch.sites !== undefined) prefs.notifications.sites = patch.sites as string[];
+  if (patch.categories !== undefined) prefs.notifications.categories = patch.categories as NotifCategory[];
+  if (patch.frequency !== undefined) prefs.notifications.frequency = patch.frequency as NotifFrequency;
 
   // Sync email_verified from the live JWT — not user-settable.
   prefs.notifications.email_verified = auth.ctx.emailVerified;
