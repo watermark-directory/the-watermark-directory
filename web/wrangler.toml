@@ -1,6 +1,6 @@
 # Cloudflare Pages config for the Watermark Directory (Epic #56, Phase 1 — host migration).
 #
-# The static Astro build (frontend/dist) and the Pages Functions (frontend/functions/,
+# The static Astro build (web/dist) and the Pages Functions (web/functions/,
 # the submissions endpoint #74) deploy together to one origin. The deploy runs from the
 # Actions workflow (.github/workflows/pages.yml) via Wrangler direct-upload — Cloudflare's
 # own Git build is NOT used, because the content bundle is produced by `watermark export`
@@ -53,8 +53,9 @@ GITHUB_REPO = "the-watermark-directory"
 
 # --- Submissions: notify-on-submit (#244) -----------------------------------------
 # Comma-separated GitHub logins to assign on every new submission issue (not dedupe
-# hits). Assignees receive GitHub's standard notification email. Set in the dashboard:
-#   NOTIFY_GITHUB_USERS = "goedelsoup"
+# hits). Assignees receive GitHub's standard notification email. Written by `pulumi up`
+# from bosc-deploy:notifyGithubUsers (plain text):
+#   pulumi config set bosc-deploy:notifyGithubUsers "goedelsoup"
 # (Comma-separate for multiple: "goedelsoup,other-maintainer")
 
 # --- Ask the corpus (/api/ask, Epic #207) -----------------------------------------
