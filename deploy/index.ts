@@ -53,6 +53,7 @@ const config = new pulumi.Config();
 // features.yaml — committed feature kill switches applied by `pulumi up`
 // ---------------------------------------------------------------------------
 interface Features {
+    preLaunch: boolean;
     submissions: boolean;
     ask: boolean;
     docs: boolean;
@@ -512,6 +513,7 @@ void notifyDigestPermission;
 type PageEnvVar = { value: pulumi.Input<string>; type: pulumi.Input<string> };
 const pageEnvVars: Record<string, PageEnvVar> = {
     // Feature toggles (features.yaml)
+    PRE_LAUNCH_ENABLED:  { value: features.preLaunch   ? "true" : "false", type: "plain_text" },
     SUBMISSIONS_ENABLED: { value: features.submissions ? "true" : "false", type: "plain_text" },
     ASK_ENABLED:         { value: features.ask         ? "true" : "false", type: "plain_text" },
     DOCS_ENABLED:        { value: features.docs        ? "true" : "false", type: "plain_text" },
