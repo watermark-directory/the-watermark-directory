@@ -145,6 +145,25 @@ GITHUB_REPO = "the-watermark-directory"
 # binding = "AUTH_PREFS"
 # id = "<namespace-id>"
 
+# --- Browser RUM (#961) ----------------------------------------------------------
+# Two kill switches must both be on for events to reach Honeycomb:
+#   RUM_ENABLED (dashboard var)          — controls the /api/rum beacon server-side
+#   PUBLIC_RUM_ENABLED (Pages build env) — controls script injection at build time
+# Flipping either off stops collection without a code deploy.
+#
+# /api/rum always returns 204; upstream errors and rate-limit blocks are absorbed —
+# the browser must not retry on a non-2xx.
+#
+# Rate limiting (per-IP, 60 events / 60 s). Create the KV once, then uncomment:
+#   npx wrangler kv namespace create RUM_RATE_LIMIT
+# [[kv_namespaces]]
+# binding = "RUM_RATE_LIMIT"
+# id = "<namespace-id>"
+#
+# HONEYCOMB_API_KEY is shared with the backend OTel setup (#959); no new credential.
+# Dataset defaults to "watermark-browser"; override in the dashboard if needed:
+#   RUM_HONEYCOMB_DATASET = "watermark-browser"
+
 # --- Source documents object store (/api/doc, Epic #274) --------------------------
 # R2 bucket holding the corpus bytes that the /api/doc Pages Function (#278) streams.
 # Populated by `watermark objectstore sync` (#279). The DOCS_ENABLED kill switch lives in the

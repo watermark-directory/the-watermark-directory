@@ -2,6 +2,7 @@
 import Header from "../components/Header.astro";
 import Icon from "../components/Icon.astro";
 import Logo from "../components/Logo.astro";
+import RumScript from "../components/RumScript.astro";
 import SEO from "../components/SEO.astro";
 import SectionToc from "../components/SectionToc.astro";
 import { navLinks, type SectionId, type TocEntry } from "../lib/nav";
@@ -103,5 +104,6 @@ const showRail = rail !== false && toc.length > 0;
       import "../scripts/search.ts";
       import "../scripts/toc.ts";
     </script>
+    <RumScript />
   </body>
 </html>

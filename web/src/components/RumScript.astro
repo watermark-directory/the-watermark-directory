@@ -1,0 +1,9 @@
+---
+// RUM: Core Web Vitals + JS errors → /api/rum beacon (Epic #961).
+// Ships dark: PUBLIC_RUM_ENABLED (build-time) AND RUM_ENABLED (Cloudflare dashboard)
+// must both be "true" for events to reach Honeycomb. Either off → no-op.
+---
+
+<script>
+  import "../scripts/rum.ts";
+</script>

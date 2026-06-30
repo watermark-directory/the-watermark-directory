@@ -20,6 +20,12 @@ interface ImportMetaEnv {
    * Cognito app client ID (public). Identifies the app client in PKCE authorize requests.
    */
   readonly PUBLIC_COGNITO_CLIENT_ID?: string;
+  /**
+   * Browser RUM kill switch (build-time). Set to "true" in the Pages build env to inject
+   * the web-vitals beacon script. Also requires RUM_ENABLED="true" in the dashboard; the
+   * /api/rum beacon no-ops when that flag is absent. See docs/rum.md.
+   */
+  readonly PUBLIC_RUM_ENABLED?: string;
 }
 
 interface ImportMeta {
