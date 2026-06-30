@@ -45,10 +45,15 @@ export async function handleSearchCorpus(
 
   let units = await loadAskIndex(requestUrl);
 
-  // Site filter: units without a site field are not excluded (legacy index compatibility).
+  // Site filter: if any units carry a site tag (i.e. this is a tagged index build),
+  // filter strictly — `!u.site` would silently leak cross-site results in a mixed
+  // index. If NO units have a site tag (legacy index), skip filtering entirely.
   const siteFilter = typeof p.site === "string" && p.site ? p.site : null;
   if (siteFilter) {
-    units = units.filter((u) => !u.site || u.site === siteFilter);
+    const hasTaggedUnits = units.some((u) => typeof u.site === "string" && u.site.length > 0);
+    if (hasTaggedUnits) {
+      units = units.filter((u) => u.site === siteFilter);
+    }
   }
 
   // Collection filter maps to the `feed` field (e.g. "timeline", "entities", "records").
