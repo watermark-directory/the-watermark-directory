@@ -15,6 +15,8 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
+import opentelemetry.trace
+
 from watermark.config import Settings, get_settings
 from watermark.logging import get_logger
 from watermark.models import Estimate, OPCSummary, SubEstimate
@@ -24,6 +26,7 @@ if TYPE_CHECKING:
     from watermark.agent.client import ResearchAgent
 
 log = get_logger(__name__)
+tracer = opentelemetry.trace.get_tracer(__name__)
 
 # Contingency + inflation rate applied to every construction subtotal.
 CONTINGENCY_RATE = 0.25
@@ -129,84 +132,87 @@ def reconcile_estimate(estimate: Estimate) -> list[Finding]:
 
     Nothing here assumes a particular section taxonomy or markup rate.
     """
-    findings: list[Finding] = []
-    name = estimate.name
+    with tracer.start_as_current_span("pipeline.analyze.reconcile") as span:
+        span.set_attribute("pipeline.doc_id", estimate.name)
+        span.set_attribute("pipeline.estimate_kind", estimate.profile or "generic")
+        findings: list[Finding] = []
+        name = estimate.name
 
-    # 1. Line items -> section subtotal (only for sections with extracted items).
-    for section in estimate.sections:
-        if not section.line_items:
-            continue
-        if section.subtotal is None:
+        # 1. Line items -> section subtotal (only for sections with extracted items).
+        for section in estimate.sections:
+            if not section.line_items:
+                continue
+            if section.subtotal is None:
+                findings.append(
+                    Finding(
+                        f"{name}:{section.key}",
+                        "line-item-rollup",
+                        False,
+                        f"{len(section.line_items)} line items but no section subtotal",
+                    )
+                )
+                continue
+            items_sum = section.items_total()
+            subtotal = float(section.subtotal)
             findings.append(
                 Finding(
                     f"{name}:{section.key}",
                     "line-item-rollup",
-                    False,
-                    f"{len(section.line_items)} line items but no section subtotal",
+                    _approx_ok(items_sum, subtotal),
+                    f"items sum {items_sum:,.0f} vs subtotal {subtotal:,.0f} "
+                    f"(delta {items_sum - subtotal:,.0f}, {len(section.line_items)} items)",
                 )
             )
-            continue
-        items_sum = section.items_total()
-        subtotal = float(section.subtotal)
-        findings.append(
-            Finding(
-                f"{name}:{section.key}",
-                "line-item-rollup",
-                _approx_ok(items_sum, subtotal),
-                f"items sum {items_sum:,.0f} vs subtotal {subtotal:,.0f} "
-                f"(delta {items_sum - subtotal:,.0f}, {len(section.line_items)} items)",
-            )
-        )
 
-    construction_subtotal = estimate.construction_subtotal
+        construction_subtotal = estimate.construction_subtotal
 
-    # 2. Section subtotals -> construction subtotal.
-    if construction_subtotal is not None:
-        sections_sum = estimate.sections_total()
-        target = float(construction_subtotal)
-        findings.append(
-            Finding(
-                name,
-                "section-rollup",
-                _approx_ok(sections_sum, target),
-                f"sections sum {sections_sum:,.0f} vs construction_subtotal {target:,.0f} "
-                f"(delta {sections_sum - target:,.0f})",
-            )
-        )
-
-    # 3. Each percentage markup should equal rate * construction subtotal.
-    if isinstance(construction_subtotal, (int, float)):
-        for markup in estimate.markups:
-            if markup.rate is None or markup.amount is None:
-                continue
-            expected = construction_subtotal * markup.rate
-            stated = float(markup.amount)
+        # 2. Section subtotals -> construction subtotal.
+        if construction_subtotal is not None:
+            sections_sum = estimate.sections_total()
+            target = float(construction_subtotal)
             findings.append(
                 Finding(
-                    f"{name}:{markup.label}",
-                    "markup-rate",
-                    _approx_ok(stated, expected),
-                    f"stated {stated:,.0f} vs {markup.rate:.0%} of subtotal {expected:,.0f} "
-                    f"(delta {stated - expected:,.0f})",
+                    name,
+                    "section-rollup",
+                    _approx_ok(sections_sum, target),
+                    f"sections sum {sections_sum:,.0f} vs construction_subtotal {target:,.0f} "
+                    f"(delta {sections_sum - target:,.0f})",
                 )
             )
 
-    # 4. construction subtotal + markups -> total.
-    if construction_subtotal is not None and estimate.total is not None:
-        implied = float(construction_subtotal) + estimate.markups_total()
-        total = float(estimate.total)
-        findings.append(
-            Finding(
-                name,
-                "total",
-                _approx_ok(implied, total),
-                f"subtotal+markups {implied:,.0f} vs total {total:,.0f} (delta {implied - total:,.0f})",
-            )
-        )
+        # 3. Each percentage markup should equal rate * construction subtotal.
+        if isinstance(construction_subtotal, (int, float)):
+            for markup in estimate.markups:
+                if markup.rate is None or markup.amount is None:
+                    continue
+                expected = construction_subtotal * markup.rate
+                stated = float(markup.amount)
+                findings.append(
+                    Finding(
+                        f"{name}:{markup.label}",
+                        "markup-rate",
+                        _approx_ok(stated, expected),
+                        f"stated {stated:,.0f} vs {markup.rate:.0%} of subtotal {expected:,.0f} "
+                        f"(delta {stated - expected:,.0f})",
+                    )
+                )
 
-    failures = [f for f in findings if not f.ok]
-    log.info("analyze.reconciled_estimate", checks=len(findings), failures=len(failures))
-    return findings
+        # 4. construction subtotal + markups -> total.
+        if construction_subtotal is not None and estimate.total is not None:
+            implied = float(construction_subtotal) + estimate.markups_total()
+            total = float(estimate.total)
+            findings.append(
+                Finding(
+                    name,
+                    "total",
+                    _approx_ok(implied, total),
+                    f"subtotal+markups {implied:,.0f} vs total {total:,.0f} (delta {implied - total:,.0f})",
+                )
+            )
+
+        failures = [f for f in findings if not f.ok]
+        log.info("analyze.reconciled_estimate", checks=len(findings), failures=len(failures))
+        return findings
 
 
 # ---------------------------------------------------------------------------
@@ -320,6 +326,8 @@ async def research_question(
     from watermark.agent.client import ResearchAgent
 
     settings = settings or get_settings()
-    agent = agent or ResearchAgent(settings=settings)
-    prompt = f"{context}\n\nQuestion: {question}" if context else question
-    return await agent.run(prompt)
+    with tracer.start_as_current_span("pipeline.analyze.research") as span:
+        span.set_attribute("pipeline.question", question[:80])
+        agent = agent or ResearchAgent(settings=settings)
+        prompt = f"{context}\n\nQuestion: {question}" if context else question
+        return await agent.run(prompt)

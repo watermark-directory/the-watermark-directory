@@ -11,11 +11,14 @@ import hashlib
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import opentelemetry.trace
+
 from watermark.config import Settings, get_settings
 from watermark.documents import IMAGE_SUFFIXES
 from watermark.logging import get_logger
 
 log = get_logger(__name__)
+tracer = opentelemetry.trace.get_tracer(__name__)
 
 # Extensions the extract stage can actually read: PDF (pdfium render + pypdf text),
 # OpenDocument Drawing (read_odg), and raster scans (read_image_png → straight to the
@@ -64,27 +67,31 @@ def discover(settings: Settings | None = None, site: str | None = None) -> list[
     ``site="fort-wayne"``).
     """
     settings = settings or get_settings()
-    root = settings.documents_dir
-    if not root.exists():
-        log.warning("documents_dir missing", path=str(root))
-        return []
+    with tracer.start_as_current_span("pipeline.ingest") as span:
+        span.set_attribute("pipeline.site", settings.site)
+        root = settings.documents_dir
+        if not root.exists():
+            log.warning("documents_dir missing", path=str(root))
+            span.set_attribute("pipeline.doc_count", 0)
+            return []
 
-    docs: list[SourceDocument] = []
-    for path in sorted(root.rglob("*")):
-        if not path.is_file() or path.suffix.lower() not in SOURCE_SUFFIXES:
-            continue
-        rel = path.relative_to(root)
-        if site and site not in rel.parts:
-            continue
-        collection = rel.parts[0] if len(rel.parts) > 1 else ""
-        docs.append(
-            SourceDocument(
-                path=path,
-                doc_id=_doc_id(path),
-                suffix=path.suffix.lower(),
-                size_bytes=path.stat().st_size,
-                collection=collection,
+        docs: list[SourceDocument] = []
+        for path in sorted(root.rglob("*")):
+            if not path.is_file() or path.suffix.lower() not in SOURCE_SUFFIXES:
+                continue
+            rel = path.relative_to(root)
+            if site and site not in rel.parts:
+                continue
+            collection = rel.parts[0] if len(rel.parts) > 1 else ""
+            docs.append(
+                SourceDocument(
+                    path=path,
+                    doc_id=_doc_id(path),
+                    suffix=path.suffix.lower(),
+                    size_bytes=path.stat().st_size,
+                    collection=collection,
+                )
             )
-        )
-    log.info("ingest.discovered", count=len(docs), root=str(root))
-    return docs
+        span.set_attribute("pipeline.doc_count", len(docs))
+        log.info("ingest.discovered", count=len(docs), root=str(root))
+        return docs
