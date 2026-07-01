@@ -73,8 +73,8 @@ GITHUB_REPO = "the-watermark-directory"
 # Binding the Workers AI service enables embedding-based hybrid (BM25 + vector) retrieval.
 # Without it the ask endpoint degrades gracefully to BM25-only keyword retrieval.
 # The query is encoded at runtime with @cf/sentence-transformers/all-minilm-l6-v2 (384 dims),
-# the same model `bosc export --embeddings` uses to precompute document vectors.
-# Uncomment once `bosc export --embeddings` has been run and the bundle is deployed:
+# the same model `bosc export` uses to precompute document vectors (skip with --no-embeddings).
+# Uncomment once `bosc export` has been run and the bundle (with ask-embeddings.json) is deployed:
 # [ai]
 # binding = "AI"
 

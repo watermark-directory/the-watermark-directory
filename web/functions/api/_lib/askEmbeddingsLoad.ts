@@ -5,13 +5,21 @@
 import { fetchWithTimeout } from "./http";
 import type { EmbeddingEntry } from "./retrieval";
 
-let loaded = false;
-let cached: EmbeddingEntry[] | null = null;
+// Keyed by resolved URL so different embeddingsUrl values don't share a result.
+// Stores the in-flight promise to deduplicate concurrent requests for the same URL.
+const cache = new Map<string, Promise<EmbeddingEntry[] | null>>();
 
 /** Test seam: drop the isolate cache. */
 export function _resetAskEmbeddingsCache(): void {
-  loaded = false;
-  cached = null;
+  cache.clear();
+}
+
+async function _fetchEmbeddings(url: string): Promise<EmbeddingEntry[] | null> {
+  const res = await fetchWithTimeout(url);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`ask-embeddings fetch failed: ${res.status}`);
+  const entries = (await res.json()) as EmbeddingEntry[];
+  return Array.isArray(entries) && entries.length > 0 ? entries : null;
 }
 
 /**
@@ -26,16 +34,11 @@ export async function loadAskEmbeddings(
   requestUrl: string,
   embeddingsUrl?: string,
 ): Promise<EmbeddingEntry[] | null> {
-  if (loaded) return cached;
   const url = embeddingsUrl ?? new URL("/ask-embeddings.json", requestUrl).toString();
-  const res = await fetchWithTimeout(url);
-  if (res.status === 404) {
-    loaded = true;
-    return null;
+  let inflight = cache.get(url);
+  if (!inflight) {
+    inflight = _fetchEmbeddings(url);
+    cache.set(url, inflight);
   }
-  if (!res.ok) throw new Error(`ask-embeddings fetch failed: ${res.status}`);
-  const entries = (await res.json()) as EmbeddingEntry[];
-  cached = Array.isArray(entries) && entries.length > 0 ? entries : null;
-  loaded = true;
-  return cached;
+  return inflight;
 }

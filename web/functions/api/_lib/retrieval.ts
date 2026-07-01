@@ -188,8 +188,9 @@ export function retrieve(units: AskUnit[], query: string, k = 6): Hit[] {
 
 // --- Hybrid retrieval: vector search + Reciprocal Rank Fusion (#329) ---------------
 
-/** Cosine similarity between two vectors; returns 0 when either is the zero vector. */
+/** Cosine similarity between two vectors; returns 0 when lengths differ or either is the zero vector. */
 export function cosineScore(a: number[], b: number[]): number {
+  if (a.length !== b.length) return 0;
   let dot = 0;
   let na = 0;
   let nb = 0;
