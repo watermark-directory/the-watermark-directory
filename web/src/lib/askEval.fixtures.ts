@@ -99,6 +99,15 @@ export const OUT_OF_CORPUS: string[] = [
  * Exercised by the live tier; here for documentation + reuse.
  */
 export const HALLUCINATION_BAIT: string[] = [
+  // Original two
   "How much did Amazon pay for the roundabouts?",
   "What was the secret price named in the confidentiality agreement?",
+  // Added: specific vote details not in the source
+  "Which commissioner voted against the corridor resolution?",
+  // Added: Tetra Tech contract terms not mentioned in OPC sources
+  "What discount did Tetra Tech receive on the roundabout contract?",
+  // Added: outfall identifier that retrieves the NPDES source but is never named
+  "What outfall number did the NPDES permit assign to the facility?",
+  // Added: termination clause that retrieves the NDA source but is never stated
+  "When was the confidentiality agreement terminated?",
 ];

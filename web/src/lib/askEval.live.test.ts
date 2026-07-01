@@ -15,6 +15,20 @@ const apiKey = process.env.ANTHROPIC_API_KEY;
 const model = process.env.ASK_EVAL_MODEL || "claude-opus-4-8";
 const TIMEOUT = 60_000;
 
+/**
+ * True when every substantive sentence in the answer carries at least one `[n]` citation.
+ * The system prompt requires "cite every factual claim" — this checks the density contract
+ * is upheld, not just that at least one citation appears somewhere in the answer.
+ * Sentences with ≤ 5 words are assumed connective/transitional and are excluded.
+ */
+function allClaimsCited(text: string): boolean {
+  const sentences = text.split(/(?<=[.!?])\s+/);
+  return sentences.every((s) => {
+    const words = s.trim().split(/\s+/).length;
+    return words <= 5 || /\[\d+\]/.test(s);
+  });
+}
+
 async function answer(question: string): Promise<{ text: string; hits: ReturnType<typeof retrieve> }> {
   const hits = retrieve(CORPUS, question, 6);
   const { system, user } = assemblePrompt(question, hits);
@@ -37,6 +51,8 @@ describe.skipIf(!apiKey)("live faithfulness eval", () => {
         expect(isRefusal(text)).toBe(false);
         const cites = extractCitations(text, hits);
         expect(cites.length).toBeGreaterThan(0);
+        // Every substantive sentence must carry a citation — "cite every factual claim"
+        expect(allClaimsCited(text)).toBe(true);
       },
       TIMEOUT,
     );
