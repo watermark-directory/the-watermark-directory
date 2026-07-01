@@ -174,12 +174,12 @@
       "screen": {
         "npdes": "OH0027910",
         "discharger": "VAN WERT WWTP",
-        "receiving_water": null,
+        "receiving_water": "Town Creek",
         "design_flow_mgd": 4.0,
-        "dilution_ratio": null,
-        "flag": null,
-        "status": "no_receiving_water",
-        "detail": "unscreened (no_receiving_water)"
+        "dilution_ratio": 0.026,
+        "flag": "violation",
+        "status": "screened",
+        "detail": "Town Creek 7Q10 0.16 cfs (document) vs discharge 6.19 cfs -> 0.03:1 dilution (violation)"
       },
       "grid": {
         "utility": "AEP Ohio (Ohio Power Company)",

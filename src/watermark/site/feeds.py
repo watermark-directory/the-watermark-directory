@@ -56,7 +56,9 @@ CONTRACT_VERSION = "1.8.0"
 # SourceKind / Confidence now live in watermark.provenance (shared with watermark.hypotheses +
 # hydrology.ProvenancedValue, #605); re-exported here so importers of watermark.site.feeds are
 # unchanged.
-RecordGroup = Literal["deeds", "permits-epa", "permits-npdes", "permits-sos", "plans", "opc"]
+RecordGroup = Literal[
+    "deeds", "permits-epa", "permits-idem", "permits-npdes", "permits-sos", "plans", "opc"
+]
 # What the frontend document viewer dispatches on — derived from the *real* file
 # (extension + content sniff), never from hand-authored genre metadata (epic #274).
 RenderClass = Literal["image", "text", "html", "pdf", "office", "other"]

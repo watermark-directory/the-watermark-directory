@@ -1,5 +1,72 @@
 [
   {
+    "rel": "idem/fort-wayne/47378f.idem.yaml",
+    "group": "permits-idem",
+    "title": "Hatchworks LLC (Project Zodiac) — IDEM Title V air permit, power basis",
+    "confidence": null,
+    "warnings": [],
+    "fields": {
+      "subject": "Hatchworks LLC (Project Zodiac) — IDEM Title V air permit, power basis",
+      "kind": "idem",
+      "source_document": "data/documents/idem/fort-wayne/47378f.pdf",
+      "permit_number": "003-47378-00530",
+      "permit_level": "Title V New Source Construction (Minor PSD/EO)",
+      "issued": "2024-09-06",
+      "issuing_agency": "Indiana DEM, Office of Air Quality",
+      "facility_ai_id": "133680",
+      "oaq_stationary_source_id": "1800300530",
+      "extracted_at": "2026-06-27",
+      "method": "hand extraction from the PDF text layer (pypdf); figures verbatim unless tagged [inference]"
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "idem/fort-wayne/47378f.idem.yaml",
+      "source_kind": "document",
+      "page": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": null,
+    "source_doc_render_class": null,
+    "source_doc_published": false
+  },
+  {
+    "rel": "idem/fort-wayne/wqc001454.idem.yaml",
+    "group": "permits-idem",
+    "title": "Project Zodiac Phase 3 — IDEM §401 Water Quality Certification WQC001454",
+    "confidence": null,
+    "warnings": [],
+    "fields": {
+      "subject": "Project Zodiac Phase 3 — IDEM §401 Water Quality Certification WQC001454",
+      "kind": "idem",
+      "permit_number": "WQC001454",
+      "corps_id": "LRE-2023-00646-102",
+      "issuing_agency": "Indiana DEM, Office of Water Quality (Waterways Section)",
+      "source_documents": [
+        "data/documents/idem/fort-wayne/notice_20260403_401_wqc001454.pdf",
+        "data/documents/idem/fort-wayne/043026-IDEM-Hearing-ORIGINAL.pdf",
+        "data/documents/idem/fort-wayne/public-comments-compiled.pdf",
+        "data/documents/idem/fort-wayne/Response-to-Public-Comments-WQC001454-Project-Zodiac-Phase-3-Google-Data-Center.pdf",
+        "data/documents/idem/fort-wayne/WQC001454-Section-401-WQC-Approval.pdf"
+      ],
+      "extracted_at": "2026-06-27",
+      "method": "hand extraction from the PDF text layer (pypdf); figures verbatim unless tagged [inference]"
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "idem/fort-wayne/wqc001454.idem.yaml",
+      "source_kind": "document",
+      "page": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": null,
+    "source_doc_render_class": null,
+    "source_doc_published": false
+  },
+  {
     "rel": "fort-wayne/wwtp-in0032191.dmr.yaml",
     "group": "permits-npdes",
     "title": "FORT WAYNE WWTP",

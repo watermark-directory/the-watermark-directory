@@ -5315,6 +5315,436 @@
         "owner_mailing_address": "2801 Centerville Rd Wilmington DE 19808",
         "transfer_date": "2024-01-18"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -85.0468704801876,
+              41.01909900887838
+            ],
+            [
+              -85.04691830971716,
+              41.020264898862905
+            ],
+            [
+              -85.04691838299448,
+              41.020266684217496
+            ],
+            [
+              -85.04752344939534,
+              41.020251530754976
+            ],
+            [
+              -85.04752343556704,
+              41.020250661175325
+            ],
+            [
+              -85.0475048623413,
+              41.01908407453891
+            ],
+            [
+              -85.0468704801876,
+              41.01909900887838
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "layer": "campus",
+        "label": "7101 Tillman Rd Fort Wayne",
+        "color": "#3f51b5",
+        "role": "area",
+        "grantee": "Hatchworks LLC",
+        "parcel_id": "021327451001003039",
+        "owner": "Hatchworks LLC",
+        "situs_address": "7101 Tillman Rd Fort Wayne",
+        "owner_mailing_address": "2801 Centerville Rd Wilmington DE 19808",
+        "transfer_date": "2024-01-16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -85.04616967979645,
+              41.01911548325634
+            ],
+            [
+              -85.0461824068687,
+              41.01940708824041
+            ],
+            [
+              -85.0462206866866,
+              41.020284153617
+            ],
+            [
+              -85.04691838299448,
+              41.020266684217496
+            ],
+            [
+              -85.04691830971716,
+              41.020264898862905
+            ],
+            [
+              -85.0468704801876,
+              41.01909900887838
+            ],
+            [
+              -85.04616967979645,
+              41.01911548325634
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "layer": "campus",
+        "label": "7127 Tillman Rd Fort Wayne",
+        "color": "#3f51b5",
+        "role": "area",
+        "grantee": "Hatchworks LLC",
+        "parcel_id": "021327451001004039",
+        "owner": "Hatchworks LLC",
+        "situs_address": "7127 Tillman Rd Fort Wayne",
+        "owner_mailing_address": "2801 Centerville Rd Wilmington DE 19808",
+        "transfer_date": "2024-01-16"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -85.04071467248873,
+              41.01924350454839
+            ],
+            [
+              -85.04073003919036,
+              41.02010545492446
+            ],
+            [
+              -85.04073349317875,
+              41.020462907150026
+            ],
+            [
+              -85.04195420691748,
+              41.020435677860256
+            ],
+            [
+              -85.04195069041758,
+              41.02007682180731
+            ],
+            [
+              -85.04194618611277,
+              41.01972261871072
+            ],
+            [
+              -85.0413302728076,
+              41.01973706415672
+            ],
+            [
+              -85.04132537104499,
+              41.019229173550904
+            ],
+            [
+              -85.04071467248873,
+              41.01924350454839
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "layer": "campus",
+        "label": "7523 Tillman Rd Fort Wayne",
+        "color": "#3f51b5",
+        "role": "area",
+        "grantee": "Hatchworks LLC",
+        "parcel_id": "021327476001001039",
+        "owner": "Hatchworks LLC",
+        "situs_address": "7523 Tillman Rd Fort Wayne",
+        "owner_mailing_address": "2801 Centerville Rd Wilmington DE 19808",
+        "transfer_date": "2024-01-17"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -85.04237606170932,
+              41.01920452213397
+            ],
+            [
+              -85.04238097155879,
+              41.019712403737124
+            ],
+            [
+              -85.0432505061285,
+              41.01969199637067
+            ],
+            [
+              -85.04324558983599,
+              41.019184142186525
+            ],
+            [
+              -85.04324492536745,
+              41.01911550139729
+            ],
+            [
+              -85.0423753983808,
+              41.01913590877808
+            ],
+            [
+              -85.04237606170932,
+              41.01920452213397
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "layer": "campus",
+        "label": "7411 E Tillman Rd Fort Wayne",
+        "color": "#3f51b5",
+        "role": "area",
+        "grantee": "Hatchworks LLC",
+        "parcel_id": "021327476002000039",
+        "owner": "Hatchworks LLC",
+        "situs_address": "7411 E Tillman Rd Fort Wayne",
+        "owner_mailing_address": "2801 Centerville Rd Wilmington DE 19808",
+        "transfer_date": "2025-10-31"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -85.04132537104499,
+              41.019229173550904
+            ],
+            [
+              -85.0413302728076,
+              41.01973706415672
+            ],
+            [
+              -85.04194618611277,
+              41.01972261871072
+            ],
+            [
+              -85.04194127979254,
+              41.01921470963092
+            ],
+            [
+              -85.04194061698615,
+              41.01914609627628
+            ],
+            [
+              -85.04132470887785,
+              41.01916056019752
+            ],
+            [
+              -85.04132537104499,
+              41.019229173550904
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "layer": "campus",
+        "label": "7501 E Tillman Rd Fort Wayne",
+        "color": "#3f51b5",
+        "role": "area",
+        "grantee": "Hatchworks LLC",
+        "parcel_id": "021327476003000039",
+        "owner": "Hatchworks LLC",
+        "situs_address": "7501 E Tillman Rd Fort Wayne",
+        "owner_mailing_address": "2801 Centerville Rd Wilmington DE 19808",
+        "transfer_date": "2025-10-31"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -85.04018586608991,
+              41.01918726605949
+            ],
+            [
+              -85.03975108394881,
+              41.01919746375808
+            ],
+            [
+              -85.03975569157744,
+              41.019773990047895
+            ],
+            [
+              -85.04019047761909,
+              41.0197638108267
+            ],
+            [
+              -85.04018641487397,
+              41.019255879981685
+            ],
+            [
+              -85.04018586608991,
+              41.01918726605949
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "layer": "campus",
+        "label": "7611 E Tillman Rd Fort Wayne",
+        "color": "#3f51b5",
+        "role": "area",
+        "grantee": "Hatchworks LLC",
+        "parcel_id": "021327476004000039",
+        "owner": "Hatchworks LLC",
+        "situs_address": "7611 E Tillman Rd Fort Wayne",
+        "owner_mailing_address": "2801 Centerville Rd Wilmington DE 19808",
+        "transfer_date": "2025-10-31"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -85.03931630150036,
+              41.01920765036688
+            ],
+            [
+              -85.03932090544728,
+              41.01978419489741
+            ],
+            [
+              -85.03975569157744,
+              41.019773990047895
+            ],
+            [
+              -85.03975108394881,
+              41.01919746375808
+            ],
+            [
+              -85.03931630150036,
+              41.01920765036688
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "layer": "campus",
+        "label": "7625 E Tillman Rd Fort Wayne",
+        "color": "#3f51b5",
+        "role": "area",
+        "grantee": "Hatchworks LLC",
+        "parcel_id": "021327476005000039",
+        "owner": "Hatchworks LLC",
+        "situs_address": "7625 E Tillman Rd Fort Wayne",
+        "owner_mailing_address": "2801 Centerville Rd Wilmington DE 19808",
+        "transfer_date": "2025-10-31"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -85.03888151885292,
+              41.019217844352255
+            ],
+            [
+              -85.03888611892005,
+              41.01979439810422
+            ],
+            [
+              -85.03932090544728,
+              41.01978419489741
+            ],
+            [
+              -85.03931630150036,
+              41.01920765036688
+            ],
+            [
+              -85.03888151885292,
+              41.019217844352255
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "layer": "campus",
+        "label": "7707 E Tillman Rd Fort Wayne",
+        "color": "#3f51b5",
+        "role": "area",
+        "grantee": "Hatchworks LLC",
+        "parcel_id": "021327476006000039",
+        "owner": "Hatchworks LLC",
+        "situs_address": "7707 E Tillman Rd Fort Wayne",
+        "owner_mailing_address": "2801 Centerville Rd Wilmington DE 19808",
+        "transfer_date": "2025-10-31"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -85.03844673617571,
+              41.019228027893526
+            ],
+            [
+              -85.03845133253836,
+              41.01980457240197
+            ],
+            [
+              -85.03888611892005,
+              41.01979439810422
+            ],
+            [
+              -85.03888151885292,
+              41.019217844352255
+            ],
+            [
+              -85.03844673617571,
+              41.019228027893526
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "layer": "campus",
+        "label": "7721 E Tillman Rd Fort Wayne",
+        "color": "#3f51b5",
+        "role": "area",
+        "grantee": "Hatchworks LLC",
+        "parcel_id": "021327476007000039",
+        "owner": "Hatchworks LLC",
+        "situs_address": "7721 E Tillman Rd Fort Wayne",
+        "owner_mailing_address": "2801 Centerville Rd Wilmington DE 19808",
+        "transfer_date": "2025-10-31"
+      }
     }
   ]
 }

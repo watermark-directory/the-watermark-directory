@@ -87,14 +87,13 @@ export const SITES: readonly NetworkSite[] = [
     ],
   },
   {
-    // A live data-center facility; the site build is queued (onboard fast, not selectable yet).
     slug: "fort-wayne",
     codename: "GCP",
     mono: "FTW",
     place: "Fort Wayne",
     basin: "Maumee headwaters",
-    status: "building",
-    selectable: false,
+    status: "live",
+    selectable: true,
     issue: "235",
     href: "/network/fort-wayne",
     stories: [

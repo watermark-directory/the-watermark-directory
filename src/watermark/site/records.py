@@ -74,13 +74,25 @@ def _classify(data: Any) -> tuple[str, dict[str, Any]] | None:
             else {k: v for k, v in data.items() if k not in _ENVELOPE}
         )
         return "opc", payload
+    # IDEM permit records: a `meta` block with `kind: idem` (Indiana state permits).
+    meta = data.get("meta")
+    if isinstance(meta, dict) and meta.get("kind") == "idem":
+        return "permits-idem", meta
     return None
 
 
 def _record_title(rec: _Record) -> str:
     """A legible heading for a record, chosen from the most identifying field."""
     payload = rec.payload
-    for key in ("entity_name", "facility_name", "project_name", "instrument_type", "name"):
+    for key in (
+        "entity_name",
+        "facility_name",
+        "project_name",
+        "instrument_type",
+        "name",
+        "subject",
+        "permit_number",
+    ):
         val = payload.get(key)
         if isinstance(val, str) and val.strip():
             return val.strip()
