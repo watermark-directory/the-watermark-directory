@@ -1,14 +1,16 @@
 id: echo-little-miami-wwtp
-title: Echo Little Miami Wwtp
+title: Little Miami-basin NPDES discharger inventory (EPA ECHO)
 scope: reference
 status: needs-review
 producer:
   kind: connector
-  command: npdes
+  command: npdes --basin little-miami
   connector_ref: watermark.hydrology.connectors.echo
   source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
-access_tier: public
-site_scope: basin-shared
+  external_url: https://echo.epa.gov/tools/web-services
+license: U.S. Government work (public domain)
+access_tier: throttled
+site_scope: basin:little-miami
 storage:
 - relpath: reference/echo/little-miami-wwtp.all-npdes.yaml
   media_type: application/x-yaml
@@ -20,5 +22,16 @@ storage:
   media_type: application/x-yaml
   lfs: false
 refresh:
-  cadence: on-demand
+  cadence: quarterly
+  ttl_days: 180
 provenance: connector
+schema_ref: watermark.hydrology.connectors.echo.Facility
+tags:
+- npdes
+- cwa
+- little-miami
+- wastewater
+notes: Inventory of active CWA-permitted dischargers across the Little Miami watershed
+  (HUC-8 05090202), deduplicated to one record per facility by FRS Registry ID; every
+  value is ECHO-returned, nulls are genuine. Large basin (127+ facilities) — regenerate
+  with WATERMARK_HYDRO_REQUEST_TIMEOUT_S=120. See data/reference/echo/README.md.
