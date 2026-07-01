@@ -23,14 +23,7 @@ import {
   salesTaxExemption,
 } from "~/lib/econLedger";
 import { fmtUsdM } from "~/lib/money";
-import {
-  DEFAULT_SEED,
-  applyDisclosures,
-  outcomeBand,
-  sample,
-  summarize,
-  tornado,
-} from "~/lib/uncertainty";
+import { DEFAULT_SEED, applyDisclosures, outcomeBand, sample, summarize, tornado } from "~/lib/uncertainty";
 import { DiscloseList, Line, Slider } from "./scenarioControls";
 import { DistributionStrip, RegisterMark, TornadoChart } from "./uncertaintyGrammar";
 

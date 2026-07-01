@@ -22,13 +22,7 @@ import { Map } from "react-map-gl/maplibre";
 import type { FeatureCollection } from "geojson";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { rgba, type GeoFeature, type GeoProps } from "~/lib/geoStyle";
-import type {
-  DefenseNexusData,
-  DnAnnotation,
-  DnEmphasis,
-  DnFactKey,
-  DnRegister,
-} from "~/lib/defenseNexus";
+import type { DefenseNexusData, DnAnnotation, DnEmphasis, DnFactKey, DnRegister } from "~/lib/defenseNexus";
 import { RegisterMark } from "./uncertaintyGrammar";
 import { rasterTileLayer } from "./rasterTile";
 

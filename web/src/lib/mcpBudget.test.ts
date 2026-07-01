@@ -2,12 +2,7 @@
 // Same pattern as askBudget.test.ts — pure logic over an in-memory KVLike.
 
 import { describe, expect, it } from "vitest";
-import {
-  addBudgetUsage,
-  isOverBudget,
-  keyedBudgetKey,
-  publicBudgetKey,
-} from "@fn/api/_lib/mcpBudget";
+import { addBudgetUsage, isOverBudget, keyedBudgetKey, publicBudgetKey } from "@fn/api/_lib/mcpBudget";
 import type { KVLike } from "@fn/api/_lib/ratelimit";
 
 function fakeKV(seed: Record<string, string> = {}): KVLike & { store: Map<string, string> } {
