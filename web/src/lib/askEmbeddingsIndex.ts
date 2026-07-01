@@ -6,7 +6,7 @@
  * BM25-only retrieval in that case.
  */
 import { hasFeed, loadFeed } from "./bundle";
-import type { EmbeddingEntry } from "../../functions/api/_lib/retrieval";
+import type { EmbeddingEntry } from "@fn/api/_lib/retrieval";
 
 export function buildAskEmbeddingsIndex(): EmbeddingEntry[] {
   if (!hasFeed("ask-embeddings")) return [];

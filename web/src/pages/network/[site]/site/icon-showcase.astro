@@ -1,5 +1,5 @@
 ---
-import { selectableSitePaths } from "../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
 /**
  * Icon set — component preview (#309, ported from the Claude Design "Icon Set" board).
@@ -7,10 +7,10 @@ export const getStaticPaths = selectableSitePaths;
  * reserved for the logo; the repo octocat is the lone filled, foreign mark. Evidence +
  * measure icons carry the semantic palette wherever they appear.
  */
-import BackLink from "../../../../components/BackLink.astro";
-import Icon from "../../../../components/Icon.astro";
-import Base from "../../../../layouts/Base.astro";
-import { withSite } from "../../../../lib/site";
+import BackLink from "~/components/BackLink.astro";
+import Icon from "~/components/Icon.astro";
+import Base from "~/layouts/Base.astro";
+import { withSite } from "~/lib/site";
 
 const groups: { title: string; names: string[]; note?: string }[] = [
   {

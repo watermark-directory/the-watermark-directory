@@ -21,8 +21,8 @@ import {
   netSubsidyModel,
   netSubsidyPerJobModel,
   salesTaxExemption,
-} from "../../lib/econLedger";
-import { fmtUsdM } from "../../lib/money";
+} from "~/lib/econLedger";
+import { fmtUsdM } from "~/lib/money";
 import {
   DEFAULT_SEED,
   applyDisclosures,
@@ -30,7 +30,7 @@ import {
   sample,
   summarize,
   tornado,
-} from "../../lib/uncertainty";
+} from "~/lib/uncertainty";
 import { DiscloseList, Line, Slider } from "./scenarioControls";
 import { DistributionStrip, RegisterMark, TornadoChart } from "./uncertaintyGrammar";
 

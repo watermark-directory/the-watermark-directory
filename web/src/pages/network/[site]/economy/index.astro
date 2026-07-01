@@ -1,5 +1,5 @@
 ---
-import { selectableSitePaths } from "../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
 /**
  * The economy section hub (design "Chrome", the 5-tab site bar). The economic ground the
@@ -7,10 +7,10 @@ export const getStaticPaths = selectableSitePaths;
  * baseline (BLS QCEW), the end-use & workloads read, the cost-of-opacity narrative, and the
  * economics prose companion. A hub like the watershed hub; doors point to real routes.
  */
-import Base from "../../../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../../../lib/bundle";
-import type { EconomicBaseline } from "../../../../lib/feeds";
-import { withBase, siteUrl, storyUrl } from "../../../../lib/site";
+import Base from "~/layouts/Base.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import type { EconomicBaseline } from "~/lib/feeds";
+import { withBase, siteUrl, storyUrl } from "~/lib/site";
 
 const eb = hasFeed("economics-baseline") ? loadFeed<EconomicBaseline>("economics-baseline") : null;
 const area = eb?.area_name ?? "the corridor";

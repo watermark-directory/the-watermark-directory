@@ -10,8 +10,8 @@
  * fork). The §5.5 consequence is flagged `[inference]`.
  */
 import { useState } from "react";
-import { fmtUsd, fmtUsdFull } from "../../lib/money";
-import type { MoneyFlowData } from "../../lib/moneyFlow";
+import { fmtUsd, fmtUsdFull } from "~/lib/money";
+import type { MoneyFlowData } from "~/lib/moneyFlow";
 
 export default function MoneyFlow({ data }: { data: MoneyFlowData }): JSX.Element {
   const [active, setActive] = useState<number | null>(null);

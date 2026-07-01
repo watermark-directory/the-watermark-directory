@@ -9,7 +9,7 @@ import {
   search,
   tokenize,
   vectorSearch,
-} from "../../functions/api/_lib/retrieval";
+} from "@fn/api/_lib/retrieval";
 
 // A small corpus standing in for the citation-bearing bundle feeds.
 const UNITS: AskUnit[] = [

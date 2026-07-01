@@ -1,5 +1,5 @@
 ---
-import { selectableSitePaths } from "../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
 /**
  * Chart set — component preview (#306, ported from the Claude Design "Chart Set" board).
@@ -7,18 +7,18 @@ export const getStaticPaths = selectableSitePaths;
  * sample data (not findings); real per-page integrations (records / reports /
  * watershed) follow. The components are pure SSR SVG — this page reads with JS off.
  */
-import BarChart from "../../../../components/charts/BarChart.astro";
-import BulletChart from "../../../../components/charts/BulletChart.astro";
-import DonutChart from "../../../../components/charts/DonutChart.astro";
-import LineChart from "../../../../components/charts/LineChart.astro";
-import RankedBarChart from "../../../../components/charts/RankedBarChart.astro";
-import Sparkline from "../../../../components/charts/Sparkline.astro";
-import StackedBar from "../../../../components/charts/StackedBar.astro";
-import Waterfall from "../../../../components/charts/Waterfall.astro";
-import GaugeBar from "../../../../components/charts/GaugeBar.astro";
-import BackLink from "../../../../components/BackLink.astro";
-import Base from "../../../../layouts/Base.astro";
-import { withSite } from "../../../../lib/site";
+import BarChart from "~/components/charts/BarChart.astro";
+import BulletChart from "~/components/charts/BulletChart.astro";
+import DonutChart from "~/components/charts/DonutChart.astro";
+import LineChart from "~/components/charts/LineChart.astro";
+import RankedBarChart from "~/components/charts/RankedBarChart.astro";
+import Sparkline from "~/components/charts/Sparkline.astro";
+import StackedBar from "~/components/charts/StackedBar.astro";
+import Waterfall from "~/components/charts/Waterfall.astro";
+import GaugeBar from "~/components/charts/GaugeBar.astro";
+import BackLink from "~/components/BackLink.astro";
+import Base from "~/layouts/Base.astro";
+import { withSite } from "~/lib/site";
 ---
 
 <Base title="Chart set — component preview" section="site" noindex>

@@ -6,9 +6,9 @@
 // (submitContact.test.ts et al.); this covers the wiring those leave out.
 
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import { dedupeInput, submissionMarker } from "../../functions/api/_lib/issue";
-import { windowKey } from "../../functions/api/_lib/ratelimit";
-import { onRequestPost } from "../../functions/api/submit";
+import { dedupeInput, submissionMarker } from "@fn/api/_lib/issue";
+import { windowKey } from "@fn/api/_lib/ratelimit";
+import { onRequestPost } from "@fn/api/submit";
 import {
   type CognitoTestKeyPair,
   type FetchRoute,

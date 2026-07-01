@@ -1,12 +1,12 @@
 ---
-import { withSitePaths, siteForSlug } from "../../../../lib/sites";
+import { withSitePaths, siteForSlug } from "~/lib/sites";
 import { getCollection, render } from "astro:content";
-import Base from "../../../../layouts/Base.astro";
-import { bySlug } from "../../../../lib/narrative";
-import { getSection } from "../../../../lib/nav";
-import { withBase, withSite } from "../../../../lib/site";
-import { activeSite } from "../../../../lib/bundle";
-import { siteBase } from "../../../../lib/routes";
+import Base from "~/layouts/Base.astro";
+import { bySlug } from "~/lib/narrative";
+import { getSection } from "~/lib/nav";
+import { withBase, withSite } from "~/lib/site";
+import { activeSite } from "~/lib/bundle";
+import { siteBase } from "~/lib/routes";
 
 export async function getStaticPaths() {
   // Only the curated narrative set (lib/narrative.ts) is published; the glob may

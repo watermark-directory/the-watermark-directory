@@ -13,13 +13,13 @@
  * not a second source. Read-only — moving the knob re-prices the record, never edits it.
  */
 import { useMemo, useState } from "react";
-import { fmtUsdFull } from "../../lib/money";
+import { fmtUsdFull } from "~/lib/money";
 import {
   modeledRows,
   type OpcScenario as OpcScenarioData,
   programTotal,
   sourceProgramTotal,
-} from "../../lib/opcScenario";
+} from "~/lib/opcScenario";
 import { Line, Slider } from "./scenarioControls";
 import { RegisterMark } from "./uncertaintyGrammar";
 

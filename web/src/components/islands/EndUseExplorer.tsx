@@ -10,8 +10,8 @@
  * only the type.
  */
 import { useState } from "react";
-import { type DcKey, type EndUseData, IL_LADDER } from "../../lib/endUse";
-import { siteHref } from "../../lib/base";
+import { type DcKey, type EndUseData, IL_LADDER } from "~/lib/endUse";
+import { siteHref } from "~/lib/base";
 import { RegisterMark } from "./uncertaintyGrammar";
 
 export default function EndUseExplorer({

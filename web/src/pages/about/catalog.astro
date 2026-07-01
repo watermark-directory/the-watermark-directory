@@ -2,9 +2,9 @@
 // /about/catalog — interactive Data Catalog page (#1000).
 // Network-global (not site-scoped). Reads the `catalog` bundle feed at build time;
 // filter + sort runs client-side. Design spec: design/templates/data-catalog/DataCatalog.dc.html (PR #998).
-import Base from "../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../lib/bundle";
-import { catalogFreshness, type CatalogItem } from "../../lib/feeds";
+import Base from "~/layouts/Base.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import { catalogFreshness, type CatalogItem } from "~/lib/feeds";
 
 const items = hasFeed("catalog") ? loadFeed<CatalogItem[]>("catalog") : [];
 

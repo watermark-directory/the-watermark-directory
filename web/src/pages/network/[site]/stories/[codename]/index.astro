@@ -8,10 +8,10 @@
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { getCollection, getEntry, render } from "astro:content";
-import { STORY_COMPONENTS } from "../../../../../components/story";
-import Base from "../../../../../layouts/Base.astro";
-import { siteBase } from "../../../../../lib/routes";
-import { SITES } from "../../../../../lib/sites";
+import { STORY_COMPONENTS } from "~/components/story";
+import Base from "~/layouts/Base.astro";
+import { siteBase } from "~/lib/routes";
+import { SITES } from "~/lib/sites";
 
 export async function getStaticPaths() {
   const selectable = new Set(SITES.filter((s) => s.selectable).map((s) => s.slug));

@@ -17,7 +17,7 @@ import {
   facilityDrawModel,
   mwPerJob,
   pctOfAepRetail,
-} from "../../lib/gridLoad";
+} from "~/lib/gridLoad";
 import {
   DEFAULT_SEED,
   applyDisclosures,
@@ -25,8 +25,8 @@ import {
   priorCentral,
   sample,
   summarize,
-} from "../../lib/uncertainty";
-import { fmtMw } from "../../lib/format";
+} from "~/lib/uncertainty";
+import { fmtMw } from "~/lib/format";
 import { DiscloseList, Line } from "./scenarioControls";
 import { DistributionStrip, RegisterMark } from "./uncertaintyGrammar";
 

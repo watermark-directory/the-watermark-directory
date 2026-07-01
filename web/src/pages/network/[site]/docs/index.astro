@@ -1,10 +1,10 @@
 ---
-import { selectableSitePaths } from "../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
-import Base from "../../../../layouts/Base.astro";
-import { NARRATIVE } from "../../../../lib/narrative";
-import { getSection, sections, type SectionId } from "../../../../lib/nav";
-import { withSite } from "../../../../lib/site";
+import Base from "~/layouts/Base.astro";
+import { NARRATIVE } from "~/lib/narrative";
+import { getSection, sections, type SectionId } from "~/lib/nav";
+import { withSite } from "~/lib/site";
 
 // Group the migrated narrative by the section each piece belongs to.
 const groups = sections()

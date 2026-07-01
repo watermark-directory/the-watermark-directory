@@ -12,12 +12,12 @@
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { getEntry, render } from "astro:content";
-import PathWayfinding from "../../../../../components/PathWayfinding.astro";
-import { STORY_COMPONENTS } from "../../../../../components/story";
-import Base from "../../../../../layouts/Base.astro";
-import { siteBase } from "../../../../../lib/routes";
-import { SITES, siteForSlug } from "../../../../../lib/sites";
-import { withBase } from "../../../../../lib/site";
+import PathWayfinding from "~/components/PathWayfinding.astro";
+import { STORY_COMPONENTS } from "~/components/story";
+import Base from "~/layouts/Base.astro";
+import { siteBase } from "~/lib/routes";
+import { SITES, siteForSlug } from "~/lib/sites";
+import { withBase } from "~/lib/site";
 import {
   type Story,
   chapterHref,
@@ -25,7 +25,7 @@ import {
   storyContentsHref,
   storyFor,
   storyHomeHref,
-} from "../../../../../lib/walk";
+} from "~/lib/walk";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {

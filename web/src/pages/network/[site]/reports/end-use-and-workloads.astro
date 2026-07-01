@@ -1,5 +1,5 @@
 ---
-import { selectableSitePaths } from "../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
 /**
  * End-use & workloads — the interactive companion to the full report
@@ -8,9 +8,9 @@ export const getStaticPaths = selectableSitePaths;
  * names four businesses that answer "who can use it" differently — and that the
  * Lima record leaves the answer [open]. Pays off into the full cited essay.
  */
-import ReportShell from "../../../../layouts/ReportShell.astro";
-import EndUseExplorer from "../../../../components/islands/EndUseExplorer.tsx";
-import { buildEndUse } from "../../../../lib/endUse";
+import ReportShell from "~/layouts/ReportShell.astro";
+import EndUseExplorer from "~/components/islands/EndUseExplorer.tsx";
+import { buildEndUse } from "~/lib/endUse";
 
 const endUse = buildEndUse();
 const limaLabel = (s: string): string => (s === "ruled-out" ? "ruled out" : "[open]");

@@ -1,17 +1,17 @@
 ---
-import { withSitePaths } from "../../../../../lib/sites";
+import { withSitePaths } from "~/lib/sites";
 import type { GetStaticPaths } from "astro";
-import Base from "../../../../../layouts/Base.astro";
-import BackLink from "../../../../../components/BackLink.astro";
-import Provenance from "../../../../../components/Provenance.astro";
-import ProfileHeader from "../../../../../components/ProfileHeader.astro";
-import { hasFeed, loadFeed } from "../../../../../lib/bundle";
-import type { PlaceItem } from "../../../../../lib/feeds";
-import type { ProfileAttr, ProfileHeaderData } from "../../../../../lib/profile";
-import type { FigureStatData } from "../../../../../lib/viz";
-import { entityHref } from "../../../../../lib/entityLinks";
-import { withBase, withSite, siteUrl } from "../../../../../lib/site";
-import { renderBody } from "../../../../../lib/wiki";
+import Base from "~/layouts/Base.astro";
+import BackLink from "~/components/BackLink.astro";
+import Provenance from "~/components/Provenance.astro";
+import ProfileHeader from "~/components/ProfileHeader.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import type { PlaceItem } from "~/lib/feeds";
+import type { ProfileAttr, ProfileHeaderData } from "~/lib/profile";
+import type { FigureStatData } from "~/lib/viz";
+import { entityHref } from "~/lib/entityLinks";
+import { withBase, withSite, siteUrl } from "~/lib/site";
+import { renderBody } from "~/lib/wiki";
 
 export const getStaticPaths: GetStaticPaths = () =>
   withSitePaths(() => {

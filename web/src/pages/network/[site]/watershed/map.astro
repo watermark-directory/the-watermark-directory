@@ -1,12 +1,12 @@
 ---
-import { selectableSitePaths } from "../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
-import BackLink from "../../../../components/BackLink.astro";
-import CorridorMap from "../../../../components/islands/CorridorMap.tsx";
-import Base from "../../../../layouts/Base.astro";
-import { mergedGeo } from "../../../../lib/geo";
-import { layerLabel, layersPresent, type GeoFeature } from "../../../../lib/geoStyle";
-import { withBase, withSite } from "../../../../lib/site";
+import BackLink from "~/components/BackLink.astro";
+import CorridorMap from "~/components/islands/CorridorMap.tsx";
+import Base from "~/layouts/Base.astro";
+import { mergedGeo } from "~/lib/geo";
+import { layerLabel, layersPresent, type GeoFeature } from "~/lib/geoStyle";
+import { withBase, withSite } from "~/lib/site";
 
 // Build-time: the same merged feed the island fetches, used here to server-render
 // the legend + feature table — the no-JS fallback and a plain data view.

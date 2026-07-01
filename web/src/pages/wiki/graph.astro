@@ -1,10 +1,10 @@
 ---
-import EntityGraph from "../../components/islands/EntityGraph.tsx";
-import Base from "../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../lib/bundle";
-import { slugify, type EntityNode } from "../../lib/feeds";
-import { RELATION_CLASSES } from "../../lib/relationClasses";
-import { withBase } from "../../lib/site";
+import EntityGraph from "~/components/islands/EntityGraph.tsx";
+import Base from "~/layouts/Base.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import { slugify, type EntityNode } from "~/lib/feeds";
+import { RELATION_CLASSES } from "~/lib/relationClasses";
+import { withBase } from "~/lib/site";
 
 // SSR fallback / data view: the entity list the island visualizes.
 const entities = hasFeed("entities") ? loadFeed<EntityNode[]>("entities") : [];

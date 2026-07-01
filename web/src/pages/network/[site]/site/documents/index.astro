@@ -1,11 +1,11 @@
 ---
-import { selectableSitePaths } from "../../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
-import Base from "../../../../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../../../../lib/bundle";
-import { docAccess } from "../../../../../lib/docView";
-import { formatBytes, type DocumentCollectionItem } from "../../../../../lib/feeds";
-import { withSite } from "../../../../../lib/site";
+import Base from "~/layouts/Base.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import { docAccess } from "~/lib/docView";
+import { formatBytes, type DocumentCollectionItem } from "~/lib/feeds";
+import { withSite } from "~/lib/site";
 
 const collections = hasFeed("documents") ? loadFeed<DocumentCollectionItem[]>("documents") : [];
 
@@ -117,6 +117,6 @@ const accesses = [...new Set(rows.map((r) => r.access))];
   <p class="doccat-empty" hidden>No documents match these filters.</p>
 
   <script>
-    import "../../../../../scripts/doc-catalog.ts";
+    import "~/scripts/doc-catalog.ts";
   </script>
 </Base>

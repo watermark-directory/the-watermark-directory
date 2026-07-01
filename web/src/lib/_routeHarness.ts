@@ -9,7 +9,7 @@
 // Underscore-prefixed so it's never mistaken for a routed Function; lives in src/lib (not
 // functions/) so vitest + Biome + astro-check all see it without entering the Workers tree.
 
-import type { KVLike } from "../../functions/api/_lib/ratelimit";
+import type { KVLike } from "@fn/api/_lib/ratelimit";
 
 /** A `fetch`-compatible response carrying JSON. */
 export function jsonResponse(status: number, data: unknown, headers?: Record<string, string>): Response {

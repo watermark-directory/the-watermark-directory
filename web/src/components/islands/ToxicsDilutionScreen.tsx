@@ -7,7 +7,7 @@
  * discharge constants (no fork).
  */
 import { useMemo, useState } from "react";
-import type { DilutionDischarge } from "../../lib/dilution";
+import type { DilutionDischarge } from "~/lib/dilution";
 import {
   ANNUAL_OTTAWA_7Q10,
   FLOW_REGIMES,
@@ -17,8 +17,8 @@ import {
   effluentPct,
   naturalAt,
   screeningConc,
-} from "../../lib/toxicsDilution";
-import { fmtMult } from "../../lib/format";
+} from "~/lib/toxicsDilution";
+import { fmtMult } from "~/lib/format";
 import { Slider } from "./scenarioControls";
 import { DistributionStrip, RegisterMark } from "./uncertaintyGrammar";
 

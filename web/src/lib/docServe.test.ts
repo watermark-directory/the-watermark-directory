@@ -1,11 +1,11 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { _resetPublishedCache, loadPublishedDocs } from "../../functions/api/_lib/docAllowlist";
+import { _resetPublishedCache, loadPublishedDocs } from "@fn/api/_lib/docAllowlist";
 import {
   docContentType,
   enforcePublishGate,
   parseByteRange,
   resolveDocKey,
-} from "../../functions/api/_lib/docServe";
+} from "@fn/api/_lib/docServe";
 
 describe("resolveDocKey", () => {
   it("joins the catch-all and accepts a normal rel", () => {

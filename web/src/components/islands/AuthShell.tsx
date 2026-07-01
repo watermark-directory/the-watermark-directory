@@ -9,7 +9,7 @@
  * Config is injected as props from Header.astro using PUBLIC_* build-time env vars.
  */
 import { useEffect, useState } from "react";
-import { type AuthUser, clearIdToken, clearPkceVerifier, currentUser } from "../../lib/auth";
+import { type AuthUser, clearIdToken, clearPkceVerifier, currentUser } from "~/lib/auth";
 
 interface Props {
   /** Cognito Hosted UI domain — PUBLIC_COGNITO_DOMAIN. */
