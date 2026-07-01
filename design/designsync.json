@@ -28,7 +28,8 @@
   "generated": [
     "_ds_bundle.js",
     "_ds_manifest.json",
-    "_adherence.oxlintrc.json"
+    "_adherence.oxlintrc.json",
+    "templates/data-catalog/support.js"
   ],
   "notes": {
     "synced": "Foundations + all 40 component specs (components/{core,forms,record,charts,hydrology}/** + ui_kits/**) + 11 guideline cards are mirrored. The charts/hydrology/Icon families were added upstream after the first audit and pulled in a second pass (tokens/colors.css gained the --data-* chart-series ramp). Drift vs the live Astro impls is recorded in COMPONENT-AUDIT.md; reconciliation (Stage 2) is gated on review. templates/data-catalog/** added 2026-06-30 (DataCatalog.dc.html + ds-base.js; support.js is a generated dc-runtime bundle, not mirrored).",

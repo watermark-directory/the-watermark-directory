@@ -12,7 +12,7 @@ const items = hasFeed("catalog") ? loadFeed<CatalogItem[]>("catalog") : [];
 const total = items.length;
 const collectionCount = new Set(items.map((i) => i.collection)).size;
 const reviewed = items.filter((i) => i.status === "reviewed").length;
-const stale = items.filter((i) => catalogFreshness(i.observed) === "stale").length;
+const stale = items.filter((i) => stateAttr(i) === "stale").length;
 const countPublic = items.filter((i) => i.access_tier === "public").length;
 const countKeyed = items.filter((i) => i.access_tier === "keyed").length;
 const countThrottled = items.filter((i) => i.access_tier === "throttled").length;
@@ -282,11 +282,13 @@ function siteScopeLabel(scope: string): string {
           .forEach((r) => tbody!.appendChild(r));
       }
 
-      // Collection group separators when sorted by collection or unsorted
+      // Collection group separators when sorted by collection or unsorted.
+      // Re-query after sort so we walk live DOM order, not the original array.
       for (const r of rows) r.classList.remove("group-sep");
       if (!sortCol || sortCol === "collection") {
+        const liveRows = [...tbody!.querySelectorAll<HTMLTableRowElement>("[data-catalog-row]")];
         let prev = "";
-        for (const r of rows) {
+        for (const r of liveRows) {
           if (r.style.display === "none") continue;
           const coll = r.dataset.collection ?? "";
           if (prev && coll !== prev) r.classList.add("group-sep");
@@ -314,7 +316,6 @@ function siteScopeLabel(scope: string): string {
       btn.addEventListener("click", () => {
         const val = btn.dataset.filterAccess ?? "all";
         activeAccess = val === "all" || activeAccess === val ? "all" : val;
-        if (val !== "all" && activeAccess !== "all") activeAccess = val;
         syncAccessBtns();
         applyAll();
       });
