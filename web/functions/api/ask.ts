@@ -17,6 +17,7 @@ import {
   candidateCitations,
   extractCitations,
   isRefusal,
+  normalizeQuestion,
   REFUSAL,
 } from "./_lib/ask";
 import { AnthropicError, type AnthropicUsage, createMessage } from "./_lib/anthropic";
@@ -66,6 +67,8 @@ interface Env {
   HONEYCOMB_API_KEY?: string;
   /** Sets deployment.environment on spans (default "prod"). */
   OTEL_ENVIRONMENT?: string;
+  /** Answer-cache TTL in seconds (default 3600 = 1 hr; "0" disables the cache). */
+  ASK_CACHE_MAX_AGE?: string;
 }
 
 // A paid endpoint deserves a tighter per-IP window than the tips form.
@@ -85,6 +88,37 @@ const sse = (stream: ReadableStream): Response =>
       "x-accel-buffering": "no",
     },
   });
+
+// Answer-cache (#332): Workers Cache API keyed on the normalized question. Returns null in
+// non-Workers environments (Node tests) where `caches` is not defined.
+async function getAnswerCache(): Promise<Cache | null> {
+  try {
+    return typeof caches !== "undefined" ? await caches.open("ask-answers") : null;
+  } catch {
+    return null;
+  }
+}
+
+// Synthesize an SSE stream from a cached AskResult so streaming clients get the same
+// event shape they'd receive from a live model call (meta → delta → done).
+function syntheticCacheStream(cached: AskResult): ReadableStream {
+  const enc = new TextEncoder();
+  return new ReadableStream({
+    start(controller) {
+      const send = (event: string, data: unknown): void => controller.enqueue(enc.encode(frame(event, data)));
+      // candidates = resolved citations so live [n] rendering works on the single delta
+      send("meta", { searched: 0, candidates: cached.citations });
+      if (!cached.refused) send("delta", { text: cached.answer });
+      send("done", {
+        citations: cached.citations,
+        refused: cached.refused,
+        model: cached.model,
+        usage: cached.usage,
+      });
+      controller.close();
+    },
+  });
+}
 
 const DEFAULT_MODEL = "claude-opus-4-8";
 const DEFAULT_MAX_TOKENS = 1024;
@@ -120,6 +154,24 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   const parsed = validateAsk(body.value);
   if (!parsed.ok) return json(400, { error: parsed.error });
   const { question, turnstile_token } = parsed.value;
+  const wantsStream = (request.headers.get("Accept") ?? "").includes("text/event-stream");
+
+  // Answer cache (#332): check before budget guard, rate-limit, and Turnstile — a cache hit
+  // has no model spend and costs nothing to serve. ASK_CACHE_MAX_AGE=0 disables the cache.
+  const cacheMaxAge = Math.max(0, intEnv(env.ASK_CACHE_MAX_AGE, 3600));
+  const answerCache = cacheMaxAge > 0 ? await getAnswerCache() : null;
+  const cacheKeyUrl = `https://ask-cache.internal/v1/${encodeURIComponent(normalizeQuestion(question))}`;
+  if (answerCache) {
+    try {
+      const hit = await answerCache.match(new Request(cacheKeyUrl));
+      if (hit) {
+        const cached = (await hit.json()) as AskResult;
+        return wantsStream ? sse(syntheticCacheStream(cached)) : json(200, cached);
+      }
+    } catch {
+      // Cache read error — fall through to the normal path.
+    }
+  }
 
   const remoteip = request.headers.get("CF-Connecting-IP") ?? undefined;
   const nowMs = Date.now();
@@ -171,7 +223,6 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
 
   const model = env.ASK_MODEL || DEFAULT_MODEL;
   const maxTokens = Math.max(256, intEnv(env.ASK_MAX_TOKENS, DEFAULT_MAX_TOKENS));
-  const wantsStream = (request.headers.get("Accept") ?? "").includes("text/event-stream");
 
   // Record spend against the daily budget + emit structured telemetry for observability.
   // outcome: "no_hits" = refused before any model call; "refused" = model refusal; "answered" = normal.
@@ -279,9 +330,20 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
         const usage =
           inTok != null && outTok != null ? { input_tokens: inTok, output_tokens: outTok } : undefined;
         const refused = isRefusal(full);
+        const citations = refused ? [] : extractCitations(full, hits);
         await record(refused ? "refused" : "answered", usage);
         resolveStreamDone?.();
-        send("done", { citations: refused ? [] : extractCitations(full, hits), refused, model, usage });
+        send("done", { citations, refused, model, usage });
+        if (answerCache && !refused) {
+          const result: AskResult = { answer: full, citations, refused, model, usage };
+          const toCache = new Response(JSON.stringify(result), {
+            headers: {
+              "content-type": "application/json",
+              "cache-control": `public, max-age=${cacheMaxAge}`,
+            },
+          });
+          waitUntil(answerCache.put(new Request(cacheKeyUrl), toCache));
+        }
         controller.close();
       },
     });
@@ -313,13 +375,15 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
     return json(502, { error: "could not generate an answer — please try again later" });
   }
   const refused = isRefusal(text);
+  const citations = refused ? [] : extractCitations(text, hits);
   await record(refused ? "refused" : "answered", usage);
   if (otelHandle) waitUntil(otelHandle.flush());
-  return json(200, {
-    answer: text,
-    citations: refused ? [] : extractCitations(text, hits),
-    refused,
-    model,
-    usage,
-  } satisfies AskResult);
+  const result: AskResult = { answer: text, citations, refused, model, usage };
+  if (answerCache && !refused) {
+    const toCache = new Response(JSON.stringify(result), {
+      headers: { "content-type": "application/json", "cache-control": `public, max-age=${cacheMaxAge}` },
+    });
+    waitUntil(answerCache.put(new Request(cacheKeyUrl), toCache));
+  }
+  return json(200, result satisfies AskResult);
 };
