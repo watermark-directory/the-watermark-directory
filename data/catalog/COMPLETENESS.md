@@ -4,12 +4,12 @@
 
 The **mechanical** half of the corpus-completeness audit: every dataset registered in the data catalog (`data/catalog/`) checked for existence and freshness against the committed reconcile snapshot (`data/catalog/_observed.yaml`). The **substantive** half — records an authority has *withheld* — stays human-authored in [`data/extracted/legal/corpus-completeness-audit.md`](../extracted/legal/corpus-completeness-audit.md).
 
-Snapshot reconciled: **2026-07-01T15:02:50.922870+00:00**. Regenerate with `bosc catalog audit --apply` after `bosc catalog reconcile`.
+Snapshot reconciled: **2026-07-01T15:33:49.283896+00:00**. Regenerate with `bosc catalog audit --apply` after `bosc catalog reconcile`.
 
 ## Headline
 
-- **83** catalogued datasets — **82** reviewed.
-- **83** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
+- **84** catalogued datasets — **83** reviewed.
+- **84** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
 - **0** missing (declared files absent) · **0** unobserved (no snapshot record).
 
 ## Coverage by collection
@@ -59,6 +59,7 @@ Snapshot reconciled: **2026-07-01T15:02:50.922870+00:00**. Regenerate with `bosc
 | reference | rsei | 2 | 2 | 0 | 0 |
 | reference | subdivisions | 1 | 1 | 0 | 0 |
 | reference | usaspending | 1 | 1 | 0 | 0 |
+| reference | wilmington | 1 | 1 | 0 | 0 |
 
 ## Per-site coverage
 
@@ -80,7 +81,7 @@ Snapshot reconciled: **2026-07-01T15:02:50.922870+00:00**. Regenerate with `bosc
 | troy-piqua | 36 | 33 | 3 |
 | urbana | 36 | 33 | 3 |
 | van-wert | 36 | 33 | 3 |
-| wilmington | 36 | 33 | 3 |
+| wilmington | 37 | 34 | 3 |
 | wpafb | 35 | 32 | 3 |
 | xenia | 35 | 32 | 3 |
 

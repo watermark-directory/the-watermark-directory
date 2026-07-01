@@ -1,0 +1,23 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "wilmington-wwtp",
+        "title": "Wilmington WWTP",
+        "type": "infrastructure",
+        "priority": "high",
+        "status": "active",
+        "summary": "City of Wilmington WWTP. Design flow 3.0 MGD (expanding to 4.5 MGD per PTI #1543170, new limits 2026-03-01). Outfall 001 → Lytle Creek RM 6.83 → Todd Fork → Little Miami River. NPDES OH0028134 / 1PD00013*QD."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.85132,
+          39.4391
+        ]
+      }
+    }
+  ]
+}
