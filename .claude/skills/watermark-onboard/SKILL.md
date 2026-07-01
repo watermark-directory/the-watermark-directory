@@ -44,10 +44,10 @@ derive-...   ok       reference/hydrology/low-flow-7q10.derived.yaml
 ## Steps, what they do, and what skipped/error means
 
 ### `scaffold`
-Creates per-site data dirs + house-style READMEs (idempotent). Always `ok`; `dry-run` in `--dry-run` mode.
+Creates per-site data dirs + house-style READMEs (idempotent). Status is `ok` on a live run and `dry-run` when `--dry-run` is passed.
 
 ### `derive-low-flows`
-NWIS → basin 7Q10 for mainstem gauges. Output is **shared across Maumee sites** (`reference/hydrology/low-flow-7q10.derived.yaml`).
+NWIS → basin 7Q10 for every curated mainstem in `_MAINSTEM_GAGES`. Output is a **single shared file** (`reference/hydrology/low-flow-7q10.derived.yaml`) covering all basins; it is appended-to, not replaced, across site onboards.
 
 - `dry-run` → NWIS offline; needs network. The output file is committed after a successful run.
 - `ok` but the new site's receiving-water gauges not in `_MAINSTEM_GAGES` in `src/watermark/hydrology/basin.py` → 7Q10 row won't appear; add the gauges to that dict.

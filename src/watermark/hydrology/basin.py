@@ -97,7 +97,7 @@ _MAINSTEM_GAGES: dict[str, dict[str, Any]] = {
     # receiving water) has no active USGS gage — the historical Greenfield gage
     # (03244000) was discontinued; Todd Fork dischargers stay unscreened (no_7q10)
     # rather than being proxied to a larger downstream river (that would overstate
-    # dilution). Caesar Creek (03242350, below C.J. Brown reservoir) reflects a
+    # dilution). Caesar Creek (03242350, below Caesar Creek Lake) reflects a
     # regulated low-flow regime.
     "Little Miami River": {
         "gage": "03245500",
