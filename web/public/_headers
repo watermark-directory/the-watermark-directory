@@ -1,0 +1,15 @@
+# Cloudflare Pages response headers.
+#
+# Static-mode Astro discards APIRoute response headers — only the body lands in
+# the emitted file. Cloudflare auto-generates ETags for static assets (file-content
+# hash → If-None-Match / 304 handled transparently), so the only thing we need to
+# set explicitly is Cache-Control.
+#
+# Discovery files: long CDN TTL (1 week) + 1-day browser cache. Cloudflare Pages
+# purges the edge cache on every deploy, so the s-maxage is safe to set long.
+
+/llms.txt
+  Cache-Control: public, max-age=86400, s-maxage=604800
+
+/robots.txt
+  Cache-Control: public, max-age=86400, s-maxage=604800
