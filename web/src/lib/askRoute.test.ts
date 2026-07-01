@@ -397,4 +397,133 @@ describe("/api/ask route", () => {
     // anthropicJsonRoute reports { input_tokens: 50, output_tokens: 12 } → counter increments by 62.
     expect(budgetKv.store.get(dayKey(fixedMs))).toBe("62");
   });
+
+  // --- #332: answer cache -------------------------------------------------------------------
+
+  // In-memory Cache API stub — mirrors the Workers Cache API surface used by the route.
+  // The route calls `caches.open("ask-answers")`, so we stub `open` returning a cache object.
+  function fakeAnswerCache() {
+    const store = new Map<string, Response>();
+    const cache = {
+      match: async (req: Request) => store.get(req.url)?.clone(),
+      put: async (req: Request, res: Response) => {
+        store.set(req.url, res.clone());
+      },
+    };
+    return { open: async (_name: string) => cache };
+  }
+
+  // Collect waitUntil promises and flush them synchronously so cache.put completes in tests.
+  function makeWaitUntil() {
+    const pending: Array<Promise<unknown>> = [];
+    const waitUntil = (p: Promise<unknown>) => {
+      pending.push(p);
+    };
+    const flush = () => Promise.all(pending);
+    return { waitUntil, flush };
+  }
+
+  it("serves a cached JSON answer on a repeated question (no model call on cache hit)", async () => {
+    vi.stubGlobal("caches", fakeAnswerCache());
+    const answer = "The estimate totals $1,234,567 [1].";
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute, anthropicJsonRoute(answer)]);
+    vi.stubGlobal("fetch", fetchStub);
+    const wu = makeWaitUntil();
+
+    // First request — populates the cache.
+    const r1 = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok" }),
+      env: askEnv(),
+      waitUntil: wu.waitUntil,
+    } as never);
+    expect(r1.status).toBe(200);
+    await wu.flush(); // ensure cache.put completes
+
+    // Second request — should hit the cache and skip the model.
+    const callsBefore = fetchStub.calls.length;
+    const r2 = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok2" }),
+      env: askEnv(),
+      waitUntil: wu.waitUntil,
+    } as never);
+    expect(r2.status).toBe(200);
+    const body = (await r2.json()) as { answer: string; refused: boolean };
+    expect(body.answer).toContain("$1,234,567");
+    expect(body.refused).toBe(false);
+    // No new fetch calls for Turnstile or the model on the cache hit.
+    expect(fetchStub.calls.length).toBe(callsBefore);
+  });
+
+  it("serves a cached answer as SSE on a streaming cache hit", async () => {
+    vi.stubGlobal("caches", fakeAnswerCache());
+    const answer = "The estimate totals $1,234,567 [1].";
+    const fetchStub = routingFetch([turnstileRoute(true), askIndexRoute, anthropicSseRoute(answer)]);
+    vi.stubGlobal("fetch", fetchStub);
+    const wu = makeWaitUntil();
+
+    // First request (streaming) — populates the cache.
+    const r1 = await onRequestPost({
+      request: ask(
+        { question: "what is the roundabout cost?", turnstile_token: "tok" },
+        { Accept: "text/event-stream" },
+      ),
+      env: askEnv(),
+      waitUntil: wu.waitUntil,
+    } as never);
+    expect(r1.headers.get("content-type")).toContain("text/event-stream");
+    await readStream(r1); // drain
+    await wu.flush();
+
+    // Second streaming request — served from cache.
+    const callsBefore = fetchStub.calls.length;
+    const r2 = await onRequestPost({
+      request: ask(
+        { question: "  What Is the ROUNDABOUT cost? ", turnstile_token: "tok2" },
+        { Accept: "text/event-stream" },
+      ),
+      env: askEnv(),
+      waitUntil: wu.waitUntil,
+    } as never);
+    expect(r2.headers.get("content-type")).toContain("text/event-stream");
+    const out = await readStream(r2);
+    expect(out).toContain("event: meta");
+    expect(out).toContain("event: delta");
+    expect(out).toContain("event: done");
+    expect(out).toContain("$1,234,567");
+    expect(fetchStub.calls.length).toBe(callsBefore); // no model call
+  });
+
+  it("bypasses the cache when ASK_CACHE_MAX_AGE=0", async () => {
+    vi.stubGlobal("caches", fakeAnswerCache());
+    const answer = "The estimate totals $1,234,567 [1].";
+    const fetchStub = routingFetch([
+      turnstileRoute(true),
+      askIndexRoute,
+      anthropicJsonRoute(answer),
+      turnstileRoute(true),
+      askIndexRoute,
+      anthropicJsonRoute(answer),
+    ]);
+    vi.stubGlobal("fetch", fetchStub);
+    const wu = makeWaitUntil();
+
+    const opts = askEnv({ ASK_CACHE_MAX_AGE: "0" });
+    const r1 = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok" }),
+      env: opts,
+      waitUntil: wu.waitUntil,
+    } as never);
+    await wu.flush();
+    expect(r1.status).toBe(200);
+
+    // Second request — cache disabled so model must be called again.
+    const modelCallsBefore = fetchStub.calls.filter((c) => c.url.includes("/v1/messages")).length;
+    const r2 = await onRequestPost({
+      request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok2" }),
+      env: opts,
+      waitUntil: wu.waitUntil,
+    } as never);
+    expect(r2.status).toBe(200);
+    expect(fetchStub.calls.filter((c) => c.url.includes("/v1/messages")).length).toBe(modelCallsBefore + 1);
+  });
 });

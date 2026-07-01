@@ -146,3 +146,8 @@ export function extractCitations(answer: string, hits: Hit[]): AskCitation[] {
 export function isRefusal(answer: string): boolean {
   return answer.trim().replace(/\s+/g, " ").toLowerCase().startsWith(REFUSAL.toLowerCase());
 }
+
+/** Normalize a question for answer-cache keying: lowercase + collapse whitespace. */
+export function normalizeQuestion(q: string): string {
+  return q.toLowerCase().replace(/\s+/g, " ").trim();
+}
