@@ -69,6 +69,7 @@ run = [
   "node_modules/.bin/markdownlint-cli2",   # repo-wide Markdown (config: .markdownlint-cli2.yaml)
   "uv run mypy",
   "uv run watermark catalog check",   # data-catalog gate: schema · missing · orphan · drift (#631)
+  "uv run watermark sites check",     # sites-registry gate: YAML ↔ Python ↔ JSON in sync (#1027)
   "uv run pytest -n auto",   # pytest-xdist: parallelize across cores (override with `-n0` to debug)
 ]
 

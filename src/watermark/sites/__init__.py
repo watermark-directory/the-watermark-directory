@@ -66,10 +66,19 @@ from watermark.sites._model import (
     PROFILE_SETTINGS_FIELDS as PROFILE_SETTINGS_FIELDS,
 )
 from watermark.sites._model import (
+    YAML_BACKED_PROFILE_FIELDS as YAML_BACKED_PROFILE_FIELDS,
+)
+from watermark.sites._model import (
+    SiteEntry as SiteEntry,
+)
+from watermark.sites._model import (
     SiteFacility as SiteFacility,
 )
 from watermark.sites._model import (
     SiteProfile as SiteProfile,
+)
+from watermark.sites._model import (
+    _get_identity as _get_identity,
 )
 from watermark.sites._profiles import (
     PER_SITE_OUTPUT_FIELDS as PER_SITE_OUTPUT_FIELDS,
@@ -197,13 +206,21 @@ def scaffold_profile_src(slug: str, *, basin: str = "maumee") -> str:
     stub is collision-safe by construction); every other field is a typed ``TODO`` placeholder
     to replace from a cited source (see ``docs/onboarding.md``). Then ``bosc sites check`` flags
     anything still unfilled.
+
+    Note: YAML-backed fields (``place``, ``receiving_water_name``, ``map_view_*``) are omitted
+    from the stub — add the site to ``data/sites.yaml`` first and run ``bosc sites sync`` so
+    those fields are filled automatically at construction time (#1027).
     """
+    from watermark.sites._model import YAML_BACKED_PROFILE_FIELDS
+
     lima = SITES["lima"]
     lines: list[str] = [f'    "{slug}": SiteProfile(']
     for name, field in SiteProfile.model_fields.items():
         comment = ""
         if name == "slug":
             value = repr(slug)
+        elif name in YAML_BACKED_PROFILE_FIELDS:
+            continue  # filled from data/sites.yaml — register the site there first
         elif name == "basin":
             value = repr(basin)
             comment = "  # TODO: confirm the basin"
@@ -225,6 +242,7 @@ def scaffold_profile_src(slug: str, *, basin: str = "maumee") -> str:
         f"# Paste into watermark.sites.SITES (the key must equal slug={slug!r}). Replace every TODO\n"
         "# with this site's value from a cited source — see the field guide in\n"
         "# docs/onboarding.md. The output relpaths are pre-slug-scoped (collision-safe);\n"
+        "# Add the site to data/sites.yaml first (identity fields are filled from there).\n"
         f"# run `bosc onboard {slug} --check` to find anything still unfilled.\n"
     )
     return header + "\n".join(lines) + "\n"
@@ -261,13 +279,18 @@ def profile_readiness(slug: str) -> list[ReadinessFinding]:
     Flags any field still a scaffold placeholder (``placeholder`` — must fix) and any field
     still equal to Lima's value (``matches-lima`` — verify; some, e.g. an Ohio site's
     ``eia_state``, legitimately match). Empty for Lima itself.
+
+    YAML-backed fields (``place``, ``receiving_water_name``, ``map_view_*``) are excluded —
+    they are managed in ``data/sites.yaml`` and filled at construction time (#1027).
     """
+    from watermark.sites._model import YAML_BACKED_PROFILE_FIELDS
+
     if slug == "lima":
         return []
     prof, lima = SITES[slug], SITES["lima"]
     findings: list[ReadinessFinding] = []
     for name, field in SiteProfile.model_fields.items():
-        if name == "slug":
+        if name == "slug" or name in YAML_BACKED_PROFILE_FIELDS:
             continue
         value = getattr(prof, name)
         # An optional field left at its default (e.g. facility=None) is a deliberate absence,

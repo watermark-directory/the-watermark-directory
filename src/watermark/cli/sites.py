@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import typer
 from rich.table import Table
 
@@ -8,6 +11,33 @@ from watermark.cli._base import (
     console,
     sites_app,
 )
+
+_REGISTRY_PATH = Path(__file__).parents[3] / "web" / "src" / "lib" / "sites-registry.json"
+
+
+def _build_registry_json() -> str:
+    """The content that sites-registry.json should contain — deterministic, YAML-order."""
+    from watermark.sites._model import _get_identity
+
+    entries = []
+    for entry in _get_identity().values():
+        entries.append(
+            {
+                "slug": entry.slug,
+                "place": entry.place,
+                "basin": entry.basin_label,
+                "state": entry.state,
+                "codename": entry.codename,
+                "mono": entry.mono,
+                "status": entry.status,
+                "selectable": entry.selectable,
+                "issue": entry.issue,
+                "map_lat": entry.map_lat,
+                "map_lon": entry.map_lon,
+                "map_zoom": entry.map_zoom,
+            }
+        )
+    return json.dumps({"sites": entries}, indent=2) + "\n"
 
 
 @sites_app.command("list")
@@ -65,3 +95,47 @@ def sites_new(
     console.print(
         scaffold_profile_src(slug, basin=basin), markup=False, highlight=False, soft_wrap=True
     )
+
+
+@sites_app.command("sync")
+def sites_sync() -> None:
+    """Write web/src/lib/sites-registry.json from data/sites.yaml (the identity SSOT, #1027)."""
+    content = _build_registry_json()
+    _REGISTRY_PATH.write_text(content, encoding="utf-8")
+    console.print(f"[green]Wrote[/] {_REGISTRY_PATH.relative_to(Path.cwd())}")
+
+
+@sites_app.command("check")
+def sites_check() -> None:
+    """Validate that both registries are in sync with data/sites.yaml (#1027).
+
+    Checks:
+    - Every Python SITES slug has an entry in data/sites.yaml.
+    - web/src/lib/sites-registry.json byte-matches what `bosc sites sync` would write.
+    """
+    from watermark.sites._model import _get_identity
+
+    errors: list[str] = []
+
+    identity = _get_identity()
+    for slug in SITES:
+        if slug not in identity:
+            errors.append(
+                f"Python profile {slug!r} is missing from data/sites.yaml — "
+                "add it there and run `bosc sites sync`"
+            )
+
+    expected = _build_registry_json()
+    if _REGISTRY_PATH.exists():
+        actual = _REGISTRY_PATH.read_text(encoding="utf-8")
+        if actual != expected:
+            errors.append("web/src/lib/sites-registry.json is out of sync — run `bosc sites sync`")
+    else:
+        errors.append("web/src/lib/sites-registry.json does not exist — run `bosc sites sync`")
+
+    if errors:
+        for e in errors:
+            console.print(f"[red]✗[/] {e}")
+        raise typer.Exit(1)
+
+    console.print("[green]✓[/] sites registry is in sync")

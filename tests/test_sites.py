@@ -9,7 +9,6 @@ hydrology output can quietly change.
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 
 import pytest
@@ -193,7 +192,9 @@ def test_readiness_flags_placeholders_and_lima_copies(monkeypatch) -> None:  # t
     stub = eval(body, {"SiteProfile": SiteProfile})
     monkeypatch.setitem(SITES, "draftsite", stub)
     found = {f.field: f.kind for f in profile_readiness("draftsite")}
-    assert found.get("place") == "placeholder"
+    # YAML-backed fields (place, receiving_water_name, map_view_*) are excluded from readiness
+    # — they're managed in data/sites.yaml, not scaffold-generated (#1027).
+    assert "place" not in found
     assert found.get("nwis_sites") == "placeholder"
     # The pre-scoped output relpaths are neither placeholders nor Lima copies → not flagged.
     assert "climatology_relpath" not in found
@@ -204,12 +205,14 @@ def test_readiness_clean_for_lima() -> None:
 
 
 def test_python_sites_registered_in_frontend() -> None:
-    # Every Python-registered site must also exist in the frontend registry (its switcher +
-    # coming-soon page); catches drift between the two tiers.
-    ts = (REPO_ROOT / "web" / "src" / "lib" / "sites.ts").read_text(encoding="utf-8")
-    frontend_slugs = set(re.findall(r'slug:\s*"([^"]+)"', ts))
-    assert frontend_slugs, "could not parse slugs from frontend sites.ts"
-    assert set(SITES) <= frontend_slugs, set(SITES) - frontend_slugs
+    # Every Python-registered site must also exist in the shared identity registry (#1027).
+    # The registry JSON is the SSOT consumed by both Python (via _model.py) and TypeScript.
+    registry = json.loads(
+        (REPO_ROOT / "web" / "src" / "lib" / "sites-registry.json").read_text(encoding="utf-8")
+    )
+    registry_slugs = {entry["slug"] for entry in registry["sites"]}
+    assert registry_slugs, "sites-registry.json has no entries — run `bosc sites sync`"
+    assert set(SITES) <= registry_slugs, set(SITES) - registry_slugs
 
 
 def test_per_site_output_paths_resolve(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
