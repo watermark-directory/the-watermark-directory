@@ -1,5 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { type AskUnit, prepare, retrieve, search, tokenize } from "../../functions/api/_lib/retrieval";
+import {
+  type AskUnit,
+  cosineScore,
+  type EmbeddingEntry,
+  prepare,
+  retrieve,
+  rrf,
+  search,
+  tokenize,
+  vectorSearch,
+} from "../../functions/api/_lib/retrieval";
 
 // A small corpus standing in for the citation-bearing bundle feeds.
 const UNITS: AskUnit[] = [
@@ -73,5 +83,76 @@ describe("BM25 retrieve", () => {
   it("respects the top-k cap", () => {
     const prepared = prepare(UNITS);
     expect(search(prepared, "agreement cloud roadway", 2).length).toBeLessThanOrEqual(2);
+  });
+});
+
+describe("cosineScore", () => {
+  it("returns 1 for identical vectors", () => {
+    expect(cosineScore([1, 0, 0], [1, 0, 0])).toBeCloseTo(1);
+  });
+
+  it("returns 0 for orthogonal vectors", () => {
+    expect(cosineScore([1, 0], [0, 1])).toBeCloseTo(0);
+  });
+
+  it("returns 0 for a zero vector", () => {
+    expect(cosineScore([0, 0], [1, 1])).toBe(0);
+  });
+
+  it("is insensitive to magnitude — only direction matters", () => {
+    expect(cosineScore([2, 0], [100, 0])).toBeCloseTo(1);
+  });
+});
+
+describe("vectorSearch", () => {
+  // Simple 2-D embeddings: unit[0] points "north", unit[1] "east", unit[2] "diagonal".
+  const EMB: EmbeddingEntry[] = [
+    { id: UNITS[0].id, embedding: [1, 0] }, // north
+    { id: UNITS[1].id, embedding: [0, 1] }, // east
+    { id: UNITS[2].id, embedding: [0.7071, 0.7071] }, // diagonal (≈ northeast)
+  ];
+
+  it("ranks the most similar unit first", () => {
+    // Query pointing north — unit[0] should win
+    const hits = vectorSearch(UNITS, EMB, [1, 0], 3);
+    expect(hits[0].unit.id).toBe(UNITS[0].id);
+  });
+
+  it("skips units with no embedding entry", () => {
+    const partial: EmbeddingEntry[] = [{ id: UNITS[0].id, embedding: [1, 0] }];
+    const hits = vectorSearch(UNITS, partial, [1, 0], 3);
+    expect(hits.length).toBe(1);
+  });
+
+  it("returns empty for an empty embedding index", () => {
+    expect(vectorSearch(UNITS, [], [1, 0], 3)).toEqual([]);
+  });
+});
+
+describe("rrf", () => {
+  const makeHits = (ids: string[]): ReturnType<typeof retrieve> =>
+    ids.map((id) => ({ unit: UNITS.find((u) => u.id === id)!, score: 1 }));
+
+  it("promotes a document present in both lists", () => {
+    // unit[0] appears in both; unit[1] only in list1; unit[2] only in list2
+    const list1 = makeHits([UNITS[0].id, UNITS[1].id]);
+    const list2 = makeHits([UNITS[0].id, UNITS[2].id]);
+    const merged = rrf(list1, list2, 3);
+    expect(merged[0].unit.id).toBe(UNITS[0].id); // double-ranked → first place
+    expect(merged.length).toBeLessThanOrEqual(3);
+  });
+
+  it("handles one empty list gracefully (degenerates to the other list's ranking)", () => {
+    const hits = makeHits([UNITS[0].id, UNITS[1].id]);
+    const merged = rrf(hits, [], 3);
+    expect(merged.length).toBe(2);
+    // First in hits1 should score higher (rank 1 beats rank 2)
+    expect(merged[0].unit.id).toBe(UNITS[0].id);
+  });
+
+  it("respects the topK cap", () => {
+    const list1 = makeHits([UNITS[0].id, UNITS[1].id, UNITS[2].id]);
+    const list2 = makeHits([UNITS[2].id, UNITS[1].id, UNITS[0].id]);
+    expect(rrf(list1, list2, 2).length).toBe(2);
   });
 });

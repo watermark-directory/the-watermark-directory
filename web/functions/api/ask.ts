@@ -23,12 +23,13 @@ import {
 import { AnthropicError, type AnthropicUsage, createMessage } from "./_lib/anthropic";
 import { streamMessage } from "./_lib/anthropicStream";
 import { loadAskIndex } from "./_lib/askIndexLoad";
+import { loadAskEmbeddings } from "./_lib/askEmbeddingsLoad";
 import { validateAsk } from "./_lib/askSchema";
 import { addUsage, costDollars, DEFAULT_DAILY_TOKEN_BUDGET, isOverBudget } from "./_lib/budget";
 import { intEnv } from "./_lib/env";
 import { json, parseJsonBody, requireEnabled } from "./_lib/http";
 import { enforceRateLimit, type KVLike } from "./_lib/ratelimit";
-import { type PreparedIndex, prepare, search } from "./_lib/retrieval";
+import { type PreparedIndex, prepare, rrf, search, vectorSearch } from "./_lib/retrieval";
 import { frame } from "./_lib/sse";
 import { initTracer } from "./_lib/otel";
 import { verifyTurnstile } from "./_lib/turnstile";
@@ -69,6 +70,11 @@ interface Env {
   OTEL_ENVIRONMENT?: string;
   /** Answer-cache TTL in seconds (default 3600 = 1 hr; "0" disables the cache). */
   ASK_CACHE_MAX_AGE?: string;
+  /** Cloudflare Workers AI binding (#329) — query embedding for hybrid retrieval.
+   *  Absent ⇒ BM25-only keyword retrieval (graceful degradation). */
+  AI?: { run(model: string, input: { text: string[] }): Promise<{ data: number[][] }> };
+  /** Optional override for the ask-embeddings asset URL (e.g. CDN-hosted). */
+  ASK_EMBEDDINGS_URL?: string;
 }
 
 // A paid endpoint deserves a tighter per-IP window than the tips form.
@@ -212,7 +218,8 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   if (budgetKv && (await isOverBudget(budgetKv, nowMs, budgetLimit)))
     return json(503, { error: "the ask endpoint has reached today's budget — please try again tomorrow" });
 
-  // Retrieve grounding context.
+  // Retrieve grounding context — BM25 baseline, upgraded to hybrid when the AI binding
+  // and precomputed embeddings are both available (#329). Degrades gracefully to BM25-only.
   let units: Awaited<ReturnType<typeof loadAskIndex>>;
   try {
     units = await loadAskIndex(request.url, env.ASK_INDEX_URL);
@@ -221,7 +228,26 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
     return json(500, { error: "the corpus index is unavailable" });
   }
   const k = Math.max(1, intEnv(env.ASK_TOP_K, DEFAULT_TOP_K));
-  const hits = search(getPrepared(units), question, k);
+  const bm25Hits = search(getPrepared(units), question, k);
+  let hits = bm25Hits; // may be upgraded to RRF-merged result below
+  if (env.AI) {
+    try {
+      const embeddings = await loadAskEmbeddings(request.url, env.ASK_EMBEDDINGS_URL);
+      if (embeddings) {
+        const aiRes = await env.AI.run("@cf/sentence-transformers/all-minilm-l6-v2", {
+          text: [question],
+        });
+        const qv = aiRes.data[0];
+        if (qv?.length) {
+          const vecHits = vectorSearch(units, embeddings, qv, k);
+          hits = rrf(bm25Hits, vecHits, k);
+        }
+      }
+    } catch (e) {
+      // Vector path failed — log and fall through to BM25-only result.
+      console.warn("ask: vector retrieval failed, using BM25:", String(e));
+    }
+  }
 
   const model = env.ASK_MODEL || DEFAULT_MODEL;
   const maxTokens = Math.max(256, intEnv(env.ASK_MAX_TOKENS, DEFAULT_MAX_TOKENS));

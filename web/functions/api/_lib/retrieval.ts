@@ -185,3 +185,78 @@ export function search(prepared: PreparedIndex, query: string, k = 6): Hit[] {
 export function retrieve(units: AskUnit[], query: string, k = 6): Hit[] {
   return search(prepare(units), query, k);
 }
+
+// --- Hybrid retrieval: vector search + Reciprocal Rank Fusion (#329) ---------------
+
+/** Cosine similarity between two vectors; returns 0 when either is the zero vector. */
+export function cosineScore(a: number[], b: number[]): number {
+  let dot = 0;
+  let na = 0;
+  let nb = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    na += a[i] * a[i];
+    nb += b[i] * b[i];
+  }
+  const denom = Math.sqrt(na) * Math.sqrt(nb);
+  return denom === 0 ? 0 : dot / denom;
+}
+
+/** An id + precomputed embedding vector from the ask-embeddings index (#329). */
+export interface EmbeddingEntry {
+  id: string;
+  embedding: number[];
+}
+
+/**
+ * Score units by cosine similarity to `queryEmbedding` and return the top `k`.
+ * Units without a matching entry in `embeddings` are skipped — a partial index is OK
+ * and the function degrades gracefully toward zero results.
+ */
+export function vectorSearch(
+  units: AskUnit[],
+  embeddings: EmbeddingEntry[],
+  queryEmbedding: number[],
+  k = 6,
+): Hit[] {
+  const byId = new Map(embeddings.map((e) => [e.id, e.embedding]));
+  const hits: Hit[] = [];
+  for (const unit of units) {
+    const emb = byId.get(unit.id);
+    if (!emb) continue;
+    const score = cosineScore(queryEmbedding, emb);
+    if (score > 0) hits.push({ unit, score });
+  }
+  hits.sort((a, b) => b.score - a.score);
+  return hits.slice(0, k);
+}
+
+const RRF_K = 60; // standard smoothing constant (prevents rank-1 from dominating)
+
+/**
+ * Reciprocal Rank Fusion of two scored hit lists (#329).
+ *
+ *   fused_score(d) = 1 / (k + rank_bm25(d)) + 1 / (k + rank_vec(d))
+ *
+ * A document absent from a list gets rank = list.length + 1 (last-place penalty).
+ * Returns the top `topK` hits by fused score, highest first.
+ */
+export function rrf(bm25: Hit[], vec: Hit[], topK = 6): Hit[] {
+  const r1 = new Map(bm25.map((h, i) => [h.unit.id, i + 1]));
+  const r2 = new Map(vec.map((h, i) => [h.unit.id, i + 1]));
+  const absent1 = bm25.length + 1;
+  const absent2 = vec.length + 1;
+
+  const seen = new Map<string, Hit>();
+  for (const h of [...bm25, ...vec]) if (!seen.has(h.unit.id)) seen.set(h.unit.id, h);
+
+  return [...seen.values()]
+    .map((h) => ({
+      unit: h.unit,
+      score:
+        1 / (RRF_K + (r1.get(h.unit.id) ?? absent1)) +
+        1 / (RRF_K + (r2.get(h.unit.id) ?? absent2)),
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, topK);
+}

@@ -774,6 +774,11 @@ def export(
     out: str | None = typer.Option(
         None, "--out", help="Output directory (default: data/site/bundles/<active-site>)."
     ),
+    no_embeddings: bool = typer.Option(
+        False,
+        "--no-embeddings",
+        help="Skip the ask-embeddings feed (avoids the ~80 MB model download; hybrid retrieval degrades to BM25-only).",
+    ),
 ) -> None:
     """Export the corpus as the typed JSON content bundle (regenerable).
 
@@ -781,10 +786,14 @@ def export(
     a manifest read by the frontend at build time. The bundle is per network site — it lands
     under data/site/bundles/<slug>/ for the active site (pick one with `bosc --site <slug>
     export`; default is the WATERMARK_SITE site).
+
+    By default also generates ``ask-embeddings.json`` (all-MiniLM-L6-v2 vectors for hybrid
+    BM25 + vector retrieval, #329). Use --no-embeddings to skip if you don't need it or
+    want a faster export.
     """
     from watermark.site import export_bundle
 
-    result = export_bundle(out_dir=Path(out) if out else None)
+    result = export_bundle(out_dir=Path(out) if out else None, skip_embeddings=no_embeddings)
     console.print(
         f"[green]Exported[/] {result.out_dir} — {result.feed_count} feeds, {result.row_total} rows."
     )
