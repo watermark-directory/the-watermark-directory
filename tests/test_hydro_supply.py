@@ -78,14 +78,17 @@ def test_water_budget_findings_cover_the_story(hydro_settings: Settings) -> None
     budget = sup.campus_budget_from_cooling(system)
     findings = sup.water_budget_findings(budget, system)
     checks = {f.check for f in findings}
-    assert {
+    required = {
         "supply-off-stream",
         "drought-reserve",
         "campus-production-share",
         "basin-consumptive-loss",
         "refill-adequacy",
-    } <= checks
-    off_stream = next(f for f in findings if f.check == "supply-off-stream")
+    }
+    missing = required - checks
+    assert not missing, f"missing checks: {missing}; got: {checks}"
+    off_stream = next((f for f in findings if f.check == "supply-off-stream"), None)
+    assert off_stream is not None, f"no 'supply-off-stream' finding; checks: {checks}"
     assert "off-stream" not in off_stream.detail.lower() or "drawdown" in off_stream.detail.lower()
     # The drawdown decoupling is the headline, not a 7Q10 intake.
     assert "7Q10" in off_stream.detail or "drawdown" in off_stream.detail
