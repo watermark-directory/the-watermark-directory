@@ -455,21 +455,22 @@ def export_bundle(
 
     feeds = _collect_feeds(settings)
 
-    # Optional ask-embeddings feed (#329): precompute all-MiniLM-L6-v2 vectors for
-    # each ask-index unit so the Worker can do hybrid BM25 + cosine retrieval.
-    # Skipped with --no-embeddings (slow first run — model download ~80 MB).
+    # ask-embeddings feed (#329): precompute all-MiniLM-L6-v2 vectors for each ask-index
+    # unit so the Worker can do hybrid BM25 + cosine retrieval.  Always emitted (even
+    # empty) so the schema is written and the contract stays stable; skipping with
+    # --no-embeddings (slow first run — model download ~80 MB) degrades to BM25-only.
+    emb_models: list[AskEmbeddingEntry] = []
     if not skip_embeddings:
         try:
             emb_rows = build_ask_embeddings(out)
-            if emb_rows:
-                emb_models = [AskEmbeddingEntry.model_validate(r) for r in emb_rows]
-                feeds.append(_collection_feed("ask-embeddings", AskEmbeddingEntry, emb_models))
+            emb_models = [AskEmbeddingEntry.model_validate(r) for r in emb_rows]
         except Exception as exc:
             log.warning(
                 "embeddings.failed",
                 error=str(exc).splitlines()[0],
                 hint="run with --no-embeddings to skip; hybrid retrieval will degrade to BM25",
             )
+    feeds.append(_collection_feed("ask-embeddings", AskEmbeddingEntry, emb_models))
 
     # Schema files (geo feeds share one file — dedup by schema_file path).
     written_schemas: set[str] = set()
