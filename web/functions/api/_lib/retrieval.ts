@@ -254,9 +254,7 @@ export function rrf(bm25: Hit[], vec: Hit[], topK = 6): Hit[] {
   return [...seen.values()]
     .map((h) => ({
       unit: h.unit,
-      score:
-        1 / (RRF_K + (r1.get(h.unit.id) ?? absent1)) +
-        1 / (RRF_K + (r2.get(h.unit.id) ?? absent2)),
+      score: 1 / (RRF_K + (r1.get(h.unit.id) ?? absent1)) + 1 / (RRF_K + (r2.get(h.unit.id) ?? absent2)),
     }))
     .sort((a, b) => b.score - a.score)
     .slice(0, topK);

@@ -440,7 +440,7 @@ describe("/api/ask route", () => {
     await wu.flush(); // ensure cache.put completes
 
     // Second request — Turnstile still runs (abuse gate), but model + index are skipped.
-    const callsBefore = fetchStub.calls.length;
+    const _callsBefore = fetchStub.calls.length;
     const r2 = await onRequestPost({
       request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok2" }),
       env: askEnv(),
@@ -476,7 +476,7 @@ describe("/api/ask route", () => {
     await wu.flush();
 
     // Second streaming request — served from cache.
-    const callsBefore = fetchStub.calls.length;
+    const _callsBefore = fetchStub.calls.length;
     const r2 = await onRequestPost({
       request: ask(
         { question: "  What Is the ROUNDABOUT cost? ", turnstile_token: "tok2" },
