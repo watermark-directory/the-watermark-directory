@@ -7,11 +7,46 @@ Split out of the former monolithic ``sites.py`` (#597). Re-exported by the packa
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict
+import yaml
+from pydantic import BaseModel, ConfigDict, model_validator
 
 from watermark.connectors.gis_schema import GisFloodSchema, GisParcelSchema, GisZoningSchema
+
+_YAML_PATH = Path(__file__).parents[3] / "data" / "sites.yaml"
+
+
+class SiteEntry(BaseModel):
+    """One entry in ``data/sites.yaml`` — the canonical identity for a watershed-point site."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    slug: str
+    place: str
+    basin_label: str
+    receiving_water: str | None = None
+    state: str
+    codename: str | None = None
+    mono: str
+    status: str
+    selectable: bool
+    issue: str | None = None
+    map_lat: float | None = None
+    map_lon: float | None = None
+    map_zoom: int | None = None
+
+
+_IDENTITY: dict[str, SiteEntry] | None = None
+
+
+def _get_identity() -> dict[str, SiteEntry]:
+    global _IDENTITY
+    if _IDENTITY is None:
+        raw = yaml.safe_load(_YAML_PATH.read_text(encoding="utf-8"))
+        _IDENTITY = {e["slug"]: SiteEntry(**e) for e in raw.get("sites", [])}
+    return _IDENTITY
 
 
 class SiteFacility(BaseModel):
@@ -44,9 +79,43 @@ class SiteProfile(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
+    @model_validator(mode="before")
+    @classmethod
+    def _fill_from_yaml(cls, data: object) -> object:
+        """Back-fill identity fields from data/sites.yaml (the SSOT for #1027).
+
+        Every SiteProfile must have a matching entry in the YAML registry. The fields
+        ``place``, ``receiving_water_name``, and ``map_view_lat/lon/zoom`` are authoritative
+        in the YAML; profiles that omit them get them filled here. Profiles that still carry
+        them explicitly (e.g. during a migration) take precedence via ``setdefault``.
+        """
+        if not isinstance(data, dict):
+            return data
+        slug = data.get("slug")
+        if not slug:
+            return data
+        identity = _get_identity()
+        entry = identity.get(str(slug))
+        if entry is None:
+            # Unregistered slug (e.g. a test stub) — skip filling; `bosc sites check` is the gate.
+            return data
+        data.setdefault("place", entry.place)
+        if entry.receiving_water is not None:
+            data.setdefault("receiving_water_name", entry.receiving_water)
+        if entry.map_lat is not None:
+            data.setdefault("map_view_lat", entry.map_lat)
+        if entry.map_lon is not None:
+            data.setdefault("map_view_lon", entry.map_lon)
+        if entry.map_zoom is not None:
+            data.setdefault("map_view_zoom", entry.map_zoom)
+        return data
+
     # --- Identity (mirrors sites.ts; ``basin`` is the shared-across-Maumee axis) ---------
     slug: str
-    place: str
+    # place, receiving_water_name, map_view_* are authoritative in data/sites.yaml and filled
+    # by _fill_from_yaml at construction time (#1027). Defaults satisfy mypy; the validator
+    # ensures they're set for all registered slugs. `bosc sites check` is the enforcement gate.
+    place: str = ""
     basin: str
 
     # --- Config knobs resolved into Settings (see PROFILE_SETTINGS_FIELDS) ---------------
@@ -113,7 +182,7 @@ class SiteProfile(BaseModel):
 
     # --- Toxics corridor inference (hydrology/toxics.py) ---------------------------------
     toxic_corridor_bbox: tuple[float, float, float, float]  # lat_min, lat_max, lon_min, lon_max
-    receiving_water_name: str
+    receiving_water_name: str = ""  # authoritative in data/sites.yaml; filled by _fill_from_yaml
 
     # --- Water-balance routing fallback (hydrology/balance.py) ---------------------------
     plant_receiving: dict[str, tuple[str, str]]  # fid -> (receiving water, citation)
@@ -168,10 +237,17 @@ class SiteProfile(BaseModel):
     county_name: str
 
     # --- Legacy SSG map default view (site/gismap.py) -----------------------------------
-    map_view_lat: float
-    map_view_lon: float
-    map_view_zoom: int
+    map_view_lat: float = 0.0  # authoritative in data/sites.yaml; filled by _fill_from_yaml
+    map_view_lon: float = 0.0
+    map_view_zoom: int = 0
 
+
+# Fields whose authoritative values live in data/sites.yaml and are filled at construction time
+# by _fill_from_yaml (the model_validator). They have empty/zero defaults to satisfy mypy; at
+# runtime every registered profile has them set from YAML. `bosc sites check` is the gate.
+YAML_BACKED_PROFILE_FIELDS: frozenset[str] = frozenset(
+    {"place", "receiving_water_name", "map_view_lat", "map_view_lon", "map_view_zoom"}
+)
 
 # The config-knob fields a profile shares 1:1 with Settings; Settings fills any of these the
 # caller did not set explicitly (env/dotenv/kwarg) from the active profile.

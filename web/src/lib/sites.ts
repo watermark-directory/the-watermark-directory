@@ -18,6 +18,7 @@
  *  earliest phase — it routes to a lightweight "watch" page). Only `live` is selectable. */
 import { runWithSite } from "./bundle";
 import { DEFAULT_STORY_CODENAME, SITE_BASE, siteBase } from "./routes";
+import sitesRegistry from "./sites-registry.json";
 
 export type SiteStatus = "live" | "building" | "queued" | "tracking";
 
@@ -66,417 +67,43 @@ export interface NetworkSite {
   stories?: readonly StoryRef[];
 }
 
+// TypeScript-only overlays — stories live here, not in the YAML identity registry (#1027).
+// The YAML drives slug/place/basin/status/selectable/codename/mono/map defaults; stories
+// are authored here because they reference story codemnames + prose that aren't site-identity.
+const STORIES: Partial<Record<string, readonly StoryRef[]>> = {
+  lima: [
+    {
+      codename: DEFAULT_STORY_CODENAME,
+      title: "Project BOSC",
+      dek: "Project BOSC — read the record one document at a time, no prior knowledge.",
+    },
+  ],
+  "fort-wayne": [
+    {
+      codename: "project-zodiac",
+      title: "Project Zodiac",
+      dek: "Project Zodiac — a $2B Google data center in Fort Wayne, read from the records.",
+    },
+  ],
+};
+
 /** The single source of truth for the switcher, the coming-soon pages, and the basin map.
- *  Order is the display order in the switcher (active first, then by basin position). */
-export const SITES: readonly NetworkSite[] = [
-  {
-    slug: "lima",
-    codename: "BOSC",
-    mono: "LIM",
-    place: "Lima",
-    basin: "Ottawa River · Lima, OH",
-    status: "live",
-    selectable: true,
-    href: SITE_BASE,
-    stories: [
-      {
-        codename: DEFAULT_STORY_CODENAME,
-        title: "Project BOSC",
-        dek: "Project BOSC — read the record one document at a time, no prior knowledge.",
-      },
-    ],
-  },
-  {
-    slug: "fort-wayne",
-    codename: "GCP",
-    mono: "FTW",
-    place: "Fort Wayne",
-    basin: "Maumee headwaters",
-    status: "live",
-    selectable: true,
-    issue: "235",
-    href: "/network/fort-wayne",
-    stories: [
-      {
-        codename: "project-zodiac",
-        title: "Project Zodiac",
-        dek: "Project Zodiac — a $2B Google data center in Fort Wayne, read from the records.",
-      },
-    ],
-  },
-  {
-    slug: "defiance",
-    codename: null,
-    mono: "DEF",
-    place: "Defiance",
-    basin: "Maumee mainstem",
-    status: "queued",
-    selectable: false,
-    issue: "238",
-    href: "/network/defiance",
-  },
-  {
-    slug: "findlay",
-    codename: null,
-    mono: "FIN",
-    place: "Findlay",
-    basin: "Blanchard River",
-    status: "queued",
-    selectable: false,
-    issue: "237",
-    href: "/network/findlay",
-  },
-  {
-    slug: "toledo",
-    codename: null,
-    mono: "TOL",
-    place: "Toledo",
-    basin: "Lucas Co WRRF",
-    status: "queued",
-    selectable: false,
-    issue: "236",
-    href: "/network/toledo",
-  },
-  {
-    // Small-stream headwaters comparator: a 4 MGD plant on a small tributary (the
-    // effluent-dominance end of the basin spectrum). Onboarded, not yet built.
-    slug: "van-wert",
-    codename: null,
-    mono: "VWT",
-    place: "Van Wert",
-    basin: "Town Creek · Little Auglaize",
-    status: "queued",
-    selectable: false,
-    issue: "363",
-    href: "/network/van-wert",
-  },
-  {
-    // Municipal-utility / Tiffin-subbasin headwaters comparator: the basin's first municipal
-    // electric point (Bryan Municipal Utilities, AMP/PJM). Onboarded, not yet built.
-    slug: "bryan",
-    codename: null,
-    mono: "BRY",
-    place: "Bryan",
-    basin: "Prairie Creek · Tiffin River",
-    status: "queued",
-    selectable: false,
-    issue: "380",
-    href: "/network/bryan",
-  },
-  {
-    // Intra-tributary (same-river) comparator: the downstream Blanchard sibling of Findlay —
-    // same receiving river, two points ~40 river-mi apart. Onboarded, not yet built.
-    slug: "ottawa",
-    codename: null,
-    mono: "OTW",
-    place: "Ottawa",
-    basin: "Blanchard River (lower)",
-    status: "queued",
-    selectable: false,
-    issue: "381",
-    href: "/network/ottawa",
-  },
-  {
-    // The network's FIRST Miami-basin site (second basin branch): the clean headwaters of the
-    // Mad River buried-valley sole-source aquifer, upstream of the Wright-Patterson / Dayton
-    // corridor — the geological inverse of the Maumee lake-plain sites. Onboarding (#441 / epic #440).
-    slug: "urbana",
-    codename: null,
-    mono: "URB",
-    place: "Urbana",
-    basin: "Mad River · Great Miami",
-    status: "live",
-    selectable: true,
-    issue: "441",
-    href: "/network/urbana",
-  },
-  {
-    // The network's SECOND Miami-basin site: the Mad River MID-CORRIDOR node between the Urbana
-    // headwaters (#441) and Dayton / Wright-Patterson (#442), on the same buried-valley
-    // sole-source aquifer — distinguished by a managed second supply water (Buck Creek / C.J.
-    // Brown Reservoir). Onboarding (#452 / epic #451).
-    slug: "springfield",
-    codename: null,
-    mono: "SPR",
-    place: "Springfield",
-    basin: "Mad River · Great Miami",
-    status: "queued",
-    selectable: false,
-    issue: "452",
-    href: "/network/springfield",
-  },
-  {
-    // The network's FIRST Little Miami-basin site (a third basin branch): the WPAFB-adjacent
-    // Greene County node on the Little Miami — a National & State Scenic River, the heightened
-    // regulatory-overlay receiving water the Maumee/Great-Miami sites lack. Tracking (#444).
-    slug: "xenia",
-    codename: null,
-    mono: "XEN",
-    place: "Xenia",
-    basin: "Little Miami",
-    status: "queued",
-    selectable: false,
-    issue: "444",
-    href: "/network/xenia",
-  },
-  {
-    // The downstream terminus of the Mad River corridor and the richest Miami node: the SW-Ohio
-    // analog to Lima's defense nexus. Wright-Patterson AFB — regulated/air-gapped DoD cloud (the
-    // distinctive data-center variant), a sole-source buried-valley aquifer, and a documented
-    // TCE/PFAS plume on it. Already in the corpus (defense-footprint testimony). Tracking (#442).
-    slug: "wpafb",
-    codename: null,
-    mono: "WPA",
-    place: "Dayton · WPAFB",
-    basin: "Mad River · Great Miami",
-    status: "queued",
-    selectable: false,
-    issue: "442",
-    href: "/network/wpafb",
-  },
-  {
-    // The lower Great Miami heavy-industry node and the I-75 Cincinnati–Dayton corridor's southern
-    // anchor: the established-industry comparator to the greenfield sites (Cleveland-Cliffs
-    // Middletown Works / former AK Steel), on the Great Miami mainstem. Butler County (seat = City of
-    // Hamilton, NOT Hamilton County/Cincinnati); a third PJM zone (DEOK). Tracking (#443).
-    slug: "hamilton-middletown",
-    codename: null,
-    mono: "HAM",
-    place: "Hamilton · Middletown",
-    basin: "Great Miami (lower)",
-    status: "queued",
-    selectable: false,
-    issue: "443",
-    href: "/network/hamilton-middletown",
-  },
-  {
-    // The upper Great Miami mainstem node (Miami County), upstream of WPAFB — the I-75 corridor
-    // between the Great Miami headwaters and Dayton. Mid-size manufacturing (Hobart food equipment,
-    // auto parts) with a second muni-power story (Piqua). The upstream complement to
-    // Hamilton/Middletown's lower-mainstem node. Tracking (#475).
-    slug: "troy-piqua",
-    codename: null,
-    mono: "TRP",
-    place: "Troy · Piqua",
-    basin: "Great Miami (upper)",
-    status: "queued",
-    selectable: false,
-    issue: "475",
-    href: "/network/troy-piqua",
-  },
-
-  // The remaining Miami-basin sites, now onboarded (queued; #440) — registered SiteProfiles in
-  // `bosc.sites`: the Great Miami headwaters + the basin-divide edge, and the Little Miami Air
-  // Park node. They complete the Miami branch (great-miami + little-miami).
-  {
-    slug: "sidney",
-    codename: null,
-    mono: "SID",
-    place: "Sidney",
-    basin: "Great Miami · headwaters",
-    status: "queued",
-    selectable: false,
-    issue: "481",
-    href: "/network/sidney",
-  },
-  {
-    slug: "greenville",
-    codename: null,
-    mono: "GRV",
-    place: "Greenville · Darke Co",
-    basin: "Stillwater · basin divide",
-    status: "queued",
-    selectable: false,
-    issue: "482",
-    href: "/network/greenville",
-  },
-  {
-    slug: "wilmington",
-    codename: null,
-    mono: "WIL",
-    place: "Wilmington",
-    basin: "Todd Fork · Little Miami",
-    status: "queued",
-    selectable: false,
-    issue: "492",
-    href: "/network/wilmington",
-  },
-
-  // --- Tracking sites (#484 + basin epics): GitHub-tracked candidates with an issue but no
-  // registered SiteProfile yet — the earliest phase, routed to a lightweight "watch" page. These
-  // fill out the full network the grouped selector depicts (32 sites across 9 basins). ---
-  // Scioto (the data-center epicenter)
-  {
-    slug: "new-albany",
-    codename: null,
-    mono: "NAL",
-    place: "New Albany · Licking",
-    basin: "Scioto ↔ Muskingum divide",
-    status: "tracking",
-    selectable: false,
-    issue: "485",
-    href: "/network/new-albany",
-  },
-  {
-    slug: "columbus",
-    codename: null,
-    mono: "COL",
-    place: "Columbus",
-    basin: "Scioto · Olentangy",
-    status: "tracking",
-    selectable: false,
-    issue: "486",
-    href: "/network/columbus",
-  },
-  // Muskingum (Ohio's largest basin)
-  {
-    slug: "newark",
-    codename: null,
-    mono: "NWK",
-    place: "Newark",
-    basin: "Licking River",
-    status: "tracking",
-    selectable: false,
-    issue: "493",
-    href: "/network/newark",
-  },
-  {
-    slug: "zanesville",
-    codename: null,
-    mono: "ZAN",
-    place: "Zanesville",
-    basin: "Muskingum mainstem",
-    status: "tracking",
-    selectable: false,
-    issue: "494",
-    href: "/network/zanesville",
-  },
-  {
-    slug: "coshocton",
-    codename: null,
-    mono: "CSH",
-    place: "Coshocton",
-    basin: "Tuscarawas + Walhonding",
-    status: "tracking",
-    selectable: false,
-    issue: "495",
-    href: "/network/coshocton",
-  },
-  // Sandusky (the Maumee's Lake Erie nutrient sibling)
-  {
-    slug: "fremont",
-    codename: null,
-    mono: "FRE",
-    place: "Fremont · Clyde",
-    basin: "Lower Sandusky",
-    status: "tracking",
-    selectable: false,
-    issue: "496",
-    href: "/network/fremont",
-  },
-  {
-    slug: "tiffin",
-    codename: null,
-    mono: "TIF",
-    place: "Tiffin",
-    basin: "Sandusky (mid)",
-    status: "tracking",
-    selectable: false,
-    issue: "497",
-    href: "/network/tiffin",
-  },
-  {
-    slug: "bucyrus",
-    codename: null,
-    mono: "BUC",
-    place: "Bucyrus",
-    basin: "Sandusky headwaters",
-    status: "tracking",
-    selectable: false,
-    issue: "498",
-    href: "/network/bucyrus",
-  },
-  // Cuyahoga (the burning-river industrial legacy)
-  {
-    slug: "cleveland",
-    codename: null,
-    mono: "CLE",
-    place: "Cleveland",
-    basin: "Lower Cuyahoga",
-    status: "tracking",
-    selectable: false,
-    issue: "499",
-    href: "/network/cleveland",
-  },
-  {
-    slug: "akron",
-    codename: null,
-    mono: "AKR",
-    place: "Akron",
-    basin: "Upper Cuyahoga · CVNP",
-    status: "tracking",
-    selectable: false,
-    issue: "500",
-    href: "/network/akron",
-  },
-  // Mahoning (Voltage Valley EV/battery load)
-  {
-    slug: "lordstown",
-    codename: null,
-    mono: "LRD",
-    place: "Lordstown · Warren",
-    basin: "Upper Mahoning",
-    status: "tracking",
-    selectable: false,
-    issue: "501",
-    href: "/network/lordstown",
-  },
-  {
-    slug: "youngstown",
-    codename: null,
-    mono: "YNG",
-    place: "Youngstown",
-    basin: "Mahoning mainstem",
-    status: "tracking",
-    selectable: false,
-    issue: "502",
-    href: "/network/youngstown",
-  },
-  // Hocking (the unglaciated Appalachian contrast)
-  {
-    slug: "lancaster",
-    codename: null,
-    mono: "LAN",
-    place: "Lancaster",
-    basin: "Upper Hocking",
-    status: "tracking",
-    selectable: false,
-    issue: "503",
-    href: "/network/lancaster",
-  },
-  {
-    slug: "athens",
-    codename: null,
-    mono: "ATH",
-    place: "Athens",
-    basin: "Lower Hocking",
-    status: "tracking",
-    selectable: false,
-    issue: "504",
-    href: "/network/athens",
-  },
-  {
-    slug: "logan",
-    codename: null,
-    mono: "LOG",
-    place: "Logan",
-    basin: "Hocking Hills",
-    status: "tracking",
-    selectable: false,
-    issue: "505",
-    href: "/network/logan",
-  },
-] as const;
+ *  Order is the display order in the switcher — driven by `data/sites.yaml` order (#1027).
+ *  Run `bosc sites sync` to regenerate `sites-registry.json` when the YAML changes. */
+export const SITES: readonly NetworkSite[] = sitesRegistry.sites.map(
+  (entry): NetworkSite => ({
+    slug: entry.slug,
+    codename: entry.codename,
+    mono: entry.mono,
+    place: entry.place,
+    basin: entry.basin,
+    status: entry.status as SiteStatus,
+    selectable: entry.selectable,
+    href: entry.slug === "lima" ? SITE_BASE : `/network/${entry.slug}`,
+    ...(entry.issue !== null ? { issue: entry.issue } : {}),
+    ...(STORIES[entry.slug] ? { stories: STORIES[entry.slug] } : {}),
+  }),
+);
 
 /** Build-phase display meta — the switcher row status, the phase pill, and the selector legend
  *  all read from here, so the four phases render identically everywhere. */
@@ -733,6 +360,16 @@ export function siteForSlug(slug: string): NetworkSite | undefined {
  */
 export function siteState(slug: string): string {
   return PLACEMENT[slug]?.state ?? "";
+}
+
+/**
+ * The default DeckGL map viewport for a site, read from the YAML identity registry (#1027/#1032).
+ * Returns `null` for tracking-only sites that have no Python profile yet (no map defaults set).
+ */
+export function mapView(slug: string): { lat: number; lon: number; zoom: number } | null {
+  const entry = sitesRegistry.sites.find((e) => e.slug === slug);
+  if (!entry || entry.map_lat == null || entry.map_lon == null || entry.map_zoom == null) return null;
+  return { lat: entry.map_lat, lon: entry.map_lon, zoom: entry.map_zoom as number };
 }
 
 const STATE_ABBR: Record<string, string> = { Ohio: "OH", Indiana: "IN" };

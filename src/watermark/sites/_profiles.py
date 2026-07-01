@@ -29,7 +29,6 @@ from watermark.sites._model import SiteFacility, SiteProfile
 # see tests/test_sites.py for the zero-drift golden snapshot.
 _LIMA = SiteProfile(
     slug="lima",
-    place="Lima",
     basin="maumee",
     # config knobs
     nwis_sites=["04187100", "04186500"],
@@ -89,7 +88,6 @@ _LIMA = SiteProfile(
     grid_relpath="reference/eia/grid-profile.yaml",
     # toxics
     toxic_corridor_bbox=(40.695, 40.725, -84.140, -84.105),
-    receiving_water_name="Ottawa River",
     # balance
     plant_receiving={
         "watch-american-ii-wwtp": ("Dug Run", "Ohio EPA fact sheet 2PH00006 (American II WWTP)"),
@@ -148,10 +146,6 @@ _LIMA = SiteProfile(
     county_name="Allen County, OH",
     # oepa permits (#844)
     npdes_permits=["2PH00006", "2PH00007", "2PK00002"],
-    # map
-    map_view_lat=40.792,
-    map_view_lon=-84.122,
-    map_view_zoom=14,
 )
 
 
@@ -165,7 +159,6 @@ _LIMA = SiteProfile(
 # [reference] authoritative dataset; [open] genuinely unsourced (a known lift / pending a site).
 _FINDLAY = SiteProfile(
     slug="findlay",
-    place="Findlay",
     basin="maumee",  # [verified] Blanchard R. → Auglaize → Maumee → Lake Erie; HUC-8 04100008
     # config knobs
     nwis_sites=[
@@ -239,7 +232,6 @@ _FINDLAY = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending an identified corridor on the Blanchard
-    receiving_water_name="Blanchard River",  # [verified]
     # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
     plant_receiving={},  # [open] pending Findlay-area WWTP NPDES fact sheets
     abstraction_gage="04189000",  # [inference] the primary Blanchard gage near Findlay
@@ -264,10 +256,6 @@ _FINDLAY = SiteProfile(
     lmp_pnode_name="AEP",
     # rsei
     county_name="Hancock County, OH",  # [verified]
-    # map
-    map_view_lat=41.0428,
-    map_view_lon=-83.6422,
-    map_view_zoom=13,
 )
 
 
@@ -288,7 +276,6 @@ _FINDLAY = SiteProfile(
 # offline it falls back to Ohio denominators, so the regen is a keyed follow-up.
 _FORT_WAYNE = SiteProfile(
     slug="fort-wayne",
-    place="Fort Wayne",
     basin="maumee",  # [verified] St. Joseph + St. Marys form the Maumee at Fort Wayne; HUC-8 04100005
     # config knobs
     nwis_sites=[
@@ -366,7 +353,6 @@ _FORT_WAYNE = SiteProfile(
     grid_relpath="reference/eia/fort-wayne/grid-profile.yaml",
     # toxics (no identified industrial corridor yet)
     toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # [open] pending an identified corridor on the Maumee
-    receiving_water_name="Maumee River",  # [verified: ECHO] FW WWTP IN0032191 → Baldwin Ditch → Maumee
     # balance — Fort Wayne WWTP (IN0032191), the basin's largest POTW. Immediate receptor is
     # Baldwin Ditch (an ungaged ditch → the screen leaves it unscreened, omit-don't-guess); the
     # ditch joins the Maumee at the St. Joseph/St. Marys headwaters (derived 7Q10 ≈ 69.7 cfs). #358/#359.
@@ -427,10 +413,6 @@ _FORT_WAYNE = SiteProfile(
     corpus_relpaths=("fort-wayne", "idem/fort-wayne"),
     # rsei
     county_name="Allen County, IN",  # [verified]
-    # map
-    map_view_lat=41.0891,
-    map_view_lon=-85.1439,
-    map_view_zoom=12,
 )
 
 
@@ -444,7 +426,6 @@ _FORT_WAYNE = SiteProfile(
 # identified (Van Wert-area discovery is `--research` + corpus follow-up).
 _VAN_WERT = SiteProfile(
     slug="van-wert",
-    place="Van Wert",
     basin="maumee",  # [verified] Town Creek → Little Auglaize → Auglaize → Maumee; HUC-8 04100007
     # config knobs
     nwis_sites=[
@@ -503,7 +484,6 @@ _VAN_WERT = SiteProfile(
     grid_relpath="reference/eia/van-wert/grid-profile.yaml",
     # toxics (no identified industrial corridor yet)
     toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # [open] pending an identified corridor on Town Creek
-    receiving_water_name="Town Creek",  # [verified] Ohio EPA NPDES 2PD00006/OH0027910 → Town Creek (RM 13.87)
     # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
     plant_receiving={
         "van-wert-wwtp": ("Town Creek", "Ohio EPA fact sheet 2PD00006 (Van Wert WWTP)"),
@@ -530,10 +510,6 @@ _VAN_WERT = SiteProfile(
     lmp_pnode_name="AEP",
     # rsei
     county_name="Van Wert County, OH",  # [verified]
-    # map
-    map_view_lat=40.8696,
-    map_view_lon=-84.5829,
-    map_view_zoom=13,
 )
 
 
@@ -548,7 +524,6 @@ _VAN_WERT = SiteProfile(
 # facility-specific model inputs stay `[open]` until a site is identified.
 _TOLEDO = SiteProfile(
     slug="toledo",
-    place="Toledo",
     basin="maumee",  # [verified] Lower Maumee → Lake Erie; HUC-8 04100009 (Lucas Co WRRF discharge)
     # config knobs
     nwis_sites=[
@@ -621,7 +596,6 @@ _TOLEDO = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending an identified corridor on the Lower Maumee
-    receiving_water_name="Maumee River",  # [verified: ECHO] Lucas Co WRRF OH0034223 → Lower Maumee (tidal) → Lake Erie
     # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
     plant_receiving={},  # [open] pending Toledo-area WWTP NPDES fact sheets
     abstraction_gage="04193500",  # [inference] the Maumee-at-Waterville mainstem gage (nearest the WRRF reach)
@@ -646,10 +620,6 @@ _TOLEDO = SiteProfile(
     lmp_pnode_name="ATSI",
     # rsei
     county_name="Lucas County, OH",  # [verified]
-    # map
-    map_view_lat=41.6529,
-    map_view_lon=-83.5378,
-    map_view_zoom=12,
 )
 
 
@@ -664,7 +634,6 @@ _TOLEDO = SiteProfile(
 # model inputs stay `[open]` until a site is identified.
 _DEFIANCE = SiteProfile(
     slug="defiance",
-    place="Defiance",
     basin="maumee",  # [verified] Maumee mainstem at the Auglaize/Tiffin confluence; HUC-8 04100009
     # config knobs
     nwis_sites=[
@@ -729,7 +698,6 @@ _DEFIANCE = SiteProfile(
     # (Syn Ind. -84.75). A water-releasing RSEI facility inside the box is inferred to discharge to
     # the Maumee (tagged `assumption`). (lat_min, lat_max, lon_min, lon_max)
     toxic_corridor_bbox=(41.26, 41.31, -84.40, -84.28),
-    receiving_water_name="Maumee River",  # [verified: ECHO] Defiance WWTP OH0024899 → Maumee River (mainstem)
     # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
     plant_receiving={},  # [open] pending Defiance-area WWTP NPDES fact sheets
     abstraction_gage="04192500",  # [inference] the Maumee-near-Defiance mainstem gage (below the confluence)
@@ -753,10 +721,6 @@ _DEFIANCE = SiteProfile(
     ),
     # rsei
     county_name="Defiance County, OH",  # [verified]
-    # map
-    map_view_lat=41.2868,
-    map_view_lon=-84.3621,
-    map_view_zoom=12,
 )
 
 
@@ -771,7 +735,6 @@ _DEFIANCE = SiteProfile(
 # the data-center dimension and facility-specific model inputs stay `[open]` until a site is found.
 _BRYAN = SiteProfile(
     slug="bryan",
-    place="Bryan",
     basin="maumee",  # [verified] Prairie Creek → Tiffin River → Maumee → Lake Erie; HUC-8 04100006
     # config knobs
     nwis_sites=[
@@ -854,7 +817,6 @@ _BRYAN = SiteProfile(
     # -84.43, Edgerton -84.75). A water-releasing RSEI facility inside the box is inferred to
     # discharge to Prairie Creek (tagged `assumption`). (lat_min, lat_max, lon_min, lon_max)
     toxic_corridor_bbox=(41.46, 41.49, -84.57, -84.52),
-    receiving_water_name="Prairie Creek",  # [verified] Bryan WWTP NPDES OH0020532 → Prairie Creek → Tiffin River
     # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
     plant_receiving={},  # [open] pending Bryan-area WWTP NPDES fact sheets
     abstraction_gage="04185000",  # [inference] the Tiffin-at-Stryker mainstem gage (receiving reach below Bryan)
@@ -885,10 +847,6 @@ _BRYAN = SiteProfile(
     lmp_pnode_name="AEP",
     # rsei
     county_name="Williams County, OH",  # [verified]
-    # map
-    map_view_lat=41.4748,
-    map_view_lon=-84.5525,
-    map_view_zoom=13,
 )
 
 
@@ -904,7 +862,6 @@ _BRYAN = SiteProfile(
 # inputs stay `[open]` until a site is identified.
 _OTTAWA = SiteProfile(
     slug="ottawa",
-    place="Ottawa",
     basin="maumee",  # [verified] Blanchard R. → Auglaize → Maumee → Lake Erie; HUC-8 04100008 (Blanchard)
     # config knobs
     nwis_sites=[
@@ -970,7 +927,6 @@ _OTTAWA = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending an identified corridor on the Blanchard
-    receiving_water_name="Blanchard River",  # [verified] Ottawa WWTP NPDES OH0026921 → Blanchard River (gage 04189260)
     # balance (per-WWTP receiving waters pending the site's NPDES fact sheets)
     plant_receiving={},  # [open] pending Ottawa-area WWTP NPDES fact sheets
     abstraction_gage="04189260",  # [inference] the Blanchard-at-Ottawa receiving-reach gage
@@ -996,10 +952,6 @@ _OTTAWA = SiteProfile(
     lmp_pnode_name="AEP",
     # rsei
     county_name="Putnam County, OH",  # [verified]
-    # map
-    map_view_lat=41.0192,
-    map_view_lon=-84.0472,
-    map_view_zoom=13,
 )
 
 
@@ -1015,7 +967,6 @@ _OTTAWA = SiteProfile(
 # `bosc onboard urbana --research` — only the verified geography/gages are set here.
 _URBANA = SiteProfile(
     slug="urbana",
-    place="Urbana",
     basin="great-miami",  # [verified] Mad River → Great Miami River → Ohio River (HUC-8 05080001)
     nwis_sites=[
         "03267000",  # [verified] Mad River near Urbana OH (the at-site supply/abstraction reach)
@@ -1067,7 +1018,6 @@ _URBANA = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending an identified corridor on the Mad River
-    receiving_water_name="Mad River",  # [verified] the Mad River reach at Urbana (→ Great Miami → Ohio R.)
     plant_receiving={
         "urbana-wpcf": (
             "Mad River",
@@ -1096,9 +1046,6 @@ _URBANA = SiteProfile(
     lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
     lmp_pnode_name="DAY",
     county_name="Champaign County, OH",  # [verified]
-    map_view_lat=40.1084,
-    map_view_lon=-83.7524,
-    map_view_zoom=13,
 )
 
 
@@ -1117,7 +1064,6 @@ _URBANA = SiteProfile(
 # (#453). All such fields stay [open] research targets filled by `bosc onboard springfield`.
 _SPRINGFIELD = SiteProfile(
     slug="springfield",
-    place="Springfield",
     basin="great-miami",  # [verified] Mad River → Great Miami River → Ohio River (HUC-8 05080001)
     nwis_sites=[
         "03269500",  # [verified] Mad River near Springfield OH (the at-site supply/abstraction reach)
@@ -1167,7 +1113,6 @@ _SPRINGFIELD = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending an identified corridor on the Mad River
-    receiving_water_name="Mad River",  # [verified] the Springfield WRF receiving water (→ Great Miami → Ohio R.)
     plant_receiving={},  # [open] pending the Springfield-area WWTP NPDES fact sheet(s)
     abstraction_gage="03269500",  # [verified] Mad River near Springfield OH
     supply_gage_primary="03269500",  # [verified] Mad River near Springfield
@@ -1185,9 +1130,6 @@ _SPRINGFIELD = SiteProfile(
     lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light, Clark County)
     lmp_pnode_name="DAY",
     county_name="Clark County, OH",  # [verified]
-    map_view_lat=39.9242,
-    map_view_lon=-83.8089,
-    map_view_zoom=13,
 )
 
 
@@ -1203,7 +1145,6 @@ _SPRINGFIELD = SiteProfile(
 # corridor + the base groundwater plume are the [open] data-center/contamination overlays (#444).
 _XENIA = SiteProfile(
     slug="xenia",
-    place="Xenia",
     basin="little-miami",  # [verified] Little Miami River → Ohio River (HUC-8 05090202); a 3rd basin branch
     nwis_sites=[
         "03240000",  # [verified] Little Miami River near Oldtown OH (at-site reach, just N of Xenia)
@@ -1254,7 +1195,6 @@ _XENIA = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending an identified corridor (incl. the WPAFB plume overlay)
-    receiving_water_name="Little Miami River",  # [verified] reach; [reference] a National & State Scenic River
     plant_receiving={},  # [open] pending the Xenia-area WWTP NPDES fact sheet(s)
     abstraction_gage="03240000",  # [verified] Little Miami River near Oldtown OH
     supply_gage_primary="03240000",  # [verified] Little Miami River near Oldtown
@@ -1272,9 +1212,6 @@ _XENIA = SiteProfile(
     lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
     lmp_pnode_name="DAY",
     county_name="Greene County, OH",  # [verified]
-    map_view_lat=39.6861,
-    map_view_lon=-83.9289,
-    map_view_zoom=13,
 )
 
 
@@ -1296,7 +1233,6 @@ _XENIA = SiteProfile(
 # network's first **UTM zone 16N** site (NOT the zone 17 the other Miami sites use).
 _WPAFB = SiteProfile(
     slug="wpafb",
-    place="Wright-Patterson AFB",
     basin="great-miami",  # [verified] Mad River → Great Miami River → Ohio River (HUC-8 05080001/2)
     nwis_sites=[
         "03270000",  # [verified] Mad River near Dayton OH (the at-base reach; corridor terminus)
@@ -1346,7 +1282,6 @@ _WPAFB = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending the identified corridor (the WPAFB TCE/PFAS plume + Dayton industrial reach)
-    receiving_water_name="Mad River",  # [verified] the at-base reach (→ Great Miami → Ohio R.); aquifer is the supply story
     plant_receiving={},  # [open] pending the WPAFB / Dayton WWTP NPDES fact sheet(s)
     abstraction_gage="03270000",  # [verified] Mad River near Dayton OH
     supply_gage_primary="03270000",  # [verified] Mad River near Dayton (the buried-valley supply reach)
@@ -1364,9 +1299,6 @@ _WPAFB = SiteProfile(
     lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
     lmp_pnode_name="DAY",
     county_name="Montgomery County, OH",  # [verified] (Dayton metro; base straddles Greene+Montgomery)
-    map_view_lat=39.8261,
-    map_view_lon=-84.0494,
-    map_view_zoom=12,
 )
 
 
@@ -1385,7 +1317,6 @@ _WPAFB = SiteProfile(
 # Cincinnati). Both cities sit west of the 84 degW meridian, so this is a **UTM 16N** site (like WPAFB).
 _HAMILTON_MIDDLETOWN = SiteProfile(
     slug="hamilton-middletown",
-    place="Hamilton · Middletown",
     basin="great-miami",  # [verified] lower Great Miami River → Ohio River (HUC-8 05080002)
     nwis_sites=[
         "03274000",  # [verified] Great Miami River at Hamilton OH (downstream reach; Hamilton well-field)
@@ -1436,7 +1367,6 @@ _HAMILTON_MIDDLETOWN = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending the identified corridor (the Middletown Works + Hamilton industrial reach)
-    receiving_water_name="Great Miami River",  # [verified] the lower Great Miami mainstem (→ Ohio R.)
     plant_receiving={},  # [open] pending the Hamilton/Middletown WWTP + industrial NPDES fact sheet(s)
     abstraction_gage="03274000",  # [verified] Great Miami River at Hamilton OH
     supply_gage_primary="03274000",  # [verified] Great Miami River at Hamilton
@@ -1454,9 +1384,6 @@ _HAMILTON_MIDDLETOWN = SiteProfile(
     lmp_pnode_id=124076095,  # [verified] PJM DEOK zone (Duke Energy Ohio)
     lmp_pnode_name="DEOK",
     county_name="Butler County, OH",  # [verified] (seat = City of Hamilton; NOT Hamilton County/Cincinnati)
-    map_view_lat=39.455,  # centered on the lower Great Miami reach between Hamilton + Middletown
-    map_view_lon=-84.49,
-    map_view_zoom=11,
 )
 
 
@@ -1470,7 +1397,6 @@ _HAMILTON_MIDDLETOWN = SiteProfile(
 # sit west of the 84 degW meridian, so this is a **UTM 16N** site (like WPAFB / Hamilton-Middletown).
 _TROY_PIQUA = SiteProfile(
     slug="troy-piqua",
-    place="Troy · Piqua",
     basin="great-miami",  # [verified] upper Great Miami River → Ohio River (HUC-8 05080001)
     nwis_sites=[
         "03262700",  # [verified] Great Miami River at Troy OH (the Troy reach; county seat)
@@ -1520,7 +1446,6 @@ _TROY_PIQUA = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending the identified corridor (the Troy/Piqua manufacturing reach)
-    receiving_water_name="Great Miami River",  # [verified] the upper Great Miami mainstem (→ Ohio R.)
     plant_receiving={},  # [open] pending the Troy/Piqua WWTP NPDES fact sheet(s)
     abstraction_gage="03262700",  # [verified] Great Miami River at Troy OH
     supply_gage_primary="03262700",  # [verified] Great Miami River at Troy
@@ -1538,9 +1463,6 @@ _TROY_PIQUA = SiteProfile(
     lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
     lmp_pnode_name="DAY",
     county_name="Miami County, OH",  # [verified]
-    map_view_lat=40.092,  # centered on the upper Great Miami reach between Troy + Piqua
-    map_view_lon=-84.215,
-    map_view_zoom=11,
 )
 
 
@@ -1551,7 +1473,6 @@ _TROY_PIQUA = SiteProfile(
 # Troy/Piqua manufacturing reach. Tracking -> onboarding (#481 / epic #440).
 _SIDNEY = SiteProfile(
     slug="sidney",
-    place="Sidney",
     basin="great-miami",  # [verified] upper Great Miami River → Ohio River (HUC-8 05080001)
     nwis_sites=[
         "03261500",  # [verified] Great Miami River at Sidney OH (the at-site mainstem reach)
@@ -1601,7 +1522,6 @@ _SIDNEY = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending the corridor (the Sidney manufacturing reach)
-    receiving_water_name="Great Miami River",  # [verified] the upper Great Miami mainstem (→ Ohio R.)
     plant_receiving={},  # [open] pending the Sidney WWTP NPDES fact sheet
     abstraction_gage="03261500",  # [verified] Great Miami River at Sidney OH
     supply_gage_primary="03261500",  # [verified] Great Miami River at Sidney
@@ -1619,9 +1539,6 @@ _SIDNEY = SiteProfile(
     lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
     lmp_pnode_name="DAY",
     county_name="Shelby County, OH",  # [verified]
-    map_view_lat=40.2842,
-    map_view_lon=-84.1558,
-    map_view_zoom=12,
 )
 
 
@@ -1635,7 +1552,6 @@ _SIDNEY = SiteProfile(
 # (#482 / epic #440).
 _GREENVILLE = SiteProfile(
     slug="greenville",
-    place="Greenville · Darke Co",
     basin="great-miami",  # [verified] eastern Darke: Greenville Creek → Stillwater R. → Great Miami → Ohio R.
     nwis_sites=[
         "03264000",  # [verified] Greenville Creek near Bradford OH (the at-site receiving-water reach)
@@ -1684,7 +1600,6 @@ _GREENVILLE = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending the corridor (the Greenville ag/food-processing reach)
-    receiving_water_name="Greenville Creek",  # [verified] → Stillwater R. → Great Miami → Ohio R.
     plant_receiving={},  # [open] pending the Greenville WWTP NPDES fact sheet
     abstraction_gage="03264000",  # [verified] Greenville Creek near Bradford OH
     supply_gage_primary="03264000",  # [verified] Greenville Creek near Bradford
@@ -1702,9 +1617,6 @@ _GREENVILLE = SiteProfile(
     lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
     lmp_pnode_name="DAY",
     county_name="Darke County, OH",  # [verified] FIPS 39037
-    map_view_lat=40.1023,
-    map_view_lon=-84.6330,
-    map_view_zoom=12,
 )
 
 
@@ -1718,7 +1630,6 @@ _GREENVILLE = SiteProfile(
 # nearest mainstem integrators bracket it. Tracking -> onboarding (#492 / epic #440).
 _WILMINGTON = SiteProfile(
     slug="wilmington",
-    place="Wilmington",
     basin="little-miami",  # [verified] Todd Fork → Little Miami River → Ohio River (HUC-8 05090202)
     nwis_sites=[
         "03245500",  # [verified] Little Miami River at Milford OH (downstream mainstem integrator, incl. Todd Fork)
@@ -1762,7 +1673,6 @@ _WILMINGTON = SiteProfile(
     consumer_energy_relpath="reference/eia/wilmington/consumer-energy.yaml",
     grid_relpath="reference/eia/wilmington/grid-profile.yaml",
     toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # [open] pending the corridor (the Air Park reach)
-    receiving_water_name="Lytle Creek",  # [verified] Ohio EPA 1PD00013*QD fact sheet: WWTP outfall 001 → Lytle Creek RM 6.83 → Todd Fork → Little Miami R. (Scenic) → Ohio R.
     plant_receiving={
         "wilmington-wwtp": (
             "Lytle Creek",
@@ -1791,9 +1701,6 @@ _WILMINGTON = SiteProfile(
     lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
     lmp_pnode_name="DAY",
     county_name="Clinton County, OH",  # [verified] FIPS 39027
-    map_view_lat=39.4453,
-    map_view_lon=-83.8285,
-    map_view_zoom=12,
 )
 
 
@@ -1810,7 +1717,6 @@ _WILMINGTON = SiteProfile(
 # zone, unlike the Miami branch's DAY/DEOK.
 _NEW_ALBANY = SiteProfile(
     slug="new-albany",
-    place="New Albany",
     # [verified] Big Walnut Creek → Scioto → Ohio River (HUC-8 05060001); [open] the Intel/Licking
     # epicenter drains S. Fork Licking → Muskingum (05040006) — flip if the footprint lands Licking.
     basin="scioto",
@@ -1870,7 +1776,6 @@ _NEW_ALBANY = SiteProfile(
     ),  # [open] pending the corridor (the New Albany business-park reach)
     # [verified] Scioto-side (Rocky Fork+Blacklick→Big Walnut→Scioto); [open] the Intel/Licking side
     # discharges S. Fork Licking→Muskingum, and Intel's PROCESS wastewater goes to Columbus' sewer.
-    receiving_water_name="Big Walnut Creek",
     plant_receiving={},  # [open] pending the New Albany-area WWTP NPDES fact sheet(s)
     abstraction_gage="03228500",  # [verified] Big Walnut Creek at Central College OH (Scioto-side at-site reach)
     supply_gage_primary="03228500",  # [verified] Big Walnut Creek at Central College
@@ -1890,9 +1795,6 @@ _NEW_ALBANY = SiteProfile(
     lmp_pnode_id=8445784,  # [verified] PJM AEP zone (same pnode as Lima)
     lmp_pnode_name="AEP",
     county_name="Licking County, OH",  # [verified] (city core spans Franklin Co 39049; DC cluster = Licking 39089)
-    map_view_lat=40.09,
-    map_view_lon=-82.7763,
-    map_view_zoom=12,
 )
 
 
@@ -1903,7 +1805,6 @@ _NEW_ALBANY = SiteProfile(
 # Portsmouth. Grid is PINNED: AEP Ohio (Ohio Power #14006), PJM AEP zone (AEP HQ is Columbus).
 _COLUMBUS = SiteProfile(
     slug="columbus",
-    place="Columbus",
     basin="scioto",  # [verified] Scioto River mainstem → Ohio River (HUC-8 05060001)
     nwis_sites=[
         "03227500",  # [verified] Scioto River at Columbus OH (at-site mainstem/abstraction reach; DV since 1920)
@@ -1960,7 +1861,6 @@ _COLUMBUS = SiteProfile(
         0.0,
         0.0,
     ),  # [open] pending the corridor (the Columbus metro industrial reach)
-    receiving_water_name="Scioto River",  # [verified] the Columbus metro WWTP reach (Jackson Pike + Southerly → Scioto)
     plant_receiving={},  # [open] pending the Columbus WWTP NPDES fact sheet(s) (Jackson Pike / Southerly)
     abstraction_gage="03227500",  # [verified] Scioto River at Columbus OH
     supply_gage_primary="03227500",  # [verified] Scioto River at Columbus
@@ -1979,9 +1879,6 @@ _COLUMBUS = SiteProfile(
     lmp_pnode_id=8445784,  # [verified] PJM AEP zone (same pnode as Lima)
     lmp_pnode_name="AEP",
     county_name="Franklin County, OH",  # [verified]
-    map_view_lat=39.961,
-    map_view_lon=-83.004,
-    map_view_zoom=13,
 )
 
 
