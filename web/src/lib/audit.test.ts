@@ -6,7 +6,7 @@ import {
   listAuditEntries,
   type AuditEntry,
   type KVListable,
-} from "../../functions/api/_lib/audit";
+} from "@fn/api/_lib/audit";
 
 function fakeKV(seed: Record<string, string> = {}): KVListable {
   const store = new Map(Object.entries(seed));

@@ -12,10 +12,10 @@
  * No-JS: filtering is radio inputs + `:checked` sibling CSS (the same pattern as the site
  * switcher); pagination is omitted. Reads with JS off.
  */
-import Base from "../../../layouts/Base.astro";
-import Icon from "../../../components/Icon.astro";
-import SiteNeeds from "../../../components/SiteNeeds.astro";
-import { hasFeed, loadFeed } from "../../../lib/bundle";
+import Base from "~/layouts/Base.astro";
+import Icon from "~/components/Icon.astro";
+import SiteNeeds from "~/components/SiteNeeds.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
 import {
   KIND_META,
   LEAD_FILTERS,
@@ -25,10 +25,10 @@ import {
   STATUS_META,
   leadCount,
   leadStats,
-} from "../../../lib/leads";
-import { isReferenceSite, lockedSections } from "../../../lib/readiness";
-import { withSite } from "../../../lib/site";
-import { activeSite, selectableSitePaths, siteForSlug, siteState } from "../../../lib/sites";
+} from "~/lib/leads";
+import { isReferenceSite, lockedSections } from "~/lib/readiness";
+import { withSite } from "~/lib/site";
+import { activeSite, selectableSitePaths, siteForSlug, siteState } from "~/lib/sites";
 
 // One `network/[site]/…` route per selectable site (#724/#734); Lima alone today.
 export const getStaticPaths = selectableSitePaths;

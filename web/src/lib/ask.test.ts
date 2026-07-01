@@ -5,8 +5,8 @@ import {
   extractCitations,
   isRefusal,
   REFUSAL,
-} from "../../functions/api/_lib/ask";
-import type { Hit } from "../../functions/api/_lib/retrieval";
+} from "@fn/api/_lib/ask";
+import type { Hit } from "@fn/api/_lib/retrieval";
 
 const HITS: Hit[] = [
   {

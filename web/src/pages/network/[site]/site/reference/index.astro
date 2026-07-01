@@ -1,10 +1,10 @@
 ---
-import { selectableSitePaths } from "../../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
 import { getCollection } from "astro:content";
-import Base from "../../../../../layouts/Base.astro";
-import { refBySlug, REFERENCE } from "../../../../../lib/reference";
-import { withSite } from "../../../../../lib/site";
+import Base from "~/layouts/Base.astro";
+import { refBySlug, REFERENCE } from "~/lib/reference";
+import { withSite } from "~/lib/site";
 
 // Only list datasets whose README is actually present in this checkout.
 const present = new Set((await getCollection("reference")).map((e) => e.id));

@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
-import { hasFeed, loadFeed } from "../../lib/bundle";
-import type { HypothesisItem, HypothesisAssessmentItem } from "../../lib/feeds";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import type { HypothesisItem, HypothesisAssessmentItem } from "~/lib/feeds";
 
 // Emits a joined payload: { hypotheses, assessments } so the get_hypotheses MCP
 // tool can join on hypothesis.id client-side without a second round-trip.

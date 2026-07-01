@@ -1,9 +1,9 @@
 ---
-import { withSitePaths } from "../../../../../lib/sites";
+import { withSitePaths } from "~/lib/sites";
 import { getCollection, render } from "astro:content";
-import Base from "../../../../../layouts/Base.astro";
-import { refBySlug } from "../../../../../lib/reference";
-import { withSite } from "../../../../../lib/site";
+import Base from "~/layouts/Base.astro";
+import { refBySlug } from "~/lib/reference";
+import { withSite } from "~/lib/site";
 
 export async function getStaticPaths() {
   // Only the curated reference set (lib/reference.ts) is published.

@@ -7,8 +7,8 @@ import {
   isOverBudget,
   keyedBudgetKey,
   publicBudgetKey,
-} from "../../functions/api/_lib/mcpBudget";
-import type { KVLike } from "../../functions/api/_lib/ratelimit";
+} from "@fn/api/_lib/mcpBudget";
+import type { KVLike } from "@fn/api/_lib/ratelimit";
 
 function fakeKV(seed: Record<string, string> = {}): KVLike & { store: Map<string, string> } {
   const store = new Map(Object.entries(seed));

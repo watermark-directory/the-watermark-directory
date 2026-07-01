@@ -1,13 +1,13 @@
 ---
-import { selectableSitePaths } from "../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
-import Base from "../../../../layouts/Base.astro";
-import FigureStat from "../../../../components/FigureStat.astro";
-import BulletChart from "../../../../components/charts/BulletChart.astro";
-import { hasFeed, loadFeed } from "../../../../lib/bundle";
-import type { ProvenancedValue, ScenarioResult } from "../../../../lib/feeds";
-import type { FigureStatData } from "../../../../lib/viz";
-import { withSite } from "../../../../lib/site";
+import Base from "~/layouts/Base.astro";
+import FigureStat from "~/components/FigureStat.astro";
+import BulletChart from "~/components/charts/BulletChart.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import type { ProvenancedValue, ScenarioResult } from "~/lib/feeds";
+import type { FigureStatData } from "~/lib/viz";
+import { withSite } from "~/lib/site";
 
 const scenarios = hasFeed("hydrology-scenarios") ? loadFeed<ScenarioResult[]>("hydrology-scenarios") : [];
 

@@ -10,11 +10,11 @@
  * defense/surveillance entry only with a real, on-the-record fact; inference is labeled; the
  * rest are "Not yet assessed". Counts are real (Lima from the bundle) or a dash — never invented.
  */
-import Base from "../../layouts/Base.astro";
-import { hasFeed, loadFeed, loadManifest } from "../../lib/bundle";
-import { buildLens, indexAssessments, LENS_ORDER, lensConfig, lensCount } from "../../lib/directory";
-import type { DocumentCollectionItem, HypothesisAssessmentItem, HypothesisItem } from "../../lib/feeds";
-import { withBase } from "../../lib/site";
+import Base from "~/layouts/Base.astro";
+import { hasFeed, loadFeed, loadManifest } from "~/lib/bundle";
+import { buildLens, indexAssessments, LENS_ORDER, lensConfig, lensCount } from "~/lib/directory";
+import type { DocumentCollectionItem, HypothesisAssessmentItem, HypothesisItem } from "~/lib/feeds";
+import { withBase } from "~/lib/site";
 
 const manifest = loadManifest();
 const byName = new Map(manifest.feeds.map((f) => [f.name, f]));

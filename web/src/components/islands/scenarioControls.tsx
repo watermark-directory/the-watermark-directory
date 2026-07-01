@@ -5,7 +5,7 @@
  * knob/readout grammar over the same `unc-*` styles. Pure presentational; the
  * evidence-palette `RegisterMark` keeps a knob's evidence status legible at a glance.
  */
-import type { Prior } from "../../lib/uncertainty";
+import type { Prior } from "~/lib/uncertainty";
 import { RegisterMark } from "./uncertaintyGrammar";
 
 /** A register-marked range input with a formatted live value (a scenario knob). */

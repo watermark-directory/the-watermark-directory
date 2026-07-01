@@ -4,9 +4,9 @@
 // each came from, its license/access tier, and whether it's fresh — the legible successor
 // to the hand-maintained corpus-completeness audit. Static + JS-off (no interactive
 // filters): grouped by collection, freshness/scope shown as pills.
-import Base from "../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../lib/bundle";
-import { catalogFreshness, type CatalogFreshness, type CatalogItem } from "../../lib/feeds";
+import Base from "~/layouts/Base.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import { catalogFreshness, type CatalogFreshness, type CatalogItem } from "~/lib/feeds";
 
 const items = hasFeed("catalog") ? loadFeed<CatalogItem[]>("catalog") : [];
 

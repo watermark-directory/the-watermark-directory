@@ -1,5 +1,5 @@
 ---
-import { withSitePaths } from "../../../../../../lib/sites";
+import { withSitePaths } from "~/lib/sites";
 /**
  * The Record Screen (design "Record Screen", #193): the per-record leaf at
  * /site/records/<group>/<id>. It opens with the reference Record Block (the
@@ -9,16 +9,16 @@ import { withSitePaths } from "../../../../../../lib/sites";
  * on the block, with the teardown one scroll down. The per-page TOC rail is #195.
  */
 import type { GetStaticPaths } from "astro";
-import Base from "../../../../../../layouts/Base.astro";
-import Breadcrumb from "../../../../../../components/Breadcrumb.astro";
-import RecordBlock from "../../../../../../components/RecordBlock.astro";
-import RecordTeardown from "../../../../../../components/RecordTeardown.astro";
-import { hasFeed, loadFeed } from "../../../../../../lib/bundle";
-import { slugify, type RecordItem } from "../../../../../../lib/feeds";
-import { groupLabel } from "../../../../../../lib/records";
-import { recordToBlock } from "../../../../../../lib/recordBlock";
-import { teardownForRel } from "../../../../../../lib/teardowns";
-import { withSite } from "../../../../../../lib/site";
+import Base from "~/layouts/Base.astro";
+import Breadcrumb from "~/components/Breadcrumb.astro";
+import RecordBlock from "~/components/RecordBlock.astro";
+import RecordTeardown from "~/components/RecordTeardown.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import { slugify, type RecordItem } from "~/lib/feeds";
+import { groupLabel } from "~/lib/records";
+import { recordToBlock } from "~/lib/recordBlock";
+import { teardownForRel } from "~/lib/teardowns";
+import { withSite } from "~/lib/site";
 
 export const getStaticPaths: GetStaticPaths = () =>
   withSitePaths(() => {

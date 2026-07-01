@@ -1,9 +1,9 @@
 ---
-import { selectableSitePaths } from "../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
-import Base from "../../../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../../../lib/bundle";
-import type { ExhibitItem } from "../../../../lib/feeds";
+import Base from "~/layouts/Base.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import type { ExhibitItem } from "~/lib/feeds";
 
 const exhibits = hasFeed("exhibits") ? loadFeed<ExhibitItem[]>("exhibits") : [];
 ---

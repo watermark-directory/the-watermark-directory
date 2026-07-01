@@ -1,13 +1,13 @@
 ---
 import type { GetStaticPaths } from "astro";
-import Base from "../../../layouts/Base.astro";
-import ProfileHeader from "../../../components/ProfileHeader.astro";
-import { hasFeed, loadFeed } from "../../../lib/bundle";
-import { slugify, type EntityNode, type PersonItem, type RelationshipEdge } from "../../../lib/feeds";
-import type { ProfileAttr, ProfileHeaderData, ProfileRel } from "../../../lib/profile";
-import type { FigureStatData } from "../../../lib/viz";
-import { entityHref } from "../../../lib/entityLinks";
-import { withBase, withSite } from "../../../lib/site";
+import Base from "~/layouts/Base.astro";
+import ProfileHeader from "~/components/ProfileHeader.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import { slugify, type EntityNode, type PersonItem, type RelationshipEdge } from "~/lib/feeds";
+import type { ProfileAttr, ProfileHeaderData, ProfileRel } from "~/lib/profile";
+import type { FigureStatData } from "~/lib/viz";
+import { entityHref } from "~/lib/entityLinks";
+import { withBase, withSite } from "~/lib/site";
 
 export const getStaticPaths = (() => {
   const entities = hasFeed("entities") ? loadFeed<EntityNode[]>("entities") : [];

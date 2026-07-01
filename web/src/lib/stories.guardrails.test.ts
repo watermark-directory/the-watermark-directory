@@ -55,9 +55,9 @@ const STORY_KEYS = [...new Set(FILES.map((f) => `${f.site}/${f.codename}`))];
 // is the point: it keeps chapter authoring portable and free of ad-hoc one-off imports.
 const ALLOWED_LIB = new Set(["site", "walk", "teardowns", "bundle", "dilution", "moneyFlow"]);
 function isAllowedImport(spec: string): boolean {
-  const lib = spec.match(/^(?:\.\.\/)+lib\/([A-Za-z0-9_]+)$/);
+  const lib = spec.match(/^~\/lib\/([A-Za-z0-9_]+)$/);
   if (lib) return ALLOWED_LIB.has(lib[1]);
-  return /^(?:\.\.\/)+components\/islands\/[A-Za-z0-9_]+\.tsx$/.test(spec);
+  return /^~\/components\/islands\/[A-Za-z0-9_]+\.tsx$/.test(spec);
 }
 
 describe("story completeness (#742)", () => {

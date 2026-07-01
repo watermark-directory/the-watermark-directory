@@ -1,13 +1,13 @@
 ---
-import { selectableSitePaths } from "../../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
-import EvidenceLegend from "../../../../../components/EvidenceLegend.astro";
-import DonutChart from "../../../../../components/charts/DonutChart.astro";
-import Base from "../../../../../layouts/Base.astro";
-import { hasFeed, loadFeed } from "../../../../../lib/bundle";
-import type { RecordItem } from "../../../../../lib/feeds";
-import { groupLabel, groupsOf } from "../../../../../lib/records";
-import { withSite } from "../../../../../lib/site";
+import EvidenceLegend from "~/components/EvidenceLegend.astro";
+import DonutChart from "~/components/charts/DonutChart.astro";
+import Base from "~/layouts/Base.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import type { RecordItem } from "~/lib/feeds";
+import { groupLabel, groupsOf } from "~/lib/records";
+import { withSite } from "~/lib/site";
 
 const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
 const groups = groupsOf(records);

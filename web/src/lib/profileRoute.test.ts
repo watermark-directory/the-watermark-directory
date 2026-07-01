@@ -6,11 +6,11 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import {
   onRequestGet as profileGet,
   onRequestPatch as profilePatch,
-} from "../../functions/api/account/profile";
+} from "@fn/api/account/profile";
 import {
   onRequestGet as notifGet,
   onRequestPatch as notifPatch,
-} from "../../functions/api/account/notifications";
+} from "@fn/api/account/notifications";
 import {
   type CognitoTestKeyPair,
   fakeKV,

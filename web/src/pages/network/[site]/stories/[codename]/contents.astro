@@ -7,12 +7,12 @@
  */
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import StoryChapters from "../../../../../components/story/StoryChapters.astro";
-import Base from "../../../../../layouts/Base.astro";
-import { siteBase } from "../../../../../lib/routes";
-import { siteHref } from "../../../../../lib/site";
-import { SITES } from "../../../../../lib/sites";
-import { type Story, chapterHref, storyFor, storyHomeHref } from "../../../../../lib/walk";
+import StoryChapters from "~/components/story/StoryChapters.astro";
+import Base from "~/layouts/Base.astro";
+import { siteBase } from "~/lib/routes";
+import { siteHref } from "~/lib/site";
+import { SITES } from "~/lib/sites";
+import { type Story, chapterHref, storyFor, storyHomeHref } from "~/lib/walk";
 
 export async function getStaticPaths() {
   const paths = [];

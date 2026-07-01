@@ -7,7 +7,7 @@
  *   [open]       → outlined (no fill)
  * Reusable by every quantitative narrative's island. Pure presentational components.
  */
-import type { Register } from "../../lib/uncertainty";
+import type { Register } from "~/lib/uncertainty";
 
 type Reg = Register | "inference";
 

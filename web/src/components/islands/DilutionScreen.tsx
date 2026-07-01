@@ -11,8 +11,8 @@
  * this island (SSR). Numbers are the build-time `DilutionData` (feed's own — no fork).
  */
 import { useId, useState } from "react";
-import type { DilutionData, DilutionFloor } from "../../lib/dilution";
-import { fmtMult } from "../../lib/format";
+import type { DilutionData, DilutionFloor } from "~/lib/dilution";
+import { fmtMult } from "~/lib/format";
 
 export default function DilutionScreen({ data }: { data: DilutionData }): JSX.Element {
   const [coolingMgd, setCoolingMgd] = useState(data.maxCoolingMgd);

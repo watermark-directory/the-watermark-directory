@@ -1,14 +1,14 @@
 ---
-import { withSitePaths } from "../../../../../lib/sites";
+import { withSitePaths } from "~/lib/sites";
 import type { GetStaticPaths } from "astro";
-import Base from "../../../../../layouts/Base.astro";
-import BackLink from "../../../../../components/BackLink.astro";
-import RecordBlock from "../../../../../components/RecordBlock.astro";
-import { hasFeed, loadFeed } from "../../../../../lib/bundle";
-import type { RecordItem } from "../../../../../lib/feeds";
-import { groupLabel, groupsOf } from "../../../../../lib/records";
-import { recordToBlock } from "../../../../../lib/recordBlock";
-import { withSite } from "../../../../../lib/site";
+import Base from "~/layouts/Base.astro";
+import BackLink from "~/components/BackLink.astro";
+import RecordBlock from "~/components/RecordBlock.astro";
+import { hasFeed, loadFeed } from "~/lib/bundle";
+import type { RecordItem } from "~/lib/feeds";
+import { groupLabel, groupsOf } from "~/lib/records";
+import { recordToBlock } from "~/lib/recordBlock";
+import { withSite } from "~/lib/site";
 
 export const getStaticPaths: GetStaticPaths = () =>
   withSitePaths(() => {

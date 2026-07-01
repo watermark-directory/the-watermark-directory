@@ -6,10 +6,10 @@
  *
  * Reads as a map of what *isn't* known, not a verdict. Reuses the uncertainty grammar.
  */
-import { type BalanceUnit, buildBalanceSheet } from "../../lib/balanceSheet";
-import { fmtMw } from "../../lib/format";
-import { fmtUsdM } from "../../lib/money";
-import { siteHref, withBase } from "../../lib/base";
+import { type BalanceUnit, buildBalanceSheet } from "~/lib/balanceSheet";
+import { fmtMw } from "~/lib/format";
+import { fmtUsdM } from "~/lib/money";
+import { siteHref, withBase } from "~/lib/base";
 import { DistributionStrip, RegisterMark } from "./uncertaintyGrammar";
 
 function formatter(unit: BalanceUnit): (n: number) => string {

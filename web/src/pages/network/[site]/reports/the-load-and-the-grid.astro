@@ -1,5 +1,5 @@
 ---
-import { selectableSitePaths } from "../../../../lib/sites";
+import { selectableSitePaths } from "~/lib/sites";
 export const getStaticPaths = selectableSitePaths;
 /**
  * The load and the grid — the interactive companion (docs/the-load-and-the-grid.md, epic
@@ -11,12 +11,12 @@ export const getStaticPaths = selectableSitePaths;
  *
  * Island-over-SSR: the inference table is the no-JS fallback; the simulator is the island.
  */
-import GridLoadScreen from "../../../../components/islands/GridLoadScreen.tsx";
-import RedactionReveal from "../../../../components/RedactionReveal.astro";
-import ReportShell from "../../../../layouts/ReportShell.astro";
-import { facilityDrawOutcome } from "../../../../lib/gridLoad";
-import type { TeardownRedaction } from "../../../../lib/teardown";
-import { withSite } from "../../../../lib/site";
+import GridLoadScreen from "~/components/islands/GridLoadScreen.tsx";
+import RedactionReveal from "~/components/RedactionReveal.astro";
+import ReportShell from "~/layouts/ReportShell.astro";
+import { facilityDrawOutcome } from "~/lib/gridLoad";
+import type { TeardownRedaction } from "~/lib/teardown";
+import { withSite } from "~/lib/site";
 
 const draw = facilityDrawOutcome();
 

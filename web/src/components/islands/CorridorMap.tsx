@@ -24,7 +24,7 @@ import {
   rgba,
   type GeoFeature,
   type GeoProps,
-} from "../../lib/geoStyle";
+} from "~/lib/geoStyle";
 import { rasterTileLayer } from "./rasterTile";
 
 type FC = FeatureCollection<GeoFeature["geometry"], GeoProps>;
