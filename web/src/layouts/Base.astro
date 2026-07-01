@@ -60,6 +60,7 @@ const showRail = rail !== false && toc.length > 0;
     <link rel="icon" type="image/png" sizes="16x16" href={withBase("/favicon-16.png")} />
     <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png")} />
     <meta name="theme-color" content="#16201a" />
+    <link rel="mcp" href="/.well-known/mcp.json" type="application/json" />
     <title>{title === SITE_NAME ? title : `${title} · ${SITE_NAME}`}</title>
     <SEO title={title} description={description} type={ogType} noindex={noindex} />
   </head>
