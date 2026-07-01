@@ -1,0 +1,18 @@
+meta:
+  subject: OEPA/DAM document discovery — wilmington
+  site: wilmington
+  place: Wilmington
+  county: Clinton County
+  generated_at: '2026-07-01'
+  counts:
+    total: 1
+    new: 1
+    known: 0
+    committed: 0
+results:
+- url: https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/1PD00013.fs.pdf
+  permit_id: 1PD00013
+  doc_type: fact_sheet
+  query: Wilmington dam.assets.ohio.gov filetype:pdf
+  fetched_at: '2026-07-01T14:54:26.557274+00:00'
+  status: new
