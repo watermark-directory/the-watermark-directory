@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Data Catalog" description="Browsable dataset registry — collection groups with filterable rows: name, source method, license, access tier, scope, and freshness state." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bone-page); color: var(--ink-prose); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+::placeholder { color: var(--ink-ghost); font-family: var(--font-mono); font-size: 11px; }
+input:focus { outline: 2px solid rgba(31,111,74,0.35); outline-offset: -1px; }
+
+/* ── Catalog table ── */
+.ct { width: 100%; border-collapse: collapse; min-width: 860px; }
+.ct th {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--ink-ghost); text-align: left;
+  padding: 9px 14px 8px; border-bottom: 2px solid var(--ink);
+  font-weight: 500; white-space: nowrap;
+}
+.ct td { padding: 13px 14px; border-bottom: 1px solid var(--line-faint); vertical-align: top; }
+.ct tbody tr { transition: background 0.08s ease; }
+.ct tbody tr:hover { background: var(--bone-raised); }
+.group-sep td { border-top: 2px solid var(--line-2); }
+.sort-th { cursor: pointer; user-select: none; }
+.sort-th:hover { color: var(--ink-muted); }
+.sort-active { color: var(--ink) !important; }
+
+/* ── Chips ── */
+.chip {
+  display: inline-block; font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 8px;
+  border: 1px solid; line-height: 1.8; white-space: nowrap; font-weight: 500;
+}
+.c-public    { color: var(--ev-verified-fg);  background: var(--ev-verified-bg);  border-color: var(--ev-verified-border); }
+.c-keyed     { color: var(--ev-inference-fg); background: var(--ev-inference-bg); border-color: var(--ev-inference-border); }
+.c-throttled { color: var(--ev-gap-fg);       background: var(--ev-gap-bg);       border-color: var(--ev-gap-border); }
+.c-fresh     { color: var(--ev-verified-fg);  background: var(--ev-verified-bg);  border-color: var(--ev-verified-border); }
+.c-stale     { color: var(--ev-gap-fg);       background: var(--ev-gap-bg);       border-color: var(--ev-gap-border); }
+.c-method    { color: var(--ink-faint); background: var(--bone-sunk); border-color: var(--line-2); font-weight: 400; letter-spacing: 0.3px; }
+
+/* ── Filter buttons ── */
+.fbtn {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.6px; text-transform: uppercase;
+  padding: 5px 12px; border: 1px solid var(--line-2); background: transparent;
+  color: var(--ink-muted); cursor: pointer; line-height: 1; transition: all 0.1s ease;
+}
+.fbtn:hover { border-color: var(--ink-muted); color: var(--ink); }
+.fbtn.on    { background: var(--ink); color: var(--bone-surface); border-color: var(--ink); }
+
+/* ── Cell helpers ── */
+a.sl      { color: var(--forest); text-decoration: none; }
+a.sl:hover { text-decoration: underline; }
+.ds-name  { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.35; margin-bottom: 4px; }
+.ds-slug  { font-family: var(--font-mono); font-size: 10px; color: var(--ink-ghost); }
+.src-desc { font-size: 12.5px; color: var(--ink-muted); line-height: 1.5; margin-bottom: 6px; text-wrap: pretty; }
+.lic      { font-size: 12px; color: var(--ink-muted); line-height: 1.5; }
+.scope    { font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted); }
+.coll-td  { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--ink);
+            white-space: nowrap; border-left: 3px solid var(--forest); padding-left: 11px; }
+</style>
+</helmet>
+
+<div style="max-width: 1120px; margin: 0 auto; padding: 44px 40px 100px;">
+
+  <!-- ── Back nav ── -->
+  <a href="#" style="display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 11px; color: var(--forest); text-decoration: none; letter-spacing: 0.4px; margin-bottom: 24px;">← About</a>
+
+  <!-- ── Page title ── -->
+  <h1 style="font-family: var(--font-sans); font-size: 40px; font-weight: 800; letter-spacing: -1px; color: var(--ink); margin: 0 0 14px; line-height: 1.04;">{{ catalogTitle }}</h1>
+
+  <!-- ── Description ── -->
+  <p style="font-size: 15px; color: var(--ink-muted); line-height: 1.65; max-width: 620px; margin: 0 0 36px; text-wrap: pretty;">Every dataset under the BOSC <code style="font-family: var(--font-mono); font-size: 12.5px; background: var(--bone-sunk); padding: 1px 5px; border: 1px solid var(--line-2);">data/</code> tree, in the open — what it is, where it came from, its license and access tier, and whether the committed copy is current. Generated from the registry (<code style="font-family: var(--font-mono); font-size: 12.5px; background: var(--bone-sunk); padding: 1px 5px; border: 1px solid var(--line-2);">bosc catalog</code>) and its reconcile snapshot; the legible successor to the hand-maintained corpus-completeness audit.</p>
+
+  <!-- ── Stats strip ── -->
+  <div style="display: flex; flex-wrap: wrap; border-top: 2px solid var(--ink); margin-bottom: 10px;">
+    <div style="padding: 16px 36px 16px 0; flex: 0 0 auto;">
+      <div style="font-family: var(--font-mono); font-size: 44px; font-weight: 600; letter-spacing: -2.5px; color: var(--ink); line-height: 1;">{{ totalDatasets }}</div>
+      <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-ghost); margin-top: 5px;">Datasets</div>
+    </div>
+    <div style="padding: 16px 36px; flex: 0 0 auto; border-left: 1px solid var(--line-hair);">
+      <div style="font-family: var(--font-mono); font-size: 44px; font-weight: 600; letter-spacing: -2.5px; color: var(--ink); line-height: 1;">{{ totalCollections }}</div>
+      <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-ghost); margin-top: 5px;">Collections</div>
+    </div>
+    <div style="padding: 16px 36px; flex: 0 0 auto; border-left: 1px solid var(--line-hair);">
+      <div style="font-family: var(--font-mono); font-size: 44px; font-weight: 600; letter-spacing: -2.5px; color: var(--forest); line-height: 1;">{{ totalReviewed }}</div>
+      <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-ghost); margin-top: 5px;">Reviewed</div>
+    </div>
+    <div style="padding: 16px 36px; flex: 0 0 auto; border-left: 1px solid var(--line-hair);">
+      <div style="font-family: var(--font-mono); font-size: 44px; font-weight: 600; letter-spacing: -2.5px; color: var(--ink-ghost); line-height: 1;">{{ totalStale }}</div>
+      <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-ghost); margin-top: 5px;">Stale</div>
+    </div>
+  </div>
+
+  <!-- ── Access meta ── -->
+  <div style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); padding-bottom: 20px; border-bottom: 1px solid var(--line-hair); margin-bottom: 28px;">
+    access ·
+    <span style="color: var(--ev-verified-fg); font-weight: 500;">{{ countPublic }} public</span> ·
+    <span style="color: var(--ev-inference-fg); font-weight: 500;">{{ countKeyed }} keyed</span> ·
+    <span style="color: var(--ev-gap-fg); font-weight: 500;">{{ countThrottled }} throttled</span>
+  </div>
+
+  <!-- ── Filter bar ── -->
+  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px; flex-wrap: wrap;">
+    <div style="position: relative; flex: 0 0 auto;">
+      <span style="position: absolute; left: 9px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--ink-ghost); pointer-events: none; line-height: 1; font-family: var(--font-mono);">⌕</span>
+      <input
+        type="text"
+        placeholder="Filter datasets…"
+        value="{{ query }}"
+        onChange="{{ onQueryChange }}"
+        style="font-family: var(--font-mono); font-size: 12px; color: var(--ink); background: var(--bone-surface); border: 1px solid var(--line-2); padding: 6px 12px 6px 28px; width: 230px; letter-spacing: 0.2px;"
+      />
+    </div>
+    <div style="display: flex; gap: 3px; flex-wrap: wrap;">
+      <button type="button" class="{{ clsAll }}"       onClick="{{ onAll }}">All</button>
+      <button type="button" class="{{ clsPublic }}"    onClick="{{ onPublic }}">Public</button>
+      <button type="button" class="{{ clsKeyed }}"     onClick="{{ onKeyed }}">Keyed</button>
+      <button type="button" class="{{ clsThrottled }}" onClick="{{ onThrottled }}">Throttled</button>
+    </div>
+    <div style="width: 1px; height: 18px; background: var(--line-2); flex-shrink: 0;"></div>
+    <div style="display: flex; gap: 3px;">
+      <button type="button" class="{{ clsFresh }}" onClick="{{ onFresh }}">Fresh</button>
+      <button type="button" class="{{ clsStale }}" onClick="{{ onStale }}">Stale</button>
+    </div>
+    <span id="catalog-count" style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-ghost); margin-left: auto;"></span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       Unified dataset table
+  ══════════════════════════════════════════════ -->
+  <div style="margin-top: 20px; overflow-x: auto;">
+    <table class="ct" style="border-top: 1px solid var(--line-hair);">
+      <colgroup>
+        <col style="width: 10%;"><col style="width: 20%;"><col style="width: 27%;">
+        <col style="width: 17%;"><col style="width: 9%;"><col style="width: 9%;"><col style="width: 8%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="{{ shColl }}"    onClick="{{ onSortColl }}">Collection{{ siColl }}</th>
+          <th class="{{ shDataset }}" onClick="{{ onSortDataset }}">Dataset{{ siDataset }}</th>
+          <th class="{{ shSource }}"  onClick="{{ onSortSource }}">Source{{ siSource }}</th>
+          <th class="{{ shLicense }}" onClick="{{ onSortLicense }}">License{{ siLicense }}</th>
+          <th class="{{ shAccess }}"  onClick="{{ onSortAccess }}">Access{{ siAccess }}</th>
+          <th class="{{ shScope }}"   onClick="{{ onSortScope }}">Scope{{ siScope }}</th>
+          <th class="{{ shState }}"   onClick="{{ onSortState }}">State{{ siState }}</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- ── aedg ── -->
+        <tr data-catalog-row data-access="public" data-state="fresh"
+            data-name="aedg paac prr-01 bundle extractions project bosc"
+            data-source="port authority allen county paac allen economic development group aedg responsive records parent prr">
+          <td class="coll-td">aedg</td>
+          <td>
+            <div class="ds-name">AEDG / PAAC PRR-01 Bundle Extractions (Project BOSC)</div>
+            <div class="ds-slug">aedg · 5 files</div>
+          </td>
+          <td>
+            <div class="src-desc">Port Authority of Allen County (PAAC) / Allen Economic Development Group (AEDG) — the 'Responsive Records — Parent PRR' public-records production (PRR-01 bundle)</div>
+            <span class="chip c-method">extracted</span>
+          </td>
+          <td class="lic">Public record (Ohio R.C. 149.43)</td>
+          <td><span class="chip c-public">public</span></td>
+          <td class="scope">Lima</td>
+          <td><span class="chip c-fresh">fresh</span></td>
+        </tr>
+
+        <tr data-catalog-row data-access="public" data-state="fresh"
+            data-name="aedg roundabouts tetra tech opc estimates extracted"
+            data-source="tetra tech opc estimates prr-01 bundle pdf pages summary detail">
+          <td class="coll-td">aedg</td>
+          <td>
+            <div class="ds-name">AEDG roundabouts — Tetra Tech OPC estimates (extracted)</div>
+            <div class="ds-slug">aedg-roundabouts-opc · 2 files</div>
+          </td>
+          <td>
+            <div class="src-desc">Tetra Tech OPC estimates, PRR-01 bundle (0-based PDF pages 317 summary, 318–327 detail)</div>
+            <span class="chip c-method">extracted</span>
+          </td>
+          <td class="lic">Public record (Allen County public-records request PRR-01)</td>
+          <td><span class="chip c-public">public</span></td>
+          <td class="scope">Lima</td>
+          <td><span class="chip c-fresh">fresh</span></td>
+        </tr>
+
+        <!-- ── allen-boe ── -->
+        <tr class="group-sep" data-catalog-row data-access="public" data-state="fresh"
+            data-name="allen county boe cross-election registration turnout statistics"
+            data-source="allen county board of elections statistics summary canvass pdfs">
+          <td class="coll-td">allen-boe</td>
+          <td>
+            <div class="ds-name">Allen County BOE — Cross-Election Registration &amp; Turnout Statistics</div>
+            <div class="ds-slug">allen-boe · 1 file</div>
+          </td>
+          <td>
+            <div class="src-desc"><a class="sl" href="#">Allen County (OH) Board of Elections — statistics blocks of the three summary canvass PDFs</a></div>
+            <span class="chip c-method">derived</span>
+          </td>
+          <td class="lic">Public records (local government open data)</td>
+          <td><span class="chip c-public">public</span></td>
+          <td class="scope">Lima</td>
+          <td><span class="chip c-fresh">fresh</span></td>
+        </tr>
+
+        <tr data-catalog-row data-access="public" data-state="fresh"
+            data-name="allen county boe per-precinct election results long form"
+            data-source="allen county board of elections precinct sovc result pdfs tidy long form">
+          <td class="coll-td">allen-boe</td>
+          <td>
+            <div class="ds-name">Allen County BOE — Per-Precinct Election Results (Long Form)</div>
+            <div class="ds-slug">allen-boe · (varies by cycle)</div>
+          </td>
+          <td>
+            <div class="src-desc"><a class="sl" href="#">Allen County (OH) Board of Elections — precinct/SOVC result PDFs flattened to tidy long form</a></div>
+            <span class="chip c-method">derived</span>
+          </td>
+          <td class="lic">Public records (local government open data)</td>
+          <td><span class="chip c-public">public</span></td>
+          <td class="scope">Lima</td>
+          <td><span class="chip c-fresh">fresh</span></td>
+        </tr>
+
+        <tr data-catalog-row data-access="public" data-state="fresh"
+            data-name="allen county boe provisional ballot outcomes 2020-2024"
+            data-source="allen county board of elections provisional ballot determination reports">
+          <td class="coll-td">allen-boe</td>
+          <td>
+            <div class="ds-name">Allen County BOE — Provisional Ballot Outcomes (2020–2024)</div>
+            <div class="ds-slug">allen-boe-prov · 3 files</div>
+          </td>
+          <td>
+            <div class="src-desc">Allen County (OH) Board of Elections — provisional ballot determination reports, one per general election cycle</div>
+            <span class="chip c-method">extracted</span>
+          </td>
+          <td class="lic">Public records (local government open data)</td>
+          <td><span class="chip c-public">public</span></td>
+          <td class="scope">Lima</td>
+          <td><span class="chip c-fresh">fresh</span></td>
+        </tr>
+
+        <tr data-catalog-row data-access="public" data-state="fresh"
+            data-name="allen county boe candidate issue filing register general 2024"
+            data-source="allen county board of elections candidate filing certification records general 2024">
+          <td class="coll-td">allen-boe</td>
+          <td>
+            <div class="ds-name">Allen County BOE — Candidate &amp; Issue Filing Register (General 2024)</div>
+            <div class="ds-slug">allen-boe-candidates · 1 file</div>
+          </td>
+          <td>
+            <div class="src-desc">Allen County (OH) Board of Elections — candidate and issue certification records; General Election 2024</div>
+            <span class="chip c-method">extracted</span>
+          </td>
+          <td class="lic">Public records (local government open data)</td>
+          <td><span class="chip c-public">public</span></td>
+          <td class="scope">Lima</td>
+          <td><span class="chip c-fresh">fresh</span></td>
+        </tr>
+
+        <!-- ── allen-pw ── -->
+        <tr class="group-sep" data-catalog-row data-access="keyed" data-state="fresh"
+            data-name="allen county pw pavement condition survey 2023"
+            data-source="allen county public works pavement management field survey gis export condition index tables">
+          <td class="coll-td">allen-pw</td>
+          <td>
+            <div class="ds-name">Allen County PW — Pavement Condition Survey (2023)</div>
+            <div class="ds-slug">allen-pw-pcs · 5 files</div>
+          </td>
+          <td>
+            <div class="src-desc">Allen County Dept. of Public Works — pavement management field survey; GIS export + condition index tables</div>
+            <span class="chip c-method">extracted</span>
+          </td>
+          <td class="lic">Public records (county open data, API key required)</td>
+          <td><span class="chip c-keyed">keyed</span></td>
+          <td class="scope">Lima</td>
+          <td><span class="chip c-fresh">fresh</span></td>
+        </tr>
+
+        <tr data-catalog-row data-access="public" data-state="fresh"
+            data-name="allen county pw capital improvement plan fy2025"
+            data-source="allen county public works fy2025 capital budget document project schedule">
+          <td class="coll-td">allen-pw</td>
+          <td>
+            <div class="ds-name">Allen County PW — Capital Improvement Plan FY2025</div>
+            <div class="ds-slug">allen-pw-cip · 2 files</div>
+          </td>
+          <td>
+            <div class="src-desc">Allen County Dept. of Public Works — FY2025 capital budget; project schedule extracted to tidy table</div>
+            <span class="chip c-method">derived</span>
+          </td>
+          <td class="lic">Public records (county budget document)</td>
+          <td><span class="chip c-public">public</span></td>
+          <td class="scope">Lima</td>
+          <td><span class="chip c-fresh">fresh</span></td>
+        </tr>
+
+        <tr data-catalog-row data-access="public" data-state="stale"
+            data-name="allen county pw npdes stormwater permit compliance records"
+            data-source="allen county public works ms4 npdes annual reports permit condition compliance tables">
+          <td class="coll-td">allen-pw</td>
+          <td>
+            <div class="ds-name">Allen County PW — NPDES Stormwater Permit Compliance</div>
+            <div class="ds-slug">allen-pw-storm · 8 files</div>
+          </td>
+          <td>
+            <div class="src-desc">Allen County PW — MS4 NPDES annual reports; permit condition compliance tables and inspection records</div>
+            <span class="chip c-method">extracted</span>
+          </td>
+          <td class="lic">Public records (Ohio EPA permit filing)</td>
+          <td><span class="chip c-public">public</span></td>
+          <td class="scope">Lima</td>
+          <td><span class="chip c-stale">stale</span></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1120, &quot;height&quot;: 960 },
+  &quot;catalogTitle&quot;:     { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Data catalog&quot;,  &quot;section&quot;: &quot;Page&quot; },
+  &quot;totalDatasets&quot;:    { &quot;editor&quot;: &quot;int&quot;,  &quot;default&quot;: 82,              &quot;section&quot;: &quot;Summary stats&quot; },
+  &quot;totalCollections&quot;: { &quot;editor&quot;: &quot;int&quot;,  &quot;default&quot;: 42,              &quot;section&quot;: &quot;Summary stats&quot; },
+  &quot;totalReviewed&quot;:    { &quot;editor&quot;: &quot;int&quot;,  &quot;default&quot;: 81,              &quot;section&quot;: &quot;Summary stats&quot; },
+  &quot;totalStale&quot;:       { &quot;editor&quot;: &quot;int&quot;,  &quot;default&quot;: 0,               &quot;section&quot;: &quot;Summary stats&quot; },
+  &quot;countPublic&quot;:      { &quot;editor&quot;: &quot;int&quot;,  &quot;default&quot;: 74,              &quot;section&quot;: &quot;Access breakdown&quot; },
+  &quot;countKeyed&quot;:       { &quot;editor&quot;: &quot;int&quot;,  &quot;default&quot;: 6,               &quot;section&quot;: &quot;Access breakdown&quot; },
+  &quot;countThrottled&quot;:   { &quot;editor&quot;: &quot;int&quot;,  &quot;default&quot;: 2,               &quot;section&quot;: &quot;Access breakdown&quot; }
+}">
+class Component extends DCLogic {
+  state = { query: '', access: 'all', stateFilter: 'all', sortCol: null, sortDir: 'asc' };
+
+  toggleSort(col) {
+    this.setState(s => ({
+      sortCol: col,
+      sortDir: s.sortCol === col && s.sortDir === 'asc' ? 'desc' : 'asc'
+    }));
+  }
+
+  applyFilter() {
+    const { query, access, stateFilter, sortCol, sortDir } = this.state;
+    const q = query.toLowerCase().trim();
+    let visible = 0;
+
+    const tbody = document.querySelector('.ct tbody');
+    if (!tbody) return;
+    const rows = [...tbody.querySelectorAll('[data-catalog-row]')];
+
+    // Filter
+    rows.forEach(row => {
+      const name   = (row.dataset.name   || '').toLowerCase();
+      const source = (row.dataset.source || '').toLowerCase();
+      const matchQ = !q || name.includes(q) || source.includes(q);
+      const matchA = access      === 'all' || row.dataset.access === access;
+      const matchS = stateFilter === 'all' || row.dataset.state  === stateFilter;
+      const show   = matchQ && matchA && matchS;
+      row.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    // Sort
+    if (sortCol) {
+      const txt = (row, sel) => ((row.querySelector(sel) || {}).textContent || '').trim().toLowerCase();
+      const getKey = (row) => {
+        switch (sortCol) {
+          case 'collection': return txt(row, '.coll-td');
+          case 'dataset':    return (row.dataset.name    || '').toLowerCase();
+          case 'source':     return (row.dataset.source  || '').toLowerCase();
+          case 'license':    return txt(row, '.lic');
+          case 'access':     return (row.dataset.access  || '');
+          case 'scope':      return txt(row, '.scope');
+          case 'state':      return (row.dataset.state   || '');
+          default:           return '';
+        }
+      };
+      rows.sort((a, b) => {
+        const cmp = getKey(a).localeCompare(getKey(b));
+        return sortDir === 'asc' ? cmp : -cmp;
+      });
+      rows.forEach(row => tbody.appendChild(row));
+    }
+
+    // Group separators — only when sorted by collection or unsorted
+    rows.forEach(r => r.classList.remove('group-sep'));
+    if (!sortCol || sortCol === 'collection') {
+      let prev = null;
+      rows.filter(r => r.style.display !== 'none').forEach(r => {
+        const coll = ((r.querySelector('.coll-td') || {}).textContent || '').trim();
+        if (coll !== prev && prev !== null) r.classList.add('group-sep');
+        prev = coll;
+      });
+    }
+
+    const el = document.getElementById('catalog-count');
+    if (el) el.textContent = visible + ' dataset' + (visible !== 1 ? 's' : '');
+  }
+
+  componentDidMount()  { this.applyFilter(); }
+  componentDidUpdate() { this.applyFilter(); }
+
+  renderVals() {
+    const { query, access, stateFilter, sortCol, sortDir } = this.state;
+    const cls = (on) => 'fbtn' + (on ? ' on' : '');
+    const sh  = (col) => 'sort-th' + (sortCol === col ? ' sort-active' : '');
+    const si  = (col) => sortCol === col ? (sortDir === 'asc' ? ' ↑' : ' ↓') : '';
+
+    return {
+      catalogTitle:     this.props.catalogTitle     ?? 'Data catalog',
+      totalDatasets:    this.props.totalDatasets     ?? 82,
+      totalCollections: this.props.totalCollections  ?? 42,
+      totalReviewed:    this.props.totalReviewed     ?? 81,
+      totalStale:       this.props.totalStale        ?? 0,
+      countPublic:      this.props.countPublic       ?? 74,
+      countKeyed:       this.props.countKeyed        ?? 6,
+      countThrottled:   this.props.countThrottled    ?? 2,
+
+      query,
+      onQueryChange: (e) => this.setState({ query: e.target.value }),
+
+      clsAll:       cls(access === 'all' && stateFilter === 'all'),
+      clsPublic:    cls(access === 'public'),
+      clsKeyed:     cls(access === 'keyed'),
+      clsThrottled: cls(access === 'throttled'),
+      onAll:       () => this.setState({ access: 'all', stateFilter: 'all' }),
+      onPublic:    () => this.setState(s => ({ access: s.access === 'public'    ? 'all' : 'public' })),
+      onKeyed:     () => this.setState(s => ({ access: s.access === 'keyed'     ? 'all' : 'keyed' })),
+      onThrottled: () => this.setState(s => ({ access: s.access === 'throttled' ? 'all' : 'throttled' })),
+
+      clsFresh: cls(stateFilter === 'fresh'),
+      clsStale: cls(stateFilter === 'stale'),
+      onFresh: () => this.setState(s => ({ stateFilter: s.stateFilter === 'fresh' ? 'all' : 'fresh' })),
+      onStale: () => this.setState(s => ({ stateFilter: s.stateFilter === 'stale' ? 'all' : 'stale' })),
+
+      onSortColl:    () => this.toggleSort('collection'),
+      onSortDataset: () => this.toggleSort('dataset'),
+      onSortSource:  () => this.toggleSort('source'),
+      onSortLicense: () => this.toggleSort('license'),
+      onSortAccess:  () => this.toggleSort('access'),
+      onSortScope:   () => this.toggleSort('scope'),
+      onSortState:   () => this.toggleSort('state'),
+
+      shColl: sh('collection'), shDataset: sh('dataset'), shSource:  sh('source'),
+      shLicense: sh('license'), shAccess:  sh('access'),  shScope:   sh('scope'), shState: sh('state'),
+
+      siColl: si('collection'), siDataset: si('dataset'), siSource:  si('source'),
+      siLicense: si('license'), siAccess:  si('access'),  siScope:   si('scope'), siState: si('state'),
+    };
+  }
+}
+</script>
+</body>
+</html>
