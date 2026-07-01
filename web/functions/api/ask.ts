@@ -156,8 +156,43 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
   const { question, turnstile_token } = parsed.value;
   const wantsStream = (request.headers.get("Accept") ?? "").includes("text/event-stream");
 
-  // Answer cache (#332): check before budget guard, rate-limit, and Turnstile — a cache hit
-  // has no model spend and costs nothing to serve. ASK_CACHE_MAX_AGE=0 disables the cache.
+  // Budget counter KV — its own optional binding, falling back to the rate-limit namespace, so
+  // the daily cap can be enforced without also enabling per-IP limiting (#587).
+  const budgetKv = env.ASK_BUDGET ?? env.ASK_RATE_LIMIT;
+
+  // Fail-closed: a pure local check — no KV + no explicit uncapped opt-in means the paid
+  // endpoint isn't configured for production spend. Refuse before any external call (#587).
+  if (!budgetKv && env.ASK_ALLOW_UNCAPPED !== "true") {
+    console.error("ask: no budget KV bound and ASK_ALLOW_UNCAPPED!=true — refusing (fail-closed)");
+    return json(503, { error: "the ask endpoint is temporarily unavailable" });
+  }
+
+  const remoteip = request.headers.get("CF-Connecting-IP") ?? undefined;
+  const nowMs = Date.now();
+
+  // Per-IP rate limit applies to all requests including cache hits — prevents cache DoS.
+  // Soft + fail-open on KV error (Turnstile is the primary gate).
+  if (env.ASK_RATE_LIMIT && remoteip) {
+    const blocked = await enforceRateLimit(
+      env.ASK_RATE_LIMIT,
+      remoteip,
+      Math.floor(nowMs / 1000),
+      {
+        max: intEnv(env.ASK_RATE_LIMIT_MAX, DEFAULT_ASK_RATE_LIMIT.max),
+        windowSec: Math.max(60, intEnv(env.ASK_RATE_LIMIT_WINDOW_SEC, DEFAULT_ASK_RATE_LIMIT.windowSec)),
+      },
+      "too many questions — please try again later",
+    );
+    if (blocked) return blocked;
+  }
+
+  // Turnstile applies to all requests including cache hits — the token is single-use either way.
+  if (!turnstile_token) return json(403, { error: "verification required — please complete the challenge" });
+  const human = await verifyTurnstile(turnstile_token, env.TURNSTILE_SECRET_KEY, remoteip);
+  if (!human) return json(403, { error: "verification failed — please retry the challenge" });
+
+  // Answer cache (#332): fail-closed, rate-limit, and Turnstile have already passed; skip the
+  // budget guard and model call for cache hits (no token spend). ASK_CACHE_MAX_AGE=0 disables.
   const cacheMaxAge = Math.max(0, intEnv(env.ASK_CACHE_MAX_AGE, 3600));
   const answerCache = cacheMaxAge > 0 ? await getAnswerCache() : null;
   const cacheKeyUrl = `https://ask-cache.internal/v1/${encodeURIComponent(normalizeQuestion(question))}`;
@@ -173,42 +208,9 @@ export const onRequestPost = async (ctx: RequestContext): Promise<Response> => {
     }
   }
 
-  const remoteip = request.headers.get("CF-Connecting-IP") ?? undefined;
-  const nowMs = Date.now();
   const budgetLimit = Math.max(0, intEnv(env.ASK_DAILY_TOKEN_BUDGET, DEFAULT_DAILY_TOKEN_BUDGET));
-  // Budget counter KV — its own optional binding, falling back to the rate-limit namespace, so
-  // the daily cap can be enforced without also enabling per-IP limiting (#587).
-  const budgetKv = env.ASK_BUDGET ?? env.ASK_RATE_LIMIT;
-
-  // A paid endpoint must be capped. With no KV to enforce the daily budget, fail closed rather
-  // than allow unbounded model spend behind Turnstile alone — unless explicitly opted out (#587).
-  if (!budgetKv && env.ASK_ALLOW_UNCAPPED !== "true") {
-    console.error("ask: no budget KV bound and ASK_ALLOW_UNCAPPED!=true — refusing (fail-closed)");
-    return json(503, { error: "the ask endpoint is temporarily unavailable" });
-  }
-
-  // Per-IP rate limit (independent of the budget) + account-wide budget guard. Both are soft +
-  // fail-open on KV error (Turnstile is the primary gate). Checked before the model call.
-  if (env.ASK_RATE_LIMIT && remoteip) {
-    const blocked = await enforceRateLimit(
-      env.ASK_RATE_LIMIT,
-      remoteip,
-      Math.floor(nowMs / 1000),
-      {
-        max: intEnv(env.ASK_RATE_LIMIT_MAX, DEFAULT_ASK_RATE_LIMIT.max),
-        windowSec: Math.max(60, intEnv(env.ASK_RATE_LIMIT_WINDOW_SEC, DEFAULT_ASK_RATE_LIMIT.windowSec)),
-      },
-      "too many questions — please try again later",
-    );
-    if (blocked) return blocked;
-  }
   if (budgetKv && (await isOverBudget(budgetKv, nowMs, budgetLimit)))
     return json(503, { error: "the ask endpoint has reached today's budget — please try again tomorrow" });
-
-  // Verify the human-challenge token (single-use, then discarded).
-  if (!turnstile_token) return json(403, { error: "verification required — please complete the challenge" });
-  const human = await verifyTurnstile(turnstile_token, env.TURNSTILE_SECRET_KEY, remoteip);
-  if (!human) return json(403, { error: "verification failed — please retry the challenge" });
 
   // Retrieve grounding context.
   let units: Awaited<ReturnType<typeof loadAskIndex>>;

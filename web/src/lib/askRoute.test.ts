@@ -439,7 +439,7 @@ describe("/api/ask route", () => {
     expect(r1.status).toBe(200);
     await wu.flush(); // ensure cache.put completes
 
-    // Second request — should hit the cache and skip the model.
+    // Second request — Turnstile still runs (abuse gate), but model + index are skipped.
     const callsBefore = fetchStub.calls.length;
     const r2 = await onRequestPost({
       request: ask({ question: "what is the roundabout cost?", turnstile_token: "tok2" }),
@@ -450,8 +450,9 @@ describe("/api/ask route", () => {
     const body = (await r2.json()) as { answer: string; refused: boolean };
     expect(body.answer).toContain("$1,234,567");
     expect(body.refused).toBe(false);
-    // No new fetch calls for Turnstile or the model on the cache hit.
-    expect(fetchStub.calls.length).toBe(callsBefore);
+    // +1 for Turnstile verify; no index load or model call on a cache hit.
+    expect(fetchStub.calls.filter((c) => c.url.includes("/siteverify")).length).toBe(2);
+    expect(fetchStub.calls.filter((c) => c.url.includes("/v1/messages")).length).toBe(1);
   });
 
   it("serves a cached answer as SSE on a streaming cache hit", async () => {
@@ -490,7 +491,9 @@ describe("/api/ask route", () => {
     expect(out).toContain("event: delta");
     expect(out).toContain("event: done");
     expect(out).toContain("$1,234,567");
-    expect(fetchStub.calls.length).toBe(callsBefore); // no model call
+    // Turnstile still runs on a cache hit; model + index are skipped.
+    expect(fetchStub.calls.filter((c) => c.url.includes("/siteverify")).length).toBe(2);
+    expect(fetchStub.calls.filter((c) => c.url.includes("/v1/messages")).length).toBe(1);
   });
 
   it("bypasses the cache when ASK_CACHE_MAX_AGE=0", async () => {
