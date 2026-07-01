@@ -1,6 +1,6 @@
 meta:
   subject: OEPA/DAM permit download manifest
-  generated_at: '2026-06-29'
+  generated_at: '2026-07-01'
   policy: non-destructive — originals keep as-received names
 documents:
 - filename: 1PD00013.pdf
@@ -76,4 +76,13 @@ documents:
   content_type: application/pdf
   fetched_at: '2026-06-29T06:03:14.807519+00:00'
   status: skipped_existing
+  note: null
+- filename: 1PD00013.fs.pdf
+  permit_id: 1PD00013
+  source_url: https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/1PD00013.fs.pdf
+  sha256: 31e8abf98c5dfbec82fb3b49e5b52732a7776cfa94b2c7b3782400db1d423ccf
+  bytes: 1001249
+  content_type: application/pdf
+  fetched_at: '2026-07-01T14:54:46.940313+00:00'
+  status: downloaded
   note: null

@@ -1757,9 +1757,20 @@ _WILMINGTON = SiteProfile(
     consumer_energy_relpath="reference/eia/wilmington/consumer-energy.yaml",
     grid_relpath="reference/eia/wilmington/grid-profile.yaml",
     toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # [open] pending the corridor (the Air Park reach)
-    receiving_water_name="Todd Fork",  # [verified] → Little Miami River (Scenic River) → Ohio R.; [open] Todd Fork is ungaged
-    plant_receiving={},  # [open] pending the Wilmington WWTP NPDES fact sheet
-    abstraction_gage="03245500",  # [open] Todd Fork ungaged — Little Miami at Milford is the nearest downstream integrator (overstates at-site dilution)
+    receiving_water_name="Lytle Creek",  # [verified] Ohio EPA 1PD00013*QD fact sheet: WWTP outfall 001 → Lytle Creek RM 6.83 → Todd Fork → Little Miami R. (Scenic) → Ohio R.
+    plant_receiving={
+        "wilmington-wwtp": (
+            "Lytle Creek",
+            # NPDES OH0028134 / Ohio EPA 1PD00013*QD (City of Wilmington WWTP); outfall 001 at
+            # Lytle Creek RM 6.83, 475 S Nelson Ave, Wilmington OH; current design flow 3.0 MGD;
+            # PTI #1543170 expansion to 4.5 MGD (new limits effective 2026-03-01).
+            # Source: Ohio EPA NPDES fact sheet 1PD00013.fs (2023-05-19) [verified].
+            "NPDES OH0028134/1PD00013*QD (City of Wilmington WWTP); outfall 001 → Lytle Creek "
+            "RM 6.83; design flow 3.0 MGD (expanding to 4.5 MGD per PTI #1543170) [verified — "
+            "Ohio EPA NPDES fact sheet 1PD00013.fs, 2023-05-19]",
+        ),
+    },
+    abstraction_gage="03245500",  # [open] Lytle Creek / Todd Fork ungaged — Little Miami at Milford is the nearest downstream integrator (overstates at-site dilution)
     supply_gage_primary="03245500",  # [verified] Little Miami River at Milford (downstream integrator)
     supply_gage_secondary="03240000",  # [verified] Little Miami River near Oldtown (upstream reach; brackets Todd Fork)
     passby_primary_cfs=0.0,  # [open] pending the in-stream passby minimum (scenic-river protection likely raises it)

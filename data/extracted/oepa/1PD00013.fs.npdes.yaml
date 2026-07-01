@@ -1,0 +1,47 @@
+doc_id: 1PD00013.fs-d52894cd
+source_path: /Users/cparent/Code/goedelsoup/bosc/data/documents/oepa/wilmington/1PD00013.fs.pdf
+kind: npdes
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: " \nFact Sheet for NPDES Permit Modification, Wilmington WWTP,\
+  \ 2023 \nPage 1 of 11  \nNational Pollutant Discharge Elimination System (NPDES)\
+  \ Permit Program \n \nF A C T   S H E E T \n \nRegarding an NPDES Permit to Discharge\
+  \ to Waters of the State of Ohio \nfor the Wilmington Wastewater Treatment Plant\
+  \ (WWTP) \n \nPublic Notice No.:  183881 OEPA Permit No.:  1PD00013*QD \nPublic\
+  \ Notice Date:  May 19, 2023 Application No.:  OH0028134 \nComment Period Ends:\
+  \  June 19, 2023 \n \n \n Name and Address of Facility Where \nName and Address\
+  \ of Applicant: Discharge Occurs:                  \nCity of Wilmington Wilmingto"
+permit:
+  confidence: high
+  warnings: []
+  facility_name: Wilmington Wastewater Treatment Plant (WWTP)
+  permit_no: 1PD00013*QD
+  permit_action: modification
+  applicant: City of Wilmington, 69 North South Street, Wilmington, OH 45177
+  application_no: OH0028134
+  public_notice_no: '183881'
+  public_notice_date: '2023-05-19'
+  comment_period_end: '2023-06-19'
+  facility_address: Wilmington Wastewater Treatment Plant, 475 South Nelson Avenue,
+    Wilmington, OH 45177, Clinton County
+  discharge_address: null
+  receiving_water: Lytle Creek
+  stream_network: Lytle Creek to Todd Fork to Little Miami River to Ohio River
+  outfalls:
+  - '001'
+  - 1PD00013602
+  - 1PD00013586
+  note: 'Permit modification basis: City of Wilmington applied for PTI #1543170 to
+    expand WWTP capacity from 3.0 to 4.5 MGD average daily design flow. New outfall
+    001 limits effective March 1, 2026. Station 1PD00013602 is the secondary treatment
+    bypass (to be eliminated with expansion). Station 1PD00013586 is a new station
+    proposed for sludge disposal monitoring. Discharge occurs at Lytle Creek at River
+    Mile 6.83.'
