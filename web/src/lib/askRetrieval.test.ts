@@ -109,7 +109,7 @@ describe("vectorSearch", () => {
   const EMB: EmbeddingEntry[] = [
     { id: UNITS[0].id, embedding: [1, 0] }, // north
     { id: UNITS[1].id, embedding: [0, 1] }, // east
-    { id: UNITS[2].id, embedding: [0.7071, 0.7071] }, // diagonal (≈ northeast)
+    { id: UNITS[2].id, embedding: [Math.SQRT1_2, Math.SQRT1_2] }, // diagonal (≈ northeast)
   ];
 
   it("ranks the most similar unit first", () => {
