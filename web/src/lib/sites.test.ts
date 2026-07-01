@@ -23,11 +23,11 @@ describe("sites registry — the Watermark network (#304)", () => {
     expect(activeSite().slug).toBe(ACTIVE_SITE_SLUG);
   });
 
-  it("keeps Fort Wayne onboard-fast but NOT selectable (the locked decision)", () => {
+  it("promotes Fort Wayne to selectable (live facility + story ready, #741)", () => {
     const ftw = SITES.find((s) => s.slug === "fort-wayne");
     expect(ftw).toBeDefined();
-    expect(ftw?.selectable).toBe(false);
-    expect(ftw?.status).toBe("building"); // a live facility with its site build underway
+    expect(ftw?.selectable).toBe(true);
+    expect(ftw?.status).toBe("live"); // facility is operational; Project Zodiac Phase 1 running
     expect(ftw?.codename).toBe("GCP");
   });
 
@@ -38,11 +38,11 @@ describe("sites registry — the Watermark network (#304)", () => {
     }
   });
 
-  it("comingSoonSites() is every non-selectable site (not Lima or Urbana), each carrying a tracking issue", () => {
+  it("comingSoonSites() is every non-selectable site (not Lima, Urbana, or Fort Wayne), each carrying a tracking issue", () => {
     const soon = comingSoonSites();
     expect(soon.some((s) => s.slug === ACTIVE_SITE_SLUG)).toBe(false);
+    expect(soon.some((s) => s.slug === "fort-wayne")).toBe(false); // Fort Wayne is now selectable (#741)
     expect(soon.map((s) => s.slug)).toEqual([
-      "fort-wayne",
       "defiance",
       "findlay",
       "toledo",
@@ -214,7 +214,7 @@ describe("siteForPath — the switcher's current-site resolution (#316)", () => 
 
   it("keeps coming-soon sites on the neutral network tier (only selectable sites resolve)", () => {
     // They live at /network/<slug> too, but aren't selectable → null (network chrome, not site).
-    expect(siteForPath("/network/fort-wayne")).toBeNull();
+    expect(siteForPath("/network/fort-wayne")?.slug).toBe("fort-wayne"); // now selectable (#741)
     expect(siteForPath("/network/defiance/")).toBeNull();
     expect(siteForPath("/network/toledo")).toBeNull();
   });

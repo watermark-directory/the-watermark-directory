@@ -2,9 +2,9 @@
   "site": "fort-wayne",
   "bundle_version": "1.0.0",
   "contract_version": "1.8.0",
-  "generated_at": "2026-06-27T19:25:57+00:00",
+  "generated_at": "2026-07-01T18:23:56+00:00",
   "feed_count": 21,
-  "row_total": 34,
+  "row_total": 87,
   "feeds": [
     {
       "name": "records",
@@ -12,7 +12,7 @@
       "media_type": "application/json",
       "schema": "schemas/records.schema.json",
       "kind": "collection",
-      "count": 1
+      "count": 3
     },
     {
       "name": "timeline",
@@ -132,7 +132,7 @@
       "media_type": "application/json",
       "schema": "schemas/hypothesis-assessments.schema.json",
       "kind": "collection",
-      "count": 0
+      "count": 1
     },
     {
       "name": "hydrology-scenarios",
@@ -148,7 +148,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 6
+      "count": 29
     },
     {
       "name": "geo/campus",
@@ -156,7 +156,7 @@
       "media_type": "application/geo+json",
       "schema": "schemas/geo.schema.json",
       "kind": "geojson",
-      "count": 2
+      "count": 11
     },
     {
       "name": "geo/imagery",
@@ -172,7 +172,7 @@
       "media_type": "application/json",
       "schema": "schemas/ask-embeddings.schema.json",
       "kind": "collection",
-      "count": 0
+      "count": 18
     }
   ]
 }

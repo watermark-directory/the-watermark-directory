@@ -12,50 +12,48 @@ import {
 } from "./sites";
 import { storyFor } from "./walk";
 
-// Two-selectable-site chrome parity (#746, closing #740's Done-when). The framework shipped with
-// Lima as the sole `selectable` site, so "two selectable sites switchable in one build, each its
-// own sections + story, Lima byte-identical" was never exercised. This drives the multi-site
-// routing/registry seam (`*From(sites)`) with a TEST-ONLY second selectable site and asserts both
-// render their own chrome while Lima's output is invariant to the second site's presence.
-//
-// The full astro-build HTML diff is the stronger proof; it's gated on a committed Fort Wayne
-// sample-bundle fixture (the real `selectable` promotion / "second live build" cutover) and stays
-// a follow-up. This locks the per-site *logic* now.
+// Multi-site chrome parity (#746, closing #740's Done-when). As of #741, the live registry
+// has three selectable sites: Lima, Urbana, and Fort Wayne. These tests lock the per-site routing
+// logic by exercising the `*From(sites)` seam with both the real registry and a fixture that
+// promotes an additional non-selectable site (Defiance), so the "promotion flips the tier"
+// invariant stays tested even after each real promotion.
 
-/** The real registry with Fort Wayne promoted to a second selectable (live) site — fixture only. */
-const TWO_SELECTABLE: NetworkSite[] = SITES.map((s) =>
-  s.slug === "fort-wayne" ? { ...s, selectable: true, status: "live" } : s,
+/** A fixture with Defiance promoted to selectable — used to exercise the promotion flip. */
+const WITH_DEFIANCE: NetworkSite[] = SITES.map((s) =>
+  s.slug === "defiance" ? { ...s, selectable: true, status: "live" } : s,
 );
 
 describe("multi-site chrome parity (#746)", () => {
-  const single = selectablePathsFrom(SITES); // today's one-selectable build (Lima alone)
-  const dual = selectablePathsFrom(TWO_SELECTABLE); // two selectable sites
+  const real = selectablePathsFrom(SITES); // Lima + Urbana + Fort Wayne
+  const withDef = selectablePathsFrom(WITH_DEFIANCE); // Lima + Urbana + Fort Wayne + Defiance
 
-  it("today's build has exactly two selectable sites (Lima + Urbana)", () => {
-    expect(single.map((p) => p.props.slug).sort()).toEqual(["lima", "urbana"]);
+  it("today's build has exactly three selectable sites (Lima + Urbana + Fort Wayne)", () => {
+    expect(real.map((p) => p.props.slug).sort()).toEqual(["fort-wayne", "lima", "urbana"]);
   });
 
-  it("a third selectable site (Fort Wayne) adds its own route, keyed by its own siteBase", () => {
-    expect(dual.map((p) => p.props.slug).sort()).toEqual(["fort-wayne", "lima", "urbana"]);
-    const fw = dual.find((p) => p.props.slug === "fort-wayne");
-    expect(fw?.params.site).toBe(siteBase("fort-wayne").replace("/network/", ""));
+  it("a fourth selectable site (Defiance) adds its own route, keyed by its own siteBase", () => {
+    expect(withDef.map((p) => p.props.slug).sort()).toEqual(["defiance", "fort-wayne", "lima", "urbana"]);
+    const def = withDef.find((p) => p.props.slug === "defiance");
+    expect(def?.params.site).toBe(siteBase("defiance").replace("/network/", ""));
   });
 
   it("leaves Lima's path+props byte-identical (the discipline held through every #724 merge)", () => {
-    const limaSingle = single.find((p) => p.props.slug === "lima");
-    const limaDual = dual.find((p) => p.props.slug === "lima");
-    expect(limaDual).toEqual(limaSingle);
+    const limaReal = real.find((p) => p.props.slug === "lima");
+    const limaDef = withDef.find((p) => p.props.slug === "lima");
+    expect(limaDef).toEqual(limaReal);
   });
 
   it("routes each selectable site to its own chrome tier; promotion flips the tier", () => {
-    // A Fort Wayne path is network chrome today (not selectable) and site chrome once promoted.
-    expect(siteForPathIn(SITES, "/network/fort-wayne/watershed")).toBeNull();
-    expect(siteForPathIn(TWO_SELECTABLE, "/network/fort-wayne/watershed")?.slug).toBe("fort-wayne");
-    // Lima still routes to Lima, unaffected by Fort Wayne's promotion — no cross-bleed either way.
-    expect(siteForPathIn(TWO_SELECTABLE, "/network/american-sugar-creek-allen-co/timeline")?.slug).toBe(
+    // Fort Wayne is selectable — resolves to its own chrome tier.
+    expect(siteForPathIn(SITES, "/network/fort-wayne/watershed")?.slug).toBe("fort-wayne");
+    // Defiance is NOT selectable in SITES — network chrome (null); promotion flips it.
+    expect(siteForPathIn(SITES, "/network/defiance/watershed")).toBeNull();
+    expect(siteForPathIn(WITH_DEFIANCE, "/network/defiance/watershed")?.slug).toBe("defiance");
+    // Lima still routes to Lima, unaffected by any other site's presence.
+    expect(siteForPathIn(WITH_DEFIANCE, "/network/american-sugar-creek-allen-co/timeline")?.slug).toBe(
       "lima",
     );
-    expect(siteForPathIn(TWO_SELECTABLE, "/network/fort-wayne")?.slug).toBe("fort-wayne");
+    expect(siteForPathIn(SITES, "/network/fort-wayne")?.slug).toBe("fort-wayne");
   });
 
   it("each selectable site resolves its OWN story (#733 made this real)", () => {
@@ -74,9 +72,12 @@ describe("multi-site chrome parity (#746)", () => {
   });
 
   it("the switcher's current state reacts to a coming-soon site, where the tab tier does not (#793)", () => {
-    // The tab-tier resolver (`siteForPath`) is null on a non-selectable site's watch page...
-    expect(siteForPathIn(SITES, "/network/fort-wayne")).toBeNull();
+    // Defiance is a coming-soon site: tab-tier resolver returns null...
+    expect(siteForPathIn(SITES, "/network/defiance")).toBeNull();
     // ...but the switcher resolver names the current site regardless of `selectable`.
+    expect(currentSiteForPath("/network/defiance")?.slug).toBe("defiance");
+    // Fort Wayne is selectable — both resolvers return it.
+    expect(siteForPathIn(SITES, "/network/fort-wayne")?.slug).toBe("fort-wayne");
     expect(currentSiteForPath("/network/fort-wayne")?.slug).toBe("fort-wayne");
     expect(currentSiteForPath("/network/american-sugar-creek-allen-co/timeline")?.slug).toBe("lima");
     // Off the network (the directory + cross-cutting globals) → no current site.
@@ -85,11 +86,11 @@ describe("multi-site chrome parity (#746)", () => {
   });
 
   it("a coming-soon site gets a registry-only, mostly-locked site-tier tab bar (#793)", () => {
-    const fw = SITES.find((s) => s.slug === "fort-wayne") as NetworkSite;
-    const tabs = comingSoonSiteTabs(fw);
+    const def = SITES.find((s) => s.slug === "defiance") as NetworkSite;
+    const tabs = comingSoonSiteTabs(def);
     // All registry-only plain links pointing at the site's own watch page (never a 404 into an
     // unbuilt tree); the overview is live, the unbuilt sections are locked markers.
-    const base = siteBase("fort-wayne");
+    const base = siteBase("defiance");
     const links = tabs.map((t) => (t.kind === "link" ? t : null));
     expect(links.map((t) => t?.label)).toEqual(["The site", "The story", "The record"]);
     expect(links.map((t) => Boolean(t?.locked))).toEqual([false, true, true]);
@@ -97,9 +98,11 @@ describe("multi-site chrome parity (#746)", () => {
   });
 
   it("promoting a site removes it from the coming-soon set", () => {
-    expect(comingSoonFrom(SITES).map((s) => s.slug)).toContain("fort-wayne");
-    expect(comingSoonFrom(TWO_SELECTABLE).map((s) => s.slug)).not.toContain("fort-wayne");
+    // Defiance is in coming-soon; Fort Wayne is not (it's selectable now).
+    expect(comingSoonFrom(SITES).map((s) => s.slug)).toContain("defiance");
+    expect(comingSoonFrom(SITES).map((s) => s.slug)).not.toContain("fort-wayne");
+    expect(comingSoonFrom(WITH_DEFIANCE).map((s) => s.slug)).not.toContain("defiance");
     // Lima is never coming-soon in either world.
-    expect(comingSoonFrom(TWO_SELECTABLE).map((s) => s.slug)).not.toContain("lima");
+    expect(comingSoonFrom(WITH_DEFIANCE).map((s) => s.slug)).not.toContain("lima");
   });
 });

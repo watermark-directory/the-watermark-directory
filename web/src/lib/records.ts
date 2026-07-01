@@ -5,6 +5,7 @@ import type { RecordItem } from "./feeds";
 export const RECORD_GROUP_LABELS: Record<string, string> = {
   deeds: "Deeds",
   "permits-epa": "Permits — Ohio EPA / USACE",
+  "permits-idem": "Permits — IDEM (Indiana)",
   "permits-npdes": "Permits — NPDES",
   "permits-sos": "Business filings — Secretary of State",
   plans: "Plans",
