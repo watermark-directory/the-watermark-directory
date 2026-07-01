@@ -1,0 +1,697 @@
+---
+// /about/catalog — interactive Data Catalog page (#1000).
+// Network-global (not site-scoped). Reads the `catalog` bundle feed at build time;
+// filter + sort runs client-side. Design spec: design/templates/data-catalog/DataCatalog.dc.html (PR #998).
+import Base from "../../layouts/Base.astro";
+import { hasFeed, loadFeed } from "../../lib/bundle";
+import { catalogFreshness, type CatalogItem } from "../../lib/feeds";
+
+const items = hasFeed("catalog") ? loadFeed<CatalogItem[]>("catalog") : [];
+
+// Build-time aggregate stats
+const total = items.length;
+const collectionCount = new Set(items.map((i) => i.collection)).size;
+const reviewed = items.filter((i) => i.status === "reviewed").length;
+const stale = items.filter((i) => catalogFreshness(i.observed) === "stale").length;
+const countPublic = items.filter((i) => i.access_tier === "public").length;
+const countKeyed = items.filter((i) => i.access_tier === "keyed").length;
+const countThrottled = items.filter((i) => i.access_tier === "throttled").length;
+
+// Initial display order: by collection, then id
+const rows = [...items].sort((a, b) => a.collection.localeCompare(b.collection) || a.id.localeCompare(b.id));
+
+// `data-state` attribute: filter bucket ("fresh" vs everything else → "stale")
+function stateAttr(item: CatalogItem): string {
+  return catalogFreshness(item.observed) === "fresh" ? "fresh" : "stale";
+}
+
+// Chip class + label for the State column
+function stateChip(item: CatalogItem): { cls: string; label: string } {
+  const f = catalogFreshness(item.observed);
+  switch (f) {
+    case "fresh":
+      return { cls: "c-fresh", label: "fresh" };
+    case "stale":
+      return { cls: "c-stale", label: "stale" };
+    case "missing":
+      return { cls: "c-missing", label: "missing" };
+    case "unmaterialized":
+      return { cls: "c-lfs", label: "LFS" };
+    default:
+      return { cls: "c-unknown", label: "—" };
+  }
+}
+
+function fileSummary(it: CatalogItem): string {
+  const n = it.observed?.file_count ?? it.storage.length;
+  return `${n} file${n === 1 ? "" : "s"}`;
+}
+
+const SITE_SCOPE_LABEL: Record<string, string> = {
+  "lima-legacy": "Lima",
+  "slug-scoped": "per-site",
+  "basin-shared": "shared",
+};
+function siteScopeLabel(scope: string): string {
+  const [kind, value] = scope.split(":");
+  if (value) {
+    const pretty = value.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    if (kind === "site") return pretty;
+    if (kind === "basin") return `${pretty} basin`;
+    if (kind === "state") return value;
+  }
+  return SITE_SCOPE_LABEL[scope] ?? scope;
+}
+---
+
+<Base title="Data catalog" section="about">
+  <div class="cat-page">
+    <a href="/about" class="cat-back">← About</a>
+    <h1 class="cat-title">Data catalog</h1>
+    <p class="cat-lead">
+      Every dataset under the <code>data/</code> tree, in the open — what it is, where it came from,
+      its license and access tier, and whether the committed copy is current. Generated from the
+      registry (<code>bosc catalog</code>) and its reconcile snapshot; the legible successor to the
+      hand-maintained corpus-completeness audit.
+    </p>
+
+    {
+      items.length === 0 ? (
+        <p class="cat-stub">No data catalog is available yet — run <code>bosc export</code>.</p>
+      ) : (
+        <>
+          {/* Stats strip */}
+          <div class="stat-strip">
+            <div class="stat">
+              <span class="stat-n">{total}</span>
+              <span class="stat-l">Datasets</span>
+            </div>
+            <div class="stat stat-div">
+              <span class="stat-n">{collectionCount}</span>
+              <span class="stat-l">Collections</span>
+            </div>
+            <div class="stat stat-div">
+              <span class="stat-n stat-forest">{reviewed}</span>
+              <span class="stat-l">Reviewed</span>
+            </div>
+            <div class="stat stat-div">
+              <span class="stat-n stat-ghost">{stale}</span>
+              <span class="stat-l">Stale</span>
+            </div>
+          </div>
+
+          {/* Access meta */}
+          <p class="access-meta">
+            access ·{" "}
+            <span class="access-public">{countPublic} public</span> ·{" "}
+            <span class="access-keyed">{countKeyed} keyed</span> ·{" "}
+            <span class="access-throttled">{countThrottled} throttled</span>
+          </p>
+
+          {/* Filter bar */}
+          <div class="filter-bar">
+            <div class="search-wrap">
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <input
+                id="cat-search"
+                type="text"
+                placeholder="Filter datasets…"
+                autocomplete="off"
+                class="cat-search"
+              />
+            </div>
+            <div class="fbtn-group" role="group" aria-label="Filter by access tier">
+              <button type="button" class="fbtn on" data-filter-access="all">All</button>
+              <button type="button" class="fbtn" data-filter-access="public">Public</button>
+              <button type="button" class="fbtn" data-filter-access="keyed">Keyed</button>
+              <button type="button" class="fbtn" data-filter-access="throttled">Throttled</button>
+            </div>
+            <span class="filter-div" aria-hidden="true" />
+            <div class="fbtn-group" role="group" aria-label="Filter by freshness">
+              <button type="button" class="fbtn" data-filter-state="fresh">Fresh</button>
+              <button type="button" class="fbtn" data-filter-state="stale">Stale</button>
+            </div>
+            <span id="cat-count" class="cat-count" aria-live="polite" />
+          </div>
+
+          {/* Catalog table */}
+          <div class="table-scroll">
+            <table class="ct">
+              <colgroup>
+                <col style="width:10%" />
+                <col style="width:20%" />
+                <col style="width:27%" />
+                <col style="width:17%" />
+                <col style="width:9%" />
+                <col style="width:9%" />
+                <col style="width:8%" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="sort-th" data-sort="collection">
+                    Collection<span class="sort-ind" data-sort-ind="collection" />
+                  </th>
+                  <th class="sort-th" data-sort="dataset">
+                    Dataset<span class="sort-ind" data-sort-ind="dataset" />
+                  </th>
+                  <th class="sort-th" data-sort="source">
+                    Source<span class="sort-ind" data-sort-ind="source" />
+                  </th>
+                  <th class="sort-th" data-sort="license">
+                    License<span class="sort-ind" data-sort-ind="license" />
+                  </th>
+                  <th class="sort-th" data-sort="access">
+                    Access<span class="sort-ind" data-sort-ind="access" />
+                  </th>
+                  <th class="sort-th" data-sort="scope">
+                    Scope<span class="sort-ind" data-sort-ind="scope" />
+                  </th>
+                  <th class="sort-th" data-sort="state">
+                    State<span class="sort-ind" data-sort-ind="state" />
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="cat-body">
+                {rows.map((it) => {
+                  const sc = stateChip(it);
+                  return (
+                    <tr
+                      data-catalog-row
+                      data-access={it.access_tier}
+                      data-state={stateAttr(it)}
+                      data-name={`${it.title} ${it.id} ${it.collection}`.toLowerCase()}
+                      data-source={it.source.toLowerCase()}
+                      data-collection={it.collection}
+                      data-license={(it.license ?? "").toLowerCase()}
+                      data-scope={siteScopeLabel(it.site_scope).toLowerCase()}
+                    >
+                      <td class="coll-td">{it.collection}</td>
+                      <td>
+                        <span class="ds-name">{it.title}</span>
+                        <span class="ds-slug">
+                          {it.id} · {fileSummary(it)}
+                        </span>
+                      </td>
+                      <td>
+                        {it.external_url ? (
+                          <a href={it.external_url} class="src-link" rel="nofollow noopener">
+                            <span class="src-desc">{it.source}</span>
+                          </a>
+                        ) : (
+                          <span class="src-desc">{it.source}</span>
+                        )}
+                        <span class="chip c-method">{it.producer_kind}</span>
+                      </td>
+                      <td class="lic">{it.license ?? "—"}</td>
+                      <td>
+                        <span class={`chip c-${it.access_tier}`}>{it.access_tier}</span>
+                      </td>
+                      <td class="scope">{siteScopeLabel(it.site_scope)}</td>
+                      <td>
+                        <span class={`chip ${sc.cls}`}>{sc.label}</span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          <p class="cat-foot">
+            <code>fresh</code> = within refresh cadence · <code>LFS</code> = Git LFS pointer not
+            materialized (expected in CI, not missing) · reconcile snapshot from{" "}
+            <code>bosc catalog reconcile</code> · drift gated by <code>bosc catalog check</code>
+          </p>
+        </>
+      )
+    }
+  </div>
+</Base>
+
+<script>
+  (function () {
+    const search = document.querySelector<HTMLInputElement>("#cat-search");
+    const tbody = document.querySelector<HTMLTableSectionElement>("#cat-body");
+    const countEl = document.querySelector<HTMLElement>("#cat-count");
+    if (!tbody) return;
+
+    const rows = [...tbody.querySelectorAll<HTMLTableRowElement>("[data-catalog-row]")];
+    let activeAccess = "all";
+    let activeState = "all";
+    let sortCol = "";
+    let sortDir: "asc" | "desc" = "asc";
+
+    function rowKey(row: HTMLTableRowElement, col: string): string {
+      const keys: Record<string, string> = {
+        collection: row.dataset.collection ?? "",
+        dataset: row.dataset.name ?? "",
+        source: row.dataset.source ?? "",
+        license: row.dataset.license ?? "",
+        access: row.dataset.access ?? "",
+        scope: row.dataset.scope ?? "",
+        state: row.dataset.state ?? "",
+      };
+      return keys[col] ?? "";
+    }
+
+    function applyAll() {
+      const q = (search?.value ?? "").toLowerCase().trim();
+      let visible = 0;
+
+      for (const row of rows) {
+        const matchQ =
+          !q ||
+          (row.dataset.name ?? "").includes(q) ||
+          (row.dataset.source ?? "").includes(q);
+        const matchA = activeAccess === "all" || row.dataset.access === activeAccess;
+        const matchS = activeState === "all" || row.dataset.state === activeState;
+        const show = matchQ && matchA && matchS;
+        row.style.display = show ? "" : "none";
+        if (show) visible++;
+      }
+
+      if (sortCol) {
+        const col = sortCol;
+        const dir = sortDir;
+        [...rows]
+          .sort((a, b) => {
+            const cmp = rowKey(a, col).localeCompare(rowKey(b, col));
+            return dir === "asc" ? cmp : -cmp;
+          })
+          // tbody non-null: checked at top of IIFE, const so TypeScript can't narrow across closures
+          .forEach((r) => tbody!.appendChild(r));
+      }
+
+      // Collection group separators when sorted by collection or unsorted
+      for (const r of rows) r.classList.remove("group-sep");
+      if (!sortCol || sortCol === "collection") {
+        let prev = "";
+        for (const r of rows) {
+          if (r.style.display === "none") continue;
+          const coll = r.dataset.collection ?? "";
+          if (prev && coll !== prev) r.classList.add("group-sep");
+          prev = coll;
+        }
+      }
+
+      if (countEl) countEl.textContent = `${visible} dataset${visible !== 1 ? "s" : ""}`;
+    }
+
+    function syncAccessBtns() {
+      document.querySelectorAll<HTMLButtonElement>("[data-filter-access]").forEach((b) => {
+        b.classList.toggle(
+          "on",
+          activeAccess === "all"
+            ? b.dataset.filterAccess === "all"
+            : b.dataset.filterAccess === activeAccess,
+        );
+      });
+    }
+
+    search?.addEventListener("input", applyAll);
+
+    document.querySelectorAll<HTMLButtonElement>("[data-filter-access]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const val = btn.dataset.filterAccess ?? "all";
+        activeAccess = val === "all" || activeAccess === val ? "all" : val;
+        if (val !== "all" && activeAccess !== "all") activeAccess = val;
+        syncAccessBtns();
+        applyAll();
+      });
+    });
+
+    document.querySelectorAll<HTMLButtonElement>("[data-filter-state]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const val = btn.dataset.filterState ?? "";
+        activeState = activeState === val ? "all" : val;
+        document.querySelectorAll<HTMLButtonElement>("[data-filter-state]").forEach((b) => {
+          b.classList.toggle("on", b.dataset.filterState === activeState);
+        });
+        applyAll();
+      });
+    });
+
+    document.querySelectorAll<HTMLElement>("[data-sort]").forEach((th) => {
+      th.addEventListener("click", () => {
+        const col = th.dataset.sort ?? "";
+        sortDir = sortCol === col && sortDir === "asc" ? "desc" : "asc";
+        sortCol = col;
+        document.querySelectorAll<HTMLElement>("[data-sort]").forEach((h) => {
+          h.classList.toggle("sort-active", h.dataset.sort === sortCol);
+        });
+        document.querySelectorAll<HTMLElement>("[data-sort-ind]").forEach((ind) => {
+          ind.textContent =
+            ind.dataset.sortInd === sortCol ? (sortDir === "asc" ? " ↑" : " ↓") : "";
+        });
+        applyAll();
+      });
+    });
+
+    applyAll();
+  })();
+</script>
+
+<style>
+  .cat-page {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 2.75rem 2.5rem 6.25rem;
+  }
+
+  .cat-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--bosc-mono);
+    font-size: 0.69rem;
+    color: var(--bosc-forest);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.5rem;
+  }
+  .cat-back:hover {
+    text-decoration: underline;
+  }
+
+  .cat-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.06rem;
+    color: var(--bosc-ink);
+    margin: 0 0 0.875rem;
+    line-height: 1.04;
+  }
+
+  .cat-lead {
+    font-size: 0.94rem;
+    color: var(--bosc-muted);
+    line-height: 1.65;
+    max-width: 620px;
+    margin: 0 0 2.25rem;
+  }
+
+  .cat-stub {
+    color: var(--bosc-muted);
+    font-size: 0.9rem;
+    margin-top: 2rem;
+  }
+
+  /* ── Stats strip ── */
+  .stat-strip {
+    display: flex;
+    flex-wrap: wrap;
+    border-top: 2px solid var(--bosc-ink);
+    margin-bottom: 0.625rem;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2.25rem 1rem 0;
+    flex: 0 0 auto;
+  }
+  .stat-div {
+    padding-left: 2.25rem;
+    border-left: 1px solid var(--bosc-rule);
+  }
+  .stat-n {
+    font-family: var(--bosc-mono);
+    font-size: 2.75rem;
+    font-weight: 600;
+    letter-spacing: -0.16rem;
+    color: var(--bosc-ink);
+    line-height: 1;
+  }
+  .stat-forest {
+    color: var(--bosc-forest);
+  }
+  .stat-ghost {
+    color: var(--bosc-faint);
+  }
+  .stat-l {
+    font-family: var(--bosc-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.09rem;
+    text-transform: uppercase;
+    color: var(--bosc-faint);
+    margin-top: 0.3rem;
+  }
+
+  /* ── Access meta ── */
+  .access-meta {
+    font-family: var(--bosc-mono);
+    font-size: 0.69rem;
+    color: var(--bosc-faint);
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--bosc-rule);
+    margin-bottom: 1.75rem;
+  }
+  .access-public {
+    color: var(--td-verified);
+    font-weight: 500;
+  }
+  .access-keyed {
+    color: var(--td-amber-text);
+    font-weight: 500;
+  }
+  .access-throttled {
+    color: var(--bosc-danger);
+    font-weight: 500;
+  }
+
+  /* ── Filter bar ── */
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-bottom: 0.25rem;
+    flex-wrap: wrap;
+  }
+  .search-wrap {
+    position: relative;
+    flex: 0 0 auto;
+  }
+  .search-icon {
+    position: absolute;
+    left: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.81rem;
+    color: var(--bosc-faint);
+    pointer-events: none;
+    line-height: 1;
+    font-family: var(--bosc-mono);
+  }
+  .cat-search {
+    font-family: var(--bosc-mono);
+    font-size: 0.75rem;
+    color: var(--bosc-ink);
+    background: var(--bosc-bg);
+    border: 1px solid var(--bosc-rule);
+    padding: 0.375rem 0.75rem 0.375rem 1.75rem;
+    width: 230px;
+    letter-spacing: 0.01em;
+    outline: none;
+  }
+  .cat-search:focus {
+    outline: 2px solid rgba(31, 111, 74, 0.35);
+    outline-offset: -1px;
+  }
+  .fbtn-group {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+  }
+  .fbtn {
+    font-family: var(--bosc-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.31rem 0.75rem;
+    border: 1px solid var(--bosc-rule);
+    background: transparent;
+    color: var(--bosc-muted);
+    cursor: pointer;
+    line-height: 1;
+    transition: all 0.08s ease;
+  }
+  .fbtn:hover {
+    border-color: var(--bosc-muted);
+    color: var(--bosc-ink);
+  }
+  .fbtn.on {
+    background: var(--bosc-ink);
+    color: var(--bosc-bg);
+    border-color: var(--bosc-ink);
+  }
+  .filter-div {
+    display: inline-block;
+    width: 1px;
+    height: 18px;
+    background: var(--bosc-rule);
+    flex-shrink: 0;
+    align-self: center;
+  }
+  .cat-count {
+    font-family: var(--bosc-mono);
+    font-size: 0.69rem;
+    color: var(--bosc-faint);
+    margin-left: auto;
+  }
+
+  /* ── Catalog table ── */
+  .table-scroll {
+    margin-top: 1.25rem;
+    overflow-x: auto;
+  }
+  .ct {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 860px;
+    border-top: 1px solid var(--bosc-rule);
+  }
+  .ct th {
+    font-family: var(--bosc-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.09rem;
+    text-transform: uppercase;
+    color: var(--bosc-faint);
+    text-align: left;
+    padding: 0.56rem 0.875rem 0.5rem;
+    border-bottom: 2px solid var(--bosc-ink);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .ct td {
+    padding: 0.81rem 0.875rem;
+    border-bottom: 1px solid var(--bosc-rule);
+    vertical-align: top;
+  }
+  .ct tbody tr {
+    transition: background 0.08s ease;
+  }
+  .ct tbody tr:hover {
+    background: var(--bosc-surface);
+  }
+  .group-sep td {
+    border-top: 2px solid var(--bosc-rule);
+  }
+  .sort-th {
+    cursor: pointer;
+    user-select: none;
+  }
+  .sort-th:hover {
+    color: var(--bosc-muted);
+  }
+  .sort-active {
+    color: var(--bosc-ink) !important;
+  }
+  .sort-ind {
+    font-size: 0.69rem;
+    color: var(--bosc-ink);
+  }
+
+  /* ── Cell helpers ── */
+  .coll-td {
+    font-family: var(--bosc-mono);
+    font-size: 0.69rem;
+    font-weight: 700;
+    color: var(--bosc-ink);
+    white-space: nowrap;
+    border-left: 3px solid var(--bosc-forest);
+    padding-left: 11px;
+  }
+  .ds-name {
+    display: block;
+    font-size: 0.81rem;
+    font-weight: 600;
+    color: var(--bosc-ink);
+    line-height: 1.35;
+    margin-bottom: 0.25rem;
+  }
+  .ds-slug {
+    display: block;
+    font-family: var(--bosc-mono);
+    font-size: 0.625rem;
+    color: var(--bosc-faint);
+  }
+  .src-link {
+    text-decoration: none;
+  }
+  .src-link:hover .src-desc {
+    text-decoration: underline;
+  }
+  .src-desc {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--bosc-muted);
+    line-height: 1.5;
+    margin-bottom: 0.375rem;
+  }
+  .lic {
+    font-size: 0.75rem;
+    color: var(--bosc-muted);
+    line-height: 1.5;
+  }
+  .scope {
+    font-family: var(--bosc-mono);
+    font-size: 0.69rem;
+    color: var(--bosc-muted);
+  }
+
+  /* ── Chips ── */
+  .chip {
+    display: inline-block;
+    font-family: var(--bosc-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.125rem 0.5rem;
+    border: 1px solid;
+    line-height: 1.8;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .c-public,
+  .c-fresh {
+    color: var(--td-verified);
+    background: var(--td-verified-bg);
+    border-color: var(--td-check-line);
+  }
+  .c-keyed {
+    color: var(--td-amber-text);
+    background: var(--td-inference-bg);
+    border-color: var(--td-amber-rule);
+  }
+  .c-throttled,
+  .c-stale {
+    color: var(--bosc-danger);
+    background: transparent;
+    border-color: var(--bosc-danger);
+  }
+  .c-missing {
+    color: var(--bosc-danger);
+    border-color: var(--bosc-danger);
+  }
+  .c-lfs,
+  .c-unknown {
+    color: var(--td-open);
+    background: var(--td-open-bg);
+    border-color: currentColor;
+  }
+  .c-method {
+    color: var(--bosc-faint);
+    background: transparent;
+    border-color: var(--bosc-rule);
+    font-weight: 400;
+  }
+
+  /* ── Footer ── */
+  .cat-foot {
+    font-size: 0.8rem;
+    color: var(--bosc-muted);
+    border-top: 1px solid var(--bosc-rule);
+    padding-top: 1rem;
+    margin-top: 2.5rem;
+    max-width: 64ch;
+  }
+</style>

@@ -309,7 +309,7 @@ export function networkTabs(): NavItem[] {
           blurb: "How the record is built & labeled",
         },
         { label: "About the site", href: "/about", blurb: "What Watermark is, and why" },
-        { label: "Data catalog", href: "/about/data", blurb: "Every dataset: source, license, freshness" },
+        { label: "Data catalog", href: "/about/catalog", blurb: "Every dataset: source, license, freshness" },
         { label: "Who runs this", href: "/about-me", blurb: "The team behind the record" },
         { label: "Contributing", href: "/about/contributing" },
       ],
