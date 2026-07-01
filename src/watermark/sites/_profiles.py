@@ -1270,7 +1270,7 @@ _XENIA = SiteProfile(
         "territory, Greene County, OH [verified]"
     ),
     lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
-    lmp_pnode_name="",
+    lmp_pnode_name="DAY",
     county_name="Greene County, OH",  # [verified]
     map_view_lat=39.6861,
     map_view_lon=-83.9289,
