@@ -98,7 +98,9 @@ _MAINSTEM_GAGES: dict[str, dict[str, Any]] = {
     # (03244000) was discontinued; Todd Fork dischargers stay unscreened (no_7q10)
     # rather than being proxied to a larger downstream river (that would overstate
     # dilution). Caesar Creek (03242350, below Caesar Creek Lake) reflects a
-    # regulated low-flow regime.
+    # regulated low-flow regime. NWIS currently returns no daily discharge values
+    # for this gage (possibly a stage-only installation); it is skipped gracefully
+    # by the per-gage error guard and Caesar Creek dischargers remain no_7q10.
     "Little Miami River": {
         "gage": "03245500",
         "aliases": ["little miami river", "little miami"],
@@ -155,9 +157,20 @@ def derive_basin_low_flows(
     settings = settings or get_settings()
     streams: dict[str, dict[str, Any]] = {}
     for river, spec in _MAINSTEM_GAGES.items():
-        lff = compute_low_flow_frequency(
-            site_no=spec["gage"], receiving_water=river, settings=settings
-        )
+        try:
+            lff = compute_low_flow_frequency(
+                site_no=spec["gage"], receiving_water=river, settings=settings
+            )
+        except Exception as exc:
+            # NWIS returned no data (e.g. a stage-only gage, or a gap in the
+            # record window) — omit-don't-guess, same discipline as min_years.
+            log.warning(
+                "basin.lowflow.gage_error",
+                river=river,
+                gage=spec["gage"],
+                error=str(exc).splitlines()[0],
+            )
+            continue
         stat = lff.stat("7Q10")
         q7 = stat.lp3_cfs.value if stat is not None else math.nan
         if lff.complete_years < min_years or math.isnan(q7) or q7 <= 0.0:
@@ -201,7 +214,19 @@ def _derive_confluences(*, settings: Settings, min_years: int) -> dict[str, dict
     for name, spec in _HEADWATERS_CONFLUENCES.items():
         parts: list[dict[str, Any]] = []
         for gage, label in spec["components"]:
-            lff = compute_low_flow_frequency(site_no=gage, receiving_water=name, settings=settings)
+            try:
+                lff = compute_low_flow_frequency(
+                    site_no=gage, receiving_water=name, settings=settings
+                )
+            except Exception as exc:
+                log.warning(
+                    "basin.lowflow.confluence_gage_error",
+                    confluence=name,
+                    gage=gage,
+                    error=str(exc).splitlines()[0],
+                )
+                parts = []
+                break
             stat = lff.stat("7Q10")
             q7 = stat.lp3_cfs.value if stat is not None else math.nan
             if lff.complete_years < min_years or math.isnan(q7) or q7 <= 0.0:
