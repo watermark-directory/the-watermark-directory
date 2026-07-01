@@ -71,6 +71,22 @@ def test_load_concepts_missing_dir_is_empty(tmp_path: Path) -> None:
     assert concepts_mod.load_concepts(tmp_path / "nope") == []
 
 
+def test_load_concepts_site_filter(tmp_path: Path) -> None:
+    """Concepts with `sites:` frontmatter are only included for listed sites."""
+    _write(tmp_path, "global.md", "---\ntitle: Global\n---\nbody\n")
+    _write(tmp_path, "lima-only.md", "---\ntitle: Lima Only\nsites: [lima]\n---\nbody\n")
+    # No site specified — site-tagged concepts are excluded (conservative: safer to omit
+    # than to include Lima-specific content in an unknown-site bundle).
+    items_no_site = concepts_mod.load_concepts(tmp_path)
+    assert [c.title for c in items_no_site] == ["Global"]
+    # Lima gets its own tagged concept.
+    items_lima = concepts_mod.load_concepts(tmp_path, site="lima")
+    assert {c.title for c in items_lima} == {"Global", "Lima Only"}
+    # Another site only gets the global one.
+    items_other = concepts_mod.load_concepts(tmp_path, site="urbana")
+    assert [c.title for c in items_other] == ["Global"]
+
+
 def test_committed_concept_store_loads_and_exports() -> None:
     """The committed data/concepts store parses and yields a non-empty feed."""
     settings = Settings(data_dir=Path(__file__).resolve().parent.parent / "data")

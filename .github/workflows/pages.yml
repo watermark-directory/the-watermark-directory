@@ -74,6 +74,7 @@ jobs:
         run: |
           uv run watermark export
           uv run watermark --site urbana export
+          uv run watermark --site fort-wayne export
 
       # 2. Build the Astro site over that bundle.
       - name: Set up Node

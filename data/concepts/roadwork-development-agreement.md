@@ -5,6 +5,7 @@ aliases: [RDA, roadwork agreement]
 tags: [legal, economics, infrastructure]
 summary: The agreement under which the developer funds the public road work around the campus — a ~$14.5M "Company Contribution" set against the $14.2M cost estimate, with clauses on grant-refunds, records-notice, and procurement.
 related: [grant-refund-clause, public-records-mandamus, common-control-plumbing]
+sites: [lima]
 ---
 
 The **Roadwork Development Agreement** (RDA) is the contract under which the

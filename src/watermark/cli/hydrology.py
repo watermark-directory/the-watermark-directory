@@ -370,15 +370,16 @@ def scenario(
         )
     console.print(table)
 
-    q7 = delta.ottawa_7q10_cfs
+    rw = delta.receiving_water_name or "receiving water"
+    q7 = delta.receiving_7q10_cfs
     live_flow = build.ottawa_live.value if build.ottawa_live else None
     console.print(
         f"\n[bold red]Buildout adds {delta.consumptive_increase_cfs:,.2f} cfs[/] of net "
-        f"consumptive draw on the Ottawa/Auglaize supply."
+        f"consumptive draw on the {rw} supply."
     )
     if delta.multiple_of_7q10 is not None:
         console.print(
-            f"That is [bold]{delta.multiple_of_7q10:g}x[/] the Ottawa River's cited 7Q10 "
+            f"That is [bold]{delta.multiple_of_7q10:g}x[/] the {rw}'s cited 7Q10 "
             f"low flow ({q7:g} cfs)"
             + (f"; live flow now {live_flow:,.0f} cfs." if live_flow else ".")
         )
