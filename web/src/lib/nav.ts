@@ -19,7 +19,7 @@
 
 import { activeSite } from "./bundle";
 import { sectionStatus } from "./readiness";
-import { DEFAULT_STORY_CODENAME, siteBase, storyBase } from "./routes";
+import { DEFAULT_STORY_CODENAME, LIMA_SLUG, siteBase, storyBase } from "./routes";
 import { type NetworkSite, SITES } from "./sites";
 import { type Story, chapterHref, storyContentsHref, storyFor } from "./walk";
 
@@ -76,7 +76,7 @@ function siteRoots(): { base: string; storyRoot: string; story: Story | undefine
   const story = activeStory();
   const storyRoot = story
     ? storyBase(story.site, story.codename)
-    : `${base}/stories/${DEFAULT_STORY_CODENAME}`;
+    : storyBase(LIMA_SLUG, DEFAULT_STORY_CODENAME);
   return { base, storyRoot, story };
 }
 

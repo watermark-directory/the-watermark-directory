@@ -31,12 +31,12 @@ describe("multi-site chrome parity (#746)", () => {
   const single = selectablePathsFrom(SITES); // today's one-selectable build (Lima alone)
   const dual = selectablePathsFrom(TWO_SELECTABLE); // two selectable sites
 
-  it("today's build has exactly one selectable site (Lima)", () => {
-    expect(single.map((p) => p.props.slug)).toEqual([ACTIVE_SITE_SLUG]);
+  it("today's build has exactly two selectable sites (Lima + Urbana)", () => {
+    expect(single.map((p) => p.props.slug).sort()).toEqual(["lima", "urbana"]);
   });
 
-  it("a second selectable site adds its own route, keyed by its own siteBase", () => {
-    expect(dual.map((p) => p.props.slug).sort()).toEqual(["fort-wayne", "lima"]);
+  it("a third selectable site (Fort Wayne) adds its own route, keyed by its own siteBase", () => {
+    expect(dual.map((p) => p.props.slug).sort()).toEqual(["fort-wayne", "lima", "urbana"]);
     const fw = dual.find((p) => p.props.slug === "fort-wayne");
     expect(fw?.params.site).toBe(siteBase("fort-wayne").replace("/network/", ""));
   });

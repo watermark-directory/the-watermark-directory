@@ -258,6 +258,14 @@ def test_fort_wayne_sample_bundle_tracks_the_export_contract(fort_wayne_bundle: 
     )
 
 
+def test_urbana_sample_bundle_tracks_the_export_contract(urbana_bundle: Path) -> None:
+    """The committed Urbana fixture tracks `watermark --site urbana export` (#797) — the network's
+    third live site, promoted 2026-07-01."""
+    _assert_fixture_tracks_export(
+        REPO_ROOT / "web" / "sample-bundle" / "urbana", _manifest(urbana_bundle)
+    )
+
+
 @pytest.fixture(scope="module")
 def fort_wayne_bundle(tmp_path_factory: pytest.TempPathFactory) -> Path:
     """A Fort Wayne bundle exported off the committed corpus — the sibling site used to
