@@ -5,8 +5,8 @@ status: reviewed
 producer:
   kind: extracted
   source: Ohio EPA — issued NPDES permits for facilities in Wilmington, OH (Clinton County);
-    sourced from the Ohio EPA DAM (permits 1PD00013, 1PX00010, 1PV00089, 1IW00240, 1II00129,
-    1PT00125, 1MP00060)
+    sourced from the Ohio EPA DAM (permits 1PD00013 + 1PD00013 fact sheet, 1PX00010, 1PV00089,
+    1IW00240, 1II00129, 1PT00125, 1MP00060)
 license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: site:wilmington
@@ -32,6 +32,9 @@ storage:
 - relpath: extracted/oepa/1MP00060.npdes.yaml
   media_type: application/x-yaml
   lfs: false
+- relpath: extracted/oepa/1PD00013.fs.npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
 refresh:
   cadence: static
 provenance: document
@@ -41,15 +44,18 @@ tags:
 - permits
 - wastewater
 - wilmington
-notes: 'All seven Wilmington-area OEPA permits extracted. 1MP00060 is a Land Application
+notes: 'All seven Wilmington-area OEPA permits plus the 1PD00013 fact sheet extracted.
+  1PD00013.fs (fact sheet 2023-05-19) confirms: outfall 001 → Lytle Creek RM 6.83; design
+  flow 3.0 MGD, expanding to 4.5 MGD per PTI #1543170 (new limits 2026-03-01). Draft PN
+  for 1PD00013 was searched on the OEPA DAM and via Serper — not found on either; may not
+  have been published on DAM for this modification. 1MP00060 is a Land Application
   Management Plan (LAMP) permit for Wilmington Nursery — not a standard discharge permit;
-  receiving_water is cleared in the extraction to prevent a spurious discharges_to edge;
-  exclude from any surface-water load or assimilative-capacity screen. 1PT00125 (Clinton
-  County Board of Developmental Disabilities) ingested separately — initial fetch failed
-  on a stale versioned URL. Receiving water for the true NPDES discharge permits is Lytle
-  Creek, Todd Fork, or Wilson Creek (all Little Miami basin). EXCLUSION NOTE: 1PV00037
-  (Hidden Valley MHP, Sidney, Shelby County) and 1PD00008 (Piqua WWTP, Miami County) are
-  Great Miami basin permits extracted under their own site catalogs (oepa-sidney,
-  oepa-troy-piqua); they are not Wilmington dischargers and must not be counted toward
-  Lytle Creek or any Little Miami assimilative screen. Add the 1PD00013 fact sheet /
-  draft PN to storage as produced.'
+  receiving_water is cleared to prevent a spurious discharges_to edge; exclude from any
+  surface-water load or assimilative-capacity screen. 1PT00125 (Clinton County Board of
+  Developmental Disabilities) ingested separately — initial fetch failed on a stale
+  versioned URL. Receiving water for the true NPDES discharge permits is Lytle Creek, Todd
+  Fork, or Wilson Creek (all Little Miami basin). EXCLUSION NOTE: 1PV00037 (Hidden Valley
+  MHP, Sidney, Shelby County) and 1PD00008 (Piqua WWTP, Miami County) are Great Miami
+  basin permits extracted under their own site catalogs (oepa-sidney, oepa-troy-piqua);
+  they are not Wilmington dischargers and must not be counted toward Lytle Creek or any
+  Little Miami assimilative screen.'
