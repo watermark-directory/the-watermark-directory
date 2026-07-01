@@ -161,6 +161,18 @@ Regenerate: `watermark npdes --basin great-miami`
 | `reference/echo/great-miami-wwtp.huc-counts.yaml` | application/x-yaml | no |
 | `reference/echo/great-miami-wwtp.potw.yaml` | application/x-yaml | no |
 
+### `echo-little-miami-wwtp` — Echo Little Miami Wwtp
+
+Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: unspecified · Access: public · Site scope: basin-shared · Refresh: on-demand
+
+Regenerate: `watermark npdes`
+
+| file | type | lfs |
+| --- | --- | --- |
+| `reference/echo/little-miami-wwtp.all-npdes.yaml` | application/x-yaml | no |
+| `reference/echo/little-miami-wwtp.huc-counts.yaml` | application/x-yaml | no |
+| `reference/echo/little-miami-wwtp.potw.yaml` | application/x-yaml | no |
+
 ### `echo-maumee-npdes` — Maumee-basin NPDES discharger inventory (EPA ECHO)
 
 Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: U.S. Government work (public domain) · Access: throttled · Site scope: basin:maumee · Refresh: quarterly (ttl 180d)

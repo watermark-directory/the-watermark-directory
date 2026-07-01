@@ -8,9 +8,9 @@ Snapshot reconciled: **2026-06-29T17:34:46.460620+00:00**. Regenerate with `bosc
 
 ## Headline
 
-- **82** catalogued datasets — **81** reviewed.
+- **83** catalogued datasets — **81** reviewed.
 - **82** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
-- **0** missing (declared files absent) · **0** unobserved (no snapshot record).
+- **0** missing (declared files absent) · **1** unobserved (no snapshot record).
 
 ## Coverage by collection
 
@@ -38,7 +38,7 @@ Snapshot reconciled: **2026-06-29T17:34:46.460620+00:00**. Regenerate with `bosc
 | reference | allen-gis | 1 | 1 | 0 | 0 |
 | reference | compute | 1 | 1 | 0 | 0 |
 | reference | datacenter-industry | 1 | 1 | 0 | 0 |
-| reference | echo | 2 | 2 | 0 | 0 |
+| reference | echo | 3 | 2 | 0 | 1 |
 | reference | economics | 1 | 1 | 0 | 0 |
 | reference | eia | 3 | 3 | 0 | 0 |
 | reference | federal | 1 | 1 | 0 | 0 |
@@ -64,26 +64,28 @@ Snapshot reconciled: **2026-06-29T17:34:46.460620+00:00**. Regenerate with `bosc
 
 | site | relevant | present | missing |
 | --- | --- | --- | --- |
-| bryan | 35 | 32 | 3 |
-| columbus | 34 | 32 | 2 |
-| defiance | 35 | 32 | 3 |
-| findlay | 36 | 33 | 3 |
-| fort-wayne | 29 | 25 | 4 |
-| greenville | 35 | 32 | 3 |
-| hamilton-middletown | 35 | 32 | 3 |
-| lima | 73 | 71 | 2 |
-| new-albany | 34 | 32 | 2 |
-| ottawa | 35 | 32 | 3 |
-| sidney | 36 | 33 | 3 |
-| springfield | 35 | 33 | 2 |
-| toledo | 35 | 32 | 3 |
-| troy-piqua | 36 | 33 | 3 |
-| urbana | 36 | 33 | 3 |
-| van-wert | 36 | 33 | 3 |
-| wilmington | 35 | 32 | 3 |
-| wpafb | 35 | 32 | 3 |
-| xenia | 34 | 31 | 3 |
+| bryan | 36 | 33 | 3 |
+| columbus | 35 | 33 | 2 |
+| defiance | 36 | 33 | 3 |
+| findlay | 37 | 34 | 3 |
+| fort-wayne | 30 | 26 | 4 |
+| greenville | 36 | 33 | 3 |
+| hamilton-middletown | 36 | 33 | 3 |
+| lima | 74 | 72 | 2 |
+| new-albany | 35 | 33 | 2 |
+| ottawa | 36 | 33 | 3 |
+| sidney | 37 | 34 | 3 |
+| springfield | 36 | 34 | 2 |
+| toledo | 36 | 33 | 3 |
+| troy-piqua | 37 | 34 | 3 |
+| urbana | 37 | 34 | 3 |
+| van-wert | 37 | 34 | 3 |
+| wilmington | 36 | 33 | 3 |
+| wpafb | 36 | 33 | 3 |
+| xenia | 35 | 32 | 3 |
 
 ## Integrity gaps
 
-None — every catalogued dataset is present and within its refresh cadence.
+| dataset | scope | state |
+| --- | --- | --- |
+| `echo-little-miami-wwtp` | reference | unobserved |
