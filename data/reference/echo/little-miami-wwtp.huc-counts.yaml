@@ -1,0 +1,15 @@
+meta:
+  subject: Little Miami-watershed NPDES inventory — per-HUC counts
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  watershed: Little Miami River — 1 HUC-8 subbasin, subregion 0509 (Ohio River tributary,
+    Scenic River)
+huc_counts:
+- huc8: 05090202
+  name: Little Miami
+  reported_count: 127
+  rows_pulled: 127
+  potw_rows_pulled: 37
+totals:
+  raw: 127
+  deduped: 126
+  potw: 37
