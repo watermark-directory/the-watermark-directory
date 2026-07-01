@@ -3,14 +3,8 @@
 // with a faked Env + faked KV, so the full request path is exercised offline.
 
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import {
-  onRequestGet as profileGet,
-  onRequestPatch as profilePatch,
-} from "@fn/api/account/profile";
-import {
-  onRequestGet as notifGet,
-  onRequestPatch as notifPatch,
-} from "@fn/api/account/notifications";
+import { onRequestGet as profileGet, onRequestPatch as profilePatch } from "@fn/api/account/profile";
+import { onRequestGet as notifGet, onRequestPatch as notifPatch } from "@fn/api/account/notifications";
 import {
   type CognitoTestKeyPair,
   fakeKV,

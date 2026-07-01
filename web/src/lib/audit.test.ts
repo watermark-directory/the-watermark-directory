@@ -1,12 +1,7 @@
 // Unit tests for the KV audit log (#937 D3).
 
 import { describe, expect, it } from "vitest";
-import {
-  writeAuditEntry,
-  listAuditEntries,
-  type AuditEntry,
-  type KVListable,
-} from "@fn/api/_lib/audit";
+import { writeAuditEntry, listAuditEntries, type AuditEntry, type KVListable } from "@fn/api/_lib/audit";
 
 function fakeKV(seed: Record<string, string> = {}): KVListable {
   const store = new Map(Object.entries(seed));
