@@ -25,6 +25,9 @@ interface BaseProps {
   ogType?: "website" | "article";
   /** Keep this route out of search indexes (internal galleries, previews, leftovers). */
   noindex?: boolean;
+  /** Sequential navigation — emitted as <link rel="prev/next"> for crawlers and Bing. */
+  prevHref?: string;
+  nextHref?: string;
 }
 
 // `.astro` pages pass these props directly; `.mdx` pages using `layout:` pass
@@ -39,6 +42,8 @@ const {
   tocTitle,
   ogType = "website",
   noindex = false,
+  prevHref,
+  nextHref,
 } = raw.frontmatter ?? raw;
 const showRail = rail !== false && toc.length > 0;
 ---
@@ -49,6 +54,11 @@ const showRail = rail !== false && toc.length > 0;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      as="style"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -61,6 +71,8 @@ const showRail = rail !== false && toc.length > 0;
     <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png")} />
     <meta name="theme-color" content="#16201a" />
     <link rel="mcp" href="/.well-known/mcp.json" type="application/json" />
+    {prevHref && <link rel="prev" href={prevHref} />}
+    {nextHref && <link rel="next" href={nextHref} />}
     <title>{title === SITE_NAME ? title : `${title} · ${SITE_NAME}`}</title>
     <SEO title={title} description={description} type={ogType} noindex={noindex} />
   </head>

@@ -64,10 +64,12 @@ const step = ch.step;
 const total = story.chapters.length;
 const prev = storyChapterByStep(story, step - 1);
 const next = storyChapterByStep(story, step + 1);
+const prevHref = prev?.live ? chapterHref(story, prev.slug) : undefined;
+const nextHref = next?.live ? chapterHref(story, next.slug) : undefined;
 const pageTitle = fm.pageTitle ?? `${ch.title} — Chapter ${step}`;
 ---
 
-<Base title={pageTitle} section="story" description={fm.description}>
+<Base title={pageTitle} section="story" description={fm.description} prevHref={prevHref} nextHref={nextHref}>
   <div class="walk-chapter-page">
     <PathWayfinding step={step} story={story} />
 
