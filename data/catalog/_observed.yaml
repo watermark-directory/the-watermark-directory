@@ -1,4 +1,4 @@
-reconciled_at: '2026-07-01T15:02:50.922870+00:00'
+reconciled_at: '2026-07-01T15:33:49.283896+00:00'
 entries:
   aedg:
     exists: true
@@ -744,6 +744,15 @@ entries:
     size_bytes: 37960
     lfs_materialized: true
     file_count: 3
+    missing: []
+    asof: null
+    stale: false
+  wilmington-watch-items:
+    exists: true
+    sha256: 9d8f9904a56c8b020dee930eb90a51ebbe1fc145ed0c49994be3e4aa546771ea
+    size_bytes: 644
+    lfs_materialized: true
+    file_count: 1
     missing: []
     asof: null
     stale: false

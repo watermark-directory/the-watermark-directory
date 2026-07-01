@@ -44,6 +44,12 @@ def _features(path: Path) -> list[dict[str, Any]]:
 
 
 def _default_watch_items(settings: Settings) -> Path:
+    # Per-site override: data/reference/<slug>/watch-items.geojson takes precedence so
+    # non-Lima sites can carry their own WWTP/infrastructure geometry without touching
+    # the frozen Lima periplus import.
+    site_path = settings.data_dir / "reference" / settings.site / "watch-items.geojson"
+    if site_path.exists():
+        return site_path
     return settings.data_dir / "reference" / "periplus" / "watch-items.geojson"
 
 

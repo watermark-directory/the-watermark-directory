@@ -1,0 +1,29 @@
+id: wilmington-watch-items
+title: Wilmington site watch-items (WWTP infrastructure geometry)
+scope: reference
+status: reviewed
+producer:
+  kind: manual
+  source: Derived from Ohio EPA NPDES fact sheet 1PD00013.fs (City of Wilmington WWTP) and
+    ECHO POTW inventory; coordinates from EPA FRS (ECHO lat/lon 39.4391, -83.85132)
+license: Public record (Ohio R.C. 149.43 / U.S. Government work)
+access_tier: public
+site_scope: site:wilmington
+storage:
+- relpath: reference/wilmington/watch-items.geojson
+  media_type: application/geo+json
+  lfs: false
+refresh:
+  cadence: static
+provenance: reference
+tags:
+- wilmington
+- gis
+- geojson
+- wwtp
+- infrastructure
+notes: Per-site watch-items GeoJSON for Wilmington; consumed by balance._default_watch_items()
+  as the site-specific override (takes precedence over the Lima periplus import). Current
+  content is one feature — the Wilmington WWTP (id=wilmington-wwtp, 3.0 MGD design flow,
+  outfall 001 → Lytle Creek RM 6.83). ECHO coordinates [verified via FRS Registry ID
+  110000760686]; address 475 S Nelson Ave confirmed from Ohio EPA 1PD00013*QD fact sheet.
