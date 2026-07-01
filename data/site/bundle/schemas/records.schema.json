@@ -14,6 +14,7 @@
         "enum": [
           "deeds",
           "permits-epa",
+          "permits-idem",
           "permits-npdes",
           "permits-sos",
           "plans",
