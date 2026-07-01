@@ -1,6 +1,6 @@
 # Onboarding — Urbana (urbana)
 
-Living record for the Urbana watershed point (basin: great-miami), scaffolded by `bosc onboard`. **PROMOTED 2026-07-01** (`status: live`, `selectable: true` in `web/src/lib/sites.ts`); the site is the network's third live site (after Lima and Fort Wayne).
+Living record for the Urbana watershed point (basin: great-miami), scaffolded by `bosc onboard`. **PROMOTED 2026-07-01** (`status: live`, `selectable: true` in `web/src/lib/sites.ts`); the site is the network's second live site (after Lima).
 
 Urbana is the network's **first Miami-basin site** (epic #440 / onboarding #441): the clean *headwaters* of the **Mad River buried-valley sole-source aquifer**, upstream of the Springfield/Dayton/Wright-Patterson corridor — the deliberate geological **inverse** of the Maumee lake-plain sites (groundwater-dominated HSG B vs. poorly-drained Black Swamp clays HSG D; sink = Ohio River, not Lake Erie; no Maumee-style nutrient TMDL).
 

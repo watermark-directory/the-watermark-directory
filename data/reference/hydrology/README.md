@@ -88,7 +88,7 @@ Regenerate: `watermark derive-low-flows`
 | `reference/hydrology/low-flow-7q10.derived.yaml` | application/x-yaml | no |
 | `reference/hydrology/low-flow-7q10.yaml` | application/x-yaml | no |
 
-### `hydrology-nasa-power-climatology` — NASA POWER Climate Normals — Lima Loop Point
+### `hydrology-nasa-power-climatology` — NASA POWER Climate Normals — site climatology
 
 Source: NASA POWER (Prediction Of Worldwide Energy Resources) — climatology point REST API (satellite-derived monthly/annual normals) · License: U.S. Government work (public domain) · Access: public · Site scope: slug-scoped · Refresh: on-demand
 

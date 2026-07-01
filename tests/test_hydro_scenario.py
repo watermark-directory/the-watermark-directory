@@ -60,7 +60,7 @@ def test_write_scenario_is_self_auditing(hydro_settings: Settings, tmp_path: Pat
     data = yaml.safe_load(Path(path).read_text())
     # Every persisted figure keeps its provenance tag.
     assert data["consumptive_loss"]["source"] == "derived"
-    assert data["ottawa_7q10"]["source"] == "document"
+    assert data["receiving_7q10"]["source"] == "document"
     # The default cooling demand is now the sourced basis (derived), not a bare guess.
     assert data["scenario"]["cooling_demand"]["source"] == "derived"
     assert data["scenario"]["basis"]["it_load"]["source"] == "document"

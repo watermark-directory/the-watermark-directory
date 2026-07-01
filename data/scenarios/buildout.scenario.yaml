@@ -78,7 +78,7 @@ consumptive_loss:
   citation: 3.92 MGD x 0.8 consumptive (scenario buildout)
   confidence: medium
   asof: null
-ottawa_7q10:
+receiving_7q10:
   value: 0.2
   unit: cfs
   source: document
@@ -86,7 +86,7 @@ ottawa_7q10:
     — Ottawa River at Lima, USGS gage 04187100, 1989-2021
   confidence: high
   asof: null
-ottawa_live:
+receiving_live:
   value: 36.3
   unit: cfs
   source: connector
