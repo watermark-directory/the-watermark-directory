@@ -1,2 +1,124 @@
-path_filters:
-  - "!design/**"
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: en-US
+early_access: false
+
+tone_instructions: >
+  Litigation-grade evidence platform. Be direct. Flag os.environ reads, mutations
+  to data/documents/, dropped ~ approximation markers, or fabricated data.
+  One finding per issue, no padding.
+
+reviews:
+  profile: assertive
+  high_level_summary: true
+  collapse_walkthrough: false
+  poem: false
+
+  path_filters:
+    - "!design/**"
+    - "!data/documents/**"
+    - "!data/cache/**"
+    - "!.astro/**"
+    - "!web/dist/**"
+
+  auto_review:
+    enabled: true
+    drafts: false
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+
+  path_instructions:
+    - path: "src/watermark/**/*.py"
+      instructions: |
+        Python 3.11+, strict mypy. Verify:
+        - `from __future__ import annotations` at the top of every module.
+        - Config via `watermark.config.get_settings()` only — never `os.environ`
+          (the sole sanctioned write is the `--site` callback).
+        - Per-site values from `SiteProfile` / `watermark.sites`, never hardcoded
+          Lima/Allen-County constants.
+        - `ApproxInt` / `_coerce_number` preserve the `~` approximation marker;
+          never silently coerce uncertain values.
+        - New connectors: pure sync fn → Pydantic model, calls through
+          `_cache.cached_get`, committed fixture under `tests/fixtures/hydrology/<connector>/`.
+
+    - path: "tests/**/*.py"
+      instructions: |
+        pytest, must run offline. Verify:
+        - No live network calls; new connectors need a committed fixture.
+        - Warn if a test writes to `data/cache/` without cleanup — offline tests
+          read cache before fixtures and will get spurious results.
+
+    - path: "web/src/**/*.{ts,tsx,astro,mdx}"
+      instructions: |
+        Astro + React TypeScript. Flag any new deep relative import (2+ `../` levels)
+        — use `~/` for src/ and `@fn/` for functions/ instead.
+        Design system: indigo encodes data; evidence palette encodes evidence only;
+        no shadows; square corners on content elements (Swiss 03).
+
+    - path: "web/src/content/stories/**/*.mdx"
+      instructions: |
+        Story chapter MDX. Imports must stay within the curated vocabulary:
+        `~/lib/{site,walk,teardowns,bundle,dilution,moneyFlow}` and
+        `~/components/islands/*.tsx`. Flag anything outside this set.
+
+    - path: "web/functions/**/*.ts"
+      instructions: |
+        Cloudflare Pages Functions (edge runtime). No Node.js-only APIs.
+        Auth, budget, and rate-limit guards required on any new handler.
+        KV and R2 access via injected env bindings only.
+
+    - path: "data/extracted/**"
+      instructions: |
+        Reviewed artifact data — chain of custody. Verify dollar figures are
+        unaltered, uncertain quantities keep the `~` marker, no line items are
+        fabricated, and source page/file citations are present.
+
+    - path: "data/reference/**"
+      instructions: |
+        Committed external-source data. Each folder needs a README naming its
+        source and gaps. Raw API responses belong in data/cache/ (git-ignored).
+
+  tools:
+    ruff:
+      enabled: true
+    biome:
+      enabled: true
+    markdownlint:
+      enabled: true
+    yamllint:
+      enabled: true
+    gitleaks:
+      enabled: true
+    actionlint:
+      enabled: true
+    github-checks:
+      enabled: true
+      timeout_ms: 90000
+    # Disable tools not applicable to this stack
+    shellcheck:
+      enabled: false
+    hadolint:
+      enabled: false
+    swiftlint:
+      enabled: false
+    phpstan:
+      enabled: false
+    golangci-lint:
+      enabled: false
+    detekt:
+      enabled: false
+    eslint:
+      enabled: false
+    flake8:
+      enabled: false
+    pylint:
+      enabled: false
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  learnings:
+    scope: local
+  issues:
+    scope: local
