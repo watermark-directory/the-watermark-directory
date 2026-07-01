@@ -16,7 +16,8 @@ import PathWayfinding from "../../../../../components/PathWayfinding.astro";
 import { STORY_COMPONENTS } from "../../../../../components/story";
 import Base from "../../../../../layouts/Base.astro";
 import { siteBase } from "../../../../../lib/routes";
-import { SITES } from "../../../../../lib/sites";
+import { SITES, siteForSlug } from "../../../../../lib/sites";
+import { withBase } from "../../../../../lib/site";
 import {
   type Story,
   chapterHref,
@@ -67,9 +68,30 @@ const next = storyChapterByStep(story, step + 1);
 const prevHref = prev?.live ? chapterHref(story, prev.slug) : undefined;
 const nextHref = next?.live ? chapterHref(story, next.slug) : undefined;
 const pageTitle = fm.pageTitle ?? `${ch.title} — Chapter ${step}`;
+
+const networkSite = siteForSlug(slug);
+const breadcrumbs = [
+  { label: "Network", href: withBase("/network") },
+  { label: networkSite?.place ?? "Site", href: withBase(siteBase(slug)) },
+  { label: story.title, href: storyHomeHref(story) },
+  { label: ch.title, href: Astro.url.pathname },
+];
+
+const articleLd = Astro.site
+  ? {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: pageTitle,
+      description: fm.description,
+      author: { "@type": "Organization", "@id": `${Astro.site.href}#org`, name: "Watermark Directory" },
+      publisher: { "@type": "Organization", "@id": `${Astro.site.href}#org`, name: "Watermark Directory" },
+      isPartOf: { "@type": "WebSite", "@id": `${Astro.site.href}#website` },
+    }
+  : null;
 ---
 
-<Base title={pageTitle} section="story" description={fm.description} prevHref={prevHref} nextHref={nextHref}>
+<Base title={pageTitle} section="story" description={fm.description} prevHref={prevHref} nextHref={nextHref} breadcrumbs={breadcrumbs}>
+  {articleLd && <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(articleLd)} />}
   <div class="walk-chapter-page">
     <PathWayfinding step={step} story={story} />
 

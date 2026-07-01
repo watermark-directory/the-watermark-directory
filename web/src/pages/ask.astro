@@ -20,9 +20,51 @@ const EXAMPLES = [
   "Who are the parties named in the confidentiality agreement?",
   "What permits has Ohio EPA issued for the site?",
 ];
+
+const faqLd = Astro.site
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What is the Watermark Directory?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "An investigative platform that decodes public-records documents about water infrastructure in Ohio and Indiana watersheds, assembling primary sources into a browsable, citable record.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What records are in the corpus?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "NPDES permits, stormwater plans, engineering cost estimates, commissioner meeting minutes, and environmental agency correspondence covering the American Sugar Creek / Lima, Ohio watershed.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What do the Tetra Tech roundabout cost estimates total?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The six Tetra Tech OPC estimates for the roundabout infrastructure are documented in the corpus; ask the corpus for a current total with citations.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What permits has Ohio EPA issued for the site?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Ohio EPA-issued NPDES and air permits for the Lima data-center site are in the corpus; ask for a list with permit numbers and issue dates.",
+          },
+        },
+      ],
+    }
+  : null;
 ---
 
 <Base title="Ask the corpus" section="ask">
+  {faqLd && <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(faqLd)} />}
   <article class="prose">
     <div class="submit-eyebrow">Ask</div>
     <h1>Ask the corpus</h1>

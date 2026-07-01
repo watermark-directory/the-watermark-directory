@@ -1,16 +1,21 @@
 ---
 /**
  * Per-page head metadata: description, canonical, Open Graph, Twitter Card, and
- * a site-wide WebSite JSON-LD node. Rendered once by `Base.astro` from the
- * page's `title`/`description`.
+ * a site-wide JSON-LD @graph (WebSite + Organization). Rendered once by `Base.astro`
+ * from the page's `title`/`description`.
  *
  * Absolute URLs (canonical, og:url, the WebSite node) need the deploy origin,
  * which only exists in production builds — `SITE_URL` → astro `site` →
  * `Astro.site` (see astro.config.ts and .github/workflows/pages.yml). Locally
  * and in CI it's undefined, so those tags are omitted and the share image falls
  * back to a base-relative path; everything lights up once `SITE_URL` is wired.
+ *
+ * Optional `breadcrumbs` emits a second BreadcrumbList block when provided.
+ * Page templates pass root-absolute paths; this component prefixes the deploy origin.
  */
 import { SITE_NAME, SITE_TAGLINE, withBase } from "../lib/site";
+
+const GITHUB_URL = "https://github.com/watermark-directory/the-watermark-directory";
 
 interface Props {
   title: string;
@@ -21,8 +26,17 @@ interface Props {
   type?: "website" | "article";
   /** Keep this route out of search indexes (internal galleries, previews, leftovers). */
   noindex?: boolean;
+  /** Breadcrumb trail for this page. Hrefs are root-absolute paths (withBase-prefixed). */
+  breadcrumbs?: { label: string; href: string }[];
 }
-const { title, description, image = "/og-default.png", type = "website", noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  image = "/og-default.png",
+  type = "website",
+  noindex = false,
+  breadcrumbs,
+} = Astro.props;
 
 const site = Astro.site;
 const canonical = site ? new URL(Astro.url.pathname, site).href : undefined;
@@ -33,13 +47,40 @@ const imageAlt = `${SITE_NAME} — ${SITE_TAGLINE}`;
 const jsonLd = site
   ? {
       "@context": "https://schema.org",
-      "@type": "WebSite",
-      name: SITE_NAME,
-      url: site.href,
-      description,
-      inLanguage: "en-US",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": `${site.href}#website`,
+          name: SITE_NAME,
+          url: site.href,
+          description,
+          inLanguage: "en-US",
+        },
+        {
+          "@type": "Organization",
+          "@id": `${site.href}#org`,
+          name: "Watermark Directory",
+          url: site.href,
+          description: "Investigative platform decoding public-records documents about water infrastructure.",
+          sameAs: [GITHUB_URL],
+        },
+      ],
     }
   : null;
+
+const breadcrumbLd =
+  site && breadcrumbs && breadcrumbs.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: breadcrumbs.map((crumb, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: crumb.label,
+          item: new URL(crumb.href, site).href,
+        })),
+      }
+    : null;
 ---
 
 <meta name="description" content={description} />
@@ -63,3 +104,4 @@ const jsonLd = site
 <meta name="twitter:image:alt" content={imageAlt} />
 
 {jsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />}
+{breadcrumbLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbLd)} />}
