@@ -1087,13 +1087,14 @@ _URBANA = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the WPAFB-corridor data-center dimension is the research target (#440)
     serving_utility_citation="EIA-861 2024 Service_Territory: Dayton Power & Light Co (AES Ohio, #4922) is the IOU serving Champaign County, OH — the Urbana LSE (no municipal electric). [verified]",
-    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio/DP&L); pin via research
+    lmp_usd_mwh=46.42,  # connector-sourced DAY-zone 2025 day-ahead annual mean [verified]
     lmp_citation=(
-        "PJM LMP placeholder for the Urbana area; [inference] the PJM transmission zone is not yet "
-        "pinned — likely the DAY zone (Dayton/AES Ohio territory) — verify the utility + zone (research)"
+        "PJM Data Miner 2 da_hrl_lmps, DAY zone (pnode 34508503), 2025 day-ahead annual mean "
+        "$46.42/MWh (8760 h); connector-sourced 2026-07-01 (bosc lmp) — AES Ohio (DP&L) "
+        "territory, Champaign County, OH [verified]"
     ),
-    lmp_pnode_id=0,  # [open] pending the Champaign County PJM zone (likely DAY)
-    lmp_pnode_name="",
+    lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
+    lmp_pnode_name="DAY",
     county_name="Champaign County, OH",  # [verified]
     map_view_lat=40.1084,
     map_view_lon=-83.7524,
@@ -1175,13 +1176,14 @@ _SPRINGFIELD = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] data-center dimension = 5C/Vultr + Crusoe at PrimeOhio (#454); pending a pinned facility
     serving_utility_citation="EIA-861 2024 Service_Territory: Clark County, OH is served by Dayton Power & Light (#4922), Duke Energy Ohio (#3542) and Ohio Edison — no AEP; the Springfield city LSE is DP&L #4922. [verified]",
-    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — Clark County sits at the AEP/DAY seam; pin via research
+    lmp_usd_mwh=46.42,  # connector-sourced DAY-zone 2025 day-ahead annual mean [verified]
     lmp_citation=(
-        "PJM LMP placeholder for the Springfield area; [inference] the PJM transmission zone is "
-        "not yet pinned - Clark County sits at the AEP/DAY seam - verify the utility + zone (research)"
+        "PJM Data Miner 2 da_hrl_lmps, DAY zone (pnode 34508503), 2025 day-ahead annual mean "
+        "$46.42/MWh (8760 h); connector-sourced 2026-07-01 (bosc lmp) — city LSE is AES Ohio "
+        "(DP&L) #4922; EIA-861 shows no AEP in Clark County, OH [verified]"
     ),
-    lmp_pnode_id=0,  # [open] pending the Clark County PJM zone
-    lmp_pnode_name="",
+    lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light, Clark County)
+    lmp_pnode_name="DAY",
     county_name="Clark County, OH",  # [verified]
     map_view_lat=39.9242,
     map_view_lon=-83.8089,
@@ -1261,12 +1263,13 @@ _XENIA = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the WPAFB-corridor defense/data-center dimension is the research target (#444)
     serving_utility_citation="EIA-861 2024 Service_Territory: Dayton Power & Light Co (AES Ohio, #4922) is the IOU serving Greene County, OH — the Xenia LSE (Duke #3542 fringes the SW county; Village of Yellow Springs muni is separate). [verified]",
-    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
+    lmp_usd_mwh=46.42,  # connector-sourced DAY-zone 2025 day-ahead annual mean [verified]
     lmp_citation=(
-        "PJM LMP placeholder for the Xenia area; [inference] the PJM transmission zone is not yet "
-        "pinned - likely the DAY zone (AES Ohio / Dayton territory) - verify the utility + zone (research)"
+        "PJM Data Miner 2 da_hrl_lmps, DAY zone (pnode 34508503), 2025 day-ahead annual mean "
+        "$46.42/MWh (8760 h); connector-sourced 2026-07-01 (bosc lmp) — AES Ohio (DP&L) "
+        "territory, Greene County, OH [verified]"
     ),
-    lmp_pnode_id=0,  # [open] pending the Greene County PJM zone (likely DAY)
+    lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
     lmp_pnode_name="",
     county_name="Greene County, OH",  # [verified]
     map_view_lat=39.6861,
@@ -1352,13 +1355,14 @@ _WPAFB = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the DoD-cloud / GDIT-RSO data-center dimension is the research target (#442)
     serving_utility_citation="EIA-861 2024 Service_Territory: Dayton Power & Light Co (AES Ohio, #4922) serves both Greene and Montgomery counties, OH — the WPAFB-area LSE. [verified]",
-    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
+    lmp_usd_mwh=46.42,  # connector-sourced DAY-zone 2025 day-ahead annual mean [verified]
     lmp_citation=(
-        "PJM LMP placeholder for the Dayton/WPAFB area; [inference] the PJM transmission zone is not "
-        "yet pinned - likely the DAY zone (AES Ohio / Dayton territory) - verify the utility + zone (research)"
+        "PJM Data Miner 2 da_hrl_lmps, DAY zone (pnode 34508503), 2025 day-ahead annual mean "
+        "$46.42/MWh (8760 h); connector-sourced 2026-07-01 (bosc lmp) — AES Ohio (DP&L) "
+        "territory, Montgomery/Greene counties, OH [verified]"
     ),
-    lmp_pnode_id=0,  # [open] pending the Montgomery County PJM zone (likely DAY)
-    lmp_pnode_name="",
+    lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
+    lmp_pnode_name="DAY",
     county_name="Montgomery County, OH",  # [verified] (Dayton metro; base straddles Greene+Montgomery)
     map_view_lat=39.8261,
     map_view_lon=-84.0494,
@@ -1441,14 +1445,14 @@ _HAMILTON_MIDDLETOWN = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the I-75-corridor data-center dimension is the research target (#443)
     serving_utility_citation="EIA-861 2024 Service_Territory: Butler County, OH is split — Duke Energy Ohio Inc (#3542, PJM DEOK) serves Middletown + most of the county; the City of Hamilton municipal (#7977) serves Hamilton. Pinned to Duke #3542 as the dominant IOU (the Middletown Works mainstem load); the Hamilton-muni share is [inference]. [verified]",
-    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — Butler County is the DEOK zone (Duke Energy OH/KY); pin via research
+    lmp_usd_mwh=45.10,  # connector-sourced DEOK-zone 2025 day-ahead annual mean [verified]
     lmp_citation=(
-        "PJM LMP placeholder for the Hamilton/Middletown area; [inference] the PJM transmission zone "
-        "is not yet pinned - Butler County is the DEOK zone (Duke Energy Ohio/Kentucky), with Hamilton "
-        "on its own municipal system (AMP) - verify the utility + zone (research)"
+        "PJM Data Miner 2 da_hrl_lmps, DEOK zone (pnode 124076095), 2025 day-ahead annual mean "
+        "$45.10/MWh (8760 h); connector-sourced 2026-07-01 (bosc lmp) — Duke Energy Ohio (DEOK) "
+        "territory, Butler County, OH; Hamilton muni on AMP (same DEOK wholesale zone) [verified]"
     ),
-    lmp_pnode_id=0,  # [open] pending the Butler County PJM zone (DEOK)
-    lmp_pnode_name="",
+    lmp_pnode_id=124076095,  # [verified] PJM DEOK zone (Duke Energy Ohio)
+    lmp_pnode_name="DEOK",
     county_name="Butler County, OH",  # [verified] (seat = City of Hamilton; NOT Hamilton County/Cincinnati)
     map_view_lat=39.455,  # centered on the lower Great Miami reach between Hamilton + Middletown
     map_view_lon=-84.49,
@@ -1525,14 +1529,14 @@ _TROY_PIQUA = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the I-75-corridor data-center dimension is the research target (#475)
     serving_utility_citation="EIA-861 2024 Service_Territory: Miami County, OH is split — Dayton Power & Light (AES Ohio, #4922) serves Troy + most of the county; the City of Piqua municipal (#15095) serves Piqua. Pinned to DP&L #4922 (county-dominant IOU); the Piqua-muni share is [inference]. [verified]",
-    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
+    lmp_usd_mwh=46.42,  # connector-sourced DAY-zone 2025 day-ahead annual mean [verified]
     lmp_citation=(
-        "PJM LMP placeholder for the Troy/Piqua area; [inference] the PJM transmission zone is not "
-        "yet pinned - likely the DAY zone (AES Ohio territory), with Piqua on its own municipal "
-        "system (AMP) - verify the utility + zone (research)"
+        "PJM Data Miner 2 da_hrl_lmps, DAY zone (pnode 34508503), 2025 day-ahead annual mean "
+        "$46.42/MWh (8760 h); connector-sourced 2026-07-01 (bosc lmp) — AES Ohio (DP&L) "
+        "territory, Miami County, OH; Piqua muni on AMP (same DAY wholesale zone) [verified]"
     ),
-    lmp_pnode_id=0,  # [open] pending the Miami County PJM zone (likely DAY)
-    lmp_pnode_name="",
+    lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
+    lmp_pnode_name="DAY",
     county_name="Miami County, OH",  # [verified]
     map_view_lat=40.092,  # centered on the upper Great Miami reach between Troy + Piqua
     map_view_lon=-84.215,
@@ -1606,13 +1610,14 @@ _SIDNEY = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the Sidney / I-75-corridor data-center dimension is the research target (#481)
     serving_utility_citation="EIA-861 2024 Service_Territory: Dayton Power & Light Co (AES Ohio, #4922) is the IOU serving Shelby County, OH / Sidney — distinct from 'City of Shelby' (#17043, a Richland-County muni). [verified]",
-    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio, Dayton area); pin via research
+    lmp_usd_mwh=46.42,  # connector-sourced DAY-zone 2025 day-ahead annual mean [verified]
     lmp_citation=(
-        "PJM LMP placeholder for the Sidney area; [inference] the PJM transmission zone is not "
-        "yet pinned - likely the DAY zone (AES Ohio territory) - verify the utility + zone (research)"
+        "PJM Data Miner 2 da_hrl_lmps, DAY zone (pnode 34508503), 2025 day-ahead annual mean "
+        "$46.42/MWh (8760 h); connector-sourced 2026-07-01 (bosc lmp) — AES Ohio (DP&L) "
+        "territory, Shelby County, OH [verified]"
     ),
-    lmp_pnode_id=0,  # [open] pending the Shelby County PJM zone (likely DAY)
-    lmp_pnode_name="",
+    lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
+    lmp_pnode_name="DAY",
     county_name="Shelby County, OH",  # [verified]
     map_view_lat=40.2842,
     map_view_lon=-84.1558,
@@ -1688,14 +1693,14 @@ _GREENVILLE = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the data-center / ag-land-conversion dimension is the research target (#482)
     serving_utility_citation="EIA-861 2024 Service_Territory: Darke County, OH is a patchwork (DP&L #4922, AEP #14006 on the east fringe, Darke Rural Electric co-op #4796, village munis Arcanum/Versailles); the City of Greenville LSE is Dayton Power & Light (#4922). [verified]",
-    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (co-op served from it); pin via research
+    lmp_usd_mwh=46.42,  # connector-sourced DAY-zone 2025 day-ahead annual mean [verified]
     lmp_citation=(
-        "PJM LMP placeholder for the Greenville/Darke area; [inference] heavily rural so likely a "
-        "rural electric co-op (e.g. Darke REC / Pioneer) within the DAY zone (AES Ohio) - co-ops "
-        "file their own EIA-861 forms - verify the utility + zone (research)"
+        "PJM Data Miner 2 da_hrl_lmps, DAY zone (pnode 34508503), 2025 day-ahead annual mean "
+        "$46.42/MWh (8760 h); connector-sourced 2026-07-01 (bosc lmp) — City of Greenville LSE "
+        "is AES Ohio (DP&L) #4922; Darke REC co-op also in DAY zone [verified]"
     ),
-    lmp_pnode_id=0,  # [open] pending the Darke County PJM zone (likely DAY)
-    lmp_pnode_name="",
+    lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
+    lmp_pnode_name="DAY",
     county_name="Darke County, OH",  # [verified] FIPS 39037
     map_view_lat=40.1023,
     map_view_lon=-84.6330,
@@ -1777,13 +1782,14 @@ _WILMINGTON = SiteProfile(
     passby_secondary_cfs=0.0,  # [open]
     facility=None,  # [open] the Air Park large-load / data-center dimension is the research target (#492)
     serving_utility_citation="EIA-861 2024 Service_Territory: Dayton Power & Light Co (AES Ohio, #4922) is the IOU serving Clinton County, OH — the Wilmington / Air Park LSE (Duke #3542 + South Central Power co-op also in-county). [verified]",
-    lmp_usd_mwh=35.0,  # [inference] PJM placeholder — likely the DAY zone (AES Ohio); pin via research
+    lmp_usd_mwh=46.42,  # connector-sourced DAY-zone 2025 day-ahead annual mean [verified]
     lmp_citation=(
-        "PJM LMP placeholder for the Wilmington area; [inference] the PJM transmission zone is not "
-        "yet pinned - likely the DAY zone (AES Ohio territory) - verify the utility + zone (research)"
+        "PJM Data Miner 2 da_hrl_lmps, DAY zone (pnode 34508503), 2025 day-ahead annual mean "
+        "$46.42/MWh (8760 h); connector-sourced 2026-07-01 (bosc lmp) — AES Ohio (DP&L) "
+        "territory, Clinton County, OH [verified]"
     ),
-    lmp_pnode_id=0,  # [open] pending the Clinton County PJM zone (likely DAY)
-    lmp_pnode_name="",
+    lmp_pnode_id=34508503,  # [verified] PJM DAY zone (AES Ohio / Dayton Power & Light)
+    lmp_pnode_name="DAY",
     county_name="Clinton County, OH",  # [verified] FIPS 39027
     map_view_lat=39.4453,
     map_view_lon=-83.8285,
