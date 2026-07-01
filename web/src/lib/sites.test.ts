@@ -14,12 +14,12 @@ import {
 } from "./sites";
 
 describe("sites registry — the Watermark network (#304)", () => {
-  it("has unique slugs and exactly one selectable (live) site — the active build", () => {
+  it("has unique slugs; the active build (Lima) is selectable + live; all selectable sites are live", () => {
     const slugs = SITES.map((s) => s.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
     const selectable = SITES.filter((s) => s.selectable);
-    expect(selectable.map((s) => s.slug)).toEqual([ACTIVE_SITE_SLUG]);
-    expect(selectable[0].status).toBe("live");
+    expect(selectable.some((s) => s.slug === ACTIVE_SITE_SLUG)).toBe(true);
+    for (const s of selectable) expect(s.status).toBe("live");
     expect(activeSite().slug).toBe(ACTIVE_SITE_SLUG);
   });
 
@@ -31,14 +31,14 @@ describe("sites registry — the Watermark network (#304)", () => {
     expect(ftw?.codename).toBe("GCP");
   });
 
-  it("routes the live site + every coming-soon site under /network/<slug>", () => {
+  it("routes every site under /network/<slug>; Lima uses its canonical watershed name", () => {
     for (const s of SITES) {
-      if (s.selectable) expect(s.href).toBe("/network/american-sugar-creek-allen-co");
+      if (s.slug === ACTIVE_SITE_SLUG) expect(s.href).toBe("/network/american-sugar-creek-allen-co");
       else expect(s.href).toBe(`/network/${s.slug}`);
     }
   });
 
-  it("comingSoonSites() is every non-selectable site, each carrying a tracking issue", () => {
+  it("comingSoonSites() is every non-selectable site (not Lima or Urbana), each carrying a tracking issue", () => {
     const soon = comingSoonSites();
     expect(soon.some((s) => s.slug === ACTIVE_SITE_SLUG)).toBe(false);
     expect(soon.map((s) => s.slug)).toEqual([
@@ -49,7 +49,6 @@ describe("sites registry — the Watermark network (#304)", () => {
       "van-wert",
       "bryan",
       "ottawa",
-      "urbana",
       "springfield",
       "xenia",
       "wpafb",
@@ -207,7 +206,13 @@ describe("siteForPath — the switcher's current-site resolution (#316)", () => 
     }
   });
 
-  it("keeps coming-soon sites on the neutral network tier (only the selectable site resolves)", () => {
+  it("resolves Urbana as a selectable site for /network/urbana and pages beneath it", () => {
+    expect(siteForPath("/network/urbana")?.slug).toBe("urbana");
+    expect(siteForPath("/network/urbana/")?.slug).toBe("urbana");
+    expect(siteForPath("/network/urbana/site/")?.slug).toBe("urbana");
+  });
+
+  it("keeps coming-soon sites on the neutral network tier (only selectable sites resolve)", () => {
     // They live at /network/<slug> too, but aren't selectable → null (network chrome, not site).
     expect(siteForPath("/network/fort-wayne")).toBeNull();
     expect(siteForPath("/network/defiance/")).toBeNull();

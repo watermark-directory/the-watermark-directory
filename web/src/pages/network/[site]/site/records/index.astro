@@ -8,6 +8,7 @@ import { hasFeed, loadFeed } from "~/lib/bundle";
 import type { RecordItem } from "~/lib/feeds";
 import { groupLabel, groupsOf } from "~/lib/records";
 import { withSite } from "~/lib/site";
+import { SITE_BASE } from "~/lib/routes";
 
 const records = hasFeed("records") ? loadFeed<RecordItem[]>("records") : [];
 const groups = groupsOf(records);
@@ -32,7 +33,7 @@ const byGroup = groups.map((g) => ({ label: groupLabel(g), value: countOf(g) }))
     </div>
     {byGroup.length > 1 && <DonutChart title="Records by document kind" centerLabel="records" slices={byGroup} />}
     <p class="hub-lead">
-      New to the record? <a href={`${withSite("/site/records/")}how-to-read`}>How to read any record</a> —
+      New to the record? <a href={`${SITE_BASE}/site/records/how-to-read`}>How to read any record</a> —
       the five-beat grammar behind every figure here, shown across a cost estimate, an air permit, and a
       water screen.
     </p>

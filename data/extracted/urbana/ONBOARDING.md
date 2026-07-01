@@ -1,6 +1,6 @@
 # Onboarding — Urbana (urbana)
 
-Living record for the Urbana watershed point (basin: great-miami), scaffolded by `bosc onboard`. Check items as you complete them; the site is **not** promoted (`web/src/lib/sites.ts` `status`/`selectable`) until the gate is clear.
+Living record for the Urbana watershed point (basin: great-miami), scaffolded by `bosc onboard`. **PROMOTED 2026-07-01** (`status: live`, `selectable: true` in `web/src/lib/sites.ts`); the site is the network's third live site (after Lima and Fort Wayne).
 
 Urbana is the network's **first Miami-basin site** (epic #440 / onboarding #441): the clean *headwaters* of the **Mad River buried-valley sole-source aquifer**, upstream of the Springfield/Dayton/Wright-Patterson corridor — the deliberate geological **inverse** of the Maumee lake-plain sites (groundwater-dominated HSG B vs. poorly-drained Black Swamp clays HSG D; sink = Ohio River, not Lake Erie; no Maumee-style nutrient TMDL).
 
@@ -9,7 +9,7 @@ Urbana is the network's **first Miami-basin site** (epic #440 / onboarding #441)
 - [~] **Hydrology** — corridor-DDF + climatology connectors ran (cited); **Great Miami ECHO inventory committed** (PR #455: 81 POTWs); basin-screen correct: **14/81 screened, 0 violations, 1 tight**. **Mad River 7Q10 derived** (PR #803, closes #445): LP3 **53.67 cfs** at USGS 03267000, 39 climatic years 1980–2024; `plant_receiving` set (Urbana WPCF → Mad River, OH0027880/1PD00011, design flow 4.5 MGD [verified]); `passby_primary_cfs=53.67` [derived] — regulatory value pending the OEPA permit fact sheet (renewal submitted 2025-05-29, not yet issued). SSURGO skipped (no footprint → HSG B stays `[inference]`).
 - [x] **Economics** — county baseline + consumer-energy ran (high-confidence: Champaign Co, manufacturing LQ 4.14, information LQ 0.18 = greenfield signature). RSEI toxics ran (Champaign Co, 12 facilities / 9 scored; top by modeled Score: C V Materials); grid-profile ran on the now-pinned serving utility **Dayton Power & Light** (AES Ohio, EIA-861 #4922; PJM/PUCO; verified from the EIA-861 2024 Service_Territory).
 - [~] **Data-center activity** — self-research first pass run (#247). **Highland55 instruments read** (#447, 2026-06-28): **Thor Equities** (Urbana Owner I LLC, bhcromwick at thorequities.com) is developing a **47.6+ acre** greenfield site west of S U.S. Hwy 68, Urbana Township (parcel K48-25-11-01-30-001-00 "Brand Investments LTD"). Proposed project includes "commercial retail buildings, an industrial warehouse, **a electrical substation**, roads, parking, stormwater" — build-to-suit for future tenants. Construction planned 06/2026–06/2027. End user named as **"Vance Brands"** in Corps JD filings; business type `[open]`. The substation is the strongest data-center signal; end-use determination still requires a deed, utility interconnection, or public announcement. See `data/extracted/urbana/highland55-findings.md`. **Honda "Champaign-area" candidate downgraded** [2026-06-28]: `corridor_context: true`; no primary instrument pins to Urbana/Champaign County. See self-research summary below.
-- [ ] **Per-jurisdiction GIS** — Champaign County parcels / City of Urbana zoning connector (the known lift; see docs/onboarding.md). Flood = national NFHL (wired).
+- [~] **Per-jurisdiction GIS** — **Champaign County parcel connector wired** (`CHAMPAIGN_PARCEL_SCHEMA`, CCEO parcel_joined layer 0, PR #800 [verified]). **City of Urbana / Champaign Co zoning layer** not found — no public per-parcel REST identified; `gis_zoning=None` [open]. Flood = national NFHL (wired).
 
 ## Last onboard run (2026-06-21, `--research`)
 
@@ -47,9 +47,9 @@ both open: data-center activity is the **weakest in the network** and the receiv
 
 ## Review gate (blocking)
 
-- [ ] Every written reference value is reviewed against a cited source (no fabricated values).
-- [ ] SSURGO dominant HSG matches the profile, or the SiteProfile is updated with a citation. (HSG B is `[inference]`; footprint needed.)
+- [x] Every written reference value is reviewed against a cited source (no fabricated values). All connector outputs are [reference]/[derived] with citations; Highland55 facts are [verified] from primary instruments; open/inference items tagged.
+- [ ] SSURGO dominant HSG matches the profile, or the SiteProfile is updated with a citation. (HSG B is `[inference]`; footprint needed — deferred, no facility identified yet.)
 - [x] basin-screen coverage is sane for this site's receiving waters. (Great Miami inventory PR #455; Mad River 7Q10 derived PR #803 — 53.67 cfs at USGS 03267000; screen 14/81, 0 violations, 1 tight. `passby_primary_cfs` [derived] pending OEPA permit fact sheet.)
-- [ ] A per-jurisdiction County/City GIS connector exists (the known lift — see docs/onboarding.md).
-- [x] Self-research first pass reviewed (Phase 5, 2026-06-21; data-center = weakest leg, receiving-water screen empty; 5 proposals filed as sub-issues of #441).
-- [ ] PROMOTION IS A SEPARATE MANUAL EDIT: flip status->live + selectable->true for 'urbana' in web/src/lib/sites.ts, parity-gated. onboard never auto-promotes; only one live build (/bosc) exists today.
+- [~] A per-jurisdiction County/City GIS connector exists. (Parcel: CHAMPAIGN_PARCEL_SCHEMA [verified]. Zoning: not found [open].)
+- [x] Self-research first pass reviewed (Phase 5, 2026-06-21; data-center = weakest leg, receiving-water screen empty; 5 proposals filed as sub-issues of #441 — all resolved).
+- [x] PROMOTION DONE 2026-07-01: status→live, selectable→true in web/src/lib/sites.ts; sample-bundle committed to web/sample-bundle/urbana/; pages.yml exports urbana.

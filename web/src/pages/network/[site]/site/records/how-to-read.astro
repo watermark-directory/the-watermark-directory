@@ -1,6 +1,7 @@
 ---
 import { selectableSitePaths } from "~/lib/sites";
-export const getStaticPaths = selectableSitePaths;
+// Lima-only: the example teardowns (OPC/AIR/NPDES) use Lima-specific records.
+export const getStaticPaths = () => selectableSitePaths().filter((p) => p.props.slug === "lima");
 /**
  * How to read any record (#697) — the reader-facing home for the cross-record
  * "evidence grammar" teaching device. The design comp's `RecordScreen` carried a
