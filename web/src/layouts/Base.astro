@@ -28,6 +28,8 @@ interface BaseProps {
   /** Sequential navigation — emitted as <link rel="prev/next"> for crawlers and Bing. */
   prevHref?: string;
   nextHref?: string;
+  /** Breadcrumb trail — passed to SEO.astro to emit BreadcrumbList JSON-LD. */
+  breadcrumbs?: { label: string; href: string }[];
 }
 
 // `.astro` pages pass these props directly; `.mdx` pages using `layout:` pass
@@ -44,6 +46,7 @@ const {
   noindex = false,
   prevHref,
   nextHref,
+  breadcrumbs,
 } = raw.frontmatter ?? raw;
 const showRail = rail !== false && toc.length > 0;
 ---
@@ -74,7 +77,8 @@ const showRail = rail !== false && toc.length > 0;
     {prevHref && <link rel="prev" href={prevHref} />}
     {nextHref && <link rel="next" href={nextHref} />}
     <title>{title === SITE_NAME ? title : `${title} · ${SITE_NAME}`}</title>
-    <SEO title={title} description={description} type={ogType} noindex={noindex} />
+    <SEO title={title} description={description} type={ogType} noindex={noindex} breadcrumbs={breadcrumbs} />
+    <slot name="head" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

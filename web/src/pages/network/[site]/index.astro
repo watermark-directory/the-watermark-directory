@@ -48,6 +48,22 @@ const nLeads = count("leads");
 // The facility clock (separate from the site-build clock) — the active site's campus lifecycle.
 const fac = FACILITY_STATUS_META[facilityStatus(slug)];
 
+// Dataset JSON-LD — gated on Astro.site (production builds only).
+const astroSite = Astro.site;
+const datasetLd = astroSite
+  ? {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      name: `Watermark Directory — ${site.place} Corpus`,
+      description: `Curated public-records corpus for ${site.place}: NPDES permits, engineering estimates, commissioner minutes, and environmental data for the ${site.basin} watershed.`,
+      url: new URL(Astro.url.pathname, astroSite).href,
+      creator: { "@type": "Organization", "@id": `${astroSite.href}#org`, name: "Watermark Directory" },
+      license: "https://creativecommons.org/licenses/by/4.0/",
+      temporalCoverage: "2000/..",
+      keywords: ["NPDES", "stormwater", "public records", "engineering estimates", "Ohio EPA"],
+    }
+  : null;
+
 // Corpus at a glance — five real, derivable counts (the design's at-a-glance strip).
 const stats: FigureStatData[] = [
   {
@@ -69,6 +85,7 @@ const stats: FigureStatData[] = [
 ---
 
 <Base title="Watermark" section="home" rail={false} description="Watermark — the public record, by watershed.">
+  {datasetLd && <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(datasetLd)} />}
   {isReferenceSite(slug) ? (
   <div class="home home--live">
     <div class="home-hero">
