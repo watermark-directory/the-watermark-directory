@@ -69,8 +69,10 @@ from watermark.site import people as people_mod
 from watermark.site import places as places_mod
 from watermark.site import records as records_mod
 from watermark.site import rsei as rsei_mod
+from watermark.site.embeddings import build_ask_embeddings
 from watermark.site.feeds import (
     CONTRACT_VERSION,
+    AskEmbeddingEntry,
     CandidateItem,
     CatalogItem,
     Citation,
@@ -429,11 +431,16 @@ def export_bundle(
     out_dir: Path | None = None,
     *,
     generated_at: str | None = None,
+    skip_embeddings: bool = False,
 ) -> BundleResult:
     """Write the full content bundle and return a summary.
 
     ``generated_at`` overrides the manifest timestamp (used by tests for determinism);
     it defaults to the current UTC time.
+
+    ``skip_embeddings`` suppresses the optional ``ask-embeddings`` feed — useful when
+    you need a fast bundle without the ~80 MB model download (``bosc export
+    --no-embeddings``).
     """
     settings = settings or get_settings()
     # Per-site bundle (#724/#727): the generated feeds + manifest live under a slug-scoped
@@ -447,6 +454,22 @@ def export_bundle(
     feeds_dir.mkdir(parents=True, exist_ok=True)
 
     feeds = _collect_feeds(settings)
+
+    # Optional ask-embeddings feed (#329): precompute all-MiniLM-L6-v2 vectors for
+    # each ask-index unit so the Worker can do hybrid BM25 + cosine retrieval.
+    # Skipped with --no-embeddings (slow first run — model download ~80 MB).
+    if not skip_embeddings:
+        try:
+            emb_rows = build_ask_embeddings(out)
+            if emb_rows:
+                emb_models = [AskEmbeddingEntry.model_validate(r) for r in emb_rows]
+                feeds.append(_collection_feed("ask-embeddings", AskEmbeddingEntry, emb_models))
+        except Exception as exc:
+            log.warning(
+                "embeddings.failed",
+                error=str(exc).splitlines()[0],
+                hint="run with --no-embeddings to skip; hybrid retrieval will degrade to BM25",
+            )
 
     # Schema files (geo feeds share one file — dedup by schema_file path).
     written_schemas: set[str] = set()

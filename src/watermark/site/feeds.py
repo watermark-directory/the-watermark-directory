@@ -49,7 +49,9 @@ from watermark.provenance import source_is_verified
 #   (per-site bundle scoping; #762).
 # 1.7.0: adds the per-site `leads` feed — the open-leads board read from a committed per-site store
 #   (`data/site/leads.yaml`, slug-scoped), so a peer carries its own leads, not Lima's (#796).
-CONTRACT_VERSION = "1.7.0"
+# 1.8.0: adds the optional `ask-embeddings` feed — all-MiniLM-L6-v2 document vectors for hybrid
+#   BM25 + vector retrieval (#329); absent when `bosc export --no-embeddings` is used.
+CONTRACT_VERSION = "1.8.0"
 
 # SourceKind / Confidence now live in watermark.provenance (shared with watermark.hypotheses +
 # hydrology.ProvenancedValue, #605); re-exported here so importers of watermark.site.feeds are
@@ -501,6 +503,23 @@ class GeoFeatureCollection(BaseModel):
     feed: str  # the feed/layer name (campus, jsmc, corridor, femaflood, rsei, ...)
     meta: dict[str, Any] = Field(default_factory=dict)
     features: list[GeoFeature] = Field(default_factory=list)
+
+
+# --- ask-embeddings feed (issue #329) -----------------------------------------
+class AskEmbeddingEntry(BaseModel):
+    """One precomputed all-MiniLM-L6-v2 embedding for an ask-index unit (#329).
+
+    Stored in the bundle as ``ask-embeddings.json`` and served as a static asset
+    so the /api/ask Worker can embed the query at runtime and compute cosine
+    similarity without an additional Python/Node dependency.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    """Stable id matching the corresponding AskUnit, ``{feed}:{local_id}``."""
+    embedding: list[float]
+    """384-dimensional L2-normalised float vector (all-MiniLM-L6-v2)."""
 
 
 # --- manifest ------------------------------------------------------------------

@@ -1,0 +1,227 @@
+"""Precompute all-MiniLM-L6-v2 sentence embeddings for the ask-index (#329).
+
+Called from :func:`watermark.site.export.export_bundle` (unless ``--no-embeddings``
+is passed).  Uses the same model as the Cloudflare Workers AI endpoint
+``@cf/sentence-transformers/all-minilm-l6-v2`` that encodes the user's query at
+runtime, so document and query vectors share the same 384-dimensional semantic space.
+
+The model is downloaded on first use (~80 MB, cached under
+``~/.cache/huggingface/hub`` by the transformers library).
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import re
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+from sentence_transformers import SentenceTransformer
+
+from watermark.logging import get_logger
+
+log = get_logger(__name__)
+
+_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+
+
+@dataclass
+class _TextUnit:
+    id: str
+    text: str
+
+
+def _blob(*parts: str | None) -> str:
+    return " · ".join(p for p in parts if p)
+
+
+def _flatten_fields(fields: dict[str, Any], depth: int = 0) -> str:
+    if depth > 2:
+        return ""
+    bits: list[str] = []
+    for k, v in fields.items():
+        if v is None:
+            continue
+        if isinstance(v, list):
+            scalars = [str(x) for x in v if x is not None and not isinstance(x, dict)]
+            if scalars:
+                bits.append(f"{k} {' '.join(scalars)}")
+        elif isinstance(v, dict):
+            inner = _flatten_fields(v, depth + 1)
+            if inner:
+                bits.append(inner)
+        else:
+            bits.append(f"{k} {v}")
+    return " · ".join(bits)
+
+
+def _slugify(text: str) -> str:
+    """Mirrors the TypeScript ``slugify`` used by ``buildAskIndex``."""
+    return re.sub(r"^-+|-+$", "", re.sub(r"[^a-z0-9]+", "-", text.lower()))
+
+
+def _read_feed(feeds_dir: str, name: str) -> list[dict[str, Any]]:
+    for ext in (".json", ".ndjson"):
+        path = os.path.join(feeds_dir, f"{name}{ext}")
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as f:
+            if ext == ".ndjson":
+                return [json.loads(line) for line in f if line.strip()]
+            data = json.load(f)
+            return data if isinstance(data, list) else []
+    return []
+
+
+def build_text_units(bundle_dir: Path | str) -> list[_TextUnit]:
+    """Read corpus feeds from a bundle directory and produce one text unit per
+    ask-index entry, mirroring ``buildAskIndex()`` in ``web/src/lib/askIndex.ts``.
+
+    The ``title + key_fields`` text mirrors the BM25 indexed text so both
+    retrieval signals draw from the same content signal.
+    """
+    feeds = os.path.join(str(bundle_dir), "feeds")
+    units: list[_TextUnit] = []
+
+    for r in _read_feed(feeds, "records"):
+        units.append(
+            _TextUnit(
+                id=f"records:{r['rel']}",
+                text=_blob(
+                    r.get("title"),
+                    r.get("group"),
+                    r.get("confidence"),
+                    _flatten_fields(r.get("fields", {})),
+                ),
+            )
+        )
+
+    for e in _read_feed(feeds, "timeline"):
+        title = e.get("title", "")
+        date = e.get("date", "")
+        local_id = e.get("ref") or _slugify(f"{date}-{title}")
+        units.append(
+            _TextUnit(
+                id=f"timeline:{local_id}",
+                text=_blob(
+                    f"{date} — {title}",
+                    e.get("category"),
+                    e.get("detail"),
+                    e.get("source"),
+                    *e.get("parties", []),
+                    *e.get("also_sources", []),
+                ),
+            )
+        )
+
+    for c in _read_feed(feeds, "documents"):
+        entry_names = " · ".join(x.get("name", "") for x in c.get("entries", []))
+        units.append(
+            _TextUnit(
+                id=f"documents:{c['slug']}",
+                text=_blob(c.get("title"), c.get("description"), entry_names),
+            )
+        )
+
+    for m in _read_feed(feeds, "meetings"):
+        units.append(
+            _TextUnit(
+                id=f"meetings:{m['slug']}",
+                text=_blob(
+                    m.get("title") or f"{m.get('date', '')} — {m.get('kind', 'meeting')}",
+                    m.get("summary"),
+                    m.get("corridor_relevance"),
+                    *m.get("decisions", []),
+                    *m.get("parties", []),
+                    *m.get("dollar_figures", []),
+                ),
+            )
+        )
+
+    for p in _read_feed(feeds, "people"):
+        units.append(
+            _TextUnit(
+                id=f"people:{p['slug']}",
+                text=_blob(
+                    p.get("name"),
+                    *p.get("aliases", []),
+                    *p.get("roles", []),
+                    *p.get("affiliations", []),
+                    p.get("summary"),
+                    p.get("body"),
+                ),
+            )
+        )
+
+    for p in _read_feed(feeds, "places"):
+        units.append(
+            _TextUnit(
+                id=f"places:{p['slug']}",
+                text=_blob(
+                    p.get("name"),
+                    p.get("kind"),
+                    *p.get("aliases", []),
+                    *p.get("tags", []),
+                    p.get("body"),
+                ),
+            )
+        )
+
+    for e in _read_feed(feeds, "entities"):
+        roles: list[str] = list((e.get("roles") or {}).keys())
+        units.append(
+            _TextUnit(
+                id=f"entities:{e['key']}",
+                text=_blob(
+                    e.get("display"),
+                    e.get("kind"),
+                    e.get("classification"),
+                    *e.get("variants", []),
+                    *roles,
+                    *e.get("addresses", []),
+                ),
+            )
+        )
+
+    for c in _read_feed(feeds, "concepts"):
+        units.append(
+            _TextUnit(
+                id=f"concepts:{c['slug']}",
+                text=_blob(
+                    c.get("title"),
+                    c.get("summary"),
+                    *c.get("aliases", []),
+                    *c.get("tags", []),
+                    c.get("body"),
+                ),
+            )
+        )
+
+    return units
+
+
+def build_ask_embeddings(bundle_dir: Path | str) -> list[dict[str, Any]]:
+    """Encode text units from a bundle directory with all-MiniLM-L6-v2.
+
+    Returns a list of ``{"id": ..., "embedding": [...]}`` dicts ready to write
+    as the ``ask-embeddings`` feed.  Vectors are L2-normalised so cosine similarity
+    equals dot product at query time (cheaper on the Worker).
+    """
+    units = build_text_units(bundle_dir)
+    if not units:
+        log.info("embeddings.skip", reason="no text units in bundle")
+        return []
+
+    log.info("embeddings.encode", units=len(units), model=_MODEL)
+    model = SentenceTransformer(_MODEL)
+    texts = [u.text for u in units]
+    vectors = model.encode(
+        texts,
+        normalize_embeddings=True,
+        show_progress_bar=False,
+        batch_size=64,
+    )
+    log.info("embeddings.done", units=len(units))
+    return [{"id": u.id, "embedding": v.tolist()} for u, v in zip(units, vectors, strict=True)]
