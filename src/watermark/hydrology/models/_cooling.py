@@ -54,8 +54,8 @@ class ScenarioResult(BaseModel):
 
     scenario: Scenario
     consumptive_loss: ProvenancedValue  # net basin loss (cfs), derived from the knobs
-    ottawa_7q10: ProvenancedValue | None = None  # per-site receiving-water low flow (#900)
-    ottawa_live: ProvenancedValue | None = None  # live receiving-water streamflow, for context
+    receiving_7q10: ProvenancedValue | None = None  # per-site receiving-water low flow (#900)
+    receiving_live: ProvenancedValue | None = None  # live receiving-water streamflow, for context
     receiving_water_name: str | None = None  # which receiving water the 7Q10 is for (#900)
     balance: WaterBalance
     assimilative: list[AssimilativeCheck]

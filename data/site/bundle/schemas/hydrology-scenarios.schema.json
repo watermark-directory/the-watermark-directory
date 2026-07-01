@@ -12,7 +12,7 @@
       "consumptive_loss": {
         "$ref": "#/$defs/ProvenancedValue"
       },
-      "ottawa_7q10": {
+      "receiving_7q10": {
         "anyOf": [
           {
             "$ref": "#/$defs/ProvenancedValue"
@@ -23,7 +23,7 @@
         ],
         "default": null
       },
-      "ottawa_live": {
+      "receiving_live": {
         "anyOf": [
           {
             "$ref": "#/$defs/ProvenancedValue"

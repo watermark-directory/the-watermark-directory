@@ -334,7 +334,7 @@ def scenario(
     write: bool = typer.Option(False, "--write", help="Persist results under data/scenarios/."),
     offline: bool = typer.Option(False, "--offline", help="Use cached/fixture streamflow only."),
 ) -> None:
-    """Baseline vs data-center buildout: net consumptive draw vs the Ottawa 7Q10."""
+    """Baseline vs data-center buildout: net consumptive draw vs the receiving-water 7Q10."""
     from watermark.hydrology import scenario as scenario_stage
     from watermark.pipeline import hydrology as hydro_stage
 
@@ -372,7 +372,7 @@ def scenario(
 
     rw = delta.receiving_water_name or "receiving water"
     q7 = delta.receiving_7q10_cfs
-    live_flow = build.ottawa_live.value if build.ottawa_live else None
+    live_flow = build.receiving_live.value if build.receiving_live else None
     console.print(
         f"\n[bold red]Buildout adds {delta.consumptive_increase_cfs:,.2f} cfs[/] of net "
         f"consumptive draw on the {rw} supply."
@@ -394,8 +394,8 @@ def scenario(
             f"The absolute floor is 1Q10 = {sw.one_q10_cfs:g} cfs — no flow to draw against."
         )
     console.print(
-        "\n[dim]Cooling basis derived from the air permit + FM-2 discharge (see provenance "
-        "tags); the Ottawa 7Q10 is document-cited (Ohio EPA 2IG00001). Tier-0 screening.[/]"
+        f"\n[dim]Cooling basis derived from the air permit + FM-2 discharge (see provenance "
+        f"tags); {rw} 7Q10 is cited from the NPDES permit fact sheet. Tier-0 screening.[/]"
     )
     if write:
         for r in (base, build):

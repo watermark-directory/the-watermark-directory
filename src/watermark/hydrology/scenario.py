@@ -107,21 +107,21 @@ def evaluate(
         campus.consumptive_use = consumptive
 
     receiving_water = active_profile(settings).receiving_water_name
-    ottawa_7q10 = low_flow_for(receiving_water, settings=settings)
-    ottawa_live = _ottawa_live(settings=settings, live=live)
+    receiving_7q10 = low_flow_for(receiving_water, settings=settings)
+    receiving_live = _receiving_live(settings=settings, live=live)
 
     return ScenarioResult(
         scenario=scenario,
         consumptive_loss=consumptive,
-        ottawa_7q10=ottawa_7q10,
-        ottawa_live=ottawa_live,
+        receiving_7q10=receiving_7q10,
+        receiving_live=receiving_live,
         receiving_water_name=receiving_water,
         balance=balance,
         assimilative=check_assimilative(balance),
     )
 
 
-def _ottawa_live(*, settings: Settings, live: bool) -> ProvenancedValue | None:
+def _receiving_live(*, settings: Settings, live: bool) -> ProvenancedValue | None:
     if not live:
         return None
     try:
@@ -144,7 +144,7 @@ def _ottawa_live(*, settings: Settings, live: bool) -> ProvenancedValue | None:
 def diff(baseline: ScenarioResult, scenario: ScenarioResult) -> ScenarioDiff:
     """Net new consumptive draw and its scale against the per-site receiving-water 7Q10."""
     increase = scenario.consumptive_loss.value - baseline.consumptive_loss.value
-    q7 = scenario.ottawa_7q10.value if scenario.ottawa_7q10 else None
+    q7 = scenario.receiving_7q10.value if scenario.receiving_7q10 else None
     multiple = (increase / q7) if (q7 and q7 > 0) else None
     return ScenarioDiff(
         baseline=baseline.scenario.name,

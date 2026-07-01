@@ -755,7 +755,8 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
     _render_stormwater_runoff(w, settings, runoff, storm_findings)
     _render_drainage_audit(w, settings)
 
-    w("\n\n## 4. Scenario: data-center cooling vs the Ottawa's low flow\n")
+    rw_heading = delta.receiving_water_name or "receiving water"
+    w(f"\n\n## 4. Scenario: data-center cooling vs the {rw_heading}'s low flow\n")
     basis = build.scenario.basis
     if basis is not None:
         w("The cooling demand is **sourced**, derived from disclosed campus data by two methods:\n")

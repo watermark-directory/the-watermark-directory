@@ -82,12 +82,23 @@ def load_concepts(concepts_dir: Path, *, site: str | None = None) -> list[Concep
         if path.name.upper() == "README.MD":
             continue
         try:
-            header, _ = split_frontmatter(path.read_text(encoding="utf-8"))
+            header, body = split_frontmatter(path.read_text(encoding="utf-8"))
             data = yaml.safe_load(header) or {}
-            sites_filter: list[str] = data.get("sites") or []
-            if sites_filter and (site is None or site not in sites_filter):
+            front = ConceptFrontmatter.model_validate(data)
+            if front.sites and (site is None or site not in front.sites):
                 continue  # site-tagged concept; skip for this site
-            concepts.append(parse_concept(path))
+            concepts.append(
+                ConceptItem(
+                    slug=front.slug or path.stem,
+                    title=front.title,
+                    kind=front.kind,
+                    aliases=front.aliases,
+                    tags=front.tags,
+                    summary=front.summary,
+                    related=front.related,
+                    body=body,
+                )
+            )
         except Exception as exc:  # one malformed concept must not kill the load
             log.warning("concepts.parse_failed", path=str(path), error=str(exc).splitlines()[0])
     concepts.sort(key=lambda c: c.title.upper())

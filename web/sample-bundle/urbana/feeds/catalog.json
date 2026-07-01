@@ -140,8 +140,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "c7b60690e5a3c91baa5b7a38ec3748b0595888ed2b0e89097415c971e592de5d",
-      "size_bytes": 14471,
+      "sha256": "461c9d19bb4d197991a1b18673e4b5b1b68a191f6c3ecf868a22a76e857ae7ad",
+      "size_bytes": 14845,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": false,
@@ -910,7 +910,7 @@
   },
   {
     "id": "hydrology-nasa-power-climatology",
-    "title": "NASA POWER Climate Normals — Lima Loop Point",
+    "title": "NASA POWER Climate Normals — site climatology",
     "scope": "reference",
     "collection": "hydrology",
     "status": "reviewed",
