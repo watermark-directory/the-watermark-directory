@@ -1,0 +1,764 @@
+meta:
+  subject: Little Miami-watershed NPDES wastewater dischargers
+  scope: POTWs only (CWPFacilityTypeIndicator == POTW)
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  watershed: Little Miami River — 1 HUC-8 subbasin, subregion 0509 (Ohio River tributary,
+    Scenic River)
+  huc8s:
+    05090202: Little Miami
+  dedup_key: FRS RegistryID
+  count: 37
+  caveats:
+  - ECHO's CWA facility service has no CWNS column; the POTW flag rests on CWPFacilityTypeIndicator.
+  - Facilities link to HUCs via WATERS (FacDerivedHuc); a permit that didn't geocode
+    can be missed.
+  - design_flow_mgd is null where ECHO returned no value; it is never estimated.
+  - Mill Creek (05090203, the Cincinnati urban drainage) is the adjacent 0509 basin
+    and is excluded; cross-check Ohio EPA near the basin mouth for completeness.
+  - Todd Fork (the Wilmington / Clinton County tributary) is ungaged — the at-site
+    dilution screen relies on the downstream Little Miami integrator at Milford.
+facilities:
+- frs_registry_id: '110009822344'
+  name: ARROWHEAD PARK WWTP
+  npdes_id: OH0049310
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.14
+  design_flow_missing: false
+  receiving_water: LITTLE MIAMI
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021402
+  county: CLERMONT
+  latitude: 39.2417
+  longitude: -84.2959
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110064599670'
+  name: BEAVERCREEK WRRF
+  npdes_id: OH0025381
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 10.6
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020205
+  county: GREENE
+  latitude: 39.70285
+  longitude: -84.02952
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110009674539'
+  name: BLANCHESTER WWTP
+  npdes_id: OH0021733
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.99
+  design_flow_missing: false
+  receiving_water: SECOND CREEK
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020702
+  county: CLINTON
+  latitude: 39.29118
+  longitude: -83.99456
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110013794153'
+  name: CEDARVILLE WWTP
+  npdes_id: OH0020010
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.56
+  design_flow_missing: false
+  receiving_water: MASSIES CREEK
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020203
+  county: GREENE
+  latitude: 39.74089
+  longitude: -83.81349
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110000914654'
+  name: CITY OF LEBANON REGIONAL WWTP
+  npdes_id: OH0021059
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 6.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020903
+  county: WARREN
+  latitude: 39.37233
+  longitude: -84.24229
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110000757057'
+  name: CITY OF XENIA - GLADY RUN WWTP
+  npdes_id: OH0028207
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020503
+  county: GREENE
+  latitude: 39.661686
+  longitude: -83.966645
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110012300367'
+  name: CITY OF XENIA-FORD ROAD WWTP
+  npdes_id: OH0028193
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.6
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020206
+  county: GREENE
+  latitude: 39.71512
+  longitude: -83.96592
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110008646019'
+  name: CLARKSVILLE WWTP
+  npdes_id: OH0127124
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.09
+  design_flow_missing: false
+  receiving_water: TODDS FORK
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020606
+  county: CLINTON
+  latitude: 39.4066
+  longitude: -83.9856
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110071710738'
+  name: CLIFTON WWTP
+  npdes_id: OH0118567
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.029
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020104
+  county: GREENE
+  latitude: 39.78898
+  longitude: -83.8204
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110009821407'
+  name: DALE ACRES WWTP
+  npdes_id: OH0105481
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.015
+  design_flow_missing: false
+  receiving_water: RITTER CREEK, UNNAMED TRIBUTARY OF O'BANNON CREEK
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020902
+  county: CLERMONT
+  latitude: 39.27543
+  longitude: -84.16437
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110006344394'
+  name: EAST CLINTON HIGH SCHOOL
+  npdes_id: OH0123269
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: ANDERSON FORK
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020301
+  county: CLINTON
+  latitude: 39.41921
+  longitude: -83.65187
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110000915001'
+  name: EASTERN REGIONAL WATER RECLAMATION FACILITY
+  npdes_id: OH0026590
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 13.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020204
+  county: MONTGOMERY
+  latitude: 39.72499
+  longitude: -84.10941
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110011015150'
+  name: FAYETTEVILLE PERRY TWP WWTP
+  npdes_id: OH0119041
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021101
+  county: BROWN
+  latitude: 39.18515
+  longitude: -83.91759
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110006355755'
+  name: FOREST CREEK MOBILE HOME PARK
+  npdes_id: OH0040568
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.04
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021203
+  county: CLERMONT
+  latitude: 38.99483
+  longitude: -84.16193
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110045521226'
+  name: FOX DEN WWTP
+  npdes_id: OH0112216
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.028
+  design_flow_missing: false
+  receiving_water: HAUL TO ANOTHER NPDES PERMITTED FACILITY, SSO COLLECTION SYSTEM,
+    TRIBUTARY OF CRAB CREEK, UT OF CRAB CREEK
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050301030804
+  county: TRUMBULL
+  latitude: 39.2975
+  longitude: -84.2916
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110009152790'
+  name: JAMESTOWN WWTP
+  npdes_id: OH0025879
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.9
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020403
+  county: GREENE
+  latitude: 39.65617
+  longitude: -83.73503
+  compliance_status: null
+  informal_enf_count: 4
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110000709190'
+  name: LOWER EAST FORK REGIONAL WWTP
+  npdes_id: OH0049379
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 9.0
+  design_flow_missing: false
+  receiving_water: LITTLE MIAMI RIVER, UNNAMED TRIBUTARY TO EAST FORK LITTLE MIAMI
+    RIVER
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021305
+  county: CLERMONT
+  latitude: 39.14639
+  longitude: -84.25292
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110039744033'
+  name: LOWER LITTLE MIAMI WWTP
+  npdes_id: OH0071692
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 12.0
+  design_flow_missing: false
+  receiving_water: SIMPSON CREEK
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020903
+  county: WARREN
+  latitude: 39.3218
+  longitude: -84.25546
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110006700169'
+  name: LYNCHBURG WWTP
+  npdes_id: OH0022667
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.5
+  design_flow_missing: false
+  receiving_water: EAST FORK LITTLE MIAMI RIVER
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021006
+  county: HIGHLAND
+  latitude: 39.24025
+  longitude: -83.79967
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110064255808'
+  name: MASON WWTP NO 2
+  npdes_id: OH0020494
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 13.0
+  design_flow_missing: false
+  receiving_water: MUDDY CREEK
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020901
+  county: WARREN
+  latitude: 39.37413
+  longitude: -84.27497
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110006803209'
+  name: MIAMI TRAILS WWTP
+  npdes_id: OH0096504
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.4
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021402
+  county: CLERMONT
+  latitude: 39.24767
+  longitude: -84.27305
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110006235984'
+  name: MID WESTERN CHILDREN'S HOME
+  npdes_id: OH0127116
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.016
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020902
+  county: WARREN
+  latitude: 39.28549
+  longitude: -84.13488
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110039713708'
+  name: MIDDLE EAST FORK WWTP
+  npdes_id: OH0049387
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 7.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021204
+  county: CLERMONT
+  latitude: 39.08614
+  longitude: -84.1828
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110006700374'
+  name: MILFORD CITY WWTP
+  npdes_id: OH0020451
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.2
+  design_flow_missing: false
+  receiving_water: EAST FORK LITTLE MIAMI RIVER
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021305
+  county: CLERMONT
+  latitude: 39.168624
+  longitude: -84.285432
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110008638340'
+  name: NEW VIENNA WASTEWATER TREATMENT PLANT
+  npdes_id: OH0021393
+  npdes_ids_secondary:
+  - OH0047198
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.085
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021002
+  county: CLINTON
+  latitude: 39.3244
+  longitude: -83.6945
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110001123463'
+  name: O'BANNON CREEK REGIONAL WWTP
+  npdes_id: OH0048089
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.4
+  design_flow_missing: false
+  receiving_water: O'BANNON CREEK, O'BANNON CREEK GOLF COURSE
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020902
+  county: CLERMONT
+  latitude: 39.257679
+  longitude: -84.225915
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110064265879'
+  name: PILOT COMPANY
+  npdes_id: OH0096466
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0075
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020605
+  county: CLINTON
+  latitude: 39.371531
+  longitude: -83.862955
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110000555159'
+  name: POLK RUN WWTP
+  npdes_id: OH0020419
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 8.0
+  design_flow_missing: false
+  receiving_water: TRIBUTARY OF LITTLE MIAMI RIVER
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021402
+  county: HAMILTON
+  latitude: 39.25019
+  longitude: -84.29263
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110006699091'
+  name: SNOW HILL COUNTRY CLUB
+  npdes_id: OH0109169
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIB EAST FORK LITTLE MIAMI RIVER, UNNAMED TRIBUTARY OF
+    EAST FORK LITTLE MIAMI RIVER
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021002
+  county: CLINTON
+  latitude: 39.34846
+  longitude: -83.7144
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110006355693'
+  name: STONELICK STATE PARK CAMPGROUNDS WWTP
+  npdes_id: OH0092649
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: STONELICK LAKE
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021301
+  county: WARREN
+  latitude: 39.21351
+  longitude: -84.08211
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110000915056'
+  name: SUGARCREEK WRRF
+  npdes_id: OH0040592
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 9.9
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020504
+  county: GREENE
+  latitude: 39.62214
+  longitude: -84.02792
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110064580564'
+  name: SYCAMORE CREEK WWTP
+  npdes_id: OH0025488
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 9.0
+  design_flow_missing: false
+  receiving_water: SYCAMORE CREEK
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021401
+  county: HAMILTON
+  latitude: 39.22334
+  longitude: -84.32797
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110011017808'
+  name: VILLAGE OF SOUTH CHARLESTON WWTP
+  npdes_id: OH0020052
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.24
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020101
+  county: CLARK
+  latitude: 39.82637
+  longitude: -83.64419
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110009674619'
+  name: VILLAGE OF WILLIAMSBURG WASTEWATER TREATMENT PLANT
+  npdes_id: OH0021571
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.9
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902021102
+  county: CLERMONT
+  latitude: 39.05734
+  longitude: -84.04832
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110006700267'
+  name: WAYNESVILLE REGIONAL WWTP
+  npdes_id: OH0020753
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.71
+  design_flow_missing: false
+  receiving_water: LITTLE MIAMI, LITTLE MIAMI RIVER
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020504
+  county: WARREN
+  latitude: 39.52448
+  longitude: -84.08939
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110000760686'
+  name: WILMINGTON WWTP
+  npdes_id: OH0028134
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020603
+  county: CLINTON
+  latitude: 39.4391
+  longitude: -83.85132
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: 05090202
+- frs_registry_id: '110006699983'
+  name: YELLOW SPRINGS WWTP
+  npdes_id: OH0028215
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.6
+  design_flow_missing: false
+  receiving_water: LITTLE MIAMI RIVER, YELLOW SPRINGS CR
+  huc8: 05090202
+  huc8_name: Little Miami
+  huc12: 050902020104
+  county: GREENE
+  latitude: 39.790552
+  longitude: -83.880306
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: 05090202

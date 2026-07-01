@@ -2,8 +2,8 @@
 
 The cited 7Q10 table (:mod:`watermark.hydrology.lowflow`) covers only the three Lima-loop
 streams read off Ohio EPA fact sheets in our corpus. This module extends the
-assimilative screen to the basin-wide POTW inventory (the EPA ECHO Maumee dischargers,
-``data/reference/echo/maumee-wwtp.potw.yaml``) by **deriving** a 7Q10 for the major
+assimilative screen to the basin-wide POTW inventory (EPA ECHO dischargers per basin,
+e.g. ``data/reference/echo/maumee-wwtp.potw.yaml``) by **deriving** a 7Q10 for the major
 USGS-gaged mainstems via log-Pearson III (:mod:`watermark.hydrology.lowflow_frequency`) —
 ``source=derived``: a screening denominator, **not** a cited regulatory statistic.
 
@@ -44,6 +44,7 @@ _BASIN_POTW_INVENTORY: dict[str, tuple[str, str]] = {
     "maumee": ("echo", "maumee-wwtp.potw.yaml"),
     "great-miami": ("echo", "great-miami-wwtp.potw.yaml"),
     "scioto": ("echo", "scioto-wwtp.potw.yaml"),
+    "little-miami": ("echo", "little-miami-wwtp.potw.yaml"),
 }
 _MIN_YEARS = 20  # climatic years of record needed for a defensible LP3 7Q10
 
@@ -90,6 +91,21 @@ _MAINSTEM_GAGES: dict[str, dict[str, Any]] = {
     "Big Darby Creek": {
         "gage": "03230500",
         "aliases": ["big darby creek", "big darby cr", "big darby"],
+    },
+    # Little Miami basin (subregion 0507, → Ohio River). The mainstem proxy is the
+    # long-record Milford gage (03245500, DA 1664 mi²). Todd Fork (Wilmington's
+    # receiving water) has no active USGS gage — the historical Greenfield gage
+    # (03244000) was discontinued; Todd Fork dischargers stay unscreened (no_7q10)
+    # rather than being proxied to a larger downstream river (that would overstate
+    # dilution). Caesar Creek (03242350, below C.J. Brown reservoir) reflects a
+    # regulated low-flow regime.
+    "Little Miami River": {
+        "gage": "03245500",
+        "aliases": ["little miami river", "little miami"],
+    },
+    "Caesar Creek": {
+        "gage": "03242350",
+        "aliases": ["caesar creek"],
     },
 }
 
