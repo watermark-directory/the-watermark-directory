@@ -111,7 +111,9 @@ def test_multi_file_entry_gets_a_stable_aggregate_sha(tmp_path: Path) -> None:
           cadence: static
         """,
     )
-    obs = reconcile(settings=settings, now=_FIXED).entries["echo-multi"]
+    result = reconcile(settings=settings, now=_FIXED)
+    assert "echo-multi" in result.entries, f"missing key; got: {list(result.entries)}"
+    obs = result.entries["echo-multi"]
     assert obs.exists is True
     assert obs.file_count == 2
     assert obs.sha256 is not None and len(obs.sha256) == 64

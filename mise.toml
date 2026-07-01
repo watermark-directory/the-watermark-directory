@@ -76,6 +76,10 @@ run = [
 description = "Backend tests only (pytest)"
 run = "uv run pytest -n auto"
 
+[tasks."test:v"]
+description = "Backend tests, verbose (test names + full tracebacks)"
+run = "uv run pytest -v --tb=long -m 'not network'"
+
 [tasks.lint]
 description = "Backend lint only (ruff check)"
 run = "uv run ruff check ."
