@@ -778,10 +778,11 @@ def render_report(*, settings: Settings | None = None, live: bool = False) -> st
             f"{r.scenario.consumptive_fraction.value:g} | {_ev(r.consumptive_loss)} |"
         )
     if delta.multiple_of_7q10 is not None:
+        rw = delta.receiving_water_name or "receiving water"
         w(
             f"\nBuildout adds **{delta.consumptive_increase_cfs:,.2f} cfs** of net consumptive "
-            f"draw — **{delta.multiple_of_7q10:g}x** the Ottawa River's cited 7Q10 "
-            f"({delta.ottawa_7q10_cfs:g} cfs). At design low flow the Ottawa nearly dries "
+            f"draw — **{delta.multiple_of_7q10:g}x** the {rw}'s cited 7Q10 "
+            f"({delta.receiving_7q10_cfs:g} cfs). At design low flow the {rw} nearly dries "
             f"(1Q10 = 0 cfs); a data center's cooling draw competes for water the river\n"
             f"does not have — even the low estimate is tens of times the 7Q10.\n"
         )

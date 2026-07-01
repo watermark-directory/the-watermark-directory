@@ -40,7 +40,8 @@ def test_diff_against_ottawa_7q10(hydro_settings: Settings) -> None:
     )
     assert base.consumptive_loss.value == 0.0
     assert delta.consumptive_increase_cfs == pytest.approx(6.188, abs=0.01)
-    assert delta.ottawa_7q10_cfs == pytest.approx(0.2)
+    assert delta.receiving_7q10_cfs == pytest.approx(0.2)
+    assert delta.receiving_water_name == "Ottawa River"
     assert delta.multiple_of_7q10 == pytest.approx(30.9, abs=0.2)  # the headline
 
 

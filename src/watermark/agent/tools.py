@@ -429,14 +429,15 @@ async def hydrology_scenario(_args: dict[str, Any]) -> dict[str, Any]:
         f"-> {build.consumptive_loss.value:.2f} cfs net basin loss",
         f"net new consumptive draw: {delta.consumptive_increase_cfs:.2f} cfs",
     ]
+    rw = delta.receiving_water_name or "receiving water"
     if delta.multiple_of_7q10 is not None:
         lines.append(
-            f"= {delta.multiple_of_7q10:g}x the Ottawa River 7Q10 ({delta.ottawa_7q10_cfs:g} cfs, cited)"
+            f"= {delta.multiple_of_7q10:g}x the {rw} 7Q10 ({delta.receiving_7q10_cfs:g} cfs, cited)"
         )
     if build.ottawa_live is not None:
-        lines.append(f"Ottawa live flow: {build.ottawa_live.value:.0f} cfs")
+        lines.append(f"{rw} live flow: {build.ottawa_live.value:.0f} cfs")
     lines.append(
-        "\n(Cooling knobs are assumptions; Ottawa 7Q10 is document-cited. Tier-0 screening.)"
+        f"\n(Cooling knobs are assumptions; {rw} 7Q10 is document-cited. Tier-0 screening.)"
     )
     return _scoped("\n".join(lines))
 

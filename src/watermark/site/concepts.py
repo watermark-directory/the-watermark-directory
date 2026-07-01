@@ -45,6 +45,7 @@ class ConceptFrontmatter(BaseModel):
     tags: list[str] = Field(default_factory=list)
     summary: str = ""
     related: list[str] = Field(default_factory=list)  # sibling concept slugs
+    sites: list[str] = Field(default_factory=list)  # if non-empty, only include for these sites
 
 
 def parse_concept(path: Path) -> ConceptItem:
@@ -64,8 +65,12 @@ def parse_concept(path: Path) -> ConceptItem:
     )
 
 
-def load_concepts(concepts_dir: Path) -> list[ConceptItem]:
-    """Load every ``*.md`` concept under ``concepts_dir`` (README excluded), by title.
+def load_concepts(concepts_dir: Path, *, site: str | None = None) -> list[ConceptItem]:
+    """Load ``*.md`` concepts under ``concepts_dir`` (README excluded), sorted by title.
+
+    When ``site`` is provided, concepts whose frontmatter carries a non-empty
+    ``sites:`` list are only included if the active site slug is in that list —
+    so Lima-specific concepts don't bleed into other sites' feeds.
 
     A concept that fails to parse/validate is logged and skipped — the store is
     curated by hand, so one bad file shouldn't take down the site build.
@@ -77,6 +82,11 @@ def load_concepts(concepts_dir: Path) -> list[ConceptItem]:
         if path.name.upper() == "README.MD":
             continue
         try:
+            header, _ = split_frontmatter(path.read_text(encoding="utf-8"))
+            data = yaml.safe_load(header) or {}
+            sites_filter: list[str] = data.get("sites") or []
+            if sites_filter and (site is None or site not in sites_filter):
+                continue  # site-tagged concept; skip for this site
             concepts.append(parse_concept(path))
         except Exception as exc:  # one malformed concept must not kill the load
             log.warning("concepts.parse_failed", path=str(path), error=str(exc).splitlines()[0])

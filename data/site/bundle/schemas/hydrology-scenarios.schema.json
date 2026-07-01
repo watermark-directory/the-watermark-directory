@@ -34,6 +34,18 @@
         ],
         "default": null
       },
+      "receiving_water_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Receiving Water Name"
+      },
       "balance": {
         "$ref": "#/$defs/WaterBalance"
       },

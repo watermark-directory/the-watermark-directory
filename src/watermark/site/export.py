@@ -310,7 +310,9 @@ def _collect_feeds(settings: Settings) -> list[_Feed]:
     # site-scopes itself; meetings are extracted-tree-scoped like the corpus. `concepts` (the wiki
     # glossary) and `defense` (the national contractor seed list) are network-shared — left flat.
     people = load_people(site_scoped_path(settings.people_dir, settings.site, is_dir=True))
-    concepts = concepts_mod.load_concepts(settings.concepts_dir)  # wiki glossary (#68)
+    concepts = concepts_mod.load_concepts(
+        settings.concepts_dir, site=settings.site
+    )  # wiki glossary (#68)
     pois = load_pois(settings=settings)
     summaries = load_committed_summaries(settings, scope=corpus_scope)
     cand_inv = load_cloud_consumer_candidates(

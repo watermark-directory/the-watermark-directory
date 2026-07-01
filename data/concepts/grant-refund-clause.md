@@ -5,6 +5,7 @@ aliases: [overpayment amount, RDA section 5.5]
 tags: [legal, economics, public-finance]
 summary: RDA §5.5 — public grant awards (State 629 / ODOD Jobs & Commerce) can backfill and refund the developer's "private" road-work contribution, dollar for dollar.
 related: [roadwork-development-agreement, public-records-mandamus]
+sites: [lima]
 ---
 
 The **grant-refund clause** is §5.5 of the [[roadwork development agreement]],
