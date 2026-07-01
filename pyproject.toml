@@ -50,6 +50,7 @@ dev = [
     "pytest-xdist>=3.6",  # intra-runner parallelism (-n auto)
     "pytest-split>=0.9",  # cross-runner sharding (--splits/--group), CI matrix
     "pytest-asyncio>=0.23",
+    "pytest-icdiff>=0.9",  # colored side-by-side diffs for dict/model failures
     "jsonschema>=4.0",  # validates emitted bundle feeds against their JSON Schemas
     "types-PyYAML>=6.0",
     "types-jsonschema>=4.0",

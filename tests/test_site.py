@@ -59,18 +59,23 @@ def test_corpus_feeds_are_site_scoped_not_lima_bound() -> None:
     fw_corpus = load_corpus(fw)
     fw_rels = [rel for group in vars(fw_corpus).values() for rel, _ in group]
     assert fw_rels, "expected Fort Wayne to have at least one in-scope extraction"
-    assert all(r.startswith("fort-wayne/") or r.startswith("idem/fort-wayne/") for r in fw_rels), (
-        fw_rels
-    )
+    bad_rels = [
+        r for r in fw_rels if not (r.startswith("fort-wayne/") or r.startswith("idem/fort-wayne/"))
+    ]
+    assert not bad_rels, f"out-of-scope rels in Fort Wayne corpus: {bad_rels}"
 
     # Lima (scope None) keeps reading the whole tree — strictly larger than Fort Wayne's slice.
     assert len(load_corpus(lima)) > len(fw_corpus)
 
     # The `records` feed reads the extracted tree separately; it honors the same scope.
     fw_records = load_records(fw.extracted_dir, scope=active_profile(fw).corpus_relpaths)
-    assert fw_records and all(
-        r.rel.startswith("fort-wayne/") or r.rel.startswith("idem/fort-wayne/") for r in fw_records
-    ), [r.rel for r in fw_records]
+    assert fw_records, "expected Fort Wayne to have at least one in-scope record"
+    bad_records = [
+        r.rel
+        for r in fw_records
+        if not (r.rel.startswith("fort-wayne/") or r.rel.startswith("idem/fort-wayne/"))
+    ]
+    assert not bad_records, f"out-of-scope records in Fort Wayne slice: {bad_records}"
 
 
 def test_site_scoped_path_is_flat_for_lima_subdir_for_others() -> None:
@@ -146,9 +151,18 @@ def test_gis_findings_geojson_is_valid() -> None:
     fc = json.loads(path.read_text(encoding="utf-8"))
     assert fc["type"] == "FeatureCollection"
     layers = {f["properties"]["layer"] for f in fc["features"]}
-    assert {"campus", "jsmc", "wwtp", "floodway", "floodplain", "rsei"} <= layers
-    # The corridor view layers it in: a study-area polygon + the roadwork road centerline.
-    assert {"corridor", "roadwork"} <= layers
+    required_layers = {
+        "campus",
+        "jsmc",
+        "wwtp",
+        "floodway",
+        "floodplain",
+        "rsei",
+        "corridor",
+        "roadwork",
+    }
+    missing_layers = required_layers - layers
+    assert not missing_layers, f"missing GIS layers: {missing_layers}; got: {layers}"
     # Every feature has non-empty geometry (polygons for areas, points for WWTPs/RSEI,
     # a line for the corridor roadwork centerline).
     for f in fc["features"]:
@@ -163,8 +177,14 @@ def test_gis_findings_geojson_is_valid() -> None:
     # RSEI points carry a graduated radius + score for the sized overlay markers.
     rsei = [f for f in fc["features"] if f["properties"]["layer"] == "rsei"]
     assert len(rsei) >= 40
-    assert all(f["geometry"]["type"] == "Point" for f in rsei)
-    assert all("radius" in f["properties"] and "score" in f["properties"] for f in rsei)
+    bad_geom = [f["properties"].get("label") for f in rsei if f["geometry"]["type"] != "Point"]
+    assert not bad_geom, f"non-Point RSEI features: {bad_geom}"
+    bad_props = [
+        f["properties"].get("label")
+        for f in rsei
+        if "radius" not in f["properties"] or "score" not in f["properties"]
+    ]
+    assert not bad_props, f"RSEI features missing radius/score: {bad_props}"
 
 
 def test_merge_rsei_layer_is_idempotent() -> None:
@@ -210,10 +230,15 @@ def test_merge_rsei_layer_rings_flagged_water_dischargers() -> None:
     fc, _ = merge_rsei_layer(base, inv, screen)
     flagged = [f for f in fc["features"] if f["properties"].get("water_flag")]
     # The three Ottawa-corridor majors plus the one elevated terminal.
-    assert {f["properties"]["water_flag"] for f in flagged} <= {"critical", "elevated"}
+    unexpected_flags = {f["properties"]["water_flag"] for f in flagged} - {"critical", "elevated"}
+    assert not unexpected_flags, f"unexpected water_flag values: {unexpected_flags}"
     assert sum(1 for f in flagged if f["properties"]["water_flag"] == "critical") == 3
     # A ringed feature names its receiving water in the popup label.
-    crit = next(f for f in flagged if f["properties"]["water_flag"] == "critical")
+    crit_list = [f for f in flagged if f["properties"]["water_flag"] == "critical"]
+    assert crit_list, (
+        f"no 'critical' flagged feature; flags: {[f['properties']['water_flag'] for f in flagged]}"
+    )
+    crit = crit_list[0]
     assert "toxic water discharger" in crit["properties"]["label"]
     # Without the screen, no rings.
     plain, _ = merge_rsei_layer({"type": "FeatureCollection", "features": []}, inv)
