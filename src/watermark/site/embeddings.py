@@ -86,6 +86,8 @@ def build_text_units(bundle_dir: Path | str) -> list[_TextUnit]:
     units: list[_TextUnit] = []
 
     for r in _read_feed(feeds, "records"):
+        if not r.get("rel"):
+            continue
         units.append(
             _TextUnit(
                 id=f"records:{r['rel']}",
@@ -117,6 +119,8 @@ def build_text_units(bundle_dir: Path | str) -> list[_TextUnit]:
         )
 
     for c in _read_feed(feeds, "documents"):
+        if not c.get("slug"):
+            continue
         entry_names = " · ".join(x.get("name", "") for x in c.get("entries", []))
         units.append(
             _TextUnit(
@@ -126,6 +130,8 @@ def build_text_units(bundle_dir: Path | str) -> list[_TextUnit]:
         )
 
     for m in _read_feed(feeds, "meetings"):
+        if not m.get("slug"):
+            continue
         units.append(
             _TextUnit(
                 id=f"meetings:{m['slug']}",
@@ -141,6 +147,8 @@ def build_text_units(bundle_dir: Path | str) -> list[_TextUnit]:
         )
 
     for p in _read_feed(feeds, "people"):
+        if not p.get("slug"):
+            continue
         units.append(
             _TextUnit(
                 id=f"people:{p['slug']}",
@@ -156,6 +164,8 @@ def build_text_units(bundle_dir: Path | str) -> list[_TextUnit]:
         )
 
     for p in _read_feed(feeds, "places"):
+        if not p.get("slug"):
+            continue
         units.append(
             _TextUnit(
                 id=f"places:{p['slug']}",
@@ -170,6 +180,8 @@ def build_text_units(bundle_dir: Path | str) -> list[_TextUnit]:
         )
 
     for e in _read_feed(feeds, "entities"):
+        if not e.get("key"):
+            continue
         roles: list[str] = list((e.get("roles") or {}).keys())
         units.append(
             _TextUnit(
@@ -186,6 +198,8 @@ def build_text_units(bundle_dir: Path | str) -> list[_TextUnit]:
         )
 
     for c in _read_feed(feeds, "concepts"):
+        if not c.get("slug"):
+            continue
         units.append(
             _TextUnit(
                 id=f"concepts:{c['slug']}",

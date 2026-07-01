@@ -455,23 +455,6 @@ def export_bundle(
 
     feeds = _collect_feeds(settings)
 
-    # ask-embeddings feed (#329): precompute all-MiniLM-L6-v2 vectors for each ask-index
-    # unit so the Worker can do hybrid BM25 + cosine retrieval.  Always emitted (even
-    # empty) so the schema is written and the contract stays stable; skipping with
-    # --no-embeddings (slow first run — model download ~80 MB) degrades to BM25-only.
-    emb_models: list[AskEmbeddingEntry] = []
-    if not skip_embeddings:
-        try:
-            emb_rows = build_ask_embeddings(out)
-            emb_models = [AskEmbeddingEntry.model_validate(r) for r in emb_rows]
-        except Exception as exc:
-            log.warning(
-                "embeddings.failed",
-                error=str(exc).splitlines()[0],
-                hint="run with --no-embeddings to skip; hybrid retrieval will degrade to BM25",
-            )
-    feeds.append(_collection_feed("ask-embeddings", AskEmbeddingEntry, emb_models))
-
     # Schema files (geo feeds share one file — dedup by schema_file path).
     written_schemas: set[str] = set()
     for feed in feeds:
@@ -505,6 +488,37 @@ def export_bundle(
                 count=feed.count,
             )
         )
+
+    # ask-embeddings feed (#329): generated after the corpus feeds are written to disk so
+    # build_ask_embeddings() reads fresh data, not the previous export's stale files.
+    # Always emitted (empty when skipped) so the schema is stable and manifest stays consistent.
+    emb_models: list[AskEmbeddingEntry] = []
+    if not skip_embeddings:
+        try:
+            emb_rows = build_ask_embeddings(out)
+            emb_models = [AskEmbeddingEntry.model_validate(r) for r in emb_rows]
+        except Exception as exc:
+            log.warning(
+                "embeddings.failed",
+                error=next(iter(str(exc).splitlines()), repr(exc)),
+                hint="run with --no-embeddings to skip; hybrid retrieval will degrade to BM25",
+            )
+    emb_feed = _collection_feed("ask-embeddings", AskEmbeddingEntry, emb_models)
+    if emb_feed.schema_file not in written_schemas:
+        (out / emb_feed.schema_file).write_text(_dump_json(emb_feed.schema), encoding="utf-8")
+    emb_target = out / emb_feed.path
+    emb_target.parent.mkdir(parents=True, exist_ok=True)
+    emb_target.write_text(emb_feed.payload, encoding="utf-8")
+    refs.append(
+        FeedRef(
+            name=emb_feed.name,
+            path=emb_feed.path,
+            media_type=emb_feed.media_type,
+            schema_ref=emb_feed.schema_file,
+            kind=emb_feed.kind,
+            count=emb_feed.count,
+        )
+    )
 
     row_total = sum(r.count for r in refs)
     manifest = Manifest(
