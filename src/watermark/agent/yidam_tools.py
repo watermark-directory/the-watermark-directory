@@ -41,6 +41,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -213,7 +214,7 @@ def query_nodes(
 def open_question_nodes(mirror: Mirror) -> list[MirrorNode]:
     """The still-open nodes — the in-memory peer of ``yidam open-questions``.
 
-    **The predicate is frozen** (`mcp_contract.json`, `open_questions`), and at contract 0.12.0
+    **The predicate is frozen** (`mcp_contract.json`, `open_questions`), and at contract 0.13.0
     it is **three** arms: a node is open when its ``label`` starts with ``?``, when its body
     asserts an ``[open]`` claim, **or** when a property its class declared ``type: claim`` holds
     an open tag — in either spelling. No server may add a fourth, and none may add a blessed key
@@ -333,6 +334,84 @@ def vector_ready(settings: Settings | None = None) -> bool:
     return index_exists(default_index_dir(settings))
 
 
+#: What a server reports as its own commit when git cannot answer — upstream's sentinel, and
+#: upstream's consequence: staleness is a comparison, so a server that cannot name its own
+#: commit reports ``stale: null`` rather than guessing which side moved.
+_UNKNOWN_COMMIT = "unknown"
+
+
+def _repo_commit(settings: Settings | None = None) -> str:
+    """The repository HEAD, short — the ``commit`` half of the `corpus` capability block.
+
+    ``"unknown"`` when git cannot answer (a source tarball, a tree with no history). Read from
+    the repository rather than from the mirror because the mirror is a *projection*: it carries
+    the corpus's content and no record of the revision it was projected from.
+    """
+    settings = settings or get_settings()
+    try:
+        proc = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=settings.data_dir.parent,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return _UNKNOWN_COMMIT
+    head = proc.stdout.strip()
+    return head if proc.returncode == 0 and head else _UNKNOWN_COMMIT
+
+
+def _corpus_capability(settings: Settings | None = None) -> dict[str, Any]:
+    """WHICH corpus this server is serving — every other capability says what it can *do*.
+
+    Added at contract 0.13.0, and **required in full**: *"a client that must test for each key
+    separately cannot tell a thin server from an old one."* It exists because the failure it
+    diagnoses is silent — a server pointed at the wrong place does not fail, it answers every
+    tool with nothing, and `nodes: 0` is the tell. BOSC cannot reach that state (its corpus is
+    projected from committed data, not discovered by walking up from a working directory), which
+    is a reason to answer the block honestly, not a reason to skip it.
+
+    Three of the seven are answered from BOSC's shape rather than from a yidam repository:
+
+    * ``domain`` is the **active site slug**, because that is which corpus this server is
+      serving. The mirror is per-site (``WATERMARK_SITE``), so `lima` and `findlay` are two
+      corpora behind one implementation, and the slug is the only field that tells a client
+      which one answered.
+    * ``skills`` and ``decisions`` are structurally **0**. Those are yidam corpus classes;
+      BOSC's projection emits six classes and neither is among them. Zero is the true count,
+      not a stand-in for one — `.claude/skills/` holds repo-working skills, which are not
+      corpus nodes and must not be counted as though they were.
+    * ``stale`` is the tri-state, and **BOSC reaches all three arms**. Upstream compares the
+      index's recorded commit against the repository's. BOSC's index (`.yidam/index/`) records
+      **no commit at all**, so:
+
+      - no index built → ``false``. Nothing is behind anything, which is upstream's own
+        reading of the absent case and is simply true here.
+      - an index built → ``null``. It may or may not be current and **this server cannot
+        tell**. Reporting ``false`` would be the flattering lie the tri-state exists to
+        prevent; that a client cannot distinguish it from a stale index is the point.
+      - git cannot answer → ``null``, for the ordinary reason.
+    """
+    settings = settings or get_settings()
+    mirror = _mirror(settings)
+    commit = _repo_commit(settings)
+    has_index = index_exists(default_index_dir(settings))
+    # `indexed_commit` is null and stays null: the index carries no such stamp. Null rather
+    # than absent — the contract's convention, so a client testing the key never has to
+    # distinguish "no index" from "a server too old to say".
+    stale: bool | None = None if commit == _UNKNOWN_COMMIT or has_index else False
+    return {
+        "domain": settings.site,
+        "commit": commit,
+        "nodes": len(mirror.nodes),
+        "skills": 0,
+        "decisions": 0,
+        "indexed_commit": None,
+        "stale": stale,
+    }
+
+
 # --- absence, rejection, and why a search was degraded ----------------------------------------
 # Three fields the contract added at 0.4.0, and each answers a question the previous shape made
 # unanswerable. They are constants rather than literals at each return so the vocabulary cannot
@@ -409,6 +488,10 @@ def capabilities(settings: Settings | None = None) -> dict[str, Any]:
         # rather than absent is that a client testing the key must not have to distinguish
         # "not degraded" from "a server too old to say why".
         "retrieve": {"vector": vector, "reason": None if vector else _NO_INDEX},
+        # WHICH corpus, as opposed to what this server can do — required in full at contract
+        # 0.13.0. Dynamic like `retrieve`, and for the same reason: node count and index state
+        # are facts about the corpus now, not about the build. See :func:`_corpus_capability`.
+        "corpus": _corpus_capability(settings),
         **_STATIC_CAPABILITIES,
     }
 
@@ -546,6 +629,11 @@ async def retrieve(args: dict[str, Any]) -> dict[str, Any]:
             by_id = {n.id: n for n in mirror.nodes}
             results = [
                 {
+                    # The handle between the two tools: `retrieve` finds, `get_node` reads, and
+                    # a result carrying no id is one a caller cannot follow (contract 0.13.0,
+                    # upstream #425). Both arms must agree on the shape — the vendored cases can
+                    # only reach the keyword one, so the vector arm is graded locally instead.
+                    "id": hit.node_id,
                     "path": node_path(hit.node_id),
                     "class": hit.node_class,
                     "label": hit.label,
@@ -609,6 +697,9 @@ def _keyword_results(
     scored.sort(key=lambda s: (-s[0], s[1].id))
     return [
         {
+            # See the vector arm: the id is the handle `get_node` takes, and the two arms
+            # return one shape or the server is non-conforming whichever one answered.
+            "id": node.id,
             "path": node_path(node.id),
             "class": node.node_class,
             "label": node.label,

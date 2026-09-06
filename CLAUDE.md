@@ -110,8 +110,18 @@ questions where the binary saw 2, and nothing could detect the gap.
 - **Run:** `mise run yidam-reports`. Locally the binary is *optional* — `watermark corpus-mirror`
   projects and says so when it cannot report. CI installs it and **gates** (the `corpus` job).
 - **The pin is `.yidam.toml`**, on upstream's schema (`origin`/`commit`/`template`/`committed`;
-  the old `cli`/`cli_ref` names are dead and fail `yidam-build`), currently **`cli/v0.8.0`**.
+  the old `cli`/`cli_ref` names are dead and fail `yidam-build`), currently **`cli/v0.10.0`**.
   `mise run yidam-vendor-status` reports drift — a report, never a gate.
+  **At a re-pin, read upstream's `docs/upgrading.md` first.** It is the one file that records
+  what stops working without anyone having changed it, and it is filed per tag — cheaper and
+  more reliable than re-deriving the delta from the commit log. Then *measure*: build the
+  candidate out-of-tree (so `.yidam/bin` stays at the pin, since `usable()` compares the two and
+  an un-rebuilt binary makes the graph-export conformance tests **skip silently**) and run it
+  over the live mirror. Upstream's notes are written for every derived repo, not this one — at
+  the v0.10.0 re-pin four of its five applied to nobody here, and its headline (`node-too-long`
+  re-bless) would have **loosened this baseline for nothing**: the check counts `.md` prose and
+  BOSC's mirror nodes are YAML, so it reports zero at both pins. Blessing on advice rather than
+  on a measurement is how a ratchet quietly stops ratcheting.
 - ⚠️ **`[build] features` is the one part of that file BOSC writes, and it is load-bearing.**
   It declares what this repo's gates need beyond the released default set — today
   `export-graph`, which makes `export --format rdf` available. Its absence is **silent**: the
@@ -150,9 +160,12 @@ questions where the binary saw 2, and nothing could detect the gap.
   back in the export path. Their fidelity is enforced instead — CI runs the real binary over the
   same mirror and compares structurally (#2053). **Never "fix" a divergence by changing the
   expectation**; the renderers must agree, or the difference must be a deliberate, recorded
-  decision. Re-measured at the `cli/v0.8.0` re-pin: RDF subject IRIs, the `yidam:` predicate
-  vocabulary, and GraphML nodes / edges / key schema are all identical to the previous pin's.
-- **The MCP surface implements the frozen tool contract** (RFC-0005) at **0.12.0**, vendored as
+  decision. Re-measured at the `cli/v0.10.0` re-pin: RDF subject IRIs, the `yidam:` predicate
+  vocabulary, and GraphML nodes / edges / key schema are all identical to the previous pin's
+  (GraphML byte-identical; the Turtle byte diff is statement/prefix ORDER only, which is why
+  the check is structural — `diff` on these files fails on serialization and teaches everyone
+  to ignore it).
+- **The MCP surface implements the frozen tool contract** (RFC-0005) at **0.13.0**, vendored as
   `src/watermark/agent/mcp_contract.json` and re-vendored with `mise run yidam-contract-sync`
   (which also vendors `commit_vocabulary.json`, the closed commit list `check_subject` serves);
   CI proves both copies match the pin. Tool names, descriptions and schemas come **from that

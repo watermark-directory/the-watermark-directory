@@ -360,7 +360,7 @@ cp "$src/VERSION" tests/fixtures/yidam-mcp/VERSION
 rm -rf tests/fixtures/yidam-mcp/cases
 cp -R "$src/cases" tests/fixtures/yidam-mcp/cases
 
-# The closed commit vocabulary, for the `check_subject` tool (contract 0.12.0). Vendored for
+# The closed commit vocabulary, for the `check_subject` tool (contract 0.13.0). Vendored for
 # the same reason the contract is: BOSC has no yidam tree, and `check_subject` must answer
 # offline — the research agent runs with no binary on PATH.
 #

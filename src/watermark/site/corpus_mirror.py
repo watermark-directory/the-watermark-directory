@@ -611,7 +611,7 @@ def _claim_token(tag: str | None) -> str | None:
     `goedelsoup/yidam` `6aaf18e`) — so ``yidam open-questions`` would find a bare ``open``,
     while the frozen MCP ``open_questions`` predicate was two arms and forbade that extension by
     name. Filed from here as goedelsoup/yidam#127; upstream resolved it by **widening the
-    contract rather than narrowing the CLI**, and at contract 0.12.0 the predicate is three arms
+    contract rather than narrowing the CLI**, and at contract 0.13.0 the predicate is three arms
     reading both spellings. Its note names this corpus by measurement: *"the corpus that
     measured 26 open questions against this tool's 2, and reshaped its data to `[open]` to be
     seen at all."*

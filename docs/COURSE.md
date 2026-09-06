@@ -287,7 +287,7 @@ data-center demand → county/Lima WWTPs → Ottawa River** — and the binding 
 is the Ottawa's (and its tributaries') **low flow**. We bring over Periplus's *Tier-0
 design idea* (SCS-CN + mass-balance) as document-grounded Python, not its solver/GIS
 stack. Every numeric input is a `ProvenancedValue` tagged `document|connector|
-assumption|derived`. (`watermark.hydrology`, see [the plan](../../.claude/plans/splendid-roaming-peacock.md).)
+assumption|derived`. (`watermark.hydrology`, see [HYDROLOGY.md](HYDROLOGY.md).)
 
 8. **Water-balance spine + low-flow assimilative screen.** `[done]` — Increment 1.
    `watermark hydro` (+ agent `hydrology_balance` tool) assembles the WWTP discharges (cited
