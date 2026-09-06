@@ -39,7 +39,7 @@ Wraps the Claude Agent SDK and the Anthropic Messages API. Defers to the root
     `tier1_swmm`) still return a `_reference_only(...)` notice off-home — tracked in #900.
 - `yidam_tools.py` — a **second** in-process SDK MCP server (`yidam`, namespace
   `mcp__yidam__*`), implementing the **frozen MCP tool contract** (RFC-0005), vendored beside it
-  as `mcp_contract.json` (**contract 0.12.0**). The contract lists **13** tools across four
+  as `mcp_contract.json` (**contract 0.13.0**). The contract lists **13** tools across four
   tiers; BOSC serves **12** — the seven `core` ones (`retrieve` / `get_node` / `list_nodes` /
   `open_questions` / `claims` / `check_subject` / `claim_tags`), `neighbors` (`graph`), and
   `query` / `pack` / `estimate` / `licensed_edges` (`ontology`, since #2132). Descriptions and input schemas are **read from that file**, and the served list is
@@ -77,8 +77,18 @@ Wraps the Claude Agent SDK and the Anthropic Messages API. Defers to the root
   the one **this repository reported missing** (goedelsoup/yidam#127, settled by widening the
   contract); and `claims` **serves the tag or serves nothing** — there is no untagged arm, and
   `total` is always the count before `k`. `capabilities()` declares what BOSC backs (`graph`
-  yes; `phases`/`sangha` no — they need a working yidam repo; `resources` no — SDK servers
-  register tools only; `ontology`/`dependencies` no — see above). It serves
+  yes; `ontology` yes since #2132 — see above; `phases`/`sangha` no — they need a working yidam
+  repo; `resources` no — SDK servers register tools only; `dependencies` no — BOSC pins no
+  tonpa dependency). At **contract 0.13.0** it also carries **`corpus`**, which answers *which*
+  corpus is being served rather than what the server can do — `domain` (the active site slug,
+  the only field distinguishing `lima`'s corpus from `findlay`'s), `commit`, `nodes`, `skills`,
+  `decisions`, `indexed_commit`, `stale`. **Required in full**, so it is written as one block
+  and asserted as an exact key set. `skills`/`decisions` are structurally **0** (neither is a
+  class this projection emits — `.claude/skills/` holds repo-working skills, which are not
+  corpus nodes). `indexed_commit` is always null because the index records no such stamp, which
+  makes `stale` tri-state in earnest: **false** with no index (nothing is behind anything),
+  **null** once one exists, because this server then genuinely cannot tell. ⚠️ **No vendored
+  case grades any of this** — cases are per-tool and a capability is not a tool. It serves
   the corpus mirror (`watermark.site.corpus_mirror`, Epic #1560) built **in-memory** for the
   active site (offline read of
   committed corpus, cached per turn) rather than reading the git-ignored `.yidam/corpus/` tree,

@@ -62,7 +62,7 @@ def _cases() -> list[tuple[str, dict[str, Any]]]:
 
 # --- the contract itself ---------------------------------------------------------------------
 def test_the_vendored_contract_is_the_one_this_server_was_written_against() -> None:
-    assert yidam_tools.contract()["contract"] == "0.12.0"
+    assert yidam_tools.contract()["contract"] == "0.13.0"
     assert (Path(__file__).parent / "fixtures" / "yidam-mcp" / "VERSION").read_text().strip() == (
         yidam_tools.contract()["contract"]
     )
@@ -102,6 +102,58 @@ def test_capabilities_are_declared_honestly() -> None:
     assert (caps["retrieve"]["reason"] is None) is caps["retrieve"]["vector"]
 
 
+def test_the_corpus_block_is_complete_and_says_which_corpus_answered() -> None:
+    """Contract 0.13.0's one addition — and **no vendored case can grade it.**
+
+    The cases are per-tool and a capability is not a tool, so the whole 0.13.0 delta is
+    invisible to the fixture suite. That is the same shape as the bug the v0.8.0 review caught
+    (`retrieve` hardcoding `degraded: true`, which upstream's index-less corpus could not
+    distinguish from the right answer): **passing the vendored cases is not coverage.**
+
+    `nodes` is the field the block exists for — a server pointed at the wrong place answers
+    every tool with nothing, and `nodes: 0` is the tell.
+    """
+    caps = yidam_tools.capabilities()
+    corpus = caps["corpus"]
+    # Required IN FULL: a client testing each key separately cannot tell a thin server from an
+    # old one, which is the ambiguity the block closes. So: exact key set, not a superset.
+    assert set(corpus) == {
+        "domain",
+        "commit",
+        "nodes",
+        "skills",
+        "decisions",
+        "indexed_commit",
+        "stale",
+    }
+    # WHICH corpus. The mirror is per-site, so `lima` and `findlay` are two corpora behind one
+    # implementation and this is the only field that says which one answered. Compared against
+    # the site the `_lima` fixture pins, NOT `Settings().site` — a bare construction reads the
+    # ambient `.env` through pydantic's `env_file` and would drift with the developer's shell.
+    assert corpus["domain"] == "lima"
+    assert isinstance(corpus["commit"], str) and corpus["commit"]
+    assert corpus["nodes"] == len(yidam_tools._mirror().nodes) > 0
+    # Structurally zero, not "not looked up": neither is a class this projection emits. The six
+    # repo-working skills under `.claude/skills/` are not corpus nodes and must not be counted
+    # as though they were.
+    assert corpus["skills"] == 0 and corpus["decisions"] == 0
+
+
+def test_stale_is_never_true_while_the_index_records_no_commit() -> None:
+    """The tri-state's third arm, which is the one a projected mirror actually needs.
+
+    BOSC's index carries no `indexed_commit` stamp, so staleness is a comparison missing a
+    side. `false` is honest only when there is no index — nothing is behind anything. The
+    moment one exists this server **cannot tell**, and `null` is the answer; `false` there
+    would be the flattering lie the tri-state was made tri to prevent.
+    """
+    corpus = yidam_tools.capabilities()["corpus"]
+    assert corpus["indexed_commit"] is None
+    # True would assert the index is behind a commit nothing recorded.
+    assert corpus["stale"] is not True
+    assert corpus["stale"] is (None if yidam_tools.vector_ready() else False)
+
+
 def test_every_core_tool_in_the_contract_has_a_handler() -> None:
     """The guarantee the derived list exists for, asserted rather than inferred.
 
@@ -126,7 +178,11 @@ async def test_upstream_case_shape(case_id: str, case: dict[str, Any]) -> None:
     """Every case's *shape* assertions, over BOSC's real corpus."""
     tool = case["tool"]
     why = case["why"]
-    if (cap := case.get("capability")) and not yidam_tools.capabilities().get(cap):
+    # Asked through the SERVED LIST, not `capabilities()`. Same question — a tool is served
+    # exactly when its tier is backed — but derived from the contract at import time, so a case
+    # this server skips does not first pay to build the mirror that `corpus.nodes` needs
+    # (contract 0.13.0 made the capability block a runtime read of the corpus).
+    if (cap := case.get("capability")) and tool not in yidam_tools.served_tool_names():
         pytest.skip(f"this server does not declare `{cap}`")
 
     call = dict(case["call"])
@@ -222,6 +278,53 @@ async def test_retrieve_reports_degraded_true_without_a_built_index() -> None:
     assert body["degraded"] is True
 
 
+async def test_both_retrieve_arms_carry_the_id_that_get_node_takes(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """`retrieve` finds and `get_node` reads; `id` is the handle between them (contract 0.13.0).
+
+    **The vendored cases can only reach the keyword arm.** Upstream's fixture corpus has no
+    vector index, so `retrieve/keyword-degraded.json` — the case that added `id` to the frozen
+    field list — grades one of two code paths, and a server whose arms disagree about the shape
+    is non-conforming whichever one happened to answer. So the vector arm is graded here, over a
+    stubbed index rather than a real embedding backend: the claim under test is the result
+    shape, and a model load would make it a slow test of something else.
+    """
+    from watermark.site.yidam_index import YidamHit
+
+    body = await _call("retrieve", {"query": "water"})
+    assert body["results"], "the Lima mirror should match a query for 'water'"
+    keyword_shape = {frozenset(hit) for hit in body["results"]}
+    for hit in body["results"]:
+        assert hit["id"], "a result with no id is one the caller cannot follow"
+        # The id must be what `get_node` takes, not merely present.
+        assert (await _call("get_node", {"id": hit["id"]}))["id"] == hit["id"]
+
+    node = yidam_tools._mirror().nodes[0]
+    hit = YidamHit(
+        node_id=node.id,
+        node_class=node.node_class,
+        name=node.id.split("/", 1)[-1],
+        label=node.label,
+        description=node.description,
+        score=0.5,
+    )
+
+    class _StubIndex:
+        def query(self, *_args: Any, **_kwargs: Any) -> list[YidamHit]:
+            return [hit]
+
+    monkeypatch.setattr(yidam_tools, "vector_ready", lambda *a, **k: True)
+    monkeypatch.setattr(yidam_tools, "_index", lambda *a, **k: _StubIndex())
+    vector_body = await _call("retrieve", {"query": "water"})
+
+    assert vector_body["degraded"] is False
+    assert {frozenset(h) for h in vector_body["results"]} == keyword_shape, (
+        "the two arms return different result shapes; only the keyword one is graded upstream"
+    )
+    assert vector_body["results"][0]["id"] == node.id
+
+
 async def test_get_node_returns_the_unified_model_not_a_yaml_render() -> None:
     body = await _call("get_node", {"id": "hypothesis/water"})
     assert set(body) >= {"id", "class", "label", "description", "content", "links"}
@@ -284,7 +387,7 @@ async def test_neighbors_reports_each_node_once_at_its_shortest_hop() -> None:
 async def test_open_questions_predicate_is_frozen_at_three_arms() -> None:
     """No server may add a fourth arm, and none may skip one.
 
-    Three at contract 0.12.0 — a `?` label, an `[open]` claim in the body, and an open tag in a
+    Three at contract 0.13.0 — a `?` label, an `[open]` claim in the body, and an open tag in a
     property the class declared `type: claim`. The third is the arm this repository reported as
     missing (goedelsoup/yidam#127) and upstream added; it reads both spellings.
 

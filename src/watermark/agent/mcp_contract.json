@@ -1,8 +1,20 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "contract": "0.12.0",
+  "contract": "0.13.0",
   "description": "The frozen MCP tool contract (RFC-0005). Names are bare — no `yidam_` prefix — because the server is already namespaced by its own name in every client that mounts one. `tier` is `core` (every server MUST back it) or a capability name (backed iff the server declares that capability true). This file is the only place the list lives; a harness that restates it is a second freeze, which is how three servers ended up sharing one name out of five capabilities. A TOOL A SERVER DOES NOT BACK MUST REFUSE, NOT MERELY GO UNLISTED (contract 0.11.1). Omitting an unbacked tool from `tools/list` and dispatching it anyway re-opens the hole the capability block exists to close, from the other side: the block is what lets a client learn the holes at connect time rather than through a tool-not-found error, and a server that answers a tool it has just said it does not serve has told a client two things at once. The refusal is an MCP tool error (`isError: true`) whose text begins `capability-not-supported`, and that token is frozen — `unknown tool` is a different repair, and a caller told it will go hunting for a spelling mistake in a name this file froze. It was unenforceable until a fixture corpus existed on which some tier goes unbacked; `corpora.json` ships one.",
   "capabilities": {
+    "corpus": {
+      "description": "WHICH CORPUS this server is serving, as opposed to what it can do — every other key here answers the second question and none answered the first (contract 0.13.0). Required, and required in full: a client that must test for each key separately cannot tell a thin server from an old one, which is the ambiguity this block exists to close.\n\nIt had no home in the protocol at all. The Rust server printed it as a startup banner on stderr, `docs/mcp-server.md` §5 tells a reader to check it FIRST when the server answers nothing, and over HTTP there is no stderr reaching the client because the server is on another machine. The failure it diagnoses gets MORE likely with a remote deployment, not less: `serve` finds its corpus by walking up from wherever the process started, and a server launched from the wrong directory does not fail — it answers every tool with nothing. From the client side that is indistinguishable from an empty corpus, and `nodes: 0` is the tell.\n\n`stale` IS A TRI-STATE AND THE THIRD STATE IS REQUIRED. `true` when the index was built at a commit other than the current one; `false` when it was not — which covers both *the index is current* and *there is no index*, since neither is behind anything and `indexed_commit` is what tells those apart; `null` when the server CANNOT TELL, which is a projected mirror's honest answer because it carries no working git repository to read a HEAD from. Null rather than absent, the convention `degraded_reason` and `origin` already follow: a client testing the key must not have to distinguish \"not stale\" from \"a server too old to say\".\n\n`commit` and `indexed_commit` are whatever short form the server's repository uses, compared only against each other and never parsed. `indexed_commit` is null when no index exists. A server that renders this as a resource as well — `yidam://graph/summary` — MUST render the same answer: two renderings of one fact, not two facts.",
+      "shape": {
+        "domain": "string",
+        "commit": "string",
+        "nodes": "integer",
+        "skills": "integer",
+        "decisions": "integer",
+        "indexed_commit": "string|null",
+        "stale": "boolean|null"
+      }
+    },
     "retrieve": {
       "description": "Not a tier — `retrieve` is core either way. `vector: false` says the index is absent or unloadable, which is the same fact `degraded` reports per call; a server declaring it is promising every `retrieve` comes back degraded. `reason` carries the same value `degraded_reason` will carry on every call, so a client learns at connect time what it would otherwise learn one failed search later; it is null exactly when `vector` is true.",
       "shape": {
