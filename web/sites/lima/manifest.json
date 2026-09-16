@@ -2,9 +2,9 @@
   "site": "lima",
   "bundle_version": "1.0.0",
   "contract_version": "2.4.0",
-  "generated_at": "2026-09-05T14:52:17+00:00",
+  "generated_at": "2026-09-16T14:36:59+00:00",
   "feed_count": 56,
-  "row_total": 4922,
+  "row_total": 4933,
   "readiness": {
     "tier": "reference",
     "domains": {
@@ -29,7 +29,7 @@
       "media_type": "application/json",
       "schema": "schemas/records.schema.json",
       "kind": "collection",
-      "count": 163
+      "count": 164
     },
     {
       "name": "timeline",
@@ -325,7 +325,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 203
+      "count": 205
     },
     {
       "name": "geo/campus",
@@ -445,7 +445,7 @@
       "media_type": "application/json",
       "schema": "schemas/corpus-index.schema.json",
       "kind": "collection",
-      "count": 489
+      "count": 493
     },
     {
       "name": "corpus-nodes",
@@ -453,7 +453,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/corpus-nodes.schema.json",
       "kind": "collection",
-      "count": 489
+      "count": 493
     },
     {
       "name": "ask-embeddings",

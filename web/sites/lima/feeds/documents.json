@@ -43371,6 +43371,36 @@
     "description": "",
     "entries": [
       {
+        "rel": "lima/council/Meetings359Agenda_20260910134040666.pdf",
+        "name": "Meetings359Agenda_20260910134040666.pdf",
+        "size_bytes": 277068,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
+      },
+      {
+        "rel": "lima/council/Meetings359Packet_20260910141403791.pdf",
+        "name": "Meetings359Packet_20260910141403791.pdf",
+        "size_bytes": 7141761,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
+      },
+      {
         "rel": "lima/meetings/01_2026_02_13_Agenda.pdf",
         "name": "01_2026_02_13_Agenda.pdf",
         "size_bytes": 245949,

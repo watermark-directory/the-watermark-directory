@@ -1,4 +1,4 @@
-reconciled_at: '2026-09-05T13:09:38.314434+00:00'
+reconciled_at: '2026-09-16T14:34:16.881550+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -324,10 +324,10 @@ entries:
     site_scope: basin-shared
   data-centers:
     exists: true
-    sha256: 02d09fa6183e64b49bec8aeaa37ee3ec939d7e4bef65266975b07bdf5ee5f327
-    size_bytes: 388689
+    sha256: 52b4412f98908c3b71345ea83e8e7e44f62b9d146c976f0870abfd146f58eac3
+    size_bytes: 419748
     lfs_materialized: true
-    file_count: 14
+    file_count: 15
     missing: []
     asof: null
     stale: false
@@ -361,6 +361,14 @@ entries:
         exists: true
         sha256: 31a161451e7635dc44bb00bb24db867f74979b8ffd2e096e82605d90176d680f
         size_bytes: 11603
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      lima:
+        exists: true
+        sha256: fdc1718c94e3c9bcfa1138160199909d4f0d7229021f8c8b6f6de1edbd8c788f
+        size_bytes: 31059
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -455,6 +463,16 @@ entries:
     asof: null
     stale: false
     site_scope: site:hamilton-middletown
+  data-centers-lima:
+    exists: true
+    sha256: 94c1af7d1be46b40f9fdde358c17bf396c65856097cb1f5546d305ead14875f9
+    size_bytes: 37585
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:lima
   data-centers-ottawa:
     exists: true
     sha256: 6df23f08a8327e3f3fd965902d2066e26d26fe8be8754c7bdbb1f1719d97a092
@@ -2349,6 +2367,16 @@ entries:
     size_bytes: 4312
     lfs_materialized: true
     file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:lima
+  lima-council-instruments:
+    exists: true
+    sha256: dd24b151c2608ce7e511c3620a0b989f399d79af91b5f025376513555389497a
+    size_bytes: 34819
+    lfs_materialized: true
+    file_count: 2
     missing: []
     asof: null
     stale: false

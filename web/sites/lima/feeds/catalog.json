@@ -1092,16 +1092,16 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "fdc1718c94e3c9bcfa1138160199909d4f0d7229021f8c8b6f6de1edbd8c788f",
+      "size_bytes": 31059,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
     "observed_network": {
-      "sites_present": 14,
+      "sites_present": 15,
       "sites_total": 26
     },
     "citation": {
@@ -1164,6 +1164,66 @@
     "observed_network": null,
     "citation": {
       "source": "Data Center Dynamics; Journal-News (CRA/tax filing); WVXU; WCPO; Duke Energy Ohio Woodsdale 345-kV transmission project page; City of Trenton water/sewer pages; Butler County wastewater (LeSourdsville WRF); stopohiodatacenters.org (advocacy, leads only)",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-lima",
+    "title": "Lima / Allen County, OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "lima",
+    "status": "reviewed",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "`watermark --site lima sweep data-centers` (2026-09-16), then a full hand pass against the committed extractions. The sweep's draft was NOT committed as written: it emitted its own chat summary into the register file rather than a register, and three of its figures were corrected against the instruments that own them — the genset count (\"114/115\" -> 115 = 114 data-hall + 1 HUBGEN, per the final PTI), the cooling range (3.14 -> 3.1 MGD low, per watermark.hydrology.cooling.derive_cooling_basis) and the moratorium's date and standing (\"enacted 2026-09-15\" -> INTRODUCED 2026-09-14, passage [open]). Every figure in the committed register points at the extraction that owns it; none is re-derived here.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:lima",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "i75-corridor",
+      "allen-county-oh",
+      "lima",
+      "american-township",
+      "google",
+      "bistrozzi",
+      "moratorium",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/lima/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/lima/data-centers.candidates.yaml",
+        "media_type": "application/yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "94c1af7d1be46b40f9fdde358c17bf396c65856097cb1f5546d305ead14875f9",
+      "size_bytes": 37585,
+      "lfs_materialized": true,
+      "file_count": 2,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "`watermark --site lima sweep data-centers` (2026-09-16), then a full hand pass against the committed extractions. The sweep's draft was NOT committed as written: it emitted its own chat summary into the register file rather than a register, and three of its figures were corrected against the instruments that own them — the genset count (\"114/115\" -> 115 = 114 data-hall + 1 HUBGEN, per the final PTI), the cooling range (3.14 -> 3.1 MGD low, per watermark.hydrology.cooling.derive_cooling_basis) and the moratorium's date and standing (\"enacted 2026-09-15\" -> INTRODUCED 2026-09-14, passage [open]). Every figure in the committed register points at the extraction that owns it; none is re-derived here.",
       "source_kind": "reference",
       "page": null,
       "pages": null,
@@ -3869,6 +3929,68 @@
       "confidence": "medium",
       "note": null,
       "verified": true
+    }
+  },
+  {
+    "id": "lima-council-instruments",
+    "title": "Lima — City Council Primary-Instrument Set (Ordinance 198-26, the data-center moratorium)",
+    "scope": "extracted",
+    "collection": "lima",
+    "status": "reviewed",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "Two City of Lima documents pulled 2026-09-16 from the City's PrimeGov agenda portal (https://limaoh.primegov.com/) and committed at data/documents/lima/council/ with a filename map: the regular council meeting agenda of 2026-09-14 (7 pp., native text layer) and its meeting packet (157 pp., MIXED layer). The packet is where the instruments are — 69 of its 157 pages carry no extractable text, and ALL 33 ordinance texts are in that block, so a text-layer-only read finds the transmittal memos and misses every instrument. Ordinance 198-26 at pp. 154-156 was read with pypdfium2 + tesseract at 450 DPI (--psm 6), with a 600 DPI crop for the vote grid; the transmittal memo at pp. 43-46 and the agenda were read from the native text layer. The meeting date was content-verified from the agenda's own heading, NOT from the filename, the portal's `dateTime` field, or news coverage — which matters, because every secondary source dates this 2026-09-15 and the meeting was Monday 2026-09-14.",
+    "external_url": null,
+    "license": "Public record (Ohio R.C. 149.43)",
+    "access_tier": "public",
+    "site_scope": "site:lima",
+    "cadence": "static",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "lima",
+      "allen-county-oh",
+      "city-council",
+      "local-legislation",
+      "moratorium",
+      "data-center",
+      "american-township",
+      "google",
+      "bistrozzi",
+      "primegov",
+      "records-request"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/lima/council/2026-09-14-ord-198-26-data-center-moratorium.resolution.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/lima/council/2026-09-16-lima-clerk-of-council.records-request.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "dd24b151c2608ce7e511c3620a0b989f399d79af91b5f025376513555389497a",
+      "size_bytes": 34819,
+      "lfs_materialized": true,
+      "file_count": 2,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Two City of Lima documents pulled 2026-09-16 from the City's PrimeGov agenda portal (https://limaoh.primegov.com/) and committed at data/documents/lima/council/ with a filename map: the regular council meeting agenda of 2026-09-14 (7 pp., native text layer) and its meeting packet (157 pp., MIXED layer). The packet is where the instruments are — 69 of its 157 pages carry no extractable text, and ALL 33 ordinance texts are in that block, so a text-layer-only read finds the transmittal memos and misses every instrument. Ordinance 198-26 at pp. 154-156 was read with pypdfium2 + tesseract at 450 DPI (--psm 6), with a 600 DPI crop for the vote grid; the transmittal memo at pp. 43-46 and the agenda were read from the native text layer. The meeting date was content-verified from the agenda's own heading, NOT from the filename, the portal's `dateTime` field, or news coverage — which matters, because every secondary source dates this 2026-09-15 and the meeting was Monday 2026-09-14.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
     }
   },
   {
