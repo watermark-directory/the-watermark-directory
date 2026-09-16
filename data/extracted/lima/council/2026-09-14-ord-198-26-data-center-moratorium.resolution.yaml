@@ -335,11 +335,25 @@ resolution:
 
   what_this_instrument_does_not_establish:
     - >-
-      IT DOES NOT STOP THE GOOGLE / AMERICAN TOWNSHIP CAMPUS, AND IT DOES NOT PURPORT TO. Limb 1
-      reaches development only inside Lima's corporate limits, and the campus is in American
-      Township. Limb 2 reaches City water outside those limits but only as to NEW requests, and
-      Section 1's last sentence exempts preexisting contracts. Two independent reasons, neither of
-      which requires the other.
+      ON LIMB 1 IT DOES NOT REACH THE GOOGLE / AMERICAN TOWNSHIP CAMPUS, AND IT DOES NOT PURPORT
+      TO. Limb 1 reaches development approvals only inside Lima's corporate limits [verified,
+      p. 155] and the campus is in American Township [verified —
+      data/extracted/plans/4091286.engineering.yaml, and the Roadwork Development Agreement's
+      property clause at data/extracted/aedg/roadwork-development-agreement.rda.yaml]. That much
+      is established, and it is sufficient on its own.
+    - >-
+      ⚠️ LIMB 2's APPLICATION TO THE CAMPUS IS [open] AND IS NOT DECIDED HERE. Limb 2 reaches "new
+      requests for City-supplied water" outside the corporate limits, and Section 1 exempts "any
+      preexisting contracts entered into prior to passage". Whether that exemption covers this
+      campus turns on two things this corpus does not hold. (1) WHETHER AN EXECUTED
+      WATER-SERVICE CONTRACT EXISTS AND WHAT IT COVERS — the only corpus evidence is PAAC minutes
+      recording a City of Lima / Allen County Water District agreement "underway" on 2025-05-01
+      (p. 43) and the Mayor's memo characterizing an "existing commitment" (packet p. 43). A
+      negotiation is not a contract and a characterization of a contract is not the contract —
+      the same distinction this file applies to the Google carve-out. (2) WHETHER A FUTURE
+      REQUEST WOULD BE A "NEW REQUEST", which the instrument does not define (see
+      `scope.undefined_terms`). So the conclusion that this ordinance does not reach the campus
+      rests on LIMB 1 ALONE; it must not be stated as two independent reasons.
     - >-
       IT NAMES NO OPERATOR, NO PROJECT AND NO PARCEL. "Google", "American Township", and every
       project name appear ZERO times in the enacting text. The only place Google is named anywhere

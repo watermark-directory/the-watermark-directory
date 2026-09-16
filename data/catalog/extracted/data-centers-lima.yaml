@@ -7,12 +7,15 @@ producer:
   source: >-
     `watermark --site lima sweep data-centers` (2026-09-16), then a full hand pass against the
     committed extractions. The sweep's draft was NOT committed as written: it emitted its own chat
-    summary into the register file rather than a register, and three of its figures were corrected
+    summary into the register file rather than a register, and two of its figures were corrected
     against the instruments that own them — the genset count ("114/115" -> 115 = 114 data-hall +
-    1 HUBGEN, per the final PTI), the cooling range (3.14 -> 3.1 MGD low, per
-    watermark.hydrology.cooling.derive_cooling_basis) and the moratorium's date and standing
-    ("enacted 2026-09-15" -> INTRODUCED 2026-09-14, passage [open]). Every figure in the committed
-    register points at the extraction that owns it; none is re-derived here.
+    1 HUBGEN, per the final PTI) and the moratorium's date and standing ("enacted 2026-09-15" ->
+    INTRODUCED 2026-09-14, passage [open]). A third "correction" was WRONG and is reverted: the
+    hand pass moved the cooling low bound 3.14 -> 3.1 to match docs/COURSE.md's prose, but
+    COURSE.md rounds and the GENERATED dossier docs/HYDROLOGY.md Sec.4 carries the computed 3.14
+    (275,000 kW x 24 h x 1.8 L/kWh = 3.138 MGD). The sweep was right; the hand pass re-derived a
+    figure the generator owns. Restored. Every figure in the committed register points at the
+    artifact that owns it; none is re-derived here.
 license: Curated from cited public sources
 access_tier: public
 site_scope: site:lima
@@ -47,8 +50,12 @@ notes: >-
   limits only. Limb 2 pauses "new requests for City-supplied water for data center developments
   OUTSIDE the corporate limits" — it reaches past the city line, because Lima's water main does.
   Describing the ordinance as "city-limits-only" is wrong about limb 2; describing it as stopping
-  the Bistrozzi/Google campus is wrong about both, because the campus is in AMERICAN TOWNSHIP and
-  because Section 1's last sentence exempts preexisting contracts. And the carve-out itself is easy
+  the Bistrozzi/Google campus is wrong on LIMB 1, because the campus is in AMERICAN TOWNSHIP and
+  limb 1 stops at the corporate limits. ⚠️ LIMB 2's APPLICATION TO THE CAMPUS IS [open], not a
+  second reason: Section 1 exempts "any preexisting contracts", but this corpus holds no executed
+  Lima water-service contract for the campus — only PAAC minutes recording one "underway"
+  2025-05-01 — and "new request" is undefined. The campus conclusion rests on limb 1 ALONE. And
+  the carve-out itself is easy
   to over-read: THE ORDINANCE NAMES NEITHER GOOGLE NOR AMERICAN TOWNSHIP — that identification is
   made in the Mayor's and Utilities Director's transmittal memo (packet p. 43), a request for
   legislation rather than the legislation. All three distinctions are held apart in the register

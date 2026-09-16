@@ -71,18 +71,32 @@ limbs below before reading anything else in this file.
 Both are `[verified]` to Section 1, packet p. 155.
 
 ⚠️ **THE SINGLE MOST IMPORTANT SENTENCE IN THIS FILE.** *The moratorium does not stop the campus in
-§2, and it never purported to.* Two independent reasons, either of which alone is sufficient:
+§2, and it never purported to.* That rests on **limb 1 alone**, which is enough:
 
-1. **The campus is in American Township, not in the City of Lima.** `[verified]` — the site
-   construction plan reads "Site Construction Plan for Project Bosc 2026, American Township, Allen
-   County" (`data/extracted/plans/4091286.engineering.yaml`,
-   `data/extracted/permits/4074529.epa.yaml`), and the Roadwork Development Agreement's property
-   clause reads "real property in American Township, Allen County (Exhibit A)"
-   (`data/extracted/aedg/roadwork-development-agreement.rda.yaml`). Limb 1 stops at the corporate
-   limits and therefore never reaches it.
-2. **Limb 2 reaches only NEW requests, and Section 1's last sentence exempts existing contracts.**
-   `[verified]` verbatim: "This ordinance shall be prospective in nature and shall not affect any
-   preexisting contracts entered into prior to passage of this ordinance."
+**The campus is in American Township, not in the City of Lima.** `[verified]` — the site
+construction plan reads "Site Construction Plan for Project Bosc 2026, American Township, Allen
+County" (`data/extracted/plans/4091286.engineering.yaml`,
+`data/extracted/permits/4074529.epa.yaml`), and the Roadwork Development Agreement's property
+clause reads "real property in American Township, Allen County (Exhibit A)"
+(`data/extracted/aedg/roadwork-development-agreement.rda.yaml`). Limb 1 stops at the corporate
+limits and therefore never reaches it. That settles the question on its own.
+
+⚠️ **Limb 2 is a different question, and this register does not answer it.** Section 1's last
+sentence is `[verified]` verbatim — "This ordinance shall be prospective in nature and shall not
+affect any preexisting contracts entered into prior to passage of this ordinance" — but **whether
+that exemption covers this campus is `[open]`**, and it turns on two things this corpus does not
+hold:
+
+1. **Whether an executed water-service contract exists, and what it covers.** The only corpus
+   evidence is PAAC minutes recording a City of Lima / Allen County Water District agreement
+   **"underway"** on 2025-05-01 p. 43, and the Mayor's memo describing an "existing commitment".
+   A negotiation is not a contract, and a characterization of a contract is not the contract —
+   the same distinction this register insists on two paragraphs below. The instrument is `[open]`
+   and is pull priority 1.
+2. **Whether a future request would be a "new request"**, which the ordinance never defines.
+
+So: limb 1 settles the campus. Limb 2 is unsettled, and a register that presented it as a second
+independent reason would be claiming something no instrument here supports.
 
 And the distinction that is easiest to collapse and must not be:
 
@@ -301,13 +315,17 @@ would restate the headline as 313.5 and contradict the permit extraction, the es
   "underway" at PAAC 2025-05-01 p. 43 `[verified]` that it was underway. ⚠️ **The executed
   water-service agreement itself is `[open]` — it is not in this corpus.** That is the instrument
   Ordinance 198-26's preexisting-contracts sentence turns on, and it is priority 1 below.
-- **Consumptive cooling draw: 3.1–3.84 MGD.** `[inference: derived]` — `docs/COURSE.md` §11 and
-  `watermark.hydrology.cooling.derive_cooling_basis`, by two independent cited methods: top-down
-  power × WUE (~275 MW IT × ~1.8 L/kWh evaporative → ~3.1 MGD) and bottom-up blowdown × cycles (the
-  documented 2.5 MGD FM-2 discharge at ~5 cycles). The bottom-up raw figure implies ~5.7 L/kWh,
-  unreachable for cooling, so it is capped at the physical evaporative-WUE ceiling. **Neither input
-  is a disclosure**: cooling-system flowrates are CBI-withheld, and the evaporative archetype itself
-  is an assumption grounded on the 36 cooling towers.
+- **Consumptive cooling draw: 3.14–3.84 MGD.** `[inference: derived]` — as computed by
+  `watermark.hydrology.cooling.derive_cooling_basis` and printed in the generated dossier
+  [`docs/HYDROLOGY.md`](../../../docs/HYDROLOGY.md) §4, by two independent cited methods: top-down
+  IT 275.00 MW × WUE 1.80 L/kWh → **3.14 MGD**, and bottom-up FM-2 blowdown × 5 cycles → **3.84
+  MGD**. The bottom-up raw figure implies ~5.7 L/kWh, unreachable for cooling, so it is capped at
+  the physical evaporative-WUE ceiling. **Neither input is a disclosure**: cooling-system flowrates
+  are CBI-withheld, and the evaporative archetype itself is an assumption grounded on the 36
+  cooling towers.
+  ⚠️ **The low bound is 3.14, not 3.1.** `docs/COURSE.md`'s prose rounds it to "~3.1"; the
+  generated dossier carries the computed figure (275,000 kW × 24 h × 1.8 L/kWh = 3.138 MGD). Cite
+  the generator, not the prose that rounds it.
 - **Wastewater — NPDES `2DP00130*AP`**, applicant BISTROZZI LLC, an **indirect discharge to a POTW**,
   not a direct surface-water discharge. Discharge address: American Bath WWTP, 3226 N. Cole Street.
   Outfall 2DP00130001. Public notice 2026-07-01; permit expires 2028-12-31. `[verified]` —

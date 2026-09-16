@@ -1,8 +1,13 @@
 # Structured, provenance-carrying peer of data/extracted/lima/data-centers.md (#1627).
 # Hand-reviewed after `watermark --site lima sweep data-centers` (2026-09-16): the sweep's draft
-# carried three figures this file corrects against the committed extractions — the genset count
-# ("114/115" -> 115 total = 114 hall + 1 HUBGEN), the cooling range (3.14 -> 3.1 MGD low), and the
-# moratorium's date and standing ("enacted 2026-09-15" -> INTRODUCED 2026-09-14, passage [open]).
+# carried two figures this file corrects against the committed extractions — the genset count
+# ("114/115" -> 115 total = 114 hall + 1 HUBGEN, per the final PTI) and the moratorium's date and
+# standing ("enacted 2026-09-15" -> INTRODUCED 2026-09-14, passage [open]).
+# ⚠️ A THIRD "correction" was WRONG AND IS REVERTED. The hand pass changed the sweep's cooling low
+# bound 3.14 -> 3.1 to match docs/COURSE.md's prose. COURSE.md ROUNDS; the generated dossier
+# docs/HYDROLOGY.md Sec.4 carries the computed 3.14, and the arithmetic confirms it. The sweep was
+# right and the hand pass re-derived a figure the generator owns — the exact failure CLAUDE.md's
+# "do not re-derive a figure the record transcribes" rule exists to prevent. Restored to 3.14.
 #
 # NOTE ON `it_load_mw`: 275 MW is source_kind `derived`, which renders [inference]. It is the N+1
 # midpoint reasoned from the ~313 MW backup total and is NOT a permit disclosure. The profile's
@@ -42,18 +47,26 @@ candidates:
       [open] No instrument in this corpus states a capital figure. ~$500M Phase-1 and $1.5B
       three-phase both circulate in press and neither is promoted.
   water_draw_mgd:
-    value: 3.1-3.84
+    value: 3.14-3.84
     unit: MGD
     source_kind: derived
     citation: >-
-      [inference: derived] Consumptive cooling basis, docs/COURSE.md Sec.11 /
-      watermark.hydrology.cooling.derive_cooling_basis — top-down power x WUE (~275 MW IT x ~1.8
-      L/kWh) and bottom-up blowdown x cycles (2.5 MGD FM-2 at ~5 cycles, capped at the evaporative
-      WUE ceiling). Cooling-system flowrates are CBI-withheld; the evaporative archetype is an
-      assumption grounded on the permit's 36 cooling towers.
+      [inference: derived] Consumptive cooling basis, as COMPUTED by
+      watermark.hydrology.cooling.derive_cooling_basis and printed in the GENERATED dossier
+      docs/HYDROLOGY.md Sec.4: top-down IT 275.00 MW x WUE 1.80 L/kWh -> 3.14 MGD; bottom-up FM-2
+      blowdown x 5 cycles capped at the evaporative-WUE ceiling -> 3.84 MGD. Cooling-system
+      flowrates are CBI-withheld; the evaporative archetype is an assumption grounded on the
+      permit's 36 cooling towers.
     note: >-
       The metered withdrawal is [open]. The EXECUTED City of Lima water-service agreement is also
       [open] — it is not in this corpus and is pull priority 1.
+      ⚠️ THE LOW BOUND IS 3.14, NOT 3.1. docs/COURSE.md's prose rounds it to "~3.1" with an
+      explicit tilde; HYDROLOGY.md is the generated dossier and carries the computed 3.14
+      (275,000 kW x 24 h x 1.8 L/kWh = 3.138 MGD). Cite the generator, not the prose that rounds
+      it. No "~" is written on this bracket: in this repo "~" marks an APPROXIMATE TRANSCRIPTION
+      (CLAUDE.md -> Models; watermark.site.records._approx_paths reports it as one), and this is a
+      computed value already carried as source_kind `derived` -> [inference]. Tagging it "~" would
+      claim a transcription that never happened.
   cooling:
     value: >-
       Evaporative open-recirculating (assumed); 36 cooling towers P120-P155; indirect discharge to
@@ -102,8 +115,11 @@ candidates:
     - Ottawa mainstem **7Q10 0.2 cfs, 1Q10 0 cfs** [verified]; net basin loss at buildout
       **≈4.85 cfs ≈24x the 7Q10** [inference: derived].
 
-    ⚠️ **The 2026-09-14 City of Lima moratorium (Ord. 198-26) does not stop this campus**, for two
-    independent reasons: it is in American Township and the development limb reaches only inside
-    Lima's corporate limits; and the water limb reaches only NEW requests while Section 1 exempts
-    preexisting contracts. The ordinance names neither Google nor American Township — that
+    ⚠️ **The 2026-09-14 City of Lima moratorium (Ord. 198-26) does not stop this campus** — on the
+    DEVELOPMENT limb, which is enough: the campus is in American Township and that limb reaches
+    only inside Lima's corporate limits. The WATER limb is a separate question this register does
+    not answer: Section 1 exempts "any preexisting contracts", but no executed Lima water-service
+    contract for the campus is in this corpus (PAAC records one "underway" 2025-05-01) and "new
+    request" is undefined, so its application here is [open].
+    The ordinance names neither Google nor American Township — that
     identification is in the Mayor's transmittal memo, a different document.
