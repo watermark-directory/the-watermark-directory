@@ -273,3 +273,93 @@ blocked_routes:
       Dayton-2025-002's original ramp and costs were first presented, are not in
       hand. The deltas recorded above are read from struck-through values on the
       2026-07-07 slides, which is the applicant showing its own revisions.
+
+# ── When to run this again ───────────────────────────────────────────────────
+# ⚠️ ADDED 2026-09-16. This file had NO next_check block, so nothing could ever report it
+# overdue. `meta.checked_on` deliberately stays at 2026-08-06: the watch was NOT re-run on
+# 2026-09-16 — only its calendar was written.
+next_check:
+  declared_on: '2026-09-16'
+  declared_by: the standing-check-in sweep; the watch itself was not re-run
+  last_actually_checked: '2026-08-06'
+  dormant: false
+  cadence: >-
+    KEYED TO THE PJM TEAC CALENDAR, not to a fixed interval. This watch's live thread is
+    Dayton-2025-002, and the only route that has ever moved its numbers is the TEAC "Dayton
+    Supplemental Projects" deck. TEAC meets roughly every three months; the need was at Solution
+    Meeting stage on 2026-07-07 and the M-3 process gives stakeholders ten days from each meeting
+    to comment. So: check within two weeks after each TEAC meeting, plus one routine pass a
+    quarter for the OPSB and parcel threads. Next: 2026-10-20.
+  ⚠️_read_every_deck_in_the_year:
+    tag: '[verified]'
+    statement: >-
+      Carried up from open_filings.NEXT-TEAC-CYCLE because it is a cadence rule, not a lead. The
+      Wilmington request appears in the 2026-07-07 deck and in NEITHER the 2026-02-03 nor the
+      2026-05-08 one. A single-deck check would have missed it entirely. Every pass reads every
+      Dayton deck published in the year to date, not just the newest.
+  dated_triggers:
+  - date: '2026-10-20'
+    what: >-
+      The next PJM TEAC Dayton Supplemental deck. Each cycle has revised this need's numbers in
+      place — a later deck could raise or lower the 500 MW, split the need, or, as the Fayette
+      pages did, describe the customer.
+    route: https://www.pjm.com/committees-and-groups/committees/teac — read every 2026 Dayton deck
+  - date: '2026-10-20'
+    what: >-
+      OPSB disposition of 25-0871-EL-BLN — whether the seven intervention petitions filed
+      2026-04-03 were granted, whether Staff filed a report, whether a hearing was set. Seven
+      intervenors inside a ten-day window is contested-case behaviour on an accelerated Letter of
+      Notification track.
+    route: >-
+      PUCO DIS (recorded as blocked). ⚠️ Re-confirmed blocked network-wide on 2026-09-16 at Van
+      Wert and Sidney: HTTP 200 with a 244-byte "Request Rejected" body over both HTTP/2 and
+      HTTP/1.1, including for the bare origin, so no URL craft will get past it. The City of
+      Wilmington's own site publishes the statutory service copy of the LON and is the applicant-
+      side route; it cannot show what the Board did.
+  - date: '2027-01-20'
+    what: The TEAC cycle after next, plus the routine quarterly sweep of the Clinton County parcel layer.
+    route: as above
+  - date: '2027-04-20'
+    what: The following TEAC cycle.
+    route: as above
+  undated_triggers:
+    statement: >-
+      Four threads have no date because no instrument gives them one.
+    items:
+    - {id: SWOAQA-AIR-PTI, signal: 'a Southwest Ohio Air Quality Agency PTI for the 252 Tier-4 gensets — ⚠️ Clinton County air permitting is SWOAQA, NOT the statewide Ohio EPA eSuite, though eDoc is worth a second pass by entity name because some delegated-agency documents still land in the state system'}
+    - {id: CLINTON-SUBSTATION-CASE-NUMBER, signal: an OPSB case number attaching to the unnumbered Clinton substation expansion}
+    - {id: CLINTON-CUSTOMER-FEED-CASES, signal: OPSB cases for the Clinton customer feeds}
+    - {id: EAST-FORK-SUBSTATION, signal: 'any project page, PJM deck or OPSB case naming the East Fork substation — 9.582 ac at King Rd, Clark Township, conveyed to Dayton Power & Light 2024-07-30, purpose and voltage unknown'}
+  # ⚠️ ─────────────────────────────────────────────────────────────────────────
+  out_of_scope_and_deliberately_not_absorbed_here:
+    tag: '[reference]'
+    noted_on: '2026-09-16'
+    what: >-
+      Wilmington City Council re-passed the Cosler Farm rezoning and the permitted-use amendment
+      on 2026-09-04, and litigation has been brought again.
+    where_it_belongs: open issue #1471 — the zoning and litigation thread.
+    why_it_is_not_recorded_as_a_finding_in_this_file: >-
+      Because this is a POWER watch. Its subject is the AES Ohio 345 kV build-out, PJM M-3 Need
+      Dayton-2025-002, OPSB 25-0871-EL-BLN and the Clinton substation and customer feeds — and a
+      municipal rezoning is none of those. Folding it in here because it is recent and about the
+      same campus is exactly how a watch loses its shape: the file stops being about an instrument
+      family and becomes a general site digest, and the next reader cannot tell what this watch is
+      supposed to cover. It is named here as a POINTER and nothing more; it was NOT researched,
+      verified or dated against any primary record by this sweep, and nothing above depends on it.
+    the_one_thing_worth_saying_here: >-
+      IF the rezoning is undone, the campus attribution question this file already carries
+      (CAMPUS-ATTRIBUTION-STILL-OPEN) gains a second front — but the attribution is unresolved
+      either way, and the power instruments name no customer regardless of what the zoning does.
+      Do not let a zoning outcome be read as evidence about load.
+  do_not:
+  - >-
+    Attribute the 1.5 GW figure to Wilmington. It is FAYETTE's, as
+    open_filings.THE-1-5-GW-IS-FAYETTE-COUNTY records; Wilmington's own disclosed ramp is 500 MW.
+  - Check only the newest TEAC deck. The Wilmington request is absent from two of the three 2026 decks.
+  - >-
+    Look for the campus air permit in the statewide Ohio EPA eSuite alone. Clinton County is
+    SWOAQA.
+  - >-
+    Read an OPSB silence as a disposition. The docket is access-blocked, re-confirmed 2026-09-16
+    over both protocols; it is UNSEARCHED, not empty.
+  - Smuggle the zoning and litigation thread into this file. It belongs to #1471.

@@ -320,3 +320,81 @@ open_leads:
     statement: >-
       The actual construction-start date, which Condition 3 requires to be docketed and which
       the OPSB gas case table's missing "Under Construction" footnote neither confirms nor denies.
+
+# ── When to run this again ───────────────────────────────────────────────────
+# ⚠️ ADDED 2026-09-16. This file had NO next_check block, so nothing could ever report it
+# overdue — the same defect found the same day in bowling-green/record-watch.yaml,
+# bowling-green/water-watch.yaml and wilmington/power-watch.yaml. A watch with no cadence is a
+# document, not a watch.
+# `meta.checked_on` deliberately stays at 2026-08-01: this watch was NOT re-run on 2026-09-16.
+# Only the calendar was written.
+next_check:
+  declared_on: '2026-09-16'
+  declared_by: the standing-check-in sweep; the watch itself was not re-run
+  last_actually_checked: '2026-08-01'
+  dormant: false
+  cadence: >-
+    QUARTERLY, aligned to OPSB Condition 13's own calendar rather than to an arbitrary interval.
+    Condition 13 requires quarterly complaint summary reports on the public docket by the last day
+    of January, April, July and October, through construction and the first five years of
+    operation — so the first week of the following month is when there is something new to look
+    for. Next: 2026-11-05.
+  why_not_monthly: >-
+    Every dated obligation this watch tracks is quarterly or slower, and its single most
+    informative route (the OPSB docket) is access-blocked, so a monthly pass would re-confirm a
+    block eleven more times a year without reaching a new instrument. The eDoc air route moves
+    only when a permit action occurs, and the next scheduled one is the Title V application in
+    mid-2028.
+  dated_triggers:
+  - date: '2026-11-05'
+    what: >-
+      The Condition 13 quarterly complaint summary due 2026-10-31. Also the routine re-run of the
+      eDoc Entity Name "WILL-POWER" sweep and the Wood County construction-stormwater sweep.
+    route: eDoc Entity "WILL-POWER", facility 0387022027; ECHO cwa_rest_services for FIPS 39173 under master OHC000000
+    note: The complaint summary lands on the access-blocked docket; the check is whether that route has opened, not whether the filing exists.
+  - date: '2027-02-05'
+    what: The Condition 13 quarterly complaint summary due 2027-01-31.
+    route: as above
+  - date: '2027-07-15'
+    what: >-
+      The applicant's own OPSB schedule puts roughly 150 MW in service around July 2027 and the
+      remainder around August 2027. Condition 3 requires the construction-start,
+      construction-complete and in-service dates to be filed on the docket as each becomes known,
+      and Condition 31 requires the BESS decommissioning plan, cost estimate and performance bond
+      at least 30 days BEFORE the batteries are commissioned — so the bond filing precedes the
+      in-service date and is the earlier signal.
+    route: OPSB docket (blocked); OPSB's own gas case-status table; eDoc
+  - date: '2028-08-01'
+    what: >-
+      The Title V operating permit application. Final PTI P0139272 Standard Term 12 gives twelve
+      months after commencing operation, and OPSB Condition 27 requires the resulting permit to be
+      docketed on receipt. On the applicant's schedule that is roughly mid-2028.
+    route: eDoc Entity "WILL-POWER", facility ID 0387022027
+    note: >-
+      This is a GENUINE FUTURE WATCH, not a gap. The absence of a Title V permit before then is
+      the correct state of the record.
+  - date: '2029-02-03'
+    what: >-
+      OPSB Condition 2 voids the certificate if a continuous course of construction has not
+      commenced within three years of the 2026-02-03 approval. A long-dated backstop, recorded so
+      it is not lost.
+    route: OPSB docket
+  undated_triggers:
+    statement: >-
+      Four watched filings have no date because nothing in the record gives them one. They are
+      checked opportunistically on each quarterly pass, not waited for.
+    items:
+    - {id: APOLLO-GAS-LATERALS, signal: 'a new Will-Power OH, LLC OPSB filing, or a FERC docket if any lateral is jurisdictional; "APOLLO NORTH PIPELINE" already holds CGP coverage OHGC19094'}
+    - {id: APOLLO-LAYDOWN-YARD, signal: 'a separate OPSB filing; "APOLLO LAYDOWN" already holds CGP coverage OHGC18721'}
+    - {id: META-LOAD-TRANSMISSION-CASE, signal: 'any transmission case would be a CHANGE OF POSTURE, since Conditions 15 and 16 bar interconnection and export without further approval — nothing is inferred from its absence'}
+    - {id: APOLLO-CONSTRUCTION-DATES, signal: 'the "Under Construction" footnote appearing beside Apollo in an OPSB gas case-status table — which may equally be a table-maintenance lag, and is read as neither'}
+  do_not:
+  - >-
+    Read the OPSB gas case-status table's missing "Under Construction" footnote as evidence
+    construction has not started. It may be a status signal or a maintenance lag and this watch
+    reads it as neither.
+  - >-
+    Resolve the gas-supply question from the TC Energy / Columbia Gas Transmission mention in the
+    Staff Report. That names the owner of a pipeline the site DRIVEWAY crosses — adjacency, not
+    supply.
+  - Treat the absence of a Title V permit before mid-2028 as a gap. It is the correct state.

@@ -819,3 +819,87 @@ open_leads:
     Apollo plant, now that the general-permit route is closed?
   why: The replacement for the dead OHD000001 watch. Shared with Sandusky (1384).
   route: Standing check of Ohio EPA public notices and the ICIS-NPDES facility index for Wood County.
+
+# ── When to run this again ───────────────────────────────────────────────────
+# ⚠️ ADDED 2026-09-16. This file had NO next_check block, so nothing could ever report it
+# overdue. `meta.checked_on` deliberately stays at 2026-08-01: the watch was NOT re-run on
+# 2026-09-16 — only its calendar was written.
+next_check:
+  declared_on: '2026-09-16'
+  declared_by: the standing-check-in sweep; the watch itself was not re-run
+  last_actually_checked: '2026-08-01'
+  dormant: false
+  cadence: >-
+    QUARTERLY, keyed to the ICIS-NPDES and SDWIS extract cycles — the same cadence
+    data/extracted/ottawa/water-watch.yaml uses, and for the same reason: both sides of this
+    watch are federal-system reads, and the federal systems advance a quarter at a time. Next
+    routine pass: 2026-11-15.
+  read_the_extract_date_first:
+    tag: '[verified]'
+    learned_from: the Ottawa pass of 2026-09-16
+    instruction: >-
+      BEFORE reading any figure, read SystemExtractDates. On 2026-09-16 the Ottawa watch found
+      SDWIS still at its 2026-07-09 extract — ten weeks unchanged — which meant every SDWA figure
+      ECHO returned was the SAME READING that file already held, not a fresh confirmation of it.
+      This file records the identical pair of extract dates (ICIS-NPDES 2026-07-24, SDWIS
+      2026-07-09), so the same trap is waiting here. If SDWIS has not moved, the drinking-water
+      side is UNANSWERABLE and must be recorded as unknown, not as unchanged.
+    and_check_the_state_portal: >-
+      The same Ottawa pass found a Director's Final Findings and Orders on the Ohio EPA eDocument
+      portal that ECHO did not know about, thirteen days after it issued. For anything about
+      ENFORCEMENT, query eDoc Secondary ID OH8700311 before trusting a federal zero.
+  dated_triggers:
+  - date: '2026-11-15'
+    what: >-
+      The first quarterly pass. Re-read ECHO for OH0024139 (the CWA side, Category-I significant
+      noncompliance on the surfactants limit) — read the compliance WINDOW END, not the extract
+      date, and note WHICH quarter rolled off the front as the new one arrived.
+    route: ECHO dfr_rest_services.get_dfr and eff_rest_services.get_effluent_chart, OH0024139
+  - date: '2026-11-15'
+    what: >-
+      Whether the MBAS/surfactants exceedances continued past the captured record, and whether any
+      FORMAL enforcement has followed. The only action in five years is the 2025-02-19 warning
+      letter OH-I00107014, which is informal and predates both Category-I quarters.
+    route: ECHO FormalActions for OH0024139; eDoc Secondary ID 2PD00009
+  - date: '2026-11-15'
+    what: >-
+      The drinking-water side, PWS OH8700311 — but ONLY if SDWIS has been re-extracted past
+      2026-07-09. If it has not, stop and record that.
+    route: ECHO dfr_rest_services.get_dfr, OH8700311 and OH8752212
+  - date: '2027-02-15'
+    what: The next quarterly pass.
+    route: as above
+  - date: '2027-05-01'
+    what: >-
+      The reservoir's cyanobacteria season opens. The HAB backdrop here is the weakest-footed part
+      of this site's water story — the ~68% algal composition figure, the RADOR aeration, the
+      January 2025 resolution and the PhycoSens pilot are all [reference] only — and it is the
+      part most likely to be repeated into [verified] by a later summary. A season with a
+      documented advisory would be the first primary record.
+    route: City of Bowling Green Board of Public Utilities minutes; Ohio EPA advisory table
+  undated_triggers:
+    statement: >-
+      Nine construction-stormwater coverages and nine records-request leads have no dates. The
+      coverages move when earthwork does; the requests move when someone sends them.
+    items:
+    - {group: CGP coverages, ids: [OHGC15219, OHGC17963, OHGC18721, OHGC19094, OHGC15929, OHGC11188, OHGC15293, OHGC08916, OHGC17556], signal: a new coverage, a termination, or an NOI disclosing disturbed acreage}
+    - {group: records requests, ids: [BG-WARNING-LETTER-OH-I00107014, BG-COMPLIANCE-SCHEDULE-SUBMITTALS, BG-CGP-NOIS, BG-NWWSD-SERVICE-AGREEMENT, BG-RESERVOIR-CYANOBACTERIA-RECORD, BG-OEPA-ADVISORY-TABLE, BG-PORTAGE-RESURVEY, BG-UCMR5-PFAS], signal: none — these arrive only when requested}
+    highest_value: >-
+      BG-COMPLIANCE-SCHEDULE-SUBMITTALS. The plant had three years' notice of the MBAS limit and
+      exceeded it in month one; what it told Ohio EPA during those three years is the difference
+      between a plant that was surprised and a plant that was not. Nothing on any portal answers
+      it.
+  do_not:
+  - >-
+    Read an ECHO figure without reading its SystemExtractDate first, or report an unchanged
+    reading from an unchanged extract as a re-verification.
+  - >-
+    Read a federal "zero formal enforcement" for OH8700311 as a negative without checking eDoc.
+    The Ottawa pass of 2026-09-16 found a Director's Final Findings and Orders on the state portal
+    that ECHO, at a ten-week-old SDWIS extract, still reported as none.
+  - >-
+    Promote the reservoir cyanobacteria figures to [verified] by repetition. All four are
+    [reference] and none has a primary source in this corpus.
+  - >-
+    Resolve the 50,000-vs-600,000 gpd water-demand conflict from anything but the NWWSD-Meta
+    service agreement and the August 2024 wholesale contract.
