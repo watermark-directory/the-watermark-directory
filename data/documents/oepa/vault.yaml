@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-09-16T16:42:14+00:00'
+  generated_at: '2026-09-16T16:53:23+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 241
-    bytes: 672414057
-    distinct_addresses: 236
+    artifacts: 244
+    bytes: 675487569
+    distinct_addresses: 239
 artifacts:
 - rel: documents/oepa/2DP00130.pdf
   sha256: ae76bff9b192bd0d17c69fbdb14df96198a48e0d7804da346debc4f55b4f22e8
@@ -755,6 +755,21 @@ artifacts:
 - rel: documents/oepa/ottawa/2PD00028.pdf
   sha256: 51415abd16af49f7cc939043c7bb05ce9f2cc0ca014bbf93f2af4d0f9bf3cdb1
   bytes: 2349456
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/ottawa/edoc-4208516.pdf
+  sha256: d4581b60ba0bf680a943903a663441b26b077c61418af16a97db8e41914006e8
+  bytes: 660900
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/ottawa/edoc-4251474.pdf
+  sha256: f5192064a1bf2163267fc1232d41dbd6021762097901e5c56cc3e2061590ab0b
+  bytes: 878025
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/ottawa/edoc-4255174.pdf
+  sha256: 7c0278487a1a4b53ce5bad50a8baf8bedc8f4ed64a98ff91d5eb41f57355f0cf
+  bytes: 1534587
   media_type: application/pdf
   redistributable: true
 - rel: documents/oepa/piketon/0PB00031.pdf
