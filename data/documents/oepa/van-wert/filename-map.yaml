@@ -154,3 +154,179 @@ documents:
     `AH`. The permittee's own conclusion is printed beneath: "All results have been non-detect,
     therefore, we believe we will be in compliance with our permit". The `AA`/`AH` codes are Ohio
     EPA reporting codes and are NOT decoded here — reading `AH` as a detection would be a guess.
+- filename: edoc-4236096.pdf
+  canonical_name: >-
+    NPDES Permit Compliance Schedule Update — Van Wert WWTP, permit 2PD00006*WD / OH0027910,
+    reporting CSO milestone event 3099 "Begin Construction" (scheduled 2026-08-01) as OVERDUE, ten
+    days BEFORE its own deadline. Application ID 25914608. 1 p.
+  content_verified_date: '2026-07-22'   # "Date: 07/22/2026" and "Submission Date: 07/22/2026", printed on p. 1 of the text layer
+  permit_id: 2PD00006
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4236096
+  edoc_docid: 4236096
+  edoc_doc_type: Report
+  edoc_program: NPDES
+  edoc_keyword: COMPLIANCE SCHEDULE UPDATE
+  edoc_published: '2026-08-19'          # the portal's own doc date; 28 days after submission — see the note
+  sha256: 3b0cec568bcf190a14e005fdd88f7e363a8136b83e306f3cc6a076fa48a29de9
+  bytes: 7886
+  content_type: application/pdf
+  fetched_at: '2026-09-16'
+  status: downloaded
+  evidence: >-
+    native_text — the submission date is printed twice in the document's own text layer, in the
+    header ("Date: 07/22/2026") and in the certification block ("Submission Date: 07/22/2026").
+    Not dated from the filename and not from the portal's publication date, which is 28 days later.
+  note: >-
+    THE ANSWER TO THE 2026-08-15 TRIGGER, AND IT IS A PRE-REPORTED VIOLATION. This filing's
+    "Permit Compliance Schedules Completed" table reads "No Permit Schedule Data Available"; the
+    table beneath it — "Permit Compliance Schedules which have been or will be violated" — carries
+    one row: Description "Begin Construction", Status "Overdue", Scheduled Date 08/01/2026,
+    Probable Date by which Compliance will occur 09/15/2026, Cause of Violation "Contractor busy",
+    Remedial Action "moving in an extra crew after it gets started", Probability of Complying with
+    Subsequent and Final Events as Scheduled "50%". Certified under penalty of law by Gregory
+    Reinhart, WW Supt and W/WW Operator.
+    ⚠️ ROUTE HAZARD, recorded because it invalidates a same-week negative on this route: this
+    document was SUBMITTED 2026-07-22 and did not appear on the eDocument portal until
+    2026-08-19 — a 28-day publication lag. The 2026-08-05 pass (#1408) queried this exact permit
+    and could not have seen it. Its sibling edoc-4208904 lagged ONE day and edoc-4236116 lagged
+    two, so the lag is variable and cannot be assumed short. An eDoc negative is only load-bearing
+    about four weeks after the event it is asked about.
+- filename: edoc-4236116.pdf
+  canonical_name: >-
+    NPDES Permit Compliance Schedule Update — Van Wert WWTP, permit 2PD00006*WD / OH0027910,
+    reporting CSO milestone event 3099 "Begin Construction" still OVERDUE sixteen days after its
+    2026-08-01 deadline. Application ID 25919628. 1 p.
+  content_verified_date: '2026-08-17'   # "Date: 08/17/2026" and "Submission Date: 08/17/2026", printed on p. 1 of the text layer
+  permit_id: 2PD00006
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4236116
+  edoc_docid: 4236116
+  edoc_doc_type: Report
+  edoc_program: NPDES
+  edoc_keyword: COMPLIANCE SCHEDULE UPDATE
+  edoc_published: '2026-08-19'          # two days after submission; cf. the 28-day lag on edoc-4236096
+  sha256: fae7c220a91b6508230979ac64c654657660d688394d9a71323675aeccdbc1d9
+  bytes: 7896
+  content_type: application/pdf
+  fetched_at: '2026-09-16'
+  status: downloaded
+  evidence: >-
+    native_text — "Date: 08/17/2026" in the header and "Submission Date: 08/17/2026" in the
+    certification block, both in the document's own text layer.
+  note: >-
+    THE SECOND REPORT ON THE SAME MILESTONE, AND THE ONE THAT SETTLES IT. Same single row under
+    "Permit Compliance Schedules which have been or will be violated": Description "Begin
+    Construction", Status "Overdue", Scheduled Date 08/01/2026, Probable Date by which Compliance
+    will occur 08/31/2026, Cause of Violation "Contractor has not started yet", Remedial Action
+    "N/A". Certified under penalty of law by Gregory Reinhart.
+    Two things to read carefully. (1) The LATER filing gives an EARLIER probable-compliance date
+    (08/31) than the earlier one (09/15) — the permittee's two estimates disagree and neither is
+    reconciled in either document; do not silently prefer one. (2) The "Probability of Complying
+    with Subsequent and Final Events as Scheduled" field holds prose here ("Good, Contractor
+    moving in two crews to get caught up") where the 07/22 filing held a number ("50%"), so the
+    two are not comparable as a series.
+    This filing is NOT the permit's 14-day notification of commencement. No such notification
+    exists, because by the permittee's own certified account construction had not commenced.
+- filename: edoc-4235938.pdf
+  canonical_name: >-
+    Ohio EPA DDAGW Notice of Violation — "Partial Resolution of Violation - Sanitary Survey -
+    Facility ID# 8159424, Community PWS Extension Request", City of Van Wert, PWS OH8100611,
+    signed Justin W. Bowerman, Environmental Specialist III. 6 pp.
+  content_verified_date: '2026-08-19'   # "August 19, 2026" in the letterhead date block and running head of pp. 2-6, text layer
+  permit_id: OH8100611
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4235938
+  edoc_docid: 4235938
+  edoc_doc_type: NOV
+  edoc_program: DRINKING WATER
+  edoc_published: '2026-08-19'
+  sha256: d946d626d1545d91ed7670d7de6a187fb5706f35895bf153a9230c8410408699
+  bytes: 413379
+  content_type: application/pdf
+  fetched_at: '2026-09-16'
+  status: downloaded
+  evidence: >-
+    native_text, but a POOR scan-derived layer — the first page's letterhead is mangled
+    ("Environmen~tl a"). The date is legible and repeated on every page's running head, so it is
+    content-verified; individual figures were read from the body text, not from the letterhead.
+  note: >-
+    THE DRINKING-WATER SIDE OF THIS SITE HAS FORMAL ENFORCEMENT, AND THE WASTEWATER SIDE DOES NOT.
+    That distinction is easy to lose. This letter is addressed to Jay Fleming, Safety Service
+    Director, and it administers outstanding violations from THREE prior notices — the Oct. 31,
+    2022 LSSV NOV, the Dec. 5, 2023 LSSV NOV, and the July 18, 2024 Sanitary Survey NOV — and it
+    ties one of them to "Order No. 15 of the June 17, 2024, Director's Final Findings and Orders".
+    A DFFO is a formal enforcement instrument. It is NOT in this corpus and is not on this shelf;
+    it is named here only as this letter names it.
+    Three outstanding violations, with the deadlines this letter sets:
+      • 2023 LSSV NOV Citation #5 — reservoir intake sluice gates inoperable, OAC 3745-83-01(H)(1).
+        The reservoir intakes have multiple levels and the gates "are not operable", so water
+        cannot be withdrawn from each level. Extension request received 2026-08-07 and APPROVED;
+        new deadline Sept. 5, 2027 — which is nearly four years after the violation was first cited.
+      • 2024 Survey NOV Citation #5 — containment backflow preventers not tested every 12 months,
+        OAC 3745-95-06(C)(2) and (3). Deadline Dec. 31, 2026.
+      • 2024 Survey NOV Citation #6 — five-year on-site premises investigations, OAC
+        3745-95-03(B)(1). Deadline Dec. 31, 2028.
+    The City's own words, quoted in the letter and worth preserving verbatim: the sluice gate
+    valves "have caused no operational issues for the last 40 years", the Solomon Diving quote to
+    replace six of them is $443,390, and "This is a lot of money for almost no benefit." The
+    letter closes by noting failure to comply "may result in an administrative or civil penalty of
+    up to $25,000 per day for each violation."
+- filename: edoc-4233843.pdf
+  canonical_name: >-
+    Ohio EPA DDAGW compliance-review correspondence — "Operational Evaluation Level Report
+    Acceptance Letter – Second Quarter 2026", City of Van Wert, PWS OH8100611, signed Kimberly K.
+    Burnham, District Office Compliance Coordinator. 1 p.
+  content_verified_date: '2026-08-18'   # "August 18, 2026", printed at the head of the letter's text layer
+  permit_id: OH8100611
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4233843
+  edoc_docid: 4233843
+  edoc_doc_type: Inspection or Compliance Review
+  edoc_program: DRINKING WATER
+  edoc_published: '2026-08-18'
+  sha256: fa5e1bfc48fd4c8beaa7fa58a79552dcd7a0010bb1574b08a98ea574b7fec1ad
+  bytes: 254759
+  content_type: application/pdf
+  fetched_at: '2026-09-16'
+  status: downloaded
+  evidence: native_text — date, PWS ID, rule citation and both signatories read from the document's own text layer.
+  note: >-
+    THE ACCEPTANCE LETTER IS NOT THE FINDING; THE EXCEEDANCE IT PRESUPPOSES IS. Ohio EPA accepts
+    the City's OEL report as adequate. What the letter establishes as a by-product is that the
+    City of Van Wert EXCEEDED the disinfection-byproduct operational evaluation level in the
+    second quarter of 2026, triggering a June 22, 2026 OEL exceedance letter and a 90-day
+    reporting obligation under OAC 3745-81-24(C). Read this as "a DBP exceedance happened and was
+    documented", not as "Ohio EPA found the water acceptable".
+- filename: edoc-4253933.pdf
+  canonical_name: >-
+    City of Van Wert Disinfectants/Disinfection Byproducts Operational Evaluation Level Report
+    (OEL Form 5031, rev. January 2024) for the second quarter of 2026 — the report the 2026-08-18
+    acceptance letter accepts. Received by Ohio EPA 2026-08-11. 12 pp.
+  content_verified_date: '2026-08-11'   # "Received 08.11.2026" stamped on p. 1 of the text layer; the form itself carries no completion date
+  permit_id: OH8100611
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4253933
+  edoc_docid: 4253933
+  edoc_doc_type: Report
+  edoc_program: DRINKING WATER
+  edoc_keyword: OEL 5031
+  edoc_published: '2026-08-11'
+  sha256: 8efa2cb761ad1489da2549d6aaeba20a4a4c124c8cc7aa0b179225529ca46e1c
+  bytes: 2810744
+  content_type: application/pdf
+  fetched_at: '2026-09-16'
+  status: downloaded
+  evidence: >-
+    native_text for the prose and the monitoring table. The date recorded is the Ohio EPA RECEIPT
+    stamp, which is the only date the document carries; it is not a date of preparation and must
+    not be cited as one.
+  note: >-
+    ⚠️ DO NOT READ THIS FORM'S CHECKBOXES FROM THE TEXT LAYER. Every Yes/No/NA triple extracts as
+    an undifferentiated run ("® Yes No NA"), with the ® marking that a box is ticked but NOT which
+    one. The form's answers about source water — change in intake level, turnover event, algae
+    bloom, drought, raw-water storage — are therefore UNREAD, and anyone needing them must read
+    the rendered page, not the text.
+    What IS legible: this is not the City's first OEL exceedance; tank mixers were installed
+    2025-10-23; the City is working with Jones and Henry on a spray aeration system with no
+    installation date, "hopefull it will be early to mid 2027"; and Table 1 carries four
+    additional TTHM results collected 12 MAY 26 — 111 (DS201, hydrant at 2115 N. Washington St.),
+    78.1 (DS202, S. water tower drain), 108 (DS203, 800 N. Washington St.) and 83.8 (DS204,
+    hydrant at Burt/Cable). Units are not printed beside the values; the form's analyte column
+    heading reads "Results (units)" with nothing filled in, so µg/L is the conventional reading
+    and is NOT verified from the document.

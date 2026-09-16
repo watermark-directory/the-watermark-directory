@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-09-03T12:25:50+00:00'
+  generated_at: '2026-09-16T16:42:14+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 236
-    bytes: 668919393
-    distinct_addresses: 231
+    artifacts: 241
+    bytes: 672414057
+    distinct_addresses: 236
 artifacts:
 - rel: documents/oepa/2DP00130.pdf
   sha256: ae76bff9b192bd0d17c69fbdb14df96198a48e0d7804da346debc4f55b4f22e8
@@ -960,6 +960,31 @@ artifacts:
 - rel: documents/oepa/van-wert/edoc-4208905.pdf
   sha256: 2406674b0070ab9897ac12b4a307bce7626d0236f8b3bb4cf929473215523151
   bytes: 5682
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/van-wert/edoc-4233843.pdf
+  sha256: fa5e1bfc48fd4c8beaa7fa58a79552dcd7a0010bb1574b08a98ea574b7fec1ad
+  bytes: 254759
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/van-wert/edoc-4235938.pdf
+  sha256: d946d626d1545d91ed7670d7de6a187fb5706f35895bf153a9230c8410408699
+  bytes: 413379
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/van-wert/edoc-4236096.pdf
+  sha256: 3b0cec568bcf190a14e005fdd88f7e363a8136b83e306f3cc6a076fa48a29de9
+  bytes: 7886
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/van-wert/edoc-4236116.pdf
+  sha256: fae7c220a91b6508230979ac64c654657660d688394d9a71323675aeccdbc1d9
+  bytes: 7896
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/van-wert/edoc-4253933.pdf
+  sha256: 8efa2cb761ad1489da2549d6aaeba20a4a4c124c8cc7aa0b179225529ca46e1c
+  bytes: 2810744
   media_type: application/pdf
   redistributable: true
 - rel: documents/oepa/van-wert/stormwater/edoc-4209395.pdf
