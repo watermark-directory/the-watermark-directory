@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-09-16T16:53:23+00:00'
+  generated_at: '2026-09-16T16:59:08+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 244
-    bytes: 675487569
-    distinct_addresses: 239
+    artifacts: 245
+    bytes: 675869999
+    distinct_addresses: 240
 artifacts:
 - rel: documents/oepa/2DP00130.pdf
   sha256: ae76bff9b192bd0d17c69fbdb14df96198a48e0d7804da346debc4f55b4f22e8
@@ -145,6 +145,11 @@ artifacts:
 - rel: documents/oepa/findlay/2PD00008.pdf
   sha256: 050dc447f5f3111dea5c335e8f51c642070f19638581692bcab33e7ad15b46d6
   bytes: 1160870
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/findlay/edoc-4232502.pdf
+  sha256: 7c1c30984d6f6805a5db0f45863b1a395a0ae0361339cb84c472bb433c480b63
+  bytes: 382430
   media_type: application/pdf
   redistributable: true
 - rel: documents/oepa/greenville/1PD00005.pdf

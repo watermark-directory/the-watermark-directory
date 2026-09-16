@@ -17,6 +17,8 @@
 # quoting anything about 2025.
 
 as_of: '2026-08-02'
+checked_on: '2026-09-16'
+previous_check: '2026-08-02'
 site: findlay
 issue: 'watermark-directory/the-watermark-directory#1461'
 epic: 'watermark-directory/the-watermark-directory#1265'
@@ -132,18 +134,28 @@ derived_individual_loads:
     break_even_c_m_mg_l: 0.4334
     under_limit: null   # deliberately null — see season_findings below
   - season: 2026
-    months_of_data: 4
-    complete: false
-    incomplete_reason: >-
-      July 2026 had not been reported at the 2026-07-31 ICIS extract. The season is not over on
-      this record and NO 2026 load may be quoted as a season total.
-    monthly_mean_mg_l: {'03': 0.41, '04': 0.29, '05': 0.38, '06': 0.45}
-    monthly_mean_flow_mgd: {'03': 10.175, '04': 15.487, '05': 14.221, '06': 9.6351}
-    c_m_mg_l: 0.395
-    q_s_million_gallons: 1509.9
-    derived_load_kg: 2258
-    ratio_to_limit: null
-    under_limit: null
+    months_of_data: 5
+    complete: true
+    completed_on: '2026-09-16'    # July 2026 posted; ICIS extract 2026-09-11, DMR received 2026-08-17
+    superseded_partial:
+      as_of: '2026-08-02'
+      months_of_data: 4
+      c_m_mg_l: 0.395
+      q_s_million_gallons: 1509.9
+      derived_load_kg: 2258
+      note: >-
+        The March-June partial, kept rather than overwritten. It was correct and incomplete on its
+        date, and it is worth keeping because it shows the median MOVED when July landed — from
+        0.395 (the mean of the two middle values of four) to 0.38 (the third of five). A partial
+        median is not a running estimate of the final one.
+    monthly_mean_mg_l: {'03': 0.41, '04': 0.29, '05': 0.38, '06': 0.45, '07': 0.35}
+    monthly_mean_flow_mgd: {'03': 10.175, '04': 15.487, '05': 14.221, '06': 9.6351, '07': 9.0839}
+    c_m_mg_l: 0.380
+    q_s_million_gallons: 1791.5
+    derived_load_kg: 2577
+    ratio_to_limit: 0.805
+    break_even_c_m_mg_l: 0.4719
+    under_limit: true
 
 season_findings:
   '2023':
@@ -172,16 +184,27 @@ season_findings:
       smaller than the method's own error, so this season may be either side of the limit. Do
       not publish 2025 as compliant or as an exceedance without the reported number.
   '2026':
-    resolved: false
+    resolved: true
+    resolved_on: '2026-09-16'
     finding: >-
-      [open] Season incomplete — March through June only. Through June the plant is at 2,258 kg
-      with a 0.395 mg/L median, tracking like 2024 and 2025 rather than 2023. July's observed
-      monthly means were 0.81 mg/L in 2023, 0.53 in 2024 and 0.42 in 2025 — the season's highest
-      month in 2024, but not in 2023 (June, 0.87) or 2025 (March, 0.48), so July carries no
-      reliable seasonal pattern to extrapolate from. Both the missing month's concentration and its
-      flow move the total, and the statistic is a median, so a single month can shift it or not
-      depending on where it falls in the order. The season total is not predictable from the
-      partial. The reported figure is due 2026-08-20 (see watch_triggers).
+      [inference] UNDER the allocation, and more robustly than any season since 2023 was over it —
+      2,577 kg, 80.5 percent of the 3,200 kg limit. The break-even median is 0.4719 mg/L and NOT
+      ONE of the season's five monthly means reaches it; the highest, June at 0.45, is still below.
+      For the true sample median to reach break-even, more than half the season's samples would
+      have to exceed a value no month averaged. The independent kg/day cross-check gives 2,478 kg
+      (0.774x), a 99 kg spread that sits inside the 100-260 kg precision this method's own
+      cross-check established. Both methods, and the approximation's whole plausible range, put
+      2026 under.
+    what_july_actually_did: >-
+      July 2026 came in at 0.35 mg/L on 9.0839 MGD, reported 2026-08-17. That is the LOWEST July
+      concentration in the record — 0.81 (2023), 0.53 (2024), 0.42 (2025), 0.35 (2026) — and it is
+      the season's lowest month rather than, as in 2024, its highest. The 2026-08-02 pass was right
+      to refuse to extrapolate: July carried no pattern, and it landed below every prior July.
+    the_caveat_that_does_not_go_away: >-
+      This is still [inference], not [verified]. It is a reconstruction of parameter 51451, not
+      51451 itself, and the margin being comfortable does not change what kind of number it is.
+      What the margin changes is whether the approximation could flip the answer — for 2026 it
+      could not, which is exactly the test `break_even_c_m` exists to run.
 
 # --- what changed, and why it is the finding ---------------------------------------------------
 
@@ -194,7 +217,7 @@ seasonal_operating_shift:
     '2023': {spring: 0.708, non_spring: 0.761, ratio: 0.93}
     '2024': {spring: 0.424, non_spring: 0.752, ratio: 0.56}
     '2025': {spring: 0.402, non_spring: 0.761, ratio: 0.53}
-    '2026': {spring: 0.383, non_spring: 0.670, ratio: 0.57, note: partial year — Jan-Jun only}
+    '2026': {spring: 0.376, non_spring: 0.670, ratio: 0.56, note: 'spring now COMPLETE (Mar-Jul, updated 2026-09-16); non_spring is still partial — Jan-Feb only'}
   reading: >-
     [inference] This is what a seasonal mass limit is designed to produce, and the record shows
     it working: outside March-July the effluent runs at roughly 0.75 mg/L, inside it at roughly
@@ -206,6 +229,39 @@ seasonal_operating_shift:
     Do not describe this as the plant "coming into compliance." Under OHP000001 Part IV.C.3 an
     over-limit individual load was never a violation while the group bubble held, so there was no
     non-compliance to cure. What changed is the load, not a compliance status.
+  the_mechanism_now_has_a_name:
+    tag: '[verified]'
+    added: '2026-09-16'
+    source: data/documents/oepa/findlay/edoc-4232502.pdf — Ohio EPA NPDES Compliance Evaluation Inspection, conducted 2026-08-06
+    statement: >-
+      Ohio EPA's own description of the treatment train says FERRIC CHLORIDE is added at the
+      oxidation ditch splitter box, ahead of the four oxidation ditches. That is the
+      chemical-phosphorus-removal step, and it is the lever a plant would pull to treat harder
+      inside a seasonal mass limit than outside one. The inference above — "additional treatment
+      during the season" — now has an identified mechanism in the plant, established by an
+      inspector rather than assumed.
+    what_it_still_does_not_establish: >-
+      Seasonal dosing. The inspection describes the process, not the dose rate or its variation
+      over the year, and no operating record is in the corpus. The CAUSE of the spring/non-spring
+      split remains [inference]; what moved is that the mechanism is no longer hypothetical.
+    the_rest_of_that_inspection:
+      recommendations_noted: >-
+        NONE, in any of the eight areas evaluated — NPDES Compliance, Operations & Maintenance,
+        Operator Certification, Collection System, Sludge Management, Self-Monitoring, Laboratory,
+        and Effluent/Receiving Water. Storm Water was not evaluated.
+      compliance_data_2022_02_01_to_2026_07_01:
+        permit_effluent_limit_violations: 1
+        which: October 2023, Nitrogen-Ammonia at station 001
+        permit_effluent_code_events: 9
+        permit_effluent_frequency_violations: 0
+        compliance_schedule_milestones_not_entered: 1
+        reported_sso_events: 4
+      note: >-
+        Ohio EPA's own four-and-a-half-year tabulation records ONE effluent limit violation at this
+        plant, and it is not a phosphorus one. That is consistent with this file's whole point:
+        the individual permit's 1.0 mg/L concentration limit was never the binding constraint, the
+        seasonal mass limit is, and the seasonal mass limit lives in a general permit whose
+        compliance determination is not in the federal record at all.
 
 # --- why the authoritative number is not here --------------------------------------------------
 
@@ -218,6 +274,14 @@ authoritative_number:
     load. A pull against the general permit itself (p_id=OHP000001) returns a chart with ZERO
     DMR rows. So the number the general permit binds is not retrievable from ECHO at all; it
     lives in Ohio EPA's eDMR/eBusiness system under the general-permit coverage.
+  re_verified_2026_09_16: >-
+    [verified] AND THE 2026-08-20 TRIGGER DID NOT CHANGE IT. Re-pulled 2026-09-16 against ICIS
+    extract 2026-09-11 — 27 days after the Individual Seasonal Load was due on the July eDMR.
+    OH0025135's 2026 chart carries 33 permitted features and 30 distinct parameter codes, and
+    51451 is NOT among them. The OHP000001 pull still returns zero features and zero rows. So the
+    structural finding is now confirmed across a reporting deadline rather than merely observed
+    between them: this is not a lag, the federal effluent chart does not carry this parameter,
+    and no future pass should expect it to appear.
   season_report: >-
     OHP000001 Part IV.D — due September 1 each year, submitted electronically through the Ohio
     EPA eBusiness Center, carrying "the calculated Individual Load and a brief assessment
@@ -232,11 +296,39 @@ authoritative_number:
     targeted searches surface nothing. Note that Attachment 3 lists this row's Permit Condition
     as "--": it is an administrative commitment in a fact sheet, NOT an enforceable permit term.
     Record as an access gap, not as a negative. Lead GP-ANNUAL-REPORT-NOT-PUBLISHED.
-  dead_link: >-
-    OHP000001 Part IV.D cites the Season Report form at
-    https://epa.ohio.gov/divisions-and-offices/surface-water/guides-manuals/permits-program-technicalassistance
-    — that URL returns HTTP 404 (checked 2026-08-02), as does the hyphenated
-    ".../permits-program-technical-assistance" variant.
+  re_probed_2026_09_16:
+    tag: '[verified negative — with a positive control]'
+    result: >-
+      Eight further candidate filenames probed under
+      permits/Maumee_Watershed_Total_Phosphorus/ on 2026-09-16, all 404. The POSITIVE CONTROL
+      PASSES: OHP000001.pdf (1,381,747 bytes) and OHP000001_FS.pdf (373,472 bytes) both return 200
+      from the same folder in the same run, so the route is live and the 404s mean the files are
+      not there under those names.
+    ⚠️_a_mistake_worth_recording: >-
+      The first attempt this pass probed permits/doc/ — the folder most Ohio EPA permits live in —
+      and got 404 on EVERY candidate INCLUDING OHP000001.pdf and OHP000001_FS.pdf, two documents
+      this corpus holds and fetched from the DAM. Reported without the control, that run would have
+      read as "the annual report is still not published" when what it actually showed was the wrong
+      folder. This general permit is served from permits/Maumee_Watershed_Total_Phosphorus/, not
+      permits/doc/. ALWAYS probe a known-present file in the same folder in the same run.
+  dead_link:
+    as_recorded_2026_08_02: >-
+      OHP000001 Part IV.D cites the Season Report form at
+      https://epa.ohio.gov/divisions-and-offices/surface-water/guides-manuals/permits-program-technicalassistance
+      — that URL returned HTTP 404 on 2026-08-02, as did the hyphenated
+      ".../permits-program-technical-assistance" variant.
+    superseded_2026_09_16:
+      tag: '[verified]'
+      result: >-
+        NO LONGER DEAD. Both variants return HTTP 200 on 2026-09-16 — the unhyphenated URL the
+        permit actually cites, and the hyphenated one. The page has been restored or re-routed at
+        some point in the intervening six weeks.
+      why_it_is_kept_not_deleted: >-
+        Because the 2026-08-02 reading was correct on its date and because this is the second
+        route on this file to change state in six weeks. A permit citing a URL that 404s and then
+        returns is a fact about Ohio EPA's web estate, and a watch that silently replaced the old
+        reading would lose the observation that these links are not stable enough to treat a 404
+        as permanent.
 
 # --- the standing calendar ---------------------------------------------------------------------
 
@@ -257,27 +349,124 @@ watch_triggers:
   - {date: November 1, item: Termination Notices, action: Ohio EPA send termination notices to
      individual facilities identified by termination procedure, condition: 'GP Part I, Item C.4.b'}
   next_checks:
-  - date: '2026-08-20'
+    set_on: '2026-09-16'
+    supersedes: the four next_checks written 2026-08-02, two of which had blown by the time this pass ran
+  trigger_outcomes_2026_09_16:
+  - trigger_date: '2026-08-20'
+    checked_on: '2026-09-16'
+    days_late: 27
+    what_it_asked: >-
+      The 2026 Individual Seasonal Load lands on the July eDMR. Re-pull the effluent chart for
+      OH0025135 and OHP000001 and look for parameter 51451; if it appears, it supersedes every
+      derived figure above.
+    answer: PARAMETER 51451 DID NOT APPEAR. NOTHING IS SUPERSEDED — BUT THE SEASON CLOSED ANYWAY.
+    tag: '[verified negative]'
+    detail: >-
+      Re-pulled 2026-09-16 against ICIS extract 2026-09-11, 27 days after the reporting deadline.
+      OH0025135's 2026 chart carries 30 distinct parameter codes and 51451 is not one of them; the
+      OHP000001 pull returns zero features. The structural finding is confirmed ACROSS a deadline,
+      which is stronger than the 2026-08-02 observation between deadlines: this is not lag.
+    what_the_pull_did_yield: >-
+      July 2026 — the month the 2026-08-02 pass was missing. TP monthly average 0.35 mg/L on a
+      9.0839 MGD monthly average flow, DMR received 2026-08-17. That completes the 2026 spring
+      season and resolves it at 2,577 kg, 0.805x the limit. See `season_findings['2026']`. So the
+      trigger's stated purpose was not met and the trigger was still worth running.
+    consequence_for_the_watch: >-
+      Stop listing "look for 51451 in ECHO" as a trigger. It has now been checked before a
+      deadline (2026-08-02) and after one (2026-09-16) and the parameter is simply not in this
+      service. The only routes to the reported number are the Season Report and the General
+      Permit Annual Report, both records-request targets.
+  - trigger_date: '2026-09-01'
+    checked_on: '2026-09-16'
+    days_late: 15
+    what_it_asked: >-
+      The 2026 Season Report is due to Ohio EPA. Not published — a records-request target covering
+      the 2024, 2025 and 2026 reports together. Closes TP-SEASON-REPORTS and the 2025 [open]
+      definitively.
+    answer: NO REQUEST HAS BEEN SENT, AND NOTHING APPEARED ON ANY PUBLIC ROUTE.
+    tag: '[verified negative]'
+    detail: >-
+      The eDocument portal was swept for Secondary ID 2PD00008 on 2026-09-16 — 170 documents, of
+      which three are new since 2026-07-01, and none is a Season Report: two SSO ANNUAL reports
+      (2026-07-06) and the NPDES Compliance Evaluation Inspection (2026-08-17). The Season Report
+      is submitted through the Ohio EPA eBusiness Center and, as this file already establishes, is
+      a submission rather than a published document — the portal sweep confirms that shape rather
+      than contradicting it.
+    what_is_still_open: >-
+      TP-SEASON-REPORTS remains open and the 2025 season remains [open]. THIS PASS DID NOT CLOSE
+      EITHER, and the reason is that a records request was never made — not that a route failed.
+      Recorded plainly so the lead is not quietly treated as blocked when it is simply unsent. It
+      is now the only thing standing between this file and a [verified] number for four seasons.
+    the_2025_question_is_now_the_only_unresolved_one: >-
+      2023 (over), 2024 (under), 2026 (under) all resolve on the reconstruction. 2025 does not and
+      cannot — its break-even median of 0.4334 mg/L sits inside the season's own spread. One
+      records request would settle it, and it would settle 2024 and 2026 as [verified] at the same
+      time.
+  not_yet_due_and_deliberately_not_run:
+    statement: >-
+      The file's other three watches are NOT due and were not run. Stated explicitly rather than
+      silently skipped, so the absence of a result below is not read as a result.
+    items:
+    - {trigger: '2026-11-01', what: "Ohio EPA's General Permit Annual Report for the 2026 season", status: not due — six weeks out}
+    - {trigger: '2026-11-01', what: Termination notices under GP Part I, Item C.4.b, status: not due — six weeks out}
+    - {trigger: the 2026 Biennial Report, what: the next published 39-facility group total, status: no publication date is fixed; none had appeared as of 2026-09-16}
+    one_thing_that_was_run: >-
+      The DAM folder was re-probed for a General Permit Annual Report under eight further
+      filenames, with a positive control — all 404. See `authoritative_number.re_probed_2026_09_16`,
+      including the folder mistake that run caught.
+  dated_triggers:
+  - date: '2026-11-15'
     what: >-
-      The 2026 Individual Seasonal Load lands on the July eDMR. This is the FIRST of the year's
-      triggers and it is 18 days after this record was written. Re-pull the effluent chart for
-      OH0025135 and OHP000001 after this date and look for parameter 51451; if it appears, it
-      supersedes every derived figure above.
-    closes: the 2026 season, and possibly the 2025 [open] if prior seasons are carried
-  - date: '2026-09-01'
-    what: The 2026 Season Report is due to Ohio EPA. Not published — a records-request target
-      covering the 2024, 2025 and 2026 reports together.
-    closes: TP-SEASON-REPORTS, and the 2025 [open] definitively
-  - date: '2026-11-01'
-    what: >-
-      Ohio EPA's General Permit Annual Report for the 2026 season is due to be released, with the
-      Cumulative Load determination and any facilities identified in violation. Two prior years
-      of this report were never found; check whether one appears at all.
+      Ohio EPA's General Permit Annual Report for the 2026 season, due 2026-11-01, with the
+      Cumulative Load determination and any facilities identified in violation. Three prior years
+      have never been found, so the real question is whether one is ever released at all.
+    route: >-
+      DAM folder permits/Maumee_Watershed_Total_Phosphorus/ — AND PROBE OHP000001.pdf IN THE SAME
+      RUN as a positive control. Then Ohio EPA DSW directly.
     closes: whether the group bubble still holds, and GP-ANNUAL-REPORT-NOT-PUBLISHED
-  - date: '2026-11-01'
-    what: Termination notices, if any, go out under GP Part I, Item C.4.b. A termination would
-      move the 3,200 kg limit into the individual permit as an effluent limit.
+  - date: '2026-11-15'
+    what: >-
+      Termination notices under GP Part I, Item C.4.b. A termination would move the 3,200 kg limit
+      into the individual permit as an enforceable effluent limit — which would convert this whole
+      file from a reconstruction of a shielded number into a compliance question.
+    route: eDoc Secondary ID 2PD00008; Ohio EPA DSW
     closes: the standing question of whether the bubble is Findlay's actual shield
+  - date: '2026-10-15'
+    what: >-
+      Send the records request. It covers the 2024, 2025 and 2026 Season Reports together and it
+      is the only route to a [verified] Individual Load. This is a DATED ACTION on this corpus,
+      not a check on someone else's filing — the 2026-09-01 trigger blew because nobody sent it.
+    route: Ohio EPA records request, Division of Surface Water NPDES Permit Unit
+    closes: TP-SEASON-REPORTS, the 2025 [open], and the [inference] tag on 2024 and 2026
+  - date: '2027-03-01'
+    what: >-
+      The 2027 spring season opens. Watch whether the spring/non-spring split holds for a fourth
+      year — 0.93, 0.56, 0.53, 0.56 so far — and whether non-spring 2026 finishes near 0.75 mg/L.
+    route: ECHO eff_rest_services.get_effluent_chart, OH0025135, parameters 00665 and 50050
+  - date: '2027-08-25'
+    what: >-
+      The 2027 season closes on the eDMR. By then five complete reconstructed seasons will exist
+      and the series 4,450 / 2,756 / 3,101 / 2,577 will have a fifth point.
+    route: same
+  do_not:
+  - >-
+    Expect parameter 51451 in ECHO. Checked before a deadline (2026-08-02) and after one
+    (2026-09-16); it is not in the service.
+  - >-
+    Probe the DAM for this general permit under permits/doc/. It is served from
+    permits/Maumee_Watershed_Total_Phosphorus/, and a permits/doc/ probe 404s on the permit itself.
+  - >-
+    Probe any DAM folder for an absent document without fetching a known-present file from the same
+    folder in the same run.
+  - >-
+    Quote 2025 as compliant or as an exceedance. Its break-even median falls inside the season's
+    own spread and no amount of re-derivation will change that — only the reported number will.
+  - >-
+    Read a 404 on an Ohio EPA guidance URL as permanent. The Season Report form link recorded dead
+    on 2026-08-02 returns 200 on 2026-09-16.
+  - >-
+    Treat the 2026-08-06 inspection's ferric-chloride description as establishing seasonal dosing.
+    It establishes the mechanism exists, not that it is varied.
 
 # --- the bubble, restated with what is now known -----------------------------------------------
 
@@ -297,6 +486,27 @@ bubble_status:
     its own allocation. 2025 is too close to call. The watch therefore shifts from "is the bubble
     holding?" to "is the margin closing?": 4,450 -> 2,756 -> 3,101 kg is not a trend toward
     safety.
+  the_margin_question_answered_2026_09_16:
+    tag: '[inference]'
+    series_kg: {'2023': 4450, '2024': 2756, '2025': 3101, '2026': 2577}
+    series_ratio: {'2023': 1.39, '2024': 0.86, '2025': 0.97, '2026': 0.805}
+    statement: >-
+      NO — THE MARGIN OPENED. The 2026 season closed at 2,577 kg, 80.5 percent of the limit: the
+      lowest of the three post-permit seasons and the largest headroom since the general permit
+      took effect. 2025's 0.97 was the peak of the worry, not the start of a climb.
+    what_this_does_to_the_framing: >-
+      The watch was written expecting to find a closing margin and found an opening one. That is
+      recorded at full weight, in the same place the closing-margin framing was written, because a
+      watch that only ever confirms its own premise is not a watch. Three points made a shape;
+      four points made a range. The honest reading of 4,450 / 2,756 / 3,101 / 2,577 is one large
+      pre-permit season followed by three post-permit seasons oscillating between 0.80 and 0.97 of
+      the limit — no trend either way, and every post-permit season under.
+    what_it_does_not_change: >-
+      That 2025 is unresolved, that all four numbers are [inference], and that the bubble's own
+      status is unpublished for 2025 and 2026. A comfortable margin on a reconstructed number
+      against an unpublished group total is not a finding of compliance.
   still_open: >-
     No group total has been published for 2025 or 2026. The 2026 Biennial Report — the next one
-    due after the committed 2024 edition — had not appeared as of 2026-08-02.
+    due after the committed 2024 edition — had not appeared as of 2026-08-02, and had still not
+    appeared as of 2026-09-16. Nor has any General Permit Annual Report for any year, re-probed
+    with a positive control this pass.

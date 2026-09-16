@@ -2,7 +2,13 @@ meta:
   subject: >-
     OEPA/DAM permit download manifest — City of Findlay Water Pollution Control Center
     (WPCC/WPCF), NPDES 2PD00008 / application OH0025135 (issue 1460)
-  generated_at: '2026-07-31'
+  generated_at: '2026-09-16'
+  naming: >-
+    Two naming families, both as-received. A DAM pull keeps the slot's basename (`2PD00008.pdf`).
+    An eDocument-portal pull has no as-received name — the portal serves from
+    `ViewDocument.aspx?docid=<n>` with no filename in the URL — so the corpus constructs
+    `edoc-<docid>.pdf`, the same convention the van-wert and ottawa shelves use. A constructed
+    name is recorded as constructed.
   policy: >-
     non-destructive — originals keep as-received names. Ohio EPA serves TWO different documents
     from the DAM under the same basename `2PD00008.pdf` (one from `permits/doc/`, one from
@@ -64,3 +70,44 @@ documents:
     `2PD00008.pdf`; the `.1abaf306` infix is this file's own sha256 prefix, added by the
     fetcher's non-destructive collision rule, not a rename of the source. See
     data/extracted/oepa/findlay/2PD00008.1abaf306.npdes.yaml.
+- filename: edoc-4232502.pdf
+  canonical_name: >-
+    Ohio EPA NWDO NPDES Compliance Evaluation Inspection report, Findlay Water Pollution Control
+    Center, permit 2PD00008 — inspection conducted 2026-08-06, letter dated 2026-08-17 to Mayor
+    Christina Muryn. 14 pp.
+  content_verified_date: '2026-08-17'   # "August 17, 2026" in the letter's text layer; the INSPECTION itself was 2026-08-06, stated in the first paragraph
+  permit_id: 2PD00008
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4232502
+  edoc_docid: 4232502
+  edoc_doc_type: Inspection or Compliance Review
+  edoc_program: NPDES
+  edoc_keyword: INSPECTION
+  edoc_published: '2026-08-17'
+  sha256: 7c1c30984d6f6805a5db0f45863b1a395a0ae0361339cb84c472bb433c480b63
+  bytes: 382430
+  content_type: application/pdf
+  fetched_at: '2026-09-16'
+  status: downloaded
+  evidence: >-
+    native_text, good quality. TWO DATES, and they are not interchangeable: the CEI was conducted
+    2026-08-06 and the transmittal letter is dated 2026-08-17. `content_verified_date` is the
+    letter's date because that is the document's own date; cite the inspection by 2026-08-06.
+    ⚠️ The report's checkbox tables extract with the box glyphs (☒/☐) intact and READABLE, unlike
+    the OEL Form 5031 on the van-wert shelf — but the Yes/No/NA column order must be read from the
+    rendered page before any individual answer is quoted.
+  note: >-
+    THE PROCESS FACT THAT MATTERS FOR THE PHOSPHORUS WATCH. The report describes the treatment
+    train: influent gates → automatic bar screen → oxidation ditch splitter box, where FERRIC
+    CHLORIDE IS ADDED, → one of four oxidation ditches → one of five final clarifiers → UV
+    disinfection → post-disinfection aeration. Ferric chloride at the splitter box is the
+    chemical-phosphorus-removal step, so this is the mechanism by which seasonal phosphorus
+    treatment would be varied. It establishes that the mechanism EXISTS; it says nothing about
+    seasonal dosing rates and must not be read as establishing the seasonal shift's cause.
+    Compliance data for 2022-02-01 → 2026-07-01, as tabulated by Ohio EPA: Permit Effluent Limit
+    Violations 1 (October 2023, Nitrogen-Ammonia at station 001); Permit Effluent Code Events 9;
+    Permit Effluent Frequency Violations 0; Compliance Schedule Milestones Not Entered 1;
+    Reported SSO Events 4.
+    Section C records every evaluated area — NPDES Compliance, Operations & Maintenance, Operator
+    Certification, Collection System, Sludge Management, Self-Monitoring, Laboratory, Effluent /
+    Receiving Water — with "Recommendations noted in report? N". Storm Water was not evaluated.
+    The outfall 001 visual observation is clear on every column.
