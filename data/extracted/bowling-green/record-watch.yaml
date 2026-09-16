@@ -402,3 +402,79 @@ parties_on_the_record:
   opposition:
     - {name: 'Ross Fought', role: 'township resident', note: 'the only public comment recorded against the CRA, before both the county (2023-09-28) and the township (2023-10-04)'}
     - {name: 'Leatra Harper', role: 'Fresh Water Accountability', note: 'spoke against the 2026-07-07 rezoning; NOT identified with the "Leslie Harper" the press names as referendum coordinator'}
+
+# ── When to run this again ───────────────────────────────────────────────────
+# ⚠️ ADDED 2026-09-16. This file had NO next_check block, so nothing could ever report it
+# overdue. `meta.checked_on` deliberately stays at 2026-08-05: the watch was NOT re-run on
+# 2026-09-16 — only its calendar was written.
+next_check:
+  declared_on: '2026-09-16'
+  declared_by: the standing-check-in sweep; the watch itself was not re-run
+  last_actually_checked: '2026-08-05'
+  dormant: false
+  # ⚠️ ─────────────────────────────────────────────────────────────────────────
+  a_trigger_has_already_lapsed_unchecked:
+    tag: '[open]'
+    severity: this is the reason the missing cadence mattered
+    id: MIDDLETON-REFERENDUM
+    what_lapsed: >-
+      The R.C. 519.12 referendum window against the 2026-07-07 Middleton Township rezoning closed
+      "on or about 2026-08-06" — the day AFTER this file was captured. As of 2026-09-16 it closed
+      41 days ago and NOBODY HAS CHECKED whether a petition was filed with the Wood County Board
+      of Elections, or whether it was certified.
+    why_it_is_the_worst_one_to_have_missed: >-
+      This file records it as "the only mechanism by which the thirteen-parcel rezoning can still
+      be undone." If a petition was filed and certified, the rezoning goes to the November 2026
+      ballot and the whole land-assembly thread changes posture. If none was filed, the rezoning
+      is final and that too is a decided fact. Either way the answer exists now and did not exist
+      when this file was written — and a watch with no cadence had no way to say so.
+    not_run_on_2026_09_16: >-
+      Deliberately. This sweep's scope was to DECLARE a cadence for the four watches that had
+      none, not to run them. It is the first dated trigger below and it is due immediately.
+    route: Wood County Board of Elections, http://www.co.wood.oh.us/boe/
+    carry_forward: >-
+      The unresolved signature-threshold conflict travels with it — the township's counsel is
+      minuted saying 35%, R.C. 519.12(H) is understood here as 8% of the gubernatorial vote, and
+      the press figure of 971 implies neither on its face. The statute text is the instrument and
+      has still not been read. Do not adopt any of the three.
+  cadence: >-
+    QUARTERLY. Every instrument this watch tracks is a records-request target or a minutes
+    archive — the CRA agreement, the school compensation agreements, the Wood County TIF, the
+    Planning Commission minutes — and none of them publishes on a schedule this file can
+    anticipate. Quarterly matches the pace at which township and county minutes archives are
+    updated, which is the only route here that moves on its own. Next routine pass: 2026-12-05.
+  dated_triggers:
+  - date: '2026-09-16'
+    status: DUE NOW — already 41 days past the event
+    what: >-
+      Whether a R.C. 519.12 referendum petition against the 2026-07-07 rezoning was filed by the
+      ~2026-08-06 deadline and whether the Board of Elections certified it.
+    route: Wood County Board of Elections; R.C. 149.43 if the certification is not published
+  - date: '2026-11-04'
+    what: >-
+      If a referendum WAS certified, the rezoning question is on this ballot. If it was not, this
+      date passes without event and the 2026-07-07 rezoning is settled. Either outcome is a
+      finding; only one of them is a story.
+    route: Wood County Board of Elections results
+  - date: '2026-12-05'
+    what: >-
+      Routine quarterly sweep — the Middleton Township minutes archive, the Wood County
+      Commissioners' minutes tree, and the CivicEngage Agenda Center, each for anything after the
+      last capture.
+    route: as recorded in meta.method
+  - date: '2027-03-05'
+    what: The next quarterly sweep.
+    route: as above
+  undated_triggers:
+    statement: >-
+      The records-request targets have no dates because no request has been sent. They do not
+      expire and they do not arrive on their own; each quarterly pass should ask whether it is
+      time to send one rather than whether one has appeared.
+    items: [CRA-AGREEMENT, SCHOOL-COMPENSATION-AGREEMENTS, WOOD-COUNTY-TIF, WCPC-MINUTES, MIDDLETON-SCHALLER-ACTION]
+  do_not:
+  - >-
+    Adopt any of the three signature thresholds (35%, 8%, 971) without reading R.C. 519.12(H).
+    Two of them come from people describing the statute and one from the press describing a drive.
+  - >-
+    Read the blocked Wood County Recorder (Fidlar AVA) and Ohio Secretary of State routes as empty.
+    They are recorded as blocked and remain so until re-tested.
