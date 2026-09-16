@@ -100,7 +100,7 @@ describe("isRoutableDoc — measured against the committed Lima corpus", () => {
   // and recorded by sha256 in `data/documents/permits/bistrozzi-permits/filename-map.yaml`.
   // Committing either moves this number again and SHOULD.
   // The 54 exclusions are unchanged: both new entries are ordinary routable PDFs.
-  it("excludes exactly 54 of 3,394 entries (1.6%)", () => {
+  it("excludes exactly 54 of 3,396 entries (1.6%)", () => {
     const entries = limaEntries();
     // 3,350 -> 3,362 (#2089): the twelve committed eDocuments of the 2DP00130 / APP285104563
     // indirect-discharge application package under `oepa/lima/`. The portal serves 23 rows; the
@@ -119,7 +119,14 @@ describe("isRoutableDoc — measured against the committed Lima corpus", () => {
     // fetched. The sweep named 18 rows; they are 12 distinct byte-streams, and the six duplicate
     // docids are recorded in the shelf's filename-map rather than committed twice.
     // The 54 exclusions are unchanged again: all twelve are ordinary routable PDFs.
-    expect(entries.length).toBe(3394);
+    // 3,394 -> 3,396 (the Lima data-center moratorium): the City of Lima council AGENDA and PACKET
+    // for the regular meeting of 2026-09-14, carrying Ordinance 198-26 at packet pp. 154-156. They
+    // open a NEW `lima/council/` sub-collection — NOT `lima/meetings/`, which is the civic loader's
+    // manifest-managed subtree for body slug `lima`, and which is fed by a route that has stopped
+    // producing: the CivicPlus Agenda Center's City Council category ends at 2024-05-06 and the
+    // live portal is PrimeGov.
+    // The 54 exclusions are unchanged once more: both new entries are ordinary routable PDFs.
+    expect(entries.length).toBe(3396);
     expect(entries.filter((e) => !isRoutableDoc(e))).toHaveLength(54);
   });
 

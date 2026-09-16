@@ -1,0 +1,148 @@
+meta:
+  subject: >
+    Canonical filename map for lima/council/ — the City of Lima legislative record behind
+    Ordinance 198-26, the eighteen-month data-center moratorium introduced at the regular council
+    meeting of 2026-09-14. Two files: the meeting agenda and the meeting packet, the latter
+    carrying both the administration's transmittal memo and the full text of the ordinance as
+    introduced.
+  note: >
+    Per chain-of-custody rules (CLAUDE.md -> Data discipline), source files keep their as-received
+    names — here PrimeGov's own `Meetings<meetingId><Template>_<timestamp>.pdf`, taken verbatim
+    from the `Content-Disposition` header the server sent. `content_verified` records HOW the
+    meeting date below was established from the document's own bytes (the native text layer, or
+    OCR of the scanned pages at 300-450 DPI) — never from the filename, never from the PrimeGov
+    API's own `dateTime` field, and never from news coverage.
+  date_correction: >
+    ⚠️ THE COVERAGE DATE IS OFF BY ONE DAY. Secondary reporting (limaohio.com, govtech.com,
+    toledoblade.com, all 2026-09-15) describes this as a "Monday" meeting and is filed 2026-09-15,
+    which is a TUESDAY. The agenda's own first page prints "SEPTEMBER 14, 2026" in its native text
+    layer, and 2026-09-14 is the Monday. The meeting date is 2026-09-14; 2026-09-15 is the
+    publication date of the coverage. This is exactly why the date is content-verified.
+  custody_caveat: >
+    ⚠️ NEITHER FILE IS A SIGNED OR CERTIFIED AS-PASSED COPY, AND NO PASSAGE RECORD EXISTS IN THIS
+    SHELF. Both were published 2026-09-10, four days BEFORE the meeting. The ordinance text at
+    packet pp. 154-156 prints an unfilled "Passed: ____, 2026" over Jamie L. Dixon, President and
+    an unfilled "Approved: ____, 2026" over Sharetta T. Smith, Mayor, and its VOTE grid
+    (columns VOTE / 1ST / 2ND / 3RD, each Y|N; rows GORDON, WILKERSON, LOWE, JORDAN, JONES,
+    GLENN, NEEPER, DIXON) is entirely blank. As of the retrieval date below, PrimeGov publishes
+    NO Minutes document for meeting 359 — the `documentList` carries only Agenda, Packet and HTML
+    Packet. So the fact of passage, the vote tally, the mover and seconder, the reading at which
+    it passed, and therefore the effective date and the end of the eighteen-month clock are ALL
+    unestablished here. They are the subject of the R.C. 149.43 request drafted at
+    `data/extracted/lima/council/2026-09-16-lima-clerk-of-council.records-request.md`.
+  retrieved: '2026-09-16'
+  source_portal: https://limaoh.primegov.com/public/portal
+  source_api: https://limaoh.primegov.com/api/v2/PublicPortal/ListArchivedMeetings?year=2026
+  source_note: >
+    Reached from https://www.limaohio.gov/887/Agendas-Minutes, which embeds the PrimeGov portal in
+    an iframe and labels the older CivicPlus Agenda Center "Archived Meeting Agendas & Minutes
+    (Prior to May 2024)". The Agenda Center's City Council category (catID=1) offers no year later
+    than 2024 and its newest City Council document is 2024-05-06, which is why
+    `data/extracted/lima/meetings/meeting-index.yaml` stops where it does: the shelf is not stale,
+    the ROUTE changed. See ./README.md.
+  meeting:
+    primegov_meeting_id: 359
+    title_as_published: Lima City Council Regular Meeting
+    datetime_as_published: '2026-09-14T19:00:00'
+    location: >
+      Mercy Health St. Rita's Graduate Medical Education Center, 751 W. Market Street, Lima, Ohio
+      45801 — 6:30 PM pre-council in Conference Room No. 1, 7:00 PM regular meeting in the
+      Auditorium. [verified] agenda p. 0. Not the usual council chamber at 50 Town Square.
+    video_url: https://limaoh.new.swagit.com/events/49176
+    video_note: >
+      A Swagit recording of the meeting is published and is NOT ingested here. A video is not a
+      substitute for the journal: it cannot be cited to a page, and reading a tally off a recording
+      is a transcription, not a record. It is a lead for the records request, not an instrument.
+
+documents:
+- filename: Meetings359Agenda_20260910134040666.pdf
+  canonical: lima-council-agenda-2026-09-14.pdf
+  type: council-agenda
+  date: '2026-09-14'
+  content_verified: pdf_text
+  date_evidence: >
+    Page 0 of the native text layer prints "CITY OF LIMA / CITY COUNCIL / REGULAR MEETING AGENDA /
+    SEPTEMBER 14, 2026".
+  pages: 7
+  bytes: 277068
+  sha256: ea6c69b35eb72be2ab3fea5dbc9e85fa0b524d24749c1f6a395e8e4165c70f6e
+  media_type: application/pdf
+  source_url: https://limaoh.primegov.com/Public/CompiledDocument/7757
+  primegov_document_id: 7757
+  primegov_template: Agenda
+  published: '2026-09-10T18:14:23.643'
+  text_layer: true
+  carries:
+  - >
+    The ORDINANCE NUMBER. Section VI (ORDINANCES) p. 6 lists "____ 198-26 An ordinance enacting an
+    eighteen-month moratorium on the establishment, development, processing, review and approval of
+    stand-alone data center development within the City of Lima and on new requests for City
+    supplied water for date center developments outside the corporate limits." The listing's
+    "date center" is a typo in the agenda; the ordinance's own title (packet p. 154) reads "DATA
+    CENTER DEVELOPMENTS". Recorded, not corrected.
+  - >
+    Communication 2 (p. 1): "*From the Mayor and the Dir. of Utilities regarding legislation for an
+    18-month moratorium on new standalone data center development within the City of Lima." The
+    asterisk convention marks a communication with legislation attached.
+  - >
+    198-26 is the LAST of 33 ordinances (166-26 through 198-26) on one agenda, all printed with an
+    unfilled "____" prefix and no reading designation.
+  - >
+    A SECOND, UNRELATED MORATORIUM is on the same agenda — 196-26, an additional six-month
+    moratorium on shared living facilities (group homes), with two citizen speakers on it (items
+    V.f, V.g). Recorded so the next pass does not conflate the two moratoriums; only 198-26 is the
+    data-center instrument.
+
+- filename: Meetings359Packet_20260910141403791.pdf
+  canonical: lima-council-packet-2026-09-14.pdf
+  type: council-packet
+  date: '2026-09-14'
+  content_verified: pdf_text
+  date_evidence: >
+    Packet pp. 0-6 reproduce the agenda verbatim, including the "SEPTEMBER 14, 2026" heading, in
+    the native text layer.
+  pages: 157
+  bytes: 7141761
+  sha256: 5e5290e8c882960383da55d653204411fad8617de1ab087d8ca7ec5f59219b91
+  media_type: application/pdf
+  source_url: https://limaoh.primegov.com/Public/CompiledDocument/7758
+  primegov_document_id: 7758
+  primegov_template: Packet
+  published: '2026-09-10T18:14:32.057'
+  text_layer: partial
+  text_layer_note: >
+    ⚠️ MIXED. 69 of 157 pages carry no extractable text — pp. 30-41, 45, 50, 68 and the whole block
+    pp. 83-156 (0-based). THE ORDINANCE TEXTS ARE IN THAT BLOCK: every ordinance as introduced is a
+    scanned image, so a text-layer-only read of this packet finds the transmittal memos and MISSES
+    all 33 instruments. Pages 154-156 were read with pypdfium2 + tesseract at 450 DPI (`--psm 6`),
+    with a 600 DPI crop for the vote grid.
+  carries:
+  - >
+    THE ORDINANCE AS INTRODUCED, pp. 154-156 (0-based), printed "Page 1 of 3" through "Page 3 of 3"
+    — full title, nine WHEREAS clauses, Sections 1-5, the blank vote grid and the unfilled passage
+    and approval lines. This is the primary instrument.
+  - >
+    THE ADMINISTRATION'S TRANSMITTAL MEMO, pp. 43-46 (0-based), dated 09/08/2026, on City of Lima
+    letterhead, signed by Sharetta T. Smith, JD, MBA, Mayor and Mike Caprella, Utilities Director.
+    It is the REQUEST for the legislation, not the legislation.
+  - >
+    The memo is where the GOOGLE / AMERICAN TOWNSHIP CARVE-OUT is named: "This proposal would be
+    prospective and would not alter, reopen, or otherwise affect the City's existing commitment to
+    provide water to the Google data center currently under development in American Township."
+    ⚠️ THE ORDINANCE'S OWN TEXT NAMES NEITHER GOOGLE NOR AMERICAN TOWNSHIP. Section 1 exempts
+    "any preexisting contracts entered into prior to passage" generically. The two are different
+    claims and must not be merged.
+  - >
+    The memo's water figures, all [verified] to p. 44: five upground reservoirs holding
+    approximately 15 billion gallons; treatment capacity approximately 30 million gallons per day;
+    2025 average production 13.7 MGD; 2025 maximum daily production 17.4 MGD. And the framing:
+    "This proposed moratorium is not about a lack of water capacity."
+  - >
+    The memo asked for FIVE things, one of which the drafted ordinance does not do: "Proceed
+    through the normal legislative process and not as an emergency measure" (p. 44). The ordinance
+    as drafted declares itself "a matter of administrative emergency" under City Charter Section 33
+    (pp. 155, 156).
+  - >
+    Ordinance 196-26 (shared living facilities) at pp. 147-149 and Ordinance 197-26 (2026 budget
+    amendment) at pp. 150-153 — the two instruments immediately preceding 198-26 in the packet.
+    Neither is a data-center instrument.

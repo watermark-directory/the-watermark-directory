@@ -122,7 +122,15 @@ describe("summarizeCollections — against the committed Lima corpus", () => {
     // water-quality certifications that the *BOSC* portal sweep listed in August and nobody had
     // fetched. The sweep named 18 rows; they are 12 distinct byte-streams, and the six duplicate
     // docids are recorded in the shelf's filename-map rather than committed twice.
-    expect(summaries.reduce((n, s) => n + s.count, 0)).toBe(3394);
+    // 3,394 -> 3,396 (the Lima data-center moratorium): the City of Lima council AGENDA and PACKET
+    // for the regular meeting of 2026-09-14, carrying Ordinance 198-26 at packet pp. 154-156. They
+    // open a NEW `lima/council/` sub-collection — NOT `lima/meetings/`, which is the civic loader's
+    // manifest-managed subtree for body slug `lima`, and which is fed by a route that has stopped
+    // producing: the CivicPlus Agenda Center's City Council category ends at 2024-05-06 and the
+    // live portal is PrimeGov.
+    // The collection COUNT is unchanged at 21: `council` is a sub-collection under the existing
+    // `lima` collection, not a new top-level one.
+    expect(summaries.reduce((n, s) => n + s.count, 0)).toBe(3396);
   });
 
   it("finds the one production that is half the catalog", () => {

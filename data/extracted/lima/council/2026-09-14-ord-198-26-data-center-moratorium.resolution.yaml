@@ -1,0 +1,370 @@
+# City of Lima Ordinance 198-26 — the eighteen-month data-center moratorium, introduced 2026-09-14
+#
+# ⚠️ The first line above is read VERBATIM as this record's label in the yidam corpus mirror
+# (watermark.site.corpus_records._title takes the leading YAML comment block's first `# ` line), so
+# it is written to stand alone. Do not wrap it.
+#
+# TWO LIMBS, DIFFERENT GEOGRAPHIES: the ordinance pauses new stand-alone data-center development
+# INSIDE the City's corporate limits, AND new requests for City-supplied water for data-center
+# developments OUTSIDE them. See `resolution.scope`.
+#
+# CUSTODY CAVEAT (the whole reason this file is shaped the way it is): what is committed is the
+# ordinance AS INTRODUCED, printed at pp. 154-156 of the meeting packet the City published
+# 2026-09-10, four days before the meeting. It is unsigned, its vote grid is blank, and it prints
+# "Passed: ____, 2026". As of `as_of` below the City publishes NO minutes for this meeting. So the
+# ordinance's TEXT is verified to a page and its PASSAGE is not verified at all — the two are held
+# apart throughout, and every passage-dependent fact (effective date, the end of the eighteen-month
+# clock, the tally, the mover, the reading) is [open]. Secondary coverage reports passage; coverage
+# is [reference] and is not promoted here.
+#
+# TAG VOCABULARY: [verified] = read off the document's own pages at the cited page; [inference] =
+# reasoned from [verified] facts, labelled; [reference] = secondary source, lead only; [open] = not
+# established here.
+
+as_of: '2026-09-16'
+site: lima
+strengthens: [record]
+
+source:
+  instrument: city-ordinance-as-introduced
+  file: data/documents/lima/council/Meetings359Packet_20260910141403791.pdf
+  sha256: '5e5290e8c882960383da55d653204411fad8617de1ab087d8ca7ec5f59219b91'
+  content_verified: ocr
+  companion_file: data/documents/lima/council/Meetings359Agenda_20260910134040666.pdf
+  companion_sha256: 'ea6c69b35eb72be2ab3fea5dbc9e85fa0b524d24749c1f6a395e8e4165c70f6e'
+  read_note: >-
+    MIXED-LAYER PACKET. 69 of its 157 pages carry no extractable text, and the ordinance texts are
+    all in that block — pp. 154-156 are scanned images with zero characters in the PDF text layer.
+    They were read with pypdfium2 + tesseract at 450 DPI (`--psm 6`), with a 600 DPI crop for the
+    vote grid. A text-layer-only read of this packet finds the transmittal memos and MISSES every
+    one of the 33 ordinances. The transmittal memo at pp. 43-46 and the agenda reproduction at
+    pp. 0-6 DO carry a native text layer and were read from it. Page numbers throughout are
+    0-based PDF page indices; the ordinance prints its own "Page 1 of 3" .. "Page 3 of 3".
+pages_read: [0, 1, 6, 43, 44, 46, 154, 155, 156]
+image_pages_read: [46, 154, 155, 156]
+
+resolution:
+  instrument: >-
+    City of Lima Ordinance 198-26 — an eighteen-month moratorium on the establishment, development,
+    processing, review and approval of new stand-alone data-center development within the corporate
+    limits of the City of Lima, and on new requests for City-supplied water for data-center
+    developments outside those limits, introduced at the regular council meeting of 2026-09-14
+  ordinance_no: '198-26'
+  body: Council of the City of Lima, Ohio
+  body_kind: city_council
+  subject_matter: development_moratorium
+  introduced: '2026-09-14'      # [verified] agenda p. 0 heading + packet p. 6 item VI. 198-26
+  adopted: null                 # [open] — no minutes published; see `passage` below
+  outcome: introduced
+  emergency: declared_in_text   # see `emergency_clause` — NOT the same as "passed as an emergency"
+  readings: null                # [open] — the vote grid's 1ST/2ND/3RD columns are blank
+
+  title_verbatim: >-
+    AN ORDINANCE ENACTING AN EIGHTEEN-MONTH MORATORIUM ON THE ESTABLISHMENT, DEVELOPMENT,
+    PROCESSING, REVIEW AND APPROVAL OF NEW STAND-ALONE DATA CENTER DEVELOPMENT WITHIN THE CITY OF
+    LIMA AND ON NEW REQUESTS FOR CITY SUPPLIED WATER FOR DATA CENTER DEVELOPMENTS OUTSIDE THE
+    CORPORATE LIMITS
+  title_source: packet p. 154 (the ordinance's own first page)
+  title_variant_note: >-
+    [verified] The AGENDA's listing of the same ordinance (p. 6) prints "date center developments"
+    for "data center developments". A typo in the agenda, not in the instrument. Recorded rather
+    than corrected, per chain of custody.
+
+  section_1_verbatim: >-
+    Lima City Council hereby imposes a moratorium on further processing of any application for any
+    building permits, certificates of occupancy, conditional use, zoning approvals or any other
+    administrative actions and approvals for standalone data center development within the
+    corporate limits of the City of Lima, Ohio, or new requests for City-supplied water for data
+    center developments outside the corporate limits of the City or other actions embodied within
+    the provisions above, to allow the administration additional time to study the issues involved
+    to determine whether legislative changes are needed to enhance the effectiveness of the
+    administration's goals regarding economic development, and to ensure the public peace, health,
+    safety, and welfare of its citizens. The moratorium shall be effective from the date of passage
+    of this ordinance and ending on the earlier of: (1) the effective date of an ordinance
+    regulating or prohibiting new standalone data centers within the City of Lima, Ohio, or new
+    requests for City-supplied water for data center developments outside the corporate limits of
+    the City; or (2) eighteen-months from the date of passage of this ordinance. This ordinance
+    shall be prospective in nature and shall not affect any preexisting contracts entered into
+    prior to passage of this ordinance.
+
+  # ─────────────────────────────────────────────────────────────────────────────────────────────
+  # THE TWO LIMBS. The single highest-risk misreading of this instrument is to describe it as
+  # "city-limits-only". Section 1 has TWO limbs and they have DIFFERENT geographies.
+  # ─────────────────────────────────────────────────────────────────────────────────────────────
+  scope:
+    limb_1_development:
+      what: >-
+        [verified] p. 155. Further processing of any application for building permits, certificates
+        of occupancy, conditional use, zoning approvals, or any other administrative action or
+        approval, for standalone data-center development.
+      where: >-
+        [verified] "within the corporate limits of the City of Lima, Ohio". CITY LIMITS ONLY. This
+        limb reaches no development in any township.
+    limb_2_water:
+      what: >-
+        [verified] p. 155. NEW REQUESTS for City-supplied water for data-center developments.
+      where: >-
+        [verified] "outside the corporate limits of the City". ⚠️ THIS LIMB REACHES OUTSIDE THE
+        CITY. It is not a development control — Lima cannot zone a township — it is a control on
+        Lima's own act as a water supplier, and it is exactly as extraterritorial as the City's
+        water main. Any statement that "the moratorium applies only inside the city" is wrong
+        about this limb.
+    undefined_terms:
+      - >-
+        [open] "STANDALONE" / "STAND-ALONE" IS NOT DEFINED. The preamble defines "data center" at
+        length (p. 154) and never defines "standalone". The instrument therefore does not settle
+        whether a data center accessory or ancillary to another principal use is inside or outside
+        the moratorium. The title hyphenates ("STAND-ALONE"), Section 1 does not ("standalone");
+        both forms are the instrument's own.
+      - >-
+        [open] "NEW REQUESTS" IS NOT DEFINED either. Whether a request pending on the date of
+        passage is "new" is not answered in the text, and the preexisting-contracts sentence
+        addresses CONTRACTS, not pending requests.
+
+  clock:
+    # An 18-month clock and an early-exit condition are two different facts. Both are here.
+    duration: eighteen months
+    runs_from: >-
+      [verified] p. 155 — "effective from the date of passage of this ordinance". A PASSAGE-RELATIVE
+      clock, not a calendar date. The instrument names no start date and no end date.
+    ends_on_the_earlier_of:
+      - >-
+        [verified] (1) "the effective date of an ordinance regulating or prohibiting new standalone
+        data centers within the City of Lima, Ohio, or new requests for City-supplied water for data
+        center developments outside the corporate limits of the City" — the EARLY EXIT. Note it
+        tracks BOTH limbs: standards for the city-limits limb alone would not, on this text, end the
+        water limb.
+      - '[verified] (2) "eighteen-months from the date of passage of this ordinance".'
+    end_date: >-
+      [open] UNCOMPUTABLE FROM THE INSTRUMENT. Both branches run from the date of passage, and
+      passage is not established (see `passage`). If the ordinance passed at the 2026-09-14 meeting
+      the outer limit would fall in mid-March 2028 — that is an [inference] resting on a
+      [reference] passage date and is deliberately NOT recorded as a date anywhere in this file.
+
+  preexisting_contracts_carve_out:
+    verbatim: >-
+      This ordinance shall be prospective in nature and shall not affect any preexisting contracts
+      entered into prior to passage of this ordinance.
+    page: 155
+    note: >-
+      ⚠️ [verified] THE ORDINANCE NAMES NEITHER GOOGLE NOR AMERICAN TOWNSHIP. Its carve-out is
+      generic — "any preexisting contracts". The identification of the Google water commitment as
+      one such contract is made in the ADMINISTRATION'S TRANSMITTAL MEMO (p. 43), not in the
+      enacting text, and the memo is a request for legislation rather than the legislation. Both
+      facts are [verified]; they are different facts, from different documents, doing different
+      work, and a register that merges them into "the ordinance exempts Google" has asserted
+      something no instrument says.
+
+  emergency_clause:
+    section_5_verbatim: >-
+      In accordance with City Charter Section 33, and for the reasons set forth in the Preamble
+      above, this ordinance is considered as an administrative emergency, and shall take effect and
+      be in force forthwith upon passage by an affirmative vote of at least two-thirds of the
+      members elected to council at the first reading hereof. If it does not so pass at first
+      reading, it shall take effect and be in force forthwith upon passage by an affirmative vote
+      of at least two-thirds of the members elected to council at the second reading hereof. If it
+      does not so pass at second reading then it shall take effect and be in force forthwith upon
+      passage by an affirmative vote of at least a majority of the members elected to council at
+      the third reading hereof. Otherwise, it shall take effect and be in force from and after the
+      earliest period allowed by law.
+    page: 156
+    note: >-
+      [verified] A CASCADING clause, not a bare emergency. It permits immediate effect on a 2/3
+      vote at first reading and falls through to second and third readings if that vote is not
+      there. So "declared an administrative emergency in the text" and "passed as an emergency" are
+      different claims, and only the first is established here.
+    pro_forma_check: >-
+      [verified] The same Charter §33 clause appears on the other instruments in this packet, and
+      two were read to check it: 196-26 (shared living facilities) at p. 149 declares an
+      "administrative emergency" in identical words, and 197-26 (the 2026 budget amendment) at
+      p. 151 declares an "operational emergency" in the same cascading form. A third instance was
+      seen at p. 145 ("operational emergency"), on an ordinance not identified in this read. So the
+      clause is Lima's standard ordinance form and its presence is NOT evidence that this ordinance
+      was treated as unusually urgent. Recorded because the opposite reading is available and wrong.
+      [open] Which of "administrative" and "operational" emergency the Law Department applies to
+      what, and whether the choice carries any legal consequence under the Charter, is not
+      established here — the Lima City Charter §33 text is not in this corpus.
+    divergence_from_the_request: >-
+      [verified] The Mayor's and Utilities Director's own transmittal memo asked that any
+      legislation "Proceed through the normal legislative process and not as an emergency measure"
+      (p. 44). The drafted ordinance declares itself an administrative emergency (pp. 155, 156).
+      The divergence is on the face of two documents in the same packet. Given the pro-forma check
+      above, whether it was a deliberate departure or the Law Department's boilerplate is [open],
+      and it is recorded as a divergence rather than characterized as a defiance.
+
+  preamble_findings:
+    # Council's own recitals — what the legislative body put on the record as its reasons.
+    page: 154
+    verbatim_excerpts:
+      - >-
+        WHEREAS, the growth of artificial intelligence has coincided with a rapid growth of large
+        data centers across Ohio and the United States; and,
+      - >-
+        WHEREAS, some data centers use millions of gallons of fresh water per day for cooling; and,
+      - >-
+        WHEREAS, the City of Lima remains confident in its ability to meet the commitments of now
+        existing agreements for providing water for data centers; and,
+      - >-
+        WHEREAS, additional requests for the City of Lima's water capacity by large or "hyperscale"
+        data centers located outside the corporate limits of the municipality will require
+        evaluation of the City's available water capacity, our ability to continue serving existing
+        customers, the infrastructure provided to serve the development, and the terms under which
+        that service would be provided; and,
+      - >-
+        WHEREAS, a data center seeking to locate within Lima's corporate limits would require a much
+        broader level of municipal review than a development located outside the City for which
+        Lima's role is primarily that of a utility provider; and,
+    note: >-
+      [verified] THE RECITALS ARE A WATER ARGUMENT AND A JURISDICTION ARGUMENT, IN THAT ORDER. The
+      water recital is generic ("some data centers"), asserts nothing about any Lima project, and
+      is not a finding about the City's own capacity — the very next recital says the opposite
+      about the City's capacity. The jurisdiction recital is the ordinance's own explanation for
+      why its two limbs have different geographies.
+
+  authority:
+    verbatim: >-
+      Council passes this Ordinance under authority of City Charter Sections 1 and 81, and Chapters
+      212 and 288 of the Codified Ordinances of Lima, as such Chapters may be applicable in whole
+      or in part, as being a matter of local self-government and in the exercise of its
+      constitutional Home Rule authority, and as otherwise in the best interests of the City.
+    page: 155
+  enacting_clause_verbatim: >-
+    BE IT ORDAINED BY THE COUNCIL OF THE CITY OF LIMA, OHIO, WITH AT LEAST A MAJORITY OF THE
+    MEMBERS ELECTED THERETO CONCURRING:
+
+  passage:
+    established: false
+    page: 156
+    as_printed_verbatim: 'Passed: ____, 2026 / Jamie L. Dixon, President ;; Approved: ____, 2026 / Sharetta T. Smith, Mayor ;; ATTEST: Dana Addis, Clerk of Council'
+    vote:
+      roll_call_recorded: false
+      tally: null
+      mover: null
+      seconder: null
+      grid_as_printed: >-
+        [verified] p. 154. A blank grid: columns VOTE / 1ST / 2ND / 3RD, each split Y|N, over rows
+        GORDON, WILKERSON, LOWE, JORDAN, JONES, GLENN, NEEPER, DIXON, and a TOTAL row. Every cell,
+        and the "Introduced by ____ Councilor" and "Seconded by ____ Councilor" lines, are empty.
+      note: >-
+        ⚠️ [open] NO TALLY, NO SPONSOR, NO READING. This is the as-introduced form. Secondary
+        coverage (limaohio.com, hometownstations.com/13abc, toledoblade.com, govtech.com, all
+        2026-09-15) reports that Council approved the moratorium; that is [reference] and is not
+        promoted to [verified] here. No numeric tally appears in ANY of those reports either, so
+        there is no press figure to check against — there is simply no vote record yet.
+    why_not_established: >-
+      [verified] The City publishes no Minutes document for this meeting. PrimeGov's
+      `ListArchivedMeetings?year=2026` returns meeting 359 with a `documentList` of exactly three
+      entries — Agenda (7757), Packet (7758), HTML Packet (7760) — all published 2026-09-10. By
+      contrast meeting 372 (the 2026-08-17 special meeting) HAS a Minutes document, published
+      2026-09-15, so the City does publish minutes on this portal; these have simply not been
+      approved and posted yet. Ohio councils approve minutes at a later meeting, so this is an
+      expected lag and not a refusal.
+    resolution_route: >-
+      A certified copy of the ordinance as passed, the journal entry and the roll call are the
+      subject of the R.C. 149.43 request drafted at
+      `data/extracted/lima/council/2026-09-16-lima-clerk-of-council.records-request.md`. The
+      cheaper alternative is to re-pull the PrimeGov meeting list once the minutes post; the
+      request exists because a certified as-passed copy is a stronger instrument than posted
+      minutes and because the eighteen-month clock cannot be computed without a passage date.
+
+  meeting_context:
+    location_verbatim: >-
+      Mercy Health St. Rita's Graduate Medical Education Center, 751 W. Market Street, Lima, Ohio
+      45801 — 6:30 P.M. PRE-COUNCIL MEETING Conference Room No. 1; 7:00 P.M. REGULAR MEETING
+      Auditorium
+    location_page: 0
+    date_note: >-
+      ⚠️ [verified] THE MEETING WAS MONDAY 2026-09-14, NOT 2026-09-15. The agenda's own text layer
+      prints "REGULAR MEETING AGENDA / SEPTEMBER 14, 2026"; 2026-09-14 is the Monday and 2026-09-15
+      is the Tuesday the coverage was filed. Every secondary source carries the later date.
+    communication_verbatim: >-
+      *From the Mayor and the Dir. of Utilities regarding legislation for an 18-month moratorium on
+      new standalone data center development within the City of Lima.
+    communication_page: 1
+    communication_note: >-
+      [verified] The COMMUNICATION that carried the item describes only the city-limits limb. The
+      water limb appears in the ordinance's title and text and in the agenda's ordinance listing,
+      but not in the one-line communication. A reader working from the agenda's front matter alone
+      would not learn that the instrument reaches outside the corporate limits.
+    also_on_this_agenda: >-
+      [verified] 33 ordinances, 166-26 through 198-26, and a SECOND moratorium — 196-26, an
+      additional six-month moratorium on shared living facilities (group homes), with two citizen
+      speakers. The two moratoriums are unrelated; only 198-26 concerns data centers.
+
+  transmittal_memo:
+    # The administration's REQUEST for the legislation. A different document doing different work.
+    file: data/documents/lima/council/Meetings359Packet_20260910141403791.pdf
+    pages: [43, 44, 46]
+    dated: '2026-09-08'
+    signatories:
+      - Sharetta T. Smith, JD, MBA — Mayor
+      - Mike Caprella — Utilities Director
+    google_carve_out_verbatim: >-
+      This proposal would be prospective and would not alter, reopen, or otherwise affect the
+      City's existing commitment to provide water to the Google data center currently under
+      development in American Township.
+    google_carve_out_page: 43
+    framing_verbatim: >-
+      This proposed moratorium is not about a lack of water capacity. Lima's water system remains
+      one of our greatest economic development assets.
+    water_system_figures:
+      # [verified] p. 44 — the administration's own figures, as stated. Transcribed, not derived.
+      upground_reservoirs: 5
+      reservoir_storage_gal: '~15000000000'   # "approximately 15 billion gallons"
+      treatment_capacity_mgd: '~30'           # "approximately 30 million gallons per day"
+      production_2025_average_mgd: 13.7
+      production_2025_maximum_daily_mgd: 17.4
+      page: 44
+      note: >-
+        [verified] as the memo's own statements. They are NOT independently corroborated here
+        against a Lima WWTP/water-plant instrument, and the approximate markers are the memo's own
+        ("approximately"). The 2025 figures are production, not permitted capacity.
+    requested_terms:
+      - '[verified] p. 44 — Apply prospectively to new standalone data-center development within Lima''s corporate limits and new requests for City-supplied water for data centers outside the City'
+      - '[verified] p. 44 — Proceed through the normal legislative process and not as an emergency measure'
+      - '[verified] p. 44 — Preserve existing contractual commitments and legally vested rights'
+      - '[verified] p. 44 — Not alter or impair the City''s existing commitment associated with the Google data center in American Township'
+      - '[verified] p. 46 — Permit the moratorium to end earlier if Council adopts appropriate standards before the 18-month period expires'
+    standards_under_study_verbatim: >-
+      I have asked our department directors to evaluate standards addressing appropriate locations,
+      land use, setbacks, buffering, water and wastewater capacity, electric demand, noise,
+      environmental impacts, traffic and infrastructure, developer responsibility for
+      infrastructure costs, fiscal return, workforce development, local contracting, community
+      benefits, and public-engagement requirements.
+    standards_page: 44
+
+  what_this_instrument_does_not_establish:
+    - >-
+      IT DOES NOT STOP THE GOOGLE / AMERICAN TOWNSHIP CAMPUS, AND IT DOES NOT PURPORT TO. Limb 1
+      reaches development only inside Lima's corporate limits, and the campus is in American
+      Township. Limb 2 reaches City water outside those limits but only as to NEW requests, and
+      Section 1's last sentence exempts preexisting contracts. Two independent reasons, neither of
+      which requires the other.
+    - >-
+      IT NAMES NO OPERATOR, NO PROJECT AND NO PARCEL. "Google", "American Township", and every
+      project name appear ZERO times in the enacting text. The only place Google is named anywhere
+      in this record is the administration's transmittal memo.
+    - >-
+      IT IMPOSES NO STANDARD. The ordinance pauses processing; it sets no water, discharge, noise,
+      height, setback, lighting, generator or load condition. The standards are the WORK the pause
+      was bought to allow, and they do not exist yet.
+    - >-
+      IT SETS NO NUMERIC WATER THRESHOLD. Limb 2 reaches "new requests for City-supplied water for
+      data center developments" at any volume; there is no gallonage trigger in the text.
+    - >-
+      IT ESTABLISHES NO PASSAGE. See `passage`.
+  confidence: high
+  warnings:
+    - >-
+      The committed source is an UNSIGNED, PRE-PASSAGE copy published four days before the vote,
+      with a blank vote grid and unfilled passage and approval lines. Everything in `passage` is
+      [open] and nothing here may be restated as "the ordinance as enacted".
+    - >-
+      pp. 154-156 have NO text layer. Every quotation from the ordinance is OCR of page images at
+      450 DPI and carries OCR risk; the operative Section 1 and Section 5 quotations were
+      re-rendered and re-read, but a certified copy remains the resolution route. Two OCR artefacts
+      were seen and corrected against a second render: "WHERKEAS" for "WHEREAS" (p. 155 line 1) and
+      "REVIEW" mis-segmented in the title block on p. 154.
+    - >-
+      The agenda's "date center" is the agenda's own typo and is preserved in
+      `title_variant_note`; do not propagate it, and do not "fix" it in the source.

@@ -5,13 +5,23 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-09-03T12:25:50+00:00'
+  generated_at: '2026-09-16T13:59:47+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 52
-    bytes: 239485323
-    distinct_addresses: 50
+    artifacts: 54
+    bytes: 246904152
+    distinct_addresses: 52
 artifacts:
+- rel: documents/lima/council/Meetings359Agenda_20260910134040666.pdf
+  sha256: ea6c69b35eb72be2ab3fea5dbc9e85fa0b524d24749c1f6a395e8e4165c70f6e
+  bytes: 277068
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/lima/council/Meetings359Packet_20260910141403791.pdf
+  sha256: 5e5290e8c882960383da55d653204411fad8617de1ab087d8ca7ec5f59219b91
+  bytes: 7141761
+  media_type: application/pdf
+  redistributable: true
 - rel: documents/lima/meetings/01_2026_02_13_Agenda.pdf
   sha256: 089b8707affbc00d1625a71867c8c4b3f13210e60a2907611591c85f12a5a167
   bytes: 245949

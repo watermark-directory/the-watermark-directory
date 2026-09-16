@@ -88,7 +88,7 @@ describe("documentId — the corpus it has to address", () => {
   // `4230062` (14.45 MB sanitary plan & profile) — deliberately NOT committed on Git-LFS budget
   // and recorded by sha256 in `data/documents/permits/bistrozzi-permits/filename-map.yaml`.
   // Committing either moves this number again and SHOULD.
-  it("mints a distinct handle for all 3,394 committed Lima rels", () => {
+  it("mints a distinct handle for all 3,396 committed Lima rels", () => {
     const rels = limaRels();
     // 3,350 -> 3,362 (#2089): the twelve committed eDocuments of the 2DP00130 / APP285104563
     // indirect-discharge application package under `oepa/lima/`. The portal serves 23 rows; the
@@ -105,7 +105,15 @@ describe("documentId — the corpus it has to address", () => {
     // water-quality certifications that the *BOSC* portal sweep listed in August and nobody had
     // fetched. The sweep named 18 rows; they are 12 distinct byte-streams, and the six duplicate
     // docids are recorded in the shelf's filename-map rather than committed twice.
-    expect(rels.length).toBe(3394); // a corpus change should surface here, not a silent collision
+    // 3,394 -> 3,396 (the Lima data-center moratorium): the City of Lima council AGENDA and PACKET
+    // for the regular meeting of 2026-09-14, carrying Ordinance 198-26 at packet pp. 154-156. They
+    // open a NEW `lima/council/` sub-collection — NOT `lima/meetings/`, which is the civic loader's
+    // manifest-managed subtree for body slug `lima`, and which is fed by a route that has stopped
+    // producing: the CivicPlus Agenda Center's City Council category ends at 2024-05-06 and the
+    // live portal is PrimeGov.
+    // Reviewed: 3,396 rels, 3,396 distinct rels, 3,396 distinct handles — the two new handles are
+    // `p5ebfg0z` (agenda) and `4tc6w0ma` (packet). Checked as a set, not inferred from the delta.
+    expect(rels.length).toBe(3396); // a corpus change should surface here, not a silent collision
     const ids = new Set(rels.map(documentId));
     expect(ids.size).toBe(rels.length);
   });
