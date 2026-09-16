@@ -72,9 +72,10 @@ watermark corpus staleness --json   # the same reduction, machine-readable
 watermark corpus staleness -v       # include the current subjects
 ```
 
-Always exits 0, on the `mise run yidam-vendor-status` precedent: the answer to "this register is
-86 days old" is a human deciding whether the world moved, not a failed build. Nothing in CI
-consumes it and nothing should.
+Once its arguments validate it exits 0 whatever it finds, on the `mise run yidam-vendor-status`
+precedent: the answer to "this register is 86 days old" is a human deciding whether the world
+moved, not a failed build. Nothing in CI consumes it and nothing should. (A bad `--kind` still
+fails the way any Typer misuse does — that is an invocation error, not a finding.)
 
 It measures every data-center register and standing watch on **three independently authored
 axes** — the date the file claims for itself, the last commit touching its path (`git log %aI`,

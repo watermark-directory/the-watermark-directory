@@ -1,4 +1,4 @@
-reconciled_at: '2026-09-16T21:33:20.489825+00:00'
+reconciled_at: '2026-09-16T22:38:56.662437+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -2153,8 +2153,8 @@ entries:
     site_scope: lima-legacy
   legal-datacenter-ballot-2026-11:
     exists: true
-    sha256: ce99277d0d627faa7aa293b649ad702b0f2880aa37b3d87cb154a1f7cd8d7ff3
-    size_bytes: 48083
+    sha256: 6e3dc286f4d4910b802eb35f53557a750cd826e013594225955c945728b5f98f
+    size_bytes: 49294
     lfs_materialized: true
     file_count: 2
     missing: []
