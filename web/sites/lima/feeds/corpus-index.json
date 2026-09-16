@@ -633,7 +633,7 @@
     "label": "Lima",
     "scope": "site",
     "links_out": 3,
-    "links_in": 353,
+    "links_in": 357,
     "lines": 14,
     "updated": null
   },
@@ -2946,6 +2946,50 @@
     "links_in": 0,
     "lines": 14,
     "updated": "2026-06-06"
+  },
+  {
+    "id": "record/lima-council-2026-09-14-ord-198-26-data-center-m",
+    "node_class": "record",
+    "kind": "record",
+    "label": "City of Lima Ordinance 198-26 — the eighteen-month data-center moratorium, introduced 2026-09-14",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 23,
+    "updated": null
+  },
+  {
+    "id": "record/lima-council-2026-09-16-lima-clerk-of-council-re",
+    "node_class": "record",
+    "kind": "record",
+    "label": "R.C. 149.43 request — City of Lima Clerk of Council (DRAFT, NOT SENT)",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 13,
+    "updated": null
+  },
+  {
+    "id": "record/lima-data-centers",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Lima / Allen County, OH — Data-Center Activity Register",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 22,
+    "updated": null
+  },
+  {
+    "id": "record/lima-data-centers-candidates",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Structured, provenance-carrying peer of data/extracted/lima/data-centers.md (#1627).",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 22,
+    "updated": null
   },
   {
     "id": "record/lima-federal-authorization-instrument-search",

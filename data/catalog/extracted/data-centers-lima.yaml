@@ -1,0 +1,82 @@
+id: data-centers-lima
+title: Lima / Allen County, OH — Data-Center Activity Register
+scope: extracted
+status: reviewed
+producer:
+  kind: manual
+  source: >-
+    `watermark --site lima sweep data-centers` (2026-09-16), then a full hand pass against the
+    committed extractions. The sweep's draft was NOT committed as written: it emitted its own chat
+    summary into the register file rather than a register, and three of its figures were corrected
+    against the instruments that own them — the genset count ("114/115" -> 115 = 114 data-hall +
+    1 HUBGEN, per the final PTI), the cooling range (3.14 -> 3.1 MGD low, per
+    watermark.hydrology.cooling.derive_cooling_basis) and the moratorium's date and standing
+    ("enacted 2026-09-15" -> INTRODUCED 2026-09-14, passage [open]). Every figure in the committed
+    register points at the extraction that owns it; none is re-derived here.
+license: Curated from cited public sources
+access_tier: public
+site_scope: site:lima
+storage:
+- relpath: extracted/lima/data-centers.md
+  media_type: text/markdown
+  lfs: false
+- relpath: extracted/lima/data-centers.candidates.yaml
+  media_type: application/yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: reference
+tags:
+- data-center
+- i75-corridor
+- allen-county-oh
+- lima
+- american-township
+- google
+- bistrozzi
+- moratorium
+- sweep
+notes: >-
+  #1050 data-center sweep for the REFERENCE site, run 2026-09-16 — the last site in the network to
+  get a register, and the only one written after its instruments had already landed. Its job is
+  reconciliation, not discovery.
+
+  ⚠️ THE FRAMING ERROR THIS FILE EXISTS TO PREVENT. Lima City Council's Ordinance 198-26
+  (2026-09-14) is an eighteen-month data-center moratorium with TWO LIMBS ON DIFFERENT GEOGRAPHIES.
+  Limb 1 pauses development approvals "within the corporate limits of the City of Lima" — city
+  limits only. Limb 2 pauses "new requests for City-supplied water for data center developments
+  OUTSIDE the corporate limits" — it reaches past the city line, because Lima's water main does.
+  Describing the ordinance as "city-limits-only" is wrong about limb 2; describing it as stopping
+  the Bistrozzi/Google campus is wrong about both, because the campus is in AMERICAN TOWNSHIP and
+  because Section 1's last sentence exempts preexisting contracts. And the carve-out itself is easy
+  to over-read: THE ORDINANCE NAMES NEITHER GOOGLE NOR AMERICAN TOWNSHIP — that identification is
+  made in the Mayor's and Utilities Director's transmittal memo (packet p. 43), a request for
+  legislation rather than the legislation. All three distinctions are held apart in the register
+  and in the resolution extraction; do not collapse them.
+
+  PASSAGE IS [open]. What the corpus holds is the ordinance AS INTRODUCED, published 2026-09-10 with
+  a blank vote grid and an unfilled "Passed: ____, 2026". The City publishes no minutes for the
+  2026-09-14 meeting. So the tally, mover, reading, effective date and the END OF THE EIGHTEEN-MONTH
+  CLOCK are all unestablished — the clock is passage-relative, so no end date is computable and none
+  is stated. Secondary coverage reporting passage stays [reference]. The ordinance DECLARES itself
+  an administrative emergency under Charter §33, but that clause is cascading and appears verbatim
+  on the other ordinances in the same packet, so it is Lima's standard form and NOT evidence it
+  passed as an emergency.
+
+  THREE FIGURES THAT MUST NOT MOVE, each owned elsewhere. (1) ~313 MW backup is TRANSCRIBED, not
+  114 x 2.75 — deriving it restates the headline as 313.5 and contradicts the permit extraction, the
+  essay and the docs. (2) IT ~275 MW is an [inference] (N+1 midpoint off the backup total), never a
+  permit disclosure. (3) end_use is [open] DELIBERATELY. The register repeats all three in the form
+  SiteProfile.facilities[0] and data/extracted/permits/4132514.epa.yaml state them.
+
+  THE GUARDRAIL CATCH: Amazon IS building in Allen County — at Jay Begg Parkway, Shawnee Township —
+  and it is a DISTRIBUTION/DELIVERY STATION, the general logistics entity Amazon.com Services LLC,
+  not Amazon Data Services. Recorded in the register as an explicit non-entry (deed
+  202511180011830) so the next sweep does not re-chase it. Pioneer, Ohio passed a moratorium the
+  same day and is Williams County — BOSC's `bryan` point, not Lima's; the Toledo Blade covers both
+  in one story.
+
+  THE LARGEST REMAINING HOLE is the EXECUTED City of Lima water-service agreement for the campus.
+  PAAC recorded it as "underway" 2025-05-01; the corpus does not hold it; Ordinance 198-26's
+  preexisting-contracts sentence turns on it. It is pull priority 1 and item 5 of the drafted
+  R.C. 149.43 request.

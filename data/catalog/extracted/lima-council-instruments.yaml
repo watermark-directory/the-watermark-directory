@@ -1,0 +1,113 @@
+id: lima-council-instruments
+title: Lima — City Council Primary-Instrument Set (Ordinance 198-26, the data-center moratorium)
+scope: extracted
+status: reviewed
+producer:
+  kind: manual
+  source: >-
+    Two City of Lima documents pulled 2026-09-16 from the City's PrimeGov agenda portal
+    (https://limaoh.primegov.com/) and committed at data/documents/lima/council/ with a filename
+    map: the regular council meeting agenda of 2026-09-14 (7 pp., native text layer) and its
+    meeting packet (157 pp., MIXED layer). The packet is where the instruments are — 69 of its 157
+    pages carry no extractable text, and ALL 33 ordinance texts are in that block, so a
+    text-layer-only read finds the transmittal memos and misses every instrument. Ordinance 198-26
+    at pp. 154-156 was read with pypdfium2 + tesseract at 450 DPI (--psm 6), with a 600 DPI crop for
+    the vote grid; the transmittal memo at pp. 43-46 and the agenda were read from the native text
+    layer. The meeting date was content-verified from the agenda's own heading, NOT from the
+    filename, the portal's `dateTime` field, or news coverage — which matters, because every
+    secondary source dates this 2026-09-15 and the meeting was Monday 2026-09-14.
+license: Public record (Ohio R.C. 149.43)
+access_tier: public
+site_scope: site:lima
+storage:
+- relpath: extracted/lima/council/2026-09-14-ord-198-26-data-center-moratorium.resolution.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/lima/council/2026-09-16-lima-clerk-of-council.records-request.md
+  media_type: text/markdown
+  lfs: false
+refresh:
+  cadence: static
+provenance: document
+tags:
+- lima
+- allen-county-oh
+- city-council
+- local-legislation
+- moratorium
+- data-center
+- american-township
+- google
+- bistrozzi
+- primegov
+- records-request
+notes: >-
+  THINGS TO CARRY.
+
+  (1) THE ACQUISITION ROUTE HAD CHANGED, AND NOTHING NOTICED. data/extracted/lima/meetings/
+  meeting-index.yaml covers 50 documents ending 2026-02-13 and was read as a stale shelf. It is not:
+  the City of Lima's CivicPlus Agenda Center STOPPED PUBLISHING CITY COUNCIL DOCUMENTS ON
+  2024-05-06. `POST /AgendaCenter/UpdateCategoryList` with catID=1 offers no year later than 2024,
+  the city itself labels that page "Archived Meeting Agendas & Minutes (Prior to May 2024)", and the
+  three 2026 documents the index does carry belong to the Board of Building and Appeals, the Land
+  Bank Committee and the Traffic Commission. The live route is a different vendor, PrimeGov, iframed
+  on limaohio.gov/887/Agendas-Minutes. A seven-month gap in a meeting shelf is a route to re-derive
+  before it is a backlog to work. Route documented at data/documents/lima/council/README.md;
+  ⚠️ `Portal/MeetingPreview?compiledMeetingDocumentFileId=` (what the portal's own JS links)
+  REQUIRES A LOGIN, while `Public/CompiledDocument/<id>` does not.
+
+  (2) WHY THE BYTES ARE IN lima/council/ AND NOT lima/meetings/. data/documents/lima/meetings/ is
+  not a general meeting shelf — it is the civic loader's managed subtree for body slug `lima` under
+  the reference build's flat layout (watermark.civic.layout.meetings_dir), depth-asserted and
+  enumerated by download-manifest.yaml + meeting-index.yaml. Hand-placing files there makes the
+  manifest wrong without the loader having run. council/ mirrors the extraction target
+  data/extracted/lima/council/ and every peer's instrument shelf (sidney/council, urbana/council,
+  van-wert/council), and keeping the two apart preserves the route change above as a visible fact.
+
+  (3) THE ORDINANCE HAS TWO LIMBS ON DIFFERENT GEOGRAPHIES, and this is the single highest-risk
+  reading in the file. Limb 1 pauses development approvals within Lima's corporate limits ONLY.
+  Limb 2 pauses NEW REQUESTS FOR CITY-SUPPLIED WATER for data-center developments OUTSIDE those
+  limits. A summary that says "city-limits-only" is wrong about limb 2. A summary that says the
+  moratorium stops the Bistrozzi/Google campus is wrong twice over: the campus is in AMERICAN
+  TOWNSHIP (so limb 1 never reaches it) and Section 1's last sentence exempts preexisting contracts
+  (so limb 2 does not either).
+
+  (4) ⚠️ THE ORDINANCE NAMES NEITHER GOOGLE NOR AMERICAN TOWNSHIP. Its carve-out is generic: "any
+  preexisting contracts entered into prior to passage". The identification of the Google water
+  commitment as one of them is in the MAYOR'S AND UTILITIES DIRECTOR'S TRANSMITTAL MEMO (p. 43,
+  dated 2026-09-08), which is a request that legislation be drafted, not the legislation. Both are
+  [verified]; they are different facts from different documents.
+
+  (5) AN 18-MONTH CLOCK AND AN EARLY EXIT ARE TWO FACTS, and the clock is PASSAGE-RELATIVE. Section
+  1 runs it "from the date of passage" and ends it on the earlier of an ordinance adopting standards
+  or eighteen months. The early exit tracks BOTH limbs — standards for the city-limits limb alone
+  would not, on this text, end the water limb. No end date is computable and none is recorded.
+
+  (6) PASSAGE IS NOT ESTABLISHED, and the absence is evidenced rather than assumed. The committed
+  copy was published 2026-09-10, four days before the meeting; it prints "Passed: ____, 2026" and
+  its vote grid (VOTE/1ST/2ND/3RD over GORDON, WILKERSON, LOWE, JORDAN, JONES, GLENN, NEEPER, DIXON)
+  is blank. PrimeGov returns meeting 359 with exactly three documents and no Minutes, while the
+  2026-08-17 special meeting DOES have minutes — so the portal carries them when they exist and this
+  is an ordinary approval lag, NOT a refusal. The records request says so explicitly and tracks
+  items 1-3 separately from item 5 for exactly that reason: counting a legitimate lag toward a
+  constructive denial would poison a genuine claim later.
+
+  (7) "DECLARED AN EMERGENCY" IS NOT "PASSED AS AN EMERGENCY". Section 5 declares an administrative
+  emergency under Charter §33, but the clause is CASCADING (2/3 at first reading, else second, else
+  majority at third) and appears verbatim on 196-26 and 197-26 in the same packet. It is Lima's
+  standard form. Recorded because the opposite reading is available and wrong — and because the
+  administration's own memo had asked that the legislation "Proceed through the normal legislative
+  process and not as an emergency measure", a divergence recorded WITHOUT being characterized.
+
+  (8) TWO UNDEFINED TERMS DO REAL WORK. "Standalone" is never defined (the preamble defines "data
+  center" at length), and the title hyphenates it while Section 1 does not; whether an ancillary
+  data center is inside the moratorium is unsettled. "New requests" is not defined either, and the
+  preexisting-contracts sentence addresses CONTRACTS, not pending requests.
+
+  (9) THE AGENDA'S LISTING CARRIES A TYPO — "date center developments" for "data center
+  developments" (p. 6). The ordinance's own title (p. 154) reads correctly. Preserved, not
+  corrected.
+
+  (10) A SECOND MORATORIUM IS ON THE SAME AGENDA. Ordinance 196-26 is an additional six-month
+  moratorium on shared living facilities (group homes), with two citizen speakers. It is unrelated;
+  only 198-26 is the data-center instrument.

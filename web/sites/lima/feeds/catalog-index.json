@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "9c0794ef93f41995949a3eaca4ed2646b360ee64d0bce3d60cf66d211aee2fa3",
+  "catalog_version": "bd45ec77a9a595a87272c39e9420b37dbf639f3e674c3ac8845d8e449c36d094",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -852,6 +852,14 @@
       "feed": "catalog"
     },
     {
+      "handle": "dataset:lima:data-centers-lima",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-lima",
+      "title": "Lima / Allen County, OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
       "handle": "dataset:lima:data-centers-ottawa",
       "kind": "dataset",
       "site": "lima",
@@ -1521,6 +1529,14 @@
       "site": "lima",
       "local_id": "lima-campus-dewatering",
       "title": "Lima campus construction-dewatering wellfield (Ohio DNR)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:lima-council-instruments",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "lima-council-instruments",
+      "title": "Lima — City Council Primary-Instrument Set (Ordinance 198-26, the data-center moratorium)",
       "feed": "catalog"
     },
     {
@@ -3881,6 +3897,14 @@
       "site": "lima",
       "local_id": "legal/records-legislation/hb314-149-43.digest.yaml",
       "title": "Sub. H.B. No. 314, 136th Ohio General Assembly — As Passed by the House. Amends R.C. 149.43 (Ohio Public Records Act) to restrict \"harassing or disruptive\" records requests and to let public offices engage private contractors to answer \"voluminous\" requests.",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:lima/council/2026-09-14-ord-198-26-data-center-moratorium.resolution.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "lima/council/2026-09-14-ord-198-26-data-center-moratorium.resolution.yaml",
+      "title": "City of Lima Ordinance 198-26 — an eighteen-month moratorium on the establishment, development, processing, review and approval of new stand-alone data-center development within the corporate limits of the City of Lima, and on new requests for City-supplied water for data-center developments outside those limits, introduced at the regular council meeting of 2026-09-14",
       "feed": "records"
     },
     {
