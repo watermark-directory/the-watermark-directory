@@ -23,11 +23,11 @@ meta:
   site: ottawa
   captured_for: issue 1422 (epic 1269, readiness(ottawa))
   extracted_at: '2026-07-31'
-  checked_on: '2026-07-31'
-  previous_check: '2026-07-10'      # the research refresh recorded in the issue body
+  checked_on: '2026-09-16'
+  previous_check: '2026-07-31'      # the 1422 pass that wrote this file; before it the 2026-07-10 refresh
   federal_extract_dates:
-    ICIS-NPDES: '2026-07-24'
-    SDWIS: '2026-07-09'
+    ICIS-NPDES: '2026-09-11'        # advanced from 2026-07-24
+    SDWIS: '2026-07-09'             # ⚠️ UNCHANGED in ten weeks — every SDWA figure below is the SAME READING, not a re-verification
   method: >-
     Four routes, run independently and recorded separately: EPA ECHO's detailed facility report
     and effluent-chart services for the CWA side (OH0026921) and the SDWA side (OH6900711); the
@@ -872,24 +872,493 @@ upstream_flood_program:
           representative data available."
 
 # ═════════════════════════════════════════════════════════════════════════════
+# ── The 2026-09-16 pass ──────────────────────────────────────────────────────
+# Run 26 days after this file's own `next_check_not_before: 2026-08-21`. The eight questions are
+# answered in the order they were asked. Two of them could only be answered by leaving the federal
+# system, and the most important finding of this pass is that the federal system is WRONG.
+pass_2026_09_16:
+  ran_on: '2026-09-16'
+  previous_pass: '2026-07-31'
+  declared_next_check_not_before: '2026-08-21'
+  days_late: 26
+  routes_run:
+  - EPA ECHO dfr_rest_services.get_dfr for both sides — p_id OH0026921 (CWA) and p_id OH6900711 (SDWA).
+  - EPA ECHO eff_rest_services.get_effluent_chart, OH0026921 — parameter 50092 for 2025 and 2026, and an all-parameter 2026 pull.
+  - Ohio EPA eDocument portal, scripted — Secondary ID 2PD00028 (the WWTP) and Secondary ID OH6900711 (the PWS).
+  - Direct fetch and text-layer read of three newly surfaced drinking-water documents, all three committed.
+
+  # ⚠️ ─────────────────────────────────────────────────────────────────────────
+  the_federal_system_is_stale_and_that_is_the_finding:
+    tag: '[verified]'
+    statement: >-
+      SDWIS has NOT been re-extracted since 2026-07-09. That is the same extract date this file
+      recorded on 2026-07-31, ten weeks ago. Every SDWA figure ECHO returns today is therefore
+      the SAME READING this file already holds — not a fresh confirmation of it.
+    what_this_forbids: >-
+      Re-reading an unchanged extract and calling it a re-verification. Questions 5, 6 and 7 are
+      all keyed to SDWIS, and a naive pass would have reported them "unchanged" with a 2026-09-16
+      date on them, converting a stale read into a fresh negative. The correct answer to "is this
+      still true?" when the source has not been re-read is "unknown", not "yes".
+    and_it_was_actually_wrong: >-
+      Not merely stale. The state portal carries a Director's Final Findings and Orders against
+      this PWS dated 2026-09-03 — a formal enforcement action — while ECHO, at its 2026-07-09
+      extract, still reports none. See `question_4` below. This is the single most useful thing
+      this pass learned and it generalizes: for Ohio drinking-water enforcement the eDocument
+      portal leads SDWIS by weeks to months, and a federal zero is not a negative until the state
+      record agrees with it.
+    the_cwa_side_did_advance: >-
+      ICIS-NPDES moved 2026-07-24 → 2026-09-11 and the CWA compliance window moved to 2026-06-30,
+      so the wastewater answers below ARE fresh. The two halves of this file are now on different
+      vintages, and each figure is stamped accordingly.
+
+  # ── The eight questions, in order ────────────────────────────────────────
+  question_1:
+    asked: Are the June, July and August 2026 mercury monthly averages reported, and are they under 4.5 ng/L?
+    answer: TWO OF THREE REPORTED; BOTH WELL UNDER. AUGUST HAS NOT POSTED.
+    tag: '[verified]'
+    source: EPA ECHO eff_rest_services.get_effluent_chart, OH0026921, parameter 50092, read 2026-09-16 (ICIS extract 2026-09-11)
+    values_ng_per_l:
+      june_2026: {effluent_001: 1.48, influent_601: 2.82, limit: 4.5, received: '2026-07-13', violation: false}
+      july_2026: {effluent_001: 1.98, influent_601: 8.96, limit: 4.5, received: '2026-08-12', violation: false}
+      august_2026: NOT REPORTED — the series ends at the period closing 31-JUL-26.
+    the_august_gap:
+      tag: '[open]'
+      statement: >-
+        Recorded as a gap, not as a negative. The August DMR was due about 2026-09-10 and the ICIS
+        extract is 2026-09-11, so one day separates them; an absence here is as likely to be
+        extract timing as non-submission. Nothing is concluded from it. Re-check after the next
+        extract.
+    the_streak_is_broken:
+      tag: '[verified]'
+      statement: >-
+        The last mercury exceedance was February 2026 at 5.55 ng/L. Since then: March 4.34, April
+        2.80, May 3.53, June 1.48, July 1.98 — FIVE consecutive compliant months, and the last two
+        are the lowest effluent values in the whole series. This file's cautious "appears to have
+        broken in April 2026" is now firmly established rather than provisional.
+    the_influent_is_still_the_strange_number:
+      tag: '[verified]'
+      statement: >-
+        And the inversion this file was built to explain has not recurred. In 2025 the influent ran
+        7.83–74.9 ng/L against an effluent that was usually near 1, and in December 2025 the plant
+        discharged 36.7 while receiving 20.3. In 2026 the influent has been 12.6, 118, 12.2, 24.3,
+        11.3, 2.82, 8.96 — the February influent spike of 118 ng/L is the highest in either year
+        and produced an effluent of only 5.55. The plant is now removing mercury, including from a
+        spike five times December's. That makes December 2025 more anomalous, not less, and it
+        raises the value of the Pollutant Minimization Program report (OTTAWA-PMP-REPORTS).
+  question_2:
+    asked: Have the four unresolved mercury RNC records (2025-09, 2025-12 x2, 2026-02) been resolved, and how?
+    answer: RESOLVED — ALL OF THEM, ON ONE DATE, BY "RE - BACK INTO COMPLIANCE". NO ENFORCEMENT WAS INVOLVED.
+    tag: '[verified]'
+    source: the NPDESViolations records attached to the DMR rows, ECHO effluent chart, read 2026-09-16
+    records:
+    - {period: '2025-09-30', value_ng_l: 9.6, limit: 4.5, exceedance: 113%, severity: Significant/Category I Noncompliance Effluent Violation, rnc_detected: '2025-12-31', rnc_resolution: RE - Back into Compliance, rnc_resolved: '2026-05-31'}
+    - {period: '2025-12-31', value_ng_l: 36.7, limit: 4.5, exceedance: 716%, severity: Significant/Category I Noncompliance Effluent Violation, rnc_detected: '2025-12-31', rnc_resolution: RE - Back into Compliance, rnc_resolved: '2026-05-31'}
+    - {period: '2026-02-28', value_ng_l: 5.55, limit: 4.5, exceedance: 23%, severity: Significant/Category I Noncompliance Effluent Violation, rnc_detected: '2026-02-28', rnc_resolution: RE - Back into Compliance, rnc_resolved: '2026-05-31'}
+    the_how_is_the_point:
+      tag: '[verified]'
+      statement: >-
+        "RE - Back into Compliance" is the resolution code. The records closed because the plant's
+        numbers came down, not because anything was done to it. No order, no penalty, no consent
+        agreement — the same 2026-03-04 warning letter remains the only action of any kind on the
+        CWA side, and it is informal. Three Category-I significant-noncompliance effluent
+        violations, one of them 716% over limit, resolved administratively by the passage of
+        compliant months.
+    a_counting_caveat:
+      tag: '[open]'
+      statement: >-
+        This file counted FOUR unresolved records; the effluent chart carries THREE distinct
+        violation records, with both 2025 records sharing an RNC detection date of 2025-12-31.
+        The "x2" in the original count most likely reflects two RNC entries in the Q4-2025 cycle
+        rather than a fourth exceedance, but that is not established and the discrepancy is left
+        visible rather than reconciled by preferring either number.
+  question_3:
+    asked: Have the two 2026-03-04 single-event violations — the narrative effluent violation and the SSO O&M violation — closed?
+    answer: STRUCTURALLY UNANSWERABLE ON THIS ROUTE. Both records exist and carry NO status in any quarter.
+    tag: '[open — route cannot answer]'
+    source: ECHO DFR CWASECompliance block, OH0026921, read 2026-09-16
+    detail: >-
+      ECHO still carries both single-event violations — NPDESViolationId 3687543993 "Effluent
+      Violations - Narrative Effluent Violation" and 3687543994 "WW SSO - Improper Operation and
+      Maintenance", both State agency. Every one of the thirteen quarterly status fields on both
+      records is NULL. There is no open quarter, no resolved quarter, no date, no volume and no
+      location — exactly as this file already recorded on 2026-07-31.
+    what_that_means: >-
+      Not "they are still open" and not "they have closed". ECHO's single-event violation table
+      publishes the existence of these two records and nothing else about them. A pass that read
+      the empty status row as closure, or as continued openness, would be inventing data. The only
+      route is the warning letter itself and the permit's Part II Item C SSO reports — already
+      tracked as OTTAWA-SSO-2026 and unchanged.
+  question_4:
+    asked: Has any FORMAL enforcement issued? Director's Final Findings and Orders, an administrative order, any penalty. The answer on 2026-07-31 was none.
+    answer: YES — ON THE DRINKING-WATER SIDE. A DIRECTOR'S FINAL FINDINGS AND ORDERS ISSUED 2026-09-03.
+    tag: '[verified]'
+    source: data/documents/oepa/ottawa/edoc-4255174.pdf
+    superseded_negative:
+      tag: '[verified negative — SUPERSEDED]'
+      the_negative: Formal SDWA enforcement against OH6900711 — zero.
+      was_correct_on: '2026-07-31'
+      against_extract: SDWIS 2026-07-09
+      superseded_on: '2026-09-16'
+      by: Director's Final Findings and Orders, journalized and effective 2026-09-03
+      statement: >-
+        It was correct when it was written and it is kept. On 2026-07-31 no formal SDWA action
+        existed and ECHO said so against an extract three weeks old. A formal order then issued on
+        2026-09-03. This is a supersession by events, not an error — and the file records it that
+        way rather than quietly overwriting the earlier reading.
+      the_uncomfortable_part: >-
+        ECHO STILL SAYS ZERO. Read 2026-09-16, the SDWA summary returns FormalEnfActCount null,
+        TotalPenalties $0 and 16 informal actions, because SDWIS has not been re-extracted since
+        2026-07-09. Had this pass "re-verified the standing negative" against the federal system,
+        as the watch schedule literally directs, it would have re-affirmed a negative that a
+        signed Director's order had already falsified thirteen days earlier. The lesson is in the
+        method, not the facility.
+    what_the_order_says:
+      tag: '[verified]'
+      effective: '2026-09-03'
+      entered_directors_journal: '2026-09-03'
+      signed_by: John Logue, Director, Ohio EPA
+      respondent: Ottawa Village, by Mayor J. Dean Meyer
+      authority: ORC 6109 and ORC 3745.01
+      findings: >-
+        The PWS exceeded the TTHM MCL in the FOURTH QUARTER 2025 and FIRST QUARTER 2026 at location
+        DS201, and in the SECOND QUARTER 2026 at locations DS201 AND DS202. Each is a separate
+        violation of ORC 6109.31. The system is surface-water sourced, 1,920 service connections,
+        population 4,393, at 1972 S Agner St.
+      orders_summary:
+      - The 2026 licence to operate is CONDITIONED from 2026-09-03 until 2027-01-30.
+      - Within 120 days — a General Plan under OAC 3745-91 for complying with the TTHM MCL in the distribution system, with at least three alternatives, cost estimates, funding sources and a selected alternative.
+      - A pilot study protocol, study and report follow unless Ohio EPA determines a pilot is unnecessary, in which case detail plans are due within 90 days of General Plan approval.
+      - Construction commences within 3 months of detail-plan approval and completes within 12 months.
+      - TTHM MCL compliance achieved and maintained within 12 months of commencing operation.
+      no_penalty:
+        tag: '[verified]'
+        statement: >-
+          NO penalty is assessed. Section XI expressly RESERVES Ohio EPA's right to seek civil or
+          administrative penalties for the cited violations and does not waive it; Section XII
+          records the Village's consent "without admission of fact, violation or liability" and its
+          waiver of all appeal rights. So the two figures this file tracks now diverge: formal
+          enforcement actions = 1, total penalties = $0. Collapsing those into a single "no
+          enforcement" claim is now wrong, and was the shape of the old finding.
+  question_5:
+    asked: Did the Q2 2026 Stage 2 DBPR determination land, and was it a violation? It read "Und" on the 2026-07-09 SDWIS extract.
+    answer: IT WAS A VIOLATION — AND AT TWO LOCATIONS, NOT ONE. The federal system still reads "Und".
+    tag: '[verified]'
+    source: data/documents/oepa/ottawa/edoc-4255174.pdf, Findings paragraph 4
+    statement: >-
+      The DFFO finds a TTHM MCL exceedance "during the second quarter 2026 monitoring period at
+      locations DS201 and DS202". That is the determination this file was waiting for, established
+      by the state instrument that acts on it rather than by the federal record that reports it.
+      It is a THIRD consecutive quarter of TTHM MCL violation, and it EXPANDED from one monitoring
+      location to two.
+    the_federal_reading_today:
+      tag: '[verified]'
+      statement: >-
+        ECHO's SDWISCompliance grid, read 2026-09-16, still shows Stage 2 DBPR MCL as
+        "10/01/2025 - 12/31/2025" in Qtr11, "01/01/2026 - 03/31/2026" in Qtr12 and "Und" in Qtr13
+        (04/01/2026 - 06/30/2026). Undetermined, at an extract that predates the determination.
+      do_not: >-
+        Report "Und" as this quarter's status now that the Orders exist. And do not treat the
+        federal "Und" as contradicting the state finding — it is an older reading, not a competing
+        one.
+    the_archived_quarters_are_not_returns_to_compliance:
+      tag: '[verified]'
+      statement: >-
+        Worth stating because the field names invite the error. Violation 8263939 (Q4 2025, .083
+        MG/L against .08) and 8263940 (Q1 2026, .086 MG/L against .08) both show Status "Archived"
+        with a ResolvedDate — and in each case the ResolvedDate is IDENTICAL to the compliance
+        period end date (2025-12-31 and 2026-03-31). That is SDWIS closing a monitoring period,
+        not the system demonstrating compliance. The third quarter's violation, and the Orders,
+        settle which reading is right.
+      enforcement_attached: >-
+        Each of those two quarters drew three INFORMAL actions — a State Violation/Reminder Notice,
+        a State Public Notification requested, and a State Public Notification received. Nothing
+        formal until 2026-09-03.
+  question_6:
+    asked: Did SDWIS clear Consumer Confidence Rule violation 8263937 after the 2026-07-01 report? And is 8263895, open since 2020, still unaddressed?
+    answer: BOTH STILL "UNADDRESSED" — BUT AT AN EXTRACT THAT CANNOT ANSWER THE FIRST QUESTION.
+    tag: '[verified for 8263895; open for 8263937]'
+    records:
+    - violation_id: '8263937'
+      rule: Consumer Confidence Rule
+      noncompliance_begin: '2025-11-13'
+      noncompliance_end: '--->'
+      status: Unaddressed
+      resolved_date: null
+      enforcement: one State Violation/Reminder Notice, 2025-11-13
+      reading:
+        tag: '[open]'
+        statement: >-
+          NOT ANSWERED. SDWIS was extracted 2026-07-09 — eight days after the 2026-07-01 report
+          this question is about. An eight-day-old extract cannot show whether a report published
+          on day one cleared the violation. The status is unchanged for the same reason the extract
+          date is unchanged, and reporting that as "still unaddressed as of 2026-09-16" would be
+          false precision.
+    - violation_id: '8263895'
+      rule: Consumer Confidence Rule
+      noncompliance_begin: '2020-01-27'
+      noncompliance_end: '--->'
+      status: Unaddressed
+      resolved_date: null
+      enforcement: one State Violation/Reminder Notice, 2020-01-27, and nothing since
+      reading:
+        tag: '[verified]'
+        statement: >-
+          STILL UNADDRESSED, and here the stale extract does not matter — the violation has been
+          open six years and eight months, and an eight-week-old reading cannot change that
+          materially. One informal notice was issued on the day it opened and no action of any kind
+          has followed in more than six years. SDWIS publishes no reason text, so what it is about
+          remains OTTAWA-CCR-2020-VIOLATION.
+    a_stream_this_watch_was_not_tracking:
+      tag: '[verified]'
+      statement: >-
+        The same violation table carries THREE Lead and Copper Rule Revisions records this file
+        does not mention: 8263935 (reporting, 2024-10-17, resolved 2024-10-23), 8263936 (treatment
+        technique, 2024-10-17, resolved 2024-10-23) and 8263938 (reporting, 2025-07-02, resolved
+        2026-01-09 by "State Compliance achieved"). All three are closed. A fourth LCRR row in the
+        rule grid reads "Und" for Q2 2026. The five-year summary reports a 90th-percentile lead of
+        0 mg/L over 2021-01-01 → 2023-12-31 while simultaneously flagging
+        LeadCopperRuleHealthBasedViol = 1 — recorded as observed and NOT reconciled here.
+      new_document: >-
+        A "Verification of Lead Consumer Notice Issuance" form was published 2026-08-27 and is
+        committed (edoc-4251474.pdf). Its completed fields are HANDWRITTEN and do not extract, so
+        it establishes only that the lead consumer-notice process was in play — not any result.
+  question_7:
+    asked: Was a 2026 licence to operate issued for PWS OH6900711, and is it unconditional?
+    answer: ISSUED, AND IT IS CONDITIONED. It expires 2027-01-30.
+    tag: '[verified]'
+    source: data/documents/oepa/ottawa/edoc-4255174.pdf — the Conditional Licence to Operate enclosed with the Orders
+    statement: >-
+      A CONDITIONAL LICENSE TO OPERATE OR MAINTAIN A PUBLIC WATER SYSTEM was issued under ORC
+      6109.21 and expires 2027-01-30. The cover letter states that under OAC 3745-84-06(A) "during
+      the duration of these DFFOs, the Director intends to, at minimum, issue conditioned LTOs to
+      Ottawa Village" — so this is a standing posture, not a one-year lapse.
+    the_consequence_that_reaches_the_public:
+      tag: '[verified]'
+      statement: >-
+        Under OAC 3745-84-04 the Village must display the conditioned licence at the PWS office
+        where it is clearly visible, and must notify its customers of the conditioned status in the
+        Consumer Confidence Report under OAC 3745-96. So the next CCR is now REQUIRED to carry this
+        — which makes the CCR a dated, checkable artifact rather than a routine one, and ties this
+        question to the two open Consumer Confidence Rule violations above.
+  question_8:
+    asked: Did Eagle Creek dry storage construction start, and did FEMA award?
+    answer: NOT CHECKED THIS PASS.
+    tag: '[open — not run]'
+    statement: >-
+      Recorded as not run rather than as unchanged. This pass spent its effort on the two
+      regulatory sides, and the upstream flood programme is a different route (the Hancock County
+      Flood-Risk Reduction Program's own project pages and the Ohio EMA environmental assessment).
+      The `upstream_flood_program` block keeps its 2026-07-31 date and must not be read as current.
+      Carried into the new dated triggers.
+
+  # ── What the WWTP side did instead ───────────────────────────────────────
+  the_cwa_side_traded_one_rnc_stream_for_another:
+    tag: '[verified]'
+    source: ECHO dfr_rest_services.get_dfr and eff_rest_services.get_effluent_chart, OH0026921, read 2026-09-16 (ICIS extract 2026-09-11)
+    headline: >-
+      The mercury RNCs closed on 2026-05-31 and SIX NEW UNRESOLVED RNCs opened on 2026-08-20, on a
+      different parameter family. The quarterly status line looks like recovery and then relapse;
+      what actually happened is a laboratory failure.
+    what_is_unresolved_now:
+      period: '2026-06-30'
+      rnc_detected: '2026-08-20'
+      rnc_status: NC - Unresolved RNC
+      nodi_on_every_row: P — Laboratory Error or Invalid Test
+      records:
+      - {outfall: '001', parameter: '61425', desc: 'Toxicity [acute], Ceriodaphnia dubia', violation: 'D90 DMR, Limited - Overdue', limit: 1 tox acute}
+      - {outfall: '001', parameter: '61426', desc: 'Toxicity [chronic], Ceriodaphnia dubia', violation: 'D90 DMR, Limited - Overdue', limit: 1.4 tox chronic}
+      - {outfall: '801', parameter: TCM3B, desc: '%Effect Static Renewal 48Hr Acute', violation: 'D80 DMR, Monitor Only - Overdue', count: 2}
+      - {outfall: '801', parameter: TCP3B, desc: '%Effect Static Renewal 7 Day Chronic', violation: 'D80 DMR, Monitor Only - Overdue', count: 2}
+      statement: >-
+        The June 2026 whole-effluent toxicity tests were invalid — every one of the six rows
+        carries NODI code P, "Laboratory Error or Invalid Test" — and the results were therefore
+        never reported. ECHO scores that as DMR non-receipt, and the RNC is unresolved as of
+        2026-08-20. ECHO's own missing/late counter agrees: six missing DMRs in the quarter ending
+        2026-06-30.
+    the_state_record_shows_the_retest:
+      tag: '[verified]'
+      statement: >-
+        And the eDocument portal shows what the federal record does not: THIRTEEN biomonitoring
+        report forms for 2PD00028 published 2026-08-25 — seven acute and six chronic — five days
+        after the RNC detection date, plus six more published 2026-07-21. The tests appear to have
+        been re-run. Whether those filings satisfy the June obligation is NOT established, and
+        ECHO at a 2026-09-11 extract still carries the RNC as unresolved.
+      why_it_is_recorded: >-
+        Because "six unresolved reporting RNCs" read alone suggests a plant that stopped reporting,
+        and the state record shows a plant that filed thirteen reports in one day. Both are true.
+    quarterly_status_now:
+      window: '2023-07-01 → 2026-06-30'
+      qtrs_in_nc: 6
+      qtrs_in_snc: 2
+      current_snc: 'No'
+      current_status: Violation Identified
+      inspections: 4
+      last_inspection: '2026-02-24'
+      formal_enforcement_actions: 0
+      total_penalties: $0
+      informal_actions: 1
+      q12_apr_jun_2026: No Violation Identified
+      q13_jul_sep_2026_partial: Violation Identified
+      rnc_q12: Resolved
+      the_quarter_boundary_trap:
+        tag: '[verified]'
+        statement: >-
+          Q12 (2026-04-01 → 2026-06-30) reads "No Violation Identified" and Q13 reads "Violation
+          Identified", which looks like a clean quarter followed by a new problem. It is one
+          problem, split across the boundary: the missing DMRs are for the June monitoring period,
+          which sits in Q12, while the RNC was DETECTED on 2026-08-20, which sits in Q13. The
+          missing/late counter puts all six in Q12. Read the quarter grid as "when it was noticed",
+          not "when it happened".
+    formal_cwa_enforcement_re_verified:
+      tag: '[verified negative]'
+      checked_on: '2026-09-16'
+      against_extract: ICIS-NPDES 2026-09-11
+      statement: >-
+        STILL ZERO, and this one IS a genuine re-verification because the CWA extract advanced
+        seven weeks. FormalEnfActCount 0, TotalPenalties $0, FormalActions and ICISFormalActions
+        both empty. The only action of any kind remains the single informal Letter of
+        Violation/Warning Letter of 2026-03-04, EnfIdentifier OH-I00108139, State lead.
+      the_contrast_is_now_sharp: >-
+        Same village, same river, same two months. The drinking-water side drew a Director's Final
+        Findings and Orders on 2026-09-03. The wastewater side, with three Category-I significant
+        noncompliance mercury violations including one 716% over limit, has drawn one warning
+        letter and nothing else.
+    a_new_effluent_violation_this_file_did_not_have:
+      tag: '[verified]'
+      parameter: 00300 Oxygen, dissolved [DO]
+      outfall: 001 Effluent Gross
+      period: '2026-04-30'
+      statistic: DAILY MINIMUM
+      value_mg_l: 1.07
+      limit_mg_l: 5.4
+      exceedance: 80%
+      severity: Non-Reportable Noncompliance Effluent Violation
+      statement: >-
+        An April 2026 daily-minimum dissolved-oxygen value of 1.07 mg/L against a 5.4 mg/L limit.
+        Every other month in 2026 reads 7.46 to 9.70, so this is a single dramatic excursion, not
+        a trend. It is classified Non-Reportable Noncompliance, which is why the quarter it falls
+        in still reads "No Violation Identified" — the quarterly grid does not surface it at all.
+      why_it_is_recorded: >-
+        Because a watch that only reads the quarter grid would never see it, and because a
+        dissolved-oxygen collapse at the outfall is a direct receiving-water effect on the one
+        river this file is about. What caused it is `[open]` — no inspection, report or filing in
+        the corpus addresses April 2026.
+
 watch_schedule:
-  cadence: quarterly, keyed to the ICIS-NPDES and SDWIS extract cycles
-  next_check_not_before: '2026-08-21'    # the day after the 2026-07 DMR due date
+  set_on: '2026-09-16'
+  supersedes: the schedule written 2026-07-31, whose eight questions are all answered or dispositioned in pass_2026_09_16
+  cadence: >-
+    QUARTERLY was the old cadence and it is kept for the wastewater side, which tracks the
+    ICIS-NPDES extract cycle. The DRINKING-WATER side moves to MONTHLY for the duration of the
+    Director's Final Findings and Orders: that instrument creates dated obligations with 30-, 90-
+    and 120-day clocks, and its milestones will appear on the eDocument portal weeks before SDWIS
+    knows about them. Next routine pass: 2026-10-16.
+  the_rule_this_pass_learned:
+    tag: '[verified]'
+    statement: >-
+      QUERY THE STATE PORTAL BEFORE THE FEDERAL ONE, for anything about enforcement. A Director's
+      Final Findings and Orders issued 2026-09-03 and ECHO, read 2026-09-16, still reported zero
+      formal SDWA actions because SDWIS had not been extracted since 2026-07-09. Every SDWA answer
+      must now be stamped with the SDWIS extract date AND checked against eDoc Secondary ID
+      OH6900711.
+  dated_triggers:
+  - date: '2026-10-05'
+    what: >-
+      Thirty days after the Orders took effect — the Order No. 2 window for the Village to respond
+      in writing to any Ohio EPA comments or deficiencies.
+    route: eDoc Secondary ID OH6900711
+  - date: '2026-10-16'
+    what: >-
+      The August and September 2026 mercury DMRs for OH0026921. August had not posted at this pass
+      and its absence was NOT read as non-submission.
+    route: ECHO eff_rest_services.get_effluent_chart, OH0026921, parameter 50092
+  - date: '2026-10-16'
+    what: >-
+      Whether the six unresolved June-2026 whole-effluent-toxicity RNCs cleared once the 2026-08-25
+      biomonitoring retests were processed. They were unresolved at the 2026-09-11 extract.
+    route: ECHO effluent chart, OH0026921, parameters 61425/61426/TCM3B/TCP3B
+  - date: '2026-11-15'
+    what: >-
+      The next SDWIS extract. Until it moves, questions 5, 6 and the Stage 2 DBPR grid cannot be
+      answered federally at all. Check the extract date FIRST and stop if it has not moved.
+    route: ECHO dfr_rest_services.get_dfr, p_id OH6900711 — read SystemExtractDates before anything else
+  - date: '2026-12-01'
+    what: >-
+      Q3 2026 Stage 2 DBPR. The Orders establish three consecutive quarters of TTHM MCL violation
+      (Q4 2025, Q1 2026, Q2 2026) and an expansion from one monitoring location to two. Whether Q3
+      makes four, and at how many locations, is the live question.
+    route: eDoc Secondary ID OH6900711 first, ECHO second
+  - date: '2027-01-01'
+    what: >-
+      The General Plan for TTHM compliance is due within 120 days of 2026-09-03. This is the single
+      highest-value document the Orders create — it must describe at least three alternatives with
+      cost estimates and funding sources, and name the selected one.
+    route: eDoc Secondary ID OH6900711; Ohio EPA DDAGW engineering plan approval
+  - date: '2027-01-30'
+    what: >-
+      The conditioned 2026 licence to operate expires. The cover letter says the Director intends
+      to issue at minimum conditioned LTOs for the duration of the Orders, so the question is
+      whether the 2027 licence is conditioned too.
+    route: eDoc Secondary ID OH6900711; the Ohio EPA licence-to-operate register
+  - date: '2027-06-30'
+    what: >-
+      The next Consumer Confidence Report. It is now REQUIRED under OAC 3745-96 to disclose the
+      conditioned status of the licence — which makes it a checkable artifact and ties it to the
+      two Consumer Confidence Rule violations still unaddressed.
+    route: the Village's own DocumentCenter; eDoc Secondary ID OH6900711
+  - date: '2026-10-16'
+    what: >-
+      Eagle Creek dry storage construction start and any FEMA award — question 8, which was NOT run
+      this pass and is carried forward rather than reported as unchanged.
+    route: Hancock County Flood-Risk Reduction Program project pages; Ohio EMA EMC-2023-FM-003-0004
+  - date: '2027-03-15'
+    what: >-
+      The annual Pollutant Minimization Program report, due March 1. The 2026 report covering the
+      December 2025 spike has still not been obtained; the 2027 report would cover a year in which
+      the plant handled a 118 ng/L influent spike and discharged 5.55.
+    route: Ohio EPA records request, Division of Surface Water NPDES Permit Unit
   questions_for_the_next_check:
-  - Are the June, July and August 2026 mercury monthly averages reported, and are they under 4.5 ng/L?
-  - Have the four unresolved mercury RNC records (2025-09, 2025-12 x2, 2026-02) been resolved, and how?
-  - Have the two 2026-03-04 single-event violations — the narrative effluent violation and the SSO O&M violation — closed?
-  - Has any FORMAL enforcement issued? Director's Final Findings and Orders, an administrative order, any penalty. The answer on 2026-07-31 was none.
-  - Did the Q2 2026 Stage 2 DBPR determination land, and was it a violation? It read "Und" on the 2026-07-09 SDWIS extract.
-  - Did SDWIS clear Consumer Confidence Rule violation 8263937 after the 2026-07-01 report? And is 8263895, open since 2020, still unaddressed?
-  - Was a 2026 licence to operate issued for PWS OH6900711, and is it unconditional?
-  - Did Eagle Creek dry storage construction start, and did FEMA award?
+  - Did the August and September 2026 mercury monthly averages post, and are they under 4.5 ng/L? (June 1.48 and July 1.98 were; August had not posted at the 2026-09-11 extract.)
+  - Did the six June-2026 whole-effluent-toxicity RNCs resolve after the 2026-08-25 biomonitoring retests, and by what resolution code?
+  - Has SDWIS been re-extracted? If not, STOP — no SDWA question below is answerable.
+  - Was Q3 2026 a fourth consecutive TTHM MCL quarter, and at how many monitoring locations?
+  - Did the Village meet the Orders' 120-day General Plan deadline, and which of its three alternatives did it select?
+  - Has any PENALTY been sought? Section XI of the Orders expressly reserves that right and does not waive it.
+  - Did Consumer Confidence Rule violation 8263937 clear once SDWIS caught up past the 2026-07-01 report? Is 8263895 still unaddressed after six and a half years?
+  - What caused the 2026-04-30 dissolved-oxygen minimum of 1.07 mg/L at outfall 001, against a 5.4 mg/L limit and a 7.46-9.70 range in every other month?
+  - Did Eagle Creek dry storage construction start, and did FEMA award? (Not run on 2026-09-16.)
   standing_negatives_to_re_verify:
-  - Formal CWA enforcement against OH0026921 — zero as of the 2026-07-24 ICIS extract, $0 penalties over five years.
-  - Formal SDWA enforcement against OH6900711 — zero as of the 2026-07-09 SDWIS extract, against 16 informal actions.
+  - negative: Formal CWA enforcement against OH0026921 — zero.
+    status: RE-VERIFIED 2026-09-16 against ICIS-NPDES extract 2026-09-11. Still zero; $0 penalties; one informal warning letter (OH-I00108139, 2026-03-04).
+    note: A genuine re-verification — the CWA extract advanced seven weeks between passes.
+  - negative: Formal SDWA enforcement against OH6900711 — zero.
+    status: SUPERSEDED 2026-09-16. A Director's Final Findings and Orders issued 2026-09-03.
+    note: >-
+      The negative was correct on 2026-07-31 and is kept as such. ECHO still reports zero because
+      SDWIS has not been extracted since 2026-07-09 — so this negative could NOT have been
+      re-verified federally, only re-read. Never re-affirm it from ECHO again without checking
+      eDoc Secondary ID OH6900711 first.
+  - negative: Total penalties against either permit — $0.
+    status: RE-VERIFIED 2026-09-16 and STILL TRUE on both sides, including after the Orders.
+    note: >-
+      This one survives the supersession above and the distinction is load-bearing. The Orders
+      assess no penalty; Section XI reserves the right to seek one. Formal enforcement actions on
+      the SDWA side is now 1 while total penalties is still $0, and the two must not be collapsed.
 
 open_leads:
 - id: OTTAWA-PMP-REPORTS
+  status: >-
+    STILL OPEN as of 2026-09-16 — no request has been sent, and it is now the highest-value lead on
+    this file. It was NOT closable by portal query: eDoc Secondary ID 2PD00028 was swept this pass
+    and carries no PMP report under any keyword.
+  why_it_got_more_valuable: >-
+    The 2026 mercury record makes the December 2025 spike stranger, not less strange. This plant
+    received a 118 ng/L influent in February 2026 — five times December's 20.3 — and discharged
+    5.55. In December it received 20.3 and discharged 36.70. A report whose statutory content is
+    "potential sources of mercury and actions taken" is the one document that could reconcile
+    those two months, and the RNC records closed on 2026-05-31 by "back into compliance" without
+    anyone having to explain either.
+  priority: 1
   question: What do the annual Pollutant Minimization Program reports say about the source of the mercury?
   why: >-
     Permit Part II Item X.1.g requires one by March 1 each year, listing all minimization
@@ -924,6 +1393,14 @@ open_leads:
   why: The previous check recorded strong performance; this check did not verify it and will not carry it unverified.
   route: ECHO effluent chart parameter 00665; the annual Season Report required by OHP000001 Part IV.D
 - id: OTTAWA-SANITARY-SURVEY-2025
+  status: >-
+    STILL OPEN, and sharper after 2026-09-16. ECHO's survey record is unchanged and still publishes
+    only the category codes — Source "R" (recommendations made) and Treatment "R", with Management
+    /Operation and Finished Water Storage at "M" (minor deficiencies) — and no text. A Director's
+    Final Findings and Orders now requires a General Plan evaluating at least three TREATMENT
+    alternatives for TTHM reduction, fifteen months after a survey made recommendations against
+    exactly that category. What those recommendations said is the question of whether this was
+    foreseen.
   question: What recommendations did the 2025-06-12 sanitary survey make against Source and Treatment?
   why: Five months before the first TTHM violation, with recommendations recorded against exactly the two categories a disinfection-byproduct problem would implicate.
   route: Ohio EPA / Putnam County district health department records request
@@ -932,6 +1409,11 @@ open_leads:
   why: It is one of the two records keeping this system at twelve of twelve quarters in noncompliance. SDWIS publishes no reason text.
   route: Ohio EPA Division of Drinking and Ground Waters
 - id: OTTAWA-LTO-2026
+  status: >-
+    CLOSED 2026-09-16. A 2026 licence WAS issued and it is CONDITIONED, expiring 2027-01-30 —
+    enclosed with the Director's Final Findings and Orders, data/documents/oepa/ottawa/edoc-4255174.pdf.
+    Under OAC 3745-84-06(A) the Director intends to issue at minimum conditioned LTOs for the
+    duration of the Orders, so the 2027 licence is the live question, not this one.
   question: Was a 2026 licence to operate issued for OH6900711, and was it unconditional?
   why: The 2025 licence expired 2026-01-30; the report published 2026-07-01 says nothing about 2026.
   route: Ohio EPA licence-to-operate register
@@ -950,6 +1432,39 @@ open_leads:
   question: Does the Hancock County program's hydraulic modelling produce any figure for Putnam County?
   why: The program quantifies 16% peak reduction at Findlay and nothing downstream. Whether "nothing published" means "modelled as zero" or "not modelled" is unestablished.
   route: The program's Draft Environmental Assessment (Ohio EMA, EMC-2023-FM-003-0004) and the Maumee Watershed Conservancy District
+- id: OTTAWA-DFFO-GENERAL-PLAN
+  question: >-
+    Which of at least three alternatives did the Village select for TTHM reduction, what does it
+    cost, and how is it to be funded?
+  why: >-
+    NEW 2026-09-16. Order No. 3 of the 2026-09-03 Director's Final Findings and Orders requires a
+    General Plan within 120 days containing an engineering description of existing facilities, at
+    least three alternatives, cost estimates for each, anticipated sources of funds, and an
+    indication of the selected alternative. For a village of 4,393 people on 1,920 connections it
+    is also the document that will say what this costs per household.
+  route: eDoc Secondary ID OH6900711; Ohio EPA DDAGW engineering plan approval
+  due: '2027-01-01'
+  priority: 1
+- id: OTTAWA-CYANOBACTERIA-2026
+  question: >-
+    Why was cyanobacteria screening missed for the 2026-06-21 to 2026-07-04 monitoring period, and
+    has the Village returned to its HAB monitoring schedule?
+  why: >-
+    NEW 2026-09-16, from the 2026-07-29 NOV (edoc-4208516.pdf). This is a surface-water system
+    drawing from the Blanchard River, the missed window is inside the harmful-algal-bloom season,
+    and the monitoring that was missed is the monitoring that would have detected an event. The
+    NOV establishes a failure to LOOK and says nothing about what was there.
+  route: Ohio EPA DDAGW; the Village's HAB monitoring schedule; subsequent screening results
+  priority: 2
+- id: OTTAWA-DO-2026-04
+  question: What caused the 2026-04-30 effluent dissolved-oxygen minimum of 1.07 mg/L?
+  why: >-
+    NEW 2026-09-16. Against a 5.4 mg/L limit and a 7.46-9.70 mg/L range in every other 2026 month,
+    this is an 80% shortfall in a single month. ECHO classifies it Non-Reportable Noncompliance, so
+    it never reaches the quarterly grid and a watch reading only that grid would never see it.
+    Nothing in the corpus addresses April 2026.
+  route: Ohio EPA NWDO; the plant's own operating records; the 2026-02-24 evaluation's follow-up
+  priority: 2
 
 provenance:
   extracted_at: '2026-07-31'

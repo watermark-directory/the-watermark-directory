@@ -2,7 +2,13 @@ meta:
   subject: >-
     OEPA/DAM permit download manifest — Village of Ottawa Wastewater Treatment Plant,
     NPDES 2PD00028 / application OH0026921 (issue 1422; the pull #415 had left open)
-  generated_at: '2026-07-31'
+  generated_at: '2026-09-16'
+  naming: >-
+    Two naming families live on this shelf and both are as-received. A DAM pull keeps the slot's
+    own basename (`2PD00028.pdf`). An eDocument-portal pull has no as-received name at all — the
+    portal serves documents from `ViewDocument.aspx?docid=<n>` with no filename in the URL — so
+    the corpus constructs `edoc-<docid>.pdf`, which is the same convention the van-wert shelf
+    uses. Nothing is renamed; a constructed name is recorded as constructed.
   policy: >-
     non-destructive — originals keep as-received names. As at Findlay, the Ohio EPA DAM serves
     TWO different documents under the same basename `2PD00028.pdf`: the issued permit from
@@ -77,3 +83,109 @@ documents:
     (p. 1) is the only instrument in this set that states outfall 001's COORDINATES — lat
     41.031111, long -84.055278 — which differ from the ICIS-NPDES pair for the same outfall
     (41.028889 / -84.049167). Both are recorded; neither is corrected against the other.
+- filename: edoc-4255174.pdf
+  canonical_name: >-
+    Director's Final Findings and Orders, In the Matter of Ottawa Village, PWS OH6900711 —
+    journalized and effective 2026-09-03, signed John Logue, Director, Ohio EPA. Transmitted to
+    Mayor J. Dean Meyer under cover of a letter from Dyla Butler, DDAGW. Includes the enclosed
+    CONDITIONAL Licence to Operate, expiring 2027-01-30. 10 pp.
+  content_verified_date: '2026-09-03'   # "Entered Director's Journal" stamp and "Effective Date September 3, 2026" on the Orders' first page, plus the Director's signature date
+  permit_id: OH6900711
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4255174
+  edoc_docid: 4255174
+  edoc_doc_type: DFFO
+  edoc_program: DRINKING WATER
+  edoc_published: '2026-09-03'
+  sha256: 7c0278487a1a4b53ce5bad50a8baf8bedc8f4ed64a98ff91d5eb41f57355f0cf
+  bytes: 1534587
+  content_type: application/pdf
+  fetched_at: '2026-09-16'
+  status: downloaded
+  evidence: >-
+    native_text, scan-derived and partly mangled — the Orders' caption block extracts as
+    "*5CE(I?R E /6 A9 /3ND A + @RDE•F" and both signature blocks are unreadable. The DATES are
+    clean and appear three times (journal stamp, effective-date line, Director's signature line),
+    so the 2026-09-03 date is content-verified. The Respondent's own signature date is NOT legible
+    and is not recorded.
+  note: >-
+    THIS IS THE DOCUMENT THAT OVERTURNS A STANDING NEGATIVE, AND EPA'S ECHO DOES NOT KNOW IT
+    EXISTS. As of 2026-09-16 ECHO reports FormalEnfActCount null / $0 penalties / 16 informal
+    actions for OH6900711, because SDWIS has not been re-extracted since 2026-07-09. The state
+    portal carries a formal order dated 2026-09-03. Read the state record before concluding
+    anything from a federal zero.
+    FINDINGS (Section IV): the PWS is at 1972 S Agner St., Ottawa, Putnam County; surface-water
+    source; 1,920 service connections; population 4,393. It exceeded the TTHM MCL in the fourth
+    quarter 2025 and first quarter 2026 at location DS201, AND in the second quarter 2026 at
+    locations DS201 **and** DS202. Each is a separate violation of ORC 6109.31.
+    That third quarter is the one the federal system still reports as "Und".
+    ORDERS: the 2026 LTO is CONDITIONED to 2027-01-30. A General Plan for complying with the TTHM
+    MCL is due within 120 days, describing existing facilities, at least three alternatives with
+    cost estimates and funding sources, and the selected alternative. A pilot study follows unless
+    Ohio EPA says it is unnecessary. Construction commences within 3 months of detail-plan approval
+    and completes within 12; compliance must be achieved and maintained within 12 months of
+    commencing operation.
+    ⚠️ NO PENALTY IS ASSESSED. Section XI expressly RESERVES Ohio EPA's right to seek civil or
+    administrative penalties and does not waive it; Section XII records that the Respondent
+    consents "without admission of fact, violation or liability" and waives all rights of appeal.
+    So "total penalties $0" stays true while "no formal enforcement" becomes false — two
+    statements that are easy to collapse into one and must not be.
+- filename: edoc-4208516.pdf
+  canonical_name: >-
+    Ohio EPA DDAGW Notice of Violation – Action Required, "Failure to Monitor Drinking Water",
+    Ottawa Village PWS OH6900711, signed Sam Beam, Environmental Specialist. Encloses a public
+    notice template and verification form. 3 pp.
+  content_verified_date: '2026-07-29'   # "July 29, 2026" printed at the head of the letter's text layer
+  permit_id: OH6900711
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4208516
+  edoc_docid: 4208516
+  edoc_doc_type: NOV
+  edoc_program: DRINKING WATER
+  edoc_published: '2026-07-29'
+  sha256: d4581b60ba0bf680a943903a663441b26b077c61418af16a97db8e41914006e8
+  bytes: 660900
+  content_type: application/pdf
+  fetched_at: '2026-09-16'
+  status: downloaded
+  evidence: native_text — date, rule citation, monitoring period and the missed analyte all read from the letter's own text layer.
+  note: >-
+    A VIOLATION CATEGORY THIS WATCH DID NOT HAVE. The Village failed to conduct required
+    monitoring, or report results, for CYANOBACTERIA SCREENING over the 6/21/2026–7/4/2026
+    monitoring period, in violation of OAC 3745-90-03. Addressed to Richard Knowlton at the plant
+    address, 1972 Agner Street.
+    It matters more here than it would elsewhere: this is a SURFACE-WATER system drawing from the
+    Blanchard River, harmful-algal-bloom screening is the monitoring that would detect a
+    cyanobacteria event in that source, and the missed window is late June to early July — inside
+    the HAB season. The letter warns that "continued noncompliance may lead to enforcement
+    actions", and a DFFO issued five weeks later on a different violation stream.
+    What it does NOT say is that anything was found. A failure to monitor is a failure to look.
+- filename: edoc-4251474.pdf
+  canonical_name: >-
+    "Verification of Lead Consumer Notice Issuance" — Ohio EPA DDAGW compliance-notification form
+    for Ottawa Village PWS OH6900711. 7 pp.
+  content_verified_date: null
+  permit_id: OH6900711
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4251474
+  edoc_docid: 4251474
+  edoc_doc_type: Compliance Notification
+  edoc_program: DRINKING WATER
+  edoc_published: '2026-08-27'
+  sha256: f5192064a1bf2163267fc1232d41dbd6021762097901e5c56cc3e2061590ab0b
+  bytes: 878025
+  content_type: application/pdf
+  fetched_at: '2026-09-16'
+  status: downloaded
+  evidence: >-
+    native_text for the printed form, but the COMPLETED FIELDS ARE HANDWRITTEN and do not extract
+    — "PWS Name: ~' fi'( ~, ~ /" is the whole of that line. The document carries NO legible date
+    of its own, so `content_verified_date` is null. 2026-08-27 is the eDoc PUBLICATION date and is
+    recorded as that and nothing else.
+  note: >-
+    ⚠️ DO NOT DATE THIS DOCUMENT FROM THE PORTAL. The corpus rule is that a date comes from the
+    text layer or OCR, and this one has neither for its filled fields. Reading the portal's
+    publication date as the notice date would be exactly the error the filename-map convention
+    exists to prevent.
+    The blank form requires a Consumer Notice within two business days of receipt of lead sample
+    results, with delivery methods varying by whether any individual result exceeds 15 µg/L.
+    Whether Ottawa had a result over 15 µg/L is NOT established by this document — the values are
+    handwritten and unread. ECHO's five-year Lead and Copper summary reports a 90th-percentile
+    lead value of 0 mg/L for 2021-01-01 → 2023-12-31, which is a different and older window.
