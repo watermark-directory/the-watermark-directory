@@ -23,8 +23,8 @@ meta:
   site: van-wert
   captured_for: issue 1408 (epic 1267, readiness(van-wert))
   extracted_at: '2026-08-05'
-  checked_on: '2026-08-05'
-  previous_check: '2026-08-03'      # the #1402 pass; the issue's own negatives are dated 2026-07-10
+  checked_on: '2026-09-16'
+  previous_check: '2026-08-05'      # the pass that wrote this file; before it, the #1402 pass of 2026-08-03
   method: >-
     Seven routes, run independently and recorded separately. (1) Ohio EPA's eDocument public
     portal, scripted — by Entity Name, by County × Program, and by Secondary ID. (2) EPA ECHO's
@@ -100,6 +100,446 @@ delta_since_the_issue:
     GENERATION track. The issue was watching the wrong instrument; the load-side rule is BYONG.
     See the structural finding below.
 
+# ── The 2026-09-16 pass ──────────────────────────────────────────────────────
+# The file's own cadence said "weekly through August 2026, then monthly". It was not run: this
+# pass is six weeks after the last, and it arrives with two dated triggers already blown. Both
+# are answered below. Nothing here is a blank.
+pass_2026_09_16:
+  ran_on: '2026-09-16'
+  previous_pass: '2026-08-05'
+  cadence_kept: false
+  cadence_gap_days: 42
+  honesty_note: >-
+    A watch that misses its own cadence must say so before it reports anything, because the
+    negatives it records are only as good as the dates they were taken on. The 2026-08-15 trigger
+    was checked 32 days late and the 2026-09-01 trigger 15 days late. In this instance the delay
+    did not cost a finding — both triggers are answerable today and are answered — but that is
+    luck, not method, and one of the two findings below turns on a portal publication lag that a
+    punctual check would itself have missed.
+
+  # ── Every declared query, re-run, with its new count ───────────────────────
+  # The counts ARE the signal (the file said so, and it is right): a changed count is the finding
+  # and an unchanged count is a negative with a date on it. Recorded here including the ones that
+  # did not move.
+  queries_rerun:
+  - query: eDoc — Entity Name "QTS", statewide, all programs
+    route: watermark.oepa.portal.sweep_portal(entity="QTS", program="")
+    count_at_last_check: 35
+    count_now: 35
+    delta: 0
+    newest_document: '2026-07-30'
+    finding: >-
+      UNCHANGED, and over six weeks rather than six days. Nothing has been added to QTS's entire
+      Ohio fleet since the 2026-07-30 Van Wert stormwater approval — not in Van Wert, not in
+      Licking, not in Franklin. The three Van Wert rows are still the 2GC08872 family; the other
+      32 are still New Albany / North Justice / NAL 1-3. No air document, anywhere in Ohio, for
+      the Van Wert campus.
+  - query: eDoc — County = VAN WERT, Program = AIR PERMIT, all entities
+    route: watermark.oepa.portal.sweep_portal(county="VAN WERT", program="AIR PERMIT")
+    count_at_last_check: 328
+    count_now: 337
+    delta: 9
+    tag: '[verified negative]'
+    finding: >-
+      The count MOVED and the answer did not. Nine documents were added to the county's air stream
+      in six weeks and a full-text scan of all 337 rows for QTS / DATA CENTER / DATACENTER / MEGA
+      returns ZERO hits, in the entity column and in the description column alike. This is the
+      thread the file calls the facility-domain hinge, and it is still negative.
+    positive_control_2026_09_16: >-
+      The route is still live and still current. The newest row is 2026-08-24 — a PROPOSED PERMIT
+      for the Robert P. Mone Plant, facility 0381000043, permit P0140139: the SAME Title IV
+      acid-rain renewal the 2026-08-05 pass caught at PRELIMINARY PROPOSED on 2026-08-04. Watching
+      one permit advance one stage through this county's air stream is a stronger positive control
+      than a single fresh row, because it shows the route tracking a permit's progress and not
+      merely serving new arrivals.
+  - query: eDoc — Secondary ID "2GC08872"
+    route: watermark.oepa.portal.sweep_portal(permit_id="2GC08872", program="")
+    count_at_last_check: 3
+    count_now: 3
+    delta: 0
+    tag: '[verified negative]'
+    finding: >-
+      NO CO-PERMITTEE NOI. Still exactly three documents — the NOI, its site map, and the approval
+      letter. The 2026-08-05 pass said this was the near-term filing most likely to appear and the
+      cheapest route to the general contractor's identity; six weeks past the applicant's own
+      2026-08-03 project-start date, it has not appeared. The campus's general contractor is still
+      not on the state record under any name this watch can reach.
+    what_it_does_and_does_not_mean: >-
+      It is evidence that no ADDITIONAL OPERATOR has filed, which under Ohio EPA's approval letter
+      is required of each one. It is NOT evidence that earthwork has not begun — a single operator
+      working under the permittee's own coverage files nothing. Do not convert this negative into
+      a claim about site activity; that claim needs imagery or a City grading permit, neither of
+      which is on this route.
+  - query: eDoc — County = VAN WERT, Program = NPDES
+    route: watermark.oepa.portal.sweep_portal(county="VAN WERT", program="NPDES")
+    count_at_last_check: not recorded (the 2026-08-05 pass ran this query but logged only its hits)
+    count_now: 1571
+    tag: '[verified]'
+    finding: >-
+      THE QUERY THAT MOVED. Fifteen rows are new since 2026-08-05, and two of them are the answer
+      to this watch's 2026-08-15 trigger: docids 4236096 and 4236116, both permit 2PD00006, both
+      keyword COMPLIANCE SCHEDULE UPDATE, both published 2026-08-19. Fetched, read and committed
+      this pass. See `triggers_answered` below. The other thirteen are unrelated county traffic
+      (an Allen-Maddox Creek segment, a Delphos 69 kV rebuild, Cooper Farms, Middle Point WWTP,
+      Vision Station, and two Van Wert WWTP 2GP00037 reports).
+    scan: >-
+      A QTS / DATA CENTER / MEGA scan across all 1,571 rows returns only the three known 2GC08872
+      stormwater documents. No campus NPDES instrument exists, which is the EXPECTED state for a
+      sewered campus and is recorded here so that expectation is not re-derived as a discovery.
+    baseline_established: >-
+      1571 is now the recorded baseline for this query, so the next pass has a count to diff
+      against. Its absence from the last pass is the reason this one had to read fifteen rows to
+      find two.
+  - query: eDoc — County = VAN WERT, Program = 401 WETLANDS
+    route: watermark.oepa.portal.sweep_portal(county="VAN WERT", program="401 WETLANDS")
+    count_at_last_check: 4
+    count_now: 4
+    delta: 0
+    tag: '[verified negative]'
+    finding: >-
+      UNCHANGED — the same four documents for the entire county: three Van Wert Airport Runway
+      Expansion rows (DSW401241237, 2024) and one Van Wert Reservoir #3 row (DSW401073053, 2013).
+      Nothing for the campus.
+    the_standing_caveat_still_applies: >-
+      This negative must NOT be read as continued absence of a federal authorization. The file's
+      own do_not list says so and it remains correct: an NWP verification is a letter from USACE
+      Buffalo to the applicant and is never public-noticed. Six weeks of additional silence on
+      this route is six weeks of silence about a branch the route cannot see.
+  - query: EPA ECHO dfr_rest_services.get_dfr, p_id OH0027910
+    route: https://echodata.epa.gov/echo/dfr_rest_services.get_dfr?output=JSON&p_id=OH0027910
+    read_on: '2026-09-16'
+    tag: '[verified]'
+    finding: >-
+      THE WINDOW MOVED. This is the 2026-09-01 trigger and it is answered — see
+      `triggers_answered` below.
+  - query: aeptransmission.com/ohio/filings.php and the Van Wert–Haviland project page
+    read_on: '2026-09-16'
+    tag: '[verified negative]'
+    finding: >-
+      No new Van Wert filing. The project page at aeptransmission.com/ohio/VanWert-Haviland/ still
+      serves exactly the same five releases it did on 2026-08-05 — the original LON and public
+      notice, the Adjustment LON and public notice, and a news release — plus the fact sheet, map
+      poster and two detail maps. There is NO Construction Notice for either Van Wert case.
+    route_correction:
+      tag: '[verified]'
+      supersedes: the `route_discovery.generalizes_to` claim written on 2026-08-05
+      statement: >-
+        That claim — "the Ohio filings index at aeptransmission.com/ohio/filings.php lists them" —
+        is WRONG for this project and is corrected here rather than quietly left standing. The
+        filings index does not list the Van Wert–Haviland project at all: neither 25-0697-EL-BLN
+        nor 26-0729-EL-BLN appears anywhere on it, under any caption. The index carries 24 case
+        numbers and these two are not among them. The project page is reachable only by its direct
+        URL. So the index is NOT an enumeration of AEP Ohio's OPSB filings, and a future pass that
+        searches the index and finds nothing has learned nothing.
+    the_haviland_name_collision:
+      tag: '[verified]'
+      statement: >-
+        A trap this pass walked into and is recording so the next one does not. The filings index
+        DOES carry three "Haviland" entries — Haviland-Grover Hill 138 kV, Haviland-North Delphos
+        138 kV Line Adjustment, and North Delphos-Rockhill Temporary Extensions — and the second
+        of those is captioned "Line Adjustment Project", which is exactly what 26-0729-EL-BLN is.
+        They are not this project. The Haviland-Grover Hill construction notice was pulled and
+        read: OPSB Case 24-0947-EL-BNR, filed October 2024, Blue Creek Township, PAULDING County,
+        interconnecting the 150 MW Grover Hill Wind Farm, PJM upgrade n8434.2. Different county,
+        different case, different customer, and a generation interconnection rather than load.
+        Haviland Station is the shared node; the name is not a key.
+      what_would_have_gone_wrong: >-
+        Reading "Haviland-North Delphos 138 kV Line Adjustment Project Construction Notice" off
+        the index as this campus's construction notice would have manufactured a 2024 Paulding
+        County wind-farm filing into evidence that the Van Wert rebuild had started.
+    a_second_route_hazard:
+      tag: '[verified]'
+      statement: >-
+        The Haviland-North Delphos construction notice is LISTED on the index and 404s when
+        fetched — 555 bytes of AEP's own error page, at three different encodings of its
+        space-bearing filename, with a browser User-Agent and the required Referer both present.
+        That is a broken link on the applicant's site, NOT the 403 header problem this file
+        already documents. The two failure modes look alike from a script and mean opposite
+        things: a 403 here means "send the Referer", a 404 with a 555-byte body means "AEP's index
+        points at a file AEP does not serve". Check the body size, as with the PUCO block.
+    the_page_cannot_report_updates:
+      tag: '[verified]'
+      statement: >-
+        The Van Wert–Haviland project page's "Project updates" block still contains the
+        lorem-ipsum placeholder text it shipped with ("bacon sunt ham hock, elit dolore qui
+        bresaola id flank consequat tenderloin…"), and its Timeline section is empty. The page has
+        never had its update mechanism populated. So the absence of an update on the applicant's
+        page is not evidence that nothing has happened — there is no channel there that could
+        report one.
+  - query: PUCO / OPSB Docketing Information System — 26-0729-EL-BLN and 25-0697-EL-BLN
+    attempted: '2026-09-16'
+    tag: '[open — access blocked]'
+    finding: >-
+      BLOCKED, for the fifth time in this corpus. All four spellings tried (26-0729-EL-BLN,
+      26-729-EL-BLN, 25-0697-EL-BLN) return HTTP 200 with a 244-byte "Request Rejected" body and
+      an F5/BIG-IP support ID. Case status, the Staff report, the service list and any intervention
+      on 26-0729 remain UNSEARCHED, not empty.
+    new_this_pass: >-
+      The bare origin https://dis.puc.state.oh.us/ ALSO returns the same 244-byte rejection. That
+      is new information about the block and it narrows what can be inferred from it: the refusal
+      is not about case-number spelling, not about the CaseRecord endpoint, and not about a
+      malformed query — the host refuses the root. No amount of URL craft will get past it, and a
+      future pass should stop trying spellings and go to a headless browser or a records request.
+  - query: FERC eLibrary — an AEP Ohio service agreement naming the campus
+    attempted: '2026-09-16'
+    tag: '[open — route not established]'
+    finding: >-
+      NOT RUN, and recorded as not run rather than as a negative. FERC's eLibrary is now an Angular
+      single-page app whose server returns the same 22,464-byte index.html for every path under
+      /eLibrary/, so a scripted probe cannot distinguish a real endpoint from a 404 and cannot
+      tell an empty result from a missing route. The search API base could not be recovered from
+      the application bundle (the only /api/v2/ string in it belongs to Datadog RUM, not to FERC).
+      This watch has never actually run this query — it has been on the list since 2026-08-05 and
+      is carried forward again, now with the reason it fails.
+    what_it_would_take: >-
+      A headless browser against elibrary.ferc.gov/eLibrary/search, or FERC's bulk XML/accession
+      downloads. Same class of problem as the PUCO docket and probably worth solving once for the
+      whole network rather than per-site — Sidney's watch needs FERC for ER26-2303 and hits the
+      same wall.
+  - query: Van Wert County Board of Elections — R.C. 149.43 for the 2026-07-27 certification
+    tag: '[open]'
+    finding: >-
+      NOT A QUERY AND STILL NOT MADE. This is a records request, not a portal route, and no
+      request has been sent. It is carried in `instruments_to_pull` at priority 2 and is the only
+      thing that would move the local-ballot thread from `[reference]` to `[verified]`. Recorded
+      here so the query list does not imply a route was run.
+
+  # ── The two blown dated triggers ──────────────────────────────────────────
+  triggers_answered:
+  - trigger_date: '2026-08-15'
+    checked_on: '2026-09-16'
+    days_late: 32
+    what_it_asked: >-
+      CSO event 3099 — the 14-day notification window closes; re-run the 2PD00006 compliance-schedule
+      query.
+    answer: ANSWERED — NEGATIVE, AND CERTIFIED BY THE PERMITTEE
+    tag: '[verified]'
+    sources:
+    - data/documents/oepa/van-wert/edoc-4236096.pdf
+    - data/documents/oepa/van-wert/edoc-4236116.pdf
+    statement: >-
+      CSO construction did NOT begin by the 2026-08-01 milestone, and no notification of
+      commencement was filed — because there was no commencement to notify. What was filed instead
+      is two "NPDES Permit Compliance Schedule Update" forms, each certified under penalty of law
+      by Gregory Reinhart, WW Supt, each reporting event 3099 "Begin Construction" under the
+      heading "Permit Compliance Schedules which have been or will be violated", with Status
+      "Overdue".
+    the_two_filings:
+    - docid: '4236096'
+      submitted: '2026-07-22'
+      published_on_portal: '2026-08-19'
+      application_id: '25914608'
+      status_reported: Overdue
+      scheduled_date: '2026-08-01'
+      probable_compliance_date: '2026-09-15'
+      cause_of_violation: Contractor busy
+      remedial_action: moving in an extra crew after it gets started
+      probability_of_complying_with_subsequent_events: 50%
+      note: >-
+        Filed TEN DAYS BEFORE the deadline it reports as overdue. The permittee pre-reported the
+        violation rather than missing it silently, which is a materially different posture from the
+        three other CSO schedule events this permittee has left "unachieved and not reported"
+        since 2024 — and that difference is worth recording at the same weight as the miss.
+    - docid: '4236116'
+      submitted: '2026-08-17'
+      published_on_portal: '2026-08-19'
+      application_id: '25919628'
+      status_reported: Overdue
+      scheduled_date: '2026-08-01'
+      probable_compliance_date: '2026-08-31'
+      cause_of_violation: Contractor has not started yet
+      remedial_action: N/A
+      probability_of_complying_with_subsequent_events: '"Good, Contractor moving in two crews to get caught up" (prose, not a percentage)'
+      note: >-
+        Filed sixteen days after the deadline, and its cause of violation is stronger than the
+        first filing's: not "contractor busy" but "contractor has not started yet".
+    the_two_filings_disagree:
+      tag: '[verified]'
+      statement: >-
+        The LATER filing gives an EARLIER probable-compliance date than the earlier one — 2026-08-31
+        (filed 08-17) against 2026-09-15 (filed 07-22). Both are the permittee's own certified
+        estimates for the same milestone and neither document reconciles them. Recorded as a
+        disagreement rather than resolved by preferring the more recent, because nothing in either
+        instrument licenses that preference.
+    what_has_happened_since:
+      tag: '[verified negative]'
+      checked_on: '2026-09-16'
+      statement: >-
+        BOTH of the permittee's own probable-compliance dates have now passed — 2026-08-31 sixteen
+        days ago and 2026-09-15 yesterday — and NO further filing exists. The Secondary ID
+        2PD00006 query returns 169 documents and the two 2026-08-19 updates are still the newest.
+        There is no third compliance schedule update, no notification of commencement, and nothing
+        reporting event 3099 complete.
+      how_far_this_goes: >-
+        It establishes that no REPORT of commencement exists, which is what the permit obliges.
+        It does not establish that construction has not started — a commencement in early September
+        might not surface on this route until October, for the reason immediately below. The
+        honest state is: the milestone is 46 days overdue by the permittee's own filings, both of
+        its own recovery dates have lapsed unreported, and whether work has since begun is `[open]`
+        with a dated next check.
+    route_hazard_discovered:
+      tag: '[verified]'
+      name: eDocument portal publication lag
+      statement: >-
+        Docid 4236096 was SUBMITTED 2026-07-22 and did not appear on the portal until 2026-08-19 —
+        a 28-day lag. The 2026-08-05 pass queried this exact permit by Secondary ID and could not
+        have seen it: the filing existed, said what this pass needed, and was invisible. That pass
+        wrote "too early to tell", which was the right call for the wrong reason.
+      why_it_matters_generally: >-
+        The lag is not constant and cannot be assumed short — docid 4208904 lagged ONE day and
+        4236116 lagged TWO, while 4236096 lagged twenty-eight. So the portal is fast enough to
+        tempt a same-week check and slow enough to make one meaningless. An eDoc negative about a
+        dated event is only load-bearing roughly four weeks after that event. Every dated trigger
+        in the new `next_check` below is set accordingly, and this is now a general finding for
+        every BOSC site that reads this portal, not a Van Wert one.
+  - trigger_date: '2026-09-01'
+    checked_on: '2026-09-16'
+    days_late: 15
+    what_it_asked: >-
+      Earliest plausible appearance of Q2 2026 DMRs in ECHO's compliance window for OH0027910.
+    answer: ANSWERED — THEY POSTED, AND NOTHING IMPROVED
+    tag: '[verified]'
+    source: EPA ECHO dfr_rest_services.get_dfr, p_id OH0027910, read 2026-09-16
+    read_correctly: >-
+      The window END moved, which is the reading this file insists on and the one a naive recheck
+      gets wrong. Compliance window end: 2026-03-31 → 2026-06-30. ICIS-NPDES extract: 2026-07-31 →
+      2026-09-11. Last pass the extract advanced while the window stood still; this pass BOTH moved,
+      so Q2 2026 (2026-04-01 → 2026-06-30) is now scored.
+    what_the_new_quarter_says:
+      new_quarter: '2026-04-01 → 2026-06-30'
+      cwa_3yr_status: Violation Identified
+      rnc_status: Reportable Noncompliance
+      statement: >-
+        The newly-scored quarter is itself a violation quarter and carries Reportable
+        Noncompliance. The recheck the issue asked for has been performed and the answer is that
+        the record did not improve when the new data landed.
+    unchanged_figures:
+      qtrs_in_nc: 12
+      qtrs_in_snc: 0
+      current_snc: 'No'
+      current_status: Violation Identified
+      inspections: 5
+      last_inspection: '2024-05-07'
+      formal_enforcement_actions: 0
+      total_penalties: $0
+      statement: >-
+        Every one of these is identical to the 2026-08-05 reading. Thirty-six months of scored
+        quarters, twelve counted in non-compliance, zero formal enforcement actions and zero
+        dollars in penalties, against a permittee that has now also pre-reported and then confirmed
+        a missed CSO construction milestone.
+    the_window_rolled_and_that_matters:
+      tag: '[verified]'
+      statement: >-
+        "12 of 12, unchanged" is true and is not the same twelve quarters. The three-year window
+        start moved 2023-04-01 → 2023-07-01, so one quarter dropped off the front as Q2 2026 was
+        added to the back. The count held because both ends were violation quarters. A future pass
+        must not read a steady QtrsInNC as a steady record — it is a rolling window, and the
+        interesting question is always which quarter left and which arrived.
+    an_internal_inconsistency_in_echo:
+      tag: '[open]'
+      statement: >-
+        Recorded as observed, not resolved. ECHO reports QtrsInNC = 12 for a twelve-quarter window
+        while its own CWA3YrCompliance grid marks one of those twelve — 2023-10-01 → 2023-12-31 —
+        "No Violation Identified"; the other eleven read "Violation Identified". The two figures
+        come from the same document and disagree. Nothing here depends on which is right, and
+        neither is adjusted to match the other. Flagged so the next pass does not "discover" it as
+        a change.
+  - trigger_date: '2026-10-01'
+    checked_on: '2026-09-16'
+    status: NOT YET DUE — reported early because the pass ran
+    what_it_asks: >-
+      AEP's planned construction start on the Van Wert–Haviland rebuild — an OPSB ruling on
+      26-0729 must precede it.
+    tag: '[open]'
+    statement: >-
+      Two weeks out and nothing can be said about it from any open route. There is no Construction
+      Notice on AEP's own project page for either Van Wert case; the filings index does not list
+      the project at all; and the docket that would carry a ruling on 26-0729 refuses every
+      request including its own root. So the precondition is unobservable, not unmet. Do not read
+      the absence of a construction notice as evidence that construction will not start — AEP
+      filed one for Haviland-Grover Hill and one for Haviland-North Delphos, so the instrument
+      exists and is published for this applicant's other projects, but the Van Wert page has never
+      carried one and its update channel is a lorem-ipsum placeholder.
+
+  # ── New since the last pass, from secondary sources ───────────────────────
+  secondary_since_last_pass:
+    tag: '[reference]'
+    method: >-
+      Press only, and labelled as such throughout. Nothing below is an instrument and nothing below
+      may be cited as one.
+    the_claim_this_pass_was_asked_to_test:
+      claim: >-
+        Press reports physical building construction slipping to Q3/Q4 2026, with full operation
+        2032.
+      verdict: REFUTED AS A CHANGE — it is the original announcement restated, not a slip
+      tag: '[reference]'
+      statement: >-
+        There is no slip. The Q4-2026 groundbreaking and the ~2032 full-buildout figures were
+        published together on 2026-05-29, attributed to Katie Erwin, QTS Senior Director of
+        Communications, alongside first-building-operational Q1 2029, up to seven buildings, 902
+        acres and the 500 MW bracket. That is three months BEFORE the last check, and the same
+        timeline is restated unchanged on 2026-09-14 ("Data center groundbreaking is expected to
+        take place this fall"). Nothing moved; a search run today simply resurfaces the May
+        announcement. A watch that recorded this as a development would have manufactured one.
+    where_it_collides_with_the_record:
+      tag: '[verified]'
+      statement: >-
+        The press completion figure and the certified state filing DISAGREE, and the filing wins.
+        The campus's own Notice of Intent, certified under penalty of law 2026-07-21, gives a
+        project window of 2026-08-03 → 2030-08-03. Press says full buildout and operations "around
+        2032". These are not the same claim — the NOI's end date bounds the permitted construction
+        activity and the press figure describes full operational buildout — but they are close
+        enough to be conflated, and the 2030-08-03 date is the [verified] one. Do not let ~2032
+        overwrite it anywhere in this corpus.
+    genuinely_new:
+    - id: VW-CRA-INCENTIVE-NEGOTIATION
+      tag: '[reference]'
+      date: '2026-09-14'
+      source: The VW independent, "Stevens shares updates on incentive negotiations, more" (Scott Truxell)
+      what: >-
+        Incentive negotiations between the City and QTS are still open. Brent Stevens, Executive
+        Director of the Economic Development Corporation, told council that "with a $10 billion
+        project there is a tremendous amount of back and fourth with our lawyers and their
+        lawyers" and that an announcement on incentives is expected mid-to-late October. A
+        Community Reinvestment Area agreement may be required, which would need CRA board
+        approval and a 14-day review period with Lincolnview schools before city council can
+        consider it.
+      why_it_is_a_new_watch_thread: >-
+        Because it names an instrument with a procedure and a clock. A CRA agreement is a written,
+        enacted, public instrument; the 14-day school-district review is a statutory step that
+        leaves a record; and a public hearing is already calendared for 2026-10-26 at 6 p.m. This
+        is the first incentive instrument on this campus with a dated path to existing, and it is
+        the kind of document that states term, abatement percentage and — sometimes — a load or
+        investment schedule. Added to `instruments_to_pull` and to the dated triggers.
+      do_not: >-
+        Do not assume the incentive is a CRA. The report says one "may be required", which is a
+        conditional in a secondary source. Van Wert has also been discussed in connection with
+        other mechanisms and nothing has been enacted. The thread is "an incentive instrument is
+        being negotiated with a dated council path", not "a CRA exists".
+    - id: VW-SQFT-PER-MW-BENCHMARK
+      tag: '[reference]'
+      date: '2026-09-14'
+      what: >-
+        Stevens offered a benchmark in the same meeting: "for every 100 megawatts of a new data
+        center capacity, there is associated roughly 365,000 square feet of space that is built."
+      why_it_is_recorded_and_why_it_is_not_used: >-
+        It is recorded because it is the first time anyone on the public record in Van Wert has
+        tied floor area to load for this campus, and a future filing stating one may let the other
+        be checked. It is NOT used to derive a load figure. Multiplying a press square-footage by a
+        press rule-of-thumb and reporting the product as this campus's MW would be inference
+        dressed as measurement, from two [reference] inputs, when the campus's load is precisely
+        the thing this watch has been unable to ground. The campus MW stays a [reference] 500 MW
+        bracket.
+  threads_not_re_run_this_pass:
+    statement: >-
+      Four threads keep their 2026-08-05 `checked_on` because they were not re-run. Recorded so a
+      reader can tell a stale date from a fresh negative.
+    items:
+    - {thread: data_center_general_permit, why: 'OHD000001 was WITHDRAWN 2026-07-21; the thread is permanently moot and re-running it would only re-confirm a decided negative'}
+    - {thread: local_ballot, why: 'decided 2026-07-27 on signatures with no cure available; the open sub-questions are records-request work, not portal work'}
+    - {thread: statewide_ballot, why: 'the file sets an ANNUAL cadence for it and names the 2027 filing deadline as its next dated trigger; six weeks is not the interval'}
+    - {thread: pjm_large_load, why: 'a structural finding, not an empirical one — there is no PJM artifact to re-query, which is the finding itself'}
+
 # ─────────────────────────────────────────────────────────────────────────────
 threads:
 
@@ -109,7 +549,7 @@ threads:
     subject: NPDES construction-stormwater coverage OHC000006 for the campus earthwork
     outcome: issued_and_ingested
     tag: '[verified]'
-    checked_on: '2026-08-05'
+    checked_on: '2026-09-16'
     permit: 2GC08872*AG
     approved: '2026-07-30'
     finding: >-
@@ -120,7 +560,7 @@ threads:
       permit family in the six days since.
     co_permittee_noi:
       tag: '[verified negative]'
-      checked_on: '2026-08-05'
+      checked_on: '2026-09-16'
       why_it_is_watched: >-
         Ohio EPA's approval letter requires each additional operator at the site to file its own
         Co-Permittee NOI. Sidney's identical OHC000006 coverage produced one — George J. Igel &
@@ -142,7 +582,7 @@ threads:
     subject: Ohio EPA air Permit-to-Install for the campus's emergency-generator bank
     outcome: negative
     tag: '[verified negative]'
-    checked_on: '2026-08-05'
+    checked_on: '2026-09-16'
     why_it_is_the_most_valuable_thread: >-
       This is the single instrument that would lift the facility readiness domain from `seeded` to
       `live` (#1630) — it is the document that states generator count and ratings, and therefore
@@ -199,7 +639,7 @@ threads:
     subject: OPSB — a Mega Site substation or 345 kV tap, and the status of the one filed case
     outcome: moved_substantially
     tag: '[verified]'
-    checked_on: '2026-08-05'
+    checked_on: '2026-09-16'
     headline: >-
       The watch asked whether a Mega Site substation had been filed. The answer is no — and the
       search for it produced the more useful finding, which is that the transmission case the
@@ -272,7 +712,7 @@ threads:
     subject: Section 401 water quality certification / Section 404 USACE authorization
     outcome: negative
     tag: '[verified negative]'
-    checked_on: '2026-08-05'
+    checked_on: '2026-09-16'
     queries_run:
     - query: eDoc — County = VAN WERT, Program = 401 WETLANDS, all entities, all dates
       result: >-
@@ -414,7 +854,7 @@ threads:
     subject: EPA ECHO compliance record for NPDES OH0027910 — the Van Wert WWTP, the campus's disclosed wastewater destination
     outcome: unchanged_but_a_new_filing_surfaced
     tag: '[verified]'
-    checked_on: '2026-08-05'
+    checked_on: '2026-09-16'
     the_recheck:
       tag: '[verified]'
       source: EPA ECHO dfr_rest_services.get_dfr, p_id OH0027910, read 2026-08-05
@@ -612,31 +1052,92 @@ route_hazards:
 
 # ── What the next check should do ────────────────────────────────────────────
 next_check:
+  set_on: '2026-09-16'
+  supersedes: the next_check written 2026-08-05, whose cadence was not kept
   cadence: >-
-    Weekly through August 2026 (the campus's own construction window opened 2026-08-03 and two
-    filings are due inside it), then monthly. The dated triggers are 2026-08-15 (the CSO
-    begin-construction notification window closes), roughly 2026-08-03 already passed for the
-    OPSB intervention window, and 2026-09 at the earliest for Q2 2026 DMRs in ECHO.
+    MONTHLY, and the weekly window is retired. The last cadence said "weekly through August 2026,
+    then monthly"; it was not kept, and the 28-day eDocument publication lag this pass discovered
+    is the reason weekly was never going to work. A weekly eDoc query cannot see a filing made
+    that week, so the cost of the miss was lower than it looked and the value of the frequency was
+    lower too. Monthly, with dated triggers set roughly four weeks AFTER the event they ask about,
+    is the honest cadence for this route. Next routine pass: 2026-10-16.
   dated_triggers:
-  - {date: '2026-08-15', what: 'CSO event 3099 — 14-day notification window closes; re-run the 2PD00006 compliance-schedule query'}
-  - {date: '2026-09-01', what: 'Earliest plausible appearance of Q2 2026 DMRs in ECHO''s compliance window for OH0027910'}
-  - {date: '2026-10-01', what: 'AEP''s planned construction start on the Van Wert–Haviland rebuild — an OPSB ruling on 26-0729 must precede it'}
+  - date: '2026-09-30'
+    what: >-
+      The revised 2020 PCCM Plan (CSO schedule event 1299) is due to Ohio EPA 2026-10-01. Query
+      eDoc Secondary ID 2PD00006 for it — but NOT before late October, per the lag rule below.
+    route: eDoc Secondary ID 2PD00006, keyword COMPLIANCE SCHEDULE UPDATE
+    why: >-
+      This is the next milestone on the same schedule whose first milestone the permittee has now
+      missed by 46 days and counting. It is the first test of whether the 3099 miss is a
+      contractor problem or a schedule problem.
+  - date: '2026-10-01'
+    what: >-
+      AEP's planned construction start on the Van Wert–Haviland rebuild. An OPSB ruling on
+      26-0729 must precede it and the docket is blocked, so the observable proxy is a Construction
+      Notice appearing on the project page.
+    route: aeptransmission.com/ohio/VanWert-Haviland/ — direct URL, NOT the filings index, which does not list this project
+  - date: '2026-10-26'
+    what: >-
+      Van Wert city council public hearing, 6 p.m., on the QTS incentive package. Stevens told
+      council on 2026-09-14 that an announcement is expected mid-to-late October and that a
+      Community Reinvestment Area agreement may be required.
+    route: City of Van Wert council agenda/minutes; the CRA board's own record; a 14-day Lincolnview schools review leaves a record
+    why: >-
+      The first incentive instrument on this campus with a dated path to existing. It is also the
+      class of document that sometimes states a load or an investment schedule, which is the thing
+      this watch has failed to ground through nine regulatory threads.
+  - date: '2026-11-15'
+    what: >-
+      Roughly four weeks after the 2026-10-01 PCCM due date and after both of the permittee's own
+      lapsed recovery dates — the point at which an eDoc silence on CSO event 3099 becomes a
+      finding rather than a lag artifact.
+    route: eDoc Secondary ID 2PD00006
+  - date: '2026-12-01'
+    what: >-
+      Earliest plausible appearance of Q3 2026 in ECHO's compliance window for OH0027910. Read the
+      window END (it must pass 2026-09-30), never the extract date.
+    route: ECHO dfr_rest_services.get_dfr, p_id OH0027910
+  - date: '2027-02-01'
+    what: >-
+      Annual review of the statewide ballot thread — the 2027 filing deadline, any Ohio Attorney
+      General certification of summary language, any Ohio Ballot Board determination.
+    route: the AG's and Ballot Board's own records — the upgrade path from [reference] to [verified]
   queries:
-  - eDoc — Entity Name "QTS", statewide (35 documents as of this check; the count IS the signal)
-  - eDoc — County = VAN WERT, Program = AIR PERMIT (328 as of this check) — the facility-domain hinge
-  - eDoc — Secondary ID "2GC08872" (3 as of this check) — the co-permittee NOI would land here
-  - eDoc — County = VAN WERT, Program = NPDES — new 2PD00006 compliance filings and any campus instrument
-  - eDoc — County = VAN WERT, Program = 401 WETLANDS (4 as of this check, none the campus)
-  - ECHO dfr_rest_services.get_dfr, OH0027910 — read the WINDOW END, not the extract date
-  - aeptransmission.com/ohio/filings.php and the Van Wert–Haviland project page — new OPSB cases
-  - Van Wert County Board of Elections — R.C. 149.43 for the 2026-07-27 certification and part petitions
-  - FERC eLibrary — an AEP Ohio service agreement naming the campus
+  - eDoc — Entity Name "QTS", statewide (35 documents as of 2026-09-16, unchanged since 2026-08-05; the count IS the signal)
+  - eDoc — County = VAN WERT, Program = AIR PERMIT (337 as of 2026-09-16, was 328) — the facility-domain hinge; scan ALL rows for QTS/DATA CENTER, do not read the top of the list
+  - eDoc — Secondary ID "2GC08872" (3 as of 2026-09-16, unchanged) — the co-permittee NOI would land here
+  - eDoc — Secondary ID "2PD00006" (169 as of 2026-09-16) — the CSO schedule; this is the tighter query and should be preferred over the county sweep
+  - eDoc — County = VAN WERT, Program = NPDES (1571 as of 2026-09-16 — a baseline the last pass did not record)
+  - eDoc — County = VAN WERT, Program = 401 WETLANDS (4 as of 2026-09-16, unchanged)
+  - ECHO dfr_rest_services.get_dfr, OH0027910 — read the WINDOW END, not the extract date; note WHICH quarter rolled off the front
+  - aeptransmission.com/ohio/VanWert-Haviland/ by direct URL — a Construction Notice is what would appear
+  - City of Van Wert council + CRA board — the incentive instrument and the 2026-10-26 hearing
+  - Van Wert County Board of Elections — R.C. 149.43 for the 2026-07-27 certification and part petitions (never sent)
+  - FERC eLibrary — an AEP Ohio service agreement naming the campus (route not established; see pass_2026_09_16)
   do_not:
   - Watch the PJM interconnection queue for this campus. It is load; it will never appear there.
   - Read a missing campus NPDES permit as evidence of no discharge. A sewered campus never has one.
   - Read continued 401/404 silence as continued absence. An NWP verification is not public-noticed.
   - Trust an eDoc result count taken before the page size is widened, or a search whose term does not echo back.
   - Compute the OPSB intervention deadline from the public notice's PDF metadata or its Last-Modified header.
+  - >-
+    NEW 2026-09-16 — Read an eDoc silence about an event less than ~4 weeks old as a negative.
+    Docid 4236096 was submitted 2026-07-22 and published 2026-08-19. A 28-day lag is inside this
+    portal's normal range and a same-week negative is worthless.
+  - >-
+    NEW 2026-09-16 — Search the aeptransmission.com filings index for this project. It does not
+    list either Van Wert case. Use the project page's direct URL. And do not read any "Haviland"
+    row off that index as this campus's: three of them are Paulding County / Grover Hill Wind
+    filings from 2024, one of which is even captioned "Line Adjustment Project".
+  - >-
+    NEW 2026-09-16 — Let the press "~2032 full buildout" figure overwrite the NOI's certified
+    2030-08-03 project end date, or report the Q4-2026 groundbreaking as a slip. Both figures were
+    published 2026-05-29, before the last check.
+  - >-
+    NEW 2026-09-16 — Derive a campus MW from the 365,000-sq-ft-per-100-MW benchmark. Two
+    [reference] inputs multiplied together do not make a measurement, and the load is exactly what
+    is [open].
 
 # ── Instruments this watch names but did not pull ────────────────────────────
 instruments_to_pull:
@@ -665,6 +1166,22 @@ instruments_to_pull:
     per-signature invalidation reasons.
   route: R.C. 149.43 request to the Van Wert County Board of Elections.
   priority: 2
+- id: vanwert-qts-incentive-instrument
+  what: >-
+    The executed City of Van Wert / QTS incentive instrument — a Community Reinvestment Area
+    agreement if that is the mechanism chosen — together with the CRA board's approval record and
+    the 14-day Lincolnview Local Schools review.
+  why: >-
+    Nine regulatory threads have not grounded this campus's load, and an incentive instrument is
+    the remaining class of public document that routinely states investment schedule, term,
+    abatement percentage and sometimes connected load. It also has, uniquely on this watch, a
+    dated public path to existing: a hearing on 2026-10-26 and an announcement expected
+    mid-to-late October 2026.
+  route: City of Van Wert council agenda and minutes; CRA board record; R.C. 149.43 to the City if not published.
+  caveat: >-
+    That a CRA is the mechanism is [reference] and conditional — the 2026-09-14 report says one
+    "may be required". Pull whatever is enacted, not whatever was predicted.
+  priority: 1
 - id: usace-lrb-nwp-verification
   what: Any USACE Buffalo District nationwide-permit verification issued to QTS for the campus.
   why: >-

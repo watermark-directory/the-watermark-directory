@@ -43,11 +43,11 @@ meta:
   site: van-wert
   captured_for: issue 1406 (epic 1267, readiness(van-wert)); effluent record added by issue 1860
   extracted_at: '2026-08-01'
-  checked_on: '2026-08-04'
-  previous_check: '2026-08-01'      # the 1406 pass; before that, the 2026-07-10 discovery sweep
+  checked_on: '2026-09-16'
+  previous_check: '2026-08-04'      # the 1860 effluent-chart pass; before it the 1406 pass of 2026-08-01
   federal_extract_dates:
-    ICIS-NPDES: '2026-07-24'
-    SDWIS: '2026-07-09'
+    ICIS-NPDES: '2026-09-11'        # was 2026-07-24 at the previous check
+    SDWIS: '2026-07-09'             # UNCHANGED — SDWIS has not been re-extracted in ten weeks; see pass_2026_09_16
   method: >-
     Five routes, run independently and recorded separately. (1) The controlling Ohio EPA
     instruments — the 2PD00006*WD modification package and its draft public notice — pulled from
@@ -895,8 +895,376 @@ other_permits_on_the_reach:
     is not self-explanatory, and guessing at it would be invention.
 
 # ── What to pull next, in priority order ──────────────────────────────────────
+# ── The 2026-09-16 pass ──────────────────────────────────────────────────────
+# This file's own next_check was 2026-08-17. It was run 30 days late. The delay cost nothing here
+# — everything it asked for is answerable today — but the priority question turned out to have
+# been answerable on 2026-08-19 and the record is written so that is visible.
+pass_2026_09_16:
+  ran_on: '2026-09-16'
+  previous_pass: '2026-08-04'
+  declared_next_check: '2026-08-17'
+  days_late: 30
+  routes_run:
+  - Ohio EPA eDocument portal, scripted — Secondary ID 2PD00006, Secondary ID OH8100611, and County × Program sweeps for NPDES, AIR PERMIT, 401 WETLANDS, SURFACE WATER PERMIT TO INSTALL, DRINKING WATER and SWAP.
+  - EPA ECHO dfr_rest_services.get_dfr, p_id OH0027910.
+  - EPA ECHO eff_rest_services.get_effluent_chart, p_id OH0027910, 01/01/2026 → 09/16/2026.
+  - Direct fetch and text-layer read of five newly surfaced documents, all five now committed.
+
+  # ── THE PRIORITY QUESTION ─────────────────────────────────────────────────
+  priority_question:
+    question: >-
+      Did CSO construction begin by the 2026-08-01 milestone (event code 3099), and was the 14-day
+      notification filed?
+    answer: NO, AND NO — AND THE PERMITTEE SAID SO ITSELF, TWICE, UNDER PENALTY OF LAW
+    tag: '[verified]'
+    checked_on: '2026-09-16'
+    route_that_worked: >-
+      Exactly the route this file predicted: eDoc Secondary ID 2PD00006, keyword COMPLIANCE
+      SCHEDULE UPDATE. No fallback to NWDO file review or the STREAMS event record was needed.
+    sources:
+    - data/documents/oepa/van-wert/edoc-4236096.pdf
+    - data/documents/oepa/van-wert/edoc-4236116.pdf
+    what_was_filed: >-
+      Two more "NPDES Permit Compliance Schedule Update" forms, both published on the portal
+      2026-08-19. Neither is a notification of commencement. Both report event 3099 "Begin
+      Construction" under the heading "Permit Compliance Schedules which have been or will be
+      violated", Status "Overdue", Scheduled Date 08/01/2026 — the first submitted 2026-07-22, ten
+      days BEFORE the deadline, the second 2026-08-17, sixteen days after it.
+    the_permittees_own_account:
+      first_filing: {submitted: '2026-07-22', application_id: '25914608', cause: Contractor busy, probable_compliance: '2026-09-15', remedial_action: moving in an extra crew after it gets started, probability_of_subsequent_events: 50%}
+      second_filing: {submitted: '2026-08-17', application_id: '25919628', cause: Contractor has not started yet, probable_compliance: '2026-08-31', remedial_action: N/A, probability_of_subsequent_events: '"Good, Contractor moving in two crews to get caught up" — prose, not a percentage'}
+    the_two_estimates_disagree:
+      tag: '[verified]'
+      statement: >-
+        The later filing gives an EARLIER probable-compliance date (2026-08-31) than the earlier
+        one (2026-09-15). Both are the permittee's own certified estimates for the same milestone;
+        neither document reconciles them and this file does not resolve them by preferring the
+        more recent.
+    as_of_today:
+      tag: '[verified negative]'
+      checked_on: '2026-09-16'
+      statement: >-
+        BOTH of the permittee's own recovery dates have now lapsed — 2026-08-31 and 2026-09-15 —
+        with nothing filed against either. The Secondary ID 2PD00006 query returns 169 documents
+        and the two 2026-08-19 updates remain the newest. No third update, no notification of
+        commencement, no report of event 3099 complete. The milestone is 46 days overdue on the
+        record.
+      the_limit_of_this:
+        tag: '[open]'
+        statement: >-
+          Whether construction has since begun is NOT established. This route reports filings, not
+          site activity, and it reports them on a lag (below). A commencement in early September
+          could be real and still invisible here until October. What is established is that no
+          REPORT exists, which is the thing the permit obliges.
+    how_this_changes_the_base_rate:
+      tag: '[verified]'
+      statement: >-
+        This file recorded that the same permittee's three OTHER CSO schedule events have been
+        "unachieved and not reported" since 2024, and reasoned from that to a poor base rate. The
+        new filings complicate that in the permittee's favour and the complication is recorded at
+        full weight: this milestone was unachieved AND REPORTED — pre-reported, in fact, ten days
+        early, and then reported again. That is a different failure from a silent one, and a watch
+        that only ever confirmed its own suspicion would have flattened the two together.
+
+  # ── A route hazard that invalidates same-week negatives ───────────────────
+  route_hazard_edoc_publication_lag:
+    tag: '[verified]'
+    statement: >-
+      Docid 4236096 was SUBMITTED 2026-07-22 and published on the eDocument portal 2026-08-19 — a
+      28-day lag. Its sibling docid 4236116 lagged TWO days and the earlier docid 4208904 lagged
+      ONE. The portal is therefore fast enough to invite a prompt check and slow enough to make
+      one meaningless, with no way to tell which case you are in.
+    consequence: >-
+      This file's declared next_check of 2026-08-17 — two days after the notification window
+      closed — would have returned NOTHING. The 07-22 filing was two days from publication and the
+      08-17 filing did not yet exist. The 30-day delay is the only reason this pass has an answer.
+      Set dated triggers roughly four weeks AFTER the event they ask about, not on it.
+    generalizes_to: every BOSC site that reads this portal, not just Van Wert.
+
+  # ── Standing instruments, each with what came back ────────────────────────
+  instruments_checked:
+  - instrument: CSO LTCP Compliance Assistance Plan and its approval date
+    tag: '[verified negative]'
+    checked_on: '2026-09-16'
+    route: eDoc Secondary ID 2PD00006, all 169 documents reviewed by date, type and keyword
+    result: >-
+      NOT FOUND, and the discrepancy stands unresolved. Nothing in the permit family published
+      since 2026-08-04 is an approval of the Compliance Assistance Plan. The issued permit still
+      prints "[approval pending]" and the two submission dates (2025-07-24 in Part I.C.1 and
+      2026-02-02 in the fact sheet) are still both on the record with nothing choosing between
+      them. Remains `[open]`; it is an NWDO file-review or records-request item, not a portal one.
+  - instrument: PTI DSW-6320 — Blaine Street interceptor sewer + Town Creek siphon
+    tag: '[verified — but the KEY was wrong, not the record]'
+    checked_on: '2026-09-16'
+    result: >-
+      A SEARCH-KEY FINDING, and a trap this file was walking into. eDoc Secondary ID "DSW-6320"
+      returns ZERO, and so does "DSW6320". That zero is NOT evidence the instrument is absent —
+      the portal does not index these permits under that form of number at all. A County = VAN
+      WERT × Program = SURFACE WATER PERMIT TO INSTALL sweep returns 294 documents, and the Van
+      Wert WWTP's own PTIs in it are numbered DSWPTI-260113 (application 2026-01-20, approval
+      2026-04-01) and DSWPTI-251040 (approval 2025-12-26). The eDoc Secondary ID namespace is
+      `DSWPTI-<id>`; "DSW-6320" is the number as printed in the permit and fact sheet.
+    what_must_not_be_concluded: >-
+      That there is no PTI. This is exactly the failure mode the portal module documents for the
+      decoy "Package/Permit Number" field — a well-formed zero from the wrong column, which looks
+      identical to a real absence and means the opposite.
+    still_open:
+      tag: '[open]'
+      statement: >-
+        WHICH of DSWPTI-251040 and DSWPTI-260113 is the Blaine Street interceptor / Town Creek
+        siphon approval dated 2025-10-12, or whether either is, is NOT established — neither
+        document was pulled this pass and neither date matches 2025-10-12. Carried forward as a
+        pull with a corrected route rather than guessed at.
+  - instrument: Drinking Water Source Protection delineation for PWS OH8100611
+    tag: '[verified negative — route cannot answer]'
+    checked_on: '2026-09-16'
+    route: eDoc County = VAN WERT × Program = SOURCE WATER ASSESSMENT AND PROTECTION (SWAP)
+    result: ZERO documents for the entire county.
+    the_positive_control_fails:
+      tag: '[verified]'
+      statement: >-
+        And that zero must NOT be read as "Van Wert has no delineation", because the control says
+        the route is not reliable here. The same SWAP query returns ZERO for ALLEN county as well,
+        and 28 documents for FRANKLIN. So SWAP coverage on this portal is patchy by county, not
+        uniform. A zero from a program whose coverage is county-dependent is a statement about the
+        portal.
+      conclusion: >-
+        The delineation stays `[open]` and the route stays the Division of Drinking and Ground
+        Waters directly, as this file already said. No negative is claimed.
+  - instrument: The City's monthly CSO Event Reports (total overflow volume per outfall)
+    tag: '[verified negative]'
+    checked_on: '2026-09-16'
+    result: >-
+      Still not on any portal route, and the DMR still carries only the two statistics this file
+      already records rather than a monthly total. Unchanged; remains a records-request item.
+  - instrument: The July 2026 phosphorus DMR — the last month of the 2026 critical season
+    tag: '[verified]'
+    checked_on: '2026-09-16'
+    result: REPORTED, ON TIME, AND IT CLOSES THE SEASON. See `total_phosphorus_2026_season_closed` below.
+
+  # ── The 2026 critical season is now complete ──────────────────────────────
+  total_phosphorus_2026_season_closed:
+    tag: '[verified]'
+    source: EPA ECHO eff_rest_services.get_effluent_chart, p_id OH0027910, read 2026-09-16 (ICIS extract 2026-09-11)
+    july_2026_dmr:
+      monitoring_period_end: '31-JUL-26'
+      received: '14-AUG-26'
+      days_late: null
+      monthly_average_load_kg_per_day: 6.03      # limit 15
+      weekly_maximum_load_kg_per_day: 9.86       # limit 23
+      monthly_average_concentration_mg_l: 0.808  # limit 1.0
+      weekly_maximum_concentration_mg_l: 1.17    # limit 1.5
+      exceedance: none — every value is under its limit
+      note: >-
+        July is the heaviest month of the 2026 season on both measures and by a wide margin: its
+        monthly-average concentration of 0.808 mg/L is roughly double every other 2026 month
+        (0.35-0.44) and its weekly maximum of 1.17 mg/L is the only 2026 figure above 1.0. It is
+        still inside the permit.
+    season_arithmetic:
+      tag: '[inference]'
+      method: identical to `total_phosphorus.measured_load.critical_season_load` — monthly-average kg/day × calendar days, summed March–July, with the same stated assumption.
+      arithmetic: 2.6×31 + 5.5×30 + 3.7×31 + 5.3×30 + 6.03×31 = 80.6 + 165.0 + 114.7 + 159.0 + 186.9
+      load_kg: 706.2
+      wla_kg: 1000
+      ratio: 0.706
+      complete: true
+      supersedes: >-
+        The partial 2026 row in `total_phosphorus.measured_load.critical_season_load.seasons`
+        (519.3 kg, four months, no ratio stated). That row was correct and incomplete on its date;
+        this is the same season finished, and 519.3 + 186.9 = 706.2 reconciles exactly.
+    the_finding:
+      tag: '[inference]'
+      series: {'2023': 0.693, '2024': 0.663, '2025': 0.821, '2026': 0.706}
+      headline: >-
+        A FOURTH consecutive critical season under the individual wasteload allocation — and the
+        upward trend this file flagged did NOT continue. 2025 remains the high at 0.82×; 2026 came
+        in at 0.71×, between 2023 and 2025.
+      what_this_file_predicted_and_what_happened: >-
+        The instruments_to_pull entry said July "tests the upward trend across 2023-2025 (0.69× →
+        0.66× → 0.82×)". It was a real test with a real chance of confirming, and it did not
+        confirm. Recorded plainly, because a three-point run is not a trend and reading one as a
+        trend is how a watch starts finding what it expects. Four seasons now read 0.69, 0.66,
+        0.82, 0.71 — a range, not a climb.
+      what_does_not_change: >-
+        The ceiling comparison. The permit still allows 2,295 kg across the season, 2.30× the
+        TMDL's individual allocation, and still routes compliance to the general permit with a
+        reopener. That is a fact about the instrument and is untouched by four seasons of
+        measurements coming in under it.
+    upstream_downstream_july:
+      tag: '[open]'
+      values_mg_l: {effluent_001: 0.808, upstream_801: 0.26, downstream_901: 0.13}
+      statement: >-
+        Recorded as observed and NOT interpreted. In July the DOWNSTREAM monitoring point reads
+        lower than both the effluent and the upstream point. That inversion is not explained by
+        anything in this file, and single monthly grab samples taken at unstated times under
+        unstated flow conditions cannot support a mixing inference either way. Flagged so a later
+        pass does not present it as dilution evidence, and so it is not quietly dropped either.
+      also: >-
+        The May 2026 upstream row carries NODI code "B" with no value. The code is NOT decoded
+        here, on the same principle this corpus applies to the AA/AH reporting codes.
+
+  # ── CSO overflow reporting, 2026 to date ─────────────────────────────────
+  cso_events_2026:
+    tag: '[verified]'
+    source: EPA ECHO eff_rest_services.get_effluent_chart, p_id OH0027910, parameter codes 74062 and 74063, read 2026-09-16
+    coverage: monitoring periods ending 31-JAN-26 through 31-JUL-26; August 2026 has not posted.
+    occurrences_by_outfall:
+      '004': {location: Wall Street, Jan: 0, Feb: 0, Mar: 0, Apr: 3, May: 1, Jun: 1, Jul: 0, ytd: 5}
+      '005': {location: First & Monroe, Jan: 0, Feb: 0, Mar: 0, Apr: 0, May: 0, Jun: 0, Jul: 0, ytd: 0}
+      '007': {location: Main Street, Jan: 0, Feb: 0, Mar: 0, Apr: 1, May: 0, Jun: 0, Jul: 0, ytd: 1}
+      '009': {location: Central, Jan: 0, Feb: 0, Mar: 0, Apr: 0, May: 0, Jun: 0, Jul: 0, ytd: 0}
+      '010': {location: Keplar, Jan: 0, Feb: 0, Mar: 0, Apr: 3, May: 1, Jun: 1, Jul: 0, ytd: 5}
+      '300': {kind: SSO reporting station, ytd: 0}
+    how_a_zero_is_written:
+      tag: '[verified]'
+      statement: >-
+        Every month with no overflow is reported as NODI code "C", not as a numeric zero, and the
+        codes are NOT decoded here. The table above renders NODI C as 0 occurrences for
+        readability; that rendering is this file's, not ECHO's, and anyone needing the distinction
+        between "no discharge" and "not monitored" must go to the code.
+      one_exception: >-
+        Outfall 007's April volume row carries NODI code "E" while its occurrence row carries a
+        numeric 1 — one overflow happened and its volume is coded rather than measured. Recorded
+        because it is the only cell of its kind in the 2026 series.
+    volumes:
+      tag: '[verified]'
+      note: >-
+        Two volume rows per month per outfall, matching the two statistics ECHO carries; units are
+        not printed in the response and are NOT asserted here. Verbatim: 004 — Apr 0.4831 / 1.14,
+        May 0.142 / 0.277, Jun 0.496 / 1.475. 010 — Apr 0.211 / 0.499, May 0.019 / 0.019, Jun
+        0.0455 / 0.085. As this file already records, neither statistic is a monthly TOTAL, so the
+        CSO Event Report remains the only instrument that carries one.
+    against_the_ltcp_goal:
+      tag: '[open]'
+      statement: >-
+        Two of the five outfalls — 004 Wall Street and 010 Keplar — have each recorded FIVE
+        overflow events in the first seven months of 2026, against an LTCP goal this file records
+        as "four CSO events or less per typical year". That looks like a finding and is deliberately
+        not asserted as one, for two reasons that must be settled first: whether the goal is
+        per-outfall or system-wide, and whether "typical year" means an actual calendar year at
+        all. In CSO long-term-control-plan practice a "typical year" is a MODELLED design year, so
+        comparing a real year's counts to it is not a like-for-like test. Both questions are
+        answerable from the LTCP itself, which is not in this corpus.
+      why_it_is_recorded_anyway: >-
+        Because it is the first year of overflow counts this file has assembled, and because the
+        control projects behind the 2026-08-01 milestone exist precisely to reduce them. Whatever
+        the goal turns out to mean, five events at two outfalls by June is the baseline the
+        unbegun construction is supposed to improve on.
+
+  # ── Drinking water: the thread that moved most ────────────────────────────
+  drinking_water_2026_09_16:
+    tag: '[verified]'
+    checked_on: '2026-09-16'
+    route: eDoc Secondary ID OH8100611 (607 documents) and County = VAN WERT × Program = DRINKING WATER
+    sources:
+    - data/documents/oepa/van-wert/edoc-4235938.pdf
+    - data/documents/oepa/van-wert/edoc-4233843.pdf
+    - data/documents/oepa/van-wert/edoc-4253933.pdf
+    headline: >-
+      THE DRINKING-WATER SIDE OF THIS SYSTEM HAS FORMAL ENFORCEMENT AND A DISINFECTION-BYPRODUCT
+      PROBLEM, AND THIS FILE DID NOT KNOW EITHER. Three documents landed in August 2026 and
+      together they change what this file can say about the intake.
+    the_dffo:
+      tag: '[verified]'
+      statement: >-
+        Ohio EPA's 2026-08-19 letter ties an outstanding violation to "Order No. 15 of the
+        June 17, 2024, Director's Final Findings and Orders". A DFFO is a formal enforcement
+        instrument. This file and the campus regulatory watch both record "zero formal enforcement
+        actions" for this City — that figure is ECHO's, it is about the CWA side (NPDES
+        OH0027910), and it says nothing about the SDWA side. Both statements are true and they are
+        about different programs; do not let the CWA zero imply a clean enforcement record.
+      the_instrument_itself: >-
+        NOT IN THIS CORPUS. Only its existence, its date and the number of one of its orders are
+        established, from a letter that cites it. Added to instruments_to_pull.
+    outstanding_violations:
+      tag: '[verified]'
+      source: data/documents/oepa/van-wert/edoc-4235938.pdf
+      items:
+      - citation: 2023 LSSV NOV Citation #5 (OAC 3745-83-01(H)(1))
+        what: >-
+          The reservoir intake sluice gates are inoperable. The reservoir intakes have multiple
+          levels and the gates do not allow withdrawal of water from each level.
+        first_cited: '2023-12-05'
+        extension_requested: '2026-08-07'
+        extension_approved: '2026-08-19'
+        new_deadline: '2027-09-05'
+        note: >-
+          The new deadline is nearly four years after the violation was first cited. The City's own
+          position, quoted in the letter, is that the valves "have caused no operational issues for
+          the last 40 years", that the Solomon Diving quote to replace six of them is $443,390, and
+          that "This is a lot of money for almost no benefit."
+      - citation: 2024 Sanitary Survey NOV Citation #5 (OAC 3745-95-06(C)(2) and (3))
+        what: containment backflow prevention devices not inspected and tested at least every 12 months
+        deadline: '2026-12-31'
+        note: >-
+          Already extended once — an Oct. 14, 2025 PROV letter set 2026-04-01, the City's April and
+          June 2026 records were reviewed and found still non-compliant, and 2026-12-31 was set on
+          2026-06-08.
+      - citation: 2024 Sanitary Survey NOV Citation #6 (OAC 3745-95-03(B)(1))
+        what: five-year on-site premises investigations for cross-connection hazards
+        deadline: '2028-12-31'
+    the_dbp_exceedance:
+      tag: '[verified]'
+      statement: >-
+        The City exceeded the disinfection-byproduct Operational Evaluation Level in the SECOND
+        QUARTER of 2026. Ohio EPA issued an OEL exceedance letter on 2026-06-22; the City filed an
+        OEL report (Form 5031) received 2026-08-11; Ohio EPA accepted it 2026-08-18.
+      it_is_not_the_first: >-
+        The report itself answers that this is not the City's first OEL exceedance — the form's
+        "UPDATES FROM THE LAST OEL REPORT" section is filled in, and the City describes tank mixers
+        installed 2025-10-23 and ongoing work with Jones and Henry on a spray aeration system with
+        no installation date ("hopefull it will be early to mid 2027").
+      additional_tthm_monitoring:
+        tag: '[verified]'
+        collected: '2026-05-12'
+        results: {DS201 (hydrant, 2115 N. Washington St.): 111, DS202 (S. water tower drain): 78.1, DS203 (800 N. Washington St.): 108, DS204 (hydrant, Burt/Cable): 83.8}
+        units: >-
+          NOT PRINTED in the form. The column head reads "Results (units)" with the unit box empty.
+          µg/L is the conventional reading for TTHM and is NOT verified from this document; the
+          numbers are recorded verbatim and unconverted.
+        do_not: >-
+          Compare these four values to the 80 TTHM standard as if they were compliance figures.
+          The standard is a locational running annual average; these are single additional samples
+          the City took to evaluate itself. They are evidence of a DBP problem, not of a violation.
+    the_connection_worth_watching:
+      tag: '[inference]'
+      reasoning_shown: >-
+        Selecting the depth from which raw water is withdrawn is a standard first-line control on
+        DBP precursors, because organic-carbon concentration varies with depth and with reservoir
+        turnover. Ohio EPA's own letter establishes that this City CANNOT select that depth: the
+        sluice gates serving the multiple intake levels are inoperable and have been since at
+        least 2023. The OEL form's source-water section asks, in terms, "Was there a change in the
+        intake level?" So the same system that has exceeded its DBP operational evaluation level
+        more than once is a system whose intake-level control has been out of service throughout,
+        with a repair deadline now pushed to 2027-09-05.
+      what_is_NOT_claimed: >-
+        That the inoperable gates caused the exceedance. Nothing establishes that, and the City's
+        own remedies point elsewhere (tank mixers, spray aeration — distribution-side and
+        treatment-side controls). This is a mechanism worth testing, not a finding.
+      what_is_open:
+        tag: '[open]'
+        statement: >-
+          Whether the City's OEL report itself connects them. The form's Yes/No/NA checkboxes are
+          UNREADABLE from the PDF text layer — every triple extracts as an undifferentiated run
+          with a ® marking that something is ticked but not which. Answering this needs the
+          rendered page, and it was not rendered this pass.
+    what_this_does_to_the_reach_story:
+      tag: '[verified]'
+      statement: >-
+        It sharpens it. This file's core fact is that Van Wert drinks Town Creek and discharges to
+        Town Creek, with no second source — the county index confirms Van Wert City is the only
+        surface-water system in the county and there is nothing to switch to. Add that the one
+        operational flexibility the intake was built with, depth selection, does not work and is
+        not scheduled to work until September 2027, and the "no alternative source" finding gets a
+        second floor beneath it: not only is there no other creek, there is no other LEVEL.
+
 instruments_to_pull:
 - item: Whether CSO construction began by the 2026-08-01 milestone, and the 14-day notification.
+  status: ANSWERED 2026-09-16 — NEGATIVE. Kept, not deleted, because the route it names is the one that worked.
+  answer: >-
+    Construction did not begin and no notification of commencement was filed. The permittee
+    reported event 3099 "Overdue" twice under penalty of law (2026-07-22 and 2026-08-17), and both
+    of its own recovery dates have since lapsed unreported. See pass_2026_09_16.priority_question.
   why: The first enforceable date the *WD modification created; testable now.
   route: >-
     Ohio EPA eDocument portal — County = VAN WERT, Program = NPDES, Secondary ID 2PD00006,
@@ -910,7 +1278,16 @@ instruments_to_pull:
   route: Ohio EPA NWDO; the City of Van Wert Safety-Service Director.
 - item: Ohio EPA DSW plan approval PTI DSW-6320 (Blaine Street interceptor + Town Creek siphon).
   why: The engineering instrument behind two of the four control projects; approved 2025-10-12.
-  route: Ohio EPA eDocument portal (docs/… — the open scriptable route for Ohio permits).
+  route: >-
+    Ohio EPA eDocument portal — but NOT by Secondary ID "DSW-6320", which returns a well-formed
+    ZERO because the portal does not index these permits under that form of the number. Corrected
+    2026-09-16: sweep County = VAN WERT × Program = SURFACE WATER PERMIT TO INSTALL (294
+    documents) and read the DSWPTI-<id> rows. The Van Wert WWTP's own are DSWPTI-260113
+    (application 2026-01-20, approval 2026-04-01) and DSWPTI-251040 (approval 2025-12-26); which
+    of them, if either, is the 2025-10-12 approval is not yet established.
+  route_hazard: >-
+    A zero from the wrong key is indistinguishable from a real absence. This one nearly became a
+    negative in this file.
 - item: The Drinking Water Source Protection delineation for PWS OH8100611.
   why: Pins the raw-water intake location and river mile — the one geometry this file leaves open.
   route: Ohio EPA Division of Drinking and Ground Waters.
@@ -922,16 +1299,125 @@ instruments_to_pull:
     continuously since 2024-01-01 — the gap and the reporting violation are the same object.
   route: Ohio EPA NWDO file review; the City of Van Wert Safety-Service Director.
 - item: The July 2026 phosphorus DMR — the last month of the 2026 critical season.
+  status: PULLED 2026-09-16. The season is closed at 706.2 kg, 0.706× the allocation.
+  answer: >-
+    July reported on time (period end 31-JUL-26, received 14-AUG-26): 6.03 kg/d and 0.808 mg/L
+    monthly average, both under limit and both the season's heaviest. The upward trend this entry
+    was written to test did NOT continue — the four seasons read 0.69, 0.66, 0.82, 0.71.
+    See pass_2026_09_16.total_phosphorus_2026_season_closed.
   why: >-
-    2026 stands at 519.3 kg through June. July closes the fourth season and tests the upward trend
+    2026 stood at 519.3 kg through June. July closed the fourth season and tested the upward trend
     across 2023-2025 (0.69× → 0.66× → 0.82× of the allocation).
-  route: eff_rest_services.get_effluent_chart, p_id OH0027910, parameter_code 00665, 2026 window; re-run after the August DMR lands.
+  route: eff_rest_services.get_effluent_chart, p_id OH0027910, parameter_code 00665, 2026 window.
 - item: OHG8P0006 and OH0135569 — the two water-plant NPDES instruments.
   why: Two more permitted discharges on the same reach, neither in the corpus.
   route: Ohio EPA DAM.
 - item: The City's CSO Public Notification Plan (2018-08-07) and Consumer Confidence Reports 2023–2025.
   why: The empty public-access-area table and the eight SDWA quarters in noncompliance.
   route: City of Van Wert Utilities; Ohio EPA DDAGW.
+- item: The June 17, 2024 Director's Final Findings and Orders, City of Van Wert (SDWA).
+  why: >-
+    NEW 2026-09-16, and the highest-value pull this pass surfaced. Ohio EPA's 2026-08-19 NOV cites
+    "Order No. 15" of a DFFO this corpus does not hold and did not know existed. It is formal
+    enforcement against the drinking-water system — the thing both this file and the campus
+    regulatory watch report as "zero" on the strength of an ECHO figure that only covers the CWA
+    side. A DFFO also states the full order set, the schedule and any stipulated penalties.
+  route: Ohio EPA DDAGW Northwest District Office; R.C. 149.43 to Ohio EPA; the City of Van Wert.
+  priority: 1
+- item: The Q2 2026 OEL report's source-water section, read from the RENDERED page.
+  why: >-
+    The report is committed (edoc-4253933.pdf) and its checkboxes are unreadable from the text
+    layer. The questions it answers — change in intake level, turnover event, algae bloom,
+    drought, raw-water storage time — bear directly on whether the City connected its DBP
+    exceedance to the inoperable intake sluice gates, which is the open half of
+    pass_2026_09_16.drinking_water_2026_09_16.the_connection_worth_watching.
+  route: render the committed PDF at 300 DPI and read the ticked boxes; no new fetch is needed.
+  priority: 2
+- item: The CSO Long Term Control Plan itself — specifically its definition of the "typical year".
+  why: >-
+    NEW 2026-09-16. Two outfalls each recorded five overflow events in the first seven months of
+    2026 against an LTCP goal of "four CSO events or less per typical year". Whether that goal is
+    per-outfall or system-wide, and whether a "typical year" is a modelled design year rather than
+    a calendar one, decides whether that is a finding or a category error. Not answerable from any
+    instrument in this corpus.
+  route: Ohio EPA NWDO file review; the City of Van Wert Safety-Service Director.
+  priority: 2
+
+# ── When to run this again, and what will have moved ─────────────────────────
+next_check:
+  set_on: '2026-09-16'
+  supersedes: >-
+    the bare `next_check: '2026-08-17'` that sat on the first instruments_to_pull entry. This file
+    had no top-level next_check at all, which is why nothing reported it overdue for thirty days.
+  cadence: >-
+    MONTHLY while the CSO construction milestone stays open, then quarterly to match the ICIS-NPDES
+    and SDWIS extract cycles. Next routine pass: 2026-10-16.
+  dated_triggers:
+  - date: '2026-10-28'
+    what: >-
+      CSO event 3099 — roughly four weeks after the permittee's last lapsed recovery date, which
+      is the earliest a continued eDoc silence is worth anything given the portal's publication lag.
+    route: eDoc Secondary ID 2PD00006, keyword COMPLIANCE SCHEDULE UPDATE
+  - date: '2026-11-01'
+    what: >-
+      The revised 2020 PCCM Plan (CSO schedule event 1299) was due 2026-10-01. Same four-week lag
+      rule: query from 2026-11-01, not from the due date.
+    route: eDoc Secondary ID 2PD00006
+  - date: '2026-10-20'
+    what: >-
+      The August and September 2026 DMRs for OH0027910 — the first months after the critical
+      season, and the CSO occurrence counts for the wettest part of the year. August had not posted
+      at this pass.
+    route: eff_rest_services.get_effluent_chart, p_id OH0027910
+  - date: '2026-12-01'
+    what: >-
+      The local-limits review for total phosphorus (event code 52599) is due, testing whether
+      industrial-user limits would reach a 0.5 mg/L monthly average effluent concentration.
+    route: eDoc Secondary ID 2PD00006
+  - date: '2026-12-31'
+    what: >-
+      Deadline for returning to compliance on backflow-preventer testing, OAC 3745-95-06(C)(2) and
+      (3) — already extended once from 2026-04-01 after the City's own records were reviewed and
+      found non-compliant.
+    route: eDoc Secondary ID OH8100611, Program = DRINKING WATER
+  - date: '2027-01-15'
+    what: >-
+      Q3 2026 DBP monitoring and any further OEL exceedance letter. The Q2 2026 exceedance is not
+      the City's first, so the question is whether it is now a run.
+    route: eDoc Secondary ID OH8100611
+  - date: '2027-09-05'
+    what: >-
+      The extended deadline for repairing the reservoir intake sluice gates. Long-dated and
+      recorded so it is not lost — it is the date on which the intake regains depth selection, and
+      until then this system has no alternative source AND no alternative level.
+    route: eDoc Secondary ID OH8100611
+  queries:
+  - eDoc Secondary ID 2PD00006 (169 documents as of 2026-09-16 — the count IS the signal)
+  - eDoc Secondary ID OH8100611 (607 documents as of 2026-09-16)
+  - eDoc County = VAN WERT × Program = SURFACE WATER PERMIT TO INSTALL (294 as of 2026-09-16) — the PTI route, since DSW-6320 is not a Secondary ID
+  - ECHO dfr_rest_services.get_dfr, OH0027910 — read the WINDOW END, not the extract date
+  - ECHO eff_rest_services.get_effluent_chart, OH0027910 — one parameter_code per request; 00665, 74062, 74063
+  do_not:
+  - >-
+    Read an eDoc silence about an event less than ~4 weeks old as a negative. Docid 4236096 was
+    submitted 2026-07-22 and published 2026-08-19; this file's own 2026-08-17 next_check would have
+    returned nothing.
+  - >-
+    Search Secondary ID "DSW-6320" or "DSW6320" and read the zero as an absent PTI. The portal
+    indexes these as DSWPTI-<id>.
+  - >-
+    Read the SWAP zero for Van Wert County as "no source-water delineation exists". The same query
+    returns zero for Allen County and 28 for Franklin; the program's portal coverage is patchy.
+  - >-
+    Let ECHO's "zero formal enforcement actions" stand for this City generally. That figure is the
+    CWA side. The SDWA side has a Director's Final Findings and Orders dated 2024-06-17.
+  - >-
+    Compare the four 2026-05-12 TTHM sample values to the 80 standard as compliance figures. The
+    standard is a locational running annual average; those are the City's own evaluation samples,
+    and the form does not even print their units.
+  - >-
+    Decode the NODI reporting codes (C, E, B) or the AA/AH codes. They are recorded verbatim and
+    undecoded throughout this corpus.
 
 sources:
 - {kind: primary, id: 2PD00006*WD, path: data/documents/oepa/van-wert/2PD00006.f8aaad0a.pdf, extraction: data/extracted/oepa/van-wert/2PD00006.f8aaad0a.npdes.yaml}
