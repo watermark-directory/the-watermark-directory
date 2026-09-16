@@ -18,10 +18,10 @@
 # `readiness` domain may rise on it — a pending question is not a record.
 meta:
   subject: >-
-    The local data-center measures certified to Ohio ballots for the 2026-11-03 general
-    election, and the two that were kept off it — reduced to county, instrument type, threshold,
-    certifying body and standing, against the county boards of elections that hold the
-    controlling record
+    The local data-center measures on Ohio's 2026-11-03 ballots, at mixed standings — ten certified to the 2026-11-03 ballot, one ordered onto it by the Supreme Court of Ohio, four unconfirmed, one whose election is undetermined, and — nested under Wilmington — one further initiative a board of elections refused
+    — each reduced to county, instrument type, threshold, certifying body and standing, against
+    the county boards of elections that hold the controlling record. See `measures[].standing`;
+    the counts here are a summary of that field and nothing else.
   kind: ballot-measure-register
   scope: state:OH
   extracted_at: '2026-09-16'
@@ -30,8 +30,11 @@ meta:
   election_day: '2026-11-03'
   method: >-
     Press reporting (Ohio Capital Journal 2026-09-14 and the local outlet closest to each
-    measure), the Supreme Court of Ohio's own case summaries for the four measures that reached
-    it, and one municipality's self-published notice (Hubbard). No board-of-elections record was
+    measure), the Supreme Court of Ohio's own case summaries for the THREE measures that reached
+    it with a citation in hand (Ashville, Trenton, Sidney — and Sidney's is a recall charter
+    amendment, not a data-center measure), and one municipality's self-published notice
+    (Hubbard). A fourth, pending signature-requirement case is referenced by Piqua's law director
+    and is NOT identified — it is carried as '[open]', never counted as a fourth citation. No board-of-elections record was
     obtained. The route that would obtain one is already established in this corpus —
     data/extracted/van-wert/regulatory-watch.yaml names "Van Wert County Board of Elections —
     R.C. 149.43 for the 2026-07-27 certification and part petitions" — and is reused here per
@@ -618,10 +621,12 @@ pulls:
       section that omits a pending measure against its own facility.
   - priority: 3
     what: >-
-      The four slip opinions, from the Supreme Court of Ohio's own reporter rather than from
-      Court News Ohio summaries — 2026-Ohio-3035 (Ashville), 2026-Ohio-3439 (Sidney),
-      the Trenton decision of 2026-09-01 (No. 2026-1035, slip citation not obtained), and any
-      decision in the pending signature-requirement case Piqua's law director referenced.
+      The THREE identified slip opinions, from the Supreme Court of Ohio's own reporter rather
+      than from Court News Ohio summaries — 2026-Ohio-3035 (Ashville), 2026-Ohio-3439 (Sidney,
+      the recall amendment), and the Trenton decision of 2026-09-01 (No. 2026-1035, slip citation
+      not obtained). Then, separately, whatever the pending signature-requirement case Piqua's
+      law director referenced turns out to be: it has no case number, no citation and no
+      established subject here, so it is a lead, not a fourth opinion.
     why: >-
       Court News Ohio is the Court's news service, not its reporter. A holding is cited to the
       opinion. Every litigation block above is '[reference]' for exactly this reason and

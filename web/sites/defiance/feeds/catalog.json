@@ -326,7 +326,7 @@
     "producer_kind": "manual",
     "command": null,
     "connector_ref": null,
-    "source": "Ohio Capital Journal (2026-09-14) and the local outlet closest to each measure; the Supreme Court of Ohio's case summaries for the four measures that reached it (2026-Ohio-3035 Ashville, 2026-Ohio-3439 Sidney, No. 2026-1035 Trenton); the City of Hubbard's own petition notice (2026-07-06) — reduced by hand to county, instrument type, threshold, certifying body and standing. NO board-of-elections certification was obtained; the R.C. 149.43 queue that would obtain one is carried in the record itself.",
+    "source": "Ohio Capital Journal (2026-09-14) and the local outlet closest to each measure; the Supreme Court of Ohio's case summaries for the three measures that reached it with a citation in hand (2026-Ohio-3035 Ashville; No. 2026-1035 Trenton; 2026-Ohio-3439 Sidney, which is a recall charter amendment rather than a data-center measure) — a fourth, pending signature-requirement case referenced by Piqua's law director is unidentified and is carried as a lead, not a citation; the City of Hubbard's own petition notice (2026-07-06) — reduced by hand to county, instrument type, threshold, certifying body and standing. NO board-of-elections certification was obtained; the R.C. 149.43 queue that would obtain one is carried in the record itself.",
     "external_url": null,
     "license": "Curated from cited public sources",
     "access_tier": "public",
@@ -357,8 +357,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "ce99277d0d627faa7aa293b649ad702b0f2880aa37b3d87cb154a1f7cd8d7ff3",
-      "size_bytes": 48083,
+      "sha256": "6e3dc286f4d4910b802eb35f53557a750cd826e013594225955c945728b5f98f",
+      "size_bytes": 49294,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": false,
@@ -366,7 +366,7 @@
     },
     "observed_network": null,
     "citation": {
-      "source": "Ohio Capital Journal (2026-09-14) and the local outlet closest to each measure; the Supreme Court of Ohio's case summaries for the four measures that reached it (2026-Ohio-3035 Ashville, 2026-Ohio-3439 Sidney, No. 2026-1035 Trenton); the City of Hubbard's own petition notice (2026-07-06) — reduced by hand to county, instrument type, threshold, certifying body and standing. NO board-of-elections certification was obtained; the R.C. 149.43 queue that would obtain one is carried in the record itself.",
+      "source": "Ohio Capital Journal (2026-09-14) and the local outlet closest to each measure; the Supreme Court of Ohio's case summaries for the three measures that reached it with a citation in hand (2026-Ohio-3035 Ashville; No. 2026-1035 Trenton; 2026-Ohio-3439 Sidney, which is a recall charter amendment rather than a data-center measure) — a fourth, pending signature-requirement case referenced by Piqua's law director is unidentified and is carried as a lead, not a citation; the City of Hubbard's own petition notice (2026-07-06) — reduced by hand to county, instrument type, threshold, certifying body and standing. NO board-of-elections certification was obtained; the R.C. 149.43 queue that would obtain one is carried in the record itself.",
       "source_kind": "reference",
       "page": null,
       "pages": null,

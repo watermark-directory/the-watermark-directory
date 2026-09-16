@@ -1,7 +1,7 @@
 """``watermark corpus staleness`` — which registers and watches have aged out of their cadence.
 
 **A report, never a gate.** It follows the ``mise run yidam-vendor-status`` precedent: it prints
-what has drifted and exits 0. Nothing in CI consumes it, and nothing should — the answer to "this
+what has drifted and exits 0 whatever it finds. Nothing in CI consumes it, and nothing should — the answer to "this
 register is 86 days old" is a human deciding whether the world moved, not a failed build.
 
 Why it exists: on 2026-09-16 five overdue watches were found and cleared, and *nothing caused that
@@ -169,6 +169,12 @@ class Subject(BaseModel):
     cadence_source: Literal["catalog", "catalog-template", "watch-trigger", "none"] = "none"
     allowed_days: int | None = None
     catalog_id: str | None = None
+    # What `age_days` was actually measured from. Normally `declared or committed`, but a watch
+    # with a lapsed trigger is aged from THE TRIGGER — its own broken promise — and that date is
+    # not something the file "declares" about its own freshness, so it is carried here instead of
+    # being written into `declared`. Keeping them apart is what lets `date_source: "meta"` keep
+    # meaning "this came from meta.checked_on / as_of" in the --json output.
+    age_from: date | None = None
     # The reduction.
     standing: Standing = "unknown"
     age_days: int | None = None
@@ -177,8 +183,8 @@ class Subject(BaseModel):
 
     @property
     def effective(self) -> date | None:
-        """The date age is measured from — the subject's own claim, else the commit record."""
-        return self.declared or self.committed
+        """The date age is measured from — an explicit basis, else the claim, else the commits."""
+        return self.age_from or self.declared or self.committed
 
 
 def _reduce(
@@ -194,11 +200,17 @@ def _reduce(
     allowed_days: int | None,
     catalog_id: str | None,
     today: date,
+    age_from: date | None = None,
     extra_reasons: list[str] | None = None,
 ) -> Subject:
-    """Reduce three dates and a cadence to one standing. The only place a standing is decided."""
+    """Reduce three dates and a cadence to one standing. The only place a standing is decided.
+
+    ``age_from`` overrides the date age is measured from. It exists for the one case where the
+    yardstick is not the subject's own claim about itself: a watch that blew a dated trigger is
+    late by the trigger, not by whenever it last said it was checked.
+    """
     reasons: list[str] = list(extra_reasons or [])
-    effective = declared or committed
+    effective = age_from or declared or committed
     age = (today - effective).days if effective is not None else None
 
     divergence: str | None = None
@@ -254,6 +266,7 @@ def _reduce(
         slug=slug,
         relpath=relpath,
         declared=declared,
+        age_from=effective,
         date_source=date_source,
         committed=committed,
         cadence=cadence,
@@ -515,12 +528,17 @@ def watch_subjects(*, settings: Settings, today: date, repo_root: Path) -> list[
 
         checked = _watch_checked_on(doc)
         triggers, trigger_key_present = _watch_trigger_dates(doc)
-        lapsed = [t for t in triggers if t <= today and (checked is None or checked < t)]
+        # `t < today`, not `<=`: a trigger due TODAY has not been blown, it is due. Counting it
+        # lapsed appended a "LAPSED UNCHECKED" reason to a subject the arithmetic then called
+        # `current` (age 0 against a 0-day allowance) — a warning about a deadline still open.
+        lapsed = [t for t in triggers if t < today and (checked is None or checked < t)]
 
         cadence: str | None = None
         cadence_source: Literal["catalog", "catalog-template", "watch-trigger", "none"] = "none"
         allowed: int | None = None
-        measured_from: date | None = checked
+        # `declared` stays the watch's own `meta.checked_on` / `as_of` in every branch below. Only
+        # the AGE BASIS moves, and only for a lapsed trigger.
+        age_basis: date | None = None
 
         if not triggers:
             reasons.append(
@@ -535,18 +553,23 @@ def watch_subjects(*, settings: Settings, today: date, repo_root: Path) -> list[
             # is the yardstick, and a zero allowance makes any lapse overdue by exactly its lateness.
             oldest = min(lapsed)
             cadence, cadence_source, allowed = "dated-trigger", "watch-trigger", 0
-            measured_from = oldest
+            age_basis = oldest
             reasons.append(
                 f"trigger {oldest.isoformat()} LAPSED UNCHECKED — "
                 f"last actually checked {checked.isoformat() if checked else 'never stated'}"
             )
         else:
-            future = [t for t in triggers if t > today]
-            measured_from = checked or max(triggers)
-            if future:
+            # Due today counts as live: the deadline has not passed.
+            live = [t for t in triggers if t >= today]
+            if live:
                 cadence, cadence_source = "dated-trigger", "watch-trigger"
-                allowed = _NO_LIMIT  # a future trigger exists and has not passed
-                reasons.append(f"next dated trigger {min(future).isoformat()}")
+                allowed = _NO_LIMIT  # a live trigger exists and has not passed
+                nxt = min(live)
+                reasons.append(
+                    "a dated trigger falls TODAY and is still open"
+                    if nxt == today
+                    else f"next dated trigger {nxt.isoformat()}"
+                )
             else:
                 # Every trigger is past and each was met. Nothing is overdue — and nothing ever
                 # will be, because there is no future trigger left to lapse. That is `unknown`.
@@ -560,8 +583,9 @@ def watch_subjects(*, settings: Settings, today: date, repo_root: Path) -> list[
                 kind="watch",
                 slug=slug,
                 relpath=relpath,
-                declared=measured_from,
-                date_source="meta" if measured_from is not None else "none",
+                declared=checked,
+                date_source="meta" if checked is not None else "none",
+                age_from=age_basis,
                 committed=_git_last_commit_date(path, repo_root=repo_root),
                 cadence=cadence,
                 cadence_source=cadence_source,

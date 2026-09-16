@@ -313,6 +313,78 @@ def test_a_future_trigger_is_current(tmp_path: Path) -> None:
     assert report.subjects[0].standing == "current"
 
 
+def test_a_trigger_due_today_is_still_open_not_lapsed(tmp_path: Path) -> None:
+    """A deadline that falls today has not been blown — it is due.
+
+    Under ``t <= today`` this reported ``current`` *and* carried a "LAPSED UNCHECKED" reason: a
+    warning about a deadline still open. The standing was right by accident (age 0 against a 0-day
+    allowance) and the explanation was wrong, which is the worse half.
+    """
+    settings = _mkcorpus(tmp_path)
+    _watch(
+        tmp_path,
+        "peer",
+        "water-watch.yaml",
+        {
+            "meta": {"checked_on": "2026-09-01"},
+            "next_check": {"dated_triggers": [{"date": TODAY.isoformat(), "what": "due today"}]},
+        },
+    )
+    report = build_report(settings=settings, today=TODAY, repo_root=tmp_path)
+    (subject,) = report.subjects
+    assert subject.standing == "current"
+    assert not any("LAPSED" in r for r in subject.reasons)
+    assert any("TODAY and is still open" in r for r in subject.reasons)
+
+
+def test_declared_is_always_the_watchs_own_checked_on_even_when_late(tmp_path: Path) -> None:
+    """``date_source == "meta"`` must mean ``meta.checked_on`` / ``as_of`` and nothing else.
+
+    A lapsed watch is aged from its blown TRIGGER, which is the right yardstick — but writing that
+    trigger into ``declared`` made the ``--json`` output claim the file said something it did not.
+    The basis is carried in ``age_from`` instead, so both facts survive.
+    """
+    settings = _mkcorpus(tmp_path)
+    _watch(
+        tmp_path,
+        "peer",
+        "water-watch.yaml",
+        {
+            "meta": {"checked_on": "2026-08-01"},
+            "next_check": {"dated_triggers": [{"date": "2026-08-17", "what": "the window closes"}]},
+        },
+    )
+    report = build_report(settings=settings, today=TODAY, repo_root=tmp_path)
+    (subject,) = report.subjects
+    assert subject.declared == date(2026, 8, 1), "declared is meta.checked_on, not the trigger"
+    assert subject.date_source == "meta"
+    assert subject.age_from == date(2026, 8, 17), "aged from the blown trigger"
+    assert subject.effective == date(2026, 8, 17)
+    assert subject.age_days == 30
+    assert subject.standing == "overdue"
+
+
+def test_a_future_trigger_is_never_used_as_the_age_source(tmp_path: Path) -> None:
+    """Only a LAPSED trigger may move the age basis; a future one must not backdate anything."""
+    settings = _mkcorpus(tmp_path)
+    _watch(
+        tmp_path,
+        "peer",
+        "power-watch.yaml",
+        {
+            "meta": {"checked_on": "2026-09-10"},
+            "next_check": {"dated_triggers": [{"date": "2026-11-03", "what": "election day"}]},
+        },
+    )
+    report = build_report(settings=settings, today=TODAY, repo_root=tmp_path)
+    (subject,) = report.subjects
+    assert subject.declared == date(2026, 9, 10)
+    assert subject.age_from == date(2026, 9, 10), "the check date, NOT the 2026-11-03 trigger"
+    assert subject.age_from != date(2026, 11, 3)
+    assert subject.age_days == 6, "six days since the check, not negative days until the trigger"
+    assert subject.standing == "current"
+
+
 def test_a_watch_whose_every_trigger_is_past_and_met_is_unknown_not_current(
     tmp_path: Path,
 ) -> None:

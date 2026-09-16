@@ -1,8 +1,9 @@
 """``watermark corpus staleness`` — report which registers and watches have aged out (#2069 lesson).
 
-A **report, not a gate**: it prints and exits 0, on the ``mise run yidam-vendor-status`` precedent
-("reports drift — a report, never a gate"). The reduction lives in :mod:`watermark.staleness`; this
-module only renders it.
+A **report, not a gate**: it prints and, once its arguments validate, exits 0 whatever it finds — the
+``mise run yidam-vendor-status`` precedent ("reports drift — a report, never a gate"). A bad
+``--kind`` still raises ``typer.BadParameter`` like any other misuse; that is an invocation error,
+not a finding. The reduction lives in :mod:`watermark.staleness`; this module only renders it.
 """
 
 from __future__ import annotations
@@ -48,7 +49,8 @@ def corpus_staleness(
     **unknown**. ``on-demand`` and ``static`` report **uncheckable** and get their own section —
     a cadence that can never be overdue is a finding, not a pass.
 
-    Always exits 0. It is a report.
+    Exits 0 whatever it finds — it is a report. (An unsupported ``--kind`` is still rejected as a
+    bad argument; that is misuse, not a finding.)
     """
     from watermark.staleness import build_report
 
@@ -149,4 +151,4 @@ def corpus_staleness(
         "  ".join(f"[{_STANDING_STYLE[k]}]{k} {v}[/]" for k, v in counts.items())
         + f"   of {len(subjects)} subject(s)"
     )
-    console.print("[dim]A report, not a gate — this command always exits 0.[/]")
+    console.print("[dim]A report, not a gate — findings never change this command's exit code.[/]")

@@ -1,6 +1,7 @@
 # Ohio local data-center ballot measures — 2026-11-03
 
-Network-level governance record. The structured peer is
+Network-level governance record — the local data-center measures on Ohio's 2026-11-03 ballots at
+mixed standings: ten certified to the 2026-11-03 ballot, one ordered onto it by the Supreme Court of Ohio, four unconfirmed, one whose election is undetermined, and — nested under Wilmington — one further initiative a board of elections refused. The structured peer is
 [`local-ballot-2026-11.yaml`](local-ballot-2026-11.yaml); it holds the per-measure detail, the
 R.C. 149.43 queue, and the standing limits. This file is the reading of it.
 
@@ -134,10 +135,11 @@ Seneca. A measure in a registered site's *county* is not a measure at that site,
 says `county-adjacent` where that is all it is.
 
 **Court News Ohio is the Court's news service, not its reporter.** Every litigation block is
-`[reference]` for that reason and upgrades only on the captured slip opinion. Four are queued:
-2026-Ohio-3035 (Ashville), 2026-Ohio-3439 (Sidney), the Trenton decision of 2026-09-01
-(No. 2026-1035, slip citation not obtained), and whatever the pending signature-requirement case
-Piqua's law director referenced turns out to be.
+`[reference]` for that reason and upgrades only on the captured slip opinion. **Three are
+identified:** 2026-Ohio-3035 (Ashville), 2026-Ohio-3439 (Sidney — the recall amendment), and the
+Trenton decision of 2026-09-01 (No. 2026-1035, slip citation not obtained). The pending
+signature-requirement case Piqua's law director referenced has no case number, no citation and no
+established subject, so it is queued as a **lead, not a fourth opinion**.
 
 ## Dated negatives
 
