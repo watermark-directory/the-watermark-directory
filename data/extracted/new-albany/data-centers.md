@@ -217,3 +217,28 @@ operator list); constructiondive & City of New Albany (AWS $3.5B/$7.8B/GDP); DCD
 parcels; Microsoft 200 ac); q.com / columbusconstruction / baxtel (QTS 222 MW); puco.ohio.gov & OCC
 (24-508-EL-ATA); Bricker Graydon & Ohio EPA (OHD000001); Policy Matters (TCA exemption + pause). Full
 URLs to be recorded in GitHub issue #485.
+
+## Ballot thread — 2026-11-03 (added 2026-09-16)
+
+**Pataskala and Granville — two 25 MW charter amendments in Licking County.**
+Pataskala reaches this register's **Beech Rd corridor** entry. `[reference]`
+
+- Citizen-initiated charter amendments banning data centers drawing over **25 MW** are on the
+  2026-11-03 ballot in **both** Pataskala and Granville. Signature counts and certification detail
+  were not obtained; both are certified by the **Licking County Board of Elections**, and one
+  R.C. 149.43 request covers both.
+- For a charter question to reach 2026-11-03, the ordinance directing submission had to be adopted
+  by **2026-09-04** (the 60th day), which requires the petition filed and signatures verified on or
+  before that date. `[reference]`
+- ⚠️ **Pataskala is a register entry here, not a BOSC site**, and Granville is only
+  county-adjacent. Shelve any extraction accordingly (#1405).
+- ⚠️ **Grove City is not this register's.** The Franklin County "Community Consent Amendment"
+  (≥50 ac / >500,000 gpd / ≥20 MW, and it does not name data centers) belongs to `columbus`'s
+  county, not to New Albany's corridor.
+
+The network-level record is
+[`data/extracted/legal/datacenter-legislation/local-ballot-2026-11.md`](../legal/datacenter-legislation/local-ballot-2026-11.md)
+and its structured peer. **No certification is captured** — the controlling instrument is a county
+board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
+is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
+instrument and it does not move this site's `readiness`.

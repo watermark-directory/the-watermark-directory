@@ -719,3 +719,30 @@ it, all of them documented in the instruments themselves.*
 - Obedio (Apr 2026 infrastructure approvals): [aws-data-center-campus-in-sidney-ohio-clears-final-infrastructure-approvals](https://hs.getobedio.com/blog/aws-data-center-campus-in-sidney-ohio-clears-final-infrastructure-approvals-locking-in-8m-of-private-road-funding)
 - Stop Ohio Data Centers (advocacy, use for leads not primary facts): [stopohiodatacenters.org/shelby-county](https://stopohiodatacenters.org/shelby-county)
 - WHIO TV (community meeting): [community-gathers-share-concerns-learn-about-data-center-plans-shelby-county](https://www.whio.com/news/local/community-gathers-share-concerns-learn-about-data-center-plans-shelby-county/OF4XYJ5YAVEXZGH55OYPRZLHIA/)
+
+## Ballot thread — 2026-11-03 (added 2026-09-16)
+
+**Sidney — three petitions, and the adjudicated one is about recall.** `[reference]`
+
+- ⚠️ **The Supreme Court decision is not a data-center ban.** *State ex rel. Turner v. Barhorst*,
+  No. **2026-1088**, **2026-Ohio-3439** (decided **2026-09-03**), concerns a charter amendment
+  **establishing a uniform procedure for recalling elected city officials**. A committee of
+  Matthew Turner Jr., Steven Taylor and Marcia Montgomery filed it in July 2026 with **561
+  signatures**. City Clerk Kari Egbert rejected it as "facially invalid and insufficient" under
+  **R.C. 731.32** (no pre-circulation filing); the Court held R.C. 731.32 reaches only initiatives
+  adopting ordinances and referendums against ordinances, **not charter amendments**, and ordered
+  the petition submitted to the **Shelby County Board of Elections** for verification — and, if
+  sufficient, onto a ballot under Ohio Const. art. XVIII, §8.
+- The petition is **motivated** by the data-center dispute; its **text** is recall procedure.
+  Press describing Sidney as voting on a data-center ban is wrong about the instrument.
+- **The other two of the "trio" are `[open]`** — reported as a trio, enumerated nowhere reached.
+- ⚠️ **The ballot date is `[open]`, and it is probably not November.** The decision landed one day
+  before the 2026-09-04 charter-amendment filing deadline with verification not yet done, and
+  reporting says a **special election** is likely. **Do not list Sidney as a November measure.**
+
+The network-level record is
+[`data/extracted/legal/datacenter-legislation/local-ballot-2026-11.md`](../legal/datacenter-legislation/local-ballot-2026-11.md)
+and its structured peer. **No certification is captured** — the controlling instrument is a county
+board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
+is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
+instrument and it does not move this site's `readiness`.

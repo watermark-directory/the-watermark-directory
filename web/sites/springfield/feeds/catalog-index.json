@@ -1,6 +1,6 @@
 {
   "site": "springfield",
-  "catalog_version": "7308c82bc9961b0bf368641da2df3dfe129f0928dc1afca4b7ec558359f000fd",
+  "catalog_version": "87f5984d6c2ce00bbd6c237d3d67a107191b314550dd1cff7d6c0b17bd2c2e06",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -841,6 +841,14 @@
       "site": "springfield",
       "local_id": "hydrology-routing",
       "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:springfield:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "springfield",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

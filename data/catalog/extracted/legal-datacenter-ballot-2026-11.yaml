@@ -1,0 +1,83 @@
+id: legal-datacenter-ballot-2026-11
+title: Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election
+scope: extracted
+status: reviewed
+producer:
+  kind: manual
+  source: >-
+    Ohio Capital Journal (2026-09-14) and the local outlet closest to each measure; the Supreme
+    Court of Ohio's case summaries for the four measures that reached it (2026-Ohio-3035 Ashville,
+    2026-Ohio-3439 Sidney, No. 2026-1035 Trenton); the City of Hubbard's own petition notice
+    (2026-07-06) — reduced by hand to county, instrument type, threshold, certifying body and
+    standing. NO board-of-elections certification was obtained; the R.C. 149.43 queue that would
+    obtain one is carried in the record itself.
+license: Curated from cited public sources
+access_tier: public
+site_scope: state:OH
+storage:
+- relpath: extracted/legal/datacenter-legislation/local-ballot-2026-11.md
+  media_type: text/markdown
+  lfs: false
+- relpath: extracted/legal/datacenter-legislation/local-ballot-2026-11.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: weekly
+  ttl_days: 7
+  last_refreshed: '2026-09-16'
+provenance: reference
+tags:
+- data-centers
+- ballot-measure
+- charter-amendment
+- referendum
+- governance
+- conserve-ohio
+- r.c.-149.43
+notes: >-
+  The local data-center measures certified to Ohio ballots for 2026-11-03, and the two that were
+  kept off one. Seventeen communities reduced from reporting headlined "18"; the eighteenth is
+  [open] and the reconciliation gap is recorded rather than filled.
+
+  ⚠️ THIS ENTRY DECLARES A REAL CADENCE, DELIBERATELY. weekly / ttl_days 7 through the election.
+  Every other data-center register in this catalog declares `on-demand`, the one cadence that can
+  never be overdue. This record has a hard dated trigger — 2026-11-03 — after which every
+  `standing` in it expires, so on-demand would be a declaration that nothing can go stale about a
+  file whose entire contents have an expiry date.
+
+  ⚠️ IT HOLDS NO [verified] CLAIM, BY CONSTRUCTION. Press, a court's news service and a city's web
+  notice are all [reference]. The controlling instrument for every measure is a county board of
+  elections certification and not one is captured under data/documents/. The first captured
+  certification converts its own measure and nothing else.
+
+  ⚠️ A BALLOT MEASURE IS NOT AN OUTCOME, and nothing here may move a site's readiness. Readiness
+  is domain activation off committed evidence; a pending question is not a record domain. If a
+  certification is later captured and extracted, THAT can lift a record domain — the measure
+  cannot.
+
+  FOUR MEASURES THE BRIEF DID NOT CARRY, two of them reaching registered sites: Wilmington
+  (Clinton Co. — four referendums certified, a fifth initiative establishing zoning Chapter 1161
+  refused 4-0 on the scope of municipal power, not on signatures), Grove City (Franklin Co. — the
+  Community Consent Amendment, which does not name data centers and fires at >=50 ac / >500,000
+  gpd / >=20 MW), Ashville (Pickaway Co. — the only measure attacking a signed agreement,
+  Res. 06-2026 with EdgeConneX), and Sidney (Shelby Co., live + selectable).
+
+  THE SIDNEY TRAP: the Supreme Court decision press attaches to Sidney's "trio of data-center
+  petitions" — State ex rel. Turner v. Barhorst, 2026-Ohio-3439 — is about a charter amendment
+  establishing a UNIFORM RECALL PROCEDURE. Its subject is recall, not a megawatt threshold. The
+  other two of the trio are [open], and the ballot date is [open] — a special election is
+  reported as likely, so Sidney must not be listed as a November measure.
+
+  THE STATEWIDE TRAP: the Conserve Ohio initiated constitutional amendment FAILED to qualify for
+  2026 (~70,000 of 413,488; signatures unsubmitted and still valid, targeting 2027 — recorded in
+  the west-union and troy-piqua registers as lead BALLOT-2027). The nine 25-MW local charter
+  amendments MIRROR it, were organized by the same campaign, and DID qualify. The statewide
+  failure says nothing about them.
+
+  THRESHOLDS DIFFER AND MUST NOT BE NORMALIZED: Urbana 7.5 MW, Grove City 20 MW, nine at 25 MW,
+  Hubbard a full ban with no threshold.
+
+  THE ADAMS COUNTY PAIRING IS AN [inference] and half of it is weak — reporting names only "two
+  townships on the Ohio River"; Monroe (zoning commission, 2026-03-02) fits the mechanism because
+  R.C. 519 requires an electoral vote to adopt township zoning, while Sprigg's voluntary
+  moratorium does not. Do not name either without the Adams County Board of Elections.

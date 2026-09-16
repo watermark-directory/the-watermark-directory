@@ -2,9 +2,9 @@
   "site": "urbana",
   "bundle_version": "1.0.0",
   "contract_version": "2.4.0",
-  "generated_at": "2026-09-02T23:48:45+00:00",
+  "generated_at": "2026-09-16T21:49:09+00:00",
   "feed_count": 34,
-  "row_total": 492,
+  "row_total": 493,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -229,7 +229,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 59
+      "count": 60
     },
     {
       "name": "geo/campus",

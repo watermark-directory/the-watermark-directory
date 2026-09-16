@@ -502,3 +502,30 @@ Any one of these reopens this register:
   25 MW threshold and the 413,488-signature requirement.
 - <https://www.clermontsun.com/2026/07/22/ohio-epa-will-not-finalize-proposed-data-center-general-permit>
   — Ohio EPA will not finalize `OHD000001`.
+
+## Ballot thread — 2026-11-03 (added 2026-09-16)
+
+**Two Adams County townships — zoning on the ballot, and which two is an
+`[inference]`.** Reporting names them only as "two Adams County townships on the Ohio River",
+voting on zoning plans to preserve their "rural and agricultural character" against a data center
+reported to draw **more than 20 times the county's own power consumption** — the AWS Buck Canyon
+campus this register carries. `[reference]`
+
+- ⚠️ **The pairing is not established, and one half is weak.** This register already records, both
+  dated **2026-03-02**: **Sprigg Township** (Stuart plant) passing a one-year **voluntary**
+  data-center moratorium with no land-use force, and **Monroe Township** (27 sq mi, Killen plant)
+  resolving to establish a **zoning commission**. Monroe is a direct mechanical fit — **R.C. 519
+  requires an electoral vote to adopt township zoning**. Sprigg's voluntary moratorium is not that
+  mechanism at all, so **Sprigg is the weaker half**. `[inference]`
+- **Do not name either township without the Adams County Board of Elections.** Adjacency plus a
+  plausible mechanism is not a certification.
+- ⚠️ **This is distinct from the statewide thread already in §3 of this register.** The Conserve
+  Ohio constitutional amendment failed to qualify for 2026; these township zoning questions are
+  local instruments on the 2026-11-03 ballot. The statewide failure says nothing about them.
+
+The network-level record is
+[`data/extracted/legal/datacenter-legislation/local-ballot-2026-11.md`](../legal/datacenter-legislation/local-ballot-2026-11.md)
+and its structured peer. **No certification is captured** — the controlling instrument is a county
+board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
+is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
+instrument and it does not move this site's `readiness`.

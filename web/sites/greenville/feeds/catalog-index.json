@@ -1,6 +1,6 @@
 {
   "site": "greenville",
-  "catalog_version": "19ee1dc7c3e1fde6e1af528f33a1c5e7b0692c4151ddd3853b738fd3a3e7e1a0",
+  "catalog_version": "e332bfe3c35bb942c5b99351ad50312a5bbe9f2d54a07931bb13895766d7e2d7",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -841,6 +841,14 @@
       "site": "greenville",
       "local_id": "hydrology-routing",
       "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:greenville:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "greenville",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

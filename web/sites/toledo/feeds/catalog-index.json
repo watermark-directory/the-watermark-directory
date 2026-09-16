@@ -1,6 +1,6 @@
 {
   "site": "toledo",
-  "catalog_version": "c2b98c9f1358003d815ca5cd34ff3375ddd979eedc02baff739867d194acdcbb",
+  "catalog_version": "18b7e12dd085042760a1215d3f12e62ad75d4fb7d8a3037eb5baaabc8693b4f0",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "toledo",
       "local_id": "hydrology-toledo-waterville-spill-monitor-read",
       "title": "Maumee-at-Waterville (04193500) Continuous-Monitor Read — Napoleon Spill",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:toledo:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "toledo",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

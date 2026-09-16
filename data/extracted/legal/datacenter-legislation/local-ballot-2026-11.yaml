@@ -1,0 +1,665 @@
+# Ohio local data-center ballot measures — 2026-11-03 general election.
+#
+# Provenance vocabulary (see docs/investigative-method/ENRICHMENT.md):
+#   [verified]  = stated in a captured primary record (cite file + page)
+#   [reference] = secondary / self-published source, not a controlling record
+#   [inference] = reasoned from verified facts, labelled as such, reasoning shown
+#   [open]      = not established by any captured source — do NOT assert
+#
+# ⚠️ THIS FILE HOLDS NO [verified] CLAIM, AND THAT IS THE POINT.
+# Every measure below is grounded in press, a court's own news service, or a municipality's
+# self-published notice. NOT ONE certification, part petition, or protest has been captured into
+# data/documents/. Until one is, the strongest standing available here is [reference]. The
+# `records_route` block on each measure names the county board of elections that holds the
+# controlling instrument; `pulls` at the bottom is the R.C. 149.43 queue.
+#
+# ⚠️ A BALLOT MEASURE IS NOT AN OUTCOME. Until 2026-11-03 every measure here is a PENDING
+# INSTRUMENT. Nothing in this file licenses a claim about what any community decided, and no
+# `readiness` domain may rise on it — a pending question is not a record.
+meta:
+  subject: >-
+    The local data-center measures certified to Ohio ballots for the 2026-11-03 general
+    election, and the two that were kept off it — reduced to county, instrument type, threshold,
+    certifying body and standing, against the county boards of elections that hold the
+    controlling record
+  kind: ballot-measure-register
+  scope: state:OH
+  extracted_at: '2026-09-16'
+  checked_on: '2026-09-16'
+  filing_deadline: '2026-09-04'   # 60th day before the election; charter-amendment ordinances
+  election_day: '2026-11-03'
+  method: >-
+    Press reporting (Ohio Capital Journal 2026-09-14 and the local outlet closest to each
+    measure), the Supreme Court of Ohio's own case summaries for the four measures that reached
+    it, and one municipality's self-published notice (Hubbard). No board-of-elections record was
+    obtained. The route that would obtain one is already established in this corpus —
+    data/extracted/van-wert/regulatory-watch.yaml names "Van Wert County Board of Elections —
+    R.C. 149.43 for the 2026-07-27 certification and part petitions" — and is reused here per
+    county rather than reinvented.
+
+# ── The count does not reconcile, and the gap is recorded rather than filled ──────────────
+count_reconciliation:
+  tag: '[open]'
+  reported_total: 18
+  communities_this_file_can_name: 17
+  gap: 1
+  what: >-
+    The Ohio Capital Journal's 2026-09-14 piece is headlined "18 Ohio communities" and enumerates
+    17 distinguishable communities in its body: the nine 25-MW charter petitions, Urbana, Hubbard,
+    Grove City, Wilmington, Ashville, Sidney, and two unnamed Adams County townships. A full read
+    of the article and of six syndicated mirrors of it did not produce an eighteenth.
+  three_candidate_explanations_none_adopted:
+    - >-
+      The count may treat one community's multiple questions as multiple entries — Piqua filed
+      four petitions (two charter amendments plus three recalls, on Save Piqua's own account) and
+      Wilmington carries four referendums.
+    - >-
+      The count may include Sidney, whose three petitions the same article says will "likely
+      become a special election" — i.e. possibly NOT the 2026-11-03 ballot at all.
+    - >-
+      There may be an eighteenth community the article names in a passage not reproduced by any
+      mirror reachable from here.
+  how_to_close_it: >-
+    Not by re-reading the press. The Ohio Secretary of State's certified list of local questions
+    and issues for the 2026-11-03 election is the authority; each county board of elections
+    certifies its own. This is pull priority 1.
+
+# ── The trap this file exists to prevent ─────────────────────────────────────────────────
+do_not_conflate:
+  statewide_vs_local:
+    tag: '[reference]'
+    what: >-
+      The STATEWIDE initiated constitutional amendment (Conserve Ohio, "Prohibition of
+      Construction of a Data Center", >25 MW) FAILED TO QUALIFY for 2026: ~70,000 of the 413,488
+      valid signatures required by 2026-07-01, as of 2026-06-18. The signatures were not
+      submitted and therefore remain valid; the campaign targets 2027. Recorded already in
+      data/extracted/west-union/data-centers.md and data/extracted/troy-piqua/data-centers.md
+      (lead BALLOT-2027).
+    the_error: >-
+      The nine 25-MW local charter amendments MIRROR that statewide amendment and were organized
+      by the same campaign. They are SEPARATE INSTRUMENTS and they DID qualify. The statewide
+      failure says nothing about them. Writing "the data-center ban failed" collapses the two.
+  sidney_recall_is_not_a_data_center_ban:
+    tag: '[reference]'
+    what: >-
+      The Supreme Court of Ohio decision that press coverage attaches to Sidney's "trio of
+      data-center petitions" — State ex rel. Turner v. Barhorst, No. 2026-1088, 2026-Ohio-3439,
+      decided 2026-09-03 — concerns a charter amendment ESTABLISHING A UNIFORM PROCEDURE FOR
+      RECALLING ELECTED CITY OFFICIALS. Its subject is recall procedure. It is not a
+      megawatt threshold, not a zoning measure, and not a data-center ban.
+    the_error: >-
+      The recall amendment is MOTIVATED by the data-center dispute; its TEXT is about recall.
+      Describing Sidney as voting on a data-center ban is wrong about the instrument. See
+      data/extracted/sidney/data-centers.md.
+  urbana_threshold:
+    tag: '[reference]'
+    what: Urbana's threshold is 7.5 MW. The other charter petitions are 25 MW; Grove City is 20 MW.
+    the_error: >-
+      Normalizing Urbana into "the 25-MW measures" understates its reach by a factor of ~3.3.
+  grove_city_is_not_data_center_specific:
+    tag: '[reference]'
+    what: >-
+      Grove City's "Community Consent Amendment" reaches any industrial development meeting any
+      of three thresholds — >=50 acres, >500,000 gallons per day of water, or >=20 MW of
+      electrical demand — and requires a vote of the electorate. It is not a data-center ban and
+      does not name data centers.
+    why_it_matters: >-
+      Reported reasoning is that a data-center-specific ban was avoided on litigation-risk advice.
+      A measure drafted to survive a challenge is a different instrument from one drafted to stop
+      a project, and the two will not generalize to each other.
+  adjacency_is_not_identity:
+    tag: '[inference]'
+    what: >-
+      Hubbard is in Trumbull County and so is `lordstown`, a BOSC `tracking` site with its own
+      moratorium history. Conneaut is in Ashtabula County; `cleveland` and `akron` are tracking
+      sites in neither. Grove City is in Franklin County, which is `columbus`'s county.
+    the_error: >-
+      A measure in a registered site's COUNTY is not a measure at that site. Each is recorded
+      under its own community below, and the site column says "county-adjacent" where that is
+      all it is.
+
+# ── The measures ─────────────────────────────────────────────────────────────────────────
+# `standing` vocabulary:
+#   certified-to-ballot  = a certifying body has placed it on the 2026-11-03 ballot
+#   ordered-to-ballot    = a court ordered certification; placement reported, instrument not held
+#   kept-off-ballot      = a certifying body refused it
+#   ballot-date-open     = qualified, but which election is unresolved
+#   unconfirmed          = named in reporting; no certification detail obtained from any route
+measures:
+
+  - community: Piqua
+    county: Miami County, OH
+    bosc: {site: troy-piqua, relation: site, status: live + selectable}
+    instrument: charter amendment
+    charter_section: '138'
+    subject: Prohibition of Construction of a data center
+    threshold_mw: 25
+    placing_instrument: City of Piqua Ordinance O-11-26 (amended, as passed by the Commission)
+    certifying_body: Miami County Board of Elections
+    signatures: {submitted: 440, verified: 352, required: null}
+    standing: certified-to-ballot
+    tag: '[reference]'
+    complications:
+      - >-
+        A SECOND Piqua charter amendment is reported — Save Piqua submitted a proposed
+        amendment to charter §138 on 2026-08-11 prohibiting "the construction, use and
+        expansion of data centers and cryptocurrency-mining operations", and the Miami County
+        BOE sought guidance FROM THE SECRETARY OF STATE on whether it was filed in time for
+        2026-11-03. Whether Piqua carries one question or two is '[open]'.
+      - >-
+        THREE RECALL petitions — Mayor Jim Vetter, Vice Mayor Frank DeBrosse, Ward 3
+        Commissioner Rick Walker — reported at "more than 1,250 signatures on each of the four
+        petitions". Recall is not a data-center measure; it is recorded so the count is not
+        inflated by it. '[reference]'
+      - >-
+        Piqua's law director is reported noting a PENDING Supreme Court of Ohio case on
+        signature requirements that "could change the certification". Unidentified here. '[open]'
+    subject_project: Meta, ~1,400 MW (press figure, uncorroborated here) '[reference]'
+    records_route:
+      body: Miami County Board of Elections
+      request: >-
+        R.C. 149.43 — the certification of the §138 amendment, the part petitions, the
+        protest record if any, and the BOE's correspondence with the Secretary of State on the
+        timeliness of the 2026-08-11 filing
+    sources:
+      - miamivalleytoday.com — "Piqua Commission passes amended ordinance to place data center issue on Nov. ballot"
+      - daytondailynews.com — "Piqua voters could see two data center charter amendments on November ballot"
+      - ohiocapitaljournal.com 2026-09-14
+
+  - community: Urbana
+    county: Champaign County, OH
+    bosc: {site: urbana, relation: site, status: live + selectable}
+    instrument: charter amendment
+    subject: ban on data centers exceeding 7.5 MW
+    threshold_mw: 7.5
+    placing_instrument: City of Urbana council legislation (number not obtained) '[open]'
+    certifying_body: Champaign County Board of Elections
+    certified_via: the Urbana City Clerk's certification to the county board
+    signatures: {submitted: null, verified: null, required: null}
+    standing: certified-to-ballot
+    tag: '[reference]'
+    note: >-
+      ⚠️ 7.5 MW, NOT 25. The lowest threshold of any measure in this file. Urbana also carries
+      the network's only active federal data-center suit (Thor) — see
+      data/extracted/urbana/. The suit and the ballot measure are independent instruments.
+    records_route:
+      body: Champaign County Board of Elections
+      request: >-
+        R.C. 149.43 — the certification, the part petitions, and the City Clerk's transmittal;
+        and from the City of Urbana, the council legislation directing submission
+    sources:
+      - urbanacitizen.com 2026-08-31 — "Data center ban will be on Urbana ballot"
+      - peakofohio.com — "Urbana Council sends proposed data center ban to November ballot"
+      - ohiocapitaljournal.com 2026-09-14
+
+  - community: Defiance
+    county: Defiance County, OH
+    bosc: {site: defiance, relation: site, status: queued}
+    instrument: charter amendment
+    subject: forbid data centers within municipal limits, >25 MW
+    threshold_mw: 25
+    certifying_body: Defiance County Board of Elections
+    signatures: {submitted: null, verified: 270, required: 225}
+    standing: certified-to-ballot
+    tag: '[reference]'
+    process: >-
+      Filed with the city finance office, which transmitted it to the county board for
+      signature verification; returned to the city for placement, and council was asked to pass
+      the placing legislation.
+    records_route:
+      body: Defiance County Board of Elections
+      request: R.C. 149.43 — the sufficiency determination, the 270-valid finding, and the part petitions
+    sources:
+      - crescent-news.com — "Proposed Defiance charter move on data centers has valid signatures"
+      - crescent-news.com — "Council requests legislation to place data center measure on fall ballot"
+
+  - community: Oregon
+    county: Lucas County, OH
+    bosc: {site: toledo, relation: county-adjacent, status: queued}
+    instrument: charter amendment
+    subject: limit the size and scope of data centers to 25 MW
+    threshold_mw: 25
+    certifying_body: Lucas County Board of Elections
+    organizers: United Neighbors of Oregon
+    signatures: {submitted: null, verified: null, required: null}
+    standing: unconfirmed
+    tag: '[reference]'
+    note: >-
+      Reporting reached only as far as "gathered the required signatures" (2026-07). No
+      certification was obtained. Oregon is in `toledo`'s county but is not the `toledo` point.
+    records_route:
+      body: Lucas County Board of Elections
+      request: R.C. 149.43 — the certification and part petitions for the Oregon charter amendment
+    sources:
+      - 13abc.com 2026-07-16
+      - presspublications.com — "Oregon group gathers required signatures to advance data center petition process"
+
+  - community: Trenton
+    county: Butler County, OH
+    bosc: {site: hamilton-middletown, relation: register-entry, entry: Prologis "Project Mila", status: queued}
+    instrument: charter amendment
+    subject: prohibit the construction of data centers, >25 MW
+    threshold_mw: 25
+    certifying_body: Butler County Board of Elections
+    signatures: {submitted: null, verified: 336, required: 128}
+    standing: ordered-to-ballot
+    tag: '[reference]'
+    litigation:
+      court: Supreme Court of Ohio
+      case_no: '2026-1035'
+      decided: '2026-09-01'
+      holding: >-
+        Trenton City Council improperly refused to certify the charter amendment and
+        "disregarded applicable law"; the city was ordered to certify the petition to the Butler
+        County Board of Elections. The court's own summary is headed "Trenton Must Place
+        Data-Center-Ban Amendment on SPECIAL ELECTION Ballot".
+      slip_opinion: '[open] — not obtained; cite the slip opinion, not the case summary'
+    then: Trenton City Council voted 2026-09-03 to place the measure on the 2026-11-03 ballot.
+    open: >-
+      The court's summary says special election; council placed it on the general. Whether the
+      order and the placement are the same election is '[open]' and turns on the opinion's text.
+    records_route:
+      body: Butler County Board of Elections
+      request: R.C. 149.43 — the certification, the part petitions, and council's original refusal record
+    sources:
+      - courtnewsohio.gov case summary 2026-09-01
+      - wvxu.org 2026-09-01; journal-news.com; wcpo.com
+
+  - community: Pataskala
+    county: Licking County, OH
+    bosc: {site: new-albany, relation: register-entry, entry: Beech Rd corridor, status: tracking}
+    instrument: charter amendment
+    subject: ban data centers drawing over 25 MW
+    threshold_mw: 25
+    certifying_body: Licking County Board of Elections
+    signatures: {submitted: null, verified: null, required: null}
+    standing: certified-to-ballot
+    tag: '[reference]'
+    records_route:
+      body: Licking County Board of Elections
+      request: R.C. 149.43 — certification and part petitions for BOTH the Pataskala and Granville amendments
+    sources:
+      - thereportingproject.org — "Granville voters likely to join Pataskala residents…"
+      - ohiocapitaljournal.com 2026-09-14
+
+  - community: Granville
+    county: Licking County, OH
+    bosc: {site: new-albany, relation: county-adjacent, status: tracking}
+    instrument: charter amendment
+    subject: ban data centers drawing over 25 MW
+    threshold_mw: 25
+    certifying_body: Licking County Board of Elections
+    signatures: {submitted: null, verified: null, required: null}
+    standing: certified-to-ballot
+    tag: '[reference]'
+    records_route:
+      body: Licking County Board of Elections
+      request: see Pataskala — one request covers both
+    sources:
+      - thereportingproject.org
+      - ohiocapitaljournal.com 2026-09-14
+
+  - community: Sunbury
+    county: Delaware County, OH
+    bosc: {site: null, relation: not-registered}
+    instrument: charter amendment
+    subject: 25-MW cap on data-center peak load
+    threshold_mw: 25
+    certifying_body: Delaware County Board of Elections
+    placing_instrument: Sunbury City Council certification, unanimous, 2026-07-15
+    signatures: {submitted: 450, verified: 351, required: 174}
+    standing: certified-to-ballot
+    tag: '[reference]'
+    subject_project: a reported ~$2B data center
+    records_route:
+      body: Delaware County Board of Elections
+      request: R.C. 149.43 — the certification and part petitions
+    sources:
+      - thecooldown.com — "In Sunbury, Ohio, a $2 billion data center fight is headed to the ballot box"
+      - Columbus Dispatch via the above (the 174/450/351 figures)
+
+  - community: Conneaut
+    county: Ashtabula County, OH
+    bosc: {site: null, relation: not-registered}
+    instrument: charter amendment
+    subject: ban data centers drawing over 25 MW
+    threshold_mw: 25
+    certifying_body: Ashtabula County Board of Elections
+    signatures: {submitted: null, verified: null, required: null}
+    standing: unconfirmed
+    tag: '[reference]'
+    note: >-
+      ⚠️ DATED NEGATIVE, 2026-09-16. Conneaut appears ONLY in the Ohio Capital Journal's list of
+      nine. Four searches — the community plus "charter amendment", plus "certified", plus
+      "board of elections", plus the county — returned no local coverage and no certification
+      detail. This is an unconfirmed measure, not a confirmed one with missing numbers.
+    records_route:
+      body: Ashtabula County Board of Elections
+      request: R.C. 149.43 — whether a data-center charter amendment is certified to the 2026-11-03 ballot, and if so its certification and part petitions
+    sources:
+      - ohiocapitaljournal.com 2026-09-14 (list membership only)
+
+  - community: Upper Sandusky
+    county: Wyandot County, OH
+    bosc: {site: null, relation: not-registered}
+    instrument: charter amendment
+    subject: ban data centers drawing over 25 MW
+    threshold_mw: 25
+    certifying_body: Wyandot County Board of Elections
+    signatures: {submitted: null, verified: null, required: null}
+    standing: unconfirmed
+    tag: '[reference]'
+    note: >-
+      ⚠️ DATED NEGATIVE, 2026-09-16. As Conneaut — list membership only, no local coverage
+      reachable, no certification detail. `tiffin` is a BOSC tracking site in neighbouring
+      Seneca County; that is adjacency, not this measure.
+    records_route:
+      body: Wyandot County Board of Elections
+      request: R.C. 149.43 — as Conneaut
+    sources:
+      - ohiocapitaljournal.com 2026-09-14 (list membership only)
+
+  - community: Hubbard
+    county: Trumbull County, OH
+    bosc: {site: lordstown, relation: county-adjacent, status: tracking}
+    instrument: initiative (petitions held by the City Auditor; charter-vs-ordinance '[open]')
+    subject: FULL ban on data centers — no megawatt threshold
+    threshold_mw: null
+    certifying_body: Trumbull County Board of Elections
+    certified_on: '2026-07-16'
+    certified_by: the Hubbard City Auditor
+    public_notice: '2026-07-06'
+    inspection_period: ten days, in the lobby of the Hubbard Municipal Building
+    signatures: {submitted: null, verified: null, required: null}
+    standing: certified-to-ballot
+    tag: '[reference]'
+    note: >-
+      Reported as the only Ohio city voting on a COMPLETE prohibition. The City's own notice does
+      not state the instrument type, the signature count, or the R.C. section it acts under, so
+      "initiative" here is the notice's word and nothing more.
+      ⚠️ Hubbard is Trumbull County and so is `lordstown`. Adjacent is not the same.
+    records_route:
+      body: Trumbull County Board of Elections; City of Hubbard Auditor
+      request: >-
+        R.C. 149.43 — the Auditor's 2026-07-16 certification, the petitions as filed, the
+        signature determination, and the ballot language as certified
+    sources:
+      - cityofhubbard-oh.gov/data-center-petitions/ (municipal notice, published 2026-07-06)
+      - ohiocapitaljournal.com 2026-09-14
+
+  - community: Grove City
+    county: Franklin County, OH
+    bosc: {site: columbus, relation: county-adjacent, status: tracking}
+    instrument: charter amendment — the "Community Consent Amendment"
+    subject: >-
+      requires approval by a vote of the electorate for any industrial development meeting the
+      declared thresholds — NOT data-center-specific and does not name data centers
+    thresholds:
+      acres_min: 50
+      water_gpd_min: 500000
+      mw_min: 20
+    threshold_mw: 20
+    certifying_body: Franklin County Board of Elections
+    signatures: {submitted: '>2000', verified: 'sufficient (count not obtained)', required: null}
+    standing: certified-to-ballot
+    tag: '[reference]'
+    placing_instrument: Grove City Council, unanimous vote to place on the ballot
+    background: >-
+      Grove City Council voted 6-1 on 2026-06-01 for a one-year data-center moratorium, less than
+      a week after a Texas-based developer filed plans for a multi-building complex on >300 acres.
+    note: >-
+      ⚠️ NOT in the premise's list of fourteen. One of the measures this pass found.
+      ⚠️ The three thresholds are DISJUNCTIVE as reported ("and/or"); whether the certified text
+      is any-of or all-of is '[open]' and changes the measure's reach entirely.
+    records_route:
+      body: Franklin County Board of Elections
+      request: >-
+        R.C. 149.43 — the certified ballot language (to settle any-of vs all-of), the sufficiency
+        determination, and the part petitions
+    sources:
+      - nbc4i.com — "Grove City residents submit data center measure for November ballot"; "Grove City to vote on citizen push to block data centers"
+      - cwcolumbus.com; protectgrovecity.org (the campaign's own FAQ — self-published)
+      - ohiocapitaljournal.com 2026-09-14
+
+  - community: Wilmington
+    county: Clinton County, OH
+    bosc: {site: wilmington, relation: site, status: queued}
+    instrument: FOUR referendums against city zoning ordinances
+    subject: strike down zoning ordinances passed by the city
+    threshold_mw: null
+    certifying_body: Clinton County Board of Elections
+    signatures: {submitted: null, verified: null, required: null}
+    standing: certified-to-ballot
+    tag: '[reference]'
+    ordinance_numbers: '[open] — the four ordinances are not identified in any source reached'
+    the_one_that_was_refused:
+      instrument: initiative ordinance, "Regulating Data Centers and Data Center Campuses"
+      would_have_established: Chapter 1161 of Wilmington's zoning code
+      standing: kept-off-ballot
+      certifying_body: Clinton County Board of Elections
+      vote: 4-0, on reconsideration, reported 2026-08-28
+      reasoning: >-
+        BOE legal counsel advised the initiative "creates a new private civil cause of action
+        that Wilmington lacks legislative authority to enact" — i.e. refused on the SCOPE OF
+        MUNICIPAL POWER, not on signatures.
+      author_and_litigant: Quintin Koger Kidd, reported as an IT professional and the ordinance's author
+      note: >-
+        ⚠️ This is a SEPARATE instrument from the four referendums, and the two are easy to
+        collapse. One initiative refused; four referendums certified. A 33-page alternative
+        zoning ordinance is also reported under legal challenge — its relationship to the four
+        referendums is '[open]'.
+    subject_project: Amazon Web Services, reported ~$4B, sited next to a residential subdivision
+    note: >-
+      ⚠️ NOT in the premise's list of fourteen, and Wilmington is a REGISTERED BOSC site with
+      committed places/power/water work (#1470/#1469/#1472). This is the most consequential
+      omission this pass closed. Note also that `wilmington` is Clinton County, Ohio — not
+      Bowling Green KY and not Wilmington DE.
+    records_route:
+      body: Clinton County Board of Elections; City of Wilmington
+      request: >-
+        R.C. 149.43 — the four referendum certifications and their part petitions; the full
+        record of the reconsideration hearing that refused the Chapter 1161 initiative,
+        including counsel's written opinion; and the ordinances the four referendums attack
+    sources:
+      - wnewsj.com 2026-08-28 — "BOE upholds decision to keep Wilmington data center initiative off ballot"
+      - ohiocapitaljournal.com 2026-09-14
+
+  - community: Ashville
+    county: Pickaway County, OH
+    bosc: {site: null, relation: not-registered}
+    instrument: referendum against a village resolution
+    subject: repeal Ashville Resolution No. 06-2026, the Village's preliminary agreement with EdgeConneX
+    threshold_mw: null
+    certifying_body: Pickaway County Board of Elections
+    certified_on: '2026-08-24'
+    certification_vote: 4-0
+    standing: certified-to-ballot
+    tag: '[reference]'
+    litigation:
+      court: Supreme Court of Ohio
+      case_name: State ex rel. McNamara-Smith v. Grube
+      case_no: '2026-0906'
+      slip_opinion: 2026-Ohio-3035
+      decided: '2026-08-07'
+      relators: Laura McNamara-Smith and others
+      respondent: April Grube, village fiscal officer
+      holding: >-
+        Resolution No. 06-2026 did not meet the requirements for an emergency measure because it
+        "does not explain WHY waiting 30 days for the resolution to take effect would
+        unnecessarily delay the EdgeConneX project"; it is therefore subject to referendum, and
+        the fiscal officer was ordered to submit the petition to the board of elections for the
+        2026-11-03 ballot.
+    underlying_project: >-
+      EdgeConneX — two data centers and an ~800 MW natural-gas power plant on about 195 acres of
+      village property. Resolution 06-2026 (April 2026) approved the agreement terms AND
+      suspended a data-center moratorium the Village Council had passed in December 2025.
+    later: >-
+      Ashville Council was reported on 2026-09-04 to be weighing REPEAL of the data-center deal.
+      A repeal before the election would change what the referendum operates on. '[open]'
+    note: >-
+      ⚠️ NOT in the premise's list of fourteen. The only measure here attacking a SIGNED
+      AGREEMENT rather than a zoning or charter provision, and the only one whose underlying
+      project pairs a campus with its own merchant gas plant.
+    records_route:
+      body: Pickaway County Board of Elections; Village of Ashville
+      request: >-
+        R.C. 149.43 — the 2026-08-24 certification and its minutes, the part petitions, and from
+        the Village, Resolution 06-2026, the December 2025 moratorium, and the EdgeConneX
+        preliminary agreement
+    sources:
+      - courtnewsohio.gov case summary 2026-08-07
+      - wosu.org 2026-08-07; ohiocapitaljournal.com 2026-08-14; sciotopost.com; abc6onyourside.com
+      - sciotovalleyguardian.com 2026-09-04 (the repeal item)
+
+  - community: Sidney
+    county: Shelby County, OH
+    bosc: {site: sidney, relation: site, status: live + selectable}
+    instrument: three petitions — one charter amendment adjudicated, the other two unidentified
+    threshold_mw: null
+    certifying_body: Shelby County Board of Elections
+    standing: ballot-date-open
+    tag: '[reference]'
+    the_adjudicated_one:
+      subject: >-
+        a charter amendment establishing a UNIFORM PROCEDURE FOR RECALLING ELECTED CITY
+        OFFICIALS — recall procedure, not a data-center measure
+      committee: Matthew Turner Jr., Steven Taylor, Marcia Montgomery
+      filed: '2026-07'
+      signatures: {submitted: 561, verified: null, required: null}
+      litigation:
+        court: Supreme Court of Ohio
+        case_name: State ex rel. Turner v. Barhorst
+        case_no: '2026-1088'
+        slip_opinion: 2026-Ohio-3439
+        decided: '2026-09-03'
+        holding: >-
+          City Clerk Kari Egbert rejected the petition as "facially invalid and insufficient"
+          because the committee had not filed a copy of the proposed amendment with her office
+          before circulating, citing R.C. 731.32. The Court held R.C. 731.32 applies only to
+          initiatives to ADOPT CITY ORDINANCES and to REFERENDUMS challenging ordinances — not to
+          charter amendments. The city must submit the petition to the Shelby County Board of
+          Elections for verification; if sufficient, Sidney must place it on an election ballot
+          under Ohio Const. art. XVIII, §8.
+    the_other_two: '[open] — reported as "a trio", not enumerated in any source reached'
+    ballot_date: >-
+      '[open]'. Reporting says the trio "will likely become a SPECIAL ELECTION" — the
+      2026-09-03 decision landed one day before the 2026-09-04 charter-amendment filing
+      deadline, and the Court ordered verification, which had not occurred. Whether any Sidney
+      question appears on 2026-11-03 is unresolved. Do NOT list Sidney as a November measure.
+    note: >-
+      ⚠️ Sidney is live + selectable and its committed record (data/extracted/sidney/) already
+      carries the Merck/PILOT and zoning history. This is a governance thread its published
+      picture does not yet carry.
+      ⚠️ The adjudicated instrument is about RECALL. See do_not_conflate above.
+    records_route:
+      body: Shelby County Board of Elections; City of Sidney Clerk
+      request: >-
+        R.C. 149.43 — the three petitions as filed, the Clerk's rejection letters, the Court's
+        mandate as executed, the Shelby County BOE's verification of the 561 signatures, and the
+        determination of which election the questions are set for
+    sources:
+      - courtnewsohio.gov case summary 2026-09-03
+      - ohiocapitaljournal.com 2026-09-14
+
+  - community: two Adams County townships (Ohio River)
+    county: Adams County, OH
+    bosc: {site: west-union, relation: site, status: queued}
+    instrument: township zoning plans / zoning amendments
+    subject: zoning to preserve "rural and agricultural character"
+    threshold_mw: null
+    certifying_body: Adams County Board of Elections
+    standing: unconfirmed
+    tag: '[inference]'
+    which_two: >-
+      ⚠️ '[inference]', NOT established. Reporting names the two only as "two Adams County
+      townships on the Ohio River". The corpus's west-union register records, both dated
+      2026-03-02: SPRIGG TOWNSHIP (home of the Stuart plant) passing a one-year VOLUNTARY
+      data-center moratorium with no land-use force, and MONROE TOWNSHIP (27 sq mi, includes the
+      Killen plant) passing a resolution to establish a ZONING COMMISSION. Monroe's zoning
+      commission is a direct mechanical fit for "a zoning plan on the ballot" — R.C. 519 requires
+      an electoral vote to adopt township zoning. Sprigg's moratorium is not.
+      SO THE PAIRING IS AN INFERENCE FROM ADJACENCY AND MECHANISM, and Sprigg is the weaker half.
+      DO NOT NAME THEM WITHOUT THE ADAMS COUNTY BOE.
+    underlying_project: >-
+      A potential data center reported to use more than 20 times the county's own power
+      consumption — the AWS Buck Canyon campus recorded in data/extracted/west-union/.
+    records_route:
+      body: Adams County Board of Elections
+      request: >-
+        R.C. 149.43 — WHICH townships have a zoning question certified to the 2026-11-03 ballot,
+        the certified ballot language, the resolutions that placed them, and the part petitions
+        if petition-initiated
+    sources:
+      - wvxu.org 2026-08-25 (the Monroe/Sprigg 2026-03-02 resolutions)
+      - wcpo.com — "Adams County data center gets federal permit, as voters sign petitions to block it"
+      - ohiocapitaljournal.com 2026-09-14
+
+# ── The R.C. 149.43 queue ────────────────────────────────────────────────────────────────
+pulls:
+  - priority: 1
+    body: Ohio Secretary of State
+    what: >-
+      The certified list of local questions and issues for the 2026-11-03 general election.
+      ONE request that settles the count gap, every "unconfirmed" standing above, the exact
+      certified ballot language, and whether Sidney appears at all.
+    why_first: >-
+      It is the only single route that answers the whole file. Fourteen separate county requests
+      answer the same question at fourteen times the cost.
+  - priority: 2
+    bodies:
+      - Clinton County Board of Elections — Wilmington's four referendums and the refused Chapter 1161 initiative
+      - Miami County Board of Elections — Piqua's one-or-two questions, and the SoS timeliness correspondence
+      - Champaign County Board of Elections — Urbana's 7.5-MW certification
+      - Adams County Board of Elections — WHICH two townships
+      - Shelby County Board of Elections — Sidney's three petitions and their election date
+    why: >-
+      The five that touch a registered site's own published governance picture. Wilmington,
+      Piqua and Urbana are the three where a live or queued BOSC site is publishing a governance
+      section that omits a pending measure against its own facility.
+  - priority: 3
+    what: >-
+      The four slip opinions, from the Supreme Court of Ohio's own reporter rather than from
+      Court News Ohio summaries — 2026-Ohio-3035 (Ashville), 2026-Ohio-3439 (Sidney),
+      the Trenton decision of 2026-09-01 (No. 2026-1035, slip citation not obtained), and any
+      decision in the pending signature-requirement case Piqua's law director referenced.
+    why: >-
+      Court News Ohio is the Court's news service, not its reporter. A holding is cited to the
+      opinion. Every litigation block above is '[reference]' for exactly this reason and
+      upgrades to '[verified]' only on the captured opinion.
+
+# ── What this file must not be read as ───────────────────────────────────────────────────
+standing_limits:
+  no_outcomes: >-
+    Every measure is PENDING. This file records questions certified, refused, or unconfirmed —
+    never what a community decided. Re-read it after 2026-11-03 and the standings change; the
+    claims do not become retroactively stronger.
+  no_readiness_effect: >-
+    Nothing here may move a site's `readiness`. Readiness is domain activation off committed
+    evidence (watermark.site.readiness); a pending ballot question is not a record domain and
+    does not seed one. If a certification is later captured into data/documents/ and extracted,
+    THAT can lift a record domain — the ballot measure itself cannot.
+  no_verified_claims: >-
+    This file contains none, by construction. Press, a court's news service, and a city's own
+    web notice are all '[reference]'. The first captured certification converts its own measure
+    and nothing else.
+
+next_check:
+  set_on: '2026-09-16'
+  cadence: >-
+    WEEKLY through 2026-11-03, then once immediately after the election. The election is a hard
+    dated trigger, not an interval — and the pre-election window is when the certification
+    record is live and cheapest to obtain. The Ashville repeal item (2026-09-04) and the
+    Sidney/Piqua certification questions can each move inside a week.
+  dated_triggers:
+    - date: '2026-09-23'
+      what: SoS certified list of local questions and issues — the priority-1 pull
+    - date: '2026-10-06'
+      what: >-
+        Ballot language is final and printed by now for a 2026-11-03 election; capture the
+        certified language for all measures rather than the press paraphrase
+    - date: '2026-11-03'
+      what: Election day. Every `standing` in this file expires.
+    - date: '2026-11-10'
+      what: >-
+        Official canvass begins. Do not record an outcome from election-night returns; the
+        canvass and the BOE's abstract of votes are the instruments.

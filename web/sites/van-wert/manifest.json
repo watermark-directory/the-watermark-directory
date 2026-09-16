@@ -2,9 +2,9 @@
   "site": "van-wert",
   "bundle_version": "1.0.0",
   "contract_version": "2.4.0",
-  "generated_at": "2026-09-16T17:51:13+00:00",
+  "generated_at": "2026-09-16T21:49:16+00:00",
   "feed_count": 36,
-  "row_total": 868,
+  "row_total": 869,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -229,7 +229,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 66
+      "count": 67
     },
     {
       "name": "geo/campus",

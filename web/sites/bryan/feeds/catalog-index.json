@@ -1,6 +1,6 @@
 {
   "site": "bryan",
-  "catalog_version": "50800473d145b752e49f4560f226081013114b41536fa8ab09e7ce5fb7239341",
+  "catalog_version": "01b59a434851cfc86f6fb17d166c273dfd16ba94b67ba4259a25cdd2e9177ba7",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -857,6 +857,14 @@
       "site": "bryan",
       "local_id": "hydrology-routing",
       "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:bryan:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "bryan",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {
