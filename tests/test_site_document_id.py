@@ -150,7 +150,18 @@ def test_no_collision_across_the_committed_corpus() -> None:
     # `filename-map.yaml`, which accounts for all 18. Complete coverage, not a deferral.
     # Reviewed: 3394 rels, 3394 distinct rels, 3394 distinct handles — zero collisions, checked as
     # a set rather than inferred from the delta.
-    assert len(rels) == 3394, "a corpus change belongs in review, not a silent collision"
+    # 3394 → 3396 (the Lima data-center moratorium): the City of Lima council AGENDA and PACKET for
+    # the regular meeting of 2026-09-14, carrying Ordinance 198-26 at packet pp. 154-156. They open
+    # a NEW `lima/council/` sub-collection rather than joining `lima/meetings/`, which is the civic
+    # loader's manifest-managed subtree for body slug `lima` — and they came from a route that tree
+    # has never pulled: the CivicPlus Agenda Center's City Council category stops at 2024-05-06 and
+    # the live portal is PrimeGov. Both keep their as-received PrimeGov names
+    # (`Meetings<meetingId><Template>_<timestamp>.pdf`, from `Content-Disposition`); the canonical
+    # names are in `data/documents/lima/council/filename-map.yaml`.
+    # Reviewed: 3396 rels, 3396 distinct rels, 3396 distinct handles — zero collisions, checked as
+    # a set rather than inferred from the delta. The two new handles are `p5ebfg0z` (agenda) and
+    # `4tc6w0ma` (packet).
+    assert len(rels) == 3396, "a corpus change belongs in review, not a silent collision"
     assert len({document_id(rel) for rel in rels}) == len(rels)
     # The count alone is a weak proxy: a delete-one-add-one leaves it at 3362. Name the two
     # committed BOSC-1A eDocs, and assert the two DEFERRED plan sets are absent — the deferral

@@ -202,7 +202,7 @@ describe("the join, against the committed Lima bundle", () => {
   // `data/extracted/oepa/lima/2dp00130-surrogate-characterization.yaml`, which is deliberately
   // shaped so `corpus._classify` DECLINES it — it is a reading, not a record, and must never
   // count here.
-  it("extracts 158 of 3,394 documents — 4.7% of the corpus", () => {
+  it("extracts 159 of 3,396 documents — 4.7% of the corpus", () => {
     const entries = documents.flatMap((c) => c.entries);
     // 3,362 -> 3,382 (City of Lima PRR, #1536): the twenty committed files of the City's first
     // public-records production, under `legal/prr-mandamus/prr-production-2026-08-{22,24}-lima/`.
@@ -230,8 +230,18 @@ describe("the join, against the committed Lima bundle", () => {
     // certifications that the *BOSC* portal sweep listed in August and nobody had fetched. The
     // sweep named 18 rows; they are 12 distinct byte-streams, and the six duplicate docids are
     // recorded in the shelf's filename-map rather than committed twice.
-    expect(entries.length).toBe(3394);
-    expect(countExtracted(entries, index)).toBe(158);
+    // 3,394 -> 3,396 (the moratorium acquisition): the City of Lima council AGENDA and PACKET for
+    // the regular meeting of 2026-09-14, shelved under the NEW `lima/council/` sub-collection. They
+    // came from a different portal than everything already under `lima/meetings/` — the CivicPlus
+    // Agenda Center's City Council category stops at 2024-05-06 and the live route is PrimeGov — so
+    // they are two documents from a route this corpus had never pulled.
+    // 158 -> 159: ONE of the two joins. `lima/council/2026-09-14-ord-198-26-data-center-
+    // moratorium.resolution.yaml` names the PACKET as its `source.file`, because the ordinance text
+    // is printed at pp. 154-156 of the packet. The AGENDA is carried as `source.companion_file`,
+    // which `_source_ref` does not read, so it raises the denominator only — the same
+    // one-extraction-over-several-documents shape as the §401 backfill above.
+    expect(entries.length).toBe(3396);
+    expect(countExtracted(entries, index)).toBe(159);
   });
 
   it("is near-complete on the small instrument collections, and thin across the big holdings", () => {
@@ -327,7 +337,11 @@ describe("the join, against the committed Lima bundle", () => {
     // documents, for the reason given above.
     // 160 -> 163: the TMDL allocation record, the 2DP00130 conveyance record and the BOSC §401
     // certification record — all three `permits-epa`, all three naming their source document.
-    expect(records.length).toBe(163);
+    // 163 -> 164: `lima/council/…ord-198-26-data-center-moratorium.resolution.yaml`, the City of
+    // Lima's eighteen-month data-center moratorium, publishing into `local-legislation` — the same
+    // group the Van Wert and Sidney council resolutions use. One record from the two documents
+    // acquired, for the `source.companion_file` reason given on the denominator above.
+    expect(records.length).toBe(164);
     // 5 -> 3, and this is the deliberate change the note below predicted. `_source_ref` now
     // resolves three further committed provenance shapes — `provenance.source_path` /
     // `provenance.sources`, the connector read's `meta.sources` (a dict of NAMED lists, so every
@@ -349,6 +363,8 @@ describe("the join, against the committed Lima bundle", () => {
     // 155 -> 158: all three new records — the TMDL allocation, the 2DP00130 conveyance and the
     // BOSC §401 certifications — name a source document, so the join and the record move together
     // — as at #2089 and unlike #2088.
-    expect(index.size).toBe(158);
+    // 158 -> 159: the moratorium record names the council packet as its source, so the join and the
+    // record move together — as at #2089 and unlike #2088. The agenda reaches neither side.
+    expect(index.size).toBe(159);
   });
 });
