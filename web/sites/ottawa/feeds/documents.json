@@ -48,6 +48,51 @@
         "canonical_document_id": null,
         "version": null,
         "supersedes": []
+      },
+      {
+        "rel": "oepa/ottawa/edoc-4208516.pdf",
+        "name": "edoc-4208516.pdf",
+        "size_bytes": 660900,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": true,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
+      },
+      {
+        "rel": "oepa/ottawa/edoc-4251474.pdf",
+        "name": "edoc-4251474.pdf",
+        "size_bytes": 878025,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
+      },
+      {
+        "rel": "oepa/ottawa/edoc-4255174.pdf",
+        "name": "edoc-4255174.pdf",
+        "size_bytes": 1534587,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": true,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
       }
     ]
   },

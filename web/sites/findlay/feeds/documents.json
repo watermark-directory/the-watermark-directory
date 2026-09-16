@@ -2649,6 +2649,21 @@
         "canonical_document_id": null,
         "version": null,
         "supersedes": []
+      },
+      {
+        "rel": "oepa/findlay/edoc-4232502.pdf",
+        "name": "edoc-4232502.pdf",
+        "size_bytes": 382430,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": true,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
       }
     ]
   }
