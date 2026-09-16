@@ -507,3 +507,53 @@ withhold:
     # collection review, which was written before page 7 was seen.
     # review: { by: goedelsoup, date: 2026-08-14, result: withhold, basis: aggregated-personal-contact-details }
     - van-wert/council/5.11.26.pdf
+    # Ottawa Village "Verification of Lead Consumer Notice Issuance", eDoc docid 4251474,
+    # published to the Ohio EPA portal 2026-08-27. Cleared boundary (the `oepa` collection's
+    # standing auto-publish rule), carved back out on the screen that rule's own ⚠️ note demands
+    # of every new oepa/<slug> pull.
+    #
+    # Page 3 is a completed Consumer Notice of Tap Water Lead Testing Result naming a PRIVATE
+    # INDIVIDUAL and his home address in the same line, twice — once as the addressee and once as
+    # "Location of sample: … (Resident/Business: …)" — beside that tap's lead result and the
+    # 2026-08-13 collection date. That is a named person's residential address bound to a
+    # health-related test result at their home. It is a smaller aggregation than the Findlay
+    # directory or the Van Wert council roster and a sharper disclosure than either, because the
+    # address is not incidental to the document — the document exists to report a result AT that
+    # address.
+    #
+    # ⚠️ THE TEXT LAYER DOES NOT SHOW IT THE WAY YOU WOULD EXPECT. The form's completed header
+    # fields are handwritten and extract as noise ("PWS Name: ~' fi'( ~, ~ /"), which reads like a
+    # document with nothing legible in it. The notice on page 3 is rendered text and IS
+    # extractable — so this file would have failed a "handwriting, therefore unreadable" dismissal
+    # and passed a careless skim of page 1. It was caught by rendering every page, which is the
+    # method the van-wert/council/5.11.26.pdf carve-out above established after a PII regex
+    # returned a false clean there.
+    #
+    # Withhold is exposure control, not removal: the bytes stay in the corpus, the manifest entry
+    # and its provenance are untouched, and the research agent still reads it. Only the public
+    # download and the passage index lose it. Nothing in the Ottawa water record rests on this
+    # document — it is cited in data/extracted/ottawa/water-watch.yaml only as evidence that the
+    # lead consumer-notice process was in play, and that citation survives the withhold.
+    #
+    # The other addresses in the 2026-09-16 oepa pull were screened at the same time and are all
+    # institutional: 515 E. Main St. (City of Van Wert), 347 N. Dunbridge Road (Ohio EPA NWDO),
+    # 50 W. Town Street (Ohio EPA CO), 136 N Oak St. and 1972 S Agner St. (Ottawa village hall and
+    # water plant), 256 Williamstown Rd (Putnam County Health Department), 1201 South River Rd and
+    # 301 South Main Street (Findlay WPCF and city). Two Van Wert TTHM distribution sample points
+    # (2115 N. Washington St., one of them expressly a hydrant, and 800 N. Washington St. in
+    # edoc-4253933.pdf) carry NO NAME and are monitoring locations rather than lead premise
+    # samples; they are recorded here as examined and left published, not overlooked.
+    #
+    # The carve-out was applied fail-safe by the agent that shelved the document, before review,
+    # because publishing something it could not fully read would have been the irreversible
+    # direction. The operator was shown the finding and directed the withhold to stand.
+    # Reversing it is a one-line delete plus `watermark passages` — but that re-publishes the
+    # individual's name, home address, tap lead result and collection date as a searchable
+    # passage, so it should be a decision taken on the facts above.
+    # review: { by: goedelsoup, date: 2026-09-16, result: withhold, basis: personal-contact-details }
+    # ⚠️ THE REL IS COLLECTION-PREFIXED. Written first as `ottawa/edoc-4251474.pdf`, which matched
+    # NOTHING and published the document anyway — a withhold rule that does not match fails OPEN
+    # and looks identical to one that works. The rel is the path under data/documents/, so the
+    # `oepa` collection segment is part of it. Verify a new carve-out by grepping
+    # data/site/passages.ndjson after `watermark passages`, never by reading the rule.
+    - oepa/ottawa/edoc-4251474.pdf

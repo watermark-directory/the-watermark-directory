@@ -226,6 +226,7 @@
     "oepa/findlay/2PD00008.1abaf306.pdf",
     "oepa/findlay/2PD00008.fs.pdf",
     "oepa/findlay/2PD00008.pdf",
+    "oepa/findlay/edoc-4232502.pdf",
     "oepa/greenville/1PD00005.pdf",
     "oepa/hamilton-middletown/1PE00002.pdf",
     "oepa/hamilton-middletown/1PE00003.pdf",
@@ -348,6 +349,8 @@
     "oepa/ottawa/2PD00028.e00560a8.pdf",
     "oepa/ottawa/2PD00028.fs.pdf",
     "oepa/ottawa/2PD00028.pdf",
+    "oepa/ottawa/edoc-4208516.pdf",
+    "oepa/ottawa/edoc-4255174.pdf",
     "oepa/piketon/0PB00031.pdf",
     "oepa/portsmouth/0PD00013.pdf",
     "oepa/sandusky/2PF00001.pdf",
@@ -389,6 +392,11 @@
     "oepa/van-wert/2PD00006.pdf",
     "oepa/van-wert/edoc-4208904.pdf",
     "oepa/van-wert/edoc-4208905.pdf",
+    "oepa/van-wert/edoc-4233843.pdf",
+    "oepa/van-wert/edoc-4235938.pdf",
+    "oepa/van-wert/edoc-4236096.pdf",
+    "oepa/van-wert/edoc-4236116.pdf",
+    "oepa/van-wert/edoc-4253933.pdf",
     "oepa/van-wert/stormwater/edoc-4209395.pdf",
     "oepa/van-wert/stormwater/edoc-4209396.pdf",
     "oepa/van-wert/stormwater/edoc-4209398.pdf",
@@ -498,6 +506,6 @@
     "west-union/acrwd/minutes/Minutes -January 2024.pdf",
     "west-union/acrwd/minutes/Minutes-July 26.pdf"
   ],
-  "documents_with_passages": 400,
-  "passage_count": 8155
+  "documents_with_passages": 408,
+  "passage_count": 8203
 }
