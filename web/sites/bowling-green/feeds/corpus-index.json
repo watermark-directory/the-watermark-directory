@@ -943,7 +943,7 @@
     "links_out": 1,
     "links_in": 0,
     "lines": 20,
-    "updated": "2026-08-01"
+    "updated": "2026-09-16"
   },
   {
     "id": "question/lead-apollo-no-hearings",
@@ -1020,7 +1020,7 @@
     "links_out": 1,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-01"
+    "updated": "2026-09-16"
   },
   {
     "id": "question/lead-firstenergy-infrastructure-spend",
@@ -1251,7 +1251,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-01"
+    "updated": "2026-09-16"
   },
   {
     "id": "record/bowling-green-record-watch",
@@ -1262,7 +1262,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-05"
+    "updated": "2026-09-16"
   },
   {
     "id": "record/bowling-green-water-watch",
@@ -1273,7 +1273,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-01"
+    "updated": "2026-09-16"
   },
   {
     "id": "record/grid-bowling-green-apollo-power-generation-facil",
