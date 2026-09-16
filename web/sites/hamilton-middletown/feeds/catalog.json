@@ -169,8 +169,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "31a161451e7635dc44bb00bb24db867f74979b8ffd2e096e82605d90176d680f",
-      "size_bytes": 11603,
+      "sha256": "a07c8e00d147510988ff81c3d5a915b439307b02367c6c1eaa0771f1ccec7c19",
+      "size_bytes": 13618,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -227,8 +227,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "3513ec96aa12b058233f3eb29bbb9fe55aef54a30284a4f3ef3c1c0bbf17a029",
-      "size_bytes": 21534,
+      "sha256": "a9ee2d9f91e3be746b8edc0ff7d3204d8c3513db91a854e5bdc385186fe7dae6",
+      "size_bytes": 23549,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": false,
@@ -303,6 +303,64 @@
       "confidence": "medium",
       "note": null,
       "verified": true
+    }
+  },
+  {
+    "id": "legal-datacenter-ballot-2026-11",
+    "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
+    "scope": "extracted",
+    "collection": "legal",
+    "status": "reviewed",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "Ohio Capital Journal (2026-09-14) and the local outlet closest to each measure; the Supreme Court of Ohio's case summaries for the four measures that reached it (2026-Ohio-3035 Ashville, 2026-Ohio-3439 Sidney, No. 2026-1035 Trenton); the City of Hubbard's own petition notice (2026-07-06) — reduced by hand to county, instrument type, threshold, certifying body and standing. NO board-of-elections certification was obtained; the R.C. 149.43 queue that would obtain one is carried in the record itself.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "state:OH",
+    "cadence": "weekly",
+    "ttl_days": 7,
+    "last_refreshed": "2026-09-16",
+    "tags": [
+      "data-centers",
+      "ballot-measure",
+      "charter-amendment",
+      "referendum",
+      "governance",
+      "conserve-ohio",
+      "r.c.-149.43"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/legal/datacenter-legislation/local-ballot-2026-11.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/datacenter-legislation/local-ballot-2026-11.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "ce99277d0d627faa7aa293b649ad702b0f2880aa37b3d87cb154a1f7cd8d7ff3",
+      "size_bytes": 48083,
+      "lfs_materialized": true,
+      "file_count": 2,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Ohio Capital Journal (2026-09-14) and the local outlet closest to each measure; the Supreme Court of Ohio's case summaries for the four measures that reached it (2026-Ohio-3035 Ashville, 2026-Ohio-3439 Sidney, No. 2026-1035 Trenton); the City of Hubbard's own petition notice (2026-07-06) — reduced by hand to county, instrument type, threshold, certifying body and standing. NO board-of-elections certification was obtained; the R.C. 149.43 queue that would obtain one is carried in the record itself.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
     }
   },
   {

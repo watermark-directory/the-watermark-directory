@@ -1,6 +1,6 @@
 {
   "site": "defiance",
-  "catalog_version": "4d825e7a7183977dcaba8b85db3ccbacea243a25059ae095c20ea269a0572e7a",
+  "catalog_version": "9a8e6a13c21b6dfbb34afcfda1f0986c40d3e551e6657959c454bf0c56428edb",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "defiance",
       "local_id": "hydrology-routing",
       "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:defiance:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "defiance",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

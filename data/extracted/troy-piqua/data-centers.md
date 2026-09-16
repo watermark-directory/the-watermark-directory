@@ -330,3 +330,31 @@ asserted above its tag. Next-check triggers:
   corporate-filing refresh, 2026-07-11
 - thislocallife.com (Piqua Land Company / New Albany Company prior-ownership lead) — a single
   non-primary source, uncorroborated
+
+## Ballot thread — 2026-11-03 (added 2026-09-16)
+
+**Piqua — charter §138, 25 MW, certified to the ballot.** City of Piqua Ordinance
+**O-11-26** (as amended) places a charter amendment titled "Prohibition of Construction of a data
+center" on the 2026-11-03 ballot, capping data centers at **25 MW**. The Miami County Board of
+Elections verified **352 of 440** submitted signatures. `[reference]`
+
+- ⚠️ **A second amendment may also be on it.** Save Piqua submitted a further §138 amendment on
+  **2026-08-11** prohibiting "the construction, use and expansion of data centers and
+  cryptocurrency-mining operations", and the Miami County BOE asked the **Secretary of State**
+  whether it was filed in time. Whether Piqua carries one question or two is `[open]`.
+- **Three recall petitions** — Mayor Jim Vetter, Vice Mayor Frank DeBrosse, Ward 3 Commissioner
+  Rick Walker — are reported at "more than 1,250 signatures on each of the four petitions."
+  Recall is **not** a data-center measure; it is recorded so the count is not inflated by it.
+  `[reference]`
+- Piqua's law director is reported noting a **pending Supreme Court of Ohio case on signature
+  requirements** that "could change the certification." Unidentified. `[open]`
+- ⚠️ This is **not** lead `BALLOT-2027`. That lead tracks the *statewide* Conserve Ohio amendment,
+  which failed to qualify for 2026. The Piqua charter amendment is a separate local instrument and
+  it **did** qualify. Do not let the statewide failure read onto it.
+
+The network-level record is
+[`data/extracted/legal/datacenter-legislation/local-ballot-2026-11.md`](../legal/datacenter-legislation/local-ballot-2026-11.md)
+and its structured peer. **No certification is captured** — the controlling instrument is a county
+board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
+is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
+instrument and it does not move this site's `readiness`.

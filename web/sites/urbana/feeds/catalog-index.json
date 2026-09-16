@@ -1,6 +1,6 @@
 {
   "site": "urbana",
-  "catalog_version": "79fef285ee44f511baaeebce28840e8baf3fa63bd9af4291f04166848c734a15",
+  "catalog_version": "7e764c74fc394194e9bc06a7a7becef2d3882ddda5e7bb2047c28e20065e188c",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -841,6 +841,14 @@
       "site": "urbana",
       "local_id": "hydrology-routing",
       "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:urbana:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "urbana",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

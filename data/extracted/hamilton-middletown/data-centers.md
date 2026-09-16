@@ -153,3 +153,31 @@ on the next pass.
 - City of Trenton Sewer: [trentonoh.gov/238/Sewer](https://trentonoh.gov/238/Sewer)
 - Butler County wastewater: [bcohio.gov wastewater](https://www.bcohio.gov/board_of_commissioners/commissioner_departments/water_sewer/wastewater.php)
 - Stop Ohio Data Centers (advocacy, leads only): [stopohiodatacenters.org/butler-county](https://stopohiodatacenters.org/butler-county)
+
+## Ballot thread — 2026-11-03 (added 2026-09-16)
+
+**Trenton — 25 MW charter amendment, ordered onto the ballot over the
+city's refusal.** This reaches the **Prologis "Project Mila"** entry in this register. `[reference]`
+
+- Neighbours opposing two large-scale projects submitted a charter amendment petition in **July
+  2026** to prohibit the construction of data centers over **25 MW**, gathering **336 valid
+  signatures against the 128 required**. **City council rejected it**, claiming insufficient
+  signatures.
+- The **Supreme Court of Ohio** (No. **2026-1035**, decided **2026-09-01**) held that Trenton City
+  Council **improperly refused to certify** the amendment and "disregarded applicable law", and
+  ordered the city to certify the petition to the **Butler County Board of Elections**. Trenton
+  City Council then voted **2026-09-03** to place it on the 2026-11-03 ballot.
+- ⚠️ The Court's own case summary is headed "Trenton Must Place Data-Center-Ban Amendment on
+  **Special Election** Ballot", while council placed it on the **general**. Whether the order and
+  the placement name the same election is `[open]` and turns on the opinion's text — which is not
+  captured. Court News Ohio is the Court's news service, not its reporter.
+- ⚠️ **Trenton is a register entry here, not a BOSC site.** Any extraction from this thread must be
+  shelved under its owning collection and site subdirectory; filed flat it lands in Lima's
+  reference record (`_eponymous_prefixes`, #1405).
+
+The network-level record is
+[`data/extracted/legal/datacenter-legislation/local-ballot-2026-11.md`](../legal/datacenter-legislation/local-ballot-2026-11.md)
+and its structured peer. **No certification is captured** — the controlling instrument is a county
+board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
+is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
+instrument and it does not move this site's `readiness`.

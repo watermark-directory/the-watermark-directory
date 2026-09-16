@@ -383,3 +383,31 @@ siting case, and the retired substation premise) and
   `data/reference/eia/wilmington/grid-profile.yaml` · `data/documents/oepa/wilmington/`
   (the 7 extracted NPDES permits + the WWTP fact sheet `1PD00013.fs.pdf`; indexed by
   `data/catalog/extracted/oepa-wilmington.yaml`)
+
+## Ballot thread — 2026-11-03 (added 2026-09-16)
+
+**Wilmington — four referendums certified, and a fifth instrument refused.**
+`[reference]`
+
+- **Four referendums** against city zoning ordinances are on the 2026-11-03 ballot. The four
+  ordinance numbers are **`[open]`** — not identified in any source reached.
+- ⚠️ **A fifth, separate instrument was kept off the ballot.** An initiative ordinance titled
+  **"Regulating Data Centers and Data Center Campuses"**, which would have established **Chapter
+  1161** of Wilmington's zoning code, was refused by the **Clinton County Board of Elections**
+  **4–0** on reconsideration (reported **2026-08-28**). BOE legal counsel's ground was the **scope
+  of municipal power** — the initiative "creates a new private civil cause of action that
+  Wilmington lacks legislative authority to enact" — **not signatures**. Its author and litigant is
+  reported as Quintin Koger Kidd.
+- **Four certified, one refused. Do not collapse them**, and do not read the refusal as a
+  signature failure. A **33-page alternative zoning ordinance** is also reported under legal
+  challenge; its relationship to the four referendums is `[open]`.
+- The underlying project is the reported **~$4B Amazon Web Services** facility, sited next to a
+  residential subdivision — the same campus this register's §1 and the power instruments (#1469)
+  already carry.
+
+The network-level record is
+[`data/extracted/legal/datacenter-legislation/local-ballot-2026-11.md`](../legal/datacenter-legislation/local-ballot-2026-11.md)
+and its structured peer. **No certification is captured** — the controlling instrument is a county
+board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
+is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
+instrument and it does not move this site's `readiness`.

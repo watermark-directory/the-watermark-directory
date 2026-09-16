@@ -1,6 +1,6 @@
 {
   "site": "west-union",
-  "catalog_version": "75b5aafcedef5c0c2842cdabdf0cca02efd4448825a282bce67f3a9069330289",
+  "catalog_version": "ef48850790c7b8bf16cd3ebb3c249eacf2038070d26bdeb5b6798a31112ba043",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -857,6 +857,14 @@
       "site": "west-union",
       "local_id": "hydrology-routing",
       "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:west-union:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "west-union",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

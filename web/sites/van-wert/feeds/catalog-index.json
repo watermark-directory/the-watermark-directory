@@ -1,6 +1,6 @@
 {
   "site": "van-wert",
-  "catalog_version": "9aefad3ffb334124d75ace4af435115cf496b9a4eeb38b6fd98ce1a6b8979481",
+  "catalog_version": "2cfb6fc65579cc43a1dad94e7f5993edf2281a9bb590b9b7fa89583f85316ce0",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "van-wert",
       "local_id": "hydrology-routing",
       "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:van-wert:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "van-wert",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

@@ -1154,8 +1154,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "3513ec96aa12b058233f3eb29bbb9fe55aef54a30284a4f3ef3c1c0bbf17a029",
-      "size_bytes": 21534,
+      "sha256": "a9ee2d9f91e3be746b8edc0ff7d3204d8c3513db91a854e5bdc385186fe7dae6",
+      "size_bytes": 23549,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": false,
@@ -1327,8 +1327,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "b036a43f0607189266b5e1db6e2953b31c422a92f56f8f825b82388ff5df4cd2",
-      "size_bytes": 60439,
+      "sha256": "d53899c3ea6985717024e814c121a10345c80bc8a8812548e1c25c01e23d2927",
+      "size_bytes": 62496,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -1381,8 +1381,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "2d2f8d9d8ea4d936013df62e41eb3c91d1cc6080d6acd7df13cc7ff8bc8ad3bc",
-      "size_bytes": 27853,
+      "sha256": "79361d06effdf8aa8fd68efc5827ef0b623eff97725c4c6cb57c316ad65d7caa",
+      "size_bytes": 29877,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -1495,8 +1495,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "bbbfaaa072badc847d80bd53f292c5ada698f35411a0e18e44f5bf843b1b270f",
-      "size_bytes": 35281,
+      "sha256": "be8a65ac3043fc221fb4ce7993fefba82ae657145b3dc331677527bb77316756",
+      "size_bytes": 37244,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -1553,8 +1553,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "6e7c3a26f6f9ee7aa89c144ab1461257b455f4cc2d195dac4fa3920cf31becad",
-      "size_bytes": 29150,
+      "sha256": "ecd86a0fd43d743b05c0bab2554f4dc6ed95d06cac3525b41bc733e350c4cabe",
+      "size_bytes": 31058,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -2695,6 +2695,64 @@
       "confidence": "medium",
       "note": null,
       "verified": true
+    }
+  },
+  {
+    "id": "legal-datacenter-ballot-2026-11",
+    "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
+    "scope": "extracted",
+    "collection": "legal",
+    "status": "reviewed",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "Ohio Capital Journal (2026-09-14) and the local outlet closest to each measure; the Supreme Court of Ohio's case summaries for the four measures that reached it (2026-Ohio-3035 Ashville, 2026-Ohio-3439 Sidney, No. 2026-1035 Trenton); the City of Hubbard's own petition notice (2026-07-06) — reduced by hand to county, instrument type, threshold, certifying body and standing. NO board-of-elections certification was obtained; the R.C. 149.43 queue that would obtain one is carried in the record itself.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "state:OH",
+    "cadence": "weekly",
+    "ttl_days": 7,
+    "last_refreshed": "2026-09-16",
+    "tags": [
+      "data-centers",
+      "ballot-measure",
+      "charter-amendment",
+      "referendum",
+      "governance",
+      "conserve-ohio",
+      "r.c.-149.43"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/legal/datacenter-legislation/local-ballot-2026-11.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/datacenter-legislation/local-ballot-2026-11.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "ce99277d0d627faa7aa293b649ad702b0f2880aa37b3d87cb154a1f7cd8d7ff3",
+      "size_bytes": 48083,
+      "lfs_materialized": true,
+      "file_count": 2,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Ohio Capital Journal (2026-09-14) and the local outlet closest to each measure; the Supreme Court of Ohio's case summaries for the four measures that reached it (2026-Ohio-3035 Ashville, 2026-Ohio-3439 Sidney, No. 2026-1035 Trenton); the City of Hubbard's own petition notice (2026-07-06) — reduced by hand to county, instrument type, threshold, certifying body and standing. NO board-of-elections certification was obtained; the R.C. 149.43 queue that would obtain one is carried in the record itself.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
     }
   },
   {

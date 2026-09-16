@@ -1,6 +1,6 @@
 {
   "site": "mansfield",
-  "catalog_version": "c94372bcc0f678d6a9904994d39cd9f27c349386f8f754fce089fc3c2b1958b2",
+  "catalog_version": "029b2828915d748a18265728882c69b9a24907e9a4551ab5abba0b2c64c46deb",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -841,6 +841,14 @@
       "site": "mansfield",
       "local_id": "hydrology-routing",
       "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:mansfield:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "mansfield",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

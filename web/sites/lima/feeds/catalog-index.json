@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "bd45ec77a9a595a87272c39e9420b37dbf639f3e674c3ac8845d8e449c36d094",
+  "catalog_version": "7c2879358b2733f4f6c8c24600d3bb32b4e5d85f8369060eff081a03b8ea3894",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -1353,6 +1353,14 @@
       "site": "lima",
       "local_id": "legal",
       "title": "BOSC Legal Record — Corpus Completeness Audit & Cross-Production Referral Map",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

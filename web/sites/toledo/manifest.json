@@ -2,9 +2,9 @@
   "site": "toledo",
   "bundle_version": "1.0.0",
   "contract_version": "2.4.0",
-  "generated_at": "2026-09-02T23:48:35+00:00",
+  "generated_at": "2026-09-16T21:48:56+00:00",
   "feed_count": 28,
-  "row_total": 423,
+  "row_total": 424,
   "readiness": {
     "tier": "backdrop",
     "domains": {
@@ -191,7 +191,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 61
+      "count": 62
     },
     {
       "name": "facts",

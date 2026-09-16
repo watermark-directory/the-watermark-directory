@@ -1,6 +1,6 @@
 {
   "site": "new-albany",
-  "catalog_version": "caf82b53be16e7a0a1f738701974123f796188df46b52f7b6ef4413f6d429e79",
+  "catalog_version": "674e236950ce8eaa1e037253efe7c44da0cd57bbf42b52a90a0bec113184d7f3",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -841,6 +841,14 @@
       "site": "new-albany",
       "local_id": "hydrology-routing",
       "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:new-albany:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "new-albany",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

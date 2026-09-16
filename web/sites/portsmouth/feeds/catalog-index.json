@@ -1,6 +1,6 @@
 {
   "site": "portsmouth",
-  "catalog_version": "a03c53e1320ce08c354dfc788632d2e4d65f3f78f539a222e6c5c0105a80dc15",
+  "catalog_version": "40da4966a03ca201aeeff51aec8b9344677c3c4ecbb5aee73ce33e6d946b10cc",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -841,6 +841,14 @@
       "site": "portsmouth",
       "local_id": "hydrology-routing",
       "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:portsmouth:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "portsmouth",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

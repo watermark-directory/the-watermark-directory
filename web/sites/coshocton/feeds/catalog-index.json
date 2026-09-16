@@ -1,6 +1,6 @@
 {
   "site": "coshocton",
-  "catalog_version": "f522278b978d799db6c4931562e43bf033657a3e2f6da2eb1176c8332433d37b",
+  "catalog_version": "0886b62a82888dc93d5af43b34639f947fd3cf09441b8c26ae5c4e956f223806",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -841,6 +841,14 @@
       "site": "coshocton",
       "local_id": "hydrology-routing",
       "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:coshocton:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "coshocton",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
       "feed": "catalog"
     },
     {

@@ -2,9 +2,9 @@
   "site": "bryan",
   "bundle_version": "1.0.0",
   "contract_version": "2.4.0",
-  "generated_at": "2026-09-02T23:47:01+00:00",
+  "generated_at": "2026-09-16T21:46:53+00:00",
   "feed_count": 28,
-  "row_total": 419,
+  "row_total": 420,
   "readiness": {
     "tier": "backdrop",
     "domains": {
@@ -191,7 +191,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 59
+      "count": 60
     },
     {
       "name": "facts",
