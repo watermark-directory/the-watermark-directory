@@ -7,6 +7,7 @@ Commands:
     watermark ask "<question>"       # ask the research agent
     watermark extract <doc-id> ...   # run an agentic extraction (seam for your data)
     watermark export                 # write the typed content bundle the frontend reads
+    watermark corpus staleness       # which registers/watches have aged out (a report, not a gate)
     watermark corpus-mirror          # project the corpus into yidam node format (.yidam/corpus/)
     watermark wiki-lint              # audit the wiki [[link]] cross-reference graph (corpus-hygiene)
 """
@@ -18,6 +19,7 @@ from __future__ import annotations
 from watermark.cli import (  # noqa: F401
     air,
     catalog,
+    corpus,
     corpus_mirror,
     documents,
     facility,

@@ -186,6 +186,12 @@ air_app = typer.Typer(
 app.add_typer(air_app, name="air")
 
 
+corpus_app = typer.Typer(
+    name="corpus",
+    help="Reports over the committed corpus itself — staleness of registers and watches.",
+)
+app.add_typer(corpus_app, name="corpus")
+
 facility_app = typer.Typer(
     name="facility",
     help="Data-center facility modeling: distill swept registers + the prose→SiteFacility promotion report (epic #1626).",

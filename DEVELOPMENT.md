@@ -64,6 +64,41 @@ watermark catalog audit --apply  # apply inferred fields
 watermark catalog check          # gate — must pass before committing
 ```
 
+### Staleness — a report, never a gate
+
+```bash
+watermark corpus staleness          # which registers/watches have aged out of their cadence
+watermark corpus staleness --json   # the same reduction, machine-readable
+watermark corpus staleness -v       # include the current subjects
+```
+
+Always exits 0, on the `mise run yidam-vendor-status` precedent: the answer to "this register is
+86 days old" is a human deciding whether the world moved, not a failed build. Nothing in CI
+consumes it and nothing should.
+
+It measures every data-center register and standing watch on **three independently authored
+axes** — the date the file claims for itself, the last commit touching its path (`git log %aI`,
+author date, because a rebase rewrites committer dates), and a cadence declared somewhere else
+again (the catalog entry for a register, a dated trigger for a watch). That independence is the
+point: a check that parsed a register's own `Status **as of …**` line and compared it to nothing
+would only confirm the file says what it says (the #2069 lesson).
+
+Four standings, and **nothing unknowable is reported as fresh**:
+
+- `overdue` — a cadence exists and the subject is past it.
+- `current` — a cadence exists and the subject is within it.
+- `uncheckable` — the declared cadence is `on-demand` or `static`. Reported in its own section
+  with a count, because a cadence that can never be overdue is a finding, not a pass.
+- `unknown` — everything absent or unreadable: no catalog entry, a prose date the regex cannot
+  read, a cadence written in English, a watch with no top-level dated trigger. Never `current`.
+
+Two things it deliberately refuses to do. A **slug-scoped template** catalog entry
+(`extracted/{site}/data-centers.md`) nominally matches every register and shares one
+`last_refreshed`, so honouring its cadence would announce full coverage over registers that have
+no entry of their own — a template-only match resolves to `unknown`. And a watch's `next_check`
+**nested inside a thread** does not count: that is how `van-wert/water-watch.yaml` ran thirty days
+late against a trigger sitting on its first pull entry.
+
 ## CI
 
 `.github/workflows/ci.yml` uses a `changes` job to gate the two halves:
