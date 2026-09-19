@@ -1,4 +1,4 @@
-reconciled_at: '2026-09-19T16:19:50.427034+00:00'
+reconciled_at: '2026-09-19T16:55:48.575946+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -141,8 +141,8 @@ entries:
     site_scope: lima-legacy
   american-township-zoning:
     exists: true
-    sha256: 158a1d41615871982d5514e9bd93d887b8849b3faf78bce231cea4a7a4adebc9
-    size_bytes: 94289
+    sha256: b0ac5e56efb2ee174a01c64d02687cbca013969155533b4cac454187d39f8bc1
+    size_bytes: 96672
     lfs_materialized: true
     file_count: 4
     missing: []

@@ -828,7 +828,7 @@
         "suffix": "pdf",
         "media_type": "application/pdf",
         "render_class": "pdf",
-        "published": false,
+        "published": true,
         "available": true,
         "download_url": null,
         "duplicate_cluster": null,

@@ -147,6 +147,27 @@ deed:
         right-of-way is 136.231 acres [inference, arithmetic on two verified figures].
       note: >-
         [verified] Conveyed as a PART PARCEL — the deed took part of .000, not the whole of it.
+      precision_note: >-
+        ⚠️ THESE ACREAGES ARE EXACT READS AND MUST NOT BE GIVEN THE `~` MARKER. Raised in review
+        on PR #2171 and declined, recorded here so it is not re-raised. `~` is this corpus's
+        TRANSCRIPTION-confidence marker — "the scan was degraded and these digits are uncertain"
+        (`watermark.models._coerce_number`; cf. `~8200`, `~1400`, `~3.5` elsewhere in the tree,
+        every one of them a source that itself rounds or hedges). Neither condition holds: the
+        deed prints "137.490" to three decimals and "40.07" to two, both from a registered field
+        survey (Gregory A. Bockrath, Ohio Surveyor No. 8306, February 2018), and both were read at
+        400 DPI without ambiguity. Marking them would ASSERT an uncertainty that does not exist —
+        the opposite of what the marker is for.
+        The "more or less" in the survey's own clause is a CONVEYANCING FORMULA, not a statement
+        about legibility: in a metes-and-bounds description the called boundaries control and the
+        stated area follows them. It is a fact about the land, not about the reading, and it is
+        already preserved verbatim inside the [verified] quotation in `right_of_way_note`, which
+        is where it belongs. Conflating the two axes is the specific error this note exists to
+        stop.
+        Mechanically it would also be wrong twice over: in YAML `~137.490` is the STRING
+        "~137.490", not a number (`~` alone is null), and this artifact DECLINES from the pipeline
+        loader by design, so no Pydantic model and therefore no `_coerce_number` ever runs on it.
+        The marker would not be normalized away — it would simply retype two floats as strings in
+        a file nothing validates.
   ⚠️_parcel_reconciliation: >-
     THE PERMIT'S PARCEL IS NOT IN THIS DEED. Permit No. 103 runs to 36-1200-02-001.001 on its face
     (and to .001 and .000 in the decision letter's location block). This 2018 deed conveys part of
