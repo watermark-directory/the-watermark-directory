@@ -4,9 +4,11 @@
 # is written to stand alone. Do not wrap it.
 #
 # WHAT THIS IS. The C2 redaction/PII pre-publication pass for
-# `data/documents/american-township/zoning/`, which is NOT currently a cleared collection in
-# `data/site/published-documents.yaml`. This file is the screen's RESULT. It does not itself clear
-# anything: the clearance is an edit to `published-documents.yaml` and is the operator's to make.
+# `data/documents/american-township/zoning/`. This file is the screen's RESULT, and it is the
+# evidence the clearance decision was taken on — it does not itself clear anything. The clearance
+# is the `american-township/zoning/*` GLOB in `data/site/published-documents.yaml` (granted
+# 2026-09-19); the `american-township` COLLECTION remains uncleared, so the 49 unscreened trustee
+# minutes under `meetings/` stay private.
 #
 # ⚠️ METHOD MATTERS HERE, because the usual method would have returned a false clean. This PDF has
 # a ZERO-CHARACTER TEXT LAYER on all 15 pages. A grep, a regex sweep, or any text-based PII scan
@@ -31,7 +33,7 @@ screen:
   method_note: >-
     Not a text scan. See the header — a text scan of this document is structurally incapable of
     finding anything, and would have produced a clean result that meant nothing.
-  screened_by: agent-assisted read, operator review pending
+  screened_by: agent-assisted render-and-read of all 15 pages; operator reviewed and cleared 2026-09-19
   standard_applied: >-
     Ohio R.C. 149.43 public record. The question asked of each page was NOT "does a name appear"
     — a public hearing record is made of names — but "does this page expose a private individual's
@@ -195,7 +197,12 @@ recommendation:
     `bowling-green/commissioners/10032023.pdf`. Do not treat clearing it as making the corpus able
     to answer questions about it.
 
-status: pending_operator_decision
+status: cleared
 status_note: >-
-  NO EDIT HAS BEEN MADE to `data/site/published-documents.yaml`. Publishing is outward-facing and
-  is the operator's call; this file is the evidence that call is made on.
+  CLEARED 2026-09-19 on the operator's decision, taken on this screen. The rule is a GLOB —
+  `american-township/zoning/*` in `data/site/published-documents.yaml` — deliberately NOT the
+  `american-township` collection, so the 49 unscreened trustee minutes under
+  `american-township/meetings/` stay private. See the comment block on that rule for the finding
+  record; the `review:` line there carries the operator, date and basis.
+  ⚠️ Screen the `meetings/` tree on its own decision before any collection-level rule is
+  considered: it prints at least one resident's home address in the clear (12-9-24 minutes).

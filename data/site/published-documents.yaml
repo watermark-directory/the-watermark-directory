@@ -382,6 +382,51 @@ globs:            # fnmatch globs over the data/documents rel, e.g.  - 'permits/
   # evidence, the fix is a `withhold:` rule on this one rel plus `watermark passages`, NOT an edit.
   # review: { by: goedelsoup, date: 2026-08-16, result: publish, basis: public-agency-correspondence }
   - 'usace/west-union/*'
+  # American Township's Board of Zoning Appeals file (#2171) — the Case #BZA 2024-12 conditional-
+  # use packet: Conditional Use Permit No. 103, the BZA's final written decision, the hearing
+  # worksheet and Order of Proceedings, the signed attendance sheet, an Article 17 excerpt, one
+  # resident's stamped written comment, and the 2018 Churchill Farm -> Neff Farms warranty deed
+  # bound in as a title attachment. The decision file of a noticed public hearing before a township
+  # board, plus a recorded conveyance the Allen County recorder already publishes.
+  #
+  # ⚠️ A GLOB RATHER THAN THE `american-township` COLLECTION, AND THAT IS THE WHOLE POINT OF THE
+  # RULE. The collection also holds `american-township/meetings/` — 49 trustee minutes that NO
+  # review has covered, and which are known to print at least one resident's home address in the
+  # clear ("Becky and Dave Streeter 1640 W State Rd", 12-9-24 minutes, granting privilege of the
+  # floor). A collection rule would publish all 49 on this clearance. Screen that tree on its own
+  # decision; this rule reaches `zoning/` only.
+  #
+  # ⚠️ SWEPT BY RENDERING EVERY PAGE, NOT BY READING TEXT. All 15 pages carry a ZERO-CHARACTER text
+  # layer, so a grep or regex screen over this file matches nothing and reports clean while the
+  # document carries a signed private letter and a handwritten address. Each page was rendered with
+  # pypdfium2 and read as an image (150 DPI survey, 300-400 DPI on every block of small print and
+  # every handwritten field); p. 14 is bound UPSIDE DOWN and scores blank unless rotated. Full
+  # per-page result: data/extracted/american-township/zoning/pii-screen.yaml.
+  # Found: no SSNs, no dates of birth, no account numbers, no residential address of a private
+  # individual, and no personal telephone or email. The only email and direct-dial in the packet
+  # are the applicant attorney's work details, printed on the face of the permit.
+  #
+  # ⚠️ SEVENTEEN PRIVATE INDIVIDUALS ARE NAMED, cleared knowingly. Fourteen residents are recorded
+  # as testifying or corresponding at the two public hearings, one as supporting by email, and two
+  # more sign the 2018 deed (the grantor's member and an Oklahoma notary). NONE is paired with an
+  # address, telephone or email. Names of people who spoke at a noticed public hearing are what a
+  # hearing record is made of. Two pages get a second look and are cleared on their own terms:
+  # pp. 4-5 are Rebecca Streeter's SIGNED letter, stamped into the record by the township, which
+  # exists to CORRECT the public account of her own testimony — withholding it would leave the
+  # uncorrected version standing, and she is named as a testifier on pp. 1-2 regardless; p. 11
+  # carries Neff Farms' handwritten tax mailing address on a deed the county serves from its own
+  # public recorder portal, which is where these four pages were printed from.
+  # ⚠️ A `withhold:` COULD NOT CARVE EITHER ONE OUT: withhold is per-file, and splitting a 15-page
+  # source PDF is barred by the chain-of-custody rule in the root CLAUDE.md. The choice was the
+  # whole packet or none of it, and it was made as the whole packet.
+  #
+  # ⚠️ PUBLISHING THIS DOES NOT MAKE IT FINDABLE. `extract_published_passages` returns early on a
+  # page with no text layer, BEFORE its OCR fallback is reachable, so this document contributes
+  # ZERO passages to search and /ask — downloadable and unsearchable, joining the known blind set
+  # (790 of 5,531 published pages). Do not read a "the corpus does not mention X" negative as
+  # covering it.
+  # review: { by: goedelsoup, date: 2026-09-19, result: publish, basis: public-hearing-decision-file }
+  - 'american-township/zoning/*'
 documents:        # exact data/documents rels, e.g.  - recorder/bistrozzi-deeds/foo.pdf
   # The AEDG PRR-01 bundle — the full 328-page Port Authority public-records production.
   # Only pp. 317-327 (the six Tetra Tech OPC estimates) are the curated exhibit slice; the

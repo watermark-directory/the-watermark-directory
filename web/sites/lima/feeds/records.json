@@ -4186,7 +4186,8 @@
           "township": "American",
           "township_basis": "[verified] p. 14 survey: \"Situated as being part of the Northwest Quarter of Section 12, Township 3 South, Range 6 East, American Township, Allen County, Ohio, also being part of a tract of land as recorded in Official Record Volume 2017, Page 6801 (Tract One).\"",
           "right_of_way_note": "[verified] p. 14 — \"said tract containing 137.490 acres of land, more or less, of which 1.259 acres lies within the Cole Street right-of-way.\" So the net area outside the road right-of-way is 136.231 acres [inference, arithmetic on two verified figures].",
-          "note": "[verified] Conveyed as a PART PARCEL — the deed took part of .000, not the whole of it."
+          "note": "[verified] Conveyed as a PART PARCEL — the deed took part of .000, not the whole of it.",
+          "precision_note": "⚠️ THESE ACREAGES ARE EXACT READS AND MUST NOT BE GIVEN THE `~` MARKER. Raised in review on PR #2171 and declined, recorded here so it is not re-raised. `~` is this corpus's TRANSCRIPTION-confidence marker — \"the scan was degraded and these digits are uncertain\" (`watermark.models._coerce_number`; cf. `~8200`, `~1400`, `~3.5` elsewhere in the tree, every one of them a source that itself rounds or hedges). Neither condition holds: the deed prints \"137.490\" to three decimals and \"40.07\" to two, both from a registered field survey (Gregory A. Bockrath, Ohio Surveyor No. 8306, February 2018), and both were read at 400 DPI without ambiguity. Marking them would ASSERT an uncertainty that does not exist — the opposite of what the marker is for. The \"more or less\" in the survey's own clause is a CONVEYANCING FORMULA, not a statement about legibility: in a metes-and-bounds description the called boundaries control and the stated area follows them. It is a fact about the land, not about the reading, and it is already preserved verbatim inside the [verified] quotation in `right_of_way_note`, which is where it belongs. Conflating the two axes is the specific error this note exists to stop. Mechanically it would also be wrong twice over: in YAML `~137.490` is the STRING \"~137.490\", not a number (`~` alone is null), and this artifact DECLINES from the pipeline loader by design, so no Pydantic model and therefore no `_coerce_number` ever runs on it. The marker would not be normalized away — it would simply retype two floats as strings in a file nothing validates."
         }
       ],
       "⚠️_parcel_reconciliation": "THE PERMIT'S PARCEL IS NOT IN THIS DEED. Permit No. 103 runs to 36-1200-02-001.001 on its face (and to .001 and .000 in the decision letter's location block). This 2018 deed conveys part of 36-1200-02-001.000 and all of 36-0100-03-002.000 — the \".001\" suffix appears nowhere in it. [inference] Parcel .001 was therefore created by a split of .000 at some point between this recording (2018-03-16) and the BZA application (2024-11-14); the BZA worksheet's own note that the application was \"Amended December 3, 2024\" to add .000 alongside .001 is consistent with a parent-and-remainder pair. THE SPLIT INSTRUMENT IS NOT IN THIS CORPUS and the inference is not promoted. ⚠️ DO NOT ADD 137.490 + 40.07 AND CALL IT THE CAMPUS: one of those parcels is in another township, neither carries the permitted parcel's number, and the BZA record's own acreage for the application is 162.5 acres against parcel .001.",
@@ -4242,7 +4243,7 @@
     },
     "source_doc_rel": "american-township/zoning/2025FebConditionalUserPermitDecisionLetter.pdf",
     "source_doc_render_class": "pdf",
-    "source_doc_published": false
+    "source_doc_published": true
   },
   {
     "rel": "recorder/202508130008300.deed.yaml",
@@ -10508,7 +10509,7 @@
     },
     "source_doc_rel": "american-township/zoning/2025FebConditionalUserPermitDecisionLetter.pdf",
     "source_doc_render_class": "pdf",
-    "source_doc_published": false
+    "source_doc_published": true
   },
   {
     "rel": "lacrpc/american-township-zoning.zoning.yaml",
