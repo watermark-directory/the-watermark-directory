@@ -202,7 +202,7 @@ describe("the join, against the committed Lima bundle", () => {
   // `data/extracted/oepa/lima/2dp00130-surrogate-characterization.yaml`, which is deliberately
   // shaped so `corpus._classify` DECLINES it — it is a reading, not a record, and must never
   // count here.
-  it("extracts 159 of 3,396 documents — 4.7% of the corpus", () => {
+  it("extracts 160 of 3,397 documents — 4.7% of the corpus", () => {
     const entries = documents.flatMap((c) => c.entries);
     // 3,362 -> 3,382 (City of Lima PRR, #1536): the twenty committed files of the City's first
     // public-records production, under `legal/prr-mandamus/prr-production-2026-08-{22,24}-lima/`.
@@ -240,8 +240,20 @@ describe("the join, against the committed Lima bundle", () => {
     // is printed at pp. 154-156 of the packet. The AGENDA is carried as `source.companion_file`,
     // which `_source_ref` does not read, so it raises the denominator only — the same
     // one-extraction-over-several-documents shape as the §401 backfill above.
-    expect(entries.length).toBe(3396);
-    expect(countExtracted(entries, index)).toBe(159);
+    // 3,396 -> 3,397 (the American Township conditional-use permit): the Board of Zoning Appeals'
+    // Case #BZA 2024-12 decision packet — Conditional Use Permit No. 103, the instrument that
+    // permits the Project BOSC campus at 4110 N. Cole Street. It opens a NEW
+    // `american-township/zoning/` sub-collection beside the civic loader's
+    // `american-township/meetings/` trustee-minutes tree, because the BZA is a DIFFERENT BODY
+    // whose minutes that manifest has never pulled — the corpus held the application and no
+    // record of the decision. ONE file, not two: the 2018 warranty deed at pp. 11-14 is a second
+    // INSTRUMENT inside the same PDF, extracted separately, not a second byte-stream.
+    expect(entries.length).toBe(3397);
+    // 159 -> 160 (the American Township CUP): ONE join, from TWO records. Both the BZA decision
+    // and the 2018 deed name the SAME packet as their `source.file`, and the join is per-`rel`,
+    // so the numerator moves by one while `records.length` moves by two. That asymmetry is the
+    // honest shape of a compound document and not a miscount.
+    expect(countExtracted(entries, index)).toBe(160);
   });
 
   it("is near-complete on the small instrument collections, and thin across the big holdings", () => {
@@ -341,7 +353,11 @@ describe("the join, against the committed Lima bundle", () => {
     // Lima's eighteen-month data-center moratorium, publishing into `local-legislation` — the same
     // group the Van Wert and Sidney council resolutions use. One record from the two documents
     // acquired, for the `source.companion_file` reason given on the denominator above.
-    expect(records.length).toBe(164);
+    // 164 -> 166 (the American Township CUP): TWO records off ONE document — the BZA decision
+    // (`…2025-02-04-bza-2024-12-cup.resolution.yaml`) and the 2018 warranty deed bound into the
+    // same packet (`…2018-03-16-churchill-neff.deed.yaml`). A compound source yields a record per
+    // INSTRUMENT, which is why records move by two while the corpus moves by one.
+    expect(records.length).toBe(166);
     // 5 -> 3, and this is the deliberate change the note below predicted. `_source_ref` now
     // resolves three further committed provenance shapes — `provenance.source_path` /
     // `provenance.sources`, the connector read's `meta.sources` (a dict of NAMED lists, so every
@@ -365,6 +381,8 @@ describe("the join, against the committed Lima bundle", () => {
     // — as at #2089 and unlike #2088.
     // 158 -> 159: the moratorium record names the council packet as its source, so the join and the
     // record move together — as at #2089 and unlike #2088. The agenda reaches neither side.
-    expect(index.size).toBe(159);
+    // 159 -> 160: the two American Township records name one packet between them, so the index
+    // gains a single key. See the `countExtracted` note above.
+    expect(index.size).toBe(160);
   });
 });

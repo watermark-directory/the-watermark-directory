@@ -335,6 +335,46 @@ def test_classify_separates_a_transcription_from_a_render_from_a_framework_permi
     assert _classify({"permit": {"permit_no": "X"}}) == "npdes"
 
 
+def test_classify_claims_a_deed_only_when_it_is_actually_a_render() -> None:
+    """A bare `deed:` key is not enough — `DeedExtraction` needs a render envelope.
+
+    The `deed` arm used to claim EVERY shape carrying a top-level `deed:` block and hand it to
+    `DeedExtraction`, which requires `doc_id`/`dpi`/`kind`/`source_path`. Those four describe a
+    vision render, so a reviewed HAND transcription of a recorder PDF was rejected for fields
+    naming something that never happened — the same defect the general-permit arm was added to
+    stop, and the same one `test_no_committed_extraction_is_claimed_then_dropped` catches after
+    the fact. Guarding the arm turns a claim-then-reject into an honest decline.
+
+    ⚠️ Declining is a real cost, not a fix: such a deed reaches the `records` feed via
+    `watermark.site.records` but NOT `corpus.deeds`, so it contributes no entity-graph or
+    timeline rows. A `deed_transcribed` kind alongside `npdes_transcribed` is what would close
+    it. This test pins the current, deliberate behaviour so the gap stays visible.
+    """
+    render = {
+        "doc_id": "d",
+        "source_path": "x.pdf",
+        "kind": "deed",
+        "dpi": 300,
+        "deed": {"instrument_no": "201803160002723"},
+    }
+    assert _classify(render) == "deed"
+    # Every committed render deed satisfies this by construction; dropping any one envelope key
+    # is enough to make it something the model cannot take.
+    for missing in ("doc_id", "source_path", "kind", "dpi"):
+        assert _classify({k: v for k, v in render.items() if k != missing}) == DECLINED
+    # The hand-authored reading: a `source:` provenance block and no render envelope.
+    assert (
+        _classify(
+            {
+                "as_of": "2026-09-19",
+                "source": {"file": "data/documents/a.pdf", "content_verified": "vision"},
+                "deed": {"instrument_no": "201803160002723"},
+            }
+        )
+        == DECLINED
+    )
+
+
 def test_transcription_envelope_requires_a_committed_source() -> None:
     with pytest.raises(ValidationError, match="data/documents/"):
         NpdesTranscription.model_validate(

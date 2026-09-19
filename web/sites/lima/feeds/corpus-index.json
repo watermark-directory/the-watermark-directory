@@ -633,7 +633,7 @@
     "label": "Lima",
     "scope": "site",
     "links_out": 3,
-    "links_in": 359,
+    "links_in": 363,
     "lines": 14,
     "updated": null
   },
@@ -2088,6 +2088,50 @@
     "links_in": 0,
     "lines": 13,
     "updated": "2026-06-08"
+  },
+  {
+    "id": "record/american-township-zoning-2018-03-16-churchill-ne",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Ohio General Warranty Deed 201803160002723 — Churchill Farm LLC to Neff Farms, the 2018 assembly of the Cole Street land, recorded 2018-03-16",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 23,
+    "updated": null
+  },
+  {
+    "id": "record/american-township-zoning-2025-02-04-bza-2024-12",
+    "node_class": "record",
+    "kind": "record",
+    "label": "American Township Conditional Use Permit No. 103 — the BZA approval of the Project BOSC data-center campus, issued 2025-02-04",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 23,
+    "updated": null
+  },
+  {
+    "id": "record/american-township-zoning-filename-map",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Canonical-name / date map for the American Township zoning (Board of Zoning Appeals) sources.",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 14,
+    "updated": null
+  },
+  {
+    "id": "record/american-township-zoning-pii-screen",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Pre-publication PII screen — American Township BZA conditional-use packet, all 15 pages",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 14,
+    "updated": null
   },
   {
     "id": "record/commissioners-bosc-2023-backfill",

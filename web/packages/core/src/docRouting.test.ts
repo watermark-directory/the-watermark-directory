@@ -100,7 +100,7 @@ describe("isRoutableDoc — measured against the committed Lima corpus", () => {
   // and recorded by sha256 in `data/documents/permits/bistrozzi-permits/filename-map.yaml`.
   // Committing either moves this number again and SHOULD.
   // The 54 exclusions are unchanged: both new entries are ordinary routable PDFs.
-  it("excludes exactly 54 of 3,396 entries (1.6%)", () => {
+  it("excludes exactly 54 of 3,397 entries (1.6%)", () => {
     const entries = limaEntries();
     // 3,350 -> 3,362 (#2089): the twelve committed eDocuments of the 2DP00130 / APP285104563
     // indirect-discharge application package under `oepa/lima/`. The portal serves 23 rows; the
@@ -126,7 +126,15 @@ describe("isRoutableDoc — measured against the committed Lima corpus", () => {
     // producing: the CivicPlus Agenda Center's City Council category ends at 2024-05-06 and the
     // live portal is PrimeGov.
     // The 54 exclusions are unchanged once more: both new entries are ordinary routable PDFs.
-    expect(entries.length).toBe(3396);
+    // 3,396 -> 3,397 (the American Township conditional-use permit): the Board of Zoning Appeals'
+    // Case #BZA 2024-12 decision packet — Conditional Use Permit No. 103, the instrument that
+    // permits the Project BOSC campus at 4110 N. Cole Street. It opens a NEW
+    // `american-township/zoning/` sub-collection beside the civic loader's
+    // `american-township/meetings/` trustee-minutes tree, because the BZA is a DIFFERENT BODY
+    // whose minutes that manifest has never pulled — the corpus held the application and no
+    // record of the decision. ONE file, not two: the 2018 warranty deed at pp. 11-14 is a second
+    // INSTRUMENT inside the same PDF, extracted separately, not a second byte-stream.
+    expect(entries.length).toBe(3397);
     expect(entries.filter((e) => !isRoutableDoc(e))).toHaveLength(54);
   });
 

@@ -422,6 +422,74 @@
     }
   },
   {
+    "id": "american-township-zoning",
+    "title": "American Township Board of Zoning Appeals — Project BOSC Conditional Use Record",
+    "scope": "extracted",
+    "collection": "american-township",
+    "status": "reviewed",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "American Township (Allen County, OH) Board of Zoning Appeals, Case #BZA 2024-12 — the conditional-use permit packet for the Project BOSC data-center campus at 4110 N. Cole Street. Obtained in THIRD-PARTY custody (not served to this project by the township); a scanned paper copy, PDF producer \"EPSON Scan\", 2025-07-10. A direct R.C. 149.43 production from the township would supersede it — see the artifacts' open_questions.",
+    "external_url": null,
+    "license": "Public record (Ohio R.C. 149.43)",
+    "access_tier": "public",
+    "site_scope": "lima-legacy",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": "2026-09-19",
+    "tags": [
+      "zoning",
+      "conditional-use",
+      "township",
+      "american-township",
+      "bosc",
+      "datacenter",
+      "deed"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/american-township/zoning/2025-02-04-bza-2024-12-cup.resolution.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/american-township/zoning/2018-03-16-churchill-neff.deed.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/american-township/zoning/pii-screen.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/american-township/zoning/filename-map.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "158a1d41615871982d5514e9bd93d887b8849b3faf78bce231cea4a7a4adebc9",
+      "size_bytes": 94289,
+      "lfs_materialized": true,
+      "file_count": 4,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "American Township (Allen County, OH) Board of Zoning Appeals, Case #BZA 2024-12 — the conditional-use permit packet for the Project BOSC data-center campus at 4110 N. Cole Street. Obtained in THIRD-PARTY custody (not served to this project by the township); a scanned paper copy, PDF producer \"EPSON Scan\", 2025-07-10. A direct R.C. 149.43 production from the township would supersede it — see the artifacts' open_questions.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
     "id": "bosc-site-footprint",
     "title": "Per-Site Campus Footprint Records — boundary, measured acreage, SSURGO HSG",
     "scope": "extracted",

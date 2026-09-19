@@ -820,6 +820,21 @@
         "canonical_document_id": null,
         "version": null,
         "supersedes": []
+      },
+      {
+        "rel": "american-township/zoning/2025FebConditionalUserPermitDecisionLetter.pdf",
+        "name": "2025FebConditionalUserPermitDecisionLetter.pdf",
+        "size_bytes": 671406,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
       }
     ]
   },
