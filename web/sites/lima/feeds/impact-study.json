@@ -60,7 +60,7 @@
       "stats": [
         {
           "label": "Conveyance instruments",
-          "value": "7",
+          "value": "8",
           "unit": null,
           "evidence": "verified",
           "basis": "grounded",
@@ -342,7 +342,7 @@
       "stats": [
         {
           "label": "Legislative instruments",
-          "value": "4",
+          "value": "5",
           "unit": null,
           "evidence": "verified",
           "basis": "grounded",

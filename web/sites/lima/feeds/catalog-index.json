@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "7c2879358b2733f4f6c8c24600d3bb32b4e5d85f8369060eff081a03b8ea3894",
+  "catalog_version": "38696611b7566bb908da881042f776a2f4697440208832310c485bb8ac5d72b3",
   "contract_version": "2.4.0",
   "atoms": [
     {
@@ -745,6 +745,14 @@
       "site": "lima",
       "local_id": "american-township-meetings",
       "title": "American Township Trustee Meeting Records",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:american-township-zoning",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "american-township-zoning",
+      "title": "American Township Board of Zoning Appeals — Project BOSC Conditional Use Record",
       "feed": "catalog"
     },
     {
@@ -3769,6 +3777,22 @@
       "site": "lima",
       "local_id": "aedg/seller-land-packets.land.yaml",
       "title": "BOSC/Google data-center land assembly — seller option packets and assignment to Bistrozzi LLC",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:american-township/zoning/2018-03-16-churchill-neff.deed.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "american-township/zoning/2018-03-16-churchill-neff.deed.yaml",
+      "title": "Ohio General Warranty Deed",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:american-township/zoning/2025-02-04-bza-2024-12-cup.resolution.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "american-township/zoning/2025-02-04-bza-2024-12-cup.resolution.yaml",
+      "title": "American Township (Allen County, Ohio) Conditional Use Permit No. 103, issued by the Township Zoning Inspector on the affirmative finding of the American Township Board of Zoning Appeals in Case #BZA 2024-12, approving a three-building data center complex with operations building and security office at 4110 N. Cole Street, Lima, Ohio 45801",
       "feed": "records"
     },
     {

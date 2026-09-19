@@ -1,0 +1,201 @@
+# Pre-publication PII screen — American Township BZA conditional-use packet, all 15 pages
+#
+# ⚠️ The first line above is read VERBATIM as this record's label in the yidam corpus mirror, so it
+# is written to stand alone. Do not wrap it.
+#
+# WHAT THIS IS. The C2 redaction/PII pre-publication pass for
+# `data/documents/american-township/zoning/`, which is NOT currently a cleared collection in
+# `data/site/published-documents.yaml`. This file is the screen's RESULT. It does not itself clear
+# anything: the clearance is an edit to `published-documents.yaml` and is the operator's to make.
+#
+# ⚠️ METHOD MATTERS HERE, because the usual method would have returned a false clean. This PDF has
+# a ZERO-CHARACTER TEXT LAYER on all 15 pages. A grep, a regex sweep, or any text-based PII scan
+# over it matches NOTHING and reports clean — while the document carries a private individual's
+# signed correspondence and a handwritten mailing address. Every page below was RENDERED
+# (pypdfium2, 150 DPI survey + 300-400 DPI crops on every block of small print and every
+# handwritten field) and READ AS AN IMAGE. Page 14 was rotated 180° first; it is bound upside down
+# and an unrotated pass would have scored it blank.
+#
+# SAMPLING WOULD ALSO HAVE FAILED. The one page carrying a handwritten private address is p. 11 —
+# the twelfth of fifteen, inside a title attachment that looks like boilerplate. A first-pages
+# screen misses it.
+
+as_of: '2026-09-19'
+site: lima
+screen:
+  subject: data/documents/american-township/zoning/2025FebConditionalUserPermitDecisionLetter.pdf
+  sha256: 'bb63ede69161bbd6218dc4ce4d2e378a0e00ac5728757775f95269f40701164f'
+  pages_total: 15
+  pages_screened: 15
+  method: vision-render-every-page
+  method_note: >-
+    Not a text scan. See the header — a text scan of this document is structurally incapable of
+    finding anything, and would have produced a clean result that meant nothing.
+  screened_by: agent-assisted read, operator review pending
+  standard_applied: >-
+    Ohio R.C. 149.43 public record. The question asked of each page was NOT "does a name appear"
+    — a public hearing record is made of names — but "does this page expose a private individual's
+    HOME ADDRESS, PERSONAL CONTACT DETAILS, or other information not intrinsic to the public
+    proceeding it records".
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+per_page:
+  - pages: [0]
+    contains: >-
+      Applicant counsel's work e-mail (JSTANGEMAN@VORYS.COM) and direct work telephone
+      (614.464.5608); property owner's entity name and address (Neff Farms LLC, 11951 Zerkle Road);
+      Chairman Schwinnen's signature.
+    finding: clear
+    reasoning: >-
+      Business contact details of counsel of record, printed on the face of a public permit — the
+      same footing on which the corpus already publishes permit applicant contact blocks
+      (`oepa/west-union/`, `grid/bowling-green/`). The owner is an entity, and its address is the
+      permit's own property-owner field.
+  - pages: [1]
+    contains: >-
+      Thirteen named residents who gave testimony on 2024-12-11, plus the citizens' spokesperson.
+      No address, telephone or e-mail for any of them.
+    finding: clear
+    reasoning: >-
+      Names of persons who testified at a noticed public hearing, recorded in the body's own
+      decision notice. A hearing record without its participants is not a hearing record. Nothing
+      here identifies where any of them lives.
+  - pages: [2]
+    contains: >-
+      Named residents (Rebecca Streeter, Mike Schrider, Steve Maxwell), a named supporter (Brenda
+      Stocker), a second project attorney (Joseph Miller), and a cited academic (Prof. Boren).
+    finding: clear
+    reasoning: As p. 1. Participation in a public proceeding, no locating detail.
+  - pages: [3]
+    contains: Roll call by surname; Chairman Schwinnen's signature.
+    finding: clear
+    reasoning: The vote of a public body and its presiding officer's signature.
+  - pages: [4, 5]
+    contains: >-
+      ⚠️ A private individual's SIGNED correspondence — Rebecca Streeter's letter of 2025-01-13,
+      with her handwritten signature, the township's RECEIVED stamp of 2025-01-28 and a clerk's
+      initials. NO home address, telephone or e-mail appears. The letter discusses noise and
+      health, and refers in general terms to persons "with a brain trauma/disease" without naming
+      anyone.
+    finding: clear-with-note
+    reasoning: >-
+      Written public comment submitted to a public body on a pending application is a public record
+      and is part of the decision file — the board stamped it into the record. The signature is
+      intrinsic to a submitted letter and the corpus publishes signed instruments routinely.
+    note: >-
+      ⚠️ THIS IS THE PAGE MOST WORTH A SECOND LOOK. It is the only content in the packet authored
+      BY a private individual rather than about one, and its subject touches health. Two points
+      cut in favour of publishing: the letter exists precisely to CORRECT the public record of what
+      she said, so withholding it leaves the uncorrected version standing; and she is already named
+      as a testifier on pp. 1 and 2 regardless. It carries no medical claim about any identified
+      person, including herself.
+    withhold_is_not_available_here: >-
+      `withhold:` rules operate per-file. These two pages cannot be carved out of a 15-page PDF
+      without splitting the file, and splitting a source byte is forbidden by chain of custody.
+      The choice is the whole packet or none of it.
+  - pages: [6, 7]
+    contains: >-
+      Handwritten hearing worksheet — applicant and owner details as on p. 0, board surnames,
+      handwritten notes and the roll-call grid.
+    finding: clear
+    reasoning: The board's own contemporaneous record of a public hearing.
+  - pages: [8]
+    contains: The board's printed Order of Proceedings. No personal data.
+    finding: clear
+  - pages: [9]
+    contains: >-
+      Board member attendance sheet with five members' and the secretary's handwritten signatures,
+      and the annotation "ABSENT - MEDICAL" against Jackson Burklo.
+    finding: clear-with-note
+    reasoning: >-
+      Signatures of public officials acting in their official capacity, on the body's own
+      attendance record.
+    note: >-
+      "ABSENT - MEDICAL" is a bare reason-for-absence on a public body's attendance sheet, recorded
+      by the body itself. It names no condition, no treatment and no provider. Recorded here so the
+      decision is made knowingly rather than discovered later.
+  - pages: [10]
+    contains: An excerpt of the township's published Zoning Resolution, Article 17.
+    finding: clear
+    reasoning: A published legislative text.
+  - pages: [11]
+    contains: >-
+      ⚠️ A HANDWRITTEN TAX MAILING ADDRESS on the grantee line — "11?35 Zerkle Rd Lima, Oh 45806"
+      — plus the grantor's signing member (Sarah Churchill Everett) and her signature, and
+      handwritten auditor fee entries.
+    finding: clear-with-note
+    reasoning: >-
+      This is a RECORDED INSTRUMENT. Allen County publishes it on its own public recorder portal —
+      which is where these four pages were printed from, on 2024-12-03 — and a grantee's tax
+      mailing address is a required element of a conveyance. Publishing it here exposes nothing
+      that the county does not already serve to anyone who searches the parcel.
+    note: >-
+      ⚠️ It is nonetheless a residential-looking address in an individual's handwriting, and it is
+      the one item in the packet a text-based screen could never have found. It is also the address
+      of a FARM ENTITY (Neff Farms), not stated as any person's residence, and a different number
+      on the same road already appears in print on p. 0 as the property owner's address.
+  - pages: [12]
+    contains: >-
+      Notary Levi Hough (Oklahoma, Tulsa County), commission no. 15004790 and expiry; LACRPC
+      approver's signature and log number; preparing attorney's name and firm office address.
+    finding: clear
+    reasoning: >-
+      A notarial commission number and expiry are public register data, printed on the seal by
+      design. The attorney's address is a law-firm office. Both are official capacities.
+  - pages: [13, 14]
+    contains: >-
+      Exhibit A legal descriptions and the surveyor's metes-and-bounds, with the surveyor's name
+      and registration number and the firm's business address. No personal data.
+    finding: clear
+    reasoning: Professional registration details on a survey, printed for exactly this purpose.
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+summary:
+  pages_clear: 11
+  pages_clear_with_note: 4        # pp. 4, 5, 9, 11
+  pages_requiring_withholding: 0
+  home_addresses_of_private_individuals: 0
+  home_address_adjacent: 1        # p. 11 — an entity's handwritten tax mailing address
+  personal_contact_details: 0     # the only e-mail/phone in the packet are counsel's work details
+  named_private_individuals: 17
+  named_private_individuals_note: >-
+    Fourteen residents recorded as testifying or corresponding, one resident recorded as supporting
+    by e-mail, plus the grantor's signing member and the notary on the 2018 deed. NONE is paired
+    with a home address, telephone or e-mail anywhere in the packet.
+
+recommendation:
+  clear: true
+  scope_proposed: 'data/documents/american-township/zoning/'
+  scope_note: >-
+    ⚠️ PROPOSE THE `zoning/` SUBTREE, NOT THE `american-township` COLLECTION. A collection-level
+    rule would also clear `data/documents/american-township/meetings/` — 49 trustee minutes that
+    have NOT been screened, and which are known to contain at least one private residential address
+    in the clear (the 2024-12-09 minutes print "Becky and Dave Streeter 1640 W State Rd" when
+    granting privilege of the floor). That is exactly the standing-auto-publish failure the OEPA
+    collection already suffered twice. Screen the meetings tree separately, on its own decision.
+  basis: >-
+    The packet is the decision file of a noticed public hearing before a township board of zoning
+    appeals, plus a recorded conveyance the county already publishes. It carries no private home
+    address, no personal telephone or e-mail, and no information about an identified individual
+    beyond their participation in a public proceeding. It is load-bearing: it is the corpus's ONLY
+    source for the approval of the Project BOSC campus, and it answers a standing open question in
+    `data/extracted/lacrpc/american-township-zoning.zoning.yaml`.
+  against: >-
+    Recorded honestly rather than argued away: pp. 4-5 are a named private individual's signed
+    letter touching health, and p. 11 carries a handwritten address. Neither can be carved out
+    without splitting the source file, which chain of custody forbids. If either is judged
+    unacceptable the correct outcome is to publish NOTHING from this path and cite the document
+    from the extractions instead — which is the status quo and costs the project nothing except
+    a public download link.
+  ⚠️_publication_does_not_make_it_findable: >-
+    Clearing this path puts a downloadable PDF on the site and adds ZERO passages to search or
+    /ask. `extract_published_passages` returns early on a page with no text layer, before its OCR
+    fallback is reachable, and all 15 pages have none. Published, this document would join the
+    known blind set — downloadable but unsearchable, the same failure already recorded for
+    `bowling-green/commissioners/10032023.pdf`. Do not treat clearing it as making the corpus able
+    to answer questions about it.
+
+status: pending_operator_decision
+status_note: >-
+  NO EDIT HAS BEEN MADE to `data/site/published-documents.yaml`. Publishing is outward-facing and
+  is the operator's call; this file is the evidence that call is made on.

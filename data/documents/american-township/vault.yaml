@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-09-03T12:25:50+00:00'
+  generated_at: '2026-09-19T15:11:12+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 49
-    bytes: 896799
-    distinct_addresses: 49
+    artifacts: 50
+    bytes: 1568205
+    distinct_addresses: 50
 artifacts:
 - rel: documents/american-township/meetings/1-12-26 minutes.docx
   sha256: 1b85d2f87a4a777d6d6e4da11c2b32b7f219d38d3f4be65955d5364ddbce8c67
@@ -256,4 +256,9 @@ artifacts:
   sha256: 28bba41f3281901e3bd3c0cfe08c3aa268092906a263a15c8ece4b6571cbb91e
   bytes: 18024
   media_type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+  redistributable: true
+- rel: documents/american-township/zoning/2025FebConditionalUserPermitDecisionLetter.pdf
+  sha256: bb63ede69161bbd6218dc4ce4d2e378a0e00ac5728757775f95269f40701164f
+  bytes: 671406
+  media_type: application/pdf
   redistributable: true
