@@ -1,0 +1,32 @@
+# Canonical-name / date map for the American Township zoning (Board of Zoning Appeals) sources.
+#
+# The source PDFs under data/documents/american-township/zoning/ keep their AS-RECEIVED
+# names (chain of custody). This map records the corpus-canonical name and the instrument
+# date VERIFIED from each file's own content, so the indexer and any cross-reference can
+# pair them without renaming evidence.
+#
+# evidence: native_text = PDF text layer (pypdf) | ocr = tesseract on a render |
+#           vision = a vision model reading a pypdfium2 render (used where the PDF carries
+#           NO text layer at all, so neither pypdf nor an OCR-fallback path can reach it) |
+#           filename = unambiguous date already in the name.
+meta:
+  subject: American Township BZA zoning-record filename normalization
+  generated_at: 2026-09-19
+  source_dir: data/documents/american-township/zoning/
+  method: per-file instrument date read from the document's own face
+  policy: non-destructive — originals kept in place; this is an alias layer only
+
+aliases:
+  - file: 2025FebConditionalUserPermitDecisionLetter.pdf
+    canonical: 2025-02-04-bza-2024-12-cup-decision.pdf
+    date: '2025-02-04'
+    type: conditional-use-permit-decision
+    case_no: BZA 2024-12
+    evidence: vision
+    note: >-
+      "ConditionalUser" is the as-received spelling of "Conditional Use" and is NOT corrected
+      in place. The date is the permit's own DATE ISSUED (p. 0, "02-04-2025") and the decision
+      letter's own DATE line (p. 1, "February 4, 2025") — NOT the "2025Feb" in the filename and
+      NOT the PDF's 2025-07-10 EPSON Scan creation timestamp, which dates the SCAN, not the
+      instrument. All 15 pages carry a zero-character text layer, so every read of this file is
+      a vision read of a render.

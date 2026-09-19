@@ -1,0 +1,51 @@
+id: american-township-zoning
+title: American Township Board of Zoning Appeals — Project BOSC Conditional Use Record
+scope: extracted
+status: reviewed
+producer:
+  kind: manual
+  source: >-
+    American Township (Allen County, OH) Board of Zoning Appeals, Case #BZA 2024-12 — the
+    conditional-use permit packet for the Project BOSC data-center campus at 4110 N. Cole Street.
+    Obtained in THIRD-PARTY custody (not served to this project by the township); a scanned paper
+    copy, PDF producer "EPSON Scan", 2025-07-10. A direct R.C. 149.43 production from the township
+    would supersede it — see the artifacts' open_questions.
+license: Public record (Ohio R.C. 149.43)
+access_tier: public
+site_scope: lima-legacy
+storage:
+- relpath: extracted/american-township/zoning/2025-02-04-bza-2024-12-cup.resolution.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/american-township/zoning/2018-03-16-churchill-neff.deed.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/american-township/zoning/pii-screen.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/american-township/zoning/filename-map.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+  last_refreshed: '2026-09-19'
+provenance: document
+tags:
+- zoning
+- conditional-use
+- township
+- american-township
+- bosc
+- datacenter
+- deed
+notes: >-
+  The zoning instrument that permits the Lima campus, and the corpus's ONLY source for the
+  approval — no trustee minutes record the 2025-01-08 vote or the 2025-02-04 written notice,
+  because the BZA is a separate body whose minutes are not held here. One 15-page scan carrying
+  five instrument types; the 2018 warranty deed at pp. 11-14 is extracted separately. ⚠️ The
+  source PDF has a ZERO-CHARACTER text layer on all 15 pages, so it contributes no passages to
+  search or /ask and any text-based screen or query over it is structurally blind. ⚠️ The permit
+  was granted under Article 11.2.3, a residual industrial catch-all, eight months BEFORE American
+  Township adopted a data-center use category (11.2.4, per Res #09-082025 of 2025-09-08) — and the
+  subsection numbers moved in that amendment, so 11.2.3 reads as "barrow pits" against the current
+  resolution. The source is NOT publication-cleared; see pii-screen.yaml.

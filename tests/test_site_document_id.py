@@ -161,7 +161,20 @@ def test_no_collision_across_the_committed_corpus() -> None:
     # Reviewed: 3396 rels, 3396 distinct rels, 3396 distinct handles — zero collisions, checked as
     # a set rather than inferred from the delta. The two new handles are `p5ebfg0z` (agenda) and
     # `4tc6w0ma` (packet).
-    assert len(rels) == 3396, "a corpus change belongs in review, not a silent collision"
+    # 3396 → 3397 (the American Township conditional-use permit): the BZA's Case #BZA 2024-12
+    # decision packet — Conditional Use Permit No. 103, which permits the Project BOSC campus at
+    # 4110 N. Cole Street. It opens a NEW `american-township/zoning/` sub-collection alongside the
+    # civic loader's `american-township/meetings/` trustee-minutes tree, because the Board of
+    # Zoning Appeals is a DIFFERENT BODY whose minutes that manifest has never pulled — and the
+    # corpus had the application (trustee minutes, 2024-11-25) and no record of the decision at
+    # all. It keeps its as-received name, typo included ("ConditionalUser" for "Conditional Use");
+    # the canonical name is in `data/extracted/american-township/zoning/filename-map.yaml`.
+    # ⚠️ ONE file, not two: the 2018 warranty deed bound at pp. 11-14 is a second INSTRUMENT in
+    # the same PDF, extracted separately, but it is not a second byte-stream and must not be
+    # committed as one.
+    # Reviewed: 3397 rels, 3397 distinct rels, 3397 distinct handles — zero collisions, checked as
+    # a set rather than inferred from the delta. The new handle is `rfgm705j`.
+    assert len(rels) == 3397, "a corpus change belongs in review, not a silent collision"
     assert len({document_id(rel) for rel in rels}) == len(rels)
     # The count alone is a weak proxy: a delete-one-add-one leaves it at 3362. Name the two
     # committed BOSC-1A eDocs, and assert the two DEFERRED plan sets are absent — the deferral

@@ -4139,6 +4139,112 @@
     "source_doc_published": true
   },
   {
+    "rel": "american-township/zoning/2018-03-16-churchill-neff.deed.yaml",
+    "group": "deeds",
+    "title": "Ohio General Warranty Deed",
+    "confidence": null,
+    "warnings": [],
+    "fields": {
+      "instrument_type": "Ohio General Warranty Deed",
+      "instrument_no": "201803160002723",
+      "recorded": "2018-03-16",
+      "recorder": "Mona S Losh, Allen County",
+      "recording_ref": "V:2018 P:02723",
+      "transfer_ref": "T20180003696",
+      "pages_in_instrument": 4,
+      "executed": "2018-03-07",
+      "executed_note": "[verified] The DAY is handwritten and reads \"7\". The notarial acknowledgment on p. 12 has the same handwritten day in a blank that is partly obscured by the notary's signature loop and is NOT independently legible. The execution day is therefore carried from p. 11 alone and is not corroborated. Nothing in this file is dated from handwriting elsewhere.",
+      "transferred_stamp": "2018-03-16",
+      "auditor": "Rhonda Eddy, Allen County Auditor",
+      "conveyance_fee_note": "[verified] The auditor's block prints \"This Conveyance has been examined and the Grantor has complied with Section 319.202 of the Revised Code\", with handwritten \"Fee $\" and \"Fee\" entries that are NOT legibly transcribable from this scan. ⚠️ The consideration is NOT recorded here — do not read a dollar figure off this document. The page also carries the printed notation \"Non-compliant Form / Additional Fee Collected\".",
+      "grantor": {
+        "name": "CHURCHILL FARM, LLC",
+        "form": "an Ohio Limited Liability Company",
+        "signed_by": "Sarah Churchill Everett, Member",
+        "title_claimed_through": "the instrument recorded in OR 2017, Page 6801, Allen County Recorder's Office"
+      },
+      "grantee": {
+        "name_as_printed": "NEFF FARMS, INC.",
+        "⚠️_entity_discrepancy": "[verified] THE GRANTEE IS AN \"INC.\", NOT THE \"LLC\" NAMED IN THE ZONING RECORD. The 2025 BZA record (permit face, decision letter and hearing worksheet) names the property owner as \"NEFF FARMS LLC, 11951 ZERKLE ROAD, LIMA, OHIO 45806\". This 2018 deed conveys to \"NEFF FARMS, INC.\" Whether that is one entity across a later conversion, two entities, or a drafting slip is [open] and is settled by an Ohio Secretary of State business-filing pull. The two strings are NOT merged in the entity graph until it is.",
+        "tax_mailing_address_handwritten": "[open] ILLEGIBLE IN PART. The grantee's tax mailing address is handwritten on a rule and reads \"11?35 Zerkle Rd Lima, Oh 45806\" — the third digit is not legible with confidence at 400 DPI, admitting both 11435 and 11935. The zoning record gives 11951 Zerkle Road for Neff Farms LLC, which matches NEITHER candidate. ⚠️ Per the corpus rule, nothing here is resolved from handwriting: the reading is recorded with its ambiguity and the discrepancy with the zoning record is left standing rather than reconciled to the tidier number."
+      },
+      "situated_in": "the Townships of American and Sugar Creek, County of Allen, and State of Ohio",
+      "parcels": [
+        {
+          "parcel_id": "36-0100-03-002.000",
+          "acres": 40.07,
+          "address_as_printed": "Cole Street (rear), Lima, OH 45807",
+          "township": "Sugar Creek",
+          "township_basis": "[verified] p. 13, Exhibit A: \"SITUATED IN THE TOWNSHIP OF SUGAR CREEK, ALLEN COUNTY, OHIO\" — the Southeast Quarter of the Southwest Quarter of Section One (1), Township Three (3) South, Range Six (6) East, less 2.92 acres, plus a separate 3-acre tract.",
+          "note": "⚠️ [inference] THIS PARCEL LIES OUTSIDE AMERICAN TOWNSHIP and therefore outside the zoning jurisdiction that issued Permit No. 103. It appears in no part of the BZA record. Resting on [verified] p. 13's township recital and [verified] the permit's own \"Section 12, American Township\" locus."
+        },
+        {
+          "parcel_id": "36-1200-02-001.000",
+          "conveyed_as": "Part Parcel",
+          "acres": 137.49,
+          "address_as_printed": "4110 N. Cole Street, Lima, OH 45801",
+          "township": "American",
+          "township_basis": "[verified] p. 14 survey: \"Situated as being part of the Northwest Quarter of Section 12, Township 3 South, Range 6 East, American Township, Allen County, Ohio, also being part of a tract of land as recorded in Official Record Volume 2017, Page 6801 (Tract One).\"",
+          "right_of_way_note": "[verified] p. 14 — \"said tract containing 137.490 acres of land, more or less, of which 1.259 acres lies within the Cole Street right-of-way.\" So the net area outside the road right-of-way is 136.231 acres [inference, arithmetic on two verified figures].",
+          "note": "[verified] Conveyed as a PART PARCEL — the deed took part of .000, not the whole of it."
+        }
+      ],
+      "⚠️_parcel_reconciliation": "THE PERMIT'S PARCEL IS NOT IN THIS DEED. Permit No. 103 runs to 36-1200-02-001.001 on its face (and to .001 and .000 in the decision letter's location block). This 2018 deed conveys part of 36-1200-02-001.000 and all of 36-0100-03-002.000 — the \".001\" suffix appears nowhere in it. [inference] Parcel .001 was therefore created by a split of .000 at some point between this recording (2018-03-16) and the BZA application (2024-11-14); the BZA worksheet's own note that the application was \"Amended December 3, 2024\" to add .000 alongside .001 is consistent with a parent-and-remainder pair. THE SPLIT INSTRUMENT IS NOT IN THIS CORPUS and the inference is not promoted. ⚠️ DO NOT ADD 137.490 + 40.07 AND CALL IT THE CAMPUS: one of those parcels is in another township, neither carries the permitted parcel's number, and the BZA record's own acreage for the application is 162.5 acres against parcel .001.",
+      "exempted_land_division": {
+        "approved_by": "Lima-Allen County Regional Planning Commission",
+        "text_verbatim": "EXEMPTED LAND DIVISION — Approved by the Lima-Allen County Regional Planning Commission. This approval void unless recorded within 90 days from this date: 3-16-2018",
+        "log_no": "2018-14",
+        "date_handwritten": "3-16-2018",
+        "note": "[verified] The conveyance was processed as an EXEMPTED land division — i.e. it did not go through plat review. LACRPC is already a corpus collection (`data/documents/lacrpc/`), and its log number 2018-14 is a requestable file reference."
+      },
+      "notarial": {
+        "state": "Oklahoma",
+        "county": "Tulsa",
+        "notary": "LEVI HOUGH, Notary Public Oklahoma, Tulsa County",
+        "commission_no": "15004790",
+        "commission_expires": "2019-05-21",
+        "note": "[verified] The grantor's member executed and acknowledged the deed in TULSA COUNTY, OKLAHOMA, before an Oklahoma notary — for an Ohio LLC conveying Ohio farmland. The seal's printed line reads \"Notary Public - State of Ohio\" with \"Oklahoma\" handwritten over it, i.e. an Ohio-form seal amended by hand. Recorded because out-of-state execution is a fact about the grantor's whereabouts, not because it implies anything about the transaction."
+      },
+      "prepared_by": "Derek A. Younkman, Esquire — Cory Meredith Witter & Smith, LPA, 101 North Elizabeth Street, 6th Floor, Lima, Ohio 45801",
+      "prepared_by_page": 12,
+      "survey": {
+        "surveyor": "Gregory A. Bockrath, Ohio Professional Surveyor No. 8306",
+        "firm": "Bockrath & Associates Engineering and Surveying, LLC",
+        "firm_address": "118 S. Fair Ave., Suite A, Ottawa, OH 45875",
+        "field_survey": "February 2018",
+        "acreage": 137.49,
+        "within_right_of_way": 1.259,
+        "basis_of_bearings_verbatim": "The bearings used in this description are on an assumed meridian assuming the West line of the Northwest Quarter of Section 12 (Cole Street) to be North 00°08'44\" West and are for the purpose of angle determination only.",
+        "adjoiners_referenced": [
+          "Official Record Volume 2010, Page 15103 (Tract I) — east line of the Northwest Quarter",
+          "Official Record Volume 2017, Page 5969 (Exhibits C & D) — a 23.471 acre tract and a 32.511 acre tract",
+          "Deed Volume 673, Page 658"
+        ],
+        "note": "[verified] A full metes-and-bounds is present and is NOT transcribed here, per the corpus convention for legal descriptions. The adjoiner references above are recorded because they are the chain-of-title handles a follow-on recorder pull would use."
+      },
+      "as_is_clause_verbatim": "This deed is delivered and accepted by the parties with the premises in its \"as is/where is\" condition.",
+      "subject_to_verbatim": "SUBJECT TO EASEMENTS OR RESTRICTIONS, IF ANY, OF RECORD OR IN USE ON SAID PREMISES."
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "american-township/zoning/2018-03-16-churchill-neff.deed.yaml",
+      "source_kind": "document",
+      "page": 12,
+      "pages": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "american-township/zoning/2025FebConditionalUserPermitDecisionLetter.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": false
+  },
+  {
     "rel": "recorder/202508130008300.deed.yaml",
     "group": "deeds",
     "title": "Limited Warranty Deed",
@@ -10135,6 +10241,274 @@
     "source_doc_rel": "aedg/PRR-01-bundle.ocr.pdf",
     "source_doc_render_class": "pdf",
     "source_doc_published": true
+  },
+  {
+    "rel": "american-township/zoning/2025-02-04-bza-2024-12-cup.resolution.yaml",
+    "group": "local-legislation",
+    "title": "American Township (Allen County, Ohio) Conditional Use Permit No. 103, issued by the Township Zoning Inspector on the affirmative finding of the American Township Board of Zoning Appeals in Case #BZA 2024-12, approving a three-building data center complex with operations building and security office at 4110 N. Cole Street, Lima, Ohio 45801",
+    "confidence": null,
+    "warnings": [],
+    "fields": {
+      "instrument": "American Township (Allen County, Ohio) Conditional Use Permit No. 103, issued by the Township Zoning Inspector on the affirmative finding of the American Township Board of Zoning Appeals in Case #BZA 2024-12, approving a three-building data center complex with operations building and security office at 4110 N. Cole Street, Lima, Ohio 45801",
+      "permit_no": "103",
+      "case_no": "BZA 2024-12",
+      "body": "American Township Board of Zoning Appeals",
+      "body_kind": "township_board_of_zoning_appeals",
+      "subject_matter": "conditional_use_permit",
+      "outcome": "approved_with_conditions",
+      "date_issued": "2025-02-04",
+      "decided": "2025-01-08",
+      "written_notice_filed": "2025-02-04",
+      "hearings": [
+        "2024-12-11",
+        "2025-01-08"
+      ],
+      "signed_by": "Denny Schwinnen, Chairman, American Township Board of Zoning Appeals",
+      "signature_date_as_written": "2-4-2025",
+      "expiry": {
+        "printed": "2026-02-04",
+        "rule_verbatim": "In accordance with Article 17.10 – \"Expiration of Conditional Use Permit\" a conditional use permit shall be deemed authorized for only one particular conditional use, and said permit shall automatically expire if such conditionally permitted use has not been instituted or utilized within one (1) year of the date on which the permit was issued, or if for any reason such use shall cease for more than one (1) year.",
+        "rule_pages": [
+          0,
+          3
+        ],
+        "status": "[open] AS OF `as_of` (2026-09-19) THE PRINTED EXPIRY IS SEVEN MONTHS PAST. Whether the use was \"instituted or utilized\" before 2026-02-04, whether an extension or a renewed permit issued, and whether a successor instrument exists are ALL unestablished — this corpus holds no American Township zoning record after this one. Do NOT state that the permit lapsed: the instrument states a condition, not an outcome, and Article 17.10's trigger is a question of fact about construction on the ground that no document here answers. Do not state that it remains in force either. See `open_questions`."
+      },
+      "subject_property": {
+        "address": "4110 N. Cole Street, Lima, Ohio 45801",
+        "section": "Section 12, American Township, Allen County, Ohio",
+        "parcels_on_the_permit_face": [
+          "36-1200-02-001.001"
+        ],
+        "parcels_on_the_decision_letter": [
+          "36-1200-02-001.000",
+          "36-1200-02-001.001"
+        ],
+        "parcel_discrepancy": "⚠️ [verified] THE PERMIT AND ITS OWN DECISION LETTER NAME DIFFERENT PARCEL SETS. The permit face (p. 0) identifies ONE parcel, 36-1200-02-001.001. The decision letter's PROPERTY LOCATION block (p. 1) names TWO, 36-1200-02-001.000 AND 36-1200-02-001.001 — and the letter's own WHEREAS clause then reverts to the single \".001\". The hearing worksheet (p. 6) resolves the sequence: the application was filed against \"#36-1200-02-001.001 (162.5 acres vacant land)\" and \"Amended December 3, 2024 (#36-1200-02-001.001 & #36-1200-02-001.000)\". So the application was AMENDED to add the second parcel eight days before the first hearing, and the permit form was issued on the pre-amendment description. Recorded as printed, on all three pages, rather than reconciled: which parcels the permit actually runs to is a legal question this corpus cannot answer, and it is NOT a transcription error to be tidied.",
+        "acreage_stated": 162.5,
+        "acreage_note": "[verified] 162.5 acres is the figure the BZA worksheet attaches to parcel .001 ALONE, before the December 3 amendment added .000. The township trustees' own minutes of 2024-11-25 independently record \"162.5 acres off Cole Street\" for the same application. ⚠️ Do NOT reconcile this against the 2018 deed's 137.490 + 40.07 acres: those are the two parcels the deed conveyed (.000 and 36-0100-03-002.000), a different set from the two named here, and one of them lies in SUGAR CREEK township, not American. Any campus acreage claim needs the auditor's current parcel records, not arithmetic across these two documents.",
+        "zoning_designation": "M-2 General Manufacturing",
+        "auditor_use_code": "199-Other Agricultural Uses Qual. CAUV",
+        "auditor_use_note": "[verified] At the time of the hearing the land was carried by the Allen County Auditor as CAUV — Current Agricultural Use Valuation — i.e. taxed as farmland while zoned M-2. The residents' recorded objection that \"American Township does not have agricultural zoned land, the land may be used agriculturally, but the specific zoning is R-1 Residential Single-Family Dwellings\" (p. 1) is about the SURROUNDING land, not this parcel. Two different claims; do not merge them.",
+        "property_owner_as_printed": "Neff Farms LLC, 11951 Zerkle Road, Lima, Ohio 45806"
+      },
+      "applicant": {
+        "name_as_printed": "Jill Tangeman, Esq. c/o Project BOSC",
+        "firm_as_printed_on_permit": "VORYS, SATER, SEYMOUR, AND PLEASE, LLP",
+        "firm_as_printed_on_letter": "Vorys, Sater, Seymour, and Pease, LLP",
+        "firm_note": "[verified] The permit form (p. 0) prints \"PLEASE\" where the decision letter (pp. 1, 6) prints \"Pease\". A typo on the permit face, not in the firm's name. Recorded rather than corrected, per chain of custody — the same treatment the corpus gives the Lima agenda's \"date center\".",
+        "address": "52 East Gay Street, Columbus, Ohio",
+        "contact_on_face": "[verified] p. 0 prints the applicant attorney's work e-mail (JSTANGEMAN@VORYS.COM) and direct work telephone (614.464.5608). Business contact details of counsel of record on a public permit, intrinsic to the instrument — not withheld, and not PII of a private individual.",
+        "filed_by": "[reference] The township trustees' minutes of 2024-11-25 record the application as FILED ON NOVEMBER 14, 2024 BY CINDY LEIS OF AEDG on behalf of Project BOSC. Neither the filing date nor Leis's name appears anywhere in THIS document, so both are carried here as corroboration from the corpus, not as facts read off this instrument."
+      },
+      "proposed_construction_verbatim": "3- BUILDING DATA CENTER COMPLEX, OPERATIONS BUILDING, AND SECURITY OFFICE.",
+      "proposed_construction_page": 0,
+      "cited_authority": {
+        "district": "General Manufacturing District (M-2)",
+        "section_verbatim": "11.2 CONDITIONAL USES - WITH APPROVAL BY THE TOWNSHIP BOARD OF ZONING APPEALS AFTER A PUBLIC HEARING, specifically Article 11.2.3- Any industrial, manufacturing, storage, or distribution establishment not specifically mentioned above but deemed acceptable by the Board of Zoning Appeals.",
+        "section_page": 6,
+        "section_id_as_cited": "11.2.3",
+        "character": "[verified] A RESIDUAL CATCH-ALL. The cited subsection does not name data centers, computing, or electronic data storage; it licenses whatever the Board \"deems acceptable\" among industrial, manufacturing, storage and distribution establishments \"not specifically mentioned above\". The Board's finding tracks that language exactly — both the motion (p. 2) and the permit face (p. 0) find \"the industrial, manufacturing, storage and distribution use of the proposed establishment at this site to be an acceptable use of the land.\""
+      },
+      "conditions": [
+        {
+          "n": 1,
+          "verbatim": "All data distribution center buildings shall be set back a minimum of five hundred (500) feet from the center line of N. Cole Street, Lima, Ohio."
+        },
+        {
+          "n": 2,
+          "verbatim": "The sound decibel (dba) level shall not exceed a limit of sixty (60) decibels as measured from the center line of N. Cole Street, Lima, Ohio, as measured by a qualified acoustician."
+        },
+        {
+          "n": 3,
+          "verbatim": "All facility lighting shall be downward directed or directed towards the facility buildings and not directed towards adjacent properties."
+        },
+        {
+          "n": 4,
+          "verbatim": "Mounding along N. Cole Street, there shall be a minimum of twelve-12 feet in height, and shall have two off-setting rows of evergreen trees at least seven-7 feet in height."
+        },
+        {
+          "n": 5,
+          "verbatim": "All buildings shall not exceed fifty-50 feet in height, in accordance with the American Township Zoning Resolution. Deviance from this maximum height will require a variance from American Township."
+        },
+        {
+          "n": 6,
+          "verbatim": "Any roadway damage caused by construction or other traffic from the facility will be repaired at the owner's expense and a roadway maintenance agreement shall be entered into between the owner, and Allen County Engineer."
+        },
+        {
+          "n": 7,
+          "verbatim": "If the owner of this property seeks a property tax abatement, from the Allen County Board of Commissioners, the owner must pursue a written agreement with Elida Local Schools to provide potential lost revenue to the Elida School District."
+        },
+        {
+          "n": 8,
+          "verbatim": "Per Article 11.8 Landscaping or Screening Provisions – (M-2 General Manufacturing District) For non-residential uses abutting an R-District, acceptable landscaping and screening. Such screening consisting of a wall or solid fence shall be six-6 feet in height, maintained in good condition and free of all advertising or other signs. Landscaping provided in lieu of such wall or fence shall consist of a strip of land not less than fifteen-15 feet in width planted with evergreen hedge or dense planting of evergreen shrubs not less than four-4 feet in height at time of planting."
+        }
+      ],
+      "conditions_pages": [
+        0,
+        2,
+        3
+      ],
+      "enforcement_verbatim": "The failure to comply with any of the above-mentioned restrictions & conditions shall be grounds for the Zoning Inspector to issue a STOP WORK ORDER, upon the development until such time the restriction or condition is corrected by the present or future owner or developer. The failure to comply with the stop work order will result in a minimum fine amount of five hundred-500.00 per day that the violation continues, until such time the Zoning Inspector determines the violation has been corrected. Nothing shall preclude the Township's attorney from seeking any additional injunctive relief, to compel compliance.",
+      "enforcement_page": 0,
+      "motion": {
+        "verbatim": "I, Timothy Piper, move that the American Township Board of Zoning Appeals APPROVE the Conditional Use Application for the parcel applied for by Project Bosc, c/o Jill Tangeman, and located at 4110 N. Cole Street, Lima, Ohio 45801, and the Board also finds that the industrial, manufacturing, storage and distribution use of the proposed establishment at this site to be acceptable use of the land.",
+        "page": 2,
+        "transcription_note": "⚠️ The decision letter prints the mover's surname \"Piper\" here and \"Pieper\" at p. 1. The verbatim above reproduces p. 2 as printed. See `findings.the_piper_pieper_ambiguity` — the spelling is not a transcription slip on this project's part and must not be normalized.",
+        "moved_by": "Mr. Piper",
+        "seconded_by": "Mr. Finch"
+      },
+      "roll_call": [
+        {
+          "member": "Mr. Schwinnen",
+          "vote": "yes"
+        },
+        {
+          "member": "Mr. Piper",
+          "vote": "yes"
+        },
+        {
+          "member": "Mr. Burklo",
+          "vote": "absent",
+          "note": "[verified] p. 9 attendance sheet gives the reason as \"ABSENT - MEDICAL\"."
+        },
+        {
+          "member": "Mr. Carter",
+          "vote": "yes"
+        },
+        {
+          "member": "Mr. Finch",
+          "vote": "yes"
+        }
+      ],
+      "tally": {
+        "votes_yes": 4,
+        "votes_no": 0,
+        "absent": 1,
+        "verbatim": "Having heard the roll call, the Conditional Use Permit Application with Conditions has passed by a vote of 4 to 0 in favor of the measure.",
+        "page": 3,
+        "note": "[verified] UNANIMOUS AMONG THOSE PRESENT, NOT AMONG THE BOARD. Four of five seats voted; the fifth was vacant for medical absence. A five-member board carried the measure 4-0 with no dissent recorded at either hearing. The worksheet (p. 6) prints the board's own quorum rule: \"Three members are required for a quorum\" and \"A 2-2 split vote is deemed failure of passage of motion.\""
+      },
+      "board_roster": [
+        {
+          "name": "Denny Schwinnen",
+          "role": "Chairman"
+        },
+        {
+          "name": "Tim Piper",
+          "role": "member",
+          "role_note": "[verified] The decision letter calls him \"Vice Chairman\" at p. 2. Independently corroborated as a sitting BZA member by the township trustees' minutes of 2025-01-13, which record Resolution #01-132025 reappointing \"Tim Piper for Zoning Appeals\" to a five-year term ending 12/31/29."
+        },
+        {
+          "name": "Jackson Burklo",
+          "role": "member"
+        },
+        {
+          "name": "Louis Carter",
+          "role": "member"
+        },
+        {
+          "name": "Dan Finch",
+          "role": "member"
+        },
+        {
+          "name": "Mark Bishop",
+          "role": "Secretary; Zoning Inspector for American Township",
+          "role_note": "[verified] Signs the attendance sheet as \"(Sect)\" at p. 9 and is identified as \"M. Bishop, Zoning Inspector for American Township\" on the worksheet at p. 6, where he is recorded receiving the applicant's Acoustic Sound Report and Affidavit on 2025-01-08."
+        }
+      ],
+      "section_17_3_findings": {
+        "page": 2,
+        "all_affirmative": true,
+        "findings": [
+          {
+            "id": "17.3.1",
+            "standard": "It is in fact a conditional use as established under the provisions of Article 3 through 11, inclusive and appears on the schedule of District Regulations adopted for the zoning district above.",
+            "board_reasoning": "We have an affirmative finding."
+          },
+          {
+            "id": "17.3.2",
+            "standard": "Will be in accordance with the general objectives, or with any specific objective, of the Township's comprehensive plan and / or the zoning resolution.",
+            "board_reasoning": "We have an affirmative finding. Keynote is comprehensive plan or zoning resolution. Developer has addressed that construction will be in accordance with the general objectives, and in accordance with the zoning resolution for American Township."
+          },
+          {
+            "id": "17.3.3",
+            "standard": "Will be operated, constructed and maintained so as to be harmonious and appropriate in appearance with the existing or intended character of the general vicinity and that such use will not change the essential character of the same area.",
+            "board_reasoning": "We have an affirmative finding. Developer ensures that construction of the buildings will be developed to blend into the essential character of the surrounding areas. This by means of landscaping, mounding, ponds, etc. to blend into the open wooded area. Buildings will be set back well beyond the required 90-foot set back distance for industrial structures."
+          },
+          {
+            "id": "17.3.4",
+            "standard": "Will not be hazardous or disturbing to existing or future neighboring uses.",
+            "board_reasoning": "We have an affirmative finding. The developer has advised that the site will not he hazardous or disturbing. Federal, state, and local laws and regulations ensure that a safe and non-hazardous site will be maintained.",
+            "board_reasoning_note": "\"will not he hazardous\" is the document's own typo for \"be\". Transcribed as printed."
+          },
+          {
+            "id": "17.3.5",
+            "standard": "Will be served adequately by essential public facilities and services such as highways, streets, police and fire protection, drainage structures, refuse disposal, water and sewer, and schools; or that the persons or agencies responsible for the establishment of the proposed use shall be able to provide adequately any such services.",
+            "board_reasoning": "We have an affirmative finding. Multi-agencies will be involved in the construction and post construction process."
+          },
+          {
+            "id": "17.3.6",
+            "standard": "Will not create excessive additional requirements at public cost for public facilities and services and will not be detrimental to the economic welfare of the community.",
+            "board_reasoning": "We have an affirmative finding."
+          },
+          {
+            "id": "17.3.7",
+            "standard": "Will not involve uses, activities, processes, materials, equipment and conditions of operation that will be detrimental to any person, property, or the general welfare by reason of excessive production of traffic, noise, smoke, fumes, glare, or odors.",
+            "board_reasoning": "We have an affirmative finding. Issues with sound management will be monitored, water usage from City of Lima with self-contained cooling units. Buildings back 500 feet from roadway, to obscure from area properties. Detention ponds to off-set storm water drainage. Lighting will be downlit and aimed towards facility."
+          },
+          {
+            "id": "17.3.8",
+            "standard": "Will have vehicle approaches to the property which shall be so designed as not to create an interference with traffic on surrounding public thoroughfare.",
+            "board_reasoning": "We have an affirmative finding. Roadway maintenance agreements have been discussed and one of the conditions."
+          },
+          {
+            "id": "17.3.9",
+            "standard": "Will not result in the destruction, loss, or damage of a natural, scenic, or historic feature of major importance.",
+            "board_reasoning": "We have an affirmative finding. The proposed area is open land, several trees, and unused area. After construction, mounding and landscaping will be used to restore natural features."
+          }
+        ]
+      },
+      "directives": {
+        "page": 3,
+        "items": [
+          "The Board of Zoning Appeals hereby approves the issuance of the Conditional Use Permit by making an affirmative finding in writing that the proposed conditional use is located in a district wherein such use may be conditionally permitted.",
+          "The Board finds that all conditions for approval of such use in such district have been met.",
+          "That such use will result in neither significant negative impact upon nor conflict with surrounding uses.",
+          "Upon making this affirmative finding, the Board hear-by directs to the Zoning Inspector to issue a Conditional Use Permit for such use which shall list all conditions and safeguards specified by the Board of Zoning Appeals for approval.",
+          "In accordance with Article 17.10 – \"Expiration of Conditional Use Permit\" a conditional use permit shall be deemed authorized for only one particular conditional use, and said permit shall automatically expire if such conditionally permitted use has not been instituted or utilized within one (1) year of the date on which the permit was issued, or if for any reason such use shall cease for more than one (1) year."
+        ]
+      }
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "american-township/zoning/2025-02-04-bza-2024-12-cup.resolution.yaml",
+      "source_kind": "document",
+      "page": 1,
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "american-township/zoning/2025FebConditionalUserPermitDecisionLetter.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": false
   },
   {
     "rel": "lacrpc/american-township-zoning.zoning.yaml",

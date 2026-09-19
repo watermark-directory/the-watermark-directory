@@ -401,7 +401,25 @@ def _classify(data: Any) -> str:
     if not isinstance(data, dict):
         return DECLINED
     if "deed" in data:
-        return "deed"
+        # Guarded by the render envelope, in the same idiom as the `permit` split below (#1994).
+        # A bare `deed:` key used to route EVERY shape to `DeedExtraction`, which requires
+        # `doc_id`/`dpi`/`kind`/`source_path` — an envelope describing a vision render. A
+        # HAND-AUTHORED deed reading has no such render, so it was rejected for fields that
+        # describe something that never happened, and the rejection was a warning nobody read:
+        # exactly the failure the general-permit arm was added to stop. Every one of the six
+        # committed render deed extractions satisfies this by construction (checked as a set,
+        # not inferred), so this narrows nothing that exists today.
+        #
+        # A reviewed hand transcription of a recorder PDF therefore DECLINES here and is still
+        # claimed by `watermark.site.records._classify` into the `deeds` group for the records
+        # feed — the same split the `resolution:` artifacts already live with. ⚠️ The cost is
+        # real and is not a silent one: such a deed does NOT reach `corpus.deeds`, so it
+        # contributes no entity-graph or timeline rows. Closing that gap means a
+        # `deed_transcribed` kind and model alongside `npdes_transcribed`, which is its own
+        # reviewed change and not a rider on an ingest.
+        if _has_render_envelope(data):
+            return "deed"
+        return DECLINED
     if "permit" in data:
         # Both a document extraction (NpdesExtraction, read from a scanned PDF) and an
         # ECHO DMR effluent-record pull (`watermark dmr`, a derived API summary) key a

@@ -88,7 +88,7 @@ describe("documentId — the corpus it has to address", () => {
   // `4230062` (14.45 MB sanitary plan & profile) — deliberately NOT committed on Git-LFS budget
   // and recorded by sha256 in `data/documents/permits/bistrozzi-permits/filename-map.yaml`.
   // Committing either moves this number again and SHOULD.
-  it("mints a distinct handle for all 3,396 committed Lima rels", () => {
+  it("mints a distinct handle for all 3,397 committed Lima rels", () => {
     const rels = limaRels();
     // 3,350 -> 3,362 (#2089): the twelve committed eDocuments of the 2DP00130 / APP285104563
     // indirect-discharge application package under `oepa/lima/`. The portal serves 23 rows; the
@@ -111,9 +111,17 @@ describe("documentId — the corpus it has to address", () => {
     // manifest-managed subtree for body slug `lima`, and which is fed by a route that has stopped
     // producing: the CivicPlus Agenda Center's City Council category ends at 2024-05-06 and the
     // live portal is PrimeGov.
-    // Reviewed: 3,396 rels, 3,396 distinct rels, 3,396 distinct handles — the two new handles are
-    // `p5ebfg0z` (agenda) and `4tc6w0ma` (packet). Checked as a set, not inferred from the delta.
-    expect(rels.length).toBe(3396); // a corpus change should surface here, not a silent collision
+    // 3,396 -> 3,397 (the American Township conditional-use permit): the Board of Zoning Appeals'
+    // Case #BZA 2024-12 decision packet — Conditional Use Permit No. 103, the instrument that
+    // permits the Project BOSC campus at 4110 N. Cole Street. It opens a NEW
+    // `american-township/zoning/` sub-collection beside the civic loader's
+    // `american-township/meetings/` trustee-minutes tree, because the BZA is a DIFFERENT BODY
+    // whose minutes that manifest has never pulled — the corpus held the application and no
+    // record of the decision. ONE file, not two: the 2018 warranty deed at pp. 11-14 is a second
+    // INSTRUMENT inside the same PDF, extracted separately, not a second byte-stream.
+    // Reviewed: 3,397 rels, 3,397 distinct rels, 3,397 distinct handles — the new handle is
+    // `rfgm705j`. Checked as a set, not inferred from the delta.
+    expect(rels.length).toBe(3397); // a corpus change should surface here, not a silent collision
     const ids = new Set(rels.map(documentId));
     expect(ids.size).toBe(rels.length);
   });

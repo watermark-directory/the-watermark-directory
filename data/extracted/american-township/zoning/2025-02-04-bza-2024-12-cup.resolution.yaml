@@ -1,0 +1,867 @@
+# American Township Conditional Use Permit No. 103 — the BZA approval of the Project BOSC data-center campus, issued 2025-02-04
+#
+# ⚠️ The first line above is read VERBATIM as this record's label in the yidam corpus mirror
+# (watermark.site.corpus_records._title takes the leading YAML comment block's first `# ` line), so
+# it is written to stand alone. Do not wrap it.
+#
+# THIS IS THE ZONING INSTRUMENT THAT PERMITS THE CAMPUS. Until this file the corpus recorded the
+# APPLICATION (American Township trustees, 2024-11-25) and never the DECISION: no trustee minutes
+# record the 2025-01-08 vote or the 2025-02-04 written notice, because the Board of Zoning Appeals
+# is a separate body whose own minutes are not in this corpus. This scan is the ONLY corpus source
+# for the approval.
+#
+# CUSTODY CAVEAT (the reason this file is shaped the way it is):
+#   1. THIRD-PARTY CUSTODY. The file did not come from American Township to this project. It
+#      reached the requester through an intermediate holder. The instrument's CONTENT is read off
+#      its own face and is [verified]; its AUTHENTICITY AS SERVED BY THE TOWNSHIP is NOT
+#      independently established here — see `corroboration` for what the corpus does and does not
+#      confirm, and `open_questions` for the pull that would settle it.
+#   2. ZERO TEXT LAYER. All 15 pages return zero characters from pypdf. Every field below is a
+#      VISION read of a pypdfium2 render (150 DPI survey, 300 DPI for every figure transcribed as
+#      [verified]). No OCR digits are trusted anywhere in this file.
+#   3. HANDWRITING. Pages 6, 7 and 9 are handwritten. Nothing is dated from handwriting, and the
+#      handwritten narrative passages are summarized rather than transcribed as verbatim.
+#   4. COMPOUND DOCUMENT. One PDF, five instrument types. Only the decision instrument is modelled
+#      here; the 2018 deed at pp. 11-14 is its own artifact (see `companion_artifacts`).
+#
+# TAG VOCABULARY: [verified] = read off the document's own pages at the cited page; [inference] =
+# reasoned from [verified] facts, labelled; [reference] = secondary source, lead only; [open] = not
+# established here.
+
+as_of: '2026-09-19'
+site: lima
+strengthens: [record]
+
+source:
+  instrument: township-conditional-use-permit-and-bza-decision-notice
+  file: data/documents/american-township/zoning/2025FebConditionalUserPermitDecisionLetter.pdf
+  sha256: 'bb63ede69161bbd6218dc4ce4d2e378a0e00ac5728757775f95269f40701164f'
+  bytes: 671406
+  pages: 15
+  content_verified: vision
+  canonical_name: 2025-02-04-bza-2024-12-cup-decision.pdf   # see ./filename-map.yaml
+  custody: >-
+    [open] THIRD-PARTY. Obtained by the requester from an intermediate holder rather than from
+    American Township directly. The identity of the intermediate holder and the date of transfer
+    are not recorded here because they are not established; they are NOT inferred from the file's
+    metadata. What the bytes themselves say: PDF producer "EPSON Scan", creation and modification
+    timestamp 2025-07-10T08:26:21-05:00. That timestamp dates the SCANNING of a paper copy, five
+    months after the instrument's own date, and it is evidence of nothing about the instrument.
+  read_note: >-
+    PURE IMAGE SCAN — 15 of 15 pages carry a zero-character text layer. This is not a degraded text
+    layer; there is no text layer. `watermark.site.passages.extract_published_passages` returns
+    early on `not text` BEFORE its OCR fallback is reachable, so this document contributes ZERO
+    passages to the search/ask index even if it is later published. It is a member of the known
+    blind set (790 of 5,531 published pages). Any "the corpus does not mention X" negative drawn
+    from search over this document is worthless until that indexer change lands.
+pages_read: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+image_pages_read: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+# WHAT IS PHYSICALLY IN THIS PDF. Five instrument types in one scan; do not cite the file without
+# naming the page range, because "the CUP decision letter" is only pp. 0-3 of it.
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+document_structure:
+  - pages: [0]
+    what: >-
+      [verified] The CONDITIONAL USE PERMIT itself — American Township's one-page permit form,
+      Permit No. 103, signed by Chairman Schwinnen and dated 2-4-2025. This is the operative
+      instrument; pp. 1-3 are the written decision that authorizes it.
+  - pages: [1, 2, 3]
+    what: >-
+      [verified] FINAL DECISION NOTICE, Case #BZA 2024-12 — memorandum from Chairman Dennis
+      Schwinnen to Project BOSC c/o Jill Tangeman, dated February 4, 2025, on American Township
+      Board of Zoning Appeals letterhead (102 Pioneer Road, Elida, Ohio 45807). Carries the hearing
+      narrative, the nine Section 17.3 findings, the motion, and the roll call.
+  - pages: [4, 5]
+    what: >-
+      [verified] RESIDENT CORRESPONDENCE — a signed letter from Rebecca Streeter dated 1-13-25,
+      stamped RECEIVED JAN 28 2025, amending the public record of the 2024-12-11 hearing, with six
+      listed references. See `public_comment_in_the_record`.
+  - pages: [6, 7]
+    what: >-
+      [verified] BZA HEARING WORKSHEET for the 2025-01-08 continued hearing — the form the board
+      fills in during the hearing. Largely HANDWRITTEN. Carries the acreage, the zoning
+      designation, the auditor use code, and the cited conditional-use authority.
+  - pages: [8]
+    what: >-
+      [verified] ORDER OF PROCEEDINGS for the 2025-01-08 hearing, per Denny Schwinnen — the
+      board's own procedural rules (20 minutes for the applicant, 20 minutes combined for the
+      citizens' spokesperson and residents, no cross-examination).
+  - pages: [9]
+    what: >-
+      [verified] BOARD MEMBER ATTENDANCE SHEET, signed. Names the board roster in print:
+      Denny Schwinnen, Tim Piper, Jackson Burklo, Louis Carter, Dan Finch, and Mark Bishop (Sect).
+  - pages: [10]
+    what: >-
+      [verified] EXCERPT of the American Township Zoning Resolution, Article 17 (Procedures and
+      Requirements for Conditional Use Permits), printed sheet 109 — sections 17.0 through 17.3.3.
+      A reference attachment, not part of the decision.
+  - pages: [11, 12, 13, 14]
+    what: >-
+      [verified] OHIO GENERAL WARRANTY DEED, instrument 201803160002723, Churchill Farm LLC to
+      Neff Farms, recorded 2018-03-16, with Exhibit A legal descriptions and a 137.490-acre survey.
+      Printed from the Allen County recorder's portal 12/3/24. A SEPARATE INSTRUMENT seven years
+      older than the decision — extracted on its own, see `companion_artifacts`.
+
+companion_artifacts:
+  - path: data/extracted/american-township/zoning/2018-03-16-churchill-neff.deed.yaml
+    covers_pages: [11, 12, 13, 14]
+    why_separate: >-
+      A recorded conveyance is its own instrument with its own parties, date and recording stamp.
+      Folding it into the decision record would date the land transfer to 2025 and attribute a
+      2018 grantor to a 2025 proceeding.
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+# THE DECISION
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+resolution:
+  instrument: >-
+    American Township (Allen County, Ohio) Conditional Use Permit No. 103, issued by the Township
+    Zoning Inspector on the affirmative finding of the American Township Board of Zoning Appeals in
+    Case #BZA 2024-12, approving a three-building data center complex with operations building and
+    security office at 4110 N. Cole Street, Lima, Ohio 45801
+  permit_no: '103'                # [verified] p. 0 — printed "PERMIT No. 103 / ______" (the
+                                  # second field of the form is left blank on the face)
+  case_no: 'BZA 2024-12'          # [verified] p. 0 and p. 1. The hearing worksheet (p. 6) and the
+                                  # attendance sheet (p. 9) print it unspaced as "BZA2024-12",
+                                  # which is also the form the township trustee minutes use.
+  body: American Township Board of Zoning Appeals
+  body_kind: township_board_of_zoning_appeals
+  subject_matter: conditional_use_permit
+  outcome: approved_with_conditions
+
+  date_issued: '2025-02-04'       # [verified] p. 0 "DATE ISSUED: 02-04-2025"
+  decided: '2025-01-08'           # [verified] p. 0, p. 1 — the date the Board voted
+  written_notice_filed: '2025-02-04'  # [verified] p. 0 "with formal written notice filed
+                                      # February 4, 2025"; p. 1 DATE line
+  hearings: ['2024-12-11', '2025-01-08']   # [verified] p. 0, p. 1 — two open public hearings,
+                                           # the second a continuance of the first
+  signed_by: 'Denny Schwinnen, Chairman, American Township Board of Zoning Appeals'
+  signature_date_as_written: '2-4-2025'    # [verified] p. 0 and p. 3, both handwritten by the
+                                           # signer alongside a signature
+
+  # ⚠️ THE PERMIT'S FACE EXPIRY HAS PASSED. Recorded as its own block because it is the single
+  # most consequential fact on p. 0 and the easiest to read past.
+  expiry:
+    printed: '2026-02-04'         # [verified] p. 0 "EXPIRES: 02-04-2026"
+    rule_verbatim: >-
+      In accordance with Article 17.10 – "Expiration of Conditional Use Permit" a conditional use
+      permit shall be deemed authorized for only one particular conditional use, and said permit
+      shall automatically expire if such conditionally permitted use has not been instituted or
+      utilized within one (1) year of the date on which the permit was issued, or if for any reason
+      such use shall cease for more than one (1) year.
+    rule_pages: [0, 3]
+    status: >-
+      [open] AS OF `as_of` (2026-09-19) THE PRINTED EXPIRY IS SEVEN MONTHS PAST. Whether the use
+      was "instituted or utilized" before 2026-02-04, whether an extension or a renewed permit
+      issued, and whether a successor instrument exists are ALL unestablished — this corpus holds
+      no American Township zoning record after this one. Do NOT state that the permit lapsed: the
+      instrument states a condition, not an outcome, and Article 17.10's trigger is a question of
+      fact about construction on the ground that no document here answers. Do not state that it
+      remains in force either. See `open_questions`.
+
+  # ───────────────────────────────────────────────────────────────────────────────────────────
+  # THE PARCEL AND THE PROJECT
+  # ───────────────────────────────────────────────────────────────────────────────────────────
+  subject_property:
+    address: '4110 N. Cole Street, Lima, Ohio 45801'   # [verified] pp. 0, 1, 6
+    section: 'Section 12, American Township, Allen County, Ohio'   # [verified] pp. 0, 1
+    parcels_on_the_permit_face: ['36-1200-02-001.001']
+    parcels_on_the_decision_letter: ['36-1200-02-001.000', '36-1200-02-001.001']
+    parcel_discrepancy: >-
+      ⚠️ [verified] THE PERMIT AND ITS OWN DECISION LETTER NAME DIFFERENT PARCEL SETS. The permit
+      face (p. 0) identifies ONE parcel, 36-1200-02-001.001. The decision letter's PROPERTY
+      LOCATION block (p. 1) names TWO, 36-1200-02-001.000 AND 36-1200-02-001.001 — and the
+      letter's own WHEREAS clause then reverts to the single ".001". The hearing worksheet (p. 6)
+      resolves the sequence: the application was filed against "#36-1200-02-001.001 (162.5 acres
+      vacant land)" and "Amended December 3, 2024 (#36-1200-02-001.001 & #36-1200-02-001.000)".
+      So the application was AMENDED to add the second parcel eight days before the first hearing,
+      and the permit form was issued on the pre-amendment description. Recorded as printed, on all
+      three pages, rather than reconciled: which parcels the permit actually runs to is a legal
+      question this corpus cannot answer, and it is NOT a transcription error to be tidied.
+    acreage_stated: 162.5         # [verified] p. 6, handwritten-form printed field:
+                                  # "#36-1200-02-001.001 (162.5 acres vacant land)"
+    acreage_note: >-
+      [verified] 162.5 acres is the figure the BZA worksheet attaches to parcel .001 ALONE, before
+      the December 3 amendment added .000. The township trustees' own minutes of 2024-11-25
+      independently record "162.5 acres off Cole Street" for the same application. ⚠️ Do NOT
+      reconcile this against the 2018 deed's 137.490 + 40.07 acres: those are the two parcels the
+      deed conveyed (.000 and 36-0100-03-002.000), a different set from the two named here, and
+      one of them lies in SUGAR CREEK township, not American. Any campus acreage claim needs the
+      auditor's current parcel records, not arithmetic across these two documents.
+    zoning_designation: 'M-2 General Manufacturing'   # [verified] p. 6
+    auditor_use_code: '199-Other Agricultural Uses Qual. CAUV'   # [verified] p. 6
+    auditor_use_note: >-
+      [verified] At the time of the hearing the land was carried by the Allen County Auditor as
+      CAUV — Current Agricultural Use Valuation — i.e. taxed as farmland while zoned M-2. The
+      residents' recorded objection that "American Township does not have agricultural zoned land,
+      the land may be used agriculturally, but the specific zoning is R-1 Residential Single-Family
+      Dwellings" (p. 1) is about the SURROUNDING land, not this parcel. Two different claims; do
+      not merge them.
+    property_owner_as_printed: 'Neff Farms LLC, 11951 Zerkle Road, Lima, Ohio 45806'  # pp. 0, 1, 6
+
+  applicant:
+    name_as_printed: 'Jill Tangeman, Esq. c/o Project BOSC'   # [verified] pp. 0, 1, 6
+    firm_as_printed_on_permit: 'VORYS, SATER, SEYMOUR, AND PLEASE, LLP'
+    firm_as_printed_on_letter: 'Vorys, Sater, Seymour, and Pease, LLP'
+    firm_note: >-
+      [verified] The permit form (p. 0) prints "PLEASE" where the decision letter (pp. 1, 6) prints
+      "Pease". A typo on the permit face, not in the firm's name. Recorded rather than corrected,
+      per chain of custody — the same treatment the corpus gives the Lima agenda's "date center".
+    address: '52 East Gay Street, Columbus, Ohio'    # [verified] pp. 0, 1, 6
+    contact_on_face: >-
+      [verified] p. 0 prints the applicant attorney's work e-mail (JSTANGEMAN@VORYS.COM) and direct
+      work telephone (614.464.5608). Business contact details of counsel of record on a public
+      permit, intrinsic to the instrument — not withheld, and not PII of a private individual.
+    filed_by: >-
+      [reference] The township trustees' minutes of 2024-11-25 record the application as FILED ON
+      NOVEMBER 14, 2024 BY CINDY LEIS OF AEDG on behalf of Project BOSC. Neither the filing date
+      nor Leis's name appears anywhere in THIS document, so both are carried here as corroboration
+      from the corpus, not as facts read off this instrument.
+
+  proposed_construction_verbatim: >-
+    3- BUILDING DATA CENTER COMPLEX, OPERATIONS BUILDING, AND SECURITY OFFICE.
+  proposed_construction_page: 0
+
+  # ───────────────────────────────────────────────────────────────────────────────────────────
+  # ⚠️ THE AUTHORITY THE PERMIT RESTS ON. This is the single most analytically important field in
+  # the file, and it is the one a reader cross-referencing today's zoning resolution will get
+  # wrong. See `findings.authority_predates_the_data_center_use` below.
+  # ───────────────────────────────────────────────────────────────────────────────────────────
+  cited_authority:
+    district: 'General Manufacturing District (M-2)'
+    section_verbatim: >-
+      11.2 CONDITIONAL USES - WITH APPROVAL BY THE TOWNSHIP BOARD OF ZONING APPEALS AFTER A PUBLIC
+      HEARING, specifically Article 11.2.3- Any industrial, manufacturing, storage, or distribution
+      establishment not specifically mentioned above but deemed acceptable by the Board of Zoning
+      Appeals.
+    section_page: 6
+    section_id_as_cited: '11.2.3'
+    character: >-
+      [verified] A RESIDUAL CATCH-ALL. The cited subsection does not name data centers, computing,
+      or electronic data storage; it licenses whatever the Board "deems acceptable" among
+      industrial, manufacturing, storage and distribution establishments "not specifically
+      mentioned above". The Board's finding tracks that language exactly — both the motion (p. 2)
+      and the permit face (p. 0) find "the industrial, manufacturing, storage and distribution use
+      of the proposed establishment at this site to be an acceptable use of the land."
+
+  # ───────────────────────────────────────────────────────────────────────────────────────────
+  # THE EIGHT CONDITIONS. Verbatim from p. 0 (the permit face); the decision letter reproduces the
+  # same eight at pp. 2-3 in the motion. Both readings agree word for word.
+  # ───────────────────────────────────────────────────────────────────────────────────────────
+  conditions:
+    - n: 1
+      verbatim: >-
+        All data distribution center buildings shall be set back a minimum of five hundred (500)
+        feet from the center line of N. Cole Street, Lima, Ohio.
+    - n: 2
+      verbatim: >-
+        The sound decibel (dba) level shall not exceed a limit of sixty (60) decibels as measured
+        from the center line of N. Cole Street, Lima, Ohio, as measured by a qualified acoustician.
+    - n: 3
+      verbatim: >-
+        All facility lighting shall be downward directed or directed towards the facility buildings
+        and not directed towards adjacent properties.
+    - n: 4
+      verbatim: >-
+        Mounding along N. Cole Street, there shall be a minimum of twelve-12 feet in height, and
+        shall have two off-setting rows of evergreen trees at least seven-7 feet in height.
+    - n: 5
+      verbatim: >-
+        All buildings shall not exceed fifty-50 feet in height, in accordance with the American
+        Township Zoning Resolution. Deviance from this maximum height will require a variance from
+        American Township.
+    - n: 6
+      verbatim: >-
+        Any roadway damage caused by construction or other traffic from the facility will be
+        repaired at the owner's expense and a roadway maintenance agreement shall be entered into
+        between the owner, and Allen County Engineer.
+    - n: 7
+      verbatim: >-
+        If the owner of this property seeks a property tax abatement, from the Allen County Board
+        of Commissioners, the owner must pursue a written agreement with Elida Local Schools to
+        provide potential lost revenue to the Elida School District.
+    - n: 8
+      verbatim: >-
+        Per Article 11.8 Landscaping or Screening Provisions – (M-2 General Manufacturing District)
+        For non-residential uses abutting an R-District, acceptable landscaping and screening. Such
+        screening consisting of a wall or solid fence shall be six-6 feet in height, maintained in
+        good condition and free of all advertising or other signs. Landscaping provided in lieu of
+        such wall or fence shall consist of a strip of land not less than fifteen-15 feet in width
+        planted with evergreen hedge or dense planting of evergreen shrubs not less than four-4
+        feet in height at time of planting.
+  conditions_pages: [0, 2, 3]
+
+  enforcement_verbatim: >-
+    The failure to comply with any of the above-mentioned restrictions & conditions shall be
+    grounds for the Zoning Inspector to issue a STOP WORK ORDER, upon the development until such
+    time the restriction or condition is corrected by the present or future owner or developer. The
+    failure to comply with the stop work order will result in a minimum fine amount of five
+    hundred-500.00 per day that the violation continues, until such time the Zoning Inspector
+    determines the violation has been corrected. Nothing shall preclude the Township's attorney
+    from seeking any additional injunctive relief, to compel compliance.
+  enforcement_page: 0
+
+  # ───────────────────────────────────────────────────────────────────────────────────────────
+  # THE VOTE
+  # ───────────────────────────────────────────────────────────────────────────────────────────
+  motion:
+    verbatim: >-
+      I, Timothy Piper, move that the American Township Board of Zoning Appeals APPROVE the
+      Conditional Use Application for the parcel applied for by Project Bosc, c/o Jill Tangeman,
+      and located at 4110 N. Cole Street, Lima, Ohio 45801, and the Board also finds that the
+      industrial, manufacturing, storage and distribution use of the proposed establishment at this
+      site to be acceptable use of the land.
+    page: 2
+    transcription_note: >-
+      ⚠️ The decision letter prints the mover's surname "Piper" here and "Pieper" at p. 1. The
+      verbatim above reproduces p. 2 as printed. See `findings.the_piper_pieper_ambiguity` — the
+      spelling is not a transcription slip on this project's part and must not be normalized.
+    moved_by: 'Mr. Piper'         # [verified] pp. 2, 3, 6
+    seconded_by: 'Mr. Finch'      # [verified] pp. 3, 6
+  roll_call:
+    # [verified] p. 3, verbatim: "Mr. Schwinnen-Yes; Mr. Piper-Yes; Mr. Burklo-Absent;
+    # Mr. Carter-Yes; Mr. Finch-Yes." Corroborated by the handwritten grid at p. 6 ("4 to 0
+    # Passage") and by the signed attendance sheet at p. 9 ("Jackson Burklo: ABSENT - MEDICAL").
+    - member: 'Mr. Schwinnen'
+      vote: 'yes'
+    - member: 'Mr. Piper'
+      vote: 'yes'
+    - member: 'Mr. Burklo'
+      vote: 'absent'
+      note: '[verified] p. 9 attendance sheet gives the reason as "ABSENT - MEDICAL".'
+    - member: 'Mr. Carter'
+      vote: 'yes'
+    - member: 'Mr. Finch'
+      vote: 'yes'
+  tally:
+    votes_yes: 4
+    votes_no: 0
+    absent: 1
+    verbatim: >-
+      Having heard the roll call, the Conditional Use Permit Application with Conditions has passed
+      by a vote of 4 to 0 in favor of the measure.
+    page: 3
+    note: >-
+      [verified] UNANIMOUS AMONG THOSE PRESENT, NOT AMONG THE BOARD. Four of five seats voted; the
+      fifth was vacant for medical absence. A five-member board carried the measure 4-0 with no
+      dissent recorded at either hearing. The worksheet (p. 6) prints the board's own quorum rule:
+      "Three members are required for a quorum" and "A 2-2 split vote is deemed failure of passage
+      of motion."
+
+  board_roster:
+    # [verified] p. 9, printed names on the signed attendance sheet — the authoritative spelling.
+    - name: 'Denny Schwinnen'
+      role: Chairman
+    - name: 'Tim Piper'
+      role: member
+      role_note: >-
+        [verified] The decision letter calls him "Vice Chairman" at p. 2. Independently
+        corroborated as a sitting BZA member by the township trustees' minutes of 2025-01-13, which
+        record Resolution #01-132025 reappointing "Tim Piper for Zoning Appeals" to a five-year
+        term ending 12/31/29.
+    - name: 'Jackson Burklo'
+      role: member
+    - name: 'Louis Carter'
+      role: member
+    - name: 'Dan Finch'
+      role: member
+    - name: 'Mark Bishop'
+      role: 'Secretary; Zoning Inspector for American Township'
+      role_note: >-
+        [verified] Signs the attendance sheet as "(Sect)" at p. 9 and is identified as "M. Bishop,
+        Zoning Inspector for American Township" on the worksheet at p. 6, where he is recorded
+        receiving the applicant's Acoustic Sound Report and Affidavit on 2025-01-08.
+
+  # ───────────────────────────────────────────────────────────────────────────────────────────
+  # THE NINE SECTION 17.3 FINDINGS. The board must make an affirmative finding on each; it made
+  # nine of nine. The bolded sentences after each standard are the board's own reasoning as
+  # printed, and they are the substance — the standard itself is boilerplate from the resolution.
+  # ───────────────────────────────────────────────────────────────────────────────────────────
+  section_17_3_findings:
+    page: 2
+    all_affirmative: true
+    findings:
+      - id: '17.3.1'
+        standard: >-
+          It is in fact a conditional use as established under the provisions of Article 3 through
+          11, inclusive and appears on the schedule of District Regulations adopted for the zoning
+          district above.
+        board_reasoning: 'We have an affirmative finding.'
+      - id: '17.3.2'
+        standard: >-
+          Will be in accordance with the general objectives, or with any specific objective, of the
+          Township's comprehensive plan and / or the zoning resolution.
+        board_reasoning: >-
+          We have an affirmative finding. Keynote is comprehensive plan or zoning resolution.
+          Developer has addressed that construction will be in accordance with the general
+          objectives, and in accordance with the zoning resolution for American Township.
+      - id: '17.3.3'
+        standard: >-
+          Will be operated, constructed and maintained so as to be harmonious and appropriate in
+          appearance with the existing or intended character of the general vicinity and that such
+          use will not change the essential character of the same area.
+        board_reasoning: >-
+          We have an affirmative finding. Developer ensures that construction of the buildings will
+          be developed to blend into the essential character of the surrounding areas. This by means
+          of landscaping, mounding, ponds, etc. to blend into the open wooded area. Buildings will
+          be set back well beyond the required 90-foot set back distance for industrial structures.
+      - id: '17.3.4'
+        standard: 'Will not be hazardous or disturbing to existing or future neighboring uses.'
+        board_reasoning: >-
+          We have an affirmative finding. The developer has advised that the site will not he
+          hazardous or disturbing. Federal, state, and local laws and regulations ensure that a safe
+          and non-hazardous site will be maintained.
+        board_reasoning_note: >-
+          "will not he hazardous" is the document's own typo for "be". Transcribed as printed.
+      - id: '17.3.5'
+        standard: >-
+          Will be served adequately by essential public facilities and services such as highways,
+          streets, police and fire protection, drainage structures, refuse disposal, water and
+          sewer, and schools; or that the persons or agencies responsible for the establishment of
+          the proposed use shall be able to provide adequately any such services.
+        board_reasoning: >-
+          We have an affirmative finding. Multi-agencies will be involved in the construction and
+          post construction process.
+      - id: '17.3.6'
+        standard: >-
+          Will not create excessive additional requirements at public cost for public facilities and
+          services and will not be detrimental to the economic welfare of the community.
+        board_reasoning: 'We have an affirmative finding.'
+      - id: '17.3.7'
+        standard: >-
+          Will not involve uses, activities, processes, materials, equipment and conditions of
+          operation that will be detrimental to any person, property, or the general welfare by
+          reason of excessive production of traffic, noise, smoke, fumes, glare, or odors.
+        board_reasoning: >-
+          We have an affirmative finding. Issues with sound management will be monitored, water
+          usage from City of Lima with self-contained cooling units. Buildings back 500 feet from
+          roadway, to obscure from area properties. Detention ponds to off-set storm water drainage.
+          Lighting will be downlit and aimed towards facility.
+      - id: '17.3.8'
+        standard: >-
+          Will have vehicle approaches to the property which shall be so designed as not to create
+          an interference with traffic on surrounding public thoroughfare.
+        board_reasoning: >-
+          We have an affirmative finding. Roadway maintenance agreements have been discussed and one
+          of the conditions.
+      - id: '17.3.9'
+        standard: >-
+          Will not result in the destruction, loss, or damage of a natural, scenic, or historic
+          feature of major importance.
+        board_reasoning: >-
+          We have an affirmative finding. The proposed area is open land, several trees, and unused
+          area. After construction, mounding and landscaping will be used to restore natural
+          features.
+
+  directives:
+    # [verified] p. 3 — what the Board, per Article 17.8.1, directed within 30 days of the hearing.
+    page: 3
+    items:
+      - 'The Board of Zoning Appeals hereby approves the issuance of the Conditional Use Permit by
+        making an affirmative finding in writing that the proposed conditional use is located in a
+        district wherein such use may be conditionally permitted.'
+      - 'The Board finds that all conditions for approval of such use in such district have been met.'
+      - 'That such use will result in neither significant negative impact upon nor conflict with
+        surrounding uses.'
+      - 'Upon making this affirmative finding, the Board hear-by directs to the Zoning Inspector to
+        issue a Conditional Use Permit for such use which shall list all conditions and safeguards
+        specified by the Board of Zoning Appeals for approval.'
+      - 'In accordance with Article 17.10 – "Expiration of Conditional Use Permit" a conditional use
+        permit shall be deemed authorized for only one particular conditional use, and said permit
+        shall automatically expire if such conditionally permitted use has not been instituted or
+        utilized within one (1) year of the date on which the permit was issued, or if for any
+        reason such use shall cease for more than one (1) year.'
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+# WHAT THE APPLICANT PUT ON THE RECORD. These are the developer's REPRESENTATIONS as the Board
+# summarized them — not findings, not conditions, and not independently verified here. They matter
+# because several are the only figures in the corpus for this campus, and because a representation
+# that is not a condition binds nobody.
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+applicant_representations:
+  page: 1
+  status: >-
+    [verified] that these statements were MADE and recorded. [open] as to their accuracy and as to
+    whether any of them binds the developer. Only the eight numbered conditions bind.
+  items:
+    buildings: '3 data center units, with an office component'
+    employment: >-
+      50 employees each building, for 150 total workers — the corpus's only figure for permanent
+      employment at this campus
+    traffic: >-
+      "The majority of truck traffic would be during construction phase, and minimal traffic once
+      operations begin."
+    setbacks_offered: >-
+      "We will be 500 feet from Cole Street, 50 feet from the rear, 120 and 150 feet on side."
+      ⚠️ Only the 500-foot Cole Street setback became a CONDITION (condition 1). The rear and side
+      figures are representations and appear nowhere in the eight conditions.
+    substation: >-
+      "The South parcel of land will have an AEP substation, and detention ponds to offset storm
+      water drainage. This is public utility with plans to purchase the property."
+    water_and_sewer: >-
+      "Water and sewer will be from the City of Lima." Corroborated by the board's own 17.3.7
+      finding: "water usage from City of Lima with self-contained cooling units."
+    traffic_study: 'there will be a traffic study for roadway use'
+    abatements: 'Abatements will be with county commissioners.'
+    noise_source: >-
+      "Any sounds possibly heard from the roadway would be from emergency generator testing not
+      from internal cooling."
+    engineering: >-
+      "Conceptional site plan along with views of the buildings from various roadway views shown.
+      Additional engineering design will come forward after we get through this process."
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+# THE BOARD'S OWN SOUND SURVEY. The board did not merely receive the applicant's acoustic report;
+# two members went and measured. This is the evidentiary basis for condition 2.
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+board_sound_survey:
+  page: 2
+  who: >-
+    [verified] "the Chairman, and Vice-Chairman" — i.e. Schwinnen and Piper — visiting "several
+    data centers sites in the New Albany and Dubin, Ohio" ("Dubin" is the document's spelling of
+    Dublin) before the January 8 reconvening. The worksheet (p. 6) dates the visit, in handwriting,
+    to on or about 12/30.
+  instrument: 'Risepro Sound Level Metering Device, operated by Mr. Piper'
+  measurements:
+    - location: 'Dublin, Ohio data center site'
+      reading: '56-59 db'
+      distance: 'not stated'
+    - location: 'Dublin, Ohio data center site'
+      reading: 'did not exceed 53 db'
+      distance: '500 feet'
+    - location: 'New Albany, Ohio data center site'
+      reading: '50-54 db'
+      distance: '500 feet away'
+    - location: '4100 Blk. of N. Cole Street (the proposed site)'
+      reading: '47-53 db'
+      condition: 'no traffic; ambient noise'
+    - location: '4100 Blk. of N. Cole Street (the proposed site)'
+      reading: '75-80'
+      condition: 'when traffic passed'
+      unit_note: >-
+        [verified] The document prints "75-80" with no unit on this reading, where every other
+        reading in the paragraph carries "db". Read in context as decibels; recorded with the
+        omission noted rather than silently completed.
+  chairman_conclusion_verbatim: >-
+    Mr. Schwinnen commented that the structures were modern construction, sound was controlled,
+    ample mounding provided, landscaping was aesthetically pleasing, and no noticeable concerns
+    were found.
+  analysis: >-
+    ⚠️ [inference] CONDITION 2 IS MEASURED AT A LOCATION WHOSE OWN AMBIENT ALREADY EXCEEDS IT. The
+    condition caps the facility at 60 dBA "as measured from the center line of N. Cole Street". The
+    board's own survey recorded 75-80 at that same centre line whenever traffic passed, and 47-53
+    without. So a compliance measurement taken there is a measurement of the facility plus N. Cole
+    Street traffic, and the instrument specifies no averaging period, no time of day, no traffic
+    condition, and no measurement standard beyond "by a qualified acoustician". This is an
+    [inference] about the condition's operability drawn from two [verified] figures on the same
+    page; it is NOT a finding that the condition is unenforceable, and no party in the document
+    raises it.
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+# THE PUBLIC RECORD OF OPPOSITION. Recorded because a decision notice that summarizes opposition
+# is the only corpus source for what residents actually put in front of the board.
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+public_comment_in_the_record:
+  hearing_2024_12_11:
+    page: 1
+    testimony_for: >-
+      [verified] Mark Bishop (Zoning Administrator, procedural) and Ms. Jill Tangeman, Esq. on
+      behalf of the developer.
+    spokesperson_opposed: 'Mr. Timothy Pieper (spokesperson) for the citizens of American Township'
+    residents_named: >-
+      [verified] The letter names thirteen further residents who gave testimony: Mr. Mike Schrider,
+      Mr. Jeff Davis, Ms. Heather Davis, Mr. David Streeter, Ms. Becky Streeter, Mr. Craig Troyer,
+      Mr. Tim White, Mr. Steve Maxwell, Mr. Terry Tschore, Mr. Tom Hess, Ms. Shelly Wright,
+      Mr. Jon Rutter, and Ms. Darlene White. Named here because they are named in a public hearing
+      record; no address or contact detail for any of them appears in this document.
+    issues_verbatim: >-
+      Issues included application failed to show specific site plans and measurements of buildings.
+      … Several residents commented about the change of the rural character of the area, and citing
+      agriculture and rural property use. American Township does not have agricultural zoned land,
+      the land may be used agriculturally, but the specific zoning is R-1 Residential Single-Family
+      Dwellings, and they are permitted uses in the area of this project. Several residents
+      expressed issues with continual noise, noise fracturing, and evidence from Prof. Boron on
+      sound and sound travel. Residents expressed concerns with loss of property value, degradation
+      of the land and loss of wildlife. The common theme was application did not contain sufficient
+      information, and area may be zoned as M-2 Manufacturing zoned property, but this type of use
+      is not acceptable. Noise from cooling systems will affect multiple individuals with PTSD, and
+      property values will decrease.
+    outcome: >-
+      [verified] "The Board after hearing three hours of testimony elected to call for continuance
+      so the Board could review documentation, digital media, testimony notes, and site visit
+      several data center sites to actually observe the layout and take sound readings from various
+      distances."
+  hearing_2025_01_08:
+    page: 1
+    date_typo: >-
+      ⚠️ [verified] The letter opens this paragraph "On January 8, 2024, this hearing was
+      reconvened." The year is wrong on the face of the document — every other reference on pp. 0,
+      1, 6, 8 and 9 gives January 8, 2025, and a 2024 reconvening would predate the application.
+      Transcribed as the document's own error; NOT corrected in the date fields above, which are
+      taken from the pages that print it correctly.
+    for_the_project: >-
+      [verified] "attorney Mr. Joseph Miller, on behalf of the project" — a second attorney, not
+      named anywhere else in the document, who "presented a power point presentation", presented
+      "An affidavit … by several sound engineers", and "presented a rebuttal to Mr. Boron's earlier
+      presentation" (p. 2).
+    opposed: >-
+      [verified] Mr. Tim Pieper again for the citizens; Ms. Rebecca Streeter, Mr. Mike Schrider and
+      Mr. Steve Maxwell in opposition.
+    supporting: >-
+      [verified] "There was an electronic email sent by Ms. Brenda Stocker supporting the project
+      development." The only support in the record from a member of the public.
+    issues_verbatim: >-
+      Again, issues of incompleteness of application, size of the complex, the parcel not being
+      properly zoned from 1962, soil intrusion, storm water flooding, and other general concerns.
+      Issues of sound, property value loss, and possible rise of health issues were again main
+      issues presented.
+  written_correspondence:
+    pages: [4, 5]
+    author: 'Rebecca Streeter'
+    dated: '2025-01-13'
+    received_stamp: 'RECEIVED JAN 28 2025'
+    purpose_verbatim: >-
+      I am writing to amend and correct the public records pertaining to 12-11-24, Public Hearing,
+      for the proposed conditional use permit submitted for the Neff property on North Cole Street.
+    substance: >-
+      [verified] Disputes the township's written characterization of her own testimony. The record
+      had stated, at its Section #5, that "Hearing comments that decibel levels reaching 70-90
+      decibels and causing brain damage has not been factually validated." She writes: "I was the
+      only person that I am aware of who talked on brain issues and I did not refer to brain damage
+      in my discussions", distinguishing "brain damage, brain changes and hearing damage" and
+      describing what she did say — that constant low HVAC noise may cause "fight/flight concerns
+      within the brain" and may exacerbate an existing brain condition.
+    transparency_allegation_verbatim: >-
+      Medical terminology in the questionaire stated not "validated" by the BOSC individuals and the
+      Zoning Inspector was asked if he had or could obtain their references supporting their
+      statement and he stated "No". No references from BOSC has been shared and in the opinion of
+      many residents, they have not been transparent with their information to this community.
+    references_listed: >-
+      [verified] Six: Noise Awareness Day (noiseawareness.org) common noise levels; CDC noise and
+      hearing; protectpwc.org / "Data Center Noise Study Results for Prince William County, John
+      Lyver (retired NASA)"; Braxton Boren, Assistant Professor of Audio Technology at American
+      University, "What's all the data center noise about?"; "Health Effects Attributed to Increased
+      Noise Levels" by Dr. Ally Stoeger; healthychildren.org / AAP on noise risks to children.
+    note: >-
+      [verified] "Prof. Boron", cited in the board's own 12-11 summary as the source of resident
+      sound evidence, is BRAXTON BOREN of American University — reference 4 of this letter. The
+      decision letter misspells the name twice (pp. 1, 2). The corpus should carry "Boren".
+    open: >-
+      [open] THE DOCUMENT THIS LETTER CORRECTS IS NOT IN THIS CORPUS. She quotes "Section #5" of a
+      township record of the 12-11 hearing — a questionnaire or written summary that is neither
+      this decision letter (which has no Section #5) nor anything else held here. The quoted
+      sentence cannot be checked against its source.
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+# FINDINGS — what this document establishes that the corpus did not have.
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+findings:
+  answers_a_standing_open_question:
+    question_was: >-
+      data/extracted/lacrpc/american-township-zoning.zoning.yaml asked, as a standing open
+      question: "Has a BZA conditional-use certificate under 11.2.4 issued for the site?
+      Hearing-notice + decision records?"
+    answer: >-
+      [verified] YES, a conditional-use permit issued — Permit No. 103, 2025-02-04, Case
+      #BZA 2024-12, on a 4-0 vote taken 2025-01-08 after two noticed public hearings. This file and
+      its source are the hearing-notice and decision records that question asked for. ⚠️ But the
+      answer falsifies the question's premise: the permit did NOT issue under 11.2.4.
+
+  authority_predates_the_data_center_use:
+    claim: >-
+      ⚠️ [inference] THE CAMPUS WAS PERMITTED UNDER A RESIDUAL CATCH-ALL, EIGHT MONTHS BEFORE
+      AMERICAN TOWNSHIP HAD A DATA-CENTER USE AT ALL.
+    resting_on:
+      - >-
+        [verified, this document, p. 6] The application was heard and decided under Article 11.2.3,
+        "Any industrial, manufacturing, storage, or distribution establishment not specifically
+        mentioned above but deemed acceptable by the Board of Zoning Appeals" — a residual clause
+        that names no data-center use. Decided 2025-01-08; permit issued 2025-02-04.
+      - >-
+        [verified, american-township-zoning.zoning.yaml] The CURRENT (2026-02-09 consolidated)
+        American Township Zoning Resolution carries free-standing definitions of "Data Center" and
+        "Hyperscale Data Center" and lists hyper-data centers as an M-2 conditional use at 11.2.4.
+      - >-
+        [inference, american-township-zoning.zoning.yaml] That language was carried by the
+        2025-09-08 text amendment, Resolution #09-082025 — the only zoning text amendment in the
+        corpus, corroborated by the township's own 9-8-25 minutes.
+    therefore: >-
+      On 2025-01-08 the township had no data-center use category, and the Board reached the campus
+      through the clause for establishments "not specifically mentioned". The specific category
+      arrived roughly eight months later. The residents' recorded objection — "area may be zoned as
+      M-2 Manufacturing zoned property, but this type of use is not acceptable" (p. 1) — is an
+      objection to exactly this, and the decision letter records it without answering it.
+    ⚠️_cross_reference_trap: >-
+      [verified] DO NOT READ "11.2.3" AGAINST TODAY'S RESOLUTION. The subsection numbers moved when
+      the data-center text was inserted. In the current text 11.2.3 is BARROW PITS and 11.2.4 is the
+      hyper-data-center entry; in the text this permit was decided under, 11.2.3 was the residual
+      industrial catch-all quoted verbatim at `cited_authority`. Anyone checking this permit's cited
+      authority against the current resolution will read it as a gravel-pit clause. The permit
+      quotes its own authority in full on p. 6, which is why the verbatim is carried here.
+    not_claimed: >-
+      [open] This does NOT establish that the 2025-09-08 amendment was made because of this
+      project, that the 11.2.3 route was improper, or that the permit is vulnerable. Article 11.2.3
+      is on its face a clause the Board is entitled to use, no appeal appears in this corpus, and
+      the 30-day Article 18/20 appeal window is long closed. The sequence is the finding; motive
+      and legal consequence are not.
+
+  the_piper_pieper_ambiguity:
+    claim: >-
+      ⚠️ [open] THE DECISION LETTER NAMES ITS MOVER AND THE OPPOSITION'S SPOKESPERSON WITH THE SAME
+      SURNAME, AND THE DOCUMENT DOES NOT RESOLVE WHETHER THEY ARE THE SAME PERSON.
+    what_the_pages_say:
+      - '[verified] p. 1: "Mr. Timothy Pieper (spokesperson) for the citizens of American Township
+        opposed to the project" gave testimony on 2024-12-11.'
+      - '[verified] p. 1: "Testimony was again provided from Mr. Tim Pieper, representing the
+        citizens for American Township" on 2025-01-08.'
+      - '[verified] p. 2: "the Chairman, and Vice-Chairman" made the site visits, and "Mr. Piper
+        utilized a Risepro Sound Level Metering Device to take sound measurements."'
+      - '[verified] p. 2: "Mr. Piper (Vice Chairman) rendered a motion before the Board" — to
+        APPROVE.'
+      - '[verified] p. 3: "Motion for Passage by Mr. Piper, Second by Mr. Finch"; roll call
+        "Mr. Piper-Yes".'
+      - '[verified] p. 6: the worksheet records "Opening Statement by: T. PIEPER" (handwritten) and
+        the motion made by "Piper".'
+      - '[verified] p. 9: the printed attendance sheet lists board member "Tim Piper".'
+    corroboration: >-
+      [verified] American Township trustee minutes of 2025-01-13 record Resolution #01-132025
+      reappointing "Tim Piper for Zoning Appeals" to a five-year term ending 12/31/29. So a board
+      member named Tim Piper certainly exists and certainly sat on this board.
+    the_two_readings:
+      - >-
+        TWO PEOPLE, similar surnames — board member Tim PIPER moved to approve, while a resident
+        named Timothy PIEPER spoke for the opposition. On this reading the letter's "Pieper" and
+        "Piper" are simply two different names and the only defect is that p. 6's handwritten
+        "T. PIEPER" is ambiguous.
+      - >-
+        ONE PERSON, inconsistently spelled — in which case the board's vice-chairman acted as the
+        citizens' spokesperson against the project and then moved its approval and voted yes, which
+        would be a conflict-of-interest question of real public interest.
+    why_it_is_left_open: >-
+      Nothing in this corpus distinguishes them. The document itself uses both spellings for the
+      role of mover (p. 2 "Piper" / p. 6 "PIEPER") and both for the role of opposition spokesperson
+      (p. 1 "Pieper" twice). A township of this size can hold both a Piper and a Pieper. Resolving
+      this by picking the tidier reading would be inventing a fact in whichever direction was
+      chosen, and the flattering direction (two people, no issue) is exactly the one to distrust.
+      It is resolvable cheaply — see `open_questions` — and until it is resolved NO prose should
+      assert either reading.
+    ⚠️_do_not_normalize: >-
+      The spellings above are the document's. Do not "fix" them in this file, in the mirror, or in
+      any derived prose. A normalizing pass would destroy the only evidence that the question
+      exists.
+
+  entity_discrepancy_neff:
+    claim: >-
+      ⚠️ [verified] TWO ENTITY FORMS FOR THE LANDOWNER, SEVEN YEARS APART, IN ONE PDF.
+    detail: >-
+      Pages 0, 1 and 6 name the property owner as "NEFF FARMS LLC, 11951 ZERKLE ROAD, LIMA, OHIO
+      45806". The 2018 deed at p. 11 — bound into the same PDF — conveys to "NEFF FARMS, INC.", and
+      its handwritten tax mailing address reads 11435 (or 11935; the digit is not legible with
+      confidence) Zerkle Rd.
+    status: >-
+      [open] Whether Neff Farms, Inc. and Neff Farms LLC are the same entity under a later
+      conversion, two entities, or a drafting slip is NOT established. An Ohio Secretary of State
+      business-filing pull settles it; the corpus has an `sos` extraction genre for exactly this.
+      Until then the two strings are kept apart and neither is merged into the other in the entity
+      graph.
+
+  the_only_corpus_source:
+    claim: >-
+      [verified] THIS DOCUMENT IS THE CORPUS'S ONLY SOURCE FOR THE DECISION. The American Township
+      trustee minutes record the application (2024-11-25) and the pre-hearing notice (2024-12-09),
+      and then never record the outcome — the BZA is a separate body and its minutes are not held
+      here. The nearest trustee reference after the fact is the 2025-03-11 minutes, which note "a
+      Board of Appeals meeting was held on 3/4/25 for an approved conditional use permit"; that is
+      a DIFFERENT meeting five weeks after this permit issued and must not be read as corroborating
+      this vote.
+    consequence: >-
+      A single third-party-custody scan, with no text layer, currently carries the entire
+      evidentiary weight of the approval. That is a thin footing for a load-bearing fact and it is
+      why `open_questions` leads with the primary-source pull.
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+corroboration:
+  # What the rest of the corpus independently confirms about this document, and what it does not.
+  confirms:
+    - >-
+      [verified] THE APPLICATION. Trustee minutes 2024-11-25: Zoning Inspector Bishop presented a
+      CUP application "Case # BZA2024-12" filed 2024-11-14 by Cindy Leis of AEDG on behalf of
+      Project BOSC (c/o Jill Tangeman, Esq., Vorys, Sater, Seymour and Pease LLP) for "162.5 acres
+      off Cole Street", owner Neff Farms LLC, zoned M-2 — matching the case number, the applicant,
+      the acreage, the owner and the zoning on this instrument's face.
+    - >-
+      [verified] THE PROJECT DESCRIPTION. The same minutes describe "three data center units, a
+      main office building, security office, mounding areas, two water basins, and an AEP
+      substation" — matching p. 0's "3- BUILDING DATA CENTER COMPLEX, OPERATIONS BUILDING, AND
+      SECURITY OFFICE" and the applicant's AEP-substation representation at p. 1.
+    - >-
+      [verified] THE FIRST HEARING WAS NOTICED. Trustee minutes 2024-12-09: "the board of zoning
+      appeals has a hearing at 7pm 12/11/24 open to the public", and privilege of the floor granted
+      to "Becky and Dave Streeter" — two of the residents this letter records as testifying two
+      days later.
+    - >-
+      [verified] THE MOVER SAT ON THE BOARD. Trustee minutes 2025-01-13, Resolution #01-132025,
+      reappointing "Tim Piper for Zoning Appeals" through 12/31/29.
+  does_not_confirm:
+    - >-
+      [open] THE VOTE ITSELF. No document in this corpus other than this scan records the
+      2025-01-08 decision or the 2025-02-04 written notice.
+    - >-
+      [open] THE TOWNSHIP'S OWN COPY. Nothing here establishes that the township's file contains a
+      document identical to this scan. That is what a direct R.C. 149.43 request settles.
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+open_questions:
+  - >-
+    ⚠️ PRIMARY-SOURCE PULL — the highest-value next step. Request the BZA Case #BZA 2024-12 file
+    directly from American Township under R.C. 149.43: the certified conditional use permit, the
+    BZA minutes of 2024-12-11 and 2025-01-08, the application as filed 2024-11-14 and as amended
+    2024-12-03, and the notice affidavits. This authenticates the present scan, replaces
+    third-party custody with a direct production, and brings the BZA's own minutes into a corpus
+    that currently has none.
+  - >-
+    ⚠️ IS THE PERMIT STILL ALIVE? The face expiry was 2026-02-04 and Article 17.10 expires a permit
+    whose use was not "instituted or utilized" within a year. Ask the Zoning Inspector for the
+    permit's current status, any extension or successor permit, any zoning or building permits
+    issued on parcels 36-1200-02-001.000/.001, and any stop-work order under the enforcement
+    clause. This intersects the Lima data-center moratorium (Ord. 198-26, introduced 2026-09-14),
+    whose development limb reaches only inside city limits — this campus is in the township — but
+    whose WATER limb reaches outside them, and this campus's water is City of Lima water.
+  - >-
+    ⚠️ PIPER / PIEPER. Settle whether the mover and the opposition spokesperson are the same
+    person: the BZA minutes and the hearing sign-in sheets name both roles, and the township's
+    appointment resolutions name the board. Do not publish prose on this point until it is settled.
+  - >-
+    NEFF FARMS INC. vs LLC — an Ohio SoS business-filing pull (`watermark extract --kind sos`).
+  - >-
+    THE ACOUSTIC SOUND REPORT AND AFFIDAVIT received by Zoning Inspector Bishop on 2025-01-08
+    (p. 6), and the sound-engineer affidavit Mr. Miller presented (p. 2), are not in this corpus.
+    They are the applicant's acoustic evidence and the direct counterpart to the residents' Boren
+    material; condition 2's 60 dBA cap presumably derives from them.
+  - >-
+    WHO IS MR. JOSEPH MILLER? A second attorney appearing "on behalf of the project" at the
+    2025-01-08 hearing (p. 2), unnamed elsewhere in this document and absent from the entity graph.
+  - >-
+    THE ROADWAY MAINTENANCE AGREEMENT with the Allen County Engineer (condition 6) and any Elida
+    Local Schools revenue agreement (condition 7) — both are conditions whose performance is
+    documentary and separately requestable. Condition 7 is the corpus's link between this permit
+    and the Allen County abatement record.
+  - >-
+    THE TOWNSHIP RECORD REBECCA STREETER CORRECTS. Her letter quotes "Section #5" of a township
+    summary of the 12-11 hearing that is not in this corpus.
+  - >-
+    THE 2025-03-04 BZA MEETING noted in the 2025-03-11 trustee minutes as approving "a conditional
+    use permit" — establish whether it concerns this site at all.
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+publication:
+  status: not_cleared
+  detail: >-
+    `data/documents/american-township/` is NOT in `data/site/published-documents.yaml`
+    `collections:` as of `as_of`, so neither this PDF nor the township meeting minutes are served
+    on the public site. A clearance decision for `american-township/zoning/` is pending — see
+    `data/extracted/american-township/zoning/pii-screen.yaml` for the pre-publication screen of all
+    15 pages. Nothing in this YAML artifact is gated by that decision: the artifact cites the
+    document, it does not reproduce it.

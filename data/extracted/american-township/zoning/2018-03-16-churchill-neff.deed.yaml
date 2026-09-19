@@ -1,0 +1,296 @@
+# Ohio General Warranty Deed 201803160002723 — Churchill Farm LLC to Neff Farms, the 2018 assembly of the Cole Street land, recorded 2018-03-16
+#
+# ⚠️ The first line above is read VERBATIM as this record's label in the yidam corpus mirror
+# (watermark.site.corpus_records._title takes the leading YAML comment block's first `# ` line), so
+# it is written to stand alone. Do not wrap it.
+#
+# WHY THIS IS A SEPARATE ARTIFACT. These four pages are bound into the back of the scanned
+# conditional-use-permit packet (`2025FebConditionalUserPermitDecisionLetter.pdf`, pp. 11-14) as a
+# title attachment, but they are a DIFFERENT INSTRUMENT, executed seven years earlier by parties
+# who are not parties to the 2025 zoning proceeding. Modelling them inside the CUP record would
+# date the conveyance to 2025 and put a 2018 grantor in a 2025 hearing. The decision record is
+# `./2025-02-04-bza-2024-12-cup.resolution.yaml`.
+#
+# CUSTODY CAVEAT: the same third-party-custody scan, with the same zero text layer — every field
+# here is a vision read of a pypdfium2 render at 300-400 DPI. The page header shows the packet was
+# printed from the Allen County recorder's online portal on 12/3/24, eight days before the first
+# BZA hearing. The recorder's own certified copy would supersede this read; see `open_questions`.
+#
+# TAG VOCABULARY: [verified] = read off the document's own pages at the cited page; [inference] =
+# reasoned from [verified] facts, labelled; [reference] = secondary source, lead only; [open] = not
+# established here.
+
+as_of: '2026-09-19'
+site: lima
+strengthens: [record]
+
+source:
+  instrument: ohio-general-warranty-deed
+  file: data/documents/american-township/zoning/2025FebConditionalUserPermitDecisionLetter.pdf
+  sha256: 'bb63ede69161bbd6218dc4ce4d2e378a0e00ac5728757775f95269f40701164f'
+  covers_pages: [11, 12, 13, 14]
+  content_verified: vision
+  custody: >-
+    [open] THIRD-PARTY, and TWICE DERIVED — a scan of a print-out of a recorder's portal image of a
+    recorded instrument. Each hop is lossless in principle and none is verified here.
+  portal_print_header: >-
+    [verified] Every one of the four pages carries the browser print header "12/3/24, 10:19 AM" and
+    the session string "65706C80-9FD1-4619-B53B-972A42DCA2B5EB4A4187-D6FB-4014-B6F2-491B02D01FF1,
+    1426792", and pp. 12-14 carry "201803160002723 Page 2 of 4" … "Page 4 of 4". So the recorded
+    instrument is FOUR pages and all four are present.
+  read_note: >-
+    PURE IMAGE SCAN, zero text layer, as with the rest of the packet. ⚠️ PAGE 14 IS BOUND UPSIDE
+    DOWN and must be rotated 180° before reading; a reader that does not rotate it will report the
+    survey page as illegible rather than as inverted.
+pages_read: [11, 12, 13, 14]
+image_pages_read: [11, 12, 13, 14]
+
+# ⚠️ THIS IS A HAND-AUTHORED READING, NOT A RENDER EXTRACTION, AND THAT HAS A CONSEQUENCE.
+# `watermark.pipeline.corpus._classify` claims a `deed:` block only when the artifact carries the
+# render envelope (`doc_id`/`dpi`/`kind`/`source_path`) that `DeedExtraction` requires. Those four
+# fields describe a vision render performed by `extract_deed`, and no such render happened here —
+# so this file DECLINES out of the pipeline corpus loader by design. Inventing the envelope to
+# make it validate is the one thing that must not be done; it would assert a machine read that
+# does not exist.
+#
+# WHY `extract_deed` COULD NOT PRODUCE THIS. The extractor reads a document's FIRST pages
+# (`max_pages=8`, i.e. indices 0-7) and exposes no page offset. This deed sits at indices 11-14,
+# bound at the back of a 15-page conditional-use packet, so the genre's own reader cannot reach
+# it. That is a real limitation of the deed genre — it assumes a deed begins at page 0 — and it
+# is recorded here rather than worked around.
+#
+# WHAT IT COSTS: this reading reaches the `records` feed through `watermark.site.records`
+# (group `deeds`) but NOT `corpus.deeds`, so it contributes no entity-graph or timeline rows.
+# The Churchill → Neff conveyance is therefore readable on the site and absent from the graph.
+# Closing that needs a `deed_transcribed` kind and model alongside `npdes_transcribed`, or a page
+# offset on `extract_deed` — either is its own reviewed change. See `open_questions`.
+
+deed:
+  instrument_type: 'Ohio General Warranty Deed'
+  instrument_no: '201803160002723'          # [verified] p. 11 recorder's barcode block
+  recorded: '2018-03-16'                     # [verified] p. 11 stamp: 3/16/2018, 11:23 AM
+  recorder: 'Mona S Losh, Allen County'      # [verified] p. 11 stamp
+  recording_ref: 'V:2018 P:02723'            # [verified] p. 11 stamp
+  transfer_ref: 'T20180003696'               # [verified] p. 11 stamp
+  pages_in_instrument: 4                     # [verified] "Page 2 of 4" … "Page 4 of 4"
+  executed: '2018-03-07'                     # [verified] p. 11 — "executed this 7 day of March,
+                                             # 2018" (the day is handwritten; the month and year
+                                             # are printed)
+  executed_note: >-
+    [verified] The DAY is handwritten and reads "7". The notarial acknowledgment on p. 12 has the
+    same handwritten day in a blank that is partly obscured by the notary's signature loop and is
+    NOT independently legible. The execution day is therefore carried from p. 11 alone and is not
+    corroborated. Nothing in this file is dated from handwriting elsewhere.
+  transferred_stamp: '2018-03-16'            # [verified] p. 11 auditor's block, handwritten
+                                             # "3-16-18"
+  auditor: 'Rhonda Eddy, Allen County Auditor'   # [verified] p. 11
+  conveyance_fee_note: >-
+    [verified] The auditor's block prints "This Conveyance has been examined and the Grantor has
+    complied with Section 319.202 of the Revised Code", with handwritten "Fee $" and "Fee" entries
+    that are NOT legibly transcribable from this scan. ⚠️ The consideration is NOT recorded here —
+    do not read a dollar figure off this document. The page also carries the printed notation
+    "Non-compliant Form / Additional Fee Collected".
+
+  grantor:
+    name: 'CHURCHILL FARM, LLC'
+    form: 'an Ohio Limited Liability Company'
+    signed_by: 'Sarah Churchill Everett, Member'      # [verified] p. 11
+    title_claimed_through: 'the instrument recorded in OR 2017, Page 6801, Allen County Recorder''s Office'
+  grantee:
+    name_as_printed: 'NEFF FARMS, INC.'
+    ⚠️_entity_discrepancy: >-
+      [verified] THE GRANTEE IS AN "INC.", NOT THE "LLC" NAMED IN THE ZONING RECORD. The 2025 BZA
+      record (permit face, decision letter and hearing worksheet) names the property owner as "NEFF
+      FARMS LLC, 11951 ZERKLE ROAD, LIMA, OHIO 45806". This 2018 deed conveys to "NEFF FARMS, INC."
+      Whether that is one entity across a later conversion, two entities, or a drafting slip is
+      [open] and is settled by an Ohio Secretary of State business-filing pull. The two strings are
+      NOT merged in the entity graph until it is.
+    tax_mailing_address_handwritten: >-
+      [open] ILLEGIBLE IN PART. The grantee's tax mailing address is handwritten on a rule and
+      reads "11?35 Zerkle Rd Lima, Oh 45806" — the third digit is not legible with confidence at
+      400 DPI, admitting both 11435 and 11935. The zoning record gives 11951 Zerkle Road for Neff
+      Farms LLC, which matches NEITHER candidate. ⚠️ Per the corpus rule, nothing here is resolved
+      from handwriting: the reading is recorded with its ambiguity and the discrepancy with the
+      zoning record is left standing rather than reconciled to the tidier number.
+  situated_in: 'the Townships of American and Sugar Creek, County of Allen, and State of Ohio'   # [verified] p. 11
+
+  # ─────────────────────────────────────────────────────────────────────────────────────────────
+  # ⚠️ THE TWO PARCELS CONVEYED ARE NOT THE TWO PARCELS PERMITTED. Read this block before using
+  # any acreage figure from this deed in connection with the data-center campus.
+  # ─────────────────────────────────────────────────────────────────────────────────────────────
+  parcels:
+    - parcel_id: '36-0100-03-002.000'
+      acres: 40.07
+      address_as_printed: 'Cole Street (rear), Lima, OH 45807'
+      township: 'Sugar Creek'
+      township_basis: >-
+        [verified] p. 13, Exhibit A: "SITUATED IN THE TOWNSHIP OF SUGAR CREEK, ALLEN COUNTY, OHIO"
+        — the Southeast Quarter of the Southwest Quarter of Section One (1), Township Three (3)
+        South, Range Six (6) East, less 2.92 acres, plus a separate 3-acre tract.
+      note: >-
+        ⚠️ [inference] THIS PARCEL LIES OUTSIDE AMERICAN TOWNSHIP and therefore outside the zoning
+        jurisdiction that issued Permit No. 103. It appears in no part of the BZA record. Resting
+        on [verified] p. 13's township recital and [verified] the permit's own "Section 12,
+        American Township" locus.
+    - parcel_id: '36-1200-02-001.000'
+      conveyed_as: 'Part Parcel'
+      acres: 137.490
+      address_as_printed: '4110 N. Cole Street, Lima, OH 45801'
+      township: 'American'
+      township_basis: >-
+        [verified] p. 14 survey: "Situated as being part of the Northwest Quarter of Section 12,
+        Township 3 South, Range 6 East, American Township, Allen County, Ohio, also being part of a
+        tract of land as recorded in Official Record Volume 2017, Page 6801 (Tract One)."
+      right_of_way_note: >-
+        [verified] p. 14 — "said tract containing 137.490 acres of land, more or less, of which
+        1.259 acres lies within the Cole Street right-of-way." So the net area outside the road
+        right-of-way is 136.231 acres [inference, arithmetic on two verified figures].
+      note: >-
+        [verified] Conveyed as a PART PARCEL — the deed took part of .000, not the whole of it.
+  ⚠️_parcel_reconciliation: >-
+    THE PERMIT'S PARCEL IS NOT IN THIS DEED. Permit No. 103 runs to 36-1200-02-001.001 on its face
+    (and to .001 and .000 in the decision letter's location block). This 2018 deed conveys part of
+    36-1200-02-001.000 and all of 36-0100-03-002.000 — the ".001" suffix appears nowhere in it.
+    [inference] Parcel .001 was therefore created by a split of .000 at some point between this
+    recording (2018-03-16) and the BZA application (2024-11-14); the BZA worksheet's own note that
+    the application was "Amended December 3, 2024" to add .000 alongside .001 is consistent with a
+    parent-and-remainder pair. THE SPLIT INSTRUMENT IS NOT IN THIS CORPUS and the inference is not
+    promoted. ⚠️ DO NOT ADD 137.490 + 40.07 AND CALL IT THE CAMPUS: one of those parcels is in
+    another township, neither carries the permitted parcel's number, and the BZA record's own
+    acreage for the application is 162.5 acres against parcel .001.
+
+  exempted_land_division:
+    # [verified] p. 12 — a stamp distinct from the recorder's and the auditor's.
+    approved_by: 'Lima-Allen County Regional Planning Commission'
+    text_verbatim: >-
+      EXEMPTED LAND DIVISION — Approved by the Lima-Allen County Regional Planning Commission. This
+      approval void unless recorded within 90 days from this date: 3-16-2018
+    log_no: '2018-14'
+    date_handwritten: '3-16-2018'
+    note: >-
+      [verified] The conveyance was processed as an EXEMPTED land division — i.e. it did not go
+      through plat review. LACRPC is already a corpus collection (`data/documents/lacrpc/`), and
+      its log number 2018-14 is a requestable file reference.
+
+  notarial:
+    state: 'Oklahoma'                       # [verified] p. 12 — handwritten "OK"
+    county: 'Tulsa'                         # [verified] p. 12 — handwritten "Tulsa"
+    notary: 'LEVI HOUGH, Notary Public Oklahoma, Tulsa County'   # [verified] p. 12 seal
+    commission_no: '15004790'               # [verified] p. 12 seal
+    commission_expires: '2019-05-21'        # [verified] p. 12 seal — "COMM. EXP. 05-21-2019"
+    note: >-
+      [verified] The grantor's member executed and acknowledged the deed in TULSA COUNTY, OKLAHOMA,
+      before an Oklahoma notary — for an Ohio LLC conveying Ohio farmland. The seal's printed line
+      reads "Notary Public - State of Ohio" with "Oklahoma" handwritten over it, i.e. an Ohio-form
+      seal amended by hand. Recorded because out-of-state execution is a fact about the grantor's
+      whereabouts, not because it implies anything about the transaction.
+
+  prepared_by: >-
+    Derek A. Younkman, Esquire — Cory Meredith Witter & Smith, LPA, 101 North Elizabeth Street,
+    6th Floor, Lima, Ohio 45801
+  prepared_by_page: 12
+
+  survey:
+    # [verified] p. 14 — the metes-and-bounds for the 137.490-acre tract. Bound UPSIDE DOWN.
+    surveyor: 'Gregory A. Bockrath, Ohio Professional Surveyor No. 8306'
+    firm: 'Bockrath & Associates Engineering and Surveying, LLC'
+    firm_address: '118 S. Fair Ave., Suite A, Ottawa, OH 45875'
+    field_survey: 'February 2018'
+    acreage: 137.490
+    within_right_of_way: 1.259
+    basis_of_bearings_verbatim: >-
+      The bearings used in this description are on an assumed meridian assuming the West line of the
+      Northwest Quarter of Section 12 (Cole Street) to be North 00°08'44" West and are for the
+      purpose of angle determination only.
+    adjoiners_referenced:
+      - 'Official Record Volume 2010, Page 15103 (Tract I) — east line of the Northwest Quarter'
+      - 'Official Record Volume 2017, Page 5969 (Exhibits C & D) — a 23.471 acre tract and a 32.511 acre tract'
+      - 'Deed Volume 673, Page 658'
+    note: >-
+      [verified] A full metes-and-bounds is present and is NOT transcribed here, per the corpus
+      convention for legal descriptions. The adjoiner references above are recorded because they
+      are the chain-of-title handles a follow-on recorder pull would use.
+
+  as_is_clause_verbatim: >-
+    This deed is delivered and accepted by the parties with the premises in its "as is/where is"
+    condition.
+  subject_to_verbatim: >-
+    SUBJECT TO EASEMENTS OR RESTRICTIONS, IF ANY, OF RECORD OR IN USE ON SAID PREMISES.
+
+findings:
+  land_assembly_predates_the_project:
+    claim: >-
+      [verified] THE COLE STREET LAND WAS ASSEMBLED IN MARCH 2018 — nearly seven years before the
+      conditional-use application was filed (2024-11-14) and roughly seven and a half before
+      American Township adopted a data-center use category (2025-09-08).
+    note: >-
+      [open] This establishes a date, not a motive. Nothing in this deed mentions a data center, a
+      developer, an option, or an assignment, and the grantee is a farm entity acquiring farmland
+      carried by the auditor as CAUV. Any claim that the 2018 purchase was made FOR this project
+      would need an option, purchase agreement or assignment that is not in this corpus.
+  the_deed_was_pulled_for_the_hearing:
+    claim: >-
+      [inference] SOMEONE PULLED THE TITLE FOR THE HEARING. The portal print header dates the
+      retrieval to 2024-12-03, 10:19 AM — the SAME DATE the BZA worksheet records the application
+      being "Amended December 3, 2024" to add parcel 36-1200-02-001.000, and eight days before the
+      first public hearing.
+    resting_on:
+      - '[verified] p. 11-14 print header "12/3/24, 10:19 AM".'
+      - >-
+        [verified] BZA hearing worksheet, p. 6 of the same packet: "Amended December 3, 2024
+        (#36-1200-02-001.001 & #36-1200-02-001.000)".
+    therefore: >-
+      The deed print and the parcel amendment fall on one day, and the deed is the instrument that
+      names .000. [open] WHO pulled it, and whether the retrieval caused the amendment or merely
+      documented it, is not established — a print header records a moment, not an actor.
+
+open_questions:
+  - >-
+    CERTIFIED COPY. Pull instrument 201803160002723 from the Allen County Recorder directly. That
+    replaces a scan-of-a-print-out with a primary record, and should settle the grantee's tax
+    mailing address and the conveyance fee that are illegible here.
+  - >-
+    ⚠️ THE SPLIT THAT CREATED PARCEL .001. The permitted parcel does not appear in this deed. Find
+    the instrument (or auditor split) that divided 36-1200-02-001.000 and created .001, and the
+    current ownership of both. This is the missing link between the 2018 assembly and the 2025
+    permit, and it is a straightforward recorder/auditor pull.
+  - >-
+    NEFF FARMS INC. vs NEFF FARMS LLC — Ohio Secretary of State business filings for both
+    (`watermark extract --kind sos`). Also: is Churchill Farm, LLC still active, and who are its
+    members besides Sarah Churchill Everett?
+  - >-
+    OR 2017, PAGE 6801 — the instrument Churchill Farm claims title through, and the source of
+    "Tract One" in the survey. One recorder pull upstream in the chain.
+  - >-
+    LACRPC EXEMPTED LAND DIVISION LOG #2018-14 — the planning commission's own file on this
+    division. `data/documents/lacrpc/` is already a corpus collection.
+  - >-
+    ⚠️ THE `deeds` RECORD GROUP IS UNNAVIGABLE, and this artifact inherits the defect rather than
+    causing it. `watermark.site.records._record_title` probes `instrument_type` BEFORE
+    `instrument`, so every deed renders as its instrument type: the seven records in the group
+    carry three distinct titles between them — four "Limited Warranty Deed", two "General Warranty
+    Deed", and this one "Ohio General Warranty Deed" — with nothing naming the parcel, the parties
+    or the date. This file deliberately does NOT work around it by withholding `instrument_type`:
+    a per-artifact dodge would make one deed inconsistent with six and hide a shared problem. The
+    fix belongs in `_record_title` (or in a deed-specific title probe over grantor/grantee/
+    instrument_no) and is its own change.
+  - >-
+    ⚠️ THE DEED GENRE CANNOT READ A DEED BOUND AT THE BACK OF A PACKET. `extract_deed` reads
+    indices 0-7 and exposes no page offset, so this instrument at indices 11-14 is unreachable by
+    the genre's own extractor, and a hand reading then declines out of `corpus.deeds` for want of
+    a render envelope. Two candidate fixes, either its own reviewed change: a page offset on
+    `extract_deed`, or a `deed_transcribed` kind and model alongside `npdes_transcribed`. Until
+    one lands, this conveyance is on the site and off the entity graph.
+  - >-
+    THE 40.07-ACRE SUGAR CREEK PARCEL (36-0100-03-002.000) has no role in the BZA record and is in
+    a different township. Establish whether it is still held by the same owner and whether it
+    bears on the campus at all, or record it as out of scope.
+
+publication:
+  status: not_cleared
+  detail: >-
+    `data/documents/american-township/` is NOT in `data/site/published-documents.yaml`
+    `collections:` as of `as_of`. This artifact cites the source; it does not reproduce it. See
+    `./pii-screen.yaml` for the pending pre-publication screen — note that pp. 11-14 carry a
+    private individual's handwritten home/tax mailing address, which is the screen's one finding in
+    this page range.
