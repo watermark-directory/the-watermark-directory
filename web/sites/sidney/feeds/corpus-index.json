@@ -8,7 +8,7 @@
     "links_out": 1,
     "links_in": 1,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/amazon-data-services",
@@ -19,7 +19,7 @@
     "links_out": 1,
     "links_in": 2,
     "lines": 16,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/chris-klein",
@@ -30,7 +30,7 @@
     "links_out": 1,
     "links_in": 2,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/city-of-sidney",
@@ -41,7 +41,7 @@
     "links_out": 1,
     "links_in": 2,
     "lines": 14,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/clune-consulting-services",
@@ -52,7 +52,7 @@
     "links_out": 1,
     "links_in": 1,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/george-igel",
@@ -63,7 +63,7 @@
     "links_out": 1,
     "links_in": 1,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/great-miami-river",
@@ -74,7 +74,7 @@
     "links_out": 1,
     "links_in": 1,
     "lines": 13,
-    "updated": "2026-07-31"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/laura-markman",
@@ -85,7 +85,7 @@
     "links_out": 1,
     "links_in": 0,
     "lines": 13,
-    "updated": "2026-08-11"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/marcus-moan",
@@ -96,7 +96,7 @@
     "links_out": 1,
     "links_in": 2,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/mill-creek",
@@ -107,7 +107,7 @@
     "links_out": 1,
     "links_in": 1,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/npdes-1gc10596",
@@ -118,7 +118,7 @@
     "links_out": 1,
     "links_in": 3,
     "lines": 15,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/npdes-1pd00009",
@@ -129,7 +129,7 @@
     "links_out": 1,
     "links_in": 2,
     "lines": 13,
-    "updated": "2026-07-31"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/npdes-1pv00037",
@@ -140,7 +140,7 @@
     "links_out": 1,
     "links_in": 2,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/site-sidney",
@@ -162,7 +162,7 @@
     "links_out": 1,
     "links_in": 1,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/tawawa-creek",
@@ -173,7 +173,7 @@
     "links_out": 1,
     "links_in": 1,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/7q10",
@@ -184,7 +184,7 @@
     "links_out": 2,
     "links_in": 5,
     "lines": 20,
-    "updated": "2026-07-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/aep",
@@ -195,7 +195,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/assimilative-capacity",
@@ -206,7 +206,7 @@
     "links_out": 2,
     "links_in": 4,
     "lines": 19,
-    "updated": "2026-07-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/behind-the-meter",
@@ -217,7 +217,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/brownfield",
@@ -228,7 +228,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/cercla",
@@ -239,7 +239,7 @@
     "links_out": 4,
     "links_in": 6,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/cgp",
@@ -250,7 +250,7 @@
     "links_out": 4,
     "links_in": 4,
     "lines": 24,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/closed-loop-cooling",
@@ -261,7 +261,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/cmar",
@@ -272,7 +272,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/colocation",
@@ -283,7 +283,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/common-control-plumbing",
@@ -294,7 +294,7 @@
     "links_out": 2,
     "links_in": 2,
     "lines": 20,
-    "updated": "2026-06-10"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/conditional-use",
@@ -305,7 +305,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/consent-decree",
@@ -316,7 +316,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/constructive-denial",
@@ -327,7 +327,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 18,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/consumptive-cooling",
@@ -338,7 +338,7 @@
     "links_out": 4,
     "links_in": 9,
     "lines": 24,
-    "updated": "2026-07-10"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/cra",
@@ -349,7 +349,7 @@
     "links_out": 5,
     "links_in": 5,
     "lines": 24,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/curve-number",
@@ -360,7 +360,7 @@
     "links_out": 2,
     "links_in": 3,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/dilution",
@@ -371,7 +371,7 @@
     "links_out": 5,
     "links_in": 3,
     "lines": 26,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/dissolved-oxygen",
@@ -382,7 +382,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/dmr",
@@ -393,7 +393,7 @@
     "links_out": 4,
     "links_in": 6,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/echo",
@@ -404,7 +404,7 @@
     "links_out": 6,
     "links_in": 6,
     "lines": 27,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/effluent",
@@ -415,7 +415,7 @@
     "links_out": 5,
     "links_in": 7,
     "lines": 25,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/eia",
@@ -426,7 +426,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/enterprise-zone",
@@ -437,7 +437,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/epa",
@@ -448,7 +448,7 @@
     "links_out": 5,
     "links_in": 6,
     "lines": 27,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/esc",
@@ -459,7 +459,7 @@
     "links_out": 3,
     "links_in": 4,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/ferc",
@@ -470,7 +470,7 @@
     "links_out": 4,
     "links_in": 4,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/ffa",
@@ -481,7 +481,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 18,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/hb",
@@ -492,7 +492,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 18,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/heat-reuse",
@@ -503,7 +503,7 @@
     "links_out": 2,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-10"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/hsg",
@@ -514,7 +514,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/huc",
@@ -525,7 +525,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/hyperscale-data-center",
@@ -536,7 +536,7 @@
     "links_out": 3,
     "links_in": 11,
     "lines": 22,
-    "updated": "2026-07-10"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/hyperscaler",
@@ -547,7 +547,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/il6",
@@ -558,7 +558,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/interconnection-queue",
@@ -569,7 +569,7 @@
     "links_out": 4,
     "links_in": 4,
     "lines": 24,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/jedd",
@@ -580,7 +580,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/moratorium",
@@ -591,7 +591,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/nda",
@@ -602,7 +602,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/npdes",
@@ -613,7 +613,7 @@
     "links_out": 8,
     "links_in": 14,
     "lines": 31,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/nwis",
@@ -624,7 +624,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/oepa",
@@ -635,7 +635,7 @@
     "links_out": 4,
     "links_in": 4,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/once-through-cooling",
@@ -646,7 +646,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/opc",
@@ -657,7 +657,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/opsb",
@@ -668,7 +668,7 @@
     "links_out": 4,
     "links_in": 6,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/orc",
@@ -679,7 +679,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/pfas",
@@ -690,7 +690,7 @@
     "links_out": 4,
     "links_in": 2,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/pilot",
@@ -701,7 +701,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/pjm",
@@ -712,7 +712,7 @@
     "links_out": 4,
     "links_in": 7,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/potw",
@@ -723,7 +723,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/pti",
@@ -734,7 +734,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/public-records-mandamus",
@@ -745,7 +745,7 @@
     "links_out": 1,
     "links_in": 3,
     "lines": 19,
-    "updated": "2026-07-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/puco",
@@ -756,7 +756,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/pue",
@@ -767,7 +767,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/rezoning",
@@ -778,7 +778,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/rfp",
@@ -789,7 +789,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/rfq",
@@ -800,7 +800,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/rsei",
@@ -811,7 +811,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/rto",
@@ -822,7 +822,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/snc",
@@ -833,7 +833,7 @@
     "links_out": 4,
     "links_in": 3,
     "lines": 24,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/sos",
@@ -844,7 +844,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 18,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/ssa",
@@ -855,7 +855,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 18,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/swat",
@@ -866,7 +866,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/swcd",
@@ -877,7 +877,7 @@
     "links_out": 3,
     "links_in": 0,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/tax-abatement",
@@ -888,7 +888,7 @@
     "links_out": 5,
     "links_in": 6,
     "lines": 25,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/tif",
@@ -899,7 +899,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/tmdl",
@@ -910,7 +910,7 @@
     "links_out": 5,
     "links_in": 5,
     "lines": 25,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/total-nitrogen",
@@ -921,7 +921,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/total-phosphorus",
@@ -932,7 +932,7 @@
     "links_out": 4,
     "links_in": 4,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/tri",
@@ -943,7 +943,7 @@
     "links_out": 3,
     "links_in": 4,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/usgs",
@@ -954,7 +954,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/variance",
@@ -965,7 +965,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/wla",
@@ -976,7 +976,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/wue",
@@ -987,7 +987,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/wwtp",
@@ -998,7 +998,7 @@
     "links_out": 4,
     "links_in": 3,
     "lines": 24,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "hypothesis/defense",
@@ -1284,7 +1284,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/oepa-sidney-1gc10596-copermittee-igel-npdes",
@@ -1295,7 +1295,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/oepa-sidney-1gc10596-noi-npdes",
@@ -1306,7 +1306,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/oepa-sidney-1pd00009-npdes",
@@ -1317,7 +1317,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 20,
-    "updated": "2026-07-31"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/oepa-sidney-1pv00037-npdes",
@@ -1328,7 +1328,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/oepa-sidney-4158406-plan",
@@ -1339,7 +1339,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-11"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/oepa-sidney-4214600-epa",
@@ -1350,7 +1350,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 21,
-    "updated": "2026-08-11"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/oepa-sidney-dsw401251911w-epa",
@@ -1361,7 +1361,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/oepa-sidney-dsw401252256w-epa",
@@ -1372,7 +1372,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/oepa-sidney-dswpti-260517-epa",
@@ -1383,7 +1383,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 13,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-bosc-site-footprint",
@@ -1394,7 +1394,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2022-10-10-res-84-22-citywide-cra",
@@ -1405,7 +1405,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 23,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2025-03-10-ord-a-3211-annexation",
@@ -1416,7 +1416,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 20,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2025-04-28-ord-a-3219-data-center",
@@ -1427,7 +1427,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2025-07-28-ord-a-3225-annexation",
@@ -1438,7 +1438,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2025-07-28-ord-a-3226-zoning-243",
@@ -1449,7 +1449,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2025-07-28-ord-a-3227-zoning-53-a",
@@ -1460,7 +1460,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 20,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2025-09-08-res-69-25-cra-expansio",
@@ -1471,7 +1471,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2025-09-22-ord-a-3236-guard-shack",
@@ -1482,7 +1482,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2025-10-13-res-74-25-cra-housing",
@@ -1493,7 +1493,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 20,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2025-10-27-res-80-25-cra-agreemen",
@@ -1504,7 +1504,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2025-10-27-res-81-25-schools-deve",
@@ -1515,7 +1515,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2025-10-27-res-82-25-income-tax-s",
@@ -1526,7 +1526,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2026-02-23-res-14-26-consolidatio",
@@ -1537,7 +1537,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2026-04-27-res-26-26-water-and-wa",
@@ -1548,7 +1548,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2026-04-27-res-27-26-development",
@@ -1559,7 +1559,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-council-2026-07-27-ord-a-3270-current-zon",
@@ -1570,7 +1570,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 20,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-data-centers",
@@ -1581,7 +1581,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-09-16"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-groundwater",
@@ -1592,7 +1592,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 21,
-    "updated": "2026-08-11"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-incentive-instruments",
@@ -1603,7 +1603,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 23,
-    "updated": "2026-08-13"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-regulatory-watch",
@@ -1614,7 +1614,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-09-16"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/sidney-wwtp-oh0027421-dmr",
@@ -1625,7 +1625,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 13,
-    "updated": "2026-07-24"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/alexander-reck-dba-hidden-valley-mhp--operates--npdes-1pv00037",
@@ -1636,7 +1636,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 16,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/amazon-data-services--operates--npdes-1gc10596",
@@ -1647,7 +1647,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 16,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/amazon-data-services--represented-by--chris-klein",
@@ -1658,7 +1658,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 15,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/chris-klein--affiliated-with--smart-services",
@@ -1669,7 +1669,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 15,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/city-of-sidney--operates--npdes-1pd00009",
@@ -1680,7 +1680,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 16,
-    "updated": "2026-07-31"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/city-of-sidney--represented-by--marcus-moan",
@@ -1691,7 +1691,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 15,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/george-igel--operates--npdes-1gc10596",
@@ -1702,7 +1702,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 16,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/marcus-moan--affiliated-with--clune-consulting-services",
@@ -1713,7 +1713,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 15,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/npdes-1gc10596--discharges-to--mill-creek",
@@ -1724,7 +1724,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 16,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/npdes-1pd00009--discharges-to--great-miami-river",
@@ -1735,7 +1735,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 16,
-    "updated": "2026-07-31"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/npdes-1pv00037--discharges-to--tawawa-creek",
@@ -1746,6 +1746,6 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 16,
-    "updated": "2026-08-01"
+    "updated": "2026-09-19"
   }
 ]

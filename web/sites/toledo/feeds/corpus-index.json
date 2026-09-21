@@ -8,7 +8,7 @@
     "links_out": 1,
     "links_in": 1,
     "lines": 13,
-    "updated": "2026-08-26"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/npdes-2pf00000",
@@ -19,7 +19,7 @@
     "links_out": 1,
     "links_in": 1,
     "lines": 13,
-    "updated": "2026-08-26"
+    "updated": "2026-09-19"
   },
   {
     "id": "artifact/site-toledo",
@@ -41,7 +41,7 @@
     "links_out": 2,
     "links_in": 5,
     "lines": 20,
-    "updated": "2026-07-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/aep",
@@ -52,7 +52,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/assimilative-capacity",
@@ -63,7 +63,7 @@
     "links_out": 2,
     "links_in": 4,
     "lines": 19,
-    "updated": "2026-07-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/behind-the-meter",
@@ -74,7 +74,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/brownfield",
@@ -85,7 +85,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/cercla",
@@ -96,7 +96,7 @@
     "links_out": 4,
     "links_in": 6,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/cgp",
@@ -107,7 +107,7 @@
     "links_out": 4,
     "links_in": 4,
     "lines": 24,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/closed-loop-cooling",
@@ -118,7 +118,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/cmar",
@@ -129,7 +129,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/colocation",
@@ -140,7 +140,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/common-control-plumbing",
@@ -151,7 +151,7 @@
     "links_out": 2,
     "links_in": 2,
     "lines": 20,
-    "updated": "2026-06-10"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/conditional-use",
@@ -162,7 +162,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/consent-decree",
@@ -173,7 +173,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/constructive-denial",
@@ -184,7 +184,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 18,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/consumptive-cooling",
@@ -195,7 +195,7 @@
     "links_out": 4,
     "links_in": 9,
     "lines": 24,
-    "updated": "2026-07-10"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/cra",
@@ -206,7 +206,7 @@
     "links_out": 5,
     "links_in": 5,
     "lines": 24,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/curve-number",
@@ -217,7 +217,7 @@
     "links_out": 2,
     "links_in": 3,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/dilution",
@@ -228,7 +228,7 @@
     "links_out": 5,
     "links_in": 3,
     "lines": 26,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/dissolved-oxygen",
@@ -239,7 +239,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/dmr",
@@ -250,7 +250,7 @@
     "links_out": 4,
     "links_in": 6,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/echo",
@@ -261,7 +261,7 @@
     "links_out": 6,
     "links_in": 6,
     "lines": 27,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/effluent",
@@ -272,7 +272,7 @@
     "links_out": 5,
     "links_in": 7,
     "lines": 25,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/eia",
@@ -283,7 +283,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/enterprise-zone",
@@ -294,7 +294,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/epa",
@@ -305,7 +305,7 @@
     "links_out": 5,
     "links_in": 6,
     "lines": 27,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/esc",
@@ -316,7 +316,7 @@
     "links_out": 3,
     "links_in": 4,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/ferc",
@@ -327,7 +327,7 @@
     "links_out": 4,
     "links_in": 4,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/ffa",
@@ -338,7 +338,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 18,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/hb",
@@ -349,7 +349,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 18,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/heat-reuse",
@@ -360,7 +360,7 @@
     "links_out": 2,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-10"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/hsg",
@@ -371,7 +371,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/huc",
@@ -382,7 +382,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/hyperscale-data-center",
@@ -393,7 +393,7 @@
     "links_out": 3,
     "links_in": 11,
     "lines": 22,
-    "updated": "2026-07-10"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/hyperscaler",
@@ -404,7 +404,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/il6",
@@ -415,7 +415,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/interconnection-queue",
@@ -426,7 +426,7 @@
     "links_out": 4,
     "links_in": 4,
     "lines": 24,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/jedd",
@@ -437,7 +437,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/moratorium",
@@ -448,7 +448,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/nda",
@@ -459,7 +459,7 @@
     "links_out": 2,
     "links_in": 1,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/npdes",
@@ -470,7 +470,7 @@
     "links_out": 8,
     "links_in": 14,
     "lines": 31,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/nwis",
@@ -481,7 +481,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/oepa",
@@ -492,7 +492,7 @@
     "links_out": 4,
     "links_in": 4,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/once-through-cooling",
@@ -503,7 +503,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/opc",
@@ -514,7 +514,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/opsb",
@@ -525,7 +525,7 @@
     "links_out": 4,
     "links_in": 6,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/orc",
@@ -536,7 +536,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/pfas",
@@ -547,7 +547,7 @@
     "links_out": 4,
     "links_in": 2,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/pilot",
@@ -558,7 +558,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/pjm",
@@ -569,7 +569,7 @@
     "links_out": 4,
     "links_in": 7,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/potw",
@@ -580,7 +580,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/pti",
@@ -591,7 +591,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/public-records-mandamus",
@@ -602,7 +602,7 @@
     "links_out": 1,
     "links_in": 3,
     "lines": 19,
-    "updated": "2026-07-01"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/puco",
@@ -613,7 +613,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/pue",
@@ -624,7 +624,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/rezoning",
@@ -635,7 +635,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/rfp",
@@ -646,7 +646,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/rfq",
@@ -657,7 +657,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 19,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/rsei",
@@ -668,7 +668,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/rto",
@@ -679,7 +679,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/snc",
@@ -690,7 +690,7 @@
     "links_out": 4,
     "links_in": 3,
     "lines": 24,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/sos",
@@ -701,7 +701,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 18,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/ssa",
@@ -712,7 +712,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 18,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/swat",
@@ -723,7 +723,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/swcd",
@@ -734,7 +734,7 @@
     "links_out": 3,
     "links_in": 0,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/tax-abatement",
@@ -745,7 +745,7 @@
     "links_out": 5,
     "links_in": 6,
     "lines": 25,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/tif",
@@ -756,7 +756,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/tmdl",
@@ -767,7 +767,7 @@
     "links_out": 5,
     "links_in": 5,
     "lines": 25,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/total-nitrogen",
@@ -778,7 +778,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/total-phosphorus",
@@ -789,7 +789,7 @@
     "links_out": 4,
     "links_in": 4,
     "lines": 23,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/tri",
@@ -800,7 +800,7 @@
     "links_out": 3,
     "links_in": 4,
     "lines": 20,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/usgs",
@@ -811,7 +811,7 @@
     "links_out": 3,
     "links_in": 2,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/variance",
@@ -822,7 +822,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 22,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/wla",
@@ -833,7 +833,7 @@
     "links_out": 3,
     "links_in": 3,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/wue",
@@ -844,7 +844,7 @@
     "links_out": 3,
     "links_in": 1,
     "lines": 21,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "concept/wwtp",
@@ -855,7 +855,7 @@
     "links_out": 4,
     "links_in": 3,
     "lines": 24,
-    "updated": "2026-07-17"
+    "updated": "2026-09-19"
   },
   {
     "id": "hypothesis/defense",
@@ -899,7 +899,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-26"
+    "updated": "2026-09-19"
   },
   {
     "id": "record/toledo-napoleon-spill-waterville-monitor-read",
@@ -910,7 +910,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-07-12"
+    "updated": "2026-09-19"
   },
   {
     "id": "relation/city-of-toledo--operates--npdes-2pf00000",
@@ -921,6 +921,6 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 16,
-    "updated": "2026-08-26"
+    "updated": "2026-09-19"
   }
 ]
