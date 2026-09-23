@@ -172,14 +172,22 @@ been **flat at 17 for four years** — the 2022 NPDES application reports 17 cat
 users, and the 2026 inventory's 11 Categorical plus 6 Non-Significant Categorical is the same 17
 of 20. All of the growth is non-categorical significant users, 1 → 3. Against that flat
 population, **CY2023 shows 15 significant users against 9 effective control documents** on the
-City's own form — six discharging without one. By CY2024 it reads 12/11, but only two of those
-five points are documents issued (effective control documents 9 → 11); the other three are users
-leaving the permit-requiring population in the same year the non-significant categorical count
-rises (SIUs 15 → 12, non-significant categorical 4 → 7). That those three points are
-**reclassifications** rather than departures is `[inference]` — the counts are the City's own, the
-reading of them is ours — and **no determination for any reclassification was produced**, which is
-what would settle it. A flat categorical population is what rules out the innocent
-reading, that the gap closed because the user base churned.
+City's own form — **a six-document shortfall**. The form reports counts, not a roster, so which
+users lacked a control document cannot be read off it, and the subtraction assumes one document
+per user, which the form does not state. By CY2024 it reads 12/11: two of those five points are
+documents issued (effective control documents 9 → 11), and the remaining three coincide with the
+significant count falling as the non-significant categorical count rises (SIUs 15 → 12,
+non-significant categorical 4 → 7). That those three points are **reclassifications** rather than
+departures is `[inference]` — the counts are the City's own, the reading of them is ours — and
+**no determination for any reclassification was produced**, which is what would settle it.
+
+⚠️ **The flat categorical count constrains this reading; it does not establish it.** A population
+of 17 in 2022 and 17 in 2026 is equally consistent with the same seventeen users throughout and
+with seventeen having left and seventeen arrived: a count identity is not membership continuity.
+Nor do the annual reports' counts say **why** the CY2023 gap closed — only that it did. What
+would answer both is the per-user detail in the three `IU Report Form_City of Lima.xlsm`
+workbooks, which the City named on the face of its own reports and **did not produce** (D.9
+above). The unanswerable question and the missing attachment are the same gap.
 
 The gap has a shape worth stating, and the September batches sharpened rather than disturbed it:
 every item the City answered concerns a record **Ohio EPA also holds** — the annual pretreatment
