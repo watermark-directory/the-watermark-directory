@@ -1,0 +1,239 @@
+doc_id: Nelson_Permit_2025-991e9d60
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-1/Nelson_Permit_2025.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+dpi: 200
+source_text_excerpt: '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  '
+industrial_permit:
+  confidence: high
+  warnings:
+  - Signatory name read from handwritten signature as 'Michael Capulle' — actual spelling
+    may differ slightly from the handwritten script.
+  - user_classification not explicitly stated in the permit text as printed; classified
+    as Non-Significant Categorical Industrial User based on permit structure (no categorical
+    standard cited, City conducts all monitoring quarterly).
+  - No categorical standards (40 CFR citations) are invoked in this permit.
+  - The surcharge table (BOD, COD, TSS) is printed below the main Table 1 in Appendix
+    A without a separate table number; it is captured as a distinct surcharge table
+    with the disclaimer as printed.
+  permittee: Nelson Packaging Company, Inc.
+  facility_address: 1801 Reservoir Road, Lima, OH 45804
+  mailing_address: 1801 Reservoir Road, Lima, OH 45804
+  permit_no: NPR*004
+  issue_date: '2025-08-16'
+  effective_date: '2025-08-16'
+  expiration_date: '2028-08-16'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Section 1040.121 of the Codified Ordinances of the City of
+    Lima
+  signatory: Michael Capulle
+  user_classification: Non-Significant Categorical Industrial User
+  categorical_standards: []
+  sample_stations:
+  - station_id: NPR 01
+    description: City sampling location, end-of-pipe, manhole located 3 feet south
+      and 7 feet west of the southwestern-most pole supporting the chain-link fence
+      around the AGA storage tank
+  limit_tables:
+  - kind: local
+    appendix: Appendix A
+    table_no: '1'
+    title: applicable to Sample Station NPR 01
+    authority: null
+    sample_stations:
+    - NPR 01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: Chromium
+      daily_maximum: '0.200'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Copper
+      daily_maximum: '0.300'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Lead
+      daily_maximum: '0.050'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Molybdenum
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Nickel
+      daily_maximum: '0.100'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Selenium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Zinc
+      daily_maximum: '0.600'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Surfactants (Total, anionic, cationic, nonionic)
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Oil & Grease
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Grab, C
+    - pollutant: Low-Level Mercury
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Grab, C
+    - pollutant: Ammonia
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Phosphorus, Total
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: pH
+      daily_maximum: 6.0 to 11.0 pH units
+      instantaneous_maximum: 6.0 to 11.0 pH units
+      monthly_average: null
+      unit: pH units
+      note: 1/Quarter, Grab, C
+    disclaimer: null
+  - kind: surcharge
+    appendix: Appendix A
+    table_no: 1 (surcharge)
+    title: Surcharge limits (applicable to Sample Station NPR 01)
+    authority: null
+    sample_stations:
+    - NPR 01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: BOD
+      daily_maximum: '200.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Composite, C
+    - pollutant: COD
+      daily_maximum: '500.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Composite, C
+    - pollutant: TSS
+      daily_maximum: '250.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Composite, C
+    disclaimer: any exceedance of these limits does NOT constitute a violation of
+      this permit
+  contract_laboratory: null
+  reporting_frequency: Quarterly (City collects samples; no self-monitoring required)
+  note: null

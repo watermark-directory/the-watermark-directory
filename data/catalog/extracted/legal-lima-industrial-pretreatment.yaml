@@ -1,0 +1,103 @@
+id: legal-lima-industrial-pretreatment
+title: City of Lima — Industrial Pretreatment & CSO Record, Per-Document Extractions (2026-09)
+scope: extracted
+status: reviewed
+producer:
+  kind: extracted
+  source: City of Lima, Department of Utilities / WWTP — the industrial-pretreatment program and
+    CSO records produced 2026-09-08 and 2026-09-22 under R.C. 149.43, read per document
+license: Public record (Ohio R.C. 149.43)
+access_tier: public
+site_scope: lima-legacy
+storage:
+- relpath: extracted/legal/2023_Annual_Pretreatment_Report.pretreatment.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/2024_Annual_Pretreatment_Report.pretreatment.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/2025_Annual_Pretreatment_Report.pretreatment.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/2025_CSO_Annual_Report.progress-report.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/BEF_Foods_Permit_2024.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Bass_2026_Revision_02_IDP_signed.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Bass_Lima_CWT_Temporary_Hauled_Waste_Permit_signed.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Ind_Permit_Ford_2024.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Ind_Permit_JSMC_Signed_2024.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Ind_Permit_LTW_2024_-_Signed.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Ind_Permit_P&G_2025.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Ind_permit_EOLM_2023.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Keystone_Industrial_Discharge_Permit_2023-2025.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Keystone_Permit_2025.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Metokote_PPG_2021_PPG_Permit.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Metokote_PPG_Permit_Extension_Letter_2026.permit-extension.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Nelson_Permit_2025.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/P&G_Beads_Facility_New_IDP_2025.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/P&G_Main_Permit_Extension_Letter_2026.permit-extension.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/P&G_Main_Permit_Extension_Letter_Number_2_2026.permit-extension.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/P&G_Main_Permit_Extension_Letter_Number_3_2026.permit-extension.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/Pepsi_Industrial_Discharge_Permit_2025.idp.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/legal/lima-industrial-pretreatment-reconciliation.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: static
+  last_refreshed: '2026-09-22'
+provenance: document
+tags:
+- public-records
+- lima-wwtp
+- pretreatment
+- industrial-discharge
+- cso
+notes: >-
+  Per-document extractions from the production the City reports as final for the Lima WWTP,
+  answering request items D.7/D.8/D.9 (pretreatment) and E.10 (CSO). 22 artifacts over 21 of the
+  22 distinct source files: 14 industrial discharge permits, the CY2023-CY2025 pretreatment
+  annual reports, four permit-extension letters, and the CY2025 CSO annual report. Two source
+  files are deliberately not read here — `IU_Inventory_List.xlsx`, a spreadsheet reconciled
+  directly against the permits rather than vision-extracted, and `LTCP.pdf`, a 166-page undated
+  DRAFT narrative control plan for which no genre fits and which the City's own CSO annual report
+  shows is not the approved plan it operates under. The CSO read carries all 60 dated overflow
+  rows across the 16 structures that discharged, with `estimated` true on the 20 events at CSOs
+  #007 and above, whose flow the report states is CALCULATED as 2% of the combined overflow at
+  CSOs #002-#006 rather than metered.

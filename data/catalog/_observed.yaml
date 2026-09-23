@@ -1,4 +1,4 @@
-reconciled_at: '2026-09-23T03:05:43.694170+00:00'
+reconciled_at: '2026-09-23T10:18:51.733832+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -2181,6 +2181,16 @@ entries:
     asof: null
     stale: false
     site_scope: state:OH
+  legal-lima-industrial-pretreatment:
+    exists: true
+    sha256: 2c1288451626678d26f06150207f8b9134f13895e29d0ecfcf195bbb6ef5878e
+    size_bytes: 156124
+    lfs_materialized: true
+    file_count: 23
+    missing: []
+    asof: null
+    stale: false
+    site_scope: lima-legacy
   legal-prr-mandamus:
     exists: true
     sha256: 0679008be9912e9961b2032937e2f97192613b51a56b8fcb16543816cc44b581
@@ -2233,8 +2243,8 @@ entries:
     site_scope: lima-legacy
   legal-prr-mandamus-bosc-prr-production-2026-08-lima:
     exists: true
-    sha256: e8eccc1b924d112a2add9105e6d9b8cd9bb3b6c875bfefff4f53026a28d23820
-    size_bytes: 44201
+    sha256: dba6049140fa782baf05e14d9d24061c4a00ede8337c1261218f435fddc683a9
+    size_bytes: 45237
     lfs_materialized: true
     file_count: 3
     missing: []
@@ -2243,10 +2253,10 @@ entries:
     site_scope: lima-legacy
   legal-prr-mandamus-bosc-prr-production-2026-09-lima:
     exists: true
-    sha256: 83cda750e92e69b1a70569be5802ebf4e28caf62948734b32ba45d318df80208
-    size_bytes: 21687
+    sha256: 52d805299deb1fe7fd2c2fbd43db33993804e01c9c0d846ea6a69e9a22bf1071
+    size_bytes: 31740
     lfs_materialized: true
-    file_count: 1
+    file_count: 2
     missing: []
     asof: null
     stale: false

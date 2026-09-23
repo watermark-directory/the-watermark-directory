@@ -1,0 +1,251 @@
+doc_id: Pepsi_Industrial_Discharge_Permit_2025-c521aa85
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-1/Pepsi_Industrial_Discharge_Permit_2025.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+dpi: 200
+source_text_excerpt: '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  '
+industrial_permit:
+  confidence: high
+  warnings:
+  - Signatory name read from handwritten signature as 'Michael Capull' — the printed
+    title is 'Director of Utilities'; exact spelling of surname uncertain due to handwriting.
+    Best reading applied.
+  - user_classification not explicitly printed on face page; no categorical standard
+    (40 CFR part/subpart) is cited anywhere in the document, so categorical_standards
+    left empty.
+  - 'The pH row in Table 1 has two sub-rows: one for monthly City grab sampling and
+    one for continuous IU grab monitoring; both share the same instantaneous range
+    of 6.0 to 11.0 pH units. Both are captured in the note field.'
+  - The surcharge table is presented as a continuation of Table 1 in Appendix A with
+    its own disclaimer; it has been recorded as a separate limit_table entry with
+    kind='surcharge'.
+  permittee: C.B. Manufacturing Inc.(Pepsi Bottling)
+  facility_address: 1750 Greely Chapel Rd., Lima, OH 45804
+  mailing_address: 1750 Greely Chapel Rd., Lima, OH 45804
+  permit_no: PBC *001
+  issue_date: '2025-04-18'
+  effective_date: '2025-05-01'
+  expiration_date: '2027-05-01'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Section 1040.121 of the Codified Ordinances of the City of
+    Lima
+  signatory: Michael Capull
+  user_classification: Non-Significant Categorical Industrial User
+  categorical_standards: []
+  sample_stations:
+  - station_id: PBC 01
+    description: City sampling location (end-of-pipe); sampling manhole located just
+      inside the driveway on the corner of 4th St. and Greely Chapel Rd., east of
+      the gate
+  limit_tables:
+  - kind: local
+    appendix: Appendix A
+    table_no: Table 1
+    title: (Applicable to Sample Station PBC 01)
+    authority: null
+    sample_stations:
+    - PBC 01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: Arsenic
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Composite, C
+    - pollutant: Cadmium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Composite, C
+    - pollutant: Chromium
+      daily_maximum: '0.200'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Composite, C
+    - pollutant: Copper
+      daily_maximum: '0.300'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Composite, C
+    - pollutant: Lead
+      daily_maximum: '0.050'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Composite, C
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Composite, C
+    - pollutant: Molybdenum
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Composite, C
+    - pollutant: Nickel
+      daily_maximum: '0.100'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Composite, C
+    - pollutant: Selenium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Composite, C
+    - pollutant: Zinc
+      daily_maximum: '1.000'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Composite, C
+    - pollutant: pH
+      daily_maximum: 6.0 to 11.0 pH units
+      instantaneous_maximum: 6.0 to 11.0 pH units
+      monthly_average: null
+      unit: pH units
+      note: Monthly (City, Grab, C); Continuously (IU, Grab, IU)
+    - pollutant: Ammonia
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Composite, C
+    - pollutant: Phosphorus, Total
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Composite, C
+    - pollutant: Low-Level Mercury
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Year, Grab, C
+    - pollutant: Non-Polar Material (SGT-HEM)
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Grab, C
+    disclaimer: null
+  - kind: surcharge
+    appendix: Appendix A
+    table_no: Table 1 (surcharge section)
+    title: Surcharge Limits (Applicable to Sample Station PBC 01)
+    authority: null
+    sample_stations:
+    - PBC 01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: BOD
+      daily_maximum: '200.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Composite, C
+    - pollutant: COD
+      daily_maximum: '500.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Composite, C
+    - pollutant: TSS
+      daily_maximum: '250.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Composite, C
+    disclaimer: Any exceedance of these limits does NOT constitute a violation of
+      this permit.
+  contract_laboratory: null
+  reporting_frequency: Minimum frequency as listed in Part I; City collects all samples
+    (no self-monitoring required at this time)
+  note: null

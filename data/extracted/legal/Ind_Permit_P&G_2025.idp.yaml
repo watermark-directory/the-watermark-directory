@@ -1,0 +1,252 @@
+doc_id: Ind_Permit_P&G_2025-918ae16e
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-1/Ind_Permit_P&G_2025.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+image_pages_read:
+- 0
+- 1
+- 2
+- 17
+- 18
+- 19
+- 20
+- 21
+dpi: 200
+source_text_excerpt: "1 \n \n \n \n          \n \nWastewater Treatment Plant \nIndustrial\
+  \ Discharge Permit \n \n \nCompany (Permittee) Name:  Procter & Gamble Manufacturing\
+  \ Company             \n \n                Company Address:  3875 Reservoir Road\
+  \                        Lima               45801  \n     Street               \
+  \                                                    City                      \
+  \          Zip \n \n         Mailing Address:  P.O. Box 1900    Lima           \
+  \      45801\n     Street                                                      \
+  \             City                                Zip \n \n Permit Number:   P"
+industrial_permit:
+  confidence: high
+  warnings:
+  - 'The signature block (Approved by: Director of Utilities) is blank — this copy
+    is unsigned; signatory is set to null.'
+  - Appendix A contains narrative surfactant monitoring methodology (Tables A.1 and
+    A.2 referenced) but no numeric discharge limit table; it was not recorded as a
+    limit_table.
+  - No user_classification is explicitly printed on the face page of this permit.
+  - No categorical standards (40 CFR part/subpart) are cited in this permit.
+  permittee: Procter & Gamble Manufacturing Company
+  facility_address: 3875 Reservoir Road, Lima, OH 45801
+  mailing_address: P.O. Box 1900, Lima, OH 45801
+  permit_no: PGM*011
+  issue_date: '2025-02-13'
+  effective_date: '2025-02-13'
+  expiration_date: '2026-02-13'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Section 1040.121 of the Codified Ordinances of the City of
+    Lima
+  signatory: null
+  user_classification: null
+  categorical_standards: []
+  sample_stations:
+  - station_id: PGM 01
+    description: City sampling location; end-of-pipe sampling manhole located in the
+      grassy area north of the Reservoir Road and Mumaugh Rd. intersection. Also used
+      for self-monitoring of metals and surfactants by the industrial user. pH monitoring
+      occurs continuously at the discharge points of both LFE & HDL wastewater treatment
+      (same limits apply).
+  limit_tables:
+  - kind: local
+    appendix: Appendix B
+    table_no: Table 1
+    title: 'Table 1: Applicable to Sample Station PGM 01'
+    authority: null
+    sample_stations:
+    - PGM 01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum (mg/L)
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: Arsenic
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Year; Composite; C
+    - pollutant: Cadmium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Year; Composite; C
+    - pollutant: Chromium
+      daily_maximum: '0.200'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; IU
+    - pollutant: Copper
+      daily_maximum: '0.300'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; IU
+    - pollutant: Lead
+      daily_maximum: '0.050'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; IU
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; IU
+    - pollutant: Molybdenum
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; IU
+    - pollutant: Nickel
+      daily_maximum: '0.100'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; IU
+    - pollutant: Selenium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; IU
+    - pollutant: Silver
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Year; Composite; C
+    - pollutant: Zinc
+      daily_maximum: '1.000'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; IU
+    - pollutant: pH (City grab)
+      daily_maximum: 6.0 to 11.0 s.u.
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: pH units
+      note: Monthly; Grab; C. *pH limits shall be enforced at PGM 01 and also at the
+        discharge points of HDL & LFE process with the same limits for all stations.
+        See Part V, B for additional information.
+    - pollutant: pH (IU continuous)
+      daily_maximum: 6.0 to 11.0 s.u.
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: pH units
+      note: Continuous; IU
+    - pollutant: Ammonia
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: Phosphorus, Total
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: Low-Level Mercury
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Year; Grab; C
+    - pollutant: Anionic Surfactants
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter/Monthly; Composite; IU/C
+    - pollutant: Cationic Surfactants
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter/Monthly; Composite; IU/C
+    - pollutant: Nonionic Surfactants
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter/Monthly; Composite; IU/C
+    - pollutant: Total Surfactants
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter/Monthly; Composite; IU/C
+    - pollutant: Non-Polar Material (SGT-HEM)
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Grab; C
+    disclaimer: null
+  - kind: surcharge
+    appendix: Appendix B
+    table_no: Table 1 (surcharge rows)
+    title: Surcharge Limits (appended to Table 1, Appendix B)
+    authority: null
+    sample_stations:
+    - PGM 01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum (mg/L)
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: BOD
+      daily_maximum: '200.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: COD
+      daily_maximum: '500.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: TSS
+      daily_maximum: '250.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C. **The City's monthly sampling is split with Alloway,
+        regarding these surcharge parameters. The City's results are averaged with
+        Alloway's results and the average values are then used for the monthly HSS
+        billing.
+    disclaimer: Any exceedance of these limits does NOT constitute a violation of
+      this permit.
+  contract_laboratory: null
+  reporting_frequency: null
+  note: null

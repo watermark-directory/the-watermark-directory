@@ -1,0 +1,244 @@
+doc_id: Keystone_Permit_2025-ffcdcf86
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-1/Keystone_Permit_2025.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+dpi: 200
+source_text_excerpt: '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  '
+industrial_permit:
+  confidence: high
+  warnings:
+  - 'Signatory: The permit copy bears a handwritten signature in the ''Approved by''
+    block (Director of Utilities) but no printed name is legible beneath the signature;
+    signatory is left null.'
+  - 'User classification: No explicit user classification (e.g., Significant Industrial
+    User, Categorical Industrial User) is printed in this permit.'
+  - No categorical standards (40 CFR part/subpart) are cited in this permit.
+  - 'The surcharge limits for BOD, COD, and TSS are embedded within Appendix A, Table
+    1 but are explicitly noted as non-enforceable: ''any exceedance of these limits
+    does NOT constitute a violation of this permit.'''
+  permittee: Keystone Meats
+  facility_address: 3585 Harding Hwy, Lima, OH 45804
+  mailing_address: 3585 Harding Hwy, Lima, OH 45804
+  permit_no: KM*002
+  issue_date: '2025-06-01'
+  effective_date: '2025-06-01'
+  expiration_date: '2028-05-31'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Section 1040.121 of the Codified Ordinances of the City of
+    Lima
+  signatory: null
+  user_classification: null
+  categorical_standards: []
+  sample_stations:
+  - station_id: KM03
+    description: City Sampling Location; end-of-process downstream manhole capturing
+      waste streams from both facilities on the property
+  limit_tables:
+  - kind: local
+    appendix: Appendix A
+    table_no: Table 1
+    title: 'Table 1: (Applicable to Sample Station KM03)'
+    authority: null
+    sample_stations:
+    - KM03
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: Arsenic
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Cadmium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Chromium
+      daily_maximum: '0.200'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Copper
+      daily_maximum: '0.300'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Lead
+      daily_maximum: '0.050'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Molybdenum
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Nickel
+      daily_maximum: '0.100'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Selenium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Silver
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Zinc
+      daily_maximum: '1.000'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: pH
+      daily_maximum: 6.0 to 11.0 pH units
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: pH units
+      note: Monthly; Grab; C
+    - pollutant: Ammonia
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: Phosphorus, Total
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: Low-Level Mercury
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Grab; C
+    disclaimer: null
+  - kind: surcharge
+    appendix: Appendix A
+    table_no: Table 1 (surcharge section)
+    title: Surcharge Limits (within Table 1, Appendix A)
+    authority: null
+    sample_stations:
+    - KM03
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: BOD
+      daily_maximum: '200.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: COD
+      daily_maximum: '500.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: TSS
+      daily_maximum: '250.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    disclaimer: any exceedance of these limits does NOT constitute a violation of
+      this permit
+  contract_laboratory: null
+  reporting_frequency: null
+  note: null

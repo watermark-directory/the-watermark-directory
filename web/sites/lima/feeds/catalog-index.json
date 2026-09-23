@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "c2850fea26bc419fb3afe9fcbf88d067e196234713f2b1c2e08a547d9c9e1582",
+  "catalog_version": "e6e29b78b3ea57f43ccb2b466d15b699bb95d6d7419a0b886e9989eb028c94a0",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -1377,6 +1377,14 @@
       "site": "lima",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:legal-lima-industrial-pretreatment",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "legal-lima-industrial-pretreatment",
+      "title": "City of Lima — Industrial Pretreatment & CSO Record, Per-Document Extractions (2026-09)",
       "feed": "catalog"
     },
     {
@@ -3817,6 +3825,182 @@
       "site": "lima",
       "local_id": "lacrpc/american-township-zoning.zoning.yaml",
       "title": "American Township (Allen County, OH) Zoning Resolution — the land-use basis for the BOSC/Google data-center site",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/2023_Annual_Pretreatment_Report.pretreatment.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/2023_Annual_Pretreatment_Report.pretreatment.yaml",
+      "title": "Annual Pretreatment Report, 01/01/2023 - 12/31/2023 — City of Lima WWTP",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/2024_Annual_Pretreatment_Report.pretreatment.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/2024_Annual_Pretreatment_Report.pretreatment.yaml",
+      "title": "Annual Pretreatment Report, 01/01/2024 - 12/31/2024 — City of Lima WWTP",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/2025_Annual_Pretreatment_Report.pretreatment.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/2025_Annual_Pretreatment_Report.pretreatment.yaml",
+      "title": "Annual Pretreatment Report, 01/01/2025 - 12/31/2025 — City of Lima WWTP",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/2025_CSO_Annual_Report.progress-report.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/2025_CSO_Annual_Report.progress-report.yaml",
+      "title": "CSO Public Notification Rule (NPDES Permit 2PE00000*PD)",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/BEF_Foods_Permit_2024.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/BEF_Foods_Permit_2024.idp.yaml",
+      "title": "BEF Foods, Incorporated",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Bass_2026_Revision_02_IDP_signed.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Bass_2026_Revision_02_IDP_signed.idp.yaml",
+      "title": "Bass Environmental Lima",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Bass_Lima_CWT_Temporary_Hauled_Waste_Permit_signed.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Bass_Lima_CWT_Temporary_Hauled_Waste_Permit_signed.idp.yaml",
+      "title": "Bass Environmental",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Ind_Permit_Ford_2024.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Ind_Permit_Ford_2024.idp.yaml",
+      "title": "Ford Motor Company",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Ind_Permit_JSMC_Signed_2024.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Ind_Permit_JSMC_Signed_2024.idp.yaml",
+      "title": "U.S. Army Joint Systems Manufacturing Center – Lima",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Ind_Permit_LTW_2024_-_Signed.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Ind_Permit_LTW_2024_-_Signed.idp.yaml",
+      "title": "Lima Tank Wash",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Ind_Permit_P&G_2025.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Ind_Permit_P&G_2025.idp.yaml",
+      "title": "Procter & Gamble Manufacturing Company",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Ind_permit_EOLM_2023.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Ind_permit_EOLM_2023.idp.yaml",
+      "title": "EOLM, Inc.",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Keystone_Industrial_Discharge_Permit_2023-2025.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Keystone_Industrial_Discharge_Permit_2023-2025.idp.yaml",
+      "title": "Keystone Meats",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Keystone_Permit_2025.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Keystone_Permit_2025.idp.yaml",
+      "title": "Keystone Meats",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Metokote_PPG_2021_PPG_Permit.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Metokote_PPG_2021_PPG_Permit.idp.yaml",
+      "title": "Metokote Corporation",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Metokote_PPG_Permit_Extension_Letter_2026.permit-extension.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Metokote_PPG_Permit_Extension_Letter_2026.permit-extension.yaml",
+      "title": "Metokote/PPG",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Nelson_Permit_2025.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Nelson_Permit_2025.idp.yaml",
+      "title": "Nelson Packaging Company, Inc.",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/P&G_Beads_Facility_New_IDP_2025.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/P&G_Beads_Facility_New_IDP_2025.idp.yaml",
+      "title": "Procter & Gamble Manufacturing -Lima Beads Facility",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/P&G_Main_Permit_Extension_Letter_2026.permit-extension.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/P&G_Main_Permit_Extension_Letter_2026.permit-extension.yaml",
+      "title": "Procter & Gamble Manufacturing Co.",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/P&G_Main_Permit_Extension_Letter_Number_2_2026.permit-extension.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/P&G_Main_Permit_Extension_Letter_Number_2_2026.permit-extension.yaml",
+      "title": "Procter & Gamble Manufacturing Co.",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/P&G_Main_Permit_Extension_Letter_Number_3_2026.permit-extension.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/P&G_Main_Permit_Extension_Letter_Number_3_2026.permit-extension.yaml",
+      "title": "Procter & Gamble Manufacturing Co.",
+      "feed": "records"
+    },
+    {
+      "handle": "record:lima:legal/Pepsi_Industrial_Discharge_Permit_2025.idp.yaml",
+      "kind": "record",
+      "site": "lima",
+      "local_id": "legal/Pepsi_Industrial_Discharge_Permit_2025.idp.yaml",
+      "title": "C.B. Manufacturing Inc.(Pepsi Bottling)",
       "feed": "records"
     },
     {
@@ -6337,6 +6521,14 @@
       "site": "lima",
       "local_id": "order-OH0026069-2005-02-07-administrative order (findings of violations, order for compliance and request for information) with associated correspondence",
       "title": "U.S. EPA, Region 5 Administrative Order (Findings of Violations, Order for Com… — City of Lima, Ohio (V-W-05-AO-08)",
+      "feed": "timeline"
+    },
+    {
+      "handle": "timeline:lima:progress-2PE00000*PD-2025-01-01",
+      "kind": "timeline",
+      "site": "lima",
+      "local_id": "progress-2PE00000*PD-2025-01-01",
+      "title": "CSO Public Notification Rule (NPDES Permit 2PE00000*PD) progress report — City of Lima, Ohio, Department of Utilities",
       "feed": "timeline"
     },
     {

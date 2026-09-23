@@ -143,6 +143,12 @@ _BLOCK_TO_GROUP: dict[str, str] = {
     # pretreatment program is itself under enforcement. It is the counterpart of the permits
     # above, so it shares their group rather than borrowing an enforcement one.
     "pretreatment_report": "permits-pretreatment",
+    # A letter that extends one permit's expiration date and restates nothing else (#2175). It
+    # belongs with the permits it amends, because the question it answers is about them: whether
+    # the printed expiry on an IDP is still the date that governs. Wired here AND in
+    # `pipeline.corpus` — a genre that extracts cleanly but appears in neither is a file on disk
+    # that reaches no feed, which is how these four spent their first day.
+    "permit_extension": "permits-pretreatment",
 }
 # OPC estimates are whole-document (summary/detail/page) — no single block key.
 _OPC_KEYS = frozenset({"estimate", "sub_estimates", "estimate_template"})
@@ -393,6 +399,18 @@ def _record_title(rec: _Record) -> str:
             val = holder.get(key)
             if isinstance(val, str) and val.strip():
                 return val.strip()
+    # Composed, not probed (#2175). A pretreatment annual report carries no identifying field a
+    # generic probe can use: all three of Lima's name the same authority on the same permit, and
+    # the only thing that distinguishes them is the period they report. Probing `reporting_authority`
+    # would head the three with one identical string, which is a different way of being unreadable.
+    # The two parts are read off the form; nothing here is inferred.
+    body = rec.data.get("pretreatment_report")
+    if isinstance(body, dict):
+        authority, period = body.get("reporting_authority"), body.get("reporting_period")
+        if isinstance(authority, str) and authority.strip():
+            if isinstance(period, str) and period.strip():
+                return f"Annual Pretreatment Report, {period.strip()} — {authority.strip()}"
+            return f"Annual Pretreatment Report — {authority.strip()}"
     return Path(rec.rel).stem
 
 

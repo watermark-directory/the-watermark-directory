@@ -1,0 +1,222 @@
+meta:
+  subject: Lima WWTP industrial pretreatment — inventory vs. permits vs. annual reports (#2175 Phase 5)
+  generated_at: '2026-09-23'
+  method: manual reconciliation of three committed reads against one another
+  question: >-
+    The September 2026 production answered request items D.7 (IU inventory), D.8 (IU permits) and
+    D.9 (pretreatment annual reports) together, for the first time. Read singly each is unremarkable.
+    Read against each other they disagree — about how many industrial users Lima has, how many of
+    them hold a current control document, and which categorical standard applies to whom. This file
+    records those disagreements; it asserts no figure of its own.
+  sources:
+    inventory:
+      file: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-1/IU_Inventory_List.xlsx
+      as_of: '2026-07-22'   # printed on the sheet: "* list updated as of 7/22/26"
+      note: >-
+        Read in process by `watermark.documents.office.xlsx_text`. NOT extracted to a committed
+        artifact — a 20-row list with three columns is its own best representation, and a genre
+        built to hold it would assert a schema the City never published.
+    permits: data/extracted/legal/*.idp.yaml            # 14 artifacts, 12 distinct permittees
+    extensions: data/extracted/legal/*.permit-extension.yaml   # 4 artifacts
+    reports: data/extracted/legal/*.pretreatment.yaml   # CY2023, CY2024, CY2025
+
+counts:
+  inventory_users: 20
+  inventory_by_class:
+    categorical_industrial_user: 11
+    non_significant_categorical_industrial_user: 6
+    non_categorical_significant_industrial_user: 3
+  permit_documents: 14
+  distinct_permittees: 12
+  users_with_a_produced_permit: 12
+  users_with_no_produced_permit: 8
+
+# --- finding 1: eight users on the City's own list hold no permit in the production ------------
+coverage:
+  standing: '[verified]'
+  basis: >-
+    Every name below appears in the City's 2026-07-22 inventory. None of the fourteen permit
+    documents produced names it as permittee. The claim is about the PRODUCTION, not about the
+    City's files: a permit that exists and was not produced reads here exactly like one that does
+    not exist, and the request asked for all of them.
+  not_plausibly_exempt:
+    # A Significant Industrial User must be covered by a control document (40 CFR 403.8(f)(1)(iii)).
+    # These four are classed by the City itself as either categorical or non-categorical SIGNIFICANT,
+    # so the absence of a permit is not explained by the class.
+    - user: Guardian Lima LLC
+      class: Categorical Industrial User
+      cfr_part_on_inventory: '414'
+    - user: Lima Memorial Hospital
+      class: Categorical Industrial User
+      cfr_part_on_inventory: '460'
+    - user: Mercy Health St. Rita's Hospital
+      class: Categorical Industrial User
+      cfr_part_on_inventory: '460'
+    - user: Nickles Bakery
+      class: Non-Categorical Significant Industrial User
+      cfr_part_on_inventory: null
+  classed_non_significant:
+    # A Non-Significant Categorical Industrial User may be certified rather than permitted. The
+    # certification is itself a document, and none was produced either — but the class at least
+    # offers an explanation the four above do not have.
+    - user: BRP Manufacturing Co.
+      cfr_part_on_inventory: '428'
+    - user: Wieland Randall Bearings
+      cfr_part_on_inventory: '438'
+    - user: Superior Forge and Steel
+      cfr_part_on_inventory: '420/438'
+    - user: Whemco Ohio
+      cfr_part_on_inventory: '464'
+
+# --- finding 2: the inventory and the most recent annual report do not agree -------------------
+inventory_vs_report:
+  standing: '[verified]'
+  comparison:
+    - measure: significant industrial users
+      cy2025_report: 12          # categorical 9 + non-categorical 3
+      inventory_2026_07_22: 14   # categorical 11 + non-categorical significant 3
+    - measure: non-significant categorical users
+      cy2025_report: 7
+      inventory_2026_07_22: 6
+    - measure: total users enumerated
+      cy2025_report: 19
+      inventory_2026_07_22: 20
+  note: >-
+    The two are four months apart (report submitted 2026-03-13, inventory current to 2026-07-22),
+    so a change in the interval explains a delta. It does not explain the DIRECTION of both deltas
+    at once: the categorical count rose by two while the non-significant categorical count fell by
+    one. That is the signature of reclassification, not of arrival — a user moved up a class — and
+    the production contains no document recording any such determination.
+
+# --- finding 3: the CY2023 gap between users and control documents -----------------------------
+series:
+  standing: '[verified]'
+  rows:
+    - period: CY2023
+      submitted: '2024-03-01'
+      significant_industrial_users: 15
+      categorical: 11
+      non_categorical: 4
+      non_significant_categorical: 4
+      effective_control_documents: 9
+      inspected: 10
+      sampled: 15
+    - period: CY2024
+      submitted: '2025-03-12'
+      significant_industrial_users: 12
+      categorical: 9
+      non_categorical: 3
+      non_significant_categorical: 7
+      effective_control_documents: 11
+      inspected: 12
+      sampled: 12
+    - period: CY2025
+      submitted: '2026-03-13'
+      significant_industrial_users: 12
+      categorical: 9
+      non_categorical: 3
+      non_significant_categorical: 7
+      effective_control_documents: 11
+      inspected: 13
+      sampled: 12
+  cy2023_shortfall:
+    standing: '[verified]'
+    statement: >-
+      In CY2023 Lima reported 15 significant industrial users and 9 effective control documents —
+      six SIUs discharging without one, on the City's own form.
+  how_it_closed:
+    standing: '[inference]'
+    statement: >-
+      By CY2024 the gap is 12 against 11 — a five-point closure, of which only two points are
+      documents issued (effective control documents 9 -> 11). The other three are users LEAVING the
+      permit-requiring population: the SIU count fell 15 -> 12 in the same year the non-significant
+      categorical count rose 4 -> 7. A user reclassified as non-significant closes the gap without
+      anyone being permitted. The reports state the counts and not the reason, and no
+      reclassification determination was produced; this reads the two columns against each other.
+
+# --- finding 4: the categorical standard is named on the inventory and not in the permit -------
+categorical_standards:
+  standing: '[verified]'
+  statement: >-
+    The inventory assigns a 40 CFR part to 16 of its 20 users. Of the 14 permit documents produced,
+    only 5 cite any part at all. For six users the City's own list names a categorical standard
+    that the permit governing them does not mention.
+  permits_citing_a_part:
+    - {permit_no: 'BE*001', permittee: Bass Environmental Lima, parts: ['437 Subpart B (437.26)', '437 Subpart C (437.36)']}
+    - {permit_no: 'BE*001 Temporary', permittee: Bass Environmental, parts: ['437 Subpart D (437.47)']}
+    - {permit_no: 'JSM*007', permittee: U.S. Army Joint Systems Manufacturing Center – Lima, parts: ['433']}
+    - {permit_no: 'LTW*007', permittee: Lima Tank Wash, parts: ['442 Subpart A']}
+    - {permit_no: 'MET*009', permittee: Metokote Corporation, parts: ['433']}
+  named_on_inventory_absent_from_the_permit:
+    - {user: Ford Lima Engine Plant, permit_no: 'FMC*010', cfr_part_on_inventory: '438'}
+    - {user: EOLM Inc., permit_no: 'EOL *002', cfr_part_on_inventory: '445'}
+    - {user: Keystone Meats, permit_no: 'KM*002', cfr_part_on_inventory: '432'}
+    - {user: Nelson Packaging, permit_no: 'NPR*004', cfr_part_on_inventory: '417'}
+    - {user: P&G Main Facility, permit_no: 'PGM*011', cfr_part_on_inventory: '417'}
+    - {user: P&G Beads Facility, permit_no: 'PGB*01', cfr_part_on_inventory: '417'}
+  inverse:
+    standing: '[verified]'
+    statement: >-
+      Bass Environmental runs the other way: the inventory leaves its 40 CFR cell BLANK while its
+      permit cites three subparts of Part 437. Neither document is a reliable index of the other.
+
+# --- finding 5: permit currency as of the production date --------------------------------------
+currency:
+  as_of: '2026-09-23'
+  standing: '[verified]'
+  expired_with_no_successor_produced:
+    - permittee: Procter & Gamble Manufacturing Company (P&G Main Facility)
+      permit_no: 'PGM*011'
+      printed_expiration: '2026-02-13'
+      extended_to: '2026-09-13'
+      extension_chain:
+        - {letter_date: '2026-02-03', extended_to: '2026-05-13'}
+        - {letter_date: '2026-04-24', extended_to: '2026-07-13'}
+        - {letter_date: '2026-07-08', extended_to: '2026-09-13'}
+      days_expired_as_of_the_as_of_date: 10
+      stated_reason: >-
+        "The City of Lima is currently in the process of revising P&G Main Facility's IDP."
+        (letters of 2026-04-24 and 2026-07-08)
+    - permittee: Metokote Corporation (Metokote/PPG)
+      permit_no: 'MET*009'
+      printed_expiration: '2026-07-11'
+      extended_to: '2026-09-11'
+      extension_chain:
+        - {letter_date: '2026-07-06', extended_to: '2026-09-11'}
+      days_expired_as_of_the_as_of_date: 12
+      stated_reason: null
+      note: >-
+        The letter says only that "The City of Lima intends to issue the next permit before that
+        time" — an intent, not a reason, and the time has passed.
+  expiring_within_the_month:
+    - {permittee: Procter & Gamble Manufacturing -Lima Beads Facility, permit_no: 'PGB*01', expiration: '2026-09-30'}
+  superseded_in_the_ordinary_course:
+    - {permit_no: 'KM*001', expired: '2025-05-31', successor: 'KM*002', effective: '2025-06-01'}
+    - {permit_no: 'BE*001 Temporary', expired: '2025-10-02', note: 'a one-month temporary hauled-waste authorization, not a term permit'}
+  extension_chain_join:
+    standing: '[inference]'
+    statement: >-
+      No extension letter prints a permit number. Each is joined to its permit by permittee name
+      and facility address, and each letter's new date follows the previous one's. The chain is
+      consistent on every point the letters do print, but the join itself is read, not stated.
+
+# --- what the production still does not contain ------------------------------------------------
+open_items:
+  - standing: '[open]'
+    item: >-
+      Seven attachments are named on the face of the three annual reports and none was produced:
+      the three "IU Report Form_City of Lima.xlsm" workbooks (CY2023/24/25), the CY2023 and CY2025
+      "Annual Pretreatment Program Evaluation" documents, the unnamed CY2024 .docx
+      (c4450e27-5294-41a4-9941-50d93a43eaab.docx), and "2025 Annual Hg PMP Report signed.pdf".
+      The IU Report Forms are the per-user detail behind every count in `series:` above.
+  - standing: '[open]'
+    item: >-
+      The revised P&G Main IDP that three extension letters say is in progress. It would be the
+      instrument governing the City's largest permitted industrial discharger.
+  - standing: '[open]'
+    item: >-
+      Any control document or non-significance certification for the eight users in `coverage:`.
+  - standing: '[open]'
+    item: >-
+      Any record of the reclassifications the counts in `inventory_vs_report:` and
+      `series.how_it_closed:` imply.

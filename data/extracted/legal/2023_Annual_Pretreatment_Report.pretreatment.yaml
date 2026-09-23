@@ -1,0 +1,84 @@
+doc_id: 2023_Annual_Pretreatment_Report-69f64920
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-1/2023_Annual_Pretreatment_Report.pdf
+kind: pretreatment
+pages_read:
+- 0
+- 1
+- 2
+image_pages_read:
+- 0
+- 1
+- 2
+dpi: 200
+source_text_excerpt: "DIVISION OF SURFACE WATER\nPRETREATMENT PROGRAM ANNUAL REPORT\
+  \ CERTIFICATION\nDate: 03/01/2024\nOhio NPDES Permit Number: 2PE00000*PD\nFacility\
+  \ Name: Lima WWTP\nSewer Authority Name: City of Lima WWTP\nPeriod Covered by Report:\
+  \ 01/01/2023 - 12/31/2023\nDoes this Permit have significant industrial users? Yes\n\
+  Contact Person\n           Name: Kim Furry\n           Title: Wastewater Treatment\
+  \ Plant Manager\n           Mailing Address: 1200 Ft. Amanda Rd\n           City:\
+  \ Lima            State: OH            Zip Code: 45804\n           Country: USA\n\
+  \           Telephone number: (419) 221-5198\n           Fax numb"
+pretreatment_report:
+  confidence: high
+  warnings: []
+  reporting_authority: City of Lima WWTP
+  npdes_permit_no: 2PE00000*PD
+  reporting_period: 01/01/2023 - 12/31/2023
+  submission_date: '2024-03-01'
+  application_id: '18588481'
+  contact_name: Kim Furry
+  contact_title: Wastewater Treatment Plant Manager
+  significant_industrial_users: 15
+  categorical_users: 11
+  non_categorical_users: 4
+  non_significant_categorical_users: 4
+  effective_control_documents: 9
+  users_inspected: 10
+  users_sampled: 15
+  users_in_snc: null
+  counts:
+  - label: Number of SIU's Subject to Local Limits
+    count: 15
+    count_as_printed: '15'
+  - label: Number of SIU's in SNC (Categorical/Non-Categorical)
+    count: null
+    count_as_printed: 0/0
+  - label: Number of SIU's in SNC for Sampling Violations
+    count: 0
+    count_as_printed: '0'
+  - label: Number of SIU's in SNC for Reporting Violations
+    count: 0
+    count_as_printed: '0'
+  - label: Number of SIU's in SNC for Compliance Schedule Violations
+    count: 0
+    count_as_printed: '0'
+  - label: Number of SIU's Non Significant IU's in SNC
+    count: 0
+    count_as_printed: '0'
+  enforcement_actions:
+  - label: Number of Show-Cause Hearings
+    count: 0
+    count_as_printed: '0'
+  - label: Number of Compliance Schedules Issued
+    count: 0
+    count_as_printed: '0'
+  - label: Number of Administrative Orders Issued
+    count: 0
+    count_as_printed: '0'
+  - label: Number of Civil Suits Filed
+    count: 0
+    count_as_printed: '0'
+  - label: Number of Criminal Suits Filed
+    count: 0
+    count_as_printed: '0'
+  - label: Amount of Penalties Collected (Total dollars/# IU's assessed)
+    count: null
+    count_as_printed: $0.00
+  - label: Number of Facilities in SNC Published (Attach news paper listing)
+    count: 0
+    count_as_printed: '0'
+  industrial_users: []
+  attachments:
+  - 2023 IU Report Form_City of Lima.xlsm
+  - Annual Pretreatment Program Evaluation 2023_City of Lima.docx
+  note: null

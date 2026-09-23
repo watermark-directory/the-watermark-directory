@@ -1,0 +1,234 @@
+doc_id: Keystone_Industrial_Discharge_Permit_2023-2025-b8ef4bde
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-1/Keystone_Industrial_Discharge_Permit_2023-2025.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+dpi: 154
+source_text_excerpt: '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  '
+industrial_permit:
+  confidence: high
+  warnings:
+  - 'Signatory: The permit copy bears a handwritten signature in the ''Approved by:
+    Director of Utilities'' block, but the signer''s printed name is not legible enough
+    to transcribe with certainty; signatory has been left null pending verification
+    of the executed instrument.'
+  - User classification is not explicitly printed on the face page of this permit;
+    field left null.
+  - No categorical standards (40 CFR part/subpart) are cited in this permit; categorical_standards
+    left empty.
+  - The limits tables appear in the body of the permit (Part I, Section B) and are
+    not located in a separately labeled appendix. The appendix field has been set
+    to null accordingly.
+  - Table 1 contains both enforceable local limits and a surcharge section within
+    the same printed table; they have been separated into two LimitTable records to
+    preserve the surcharge disclaimer.
+  - pH is listed only under 'Instantaneous Maximum' column in the printed table with
+    value '6.0 to 11.0 pH units'; it has been placed in both daily_maximum and instantaneous_maximum
+    fields to preserve the range as printed.
+  - No contract laboratory is named in this permit.
+  permittee: Keystone Meats
+  facility_address: 3585 Harding Hwy, Lima, OH 45804
+  mailing_address: 3585 Harding Hwy, Lima, OH 45804
+  permit_no: KM*001
+  issue_date: '2023-06-01'
+  effective_date: '2023-06-01'
+  expiration_date: '2025-05-31'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Section 1040.121 of the Codified Ordinances of the City of
+    Lima
+  signatory: null
+  user_classification: null
+  categorical_standards: []
+  sample_stations:
+  - station_id: KM 01
+    description: End-of-process sampling manhole at the NE corner of the main facility
+  - station_id: KM 02
+    description: End-of-process sampling manhole at the SE corner of the canning facility,
+      near the entrance door
+  limit_tables:
+  - kind: local
+    appendix: null
+    table_no: Table 1
+    title: Applicable to Sample Stations KM01 and KM 02
+    authority: null
+    sample_stations:
+    - KM 01
+    - KM 02
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: Chromium
+      daily_maximum: '0.200'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Copper
+      daily_maximum: '0.300'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Lead
+      daily_maximum: '0.050'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Molybdenum
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Nickel
+      daily_maximum: '0.100'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Selenium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: Zinc
+      daily_maximum: '1.000'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Annually; Composite; C
+    - pollutant: pH
+      daily_maximum: 6.0 to 11.0 pH units
+      instantaneous_maximum: 6.0 to 11.0 pH units
+      monthly_average: null
+      unit: pH units
+      note: Monthly; Grab; C
+    - pollutant: Low-Level Mercury
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Year; Grab; C
+    - pollutant: Hexavalent Chromium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 2/Year; Grab; C
+    disclaimer: null
+  - kind: surcharge
+    appendix: null
+    table_no: Table 1 (Surcharge portion)
+    title: Surcharge Limits — Applicable to Sample Stations KM01 and KM 02
+    authority: null
+    sample_stations:
+    - KM 01
+    - KM 02
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: BOD
+      daily_maximum: '200.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: COD
+      daily_maximum: '500.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: TSS
+      daily_maximum: '250.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    disclaimer: Any exceedance of these limits does NOT constitute a violation of
+      this permit.
+  contract_laboratory: null
+  reporting_frequency: Monthly/Annually (City performs sampling; no self-monitoring
+    required at this time)
+  note: null

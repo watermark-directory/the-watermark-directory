@@ -1,0 +1,636 @@
+doc_id: Bass_2026_Revision_02_IDP_signed-fa84967d
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-2/Bass_2026_Revision_02_IDP_signed.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+dpi: 181
+source_text_excerpt: '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  '
+industrial_permit:
+  confidence: high
+  warnings:
+  - Signatory name read from handwritten signature block as 'Michael Laguille' — exact
+    spelling uncertain due to cursive script; may be 'Laguille', 'Lasalle', or similar.
+  - No appendix letter is printed for Table 1 or Table 2; they appear inline in Part
+    I of the permit body, not in a separately labelled appendix.
+  - Table 1 Cadmium lbs/day limit is printed as 0.0013 per Rev 02 (5/29/26) correction
+    from 0.00013.
+  - TSS mg/L and lbs/day rows in Table 1 were added per Rev 02 (5/29/26).
+  - user_classification not explicitly printed on the face page of this permit.
+  - No contract laboratory is named in the permit.
+  permittee: Bass Environmental Lima
+  facility_address: 2395 St. Johns Road, Lima, OH 45804
+  mailing_address: null
+  permit_no: BE*001
+  issue_date: '2026-04-24'
+  effective_date: '2026-05-01'
+  expiration_date: '2027-04-30'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Chapter 1040 of the City of Lima's Codified Ordinance
+  signatory: Michael Laguille
+  user_classification: null
+  categorical_standards:
+  - 40 CFR 437 Subpart B – Oils Treatment and Recovery (40 CFR 437.26)
+  - 40 CFR 437 Subpart C – Organics Treatment and Recovery (40 CFR 437.36)
+  sample_stations:
+  - station_id: BE 01
+    description: 'City Sampling Location: end-of-process sampling at the manhole located
+      near the southwest corner of the building.'
+  - station_id: BE 02
+    description: Self-monitoring location at a sample port placed near the flow meter
+      discharging water from the effluent tank. No introduction of wastewater between
+      Sample Point BE 02 and BE 01 is permitted without Director approval.
+  limit_tables:
+  - kind: categorical
+    appendix: null
+    table_no: Table 1
+    title: EFFLUENT LIMITATIONS – SUBPART B OILY WASTEWATER BATCH DISCHARGES
+    authority: 40 CFR 437.26 (Subpart B) and Local
+    sample_stations:
+    - BE 01
+    units: mg/L or lbs/day as noted
+    columns:
+    - UNITS
+    - PARAMETERS
+    - DAILY MAXIMUM
+    - Authority
+    - MONTHLY AVERAGE
+    - Authority
+    limits:
+    - pollutant: pH
+      daily_maximum: 6.0 to 11.0
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: S.U.
+      note: Local
+    - pollutant: Biological Oxygen Demand (BOD5)
+      daily_maximum: '775'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: BOD5
+      daily_maximum: '970'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Chemical Oxygen Demand (COD)
+      daily_maximum: '1200'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: COD
+      daily_maximum: '1501'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Total Suspended Solids (TSS)
+      daily_maximum: '1110'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: TSS
+      daily_maximum: '1401'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Ammonia (NH3)
+      daily_maximum: '50'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Ammonia (NH3)
+      daily_maximum: '63'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Phosphorous, Total
+      daily_maximum: '10'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Phosphorous, Total
+      daily_maximum: '13'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Arsenic
+      daily_maximum: '0.002'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Arsenic
+      daily_maximum: '0.0003'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Zinc
+      daily_maximum: '0.34'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Zinc
+      daily_maximum: '0.43'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Silver
+      daily_maximum: '0.04'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Silver
+      daily_maximum: '0.05'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Selenium
+      daily_maximum: '0.03'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Selenium
+      daily_maximum: '0.038'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Nickel
+      daily_maximum: '0.04'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Nickel
+      daily_maximum: '0.05'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Mercury
+      daily_maximum: '0.0013'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Cadmium
+      daily_maximum: '0.001'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Cadmium
+      daily_maximum: '0.0013'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Chromium
+      daily_maximum: '0.746'
+      instantaneous_maximum: null
+      monthly_average: '0.323'
+      unit: mg/L
+      note: 40 CFR 437.26
+    - pollutant: Cobalt
+      daily_maximum: '56.4'
+      instantaneous_maximum: null
+      monthly_average: '18.8'
+      unit: mg/L
+      note: 40 CFR 437.26
+    - pollutant: Copper
+      daily_maximum: '0.300'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Copper
+      daily_maximum: '0.38'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Lead
+      daily_maximum: '0.350'
+      instantaneous_maximum: null
+      monthly_average: '0.160'
+      unit: mg/L
+      note: 40 CFR 437.26
+    - pollutant: Molybdenum
+      daily_maximum: '1.00'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Molybdenum
+      daily_maximum: '1.25'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Tin
+      daily_maximum: '0.335'
+      instantaneous_maximum: null
+      monthly_average: '0.165'
+      unit: mg/L
+      note: 40 CFR 437.26
+    - pollutant: Bis(2-ethylhexyl) Phthalate
+      daily_maximum: '0.215'
+      instantaneous_maximum: null
+      monthly_average: '0.101'
+      unit: mg/L
+      note: 40 CFR 437.26
+    - pollutant: Carbazole
+      daily_maximum: '0.598'
+      instantaneous_maximum: null
+      monthly_average: '0.276'
+      unit: mg/L
+      note: 40 CFR 437.26
+    - pollutant: n-Decane
+      daily_maximum: '0.948'
+      instantaneous_maximum: null
+      monthly_average: '0.437'
+      unit: mg/L
+      note: 40 CFR 437.26
+    - pollutant: Fluoranthene
+      daily_maximum: '0.0537'
+      instantaneous_maximum: null
+      monthly_average: '0.0268'
+      unit: mg/L
+      note: 40 CFR 437.26
+    - pollutant: n-Octadecane
+      daily_maximum: '0.589'
+      instantaneous_maximum: null
+      monthly_average: '0.302'
+      unit: mg/L
+      note: 40 CFR 437.26
+    - pollutant: Flow
+      daily_maximum: 150,000 GPD
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: GPD
+      note: null
+    disclaimer: null
+  - kind: categorical
+    appendix: null
+    table_no: Table 2
+    title: EFFLUENT LIMITATIONS – SUBPART C ORGANIC WASTEWATER BATCH DISCHARGES
+    authority: 40 CFR 437.36 (Subpart C) and Local
+    sample_stations:
+    - BE 01
+    units: mg/L or lbs/day as noted
+    columns:
+    - UNITS
+    - PARAMETERS
+    - DAILY MAXIMUM
+    - Authority
+    - MONTHLY AVERAGE
+    - Authority
+    limits:
+    - pollutant: pH
+      daily_maximum: 6.0 to 11.0
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: S.U.
+      note: Local
+    - pollutant: Biological Oxygen Demand (BOD5)
+      daily_maximum: '775'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: BOD5
+      daily_maximum: '970'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Chemical Oxygen Demand (COD)
+      daily_maximum: '1200'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: COD
+      daily_maximum: '1501'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Total Suspended Solids (TSS)
+      daily_maximum: '1110'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: TSS
+      daily_maximum: '1401'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Ammonia (NH3)
+      daily_maximum: '50'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Ammonia (NH3)
+      daily_maximum: '63'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Phosphorous, Total
+      daily_maximum: '10'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Phosphorous, Total
+      daily_maximum: '13'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Arsenic
+      daily_maximum: '0.002'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Arsenic
+      daily_maximum: '0.0003'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Zinc
+      daily_maximum: '0.34'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Zinc
+      daily_maximum: '0.43'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Silver
+      daily_maximum: '0.04'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Silver
+      daily_maximum: '0.05'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Selenium
+      daily_maximum: '0.03'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Selenium
+      daily_maximum: '0.038'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Nickel
+      daily_maximum: '0.04'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Nickel
+      daily_maximum: '0.05'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Mercury
+      daily_maximum: '0.0013'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Cadmium
+      daily_maximum: '0.001'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Cadmium
+      daily_maximum: '0.0013'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Chromium
+      daily_maximum: '1.0'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Chromium
+      daily_maximum: '1.25'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Copper
+      daily_maximum: '0.300'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Copper
+      daily_maximum: '0.380'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Lead
+      daily_maximum: '0.500'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Lead
+      daily_maximum: '0.63'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: Molybdenum
+      daily_maximum: '1.00'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: Local
+    - pollutant: Molybdenum
+      daily_maximum: '1.25'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: lbs/day
+      note: Local
+    - pollutant: o-cresol
+      daily_maximum: '1.92'
+      instantaneous_maximum: null
+      monthly_average: '0.561'
+      unit: mg/L
+      note: 40 CFR 437.36
+    - pollutant: p-cresol
+      daily_maximum: '0.698'
+      instantaneous_maximum: null
+      monthly_average: '0.205'
+      unit: mg/L
+      note: 40 CFR 437.36
+    - pollutant: 2,4,6-trichlorophenol
+      daily_maximum: '0.155'
+      instantaneous_maximum: null
+      monthly_average: '0.106'
+      unit: mg/L
+      note: 40 CFR 437.36
+    - pollutant: Flow
+      daily_maximum: 150,000 GPD
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: GPD
+      note: null
+    disclaimer: null
+  - kind: surcharge
+    appendix: null
+    table_no: null
+    title: HIGH STRENGTH WASTEWATER
+    authority: null
+    sample_stations: []
+    units: mg/L
+    columns:
+    - UNITS
+    - PARAMETERS
+    - THRESHOLDS
+    limits:
+    - pollutant: COD
+      daily_maximum: '500'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: null
+    - pollutant: BOD5
+      daily_maximum: '200'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: null
+    - pollutant: TSS
+      daily_maximum: '250'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: mg/L
+      note: null
+    disclaimer: Discharges exceeding the listed thresholds shall be subject to extra
+      strength surcharges for handling the wastes in accordance with the City of Lima
+      Ordinance 1040.18.
+  contract_laboratory: null
+  reporting_frequency: Weekly sampling; monthly reporting (reports due by the 15th
+    of the next month)
+  note: null

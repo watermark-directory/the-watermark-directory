@@ -655,6 +655,12 @@ class ComplianceProgressReport(_Extracted):
     It is also not :class:`ComplianceInspection`: that genre is the AGENCY visiting the
     facility, this is the RESPONDENT reporting on itself. The difference matters to how a
     reader weighs it, so the two never share a bucket.
+
+    That self-reporting posture, not the decree, is what this genre is actually keyed to,
+    so it also carries a report a **rule** requires rather than an order: Lima's CSO
+    Annual Report is posted under the CSO Public Notification rule, and files here with
+    ``instrument`` naming the rule and ``case_no`` / ``paragraph`` null. A null docket is
+    an accurate statement that no order compelled the filing — not a gap.
     """
 
     agency: str | None = None  # the recipients (e.g. "U.S. EPA Region 5 / Ohio EPA")
@@ -1006,12 +1012,27 @@ class ProgramCount(BaseModel):
     Kept as a label/count pair rather than a fixed field per line because the STREAMS
     form's summary table is revised between reporting years, and a schema that fixed
     this year's rows would silently drop next year's.
+
+    ⚠️ **Not every counted row holds a number.** The form pairs two figures in one cell
+    where the label names two things: ``Number of SIU's in SNC (Categorical/Non-
+    Categorical): 0/0`` and ``Amount of Penalties Collected (Total dollars/# IU's
+    assessed): $0.00``. ``count`` stays numeric-or-null and ``count_as_printed`` carries
+    the cell verbatim, so a pair is preserved as a pair. Coercing ``0/0`` to ``0`` would
+    invent an answer to a question the form asked twice, and rejecting it — which is
+    what the schema did until a CY2023 read failed on it — loses the row entirely.
     """
 
     model_config = ConfigDict(extra="allow")
 
     label: str  # the row's printed label, verbatim
     count: Number = None
+    # The cell exactly as printed. In practice a read fills this for every row, including
+    # the plainly numeric ones, so it is NOT the signal for "this cell held a pair" —
+    # ``count is None`` is. Reading it that way round is what makes the pair legible: across
+    # CY2023-CY2025 each form has thirteen rows, all with a printed cell, and exactly the
+    # same two nulls (the SNC row and the penalties row). A consumer that filtered on this
+    # field being set would select all thirteen and conclude the form holds no numbers.
+    count_as_printed: str | None = None
 
 
 class PretreatmentAnnualReport(_Extracted):
@@ -1045,7 +1066,11 @@ class PretreatmentAnnualReport(_Extracted):
     effective_control_documents: Number = None  # permits actually in force
     users_inspected: Number = None
     users_sampled: Number = None
-    users_in_snc: Number = None  # significant non-compliance
+    # Significant non-compliance. Null where the form pairs the figure rather than
+    # totalling it (Lima prints "(Categorical/Non-Categorical): 0/0") — the paired cell
+    # is preserved verbatim in ``counts``, because summing the halves here would report
+    # a total the POTW never asserted.
+    users_in_snc: Number = None
     counts: list[ProgramCount] = Field(default_factory=list)  # the rest of the summary table
     enforcement_actions: list[ProgramCount] = Field(default_factory=list)
     industrial_users: StrList = Field(default_factory=list)  # only where the form lists them
@@ -1087,6 +1112,50 @@ class IdpExtraction(DocExtraction):
 
 class PretreatmentExtraction(DocExtraction):
     pretreatment_report: PretreatmentAnnualReport
+
+
+class PermitExtension(_Extracted):
+    """A one-page letter extending a municipal industrial discharge permit's term.
+
+    Deliberately its own model rather than an :class:`IndustrialDischargePermit` or an
+    :class:`EpaPermitAction`. Routed through the IDP model it would read as a permit
+    with an expiration date and **no limits** — indistinguishable from a permit that
+    imposes none. Routed through the EPA model it would put "City of Lima" in an
+    ``agency`` field whose whole scope is Ohio EPA / USACE surface-water actions, so a
+    consumer filtering agency correspondence would collect a municipal sewer letter.
+    Nothing here is a permit condition: the letter changes exactly one term of an
+    instrument it does not otherwise restate.
+
+    ``extended_to`` is the payload and the reason this genre exists. A permit extended
+    by letter is a permit whose printed expiration date no longer says when it expires,
+    so the face of the permit stops being able to answer whether the user is currently
+    covered — only the letter chain can. Lima extended P&G Main three times
+    (2026-05-13, 2026-07-13, 2026-09-13) and Metokote once (2026-09-11); a gap after the
+    last extension with no successor permit produced is an uncovered discharge, which is
+    a finding no single document in the production states.
+
+    ``reason`` is transcribed because the City sometimes gives one ("currently in the
+    process of revising P&G Main Facility's IDP") and sometimes does not, and the
+    difference is evidence about the program's own account of the delay.
+    """
+
+    issuing_authority: str | None = None  # e.g. "City of Lima Department of Utilities"
+    permittee: str | None = None  # the company as printed
+    facility: str | None = None  # only where the letter names a specific facility
+    facility_address: str | None = None
+    permit_no: str | None = None  # usually NOT printed on the letter; null is normal here
+    letter_date: str | None = None  # ISO — the date the letter itself bears
+    extended_to: str | None = None  # ISO — the permit's new expiration date
+    addressee: str | None = None  # the person the letter is written to
+    signatory: str | None = None  # the printed signature-block name
+    signatory_title: str | None = None
+    reason: str | None = None  # the stated reason for the extension, verbatim if given
+    copied_to: StrList = Field(default_factory=list)  # the cc block, as printed
+    note: str | None = None
+
+
+class PermitExtensionExtraction(DocExtraction):
+    permit_extension: PermitExtension
 
 
 # The corpus root, as it appears inside a committed extraction's source reference.

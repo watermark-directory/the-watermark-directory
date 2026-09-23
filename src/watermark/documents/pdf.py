@@ -63,6 +63,16 @@ class PdfDocument:
         self._check_index(index)
         return self._pypdf.pages[index].extract_text() or ""
 
+    def page_size_points(self, index: int) -> tuple[float, float]:
+        """Return a page's ``(width, height)`` in PostScript points (1/72 inch).
+
+        The render backend's own geometry, so a caller sizing a render against a pixel
+        budget measures the page it is about to rasterise rather than assuming Letter.
+        """
+        self._check_index(index)
+        width, height = self._render[index].get_size()
+        return float(width), float(height)
+
     def render_page_png(self, index: int, *, dpi: int | None = None) -> bytes:
         """Render a page to PNG bytes at ``dpi`` (default :data:`DEFAULT_DPI`)."""
         # Bound-check against the render backend actually indexed below, not just
