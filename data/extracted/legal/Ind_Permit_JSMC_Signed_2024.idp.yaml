@@ -1,0 +1,245 @@
+doc_id: Ind_Permit_JSMC_Signed_2024-2a09705f
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-2/Ind_Permit_JSMC_Signed_2024.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+dpi: 200
+source_text_excerpt: '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  '
+industrial_permit:
+  confidence: high
+  warnings:
+  - No appendix letter is printed for the limit tables in this permit; both the local
+    limits table and the surcharge table appear in Part I, Section B (Effluent Limits),
+    not in a separately labeled appendix.
+  - The permit invokes 40 CFR 433 (metal finishing) in Part V Section C but notes
+    that categorical limits will NOT be applied because there is zero-process discharge
+    from the chromating bay to the sanitary sewer; local limits only are enforced.
+    No separate categorical limits table is present in the document.
+  - The signatory name is read from the handwritten signature over the printed title
+    'Director of Utilities'; the name appears to be Michael Cagnille but handwriting
+    legibility is limited.
+  - No user_classification is explicitly printed on the face page of this permit.
+  - The contract laboratory (Alloway) is named in Part V Section D in the context
+    of split samples; it is not formally designated as the contract laboratory on
+    the face page.
+  permittee: U.S. Army Joint Systems Manufacturing Center – Lima
+  facility_address: 1155 Buckeye Road, Lima, OH 45804
+  mailing_address: 1155 Buckeye Road, Lima, OH 45804
+  permit_no: JSM*007
+  issue_date: '2024-03-01'
+  effective_date: '2024-03-01'
+  expiration_date: '2027-03-01'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Section 1040.121 of the Codified Ordinances of the City of
+    Lima
+  signatory: Michael Cagnille
+  user_classification: null
+  categorical_standards:
+  - 40 CFR 433 (metal finishing)
+  sample_stations:
+  - station_id: JSM 01
+    description: City sampling location considered end-of-pipe; sampling manhole located
+      approximately 75 feet south of the southeast corner of Building S52 and 93 feet
+      east of the northeast corner of the Abrams building
+  limit_tables:
+  - kind: local
+    appendix: null
+    table_no: Table 1
+    title: Effluent Limits (applicable to Sample Station JSM 01)
+    authority: null
+    sample_stations:
+    - JSM 01
+    units: mg/L
+    columns:
+    - Parameter
+    - Discharge Limits (mg/L) Daily Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: Arsenic
+      daily_maximum: Monitor
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Cadmium
+      daily_maximum: Monitor
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Chromium
+      daily_maximum: '0.80'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Copper
+      daily_maximum: '1.40'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Lead
+      daily_maximum: '0.34'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Molybdenum
+      daily_maximum: Monitor
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Nickel
+      daily_maximum: '1.50'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Selenium
+      daily_maximum: Monitor
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Silver
+      daily_maximum: Monitor
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Zinc
+      daily_maximum: '1.80'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Oil & Grease TPH
+      daily_maximum: Monitor
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Grab, C
+    - pollutant: Cyanide Total
+      daily_maximum: Monitor
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Grab, C
+    - pollutant: pH
+      daily_maximum: 6.0 to 11.0 pH units
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: pH units
+      note: 1/Quarter, Grab, C
+    disclaimer: null
+  - kind: surcharge
+    appendix: null
+    table_no: Table 1 (Surcharge)
+    title: Surcharge Limits (applicable to Sample Station JSM 01)
+    authority: null
+    sample_stations:
+    - JSM 01
+    units: mg/L
+    columns:
+    - Parameter
+    - Discharge Limits (mg/L)
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: BOD
+      daily_maximum: '200.0'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: n/a, Monthly, Composite, C
+    - pollutant: COD
+      daily_maximum: '500.0'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: n/a, Monthly, Composite, C
+    - pollutant: TSS
+      daily_maximum: '250.0'
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: n/a, Monthly, Composite, C
+    disclaimer: Any exceedance of these limits does NOT constitute a violation of
+      this permit.
+  contract_laboratory: Alloway
+  reporting_frequency: null
+  note: null

@@ -171,10 +171,23 @@ def test_rows_sorted_by_id() -> None:
 # `lima_bundle` is conftest's session-wide, cross-worker export (#1773) — this module reads one
 # feed off it, so it must never pay for an export of its own.
 def _corpus_index(bundle: Path) -> list[dict[str, Any]]:
+    """Read the feed by its MANIFEST ref, in whichever encoding the ref names.
+
+    A collection longer than `_NDJSON_THRESHOLD` (500) is written one row per line under a
+    `.ndjson` path with a per-row object schema, per the #58 contract; a shorter one stays a
+    single JSON array. Lima's corpus-index sat at 499 rows and crossed at #2175, which is how
+    this helper's hard-coded `json.loads` of the whole file was found. `loadFeed` on the
+    frontend has always branched on the ref's extension — this now does the same, so the feed
+    can cross the threshold in either direction without the test noticing.
+    """
     manifest = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
     ref = next(f for f in manifest["feeds"] if f["name"] == "corpus-index")
     assert ref["kind"] == "collection"
-    return json.loads((bundle / ref["path"]).read_text(encoding="utf-8"))
+    raw = (bundle / ref["path"]).read_text(encoding="utf-8")
+    if ref["path"].endswith(".ndjson"):
+        return [json.loads(line) for line in raw.splitlines() if line.strip()]
+    rows: list[dict[str, Any]] = json.loads(raw)
+    return rows
 
 
 def test_feed_always_emitted_at_contract_version(lima_bundle: Path) -> None:

@@ -182,6 +182,10 @@ items:
   asked: The City's current inventory or list of Significant Industrial Users and Categorical
     Industrial Users under its State-Approved Pretreatment Program.
   status: nothing-produced
+  answered_later: >
+    ANSWERED by the 2026-09 production — the inventory (20 users, "list updated as of 7/22/26").
+    See ./bosc-prr-production-2026-09-lima.response-index.yaml. The status above stands as a
+    statement about the August batches.
   nearest_thing_produced: >
     The 2022 renewal application's COUNTS — 18 industrial users, 17 categorical, 1 non-categorical
     SIU, 1.122 MGD combined — but no names, no permits, no allocations. Four years stale and not
@@ -190,6 +194,10 @@ items:
   asked: Any Industrial User wastewater-discharge permit — and any application for one — issued,
     modified, renewed, or applied for from 2023-01-01 to the present.
   status: nothing-produced
+  answered_later: >
+    PARTIALLY answered by the 2026-09 production — fourteen permits covering twelve of the twenty
+    users on the inventory, plus four extension letters; still nothing for eight users and no
+    application for any. See ./bosc-prr-production-2026-09-lima.response-index.yaml.
   bearing: >
     A data center discharging cooling-tower blowdown to a POTW is the archetypal candidate for an
     IU permit. This item and C.6 approach the same question from opposite ends; both are empty.
@@ -197,6 +205,9 @@ items:
   asked: The City's Pretreatment Program annual reports submitted to Ohio EPA for calendar years
     2023, 2024 and 2025.
   status: nothing-produced
+  answered_later: >
+    ANSWERED by the 2026-09 production — all three annual reports, without the seven attachments
+    named on their face. See ./bosc-prr-production-2026-09-lima.response-index.yaml.
   note: >
     A discrete, named, non-voluminous set of three documents that the City is required to prepare
     and submit. Nothing produced and nothing said.
@@ -204,6 +215,10 @@ items:
   asked: The City's current Combined Sewer Overflow Long-Term Control Plan and the most recent
     annual CSO report(s).
   status: nothing-produced
+  answered_later: >
+    PARTIALLY answered by the 2026-09 production — the CY2025 annual CSO report, and for the plan
+    an undated DRAFT rather than the approved LTCP the City's own report says it operates under.
+    See ./bosc-prr-production-2026-09-lima.response-index.yaml.
   nearest_thing_produced: >
     The 2022 renewal application confirms the LTCP EXISTS and is being followed ("the city also
     continues to follow it's Long Term Control Plan"), lists 20 CSO outfalls and 34 constructed

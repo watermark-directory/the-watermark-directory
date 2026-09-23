@@ -2880,6 +2880,167 @@
     }
   },
   {
+    "id": "legal-lima-industrial-pretreatment",
+    "title": "City of Lima — Industrial Pretreatment & CSO Record, Per-Document Extractions (2026-09)",
+    "scope": "extracted",
+    "collection": "legal",
+    "status": "reviewed",
+    "producer_kind": "extracted",
+    "command": null,
+    "connector_ref": null,
+    "source": "City of Lima, Department of Utilities / WWTP — the industrial-pretreatment program and CSO records produced 2026-09-08 and 2026-09-22 under R.C. 149.43, read per document",
+    "external_url": null,
+    "license": "Public record (Ohio R.C. 149.43)",
+    "access_tier": "public",
+    "site_scope": "lima-legacy",
+    "cadence": "static",
+    "ttl_days": null,
+    "last_refreshed": "2026-09-22",
+    "tags": [
+      "public-records",
+      "lima-wwtp",
+      "pretreatment",
+      "industrial-discharge",
+      "cso"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/legal/2023_Annual_Pretreatment_Report.pretreatment.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/2024_Annual_Pretreatment_Report.pretreatment.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/2025_Annual_Pretreatment_Report.pretreatment.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/2025_CSO_Annual_Report.progress-report.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/BEF_Foods_Permit_2024.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Bass_2026_Revision_02_IDP_signed.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Bass_Lima_CWT_Temporary_Hauled_Waste_Permit_signed.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Ind_Permit_Ford_2024.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Ind_Permit_JSMC_Signed_2024.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Ind_Permit_LTW_2024_-_Signed.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Ind_Permit_P&G_2025.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Ind_permit_EOLM_2023.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Keystone_Industrial_Discharge_Permit_2023-2025.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Keystone_Permit_2025.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Metokote_PPG_2021_PPG_Permit.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Metokote_PPG_Permit_Extension_Letter_2026.permit-extension.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Nelson_Permit_2025.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/P&G_Beads_Facility_New_IDP_2025.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/P&G_Main_Permit_Extension_Letter_2026.permit-extension.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/P&G_Main_Permit_Extension_Letter_Number_2_2026.permit-extension.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/P&G_Main_Permit_Extension_Letter_Number_3_2026.permit-extension.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/Pepsi_Industrial_Discharge_Permit_2025.idp.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/lima-industrial-pretreatment-reconciliation.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "2c1288451626678d26f06150207f8b9134f13895e29d0ecfcf195bbb6ef5878e",
+      "size_bytes": 156124,
+      "lfs_materialized": true,
+      "file_count": 23,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "City of Lima, Department of Utilities / WWTP — the industrial-pretreatment program and CSO records produced 2026-09-08 and 2026-09-22 under R.C. 149.43, read per document",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
     "id": "legal-prr-mandamus",
     "title": "PRR & Mandamus — Source Instruments and the Layered Withholding Map",
     "scope": "extracted",
@@ -3212,8 +3373,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "e8eccc1b924d112a2add9105e6d9b8cd9bb3b6c875bfefff4f53026a28d23820",
-      "size_bytes": 44201,
+      "sha256": "dba6049140fa782baf05e14d9d24061c4a00ede8337c1261218f435fddc683a9",
+      "size_bytes": 45237,
       "lfs_materialized": true,
       "file_count": 3,
       "stale": false,
@@ -3259,14 +3420,19 @@
         "relpath": "extracted/legal/prr-mandamus/bosc-prr-production-2026-09-lima.custody-manifest.yaml",
         "media_type": "application/x-yaml",
         "lfs": false
+      },
+      {
+        "relpath": "extracted/legal/prr-mandamus/bosc-prr-production-2026-09-lima.response-index.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
       }
     ],
     "observed": {
       "exists": true,
-      "sha256": "83cda750e92e69b1a70569be5802ebf4e28caf62948734b32ba45d318df80208",
-      "size_bytes": 21687,
+      "sha256": "52d805299deb1fe7fd2c2fbd43db33993804e01c9c0d846ea6a69e9a22bf1071",
+      "size_bytes": 31740,
       "lfs_materialized": true,
-      "file_count": 1,
+      "file_count": 2,
       "stale": false,
       "asof": null
     },

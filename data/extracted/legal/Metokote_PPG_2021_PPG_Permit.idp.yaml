@@ -1,0 +1,324 @@
+doc_id: Metokote_PPG_2021_PPG_Permit-c4d38890
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-1/Metokote_PPG_2021_PPG_Permit.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+- 22
+- 23
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+- 22
+- 23
+dpi: 181
+source_text_excerpt: '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  '
+industrial_permit:
+  confidence: high
+  warnings:
+  - Table 2 pH row has no numeric daily maximum or monthly average printed in the
+    document — cells appear blank in the image.
+  - The permit text notes Table 1 applies to Sample Station MET 02 with an asterisk
+    (*) but no corresponding footnote text is visible in the scanned pages.
+  - The document does not label the tables under an 'Appendix' designation; they appear
+    in the body of Part I (Part I.C — Effluent Limits). No separate appendix section
+    was found in the pages provided.
+  - Signatory name read as 'Michael Capelle' from the signature block — exact spelling
+    may vary; signature is present and the copy appears to be an executed original.
+  permittee: Metokote Corporation
+  facility_address: 1340 Neubrecht Road, Lima, OH 45801
+  mailing_address: 1340 Neubrecht Road, Lima, OH 45801
+  permit_no: MET*009
+  issue_date: '2021-07-12'
+  effective_date: '2021-07-12'
+  expiration_date: '2026-07-11'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Section 1040.121 of the Codified Ordinances of the City of
+    Lima
+  signatory: Michael Capelle
+  user_classification: Categorical Industrial User
+  categorical_standards:
+  - 40 CFR 433
+  sample_stations:
+  - station_id: MET 02
+    description: City Sampling Location — end-of-pipe sampling manhole located 26
+      feet east of Neubrecht Road and 64 feet south of the Metokote Corporation sign
+  - station_id: MET 01
+    description: Self-Monitoring Sample Location — end of process, adjacent to WWT
+      facility
+  limit_tables:
+  - kind: local
+    appendix: null
+    table_no: Table 1
+    title: (applicable to Sample Station MET 02)*
+    authority: null
+    sample_stations:
+    - MET 02
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: Arsenic
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Cadmium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Chromium
+      daily_maximum: '1.800'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Copper
+      daily_maximum: '0.133'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Cyanide
+      daily_maximum: n/a
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: n/a, n/a, C
+    - pollutant: Lead
+      daily_maximum: '0.120'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Molybdenum
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Nickel
+      daily_maximum: '2.38'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Selenium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Silver
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Zinc
+      daily_maximum: '1.20'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: pH
+      daily_maximum: 6.0 to 11.0 pH units
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: pH units
+      note: 1/Quarter, Grab, C
+    - pollutant: LLHg
+      daily_maximum: monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/year, Grab, C
+    - pollutant: Hexachrome
+      daily_maximum: monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 2/year, Grab, C
+    disclaimer: null
+  - kind: categorical
+    appendix: null
+    table_no: Table 2
+    title: (applicable to Sample Station MET 01)
+    authority: 40 CFR 433
+    sample_stations:
+    - MET 01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Monthly Average
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: Arsenic
+      daily_maximum: n/a
+      instantaneous_maximum: null
+      monthly_average: n/a
+      unit: null
+      note: n/a, n/a, n/a
+    - pollutant: Cadmium
+      daily_maximum: '0.69'
+      instantaneous_maximum: null
+      monthly_average: '0.26'
+      unit: null
+      note: n/a, n/a, n/a
+    - pollutant: Chromium
+      daily_maximum: '2.77'
+      instantaneous_maximum: null
+      monthly_average: '1.71'
+      unit: null
+      note: 1/Quarter, Composite, IU
+    - pollutant: Copper
+      daily_maximum: '3.38'
+      instantaneous_maximum: null
+      monthly_average: '2.07'
+      unit: null
+      note: 1/Quarter, Composite, IU
+    - pollutant: Cyanide
+      daily_maximum: '1.20'
+      instantaneous_maximum: null
+      monthly_average: '0.65'
+      unit: null
+      note: 1/Quarter, Grab, IU
+    - pollutant: Lead
+      daily_maximum: '0.69'
+      instantaneous_maximum: null
+      monthly_average: '0.43'
+      unit: null
+      note: 1/Quarter, Composite, IU
+    - pollutant: Mercury
+      daily_maximum: n/a
+      instantaneous_maximum: null
+      monthly_average: n/a
+      unit: null
+      note: n/a, n/a, n/a
+    - pollutant: Molybdenum
+      daily_maximum: n/a
+      instantaneous_maximum: null
+      monthly_average: n/a
+      unit: null
+      note: n/a, n/a, n/a
+    - pollutant: Nickel
+      daily_maximum: '3.98'
+      instantaneous_maximum: null
+      monthly_average: '2.38'
+      unit: null
+      note: 1/Quarter, Composite, IU
+    - pollutant: Selenium
+      daily_maximum: n/a
+      instantaneous_maximum: null
+      monthly_average: n/a
+      unit: null
+      note: n/a, n/a, n/a
+    - pollutant: Silver
+      daily_maximum: '0.43'
+      instantaneous_maximum: null
+      monthly_average: '0.24'
+      unit: null
+      note: n/a, n/a, n/a
+    - pollutant: Zinc
+      daily_maximum: '2.61'
+      instantaneous_maximum: null
+      monthly_average: '1.48'
+      unit: null
+      note: 1/Quarter, Composite, IU
+    - pollutant: pH
+      daily_maximum: null
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Grab, IU
+    - pollutant: TTOs
+      daily_maximum: '2.13'
+      instantaneous_maximum: null
+      monthly_average: n/a
+      unit: null
+      note: once every 2 years, Grab, IU
+    disclaimer: null
+  contract_laboratory: null
+  reporting_frequency: Periodic Compliance Reports (PCRs) submitted every six months
+    (January and July)
+  note: null

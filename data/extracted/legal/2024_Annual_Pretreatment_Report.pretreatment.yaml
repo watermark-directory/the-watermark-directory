@@ -1,0 +1,88 @@
+doc_id: 2024_Annual_Pretreatment_Report-c727bed2
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-1/2024_Annual_Pretreatment_Report.pdf
+kind: pretreatment
+pages_read:
+- 0
+- 1
+- 2
+image_pages_read:
+- 0
+- 1
+- 2
+dpi: 200
+source_text_excerpt: '
+
+
+
+
+  '
+pretreatment_report:
+  confidence: high
+  warnings: []
+  reporting_authority: City of Lima WWTP
+  npdes_permit_no: 2PE00000*PD
+  reporting_period: 01/01/2024 - 12/31/2024
+  submission_date: '2025-03-12'
+  application_id: '21558962'
+  contact_name: Shawn Dershem
+  contact_title: Plant Supervisor
+  significant_industrial_users: 12
+  categorical_users: 9
+  non_categorical_users: 3
+  non_significant_categorical_users: 7
+  effective_control_documents: 11
+  users_inspected: 12
+  users_sampled: 12
+  users_in_snc: null
+  counts:
+  - label: Number of SIU's Subject to Local Limits
+    count: 12
+    count_as_printed: '12'
+  - label: Number of SIU's in SNC (Categorical/Non-Categorical)
+    count: null
+    count_as_printed: 0/0
+  - label: Number of SIU's in SNC for Sampling Violations
+    count: 0
+    count_as_printed: '0'
+  - label: Number of SIU's in SNC for Reporting Violations
+    count: 0
+    count_as_printed: '0'
+  - label: Number of SIU's in SNC for Compliance Schedule Violations
+    count: 0
+    count_as_printed: '0'
+  - label: Number of SIU's Non Significant IU's in SNC
+    count: 0
+    count_as_printed: '0'
+  enforcement_actions:
+  - label: Number of Show-Cause Hearings
+    count: 0
+    count_as_printed: '0'
+  - label: Number of Compliance Schedules Issued
+    count: 0
+    count_as_printed: '0'
+  - label: Number of Administrative Orders Issued
+    count: 0
+    count_as_printed: '0'
+  - label: Number of Civil Suits Filed
+    count: 0
+    count_as_printed: '0'
+  - label: Number of Criminal Suits Filed
+    count: 0
+    count_as_printed: '0'
+  - label: Amount of Penalties Collected (Total dollars/# IU's assessed)
+    count: null
+    count_as_printed: $0.00
+  - label: Number of Facilities in SNC Published (Attach news paper listing)
+    count: 0
+    count_as_printed: '0'
+  industrial_users: []
+  attachments:
+  - 2024 IU Report Form_City of Lima.xlsm
+  - c4450e27-5294-41a4-9941-50d93a43eaab.docx
+  note: users_in_snc left null because the SNC count is expressed as a categorical/non-categorical
+    pair "0/0" rather than a single integer; that pair is preserved verbatim in counts.
+    The Amount of Penalties Collected is paired as "$0.00" (dollars only shown) and
+    preserved verbatim in enforcement_actions. The spreadsheet attachment filename
+    is printed as "2024 IU Report Form_City of Lima.xlsm" on the form; the program
+    evaluation attachment is "c4450e27-5294-41a4-9941-50d93a43eaab.docx". Newspaper
+    Listings shown as "No attachment".

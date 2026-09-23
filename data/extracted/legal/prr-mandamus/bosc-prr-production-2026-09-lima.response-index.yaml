@@ -1,0 +1,148 @@
+# City of Lima — SECOND production against the BOSC public-records request served on the City.
+# The August production (batches 1-2) answered four of eleven items and left seven with nothing
+# and no explanation. Three of those seven — D.7, D.8, D.9 — and one of the partials, E.10, are
+# answered here. This file maps those items to what arrived; it does NOT restate the August index,
+# whose `nothing-produced` entries remain true statements about the August batches.
+meta:
+  subject: BOSC PRR — City of Lima production batches 3-5, item-by-item response index
+  supersedes_for_items: ['D.7', 'D.8', 'D.9', 'E.10']
+  prior_index: ./bosc-prr-production-2026-08-lima.response-index.yaml
+  request_served_to: Mike Caprella, Director of Utilities, City of Lima
+  request_authority: R.C. 149.43
+  production_dates: ['2026-09-08', '2026-09-22']
+  custodian: City of Lima, Department of Utilities / WWTP
+  custody: ./bosc-prr-production-2026-09-lima.custody-manifest.yaml
+  reconciliation: ../lima-industrial-pretreatment-reconciliation.yaml
+  tracker: 'https://github.com/watermark-directory/the-watermark-directory/issues/1536'
+  posture: >
+    Three further rolling partial responses — one on 2026-09-08, two as separate zip archives on
+    2026-09-22 — again with NO cover letter, NO itemised response, NO privilege log and NO
+    withholding statement. As in August, nothing in the delivery says which item a document
+    answers. The mapping below is the requester's reconstruction from document content.
+  headline: >
+    The City reports this as the last of the records requested of the WWTP. On the three
+    pretreatment items it is a real answer: the inventory, fourteen permit documents, four
+    extension letters and all three annual reports. On E.10 it is half an answer — the annual CSO
+    report is the current one; the long-term control plan produced is a DRAFT the City's own CSO
+    report says it does not operate under. Seven attachments named on the face of the annual
+    reports were not produced, and neither was the revised P&G Main permit that three of the City's
+    own letters say is in progress.
+  counts:
+    files_produced: 25
+    distinct_documents: 24        # `Ind_Permit_P&G_2025.pdf` arrived in both 2026-09-22 batches
+    documents_extracted: 22
+    documents_not_extracted: 2    # IU_Inventory_List.xlsx (read in process), LTCP.pdf
+
+items:
+- item: 'D.7'
+  asked: The City's current inventory or list of Significant Industrial Users and Categorical
+    Industrial Users under its State-Approved Pretreatment Program.
+  status: produced
+  produced:
+  - file: prr-production-2026-09-22-lima-1/IU_Inventory_List.xlsx
+    what: >
+      A three-column sheet — Industrial User, Classification, 40 CFR part — listing 20 users and
+      footed "* list updated as of 7/22/26". Eleven Categorical Industrial Users, six
+      Non-Significant Categorical, three Non-Categorical Significant.
+    extraction: null
+    why_no_extraction: >
+      A 20-row, three-column list is its own best representation; a genre built to hold it would
+      assert a schema the City never published. It is read in process by
+      `watermark.documents.office.xlsx_text` and reconciled in
+      `../lima-industrial-pretreatment-reconciliation.yaml`.
+  reading: >
+    This is the first NAMED inventory the corpus has held. The August production's nearest thing
+    was a four-year-old count in the 2022 renewal application — 18 users, 17 categorical — which
+    the inventory now contradicts on both figures.
+
+- item: 'D.8'
+  asked: Any Industrial User wastewater-discharge permit — and any application for one — issued,
+    modified, renewed, or applied for from 2023-01-01 to the present.
+  status: partial
+  produced:
+  - what: Fourteen industrial discharge permits covering twelve distinct permittees.
+    extractions: ../*.idp.yaml
+    permittees: [Bass Environmental, BEF Foods, EOLM, Ford Motor Company, Joint Systems
+      Manufacturing Center, Keystone Meats, Lima Tank Wash, Metokote Corporation, Nelson Packaging,
+      C.B. Manufacturing (Pepsi Bottling), P&G Main Facility, P&G Beads Facility]
+  - what: >
+      Four permit-extension letters — three extending the P&G Main permit in sequence to
+      2026-09-13, one extending Metokote to 2026-09-11. Each changes an expiration date and
+      restates nothing else, which is why they are their own genre.
+    extractions: ../*.permit-extension.yaml
+  not_produced:
+  - >
+    ⚠️ No permit or non-significance certification for EIGHT of the twenty users on the City's own
+    inventory. Four of the eight are not explained by their class: Guardian Lima LLC (categorical,
+    40 CFR 414), Lima Memorial Hospital (categorical, 460), Mercy Health St. Rita's Hospital
+    (categorical, 460) and Nickles Bakery (non-categorical SIGNIFICANT).
+  - >
+    ⚠️ The revised P&G Main IDP. Three City letters state it is in progress; the current permit's
+    last extension expired 2026-09-13, ten days before the production. Metokote's expired
+    2026-09-11.
+  - >
+    Any APPLICATION for any permit — the item asks for applications as well as permits, and none
+    of the twenty-five files is one.
+  reading: >
+    The item is answered for the users the City chose to cover and silent for the rest. Because no
+    withholding statement accompanied the production, an absent permit and a withheld permit are
+    indistinguishable here.
+
+- item: 'D.9'
+  asked: The City's Pretreatment Program annual reports submitted to Ohio EPA for calendar years
+    2023, 2024 and 2025.
+  status: produced
+  produced:
+  - {file: prr-production-2026-09-22-lima-1/2023_Annual_Pretreatment_Report.pdf, extraction: ../2023_Annual_Pretreatment_Report.pretreatment.yaml, submitted: '2024-03-01'}
+  - {file: prr-production-2026-09-22-lima-1/2024_Annual_Pretreatment_Report.pdf, extraction: ../2024_Annual_Pretreatment_Report.pretreatment.yaml, submitted: '2025-03-12'}
+  - {file: prr-production-2026-09-22-lima-1/2025_Annual_Pretreatment_Report.pdf, extraction: ../2025_Annual_Pretreatment_Report.pretreatment.yaml, submitted: '2026-03-13'}
+  not_produced:
+  - >
+    ⚠️ SEVEN attachments named on the face of the three reports: the three
+    "IU Report Form_City of Lima.xlsm" workbooks (CY2023/24/25), the CY2023 and CY2025 "Annual
+    Pretreatment Program Evaluation" documents, the unnamed CY2024 .docx
+    (c4450e27-5294-41a4-9941-50d93a43eaab.docx), and "2025 Annual Hg PMP Report signed.pdf". The
+    IU Report Forms carry the per-user detail behind every count on the forms produced.
+  reading: >
+    The three forms are complete as forms and their attachments are not here, so the counts can be
+    read and not checked. CY2023 reports 15 significant industrial users against 9 effective
+    control documents — six discharging without one, on the City's own filing. See
+    `../lima-industrial-pretreatment-reconciliation.yaml` for how that gap closes by CY2024, which
+    is only partly by permits being issued.
+
+- item: 'E.10'
+  asked: The City's current Combined Sewer Overflow Long-Term Control Plan and the most recent
+    annual CSO report(s).
+  status: partial
+  produced:
+  - file: prr-production-2026-09-11-lima/2025_CSO_Annual_Report.pdf
+    what: >
+      The CY2025 annual CSO report — 60 dated overflow events across 16 discharging structures of
+      19 CSO points, plus a ten-project status section.
+    extraction: ../2025_CSO_Annual_Report.progress-report.yaml
+  - file: prr-production-2026-09-11-lima/LTCP.pdf
+    what: >
+      A 166-page long-term control plan carrying a DRAFT header on 151 of its pages and undated on
+      its face. Its own implementation schedule dates Year 19 as 2030, putting Year 1 at 2012 and
+      the 26-year schedule's end at 2037; its cost chart runs to 2040.
+    extraction: null
+    why_no_extraction: >
+      A draft plan the City does not operate under is not the instrument the item asks for, and
+      extracting it would put its figures in the corpus under the heading of the approved plan.
+  not_produced:
+  - >
+    ⚠️ The APPROVED long-term control plan — the one the City's own CSO annual report says it
+    operates under. What was produced is a draft, so the item's primary document is still
+    outstanding.
+  reading: >
+    ⚠️ Two figures in the annual report are easy to misread and are flagged in the extraction.
+    First, the point count MOVED: the 2022 renewal application produced in August lists 20 CSO
+    outfalls, and this report counts 19 — three of which (#008, #009, #037) discharged nothing in
+    CY2025. Eliminating an outfall is what a long-term control plan does, so the delta is probably
+    a real retirement, but no document in the corpus says which point or when. [open]
+    Second, 20 of the 60 events carry volumes the report itself says are CALCULATED as 2% of the
+    combined overflow at CSOs 2 through 6, not metered; they are marked `estimated`. Third, Lima's
+    occurrence counts are smaller than its overflow days — at CSO #002 the City sums 11 bypass
+    occurrences across 14 dated rows, three of which carry flow and duration with a BLANK
+    occurrence cell, one of them 9.072 MGD. The volume total includes those days; the occurrence
+    count does not.

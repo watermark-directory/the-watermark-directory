@@ -112,9 +112,18 @@ files:
     ⚠️ UNDATED ON ITS FACE. 166 pages with no cover sheet, no title block and no date anywhere in the
     text layer; the document opens directly on "Chapter 1 - Introduction" and every page footer reads
     "DRAFT Long Term Control Plan". Bounded from its own content instead: the latest month-and-year
-    named in the narrative is April 2012, cost figures are escalated "to 2010 values", and the only
-    post-2012 years appearing anywhere are bond maturity years (2024, 2029) and chart axis labels.
+    named in the narrative is April 2012, and cost figures are escalated "to 2010 values". The
+    firmest anchor is the implementation schedule itself, which on PDF page 127 (0-based index
+    126) dates its own Year 19 — "The SSO System Improvements are shown beginning in Year 19
+    (2030)" — putting Year 1 at 2012. That also squares the draft with the approved plan noted
+    below: a 26-year schedule from 2012 ends in 2037, and the plan's cost chart runs to 2040.
     Recorded as circa 2012 by internal evidence; NOT asserted as a document date.
+    ⚠️ Post-2012 years DO appear in the narrative and are not a counter-indication: the plan
+    schedules FORWARD, to 2030 (SSO work, deferred to the retirement of the existing wastewater
+    debt), to a 2030 population projection of 31,200, and to a cost chart whose axis runs to 2040.
+    An earlier reading of this row treated those as bond-maturity figures and axis labels only,
+    which understated the schedule: a forward-dated year in a control plan is its commitment, not
+    evidence of when it was written.
   subject: >
     ⚠️ This is a DRAFT. The City's own 2025 CSO Annual Report — produced in the same batch, dated
     2026-04-02 — describes an *approved* LTCP with a 26-year implementation schedule whose major WWTP

@@ -1,0 +1,290 @@
+doc_id: P&G_Beads_Facility_New_IDP_2025-9550f9b5
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-1/P&G_Beads_Facility_New_IDP_2025.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+dpi: 181
+source_text_excerpt: '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  '
+industrial_permit:
+  confidence: high
+  warnings:
+  - Issue date and effective date are printed as '9/30/25' — interpreted as 2025-09-30.
+    If this permit predates 2025, the year reading should be verified against the
+    original document.
+  - The signatory signature is handwritten and reads as 'Michael Connell' (Director
+    of Utilities) — best read from the image; verify against the original if the exact
+    spelling is critical.
+  - No user classification (e.g., Categorical Industrial User, SIU) is explicitly
+    printed on the face page of this permit.
+  - No categorical standards (40 CFR part/subpart) are cited in this permit; P&G Lima
+    Beads is regulated solely under local limits.
+  - The Molybdenum daily maximum is printed as '200.' (with trailing period); transcribed
+    exactly as printed.
+  - The Oil and Grease daily maximum is printed as '300.' (with trailing period);
+    transcribed exactly as printed.
+  permittee: Procter & Gamble Manufacturing -Lima Beads Facility
+  facility_address: 841 N. Thayer Rd., Lima, OH 45801
+  mailing_address: 841 N. Thayer Rd., Lima, OH 45801
+  permit_no: PGB*01
+  issue_date: '2025-09-30'
+  effective_date: '2025-09-30'
+  expiration_date: '2026-09-30'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Section 1040.121 of the Codified Ordinances of the City of
+    Lima
+  signatory: Michael Connell
+  user_classification: null
+  categorical_standards: []
+  sample_stations:
+  - station_id: PGB 01
+    description: Private manhole identified as S2 in the PTI application, located
+      just north of Reservoir Rd. and west of Thayer Rd., approximate coordinates
+      (40.745738°, -84.018543°)
+  limit_tables:
+  - kind: local
+    appendix: Appendix A
+    table_no: '1'
+    title: 'Table 1: Applicable to Sample Station PGB 01'
+    authority: null
+    sample_stations:
+    - PGB 01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum (mg/L)
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: Arsenic
+      daily_maximum: '0.41'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; C
+    - pollutant: Cadmium
+      daily_maximum: '0.27'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; C
+    - pollutant: Chromium
+      daily_maximum: '0.200'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; C
+    - pollutant: Copper
+      daily_maximum: '0.37'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; C
+    - pollutant: Lead
+      daily_maximum: '0.050'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; C
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; C
+    - pollutant: Molybdenum
+      daily_maximum: '200.'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; C
+    - pollutant: Nickel
+      daily_maximum: '0.37'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; C
+    - pollutant: Selenium
+      daily_maximum: '0.795'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; C
+    - pollutant: Silver
+      daily_maximum: '0.905'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; C
+    - pollutant: Zinc
+      daily_maximum: '0.50'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter; Composite; C
+    - pollutant: pH *
+      daily_maximum: 6.0 to 11.0 s.u.
+      instantaneous_maximum: 6.0 to 11.0 s.u.
+      monthly_average: null
+      unit: s.u.
+      note: Monthly Grab (C); Continuous (IU)
+    - pollutant: Ammonia
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: Phosphorus, Total
+      daily_maximum: '41.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: Low-Level Mercury
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Year; Grab; C
+    - pollutant: Anionic Surfactants
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter/Monthly; Composite; IU/C
+    - pollutant: Cationic Surfactants
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter/Monthly; Composite; IU/C
+    - pollutant: Nonionic Surfactants
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter/Monthly; Composite; IU/C
+    - pollutant: Total Surfactants
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter/Monthly; Composite; IU/C
+    - pollutant: Oil and Grease, Total
+      daily_maximum: '300.'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Grab; C
+    disclaimer: null
+  - kind: surcharge
+    appendix: Appendix A
+    table_no: 1 (surcharge)
+    title: Surcharge Limits (appended to Table 1)
+    authority: null
+    sample_stations:
+    - PGB 01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum (mg/L)
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility
+    limits:
+    - pollutant: BOD
+      daily_maximum: '200.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: COD
+      daily_maximum: '500.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    - pollutant: TSS
+      daily_maximum: '250.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly; Composite; C
+    disclaimer: The following parameters consist of surcharge limits based on the
+      City's Sewer Use Ordinance. However; any exceedance of these limits does NOT
+      constitute a violation of this permit. The City's monthly sampling of these
+      parameters is split with Alloway, with the average results being used for monthly
+      HSS billing.
+  contract_laboratory: null
+  reporting_frequency: Semi-annually (Periodic Compliance Reports filed in January
+    and July)
+  note: null

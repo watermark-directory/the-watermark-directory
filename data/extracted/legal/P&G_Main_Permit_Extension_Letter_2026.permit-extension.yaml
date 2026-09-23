@@ -1,0 +1,40 @@
+doc_id: P&G_Main_Permit_Extension_Letter_2026-b19ff418
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-1/P&G_Main_Permit_Extension_Letter_2026.pdf
+kind: permit-extension
+pages_read:
+- 0
+image_pages_read:
+- 0
+dpi: 200
+source_text_excerpt: " \n \n  \n1200 Ft. Amanda Rd. \nLima, OH 45804 \nPhone: 419-221-5190\
+  \ \nFax: 419-221-5122  \nwww.cityhall.lima.oh\nFebruary 3, 2026 \n \nJeremy Page\
+  \ \nProcter & Gamble Manufacturing Co. \n3875 Reservoir Rd. \nLima, OH 45801 \n\
+  \ \nRe: Extension of Industrial Discharge Permit \n \n \nJeremy, \n \nPlease attach\
+  \ this letter to your current Industrial Discharge Permit to extend the permit to\
+  \ \nMay 13, 2026.  The City of Lima intends to issue the next permit before that\
+  \ time. \n \nIf you have any questions, you can reach me at amy.staley@limaohio.gov,\
+  \ as well as \n(419) 221-5196. \n \nRegards, \n \nAmy Staley \nUtilities Industri"
+permit_extension:
+  confidence: high
+  warnings: []
+  issuing_authority: City of Lima, Department of Utilities, Wastewater Treatment Plant
+  permittee: Procter & Gamble Manufacturing Co.
+  facility: null
+  facility_address: 3875 Reservoir Rd., Lima, OH 45801
+  permit_no: null
+  letter_date: '2026-02-03'
+  extended_to: '2026-05-13'
+  addressee: Jeremy Page
+  signatory: Amy Staley
+  signatory_title: Utilities Industrial Monitoring Chief
+  reason: null
+  copied_to:
+  - Michael Caprella, Director of Utilities
+  - Sara Weekley, Deputy Director of Utilities
+  - Eric Bontrager, Utilities Operations Manager
+  - Shawn Dershem, WWTP Supervisor
+  - file
+  note: The letter states "The City of Lima intends to issue the next permit before
+    that time" — this is intent, not a stated reason for the extension. No permit
+    number is printed. No specific facility name (e.g., "P&G Main Facility") is named;
+    facility_address is taken from the addressee block. permit_no left null per instructions.

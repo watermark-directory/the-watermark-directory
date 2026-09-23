@@ -1,0 +1,709 @@
+doc_id: 2025_CSO_Annual_Report-0445496e
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-11-lima/2025_CSO_Annual_Report.pdf
+kind: progress-report
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+dpi: 150
+source_text_excerpt: "\n\n \n \n \n \n \n \nCombined   \n \nSewer Overflow \n \nAnnual\
+  \ Report  \n \n2025 \n \nCITY OF LIMA, OHIO \n \n \n \n \n \nApril 2, 2026 \n\n\
+  \ \nIntroduction \n \nIn response to the new CSO Public Notification rule, the City\
+  \ of Lima is required to post an Annual Report on or \nprior to May 1st of each\
+  \ year that summarizes the City’s CSO activity from the previous year.  In addition\
+  \ to the \noverflow information, this report also summarizes the City’s actions\
+  \ taken to meet the Nine Minimum Control \nmeasures as defined by the national CSO\
+  \ Control policy. \n \nThe following pages illustrate the overflows that occurred\
+  \ in 2025 "
+progress_report:
+  confidence: high
+  warnings:
+  - 'Structures #008 (Timberlake & Ottawa River), #009 (Oxford & Collett), and #037
+    (Northshore Drive at Diamond #3 Backstop) had zero bypass occurrences and zero
+    total flow for 2025 — no discharge events recorded.'
+  - 'For CSOs #007 through #038, flows are derived/calculated as 2% of combined overflow
+    for CSOs #002 through #006, not metered at the structure itself — marked estimated=true
+    for all such events.'
+  - Multiple satellite CSO events (011 on 2/26, 013 on 2/26, 014 on 2/26, 015 on 5/22,
+    016 on 5/22, 033 on 9/23, 034 on 10/30, 035 on 10/30) show an occurrence recorded
+    with N/A flow because no CSOs 2-6 overflowed on those dates; these are discharges
+    the report declines to quantify (volume left null, not zero).
+  - 'S. Central & Ottawa River #007 table lists Duration Hours column but no duration
+    values are populated for any event — all duration fields left null for this structure.'
+  - 'CSO #002 on 4/3/2025 and 5/7/2025 and 12/29/2025 have blank Bypass Occurrence
+    Number cells (no ''1'') yet flow and duration values are reported — occurrences
+    counted in the total of 11 but occurrence indicator cell is blank.'
+  - 'CSO #003 on 4/3/2025 and 4/6/2025 have blank Bypass Occurrence Number cells yet
+    flow and duration are reported — included in total of 4 bypasses.'
+  - 'CSO #005 on 4/3/2025 has blank Bypass Occurrence Number cell yet flow and duration
+    are reported — included in total of 5 bypasses.'
+  - 'Report covers 19 CSO discharge points but data pages shown include structures:
+    002, 003, 004, 005, 006, 007, 008, 009, 011, 012, 013, 014, 015, 016, 033, 034,
+    035, 037, 038 — structure numbering is non-sequential (e.g., 010, 017-032, 036
+    not present), consistent with Lima''s permitted outfall numbering.'
+  agency: Ohio EPA, Division of Surface Water, NPDES Permits
+  instrument: CSO Public Notification Rule (NPDES Permit 2PE00000*PD)
+  case_no: null
+  paragraph: null
+  respondent: City of Lima, Ohio, Department of Utilities
+  facility: City of Lima Wastewater Treatment Plant / Combined Sewer System, Lima,
+    Ohio
+  permit_no: 2PE00000*PD
+  report_date: '2026-04-02'
+  period_start: '2025-01-01'
+  period_end: '2025-12-31'
+  deadlines_status: None stated; report filed under CSO Public Notification rule,
+    required on or prior to May 1st of each year.
+  noncompliance_reasons: None stated; City reports no dry weather overflows in the
+    reporting period.
+  projects:
+  - name: CMOM Plan Implementation
+    status: Plan approved by USEPA/OEPA 3/1/2019; implemented; regular progress reports
+      being submitted.
+    next_period: null
+  - name: CSO Operational Plan
+    status: Revised plan approved by USEPA/OEPA 3/1/19; implemented; regular progress
+      reports being submitted.
+    next_period: null
+  - name: Phase 1 Large Diameter Sewer Rehabilitation (54" sewer)
+    status: Re-designed; construction completed July 2024. Replaced 1,782 feet of
+      54" diameter sewer and lined additional 980 feet with geopolymer.
+    next_period: null
+  - name: Phase 2 Sewer Relining (78" segmented block sewer)
+    status: Completed June 2021. Rehabilitated 2,570 feet of 78" segmented block sewer.
+    next_period: null
+  - name: 13-Million Gallon CSO Storage Tank
+    status: Construction completed 2020 at cost of $36.5 million. Currently in commission
+      and reducing CSO discharges to Ottawa River.
+    next_period: null
+  - name: Control Structure Stainless Steel Gates and Stem Guides
+    status: New stainless steel gates and stem guides installed on three underground
+      control structures.
+    next_period: null
+  - name: WWTP Headworks Expansion
+    status: Completed 2018; increased wet-weather capacity from 53 MGD to 70 MGD.
+      Data collection and evaluation completed; performance monitoring report submitted.
+    next_period: null
+  - name: SSO System Improvements (Allentown Basin)
+    status: Design consultant under contract to perform sewer modeling and begin design
+      of SSO improvements in Allentown Basin.
+    next_period: SSO improvements to begin after completion/testing of storage basin,
+      retirement of existing debt, and possible re-evaluation of affordability index.
+  - name: Fine Screen Replacement at CSO Structures
+    status: Fine screens at two CSO structures replaced in 2025.
+    next_period: null
+  - name: Pretreatment Program / Local Limits Re-evaluation
+    status: Approved Pretreatment Program in place. Local Limits currently being re-evaluated
+      as required by NPDES permit 2PE00000*PD (effective August 1, 2023).
+    next_period: null
+  agency_contacts:
+  - David Brumbaugh, Ohio EPA Division of Surface Water NPDES Permits, 50 W. Town
+    St., Suite 700, Columbus, Ohio 43215
+  - Peggy Christie, OEPA NWDO (cc)
+  - Ryan Gierhart, OEPA NWDO (cc)
+  permit_exceedances: []
+  discharge_events:
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-03-30'
+    frequency: '1'
+    duration: 0.97 hours
+    volume: 0.145 MGD
+    estimated: false
+    note: Rainfall 0.68 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-04-02'
+    frequency: '1'
+    duration: 3.17 hours
+    volume: 1.324 MGD
+    estimated: false
+    note: Rainfall 0.66 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-04-03'
+    frequency: null
+    duration: 4.84 hours
+    volume: 9.072 MGD
+    estimated: false
+    note: Bypass Occurrence blank; Rainfall 0.59 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-04-05'
+    frequency: '1'
+    duration: 5.38 hours
+    volume: 11.941 MGD
+    estimated: false
+    note: Rainfall 1.45 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-04-19'
+    frequency: '1'
+    duration: 2.11 hours
+    volume: 0.743 MGD
+    estimated: false
+    note: Rainfall 0.75 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-04-25'
+    frequency: '1'
+    duration: 0.98 hours
+    volume: 0.148 MGD
+    estimated: false
+    note: Rainfall 0.94 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-05-04'
+    frequency: '1'
+    duration: 11.22 hours
+    volume: 0.585 MGD
+    estimated: false
+    note: Rainfall 0.96 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-05-06'
+    frequency: '1'
+    duration: 15.68 hours
+    volume: 2.503 MGD
+    estimated: false
+    note: Rainfall 1.01 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-05-07'
+    frequency: null
+    duration: 6.18 hours
+    volume: 0.110 MGD
+    estimated: false
+    note: Bypass Occurrence blank; Rainfall 0.00 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-06-26'
+    frequency: '1'
+    duration: 1.01 hours
+    volume: 0.110 MGD
+    estimated: false
+    note: Rainfall 0.62 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-07-16'
+    frequency: '1'
+    duration: 0.37 hours
+    volume: 0.005 MGD
+    estimated: false
+    note: Rainfall 0.22 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-07-31'
+    frequency: '1'
+    duration: 5.16 hours
+    volume: 0.565 MGD
+    estimated: false
+    note: Rainfall 1.21 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-12-28'
+    frequency: '1'
+    duration: 1.12 hours
+    volume: 0.125 MGD
+    estimated: false
+    note: Rainfall 0.35 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Collett Street Control Structure #002'
+    date: '2025-12-29'
+    frequency: null
+    duration: 0.04 hours
+    volume: 0.000 MGD
+    estimated: false
+    note: Bypass Occurrence blank; Rainfall 0.01 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Heindel Control Structure #003'
+    date: '2025-04-02'
+    frequency: '1'
+    duration: 2.56 hours
+    volume: 0.241 MGD
+    estimated: false
+    note: Rainfall 0.66 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Heindel Control Structure #003'
+    date: '2025-04-03'
+    frequency: null
+    duration: 13.81 hours
+    volume: 6.133 MGD
+    estimated: false
+    note: Bypass Occurrence blank; Rainfall 0.59 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Heindel Control Structure #003'
+    date: '2025-04-05'
+    frequency: '1'
+    duration: 21.84 hours
+    volume: 15.332 MGD
+    estimated: false
+    note: Rainfall 1.45 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Heindel Control Structure #003'
+    date: '2025-04-06'
+    frequency: null
+    duration: 6.22 hours
+    volume: 2.752 MGD
+    estimated: false
+    note: Bypass Occurrence blank; Rainfall 0.03 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Heindel Control Structure #003'
+    date: '2025-04-19'
+    frequency: '1'
+    duration: 2.34 hours
+    volume: 0.400 MGD
+    estimated: false
+    note: Rainfall 0.75 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Heindel Control Structure #003'
+    date: '2025-04-25'
+    frequency: '1'
+    duration: 1.05 hours
+    volume: 0.069 MGD
+    estimated: false
+    note: Rainfall 0.36 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-03-15'
+    frequency: '1'
+    duration: 0.01 hours
+    volume: 0.000 MGD
+    estimated: false
+    note: Rainfall 0.63 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-03-30'
+    frequency: '1'
+    duration: 0.30 hours
+    volume: 1.150 MGD
+    estimated: false
+    note: Rainfall 0.68 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-04-02'
+    frequency: '1'
+    duration: 2.42 hours
+    volume: 0.439 MGD
+    estimated: false
+    note: Rainfall 0.66 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-04-05'
+    frequency: '1'
+    duration: 2.25 hours
+    volume: 0.269 MGD
+    estimated: false
+    note: Rainfall 1.45 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-04-25'
+    frequency: '1'
+    duration: 3.95 hours
+    volume: 0.958 MGD
+    estimated: false
+    note: Rainfall 0.94 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-05-04'
+    frequency: '1'
+    duration: 6.98 hours
+    volume: 1.488 MGD
+    estimated: false
+    note: Rainfall 0.96 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-05-06'
+    frequency: '1'
+    duration: 10.39 hours
+    volume: 2.274 MGD
+    estimated: false
+    note: Rainfall 1.01 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-06-26'
+    frequency: '1'
+    duration: 1.65 hours
+    volume: 0.473 MGD
+    estimated: false
+    note: Rainfall 0.62 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-07-16'
+    frequency: '1'
+    duration: 0.99 hours
+    volume: 0.227 MGD
+    estimated: false
+    note: Rainfall 0.22 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-07-26'
+    frequency: '1'
+    duration: 0.78 hours
+    volume: 0.099 MGD
+    estimated: false
+    note: Rainfall 0.52 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-07-28'
+    frequency: '1'
+    duration: 0.49 hours
+    volume: 0.010 MGD
+    estimated: false
+    note: Rainfall 0.42 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel Control Structure #004'
+    date: '2025-07-31'
+    frequency: '1'
+    duration: 3.41 hours
+    volume: 0.572 MGD
+    estimated: false
+    note: Rainfall 1.21 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Central Control Structure #005'
+    date: '2025-03-30'
+    frequency: '1'
+    duration: 0.77 hours
+    volume: 0.024 MGD
+    estimated: false
+    note: Rainfall 0.68 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Central Control Structure #005'
+    date: '2025-04-02'
+    frequency: '1'
+    duration: 0.06 hours
+    volume: 0.013 MGD
+    estimated: false
+    note: Rainfall 0.66 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Central Control Structure #005'
+    date: '2025-04-03'
+    frequency: null
+    duration: 3.61 hours
+    volume: 2.296 MGD
+    estimated: false
+    note: Bypass Occurrence blank; Rainfall 0.59 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Central Control Structure #005'
+    date: '2025-04-05'
+    frequency: '1'
+    duration: 5.25 hours
+    volume: 4.039 MGD
+    estimated: false
+    note: Rainfall 0.03 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Central Control Structure #005'
+    date: '2025-04-19'
+    frequency: '1'
+    duration: 0.24 hours
+    volume: 0.013 MGD
+    estimated: false
+    note: Rainfall 0.75 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Central Control Structure #005'
+    date: '2025-04-25'
+    frequency: '1'
+    duration: 0.62 hours
+    volume: 0.143 MGD
+    estimated: false
+    note: Rainfall 0.94 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Lovers Lane Control Structure #006'
+    date: '2025-04-03'
+    frequency: '1'
+    duration: 7.36 hours
+    volume: 0.791 MGD
+    estimated: false
+    note: Rainfall 0.59 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'Lovers Lane Control Structure #006'
+    date: '2025-04-05'
+    frequency: '1'
+    duration: 2.98 hours
+    volume: 0.971 MGD
+    estimated: false
+    note: Rainfall 1.45 in; Ottawa River
+  - kind: CSO
+    outfall_id: null
+    location: 'S. Central & Ottawa River #007'
+    date: '2025-03-30'
+    frequency: '1'
+    duration: null
+    volume: 0.026 MGD
+    estimated: true
+    note: Duration blank; Rainfall 0.68 in; Ottawa River. Flow calculated as 2% of
+      combined overflow for CSOs 2-6.
+  - kind: CSO
+    outfall_id: null
+    location: 'S. Central & Ottawa River #007'
+    date: '2025-04-02'
+    frequency: '1'
+    duration: null
+    volume: 0.406 MGD
+    estimated: true
+    note: Duration blank; Rainfall 0.66 in; Ottawa River. Flow calculated as 2% of
+      combined overflow for CSOs 2-6.
+  - kind: CSO
+    outfall_id: null
+    location: 'S. Central & Ottawa River #007'
+    date: '2025-04-05'
+    frequency: '1'
+    duration: null
+    volume: 0.706 MGD
+    estimated: true
+    note: Duration blank; Rainfall 1.45 in; Ottawa River. Flow calculated as 2% of
+      combined overflow for CSOs 2-6.
+  - kind: CSO
+    outfall_id: null
+    location: 'S. Central & Ottawa River #007'
+    date: '2025-04-19'
+    frequency: '1'
+    duration: null
+    volume: 0.023 MGD
+    estimated: true
+    note: Duration blank; Rainfall 0.75 in; Ottawa River. Flow calculated as 2% of
+      combined overflow for CSOs 2-6.
+  - kind: CSO
+    outfall_id: null
+    location: 'S. Central & Ottawa River #007'
+    date: '2025-04-25'
+    frequency: '1'
+    duration: null
+    volume: 0.026 MGD
+    estimated: true
+    note: Duration blank; Rainfall 0.94 in; Ottawa River. Flow calculated as 2% of
+      combined overflow for CSOs 2-6.
+  - kind: CSO
+    outfall_id: null
+    location: 'S. Central & Ottawa River #007'
+    date: '2025-05-04'
+    frequency: '1'
+    duration: null
+    volume: 0.021 MGD
+    estimated: true
+    note: Duration blank; Rainfall 0.96 in; Ottawa River. Flow calculated as 2% of
+      combined overflow for CSOs 2-6.
+  - kind: CSO
+    outfall_id: null
+    location: 'S. Central & Ottawa River #007'
+    date: '2025-05-06'
+    frequency: '1'
+    duration: null
+    volume: 0.098 MGD
+    estimated: true
+    note: Duration blank; Rainfall 1.01 in; Ottawa River. Flow calculated as 2% of
+      combined overflow for CSOs 2-6.
+  - kind: CSO
+    outfall_id: null
+    location: 'S. Central & Ottawa River #007'
+    date: '2025-06-27'
+    frequency: '1'
+    duration: null
+    volume: 0.012 MGD
+    estimated: true
+    note: Duration blank; Rainfall 0.62 in; Ottawa River. Flow calculated as 2% of
+      combined overflow for CSOs 2-6.
+  - kind: CSO
+    outfall_id: null
+    location: 'S. Central & Ottawa River #007'
+    date: '2025-07-28'
+    frequency: '1'
+    duration: null
+    volume: 0.001 MGD
+    estimated: true
+    note: Duration blank; Rainfall 0.42 in; Ottawa River. Flow calculated as 2% of
+      combined overflow for CSOs 2-6.
+  - kind: CSO
+    outfall_id: null
+    location: 'S. Central & Ottawa River #007'
+    date: '2025-07-31'
+    frequency: '1'
+    duration: null
+    volume: 0.023 MGD
+    estimated: true
+    note: Duration blank; Rainfall 1.21 in; Ottawa River. Flow calculated as 2% of
+      combined overflow for CSOs 2-6.
+  - kind: CSO
+    outfall_id: null
+    location: 'Burch & O''Connor #011'
+    date: '2025-02-26'
+    frequency: '1'
+    duration: null
+    volume: null
+    estimated: true
+    note: Flow N/A — no overflows occurred for CSOs 2-6 on this date so no volume
+      could be calculated. Rainfall 0.28 in; Pike Run Ditch.
+  - kind: CSO
+    outfall_id: null
+    location: 'McDonel & O''Connor #012'
+    date: '2025-12-28'
+    frequency: '1'
+    duration: null
+    volume: 0.003 MGD
+    estimated: true
+    note: Duration blank; Rainfall 0.35 in; Pike Run. Flow calculated as 2% of combined
+      overflow for CSOs 2-6.
+  - kind: CSO
+    outfall_id: null
+    location: 'Metcalf & O''Connor #013'
+    date: '2025-02-26'
+    frequency: '1'
+    duration: null
+    volume: null
+    estimated: true
+    note: Flow N/A — no overflows occurred for CSOs 2-6 on this date so no volume
+      could be calculated. Rainfall 0.28 in; Pike Run.
+  - kind: CSO
+    outfall_id: null
+    location: 'Metcalf & Tremont #014'
+    date: '2025-02-26'
+    frequency: '1'
+    duration: null
+    volume: null
+    estimated: true
+    note: Flow N/A — no overflows occurred for CSOs 2-6 on this date so no volume
+      could be calculated. Rainfall 0.28 in; Pike Run.
+  - kind: CSO
+    outfall_id: null
+    location: 'Metcalf & Runyan #015'
+    date: '2025-05-22'
+    frequency: '1'
+    duration: null
+    volume: null
+    estimated: true
+    note: Flow N/A — no overflows occurred for CSOs 2-6 on this date so no volume
+      could be calculated. Rainfall 0.58 in; Pike Run.
+  - kind: CSO
+    outfall_id: null
+    location: 'Metcalf & Ashton #016'
+    date: '2025-05-22'
+    frequency: '1'
+    duration: null
+    volume: null
+    estimated: true
+    note: Flow N/A — no overflows occurred for CSOs 2-6 on this date so no volume
+      could be calculated. Rainfall 0.58 in; Pike Run Ditch.
+  - kind: CSO
+    outfall_id: null
+    location: '627 S. Nixon St. #033'
+    date: '2025-09-23'
+    frequency: '1'
+    duration: null
+    volume: null
+    estimated: true
+    note: Flow N/A — no overflows occurred for CSOs 2-6 on this date so no volume
+      could be calculated. Rainfall 0.62 in; Ottawa River.
+  - kind: CSO
+    outfall_id: null
+    location: '701 Judkins Ave. #034'
+    date: '2025-10-30'
+    frequency: '1'
+    duration: null
+    volume: null
+    estimated: true
+    note: Flow N/A — no overflows occurred for CSOs 2-6 on this date so no volume
+      could be calculated. Rainfall 0.84 in; Ottawa River.
+  - kind: CSO
+    outfall_id: null
+    location: 'Lakewood & Charles #035'
+    date: '2025-10-30'
+    frequency: '1'
+    duration: null
+    volume: null
+    estimated: true
+    note: Flow N/A — no overflows occurred for CSOs 2-6 on this date so no volume
+      could be calculated. Rainfall 0.84 in; Ottawa River.
+  - kind: CSO
+    outfall_id: null
+    location: 'West & O''Connor Ave #038'
+    date: '2025-05-04'
+    frequency: '1'
+    duration: null
+    volume: 0.021 MGD
+    estimated: true
+    note: Duration blank; Rainfall 0.96 in; Pike Run Ditch. Flow calculated as 2%
+      of combined overflow for CSOs 2-6.
+  summary: 'The City of Lima''s 2025 CSO Annual Report, filed April 2, 2026 under
+    the CSO Public Notification rule and NPDES Permit 2PE00000*PD, summarizes combined
+    sewer overflow activity from Lima''s 19 CSO discharge points during calendar year
+    2025. The report details overflow events by structure (CSOs #002 through #038),
+    notes no dry weather overflows, and provides an update on Nine Minimum Controls
+    implementation and the Long Term Control Plan, including the operational 13-million-gallon
+    CSO storage tank and ongoing SSO design work in the Allentown Basin.'
+  note: 'This report is filed under the CSO Public Notification rule, not under a
+    consent decree; case_no and paragraph are therefore null. The cover letter is
+    dated April 2, 2026, addressed to David Brumbaugh at Ohio EPA. Permit referenced
+    is NPDES 2PE00000*PD, effective August 1, 2023. CSOs #008 (Timberlake & Ottawa
+    River) and #009 (Oxford & Collett) and #037 (Northshore Drive at Diamond #3 Backstop)
+    had zero bypass occurrences and zero flow in 2025. Flows for CSOs #007 through
+    #038 are calculated as 2% of the combined overflow for CSOs #002 through #006
+    per footnote on data pages; these are derived/estimated figures. Several events
+    at satellite CSOs (011, 013, 014, 015, 016, 033, 034, 035) show an occurrence
+    recorded but N/A flow because no CSOs 2-6 overflowed on the same date — these
+    are occurrences the report declines to quantify, not zero-volume events.'

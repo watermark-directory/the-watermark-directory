@@ -1,0 +1,236 @@
+doc_id: Ind_Permit_Ford_2024-f03f89cd
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-2/Ind_Permit_Ford_2024.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+image_pages_read:
+- 0
+- 1
+- 2
+- 15
+- 16
+- 17
+- 18
+- 19
+dpi: 200
+source_text_excerpt: "\n\n 2 \nPart I.  Sampling Locations & Effluent Limits \n \n\
+  A. Sampling Locations \n \n1. City Sampling Location:  Sampling at this station\
+  \ is considered end -of-\nprocess and shall occur at the site pictured b elow. \
+  \ This sampling manhole \nis located approximately 25 feet south of Bible Road and\
+  \ 152 feet east of \nSugar Street.  This manhole shall be designated as Sample Station\
+  \  \n      FMC 01 . \n \n2. Self-Monitoring Sample Location:  Sampling shall occur\
+  \ at the end of \nprocess as pictured below and shall be designated as Sample Station\
+  \ \n_FMC 02_.   \n \n \nSampling Station FMC 01          Position of Ma"
+industrial_permit:
+  confidence: high
+  warnings:
+  - Signatory name read from handwritten signature as 'Michael Capuell' — exact spelling
+    uncertain; the printed title below is 'Director of Utilities'.
+  - No user_classification is explicitly printed on the face page of this permit.
+  - No categorical standard (40 CFR part/subpart) is cited in the pages provided;
+    categorical_standards left empty.
+  - 'pH row: the Instantaneous Maximum column is occupied by the range ''6.0 to 11.0
+    pH units''; the Daily Maximum cell appears blank in the table — range placed in
+    daily_maximum per instructions and instantaneous_maximum left null.'
+  permittee: Ford Motor Company
+  facility_address: 1155 Bible Road, Lima, 45801
+  mailing_address: 1155 Bible Road, Lima, 45801
+  permit_no: FMC*010
+  issue_date: '2024-10-31'
+  effective_date: '2024-10-31'
+  expiration_date: '2027-10-31'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Section 1040.121 of the Codified Ordinances of the City of
+    Lima
+  signatory: Michael Capuell
+  user_classification: null
+  categorical_standards: []
+  sample_stations:
+  - station_id: FMC 01
+    description: City Sampling Location — end-of-process sampling manhole located
+      approximately 25 feet south of Bible Road and 152 feet east of Sugar Street
+  - station_id: FMC 02
+    description: Self-Monitoring Sample Location — end-of-process sampling adjacent
+      to WWT facility
+  limit_tables:
+  - kind: local
+    appendix: Appendix A
+    table_no: Table 1
+    title: The effluent limits for both sampling stations (FMC 01 & 02) are outlined
+      in the chart below. Since no other flows are introduced between the two sampling
+      stations, the same limits and frequencies will be applied to both sampling stations.
+    authority: null
+    sample_stations:
+    - FMC 01
+    - FMC 02
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: Arsenic
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C
+    - pollutant: Cadmium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C
+    - pollutant: Chromium
+      daily_maximum: '0.030'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C, IU
+    - pollutant: Copper
+      daily_maximum: '0.300'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C, IU
+    - pollutant: Lead
+      daily_maximum: '0.030'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C, IU
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C, IU
+    - pollutant: Molybdenum
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C
+    - pollutant: Nickel
+      daily_maximum: '0.150'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C, IU
+    - pollutant: Selenium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C
+    - pollutant: Silver
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C
+    - pollutant: Zinc
+      daily_maximum: '1.00'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C, IU
+    - pollutant: Ammonia
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C, IU
+    - pollutant: Phosphorus, Total
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Composite; C, IU
+    - pollutant: pH
+      daily_maximum: 6.0 to 11.0 pH units
+      instantaneous_maximum: null
+      monthly_average: null
+      unit: pH units
+      note: 1/Quarter; Grab; C, IU
+    - pollutant: Cyanide, Total
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Grab; C, IU
+    - pollutant: Oil and Grease, as HEM
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Grab; C, IU
+    - pollutant: Phenol
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/Quarter; Grab; C, IU
+    - pollutant: Low-level Mercury
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: 1/year; Grab; C
+    disclaimer: null
+  - kind: surcharge
+    appendix: Appendix A
+    table_no: Table 2
+    title: The following parameters consist of surcharge limits based on the City's
+      Sewer Use Ordinance.
+    authority: null
+    sample_stations:
+    - FMC 01
+    - FMC 02
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: BOD
+      daily_maximum: '200.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: Monthly; Composite; C, IU*
+    - pollutant: COD
+      daily_maximum: '500.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: Monthly; Composite; C, IU*
+    - pollutant: TSS
+      daily_maximum: '250.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: mg/L
+      note: Monthly; Composite; C, IU*
+    disclaimer: any exceedance of these limits does NOT constitute a violation of
+      this permit.
+  contract_laboratory: Eurofins
+  reporting_frequency: Quarterly (most parameters); 1/year (Low-level Mercury); Monthly
+    (surcharge parameters)
+  note: null

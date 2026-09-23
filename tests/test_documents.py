@@ -27,14 +27,23 @@ from watermark.models import (
     NoticeOfCommencement,
     NpdesExtraction,
     NpdesPermit,
+    PermitExtension,
+    PermitExtensionExtraction,
     PollutantLimit,
     PretreatmentAnnualReport,
     PretreatmentExtraction,
+    ProgramCount,
     SosExtraction,
 )
 from watermark.pipeline.extract import (
+    _IDP_SPEC,
+    _MAX_REQUEST_BYTES,
+    _MIN_RENDER_DPI,
+    _PRETREATMENT_SPEC,
+    _fitted_dpi,
     _page_window,
     _read_doc,
+    _render_within_budget,
     extract_deed,
     extract_document,
     extract_epa,
@@ -46,6 +55,8 @@ from watermark.pipeline.extract import (
     save_doc_extraction,
 )
 from watermark.pipeline.ingest import SOURCE_SUFFIXES, SourceDocument
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 # --- fakes -----------------------------------------------------------------
@@ -68,18 +79,29 @@ class _FakeClient:
 
 
 class _FakePdf:
-    def __init__(self, pages: int = 3) -> None:
+    def __init__(self, pages: int = 3, *, text: bool = True, bytes_per_px2: float = 0.0) -> None:
         self._n = pages
+        self._text = text
+        self._bytes_per_px2 = bytes_per_px2
 
     @property
     def page_count(self) -> int:
         return self._n
 
     def page_text(self, index: int) -> str:
-        return f"text {index}"
+        # `text=False` is a PURE SCAN — pypdf yields "" on every page, which is what
+        # eleven of the thirteen City of Lima industrial discharge permits do.
+        return f"text {index}" if self._text else ""
+
+    def page_size_points(self, index: int) -> tuple[float, float]:
+        return (612.0, 792.0)  # US Letter, what the City prints on
 
     def render_page_png(self, index: int, *, dpi: int | None = None) -> bytes:
-        return b"\x89PNG-fake"
+        if not self._bytes_per_px2:
+            return b"\x89PNG-fake"
+        # Size scales with pixel count, as a real scan's PNG does — so a test can drive
+        # the payload budget without rendering anything.
+        return b"\x89" * max(1, int((dpi or 200) ** 2 * self._bytes_per_px2))
 
     def close(self) -> None:  # pragma: no cover
         pass
@@ -195,7 +217,7 @@ def test_read_doc_tail_records_the_pages_it_actually_saw() -> None:
     # The tail must show up in BOTH the union and the honest image subset (#613): an
     # artifact that claims a page it never rendered is the failure this whole pair of
     # fields exists to prevent.
-    text, images, pages, image_pages = _read_doc(
+    text, images, pages, image_pages, _dpi = _read_doc(
         _doc(),
         text_pages=2,
         image_pages=2,
@@ -215,7 +237,7 @@ def test_read_doc_tail_records_the_pages_it_actually_saw() -> None:
 def test_read_doc_without_a_tail_matches_the_old_prefix_read() -> None:
     # Pin the equivalence directly: pages_read used to be range(max(text, image)), and a
     # no-tail call must still produce exactly that.
-    _text, images, pages, image_pages = _read_doc(
+    _text, images, pages, image_pages, _dpi = _read_doc(
         _doc(),
         text_pages=6,
         image_pages=1,
@@ -225,6 +247,135 @@ def test_read_doc_without_a_tail_matches_the_old_prefix_read() -> None:
     assert pages == list(range(6))
     assert image_pages == [0]
     assert len(images) == 1
+
+
+def test_read_doc_reads_a_text_less_source_whole_instead_of_its_window() -> None:
+    # The head/tail window is a bargain: skip pages because the text layer is still
+    # reading them. A pure scan has no text layer, so the same window is the ENTIRE read
+    # and the model cannot report the pages it was never shown. Measured on
+    # `Metokote_PPG_2021_PPG_Permit.pdf` (24 pages, zero text): 8 rendered, one limit
+    # table returned at `confidence: high`, and a warning about a Table 2 it had only
+    # seen cross-referenced.
+    _text, images, pages, image_pages, _dpi = _read_doc(
+        _doc(),
+        text_pages=4,
+        image_pages=3,
+        dpi=200,
+        pdf=_FakePdf(pages=24, text=False),  # type: ignore[arg-type]
+        text_tail_pages=8,
+        image_tail_pages=5,
+        scan_image_pages=26,
+    )
+    assert image_pages == list(range(24))
+    assert pages == list(range(24))
+    assert len(images) == 24
+
+
+def test_read_doc_keeps_the_window_when_the_source_carries_text() -> None:
+    # The widening must be keyed on the SOURCE, not the genre: the two text-bearing
+    # permits in the same production keep the 8-page read `_page_window` was calibrated
+    # for, unchanged, at the same spec.
+    _text, _images, _pages, image_pages, _dpi = _read_doc(
+        _doc(),
+        text_pages=4,
+        image_pages=3,
+        dpi=200,
+        pdf=_FakePdf(pages=24, text=True),  # type: ignore[arg-type]
+        text_tail_pages=8,
+        image_tail_pages=5,
+        scan_image_pages=26,
+    )
+    assert image_pages == [0, 1, 2, 19, 20, 21, 22, 23]
+
+
+def test_read_doc_scan_budget_is_a_cap_and_truncates_visibly() -> None:
+    # `scan_image_pages` is a bound, not a promise. A scan longer than it is still
+    # truncated — but in `image_pages_read`, where the next reader can see it, rather
+    # than behind a window that looks deliberate.
+    _text, _images, _pages, image_pages, _dpi = _read_doc(
+        _doc(),
+        text_pages=4,
+        image_pages=3,
+        dpi=200,
+        pdf=_FakePdf(pages=40, text=False),  # type: ignore[arg-type]
+        image_tail_pages=5,
+        scan_image_pages=26,
+    )
+    assert image_pages == list(range(26))
+
+
+def test_read_doc_leaves_every_genre_that_declines_the_widening_alone() -> None:
+    # scan_image_pages=0 is the default, and fourteen of the sixteen genres take it.
+    # A text-less source must then read exactly what it read before this existed.
+    _text, _images, _pages, image_pages, _dpi = _read_doc(
+        _doc(),
+        text_pages=6,
+        image_pages=1,
+        dpi=200,
+        pdf=_FakePdf(pages=30, text=False),  # type: ignore[arg-type]
+    )
+    assert image_pages == [0]
+
+
+def test_a_many_image_read_is_rendered_smaller_rather_than_shorter() -> None:
+    # Past 20 images in one request the API caps each at 2000px per side, and a Letter
+    # page at 200 DPI is 1700x2200 — the request 400s. The answer is fewer pixels, not
+    # fewer pages: a dropped page is gone, 181 DPI is legible.
+    assert _fitted_dpi(_FakePdf(pages=24), list(range(24)), 200) == 181  # type: ignore[arg-type]
+    assert 792 * 181 / 72 <= 2000
+    # Under the threshold the requested DPI is untouched, so no existing genre re-renders.
+    assert _fitted_dpi(_FakePdf(pages=24), list(range(8)), 200) == 200  # type: ignore[arg-type]
+    assert _fitted_dpi(_FakePdf(pages=20), list(range(20)), 300) == 300  # type: ignore[arg-type]
+
+
+def test_render_backs_off_until_the_request_fits_rather_than_dropping_pages() -> None:
+    # Page COUNT and payload SIZE are separate limits. Two 19-page scans of the same
+    # template at the same DPI weighed 17.5 MB and 44.0 MB; only the denser one 400s, so
+    # size is measured, not predicted, and the retry shrinks the render, not the read.
+    pdf = _FakePdf(pages=19, text=False, bytes_per_px2=55.0)  # ~44 MB base64 at 200 DPI
+    images, dpi = _render_within_budget(pdf, list(range(19)), 200)  # type: ignore[arg-type]
+    assert len(images) == 19  # every page still read
+    assert dpi < 200
+    assert sum(len(b) for b in images) * 4 // 3 <= _MAX_REQUEST_BYTES
+
+
+def test_render_leaves_a_request_that_already_fits_completely_alone() -> None:
+    pdf = _FakePdf(pages=19, text=False, bytes_per_px2=0.5)
+    images, dpi = _render_within_budget(pdf, list(range(19)), 200)  # type: ignore[arg-type]
+    assert dpi == 200
+    assert len(images) == 19
+
+
+def test_render_stops_backing_off_at_the_legibility_floor() -> None:
+    # An unreadable render is worse than a failed request: the request says so. A
+    # document that cannot fit even at the floor is sent anyway and allowed to fail.
+    pdf = _FakePdf(pages=40, text=False, bytes_per_px2=5000.0)
+    _images, dpi = _render_within_budget(pdf, list(range(40)), 200)  # type: ignore[arg-type]
+    assert dpi == _MIN_RENDER_DPI
+
+
+def test_read_doc_reports_the_dpi_it_actually_rendered_at() -> None:
+    # The extraction stamps this into its `dpi` provenance field. An artifact naming a
+    # DPI it did not use is the same class of lie as one naming a page it did not read.
+    _text, _images, _pages, image_pages, dpi = _read_doc(
+        _doc(),
+        text_pages=4,
+        image_pages=3,
+        dpi=200,
+        pdf=_FakePdf(pages=24, text=False),  # type: ignore[arg-type]
+        image_tail_pages=5,
+        scan_image_pages=26,
+    )
+    assert len(image_pages) == 24
+    assert dpi == 181
+
+
+def test_the_scan_budget_covers_the_longest_permit_the_city_produced() -> None:
+    # The budgets are sized against real documents, so pin the documents. The longest
+    # text-less IDP in the 2026-09 production is EOLM at 23 pages; the longest annual
+    # report is CY2025 at 4 — whose own footer reads "Page 1 of 3".
+    assert _IDP_SPEC.scan_image_pages >= 23
+    assert _PRETREATMENT_SPEC.scan_image_pages >= 4
 
 
 def test_extract_deed_attaches_provenance() -> None:
@@ -508,6 +659,78 @@ def test_pretreatment_report_keeps_a_printed_zero_distinct_from_a_blank() -> Non
     report = PretreatmentAnnualReport(users_in_snc=0)
     assert report.users_in_snc == 0
     assert PretreatmentAnnualReport().users_in_snc is None
+
+
+def test_a_summary_row_that_pairs_two_figures_survives_as_the_pair() -> None:
+    # Lima's CY2023 form prints "Number of SIU's in SNC (Categorical/Non-Categorical): 0/0"
+    # and "Amount of Penalties Collected (Total dollars/# IU's assessed): $0.00" — one cell
+    # answering a two-part question. Until this, `count: Number` REJECTED "0/0" and the whole
+    # read failed validation, which is how three annual reports went unextracted. The cell is
+    # kept verbatim rather than halved or summed: the POTW asserted a pair, not a total.
+    rows = [
+        ProgramCount(
+            label="Number of SIU's in SNC (Categorical/Non-Categorical)", count_as_printed="0/0"
+        ),
+        ProgramCount(label="Users inspected", count=10),
+    ]
+    assert rows[0].count is None and rows[0].count_as_printed == "0/0"
+    # A row that IS a plain number still lands in `count`; the verbatim field is not a
+    # substitute for one, so a count stays comparable across reporting years.
+    assert rows[1].count == 10
+
+
+def test_a_paired_cell_is_found_by_a_null_count_not_by_the_verbatim_field() -> None:
+    # Asserted over the committed reads rather than hand-built rows, because the thing at
+    # risk is a property of what the extractor actually writes: it fills `count_as_printed`
+    # for EVERY row, plain numbers included. So the verbatim field does not discriminate,
+    # and a consumer filtering on it being set would select all thirteen rows and conclude
+    # the form holds no numbers at all. `count is None` is the signal, and it is a stable
+    # one — the same two cells are paired in all three reporting years.
+    reports = sorted((REPO_ROOT / "data" / "extracted" / "legal").glob("*.pretreatment.yaml"))
+    assert len(reports) == 3, "expected the CY2023-CY2025 Lima pretreatment series"
+    for path in reports:
+        report = yaml.safe_load(path.read_text())["pretreatment_report"]
+        rows = (report.get("counts") or []) + (report.get("enforcement_actions") or [])
+        paired = [r for r in rows if r.get("count") is None]
+        assert [r["label"] for r in paired] == [
+            "Number of SIU's in SNC (Categorical/Non-Categorical)",
+            "Amount of Penalties Collected (Total dollars/# IU's assessed)",
+        ], f"{path.name}: the paired cells moved"
+        # Each survives as the pair the City printed, never halved or summed to a total.
+        assert [r["count_as_printed"] for r in paired] == ["0/0", "$0.00"]
+        # And the scalar the form asks for separately stays null rather than taking a half.
+        assert report["users_in_snc"] is None
+
+
+def test_a_permit_extension_is_not_routed_through_a_permit_or_an_agency_model() -> None:
+    # The four Lima extension letters were first read as `notice` (R.C. 1311.04 Notice of
+    # Commencement). The model correctly refused, and the refusal cost everything: four
+    # extractions with every field null and the operative dates surviving only as prose in
+    # `note`. The two dates a letter carries are different facts and must both survive.
+    ext = PermitExtension(
+        issuing_authority="City of Lima Department of Utilities",
+        permittee="Procter & Gamble Manufacturing Co.",
+        facility="P&G Main Facility",
+        letter_date="2026-07-08",
+        extended_to="2026-09-13",
+        signatory="Amy Staley",
+    )
+    assert ext.letter_date != ext.extended_to
+    # A letter that prints no permit number leaves it null. Filling it from a sibling
+    # document would assert an identification the City never made on this page.
+    assert ext.permit_no is None
+
+
+def test_a_permit_extension_dispatches_by_kind() -> None:
+    extraction = extract_document(
+        _doc(),
+        kind="permit-extension",
+        extractor=_FakeExtractor(PermitExtension(extended_to="2026-09-11")),  # type: ignore[arg-type]
+        pdf=_FakePdf(pages=1),
+    )
+    assert isinstance(extraction, PermitExtensionExtraction)
+    assert extraction.kind == "permit-extension"
+    assert extraction.permit_extension.extended_to == "2026-09-11"
 
 
 def test_both_new_genres_dispatch_by_kind() -> None:

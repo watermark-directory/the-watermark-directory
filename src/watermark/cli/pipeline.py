@@ -344,7 +344,7 @@ def extract(
         help=(
             "Document kind: opc | deed | npdes | sos | epa | order | inspection | "
             "progress-report | award | wetland | plan | engineering | sanitary | notice | "
-            "idp | pretreatment."
+            "idp | pretreatment | permit-extension."
         ),
     ),
     profile: str = typer.Option(

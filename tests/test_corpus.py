@@ -616,7 +616,18 @@ def test_the_committed_compliance_genres_all_load() -> None:
     corpus = load_corpus(Settings(data_dir=REPO_ROOT / "data", site="lima"), scope=WHOLE_TREE)
     assert len(corpus.orders) == 32
     assert len(corpus.inspections) == 30
-    assert len(corpus.progress_reports) == 9
+    # 9 -> 10 (#2175): `legal/2025_CSO_Annual_Report.progress-report.yaml`, Lima's CY2025 CSO
+    # annual report, the last of the WWTP production. It keys `progress_report:` because that is
+    # the genre a clause-by-clause report against a consent order is — the CSO report answers the
+    # same shape of question about the same instrument.
+    assert len(corpus.progress_reports) == 10
+    # The three genres this tranche added. Counted here and not only in their own tests because
+    # the failure they guard against is the one `permit-extension` actually had: a genre that
+    # extracts cleanly, validates, and is DECLINED by the loader — so its artifacts exist on disk
+    # and reach no feed. A count in this test is the cheapest thing that notices.
+    assert len(corpus.industrial_permits) == 14
+    assert len(corpus.pretreatment_reports) == 3
+    assert len(corpus.permit_extensions) == 4
     # 3 -> 4 (#2088): `permits/4230068.sanitary.yaml`, the Ohio EPA ePlan PTI application for the
     # BOSC-1A sanitary sewer Rev. 1. `sanitary` is the discipline ALIAS of the engineering read
     # (extract.extract_sanitary), so it lands in this bucket by design, not by misclassification.

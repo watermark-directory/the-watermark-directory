@@ -1,0 +1,253 @@
+doc_id: Ind_permit_EOLM_2023-3d6bfdde
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-2/Ind_permit_EOLM_2023.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+- 22
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+- 22
+dpi: 181
+source_text_excerpt: '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  '
+industrial_permit:
+  confidence: high
+  warnings:
+  - 'The permit signature block (Approved by: Director of Utilities) is blank — this
+    copy is unsigned; signatory set to null.'
+  - No appendix letter is printed for the limits tables; they appear inline in Part
+    I (Part I.B, Table 1) rather than in a separately labelled appendix.
+  - No categorical standards are cited in this permit; no 40 CFR part/subpart is invoked.
+  - User classification is not explicitly stated in the permit text reviewed.
+  - 'pH row: the Daily Maximum column was blank and the instantaneous maximum column
+    contains ''6.0 to 11.0 pH units''; value recorded in both daily_maximum and instantaneous_maximum
+    fields as printed.'
+  permittee: EOLM, Inc.
+  facility_address: 1500 Ft. Amanda Rd., Lima, 45805
+  mailing_address: 1500 Ft. Amanda Rd., Lima, 45805
+  permit_no: EOL *002
+  issue_date: '2023-12-13'
+  effective_date: '2023-12-13'
+  expiration_date: '2028-12-13'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Section 1040.121 of the Codified Ordinances of the City of
+    Lima
+  signatory: null
+  user_classification: null
+  categorical_standards: []
+  sample_stations:
+  - station_id: EOL-01
+    description: City sampling location, end-of-pipe, sampling manhole located within
+      the WWTP plant at 1200 Ft. Amanda Road
+  limit_tables:
+  - kind: local
+    appendix: null
+    table_no: '1'
+    title: Applicable to Sample Station EOL-01
+    authority: null
+    sample_stations:
+    - EOL-01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: Arsenic
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Cadmium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Chromium
+      daily_maximum: '0.30'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Copper
+      daily_maximum: '0.10'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Lead
+      daily_maximum: '0.03'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Mercury
+      daily_maximum: '0.001'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Molybdenum
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Nickel
+      daily_maximum: '0.10'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Selenium
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Silver
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Zinc
+      daily_maximum: '0.20'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: pH*
+      daily_maximum: 6.0 to 11.0 pH units
+      instantaneous_maximum: 6.0 to 11.0 pH units
+      monthly_average: null
+      unit: pH units
+      note: 1/Quarter, Grab, C
+    - pollutant: Ammonia
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Phosphorus
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Quarter, Composite, C
+    - pollutant: Low-Level Mercury
+      daily_maximum: Monitor
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: 1/Year, Grab, C
+    disclaimer: null
+  - kind: surcharge
+    appendix: null
+    table_no: null
+    title: Surcharge Limits
+    authority: null
+    sample_stations:
+    - EOL-01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Instantaneous Maximum
+    - Minimum Monitoring Frequency
+    - Sample Type
+    - Sampling Responsibility (C=City, IU=Industrial User)
+    limits:
+    - pollutant: BOD
+      daily_maximum: '200.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Composite, C
+    - pollutant: COD
+      daily_maximum: '500.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Composite, C
+    - pollutant: TSS
+      daily_maximum: '250.0'
+      instantaneous_maximum: n/a
+      monthly_average: null
+      unit: null
+      note: Monthly, Composite, C
+    disclaimer: any exceedance of these limits does NOT constitute a violation of
+      this permit
+  contract_laboratory: null
+  reporting_frequency: Semi-annual (Periodic Compliance Reports filed in January and
+    July)
+  note: null

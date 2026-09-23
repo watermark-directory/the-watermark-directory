@@ -202,7 +202,7 @@ describe("the join, against the committed Lima bundle", () => {
   // `data/extracted/oepa/lima/2dp00130-surrogate-characterization.yaml`, which is deliberately
   // shaped so `corpus._classify` DECLINES it — it is a reading, not a record, and must never
   // count here.
-  it("extracts 160 of 3,397 documents — 4.7% of the corpus", () => {
+  it("extracts 182 of 3,422 documents — 5.3% of the corpus", () => {
     const entries = documents.flatMap((c) => c.entries);
     // 3,362 -> 3,382 (City of Lima PRR, #1536): the twenty committed files of the City's first
     // public-records production, under `legal/prr-mandamus/prr-production-2026-08-{22,24}-lima/`.
@@ -253,7 +253,12 @@ describe("the join, against the committed Lima bundle", () => {
     // and the 2018 deed name the SAME packet as their `source.file`, and the join is per-`rel`,
     // so the numerator moves by one while `records.length` moves by two. That asymmetry is the
     // honest shape of a compound document and not a miscount.
-    expect(countExtracted(entries, index)).toBe(160);
+    // 160 -> 182 (#2175): the twenty-two extractions of the Lima WWTP pretreatment production —
+    // fourteen industrial discharge permits, four permit-extension letters, three pretreatment
+    // annual reports and the CY2025 CSO annual report. Denominator unmoved: those bytes were
+    // catalogued at #2174 and this change only reads them, which is exactly the shape the note on
+    // `counts.legal` below predicted when it landed.
+    expect(countExtracted(entries, index)).toBe(182);
   });
 
   it("is near-complete on the small instrument collections, and thin across the big holdings", () => {
@@ -293,7 +298,11 @@ describe("the join, against the committed Lima bundle", () => {
     // 1,756 -> 1,781 at #2174: the twenty-five-file Lima WWTP production. Held and unread like
     // the rest of `legal` — the numerator is unmoved because this lands as bytes and custody
     // first; the extractions are the next change, and they should move the 15.
-    expect(counts.legal).toEqual([15, 1781]);
+    // 15 -> 37 (#2175): the twenty-two pretreatment extractions, all shelved `legal/`. The
+    // numerator moved and the denominator did not — the change the note above said to expect. At
+    // 2.1% `legal` is still the corpus's largest unread holding by a wide margin; one production
+    // read end to end barely registers against 1,781 documents.
+    expect(counts.legal).toEqual([37, 1781]);
     expect(counts.commissioners).toEqual([0, 995]);
     // `oepa` now belongs here: held, and largely READ. 98 of 111 is 88.3% — well above
     // `legal`'s 0.9% and `commissioners`' zero, and well below the instrument collections it used
@@ -360,7 +369,11 @@ describe("the join, against the committed Lima bundle", () => {
     // (`…2025-02-04-bza-2024-12-cup.resolution.yaml`) and the 2018 warranty deed bound into the
     // same packet (`…2018-03-16-churchill-neff.deed.yaml`). A compound source yields a record per
     // INSTRUMENT, which is why records move by two while the corpus moves by one.
-    expect(records.length).toBe(166);
+    // 166 -> 188 (#2175): twenty-two records from twenty-two documents, one to one. Unlike the
+    // American Township packet above, no document in this production carries two instruments and
+    // no instrument spans two documents — so the record count, the join and the numerator all move
+    // by the same twenty-two.
+    expect(records.length).toBe(188);
     // 5 -> 3, and this is the deliberate change the note below predicted. `_source_ref` now
     // resolves three further committed provenance shapes — `provenance.source_path` /
     // `provenance.sources`, the connector read's `meta.sources` (a dict of NAMED lists, so every
@@ -386,6 +399,8 @@ describe("the join, against the committed Lima bundle", () => {
     // record move together — as at #2089 and unlike #2088. The agenda reaches neither side.
     // 159 -> 160: the two American Township records name one packet between them, so the index
     // gains a single key. See the `countExtracted` note above.
-    expect(index.size).toBe(160);
+    // 160 -> 182: each of the twenty-two names its own source document, so the join gains a key
+    // per record — the one-to-one case, as at #2089.
+    expect(index.size).toBe(182);
   });
 });

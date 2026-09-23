@@ -38,6 +38,7 @@ from watermark.models import (
     OPCSummary,
     OrderExtraction,
     PageExtraction,
+    PermitExtensionExtraction,
     PlanExtraction,
     PretreatmentExtraction,
     ProgressReportExtraction,
@@ -225,6 +226,12 @@ class Corpus:
     # reporting on that program to Ohio EPA — the counterpart bucket, not the same one.
     industrial_permits: list[tuple[str, IdpExtraction]] = field(default_factory=list)
     pretreatment_reports: list[tuple[str, PretreatmentExtraction]] = field(default_factory=list)
+    # Its own bucket for the same reason it is its own genre: an extension letter changes one
+    # term of a permit it does not otherwise restate, so filed among `industrial_permits` it
+    # would read as a permit with an expiry and NO limits — indistinguishable from one that
+    # imposes none. Kept apart, it answers the question the permits alone cannot: whether the
+    # printed expiration date on an IDP is still the date that governs.
+    permit_extensions: list[tuple[str, PermitExtensionExtraction]] = field(default_factory=list)
 
     def __len__(self) -> int:
         return (
@@ -244,6 +251,7 @@ class Corpus:
             + len(self.engineering)
             + len(self.industrial_permits)
             + len(self.pretreatment_reports)
+            + len(self.permit_extensions)
         )
         # `rejected`/`declined` are deliberately NOT counted — they hold no models.
 
@@ -278,6 +286,7 @@ class Corpus:
                 self.engineering,
                 self.industrial_permits,
                 self.pretreatment_reports,
+                self.permit_extensions,
             )
             for rel, _ in group
         ]
@@ -503,6 +512,7 @@ def _classify(data: Any) -> str:
         # a one-word wrapper key claims the first unrelated artifact to reach for it.
         ("industrial_permit", "idp"),
         ("pretreatment_report", "pretreatment"),
+        ("permit_extension", "permit_extension"),
     ):
         if isinstance(data.get(block), dict):
             # Same three-way discipline as the permit arm above. The render envelope is checked
@@ -692,6 +702,10 @@ def load_corpus(
                 corpus.pretreatment_reports.append(
                     (rel, PretreatmentExtraction.model_validate(data))
                 )
+            elif kind == "permit_extension":
+                corpus.permit_extensions.append(
+                    (rel, PermitExtensionExtraction.model_validate(data))
+                )
             elif kind == "opc_page":
                 corpus.estimates.append((rel, PageExtraction.model_validate(data)))
             elif kind == "opc_detail_legacy":
@@ -739,6 +753,7 @@ def load_corpus(
         engineering=len(corpus.engineering),
         industrial_permits=len(corpus.industrial_permits),
         pretreatment_reports=len(corpus.pretreatment_reports),
+        permit_extensions=len(corpus.permit_extensions),
         declined=len(corpus.declined),
         rejected=len(corpus.rejected),
         # Broken out of `rejected` on purpose (#2084): the two shapes ask for different repairs.

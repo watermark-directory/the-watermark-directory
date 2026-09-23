@@ -18,7 +18,7 @@ Extraction is dispatched by *document kind* (``opc`` today) via
 
 from __future__ import annotations
 
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
@@ -57,6 +57,8 @@ from watermark.models import (
     OPCSummary,
     OrderExtraction,
     PageExtraction,
+    PermitExtension,
+    PermitExtensionExtraction,
     PlanExtraction,
     PretreatmentAnnualReport,
     PretreatmentExtraction,
@@ -517,9 +519,17 @@ page images are authoritative. Record into the tool:
     non_categorical_users, non_significant_categorical_users,
     effective_control_documents (the number of permits actually in force),
     users_inspected, users_sampled, users_in_snc (significant non-compliance).
+    Each of these takes a single number. Where the form pairs two figures in one of
+    these cells, leave the field null and record the row in counts instead (below),
+    verbatim — do not add the halves together to fill it.
   * counts: every OTHER counted row of the summary table, as label/count pairs with
     the label verbatim. enforcement_actions: the enforcement rows the same way,
     including rows whose count is 0 — a reported zero is a finding.
+    Some rows do NOT hold a single number: the form pairs two figures in one cell
+    where its label names two things ("Number of SIU's in SNC (Categorical/Non-
+    Categorical): 0/0", "Amount of Penalties Collected (Total dollars/# IU's
+    assessed): $0.00"). For such a row leave count null and put the cell verbatim in
+    count_as_printed. Do NOT pick one half, sum the halves, or drop the row.
   * industrial_users: only where the form itself lists them by name.
   * attachments: every attachment the form NAMES on its face, with the filename
     exactly as printed (e.g. "2023 IU Report Form_City of Lima.xlsm"), whether or not
@@ -633,6 +643,87 @@ def _page_window(head: int, tail: int, count: int) -> list[int]:
     return sorted({*range(head), *range(max(head, count - tail), count)})
 
 
+def _carries_no_text(pdf: PdfDocument) -> bool:
+    """True when NO page of ``pdf`` yields extractable text — a pure scan.
+
+    The head/tail image budget assumes a text layer is carrying the pages the budget
+    skips: the model gets the whole document's OCR as ``context_text`` and renders only
+    the pages whose *figures* must be trusted. On a pure scan that assumption inverts —
+    the skipped pages are not merely unrendered, they are **absent**, and the model
+    cannot report their absence because nothing tells it they exist. Measured on
+    `Metokote_PPG_2021_PPG_Permit.pdf`: 24 pages, zero text, 8 rendered, and the read
+    returned one limit table at ``confidence: high`` while its own warning noted a
+    Table 2 it had seen cross-referenced and never seen.
+    """
+    return not any(pdf.page_text(i).strip() for i in range(pdf.page_count))
+
+
+# Anthropic's many-image request limit: past this many images in ONE request, every
+# image must fit 2000 pixels on BOTH sides. A whole-scan read routinely crosses it, and a
+# US-Letter page at the IDP genre's 200 DPI is 1700x2200 — over by 200px on the long
+# edge, which fails the request outright (400 invalid_request_error) rather than
+# degrading. Metokote's 24-page read hit this on its first attempt.
+_MANY_IMAGE_THRESHOLD = 20
+_MANY_IMAGE_MAX_PIXELS = 2000
+_POINTS_PER_INCH = 72.0
+
+# The API's whole-request ceiling is 32 MB of base64, which a whole-document scan read
+# can cross even when every individual page is legal. Budget under it, because the
+# instructions, the OCR context text and the tool schema ride along too.
+_MAX_REQUEST_BYTES = 28_000_000
+# A floor, so the escape from "too big" is never an unreadable render. Below this a
+# permit's limits table stops being transcribable and the read would be worse than a
+# failure, which at least announces itself.
+_MIN_RENDER_DPI = 100
+
+
+def _fitted_dpi(pdf: PdfDocument, window: Sequence[int], dpi: int) -> int:
+    """The largest DPI at or below ``dpi`` at which ``window`` is a legal request.
+
+    Below the many-image threshold the requested DPI stands. Above it the choice is
+    between rendering fewer pages and rendering the same pages smaller, and this picks
+    the second: a scan whose pages are dropped loses them silently, while one rendered
+    at 181 DPI instead of 200 loses under a tenth of its linear resolution and says so
+    in the extraction's ``dpi`` field. Measured against the page's real geometry rather
+    than assuming Letter, because a permit appendix is sometimes a tabloid fold-out.
+    """
+    if len(window) <= _MANY_IMAGE_THRESHOLD:
+        return dpi
+    longest = max((max(pdf.page_size_points(i)) for i in window), default=0.0)
+    if longest <= 0:
+        return dpi
+    return max(1, min(dpi, int(_MANY_IMAGE_MAX_PIXELS * _POINTS_PER_INCH / longest)))
+
+
+def _render_within_budget(
+    pdf: PdfDocument, window: Sequence[int], dpi: int
+) -> tuple[list[bytes], int]:
+    """Render ``window`` at the highest DPI at or below ``dpi`` whose payload fits.
+
+    Page COUNT and page SIZE are separate limits and a read can pass one while failing
+    the other: `Keystone_Permit_2025.pdf` and
+    `Keystone_Industrial_Discharge_Permit_2023-2025.pdf` are both 19-page scans of the
+    same template read at the same 200 DPI, and they weigh 17.5 MB and 44.0 MB — the
+    second is a denser scan of the same pages, and only it 400s. Size cannot be
+    predicted from the page count, so it is MEASURED and the render retried smaller.
+
+    Retries shrink by the square root of the overshoot (payload tracks pixel count,
+    pixels track DPI squared) and stop at :data:`_MIN_RENDER_DPI`. A document that will
+    not fit even there is rendered anyway and left to fail the request: dropping its
+    pages to fit would produce a confident partial read, which is the outcome this whole
+    path exists to prevent.
+    """
+    images: list[bytes] = []
+    for _ in range(3):
+        images = [pdf.render_page_png(i, dpi=dpi) for i in window]
+        # base64 costs 4 bytes per 3, and that expansion is what the ceiling counts.
+        payload = sum(len(b) for b in images) * 4 // 3
+        if payload <= _MAX_REQUEST_BYTES or dpi <= _MIN_RENDER_DPI:
+            return images, dpi
+        dpi = max(_MIN_RENDER_DPI, int(dpi * (_MAX_REQUEST_BYTES / payload) ** 0.5))
+    return images, dpi
+
+
 def _read_doc(
     doc: SourceDocument,
     *,
@@ -642,32 +733,46 @@ def _read_doc(
     pdf: PdfDocument | None,
     text_tail_pages: int = 0,
     image_tail_pages: int = 0,
-) -> tuple[str, list[bytes], list[int], list[int]]:
+    scan_image_pages: int = 0,
+) -> tuple[str, list[bytes], list[int], list[int], int]:
     """Read a document's leading pages, and optionally its trailing ones.
 
-    Returns ``(text, page_images, pages_consulted, image_pages)``: ``pages_consulted``
+    Returns ``(text, page_images, pages_consulted, image_pages, dpi)``: ``pages_consulted``
     is the text-and-image page union; ``image_pages`` is the honest subset actually
     rendered and sent to the vision model — recorded separately so a text-primary read
     (e.g. 6 text pages, 1 image) doesn't over-report the pages the model *saw* (#613).
+    The returned ``dpi`` is the one the pages were ACTUALLY rendered at, which
+    :func:`_fitted_dpi` may lower below the requested one — an artifact that names a DPI
+    it did not use is the same class of lie as one that names a page it did not read.
 
     The two ``*_tail_pages`` budgets are separate for the same reason the head budgets
     are: rendering a page costs far more than reading its text layer, so a genre can
     take a wide text tail cheaply while paying for only the two images it needs. Both
     default to 0, leaving every existing genre's read byte-for-byte unchanged.
+
+    ``scan_image_pages`` is the image budget to use INSTEAD when the source carries no
+    text layer at all (see :func:`_carries_no_text`) — a prefix+tail window is only
+    defensible while the pages it declines are still being read as text. It is a cap,
+    not a promise: a document longer than it is still truncated, but visibly, in
+    ``image_pages_read``. 0 (the default) disables the widening entirely.
     """
     if doc.is_image:
         # A raster source (#703): no text layer, no pages — the single image is read
         # straight into the vision model with no OCR hint. `text_pages`/`image_pages`/
         # `dpi`/`pdf` don't apply (it's already a rendered scan).
-        return "", [read_image_png(doc.path)], [0], [0]
+        return "", [read_image_png(doc.path)], [0], [0], dpi
     owns_pdf = pdf is None
     pdf = pdf or PdfDocument(doc.path, dpi=dpi)
     try:
         text_window = _page_window(text_pages, text_tail_pages, pdf.page_count)
-        image_window = _page_window(image_pages, image_tail_pages, pdf.page_count)
+        if scan_image_pages > 0 and _carries_no_text(pdf):
+            image_window = _page_window(scan_image_pages, 0, pdf.page_count)
+        else:
+            image_window = _page_window(image_pages, image_tail_pages, pdf.page_count)
         text = "\n\n".join(pdf.page_text(i) for i in text_window)
-        images = [pdf.render_page_png(i, dpi=dpi) for i in image_window]
-        return text, images, sorted({*text_window, *image_window}), image_window
+        dpi = _fitted_dpi(pdf, image_window, dpi)
+        images, dpi = _render_within_budget(pdf, image_window, dpi)
+        return text, images, sorted({*text_window, *image_window}), image_window, dpi
     finally:
         if owns_pdf:
             pdf.close()
@@ -701,6 +806,10 @@ class DocSpec:
     # does not set them. See :func:`_page_window`.
     text_tail_pages: int = 0
     image_tail_pages: int = 0
+    # The image budget to use instead when the source carries NO text layer, where a
+    # head/tail window reads a fraction of the document and cannot say so. 0 = keep the
+    # head/tail window whatever the source is. See :func:`_read_doc`.
+    scan_image_pages: int = 0
 
 
 def _extract_doc(
@@ -716,6 +825,7 @@ def _extract_doc(
     image_pages: int | None = None,
     text_tail_pages: int | None = None,
     image_tail_pages: int | None = None,
+    scan_image_pages: int | None = None,
 ) -> DocExtraction:
     """Run the document-level extraction described by ``spec``.
 
@@ -731,7 +841,7 @@ def _extract_doc(
     extractor = extractor or StructuredExtractor(settings=settings, max_tokens=spec.max_tokens)
     dpi = spec.dpi if dpi is None else dpi
     kind = kind or spec.kind
-    text, images, pages, image_pages_read = _read_doc(
+    text, images, pages, image_pages_read, dpi = _read_doc(
         doc,
         text_pages=spec.text_pages if text_pages is None else text_pages,
         image_pages=spec.image_pages if image_pages is None else image_pages,
@@ -739,6 +849,7 @@ def _extract_doc(
         pdf=pdf,
         text_tail_pages=(spec.text_tail_pages if text_tail_pages is None else text_tail_pages),
         image_tail_pages=(spec.image_tail_pages if image_tail_pages is None else image_tail_pages),
+        scan_image_pages=(spec.scan_image_pages if scan_image_pages is None else scan_image_pages),
     )
 
     log.info("extract.doc.start", doc_id=doc.doc_id, kind=kind, pages=len(pages), dpi=dpi)
@@ -854,13 +965,22 @@ _IDP_SPEC = DocSpec(
     # The first genre to need a TAIL (#2172). An IDP is a ~20-page City template whose
     # first pages are boilerplate and whose entire numeric payload — the appendix limits
     # tables — is at the BACK. A prefix budget cannot reach it at any size short of
-    # rendering the whole permit, and thirteen of these are pure scans with no text layer
-    # to fall back on. Head 3 (face page, Part I stations, the appendix cross-reference)
-    # plus tail 5 (the appendix; LTW's runs to three tables) reads 8 pages instead of 20.
+    # rendering the whole permit. Head 3 (face page, Part I stations, the appendix
+    # cross-reference) plus tail 5 (the appendix; LTW's runs to three tables) reads 8
+    # pages instead of 20 — but ONLY where a text layer is reading the other twelve.
     text_pages=4,
     image_pages=3,
     text_tail_pages=8,
     image_tail_pages=5,
+    # Eleven of the thirteen permits in the City's 2026-09 production are pure scans, and
+    # the tail budget was calibrated against the two that are not: `_page_window`'s own
+    # docstring cites P&G p20/22, Ford p19/20 and LTW p23-24/25, all text-bearing. On a
+    # scan the same 8 pages are the whole read, and the model cannot report what it was
+    # not shown. `Metokote_PPG_2021_PPG_Permit.pdf` — 24 pages, no text — came back with
+    # one limit table at `confidence: high` and a warning about the Table 2 it had seen
+    # cross-referenced on a page it did see. 26 covers the longest of them (EOLM, 23)
+    # with headroom; a longer scan truncates visibly in `image_pages_read`.
+    scan_image_pages=26,
     # Three tables of ~20 pollutant rows, each row up to four transcribed cells.
     max_tokens=16384,
     summary=lambda p: {
@@ -885,15 +1005,21 @@ def extract_idp(
     image_pages: int | None = None,
     text_tail_pages: int | None = None,
     image_tail_pages: int | None = None,
+    scan_image_pages: int | None = None,
 ) -> IdpExtraction:
     """Extract a municipal industrial discharge permit (head + appendix tail read).
 
+    A permit carrying no text layer is read WHOLE instead, to ``scan_image_pages``
+    (:func:`_read_doc`) — the head/tail window is only sound while the pages it skips
+    are still arriving as OCR context.
+
     ⚠️ **Check the returned ``limit_tables`` against the permit's own appendix.** The
-    tail budget is sized for the City of Lima template; a permit whose appendix runs
-    longer needs ``image_tail_pages`` raised, and the symptom is a table short of rows
-    rather than an error (the vision read reports ``confidence: high`` on whatever pages
-    it was handed). The extraction records ``image_pages_read``, so the pages it
-    actually saw are checkable after the fact.
+    tail budget is sized for the City of Lima template; a text-bearing permit whose
+    appendix runs longer needs ``image_tail_pages`` raised, and the symptom is a table
+    short of rows rather than an error (the vision read reports ``confidence: high`` on
+    whatever pages it was handed). The extraction records ``image_pages_read``, so the
+    pages it actually saw are checkable after the fact — and on a scan that list should
+    be the whole document.
     """
     return cast(
         "IdpExtraction",
@@ -908,6 +1034,7 @@ def extract_idp(
             image_pages=image_pages,
             text_tail_pages=text_tail_pages,
             image_tail_pages=image_tail_pages,
+            scan_image_pages=scan_image_pages,
         ),
     )
 
@@ -923,6 +1050,11 @@ _PRETREATMENT_SPEC = DocSpec(
     # document, so there is nothing here a prefix budget misses.
     text_pages=6,
     image_pages=5,
+    # Two of the City's three annual reports are pure scans; 5 images covers the 3-page
+    # CY2023/CY2024 forms but not CY2025's 4 pages — whose own footer reads "Page 1 of 3"
+    # while the file holds four, so the page the form does not admit to is exactly the
+    # one a budget of 5 would have reached and a budget of 4 would not.
+    scan_image_pages=8,
     max_tokens=8192,
     summary=lambda r: {
         "authority": r.reporting_authority,
@@ -954,6 +1086,79 @@ def extract_pretreatment(
             dpi=dpi,
             settings=settings,
             text_pages=text_pages,
+        ),
+    )
+
+
+PERMIT_EXTENSION_INSTRUCTIONS = """\
+You are reading a one-page letter from a CITY extending the term of an industrial
+discharge permit it previously issued. This is NOT a permit, and NOT an Ohio EPA
+action — it is municipal correspondence that changes one term of an existing permit.
+These letters have a clean text layer; read it and the page image together.
+Record into the tool:
+  * issuing_authority: the city department on the letterhead.
+  * permittee: the company the letter is addressed to, as printed.
+  * facility / facility_address: only where the letter names one (some letters name a
+    specific plant, e.g. "P&G Main Facility"; others name only the company).
+  * letter_date: the date printed at the top of the letter, ISO yyyy-mm-dd.
+  * extended_to: THE PAYLOAD — the new expiration date the letter grants, ISO
+    yyyy-mm-dd. It is the date in the sentence "to extend the permit to <date>".
+    Do not confuse it with letter_date; they are always different.
+  * permit_no: ONLY if the letter prints one. These letters usually say "your current
+    Industrial Discharge Permit" without a number — leave it null in that case. Do NOT
+    supply a permit number from another document.
+  * addressee: the individual the letter is written to.
+  * signatory and signatory_title: the name and title in the signature block.
+  * reason: if the letter states why the extension was needed, transcribe that
+    sentence verbatim. If it gives no reason beyond intending to issue the next
+    permit, leave it null — a stated reason and no stated reason are different facts.
+  * copied_to: each name in the cc block, as printed.
+Rules: dates as ISO; leave a field null rather than inferring it; never invent a
+permit number, a reason, or a recipient; set confidence.
+"""
+
+_PERMIT_EXTENSION_DPI = 200
+
+_PERMIT_EXTENSION_SPEC = DocSpec(
+    kind="permit-extension",
+    model=PermitExtension,
+    extraction_cls=PermitExtensionExtraction,
+    field="permit_extension",
+    instructions=PERMIT_EXTENSION_INSTRUCTIONS,
+    dpi=_PERMIT_EXTENSION_DPI,
+    # A single page that IS the whole instrument. No budget question arises.
+    text_pages=2,
+    image_pages=2,
+    max_tokens=4096,
+    summary=lambda e: {
+        "permittee": e.permittee,
+        "letter_date": e.letter_date,
+        "extended_to": e.extended_to,
+    },
+)
+
+
+def extract_permit_extension(
+    doc: SourceDocument,
+    *,
+    extractor: StructuredExtractor | None = None,
+    pdf: PdfDocument | None = None,
+    dpi: int = _PERMIT_EXTENSION_DPI,
+    settings: Settings | None = None,
+    text_pages: int = 2,
+) -> PermitExtensionExtraction:
+    """Extract a municipal letter extending an industrial discharge permit's term."""
+    return cast(
+        "PermitExtensionExtraction",
+        _extract_doc(
+            _PERMIT_EXTENSION_SPEC,
+            doc,
+            extractor=extractor,
+            pdf=pdf,
+            dpi=dpi,
+            settings=settings,
+            text_pages=text_pages,
+            image_pages=text_pages,
         ),
     )
 
@@ -1287,7 +1492,18 @@ imposes nothing. Record into the tool:
   * discharge_events: clause (f) — one entry per CSO / SSO / bypass / unpermitted
     discharge, with kind, date, frequency, duration and volume AS PRINTED. Keep the printed
     units; do NOT convert. Set `estimated` true only where the report itself says the figure
-    is estimated rather than measured.
+    is estimated rather than measured — including where it says the figure was CALCULATED
+    or DERIVED from another point's flow rather than metered at this one (Lima: "the flow
+    for CSO's 7 through 38 is calculated as 2% of the combined overflow for CSO's 2 through
+    6"). A derived number printed in a column of measured ones is still a derived number,
+    and only this flag tells them apart.
+    A per-structure table usually ends in a `Totals =` row. That row is NOT a discharge
+    event and its figures belong to NO event. Never fill an event's blank cell from it: a
+    blank Flow cell and a `0.000` total are different facts, and the City could total the
+    column precisely BECAUSE the event's own flow was the figure it could not supply.
+    Where a cell is blank or prints `N/A`, leave the field null — and warn where the
+    structure recorded an occurrence anyway, because an occurrence with no volume is a
+    discharge the report declines to quantify, not a discharge of zero.
     Put the PERMIT OUTFALL ID (the "2PE00000NNN" form) in `outfall_id` and the street or
     structure description in `location`, never both in one field — these reports print one
     or the other in different periods for the same physical point, and an outfall that does
@@ -1312,6 +1528,14 @@ _PROGRESS_REPORT_SPEC = DocSpec(
     dpi=_EPA_DPI,
     text_pages=14,
     image_pages=2,
+    # The clause (f) discharge inventory is the one series no other genre carries, and it
+    # is the part that scales: Lima's 2025 CSO Annual Report tabulates 79 dated overflows
+    # across 19 discharge points. At the 4096-token default that enumeration does not come
+    # back short, it comes back EMPTY and confident — the read returned zero discharge
+    # events with no warning while the tables sat in both the text layer and the images.
+    # A ceiling that truncates an enumeration is the same defect as a page budget that
+    # truncates a document, and it is silent in the same way.
+    max_tokens=16384,
     summary=lambda r: {
         "period": f"{r.period_start or '?'}..{r.period_end or '?'}",
         "projects": len(r.projects),
@@ -1647,6 +1871,7 @@ DOC_EXTRACTORS: dict[str, DocumentExtractor] = {
     "notice": extract_notice,
     "idp": extract_idp,
     "pretreatment": extract_pretreatment,
+    "permit-extension": extract_permit_extension,
 }
 
 

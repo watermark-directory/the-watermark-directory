@@ -4491,6 +4491,28 @@
     }
   },
   {
+    "date": "2026-04-02",
+    "category": "compliance_progress_report",
+    "title": "CSO Public Notification Rule (NPDES Permit 2PE00000*PD) progress report — City of Lima, Ohio, Department of Utilities",
+    "ref": "progress-2PE00000*PD-2025-01-01",
+    "parties": [
+      "City of Lima, Ohio, Department of Utilities",
+      "Ohio EPA, Division of Surface Water, NPDES Permits"
+    ],
+    "detail": "period 2025-01-01 → 2025-12-31; 10 project(s); 60 discharge event(s)",
+    "source": "legal/2025_CSO_Annual_Report.progress-report.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "legal/2025_CSO_Annual_Report.progress-report.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
     "date": "2026-04-07",
     "category": "epa_permit_action",
     "title": "Surface Water Permit-to-Install DSWPTI-260294 — approved (BOSC-1A Private Sanitary Sewer Improvement Plan)",

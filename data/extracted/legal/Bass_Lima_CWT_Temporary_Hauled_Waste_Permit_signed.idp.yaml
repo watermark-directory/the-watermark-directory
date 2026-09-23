@@ -1,0 +1,321 @@
+doc_id: Bass_Lima_CWT_Temporary_Hauled_Waste_Permit_signed-2680f11b
+source_path: data/documents/legal/prr-mandamus/prr-production-2026-09-22-lima-2/Bass_Lima_CWT_Temporary_Hauled_Waste_Permit_signed.pdf
+kind: idp
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+dpi: 200
+source_text_excerpt: '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  '
+industrial_permit:
+  confidence: high
+  warnings:
+  - Signatory name on the approval signature block is present but illegible from the
+    scan — recorded as null.
+  - The surcharge table appears as a continuation of Table 1 in Appendix A, not a
+    separately numbered table; it has been extracted separately due to its explicit
+    surcharge disclaimer.
+  - The 'Max Monthly Average' column header in the table is used here; in the model
+    this maps to monthly_average.
+  - Molybdenum daily maximum reads '200' — units are mg/L per table header, which
+    appears unusually high but is transcribed as printed.
+  permittee: Bass Environmental
+  facility_address: 120 Graham St., Zanesville, OH 43701
+  mailing_address: 120 Graham St., Zanesville, OH 43701
+  permit_no: BE*001 Temporary
+  issue_date: '2025-09-02'
+  effective_date: '2025-09-02'
+  expiration_date: '2025-10-02'
+  issuing_authority: Director of Utilities
+  ordinance_authority: Section 1040.121 of the Codified Ordinances of the City of
+    Lima
+  signatory: null
+  user_classification: Temporary
+  categorical_standards:
+  - 40 CFR 437.47 (Sub Part D) Centralized Waste Treatment
+  sample_stations:
+  - station_id: BE-01
+    description: Self-monitoring sampling location at the Zanesville treatment facility
+      via a sample port representative of the entire treated effluent discharge, unable
+      to be bypassed.
+  limit_tables:
+  - kind: local
+    appendix: Appendix A
+    table_no: Table 1
+    title: Sampling Station BE01
+    authority: null
+    sample_stations:
+    - BE01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Max Monthly Average
+    - Sample Type
+    - Sampling Frequency
+    - Limit Reference
+    limits:
+    - pollutant: Arsenic *
+      daily_maximum: '0.41'
+      instantaneous_maximum: null
+      monthly_average: '-'
+      unit: mg/L
+      note: Local; Composite; Weekly
+    - pollutant: Cadmium *
+      daily_maximum: '0.27'
+      instantaneous_maximum: null
+      monthly_average: '-'
+      unit: mg/L
+      note: Local; Composite; Weekly
+    - pollutant: Chromium *
+      daily_maximum: '0.746'
+      instantaneous_maximum: null
+      monthly_average: '0.323'
+      unit: mg/L
+      note: Federal; Composite; Weekly
+    - pollutant: Copper *
+      daily_maximum: '0.500'
+      instantaneous_maximum: null
+      monthly_average: '0.242'
+      unit: mg/L
+      note: Federal; Composite; Weekly
+    - pollutant: Lead *
+      daily_maximum: '0.350'
+      instantaneous_maximum: null
+      monthly_average: '0.160'
+      unit: mg/L
+      note: Federal; Composite; Weekly
+    - pollutant: Mercury *
+      daily_maximum: '0.001'
+      instantaneous_maximum: null
+      monthly_average: '0.001'
+      unit: mg/L
+      note: Local; Composite; Weekly
+    - pollutant: Molybdenum *
+      daily_maximum: '200'
+      instantaneous_maximum: null
+      monthly_average: '-'
+      unit: mg/L
+      note: Local; Composite; Weekly
+    - pollutant: Nickel *
+      daily_maximum: '0.37'
+      instantaneous_maximum: null
+      monthly_average: '-'
+      unit: mg/L
+      note: Local; Composite; Weekly
+    - pollutant: Selenium *
+      daily_maximum: '0.795'
+      instantaneous_maximum: null
+      monthly_average: '-'
+      unit: mg/L
+      note: Local; Composite; Weekly
+    - pollutant: Silver *
+      daily_maximum: '0.905'
+      instantaneous_maximum: null
+      monthly_average: '-'
+      unit: mg/L
+      note: Local; Composite; Weekly
+    - pollutant: Zinc *
+      daily_maximum: '0.50'
+      instantaneous_maximum: null
+      monthly_average: '-'
+      unit: mg/L
+      note: Local; Composite; Weekly
+    - pollutant: Tin *
+      daily_maximum: '0.335'
+      instantaneous_maximum: null
+      monthly_average: '0.165'
+      unit: mg/L
+      note: Federal; Composite; Weekly
+    - pollutant: pH *
+      daily_maximum: 6.0 to 11.0
+      instantaneous_maximum: null
+      monthly_average: 6.0 to 11.0
+      unit: pH units
+      note: Local; Grab; Weekly
+    - pollutant: Oil and Grease HEM
+      daily_maximum: '300.0'
+      instantaneous_maximum: null
+      monthly_average: '-'
+      unit: mg/L
+      note: Local; Grab; Weekly
+    - pollutant: Flashpoint *
+      daily_maximum: Monitor
+      instantaneous_maximum: null
+      monthly_average: '-'
+      unit: null
+      note: n/a; Grab; Weekly
+    - pollutant: flow
+      daily_maximum: Refer to page 1
+      instantaneous_maximum: null
+      monthly_average: '-'
+      unit: null
+      note: Metered during discharge
+    - pollutant: Ammonia
+      daily_maximum: Monitor
+      instantaneous_maximum: null
+      monthly_average: n/a
+      unit: mg/L
+      note: n/a; Composite; Weekly
+    - pollutant: Phosphorus, Total
+      daily_maximum: '41.0'
+      instantaneous_maximum: null
+      monthly_average: n/a
+      unit: mg/L
+      note: Local; Composite; Weekly
+    - pollutant: Bis (2-ethylhexyl) phthalate
+      daily_maximum: '0.215'
+      instantaneous_maximum: null
+      monthly_average: '0.101'
+      unit: mg/L
+      note: Federal; 3 grab Composite; Weekly
+    - pollutant: Carbazole
+      daily_maximum: '0.598'
+      instantaneous_maximum: null
+      monthly_average: '0.276'
+      unit: mg/L
+      note: Federal; Grab; Weekly
+    - pollutant: o-Cresol
+      daily_maximum: '1.92'
+      instantaneous_maximum: null
+      monthly_average: '0.561'
+      unit: mg/L
+      note: Federal; Grab; Weekly
+    - pollutant: p-Cresol
+      daily_maximum: '0.698'
+      instantaneous_maximum: null
+      monthly_average: '0.205'
+      unit: mg/L
+      note: Federal; Grab; Weekly
+    - pollutant: n-Decane
+      daily_maximum: '0.948'
+      instantaneous_maximum: null
+      monthly_average: '0.437'
+      unit: mg/L
+      note: Federal; Grab; Weekly
+    - pollutant: Fluoranthene
+      daily_maximum: '0.0537'
+      instantaneous_maximum: null
+      monthly_average: '0.0268'
+      unit: mg/L
+      note: Federal; Grab; Weekly
+    - pollutant: n-Octadecane
+      daily_maximum: '0.589'
+      instantaneous_maximum: null
+      monthly_average: '0.302'
+      unit: mg/L
+      note: Federal; Grab; Weekly
+    - pollutant: 2,4,6-Trichlorophenol
+      daily_maximum: '0.155'
+      instantaneous_maximum: null
+      monthly_average: '0.106'
+      unit: mg/L
+      note: Federal; Grab; Weekly
+    disclaimer: null
+  - kind: surcharge
+    appendix: Appendix A
+    table_no: Table 1 (Surcharge)
+    title: Surcharge Limits — Sampling Station BE01
+    authority: null
+    sample_stations:
+    - BE01
+    units: mg/L
+    columns:
+    - Parameter
+    - Daily Maximum
+    - Max Monthly Average
+    - Sample Type
+    - Sampling Frequency
+    - Limit Reference
+    limits:
+    - pollutant: BOD
+      daily_maximum: '200.0'
+      instantaneous_maximum: null
+      monthly_average: n/a
+      unit: mg/L
+      note: SUO; Composite; Weekly
+    - pollutant: COD *
+      daily_maximum: '500.0'
+      instantaneous_maximum: null
+      monthly_average: n/a
+      unit: mg/L
+      note: SUO; Composite; Weekly
+    - pollutant: TSS
+      daily_maximum: '250.0'
+      instantaneous_maximum: null
+      monthly_average: n/a
+      unit: mg/L
+      note: SUO; Composite; Weekly
+    disclaimer: Any exceedance of these limits does NOT constitute a violation of
+      this permit, unless otherwise indicated in Table 1.
+  contract_laboratory: null
+  reporting_frequency: Final Compliance Report due no later than 1 month after permit
+    expiration
+  note: This is a temporary permit authorizing Bass Environmental to discharge hauled,
+    treated wastewater (originating from Bass's Bellefontaine facility, finished/treated
+    at the Zanesville location) via tanker truck into the City of Lima's POTW, with
+    a maximum of 15,000 gallons total combined discharge. The permit was signed by
+    the Director of Utilities (signature present on page 1), but the signatory name
+    is illegible from the scan. Metals, pH, COD, and flashpoint are also to be analyzed
+    as real-time parameters daily before hauling to the POTW per the table footnote.
