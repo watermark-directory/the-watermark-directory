@@ -1,8 +1,8 @@
 {
   "site": "springfield",
   "bundle_version": "1.0.0",
-  "contract_version": "2.4.0",
-  "generated_at": "2026-09-16T22:43:26+00:00",
+  "contract_version": "2.5.0",
+  "generated_at": "2026-09-23T01:02:45+00:00",
   "feed_count": 33,
   "row_total": 443,
   "readiness": {

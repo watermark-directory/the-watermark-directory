@@ -732,7 +732,24 @@ from watermark.sites import (
 #   permit-limit monitoring, not overflow events. Enum growth is additive for feed READERS (a
 #   pre-2.4 records.json stays valid) but a pre-2.4 records.schema.json rejects the new value —
 #   MINOR, back-compatible for data, schema refresh required.
-CONTRACT_VERSION = "2.4.0"
+# 2.5.0: the `records` feed's closed RecordGroup enum gains `permits-pretreatment` — the two
+#   municipal-pretreatment payload blocks added in #2172 for Lima's 2026-09-22 WWTP production:
+#   `industrial_permit:` (a City-issued industrial discharge permit) and `pretreatment_report:`
+#   (the POTW's annual program report to Ohio EPA). Deliberately NOT `permits-npdes`, which
+#   renders as "Permits — NPDES": an NPDES permit is a STATE authorization to discharge to a water
+#   of the state, and an IDP authorizes nothing of the kind — it governs what a plant may put into
+#   a public sewer, under a city ordinance and a 40 CFR categorical standard, and reaches a stream
+#   only through the POTW's own permit. Publishing one under the NPDES heading would tell the
+#   reader the state licensed a discharge it never saw. The annual report shares the group rather
+#   than borrowing `compliance-reports`, which is a report filed UNDER an enforcement instrument
+#   (Lima's paragraph-33 series): this is an ordinary permit-required program report, and filing it
+#   beside consent-decree deliverables would imply the pretreatment program is itself under
+#   enforcement. What the group carries that nothing else in this corpus does is the two counts
+#   that must be read together — significant industrial users and effective control documents —
+#   plus the appendix limits tables the permits themselves set. Enum growth is additive for feed
+#   READERS (a pre-2.5 records.json stays valid) but a pre-2.5 records.schema.json rejects the new
+#   value — MINOR, back-compatible for data, schema refresh required.
+CONTRACT_VERSION = "2.5.0"
 
 # SourceKind / Confidence now live in watermark.provenance (shared with watermark.hypotheses +
 # hydrology.ProvenancedValue, #605); re-exported here so importers of watermark.site.feeds are
@@ -753,6 +770,7 @@ RecordGroup = Literal[
     "permits-epa",
     "permits-idem",
     "permits-npdes",
+    "permits-pretreatment",
     "permits-sos",
     "plans",
     "siting-cases",

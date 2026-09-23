@@ -189,3 +189,42 @@ def test_record_title_falls_back_to_the_documents_own_self_description() -> None
     assert _record_title(rec) == "ACME LLC"
     # Nothing to go on → the stem, never an invention.
     assert _record_title(_Record(rel="a/b.yaml", group="opc", data={}, payload={})) == "b"
+
+
+def test_the_pretreatment_genres_publish_under_their_own_heading() -> None:
+    """#2172. Both keys reach `permits-pretreatment` and neither reaches `permits-npdes`.
+
+    A City industrial discharge permit governs what a plant may put into a public sewer; it
+    reaches a water of the state only through the POTW's own NPDES permit. Published under the
+    NPDES heading it would read as a state-licensed discharge that the state never saw.
+    """
+    idp = {"industrial_permit": {"permittee": "Ford Lima Engine Plant", "permit_no": "FMC*007"}}
+    group, payload = _classify(idp)  # type: ignore[misc]
+    assert group == "permits-pretreatment"
+    assert payload["permit_no"] == "FMC*007"
+
+    report = {"pretreatment_report": {"reporting_authority": "City of Lima"}}
+    assert _classify(report)[0] == "permits-pretreatment"  # type: ignore[index]
+
+    # The short keys stay where they were: `permit:` is still the NPDES arm.
+    assert _classify({"permit": {"permit_no": "2PE00000*OD"}})[0] == "permits-npdes"  # type: ignore[index]
+
+
+def test_record_title_reads_an_industrial_permits_permittee() -> None:
+    """An IDP names its subject in the face page's "Company (Permittee)" field and nowhere else,
+    so without this key all thirteen of them would render as filename stems (#2172)."""
+    rec = _Record(
+        rel="legal/prr-mandamus/ind-permit-ford-2024.idp.yaml",
+        group="permits-pretreatment",
+        data={},
+        payload={"permittee": "Ford Lima Engine Plant", "permit_no": "FMC*007"},
+    )
+    assert _record_title(rec) == "Ford Lima Engine Plant"
+    # It sits BELOW `facility_name`, so nothing that already resolves to a facility moves.
+    rec2 = _Record(
+        rel="oepa/x.yaml",
+        group="permits-npdes",
+        data={},
+        payload={"facility_name": "American II WWTP", "permittee": "City of Lima"},
+    )
+    assert _record_title(rec2) == "American II WWTP"

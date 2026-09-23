@@ -1,7 +1,7 @@
 {
   "site": "ottawa",
   "catalog_version": "6fc9fdc48166549e26056e4d4a98b4f84db89e22e74df8faa9864f92358a1b89",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:ottawa:7q10",

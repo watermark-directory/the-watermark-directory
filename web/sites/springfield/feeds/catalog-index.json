@@ -1,7 +1,7 @@
 {
   "site": "springfield",
   "catalog_version": "87f5984d6c2ce00bbd6c237d3d67a107191b314550dd1cff7d6c0b17bd2c2e06",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:springfield:7q10",

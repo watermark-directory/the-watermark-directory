@@ -1,7 +1,7 @@
 {
   "site": "columbus",
   "catalog_version": "783dfb011292a6d16ef215a583fd28cf33e0a6d279d20bc6093bddd423d3c356",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:columbus:7q10",

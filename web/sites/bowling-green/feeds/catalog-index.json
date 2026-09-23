@@ -1,7 +1,7 @@
 {
   "site": "bowling-green",
   "catalog_version": "8a5bf06765b7a122f3fdb22ab037cf457b42b778278938364cc93d4ee9965f33",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:bowling-green:7q10",

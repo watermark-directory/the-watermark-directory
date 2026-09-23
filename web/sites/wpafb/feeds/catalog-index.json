@@ -1,7 +1,7 @@
 {
   "site": "wpafb",
   "catalog_version": "56f53fd2521d7c81de969a8776c35c905a6225f00b50e158af64fb96d70f9be4",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:wpafb:7q10",

@@ -564,8 +564,11 @@ export const STUDY_CHAPTERS: readonly StudyChapterDef[] = [
       { label: "RSEI / toxics", path: "/environment/rsei", requiresFeed: "rsei" },
     ],
     // The corridor's other dischargers (ECHO's basin inventory + their own permits and orders),
-    // and the county release record the chapter reads the arrival against.
-    recordGroups: ["permits-npdes", "enforcement"],
+    // and the county release record the chapter reads the arrival against. `permits-pretreatment`
+    // is here and not on `water-supply` (#2172): an industrial user's sewer discharge is a load
+    // that ARRIVES at the receiving water, metered and limited upstream of the POTW's own outfall,
+    // so it belongs to what the stream already carries rather than to what the campus consumes.
+    recordGroups: ["permits-npdes", "permits-pretreatment", "enforcement"],
     datasets: ["echo", "rsei"],
   },
   {

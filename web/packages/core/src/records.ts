@@ -18,6 +18,11 @@ export const RECORD_GROUP_LABELS: Record<string, string> = {
   "permits-epa": "Permits — Ohio EPA / USACE",
   "permits-idem": "Permits — IDEM (Indiana)",
   "permits-npdes": "Permits — NPDES",
+  // Both the City-issued industrial discharge permits and the POTW's annual program report to
+  // Ohio EPA (#2172). Deliberately NOT under "Permits — NPDES": a pretreatment control document
+  // governs what an industrial user may put into a public sewer, and reaches a water of the
+  // state only through the POTW's own NPDES permit.
+  "permits-pretreatment": "Permits — industrial pretreatment",
   "permits-sos": "Business filings — Secretary of State",
   plans: "Plans",
   // Deliberately NOT "Permits — siting": a Letter of Notification under O.A.C. 4906-6-07 is an

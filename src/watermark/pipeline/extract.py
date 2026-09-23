@@ -46,6 +46,8 @@ from watermark.models import (
     EpaPermitAction,
     Estimate,
     FinanceAward,
+    IdpExtraction,
+    IndustrialDischargePermit,
     InspectionExtraction,
     NoticeExtraction,
     NoticeOfCommencement,
@@ -56,6 +58,8 @@ from watermark.models import (
     OrderExtraction,
     PageExtraction,
     PlanExtraction,
+    PretreatmentAnnualReport,
+    PretreatmentExtraction,
     ProgressReportExtraction,
     SectionSubtotals,
     SitePlan,
@@ -399,6 +403,8 @@ _EPA_DPI = 150
 _WETLAND_DPI = 200
 _ENGINEERING_DPI = 200
 _NOTICE_DPI = 200
+_IDP_DPI = 200
+_PRETREATMENT_DPI = 200
 
 DEED_INSTRUCTIONS = """\
 You are reading a recorded land instrument (a deed, easement, or similar) from a
@@ -435,6 +441,94 @@ Rules: copy permit/application numbers exactly; dates as ISO; leave a field null
 if not present; never invent; set confidence and warnings.
 """
 
+
+IDP_INSTRUCTIONS = """\
+You are reading a municipal INDUSTRIAL DISCHARGE PERMIT (IDP) issued by a city to an
+industrial user discharging into the city's sanitary sewer. This is NOT an Ohio EPA
+NPDES permit: there is no receiving stream, no public notice, and no outfall. Most of
+these are scanned, so the page images are authoritative and the text layer may be
+absent entirely. Record into the tool:
+  * permittee: the company name exactly as printed on the face page.
+  * facility_address (where the discharge occurs); mailing_address only if printed
+    and different.
+  * permit_no exactly as printed, including any punctuation (e.g. PGM*011).
+  * issue_date / effective_date / expiration_date as ISO yyyy-mm-dd.
+  * ordinance_authority: the codified section the permit cites as its authority
+    (e.g. "Section 1040.121 of the Codified Ordinances of the City of Lima").
+  * issuing_authority: the office that issued it (e.g. "Director of Utilities").
+  * signatory: the name printed in the signature block. If the signature block is
+    BLANK or the copy is an unsigned reprint, leave this null AND add a warning
+    saying the copy is unsigned — do not supply the name of the office holder from
+    elsewhere in the document.
+  * user_classification as printed (e.g. "Categorical Industrial User",
+    "Non-Significant Categorical Industrial User").
+  * categorical_standards: every 40 CFR part/subpart the permit invokes, as printed
+    (e.g. "40 CFR 442 Subpart A").
+  * sample_stations: each monitoring location named in Part I, with its station id
+    exactly as printed (e.g. "PGM 01", "FMC 01 & 02") and a short description.
+  * contract_laboratory, reporting_frequency: only where the permit names them.
+  * limit_tables: THE PAYLOAD. The permit's numeric limits live in tables in an
+    appendix at the BACK of the document. For EACH table:
+      - appendix and table_no exactly as printed. The appendix letter VARIES between
+        permits ("Appendix A" in some, "Appendix B" in others) — read it, never assume.
+      - title: the table's printed caption, verbatim.
+      - kind: "local" for a local discharge limit table, "categorical" for a table
+        captioned with a 40 CFR part, "surcharge" for a surcharge/billing table.
+      - authority: the 40 CFR citation, for a categorical table only.
+      - sample_stations: the station id(s) the table says it applies at. Different
+        tables in the SAME permit often apply at DIFFERENT stations.
+      - units from the caption (e.g. "mg/L"); columns: the printed column headers in
+        left-to-right order.
+      - limits: one entry per pollutant row. Put the first limit column in
+        daily_maximum. Put the second column in instantaneous_maximum if its header
+        says "Instantaneous Maximum", or in monthly_average if its header says
+        "Monthly Average" — these are DIFFERENT obligations, never interchange them.
+      - disclaimer: if the table's own text disclaims enforceability (surcharge
+        tables say an exceedance "does NOT constitute a violation of this permit"),
+        transcribe that sentence.
+Rules for the limit cells — read them EXACTLY as printed, as text:
+  * a number stays a number ("0.42", "1.0");
+  * the word "Monitor" means monitoring is required with no numeric ceiling — write
+    "Monitor", never null and never a number;
+  * "n/a" means no requirement at that station — write "n/a", never null;
+  * pH is printed as a RANGE ("6.0 to 11.0 pH units") — put the range in
+    daily_maximum and "pH units" in unit.
+Never leave a cell blank because it was hard to read: give your best read and add a
+warning naming the pollutant. Never invent a pollutant, a station, or a table.
+If you cannot find the appendix tables in the pages you were given, return
+limit_tables empty AND add a warning saying so — do not reconstruct them from the
+permit's prose. Set confidence.
+"""
+
+PRETREATMENT_INSTRUCTIONS = """\
+You are reading a POTW's ANNUAL INDUSTRIAL PRETREATMENT PROGRAM REPORT to Ohio EPA —
+the city reporting on its own pretreatment program under its NPDES permit. Some of
+these are electronic form printouts with a usable text layer; others are scans. The
+page images are authoritative. Record into the tool:
+  * reporting_authority: the POTW / city as printed.
+  * npdes_permit_no: the POTW's OWN permit number exactly as printed, including
+    punctuation (e.g. 2PE00000*PD). Do not normalize it to a form you have seen
+    elsewhere.
+  * reporting_period as printed (e.g. "CY2023" or a date range);
+    submission_date as ISO yyyy-mm-dd; application_id: the submission id.
+  * contact_name, contact_title: the person the form names as the contact.
+  * The performance summary counts, each read off its own row:
+    significant_industrial_users (the SIU total), categorical_users,
+    non_categorical_users, non_significant_categorical_users,
+    effective_control_documents (the number of permits actually in force),
+    users_inspected, users_sampled, users_in_snc (significant non-compliance).
+  * counts: every OTHER counted row of the summary table, as label/count pairs with
+    the label verbatim. enforcement_actions: the enforcement rows the same way,
+    including rows whose count is 0 — a reported zero is a finding.
+  * industrial_users: only where the form itself lists them by name.
+  * attachments: every attachment the form NAMES on its face, with the filename
+    exactly as printed (e.g. "2023 IU Report Form_City of Lima.xlsm"), whether or not
+    the attachment is present in what you were given.
+Rules: transcribe counts as printed; a blank count is null, and a printed 0 is 0 —
+these are different answers and must not be merged. Leave a field null rather than
+deriving it from another row. Never invent an industrial user or an attachment name.
+Set confidence and add a warning for any count you had to strain to read.
+"""
 
 SOS_INSTRUCTIONS = """\
 You are reading a Secretary of State business filing (e.g. an Ohio Articles of
@@ -740,6 +834,120 @@ def extract_npdes(
         "NpdesExtraction",
         _extract_doc(
             _NPDES_SPEC,
+            doc,
+            extractor=extractor,
+            pdf=pdf,
+            dpi=dpi,
+            settings=settings,
+            text_pages=text_pages,
+        ),
+    )
+
+
+_IDP_SPEC = DocSpec(
+    kind="idp",
+    model=IndustrialDischargePermit,
+    extraction_cls=IdpExtraction,
+    field="industrial_permit",
+    instructions=IDP_INSTRUCTIONS,
+    dpi=_IDP_DPI,
+    # The first genre to need a TAIL (#2172). An IDP is a ~20-page City template whose
+    # first pages are boilerplate and whose entire numeric payload — the appendix limits
+    # tables — is at the BACK. A prefix budget cannot reach it at any size short of
+    # rendering the whole permit, and thirteen of these are pure scans with no text layer
+    # to fall back on. Head 3 (face page, Part I stations, the appendix cross-reference)
+    # plus tail 5 (the appendix; LTW's runs to three tables) reads 8 pages instead of 20.
+    text_pages=4,
+    image_pages=3,
+    text_tail_pages=8,
+    image_tail_pages=5,
+    # Three tables of ~20 pollutant rows, each row up to four transcribed cells.
+    max_tokens=16384,
+    summary=lambda p: {
+        "permit_no": p.permit_no,
+        "permittee": p.permittee,
+        "stations": len(p.sample_stations),
+        "tables": len(p.limit_tables),
+        "limits": sum(len(t.limits) for t in p.limit_tables),
+        "signed": p.signatory is not None,
+    },
+)
+
+
+def extract_idp(
+    doc: SourceDocument,
+    *,
+    extractor: StructuredExtractor | None = None,
+    pdf: PdfDocument | None = None,
+    dpi: int = _IDP_DPI,
+    settings: Settings | None = None,
+    text_pages: int | None = None,
+    image_pages: int | None = None,
+    text_tail_pages: int | None = None,
+    image_tail_pages: int | None = None,
+) -> IdpExtraction:
+    """Extract a municipal industrial discharge permit (head + appendix tail read).
+
+    ⚠️ **Check the returned ``limit_tables`` against the permit's own appendix.** The
+    tail budget is sized for the City of Lima template; a permit whose appendix runs
+    longer needs ``image_tail_pages`` raised, and the symptom is a table short of rows
+    rather than an error (the vision read reports ``confidence: high`` on whatever pages
+    it was handed). The extraction records ``image_pages_read``, so the pages it
+    actually saw are checkable after the fact.
+    """
+    return cast(
+        "IdpExtraction",
+        _extract_doc(
+            _IDP_SPEC,
+            doc,
+            extractor=extractor,
+            pdf=pdf,
+            dpi=dpi,
+            settings=settings,
+            text_pages=text_pages,
+            image_pages=image_pages,
+            text_tail_pages=text_tail_pages,
+            image_tail_pages=image_tail_pages,
+        ),
+    )
+
+
+_PRETREATMENT_SPEC = DocSpec(
+    kind="pretreatment",
+    model=PretreatmentAnnualReport,
+    extraction_cls=PretreatmentExtraction,
+    field="pretreatment_report",
+    instructions=PRETREATMENT_INSTRUCTIONS,
+    dpi=_PRETREATMENT_DPI,
+    # A short form (3-4 pages), read whole: the performance-summary table is the
+    # document, so there is nothing here a prefix budget misses.
+    text_pages=6,
+    image_pages=5,
+    max_tokens=8192,
+    summary=lambda r: {
+        "authority": r.reporting_authority,
+        "period": r.reporting_period,
+        "sius": r.significant_industrial_users,
+        "control_documents": r.effective_control_documents,
+        "attachments": len(r.attachments),
+    },
+)
+
+
+def extract_pretreatment(
+    doc: SourceDocument,
+    *,
+    extractor: StructuredExtractor | None = None,
+    pdf: PdfDocument | None = None,
+    dpi: int = _PRETREATMENT_DPI,
+    settings: Settings | None = None,
+    text_pages: int = 6,
+) -> PretreatmentExtraction:
+    """Extract a POTW annual industrial-pretreatment program report."""
+    return cast(
+        "PretreatmentExtraction",
+        _extract_doc(
+            _PRETREATMENT_SPEC,
             doc,
             extractor=extractor,
             pdf=pdf,
@@ -1437,6 +1645,8 @@ DOC_EXTRACTORS: dict[str, DocumentExtractor] = {
     "engineering": extract_engineering,
     "sanitary": extract_sanitary,
     "notice": extract_notice,
+    "idp": extract_idp,
+    "pretreatment": extract_pretreatment,
 }
 
 

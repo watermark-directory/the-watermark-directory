@@ -1,7 +1,7 @@
 {
   "site": "toledo",
   "catalog_version": "18b7e12dd085042760a1215d3f12e62ad75d4fb7d8a3037eb5baaabc8693b4f0",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:toledo:7q10",

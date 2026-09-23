@@ -1,7 +1,7 @@
 {
   "site": "sandusky",
   "catalog_version": "ddc1acaaefabb5d5a8bf9d083988643c660f712e8f4529a1730ffdb322903057",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:sandusky:7q10",
