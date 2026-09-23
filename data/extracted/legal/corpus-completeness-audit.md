@@ -8,7 +8,7 @@
 
 ## Headline
 
-**The archive itself is in good shape; what's "missing" is mostly what the county hasn't produced.** Provenance is clean (94 distinct source PDFs cited across the extractions, 0 genuinely absent). The PRR production binaries are all present. The substantive holes are the records the county **deferred or withheld** — above all the entire **county-wastewater engineering universe (PRR items 5–15)** and the **item-4 cost-benefit analysis** — plus a modest set of corpus-hygiene issues in the minutes series (publication lag + ~12 malformed/misfiled filenames), none of which indicate lost evidence. A separate, newer thread (§2) tracks **watershed/conservation grant docs** worth digging up — the primary instruments behind a $650k Lost Creek (Maumee-headwater) ag-runoff grant whose SWCD summary is now in the corpus. A third thread (**§4**) tracked the **OEPA air permit P0138965** — the secondhand-cited keystone behind the disclosed **313 MW** power figure, and the expected source of the **three-hall building footprint** — which has now been **ingested (2026-06-15)**: the 2026-05-28 **final** PTI (eDoc `4132514`) confirms the genset count and three-hall emission-unit grouping on a primary footing, though the per-engine ekW behind 313 MW remains trade-secret-redacted (see §4). A fourth thread (**§5**) tracks the grid/interconnection side the air permit itself punted to PUCO/the utility — AEP Ohio's **Lyka Transmission Project** (345kV substation + line) — **ingested 2026-07-11**: a direct search of opsb.ohio.gov and AEP's own regulatory-filings index found no OPSB case filed as of 2026-07-11 — consistent with AEP's own fact sheet, which places the planned filing at Early 2027 — and the Google/Bistrozzi customer attribution stays `[inference]` pending that filing (see §5). A new **City of Lima** track (§1) opens the campaign's first municipal-utility custodian (**#1536**): the one load-bearing City record needing no records request — the **Lima WWTP's own NPDES permit + design flow** (`2PE00000` / `OH0026069`, previously absent from the corpus) — was pulled from the public record 2026-07-14, counting the **18.5 MGD** municipal design flow into the routed water balance (the Ottawa leaving Lima now computes **98% treated effluent**); the water-supply agreement, the $13.6M infrastructure allocation, and the sewer/pretreatment records required the request — **which has since been served, drawing a partial response on 2026-08-22/24 that answered 4 of 11 items and left 7 unanswered with no exemption asserted** (see §1).
+**The archive itself is in good shape; what's "missing" is mostly what the county hasn't produced.** Provenance is clean (94 distinct source PDFs cited across the extractions, 0 genuinely absent). The PRR production binaries are all present. The substantive holes are the records the county **deferred or withheld** — above all the entire **county-wastewater engineering universe (PRR items 5–15)** and the **item-4 cost-benefit analysis** — plus a modest set of corpus-hygiene issues in the minutes series (publication lag + ~12 malformed/misfiled filenames), none of which indicate lost evidence. A separate, newer thread (§2) tracks **watershed/conservation grant docs** worth digging up — the primary instruments behind a $650k Lost Creek (Maumee-headwater) ag-runoff grant whose SWCD summary is now in the corpus. A third thread (**§4**) tracked the **OEPA air permit P0138965** — the secondhand-cited keystone behind the disclosed **313 MW** power figure, and the expected source of the **three-hall building footprint** — which has now been **ingested (2026-06-15)**: the 2026-05-28 **final** PTI (eDoc `4132514`) confirms the genset count and three-hall emission-unit grouping on a primary footing, though the per-engine ekW behind 313 MW remains trade-secret-redacted (see §4). A fourth thread (**§5**) tracks the grid/interconnection side the air permit itself punted to PUCO/the utility — AEP Ohio's **Lyka Transmission Project** (345kV substation + line) — **ingested 2026-07-11**: a direct search of opsb.ohio.gov and AEP's own regulatory-filings index found no OPSB case filed as of 2026-07-11 — consistent with AEP's own fact sheet, which places the planned filing at Early 2027 — and the Google/Bistrozzi customer attribution stays `[inference]` pending that filing (see §5). A new **City of Lima** track (§1) opens the campaign's first municipal-utility custodian (**#1536**): the one load-bearing City record needing no records request — the **Lima WWTP's own NPDES permit + design flow** (`2PE00000` / `OH0026069`, previously absent from the corpus) — was pulled from the public record 2026-07-14, counting the **18.5 MGD** municipal design flow into the routed water balance (the Ottawa leaving Lima now computes **98% treated effluent**); the water-supply agreement, the $13.6M infrastructure allocation, and the sewer/pretreatment records required the request — **which has since been served, drawing five rolling batches across 2026-08-22/24 and 2026-09-08/22 that the City reports as the last of the WWTP records** — of eleven items, **four answered on the merits, four partial, three still empty**, none of it accompanied by a cover letter, privilege log, exemption claim or statement that any record does not exist (see §1).
 
 > **Publishing vs. holding.** What the corpus *contains* (this audit) is separate from
 > what the **public** site *serves*. Every source document is default-deny on the public
@@ -104,7 +104,7 @@ claim and no statement that any record does not exist. Mapped item by item in
 (analysis: [`…analysis.md`](prr-mandamus/bosc-prr-production-2026-08-lima.analysis.md); custody:
 [`…custody-manifest.yaml`](prr-mandamus/bosc-prr-production-2026-08-lima.custody-manifest.yaml)).
 
-What landed, against the Parts A–F table above:
+What landed **in the August batches**, against the Parts A–F table above:
 
 - **Part A (partial)** — the **2022 NPDES renewal application** (EPA Forms 1/2A/2S + antidegradation
   addendum). New to the corpus: a collection-system inventory of **20 CSO outfalls and 34
@@ -125,17 +125,78 @@ What landed, against the Parts A–F table above:
   or a large water-cooling user. ⚠️ That is a negative result about the *production*, not about the
   world — the City asserted no exemption and made no no-records statement.
 - **Parts D and E (nothing)** — no SIU/CIU inventory, no IU permits or applications, no pretreatment
-  annual reports for 2023–2025, no CSO long-term control plan, no annual CSO reports.
+  annual reports for 2023–2025, no CSO long-term control plan, no annual CSO reports. ⚠️ **Superseded
+  by the September production** (below), which answered four of these six clauses. The statement
+  stands as a true description of the August batches.
 - **Part F (partial)** — the City↔County **biosolids agreement** (executed 2023-12-05) covering all
   three County plants including **American Bath**, the plant the County's 2.5 MGD BOSC forcemain
   feeds. None of the correspondence, negotiation records or engineering submittals the item also
   asked for; nothing naming OSU or Dr. Shedekar; nothing on the BOSC pump station and forcemain.
 
-The gap has a shape worth stating: every item the City answered concerns a record **Ohio EPA also
-holds**, or a routine instrument the City issues to third parties. Every item requiring the City to
-characterise **its own capacity, its own industrial users, or its own dealings about the campus**
-drew nothing. That is a distribution, not a finding of intent — and it is testable by re-serving
-those seven items so a non-response must become either a production or a stated exemption.
+**FURTHER PRODUCTION — reported by the City as final for the WWTP (2026-09-08 / 2026-09-22).**
+Three more batches, 25 files at 24 distinct vault addresses, arriving on the same terms as the
+first two: no cover letter, no itemised response, no privilege log, no exemption claim, no
+statement that any record does not exist. They answer the four items the August batches returned
+empty — **D.7** (industrial-user inventory) and **D.9** (pretreatment annual reports, CY2023–25)
+produced; **D.8** (IU permits) and **E.10** (CSO long-term control plan) partial. Mapped in
+[`prr-mandamus/bosc-prr-production-2026-09-lima.response-index.yaml`](prr-mandamus/bosc-prr-production-2026-09-lima.response-index.yaml)
+(custody: [`…custody-manifest.yaml`](prr-mandamus/bosc-prr-production-2026-09-lima.custody-manifest.yaml);
+reconciliation: [`lima-industrial-pretreatment-reconciliation.yaml`](lima-industrial-pretreatment-reconciliation.yaml)).
+Twenty-two of the twenty-four documents are extracted, against three genres the corpus could not
+previously read (`idp`, `pretreatment`, `permit-extension`).
+
+- **D.7 (produced)** — the IU inventory: **20 users**, footed *"list updated as of 7/22/26"*. The
+  campus is **not on it**. A list that reaches a bakery and a one-month hauled-waste permit is a
+  good positive control, and no produced IU permit names Google, Bistrozzi, BOSC or a data
+  centre. ⚠️ That is a **dated** negative as of 2026-07-22, not a permanent one.
+- **D.8 (partial)** — fourteen IU permits and four extension letters. **Eight of the twenty
+  inventoried users hold no produced control document**, four of them not explained by class
+  (Guardian Lima, Lima Memorial Hospital, Mercy Health St. Rita's, Nickles Bakery — the last a
+  non-categorical *significant* user). Two permits had **expired before the production date**
+  (P&G Main `PGM*011` on 2026-09-13 after three extensions reading *"in the process of
+  revising"*; Metokote `MET*009` on 2026-09-11), and the revised P&G permit those letters
+  promise was not produced. No **application** for any permit was produced, though the item asks
+  for them.
+- **D.9 (produced)** — the CY2023, CY2024 and CY2025 annual reports. **Seven attachments named on
+  their own face were not produced**, including all three `IU Report Form_City of Lima.xlsm`
+  workbooks, which carry the per-user detail behind every count in the reports.
+- **E.10 (partial)** — an **undated draft** LTCP whose content ends circa 2012, while the City's
+  own CY2025 CSO report describes operating under an **approved** plan. The approved plan was not
+  produced. The CY2025 report also shows the CSO point count moving **20 → 19** against the 2022
+  application without explanation, 20 of 60 event volumes **calculated as 2% of the combined
+  overflow** rather than metered, and, at CSO #002, 11 occurrences summed across 14 dated
+  discharge days.
+
+**The finding the pretreatment series carries.** The categorical industrial-user population has
+been **flat at 17 for four years** — the 2022 NPDES application reports 17 categorical of 18
+users, and the 2026 inventory's 11 Categorical plus 6 Non-Significant Categorical is the same 17
+of 20. All of the growth is non-categorical significant users, 1 → 3. Against that flat
+population, **CY2023 shows 15 significant users against 9 effective control documents** on the
+City's own form — six discharging without one. By CY2024 it reads 12/11, but only two of those
+five points are documents issued (effective control documents 9 → 11); the other three are users
+leaving the permit-requiring population in the same year the non-significant categorical count
+rises (SIUs 15 → 12, non-significant categorical 4 → 7). That those three points are
+**reclassifications** rather than departures is `[inference]` — the counts are the City's own, the
+reading of them is ours — and **no determination for any reclassification was produced**, which is
+what would settle it. A flat categorical population is what rules out the innocent
+reading, that the gap closed because the user base churned.
+
+The gap has a shape worth stating, and the September batches sharpened rather than disturbed it:
+every item the City answered concerns a record **Ohio EPA also holds** — the annual pretreatment
+reports and the IU inventory are both submitted to the State — or a routine instrument the City
+issues to third parties, which is what an IU permit is. Every item requiring the City to
+characterise **its own capacity or its own dealings about the campus** still draws nothing: the
+capacity/headroom analysis (C.4), the correspondence file (A.2) and every data-centre service
+record (C.6) remain empty across all five batches, and those are precisely the three items on
+which the City is **sole custodian**. That is a distribution, not a finding of intent — and it is
+testable by re-serving those three items, plus the documents the produced records name on their
+own face, so a non-response must become either a production or a stated exemption.
+
+⚠️ **One caution governs every absence recorded above.** None of the five batches arrived with a
+withholding statement, an exemption claim or a statement that a record does not exist. A record
+that was never created and a record that was withheld are therefore **indistinguishable from the
+face of this production**, and nothing here should be read as establishing that a record does not
+exist in the world.
 
 The permit + DMR ingest resolves the **B2 permit/design-flow** component and partially answers the **item-9 municipal-design-capacity** gap the [referral map](#cross-production-referral-map-151) leaves owned by no county body; the **frontend dilution-feed / scenario snapshot** still reflects the pre-#1536 county+campus subset (93%) pending a separate bundle regen. **Frame against the §9.66(D) reflex** (see [`../../../docs/legal/mandamus-analysis.md`](../../../docs/legal/mandamus-analysis.md) §II): the utility/public-works/environmental records above are a far weaker §9.66(D) fit than incentive terms, and records predating its 2026-03-20 effective date are presumptively still public.
 
