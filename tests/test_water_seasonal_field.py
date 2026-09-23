@@ -53,7 +53,7 @@ def test_contract_version_bumped() -> None:
     # 2.4.0 (#2079): the `compliance-reports` group — a periodic self-report filed UNDER an order.
     # Neither `enforcement` (it reports against obligations) nor `inspections` (that is the agency
     # visiting; this is the respondent reporting on itself).
-    assert CONTRACT_VERSION == "2.4.0"
+    assert CONTRACT_VERSION == "2.5.0"
 
 
 # `lima_bundle` / `site_bundle` are conftest's session-wide, cross-worker exports (#1773).
@@ -69,7 +69,7 @@ def test_reference_export_emits_the_seasonal_field(lima_bundle: Path) -> None:
     """The reference build ships `water-seasonal-field` with real months (climate normals are
     committed, so it does not degrade like the AERMOD field), `reference`-provenanced."""
     manifest = json.loads((lima_bundle / "manifest.json").read_text(encoding="utf-8"))
-    assert manifest["contract_version"] == "2.4.0"
+    assert manifest["contract_version"] == "2.5.0"
 
     field = _field(lima_bundle)
     assert field["site"] == "lima"

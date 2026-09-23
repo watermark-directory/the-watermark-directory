@@ -20,10 +20,16 @@ from watermark.models import (
     DeedExtraction,
     EpaExtraction,
     EpaPermitAction,
+    IdpExtraction,
+    IndustrialDischargePermit,
+    LimitTable,
     NoticeExtraction,
     NoticeOfCommencement,
     NpdesExtraction,
     NpdesPermit,
+    PollutantLimit,
+    PretreatmentAnnualReport,
+    PretreatmentExtraction,
     SosExtraction,
 )
 from watermark.pipeline.extract import (
@@ -32,8 +38,10 @@ from watermark.pipeline.extract import (
     extract_deed,
     extract_document,
     extract_epa,
+    extract_idp,
     extract_notice,
     extract_npdes,
+    extract_pretreatment,
     extract_sos,
     save_doc_extraction,
 )
@@ -410,3 +418,112 @@ def test_extract_deed_from_image_source_sends_raw_image_no_text(tmp_path: Path) 
     assert call["context"] == ""
     assert call["images"] is not None and len(call["images"]) == 1
     assert call["images"][0][:8] == b"\x89PNG\r\n\x1a\n"
+
+
+# --- the municipal-pretreatment genres (#2172) ------------------------------
+def test_extract_idp_reads_the_appendix_and_records_which_pages() -> None:
+    # The whole reason the genre exists: a 22-page City permit whose limits tables are at the
+    # back. Head 3 + tail 5 must reach pages 17-21 and say so, so a short read is detectable.
+    permit = IndustrialDischargePermit(
+        permittee="The Procter & Gamble Company",
+        permit_no="PGM*011",
+        limit_tables=[LimitTable(kind="local", appendix="Appendix B", table_no="Table 1")],
+    )
+    extractor = _FakeExtractor(permit)
+    extraction = extract_idp(_doc(), extractor=extractor, pdf=_FakePdf(pages=22))  # type: ignore[arg-type]
+
+    assert isinstance(extraction, IdpExtraction)
+    assert extraction.industrial_permit.permit_no == "PGM*011"
+    assert extraction.image_pages_read == [0, 1, 2, 17, 18, 19, 20, 21]
+    # text_pages=4 + text_tail_pages=8 widens the union past the rendered set: the text layer is
+    # cheap, so the genre takes a wider tail of it than it pays to rasterize.
+    assert extraction.pages_read == [0, 1, 2, 3, *range(14, 22)]
+    (call,) = extractor.calls
+    assert call["images"] is not None and len(call["images"]) == 8
+
+
+def test_extract_idp_on_a_permit_shorter_than_its_budget_reads_each_page_once() -> None:
+    # A 5-page permit: head 3 and tail 5 overlap completely. Nothing is rendered twice.
+    extraction = extract_idp(
+        _doc(),
+        extractor=_FakeExtractor(IndustrialDischargePermit(permittee="Nickles Bakery")),  # type: ignore[arg-type]
+        pdf=_FakePdf(pages=5),
+    )
+    assert extraction.image_pages_read == [0, 1, 2, 3, 4]
+
+
+def test_industrial_permit_limit_cells_survive_as_printed() -> None:
+    # The three non-numeric states a limits cell actually takes. None of them may become None:
+    # "Monitor" is an obligation, "n/a" is its absence, and a pH range is neither.
+    table = LimitTable(
+        kind="categorical",
+        appendix="Appendix A",
+        table_no="Table 2",
+        authority="40 CFR 442 Subpart A",
+        sample_stations=["LTW 01"],
+        columns=["Pollutant", "Daily Maximum", "Monthly Average"],
+        limits=[
+            PollutantLimit(pollutant="Total Copper", daily_maximum="0.42", monthly_average="0.21"),
+            PollutantLimit(pollutant="Total Zinc", daily_maximum="Monitor"),
+            PollutantLimit(pollutant="Total Cyanide", daily_maximum="n/a"),
+            PollutantLimit(pollutant="pH", daily_maximum="6.0 to 11.0", unit="pH units"),
+        ],
+    )
+    cells = {limit.pollutant: limit.daily_maximum for limit in table.limits}
+    assert cells == {
+        "Total Copper": "0.42",
+        "Total Zinc": "Monitor",
+        "Total Cyanide": "n/a",
+        "pH": "6.0 to 11.0",
+    }
+    # A categorical table's second column is a MONTHLY AVERAGE and must not land in the local
+    # table's instantaneous-maximum field, which tolerates no excursion at all.
+    copper = table.limits[0]
+    assert copper.monthly_average == "0.21"
+    assert copper.instantaneous_maximum is None
+
+
+def test_extract_pretreatment_attaches_provenance() -> None:
+    report = PretreatmentAnnualReport(
+        reporting_authority="City of Lima",
+        npdes_permit_no="2PE00000*PD",
+        reporting_period="CY2023",
+        significant_industrial_users=15,
+        effective_control_documents=9,
+        attachments=["2023 IU Report Form_City of Lima.xlsm"],
+    )
+    extraction = extract_pretreatment(
+        _doc(), extractor=_FakeExtractor(report), pdf=_FakePdf(pages=3)
+    )  # type: ignore[arg-type]
+    assert isinstance(extraction, PretreatmentExtraction)
+    # The gap this genre exists to make answerable: more SIUs than control documents.
+    assert extraction.pretreatment_report.significant_industrial_users == 15
+    assert extraction.pretreatment_report.effective_control_documents == 9
+    assert extraction.pages_read == [0, 1, 2]  # read whole; the form IS the summary table
+
+
+def test_pretreatment_report_keeps_a_printed_zero_distinct_from_a_blank() -> None:
+    # A reported 0 is a finding ("no SIU was in significant non-compliance"); a blank is the
+    # program not answering. Collapsing them would publish the flattering reading of a silence.
+    report = PretreatmentAnnualReport(users_in_snc=0)
+    assert report.users_in_snc == 0
+    assert PretreatmentAnnualReport().users_in_snc is None
+
+
+def test_both_new_genres_dispatch_by_kind() -> None:
+    for kind, result, cls in (
+        ("idp", IndustrialDischargePermit(permittee="Ford Lima Engine Plant"), IdpExtraction),
+        (
+            "pretreatment",
+            PretreatmentAnnualReport(reporting_period="CY2025"),
+            PretreatmentExtraction,
+        ),
+    ):
+        extraction = extract_document(
+            _doc(),
+            kind=kind,
+            extractor=_FakeExtractor(result),  # type: ignore[arg-type]
+            pdf=_FakePdf(pages=20),
+        )
+        assert isinstance(extraction, cls)
+        assert extraction.kind == kind

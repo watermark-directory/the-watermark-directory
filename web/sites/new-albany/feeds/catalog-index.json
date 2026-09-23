@@ -1,7 +1,7 @@
 {
   "site": "new-albany",
   "catalog_version": "674e236950ce8eaa1e037253efe7c44da0cd57bbf42b52a90a0bec113184d7f3",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:new-albany:7q10",

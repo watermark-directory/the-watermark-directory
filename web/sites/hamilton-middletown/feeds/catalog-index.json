@@ -1,7 +1,7 @@
 {
   "site": "hamilton-middletown",
   "catalog_version": "b1c8c9df12219df9cb176c7c29e364d134dd14bdc1a732bc38bf2050d3b92481",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:hamilton-middletown:7q10",

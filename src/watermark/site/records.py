@@ -127,6 +127,22 @@ _BLOCK_TO_GROUP: dict[str, str] = {
     # sweep a loan application into the legislative group.
     "zoning_amendment": "local-legislation",
     "zoning_application": "local-legislation",
+    # A municipal industrial discharge permit — a pretreatment control document a CITY issues to
+    # a user of its sewer (#2172). NOT `permits-npdes`, and the key is `industrial_permit` and
+    # not the bare `permit` for the same reason: that group renders as "Permits — NPDES", and an
+    # NPDES permit is a state authorization to discharge to a water of the state. An IDP
+    # authorizes nothing of the kind — it governs what a plant may put into a public sewer, under
+    # a city ordinance and a 40 CFR categorical standard, and reaches a stream only through the
+    # POTW's own permit. Publishing one under the NPDES heading would tell the reader the state
+    # licensed a discharge it never saw.
+    "industrial_permit": "permits-pretreatment",
+    # The POTW's annual report on that program to Ohio EPA (#2172). NOT `compliance-reports`,
+    # which is a report filed UNDER an enforcement instrument — the paragraph-33 semiannual
+    # series Lima files under its consent order. This is an ordinary permit-required annual
+    # program report, and filing it beside consent-order deliverables would imply the
+    # pretreatment program is itself under enforcement. It is the counterpart of the permits
+    # above, so it shares their group rather than borrowing an enforcement one.
+    "pretreatment_report": "permits-pretreatment",
 }
 # OPC estimates are whole-document (summary/detail/page) — no single block key.
 _OPC_KEYS = frozenset({"estimate", "sub_estimates", "estimate_template"})
@@ -328,6 +344,13 @@ def _record_title(rec: _Record) -> str:
     for key in (
         "entity_name",
         "facility_name",
+        # A municipal industrial discharge permit names its subject nowhere else (#2172): the
+        # regulated party is the "Company (Permittee)" on the face page, and the model keeps that
+        # word. Checked against the whole committed tree before adding: of the 23 artifacts
+        # carrying a `permittee`, every one either resolves on an earlier key or nests it as a
+        # block (`action.permittee.name`, which the `isinstance(val, str)` guard skips), so no
+        # existing record's heading moves.
+        "permittee",
         "project_name",
         "instrument_type",
         "instrument",  # enforcement orders / finance awards (#1746)

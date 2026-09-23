@@ -1,7 +1,7 @@
 {
   "site": "van-wert",
   "catalog_version": "2cfb6fc65579cc43a1dad94e7f5993edf2281a9bb590b9b7fa89583f85316ce0",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:van-wert:7q10",

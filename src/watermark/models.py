@@ -889,6 +889,170 @@ class EngineeringRecord(_Extracted):
     note: str | None = None
 
 
+class PollutantLimit(BaseModel):
+    """One pollutant row of an industrial-discharge-permit limits table.
+
+    **Every cell is a string, on purpose.** A row of these tables has three genuinely
+    distinct states and only one of them is a number: a numeric limit (``0.42``), the
+    word ``Monitor`` (monitoring and reporting required, no numeric ceiling), and
+    ``n/a`` (no requirement at this station). Typing the cells as
+    :data:`~watermark.models.Number` would force the two non-numeric states into
+    ``None``, which reads as "no limit" — collapsing "report this to us every month"
+    and "we do not regulate this" into the same absence, in the one document where the
+    difference is the obligation. pH is a **range** as printed ("6.0 to 11.0"), which
+    is a fourth shape no scalar field can hold either. So the cell is transcribed as
+    printed and the reader is never told a limit exists where the permit set none.
+    """
+
+    model_config = ConfigDict(extra="allow")
+
+    pollutant: str  # as printed, e.g. "Total Copper", "pH", "BOD5", "Oil & Grease"
+    # The table's first limit column. Named for the header these permits actually print
+    # ("Daily Maximum") rather than a generic `value`, because the second column's
+    # meaning differs BY TABLE and the pair must never be read positionally.
+    daily_maximum: str | None = None
+    # A LOCAL-limit table's second column: a not-to-exceed-at-any-time ceiling.
+    instantaneous_maximum: str | None = None
+    # A CATEGORICAL (40 CFR) table's second column: an average over the month. Not the
+    # same obligation as an instantaneous maximum and not interchangeable with it — a
+    # monthly average tolerates an excursion that an instantaneous maximum forbids.
+    monthly_average: str | None = None
+    unit: str | None = None  # only where the row states its own, e.g. "pH units"
+    note: str | None = None
+
+
+class LimitTable(BaseModel):
+    """One numbered limits table from an industrial discharge permit's appendix.
+
+    A permit carries one to three of these and they are **not** one table with extra
+    rows: they rest on different authorities, apply at different sampling stations, and
+    one of them is not enforceable at all. Lima Tank Wash's permit prints all three —
+    a local-limit table at station ``LTW 02``, a 40 CFR 442 Subpart A categorical table
+    at ``LTW 01``, and a surcharge table whose own text says *"any exceedance of these
+    limits does NOT constitute a violation of this permit."* Rolling them together
+    would publish a billing threshold as a discharge limit.
+
+    ``appendix`` is read off the document and never assumed: the same City template
+    puts these tables under "Appendix A" in some permits and "Appendix B" in others.
+    """
+
+    model_config = ConfigDict(extra="allow")
+
+    kind: str | None = None  # local | categorical | surcharge
+    appendix: str | None = None  # as printed, e.g. "Appendix A" — VARIES between permits
+    table_no: str | None = None  # as printed, e.g. "Table 1"
+    title: str | None = None  # the table's printed caption, verbatim
+    authority: str | None = None  # for a categorical table, e.g. "40 CFR 442 Subpart A"
+    sample_stations: StrList = Field(default_factory=list)  # the stations this table governs
+    units: str | None = None  # the caption's units, e.g. "mg/L"
+    columns: StrList = Field(default_factory=list)  # the printed column headers, in order
+    limits: list[PollutantLimit] = Field(default_factory=list)
+    # A table that disclaims its own enforceability says so in its own words; keep them.
+    disclaimer: str | None = None
+
+
+class SampleStation(BaseModel):
+    """One monitoring location named in an industrial discharge permit's Part I."""
+
+    model_config = ConfigDict(extra="allow")
+
+    station_id: str  # as printed, e.g. "PGM 01", "FMC 01 & 02", "LTW 02"
+    description: str | None = None  # where it is / what it samples, as printed
+
+
+class IndustrialDischargePermit(_Extracted):
+    """A **municipal** industrial discharge permit (IDP) — a pretreatment control document.
+
+    Not an :class:`NpdesPermit` and deliberately not modelled as one. An NPDES permit is
+    issued by Ohio EPA to a facility discharging to a *water of the state*, and its
+    schema is built around that: ``public_notice_no``, ``receiving_water``,
+    ``stream_network``, ``outfalls``. An IDP is issued by a **city** to an industrial
+    user discharging into the city's own **sewer**, under its codified ordinances (Lima's
+    is "Section 1040.121 of the Codified Ordinances of the City of Lima") and, where the
+    user is a Categorical Industrial User, under a 40 CFR part-and-subpart standard. It
+    has no receiving water, no public notice, and no outfall; it has sampling stations
+    inside a plant and an appendix of local and categorical limits. Routing one through
+    the NPDES model would leave the categorical standard and the limits with nowhere to
+    go and invent a discharge to a stream that does not happen.
+
+    ``signatory`` is null on an **unsigned** copy and that is a finding, not a gap: the
+    City produced some of these as Word reprints of an executed permit and marked others
+    "Signed" in the filename. A reprint is evidence of the permit's terms and is not the
+    executed instrument; the extraction says which one it read.
+    """
+
+    permittee: str | None = None  # the company as printed on the face
+    facility_address: str | None = None  # where the regulated discharge occurs
+    mailing_address: str | None = None  # only if printed and distinct
+    permit_no: str | None = None  # as printed, e.g. "PGM*011"
+    issue_date: str | None = None  # ISO
+    effective_date: str | None = None  # ISO
+    expiration_date: str | None = None  # ISO
+    issuing_authority: str | None = None  # e.g. "Director of Utilities, City of Lima"
+    ordinance_authority: str | None = None  # the codified section the permit cites
+    signatory: str | None = None  # the printed signature-block name; null if unsigned
+    user_classification: str | None = None  # as printed, e.g. "Categorical Industrial User"
+    categorical_standards: StrList = Field(default_factory=list)  # e.g. "40 CFR 442 Subpart A"
+    sample_stations: list[SampleStation] = Field(default_factory=list)
+    limit_tables: list[LimitTable] = Field(default_factory=list)
+    contract_laboratory: str | None = None  # only where the permit names one
+    reporting_frequency: str | None = None  # as printed, e.g. "semiannually"
+    note: str | None = None
+
+
+class ProgramCount(BaseModel):
+    """One counted line of a pretreatment program's performance summary.
+
+    Kept as a label/count pair rather than a fixed field per line because the STREAMS
+    form's summary table is revised between reporting years, and a schema that fixed
+    this year's rows would silently drop next year's.
+    """
+
+    model_config = ConfigDict(extra="allow")
+
+    label: str  # the row's printed label, verbatim
+    count: Number = None
+
+
+class PretreatmentAnnualReport(_Extracted):
+    """A POTW's annual industrial-pretreatment program report to Ohio EPA.
+
+    The city reporting on **its own** program under its NPDES permit's pretreatment
+    conditions: how many significant industrial users it has, how many of them it holds
+    an effective control document for, how many it inspected and sampled, and how many
+    were in significant non-compliance. The two counts that do work no other document
+    does are ``significant_industrial_users`` and ``effective_control_documents`` — a
+    gap between them is a program telling the agency it regulates more users than it has
+    permits for, which is exactly the reconciliation this genre exists to make possible.
+
+    ``attachments`` records what the form names on its own face. Lima's CY2023 report
+    names an ``.xlsm`` IU report spreadsheet that the production did not include; a
+    record named by the document and absent from the response is an outstanding record,
+    and the only way to say so is to have transcribed the name.
+    """
+
+    reporting_authority: str | None = None  # the POTW, e.g. "City of Lima"
+    npdes_permit_no: str | None = None  # the POTW's own permit, as printed (e.g. 2PE00000*PD)
+    reporting_period: str | None = None  # as printed, e.g. "CY2023" / "01/01/2023 - 12/31/2023"
+    submission_date: str | None = None  # ISO
+    application_id: str | None = None  # the STREAMS submission id, as printed
+    contact_name: str | None = None
+    contact_title: str | None = None
+    significant_industrial_users: Number = None  # total SIUs
+    categorical_users: Number = None
+    non_categorical_users: Number = None
+    non_significant_categorical_users: Number = None
+    effective_control_documents: Number = None  # permits actually in force
+    users_inspected: Number = None
+    users_sampled: Number = None
+    users_in_snc: Number = None  # significant non-compliance
+    counts: list[ProgramCount] = Field(default_factory=list)  # the rest of the summary table
+    enforcement_actions: list[ProgramCount] = Field(default_factory=list)
+    industrial_users: StrList = Field(default_factory=list)  # only where the form lists them
+    attachments: StrList = Field(default_factory=list)  # attachments the form names on its face
+    note: str | None = None
+
+
 class DocExtraction(BaseModel):
     """Provenance shared by document-level extractions."""
 
@@ -915,6 +1079,14 @@ class DeedExtraction(DocExtraction):
 
 class NpdesExtraction(DocExtraction):
     permit: NpdesPermit
+
+
+class IdpExtraction(DocExtraction):
+    industrial_permit: IndustrialDischargePermit
+
+
+class PretreatmentExtraction(DocExtraction):
+    pretreatment_report: PretreatmentAnnualReport
 
 
 # The corpus root, as it appears inside a committed extraction's source reference.

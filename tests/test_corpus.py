@@ -14,18 +14,21 @@ from watermark.models import (
     BusinessFiling,
     Deed,
     DeedExtraction,
+    IdpExtraction,
     NpdesExtraction,
     NpdesPermit,
     NpdesTranscription,
     OPCMeta,
     OPCSummary,
     OrderExtraction,
+    PretreatmentExtraction,
     SosExtraction,
     SubEstimate,
 )
 from watermark.pipeline.corpus import (
     DECLINED,
     UNPARSED,
+    Corpus,
     CorpusValidationError,
     _classify,
     load_corpus,
@@ -512,6 +515,45 @@ def test_classify_routes_each_compliance_genre_by_its_own_payload_block() -> Non
         _classify({**_RENDER, "kind": "engineering", "record": {"discipline": "sanitary"}})
         == "engineering"
     )
+
+
+def test_classify_routes_the_municipal_pretreatment_genres_and_not_via_the_npdes_arm() -> None:
+    """#2172. An IDP carries `industrial_permit:`, not `permit:` — checked here because the two
+    live one arm apart and routing a City sewer permit to `NpdesExtraction` would reject it for a
+    `receiving_water` / `public_notice_no` that does not exist on the instrument."""
+    idp = {**_RENDER, "kind": "idp", "industrial_permit": {"permit_no": "PGM*011"}}
+    assert _classify(idp) == "idp"
+    report = {
+        **_RENDER,
+        "kind": "pretreatment",
+        "pretreatment_report": {"reporting_period": "CY2023"},
+    }
+    assert _classify(report) == "pretreatment"
+    # Neither key is the bare word: a `permit:` block still reaches the NPDES arm untouched.
+    assert (
+        _classify({**_RENDER, "kind": "npdes", "permit": {"permit_no": "2PE00000*OD"}}) == "npdes"
+    )
+
+
+def test_the_pretreatment_genres_load_into_their_own_buckets() -> None:
+    """A bucket of their own, not `permits`. A reader counting NPDES permits must not be handed a
+    control document a city issued over its own sewer (#2172)."""
+    corpus = Corpus()
+    assert not corpus.industrial_permits and not corpus.pretreatment_reports
+    before = len(corpus)
+    corpus.industrial_permits.append(
+        ("legal/a.idp.yaml", IdpExtraction(**_RENDER, kind="idp", industrial_permit={}))
+    )
+    corpus.pretreatment_reports.append(
+        (
+            "legal/b.pretreatment.yaml",
+            PretreatmentExtraction(**_RENDER, kind="pretreatment", pretreatment_report={}),
+        )
+    )
+    assert len(corpus) == before + 2
+    assert not corpus.permits  # and not by way of the NPDES bucket
+    assert "legal/a.idp.yaml" in corpus.rel_paths()
+    assert "legal/b.pretreatment.yaml" in corpus.rel_paths()
 
 
 def test_classify_does_not_claim_a_generic_record_or_order_scalar() -> None:

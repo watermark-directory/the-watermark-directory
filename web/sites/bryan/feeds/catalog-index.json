@@ -1,7 +1,7 @@
 {
   "site": "bryan",
   "catalog_version": "01b59a434851cfc86f6fb17d166c273dfd16ba94b67ba4259a25cdd2e9177ba7",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:bryan:7q10",

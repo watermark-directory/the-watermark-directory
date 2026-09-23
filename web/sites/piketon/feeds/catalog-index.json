@@ -1,7 +1,7 @@
 {
   "site": "piketon",
   "catalog_version": "7cbd912db7256fcf64fdf0b2f20f2acfd3def4898ccd7aef4927937c5835fd16",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:piketon:7q10",

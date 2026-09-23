@@ -29,6 +29,7 @@ from watermark.models import (
     Estimate,
     EstimateSection,
     GeneralPermitExtraction,
+    IdpExtraction,
     InspectionExtraction,
     LineItem,
     MarkupLine,
@@ -38,6 +39,7 @@ from watermark.models import (
     OrderExtraction,
     PageExtraction,
     PlanExtraction,
+    PretreatmentExtraction,
     ProgressReportExtraction,
     SosExtraction,
     WetlandExtraction,
@@ -216,6 +218,13 @@ class Corpus:
     inspections: list[tuple[str, InspectionExtraction]] = field(default_factory=list)
     progress_reports: list[tuple[str, ProgressReportExtraction]] = field(default_factory=list)
     engineering: list[tuple[str, EngineeringExtraction]] = field(default_factory=list)
+    # The municipal-pretreatment genres (#2172). Separate from `permits` for the reason
+    # `IndustrialDischargePermit` is not an `NpdesPermit`: an IDP is a CITY's control document
+    # over a user of its sewer, with no receiving water and no public notice, and a reader
+    # counting NPDES permits must not be handed one. `pretreatment_reports` is the POTW
+    # reporting on that program to Ohio EPA — the counterpart bucket, not the same one.
+    industrial_permits: list[tuple[str, IdpExtraction]] = field(default_factory=list)
+    pretreatment_reports: list[tuple[str, PretreatmentExtraction]] = field(default_factory=list)
 
     def __len__(self) -> int:
         return (
@@ -233,6 +242,8 @@ class Corpus:
             + len(self.inspections)
             + len(self.progress_reports)
             + len(self.engineering)
+            + len(self.industrial_permits)
+            + len(self.pretreatment_reports)
         )
         # `rejected`/`declined` are deliberately NOT counted — they hold no models.
 
@@ -265,6 +276,8 @@ class Corpus:
                 self.inspections,
                 self.progress_reports,
                 self.engineering,
+                self.industrial_permits,
+                self.pretreatment_reports,
             )
             for rel, _ in group
         ]
@@ -484,6 +497,12 @@ def _classify(data: Any) -> str:
         ("inspection", "inspection"),
         ("progress_report", "progress_report"),
         ("record", "engineering"),
+        # The municipal-pretreatment genres (#2172). `industrial_permit` and NOT the bare
+        # `permit`, which the NPDES arm above already owns three ways; `pretreatment_report`
+        # and NOT the bare `report`, for the same reason `record:` is tested as a mapping —
+        # a one-word wrapper key claims the first unrelated artifact to reach for it.
+        ("industrial_permit", "idp"),
+        ("pretreatment_report", "pretreatment"),
     ):
         if isinstance(data.get(block), dict):
             # Same three-way discipline as the permit arm above. The render envelope is checked
@@ -667,6 +686,12 @@ def load_corpus(
                 corpus.progress_reports.append((rel, ProgressReportExtraction.model_validate(data)))
             elif kind == "engineering":
                 corpus.engineering.append((rel, EngineeringExtraction.model_validate(data)))
+            elif kind == "idp":
+                corpus.industrial_permits.append((rel, IdpExtraction.model_validate(data)))
+            elif kind == "pretreatment":
+                corpus.pretreatment_reports.append(
+                    (rel, PretreatmentExtraction.model_validate(data))
+                )
             elif kind == "opc_page":
                 corpus.estimates.append((rel, PageExtraction.model_validate(data)))
             elif kind == "opc_detail_legacy":
@@ -712,6 +737,8 @@ def load_corpus(
         inspections=len(corpus.inspections),
         progress_reports=len(corpus.progress_reports),
         engineering=len(corpus.engineering),
+        industrial_permits=len(corpus.industrial_permits),
+        pretreatment_reports=len(corpus.pretreatment_reports),
         declined=len(corpus.declined),
         rejected=len(corpus.rejected),
         # Broken out of `rejected` on purpose (#2084): the two shapes ask for different repairs.

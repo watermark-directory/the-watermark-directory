@@ -1,7 +1,7 @@
 {
   "site": "wilmington",
   "catalog_version": "678319103571aa63528fa8f4966b1d89ee300c1bc6ecd0e8cbee8f6b1022e991",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:wilmington:7q10",

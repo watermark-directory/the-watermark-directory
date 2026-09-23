@@ -1,7 +1,7 @@
 {
   "site": "xenia",
   "catalog_version": "6ba54a9b10d80ee665d92003c8dff1669b090d6aae897f3b9dcbf79f87070f5b",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:xenia:7q10",

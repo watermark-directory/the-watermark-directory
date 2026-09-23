@@ -1,7 +1,7 @@
 {
   "site": "greenville",
   "catalog_version": "e332bfe3c35bb942c5b99351ad50312a5bbe9f2d54a07931bb13895766d7e2d7",
-  "contract_version": "2.4.0",
+  "contract_version": "2.5.0",
   "atoms": [
     {
       "handle": "concept:greenville:7q10",

@@ -343,7 +343,8 @@ def extract(
         "--kind",
         help=(
             "Document kind: opc | deed | npdes | sos | epa | order | inspection | "
-            "progress-report | award | wetland | plan | engineering | sanitary | notice."
+            "progress-report | award | wetland | plan | engineering | sanitary | notice | "
+            "idp | pretreatment."
         ),
     ),
     profile: str = typer.Option(
