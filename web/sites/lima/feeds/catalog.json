@@ -3022,8 +3022,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "2c1288451626678d26f06150207f8b9134f13895e29d0ecfcf195bbb6ef5878e",
-      "size_bytes": 156124,
+      "sha256": "c4d7bb1cb4289d2b11f3194af7a3deadce3732f644472e0c532587e2a6c44a66",
+      "size_bytes": 158009,
       "lfs_materialized": true,
       "file_count": 23,
       "stale": false,
@@ -3429,8 +3429,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "52d805299deb1fe7fd2c2fbd43db33993804e01c9c0d846ea6a69e9a22bf1071",
-      "size_bytes": 31740,
+      "sha256": "d1438c627c282d353871922f5742bd2ae3c7c746d9d884cdc59d49ae9bc9fa41",
+      "size_bytes": 32294,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": false,

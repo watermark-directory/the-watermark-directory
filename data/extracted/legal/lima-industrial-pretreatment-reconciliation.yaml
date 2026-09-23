@@ -56,9 +56,13 @@ coverage:
       class: Non-Categorical Significant Industrial User
       cfr_part_on_inventory: null
   classed_non_significant:
-    # A Non-Significant Categorical Industrial User may be certified rather than permitted. The
-    # certification is itself a document, and none was produced either — but the class at least
-    # offers an explanation the four above do not have.
+    # A Non-Significant Categorical Industrial User may be certified rather than permitted, and the
+    # certification is itself a document that was not produced either. But the class explains LESS
+    # here than the regulation alone would suggest: Lima PERMITS non-significant categorical users
+    # as a matter of its own practice — EOLM Inc. (445) and Keystone Meats (432) are both classed
+    # non-significant on this same inventory and both hold produced permits. So the class does not
+    # distinguish these four from two users the City did permit; it only makes the absence
+    # explicable rather than facially non-compliant.
     - user: BRP Manufacturing Co.
       cfr_part_on_inventory: '428'
     - user: Wieland Randall Bearings
@@ -87,6 +91,20 @@ inventory_vs_report:
     at once: the categorical count rose by two while the non-significant categorical count fell by
     one. That is the signature of reclassification, not of arrival — a user moved up a class — and
     the production contains no document recording any such determination.
+  four_year_anchor:
+    standing: '[verified]'
+    statement: >-
+      The 2022 NPDES renewal application (produced in the AUGUST batch,
+      `prr-mandamus/prr-production-2026-08-lima/lima-wwtp-npdes-renewal-application-2022.application.yaml`)
+      counts 18 industrial users: 17 categorical, 1 non-categorical SIU. The 2026 inventory's
+      categorical population is 11 + 6 = 17 — IDENTICAL, four years later. All of the 18 -> 20
+      growth is in non-categorical SIUs, 1 -> 3.
+    bearing: >-
+      This is what rules out the innocent reading of `series.how_it_closed` above. If the
+      categorical population had grown or shrunk, the annual reports' churn between significant and
+      non-significant could be users arriving and leaving. It did not move at all. The same
+      seventeen categorical users are being sorted differently between the two classes from year to
+      year, and the sorting is what closes the CY2023 control-document gap.
 
 # --- finding 3: the CY2023 gap between users and control documents -----------------------------
 series:
@@ -141,6 +159,14 @@ categorical_standards:
     The inventory assigns a 40 CFR part to 16 of its 20 users. Of the 14 permit documents produced,
     only 5 cite any part at all. For six users the City's own list names a categorical standard
     that the permit governing them does not mention.
+  blank_cells:
+    standing: '[verified]'
+    statement: >-
+      Only ONE of the four blank 40 CFR cells is anomalous. BEF Foods, Nickles Bakery and Pepsi Co.
+      are classed Non-Categorical Significant, for which a blank is the correct entry — a
+      non-categorical user is by definition subject to no categorical standard. Bass Environmental
+      is classed CATEGORICAL with the cell left empty, and its own permit cites three subparts of
+      Part 437. That is the single cell on the sheet that is blank and should not be.
   permits_citing_a_part:
     - {permit_no: 'BE*001', permittee: Bass Environmental Lima, parts: ['437 Subpart B (437.26)', '437 Subpart C (437.36)']}
     - {permit_no: 'BE*001 Temporary', permittee: Bass Environmental, parts: ['437 Subpart D (437.47)']}

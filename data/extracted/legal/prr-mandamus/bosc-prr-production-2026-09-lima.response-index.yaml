@@ -52,8 +52,14 @@ items:
       `../lima-industrial-pretreatment-reconciliation.yaml`.
   reading: >
     This is the first NAMED inventory the corpus has held. The August production's nearest thing
-    was a four-year-old count in the 2022 renewal application — 18 users, 17 categorical — which
-    the inventory now contradicts on both figures.
+    was a four-year-old count in the 2022 renewal application — 18 users, 17 categorical, 1
+    non-categorical SIU. Against that, the CATEGORICAL POPULATION HAS NOT MOVED: 11 Categorical
+    plus 6 Non-Significant Categorical is 17, exactly the 2022 figure, and the 2022 form does not
+    split the two. The whole of the 18 -> 20 growth is non-categorical SIUs, 1 -> 3. That
+    stability is what makes the churn inside the annual reports legible as reclassification
+    rather than as arrival and departure: the same seventeen categorical users are being sorted
+    differently between significant and non-significant, four years running. See
+    `../lima-industrial-pretreatment-reconciliation.yaml`.
 
 - item: 'D.8'
   asked: Any Industrial User wastewater-discharge permit — and any application for one — issued,
