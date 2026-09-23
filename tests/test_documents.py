@@ -27,6 +27,8 @@ from watermark.models import (
     SosExtraction,
 )
 from watermark.pipeline.extract import (
+    _page_window,
+    _read_doc,
     extract_deed,
     extract_document,
     extract_epa,
@@ -152,6 +154,71 @@ def test_extractor_flags_max_tokens_truncation() -> None:
 
 
 # --- pipeline --------------------------------------------------------------
+def test_page_window_prefix_is_unchanged_without_a_tail() -> None:
+    # tail=0 is the behaviour every pre-existing genre relies on: a plain prefix, clamped
+    # to the document. Nothing below may drift, or twelve genres change read silently.
+    assert _page_window(6, 0, 30) == list(range(6))
+    assert _page_window(8, 0, 6) == list(range(6))  # clamped to a short document
+    assert _page_window(0, 0, 4) == []
+
+
+def test_page_window_reaches_an_appendix_a_prefix_budget_cannot() -> None:
+    # The three permits this exists for, at their real page counts. The limits table sits
+    # on p20 of 22 (P&G), p19 of 20 (Ford) and pp23-24 of 25 (Lima Tank Wash); a prefix
+    # budget of 3 reads none of them and reports nothing wrong.
+    assert _page_window(3, 2, 22) == [0, 1, 2, 20, 21]
+    assert _page_window(3, 2, 20) == [0, 1, 2, 18, 19]
+    assert _page_window(3, 3, 25) == [0, 1, 2, 22, 23, 24]
+    for count, table_page in ((22, 20), (20, 19), (25, 23)):
+        assert table_page in _page_window(3, 3, count)
+
+
+def test_page_window_collapses_an_overlapping_tail() -> None:
+    # A head that already reaches the back absorbs the tail — no page is rendered twice,
+    # which on a 300 DPI vision read is a real cost, and no index repeats in pages_read.
+    assert _page_window(3, 2, 4) == [0, 1, 2, 3]
+    assert _page_window(3, 2, 3) == [0, 1, 2]
+    assert _page_window(30, 4, 6) == list(range(6))
+    window = _page_window(5, 5, 8)
+    assert window == sorted(set(window)) == list(range(8))
+
+
+def test_read_doc_tail_records_the_pages_it_actually_saw() -> None:
+    # The tail must show up in BOTH the union and the honest image subset (#613): an
+    # artifact that claims a page it never rendered is the failure this whole pair of
+    # fields exists to prevent.
+    text, images, pages, image_pages = _read_doc(
+        _doc(),
+        text_pages=2,
+        image_pages=2,
+        dpi=200,
+        pdf=_FakePdf(pages=22),  # type: ignore[arg-type]
+        text_tail_pages=1,
+        image_tail_pages=2,
+    )
+    assert pages == [0, 1, 20, 21]
+    assert image_pages == [0, 1, 20, 21]
+    assert len(images) == 4
+    # The text tail is narrower than the image tail, and reads its own window only.
+    assert "text 21" in text
+    assert "text 20" not in text
+
+
+def test_read_doc_without_a_tail_matches_the_old_prefix_read() -> None:
+    # Pin the equivalence directly: pages_read used to be range(max(text, image)), and a
+    # no-tail call must still produce exactly that.
+    _text, images, pages, image_pages = _read_doc(
+        _doc(),
+        text_pages=6,
+        image_pages=1,
+        dpi=200,
+        pdf=_FakePdf(pages=30),  # type: ignore[arg-type]
+    )
+    assert pages == list(range(6))
+    assert image_pages == [0]
+    assert len(images) == 1
+
+
 def test_extract_deed_attaches_provenance() -> None:
     deed = Deed(
         instrument_type="General Warranty Deed",
