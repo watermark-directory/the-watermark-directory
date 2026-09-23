@@ -633,7 +633,7 @@
     "label": "Lima",
     "scope": "site",
     "links_out": 3,
-    "links_in": 363,
+    "links_in": 364,
     "lines": 14,
     "updated": null
   },
@@ -2528,6 +2528,17 @@
     "links_in": 0,
     "lines": 18,
     "updated": "2026-08-24"
+  },
+  {
+    "id": "record/legal-prr-mandamus-bosc-prr-production-2026-09-l",
+    "node_class": "record",
+    "kind": "record",
+    "label": "City of Lima — THIRD and, per the City, FINAL production in response to the BOSC public-records",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 14,
+    "updated": null
   },
   {
     "id": "record/legal-prr-mandamus-bosc-site-permit-sequence",

@@ -121,7 +121,7 @@ describe("documentId — the corpus it has to address", () => {
     // INSTRUMENT inside the same PDF, extracted separately, not a second byte-stream.
     // Reviewed: 3,397 rels, 3,397 distinct rels, 3,397 distinct handles — the new handle is
     // `rfgm705j`. Checked as a set, not inferred from the delta.
-    expect(rels.length).toBe(3397); // a corpus change should surface here, not a silent collision
+    expect(rels.length).toBe(3422); // a corpus change should surface here, not a silent collision
     const ids = new Set(rels.map(documentId));
     expect(ids.size).toBe(rels.length);
   });

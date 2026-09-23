@@ -1,0 +1,33 @@
+id: legal-prr-mandamus-bosc-prr-production-2026-09-lima
+title: City of Lima PRR Production — Batches 3–5 (2026-09-08 / 2026-09-22)
+scope: extracted
+status: reviewed
+producer:
+  kind: extracted
+  source: City of Lima, Department of Utilities — three further batches delivered electronically,
+    with no cover letter, privilege log or exemption claim; reported by the City as the last of the
+    records requested of the Lima WWTP
+license: Public record (Ohio R.C. 149.43)
+access_tier: public
+site_scope: lima-legacy
+storage:
+- relpath: extracted/legal/prr-mandamus/bosc-prr-production-2026-09-lima.custody-manifest.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: static
+  last_refreshed: '2026-09-22'
+provenance: document
+tags:
+- public-records
+- production
+- lima-wwtp
+- pretreatment
+- cso
+notes: The production the City reports as final for the Lima WWTP, answering the four items the
+  2026-08 batches returned `nothing-produced` — D.7 (industrial-user inventory), D.8 (IU permits),
+  D.9 (pretreatment annual reports) and E.10 (the CSO long-term control plan). 25 files at 24
+  distinct vault addresses; one file produced twice across the two same-day batches, byte-identical,
+  both kept. Byte-level custody manifest with a content-verified date per file; the plan produced
+  for E.10 is an undated DRAFT whose content ends circa 2012, while the City's own 2026 CSO annual
+  report describes an approved LTCP.

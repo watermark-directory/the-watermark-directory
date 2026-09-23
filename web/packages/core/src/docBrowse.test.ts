@@ -138,7 +138,7 @@ describe("summarizeCollections — against the committed Lima corpus", () => {
     // whose minutes that manifest has never pulled — the corpus held the application and no
     // record of the decision. ONE file, not two: the 2018 warranty deed at pp. 11-14 is a second
     // INSTRUMENT inside the same PDF, extracted separately, not a second byte-stream.
-    expect(summaries.reduce((n, s) => n + s.count, 0)).toBe(3397);
+    expect(summaries.reduce((n, s) => n + s.count, 0)).toBe(3422);
   });
 
   it("finds the one production that is half the catalog", () => {
@@ -147,7 +147,9 @@ describe("summarizeCollections — against the committed Lima corpus", () => {
     const prr = legal.containers[0];
     expect(prr.slug).toBe("prr-mandamus");
     // 1,619 -> 1,639: all twenty land under `prr-mandamus`, in two new production folders.
-    expect(prr.count).toBe(1639);
+    // 1,639 -> 1,664 (#2174): the twenty-five files of the production Lima reports as the LAST of
+    // the WWTP request, in three more folders under the same container.
+    expect(prr.count).toBe(1664);
     // The reason the container level exists at all: 238 folders, 10 levels below the container.
     expect(prr.folders).toBeGreaterThan(200);
     expect(prr.maxDepth).toBeGreaterThan(5);
@@ -227,7 +229,10 @@ describe("page-weight budget", () => {
     const legal = summarizeCollections(limaFeed()).find((s) => s.slug === "legal");
     if (!legal) throw new Error("legal collection missing");
     expect(DOCS_PER_PAGE).toBe(150);
-    expect(pageCount(legal.containers[0].count)).toBe(11);
+    // 11 -> 12 at #2174: 1,664 rows cross the 1,650 that eleven 150-row pages hold. The split is
+    // the point of the budget — a container that grows past its pages gets another one, it does
+    // not get a heavier page.
+    expect(pageCount(legal.containers[0].count)).toBe(12);
   });
 
   it("keeps every listing's own content near 150 KB at ~1.0 KB per row", () => {

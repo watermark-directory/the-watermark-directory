@@ -3231,6 +3231,57 @@
     }
   },
   {
+    "id": "legal-prr-mandamus-bosc-prr-production-2026-09-lima",
+    "title": "City of Lima PRR Production — Batches 3–5 (2026-09-08 / 2026-09-22)",
+    "scope": "extracted",
+    "collection": "legal",
+    "status": "reviewed",
+    "producer_kind": "extracted",
+    "command": null,
+    "connector_ref": null,
+    "source": "City of Lima, Department of Utilities — three further batches delivered electronically, with no cover letter, privilege log or exemption claim; reported by the City as the last of the records requested of the Lima WWTP",
+    "external_url": null,
+    "license": "Public record (Ohio R.C. 149.43)",
+    "access_tier": "public",
+    "site_scope": "lima-legacy",
+    "cadence": "static",
+    "ttl_days": null,
+    "last_refreshed": "2026-09-22",
+    "tags": [
+      "public-records",
+      "production",
+      "lima-wwtp",
+      "pretreatment",
+      "cso"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/legal/prr-mandamus/bosc-prr-production-2026-09-lima.custody-manifest.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "150cef56f5b044e4ab20471f72af8e79046d5e380dcbf3c04bc7ffb202a4b3d9",
+      "size_bytes": 20847,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "City of Lima, Department of Utilities — three further batches delivered electronically, with no cover letter, privilege log or exemption claim; reported by the City as the last of the records requested of the Lima WWTP",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
     "id": "legal-prr-mandamus-bosc-site-permit-sequence",
     "title": "Project BOSC Site — Permit/Approval vs Earth-Disturbance Sequence (4110 N. Cole St.)",
     "scope": "extracted",

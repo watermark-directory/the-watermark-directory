@@ -134,7 +134,7 @@ describe("isRoutableDoc — measured against the committed Lima corpus", () => {
     // whose minutes that manifest has never pulled — the corpus held the application and no
     // record of the decision. ONE file, not two: the 2018 warranty deed at pp. 11-14 is a second
     // INSTRUMENT inside the same PDF, extracted separately, not a second byte-stream.
-    expect(entries.length).toBe(3397);
+    expect(entries.length).toBe(3422);
     expect(entries.filter((e) => !isRoutableDoc(e))).toHaveLength(54);
   });
 
