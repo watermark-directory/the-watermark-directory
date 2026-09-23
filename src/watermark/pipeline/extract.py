@@ -518,6 +518,27 @@ a warning for any strained read or any criterion box you could not resolve.
 """
 
 
+def _page_window(head: int, tail: int, count: int) -> list[int]:
+    """The pages a ``head``/``tail`` budget selects from a ``count``-page document.
+
+    A plain ``head`` budget is a PREFIX, and for a document whose substance sits at the
+    back that is a silent read of the boilerplate: every City of Lima industrial
+    discharge permit says on its face that the effluent limits are "located in Appendix
+    B, Table 1, at the end of this permit", and they are — page 20 of 22 (P&G), 19 of 20
+    (Ford), 23-24 of 25 (Lima Tank Wash). Parts I-V ahead of the appendix are the City's
+    standard terms, identical across permittees, so a prefix-only read returns a
+    confident permit with no limits in it at all. ``tail`` adds the LAST ``tail`` pages
+    to the window so the appendix is reachable without paying for the whole document.
+
+    ``tail=0`` reproduces the prefix behaviour exactly, which is what the other twelve
+    genres want and get by default. Overlap collapses: a ``head`` that already reaches
+    the end absorbs the tail rather than rendering a page twice.
+    """
+    if tail <= 0 or head >= count:
+        return list(range(min(head, count)))
+    return sorted({*range(head), *range(max(head, count - tail), count)})
+
+
 def _read_doc(
     doc: SourceDocument,
     *,
@@ -525,13 +546,20 @@ def _read_doc(
     image_pages: int,
     dpi: int,
     pdf: PdfDocument | None,
+    text_tail_pages: int = 0,
+    image_tail_pages: int = 0,
 ) -> tuple[str, list[bytes], list[int], list[int]]:
-    """Read the first pages of a document.
+    """Read a document's leading pages, and optionally its trailing ones.
 
     Returns ``(text, page_images, pages_consulted, image_pages)``: ``pages_consulted``
     is the text-and-image page union; ``image_pages`` is the honest subset actually
     rendered and sent to the vision model — recorded separately so a text-primary read
     (e.g. 6 text pages, 1 image) doesn't over-report the pages the model *saw* (#613).
+
+    The two ``*_tail_pages`` budgets are separate for the same reason the head budgets
+    are: rendering a page costs far more than reading its text layer, so a genre can
+    take a wide text tail cheaply while paying for only the two images it needs. Both
+    default to 0, leaving every existing genre's read byte-for-byte unchanged.
     """
     if doc.is_image:
         # A raster source (#703): no text layer, no pages — the single image is read
@@ -541,11 +569,11 @@ def _read_doc(
     owns_pdf = pdf is None
     pdf = pdf or PdfDocument(doc.path, dpi=dpi)
     try:
-        n_text = min(text_pages, pdf.page_count)
-        n_img = min(image_pages, pdf.page_count)
-        text = "\n\n".join(pdf.page_text(i) for i in range(n_text))
-        images = [pdf.render_page_png(i, dpi=dpi) for i in range(n_img)]
-        return text, images, list(range(max(n_text, n_img))), list(range(n_img))
+        text_window = _page_window(text_pages, text_tail_pages, pdf.page_count)
+        image_window = _page_window(image_pages, image_tail_pages, pdf.page_count)
+        text = "\n\n".join(pdf.page_text(i) for i in text_window)
+        images = [pdf.render_page_png(i, dpi=dpi) for i in image_window]
+        return text, images, sorted({*text_window, *image_window}), image_window
     finally:
         if owns_pdf:
             pdf.close()
@@ -555,10 +583,10 @@ def _read_doc(
 class DocSpec:
     """A document-level extraction recipe — the per-kind knobs the generic read varies.
 
-    The six document extractors (deed, npdes, sos, epa, wetland, engineering) share one
-    body: default settings/extractor → :func:`_read_doc` → force the model to populate a
-    record → wrap it with provenance → log start/done. Only these fields differ, so
-    :func:`_extract_doc` drives the whole read from one spec.
+    The document extractors share one body: default settings/extractor →
+    :func:`_read_doc` → force the model to populate a record → wrap it with provenance →
+    log start/done. Only these fields differ, so :func:`_extract_doc` drives the whole
+    read from one spec.
 
     ``summary`` maps the extracted record to the *type-specific* ``extract.doc.done`` log
     fields; the universal ``confidence``/``warnings`` are added by :func:`_extract_doc`.
@@ -574,6 +602,11 @@ class DocSpec:
     image_pages: int
     summary: Callable[[Any], dict[str, object]]
     max_tokens: int = 4096
+    # Trailing pages to add to the head budgets, for a genre whose substance is at the
+    # back (an appendix limits table). 0 = prefix read, the behaviour of every genre that
+    # does not set them. See :func:`_page_window`.
+    text_tail_pages: int = 0
+    image_tail_pages: int = 0
 
 
 def _extract_doc(
@@ -587,6 +620,8 @@ def _extract_doc(
     settings: Settings | None = None,
     text_pages: int | None = None,
     image_pages: int | None = None,
+    text_tail_pages: int | None = None,
+    image_tail_pages: int | None = None,
 ) -> DocExtraction:
     """Run the document-level extraction described by ``spec``.
 
@@ -608,6 +643,8 @@ def _extract_doc(
         image_pages=spec.image_pages if image_pages is None else image_pages,
         dpi=dpi,
         pdf=pdf,
+        text_tail_pages=(spec.text_tail_pages if text_tail_pages is None else text_tail_pages),
+        image_tail_pages=(spec.image_tail_pages if image_tail_pages is None else image_tail_pages),
     )
 
     log.info("extract.doc.start", doc_id=doc.doc_id, kind=kind, pages=len(pages), dpi=dpi)
