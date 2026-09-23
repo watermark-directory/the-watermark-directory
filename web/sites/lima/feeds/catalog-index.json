@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "38696611b7566bb908da881042f776a2f4697440208832310c485bb8ac5d72b3",
+  "catalog_version": "c2850fea26bc419fb3afe9fcbf88d067e196234713f2b1c2e08a547d9c9e1582",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -1425,6 +1425,14 @@
       "site": "lima",
       "local_id": "legal-prr-mandamus-bosc-prr-production-2026-08-lima",
       "title": "City of Lima PRR Production — Batches 1–2 (2026-08-22 / 2026-08-24)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:legal-prr-mandamus-bosc-prr-production-2026-09-lima",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "legal-prr-mandamus-bosc-prr-production-2026-09-lima",
+      "title": "City of Lima PRR Production — Batches 3–5 (2026-09-08 / 2026-09-22)",
       "feed": "catalog"
     },
     {

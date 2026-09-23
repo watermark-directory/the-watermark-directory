@@ -248,7 +248,7 @@ describe("the join, against the committed Lima bundle", () => {
     // whose minutes that manifest has never pulled — the corpus held the application and no
     // record of the decision. ONE file, not two: the 2018 warranty deed at pp. 11-14 is a second
     // INSTRUMENT inside the same PDF, extracted separately, not a second byte-stream.
-    expect(entries.length).toBe(3397);
+    expect(entries.length).toBe(3422);
     // 159 -> 160 (the American Township CUP): ONE join, from TWO records. Both the BZA decision
     // and the 2018 deed name the SAME packet as their `source.file`, and the join is per-`rel`,
     // so the numerator moves by one while `records.length` moves by two. That asymmetry is the
@@ -290,7 +290,10 @@ describe("the join, against the committed Lima bundle", () => {
     // rose 8 -> 15 at #1993 (the CRA agreement, the NDA, the treatment agreement, the school-
     // district notice letters, both statewide bills). Denominator 1,733 -> 1,736 at #2048: the
     // three H.B. 646 witness submissions, which are held and unread like the rest of `legal`.
-    expect(counts.legal).toEqual([15, 1756]);
+    // 1,756 -> 1,781 at #2174: the twenty-five-file Lima WWTP production. Held and unread like
+    // the rest of `legal` — the numerator is unmoved because this lands as bytes and custody
+    // first; the extractions are the next change, and they should move the 15.
+    expect(counts.legal).toEqual([15, 1781]);
     expect(counts.commissioners).toEqual([0, 995]);
     // `oepa` now belongs here: held, and largely READ. 98 of 111 is 88.3% — well above
     // `legal`'s 0.9% and `commissioners`' zero, and well below the instrument collections it used

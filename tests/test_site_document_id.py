@@ -174,7 +174,20 @@ def test_no_collision_across_the_committed_corpus() -> None:
     # committed as one.
     # Reviewed: 3397 rels, 3397 distinct rels, 3397 distinct handles — zero collisions, checked as
     # a set rather than inferred from the delta. The new handle is `rfgm705j`.
-    assert len(rels) == 3397, "a corpus change belongs in review, not a silent collision"
+    # 3397 → 3422 (#2174): the twenty-five files of the City of Lima production reported as the LAST
+    # of the Lima WWTP request — three batches under `legal/prr-mandamus/`, answering the four items
+    # the 2026-08 batches returned `nothing-produced` (D.7 the IU inventory, D.8 the IU permits,
+    # D.9 the pretreatment annual reports, E.10 the CSO long-term control plan). They reach the LIMA
+    # bundle because `legal/` is network-global and the subject is Lima's own POTW.
+    # ⚠️ This production is the first to commit the SAME BASENAME twice: the City produced
+    # `Ind_Permit_P&G_2025.pdf` in both same-day batches, byte-identical. Both copies are kept —
+    # inside a production there are no dedup deletions (see the custody manifest's `meta.policy`) —
+    # and they do NOT collide, because a handle is taken over the full rel, not the filename:
+    # `.../lima-1/Ind_Permit_P&G_2025.pdf` → `2j5syypb`, `.../lima-2/...` → `rb1z9h3a`. That is the
+    # property this assertion exists to check, so it was checked rather than assumed.
+    # Reviewed: 3422 rels, 3422 distinct rels, 3422 distinct handles — zero collisions, checked as a
+    # set rather than inferred from the delta.
+    assert len(rels) == 3422, "a corpus change belongs in review, not a silent collision"
     assert len({document_id(rel) for rel in rels}) == len(rels)
     # The count alone is a weak proxy: a delete-one-add-one leaves it at 3362. Name the two
     # committed BOSC-1A eDocs, and assert the two DEFERRED plan sets are absent — the deferral

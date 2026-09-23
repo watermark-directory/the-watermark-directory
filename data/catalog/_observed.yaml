@@ -1,4 +1,4 @@
-reconciled_at: '2026-09-19T16:55:48.575946+00:00'
+reconciled_at: '2026-09-23T01:59:35.944648+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -2237,6 +2237,16 @@ entries:
     size_bytes: 44201
     lfs_materialized: true
     file_count: 3
+    missing: []
+    asof: null
+    stale: false
+    site_scope: lima-legacy
+  legal-prr-mandamus-bosc-prr-production-2026-09-lima:
+    exists: true
+    sha256: 150cef56f5b044e4ab20471f72af8e79046d5e380dcbf3c04bc7ffb202a4b3d9
+    size_bytes: 20847
+    lfs_materialized: true
+    file_count: 1
     missing: []
     asof: null
     stale: false
