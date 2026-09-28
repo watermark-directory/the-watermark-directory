@@ -39,7 +39,7 @@
     "label": "Urbana",
     "scope": "site",
     "links_out": 3,
-    "links_in": 24,
+    "links_in": 25,
     "lines": 14,
     "updated": null
   },
@@ -1010,6 +1010,17 @@
     "links_in": 0,
     "lines": 22,
     "updated": "2026-08-02"
+  },
+  {
+    "id": "record/urbana-data-centers",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Urbana / Champaign County, OH — Data-Center Activity Register",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 22,
+    "updated": null
   },
   {
     "id": "record/urbana-datacenter-facility",

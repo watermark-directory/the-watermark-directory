@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "e6e29b78b3ea57f43ccb2b466d15b699bb95d6d7419a0b886e9989eb028c94a0",
+  "catalog_version": "9402faf54181164c3727f59d4a1b8e420575883973d905fcc04f2d527fc439c8",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -889,6 +889,14 @@
       "site": "lima",
       "local_id": "data-centers-troy-piqua",
       "title": "Troy-Piqua / Miami County OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:data-centers-urbana",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-urbana",
+      "title": "Urbana / Champaign County, OH — Data-Center Activity Register",
       "feed": "catalog"
     },
     {

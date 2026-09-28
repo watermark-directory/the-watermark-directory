@@ -4,12 +4,12 @@
 
 The **mechanical** half of the corpus-completeness audit: every dataset registered in the data catalog (`data/catalog/`) checked for existence and freshness against the committed reconcile snapshot (`data/catalog/_observed.yaml`). The **substantive** half — records an authority has *withheld* — stays human-authored in [`data/extracted/legal/corpus-completeness-audit.md`](../extracted/legal/corpus-completeness-audit.md).
 
-Snapshot reconciled: **2026-09-23T15:06:02.538358+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
+Snapshot reconciled: **2026-09-28T17:55:51.134305+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
 
 ## Headline
 
-- **209** catalogued datasets — **208** reviewed.
-- **209** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
+- **210** catalogued datasets — **208** reviewed.
+- **209** present and fresh · **1** stale · **0** LFS pointer (not materialized in this checkout).
 - **0** missing (declared files absent) · **0** unobserved (no snapshot record).
 
 ## Coverage by collection
@@ -30,7 +30,7 @@ Snapshot reconciled: **2026-09-23T15:06:02.538358+00:00**. Regenerate with `wate
 | extracted | history | 1 | 1 | 0 | 0 |
 | extracted | idem | 1 | 1 | 0 | 0 |
 | extracted | lacrpc | 2 | 2 | 0 | 0 |
-| extracted | legal | 24 | 24 | 0 | 0 |
+| extracted | legal | 24 | 23 | 1 | 0 |
 | extracted | lima | 3 | 3 | 0 | 0 |
 | extracted | limaohio | 1 | 1 | 0 | 0 |
 | extracted | mansfield | 1 | 1 | 0 | 0 |
@@ -48,7 +48,7 @@ Snapshot reconciled: **2026-09-23T15:06:02.538358+00:00**. Regenerate with `wate
 | extracted | sidney | 5 | 5 | 0 | 0 |
 | extracted | toledo | 1 | 1 | 0 | 0 |
 | extracted | troy-piqua | 2 | 2 | 0 | 0 |
-| extracted | urbana | 1 | 1 | 0 | 0 |
+| extracted | urbana | 2 | 2 | 0 | 0 |
 | extracted | van-wert | 4 | 4 | 0 | 0 |
 | extracted | watershed | 1 | 1 | 0 | 0 |
 | extracted | west-union | 2 | 2 | 0 | 0 |
@@ -119,7 +119,7 @@ Snapshot reconciled: **2026-09-23T15:06:02.538358+00:00**. Regenerate with `wate
 | springfield | 58 | 49 | 9 |
 | toledo | 62 | 51 | 11 |
 | troy-piqua | 62 | 55 | 7 |
-| urbana | 60 | 52 | 8 |
+| urbana | 61 | 54 | 7 |
 | van-wert | 67 | 61 | 6 |
 | west-union | 61 | 52 | 9 |
 | wilmington | 62 | 56 | 6 |
@@ -128,4 +128,6 @@ Snapshot reconciled: **2026-09-23T15:06:02.538358+00:00**. Regenerate with `wate
 
 ## Integrity gaps
 
-None — every catalogued dataset is present and within its refresh cadence.
+| dataset | scope | state |
+| --- | --- | --- |
+| `legal-datacenter-ballot-2026-11` | extracted | stale |
