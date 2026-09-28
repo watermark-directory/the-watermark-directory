@@ -904,7 +904,7 @@
       "size_bytes": 49294,
       "lfs_materialized": true,
       "file_count": 2,
-      "stale": false,
+      "stale": true,
       "asof": null
     },
     "observed_network": null,

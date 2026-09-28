@@ -1,4 +1,4 @@
-reconciled_at: '2026-09-23T15:06:02.538358+00:00'
+reconciled_at: '2026-09-28T17:55:51.134305+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -334,10 +334,10 @@ entries:
     site_scope: basin-shared
   data-centers:
     exists: true
-    sha256: c4fad227c0cb352232ce442c31d7b35a679a2ba36b95c93af54198d6def4ab66
-    size_bytes: 432561
+    sha256: 111cefe6ed6061d6810552026c929c7990589282a246be523650722661c82fc8
+    size_bytes: 450381
     lfs_materialized: true
-    file_count: 15
+    file_count: 16
     missing: []
     asof: null
     stale: false
@@ -419,6 +419,14 @@ entries:
         exists: true
         sha256: 79361d06effdf8aa8fd68efc5827ef0b623eff97725c4c6cb57c316ad65d7caa
         size_bytes: 29877
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      urbana:
+        exists: true
+        sha256: f1a4193d92dc28c881d83b1e263864064d28fa8a0376392dd78b7862ed6559c6
+        size_bytes: 17820
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -513,6 +521,16 @@ entries:
     asof: null
     stale: false
     site_scope: site:troy-piqua
+  data-centers-urbana:
+    exists: true
+    sha256: f1a4193d92dc28c881d83b1e263864064d28fa8a0376392dd78b7862ed6559c6
+    size_bytes: 17820
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:urbana
   data-centers-van-wert:
     exists: true
     sha256: 24359279611b3934e87216d72f8c527f1cc97f3763f20d0f98e2c678239834cb
@@ -2169,7 +2187,7 @@ entries:
     file_count: 2
     missing: []
     asof: null
-    stale: false
+    stale: true
     site_scope: state:OH
   legal-datacenter-legislation-hb983-3744:
     exists: true

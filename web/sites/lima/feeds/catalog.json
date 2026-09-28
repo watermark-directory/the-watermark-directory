@@ -1169,7 +1169,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 15,
+      "sites_present": 16,
       "sites_total": 26
     },
     "citation": {
@@ -1459,6 +1459,58 @@
     "observed_network": null,
     "citation": {
       "source": "City of Piqua project page (piquaoh.gov/1673); Data Center Dynamics; Miami Valley Today; CivicCapacity water/wastewater analysis; Ohio EPA NPDES 1PD00008 (Piqua WWTP); Ohio EPA data-center general permit OHD000001; Hunterbrook (Meta attribution, investigative); Ryan Grissinger candidate-site tracker",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-urbana",
+    "title": "Urbana / Champaign County, OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "urbana",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, manual web pass (2026-09-28) over the committed Urbana corpus (highland55 / land-assembly / litigation / incentive / facility / cooling-water records) — verify every post-freeze figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:urbana",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "urbana",
+      "champaign-county-oh",
+      "mad-river",
+      "thor-equities",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/urbana/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "f1a4193d92dc28c881d83b1e263864064d28fa8a0376392dd78b7862ed6559c6",
+      "size_bytes": 17820,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, manual web pass (2026-09-28) over the committed Urbana corpus (highland55 / land-assembly / litigation / incentive / facility / cooling-water records) — verify every post-freeze figure against its cited source before promoting status to reviewed.",
       "source_kind": "reference",
       "page": null,
       "pages": null,
@@ -2809,7 +2861,7 @@
       "size_bytes": 49294,
       "lfs_materialized": true,
       "file_count": 2,
-      "stale": false,
+      "stale": true,
       "asof": null
     },
     "observed_network": null,
