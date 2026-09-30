@@ -67,7 +67,7 @@ def test_no_committed_extraction_changes_group() -> None:
     [
         ("determination", "wetland-determinations", 2),
         ("statutory_notice", "statutory-notices", 2),
-        ("zoning_amendment", "local-legislation", 1),
+        ("zoning_amendment", "local-legislation", 2),
         ("zoning_application", "local-legislation", 1),
         ("sellers", "land-assembly", 1),
         ("zoning_code", "local-legislation", 1),

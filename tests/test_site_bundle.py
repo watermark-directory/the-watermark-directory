@@ -914,7 +914,9 @@ def test_findlay_exports_at_reference_tier(site_bundle: Callable[[str], Path]) -
     # amendment, the docketed Interstate Capital petition — all `local-legislation`, two of them
     # NOT enacted and each carrying its own `status` on its face), AEP Ohio's Schedule DCT tariff
     # posture, and the Rocky Ford 138 kV siting case. Every one was a reviewed, cited extraction
-    # the taxonomy had no bucket for.
+    # the taxonomy had no bucket for. The City of Findlay's own Chapter 1144 draft (v7, the
+    # 2026-07-23 transmittal to RGP) followed as a sixth ``local-legislation`` record — a DRAFT
+    # never introduced, carrying ``status: draft`` on its face, whose source PDF is withheld.
     records = _rows(out, _feeds_by_name(out)["records"])
     assert {r["rel"] for r in records} == {
         "findlay/brownfield/round-11-hancock-2026.award.yaml",
@@ -923,6 +925,7 @@ def test_findlay_exports_at_reference_tier(site_bundle: Callable[[str], Path]) -
         "findlay/governance/allen-twp-data-center-amendment-2026.zoning.yaml",
         "findlay/governance/allen-twp-rezoning-interstate-capital-2026.yaml",
         "findlay/governance/allen-twp-zoning-adoption-and-referendum.yaml",
+        "findlay/governance/findlay-chapter-1144-draft-v7.zoning.yaml",
         "findlay/governance/litigation-one-energy-v-allen-twp.yaml",
         "grid/findlay/aep-dct-tariff-posture.yaml",
         "grid/findlay/rocky-ford-138kv-2024.project.yaml",
@@ -933,7 +936,7 @@ def test_findlay_exports_at_reference_tier(site_bundle: Callable[[str], Path]) -
         "oepa/findlay/2PD00008.fs.npdes.yaml",
         "oepa/findlay/2PD00008.npdes.yaml",
     }, f"unexpected findlay records feed, got {sorted(r['rel'] for r in records)}"
-    assert len(records) == 15
+    assert len(records) == 16
     # The WARN pair publishes under ``labor`` — the group added for #1460 (contract 1.47.0),
     # because a state-filed plant-closing notice is not a permit, an order, an award, a deed or
     # a pleading, and filing it under the nearest of those would misrepresent the instrument.
@@ -963,6 +966,7 @@ def test_findlay_exports_at_reference_tier(site_bundle: Callable[[str], Path]) -
         "findlay/governance/allen-twp-data-center-amendment-2026.zoning.yaml": "local-legislation",
         "findlay/governance/allen-twp-rezoning-interstate-capital-2026.yaml": "local-legislation",
         "findlay/governance/allen-twp-zoning-adoption-and-referendum.yaml": "local-legislation",
+        "findlay/governance/findlay-chapter-1144-draft-v7.zoning.yaml": "local-legislation",
         "findlay/governance/litigation-one-energy-v-allen-twp.yaml": "litigation",
     }, f"unexpected findlay governance records: {sorted(governance)}"
     # NOTHING HERE IS LAW EXCEPT THE ADOPTED RESOLUTION, and the record has to say so on its face.

@@ -249,6 +249,19 @@ timeline:
     tag: verified
     source: data/documents/findlay/governance/Minutes-7-22-26-special-ATZC.pdf
 
+  - date: '2026-07-23'
+    jurisdiction: City of Findlay
+    event: >
+      Mayor Christina Muryn e-mails thompson@rgp.org — "Gary, Please see attached as discussed.
+      Appreciate your feedback." — attaching CHAPTER_1144_Data_Center_Draft_v7_Performance_Based,
+      a draft amending the city's I-3 Large Scale Industrial District chapter to admit data
+      centers as a conditional use (1,000 ft from residential; groundwater withdrawal for cooling
+      prohibited; no load or water cap in the text read). The recipient is identified by The
+      Ohio Register as Gary Thompson, EVP of the Regional Growth Partnership [reference]. The
+      copy held is the Register's republication of the City's records production.
+    tag: verified
+    source: data/documents/findlay/governance/Muryn-Thompson-1144_Redacted.pdf
+
   - date: '2026-07-28'
     jurisdiction: Allen Township
     event: >

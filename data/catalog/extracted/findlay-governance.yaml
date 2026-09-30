@@ -19,7 +19,10 @@ producer:
     data/documents/legal/one-energy-v-allen-twp/, filed by case rather than by site on the
     legal/thor-v-urbana precedent. Two secondary articles on the City of Findlay moratorium
     (The Ohio Register, The Pulse) are carried as [reference] web captures because the
-    certified ordinance could not be obtained.
+    certified ordinance could not be obtained. The City of Findlay's draft Chapter 1144 v7
+    (data-center conditional use in I-3) and the Mayor's 2026-07-23 transmittal of it to the
+    Regional Growth Partnership are held as The Ohio Register's republication of a City
+    records production, with the Register's article captured beside it.
 license: Public record (a township zoning resolution and its amendments, a pending land-use application, a certified election canvass, a county resolution, a published court opinion)
 access_tier: public
 site_scope: site:findlay
@@ -43,6 +46,9 @@ storage:
   media_type: application/x-yaml
   lfs: false
 - relpath: extracted/findlay/governance/findlay-ordinance-2026-42.gap.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/findlay/governance/findlay-chapter-1144-draft-v7.zoning.yaml
   media_type: application/x-yaml
   lfs: false
 - relpath: extracted/findlay/governance-watch.md
@@ -127,3 +133,12 @@ notes: >-
   a response log and a constructive-denial watch ready to fill in. Ten open threads are
   cross-filed in data/site/findlay/leads.yaml, including the time-sensitive August 2026
   hearing calendar.
+  Added 2026-09-30: the city's own draft. The Mayor's 2026-07-23 e-mail to thompson@rgp.org
+  and its attachment, draft v7 of Chapter 1144 (the existing I-3 district, Ord. 2023-115),
+  read through 1144.10(h). The custody is second-hand — The Ohio Register's posted copy of a
+  City R.C. 149.43 production — so the draft is verified as read and not as certified.
+  Performance-based, not capped: 1,000 ft from residential, closed-loop and air cooling
+  permitted, groundwater barred for cooling only, no load or water cap in the text read. The
+  Register's article is carried as reference and its unsupported claims (a DeArment e-mail,
+  a 50-to-5-acre change, July-22 transcripts) as a lead. The PDF is withheld from the public
+  site until pp.6-10 are screened.

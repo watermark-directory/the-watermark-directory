@@ -725,6 +725,21 @@
         "supersedes": []
       },
       {
+        "rel": "findlay/governance/Muryn-Thompson-1144_Redacted.pdf",
+        "name": "Muryn-Thompson-1144_Redacted.pdf",
+        "size_bytes": 32582859,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
+      },
+      {
         "rel": "findlay/governance/Res.DataCenters.pdf",
         "name": "Res.DataCenters.pdf",
         "size_bytes": 1166323,
@@ -803,6 +818,21 @@
         "rel": "findlay/governance/ohioregister-moratorium.html",
         "name": "ohioregister-moratorium.html",
         "size_bytes": 40954,
+        "suffix": "html",
+        "media_type": "text/html",
+        "render_class": "html",
+        "published": true,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
+      },
+      {
+        "rel": "findlay/governance/ohioregister-rgp-1144.html",
+        "name": "ohioregister-rgp-1144.html",
+        "size_bytes": 46140,
         "suffix": "html",
         "media_type": "text/html",
         "render_class": "html",

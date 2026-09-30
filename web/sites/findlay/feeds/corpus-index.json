@@ -39,7 +39,7 @@
     "label": "Findlay",
     "scope": "site",
     "links_out": 3,
-    "links_in": 91,
+    "links_in": 93,
     "lines": 14,
     "updated": null
   },
@@ -979,6 +979,17 @@
     "updated": null
   },
   {
+    "id": "question/lead-city-1144-draft-rgp-transmittal",
+    "node_class": "question",
+    "kind": "lead",
+    "label": "The city's data-center draft went to the Regional Growth Partnership a week before the public — get the City's own copy, the reply, and the text as introduced",
+    "scope": "site",
+    "links_out": 1,
+    "links_in": 0,
+    "lines": 22,
+    "updated": null
+  },
+  {
     "id": "question/lead-city-transparency-episodes",
     "node_class": "question",
     "kind": "lead",
@@ -1560,6 +1571,17 @@
     "links_in": 0,
     "lines": 22,
     "updated": "2026-08-12"
+  },
+  {
+    "id": "record/findlay-governance-findlay-chapter-1144-draft-v7",
+    "node_class": "record",
+    "kind": "record",
+    "label": "City of Findlay — Chapter 1144 (I-3 Large Scale Industrial District), data-center draft v7",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 23,
+    "updated": null
   },
   {
     "id": "record/findlay-governance-findlay-ordinance-2026-42-gap",

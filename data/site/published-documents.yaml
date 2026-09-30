@@ -522,6 +522,15 @@ withhold:
     # and the committed record are unaffected.
     # review: { by: goedelsoup, date: 2026-08-13, result: withhold, basis: aggregated-personal-contact-details }
     - "findlay/reference/2026 Directory of Officials_202604131412522342.pdf"
+    # The City of Findlay's Chapter 1144 draft v7 with the Mayor's transmittal e-mail, as The
+    # Ohio Register republished the City's R.C. 149.43 production. Cleared boundary (the
+    # `findlay` collection), carved back out PENDING a screen that has not been done: the file
+    # is image-only (a PII regex returns a false clean), and only pp.1-6 through 1144.10(h) have
+    # been read. pp.6-10 were flagged as possibly carrying personal information and were NOT
+    # looked at. The two addresses on p.1 are official (findlayohio.gov, rgp.org). Remove this
+    # entry only after a render-and-read of every page — then `watermark passages`.
+    # review: PENDING — not reviewed; withheld by default until it is.
+    - findlay/governance/Muryn-Thompson-1144_Redacted.pdf
     # Van Wert City Council minutes of 2026-05-11. Cleared boundary (the `van-wert` collection),
     # carved back out on a CORRECTION to the record that clearance was approved on.
     #
