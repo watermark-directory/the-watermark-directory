@@ -1221,7 +1221,15 @@ def _compose_governance(ctx: _Ctx, _facility: dict[str, Any] | None) -> _Composi
     destination in the evidence annex's three bands, so asserting one as ``verified`` would be
     a provenance claim the page cannot honour.
     """
-    instruments = _record_group_rows(ctx, _GOVERNANCE_GROUPS)
+    # A ``status: draft`` record is text circulated before any body moved it (Findlay's Chapter
+    # 1144 v7, e-mailed by the Mayor) — not a resolution, an ordinance, a docketed application or
+    # a filed court instrument, so it is outside this stat's own definition. It still publishes
+    # as a record and still counts toward the chapter's status; it is only not COUNTED here.
+    instruments = sum(
+        1
+        for r in _rows(ctx, "records")
+        if r.get("group") in _GOVERNANCE_GROUPS and (r.get("fields") or {}).get("status") != "draft"
+    )
     if instruments == 0:
         return _EMPTY
     return _Composition(

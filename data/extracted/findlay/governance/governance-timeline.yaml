@@ -261,6 +261,7 @@ timeline:
       copy held is the Register's republication of the City's records production.
     tag: verified
     source: data/documents/findlay/governance/Muryn-Thompson-1144_Redacted.pdf
+    pages: '1-6'
 
   - date: '2026-07-28'
     jurisdiction: Allen Township
