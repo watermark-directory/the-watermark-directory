@@ -1283,7 +1283,14 @@ const COMPOSERS: Record<string, (slug: string, facility: FacilityItem | null) =>
   // provenance claim the page can't honour — the precise thing `study.evidence.test.ts` forbids.
   // The site's own meetings surface already carries that count, cited.
   governance(slug) {
-    const instruments = recordGroupRows(slug, GOVERNANCE_GROUPS);
+    // A `status: draft` record is text circulated before any body moved it — outside this stat's
+    // own definition, so it is not counted here (it still publishes, and still lifts the status).
+    const instruments =
+      feedRows(slug, "records") === 0
+        ? 0
+        : loadFeed<RecordItem[]>("records", slug).filter(
+            (r) => (GOVERNANCE_GROUPS as readonly string[]).includes(r.group) && r.fields?.status !== "draft",
+          ).length;
     if (instruments === 0) return EMPTY_COMPOSITION;
     return {
       stats: [

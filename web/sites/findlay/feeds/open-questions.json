@@ -509,7 +509,7 @@
   {
     "id": "CITY-1144-DRAFT-RGP-TRANSMITTAL",
     "origin": "lead",
-    "question": "The city's data-center draft went to the Regional Growth Partnership a week before the public — get the City's own copy, the reply, and the text as introduced",
+    "question": "The Mayor e-mailed the city's data-center draft to the Regional Growth Partnership on 2026-07-23 — get the City's own copy, the reply, and the text as introduced",
     "detail": "The corpus now holds, from The Ohio Register's republication of a City records production, the Mayor's 2026-07-23 e-mail sending draft v7 of Chapter 1144 to thompson@rgp.org \"as discussed\", asking for feedback. That transmittal is on the page. What it led to is not. Nothing held shows RGP's reply, whether any text changed, who drafted v1-v6, or the ordinance as introduced to Council. The article's further claims are NOT in its published attachment and must not be repeated as fact: a 5:44 AM e-mail from a \"Daniel DeArment\" (the same name the Register hedged against DeLong in April), a 50-to-5-acre parcel change (v7's intent still reads \"greater than 50 acres\"), July-22 \"transcripts\" (Allen Township's zoning commission also met that day), and a Port Authority tax-revenue analysis said to be withheld. Next step is an R.C. 149.43 request to the Mayor's office for the 7/23 thread in both directions, the \"DeArment\" e-mail, v1-v7, and the City's Data Center Siting & Policy Framework that 1144.10(a) names.",
     "source": "data/extracted/findlay/governance/findlay-chapter-1144-draft-v7.zoning.yaml · data/documents/findlay/governance/filename-map.yaml",
     "kind": "question",

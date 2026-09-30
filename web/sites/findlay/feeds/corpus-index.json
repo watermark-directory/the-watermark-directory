@@ -982,7 +982,7 @@
     "id": "question/lead-city-1144-draft-rgp-transmittal",
     "node_class": "question",
     "kind": "lead",
-    "label": "The city's data-center draft went to the Regional Growth Partnership a week before the public — get the City's own copy, the reply, and the text as introduced",
+    "label": "The Mayor e-mailed the city's data-center draft to the Regional Growth Partnership on 2026-07-23 — get the City's own copy, the reply, and the text as introduced",
     "scope": "site",
     "links_out": 1,
     "links_in": 0,
@@ -1581,7 +1581,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 23,
-    "updated": null
+    "updated": "2026-09-30"
   },
   {
     "id": "record/findlay-governance-findlay-ordinance-2026-42-gap",
@@ -1603,7 +1603,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 20,
-    "updated": "2026-07-31"
+    "updated": "2026-09-30"
   },
   {
     "id": "record/findlay-governance-hancock-sb52-restricted-area",
@@ -1647,7 +1647,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-07-31"
+    "updated": "2026-09-30"
   },
   {
     "id": "record/findlay-hancock-county-commissioners-meetings-co",

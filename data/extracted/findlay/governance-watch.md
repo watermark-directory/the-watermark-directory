@@ -145,14 +145,16 @@ approach from the township:
 
 - **No load cap and no water cap** in the text read. Approval instead turns on Planning
   Commission "no impairment" findings about the grid, water, sewer and wastewater treatment,
-  based on 14 required studies and reports paid for by the applicant.
+  based on a 14-item required submittal. Thirteen items are named plans, studies and reports,
+  and the fourteenth is "any additional information" the City asks for.
 - **1,000 ft** from any residential district or use, and from schools, parks and hospitals.
   The township's figure is 1,250 ft.
 - **Closed-loop and air cooling both permitted.** The township permits dry cooling only.
   Once-through cooling needs Council approval.
-- **Groundwater withdrawal for cooling is prohibited.** The township bans all groundwater
-  wells. The city's own §1144.10(h)10 then lists "use of groundwater for primary cooling" as a
-  change that "may require an amendment", so the draft contradicts itself.
+- **Groundwater withdrawal for cooling is prohibited** under §1144.10(h)3. The township bans all
+  groundwater wells. §1144.10(h)10 also lists "use of groundwater for primary cooling" among
+  the changes that "may require an amendment". Whether (h)10 anticipates a variance from (h)3
+  or only a trigger for review is not settled by the text `[inference]`.
 - **Aggregation**: the City "may aggregate" contiguous, commonly owned, commonly controlled or
   functionally integrated properties when evaluating impacts.
 
