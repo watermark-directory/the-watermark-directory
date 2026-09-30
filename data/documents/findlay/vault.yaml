@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-09-03T12:25:50+00:00'
+  generated_at: '2026-09-30T18:07:53+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 164
-    bytes: 35391799
-    distinct_addresses: 164
+    artifacts: 165
+    bytes: 67974658
+    distinct_addresses: 165
 artifacts:
 - rel: documents/findlay/allen-township/meetings/01-02-2024.pdf
   sha256: 11f322258ab7df25ca9940c90682204b0412aeb7d23e2b20cea9abb1716c1991
@@ -250,6 +250,11 @@ artifacts:
 - rel: documents/findlay/governance/Minutes-7-7-26-ATZC.pdf
   sha256: ccd03549b0761c3900575e11553b4668d402c660e28863c4a3aecd5981ae60ef
   bytes: 65885
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/findlay/governance/Muryn-Thompson-1144_Redacted.pdf
+  sha256: 8609f655b9cca2fccedcc855bd391076489c73fdb890ccc302ab163a627b96ed
+  bytes: 32582859
   media_type: application/pdf
   redistributable: true
 - rel: documents/findlay/governance/Res.DataCenters.pdf

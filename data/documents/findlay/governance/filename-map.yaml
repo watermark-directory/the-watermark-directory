@@ -482,6 +482,71 @@ documents:
       logic Allen Township's counsel applied to the township resolution.
       [reference].
 
+  # ── The city's own draft code, as a newspaper republished it (2026-09-30) ──
+  # The first City of Findlay data-center zoning text held from any source. It
+  # arrives SECOND-HAND: the City produced it to The Ohio Register under R.C.
+  # 149.43 and the Register posted the production beside its article. The bytes
+  # below are the Register's as-served file, not a production to this repo —
+  # the document is a primary record, the custody is a newspaper's.
+  - filename: Muryn-Thompson-1144_Redacted.pdf
+    canonical: findlay-mayor-to-rgp-chapter-1144-draft-v7-2026-07-23.pdf
+    title: >-
+      E-mail, Mayor Christina Muryn to thompson@rgp.org, "City of Findlay Draft
+      Data Center Ordinance", Thu 7/23/2026 11:15 AM, with its attachment
+      CHAPTER_1144_Data_Center_Draft_v7_Performance_Based.docx printed behind it
+    issuer: >-
+      City of Findlay, Office of the Mayor (as produced to The Ohio Register, and
+      republished by it — the redactions are the production's, not this repo's)
+    source_url: https://www.theohioregister.com/content/files/2026/09/Muryn-Thompson-1144_Redacted.pdf
+    landing_page: https://www.theohioregister.com/server-logs-expose-private-economic-brokers-vetting-findlay-data-center-law-ahead-of-public-rollout/
+    sha256: 8609f655b9cca2fccedcc855bd391076489c73fdb890ccc302ab163a627b96ed
+    bytes: 32582859
+    content_type: application/pdf
+    pages: 10
+    fetched_at: '2026-09-30T15:36:00Z'
+    content_verified: '2026-07-23'   # p.1 Outlook header "Date Thu 7/23/2026 11:15 AM"
+    evidence: rendered_scan
+    status: downloaded
+    note: >-
+      Image-only (no text layer; PDF metadata CreationDate 2026-08-31, the
+      Register's scan, not the City's). p.1 is the transmittal e-mail; pp.2-10
+      are the attached draft of Chapter 1144, the city's EXISTING I-3 Large Scale
+      Industrial District chapter (Ord. 2023-115, passed 12-19-23), amended to
+      add data centers as a conditional use under a new Section 1144.10. Read
+      through 1144.10(h) only; 1144.10(i) onward (pp.6-10) is NOT yet
+      transcribed and has not been screened for personal information, which is
+      why it is carved out under `withhold:` in data/site/published-documents.yaml.
+      ⚠️ The e-mail from "Daniel DeArment" the article quotes is NOT in this
+      file.
+  - filename: ohioregister-rgp-1144.html
+    canonical: theohioregister-server-logs-expose-private-economic-brokers-vetting-findlay-data-center-law.html
+    title: >-
+      "Server logs expose private economic brokers vetting Findlay data center
+      law ahead of public rollout?" — The Ohio Register, by Carey Morgan
+    issuer: The Ohio Register (secondary reporting — NOT a certified record)
+    source_url: https://www.theohioregister.com/server-logs-expose-private-economic-brokers-vetting-findlay-data-center-law-ahead-of-public-rollout/
+    landing_page: https://www.theohioregister.com/
+    sha256: 03854b5e0e706db0824291a4b2b87e94055dbe3750c0baf5c45ffd4369c17890
+    bytes: 46140
+    content_type: text/html
+    fetched_at: '2026-09-30T15:36:00Z'
+    content_verified: '2026-09-01'   # <meta property="article:published_time" content="2026-09-01T01:25:51.000Z"> (the page prints "31 Aug 2026", US-Eastern)
+    evidence: html_capture
+    status: downloaded
+    note: >-
+      Captured as the provenance of the PDF above and for its claims, which are
+      held as LEADS, not facts. Checked against the PDF and this corpus
+      (data/extracted/findlay/governance/findlay-chapter-1144-draft-v7.zoning.yaml):
+      the e-mail's date, time, recipient and wording match the attachment, and so
+      do the 1,000 ft separation and the groundwater-for-cooling prohibition. NOT
+      supported by any published attachment: the 5:44 AM "DeArment" e-mail, the
+      50 → 5 acre change (v7's 1144.01 still reads "greater than 50 acres"), the
+      July-22 "transcripts", and the Port Authority report. It misdescribes Matt
+      Cordonnier as the city's planning director (the county Directory of
+      Officials lists him at the Regional Planning Commission) and calls a
+      printed Outlook e-mail "server logs". Everything from this file is
+      [reference].
+
 # ── What could NOT be retrieved, and why ────────────────────────────────────
 # Recorded as ACCESS FAILURES, not as negatives. An unreachable host is not
 # evidence that a record does not exist (the standing rule from the PUCO DIS

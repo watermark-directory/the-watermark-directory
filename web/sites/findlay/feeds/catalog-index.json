@@ -1,6 +1,6 @@
 {
   "site": "findlay",
-  "catalog_version": "08991bf232a8052cb7616da24010961392fbd2ee1a97a97c8846a807ffbfbe1d",
+  "catalog_version": "0c65eddea068deec4f4316428ca6903f5733f1ced00cd021217356730cca26cf",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -1276,6 +1276,14 @@
       "feed": "leads"
     },
     {
+      "handle": "lead:findlay:CITY-1144-DRAFT-RGP-TRANSMITTAL",
+      "kind": "lead",
+      "site": "findlay",
+      "local_id": "CITY-1144-DRAFT-RGP-TRANSMITTAL",
+      "title": "The city's data-center draft went to the Regional Growth Partnership a week before the public — get the City's own copy, the reply, and the text as introduced",
+      "feed": "leads"
+    },
+    {
       "handle": "lead:findlay:CITY-TRANSPARENCY-EPISODES",
       "kind": "lead",
       "site": "findlay",
@@ -1681,6 +1689,14 @@
       "site": "findlay",
       "local_id": "findlay/governance/allen-twp-zoning-adoption-and-referendum.yaml",
       "title": "Allen Township Zoning Resolution",
+      "feed": "records"
+    },
+    {
+      "handle": "record:findlay:findlay/governance/findlay-chapter-1144-draft-v7.zoning.yaml",
+      "kind": "record",
+      "site": "findlay",
+      "local_id": "findlay/governance/findlay-chapter-1144-draft-v7.zoning.yaml",
+      "title": "City of Findlay draft Chapter 1144 — I-3 Large Scale Industrial District, adding data centers as a conditional use under a new Section 1144.10 (draft v7, \"Performance_Based\")",
       "feed": "records"
     },
     {

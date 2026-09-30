@@ -1,0 +1,264 @@
+# City of Findlay — Chapter 1144 (I-3 Large Scale Industrial District), data-center draft v7
+#
+# The first City of Findlay data-center zoning text this repo holds from any source. Read from
+# the as-served scan The Ohio Register posted beside its 2026-08-31 article:
+#   data/documents/findlay/governance/Muryn-Thompson-1144_Redacted.pdf  (10 pp, image-only)
+# p.1 is the Mayor's transmittal e-mail; pp.2-10 are the attachment it names,
+# CHAPTER_1144_Data_Center_Draft_v7_Performance_Based.docx, printed.
+#
+# ⚠️ CUSTODY. The document is a primary record (a City e-mail and its attachment), but this repo
+# did not receive it from the City. The City produced it to the Register under R.C. 149.43, the
+# Register redacted-or-received it and posted it, and this is the Register's file. `[verified]`
+# below means "reads so on the held pages" — it does NOT mean the City has certified this copy.
+# The City's own copy is worth requesting (see `open_targets`).
+#
+# ⚠️ COVERAGE. Read through Section 1144.10(h) — the water, cooling and wastewater standards —
+# and no further. Subsection (i) (Noise) onward, pp.6-10, is NOT transcribed and has not been
+# screened for personal information; the PDF is withheld from the public site until it is
+# (data/site/published-documents.yaml). Nothing here speaks for what those pages say.
+#
+# TAG VOCABULARY:
+#   [verified]  — the e-mail's header and body, and the draft's text, as they read on the pages.
+#   [reference] — from The Ohio Register's article (data/documents/findlay/governance/ohioregister-rgp-1144.html).
+#   [inference] — this repo's reading.
+#   [open]      — not established.
+#
+# ⚠️ STANDING. NOTHING HERE IS LAW. v7 is a draft circulated by the Mayor on 2026-07-23. Whether
+# it is the text introduced to Council, and what Council has done with it, are [open]. Write it
+# as a DRAFT every time.
+
+as_of: '2026-09-30'
+site: findlay
+
+source:
+  file: data/documents/findlay/governance/Muryn-Thompson-1144_Redacted.pdf
+  sha256: 8609f655b9cca2fccedcc855bd391076489c73fdb890ccc302ab163a627b96ed
+  pages_read: '1-6 (through 1144.10(h))'
+  method: >
+    No text layer. p.1-2 rendered at 80 dpi and read visually; pp.3-6 rendered at 110 dpi and
+    OCR'd (tesseract), with every quoted passage below taken from a legible OCR line. OCR
+    misreads subsection letters on these pages ("(c)" for (e), "(8)" for (f)); the letters below
+    follow the draft's own sequence, not the OCR.
+  companion: data/documents/findlay/governance/ohioregister-rgp-1144.html
+
+transmittal:
+  tag: verified
+  from: Christina Muryn <cmuryn@findlayohio.gov>
+  to: thompson@rgp.org
+  sent: 'Thu 7/23/2026 11:15 AM'
+  subject: City of Findlay Draft Data Center Ordinance
+  attachment: CHAPTER_1144_Data_Center_Draft_v7_Performance_Based.docx (38 KB)
+  body_verbatim: 'Gary, Please see attached as discussed. Appreciate your feedback.'
+  signature: Mayor Christina Muryn, City of Findlay, Ohio
+  redaction: >
+    The recipient's display name after "thompson@rgp.org <" is blacked out on the page. The
+    redaction is the production's, not this repo's.
+  recipient_identity:
+    tag: reference
+    value: Gary Thompson, Executive Vice President, Regional Growth Partnership (RGP)
+    note: >
+      The address and the salutation "Gary" are on the page; the full name, the title and RGP's
+      role as JobsOhio's northwest-Ohio regional network partner are the Register's.
+
+zoning_amendment:
+  title: >-
+    City of Findlay draft Chapter 1144 — I-3 Large Scale Industrial District, adding data
+    centers as a conditional use under a new Section 1144.10 (draft v7, "Performance_Based")
+  status: draft
+  jurisdiction: City of Findlay, Hancock County, Ohio
+  initiated_by: '[open] — circulated by the Mayor; the sponsoring body and any introduction date are not on the pages read'
+  source_file: data/documents/findlay/governance/Muryn-Thompson-1144_Redacted.pdf
+
+  # ─────────────────────────────────────────────────────────────────────────────────────
+  # The chapter as drafted — [verified] as the text reads.
+  # ─────────────────────────────────────────────────────────────────────────────────────
+  existing_chapter:
+    note: >
+      Chapter 1144 is NOT new legislation. Its intent and conditional-use sections carry the
+      history line "(Ord. 2023-115. Passed 12-19-23.)"; v7 amends the existing I-3 chapter.
+    intent_verbatim: >
+      The I-3 Large Scale Industrial Districts are designed to allow for maximum flexibility for
+      manufacturing and assembling, fabricating activities, large scale and specialized
+      industrial operations that are on properties greater than 50 acres. These Districts are
+      structured to include heavy industrial use and innovative technologies that are contained
+      within the premises.
+    permitted_uses: [All Uses Permitted in the I-1 District, Industry Utilizing Autonomous Technology, Solar Power Generation, Wind Energy Conversion Systems]
+    conditional_uses:
+      - Data Center, subject to the standards set forth in Section 1144.10.
+      - Any Additional Less Intensive, Non-Objective Uses Which are Subject to Planning Commission Review.
+    district_setbacks_ft:
+      front_major_secondary_thoroughfare: 75
+      front_other_streets: 50
+      side: 30
+      side_adjacent_residential_zoning: 75
+      rear: 30
+      rear_adjacent_residential_zoning: 75
+    min_lot_frontage_ft: 250
+    min_building_separation_ft: 25
+    max_height_ft: {primary_structure: 60, accessory_structure: 40, wind_energy_conversion_system: 599}
+
+  section_1144_10:
+    heading: CONDITIONAL USE STANDARDS - DATA CENTERS
+    purpose_excerpt_verbatim: >
+      These standards are intended to implement the City's Data Center Siting & Policy
+      Framework by requiring the applicant to demonstrate that potential impacts will be
+      avoided, minimized, or mitigated through enforceable zoning conditions, site design,
+      infrastructure commitments, development agreements, and ongoing reporting obligations.
+    applicability_verbatim: >
+      The standards of this section shall apply to any new data center, expansion of an existing
+      data center, change in use to a data center, or site improvement primarily associated with
+      a data center.
+
+    location:
+      - Data centers shall be permitted only as a conditional use in the I-3 Large Scale Industrial District.
+      - Data centers shall not be permitted in any zoning district unless expressly listed as a permitted or conditional use.
+      - >
+        Data centers shall be located only on sites with direct and adequate access to major
+        transportation corridors and utility infrastructure, as determined through the
+        conditional use and site plan review process.
+
+    separation:
+      residential_ft: 1000
+      residential_verbatim: >
+        No data center building, cooling equipment, substation, battery energy storage system,
+        backup generator, transformer yard, or similar mechanical equipment shall be located
+        within one thousand feet (1,000') of any residential zoning district or residential use.
+      sensitive_uses_ft: 1000
+      sensitive_uses: [school, public park, hospital, nursing home, assisted living facility]
+      additional: >
+        The Planning Commission may require additional separation, buffering, or equipment
+        relocation where necessary to protect adjacent properties from noise, lighting, visual,
+        environmental, or operational impacts.
+
+    infrastructure_and_operational_capacity:
+      zoning_purpose_disclaimer_verbatim: >
+        This section shall not be construed as regulation of electric utility rates, electric
+        utility service agreements, or utility infrastructure subject to state or federal
+        jurisdiction.
+      applicant_burden: >
+        The applicant carries the burden of demonstrating, through studies by qualified
+        professionals reviewed by the City, that the project can be served without materially
+        impairing the grid, water supply, sanitary sewer, stormwater, transportation, emergency
+        services, surrounding properties, environmental resources, or service to existing users
+        and planned growth areas.
+      full_build_out_review: reviewed at the maximum intensity reasonably anticipated at full build-out, all phases included
+      phased_development: conceptual future phases are not approved unless expressly included; any increase beyond the approval requires an amendment
+      common_control: >
+        The City "may aggregate contiguous properties, commonly owned properties, commonly
+        controlled properties, affiliated entities, phased development areas, shared utility
+        infrastructure, shared access drives, shared stormwater facilities, or functionally
+        integrated facilities" related to the same data center or campus.
+
+    required_submittal_count: 14
+    required_submittal_includes:
+      - site plan with all equipment, substations, generators, BESS, cooling, and phases
+      - Utility and Infrastructure Impact Analysis
+      - electric demand and grid impact report
+      - water usage and cooling technology report
+      - stormwater management report
+      - sanitary sewer impact report
+      - pre-construction acoustic study
+      - traffic and construction management plan
+      - emergency response plan
+      - phasing plan
+      - fiscal and infrastructure responsibility statement
+      - design, screening, landscaping and public frontage plan
+      - authorization for third-party technical review at the applicant's cost
+
+    electrical:
+      load_cap_mw: none in the text read
+      no_impairment_finding: >
+        The Planning Commission shall not approve a data center unless it finds that the proposed
+        data center "will not materially impair electric reliability, public safety, emergency
+        services, surrounding properties, planned growth areas, or the City's long-term land use
+        and infrastructure goals."
+      utility_coordination: written documentation from the electric utility (or other competent evidence) of ability to serve, required improvements, timing, and effect on existing users
+      continuing_reporting: may be required (demand, on-site generation, BESS operation, generator testing)
+
+    water_cooling_wastewater:
+      cooling_permitted_verbatim: >
+        Data centers shall utilize closed-loop cooling systems, air-cooled systems, or other
+        water-efficient technology approved through the conditional use and site plan review
+        process unless the applicant demonstrates that an alternative cooling method will not
+        materially impair the City's water supply, sanitary sewer system, wastewater treatment
+        facilities, surrounding properties, or environmental resources.
+      once_through: prohibited unless specifically approved by City Council
+      groundwater_verbatim: Groundwater withdrawal for cooling purposes is prohibited.
+      approval_fixes_water_envelope: average daily, peak daily and seasonal demand, source, cooling method, and wastewater/blowdown assumptions
+      no_impairment_finding: required for water supply AND for sanitary sewer / WWTP capacity
+      non_city_sources: do not exempt the facility from review, reporting, or approval
+      reporting: water usage reporting "for the life of the use"; monthly reporting may be a condition
+      exceedance_verbatim: >
+        Any increase in approved water demand, change in cooling technology, use of groundwater
+        for primary cooling, change in water source, increase in wastewater or blowdown
+        discharge, or exceedance of the approved water demand shall require review by the City
+        and may require an amendment to the conditional use approval.
+      max_daily_gpd: none in the text read
+
+    not_transcribed: 1144.10(i) Noise onward (pp.6-10) — see the COVERAGE note in the header.
+
+# ------------------------------------------------------------------------------------------
+# ANALYSIS — clearly separated from the text above. Every item is [inference] or [open].
+# ------------------------------------------------------------------------------------------
+analysis:
+  - id: ARTICLE-CLAIMS-AGAINST-THE-ATTACHMENT
+    tag: inference
+    finding: >
+      Checked against the pages it published, the Register's article holds on its central fact
+      and fails on several details. HELD: the e-mail's date, time, recipient address and wording;
+      the 1,000 ft residential separation; the groundwater-for-cooling prohibition. NOT HELD:
+      (a) "dropping the minimum parcel requirement from 50 acres down to 5 acres" — no 5-acre
+      figure appears in the pages read, and 1144.01 still reads "properties greater than 50
+      acres"; (b) Chapter 1144 as new "technology infrastructure legislation" — it is the
+      existing I-3 chapter (Ord. 2023-115); (c) "a flat blanket ban on groundwater extraction" —
+      (h)3 bans withdrawal for cooling, and (h)10 then treats "use of groundwater for primary
+      cooling" as a change that "may require an amendment", i.e. something reviewable.
+    limits: >
+      The 5-acre point is a negative over pp.2-6 only. If a lot-area rule sits in 1144.10(i)
+      onward it has not been seen. Say "not in the pages read", never "not in the draft".
+  - id: WHAT-THE-TRANSMITTAL-SHOWS
+    tag: inference
+    finding: >
+      The Mayor sent draft v7 to an RGP address the day after the July-22 session the article
+      describes, asking for feedback on a draft "as discussed" — so there was contact before the
+      e-mail. That much is on the page.
+    limits: >
+      Nothing held shows what RGP replied, whether any text changed in response, or who drafted
+      v1-v6. "Vetting", "back-channel" and "shaped by private brokers" are the Register's
+      characterisations, not the record's. The e-mail reached the public because it is a City
+      record — which is the opposite of an untraceable channel.
+  - id: CITY-VS-TOWNSHIP
+    tag: inference
+    finding: >
+      The two data-center texts in the county take opposite approaches. Allen Township's
+      proposed Section 1521 (allen-twp-data-center-amendment-2026.zoning.yaml) sets hard numbers:
+      10 MW per site, 100,000 GPD, dry cooling only, closed-loop prohibited, all groundwater
+      wells banned, 1,250 ft from residential, one mile between data centers. The city's v7 is
+      what its filename says — performance-based: no load cap and no water cap in the text read,
+      closed-loop AND air cooling permitted, groundwater barred for cooling only, 1,000 ft from
+      residential, and approval turning on Planning Commission "no impairment" findings over
+      applicant studies.
+    why_it_matters: >
+      The 150 MW Megawatt Hub sits in the township. A load that exceeds the township's cap has a
+      plausible alternative inside the city line, where no cap applies in the text read — which
+      is the annexation question the governance watch already carries, seen from the city side.
+    limits: >
+      Both texts are unadopted. Neither is law. The city's (i)-onward pages are unread.
+  - id: DEARMENT-IDENTITY
+    tag: open
+    finding: >
+      The article quotes a 5:44 AM e-mail from "Findlay official Daniel DeArment". It is NOT in
+      the published attachment. No DeArment appears in the 2026 Hancock County Directory of
+      Officials, and the Register's April moratorium article hedged "DeArment (or DeLong per some
+      records)". Dan DeLong is a Council member. The sender's identity and the e-mail's existence
+      are both open.
+
+open_targets:
+  - The City's own copy of the 7/23 e-mail and v7, and any RGP reply — an R.C. 149.43 request to the Mayor's office.
+  - The "DeArment" e-mail of 7/23 5:44 AM the article quotes.
+  - Drafts v1-v6 and the text as introduced to Council, with its ordinance number and readings.
+  - The July-22 session the article describes — which body met (Council's Planning & Zoning Committee, or the Planning Commission) and its minutes. ⚠️ Allen Township's zoning commission also met that day (Minutes-7-22-26-special-ATZC.pdf); establish which body an account belongs to first.
+  - The Hancock County Port Authority's data-center tax-revenue analysis the article says was discussed on 7/22.
+  - The City's "Data Center Siting & Policy Framework" that 1144.10(a) says these standards implement.
+  - 1144.10(i) onward, pp.6-10 of the held PDF — transcribe, and screen for personal information before publication.
+  - RGP's 2026 Annual Meeting deck the article also posted — not ingested or reviewed.

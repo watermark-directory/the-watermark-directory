@@ -802,6 +802,126 @@
     "source_doc_published": true
   },
   {
+    "rel": "findlay/governance/findlay-chapter-1144-draft-v7.zoning.yaml",
+    "group": "local-legislation",
+    "title": "City of Findlay draft Chapter 1144 — I-3 Large Scale Industrial District, adding data centers as a conditional use under a new Section 1144.10 (draft v7, \"Performance_Based\")",
+    "confidence": null,
+    "warnings": [],
+    "fields": {
+      "title": "City of Findlay draft Chapter 1144 — I-3 Large Scale Industrial District, adding data centers as a conditional use under a new Section 1144.10 (draft v7, \"Performance_Based\")",
+      "status": "draft",
+      "jurisdiction": "City of Findlay, Hancock County, Ohio",
+      "initiated_by": "[open] — circulated by the Mayor; the sponsoring body and any introduction date are not on the pages read",
+      "source_file": "data/documents/findlay/governance/Muryn-Thompson-1144_Redacted.pdf",
+      "existing_chapter": {
+        "note": "Chapter 1144 is NOT new legislation. Its intent and conditional-use sections carry the history line \"(Ord. 2023-115. Passed 12-19-23.)\"; v7 amends the existing I-3 chapter.\n",
+        "intent_verbatim": "The I-3 Large Scale Industrial Districts are designed to allow for maximum flexibility for manufacturing and assembling, fabricating activities, large scale and specialized industrial operations that are on properties greater than 50 acres. These Districts are structured to include heavy industrial use and innovative technologies that are contained within the premises.\n",
+        "permitted_uses": [
+          "All Uses Permitted in the I-1 District",
+          "Industry Utilizing Autonomous Technology",
+          "Solar Power Generation",
+          "Wind Energy Conversion Systems"
+        ],
+        "conditional_uses": [
+          "Data Center, subject to the standards set forth in Section 1144.10.",
+          "Any Additional Less Intensive, Non-Objective Uses Which are Subject to Planning Commission Review."
+        ],
+        "district_setbacks_ft": {
+          "front_major_secondary_thoroughfare": 75,
+          "front_other_streets": 50,
+          "side": 30,
+          "side_adjacent_residential_zoning": 75,
+          "rear": 30,
+          "rear_adjacent_residential_zoning": 75
+        },
+        "min_lot_frontage_ft": 250,
+        "min_building_separation_ft": 25,
+        "max_height_ft": {
+          "primary_structure": 60,
+          "accessory_structure": 40,
+          "wind_energy_conversion_system": 599
+        }
+      },
+      "section_1144_10": {
+        "heading": "CONDITIONAL USE STANDARDS - DATA CENTERS",
+        "purpose_excerpt_verbatim": "These standards are intended to implement the City's Data Center Siting & Policy Framework by requiring the applicant to demonstrate that potential impacts will be avoided, minimized, or mitigated through enforceable zoning conditions, site design, infrastructure commitments, development agreements, and ongoing reporting obligations.\n",
+        "applicability_verbatim": "The standards of this section shall apply to any new data center, expansion of an existing data center, change in use to a data center, or site improvement primarily associated with a data center.\n",
+        "location": [
+          "Data centers shall be permitted only as a conditional use in the I-3 Large Scale Industrial District.",
+          "Data centers shall not be permitted in any zoning district unless expressly listed as a permitted or conditional use.",
+          "Data centers shall be located only on sites with direct and adequate access to major transportation corridors and utility infrastructure, as determined through the conditional use and site plan review process.\n"
+        ],
+        "separation": {
+          "residential_ft": 1000,
+          "residential_verbatim": "No data center building, cooling equipment, substation, battery energy storage system, backup generator, transformer yard, or similar mechanical equipment shall be located within one thousand feet (1,000') of any residential zoning district or residential use.\n",
+          "sensitive_uses_ft": 1000,
+          "sensitive_uses": [
+            "school",
+            "public park",
+            "hospital",
+            "nursing home",
+            "assisted living facility"
+          ],
+          "additional": "The Planning Commission may require additional separation, buffering, or equipment relocation where necessary to protect adjacent properties from noise, lighting, visual, environmental, or operational impacts.\n"
+        },
+        "infrastructure_and_operational_capacity": {
+          "zoning_purpose_disclaimer_verbatim": "This section shall not be construed as regulation of electric utility rates, electric utility service agreements, or utility infrastructure subject to state or federal jurisdiction.\n",
+          "applicant_burden": "The applicant carries the burden of demonstrating, through studies by qualified professionals reviewed by the City, that the project can be served without materially impairing the grid, water supply, sanitary sewer, stormwater, transportation, emergency services, surrounding properties, environmental resources, or service to existing users and planned growth areas.\n",
+          "full_build_out_review": "reviewed at the maximum intensity reasonably anticipated at full build-out, all phases included",
+          "phased_development": "conceptual future phases are not approved unless expressly included; any increase beyond the approval requires an amendment",
+          "common_control": "The City \"may aggregate contiguous properties, commonly owned properties, commonly controlled properties, affiliated entities, phased development areas, shared utility infrastructure, shared access drives, shared stormwater facilities, or functionally integrated facilities\" related to the same data center or campus.\n"
+        },
+        "required_submittal_count": 14,
+        "required_submittal_includes": [
+          "site plan with all equipment, substations, generators, BESS, cooling, and phases",
+          "Utility and Infrastructure Impact Analysis",
+          "electric demand and grid impact report",
+          "water usage and cooling technology report",
+          "stormwater management report",
+          "sanitary sewer impact report",
+          "pre-construction acoustic study",
+          "traffic and construction management plan",
+          "emergency response plan",
+          "phasing plan",
+          "fiscal and infrastructure responsibility statement",
+          "design, screening, landscaping and public frontage plan",
+          "authorization for third-party technical review at the applicant's cost"
+        ],
+        "electrical": {
+          "load_cap_mw": "none in the text read",
+          "no_impairment_finding": "The Planning Commission shall not approve a data center unless it finds that the proposed data center \"will not materially impair electric reliability, public safety, emergency services, surrounding properties, planned growth areas, or the City's long-term land use and infrastructure goals.\"\n",
+          "utility_coordination": "written documentation from the electric utility (or other competent evidence) of ability to serve, required improvements, timing, and effect on existing users",
+          "continuing_reporting": "may be required (demand, on-site generation, BESS operation, generator testing)"
+        },
+        "water_cooling_wastewater": {
+          "cooling_permitted_verbatim": "Data centers shall utilize closed-loop cooling systems, air-cooled systems, or other water-efficient technology approved through the conditional use and site plan review process unless the applicant demonstrates that an alternative cooling method will not materially impair the City's water supply, sanitary sewer system, wastewater treatment facilities, surrounding properties, or environmental resources.\n",
+          "once_through": "prohibited unless specifically approved by City Council",
+          "groundwater_verbatim": "Groundwater withdrawal for cooling purposes is prohibited.",
+          "approval_fixes_water_envelope": "average daily, peak daily and seasonal demand, source, cooling method, and wastewater/blowdown assumptions",
+          "no_impairment_finding": "required for water supply AND for sanitary sewer / WWTP capacity",
+          "non_city_sources": "do not exempt the facility from review, reporting, or approval",
+          "reporting": "water usage reporting \"for the life of the use\"; monthly reporting may be a condition",
+          "exceedance_verbatim": "Any increase in approved water demand, change in cooling technology, use of groundwater for primary cooling, change in water source, increase in wastewater or blowdown discharge, or exceedance of the approved water demand shall require review by the City and may require an amendment to the conditional use approval.\n",
+          "max_daily_gpd": "none in the text read"
+        },
+        "not_transcribed": "1144.10(i) Noise onward (pp.6-10) — see the COVERAGE note in the header."
+      }
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "findlay/governance/findlay-chapter-1144-draft-v7.zoning.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "findlay/governance/Muryn-Thompson-1144_Redacted.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": false
+  },
+  {
     "rel": "findlay/flood/usace-blanchard-review-plan-2024.epa.yaml",
     "group": "permits-epa",
     "title": "Blanchard River Watershed, Ohio — Feasibility Report",

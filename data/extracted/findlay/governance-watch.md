@@ -127,6 +127,47 @@ Appeals, which does not hold that power until the *other* hearing that same even
 there; and the anti-circumvention subsection assigns duties to a "Zoning Administrator," an
 office the adopted book does not have.
 
+## The city's own draft: performance, not caps (added 2026-09-30)
+
+The first City of Findlay data-center text this repo holds arrived second-hand. The Ohio
+Register obtained a City records production and posted it beside a 2026-08-31 article: a
+**2026-07-23** e-mail from Mayor Christina Muryn to `thompson@rgp.org` (*"Gary, Please see
+attached as discussed. Appreciate your feedback."*) with its attachment,
+`CHAPTER_1144_Data_Center_Draft_v7_Performance_Based.docx`, printed behind it. The Register
+names the recipient as Gary Thompson of the Regional Growth Partnership, JobsOhio's
+northwest-Ohio partner `[reference]`. The full read is in
+[`governance/findlay-chapter-1144-draft-v7.zoning.yaml`](governance/findlay-chapter-1144-draft-v7.zoning.yaml).
+
+Chapter 1144 is not new. It is the city's existing I-3 Large Scale Industrial District
+(Ord. 2023-115, for "properties greater than 50 acres"), and v7 amends it to add data centers
+as a conditional use under a new §1144.10. Read through §1144.10(h), it takes the opposite
+approach from the township:
+
+- **No load cap and no water cap** in the text read. Approval instead turns on Planning
+  Commission "no impairment" findings about the grid, water, sewer and wastewater treatment,
+  based on 14 required studies and reports paid for by the applicant.
+- **1,000 ft** from any residential district or use, and from schools, parks and hospitals.
+  The township's figure is 1,250 ft.
+- **Closed-loop and air cooling both permitted.** The township permits dry cooling only.
+  Once-through cooling needs Council approval.
+- **Groundwater withdrawal for cooling is prohibited.** The township bans all groundwater
+  wells. The city's own §1144.10(h)10 then lists "use of groundwater for primary cooling" as a
+  change that "may require an amendment", so the draft contradicts itself.
+- **Aggregation**: the City "may aggregate" contiguous, commonly owned, commonly controlled or
+  functionally integrated properties when evaluating impacts.
+
+The Register's article about it is held as **leads, not findings**. Its central fact holds on
+the page. Several details do not:
+
+- There is no 50 → 5 acre change in the pages read.
+- The quoted 5:44 AM "DeArment" e-mail is not in the attachment, and the name carries the
+  same doubt as the Register's April roll call.
+- The Regional Planning Commission director is described as the city's planning director.
+- The July-22 session it describes shares a date with the **township's** drafting session,
+  which this repo holds.
+
+The PDF is withheld from the public site until pp.6–10 are read and screened.
+
 ## What else is on the calendar
 
 On **2026-08-05**, two weeks before the data-center hearing, the commission hears **Interstate
@@ -171,6 +212,7 @@ instrument existed anywhere.
 | SB 52 adopted resolution number, roll call, final map | county archive starts 2024 | a separate request to the commissioners' clerk |
 | The 2025 ballot-language case number and final entry | Clerk of Courts eServices times out | docket pull or clerk request |
 | May-2025 certified canvass | BOE publishes from Nov 2025 forward | BOE request |
+| City Chapter 1144 as introduced, its number and readings; v1–v6; any RGP reply | not published; the held copy is a newspaper's | an R.C. 149.43 request to the Mayor's office and the Clerk of Council |
 | Which district covers the Hub parcels | the map is a PDF with no parcel labels | auditor parcel layer joined to district geometry — hand-off to places (1462) |
 
 Every one of these is tracked as a lead in [`data/site/findlay/leads.yaml`](../../site/findlay/leads.yaml).
@@ -186,6 +228,7 @@ Every one of these is tracked as a lead in [`data/site/findlay/leads.yaml`](../.
 | `governance/allen-twp-rezoning-interstate-capital-2026.yaml` | the pending I-1 application |
 | `governance/hancock-sb52-restricted-area.gap.yaml` | what is held of the county regime, and the hole at its centre |
 | `governance/findlay-ordinance-2026-42.gap.yaml` | the city moratorium as `[reference]`, and why |
+| `governance/findlay-chapter-1144-draft-v7.zoning.yaml` | the city's draft §1144.10 (v7) and its transmittal to RGP, through (h) |
 | `governance/records-requests/2026-07-31-findlay-clerk-of-council.md` | the drafted, unsent R.C. 149.43 request |
 
 Source bytes and their custody manifests are under
