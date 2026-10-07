@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-09-05T03:09:53+00:00'
+  generated_at: '2026-10-07T11:58:46+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 69
-    bytes: 455351477
-    distinct_addresses: 62
+    artifacts: 71
+    bytes: 493758387
+    distinct_addresses: 64
 artifacts:
 - rel: documents/permits/bistrozzi-permits/3702676.pdf
   sha256: 9f0ad3f6c1012055aeb5c6f9260c52788f4e4cd31918dc7a37e7b7cbe98001cf
@@ -225,6 +225,16 @@ artifacts:
 - rel: documents/permits/bistrozzi-permits/4230060.pdf
   sha256: c7f9dbcfce79bc8fa1a1ea6a0ea7d34c719661a2a3ad456f2938d461d5ff6066
   bytes: 99156
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/permits/bistrozzi-permits/4230061.pdf
+  sha256: ed4a426cf65eb400a04d9ed7878b1e349ad85567e81831f670f73718da4b33ba
+  bytes: 23954956
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/permits/bistrozzi-permits/4230062.pdf
+  sha256: bd35c270fe76a85e4ef44e3356fa84b3a756c6ba6431bf8475a2404ea26c783e
+  bytes: 14451954
   media_type: application/pdf
   redistributable: true
 - rel: documents/permits/bistrozzi-permits/4230068.pdf

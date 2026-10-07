@@ -71,12 +71,6 @@ documents:
       Submitter e-mail on the application is MBEINE@EMHT.COM, i.e. the APPLICATION kept the
       EMH&T submitter; only the ISSUED permit (4230060) carries the Google contact.
 
-# ── Deferred: fetched and content-verified, deliberately NOT committed ────────────────────────
-# The Git LFS budget is already exceeded, and these two are ~38 MB of approved construction
-# drawings. They were fetched, opened, and read on 2026-08-23; the decision is a storage
-# deferral, not an absence of the record. Each is re-fetchable by docid at the URL below and
-# its bytes are pinned by the sha256 recorded here, so a later commit can be proven identical
-# to what was read. Stating them explicitly so this map is not misread as full coverage.
   # --- the 2026-09-05 §401 backfill -------------------------------------------------------------
   # Sweep rows, never fetched. `data/research/oepa-portal-bosc-2026-08-22/manifest.yaml` listed 38
   # ALLEN-county rows across three permits: the four storm-outfall rows were already in the corpus,
@@ -300,35 +294,57 @@ documents:
       WITHDRAWN — not denied, not approved, not still pending. Read in
       data/extracted/permits/bosc-401-certifications.epa.yaml.
 
-deferred:
+  # --- the 2026-10-07 plan-set commit (#2090) ----------------------------------------------------
+  # Deferred on 2026-08-23 on the Git-LFS budget, which the yidam artifact vault (#2141/#2147)
+  # retired. Re-fetched 2026-10-07 by docid; BOTH re-fetches hash to the sha256 pinned at the
+  # deferral, so the bytes committed are provably the bytes read on 2026-08-23.
+  # NOT PUBLISHED — this shelf is default-deny. ⚠️ Sheet 1A-C-0001 of 4230061 carries the
+  # applicant's own legend asserting R.C. 149.433 infrastructure-record and trade-secret protection
+  # "subject to a nondisclosure agreement" — the same grounds on which the County and the Allen
+  # SWCD withheld these plans (records-withholding-map.yaml layer 7). Ohio EPA serves them
+  # publicly anyway. Publication remains a separate reviewed decision (#274/#281).
+
   - edoc_id: '4230061'
-    status: deferred_lfs_budget
+    filename: 4230061.pdf
+    status: committed
     type: dsw-pti-approved-plan-set
     permit_id: DSWPTI-260597
+    project_no: DSW-7312
+    applicant: BISTROZZI LLC
+    project: Project BOSC — BOSC-1A site construction plan (sanitary)
     pages: 17
     bytes: 23954956
     sha256: ed4a426cf65eb400a04d9ed7878b1e349ad85567e81831f670f73718da4b33ba
     source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4230061
     content_verified: text-layer
     content_verified_date: '2026-08-14'
+    fetched_at: '2026-10-07'
+    extraction: data/extracted/permits/4230061.plan.yaml
     notes: >-
-      Approved site-plan sheet set. Carries security-relevant detail (badge-controlled lanes,
-      two existing guard shacks, fire-access geometry, gate and entrance layout), so PUBLICATION
-      is a separate reviewed decision under docs/legal/document-publication-review.md (#274/#281)
-      and must be a real read, not a regex sweep. Needed by #2090 (Cole St. drainage geometry).
+      Sheets 1A-C-0001 (title) through 1A-C-5121. Every sheet carries the Ohio EPA approval stamp
+      "DSW-7312 08/14/2026"; the revision block reads "ISSUE FOR PERMIT - REVISION 2026-08-13".
+      Carries security-relevant detail (badge-controlled lanes, guard shacks, gate and entrance
+      layout) — see the publication note above. Sheet 1A-C-5121 draws the system's ONE point of
+      connection to a public sewer: structure 47 on the existing 10" sanitary main in W Bluelick
+      Rd, to be coordinated with the Allen County Sanitary Engineering Department.
 
   - edoc_id: '4230062'
-    status: deferred_lfs_budget
+    filename: 4230062.pdf
+    status: committed
     type: dsw-pti-approved-plan-set
     permit_id: DSWPTI-260597
+    project_no: DSW-7312
+    applicant: BISTROZZI LLC
+    project: Project BOSC — BOSC-1A sanitary profiles, details and temporary lift station
     pages: 13
     bytes: 14451954
     sha256: bd35c270fe76a85e4ef44e3356fa84b3a756c6ba6431bf8475a2404ea26c783e
     source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4230062
     content_verified: text-layer
     content_verified_date: '2026-08-14'
+    fetched_at: '2026-10-07'
+    extraction: data/extracted/permits/4230062.plan.yaml
     notes: >-
-      Approved sanitary sewer plan & profile — 24" gravity main at 0.12%, typed manholes with
-      stationing and invert elevations. This is the routed alignment #2090 needs to test the
-      Cole St. drainage question with geometry rather than with a street name. Same publication
-      guardrail as 4230061.
+      Sanitary profiles 1A-SSWR-* and 1A-SSFM-0001 (the 6" force main), sanitary details
+      1A-C-5500..5502, and the temporary lift station sheets 1A-C-5900..5903. Same approval stamp
+      and publication note as 4230061.

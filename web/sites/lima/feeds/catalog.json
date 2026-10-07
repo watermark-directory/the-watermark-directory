@@ -6805,6 +6805,16 @@
         "lfs": false
       },
       {
+        "relpath": "extracted/permits/4230061.plan.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/permits/4230062.plan.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
         "relpath": "extracted/permits/4230068.sanitary.yaml",
         "media_type": "application/x-yaml",
         "lfs": false
@@ -6842,10 +6852,10 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "ce75b5f48d50e286688e670024aeb29ac59f939a36d3d61a7426dc37b1c1c515",
-      "size_bytes": 120179,
+      "sha256": "fc2709dbeb7eb34ddba505397c7736191f32610838035e35c864a11d2998544a",
+      "size_bytes": 138690,
       "lfs_materialized": true,
-      "file_count": 32,
+      "file_count": 34,
       "stale": false,
       "asof": null
     },

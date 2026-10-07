@@ -5040,6 +5040,52 @@
     }
   },
   {
+    "date": "2026-08-13",
+    "category": "site_plan",
+    "title": "Civil — sanitary sewer, force main and point of connection (plan sheets) (Issue for Permit) — Site Construction Plan for Project BOSC — sanitary plan sheets (part 1 of 2)",
+    "ref": "1A-C-0001 – 1A-C-5121",
+    "parties": [
+      "EMH&T",
+      "WSP USA Buildings Inc.",
+      "CI Design, Inc"
+    ],
+    "detail": "",
+    "source": "permits/4230061.plan.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "permits/4230061.plan.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "date": "2026-08-13",
+    "category": "site_plan",
+    "title": "Civil — sanitary profiles, details and temporary lift station (Issue for Permit) — Site Construction Plan for Project BOSC — sanitary profiles, details and temporary lift station (part 2 of 2)",
+    "ref": "profiles; 1A-C-5500 – 1A-C-5903",
+    "parties": [
+      "EMH&T",
+      "WSP USA Buildings Inc.",
+      "CI Design, Inc"
+    ],
+    "detail": "",
+    "source": "permits/4230062.plan.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "permits/4230062.plan.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
     "date": "2026-08-14",
     "category": "epa_permit_action",
     "title": "Surface Water Permit-to-Install DSWPTI-260597 — approved (BOSC-1A Private Sanitary Sewer Improvement Plan - Rev. 1)",

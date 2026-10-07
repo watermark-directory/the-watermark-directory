@@ -187,16 +187,22 @@ def test_no_collision_across_the_committed_corpus() -> None:
     # property this assertion exists to check, so it was checked rather than assumed.
     # Reviewed: 3422 rels, 3422 distinct rels, 3422 distinct handles — zero collisions, checked as a
     # set rather than inferred from the delta.
-    assert len(rels) == 3422, "a corpus change belongs in review, not a silent collision"
+    # 3422 → 3424 (#2090): the two DEFERRED BOSC-1A plan sets are committed —
+    # `permits/bistrozzi-permits/4230061.pdf` (17 pp, plan sheets) and `4230062.pdf` (13 pp,
+    # profiles, details and the temporary lift station). The vault (#2141/#2147) retired the
+    # Git-LFS budget that deferred them, and the re-fetched bytes match the sha256 recorded at
+    # deferral. Committed, NOT published: the shelf is default-deny.
+    # Reviewed: 3424 rels, 3424 distinct rels, 3424 distinct handles — the new handles are
+    # `dvdk7ns0` and `n8yqfhra`. Checked as a set, not inferred from the delta.
+    assert len(rels) == 3424, "a corpus change belongs in review, not a silent collision"
     assert len({document_id(rel) for rel in rels}) == len(rels)
-    # The count alone is a weak proxy: a delete-one-add-one leaves it at 3362. Name the two
-    # committed BOSC-1A eDocs, and assert the two DEFERRED plan sets are absent — the deferral
-    # is a deliberate, recorded decision (filename-map.yaml), not an accident of the fetch.
-    # Committing either plan set SHOULD fail here: fix it by updating the manifest's `deferred:`
-    # block in the same change, never by deleting the assertion.
+    # The count alone is a weak proxy: a delete-one-add-one leaves it unmoved. Name all four
+    # committed BOSC-1A eDocs. The two plan sets were DEFERRED on the Git-LFS budget until #2090,
+    # and this assertion was their absence; their presence is now the recorded decision
+    # (filename-map.yaml rows `status: committed`, the `deferred:` block retired).
     shelf = "permits/bistrozzi-permits/"
     assert {f"{shelf}4230060.pdf", f"{shelf}4230068.pdf"} <= set(rels)
-    assert not {f"{shelf}4230061.pdf", f"{shelf}4230062.pdf"} & set(rels)
+    assert {f"{shelf}4230061.pdf", f"{shelf}4230062.pdf"} <= set(rels)
     # The §401 backfill, held to the same discipline, and here the ABSENT set carries the weight:
     # the six duplicate docids must never be committed, because the shelf already holds those exact
     # bytes under the docid the portal served them at first. Committing one would inflate the
