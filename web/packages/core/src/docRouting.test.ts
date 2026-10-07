@@ -134,7 +134,13 @@ describe("isRoutableDoc — measured against the committed Lima corpus", () => {
     // whose minutes that manifest has never pulled — the corpus held the application and no
     // record of the decision. ONE file, not two: the 2018 warranty deed at pp. 11-14 is a second
     // INSTRUMENT inside the same PDF, extracted separately, not a second byte-stream.
-    expect(entries.length).toBe(3422);
+    // 3,422 -> 3,424 (#2090): the two DEFERRED BOSC-1A plan sets are now committed —
+    // `permits/bistrozzi-permits/4230061.pdf` (17 pp, plan sheets) and `4230062.pdf` (13 pp,
+    // profiles, details and the temporary lift station). The vault retired the Git-LFS budget that
+    // deferred them; the re-fetched bytes match the sha256 recorded at deferral. Committed, NOT
+    // published — the shelf is default-deny and sheet 1A-C-0001 carries an R.C. 149.433 legend.
+    // The 54 exclusions are unchanged: both plan sets are ordinary routable PDFs.
+    expect(entries.length).toBe(3424);
     expect(entries.filter((e) => !isRoutableDoc(e))).toHaveLength(54);
   });
 

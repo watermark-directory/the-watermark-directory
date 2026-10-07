@@ -1,0 +1,111 @@
+# Ohio EPA eDocument 4230062 — the APPROVED plan set (part 2 of 2: profiles, details, temporary
+# lift station) behind Surface Water PTI DSWPTI-260597 (internal DSW-7312), BOSC-1A sanitary sewer
+# for Bistrozzi LLC, American Township. Issue #2090. Part 1 (title, notes, plan sheets) is 4230061,
+# which carries the full context, the #2090 finding and the records-posture note; this file records
+# what part 2 adds and does not repeat them.
+#
+# TAG VOCABULARY: [verified] printed in the drawing set's native CAD text layer · [inference]
+# reasoned and labelled · [open] not established here.
+
+doc_id: edoc-4230062-bosc-1a-sanitary-plan-set-part-2
+source_path: data/documents/permits/bistrozzi-permits/4230062.pdf
+kind: plan
+pages_read: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+image_pages_read: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+dpi: 40
+# ⚠️ Every sheet was rasterized at 40 DPI as an overview only. Every figure below is from the
+# native CAD text layer; nothing was OCR'd and no digit was read from pixels.
+source_text_excerpt: >-
+  THE TEMPORARY PUMP STATION IS DESIGNED TO RECEIVE ONLY THE PHASE DAY 1 SEWER FLOWS WITH A MAXIMUM
+  CAPACITY OF 860 GPM. NO ADDITIONAL FLOWS SHALL BE DIRECTED TO THE TEMPORARY PUMP STATION. ALL
+  FUTURE FLOW CONDITIONS SHALL BE CONVEYED TO THE PERMANENT PUMP STATION, WHICH IS DESIGNED FOR
+  2,700 GPM. DSW-7312 08/14/2026
+
+plan:
+  project_name: Site Construction Plan for Project BOSC — sanitary profiles, details and temporary lift station (part 2 of 2)   # [verified] titleblock "PROJECT BOSC"; the part label is ours
+  site_address: 4110 N Cole St, American Township, Allen County, Ohio
+  project_no: US0047417.9689
+  sheet_id: profiles; 1A-C-5500 – 1A-C-5903   # p0-p5 profiles, p6-p8 details 5500-5502, p9-p12 lift station 5900-5903
+  discipline: Civil — sanitary profiles, details and temporary lift station
+  phase: Issue for Permit
+  status: 'ISSUE FOR PERMIT - REVISION 2026-08-13 (rev 4)'   # [verified] revision block
+  date: '2026-08-13'
+  scale: "Profiles HORZ 1\" = 30', VERT 1\" = 10'; lift-station enlargement 1' = 10'; details NTS"
+  prepared_by:
+    - name: EMH&T
+      discipline: Civil engineer of record (ISSUE FOR PERMIT EMH&T 04/02/26)
+      location: 5500 New Albany Road, Columbus, OH 43054
+    - name: WSP USA Buildings Inc.
+      discipline: MEP / Structure
+      location: 433 River Street, 7th floor, Troy, NY 12180
+    - name: CI Design, Inc
+      discipline: Architecture
+      location: 250 Summer Street, Boston, MA 02210
+  key_features:
+    - 'Force-main profile 1A-SSFM-0001: STA 0+00 at the lift station (rim 821.00; inverts 803.25 24" SE, 798.25 24" S) to STA 31+66.36 (rim 829.55; inverts 818.83 12" S, 818.93 12" N, 818.68 10" W); air release valve at STA 20+00.00; temporary 6" flow meter in an above-ground heated enclosure  [verified, p4]'
+    - 'Gravity profile 1A-SSWR-0041 (12", ~0.22-0.25%): structure 47 at STA 0+00 with inverts 816.08 (12" N) and 815.91 (10" E) — the tie-in to the existing 10" W Bluelick Rd main  [verified, p5]'
+    - 'Temporary lift station: two 10-ft wet wells hydraulically linked by a 24" equalization pipe, isolation sluice gate valves at each 24" influent pipe, four chopper pumps with 4 HP motors, above-ground control panels "FOR BOTH PUMP STATIONS", odor-control detail  [verified, 1A-C-5900-5903]'
+    - 'Capacity note: temporary station max 860 GPM, Phase Day 1 flows only; all future flows to the PERMANENT pump station, designed for 2,700 GPM  [verified, 1A-C-5900]'
+  summary: >-
+    The profiles and the lift-station design for the BOSC-1A sanitary system. The force-main profile
+    ends at STA 31+66.36 (about 3,166 ft), where a 12" gravity tail begins; the gravity profile puts
+    the connection at structure 47 on the existing 10" Bluelick main, flowing east. The lift-station
+    sheets fix the station as TEMPORARY, limited to Phase Day 1 flows at 860 GPM, and name a
+    permanent 2,700 GPM station that this set does not draw.
+  note: >-
+    Sheet "OHIO EPA SUBMISSION DATE" fields in this part read 8/7/2026 (profiles, p0-p5), 6/30/2026 (details,
+    p6-p8) and 8/12/2026 (lift station, p9-p12);
+    see 4230061 `plan.note`.
+  confidence: high
+  warnings:
+    - >-
+      860 GPM (temporary) and 2,700 GPM (permanent) are pump CAPACITIES, not flows; never publish
+      them as discharge. The permanent station is named, not drawn.
+    - >-
+      The lift-station sheets are titled "10" FORCE MAIN" while every profiled segment is 6" — open.
+
+approvals:
+  ohio_epa_internal_no: DSW-7312      # [verified] stamped on all 13 sheets
+  ohio_epa_approved: '2026-08-14'
+  permit: DSWPTI-260597
+
+flow_context:
+  application_flows: >-
+    [verified, 4230068] design ADF 0.10 MGD, design peak hourly 0.36 MGD, sewer hydraulic capacity
+    0.79 MGD; receiving American/Bath WWTP present ADF 0.953 MGD, proposed 1.083 MGD, design ADF
+    1.500 MGD.
+  arithmetic: >-
+    [inference] 860 GPM ≈ 1.24 MGD and 2,700 GPM ≈ 3.89 MGD, at continuous pumping. These are PUMP
+    CAPACITIES, not flows, and must not be published as discharge. They are recorded because the
+    permanent station's capacity is roughly 2.6x the receiving plant's entire design ADF, and
+    roughly 11x this PTI's design peak — which makes the permanent station's receiving point a
+    question this permit does not answer, not a finding about it.
+
+open_after_this_pull:
+  - what: >-
+      "10" FORCE MAIN" on the lift-station sheets vs the 6" force main drawn and profiled
+    status: '[open]'
+    note: >-
+      1A-C-5900-5903 are titled "TEMPORARY PUMP STATION & 10" FORCE MAIN" and label a "TEMPORARY
+      10" FORCE MAIN" at the station, while 1A-C-5901 labels the vault outlet "6" FORCE MAIN
+      DISCHARGE PIPE" and every plan and profile segment of 1A-SSFM-0001 is 6" FM (the application
+      says 6" PVCO). [inference] Possibly a short 10" header at the station, or a stale title from
+      before Rev. 1 downsized the system (0.333 → 0.10 MGD). Not resolved here.
+  - what: Force-main length — profile ~3,166 ft vs the application's 4,034 / 4,304 LF
+    status: '[open]'
+    note: >-
+      The one profile drawn ends at STA 31+66.36. The application's narrative states 4,034 LF and
+      another field 4,304 LF (4230068 warnings). Any additional force-main segment is not profiled
+      in this part.
+  - what: The permanent 2,700 GPM pump station — location, force main, receiving point, permit
+    status: '[open]'
+    note: Named in a note only. See 4230061 `open_after_this_pull`.
+
+confidence: high
+warnings:
+  - >-
+    Elevations and stations are CAD text placed beside drawn geometry; the pairing of an invert to a
+    structure follows the text order and the 40-DPI render, and is [verified] as drawn.
+  - >-
+    The flow arithmetic in `flow_context` is a unit conversion of printed capacities, labelled
+    [inference]; it is not a modelled flow and must not feed hydrology as one.

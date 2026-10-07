@@ -121,7 +121,14 @@ describe("documentId — the corpus it has to address", () => {
     // INSTRUMENT inside the same PDF, extracted separately, not a second byte-stream.
     // Reviewed: 3,397 rels, 3,397 distinct rels, 3,397 distinct handles — the new handle is
     // `rfgm705j`. Checked as a set, not inferred from the delta.
-    expect(rels.length).toBe(3422); // a corpus change should surface here, not a silent collision
+    // 3,422 -> 3,424 (#2090): the two DEFERRED BOSC-1A plan sets are now committed —
+    // `permits/bistrozzi-permits/4230061.pdf` (17 pp, plan sheets) and `4230062.pdf` (13 pp,
+    // profiles, details and the temporary lift station). The vault retired the Git-LFS budget that
+    // deferred them; the re-fetched bytes match the sha256 recorded at deferral. Committed, NOT
+    // published — the shelf is default-deny and sheet 1A-C-0001 carries an R.C. 149.433 legend.
+    // Reviewed: 3,424 rels, 3,424 distinct rels, 3,424 distinct handles — the new handles are
+    // `dvdk7ns0` (4230061) and `n8yqfhra` (4230062). Checked as a set, not inferred from the delta.
+    expect(rels.length).toBe(3424); // a corpus change should surface here, not a silent collision
     const ids = new Set(rels.map(documentId));
     expect(ids.size).toBe(rels.length);
   });

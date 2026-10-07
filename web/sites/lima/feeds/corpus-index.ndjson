@@ -55,7 +55,7 @@
 {"id": "artifact/sarah-brenneman", "node_class": "artifact", "kind": "entity", "label": "Sarah N. Brenneman", "scope": "site", "links_out": 1, "links_in": 1, "lines": 13, "updated": "2026-07-04"}
 {"id": "artifact/scott-ziance", "node_class": "artifact", "kind": "entity", "label": "Scott Ziance", "scope": "site", "links_out": 1, "links_in": 4, "lines": 15, "updated": "2026-07-04"}
 {"id": "artifact/shawn-dershem", "node_class": "artifact", "kind": "entity", "label": "Shawn Dershem", "scope": "site", "links_out": 1, "links_in": 1, "lines": 13, "updated": "2026-08-23"}
-{"id": "artifact/site-lima", "node_class": "artifact", "kind": "site", "label": "Lima", "scope": "site", "links_out": 3, "links_in": 388, "lines": 14, "updated": null}
+{"id": "artifact/site-lima", "node_class": "artifact", "kind": "site", "label": "Lima", "scope": "site", "links_out": 3, "links_in": 390, "lines": 14, "updated": null}
 {"id": "artifact/suzanne-neighbors", "node_class": "artifact", "kind": "entity", "label": "Suzanne M. Neighbors", "scope": "site", "links_out": 1, "links_in": 1, "lines": 13, "updated": "2026-07-04"}
 {"id": "artifact/tilted-gate", "node_class": "artifact", "kind": "entity", "label": "Tilted Gate LLC", "scope": "site", "links_out": 1, "links_in": 2, "lines": 13, "updated": "2026-07-04"}
 {"id": "artifact/timothy-pieper", "node_class": "artifact", "kind": "entity", "label": "Timothy R. Pieper", "scope": "site", "links_out": 1, "links_in": 1, "lines": 13, "updated": "2026-07-04"}
@@ -436,6 +436,8 @@
 {"id": "record/permits-4074551-epa", "node_class": "record", "kind": "record", "label": "4074551 · epa", "scope": "site", "links_out": 2, "links_in": 0, "lines": 13, "updated": "2026-07-04"}
 {"id": "record/permits-4132514-epa", "node_class": "record", "kind": "record", "label": "4132514 · epa", "scope": "site", "links_out": 2, "links_in": 0, "lines": 13, "updated": "2026-07-04"}
 {"id": "record/permits-4230060-epa", "node_class": "record", "kind": "record", "label": "4230060 · epa", "scope": "site", "links_out": 2, "links_in": 0, "lines": 13, "updated": "2026-08-23"}
+{"id": "record/permits-4230061-plan", "node_class": "record", "kind": "record", "label": "Ohio EPA eDocument 4230061 — the APPROVED plan set (part 1 of 2: title, notes, plan sheets)", "scope": "site", "links_out": 2, "links_in": 0, "lines": 22, "updated": null}
+{"id": "record/permits-4230062-plan", "node_class": "record", "kind": "record", "label": "Ohio EPA eDocument 4230062 — the APPROVED plan set (part 2 of 2: profiles, details, temporary", "scope": "site", "links_out": 2, "links_in": 0, "lines": 22, "updated": null}
 {"id": "record/permits-4230068-sanitary", "node_class": "record", "kind": "record", "label": "4230068 · sanitary", "scope": "site", "links_out": 2, "links_in": 0, "lines": 13, "updated": "2026-08-23"}
 {"id": "record/permits-bosc-401-certifications-epa", "node_class": "record", "kind": "record", "label": "bosc 401 certifications · epa", "scope": "site", "links_out": 2, "links_in": 0, "lines": 21, "updated": "2026-09-05"}
 {"id": "record/permits-lma1a-npdes-cgp-coverage-epa", "node_class": "record", "kind": "record", "label": "lma1a npdes cgp coverage · epa", "scope": "site", "links_out": 2, "links_in": 0, "lines": 13, "updated": "2026-07-04"}

@@ -1,4 +1,4 @@
-reconciled_at: '2026-09-30T19:39:21.979965+00:00'
+reconciled_at: '2026-10-07T12:43:02.063629+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -3049,10 +3049,10 @@ entries:
     site_scope: basin-shared
   permits:
     exists: true
-    sha256: ce75b5f48d50e286688e670024aeb29ac59f939a36d3d61a7426dc37b1c1c515
-    size_bytes: 120179
+    sha256: fc2709dbeb7eb34ddba505397c7736191f32610838035e35c864a11d2998544a
+    size_bytes: 138690
     lfs_materialized: true
-    file_count: 32
+    file_count: 34
     missing: []
     asof: null
     stale: false

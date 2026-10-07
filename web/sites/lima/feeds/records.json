@@ -20314,6 +20314,161 @@
     "source_doc_published": false
   },
   {
+    "rel": "permits/4230061.plan.yaml",
+    "group": "plans",
+    "title": "Site Construction Plan for Project BOSC — sanitary plan sheets (part 1 of 2)",
+    "confidence": "high",
+    "warnings": [
+      "The County tie-in is drawn; where the 10\" W Bluelick Rd main goes after structure 47 is NOT. This narrows #2090 away from the City's Cole St. SSO basin but is not yet a negative.",
+      "Sanitary only (0.10 MGD design ADF). Nothing here is the network.yaml \"FM-2\" industrial discharge, and this set neither confirms nor refutes it."
+    ],
+    "fields": {
+      "project_name": "Site Construction Plan for Project BOSC — sanitary plan sheets (part 1 of 2)",
+      "site_address": "4110 N Cole St, American Township, Allen County, Ohio",
+      "project_no": "US0047417.9689",
+      "sheet_id": "1A-C-0001 – 1A-C-5121",
+      "discipline": "Civil — sanitary sewer, force main and point of connection (plan sheets)",
+      "phase": "Issue for Permit",
+      "status": "ISSUE FOR PERMIT - REVISION 2026-08-13 (rev 4)",
+      "date": "2026-08-13",
+      "scale": "As noted per sheet",
+      "prepared_by": [
+        {
+          "name": "EMH&T",
+          "discipline": "Civil engineer of record (seal Jeremy Eisele, PE, dated 04/02/26)",
+          "location": "5500 New Albany Road, Columbus, OH 43054"
+        },
+        {
+          "name": "WSP USA Buildings Inc.",
+          "discipline": "MEP / Structure",
+          "location": "433 River Street, 7th floor, Troy, NY 12180"
+        },
+        {
+          "name": "CI Design, Inc",
+          "discipline": "Architecture",
+          "location": "250 Summer Street, Boston, MA 02210"
+        }
+      ],
+      "key_features": [
+        "Owner BISTROZZI LLC, 4110 N Cole St, parcel 36-1200-02-001.001; developer Turner Construction (Robert Zizzo)  [verified, p0]",
+        "Site area 335.59 ac; disturbed 69.19 ac; post-developed impervious 27.92 ac  [verified, p0 site data]",
+        "Adjacent-owner table lists Bistrozzi parcels with proposed use \"DATA CENTER / CONSTRUCTION LOGISTICS\"  [verified, p0]",
+        "Datum Ohio State Plane North NAD83(2011), NAVD88; control point 205 at N 412676.568, E 1520369.625  [verified, p0 control table]",
+        "24\" gravity sanitary south of Bldg 1A through structures 5-4-3-2-1 to a PROPOSED TEMPORARY LIFT STATION near the Cole St / Beery Rd roundabout; a \"FUTURE LIFT STATION (BY OTHERS)\" is drawn beside it  [verified, 1A-C-5000 text + 150-DPI crop]",
+        "6\" force main 1A-SSFM-0001 south along Cole St then southeast, to a manhole at STA 31+66.36 near structure 2C  [verified, plan sheets 5107-5120; profile in 4230062]",
+        "12\" gravity sewer (profile 1A-SSWR-0041) from 2C south through 2B, 2A and 45 to structure 47 on the EXISTING 10\" SANITARY in W Bluelick Rd  [verified, 1A-C-5121]",
+        "Connection notes on 1A-C-5121, beside the \"10\" SAN\" in W Bluelick Rd: \"PROPOSED SANITARY STRUCTURE ON EXISTING LINE, USE NON-SHEAR FERNCO COUPLER CONNECTIONS TO EX 10\" SAN\"; \"REMOVE THE EXISTING MANHOLE AND RECONNECT THE SANITARY MAIN. COORDINATE THE MANHOLE REMOVAL AND PIPE RECONNECTION WITH THE ALLEN COUNTY SANITARY ENGINEERING DEPARTMENT\"; \"COORDINATE ROAD CROSSING WITH AMERICAN TOWNSHIP\"  [verified]",
+        "Sewer testing notes on 1A-C-5000 cite the ALLEN COUNTY SANITARY ENGINEERING DEPARTMENT specification (Section 4.15.4 — low-pressure air or exfiltration, and deflection tests) [verified]"
+      ],
+      "summary": "Part 1 of the approved BOSC-1A sanitary plan set. It draws the whole conveyance: gravity sewer from Building 1A to a temporary lift station at Cole St / Beery Rd, a 6\" force main of about 3,166 ft down Cole St, and a 12\" gravity tail that ties into an existing 10\" sanitary main in W Bluelick Rd at a new structure (47). That is the ONE point of connection the set shows, and the coordination notes tie the work on it to the Allen County Sanitary Engineering Department and American Township. The City of Lima appears only in the utility-locate list and in boilerplate general notes.",
+      "note": "Sheet \"OHIO EPA SUBMISSION DATE\" fields vary across this part — 8/13/2026 (title, p0), 1/22/2026 (general notes, p1-p2), 6/30/2026 (5000-5001, p3-p4), 7/1/2026 (plan sheets, p5-p16) — while the cover letter (4230060) records \"Plans Received on 5/29/2026\". Read as [inference] sheets re-submitted at different rounds of review and carried into the final approved set; the approval stamp (DSW-7312 08/14/2026) is uniform on every sheet."
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "permits/4230061.plan.yaml",
+      "source_kind": "document",
+      "page": 1,
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "permits/bistrozzi-permits/4230061.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": false
+  },
+  {
+    "rel": "permits/4230062.plan.yaml",
+    "group": "plans",
+    "title": "Site Construction Plan for Project BOSC — sanitary profiles, details and temporary lift station (part 2 of 2)",
+    "confidence": "high",
+    "warnings": [
+      "860 GPM (temporary) and 2,700 GPM (permanent) are pump CAPACITIES, not flows; never publish them as discharge. The permanent station is named, not drawn.",
+      "The lift-station sheets are titled \"10\" FORCE MAIN\" while every profiled segment is 6\" — open."
+    ],
+    "fields": {
+      "project_name": "Site Construction Plan for Project BOSC — sanitary profiles, details and temporary lift station (part 2 of 2)",
+      "site_address": "4110 N Cole St, American Township, Allen County, Ohio",
+      "project_no": "US0047417.9689",
+      "sheet_id": "profiles; 1A-C-5500 – 1A-C-5903",
+      "discipline": "Civil — sanitary profiles, details and temporary lift station",
+      "phase": "Issue for Permit",
+      "status": "ISSUE FOR PERMIT - REVISION 2026-08-13 (rev 4)",
+      "date": "2026-08-13",
+      "scale": "Profiles HORZ 1\" = 30', VERT 1\" = 10'; lift-station enlargement 1' = 10'; details NTS",
+      "prepared_by": [
+        {
+          "name": "EMH&T",
+          "discipline": "Civil engineer of record (ISSUE FOR PERMIT EMH&T 04/02/26)",
+          "location": "5500 New Albany Road, Columbus, OH 43054"
+        },
+        {
+          "name": "WSP USA Buildings Inc.",
+          "discipline": "MEP / Structure",
+          "location": "433 River Street, 7th floor, Troy, NY 12180"
+        },
+        {
+          "name": "CI Design, Inc",
+          "discipline": "Architecture",
+          "location": "250 Summer Street, Boston, MA 02210"
+        }
+      ],
+      "key_features": [
+        "Force-main profile 1A-SSFM-0001: STA 0+00 at the lift station (rim 821.00; inverts 803.25 24\" SE, 798.25 24\" S) to STA 31+66.36 (rim 829.55; inverts 818.83 12\" S, 818.93 12\" N, 818.68 10\" W); air release valve at STA 20+00.00; temporary 6\" flow meter in an above-ground heated enclosure  [verified, p4]",
+        "Gravity profile 1A-SSWR-0041 (12\", ~0.22-0.25%): structure 47 at STA 0+00 with inverts 816.08 (12\" N) and 815.91 (10\" E) — the tie-in to the existing 10\" W Bluelick Rd main  [verified, p5]",
+        "Temporary lift station: two 10-ft wet wells hydraulically linked by a 24\" equalization pipe, isolation sluice gate valves at each 24\" influent pipe, four chopper pumps with 4 HP motors, above-ground control panels \"FOR BOTH PUMP STATIONS\", odor-control detail  [verified, 1A-C-5900-5903]",
+        "Capacity note: temporary station max 860 GPM, Phase Day 1 flows only; all future flows to the PERMANENT pump station, designed for 2,700 GPM  [verified, 1A-C-5900]"
+      ],
+      "summary": "The profiles and the lift-station design for the BOSC-1A sanitary system. The force-main profile ends at STA 31+66.36 (about 3,166 ft), where a 12\" gravity tail begins; the gravity profile puts the connection at structure 47 on the existing 10\" Bluelick main, flowing east. The lift-station sheets fix the station as TEMPORARY, limited to Phase Day 1 flows at 860 GPM, and name a permanent 2,700 GPM station that this set does not draw.",
+      "note": "Sheet \"OHIO EPA SUBMISSION DATE\" fields in this part read 8/7/2026 (profiles, p0-p5), 6/30/2026 (details, p6-p8) and 8/12/2026 (lift station, p9-p12); see 4230061 `plan.note`."
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "permits/4230062.plan.yaml",
+      "source_kind": "document",
+      "page": 1,
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "permits/bistrozzi-permits/4230062.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": false
+  },
+  {
     "rel": "plans/4091286.engineering.yaml",
     "group": "plans",
     "title": "BOSC Storm Outfall (and the Beery Rd. & Cole St. roundabout)",

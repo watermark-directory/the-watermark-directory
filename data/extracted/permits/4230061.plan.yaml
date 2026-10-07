@@ -1,0 +1,172 @@
+# Ohio EPA eDocument 4230061 — the APPROVED plan set (part 1 of 2: title, notes, plan sheets)
+# behind Surface Water PTI DSWPTI-260597 (internal DSW-7312), the BOSC-1A sanitary sewer for
+# Bistrozzi LLC, 4110 N Cole St, American Township. Issue #2090. Part 2 (profiles, details and the
+# temporary lift station) is 4230062; the application is 4230068, the cover letter 4230060.
+#
+# ⚠️ WHY THIS WAS PULLED. #2090 asks whether the campus sanitary flow reaches the City of Lima's
+# Cole St. SSO basin (consent-decree territory) or CSO outfall 037. The application (4230068)
+# names the receiving plant as American/Bath WWTP (2PH00007), but an application's receiving-plant
+# field is a claim about the destination, not a drawing of the route. This set DRAWS THE ROUTE to
+# its single point of connection, and that connection is to an existing 10" main in W Bluelick Rd
+# that the sheet notes put under the Allen County Sanitary Engineering Department — not the City.
+# It does NOT draw where that County main goes next. See `open_after_this_pull`.
+#
+# ⚠️ DO NOT CONFLATE with "FM-2" in data/reference/hydrology/network.yaml (the campus 2.5 MGD
+# industrial discharge modelled to the Lima WWTP). Nothing in this set is labelled FM-2, and this
+# PTI covers sanitary sewer at 0.10 MGD design ADF. Whether an industrial / process line exists is
+# a separate question this set does not answer either way.
+#
+# TAG VOCABULARY: [verified] printed in the drawing set (native CAD text layer, or read from the
+# rendered sheet where stated) · [inference] reasoned and labelled · [open] not established here.
+
+doc_id: edoc-4230061-bosc-1a-sanitary-plan-set-part-1
+source_path: data/documents/permits/bistrozzi-permits/4230061.pdf
+kind: plan
+pages_read: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+image_pages_read: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+dpi: 40
+# ⚠️ WHAT `dpi: 40` MEANS. Every sheet (48" x 36") was rasterized at 40 DPI as an OVERVIEW to
+# follow the alignment between sheets; sheet 1A-C-5000 (p3) was additionally cropped at 150 DPI
+# (the south and west portions, where the force main and the connection run). Every FIGURE below —
+# stations, inverts, rims, areas, dates, notes — comes from the set's NATIVE CAD TEXT LAYER
+# (~2,600-3,100 characters/sheet), not from a pixel read and not from OCR. Nothing was OCR'd. The
+# renders establish geometry and adjacency (which structure sits where), never a digit.
+source_text_excerpt: >-
+  BOSC-1A — BISTROZZI LLC 4110 N COLE ST — EMH&T / WSP USA BUILDINGS INC. / CI DESIGN, INC —
+  CLIENT CONFIDENTIAL ISSUE FOR PERMIT EMH&T 04/02/26 — ISSUE FOR PERMIT - REVISION 2026-08-13 —
+  PROPOSED SANITARY STRUCTURE ON EXISTING LINE, USE NON-SHEAR FERNCO COUPLER CONNECTIONS TO EX 10"
+  SAN — DSW-7312 08/14/2026
+
+plan:
+  project_name: Site Construction Plan for Project BOSC — sanitary plan sheets (part 1 of 2)   # [verified] title "SITE CONSTRUCTION PLAN FOR PROJECT BOSC"; the part label is ours
+  site_address: 4110 N Cole St, American Township, Allen County, Ohio
+  project_no: US0047417.9689
+  sheet_id: 1A-C-0001 – 1A-C-5121
+  discipline: Civil — sanitary sewer, force main and point of connection (plan sheets)
+  phase: Issue for Permit
+  status: 'ISSUE FOR PERMIT - REVISION 2026-08-13 (rev 4)'   # [verified] revision block, every sheet
+  date: '2026-08-13'                                         # [verified] latest revision date
+  scale: As noted per sheet
+  prepared_by:
+    - name: EMH&T
+      discipline: Civil engineer of record (seal Jeremy Eisele, PE, dated 04/02/26)
+      location: 5500 New Albany Road, Columbus, OH 43054
+    - name: WSP USA Buildings Inc.
+      discipline: MEP / Structure
+      location: 433 River Street, 7th floor, Troy, NY 12180
+    - name: CI Design, Inc
+      discipline: Architecture
+      location: 250 Summer Street, Boston, MA 02210
+  key_features:
+    - 'Owner BISTROZZI LLC, 4110 N Cole St, parcel 36-1200-02-001.001; developer Turner Construction (Robert Zizzo)  [verified, p0]'
+    - 'Site area 335.59 ac; disturbed 69.19 ac; post-developed impervious 27.92 ac  [verified, p0 site data]'
+    - 'Adjacent-owner table lists Bistrozzi parcels with proposed use "DATA CENTER / CONSTRUCTION LOGISTICS"  [verified, p0]'
+    - 'Datum Ohio State Plane North NAD83(2011), NAVD88; control point 205 at N 412676.568, E 1520369.625  [verified, p0 control table]'
+    - '24" gravity sanitary south of Bldg 1A through structures 5-4-3-2-1 to a PROPOSED TEMPORARY LIFT STATION near the Cole St / Beery Rd roundabout; a "FUTURE LIFT STATION (BY OTHERS)" is drawn beside it  [verified, 1A-C-5000 text + 150-DPI crop]'
+    - '6" force main 1A-SSFM-0001 south along Cole St then southeast, to a manhole at STA 31+66.36 near structure 2C  [verified, plan sheets 5107-5120; profile in 4230062]'
+    - '12" gravity sewer (profile 1A-SSWR-0041) from 2C south through 2B, 2A and 45 to structure 47 on the EXISTING 10" SANITARY in W Bluelick Rd  [verified, 1A-C-5121]'
+    - >-
+      Connection notes on 1A-C-5121, beside the "10" SAN" in W Bluelick Rd: "PROPOSED SANITARY
+      STRUCTURE ON EXISTING LINE, USE NON-SHEAR FERNCO COUPLER CONNECTIONS TO EX 10" SAN";
+      "REMOVE THE EXISTING MANHOLE AND RECONNECT THE SANITARY MAIN. COORDINATE THE MANHOLE REMOVAL
+      AND PIPE RECONNECTION WITH THE ALLEN COUNTY SANITARY ENGINEERING DEPARTMENT"; "COORDINATE
+      ROAD CROSSING WITH AMERICAN TOWNSHIP"  [verified]
+    - >-
+      Sewer testing notes on 1A-C-5000 cite the ALLEN COUNTY SANITARY ENGINEERING DEPARTMENT
+      specification (Section 4.15.4 — low-pressure air or exfiltration, and deflection tests)
+      [verified]
+  summary: >-
+    Part 1 of the approved BOSC-1A sanitary plan set. It draws the whole conveyance: gravity sewer
+    from Building 1A to a temporary lift station at Cole St / Beery Rd, a 6" force main of about
+    3,166 ft down Cole St, and a 12" gravity tail that ties into an existing 10" sanitary main in
+    W Bluelick Rd at a new structure (47). That is the ONE point of connection the set shows, and
+    the coordination notes tie the work on it to the Allen County Sanitary Engineering Department
+    and American Township. The City of Lima appears only in the utility-locate list and in boilerplate
+    general notes.
+  note: >-
+    Sheet "OHIO EPA SUBMISSION DATE" fields vary across this part — 8/13/2026 (title, p0),
+    1/22/2026 (general notes, p1-p2), 6/30/2026 (5000-5001, p3-p4), 7/1/2026 (plan sheets, p5-p16) —
+    while the cover letter (4230060) records "Plans Received on 5/29/2026". Read as
+    [inference] sheets re-submitted at different rounds of review and carried into the final
+    approved set; the approval stamp (DSW-7312 08/14/2026) is uniform on every sheet.
+  confidence: high
+  warnings:
+    - >-
+      The County tie-in is drawn; where the 10" W Bluelick Rd main goes after structure 47 is NOT.
+      This narrows #2090 away from the City's Cole St. SSO basin but is not yet a negative.
+    - >-
+      Sanitary only (0.10 MGD design ADF). Nothing here is the network.yaml "FM-2" industrial
+      discharge, and this set neither confirms nor refutes it.
+
+approvals:
+  ohio_epa_internal_no: DSW-7312                    # [verified] stamped on all 17 sheets
+  ohio_epa_approved: '2026-08-14'                   # [verified] stamp "DSW-7312 08/14/2026"
+  permit: DSWPTI-260597                             # [verified] via filename-map / 4230068
+  engineer_seal: 'Jeremy Eisele, PE (EMH&T), dated 04/02/26'   # [verified] titleblock seal text
+  cross_check: >-
+    [verified] The receiving plant named in the application (4230068) is American/Bath WWTP,
+    NPDES 2PH00007. The drawn connection to a County-coordinated main in W Bluelick Rd is
+    CONSISTENT with that and with nothing else in this set. [inference] It is not proof of it: the
+    set ends at structure 47.
+
+# #2090 — the drainage question, stated with its limits.
+point_of_connection:
+  structure: '47'
+  location: existing 10" sanitary main, W Bluelick Rd
+  inverts: '816.08 (12" N, proposed in) / 815.91 (10" E, existing out)'   # [verified] profile 1A-SSWR-0041 in 4230062 p5
+  outflow_direction: east along W Bluelick Rd     # [verified] the 10" E invert; [inference] downstream of the sheet
+  authority_named: Allen County Sanitary Engineering Department; American Township (road crossing)
+  finding: >-
+    [verified] The set draws exactly one connection to an existing public sewer, and it is to the
+    10" main in W Bluelick Rd, coordinated with the County, not the City. [inference] That narrows
+    #2090 strongly AWAY from the City of Lima's Cole St. SSO basin and CSO outfall 037. It is NOT
+    yet a published negative: this set does not draw the 10" main's route past structure 47, and
+    the SSO / sewershed basin polygons were not tested against it.
+
+records_posture:
+  legend: >-
+    [verified] Sheet 1A-C-0001 carries the applicant's legend asserting R.C. 149.433
+    infrastructure-record and trade-secret protection "subject to a nondisclosure agreement", and
+    every sheet is marked CLIENT CONFIDENTIAL.
+  note: >-
+    [verified] Ohio EPA nonetheless serves the set on its public eDocument portal, fetched by a plain
+    GET on 2026-10-07 (and the same bytes, by sha256, earlier). These are the same grounds on which
+    the County and the Allen SWCD withheld the plans (records-withholding-map.yaml layer 7). The
+    legend is the submitter's CLAIM, not an agency determination. The shelf stays default-deny for
+    publication; clearing it is a separate #274/#281 review, not done here.
+
+open_after_this_pull:
+  - what: Downstream routing of the existing 10" W Bluelick Rd main past structure 47
+    status: '[open]'
+    note: >-
+      The single fact between "County connection" and "does not reach the Cole St. SSO basin".
+      Needs the County sanitary system map or the American/Bath collection-system record, and the
+      SSO basin polygons tested against it.
+  - what: The PERMANENT pump station ("designed for 2,700 GPM") and its force main
+    status: '[open]'
+    note: >-
+      Named in 4230062 (1A-C-5900) and drawn here only as "FUTURE LIFT STATION (BY OTHERS)". Its
+      force main, its receiving point and its permit are not in this set.
+  - what: Any industrial / process discharge line ("FM-2")
+    status: '[open]'
+    note: >-
+      Not drawn, not labelled, not ruled out. This PTI is sanitary only. Do not read this set as
+      either confirming or refuting the network.yaml FM-2 edge.
+  - what: Submission-date sequence vs "Plans Received on 5/29/2026"
+    status: '[open]'
+    note: See `plan.note`. Harmless on its face; recorded rather than smoothed over.
+
+confidence: high
+warnings:
+  - >-
+    Figures are from the native CAD text layer; the renders (40 DPI all sheets, 150 DPI crops of
+    1A-C-5000) were used for geometry only. A label's position on the sheet was resolved from the
+    render, so a structure-to-location attribution is [verified] as drawn, not surveyed.
+  - >-
+    The general notes include City of Lima inspection language for lines connected into City
+    water/sewer and list City of Lima Utilities for mainline locates. That is boilerplate and a
+    locate request, not a City connection; no City point of connection is drawn.
+  - >-
+    General-note pay-item text specifies 10" and 4" PVC C900 force main while every drawn force
+    main in this part is labelled 6" FM. Treated as specification boilerplate; see 4230062 for the
+    lift-station sheets' own "10" FORCE MAIN" title, which is the more substantive discrepancy.

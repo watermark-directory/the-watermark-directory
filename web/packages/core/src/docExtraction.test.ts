@@ -202,7 +202,7 @@ describe("the join, against the committed Lima bundle", () => {
   // `data/extracted/oepa/lima/2dp00130-surrogate-characterization.yaml`, which is deliberately
   // shaped so `corpus._classify` DECLINES it — it is a reading, not a record, and must never
   // count here.
-  it("extracts 182 of 3,422 documents — 5.3% of the corpus", () => {
+  it("extracts 184 of 3,424 documents — 5.4% of the corpus", () => {
     const entries = documents.flatMap((c) => c.entries);
     // 3,362 -> 3,382 (City of Lima PRR, #1536): the twenty committed files of the City's first
     // public-records production, under `legal/prr-mandamus/prr-production-2026-08-{22,24}-lima/`.
@@ -248,7 +248,12 @@ describe("the join, against the committed Lima bundle", () => {
     // whose minutes that manifest has never pulled — the corpus held the application and no
     // record of the decision. ONE file, not two: the 2018 warranty deed at pp. 11-14 is a second
     // INSTRUMENT inside the same PDF, extracted separately, not a second byte-stream.
-    expect(entries.length).toBe(3422);
+    // 3,422 -> 3,424 (#2090): the two DEFERRED BOSC-1A plan sets are now committed —
+    // `permits/bistrozzi-permits/4230061.pdf` (17 pp, plan sheets) and `4230062.pdf` (13 pp,
+    // profiles, details and the temporary lift station). The vault retired the Git-LFS budget that
+    // deferred them; the re-fetched bytes match the sha256 recorded at deferral. Committed, NOT
+    // published — the shelf is default-deny and sheet 1A-C-0001 carries an R.C. 149.433 legend.
+    expect(entries.length).toBe(3424);
     // 159 -> 160 (the American Township CUP): ONE join, from TWO records. Both the BZA decision
     // and the 2018 deed name the SAME packet as their `source.file`, and the join is per-`rel`,
     // so the numerator moves by one while `records.length` moves by two. That asymmetry is the
@@ -258,7 +263,9 @@ describe("the join, against the committed Lima bundle", () => {
     // annual reports and the CY2025 CSO annual report. Denominator unmoved: those bytes were
     // catalogued at #2174 and this change only reads them, which is exactly the shape the note on
     // `counts.legal` below predicted when it landed.
-    expect(countExtracted(entries, index)).toBe(182);
+    // 182 -> 184 (#2090): each plan set has its own `kind: plan` read naming its own source, so
+    // the numerator moves with the denominator — one to one, unlike the `record:` reads of #2088.
+    expect(countExtracted(entries, index)).toBe(184);
   });
 
   it("is near-complete on the small instrument collections, and thin across the big holdings", () => {
@@ -280,7 +287,10 @@ describe("the join, against the committed Lima bundle", () => {
     // all twelve — the delineation sheet, the Waters-of-the-US table, both ODNR letters and the
     // withdrawal email — but the join is per `source_path`, and that names only `4011312.pdf`, the
     // 2026-02-18 withdrawal. The other eleven are `companion_sources`: read, cited, not joined.
-    expect(counts.permits).toEqual([30, 49]);
+    // permits [30, 49] -> [32, 51] (#2090): the two BOSC-1A plan sets, both committed and both
+    // read — `4230061.plan.yaml` / `4230062.plan.yaml` publish into `plans`, so they DO join,
+    // unlike `4230068.sanitary.yaml` above.
+    expect(counts.permits).toEqual([32, 51]);
     expect(counts.recorder).toEqual([7, 7]);
     // plans 4 -> 5 (#2072 follow-on): `4091285.pdf`, the NOI completing the `2GC08747` set.
     expect(counts.plans).toEqual([2, 5]);
@@ -373,7 +383,8 @@ describe("the join, against the committed Lima bundle", () => {
     // American Township packet above, no document in this production carries two instruments and
     // no instrument spans two documents — so the record count, the join and the numerator all move
     // by the same twenty-two.
-    expect(records.length).toBe(188);
+    // 188 -> 190 (#2090): the two BOSC-1A plan-set reads, one record per document.
+    expect(records.length).toBe(190);
     // 5 -> 3, and this is the deliberate change the note below predicted. `_source_ref` now
     // resolves three further committed provenance shapes — `provenance.source_path` /
     // `provenance.sources`, the connector read's `meta.sources` (a dict of NAMED lists, so every
@@ -401,6 +412,7 @@ describe("the join, against the committed Lima bundle", () => {
     // gains a single key. See the `countExtracted` note above.
     // 160 -> 182: each of the twenty-two names its own source document, so the join gains a key
     // per record — the one-to-one case, as at #2089.
-    expect(index.size).toBe(182);
+    // 182 -> 184 (#2090): both plan-set records name their own source, so the join gains two keys.
+    expect(index.size).toBe(184);
   });
 });
