@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "83e934b66f9739b151491da331b1fdca56e9ee36029f9fefc8cf0c34d25c3add",
+  "catalog_version": "664d408a6c377fd635de53d0a7a232cb0f2038f7447c4b9520a6571e81fee405",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -905,6 +905,14 @@
       "site": "lima",
       "local_id": "data-centers-van-wert",
       "title": "Van Wert / Van Wert County OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:data-centers-wapakoneta",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-wapakoneta",
+      "title": "Wapakoneta / Auglaize County, OH — Data-Center Activity Register",
       "feed": "catalog"
     },
     {

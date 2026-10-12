@@ -1,0 +1,67 @@
+[
+  {
+    "id": "CTS-IDENTITY",
+    "origin": "lead",
+    "question": "Who is Colocation Technology Services?",
+    "detail": "The developer the City names has no web footprint the 2026-10-12 sweep could find: no site, no principals, no other projects. The Ohio Secretary of State business search was down that day. A 50 MW ask, which the press reports as expandable to 200 MW, from an entity with no visible track record is the first thing to resolve. The instrument that closes this is the SOS record (formation date, statutory agent, foreign or domestic). Never resolve \"CTS\" by acronym: QTS, the Van Wert operator, is a different company.",
+    "source": "City of Wapakoneta Facebook statement (undated); Wapakoneta Daily News 2026-10-08 · data/extracted/wapakoneta/data-centers.md",
+    "kind": "question",
+    "status": "unanswered",
+    "issue": 2184,
+    "hypothesis": null,
+    "hypothesis_label": null,
+    "signal": null
+  },
+  {
+    "id": "CTS-200MW-CEILING",
+    "origin": "lead",
+    "question": "The City's post describes 50 MW; the press reports a path to 70 acres and 200 MW",
+    "detail": "The City's statement describes \"a smaller sized data center\" requiring 50 MW. The Wapakoneta Daily News (2026-10-08), reporting WAEDC's briefing to Council, adds \"the potential to eventually expand to 70 acres and 200 megawatts.\" The AEP feasibility result the City relays (\"could be served without improvements\") is stated for the 50 MW load. Whether it covers the ceiling is unknown. JobsOhio lists the West Central Ohio Industrial Center at 5 MW of excess electric capacity. The feasibility study itself, via a records request to the City, is the instrument.",
+    "source": "Wapakoneta Daily News 2026-10-08; City Facebook statement; JobsOhio WCOIC listing · data/extracted/wapakoneta/data-centers.md §1.2–1.3",
+    "kind": "signal",
+    "status": "unanswered",
+    "issue": 2184,
+    "hypothesis": null,
+    "hypothesis_label": null,
+    "signal": null
+  },
+  {
+    "id": "BLOWDOWN-DESTINATION",
+    "origin": "lead",
+    "question": "Where does the hauled cooling water go?",
+    "detail": "CTS says its closed-loop cooling water \"would not be discharged into the City's sewer system but would instead be periodically removed and properly disposed of off-site.\" A hauled waste stream lands at someone's permit, whether a POTW that receives trucked waste or an industrial treater. That receiver, and the blowdown chemistry it is permitted to take, is the water question this design moves rather than answers.",
+    "source": "City of Wapakoneta Facebook statement (undated) · data/extracted/wapakoneta/data-centers.md §1.4",
+    "kind": "question",
+    "status": "unanswered",
+    "issue": 2184,
+    "hypothesis": null,
+    "hypothesis_label": null,
+    "signal": null
+  },
+  {
+    "id": "ORD-2024-48-TEXT",
+    "origin": "lead",
+    "question": "What does Ord. 2024-48 actually condition?",
+    "detail": "The City says Council made data centers \"a conditional use\" in 2024. The instruments are Ord. 2024-48, amending §1282.04 (M-3 Industrial District conditional uses), and Ord. 2024-46, amending the §1250.10(174) \"warehouse\" definition. Both were adopted 7-0 on 2024-11-18, and neither title says \"data center.\" The minutes frame them as distinguishing a \"warehouse\" from a \"data warehouse.\" The enacted text, and the criteria a conditional-use review would apply, are unread. American Legal's codified copy refuses scripted fetches.",
+    "source": "Wapakoneta City Council minutes 2024-10-21, 2024-11-04, 2024-11-18 · data/extracted/wapakoneta/data-centers.md §2",
+    "kind": "question",
+    "status": "unanswered",
+    "issue": 2184,
+    "hypothesis": null,
+    "hypothesis_label": null,
+    "signal": null
+  },
+  {
+    "id": "POST-CAPTURE",
+    "origin": "lead",
+    "question": "The City's statement exists in no archive",
+    "detail": "The City Administration's Facebook statement is the only source for the City's no-negotiation, no-commitment position and for the AEP feasibility result. Facebook serves no dated page to a script, and the Wayback Machine has no snapshot. Today the register holds only a pasted transcription. Capture the post with its date before it can be edited or removed.",
+    "source": "https://www.facebook.com/cityofwapakoneta/posts/pfbid0uaLu5N75YRUZjhXZ1rGwkqYX7FL1fTTaB69UKmz2kZ8JJR1v3PoqZ4aNnuPaiyCCl",
+    "kind": "signal",
+    "status": "low",
+    "issue": 2184,
+    "hypothesis": null,
+    "hypothesis_label": null,
+    "signal": null
+  }
+]

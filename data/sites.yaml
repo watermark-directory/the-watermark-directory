@@ -498,6 +498,26 @@ sites:
     map_lon: -82.8392
     map_zoom: 12
 
+  - slug: wapakoneta
+    place: "Wapakoneta"
+    # The city sits on the upper Auglaize (the WRF discharges at RM 84.9 — 2PD00019 fact sheet), UPSTREAM
+    # of the Ottawa River confluence that Lima's screen routes through (#1488); Auglaize → Maumee.
+    basin_label: "Auglaize River (upper)"
+    basin_major: "maumee"
+    # null per the field guide (tracking-only) — the receiving water is known (Auglaize RM 84.9) but no
+    # facility discharge exists to key it to; CTS's cooling water is reported hauled off-site
+    receiving_water: null
+    state: "OH"
+    county: "Auglaize County, OH"
+    codename: null
+    mono: "WAP"
+    status: "tracking"
+    selectable: false
+    issue: "2184"
+    map_lat: 40.5652
+    map_lon: -84.1907
+    map_zoom: 13
+
   # ── Tracking only (GitHub issue, no Python profile yet) ─────────────────────────────────
   # Scioto basin (the data-center epicenter)
 

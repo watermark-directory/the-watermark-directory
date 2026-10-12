@@ -533,7 +533,7 @@
     },
     "observed_network": {
       "sites_present": 9,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "Hand-authored per-site footprint record — the boundary drawn from that site's committed parcel GIS (reference/<site>/parcel-assemblage.geojson), planar acreage measured from the same geometry, hydrologic soil group from a SSURGO read over it, and every quantity tagged with its own source kind",
@@ -1169,8 +1169,8 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 16,
-      "sites_total": 26
+      "sites_present": 17,
+      "sites_total": 27
     },
     "citation": {
       "source": "BOSC site-onboarding discovery — verified public-record register of per-site data-center activity (Columbus/New Albany/Springfield)",
@@ -1566,6 +1566,58 @@
     "observed_network": null,
     "citation": {
       "source": "QTS (q.com/data-centers/van-wert); Data Center Dynamics; Van Wert Independent (2026-05/06); Thor Equities / Form8tion (GlobeNewswire 2025-08-19); Ohio EPA data-center general permit OHD000001; City of Van Wert water-treatment page; Ohio EPA HUC-12 reports",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-wapakoneta",
+    "title": "Wapakoneta / Auglaize County, OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "wapakoneta",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, manual web pass (2026-10-12) prompted by the City of Wapakoneta's Facebook statement on the Colocation Technology Services (CTS) proposal — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:wapakoneta",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "wapakoneta",
+      "auglaize-county-oh",
+      "auglaize-river",
+      "colocation-technology-services",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/wapakoneta/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "80138d209f8eecc85ae2bc2b4b7ec8c4c25b4239708bb57cdd46e347b1b7c396",
+      "size_bytes": 24439,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, manual web pass (2026-10-12) prompted by the City of Wapakoneta's Facebook statement on the Colocation Technology Services (CTS) proposal — verify every figure against its cited source before promoting status to reviewed.",
       "source_kind": "reference",
       "page": null,
       "pages": null,
@@ -4612,7 +4664,7 @@
     },
     "observed_network": {
       "sites_present": 1,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "Per-site governing bodies (e.g. City of Lima council) — published meeting documents, scraped per watershed-point site",
@@ -8594,7 +8646,7 @@
     },
     "observed_network": {
       "sites_present": 1,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "Ohio Revised Code (5715.01 assessment ratio; 122.175 DCTE scope; 3735.671(A)(2) school-compensation floor) + Ohio Department of Taxation county sales-and-use rate + a stated commercial-millage assumption; the withheld-knob bands are cross-referenced to reference/datacenter-industry/priors.yaml",
@@ -9858,7 +9910,7 @@
     },
     "observed_network": {
       "sites_present": 22,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "BLS QCEW annual averages (keyless) + US Census ACS 5-year (B01003_001E population, B19013_001E median household income)",
@@ -9968,7 +10020,7 @@
     },
     "observed_network": {
       "sites_present": 22,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "U.S. EIA — API v2 seriesid route (state residential electricity/gas price, total retail sales)",
@@ -10027,7 +10079,7 @@
     },
     "observed_network": {
       "sites_present": 10,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "Derived — facility draw (air permit, #87) sized against EIA state retail sales + residential price (#91)",
@@ -10088,7 +10140,7 @@
     },
     "observed_network": {
       "sites_present": 22,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "U.S. EIA — Form EIA-861 (serving-utility retail sales) + Form EIA-930 (balancing-authority hourly demand)",
@@ -10143,7 +10195,7 @@
     },
     "observed_network": {
       "sites_present": 1,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "DoD MIRTA (Military Installations, Ranges, and Training Areas) site-boundary register, published via Esri US Federal Data; boundaries encompass federally owned or otherwise managed lands as defined in the Base Structure Report",
@@ -10198,7 +10250,7 @@
     },
     "observed_network": {
       "sites_present": 1,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "DoD MIRTA (site boundary) × EPA SDWIS (public water systems) × EPA ECHO CWA (NPDES discharges) × EPA RSEI/TRI (toxic releases), joined to the enclave's committed grounding record (its CERCLA §120 Federal Facility Agreement) — a multi-source assembly",
@@ -10979,7 +11031,7 @@
     },
     "observed_network": {
       "sites_present": 22,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "NOAA NWS HDSC Atlas-14 — precipitation-frequency point query (Partial-Duration Series, English depths)",
@@ -11099,7 +11151,7 @@
     },
     "observed_network": {
       "sites_present": 22,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "NASA POWER (Prediction Of Worldwide Energy Resources) — climatology point REST API (satellite-derived monthly/annual normals)",
@@ -11226,7 +11278,7 @@
     },
     "observed_network": {
       "sites_present": 3,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "USGS NLDI navigation over the NHDPlus flowline network (per-site nav plans — Lima's mainstem gage 04187100 + WWTP snaps; Fort Wayne's three cited fork/mainstem gages; Sidney's mainstem + Loramie gages plus two campus-drainage snaps)",
@@ -11287,7 +11339,7 @@
     },
     "observed_network": {
       "sites_present": 6,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "Hand-authored per-site routing table — each WWTP→stream route and its permitted average design flow transcribed from that plant's own Ohio EPA NPDES permit or fact sheet in the corpus and cited per route; Lima's BOSC forcemain graph additionally from the Periplus watch-items forcemain features",
@@ -12640,7 +12692,7 @@
     },
     "observed_network": {
       "sites_present": 11,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "Per-site county parcel GIS via the gis_parcel field-map, pulled as f=geojson reprojected to WGS84 (Fort Wayne = Allen County, IN iMap, parcel layer 10)",
@@ -12871,7 +12923,7 @@
     },
     "observed_network": {
       "sites_present": 22,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "EPA RSEI Public Data Set v2.3.12 (EPA gaftp Public Release Data), version v2312",
@@ -13357,7 +13409,7 @@
     },
     "observed_network": {
       "sites_present": 1,
-      "sites_total": 26
+      "sites_total": 27
     },
     "citation": {
       "source": "USASpending.gov API (api.usaspending.gov), U.S. Treasury",
