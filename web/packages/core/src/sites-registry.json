@@ -417,6 +417,22 @@
       "map_zoom": 12
     },
     {
+      "slug": "wapakoneta",
+      "place": "Wapakoneta",
+      "basin": "Auglaize River (upper)",
+      "basin_major": "maumee",
+      "state": "OH",
+      "county": "Auglaize County, OH",
+      "codename": null,
+      "mono": "WAP",
+      "status": "tracking",
+      "selectable": false,
+      "issue": "2184",
+      "map_lat": 40.5652,
+      "map_lon": -84.1907,
+      "map_zoom": 13
+    },
+    {
       "slug": "newark",
       "place": "Newark",
       "basin": "Licking River",

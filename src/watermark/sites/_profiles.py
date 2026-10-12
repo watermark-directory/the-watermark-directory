@@ -4663,6 +4663,81 @@ _PORTSMOUTH = SiteProfile(
 )
 
 
+# Registration only (#2184) — Wapakoneta / Auglaize County, the upper-Auglaize node (Auglaize →
+# Maumee at Defiance → Lake Erie), UPSTREAM of the Ottawa River confluence Lima's screen routes
+# through (#1488). Prompted by the City's own Facebook statement that Colocation Technology Services
+# (CTS) approached WAEDC about a ~50 MW data center in the industrial park — a proposal with NO filed
+# instrument (no conditional-use request, no annexation, no agreement). This is identity + the
+# verifiable knobs only; every other field is an unfilled scaffold TODO, `facilities=()` until an
+# instrument exists. The profile also gives `wapakoneta/` its own eponymous corpus scope, so the
+# register under data/extracted/wapakoneta/ never falls into Lima's whole-tree-minus-peers scope.
+_WAPAKONETA = SiteProfile(
+    slug="wapakoneta",
+    basin="maumee",  # [verified] HUC8 04100007 (Auglaize) — ECHO, data/reference/echo/maumee-wwtp.potw.yaml
+    nwis_sites=[
+        "04186500",  # [verified] Auglaize River near Fort Jennings OH — the nearest gage with live
+        # instantaneous discharge (USGS IV, checked 2026-10-12); DA 332 mi², downstream of the city and
+        # ABOVE the Ottawa confluence. Shared with Lima (its refill supply gage). 04185800 "Auglaize
+        # River at Wapakoneta" (DA 103 mi²) serves no IV/DV series — never a profile knob (gage-role trap).
+    ],
+    nasa_power_lat=40.565229,  # [verified] 2024 Census Gazetteer place centroid, Wapakoneta city
+    nasa_power_lon=-84.190695,  # (GEOID 3980766) — the watershed point, NOT a facility location
+    rsei_fips="39011",  # [verified] Auglaize County, OH (2024 Census county gazetteer)
+    econ_fips="39011",
+    eia861_utility_number=20077,  # [verified] City of Wapakoneta - (OH), EIA-861 2024 Service_Territory
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the Auglaize County auditor parcel REST endpoint
+    zoning_url="TODO",
+    floodzone_url="TODO",
+    gnis_default_state="OH",
+    hydro_utm_epsg=32616,  # [verified] UTM 16N (Wapakoneta ~84.19 degW; zone 16 spans 90-84 degW)
+    lsc_default_ga="136",
+    gis_parcel=None,
+    gis_zoning=None,
+    gis_flood=None,
+    design_lat=0.0,  # [open] pending an identified parcel in the West Central Ohio Industrial Center
+    design_lon=0.0,
+    corridor_name="TODO",
+    dominant_hsg="TODO",
+    hsg_citation="TODO",
+    pre_cover="TODO",
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},
+    parcels_relpath="reference/wapakoneta/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/wapakoneta/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/wapakoneta/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/wapakoneta/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/wapakoneta/baseline.yaml",
+    rsei_relpath="reference/rsei/wapakoneta/inventory.yaml",
+    consumer_energy_relpath="reference/eia/wapakoneta/consumer-energy.yaml",
+    demand_pressure_relpath="reference/eia/wapakoneta/demand-pressure.yaml",
+    grid_relpath="reference/eia/wapakoneta/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),  # TODO
+    plant_receiving={},  # TODO — the city WRF (2PD00019 / OH0027952) discharges to the Auglaize at RM 84.9
+    abstraction_gage="TODO",
+    supply_gage_primary="TODO",  # the city's supply is GROUNDWATER (Teays Valley aquifer, 2025 CCR) —
+    supply_gage_secondary="TODO",  # a stream supply gage may never apply here
+    passby_primary_cfs=0.0,
+    passby_secondary_cfs=0.0,
+    facilities=(),  # [open] no instrument: CTS has filed nothing (City statement; data-centers.md)
+    # Like Bowling Green, a TWO-GRID site, and this knob carries only the city's: the muni's retail
+    # customers are what the consumer-energy/load-share backdrop keys on. Honest [open] citations,
+    # not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
+    serving_utility_citation=(
+        "[reference] The SITE's utility is the City of Wapakoneta municipal electric system (EIA-861 "
+        "2024 Service_Territory, utility #20077, an American Municipal Power member). The proposed "
+        "CTS data center would NOT be served through it: per the City's own statement it would take a "
+        "new direct connection to an AEP (Ohio Power Co, #14006) line and buy power as a Delivery "
+        "Service Customer under separate AMP contracts. That arrangement is the developer's and City's "
+        "description of a proposal, not a filed instrument [open]."
+    ),
+    lmp_usd_mwh=0.0,
+    lmp_citation="[open] PJM pricing zone pending onboard (AEP zone is an [inference] from the Ohio Power line)",
+    county_name="Auglaize County, OH",  # [verified] FIPS 39011
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
@@ -4690,6 +4765,7 @@ SITES: dict[str, SiteProfile] = {
     _MANSFIELD.slug: _MANSFIELD,
     _BOWLING_GREEN.slug: _BOWLING_GREEN,
     _PORTSMOUTH.slug: _PORTSMOUTH,
+    _WAPAKONETA.slug: _WAPAKONETA,
 }
 
 # The per-site output relpaths `watermark onboard` writes. Each must be unique to its site so
