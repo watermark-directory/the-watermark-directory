@@ -1,0 +1,86 @@
+{
+  "serving_utility": {
+    "utility": {
+      "value": "City of Wapakoneta - (OH)",
+      "source": "reference",
+      "citation": "[reference] The SITE's utility is the City of Wapakoneta municipal electric system (EIA-861 2024 Service_Territory, utility #20077, an American Municipal Power member). The proposed CTS data center would NOT be served through it: per the City's own statement it would take a new direct connection to an AEP (Ohio Power Co, #14006) line and buy power as a Delivery Service Customer under separate AMP contracts. That arrangement is the developer's and City's description of a proposal, not a filed instrument [open].",
+      "confidence": "high"
+    },
+    "holding_company": {
+      "value": "City of Wapakoneta - (OH)",
+      "source": "reference",
+      "citation": "City of Wapakoneta - (OH) parent/holding company — identified from the EIA-861 record",
+      "confidence": "high"
+    },
+    "balancing_authority": {
+      "value": "PJM Interconnection",
+      "source": "reference",
+      "citation": "PJM Interconnection balancing authority / RTO (SiteProfile.ba_code='PJM')",
+      "confidence": "high"
+    },
+    "rto": {
+      "value": "PJM Interconnection (RTO/ISO)",
+      "source": "reference",
+      "citation": "PJM Interconnection balancing authority / RTO (SiteProfile.ba_code='PJM')",
+      "confidence": "high"
+    },
+    "retail_regulator": {
+      "value": "municipal (home rule, OH)",
+      "source": "reference",
+      "citation": "OH municipal electric systems set their own retail rates under home rule (not state-PUC rate-regulated)",
+      "confidence": "high"
+    },
+    "note": "Serving utility is identified from the EIA-861 service-territory file; RTO=PJM Interconnection is authoritative. The retail service area is the utility's own (home rule, OH), not a PUC-certified IOU territory; it is confirmed against the EIA-861 service-territory file (#94)."
+  },
+  "utility_profile": {
+    "utility": "City of Wapakoneta - (OH)",
+    "ownership": "Municipal",
+    "eia_source": "EIA-861 2024 per-utility retail (connector; 861S short-form total)",
+    "retail_sales_gwh": {
+      "value": 147.7,
+      "unit": "GWh/yr",
+      "source": "connector",
+      "citation": "EIA-861 2024 861S Short Form, City of Wapakoneta - (OH) (#20077), OH; annual total sales",
+      "confidence": "high",
+      "asof": "2024",
+      "low": null,
+      "high": null
+    },
+    "customers": {
+      "value": 5578.0,
+      "unit": "customers",
+      "source": "connector",
+      "citation": "EIA-861 2024 861S Short Form, City of Wapakoneta - (OH) (#20077), OH; annual total customers",
+      "confidence": "high",
+      "asof": "2024",
+      "low": null,
+      "high": null
+    },
+    "avg_price_cents_kwh": {
+      "value": 12.1,
+      "unit": "cents/kWh",
+      "source": "connector",
+      "citation": "EIA-861 2024 861S Short Form, City of Wapakoneta - (OH) (#20077), OH; all-customer average for this utility — the short form has no service-type split, so a full-service municipal/cooperative's single total is its whole retail cohort (no bundled-vs-shopping skew)",
+      "confidence": "high",
+      "asof": "2024",
+      "low": null,
+      "high": null
+    }
+  },
+  "ba_profile": {
+    "ba": "PJM Interconnection",
+    "eia_source": "EIA-930 daily demand sum, annual (connector)",
+    "annual_load_gwh": {
+      "value": 815056.2,
+      "unit": "GWh/yr",
+      "source": "connector",
+      "citation": "EIA-930 daily demand sum, PJM 2024 (366 days, Eastern tz)",
+      "confidence": "high",
+      "asof": "2024",
+      "low": null,
+      "high": null
+    }
+  },
+  "load_share": null,
+  "note": "Grid foundation layer (#94): per-site grid backdrop only. This site has no documented data-center facility, so there is no campus load to express as a share — the utility/BA/state denominators are real connector-sourced data, but the campus load share awaits the site's facility disclosure (the data-center dimension onboarding does not capture)."
+}
