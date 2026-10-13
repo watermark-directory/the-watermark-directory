@@ -1,6 +1,6 @@
 {
   "site": "wapakoneta",
-  "catalog_version": "b313f5ce4d5f2ad58961d7d052eb0de2574ad7a07dbc8f5df49303f88b74d914",
+  "catalog_version": "d54498e355b0a33d8b7a74617a016367998028cd352c618359c63f9cbfe60d82",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -1033,6 +1033,14 @@
       "site": "wapakoneta",
       "local_id": "rsei-inventory",
       "title": "Auglaize County, OH RSEI Toxic-Release Inventory (EPA RSEI Public Data Set v2.3.12)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:wapakoneta:subdivisions-wapakoneta",
+      "kind": "dataset",
+      "site": "wapakoneta",
+      "local_id": "subdivisions-wapakoneta",
+      "title": "Auglaize County Political-Subdivision Meeting-Records Registry (Wapakoneta)",
       "feed": "catalog"
     },
     {

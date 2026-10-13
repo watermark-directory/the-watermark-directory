@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "664d408a6c377fd635de53d0a7a232cb0f2038f7447c4b9520a6571e81fee405",
+  "catalog_version": "e75f4816dd1844637115f6130efa54d7742bf02e976c3452a7449e7a7ef9d97a",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -2137,6 +2137,14 @@
       "site": "lima",
       "local_id": "subdivisions-sidney",
       "title": "Shelby County OH political subdivisions — meeting-records registry",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:subdivisions-wapakoneta",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "subdivisions-wapakoneta",
+      "title": "Auglaize County Political-Subdivision Meeting-Records Registry (Wapakoneta)",
       "feed": "catalog"
     },
     {
