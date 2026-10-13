@@ -1,4 +1,4 @@
-reconciled_at: '2026-10-13T14:35:49.320778+00:00'
+reconciled_at: '2026-10-13T14:43:14.738964+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -3470,6 +3470,16 @@ entries:
     asof: null
     stale: false
     site_scope: site:sidney
+  subdivisions-wapakoneta:
+    exists: true
+    sha256: f3aa63f43d8c0bd583375af416a53235aba278072f56488edfe189ceefc1f939
+    size_bytes: 1217
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:wapakoneta
   thermal:
     exists: true
     sha256: 914f2576686459704ce56c416e57f6ebe1f1770fc24f4660fcdc4508da790c88
