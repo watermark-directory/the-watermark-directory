@@ -104,10 +104,15 @@ are not pulled.
 ### 1.4 — Water / hydrology hook
 
 - **Max withdrawal:** not disclosed `[open]`.
-- **Projected consumption:** 5,000–10,000 GPD, CTS's self-report via the City `[reference]`.
-  - At the 4× scale-up to 200 MW `[inference]`, this would be ~20,000–40,000 GPD if it scaled
+- **Stated water demand:** 5,000–10,000 GPD, CTS's self-report via the City `[reference]`. The
+  City's words are "requiring approximately 5,000 to 10,000 gallons per day". That figure is a
+  demand on the City system, not a consumption figure.
+  - At the 4× scale-up to 200 MW `[inference]`, demand would be ~20,000–40,000 GPD if it scaled
     linearly with load. That linear scaling is not a claim anyone has made.
   - It is an order of magnitude a closed-loop design makes plausible. It is not demonstrated.
+- **Net consumption:** `[open]`. Part of the demand leaves as hauled cooling water rather than as
+  evaporation. The split between the two is undisclosed, and so is the hauled volume and where it
+  goes. Until both are known, no consumptive figure can be derived from the demand figure.
 - **Water source:** the City system. That system is **groundwater**: "ancient Teays River Valley
   Aquifer … nine deep wells, located in two well fields." Ohio EPA rates the source "high
   susceptibility." Source: City of Wapakoneta 2025 Consumer Confidence Report
