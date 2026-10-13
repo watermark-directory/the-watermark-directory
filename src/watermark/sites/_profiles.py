@@ -4686,6 +4686,9 @@ _WAPAKONETA = SiteProfile(
     econ_fips="39011",
     eia861_utility_number=20077,  # [verified] City of Wapakoneta - (OH), EIA-861 2024 Service_Territory
     eia_state="OH",
+    ba_code="PJM",  # off the confirmed _UTILITY_GRID map (#20077), so pin the BA — [verified] EIA-861
+    # 2024 Short_Form (861S): Municipal, OH, BA Code PJM (same on Advanced_Meters / Dynamic_Pricing)
+    rto_name="PJM Interconnection",
     parcels_url="TODO",  # [open] pending the Auglaize County auditor parcel REST endpoint
     zoning_url="TODO",
     floodzone_url="TODO",
@@ -4695,9 +4698,10 @@ _WAPAKONETA = SiteProfile(
     gis_parcel=None,
     gis_zoning=None,
     gis_flood=None,
-    design_lat=0.0,  # [open] pending an identified parcel in the West Central Ohio Industrial Center
-    design_lon=0.0,
-    corridor_name="TODO",
+    design_lat=40.565229,  # [verified] 2024 Census Gazetteer place centroid = NOAA Atlas-14 point
+    design_lon=-84.190695,  # (the network convention); the WCOIC parcel itself is still [open]
+    corridor_name="Upper Auglaize corridor",  # [inference] the receiving-water reach at Wapakoneta
+    # (WRF outfall at RM 84.9, above the Ottawa confluence); a rainfall subject, not a place
     dominant_hsg="TODO",
     hsg_citation="TODO",
     pre_cover="TODO",

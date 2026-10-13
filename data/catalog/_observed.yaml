@@ -1,4 +1,4 @@
-reconciled_at: '2026-10-13T12:32:15.483207+00:00'
+reconciled_at: '2026-10-13T14:35:49.320778+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -731,10 +731,10 @@ entries:
     site_scope: basin:scioto
   economics-baseline:
     exists: true
-    sha256: 773dc96b81a5fd9386ba5f430923a053e84e4819cd49ba84811a8728a201d8b9
-    size_bytes: 464394
+    sha256: fd40d0acddc771dd9a04fd12aba9a964909414d07a2c05032c1e3250469b1cd7
+    size_bytes: 496734
     lfs_materialized: true
-    file_count: 22
+    file_count: 23
     missing: []
     asof: null
     stale: false
@@ -884,6 +884,14 @@ entries:
         file_count: 1
         asof: null
         stale: false
+      wapakoneta:
+        exists: true
+        sha256: 60d998abdcb44ac7c724bbc99e2aa01bffd26c4e93ef9d3c1730ee5a89b96433
+        size_bytes: 32340
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
       west-union:
         exists: true
         sha256: fdf50127c7dda6654e2e61647467c09d40fa2537882048dcff5c6f83b3b49654
@@ -928,10 +936,10 @@ entries:
     site_scope: basin-shared
   eia-consumer-energy:
     exists: true
-    sha256: 534d3399b66f259df22e66254167a81b2c1caa35bf8998a8752d3447a4661552
-    size_bytes: 47694
+    sha256: c5c9835c768976882593c545696c8f694e39cb78f99e458ea2914c9e276f9b6a
+    size_bytes: 53077
     lfs_materialized: true
-    file_count: 22
+    file_count: 23
     missing: []
     asof: null
     stale: false
@@ -1081,6 +1089,14 @@ entries:
         file_count: 1
         asof: null
         stale: false
+      wapakoneta:
+        exists: true
+        sha256: 66016ee786474e8f2d0ba63e7e6d2107a4e4d18fe3bb287eb39be27fb01c982c
+        size_bytes: 5383
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
       west-union:
         exists: true
         sha256: f6f2823514122ca25304b9673162511d7eb70c08db277ea1c5b8e83ace400ca3
@@ -1206,10 +1222,10 @@ entries:
         stale: false
   eia-grid-profile:
     exists: true
-    sha256: d2e0818fb626fcfbb5c9e8f8622da2eccf3712ab111a491171cb6b8c2e6dd417
-    size_bytes: 106211
+    sha256: 50b673a694ffae7bf828846b84aa226c9c548a06ac5811065a31da2dc3b1cc38
+    size_bytes: 109788
     lfs_materialized: true
-    file_count: 22
+    file_count: 23
     missing: []
     asof: null
     stale: false
@@ -1355,6 +1371,14 @@ entries:
         exists: true
         sha256: 8b921b9ecc14a1b1792f08a77e5e761ebd77db975020d65ff93725f4fc216642
         size_bytes: 5804
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      wapakoneta:
+        exists: true
+        sha256: f92de6709ad9f6e2b05dcae2afaf5275547c7121b035b1ba6216557199e0d28f
+        size_bytes: 3577
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -1641,10 +1665,10 @@ entries:
     site_scope: basin:maumee
   hydrology-atlas14-corridor-ddf:
     exists: true
-    sha256: a3826bfb94c19d2b1e545e079befaa6ed6cd8c33611d7c7a6b3775285bc413b6
-    size_bytes: 18996
+    sha256: b6ecf7c30de5961fec5e9e8ab2d28b7f33ade37f016cebdf1474371adca19d4b
+    size_bytes: 19855
     lfs_materialized: true
-    file_count: 22
+    file_count: 23
     missing: []
     asof: null
     stale: false
@@ -1794,6 +1818,14 @@ entries:
         file_count: 1
         asof: null
         stale: false
+      wapakoneta:
+        exists: true
+        sha256: b1a015b5d10cfab2b9d9996c4267ea0f2bd58b8a7255a6a86f7ed9ddda941d64
+        size_bytes: 859
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
       west-union:
         exists: true
         sha256: 6fa0576dd7cd99f19eabbdf520f90d008cc77e70db75164fdd3d065b6237d1b6
@@ -1838,10 +1870,10 @@ entries:
     site_scope: lima-legacy
   hydrology-nasa-power-climatology:
     exists: true
-    sha256: 259bd2e8e5fe316735747d701d425671babcb51af262c154e000a81474518e51
-    size_bytes: 58228
+    sha256: db25b148f52cc55f59323019c1f60e0da22d2b665c15eb8ade7dcd21eacb4dc6
+    size_bytes: 60876
     lfs_materialized: true
-    file_count: 22
+    file_count: 23
     missing: []
     asof: null
     stale: false
@@ -1987,6 +2019,14 @@ entries:
         exists: true
         sha256: 0c27ed8a1ba33a50977f10a08825940a4ec8406458f9a763de10e5be1b4895a3
         size_bytes: 2641
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      wapakoneta:
+        exists: true
+        sha256: 149713fcc54bd0086c7f01e4468290dd8c45f3d363534977bcc78350ca379ed9
+        size_bytes: 2648
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -3157,10 +3197,10 @@ entries:
     site_scope: basin-shared
   rsei-inventory:
     exists: true
-    sha256: 00f8b228c15b0a21aee41c7d9fee91f7951b751520348929ee8e83ae48b266dc
-    size_bytes: 3360686
+    sha256: 5a3ab29e39b012075004d66b3481057e5c94d4ea862d7e9359b3100976167ac5
+    size_bytes: 3448535
     lfs_materialized: true
-    file_count: 23
+    file_count: 24
     missing: []
     asof: null
     stale: false
@@ -3306,6 +3346,14 @@ entries:
         exists: true
         sha256: 4de2bbc1687d4b962a0315a461bd34353cb1be89e904e041579e79c4980514da
         size_bytes: 48395
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      wapakoneta:
+        exists: true
+        sha256: 84d1390bd548eb34e829a4dc7de5d12483f7c9a9cf10411dd3d06b46db703f97
+        size_bytes: 87849
         lfs_materialized: true
         file_count: 1
         asof: null
