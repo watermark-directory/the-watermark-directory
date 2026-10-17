@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-09-16T16:59:08+00:00'
+  generated_at: '2026-10-17T16:31:38+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 245
-    bytes: 675869999
-    distinct_addresses: 240
+    artifacts: 247
+    bytes: 679429435
+    distinct_addresses: 242
 artifacts:
 - rel: documents/oepa/2DP00130.pdf
   sha256: ae76bff9b192bd0d17c69fbdb14df96198a48e0d7804da346debc4f55b4f22e8
@@ -1020,6 +1020,16 @@ artifacts:
 - rel: documents/oepa/van-wert/stormwater/edoc-4209398.pdf
   sha256: 9ed716dcbbe4f3d3bbf4432afe6411ad8e496610445cf8b2870b9fd17464c0a8
   bytes: 139197
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/wapakoneta/2PD00019.fs.pdf
+  sha256: 8ca158d3bcb38d7b2f7cba10dae4b070c189f468f36772b9b08a66f7d553e08a
+  bytes: 1342274
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/wapakoneta/2PD00019.pdf
+  sha256: 61e6112c6c19f4111757968250b94fbceba9b62608d39ea43ead596c8a3eeb58
+  bytes: 2217162
   media_type: application/pdf
   redistributable: true
 - rel: documents/oepa/west-union/0PC00019.pdf
