@@ -523,6 +523,66 @@
     }
   },
   {
+    "id": "oepa-wapakoneta",
+    "title": "Ohio EPA NPDES Permit Extractions (Wapakoneta WRF)",
+    "scope": "extracted",
+    "collection": "oepa",
+    "status": "reviewed",
+    "producer_kind": "extracted",
+    "command": null,
+    "connector_ref": null,
+    "source": "Ohio EPA — issued NPDES permit 2PD00019*SD (application OH0027952) for the City of Wapakoneta Water Reclamation Facility, 201 Herbstritt Court, Auglaize County, and its 2024 Fact Sheet (Public Notice 206565); retrieved from the Ohio EPA DAM permit slot",
+    "external_url": null,
+    "license": "Public record (Ohio R.C. 149.43)",
+    "access_tier": "public",
+    "site_scope": "site:wapakoneta",
+    "cadence": "static",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "oepa",
+      "npdes",
+      "permits",
+      "wastewater",
+      "total-filterable-residue",
+      "flow-augmentation",
+      "wapakoneta",
+      "auglaize-county",
+      "maumee"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/oepa/wapakoneta/2PD00019.npdes.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "41d89bd31e98555d670b09592fb506ab12830f6eb21ff9dd790dadf2ef0bc4f2",
+      "size_bytes": 41680,
+      "lfs_materialized": true,
+      "file_count": 2,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Ohio EPA — issued NPDES permit 2PD00019*SD (application OH0027952) for the City of Wapakoneta Water Reclamation Facility, 201 Herbstritt Court, Auglaize County, and its 2024 Fact Sheet (Public Notice 206565); retrieved from the Ohio EPA DAM permit slot",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
     "id": "abatement-parameters",
     "title": "Auglaize County, OH Abatement Parameters + What-If Scenario Knobs",
     "scope": "reference",

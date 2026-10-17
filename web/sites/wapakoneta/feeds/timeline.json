@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "date": "2024-10-02",
+    "category": "npdes_public_notice",
+    "title": "NPDES 2PD00019*SD (City of Wapakoneta Water Reclamation Facility (WRF)) — public notice",
+    "ref": "2PD00019*SD",
+    "parties": [
+      "City of Wapakoneta, P.O. Box 269, Wapakoneta, OH 45895",
+      "City of Wapakoneta Water Reclamation Facility (WRF)"
+    ],
+    "detail": "action renewal; receiving Auglaize River",
+    "source": "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "date": "2024-11-01",
+    "category": "npdes_comment_deadline",
+    "title": "NPDES 2PD00019*SD (City of Wapakoneta Water Reclamation Facility (WRF)) — comment period ends",
+    "ref": "2PD00019*SD",
+    "parties": [
+      "City of Wapakoneta, P.O. Box 269, Wapakoneta, OH 45895",
+      "City of Wapakoneta Water Reclamation Facility (WRF)"
+    ],
+    "detail": "",
+    "source": "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  }
+]

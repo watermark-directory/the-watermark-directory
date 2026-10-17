@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "e75f4816dd1844637115f6130efa54d7742bf02e976c3452a7449e7a7ef9d97a",
+  "catalog_version": "c07a7816d50a82dde78861b62f25c5836ecf90143e4260204ff53e83c1c77379",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -1857,6 +1857,14 @@
       "site": "lima",
       "local_id": "oepa-van-wert",
       "title": "Ohio EPA NPDES Permit Extractions (Van Wert WWTP)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:oepa-wapakoneta",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "oepa-wapakoneta",
+      "title": "Ohio EPA NPDES Permit Extractions (Wapakoneta WRF)",
       "feed": "catalog"
     },
     {
