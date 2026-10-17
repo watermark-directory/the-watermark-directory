@@ -53,7 +53,8 @@ permit:
     is [inference] wherever it is asserted.
   - >-
     The plant's 2019-2023 violation record (Table 2, p. 21) is dominated by what this permit was
-    rewritten to manage: 178 violations in five years, of which 62 are E. coli, 53 are total
+    rewritten to manage: 178 violations in five years — 150 at Outfall 001 itself and 28 TFR
+    violations at fictitious outfalls 020-022, all in a table titled "Outfall 001" — of which 62 are E. coli, 53 are total
     filterable residue across outfalls 001/020/021/022, 17 are chronic toxicity, and 20 are TSS
     (12 in 2023 alone). A Director's Final Findings and Orders was issued on 2019-02-06 "to
     address the excessive discharge of total filterable residue" (p. 8). The DFFO itself is NOT
@@ -227,6 +228,11 @@ permit:
     violations_outfall_001:
       by_year_total: {2019: 13, 2020: 52, 2021: 51, 2022: 20, 2023: 42}
       five_year_total: 178
+      five_year_total_note: >-
+        Table 2 is titled "Effluent Violations for Outfall 001" but its total row includes the TFR
+        violations at fictitious outfalls 020/021/022 (7 + 17 + 4 = 28). Outfall 001 alone: 150
+        ([inference], the sum of the printed 001 rows).
+      outfall_001_only_total: 150
       by_parameter:
         cbod5: 1
         chronic_toxicity_c_dubia: 14

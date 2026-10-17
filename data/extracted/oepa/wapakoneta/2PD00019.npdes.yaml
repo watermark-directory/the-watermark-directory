@@ -141,6 +141,9 @@ permit:
       through the expiration date" — on or about 2026-12-01 through 2029-11-30
     outfall: '2PD00019001'
     loading_basis: 6.0 MGD average design flow
+    load_units: >-
+      kg/day — the table's "Loading* kg/day" column; `load_*_kg` keys follow the permit-extraction
+      convention and are daily loadings, kept apart from the concentration `units`.
     limits:
       oil_and_grease: {units: mg/l, maximum: 10, monitoring: '1 / 2 Weeks, Grab'}
       phosphorus_total: {units: mg/l, weekly: 1.5, monthly: 1.0, load_weekly_kg: 34, load_monthly_kg: 23, monitoring: '1/Week, 24hr Composite'}
@@ -175,6 +178,7 @@ permit:
     tag: '[verified]'
     period: effective date through expiration
     note: '"Samples shall be collected prior to mixing with augmentation flows."'
+    load_units: kg/day — the table's "Loading* kg/day" column (Page 12)
     limits:
       dissolved_oxygen: {units: mg/l, minimum: 6.0, monitoring: '1/Day, Multiple Grab'}
       total_suspended_solids: {units: mg/l, weekly: 18, monthly: 12, load_weekly_kg: 409, load_monthly_kg: 273}
@@ -228,13 +232,13 @@ permit:
       subject: carcinogenic additivity, cadmium, dibromochloromethane, and selenium
       milestones:
       - {month: 12, due: '2025-12-01', event_code: '90199', requirement: Progress report to Ohio EPA NWDO with 12 months of influent/effluent data and pollutant-reduction activities}
-      - {month: 24, due: '2026-12-01', event_code: '90299', requirement: Second progress report}
+      - {month: 24, due: '2026-12-01', event_code_table: '901299', event_code_item_text: '90299', requirement: Second progress report}
       - {month: 36, due: '2027-12-01', event_code: '05699', requirement: 'Attain compliance; notify NWDO within 14 days'}
     cso_pccm:
       milestones:
       - {month: 12, due: '2025-12-01', event_code: '34099', requirement: Submit Post-Construction Compliance Monitoring (PCCM) Plan (CSO monitoring for up to 24 months)}
       - {month: 24, due: '2026-12-01', event_code: '30099', requirement: PCCM progress report 1}
-      - {month: 36, due: '2027-12-01', event_code: '30199', requirement: PCCM progress report 2}
+      - {month: 36, due: '2027-12-01', event_code_table: '30199', event_code_item_text: '30099', requirement: PCCM progress report 2}
       - {month: 42, due: '2028-06-01', event_code: '11099', requirement: 'LTCP Evaluation Report — whether the four-events-per-typical-year goal and water quality standards are met'}
     municipal_pretreatment:
       milestones:
@@ -251,10 +255,12 @@ permit:
       Calendar dates in `due` are [inference] — computed from the 2024-12-01 effective date; the
       permit states only month offsets. The milestone table and the item text disagree on event
       codes in two places, recorded as printed: the second new-limits report is "901299" in the
-      table and "90299" in item 1.b; both PCCM progress reports are "30099" in items 2.c-d while
-      the table gives the second as "30199". Whether any submittal was made is NOT established by
-      a captured source. The month-18 pretreatment report (on or about 2026-06-01) is already past
-      due as of this transcription. [open]
+      table (Page 31) and "90299" in item 1.b; both PCCM progress reports are "30099" in items
+      2.c-d while the table gives the second as "30199". Those two rows carry both printed values
+      as `event_code_table` / `event_code_item_text` rather than choosing one. Whether any submittal was made is NOT established by
+      a captured source. The month-18 pretreatment report's computed due date (on or about
+      2026-06-01) had passed by the transcription date (2026-10-17); whether it was submitted is
+      not established by any captured source. [open]
 
   other_requirements_of_note:
     citation: 'Permit 2PD00019*SD, Part II'
