@@ -1,4 +1,4 @@
-reconciled_at: '2026-10-13T14:43:14.738964+00:00'
+reconciled_at: '2026-10-17T16:40:45.278836+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -2846,6 +2846,16 @@ entries:
     asof: null
     stale: false
     site_scope: site:van-wert
+  oepa-wapakoneta:
+    exists: true
+    sha256: 41d89bd31e98555d670b09592fb506ab12830f6eb21ff9dd790dadf2ef0bc4f2
+    size_bytes: 41680
+    lfs_materialized: true
+    file_count: 2
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:wapakoneta
   oepa-west-union:
     exists: true
     sha256: 1783df5f0aa6e23d5efdb9bd6103fe717121f7f8481773ba03dc5798ae76aac1
