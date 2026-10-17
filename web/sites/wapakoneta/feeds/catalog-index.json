@@ -1,6 +1,6 @@
 {
   "site": "wapakoneta",
-  "catalog_version": "d54498e355b0a33d8b7a74617a016367998028cd352c618359c63f9cbfe60d82",
+  "catalog_version": "a700ee1e877013314d6ed5a7e459b41c4cadcd6a59caff90a2ecc849f703c534",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -972,6 +972,14 @@
       "feed": "catalog"
     },
     {
+      "handle": "dataset:wapakoneta:oepa-wapakoneta",
+      "kind": "dataset",
+      "site": "wapakoneta",
+      "local_id": "oepa-wapakoneta",
+      "title": "Ohio EPA NPDES Permit Extractions (Wapakoneta WRF)",
+      "feed": "catalog"
+    },
+    {
       "handle": "dataset:wapakoneta:onboard-bundle",
       "kind": "dataset",
       "site": "wapakoneta",
@@ -1092,6 +1100,22 @@
       "feed": "catalog"
     },
     {
+      "handle": "entity:wapakoneta:AUGLAIZE RIVER",
+      "kind": "entity",
+      "site": "wapakoneta",
+      "local_id": "AUGLAIZE RIVER",
+      "title": "Auglaize River",
+      "feed": "entities"
+    },
+    {
+      "handle": "entity:wapakoneta:CITY OF WAPAKONETA",
+      "kind": "entity",
+      "site": "wapakoneta",
+      "local_id": "CITY OF WAPAKONETA",
+      "title": "City of Wapakoneta",
+      "feed": "entities"
+    },
+    {
       "handle": "entity:wapakoneta:GENERAL DYNAMICS",
       "kind": "entity",
       "site": "wapakoneta",
@@ -1105,6 +1129,14 @@
       "site": "wapakoneta",
       "local_id": "GENERAL DYNAMICS LAND SYSTEMS",
       "title": "General Dynamics Land Systems Inc.",
+      "feed": "entities"
+    },
+    {
+      "handle": "entity:wapakoneta:npdes:2PD00019",
+      "kind": "entity",
+      "site": "wapakoneta",
+      "local_id": "npdes:2PD00019",
+      "title": "City of Wapakoneta WRF",
       "feed": "entities"
     },
     {
@@ -1154,6 +1186,30 @@
       "local_id": "POST-CAPTURE",
       "title": "The City's statement exists in no archive",
       "feed": "leads"
+    },
+    {
+      "handle": "record:wapakoneta:oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+      "kind": "record",
+      "site": "wapakoneta",
+      "local_id": "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+      "title": "City of Wapakoneta Water Reclamation Facility (WRF)",
+      "feed": "records"
+    },
+    {
+      "handle": "record:wapakoneta:oepa/wapakoneta/2PD00019.npdes.yaml",
+      "kind": "record",
+      "site": "wapakoneta",
+      "local_id": "oepa/wapakoneta/2PD00019.npdes.yaml",
+      "title": "City of Wapakoneta WRF",
+      "feed": "records"
+    },
+    {
+      "handle": "timeline:wapakoneta:2PD00019*SD",
+      "kind": "timeline",
+      "site": "wapakoneta",
+      "local_id": "2PD00019*SD",
+      "title": "NPDES 2PD00019*SD (City of Wapakoneta Water Reclamation Facility (WRF)) — public notice",
+      "feed": "timeline"
     }
   ]
 }

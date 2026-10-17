@@ -2,16 +2,16 @@
   "site": "wapakoneta",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-10-13T14:45:01+00:00",
+  "generated_at": "2026-10-17T20:47:59+00:00",
   "feed_count": 31,
-  "row_total": 472,
+  "row_total": 497,
   "readiness": {
-    "tier": "backdrop",
+    "tier": "case",
     "domains": {
       "backdrop": "live",
       "facility": "absent",
       "places": "absent",
-      "record": "absent",
+      "record": "live",
       "inquiry": "seeded"
     }
   },
@@ -23,7 +23,7 @@
       "media_type": "application/json",
       "schema": "schemas/records.schema.json",
       "kind": "collection",
-      "count": 0
+      "count": 2
     },
     {
       "name": "timeline",
@@ -31,7 +31,7 @@
       "media_type": "application/json",
       "schema": "schemas/timeline.schema.json",
       "kind": "collection",
-      "count": 0
+      "count": 2
     },
     {
       "name": "entities",
@@ -39,7 +39,7 @@
       "media_type": "application/json",
       "schema": "schemas/entities.schema.json",
       "kind": "collection",
-      "count": 2
+      "count": 5
     },
     {
       "name": "relationships",
@@ -47,7 +47,7 @@
       "media_type": "application/json",
       "schema": "schemas/relationships.schema.json",
       "kind": "collection",
-      "count": 1
+      "count": 3
     },
     {
       "name": "people",
@@ -95,7 +95,7 @@
       "media_type": "application/json",
       "schema": "schemas/documents.schema.json",
       "kind": "collection",
-      "count": 0
+      "count": 1
     },
     {
       "name": "exhibits",
@@ -207,7 +207,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 61
+      "count": 62
     },
     {
       "name": "facts",
@@ -247,7 +247,7 @@
       "media_type": "application/json",
       "schema": "schemas/corpus-index.schema.json",
       "kind": "collection",
-      "count": 86
+      "count": 93
     },
     {
       "name": "corpus-nodes",
@@ -255,7 +255,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/corpus-nodes.schema.json",
       "kind": "collection",
-      "count": 86
+      "count": 93
     },
     {
       "name": "ask-embeddings",

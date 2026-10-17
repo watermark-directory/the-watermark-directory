@@ -1,0 +1,58 @@
+id: oepa-wapakoneta
+title: Ohio EPA NPDES Permit Extractions (Wapakoneta WRF)
+scope: extracted
+status: reviewed
+producer:
+  kind: extracted
+  source: Ohio EPA — issued NPDES permit 2PD00019*SD (application OH0027952) for the City of
+    Wapakoneta Water Reclamation Facility, 201 Herbstritt Court, Auglaize County, and its 2024
+    Fact Sheet (Public Notice 206565); retrieved from the Ohio EPA DAM permit slot
+license: Public record (Ohio R.C. 149.43)
+access_tier: public
+site_scope: site:wapakoneta
+storage:
+- relpath: extracted/oepa/wapakoneta/2PD00019.npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/oepa/wapakoneta/2PD00019.fs.npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: static
+provenance: document
+tags:
+- oepa
+- npdes
+- permits
+- wastewater
+- total-filterable-residue
+- flow-augmentation
+- wapakoneta
+- auglaize-county
+- maumee
+notes: >-
+  Wapakoneta WRF permit 2PD00019*SD, issued 2024-11-05, effective 2024-12-01, expiring
+  2029-11-30, signed Anne M. Vogel. Hand-read from the digitally generated text layers; no render
+  receipt (the image-only sheets — a location map, a process schematic and one near-blank notes
+  page — were rendered and viewed for the publication screen). The permit PDF binds the 82 permit
+  sheets and the 37-page Fact Sheet; the Fact Sheet is also served standalone with an identical
+  text layer and is transcribed and cited from that copy. Fetched 2026-10-17 by permit number
+  while the eDocument portal returned HTTP 503.
+  Discharge to the Auglaize River at RM 84.9 on a 6.0 MGD expanded design flow, against a 7Q10
+  of 2.29 cfs that is a StreamStats value reduced by its standard error from the PERMITTEE'S 2021
+  technical memo, not a gage record; at design flow under 7Q10 the river below the outfall is
+  roughly 80% effluent ([inference], arithmetic over two [verified] figures). A 2019-02-06 DFFO
+  for excessive total filterable residue drove the expansion and a flow-augmentation process;
+  the DFFO is NOT in the corpus, and the source of the augmentation water is named nowhere.
+  178 effluent violations 2019-2023 in the Fact Sheet's Table 2 (titled "Outfall 001") — 150 at
+  Outfall 001 itself plus 28 TFR violations at fictitious outfalls 020-022 (62 E. coli, 53 TFR across
+  001/020-022, 17 chronic toxicity).
+  ⚠️ PHASED LIMITS: cadmium, selenium, dibromochloromethane and carcinogenic additivity are
+  monitor-only through month 24 and limited from month 25 (~2026-12-01), while Part I.C allows
+  until month 36 (~2027-12-01) to comply. TFR limits are tiered across fictitious outfalls
+  020-023, selected daily by the permittee's own stage-to-flow curve at station 802.
+  Recorded document defects: the Fact Sheet prints station-603 winter ammonia as "30" (permit
+  3.0); the issued tables drop the Fact Sheet's 0.019 mg/L chlorine limit while still
+  cross-referencing it; the additivity equation's denominators are not the WLAs printed above
+  them; and the brominated trihalomethanes behind the new limits are non-detect 2019-2021 and
+  first appear in 2022, coincident with an unnamed new industrial user. [open]

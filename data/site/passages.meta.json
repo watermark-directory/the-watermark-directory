@@ -401,6 +401,8 @@
     "oepa/van-wert/stormwater/edoc-4209395.pdf",
     "oepa/van-wert/stormwater/edoc-4209396.pdf",
     "oepa/van-wert/stormwater/edoc-4209398.pdf",
+    "oepa/wapakoneta/2PD00019.fs.pdf",
+    "oepa/wapakoneta/2PD00019.pdf",
     "oepa/west-union/0PC00019.pdf",
     "oepa/west-union/edoc-3940058.pdf",
     "oepa/west-union/edoc-3940059.pdf",
@@ -507,6 +509,6 @@
     "west-union/acrwd/minutes/Minutes -January 2024.pdf",
     "west-union/acrwd/minutes/Minutes-July 26.pdf"
   ],
-  "documents_with_passages": 408,
-  "passage_count": 8203
+  "documents_with_passages": 410,
+  "passage_count": 8359
 }

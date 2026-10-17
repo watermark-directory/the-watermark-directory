@@ -1,1 +1,1038 @@
-[]
+[
+  {
+    "rel": "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+    "group": "permits-npdes",
+    "title": "City of Wapakoneta Water Reclamation Facility (WRF)",
+    "confidence": "high",
+    "warnings": [
+      "THE LOW FLOWS ARE NOT A GAGE RECORD. Table 14 (p. 29) gives the 7Q10 as 2.29 cfs with basis \"Streamstats\", and its footnote is explicit about where it came from: \"In a 2021 technical memo, the permittee used a 7Q10 value in its justification for tiered limits for total filterable residue. The 7Q10 is based on a value generated in Streamstats (using a drainage area of 110 square miles), then reduced by the standard error of the calculation.\" The same approach was applied to the 1Q10, 30Q10-summer and 90Q10; the 30Q10-winter is the summer value times 3.86, a ratio from the historical record at USGS gage 04186500. Only the harmonic mean (11.9 cfs) is gage-derived. Treat 2.29 cfs as the REGULATORY denominator these limits were computed against — originating in the permittee's own memo — not as a measurement of the Auglaize at RM 84.9, and do not reconcile it against a derived value by preferring one.",
+      "The plant is larger than the river it discharges into at low flow. Table 14 prints the discharger flow as 9.283 cfs (6.0 MGD) against an annual 7Q10 of 2.29 cfs in the same table. At design flow under 7Q10 conditions effluent would be about 9.283 / (9.283 + 2.29) = 80% of the river below the outfall. The two inputs are [verified]; the 80% is arithmetic and is [inference] wherever it is asserted.",
+      "The plant's 2019-2023 violation record (Table 2, p. 21) is dominated by what this permit was rewritten to manage: 178 violations in five years — 150 at Outfall 001 itself and 28 TFR violations at fictitious outfalls 020-022, all in a table titled \"Outfall 001\" — of which 62 are E. coli, 53 are total filterable residue across outfalls 001/020/021/022, 17 are chronic toxicity, and 20 are TSS (12 in 2023 alone). A Director's Final Findings and Orders was issued on 2019-02-06 \"to address the excessive discharge of total filterable residue\" (p. 8). The DFFO itself is NOT in the captured record — it is an eDocument-portal record and the portal was down at fetch. [open]",
+      "The effluent is acutely AND chronically toxic to both test species, and the fact sheet ties that, provisionally, to dissolved solids: \"Toxic impacts of the permittee's effluent may be associated with elevated concentrations of total filterable residue. The permittee has plans to implement a flow augmentation program to reduce these high concentrations, therefore additional toxicity source identification is needed\" (p. 15). The SOURCE of the augmentation water is not stated anywhere in the fact sheet or the permit. [open]",
+      "Station 603 winter ammonia is printed \"4.5 d 30 103 d 68\" in Table 18 (p. 34). The 30-day concentration \"30\" is a typo for 3.0 in the FACT SHEET only: the issued permit's Part I.A.7 table prints 3.0 for the same cell, and 68 kg/day at 6.0 MGD is 3.0 mg/L. Recorded as printed with this note; the permit governs.",
+      "Three internal inconsistencies, recorded and not resolved: (1) p. 15 says new limits for the Group 5 parameters take effect after a 24-month schedule, p. 17 (and the permit's Part I.C) says 36 months — the permit's own final-limit table nonetheless begins at month 25; (2) the narrative on p. 15 proposes \"a monthly average limit of 1.1 TUc\" for chronic toxicity, but Table 17 and the permit both print 1.0 TUc, and Table 17 labels all four toxicity rows \"mg/L\" where the unit is toxic units; (3) dibromochloromethane's human-health WLA is 198 ug/L (Table 15, Attachment 1) while the 30-day limit is 150 ug/L — 150 is the denominator the additivity equation uses, but no sentence in the fact sheet says why the limit is not the WLA. [open]",
+      "The receiving water's 2019 biological survey is \"validated but unpublished\" and \"conducted prior to the facility expansion and arrival of a new industrial user\" (p. 9). The new industrial user is NOT named anywhere in the document. Table 8 (p. 23) shows the three brominated trihalomethanes NOT DETECTED (\"AA\") in all five samples from 2019-04-09 through 2021-09-10, then present at 2022-09-14 and higher at 2023-09-19 (dibromochloromethane 45 -> 142 ug/L). The new limits for dibromochloromethane and additivity rest on two samples. That the appearance is the new user is [inference] at most, and who the user is remains [open].",
+      "Zero-background assumptions: Table 14 sets background to 0 for antimony, bromodichloromethane, bromoform, total residual chlorine, dibromochloromethane, chloroform, dissolved hexavalent chromium, free cyanide, diethyl phthalate, mercury, methyl ethyl ketone, molybdenum and 2,4,6-trichlorophenol, each \"No representative data available.\" A WLA computed over a zero background is a ceiling on the assumption, not a measurement of the river."
+    ],
+    "fields": {
+      "facility_name": "City of Wapakoneta Water Reclamation Facility (WRF)",
+      "permit_no": "2PD00019*SD",
+      "permit_action": "renewal",
+      "applicant": "City of Wapakoneta, P.O. Box 269, Wapakoneta, OH 45895",
+      "application_no": "OH0027952",
+      "public_notice_no": "206565",
+      "public_notice_date": "2024-10-02",
+      "comment_period_end": "2024-11-01",
+      "facility_address": "Wapakoneta WRF, 201 Herbstritt Court, Wapakoneta, OH 45895, Auglaize County",
+      "receiving_water": "Auglaize River",
+      "subsequent_stream_network": "Maumee River, Lake Erie",
+      "antidegradation": "\"No antidegradation review was necessary.\" (p. 1)",
+      "page_count": 37,
+      "receiving_water_chain": {
+        "citation": "Fact Sheet 2PD00019*SD, Pages 1 and 7",
+        "tag": "[verified]",
+        "outfall_river_mile": 84.9,
+        "river_code": "04-100",
+        "huc12": "041000070105",
+        "huc_as_printed": "04100007-01-05",
+        "ecoregion": "Eastern Corn Belt Plains",
+        "designated_uses": [
+          "Warmwater Habitat",
+          "Agricultural Water Supply",
+          "Industrial Water Supply",
+          "Primary Contact Recreation"
+        ],
+        "chain": "Auglaize River -> Maumee River -> Lake Erie"
+      },
+      "facility": {
+        "citation": "Fact Sheet 2PD00019*SD, Pages 7-8",
+        "tag": "[verified]",
+        "constructed": 1937,
+        "average_design_flow_mgd": 6.0,
+        "peak_hydraulic_capacity_mgd": 12,
+        "design_flow_note": "The 6.0 MGD is the EXPANDED design flow, \"being upgraded\" at the time of the fact sheet. The expansion and the flow augmentation process were \"currently planned to be completed by September 2024\" (p. 8). Completion is not established by this document. [open]",
+        "population_served": "~10500",
+        "service_area": "City of Wapakoneta and unincorporated Auglaize County",
+        "treatment": "Influent pumping, bar screening, grit and scum removal, 6 mm perforated-plate fine screens, activated sludge with biological nutrient removal, alum addition, secondary clarification, chlorination/dechlorination, post-aeration.",
+        "bypass": "Headworks bypass monitored at station 602 (equalization tank overflow); two equalization basins hold 3.8 MG. The expansion is projected to eliminate the bypass.",
+        "collection_system": "80% separate, 20% combined",
+        "infiltration_inflow_mgd": 0.3,
+        "cso_ssso_plan": "Consolidated Plan for SSO Elimination/CSO Reduction submitted 2020-11-20, addendum 2021-04-01, approved 2022-03-04. Level of control: four CSO events per typical year from the two remaining CSOs; SSO elimination in the North Interceptor. Construction completion proposed for 2024-09-01.",
+        "pretreatment": "Approved pretreatment program; one non-categorical significant industrial user and four categorical users, together discharging 0.88 MGD.",
+        "potable_water": "Groundwater. The water treatment plant recently added lime softening to reduce total filterable residue.",
+        "sludge": "Lime stabilization and filter-press dewatering.",
+        "director_final_findings_and_orders": {
+          "date": "2019-02-06",
+          "subject": "excessive discharge of total filterable residue",
+          "outcome": "Led to the expansion to 6.0 MGD and a flow augmentation process, plus a biomonitoring program with a restoration plan if biology declines.",
+          "in_corpus": false
+        }
+      },
+      "receiving_water_assessment": {
+        "citation": "Fact Sheet 2PD00019*SD, Pages 9-10, Table 12 (p. 27)",
+        "tag": "[verified]",
+        "impairment": "The Dry Run-Auglaize River assessment unit is on Ohio's 303(d) list, impaired for aquatic life and recreation.",
+        "auglaize_tmdl_2004": "Approved August 2004. The 1991 survey found impairment just UPSTREAM of the outfall (nutrients and contaminants; CSOs and a low-head dam as sources), so the 2004 TMDL assigned no wasteload allocation to Outfall 001.",
+        "survey_1991_table_12": [
+          {
+            "river_mile": 87.4,
+            "attainment": "FULL"
+          },
+          {
+            "river_mile": 85.3,
+            "attainment": "PARTIAL",
+            "causes": "nutrients, contaminants",
+            "sources": "CSOs, impoundment"
+          },
+          {
+            "river_mile": 84.1,
+            "attainment": "FULL",
+            "position": "below the WRF"
+          }
+        ],
+        "survey_2019": "Validated but unpublished. Preliminary data show full aquatic-life attainment and recreation impairment from bacteria. Conducted before the expansion and before the arrival of a new (unnamed) industrial user.",
+        "maumee_nutrient_tmdl": "Approved September 2023. Individual WLA to Wapakoneta WRF of 1,500 kg total phosphorus for the critical season (March-July), regulated through the Maumee Watershed Total Phosphorus NPDES General Permit, under which the WRF holds coverage."
+      },
+      "instream_conditions": {
+        "citation": "Fact Sheet 2PD00019*SD, Table 14, Pages 29-30",
+        "tag": "[verified]",
+        "flows_cfs": {
+          "1Q10": 1.49,
+          "7Q10": 2.29,
+          "30Q10_summer": 3.51,
+          "30Q10_winter": 13.55,
+          "90Q10": 5.32,
+          "harmonic_mean": 11.9
+        },
+        "flow_basis": "1Q10/7Q10/30Q10-summer/90Q10: StreamStats at 110 sq mi, reduced by the standard error, from the permittee's 2021 technical memo. 30Q10-winter: summer x 3.86 (1.94:7.49 from USGS 04186500). Harmonic mean: USGS gage 04186500 adjusted for drainage area.",
+        "mixing_assumption_pct": {
+          "average": 25,
+          "maximum": 100
+        },
+        "discharger_flow": {
+          "cfs": 9.283,
+          "mgd": 6.0,
+          "basis": "NPDES Application Form 2A"
+        },
+        "hardness_mg_l": {
+          "measured_median": 500,
+          "used": 400,
+          "note": "highest allowable value for WLA calculations"
+        },
+        "ph_su": {
+          "summer": 8.3,
+          "winter": 8.6
+        },
+        "temperature_c": {
+          "summer": 24.2,
+          "winter": 14
+        },
+        "background_selected": {
+          "total_filterable_residue_mg_l": 435,
+          "ammonia_summer_mg_l": 0.14,
+          "ammonia_winter_mg_l": 0.11,
+          "nitrate_nitrite_mg_l": 2.4,
+          "cadmium_ug_l": 0.12,
+          "selenium_ug_l": 0.38,
+          "strontium_ug_l": 2654
+        },
+        "background_source_note": "Station 801 medians 2019-23 for TFR, ammonia and nitrate+nitrite; Ambient Station P03P17 (2019, n=6, mean) for metals.",
+        "acute_dilution": "p. 13: (1.49 + 9.283) / 9.283 = 1.16, so the acute WET WLA is 0.4 TUa (30% mortality in 100% effluent); chronic WET WLA 1.06 TUc."
+      },
+      "reported_performance": {
+        "citation": "Fact Sheet 2PD00019*SD, Tables 1-7, Pages 21-22",
+        "tag": "[verified]",
+        "period": "2019-2023 DMR data",
+        "sludge_removed_dry_tons": {
+          "2019": 592,
+          "2020": 509,
+          "2021": 394,
+          "2022": 469,
+          "2023": 1250
+        },
+        "violations_outfall_001": {
+          "by_year_total": {
+            "2019": 13,
+            "2020": 52,
+            "2021": 51,
+            "2022": 20,
+            "2023": 42
+          },
+          "five_year_total": 178,
+          "five_year_total_note": "Table 2 is titled \"Effluent Violations for Outfall 001\" but its total row includes the TFR violations at fictitious outfalls 020/021/022 (7 + 17 + 4 = 28). Outfall 001 alone: 150 ([inference], the sum of the printed 001 rows).",
+          "outfall_001_only_total": 150,
+          "by_parameter": {
+            "cbod5": 1,
+            "chronic_toxicity_c_dubia": 14,
+            "chronic_toxicity_p_promelas": 3,
+            "dissolved_oxygen": 5,
+            "e_coli": 62,
+            "mercury": 1,
+            "ammonia": 11,
+            "phosphorus_total": 3,
+            "tfr_001": 25,
+            "tss": 20,
+            "ph_maximum": 4,
+            "ph_minimum": 1,
+            "tfr_020": 7,
+            "tfr_021": 17,
+            "tfr_022": 4
+          }
+        },
+        "flow_mgd_median_p95_max": {
+          "2019": [
+            2.48,
+            6.7,
+            8.62
+          ],
+          "2020": [
+            2.96,
+            5.78,
+            8.04
+          ],
+          "2021": [
+            2.82,
+            5.96,
+            7.53
+          ],
+          "2022": [
+            2.56,
+            5.63,
+            6.94
+          ],
+          "2023": [
+            2.26,
+            5.0,
+            6.86
+          ]
+        },
+        "ssos": {
+          "2019": 15,
+          "2020": 0,
+          "2021": 0,
+          "2022": 0,
+          "2023": 0
+        },
+        "bypasses": {
+          "2019": {
+            "days": 16,
+            "volume_mg": 17.6,
+            "median_tss_mg_l": 28,
+            "median_cbod5_mg_l": 27
+          },
+          "2020": {
+            "days": 8,
+            "volume_mg": 1.64,
+            "median_tss_mg_l": 24,
+            "median_cbod5_mg_l": 24
+          },
+          "2021": {
+            "days": 2,
+            "volume_mg": 0.67,
+            "median_tss_mg_l": 48,
+            "median_cbod5_mg_l": 19
+          },
+          "2022": {
+            "days": 1,
+            "volume_mg": 0.08,
+            "median_tss_mg_l": 24,
+            "median_cbod5_mg_l": 18
+          },
+          "2023": {
+            "days": 0
+          }
+        },
+        "csos": {
+          "003": {
+            "occurrences": {
+              "2019": 4,
+              "2020": 1,
+              "2021": 1
+            },
+            "volume_mg": {
+              "2019": 11.4,
+              "2020": 0.7,
+              "2021": 1.6
+            }
+          },
+          "004": {
+            "occurrences": {
+              "2019": 8,
+              "2020": 4,
+              "2021": 2,
+              "2022": 2
+            },
+            "volume_mg": {
+              "2019": 79.2,
+              "2020": 14.9,
+              "2021": 19.4,
+              "2022": 8.6
+            }
+          },
+          "note": "Years not listed show no CSO discharge from that outfall in Table 6."
+        },
+        "total_phosphorus": {
+          "columns": [
+            "annual_median_mg_l",
+            "median_flow_mgd",
+            "median_load_kg_d",
+            "seasonal_median_mg_l",
+            "seasonal_volume_mg",
+            "seasonal_load_kg"
+          ],
+          "2019": [
+            0.35,
+            2.48,
+            2.49,
+            0.16,
+            545.6,
+            330.5
+          ],
+          "2020": [
+            0.27,
+            2.96,
+            7.17,
+            0.84,
+            529.7,
+            1684.3
+          ],
+          "2021": [
+            0.64,
+            2.82,
+            5.55,
+            0.72,
+            495.2,
+            1349.7
+          ],
+          "2022": [
+            0.52,
+            2.56,
+            3.92,
+            0.47,
+            502.2,
+            893.5
+          ],
+          "2023": [
+            0.41,
+            2.26,
+            4.11,
+            0.32,
+            454.9,
+            551.1
+          ]
+        },
+        "data_sources": "DMR January 2019-December 2023; pretreatment 2019-2023; Ohio EPA sampling 2019. One mercury result (2020-11-18, 16.4 ng/L) removed as an outlier (p. 11)."
+      },
+      "parameter_assessment": {
+        "citation": "Fact Sheet 2PD00019*SD, Pages 14-16, Tables 8-10 and 16, Attachments 1-2",
+        "tag": "[verified]",
+        "group_5_limits_needed": [
+          "cadmium",
+          "dibromochloromethane",
+          "mercury",
+          "selenium",
+          "total filterable residue"
+        ],
+        "group_4_monitoring": [
+          "bromodichloromethane",
+          "bromoform",
+          "copper",
+          "2,4,6-trichlorophenol",
+          "ammonia (winter)"
+        ],
+        "trihalomethanes_pretreatment_ug_l": {
+          "note": "Table 8 (p. 23). Sample dates 2019-04-09, 2019-05-13, 2019-09-11, 2020-09-24, 2021-09-10 are all \"AA\" (below detection, detection limit in parentheses); only the last two dates carry a value.",
+          "dibromochloromethane": {
+            "2022-09-14": 45,
+            "2023-09-19": 142
+          },
+          "bromodichloromethane": {
+            "2022-09-14": 41.8,
+            "2023-09-19": 95.7
+          },
+          "bromoform": {
+            "2022-09-14": 24.3,
+            "2023-09-19": 100
+          }
+        },
+        "tfr_2019_median_mg_l": 1890,
+        "specific_conductance_median_umho": 2150,
+        "e_coli_p95": 2420,
+        "peq_average_maximum": {
+          "dibromochloromethane_ug_l": [
+            207,
+            284
+          ],
+          "cadmium_ug_l": [
+            19.0,
+            26.0
+          ],
+          "selenium_ug_l": [
+            12.4,
+            17.0
+          ],
+          "strontium_ug_l": [
+            40780,
+            55860
+          ]
+        },
+        "carcinogenic_additivity": "Projected sum 1.79 (Attachment 1) exceeds 1.0, so an additivity limit of 1.0 applies.",
+        "wet_reasonable_potential": {
+          "citation": "Attachment 2, p. 36; 21 tests summarized in Table 11",
+          "c_dubia": {
+            "acute_peq": 1.8,
+            "chronic_peq": 4.2,
+            "reasonable_potential": true
+          },
+          "p_promelas": {
+            "acute_peq": 1.12,
+            "chronic_peq": 1.54,
+            "reasonable_potential": true
+          }
+        },
+        "wlas_ug_l_human_health_carcinogens": {
+          "bromodichloromethane": 238,
+          "bromoform": 1175,
+          "dibromochloromethane": 198,
+          "chloroform": 2245,
+          "2,4,6-trichlorophenol": 251
+        }
+      },
+      "final_effluent_limits_outfall_001": {
+        "citation": "Fact Sheet 2PD00019*SD, Table 17, Pages 33-34",
+        "tag": "[verified]",
+        "measured": "after flow augmentation (water-quality-based limits)",
+        "loading_basis": "6.0 MGD average design flow",
+        "limits": {
+          "dissolved_oxygen": {
+            "units": "mg/L",
+            "minimum": 6.0,
+            "basis": "BADCT"
+          },
+          "oil_and_grease": {
+            "units": "mg/L",
+            "daily_max": 10,
+            "basis": "WQS"
+          },
+          "phosphorus": {
+            "units": "mg/L",
+            "weekly": 1.5,
+            "monthly": 1.0,
+            "load_weekly_kg_d": 34,
+            "load_monthly_kg_d": 23,
+            "basis": "PTS"
+          },
+          "selenium": {
+            "units": "ug/L",
+            "daily_max": 72,
+            "monthly": 5.3,
+            "load_daily_kg_d": 1.6,
+            "load_monthly_kg_d": 0.12,
+            "basis": "WLA"
+          },
+          "cadmium": {
+            "units": "ug/L",
+            "daily_max": 26,
+            "monthly": 7.7,
+            "load_daily_kg_d": 0.59,
+            "load_monthly_kg_d": 0.17,
+            "basis": "WLA"
+          },
+          "e_coli": {
+            "units": "#/100 mL",
+            "weekly": 284,
+            "monthly": 126,
+            "basis": "WQS"
+          },
+          "dibromochloromethane": {
+            "units": "ug/L",
+            "daily_max": 3365,
+            "monthly": 150,
+            "load_daily_kg_d": 76,
+            "load_monthly_kg_d": 3.4,
+            "basis": "WLA"
+          },
+          "chlorine_total_residual": {
+            "units": "mg/L",
+            "daily_max": 0.019,
+            "basis": "PD"
+          },
+          "mercury": {
+            "units": "ng/L",
+            "daily_max": 1700,
+            "monthly": 1.3,
+            "load_daily_kg_d": 0.039,
+            "load_monthly_kg_d": 3e-05,
+            "basis": "WLA"
+          },
+          "carcinogenic_additivity": {
+            "daily_max": 1.0,
+            "basis": "CA"
+          },
+          "phosphorus_seasonal_load": {
+            "units": "kg",
+            "limit": 2317,
+            "season": "March-July",
+            "basis": "BPJ/AD"
+          },
+          "acute_toxicity_c_dubia": {
+            "units": "TUa",
+            "daily_max": 1.0,
+            "basis": "WET"
+          },
+          "chronic_toxicity_c_dubia": {
+            "units": "TUc",
+            "monthly": 1.0,
+            "basis": "WET"
+          },
+          "acute_toxicity_p_promelas": {
+            "units": "TUa",
+            "daily_max": 1.0,
+            "basis": "WET"
+          },
+          "chronic_toxicity_p_promelas": {
+            "units": "TUc",
+            "monthly": 1.0,
+            "basis": "WET"
+          },
+          "ph": {
+            "units": "SU",
+            "minimum": 6.5,
+            "maximum": 9.0,
+            "basis": "WQS"
+          }
+        },
+        "phosphorus_load_note": "p. 14: the 2,317 kg seasonal load is the pre-expansion authorized load — \"no additional total phosphorus load was authorized for the facility expansion.\" Load = Veff x Ceff x 3.78548, reported on the July DMR. Separately, the Maumee TMDL's individual WLA (1,500 kg) is enforced through the general permit, not this table."
+      },
+      "internal_station_603_limits": {
+        "citation": "Fact Sheet 2PD00019*SD, Table 18, Page 34",
+        "tag": "[verified]",
+        "measured": "secondary effluent BEFORE mixing with augmentation flow (technology-based limits)",
+        "limits": {
+          "dissolved_oxygen": {
+            "units": "mg/L",
+            "minimum": 6.0
+          },
+          "tss": {
+            "units": "mg/L",
+            "weekly": 18,
+            "monthly": 12,
+            "load_weekly_kg_d": 409,
+            "load_monthly_kg_d": 273
+          },
+          "ammonia_summer": {
+            "units": "mg/L",
+            "weekly": 1.5,
+            "monthly": 1.0,
+            "load_weekly_kg_d": 34,
+            "load_monthly_kg_d": 23
+          },
+          "ammonia_winter": {
+            "units": "mg/L",
+            "weekly": 4.5,
+            "monthly_as_printed": "30",
+            "load_weekly_kg_d": 103,
+            "load_monthly_kg_d": 68
+          },
+          "cbod5": {
+            "units": "mg/L",
+            "weekly": 15,
+            "monthly": 10,
+            "load_weekly_kg_d": 341,
+            "load_monthly_kg_d": 228
+          }
+        },
+        "transcription_note": "Winter ammonia 30-day concentration printed \"30\"; the issued permit prints 3.0 (see warnings). Recorded as printed."
+      },
+      "total_filterable_residue_tiers": {
+        "citation": "Fact Sheet 2PD00019*SD, Page 16 and Table 19, Page 34",
+        "tag": "[verified]",
+        "mechanism": "Fictitious outfalls 020-023 represent Outfall 001 on a given day, selected by the upstream Auglaize flow measured at station 802 (river stage converted to flow through a rating curve). The tiers rest on the permittee's 2021 technical memo; the stage-flow curve must be re-evaluated at every renewal under the expansion's antidegradation approval.",
+        "tiers": [
+          {
+            "outfall": "020",
+            "upstream_flow": "< 7 cfs",
+            "design_flow_cfs": 2.29,
+            "monthly_mg_l": 1561,
+            "monthly_kg_d": 35456,
+            "basis": "WLA"
+          },
+          {
+            "outfall": "021",
+            "upstream_flow": "7-16 cfs",
+            "design_flow_cfs": 7,
+            "monthly_mg_l": 1687,
+            "monthly_kg_d": 38312,
+            "basis": "BPJ"
+          },
+          {
+            "outfall": "022",
+            "upstream_flow": "16-25 cfs",
+            "design_flow_cfs": 16,
+            "monthly_mg_l": 1927,
+            "monthly_kg_d": 43769,
+            "basis": "BPJ"
+          },
+          {
+            "outfall": "023",
+            "upstream_flow": "> 25 cfs",
+            "design_flow_cfs": 25,
+            "monthly_mg_l": 2167,
+            "monthly_kg_d": 49226,
+            "basis": "BPJ"
+          }
+        ]
+      },
+      "summary_of_permit_conditions": {
+        "citation": "Fact Sheet 2PD00019*SD, Pages 2-3, 17-18",
+        "tag": "[verified]",
+        "changes": "New or lower limits accompany the expansion to 6.0 MGD. New internal station 603 carries technology-based limits before flow augmentation; Outfall 001 carries water-quality-based limits after it. TFR is tiered across fictitious outfalls 020-023. New limits for dibromochloromethane, cadmium, selenium and carcinogenic additivity; new monitoring for bromodichloromethane, bromoform, chloroform and 2,4,6-trichlorophenol. Acute and chronic toxicity limits for both species. Sludge stations 586 and 588 added, 582 removed. E. coli monitoring at 801/901 reduced to once per two weeks, June-August. Total cyanide monitoring at 901 removed.",
+        "schedules": "CSO post-construction compliance monitoring schedule; 18-month local-limits review that must consider a 0.5 mg/L monthly total-phosphorus TARGET (a target, not a limit); 36-month schedule to meet the new limits. CSO public-notification plan approved 2018-10-04, annual report due by May 1.",
+        "operator_class": "III",
+        "storm_water": "Parts IV-VI (industrial storm water) were included in the draft; the fact sheet says they would be removed from the final permit if the WRF obtained OHR000006 general-permit coverage or a No Exposure Certification first. The issued permit retains Parts IV-VI (see 2PD00019.npdes.yaml)."
+      }
+    },
+    "approximate_paths": [
+      "facility.population_served"
+    ],
+    "citation": {
+      "source": "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "oepa/wapakoneta/2PD00019.fs.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": true
+  },
+  {
+    "rel": "oepa/wapakoneta/2PD00019.npdes.yaml",
+    "group": "permits-npdes",
+    "title": "City of Wapakoneta WRF",
+    "confidence": "high",
+    "warnings": [
+      "THE LIMIT TABLE YOU WANT DEPENDS ON THE DATE. Part I.A carries two complete Outfall 001 tables. Item 1 governs \"the period beginning on the effective date of this permit and lasting 24 months\"; Item 2 governs \"the period beginning 25 months after the effective date of this permit and lasting through the expiration date.\" The interim table has NO numeric limit for selenium, cadmium, dibromochloromethane or carcinogenic additivity (monitor only). With an effective date of 2024-12-01 the changeover falls on or about 2026-12-01 [inference — the permit prints month offsets, not dates; the bracketed \"[specific calendar dates will be inserted upon final issuance]\" in Item 1 was never filled in].",
+      "The changeover month and the compliance deadline disagree inside the permit itself. The final table begins at month 25, but Part I.C.1 gives the permittee until \"36 months after the permit effective date\" (Event Code 05699, on or about 2027-12-01) to attain compliance with the same four limits. The fact sheet carries the same split (24 months on its p. 15, 36 on p. 17). Which governs for an exceedance in months 25-36 is a legal question this transcription does not answer. [open]",
+      "Outfall 001 is measured AFTER flow augmentation; internal station 603 is measured BEFORE it. Note j: Outfall 001 flow \"shall be calculated as the sum of flows from 2PD00019603 (secondary treatment effluent) and the flow augmentation system.\" The water-quality-based limits (cadmium, selenium, mercury, DBCM, toxicity, TFR tiers) therefore apply to treated effluent plus augmentation water, while secondary-treatment performance is policed at 603. Neither the permit nor the fact sheet names the source of the augmentation water. [open]",
+      "The issued permit's tables correct two fact-sheet misprints: station 603 winter ammonia is 4.5 / 3.0 mg/L here (fact sheet Table 18 prints \"30\"), and the toxicity rows are in TUa/TUc here (fact sheet Table 17 prints \"mg/L\"). Chronic toxicity is 1.0 TUc in both documents, although the fact-sheet narrative proposed 1.1.",
+      "The carcinogenic additivity equation in Part II Item AA divides by 180 / 890 / 150 / 1700 / 190, while the WLA table printed immediately above it lists 238 / 1175 / 198 / 2245 / 251 ug/L for the same five carcinogens. The denominators are not the WLAs, and the permit does not say what they are. The 150 for dibromochloromethane equals its 30-day limit. Recorded as printed. [open]",
+      "The fact sheet's proposed 0.019 mg/L total residual chlorine limit does not appear in the issued Part I.A tables, although the station notes still cross-reference chlorine to Part II Item M. See final_effluent_limits.note_chlorine. [open]"
+    ],
+    "fields": {
+      "facility_name": "City of Wapakoneta WRF",
+      "permit_no": "2PD00019*SD",
+      "permit_action": "renewal",
+      "applicant": "City of Wapakoneta",
+      "application_no": "OH0027952",
+      "facility_address": "201 Herbstritt Court, Wapakoneta, Ohio, Auglaize County",
+      "receiving_water": "Auglaize River at River Mile 84.9",
+      "action_date": "2024-11-05",
+      "effective_date": "2024-12-01",
+      "expiration_date": "2029-11-30",
+      "signed_by": "Anne M. Vogel, Director",
+      "page_count": 82,
+      "parts": [
+        "I",
+        "II",
+        "III",
+        "IV",
+        "V",
+        "VI"
+      ],
+      "renewal_application_due": "\"no later than 180 days prior to the above date of expiration\" — on or about 2029-06-03 [inference from the printed expiration date].",
+      "storm_water_parts_retained": "Parts IV-VI (industrial storm water, Pages 61-82) are in the issued permit. The fact sheet said they would be removed if the WRF first obtained OHR000006 coverage or a No Exposure Certification; that their retention means neither happened before issuance is [inference].",
+      "sampling_stations": {
+        "citation": "Permit 2PD00019*SD, Pages 36-37, Part II Items B, C and D",
+        "tag": "[verified]",
+        "2PD00019001": {
+          "description": "Final effluent prior to discharge to Auglaize River, for application of water quality-based effluent limits",
+          "latitude_dd": 40.5702,
+          "longitude_dd": -84.2107
+        },
+        "2PD00019003": {
+          "description": "CSO - Park Street to Auglaize River",
+          "latitude_dd": 40.5708,
+          "longitude_dd": -84.1931
+        },
+        "2PD00019004": {
+          "description": "CSO - Hamilton Street to Auglaize River",
+          "latitude_dd": 40.5703,
+          "longitude_dd": -84.2031
+        },
+        "2PD00019020": {
+          "description": "Fictitious outfall at 001; upstream flow < 7 cfs"
+        },
+        "2PD00019021": {
+          "description": "Fictitious outfall at 001; upstream flow 7 to < 16 cfs"
+        },
+        "2PD00019022": {
+          "description": "Fictitious outfall at 001; upstream flow 16 to < 25 cfs"
+        },
+        "2PD00019023": {
+          "description": "Fictitious outfall at 001; upstream flow >= 25 cfs"
+        },
+        "2PD00019101": {
+          "description": "Stormwater at effluent box, prior to mixing with 001; drains existing facility",
+          "latitude_dd": 40.57,
+          "longitude_dd": -84.2122
+        },
+        "2PD00019102": {
+          "description": "Stormwater from detention basin; drains new facility",
+          "latitude_dd": 40.5686,
+          "longitude_dd": -84.2142
+        },
+        "2PD00019103": {
+          "description": "Stormwater from detention basin overflow weir; drains new facility",
+          "latitude_dd": 40.5686,
+          "longitude_dd": -84.2144
+        },
+        "2PD00019300": {
+          "description": "System-wide sanitary sewer overflows"
+        },
+        "2PD00019581": {
+          "description": "Beneficial use of Class B Biosolids"
+        },
+        "2PD00019584": {
+          "description": "Beneficial use of Exceptional Quality Biosolids"
+        },
+        "2PD00019586": {
+          "description": "Disposal of sewage sludge or biosolids in an approved landfill"
+        },
+        "2PD00019588": {
+          "description": "Transfer of sewage sludge or biosolids to another NPDES permit holder"
+        },
+        "2PD00019601": {
+          "description": "Influent monitoring"
+        },
+        "2PD00019602": {
+          "description": "Bypass monitoring (equalization tank overflow)"
+        },
+        "2PD00019603": {
+          "description": "Internal monitoring station for application of secondary treatment technology-based effluent limits"
+        },
+        "2PD00019801": {
+          "description": "Upstream monitoring - 810 feet upstream of 2PD00019001"
+        },
+        "2PD00019802": {
+          "description": "Upstream monitoring - 425 feet upstream of 2PD00019001 (river stage -> flow; selects the TFR tier)"
+        },
+        "2PD00019901": {
+          "description": "Downstream monitoring - 250 feet downstream of 2PD00019"
+        },
+        "transcription_note": "Coordinates are printed in decimal degrees (N, W); longitudes are recorded negative. The fictitious-outfall boundaries are printed slightly differently in Part II Item B (\">7 cfs but < 16 cfs\") and in Part I.A Items 3-6 (\"greater than or equal to 7 cfs but less than 16 cfs\"); the Part I.A wording, which governs the limit, is used above. Station 901's description is printed \"250 feet downstream of 2PD00019\" (no outfall suffix) in the source."
+      },
+      "interim_effluent_limits": {
+        "citation": "Permit 2PD00019*SD, Pages 2-4, Part I.A.1",
+        "tag": "[verified]",
+        "period": "\"During the period beginning on the effective date of this permit and lasting 24 months\" — 2024-12-01 through on or about 2026-11-30",
+        "outfall": "2PD00019001",
+        "differs_from_final": "Selenium, cadmium and dibromochloromethane are monitor-only (1/Month); carcinogenic additivity is calculated and reported with no limit. Every other row matches the final table."
+      },
+      "final_effluent_limits": {
+        "citation": "Permit 2PD00019*SD, Pages 5-7, Part I.A.2",
+        "tag": "[verified]",
+        "period": "\"During the period beginning 25 months after the effective date of this permit and lasting through the expiration date\" — on or about 2026-12-01 through 2029-11-30",
+        "outfall": "2PD00019001",
+        "loading_basis": "6.0 MGD average design flow",
+        "load_units": "kg/day — the table's \"Loading* kg/day\" column; `load_*_kg` keys follow the permit-extraction convention and are daily loadings, kept apart from the concentration `units`.",
+        "limits": {
+          "oil_and_grease": {
+            "units": "mg/l",
+            "maximum": 10,
+            "monitoring": "1 / 2 Weeks, Grab"
+          },
+          "phosphorus_total": {
+            "units": "mg/l",
+            "weekly": 1.5,
+            "monthly": 1.0,
+            "load_weekly_kg": 34,
+            "load_monthly_kg": 23,
+            "monitoring": "1/Week, 24hr Composite"
+          },
+          "selenium": {
+            "units": "ug/l",
+            "maximum": 72,
+            "monthly": 5.3,
+            "load_daily_kg": 1.6,
+            "load_monthly_kg": 0.12,
+            "monitoring": "1/Month, 24hr Composite"
+          },
+          "cadmium": {
+            "units": "ug/l",
+            "maximum": 26,
+            "monthly": 7.7,
+            "load_daily_kg": 0.59,
+            "load_monthly_kg": 0.17,
+            "monitoring": "1/Month, 24hr Composite"
+          },
+          "e_coli": {
+            "units": "#/100 ml",
+            "weekly": 284,
+            "monthly": 126,
+            "monitoring": "3/Week, Grab, Summer"
+          },
+          "dibromochloromethane": {
+            "units": "ug/l",
+            "maximum": 3365,
+            "monthly": 150,
+            "load_daily_kg": 76,
+            "load_monthly_kg": 3.4,
+            "monitoring": "1/Month, Grab"
+          },
+          "mercury_low_level": {
+            "units": "ng/l",
+            "maximum": 1700,
+            "monthly": 1.3,
+            "load_daily_kg": 0.039,
+            "load_monthly_kg": 3e-05,
+            "monitoring": "1/Month, Grab"
+          },
+          "carcinogen_additivity_factor": {
+            "maximum": 1.0,
+            "monitoring": "1/Month, Calculated"
+          },
+          "phosphorus_total_load": {
+            "units": "kg",
+            "maximum": 2317,
+            "monitoring": "1/Year, Calculated, July"
+          },
+          "acute_toxicity_c_dubia": {
+            "units": "TUa",
+            "maximum": 1.0,
+            "monitoring": "1/Quarter, 24hr Composite"
+          },
+          "chronic_toxicity_c_dubia": {
+            "units": "TUc",
+            "monthly": 1.0,
+            "monitoring": "1/Quarter, 24hr Composite"
+          },
+          "acute_toxicity_p_promelas": {
+            "units": "TUa",
+            "maximum": 1.0,
+            "monitoring": "1/Quarter, 24hr Composite"
+          },
+          "chronic_toxicity_p_promelas": {
+            "units": "TUc",
+            "monthly": 1.0,
+            "monitoring": "1/Quarter, 24hr Composite"
+          },
+          "ph": {
+            "units": "S.U.",
+            "minimum": 6.5,
+            "maximum": 9.0,
+            "monitoring": "1/Day, Multiple Grab"
+          }
+        },
+        "monitor_only": "Water temperature, precipitation, specific conductance (continuous), ammonia, TKN, nitrite+nitrate, orthophosphate, nickel, zinc, lead, chromium, copper, dissolved hexavalent chromium, bromodichloromethane, bromoform, chloroform, 2,4,6-trichlorophenol, flow (calculated), free cyanide.",
+        "note_chlorine": "Total residual chlorine is NOT a row in either Outfall 001 table (interim or final), yet station note b still reads \"Total residual chlorine - See Part II, Item M,\" and Item M (Page 40, limits below quantification) lists a chlorine PQL of 0.050 mg/L \"to determine compliance with final effluent limits.\" The fact sheet's Table 17 proposed a 0.019 mg/L daily-maximum chlorine limit (basis PD). The issued tables carry no chlorine limit or monitoring row; whether that is a deliberate change between draft and final or a dropped row is not stated. [open]"
+      },
+      "internal_station_603": {
+        "citation": "Permit 2PD00019*SD, Page 12, Part I.A.7",
+        "tag": "[verified]",
+        "period": "effective date through expiration",
+        "note": "\"Samples shall be collected prior to mixing with augmentation flows.\"",
+        "load_units": "kg/day — the table's \"Loading* kg/day\" column (Page 12)",
+        "limits": {
+          "dissolved_oxygen": {
+            "units": "mg/l",
+            "minimum": 6.0,
+            "monitoring": "1/Day, Multiple Grab"
+          },
+          "total_suspended_solids": {
+            "units": "mg/l",
+            "weekly": 18,
+            "monthly": 12,
+            "load_weekly_kg": 409,
+            "load_monthly_kg": 273
+          },
+          "ammonia_summer": {
+            "units": "mg/l",
+            "weekly": 1.5,
+            "monthly": 1.0,
+            "load_weekly_kg": 34,
+            "load_monthly_kg": 23
+          },
+          "ammonia_winter": {
+            "units": "mg/l",
+            "weekly": 4.5,
+            "monthly": 3.0,
+            "load_weekly_kg": 103,
+            "load_monthly_kg": 68
+          },
+          "cbod5": {
+            "units": "mg/l",
+            "weekly": 15,
+            "monthly": 10,
+            "load_weekly_kg": 341,
+            "load_monthly_kg": 228
+          },
+          "flow": {
+            "units": "MGD",
+            "monitoring": "1/Day, Continuous"
+          }
+        }
+      },
+      "total_filterable_residue_tiers": {
+        "citation": "Permit 2PD00019*SD, Pages 8-11, Part I.A.3-6; Page 40, Part II Item N",
+        "tag": "[verified]",
+        "period": "effective date through expiration (not phased)",
+        "monitoring": "1/Week, 24hr Composite",
+        "tiers": [
+          {
+            "outfall": "2PD00019020",
+            "upstream_flow": "< 7 cfs",
+            "monthly_mg_l": 1561,
+            "monthly_kg": 35456
+          },
+          {
+            "outfall": "2PD00019021",
+            "upstream_flow": ">= 7 and < 16 cfs",
+            "monthly_mg_l": 1687,
+            "monthly_kg": 38312
+          },
+          {
+            "outfall": "2PD00019022",
+            "upstream_flow": ">= 16 and < 25 cfs",
+            "monthly_mg_l": 1927,
+            "monthly_kg": 43769
+          },
+          {
+            "outfall": "2PD00019023",
+            "upstream_flow": ">= 25 cfs",
+            "monthly_mg_l": 2167,
+            "monthly_kg": 49226
+          }
+        ],
+        "tier_selection": "Each tier \"is only applicable when the Auglaize River upstream flow rate is measured as [in range] on the day the sample for total filterable residue was collected. Upstream flow rate is determined based on monitoring at station 2PD00019802.\"",
+        "rating_curve": "Item N: \"To maintain applicability of flow-tiered effluent limits for total filterable residue, the permittee must re-evaluate the relationship between river stage and flow rate at 2PD00019802 for each subsequent NPDES permit renewal,\" submitting an updated stage vs. flow curve with the next renewal application, and also \"upon visual observation that the river bed has shifted significantly.\"",
+        "note": "The limit that applies on a given day is selected by the permittee's own stage reading converted through the permittee's own curve. Any outside check of a TFR result must first establish which tier the day fell in."
+      },
+      "combined_sewer_overflow": {
+        "citation": "Permit 2PD00019*SD, Pages 13-14 (Part I.B), 37 (Part II Items D-E), 31-33 (Part I.C.2)",
+        "tag": "[verified]",
+        "outfalls": [
+          "2PD00019003 Park Street",
+          "2PD00019004 Hamilton Street"
+        ],
+        "monitoring": "TSS and CBOD5 1/Month grab; overflow occurrence and volume when discharging (may be estimated)",
+        "level_of_control": "The \"Consolidated Plan for SSO Elimination and CSO Reduction\" was approved by Ohio EPA on March 4, 2022 and includes a revised Phase IV of the LTCP, which \"proposes to attain a level of control of four CSO events per typical year. Construction of LTCP projects is complete.\"",
+        "nine_minimum_controls": "Part II Item E",
+        "lake_erie_public_notification": "Part II Item X"
+      },
+      "schedule_of_compliance": {
+        "citation": "Permit 2PD00019*SD, Pages 31-34, Part I.C",
+        "tag": "[verified]",
+        "new_final_effluent_limits": {
+          "subject": "carcinogenic additivity, cadmium, dibromochloromethane, and selenium",
+          "milestones": [
+            {
+              "month": 12,
+              "due": "2025-12-01",
+              "event_code": "90199",
+              "requirement": "Progress report to Ohio EPA NWDO with 12 months of influent/effluent data and pollutant-reduction activities"
+            },
+            {
+              "month": 24,
+              "due": "2026-12-01",
+              "event_code_table": "901299",
+              "event_code_item_text": "90299",
+              "requirement": "Second progress report"
+            },
+            {
+              "month": 36,
+              "due": "2027-12-01",
+              "event_code": "05699",
+              "requirement": "Attain compliance; notify NWDO within 14 days"
+            }
+          ]
+        },
+        "cso_pccm": {
+          "milestones": [
+            {
+              "month": 12,
+              "due": "2025-12-01",
+              "event_code": "34099",
+              "requirement": "Submit Post-Construction Compliance Monitoring (PCCM) Plan (CSO monitoring for up to 24 months)"
+            },
+            {
+              "month": 24,
+              "due": "2026-12-01",
+              "event_code": "30099",
+              "requirement": "PCCM progress report 1"
+            },
+            {
+              "month": 36,
+              "due": "2027-12-01",
+              "event_code_table": "30199",
+              "event_code_item_text": "30099",
+              "requirement": "PCCM progress report 2"
+            },
+            {
+              "month": 42,
+              "due": "2028-06-01",
+              "event_code": "11099",
+              "requirement": "LTCP Evaluation Report — whether the four-events-per-typical-year goal and water quality standards are met"
+            }
+          ]
+        },
+        "municipal_pretreatment": {
+          "milestones": [
+            {
+              "month": 18,
+              "due": "2026-06-01",
+              "event_code": "52599",
+              "requirement": "Local limits technical justification report (or justification for retaining existing limits)"
+            }
+          ],
+          "phosphorus_target": "The review must determine whether local limits on industrial users \"will facilitate substantial progress toward achieving a monthly average effluent concentration target of 0.5 mg/L\" total phosphorus — a target, not a limit.",
+          "pollutants_requiring_justification": "arsenic, cadmium, total chromium, dissolved hexavalent chromium, copper, free cyanide, lead, mercury, molybdenum, nickel, selenium, silver, and zinc, unless screening shows them not present in significant amounts."
+        },
+        "due_date_note": "Calendar dates in `due` are [inference] — computed from the 2024-12-01 effective date; the permit states only month offsets. The milestone table and the item text disagree on event codes in two places, recorded as printed: the second new-limits report is \"901299\" in the table (Page 31) and \"90299\" in item 1.b; both PCCM progress reports are \"30099\" in items 2.c-d while the table gives the second as \"30199\". Those two rows carry both printed values as `event_code_table` / `event_code_item_text` rather than choosing one. Whether any submittal was made is NOT established by a captured source. The month-18 pretreatment report's computed due date (on or about 2026-06-01) had passed by the transcription date (2026-10-17); whether it was submitted is not established by any captured source. [open]"
+      },
+      "other_requirements_of_note": {
+        "citation": "Permit 2PD00019*SD, Part II",
+        "tag": "[verified]",
+        "operator_class": "Item A — Class III treatment works; tributary collection systems Class II sewerage systems.",
+        "percent_removal": "Item L — at least 85 percent removal of CBOD5 and TSS.",
+        "reopener": "Item O — WQBELs \"may be revised based on updated wasteload allocations or use designation rules\"; the permit may be modified or reissued to comply with a revised WLA or approved TMDL.",
+        "maumee_tp": "Item V.2 — \"The Maumee Watershed Nutrient Total Maximum Daily Load (TMDL) Report was approved in September 2023. The TMDL assigned an individual wasteload allocation to Wapakoneta WRF of 1500 kg of total phosphorus for the critical season (March through July). Compliance with this individual wasteload allocation will be regulated through the Maumee Watershed Total Phosphorus NPDES General Permit, under which Wapakoneta WRF has been granted coverage.\" Seasonal load = Veff x Ceff x 3.7854, March 1 - July 31, reported on the July DMR (Item V.1; the fact sheet prints the factor as 3.78548).",
+        "pretreatment": "Item Y — pretreatment program requirements.",
+        "biomonitoring": "Item Z — continue the effluent biomonitoring program; chronic and definitive acute tests on Ceriodaphnia dubia and Pimephales promelas at 001; lab SOP due within three months of the effective date.",
+        "carcinogenic_additivity": {
+          "citation": "Item AA, Page 48",
+          "wla_ug_l": {
+            "bromodichloromethane": 238,
+            "bromoform": 1175,
+            "dibromochloromethane": 198,
+            "chloroform": 2245,
+            "2,4,6-trichlorophenol": 251
+          },
+          "equation_denominators_as_printed": {
+            "bromodichloromethane": 180,
+            "bromoform": 890,
+            "dibromochloromethane": 150,
+            "chloroform": 1700,
+            "2,4,6-trichlorophenol": 190
+          }
+        },
+        "ssos": "Item F — all SSOs prohibited; 24-hour notice for those that may endanger human health; system-wide count at station 300."
+      }
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "oepa/wapakoneta/2PD00019.npdes.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "oepa/wapakoneta/2PD00019.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": true
+  }
+]

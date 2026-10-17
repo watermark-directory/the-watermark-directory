@@ -1,0 +1,29 @@
+meta:
+  subject: OEPA/DAM document discovery — wapakoneta
+  site: wapakoneta
+  place: Wapakoneta
+  county: Auglaize County
+  generated_at: '2026-10-17'
+  note: >-
+    Hand-built from the known state permit number 2PD00019 (City of Wapakoneta WRF,
+    NPDES OH0027952; crosswalk in data/reference/echo/maumee-wwtp.potw.yaml and the
+    site profile). The eDocument portal returned 503 on 2026-10-17, so no portal
+    sweep backs this manifest; both URLs are the deterministic DAM slots.
+  counts:
+    total: 2
+    new: 2
+    known: 0
+    committed: 0
+results:
+- url: https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/2PD00019.pdf
+  permit_id: 2PD00019
+  doc_type: permit
+  query: DAM permits/doc slot for 2PD00019
+  fetched_at: '2026-10-17T16:25:00+00:00'
+  status: new
+- url: https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/2PD00019.fs.pdf
+  permit_id: 2PD00019
+  doc_type: fact_sheet
+  query: DAM permits/doc fact-sheet slot for 2PD00019
+  fetched_at: '2026-10-17T16:25:00+00:00'
+  status: new

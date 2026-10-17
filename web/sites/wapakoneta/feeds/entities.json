@@ -42,5 +42,79 @@
     "lei": "875500ULXB4CYQSJVA03",
     "uei": null,
     "federal_obligations": null
+  },
+  {
+    "key": "CITY OF WAPAKONETA",
+    "display": "City of Wapakoneta",
+    "kind": "government",
+    "classification": "government_local",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "City of Wapakoneta",
+      "City of Wapakoneta, P.O. Box 269, Wapakoneta, OH 45895"
+    ],
+    "signals": [],
+    "roles": {
+      "applicant": 2
+    },
+    "parcels": [],
+    "addresses": [],
+    "sources": [
+      "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+      "oepa/wapakoneta/2PD00019.npdes.yaml"
+    ],
+    "lei": null,
+    "uei": null,
+    "federal_obligations": null
+  },
+  {
+    "key": "npdes:2PD00019",
+    "display": "City of Wapakoneta WRF",
+    "kind": "government",
+    "classification": "government_local",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "City of Wapakoneta WRF",
+      "City of Wapakoneta Water Reclamation Facility (WRF)"
+    ],
+    "signals": [],
+    "roles": {
+      "facility": 2
+    },
+    "parcels": [],
+    "addresses": [],
+    "sources": [
+      "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+      "oepa/wapakoneta/2PD00019.npdes.yaml"
+    ],
+    "lei": null,
+    "uei": null,
+    "federal_obligations": null
+  },
+  {
+    "key": "AUGLAIZE RIVER",
+    "display": "Auglaize River",
+    "kind": "water",
+    "classification": "receiving_water",
+    "relation_class": null,
+    "relation_basis": null,
+    "variants": [
+      "Auglaize River"
+    ],
+    "signals": [],
+    "roles": {
+      "receiving_water": 2
+    },
+    "parcels": [],
+    "addresses": [],
+    "sources": [
+      "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+      "oepa/wapakoneta/2PD00019.npdes.yaml"
+    ],
+    "lei": null,
+    "uei": null,
+    "federal_obligations": null
   }
 ]
