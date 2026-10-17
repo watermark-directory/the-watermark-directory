@@ -82,19 +82,12 @@
     "model": {
       "id": "discharge",
       "facilityKey": null,
-      "status": "gap",
+      "status": "partial",
       "statusReasons": [
-        "a discharge characterization for this project — none has been filed."
+        "baseline context only — the project-side record has not been produced"
       ],
       "stats": [],
-      "gaps": [
-        {
-          "wouldScreen": "the discharge screened against the receiving stream's assimilative capacity at its cited design low flows.",
-          "missingRecord": "a discharge characterization for this project — none has been filed.",
-          "producer": "an NPDES permit application and its fact sheet",
-          "leadIds": null
-        }
-      ],
+      "gaps": [],
       "caveats": [
         "Only the receiving water's existing burden is on the record here — the project-side discharge screen renders the day a characterization is filed."
       ]
@@ -171,20 +164,24 @@
     "model": {
       "id": "labor",
       "facilityKey": null,
-      "status": "gap",
-      "statusReasons": [
-        "the county employment baseline — not yet assembled for this site."
-      ],
-      "stats": [],
-      "gaps": [
+      "status": "data",
+      "statusReasons": [],
+      "stats": [
         {
-          "wouldScreen": "the local labor baseline every jobs claim should be read against.",
-          "missingRecord": "the county employment baseline — not yet assembled for this site.",
-          "producer": "BLS QCEW and Census ACS — public series; this gap closes on the next export",
-          "leadIds": null
+          "label": "County employment",
+          "value": "22153",
+          "unit": "jobs",
+          "evidence": "verified",
+          "basis": "grounded",
+          "sub": "Auglaize County, Ohio · 2024",
+          "source": "BLS QCEW",
+          "warn": null
         }
       ],
-      "caveats": []
+      "gaps": [],
+      "caveats": [
+        "Any jobs claim reads against this baseline as claim vs. denominator — the study never computes a jobs multiplier."
+      ]
     }
   },
   {
@@ -194,20 +191,26 @@
     "model": {
       "id": "power",
       "facilityKey": null,
-      "status": "gap",
+      "status": "partial",
       "statusReasons": [
-        "the site's grid backdrop — not yet assembled."
+        "no disclosed campus load to size against the grid — the backdrop stands on its own"
       ],
-      "stats": [],
-      "gaps": [
+      "stats": [
         {
-          "wouldScreen": "the campus's load against the serving utility's, balancing authority's, and state's annual load.",
-          "missingRecord": "the site's grid backdrop — not yet assembled.",
-          "producer": "EIA-861/930 — public series; this gap closes on the next export",
-          "leadIds": null
+          "label": "Serving utility",
+          "value": "City of Wapakoneta - (OH)",
+          "unit": null,
+          "evidence": "verified",
+          "basis": "grounded",
+          "sub": "PJM Interconnection",
+          "source": null,
+          "warn": null
         }
       ],
-      "caveats": []
+      "gaps": [],
+      "caveats": [
+        "Grid foundation layer (#94): per-site grid backdrop only. This site has no documented data-center facility, so there is no campus load to express as a share — the utility/BA/state denominators are real connector-sourced data, but the campus load share awaits the site's facility disclosure (the data-center dimension onboarding does not capture)."
+      ]
     }
   },
   {

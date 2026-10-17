@@ -1,0 +1,19 @@
+# Wapakoneta (wapakoneta) — political-subdivision public-meeting records registry.
+# Scaffolded empty by `watermark onboard wapakoneta` (#1524). Enumerate this site's
+# meeting-holding bodies BELOW from a committed county roster (grounded facts:
+# name/type/governing_body/meeting_schedule/office, each with `grounded_from`), then run
+# `watermark --site wapakoneta subdivisions discover` and fold the confirmed
+# `publishing:` platforms in BY HAND — discovery is read-only (see civic/CLAUDE.md).
+# An empty registry is honest: it does NOT make the record domain live.
+meta:
+  site: wapakoneta
+  subject: Wapakoneta political subdivisions — public-meeting records registry
+  description: >-
+    Meeting-holding bodies for the Wapakoneta watershed point, each with the verbatim
+    governing-body meeting cadence and contact carried in a committed county roster, plus
+    a `publishing:` block recording where the body posts its minutes/agendas online. The
+    grounded roster facts are immutable source; the `publishing:` block is filled by the
+    read-only discovery pass and carries its own `discovered:` provenance. Empty until
+    the bodies are enumerated by hand.
+  grounded_sources: []
+subdivisions: []

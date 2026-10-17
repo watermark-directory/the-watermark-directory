@@ -137,4 +137,14 @@ Source: City of Sidney "Rules of the City Council, February 2024" (adopted by or
 | `documents/sidney/reference/shelby-township-officials-2024.pdf` | application/pdf | yes |
 | `documents/sidney/reference/filename-map.yaml` | application/x-yaml | no |
 
+### `subdivisions-wapakoneta` — Auglaize County Political-Subdivision Meeting-Records Registry (Wapakoneta)
+
+Source: Scaffolded empty by `watermark onboard wapakoneta` (2026-10-13). No Auglaize County roster is committed yet, so no body is enumerated and no discovery sweep has run. · License: Public records (local government open data) · Access: public · Site scope: site:wapakoneta · Refresh: on-demand
+
+Regenerate: `watermark --site wapakoneta subdivisions discover`
+
+| file | type | lfs |
+| --- | --- | --- |
+| `reference/subdivisions/wapakoneta/subdivisions.yaml` | application/x-yaml | no |
+
 <!-- catalog:end -->

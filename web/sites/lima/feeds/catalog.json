@@ -9909,7 +9909,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 22,
+      "sites_present": 23,
       "sites_total": 27
     },
     "citation": {
@@ -10019,7 +10019,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 22,
+      "sites_present": 23,
       "sites_total": 27
     },
     "citation": {
@@ -10139,7 +10139,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 22,
+      "sites_present": 23,
       "sites_total": 27
     },
     "citation": {
@@ -11030,7 +11030,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 22,
+      "sites_present": 23,
       "sites_total": 27
     },
     "citation": {
@@ -11150,7 +11150,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 22,
+      "sites_present": 23,
       "sites_total": 27
     },
     "citation": {
@@ -12922,7 +12922,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 22,
+      "sites_present": 23,
       "sites_total": 27
     },
     "citation": {
@@ -13150,6 +13150,57 @@
       "confidence": "medium",
       "note": null,
       "verified": false
+    }
+  },
+  {
+    "id": "subdivisions-wapakoneta",
+    "title": "Auglaize County Political-Subdivision Meeting-Records Registry (Wapakoneta)",
+    "scope": "reference",
+    "collection": "subdivisions",
+    "status": "needs-review",
+    "producer_kind": "connector",
+    "command": "--site wapakoneta subdivisions discover",
+    "connector_ref": "watermark.civic.registry",
+    "source": "Scaffolded empty by `watermark onboard wapakoneta` (2026-10-13). No Auglaize County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+    "external_url": null,
+    "license": "Public records (local government open data)",
+    "access_tier": "public",
+    "site_scope": "site:wapakoneta",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "subdivisions",
+      "civic",
+      "auglaize-county",
+      "wapakoneta",
+      "meeting-records"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/subdivisions/wapakoneta/subdivisions.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "f3aa63f43d8c0bd583375af416a53235aba278072f56488edfe189ceefc1f939",
+      "size_bytes": 1217,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Scaffolded empty by `watermark onboard wapakoneta` (2026-10-13). No Auglaize County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark --site wapakoneta subdivisions discover",
+      "verified": true
     }
   },
   {

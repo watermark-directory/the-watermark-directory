@@ -2,17 +2,17 @@
   "site": "wapakoneta",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-10-13T12:44:13+00:00",
-  "feed_count": 26,
-  "row_total": 357,
+  "generated_at": "2026-10-13T14:45:01+00:00",
+  "feed_count": 31,
+  "row_total": 472,
   "readiness": {
-    "tier": "stub",
+    "tier": "backdrop",
     "domains": {
-      "backdrop": "absent",
+      "backdrop": "live",
       "facility": "absent",
       "places": "absent",
       "record": "absent",
-      "inquiry": "absent"
+      "inquiry": "seeded"
     }
   },
   "facility": null,
@@ -114,6 +114,46 @@
       "count": 6
     },
     {
+      "name": "rsei",
+      "path": "feeds/rsei.json",
+      "media_type": "application/json",
+      "schema": "schemas/rsei.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "economics-baseline",
+      "path": "feeds/economics-baseline.json",
+      "media_type": "application/json",
+      "schema": "schemas/economics-baseline.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "consumer-energy",
+      "path": "feeds/consumer-energy.json",
+      "media_type": "application/json",
+      "schema": "schemas/consumer-energy.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "grid",
+      "path": "feeds/grid.json",
+      "media_type": "application/json",
+      "schema": "schemas/grid.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "energy-burden",
+      "path": "feeds/energy-burden.json",
+      "media_type": "application/json",
+      "schema": "schemas/energy-burden.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
       "name": "network",
       "path": "feeds/network.json",
       "media_type": "application/json",
@@ -167,7 +207,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 60
+      "count": 61
     },
     {
       "name": "facts",
@@ -175,7 +215,7 @@
       "media_type": "application/json",
       "schema": "schemas/facts.schema.json",
       "kind": "collection",
-      "count": 14
+      "count": 123
     },
     {
       "name": "open-questions",

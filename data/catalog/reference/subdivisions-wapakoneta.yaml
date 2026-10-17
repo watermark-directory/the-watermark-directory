@@ -1,0 +1,36 @@
+id: subdivisions-wapakoneta
+title: Auglaize County Political-Subdivision Meeting-Records Registry (Wapakoneta)
+scope: reference
+status: needs-review
+producer:
+  kind: connector
+  command: --site wapakoneta subdivisions discover
+  connector_ref: watermark.civic.registry
+  source: >-
+    Scaffolded empty by `watermark onboard wapakoneta` (2026-10-13). No Auglaize County roster is
+    committed yet, so no body is enumerated and no discovery sweep has run.
+license: Public records (local government open data)
+access_tier: public
+# A peer registry, slug-scoped like subdivisions-findlay / subdivisions-sidney and deliberately
+# not a `{site}`-templated entry: each is grounded in its own county's roster and reviewed body by
+# body. Empty is the honest state until a roster lands, and it does not make `record` live.
+site_scope: site:wapakoneta
+storage:
+- relpath: reference/subdivisions/wapakoneta/subdivisions.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector
+schema_ref: watermark.civic.models.Registry
+tags:
+- subdivisions
+- civic
+- auglaize-county
+- wapakoneta
+- meeting-records
+notes: >-
+  EMPTY SCAFFOLD (#2184). Next step: commit an Auglaize County directory of officials under
+  data/documents/wapakoneta/reference/, enumerate the meeting-holding bodies from it (the City of
+  Wapakoneta's council at minimum, plus St. Marys and the county commissioners), then run discovery
+  and fold confirmed publishing blocks in by hand.

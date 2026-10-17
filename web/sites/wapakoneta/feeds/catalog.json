@@ -941,11 +941,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "60d998abdcb44ac7c724bbc99e2aa01bffd26c4e93ef9d3c1730ee5a89b96433",
+      "size_bytes": 32340,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -1048,11 +1048,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "66016ee786474e8f2d0ba63e7e6d2107a4e4d18fe3bb287eb39be27fb01c982c",
+      "size_bytes": 5383,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -1162,11 +1162,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "f92de6709ad9f6e2b05dcae2afaf5275547c7121b035b1ba6216557199e0d28f",
+      "size_bytes": 3577,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -1890,11 +1890,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "b1a015b5d10cfab2b9d9996c4267ea0f2bd58b8a7255a6a86f7ed9ddda941d64",
+      "size_bytes": 859,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -1946,11 +1946,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "149713fcc54bd0086c7f01e4468290dd8c45f3d363534977bcc78350ca379ed9",
+      "size_bytes": 2648,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -3104,11 +3104,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "84d1390bd548eb34e829a4dc7de5d12483f7c9a9cf10411dd3d06b46db703f97",
+      "size_bytes": 87849,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -3120,6 +3120,57 @@
       "pages": null,
       "confidence": "medium",
       "note": "watermark rsei",
+      "verified": true
+    }
+  },
+  {
+    "id": "subdivisions-wapakoneta",
+    "title": "Auglaize County Political-Subdivision Meeting-Records Registry (Wapakoneta)",
+    "scope": "reference",
+    "collection": "subdivisions",
+    "status": "needs-review",
+    "producer_kind": "connector",
+    "command": "--site wapakoneta subdivisions discover",
+    "connector_ref": "watermark.civic.registry",
+    "source": "Scaffolded empty by `watermark onboard wapakoneta` (2026-10-13). No Auglaize County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+    "external_url": null,
+    "license": "Public records (local government open data)",
+    "access_tier": "public",
+    "site_scope": "site:wapakoneta",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "subdivisions",
+      "civic",
+      "auglaize-county",
+      "wapakoneta",
+      "meeting-records"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/subdivisions/wapakoneta/subdivisions.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "f3aa63f43d8c0bd583375af416a53235aba278072f56488edfe189ceefc1f939",
+      "size_bytes": 1217,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Scaffolded empty by `watermark onboard wapakoneta` (2026-10-13). No Auglaize County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark --site wapakoneta subdivisions discover",
       "verified": true
     }
   },
