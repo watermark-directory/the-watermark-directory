@@ -205,6 +205,21 @@ concerned CTS is `[open]`**:
   in a 7Q10 week, the reach below RM 84.9 would be roughly **80% effluent**.
 - **Restroom flow is immaterial to that ratio.** The CTS ask adds only restroom sanitary to it, and
   routes cooling water elsewhere by its own account `[reference]`.
+- **Lima drinks downstream of this outfall `[verified]` as to the flow path.** Lima's Auglaize River
+  pump stations (L107 "Auglaize Pump St." and L111 "Auglaize River St #2", 40°43'45"N 84°18'01"W)
+  are in the City of Lima's own 2022 NPDES renewal application
+  (`data/extracted/legal/prr-mandamus/prr-production-2026-08-lima/lima-wwtp-npdes-renewal-application-2022.application.yaml`).
+  ODNR's withdrawal registry puts reg. 01320 "LIMA CITY PWS-AUGLAIZE" (2 intakes, 161 MGD capacity)
+  at the same point (`data/reference/ohio-water-withdrawal/allen.yaml`). The WRF outfall is at
+  40.5702, -84.2107 (`data/extracted/oepa/wapakoneta/2PD00019.npdes.yaml`). Both points snap to NHDPlus
+  flowlines (outfall COMID 15652927, intake COMID 15652553), and the USGS NLDI downstream-mainstem
+  trace from the outfall reaches the intake's flowline within 30–35 km of channel (queried
+  2026-10-18; the bracket is NLDI's distance argument, not a river-mile figure).
+  - So the Wapakoneta WRF's effluent, and whatever TDS it carries under the DFFO relief, is in the
+    river Lima pumps to fill Bresler and Williams `[inference]`. How much depends on when Lima pumps,
+    which is a refill-season, higher-flow question, not the 7Q10 one above `[open]`.
+  - This is the **hydrologic** relation the guardrail allows. It does not tie the two sites' actors
+    or land together.
 - **Gage:** 04186500 Auglaize River near Fort Jennings (DA 332 mi²), downstream, above the Ottawa
   confluence. It is live per USGS IV, checked 2026-10-12. The at-Wapakoneta gage 04185800
   (DA 103 mi²) serves no series.
@@ -333,7 +348,9 @@ This is **not** a data-center entry. It is recorded because it concerns the same
    If it is a foreign LLC, the home-state filing (South Carolina is the only state its site names)
    is the next record.
 5. **The AEP feasibility study** the City requested, via an R.C. 149.43 request to the City. With it,
-   the City's correspondence with AEP, AMP, WAEDC and CTS.
+   the City's correspondence with AEP, AMP, WAEDC and CTS. Drafted, **not sent**:
+   `governance/records-requests/2026-10-18-wapakoneta-clerk-of-council.md` (it also asks for items 2
+   and 3 and the WCOIC zoning).
 6. **The CTS informational meetings**: dates, venue and materials.
 7. **The WCOIC parcel(s)**: ownership and transfer history from the Auglaize County Auditor/Recorder,
    and their zoning district. The City's document page links an Auglaize County GIS zoning viewer
