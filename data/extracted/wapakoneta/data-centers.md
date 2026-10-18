@@ -186,10 +186,35 @@ directly on 2026-10-12. The earlier minutes were read by the sweep via their Way
   - Source: Council minutes 2024-11-18
     (<https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/04ed5d3c-0a7b-4ea1-91fe-70341bd79b80/11-18-2024-Minutes.pdf>).
 
-**Caveat.** Neither ordinance title says "data center." The link between these ordinances and data
-centers rests on the minutes' discussion. The amended text of §1282.04 and §1250.10(174) is
-**unread** `[open]`. The City's 2026 post describes the outcome as "making data centers a
-'conditional use'." What the enacted text actually conditions is the first thing to pull.
+**The codified text (read 2026-10-18).** Neither ordinance title says "data center", but the
+codification does. Read from American Legal's codification (supplement 2026 S-27, current through
+2026-05-18), captured under `data/documents/wapakoneta/governance/` and extracted in
+`governance/wapakoneta-zoning-code-data-centers.zoning.yaml`:
+
+- **§1250.10(174)** now excludes from "Warehouse" a subcategory A, **"Data Warehouse (Center)"**:
+  buildings "specifically designed or modified to house data and related infrastructure support
+  equipment", naming "computer equipment colocation services". The definition sets no size
+  threshold. Its history note cites Ord. 2024-46, passed 11-18-24 `[verified]`.
+- **§1282.04** lists **"Data warehouses (centers)"** among the M-3 uses "permitted only if
+  specifically authorized by the Planning Commission in accordance with Chapter 1252". Its history
+  note cites Ord. 2024-48, passed 11-18-24 `[verified]`.
+- **M-3 is the only district** that admits a data center. Across the swept zoning chapters, no other
+  section mentions one `[verified]`.
+- M-1 and M-2 permit "Wholesale and warehouse establishments" by right (§1278.02, §1280.02)
+  `[verified]`. The carve-out therefore closes a by-right path, as the Law Director described
+  `[inference]`.
+- **The review is generic.** §1252.07 (2010, unamended) governs. The Planning Commission makes eight
+  written findings, and the only one that reaches water or power is "adequate utility … facilities"
+  `[verified]`.
+  - "No public hearing need be held" unless the Commission deems one necessary `[verified]`.
+  - The permit "shall run with the land and not the applicant/owner" `[verified]`.
+  - No application item asks for water demand, load, cooling or generation `[verified]`.
+- **§1252.07(b)(17)** points applicants to standards "listed in Section 1254.08(c)". §1254.08 has
+  no subsection (c): it is a dangling cross-reference `[verified]`.
+
+**Still open.** The codification is the publisher's, not the signed instruments: Ord. 2024-46 and
+2024-48 as enacted are not in hand `[open]`. So is the zoning district of the WCOIC parcels. If they
+are not M-3, a data center there needs a rezoning before any conditional use `[open]`.
 
 ## 3 — Elsewhere in Auglaize County
 
@@ -208,8 +233,10 @@ centers rests on the minutes' discussion. The amended text of §1282.04 and §12
 1. **The City's Facebook post.** Capture it with a date before it can be edited or deleted. It is
    the one source that states the City's no-commitment position, and today it exists here only as
    a paste.
-2. **Ord. 2024-48 and Ord. 2024-46 as enacted**, plus codified §1282.04 and §1250.10(174). American
-   Legal (`codelibrary.amlegal.com/codes/wapakoneta`) returns 403 to scripts, so ask the Clerk.
+2. **Ord. 2024-48 and Ord. 2024-46 as enacted.** The codified sections are now read (§2). American
+   Legal (`codelibrary.amlegal.com/codes/wapakoneta`) answers 403 over HTTP/2 but 200 over HTTP/1.1.
+   The signed ordinances still need the Clerk. Ask for the zoning map covering WCOIC at the same
+   time.
 3. **The 2026 Council minutes for the Bloomfield briefing**, and every agenda item on CTS.
 4. **The Ohio SOS record** for Colocation Technology Services LLC: formation, statutory agent,
    principals, foreign or domestic.

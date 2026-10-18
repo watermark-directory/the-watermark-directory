@@ -1,0 +1,119 @@
+meta:
+  collection: wapakoneta/governance
+  note: >-
+    The City of Wapakoneta's codified zoning text as it bears on data centers, captured from the
+    American Legal Publishing code library (supplement 2026 S-27, "Local legislation current through
+    May 18, 2026"). These are HTML captures of a publisher's codification, NOT the ordinances as
+    passed: American Legal's own footer says its posting "may not reflect the most current
+    legislation" and that "the official printed copy … should be consulted prior to any action". The
+    section text is the in-force text as codified; Ord. 2024-46 and Ord. 2024-48 as enacted (the
+    signed instruments) are still not in hand [open]. The library answers 403 to a scripted HTTP/2
+    client and 200 to the same request over HTTP/1.1 with a browser User-Agent, which is how these
+    were taken; no login, no paywall. The captured names are this repo's (a section page has no
+    filename of its own — its URL ends in an opaque node id, recorded per entry). Added for #2184.
+  publisher: American Legal Publishing (codelibrary.amlegal.com)
+  code: Codified Ordinances of Wapakoneta, Ohio — Part Twelve, Planning and Zoning Code
+  supplement: 2026 S-27 (current)
+  current_through: '2026-05-18'
+documents:
+- filename: wapakoneta-codified-overview.html
+  title: Codified Ordinances of Wapakoneta, Ohio — library overview page
+  source_url: https://codelibrary.amlegal.com/codes/wapakoneta/latest/overview
+  sha256: 1f5ce8a526b0679f7a11ade607360f78a6f496430601ed745befa335c866369b
+  bytes: 67794
+  content_type: text/html
+  fetched_at: '2026-10-18T18:24:53Z'
+  content_verified: html-text
+  evidence: html_capture
+  status: downloaded
+  note: >-
+    Captured for its currency statement only: "2026 S-27 (current)" and "Local legislation current
+    through May 18, 2026 | State legislation current through December 31, 2025".
+- filename: wapakoneta-codified-1250.10.html
+  title: §1250.10 Definitions (incl. (174) "Warehouse" and A. "Data Warehouse (Center)")
+  source_url: https://codelibrary.amlegal.com/codes/wapakoneta/latest/wapa_oh/0-0-0-81205
+  sha256: 5ff2c578ba193806439f347b86ba5498ba773be5d00919fda188276478ed31de
+  bytes: 417614
+  content_type: text/html
+  fetched_at: '2026-10-18T18:24:08Z'
+  content_verified: html-text
+  evidence: html_capture
+  status: downloaded
+  note: >-
+    The whole definitions section on one page. History note: "(Ord. 2010-29. Passed 7-5-10; Ord.
+    2015-34. Passed 10-5-15; Ord. 2024-46. Passed 11-18-24.)"
+- filename: wapakoneta-codified-1252.07.html
+  title: §1252.07 Conditional Uses
+  source_url: https://codelibrary.amlegal.com/codes/wapakoneta/latest/wapa_oh/0-0-0-81503
+  sha256: 51fbb076a463bb412eafc641d534922fb191cb0c91b1010b9cf3a9fe8d44b5fb
+  bytes: 150653
+  content_type: text/html
+  fetched_at: '2026-10-18T18:24:11Z'
+  content_verified: html-text
+  evidence: html_capture
+  status: downloaded
+  note: History note "(Ord. 2010-29. Passed 7-5-10.)" — untouched by the 2024 ordinances.
+- filename: wapakoneta-codified-1254.08.html
+  title: §1254.08 Administrative Appeal and Variances
+  source_url: https://codelibrary.amlegal.com/codes/wapakoneta/latest/wapa_oh/0-0-0-81633
+  sha256: adc27155c927cd10029b6bac27768aa92a7c05e6b7dce901b7e6471554635b0a
+  bytes: 118257
+  content_type: text/html
+  fetched_at: '2026-10-18T18:24:14Z'
+  content_verified: html-text
+  evidence: html_capture
+  status: downloaded
+  note: >-
+    Captured because §1252.07(b)(17) cites "Section 1254.08(c)" for the conditional-use standards,
+    and this section has subsections (a) and (b) only.
+- filename: wapakoneta-codified-1278.02.html
+  title: §1278.02 M-1 Industrial District — Principal Permitted Uses
+  source_url: https://codelibrary.amlegal.com/codes/wapakoneta/latest/wapa_oh/0-0-0-82215
+  sha256: 0fc7ed35842be0c88c05827a20c0259c95718a64f3cbabee87e30911d55f9017
+  bytes: 107631
+  content_type: text/html
+  fetched_at: '2026-10-18T18:24:16Z'
+  content_verified: html-text
+  evidence: html_capture
+  status: downloaded
+- filename: wapakoneta-codified-1280.02.html
+  title: §1280.02 M-2 Industrial District — Principal Permitted Uses
+  source_url: https://codelibrary.amlegal.com/codes/wapakoneta/latest/wapa_oh/0-0-0-82262
+  sha256: b9503e9aaee771b50ecfcd0bf691c96d5bc6abf79e29a8f24949b59232537fa3
+  bytes: 107003
+  content_type: text/html
+  fetched_at: '2026-10-18T18:24:19Z'
+  content_verified: html-text
+  evidence: html_capture
+  status: downloaded
+- filename: wapakoneta-codified-1282.01.html
+  title: §1282.01 M-3 Industrial District — Intent
+  source_url: https://codelibrary.amlegal.com/codes/wapakoneta/latest/wapa_oh/0-0-0-82306
+  sha256: acba012f72f50cb11b61c2993d2e8ee13a9eb08084d32a3dc0049a5b105fb02d
+  bytes: 92589
+  content_type: text/html
+  fetched_at: '2026-10-18T18:24:21Z'
+  content_verified: html-text
+  evidence: html_capture
+  status: downloaded
+- filename: wapakoneta-codified-1282.02.html
+  title: §1282.02 M-3 Industrial District — Principal Permitted Uses
+  source_url: https://codelibrary.amlegal.com/codes/wapakoneta/latest/wapa_oh/0-0-0-82309
+  sha256: 91b094d6867868cf6072028aca0447a9ab2776c97b29549a8936af1aa30904ad
+  bytes: 101477
+  content_type: text/html
+  fetched_at: '2026-10-18T18:24:24Z'
+  content_verified: html-text
+  evidence: html_capture
+  status: downloaded
+- filename: wapakoneta-codified-1282.04.html
+  title: §1282.04 M-3 Industrial District — Conditional Permitted Uses
+  source_url: https://codelibrary.amlegal.com/codes/wapakoneta/latest/wapa_oh/0-0-0-82322
+  sha256: b1ed7ac55592605dab5e39e2ed9d1b37d8b5106db6a4800f45e09c79824ebd14
+  bytes: 100937
+  content_type: text/html
+  fetched_at: '2026-10-18T18:24:27Z'
+  content_verified: html-text
+  evidence: html_capture
+  status: downloaded
+  note: History note "(Ord. 2010-29. Passed 7-5-10; Ord. 2024-48. Passed 11-18-24.)"
