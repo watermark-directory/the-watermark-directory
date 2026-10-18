@@ -564,8 +564,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "09e01b31a535e1600c7070c335d854aa0657bd8b91347106570337276aada4bb",
-      "size_bytes": 42705,
+      "sha256": "ce9a5aaf91149495806900892288cbd2a192bfa537b1b67452f7cd353b2db7ce",
+      "size_bytes": 43059,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": false,
@@ -574,6 +574,58 @@
     "observed_network": null,
     "citation": {
       "source": "Ohio EPA — issued NPDES permit 2PD00019*SD (application OH0027952) for the City of Wapakoneta Water Reclamation Facility, 201 Herbstritt Court, Auglaize County, and its 2024 Fact Sheet (Public Notice 206565); retrieved from the Ohio EPA DAM permit slot",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "id": "wapakoneta-reference",
+    "title": "Wapakoneta Secondary-Source Extractions (2019 OWEA TDS deck)",
+    "scope": "extracted",
+    "collection": "wapakoneta",
+    "status": "reviewed",
+    "producer_kind": "extracted",
+    "command": null,
+    "connector_ref": null,
+    "source": "\"Wastewater Treatment Challenges After Attracting a New Industry — Wapakoneta, Ohio\", Christy McCarthy (Jacobs) and Justin Waid (Wapakoneta Superintendent of Wastewater), OWEA Technical Conference, 2019-06-26; retrieved from ohiowea.org",
+    "external_url": null,
+    "license": "© Jacobs — no licence stated; held to read and cite, not redistributed (vault record redistributable false; not cleared for the public site)",
+    "access_tier": "public",
+    "site_scope": "site:wapakoneta",
+    "cadence": "static",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "wapakoneta",
+      "auglaize-county",
+      "wastewater",
+      "total-filterable-residue",
+      "flow-augmentation",
+      "secondary-source"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/wapakoneta/reference/owea-2019-tds-challenges.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "e183db35963d47023abbbace3e7f5ddfa5170ca49f67de6aabbabbb9f49e3374",
+      "size_bytes": 6459,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "\"Wastewater Treatment Challenges After Attracting a New Industry — Wapakoneta, Ohio\", Christy McCarthy (Jacobs) and Justin Waid (Wapakoneta Superintendent of Wastewater), OWEA Technical Conference, 2019-06-26; retrieved from ohiowea.org",
       "source_kind": "document",
       "page": null,
       "pages": null,

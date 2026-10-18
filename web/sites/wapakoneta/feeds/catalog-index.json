@@ -1,6 +1,6 @@
 {
   "site": "wapakoneta",
-  "catalog_version": "a700ee1e877013314d6ed5a7e459b41c4cadcd6a59caff90a2ecc849f703c534",
+  "catalog_version": "7b2d183340573a8212af34fc68484114f63589c886ae13b693336609f47e8bab",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -1081,6 +1081,14 @@
       "site": "wapakoneta",
       "local_id": "usgs-published-low-flow",
       "title": "USGS Published Low-Flow Statistics for Ohio Streams (Straub 2001 + SIR 2024-5075)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:wapakoneta:wapakoneta-reference",
+      "kind": "dataset",
+      "site": "wapakoneta",
+      "local_id": "wapakoneta-reference",
+      "title": "Wapakoneta Secondary-Source Extractions (2019 OWEA TDS deck)",
       "feed": "catalog"
     },
     {

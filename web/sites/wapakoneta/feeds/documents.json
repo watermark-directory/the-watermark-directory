@@ -35,5 +35,27 @@
         "supersedes": []
       }
     ]
+  },
+  {
+    "slug": "wapakoneta",
+    "title": "Wapakoneta",
+    "description": "",
+    "entries": [
+      {
+        "rel": "wapakoneta/reference/OWEA_2019-Wapakoneta.pdf",
+        "name": "OWEA_2019-Wapakoneta.pdf",
+        "size_bytes": 2887120,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
+      }
+    ]
   }
 ]

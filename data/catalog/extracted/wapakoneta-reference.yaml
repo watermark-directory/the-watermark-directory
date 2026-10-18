@@ -1,0 +1,37 @@
+id: wapakoneta-reference
+title: Wapakoneta Secondary-Source Extractions (2019 OWEA TDS deck)
+scope: extracted
+status: reviewed
+producer:
+  kind: extracted
+  source: '"Wastewater Treatment Challenges After Attracting a New Industry — Wapakoneta, Ohio",
+    Christy McCarthy (Jacobs) and Justin Waid (Wapakoneta Superintendent of Wastewater), OWEA
+    Technical Conference, 2019-06-26; retrieved from ohiowea.org'
+license: © Jacobs — no licence stated; held to read and cite, not redistributed (vault record
+  redistributable false; not cleared for the public site)
+access_tier: public
+site_scope: site:wapakoneta
+storage:
+- relpath: extracted/wapakoneta/reference/owea-2019-tds-challenges.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: static
+provenance: document
+tags:
+- wapakoneta
+- auglaize-county
+- wastewater
+- total-filterable-residue
+- flow-augmentation
+- secondary-source
+notes: >-
+  A secondary source: every claim is [reference]. It is filed because it is the only captured source
+  that quotes the 2019-02-06 Ohio EPA DFFO's TDS limits (1,907 mg/L monthly / 2,429 mg/L daily,
+  against a 1,523 mg/L NPDES monthly limit). The order itself (eDoc docid 1080081) is listed by
+  Ohio EPA but was not retrievable while the eDocument portal was down, so these figures are a
+  presenter's summary until it is. The deck also gives the load that drove the order: an unnamed
+  recycled paper mill and box plant discharging 0.85 MGD at 3,600 mg/L, about 25,000 lb/day. It
+  names treated groundwater as a candidate augmentation water, which was an option under
+  investigation in 2019, not a built system. The cost chart (slide 39) has no axis values, so no
+  cost is transcribed.

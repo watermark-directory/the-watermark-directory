@@ -1,4 +1,4 @@
-reconciled_at: '2026-10-17T20:43:07.666582+00:00'
+reconciled_at: '2026-10-18T16:14:44.035225+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -2848,8 +2848,8 @@ entries:
     site_scope: site:van-wert
   oepa-wapakoneta:
     exists: true
-    sha256: 09e01b31a535e1600c7070c335d854aa0657bd8b91347106570337276aada4bb
-    size_bytes: 42705
+    sha256: ce9a5aaf91149495806900892288cbd2a192bfa537b1b67452f7cd353b2db7ce
+    size_bytes: 43059
     lfs_materialized: true
     file_count: 2
     missing: []
@@ -3639,6 +3639,16 @@ entries:
     asof: null
     stale: false
     site_scope: site:van-wert
+  wapakoneta-reference:
+    exists: true
+    sha256: e183db35963d47023abbbace3e7f5ddfa5170ca49f67de6aabbabbb9f49e3374
+    size_bytes: 6459
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:wapakoneta
   watershed:
     exists: true
     sha256: fb75efa54c5da29b5bd695f4b3e1e7689330462f49239a18d29753ffedab5b79
