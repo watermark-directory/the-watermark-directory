@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "dab3d9636ee621219579875675e5d0a520305f261533f2b1dc29314418c59408",
+  "catalog_version": "fc12c5cc1e4784e173ab5791d6e2d61b4a07e5ed3288092e907bac6a809761b2",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -2265,6 +2265,14 @@
       "site": "lima",
       "local_id": "van-wert-water-watch",
       "title": "Van Wert — Standing Water Watch + NPDES 2PD00006*WD / PWS OH8100611 Instrument Set (Extractions)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:wapakoneta-governance",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "wapakoneta-governance",
+      "title": "Wapakoneta — Codified Zoning Text on Data Centers (Ord. 2024-46 / 2024-48) and the R.C. 149.43 request draft",
       "feed": "catalog"
     },
     {

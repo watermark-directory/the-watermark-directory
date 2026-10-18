@@ -1,0 +1,38 @@
+id: wapakoneta-governance
+title: Wapakoneta — Codified Zoning Text on Data Centers (Ord. 2024-46 / 2024-48) and the R.C. 149.43 request draft
+scope: extracted
+status: reviewed
+producer:
+  kind: manual
+  source: >-
+    Codified Ordinances of Wapakoneta, Ohio, Part Twelve (Planning and Zoning Code), as published by
+    American Legal Publishing (supplement 2026 S-27, local legislation current through 2026-05-18):
+    §1250.10(174), §1252.07, §1254.08, §1278.02, §1280.02, §1282.01, §1282.02 and §1282.04, each
+    captured as HTML on 2026-10-18 under data/documents/wapakoneta/governance/. Also an R.C. 149.43
+    request to the City, drafted 2026-10-18 and NOT SENT, with its response log.
+license: Public record (municipal codified ordinances); the codification is American Legal Publishing's
+access_tier: public
+site_scope: site:wapakoneta
+storage:
+- relpath: extracted/wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/wapakoneta/governance/records-requests/2026-10-18-wapakoneta-clerk-of-council.md
+  media_type: text/markdown
+  lfs: false
+refresh:
+  cadence: static
+provenance: document
+tags:
+- wapakoneta
+- auglaize-county
+- zoning
+- conditional-use
+- local-legislation
+notes: >-
+  The in-force text of the City's 2024 data-center ordinances as codified. Ord. 2024-46 carves "Data
+  Warehouse (Center)" out of the zoning definition of "Warehouse", and Ord. 2024-48 adds data centers
+  to the M-3 district's conditional uses. M-3 is the only district that admits one. Review is the
+  generic 2010 conditional-use procedure in §1252.07: no data-center-specific standards, no required
+  public hearing, and a permit that runs with the land. It is the publisher's codification, not the
+  signed ordinances, which are still not in hand.

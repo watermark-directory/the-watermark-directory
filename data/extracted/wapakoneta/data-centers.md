@@ -1,12 +1,13 @@
 # Wapakoneta / Auglaize Co., OH — Data-Center Activity Register
 
 Discover-and-pin register for the Wapakoneta watershed point (upper Auglaize River → **Maumee** at
-Defiance → Lake Erie). Status **as of 2026-10-12** (#2184). Tags are BOSC evidentiary discipline:
+Defiance → Lake Erie). Status **as of 2026-10-18** (#2184). Tags are BOSC evidentiary discipline:
 `[verified]` = cited primary/government source, `[reference]` = secondary source or a party's own
 self-report (leads only, never a finding), `[inference]` = arithmetic or pattern from cited inputs,
-`[open]` = not found in any public source yet. **Nothing here is in the BOSC corpus yet**: this
-records the public record as of the date above and the primary instruments to *pull*. Nothing here
-is fabricated; every figure is cited or marked `[open]`.
+`[open]` = not found in any public source yet. This records the public record as of the date above
+and the primary instruments to *pull*. The sources filed so far are under
+`data/documents/wapakoneta/`; the rest are cited by URL. Nothing here is fabricated; every figure
+is cited or marked `[open]`.
 
 **The finding is a proposal with no instrument behind it.** One developer has asked about one site.
 By the City's own account, nothing is negotiated, approved, committed, or filed. Wapakoneta's
@@ -17,10 +18,18 @@ review for this class of use **before** any developer asked.
 ## Disambiguation guardrail — run first, always
 
 - **"CTS" is not QTS.** QTS (Quality Technology Services) is the Van Wert Mega Site operator
-  (`data/extracted/van-wert/`). **Colocation Technology Services LLC** has no web footprint that the
-  2026-10-12 sweep could find. Exact-phrase searches return nothing. The Ohio SOS business search was
-  down on 2026-10-12 (the API showed a maintenance page and the site returned 403). **Never resolve
-  "CTS" by acronym**: the identity of this entity is `[open]` until the SOS record is pulled.
+  (`data/extracted/van-wert/`). The 2026-10-12 sweep found no web footprint for **Colocation
+  Technology Services LLC**. On 2026-10-18 one turned up: **colotech.co**, a site whose footer reads
+  "© 2026 Colocation Technology Services LLC" and whose privacy notice calls the company "CTS"
+  (captured under `data/documents/wapakoneta/reference/`). Everything on it is the company's
+  self-description `[reference]`: a "300+ MWs Development Pipeline", "6 DATA CAMPUSES Delivered",
+  "up to 600kW per rack", "zero-water-waste" economizer designs, and a map of "five project states"
+  that names only South Carolina. It names no Ohio project, no address and no officer, so that it
+  is the company that approached WAEDC rests on the name alone `[inference]`. The Ohio SOS
+  business search still answers a scripted client with a JavaScript "security check" (2026-10-18),
+  which this repo does not get around; the record needs a browser. **Never resolve "CTS" by
+  acronym**: the entity's formation, agent and principals stay `[open]` until the SOS record is
+  pulled.
 - **Auglaize County, Ohio (FIPS 39011)** is the scope. St. Marys is in the same county, and its
   moratorium (§3) is context, not an entry.
 - **The Auglaize River is shared with Lima.** Wapakoneta sits on the upper Auglaize, upstream of the
@@ -69,8 +78,7 @@ captured. Everything the City relays from CTS remains CTS's self-report, so it i
 Source: Bob Neelski, "A Data Center In Wapakoneta?", *Wapakoneta Daily News*, 2026-10-08
 <https://www.wapakdailynews.com/news/a-data-center-in-wapakoneta/article_30fa606e-99e6-4ea4-83e1-f45c0beaf5d8.html>
 `[reference]`. The story reports WAEDC Executive Director **Josh Bloomfield**'s briefing to City
-Council. The briefing date is `[open]`; it was probably the 2026-10-05/06 meeting, but the minutes
-are not pulled.
+Council. That briefing was the **2026-10-05** Council meeting `[verified]` (§1.2a).
 
 - **Site.** "a 30 acre 50 megawatt data center at the **West Central Ohio Industrial Center**." The
   City's post says only "the industrial park"; the press supplies the name.
@@ -90,6 +98,56 @@ are not pulled.
   - **No abatements requested.**
 - **Instruments.** "No development agreements have been executed, no guarantees … no non-disclosure
   agreement."
+
+### 1.2a — What the Council minutes record
+
+Source: City Council minutes, 2026-10-05, p. 1 (`data/documents/wapakoneta/governance/10-5-2026-Minutes.pdf`;
+image-only, read by OCR and checked against the rendered page). *That Bloomfield said these things to
+Council* is `[verified]`. What he relays about the project is the developer's account, so it is
+`[reference]`.
+
+- **The announcement.** Bloomfield addressed Council "to announce the potential for a 30-acre, 50
+  megawatt data center project within the West Central Ohio Industrial Center." **The minutes do not
+  name the company.** That this is CTS rests on the City's post and the WDN story, which do.
+- **Stage.** "due diligence and feasibility stage, with examination of the viability of electrical
+  and utility needs for the site." Before a formal request, "the company involved will conduct a
+  press release to the public, as well as provide a project-specific web page and webinars." He added
+  that "the informational website should go live sometime this week." Whether colotech.co (see the
+  guardrail) is that website is `[inference]`: it carries no Wapakoneta content.
+- **Cooling.** "a closed-loop, oil-cooled system, which will limit its water and wastewater needs."
+  **"Oil-cooled" is not in the City's post or the WDN story.** It reads as dielectric (immersion)
+  cooling `[inference]`, which would make a 5,000–10,000 GPD demand plausible and the hauled
+  "cooling water" of the City's post a different stream from the coolant. Neither is established.
+- **No asks.** "The company has not requested tax abatements, extension of additional utilities to the
+  site or the building of additional roadways."
+- **Jobs and investment.** "25 permanent full-time positions plus 25 jobs from outside employers and
+  200 construction workers", and "an estimated 500 million dollar investment". The **$500 million**
+  figure is not in the WDN story, which gives "$4+ million" a year in taxes instead.
+- **Expansion.** Asked by Mrs. Muhlenkamp, Bloomfield said "the company would ideally like to expand
+  to a total of 70-acres and 200 megawatts if possible." Asked by Mr. Greve how the City can limit
+  it, he "encouraged Council to codify these details if the project moves forward, noting that the
+  conditional use parameters within the zoning code does provide additional protections."
+- **Timeline.** "6 weeks of community engagement followed by a conditional use request to City
+  Council, then potential to break ground in Spring of 2027 with a 12 month construction timeline."
+  - **The forum is misstated.** Under §1282.04 and §1252.07 the conditional use is decided by the
+    **Planning Commission**, not City Council (§2) `[verified]` as to the code. Whether Council has any
+    role (an appeal, a development agreement, the "codify" route) is `[inference]`.
+  - WDN gives construction as 12–18 months; the minutes say 12.
+- **Council's response.** Ms. Behr, Mr. Dunlap and Mr. Greve "recommended that the developers conduct
+  town hall style meetings for public input." No motion was made.
+
+**Two earlier executive sessions** invited Bloomfield. Neither names its subject, so **whether either
+concerned CTS is `[open]`**:
+
+- **2026-06-15** (p. 4): 9:10–9:56 pm, for pending or imminent litigation **and** "confidential
+  information related to the marketing plans, specific business strategy, production techniques, trade
+  secrets, or personal financial statements of an applicant for economic development assistance";
+  6–0 `[verified]`. The WDN story says CTS asked for no abatement, so "an applicant for economic
+  development assistance" need not be CTS. Another economic-development item was live in
+  the same period: a development agreement with Elfie Properties LLC (Ord. 2026-50R, adopted on third
+  reading 2026-10-05).
+- **2026-09-08** (p. 4): 8:27–9:23 pm, "to discuss confidential information regarding economic
+  development", inviting Bloomfield and City Administration; 7–0 `[verified]`.
 
 ### 1.3 — The capacity gap
 
@@ -147,18 +205,34 @@ are not pulled.
   in a 7Q10 week, the reach below RM 84.9 would be roughly **80% effluent**.
 - **Restroom flow is immaterial to that ratio.** The CTS ask adds only restroom sanitary to it, and
   routes cooling water elsewhere by its own account `[reference]`.
+- **Lima drinks downstream of this outfall `[verified]` as to the flow path.** Lima's Auglaize River
+  pump stations (L107 "Auglaize Pump St." and L111 "Auglaize River St #2", 40°43'45"N 84°18'01"W)
+  are in the City of Lima's own 2022 NPDES renewal application
+  (`data/extracted/legal/prr-mandamus/prr-production-2026-08-lima/lima-wwtp-npdes-renewal-application-2022.application.yaml`).
+  ODNR's withdrawal registry puts reg. 01320 "LIMA CITY PWS-AUGLAIZE" (2 intakes, 161 MGD capacity)
+  at the same point (`data/reference/ohio-water-withdrawal/allen.yaml`). The WRF outfall is at
+  40.5702, -84.2107 (`data/extracted/oepa/wapakoneta/2PD00019.npdes.yaml`). Both points snap to NHDPlus
+  flowlines (outfall COMID 15652927, intake COMID 15652553), and the USGS NLDI downstream-mainstem
+  trace from the outfall reaches the intake's flowline within 30–35 km of channel (queried
+  2026-10-18; the bracket is NLDI's distance argument, not a river-mile figure).
+  - So the Wapakoneta WRF's effluent, and whatever TDS it carries under the DFFO relief, is in the
+    river Lima pumps to fill Bresler and Williams `[inference]`. How much depends on when Lima pumps,
+    which is a refill-season, higher-flow question, not the 7Q10 one above `[open]`.
+  - This is the **hydrologic** relation the guardrail allows. It does not tie the two sites' actors
+    or land together.
 - **Gage:** 04186500 Auglaize River near Fort Jennings (DA 332 mi²), downstream, above the Ottawa
   confluence. It is live per USGS IV, checked 2026-10-12. The at-Wapakoneta gage 04185800
   (DA 103 mi²) serves no series.
 
-### 1.6 — Regulatory record (status as of 2026-10-12)
+### 1.6 — Regulatory record (status as of 2026-10-18)
 
 | Instrument | Status |
 |---|---|
 | Conditional-use application (§1282.04, M-3) | **Not filed**, per the City's statement (§1.1) |
 | Annexation petition | **Not filed**, per City |
 | Development agreement / NDA | **None executed**, per WDN `[reference]` |
-| Ohio SOS: Colocation Technology Services LLC | `[open]`, registry down 2026-10-12 |
+| Council briefing | 2026-10-05, minutes `[verified]` (§1.2a); company not named |
+| Ohio SOS: Colocation Technology Services LLC | `[open]`; registry behind a browser check (2026-10-18) |
 | AEP feasibility study | Exists per City; not in hand `[open]` |
 | PJM large-load / interconnection request | Not searched `[open]` |
 | Ohio EPA air PTI (emergency generators) | None expected pre-application; not searched `[open]` |
@@ -186,10 +260,66 @@ directly on 2026-10-12. The earlier minutes were read by the sweep via their Way
   - Source: Council minutes 2024-11-18
     (<https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/04ed5d3c-0a7b-4ea1-91fe-70341bd79b80/11-18-2024-Minutes.pdf>).
 
-**Caveat.** Neither ordinance title says "data center." The link between these ordinances and data
-centers rests on the minutes' discussion. The amended text of §1282.04 and §1250.10(174) is
-**unread** `[open]`. The City's 2026 post describes the outcome as "making data centers a
-'conditional use'." What the enacted text actually conditions is the first thing to pull.
+**The codified text (read 2026-10-18).** Neither ordinance title says "data center", but the
+codification does. Read from American Legal's codification (supplement 2026 S-27, current through
+2026-05-18), captured under `data/documents/wapakoneta/governance/` and extracted in
+`governance/wapakoneta-zoning-code-data-centers.zoning.yaml`:
+
+- **§1250.10(174)** now excludes from "Warehouse" a subcategory A, **"Data Warehouse (Center)"**:
+  buildings "specifically designed or modified to house data and related infrastructure support
+  equipment", naming "computer equipment colocation services". The definition sets no size
+  threshold. Its history note cites Ord. 2024-46, passed 11-18-24 `[verified]`.
+- **§1282.04** lists **"Data warehouses (centers)"** among the M-3 uses "permitted only if
+  specifically authorized by the Planning Commission in accordance with Chapter 1252". Its history
+  note cites Ord. 2024-48, passed 11-18-24 `[verified]`.
+- **M-3 is the only industrial district** that admits a data center: the M-1, M-2 and M-3 use lists
+  on file name it only as the M-3 conditional use `[verified]`. The rest of the 2026-10-18 sweep
+  (every district chapter) found no other mention, but those pages are not committed `[inference]`.
+- M-1 and M-2 permit "Wholesale and warehouse establishments" by right (§1278.02, §1280.02)
+  `[verified]`. The carve-out therefore closes a by-right path, as the Law Director described
+  `[inference]`.
+- **The review is generic.** §1252.07 (2010, unamended) governs. The Planning Commission makes eight
+  written findings `[verified]`. Water and power can be reached only through general ones:
+  "adequate utility … facilities", the necessary permits, and public health and safety. None is
+  specific to data centers `[inference]`.
+  - "No public hearing need be held" unless the Commission deems one necessary `[verified]`.
+  - The permit "shall run with the land and not the applicant/owner" `[verified]`.
+  - No application item asks for water demand, load, cooling or generation `[verified]`.
+- **§1252.07(b)(17)** points applicants to standards "listed in Section 1254.08(c)". §1254.08 has
+  no subsection (c): it is a dangling cross-reference `[verified]`.
+
+**Still open.** The codification is the publisher's, not the signed instruments: Ord. 2024-46 and
+2024-48 as enacted are not in hand `[open]`. So is the zoning district of the WCOIC parcels. If they
+are not M-3, a data center there needs a rezoning before any conditional use `[open]`.
+
+## 2a — Adjacent, not a data center: Regensyn Energy at the WRF (Ord. 2026-20)
+
+This is **not** a data-center entry. It is recorded because it concerns the same treatment plant
+(§1.5), the same WAEDC intermediary, and the WRF's TDS problem.
+
+- **2026-04-20.** The agenda lists "Chas Roemer – Regensyn Energy LLC" under guest petitions and
+  **Ord. 2026-20**, "AN ORDINANCE AUTHORIZING A COOPERATION AGREEMENT BETWEEN THE CITY OF WAPAKONETA
+  AND REGENSYN ENERGY LLC AND DECLARING AN EMERGENCY". The minutes (p. 2, image-checked) record:
+  - Roemer, representing Regensyn, addressed Council about "the emerging technology regarding the
+    removal of forever chemicals from wastewater streams while simultaneously creating energy". He
+    said the work had moved "from lab level testing to a commercialized model in Corpus Christi, TX"
+    `[reference]`.
+  - He stated "there is no financial obligation on the City of Wapakoneta, nor any obligation on
+    Regensyn Energy LLC to continue their investments and efforts indefinitely", and that Ord. 2026-20
+    "is a cooperative agreement between the parties to show this technology can be used to clean the
+    wastewater system and generate energy" `[reference]`.
+  - Bloomfield (WAEDC) introduced Rick Johnson of Applied Environmental Solutions, "working closely
+    with Wapakoneta's Wastewater Department for project development on said cooperative agreement."
+  - Ord. 2026-20 was read once, the rules were suspended 6–0, and it was **adopted 6–0** on emergency
+    `[verified]`.
+- **The characterization diverges.** The minutes say "forever chemicals" (PFAS). The *Wapakoneta Daily
+  News* (Bob Neelski, 2026-04-22) attributes the City's interest to Mayor Dan Lee "researching
+  solutions for ways to improve total dissolved solids metrics" `[reference]`. TDS is the WRF's
+  documented problem: the 2019 DFFO and the 2024 permit's tiered TFR limits (§1.5;
+  `reference/owea-2019-tds-challenges.yaml`). Which constituent the agreement targets is `[open]`.
+- **Not in hand `[open]`:** Ord. 2026-20 as signed, the cooperation agreement itself, its term, any
+  site or discharge it touches, and whether a pilot unit at the WRF needs an Ohio EPA permit
+  modification or PTI.
 
 ## 3 — Elsewhere in Auglaize County
 
@@ -208,15 +338,26 @@ centers rests on the minutes' discussion. The amended text of §1282.04 and §12
 1. **The City's Facebook post.** Capture it with a date before it can be edited or deleted. It is
    the one source that states the City's no-commitment position, and today it exists here only as
    a paste.
-2. **Ord. 2024-48 and Ord. 2024-46 as enacted**, plus codified §1282.04 and §1250.10(174). American
-   Legal (`codelibrary.amlegal.com/codes/wapakoneta`) returns 403 to scripts, so ask the Clerk.
-3. **The 2026 Council minutes for the Bloomfield briefing**, and every agenda item on CTS.
+2. **Ord. 2024-48 and Ord. 2024-46 as enacted.** The codified sections are now read (§2). American
+   Legal (`codelibrary.amlegal.com/codes/wapakoneta`) answers 403 over HTTP/2 but 200 over HTTP/1.1.
+   The signed ordinances still need the Clerk. Ask for the zoning map covering WCOIC at the same
+   time.
+3. **Ord. 2026-20 and the Regensyn cooperation agreement** (§2a), from the Clerk. The 2026 Council
+   minutes are read for the Bloomfield briefing (2026-10-05, §1.2a); the June and September
+   executive sessions are the remaining question, and minutes will not answer it.
 4. **The Ohio SOS record** for Colocation Technology Services LLC: formation, statutory agent,
-   principals, foreign or domestic.
+   principals, foreign or domestic. Pull it by hand in a browser at businesssearch.ohiosos.gov.
+   If it is a foreign LLC, the home-state filing (South Carolina is the only state its site names)
+   is the next record.
 5. **The AEP feasibility study** the City requested, via an R.C. 149.43 request to the City. With it,
-   the City's correspondence with AEP, AMP, WAEDC and CTS.
+   the City's correspondence with AEP, AMP, WAEDC and CTS. Drafted, **not sent**:
+   `governance/records-requests/2026-10-18-wapakoneta-clerk-of-council.md` (it also asks for items 2
+   and 3 and the WCOIC zoning).
 6. **The CTS informational meetings**: dates, venue and materials.
-7. **The WCOIC parcel(s)**: ownership and transfer history from the Auglaize County Auditor/Recorder.
+7. **The WCOIC parcel(s)**: ownership and transfer history from the Auglaize County Auditor/Recorder,
+   and their zoning district. The City's document page links an Auglaize County GIS zoning viewer
+   (<https://augcogis.maps.arcgis.com/apps/webappviewer/index.html?id=8f3f1b5bcb734d3c8b52326346667be9>),
+   which is a finding aid, not the zoning map of record.
 8. **The blowdown disposal path.** A hauled waste stream must land at a permitted receiver.
 9. **The Wapakoneta WRF permit OH0027952 and its DFFO record**, from the Ohio EPA eDocument portal.
 10. **The county-wide negative checks**: RSEI 518210, ECHO and the PJM queue for Auglaize.
@@ -229,6 +370,11 @@ centers rests on the minutes' discussion. The amended text of §1282.04 and §12
   <https://www.wapakdailynews.com/news/a-data-center-in-wapakoneta/article_30fa606e-99e6-4ea4-83e1-f45c0beaf5d8.html>
 - City Council minutes 2024-11-18:
   <https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/04ed5d3c-0a7b-4ea1-91fe-70341bd79b80/11-18-2024-Minutes.pdf>
+- City Council agenda 2026-04-20 and minutes 2026-04-20, 06-15, 09-08 and 10-05, filed under
+  `data/documents/wapakoneta/governance/` (source URLs and sha256 in that shelf's `filename-map.yaml`).
+- *Wapakoneta Daily News*, Bob Neelski, "Council greenlights trial to address TDS issues", 2026-04-22
+  (lede only; paywalled):
+  <https://www.wapakdailynews.com/news/council-greenlights-trial-to-address-tds-issues/article_c3d032fd-4b9e-404e-b160-15a8ad64e9cf.html>
 - Earlier 2024 Council minutes (09-16, 10-21, 11-04) via
   `web.archive.org/web/2025id_/https://wapakoneta.net/wp-content/uploads/2024/{10,11}/…-Minutes.pdf`
 - Ohio EPA, Fact Sheet for NPDES Permit Renewal, Wapakoneta WRF, 2024 (2PD00019):

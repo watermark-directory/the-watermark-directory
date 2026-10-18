@@ -1608,8 +1608,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "5c06e2b24ed3d627e366bcbad1b49a41cf927de862ec298529fff277e58dbb0f",
-      "size_bytes": 24880,
+      "sha256": "fba0c79dd2ec45ed2736c80f8e1cd7856fd1a3de2babf4f89f882598d15de5c5",
+      "size_bytes": 36768,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -8218,6 +8218,62 @@
     "observed_network": null,
     "citation": {
       "source": "Two primary instruments plus three federal systems. Ohio EPA NPDES permit 2PD00006*WD / application OH0027910 — the modification package as issued (action date 2026-05-18, Public Notice 221593, entered the Director's Journal 2026-06-30, effective 2026-07-01, expires 2030-05-31; a composite of the Director's transmittal letter, the 47-page modified permit and the modification's own 8-page Fact Sheet) and its draft public notice from the DAM's DraftPN slot — both fetched from the Ohio EPA DAM 2026-08-01 (data/documents/oepa/van-wert/filename-map.yaml). Ohio EPA re-serves the `permits/doc/` slot IN PLACE on modification, so the same URL that delivered the *VD renewal in June 2026 delivers the *WD package now; both sets of bytes are held and the manifest is keyed on URL plus sha256. Both permit: blocks are the pipeline's six-page read with header fields CORRECTED on review from the fact sheet bound inside the same PDF; the superseded extractor warnings are preserved in each file. The water-watch digest additionally reads EPA ECHO (dfr_rest_services.get_dfr for OH0027910, OH8100611 and OH0135569; sdw_rest_services.get_systems over Van Wert County OH for the public-water-system index) read 2026-08-01 against ICIS-NPDES extract 2026-07-24 and SDWIS extract 2026-07-09, and USGS NLDI / NHDPlus v2 (linked-data/comid/position plus upstream/downstream navigation) snapped 2026-08-01 to establish that the intake, the five CSOs and the outfall share one flowline and in what order. Issue 1860 added the fifth route: EPA ECHO eff_rest_services.get_effluent_chart for OH0027910, read 2026-08-04 — the permittee's own DMR record for total phosphorus (00665), CSO occurrence (74062), CSO volume (74063) and effluent flow (50050), sixteen requests, one per (calendar year x parameter code) because ECHO accepts exactly one parameter_code per call. Reported coverage 2023-01 through 2026-06, no gap in the phosphorus or flow series. The effluent-chart service had refused this permit outright on 2026-08-01 (read timeouts and a 502 across three-year and one-year windows); it answered normally on 2026-08-04, and the raw responses cache under data/cache/hydrology/echo_dmr/ with the exact curl in each block's `regenerate` key.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "wapakoneta-governance",
+    "title": "Wapakoneta — Codified Zoning Text on Data Centers (Ord. 2024-46 / 2024-48) and the R.C. 149.43 request draft",
+    "scope": "extracted",
+    "collection": "wapakoneta",
+    "status": "reviewed",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "Codified Ordinances of Wapakoneta, Ohio, Part Twelve (Planning and Zoning Code), as published by American Legal Publishing (supplement 2026 S-27, local legislation current through 2026-05-18): §1250.10(174), §1252.07, §1254.08, §1278.02, §1280.02, §1282.01, §1282.02 and §1282.04, each captured as HTML on 2026-10-18 under data/documents/wapakoneta/governance/. Also an R.C. 149.43 request to the City, drafted 2026-10-18 and NOT SENT, with its response log.",
+    "external_url": null,
+    "license": "Public record (municipal codified ordinances); the codification is American Legal Publishing's",
+    "access_tier": "public",
+    "site_scope": "site:wapakoneta",
+    "cadence": "static",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "wapakoneta",
+      "auglaize-county",
+      "zoning",
+      "conditional-use",
+      "local-legislation"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/wapakoneta/governance/records-requests/2026-10-18-wapakoneta-clerk-of-council.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "ef65c0988d88fad06b6df5b911009b332a4da3214192db00b7f7e5b24e09d3d6",
+      "size_bytes": 21264,
+      "lfs_materialized": true,
+      "file_count": 2,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Codified Ordinances of Wapakoneta, Ohio, Part Twelve (Planning and Zoning Code), as published by American Legal Publishing (supplement 2026 S-27, local legislation current through 2026-05-18): §1250.10(174), §1252.07, §1254.08, §1278.02, §1280.02, §1282.01, §1282.02 and §1282.04, each captured as HTML on 2026-10-18 under data/documents/wapakoneta/governance/. Also an R.C. 149.43 request to the City, drafted 2026-10-18 and NOT SENT, with its response log.",
       "source_kind": "reference",
       "page": null,
       "pages": null,

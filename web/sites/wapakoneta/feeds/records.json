@@ -1,5 +1,132 @@
 [
   {
+    "rel": "wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml",
+    "group": "local-legislation",
+    "title": "City of Wapakoneta Planning and Zoning Code — data centers as an M-3 conditional use (codified §1250.10(174), §1282.04, §1252.07; Ord. 2024-46 / 2024-48)",
+    "confidence": null,
+    "warnings": [],
+    "fields": {
+      "provenance": {
+        "publisher": "American Legal Publishing, codelibrary.amlegal.com/codes/wapakoneta",
+        "supplement": "2026 S-27 (current)",
+        "current_through": "2026-05-18",
+        "captured": "2026-10-18",
+        "sources": [
+          "data/documents/wapakoneta/governance/wapakoneta-codified-overview.html",
+          "data/documents/wapakoneta/governance/wapakoneta-codified-1250.10.html",
+          "data/documents/wapakoneta/governance/wapakoneta-codified-1252.07.html",
+          "data/documents/wapakoneta/governance/wapakoneta-codified-1254.08.html",
+          "data/documents/wapakoneta/governance/wapakoneta-codified-1278.02.html",
+          "data/documents/wapakoneta/governance/wapakoneta-codified-1280.02.html",
+          "data/documents/wapakoneta/governance/wapakoneta-codified-1282.01.html",
+          "data/documents/wapakoneta/governance/wapakoneta-codified-1282.02.html",
+          "data/documents/wapakoneta/governance/wapakoneta-codified-1282.04.html"
+        ],
+        "disclaimer": "\"This Code of Ordinances and/or any other documents that appear on this site may not reflect the most current legislation adopted by the Municipality. … The official printed copy of a Code of Ordinances should be consulted prior to any action being taken.\" (page footer, every capture)",
+        "corroborating_source": "City Council minutes 2024-10-21, 11-04 and 11-18 (register data-centers.md §2): the readings, the Law Director's remark, and the 7-0 adoption of both ordinances on 2024-11-18."
+      },
+      "zoning_code": {
+        "title": "Codified Ordinances of Wapakoneta, Ohio — Part Twelve, Planning and Zoning Code",
+        "jurisdiction": "City of Wapakoneta, Auglaize County, Ohio (municipal)",
+        "base_ordinance": "Ord. 2010-29, passed 2010-07-05",
+        "data_center_amendments": [
+          {
+            "ordinance": "Ord. 2024-46",
+            "passed": "2024-11-18",
+            "section": "§1250.10(174)",
+            "effect": "Splits \"Warehouse\" so that \"Data Warehouse (Center)\" is a defined subcategory carved out of the warehouse definition. [verified — history note on §1250.10]"
+          },
+          {
+            "ordinance": "Ord. 2024-48",
+            "passed": "2024-11-18",
+            "section": "§1282.04",
+            "effect": "Adds \"Data warehouses (centers)\" to the M-3 district's conditional permitted uses. [verified — history note on §1282.04]"
+          }
+        ],
+        "note": "The two history notes match the ordinance numbers, titles and adoption date the Council minutes record. The codified text is the in-force text through supplement S-27; the ordinances as passed are not in hand, so their exact wording is [open]."
+      },
+      "definitions": {
+        "warehouse_174": "\"Warehouse.\" A facility engaged in the storage of manufactured products, supplies, materials, and equipment, excluding; bulk storage of materials that present hazards or conditions commonly recognized as offensive, as well as any items defined in the following subcategories. [verified — §1250.10(174)]",
+        "data_warehouse_center_174A": "A. \"Data Warehouse (Center).\" Buildings or structures specifically designed or modified to house data and related infrastructure support equipment, including, without limitation; network computers, power and cooling equipment, processing equipment, equipment used primarily to provide data and transaction processing services to outside parties, equipment used to outsource information technology services, and computer equipment colocation services. [verified — §1250.10(174)]",
+        "history_note": "(Ord. 2010-29. Passed 7-5-10; Ord. 2015-34. Passed 10-5-15; Ord. 2024-46. Passed 11-18-24.)",
+        "reading": "The definition is functional, not size-based: no megawatt, floor-area or rack threshold. It names \"computer equipment colocation services\" expressly, which is the business the only known prospect's name describes (Colocation Technology Services LLC). [inference]"
+      },
+      "district_m3": {
+        "intent": "\"The M-3 District is primarily reserved for intensive industrial uses that, because of their general nature, typically produce off-site impacts such as vibration, noise, odor or other impacts that may be objectionable or potentially hazardous to surrounding properties.\" [verified — §1282.01, Ord. 2010-29]",
+        "permitted_by_right_excerpt": [
+          "Agriculture",
+          "Heavy industrial and manufacturing",
+          "Light industrial and manufacturing",
+          "Research and development facilities"
+        ],
+        "permitted_by_right_note": "An excerpt of §1282.02, not the full list. §1282.02 does NOT list \"Wholesale and warehouse establishments\", which M-1 and M-2 permit by right. [verified]",
+        "conditional_uses": {
+          "lead_in": "\"In a \"M-3\" District, the following uses shall be permitted only if specifically authorized by the Planning Commission in accordance with Chapter 1252:\" [verified — §1282.04]",
+          "residential_uses": [
+            "None"
+          ],
+          "public_and_semi_public_uses": [
+            "None"
+          ],
+          "commercial_uses": [
+            "Billboards and outdoor advertising signs",
+            "Off-street parking lots",
+            "Salvage, scrap and wrecking operations, junk yards, landfills, resource recovery, recycling facilities, incinerators fueled only by on- site generated waste",
+            "Sexually oriented business",
+            "Data warehouses (centers)"
+          ],
+          "column_note": "The section is a three-column table (Residential / Public and Semi-Public / Commercial Uses); \"Data warehouses (centers)\" sits in the Commercial Uses column of the captured HTML. [verified]",
+          "history_note": "(Ord. 2010-29. Passed 7-5-10; Ord. 2024-48. Passed 11-18-24.)"
+        }
+      },
+      "other_industrial_districts": {
+        "m1_permitted_by_right": "Wholesale and warehouse establishments",
+        "m2_permitted_by_right": "Wholesale and warehouse establishments",
+        "reading": "Before Ord. 2024-46, a data center could plausibly be read as a \"warehouse\" and so be permitted by right in M-1 and M-2. The carve-out removes it from \"Warehouse\", and Ord. 2024-48 then admits it in M-3 only, and only by conditional use. That is the Law Director's stated purpose in the minutes of the 2024 readings (\"clarifies a 'warehouse' versus 'data warehouse' and allows the City more discretion\"). [inference]"
+      },
+      "conditional_use_procedure": {
+        "section": "§1252.07 Conditional Uses (Ord. 2010-29; not amended in 2024)",
+        "decided_by": "The Planning Commission, which \"must make an affirmative finding that the proposed conditional use is to be located in a district wherein such use may be conditionally permitted, and that all conditions for approval of conditional uses have been met.\" [verified — §1252.07(a)(1)-(2)]",
+        "runs_with_the_land": "\"Conditional use permits shall run with the land and not the applicant/owner.\" [verified — §1252.07 lead paragraph]",
+        "public_hearing": "\"No public hearing need be held by the Planning Commission in considering an application for a conditional use permit, except when the Commission deems such public hearing to be necessary in the public interest.\" When one is held, notice is \"not less than ten days prior\", by posting on the parcel and by newspaper publication. [verified — §1252.07(a)(3)]",
+        "application_contents": "Eighteen items under §1252.07(b), all generic site-plan content. The one touching utilities is (14): \"All existing and proposed water and sanitary sewer lines indicating pipe sizes, types and grades.\" No item asks for water demand, electrical load, cooling method, wastewater volume or quality, backup generation, or noise. [verified]",
+        "standards": "Eight written findings of fact under §1252.07(c): (1) a permitted use complying with the Code; (2) \"Adequate utility, drainage and other such necessary facilities have been or will be provided\"; (3) access and traffic; (4) all necessary permits and licenses obtained or obtainable; (5) shielded exterior lighting; (6) harmony with orderly development of the district; (7) buildings, walls, landscaping and screening; (8) \"will not adversely affect the public health and safety.\" [verified]",
+        "conditions": "The Commission \"may impose such conditions, safeguards and restrictions … as may be necessary to comply with the standards\" (§1252.07(d)). [verified]",
+        "validity": "The permit \"may terminate\" after one year if no building permit or certificate is obtained and no work or use has commenced (§1252.07(e)). [verified]",
+        "reading": "Nothing in the procedure is specific to data centers. The 2024 ordinances changed WHERE a data center may go and THAT it needs a conditional use, not HOW it is reviewed: the review is the same generic M-3 conditional use as a billboard or a parking lot, and a hearing is discretionary. Water and power impacts can still be reached through the general findings: \"adequate utility\" in (c)(2), the necessary permits in (c)(4), and public health and safety in (c)(8). What the code lacks is any standard specific to data centers. [inference]"
+      },
+      "cross_reference_defect": {
+        "text": "§1252.07(b)(17) requires \"A statement and supporting documentation describing how the applicant believes that the request conforms to the standards for conditional uses listed in Section 1254.08(c).\" [verified]",
+        "finding": "§1254.08 (\"Administrative Appeal and Variances\", Board of Zoning Appeals) has subsections (a) and (b) only; there is no §1254.08(c), and the conditional-use standards are in §1252.07(c). [verified as to the codification]",
+        "reading": "A dangling cross-reference in the 2010 text, most likely to §1252.07(c). [inference]"
+      },
+      "sweep": {
+        "scope": "131 captured section pages, read 2026-10-18: every section listed in the American Legal tables of contents of Chapters 1252 (Administration) and 1256-1283 (amendments, the zoning map, and every district chapter A-1 through M-3 plus Planned Unit Development), §1254.08, and §1290.02-.05 — plus §1250.10 in full. Only the nine pages cited above are committed.",
+        "result": "In the nine committed pages, \"data\" in the data-center sense appears only in §1250.10(174)A and §1282.04, and the M-1, M-2 and M-3 use lists (§1278.02, §1280.02, §1282.02, §1282.04) admit a data center only as the M-3 conditional use. [verified — committed pages]",
+        "result_uncommitted": "The other 122 pages swept on 2026-10-18 showed the same: no other district permits or conditionally permits a data center, and no section states data-center-specific standards (setback, noise, water, power, generator). Those pages are not on file, so this negative cannot be reproduced from the corpus. [inference — until the pages are captured]",
+        "not_swept": "Chapters 1284 onward other than §1290.02-.05 (supplementary, parking, sign and nuisance chapters), and every Part outside Twelve (e.g. utility rules in Part Ten). [open]"
+      },
+      "open_questions": [
+        "Ord. 2024-46 and Ord. 2024-48 as enacted and signed — the codification is not the instrument.",
+        "The zoning district of the West Central Ohio Industrial Center parcels (the site CTS asked about). If they are not M-3, a data center there needs a rezoning (Chapter 1256) before any conditional use; the zoning map was not read.",
+        "Whether any data-center amendment after 2026-05-18 exists that supplement S-27 does not yet carry."
+      ]
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "wapakoneta/governance/wapakoneta-codified-overview.html",
+    "source_doc_render_class": "html",
+    "source_doc_published": false
+  },
+  {
     "rel": "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
     "group": "permits-npdes",
     "title": "City of Wapakoneta Water Reclamation Facility (WRF)",
