@@ -1,0 +1,37 @@
+meta:
+  collection: wapakoneta/reference
+  note: >-
+    Secondary sources for the Wapakoneta watershed point that are not public records — material
+    a third party authored and published, held here because it is the only captured source for
+    facts the record does not yet carry. Every claim drawn from this shelf is [reference], never
+    [verified]. ⚠️ NOT cleared for the public site (`wapakoneta` is in no cleared boundary of
+    data/site/published-documents.yaml) and recorded `redistributable: false` in vault.yaml: the
+    first documents in this corpus that are not public records. Added for #2184.
+documents:
+- filename: OWEA_2019-Wapakoneta.pdf
+  canonical: owea-2019-wapakoneta-wastewater-treatment-challenges-new-industry.pdf
+  title: Wastewater Treatment Challenges After Attracting a New Industry — Wapakoneta, Ohio
+  type: conference-presentation
+  authors:
+  - Christy McCarthy, Jacobs
+  - Justin Waid, Wapakoneta Superintendent of Wastewater
+  venue: OWEA Technical Conference
+  date: '2019-06-26'
+  source_url: https://www.ohiowea.org/docs/OWEA_2019-Wapakoneta.pdf
+  sha256: d162f51387e3c4910417e05f7316d9a314df8b1de3b4a221045bead65dd7f09d
+  bytes: 2887120
+  content_type: application/pdf
+  fetched_at: '2026-10-18T00:00:00+00:00'
+  status: downloaded
+  content_verified: text-layer
+  rights: >-
+    © Copyright Jacobs (p. 41). Published by the Ohio Water Environment Association on its own
+    site; no licence is stated. Held to read and cite, not to redistribute.
+  note: >-
+    41 slides. The date is read off the title slide's text layer ("OWEA Technical Conference,
+    June 26, 2019"); the closing slide is footed "July 17, 2019", which is the deck's own
+    revision date, not the talk's. The as-received name is kept verbatim. Slides 7, 8 and 12 carry
+    their figures only as chart images and were rendered and read; slide 39 (alternative costs)
+    is a chart with its axis values removed and carries no figure at all. It is the only captured
+    source that quotes the 2019 DFFO's limits — the order itself (eDoc docid 1080081) is listed
+    but not yet retrieved.

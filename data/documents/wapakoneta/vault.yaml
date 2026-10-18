@@ -1,0 +1,19 @@
+meta:
+  collection: documents/wapakoneta
+  policy: 'the committed record of bytes kept in a yidam artifact vault, not in git: `sha256` is the content
+    address the vault holds each file under, and equals its Git-LFS oid while the file is still LFS-tracked.
+    Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
+    the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
+    is in a commit.'
+  generated_at: '2026-10-18T16:13:03+00:00'
+  generated_by: watermark documents manifest
+  counts:
+    artifacts: 1
+    bytes: 2887120
+    distinct_addresses: 1
+artifacts:
+- rel: documents/wapakoneta/reference/OWEA_2019-Wapakoneta.pdf
+  sha256: d162f51387e3c4910417e05f7316d9a314df8b1de3b4a221045bead65dd7f09d
+  bytes: 2887120
+  media_type: application/pdf
+  redistributable: false

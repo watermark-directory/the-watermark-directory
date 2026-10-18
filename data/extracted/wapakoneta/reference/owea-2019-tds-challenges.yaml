@@ -1,0 +1,113 @@
+meta:
+  source: data/documents/wapakoneta/reference/OWEA_2019-Wapakoneta.pdf
+  source_title: Wastewater Treatment Challenges After Attracting a New Industry — Wapakoneta, Ohio
+  source_author: Christy McCarthy (Jacobs); Justin Waid (Wapakoneta Superintendent of Wastewater)
+  source_date: '2019-06-26'
+  source_venue: OWEA Technical Conference
+  source_url: https://www.ohiowea.org/docs/OWEA_2019-Wapakoneta.pdf
+  sha256: d162f51387e3c4910417e05f7316d9a314df8b1de3b4a221045bead65dd7f09d
+  site: wapakoneta
+  issue: 2184
+  read_on: '2026-10-18'
+  analysis_method: >-
+    Hand-read from the digitally generated text layer (41 slides). Slides 7, 8 and 12 carry their
+    figures only as chart images and were rendered at 150 DPI and read off the image.
+  notes: >-
+    A conference presentation by the City's engineer and its wastewater superintendent — a
+    secondary source, so EVERY claim here is [reference]: it is what the City and its consultant
+    told a professional audience in June 2019, not what any instrument says. Slide numbers are
+    the deck's printed numbers, which equal 1-based PDF pages. It is cited here for one reason:
+    it is the only captured source that quotes the 2019-02-06 DFFO's limits, and the DFFO itself
+    (eDoc docid 1080081) is listed by Ohio EPA but not yet retrieved. When it is, every DFFO
+    figure below is checked against it and the order governs.
+
+claims:
+- topic: new industrial user
+  slide: 4
+  claim: >-
+    "Wapakoneta has attracted a new recycled paper mill and box plant, which is expected to
+    provide 300 new jobs paying $22-$25/hr", on the south side of the City and dependent on it
+    for water and wastewater. On average it was expected to use 1 MGD of treated water and
+    discharge 0.85 MGD of high-TDS wastewater to the WWTP. [reference]
+  note: >-
+    The deck never names the company. Identifying it is not done here. [open]
+- topic: industrial TDS load
+  slide: 5
+  claim: >-
+    The paper mill was "projected to discharge approximately 25,000 lb/day of TDS at 3,600 mg/L
+    to the WWTP." [reference]
+  note: >-
+    Internally consistent: 0.85 MGD × 3,600 mg/L × 8.34 ≈ 25,500 lb/day, and slide 12's 64.7% of
+    17,900 kg/d ≈ 11,600 kg/d ≈ 25,500 lb/day. [inference]
+- topic: TDS sources before and after
+  slides: [7, 8, 12]
+  claim: >-
+    Current TDS (slide 7): WTP 41.2%, background 44.0%, industrial users 14.8%. With the paper
+    mill (slide 8): paper mill 40.5%, WTP 31.6%, background 21.0%, IUs 6.8%. Projected average
+    load under "Case 3" with lime softening (slide 12): 17,900 kg/d — paper mill 64.7%,
+    background 24.8%, IUs 10.3%, WTP 0.2%. [reference]
+  note: >-
+    Read off chart images. Slide 8's four shares add to 99.9% as printed. The WTP share falls to
+    0.2% under Case 3 because lime softening replaces ion-exchange softening (slide 6), which
+    ends the regeneration-brine discharge to the plant. [reference]
+- topic: water plant upgrades
+  slide: 6
+  claim: >-
+    WTP Phase 1 filter expansion from 2.5 to 4 MGD, "already under construction and scheduled to
+    be complete before the paper mill begins operations"; Phase 2 new lime softening replacing
+    IX softening, eliminating regeneration brine to the WWTP. [reference]
+- topic: 2019 DFFO limits
+  slide: 9
+  claim: >-
+    "OEPA issued Director's Final Findings and Orders (DFFOs) temporarily granting Wapakoneta's
+    WWTP a higher effluent TDS limit: NPDES Limit: 1,523 mg/l monthly avg. DFFO Limits:
+    1,907 mg/L monthly avg., 2,429 mg/L daily avg." The City had submitted a General Plan
+    detailing how it would meet TDS limits. [reference]
+  note: >-
+    A presenter's summary of the order, not the order. It does not give the DFFO's term,
+    compliance schedule, or what ends the relief. All three await the DFFO itself. [open]
+- topic: historical data window
+  slide: 11
+  claim: >-
+    The analysis adjusted historical WWTP flow and TDS data from January 2014 to March 2018
+    (slide 13's chart is captioned January 2014 - April 2018). [reference]
+- topic: plant capacity in 2019
+  slides: [16, 24]
+  claim: >-
+    4 MGD design average daily flow; annual ADF 2.7 MGD, maximum-month ADF 4.3 MGD; 6 MGD peak
+    hourly flow limited by influent pumping and open-channel hydraulics. Stated expansion need:
+    6 MGD ADF / 12 MGD PHF plus a second 2.5 MG wet-weather storage tank. [reference]
+  note: >-
+    The 2024 permit's 6.0 MGD expanded design flow matches the expansion target named here.
+    [inference]
+- topic: industrial-park WWTP alternative
+  slides: [32, 33, 35, 36]
+  claim: >-
+    Alternative 4 was a new 1.5 MGD industrial-park WWTP discharging to Pusheta Creek, taking
+    the paper mill and other industrial users off the City plant. Slide 33 tabulates industrial
+    flows totalling 974,000 gpd (paper mill 850,000; textile services 91,000; greenhouse 30,000;
+    two metal finishers 2,000 and 1,000) at a weighted-average TFR of 3,523 mg/L. Slide 35:
+    "WLA for Pusheta Creek is already allocated to an existing industrial discharger, OEPA
+    indicated TDS limit could be <1,500 mg/L." Slide 36: RO would generate ~45,000-110,000 gpd
+    of brine, with disposal by concentrator/crystallizer or Class I injection well, and "The City
+    ultimately decided to eliminate this alternative." [reference]
+- topic: alternative costs
+  slide: 39
+  claim: >-
+    A bar-and-line chart compares construction cost, NPV life-cycle cost and year-1 O&M for
+    Alternatives 1-3. Its axis carries no values, so the deck states no cost for any
+    alternative. [reference]
+  note: Relative bar heights are not transcribed — a figure with no scale is not a figure.
+- topic: flow augmentation
+  slide: 40
+  claim: >-
+    "Alternatives 1-3 address WWTP expansion needs, but not TDS." The City was "currently
+    investigating options for flow augmentation and flow-based TDS limits – Groundwater treated to
+    remove iron mixed with WWTP effluent to dilute TDS – Higher TDS limits when river flow is
+    higher". [reference]
+  note: >-
+    Both options appear in the 2024 permit: a flow augmentation system added to Outfall 001's
+    flow, and TFR limits tiered by river stage across fictitious outfalls 020-023. This deck is
+    the only captured source that names a candidate augmentation water (treated groundwater),
+    and in 2019 it was an option under investigation, not a built system. What the City built
+    and permitted is still not established. [open]
