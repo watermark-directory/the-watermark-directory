@@ -39,7 +39,7 @@
     "label": "Wapakoneta",
     "scope": "site",
     "links_out": 3,
-    "links_in": 16,
+    "links_in": 17,
     "lines": 14,
     "updated": null
   },
@@ -999,6 +999,17 @@
     "links_in": 0,
     "lines": 22,
     "updated": "2026-10-13"
+  },
+  {
+    "id": "record/wapakoneta-governance-wapakoneta-zoning-code-dat",
+    "node_class": "record",
+    "kind": "record",
+    "label": "City of Wapakoneta Planning and Zoning Code — the data-center text as codified (Ord. 2024-46 / 2024-48)",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 22,
+    "updated": null
   },
   {
     "id": "record/wapakoneta-reference-owea-2019-tds-challenges",

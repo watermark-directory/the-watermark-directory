@@ -1,6 +1,6 @@
 {
   "site": "wapakoneta",
-  "catalog_version": "7b2d183340573a8212af34fc68484114f63589c886ae13b693336609f47e8bab",
+  "catalog_version": "8d8e47a041d6cc8c8c27b085ebf175519fbaa89ed70868da3884f5842d910088",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -1084,6 +1084,14 @@
       "feed": "catalog"
     },
     {
+      "handle": "dataset:wapakoneta:wapakoneta-governance",
+      "kind": "dataset",
+      "site": "wapakoneta",
+      "local_id": "wapakoneta-governance",
+      "title": "Wapakoneta — Codified Zoning Text on Data Centers (Ord. 2024-46 / 2024-48)",
+      "feed": "catalog"
+    },
+    {
       "handle": "dataset:wapakoneta:wapakoneta-reference",
       "kind": "dataset",
       "site": "wapakoneta",
@@ -1209,6 +1217,14 @@
       "site": "wapakoneta",
       "local_id": "oepa/wapakoneta/2PD00019.npdes.yaml",
       "title": "City of Wapakoneta WRF",
+      "feed": "records"
+    },
+    {
+      "handle": "record:wapakoneta:wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml",
+      "kind": "record",
+      "site": "wapakoneta",
+      "local_id": "wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml",
+      "title": "City of Wapakoneta Planning and Zoning Code — data centers as an M-3 conditional use (codified §1250.10(174), §1282.04, §1252.07; Ord. 2024-46 / 2024-48)",
       "feed": "records"
     },
     {
