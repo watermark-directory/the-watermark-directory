@@ -70,7 +70,7 @@ def test_no_committed_extraction_changes_group() -> None:
         ("zoning_amendment", "local-legislation", 2),
         ("zoning_application", "local-legislation", 1),
         ("sellers", "land-assembly", 1),
-        ("zoning_code", "local-legislation", 1),
+        ("zoning_code", "local-legislation", 2),
         ("bill", "state-legislation", 2),
         ("retention_policy", "agency-policy", 1),
         ("development_agreement", "incentive-package", 2),
