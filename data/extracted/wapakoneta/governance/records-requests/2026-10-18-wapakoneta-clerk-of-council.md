@@ -52,7 +52,7 @@ bounded by counterparty, subject and a window that starts 2026-01-01, which is t
   be its own request. The City's correspondence *with* WAEDC is in item 5.
 - **Anything exempt on its face.** No personnel, attorney-client or security records are asked
   for. The AEP study may be claimed as a trade secret, or as critical-infrastructure information.
-  R.C. 149.43(B)(1) then requires the City to name the exemption, and that answer is worth logging
+  R.C. 149.43(B)(3) then requires the City to name the exemption, and that answer is worth logging
   in its own right.
 
 ---
@@ -95,7 +95,7 @@ bounded by counterparty, subject and a window that starts 2026-01-01, which is t
 >    there is none, I would be grateful for a statement saying so.
 >
 > If any responsive record is withheld in whole or in part, please identify the record and cite
-> the specific exemption relied upon, as R.C. 149.43(B)(1) requires, and release any segregable
+> the specific exemption relied upon, as R.C. 149.43(B)(3) requires, and release any segregable
 > portion. If any item above is ambiguous or overly broad, please contact me and give me the
 > opportunity to revise it before denying it, as R.C. 149.43(B)(2) contemplates. Please also tell
 > me how your office maintains these records, so that I can revise the request accordingly.

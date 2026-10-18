@@ -272,14 +272,16 @@ codification does. Read from American Legal's codification (supplement 2026 S-27
 - **§1282.04** lists **"Data warehouses (centers)"** among the M-3 uses "permitted only if
   specifically authorized by the Planning Commission in accordance with Chapter 1252". Its history
   note cites Ord. 2024-48, passed 11-18-24 `[verified]`.
-- **M-3 is the only district** that admits a data center. Across the swept zoning chapters, no other
-  section mentions one `[verified]`.
+- **M-3 is the only industrial district** that admits a data center: the M-1, M-2 and M-3 use lists
+  on file name it only as the M-3 conditional use `[verified]`. The rest of the 2026-10-18 sweep
+  (every district chapter) found no other mention, but those pages are not committed `[inference]`.
 - M-1 and M-2 permit "Wholesale and warehouse establishments" by right (§1278.02, §1280.02)
   `[verified]`. The carve-out therefore closes a by-right path, as the Law Director described
   `[inference]`.
 - **The review is generic.** §1252.07 (2010, unamended) governs. The Planning Commission makes eight
-  written findings, and the only one that reaches water or power is "adequate utility … facilities"
-  `[verified]`.
+  written findings `[verified]`. Water and power can be reached only through general ones:
+  "adequate utility … facilities", the necessary permits, and public health and safety. None is
+  specific to data centers `[inference]`.
   - "No public hearing need be held" unless the Commission deems one necessary `[verified]`.
   - The permit "shall run with the land and not the applicant/owner" `[verified]`.
   - No application item asks for water demand, load, cooling or generation `[verified]`.

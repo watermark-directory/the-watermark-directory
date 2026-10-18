@@ -5,13 +5,14 @@ leads:
   tag: open
   title: Who is Colocation Technology Services?
   detail: >
-    The developer the City names has no web footprint the 2026-10-12 sweep could find: no site, no
-    principals, no other projects. The Ohio Secretary of State business search was down that day.
-    A 50 MW ask, which the press reports as expandable to 200 MW, from an entity with no visible
-    track record is the first thing to resolve. The instrument that closes this is the SOS record
-    (formation date, statutory agent, foreign or domestic). Never resolve "CTS" by acronym: QTS, the
-    Van Wert operator, is a different company.
-  source: City of Wapakoneta Facebook statement (undated); Wapakoneta Daily News 2026-10-08 · data/extracted/wapakoneta/data-centers.md
+    The 2026-10-12 sweep found no web footprint for the developer the City names. On 2026-10-18 one
+    turned up: colotech.co, whose footer reads "© 2026 Colocation Technology Services LLC". It is
+    the company's self-description: a "300+ MWs Development Pipeline" and six delivered campuses,
+    but no Ohio project, no address and no officer. That it is the company that approached WAEDC
+    rests on the name alone ([inference]). The instrument that closes this is still the SOS record
+    (formation date, statutory agent, foreign or domestic), which needs a browser. Never resolve
+    "CTS" by acronym: QTS, the Van Wert operator, is a different company.
+  source: City of Wapakoneta Facebook statement (undated); Wapakoneta Daily News 2026-10-08; colotech.co capture 2026-10-18 · data/extracted/wapakoneta/data-centers.md
   issue: 2184
 - id: CTS-200MW-CEILING
   kind: signal
@@ -50,10 +51,12 @@ leads:
     The City says Council made data centers "a conditional use" in 2024. The instruments are Ord.
     2024-48, amending §1282.04 (M-3 Industrial District conditional uses), and Ord. 2024-46,
     amending the §1250.10(174) "warehouse" definition. Both were adopted 7-0 on 2024-11-18, and
-    neither title says "data center." The minutes frame them as distinguishing a "warehouse" from a
-    "data warehouse." The enacted text, and the criteria a conditional-use review would apply, are
-    unread. American Legal's codified copy refuses scripted fetches.
-  source: Wapakoneta City Council minutes 2024-10-21, 2024-11-04, 2024-11-18 · data/extracted/wapakoneta/data-centers.md §2
+    neither title says "data center." The codified text is now read (American Legal, supplement
+    S-27): a functional "Data Warehouse (Center)" definition with no size threshold, admitted only
+    as an M-3 conditional use. The review is the generic §1252.07 one: eight findings, none specific
+    to data centers, and a hearing only if the Planning Commission wants one. The ordinances as
+    signed are still not in hand, so whether the codifier carried them faithfully is unchecked.
+  source: Wapakoneta City Council minutes 2024-10-21, 2024-11-04, 2024-11-18 · data/extracted/wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml · data/extracted/wapakoneta/data-centers.md §2
   issue: 2184
 - id: POST-CAPTURE
   kind: signal
@@ -71,14 +74,16 @@ leads:
   kind: question
   status: unanswered
   tag: inference
-  title: Does Wapakoneta's WRF discharge above Lima's Auglaize intakes?
+  title: How much of Wapakoneta's WRF effluent reaches Lima's Auglaize intakes?
   detail: >
     The Wapakoneta WRF (2PD00019 / OH0027952) discharges to the Auglaize at RM 84.9. Its 2024 fact
     sheet gives a 7Q10 of 2.29 cfs, and the plant is expanding to 6.0 MGD with flow augmentation
     under DFFOs over effluent toxicity. At design flow in a 7Q10 week, that reach is roughly 80%
-    effluent ([inference]). Lima refills its reservoirs from the Auglaize, gauged downstream at
-    Fort Jennings. Where Lima's Auglaize intakes sit relative to RM 84.9 is not established in the
-    corpus. If they are below it, Wapakoneta's effluent is part of Lima's raw-water supply. A
+    effluent ([inference]). Lima's Auglaize pump stations, located by its own 2022 NPDES renewal
+    application and ODNR withdrawal registration 01320, are below the outfall: the USGS NLDI
+    downstream-mainstem trace from the outfall's flowline reaches the intake's within 30–35 km of
+    channel. So Wapakoneta's effluent is in the river Lima pumps to refill its reservoirs. How much
+    of it reaches Lima depends on when Lima pumps, a refill-season question that stays open. A
     hydrologic relation is not an evidentiary link between the two sites' actors.
-  source: Ohio EPA 2PD00019 fact sheet (2024) p.7 and Table 14; Lima SiteProfile supply_gage_primary · data/extracted/wapakoneta/data-centers.md §1.5
+  source: Ohio EPA 2PD00019 fact sheet (2024) p.7 and Table 14; Lima 2022 NPDES application L107/L111; ODNR reg. 01320; USGS NLDI 2026-10-18 · data/extracted/wapakoneta/data-centers.md §1.5
   issue: 2184
