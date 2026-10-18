@@ -39,7 +39,7 @@
     "label": "Wapakoneta",
     "scope": "site",
     "links_out": 3,
-    "links_in": 17,
+    "links_in": 18,
     "lines": 14,
     "updated": null
   },
@@ -999,6 +999,17 @@
     "links_in": 0,
     "lines": 22,
     "updated": "2026-10-18"
+  },
+  {
+    "id": "record/wapakoneta-governance-records-requests-2026-10-1",
+    "node_class": "record",
+    "kind": "record",
+    "label": "R.C. 149.43 request — City of Wapakoneta (DRAFT, NOT SENT)",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 17,
+    "updated": null
   },
   {
     "id": "record/wapakoneta-governance-wapakoneta-zoning-code-dat",
