@@ -2,9 +2,9 @@
   "site": "wapakoneta",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-10-17T20:47:59+00:00",
+  "generated_at": "2026-10-18T16:17:19+00:00",
   "feed_count": 31,
-  "row_total": 497,
+  "row_total": 501,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -95,7 +95,7 @@
       "media_type": "application/json",
       "schema": "schemas/documents.schema.json",
       "kind": "collection",
-      "count": 1
+      "count": 2
     },
     {
       "name": "exhibits",
@@ -207,7 +207,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 62
+      "count": 63
     },
     {
       "name": "facts",
@@ -247,7 +247,7 @@
       "media_type": "application/json",
       "schema": "schemas/corpus-index.schema.json",
       "kind": "collection",
-      "count": 93
+      "count": 94
     },
     {
       "name": "corpus-nodes",
@@ -255,7 +255,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/corpus-nodes.schema.json",
       "kind": "collection",
-      "count": 93
+      "count": 94
     },
     {
       "name": "ask-embeddings",
