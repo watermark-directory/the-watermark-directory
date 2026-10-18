@@ -11,6 +11,12 @@ meta:
     client and 200 to the same request over HTTP/1.1 with a browser User-Agent, which is how these
     were taken; no login, no paywall. The captured names are this repo's (a section page has no
     filename of its own — its URL ends in an opaque node id, recorded per entry). Added for #2184.
+    Since 2026-10-18 the shelf also holds five City Council records from 2026 (one agenda, four
+    minutes), downloaded from the City's own document library (wapakoneta.net → City Council →
+    Council Agenda & Minutes → 2026) under their as-received names. The minutes are image-only
+    ("Microsoft: Print To PDF", no text layer): they were read by OCR, and every passage the register
+    cites was checked against the page rendered at 300 DPI. The minutes record residents' and
+    speakers' home addresses; the extractions do not repeat them.
   publisher: American Legal Publishing (codelibrary.amlegal.com)
   code: Codified Ordinances of Wapakoneta, Ohio — Part Twelve, Planning and Zoning Code
   supplement: 2026 S-27 (current)
@@ -117,3 +123,79 @@ documents:
   evidence: html_capture
   status: downloaded
   note: History note "(Ord. 2010-29. Passed 7-5-10; Ord. 2024-48. Passed 11-18-24.)"
+- filename: 04-20-2026-Agenda.pdf
+  title: City Council agenda, 2026-04-20
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/880c90d7-5054-4562-b4c1-4dad5bf56fca/04-20-2026-Agenda.pdf
+  sha256: 6b8b9bd0bbc36fafaaaacc8316a7b53e7d85970eefc6e1a1ad9f5fb8b865ea4d
+  bytes: 127778
+  pages: 2
+  content_type: application/pdf
+  fetched_at: '2026-10-18T18:41:06Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    Digital (Word 2013) text layer. Lists "Chas Roemer – Regensyn Energy LLC" under guest petitions and
+    "ORD 2026-20 – AN ORDINANCE AUTHORIZING A COOPERATION AGREEMENT BETWEEN THE CITY OF WAPAKONETA AND
+    REGENSYN ENERGY LLC AND DECLARING AN EMERGENCY (EMERGENCY)".
+- filename: 4-20-2026-Minutes.pdf
+  title: City Council minutes, 2026-04-20
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/cf698b9e-5111-4f99-85f6-7a82b9c929ff/4-20-2026-Minutes.pdf
+  sha256: 9532283000ca2944dfa64a9582da3209ef128d56b21154ed283ce5c52f433509
+  bytes: 1351840
+  pages: 4
+  content_type: application/pdf
+  fetched_at: '2026-10-18T18:41:10Z'
+  content_verified: ocr+image
+  evidence: rendered_scan
+  status: downloaded
+  note: >-
+    p.2: Regensyn Energy LLC's guest petition ("removal of forever chemicals from wastewater streams while
+    simultaneously creating energy"), WAEDC introducing Applied Environmental Solutions, and Ord.
+    2026-20 read once, rules suspended 6-0 and adopted 6-0. Image-checked. Carries a speaker's home
+    address; not repeated.
+- filename: 6-15-2026-Minutes.pdf
+  title: City Council minutes, 2026-06-15
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/ed483dd1-87e9-4216-be54-3dc10e3f7bb6/6-15-2026-Minutes.pdf
+  sha256: 07ad0966a4cd4565e755c48c4a3e59de7650ae1ac4a5280a1da8e8206a5ff0b9
+  bytes: 2417640
+  pages: 6
+  content_type: application/pdf
+  fetched_at: '2026-10-18T18:41:14Z'
+  content_verified: ocr+image
+  evidence: rendered_scan
+  status: downloaded
+  note: >-
+    p.4: executive session 9:10-9:56pm for pending or imminent litigation AND confidential information of
+    "an applicant for economic development assistance", inviting WAEDC's Josh Bloomfield; 6-0.
+    Image-checked. The applicant is not named.
+- filename: 9-8-2026-Minutes.pdf
+  title: City Council minutes, 2026-09-08
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/71efc36a-3ab4-4ee5-83fb-a5aa79bd7642/9-8-2026-Minutes.pdf
+  sha256: c4d613094cce7322846ae12d918c682f19f15722b190d54a56e676b6bc959c70
+  bytes: 1421200
+  pages: 4
+  content_type: application/pdf
+  fetched_at: '2026-10-18T18:41:18Z'
+  content_verified: ocr+image
+  evidence: rendered_scan
+  status: downloaded
+  note: >-
+    p.4: executive session 8:27-9:23pm "to discuss confidential information regarding economic
+    development", inviting Bloomfield and City Administration; 7-0. Image-checked. The subject is
+    not named.
+- filename: 10-5-2026-Minutes.pdf
+  title: City Council minutes, 2026-10-05
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/2b0558c0-1abd-4f19-854c-08bce505f02b/10-5-2026-Minutes.pdf
+  sha256: 93ba9fd03f2c439d7bc06aed4da85126cf8b45ef8c8e8df3da35c11995a9baba
+  bytes: 889919
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-10-18T18:41:22Z'
+  content_verified: ocr+image
+  evidence: rendered_scan
+  status: downloaded
+  note: >-
+    p.1: WAEDC's Bloomfield announces "a 30-acre, 50 megawatt data center project within the West Central
+    Ohio Industrial Center" — the briefing the 2026-10-08 Wapakoneta Daily News story reports.
+    Image-checked. The company is not named. Carries a resident's home address; not repeated.

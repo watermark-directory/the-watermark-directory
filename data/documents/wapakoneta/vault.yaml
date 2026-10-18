@@ -5,13 +5,38 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-10-18T16:13:03+00:00'
+  generated_at: '2026-10-18T18:52:47+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 1
-    bytes: 2887120
-    distinct_addresses: 1
+    artifacts: 6
+    bytes: 9095497
+    distinct_addresses: 6
 artifacts:
+- rel: documents/wapakoneta/governance/04-20-2026-Agenda.pdf
+  sha256: 6b8b9bd0bbc36fafaaaacc8316a7b53e7d85970eefc6e1a1ad9f5fb8b865ea4d
+  bytes: 127778
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/governance/10-5-2026-Minutes.pdf
+  sha256: 93ba9fd03f2c439d7bc06aed4da85126cf8b45ef8c8e8df3da35c11995a9baba
+  bytes: 889919
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/governance/4-20-2026-Minutes.pdf
+  sha256: 9532283000ca2944dfa64a9582da3209ef128d56b21154ed283ce5c52f433509
+  bytes: 1351840
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/governance/6-15-2026-Minutes.pdf
+  sha256: 07ad0966a4cd4565e755c48c4a3e59de7650ae1ac4a5280a1da8e8206a5ff0b9
+  bytes: 2417640
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/governance/9-8-2026-Minutes.pdf
+  sha256: c4d613094cce7322846ae12d918c682f19f15722b190d54a56e676b6bc959c70
+  bytes: 1421200
+  media_type: application/pdf
+  redistributable: true
 - rel: documents/wapakoneta/reference/OWEA_2019-Wapakoneta.pdf
   sha256: d162f51387e3c4910417e05f7316d9a314df8b1de3b4a221045bead65dd7f09d
   bytes: 2887120
