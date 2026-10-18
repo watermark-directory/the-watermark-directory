@@ -35,3 +35,44 @@ documents:
     is a chart with its axis values removed and carries no figure at all. It is the only captured
     source that quotes the 2019 DFFO's limits — the order itself (eDoc docid 1080081) is listed
     but not yet retrieved.
+- filename: colotech.co-home.html
+  title: colotech.co — home page HTML (single-page-app shell)
+  type: web-capture
+  publisher: Colocation Technology Services LLC (self-identified in the site's own footer and privacy notice)
+  source_url: https://colotech.co/
+  sha256: 3f7168d2adcd1bf0783ea64be75a7c77bc91b68de7da0f8e0e65bae2a4a7416d
+  bytes: 1563
+  content_type: text/html
+  fetched_at: '2026-10-18T18:37:03Z'
+  status: downloaded
+  content_verified: html-text
+  evidence: html_capture
+  note: >-
+    A React app built on Replit: the HTML is an empty shell (`<div id="root">`) whose meta
+    description is still the builder's placeholder ("Colotech — built on Replit. Update this
+    description to reflect the app."). Every word of the site's content is in the script bundle
+    below. The filename is this repo's; the page has none of its own.
+- filename: index-BpqOeKoI.js
+  title: colotech.co — the site's compiled script bundle (all page text)
+  type: web-capture
+  publisher: Colocation Technology Services LLC (self-identified)
+  source_url: https://colotech.co/assets/index-BpqOeKoI.js
+  sha256: 81d184cc97c552e67c7483f381392b29b966ba813a5cbacf98a8835cd83d1e21
+  bytes: 534342
+  content_type: text/javascript
+  fetched_at: '2026-10-18T18:37:15Z'
+  status: downloaded
+  content_verified: script-text
+  evidence: html_capture
+  rights: >-
+    A company's own marketing site, "© 2026 Colocation Technology Services LLC". Held to read and
+    cite, not to redistribute.
+  note: >-
+    The as-received asset name (a build hash), kept verbatim; fetched twelve seconds after the
+    home page that references it. The text read from it is CTS's self-description and so
+    [reference] throughout: "300+ MWs Development Pipeline", "150+ MODS Deployed", "6 DATA
+    CAMPUSES Delivered", "50K+ SERVERS Managed"; "up to 600kW per rack"; "Zero-water-waste
+    facility designs utilizing advanced economizers"; and a map described as "five project states
+    highlighted in blue and six red location flags, including two in South Carolina". It names no
+    state but South Carolina, no address, no officer, no Ohio project. Whether this company is the
+    entity that approached WAEDC about Wapakoneta rests on the name alone [inference].
