@@ -6,7 +6,9 @@ producer:
   kind: extracted
   source: Ohio EPA — issued NPDES permit 2PD00019*SD (application OH0027952) for the City of
     Wapakoneta Water Reclamation Facility, 201 Herbstritt Court, Auglaize County, and its 2024
-    Fact Sheet (Public Notice 206565); retrieved from the Ohio EPA DAM permit slot
+    Fact Sheet (Public Notice 206565), retrieved from the Ohio EPA DAM permit slot; and the
+    2019-02-06 Director's Final Findings and Orders on the same permit, retrieved from the
+    eDocument public portal
 license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: site:wapakoneta
@@ -15,6 +17,11 @@ storage:
   media_type: application/x-yaml
   lfs: false
 - relpath: extracted/oepa/wapakoneta/2PD00019.fs.npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
+# The 2019-02-06 DFFO the Fact Sheet cites (eDoc 992359) — an enforcement instrument on the same
+# permit, same producer, license, site scope and provenance class as its siblings here.
+- relpath: extracted/oepa/wapakoneta/edoc-992359.order.yaml
   media_type: application/x-yaml
   lfs: false
 refresh:
@@ -43,7 +50,15 @@ notes: >-
   technical memo, not a gage record; at design flow under 7Q10 the river below the outfall is
   roughly 80% effluent ([inference], arithmetic over two [verified] figures). A 2019-02-06 DFFO
   for excessive total filterable residue drove the expansion and a flow-augmentation process;
-  the DFFO is NOT in the corpus, and the source of the augmentation water is named nowhere.
+  the source of the augmentation water is named nowhere.
+  The DFFO itself (eDoc 992359, added 2026-10-27) is a consent order under R.C. 6111.03,
+  6109.04 and 3745.01: a general plan with public-water-system work due 2022-12-31 and WWTP work
+  due 2024-09-01; once Pratt Industries began production, interim specific-conductance limits of
+  3051 micromhos/cm monthly and 3886 daily, ending no later than 2024-09-01; per-exceedance
+  mitigation fees after 2020-03-01; and annual Auglaize River biological sampling. No civil
+  penalty. The DSW enforcement listing links this order to docid 1080081, which is a different
+  order, so the eDoc id comes from the portal's own index. A 2024-11-20 DFFO on 2PD00019
+  (eDoc 3301212) is listed and NOT retrieved, so the 2019 order's status is [open].
   178 effluent violations 2019-2023 in the Fact Sheet's Table 2 (titled "Outfall 001") — 150 at
   Outfall 001 itself plus 28 TFR violations at fictitious outfalls 020-022 (62 E. coli, 53 TFR across
   001/020-022, 17 chronic toxicity).

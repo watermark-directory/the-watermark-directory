@@ -1,5 +1,116 @@
 [
   {
+    "rel": "oepa/wapakoneta/edoc-992359.order.yaml",
+    "group": "enforcement",
+    "title": "DFFO",
+    "confidence": "high",
+    "warnings": [
+      "Effective date 2019-02-06 is read from the machine-printed journal stamp on p. 2 ('Ohio EPA FEB 6 '19 Entered Directors Journal'); §XIV makes the journal-entry date the effective date, and the transmittal is dated 2/6/2019. The Mayor's signature date on p. 10 ('Feb. 5, 2019') is HANDWRITTEN and is not relied on for any date field.",
+      "The cover letter's text layer reads the street as '701 Pariette Court'; the body of the Orders reads '701 Parlette Court'. The garble is the cover's; the address is not otherwise relied on.",
+      "Order 8 states the conversion factor as 0.625 'to convert TFR levels from mg/l to micromhos/cm'; the Orders' own pairs fix the direction as TFR mg/l = 0.625 x specific conductance (Order 7.c: 4,800 micromhos/cm <-> 3,000 mg/l). Read that way, Order 6's 3051 / 3886 micromhos/cm are ~1,907 / ~2,429 mg/l TFR — the figures the 2019 OWEA deck quotes. The Orders themselves state the limits in specific conductance, not TFR.",
+      "Order 10 prints 'TRF' once for TFR; recorded as a typo in the source, not corrected in the requirement text beyond this note.",
+      "No civil penalty is assessed. Order 7 sets per-exceedance MITIGATION FEES, carried in stipulated_penalties, not penalty_usd.",
+      "status is null, not 'active': the portal lists a later DFFO for 2PD00019 dated 2024-11-20 (eDoc 3301212, not retrieved), and Order 6's interim limits expire 2024-09-01 by their own terms. Whether 3301212 modifies, extends or terminates these Orders is [open]."
+    ],
+    "fields": {
+      "agency": "Ohio EPA",
+      "instrument": "DFFO",
+      "case_no": null,
+      "respondent": "City of Wapakoneta",
+      "facility": "City of Wapakoneta community public water system (2.5 MGD ion-exchange drinking water treatment plant) and wastewater treatment plant (4.0 MGD hydraulic capacity), discharging to the Auglaize River, Auglaize County, Ohio",
+      "permit_no": "2PD00019*ND",
+      "issued_date": "2019-02-06",
+      "effective_date": "2019-02-06",
+      "supersedes": null,
+      "obligations": [
+        {
+          "requirement": "Order 1: submit a general plan for ensuring compliance with TFR, accounting for expected increases in water production and industry expansion, within 90 days of the effective date. Milestones: (a) plan approval / PTI for PWS changes; (b) start and (c) complete construction at the PWS; (d) PTI for WWTP modifications; (e) start and (f) complete construction at the WWTP.",
+          "deadline": "2019-05-07",
+          "status": null
+        },
+        {
+          "requirement": "Order 1: complete all general-plan actions at the public water system.",
+          "deadline": "2022-12-31",
+          "status": null
+        },
+        {
+          "requirement": "Order 1: complete all general-plan actions at the WWTP.",
+          "deadline": "2024-09-01",
+          "status": null
+        },
+        {
+          "requirement": "Order 2: on Ohio EPA approval, the general plan becomes an enforceable part of the Orders.",
+          "deadline": null,
+          "status": null
+        },
+        {
+          "requirement": "Order 3 (Pre-Production Operations — from the effective date until production operations at Pratt Industries commence): comply with the TFR effluent limits in the NPDES permit.",
+          "deadline": null,
+          "status": null
+        },
+        {
+          "requirement": "Order 4 (Post-Production Operations, until the Order 1-2 upgrades are complete): monitor influent specific conductance with an in-line meter to detect slug loads; on a significantly elevated reading, identify the source and minimize impacts on the WWTP and receiving stream.",
+          "deadline": null,
+          "status": null
+        },
+        {
+          "requirement": "Order 5 (Post-Production Operations, until the upgrades are complete): monitor effluent specific conductance with an in-line meter, report the daily average via eDMR, and report any exceedance of 3886 micromhos/cm to Ohio EPA NWDO by the next business day.",
+          "deadline": null,
+          "status": null
+        },
+        {
+          "requirement": "Order 6 (Post-Production Operations, until the upgrades are complete but not beyond 2024-09-01): discharge not to exceed a monthly average specific conductance of 3051 micromhos/cm or a daily average of 3886 micromhos/cm.",
+          "deadline": "2024-09-01",
+          "status": null
+        },
+        {
+          "requirement": "Order 9: pay any Order 7 mitigation fee within thirty days of the eDMR evidencing the exceedance, to the Surface Water Improvement Fund (Fund FY30).",
+          "deadline": null,
+          "status": null
+        },
+        {
+          "requirement": "Order 10: within 30 days, develop a biological sampling plan (fish and macroinvertebrates) for the Auglaize River upstream and downstream of the WWTP outfall, with sampling annually during the pendency of the Orders.",
+          "deadline": "2019-03-08",
+          "status": null
+        },
+        {
+          "requirement": "Order 11: if Ohio EPA determines a significant localized decline in IBI or ICI scores due to TFR and/or acute-toxicity exceedances, submit a restoration plan within 90 days of being directed, and implement it after the Order 1-2 upgrades.",
+          "deadline": null,
+          "status": null
+        }
+      ],
+      "penalty_usd": null,
+      "stipulated_penalties": "Order 7 mitigation fees, applying after 2020-03-01 to exceedances of the levels in Orders 3 or 6: $1,000 per exceedance of the monthly average for the first through tenth; $2,000 per monthly-average exceedance beyond ten; plus an additional $2,000 for any daily average at or above 4,800 micromhos/cm specific conductance or any 24-hour-composite daily value at or above 3,000 mg/l TFR.",
+      "status": null,
+      "summary": "Ohio EPA's 2019-02-06 Director's Final Findings and Orders to the City of Wapakoneta, issued by consent (the City waived appeal), address Total Filterable Residue in the WWTP discharge under NPDES 2PD00019*ND: the drinking water plant's ion-exchange brine reaches the WWTP, the 1,523 mg/l monthly TFR limit had been periodically exceeded since 2017, and expected water-demand and industrial growth (production at Pratt Industries) would raise TFR further. The Orders require a general plan with PWS work complete by 2022-12-31 and WWTP work by 2024-09-01, substitute interim specific-conductance limits with per-exceedance mitigation fees once Pratt production begins, and require annual biological sampling of the Auglaize River.",
+      "note": "Jurisdiction: R.C. 6111.03, 6109.04 and 3745.01. Signed for Ohio EPA by Director Laurie A. Stevenson; for the City by Mayor Thomas A. Stinebaugh (handwritten). Termination on Respondent's certification and acknowledgement by the Chiefs of DSW and DDAGW (§VII). Deadlines for Orders 1 (plan) and 10 are COMPUTED from the 2019-02-06 effective date (90 and 30 days); the Orders state durations, not dates. Retrieved as eDoc 992359 — the DSW enforcement listing links this row to 1080081, a different Jefferson County order (see data/research/oepa-dffo-wapakoneta-2026-10-18/manifest.yaml)."
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-992359.order.yaml",
+      "source_kind": "document",
+      "page": 1,
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "oepa/wapakoneta/edoc-992359.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": true
+  },
+  {
     "rel": "wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml",
     "group": "local-legislation",
     "title": "City of Wapakoneta Planning and Zoning Code — data centers as an M-3 conditional use (codified §1250.10(174), §1282.04, §1252.07; Ord. 2024-46 / 2024-48)",
@@ -134,7 +245,7 @@
     "warnings": [
       "THE LOW FLOWS ARE NOT A GAGE RECORD. Table 14 (p. 29) gives the 7Q10 as 2.29 cfs with basis \"Streamstats\", and its footnote is explicit about where it came from: \"In a 2021 technical memo, the permittee used a 7Q10 value in its justification for tiered limits for total filterable residue. The 7Q10 is based on a value generated in Streamstats (using a drainage area of 110 square miles), then reduced by the standard error of the calculation.\" The same approach was applied to the 1Q10, 30Q10-summer and 90Q10; the 30Q10-winter is the summer value times 3.86, a ratio from the historical record at USGS gage 04186500. Only the harmonic mean (11.9 cfs) is gage-derived. Treat 2.29 cfs as the REGULATORY denominator these limits were computed against — originating in the permittee's own memo — not as a measurement of the Auglaize at RM 84.9, and do not reconcile it against a derived value by preferring one.",
       "The plant is larger than the river it discharges into at low flow. Table 14 prints the discharger flow as 9.283 cfs (6.0 MGD) against an annual 7Q10 of 2.29 cfs in the same table. At design flow under 7Q10 conditions effluent would be about 9.283 / (9.283 + 2.29) = 80% of the river below the outfall. The two inputs are [verified]; the 80% is arithmetic and is [inference] wherever it is asserted.",
-      "The plant's 2019-2023 violation record (Table 2, p. 21) is dominated by what this permit was rewritten to manage: 178 violations in five years — 150 at Outfall 001 itself and 28 TFR violations at fictitious outfalls 020-022, all in a table titled \"Outfall 001\" — of which 62 are E. coli, 53 are total filterable residue across outfalls 001/020/021/022, 17 are chronic toxicity, and 20 are TSS (12 in 2023 alone). A Director's Final Findings and Orders was issued on 2019-02-06 \"to address the excessive discharge of total filterable residue\" (p. 8). The DFFO itself is NOT in the captured record — it is an eDocument-portal record and the portal was down at fetch. [open]",
+      "The plant's 2019-2023 violation record (Table 2, p. 21) is dominated by what this permit was rewritten to manage: 178 violations in five years — 150 at Outfall 001 itself and 28 TFR violations at fictitious outfalls 020-022, all in a table titled \"Outfall 001\" — of which 62 are E. coli, 53 are total filterable residue across outfalls 001/020/021/022, 17 are chronic toxicity, and 20 are TSS (12 in 2023 alone). A Director's Final Findings and Orders was issued on 2019-02-06 \"to address the excessive discharge of total filterable residue\" (p. 8). The DFFO itself is now in the record as eDoc 992359 (extracted/oepa/wapakoneta/edoc-992359.order.yaml): a consent order with PWS work due 2022-12-31, WWTP work due 2024-09-01, and interim specific-conductance limits once Pratt Industries began production. [verified] That this fact sheet's 6.0 MGD expansion IS the order's general plan is the fact sheet's own account (p. 8); the plan document is not in the record. [open]",
       "The effluent is acutely AND chronically toxic to both test species, and the fact sheet ties that, provisionally, to dissolved solids: \"Toxic impacts of the permittee's effluent may be associated with elevated concentrations of total filterable residue. The permittee has plans to implement a flow augmentation program to reduce these high concentrations, therefore additional toxicity source identification is needed\" (p. 15). The SOURCE of the augmentation water is not stated anywhere in the fact sheet or the permit. The City's 2019 OWEA deck (wapakoneta/reference/owea-2019-tds-challenges.yaml) names treated groundwater as an option then under investigation — [reference], and not evidence of what was built. [open]",
       "Station 603 winter ammonia is printed \"4.5 d 30 103 d 68\" in Table 18 (p. 34). The 30-day concentration \"30\" is a typo for 3.0 in the FACT SHEET only: the issued permit's Part I.A.7 table prints 3.0 for the same cell, and 68 kg/day at 6.0 MGD is 3.0 mg/L. Recorded as printed with this note; the permit governs.",
       "Three internal inconsistencies, recorded and not resolved: (1) p. 15 says new limits for the Group 5 parameters take effect after a 24-month schedule, p. 17 (and the permit's Part I.C) says 36 months — the permit's own final-limit table nonetheless begins at month 25; (2) the narrative on p. 15 proposes \"a monthly average limit of 1.1 TUc\" for chronic toxicity, but Table 17 and the permit both print 1.0 TUc, and Table 17 labels all four toxicity rows \"mg/L\" where the unit is toxic units; (3) dibromochloromethane's human-health WLA is 198 ug/L (Table 15, Attachment 1) while the 30-day limit is 150 ug/L — 150 is the denominator the additivity equation uses, but no sentence in the fact sheet says why the limit is not the WLA. [open]",
@@ -192,7 +303,8 @@
           "date": "2019-02-06",
           "subject": "excessive discharge of total filterable residue",
           "outcome": "Led to the expansion to 6.0 MGD and a flow augmentation process, plus a biomonitoring program with a restoration plan if biology declines.",
-          "in_corpus": false
+          "in_corpus": true,
+          "corpus_ref": "extracted/oepa/wapakoneta/edoc-992359.order.yaml"
         }
       },
       "receiving_water_assessment": {

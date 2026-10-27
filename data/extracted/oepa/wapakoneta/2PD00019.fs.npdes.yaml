@@ -57,9 +57,12 @@ permit:
     violations at fictitious outfalls 020-022, all in a table titled "Outfall 001" — of which 62 are E. coli, 53 are total
     filterable residue across outfalls 001/020/021/022, 17 are chronic toxicity, and 20 are TSS
     (12 in 2023 alone). A Director's Final Findings and Orders was issued on 2019-02-06 "to
-    address the excessive discharge of total filterable residue" (p. 8). The DFFO itself is NOT
-    in the captured record — it is an eDocument-portal record and the portal was down at fetch.
-    [open]
+    address the excessive discharge of total filterable residue" (p. 8). The DFFO itself is now
+    in the record as eDoc 992359 (extracted/oepa/wapakoneta/edoc-992359.order.yaml): a consent
+    order with PWS work due 2022-12-31, WWTP work due 2024-09-01, and interim
+    specific-conductance limits once Pratt Industries began production. [verified] That this
+    fact sheet's 6.0 MGD expansion IS the order's general plan is the fact sheet's own account
+    (p. 8); the plan document is not in the record. [open]
   - >-
     The effluent is acutely AND chronically toxic to both test species, and the fact sheet ties
     that, provisionally, to dissolved solids: "Toxic impacts of the permittee's effluent may be
@@ -163,7 +166,8 @@ permit:
       outcome: >-
         Led to the expansion to 6.0 MGD and a flow augmentation process, plus a biomonitoring
         program with a restoration plan if biology declines.
-      in_corpus: false
+      in_corpus: true
+      corpus_ref: extracted/oepa/wapakoneta/edoc-992359.order.yaml
 
   receiving_water_assessment:
     citation: 'Fact Sheet 2PD00019*SD, Pages 9-10, Table 12 (p. 27)'

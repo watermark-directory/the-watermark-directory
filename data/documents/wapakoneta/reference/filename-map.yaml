@@ -33,8 +33,9 @@ documents:
     revision date, not the talk's. The as-received name is kept verbatim. Slides 7, 8 and 12 carry
     their figures only as chart images and were rendered and read; slide 39 (alternative costs)
     is a chart with its axis values removed and carries no figure at all. It is the only captured
-    source that quotes the 2019 DFFO's limits — the order itself (eDoc docid 1080081) is listed
-    but not yet retrieved.
+    source that quotes the 2019 DFFO's limits — the order itself was retrieved 2026-10-27 as eDoc
+    992359 (data/documents/oepa/wapakoneta/edoc-992359.pdf). The DSW listing's link for it,
+    docid 1080081, resolves to an unrelated Jefferson County order.
 - filename: colotech.co-home.html
   title: colotech.co — home page HTML (single-page-app shell)
   type: web-capture
