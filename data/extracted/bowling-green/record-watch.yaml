@@ -194,15 +194,20 @@ pass_2026_10_27:
     finding: >-
       Middleton Township trustees' minutes, 2026-08-05 (approved 2026-08-19), visitor comments:
       "Leslie Harper, Whitehouse resident, reviewed the status of the referendum to stop the
-      rezoning request noting the effort came up short of signatures needed." That is the
-      coordinator's own account, minuted — not a Board of Elections sufficiency determination,
-      because on this record nothing reached the Board to determine. No minutes from 2026-07-15
+      rezoning request noting the effort came up short of signatures needed." What is [verified] is
+      that a speaker minuted as Leslie Harper said this; that she coordinated the drive is the
+      press's description [reference], not the minutes'. It is a public statement, minuted — not a
+      Board of Elections sufficiency determination, because on this record nothing reached the
+      Board to determine. No minutes from 2026-07-15
       through 2026-10-14 (nine files) record a petition presented to or certified by the trustees,
-      and the words "petition" and "referendum" appear in none of them except this entry and a
-      2026-09-03 remark (below). How many signatures were gathered is not stated anywhere. [open]
+      and the words "petition" and "referendum" appear in none of them except this entry and the
+      2026-09-03 special-hearing minutes, where Lyn Cox, Whitehouse, "told the visitors that they had
+      a referendum ready for signatures as needed based on the vote" (on the Schaller request, which
+      was then denied — no petition followed). How many signatures were gathered is not stated anywhere. [open]
     corroborated_by: >-
       The BOE lists above (no question certified), and the Wood County Commissioners' 2026-10-08
-      minutes (OCR), where Leatra Harper is minuted hoping "that November election changes will
+      minutes (OCR), where Leatra Harper (a different minuted name; not identified with Leslie
+      Harper — see parties_on_the_record.opposition) is minuted hoping "that November election changes will
       provide more political support" — candidate races, not a township zoning question.
   - id: REZONING-IS-IN-EFFECT
     tag: '[inference]'
@@ -211,6 +216,9 @@ pass_2026_10_27:
       adoption, unless, within thirty days after the adoption, there is presented to the board of
       township trustees a petition". Adoption 2026-07-07 + 30 days = 2026-08-06. No petition is
       recorded as presented, so the thirteen-parcel rezoning took effect on or about 2026-08-06.
+      If the R.C. 519.12(J)(1) megaproject exception applies instead (whether it does is [open] —
+      see MEGAPROJECT-EXEMPTION-EXISTS), the amendment took effect immediately on adoption,
+      2026-07-07, and no referendum window existed at all. Either way it is in effect today.
       Inference because no instrument states the effective date; R.C. 519.12(I) requires the
       trustees to file text and maps with the county recorder "within five working days after an
       amendment's effective date" — the recorder is the blocked route below, so that filing is
@@ -418,8 +426,9 @@ open_instruments:
     status: >-
       RESOLVED 2026-10-27 — see pass_2026_10_27. Not on the 2026-11-03 ballot [verified, BOE
       Q&I list + 46-day notice, controlled]; the drive "came up short of signatures needed" per the
-      coordinator at the 2026-08-05 trustees' meeting [verified as said]; no petition recorded as
-      presented to the trustees; rezoning in effect ~2026-08-06 [inference]. The entry's original
+      speaker minuted as Leslie Harper at the 2026-08-05 trustees' meeting [verified as said; her
+      coordinator role is press, [reference]]; no petition recorded as presented to the trustees;
+      rezoning in effect ~2026-08-06, or from 2026-07-07 if R.C. 519.12(J)(1) applies [inference]. The entry's original
       text is kept below as written on 2026-08-05; its `route` was wrong (the petition is filed with
       the TRUSTEES, not the BOE) and its threshold conflict is resolved: 35% is the law in force.
     what: >-
@@ -667,10 +676,11 @@ next_check:
     answer: >-
       NOT ON THE BALLOT. The Wood County BOE's Questions and Issues List (2026-09-03) and 46-day
       notice (2026-09-18) carry no Middleton Township zoning question, with the township's own road
-      levy present in both as the control [verified]. The coordinator told the trustees on
-      2026-08-05 the drive "came up short of signatures needed" [verified as said]. No petition is
-      recorded as presented. The 2026-07-07 rezoning is settled and in effect from ~2026-08-06
-      [inference]. Signature threshold: R.C. 519.12(H) in force = thirty-five per cent [verified,
+      levy present in both as the control [verified]. A speaker minuted as Leslie Harper
+      (named by press as the coordinator [reference]) told the trustees on 2026-08-05 the drive
+      "came up short of signatures needed" [verified as said]. No petition is recorded as
+      presented. The 2026-07-07 rezoning is settled and in effect from ~2026-08-06, or from
+      2026-07-07 if R.C. 519.12(J)(1) applies [inference]. Signature threshold: R.C. 519.12(H) in force = thirty-five per cent [verified,
       statute text]; 8% is pre-2023 law; 971 is unverified press.
     the_cost_of_the_lapse: >-
       None to the outcome — the answer was fixed by 2026-08-06 and no later act could change it.
@@ -716,7 +726,7 @@ next_check:
     Note the 2025-09-30 version's petition FORM still printed fifteen per cent.
   - >-
     Describe the referendum as "failed at the Board of Elections" or "rejected". On this record
-    no petition reached the trustees or the Board; the drive's own coordinator reported it short.
+    no petition reached the trustees or the Board; a speaker the press names as the drive's coordinator reported it short.
   - >-
     Read the blocked Wood County Recorder (Fidlar AVA) and Ohio Secretary of State routes as empty.
     They are recorded as blocked (last probed 2026-08-05, not re-tested 2026-10-27).

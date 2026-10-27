@@ -118,7 +118,7 @@ pass_2026_10_27:
   route_status_this_pass:
     tag: '[verified]'
     statement: >-
-      eDoc is UP. The HTTP 503 seen on 2026-10-17/18 by other passes has cleared. Positive control
+      eDoc is UP. Positive control
       docid 3940058 served a 241,518-byte PDF on 2026-10-27, and docid 4236096 (the 2026-08-19 CSO
       update) is present in the 2PD00006 result. NEW HAZARD: a bare curl to the portal now receives
       an F5 TSPD JavaScript challenge page with no __VIEWSTATE (and a 244-byte body from
@@ -797,6 +797,12 @@ pass_2026_09_16:
     - {thread: local_ballot, why: 'decided 2026-07-27 on signatures with no cure available; the open sub-questions are records-request work, not portal work'}
     - {thread: statewide_ballot, why: 'the file sets an ANNUAL cadence for it and names the 2027 filing deadline as its next dated trigger; six weeks is not the interval'}
     - {thread: pjm_large_load, why: 'a structural finding, not an empirical one — there is no PJM artifact to re-query, which is the finding itself'}
+    rerun_2026_10_27: >-
+      construction_stormwater, air_pti, four_oh_one_four_oh_four and echo_oh0027910 were re-run on
+      2026-10-27 (pass_2026_10_27.queries_rerun) and their `checked_on` moved; each thread's body
+      text is still as written 2026-09-16, unchanged by the re-run. opsb_transmission keeps
+      2026-09-16: on 2026-10-27 only the AEP project page was re-read and DIS stayed blocked, so the
+      thread was not re-run.
 
 # ─────────────────────────────────────────────────────────────────────────────
 threads:
@@ -807,7 +813,7 @@ threads:
     subject: NPDES construction-stormwater coverage OHC000006 for the campus earthwork
     outcome: issued_and_ingested
     tag: '[verified]'
-    checked_on: '2026-09-16'
+    checked_on: '2026-10-27'
     permit: 2GC08872*AG
     approved: '2026-07-30'
     finding: >-
@@ -840,7 +846,7 @@ threads:
     subject: Ohio EPA air Permit-to-Install for the campus's emergency-generator bank
     outcome: negative
     tag: '[verified negative]'
-    checked_on: '2026-09-16'
+    checked_on: '2026-10-27'
     why_it_is_the_most_valuable_thread: >-
       This is the single instrument that would lift the facility readiness domain from `seeded` to
       `live` (#1630) — it is the document that states generator count and ratings, and therefore
@@ -970,7 +976,7 @@ threads:
     subject: Section 401 water quality certification / Section 404 USACE authorization
     outcome: negative
     tag: '[verified negative]'
-    checked_on: '2026-09-16'
+    checked_on: '2026-10-27'
     queries_run:
     - query: eDoc — County = VAN WERT, Program = 401 WETLANDS, all entities, all dates
       result: >-
@@ -1112,7 +1118,7 @@ threads:
     subject: EPA ECHO compliance record for NPDES OH0027910 — the Van Wert WWTP, the campus's disclosed wastewater destination
     outcome: unchanged_but_a_new_filing_surfaced
     tag: '[verified]'
-    checked_on: '2026-09-16'
+    checked_on: '2026-10-27'
     the_recheck:
       tag: '[verified]'
       source: EPA ECHO dfr_rest_services.get_dfr, p_id OH0027910, read 2026-08-05
@@ -1327,8 +1333,10 @@ next_check:
     what: >-
       CSO event 3099 (Begin Construction, missed 2026-08-01). The last recorded recovery date was
       2026-09-15; by 2026-10-27 the report silence was already 42 days past it and 87 days past the
-      milestone, so the eDoc side is already a [verified negative] — this trigger asks whether ANY
-      commencement notice or revised schedule has appeared, and whether Ohio EPA has issued an NOV.
+      milestone. The eDoc side is a [verified negative] only for filings made before ~2026-09-29
+      (the 28-day publication lag back from the 2026-10-27 query); a filing after that could exist
+      unpublished. This trigger asks whether ANY commencement notice or revised schedule has
+      appeared, and whether Ohio EPA has issued an NOV.
     route: eDoc Secondary ID 2PD00006
   - date: '2026-11-23'
     what: >-
@@ -1337,8 +1345,9 @@ next_check:
       Record the vote, and whether any community benefits / PILOT instrument rides with them.
     route: vanwert.org/agenda/ and posted minutes; the annexation then goes to the Van Wert County commissioners' record
     why: >-
-      The first enacted local instruments touching the campus footprint since the 2026-06 deeds.
-      Third-reading date is [reference] (press), so check the agenda, not the date.
+      If enacted, the first local instruments since the 2026-06 deeds on land the agenda and press
+      describe as adjoining the Mega Site [reference] — they are NOT yet enacted (first reading
+      2026-10-26). Third-reading date is [reference] (press), so check the agenda, not the date.
   - date: '2026-11-24'
     what: >-
       ~4 weeks after the 2026-10-25 press report naming Suffolk Construction and a Phase I

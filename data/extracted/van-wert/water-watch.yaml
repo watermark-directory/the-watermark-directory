@@ -1277,8 +1277,7 @@ pass_2026_10_27:
     statement: >-
       eDoc UP. Positive control docid 3940058 served a 241,518-byte PDF; the 2PD00006 query still
       returns docid 4236096. A bare curl now gets an F5 TSPD JavaScript challenge (no __VIEWSTATE;
-      244 bytes from ViewDocument.aspx) — a header requirement, not an outage. The 2026-10-17/18
-      HTTP 503 seen by other passes has cleared.
+      244 bytes from ViewDocument.aspx) — a header requirement, not an outage.
 
   queries_rerun:
   - query: eDoc Secondary ID 2PD00006
@@ -1432,7 +1431,8 @@ pass_2026_10_27:
     checked_on: '2026-10-27'
     route: eDoc Secondary ID OH8100611 (610 documents, was 607)
     read_not_committed: >-
-      All three documents were fetched to scratch and read on 2026-10-27; none is committed under
+      All three documents were fetched to scratch and read on 2026-10-27 (4265707: 4 pp., 4272058:
+      13 pp. incl. the blank Form 5031, 4292250: 1 p.; page cites below are PDF pages); none is committed under
       data/documents/** (vault rule for this pass). They are listed in instruments_to_pull to be
       ingested; until then cite them by docid and URL.
     documents:
@@ -1442,16 +1442,17 @@ pass_2026_10_27:
       url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4265707
       says: >-
         The locational running annual average for TTHM for Q3 2026 is 0.081 mg/L against the MCL
-        of 0.080 mg/L. Public notice is required within 30 days. Signed Kathleen Pinto, DDAGW
-        Compliance Assurance.
+        of 0.080 mg/L (p. 1). Public notice is required within 30 days (p. 4). Signed Kathleen
+        Pinto, DDAGW Compliance Assurance (p. 1).
     - docid: '4272058'
       date: '2026-09-23'
       title: OEL exceedance letter — TTHM, Q3 2026
       url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4272058
       says: >-
         A Q3 2026 Operational Evaluation Level exceedance for TTHM; an OEL report (Form 5031) is due
-        within 90 days (≈ 2026-12-22, [inference] from the letter date). Signed Kimberly Burnham,
-        NWDO. The second consecutive quarterly OEL exceedance (Q2 2026 letter 2026-06-22).
+        within 90 days (p. 1; ≈ 2026-12-22, [inference] from the letter date). Signed Kimberly
+        Burnham, NWDO (p. 2). The second consecutive quarterly OEL exceedance — from this file's own
+        record of the Q2 2026 letter of 2026-06-22, not from this letter.
     - docid: '4292250'
       date: '2026-10-19'
       title: Notice of Violation — failure to timely issue public notification (OAC 3745-81-32)
@@ -1459,7 +1460,7 @@ pass_2026_10_27:
       says: >-
         Direct delivery of the TTHM MCL public notice was due by 2026-10-16. The City posted the
         notice on its website by 2026-10-16 but did not deliver it directly to bill-paying
-        customers.
+        customers (p. 1, the whole letter).
     headline: >-
       THE TTHM QUESTION IS NO LONGER THIS FILE'S TO HOLD BACK. On 2026-09-16 this file declined to
       compare four single TTHM samples to the 80 standard because the standard is a locational

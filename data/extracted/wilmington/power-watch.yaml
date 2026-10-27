@@ -195,8 +195,9 @@ open_filings:
         Still no numbered filing found. AES Ohio's transmission-project index (read 2026-10-27)
         carries no page for the Clinton customer feeds; the same index did list the
         Fayette-Clinton line, Fayette Customer East/West and Lynchburg pages (positive control).
-        The Clinton Substation Expansion 1 LON (26-0462-EL-BLN) covers the substation-side
-        terminations for "two customer feeds", not the feed lines. A SECOND route to the customer
+        Per AES Ohio's project page for the Clinton Substation Expansion 1 (LON 26-0462-EL-BLN), that
+        case covers the substation-side terminations for "two customer feeds", not the feed lines
+        [reference — the LON itself was not read; DIS is blocked]. A SECOND route to the customer
         now exists — see pass_2026_10_27.FERC-CSA-FOR-CLINTON.
   - id: NEXT-TEAC-CYCLE
     tag: '[open]'
@@ -279,6 +280,8 @@ open_filings:
         [verified] that the agency's bulletin states approval. [inference] that it is
         25-0871-EL-BLN — the bulletin carries no case number, but the scope (AES Ohio,
         Clinton-Fayette, 345 kV single circuit, Jan 2030) matches and no other such case is known.
+        One discrepancy is unreconciled: the bulletin says "about 29 miles", while the PJM Local Plan
+        entry s3898.6 (below) reads ~27 mi.
         [open] the Board's entry itself — its conditions, its rulings on the seven intervention
         petitions, and any Staff report — all unobtained because DIS is still blocked (re-probed
         below). The bulletin says nothing about the intervenors, so whether the case was contested
@@ -460,9 +463,9 @@ pass_2026_10_27:
       contracted demand schedule, closing CAMPUS-ATTRIBUTION-STILL-OPEN from the utility side.
   OPSB-25-0871:
     trigger: '2026-10-20 — OPSB disposition of 25-0871-EL-BLN'
-    tag: '[verified]'
+    tag: '[verified] that the bulletin states approval; [inference] that it is 25-0871'
     statement: >-
-      Approved per the PUCO's 2026-08-20 bulletin; see open_filings.OPSB-DISPOSITION-25-0871.
+      Approved per the PUCO's 2026-08-20 bulletin, which carries no case number; see open_filings.OPSB-DISPOSITION-25-0871.
       answered_2026_10_27. DIS probed once (blocked; see blocked_routes). The City of Wilmington
       post feed (WP REST, searched AES / transmission / substation) has no AES transmission post
       after the 2026-04-01 LON notice — only a 2026-10-01 tree-trimming notice and a 2026-06-12
@@ -611,4 +614,4 @@ next_check:
     Trust a search-engine summary on the load figures. On 2026-10-27 they repeatedly put 1.5 GW in
     Clinton County; the primary records put it at Fayette.
   - >-
-    Read the M-3 needs tracker's solution text as current. It lagged the decks by over a year.
+    Read the M-3 needs tracker's solution text as current. It lagged the decks.
