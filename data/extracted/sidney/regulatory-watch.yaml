@@ -1078,9 +1078,10 @@ pass_2026_10_27:
       parking_lot_owner:
         tag: '[verified]'
         statement: >-
-          The Shelby County Auditor's CAMA layer (Shelby County Parcels FeatureServer layer 0, queried
-          2026-10-27, Extract_ID 6040, data last edited 2026-10-13) gives the owners of record of the
-          three parking-lot parcels, which 4298288 p. 1 prints as 01-1834301.008, .007 and .003. Two
+          The Shelby County Auditor's CAMA (Shelby County Parcels FeatureServer layer 0, read
+          2026-10-27, Extract_ID 6040), captured as data/reference/sidney/parking-lot-parcels.geojson,
+          gives the owners of record of the three parking-lot parcels, which 4298288 p. 1 prints as
+          01-1834301.008, .007 and .003. Two
           belong to NK PARTS INDUSTRIES INC: 01-1834301.007 (600 S Kuther Rd, 23.461 deeded ac) and
           01-1834301.008 (2911 Campbell Rd, 13.432 ac). Both were conveyed together on 2023-10-05 for
           a consideration of $6,500,000, deed Vol. 2316 p. 4710. The third, 01-1834301.003 (2655
@@ -1088,7 +1089,10 @@ pass_2026_10_27:
           $517,000, deed Vol. 2321 p. 356. The earlier `[inference]` that NK Parts owns all three
           was therefore wrong for .003. The AJD centroid (40.278618, -84.202931) falls in .008. The
           three parcels total 40.03 deeded acres; the 15.2-acre site sits on portions of them.
-          Re-pull with `WATERMARK_SITE=sidney watermark parcels` (`shelby_gis`).
+          Re-pull with `WATERMARK_SITE=sidney watermark parcels --parcel
+          18-34-301-003,18-34-301-007,18-34-301-008 --geojson
+          data/reference/sidney/parking-lot-parcels.geojson`; the deed references (Deed_Volume,
+          Deed_Page) come from the direct layer-0 query in that README's recipe.
       parking_lot_use_terms:
         tag: '[open]'
         statement: >-

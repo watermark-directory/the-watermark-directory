@@ -1,0 +1,285 @@
+{
+  "type": "FeatureCollection",
+  "bosc:provenance": {
+    "subject": "CMH-232 temporary construction parking lot (AWS Sidney campus): the three Shelby County parcels the 15.2-ac site sits on portions of, south of Campbell Rd and east of N Kuther Rd, City of Sidney, Shelby County OH (FIPS 39149). Parcel numbers as printed in Smart Services' delineation report (Ohio EPA eDoc 4298288 p. 1): 01-1834301.008, .007, .003. Ohio EPA application DSW401262560W.",
+    "source": "Shelby County Engineer's Office ArcGIS Online org (BHA_sceo, fzPZZJiNVtryYcsC) — Parcels FeatureServer layer 0 (Shelby County Auditor CAMA join + geometry), tax year 2025",
+    "source_url": "https://services6.arcgis.com/fzPZZJiNVtryYcsC/arcgis/rest/services/Parcels/FeatureServer/0",
+    "crs": "EPSG:4326 (WGS84)",
+    "count": 3,
+    "parcel_ids": [
+      "18-34-301-003",
+      "18-34-301-007",
+      "18-34-301-008"
+    ],
+    "total_cama_acres": 40.034,
+    "total_planar_acres": 40.026,
+    "extract_id": 6040,
+    "read": "2026-10-27",
+    "caveats": [
+      "[verified] Owner of record, deeded acreage, land use, conveyance date/consideration, deed book/page, legal description and tax district are verbatim from the Shelby County Auditor CAMA (SCEO Parcels layer 0, tax year 2025, Extract_ID 6040, read 2026-10-27); null means the service had no value.",
+      "Owners: 18-34-301-007 and -008 are NK PARTS INDUSTRIES INC, conveyed together on 2023-10-05 for $6,500,000 at OR2316/4710; 18-34-301-003 is WILCOX INVESTMENTS LLC, conveyed 2024-08-05 for $517,000 at OR2321/356. The USACE parking-lot AJD (4298315) is addressed to NK Parts, but NK Parts does NOT own all three parcels.",
+      "This is the set of parcels the parking lot sits on PORTIONS of, NOT a surveyed parking-lot footprint: the three parcels total 40.034 ac deeded / 40.026 ac planar against the 15.2-ac site (13.93 ac disturbed per the NOI on 4298316). No document in the corpus shows the lot's boundary in parcel terms.",
+      "No deed, lease, easement or license in the corpus shows the terms on which AWS or its contractors use either owner's land. The deeds (OR2316/4710, OR2321/356) are locators at the Shelby County Recorder, not in the corpus; that question is [open].",
+      "acres is the auditor's DEEDED figure; planar_acres is measured from this geometry in UTM 16N (EPSG:32616). Cite the deeded figure for the record and the planar one for area modeling.",
+      "The legal descriptions carry the long parcel form '020-18-34-301-00x', the source of the dashed '01-18-34-301-00x' variant printed in the 2026-07-23 ODNR email (4298297 p. 2).",
+      "Right-county guard: Shelby County OHIO (FIPS 39149), City of Sidney 45365, Sidney CSD.",
+      "Regenerable: WATERMARK_SITE=sidney watermark parcels --parcel 18-34-301-003,18-34-301-007,18-34-301-008 --geojson data/reference/sidney/parking-lot-parcels.geojson, then the enrichment step in data/reference/sidney/README.md."
+    ]
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -84.2016896727161,
+              40.2794317815117
+            ],
+            [
+              -84.2018144567939,
+              40.2793159121186
+            ],
+            [
+              -84.2024187238411,
+              40.2793078773523
+            ],
+            [
+              -84.2032087436245,
+              40.2792973699271
+            ],
+            [
+              -84.203231413509,
+              40.2801569989756
+            ],
+            [
+              -84.2032321141949,
+              40.2801844425213
+            ],
+            [
+              -84.2024298818153,
+              40.2801961107364
+            ],
+            [
+              -84.2017116041855,
+              40.2802065522315
+            ],
+            [
+              -84.2017108262444,
+              40.2801791100655
+            ],
+            [
+              -84.2016896727161,
+              40.2794317815117
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "parcel_id": "18-34-301-003",
+        "parcel_id_dashless": "1834301003",
+        "parcel_number": "01-1834301.003",
+        "owner": "WILCOX INVESTMENTS LLC",
+        "owner_mailing_address": "920 S VANDEMARK RD SIDNEY OH 45365-8140",
+        "situs_address": "2655 CAMPBELL RD SIDNEY OH 45365",
+        "tax_district": "CLINTON TWP SIDNEY CORP SIDNEY SD SAD SFD",
+        "tax_district_code": 1,
+        "school_district": "SIDNEY CSD",
+        "acres": 3.141,
+        "planar_acres": 3.139,
+        "land_use_code": 330,
+        "land_use_name": "MANUFACTURING AND ASSEMBLY, MEDIUM",
+        "class": "Industrial",
+        "appraised_land_value": 155290,
+        "appraised_improvement_value": 237980,
+        "appraised_total_value": 393270,
+        "last_sale_date": "2024-08-05",
+        "last_sale_amount": 517000,
+        "valid_sale": "True",
+        "deed_reference": "OR2321/356",
+        "legal_description": "LOT 5655 STOLLE INDUSTRIAL PARK SECTION 1 CITY OF SIDNEY 020-18-34-301-003\nPLAT V20 P123",
+        "has_cauv": false,
+        "has_exemption": false,
+        "has_abatement": false,
+        "tax_year": 2025
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -84.2040169623772,
+              40.2772442773386
+            ],
+            [
+              -84.2040161655715,
+              40.2772132523436
+            ],
+            [
+              -84.2045885145784,
+              40.2772059623003
+            ],
+            [
+              -84.2045775308774,
+              40.276802385872
+            ],
+            [
+              -84.2071131973451,
+              40.2767720165561
+            ],
+            [
+              -84.2071399168349,
+              40.2801000730287
+            ],
+            [
+              -84.2040913797136,
+              40.2801444864421
+            ],
+            [
+              -84.2040169623772,
+              40.2772442773386
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "parcel_id": "18-34-301-007",
+        "parcel_id_dashless": "1834301007",
+        "parcel_number": "01-1834301.007",
+        "owner": "NK PARTS INDUSTRIES INC",
+        "owner_mailing_address": "777 S KUTHER RD SIDNEY OH 45365-8858",
+        "situs_address": "600 S KUTHER RD SIDNEY OH 45365",
+        "tax_district": "CLINTON TWP SIDNEY CORP SIDNEY SD SAD SFD",
+        "tax_district_code": 1,
+        "school_district": "SIDNEY CSD",
+        "acres": 23.461,
+        "planar_acres": 23.41,
+        "land_use_code": 340,
+        "land_use_name": "MANUFACTURING AND ASSEMBLY, LIGHT",
+        "class": "Industrial",
+        "appraised_land_value": 1217290,
+        "appraised_improvement_value": 3166700,
+        "appraised_total_value": 4383990,
+        "last_sale_date": "2023-10-05",
+        "last_sale_amount": 6500000,
+        "valid_sale": "True",
+        "deed_reference": "OR2316/4710",
+        "legal_description": "R06 T08 S34 LOT 7151 NORCOLD REPLAT CITY OF SIDNEY 020-18-34-301-007\nPLAT V34 P78",
+        "has_cauv": false,
+        "has_exemption": false,
+        "has_abatement": false,
+        "tax_year": 2025
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -84.203231413509,
+              40.2801569989756
+            ],
+            [
+              -84.2032087436245,
+              40.2792973699271
+            ],
+            [
+              -84.2024187238411,
+              40.2793078773523
+            ],
+            [
+              -84.2018144567939,
+              40.2793159121186
+            ],
+            [
+              -84.2016896727161,
+              40.2794317815117
+            ],
+            [
+              -84.2017108262444,
+              40.2801791100655
+            ],
+            [
+              -84.2008410064194,
+              40.2801917877541
+            ],
+            [
+              -84.2008245115542,
+              40.2801919885521
+            ],
+            [
+              -84.2018137013108,
+              40.2792734746433
+            ],
+            [
+              -84.2017775243576,
+              40.2778994237138
+            ],
+            [
+              -84.2017602138221,
+              40.277241963606
+            ],
+            [
+              -84.2023926709013,
+              40.2772339189984
+            ],
+            [
+              -84.2040161655715,
+              40.2772132523436
+            ],
+            [
+              -84.2040169623772,
+              40.2772442773386
+            ],
+            [
+              -84.2040913797136,
+              40.2801444864421
+            ],
+            [
+              -84.2032349690409,
+              40.2801569791014
+            ],
+            [
+              -84.203231413509,
+              40.2801569989756
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "parcel_id": "18-34-301-008",
+        "parcel_id_dashless": "1834301008",
+        "parcel_number": "01-1834301.008",
+        "owner": "NK PARTS INDUSTRIES INC",
+        "owner_mailing_address": "777 S KUTHER RD SIDNEY OH 45365-8858",
+        "situs_address": "2911 CAMPBELL RD SIDNEY OH 45365",
+        "tax_district": "CLINTON TWP SIDNEY CORP SIDNEY SD SAD SFD",
+        "tax_district_code": 1,
+        "school_district": "SIDNEY CSD",
+        "acres": 13.432,
+        "planar_acres": 13.477,
+        "land_use_code": 300,
+        "land_use_name": "INDUSTRIAL - VACANT LAND",
+        "class": "Industrial",
+        "appraised_land_value": 503630,
+        "appraised_improvement_value": 0,
+        "appraised_total_value": 503630,
+        "last_sale_date": "2023-10-05",
+        "last_sale_amount": 6500000,
+        "valid_sale": "True",
+        "deed_reference": "OR2316/4710",
+        "legal_description": "R06 T08 S34 LOT 7152 NORCOLD REPLAT CITY OF SIDNEY 020-18-34-301-008\nPLAT V34 P78",
+        "has_cauv": false,
+        "has_exemption": false,
+        "has_abatement": false,
+        "tax_year": 2025
+      }
+    }
+  ]
+}

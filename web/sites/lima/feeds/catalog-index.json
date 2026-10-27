@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "fc12c5cc1e4784e173ab5791d6e2d61b4a07e5ed3288092e907bac6a809761b2",
+  "catalog_version": "8641045fe3f477a9a55cf564c0294b9812f8155e87b41c6b65242f26c4ae8a54",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -2105,6 +2105,14 @@
       "site": "lima",
       "local_id": "sidney-incentive-instruments",
       "title": "Sidney — AWS \"Project Rey\" Incentive, Service and Development Instruments",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:sidney-parking-lot-parcels",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "sidney-parking-lot-parcels",
+      "title": "Sidney CMH-232 parking-lot parcels (Shelby County auditor CAMA)",
       "feed": "catalog"
     },
     {
