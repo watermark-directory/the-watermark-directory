@@ -25,8 +25,15 @@ meta:
   site: bowling-green
   captured_for: issue 1438 (epic 1433, readiness(bowling-green) — the record domain)
   extracted_at: '2026-08-05'
-  checked_on: '2026-08-05'
-  previous_check: '2026-07-10'      # the discovery sweep recorded in the issue body
+  checked_on: '2026-10-27'
+  previous_check: '2026-08-05'
+  checked_on_scope: >-
+    The 2026-10-27 pass (pass_2026_10_27 below) RE-RAN routes (1) the Middleton Township minutes
+    archive (every file posted after the 2026-07-07 capture), and (3) the Wood County CivicEngage
+    Agenda Center (Planning Commission minutes + agendas, and the Board of County Commissioners'
+    minutes 2026-07-07 through 2026-10-15, OCRed), and ADDED the Wood County Board of Elections and
+    the text of R.C. 519.12 itself. It did NOT re-run (2) the legacy minutes tree, (4) the CAMA
+    layer, or (5) the Recorder / Ohio SoS probes — those negatives still carry 2026-08-05.
   method: >-
     Five routes. (1) The Middleton Township minutes archive — the full 2023-2026 publication,
     115 files, swept and grepped, of which fifteen mention Liames or Project Accordion and eleven
@@ -156,6 +163,208 @@ delta_since_previous_check:
       air permit-to-install, which is not in the corpus and may not exist if the gensets are
       permitted by rule. [open]
 
+# ── Standing-watch pass, 2026-10-27 ─────────────────────────────────────────
+# Overdue pass answering the lapsed MIDDLETON-REFERENDUM trigger (declared 2026-09-16, due
+# immediately, run 82 days after the window closed). Nothing below was committed under
+# data/documents/** — every source read is listed under instruments_to_pull with its URL.
+pass_2026_10_27:
+  checked_on: '2026-10-27'
+  answers_lapsed_trigger: MIDDLETON-REFERENDUM
+  findings:
+  - id: NO-REZONING-REFERENDUM-ON-THE-NOV-2026-BALLOT
+    tag: '[verified]'
+    finding: >-
+      THE 2026-07-07 MIDDLETON TOWNSHIP REZONING IS NOT ON THE 2026-11-03 BALLOT. Two Wood County
+      Board of Elections publications, read in full, carry no Middleton Township zoning question
+      and no zoning referendum of any kind: (a) "Questions and Issues List, November 3, 2026
+      General Election", footer-dated Thursday, September 3, 2026 (3 pp., text layer) — its only
+      Middleton entry is "Middleton Township Road District — Renewal, Tax Levy, 2 mills for 3
+      years ... Streets & Bridges"; and (b) the R.C. 3511.16 "Updated notification (to be posted
+      46 days prior to date of election)", SoS Form No. 120, footer-dated Friday, September 18,
+      2026 (20 pp., copier scan, OCRed here with tesseract --psm 6 at 200 DPI), whose issues
+      section ("46_100 Day Issues Notice") lists the same Middleton Township Road District levy
+      for precincts 460.1.2, 460.3, 470.1.2, 490.1.2.3.4 and nothing else for the township.
+    positive_control: >-
+      In the same run, the same two documents DO list the Middleton Township Road District renewal
+      — so the township's precincts are covered by both lists and a township-level question would
+      have appeared beside it. The Eastwood Local School District bond issue (Eastwood is one of the
+      three CRA school parties) is also present in both. The negative is controlled.
+  - id: THE-DRIVE-FELL-SHORT
+    tag: '[verified] as said at a public meeting; the count itself [open]'
+    finding: >-
+      Middleton Township trustees' minutes, 2026-08-05 (approved 2026-08-19), visitor comments:
+      "Leslie Harper, Whitehouse resident, reviewed the status of the referendum to stop the
+      rezoning request noting the effort came up short of signatures needed." That is the
+      coordinator's own account, minuted — not a Board of Elections sufficiency determination,
+      because on this record nothing reached the Board to determine. No minutes from 2026-07-15
+      through 2026-10-14 (nine files) record a petition presented to or certified by the trustees,
+      and the words "petition" and "referendum" appear in none of them except this entry and a
+      2026-09-03 remark (below). How many signatures were gathered is not stated anywhere. [open]
+    corroborated_by: >-
+      The BOE lists above (no question certified), and the Wood County Commissioners' 2026-10-08
+      minutes (OCR), where Leatra Harper is minuted hoping "that November election changes will
+      provide more political support" — candidate races, not a township zoning question.
+  - id: REZONING-IS-IN-EFFECT
+    tag: '[inference]'
+    finding: >-
+      R.C. 519.12(H) makes an adopted amendment effective "in thirty days after the date of its
+      adoption, unless, within thirty days after the adoption, there is presented to the board of
+      township trustees a petition". Adoption 2026-07-07 + 30 days = 2026-08-06. No petition is
+      recorded as presented, so the thirteen-parcel rezoning took effect on or about 2026-08-06.
+      Inference because no instrument states the effective date; R.C. 519.12(I) requires the
+      trustees to file text and maps with the county recorder "within five working days after an
+      amendment's effective date" — the recorder is the blocked route below, so that filing is
+      unread. [open]
+  - id: NOVEMBER-WAS-NEVER-THE-FULL-WINDOW
+    tag: '[inference]'
+    finding: >-
+      The press framing ("971 valid signatures ... for the November ballot") was narrower than the
+      statute. R.C. 519.12(H) sends a sufficient petition to "the next primary or general election
+      that occurs at least ninety days after the date the petition is filed with the board of
+      township trustees", and requires certification to the board of elections "not less than
+      ninety days prior to the election". 2026-11-03 minus 90 days = 2026-08-05; a petition filed
+      on the last statutory day (2026-08-06) is 89 days out and would have gone to the 2027-05-04
+      primary, not November. Arithmetic shown; moot on this record since none was filed.
+  - id: RC-519-12-H-READ
+    tag: '[verified]'
+    resolves: MIDDLETON-REFERENDUM.signature_threshold_conflict
+    finding: >-
+      The statute was read on codes.ohio.gov, current version AND the dated prior versions. The
+      operative sentence of division (H), in the version effective September 30, 2025 (House Bill
+      96, 136th G.A.) — the version in force on 2026-07-07 — reads: "a petition, signed by a number
+      of registered electors residing in the unincorporated area of the township or part of that
+      unincorporated area included in the zoning plan equal to not less than thirty-five per cent
+      of the total vote cast for all candidates for governor in that area at the most recent
+      general election at which a governor was elected". The current version (effective September
+      23, 2026, House Bill 479) carries the same thirty-five per cent.
+    the_three_numbers_resolved: >-
+      35% — CORRECT. Township counsel's 2026-01-07 statement matches the statute in force.
+      8% — STALE LAW. "eight per cent" is the text of the 2010-07-02 and 2019-03-22 versions; it was
+      already fifteen per cent in the 2023-10-03 and 2025-04-03 versions, and thirty-five from
+      2025-09-30. This repo's prior understanding was two amendments out of date.
+      971 — UNVERIFIED and not derivable here: at 35% it implies ~2,774 gubernatorial votes in the
+      zoned unincorporated area (971 / 0.35), a [inference] arithmetic only; the township's 2022
+      gubernatorial vote was not pulled, so 971 is neither confirmed nor refuted.
+    drafting_defect_in_the_version_in_force: >-
+      [verified] The 2025-09-30 text is internally inconsistent: the operative clause says
+      "thirty-five per cent" while the statutory petition FORM in the same division still reads
+      "equal to not less than fifteen per cent of the total vote cast for all candidates for
+      governor". The 2026-09-23 (HB 479) version conforms the form to thirty-five. Recorded as a
+      fact about the statute; which number would have controlled a challenge is a legal question
+      this file does not answer. [open]
+    filed_with_whom: >-
+      [verified] CORRECTION TO THIS FILE'S OWN ROUTE: the petition is NOT filed with the Board of
+      Elections. "The petition shall be filed with the board of township trustees ... Within two
+      weeks after receiving a petition filed under this section, the board of township trustees
+      shall certify the petition to the board of elections." The trustees' minutes are therefore the
+      first place a filing would surface, and they show none.
+  - id: MEGAPROJECT-EXEMPTION-EXISTS
+    tag: '[verified] as law / [open] as to this project'
+    finding: >-
+      Since 2025-09-30, R.C. 519.12(J)(1) provides that a trustees' decision to rezone "any
+      property involved in a megaproject as defined in section 122.17 of the Revised Code shall take
+      effect immediately upon adoption and is exempt from the referendum procedures in division
+      (H)". R.C. 122.17's "megaproject" requires, among other things, that the operator agree "in
+      an agreement with the tax credit authority under division (D)" to wage and investment
+      conditions. NO TAX CREDIT AUTHORITY MEGAPROJECT AGREEMENT FOR LIAMES OR META IS IN THE CORPUS,
+      and none of the minutes read invoke (J). Whether the exemption could have applied is [open];
+      it did not need to, since no petition was filed. Worth knowing for every Ohio site.
+  - id: SCHALLER-REZONING-DENIED
+    tag: '[verified]'
+    resolves: MIDDLETON-SCHALLER-ACTION
+    finding: >-
+      Middleton Township trustees, special hearing 2026-09-03: A. Schaller Limited Partnership's
+      request to rezone "approximately 39.2 acres" of parcel J34-611-190000006000 from A-1 to M-1.
+      The Wood County Planning Commission had "voted in favor"; the Middleton Township Zoning
+      Commission "denied". Motion "to approve the recommendation of the Middleton Township Zoning
+      Commission"; roll call Moulton YES, Petrea YES, Vetter NO; "It is noted the rezoning request
+      was denied." Same motion form as 2026-07-07 — but here the roll call and the recorded outcome
+      AGREE. Vorys (Chris Ingram) stated the purpose as "relocation of the employee parking lot for
+      Phase 2 of the data center build out" and that "the parcel in question was not under the
+      abatement agreement". Trustee Vetter's recusal was challenged by several speakers; counsel
+      (Peter Griggs) is minuted saying the law did not require it.
+    note: >-
+      The minutes print the parcel as J34-611-190000006000; #1436 recorded the campus parcels
+      with a J36- prefix. Carried as served. Whether J34 reflects section 34 is [inference]; not
+      resolved.
+  - id: PHASE-2-AND-BUILDING-FIVE-ON-THE-PUBLIC-RECORD
+    tag: '[verified] as said'
+    finding: >-
+      Three statements, all public-side records of what was said: (1) applicant counsel, 2026-09-03
+      township hearing, "Phase 2 of the data center build out"; (2) Wood County Commissioners'
+      minutes 2026-10-13 (OCR), Chief Building Official Rob Cendol "mentioned that plans have been
+      submitted to Building Inspection for the fifth building to be constructed at the data
+      center"; (3) township minutes 2026-10-07, trustee report: "the data center Phase I will be
+      operational in 2027 and Phase II operational in 2028. The administration building is
+      completed. Currently 1,000 skilled labor workers are on site." Item (2) moves the "building
+      five" language of the Schaller application (#1436) from an applicant's plan to a submitted
+      building-plan set. The plans themselves are not in the corpus. [open]
+  - id: LIAMES-FIRE-INSPECTION-CBPA
+    tag: '[verified]'
+    finding: >-
+      Township minutes 2026-10-07: "Mr. Vetter moved, Mrs. Petrea seconded a motion to approve the
+      Fire Inspection Services Community Benefit Payment Agreement with Liames LLC for $437,000.
+      Motion approved." A new instrument between the township and Liames; its text is not
+      published. Added to open_instruments.
+  - id: WCPC-2026-06-02-TALLY-IS-4-2
+    tag: '[verified]'
+    resolves_in_part: WCPC-MINUTES
+    finding: >-
+      The Planning Commission's 2026-06-02 minutes are now published. On the Liames thirteen-parcel
+      M-1 request the roll call is Bowlus YES, George NO, LaHote YES, Musteric YES, Schaller YES,
+      Tewers NO (Arnold, Herringshaw, Schuerman, Swope absent): "The motion CARRIES. Vote: 4 yes, 2
+      no, 0 abstain." THE PRESS 6-2 IS WRONG FOR THIS ITEM. Two oddities carried as served, not
+      corrected: the motion text reads "recommend approval of the extension request" (a template
+      carry-over from the preceding subdivision item), and the minutes spell the applicant
+      "LLIAMES, LLC" once. Liames/Meta's representative (James Furchek) is minuted saying "there is
+      no proposed development on the parcels in question today" and that they "would be used for
+      construction-related activities". A commission member named Jeff Schaller voted; NO relation
+      to the A. Schaller Limited Partnership applicant is asserted. [open]
+    still_open: >-
+      The 2026-07-07 Planning Commission minutes (the Schaller recommendation) are NOT published —
+      the Planning Commission category lists one minutes file for 2026 (2026-06-02) against agendas
+      for 06-02, 07-07, 08-11, 09-01 and 10-05.
+  - id: COUNTY-DECLINES-BLANKET-RESOLUTION
+    tag: '[verified]'
+    finding: >-
+      Wood County Commissioners' minutes 2026-10-13 (OCR): asked by Leatra Harper (2026-10-08) for
+      a resolution that "additional data centers and associated power plants are not wanted in Wood
+      County", the commissioners agreed to a staff response that they "do not wish to approve a
+      blanket resolution ... and instead would prefer to evaluate them on merit". Same session:
+      Resolution 26-01203, "AUTHORIZE A ROAD USE MAINTENANCE AGREEMENT BETWEEN THE BOARD OF WOOD
+      COUNTY COMMISSIONERS, MIDDLETON TOWNSHIP, AND WILL-POWER, OH, LLC FOR A POWER GENERATION
+      FACILITY" (the township approved its side on 2026-09-30).
+  - id: AGENDA-CENTER-DOES-CARRY-COMMISSIONERS-MINUTES
+    tag: '[verified]'
+    corrects: blocked_routes.WOOD-COUNTY-AGENDA-CENTER-SEARCH
+    finding: >-
+      The 2026-08-05 verdict that the county's post-2024-05-30 record is "effectively unsearchable
+      by script" overstated the gap. The Agenda Center's "Board of County Commissioners" category
+      lists the minutes as files (75 minutes / 84 agendas on the page on 2026-10-27, URL form
+      /AgendaCenter/ViewFile/Minutes/_MMDDYYYY-NNN). They are copier scans with no text layer —
+      which is why full-text search misses them — but they are enumerable and OCR cleanly. The
+      SEARCH is thin; the RECORD is retrievable. Every 2026-07-07..10-15 session (28 files) was
+      pulled and OCRed for this pass.
+  routes:
+  - {route: 'Wood County BOE', endpoint: 'https://boe.woodcountyohio.gov/', result: 'reached; http://www.co.wood.oh.us/boe/ now meta-refreshes here'}
+  - {route: 'codes.ohio.gov R.C. 519.12 (+ dated versions) and 122.17', result: reached}
+  - {route: 'Middleton Township minutes', endpoint: 'https://www.middletontownship.com/meeting_minutes/', result: 'reached; nine new files 2026-07-15..10-14, posted under /wp-content/uploads/2026/10/'}
+  - {route: 'Wood County Agenda Center', endpoint: 'https://woodcountyohio.gov/AgendaCenter', result: 'reached; the 2026-10-05 Planning Commission agenda link served a ~1.7 KB empty PDF form, unread'}
+  - {route: 'press', result: '[reference] only — BG Independent / The Cool Down (relaying The Blade) carry the 971 figure and the 2-1 / 6-2 tallies; NO press account of the drive''s outcome was found. Bowling Green, KY results excluded.'}
+  not_rerun: [WOOD-COUNTY-RECORDER, OHIO-SOS, WOOD-COUNTY-TOWNSHIP-SITES, 'CAMA (Vision_Parcels)', 'legacy commissioners minutes tree']
+  instruments_to_pull:
+  - {what: 'BOE Questions and Issues List, Nov 3 2026 (dated 2026-09-03)', url: 'https://boe.woodcountyohio.gov/DocumentCenter/View/1005/Q-and-I-List'}
+  - {what: 'BOE 46-day updated election notice, SoS Form 120 (dated 2026-09-18)', url: 'https://boe.woodcountyohio.gov/DocumentCenter/View/1022/46-Day-Notice'}
+  - {what: 'R.C. 519.12 authenticated PDF, version eff. 2025-09-30 (in force 2026-07-07)', url: 'https://codes.ohio.gov/assets/laws/revised-code/authenticated/5/519/519.12/9-30-2025/519.12-9-30-2025.pdf'}
+  - {what: 'R.C. 519.12 authenticated PDF, version eff. 2026-09-23', url: 'https://codes.ohio.gov/assets/laws/revised-code/authenticated/5/519/519.12/9-23-2026/519.12-9-23-2026.pdf'}
+  - {what: 'Middleton Twp trustees minutes 2026-08-05 (drive fell short)', url: 'https://www.middletontownship.com/wp-content/uploads/2026/10/08052026.pdf'}
+  - {what: 'Middleton Twp special hearing minutes 2026-09-03 (Schaller denied)', url: 'https://www.middletontownship.com/wp-content/uploads/2026/10/09032026_special_rezoning-1.pdf'}
+  - {what: 'Middleton Twp trustees minutes 2026-10-07 (Liames CBPA $437,000; Phase I/II dates)', url: 'https://www.middletontownship.com/wp-content/uploads/2026/10/10072026.pdf'}
+  - {what: 'Middleton Twp minutes 2026-07-15, 08-19, 09-02, 09-16, 09-30 special (RUMA), 10-14 special', url: 'https://www.middletontownship.com/meeting_minutes/'}
+  - {what: 'Wood County Planning Commission minutes 2026-06-02 (Liames 4-2)', url: 'https://woodcountyohio.gov/AgendaCenter/ViewFile/Minutes/_06022026-557'}
+  - {what: 'Wood County Commissioners minutes 2026-10-13 (fifth-building plans; 26-01203 RUMA; blanket resolution declined)', url: 'https://woodcountyohio.gov/AgendaCenter/ViewFile/Minutes/_10132026-674'}
+  - {what: 'Wood County Commissioners minutes 2026-10-08 (Harper request)', url: 'https://woodcountyohio.gov/AgendaCenter/ViewFile/Minutes/_10082026-673'}
+
 # ── Instruments that exist and are not in the corpus ──────────────────────────
 open_instruments:
   - id: CRA-AGREEMENT
@@ -205,7 +414,14 @@ open_instruments:
       Industries in November 2023" — a different party, a different legislative body, a different
       project, one month after the Liames CRA.
   - id: MIDDLETON-REFERENDUM
-    tag: '[open]'
+    tag: '[verified]'
+    status: >-
+      RESOLVED 2026-10-27 — see pass_2026_10_27. Not on the 2026-11-03 ballot [verified, BOE
+      Q&I list + 46-day notice, controlled]; the drive "came up short of signatures needed" per the
+      coordinator at the 2026-08-05 trustees' meeting [verified as said]; no petition recorded as
+      presented to the trustees; rezoning in effect ~2026-08-06 [inference]. The entry's original
+      text is kept below as written on 2026-08-05; its `route` was wrong (the petition is filed with
+      the TRUSTEES, not the BOE) and its threshold conflict is resolved: 35% is the law in force.
     what: >-
       Whether a R.C. 519.12 referendum petition against the 2026-07-07 rezoning was filed with the
       Wood County Board of Elections, and whether it was certified.
@@ -229,6 +445,9 @@ open_instruments:
         this issue.
   - id: WCPC-MINUTES
     tag: '[open]'
+    status: >-
+      HALF RESOLVED 2026-10-27. The 2026-06-02 minutes are published and give the Liames tally as
+      4-2, NOT the press 6-2 [verified]. The 2026-07-07 minutes (Schaller) are still unpublished.
     what: >-
       Wood County Planning Commission minutes for 2026-06-02 and 2026-07-07 — the 6-2 tallies on
       the Liames thirteen-parcel and Schaller applications.
@@ -237,13 +456,36 @@ open_instruments:
       not published at capture time and would make the tallies [verified].
     route: https://woodcountyohio.gov/AgendaCenter, category "Planning Commission".
   - id: MIDDLETON-SCHALLER-ACTION
-    tag: '[open]'
+    tag: '[verified]'
+    status: >-
+      RESOLVED 2026-10-27 — DENIED at a 2026-09-03 special hearing, 2-1 (Moulton, Petrea YES on a
+      motion to approve the zoning commission's denial recommendation; Vetter NO). See
+      pass_2026_10_27.SCHALLER-REZONING-DENIED. A re-application or a court appeal of the denial
+      would be the next instrument; none seen through the 2026-10-14 minutes.
     what: The Middleton Township trustees' action on the A. Schaller Limited Partnership 39.265-acre rezoning.
     why_it_matters: >-
       It is construction parking for a campus whose own application says the parking moves "once
       construction of building five starts" (#1436) — a five-or-more-building program against a
       715,000 sq ft "initial phase".
     route: https://www.middletontownship.com/meeting_minutes/ — the township publishes promptly.
+  - id: LIAMES-FIRE-INSPECTION-CBPA
+    tag: '[open]'
+    what: >-
+      The "Fire Inspection Services Community Benefit Payment Agreement with Liames LLC for
+      $437,000" the Middleton Township trustees approved on 2026-10-07 [verified, minutes].
+    why_it_matters: >-
+      A second payment instrument between the operator's land entity and a public body, after the
+      CRA. Its term, schedule and conditions are not in the minutes.
+    route: R.C. 149.43 to the Middleton Township Fiscal Officer.
+  - id: FIFTH-BUILDING-PLANS
+    tag: '[open]'
+    what: >-
+      The plan set "submitted to Building Inspection for the fifth building to be constructed at the
+      data center" (Wood County Commissioners' minutes 2026-10-13, OCR).
+    why_it_matters: >-
+      The first public-side record that a fifth building is past intention and into plan review —
+      the Phase-2 scale question (#1437's 350-vs-180 MW) in a filing rather than a statement.
+    route: R.C. 149.43 to Wood County Building Inspection.
   - id: DEVILS-HOLE-112AC
     tag: '[open]'
     what: >-
@@ -319,6 +561,11 @@ blocked_routes:
       search for "Liames" here does not return it. Every negative drawn from this search is a
       statement about the index. The county's record after 2024-05-30 is effectively unsearchable
       by script and is the main structural gap in this site's record domain.
+    corrected_2026_10_27: >-
+      OVERSTATED. The commissioners' minutes ARE published in the Agenda Center as enumerable
+      scanned PDFs (/AgendaCenter/ViewFile/Minutes/_MMDDYYYY-NNN); the full-text index misses them
+      because they have no text layer. Listing + OCR retrieves them. The search verdict stands; the
+      "unsearchable record" verdict does not. See pass_2026_10_27.
   - id: WOOD-COUNTY-TOWNSHIP-SITES
     endpoint: (per-township, not enumerated)
     what_it_holds: >-
@@ -404,64 +651,55 @@ parties_on_the_record:
     - {name: 'Leatra Harper', role: 'Fresh Water Accountability', note: 'spoke against the 2026-07-07 rezoning; NOT identified with the "Leslie Harper" the press names as referendum coordinator'}
 
 # ── When to run this again ───────────────────────────────────────────────────
-# ⚠️ ADDED 2026-09-16. This file had NO next_check block, so nothing could ever report it
-# overdue. `meta.checked_on` deliberately stays at 2026-08-05: the watch was NOT re-run on
-# 2026-09-16 — only its calendar was written.
+# ⚠️ ADDED 2026-09-16 (this file had NO next_check block, so nothing could report it overdue).
+# The lapsed MIDDLETON-REFERENDUM trigger it carried was ANSWERED on 2026-10-27 — 82 days after the
+# window closed — by pass_2026_10_27, and the `a_trigger_has_already_lapsed_unchecked` block is
+# replaced by `resolved_lapsed_trigger` below.
 next_check:
   declared_on: '2026-09-16'
-  declared_by: the standing-check-in sweep; the watch itself was not re-run
-  last_actually_checked: '2026-08-05'
+  declared_by: the standing-check-in sweep; refreshed by the 2026-10-27 pass
+  last_actually_checked: '2026-10-27'
   dormant: false
-  # ⚠️ ─────────────────────────────────────────────────────────────────────────
-  a_trigger_has_already_lapsed_unchecked:
-    tag: '[open]'
-    severity: this is the reason the missing cadence mattered
+  resolved_lapsed_trigger:
     id: MIDDLETON-REFERENDUM
-    what_lapsed: >-
-      The R.C. 519.12 referendum window against the 2026-07-07 Middleton Township rezoning closed
-      "on or about 2026-08-06" — the day AFTER this file was captured. As of 2026-09-16 it closed
-      41 days ago and NOBODY HAS CHECKED whether a petition was filed with the Wood County Board
-      of Elections, or whether it was certified.
-    why_it_is_the_worst_one_to_have_missed: >-
-      This file records it as "the only mechanism by which the thirteen-parcel rezoning can still
-      be undone." If a petition was filed and certified, the rezoning goes to the November 2026
-      ballot and the whole land-assembly thread changes posture. If none was filed, the rezoning
-      is final and that too is a decided fact. Either way the answer exists now and did not exist
-      when this file was written — and a watch with no cadence had no way to say so.
-    not_run_on_2026_09_16: >-
-      Deliberately. This sweep's scope was to DECLARE a cadence for the four watches that had
-      none, not to run them. It is the first dated trigger below and it is due immediately.
-    route: Wood County Board of Elections, http://www.co.wood.oh.us/boe/
-    carry_forward: >-
-      The unresolved signature-threshold conflict travels with it — the township's counsel is
-      minuted saying 35%, R.C. 519.12(H) is understood here as 8% of the gubernatorial vote, and
-      the press figure of 971 implies neither on its face. The statute text is the instrument and
-      has still not been read. Do not adopt any of the three.
+    lapsed: '2026-08-06 (window close); declared due 2026-09-16'
+    answered_on: '2026-10-27'
+    answer: >-
+      NOT ON THE BALLOT. The Wood County BOE's Questions and Issues List (2026-09-03) and 46-day
+      notice (2026-09-18) carry no Middleton Township zoning question, with the township's own road
+      levy present in both as the control [verified]. The coordinator told the trustees on
+      2026-08-05 the drive "came up short of signatures needed" [verified as said]. No petition is
+      recorded as presented. The 2026-07-07 rezoning is settled and in effect from ~2026-08-06
+      [inference]. Signature threshold: R.C. 519.12(H) in force = thirty-five per cent [verified,
+      statute text]; 8% is pre-2023 law; 971 is unverified press.
+    the_cost_of_the_lapse: >-
+      None to the outcome — the answer was fixed by 2026-08-06 and no later act could change it.
+      The cost was 82 days in which this file published an [open] that was already decided.
   cadence: >-
     QUARTERLY. Every instrument this watch tracks is a records-request target or a minutes
-    archive — the CRA agreement, the school compensation agreements, the Wood County TIF, the
-    Planning Commission minutes — and none of them publishes on a schedule this file can
-    anticipate. Quarterly matches the pace at which township and county minutes archives are
-    updated, which is the only route here that moves on its own. Next routine pass: 2026-12-05.
+    archive — the CRA agreement, the school compensation agreements, the Liames fire-inspection
+    CBPA, the fifth-building plans, the Wood County TIF, the 2026-07-07 Planning Commission
+    minutes — and none of them publishes on a schedule this file can anticipate. Next routine
+    pass: 2026-12-05.
   dated_triggers:
   - date: '2026-09-16'
-    status: DUE NOW — already 41 days past the event
+    status: >-
+      ANSWERED LATE on 2026-10-27 — see resolved_lapsed_trigger. Kept in the list as the record of
+      the lapse.
     what: >-
       Whether a R.C. 519.12 referendum petition against the 2026-07-07 rezoning was filed by the
       ~2026-08-06 deadline and whether the Board of Elections certified it.
-    route: Wood County Board of Elections; R.C. 149.43 if the certification is not published
-  - date: '2026-11-04'
-    what: >-
-      If a referendum WAS certified, the rezoning question is on this ballot. If it was not, this
-      date passes without event and the 2026-07-07 rezoning is settled. Either outcome is a
-      finding; only one of them is a story.
-    route: Wood County Board of Elections results
+    route: Middleton Township trustees' minutes (the petition is filed with the trustees); Wood County BOE issue lists
+  # The 2026-11-04 trigger ("if a referendum WAS certified, the rezoning is on this ballot") is
+  # REMOVED: none was certified, so the date passes without event by construction. Not a watch
+  # date any more.
   - date: '2026-12-05'
     what: >-
-      Routine quarterly sweep — the Middleton Township minutes archive, the Wood County
-      Commissioners' minutes tree, and the CivicEngage Agenda Center, each for anything after the
-      last capture.
-    route: as recorded in meta.method
+      Routine quarterly sweep — the Middleton Township minutes archive (anything after 10-14,
+      incl. a Schaller re-application or appeal and the Liames CBPA), the Agenda Center's
+      Commissioners' minutes (list + OCR, from 2026-10-20) and Planning Commission minutes
+      (the still-unpublished 2026-07-07 set), and whether to send the 149.43 requests below.
+    route: as recorded in meta.method and pass_2026_10_27.routes
   - date: '2027-03-05'
     what: The next quarterly sweep.
     route: as above
@@ -470,11 +708,15 @@ next_check:
       The records-request targets have no dates because no request has been sent. They do not
       expire and they do not arrive on their own; each quarterly pass should ask whether it is
       time to send one rather than whether one has appeared.
-    items: [CRA-AGREEMENT, SCHOOL-COMPENSATION-AGREEMENTS, WOOD-COUNTY-TIF, WCPC-MINUTES, MIDDLETON-SCHALLER-ACTION]
+    items: [CRA-AGREEMENT, SCHOOL-COMPENSATION-AGREEMENTS, WOOD-COUNTY-TIF, WCPC-MINUTES, LIAMES-FIRE-INSPECTION-CBPA, FIFTH-BUILDING-PLANS]
   do_not:
   - >-
-    Adopt any of the three signature thresholds (35%, 8%, 971) without reading R.C. 519.12(H).
-    Two of them come from people describing the statute and one from the press describing a drive.
+    Cite 8% or 971 as the R.C. 519.12(H) threshold. The statute in force on 2026-07-07 (eff.
+    2025-09-30) and today (eff. 2026-09-23) says thirty-five per cent; 8% is the 2010/2019 text.
+    Note the 2025-09-30 version's petition FORM still printed fifteen per cent.
+  - >-
+    Describe the referendum as "failed at the Board of Elections" or "rejected". On this record
+    no petition reached the trustees or the Board; the drive's own coordinator reported it short.
   - >-
     Read the blocked Wood County Recorder (Fidlar AVA) and Ohio Secretary of State routes as empty.
-    They are recorded as blocked and remain so until re-tested.
+    They are recorded as blocked (last probed 2026-08-05, not re-tested 2026-10-27).

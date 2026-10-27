@@ -23,8 +23,8 @@ meta:
   site: van-wert
   captured_for: issue 1408 (epic 1267, readiness(van-wert))
   extracted_at: '2026-08-05'
-  checked_on: '2026-09-16'
-  previous_check: '2026-08-05'      # the pass that wrote this file; before it, the #1402 pass of 2026-08-03
+  checked_on: '2026-10-27'
+  previous_check: '2026-09-16'      # before it 2026-08-05 (the pass that wrote this file) and the #1402 pass of 2026-08-03
   method: >-
     Seven routes, run independently and recorded separately. (1) Ohio EPA's eDocument public
     portal, scripted — by Entity Name, by County × Program, and by Secondary ID. (2) EPA ECHO's
@@ -99,6 +99,264 @@ delta_since_the_issue:
     The EIT began accepting requests 2026-07-31 — and it cannot take this campus. It is a
     GENERATION track. The issue was watching the wrong instrument; the load-side rule is BYONG.
     See the structural finding below.
+
+# ── The 2026-10-27 pass ──────────────────────────────────────────────────────
+# Routine pass due 2026-10-16 (11 days late) and three dated triggers lapsed (2026-09-30,
+# 2026-10-01, 2026-10-26). All three are answered below; one of them was asking about the wrong
+# instrument. Newest pass first; the 2026-09-16 pass follows unchanged.
+pass_2026_10_27:
+  ran_on: '2026-10-27'
+  previous_pass: '2026-09-16'
+  cadence_kept: false
+  cadence_gap_days: 41
+  honesty_note: >-
+    The monthly cadence set on 2026-09-16 named 2026-10-16 as the next routine pass; this one ran
+    11 days late, and the 2026-09-30 and 2026-10-01 triggers are 27 and 26 days late. Because those
+    two triggers were themselves placed ~4 weeks after their events by design, the lateness did not
+    cost a finding here — but the PCCM trigger (event 1299, due 2026-10-01) is still INSIDE the
+    eDoc publication lag today, and is answered as "not yet answerable", not as a negative.
+  route_status_this_pass:
+    tag: '[verified]'
+    statement: >-
+      eDoc is UP. The HTTP 503 seen on 2026-10-17/18 by other passes has cleared. Positive control
+      docid 3940058 served a 241,518-byte PDF on 2026-10-27, and docid 4236096 (the 2026-08-19 CSO
+      update) is present in the 2PD00006 result. NEW HAZARD: a bare curl to the portal now receives
+      an F5 TSPD JavaScript challenge page with no __VIEWSTATE (and a 244-byte body from
+      ViewDocument.aspx) — that is a missing-header problem, not an outage. httpx with
+      watermark.civic._http.BROWSER_HEADERS (browser UA + Accept) gets the real form and real PDFs.
+
+  queries_rerun:
+  - query: eDoc — Entity Name "QTS", statewide, all programs
+    route: watermark.oepa.portal._live_search(entity="QTS", program="")
+    count_at_last_check: 35
+    count_now: 35
+    delta: 0
+    newest_document: '2026-07-30'
+    tag: '[verified negative]'
+    finding: >-
+      UNCHANGED for a third consecutive pass (2026-08-05, 2026-09-16, 2026-10-27). Nothing has been
+      added to QTS's Ohio record since the 2026-07-30 Van Wert stormwater approval. Still no air
+      document anywhere in Ohio for the Van Wert campus.
+  - query: eDoc — County = VAN WERT, Program = AIR PERMIT, all entities
+    route: watermark.oepa.portal._live_search(county="VAN WERT", program="AIR PERMIT")
+    count_at_last_check: 337
+    count_now: 344
+    delta: 7
+    tag: '[verified negative]'
+    finding: >-
+      The count moved by seven and the answer did not. A full scan of all 344 rows for QTS / DATA
+      CENTER / DATACENTER / MEGA returns ZERO hits in entity or description. New rows are county
+      traffic: Mone Plant P0140139 (4293002, 2026-10-20), Braun (4295578, 2026-10-22), Bunge
+      (4280557, 2026-10-02), Danfoss (4280135, 2026-10-01; 4276836, 2026-09-29), Akers (4278943,
+      4279945, 2026-09-30).
+    positive_control: >-
+      The same Title IV acid-rain renewal for the Robert P. Mone Plant (facility 0381000043,
+      permit P0140139) advanced again: PRELIMINARY PROPOSED (2026-08-04) → PROPOSED (2026-08-24) →
+      APPROVAL OR ACKNOWLEDGEMENT, docid 4293002, 2026-10-20. Three stages of one permit observed
+      through this query — the route tracks progress, so its silence on QTS is a real negative
+      (subject to the 4-week lag for anything filed after ~2026-09-29).
+  - query: eDoc — Secondary ID "2GC08872"
+    route: watermark.oepa.portal._live_search(permit_id="2GC08872", program="")
+    count_at_last_check: 3
+    count_now: 3
+    delta: 0
+    tag: '[verified negative]'
+    finding: >-
+      STILL NO CO-PERMITTEE NOI — and this negative now has a name against it. Press reported on
+      2026-10-25 that Suffolk Construction is the contractor in charge and that ground has been
+      broken on Phase I ([reference], VW Independent). If Suffolk is operating on site it would
+      ordinarily file its own NOI as an additional operator under the 2026-07-30 approval letter.
+      Not on the record as of today; but a filing made after ~2026-09-29 could still be inside the
+      publication lag, so this is a negative on the record, not a finding of non-compliance.
+    what_it_does_and_does_not_mean: >-
+      Unchanged from 2026-09-16: no additional operator has filed. It is still NOT evidence about
+      site activity, and the press groundbreaking report is NOT evidence that one should have
+      filed by now — whether Suffolk is an "operator" under OHC000006 depends on its control of
+      plans/specs or day-to-day site control, which no captured record establishes. [open]
+  - query: eDoc — Secondary ID "2PD00006"
+    route: watermark.oepa.portal._live_search(permit_id="2PD00006", program="")
+    count_at_last_check: 169
+    count_now: 169
+    delta: 0
+    newest_document: '2026-08-19'
+    tag: '[verified negative]'
+    finding: >-
+      UNCHANGED. Newest rows are still docids 4236096 / 4236116 (2026-08-19), present as the
+      in-query control. No commencement notice and no further compliance-schedule update for CSO
+      event 3099; nothing yet for PCCM event 1299. See triggers_answered.
+  - query: eDoc — County = VAN WERT, Program = NPDES
+    route: watermark.oepa.portal._live_search(county="VAN WERT", program="NPDES")
+    count_at_last_check: 1571
+    count_now: 1578
+    delta: 7
+    newest_document: '2026-09-24'
+    tag: '[verified]'
+    finding: >-
+      Seven new rows, none the campus's: Rockford Health Care 2GS00013 (2026-09-18, 2026-09-24)
+      and a Federal Mogul 2IR00025 application (five rows, 2026-09-17). A QTS / DATA CENTER / MEGA
+      scan of all 1,578 rows returns only the three known 2GC08872 stormwater documents. No campus
+      NPDES instrument — the expected state for a sewered campus.
+  - query: eDoc — County = VAN WERT, Program = 401 WETLANDS
+    route: watermark.oepa.portal._live_search(county="VAN WERT", program="401 WETLANDS")
+    count_at_last_check: 4
+    count_now: 4
+    delta: 0
+    tag: '[verified negative]'
+    finding: >-
+      UNCHANGED — the same four county documents. The standing caveat applies: an NWP verification
+      is never public-noticed and this route cannot see it.
+  - query: EPA ECHO dfr_rest_services.get_dfr, p_id OH0027910
+    route: https://echodata.epa.gov/echo/dfr_rest_services.get_dfr?output=JSON&p_id=OH0027910
+    read_on: '2026-10-27'
+    tag: '[verified]'
+    finding: >-
+      ICIS-NPDES extract 2026-10-23, but the compliance window END is still 2026-06-30 — Q3 2026 is
+      NOT yet scored (expected; the 2026-12-01 trigger stands). QtrsInNC 12; SNC No; status
+      "Violation Identified"; formal actions 0; penalties $0; last inspection 2024-05-07. The
+      inspection count fell 5 → 4 because the five-year window start rolled to 2021-10-24 — an
+      inspection rolled off the front, none was lost. The partial 13th quarter (2026-07-01 to
+      2026-10-23) reads "Violation Identified". The 2023-Q4 "No Violation" vs QtrsInNC 12
+      inconsistency flagged on 2026-09-16 persists. Detail lives in water-watch.yaml pass_2026_10_27.
+  - query: aeptransmission.com/ohio/VanWert-Haviland/ by direct URL
+    read_on: '2026-10-27'
+    tag: '[verified negative]'
+    finding: >-
+      HTTP 200. NO Construction Notice for either Van Wert case. Ten document links: original LON
+      and public notice, Adjustment LON and public notice, news release, OVERVIEW, fact sheet, map
+      poster, MAP1, MAP7. (The 2026-09-16 pass enumerated nine; whether OVERVIEW.pdf is new or was
+      uncounted is [open].)
+    project_updates_block:
+      tag: '[verified]'
+      statement: >-
+        The "Project Updates" block now carries content: a FALL 2025 entry and a SUMMER 2026 entry
+        stating, for 26-0729-EL-BLN, "If approved, construction is planned to begin in fall 2026
+        and conclude early 2028". The lorem-ipsum placeholder is still present alongside them.
+      correction_or_change: >-
+        [open] whether the page changed after 2026-09-16 or the 2026-09-16 read (which called the
+        block unpopulated) missed these entries. The closest Wayback snapshot is 2026-05-10 and
+        cannot decide it. Either way the 2026-09-16 statement "there is no channel there that could
+        report one" is retired: the block can and does carry updates.
+  - query: PUCO / OPSB Docketing Information System — 26-0729-EL-BLN
+    tag: '[open — access blocked]'
+    finding: >-
+      NOT RE-PROBED this pass; carried as blocked (the host refused its bare origin on 2026-09-16).
+      Case status of 26-0729 remains UNSEARCHED, not empty.
+  - query: City of Van Wert council agenda and minutes (vanwert.org/agenda/)
+    read_on: '2026-10-27'
+    tag: '[verified]'
+    finding: >-
+      The 2026-10-26 agenda carries four first-reading ordinances and NO incentive, CRA, PILOT or
+      community-benefits instrument. Latest posted minutes are 2026-09-28; the 2026-10-12 and
+      2026-10-26 minutes are not yet posted (unsearched, not empty). See triggers_answered.
+  - query: FERC eLibrary · Van Wert County Board of Elections (R.C. 149.43)
+    tag: '[open]'
+    finding: >-
+      Neither run nor sent this pass; both carried forward exactly as recorded on 2026-09-16.
+
+  triggers_answered:
+  - trigger_date: '2026-09-30'
+    checked_on: '2026-10-27'
+    days_late: 27
+    what_it_asked: >-
+      The revised 2020 PCCM Plan (CSO schedule event 1299), due to Ohio EPA 2026-10-01 — query
+      2PD00006, but not before late October.
+    answer: NOT YET ANSWERABLE — inside the publication lag
+    tag: '[open]'
+    sources:
+    - https://edocpub.epa.ohio.gov/publicportal/ (Secondary ID 2PD00006, 169 rows, 2026-10-27)
+    statement: >-
+      Nothing for event 1299 on the portal 26 days after its due date. That is inside this portal's
+      observed 1–28-day lag, so it is NOT a negative. It becomes one on or after 2026-11-01; the
+      trigger is re-set below.
+  - trigger_date: '2026-10-01'
+    checked_on: '2026-10-27'
+    days_late: 26
+    what_it_asked: >-
+      AEP's planned construction start on the Van Wert–Haviland 138 kV rebuild; observable proxy is a
+      Construction Notice on the project page.
+    answer: NO CONSTRUCTION NOTICE — start [open]
+    tag: '[verified negative] on the notice; [open] on construction'
+    sources:
+    - https://www.aeptransmission.com/ohio/VanWert-Haviland/ (read 2026-10-27)
+    statement: >-
+      No Construction Notice. The page's own SUMMER 2026 update still frames the start
+      conditionally ("If approved, construction is planned to begin in fall 2026"), and the OPSB
+      ruling it is conditioned on is unobservable because the docket is blocked. Whether
+      construction has started is [open]; this is NOT a finding that it slipped.
+  - trigger_date: '2026-10-26'
+    checked_on: '2026-10-27'
+    days_late: 1
+    what_it_asked: >-
+      The city council public hearing on the QTS incentive package (CRA agreement may be required).
+    answer: THE HEARING WAS NOT AN INCENTIVE HEARING — it was annexation and rezoning
+    tag: '[verified] (agenda) / [reference] (press)'
+    sources:
+    - https://vanwert.org/agenda/ (2026-10-26 agenda, read 2026-10-27)
+    - https://vanwert.org/wp-content/uploads/2026/10/26-10-058-up.pdf
+    - https://vanwert.org/wp-content/uploads/2026/10/26-10-059-up.pdf
+    - https://vanwert.org/wp-content/uploads/2026/10/26-10-060-up.pdf
+    - https://vanwert.org/wp-content/uploads/2026/10/26-10-061-up.pdf
+    - https://vanwert.org/wp-content/uploads/2026/10/058-059-Annexation-Mapt-to-the-City-of-Van-Wert.pdf
+    - https://thevwindependent.com/news/2026/10/26/council-hears-annexation-rezoning-requests-qts-update/
+    statement: >-
+      [verified, agenda] The 2026-10-26 agenda's public hearing and first readings were Ord.
+      26-10-058 (expedited Type 1 annexation of 684.165 acres from Ridge Township adjoining the Mega
+      Site), 26-10-059 (I-2 conditional rezoning of the same land), and 26-10-060 / 26-10-061
+      (156.052 acres from Pleasant Township, the Purmort lands). No incentive, CRA, PILOT or
+      community-benefits ordinance was on the agenda — a verified negative for that meeting.
+      [reference, VW Independent 2026-10-26] Third reading expected 2026-11-23; attorney Charles Koch
+      said a letter of intent is signed for the 684 acres with the buyer under NDA. The ordinance
+      PDFs are image-only (no text layer) and were not OCR'd this pass, so their body text is
+      unread — titles come from the agenda page.
+    what_it_does_not_establish: >-
+      That the 684-acre buyer is QTS — the buyer is under NDA [open]. That the parcels are the
+      campus's — "adjoining the Mega Site" is the agenda's/press's description [reference].
+  - trigger_date: '2026-10-16'
+    checked_on: '2026-10-27'
+    days_late: 11
+    what_it_asked: The routine monthly pass.
+    answer: RUN — this block.
+    tag: '[verified]'
+
+  secondary_since_last_pass:
+    tag: '[reference]'
+    caution: >-
+      Press only. None of this is a controlling record; it re-targets the watch and must not be
+      promoted. In particular the 800 MW is a REQUEST reported second-hand, not a load, and must
+      never be added to the 500 MW press bracket or used to derive a campus total; and no MW may
+      be derived from the building square footage.
+    items:
+    - date: '2026-10-26'
+      source: https://thevwindependent.com/news/2026/10/26/council-hears-annexation-rezoning-requests-qts-update/
+      says: >-
+        Stevens: some site work underway; a community benefits agreement is under negotiation, with
+        the Van Wert County Foundation as financial agent and separate city and county boards; QTS
+        has requested an additional 800 MW from AEP and a load study is underway; ~5,550
+        construction workers.
+    - date: '2026-10-25'
+      source: https://thevwindependent.com/news/2026/10/25/data-center-construction-to-require-many-more-workers/
+      says: >-
+        QTS will take "zero incentives"; ground recently broken on Phase I — four buildings of
+        ~650,000 sq ft each; Suffolk Construction is the contractor in charge; a temporary US 30
+        off-ramp and a 6,000-space lot are planned; ~5,500 workers/day after March 2028.
+    - date: '2026-09-28'
+      source: https://thevwindependent.com/news/2026/09/28/council-learns-qts-update-is-coming-members-hear-request/
+      says: >-
+        A QTS community mailer is coming; two governance boards; the City "will likely receive
+        PILOT payments", amount unknown.
+    - date: '2026-09-28'
+      source: City of Van Wert council minutes 9.28.26 (vanwert.org) — a city record, but minutes reporting what was said
+      tag: '[verified] that it was said; [reference] as to the substance'
+      says: >-
+        Johnson reported VWAEDC "is finalizing the setup of the two governance boards that will
+        oversee the benefits package from QTS"; the mayor "summarize[d] PILOT payments and how
+        those funds would be moved if the CRA would approve of such".
+    reading: >-
+      [inference] The incentive thread has changed shape. "Zero incentives" (press) and "PILOT
+      payments … if the CRA would approve" (minutes) are not necessarily in conflict — a PILOT
+      routed through a CRA is a payment-in-lieu, which a company can describe as no incentive —
+      but they do mean the instrument to watch is a community benefits agreement and/or a PILOT
+      agreement, not a classic abatement. Which one exists is [open] until something is enacted.
 
 # ── The 2026-09-16 pass ──────────────────────────────────────────────────────
 # The file's own cadence said "weekly through August 2026, then monthly". It was not run: this
@@ -1052,69 +1310,72 @@ route_hazards:
 
 # ── What the next check should do ────────────────────────────────────────────
 next_check:
-  set_on: '2026-09-16'
-  supersedes: the next_check written 2026-08-05, whose cadence was not kept
+  set_on: '2026-10-27'
+  supersedes: the next_check written 2026-09-16, whose 2026-10-16 routine pass ran 11 days late
   cadence: >-
-    MONTHLY, and the weekly window is retired. The last cadence said "weekly through August 2026,
-    then monthly"; it was not kept, and the 28-day eDocument publication lag this pass discovered
-    is the reason weekly was never going to work. A weekly eDoc query cannot see a filing made
-    that week, so the cost of the miss was lower than it looked and the value of the frequency was
-    lower too. Monthly, with dated triggers set roughly four weeks AFTER the event they ask about,
-    is the honest cadence for this route. Next routine pass: 2026-10-16.
+    MONTHLY, with dated triggers set roughly four weeks AFTER the event they ask about (the eDoc
+    publication-lag rule, unchanged). Next routine pass: 2026-11-24, which deliberately coincides
+    with the day after the annexation third reading and ~4 weeks after the Suffolk groundbreaking
+    report.
   dated_triggers:
-  - date: '2026-09-30'
+  - date: '2026-11-01'
     what: >-
-      The revised 2020 PCCM Plan (CSO schedule event 1299) is due to Ohio EPA 2026-10-01. Query
-      eDoc Secondary ID 2PD00006 for it — but NOT before late October, per the lag rule below.
-    route: eDoc Secondary ID 2PD00006, keyword COMPLIANCE SCHEDULE UPDATE
-    why: >-
-      This is the next milestone on the same schedule whose first milestone the permittee has now
-      missed by 46 days and counting. It is the first test of whether the 3099 miss is a
-      contractor problem or a schedule problem.
-  - date: '2026-10-01'
-    what: >-
-      AEP's planned construction start on the Van Wert–Haviland rebuild. An OPSB ruling on
-      26-0729 must precede it and the docket is blocked, so the observable proxy is a Construction
-      Notice appearing on the project page.
-    route: aeptransmission.com/ohio/VanWert-Haviland/ — direct URL, NOT the filings index, which does not list this project
-  - date: '2026-10-26'
-    what: >-
-      Van Wert city council public hearing, 6 p.m., on the QTS incentive package. Stevens told
-      council on 2026-09-14 that an announcement is expected mid-to-late October and that a
-      Community Reinvestment Area agreement may be required.
-    route: City of Van Wert council agenda/minutes; the CRA board's own record; a 14-day Lincolnview schools review leaves a record
-    why: >-
-      The first incentive instrument on this campus with a dated path to existing. It is also the
-      class of document that sometimes states a load or an investment schedule, which is the thing
-      this watch has failed to ground through nine regulatory threads.
+      The revised 2020 PCCM Plan (CSO schedule event 1299, due 2026-10-01) leaves the 4-week lag
+      window. Re-query eDoc Secondary ID 2PD00006; from this date a silence is a negative.
+    route: eDoc Secondary ID 2PD00006 (169 rows as of 2026-10-27), keyword COMPLIANCE SCHEDULE UPDATE
   - date: '2026-11-15'
     what: >-
-      Roughly four weeks after the 2026-10-01 PCCM due date and after both of the permittee's own
-      lapsed recovery dates — the point at which an eDoc silence on CSO event 3099 becomes a
-      finding rather than a lag artifact.
+      CSO event 3099 (Begin Construction, missed 2026-08-01). The last recorded recovery date was
+      2026-09-15; by 2026-10-27 the report silence was already 42 days past it and 87 days past the
+      milestone, so the eDoc side is already a [verified negative] — this trigger asks whether ANY
+      commencement notice or revised schedule has appeared, and whether Ohio EPA has issued an NOV.
     route: eDoc Secondary ID 2PD00006
+  - date: '2026-11-23'
+    what: >-
+      Expected third reading of annexation/rezoning Ords. 26-10-058 / 26-10-059 (684.165 ac from
+      Ridge Twp, I-2 conditional rezoning) and 26-10-060 / 26-10-061 (156.052 ac, Pleasant Twp).
+      Record the vote, and whether any community benefits / PILOT instrument rides with them.
+    route: vanwert.org/agenda/ and posted minutes; the annexation then goes to the Van Wert County commissioners' record
+    why: >-
+      The first enacted local instruments touching the campus footprint since the 2026-06 deeds.
+      Third-reading date is [reference] (press), so check the agenda, not the date.
+  - date: '2026-11-24'
+    what: >-
+      ~4 weeks after the 2026-10-25 press report naming Suffolk Construction and a Phase I
+      groundbreaking — the point at which a co-permittee NOI under 2GC08872, if one was filed when
+      ground broke, should be past the publication lag. Also: the routine monthly pass, and the
+      2026-10-12 / 2026-10-26 council minutes should be posted.
+    route: eDoc Secondary ID 2GC08872 (3 rows); eDoc Entity Name "SUFFOLK" statewide; vanwert.org minutes
   - date: '2026-12-01'
     what: >-
       Earliest plausible appearance of Q3 2026 in ECHO's compliance window for OH0027910. Read the
-      window END (it must pass 2026-09-30), never the extract date.
+      window END (must pass 2026-09-30), never the extract date. (2026-10-27: extract 2026-10-23,
+      window end still 2026-06-30.)
     route: ECHO dfr_rest_services.get_dfr, p_id OH0027910
+  - date: '2026-12-15'
+    what: >-
+      The community benefits agreement / PILOT instrument and AEP's 800 MW load study — neither has
+      a dated path; this is a standing look, not a deadline. Also re-read the AEP project page for a
+      Construction Notice (the page's own text says "fall 2026", conditional on approval).
+    route: City council + county commissioners agendas; Van Wert County Foundation; aeptransmission.com/ohio/VanWert-Haviland/ direct URL
   - date: '2027-02-01'
     what: >-
       Annual review of the statewide ballot thread — the 2027 filing deadline, any Ohio Attorney
       General certification of summary language, any Ohio Ballot Board determination.
     route: the AG's and Ballot Board's own records — the upgrade path from [reference] to [verified]
   queries:
-  - eDoc — Entity Name "QTS", statewide (35 documents as of 2026-09-16, unchanged since 2026-08-05; the count IS the signal)
-  - eDoc — County = VAN WERT, Program = AIR PERMIT (337 as of 2026-09-16, was 328) — the facility-domain hinge; scan ALL rows for QTS/DATA CENTER, do not read the top of the list
-  - eDoc — Secondary ID "2GC08872" (3 as of 2026-09-16, unchanged) — the co-permittee NOI would land here
-  - eDoc — Secondary ID "2PD00006" (169 as of 2026-09-16) — the CSO schedule; this is the tighter query and should be preferred over the county sweep
-  - eDoc — County = VAN WERT, Program = NPDES (1571 as of 2026-09-16 — a baseline the last pass did not record)
-  - eDoc — County = VAN WERT, Program = 401 WETLANDS (4 as of 2026-09-16, unchanged)
+  - eDoc — Entity Name "QTS", statewide (35 as of 2026-10-27, unchanged since 2026-08-05; the count IS the signal)
+  - eDoc — County = VAN WERT, Program = AIR PERMIT (344 as of 2026-10-27, was 337) — scan ALL rows for QTS/DATA CENTER/MEGA; Mone P0140139 is the positive control
+  - eDoc — Secondary ID "2GC08872" (3 as of 2026-10-27, unchanged) — the co-permittee NOI would land here
+  - eDoc — Entity Name "SUFFOLK", statewide — NEW 2026-10-27; no baseline yet, record one
+  - eDoc — Secondary ID "2PD00006" (169 as of 2026-10-27, unchanged) — the CSO schedule
+  - eDoc — County = VAN WERT, Program = NPDES (1578 as of 2026-10-27, was 1571)
+  - eDoc — County = VAN WERT, Program = 401 WETLANDS (4 as of 2026-10-27, unchanged)
   - ECHO dfr_rest_services.get_dfr, OH0027910 — read the WINDOW END, not the extract date; note WHICH quarter rolled off the front
-  - aeptransmission.com/ohio/VanWert-Haviland/ by direct URL — a Construction Notice is what would appear
-  - City of Van Wert council + CRA board — the incentive instrument and the 2026-10-26 hearing
+  - aeptransmission.com/ohio/VanWert-Haviland/ by direct URL — a Construction Notice is what would appear; the Project Updates block now carries entries, read it too
+  - City of Van Wert council agenda + minutes — Ords. 26-10-058..061 third reading; any CBA / PILOT / CRA instrument
   - Van Wert County Board of Elections — R.C. 149.43 for the 2026-07-27 certification and part petitions (never sent)
-  - FERC eLibrary — an AEP Ohio service agreement naming the campus (route not established; see pass_2026_09_16)
+  - FERC eLibrary — an AEP Ohio service agreement naming the campus (route not established)
   do_not:
   - Watch the PJM interconnection queue for this campus. It is load; it will never appear there.
   - Read a missing campus NPDES permit as evidence of no discharge. A sewered campus never has one.
@@ -1122,22 +1383,32 @@ next_check:
   - Trust an eDoc result count taken before the page size is widened, or a search whose term does not echo back.
   - Compute the OPSB intervention deadline from the public notice's PDF metadata or its Last-Modified header.
   - >-
-    NEW 2026-09-16 — Read an eDoc silence about an event less than ~4 weeks old as a negative.
-    Docid 4236096 was submitted 2026-07-22 and published 2026-08-19. A 28-day lag is inside this
-    portal's normal range and a same-week negative is worthless.
+    Read an eDoc silence about an event less than ~4 weeks old as a negative. Docid 4236096 was
+    submitted 2026-07-22 and published 2026-08-19.
   - >-
-    NEW 2026-09-16 — Search the aeptransmission.com filings index for this project. It does not
-    list either Van Wert case. Use the project page's direct URL. And do not read any "Haviland"
-    row off that index as this campus's: three of them are Paulding County / Grover Hill Wind
-    filings from 2024, one of which is even captioned "Line Adjustment Project".
+    Search the aeptransmission.com filings index for this project, or read any "Haviland" row off
+    that index as this campus's. Use the project page's direct URL.
   - >-
-    NEW 2026-09-16 — Let the press "~2032 full buildout" figure overwrite the NOI's certified
-    2030-08-03 project end date, or report the Q4-2026 groundbreaking as a slip. Both figures were
-    published 2026-05-29, before the last check.
+    Let the press "~2032 full buildout" figure overwrite the NOI's certified 2030-08-03 project end
+    date, or report the Q4-2026 groundbreaking as a slip.
   - >-
-    NEW 2026-09-16 — Derive a campus MW from the 365,000-sq-ft-per-100-MW benchmark. Two
-    [reference] inputs multiplied together do not make a measurement, and the load is exactly what
-    is [open].
+    Derive a campus MW from square footage — neither the 365,000-sq-ft-per-100-MW benchmark nor
+    the 2026-10-25 "four buildings of ~650,000 sq ft" report.
+  - >-
+    NEW 2026-10-27 — Treat the press-reported "additional 800 MW" request to AEP as campus load,
+    or add it to the 500 MW press bracket to make a total. It is a second-hand report of a request
+    under study; the load stays [open].
+  - >-
+    NEW 2026-10-27 — Hit eDoc with a bare curl. It returns an F5 TSPD challenge page (no
+    __VIEWSTATE; 244 bytes from ViewDocument.aspx) that looks like an outage or an empty result.
+    Use httpx with watermark.civic._http.BROWSER_HEADERS, and run control docid 3940058.
+  - >-
+    NEW 2026-10-27 — Read the AEP page's "construction is planned to begin in fall 2026" as
+    construction started. It is conditional ("If approved") on a ruling the blocked docket cannot
+    show.
+  - >-
+    NEW 2026-10-27 — Name QTS as the buyer of the 684.165-acre annexation tract. The letter of
+    intent's buyer is under NDA per counsel [reference]; the identity is [open].
 
 # ── Instruments this watch names but did not pull ────────────────────────────
 instruments_to_pull:
@@ -1181,7 +1452,43 @@ instruments_to_pull:
   caveat: >-
     That a CRA is the mechanism is [reference] and conditional — the 2026-09-14 report says one
     "may be required". Pull whatever is enacted, not whatever was predicted.
+  revised_2026_10_27: >-
+    Re-targeted. The 2026-10-26 hearing was annexation/rezoning, not incentives; press now reports
+    QTS will take "zero incentives" while a community benefits agreement is negotiated (Van Wert
+    County Foundation as financial agent, separate city and county boards) and the 2026-09-28
+    minutes speak of PILOT payments moved "if the CRA would approve". The instrument to pull is
+    therefore the executed community benefits agreement and/or PILOT agreement, plus the
+    governance-board charters — and a CRA agreement only if one is in fact enacted.
   priority: 1
+- id: vanwert-annexation-ordinances-2026-10
+  what: >-
+    City of Van Wert Ords. 26-10-058 (expedited Type 1 annexation, 684.165 ac from Ridge Twp
+    adjoining the Mega Site), 26-10-059 (I-2 conditional rezoning), 26-10-060 / 26-10-061
+    (156.052 ac, Pleasant Twp, Purmort lands), and the annexation plat — first reading 2026-10-26.
+  urls:
+  - https://vanwert.org/wp-content/uploads/2026/10/26-10-058-up.pdf
+  - https://vanwert.org/wp-content/uploads/2026/10/26-10-059-up.pdf
+  - https://vanwert.org/wp-content/uploads/2026/10/26-10-060-up.pdf
+  - https://vanwert.org/wp-content/uploads/2026/10/26-10-061-up.pdf
+  - https://vanwert.org/wp-content/uploads/2026/10/058-059-Annexation-Mapt-to-the-City-of-Van-Wert.pdf
+  why: >-
+    The first local instruments on land adjoining the campus since the June 2026 deeds; the
+    conditional-rezoning conditions and the annexation petition's petitioner name are the facts
+    worth having. The PDFs are image-only — OCR required. Pull the as-enacted versions after the
+    third reading (expected 2026-11-23, [reference]) as well as these first-reading copies.
+  route: vanwert.org (public, no header tricks needed); county commissioners' annexation record.
+  priority: 1
+- id: aep-qts-800mw-load-study
+  what: >-
+    The AEP Ohio load study / service request for QTS's reported additional 800 MW at Van Wert.
+  why: >-
+    The first figure anywhere on this watch that purports to be the campus's requested load. It is
+    press-only ([reference], VW Independent 2026-10-26, relaying Stevens) and is a REQUEST, not a
+    load — but a study of it would be a utility record. Most likely surfaces in a PUCO/OPSB filing
+    (blocked docket), an AEP supplemental-project submission to PJM's TEAC, or AEP's next long-term
+    forecast.
+  route: PJM TEAC supplemental-project materials (AEP zone); PUCO docket (blocked); R.C. 149.43 does not reach AEP.
+  priority: 2
 - id: usace-lrb-nwp-verification
   what: Any USACE Buffalo District nationwide-permit verification issued to QTS for the campus.
   why: >-

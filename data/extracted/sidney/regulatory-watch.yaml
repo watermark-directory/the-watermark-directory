@@ -20,8 +20,8 @@ meta:
   site: sidney
   captured_for: issue 1383 (epic 1275, readiness(sidney))
   extracted_at: '2026-07-31'
-  checked_on: '2026-09-16'
-  previous_check: '2026-08-11'      # the #1998 re-check; before it the 2026-07-31 capture and 2026-07-02 (data-centers.md)
+  checked_on: '2026-10-27'
+  previous_check: '2026-09-16'      # before it 2026-08-11 (the #1998 re-check), the 2026-07-31 capture and 2026-07-02 (data-centers.md)
   recheck_2026_08_11: >-
     Five routes re-run and adversarially verified (#1998). ONE FLIPPED: an Ohio EPA air
     PTI/PTIO application was RECEIVED 2026-08-03 — three days after the previous check — and
@@ -713,6 +713,357 @@ newly_surfaced:
       - data/documents/grid/sidney/4184081.pdf
 
 # ── What the next check should do ─────────────────────────────────────────────
+# ── The 2026-10-27 pass: still no air draft — and a SECOND 401 application filed yesterday ──
+# Overdue: the 2026-10-02 expectation and both 2026-10-16 triggers lapsed unchecked and were
+# flagged by `watermark corpus staleness`. This pass answers them eleven days late.
+pass_2026_10_27:
+  ran_on: '2026-10-27'
+  previous_pass: '2026-09-16'
+  ran_late: >-
+    Eleven days past the 2026-10-16 triggers and twenty-five past the 2026-10-02 expectation. Nothing
+    below depends on the lateness — every route reports its own current state — but a draft whose
+    comment period opened and closed inside the gap would have been missed, which is why the county
+    sweep was read for ANY draft row, not only this campus's.
+  headline: >-
+    STILL NO AIR DRAFT. Twelve weeks after administrative completeness the CMH232 air file is still
+    exactly one document. But Amazon Data Services filed a NEW Section 401 / isolated-wetland
+    application for "CMH-232" on 2026-10-26 — thirty-two documents, published the next day — which
+    enlarges the project of record from 236.7 to 251.9 acres by adding a 15.2-acre construction
+    parking lot. FERC ER26-2303 is unchanged at six accessions. The campus MW is still `[open]`.
+
+  route_hazard_new:
+    tag: '[verified]'
+    statement: >-
+      ⚠️ The eDoc portal now REJECTS a bare `curl` user agent with the same 244-byte F5 "Request
+      Rejected" body PUCO serves (home page, docid 3940058 and docid 4214600 all returned it). The
+      same URLs fetched with the repo's own BROWSER_HEADERS (`watermark.civic._http`) through httpx
+      returned the 57,186-byte home page and a 241,518-byte PDF for control docid 3940058. So the
+      portal is UP; a hand-rolled probe that reads the 244 bytes as "down" or "empty" is wrong. Run
+      the portal through `watermark.oepa.portal` (or its headers), never through bare curl.
+    portal_status_this_pass: UP — no 503 on 2026-10-27; control docid 3940058 served (241,518 B, application/pdf)
+    cache_note: >-
+      `sweep_portal` caches for 168 h. Every eDoc query below was run through
+      `watermark.oepa.portal._live_search` directly so no week-old cached result could stand in for a
+      live read.
+
+  queries_rerun:
+  - query: eDoc — County = SHELBY, Program = AIR PERMIT, Entity "CMH"
+    count_at_last_check: 1
+    count_now: 1
+    delta: 0
+    tag: '[verified negative]'
+    finding: >-
+      UNCHANGED — THE TRIGGER QUERY. Still only docid 4214600 (2026-08-04, CMH232 CAMPUS, facility
+      0375015024, CORRESPONDENCE - P0141118). Entity "CMH232 Campus" returns the same single row.
+  - query: eDoc — Secondary ID "0375015024", statewide, all programs
+    count_at_last_check: 1
+    count_now: 1
+    delta: 0
+    tag: '[verified negative]'
+    finding: UNCHANGED. Same single row (4214600). The name-keyed and facility-id routes agree.
+  - query: eDoc — County = SHELBY, Program = AIR PERMIT, no entity, newest first
+    count_at_last_check: 952
+    count_now: 956
+    delta: 4
+    tag: '[verified negative]'
+    finding: >-
+      Four rows added, none this campus: 4280134 (2026-10-01, Edgewell Personal Care, report),
+      4275879 (2026-09-25, Cargill, compliance-review correspondence), 4273716 (2026-09-24, Ply Gem,
+      ROV/RTC) and 4265506 (2026-09-15, OMEGA JV2 Jackson Center, compliance-review correspondence).
+      Not truncated (2 pages, 956 distinct). No row for 0375015024 except 4214600; no new DRAFT FOR
+      PUBLIC COMMENT row for any Shelby facility.
+    publication_lag_example:
+      tag: '[inference]'
+      statement: >-
+        4265506 is dated 2026-09-15 but was not among the rows the 2026-09-16 pass reported, which
+        fits the portal's documented 1-28 day publication lag.
+    positive_control:
+      tag: '[verified]'
+      statement: >-
+        The portal is current to 2026-10-26 (the CMH-232 401 rows below, published within a day of
+        filing). The air program specifically: Shelby's newest air row is 2026-10-01; neighbouring
+        AUGLAIZE x AIR PERMIT (686 rows) runs to 2026-10-14 and MIAMI x AIR PERMIT (729) to
+        2026-09-24. The draft-shaped control still holds: OMEGA JV2 docids 110550 (DRAFT FOR PUBLIC
+        COMMENT), 121022 and 120829 are present in this sweep.
+    limit:
+      tag: '[inference]'
+      statement: >-
+        Because the portal publishes 1-28 days late, a draft issued after about 2026-09-29 might
+        exist and not show yet. This negative covers drafts issued up to about four weeks ago. It is
+        not a claim about the last four weeks.
+  - query: eDoc — County = SHELBY, Entity "SIDNEY DATA", all programs
+    count_at_last_check: 7
+    count_now: 7
+    delta: 0
+    tag: '[verified negative]'
+    finding: UNCHANGED — DSWPTI-260517 (3 rows) and 1GC10596 (4 rows); newest 2026-06-17.
+  - query: eDoc — County = SHELBY, Entity "CMH-232", all programs
+    count_at_last_check: 30
+    count_now: 62
+    delta: 32
+    tag: '[verified]'
+    finding: >-
+      ⚠️ MOVED. The thirty DSW401251911W rows are unchanged (newest 2026-01-15). Thirty-two NEW rows
+      form a second 401 file, DSW401262560W, all dated 2026-10-26 with description APP262560W:
+      docids 4298285-4298305, 4298308-4298316, 4298319 and 4298321. See `new_401_application`.
+  - query: eDoc — County = SHELBY, Entity "CMH232", all programs
+    count_now: 1
+    tag: '[verified]'
+    finding: >-
+      Naming control. It still returns only the one air document, so the new wetland file is filed
+      under the hyphenated "CMH-232" like the first one. The hyphen still splits air from 401
+      on a third date.
+  - query: Envirofacts ICIS_PERMIT, PERMIT_NAME/CONTAINING/Amazon Data Services
+    request: GET https://data.epa.gov/efservice/ICIS_PERMIT/PERMIT_NAME/CONTAINING/Amazon%20Data%20Services/JSON
+    count_at_last_check: 41 nationwide / 16 Ohio
+    count_now: 46 nationwide / 16 Ohio
+    delta: +5 nationwide / 0 Ohio
+    tag: '[verified negative — CONTROLLED]'
+    freshness_control_checked_first:
+      tag: '[verified]'
+      statement: >-
+        The control is firing again. The newest created_date anywhere in the set is now 2026-10-02
+        (MSR109638 and MSR109935, Mississippi, "Phase II"), plus three California rows created
+        2026-09-22. It was 2026-08-03 on 2026-09-16. So the table has ingested within the last four
+        weeks, and the Ohio flatline is a controlled negative again.
+    finding: >-
+      No new Ohio coverage. All sixteen Ohio rows still carry created and updated 2026-06-09.
+      OHGC16923 is unchanged: GPC/EFF, version 0, effective = issue = 2025-12-05, expires
+      2028-04-22, master OHC000000, no termination_date, major_minor N.
+  - query: ECHO dfr_rest_services.get_dfr, p_id OH0027421 (the receiving POTW)
+    request: GET https://echodata.epa.gov/echo/dfr_rest_services.get_dfr?output=JSON&p_id=OH0027421
+    tag: '[verified]'
+    system_extract_date: ICIS-NPDES 2026-10-23
+    finding: >-
+      Posture unchanged. The compliance window still ends 2026-06-30. Current status is
+      Significant/Category I Noncompliance (CurrentSNC Yes); 10 quarters in NC and 1 in SNC; 5
+      inspections, last 2025-06-04. Formal enforcement actions: 0, penalties $0. Q13 (2026-07-01 to
+      2026-10-23, partial) is still Violation Identified.
+    what_drove_q12_answered_early:
+      tag: '[verified]'
+      source: same DFR — CWAPSComplianceNew, CWARNCCompliance, CWAEffluentComplianceEXP blocks
+      statement: >-
+        Answers the first `[open]` item of the 2026-09-16 SNC entry. ECHO records the Category-I
+        status against a PERMIT SCHEDULE event, not an effluent limit: event "Achieve Final
+        Compliance With Emission or Discharge Limits", scheduled 2026-01-01, violation C40
+        "Schedule Event unachieved and not reported", RNC category 1, carried from Q11 through Q13.
+        The Q12 RNC status reads "Compliance/Permit Schedule - Violations". Effluent exceedances
+        also appear: DEHP (Di[2-ethylhexyl] phthalate) 14% in Q11 and 87% in Q12, and E. coli
+        (MTEC-MF) LIMIT VIOLATION ×2 in Q13.
+      still_open:
+        tag: '[open]'
+        statement: >-
+          Which limit the 2026-01-01 final-compliance schedule governs, and whether "not reported"
+          means the plant did not comply or only that it did not send the report. ECHO cannot tell
+          those apart. That needs the permit's schedule-of-compliance section (the corpus holds the
+          permit) and Ohio EPA correspondence.
+  - query: ECHO dfr_rest_services.get_dfr, p_id OHGC16923
+    tag: '[open — route still broken]'
+    finding: >-
+      Still answers "ID OHGC16923 is invalid." Not on a trigger this pass (the 2026-12-15 trigger
+      governs it). Recorded so the December pass does not assume it recovered.
+  - query: FERC eLibrary — docket ER26-2303
+    tag: '[verified negative]'
+    request_that_works: >-
+      POST https://elibrary.ferc.gov/eLibrarywebapi/api/Search/AdvancedSearch with
+      Content-Type application/json and body
+      {"searchText":"*","searchFullText":true,"searchDescription":true,"dateSearches":[],
+      "availability":null,"affiliations":[],"categories":[],"libraries":[],"accessionNumber":null,
+      "eFiling":false,"docketSearches":[{"docketNumber":"ER26-2303","subDocketNumbers":[]}],
+      "resultsPerPage":100,"curPage":0,"classTypes":[],"sortBy":"","groupBy":"NONE",
+      "idolResultID":"","allDates":true}. No auth and no browser needed. For a date-bounded
+      description search, set allDates false, add
+      dateSearches [{"dateType":"filed_date","startDate":"YYYY-MM-DD","endDate":"YYYY-MM-DD"}],
+      and set searchFullText false.
+    count_at_last_check: 6 accessions (cited 2026-08-11; not reproducible 2026-09-16)
+    count_now: 6 (totalHits 6)
+    finding: >-
+      UNCHANGED, and REPRODUCED for the first time. The same six accessions came back: 20260424-3101
+      (combined notice), 20260424-5179 (public CSA, availCode P), 20260424-5180 (availCode N, still
+      non-public), 20260430-5161 (Buckeye Power intervention), 20260515-5240 (Buckeye limited
+      comments), 20260623-3083 (order accepting). Nothing filed after 2026-06-23. There is no public
+      version of the load table and no Phase II agreement in this docket.
+  - query: FERC eLibrary — a Sidney Phase II CSA in ANY docket, filed 2026-06-24 → 2026-10-27
+    tag: '[verified negative]'
+    finding: >-
+      Description searches over that window: "Amazon" returned 9 hits, none a DP&L/AES Ohio agreement
+      (Amazon Energy market-power and intervention filings, an AWS conference statement). "Sidney"
+      returned 7, all a different Sidney (Sidney LLC, Tri-State's Sidney DC tie, RE Sidney Solar,
+      Sidney NY, Sidney-North Yuma CO). "Dayton Power and Light Construction Service Agreement"
+      returned 5, one of which is the collision recorded below.
+    positive_control:
+      tag: '[verified]'
+      statement: >-
+        The same "Amazon" description search widened to start 2026-04-01 returned 16 hits, including
+        20260424-5179 and -5180, so the search does reach Sidney's own filing.
+    full_text_note:
+      tag: '[verified]'
+      statement: >-
+        A full-text search for "Sidney" AND "Amazon" returned 59 hits, none relevant: market-power
+        analyses and §203 applications. Full-text search here is noise. Use docket and description
+        searches.
+  - query: PUCO DIS 25-958-EL-AIR
+    tag: '[open — access blocked; UNSEARCHED]'
+    finding: >-
+      Still blocked. Bare curl gets the 244-byte "Request Rejected" body, including at the bare
+      origin. With BROWSER_HEADERS the host returns a 6,828-byte JavaScript challenge ("Please
+      enable JavaScript to view the page content") instead, with no case content. No headless
+      browser was run, so the docket is unsearched, not empty.
+
+  # ── The lapsed triggers, answered ───────────────────────────────────────────
+  triggers:
+  - trigger: '2026-10-16 — THE DRAFT: air PTI/PTIO draft for public comment, CMH232 Campus, facility 0375015024'
+    checked_on: '2026-10-27'
+    answer: NOT PUBLISHED
+    tag: '[verified negative]'
+    statement: >-
+      No draft on any of the three routes: entity 1 → 1, facility id 1 → 1, county sweep with no
+      0375015024 row except 4214600. As of 2026-10-27, application P0141118 (received 2026-08-03,
+      complete 2026-08-04) has no published draft, public notice, proposed permit or approval.
+      There is no comment period to report.
+    caveat: >-
+      With the 1-28 day publication lag, a draft issued in roughly the last four weeks could exist
+      unpublished. The portal is live through 2026-10-26, so the lag is the only gap.
+  - trigger: 2026-10-02 — the estimated air final-determination window
+    checked_on: '2026-10-27'
+    answer: PASSED WITHOUT A FINAL, and without the draft that must come before one
+    tag: '[verified negative]'
+    statement: >-
+      As expected, this is not a finding. The date was derived from the completeness
+      acknowledgement and Ohio EPA never committed to it. At 85 days from receipt the application is
+      inside the 60-120 day non-major band and short of the 120-180 day major band. The file still
+      does not say whether it is major or minor.
+  - trigger: 2026-10-16 — FERC Phase II CSA / public ER26-2303 load table
+    checked_on: '2026-10-27'
+    answer: NEITHER EXISTS on eLibrary as of 2026-10-27
+    tag: '[verified negative]'
+    statement: >-
+      ER26-2303 still holds six accessions and the load table (20260424-5180) is still availCode N.
+      No DP&L/AES Ohio agreement naming Amazon or Sidney was filed after 2026-06-23 in any docket.
+      The request that reaches eLibrary is now recorded (see queries_rerun).
+
+  # ⚠️ ─────────────────────────────────────────────────────────────────────────
+  new_401_application:
+    tag: '[verified]'
+    source: >-
+      Ohio EPA eDoc 4298285 ("Application for Section 401 Water Quality Certification", 66 pp., PDF
+      created 2026-10-26), pp. 1-3, read from the portal on 2026-10-27. ⚠️ NOT YET IN THE CORPUS —
+      pull and extract it before citing it downstream.
+    edoc_permit_id: DSW401262560W
+    ohio_epa_application: APP262560W
+    application_id_on_form: '540722745'
+    applicant: Amazon Data Services, Inc. (410 Terry Ave N, Seattle) — Robert Truedinger, Director, Enviro
+    signed_by: Shannon Moore, Regional Environmental Manager — electronically submitted 2026-10-26
+    consultant: Smart Services, Inc. (Newark, OH) — Chris Klein; technical contact Mitchel Strain
+    project_name: CMH-232
+    project_description_verbatim: >-
+      "The proposed project will convert 251.9 acres of agricultural, residential, and vacant land
+      into a data center campus in Sidney, Shelby County, Ohio. The project area consists of two (2)
+      sites. The proposed data center will be situated on a 236.7-acre site, and a 15.2-acre site
+      will be used as a parking lot during construction."
+    parking_lot_location: >-
+      "south of Campbell Road and approximately 0.3 miles to the northwest of the main campus"
+    construction_window_stated: 2027-03-01 → 2030-03-01
+    wetland_acres_impacted_fee_basis: '0.98'
+    other_permits_listed: >-
+      NPDES, permit type General, "Will be Submitted on: 12/01/2026". Read as printed. The form does
+      not say which general permit; that it is a construction-stormwater NOI for the parking-lot
+      site or an expansion is `[inference]`.
+    mitigation_plan_files_listed: '"IWP Cover Letter_09282026.pdf", "IWP (OEPA) Level 2 - CMH232_REV2.pdf"'
+    usace_jd_cited: LRH-2024-927 (Joslin Site JD; AJD letter)
+    states_a_load: >-
+      NO. The text layer of 4298285 does not state a load (no "MW" or "megawatt" anywhere). Like the
+      seven instruments before it, it does not disclose the campus load.
+    what_changes:
+      tag: '[verified]'
+      statement: >-
+        The 2025 permit (251911W) described "236.7 acres". This application describes 251.9 acres
+        across two sites. The 15.2-acre parking-lot parcel is new to the regulatory record, so the
+        project footprint of record grew by 15.2 acres.
+    whether_it_goes_to_public_notice:
+      tag: '[open]'
+      statement: >-
+        Not established. The mitigation plan is labelled "IWP (OEPA) Level 2". The 2025 authorization
+        251911W was a Level One general permit. Whether this application gets a public notice and a
+        comment period depends on the permit type: which IWP level Ohio EPA applies, and whether the
+        401 is individual or rides a nationwide permit. The form's checkbox states are not in the
+        text layer, so this pass could not read them. If it is noticed, this would be a state
+        comment window on this campus. Watch for a public-notice row (next_check).
+    form_inconsistencies_do_not_propagate:
+      tag: '[verified]'
+      statement: >-
+        As filed, the form gives the project ZIP as 43103, but Sidney is 45365. The Wetland A ORAM
+        form gives HUC8 05120103 (Mississinewa) while Section H gives 050800010604 /
+        050800010703. Record these as they appear in the source. Do not correct them silently and
+        do not reuse them as facts.
+    companion_documents_read:
+      - docid: '4298286'
+        what: Site map, "CMH-232 Parking Lot", Sidney (USFWS NWI basemap, dated 2026-04-24); 97,948,376 B
+      - docid: '4298287'
+        what: >-
+          WSP memo dated 2026-02-11, "Revised recommendations based on change in construction volumes
+          and City of Sidney" construction of Millcreek Road. It describes the "AWS CMH232 Joslin Site"
+          as five parcels of about 235.24 acres. Scenario 1 is 1,230 personnel vehicles and 7 trucks
+          per day for about 10 months (February 2027 → November 2027). It refers to "Phase 1
+          completion". It states no load.
+      - docid: '4298300'
+        what: >-
+          Stream + Wetlands Foundation letter, 2025-12-30. It confirms a $55,250 payment for 1.0 acre of
+          forested wetland credits at the Norton Run bank under Ohio EPA No. 251911W. This is the
+          FIRST permit's mitigation, refiled in the new package.
+      - docid: '4298321'
+        what: unidentified, 45,126,767 B, no text layer in the first two pages
+
+  instruments_to_pull:
+    note: >-
+      Listed, not shelved. Nothing was added under data/documents/** on this pass. URL pattern:
+      https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=<docid>. Fetch with
+      BROWSER_HEADERS, because bare curl gets the 244-byte rejection. Docs are served without a
+      filename, so name each edoc-<docid>.pdf.
+    items:
+    - docid: '4298285'
+      date: '2026-10-26'
+      title: Application for Section 401 Water Quality Certification — CMH-232 (APP262560W), 66 pp.
+      priority: FIRST — the application itself
+    - docid: '4298286'
+      date: '2026-10-26'
+      title: Site map — CMH-232 Parking Lot (97.9 MB)
+    - docid: '4298287'
+      date: '2026-10-26'
+      title: WSP construction-traffic memo, 2026-02-11
+    - docid: 4298288-4298299, 4298301-4298305, 4298308-4298316, 4298319, 4298321
+      date: '2026-10-26'
+      title: >-
+        DSW401262560W companion files, eDoc description "APP262560W", unread. The application's
+        Section 4 lists delineation reports, ORAM forms, photos, USACE JD letters, a site plan
+        dated 2026-08-04, a combined wetland overlay, and the IWP Level 2 mitigation plan with its
+        2026-09-28 cover letter.
+    - docid: '4298300'
+      date: '2026-10-26'
+      title: Stream + Wetlands Foundation mitigation-payment letter (2025-12-30), refiled
+
+  # ⚠️ ─────────────────────────────────────────────────────────────────────────
+  collision_guard_five:
+    tag: '[verified]'
+    name: FERC ER26-3752 — an AES Ohio construction service agreement for PIQUA, not Sidney
+    statement: >-
+      The DP&L CSA search surfaced docket ER26-3752. 20260910-5277 (public) / -5278 (availCode N) is
+      "Construction Service Agreement - Piqua Initial Service", effective 2026-11-09. Buckeye Power
+      intervened on 2026-09-18, and on 2026-10-01 filed a "Motion to Compel Production of
+      Non-Public Version of the Filing" (20261001-5273). AES Ohio answered on 2026-10-14. FERC
+      issued a deficiency letter on 2026-10-16 (20261016-3006), and Buckeye filed supplemental
+      comments on 2026-10-22. The descriptions do not name the customer.
+    do_not: >-
+      Read ER26-3752 as Sidney's Phase II. It is a different place (Piqua, Miami County), its
+      customer is `[open]`, and it belongs to the troy-piqua watch. It is the same utility, the same
+      intervenor and the same instrument type, so it is the fifth collision guard here.
+    why_sidney_should_still_watch_it:
+      tag: '[inference]'
+      statement: >-
+        Buckeye's motion to compel the non-public version is the move Buckeye did NOT make in
+        ER26-2303. How FERC rules on it shows whether a withheld CSA load table like 20260424-5180
+        can be forced into the record.
+
 # ── The 2026-09-16 pass: the draft window opened and nothing came through ────
 # The previous check set the air DRAFT as the trigger and said to watch from late September
 # because the draft precedes the ~2026-10-02 final-determination window. This is that watch.
@@ -1013,108 +1364,108 @@ pass_2026_09_16:
     added_to: next_check.dated_triggers
 
 next_check:
-  set_on: '2026-09-16'
-  supersedes: the next_check written 2026-08-11
+  set_on: '2026-10-27'
+  supersedes: the next_check written 2026-09-16
+  last_actually_checked: '2026-10-27'
   cadence: >-
-    MONTHLY while the air PTI is pending, then quarterly. The previous cadence was quarterly "or
-    immediately on any trigger", and the trigger it named — the draft — has no announced date, so
-    quarterly would mean a public-comment window could open and close unwatched. Ohio EPA drafts
-    carry a comment period measured in weeks. Next routine pass: 2026-10-16.
+    MONTHLY while the air PTI is pending and while APP262560W could go to public notice, then
+    quarterly. Each eDoc trigger is set about four weeks after the window it asks about, because of
+    the 1-28 day publication lag. Next routine pass: 2026-11-24.
   dated_triggers:
-  - date: '2026-10-16'
+  - date: '2026-11-24'
     what: >-
-      THE DRAFT, still. Not filed as of 2026-09-16, six weeks after the 2026-08-04 administrative
-      completeness acknowledgement. It remains the single document that would state generator
-      count and ratings and therefore ground this campus's load from a public instrument.
+      THE AIR DRAFT, still. Not published as of 2026-10-27, twelve weeks after the 2026-08-04
+      completeness acknowledgement. It is still the one document that would state generator count and
+      ratings. If it is out, record the comment-period dates FIRST, because the window is measured
+      in weeks.
     route: >-
-      eDoc County = SHELBY + Program = AIR PERMIT + Entity "CMH" (1 doc), AND Secondary ID
-      0375015024 statewide (1 doc), AND the county sweep newest-first (952 docs). Run all three —
-      the entity and facility-id routes agreeing is what makes the zero trustworthy.
-    what_it_looks_like: >-
-      A row whose description reads "DRAFT FOR PUBLIC COMMENT", exactly as docid 110550 does for
-      the OMEGA JV2 Jackson Center Peaking Station in this same county.
-  - date: '2026-10-02'
+      eDoc County=SHELBY + AIR PERMIT + Entity "CMH" (1 doc), AND Secondary ID 0375015024
+      statewide (1 doc), AND the county sweep newest-first (956 docs). Use watermark.oepa.portal
+      `_live_search`, not the 168 h cache and not bare curl.
+    what_it_looks_like: A row described "DRAFT FOR PUBLIC COMMENT", as docid 110550 is for OMEGA JV2 Jackson Center.
+  - date: '2026-11-24'
     what: >-
-      The estimated air final-determination window opens. ⚠️ Treat as an EXPECTATION, not a
-      deadline — it was derived from the completeness date, not committed to by Ohio EPA. Its
-      passing is not itself a finding, and a draft must precede it.
-    route: as above
+      PUBLIC NOTICE on the new 401 / Level 2 IWP application DSW401262560W (APP262560W, filed
+      2026-10-26). Look for a public-notice row, a hearing notice or a draft certification, and
+      record any comment deadline.
+    route: eDoc County=SHELBY, Entity "CMH-232" (62 docs as of 2026-10-27); and Secondary ID DSW401262560W
+  - date: '2026-12-01'
+    what: >-
+      The non-major end of the 60-120 day air-PTI band from the 2026-08-03 receipt. ⚠️ An
+      EXPECTATION, not a deadline. A draft must come first, and the major band runs to
+      about 2027-01-30.
+    route: as the air-draft trigger
+  - date: '2026-11-24'
+    what: >-
+      FERC: any filing after 2026-06-23 in ER26-2303, a new DP&L/AES Ohio CSA naming Amazon or
+      Sidney, and the outcome of Buckeye's motion to compel in ER26-3752 (Piqua, NOT Sidney).
+    route: >-
+      eLibrary AdvancedSearch JSON POST with docketSearches [{"docketNumber":"ER26-2303"}] and
+      allDates true, plus a description search "Amazon" filed since 2026-10-27 (full request in
+      pass_2026_10_27.queries_rerun).
   - date: '2026-12-15'
     what: >-
-      The first ECHO compliance rollup that can contain construction. The quarter ends 2026-09-30
-      and ECHO's window advances well after a quarter closes, so December is the earliest
-      informative read — NOT 2026-09-30 itself, which is what the old trigger said.
+      The first ECHO compliance rollup that can contain construction on OHGC16923 (quarter ended
+      2026-09-30).
     route: >-
-      ⚠️ RE-ESTABLISH THE ROUTE FIRST. dfr_rest_services.get_dfr now answers
-      "ID OHGC16923 is invalid" for the coverage, the FRS registry and the master permit alike, and
-      get_facilities returns zero rows. Whatever served the rollups on 2026-08-11 is not recorded
-      in this file. Envirofacts ICIS_PERMIT still answers on the permit number but carries posture,
+      ⚠️ RE-ESTABLISH THE ROUTE FIRST. get_dfr still answers "ID OHGC16923 is invalid" (re-confirmed
+      2026-10-27). Envirofacts ICIS_PERMIT answers on the permit number, but it carries posture,
       not compliance.
   - date: '2026-12-15'
     what: >-
-      The Sidney WWTP's Q3 2026 compliance quarter and the parameters behind its Q12 Category-I
-      significant noncompliance. NEW — the receiving POTW entered SNC in the quarter ending
-      2026-06-30 and this watch had nothing set before the mid-2027 renewal.
-    route: ECHO dfr_rest_services.get_dfr p_id OH0027421, and eff_rest_services.get_effluent_chart for the driving parameter
-  - date: '2026-10-16'
+      Sidney WWTP OH0027421: the Q3 2026 quarter, whether the C40 schedule violation (final-compliance
+      event due 2026-01-01) clears, whether formal enforcement follows, and the Q13 E. coli limit
+      violations.
+    route: ECHO get_dfr p_id OH0027421 (CWAPSComplianceNew, CWAEffluentComplianceEXP, FormalActions); eff_rest_services.get_effluent_chart
+  - date: '2027-01-04'
     what: >-
-      A Sidney PHASE II construction service agreement, or a public version of ER26-2303's load
-      table. ⚠️ Record the REQUEST that reaches eLibrary this time — the 2026-08-11 pass cited six
-      accessions without recording how it got them, and this pass could not reproduce it.
-    route: FERC eLibrary — needs a headless browser or the bulk accession downloads; the JSON API base is not recoverable from the app bundle
+      The NPDES general-permit submission APP262560W says "Will be Submitted on: 12/01/2026",
+      checked about four weeks later for publication lag. It may be a new construction-stormwater NOI
+      for the parking-lot parcel, or a modification of 1GC10596.
+    route: eDoc County=SHELBY, Entity "SIDNEY DATA" and "CMH" (all programs); Envirofacts ICIS_PERMIT Amazon Data Services
   - date: '2027-07-04'
     what: >-
-      The OH0027421 renewal application, due ~180 days before the 2027-12-31 expiry. Now more
-      interesting than when it was set, because the permittee enters that cycle in Category-I SNC.
+      The OH0027421 renewal application, due ~180 days before the 2027-12-31 expiry. The permittee
+      enters that cycle in Category-I SNC on a missed schedule event.
     route: eDoc Secondary ID 1PD00009; ECHO
   queries:
-    - eDoc, County=SHELBY, Program=AIR PERMIT, Entity "CMH" — THE DRAFT IS THE TRIGGER (1 doc as of 2026-09-16, unchanged since 2026-08-11)
-    - eDoc, Secondary ID "0375015024", statewide — name-independent; watches the air facility directly (1 doc as of 2026-09-16)
-    - eDoc, County=SHELBY, Program=AIR PERMIT, no entity, newest-first — name-independent (952 docs as of 2026-09-16, was 948)
-    - eDoc, County=SHELBY, Entity "SIDNEY DATA CENTER CAMPUS" — DSW instruments (7 docs as of 2026-09-16, unchanged)
-    - eDoc, County=SHELBY, Entity "CMH-232" — 401/wetland instruments (30 docs as of 2026-09-16, unchanged)
-    - Envirofacts ICIS_PERMIT, PERMIT_NAME/CONTAINING/Amazon Data Services — ⚠️ CHECK THE NEWEST created_date ACROSS ALL ROWS FIRST; the control did not fire on 2026-09-16 (41 nationwide / 16 Ohio, both unchanged, newest created_date anywhere still 2026-08-03)
-    - ECHO dfr_rest_services.get_dfr, OH0027421 — the receiving POTW, now in Category-I SNC
-    - FERC eLibrary — ER26-2303 accessions 20260424-3101, 20260424-5179, 20260424-5180, 20260430-5161, 20260515-5240, 20260623-3083; cite accessions, never the hit count
-    - PUCO 25-958-EL-AIR — with a HEADLESS BROWSER; curl is blocked over HTTP/2 and HTTP/1.1 alike (244-byte body, re-confirmed 2026-09-16)
-    - City of Sidney: R.C. 149.43 request for the approved site plan and for any AWS significant-industrial-user permit
+    - eDoc, County=SHELBY, Program=AIR PERMIT, Entity "CMH" — THE DRAFT IS THE TRIGGER (1 doc as of 2026-10-27, unchanged since 2026-08-11)
+    - eDoc, Secondary ID "0375015024", statewide — name-independent (1 doc as of 2026-10-27)
+    - eDoc, County=SHELBY, Program=AIR PERMIT, no entity, newest-first (956 docs as of 2026-10-27, was 952; newest row 2026-10-01)
+    - eDoc, County=SHELBY, Entity "SIDNEY DATA" — DSW instruments (7 docs as of 2026-10-27, unchanged)
+    - eDoc, County=SHELBY, Entity "CMH-232" — 401/wetland instruments (62 docs as of 2026-10-27, was 30; +32 = DSW401262560W filed 2026-10-26)
+    - Envirofacts ICIS_PERMIT, PERMIT_NAME/CONTAINING/Amazon Data Services — check the newest created_date first (46 nationwide / 16 Ohio as of 2026-10-27; newest created 2026-10-02, control FIRED)
+    - ECHO dfr_rest_services.get_dfr, OH0027421 — Category-I SNC on permit-schedule violation C40 (extract 2026-10-23)
+    - FERC eLibrary AdvancedSearch (JSON POST, recorded in pass_2026_10_27) — ER26-2303 accessions 20260424-3101, 20260424-5179, 20260424-5180, 20260430-5161, 20260515-5240, 20260623-3083 (6, unchanged); cite accessions, never hit counts
+    - PUCO 25-958-EL-AIR — HEADLESS BROWSER only. Bare curl gets the 244-byte rejection; browser headers get a JS challenge (2026-10-27)
+    - City of Sidney — R.C. 149.43 request for the approved site plan (APP262560W lists "CMH-232 Parking Lot Site Plan_08042026.pdf") and for any AWS significant-industrial-user permit
   do_not:
-    - Search "Project Galaxy" and treat Fayette County hits as Sidney's.
+    - Search "Project Galaxy" and treat Fayette (or Adams) County hits as Sidney's.
     - Filter ECHO by county and read a null-county absence as a negative.
     - Read the AES reroute permit, or any substation work, as evidence of the campus load.
+    - Read an **AEP Ohio** data-center item as this campus's. AEP/AES is a one-character collision.
+    - Query the AIR program with the hyphenated "CMH-232". The air program files "CMH232 Campus" and 401/wetlands files "CMH-232". Re-confirmed on a third date, 2026-10-27.
     - >-
-      Read an **AEP Ohio** data-center item as this campus's. PUCO's 2026-08-05 news item "PUCO
-      sets process to protect AEP Ohio customers from potential data center energy costs" is a
-      DIFFERENT utility in a DIFFERENT case. AEP/AES is a one-character collision of exactly the
-      class this watch exists to catch, and a data-center headline makes it easy to fall into.
-      (Added 2026-08-11.)
+      Take a megawatt figure from FERC docket **ER25-192**. It is Jefferson Township, and its figures
+      (1,500 MW and so on) are public because it is NOT Sidney. Sidney is ER26-2303, and its load
+      table, 20260424-5180, is availCode N.
     - >-
-      Query the AIR program with the hyphenated "CMH-232". It returns zero; the air program files
-      "CMH232 Campus". Conversely the 401/wetlands program files "CMH-232". (Added 2026-08-11;
-      re-confirmed on a second date 2026-09-16 — "CMH232" returns the 1 air document and "CMH-232"
-      returns the 30 wetland documents, with no overlap.)
+      ⚠️ NEW 2026-10-27 — Read FERC **ER26-3752** ("Construction Service Agreement - Piqua Initial
+      Service", DP&L, Buckeye Power intervening) as Sidney's Phase II. It is Piqua, and its customer is
+      `[open]`.
+    - Let a search result restore "$50 million over 15 years". The executed instruments say $46M over 14 years PLUS a separate $4M.
+    - Read the Envirofacts Ohio flatline as controlled without checking the newest created_date across all rows. It fired on 2026-10-27 (2026-10-02) but did not on 2026-09-16.
+    - Treat the ~2026-12-01 / ~2027-01-30 air bands as deadlines. They are derived from the receipt date, and Ohio EPA did not commit to them.
     - >-
-      ⚠️ NEW 2026-09-16 — Take a megawatt figure from FERC docket **ER25-192**. It is an AES Ohio /
-      Amazon Data Services construction service agreement in Ohio, exactly like Sidney's, and it is
-      **JEFFERSON TOWNSHIP**. Its figures ARE public and Sidney's are not, which is what makes it
-      dangerous: 1,500 MW final capacity, 65 MW at start, 480 MW within a year, contracted minimum
-      load 45.5 MW rising to 336 MW by 2027-09-15, $22.8M Phase 1 network upgrades, COD
-      2026-09-15. Both trade sources were read directly on 2026-09-16 and NEITHER mentions Sidney
-      or Shelby County. Sidney is **ER26-2303** and its load table is accession 20260424-5180,
-      availCode N. Distinguish by docket number, never by party name.
+      ⚠️ NEW 2026-10-27 — Read a 244-byte "Request Rejected" from edocpub.epa.ohio.gov as the portal
+      being down or empty. It is the F5 rejecting a bare curl user agent. Use watermark.oepa.portal or
+      its BROWSER_HEADERS, and test control docid 3940058 before declaring the route DOWN.
     - >-
-      ⚠️ NEW 2026-09-16 — Let a search result restore "$50 million over 15 years". Trade press
-      still prints it and was checked again this pass. The executed instruments say $46M over 14
-      years PLUS a separate $4M; that is a different arrangement, not a rounding of the same one.
+      ⚠️ NEW 2026-10-27 — Treat 251.9 acres as the data-center site. APP262560W says 236.7 acres for
+      the campus plus a separate 15.2-acre construction parking lot.
     - >-
-      ⚠️ NEW 2026-09-16 — Read the Envirofacts Ohio flatline as a controlled negative without
-      checking the control. On 2026-08-11 the nationwide count moved 39 → 41 while Ohio stood
-      still, which proved the query live. On 2026-09-16 it did not move at all, so the same words
-      are a weaker claim. Check the newest created_date across all 41 rows before reading the 16.
-    - >-
-      ⚠️ NEW 2026-09-16 — Treat the ~2026-10-02 air final-determination date as a deadline. It was
-      derived from the 2026-08-04 completeness acknowledgement, not committed to by Ohio EPA, and
-      its passing is not a finding.
+      ⚠️ NEW 2026-10-27 — Carry APP262560W's ZIP 43103 or its ORAM HUC8 05120103 (Mississinewa)
+      into any derived record. They are as-filed inconsistencies, not facts about the site.
 
 # ── Loose end this watch surfaced but did not fix ─────────────────────────────
 noted_not_fixed:
