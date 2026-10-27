@@ -2,9 +2,9 @@
   "site": "sidney",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-10-27T12:50:19+00:00",
+  "generated_at": "2026-10-27T16:19:03+00:00",
   "feed_count": 37,
-  "row_total": 925,
+  "row_total": 1023,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -29,7 +29,7 @@
       "media_type": "application/json",
       "schema": "schemas/records.schema.json",
       "kind": "collection",
-      "count": 28
+      "count": 30
     },
     {
       "name": "timeline",
@@ -37,7 +37,7 @@
       "media_type": "application/json",
       "schema": "schemas/timeline.schema.json",
       "kind": "collection",
-      "count": 6
+      "count": 7
     },
     {
       "name": "entities",
@@ -277,7 +277,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/passages.schema.json",
       "kind": "collection",
-      "count": 229
+      "count": 320
     },
     {
       "name": "catalog-index",
@@ -293,7 +293,7 @@
       "media_type": "application/json",
       "schema": "schemas/corpus-index.schema.json",
       "kind": "collection",
-      "count": 159
+      "count": 161
     },
     {
       "name": "corpus-nodes",
@@ -301,7 +301,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/corpus-nodes.schema.json",
       "kind": "collection",
-      "count": 159
+      "count": 161
     },
     {
       "name": "ask-embeddings",

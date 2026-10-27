@@ -130,5 +130,30 @@
       "note": null,
       "verified": true
     }
+  },
+  {
+    "date": "2026-10-26",
+    "category": "epa_permit_action",
+    "title": "401 Water Quality Certification and Isolated Wetland Permitting Unit DSW401262560W (eDoc Permit ID); Ohio EPA application APP262560W; Application ID: 540722745 — application (CMH-232)",
+    "ref": "DSW401262560W (eDoc Permit ID); Ohio EPA application APP262560W; Application ID: 540722745",
+    "parties": [
+      "Amazon Data Services, Inc.",
+      "Chris Klein",
+      "Smart Services, Inc"
+    ],
+    "detail": "affected Fill; wetland acres impacted 0.98 (fee basis). Seven isolated wetlands scored by ORAM (all on 'Application ID: 540722745' forms): Wetland A 18.0/Cat 1, 0.33 ac; B 17.0/Cat 1, 0.20 ac; C 15.0/Cat 1, 0.02 ac (parking-lot site); Wetland 1 31.0/Cat 2, 0.41 ac; 2 20.0/Cat 1, 0.17 ac; 3a 23.0/Cat 1, 0.25 ac; 3b 23.0/Cat 1, 0.01 ac (main campus). HUC-12 050800010604 (Mill Creek-Loramie Creek) and 050800010703 (Brush Creek-Great Miami River); USACE Huntington District",
+    "source": "oepa/sidney/DSW401262560W.epa.yaml",
+    "also_sources": [
+      "oepa/sidney/DSW401262560W.iwp-application.epa.yaml"
+    ],
+    "citation": {
+      "source": "oepa/sidney/DSW401262560W.epa.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
   }
 ]

@@ -2,9 +2,9 @@
   "site": "van-wert",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-10-27T12:51:09+00:00",
+  "generated_at": "2026-10-27T16:19:53+00:00",
   "feed_count": 36,
-  "row_total": 869,
+  "row_total": 887,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -269,7 +269,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/passages.schema.json",
       "kind": "collection",
-      "count": 268
+      "count": 286
     },
     {
       "name": "catalog-index",

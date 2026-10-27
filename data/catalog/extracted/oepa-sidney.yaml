@@ -42,6 +42,15 @@ storage:
 - relpath: extracted/oepa/sidney/4214600.epa.yaml
   media_type: application/x-yaml
   lfs: false
+# The campus's SECOND 401/isolated-wetland file, DSW401262560W (eDoc 4298285, received
+# 2026-10-26), and its Level Two IWP application companion (eDoc 4298321) — same permittee,
+# producer, license and provenance class as 251911W above. Neither states a load.
+- relpath: extracted/oepa/sidney/DSW401262560W.epa.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/oepa/sidney/DSW401262560W.iwp-application.epa.yaml
+  media_type: application/x-yaml
+  lfs: false
 refresh:
   cadence: static
 provenance: document

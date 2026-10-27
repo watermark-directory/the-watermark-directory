@@ -951,8 +951,10 @@ pass_2026_10_27:
     tag: '[verified]'
     source: >-
       Ohio EPA eDoc 4298285 ("Application for Section 401 Water Quality Certification", 66 pp., PDF
-      created 2026-10-26), pp. 1-3, read from the portal on 2026-10-27. ⚠️ NOT YET IN THE CORPUS —
-      pull and extract it before citing it downstream.
+      created 2026-10-26), pp. 1-3, read from the portal on 2026-10-27. Now in the corpus:
+      data/documents/oepa/sidney/4298285.pdf, extracted to
+      data/extracted/oepa/sidney/DSW401262560W.epa.yaml. The Level Two IWP application filed the
+      same day is 4298321.pdf (DSW401262560W.iwp-application.epa.yaml).
     edoc_permit_id: DSW401262560W
     ohio_epa_application: APP262560W
     application_id_on_form: '540722745'
@@ -973,12 +975,14 @@ pass_2026_10_27:
     construction_window_stated: 2027-03-01 → 2030-03-01
     wetland_acres_impacted_fee_basis: '0.98'
     wetland_acres_note:
-      tag: '[open]'
+      tag: '[verified]'
       statement: >-
         As printed in Section 3 (Fees), p. 2: "Wetland Acres Impacted 0.98 x $500.00 = $490.00",
-        while the same section prints "Total Review Fees = $0.00". How 0.98 relates to the 0.42-acre
-        impact authorized under 251911W (new wetlands, the parking-lot parcel, or a re-count) is not
-        stated on pp. 1-3 and is not established.
+        while the same section prints "Total Review Fees = $0.00". The IWP application's impact table
+        (4298321.pdf, p. 5) breaks the 0.98 down. 0.43 is the main campus RE-LISTED: Wetland 1 0.24
+        forested Cat 2, plus Wetlands 2, 3a and 3b, 0.19 non-forested. Against 251911W's 0.24 + 0.18,
+        that is 0.01 ac more, as printed. The other 0.55 is NEW: parking-lot Wetlands A 0.33, B 0.20
+        and C 0.02, all Cat 1. The table's own Category 1 total is 0.74 ac.
     other_permits_listed: >-
       NPDES, permit type General, "Will be Submitted on: 12/01/2026". Read as printed. The form does
       not say which general permit; that it is a construction-stormwater NOI for the parking-lot
@@ -994,22 +998,42 @@ pass_2026_10_27:
         The 2025 permit (251911W) described "236.7 acres". This application describes 251.9 acres
         across two sites. The 15.2-acre parking-lot parcel is new to the regulatory record, so the
         project footprint of record grew by 15.2 acres.
+    is_a_level_two_iwp_application:
+      tag: '[verified]'
+      statement: >-
+        Yes, as filed. 4298321.pdf is an "Isolated Wetland Permit Application (Level Two)" under the
+        same Application ID 540722745. Its heading defines Level Two as "impacts greater than ½ acre
+        of Category 1 isolated wetlands and greater than ½ acre but not exceeding 3 acres for
+        Category 2", and its own Category 1 total is 0.74 ac. The 2025 authorization 251911W was a
+        Level One general permit. The checkbox states, read from the rendered pages, are: Fill only;
+        no pre-application coordination; not after-the-fact; NPDES General "Will be Submitted on:
+        12/01/2026". On the 401 form, "Isolated Wetland Permit" is NOT checked under 2.L.
     whether_it_goes_to_public_notice:
       tag: '[open]'
       statement: >-
-        Not established. The mitigation plan is labelled "IWP (OEPA) Level 2". The 2025 authorization
-        251911W was a Level One general permit. Whether this application gets a public notice and a
-        comment period depends on the permit type: which IWP level Ohio EPA applies, and whether the
-        401 is individual or rides a nationwide permit. The form's checkbox states are not in the
-        text layer, so this pass could not read them. If it is noticed, this would be a state
-        comment window on this campus. Watch for a public-notice row (next_check).
+        Not established. That this application is Level Two is verified (above). Whether Ohio EPA
+        processes it as a Level Two permit, and whether that brings a public notice and comment
+        period, is a question of the agency's action, which no document in the corpus shows yet. If
+        it is noticed, this would be a state comment window on this campus. Watch for a
+        public-notice row (next_check).
+    alternatives_analysis_names_cooling_and_power:
+      tag: '[verified]'
+      statement: >-
+        4298321.pdf p. 3, the applicant's own avoidance argument: complete avoidance was "not
+        practicable due to the site's topographic constraints and the project's operational needs,
+        including emergency vehicle access and cooling infrastructure layouts. The site's unique
+        location within an existing high-capacity power and fiber corridor ... further constrains
+        alternative siting options." Wetland 1 (Cat 2) "will be impacted by electrical and water
+        utilities". This is the first CMH-232 instrument to name cooling and a power corridor as
+        siting constraints. It still states no load or cooling method.
     form_inconsistencies_do_not_propagate:
       tag: '[verified]'
       statement: >-
-        As filed, the form gives the project ZIP as 43103, but Sidney is 45365. The Wetland A ORAM
-        form gives HUC8 05120103 (Mississinewa) while Section H gives 050800010604 /
-        050800010703. Record these as they appear in the source. Do not correct them silently and
-        do not reuse them as facts.
+        As filed, the form gives the project ZIP as 43103, but Sidney is 45365. All seven ORAM forms
+        give HUC8 05120103 (Mississinewa) while Section H gives 050800010604 / 050800010703.
+        Wetland 2 scores 20.0 on its ORAM form (4298285.pdf p. 40) but 19.0 in the IWP impact table
+        (4298321.pdf p. 5). Record these as they appear in the source. Do not correct them silently
+        and do not reuse them as facts.
     companion_documents_read:
       - docid: '4298286'
         what: Site map, "CMH-232 Parking Lot", Sidney (USFWS NWI basemap, dated 2026-04-24); 97,948,376 B
@@ -1026,35 +1050,27 @@ pass_2026_10_27:
           forested wetland credits at the Norton Run bank under Ohio EPA No. 251911W. This is the
           FIRST permit's mitigation, refiled in the new package.
       - docid: '4298321'
-        what: unidentified, 45,126,767 B, no text layer in the first two pages
+        what: >-
+          Isolated Wetland Permit Application (Level Two), the same Application ID 540722745, in a
+          DocuSign envelope, 69 pp. It is image-only, read from renders of pp. 1-8. Extracted to
+          DSW401262560W.iwp-application.epa.yaml.
 
   instruments_to_pull:
     note: >-
-      Listed, not shelved. Nothing was added under data/documents/** on this pass. URL pattern:
+      SHELVED on 2026-10-27 (post-pass ingest): 4298285, 4298286, 4298287, 4298300 and 4298321 are in
+      data/documents/oepa/sidney/ under this shelf's bare <docid>.pdf convention, recorded in its
+      filename-map.yaml. The range below is still unread. URL pattern:
       https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=<docid>. Fetch with
       BROWSER_HEADERS, because bare curl gets the 244-byte rejection. Docs are served without a
-      filename, so name each edoc-<docid>.pdf.
+      filename; on this shelf, name each <docid>.pdf (#2162).
     items:
-    - docid: '4298285'
-      date: '2026-10-26'
-      title: Application for Section 401 Water Quality Certification — CMH-232 (APP262560W), 66 pp.
-      priority: FIRST — the application itself
-    - docid: '4298286'
-      date: '2026-10-26'
-      title: Site map — CMH-232 Parking Lot (97.9 MB)
-    - docid: '4298287'
-      date: '2026-10-26'
-      title: WSP construction-traffic memo, 2026-02-11
-    - docid: 4298288-4298299, 4298301-4298305, 4298308-4298316, 4298319, 4298321
+    - docid: 4298288-4298299, 4298301-4298305, 4298308-4298316, 4298319
       date: '2026-10-26'
       title: >-
         DSW401262560W companion files, eDoc description "APP262560W", unread. The application's
         Section 4 lists delineation reports, ORAM forms, photos, USACE JD letters, a site plan
         dated 2026-08-04, a combined wetland overlay, and the IWP Level 2 mitigation plan with its
         2026-09-28 cover letter.
-    - docid: '4298300'
-      date: '2026-10-26'
-      title: Stream + Wetlands Foundation mitigation-payment letter (2025-12-30), refiled
 
   # ⚠️ ─────────────────────────────────────────────────────────────────────────
   collision_guard_five:

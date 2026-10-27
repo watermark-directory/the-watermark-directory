@@ -6024,14 +6024,24 @@
         "relpath": "extracted/oepa/sidney/4214600.epa.yaml",
         "media_type": "application/x-yaml",
         "lfs": false
+      },
+      {
+        "relpath": "extracted/oepa/sidney/DSW401262560W.epa.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "extracted/oepa/sidney/DSW401262560W.iwp-application.epa.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
       }
     ],
     "observed": {
       "exists": true,
-      "sha256": "1216c74c77504b4a0637b094be4a0b332396f80caaf60f06532c75f105228f57",
-      "size_bytes": 36627,
+      "sha256": "c85e411216487c7734a029283a5b6998d61b0908c1f8eb82d19c76ec70373501",
+      "size_bytes": 47402,
       "lfs_materialized": true,
-      "file_count": 9,
+      "file_count": 11,
       "stale": false,
       "asof": null
     },
@@ -7699,8 +7709,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "0def1b615242d82df301adecadee49801140a60a71f92bcf033041e1dd127454",
-      "size_bytes": 116483,
+      "sha256": "2985a96c0ebf76d439396642f2203fa5cec3a46490d2c8896be3a1e74842aa76",
+      "size_bytes": 118170,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": false,
@@ -8208,8 +8218,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "bb79dc405441f1321438fac0ada11520c7e91629b670e510ab5881bddee7966a",
-      "size_bytes": 142967,
+      "sha256": "549fe1a8ff293a5c885c8e5c5b5df22b0e4c91e672477cb7640f599734ad6b08",
+      "size_bytes": 141927,
       "lfs_materialized": true,
       "file_count": 3,
       "stale": false,

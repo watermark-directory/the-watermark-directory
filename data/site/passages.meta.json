@@ -369,6 +369,11 @@
     "oepa/sidney/4158414.pdf",
     "oepa/sidney/4160653.pdf",
     "oepa/sidney/4214600.pdf",
+    "oepa/sidney/4298285.pdf",
+    "oepa/sidney/4298286.pdf",
+    "oepa/sidney/4298287.pdf",
+    "oepa/sidney/4298300.pdf",
+    "oepa/sidney/4298321.pdf",
     "oepa/springfield/1PE00007.pdf",
     "oepa/toledo/2PF00000.pdf",
     "oepa/troy-piqua/1PD00008.fs.pdf",
@@ -398,6 +403,9 @@
     "oepa/van-wert/edoc-4236096.pdf",
     "oepa/van-wert/edoc-4236116.pdf",
     "oepa/van-wert/edoc-4253933.pdf",
+    "oepa/van-wert/edoc-4265707.pdf",
+    "oepa/van-wert/edoc-4272058.pdf",
+    "oepa/van-wert/edoc-4292250.pdf",
     "oepa/van-wert/stormwater/edoc-4209395.pdf",
     "oepa/van-wert/stormwater/edoc-4209396.pdf",
     "oepa/van-wert/stormwater/edoc-4209398.pdf",
@@ -509,6 +517,6 @@
     "west-union/acrwd/minutes/Minutes -January 2024.pdf",
     "west-union/acrwd/minutes/Minutes-July 26.pdf"
   ],
-  "documents_with_passages": 410,
-  "passage_count": 8359
+  "documents_with_passages": 418,
+  "passage_count": 8468
 }

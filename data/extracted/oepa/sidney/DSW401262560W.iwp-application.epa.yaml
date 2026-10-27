@@ -1,0 +1,96 @@
+doc_id: 4298321-b6b59f4c
+source_path: data/documents/oepa/sidney/4298321.pdf
+kind: epa
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+dpi: 130
+source_text_excerpt: ''
+action:
+  confidence: high
+  warnings:
+  - Image-only scan; no text layer. Read from renders of pp. 1-8. pp. 9-69 are the
+    same seven ORAM forms as 4298285.pdf pp. 4-66, and were checked by contact sheet,
+    not read page by page.
+  - A DocuSign envelope stamp (641E96EA-6C65-8030-807C-0D42F49F51CA) covers the first
+    line of pp. 2-4. The opening words of the alternatives analysis and of the T&E
+    section are unread.
+  - As printed, the form gives the project ZIP as 43103 for 'Millcreek Road, Sidney,
+    OH', the same error as the 2025 application (3935117.pdf). 43103 is Ashville;
+    Sidney is 45365. Recorded as printed.
+  - The form is signed by Robb Truedinger (applicant) and Chris Klein (agent). The
+    signature block carries no date.
+  - 'Section 3 repeats the 401 form''s inconsistency: 0.98 x $500.00 = $490.00, ''Total
+    Review Fees = $0.00'', total $690.00.'
+  - The impact table gives Wetland 2 an ORAM score of 19.0. Its ORAM form in 4298285.pdf
+    (p. 40) gives 20.0. Recorded as printed.
+  agency: Ohio EPA, Division of Surface Water
+  program: Isolated Wetland Permit (Level Two)
+  permit_no: 'DSW401262560W (eDoc Permit ID); Ohio EPA application APP262560W; Application
+    ID: 540722745'
+  action: application
+  action_date: '2026-10-26'
+  plans_received_date: null
+  expiration_date: null
+  applicant: Amazon Data Services, Inc.
+  applicant_address: 410 Terry Ave N, Seattle, WA 98109
+  contact_name: Chris Klein
+  contact_email: cklein@smartservices-inc.com
+  contact_firm: Smart Services, Inc
+  project_name: CMH-232
+  site_address: Millcreek Road, Sidney, OH (Clinton Township, Shelby County) — main
+    campus north of Millcreek Road and west of Vandemark Road; parking-lot site south
+    of Campbell Road, about 0.3 mi northwest of the main campus; 40.269550 / -84.200002
+  affected_resource: 'Isolated wetlands — ''Section 1: Wetlands Onsite and Proposed
+    Impacts'' (p. 5), acres. Size / proposed impact: Wetland B 0.20/0.20; C 0.02/0.02;
+    1 (Cat 2, forested) 0.41/0.24; 2 0.17/0.17; 3a 0.25/0.01; 3b 0.01/0.01; A 0.33/0.33.
+    Totals: onsite 1.39 (forest 0.41, non-forest 0.98); proposed impact 0.98 (forest
+    0.24, non-forest 0.74); Category 1 0.74, Category 2 0.24, Category 3 0.00. Section
+    2.M also checks ephemeral streams and non-isolated wetlands as other aquatic resources
+    on the site'
+  parcel_ids: []
+  note: 'THE LEVEL TWO ISOLATED WETLAND PERMIT APPLICATION for CMH-232. The form heading
+    defines Level Two as ''impacts greater than 1/2 acre of Category 1 isolated wetlands
+    and greater than 1/2 acre but not exceeding 3 acres for Category 2''. Its own
+    Category 1 total is 0.74 ac. The 2025 file (251911W) was a Level One general-permit
+    notice for 0.24 ac forested Cat 2 plus 0.18 ac non-forested Cat 1. This table
+    re-lists the main-campus impacts (Wetland 1 0.24 forested; 2, 3a and 3b, 0.19
+    non-forested) and adds the parking-lot wetlands A, B and C (0.55). MITIGATION
+    (Section 2): wetland mitigation bank, ''Norton Run MB, Big Island MB''; forested
+    credits 1.00, non-forested credits 1.10; proof of reservation checked. The uploads
+    include the Big Island MB deposit email chain, NORTON-11 final payment letter,
+    NOR-11 purchase agreement, ''EBIZ-W3myhuuj-251911W Credit Purchase Complete CMH-232.pdf'',
+    and the NOR-43 executed purchase agreement and deposit verification. ALTERNATIVES
+    (p. 3, in the applicant''s words): the design team shifted building footprints,
+    used shared utility corridors and underground retention, but complete avoidance
+    was ''not practicable due to the site''s topographic constraints and the project''s
+    operational needs, including emergency vehicle access and cooling infrastructure
+    layouts. The site''s unique location within an existing high-capacity power and
+    fiber corridor ... further constrains alternative siting options.'' The parking
+    lot (981 spaces, bus and worker entrances, a stormwater basin) follows WSP''s
+    December 2025 Construction Traffic Impact Study (4298287.pdf). Wetland 1 is called
+    ''general high-quality water'' under OAC 3745-1-05 as a Category 2 wetland. Its
+    east and west portions ''will be impacted by electrical and water utilities''
+    and are to be restored afterwards. ''No isolated wetlands will be fully avoided.''
+    Buffers: 295 ft (Wetland 3a / temporary construction access drive), 195 ft (Stormwater
+    Basin 3), 25 ft (West Millcreek Road widening). T&E (p. 4): an IPaC report dated
+    2025-07-31 lists five species; ODNR letters are dated 2025-08-08 (campus) and
+    2026-06-18 (parking lot); ODNR coordination was on 2026-04-16 and a 2026-07-23
+    follow-up had no reply; a USFWS letter dated 2026-04-24 recommends winter tree
+    clearing (Oct 1-Mar 31). Post-development stormwater: three retention ponds on
+    the campus and one at the parking lot. The form states NO electrical load.'

@@ -297,3 +297,99 @@ documents:
     (non-major) / 120-180 day (major) processing estimates from the 2026-08-03 receipt — and
     a note that OAC 3745-31-33 lets site preparation proceed before issuance, so construction
     activity is not evidence of a permit.
+
+# ── CMH-232 second 401 file, DSW401262560W / APP262560W (eDoc 2026-10-26) ─────
+# Thirty-two portal rows share description APP262560W; these five were read and
+# shelved on the 2026-10-27 pass. The other 27 (4298288-4298299, 4298301-4298305,
+# 4298308-4298316, 4298319) are unread and listed in sidney/regulatory-watch.yaml.
+- filename: 4298285.pdf
+  edoc_id: '4298285'
+  permit_id: DSW401262560W
+  canonical: oepa-262560w-cmh-232-401-application-2026-10-26.pdf
+  type: 401-wqc-application
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298285
+  sha256: bacc6f0ff4b824ea5d92febce6657120e23f979e105a8408f6fcec4db49c20cd
+  bytes: 1833248
+  content_type: application/pdf
+  fetched_at: '2026-10-27T11:30:48+00:00'
+  status: downloaded
+  content_verified: text-layer + rendered pp. 1-2 (checkboxes)
+  note: >-
+    Application for Section 401 Water Quality Certification, Application ID 540722745, project
+    "CMH-232", applicant Amazon Data Services, Inc., consultant Smart Services, Inc.; electronically
+    submitted 2026-10-26 by Shannon Moore, Regional Environmental Manager. 66 pp.: the 3-page form
+    plus seven 9-page ORAM forms. "Convert 251.9 acres ... The project area consists of two (2)
+    sites": the 236.7-acre campus and a 15.2-acre construction parking lot south of Campbell Road.
+    Construction 2027-03-01 to 2030-03-01. The form, as printed, gives ZIP 43103, which is not Sidney.
+- filename: 4298286.pdf
+  edoc_id: '4298286'
+  permit_id: DSW401262560W
+  canonical: oepa-262560w-cmh-232-parking-lot-site-map-2026-10-26.pdf
+  type: 401-wqc-application-attachment
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298286
+  sha256: 7a5c3663e235c256e130554ffe1506fa9603a894783f67aac282b2e0059ebf5c
+  bytes: 97948376
+  content_type: application/pdf
+  fetched_at: '2026-10-27T11:31:42+00:00'
+  status: downloaded
+  content_verified: text-layer (pp. 1-2)
+  note: >-
+    "Site Map, CMH-232 Parking Lot, Sidney, Shelby County, Ohio", followed by the USFWS National
+    Wetlands Inventory map for the same site. 19 pp. Only the first two pages were read.
+- filename: 4298287.pdf
+  edoc_id: '4298287'
+  permit_id: DSW401262560W
+  canonical: oepa-262560w-wsp-construction-traffic-memo-2026-02-11.pdf
+  type: 401-wqc-application-attachment
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298287
+  sha256: d2fe21263dba9418cbcf19104578075224e5e852e62b04540857e82cef5ed420
+  bytes: 403164
+  content_type: application/pdf
+  fetched_at: '2026-10-27T11:31:42+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: >-
+    WSP memo dated 02/11/26, "Revised recommendations based on change in construction volumes and
+    City of Sidney" construction of Millcreek Road. Describes the "AWS CMH232 Joslin Site" as five
+    parcels of about 235.24 acres, and the December 2025 Construction Traffic Impact Study (CTIS)
+    as covering eight intersections. 4 pp. This is the attachment the IWP Level 2 application
+    (4298321.pdf, p. 3) uploads as "AWS CMH232 Construction Memo - Traffic Recommendation.pdf".
+- filename: 4298300.pdf
+  edoc_id: '4298300'
+  permit_id: DSW401262560W
+  canonical: stream-wetlands-foundation-norton-run-payment-letter-2025-12-30.pdf
+  type: wetland-mitigation-payment-letter
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298300
+  sha256: cc179851ae2046562fd1567651f79952b5bf7224b44f692611b859476c658f35
+  bytes: 159447
+  content_type: application/pdf
+  fetched_at: '2026-10-27T11:31:43+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: >-
+    Stream + Wetlands Foundation letter (Vincent E. Messerly, President) to Robert Truedinger,
+    Amazon Data Services, dated 2025-12-30. ACCT NOR-011, "Ohio EPA No.- 251911W". It confirms a
+    final EFT payment of $55,250, received 2025-12-29, for 1.0 acre of forested wetland mitigation
+    credits from the Norton Run bank (Upper Scioto Umbrella Instrument). This letter belongs to the
+    FIRST permit, refiled in the 262560W package. As printed, the letter names the site "CMH-32"
+    (twice); recorded as printed, not corrected.
+- filename: 4298321.pdf
+  edoc_id: '4298321'
+  permit_id: DSW401262560W
+  canonical: oepa-262560w-cmh-232-isolated-wetland-permit-level-2-application.pdf
+  type: isolated-wetland-permit-application
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298321
+  sha256: 8bdddd98493dee3270a2b7e4dcc7e600bd2c6226f42490b17c752ef42d34f99d
+  bytes: 45126767
+  content_type: application/pdf
+  fetched_at: '2026-10-27T11:32:08+00:00'
+  status: downloaded
+  content_verified: rendered pp. 1-8 (no text layer)
+  note: >-
+    Isolated Wetland Permit Application (Level Two), the same Application ID 540722745, in a
+    DocuSign envelope (641E96EA-6C65-8030-807C-0D42F49F51CA). Signed by Robb Truedinger (applicant)
+    and Chris Klein (agent); the signatures are undated on the form. 69 pp.: 4 pages of form, the
+    2-page "Proposed Wetland Impacts and Mitigation" table, and seven 9-page ORAM forms. It is an
+    image-only scan with no text layer, so it is not searchable until it is OCR'd. The DocuSign
+    stamp covers the first line of pp. 2-4. This is the document behind the 2026-10-27 pass's
+    "unidentified, 45 MB".
