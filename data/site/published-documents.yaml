@@ -611,3 +611,28 @@ withhold:
     # `oepa` collection segment is part of it. Verify a new carve-out by grepping
     # data/site/passages.ndjson after `watermark passages`, never by reading the rule.
     - oepa/ottawa/edoc-4251474.pdf
+    # USACE Huntington District Approved Jurisdictional Determination LRH-2024-927, 2025-02-21,
+    # eDoc docid 4298310 (DSW401262560W companion, Sidney CMH-232). Cleared boundary (the `oepa`
+    # collection's standing auto-publish rule), carved back out on the screen that rule's ⚠️ note
+    # demands of every new oepa/<slug> pull — a screen the 2026-10-27 ingest did not apply to the
+    # passage index, and that a CodeRabbit review of PR #2198 caught.
+    #
+    # Page 1's address block gives a PRIVATE INDIVIDUAL's name with a home mailing address. The
+    # addressee is the requesting landowner, not a firm or an agency. The NAME is already public
+    # (Sidney Ordinance A-3226 lists the same person as a parcel owner), but A-3226 prints "No
+    # address" for that entry, so this letter is the only place in the corpus that ties the name
+    # to a home address. It is the Ottawa lead-notice basis below (one person's contact details), not
+    # an aggregation.
+    #
+    # Nothing in the Sidney record rests on the address. The AJD's findings (Wetland 4 a WOTUS;
+    # Wetlands 1/2/3a/3b, Pond 1, Swales 1-2 and Streams 1-2 not; file LRH-2024-927) are cited in
+    # data/extracted/sidney/regulatory-watch.yaml and the filename-map note, and those citations
+    # survive the withhold. Withhold is exposure control, not removal: the bytes stay in the corpus
+    # and the vault, and the research agent still reads it. Only the public download and the
+    # passage index lose it. The other personal names in the 27-document pull are consultants,
+    # agency staff and corporate signatories at business addresses.
+    #
+    # Applied fail-safe by the agent, before operator review, because publishing is the
+    # irreversible direction. Reversing it is a one-line delete plus `watermark passages`.
+    # review: PENDING — withheld by default until the operator confirms or reverses.
+    - oepa/sidney/4298310.pdf

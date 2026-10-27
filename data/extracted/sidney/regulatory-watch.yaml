@@ -1054,23 +1054,101 @@ pass_2026_10_27:
           Isolated Wetland Permit Application (Level Two), the same Application ID 540722745, in a
           DocuSign envelope, 69 pp. It is image-only, read from renders of pp. 1-8. Extracted to
           DSW401262560W.iwp-application.epa.yaml.
+      - docid: 4298288-4298299, 4298301-4298305, 4298308-4298316, 4298319
+        what: >-
+          The remaining 27 "APP262560W" companions, read 2026-10-27 and recorded one per row in
+          data/documents/oepa/sidney/filename-map.yaml. They are: the Smart Services parking-lot
+          delineation (4298288) with its ORAM forms (4298289-91), photos (4298292) and photo maps
+          (4298313); WSP's 2024 main-campus ORAM forms (4298293), figures (4298305), photos (4298308)
+          and photo maps (4298309); two USACE AJDs (4298310, 4298315); the ODNR reviews 25-1064 and
+          26-0867 (4298298/4298303 and 4298299/4298314, each pair byte-identical); the USFWS IPaC list
+          and letter (4298301, 4298312); the ODNR coordination email (4298297); two construction-traffic
+          route exhibits (4298295, 4298296); the Norton Run purchase agreement (4298302), the NOR-43
+          deposit letter (4298311) and the Big Island credit email (4298294); Ohio EPA's 251911W
+          mitigation-complete letter (4298304); the Choice One parking-lot plan set (4298316); and the
+          2026-09-28 Level 2 cover letter (4298319).
+    companion_findings:
+      parking_lot_ajd_addressee:
+        tag: '[verified]'
+        statement: >-
+          USACE addressed the parking-lot AJD (4298315 p. 1, 2026-09-15) to Gabe Kean, NK Parts
+          Industries, Inc., Sidney, on a report "prepared and submitted on your behalf by Smart
+          Services". The main-campus AJD (4298310 p. 1, 2025-02-21) was addressed to William Joslin, on
+          WSP's "Joslin Site" report. Those are the parties of record on each JD request.
+      parking_lot_owner:
+        tag: '[open]'
+        statement: >-
+          That NK Parts Industries owns the 15.2-acre parking-lot parcels (01-18-34-301-003, -007,
+          -008) is `[inference]` from the AJD addressee only. No deed, lease or auditor record in the
+          corpus shows who owns them or on what terms AWS uses them. Check the Shelby County auditor.
+      city_plan_set:
+        tag: '[verified]'
+        statement: >-
+          4298316 (sheet 1 of 12, p. 1) is a Choice One Engineering plan set titled "Campbell Road Temporary Parking Lot",
+          with "CITY OF SIDNEY" as its header, dated July 23, 2026, and stamped "RELEASE FOR AGENCY
+          REVIEW". The City of Sidney Public Works Director approval line is blank in this copy.
+          Earth disturbed for the NOI is 13.93 ac. Whether the City has approved the plan is
+          `[open]`.
+      parking_lot_scale:
+        tag: '[verified]'
+        statement: >-
+          The cover letter (4298319 pp. 1, 4) gives the parking lot 981 spaces, a bus entrance and a worker
+          entrance, restrooms, dumpsters and a stormwater basin. It says the site was chosen on WSP's
+          construction traffic study, to "divert construction worker traffic away from the main
+          campus". This is the applicant's description.
+      mitigation_ledger:
+        tag: '[verified]'
+        statement: >-
+          As printed in 4298319: 2.06 ac of credits required (p. 3, Table 2). Reserved or bought (pp.
+          3-4): 1.0 ac forested at Norton Run (deposit $9,750 2025-11-24, final $55,250 2025-12-29;
+          agreement 4298302 pp. 1-3, $65,000 for 0.42 ac of isolated impacts); 0.5 ac non-forested at
+          Norton Run (NOR-43, deposit $5,250 2026-08-19, $29,750 due after issuance, 4298311 p. 1); and
+          0.6 credits at Big Island (2026-09-04, deposit $7,370, 4298319 p. 4). Ohio EPA recorded
+          251911W's mitigation as complete on 2025-12-30 (4298304 p. 1).
+      printed_inconsistencies:
+        tag: '[verified]'
+        statement: >-
+          Recorded as printed and not reconciled. Big Island credits are 1.1 in WRC's 2026-08-21 email
+          (4298294 p. 1) but 0.6 in the cover letter (4298319 p. 4). The USACE file number is
+          LRH-2024-927 (2025 AJD, 4298310 p. 1), LRH-2024-00927 in the header and LRH-2026-00927 in the
+          body of the 2026 AJD (both 4298315 p. 1), and LRH-2026-927 in the cover letter (4298319 pp.
+          1-6). Ohio EPA's 2025-12-30 letter (4298304) prints 251911W on p. 1 and 215911W on p. 2. WSP's
+          ORAM forms (4298293, Wetland 3 at pp. 21-28) score Wetland 3 at 22 (p. 28), while the cover
+          letter scores 3a/3b at 23 (4298319 pp. 2-3). The cover letter's HUC12s are 050800010604 and
+          050800010705 (4298319 p. 2); the 401 form gives 050800010703 (4298285 p. 1). The April 2026
+          ODNR email (4298297 p. 2) gives the campus parcels with a 01- prefix (01-2603126.001, …);
+          A-3226 lists William and Ann Joslin's parcel as 02-2603126.001
+          (council/2025-07-28-ord-a-3226-zoning-243-acres-iim.resolution.yaml, `parcels`).
+      states_a_load:
+        tag: '[verified]'
+        statement: >-
+          None of the 27 states a load or a cooling method. The cover letter (4298319 p. 4) repeats the "cooling
+          infrastructure layouts" and "high-capacity power and fiber corridor" language of 4298321.
 
   instruments_to_pull:
     note: >-
       SHELVED on 2026-10-27 (post-pass ingest): 4298285, 4298286, 4298287, 4298300 and 4298321 are in
       data/documents/oepa/sidney/ under this shelf's bare <docid>.pdf convention, recorded in its
-      filename-map.yaml. The range below is still unread. URL pattern:
+      filename-map.yaml. The 27 remaining companions followed the same day (see
+      companion_documents_read). URL pattern:
       https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=<docid>. Fetch with
       BROWSER_HEADERS, because bare curl gets the 244-byte rejection. Docs are served without a
       filename; on this shelf, name each <docid>.pdf (#2162).
     items:
-    - docid: 4298288-4298299, 4298301-4298305, 4298308-4298316, 4298319
-      date: '2026-10-26'
+    - docid: not on the portal
+      date: '2026-10-27'
       title: >-
-        DSW401262560W companion files, eDoc description "APP262560W", unread. The application's
-        Section 4 lists delineation reports, ORAM forms, photos, USACE JD letters, a site plan
-        dated 2026-08-04, a combined wetland overlay, and the IWP Level 2 mitigation plan with its
-        2026-09-28 cover letter.
+        All 32 docs in the APP262560W range (4298285-4298321) are shelved and read. Three uploads
+        that the application's Section 4 lists (4298285 pp. 2-3) are NOT among them: "Wetland
+        Delineation Report.pdf" (beside the parking-lot report, which is 4298288), "CMH-232 Parking
+        Lot Site Plan_08042026.pdf" and "Combined Wetland Overlay.pdf". The missing report is
+        presumably WSP's October 2024 "Joslin Site Wetland Delineation Report" that the 2025 AJD
+        (4298310 p. 1) cites; only its figures, photographs, photo maps and ORAM forms (4298305,
+        4298308, 4298309, 4298293) are on the portal, and that identification is `[inference]` from
+        the upload name. The closest thing to the site plan is Choice One's parking-lot plan set
+        (4298316), dated 2026-07-23. Whether Ohio EPA holds them unpublished, or publishes them later,
+        is `[open]`.
+        Re-query the portal for DSW401262560W.
 
   # ⚠️ ─────────────────────────────────────────────────────────────────────────
   collision_guard_five:

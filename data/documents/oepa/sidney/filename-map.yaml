@@ -393,3 +393,418 @@ documents:
     image-only scan with no text layer, so it is not searchable until it is OCR'd. The DocuSign
     stamp covers the first line of pp. 2-4. This is the document behind the 2026-10-27 pass's
     "unidentified, 45 MB".
+- filename: 4298288.pdf
+  edoc_id: '4298288'
+  permit_id: DSW401262560W
+  canonical: smart-services-cmh-232-parking-lot-surface-water-delineation-2026-05-18.pdf
+  type: wetland-delineation-report
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298288
+  sha256: 12f81f30721f8ed92570b50329b907cb46b2e73ccba85a011930db32c9148e45
+  bytes: 129952643
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:11+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: 'Smart Services, Inc. "Surface Water Delineation for CMH-232 Parking Lot, Sidney, Shelby County,
+    Ohio", cover letter dated 2026-05-18 to James Whitacre, PE, Advanced Civil Design. 106 pp. with appendices
+    (figures, photographs, ORAM forms, wetland/upland determination forms). 15.2 acres of vacant land
+    on portions of three parcels, 01-1834301.008, .007 and .003 as printed, south of Campbell Road about
+    0.1 mi east of North Kuther Road. Field delineation 2026-05-07. Three isolated PEM wetlands totalling
+    0.55 on-site acres: Wetland A 0.33 ac ORAM 18 (Cat 1), B 0.20 ac on-site ORAM 17 (Cat 1), C 0.02 ac
+    ORAM 15 (Cat 1). The report says aerial imagery shows a stream on site rerouted between 2006 and 2009
+    and the site out of agricultural production since about 2018.'
+- filename: 4298289.pdf
+  edoc_id: '4298289'
+  permit_id: DSW401262560W
+  canonical: smart-services-oram-wetland-a-parking-lot.pdf
+  type: oram-form
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298289
+  sha256: f86e6f227cb59cbd6995f8168db7455d9d21a96dc7ae1b787b007d7d92eefe04
+  bytes: 4230881
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:15+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: ORAM form, parking-lot Wetland A (0.33 ac), Smart Services. 10 pp. HUC 050800010604 as printed.
+- filename: 4298290.pdf
+  edoc_id: '4298290'
+  permit_id: DSW401262560W
+  canonical: smart-services-oram-wetland-b-parking-lot.pdf
+  type: oram-form
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298290
+  sha256: 5ab656fc0766dd2a38d8ed5ffcb02ab08dc54ed71a19929bbf60ee58746b914d
+  bytes: 3931044
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:17+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: ORAM form, parking-lot Wetland B, Smart Services. 10 pp. HUC 050800010604 as printed.
+- filename: 4298291.pdf
+  edoc_id: '4298291'
+  permit_id: DSW401262560W
+  canonical: smart-services-oram-wetland-c-parking-lot.pdf
+  type: oram-form
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298291
+  sha256: 90a8e3487c85597299b9aac7f38ba44d8a58fb0cdb9104aabbbd7e378d6bdc24
+  bytes: 2864559
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:20+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: ORAM form, parking-lot Wetland C (0.02 ac), Smart Services. 10 pp. HUC 050800010604 as printed.
+    Its narrative dates the stream reroute "between 2006-2010"; the delineation report (4298288) says
+    2006-2009. Recorded as printed.
+- filename: 4298292.pdf
+  edoc_id: '4298292'
+  permit_id: DSW401262560W
+  canonical: smart-services-parking-lot-site-photographs-2026-05-18.pdf
+  type: site-photographs
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298292
+  sha256: 56f14fb9be95efe767bae88b5dacee72fd1897244eb8677c1a158a89db5d6597
+  bytes: 12735482
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:27+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: Parking-lot site photographs 1-47, captioned "Surface Water Delineation May 18, 2026". 24 pp.
+    Landscape only; screened, no people or vehicle plates legible.
+- filename: 4298293.pdf
+  edoc_id: '4298293'
+  permit_id: DSW401262560W
+  canonical: wsp-oram-wetlands-1-2-3-main-campus-2024-07-08.pdf
+  type: oram-form
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298293
+  sha256: 3c3dd54a4cb5ae184e404d0c12971388f210ee67cf70b6cfd913531aca552216
+  bytes: 977614
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:29+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: 'WSP USA ORAM forms for main-campus Wetlands 1, 2 and 3, rater Philip Renner, dated 7/8/2024.
+    30 pp. Final scores as printed: Wetland 1 31 (Cat 2), Wetland 2 19 (Cat 1), Wetland 3 22 (Cat 1).
+    HUC 050800010604. The 2026-09-28 cover letter (4298319) scores Wetlands 3a/3b at 23, and 4298285 p.
+    40 scores Wetland 2 at 20.0; recorded as printed, not reconciled.'
+- filename: 4298294.pdf
+  edoc_id: '4298294'
+  permit_id: DSW401262560W
+  canonical: wetlands-resource-center-big-island-credit-email-2026-08-21.pdf
+  type: wetland-mitigation-correspondence
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298294
+  sha256: e56c3c018728b42f162f9e35eab931d5cbb5cec6e9e8a540cf38b2d657152421
+  bytes: 121961
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:29+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: Email chain, Cal Miller (Wetlands Resource Center, LLC) to Chris Klein (Smart Services), 2026-08-21,
+    replying to Klein's 2026-08-12 message. WRC attaches a signed Mitigation Agreement "for the purchase
+    of 1.1 credits from our Big Island Wetlands Mitigation Bank for the CMH-232 project" and will hold
+    them until the permit issues. Klein's message says Advanced Civil Design "agreed to front the initial
+    deposit on behalf of AWS". The cover letter (4298319) instead reports 0.6 credits reserved from Big
+    Island on 2026-09-04 with a $7,370 deposit; recorded as printed.
+- filename: 4298295.pdf
+  edoc_id: '4298295'
+  permit_id: DSW401262560W
+  canonical: cmh-232-off-site-parking-worker-route-map.pdf
+  type: site-map
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298295
+  sha256: d29f6194d8a255792eb48ef7c05264f78c0b5652222c49ce8bb0c26175066f89
+  bytes: 1320441
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:31+00:00'
+  status: downloaded
+  content_verified: rendered (no text layer)
+  note: 'Undated aerial exhibit: "Off Site Parking" (red polygon, south of Campbell Rd) and the "Workers
+    route to/from off site parking" via Township Hwy 49 and W. Michigan St. to I-75 Exit 92. 1 p.'
+- filename: 4298296.pdf
+  edoc_id: '4298296'
+  permit_id: DSW401262560W
+  canonical: cmh-232-construction-traffic-route-map.pdf
+  type: site-map
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298296
+  sha256: 24e71050622ec0eefd090e8e22074e92752e859899553694f2cbaf5a14916b13
+  bytes: 3087367
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:33+00:00'
+  status: downloaded
+  content_verified: 'rendered (text layer: road labels only)'
+  note: Undated aerial exhibit showing the off-site parking polygon, the main campus with a site-plan
+    overlay north of Millcreek Rd, an "Alt. route after bridge replaced", and an "Orientation/badging/warehouse"
+    location east of I-75. 1 p.
+- filename: 4298297.pdf
+  edoc_id: '4298297'
+  permit_id: DSW401262560W
+  canonical: smart-services-odnr-coordination-email-2026-07-23.pdf
+  type: agency-correspondence
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298297
+  sha256: 4c0065c2d16d6604ca2942f1d209fda87de18875c1e55594bc8fba3331b44f41
+  bytes: 899793
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:34+00:00'
+  status: downloaded
+  content_verified: rendered (no text layer)
+  note: Email, Chris Klein (Smart Services) to Richard Gardner (ODNR), 2026-07-23, following up a 2026-04-16
+    message (p. 2). The April message gives the main-campus parcels as 01-2603126.001, 01-2603201.001
+    and 01-2603226.001 and 236.7 acres, and says the applicant is "submitting an OEPA Level Two Isolated
+    Wetland Permit". The July message adds the 15.2-acre parking lot (parcels 01-18-34-301-007, -008,
+    -003) as "an auxiliary site added for parking/staging purposes". 2 pp. The cover letter (4298319)
+    says ODNR has not responded.
+- filename: 4298298.pdf
+  edoc_id: '4298298'
+  permit_id: DSW401262560W
+  canonical: odnr-environmental-review-25-1064-cmh-232-2025-08-08.pdf
+  type: agency-environmental-review
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298298
+  sha256: c1b0f7d0c644406c9db6eb7ac4e878a8f4e58248b6cb96f1223727c47feb86b6
+  bytes: 304217
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:35+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: 'ODNR Office of Real Estate & Land Management review letter 25-1064_CMH-232, 2025-08-08, to Chris
+    Klein: "construction of a data center", Clinton Township. No Natural Heritage records of listed species
+    within one mile. 3 pp. Byte-identical (same sha256) to 4298303; both eDoc records are kept.'
+- filename: 4298299.pdf
+  edoc_id: '4298299'
+  permit_id: DSW401262560W
+  canonical: odnr-environmental-review-26-0867-cmh-232-parking-lot-2026-06-18.pdf
+  type: agency-environmental-review
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298299
+  sha256: 728ca6c615e95e6ce3ef07f0b3c96cb6019bceb2210d014255165ced67a77fab
+  bytes: 380625
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:36+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: 'ODNR review letter 26-0867_CMH-232 Parking Lot, 2026-06-18, to Chris Klein: "converting 15.2
+    acres into a parking lot to support nearby data center construction", center (40.2785, -84.2032).
+    3 pp. Byte-identical (same sha256) to 4298314; both eDoc records are kept.'
+- filename: 4298301.pdf
+  edoc_id: '4298301'
+  permit_id: DSW401262560W
+  canonical: usfws-ipac-species-list-2025-0129529-2025-07-31.pdf
+  type: agency-environmental-review
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298301
+  sha256: 984deb7e799d81ee33b8c79a64591742522e5ce8961edb56eaee581d3a28ff10
+  bytes: 1108412
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:37+00:00'
+  status: downloaded
+  content_verified: rendered (no text layer)
+  note: USFWS IPaC official species list, Project Code 2025-0129529, Project Name CMH-232, generated 07/31/2025.
+    7 pp.
+- filename: 4298302.pdf
+  edoc_id: '4298302'
+  permit_id: DSW401262560W
+  canonical: norton-run-wetland-mitigation-purchase-agreement-cmh-232.pdf
+  type: wetland-mitigation-agreement
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298302
+  sha256: 5093a86649caa343e0eee02069d821cebc9b0141e929a8b71ffb08a9e01d6b30
+  bytes: 403622
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:38+00:00'
+  status: downloaded
+  content_verified: 'rendered (text layer: header stamps only)'
+  note: Stream + Wetlands Foundation "Wetland Mitigation Purchase Agreement", Norton Run Wetland Mitigation
+    Bank, DocuSign envelope C1452280-2107-4DA0-9818-2F43C6DFCDF0. Client Amazon Data Services, Inc.; 0
+    acres jurisdictional and 0.42 acres isolated wetland impacts at CMH-232; $65,000 for 1.0 forested
+    credits at $65,000 per acre; $9,750 deposit (15%). Signed for Amazon by Keith Klein, Authorized Signatory,
+    typed date October 19, 2025. The S+W signature date is handwritten and not used. 4 pp. This is the
+    FIRST permit's (251911W) mitigation.
+- filename: 4298303.pdf
+  edoc_id: '4298303'
+  permit_id: DSW401262560W
+  canonical: odnr-environmental-review-25-1064-cmh-232-2025-08-08.pdf
+  type: agency-environmental-review
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298303
+  sha256: c1b0f7d0c644406c9db6eb7ac4e878a8f4e58248b6cb96f1223727c47feb86b6
+  bytes: 304217
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:39+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: Byte-identical (same sha256) to 4298298, ODNR review 25-1064_CMH-232 dated 2025-08-08. The portal
+    lists it under a separate docid; both eDoc records are kept.
+- filename: 4298304.pdf
+  edoc_id: '4298304'
+  permit_id: DSW401262560W
+  canonical: oepa-251911w-mitigation-complete-letter-2025-12-30.pdf
+  type: agency-correspondence
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298304
+  sha256: e022480cb0fb784c4722b5bd24a07dad085d4f1479251f682bdf9275b08f45e9
+  bytes: 175464
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:40+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: 'Ohio EPA DSW letter (Andrea Kilbourne, Mitigation Coordinator) to Robert Truedinger, Amazon Data
+    Services, 2025-12-30, re DSW401251911W: the IWP issued 2025-12-16 and "the mitigation requirement
+    related to this credit purchase is complete". As printed, p. 1 gives "Ohio EPA ID No. 251911W" and
+    the p. 2 header gives "215911W". 2 pp.'
+- filename: 4298305.pdf
+  edoc_id: '4298305'
+  permit_id: DSW401262560W
+  canonical: wsp-cmh-232-delineation-figures-2024-07-29.pdf
+  type: site-map
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298305
+  sha256: fa38d4febcc74162d9118794dfcfff8687457273a2b867f3eb8ac52277d10d36
+  bytes: 22428408
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:53+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: 'WSP figures for the main campus, dated July 29, 2024: Figure 1 project location (40.2695, -84.1951),
+    Figure 2 environmental base map, Figure 3 delineated features, plus photo location maps. 8 pp.'
+- filename: 4298308.pdf
+  edoc_id: '4298308'
+  permit_id: DSW401262560W
+  canonical: wsp-cmh-232-wetland-delineation-photographs-2024-07-08.pdf
+  type: site-photographs
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298308
+  sha256: 1cd8904f5ae003e0e9752e50748f90e05a09eb3ebeed0023b99134350838295a
+  bytes: 10244536
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:16:59+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: WSP "CMH232 Wetland Delineation" photographs, taken 7/8/2024. 12 pp. Landscape only; screened,
+    no people.
+- filename: 4298309.pdf
+  edoc_id: '4298309'
+  permit_id: DSW401262560W
+  canonical: cmh-232-main-campus-photo-location-maps.pdf
+  type: site-map
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298309
+  sha256: 82144b6b7512b48df1a2bde68b80857cb9bb8764614b069126018eb539f07e6c
+  bytes: 13190048
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:17:06+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: Photo location maps 1-3 for the main campus (Wetland 1 PFO, Wetland 2 PEM, Wetland 3). 3 pp.
+- filename: 4298310.pdf
+  edoc_id: '4298310'
+  permit_id: DSW401262560W
+  canonical: usace-ajd-lrh-2024-927-joslin-site-2025-02-21.pdf
+  type: usace-jurisdictional-determination
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298310
+  sha256: 71d4517c2738dcec599979c1b2b6bd2f3ac26da624edb51ea70886cc5f30f623
+  bytes: 336256
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:17:07+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: USACE Huntington District Approved Jurisdictional Determination LRH-2024-927-GMR-Mill Branch,
+    2025-02-21, addressed to William Joslin, on WSP's October 2024 "Joslin Site Wetland Delineation Report".
+    236.7 acres north of West Millcreek Road and west of South Vandemark Road. Wetland 4 (0.22 ac) is
+    a water of the United States; Wetlands 1 (0.41), 2 (0.17), 3a (0.25), 3b (0.01), Pond 1 (0.5), Swales
+    1-2 and Streams 1-2 are not. 3 pp.
+- filename: 4298311.pdf
+  edoc_id: '4298311'
+  permit_id: DSW401262560W
+  canonical: stream-wetlands-foundation-nor-43-deposit-letter-2026-08-19.pdf
+  type: wetland-mitigation-payment-letter
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298311
+  sha256: 14f1e2c0ec0f993401501196e311a0882abd63817010aeb9db36ba3facded64a
+  bytes: 160142
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:17:07+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: 'Stream + Wetlands Foundation letter to Robert Truedinger, Amazon Data Services, 2026-08-19, ACCT
+    NOR-43: a $5,250 deposit (check no. 11653) reserves 0.5 acres of non-forested credits at Norton Run
+    for CMH-232; the remaining $29,750 is due within 30 days of permit issuance. 1 p.'
+- filename: 4298312.pdf
+  edoc_id: '4298312'
+  permit_id: DSW401262560W
+  canonical: usfws-ohio-field-office-letter-2025-0129529-2026-04-24.pdf
+  type: agency-environmental-review
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298312
+  sha256: ee8927b4b5c08e2ace65dd78434111e8bcb117b9649ba30ca61853de5b5d8dcf
+  bytes: 170335
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:17:08+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: 'USFWS Ohio Ecological Services letter to Mr. Klein, 2026-04-24, Project Code 2025-0129529: Indiana
+    bat and northern long-eared bat; recommends tree clearing only October 1 - March 31. 3 pp.'
+- filename: 4298313.pdf
+  edoc_id: '4298313'
+  permit_id: DSW401262560W
+  canonical: cmh-232-parking-lot-photo-location-maps.pdf
+  type: site-map
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298313
+  sha256: b02126005d19bc1858170c758dc5f808a950ef28a4753b7a264b68a4da95d3e5
+  bytes: 6768651
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:17:13+00:00'
+  status: downloaded
+  content_verified: rendered (no text layer)
+  note: Photo location maps for the parking-lot site (Google Earth base, Wetland A 0.33 ac). 2 pp.
+- filename: 4298314.pdf
+  edoc_id: '4298314'
+  permit_id: DSW401262560W
+  canonical: odnr-environmental-review-26-0867-cmh-232-parking-lot-2026-06-18.pdf
+  type: agency-environmental-review
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298314
+  sha256: 728ca6c615e95e6ce3ef07f0b3c96cb6019bceb2210d014255165ced67a77fab
+  bytes: 380625
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:17:14+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: Byte-identical (same sha256) to 4298299, ODNR review 26-0867 dated 2026-06-18. The portal lists
+    it under a separate docid; both eDoc records are kept.
+- filename: 4298315.pdf
+  edoc_id: '4298315'
+  permit_id: DSW401262560W
+  canonical: usace-ajd-lrh-2026-00927-cmh-232-parking-lot-2026-09-15.pdf
+  type: usace-jurisdictional-determination
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298315
+  sha256: a4e1712f2f99e77a7502f78f1f45f9d7d8e81215edf45cd51cc16aa49562b193
+  bytes: 265739
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:17:14+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: USACE Huntington District Approved Jurisdictional Determination, 2026-09-15, addressed to Gabe
+    Kean, NK Parts Industries, Inc., Sidney, on Smart Services' 2026-05-18 report. About 15.2 acres south
+    of Campbell Road and east of North Kuther Road (40.278618, -84.202931). Wetlands A (0.33), B (0.2)
+    and C (0.02) are not waters of the United States. As printed, the header gives LRH-2024-00927-GMR-Mill
+    Branch and the body assigns LRH-2026-00927-GMR-Mill Branch. 3 pp.
+- filename: 4298316.pdf
+  edoc_id: '4298316'
+  permit_id: DSW401262560W
+  canonical: choice-one-campbell-road-temporary-parking-lot-plans-2026-07-23.pdf
+  type: engineering-plan-set
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298316
+  sha256: 422b4e967d35c2931b4175210b88e689a3f74aee65f2f9013d32d22e8549e95e
+  bytes: 8762558
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:17:20+00:00'
+  status: downloaded
+  content_verified: rendered (no text layer)
+  note: 'Choice One Engineering plan set "Campbell Road Temporary Parking Lot", City of Sidney, July 23,
+    2026, project no. SHESID2630, sealed by Jeffrey S. Puthoff, PE. 12 sheets. Stamped "RELEASE FOR AGENCY
+    REVIEW JULY 23, 2026"; the City of Sidney Public Works Director approval line is blank. Earth disturbed
+    areas as printed: project 13.43 ac, estimated contractor 0.50 ac, NOI 13.93 ac.'
+- filename: 4298319.pdf
+  edoc_id: '4298319'
+  permit_id: DSW401262560W
+  canonical: smart-services-iwp-level-2-cover-letter-2026-09-28.pdf
+  type: isolated-wetland-permit-application
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4298319
+  sha256: 7802b85c94a0cda2ad00098c814e207de1b13778c5da57381bcb3e388d6fba06
+  bytes: 209467
+  content_type: application/pdf
+  fetched_at: '2026-10-27T21:17:20+00:00'
+  status: downloaded
+  content_verified: text-layer
+  note: 'Smart Services cover letter to Ohio EPA DSW, 2026-09-28, "Isolated Wetland General Permit Level
+    2 Pre-Activity Notice (PAN) CMH-232", USACE Project ID "LRH-2026-927-GMR-Mill Branch" as printed.
+    It says the PAN "will supersede" 251911W. 251.9 acres: 236.7-acre campus plus a 15.2-acre construction
+    parking lot. Impacts 0.98 ac; credits required 2.06 ac (ORC 6111.027(A) ratios). Reservations: 1.0
+    ac forested at Norton Run (deposit $9,750 on 2025-11-24, final $55,250 on 2025-12-29), 0.5 ac non-forested
+    at Norton Run (deposit $5,250 on 2026-08-19), and 0.6 credits at Big Island (2026-09-04, deposit $7,370).
+    The parking lot has 981 spaces, a bus entrance and a stormwater basin. Its HUC12s are printed 050800010604
+    and 050800010705; the 401 form''s Section H gives 050800010703. 6 pp.'
