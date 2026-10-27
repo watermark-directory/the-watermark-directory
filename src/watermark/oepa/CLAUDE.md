@@ -119,8 +119,11 @@ Positional reads of a portal row are the recurring defect in this module, twice 
 
 `fetch.py` keeps the corpus's chain-of-custody rules: as-received names, sha256 dedup
 (identical bytes → `skipped_existing`), a differing file kept *alongside* under a
-`.<sha8>` suffix rather than overwritten, and provenance in `filename-map.yaml`. The
-`_REVIEWED_KEYS` on a map entry are human-added and a re-fetch must not erase them.
+`.<sha8>` suffix rather than overwritten, and provenance in `filename-map.yaml`. The map
+is a **round-trip** document (ruamel, #2161): a matched entry is updated in place, so the
+reviewed keys a human added survive a re-fetch, and top-level keys the writer does not own,
+comments and block-scalar prose are written back untouched. Never go back to
+`yaml.safe_dump` here — it silently dropped a `deferred:` block and reflowed every map.
 
 A refused row (`empty` / `not_a_document` / `truncated`) has **no hash**, so it keys as
 `(url, None)` and is retired by a later capture of the same URL under the same rule as an
