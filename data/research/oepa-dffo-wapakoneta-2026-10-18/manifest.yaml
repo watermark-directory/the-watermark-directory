@@ -1,0 +1,33 @@
+meta:
+  subject: OEPA eDocument retrieval — the City of Wapakoneta's 2019-02-06 DFFO
+  site: wapakoneta
+  place: Wapakoneta
+  county: Auglaize County
+  generated_at: '2026-10-18'
+  note: >-
+    The docid comes from Ohio EPA's own Division of Surface Water enforcement listing
+    (https://epa.ohio.gov/divisions-and-offices/surface-water/dsw-programs/enforcement-program),
+    read 2026-10-18, row "Wapakoneta, City of · 2/6/2019 · Auglaize · Directors Final Findings &
+    Orders" — the order the 2024 permit Fact Sheet cites at p. 8. It is the only Wapakoneta row
+    in that listing. The eDocument portal answered IIS "HTTP Error 503. The service is
+    unavailable." on 2026-10-17 and 2026-10-18 for both its search page and a known-good control
+    docid (3940058), so this manifest is listing-backed, not portal-search-backed. No copy exists
+    in the Wayback Machine (CDX returns nothing for this URL).
+    Re-checked 2026-10-27: the listing URL now answers 404. Its newest Wayback capture
+    (2025-07-11) carries the same row (2019-02-06 · Auglaize · DFFO, one of 1,097) but its link
+    column is EMPTY for every row, so it neither confirms nor contradicts the docid. The
+    2026-10-18 read is the only witness to 1080081, and that capture was not kept. A curl probe of
+    the portal got a WAF "Request Rejected" page for the control docid too, so it says nothing
+    about availability. `fetched_at` is the listing-read date; nothing has been fetched.
+  counts:
+    total: 1
+    new: 1
+    known: 0
+    committed: 0
+results:
+- url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1080081
+  permit_id: 2PD00019
+  doc_type: dffo
+  query: DSW enforcement-program listing row for Wapakoneta, City of (2019-02-06)
+  fetched_at: '2026-10-18'
+  status: new
