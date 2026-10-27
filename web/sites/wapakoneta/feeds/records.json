@@ -2,7 +2,7 @@
   {
     "rel": "oepa/wapakoneta/edoc-3971298.progress-report.yaml",
     "group": "compliance-reports",
-    "title": "NPDES permit 2PD00019*SD, Part III, Section 12 (non-compliance notification for exceedance of a daily maximum discharge limit)",
+    "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
     "confidence": "high",
     "warnings": [
       "This is the CITY'S self-report, not an agency finding. \"now have flow augmentation online which is meeting effluent limits\" is [verified] as what the City told Ohio EPA on 2026-01-15. It is not proof that the augmentation system is complete, that it meets the permit's limits in general, or that the DFFO's WWTP work was finished by 2025-12-31. The same form reports a TFR exceedance, so the claim that augmentation \"is meeting effluent limits\" is the City's, and its own form qualifies it.",
@@ -12,7 +12,7 @@
     ],
     "fields": {
       "agency": "Ohio EPA, Division of Surface Water",
-      "instrument": "NPDES permit 2PD00019*SD, Part III, Section 12 (non-compliance notification for exceedance of a daily maximum discharge limit)",
+      "instrument": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
       "case_no": null,
       "paragraph": null,
       "respondent": "City of Wapakoneta",
@@ -42,7 +42,7 @@
       ],
       "discharge_events": [],
       "summary": "On 2026-01-15 the City of Wapakoneta notified Ohio EPA of two 30-day-average exceedances at its WRF, TFR (1687 against 1561 mg/l) and chronic toxicity to Ceriodaphnia dubia (1.1 against 1 TUc). It blamed high industrial loading for the TFR and gave no cause for the toxicity, noting the river upstream is also above water-quality limits. It reported that it \"now\" has flow augmentation online. This is the first document in the record that says the augmentation system is running.",
-      "note": "Application ID 23327580; contact Justin Waid, Superintendent. Description field: \"TFR and bioassay\". Reporting non-compliance with a permit condition: No. The 2025-12-31 DFFO deadline is two weeks before this form; the form does not say when augmentation came online."
+      "note": "Filed on Ohio EPA DSW's \"Non-compliance Notification for Exceedance of a Daily Maximum Discharge Limit\" e-form, which cites Part III, Section 12 of the permit. Application ID 23327580; contact Justin Waid, Superintendent. Description field: \"TFR and bioassay\". Reporting non-compliance with a permit condition: No. The 2025-12-31 DFFO deadline is two weeks before this form; the form does not say when augmentation came online."
     },
     "approximate_paths": [],
     "citation": {
@@ -244,7 +244,7 @@
     "warnings": [
       "The document gives TWO start-up dates for the new plant and they disagree. Cover-letter Finding 1 reads \"The new went into operation on August 21, 2024\" (a word is missing in the source). The Section D comment on p. 6 reads \"The new plant went online on August 1, 2025\". Both are transcribed as printed; neither is corrected. The August 2024 date agrees with the 2024-11-15 performance audit (PAI) of the plant in the same report, and with a Jacobs CSO post-construction monitoring document on the same portal (eDoc 3940468, read but not shelved: \"expansion construction completed August 2024\") [inference]; which date Ohio EPA meant is not settled here. [open]",
       "The report never mentions flow augmentation, the wells, or the 2019 DFFO and its 2024 modification. Section E answers \"Permittee has a compliance schedule: Yes\", names its source as \"NPDES\", and answers \"Permittee is meeting compliance schedule: Yes\". The eight milestones it tabulates are all permit milestones (December 2025 to June 2028). The report is therefore no evidence either way on the DFFO's 2025-12-31 WWTP deadline.",
-      "The two limit violations are from the agency's compliance-data printout for 4/17/2025-6/30/2025 (p. 4), not from an inspector's finding. The TFR limit there (station 021, 1687 mg/l) is a permit tier at a fictitious outfall, not a DFFO interim limit.",
+      "The two limit violations are from the agency's compliance-data printout for 4/17/2025-6/30/2025 (p. 4), not from an inspector's finding. Every value in that table was read off the rendered page image and agrees with the text layer. The TFR limit there (station 021, 1687 mg/l) is a permit tier at a fictitious outfall, not a DFFO interim limit.",
       "Page 3's signature block carries a date (8/13/2025) only for Alexander Young; the supervisor's (Thomas Poffenbarger) date field is blank. report_date is the cover letter's printed date."
     ],
     "fields": {

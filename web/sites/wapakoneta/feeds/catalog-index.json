@@ -1240,7 +1240,7 @@
       "kind": "record",
       "site": "wapakoneta",
       "local_id": "oepa/wapakoneta/edoc-3971298.progress-report.yaml",
-      "title": "NPDES permit 2PD00019*SD, Part III, Section 12 (non-compliance notification for exceedance of a daily maximum discharge limit)",
+      "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
       "feed": "records"
     },
     {
@@ -1296,7 +1296,7 @@
       "kind": "timeline",
       "site": "wapakoneta",
       "local_id": "progress-2PD00019*SD-2026-01-15",
-      "title": "NPDES permit 2PD00019*SD, Part III, Section 12 (non-complia… progress report — City of Wapakoneta",
+      "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12) progress report — City of Wapakoneta",
       "feed": "timeline"
     }
   ]

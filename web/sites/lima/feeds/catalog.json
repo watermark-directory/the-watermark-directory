@@ -6393,8 +6393,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "6913292baa5457663e78dc84383604b34c365617bd81dfc4a6107d20de051e9a",
-      "size_bytes": 67467,
+      "sha256": "4177c35e68867c15b4def61c40543b2e28134ddc06fa69c67684dca7f74c5d62",
+      "size_bytes": 67665,
       "lfs_materialized": true,
       "file_count": 6,
       "stale": false,

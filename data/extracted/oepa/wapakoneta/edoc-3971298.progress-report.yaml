@@ -29,8 +29,7 @@ progress_report:
     020-023, selected by river flow; the form does not say which outfall or flow tier applied. The figure
     matches no DFFO interim limit (those are in specific conductance).
   agency: Ohio EPA, Division of Surface Water
-  instrument: NPDES permit 2PD00019*SD, Part III, Section 12 (non-compliance notification for exceedance
-    of a daily maximum discharge limit)
+  instrument: Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)
   case_no: null
   paragraph: null
   respondent: City of Wapakoneta
@@ -61,6 +60,7 @@ progress_report:
     It blamed high industrial loading for the TFR and gave no cause for the toxicity, noting the river
     upstream is also above water-quality limits. It reported that it "now" has flow augmentation online.
     This is the first document in the record that says the augmentation system is running.
-  note: 'Application ID 23327580; contact Justin Waid, Superintendent. Description field: "TFR and bioassay".
+  note: 'Filed on Ohio EPA DSW''s "Non-compliance Notification for Exceedance of a Daily Maximum Discharge
+    Limit" e-form, which cites Part III, Section 12 of the permit. Application ID 23327580; contact Justin Waid, Superintendent. Description field: "TFR and bioassay".
     Reporting non-compliance with a permit condition: No. The 2025-12-31 DFFO deadline is two weeks before
     this form; the form does not say when augmentation came online.'
