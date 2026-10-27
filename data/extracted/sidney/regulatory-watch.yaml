@@ -1076,11 +1076,28 @@ pass_2026_10_27:
           Services". The main-campus AJD (4298310 p. 1, 2025-02-21) was addressed to William Joslin, on
           WSP's "Joslin Site" report. Those are the parties of record on each JD request.
       parking_lot_owner:
+        tag: '[verified]'
+        statement: >-
+          The Shelby County Auditor's CAMA layer (Shelby County Parcels FeatureServer layer 0, queried
+          2026-10-27, Extract_ID 6040, data last edited 2026-10-13) gives the owners of record of the
+          three parking-lot parcels, which 4298288 p. 1 prints as 01-1834301.008, .007 and .003. Two
+          belong to NK PARTS INDUSTRIES INC: 01-1834301.007 (600 S Kuther Rd, 23.461 deeded ac) and
+          01-1834301.008 (2911 Campbell Rd, 13.432 ac). Both were conveyed together on 2023-10-05 for
+          a consideration of $6,500,000, deed Vol. 2316 p. 4710. The third, 01-1834301.003 (2655
+          Campbell Rd, 3.141 ac), belongs to WILCOX INVESTMENTS LLC, conveyed 2024-08-05 for
+          $517,000, deed Vol. 2321 p. 356. The earlier `[inference]` that NK Parts owns all three
+          was therefore wrong for .003. The AJD centroid (40.278618, -84.202931) falls in .008. The
+          three parcels total 40.03 deeded acres; the 15.2-acre site sits on portions of them.
+          Re-pull with `WATERMARK_SITE=sidney watermark parcels` (`shelby_gis`).
+      parking_lot_use_terms:
         tag: '[open]'
         statement: >-
-          That NK Parts Industries owns the 15.2-acre parking-lot parcels (01-18-34-301-003, -007,
-          -008) is `[inference]` from the AJD addressee only. No deed, lease or auditor record in the
-          corpus shows who owns them or on what terms AWS uses them. Check the Shelby County auditor.
+          No deed, lease, easement or license in the corpus shows on what terms AWS, or its
+          contractors, will use the two owners' land for a construction parking lot, or whether the
+          owners consented. No document in the 262560W package names Wilcox Investments LLC, and the
+          published passage index has no other mention of it. The City's plan set (4298316) carries the City's
+          header. Whether the City holds an interest in any of the three parcels is not shown.
+          The deeds (Vol. 2316 p. 4710, Vol. 2321 p. 356) are at the Shelby County Recorder.
       city_plan_set:
         tag: '[verified]'
         statement: >-

@@ -1,4 +1,4 @@
-reconciled_at: '2026-10-27T22:32:30.522625+00:00'
+reconciled_at: '2026-10-27T23:14:34.234840+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -3432,8 +3432,8 @@ entries:
     site_scope: site:sidney
   sidney-regulatory-watch:
     exists: true
-    sha256: f86f282c796241d1253efd5e0faa8b5127b7861b59b5e7d1f2f4156668e5cc15
-    size_bytes: 123848
+    sha256: b8334335d47f7fb8c99aba44ebcdeabf315c3f5c991e72b58bbfd513154253ae
+    size_bytes: 125286
     lfs_materialized: true
     file_count: 2
     missing: []
