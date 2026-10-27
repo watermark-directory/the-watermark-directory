@@ -86,5 +86,49 @@
       "note": null,
       "verified": true
     }
+  },
+  {
+    "date": "2025-07-29",
+    "category": "agency_inspection",
+    "title": "NPDES inspection (CEI) — Wapakoneta Water Reclamation Facility (WRF)",
+    "ref": "inspection-2PD00019-2025-07-29-cei",
+    "parties": [
+      "Ohio EPA, Division of Surface Water",
+      "Wapakoneta Water Reclamation Facility (WRF)"
+    ],
+    "detail": "form marks no significant non-compliance; 10 observation(s); reported 2025-08-15",
+    "source": "oepa/wapakoneta/edoc-3793658.inspection.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-3793658.inspection.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "date": "2026-01-15",
+    "category": "compliance_progress_report",
+    "title": "NPDES permit 2PD00019*SD, Part III, Section 12 (non-complia… progress report — City of Wapakoneta",
+    "ref": "progress-2PD00019*SD-2026-01-15",
+    "parties": [
+      "City of Wapakoneta",
+      "Ohio EPA, Division of Surface Water"
+    ],
+    "detail": "period 2026-01-15 → 2026-01-15; 2 project(s); 2 permit exceedance(s)",
+    "source": "oepa/wapakoneta/edoc-3971298.progress-report.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-3971298.progress-report.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
   }
 ]

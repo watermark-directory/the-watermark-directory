@@ -31,9 +31,13 @@ order:
     is machine-printed as 2024-11-19 19:27:43 GMT, which is the day before.
   - The City's signature block (p. 9) is HANDWRITTEN — Tyler J. Price, Director of Public Service & Safety,
     with a handwritten date that appears to read 10/17/2024. No date field relies on it.
-  - The extended deadline, 2025-12-31, has passed as of this read (2026-10-27). Nothing in this record
-    shows whether the WWTP actions were completed, whether the Orders were terminated under §VII, or whether
-    a further modification issued. status is therefore null. [open]
+  - The extended deadline, 2025-12-31, has passed as of this read (2026-10-27). The City's own 2026-01-15
+    non-compliance notification (eDoc 3971298) says it "now" has flow augmentation online; that is the City's
+    statement, not an agency finding, and it does not say when the system came online. The 2025-08-15
+    Ohio EPA inspection (eDoc 3793658) dates the new plant's start-up to 2024-08-21 but never mentions
+    augmentation or this order. Nothing in this record shows Ohio EPA acknowledging completion, the Orders
+    terminated under §VII, or a further modification; the portal index (2026-10-27) lists no DFFO after this
+    one. status is therefore null. [open]
   - No civil penalty is assessed. The 2019 order's Order 7 mitigation fees are untouched ('All other Orders
     remain in full force and effect').
   agency: Ohio EPA

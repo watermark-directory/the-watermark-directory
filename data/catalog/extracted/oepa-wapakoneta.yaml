@@ -8,7 +8,8 @@ producer:
     Wapakoneta Water Reclamation Facility, 201 Herbstritt Court, Auglaize County, and its 2024
     Fact Sheet (Public Notice 206565), retrieved from the Ohio EPA DAM permit slot; and the
     2019-02-06 Director's Final Findings and Orders on the same permit and its 2024-11-20
-    modification, retrieved from the eDocument public portal
+    modification, Ohio EPA's 2025-07-29 compliance evaluation inspection and the City's
+    2026-01-15 non-compliance notification, retrieved from the eDocument public portal
 license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: site:wapakoneta
@@ -26,6 +27,14 @@ storage:
   lfs: false
 # Its 2024-11-20 modification (eDoc 3301212), same permit and provenance class.
 - relpath: extracted/oepa/wapakoneta/edoc-3301212.order.yaml
+  media_type: application/x-yaml
+  lfs: false
+# Ohio EPA's 2025-07-29 CEI (eDoc 3793658) and the City's 2026-01-15 non-compliance notification
+# (eDoc 3971298) on the same permit; the first is the agency's view, the second the City's own.
+- relpath: extracted/oepa/wapakoneta/edoc-3793658.inspection.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/oepa/wapakoneta/edoc-3971298.progress-report.yaml
   media_type: application/x-yaml
   lfs: false
 refresh:
@@ -67,8 +76,15 @@ notes: >-
   WWTP work is due 2025-12-31, and the interim limits run until the upgrades are complete or
   2025-12-31, whichever comes first; everything else stays in force. Its
   findings date PWS lime softening complete 2023-08-07 and name wells piped near the outfall as
-  the augmentation water. The 2025-12-31 deadline has passed; completion, termination or a
-  further modification is not in the record. [open] The portal's fourth 2PD00019 row (eDoc
+  the augmentation water. The 2025-12-31 deadline has passed. Ohio EPA's 2025-07-29 inspection
+  (eDoc 3793658, added 2026-10-27) found no significant noncompliance and dates the new plant's
+  start-up to 2024-08-21 (a form comment in the same report says 2025-08-01; both are kept). It
+  never mentions augmentation or the DFFO. Its compliance printout shows a May 2025 TFR violation
+  at fictitious outfall 021 (1900 against 1687 mg/l). The City's own 2026-01-15 non-compliance
+  notification (eDoc 3971298, added 2026-10-27) reports a 30-day TFR exceedance (1687 against
+  1561 mg/l) and a chronic-toxicity one, and says it "now" has flow augmentation online. That is
+  the City's statement, not an agency finding. Ohio EPA acknowledging completion, a termination,
+  or a further modification is not in the record. [open] The portal's fourth 2PD00019 row (eDoc
   3480641) is an ODOT rest-area order on 2PP00019, mis-indexed, and is not shelved.
   178 effluent violations 2019-2023 in the Fact Sheet's Table 2 (titled "Outfall 001") — 150 at
   Outfall 001 itself plus 28 TFR violations at fictitious outfalls 020-022 (62 E. coli, 53 TFR across

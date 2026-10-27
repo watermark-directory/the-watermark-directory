@@ -1,6 +1,6 @@
 {
   "site": "wapakoneta",
-  "catalog_version": "52d70695a2595dda28817d8abc43a20b065a7b406c62cc8ee126d167f7a2bfd7",
+  "catalog_version": "a6f34def17f64db000ae7cf0862de7f0311d8136e89f998befd8e61cf23119f5",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -1228,6 +1228,22 @@
       "feed": "records"
     },
     {
+      "handle": "record:wapakoneta:oepa/wapakoneta/edoc-3793658.inspection.yaml",
+      "kind": "record",
+      "site": "wapakoneta",
+      "local_id": "oepa/wapakoneta/edoc-3793658.inspection.yaml",
+      "title": "Wapakoneta Water Reclamation Facility (WRF)",
+      "feed": "records"
+    },
+    {
+      "handle": "record:wapakoneta:oepa/wapakoneta/edoc-3971298.progress-report.yaml",
+      "kind": "record",
+      "site": "wapakoneta",
+      "local_id": "oepa/wapakoneta/edoc-3971298.progress-report.yaml",
+      "title": "NPDES permit 2PD00019*SD, Part III, Section 12 (non-compliance notification for exceedance of a daily maximum discharge limit)",
+      "feed": "records"
+    },
+    {
       "handle": "record:wapakoneta:oepa/wapakoneta/edoc-992359.order.yaml",
       "kind": "record",
       "site": "wapakoneta",
@@ -1252,6 +1268,14 @@
       "feed": "timeline"
     },
     {
+      "handle": "timeline:wapakoneta:inspection-2PD00019-2025-07-29-cei",
+      "kind": "timeline",
+      "site": "wapakoneta",
+      "local_id": "inspection-2PD00019-2025-07-29-cei",
+      "title": "NPDES inspection (CEI) — Wapakoneta Water Reclamation Facility (WRF)",
+      "feed": "timeline"
+    },
+    {
       "handle": "timeline:wapakoneta:order-2PD00019*ND-2019-02-06-dffo",
       "kind": "timeline",
       "site": "wapakoneta",
@@ -1265,6 +1289,14 @@
       "site": "wapakoneta",
       "local_id": "order-2PD00019-2024-11-20-modified dffo",
       "title": "Ohio EPA modified DFFO — City of Wapakoneta",
+      "feed": "timeline"
+    },
+    {
+      "handle": "timeline:wapakoneta:progress-2PD00019*SD-2026-01-15",
+      "kind": "timeline",
+      "site": "wapakoneta",
+      "local_id": "progress-2PD00019*SD-2026-01-15",
+      "title": "NPDES permit 2PD00019*SD, Part III, Section 12 (non-complia… progress report — City of Wapakoneta",
       "feed": "timeline"
     }
   ]
