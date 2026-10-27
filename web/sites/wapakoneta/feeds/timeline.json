@@ -8,7 +8,7 @@
       "City of Wapakoneta",
       "Ohio EPA"
     ],
-    "detail": "11 obligation(s)",
+    "detail": "11 obligation(s); status modified",
     "source": "oepa/wapakoneta/edoc-992359.order.yaml",
     "also_sources": [],
     "citation": {
@@ -57,6 +57,28 @@
     "also_sources": [],
     "citation": {
       "source": "oepa/wapakoneta/2PD00019.fs.npdes.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "date": "2024-11-20",
+    "category": "enforcement_order",
+    "title": "Ohio EPA modified DFFO — City of Wapakoneta",
+    "ref": "order-2PD00019-2024-11-20-modified dffo",
+    "parties": [
+      "City of Wapakoneta",
+      "Ohio EPA"
+    ],
+    "detail": "2 obligation(s); supersedes Director's Final Findings and Orders dated 2019-02-06 (eDoc…",
+    "source": "oepa/wapakoneta/edoc-3301212.order.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-3301212.order.yaml",
       "source_kind": "document",
       "page": null,
       "pages": null,

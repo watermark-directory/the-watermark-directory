@@ -359,10 +359,12 @@ This is **not** a data-center entry. It is recorded because it concerns the same
    (<https://augcogis.maps.arcgis.com/apps/webappviewer/index.html?id=8f3f1b5bcb734d3c8b52326346667be9>),
    which is a finding aid, not the zoning map of record.
 8. **The blowdown disposal path.** A hauled waste stream must land at a permitted receiver.
-9. **The Wapakoneta WRF's later DFFO record.** The permit (OH0027952) and the 2019-02-06 DFFO
-   (eDoc 992359) are in the record. The portal also lists a DFFO dated 2024-11-20 (eDoc 3301212)
-   and one dated 2006-08-15 (eDoc 3480641). Neither is retrieved. Whether 3301212 modifies or
-   ends the 2019 order, which expired its own interim limits on 2024-09-01, is open.
+9. **The Wapakoneta WRF's DFFO after 2025-12-31.** The permit (OH0027952), the 2019-02-06 DFFO
+   (eDoc 992359) and its 2024-11-20 modification (eDoc 3301212) are in the record. The
+   modification extended the WWTP work and the interim limits to 2025-12-31, and its findings
+   name wells piped near the outfall as the augmentation water. That date has passed. Whether
+   the work was completed, the order terminated or modified again is open. The portal's other
+   2PD00019 row (eDoc 3480641) is a mis-indexed ODOT rest-area order, not Wapakoneta's.
 10. **The county-wide negative checks**: RSEI 518210, ECHO and the PJM queue for Auglaize.
 
 ## Sources

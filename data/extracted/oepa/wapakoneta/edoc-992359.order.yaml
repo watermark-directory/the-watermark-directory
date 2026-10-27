@@ -42,9 +42,13 @@ order:
     text beyond this note.
   - No civil penalty is assessed. Order 7 sets per-exceedance MITIGATION FEES, carried in stipulated_penalties,
     not penalty_usd.
-  - 'status is null, not ''active'': the portal lists a later DFFO for 2PD00019 dated 2024-11-20 (eDoc
-    3301212, not retrieved), and Order 6''s interim limits expire 2024-09-01 by their own terms. Whether
-    3301212 modifies, extends or terminates these Orders is [open].'
+  - 'status is ''modified'': the 2024-11-20 modified DFFO (eDoc 3301212, extracted/oepa/wapakoneta/edoc-3301212.order.yaml)
+    extends Order 1''s WWTP deadline and Order 6''s interim-limit end date from 2024-09-01 to 2025-12-31
+    and leaves every other Order in force. Whether the Orders have since been terminated under §VII is
+    [open].'
+  - The 2024 modification's findings date the PWS lime-softening upgrades as completed 2023-08-07, about
+    seven months AFTER this Order 1's 2022-12-31 PWS deadline. Neither order records an extension of the
+    PWS deadline or says whether lime softening was the whole of the PWS general-plan work. [open]
   agency: Ohio EPA
   instrument: DFFO
   case_no: null
@@ -66,9 +70,10 @@ order:
   - requirement: 'Order 1: complete all general-plan actions at the public water system.'
     deadline: '2022-12-31'
     status: null
-  - requirement: 'Order 1: complete all general-plan actions at the WWTP.'
+  - requirement: 'Order 1: complete all general-plan actions at the WWTP. Extended to 2025-12-31 by the
+      2024-11-20 modification (eDoc 3301212).'
     deadline: '2024-09-01'
-    status: null
+    status: extended
   - requirement: 'Order 2: on Ohio EPA approval, the general plan becomes an enforceable part of the Orders.'
     deadline: null
     status: null
@@ -88,9 +93,10 @@ order:
     status: null
   - requirement: 'Order 6 (Post-Production Operations, until the upgrades are complete but not beyond
       2024-09-01): discharge not to exceed a monthly average specific conductance of 3051 micromhos/cm
-      or a daily average of 3886 micromhos/cm.'
+      or a daily average of 3886 micromhos/cm. End date extended to 2025-12-31 by the 2024-11-20 modification
+      (eDoc 3301212).'
     deadline: '2024-09-01'
-    status: null
+    status: extended
   - requirement: 'Order 9: pay any Order 7 mitigation fee within thirty days of the eDMR evidencing the
       exceedance, to the Surface Water Improvement Fund (Fund FY30).'
     deadline: null
@@ -111,7 +117,7 @@ order:
     per monthly-average exceedance beyond ten; plus an additional $2,000 for any daily average at or above
     4,800 micromhos/cm specific conductance or any 24-hour-composite daily value at or above 3,000 mg/l
     TFR.'
-  status: null
+  status: modified
   summary: 'Ohio EPA''s 2019-02-06 Director''s Final Findings and Orders to the City of Wapakoneta, issued
     by consent (the City waived appeal), address Total Filterable Residue in the WWTP discharge under
     NPDES 2PD00019*ND: the drinking water plant''s ion-exchange brine reaches the WWTP, the 1,523 mg/l
@@ -119,7 +125,8 @@ order:
     growth (production at Pratt Industries) would raise TFR further. The Orders require a general plan
     with PWS work complete by 2022-12-31 and WWTP work by 2024-09-01, substitute interim specific-conductance
     limits with per-exceedance mitigation fees once Pratt production begins, and require annual biological
-    sampling of the Auglaize River.'
+    sampling of the Auglaize River. Modified 2024-11-20 (eDoc 3301212): the WWTP deadline and the interim
+    limits were extended to 2025-12-31.'
   note: 'Jurisdiction: R.C. 6111.03, 6109.04 and 3745.01. Signed for Ohio EPA by Director Laurie A. Stevenson;
     for the City by Mayor Thomas A. Stinebaugh (handwritten). Termination on Respondent''s certification
     and acknowledgement by the Chiefs of DSW and DDAGW (§VII). Deadlines for Orders 1 (plan) and 10 are

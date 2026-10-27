@@ -1,0 +1,79 @@
+doc_id: edoc-3301212-62400c24
+source_path: data/documents/oepa/wapakoneta/edoc-3301212.pdf
+kind: order
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+image_pages_read:
+- 1
+- 7
+- 8
+dpi: 200
+source_text_excerpt: "11/20/2024 \nWapakoneta, City of RE: DFFO \nAttn: : Tyler Price, Director Public\
+  \ Safety NPDES \n701 Parlette Court Auglaize County \nWapakoneta, OH 45895 2PD00019 \nMr. Price: \n\
+  Transmitted herewith is one copy of the Director’s Final Findings & Orders in the referenced matter.\
+  \ \nSincerely, \n~ \n/ -A--\n \n01  l\n` I=-\n \nTyler Liston, Manager \nPermits Processing \nDivision\
+  \ of Surface Water \nTL/jj \nEnclosure \nCERTIFIED MAIL \nec: L. Reeder, DSW \nR. Demuth, DSW \nJ. Hamilton,\
+  \ DSW \nT. Poffenbarger, NWDO, DSW \nB. Fischbein, Legal \nJournal Room \nFile \n50 West Town Street\
+  \ • Suite 700 • P.O. Box 1049 • Columbus, O"
+order:
+  confidence: high
+  warnings:
+  - Effective date 2024-11-20 is read from the machine-printed stamp on p. 2 ('Ohio EPA 11/20/2024 Entered
+    Director's Journal'); §XIV makes the journal-entry date the effective date. The Director's e-signature
+    is machine-printed as 2024-11-19 19:27:43 GMT, which is the day before.
+  - The City's signature block (p. 9) is HANDWRITTEN — Tyler J. Price, Director of Public Service & Safety,
+    with a handwritten date that appears to read 10/17/2024. No date field relies on it.
+  - The extended deadline, 2025-12-31, has passed as of this read (2026-10-27). Nothing in this record
+    shows whether the WWTP actions were completed, whether the Orders were terminated under §VII, or whether
+    a further modification issued. status is therefore null. [open]
+  - No civil penalty is assessed. The 2019 order's Order 7 mitigation fees are untouched ('All other Orders
+    remain in full force and effect').
+  agency: Ohio EPA
+  instrument: modified DFFO
+  case_no: null
+  respondent: City of Wapakoneta
+  facility: City of Wapakoneta wastewater treatment plant (and the public water system bound by the 2019
+    Orders), discharging to the Auglaize River, Auglaize County, Ohio
+  permit_no: 2PD00019
+  issued_date: '2024-11-20'
+  effective_date: '2024-11-20'
+  supersedes: Director's Final Findings and Orders dated 2019-02-06 (eDoc 992359) — modifies Orders 1
+    and 6 only
+  obligations:
+  - requirement: 'Modified Order 1: complete all actions required under the general plan for the WWTP
+      (previously due 2024-09-01).'
+    deadline: '2025-12-31'
+    status: null
+  - requirement: 'Modified Order 6: during Post-Production Operations, until the Order 1-2 upgrades are
+      complete but not beyond 2025-12-31 (previously 2024-09-01), discharge not to exceed a monthly average
+      specific conductance of 3051 micromhos/cm or a daily average of 3886 micromhos/cm.'
+    deadline: '2025-12-31'
+    status: null
+  penalty_usd: null
+  stipulated_penalties: null
+  status: null
+  summary: 'Ohio EPA''s 2024-11-20 modification of the 2019-02-06 DFFO to the City of Wapakoneta, issued
+    by consent, extends the deadline to complete the wastewater-treatment-plant actions under the TFR
+    general plan, and the interim specific-conductance limits that run with it, from 2024-09-01 to 2025-12-31.
+    The findings record that the City completed lime-softening upgrades at its drinking water plant on
+    2023-08-07 and chose flow augmentation at the WWTP: developing wells and piping that water to discharge
+    near the outfall, where it is blended with the effluent to dilute TFR. Well capacity and boulders
+    found 2023-09-29 along the planned directional-drilling route delayed the work, and the City requested
+    an extension on 2024-07-29.'
+  note: 'Findings (all [verified] as stated by the Director; the City''s underlying letters of 2024-07-29
+    and 2024-08-26 are NOT in the record): the PWS lime-softening upgrades were completed 2023-08-07;
+    flow augmentation means wells piped to discharge in close proximity to the WWTP outfall; obstacles
+    were wells with insufficient production capacity and geotechnical results, discovered 2023-09-29,
+    showing boulders and rocks that could limit horizontal directional drilling of the pipeline; the City
+    requested an extension 2024-07-29; Ohio EPA asked for detail 2024-08-12; the City supplemented 2024-08-26.
+    Transmitted by Tyler Liston, Manager, Permits Processing, DSW, to Tyler Price, Director of Public
+    Safety. Jurisdiction: R.C. 6111.03, 6109.04 and 3745.01. The portal index lists this as docid 3301212
+    (''DFFO - DFFO'', 11/20/2024).'
