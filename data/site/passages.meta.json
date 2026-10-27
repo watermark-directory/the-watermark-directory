@@ -392,7 +392,6 @@
     "oepa/sidney/4298305.pdf",
     "oepa/sidney/4298308.pdf",
     "oepa/sidney/4298309.pdf",
-    "oepa/sidney/4298310.pdf",
     "oepa/sidney/4298311.pdf",
     "oepa/sidney/4298312.pdf",
     "oepa/sidney/4298313.pdf",
@@ -548,6 +547,6 @@
     "west-union/acrwd/minutes/Minutes -January 2024.pdf",
     "west-union/acrwd/minutes/Minutes-July 26.pdf"
   ],
-  "documents_with_passages": 444,
-  "passage_count": 8760
+  "documents_with_passages": 443,
+  "passage_count": 8757
 }
