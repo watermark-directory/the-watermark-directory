@@ -1432,9 +1432,9 @@ pass_2026_10_27:
     route: eDoc Secondary ID OH8100611 (610 documents, was 607)
     read_not_committed: >-
       All three documents were fetched to scratch and read on 2026-10-27 (4265707: 4 pp., 4272058:
-      13 pp. incl. the blank Form 5031, 4292250: 1 p.; page cites below are PDF pages); none is committed under
-      data/documents/** (vault rule for this pass). They are listed in instruments_to_pull to be
-      ingested; until then cite them by docid and URL.
+      13 pp. incl. the blank Form 5031, 4292250: 1 p.; page cites below are PDF pages). They were
+      shelved the same day after the pass: data/documents/oepa/van-wert/edoc-4265707.pdf,
+      edoc-4272058.pdf and edoc-4292250.pdf, recorded in that shelf's filename-map.yaml.
     documents:
     - docid: '4265707'
       date: '2026-09-17'
@@ -1563,21 +1563,6 @@ instruments_to_pull:
   route: Ohio EPA NWDO file review; the City of Van Wert Safety-Service Director.
   priority: 2
 
-- item: Ohio EPA NOV, docid 4265707 (2026-09-17) — Violation of Maximum Contaminant Level for TTHM, Q3 2026 LRAA 0.081 mg/L.
-  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4265707
-  why: NEW 2026-10-27. The state's own MCL finding; read but not committed this pass.
-  route: eDoc (httpx + BROWSER_HEADERS) → data/documents/oepa/van-wert/ via the vault workflow.
-  priority: 1
-- item: Ohio EPA OEL exceedance letter, docid 4272058 (2026-09-23) — TTHM, Q3 2026.
-  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4272058
-  why: NEW 2026-10-27. Second consecutive OEL; sets the Form 5031 due date (~2026-12-22).
-  route: eDoc → vault workflow.
-  priority: 1
-- item: Ohio EPA NOV, docid 4292250 (2026-10-19) — failure to timely issue public notification (OAC 3745-81-32).
-  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4292250
-  why: NEW 2026-10-27. Web posting by 2026-10-16 but no direct delivery to bill-paying customers.
-  route: eDoc → vault workflow.
-  priority: 1
 - item: The City's TTHM MCL public notice (as posted and as directly delivered) and its certification of delivery to Ohio EPA.
   why: NEW 2026-10-27. The City's own statement of the violation to customers; the cure the 4292250 NOV requires.
   route: City of Van Wert Utilities website (web posting); eDoc Secondary ID OH8100611 for the certification.

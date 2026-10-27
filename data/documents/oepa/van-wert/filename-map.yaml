@@ -330,3 +330,64 @@ documents:
     hydrant at Burt/Cable). Units are not printed beside the values; the form's analyte column
     heading reads "Results (units)" with nothing filled in, so µg/L is the conventional reading
     and is NOT verified from the document.
+- filename: edoc-4265707.pdf
+  canonical_name: >-
+    Ohio EPA Notice of Violation, Action Required, "Violation of Maximum Contaminant Level for TTHM",
+    Van Wert City PWS OH8100611, dated 2026-09-17. 4 pp.
+  content_verified_date: '2026-09-17'   # letter date on p. 1 of the text layer
+  permit_id: OH8100611
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4265707
+  edoc_docid: 4265707
+  edoc_doc_type: NOV
+  edoc_program: DRINKING WATER
+  sha256: af63ae4b5f69bb25552a33a6ec80c3ed6bcb36a9f927775c9e4051ac7f72390d
+  bytes: 1352190
+  content_type: application/pdf
+  fetched_at: '2026-10-27'
+  status: downloaded
+  evidence: native_text (p. 1 prose).
+  note: >-
+    The locational running annual average for TTHM in Q3 2026 is 0.081 mg/L against an MCL of
+    0.080 mg/L (p. 1). The City must notify customers within 30 days and return a verification
+    form within ten days. Read in water-watch.yaml `drinking_water_2026_10_27`.
+- filename: edoc-4272058.pdf
+  canonical_name: >-
+    Ohio EPA Operational Evaluation Level Exceedance, Action Required, "Stage 2 Disinfectants /
+    Disinfection Byproduct Rule Exceedance - Third Quarter, 2026", to Jay Fleming, Safety Service
+    Director, dated 2026-09-23. 13 pp., including the blank OEL Form 5031.
+  content_verified_date: '2026-09-23'   # letter date on p. 1 of the text layer
+  permit_id: OH8100611
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4272058
+  edoc_docid: 4272058
+  edoc_doc_type: Inspection or Compliance Review
+  edoc_program: DRINKING WATER
+  edoc_description: CORRESPONDENCE
+  sha256: f3b6484e09ec1275f41ba531c65aca6c6263e73ff57ccd53c312240cbe23c96b
+  bytes: 2434033
+  content_type: application/pdf
+  fetched_at: '2026-10-27'
+  status: downloaded
+  evidence: native_text (p. 1 prose; the letterhead OCR is garbled and is not relied on).
+  note: >-
+    A Q3 2026 OEL exceedance for TTHM under OAC 3745-81-24(C), which requires an OEL report. Read in
+    water-watch.yaml `drinking_water_2026_10_27`.
+- filename: edoc-4292250.pdf
+  canonical_name: >-
+    Ohio EPA Notice of Violation, "Failure to Timely Issue Public Notification" (OAC 3745-81-32),
+    Van Wert City PWS OH8100611, dated 2026-10-19. 1 p.
+  content_verified_date: '2026-10-19'   # letter date on p. 1 of the text layer
+  permit_id: OH8100611
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4292250
+  edoc_docid: 4292250
+  edoc_doc_type: NOV
+  edoc_program: DRINKING WATER
+  sha256: 5420e7b3dcc07de429ce229761eb0253af397a77d74a9b3da554ed3e5bbc835e
+  bytes: 236673
+  content_type: application/pdf
+  fetched_at: '2026-10-27'
+  status: downloaded
+  evidence: native_text.
+  note: >-
+    The Q3 2026 TTHM MCL public notice was due for direct delivery to bill-paying customers by
+    2026-10-16. The City posted it on its website by that date but did not deliver it directly. Read
+    in water-watch.yaml `drinking_water_2026_10_27`.

@@ -1,0 +1,150 @@
+doc_id: 4298285-e5d5912b
+source_path: data/documents/oepa/sidney/4298285.pdf
+kind: epa
+pages_read:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+- 22
+- 23
+- 24
+- 25
+- 26
+- 27
+- 28
+- 29
+- 30
+- 31
+- 32
+- 33
+- 34
+- 35
+- 36
+- 37
+- 38
+- 39
+- 40
+- 41
+- 42
+- 43
+- 44
+- 45
+- 46
+- 47
+- 48
+- 49
+- 50
+- 51
+- 52
+- 53
+- 54
+- 55
+- 56
+- 57
+- 58
+- 59
+- 60
+- 61
+- 62
+- 63
+- 64
+- 65
+image_pages_read:
+- 0
+- 1
+dpi: 110
+source_text_excerpt: 'Application ID: 540722745; Rev. 8/2014 Page 1. Application for
+  Section 401 Water Quality Certification Division of Surface Water 401 Water Quality
+  Certification and Isolated Wetland Permitting Unit Section 1: Applicant (Project
+  Proponent) and Consultant/Agent Information Applicant (Project Proponent) Consultant/Agent
+  Company/Agency Name: Amazon Data Services, Inc. Smart Services, Inc Address: 410
+  Terry Ave N, Seattle, WA 98109 88 W Church St, Newark, OH 43055 Contact Name/Title:
+  Robert Truedinge'
+action:
+  confidence: high
+  warnings:
+  - As printed, the form gives the project ZIP as 43103 for 'Millcreek Road, Sidney,
+    OH', the same error as the 2025 application (3935117.pdf). 43103 is Ashville;
+    Sidney is 45365. Recorded as printed.
+  - 'All seven ORAM forms give ''Hydrologic Unit Code (HUC8): 05120103 Mississinewa'',
+    a Wabash-basin HUC, while the form''s Section H gives the Great Miami HUC-12s
+    050800010604 and 050800010703. Recorded as printed; neither value is corrected
+    or reused as a fact.'
+  - Main-campus ORAM site visits are dated 07/08/2024; parking-lot ORAM site visits
+    (Wetlands A, B, C) are dated 05/07/2026.
+  - 'Section 3, as printed, is internally inconsistent: ''Wetland Acres Impacted 0.98
+    x $500.00 = $490.00'', then ''Total Review Fees = $0.00'', then ''Total Fees ...
+    = $690.00'' ($200 + $490). Recorded as printed.'
+  - 'Section 2.L checks only ''NPDES Permit — Permit Type: General — Will be Submitted
+    on: 12/01/2026''. It does NOT check ''Isolated Wetland Permit'', although the
+    Level Two IWP application under the same Application ID was filed the same day
+    (4298321.pdf). The form does not say which general NPDES permit; that it is construction
+    stormwater is [inference].'
+  - 'Checkboxes were read from the rendered pp. 1-2. The text layer does not show
+    which box is ticked. Pre-filing meeting: No. Any portion complete: No. After-the-fact:
+    No. Impact type: Fill only. Fee-exempt: No.'
+  - Wetland 2's ORAM form (p. 40) gives FINAL SCORE 20.0. The IWP impact table (4298321.pdf,
+    p. 5) gives Wetland 2 an ORAM score of 19.0. Both give Category 1. Recorded as
+    printed.
+  agency: Ohio EPA, Division of Surface Water
+  program: 401 Water Quality Certification and Isolated Wetland Permitting Unit
+  permit_no: 'DSW401262560W (eDoc Permit ID); Ohio EPA application APP262560W; Application
+    ID: 540722745'
+  action: application
+  action_date: '2026-10-26'
+  plans_received_date: null
+  expiration_date: null
+  applicant: Amazon Data Services, Inc.
+  applicant_address: 410 Terry Ave N, Seattle, WA 98109
+  contact_name: Chris Klein
+  contact_email: cklein@smartservices-inc.com
+  contact_firm: Smart Services, Inc
+  project_name: CMH-232
+  site_address: Millcreek Road, Sidney, OH (Clinton Township, Shelby County) — main
+    campus north of Millcreek Road and west of Vandemark Road; parking-lot site south
+    of Campbell Road, about 0.3 mi northwest of the main campus; 40.269550 / -84.200002
+  affected_resource: 'Fill; wetland acres impacted 0.98 (fee basis). Seven isolated
+    wetlands scored by ORAM (all on ''Application ID: 540722745'' forms): Wetland
+    A 18.0/Cat 1, 0.33 ac; B 17.0/Cat 1, 0.20 ac; C 15.0/Cat 1, 0.02 ac (parking-lot
+    site); Wetland 1 31.0/Cat 2, 0.41 ac; 2 20.0/Cat 1, 0.17 ac; 3a 23.0/Cat 1, 0.25
+    ac; 3b 23.0/Cat 1, 0.01 ac (main campus). HUC-12 050800010604 (Mill Creek-Loramie
+    Creek) and 050800010703 (Brush Creek-Great Miami River); USACE Huntington District'
+  parcel_ids: []
+  note: 'THE SECOND 401 FILE ON CMH-232, and the first that is not a general-permit
+    notice. Electronically submitted 2026-10-26 by Shannon Moore, Regional Environmental
+    Manager (submitter 71278698). In the applicant''s own words: ''The proposed project
+    will convert 251.9 acres of agricultural, residential, and vacant land into a
+    data center campus ... The project area consists of two (2) sites. The proposed
+    data center will be situated on a 236.7-acre site, and a 15.2-acre site will be
+    used as a parking lot during construction.'' The stated purpose is ''cloud computing
+    and artificial intelligence applications''. Construction runs 03/01/2027 to 03/01/2030,
+    compared with 2026-03-01 to 2026-10-31 on the 2025 application (3935117.pdf).
+    The form states no electrical load: neither ''MW'' nor ''megawatt'' appears in
+    the text layer. The applicant contact email is now mmailhot@amazon.com (Robert
+    Truedinger, Director, Enviro, is still the named contact). The applicant-side
+    contacts are Amazon staff and are recorded here, not as outside representation.
+    Section 4 lists the uploads: delineation reports, photos, ORAM forms, ODNR comment
+    letters (25-1064, 26-0867), USACE JD LRH-2024-927 (Joslin Site JD; AJD letter),
+    mapping including ''CMH-232 Parking Lot Site Plan_08042026.pdf'', ''Off Site Logistics.pdf''
+    and ''Combined Wetland Overlay.pdf'', and the mitigation plan ''IWP Cover Letter_09282026.pdf''
+    + ''IWP (OEPA) Level 2 - CMH232_REV2.pdf''. The Level Two IWP application itself
+    is 4298321.pdf (DSW401262560W.iwp-application.epa.yaml).'

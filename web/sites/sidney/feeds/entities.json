@@ -11,8 +11,8 @@
     ],
     "signals": [],
     "roles": {
-      "applicant": 2,
-      "epa_applicant": 2
+      "epa_applicant": 4,
+      "applicant": 2
     },
     "parcels": [],
     "addresses": [
@@ -23,6 +23,8 @@
       "oepa/sidney/1GC10596.approval.npdes.yaml",
       "oepa/sidney/1GC10596.noi.npdes.yaml",
       "oepa/sidney/DSW401251911W.epa.yaml",
+      "oepa/sidney/DSW401262560W.epa.yaml",
+      "oepa/sidney/DSW401262560W.iwp-application.epa.yaml",
       "oepa/sidney/DSWPTI-260517.epa.yaml"
     ],
     "lei": null,
@@ -108,12 +110,14 @@
     ],
     "signals": [],
     "roles": {
-      "firm": 1
+      "firm": 3
     },
     "parcels": [],
     "addresses": [],
     "sources": [
-      "oepa/sidney/DSW401251911W.epa.yaml"
+      "oepa/sidney/DSW401251911W.epa.yaml",
+      "oepa/sidney/DSW401262560W.epa.yaml",
+      "oepa/sidney/DSW401262560W.iwp-application.epa.yaml"
     ],
     "lei": null,
     "uei": null,
@@ -204,12 +208,14 @@
     ],
     "signals": [],
     "roles": {
-      "permit_contact": 1
+      "permit_contact": 3
     },
     "parcels": [],
     "addresses": [],
     "sources": [
-      "oepa/sidney/DSW401251911W.epa.yaml"
+      "oepa/sidney/DSW401251911W.epa.yaml",
+      "oepa/sidney/DSW401262560W.epa.yaml",
+      "oepa/sidney/DSW401262560W.iwp-application.epa.yaml"
     ],
     "lei": null,
     "uei": null,
