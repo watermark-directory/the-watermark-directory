@@ -32,8 +32,17 @@ meta:
   site: wilmington
   captured_for: issue 1469 (epic 1277, readiness(wilmington) — the power instruments)
   extracted_at: '2026-08-06'
-  checked_on: '2026-08-06'
-  previous_check: '2026-07-11'      # the research refresh recorded in the issue body
+  checked_on: '2026-10-27'
+  checked_on_scope: >-
+    The 2026-10-27 pass (pass_2026_10_27 below) re-ran: every 2026 PJM TEAC Dayton deck plus the
+    2026-10-06 Dayton Local Plan submission, the AES Ohio response to OCC, and the three M-3 needs
+    trackers; the 2025 Need/Solution decks; one PUCO DIS probe; the City of Wilmington post feed;
+    the AES Ohio transmission-project index and project pages; FERC eLibrary metadata search; and
+    the Ohio EPA eDocument portal (Clinton x AIR PERMIT). It did NOT re-run the Clinton County
+    parcel layer, so the parcel facts (Clinton Substation and East Fork parcels, the 52.7 m /
+    1,655.8 m distances) still stand as of 2026-08-06.
+  previous_check: '2026-08-06'
+  previous_previous_check: '2026-07-11'      # the research refresh recorded in the issue body
   method: >-
     Four routes. (1) PJM's own TEAC "Dayton Supplemental Projects" decks for all
     three 2026 meetings, read from their PDF text layers — the load ramps and the
@@ -145,6 +154,25 @@ open_filings:
       Customer East = 25-0742-EL-BLN; Fayette Customer West = 25-0743-EL-BLN), so
       the Clinton-end ones should surface the same way.
     where_to_look: aes-ohio.com/transmission-improvements (the project index), and the City of Wilmington's news feed, which served the line's LON
+    answered_2026_10_27:
+      tag: '[verified]'
+      statement: >-
+        The case number exists: OPSB 26-0462-EL-BLN, "Clinton Substation Expansion 1 Project",
+        per AES Ohio's own project page (https://www.aes-ohio.com/clinton-substation-expansion-1-project,
+        read 2026-10-27). Scope in AES's words: expand the substation fence line "to accommodate
+        an additional 345 kV line installed as part of the Fayette to Clinton 345-kilovolt (kV)
+        Transmission Line Project, two customer feeds, and a new compensator"; modify the existing
+        ring bus; install nine breakers. Location: East Dalton Road, Washington and Union
+        Townships, Clinton County. Estimated schedule on the page: LON filed June 2026, OPSB
+        approval September 2026, construction November 2026, in service January 2028. The page
+        does not name a customer.
+      caveats: >-
+        The page's "current project stage" marker is graphical and did not survive text
+        extraction, so which milestone AES says it has reached is [open]. The docket itself is
+        UNSEARCHED (PUCO DIS blocked), so the LON, its affected-property table and any Board
+        action are unobtained. AES's January 2028 in-service does not match PJM's 2026 Local Plan
+        for the same scope (capacitor 12/31/2028, STATCOM 12/1/2030) — two sources, two dates,
+        recorded as a discrepancy and not reconciled.
   - id: CLINTON-CUSTOMER-FEED-CASES
     tag: '[open]'
     what: >-
@@ -161,6 +189,16 @@ open_filings:
       Whether the 500 MW at Clinton is the AWS Cosler Farm campus, the Ardent/TAC
       corridor, or both — and therefore whether the site's facility domain can
       move off a screening bracket.
+    pass_2026_10_27:
+      tag: '[open]'
+      statement: >-
+        Still no numbered filing found. AES Ohio's transmission-project index (read 2026-10-27)
+        carries no page for the Clinton customer feeds; the same index did list the
+        Fayette-Clinton line, Fayette Customer East/West and Lynchburg pages (positive control).
+        Per AES Ohio's project page for the Clinton Substation Expansion 1 (LON 26-0462-EL-BLN), that
+        case covers the substation-side terminations for "two customer feeds", not the feed lines
+        [reference — the LON itself was not read; DIS is blocked]. A SECOND route to the customer
+        now exists — see pass_2026_10_27.FERC-CSA-FOR-CLINTON.
   - id: NEXT-TEAC-CYCLE
     tag: '[open]'
     what: >-
@@ -177,6 +215,14 @@ open_filings:
       Read every Dayton deck in the year, not just the newest. The Wilmington
       request appears in the 2026-07-07 deck and in neither the 2026-02-03 nor the
       2026-05-08 one; a single-deck check would have missed it.
+    answered_2026_10_27: >-
+      [verified] No Dayton Supplemental deck was posted after 2026-07-07 (TEAC 2026-08-04,
+      2026-09-08 and 2026-10-06 carry none; 2026-11-03 had only PPL/BGE/UGI/DOM items posted as of
+      2026-10-27). The need instead LEFT the Solutions stage: AES Ohio's "Dayton Local Plan
+      Submission of the Supplemental Projects for 2026", an informational item at TEAC 2026-10-06,
+      carries Dayton-2025-002 at Process Stage "Submission of Supplemental Project for Inclusion in
+      the Local Plan 09/15/2026", supplemental IDs s3898.1-.9, 500 MW ramp and $589.8M unchanged
+      from 07-07. Detail in pass_2026_10_27.
   - id: SWOAQA-AIR-PTI
     tag: '[open]'
     what: A Southwest Ohio Air Quality Agency permit-to-install for the campus's emergency-generator fleet.
@@ -190,6 +236,9 @@ open_filings:
       Ohio EPA's eDocument portal (edocpub.epa.ohio.gov) is open to scripted
       retrieval and is worth a second pass by entity name even so, since some
       delegated-agency documents still land in the state system.
+    pass_2026_10_27: >-
+      [open] Controlled negative — no air document surfaced. Detail in
+      pass_2026_10_27.SWOAQA-AIR-PTI. Not proof no application exists.
   - id: EAST-FORK-SUBSTATION
     tag: '[open]'
     what: >-
@@ -202,6 +251,10 @@ open_filings:
       campus corridor, that appears on no captured AES project page and in no PJM
       deck read here. Purpose, voltage and OPSB case all unknown. Surfaced by the
       parcel query that located Clinton Substation; recorded so it is not lost.
+    pass_2026_10_27: >-
+      [open] Zero mentions of "East Fork" in every 2026 Dayton deck, the 2026-10-06 Local Plan,
+      the 2025 Need/Solution decks, the AES Ohio transmission-project index, or the City of
+      Wilmington post feed. The parcel layer was NOT re-run this pass.
   - id: OPSB-DISPOSITION-25-0871
     tag: '[open]'
     what: >-
@@ -213,6 +266,27 @@ open_filings:
       an accelerated Letter of Notification track. The tension is real and
       unresolved; see fayette-clinton-345kv.project.yaml, opsb_case.track_note.
     blocked_by: the PUCO DIS route below
+    answered_2026_10_27:
+      tag: '[verified]'
+      statement: >-
+        The Board APPROVED the line, per the PUCO's own press bulletin of 2026-08-20, "OPSB approves
+        energy projects in Carroll, Vinton, and Clinton and Fayette counties"
+        (https://content.govdelivery.com/accounts/OHPUC/bulletins/425ebee). It reports approval of
+        "AES Ohio's plan to construct an electric transmission line in Clinton and Fayette
+        counties": a 345 kV single-circuit line of about 29 miles on a 200-ft right-of-way, "needed
+        to meet the growing demand for network enhancements created by large customer projects in
+        the area"; construction to begin September 2027, in service January 2030.
+      what_is_verified_and_what_is_not: >-
+        [verified] that the agency's bulletin states approval. [inference] that it is
+        25-0871-EL-BLN — the bulletin carries no case number, but the scope (AES Ohio,
+        Clinton-Fayette, 345 kV single circuit, Jan 2030) matches and no other such case is known.
+        One discrepancy is unreconciled: the bulletin says "about 29 miles", while the PJM Local Plan
+        entry s3898.6 (below) reads ~27 mi.
+        [open] the Board's entry itself — its conditions, its rulings on the seven intervention
+        petitions, and any Staff report — all unobtained because DIS is still blocked (re-probed
+        below). The bulletin says nothing about the intervenors, so whether the case was contested
+        to the end is not known. AES Ohio's own project page still reads "filed an application in
+        March of 2026", i.e. it has not been updated for the approval.
 
 # ── Routes tried and refused ──────────────────────────────────────────────────
 blocked_routes:
@@ -230,6 +304,22 @@ blocked_routes:
       exhibits, its affected-property tables, the seven petitions, Staff's report
       and the Board's entry are all unobtained. Nothing is inferred from the
       silence of a route that refused to answer.
+    reprobed_2026_10_27: >-
+      https://dis.puc.state.oh.us/CaseRecord.aspx?CaseNo=25-0871-EL-BLN — HTTP 200 with a 244-byte
+      "Request Rejected" body (support ID <9281071327677848436>); identical over HTTP/1.1, and the
+      bare origin returns the same 244 bytes. Still blocked. Applies equally to the new
+      26-0462-EL-BLN (Clinton Substation Expansion 1), which is therefore also UNSEARCHED.
+  - route: FERC eLibrary document download (elibrary.ferc.gov)
+    tag: '[verified]'
+    probed: '2026-10-27'
+    result: >-
+      The metadata search API (POST /eLibrarywebapi/api/Search/AdvancedSearch) answers. The file
+      download endpoints do not: GET returns 405, POST returns 401, and the legacy filedownload
+      URL returns only the single-page-app HTML shell.
+    consequence: >-
+      Filing DESCRIPTIONS can be searched, filing CONTENTS cannot be read from here. A Clinton
+      CSA filed under a description that does not name Clinton or Wilmington would be invisible
+      to this route. See pass_2026_10_27.FERC-CSA-FOR-CLINTON.
   - route: opsb.ohio.gov pretty-URL case pages
     tag: '[verified]'
     probed: '2026-08-06'
@@ -265,6 +355,10 @@ blocked_routes:
   - route: PJM TEAC 2025 meeting materials
     tag: '[verified]'
     probed: '2026-08-06'
+    superseded_2026_10_27: >-
+      NOT A BLOCK — the 2026-08-06 URLs were mis-constructed. Both 2025 decks were retrieved on
+      2026-10-27 at the paths listed in pass_2026_10_27.instruments_to_pull (20250204-item-07 and
+      20250401-item-06). Kept below as the record of what the earlier pass could not see.
     result: >-
       PJM's TEAC materials page lists Dayton Supplemental items for 2026 only;
       constructed 2025 URLs returned the site's HTML not-found page.
@@ -274,14 +368,156 @@ blocked_routes:
       hand. The deltas recorded above are read from struck-through values on the
       2026-07-07 slides, which is the applicant showing its own revisions.
 
+# ── The 2026-10-27 pass ──────────────────────────────────────────────────────
+# Answers the two dated triggers of 2026-10-20 (both lapsed unanswered until today) and takes a
+# light pass at the undated ones. Not absorbed: the Cosler Farm rezoning/litigation thread (#1471).
+pass_2026_10_27:
+  date: '2026-10-27'
+  TEAC-DAYTON-DECKS:
+    trigger: '2026-10-20 — the next PJM TEAC Dayton Supplemental deck'
+    tag: '[verified]'
+    decks_read: >-
+      Every 2026 Dayton Supplemental deck there is — three: 20260203-item-06, 20260508-item-05,
+      20260707-item-11. The 02-03 and 05-08 decks carry zero Clinton / Dayton-2025-002 hits
+      (re-confirmed). TEAC 2026-08-04, 09-08 and 10-06 posted no Dayton Supplemental deck; the
+      2026-11-03 meeting had only PPL, BGE, UGI and DOM items posted as of 2026-10-27.
+    local_plan_submission:
+      url: https://www.pjm.com/-/media/DotCom/committees-groups/committees/teac/2026/20261006/20261006-informational-only---dayton-local-plan-submission-of-the-supplemental-projects-for-2026.pdf
+      statement: >-
+        Dayton-2025-002 (Wilmington) — Process Stage "Submission of Supplemental Project for
+        Inclusion in the Local Plan 09/15/2026"; Supplemental Project ID s3898.1-.9; Project
+        Status: Engineering; total estimated cost $589.8M; projected in-service 01/2031. Load ramp
+        unchanged: 35 MW (1/2028), 100 MW (4/2028), 300 MW (1/2029), 500 MW (1/2030).
+      line_items_unchanged_from_2026_07_07:
+      - 's3898.1 Fayette substation (+300 MVAR capacitor, ISD 1/1/2030) — ISD 10/30/2026 — $51.9M'
+      - 's3898.2 Atlanta — ISD 04/13/2029 — $24.3M'
+      - 's3898.3 Atlanta-Fayette 1 and 2, ~25 mi — ISD 04/13/2029 — $220.7M'
+      - 's3898.4 Fayette customer feeds 1-4 — ISD 09/15/2026 — $9M'
+      - 's3898.5 Clinton substation: 300 MVAR capacitor; 150 MVAR STATCOM (ISD 12/1/2030) — ISD 12/31/2028 — $65.4M'
+      - 's3898.6 Clinton-Fayette, ~27 mi — ISD 01/18/2030 — $187M'
+      - 's3898.7 Customer service lines from Clinton 1 and 2, ~2 mi — ISD 12/31/2028 — $20M'
+      - 's3898.8 Clinton-Clay relocation — ISD 4/30/2028 — $3.2M'
+      - 's3898.9 Clinton-Greene relocation — ISD 4/30/2028 — $8.3M'
+      applicant_notes: >-
+        Schedule changes "based on project capability, not at the request of customer"; cost
+        changes "due to real estate"; the SVC was replaced by capacitor + STATCOM on the strength
+        of voltage-stability studies.
+      date_discrepancy:
+        tag: '[inference]'
+        statement: >-
+          The Local Plan lists "Previously Presented: Need Meeting 02/04/2025, Solution Meeting
+          04/01/2026, 05/06/2026 and 07/07/2026". The 07-07 deck says Solution Meeting 04/01/2025
+          and the M-3 tracker says "4/1/2025, 5/6/2025". The Local Plan's 2026 years are probably
+          an applicant typo. Recorded, not resolved.
+    the_2025_decks_now_in_hand:
+      tag: '[verified]'
+      statement: >-
+        The 2025-02-04 Need Meeting deck (item 07) and the 2025-04-01 Solution Meeting deck (item
+        06) both carry the SAME 35/100/300/500 MW ramp. The 500 MW ramp has been unchanged since
+        the need was first presented on 2025-02-04. This retires the 2026-08-06 "PJM TEAC 2025
+        meeting materials" block.
+    m3_needs_tracker:
+      tag: '[verified]'
+      statement: >-
+        The M-3 needs-status xlsx (posted with TEAC 08-04, 09-08 and 10-06) carries Dayton-2025-002
+        with Need 2025-02-04, Solution "4/1/2025, 5/6/2025", Local Plan Posting Date BLANK, Total
+        Expected Load 500 MW. Its solution description is STALE (the old ~$100M, ISD 12/1/2031
+        line) — the tracker lags the decks; do not read numbers from it.
+      out_of_scope_pointer: >-
+        The same tracker carries Dayton-2026-001 (Stuart substation, Adams County), 100 MW 11/2028
+        rising to 1,300 MW 03/2032. That is West Union's, not Wilmington's — noted only so the
+        West Union watch can pick it up.
+    stakeholder_exchange:
+      tag: '[verified]'
+      occ_comments: >-
+        OCC's comments on the 07-07 TEAC (dated 2026-07-16, posted at TEAC 2026-09-08) describe
+        "approximately 1.5 GW near Fayette, 500 MW near Clinton, and 1.3 GW near Stuart" —
+        independent confirmation that the 1.5 GW is Fayette's.
+      aeso_response:
+        url: https://www.pjm.com/-/media/DotCom/committees-groups/committees/teac/2026/20260908/20260908-informational-only---09232026-aeso-response-to-occ-comments.pdf
+        dated: '2026-09-23'
+        statement: >-
+          AES Ohio: "Fayette and Clinton customer demand schedules are supported by agreements
+          filed at FERC (a CSA and form ESA which is executed at a later date)". Dayton-2025-002
+          phasing: "Phase 1 – Initial Customer Connection; full capacity available non-firm with
+          operational agreement"; "Phase 2 – Clinton to Fayette is completed: operational
+          agreement ends full capacity is now firm". A Fayette-only solution failed N-1-1 at
+          Clinton (69 kV overloads), hence a third 345 kV line; single circuit chosen over double
+          by using reactive support. "There is not a duplicative request in the AESO zone." Cost
+          allocation: "TEAC is not an appropriate forum"; AES points to a stipulation with OCC,
+          PUCO Staff and others pending before PUCO. The customer is still not named.
+  FERC-CSA-FOR-CLINTON:
+    tag: '[open]'
+    statement: >-
+      AES says a Clinton CSA is FILED at FERC. A metadata search of FERC eLibrary (2024-01-01 to
+      2026-10-27, Dayton Power and Light filings) did NOT locate it by description. Located:
+      ER25-192 (AWS CSA, Jefferson Twp / Fayette), ER25-2427 ("AES Ohio and Amazon Service
+      Agreement", transmittal "Jeffersonville Phase 2 Filing", accepted 2025-07-31), ER26-1463
+      (Marysville AWS CSA), ER26-2303 (Sidney, Amazon — the positive control, returned), and
+      ER26-3752 (Piqua Initial Service CSA, 2026-09-10). No filing description names Clinton or
+      Wilmington. A full-text search ranked ER25-2427 first for "Wilmington Ohio Construction
+      Service Agreement", but Amazon carries a Wilmington, DE address, so NOTHING is inferred from
+      that ranking; the documents themselves could not be opened (download 401/405).
+    why_it_matters: >-
+      This is now the highest-value lead in the file: a CSA would name the counterparty and the
+      contracted demand schedule, closing CAMPUS-ATTRIBUTION-STILL-OPEN from the utility side.
+  OPSB-25-0871:
+    trigger: '2026-10-20 — OPSB disposition of 25-0871-EL-BLN'
+    tag: '[verified] that the bulletin states approval; [inference] that it is 25-0871'
+    statement: >-
+      Approved per the PUCO's 2026-08-20 bulletin, which carries no case number; see open_filings.OPSB-DISPOSITION-25-0871.
+      answered_2026_10_27. DIS probed once (blocked; see blocked_routes). The City of Wilmington
+      post feed (WP REST, searched AES / transmission / substation) has no AES transmission post
+      after the 2026-04-01 LON notice — only a 2026-10-01 tree-trimming notice and a 2026-06-12
+      rate-case post; the LON post itself was returned (control).
+  CLINTON-SUBSTATION-CASE-NUMBER:
+    tag: '[verified]'
+    statement: 26-0462-EL-BLN, Clinton Substation Expansion 1 — see open_filings.CLINTON-SUBSTATION-CASE-NUMBER.
+  CLINTON-CUSTOMER-FEED-CASES:
+    tag: '[open]'
+    statement: No separate case or project page found; AES's index lists none (control pages present).
+  EAST-FORK-SUBSTATION:
+    tag: '[open]'
+    statement: No mention anywhere read this pass; parcel layer not re-run.
+  SWOAQA-AIR-PTI:
+    tag: '[open]'
+    statement: >-
+      Ohio EPA eDocument portal, Clinton county x AIR PERMIT: 308 documents, complete (not
+      truncated), latest dated 2026-10-01 (the feed is current) — no Amazon, "Data Services",
+      Ardent or TAC entity. Statewide entity searches, AIR program: "AMAZON DATA" 5 docs, all
+      Licking (CMH050) — the positive control; "AMAZON" 19 docs (Madison 1, Cuyahoga 13, Licking
+      5); "ARDENT" 5 docs, Franklin only. None in Clinton, Fayette, Highland or Warren. SWOAQA's
+      permits page (https://www.southwestohioair.org/special_programs/permits.php) confirms it
+      covers Butler, Clermont, Clinton, Hamilton and Warren, and that Ohio EPA public-notices
+      permit applications. A controlled negative as of 2026-10-27, not proof that no application
+      exists; SWOAQA's public-notice pages (/155/Public-Notices) returned 404.
+  search_summary_trap:
+    tag: '[verified]'
+    statement: >-
+      Search-engine summaries repeatedly attributed the 1.5 GW figure to Clinton County /
+      Wilmington during this pass. Every primary record read (PJM decks, OCC comments) puts 1.5 GW
+      at Fayette and 500 MW at Clinton.
+  instruments_to_pull:
+  - {what: 'Dayton Local Plan submission 2026 (TEAC 2026-10-06, informational)', url: 'https://www.pjm.com/-/media/DotCom/committees-groups/committees/teac/2026/20261006/20261006-informational-only---dayton-local-plan-submission-of-the-supplemental-projects-for-2026.pdf'}
+  - {what: 'AES Ohio response to OCC comments, 2026-09-23', url: 'https://www.pjm.com/-/media/DotCom/committees-groups/committees/teac/2026/20260908/20260908-informational-only---09232026-aeso-response-to-occ-comments.pdf'}
+  - {what: 'TEAC 2025-02-04 Dayton Supplemental (Need Meeting)', url: 'https://www.pjm.com/-/media/DotCom/committees-groups/committees/teac/2025/20250204/20250204-item-07---dayton-supplemental-projects.pdf'}
+  - {what: 'TEAC 2025-04-01 Dayton Supplemental (Solution Meeting)', url: 'https://www.pjm.com/-/media/DotCom/committees-groups/committees/teac/2025/20250401/20250401-item-06---dayton-supplemental-projects.pdf'}
+  - {what: 'PUCO bulletin 2026-08-20, OPSB approval (Clinton and Fayette line)', url: 'https://content.govdelivery.com/accounts/OHPUC/bulletins/425ebee'}
+  - {what: 'AES Ohio Clinton Substation Expansion 1 project page (26-0462-EL-BLN)', url: 'https://www.aes-ohio.com/clinton-substation-expansion-1-project'}
+  - {what: 'AES Ohio Fayette-Clinton Project Need (Oct-25)', url: 'https://www.aes-ohio.com/sites/aesohio/files/2025-11/AES-Ohio-Fayette-Clinton-Project-Need-Oct-25.pdf'}
+  - {what: 'OPSB Board entry in 25-0871-EL-BLN (conditions, intervention rulings, Staff report)', url: 'PUCO DIS — blocked; manual retrieval'}
+  - {what: 'The 26-0462-EL-BLN Letter of Notification', url: 'PUCO DIS — blocked; manual retrieval'}
+  - {what: 'The Clinton CSA that AES says is filed at FERC', url: 'FERC eLibrary — not located by description; download blocked'}
+
 # ── When to run this again ───────────────────────────────────────────────────
 # ⚠️ ADDED 2026-09-16. This file had NO next_check block, so nothing could ever report it
 # overdue. `meta.checked_on` deliberately stays at 2026-08-06: the watch was NOT re-run on
 # 2026-09-16 — only its calendar was written.
+# The watch WAS re-run on 2026-10-27 (pass_2026_10_27 above); checked_on moved then.
 next_check:
   declared_on: '2026-09-16'
   declared_by: the standing-check-in sweep; the watch itself was not re-run
-  last_actually_checked: '2026-08-06'
+  last_actually_checked: '2026-10-27'
   dormant: false
   cadence: >-
     KEYED TO THE PJM TEAC CALENDAR, not to a fixed interval. This watch's live thread is
@@ -289,7 +525,10 @@ next_check:
     Supplemental Projects" deck. TEAC meets roughly every three months; the need was at Solution
     Meeting stage on 2026-07-07 and the M-3 process gives stakeholders ten days from each meeting
     to comment. So: check within two weeks after each TEAC meeting, plus one routine pass a
-    quarter for the OPSB and parcel threads. Next: 2026-10-20.
+    quarter for the OPSB and parcel threads. Next: 2026-11-17. ⚠️ Since 2026-10-27 the need has
+    LEFT the Solutions stage (Local Plan submission 09/15/2026), so a TEAC cycle may legitimately
+    post no Dayton deck; each pass therefore also reads the M-3 needs tracker (Local Plan Posting
+    Date) and FERC eLibrary (the Clinton CSA AES says is filed).
   ⚠️_read_every_deck_in_the_year:
     tag: '[verified]'
     statement: >-
@@ -298,13 +537,21 @@ next_check:
       2026-05-08 one. A single-deck check would have missed it entirely. Every pass reads every
       Dayton deck published in the year to date, not just the newest.
   dated_triggers:
+  - date: '2026-11-17'
+    what: >-
+      Two weeks after TEAC 2026-11-03: any Dayton Supplemental deck or Local Plan item touching
+      Dayton-2025-002; the M-3 needs tracker's Local Plan Posting Date for the need; and a FERC
+      eLibrary search for the Clinton CSA.
+    route: https://www.pjm.com/committees-and-groups/committees/teac plus elibrary.ferc.gov
   - date: '2026-10-20'
+    answered_on: '2026-10-27'
     what: >-
       The next PJM TEAC Dayton Supplemental deck. Each cycle has revised this need's numbers in
       place — a later deck could raise or lower the 500 MW, split the need, or, as the Fayette
       pages did, describe the customer.
     route: https://www.pjm.com/committees-and-groups/committees/teac — read every 2026 Dayton deck
   - date: '2026-10-20'
+    answered_on: '2026-10-27'
     what: >-
       OPSB disposition of 25-0871-EL-BLN — whether the seven intervention petitions filed
       2026-04-03 were granted, whether Staff filed a report, whether a hearing was set. Seven
@@ -363,3 +610,8 @@ next_check:
     Read an OPSB silence as a disposition. The docket is access-blocked, re-confirmed 2026-09-16
     over both protocols; it is UNSEARCHED, not empty.
   - Smuggle the zoning and litigation thread into this file. It belongs to #1471.
+  - >-
+    Trust a search-engine summary on the load figures. On 2026-10-27 they repeatedly put 1.5 GW in
+    Clinton County; the primary records put it at Fayette.
+  - >-
+    Read the M-3 needs tracker's solution text as current. It lagged the decks.

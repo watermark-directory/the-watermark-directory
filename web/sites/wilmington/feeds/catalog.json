@@ -734,8 +734,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "d6fe8fa5496758e407c3fc4fcf0fd355d42912d00e5b4f27e4173c5ae2ca8a4d",
-      "size_bytes": 74809,
+      "sha256": "e8b389536f6358a01f241a4258b7ae41305a8f54b94ea7053a9d1aa77f973076",
+      "size_bytes": 93551,
       "lfs_materialized": true,
       "file_count": 4,
       "stale": false,
