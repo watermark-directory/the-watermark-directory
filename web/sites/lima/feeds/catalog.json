@@ -1608,8 +1608,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "62e042665bcc196e0e830f4f6c1a32fdd7943c03f4d33ed25afaf75e79553e53",
-      "size_bytes": 37038,
+      "sha256": "0b85f30e3be393d8e4c007c4ffd4a5f516a53a424ee4f3012f7600c7669718b6",
+      "size_bytes": 37220,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -6340,7 +6340,7 @@
     "producer_kind": "extracted",
     "command": null,
     "connector_ref": null,
-    "source": "Ohio EPA — issued NPDES permit 2PD00019*SD (application OH0027952) for the City of Wapakoneta Water Reclamation Facility, 201 Herbstritt Court, Auglaize County, and its 2024 Fact Sheet (Public Notice 206565), retrieved from the Ohio EPA DAM permit slot; and the 2019-02-06 Director's Final Findings and Orders on the same permit, retrieved from the eDocument public portal",
+    "source": "Ohio EPA — issued NPDES permit 2PD00019*SD (application OH0027952) for the City of Wapakoneta Water Reclamation Facility, 201 Herbstritt Court, Auglaize County, and its 2024 Fact Sheet (Public Notice 206565), retrieved from the Ohio EPA DAM permit slot; and the 2019-02-06 Director's Final Findings and Orders on the same permit and its 2024-11-20 modification, retrieved from the eDocument public portal",
     "external_url": null,
     "license": "Public record (Ohio R.C. 149.43)",
     "access_tier": "public",
@@ -6374,20 +6374,25 @@
         "relpath": "extracted/oepa/wapakoneta/edoc-992359.order.yaml",
         "media_type": "application/x-yaml",
         "lfs": false
+      },
+      {
+        "relpath": "extracted/oepa/wapakoneta/edoc-3301212.order.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
       }
     ],
     "observed": {
       "exists": true,
-      "sha256": "6445936c37d4713f5a9cb0c094be5741a8f7269fd2bdd4ec1c69a00250077a29",
-      "size_bytes": 51054,
+      "sha256": "5e030ee730c4efa739b6d696a5f092442eb881832ad267ee2706f83c7cc377aa",
+      "size_bytes": 56552,
       "lfs_materialized": true,
-      "file_count": 3,
+      "file_count": 4,
       "stale": false,
       "asof": null
     },
     "observed_network": null,
     "citation": {
-      "source": "Ohio EPA — issued NPDES permit 2PD00019*SD (application OH0027952) for the City of Wapakoneta Water Reclamation Facility, 201 Herbstritt Court, Auglaize County, and its 2024 Fact Sheet (Public Notice 206565), retrieved from the Ohio EPA DAM permit slot; and the 2019-02-06 Director's Final Findings and Orders on the same permit, retrieved from the eDocument public portal",
+      "source": "Ohio EPA — issued NPDES permit 2PD00019*SD (application OH0027952) for the City of Wapakoneta Water Reclamation Facility, 201 Herbstritt Court, Auglaize County, and its 2024 Fact Sheet (Public Notice 206565), retrieved from the Ohio EPA DAM permit slot; and the 2019-02-06 Director's Final Findings and Orders on the same permit and its 2024-11-20 modification, retrieved from the eDocument public portal",
       "source_kind": "document",
       "page": null,
       "pages": null,
@@ -8331,8 +8336,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "efcb4b1e84215a90f5cdfee63af45f8b32ba804bf0264751fa2bfbf8b6871ecc",
-      "size_bytes": 7398,
+      "sha256": "24798a1002569dfb11324988201ec7d89b7a34500940f6ac974d368a60a00945",
+      "size_bytes": 7743,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,

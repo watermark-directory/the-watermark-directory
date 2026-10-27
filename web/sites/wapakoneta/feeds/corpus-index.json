@@ -8,7 +8,7 @@
     "links_out": 1,
     "links_in": 1,
     "lines": 14,
-    "updated": "2026-10-18"
+    "updated": "2026-10-27"
   },
   {
     "id": "artifact/city-of-wapakoneta",
@@ -19,7 +19,7 @@
     "links_out": 1,
     "links_in": 1,
     "lines": 14,
-    "updated": "2026-10-18"
+    "updated": "2026-10-27"
   },
   {
     "id": "artifact/npdes-2pd00019",
@@ -30,7 +30,7 @@
     "links_out": 1,
     "links_in": 2,
     "lines": 14,
-    "updated": "2026-10-18"
+    "updated": "2026-10-27"
   },
   {
     "id": "artifact/site-wapakoneta",
@@ -39,7 +39,7 @@
     "label": "Wapakoneta",
     "scope": "site",
     "links_out": 3,
-    "links_in": 19,
+    "links_in": 20,
     "lines": 14,
     "updated": null
   },
@@ -976,7 +976,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-10-18"
+    "updated": "2026-10-27"
   },
   {
     "id": "record/oepa-wapakoneta-2pd00019-npdes",
@@ -986,8 +986,19 @@
     "scope": "site",
     "links_out": 2,
     "links_in": 0,
-    "lines": 22,
-    "updated": "2026-10-18"
+    "lines": 21,
+    "updated": "2026-10-27"
+  },
+  {
+    "id": "record/oepa-wapakoneta-edoc-3301212-order",
+    "node_class": "record",
+    "kind": "record",
+    "label": "edoc 3301212 · order",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 19,
+    "updated": "2026-10-27"
   },
   {
     "id": "record/oepa-wapakoneta-edoc-992359-order",
@@ -998,7 +1009,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 17,
-    "updated": null
+    "updated": "2026-10-27"
   },
   {
     "id": "record/wapakoneta-data-centers",
@@ -1009,7 +1020,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-10-18"
+    "updated": "2026-10-27"
   },
   {
     "id": "record/wapakoneta-governance-records-requests-2026-10-1",
@@ -1042,7 +1053,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-10-18"
+    "updated": "2026-10-27"
   },
   {
     "id": "relation/city-of-wapakoneta--operates--npdes-2pd00019",
@@ -1053,7 +1064,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 16,
-    "updated": "2026-10-18"
+    "updated": "2026-10-27"
   },
   {
     "id": "relation/npdes-2pd00019--discharges-to--auglaize-river",
@@ -1064,6 +1075,6 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 16,
-    "updated": "2026-10-18"
+    "updated": "2026-10-27"
   }
 ]

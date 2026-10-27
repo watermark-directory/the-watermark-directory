@@ -46,9 +46,11 @@ permit:
     treatment effluent) and the flow augmentation system." The water-quality-based limits
     (cadmium, selenium, mercury, DBCM, toxicity, TFR tiers) therefore apply to treated effluent
     plus augmentation water, while secondary-treatment performance is policed at 603. Neither the
-    permit nor the fact sheet names the source of the augmentation water; a 2019 [reference]
-    deck names treated groundwater as an option under investigation then
-    (wapakoneta/reference/owea-2019-tds-challenges.yaml). [open]
+    permit nor the fact sheet names the source of the augmentation water; the 2024-11-20 modified
+    DFFO (eDoc 3301212, extracted/oepa/wapakoneta/edoc-3301212.order.yaml) does: wells piped to
+    discharge close to the WWTP outfall, blended to dilute TFR. [verified] Whether that system was
+    completed and is what the permit's "flow augmentation system" meters is not established.
+    [open]
   - >-
     The issued permit's tables correct two fact-sheet misprints: station 603 winter ammonia is
     4.5 / 3.0 mg/L here (fact sheet Table 18 prints "30"), and the toxicity rows are in TUa/TUc

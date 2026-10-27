@@ -74,7 +74,8 @@ claims:
     relief applies only after production at Pratt Industries begins, lasts until the general
     plan's upgrades are complete but not beyond 2024-09-01, carries per-exceedance mitigation
     fees after 2020-03-01, and requires PWS work by 2022-12-31 and WWTP work by 2024-09-01.
-    [verified] The deck's unnamed "recycled paper mill" is the order's Pratt Industries
+    [verified] The 2024-11-20 modified DFFO (eDoc 3301212) extends both 2024-09-01 dates to
+    2025-12-31. [verified] The deck's unnamed "recycled paper mill" is the order's Pratt Industries
     [inference: the order names Pratt as the production start that triggers the relief].
 - topic: historical data window
   slide: 11
@@ -117,7 +118,10 @@ claims:
     higher". [reference]
   note: >-
     Both options appear in the 2024 permit: a flow augmentation system added to Outfall 001's
-    flow, and TFR limits tiered by river stage across fictitious outfalls 020-023. This deck is
-    the only captured source that names a candidate augmentation water (treated groundwater),
-    and in 2019 it was an option under investigation, not a built system. What the City built
-    and permitted is still not established. [open]
+    flow, and TFR limits tiered by river stage across fictitious outfalls 020-023. In 2019 the
+    augmentation water was an option under investigation, not a built system. The 2024-11-20
+    modified DFFO (eDoc 3301212) names the City's chosen source in its findings: wells piped to
+    discharge close to the WWTP outfall, blended to dilute TFR; it also records that the wells
+    lacked sufficient capacity and that boulders found 2023-09-29 could limit directional
+    drilling. [verified] Whether the system was completed and is in service is not established.
+    [open]

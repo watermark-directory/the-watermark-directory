@@ -35,6 +35,21 @@
         "supersedes": []
       },
       {
+        "rel": "oepa/wapakoneta/edoc-3301212.pdf",
+        "name": "edoc-3301212.pdf",
+        "size_bytes": 557909,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": true,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
+      },
+      {
         "rel": "oepa/wapakoneta/edoc-992359.pdf",
         "name": "edoc-992359.pdf",
         "size_bytes": 320494,

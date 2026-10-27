@@ -616,7 +616,8 @@ def test_the_committed_compliance_genres_all_load() -> None:
     corpus = load_corpus(Settings(data_dir=REPO_ROOT / "data", site="lima"), scope=WHOLE_TREE)
     # 32 -> 33: `oepa/wapakoneta/edoc-992359.order.yaml`, Wapakoneta's 2019-02-06 TFR DFFO on
     # 2PD00019 (#2184) — the order the DSW enforcement listing mis-links to docid 1080081.
-    assert len(corpus.orders) == 33
+    # 33 -> 34: `oepa/wapakoneta/edoc-3301212.order.yaml`, its 2024-11-20 modification (#2184).
+    assert len(corpus.orders) == 34
     assert len(corpus.inspections) == 30
     # 9 -> 10 (#2175): `legal/2025_CSO_Annual_Report.progress-report.yaml`, Lima's CY2025 CSO
     # annual report, the last of the WWTP production. It keys `progress_report:` because that is
