@@ -21,3 +21,20 @@ documents:
   fetched_at: '2026-10-17T16:23:51.020585+00:00'
   status: downloaded
   note: null
+- filename: edoc-992359.pdf
+  permit_id: 2PD00019
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=992359
+  sha256: 51016992550eaede2c5528e3d16171f95c5dd3d4ccf1f906fd9ef403bbe422ce
+  bytes: 320494
+  content_type: application/pdf
+  fetched_at: '2026-10-27T17:15:35.188369+00:00'
+  status: downloaded
+  note: >-
+    The 2019-02-06 Director's Final Findings and Orders to the City of Wapakoneta (10 pp.),
+    content-verified: the cover letter names 2PD00019, and the p. 2 machine stamp reads "Ohio EPA FEB
+    6 '19 Entered Directors Journal". The docid comes from the eDocument portal's own index (an
+    AUGLAIZE x NPDES sweep, entity WAPAKONETA, 2026-10-27: row "DFFO · 2/6/2019 · WAPAKONETA WWTP").
+    It is NOT the docid that Ohio EPA's DSW enforcement-program listing links for this order
+    (1080081). That one resolves to an unrelated Jefferson County 401 order to Keith and Randi
+    Williams, dated 6/21/2019, and is not shelved here. See
+    data/research/oepa-dffo-wapakoneta-2026-10-18/manifest.yaml.

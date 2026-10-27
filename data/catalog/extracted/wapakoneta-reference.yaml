@@ -28,9 +28,10 @@ tags:
 notes: >-
   A secondary source: every claim is [reference]. It is filed because it is the only captured source
   that quotes the 2019-02-06 Ohio EPA DFFO's TDS limits (1,907 mg/L monthly / 2,429 mg/L daily,
-  against a 1,523 mg/L NPDES monthly limit). The order itself (eDoc docid 1080081) is listed by
-  Ohio EPA but was not retrievable while the eDocument portal was down, so these figures are a
-  presenter's summary until it is. The deck also gives the load that drove the order: an unnamed
+  against a 1,523 mg/L NPDES monthly limit). The order itself is now in the record (eDoc 992359,
+  catalogued by oepa-wapakoneta; the DSW listing's link 1080081 is a different order), and the
+  deck's mg/L figures check out as the order's specific-conductance limits converted at its
+  0.625 factor. The deck also gives the load that drove the order: an unnamed
   recycled paper mill and box plant discharging 0.85 MGD at 3,600 mg/L, about 25,000 lb/day. It
   names treated groundwater as a candidate augmentation water, which was an option under
   investigation in 2019, not a built system. The cost chart (slide 39) has no axis values, so no

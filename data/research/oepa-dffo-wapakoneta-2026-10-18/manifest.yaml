@@ -19,15 +19,34 @@ meta:
     2026-10-18 read is the only witness to 1080081, and that capture was not kept. A curl probe of
     the portal got a WAF "Request Rejected" page for the control docid too, so it says nothing
     about availability. `fetched_at` is the listing-read date; nothing has been fetched.
+  correction: >-
+    2026-10-27, after the portal came back: docid 1080081 is NOT this order. Fetched with the
+    real tool, it is a 7-page Jefferson County 401 DFFO to Keith and Randi Williams
+    (DSW401185823, transmittal dated 6/21/2019), with no Wapakoneta or Auglaize text anywhere.
+    A positive control fetched in the same run (3940058) matched its committed copy
+    byte-for-byte, so the portal serves the right bytes for each docid and the error is in the
+    listing's link. The order itself is docid 992359, found through the portal's own index (see
+    data/research/oepa-portal-wapakoneta-2026-10-27/manifest.yaml) and shelved as
+    data/documents/oepa/wapakoneta/edoc-992359.pdf. The listing's neighbouring row (a Belmont
+    County village, also 2/6/2019) links 992358, so this looks like a one-row offset, but that
+    is an inference. Never re-fetch 1080081 under this site: its row is kept as the record of
+    what the listing said, with status `mislinked`, which `oepa fetch` skips.
   counts:
-    total: 1
-    new: 1
+    total: 2
+    new: 0
     known: 0
-    committed: 0
+    committed: 1
+    mislinked: 1
 results:
 - url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1080081
   permit_id: 2PD00019
   doc_type: dffo
   query: DSW enforcement-program listing row for Wapakoneta, City of (2019-02-06)
   fetched_at: '2026-10-18'
-  status: new
+  status: mislinked
+- url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=992359
+  permit_id: 2PD00019
+  doc_type: dffo
+  query: eDocument portal sweep AUGLAIZE x NPDES, entity WAPAKONETA — row "DFFO · 2/6/2019"
+  fetched_at: '2026-10-27'
+  status: committed

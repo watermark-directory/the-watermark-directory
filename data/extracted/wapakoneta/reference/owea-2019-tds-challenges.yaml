@@ -17,9 +17,10 @@ meta:
     secondary source, so EVERY claim here is [reference]: it is what the City and its consultant
     told a professional audience in June 2019, not what any instrument says. Slide numbers are
     the deck's printed numbers, which equal 1-based PDF pages. It is cited here for one reason:
-    it is the only captured source that quotes the 2019-02-06 DFFO's limits, and the DFFO itself
-    (eDoc docid 1080081) is listed by Ohio EPA but not yet retrieved. When it is, every DFFO
-    figure below is checked against it and the order governs.
+    it was the first captured source to quote the 2019-02-06 DFFO's limits. The DFFO itself is
+    now in the record as eDoc 992359 (extracted/oepa/wapakoneta/edoc-992359.order.yaml; the
+    DSW listing's link, docid 1080081, points at an unrelated Jefferson County order), every
+    DFFO figure below has been checked against it, and the order governs.
 
 claims:
 - topic: new industrial user
@@ -64,8 +65,17 @@ claims:
     1,907 mg/L monthly avg., 2,429 mg/L daily avg." The City had submitted a General Plan
     detailing how it would meet TDS limits. [reference]
   note: >-
-    A presenter's summary of the order, not the order. It does not give the DFFO's term,
-    compliance schedule, or what ends the relief. All three await the DFFO itself. [open]
+    A presenter's summary of the order, not the order. Checked against the order (eDoc 992359):
+    the order states its interim limits in SPECIFIC CONDUCTANCE — 3051 micromhos/cm monthly
+    average, 3886 daily average (Order 6) — with a 0.625 conversion factor (Order 8), and
+    3051 x 0.625 = 1,907 and 3886 x 0.625 = 2,429 mg/l, so the deck's TDS figures are the
+    order's limits converted, not limits the order prints. The arithmetic is [inference]; the
+    limits and the factor are [verified]. The order also answers what the deck left open: the
+    relief applies only after production at Pratt Industries begins, lasts until the general
+    plan's upgrades are complete but not beyond 2024-09-01, carries per-exceedance mitigation
+    fees after 2020-03-01, and requires PWS work by 2022-12-31 and WWTP work by 2024-09-01.
+    [verified] The deck's unnamed "recycled paper mill" is the order's Pratt Industries
+    [inference: the order names Pratt as the production start that triggers the relief].
 - topic: historical data window
   slide: 11
   claim: >-

@@ -1,6 +1,6 @@
 {
   "site": "wapakoneta",
-  "catalog_version": "8d8e47a041d6cc8c8c27b085ebf175519fbaa89ed70868da3884f5842d910088",
+  "catalog_version": "e68120dac80b37ed904a47cb5c4ef404b2f9b66c41ee39f3c672f09906643769",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -1220,6 +1220,14 @@
       "feed": "records"
     },
     {
+      "handle": "record:wapakoneta:oepa/wapakoneta/edoc-992359.order.yaml",
+      "kind": "record",
+      "site": "wapakoneta",
+      "local_id": "oepa/wapakoneta/edoc-992359.order.yaml",
+      "title": "DFFO",
+      "feed": "records"
+    },
+    {
       "handle": "record:wapakoneta:wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml",
       "kind": "record",
       "site": "wapakoneta",
@@ -1233,6 +1241,14 @@
       "site": "wapakoneta",
       "local_id": "2PD00019*SD",
       "title": "NPDES 2PD00019*SD (City of Wapakoneta Water Reclamation Facility (WRF)) — public notice",
+      "feed": "timeline"
+    },
+    {
+      "handle": "timeline:wapakoneta:order-2PD00019*ND-2019-02-06-dffo",
+      "kind": "timeline",
+      "site": "wapakoneta",
+      "local_id": "order-2PD00019*ND-2019-02-06-dffo",
+      "title": "Ohio EPA DFFO — City of Wapakoneta",
       "feed": "timeline"
     }
   ]

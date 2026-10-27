@@ -359,7 +359,10 @@ This is **not** a data-center entry. It is recorded because it concerns the same
    (<https://augcogis.maps.arcgis.com/apps/webappviewer/index.html?id=8f3f1b5bcb734d3c8b52326346667be9>),
    which is a finding aid, not the zoning map of record.
 8. **The blowdown disposal path.** A hauled waste stream must land at a permitted receiver.
-9. **The Wapakoneta WRF permit OH0027952 and its DFFO record**, from the Ohio EPA eDocument portal.
+9. **The Wapakoneta WRF's later DFFO record.** The permit (OH0027952) and the 2019-02-06 DFFO
+   (eDoc 992359) are in the record. The portal also lists a DFFO dated 2024-11-20 (eDoc 3301212)
+   and one dated 2006-08-15 (eDoc 3480641). Neither is retrieved. Whether 3301212 modifies or
+   ends the 2019 order, which expired its own interim limits on 2024-09-01, is open.
 10. **The county-wide negative checks**: RSEI 518210, ECHO and the PJM queue for Auglaize.
 
 ## Sources

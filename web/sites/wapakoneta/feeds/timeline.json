@@ -1,5 +1,27 @@
 [
   {
+    "date": "2019-02-06",
+    "category": "enforcement_order",
+    "title": "Ohio EPA DFFO — City of Wapakoneta",
+    "ref": "order-2PD00019*ND-2019-02-06-dffo",
+    "parties": [
+      "City of Wapakoneta",
+      "Ohio EPA"
+    ],
+    "detail": "11 obligation(s)",
+    "source": "oepa/wapakoneta/edoc-992359.order.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-992359.order.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
     "date": "2024-10-02",
     "category": "npdes_public_notice",
     "title": "NPDES 2PD00019*SD (City of Wapakoneta Water Reclamation Facility (WRF)) — public notice",
