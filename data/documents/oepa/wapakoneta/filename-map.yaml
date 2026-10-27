@@ -56,3 +56,34 @@ documents:
     is a 27-page Ohio EPA order to ODOT whose cover names Rest Areas 1-25/1-26, permit
     2PP00019*CD, in Hancock County (it also reaches Wyandot County rest areas under 2PP00020). The
     portal indexes it under the one-letter-different 2PD00019. It is not shelved here.
+- filename: edoc-3793658.pdf
+  permit_id: 2PD00019
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3793658
+  sha256: dcd5908208aa99795c12385a3de2f4fc5661c29a181e4e700813e03fd7feb823
+  bytes: 2083675
+  content_type: application/pdf
+  fetched_at: '2026-10-27T19:24:49.530954+00:00'
+  status: downloaded
+  note: >-
+    Ohio EPA Northwest District Office NPDES compliance evaluation inspection (CEI) of the
+    Wapakoneta WRF, 22 pp. Content-verified: the cover letter is dated August 15, 2025 and names
+    2PD00019; the inspection form (p. 3) gives the visit as 7/29/2025, 9:10-10:40 AM. Pages 18-22
+    are inspector photographs (odor control, trucked-waste unloading, the Outfall 001 sign and
+    discharge, an aerial); every page was rendered or read for the publication screen and
+    carries no private person's information. The docid comes from the eDocument portal's own index (AUGLAIZE x NPDES sweep,
+    2026-10-27).
+- filename: edoc-3971298.pdf
+  permit_id: 2PD00019
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3971298
+  sha256: 22efc17fb6805deff58336d1ac86c3f287a12ab641fe414ccac64c2965645d35
+  bytes: 9627
+  content_type: application/pdf
+  fetched_at: '2026-10-27T19:24:47.194473+00:00'
+  status: downloaded
+  note: >-
+    The City of Wapakoneta's own "Non-compliance Notification for Exceedance of a Daily Maximum
+    Discharge Limit" e-form (Ohio EPA DSW, Application ID 23327580), 2 pp, digitally generated.
+    Content-verified: the form's Date field reads January 15, 2026 and it names 2PD00019*SD /
+    OH0027952. The contact block is the Superintendent's work address and phone, a public
+    official's, not a private person's. The docid comes from the eDocument portal's own index
+    (AUGLAIZE x NPDES sweep, 2026-10-27).

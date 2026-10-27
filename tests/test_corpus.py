@@ -618,12 +618,17 @@ def test_the_committed_compliance_genres_all_load() -> None:
     # 2PD00019 (#2184) — the order the DSW enforcement listing mis-links to docid 1080081.
     # 33 -> 34: `oepa/wapakoneta/edoc-3301212.order.yaml`, its 2024-11-20 modification (#2184).
     assert len(corpus.orders) == 34
-    assert len(corpus.inspections) == 30
+    # 30 -> 31: `oepa/wapakoneta/edoc-3793658.inspection.yaml`, Ohio EPA's 2025-07-29 CEI of the
+    # Wapakoneta WRF (#2184).
+    assert len(corpus.inspections) == 31
     # 9 -> 10 (#2175): `legal/2025_CSO_Annual_Report.progress-report.yaml`, Lima's CY2025 CSO
     # annual report, the last of the WWTP production. It keys `progress_report:` because that is
     # the genre a clause-by-clause report against a consent order is — the CSO report answers the
     # same shape of question about the same instrument.
-    assert len(corpus.progress_reports) == 10
+    # 10 -> 11 (#2184): `oepa/wapakoneta/edoc-3971298.progress-report.yaml`, the City's 2026-01-15
+    # non-compliance notification. A self-report keyed to a PERMIT condition (Part III, Section
+    # 12), so it takes the rule-keyed shape the CSO annual report does: case_no / paragraph null.
+    assert len(corpus.progress_reports) == 11
     # The three genres this tranche added. Counted here and not only in their own tests because
     # the failure they guard against is the one `permit-extension` actually had: a genre that
     # extracts cleanly, validates, and is DECLINED by the loader — so its artifacts exist on disk

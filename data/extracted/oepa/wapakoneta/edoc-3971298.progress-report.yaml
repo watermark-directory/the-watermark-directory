@@ -1,0 +1,66 @@
+doc_id: edoc-3971298-6c61fef2
+source_path: data/documents/oepa/wapakoneta/edoc-3971298.pdf
+kind: progress-report
+pages_read:
+- 0
+- 1
+image_pages_read:
+- 0
+dpi: 150
+source_text_excerpt: "Division of Surface Water\nNon-compliance Notification for\nExceedance of a Daily\
+  \ Maximum Discharge Limit\nUse this form to report non-compliance that is the result of any violation\
+  \ of a daily maximum discharge limit for any of\nthe pollutants listed by the Director in your NPDES\
+  \ permit (see Part III, Section 12 of your NPDES permit for details). The\nform should be completed\
+  \ and e-mailed to the approp"
+progress_report:
+  confidence: high
+  warnings:
+  - 'This is the CITY''S self-report, not an agency finding. "now have flow augmentation online which
+    is meeting effluent limits" is [verified] as what the City told Ohio EPA on 2026-01-15. It is not
+    proof that the augmentation system is complete, that it meets the permit''s limits in general, or
+    that the DFFO''s WWTP work was finished by 2025-12-31. The same form reports a TFR exceedance, so
+    the claim that augmentation "is meeting effluent limits" is the City''s, and its own form qualifies it.'
+  - 'Filed under a permit condition, not an order: the form cites "Part III, Section 12" of the NPDES permit.
+    case_no and paragraph are therefore null. The form does not cite the 2019 DFFO or its 2024 modification.'
+  - 'The form''s period of exceedance reads "1.00 hrs" on 01/15/2026, the same day as the form date. A 30-day
+    concentration average cannot be a one-hour event, so the field is transcribed as printed and not interpreted.
+    The averaging period behind each 30-day figure is not stated. [open]'
+  - The TFR limit printed (1561 mg/l) is the permit's 30-day TFR tier at one of the fictitious outfalls
+    020-023, selected by river flow; the form does not say which outfall or flow tier applied. The figure
+    matches no DFFO interim limit (those are in specific conductance).
+  agency: Ohio EPA, Division of Surface Water
+  instrument: Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)
+  case_no: null
+  paragraph: null
+  respondent: City of Wapakoneta
+  facility: City of Wapakoneta WRF, Auglaize County
+  permit_no: 2PD00019*SD
+  report_date: '2026-01-15'
+  period_start: '2026-01-15'
+  period_end: '2026-01-15'
+  deadlines_status: null
+  noncompliance_reasons: '"Industries high loading and stream unknown". TFR: "High industrial loading caused
+    an exceedance. Working with industries to reduce discharges of high loading." Toxicity: "Reason for
+    exceedance is unknown. Upstream is also above water-quality limits and may be correlated."'
+  projects:
+  - name: Flow augmentation
+    status: '"now have flow augmentation online which is meeting effluent limits" (the City''s statement).'
+    next_period: null
+  - name: Industrial loading reduction
+    status: '"Working with industries to reduce loading".'
+    next_period: null
+  agency_contacts: []
+  permit_exceedances:
+  - '70300 Residue, Total Filterable: 30 day concentration average, limit 1561 mg/l, measured 1687 mg/l.'
+  - '61426 Chronic Toxicity, Ceriodaphnia dubia: 30 day concentration average, limit 1 TUc, measured 1.1
+    TUc.'
+  discharge_events: []
+  summary: On 2026-01-15 the City of Wapakoneta notified Ohio EPA of two 30-day-average exceedances at
+    its WRF, TFR (1687 against 1561 mg/l) and chronic toxicity to Ceriodaphnia dubia (1.1 against 1 TUc).
+    It blamed high industrial loading for the TFR and gave no cause for the toxicity, noting the river
+    upstream is also above water-quality limits. It reported that it "now" has flow augmentation online.
+    This is the first document in the record that says the augmentation system is running.
+  note: 'Filed on Ohio EPA DSW''s "Non-compliance Notification for Exceedance of a Daily Maximum Discharge
+    Limit" e-form, which cites Part III, Section 12 of the permit. Application ID 23327580; contact Justin Waid, Superintendent. Description field: "TFR and bioassay".
+    Reporting non-compliance with a permit condition: No. The 2025-12-31 DFFO deadline is two weeks before
+    this form; the form does not say when augmentation came online.'

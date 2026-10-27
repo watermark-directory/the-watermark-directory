@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-10-27T18:02:18+00:00'
+  generated_at: '2026-10-27T19:30:08+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 257
-    bytes: 829801736
-    distinct_addresses: 252
+    artifacts: 259
+    bytes: 831895038
+    distinct_addresses: 254
 artifacts:
 - rel: documents/oepa/2DP00130.pdf
   sha256: ae76bff9b192bd0d17c69fbdb14df96198a48e0d7804da346debc4f55b4f22e8
@@ -1075,6 +1075,16 @@ artifacts:
 - rel: documents/oepa/wapakoneta/edoc-3301212.pdf
   sha256: b1a5fb55f3a1529483de753124aa45dfdcee0fc6931234c7d40c3fab2509110c
   bytes: 557909
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/wapakoneta/edoc-3793658.pdf
+  sha256: dcd5908208aa99795c12385a3de2f4fc5661c29a181e4e700813e03fd7feb823
+  bytes: 2083675
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/wapakoneta/edoc-3971298.pdf
+  sha256: 22efc17fb6805deff58336d1ac86c3f287a12ab641fe414ccac64c2965645d35
+  bytes: 9627
   media_type: application/pdf
   redistributable: true
 - rel: documents/oepa/wapakoneta/edoc-992359.pdf

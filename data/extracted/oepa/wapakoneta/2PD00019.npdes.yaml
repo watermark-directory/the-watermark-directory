@@ -48,9 +48,11 @@ permit:
     plus augmentation water, while secondary-treatment performance is policed at 603. Neither the
     permit nor the fact sheet names the source of the augmentation water; the 2024-11-20 modified
     DFFO (eDoc 3301212, extracted/oepa/wapakoneta/edoc-3301212.order.yaml) does: wells piped to
-    discharge close to the WWTP outfall, blended to dilute TFR. [verified] Whether that system was
-    completed and is what the permit's "flow augmentation system" meters is not established.
-    [open]
+    discharge close to the WWTP outfall, blended to dilute TFR. [verified] The City's 2026-01-15
+    non-compliance notification (eDoc 3971298, extracted/oepa/wapakoneta/edoc-3971298.progress-report.yaml)
+    says it "now" has flow augmentation online. That is [verified] as the City's statement only.
+    No agency record yet confirms the system is complete, and none says the system the City
+    reports is the one the permit's "flow augmentation system" meters. [open]
   - >-
     The issued permit's tables correct two fact-sheet misprints: station 603 winter ammonia is
     4.5 / 3.0 mg/L here (fact sheet Table 18 prints "30"), and the toxicity rows are in TUa/TUc

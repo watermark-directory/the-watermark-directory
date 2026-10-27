@@ -362,8 +362,12 @@ This is **not** a data-center entry. It is recorded because it concerns the same
 9. **The Wapakoneta WRF's DFFO after 2025-12-31.** The permit (OH0027952), the 2019-02-06 DFFO
    (eDoc 992359) and its 2024-11-20 modification (eDoc 3301212) are in the record. The
    modification extended the WWTP work and the interim limits to 2025-12-31, and its findings
-   name wells piped near the outfall as the augmentation water. That date has passed. Whether
-   the work was completed, the order terminated or modified again is open. The portal's other
+   name wells piped near the outfall as the augmentation water. That date has passed. Ohio EPA's
+   2025-07-29 inspection (eDoc 3793658) dates the new plant's start-up to 2024-08-21, though a form
+   comment in the same report says 2025-08-01. The City's 2026-01-15 non-compliance notice
+   (eDoc 3971298) says it "now" has flow augmentation online (`[verified]` as the City's statement only),
+   and the same notice reports a TFR exceedance (1687 against 1561 mg/l). Whether Ohio EPA has
+   acknowledged completion, or terminated or modified the order again, is open. The portal's other
    2PD00019 row (eDoc 3480641) is a mis-indexed ODOT rest-area order, not Wapakoneta's.
 10. **The county-wide negative checks**: RSEI 518210, ECHO and the PJM queue for Auglaize.
 
