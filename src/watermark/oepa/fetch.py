@@ -39,16 +39,20 @@ corrupts a bulk fetch while every individual response looks fine:
 
 from __future__ import annotations
 
+import difflib
 import hashlib
+import io
 import re
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 from urllib.parse import urlparse
 
 import httpx
 import yaml
 from pydantic import BaseModel, ConfigDict
+from ruamel.yaml import YAML
+from ruamel.yaml.comments import CommentedMap, CommentedSeq
 
 from watermark.civic._http import _browser_request
 from watermark.config import Settings, get_settings
@@ -278,22 +282,64 @@ def fetch_one(
     )
 
 
-#: Reviewed keys a human adds to a ``filename-map`` entry that no fetch can reproduce — the
-#: canonical name of the sub-document, the date verified from its own text layer, the
-#: as-received DAM basename behind a collision-suffixed filename, and any review note. A
-#: re-fetch of the *same bytes* must not erase them.
-_REVIEWED_KEYS = ("canonical_name", "content_verified_date", "as_received_name")
-
 _DEFAULT_META = {
     "subject": "OEPA/DAM permit download manifest",
     "policy": "non-destructive — originals keep as-received names",
 }
 
+#: Layouts the committed maps are written in — ``(sequence indent, offset, line width)``.
+#: Both list styles occur (``documents:\n  - a`` and ``documents:\n- a``), as do maps
+#: hand-wrapped at 80 columns and maps whose long lines were never wrapped.
+_MAP_LAYOUTS = ((4, 2, 4096), (2, 0, 4096), (4, 2, 80), (2, 0, 80))
+
+
+def _map_yaml(sequence: int, offset: int, width: int) -> YAML:
+    y = YAML()
+    y.preserve_quotes = True
+    y.width = width
+    y.indent(mapping=2, sequence=sequence, offset=offset)
+    # Every committed map spells an empty value ``null``; ruamel's default writes nothing.
+    y.representer.add_representer(
+        type(None), lambda r, _: r.represent_scalar("tag:yaml.org,2002:null", "null")
+    )
+    return y
+
+
+def _dump(y: YAML, doc: Any) -> str:
+    buf = io.StringIO()
+    y.dump(doc, buf)
+    return buf.getvalue()
+
+
+def _load_map(text: str) -> tuple[YAML, Any]:
+    """Load ``text`` with the layout that reproduces it — byte-for-byte when one exists.
+
+    A ``filename-map.yaml`` is hand-authored prose as much as data: block-scalar policy
+    paragraphs, section comments, keys this module has never heard of (#2161). The writer
+    must hand all of that back. 71 of the 77 committed maps round-trip exactly under one of
+    :data:`_MAP_LAYOUTS`; the rest carry hand-wrapped plain scalars no emitter reproduces, and
+    get the layout that moves the fewest lines.
+    """
+    best: tuple[int, YAML, Any] | None = None
+    for layout in _MAP_LAYOUTS:
+        y = _map_yaml(*layout)
+        doc = y.load(text)
+        dumped = _dump(y, doc)
+        if dumped == text:
+            return y, doc
+        moved = sum(
+            1 for line in difflib.ndiff(text.splitlines(), dumped.splitlines()) if line[:1] in "+-"
+        )
+        if best is None or moved < best[0]:
+            best = (moved, y, doc)
+    assert best is not None
+    return best[1], best[2]
+
 
 def update_filename_map(records: list[FetchedPermit], map_path: Path) -> None:
     """Merge new fetch records into ``filename-map.yaml`` — keyed by ``(source_url, sha256)``.
 
-    Chain of custody, two ways (#1406):
+    Chain of custody, three ways (#1406, #2161):
 
     * **A slot that later serves different bytes does not overwrite the earlier capture.**
       Ohio EPA re-serves ``permits/doc/<id>.pdf`` in place when a permit is modified, so the
@@ -302,9 +348,14 @@ def update_filename_map(records: list[FetchedPermit], map_path: Path) -> None:
       alone silently dropped the older one's provenance — a document we hold with no record of
       where it came from. The key is the URL *and* the content hash.
     * **Reviewed fields survive a re-fetch.** ``canonical_name`` / ``content_verified_date`` /
-      ``as_received_name`` and a hand-written ``note`` are the human half of the manifest and
-      are not derivable from an HTTP response; they are carried forward onto the matching entry.
-      A hand-authored ``meta`` is likewise preserved (only ``generated_at`` is refreshed).
+      ``as_received_name``, a hand-written ``note``, and any other key a human added to an
+      entry are not derivable from an HTTP response; a matched entry is updated in place, so
+      only the fields a fetch produces are rewritten.
+    * **Nothing the writer does not own is narrowed away.** The map is read and written back
+      as a round-trip document: top-level keys other than ``meta`` / ``documents`` (a
+      ``deferred:`` block was the case that found this, #2161), comments and block-scalar
+      prose all survive, and ``meta`` changes only by its ``generated_at``. A merge whose
+      output lost a top-level key or an entry raises instead of writing.
 
     A fetch that produced no file — an HTTP **error**, or a body :func:`_refusal` rejected as
     ``empty`` / ``not_a_document`` / ``truncated`` — has no hash, so it cannot be keyed the same
@@ -316,7 +367,6 @@ def update_filename_map(records: list[FetchedPermit], map_path: Path) -> None:
     successful captures of one URL still coexist; that is the ``*VD``/``*WD`` case above, and
     it is the whole reason the hash is in the key.
     """
-    from typing import Any
 
     def key(url: str, sha: str | None) -> tuple[str, str | None]:
         return (url, sha)
@@ -327,17 +377,32 @@ def update_filename_map(records: list[FetchedPermit], map_path: Path) -> None:
     # ``source_url`` at all. Those carry no fetch identity, so they are never merged
     # against and are written back verbatim; reading them as fetch records raised KeyError
     # and blocked `watermark oepa fetch` outright on any site holding a curated map.
-    ordered: list[dict[str, Any]] = []
-    existing: dict[tuple[str, str | None], int] = {}
-    meta: dict[str, Any] = dict(_DEFAULT_META)
     if map_path.exists():
-        data = yaml.safe_load(map_path.read_text(encoding="utf-8")) or {}
-        meta = {**meta, **(data.get("meta") or {})}
-        for entry in data.get("documents", []):
-            ordered.append(entry)
-            url = entry.get("source_url")
-            if url is not None:
-                existing[key(url, entry.get("sha256"))] = len(ordered) - 1
+        y, doc = _load_map(map_path.read_text(encoding="utf-8"))
+        doc = doc if doc is not None else CommentedMap()
+    else:
+        y, doc = _map_yaml(*_MAP_LAYOUTS[0]), CommentedMap()
+    if doc.get("meta") is None:
+        doc.insert(0, "meta", CommentedMap())
+    meta = doc["meta"]
+    for i, (field, value) in enumerate(_DEFAULT_META.items()):
+        if field not in meta:
+            meta.insert(i, field, value)
+    if doc.get("documents") is None:
+        doc["documents"] = CommentedSeq()
+    ordered = doc["documents"]
+    keys_before = list(doc)
+
+    existing: dict[tuple[str, str | None], int] = {}
+
+    def _reindex() -> None:
+        existing.clear()
+        for i, entry in enumerate(ordered):
+            u = entry.get("source_url")
+            if u is not None:
+                existing[key(u, entry.get("sha256"))] = i
+
+    _reindex()
 
     # A URL that succeeds ANYWHERE in this batch retires its hashless rows, computed up front
     # rather than as each record is walked. Order-dependent retirement missed the batch that
@@ -347,42 +412,49 @@ def update_filename_map(records: list[FetchedPermit], map_path: Path) -> None:
 
     def _retire_failures_for(url: str) -> None:
         """Drop rows for ``url`` that never produced a file (no hash, so no identity)."""
-        if existing.pop(key(url, None), None) is None:
+        if key(url, None) not in existing:
             return
-        ordered[:] = [
-            e for e in ordered if not (e.get("source_url") == url and e.get("sha256") is None)
-        ]
+        for i in reversed(range(len(ordered))):
+            e = ordered[i]
+            if e.get("source_url") == url and e.get("sha256") is None:
+                del ordered[i]
         # Indices shifted; rebuild the address book rather than patch it.
-        existing.clear()
-        for i, entry in enumerate(ordered):
-            u = entry.get("source_url")
-            if u is not None:
-                existing[key(u, entry.get("sha256"))] = i
+        _reindex()
 
+    expected = len(ordered)
     for r in records:
         if r.source_url in succeeded_urls:
+            before = len(ordered)
             _retire_failures_for(r.source_url)
+            expected -= before - len(ordered)
             if r.sha256 is None:
                 # A failed attempt on a URL this batch also captured. It describes an HTTP
                 # event, not a document, and the capture is the record that survives.
                 continue
         k = key(r.source_url, r.sha256)
         index = existing.get(k)
-        prior = ordered[index] if index is not None else {}
-        merged = r.model_dump()
-        for field in _REVIEWED_KEYS:
-            if field in prior:
-                merged[field] = prior[field]
-        # A reviewed note outranks the fetcher's boilerplate; a fetch error still speaks.
-        if prior.get("note") and r.status != "error":
-            merged["note"] = prior["note"]
+        fetched = r.model_dump()
         if index is None:
-            ordered.append(merged)
+            ordered.append(fetched)
             existing[k] = len(ordered) - 1
-        else:
-            ordered[index] = merged
+            expected += 1
+            continue
+        entry = ordered[index]
+        # A reviewed note outranks the fetcher's boilerplate; a fetch error still speaks.
+        if entry.get("note") and r.status != "error":
+            fetched.pop("note")
+        for field, value in fetched.items():
+            if entry.get(field) != value or field not in entry:
+                entry[field] = value
 
     meta["generated_at"] = datetime.now(UTC).date().isoformat()
-    doc = {"meta": meta, "documents": ordered}
+    text = _dump(y, doc)
+    written = yaml.safe_load(text)
+    if list(written) != keys_before or len(written["documents"]) != expected:
+        msg = (
+            f"refusing to write {map_path}: the merged map would carry keys {list(written)} "
+            f"and {len(written['documents'])} entries, expected {keys_before} and {expected}"
+        )
+        raise RuntimeError(msg)
     map_path.parent.mkdir(parents=True, exist_ok=True)
-    map_path.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    map_path.write_text(text, encoding="utf-8")

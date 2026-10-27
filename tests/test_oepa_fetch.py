@@ -154,6 +154,73 @@ def test_hand_authored_entries_survive_a_fetch(tmp_path: Path) -> None:
     assert yaml.safe_load(map_path.read_text())["meta"]["subject"] == "curated"
 
 
+_HAND_AUTHORED_MAP = """\
+meta:
+  subject: hand-authored shelf
+  policy: >-
+    Files keep the shelf's established naming. This paragraph is prose, not data, and a
+    re-dump must not fold it into a plain scalar.
+  generated_at: '2026-01-01'
+
+documents:
+  # ── The adopted instrument ──────────────────────────────────────
+  - edoc_id: '1'
+    filename: 1.pdf
+    note: >-
+      Reviewed by hand.
+
+deferred:
+  - edoc_id: '4230061'
+    sha256: abc
+    why: held back on purpose
+"""
+
+
+def test_unknown_top_level_keys_survive_a_fetch(tmp_path: Path) -> None:
+    """#2161: a ``deferred:`` block was the only record two plan sets existed; a fetch deleted it."""
+    path = tmp_path / "filename-map.yaml"
+    path.write_text(_HAND_AUTHORED_MAP, encoding="utf-8")
+
+    update_filename_map([_record("aa" * 32)], path)
+
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    assert list(data) == ["meta", "documents", "deferred"]
+    assert data["deferred"] == [
+        {"edoc_id": "4230061", "sha256": "abc", "why": "held back on purpose"}
+    ]
+
+
+def test_a_fetch_rewrites_only_what_it_owns(tmp_path: Path) -> None:
+    """Comments, block scalars and layout survive; the diff is the new row and ``generated_at``."""
+    path = tmp_path / "filename-map.yaml"
+    path.write_text(_HAND_AUTHORED_MAP, encoding="utf-8")
+
+    update_filename_map([_record("aa" * 32)], path)
+
+    after = path.read_text(encoding="utf-8")
+    before_lines = _HAND_AUTHORED_MAP.splitlines()
+    removed = [line for line in before_lines if line not in after.splitlines()]
+    assert removed == ["  generated_at: '2026-01-01'"]
+    assert "  # ── The adopted instrument" in after
+    assert "  policy: >-\n    Files keep" in after
+    assert "    note: >-\n      Reviewed by hand." in after
+
+
+def test_hand_keys_on_a_matched_entry_survive_a_refetch(tmp_path: Path) -> None:
+    """A re-fetch of the same bytes updates the fetch fields in place and keeps every other key."""
+    path = tmp_path / "filename-map.yaml"
+    update_filename_map([_record("aa" * 32)], path)
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    data["documents"][0]["extraction"] = "data/extracted/permits/x.yaml"
+    path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+
+    update_filename_map([_record("aa" * 32, status="skipped_existing")], path)
+
+    row = _documents(path)[0]
+    assert row["extraction"] == "data/extracted/permits/x.yaml"
+    assert row["status"] == "skipped_existing"
+
+
 def test_curated_entries_are_not_duplicated_across_repeat_fetches(tmp_path: Path) -> None:
     map_path = tmp_path / "filename-map.yaml"
     curated = {"edoc_id": "1", "filename": "1.pdf"}
