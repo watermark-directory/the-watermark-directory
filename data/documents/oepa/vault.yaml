@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-10-27T19:30:08+00:00'
+  generated_at: '2026-10-27T21:22:39+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 259
-    bytes: 831895038
-    distinct_addresses: 254
+    artifacts: 286
+    bytes: 1057610145
+    distinct_addresses: 279
 artifacts:
 - rel: documents/oepa/2DP00130.pdf
   sha256: ae76bff9b192bd0d17c69fbdb14df96198a48e0d7804da346debc4f55b4f22e8
@@ -877,9 +877,144 @@ artifacts:
   bytes: 403164
   media_type: application/pdf
   redistributable: true
+- rel: documents/oepa/sidney/4298288.pdf
+  sha256: 12f81f30721f8ed92570b50329b907cb46b2e73ccba85a011930db32c9148e45
+  bytes: 129952643
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298289.pdf
+  sha256: f86e6f227cb59cbd6995f8168db7455d9d21a96dc7ae1b787b007d7d92eefe04
+  bytes: 4230881
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298290.pdf
+  sha256: 5ab656fc0766dd2a38d8ed5ffcb02ab08dc54ed71a19929bbf60ee58746b914d
+  bytes: 3931044
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298291.pdf
+  sha256: 90a8e3487c85597299b9aac7f38ba44d8a58fb0cdb9104aabbbd7e378d6bdc24
+  bytes: 2864559
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298292.pdf
+  sha256: 56f14fb9be95efe767bae88b5dacee72fd1897244eb8677c1a158a89db5d6597
+  bytes: 12735482
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298293.pdf
+  sha256: 3c3dd54a4cb5ae184e404d0c12971388f210ee67cf70b6cfd913531aca552216
+  bytes: 977614
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298294.pdf
+  sha256: e56c3c018728b42f162f9e35eab931d5cbb5cec6e9e8a540cf38b2d657152421
+  bytes: 121961
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298295.pdf
+  sha256: d29f6194d8a255792eb48ef7c05264f78c0b5652222c49ce8bb0c26175066f89
+  bytes: 1320441
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298296.pdf
+  sha256: 24e71050622ec0eefd090e8e22074e92752e859899553694f2cbaf5a14916b13
+  bytes: 3087367
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298297.pdf
+  sha256: 4c0065c2d16d6604ca2942f1d209fda87de18875c1e55594bc8fba3331b44f41
+  bytes: 899793
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298298.pdf
+  sha256: c1b0f7d0c644406c9db6eb7ac4e878a8f4e58248b6cb96f1223727c47feb86b6
+  bytes: 304217
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298299.pdf
+  sha256: 728ca6c615e95e6ce3ef07f0b3c96cb6019bceb2210d014255165ced67a77fab
+  bytes: 380625
+  media_type: application/pdf
+  redistributable: true
 - rel: documents/oepa/sidney/4298300.pdf
   sha256: cc179851ae2046562fd1567651f79952b5bf7224b44f692611b859476c658f35
   bytes: 159447
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298301.pdf
+  sha256: 984deb7e799d81ee33b8c79a64591742522e5ce8961edb56eaee581d3a28ff10
+  bytes: 1108412
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298302.pdf
+  sha256: 5093a86649caa343e0eee02069d821cebc9b0141e929a8b71ffb08a9e01d6b30
+  bytes: 403622
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298303.pdf
+  sha256: c1b0f7d0c644406c9db6eb7ac4e878a8f4e58248b6cb96f1223727c47feb86b6
+  bytes: 304217
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298304.pdf
+  sha256: e022480cb0fb784c4722b5bd24a07dad085d4f1479251f682bdf9275b08f45e9
+  bytes: 175464
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298305.pdf
+  sha256: fa38d4febcc74162d9118794dfcfff8687457273a2b867f3eb8ac52277d10d36
+  bytes: 22428408
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298308.pdf
+  sha256: 1cd8904f5ae003e0e9752e50748f90e05a09eb3ebeed0023b99134350838295a
+  bytes: 10244536
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298309.pdf
+  sha256: 82144b6b7512b48df1a2bde68b80857cb9bb8764614b069126018eb539f07e6c
+  bytes: 13190048
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298310.pdf
+  sha256: 71d4517c2738dcec599979c1b2b6bd2f3ac26da624edb51ea70886cc5f30f623
+  bytes: 336256
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298311.pdf
+  sha256: 14f1e2c0ec0f993401501196e311a0882abd63817010aeb9db36ba3facded64a
+  bytes: 160142
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298312.pdf
+  sha256: ee8927b4b5c08e2ace65dd78434111e8bcb117b9649ba30ca61853de5b5d8dcf
+  bytes: 170335
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298313.pdf
+  sha256: b02126005d19bc1858170c758dc5f808a950ef28a4753b7a264b68a4da95d3e5
+  bytes: 6768651
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298314.pdf
+  sha256: 728ca6c615e95e6ce3ef07f0b3c96cb6019bceb2210d014255165ced67a77fab
+  bytes: 380625
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298315.pdf
+  sha256: a4e1712f2f99e77a7502f78f1f45f9d7d8e81215edf45cd51cc16aa49562b193
+  bytes: 265739
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298316.pdf
+  sha256: 422b4e967d35c2931b4175210b88e689a3f74aee65f2f9013d32d22e8549e95e
+  bytes: 8762558
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/sidney/4298319.pdf
+  sha256: 7802b85c94a0cda2ad00098c814e207de1b13778c5da57381bcb3e388d6fba06
+  bytes: 209467
   media_type: application/pdf
   redistributable: true
 - rel: documents/oepa/sidney/4298321.pdf
