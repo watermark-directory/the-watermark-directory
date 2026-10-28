@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "d906e9a7275352bb135017f5d825709e1a1f6a3427b674d765520f5d26cf6048",
+  "catalog_version": "739a5a2baabca35056452a3579acccbe47b17d984abb3d29eccf8064638ab250",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -2300,6 +2300,14 @@
       "feed": "catalog"
     },
     {
+      "handle": "dataset:lima:wapakoneta-tfr-tier-record",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "wapakoneta-tfr-tier-record",
+      "title": "Wapakoneta WRF — Total Filterable Residue by Flow Tier, 2024-12 to 2026-09 (ECHO DMR reading)",
+      "feed": "catalog"
+    },
+    {
       "handle": "dataset:lima:watershed",
       "kind": "dataset",
       "site": "lima",
@@ -2377,6 +2385,14 @@
       "site": "lima",
       "local_id": "wwtp-oh0027421-sidney",
       "title": "Sidney WWTP (NPDES OH0027421) Effluent Record — DMR",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:wwtp-oh0027952-wapakoneta",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "wwtp-oh0027952-wapakoneta",
+      "title": "Wapakoneta WRF (NPDES OH0027952) Effluent Record — DMR",
       "feed": "catalog"
     },
     {

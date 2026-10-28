@@ -1,0 +1,38 @@
+id: wwtp-oh0027952-wapakoneta
+title: Wapakoneta WRF (NPDES OH0027952) Effluent Record — DMR
+scope: extracted
+status: reviewed
+producer:
+  kind: connector
+  command: dmr OH0027952 --start 2024-12-01 --end 2026-10-28 --design-flow 6.0
+  connector_ref: watermark.hydrology.connectors.echo_dmr
+  source: EPA ECHO eff_rest_services DMR for NPDES OH0027952 (City of Wapakoneta WRF), Auglaize County OH
+  external_url: https://echo.epa.gov/tools/web-services
+license: U.S. Government work (public domain)
+access_tier: public
+site_scope: site:wapakoneta
+storage:
+- relpath: extracted/wapakoneta/wwtp-oh0027952.dmr.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector
+tags:
+- wwtp
+- npdes
+- dmr
+- echo
+- receiving-water
+- wapakoneta
+notes: 'Verbatim ECHO effluent-chart data for the Wapakoneta WRF (OH0027952), outfall 001 →
+  Auglaize River, 2024-12 to 2026-09. Design 6.0 MGD; outfall 001 flow is measured AFTER flow
+  augmentation (the permit sums station 603 and the augmentation water), so it is not the plant''s
+  treated flow. 36 ECHO-flagged exceedances. ECHO labels internal station 603 "Raw Sewage
+  Influent"; the permit defines it as the secondary-treatment station, so the TSS/CBOD exceedances
+  listed at 603 are secondary-effluent results. The document carries flow, overflow outfalls,
+  seasonality and flagged exceedances only; it cannot show the months the flow-tiered TFR outfalls
+  (020-023) left blank. That reading is the reviewed companion
+  extracted/wapakoneta/watch/tfr-tier-record.watch.yaml (catalog entry wapakoneta-tfr-tier-record).
+  Regenerable via `watermark dmr OH0027952 --start 2024-12-01 --end 2026-10-28 --design-flow 6.0
+  --out data/extracted/wapakoneta/wwtp-oh0027952.dmr.yaml`. Issue 2184.'

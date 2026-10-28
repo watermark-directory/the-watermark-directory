@@ -1942,5 +1942,34 @@
     "source_doc_rel": "oepa/wapakoneta/2PD00019.pdf",
     "source_doc_render_class": "pdf",
     "source_doc_published": true
+  },
+  {
+    "rel": "wapakoneta/wwtp-oh0027952.dmr.yaml",
+    "group": "permits-npdes",
+    "title": "CITY OF WAPAKONETA WRF",
+    "confidence": null,
+    "warnings": [],
+    "fields": {
+      "npdes_id": "OH0027952",
+      "name": "CITY OF WAPAKONETA WRF",
+      "permit_type": "NPDES Individual Permit",
+      "permit_status": "Effective",
+      "major_minor": "M",
+      "snc_status": null,
+      "window": "2024-12-01..2026-10-28"
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "wapakoneta/wwtp-oh0027952.dmr.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": null,
+    "source_doc_render_class": null,
+    "source_doc_published": false
   }
 ]

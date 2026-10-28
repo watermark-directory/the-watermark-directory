@@ -1,4 +1,4 @@
-reconciled_at: '2026-10-28T22:03:38.284451+00:00'
+reconciled_at: '2026-10-28T23:19:23.387530+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -334,8 +334,8 @@ entries:
     site_scope: basin-shared
   data-centers:
     exists: true
-    sha256: a46756bb1341e737b4318881872bab1a6e22ed83d96becf1fb9ea2cf5fcb601b
-    size_bytes: 493548
+    sha256: 0d36090bb91cf6740583b5f2cf8699d5fe4475dc1be76a6f25d8fcdce7e91b3c
+    size_bytes: 494709
     lfs_materialized: true
     file_count: 17
     missing: []
@@ -441,8 +441,8 @@ entries:
         stale: false
       wapakoneta:
         exists: true
-        sha256: d389e32688729c18ad88ba8a85e5edcd9836a5bc041e581297b1acab35df8c5b
-        size_bytes: 43167
+        sha256: 5efea220dd138953fc0344062f76e337b2a8e6db91e4c388a97c79def7e78ad1
+        size_bytes: 44328
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -551,8 +551,8 @@ entries:
     site_scope: site:van-wert
   data-centers-wapakoneta:
     exists: true
-    sha256: d389e32688729c18ad88ba8a85e5edcd9836a5bc041e581297b1acab35df8c5b
-    size_bytes: 43167
+    sha256: 5efea220dd138953fc0344062f76e337b2a8e6db91e4c388a97c79def7e78ad1
+    size_bytes: 44328
     lfs_materialized: true
     file_count: 1
     missing: []
@@ -3679,6 +3679,16 @@ entries:
     asof: null
     stale: false
     site_scope: site:wapakoneta
+  wapakoneta-tfr-tier-record:
+    exists: true
+    sha256: cb97b4a1d97087c97770dfe17c121bbaed0740ebf172fbc239a4f374a976195b
+    size_bytes: 9309
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:wapakoneta
   watershed:
     exists: true
     sha256: fb75efa54c5da29b5bd695f4b3e1e7689330462f49239a18d29753ffedab5b79
@@ -3779,3 +3789,13 @@ entries:
     asof: null
     stale: false
     site_scope: site:sidney
+  wwtp-oh0027952-wapakoneta:
+    exists: true
+    sha256: dfacf7433ffb53dc316f2dcc699ccae18a03b794843901b60da35c3bb0a34e24
+    size_bytes: 18674
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:wapakoneta

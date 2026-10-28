@@ -180,6 +180,7 @@ def test_load_corpus_loads_dmr_pull_as_its_own_kind(tmp_path: Path) -> None:
         ("troy-piqua", "troy-piqua/wwtp-oh0027049.dmr.yaml", "OH0027049"),
         ("fort-wayne", "fort-wayne/wwtp-in0032191.dmr.yaml", "IN0032191"),
         ("sidney", "sidney/wwtp-oh0027421.dmr.yaml", "OH0027421"),
+        ("wapakoneta", "wapakoneta/wwtp-oh0027952.dmr.yaml", "OH0027952"),
     ],
 )
 def test_load_corpus_loads_every_committed_dmr_pull(site: str, rel: str, npdes_id: str) -> None:

@@ -2,9 +2,9 @@
   "site": "wapakoneta",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-10-28T22:06:09+00:00",
+  "generated_at": "2026-10-28T23:22:45+00:00",
   "feed_count": 31,
-  "row_total": 553,
+  "row_total": 560,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -23,7 +23,7 @@
       "media_type": "application/json",
       "schema": "schemas/records.schema.json",
       "kind": "collection",
-      "count": 14
+      "count": 15
     },
     {
       "name": "timeline",
@@ -207,7 +207,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 64
+      "count": 66
     },
     {
       "name": "facts",
@@ -247,7 +247,7 @@
       "media_type": "application/json",
       "schema": "schemas/corpus-index.schema.json",
       "kind": "collection",
-      "count": 108
+      "count": 110
     },
     {
       "name": "corpus-nodes",
@@ -255,7 +255,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/corpus-nodes.schema.json",
       "kind": "collection",
-      "count": 108
+      "count": 110
     },
     {
       "name": "ask-embeddings",

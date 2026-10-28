@@ -1,0 +1,35 @@
+id: wapakoneta-tfr-tier-record
+title: Wapakoneta WRF — Total Filterable Residue by Flow Tier, 2024-12 to 2026-09 (ECHO DMR reading)
+scope: extracted
+status: reviewed
+producer:
+  kind: manual
+  source: >-
+    EPA ECHO eff_rest_services.get_effluent_chart for NPDES OH0027952, window 2024-12-01 to
+    2026-10-28, pulled 2026-10-28 through watermark.hydrology.connectors.echo_dmr.fetch_effluent_chart
+    so every figure is regenerable. Parameter 70300 at fictitious outfalls 020-023 (the permit's
+    flow-tiered TFR limits, read from the committed permit extraction
+    extracted/oepa/wapakoneta/2PD00019.npdes.yaml), with station 802 streamflow and station 601
+    influent TFR. NODI codes are decoded from ECHO's own NODIDesc in the same response.
+license: Public data (US EPA ECHO — ICIS-NPDES republication; Ohio EPA NPDES permit)
+access_tier: public
+site_scope: site:wapakoneta
+storage:
+- relpath: extracted/wapakoneta/watch/tfr-tier-record.watch.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: connector
+tags:
+- wwtp
+- npdes
+- dmr
+- echo
+- noncompliance
+- wapakoneta
+notes: 'Per-tier, per-month grid of the WRF''s TFR record against the City''s self-reports.
+  ECHO flags TFR exceedances in 2025-05/06/07 and 2025-12 and none in 2026. Eleven of 22 months carry
+  no TFR value at any tier, including 2025-08 to 2025-11, where the low-flow tiers are NODI R
+  "Administratively Resolved", so the City''s self-reported November 2025 exceedance (1718 against
+  1561 mg/l, eDoc 3944611) is not on the ECHO record. Why is [open]. Issue 2184.'
