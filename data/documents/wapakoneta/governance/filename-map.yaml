@@ -17,6 +17,11 @@ meta:
     ("Microsoft: Print To PDF", no text layer): they were read by OCR, and every passage the register
     cites was checked against the page rendered at 300 DPI. The minutes record residents' and
     speakers' home addresses; the extractions do not repeat them.
+    Since 2026-10-28 it also holds the 2024 Council record of the data-center ordinances: the
+    2024-09-03 agenda and the minutes of 09-03, 09-16, 10-07, 10-21, 11-04 and 11-18, taken from the
+    same library's 2024 folder (the Thrillshare documents API, folder 22223216). Unlike the 2026
+    minutes these carry a native text layer and no images, so they were read from text. Two carry
+    residents' home addresses in public comment; not repeated.
   publisher: American Legal Publishing (codelibrary.amlegal.com)
   code: Codified Ordinances of Wapakoneta, Ohio — Part Twelve, Planning and Zoning Code
   supplement: 2026 S-27 (current)
@@ -199,3 +204,107 @@ documents:
     p.1: WAEDC's Bloomfield announces "a 30-acre, 50 megawatt data center project within the West Central
     Ohio Industrial Center" — the briefing the 2026-10-08 Wapakoneta Daily News story reports.
     Image-checked. The company is not named. Carries a resident's home address; not repeated.
+- filename: 09-03-2024-Agenda.pdf
+  title: City Council agenda, 2024-09-03
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/cd3b2498-53a5-4d6d-98e4-e460729425b1/09-03-2024-Agenda.pdf
+  sha256: cf85da1736af9f7c4b80e5563ba3cd53aef1e54e0e7dbda491c122db658305ae
+  bytes: 61814
+  pages: 2
+  content_type: application/pdf
+  fetched_at: '2026-10-28T17:37:38Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    Lists "WAEDC Josh Bloomfield – data processing centers". The minutes of the same meeting record
+    that the presentation was postponed.
+- filename: 09-03-2024-Minutes.pdf
+  title: City Council minutes, 2024-09-03
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/efcca1e4-9626-4c61-b71d-dd50d08c6bfb/09-03-2024-Minutes.pdf
+  sha256: 396473f805ed963305928f65174b55fcab4b7c5f4e5f451c55be5666244e9363
+  bytes: 59546
+  pages: 2
+  content_type: application/pdf
+  fetched_at: '2026-10-28T17:37:38Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.1: "WAEDC Josh Bloomfield will not be presenting to Council this evening due to illness."
+- filename: 09-16-2024-Minutes.pdf
+  title: City Council minutes, 2024-09-16
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/61f94e91-fb8c-44ae-965f-61a7d5d1a798/09-16-2024-Minutes.pdf
+  sha256: a6b5a43999edda89e5c6ac09bed9e0ef27bdd213b14ca4224e592af5242ecb1c
+  bytes: 65195
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-10-28T17:37:38Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.2: Bloomfield's presentation "on data processing centers", urging Council "to be proactive in
+    their discussion and consideration of city zoning, utilities and potential sites prior to being
+    approached"; President Doll suggests consulting Courtney & Associates. Public comment carries a
+    resident's home address; not repeated.
+- filename: 10-07-2024-Minutes.pdf
+  title: City Council minutes, 2024-10-07
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/7adf05d9-aae9-4ec7-ae76-7ad309656fbc/10-07-2024-Minutes.pdf
+  sha256: 2cb8cd0713b3c3771c161be27fb487877a72229ad7aa4b1c2528302eab40a8e5
+  bytes: 69142
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-10-28T17:37:38Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.2: President Doll asks whether the Planning Commission is examining the zoning code after
+    Bloomfield's presentation; SSD Price "spoke to John Courtney at the AMP conference on the
+    matter". The Mayor's report lists a 9.23 meeting with Bloomfield. Public comment carries a
+    resident's home address; not repeated.
+- filename: 10-21-2024-Minutes.pdf
+  title: City Council minutes, 2024-10-21
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/76ef98a7-8003-4305-83fb-5f6bb095fdd7/10-21-2024-Minutes.pdf
+  sha256: 7e6b35253f5d6cba3000b5a6b5fa52d743e96f2ee2ca37aab8a51a8104e27323
+  bytes: 25432
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-10-28T17:37:38Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.2: first readings of Ord. 2024-46 and 2024-48, with the Law Director's "'warehouse' versus
+    'data warehouse'" answer. p.3: executive session 8:08-9:08pm "to consider confidential
+    information regarding economic development", inviting Bloomfield; subject not named.
+    Stinebaugh and Greve were absent. Born-digital (Acrobat PDFMaker for Word).
+- filename: 11-04-2024-Minutes.pdf
+  title: City Council minutes, 2024-11-04
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/ed67b37d-ad3c-48db-ac96-af020dfa33b6/11-04-2024-Minutes.pdf
+  sha256: 9d8e250212dfd90e74eafc44ed077b6d8b500d62a7c35fa474dfd78a278cedf3
+  bytes: 69524
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-10-28T17:37:38Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.2: second readings. On Ord. 2024-46 the Planning Commission had no comments, no utility-rate
+    conversations had occurred, Courtney & Associates had "not yet" given input, and Councilor
+    Dunlap shared a citizen's text "concerned about water usage". The citizen is not named.
+- filename: 11-18-2024-Minutes.pdf
+  title: City Council minutes, 2024-11-18
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/04ed5d3c-0a7b-4ea1-91fe-70341bd79b80/11-18-2024-Minutes.pdf
+  sha256: 85ba11b468ea99ba9fcaa6e841322439f1d776c29c98eb9ec119a6c58a5c1e49
+  bytes: 63192
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-10-28T17:37:38Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.1: third readings; Ord. 2024-46 adopted (Dunlap / Sheipline) and Ord. 2024-48 adopted (Dunlap
+    / Muhlenkamp), both 7-0. The URL is the one the register cited from 2026-10-12.

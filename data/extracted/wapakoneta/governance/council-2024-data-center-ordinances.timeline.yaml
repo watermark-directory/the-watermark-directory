@@ -1,0 +1,145 @@
+# Wapakoneta City Council, 2024 — the record of the data-center ordinances (Ord. 2024-46 / 2024-48)
+#
+# Issue 2184. The Council proceedings from WAEDC's first scheduled briefing on "data processing
+# centers" (2024-09-03) to the adoption of both ordinances (2024-11-18), read from the City's own
+# minutes. Each entry carries its own tag and its own source. Every source is a corpus path under
+# data/documents/wapakoneta/governance/ with a page (as-received names, sha256 and source URL in
+# that shelf's filename-map.yaml).
+#
+# The minutes are born-digital (native text layer, no images), so every quote below was read off
+# the text layer. The layer splits some words with a stray space ("t he", "d ata"); the quotes
+# here close those splits and change nothing else.
+#
+# What this file is NOT: the ordinances as signed. The minutes record titles, readings and votes,
+# never the text enacted. The in-force text is the publisher's codification
+# (wapakoneta-zoning-code-data-centers.zoning.yaml); the signed instruments are still [open].
+#
+# The minutes record residents' home addresses in public comment (09-16, 10-07). Neither is
+# repeated here, and neither speaker addressed data centers.
+#
+# Corpus, not a RecordItem.
+
+as_of: '2026-10-28'
+site: wapakoneta
+issue: 'watermark-directory/the-watermark-directory#2184'
+body: City of Wapakoneta, City Council (701 Parlette Court)
+
+legend:
+  verified: read off an instrument this repo holds
+  inference: this repo's reading, not any source's statement
+  open: asserted by no source held here
+
+timeline:
+
+  - date: '2024-09-03'
+    event: >
+      The agenda lists "WAEDC Josh Bloomfield – data processing centers". The minutes record that
+      the presentation did not happen: "WAEDC Josh Bloomfield will not be presenting to Council
+      this evening due to illness."
+    tag: verified
+    source:
+      - data/documents/wapakoneta/governance/09-03-2024-Agenda.pdf p.1
+      - data/documents/wapakoneta/governance/09-03-2024-Minutes.pdf p.1
+
+  - date: '2024-09-16'
+    event: >
+      Under New Business, Bloomfield of the Wapakoneta Area Economic Development Council "gave a
+      presentation to City Council on data processing centers, the large computer systems that
+      require significant space to house internet and data cloud information." He "encouraged
+      council to be proactive in their discussion and consideration of city zoning, utilities and
+      potential sites prior to being approached about a possible data processing center project."
+      President Doll "suggested City Administration reach out to Courtney & Associates for advice
+      on the matter." No company is named.
+    tag: verified
+    source: data/documents/wapakoneta/governance/09-16-2024-Minutes.pdf p.2
+
+  - date: '2024-09-23'
+    event: The Mayor's report, read at the 10-07 meeting, lists "9.23 Meeting with Josh Bloomfield". Its subject is not stated.
+    tag: verified
+    source: data/documents/wapakoneta/governance/10-07-2024-Minutes.pdf p.2
+
+  - date: '2024-10-07'
+    event: >
+      "President Doll asked if Planning Commission is examining the zoning code regarding WAEDC
+      Director Josh Bloomfield's presentation to Council on data centers. SSD Price spoke to John
+      Courtney at the AMP conference on the matter." The minutes do not record what the Planning
+      Commission had done.
+    tag: verified
+    source: data/documents/wapakoneta/governance/10-07-2024-Minutes.pdf p.2
+
+  - date: '2024-10-21'
+    event: >
+      First readings of Ord. 2024-46 ("AN ORDINANCE AMENDING SECTION 1250.10 (174) … SPECIFIC TO
+      THE ZONING DEFINITION OF 'WAREHOUSE'") and Ord. 2024-48 ("AN ORDINANCE AMENDING SECTION
+      1282.04 … SPECIFIC TO THE CONDITIONAL PERMITTED USES OF THE M-3 INDUSTRIAL DISTRICT"). Asked
+      by Miller why the City needs both, "Law Director Neal answered that having them both
+      clarifies a 'warehouse' versus 'data warehouse' and allows the City more discretion. SSD
+      Price added that should the City decide to allow a data warehouse in the future, Ord 2024-46
+      contains the language needed for this." Muhlenkamp "requested the Planning Commission also
+      review the matter." Stinebaugh and Greve were absent.
+    tag: verified
+    source: data/documents/wapakoneta/governance/10-21-2024-Minutes.pdf p.2
+
+  - date: '2024-10-21'
+    event: >
+      Executive session 8:08–9:08pm "to consider confidential information regarding economic
+      development and inviting WAEDC Josh Bloomfield and administration" (entered 5–0, exited
+      4–0).
+    tag: verified
+    source: data/documents/wapakoneta/governance/10-21-2024-Minutes.pdf p.3
+
+  - date: '2024-10-21'
+    event: >
+      Whether that session concerned a data-center prospect is not stated. It came at the meeting
+      where the ordinances were first read, and it invited the official who had briefed Council
+      on data centers; that is timing, not a subject.
+    tag: open
+    source: '[not in corpus] — executive-session subjects are not minuted'
+
+  - date: '2024-11-04'
+    event: >
+      Second readings. On Ord. 2024-46, Muhlenkamp "asked if the Planning Commission had any
+      comments. SSD Price replied, no." Miller "asked if utility rate conversations have occurred.
+      SSD Price replied, no." Campbell "asked if the engineering firm Courtney & Associates have
+      provided input. SSD Price replied, not yet." Price "explained that the language of
+      warehousing versus data-warehousing are clarified with said ordinance." Dunlap "shared a
+      text from a citizen concerned about water usage and the people needed for employment
+      purposes." Doll "reiterated that Ord 2024-46 is merely clarifying the zoning language within
+      the City's ordinances." Ord. 2024-48 was read with no recorded discussion.
+    tag: verified
+    source: data/documents/wapakoneta/governance/11-04-2024-Minutes.pdf p.2
+
+  - date: '2024-11-04'
+    event: >
+      So by the second reading, by the City's own account, the Planning Commission had made no
+      comment, no utility-rate conversation had occurred and the engineering consultant had given
+      no input. The minutes record no later answer to any of the three before adoption.
+    tag: inference
+    source:
+      - data/documents/wapakoneta/governance/11-04-2024-Minutes.pdf p.2
+      - data/documents/wapakoneta/governance/11-18-2024-Minutes.pdf p.1
+
+  - date: '2024-11-18'
+    event: >
+      Third readings, both adopted 7–0: Ord. 2024-46 (motion Dunlap, second Sheipline) and Ord.
+      2024-48 (motion Dunlap, second Muhlenkamp). No discussion is recorded on either.
+    tag: verified
+    source: data/documents/wapakoneta/governance/11-18-2024-Minutes.pdf p.1
+
+ordinances:
+  - number: Ord. 2024-46
+    amends: §1250.10(174), the zoning definition of "Warehouse"
+    readings: ['2024-10-21', '2024-11-04', '2024-11-18']
+    adopted: '2024-11-18'
+    vote: 7-0
+    tag: verified
+    codified_as: wapakoneta-zoning-code-data-centers.zoning.yaml (§1250.10(174)A, "Data Warehouse (Center)")
+    signed_text: '[open]'
+  - number: Ord. 2024-48
+    amends: §1282.04, the conditional permitted uses of the M-3 Industrial District
+    readings: ['2024-10-21', '2024-11-04', '2024-11-18']
+    adopted: '2024-11-18'
+    vote: 7-0
+    tag: verified
+    codified_as: wapakoneta-zoning-code-data-centers.zoning.yaml (§1282.04, "Data warehouses (centers)")
+    signed_text: '[open]'
