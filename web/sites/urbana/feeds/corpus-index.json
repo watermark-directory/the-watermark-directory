@@ -918,9 +918,9 @@
     "kind": "lead",
     "label": "Capture the Champaign County Common Pleas administrative appeal (the second Thor v. Urbana case)",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 21,
+    "lines": 23,
     "updated": null
   },
   {
@@ -929,9 +929,9 @@
     "kind": "lead",
     "label": "Thor v. City of Urbana (S.D. Ohio 3:26-cv-00196) — federal suit over the data-center zoning reversal is live",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -940,9 +940,9 @@
     "kind": "lead",
     "label": "Resolve Urbana0624C, LLC — the City calls it \"Highland\", but no corporate filing has been read",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -951,9 +951,9 @@
     "kind": "lead",
     "label": "No abatement exists — and most of the Thor assembly is outside the CRA it is associated with",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -962,9 +962,9 @@
     "kind": "lead",
     "label": "Urbana pre-committed to de-annex the data-center land on the developer's demand — and the executed agreement is not public",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -973,9 +973,9 @@
     "kind": "lead",
     "label": "The \"office building\" water claim is untestable by any state instrument — and the City holds the only record that could settle it",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 4,
     "links_in": 0,
-    "lines": 24,
+    "lines": 30,
     "updated": null
   },
   {

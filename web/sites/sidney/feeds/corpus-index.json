@@ -1039,9 +1039,9 @@
     "kind": "lead",
     "label": "The Ohio EPA air permit-to-install for emergency generators — a verified negative, re-check",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 25,
+    "lines": 29,
     "updated": null
   },
   {
@@ -1050,9 +1050,9 @@
     "kind": "lead",
     "label": "The annexation or rezoning ordinance — the City's own GIS cannot close the zoning question",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1061,9 +1061,9 @@
     "kind": "lead",
     "label": "Is the Sidney well field inside a designated sole-source aquifer, and is the campus upgradient?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
@@ -1072,9 +1072,9 @@
     "kind": "lead",
     "label": "Resolution 27-26 and the agreement it authorizes name two different Amazon entities",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 24,
+    "lines": 28,
     "updated": null
   },
   {
@@ -1083,9 +1083,9 @@
     "kind": "lead",
     "label": "Both major agreements give the company five business days to try to stop a records release",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
@@ -1094,9 +1094,9 @@
     "kind": "lead",
     "label": "Cycles of concentration back-solve to ≈4.0 — that brackets the cooling model, it does not close it",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 24,
+    "lines": 28,
     "updated": null
   },
   {
@@ -1105,9 +1105,9 @@
     "kind": "lead",
     "label": "The three vote meetings are on the record — and one of the six votes was not unanimous",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 26,
+    "lines": 28,
     "updated": null
   },
   {
@@ -1116,9 +1116,9 @@
     "kind": "lead",
     "label": "Three deeds, not one — the recorder still owes grantors, instrument numbers and consideration",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 26,
+    "lines": 30,
     "updated": null
   },
   {
@@ -1127,9 +1127,9 @@
     "kind": "lead",
     "label": "Is OR2329/497 (County → Dayton Power & Light, same day) the campus substation conveyance?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
@@ -1138,9 +1138,9 @@
     "kind": "lead",
     "label": "Exhibit D is blacked out edge to edge, with ORC 149.433 written beside it by hand in blue ink",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 24,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1149,9 +1149,9 @@
     "kind": "lead",
     "label": "A FERC eLibrary transmission service agreement between AES Ohio and Amazon for this campus",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 21,
+    "lines": 23,
     "updated": null
   },
   {
@@ -1160,9 +1160,9 @@
     "kind": "lead",
     "label": "The grading plan and storm water report recited on the face of the grading permit",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1171,9 +1171,9 @@
     "kind": "lead",
     "label": "Five state permits have issued across this project and not one of them states a load",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
@@ -1182,9 +1182,9 @@
     "kind": "lead",
     "label": "The Ohio Tax Credit Authority's Sixth Amendment — half the abatement term rests on it",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
@@ -1193,9 +1193,9 @@
     "kind": "lead",
     "label": "The PILOT schedule runs 14 years in one instrument and 15 in another — neither was reconciled",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
@@ -1204,9 +1204,9 @@
     "kind": "lead",
     "label": "PUCO 25-958-EL-AIR — the AES Ohio stipulation and its data-center tariff sheets",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1215,9 +1215,9 @@
     "kind": "lead",
     "label": "The City contracted away its power to create a data-center water rate class for ten years",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 24,
+    "lines": 28,
     "updated": null
   },
   {
@@ -1226,9 +1226,9 @@
     "kind": "lead",
     "label": "Resolution 69-25 — pulled, and it is not what the recitals said it was",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 24,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1237,9 +1237,9 @@
     "kind": "lead",
     "label": "The approved site plan — an administrative approval, so there is no agenda item to watch",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
@@ -1248,9 +1248,9 @@
     "kind": "lead",
     "label": "The City's significant-industrial-user permit — the only instrument that meters this campus",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 24,
+    "lines": 28,
     "updated": null
   },
   {
@@ -1259,9 +1259,9 @@
     "kind": "lead",
     "label": "Ohio SOS foreign registration for both Amazon entities — a blocked route, not an absence",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
@@ -1270,9 +1270,9 @@
     "kind": "lead",
     "label": "The body that reviews this abatement every year publishes nothing, anywhere",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 25,
+    "lines": 27,
     "updated": null
   },
   {

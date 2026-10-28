@@ -609,6 +609,44 @@ def test_every_record_asserting_verified_cites_a_source_or_is_a_known_gap() -> N
     )
 
 
+def test_a_lead_cites_the_registered_paths_its_source_names() -> None:
+    """A lead's free-text ``source:`` becomes a citation for each path the catalog registers (#2137).
+
+    23 of the network's 24 `verified-unsourced` findings were leads whose `[verified]` sentence
+    named a committed, cataloged extraction in ``source:`` — a mention the projection never
+    turned into a link. Only registered paths link; prose naming no path links nothing.
+    """
+    from watermark.site.corpus_mirror import _lead_source_links
+
+    catalog = corpus_catalog.build_catalog(Settings(site="findlay", data_dir=REPO_ROOT / "data"))
+    named = (
+        'data/extracted/findlay/data-centers.md "Grid", · extracted/findlay/data-centers.md; '
+        "data/extracted/findlay/no-such-file.yaml"
+    )
+    links = _lead_source_links(named, catalog)
+    slug = corpus_catalog.entry_for_path(catalog, "data/extracted/findlay/data-centers.md")
+    assert [link.target for link in links] == [corpus_catalog.catalog_link_target(slug or "")]
+    assert all(link.relationship == corpus_catalog.CITES for link in links)
+    assert (
+        _lead_source_links("Ohio EPA NPDES General Permits page (read 2026-07-21)", catalog) == []
+    )
+    assert _lead_source_links(None, catalog) == []
+
+
+def test_every_sidney_lead_asserting_verified_cites_a_source() -> None:
+    """Sidney carried 17 of the 24 findings, so it is the site this invariant is asserted over."""
+    mirror = build_mirror(Settings(site="sidney", data_dir=REPO_ROOT / "data"))
+    leads = [n for n in mirror.nodes if n.node_class == "question" and n.meta.get("lead_kind")]
+    assert leads, "sidney projected no leads — the leads loader has moved"
+    unsourced = [
+        n.name
+        for n in leads
+        if "[verified]" in n.description
+        and not any(link.relationship == corpus_catalog.CITES for link in n.links)
+    ]
+    assert unsourced == [], f"{unsourced} assert `[verified]` and cite no registered source"
+
+
 def test_a_record_s_title_comes_from_its_header_never_from_a_section_banner() -> None:
     """Position is what separates a YAML header comment from a mid-file section rule.
 

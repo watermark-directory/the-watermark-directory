@@ -940,9 +940,9 @@
     "kind": "lead",
     "label": "No document in the corpus states this campus's MW, including the transmission case named for it",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 24,
+    "lines": 28,
     "updated": null
   },
   {
@@ -951,9 +951,9 @@
     "kind": "lead",
     "label": "The air permit-to-install is a dated instrument-grade negative, and it is what would move the facility domain",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 24,
+    "lines": 28,
     "updated": null
   },
   {
@@ -962,9 +962,9 @@
     "kind": "lead",
     "label": "1.1 acres between the zoned area and the deeded holding, unattributed",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 21,
+    "lines": 25,
     "updated": null
   },
   {
@@ -973,9 +973,9 @@
     "kind": "lead",
     "label": "No signed or certified copy of any of the six ordinances is public",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 24,
+    "lines": 26,
     "updated": null
   },
   {
@@ -984,9 +984,9 @@
     "kind": "lead",
     "label": "No co-permittee NOI has been filed, so the general contractor is unnamed",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 19,
+    "lines": 21,
     "updated": "2026-08-14"
   },
   {
@@ -995,9 +995,9 @@
     "kind": "lead",
     "label": "The *WD modification's first CSO construction milestone came due 2026-08-01 and is untested",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 22,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1006,9 +1006,9 @@
     "kind": "lead",
     "label": "The instrument holding the CSO overflow total is the same one that is not being filed",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 25,
+    "lines": 27,
     "updated": "2026-10-27"
   },
   {
@@ -1017,9 +1017,9 @@
     "kind": "lead",
     "label": "The Marsh Foundation → Thor → QTS deed chain is not closable from the parcel layer",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 24,
+    "lines": 28,
     "updated": null
   },
   {
@@ -1028,9 +1028,9 @@
     "kind": "lead",
     "label": "An incentive package exists as a negotiation and as no instrument",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1039,9 +1039,9 @@
     "kind": "lead",
     "label": "Three different fill volumes, two incompatible framings, and no instrument behind any of them",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 4,
     "links_in": 0,
-    "lines": 26,
+    "lines": 32,
     "updated": null
   },
   {
@@ -1050,9 +1050,9 @@
     "kind": "lead",
     "label": "The City disclaims the Haviland 138 kV line as data-center-related, and the record half-agrees",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 24,
+    "lines": 28,
     "updated": null
   },
   {
@@ -1061,9 +1061,9 @@
     "kind": "lead",
     "label": "Three benefit figures circulate publicly and appear in no instrument",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 21,
+    "lines": 23,
     "updated": "2026-08-05"
   },
   {
@@ -1072,9 +1072,9 @@
     "kind": "lead",
     "label": "The hearing notice names four parcels; the assemblage has five",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 20,
+    "lines": 24,
     "updated": null
   },
   {
@@ -1083,9 +1083,9 @@
     "kind": "lead",
     "label": "The runway was laid across 2014-2016, and none of the three agreements that laid it is in the corpus",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -1094,9 +1094,9 @@
     "kind": "lead",
     "label": "Ordinance 26-06-034 does not do what Council moved to do",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 18,
+    "lines": 20,
     "updated": null
   },
   {
@@ -1105,9 +1105,9 @@
     "kind": "lead",
     "label": "The operator's FAQ names the one document that would settle campus water capacity",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 24,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1116,9 +1116,9 @@
     "kind": "lead",
     "label": "The local ballot route against the zoning is closed, and it was an initiative rather than a referendum",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 20,
+    "lines": 22,
     "updated": "2026-10-27"
   },
   {
@@ -1127,9 +1127,9 @@
     "kind": "lead",
     "label": "Van Wert drinks and discharges the same Town Creek flowline",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 22,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1138,9 +1138,9 @@
     "kind": "lead",
     "label": "The state data-center sales-tax exemption is paused, and this project has never requested one",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 24,
+    "lines": 26,
     "updated": "2026-08-05"
   },
   {
@@ -1149,9 +1149,9 @@
     "kind": "lead",
     "label": "A nationwide-permit verification is never public-noticed, so silence here can never become absence",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-08-14"
   },
   {

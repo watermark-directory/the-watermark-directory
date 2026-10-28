@@ -929,9 +929,9 @@
     "kind": "lead",
     "label": "Construction-stormwater NOI for the ~608-ac campus — not yet found",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 18,
+    "lines": 20,
     "updated": null
   },
   {
@@ -940,9 +940,9 @@
     "kind": "lead",
     "label": "Pull the Miami County Recorder deed instrument numbers for the J5 LLC conveyances",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 20,
+    "lines": 22,
     "updated": null
   },
   {
@@ -951,9 +951,9 @@
     "kind": "lead",
     "label": "Is adjacent J3 Development LLC (parcel N44-101772, 93.1 ac) a related SPE to J5 LLC?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 24,
+    "lines": 26,
     "updated": null
   },
   {
@@ -962,9 +962,9 @@
     "kind": "lead",
     "label": "Independently confirm (or refute) the Meta backer behind J5 LLC / Shaytura LLC",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1017,9 +1017,9 @@
     "kind": "lead",
     "label": "Pull the executed Water & Wastewater Agreement — reconcile the 2.0 MGD reserve vs. the closed-loop FAQ",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 28,
+    "lines": 32,
     "updated": null
   },
   {
@@ -1028,9 +1028,9 @@
     "kind": "lead",
     "label": "Does the reserved 1.0 MGD wastewater draw fit under 1PD00008 headroom, or is a permit mod implied?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
