@@ -2,9 +2,9 @@
   "site": "sidney",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-10-27T23:46:40+00:00",
+  "generated_at": "2026-10-28T12:36:15+00:00",
   "feed_count": 37,
-  "row_total": 1270,
+  "row_total": 1273,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -277,7 +277,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/passages.schema.json",
       "kind": "collection",
-      "count": 566
+      "count": 569
     },
     {
       "name": "catalog-index",
