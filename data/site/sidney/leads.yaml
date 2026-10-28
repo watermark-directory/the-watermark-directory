@@ -159,7 +159,7 @@ leads:
     is a CURRENCY gap in the published layers and not an unzoned site — the campus must never be
     recorded as unzoned on the strength of a missing polygon. The instrument that closes it is the
     City's annexation or rezoning ordinance for the parcel.
-  source: data/extracted/sidney/data-centers.md "Zoning district" · SidneyGIS_AllLayers/MapServer/270 (read 2026-07-31)
+  source: data/extracted/sidney/data-centers.md "Zoning district" · SidneyGIS_AllLayers/MapServer/270 (read 2026-07-31) · data/reference/sidney/parcel-assemblage.geojson
   issue: 1379
 - id: GRADING-PLAN
   kind: question

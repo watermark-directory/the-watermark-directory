@@ -95,7 +95,7 @@ leads:
     instead by an industrial-pretreatment (IU) permit and sewer-use agreement. No individual NPDES or
     IU record naming J5 LLC / Shaytura LLC has been located, and this has not been run as a dated,
     direct DAM/eSuite search — unsearched, not a searched negative.
-  source: Ohio EPA NPDES General Permits page — Community Notice 2026-07-21 abandoning OHD000001
+  source: Ohio EPA NPDES General Permits page — Community Notice 2026-07-21 abandoning OHD000001 · data/reference/oepa/ohd000001-coverage.yaml
   issue: 1486
   note: next check — search Ohio EPA DAM/eSuite for an individual NPDES permit or an IU/pretreatment record naming J5 LLC / Shaytura LLC (the records ask is #1688)
 - id: WWTP-WLA

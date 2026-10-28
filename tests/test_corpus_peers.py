@@ -51,24 +51,37 @@ def test_an_unknown_slug_is_refused_before_anything_is_deleted(tmp_path: Path) -
 
 
 @needs_binary
-def test_the_known_gaps_hold_and_a_cleared_gap_fails(
+def test_an_uncited_verified_claim_fails_and_a_stale_gap_fails(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """Positive control, then both ratchet directions, over the one peer carrying a known gap."""
+    """Positive control, then both ratchet directions, over a peer with a [verified] lead.
+
+    Troy-Piqua's OHD000001 lead asserts `[verified]` and cites the coverage record. Stripping
+    that one citation from the projected node must make the binary see it, and the gate fail.
+    """
     verdict = corpus_peers.check_site("troy-piqua", tmp_path, _base())
     assert verdict.passed, (verdict.errors, verdict.unexpected_unsourced, verdict.stale_known)
 
-    # Unlisted, the gap is a regression: the gate must SEE it, not merely pass.
-    monkeypatch.setitem(corpus_peers.KNOWN_UNSOURCED, "troy-piqua", frozenset())
+    real = corpus_peers.regenerate_mirror
+
+    def uncited(settings: Settings, *, corpus_dir: Path, check: bool) -> object:
+        result = real(settings, corpus_dir=corpus_dir, check=check)
+        node = corpus_dir / "question" / "lead-ohd000001.yml"
+        text = node.read_text(encoding="utf-8")
+        cite = "- target: ../../catalog/oepa-ohd000001-coverage.md\n  relationship: rests-on\n"
+        assert cite in text
+        node.write_text(text.replace(cite, ""), encoding="utf-8")
+        return result
+
+    monkeypatch.setattr(corpus_peers, "regenerate_mirror", uncited)
     unlisted = corpus_peers.check_site("troy-piqua", tmp_path, _base())
     assert unlisted.unexpected_unsourced == ["question/lead-ohd000001"]
     assert not unlisted.passed
+    monkeypatch.setattr(corpus_peers, "regenerate_mirror", real)
 
-    # Listed but no longer firing, an entry is stale, so the list cannot over-excuse.
+    # Listed but not firing, an entry is stale, so the list cannot over-excuse.
     monkeypatch.setitem(
-        corpus_peers.KNOWN_UNSOURCED,
-        "troy-piqua",
-        frozenset({"question/lead-ohd000001", "question/lead-not-a-node"}),
+        corpus_peers.KNOWN_UNSOURCED, "troy-piqua", frozenset({"question/lead-not-a-node"})
     )
     stale = corpus_peers.check_site("troy-piqua", tmp_path, _base())
     assert stale.stale_known == ["question/lead-not-a-node"]

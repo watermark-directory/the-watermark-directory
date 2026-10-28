@@ -82,7 +82,7 @@
     "origin": "lead",
     "question": "The annexation or rezoning ordinance — the City's own GIS cannot close the zoning question",
     "detail": "The City of Sidney does publish a zoning REST layer (SidneyGIS_AllLayers/MapServer/270, nine districts, \"officially adopted October 24, 2016\"), but the campus parcel falls in a hole in it: the zoning, corporate-limits and annexation layers ALL miss the parcel's interior point, while its two district-01 neighbours hit all three (SEMCORP 26-03-301-001 → IIM; DP&L 26-03-429-009 → CC), and the annexation layer stops at ordinance A-3145 of 2023-08-28. `[verified]`. Because the auditor's TY2025 tax district already places the parcel inside the corporate limits, this is a CURRENCY gap in the published layers and not an unzoned site — the campus must never be recorded as unzoned on the strength of a missing polygon. The instrument that closes it is the City's annexation or rezoning ordinance for the parcel.",
-    "source": "data/extracted/sidney/data-centers.md \"Zoning district\" · SidneyGIS_AllLayers/MapServer/270 (read 2026-07-31)",
+    "source": "data/extracted/sidney/data-centers.md \"Zoning district\" · SidneyGIS_AllLayers/MapServer/270 (read 2026-07-31) · data/reference/sidney/parcel-assemblage.geojson",
     "kind": "question",
     "status": "unanswered",
     "issue": 1379,

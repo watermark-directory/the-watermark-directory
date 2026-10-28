@@ -15,3 +15,10 @@ citations:
       Community Reinvestment Area agreement #548-25 — a 15-year, 75% real-property tax
       abatement on the Project BOSC build — is on the public record. The named
       counterparty behind the campus LLC remains the open question.
+  - source: data/extracted/legal/prr-mandamus/cra-agreement.cra.yaml
+    source_kind: derived
+    confidence: high
+    note: >-
+      The instrument itself: Res #548-25 (2025-07-10) approving the Allen County CRA No. 1
+      Agreement with Bistrozzi LLC, 75% for 15 years per Building (§3), read from the
+      county's 2026-06-05 records production (pp.1-13).
