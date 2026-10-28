@@ -907,9 +907,9 @@
     "kind": "lead",
     "label": "Confirm the AEP/Bloom fuel-cell commitments — the captured release names neither Findlay nor One Power",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -918,9 +918,9 @@
     "kind": "lead",
     "label": "Resolve whether MWCD levies a Blanchard-subdistrict assessment for basin O&M (method not finalized)",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -929,9 +929,9 @@
     "kind": "lead",
     "label": "Capture the three Allen Township zoning hearings on 2026-08-19 and the rezoning hearing on 2026-08-05",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-08-12"
   },
   {
@@ -940,9 +940,9 @@
     "kind": "lead",
     "label": "MWCD board award votes + Norfolk Southern bid opening fall on 2026-07-14 — capture the outcomes",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 25,
+    "lines": 27,
     "updated": null
   },
   {
@@ -951,9 +951,9 @@
     "kind": "lead",
     "label": "Resolve the 2025 ballot-language case that revoked Allen Township's zoning status",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-08-12"
   },
   {
@@ -962,9 +962,9 @@
     "kind": "lead",
     "label": "Establish Hancock County's presence in Ohio Brownfield Remediation Rounds 4-10",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 21,
+    "lines": 23,
     "updated": "2026-07-30"
   },
   {
@@ -973,9 +973,9 @@
     "kind": "lead",
     "label": "Put scope, schedule and cost on the Central Findlay 69 kV rebuild — there is no OPSB case to pull",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -984,9 +984,9 @@
     "kind": "lead",
     "label": "The Mayor e-mailed the city's data-center draft to the Regional Growth Partnership on 2026-07-23 — get the City's own copy, the reply, and the text as introduced",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -995,9 +995,9 @@
     "kind": "lead",
     "label": "Three reported transparency episodes around the city moratorium are uncorroborated — locate the primary records",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1006,9 +1006,9 @@
     "kind": "lead",
     "label": "Pull the July-2021 conservancy-court plan amendment adding Eagle Creek to the District plan",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -1017,9 +1017,9 @@
     "kind": "lead",
     "label": "Flag the dry-cooling versus closed-loop contradiction in proposed Section 1521 before the hearing",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-08-12"
   },
   {
@@ -1028,9 +1028,9 @@
     "kind": "lead",
     "label": "Pull the 2018 CSO evaluation that found twelve outfalls were in substance sanitary overflows",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 22,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1039,9 +1039,9 @@
     "kind": "lead",
     "label": "The CSO Long-Term Control Plan addendum is due 2026-11-01 — a dated deadline on an issued permit",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 22,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1050,9 +1050,9 @@
     "kind": "lead",
     "label": "Resolve whether proposed Section 1521 reaches a bitcoin-mining load at all",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 21,
+    "lines": 23,
     "updated": "2026-08-12"
   },
   {
@@ -1061,9 +1061,9 @@
     "kind": "lead",
     "label": "The data-center tariff is on appeal to the Supreme Court of Ohio — capture the decision",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -1072,9 +1072,9 @@
     "kind": "lead",
     "label": "Locate the Eagle Creek appropriation dockets — landowner names, court, case number, status",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1083,9 +1083,9 @@
     "kind": "lead",
     "label": "Seed the corporate chain in the entity graph — One Power, OnSite, Basalt, MARA (≠ Marathon)",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1094,9 +1094,9 @@
     "kind": "lead",
     "label": "Michigan Sugar puts a severed Findlay rail spur on the record — map what else lost service",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-07-30"
   },
   {
@@ -1105,9 +1105,9 @@
     "kind": "lead",
     "label": "Ohio EPA's General Permit Annual Report is promised each November 1 and no edition can be found",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -1116,9 +1116,9 @@
     "kind": "lead",
     "label": "Pull the deed chain for the 2025 and 2026 Megawatt Hub land purchases — grantee, instrument, consideration",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
@@ -1127,9 +1127,9 @@
     "kind": "lead",
     "label": "Who actually holds the AEP Ohio electric service agreement at the Findlay Megawatt Hub?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 24,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1138,9 +1138,9 @@
     "kind": "lead",
     "label": "Determine which adopted district covers the Megawatt Hub parcels, and what Section 1502 preserves",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-08-12"
   },
   {
@@ -1149,9 +1149,9 @@
     "kind": "lead",
     "label": "What drives the three Reportable Noncompliance quarters ECHO's own detail blocks cannot explain?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1160,9 +1160,9 @@
     "kind": "lead",
     "label": "Identify Interstate Capital LLC and who holds title to the two SR 613 parcels",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 21,
+    "lines": 23,
     "updated": "2026-08-12"
   },
   {
@@ -1171,9 +1171,9 @@
     "kind": "lead",
     "label": "The mercury variance runs with the permit to 2029-10-31 — track the annual 12 ng/L condition",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
@@ -1182,9 +1182,9 @@
     "kind": "lead",
     "label": "Source Findlay's micropolitan economic-development ranking from its publisher before pairing it with the WARN filings",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1193,9 +1193,9 @@
     "kind": "lead",
     "label": "Did Whirlpool's Hancock County Net Zero project (14.4 MW wind + 6.0 MW solar) reach operation?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-07-31"
   },
   {
@@ -1204,9 +1204,9 @@
     "kind": "lead",
     "label": "The host withdrew its IPO and was acquired while holding a 15-year take-or-pay — watch the contract, not the company",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 22,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1226,9 +1226,9 @@
     "kind": "lead",
     "label": "Obtain Ordinance 2026-42 as certified, with the council journal and the recorded roll call",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-07-31"
   },
   {
@@ -1237,9 +1237,9 @@
     "kind": "lead",
     "label": "Identify the Phase 1 benching contractor and contract price",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 20,
+    "lines": 22,
     "updated": null
   },
   {
@@ -1248,9 +1248,9 @@
     "kind": "lead",
     "label": "File and log the pre-annexation-agreement request for Allen Township parcels",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 21,
+    "lines": 23,
     "updated": "2026-07-31"
   },
   {
@@ -1259,9 +1259,9 @@
     "kind": "lead",
     "label": "Was the 2026-05-01 local-limits phosphorus justification submitted? ECHO says unachieved and not reported",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1270,9 +1270,9 @@
     "kind": "lead",
     "label": "PUCO's docket system refuses automated retrieval — the tariff docket is unsearched, not empty",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 24,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1281,9 +1281,9 @@
     "kind": "lead",
     "label": "Find the sediment-characterization study at Riverside Park dam (only a dredging project is documented)",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1292,9 +1292,9 @@
     "kind": "lead",
     "label": "Did Rocky Ford Station energize on its December 2025 schedule?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 20,
+    "lines": 22,
     "updated": "2026-07-31"
   },
   {
@@ -1303,9 +1303,9 @@
     "kind": "lead",
     "label": "Pull the adopted 2022-04-19 SB 52 restricted-area resolution, its number, roll call and final map",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-07-31"
   },
   {
@@ -1314,9 +1314,9 @@
     "kind": "lead",
     "label": "Is Findlay City PWS's 2019 Consumer Confidence Rule violation live, or a record Ohio EPA never closed?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1325,9 +1325,9 @@
     "kind": "lead",
     "label": "Obtain the 2024-06-04 sanitary survey report — the 2021 survey was clean and this one was not",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-08-03"
   },
   {
@@ -1336,9 +1336,9 @@
     "kind": "lead",
     "label": "The 2026 Individual Seasonal Load hits the July eDMR on 2026-08-20 — the cheapest check on the file",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 24,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1347,9 +1347,9 @@
     "kind": "lead",
     "label": "Request Findlay WPCF's reported Individual Seasonal Loads — the derivation says 2024 is UNDER and cannot call 2025",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1358,9 +1358,9 @@
     "kind": "lead",
     "label": "What did Findlay actually do in 2024 to halve its spring phosphorus, and what did it cost?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -1369,9 +1369,9 @@
     "kind": "lead",
     "label": "Obtain the original 2PD00008*UD issuance — the DAM now serves only the *VD modification package",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1380,9 +1380,9 @@
     "kind": "lead",
     "label": "Resolve whether the 2024-01-11 USACE Blanchard feasibility Review Plan is a renewed effort or archival",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1391,9 +1391,9 @@
     "kind": "lead",
     "label": "Where does Goodyear's Tall Timbers mold work go — the WARN letter does not say",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-07-30"
   },
   {

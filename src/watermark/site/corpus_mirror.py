@@ -588,6 +588,36 @@ def _citation_links(
     return links
 
 
+# A repo path named inside a lead's free-text ``source:`` — `data/…` or a bare `extracted/…`.
+# A name containing a space truncates at the space and simply fails to resolve, which is the
+# safe direction: no link, never a wrong one.
+_SOURCE_PATH_RE = re.compile(
+    r"(?:data/)?(?:extracted|reference|documents|site|catalog)/[\w./{}\-]+"
+)
+
+
+def _lead_source_links(
+    source: str | None, catalog: list[corpus_catalog.CatalogSource]
+) -> list[MirrorLink]:
+    """The catalog entries a lead's ``source:`` names, as citation links (#2137).
+
+    A lead's ``source`` is free text, so the paths in it were a mention and never a citation:
+    23 of the network's 24 `verified-unsourced` findings were leads whose `[verified]` sentence
+    names a committed, cataloged extraction the projection never linked. Same rule as
+    `_citation_links` — only a path the catalog registers becomes a link, and nothing is
+    inferred from prose that names no path.
+    """
+    seen: set[str] = set()
+    links: list[MirrorLink] = []
+    for match in _SOURCE_PATH_RE.findall(source or ""):
+        slug = corpus_catalog.entry_for_path(catalog, match.rstrip(".,;:)"))
+        if slug is None or slug in seen:
+            continue
+        seen.add(slug)
+        links.append(MirrorLink(corpus_catalog.catalog_link_target(slug), corpus_catalog.CITES))
+    return links
+
+
 def _claim_token(tag: str | None) -> str | None:
     """The canonical bracketed claim token for a bare evidence tag — ``open`` → ``[open]``.
 
@@ -1000,7 +1030,10 @@ def project_mirror(
                     "site": site,
                 },
                 source_refs=[lead.source] if lead.source else [],
-                links=[anchor_link("on-site", cross=True)],
+                links=[
+                    anchor_link("on-site", cross=True),
+                    *_lead_source_links(lead.source, catalog),
+                ],
             )
         )
 

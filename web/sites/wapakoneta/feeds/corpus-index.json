@@ -907,9 +907,9 @@
     "kind": "lead",
     "label": "How much of Wapakoneta's WRF effluent reaches Lima's Auglaize intakes?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -918,9 +918,9 @@
     "kind": "lead",
     "label": "Where does the hauled cooling water go?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 20,
+    "lines": 22,
     "updated": null
   },
   {
@@ -929,9 +929,9 @@
     "kind": "lead",
     "label": "The City's post describes 50 MW; the press reports a path to 70 acres and 200 MW",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -940,9 +940,9 @@
     "kind": "lead",
     "label": "Who is Colocation Technology Services?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -951,9 +951,9 @@
     "kind": "lead",
     "label": "What does Ord. 2024-48 actually condition?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 22,
+    "lines": 26,
     "updated": null
   },
   {

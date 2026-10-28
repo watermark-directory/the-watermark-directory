@@ -929,9 +929,9 @@
     "kind": "lead",
     "label": "Abbott's $536M nutrition plant is committed and has not broken ground",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -940,9 +940,9 @@
     "kind": "lead",
     "label": "Where does Apollo's gas come from, and under which unfiled lateral cases?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 20,
+    "lines": 22,
     "updated": "2026-09-16"
   },
   {
@@ -951,9 +951,9 @@
     "kind": "lead",
     "label": "Why was a 350 MW power plant certified with no public hearings?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -962,9 +962,9 @@
     "kind": "lead",
     "label": "The data center has its own backup generators and no permit for them is in the corpus",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -984,9 +984,9 @@
     "kind": "lead",
     "label": "A resident raised campus dewatering at the rezoning hearing and the applicant had no answer",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -995,9 +995,9 @@
     "kind": "lead",
     "label": "The executed CRA agreement and the three school compensation agreements are unread",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 24,
+    "lines": 26,
     "updated": "2026-08-05"
   },
   {
@@ -1006,9 +1006,9 @@
     "kind": "lead",
     "label": "Who sold the 775 acres, and when did the first deed record?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": "2026-08-05"
   },
   {
@@ -1017,9 +1017,9 @@
     "kind": "lead",
     "label": "A city that wholesales water to its neighbours is studying how to buy some from Toledo",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": "2026-09-16"
   },
   {
@@ -1028,9 +1028,9 @@
     "kind": "lead",
     "label": "A behind-the-meter campus says it is paying for transmission lines",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -1039,9 +1039,9 @@
     "kind": "lead",
     "label": "Liames, LLC's organizers, statutory agent and formation date are unread",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 24,
     "updated": null
   },
   {
@@ -1050,9 +1050,9 @@
     "kind": "lead",
     "label": "The referendum window on the thirteen-parcel rezoning closed on or about 2026-08-06",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1061,9 +1061,9 @@
     "kind": "lead",
     "label": "Who is the end user of the Oppidan colocation building in the city?",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 21,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1072,9 +1072,9 @@
     "kind": "lead",
     "label": "The campus is designed for at least five buildings, and only two are on a schedule",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 4,
     "links_in": 0,
-    "lines": 22,
+    "lines": 28,
     "updated": null
   },
   {
@@ -1083,9 +1083,9 @@
     "kind": "lead",
     "label": "Five of the thirteen rezoned parcels stood in other names in the county's own layer",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 25,
     "updated": null
   },
   {
@@ -1094,9 +1094,9 @@
     "kind": "lead",
     "label": "Seven townships have adopted data-center moratoriums and none of the resolutions is in the corpus",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 24,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1105,9 +1105,9 @@
     "kind": "lead",
     "label": "Meta's announced water figure and the district's design commitment differ by twelve times",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 3,
     "links_in": 0,
-    "lines": 25,
+    "lines": 29,
     "updated": null
   },
   {
@@ -1116,9 +1116,9 @@
     "kind": "lead",
     "label": "Both county planning commission tallies on the 2026 rezonings are press, not record",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 20,
+    "lines": 22,
     "updated": "2026-08-05"
   },
   {
