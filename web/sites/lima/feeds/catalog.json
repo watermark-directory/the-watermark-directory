@@ -1608,8 +1608,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "46ae1ef45686272778d2a660eb5d321e3ec20735856f3f3c0c38d883b926beb0",
-      "size_bytes": 37620,
+      "sha256": "b53fe945929857c09cfbf7ebf4232facac6083e32f30ebdb3bb8c463e2ba62ff",
+      "size_bytes": 38966,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -8308,14 +8308,14 @@
   },
   {
     "id": "wapakoneta-governance",
-    "title": "Wapakoneta — Codified Zoning Text on Data Centers (Ord. 2024-46 / 2024-48) and the R.C. 149.43 request draft",
+    "title": "Wapakoneta — Data-Center Zoning (Ord. 2024-46 / 2024-48) — codified text, 2024 Council record, and the R.C. 149.43 request draft",
     "scope": "extracted",
     "collection": "wapakoneta",
     "status": "reviewed",
     "producer_kind": "manual",
     "command": null,
     "connector_ref": null,
-    "source": "Codified Ordinances of Wapakoneta, Ohio, Part Twelve (Planning and Zoning Code), as published by American Legal Publishing (supplement 2026 S-27, local legislation current through 2026-05-18): §1250.10(174), §1252.07, §1254.08, §1278.02, §1280.02, §1282.01, §1282.02 and §1282.04, each captured as HTML on 2026-10-18 under data/documents/wapakoneta/governance/. Also an R.C. 149.43 request to the City, drafted 2026-10-18 and NOT SENT, with its response log.",
+    "source": "Codified Ordinances of Wapakoneta, Ohio, Part Twelve (Planning and Zoning Code), as published by American Legal Publishing (supplement 2026 S-27, local legislation current through 2026-05-18): §1250.10(174), §1252.07, §1254.08, §1278.02, §1280.02, §1282.01, §1282.02 and §1282.04, each captured as HTML on 2026-10-18 under data/documents/wapakoneta/governance/. The 2024 City Council record of those ordinances (the 2024-09-03 agenda and the 09-03, 09-16, 10-07, 10-21, 11-04 and 11-18 minutes, from the City's own document library, captured 2026-10-28) as a dated timeline. Also an R.C. 149.43 request to the City, drafted 2026-10-18 and NOT SENT, with its response log.",
     "external_url": null,
     "license": "Public record (municipal codified ordinances); the codification is American Legal Publishing's",
     "access_tier": "public",
@@ -8337,6 +8337,11 @@
         "lfs": false
       },
       {
+        "relpath": "extracted/wapakoneta/governance/council-2024-data-center-ordinances.timeline.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
         "relpath": "extracted/wapakoneta/governance/records-requests/2026-10-18-wapakoneta-clerk-of-council.md",
         "media_type": "text/markdown",
         "lfs": false
@@ -8344,16 +8349,16 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "ef65c0988d88fad06b6df5b911009b332a4da3214192db00b7f7e5b24e09d3d6",
-      "size_bytes": 21264,
+      "sha256": "9e6b88d20c65ed8fef8a2c6e5a9c21da3b5155ebd00199bac13bf66642e0e231",
+      "size_bytes": 28685,
       "lfs_materialized": true,
-      "file_count": 2,
+      "file_count": 3,
       "stale": false,
       "asof": null
     },
     "observed_network": null,
     "citation": {
-      "source": "Codified Ordinances of Wapakoneta, Ohio, Part Twelve (Planning and Zoning Code), as published by American Legal Publishing (supplement 2026 S-27, local legislation current through 2026-05-18): §1250.10(174), §1252.07, §1254.08, §1278.02, §1280.02, §1282.01, §1282.02 and §1282.04, each captured as HTML on 2026-10-18 under data/documents/wapakoneta/governance/. Also an R.C. 149.43 request to the City, drafted 2026-10-18 and NOT SENT, with its response log.",
+      "source": "Codified Ordinances of Wapakoneta, Ohio, Part Twelve (Planning and Zoning Code), as published by American Legal Publishing (supplement 2026 S-27, local legislation current through 2026-05-18): §1250.10(174), §1252.07, §1254.08, §1278.02, §1280.02, §1282.01, §1282.02 and §1282.04, each captured as HTML on 2026-10-18 under data/documents/wapakoneta/governance/. The 2024 City Council record of those ordinances (the 2024-09-03 agenda and the 09-03, 09-16, 10-07, 10-21, 11-04 and 11-18 minutes, from the City's own document library, captured 2026-10-28) as a dated timeline. Also an R.C. 149.43 request to the City, drafted 2026-10-18 and NOT SENT, with its response log.",
       "source_kind": "reference",
       "page": null,
       "pages": null,

@@ -2,9 +2,9 @@
   "site": "wapakoneta",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-10-28T13:15:09+00:00",
+  "generated_at": "2026-10-28T17:49:15+00:00",
   "feed_count": 31,
-  "row_total": 523,
+  "row_total": 525,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -247,7 +247,7 @@
       "media_type": "application/json",
       "schema": "schemas/corpus-index.schema.json",
       "kind": "collection",
-      "count": 100
+      "count": 101
     },
     {
       "name": "corpus-nodes",
@@ -255,7 +255,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/corpus-nodes.schema.json",
       "kind": "collection",
-      "count": 100
+      "count": 101
     },
     {
       "name": "ask-embeddings",
