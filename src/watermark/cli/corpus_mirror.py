@@ -121,3 +121,54 @@ def corpus_mirror(
             f"[green]Indexed[/] {built.nodes} nodes ({built.dimension}-dim) → {built.index_dir} "
             f"[dim](reconciled with the /ask embeddings; queryable via yidam serve --mcp)[/]"
         )
+
+
+@app.command("corpus-peers")
+def corpus_peers(
+    workdir: str | None = typer.Option(
+        None,
+        "--workdir",
+        help="Where each site's throwaway corpus root is projected, one subdir per site "
+        "(default: a fresh temp dir). Must sit OUTSIDE the repository: the binary resolves its "
+        "root upward and would report on the repository's own mirror instead.",
+    ),
+) -> None:
+    """Run the yidam reports over every selectable site's mirror and fail on a regression.
+
+    The CI ``corpus`` job gates the reference build in the repo root. This holds each peer to
+    a clean ``graph-check`` and zero error-severity lint findings, and every site to its
+    enumerated ``verified-unsourced`` gaps (#2137). See :mod:`watermark.site.corpus_peers`.
+    """
+    from watermark.site import yidam_cli
+    from watermark.site.corpus_peers import check_sites
+
+    if not yidam_cli.usable():
+        console.print(
+            "[red]no usable yidam binary[/] — `mise run yidam-build` installs the pinned one."
+        )
+        raise typer.Exit(code=1)
+
+    import tempfile
+
+    base = Path(workdir) if workdir else Path(tempfile.mkdtemp(prefix="watermark-corpus-peers-"))
+    verdicts = check_sites(base, base=get_settings())
+    for v in verdicts:
+        mark = "[green]ok[/]" if v.passed else "[red]FAIL[/]"
+        console.print(f"{mark} {v.site} — {v.graph_check.summary()}")
+        if not v.graph_check.passed:
+            for node, problems in v.graph_check.nodes_with_issues:
+                console.print(f"    [red]{node}[/] — {'; '.join(problems)}")
+        for err in v.errors:
+            console.print(f"    [red]error[/] {err.node} — {err.detail}")
+        for node in v.unexpected_unsourced:
+            console.print(
+                f"    [red]verified-unsourced[/] {node} — a `\\[verified]` claim citing no "
+                "registered source; cite it or demote it (the author's call)"
+            )
+        for node in v.stale_known:
+            console.print(
+                f"    [red]stale known gap[/] {node} — no longer fires; remove it from "
+                "corpus_peers.KNOWN_UNSOURCED"
+            )
+    if not all(v.passed for v in verdicts):
+        raise typer.Exit(code=1)
