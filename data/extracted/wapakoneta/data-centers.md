@@ -241,11 +241,12 @@ concerned CTS is `[open]`**:
 
 ## 2 — The City's prior instrument: data centers as a conditional use (2024)
 
-Every item below is `[verified]` against the City Council minutes, held since 2026-10-28 under
+The source for the entries below is the City Council minutes, held since 2026-10-28 under
 `data/documents/wapakoneta/governance/` (the 09-03 agenda and the 09-03 through 11-18 minutes,
-from the City's own document library) and extracted, with page cites, in
-`governance/council-2024-data-center-ordinances.timeline.yaml`. Those minutes are born-digital and
-were read from their text layer.
+from the City's own document library) and extracted, with page cites and a tag per entry, in
+`governance/council-2024-data-center-ordinances.timeline.yaml`. What the minutes record is read
+off them; the items marked `[open]` or `[inference]` below are not. Those minutes are
+born-digital and were read from their text layer.
 
 - **2024-09-03.** The agenda lists "WAEDC Josh Bloomfield – data processing centers". The minutes
   record that he did not present, "due to illness."

@@ -133,6 +133,10 @@ ordinances:
     adopted: '2024-11-18'
     vote: 7-0
     tag: verified
+    source:
+      - data/documents/wapakoneta/governance/10-21-2024-Minutes.pdf p.2
+      - data/documents/wapakoneta/governance/11-04-2024-Minutes.pdf p.2
+      - data/documents/wapakoneta/governance/11-18-2024-Minutes.pdf p.1
     codified_as: wapakoneta-zoning-code-data-centers.zoning.yaml (§1250.10(174)A, "Data Warehouse (Center)")
     signed_text: '[open]'
   - number: Ord. 2024-48
@@ -141,5 +145,9 @@ ordinances:
     adopted: '2024-11-18'
     vote: 7-0
     tag: verified
+    source:
+      - data/documents/wapakoneta/governance/10-21-2024-Minutes.pdf p.2
+      - data/documents/wapakoneta/governance/11-04-2024-Minutes.pdf p.2
+      - data/documents/wapakoneta/governance/11-18-2024-Minutes.pdf p.1
     codified_as: wapakoneta-zoning-code-data-centers.zoning.yaml (§1282.04, "Data warehouses (centers)")
     signed_text: '[open]'
