@@ -1109,14 +1109,16 @@ pass_2026_10_27:
       parking_lot_stormwater_coverage:
         tag: '[verified]'
         statement: >-
-          NK Parts' NPDES coverage does not reach the parking-lot parcels. Its only NPDES
-          coverage on the eDoc portal (Entity "NK PARTS", read 2026-10-27, four rows) is industrial
+          NK Parts' only NPDES coverage on the eDoc portal (Entity "NK PARTS", read 2026-10-27, four rows) is industrial
           stormwater permit 1GR01785*AG under OHR000007, for its plant at 777 S Kuther Rd: NOI
           submitted 2023-12-19 (2691111 p. 1), approved 2023-12-28, effective 2024-01-01 to
           2027-05-31 (2691116 p. 1). The NOI's facility point (40.27708945, -84.20991442) and its
           one outfall (40.275295, -84.209221) both fall outside all three parcels in
-          data/reference/sidney/parking-lot-parcels.geojson, ~300 m west of .007. The other
-          two NK Parts rows are a 2017 RCRA inspection and a 1995 PTI. Entity "WILCOX" returns no
+          data/reference/sidney/parking-lot-parcels.geojson, ~300 m west of .007. That the
+          permit's drainage area excludes the parking-lot parcels is `[inference]`: industrial
+          coverage is facility-wide, NK Parts owns .007 and .008, and neither document draws the
+          boundary. The stormwater pollution prevention plan would, but it is not filed with the
+          NOI and is not on the portal. The other two NK Parts rows are a 2017 RCRA inspection and a 1995 PTI. Entity "WILCOX" returns no
           rows. The 401 form lists an NPDES general permit, type unstated, as "Will be Submitted
           on: 12/01/2026" (4298285 p. 2). That this is the parking lot's construction-stormwater
           NOI is `[inference]`, as other_permits_listed records.
