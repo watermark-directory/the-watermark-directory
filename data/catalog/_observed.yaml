@@ -1,4 +1,4 @@
-reconciled_at: '2026-10-27T22:32:30.522625+00:00'
+reconciled_at: '2026-10-27T23:45:01.513467+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -3430,10 +3430,20 @@ entries:
     asof: null
     stale: false
     site_scope: site:sidney
+  sidney-parking-lot-parcels:
+    exists: true
+    sha256: e977169e6c68f8ee853c1016627bd01d03192e3194b93ef95ae7884f99ff6cdb
+    size_bytes: 10158
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:sidney
   sidney-regulatory-watch:
     exists: true
-    sha256: f86f282c796241d1253efd5e0faa8b5127b7861b59b5e7d1f2f4156668e5cc15
-    size_bytes: 123848
+    sha256: d7c5a73799cb022640ee72f9e7a8e8f63ee69ab0f24a32ea023d39ae26073f65
+    size_bytes: 125553
     lfs_materialized: true
     file_count: 2
     missing: []

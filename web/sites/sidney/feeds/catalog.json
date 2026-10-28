@@ -866,8 +866,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "f86f282c796241d1253efd5e0faa8b5127b7861b59b5e7d1f2f4156668e5cc15",
-      "size_bytes": 123848,
+      "sha256": "d7c5a73799cb022640ee72f9e7a8e8f63ee69ab0f24a32ea023d39ae26073f65",
+      "size_bytes": 125553,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": false,
@@ -3388,6 +3388,56 @@
       "pages": null,
       "confidence": "medium",
       "note": "watermark rsei",
+      "verified": true
+    }
+  },
+  {
+    "id": "sidney-parking-lot-parcels",
+    "title": "Sidney CMH-232 parking-lot parcels (Shelby County auditor CAMA)",
+    "scope": "reference",
+    "collection": "sidney",
+    "status": "reviewed",
+    "producer_kind": "connector",
+    "command": "parcels --parcel 18-34-301-003,18-34-301-007,18-34-301-008 --geojson data/reference/sidney/parking-lot-parcels.geojson (then the step-2 CAMA enrichment in data/reference/sidney/README.md)",
+    "connector_ref": "watermark.hydrology.connectors.allen_gis",
+    "source": "Shelby County Engineer's Office AGOL Parcels FeatureServer layer 0 (Shelby County Auditor CAMA join + geometry) via the shelby_gis field-map, tax year 2025, Extract_ID 6040",
+    "external_url": "https://services6.arcgis.com/fzPZZJiNVtryYcsC/arcgis/rest/services/Parcels/FeatureServer/0",
+    "license": "Public records (local government open data)",
+    "access_tier": "public",
+    "site_scope": "site:sidney",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": "2026-10-27",
+    "tags": [
+      "sidney",
+      "parcels",
+      "gis",
+      "geojson"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/sidney/parking-lot-parcels.geojson",
+        "media_type": "application/geo+json",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "e977169e6c68f8ee853c1016627bd01d03192e3194b93ef95ae7884f99ff6cdb",
+      "size_bytes": 10158,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Shelby County Engineer's Office AGOL Parcels FeatureServer layer 0 (Shelby County Auditor CAMA join + geometry) via the shelby_gis field-map, tax year 2025, Extract_ID 6040",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark parcels --parcel 18-34-301-003,18-34-301-007,18-34-301-008 --geojson data/reference/sidney/parking-lot-parcels.geojson (then the step-2 CAMA enrichment in data/reference/sidney/README.md)",
       "verified": true
     }
   },

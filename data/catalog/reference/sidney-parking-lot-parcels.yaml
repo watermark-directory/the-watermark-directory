@@ -1,0 +1,36 @@
+id: sidney-parking-lot-parcels
+title: Sidney CMH-232 parking-lot parcels (Shelby County auditor CAMA)
+scope: reference
+status: reviewed
+producer:
+  kind: connector
+  command: parcels --parcel 18-34-301-003,18-34-301-007,18-34-301-008 --geojson
+    data/reference/sidney/parking-lot-parcels.geojson (then the step-2 CAMA enrichment in
+    data/reference/sidney/README.md)
+  connector_ref: watermark.hydrology.connectors.allen_gis
+  source: Shelby County Engineer's Office AGOL Parcels FeatureServer layer 0 (Shelby County
+    Auditor CAMA join + geometry) via the shelby_gis field-map, tax year 2025, Extract_ID 6040
+  external_url: https://services6.arcgis.com/fzPZZJiNVtryYcsC/arcgis/rest/services/Parcels/FeatureServer/0
+license: Public records (local government open data)
+access_tier: public
+site_scope: site:sidney
+storage:
+- relpath: reference/sidney/parking-lot-parcels.geojson
+  media_type: application/geo+json
+  lfs: false
+refresh:
+  cadence: on-demand
+  last_refreshed: '2026-10-27'
+provenance: connector
+tags:
+- sidney
+- parcels
+- gis
+- geojson
+notes: >-
+  The three Shelby County parcels under the CMH-232 temporary construction parking lot on the AWS
+  Sidney campus (Ohio EPA application DSW401262560W). The 15.2-ac site sits on portions of them.
+  Owners of record: 18-34-301-007 and -008, NK Parts Industries Inc (OR2316/4710, conveyed
+  2023-10-05); 18-34-301-003, Wilcox Investments LLC (OR2321/356, conveyed 2024-08-05). This is the
+  parcel set, not a surveyed lot footprint. Cited by the parking_lot_owner finding in
+  extracted/sidney/regulatory-watch.yaml.
