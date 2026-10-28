@@ -1,0 +1,2452 @@
+meta:
+  subject: Ohio EPA eDocument portal sweep — AUGLAIZE x NPDES x WAPAKONETA
+  county: AUGLAIZE
+  program: NPDES
+  entity: WAPAKONETA
+  permit_id: null
+  doc_types: all
+  generated_at: '2026-10-28'
+  counts:
+    documents: 268
+    permits: 7
+  coverage:
+    truncated: false
+    rows_served: 268
+    pages_walked: 1
+    total_pages: 1
+    note: 'complete: the walk exhausted the reported pages.'
+crosswalk:
+- permit_id: 2GC05645
+  entity: WAPAKONETA FAMILY YMCA
+  documents: 1
+- permit_id: 2GC06760
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  documents: 11
+- permit_id: 2GP00038
+  entity: WAPAKONETA WWTP
+  documents: 3
+- permit_id: 2IZ00120
+  entity: WAPAKONETA WTP
+  documents: 5
+- permit_id: 2PD00019
+  entity: WAPAKONETA WWTP
+  documents: 202
+- permit_id: 2PR00126
+  entity: WAPAKONETA COUNTRY CLUB
+  documents: 19
+- permit_id: 2PR00256
+  entity: WAPAKONETA KOA
+  documents: 27
+results:
+- docid: '4295304'
+  entity: WAPAKONETA KOA
+  doc_type: Permit - Intermediate
+  doc_date: 10/22/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: APP290513579
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4295304
+- docid: '4267970'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/21/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4267970
+- docid: '4267972'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/21/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4267972
+- docid: '4260468'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/10/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GP00038
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4260468
+- docid: '4200589'
+  entity: WAPAKONETA KOA
+  doc_type: Report
+  doc_date: 7/22/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4200589
+- docid: '4190722'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 7/15/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4190722
+- docid: '4164444'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 6/22/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4164444
+- docid: '4090035'
+  entity: WAPAKONETA KOA
+  doc_type: Report
+  doc_date: 4/22/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: SSO ANNUAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4090035
+- docid: '4089538'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 4/21/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4089538
+- docid: '4048413'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 3/18/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4048413
+- docid: '4032419'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 3/5/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: SSO ANNUAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4032419
+- docid: '4024930'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 3/2/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: SSO ANNUAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4024930
+- docid: '3971298'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 1/15/2026
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3971298
+- docid: '3944611'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 12/18/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3944611
+- docid: '3958270'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan - Long Term
+  doc_date: 12/17/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3958270
+- docid: '3940467'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 12/16/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: COMPLIANCE SCHEDULE UPDATE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3940467
+- docid: '3940468'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 12/16/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: COMPLIANCE SCHEDULE UPDATE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3940468
+- docid: '3915085'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 11/25/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3915085
+- docid: '3876208'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 10/22/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3876208
+- docid: '3860390'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 10/9/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3860390
+- docid: '3855591'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 10/6/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GP00038
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3855591
+- docid: '3797877'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 8/19/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3797877
+- docid: '3794906'
+  entity: WAPAKONETA KOA
+  doc_type: Permit - Intermediate
+  doc_date: 8/18/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: PTF281345354
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3794906
+- docid: '3793658'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 8/15/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: INSPECTION
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3793658
+- docid: '3777182'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 8/4/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: INSPECTION
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3777182
+- docid: '3732066'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 7/22/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3732066
+- docid: '3711386'
+  entity: WAPAKONETA KOA
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/8/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: INSPECTION
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3711386
+- docid: '3657815'
+  entity: WAPAKONETA KOA
+  doc_type: Permit - Intermediate
+  doc_date: 6/3/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: APP281345351
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3657815
+- docid: '3657816'
+  entity: WAPAKONETA KOA
+  doc_type: Permit - Intermediate
+  doc_date: 6/3/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: APP281345351
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3657816
+- docid: '3657817'
+  entity: WAPAKONETA KOA
+  doc_type: Permit - Intermediate
+  doc_date: 6/3/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: APP281345351
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3657817
+- docid: '3657818'
+  entity: WAPAKONETA KOA
+  doc_type: Permit - Intermediate
+  doc_date: 6/3/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: APP281345351
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3657818
+- docid: '3634193'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 5/19/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: INSPECTION
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3634193
+- docid: '3595459'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Report
+  doc_date: 5/8/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3595459
+- docid: '3595523'
+  entity: WAPAKONETA KOA
+  doc_type: Report
+  doc_date: 5/8/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3595523
+- docid: '3562051'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Inspection or Compliance Review
+  doc_date: 4/28/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: INSPECTION
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3562051
+- docid: '3562052'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Inspection or Compliance Review
+  doc_date: 4/28/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: INSPECTION
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3562052
+- docid: '3551488'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 4/23/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3551488
+- docid: '3530359'
+  entity: WAPAKONETA KOA
+  doc_type: Report
+  doc_date: 4/17/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: SSO ANNUAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3530359
+- docid: '3467898'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 3/13/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: SSO ANNUAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3467898
+- docid: '3455104'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 3/6/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3455104
+- docid: '3455111'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 3/6/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3455111
+- docid: '3414531'
+  entity: WAPAKONETA FAMILY YMCA
+  doc_type: Permit - Short Term
+  doc_date: 2/6/2025
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC05645
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3414531
+- docid: '3301212'
+  entity: WAPAKONETA WWTP
+  doc_type: DFFO - DFFO
+  doc_date: 11/20/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3301212
+- docid: '3284887'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 11/6/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: PTF273089153
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3284887
+- docid: '3284888'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 11/6/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: PTF273089153
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3284888
+- docid: '3213068'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Report
+  doc_date: 9/19/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3213068
+- docid: '3213076'
+  entity: WAPAKONETA KOA
+  doc_type: Report
+  doc_date: 9/19/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3213076
+- docid: '3171714'
+  entity: WAPAKONETA WWTP - DFFO
+  doc_type: CORRESPONDENCE
+  doc_date: 8/28/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3171714
+- docid: '3171712'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/26/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3171712
+- docid: '3186895'
+  entity: WAPAKONETA WWTP - DFFO
+  doc_type: CORRESPONDENCE
+  doc_date: 8/12/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3186895
+- docid: '3108629'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Permit - Intermediate
+  doc_date: 7/31/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: PTF275507600
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3108629
+- docid: '3171516'
+  entity: WAPAKONETA WWTP - DFFO
+  doc_type: CORRESPONDENCE
+  doc_date: 7/29/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3171516
+- docid: '2821225'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Permit - Intermediate
+  doc_date: 4/30/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: APP275507597
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2821225
+- docid: '2821226'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Permit - Intermediate
+  doc_date: 4/30/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: APP275507597
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2821226
+- docid: '2821227'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Permit - Intermediate
+  doc_date: 4/30/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: APP275507597
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2821227
+- docid: '2813208'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 4/23/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2813208
+- docid: '2791926'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 4/2/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: INSPECTION
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2791926
+- docid: '2791538'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 4/1/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: INSPECTION
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2791538
+- docid: '2774811'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 3/15/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2774811
+- docid: '2773004'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 3/13/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: SSO ANNUAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2773004
+- docid: '2773278'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 3/13/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: COMPLIANCE SCHEDULE UPDATE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2773278
+- docid: '2758148'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 2/29/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2758148
+- docid: '2712057'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 1/25/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2712057
+- docid: '2704235'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 1/16/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: PERMIT APPLICATION - APP273089079
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2704235
+- docid: '2704236'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 1/16/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: APP273089079
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2704236
+- docid: '2704237'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 1/16/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: APP273089079
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2704237
+- docid: '2704238'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 1/16/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: APP273089079
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2704238
+- docid: '2704239'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 1/16/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: APP273089079
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2704239
+- docid: '2704240'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 1/16/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: APP273089079
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2704240
+- docid: '2704241'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 1/16/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: APP273089079
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2704241
+- docid: '2704242'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 1/16/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: APP273089079
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2704242
+- docid: '2704243'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 1/16/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: APP273089079
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2704243
+- docid: '2704244'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 1/16/2024
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: APP273089079
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2704244
+- docid: '2675727'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 12/13/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: COMPLIANCE SCHEDULE UPDATE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2675727
+- docid: '2675728'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 12/13/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: COMPLIANCE SCHEDULE UPDATE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2675728
+- docid: '2675741'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 12/13/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2675741
+- docid: '2629020'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 11/14/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2629020
+- docid: '2620090'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Short Term
+  doc_date: 11/1/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GP00038
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2620090
+- docid: '2607789'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 10/24/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: NONCOMPLIANCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2607789
+- docid: '2569705'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 10/4/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2569705
+- docid: '2561116'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561116
+- docid: '2561117'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561117
+- docid: '2561125'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561125
+- docid: '2561128'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561128
+- docid: '2561129'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561129
+- docid: '2561131'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561131
+- docid: '2561132'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561132
+- docid: '2561134'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561134
+- docid: '2561135'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561135
+- docid: '2561136'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561136
+- docid: '2561137'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561137
+- docid: '2561138'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561138
+- docid: '2561139'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561139
+- docid: '2561140'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561140
+- docid: '2561141'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561141
+- docid: '2561142'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561142
+- docid: '2561143'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561143
+- docid: '2561144'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561144
+- docid: '2561145'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561145
+- docid: '2561146'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561146
+- docid: '2561147'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561147
+- docid: '2561148'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561148
+- docid: '2561149'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/28/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2561149
+- docid: '2542618'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 9/5/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2542618
+- docid: '2539128'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 8/30/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2539128
+- docid: '2445010'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 7/14/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2445010
+- docid: '2433388'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 7/6/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: COMPLIANCE SCHEDULE UPDATE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2433388
+- docid: '2433389'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 7/6/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: COMPLIANCE SCHEDULE UPDATE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2433389
+- docid: '2433395'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 7/6/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: COMPLIANCE SCHEDULE UPDATE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2433395
+- docid: '2437893'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 6/30/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2437893
+- docid: '2412278'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 6/20/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2412278
+- docid: '2355748'
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  doc_type: Permit - Short Term
+  doc_date: 5/31/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC06760
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2355748
+- docid: '2355749'
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  doc_type: Permit - Short Term
+  doc_date: 5/31/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC06760
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2355749
+- docid: '2355750'
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  doc_type: Permit - Short Term
+  doc_date: 5/31/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC06760
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2355750
+- docid: '2355758'
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  doc_type: Permit - Short Term
+  doc_date: 5/31/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC06760
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2355758
+- docid: '2355759'
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  doc_type: Permit - Short Term
+  doc_date: 5/31/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC06760
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2355759
+- docid: '2332642'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 5/24/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2332642
+- docid: '2300551'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 5/1/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2300551
+- docid: '2260074'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Report
+  doc_date: 3/31/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2260074
+- docid: '2247427'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 3/20/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2247427
+- docid: '2244069'
+  entity: WAPAKONETA KOA
+  doc_type: Report
+  doc_date: 3/17/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2244069
+- docid: '2235432'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 3/9/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: SSO ANNUAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2235432
+- docid: '2200931'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 2/16/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2200931
+- docid: '3884592'
+  entity: WAPAKONETA STP
+  doc_type: Permit - Long Term
+  doc_date: 1/31/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: BACKFILE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3884592
+- docid: '2176872'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 1/30/2023
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: SSO ANNUAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2176872
+- docid: '2136188'
+  entity: WAPAKONETA KOA
+  doc_type: Report
+  doc_date: 12/16/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2136188
+- docid: '2074265'
+  entity: WAPAKONETA WWTP - DFFO
+  doc_type: CORRESPONDENCE
+  doc_date: 10/4/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2074265
+- docid: '2042308'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Report
+  doc_date: 9/16/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2042308
+- docid: '2031913'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/6/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2031913
+- docid: '2031914'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 9/6/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: ANNUAL SEWAGE SLUDGE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2031914
+- docid: '2038092'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 9/2/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2038092
+- docid: '1808089'
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  doc_type: Permit - Short Term
+  doc_date: 5/9/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC06760
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1808089
+- docid: '1806864'
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  doc_type: Permit - Short Term
+  doc_date: 5/6/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC06760
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1806864
+- docid: '1806865'
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  doc_type: Permit - Short Term
+  doc_date: 5/6/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC06760
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1806865
+- docid: '1806866'
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  doc_type: Permit - Short Term
+  doc_date: 5/6/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC06760
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1806866
+- docid: '1806867'
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  doc_type: Permit - Short Term
+  doc_date: 5/6/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC06760
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1806867
+- docid: '1806869'
+  entity: WAPAKONETA WATER RECLAMATION FACILITY
+  doc_type: Permit - Short Term
+  doc_date: 5/6/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2GC06760
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1806869
+- docid: '1795071'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 4/22/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1795071
+- docid: '1753999'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 3/4/2022
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: 'NULL'
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1753999
+- docid: '1641204'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 9/17/2021
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1641204
+- docid: '1783176'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 9/17/2021
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1783176
+- docid: '1640312'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 9/16/2021
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1640312
+- docid: '1641421'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 9/16/2021
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1641421
+- docid: '1783181'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 9/16/2021
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1783181
+- docid: '1608432'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Long Term
+  doc_date: 7/28/2021
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1608432
+- docid: '1526469'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 3/2/2021
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: 'NULL'
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1526469
+- docid: '1433279'
+  entity: WAPAKONETA KOA
+  doc_type: Permit - Intermediate
+  doc_date: 9/14/2020
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: 'NULL'
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1433279
+- docid: '1794097'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 2/11/2020
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1794097
+- docid: '1289215'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 2/5/2020
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1289215
+- docid: '1794096'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 2/5/2020
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1794096
+- docid: '2762716'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Long Term
+  doc_date: 1/27/2020
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: CORRESPONDENCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762716
+- docid: '2927186'
+  entity: WAPAKONETA KOA
+  doc_type: Permit - Intermediate
+  doc_date: 1/4/2020
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: MODIFICATION
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2927186
+- docid: '1133905'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 9/4/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1133905
+- docid: '1797699'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 9/4/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1797699
+- docid: '2926355'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Permit - Intermediate
+  doc_date: 8/29/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: PERMIT FINAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2926355
+- docid: '3506243'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Permit - Long Term
+  doc_date: 8/28/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: BACKFILE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3506243
+- docid: '1119061'
+  entity: WAPAKONETA LIMA SOUTH KOA
+  doc_type: Compliance Notification
+  doc_date: 8/22/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1119061
+- docid: '1114226'
+  entity: WAPAKONETA WWTP
+  doc_type: ROV or RTC
+  doc_date: 8/16/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114226
+- docid: '1797704'
+  entity: WAPAKONETA WWTP
+  doc_type: ROV or RTC
+  doc_date: 8/16/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1797704
+- docid: '1096250'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/18/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1096250
+- docid: '1797686'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/18/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1797686
+- docid: '1089421'
+  entity: WAPAKONETA LIMA SOUTH KOA
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/9/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1089421
+- docid: '1797713'
+  entity: WAPAKONETA KOA
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/8/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1797713
+- docid: '1797698'
+  entity: WAPAKONETA WWTP
+  doc_type: DFFO (CORRESPONDENCE)
+  doc_date: 6/12/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1797698
+- docid: '1158269'
+  entity: WAPAKONETA WWTP
+  doc_type: Ohio EPA Monitoring
+  doc_date: 5/14/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1158269
+- docid: '1797697'
+  entity: WAPAKONETA WWTP
+  doc_type: DFFO (CORRESPONDENCE)
+  doc_date: 5/14/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1797697
+- docid: '2762715'
+  entity: WAPAKONETA WWTP - DFFO
+  doc_type: CORRESPONDENCE
+  doc_date: 5/14/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762715
+- docid: '1797696'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 4/26/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1797696
+- docid: '1042058'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 4/25/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1042058
+- docid: '2762714'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 4/25/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762714
+- docid: '1043338'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 4/24/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1043338
+- docid: '2762713'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 4/17/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: MODIFICATION
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762713
+- docid: '3332544'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 4/12/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: PERMIT FINAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3332544
+- docid: '1031417'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Inspection or Compliance Review
+  doc_date: 4/10/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1031417
+- docid: '1158245'
+  entity: WAPAKONETA WWTP
+  doc_type: Ohio EPA Monitoring
+  doc_date: 4/9/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1158245
+- docid: '1797711'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Inspection or Compliance Review
+  doc_date: 4/5/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1797711
+- docid: '998128'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 2/15/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=998128
+- docid: '992359'
+  entity: WAPAKONETA WWTP
+  doc_type: DFFO
+  doc_date: 2/6/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=992359
+- docid: '3485455'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Long Term
+  doc_date: 2/6/2019
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: BACKFILE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3485455
+- docid: '940102'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 11/13/2018
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=940102
+- docid: '1825064'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 10/5/2018
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1825064
+- docid: '1825063'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 9/20/2018
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1825063
+- docid: '1825062'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 8/28/2018
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1825062
+- docid: '1825061'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 8/6/2018
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1825061
+- docid: '895131'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 7/30/2018
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=895131
+- docid: '828806'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 5/22/2018
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=828806
+- docid: '2927189'
+  entity: WAPAKONETA KOA
+  doc_type: Permit - Intermediate
+  doc_date: 2/12/2018
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: PERMIT APPLICATION
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2927189
+- docid: '680313'
+  entity: WAPAKONETA LIMA SOUTH KOA
+  doc_type: Inspection or Compliance Review
+  doc_date: 8/23/2017
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=680313
+- docid: '1851602'
+  entity: WAPAKONETA KOA
+  doc_type: Inspection or Compliance Review
+  doc_date: 8/23/2017
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1851602
+- docid: '666455'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/26/2017
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=666455
+- docid: '1851591'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/26/2017
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1851591
+- docid: '2762054'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 7/12/2017
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762054
+- docid: '641808'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 6/16/2017
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=641808
+- docid: '1851590'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 6/16/2017
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1851590
+- docid: '629906'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 5/23/2017
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=629906
+- docid: '1851589'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 5/23/2017
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1851589
+- docid: '2797214'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 5/12/2017
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: 5-DAY FOLLOW-UP REPORT
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2797214
+- docid: '3969818'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Long Term
+  doc_date: 11/18/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: BACKFILE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3969818
+- docid: '2762052'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 11/15/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762052
+- docid: '484718'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 9/2/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=484718
+- docid: '1941155'
+  entity: WAPAKONETA WWTP
+  doc_type: Inspection or Compliance Review
+  doc_date: 9/2/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1941155
+- docid: '2762055'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 8/18/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762055
+- docid: '476521'
+  entity: WAPAKONETA WWTP
+  doc_type: Report
+  doc_date: 8/15/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=476521
+- docid: '470400'
+  entity: WAPAKONETA LIMA SOUTH KOA
+  doc_type: ROV or RTC
+  doc_date: 7/29/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=470400
+- docid: '471124'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/29/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=471124
+- docid: '1941185'
+  entity: WAPAKONETA KOA
+  doc_type: ROV or RTC
+  doc_date: 7/29/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1941185
+- docid: '1941190'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/29/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1941190
+- docid: '2944863'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/22/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: CORRESPONDENCE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2944863
+- docid: '463409'
+  entity: WAPAKONETA LIMA SOUTH KOA
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/11/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=463409
+- docid: '1941192'
+  entity: WAPAKONETA KOA
+  doc_type: Inspection or Compliance Review
+  doc_date: 7/11/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1941192
+- docid: '2944862'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Permit - Intermediate
+  doc_date: 7/6/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: 'NULL'
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2944862
+- docid: '2762053'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 6/30/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762053
+- docid: '2762051'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 2/25/2016
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762051
+- docid: '2762049'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 11/17/2015
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762049
+- docid: '2762050'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 8/20/2015
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762050
+- docid: '2762045'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 5/20/2015
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762045
+- docid: '2762046'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 4/28/2015
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762046
+- docid: '2762048'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 4/10/2015
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: LOCAL LIMITS
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762048
+- docid: '2762044'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 2/20/2015
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762044
+- docid: '2762041'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 11/18/2014
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762041
+- docid: '2762047'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 8/20/2014
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762047
+- docid: '2926356'
+  entity: WAPAKONETA COUNTRY CLUB
+  doc_type: Permit - Intermediate
+  doc_date: 6/25/2014
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00126
+  description: PERMIT FINAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2926356
+- docid: '2762043'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 6/6/2014
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762043
+- docid: '2762042'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 5/22/2014
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762042
+- docid: '2762056'
+  entity: WAPAKONETA WWTP
+  doc_type: Monitoring or Sampling
+  doc_date: 4/23/2014
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2762056
+- docid: '3306827'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Intermediate
+  doc_date: 1/8/2014
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: PERMIT FINAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3306827
+- docid: '2043559'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 10/16/2013
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2043559
+- docid: '3969817'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Long Term
+  doc_date: 5/29/2013
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: BACKFILE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3969817
+- docid: '2927185'
+  entity: WAPAKONETA KOA
+  doc_type: Permit - Intermediate
+  doc_date: 4/26/2013
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PR00256
+  description: PERMIT FINAL
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2927185
+- docid: '2797215'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 6/9/2010
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: COMBINED SEWER OVERFLOW PLAN
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2797215
+- docid: '3307145'
+  entity: WAPAKONETA WTP
+  doc_type: Permit - Long Term
+  doc_date: 11/17/2009
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2IZ00120
+  description: APPROVAL OR ACKNOWLEDGEMENT
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3307145
+- docid: '1985018'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 7/28/2009
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1985018
+- docid: '2078976'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 7/11/2008
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2078976
+- docid: '3918402'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Long Term
+  doc_date: 4/7/2008
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: BACKFILE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3918402
+- docid: '3957852'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan - Long Term
+  doc_date: 11/20/2006
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: LOCAL LIMITS
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3957852
+- docid: '3480641'
+  entity: WAPAKONETA WWTP
+  doc_type: DFFO - DFFO
+  doc_date: 8/15/2006
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3480641
+- docid: '2126459'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 12/20/2005
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: LOCAL LIMITS
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2126459
+- docid: '3307141'
+  entity: WAPAKONETA WTP
+  doc_type: Permit - Long Term
+  doc_date: 6/30/2005
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2IZ00120
+  description: APPROVAL OR ACKNOWLEDGEMENT
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3307141
+- docid: '2033459'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 3/21/2002
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2033459
+- docid: '3307144'
+  entity: WAPAKONETA WTP
+  doc_type: Permit - Long Term
+  doc_date: 4/13/2000
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2IZ00120
+  description: APPROVAL OR ACKNOWLEDGEMENT
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3307144
+- docid: '2802669'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan
+  doc_date: 7/23/1998
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: COMBINED SEWER OVERFLOW PLAN
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2802669
+- docid: '3957853'
+  entity: WAPAKONETA WWTP
+  doc_type: Plan - Long Term
+  doc_date: 12/1/1996
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: LOCAL LIMITS
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3957853
+- docid: '4060920'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Long Term
+  doc_date: 6/23/1995
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: BACKFILE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4060920
+- docid: '1114574'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 6/20/1995
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114574
+- docid: '3307143'
+  entity: WAPAKONETA WTP
+  doc_type: Permit - Long Term
+  doc_date: 1/19/1995
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2IZ00120
+  description: APPROVAL OR ACKNOWLEDGEMENT
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3307143
+- docid: '1114565'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 10/27/1992
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114565
+- docid: '4060919'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Long Term
+  doc_date: 11/20/1990
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: BACKFILE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4060919
+- docid: '1114562'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/1/1990
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114562
+- docid: '3307142'
+  entity: WAPAKONETA WTP
+  doc_type: Permit - Long Term
+  doc_date: 6/24/1988
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2IZ00120
+  description: APPROVAL OR ACKNOWLEDGEMENT
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3307142
+- docid: '1114067'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 9/21/1987
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114067
+- docid: '1114068'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 5/28/1986
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114068
+- docid: '1114063'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 11/1/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114063
+- docid: '1114064'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 11/1/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114064
+- docid: '1114065'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 11/1/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114065
+- docid: '1114062'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 9/30/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114062
+- docid: '1114061'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 9/24/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114061
+- docid: '1114032'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/30/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114032
+- docid: '1114033'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/30/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114033
+- docid: '1114034'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/30/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114034
+- docid: '1114035'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/30/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114035
+- docid: '1114048'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/30/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114048
+- docid: '1114049'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/30/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114049
+- docid: '1114050'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/30/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114050
+- docid: '1114051'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/30/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114051
+- docid: '1114052'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/30/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114052
+- docid: '1114053'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/30/1985
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114053
+- docid: '3939703'
+  entity: WAPAKONETA WWTP
+  doc_type: Permit - Long Term
+  doc_date: 9/28/1984
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: BACKFILE
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3939703
+- docid: '1114031'
+  entity: WAPAKONETA WWTP
+  doc_type: Director's Authorization
+  doc_date: 8/6/1982
+  program: NPDES
+  county: AUGLAIZE
+  permit_id: 2PD00019
+  description: null
+  url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=1114031

@@ -311,8 +311,8 @@ codification does. Read from American Legal's codification (supplement 2026 S-27
 (the viewer in Instruments item 7) draws its districts from Auglaize County's ArcGIS server:
 `gis.auglaizecounty.org/arcgis/rest/services/Wapakoneta/WapakonetaZoning/MapServer/1` (field
 `ZONECLASS`; the layer carries no update date) and the county parcels at
-`BasemapServices/Parcels_and_Addresses_2019/MapServer/0`. The parcel layer is current despite its
-name: it records transfers as late as 2026-08-06. Intersecting the two:
+`BasemapServices/Parcels_and_Addresses_2019/MapServer/0`. Despite the "2019" in its name, the
+parcel layer is current: it records transfers as late as 2026-08-06. Intersecting the two:
 
 - The parcels whose legal description reads "WEST CENTRAL OHIO INDUSTRIAL PARK" are **19 lots
   (I4504500100–I4504500600), 102.408 ac in all**, around 40.550, -84.186 `[reference]`.
@@ -413,12 +413,14 @@ This is **not** a data-center entry. It is recorded because it concerns the same
    acknowledged completion, or terminated or modified the order again, is open. The portal's other
    2PD00019 row (eDoc 3480641) is a mis-indexed ODOT rest-area order, not Wapakoneta's.
    - **Re-swept 2026-10-28; no later order.** The eDocument portal (`watermark oepa portal --county
-     AUGLAIZE --program NPDES --entity WAPAKONETA`) returned 268 rows over 7 permits, the same set as
-     the 2026-10-27 manifest (`data/research/oepa-portal-wapakoneta-2026-10-27/`). It holds no order
-     on 2PD00019 dated after 2024-11-20. Controls in the same run: both 3301212 (the 2024 DFFO) and
-     3971298 (the 2026-01-15 notice) came back, and the newest row was dated 2026-10-22, so the
-     portal was current. The order-free silence covers 10 months past the deadline, well beyond the
-     portal's 1–28-day publication lag.
+     AUGLAIZE --program NPDES --entity WAPAKONETA`; output committed as
+     `data/research/oepa-portal-wapakoneta-2026-10-28/manifest.yaml`) returned 268 rows over 7
+     permits, the same set as the 2026-10-27 run. It lists no order on 2PD00019 dated after
+     2024-11-20 `[verified]` as to the portal. Controls in the same run: both 3301212 (the 2024 DFFO)
+     and 3971298 (the 2026-01-15 notice) came back, and the newest row is dated 2026-10-22
+     `[verified]`. Because the silence runs 10 months past the deadline, well beyond the portal's
+     1–28-day publication lag, it is not a lag artifact `[inference]`. An order served but never
+     posted to the portal would not show.
    - Later WWTP filings are listed but **not read**: non-compliance reports 3944611 (2025-12-18),
      4164444 (2026-06-22), 4190722 (2026-07-15) and 4267970 (2026-09-21), all on 2PD00019, and the
      SSO annual reports 4024930 (2026-03-02) and 4032419 (2026-03-05). The portal's description says
