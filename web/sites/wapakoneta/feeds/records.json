@@ -215,7 +215,10 @@
       "agency_contacts": [],
       "permit_exceedances": [
         "61942 pH, Minimum: daily concentration min, limit 6.5 S.U., measured 6 S.U.",
-        "TSS 30-day quantity average, 30-day concentration average, 7-day quantity maximum and 7-day concentration maximum: named in the description, no values printed."
+        "Total Suspended Solids: 30 day quantity average, named in the description, no values printed.",
+        "Total Suspended Solids: 30 day concentration average, named in the description, no values printed.",
+        "Total Suspended Solids: 7 day quantity maximum, named in the description, no values printed.",
+        "Total Suspended Solids: 7 day concentration maximum, named in the description, no values printed."
       ],
       "discharge_events": [],
       "summary": "For the period dated 2026-03-01 the City reported a pH minimum of 6 S.U. against a 6.5 S.U. limit and four TSS exceedances, and disputed all of them: it attributed the pH to a failed new probe and the TSS results, which it says ran about six times high, to a sampler that froze the sample. It had the sampler repaired.",
