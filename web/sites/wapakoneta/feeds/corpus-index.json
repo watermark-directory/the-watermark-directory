@@ -1037,7 +1037,7 @@
     "id": "record/wapakoneta-data-centers",
     "node_class": "record",
     "kind": "record",
-    "label": "it records transfers as late as 2026-08-06. Intersecting the two:",
+    "label": "Wapakoneta / Auglaize Co., OH — Data-Center Activity Register",
     "scope": "site",
     "links_out": 2,
     "links_in": 0,
@@ -1074,7 +1074,7 @@
     "scope": "site",
     "links_out": 2,
     "links_in": 0,
-    "lines": 22,
+    "lines": 23,
     "updated": "2026-10-28"
   },
   {
