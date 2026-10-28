@@ -6448,14 +6448,19 @@
         "relpath": "extracted/oepa/west-union/0PC00019.npdes.yaml",
         "media_type": "application/x-yaml",
         "lfs": false
+      },
+      {
+        "relpath": "extracted/oepa/west-union/OH0100012.pws-schedule.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
       }
     ],
     "observed": {
       "exists": true,
-      "sha256": "1783df5f0aa6e23d5efdb9bd6103fe717121f7f8481773ba03dc5798ae76aac1",
-      "size_bytes": 39172,
+      "sha256": "7cab730ec5159556de76e7a5e4ef4a10a1b6cf977cd645701a46f7ed78b2e145",
+      "size_bytes": 43522,
       "lfs_materialized": true,
-      "file_count": 2,
+      "file_count": 3,
       "stale": false,
       "asof": null
     },

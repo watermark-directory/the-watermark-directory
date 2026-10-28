@@ -86,11 +86,13 @@ leads:
     The groundwater source corroborates the minutes' repeated "new wells" language for the larger
     supply project, and makes aquifer capacity, not river withdrawal, the question for this site.
   source: >-
-    Ohio EPA 2026 PWS Monitoring Schedules, Adams County (dam.assets.ohio.gov ·
-    epa.ohio.gov/Portals/28/documents/schedules/Adams.pdf), pp. 3-4
+    Ohio EPA 2026 PWS Monitoring Schedules, Adams County (data/documents/oepa/west-union/Adams.pdf,
+    PDF pp. 4-6) · data/extracted/oepa/west-union/OH0100012.pws-schedule.yaml
   note: >-
-    Not yet committed as a reference dataset — recorded here with its citation rather than
-    hand-authoring a data/reference artifact no watermark subcommand regenerates.
+    Captured 2026-10-28 (#2137) and transcribed as an extraction, not a data/reference artifact,
+    since no watermark subcommand regenerates it. The page cite was "pp. 3-4" until then; the
+    OH0100012 schedule is on PDF pages 4-6. The epa.ohio.gov/Portals/28 path first cited now
+    returns 404; the dam.assets.ohio.gov mirror serves the file.
 
 - id: ACRWD-MINUTES-GAP
   kind: question

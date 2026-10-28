@@ -1,7 +1,7 @@
 site: springfield
 hypothesis: defense
 signal: moderate
-tag: verified
+tag: inference
 group: arsenal
 fields:
   nexus: Springfield-Beckley ANGB

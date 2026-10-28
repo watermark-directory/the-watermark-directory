@@ -133,7 +133,7 @@ def corpus_peers(
         "root upward and would report on the repository's own mirror instead.",
     ),
 ) -> None:
-    """Run the yidam reports over every selectable site's mirror and fail on a regression.
+    """Run the yidam reports over every registered site's mirror and fail on a regression.
 
     The CI ``corpus`` job gates the reference build in the repo root. This holds each peer to
     a clean ``graph-check`` and zero error-severity lint findings, and every site to its

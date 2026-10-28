@@ -2,9 +2,9 @@
   "site": "west-union",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-10-28T13:15:56+00:00",
+  "generated_at": "2026-10-28T16:01:29+00:00",
   "feed_count": 32,
-  "row_total": 493,
+  "row_total": 495,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -261,7 +261,7 @@
       "media_type": "application/json",
       "schema": "schemas/corpus-index.schema.json",
       "kind": "collection",
-      "count": 104
+      "count": 105
     },
     {
       "name": "corpus-nodes",
@@ -269,7 +269,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/corpus-nodes.schema.json",
       "kind": "collection",
-      "count": 104
+      "count": 105
     },
     {
       "name": "ask-embeddings",

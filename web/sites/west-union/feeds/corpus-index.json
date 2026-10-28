@@ -28,7 +28,7 @@
     "label": "West Union · Adams Co",
     "scope": "site",
     "links_out": 3,
-    "links_in": 26,
+    "links_in": 27,
     "lines": 14,
     "updated": null
   },
@@ -951,9 +951,9 @@
     "kind": "lead",
     "label": "The District's public water system ID is OH0100012, and the system is groundwater-sourced",
     "scope": "site",
-    "links_out": 1,
+    "links_out": 2,
     "links_in": 0,
-    "lines": 23,
+    "lines": 27,
     "updated": null
   },
   {
@@ -1043,6 +1043,17 @@
     "links_in": 0,
     "lines": 20,
     "updated": "2026-08-17"
+  },
+  {
+    "id": "record/oepa-west-union-oh0100012-pws-schedule",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Adams County Regional Water District — Ohio EPA's 2026 contaminant monitoring schedule for",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 18,
+    "updated": null
   },
   {
     "id": "record/regulatory-west-union-west-union-consent-order-1",

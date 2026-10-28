@@ -393,3 +393,30 @@ documents:
   fetched_at: '2026-08-21T05:48:53.962392+00:00'
   status: skipped_existing
   note: null
+- filename: Adams.pdf
+  canonical_name: Ohio EPA 2026 PWS Contaminant Monitoring Schedules — Adams County
+  source_url: https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/28/documents/schedules/Adams.pdf
+  sha256: 3fd4395d8f2756621614b14d8de7998abee56595883dc015dcb0c68e727d0f62
+  bytes: 8753424
+  content_type: application/pdf
+  fetched_at: '2026-10-28'
+  last_modified: Wed, 05 Aug 2026 17:00:04 GMT
+  status: fetched
+  pages: 17
+  note: >-
+    Ohio EPA DDAGW's 2026 monitoring schedules for every public water system whose principal
+    county served is Adams, in PWS-ID order, behind a three-page "Now Available" cover letter
+    (pp. 1-3). Saved under the as-served name; the old epa.ohio.gov/Portals/28 path the
+    ACRWD-PWSID lead first cited now 404s, and the dam.assets.ohio.gov mirror serves the file.
+    Paper-Capture PDF (producer "Adobe Acrobat 26 Paper Capture Plug-in", created 2025-12-11,
+    modified 2026-06-09) with a usable text layer, checked against a render of every page.
+    Six systems: OH0100012 Adams County Regional WD (pp. 4-6), OH0100112 Manchester Village
+    (7-9), OH0100203 Peebles (10-11), OH0100303 Seaman (12-13), OH0100503 West Union (14-15),
+    OH0100603 Winchester (16-17). Transcribed for OH0100012 only, in
+    data/extracted/oepa/west-union/OH0100012.pws-schedule.yaml.
+    PII screen (render of all 17 pages): the named people are Ohio EPA program staff on the
+    cover letter's contact list. Ten street addresses appear, all distribution DISINFECTION-
+    BYPRODUCT sampling points (SMP DS201/DS202, two per system), printed with no name and no
+    result. Lead-and-copper sites are NOT listed — every system's schedule points to its own
+    plan ("LC###"). Recorded in data/site/published-documents.yaml beside the 2026-09-16 Van
+    Wert TTHM-point precedent.

@@ -1,0 +1,83 @@
+# Adams County Regional Water District — Ohio EPA's 2026 contaminant monitoring schedule for
+# public water system OH0100012, effective 2026-01-01.
+#
+# Hand-read from the committed PDF's text layer (pdftotext -layout), checked against a render of
+# every page. The file is a Paper-Capture PDF, so the text layer is OCR over a scan rather than
+# the agency's own bytes. Every value below was legible in both, and the text agrees with the
+# render on each one.
+#
+# SCOPE FENCE: the source holds six Adams County systems. This file transcribes ONLY OH0100012
+# (PDF pp. 4-6). The other five are listed in the filename map and not read here. A monitoring
+# schedule is a list of sampling OBLIGATIONS, not results: nothing here says what any sample
+# found, and nothing here says anything about any data-center customer.
+source_path: data/documents/oepa/west-union/Adams.pdf
+meta:
+  subject: Adams County Regional WD (OH0100012) — Ohio EPA 2026 PWS monitoring schedule
+  site: west-union
+  captured_for: 'issue #2137 — source the ACRWD-PWSID lead''s [verified] system identity'
+  extracted_at: '2026-10-28'
+  method: >-
+    pdftotext -layout read of PDF pages 4-6, compared line by line against a 40-DPI render of
+    all 17 pages for layout and a re-read of pp. 4-6 for the figures. No value was ambiguous.
+  sources:
+    schedule:
+      path: data/documents/oepa/west-union/Adams.pdf
+      sha256: 3fd4395d8f2756621614b14d8de7998abee56595883dc015dcb0c68e727d0f62
+      url: https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/28/documents/schedules/Adams.pdf
+
+system:
+  tag: '[verified]'
+  confidence: high
+  pages: [4, 5, 6]
+  pws_id: OH0100012
+  name: ADAMS COUNTY REGIONAL WD PWS
+  system_type: Community
+  source: Ground Water
+  operating_period: 1/1 to 12/31
+  ground_water_rule_substantial_system: true
+  effective_date: '2026-01-01'
+  note: >-
+    The header is identical on all three pages. The "Ground Water Rule Substantial System" line
+    is printed on the two distribution pages (5, 6), not on the entry-point page (4). Do NOT
+    confuse OH0100012 with OH0100112, Manchester Village (pp. 7-9), a separate system whose
+    mailing town is also the Buck Canyon site's.
+
+entry_point:
+  tag: '[verified]'
+  page: 4
+  facility_id: '152614'
+  facility_name: ADAMS COUNTY REGIONAL WD
+  smp_id: EP001
+  facility_source: Ground Water
+  requirements:
+  - {analyte: INORGANICS, samples: 1, window: 1/1/2026-5/31/2026}
+  - {analyte: NITRITE - 1041, samples: 0, window: null, note: Not Required}
+  - {analyte: NITRATE - 1040, samples: 1, window: 1/1/2026-5/31/2026}
+  - {analyte: RADIOLOGICALS, samples: 0, window: null, note: Not Required}
+  - {analyte: SYNTHETIC ORGANIC CHEMICALS (SOC) GROUP 1, samples: 1, window: 1/1/2026-5/31/2026}
+  - {analyte: VOLATILE ORGANIC CHEMICALS (VOC), samples: 1, window: 1/1/2026-5/31/2026}
+  note: >-
+    One entry point for the whole system. The inorganics panel is antimony, arsenic, barium,
+    beryllium, cadmium, chromium, cyanide, fluoride, mercury, nickel, selenium and thallium. SOC
+    Group 1 is alachlor, atrazine and simazine.
+
+distribution:
+  tag: '[verified]'
+  pages: [5, 6]
+  facility_id: DS1
+  facility_name: ADAMS COUNTY REGIONAL WD DISTRIBUTION
+  requirements:
+  - {analyte: ASBESTOS - 1094, smp_id: DS000, samples: 0, note: Not Required}
+  - {analyte: TOTAL COLIFORM (TCR) - 3100, smp_id: DS000, samples: 25, window: each calendar month of 2026}
+  - {analyte: TOTAL CHLORINE - 1000, smp_id: DS000, samples: 25, window: each calendar month of 2026,
+     note: Collected at the same time and place as the Total Coliform samples.}
+  - {analyte: LEAD - 1030 AND COPPER - 1022, smp_id: LC###, samples: 30, window: 6/1/2026-9/30/2026,
+     note: Sites are named in the District's own lead-and-copper plan, not on this schedule.}
+  - {analyte: DISINFECTION BYPRODUCTS (HAA5 - 2456, TTHM - 2950), smp_id: DS201, samples: dual,
+     window: 7/1/2026-9/30/2026, location: 806 BLUE CREEK RD}
+  - {analyte: DISINFECTION BYPRODUCTS (HAA5 - 2456, TTHM - 2950), smp_id: DS202, samples: dual,
+     window: 7/1/2026-9/30/2026, location: 3095 GINGER RIDGE RD}
+  note: >-
+    The two DBP locations are monitoring points as the schedule prints them, with no name and no
+    result attached. The sample counts are obligations as printed. No population or service
+    figure is derived from them here.

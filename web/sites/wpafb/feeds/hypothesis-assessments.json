@@ -18,6 +18,14 @@
         "confidence": "high",
         "note": "Wright-Patterson AFB sits at the Mad River terminus, adjacent to the watershed point. The base is the strongest documented federal-enclave signal in the network after Lima.",
         "verified": false
+      },
+      {
+        "source": "data/reference/wpafb/federal-land.geojson",
+        "source_kind": "connector",
+        "page": null,
+        "confidence": "high",
+        "note": "The installation itself, from the DoD MIRTA site register (`watermark --site wpafb enclave`). Planning-grade and a partial footprint (5,230 mapped acres against the ~8,200 the 1991 CERCLA agreement states), so it places the base without bounding it.",
+        "verified": true
       }
     ]
   }
