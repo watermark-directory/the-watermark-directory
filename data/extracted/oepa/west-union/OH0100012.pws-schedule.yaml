@@ -73,9 +73,9 @@ distribution:
      note: Collected at the same time and place as the Total Coliform samples.}
   - {analyte: LEAD - 1030 AND COPPER - 1022, smp_id: LC###, samples: 30, window: 6/1/2026-9/30/2026,
      note: Sites are named in the District's own lead-and-copper plan, not on this schedule.}
-  - {analyte: DISINFECTION BYPRODUCTS (HAA5 - 2456, TTHM - 2950), smp_id: DS201, samples: dual,
+  - {analyte: 'DISINFECTION BYPRODUCTS (HAA5 - 2456, TTHM - 2950)', smp_id: DS201, samples: dual,
      window: 7/1/2026-9/30/2026, location: 806 BLUE CREEK RD}
-  - {analyte: DISINFECTION BYPRODUCTS (HAA5 - 2456, TTHM - 2950), smp_id: DS202, samples: dual,
+  - {analyte: 'DISINFECTION BYPRODUCTS (HAA5 - 2456, TTHM - 2950)', smp_id: DS202, samples: dual,
      window: 7/1/2026-9/30/2026, location: 3095 GINGER RIDGE RD}
   note: >-
     The two DBP locations are monitoring points as the schedule prints them, with no name and no

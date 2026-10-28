@@ -863,9 +863,9 @@
     "kind": "hypothesis",
     "label": "H2 · Defense & Federal Enclave",
     "scope": "network",
-    "links_out": 2,
+    "links_out": 3,
     "links_in": 1,
-    "lines": 22,
+    "lines": 25,
     "updated": null
   },
   {

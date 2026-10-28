@@ -1,0 +1,32 @@
+id: oepa-west-union-pws-schedule
+title: Ohio EPA record extractions (Adams County Regional Water District — PWS OH0100012 monitoring schedule)
+scope: extracted
+status: reviewed
+producer:
+  kind: extracted
+  source: Ohio EPA Division of Drinking and Ground Waters — the 2026 Adams County public water system
+    monitoring schedules (Adams.pdf, dam.assets.ohio.gov), fetched 2026-10-28 and shelved at
+    data/documents/oepa/west-union/ with its hash in that collection's filename-map.yaml
+license: Public record (Ohio R.C. 149.43)
+access_tier: public
+site_scope: site:west-union
+storage:
+- relpath: extracted/oepa/west-union/OH0100012.pws-schedule.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document
+tags:
+- oepa
+- drinking-water
+- west-union
+- adams-county
+notes: >-
+  The **Adams County Regional Water District's drinking-water identity**, from Ohio EPA's 2026
+  Adams County PWS monitoring schedules (PDF pp. 4-6). System **OH0100012**, Community, **Ground
+  Water** source, a Ground Water Rule "Substantial System"; one entry point (facility 152614,
+  EP001) and distribution DS1. This is the key an Ohio EPA drinking-water records request needs.
+  Do not confuse it with OH0100112, which is Manchester Village. The schedule lists sampling
+  obligations, not results, and says nothing about any data-center customer. Only OH0100012 is
+  transcribed; the other five Adams County systems in the same file are not.

@@ -2,9 +2,9 @@
   "site": "west-union",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-10-28T16:01:29+00:00",
+  "generated_at": "2026-10-28T16:59:36+00:00",
   "feed_count": 32,
-  "row_total": 495,
+  "row_total": 496,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -213,7 +213,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 61
+      "count": 62
     },
     {
       "name": "geo/campus",

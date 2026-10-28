@@ -18,5 +18,12 @@ citations:
     confidence: high
     note: >-
       The installation itself, from the DoD MIRTA site register (`watermark --site wpafb
-      enclave`). Planning-grade and a partial footprint (5,230 mapped acres against the ~8,200
-      the 1991 CERCLA agreement states), so it places the base without bounding it.
+      enclave`). Planning-grade and a partial footprint (5,230.4 mapped acres), so it places the
+      base without bounding it.
+  - source: data/extracted/wpafb/cercla-ffa-1991.epa.yaml
+    source_kind: document
+    confidence: high
+    note: >-
+      The 1991 CERCLA §120 Federal Facility Agreement's Findings of Fact (Section 5) state the
+      base covers ~8,200 acres across "Areas A and C" and "Area B" — the figure the MIRTA
+      footprint above falls short of.
