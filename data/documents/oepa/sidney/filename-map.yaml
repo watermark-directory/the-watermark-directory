@@ -808,3 +808,44 @@ documents:
     at Norton Run (deposit $5,250 on 2026-08-19), and 0.6 credits at Big Island (2026-09-04, deposit $7,370).
     The parking lot has 981 spaces, a bus entrance and a stormwater basin. Its HUC12s are printed 050800010604
     and 050800010705; the 401 form''s Section H gives 050800010703. 6 pp.'
+
+# ── NK Parts Industries — owner of two CMH-232 parking-lot parcels (eDoc 2023-12-28) ──
+# Entity "NK PARTS" returns four portal rows. These two are the only NPDES ones: the
+# company's industrial-stormwater coverage for its 777 S Kuther Rd plant. They were read
+# 2026-10-27 to test whether any stormwater coverage of record reaches the parking-lot
+# parcels (01-1834301.007/.008); see sidney/regulatory-watch.yaml. They do not.
+- filename: 2691111.pdf
+  edoc_id: '2691111'
+  permit_id: 1GR01785
+  canonical: oepa-1gr01785-nk-parts-industrial-stormwater-noi-2023-12-19.pdf
+  type: npdes-general-permit-noi
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2691111
+  sha256: ed0271807fb0d061142560044b069e49a02a4408a955e06f371fdc331e710f9f
+  bytes: 8801
+  content_type: application/pdf
+  fetched_at: '2026-10-28T01:30:00+00:00'
+  status: downloaded
+  content_verified: text-layer + rendered p. 1
+  note: >-
+    Notice of Intent for coverage under the Industrial Storm Water General Permit OHR000007,
+    Application ID 267227436, electronically submitted 2023-12-19 by Lacie Shaw, Safety Manager.
+    Applicant and facility "NK Parts", 777 S Kuther Rd, Sidney, Shelby County. Initial coverage (not
+    renewal); facility permit 1GR01785*AG; primary SIC 4225, 3714. Facility point 40.27708945 /
+    -84.20991442; one outfall, 001, at 40.275295 / -84.209221, no benchmark monitoring. The receiving
+    stream field is blank. 1 p.
+- filename: 2691116.pdf
+  edoc_id: '2691116'
+  permit_id: 1GR01785
+  canonical: oepa-1gr01785-nk-parts-industrial-stormwater-approval-2023-12-28.pdf
+  type: npdes-general-permit-approval
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=2691116
+  sha256: e880917eba0827114d5535d8741f8e0967599427b27e939735706f66698ba695
+  bytes: 151758
+  content_type: application/pdf
+  fetched_at: '2026-10-28T01:30:00+00:00'
+  status: downloaded
+  content_verified: text-layer + rendered pp. 1-2
+  note: >-
+    Ohio EPA (Director Anne M. Vogel) to NK Parts, 2023-12-28: NOI approved under OHR000007 for
+    "NK Parts", 777 S Kuther Rd, Sidney; facility permit 1GR01785*AG, effective 2024-01-01, expires
+    2027-05-31. Page 2 lists outfall 001 as "No Benchmark or Effluent Limit Monitoring Reqd". 2 pp.
