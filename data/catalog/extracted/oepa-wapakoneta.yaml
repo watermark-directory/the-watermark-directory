@@ -9,7 +9,8 @@ producer:
     Fact Sheet (Public Notice 206565), retrieved from the Ohio EPA DAM permit slot; and the
     2019-02-06 Director's Final Findings and Orders on the same permit and its 2024-11-20
     modification, Ohio EPA's 2025-07-29 compliance evaluation inspection and the City's
-    2026-01-15 non-compliance notification, retrieved from the eDocument public portal
+    self-reports of 2025-12-18 to 2026-09-18 (non-compliance, upset and SSO notifications),
+    retrieved from the eDocument public portal
 license: Public record (Ohio R.C. 149.43)
 access_tier: public
 site_scope: site:wapakoneta
@@ -37,6 +38,29 @@ storage:
 - relpath: extracted/oepa/wapakoneta/edoc-3971298.progress-report.yaml
   media_type: application/x-yaml
   lfs: false
+# The City's seven later self-reports on the same permit (2025-12-18 to 2026-09-18): non-compliance
+# notices, an upset report, a daily-max form and an SSO 5-day notice. Same provenance class.
+- relpath: extracted/oepa/wapakoneta/edoc-3944611.progress-report.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/oepa/wapakoneta/edoc-4048413.progress-report.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/oepa/wapakoneta/edoc-4089538.progress-report.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/oepa/wapakoneta/edoc-4164444.progress-report.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/oepa/wapakoneta/edoc-4190722.progress-report.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/oepa/wapakoneta/edoc-4267970.progress-report.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: extracted/oepa/wapakoneta/edoc-4267972.progress-report.yaml
+  media_type: application/x-yaml
+  lfs: false
 refresh:
   cadence: static
 provenance: document
@@ -47,6 +71,8 @@ tags:
 - wastewater
 - total-filterable-residue
 - flow-augmentation
+- noncompliance
+- sso
 - wapakoneta
 - auglaize-county
 - maumee
@@ -86,6 +112,14 @@ notes: >-
   the City's statement, not an agency finding. Ohio EPA acknowledging completion, a termination,
   or a further modification is not in the record. [open] The portal's fourth 2PD00019 row (eDoc
   3480641) is an ODOT rest-area order on 2PP00019, mis-indexed, and is not shelved.
+  The City's seven later self-reports (eDocs 3944611, 4048413, 4089538, 4164444, 4190722,
+  4267970, 4267972; added 2026-10-28) run 2025-12-18 to 2026-09-18. The first reports a November
+  2025 TFR exceedance (1718 against 1561 mg/l) with augmentation still to come "in December";
+  none of the six 2026 filings reports TFR. They report a 2026-03-11/12 clarifier upset (about
+  9,000,000 gallons by the City's approximation), a pH/TSS result the City disputes, mercury,
+  chronic toxicity (4.4 TUc C. dubia in August, blamed on upstream toxicity), rain-driven TSS
+  and a 10,000-gallon manhole SSO. All are the City's statements. TFR compliance in the months
+  they do not cover is [open] pending DMRs.
   178 effluent violations 2019-2023 in the Fact Sheet's Table 2 (titled "Outfall 001") — 150 at
   Outfall 001 itself plus 28 TFR violations at fictitious outfalls 020-022 (62 E. coli, 53 TFR across
   001/020-022, 17 chronic toxicity).

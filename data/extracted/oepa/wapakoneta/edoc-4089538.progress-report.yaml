@@ -1,0 +1,85 @@
+doc_id: edoc-4089538-fd9977d0
+source_path: data/documents/oepa/wapakoneta/edoc-4089538.pdf
+kind: progress-report
+pages_read:
+- 0
+- 1
+image_pages_read:
+- 0
+- 1
+dpi: 72
+source_text_excerpt: 'Daily Max Limit Exceedance
+
+  General Information
+
+  Facility Name : Wapakoneta WWTP
+
+  Facility County: Auglaize
+
+  Ohio NPDES permit no: 2PD00019*SD
+
+  US EPA Application Number: 25860487
+
+  Primary Contact Information
+
+  Mailing Address: P.O. Box 269
+
+  City: Wapakoneta State: OH Zip Code: 45895
+
+  Country: USA
+
+  Primary Contact Name: Justin Waid
+
+  Title: Superintendent
+
+  Email Address: jwaid@wapakoneta.net
+
+  Phone: (419) 738-24'
+progress_report:
+  confidence: high
+  warnings:
+  - This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified]
+    as what the City told Ohio EPA, nothing more.
+  - Filed on Ohio EPA DSW's "Daily Max Limit Exceedance" e-form, which cites no permit section, order
+    or DFFO.
+  - The form carries no Date field. report_date is the portal's index date (4/21/2026). The "US EPA Application
+    Number" field prints 25860487, the form's own application id, not OH0027952.
+  - 'The City disputes its own results: it says the pH reading came from a failed new probe and that the
+    TSS results are "an average of 6 times higher than actual" because a sampler froze. Those are the
+    City''s explanations [verified as stated]; whether the reported values or the City''s account are
+    right is [open].'
+  - Only the pH minimum is entered in the Exceeded Limits table. The TSS exceedances are named in the
+    description (30-day quantity and concentration averages, 7-day quantity and concentration maxima)
+    with no values. They are not transcribed as values because none is printed.
+  agency: Ohio EPA, Division of Surface Water
+  instrument: Daily max limit exceedance (NPDES 2PD00019*SD)
+  case_no: null
+  paragraph: null
+  respondent: City of Wapakoneta
+  facility: City of Wapakoneta WRF, Auglaize County
+  permit_no: 2PD00019*SD
+  report_date: '2026-04-21'
+  period_start: '2026-03-01'
+  period_end: '2026-03-31'
+  deadlines_status: null
+  noncompliance_reasons: 'pH: "I believe this is incorrect because a new pH probe has failed. The unit
+    calibration slope was incorrect, and the new operator hadn''t noticed the failed slope." TSS: "due
+    to the 603 sampler freezing the sample completely, which caused the results to be an average of 6
+    times higher than actual."'
+  projects:
+  - name: Sampler repair
+    status: '"Had technicians from GRIPP Inc, in to repair unit. New power supply, thermostat and temperature
+      control units replaced."'
+    next_period: null
+  agency_contacts: []
+  permit_exceedances:
+  - '61942 pH, Minimum: daily concentration min, limit 6.5 S.U., measured 6 S.U.'
+  - 'TSS 30-day quantity average, 30-day concentration average, 7-day quantity maximum and 7-day concentration
+    maximum: named in the description, no values printed.'
+  discharge_events: []
+  summary: 'For the period dated 2026-03-01 the City reported a pH minimum of 6 S.U. against a 6.5 S.U.
+    limit and four TSS exceedances, and disputed all of them: it attributed the pH to a failed new probe
+    and the TSS results, which it says ran about six times high, to a sampler that froze the sample. It
+    had the sampler repaired.'
+  note: 'Ohio EPA DSW "Daily Max Limit Exceedance" e-form, Application ID 25860487; contact Justin Waid,
+    Superintendent. Period field: "24.00 hrs / 03/01/2026". The same month holds the 03-11/12 upset (edoc-4048413).'

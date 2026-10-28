@@ -1,7 +1,7 @@
 meta:
   subject: OEPA/DAM permit download manifest
   policy: non-destructive — originals keep as-received names
-  generated_at: '2026-10-17'
+  generated_at: '2026-10-28'
 documents:
 - filename: 2PD00019.pdf
   permit_id: 2PD00019
@@ -87,3 +87,116 @@ documents:
     OH0027952. The contact block is the Superintendent's work address and phone, a public
     official's, not a private person's. The docid comes from the eDocument portal's own index
     (AUGLAIZE x NPDES sweep, 2026-10-27).
+- filename: edoc-3944611.pdf
+  permit_id: 2PD00019
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=3944611
+  sha256: 5f91f23d46e6283a9b45cb5307292d6cfa5fb56da49c086e61915e107368c6d4
+  bytes: 8365
+  content_type: application/pdf
+  fetched_at: '2026-10-28T21:10:22.504029+00:00'
+  status: downloaded
+  note: >-
+    The City of Wapakoneta's own "Non-compliance Notification for Exceedance of a Daily Maximum
+    Discharge Limit" e-form (Ohio EPA DSW, Application ID 23301455), 1 p., digitally generated.
+    Content-verified: it names 2PD00019*SD and reports a TFR 30-day average for the period dated
+    11/01/2025. The form carries no Date field; the portal indexes it 12/18/2025. Rendered page by
+    page for the publication screen: the only contact block is the Superintendent's work address,
+    phone and e-mail, a public official's, not a private person's. The docid comes from the
+    eDocument portal's own index (AUGLAIZE x NPDES sweep, 2026-10-28,
+    data/research/oepa-portal-wapakoneta-2026-10-28/manifest.yaml).
+- filename: edoc-4048413.pdf
+  permit_id: 2PD00019
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4048413
+  sha256: e83ade18c3f33d4d7352000b39ccd083f4f4e142547d6821b80cd7c1c23fc47a
+  bytes: 8206
+  content_type: application/pdf
+  fetched_at: '2026-10-28T21:10:23.030603+00:00'
+  status: downloaded
+  note: >-
+    The City's "Upset Notification Report" e-form (Application ID 24644785), 1 p., digitally
+    generated. Content-verified: it names 2PD00019*SD and an upset from 03/11/2026 09:00 to
+    03/12/2026 11:00. The form carries no Date field; the portal indexes it 3/18/2026. Rendered page
+    by page for the publication screen: the only contact block is the Superintendent's work address,
+    phone and e-mail, a public official's, not a private person's. The docid comes from the
+    eDocument portal's own index (AUGLAIZE x NPDES sweep, 2026-10-28,
+    data/research/oepa-portal-wapakoneta-2026-10-28/manifest.yaml).
+- filename: edoc-4089538.pdf
+  permit_id: 2PD00019
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4089538
+  sha256: 1ff48741a8121f9617d0d3483ecc78d953e2639b963f8bbf7f363d6ce5dfda67
+  bytes: 9166
+  content_type: application/pdf
+  fetched_at: '2026-10-28T21:10:23.550749+00:00'
+  status: downloaded
+  note: >-
+    The City's "Daily Max Limit Exceedance" e-form (Application ID 25860487), 2 pp., digitally
+    generated. Content-verified: it names 2PD00019*SD and an exceedance period dated 03/01/2026. The
+    form prints its own application id in the "US EPA Application Number" field, where its siblings
+    print OH0027952. It carries no Date field; the portal indexes it 4/21/2026. Rendered page by
+    page for the publication screen: the only contact block is the Superintendent's work address,
+    phone and e-mail, a public official's, not a private person's. The docid comes from the
+    eDocument portal's own index (AUGLAIZE x NPDES sweep, 2026-10-28,
+    data/research/oepa-portal-wapakoneta-2026-10-28/manifest.yaml).
+- filename: edoc-4164444.pdf
+  permit_id: 2PD00019
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4164444
+  sha256: 467e3b9e4da06d38baf9cf3ec0a0d64f9a88dcd29047732cdca226769195ccd9
+  bytes: 9298
+  content_type: application/pdf
+  fetched_at: '2026-10-28T21:10:24.077194+00:00'
+  status: downloaded
+  note: >-
+    The City's non-compliance notification e-form (Application ID 25903768), 2 pp., digitally
+    generated. Content-verified: the form's Date field reads June 22, 2026 and it names 2PD00019*SD
+    / OH0027952. Rendered page by page for the publication screen: the only contact block is the
+    Superintendent's work address, phone and e-mail, a public official's, not a private person's.
+    The docid comes from the eDocument portal's own index (AUGLAIZE x NPDES sweep, 2026-10-28,
+    data/research/oepa-portal-wapakoneta-2026-10-28/manifest.yaml).
+- filename: edoc-4190722.pdf
+  permit_id: 2PD00019
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4190722
+  sha256: 6b87372dca265ec32147b394290ef316619758adf96d121a8347904ad01db888
+  bytes: 10033
+  content_type: application/pdf
+  fetched_at: '2026-10-28T21:10:24.598186+00:00'
+  status: downloaded
+  note: >-
+    The City's non-compliance notification e-form (Application ID 25912774), 2 pp., digitally
+    generated. Content-verified: the form's Date field reads July 15, 2026 and it names 2PD00019*SD
+    / OH0027952. Rendered page by page for the publication screen: the only contact block is the
+    Superintendent's work address, phone and e-mail, a public official's, not a private person's.
+    The docid comes from the eDocument portal's own index (AUGLAIZE x NPDES sweep, 2026-10-28,
+    data/research/oepa-portal-wapakoneta-2026-10-28/manifest.yaml).
+- filename: edoc-4267970.pdf
+  permit_id: 2PD00019
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4267970
+  sha256: 93b5552df5d1339b216fd191efdcbdf9296341b83589bc9f9601e7b18d795c55
+  bytes: 9784
+  content_type: application/pdf
+  fetched_at: '2026-10-28T21:10:25.125032+00:00'
+  status: downloaded
+  note: >-
+    The City's non-compliance notification e-form (Application ID 25926260), 2 pp., digitally
+    generated. Content-verified: the form's Date field reads September 18, 2026 and it names
+    2PD00019*SD / OH0027952. The portal indexes it 9/21/2026. Rendered page by page for the
+    publication screen: the only contact block is the Superintendent's work address, phone and
+    e-mail, a public official's, not a private person's. The docid comes from the eDocument portal's
+    own index (AUGLAIZE x NPDES sweep, 2026-10-28,
+    data/research/oepa-portal-wapakoneta-2026-10-28/manifest.yaml).
+- filename: edoc-4267972.pdf
+  permit_id: 2PD00019
+  source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4267972
+  sha256: 8595a9c3987ea5e962fd0097bd4f6e751d92193c59fe0871b8772b24725c2515
+  bytes: 12171
+  content_type: application/pdf
+  fetched_at: '2026-10-28T21:10:25.742265+00:00'
+  status: downloaded
+  note: >-
+    The City's "SSO - 5 Day Notification" e-form (Application ID 25926264), 4 pp., digitally
+    generated. Content-verified: the form's Date field reads September 18, 2026, it names
+    2PD00019*SD / OH0027952, and it reports one overflow starting September 17, 2026. The overflow's
+    coordinates are of a manhole, not a residence. The portal indexes it 9/21/2026. Rendered page by
+    page for the publication screen: the only contact block is the Superintendent's work address,
+    phone and e-mail, a public official's, not a private person's. The docid comes from the
+    eDocument portal's own index (AUGLAIZE x NPDES sweep, 2026-10-28,
+    data/research/oepa-portal-wapakoneta-2026-10-28/manifest.yaml).

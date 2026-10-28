@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-10-28T15:49:12+00:00'
+  generated_at: '2026-10-28T21:11:39+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 289
-    bytes: 1066524128
-    distinct_addresses: 282
+    artifacts: 296
+    bytes: 1066591151
+    distinct_addresses: 289
 artifacts:
 - rel: documents/oepa/2DP00130.pdf
   sha256: ae76bff9b192bd0d17c69fbdb14df96198a48e0d7804da346debc4f55b4f22e8
@@ -1227,9 +1227,44 @@ artifacts:
   bytes: 2083675
   media_type: application/pdf
   redistributable: true
+- rel: documents/oepa/wapakoneta/edoc-3944611.pdf
+  sha256: 5f91f23d46e6283a9b45cb5307292d6cfa5fb56da49c086e61915e107368c6d4
+  bytes: 8365
+  media_type: application/pdf
+  redistributable: true
 - rel: documents/oepa/wapakoneta/edoc-3971298.pdf
   sha256: 22efc17fb6805deff58336d1ac86c3f287a12ab641fe414ccac64c2965645d35
   bytes: 9627
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/wapakoneta/edoc-4048413.pdf
+  sha256: e83ade18c3f33d4d7352000b39ccd083f4f4e142547d6821b80cd7c1c23fc47a
+  bytes: 8206
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/wapakoneta/edoc-4089538.pdf
+  sha256: 1ff48741a8121f9617d0d3483ecc78d953e2639b963f8bbf7f363d6ce5dfda67
+  bytes: 9166
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/wapakoneta/edoc-4164444.pdf
+  sha256: 467e3b9e4da06d38baf9cf3ec0a0d64f9a88dcd29047732cdca226769195ccd9
+  bytes: 9298
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/wapakoneta/edoc-4190722.pdf
+  sha256: 6b87372dca265ec32147b394290ef316619758adf96d121a8347904ad01db888
+  bytes: 10033
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/wapakoneta/edoc-4267970.pdf
+  sha256: 93b5552df5d1339b216fd191efdcbdf9296341b83589bc9f9601e7b18d795c55
+  bytes: 9784
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/oepa/wapakoneta/edoc-4267972.pdf
+  sha256: 8595a9c3987ea5e962fd0097bd4f6e751d92193c59fe0871b8772b24725c2515
+  bytes: 12171
   media_type: application/pdf
   redistributable: true
 - rel: documents/oepa/wapakoneta/edoc-992359.pdf
