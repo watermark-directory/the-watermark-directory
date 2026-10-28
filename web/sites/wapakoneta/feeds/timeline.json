@@ -110,6 +110,28 @@
     }
   },
   {
+    "date": "2025-12-18",
+    "category": "compliance_progress_report",
+    "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12) progress report — City of Wapakoneta",
+    "ref": "progress-2PD00019*SD-2025-11-01",
+    "parties": [
+      "City of Wapakoneta",
+      "Ohio EPA, Division of Surface Water"
+    ],
+    "detail": "period 2025-11-01 → 2025-11-30; 2 project(s); 1 permit exceedance(s)",
+    "source": "oepa/wapakoneta/edoc-3944611.progress-report.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-3944611.progress-report.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
     "date": "2026-01-15",
     "category": "compliance_progress_report",
     "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12) progress report — City of Wapakoneta",
@@ -123,6 +145,138 @@
     "also_sources": [],
     "citation": {
       "source": "oepa/wapakoneta/edoc-3971298.progress-report.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "date": "2026-03-18",
+    "category": "compliance_progress_report",
+    "title": "Upset notification (NPDES 2PD00019*SD) progress report — City of Wapakoneta",
+    "ref": "progress-2PD00019*SD-2026-03-11",
+    "parties": [
+      "City of Wapakoneta",
+      "Ohio EPA, Division of Surface Water"
+    ],
+    "detail": "period 2026-03-11 → 2026-03-12; 1 discharge event(s); 1 permit exceedance(s)",
+    "source": "oepa/wapakoneta/edoc-4048413.progress-report.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4048413.progress-report.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "date": "2026-04-21",
+    "category": "compliance_progress_report",
+    "title": "Daily max limit exceedance (NPDES 2PD00019*SD) progress report — City of Wapakoneta",
+    "ref": "progress-2PD00019*SD-2026-03-01",
+    "parties": [
+      "City of Wapakoneta",
+      "Ohio EPA, Division of Surface Water"
+    ],
+    "detail": "period 2026-03-01 → 2026-03-31; 1 project(s); 2 permit exceedance(s)",
+    "source": "oepa/wapakoneta/edoc-4089538.progress-report.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4089538.progress-report.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "date": "2026-06-22",
+    "category": "compliance_progress_report",
+    "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12) progress report — City of Wapakoneta",
+    "ref": "progress-2PD00019*SD-2026-05-01",
+    "parties": [
+      "City of Wapakoneta",
+      "Ohio EPA, Division of Surface Water"
+    ],
+    "detail": "period 2026-05-01 → 2026-05-31; 1 project(s); 1 permit exceedance(s)",
+    "source": "oepa/wapakoneta/edoc-4164444.progress-report.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4164444.progress-report.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "date": "2026-07-15",
+    "category": "compliance_progress_report",
+    "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12) progress report — City of Wapakoneta",
+    "ref": "progress-2PD00019*SD-2026-06-01",
+    "parties": [
+      "City of Wapakoneta",
+      "Ohio EPA, Division of Surface Water"
+    ],
+    "detail": "period 2026-06-01 → 2026-06-30; 1 project(s); 1 permit exceedance(s)",
+    "source": "oepa/wapakoneta/edoc-4190722.progress-report.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4190722.progress-report.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "date": "2026-09-18",
+    "category": "compliance_progress_report",
+    "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12) progress report — City of Wapakoneta",
+    "ref": "progress-2PD00019*SD-2026-08-01",
+    "parties": [
+      "City of Wapakoneta",
+      "Ohio EPA, Division of Surface Water"
+    ],
+    "detail": "period 2026-08-01 → 2026-08-31; 5 permit exceedance(s)",
+    "source": "oepa/wapakoneta/edoc-4267970.progress-report.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4267970.progress-report.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
+    "date": "2026-09-18",
+    "category": "compliance_progress_report",
+    "title": "SSO 5-day notification (NPDES 2PD00019*SD) progress report — City of Wapakoneta",
+    "ref": "progress-2PD00019*SD-2026-09-17",
+    "parties": [
+      "City of Wapakoneta",
+      "Ohio EPA, Division of Surface Water"
+    ],
+    "detail": "period 2026-09-17 → 2026-09-17; 1 discharge event(s)",
+    "source": "oepa/wapakoneta/edoc-4267972.progress-report.yaml",
+    "also_sources": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4267972.progress-report.yaml",
       "source_kind": "document",
       "page": null,
       "pages": null,
