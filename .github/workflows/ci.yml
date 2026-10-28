@@ -401,6 +401,17 @@ jobs:
       - name: lint (baseline ratchet)
         run: .yidam/bin/yidam lint
 
+      # Every selectable site's mirror, not only the reference build's (#2137). Each site is
+      # projected into a throwaway root OUTSIDE the checkout — the binary resolves its root
+      # upward, so a workdir in the repo reports on the repo's own mirror. A peer holds to a
+      # clean graph-check and zero error-severity findings; every site holds to its enumerated
+      # `verified-unsourced` gaps (`corpus_peers.KNOWN_UNSOURCED`), which ratchet both ways.
+      # Twenty-three of those accumulated on peers before anything here looked at a peer.
+      - name: Peer-site corpus reports
+        run: |
+          uv run watermark corpus-peers --workdir "$RUNNER_TEMP/corpus-peers"
+          uv run pytest tests/test_corpus_peers.py -q
+
       # --- graph-export conformance (#2053) -----------------------------------------------
       #
       # These tests live in tests/ but SKIP without a yidam binary, and the `test` job has none —

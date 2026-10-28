@@ -109,6 +109,13 @@ questions where the binary saw 2, and nothing could detect the gap.
   `export-graph`).
 - **Run:** `mise run yidam-reports`. Locally the binary is *optional* — `watermark corpus-mirror`
   projects and says so when it cannot report. CI installs it and **gates** (the `corpus` job).
+  That job also runs **`watermark corpus-peers`** (#2137), which runs the reports over **every
+  selectable site's** mirror. Without it, a peer is checked only when someone lints it by hand,
+  which is how 23 `verified-unsourced` findings accumulated unseen. It lists the open
+  `[verified]` gaps in `corpus_peers.KNOWN_UNSOURCED`. That list ratchets both ways: closing a
+  gap means deleting its entry. ⚠️ The binary resolves its root **upward**, so a workdir inside
+  the repo reports on Lima's mirror for every site; the default is a temp dir, and a guard
+  refuses a mismatched root.
 - **The pin is `.yidam.toml`**, on upstream's schema (`origin`/`commit`/`template`/`committed`;
   the old `cli`/`cli_ref` names are dead and fail `yidam-build`), currently **`cli/v0.10.0`**.
   `mise run yidam-vendor-status` reports drift — a report, never a gate.
