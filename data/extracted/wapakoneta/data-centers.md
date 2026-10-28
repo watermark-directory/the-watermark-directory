@@ -84,7 +84,8 @@ Council. That briefing was the **2026-10-05** Council meeting `[verified]` (§1.
   City's post says only "the industrial park"; the press supplies the name.
   - WCOIC is at I-75 × US-33, inside city limits, and SiteOhio-authenticated per WAEDC's own site
     (<https://whywapakoneta.com/west-central-ohio-industrial-center>).
-  - **The parcel(s) are `[open]`.**
+  - **Which parcel(s) the "30 acre" site is remains `[open]`.** The platted park and its zoning, as
+    the City's published GIS layer shows them, are in §2.
 - **Expansion.** "with the potential to eventually expand to **70 acres and 200 megawatts**." **This
   is not in the City's post**, which describes only the 50 MW first phase as "a smaller sized data
   center." The two are not in conflict. The 200 MW figure is an unfiled, secondhand ceiling, and it
@@ -306,9 +307,31 @@ codification does. Read from American Legal's codification (supplement 2026 S-27
 - **§1252.07(b)(17)** points applicants to standards "listed in Section 1254.08(c)". §1254.08 has
   no subsection (c): it is a dangling cross-reference `[verified]`.
 
+**The WCOIC parcels on the City's zoning layer (queried 2026-10-28).** The City's zoning web app
+(the viewer in Instruments item 7) draws its districts from Auglaize County's ArcGIS server:
+`gis.auglaizecounty.org/arcgis/rest/services/Wapakoneta/WapakonetaZoning/MapServer/1` (field
+`ZONECLASS`; the layer carries no update date) and the county parcels at
+`BasemapServices/Parcels_and_Addresses_2019/MapServer/0`. The parcel layer is current despite its
+name: it records transfers as late as 2026-08-06. Intersecting the two:
+
+- The parcels whose legal description reads "WEST CENTRAL OHIO INDUSTRIAL PARK" are **19 lots
+  (I4504500100–I4504500600), 102.408 ac in all**, around 40.550, -84.186 `[reference]`.
+- **Every one of them falls in M-1. Two (I4504500401, I4504500404) also touch R-3. None touches
+  M-3** `[reference]`.
+- No lot is 30 acres. The largest vacant one is I4504500400, 15.986 ac, held by Wapakoneta
+  Industrial Development Inc. since 1991. The City holds I4504500200 (6.258 ac) and I4504500502
+  (1.31 ac) `[reference]`.
+- The M-3 polygons lie **south of the park**, on land that is mostly in private hands: Pratt Paper,
+  farm parcels of 30–209 ac, and AEP Ohio Transmission's 4.27 ac at 570 Short Road `[reference]`.
+- So **if CTS's site is a platted WCOIC lot, a data center there needs a rezoning to M-3 before any
+  conditional use** `[inference]`. A rezoning is a Council ordinance, which a conditional use alone
+  is not.
+- The layer is a finding aid, not the zoning map of record. A rezoning since it was drawn would not
+  show. WAEDC's "greenfield" WCOIC site may also reach beyond the platted lots. Both are `[open]`.
+
 **Still open.** The codification is the publisher's, not the signed instruments: Ord. 2024-46 and
-2024-48 as enacted are not in hand `[open]`. So is the zoning district of the WCOIC parcels. If they
-are not M-3, a data center there needs a rezoning before any conditional use `[open]`.
+2024-48 as enacted are not in hand `[open]`. The official zoning map for WCOIC, and which land the
+"30 acre" site is, are `[open]`.
 
 ## 2a — Adjacent, not a data center: Regensyn Energy at the WRF (Ord. 2026-20)
 
@@ -372,10 +395,12 @@ This is **not** a data-center entry. It is recorded because it concerns the same
    `governance/records-requests/2026-10-18-wapakoneta-clerk-of-council.md` (it also asks for items 2
    and 3 and the WCOIC zoning).
 6. **The CTS informational meetings**: dates, venue and materials.
-7. **The WCOIC parcel(s)**: ownership and transfer history from the Auglaize County Auditor/Recorder,
-   and their zoning district. The City's document page links an Auglaize County GIS zoning viewer
-   (<https://augcogis.maps.arcgis.com/apps/webappviewer/index.html?id=8f3f1b5bcb734d3c8b52326346667be9>),
-   which is a finding aid, not the zoning map of record.
+7. **The WCOIC parcel(s)**: which land the "30 acre" site is, and the official zoning map. The
+   City's GIS zoning viewer
+   (<https://augcogis.maps.arcgis.com/apps/webappviewer/index.html?id=8f3f1b5bcb734d3c8b52326346667be9>)
+   shows the platted park as M-1, not M-3 (§2, queried 2026-10-28). It is a finding aid, not the
+   zoning map of record. Any rezoning ordinance for the park would appear in the Council record
+   first.
 8. **The blowdown disposal path.** A hauled waste stream must land at a permitted receiver.
 9. **The Wapakoneta WRF's DFFO after 2025-12-31.** The permit (OH0027952), the 2019-02-06 DFFO
    (eDoc 992359) and its 2024-11-20 modification (eDoc 3301212) are in the record. The
@@ -387,6 +412,17 @@ This is **not** a data-center entry. It is recorded because it concerns the same
    and the same notice reports a TFR exceedance (1687 against 1561 mg/l). Whether Ohio EPA has
    acknowledged completion, or terminated or modified the order again, is open. The portal's other
    2PD00019 row (eDoc 3480641) is a mis-indexed ODOT rest-area order, not Wapakoneta's.
+   - **Re-swept 2026-10-28; no later order.** The eDocument portal (`watermark oepa portal --county
+     AUGLAIZE --program NPDES --entity WAPAKONETA`) returned 268 rows over 7 permits, the same set as
+     the 2026-10-27 manifest (`data/research/oepa-portal-wapakoneta-2026-10-27/`). It holds no order
+     on 2PD00019 dated after 2024-11-20. Controls in the same run: both 3301212 (the 2024 DFFO) and
+     3971298 (the 2026-01-15 notice) came back, and the newest row was dated 2026-10-22, so the
+     portal was current. The order-free silence covers 10 months past the deadline, well beyond the
+     portal's 1–28-day publication lag.
+   - Later WWTP filings are listed but **not read**: non-compliance reports 3944611 (2025-12-18),
+     4164444 (2026-06-22), 4190722 (2026-07-15) and 4267970 (2026-09-21), all on 2PD00019, and the
+     SSO annual reports 4024930 (2026-03-02) and 4032419 (2026-03-05). The portal's description says
+     only "NONCOMPLIANCE". Whether any of them is a TFR exceedance is `[open]` until they are read.
 10. **The county-wide negative checks**: RSEI 518210, ECHO and the PJM queue for Auglaize.
 
 ## Sources
