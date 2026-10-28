@@ -95,10 +95,12 @@ def _prepare_root(root: Path, repo_root: Path) -> Path:
 def check_site(slug: str, workdir: Path, base: Settings | None = None) -> PeerVerdict:
     """Project ``slug`` into ``<workdir>/<slug>/`` and judge the binary's reports over it."""
     base = base or get_settings()
+    # Settings rejects an unknown slug, and does so before the slug becomes a path to delete.
+    settings = site_settings(slug, base)
     repo_root = base.data_dir.parent
     root = workdir / slug
     corpus_dir = _prepare_root(root, repo_root)
-    regenerate_mirror(site_settings(slug, base), corpus_dir=corpus_dir, check=False)
+    regenerate_mirror(settings, corpus_dir=corpus_dir, check=False)
 
     graph_check = yidam_cli.run_report("graph-check", root=root)
     lint = yidam_cli.run_report("lint", "--warn", root=root)

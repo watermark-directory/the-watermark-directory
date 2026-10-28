@@ -86,6 +86,9 @@ jobs:
               - 'src/watermark/**'
               - '.yidam.toml'
               - '.yidam/lint-baseline.yml'
+              # Copied into every peer root by `corpus-peers` (corpus_peers._ROOT_FILES).
+              - '.yidam/config.toml'
+              - '.yidam/authorship.yml'
               - 'mise.toml'
               - '.github/workflows/ci.yml'
             markdown:

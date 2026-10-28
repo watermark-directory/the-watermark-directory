@@ -40,6 +40,16 @@ def test_every_known_gap_names_a_selectable_site() -> None:
     assert set(corpus_peers.KNOWN_UNSOURCED) <= set(exported_slugs())
 
 
+def test_an_unknown_slug_is_refused_before_anything_is_deleted(tmp_path: Path) -> None:
+    """The slug becomes a path that is rmtree'd, so it is validated first."""
+    keep = tmp_path / "keep"
+    keep.mkdir()
+    (keep / "evidence.txt").write_text("x", encoding="utf-8")
+    with pytest.raises(ValueError):
+        corpus_peers.check_site("../keep", tmp_path / "work", _base())
+    assert (keep / "evidence.txt").is_file()
+
+
 @needs_binary
 def test_the_known_gaps_hold_and_a_cleared_gap_fails(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
