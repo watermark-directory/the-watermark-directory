@@ -59,6 +59,8 @@ leads:
     2024 minutes (now held) record that at the second reading the Planning Commission had made no
     comment, no utility-rate conversation had occurred and the City's engineering consultant had
     given no input; both ordinances were adopted at the next meeting with no recorded discussion.
+    The City's published GIS zoning layer (2026-10-28) shows every platted WCOIC lot as M-1, not
+    M-3. On that layer a data center there needs a rezoning before the conditional use applies.
   source: Wapakoneta City Council minutes 2024-10-21, 2024-11-04, 2024-11-18 · data/extracted/wapakoneta/governance/council-2024-data-center-ordinances.timeline.yaml · data/extracted/wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml · data/extracted/wapakoneta/data-centers.md §2
   issue: 2184
 - id: POST-CAPTURE
