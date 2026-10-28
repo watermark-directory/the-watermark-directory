@@ -37,16 +37,10 @@ from watermark.sites import is_reference_site
 
 VERIFIED_UNSOURCED = "verified-unsourced"
 
-# Each entry is an editorial decision still open under #2137. Its fix is a citation or a
+# Each entry is an accepted, still-open editorial decision. Its fix is a citation or a
 # demotion, and that is the author's call, never this gate's. Keyed `<class>/<name>`, as the
-# node sits under `.yidam/corpus/`.
-KNOWN_UNSOURCED: dict[str, frozenset[str]] = {
-    # Cites docs/ECONOMICS.md: internally-authored prose that no catalog entry registers.
-    "lima": frozenset({"hypothesis/surveillance"}),
-    # Its `source:` is prose naming no path. The notice it describes IS captured, under
-    # data/documents/oepa/, so naming that path would close it.
-    "troy-piqua": frozenset({"question/lead-ohd000001"}),
-}
+# node sits under `.yidam/corpus/`. Empty since #2137 closed its last three by citation.
+KNOWN_UNSOURCED: dict[str, frozenset[str]] = {}
 
 # The files a root needs beside its mirror for the binary to read it as this repo's corpus.
 _ROOT_FILES = (".yidam.toml", ".yidam/config.toml", ".yidam/authorship.yml")

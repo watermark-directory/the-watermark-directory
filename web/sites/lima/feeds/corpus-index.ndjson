@@ -140,7 +140,7 @@
 {"id": "concept/wue", "node_class": "concept", "kind": "concept", "label": "WUE", "scope": "network", "links_out": 3, "links_in": 1, "lines": 21, "updated": "2026-07-17"}
 {"id": "concept/wwtp", "node_class": "concept", "kind": "concept", "label": "WWTP", "scope": "network", "links_out": 4, "links_in": 3, "lines": 24, "updated": "2026-07-17"}
 {"id": "hypothesis/defense", "node_class": "hypothesis", "kind": "hypothesis", "label": "H2 · Defense & Federal Enclave", "scope": "network", "links_out": 3, "links_in": 1, "lines": 28, "updated": null}
-{"id": "hypothesis/surveillance", "node_class": "hypothesis", "kind": "hypothesis", "label": "H3 · Consumer Surveillance", "scope": "network", "links_out": 1, "links_in": 1, "lines": 20, "updated": null}
+{"id": "hypothesis/surveillance", "node_class": "hypothesis", "kind": "hypothesis", "label": "H3 · Consumer Surveillance", "scope": "network", "links_out": 2, "links_in": 1, "lines": 23, "updated": null}
 {"id": "hypothesis/water", "node_class": "hypothesis", "kind": "hypothesis", "label": "H1 · Water & Coercion", "scope": "network", "links_out": 2, "links_in": 2, "lines": 13, "updated": null}
 {"id": "question/lead-aep-lyka-opsb", "node_class": "question", "kind": "lead", "label": "AEP Ohio's Lyka 345kV substation/line has no OPSB case yet — filing expected early 2027, final route undetermined", "scope": "site", "links_out": 2, "links_in": 0, "lines": 25, "updated": null}
 {"id": "question/lead-american-bath-headroom", "node_class": "question", "kind": "lead", "label": "The campus's own filing puts American/Bath WWTP at 72% of design once the campus is connected", "scope": "site", "links_out": 3, "links_in": 0, "lines": 31, "updated": null}

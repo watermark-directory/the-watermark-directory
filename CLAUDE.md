@@ -111,9 +111,9 @@ questions where the binary saw 2, and nothing could detect the gap.
   projects and says so when it cannot report. CI installs it and **gates** (the `corpus` job).
   That job also runs **`watermark corpus-peers`** (#2137), which runs the reports over **every
   selectable site's** mirror. Without it, a peer is checked only when someone lints it by hand,
-  which is how 23 `verified-unsourced` findings accumulated unseen. It lists the open
-  `[verified]` gaps in `corpus_peers.KNOWN_UNSOURCED`. That list ratchets both ways: closing a
-  gap means deleting its entry. ⚠️ The binary resolves its root **upward**, so a workdir inside
+  which is how 23 `verified-unsourced` findings accumulated unseen. Any accepted `[verified]`
+  gap goes in `corpus_peers.KNOWN_UNSOURCED` (empty since #2137 closed the last three). That
+  list ratchets both ways: closing a gap means deleting its entry. ⚠️ The binary resolves its root **upward**, so a workdir inside
   the repo reports on Lima's mirror for every site; the default is a temp dir, and a guard
   refuses a mismatched root.
 - **The pin is `.yidam.toml`**, on upstream's schema (`origin`/`commit`/`template`/`committed`;
