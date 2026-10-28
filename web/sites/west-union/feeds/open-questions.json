@@ -43,7 +43,7 @@
     "origin": "lead",
     "question": "The District's public water system ID is OH0100012, and the system is groundwater-sourced",
     "detail": "Established 2026-08-16 from Ohio EPA's own 2026 Adams County monitoring schedule — \"OH0100012 ADAMS COUNTY REGIONAL WD PWS, System Type Community, Source Ground Water\", sampling facility 152614, entry point EP001, distribution DS1/DS000, and a Ground Water Rule \"Substantial System\" designation. This is [verified] and it is the key any Ohio EPA drinking-water records request needs. ⚠️ Do NOT confuse it with OH0100112, which is Manchester Village's WTP — a different Adams County system, and Manchester is the mailing town of the Buck Canyon site. The groundwater source corroborates the minutes' repeated \"new wells\" language for the larger supply project, and makes aquifer capacity, not river withdrawal, the question for this site.",
-    "source": "Ohio EPA 2026 PWS Monitoring Schedules, Adams County (dam.assets.ohio.gov · epa.ohio.gov/Portals/28/documents/schedules/Adams.pdf), pp. 3-4",
+    "source": "Ohio EPA 2026 PWS Monitoring Schedules, Adams County (data/documents/oepa/west-union/Adams.pdf, PDF pp. 4-6) · data/extracted/oepa/west-union/OH0100012.pws-schedule.yaml",
     "kind": "claim",
     "status": "review",
     "issue": null,

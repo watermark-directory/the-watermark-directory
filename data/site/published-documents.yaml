@@ -155,6 +155,16 @@ collections:      # whole data/documents/<slug> trees, e.g.  - aedg
   # that the collection now admits VENDOR and THIRD-PARTY-LABORATORY documents that arrive as
   # attachments to an applicant's filing — screen those for the ship-to and account blocks a
   # permit form does not have.
+  #
+  # ⚠️ AMENDED 2026-10-28 (#2137) — `oepa/west-union/Adams.pdf`, Ohio EPA's own 2026 PWS
+  # monitoring schedules for Adams County (17 pp., six systems), fetched from dam.assets.ohio.gov.
+  # Screened by rendering all 17 pages. The named people are Ohio EPA program staff on the cover
+  # letter. The only street addresses are ten distribution disinfection-byproduct sampling points
+  # (two per system, SMP DS201/DS202), printed with no name and no result. That is the same
+  # kind of entry as the two Van Wert TTHM points the 2026-09-16 withhold note records as examined
+  # and left published. No lead-and-copper site is listed (each system points to its own plan).
+  # Auto-published by this rule. ⚠️ NO `review:` LINE: the agent that shelved it applied the
+  # precedent and did not stamp a review in the operator's name; add one, or a `withhold:`, on review.
   # review: { by: goedelsoup, date: 2026-07-10, result: publish, basis: public-epa-agency-records }
   # review: { by: goedelsoup, date: 2026-08-17, result: publish, basis: public-epa-agency-records }
   # review: { by: goedelsoup, date: 2026-08-22, result: publish, basis: public-epa-agency-records }

@@ -34,10 +34,22 @@ def test_a_node_key_strips_the_corpus_prefix_suffix_and_line() -> None:
     )
 
 
-def test_every_known_gap_names_a_selectable_site() -> None:
-    from watermark.site.doc_serving import exported_slugs
+def test_every_known_gap_names_a_registered_site() -> None:
+    from watermark.sites import SITES
 
-    assert set(corpus_peers.KNOWN_UNSOURCED) <= set(exported_slugs())
+    assert set(corpus_peers.KNOWN_UNSOURCED) <= set(SITES)
+
+
+def test_the_default_scope_is_every_registered_site(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Not only the selectable ones: #2137's last four gaps sat on unpublished sites."""
+    from watermark.sites import SITES
+
+    seen: list[str] = []
+    monkeypatch.setattr(corpus_peers, "check_site", lambda slug, *_: seen.append(slug))
+    corpus_peers.check_sites(tmp_path)
+    assert seen == list(SITES)
 
 
 def test_an_unknown_slug_is_refused_before_anything_is_deleted(tmp_path: Path) -> None:

@@ -1,11 +1,15 @@
-"""The yidam reports over every selectable site's mirror, not only the reference build's (#2137).
+"""The yidam reports over every registered site's mirror, not only the reference build's (#2137).
 
-The CI ``corpus`` job projects **Lima** and gates on it. Every other selectable site's mirror
-was built only when someone ran lint by hand, so a peer could regress unseen. That is how 23
+The CI ``corpus`` job projects **Lima** and gates on it. Every other site's mirror was built
+only when someone ran lint by hand, so a peer could regress unseen. That is how 23
 `verified-unsourced` findings accumulated across four peers before #2137 measured them.
 
-Each selectable site is projected into its own throwaway root, and the pinned binary reports
-on it. The verdicts are the binary's; this module only decides which of them fail:
+Every **registered** site is checked, not only the selectable ones. A site's mirror is
+projected whether or not the site is published, and a `[verified]` claim does not become
+sourced by waiting for promotion: #2137's last four uncited cells all sat on unpublished
+sites (wpafb, columbus, new-albany, springfield), out of reach of a selectable-only gate.
+
+Each site is projected into its own throwaway root, and the pinned binary reports on it. The verdicts are the binary's; this module only decides which of them fail:
 
 * ``graph-check`` must pass, the same hard gate the reference build is held to.
 * **No error-severity lint finding, on a peer.** A peer has no baseline. The one committed
@@ -32,8 +36,7 @@ from watermark.config import Settings, get_settings
 from watermark.site import yidam_cli
 from watermark.site.committed import site_settings
 from watermark.site.corpus_mirror import regenerate_mirror
-from watermark.site.doc_serving import exported_slugs
-from watermark.sites import is_reference_site
+from watermark.sites import SITES, is_reference_site
 
 VERIFIED_UNSOURCED = "verified-unsourced"
 
@@ -125,5 +128,5 @@ def check_site(slug: str, workdir: Path, base: Settings | None = None) -> PeerVe
 def check_sites(
     workdir: Path, slugs: Iterable[str] | None = None, base: Settings | None = None
 ) -> list[PeerVerdict]:
-    """:func:`check_site` over ``slugs``, defaulting to every selectable site."""
-    return [check_site(slug, workdir, base) for slug in (slugs or exported_slugs())]
+    """:func:`check_site` over ``slugs``, defaulting to every registered site."""
+    return [check_site(slug, workdir, base) for slug in (slugs or SITES)]

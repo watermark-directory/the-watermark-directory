@@ -110,7 +110,9 @@ questions where the binary saw 2, and nothing could detect the gap.
 - **Run:** `mise run yidam-reports`. Locally the binary is *optional* — `watermark corpus-mirror`
   projects and says so when it cannot report. CI installs it and **gates** (the `corpus` job).
   That job also runs **`watermark corpus-peers`** (#2137), which runs the reports over **every
-  selectable site's** mirror. Without it, a peer is checked only when someone lints it by hand,
+  registered site's** mirror (27, ~50 s), not just the selectable ones: an unpublished site's
+  `[verified]` claim is no more sourced for waiting on promotion, and #2137's last four gaps sat
+  on exactly such sites. Without it, a peer is checked only when someone lints it by hand,
   which is how 23 `verified-unsourced` findings accumulated unseen. Any accepted `[verified]`
   gap goes in `corpus_peers.KNOWN_UNSOURCED` (empty since #2137 closed the last three). That
   list ratchets both ways: closing a gap means deleting its entry. ⚠️ The binary resolves its root **upward**, so a workdir inside

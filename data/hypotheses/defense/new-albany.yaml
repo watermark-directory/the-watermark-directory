@@ -1,7 +1,7 @@
 site: new-albany
 hypothesis: defense
 signal: moderate
-tag: verified
+tag: inference
 group: federal
 fields:
   nexus: CHIPS semiconductor megasite

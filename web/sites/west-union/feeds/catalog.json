@@ -668,6 +668,56 @@
     }
   },
   {
+    "id": "oepa-west-union-pws-schedule",
+    "title": "Ohio EPA record extractions (Adams County Regional Water District — PWS OH0100012 monitoring schedule)",
+    "scope": "extracted",
+    "collection": "oepa",
+    "status": "reviewed",
+    "producer_kind": "extracted",
+    "command": null,
+    "connector_ref": null,
+    "source": "Ohio EPA Division of Drinking and Ground Waters — the 2026 Adams County public water system monitoring schedules (Adams.pdf, dam.assets.ohio.gov), fetched 2026-10-28 and shelved at data/documents/oepa/west-union/ with its hash in that collection's filename-map.yaml",
+    "external_url": null,
+    "license": "Public record (Ohio R.C. 149.43)",
+    "access_tier": "public",
+    "site_scope": "site:west-union",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "oepa",
+      "drinking-water",
+      "west-union",
+      "adams-county"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/oepa/west-union/OH0100012.pws-schedule.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "411ec48cc29635aae1d8e9872411f04d8b71cbce57edb0d505726c01987725cf",
+      "size_bytes": 4354,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Ohio EPA Division of Drinking and Ground Waters — the 2026 Adams County public water system monitoring schedules (Adams.pdf, dam.assets.ohio.gov), fetched 2026-10-28 and shelved at data/documents/oepa/west-union/ with its hash in that collection's filename-map.yaml",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
     "id": "regulatory-west-union",
     "title": "Water-Pollution Enforcement Instruments (Village of West Union)",
     "scope": "extracted",

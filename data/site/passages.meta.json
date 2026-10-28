@@ -444,6 +444,7 @@
     "oepa/wapakoneta/edoc-3971298.pdf",
     "oepa/wapakoneta/edoc-992359.pdf",
     "oepa/west-union/0PC00019.pdf",
+    "oepa/west-union/Adams.pdf",
     "oepa/west-union/edoc-3940058.pdf",
     "oepa/west-union/edoc-3940059.pdf",
     "oepa/west-union/edoc-3940060.pdf",
@@ -549,6 +550,6 @@
     "west-union/acrwd/minutes/Minutes -January 2024.pdf",
     "west-union/acrwd/minutes/Minutes-July 26.pdf"
   ],
-  "documents_with_passages": 445,
-  "passage_count": 8760
+  "documents_with_passages": 446,
+  "passage_count": 8777
 }
