@@ -1,0 +1,84 @@
+doc_id: edoc-4048413-67e0c248
+source_path: data/documents/oepa/wapakoneta/edoc-4048413.pdf
+kind: progress-report
+pages_read:
+- 0
+image_pages_read:
+- 0
+dpi: 72
+source_text_excerpt: 'Upset Notification Report
+
+  General Information
+
+  Facility Name : Wapakoneta WWTP
+
+  Facility County: Auglaize
+
+  Ohio NPDES permit no: 2PD00019*SD
+
+  US EPA Application Number: OH0027952
+
+  Primary Contact Information
+
+  Mailing Address: P.O. Box 269
+
+  City: Wapakoneta State: OH Zip Code: 45895
+
+  Country: USA
+
+  Primary Contact Name: Justin Waid
+
+  Title: Superintendent
+
+  Email Address: jwaid@wapakoneta.net
+
+  Phone: (419) 738-24'
+progress_report:
+  confidence: high
+  warnings:
+  - This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified]
+    as what the City told Ohio EPA, nothing more.
+  - Filed on Ohio EPA DSW's "Upset Notification Report" e-form. The form cites no permit section, order
+    or DFFO; case_no and paragraph are null.
+  - The form carries no Date field. report_date is the portal's index date (3/18/2026).
+  - The volume, 9,000,000 gallons, is printed as "9000000.0000" under "Approximate Volume"; it is the
+    City's approximation of the flow during the upset, not a measured bypass volume, and the form does
+    not say how it was derived.
+  - The TSS figure (118 mg/l) is entered against a 30-day concentration average limit (12 mg/l); whether
+    it is a 30-day average or the upset-period sample is not stated. [open]
+  agency: Ohio EPA, Division of Surface Water
+  instrument: Upset notification (NPDES 2PD00019*SD)
+  case_no: null
+  paragraph: null
+  respondent: City of Wapakoneta
+  facility: City of Wapakoneta WRF, Auglaize County
+  permit_no: 2PD00019*SD
+  report_date: '2026-03-18'
+  period_start: '2026-03-11'
+  period_end: '2026-03-12'
+  deadlines_status: null
+  noncompliance_reasons: '"Multiple extreme weather events and power fluctuations with return sludge restart
+    issues." Comment: "With the return sludge pump not restarting, excess settled sludge was not removed,
+    allowing floc to overflow the weirs."'
+  projects: []
+  agency_contacts: []
+  permit_exceedances:
+  - '530 Total Suspended Solids: 30 day concentration average, limit 12 mg/l, measured 118 mg/l.'
+  discharge_events:
+  - kind: upset
+    outfall_id: null
+    location: 'Wapakoneta WWTP (clarifier weirs); affected stream: Auglaize River'
+    date: '2026-03-11'
+    frequency: '1'
+    duration: 03/11/2026 09:00 to 03/12/2026 11:00 (discovered 03/12/2026 09:00)
+    volume: 9000000.0000 gallons (approximate)
+    estimated: true
+    note: 'Remedial steps: "Activated an additional clarifier and found the programming issue that caused
+      the return sludge pumps not to restart." Upset ID 24648559.'
+  summary: 'The City reported an upset at its WRF from 2026-03-11 09:00 to 2026-03-12 11:00: after weather
+    events and power fluctuations the return-sludge pumps failed to restart, settled sludge was not removed
+    and floc overflowed the weirs to the Auglaize River. It gave an approximate volume of 9,000,000 gallons
+    and a TSS value of 118 mg/l against a 12 mg/l 30-day limit. It traced the cause to a programming fault
+    and brought an additional clarifier on line.'
+  note: 'Ohio EPA DSW "Upset Notification Report" e-form, Application ID 24644785, Upset ID 24648559;
+    contact Justin Waid, Superintendent. Upset ongoing: No.'

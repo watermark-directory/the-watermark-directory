@@ -628,7 +628,10 @@ def test_the_committed_compliance_genres_all_load() -> None:
     # 10 -> 11 (#2184): `oepa/wapakoneta/edoc-3971298.progress-report.yaml`, the City's 2026-01-15
     # non-compliance notification. A self-report keyed to a PERMIT condition (Part III, Section
     # 12), so it takes the rule-keyed shape the CSO annual report does: case_no / paragraph null.
-    assert len(corpus.progress_reports) == 11
+    # 11 -> 18 (#2184): the City's seven later self-reports on the same permit, 2025-12-18 to
+    # 2026-09-18 (`oepa/wapakoneta/edoc-{3944611,4048413,4089538,4164444,4190722,4267970,4267972}`):
+    # four non-compliance notices, an upset report, a daily-max form and an SSO 5-day notice.
+    assert len(corpus.progress_reports) == 18
     # The three genres this tranche added. Counted here and not only in their own tests because
     # the failure they guard against is the one `permit-extension` actually had: a genre that
     # extracts cleanly, validates, and is DECLINED by the loader — so its artifacts exist on disk

@@ -1,0 +1,68 @@
+doc_id: edoc-3944611-1df76e45
+source_path: data/documents/oepa/wapakoneta/edoc-3944611.pdf
+kind: progress-report
+pages_read:
+- 0
+image_pages_read:
+- 0
+dpi: 72
+source_text_excerpt: 'Division of Surface Water
+
+  Non-compliance Notification for
+
+  Exceedance of a Daily Maximum Discharge Limit
+
+  Use this form to report non-compliance that is the result of any violation of a daily maximum discharge
+  limit for any of
+
+  the pollutants listed by the Director in your NPDES permit (see Part III, Section 12 of your NPDES permit
+  for details). The
+
+  form should be completed and e-mailed to the approp'
+progress_report:
+  confidence: high
+  warnings:
+  - This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified]
+    as what the City told Ohio EPA, nothing more.
+  - 'Filed under a permit condition, not an order: the form cites Part III, Section 12 of the NPDES permit.
+    case_no and paragraph are therefore null. The form does not cite the 2019 DFFO or its 2024 modification.'
+  - The form's period of exceedance reads "1.00 hrs" with a first-of-month date. A 30-day average cannot
+    be a one-hour event, so the field is transcribed as printed; the date is read as the monitoring month
+    and is the form's, not an inference about when the discharge occurred.
+  - The form carries no Date field. report_date is the portal's index date (12/18/2025), not a date printed
+    on the form.
+  - The TFR limit printed (1561 mg/l) is the permit's lowest 30-day TFR tier, fictitious outfall 020
+    (Auglaize upstream flow < 7 cfs; 2PD00019.npdes.yaml total_filterable_residue_tiers). The form names
+    no outfall; the tier is read off the limit value, and is consistent with the City's "dry conditions"
+    comment. [inference] The figure matches no DFFO interim limit (those are in specific conductance).
+  agency: Ohio EPA, Division of Surface Water
+  instrument: Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)
+  case_no: null
+  paragraph: null
+  respondent: City of Wapakoneta
+  facility: City of Wapakoneta WRF, Auglaize County
+  permit_no: 2PD00019*SD
+  report_date: '2025-12-18'
+  period_start: '2025-11-01'
+  period_end: '2025-11-30'
+  deadlines_status: null
+  noncompliance_reasons: 'TFR: "High influent level of TFR to the plant from industries." Comment: "High
+    load of TFR to the plant and dry conditions at the plant."'
+  projects:
+  - name: Flow augmentation
+    status: '"will have flow augmentation implemented in December" (the City''s statement, prospective).'
+    next_period: null
+  - name: Industrial loading reduction
+    status: '"Working with industries to reduce their discharge loading".'
+    next_period: null
+  agency_contacts: []
+  permit_exceedances:
+  - '70300 Residue, Total Filterable: 30 day concentration average, limit 1561 mg/l, measured 1718 mg/l.'
+  discharge_events: []
+  summary: The City of Wapakoneta notified Ohio EPA of a 30-day-average TFR exceedance at its WRF for
+    the period dated 2025-11-01 (1718 against 1561 mg/l), blaming high influent TFR from industries and
+    dry conditions. It said it would have flow augmentation implemented in December. It is the last report
+    in the record that describes augmentation as not yet running.
+  note: 'Ohio EPA DSW "Non-compliance Notification for Exceedance of a Daily Maximum Discharge Limit"
+    e-form, Application ID 23301455; contact Justin Waid. Period field: "1.00 hrs / 11/01/2025 09:23:00".
+    Reporting non-compliance with a permit condition: No.'

@@ -1,0 +1,68 @@
+doc_id: edoc-4267970-328b96f9
+source_path: data/documents/oepa/wapakoneta/edoc-4267970.pdf
+kind: progress-report
+pages_read:
+- 0
+- 1
+image_pages_read:
+- 0
+- 1
+dpi: 72
+source_text_excerpt: 'Division of Surface Water
+
+  Non-compliance Notification for
+
+  Exceedance of a Daily Maximum Discharge Limit
+
+  Use this form to report non-compliance that is the result of any violation of a daily maximum discharge
+  limit for any of
+
+  the pollutants listed by the Director in your NPDES permit (see Part III, Section 12 of your NPDES permit
+  for details). The
+
+  form should be completed and e-mailed to the approp'
+progress_report:
+  confidence: high
+  warnings:
+  - This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified]
+    as what the City told Ohio EPA, nothing more.
+  - 'Filed under a permit condition, not an order: the form cites Part III, Section 12 of the NPDES permit.
+    case_no and paragraph are therefore null. The form does not cite the 2019 DFFO or its 2024 modification.'
+  - The form's period of exceedance reads "1.00 hrs" with a first-of-month date. A 30-day average cannot
+    be a one-hour event, so the field is transcribed as printed; the date is read as the monitoring month
+    and is the form's, not an inference about when the discharge occurred.
+  - '"High upstream chronic toxicity" is the City''s explanation for the Ceriodaphnia dubia result. No
+    upstream toxicity data is attached or cited in the form. [verified as stated; the upstream condition
+    itself is open]'
+  agency: Ohio EPA, Division of Surface Water
+  instrument: Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)
+  case_no: null
+  paragraph: null
+  respondent: City of Wapakoneta
+  facility: City of Wapakoneta WRF, Auglaize County
+  permit_no: 2PD00019*SD
+  report_date: '2026-09-18'
+  period_start: '2026-08-01'
+  period_end: '2026-08-31'
+  deadlines_status: null
+  noncompliance_reasons: 'TSS: "High flows from heavy rain events caused exceedance". Toxicity: "High
+    upstream chronic toxicity and mixing of the two are the likely cause of the exceedance."'
+  projects: []
+  agency_contacts: []
+  permit_exceedances:
+  - '00530 Total Suspended Solids: 30 day quantity average, limit 273 kg/day, measured 298 kg/day.'
+  - '00530 Total Suspended Solids: 30 day concentration average, limit 12 mg/l, measured 13 mg/l.'
+  - '00530 Total Suspended Solids: 7 day quantity maximum, limit 409 kg/day, measured 574 kg/day.'
+  - '00530 Total Suspended Solids: 7 day concentration maximum, limit 18 mg/l, measured 21 mg/l.'
+  - '61426 Chronic Toxicity, Ceriodaphnia dubia: 30 day concentration average, limit 1 TUc, measured 4.4
+    TUc.'
+  discharge_events: []
+  summary: On 2026-09-18 the City notified Ohio EPA of four TSS exceedances (30-day and 7-day, quantity
+    and concentration) for the period dated 2026-08-01, which it blamed on high flows from heavy rain,
+    and chronic toxicity to Ceriodaphnia dubia of 4.4 TUc against a 1 TUc limit, which it blamed on high
+    upstream chronic toxicity mixing with the effluent. It said the plant resumed normal operation once
+    flows returned to average.
+  note: 'Ohio EPA DSW non-compliance notification e-form, Application ID 25926260; contact Justin Waid,
+    Superintendent. Steps: "Once the rain event ended, flows returned to average, the plant rebounded,
+    and resumed as normal." Reporting non-compliance with a permit condition: No. The same day''s SSO
+    report is edoc-4267972.'

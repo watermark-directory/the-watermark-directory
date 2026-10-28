@@ -1,0 +1,89 @@
+doc_id: edoc-4267972-87a840e5
+source_path: data/documents/oepa/wapakoneta/edoc-4267972.pdf
+kind: progress-report
+pages_read:
+- 0
+- 1
+- 2
+- 3
+image_pages_read:
+- 0
+- 1
+- 2
+- 3
+dpi: 72
+source_text_excerpt: 'SSO - 5 Day Notification
+
+  Division of Surface Water
+
+  General Information
+
+  Date: September 18, 2026
+
+  Facility Name : Wapakoneta WWTP
+
+  Facility County: Auglaize
+
+  Ohio NPDES permit no: 2PD00019*SD
+
+  US EPA Application Number: OH0027952
+
+  Primary Contact Information
+
+  Mailing Address: P.O. Box 269
+
+  City: Wapakoneta State: OH Zip Code: 45895
+
+  Country: USA
+
+  Primary Contact Name: Justin Waid
+
+  Title: Superintendent
+
+  Email'
+progress_report:
+  confidence: high
+  warnings:
+  - This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified]
+    as what the City told Ohio EPA, nothing more.
+  - Filed on Ohio EPA DSW's "SSO - 5 Day Notification" e-form, which cites no permit section, order or
+    DFFO.
+  - The volume (10000.00 gallons) is the form's "estimated" field and the duration (1.00 hours) is as
+    printed.
+  - '"No impact can be seen during the risk of event a truck was parked on the manhole which stopped event"
+    is transcribed as printed; its grammar is the City''s.'
+  agency: Ohio EPA, Division of Surface Water
+  instrument: SSO 5-day notification (NPDES 2PD00019*SD)
+  case_no: null
+  paragraph: null
+  respondent: City of Wapakoneta
+  facility: City of Wapakoneta WRF, Auglaize County
+  permit_no: 2PD00019*SD
+  report_date: '2026-09-18'
+  period_start: '2026-09-17'
+  period_end: '2026-09-17'
+  deadlines_status: null
+  noncompliance_reasons: 'Cause boxes checked: "Flooding: Extreme weather (FCS)". Other: "Manhole bolts
+    had not been reinstalled from previous work. Bolts have been installed and lid is now correctly sealed."'
+  projects: []
+  agency_contacts: []
+  permit_exceedances: []
+  discharge_events:
+  - kind: SSO
+    outfall_id: null
+    location: Manhole, not associated with a permitted feature (40.57177698, -84.19826125); to storm sewer
+      to receiving water, Auglaize River
+    date: '2026-09-17'
+    frequency: '1'
+    duration: 1.00 hours
+    volume: 10000.00 gallons
+    estimated: true
+    note: 'Wet weather (rain). Overflow Number 25926266. Short-term action: "parked truck on manhole";
+      long-term: "installed needed bolts to anchor and seal manhole". Impacts checked: aesthetic impairment;
+      human health "small and unknown".'
+  summary: 'On 2026-09-18 the City reported a wet-weather sanitary sewer overflow on 2026-09-17: an estimated
+    10,000 gallons over one hour from a manhole whose bolts had not been reinstalled after earlier work,
+    reaching the Auglaize River through the storm sewer. A truck parked on the lid stopped it, and the
+    bolts were then installed.'
+  note: Ohio EPA DSW "SSO - 5 Day Notification" e-form, Application ID 25926264; contact Justin Waid,
+    Superintendent.

@@ -421,10 +421,21 @@ This is **not** a data-center entry. It is recorded because it concerns the same
      `[verified]`. Because the silence runs 10 months past the deadline, well beyond the portal's
      1–28-day publication lag, it is not a lag artifact `[inference]`. An order served but never
      posted to the portal would not show.
-   - Later WWTP filings are listed but **not read**: non-compliance reports 3944611 (2025-12-18),
-     4164444 (2026-06-22), 4190722 (2026-07-15) and 4267970 (2026-09-21), all on 2PD00019, and the
-     SSO annual reports 4024930 (2026-03-02) and 4032419 (2026-03-05). The portal's description says
-     only "NONCOMPLIANCE". Whether any of them is a TFR exceedance is `[open]` until they are read.
+   - **The City's later self-reports, read 2026-10-28** (eDocs 3944611, 4048413, 4089538, 4164444,
+     4190722, 4267970 and 4267972, all on 2PD00019, filed 2025-12-18 to 2026-09-18; extracted under
+     `data/extracted/oepa/wapakoneta/`). Each one is the City's own statement to Ohio EPA, not an agency finding.
+     The 2025-12-18 notice reports a November TFR exceedance (1718 against 1561 mg/l), blames
+     "industries" and dry conditions, and says augmentation "will" be implemented in December. That
+     fits the 2026-01-15 notice saying it is "now" online `[verified]` as the City's statements. None
+     of the six 2026 filings reports TFR. They cover a plant upset on 2026-03-11/12 (floc overflowed
+     the clarifier weirs; the form's separate "Approximate Volume" for the upset is 9,000,000
+     gallons, with no derivation, so it is not a measured overflow volume), a disputed March pH and TSS
+     result, low-level mercury in May, chronic toxicity in June (P. promelas) and August (C. dubia,
+     4.4 TUc, blamed on upstream toxicity), August TSS after heavy rain, and a 10,000-gallon manhole
+     SSO on 2026-09-17. So TFR is absent from every filing the portal holds after January
+     `[verified]` as to these forms. Whether TFR met its limits in the other months is `[open]`
+     until the DMRs are read. Not read: the SSO annual reports 4024930 (2026-03-02) and 4032419
+     (2026-03-05), and the 2025-12-15 CSO/SSO post-construction monitoring plan (3940467/3940468).
 10. **The county-wide negative checks**: RSEI 518210, ECHO and the PJM queue for Auglaize.
 
 ## Sources

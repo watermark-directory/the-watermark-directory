@@ -1,5 +1,64 @@
 [
   {
+    "rel": "oepa/wapakoneta/edoc-3944611.progress-report.yaml",
+    "group": "compliance-reports",
+    "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
+    "confidence": "high",
+    "warnings": [
+      "This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified] as what the City told Ohio EPA, nothing more.",
+      "Filed under a permit condition, not an order: the form cites Part III, Section 12 of the NPDES permit. case_no and paragraph are therefore null. The form does not cite the 2019 DFFO or its 2024 modification.",
+      "The form's period of exceedance reads \"1.00 hrs\" with a first-of-month date. A 30-day average cannot be a one-hour event, so the field is transcribed as printed; the date is read as the monitoring month and is the form's, not an inference about when the discharge occurred.",
+      "The form carries no Date field. report_date is the portal's index date (12/18/2025), not a date printed on the form.",
+      "The TFR limit printed (1561 mg/l) is the permit's lowest 30-day TFR tier, fictitious outfall 020 (Auglaize upstream flow < 7 cfs; 2PD00019.npdes.yaml total_filterable_residue_tiers). The form names no outfall; the tier is read off the limit value, and is consistent with the City's \"dry conditions\" comment. [inference] The figure matches no DFFO interim limit (those are in specific conductance)."
+    ],
+    "fields": {
+      "agency": "Ohio EPA, Division of Surface Water",
+      "instrument": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
+      "case_no": null,
+      "paragraph": null,
+      "respondent": "City of Wapakoneta",
+      "facility": "City of Wapakoneta WRF, Auglaize County",
+      "permit_no": "2PD00019*SD",
+      "report_date": "2025-12-18",
+      "period_start": "2025-11-01",
+      "period_end": "2025-11-30",
+      "deadlines_status": null,
+      "noncompliance_reasons": "TFR: \"High influent level of TFR to the plant from industries.\" Comment: \"High load of TFR to the plant and dry conditions at the plant.\"",
+      "projects": [
+        {
+          "name": "Flow augmentation",
+          "status": "\"will have flow augmentation implemented in December\" (the City's statement, prospective).",
+          "next_period": null
+        },
+        {
+          "name": "Industrial loading reduction",
+          "status": "\"Working with industries to reduce their discharge loading\".",
+          "next_period": null
+        }
+      ],
+      "agency_contacts": [],
+      "permit_exceedances": [
+        "70300 Residue, Total Filterable: 30 day concentration average, limit 1561 mg/l, measured 1718 mg/l."
+      ],
+      "discharge_events": [],
+      "summary": "The City of Wapakoneta notified Ohio EPA of a 30-day-average TFR exceedance at its WRF for the period dated 2025-11-01 (1718 against 1561 mg/l), blaming high influent TFR from industries and dry conditions. It said it would have flow augmentation implemented in December. It is the last report in the record that describes augmentation as not yet running.",
+      "note": "Ohio EPA DSW \"Non-compliance Notification for Exceedance of a Daily Maximum Discharge Limit\" e-form, Application ID 23301455; contact Justin Waid. Period field: \"1.00 hrs / 11/01/2025 09:23:00\". Reporting non-compliance with a permit condition: No."
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-3944611.progress-report.yaml",
+      "source_kind": "document",
+      "page": 1,
+      "pages": null,
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "oepa/wapakoneta/edoc-3944611.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": true
+  },
+  {
     "rel": "oepa/wapakoneta/edoc-3971298.progress-report.yaml",
     "group": "compliance-reports",
     "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
@@ -58,6 +117,354 @@
       "verified": true
     },
     "source_doc_rel": "oepa/wapakoneta/edoc-3971298.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": true
+  },
+  {
+    "rel": "oepa/wapakoneta/edoc-4048413.progress-report.yaml",
+    "group": "compliance-reports",
+    "title": "Upset notification (NPDES 2PD00019*SD)",
+    "confidence": "high",
+    "warnings": [
+      "This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified] as what the City told Ohio EPA, nothing more.",
+      "Filed on Ohio EPA DSW's \"Upset Notification Report\" e-form. The form cites no permit section, order or DFFO; case_no and paragraph are null.",
+      "The form carries no Date field. report_date is the portal's index date (3/18/2026).",
+      "The volume, 9,000,000 gallons, is printed as \"9000000.0000\" under \"Approximate Volume\"; it is the City's approximation of the flow during the upset, not a measured bypass volume, and the form does not say how it was derived.",
+      "The TSS figure (118 mg/l) is entered against a 30-day concentration average limit (12 mg/l); whether it is a 30-day average or the upset-period sample is not stated. [open]"
+    ],
+    "fields": {
+      "agency": "Ohio EPA, Division of Surface Water",
+      "instrument": "Upset notification (NPDES 2PD00019*SD)",
+      "case_no": null,
+      "paragraph": null,
+      "respondent": "City of Wapakoneta",
+      "facility": "City of Wapakoneta WRF, Auglaize County",
+      "permit_no": "2PD00019*SD",
+      "report_date": "2026-03-18",
+      "period_start": "2026-03-11",
+      "period_end": "2026-03-12",
+      "deadlines_status": null,
+      "noncompliance_reasons": "\"Multiple extreme weather events and power fluctuations with return sludge restart issues.\" Comment: \"With the return sludge pump not restarting, excess settled sludge was not removed, allowing floc to overflow the weirs.\"",
+      "projects": [],
+      "agency_contacts": [],
+      "permit_exceedances": [
+        "530 Total Suspended Solids: 30 day concentration average, limit 12 mg/l, measured 118 mg/l."
+      ],
+      "discharge_events": [
+        {
+          "kind": "upset",
+          "outfall_id": null,
+          "location": "Wapakoneta WWTP (clarifier weirs); affected stream: Auglaize River",
+          "date": "2026-03-11",
+          "frequency": "1",
+          "duration": "03/11/2026 09:00 to 03/12/2026 11:00 (discovered 03/12/2026 09:00)",
+          "volume": "9000000.0000 gallons (approximate)",
+          "estimated": true,
+          "note": "Remedial steps: \"Activated an additional clarifier and found the programming issue that caused the return sludge pumps not to restart.\" Upset ID 24648559."
+        }
+      ],
+      "summary": "The City reported an upset at its WRF from 2026-03-11 09:00 to 2026-03-12 11:00: after weather events and power fluctuations the return-sludge pumps failed to restart, settled sludge was not removed and floc overflowed the weirs to the Auglaize River. It gave an approximate volume of 9,000,000 gallons and a TSS value of 118 mg/l against a 12 mg/l 30-day limit. It traced the cause to a programming fault and brought an additional clarifier on line.",
+      "note": "Ohio EPA DSW \"Upset Notification Report\" e-form, Application ID 24644785, Upset ID 24648559; contact Justin Waid, Superintendent. Upset ongoing: No."
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4048413.progress-report.yaml",
+      "source_kind": "document",
+      "page": 1,
+      "pages": null,
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "oepa/wapakoneta/edoc-4048413.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": true
+  },
+  {
+    "rel": "oepa/wapakoneta/edoc-4089538.progress-report.yaml",
+    "group": "compliance-reports",
+    "title": "Daily max limit exceedance (NPDES 2PD00019*SD)",
+    "confidence": "high",
+    "warnings": [
+      "This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified] as what the City told Ohio EPA, nothing more.",
+      "Filed on Ohio EPA DSW's \"Daily Max Limit Exceedance\" e-form, which cites no permit section, order or DFFO.",
+      "The form carries no Date field. report_date is the portal's index date (4/21/2026). The \"US EPA Application Number\" field prints 25860487, the form's own application id, not OH0027952.",
+      "The City disputes its own results: it says the pH reading came from a failed new probe and that the TSS results are \"an average of 6 times higher than actual\" because a sampler froze. Those are the City's explanations [verified as stated]; whether the reported values or the City's account are right is [open].",
+      "Only the pH minimum is entered in the Exceeded Limits table. The TSS exceedances are named in the description (30-day quantity and concentration averages, 7-day quantity and concentration maxima) with no values. They are not transcribed as values because none is printed."
+    ],
+    "fields": {
+      "agency": "Ohio EPA, Division of Surface Water",
+      "instrument": "Daily max limit exceedance (NPDES 2PD00019*SD)",
+      "case_no": null,
+      "paragraph": null,
+      "respondent": "City of Wapakoneta",
+      "facility": "City of Wapakoneta WRF, Auglaize County",
+      "permit_no": "2PD00019*SD",
+      "report_date": "2026-04-21",
+      "period_start": "2026-03-01",
+      "period_end": "2026-03-31",
+      "deadlines_status": null,
+      "noncompliance_reasons": "pH: \"I believe this is incorrect because a new pH probe has failed. The unit calibration slope was incorrect, and the new operator hadn't noticed the failed slope.\" TSS: \"due to the 603 sampler freezing the sample completely, which caused the results to be an average of 6 times higher than actual.\"",
+      "projects": [
+        {
+          "name": "Sampler repair",
+          "status": "\"Had technicians from GRIPP Inc, in to repair unit. New power supply, thermostat and temperature control units replaced.\"",
+          "next_period": null
+        }
+      ],
+      "agency_contacts": [],
+      "permit_exceedances": [
+        "61942 pH, Minimum: daily concentration min, limit 6.5 S.U., measured 6 S.U.",
+        "Total Suspended Solids: 30 day quantity average, named in the description, no values printed.",
+        "Total Suspended Solids: 30 day concentration average, named in the description, no values printed.",
+        "Total Suspended Solids: 7 day quantity maximum, named in the description, no values printed.",
+        "Total Suspended Solids: 7 day concentration maximum, named in the description, no values printed."
+      ],
+      "discharge_events": [],
+      "summary": "For the period dated 2026-03-01 the City reported a pH minimum of 6 S.U. against a 6.5 S.U. limit and four TSS exceedances, and disputed all of them: it attributed the pH to a failed new probe and the TSS results, which it says ran about six times high, to a sampler that froze the sample. It had the sampler repaired.",
+      "note": "Ohio EPA DSW \"Daily Max Limit Exceedance\" e-form, Application ID 25860487; contact Justin Waid, Superintendent. Period field: \"24.00 hrs / 03/01/2026\". The same month holds the 03-11/12 upset (edoc-4048413)."
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4089538.progress-report.yaml",
+      "source_kind": "document",
+      "page": 1,
+      "pages": [
+        1,
+        2
+      ],
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "oepa/wapakoneta/edoc-4089538.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": true
+  },
+  {
+    "rel": "oepa/wapakoneta/edoc-4164444.progress-report.yaml",
+    "group": "compliance-reports",
+    "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
+    "confidence": "high",
+    "warnings": [
+      "This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified] as what the City told Ohio EPA, nothing more.",
+      "Filed under a permit condition, not an order: the form cites Part III, Section 12 of the NPDES permit. case_no and paragraph are therefore null. The form does not cite the 2019 DFFO or its 2024 modification.",
+      "The form's period of exceedance reads \"1.00 hrs\" with a first-of-month date. A 30-day average cannot be a one-hour event, so the field is transcribed as printed; the date is read as the monitoring month and is the form's, not an inference about when the discharge occurred."
+    ],
+    "fields": {
+      "agency": "Ohio EPA, Division of Surface Water",
+      "instrument": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
+      "case_no": null,
+      "paragraph": null,
+      "respondent": "City of Wapakoneta",
+      "facility": "City of Wapakoneta WRF, Auglaize County",
+      "permit_no": "2PD00019*SD",
+      "report_date": "2026-06-22",
+      "period_start": "2026-05-01",
+      "period_end": "2026-05-31",
+      "deadlines_status": null,
+      "noncompliance_reasons": "\"Unknown reason for the exceedance at the level tested\"",
+      "projects": [
+        {
+          "name": "Mercury source tracking",
+          "status": "\"Monitor Influent and any known dischargers\".",
+          "next_period": null
+        }
+      ],
+      "agency_contacts": [],
+      "permit_exceedances": [
+        "50092 Mercury, Total (Low Level): 30 day quantity average, limit 0.00003 kg/day, measured 0.00005 kg/day."
+      ],
+      "discharge_events": [],
+      "summary": "On 2026-06-22 the City notified Ohio EPA that low-level total mercury exceeded its 30-day quantity limit for the period dated 2026-05-01 (0.00005 against 0.00003 kg/day). It gave no cause and said it would monitor influent and known dischargers.",
+      "note": "Ohio EPA DSW non-compliance notification e-form, Application ID 25903768; contact Justin Waid, Superintendent. Description: \"0.00002 kg/day over limit\". Reporting non-compliance with a permit condition: No."
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4164444.progress-report.yaml",
+      "source_kind": "document",
+      "page": 1,
+      "pages": [
+        1,
+        2
+      ],
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "oepa/wapakoneta/edoc-4164444.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": true
+  },
+  {
+    "rel": "oepa/wapakoneta/edoc-4190722.progress-report.yaml",
+    "group": "compliance-reports",
+    "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
+    "confidence": "high",
+    "warnings": [
+      "This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified] as what the City told Ohio EPA, nothing more.",
+      "Filed under a permit condition, not an order: the form cites Part III, Section 12 of the NPDES permit. case_no and paragraph are therefore null. The form does not cite the 2019 DFFO or its 2024 modification.",
+      "The form's period of exceedance reads \"1.00 hrs\" with a first-of-month date. A 30-day average cannot be a one-hour event, so the field is transcribed as printed; the date is read as the monitoring month and is the form's, not an inference about when the discharge occurred.",
+      "The exceedance is for Pimephales promelas (61428), but the laboratory note the City pastes as both the comment and the cause discusses the Ceriodaphnia dubia test (its PMSD and the male-dominated blocks). The form states no cause specific to P. promelas. The mismatch is transcribed, not resolved. [open]"
+    ],
+    "fields": {
+      "agency": "Ohio EPA, Division of Surface Water",
+      "instrument": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
+      "case_no": null,
+      "paragraph": null,
+      "respondent": "City of Wapakoneta",
+      "facility": "City of Wapakoneta WRF, Auglaize County",
+      "permit_no": "2PD00019*SD",
+      "report_date": "2026-07-15",
+      "period_start": "2026-06-01",
+      "period_end": "2026-06-30",
+      "deadlines_status": null,
+      "noncompliance_reasons": "The cause field reproduces a laboratory note on the Ceriodaphnia dubia test: the PMSD \"was greater than the upper PMSD bound of 48%\", which \"has no effect on the IC25\", and blocks 1 and 6 \"were over 50% male\" and were excluded from reproduction calculations.",
+      "projects": [
+        {
+          "name": "Toxicity testing",
+          "status": "\"Increased sample volume and monitor\".",
+          "next_period": null
+        }
+      ],
+      "agency_contacts": [],
+      "permit_exceedances": [
+        "61428 Chronic Toxicity, Pimephales promelas: 30 day concentration average, limit 1 TUc, measured 1.6 TUc."
+      ],
+      "discharge_events": [],
+      "summary": "On 2026-07-15 the City notified Ohio EPA of chronic toxicity to Pimephales promelas of 1.6 TUc against a 1 TUc limit for the period dated 2026-06-01. The cause it gave is a laboratory note about the Ceriodaphnia dubia test, not the fathead-minnow test, and it said it would increase sample volume and monitor.",
+      "note": "Ohio EPA DSW non-compliance notification e-form, Application ID 25912774; contact Justin Waid, Superintendent. Reporting non-compliance with a permit condition: No."
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4190722.progress-report.yaml",
+      "source_kind": "document",
+      "page": 1,
+      "pages": [
+        1,
+        2
+      ],
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "oepa/wapakoneta/edoc-4190722.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": true
+  },
+  {
+    "rel": "oepa/wapakoneta/edoc-4267970.progress-report.yaml",
+    "group": "compliance-reports",
+    "title": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
+    "confidence": "high",
+    "warnings": [
+      "This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified] as what the City told Ohio EPA, nothing more.",
+      "Filed under a permit condition, not an order: the form cites Part III, Section 12 of the NPDES permit. case_no and paragraph are therefore null. The form does not cite the 2019 DFFO or its 2024 modification.",
+      "The form's period of exceedance reads \"1.00 hrs\" with a first-of-month date. A 30-day average cannot be a one-hour event, so the field is transcribed as printed; the date is read as the monitoring month and is the form's, not an inference about when the discharge occurred.",
+      "\"High upstream chronic toxicity\" is the City's explanation for the Ceriodaphnia dubia result. No upstream toxicity data is attached or cited in the form. [verified as stated; the upstream condition itself is open]"
+    ],
+    "fields": {
+      "agency": "Ohio EPA, Division of Surface Water",
+      "instrument": "Non-compliance notification (NPDES 2PD00019*SD Pt. III §12)",
+      "case_no": null,
+      "paragraph": null,
+      "respondent": "City of Wapakoneta",
+      "facility": "City of Wapakoneta WRF, Auglaize County",
+      "permit_no": "2PD00019*SD",
+      "report_date": "2026-09-18",
+      "period_start": "2026-08-01",
+      "period_end": "2026-08-31",
+      "deadlines_status": null,
+      "noncompliance_reasons": "TSS: \"High flows from heavy rain events caused exceedance\". Toxicity: \"High upstream chronic toxicity and mixing of the two are the likely cause of the exceedance.\"",
+      "projects": [],
+      "agency_contacts": [],
+      "permit_exceedances": [
+        "00530 Total Suspended Solids: 30 day quantity average, limit 273 kg/day, measured 298 kg/day.",
+        "00530 Total Suspended Solids: 30 day concentration average, limit 12 mg/l, measured 13 mg/l.",
+        "00530 Total Suspended Solids: 7 day quantity maximum, limit 409 kg/day, measured 574 kg/day.",
+        "00530 Total Suspended Solids: 7 day concentration maximum, limit 18 mg/l, measured 21 mg/l.",
+        "61426 Chronic Toxicity, Ceriodaphnia dubia: 30 day concentration average, limit 1 TUc, measured 4.4 TUc."
+      ],
+      "discharge_events": [],
+      "summary": "On 2026-09-18 the City notified Ohio EPA of four TSS exceedances (30-day and 7-day, quantity and concentration) for the period dated 2026-08-01, which it blamed on high flows from heavy rain, and chronic toxicity to Ceriodaphnia dubia of 4.4 TUc against a 1 TUc limit, which it blamed on high upstream chronic toxicity mixing with the effluent. It said the plant resumed normal operation once flows returned to average.",
+      "note": "Ohio EPA DSW non-compliance notification e-form, Application ID 25926260; contact Justin Waid, Superintendent. Steps: \"Once the rain event ended, flows returned to average, the plant rebounded, and resumed as normal.\" Reporting non-compliance with a permit condition: No. The same day's SSO report is edoc-4267972."
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4267970.progress-report.yaml",
+      "source_kind": "document",
+      "page": 1,
+      "pages": [
+        1,
+        2
+      ],
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "oepa/wapakoneta/edoc-4267970.pdf",
+    "source_doc_render_class": "pdf",
+    "source_doc_published": true
+  },
+  {
+    "rel": "oepa/wapakoneta/edoc-4267972.progress-report.yaml",
+    "group": "compliance-reports",
+    "title": "SSO 5-day notification (NPDES 2PD00019*SD)",
+    "confidence": "high",
+    "warnings": [
+      "This is the CITY'S self-report, not an agency finding. Every value and stated cause is [verified] as what the City told Ohio EPA, nothing more.",
+      "Filed on Ohio EPA DSW's \"SSO - 5 Day Notification\" e-form, which cites no permit section, order or DFFO.",
+      "The volume (10000.00 gallons) is the form's \"estimated\" field and the duration (1.00 hours) is as printed.",
+      "\"No impact can be seen during the risk of event a truck was parked on the manhole which stopped event\" is transcribed as printed; its grammar is the City's."
+    ],
+    "fields": {
+      "agency": "Ohio EPA, Division of Surface Water",
+      "instrument": "SSO 5-day notification (NPDES 2PD00019*SD)",
+      "case_no": null,
+      "paragraph": null,
+      "respondent": "City of Wapakoneta",
+      "facility": "City of Wapakoneta WRF, Auglaize County",
+      "permit_no": "2PD00019*SD",
+      "report_date": "2026-09-18",
+      "period_start": "2026-09-17",
+      "period_end": "2026-09-17",
+      "deadlines_status": null,
+      "noncompliance_reasons": "Cause boxes checked: \"Flooding: Extreme weather (FCS)\". Other: \"Manhole bolts had not been reinstalled from previous work. Bolts have been installed and lid is now correctly sealed.\"",
+      "projects": [],
+      "agency_contacts": [],
+      "permit_exceedances": [],
+      "discharge_events": [
+        {
+          "kind": "SSO",
+          "outfall_id": null,
+          "location": "Manhole, not associated with a permitted feature (40.57177698, -84.19826125); to storm sewer to receiving water, Auglaize River",
+          "date": "2026-09-17",
+          "frequency": "1",
+          "duration": "1.00 hours",
+          "volume": "10000.00 gallons",
+          "estimated": true,
+          "note": "Wet weather (rain). Overflow Number 25926266. Short-term action: \"parked truck on manhole\"; long-term: \"installed needed bolts to anchor and seal manhole\". Impacts checked: aesthetic impairment; human health \"small and unknown\"."
+        }
+      ],
+      "summary": "On 2026-09-18 the City reported a wet-weather sanitary sewer overflow on 2026-09-17: an estimated 10,000 gallons over one hour from a manhole whose bolts had not been reinstalled after earlier work, reaching the Auglaize River through the storm sewer. A truck parked on the lid stopped it, and the bolts were then installed.",
+      "note": "Ohio EPA DSW \"SSO - 5 Day Notification\" e-form, Application ID 25926264; contact Justin Waid, Superintendent."
+    },
+    "approximate_paths": [],
+    "citation": {
+      "source": "oepa/wapakoneta/edoc-4267972.progress-report.yaml",
+      "source_kind": "document",
+      "page": 1,
+      "pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "confidence": "high",
+      "note": null,
+      "verified": true
+    },
+    "source_doc_rel": "oepa/wapakoneta/edoc-4267972.pdf",
     "source_doc_render_class": "pdf",
     "source_doc_published": true
   },

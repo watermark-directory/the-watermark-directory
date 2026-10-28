@@ -441,7 +441,14 @@
     "oepa/wapakoneta/2PD00019.pdf",
     "oepa/wapakoneta/edoc-3301212.pdf",
     "oepa/wapakoneta/edoc-3793658.pdf",
+    "oepa/wapakoneta/edoc-3944611.pdf",
     "oepa/wapakoneta/edoc-3971298.pdf",
+    "oepa/wapakoneta/edoc-4048413.pdf",
+    "oepa/wapakoneta/edoc-4089538.pdf",
+    "oepa/wapakoneta/edoc-4164444.pdf",
+    "oepa/wapakoneta/edoc-4190722.pdf",
+    "oepa/wapakoneta/edoc-4267970.pdf",
+    "oepa/wapakoneta/edoc-4267972.pdf",
     "oepa/wapakoneta/edoc-992359.pdf",
     "oepa/west-union/0PC00019.pdf",
     "oepa/west-union/Adams.pdf",
@@ -550,6 +557,6 @@
     "west-union/acrwd/minutes/Minutes -January 2024.pdf",
     "west-union/acrwd/minutes/Minutes-July 26.pdf"
   ],
-  "documents_with_passages": 446,
-  "passage_count": 8777
+  "documents_with_passages": 453,
+  "passage_count": 8791
 }
