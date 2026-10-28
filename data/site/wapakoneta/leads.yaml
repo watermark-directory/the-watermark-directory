@@ -55,8 +55,11 @@ leads:
     S-27): a functional "Data Warehouse (Center)" definition with no size threshold, admitted only
     as an M-3 conditional use. The review is the generic §1252.07 one: eight findings, none specific
     to data centers, and a hearing only if the Planning Commission wants one. The ordinances as
-    signed are still not in hand, so whether the codifier carried them faithfully is unchecked.
-  source: Wapakoneta City Council minutes 2024-10-21, 2024-11-04, 2024-11-18 · data/extracted/wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml · data/extracted/wapakoneta/data-centers.md §2
+    signed are still not in hand, so whether the codifier carried them faithfully is unchecked. The
+    2024 minutes (now held) record that at the second reading the Planning Commission had made no
+    comment, no utility-rate conversation had occurred and the City's engineering consultant had
+    given no input; both ordinances were adopted at the next meeting with no recorded discussion.
+  source: Wapakoneta City Council minutes 2024-10-21, 2024-11-04, 2024-11-18 · data/extracted/wapakoneta/governance/council-2024-data-center-ordinances.timeline.yaml · data/extracted/wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml · data/extracted/wapakoneta/data-centers.md §2
   issue: 2184
 - id: POST-CAPTURE
   kind: signal

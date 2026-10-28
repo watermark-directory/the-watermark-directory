@@ -5,21 +5,56 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-10-18T18:52:47+00:00'
+  generated_at: '2026-10-28T17:39:17+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 6
-    bytes: 9095497
-    distinct_addresses: 6
+    artifacts: 13
+    bytes: 9509342
+    distinct_addresses: 13
 artifacts:
 - rel: documents/wapakoneta/governance/04-20-2026-Agenda.pdf
   sha256: 6b8b9bd0bbc36fafaaaacc8316a7b53e7d85970eefc6e1a1ad9f5fb8b865ea4d
   bytes: 127778
   media_type: application/pdf
   redistributable: true
+- rel: documents/wapakoneta/governance/09-03-2024-Agenda.pdf
+  sha256: cf85da1736af9f7c4b80e5563ba3cd53aef1e54e0e7dbda491c122db658305ae
+  bytes: 61814
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/governance/09-03-2024-Minutes.pdf
+  sha256: 396473f805ed963305928f65174b55fcab4b7c5f4e5f451c55be5666244e9363
+  bytes: 59546
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/governance/09-16-2024-Minutes.pdf
+  sha256: a6b5a43999edda89e5c6ac09bed9e0ef27bdd213b14ca4224e592af5242ecb1c
+  bytes: 65195
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/governance/10-07-2024-Minutes.pdf
+  sha256: 2cb8cd0713b3c3771c161be27fb487877a72229ad7aa4b1c2528302eab40a8e5
+  bytes: 69142
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/governance/10-21-2024-Minutes.pdf
+  sha256: 7e6b35253f5d6cba3000b5a6b5fa52d743e96f2ee2ca37aab8a51a8104e27323
+  bytes: 25432
+  media_type: application/pdf
+  redistributable: true
 - rel: documents/wapakoneta/governance/10-5-2026-Minutes.pdf
   sha256: 93ba9fd03f2c439d7bc06aed4da85126cf8b45ef8c8e8df3da35c11995a9baba
   bytes: 889919
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/governance/11-04-2024-Minutes.pdf
+  sha256: 9d8e250212dfd90e74eafc44ed077b6d8b500d62a7c35fa474dfd78a278cedf3
+  bytes: 69524
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/governance/11-18-2024-Minutes.pdf
+  sha256: 85ba11b468ea99ba9fcaa6e841322439f1d776c29c98eb9ec119a6c58a5c1e49
+  bytes: 63192
   media_type: application/pdf
   redistributable: true
 - rel: documents/wapakoneta/governance/4-20-2026-Minutes.pdf

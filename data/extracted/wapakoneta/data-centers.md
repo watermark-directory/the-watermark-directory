@@ -1,7 +1,7 @@
 # Wapakoneta / Auglaize Co., OH — Data-Center Activity Register
 
 Discover-and-pin register for the Wapakoneta watershed point (upper Auglaize River → **Maumee** at
-Defiance → Lake Erie). Status **as of 2026-10-18** (#2184). Tags are BOSC evidentiary discipline:
+Defiance → Lake Erie). Status **as of 2026-10-28** (#2184). Tags are BOSC evidentiary discipline:
 `[verified]` = cited primary/government source, `[reference]` = secondary source or a party's own
 self-report (leads only, never a finding), `[inference]` = arithmetic or pattern from cited inputs,
 `[open]` = not found in any public source yet. This records the public record as of the date above
@@ -241,24 +241,42 @@ concerned CTS is `[open]`**:
 
 ## 2 — The City's prior instrument: data centers as a conditional use (2024)
 
-All four items below are `[verified]` against City Council minutes. The 11-18 minutes were read
-directly on 2026-10-12. The earlier minutes were read by the sweep via their Wayback `id_` URLs.
+The source for the entries below is the City Council minutes, held since 2026-10-28 under
+`data/documents/wapakoneta/governance/` (the 09-03 agenda and the 09-03 through 11-18 minutes,
+from the City's own document library) and extracted, with page cites and a tag per entry, in
+`governance/council-2024-data-center-ordinances.timeline.yaml`. What the minutes record is read
+off them; the items marked `[open]` or `[inference]` below are not. Those minutes are
+born-digital and were read from their text layer.
 
-- **2024-09-16.** WAEDC's Bloomfield presented on "data processing centers." He urged Council "to be
-  proactive … prior to being approached." The item was also on the 09-03 agenda
-  (`wapakoneta.net/wp-content/uploads/2024/10/09-16-2024-Minutes.pdf`).
-- **2024-10-07.** SSD Price "spoke to John Courtney at the AMP conference on the matter."
-- **2024-10-21 / 11-04.** These were the first and second readings. Law Director Neal said "having
-  them both clarifies a 'warehouse' versus 'data warehouse' and allows the City more discretion."
-  SSD Price added: "should the City decide to allow a data warehouse in the future, Ord 2024-46
-  contains the language needed." On 11-04 a citizen raised "concern about water usage."
-- **2024-11-18: both adopted on third reading, 7–0.**
+- **2024-09-03.** The agenda lists "WAEDC Josh Bloomfield – data processing centers". The minutes
+  record that he did not present, "due to illness."
+- **2024-09-16.** Bloomfield presented on "data processing centers". He urged Council "to be
+  proactive in their discussion and consideration of city zoning, utilities and potential sites
+  prior to being approached." No company is named.
+- **2024-10-07.** President Doll asked whether the Planning Commission was examining the zoning
+  code after the presentation, and SSD Price "spoke to John Courtney at the AMP conference on the
+  matter." The Mayor's report lists a 09-23 meeting with Bloomfield, subject not stated.
+- **2024-10-21: first readings.** Law Director Neal said "having them both clarifies a 'warehouse'
+  versus 'data warehouse' and allows the City more discretion." SSD Price added: "should the City
+  decide to allow a data warehouse in the future, Ord 2024-46 contains the language needed for
+  this." The same meeting held an executive session on "confidential information regarding
+  economic development", inviting Bloomfield. Its subject is not minuted `[open]`.
+- **2024-11-04: second readings.** The Planning Commission had no comments, "utility rate
+  conversations" had not occurred, and Courtney & Associates had "not yet" provided input, all per
+  SSD Price. Councilor Dunlap "shared a text from a citizen concerned about water usage and the
+  people needed for employment purposes." President Doll called Ord. 2024-46 "merely clarifying
+  the zoning language."
+- **2024-11-18: both adopted on third reading, 7–0, with no recorded discussion.** So neither the
+  Planning Commission comment, the utility-rate conversation nor the consultant's input is recorded
+  as having happened before adoption `[inference]`.
   - **Ord. 2024-46**, "AN ORDINANCE AMENDING SECTION 1250.10 (174) … SPECIFIC TO THE ZONING
     DEFINITION OF 'WAREHOUSE'" (Dunlap / Sheipline).
   - **Ord. 2024-48**, "AN ORDINANCE AMENDING SECTION 1282.04 … SPECIFIC TO THE CONDITIONAL PERMITTED
     USES OF THE M-3 INDUSTRIAL DISTRICT" (Dunlap / Muhlenkamp).
-  - Source: Council minutes 2024-11-18
-    (<https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/04ed5d3c-0a7b-4ea1-91fe-70341bd79b80/11-18-2024-Minutes.pdf>).
+- **Two corrections to this section's 2026-10-12 text,** found by reading the minutes:
+  - The Neal and Price answers were given at the 10-21 first reading only, not at "10-21 / 11-04".
+  - The 11-04 water remark is a councilor relaying a citizen's text. It is not a citizen speaking,
+    and the earlier quoted words "concern about water usage" are not in the minutes.
 
 **The codified text (read 2026-10-18).** Neither ordinance title says "data center", but the
 codification does. Read from American Legal's codification (supplement 2026 S-27, current through
@@ -377,15 +395,14 @@ This is **not** a data-center entry. It is recorded because it concerns the same
   <https://www.facebook.com/cityofwapakoneta/posts/pfbid0uaLu5N75YRUZjhXZ1rGwkqYX7FL1fTTaB69UKmz2kZ8JJR1v3PoqZ4aNnuPaiyCCl>
 - *Wapakoneta Daily News*, 2026-10-08:
   <https://www.wapakdailynews.com/news/a-data-center-in-wapakoneta/article_30fa606e-99e6-4ea4-83e1-f45c0beaf5d8.html>
-- City Council minutes 2024-11-18:
-  <https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/04ed5d3c-0a7b-4ea1-91fe-70341bd79b80/11-18-2024-Minutes.pdf>
+- City Council agenda 2024-09-03 and minutes 2024-09-03, 09-16, 10-07, 10-21, 11-04 and 11-18, filed
+  under `data/documents/wapakoneta/governance/` (source URLs and sha256 in that shelf's
+  `filename-map.yaml`) and extracted in `governance/council-2024-data-center-ordinances.timeline.yaml`.
 - City Council agenda 2026-04-20 and minutes 2026-04-20, 06-15, 09-08 and 10-05, filed under
   `data/documents/wapakoneta/governance/` (source URLs and sha256 in that shelf's `filename-map.yaml`).
 - *Wapakoneta Daily News*, Bob Neelski, "Council greenlights trial to address TDS issues", 2026-04-22
   (lede only; paywalled):
   <https://www.wapakdailynews.com/news/council-greenlights-trial-to-address-tds-issues/article_c3d032fd-4b9e-404e-b160-15a8ad64e9cf.html>
-- Earlier 2024 Council minutes (09-16, 10-21, 11-04) via
-  `web.archive.org/web/2025id_/https://wapakoneta.net/wp-content/uploads/2024/{10,11}/…-Minutes.pdf`
 - Ohio EPA, Fact Sheet for NPDES Permit Renewal, Wapakoneta WRF, 2024 (2PD00019):
   <https://dam.assets.ohio.gov/image/upload/epa.ohio.gov/Portals/35/permits/doc/2PD00019.fs.pdf>
 - City of Wapakoneta 2025 CCR:
