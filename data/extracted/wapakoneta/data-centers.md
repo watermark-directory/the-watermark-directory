@@ -427,8 +427,9 @@ This is **not** a data-center entry. It is recorded because it concerns the same
      The 2025-12-18 notice reports a November TFR exceedance (1718 against 1561 mg/l), blames
      "industries" and dry conditions, and says augmentation "will" be implemented in December. That
      fits the 2026-01-15 notice saying it is "now" online `[verified]` as the City's statements. None
-     of the six 2026 filings reports TFR. They cover upset solids on 2026-03-11/12 (about 9,000,000
-     gallons over the clarifier weirs, by the City's approximation), a disputed March pH and TSS
+     of the six 2026 filings reports TFR. They cover a plant upset on 2026-03-11/12 (floc overflowed
+     the clarifier weirs; the form's separate "Approximate Volume" for the upset is 9,000,000
+     gallons, with no derivation, so it is not a measured overflow volume), a disputed March pH and TSS
      result, low-level mercury in May, chronic toxicity in June (P. promelas) and August (C. dubia,
      4.4 TUc, blamed on upstream toxicity), August TSS after heavy rain, and a 10,000-gallon manhole
      SSO on 2026-09-17. So TFR is absent from every filing the portal holds after January
