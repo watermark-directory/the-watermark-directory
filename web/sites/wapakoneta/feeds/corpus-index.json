@@ -39,7 +39,7 @@
     "label": "Wapakoneta",
     "scope": "site",
     "links_out": 3,
-    "links_in": 30,
+    "links_in": 32,
     "lines": 14,
     "updated": null
   },
@@ -1164,6 +1164,28 @@
     "links_in": 0,
     "lines": 22,
     "updated": "2026-10-27"
+  },
+  {
+    "id": "record/wapakoneta-watch-tfr-tier-record-watch",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Wapakoneta WRF — what the DMRs carry for total filterable residue, 2024-12 through 2026-09",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 22,
+    "updated": null
+  },
+  {
+    "id": "record/wapakoneta-wwtp-oh0027952-dmr",
+    "node_class": "record",
+    "kind": "record",
+    "label": "wwtp oh0027952 · dmr",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 19,
+    "updated": null
   },
   {
     "id": "relation/city-of-wapakoneta--operates--npdes-2pd00019",

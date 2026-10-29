@@ -1608,8 +1608,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "d389e32688729c18ad88ba8a85e5edcd9836a5bc041e581297b1acab35df8c5b",
-      "size_bytes": 43167,
+      "sha256": "5efea220dd138953fc0344062f76e337b2a8e6db91e4c388a97c79def7e78ad1",
+      "size_bytes": 44328,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -8457,6 +8457,58 @@
     }
   },
   {
+    "id": "wapakoneta-tfr-tier-record",
+    "title": "Wapakoneta WRF — Total Filterable Residue by Flow Tier, 2024-12 to 2026-09 (ECHO DMR reading)",
+    "scope": "extracted",
+    "collection": "wapakoneta",
+    "status": "reviewed",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "EPA ECHO eff_rest_services.get_effluent_chart for NPDES OH0027952, window 2024-12-01 to 2026-10-28, pulled 2026-10-28 through watermark.hydrology.connectors.echo_dmr.fetch_effluent_chart so every figure is regenerable. Parameter 70300 at fictitious outfalls 020-023 (the permit's flow-tiered TFR limits, read from the committed permit extraction extracted/oepa/wapakoneta/2PD00019.npdes.yaml), with station 802 streamflow and station 601 influent TFR. NODI codes are decoded from ECHO's own NODIDesc in the same response.",
+    "external_url": null,
+    "license": "Public data (US EPA ECHO — ICIS-NPDES republication; Ohio EPA NPDES permit)",
+    "access_tier": "public",
+    "site_scope": "site:wapakoneta",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "wwtp",
+      "npdes",
+      "dmr",
+      "echo",
+      "noncompliance",
+      "wapakoneta"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/wapakoneta/watch/tfr-tier-record.watch.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "cb97b4a1d97087c97770dfe17c121bbaed0740ebf172fbc239a4f374a976195b",
+      "size_bytes": 9309,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "EPA ECHO eff_rest_services.get_effluent_chart for NPDES OH0027952, window 2024-12-01 to 2026-10-28, pulled 2026-10-28 through watermark.hydrology.connectors.echo_dmr.fetch_effluent_chart so every figure is regenerable. Parameter 70300 at fictitious outfalls 020-023 (the permit's flow-tiered TFR limits, read from the committed permit extraction extracted/oepa/wapakoneta/2PD00019.npdes.yaml), with station 802 streamflow and station 601 influent TFR. NODI codes are decoded from ECHO's own NODIDesc in the same response.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
     "id": "watershed",
     "title": "Watershed / Conservation Extractions & Findings (Maumee)",
     "scope": "extracted",
@@ -8884,6 +8936,58 @@
       "pages": null,
       "confidence": "medium",
       "note": "watermark dmr OH0027421 --start 2023-01-01 --end 2023-12-31 --design-flow 7.0",
+      "verified": true
+    }
+  },
+  {
+    "id": "wwtp-oh0027952-wapakoneta",
+    "title": "Wapakoneta WRF (NPDES OH0027952) Effluent Record — DMR",
+    "scope": "extracted",
+    "collection": "wapakoneta",
+    "status": "reviewed",
+    "producer_kind": "connector",
+    "command": "dmr OH0027952 --start 2024-12-01 --end 2026-10-28 --design-flow 6.0",
+    "connector_ref": "watermark.hydrology.connectors.echo_dmr",
+    "source": "EPA ECHO eff_rest_services DMR for NPDES OH0027952 (City of Wapakoneta WRF), Auglaize County OH",
+    "external_url": "https://echo.epa.gov/tools/web-services",
+    "license": "U.S. Government work (public domain)",
+    "access_tier": "public",
+    "site_scope": "site:wapakoneta",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "wwtp",
+      "npdes",
+      "dmr",
+      "echo",
+      "receiving-water",
+      "wapakoneta"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/wapakoneta/wwtp-oh0027952.dmr.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "dfacf7433ffb53dc316f2dcc699ccae18a03b794843901b60da35c3bb0a34e24",
+      "size_bytes": 18674,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "EPA ECHO eff_rest_services DMR for NPDES OH0027952 (City of Wapakoneta WRF), Auglaize County OH",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark dmr OH0027952 --start 2024-12-01 --end 2026-10-28 --design-flow 6.0",
       "verified": true
     }
   },

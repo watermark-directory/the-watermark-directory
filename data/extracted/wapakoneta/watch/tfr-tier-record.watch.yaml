@@ -1,0 +1,130 @@
+# Wapakoneta WRF — what the DMRs carry for total filterable residue, 2024-12 through 2026-09
+#
+# Issue 2184 · corpus, NOT a RecordItem (no `action:`/`permit:` block).
+#
+# WHY THIS EXISTS. The City's seven self-reports on 2PD00019 (2025-12-18 to 2026-09-18, extracted
+# under data/extracted/oepa/wapakoneta/) report one TFR exceedance (November 2025) and none after
+# January 2026. Whether TFR met its limits in the months no self-report covers was [open] until
+# the DMRs were read. The generated pull (wwtp-oh0027952.dmr.yaml) carries flow and ECHO-flagged
+# exceedances only; it cannot show a month the DMR left blank. This file is the per-tier grid that
+# shows the blanks.
+#
+# TAG VOCABULARY:
+#   [verified]  — the value or code as ECHO returns it. A fact about the ECHO record, not about the
+#                 river or the plant.
+#   [inference] — this file's reading.
+#   [open]      — not established.
+
+as_of: '2026-10-28'
+site: wapakoneta
+issue: 'watermark-directory/the-watermark-directory#2184'
+status: measured
+tag: verified
+
+source:
+  service: >-
+    EPA ECHO effluent-chart service (eff_rest_services.get_effluent_chart) for NPDES OH0027952,
+    window 2024-12-01 to 2026-10-28, pulled 2026-10-28 through
+    watermark.hydrology.connectors.echo_dmr.fetch_effluent_chart. The latest month carried is
+    2026-09, and only outfall 020 has a 2026-09 row so far.
+  generated_pull: data/extracted/wapakoneta/wwtp-oh0027952.dmr.yaml
+  parameter: '70300 Solids, total dissolved- 180 deg. C (the permit''s "total filterable residue")'
+  tiers: >-
+    Permit 2PD00019*SD Part I.A.3-6 (data/extracted/oepa/wapakoneta/2PD00019.npdes.yaml,
+    total_filterable_residue_tiers): fictitious outfall 020 < 7 cfs, 1561 mg/l; 021 7 to < 16 cfs,
+    1687 mg/l; 022 16 to < 25 cfs, 1927 mg/l; 023 >= 25 cfs, 2167 mg/l (30-day averages). A tier
+    applies on the day a sample is taken, by the upstream flow at station 802, so one month can
+    carry values at several tiers.
+  nodi_codes: >-
+    Decoded from ECHO's own NODIDesc returned with each code in this pull, not from outside
+    knowledge: C "No Discharge", R "Administratively Resolved", 2 "Operation Shutdown". ECHO's
+    description does not say what was resolved, by whom, or why.
+  station_label_trap: >-
+    ECHO labels internal station 603 "Raw Sewage Influent". The permit defines 603 as the internal
+    station for secondary-treatment limits, measured BEFORE flow augmentation (2PD00019.npdes.yaml
+    sampling_stations). The TSS and CBOD exceedances ECHO lists at 603 are secondary-effluent
+    results, not influent.
+
+# One row per month: the 30-day-average concentration (mg/l) at each tier, or the NODI code.
+# A star marks a value ECHO flags as a numeric violation (E90). q802 is the station-802 monthly
+# average streamflow (cfs); influent is station 601's monthly average TFR (mg/l). [verified]
+tfr_mg_l_by_tier:
+  - {month: 2024-12, '020': 1540, '021': NODI C (D90 overdue), '022': 630, '023': NODI C (D90 overdue), q802: 10.45, influent: 1530}
+  - {month: 2025-01, '020': 1438, '021': NODI C, '022': NODI C, '023': NODI C, q802: 5.80, influent: 1580}
+  - {month: 2025-02, '020': NODI C, '021': NODI R, '022': NODI R, '023': NODI R, q802: 20.95, influent: 1410}
+  - {month: 2025-03, '020': NODI C, '021': 1301, '022': 1170, '023': 1270, q802: 17.07, influent: 1320}
+  - {month: 2025-04, '020': NODI C, '021': NODI C, '022': 1414, '023': 976.6, q802: 24.50, influent: 1350}
+  - {month: 2025-05, '020': NODI 2, '021': 1900*, '022': 1705, '023': 765, q802: 20.56, influent: 1690}
+  - {month: 2025-06, '020': NODI C, '021': 1754*, '022': 1503, '023': 2010, q802: 21.94, influent: 1930}
+  - {month: 2025-07, '020': NODI C, '021': 2314*, '022': 2236.6*, '023': NODI C, q802: 17.78, influent: 2311}
+  - {month: 2025-08, '020': NODI R, '021': NODI R, '022': NODI C, '023': NODI C, q802: 9.53, influent: 1990}
+  - {month: 2025-09, '020': NODI R, '021': NODI R, '022': NODI C, '023': NODI C, q802: 6.47, influent: 2170}
+  - {month: 2025-10, '020': NODI R, '021': NODI R, '022': NODI R, '023': NODI C, q802: 5.95, influent: 2270}
+  - {month: 2025-11, '020': NODI R, '021': NODI C, '022': NODI C, '023': NODI R, q802: 5.58, influent: 2490}
+  - {month: 2025-12, '020': 1687*, '021': 1178, '022': 1230, '023': NODI C, q802: 8.40, influent: 2340}
+  - {month: 2026-01, '020': NODI R, '021': NODI R, '022': NODI R, '023': NODI C, q802: 8.43, influent: 2410}
+  - {month: 2026-02, '020': NODI R, '021': NODI R, '022': NODI R, '023': NODI C, q802: 10.70, influent: 1690}
+  - {month: 2026-03, '020': NODI C, '021': 1246.7, '022': 1114, '023': 1130, q802: 32.88, influent: 1490}
+  - {month: 2026-04, '020': NODI C, '021': 1075, '022': 1056, '023': 890, q802: 50.98, influent: 1280}
+  - {month: 2026-05, '020': NODI C, '021': NODI R, '022': NODI R, '023': NODI R, q802: 45.96, influent: 1280}
+  - {month: 2026-06, '020': NODI C, '021': 1363, '022': 1230, '023': 1123, q802: 18.68, influent: 1620}
+  - {month: 2026-07, '020': NODI 2, '021': NODI R, '022': NODI 2, '023': NODI 2, q802: 10.37, influent: 1740}
+  - {month: 2026-08, '020': NODI C, '021': NODI R, '022': NODI R, '023': NODI R, q802: 45.89, influent: 1290}
+  - {month: 2026-09, '020': NODI C, '021': no row yet, '022': no row yet, '023': no row yet, q802: 38.67, influent: 1330}
+
+load_rows: >-
+  The kg/day rows at every tier carry a NODI code (mostly R) in every month except 2026-04, where
+  each tier's kg/day row repeats its mg/l figure exactly (1075, 1056, 890). A load equal to the
+  concentration is not plausible at a multi-MGD plant, so those three kg/day entries look like a
+  data-entry error [inference]. They are not used here.
+
+findings:
+  - tag: '[verified]'
+    finding: >-
+      ECHO flags five TFR exceedances in the window: 2025-05 (021, 1900 against 1687), 2025-06
+      (021, 1754 against 1687), 2025-07 (021, 2314 against 1687; 022, 2236.6 against 1927) and
+      2025-12 (020, 1687 against 1561). No self-report for 2025-05 to 2025-07 is in the corpus
+      [open].
+  - tag: '[inference]'
+    finding: >-
+      The City's 2026-01-15 notice (eDoc 3971298) names no month, but both of its figures (TFR 1687
+      against 1561 mg/l; C. dubia 1.1 against 1 TUc) equal ECHO's 2025-12 values exactly, so it
+      reports December 2025.
+  - tag: '[verified]'
+    finding: >-
+      November 2025 carries no TFR value at any tier: 020 and 023 are NODI R, 021 and 022 NODI C,
+      and ECHO lists no violation. The City's 2025-12-18 self-report (eDoc 3944611) gives
+      1718 mg/l against 1561 for that month. So the City's own November number is not on the
+      ECHO record.
+  - tag: '[verified]'
+    finding: >-
+      Eleven of the 22 months have no TFR value at any tier: 2025-02, 2025-08 through 2025-11,
+      2026-01, 2026-02, 2026-05, and 2026-07 through 2026-09 (2026-09 partial). In each, at least
+      one tier is NODI R. In 2025-08 through 2025-11 the low-flow tiers (020 and 021) are R, the
+      months with the lowest upstream flow (5.6 to 9.5 cfs) and the highest influent TFR of the
+      window (1990 to 2490 mg/l).
+  - tag: '[verified]'
+    finding: >-
+      Where 2026 has values (2026-03, 2026-04, 2026-06), every tier is below its limit, and
+      ECHO flags no TFR exceedance in 2026.
+  - tag: '[inference]'
+    finding: >-
+      The months coded R are the ones that could have shown an exceedance: low upstream flow, the
+      strictest tiers, and the highest influent. A blank in exactly those months does not show
+      compliance. "Administratively Resolved" is the code's whole description; it does not say
+      whether a value was withdrawn, waived under the DFFO, or never submitted.
+  - tag: '[open]'
+    finding: >-
+      Why the low-flow TFR tiers are coded "Administratively Resolved" in 2025-08 to 2025-11 and
+      2026-01/02, and whether that relates to the DFFO's interim conditions (which run in specific
+      conductance and were extended to 2025-12-31 by eDoc 3301212). The signed DMR forms, or Ohio
+      EPA's DMR review, would show it. ECHO cannot.
+
+other_self_reports_against_echo:
+  - {report: eDoc 4089538 (March 2026 TSS, disputed by the City), echo: 'station 603: 28.3 mg/l 30-day (limit 12), 43.1 weekly (18); 504 kg/d (273), 719 kg/d weekly (409); all flagged. Whether these are the values the City disputed as six times high or corrected ones is [open].'}
+  - {report: eDoc 4164444 (May 2026 mercury), echo: '001: 4.76e-05 kg/d against 3e-05, and 1.32 ng/l against 1.3; both flagged. Matches.'}
+  - {report: eDoc 4190722 (June 2026 P. promelas), echo: '001: 1.6 TUc against 1.0, flagged. Matches.'}
+  - {report: eDoc 4267970 (August 2026 TSS and C. dubia), echo: 'station 603: 12.8 mg/l, 20.9 weekly, 298 kg/d, 574 kg/d weekly; 001: C. dubia 4.4 TUc. Matches, within the form''s rounding.'}
+  - {report: none in the corpus, echo: '2026-09: station 603 TSS 18.3 mg/l (12), 30.4 weekly (18), 559 kg/d (273), 1410 kg/d weekly (409); CBOD 430 kg/d weekly (341); 001 phosphorus 40.9 kg/d weekly (34). All flagged. A September self-report may not be on the portal yet, given its publication lag [open].'}
+  - {report: eDoc 3971298 (dated 2026-01-15), echo: '2025-12: 001 C. dubia 1.1 TUc against 1.0, flagged. Matches (see findings).'}
+  - {report: none in the corpus, echo: '2025-08: 001 C. dubia 1.4 TUc against 1.0, flagged.'}

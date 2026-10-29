@@ -222,7 +222,7 @@ def test_records_are_legibly_titled_and_joined_to_their_instruments() -> None:
     # The ceiling is the connector-only and DMR records that have no single source document, plus
     # `grid/van-wert/van-wert-haviland-138kv.project.yaml`, whose 612-page OPSB Letter of
     # Notification is deliberately uncommitted — a page cite is never invented.
-    assert len(unjoined) <= 13, unjoined
+    assert len(unjoined) <= 14, unjoined
     assert "grid/van-wert/van-wert-haviland-138kv.project.yaml" in unjoined
 
 

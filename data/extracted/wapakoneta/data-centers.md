@@ -433,9 +433,21 @@ This is **not** a data-center entry. It is recorded because it concerns the same
      result, low-level mercury in May, chronic toxicity in June (P. promelas) and August (C. dubia,
      4.4 TUc, blamed on upstream toxicity), August TSS after heavy rain, and a 10,000-gallon manhole
      SSO on 2026-09-17. So TFR is absent from every filing the portal holds after January
-     `[verified]` as to these forms. Whether TFR met its limits in the other months is `[open]`
-     until the DMRs are read. Not read: the SSO annual reports 4024930 (2026-03-02) and 4032419
+     `[verified]` as to these forms. Not read: the SSO annual reports 4024930 (2026-03-02) and 4032419
      (2026-03-05), and the 2025-12-15 CSO/SSO post-construction monitoring plan (3940467/3940468).
+   - **The DMRs, read 2026-10-28** (EPA ECHO, OH0027952, 2024-12 to 2026-09; generated pull
+     `data/extracted/wapakoneta/wwtp-oh0027952.dmr.yaml`, per-tier reading
+     `data/extracted/wapakoneta/watch/tfr-tier-record.watch.yaml`). ECHO flags TFR exceedances in
+     2025-05, -06 and -07 (tiers 021/022) and 2025-12 (tier 020, 1687 against 1561), and none in
+     2026: where 2026 carries values (March, April, June), every tier is under its limit `[verified]`.
+     But 11 of the 22 months carry no TFR value at any tier, among them 2025-08 to 2025-11, the
+     lowest-flow, highest-influent months of the window. The low-flow tiers there are coded
+     "Administratively Resolved" by ECHO, with no violation listed `[verified]`. November 2025 is one
+     of them, so the City's own self-reported 1718 mg/l is not on the ECHO record `[verified]`. A
+     blank in those months does not show compliance `[inference]`. What was resolved, and whether it
+     ties to the DFFO's interim conditions, is `[open]`; the signed DMR forms would show it. The
+     other self-reports match ECHO (May mercury, June and August toxicity, August TSS). ECHO also
+     flags September 2026 TSS, CBOD and phosphorus that no filing in the corpus covers yet `[open]`.
 10. **The county-wide negative checks**: RSEI 518210, ECHO and the PJM queue for Auglaize.
 
 ## Sources

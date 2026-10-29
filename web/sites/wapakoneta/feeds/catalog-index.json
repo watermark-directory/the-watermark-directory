@@ -1,6 +1,6 @@
 {
   "site": "wapakoneta",
-  "catalog_version": "0c4ed169605d93adab35f8580c3ef4246f0ac53edcac79225cbff4322e766c65",
+  "catalog_version": "c85b21e41073ecf3a6f3855c56a1d1b1e193c2350a19909971eb65829223a001",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -1100,6 +1100,14 @@
       "feed": "catalog"
     },
     {
+      "handle": "dataset:wapakoneta:wapakoneta-tfr-tier-record",
+      "kind": "dataset",
+      "site": "wapakoneta",
+      "local_id": "wapakoneta-tfr-tier-record",
+      "title": "Wapakoneta WRF — Total Filterable Residue by Flow Tier, 2024-12 to 2026-09 (ECHO DMR reading)",
+      "feed": "catalog"
+    },
+    {
       "handle": "dataset:wapakoneta:wqs-criteria",
       "kind": "dataset",
       "site": "wapakoneta",
@@ -1113,6 +1121,14 @@
       "site": "wapakoneta",
       "local_id": "wqs-temperature",
       "title": "Ohio Water Quality Standards — numeric temperature criteria (OAC 3745-1)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:wapakoneta:wwtp-oh0027952-wapakoneta",
+      "kind": "dataset",
+      "site": "wapakoneta",
+      "local_id": "wwtp-oh0027952-wapakoneta",
+      "title": "Wapakoneta WRF (NPDES OH0027952) Effluent Record — DMR",
       "feed": "catalog"
     },
     {
@@ -1313,6 +1329,14 @@
       "site": "wapakoneta",
       "local_id": "wapakoneta/governance/wapakoneta-zoning-code-data-centers.zoning.yaml",
       "title": "City of Wapakoneta Planning and Zoning Code — data centers as an M-3 conditional use (codified §1250.10(174), §1282.04, §1252.07; Ord. 2024-46 / 2024-48)",
+      "feed": "records"
+    },
+    {
+      "handle": "record:wapakoneta:wapakoneta/wwtp-oh0027952.dmr.yaml",
+      "kind": "record",
+      "site": "wapakoneta",
+      "local_id": "wapakoneta/wwtp-oh0027952.dmr.yaml",
+      "title": "CITY OF WAPAKONETA WRF",
       "feed": "records"
     },
     {
