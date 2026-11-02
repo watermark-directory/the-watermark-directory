@@ -14,6 +14,7 @@ import pytest
 from pydantic import ValidationError
 
 from watermark.config import Settings
+from watermark.connectors import federal
 from watermark.connectors.federal import (
     fetch_discharges,
     fetch_installation_boundary,
@@ -214,6 +215,31 @@ def test_discharges_report_from_the_enclaves_own_county(federal_settings: Settin
     # disagreement the enclave model exists to surface.
     assert {d.county_fips for d in discharges} == {inst.tri_county_fips}
     assert inst.tri_county_fips != get_profile(WPAFB).rsei_fips
+
+
+def test_discharge_columns_resolve_from_the_service_metadata(
+    federal_settings: Settings, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A column ECHO stops listing refuses the pull rather than coming back ``None`` on every row.
+
+    The IDs used to be hardcoded; by 2026-11-02 six of them had shifted under an unchanged
+    version string, and the permit status, type and flows read blank with no error.
+    """
+    meta = federal._get(  # the committed metadata fixture, as the pull itself reads it
+        "echo_cwa",
+        {"register": "echo_cwa", "service": "metadata"},
+        "",
+        settings=federal_settings,
+    )
+    ids = {c["ObjectName"]: c["ColumnID"] for c in meta["Results"]["ResultColumns"]}
+    assert federal._resolve_qcolumns(federal_settings).split(",") == [
+        ids[name] for name in federal._ECHO_COLUMNS
+    ]
+
+    pruned = [c for c in meta["Results"]["ResultColumns"] if c["ObjectName"] != "FacFIPSCode"]
+    monkeypatch.setattr(federal, "_get", lambda *a, **k: {"Results": {"ResultColumns": pruned}})
+    with pytest.raises(ValueError, match="FacFIPSCode"):
+        fetch_discharges(["OH0010243"], settings=federal_settings)
 
 
 # --- The assembly: projection, not re-keying ------------------------------------------------
